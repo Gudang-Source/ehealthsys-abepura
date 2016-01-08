@@ -1,0 +1,36 @@
+<?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
+	'action'=>Yii::app()->createUrl($this->route),
+	'method'=>'get',
+	'id'=>'saindexing-m-search',
+        'type'=>'horizontal',
+)); ?>
+<table width="100%">
+    <tr>
+        <td>
+            <?php echo $form->textFieldRow($model,'kelrem_id'); ?>
+        </td>
+        <td>
+            <?php echo $form->textFieldRow($model,'indexing_nama',array('size'=>60,'maxlength'=>100)); ?>
+        </td>
+        <td>
+            <?php echo $form->textFieldRow($model,'indexing_nilai'); ?>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <?php echo $form->checkBoxRow($model,'indexing_aktif',array('checked'=>true)); ?>
+        </td>
+    </tr>
+</table>
+		<?php //echo $form->textFieldRow($model,'indexing_id'); ?>
+		
+		<?php //echo $form->textFieldRow($model,'indexing_urutan'); ?>
+		
+		<?php //echo $form->textFieldRow($model,'indexing_singk',array('size'=>30,'maxlength'=>30)); ?>
+		
+
+<div class="form-actions">
+    <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit')); ?>
+</div>
+
+<?php $this->endWidget(); ?>

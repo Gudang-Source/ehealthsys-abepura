@@ -1,0 +1,31 @@
+<tr>
+        <?php echo CHtml::hiddenField('no_urut',0,array('readonly'=>true,'class'=>'span1 integer', 'style'=>'width:20px;')); ?>
+    <td>
+        <?php echo CHtml::activeHiddenField($modPemakaianObatDetail, '[ii]obatalkes_id'); ?>
+		<?php echo CHtml::activeHiddenField($modPemakaianObatDetail, '[ii]stokobatalkes_id'); ?>
+        <span name="[ii][obatalkes_kode]"><?php echo (!empty($modPemakaianObatDetail->obatalkes_id) ? $modPemakaianObatDetail->obatalkes->obatalkes_kode : "") ?></span> /
+        <span name="[ii][obatalkes_nama]"><?php echo (!empty($modPemakaianObatDetail->obatalkes_id) ? $modPemakaianObatDetail->obatalkes->obatalkes_nama : "") ?></span>
+    </td>
+    <td>
+		<?php echo CHtml::activeHiddenField($modPemakaianObatDetail, '[ii]obatalkes_id',array('readonly'=>true,'style'=>'width:110px;')); ?>
+        <span name="[ii][satuankecil_nama]"><?php echo (!empty($modPemakaianObatDetail->satuankecil_id) ? $modPemakaianObatDetail->satuankecil->satuankecil_nama : "") ?></span>
+    </td>
+    <td>
+        <?php echo CHtml::activeTextField($modPemakaianObatDetail, '[ii]qty_satuanpakai',array('readonly'=>true,'style'=>'width:50px;')); //,'onblur'=>'hitungSubTotal(this)'?>
+    </td>
+    <td>
+        <?php echo CHtml::activeTextField($modPemakaianObatDetail, '[ii]jmlstok',array('readonly'=>true,'style'=>'width:50px;')); ?>
+    </td>
+    <td>
+		<?php echo CHtml::activeHiddenField($modPemakaianObatDetail, '[ii]harganetto_satuanpakai',array('readonly'=>true)); ?>
+        <?php echo CHtml::activeTextField($modPemakaianObatDetail, '[ii]harga_satuanpakai',array('readonly'=>true,'style'=>'width:100px;', 'class'=>'integer')); //,'onblur'=>'hitungSubTotal(this)'?>
+    </td>
+    <td>
+        <?php echo CHtml::activeTextField($modPemakaianObatDetail, '[ii]subtotal',array('readonly'=>true,'style'=>'width:100px;', 'class'=>'integer')); //,'onblur'=>'hitungSubTotal(this)'?>
+    </td>
+	<?php if(!isset($_GET['sukses'])){ ?>
+		<td>
+			<a onclick="batalObatAlkesPasienDetail(this);return false;" rel="tooltip" href="javascript:void(0);" title="Klik untuk membatalkan obat alkes ini"><i class="icon-form-silang"></i></a>
+		</td>
+	<?php } ?>
+</tr>

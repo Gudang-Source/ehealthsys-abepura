@@ -1,0 +1,29 @@
+<div class="white-container">
+    <legend class="rim2">Laporan Faktur <b>Pembelian Umum</b></legend>
+    <?php
+    $url = Yii::app()->createUrl('keuangan/laporanPembayaranGaji/FrameGrafikLaporanPembayaranGaji&id=1');
+    Yii::app()->clientScript->registerScript('search', "
+    $('#searchLaporan').submit(function(){
+            $.fn.yiiGridView.update('laporan-grid', {
+                    data: $(this).serialize()
+            });
+            return false;
+    });
+    ");
+    ?>
+    <fieldset class="box">
+        <legend class="rim"><i class="icon-white icon-search"></i> Pencarian</legend>
+        <?php $this->renderPartial('_search',array('model'=>$model)); ?>
+    </fieldset>
+    <div class="block-tabel">
+        <h6>Tabel Faktur <b>Pembelian Umum</b></h6>
+        <?php $this->renderPartial('_table',array('model'=>$model)); ?>
+        <iframe src="" id="Grafik" width="100%" height='0' onload="javascript:resizeIframe(this);"></iframe>
+    </div>
+    <?php        
+    $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
+    $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
+    $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/print');
+    $this->renderPartial('_footer', array('urlPrint'=>$urlPrint, 'url'=>$url));
+    ?>
+</div>

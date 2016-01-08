@@ -1,0 +1,54 @@
+<!-- Ditambahkan oleh David Yanuar agar sisi table tidak bersinggungan / menempel dengan well  -->
+<div class="block-tabel">
+    <h6>Tabel Barang <b>Yang Dipesan</b></h6>
+    <?php echo CHtml::css('#tableDetailBarang thead tr th{vertical-align:middle;}'); ?>
+    <table class="table table-condensed table-bordered table-striped" id="tableDetailBarang">
+        <thead>
+            <tr>
+                <th>Golongan</th>
+                <th>Kelompok</th>
+                <th>Sub Kelompok</th>
+                <th>Bidang</th>
+                <th>Barang</th>
+                <th>Jumlah Permintaan</th>
+                <th>Satuan</th>
+                <!--<th>Ukuran<br/>Bahan</th>-->
+                <?php if ($model->isNewRecord){ ?>
+                <th>Batal</th>
+                <?php } ?>    
+            </tr>
+        </thead>
+        <tbody>
+            <?php 
+            if (isset($modDetail)){
+            foreach ($modDetail as $i=>$detail){?>
+            <?php $modBarang = BarangM::model()->findByPk($detail->barang_id); ?>
+                <tr>   
+                    <td><?php 
+                        echo CHtml::activeHiddenField($detail, '['.$i.']barang_id'); 
+                        echo isset($modBarang->bidang->subkelompok->kelompok->golongan->golongan_nama) ? $modBarang->bidang->subkelompok->kelompok->golongan->golongan_nama : ''; 
+                        ?>
+                    </td>
+                    <td><?php echo isset($modBarang->bidang->subkelompok->kelompok->kelompok_nama) ? $modBarang->bidang->subkelompok->kelompok->kelompok_nama : ''; ?></td>
+                    <td><?php echo isset($modBarang->bidang->subkelompok->subkelompok_nama) ? $modBarang->bidang->subkelompok->subkelompok_nama : ''; ?></td>
+                    <td><?php echo isset($modBarang->bidang->bidang_nama) ? $modBarang->bidang->bidang_nama : ''; ?></td>
+                    <td><?php echo isset($modBarang->barang_nama) ? $modBarang->barang_nama : ''; ?></td>
+                    <td>
+                    <?php 
+                        echo CHtml::activeTextField($detail, '['.$i.']qty_pesan', array('class'=>'span1 numbersOnly'));
+                        echo '<br/>';
+                        echo $form->error($detail, '['.$i.']qty_pesan');
+                    ?>
+                    </td>
+                    <td><?php echo CHtml::activeDropDownList($detail, '['.$i.']satuanbarang', LookupM::getItems('satuanbarang'), array('empty'=>'-- Pilih --', 'class'=>'span2')); ?></td>
+                    <!--<td><?php //echo isset($modBarang->barang_ukuran) ? $modBarang->barang_ukuran : ''; ?><br/><?php //echo isset($modBarang->barang_bahan)?$modBarang->barang_bahan:''; ?></td>-->
+                    <?php if ($model->isNewRecord) { ?>
+                    <td><?php echo Chtml::link('<icon class="icon-form-silang"></icon>', '', array('onclick'=>'batal(this);', 'style'=>'cursor:pointer;', 'class'=>'cancel')); ?></td>
+                    <?php } ?>
+                </tr>   
+            <?php }
+            }
+            ?>
+        </tbody>
+    </table>
+</div>

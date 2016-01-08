@@ -1,0 +1,102 @@
+<?php
+class GFLaporanfarmasikopnameV extends LaporanfarmasikopnameV
+{   
+    public $tgl_awal, $tgl_akhir;
+    public $tick;
+    public $data;
+    public $jumlah;
+    public $jns_periode,$bln_awal,$bln_akhir,$thn_awal,$thn_akhir;
+
+    public static function model($className=__CLASS__)
+    {
+            return parent::model($className);
+    }
+    
+    public function searchTable()
+    {
+            $criteria=new CDbCriteria;
+
+            //$criteria->addBetweenCondition('tglstokopname',$this->tgl_awal,$this->tgl_akhir);
+			if(!empty($this->jenisobatalkes_id)){
+				$criteria->addCondition('jenisobatalkes_id = '.$this->jenisobatalkes_id);
+			}
+            $criteria->addCondition('ruangan_id = 20');
+          
+            return new CActiveDataProvider($this, array(
+                    'criteria'=>$criteria,
+            ));
+    }
+    
+    public function searchTableGF()
+    {
+            $criteria=new CDbCriteria;
+
+            $criteria->addBetweenCondition('tglstokopname',$this->tgl_awal,$this->tgl_akhir);
+			if(!empty($this->jenisobatalkes_id)){
+				$criteria->addCondition('jenisobatalkes_id = '.$this->jenisobatalkes_id);
+			}
+            $criteria->addCondition('ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
+          
+            return new CActiveDataProvider($this, array(
+                    'criteria'=>$criteria,
+            ));
+    }
+        
+        
+    public function searchPrint()
+    {
+        $criteria=new CDbCriteria;
+
+        //$criteria->addBetweenCondition('tglstokopname',$this->tgl_awal,$this->tgl_akhir);
+		if(!empty($this->jenisobatalkes_id)){
+			$criteria->addCondition('jenisobatalkes_id = '.$this->jenisobatalkes_id);
+		}
+        $criteria->addCondition('ruangan_id = 20');
+
+        // Klo limit lebih kecil dari nol itu berarti ga ada limit 
+        $criteria->limit=-1; 
+
+        return new CActiveDataProvider($this, array(
+                'criteria'=>$criteria,
+                'pagination'=>false,
+        ));
+    }
+    
+    public function searchPrintGF()
+    {
+        $criteria=new CDbCriteria;
+
+        $criteria->addBetweenCondition('tglstokopname',$this->tgl_awal,$this->tgl_akhir);
+		if(!empty($this->jenisobatalkes_id)){
+			$criteria->addCondition('jenisobatalkes_id = '.$this->jenisobatalkes_id);
+		}
+        $criteria->addCondition('ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
+
+        // Klo limit lebih kecil dari nol itu berarti ga ada limit 
+//        $criteria->limit=-1; 
+
+        return new CActiveDataProvider($this, array(
+                'criteria'=>$criteria,
+                'pagination'=>false,
+        ));
+    }
+
+    public function searchGrafik()
+    {
+		$criteria=new CDbCriteria;
+			$criteria->select = 'sum(volume_fisik) as jumlah, obatalkes_nama as data';
+			$criteria->group = 'obatalkes_nama';
+			//$criteria->addBetweenCondition('tglstokopname', $this->tgl_awal, $this->tgl_akhir);
+
+		$criteria->addBetweenCondition('tglstokopname',$this->tgl_awal,$this->tgl_akhir);
+		if(!empty($this->jenisobatalkes_id)){
+			$criteria->addCondition('jenisobatalkes_id = '.$this->jenisobatalkes_id);
+		}
+		$criteria->addCondition('ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
+
+		return new CActiveDataProvider($this, array(
+				'criteria'=>$criteria,
+		));
+    }
+
+}

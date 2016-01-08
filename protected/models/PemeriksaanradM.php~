@@ -1,0 +1,134 @@
+<?php
+
+/**
+ * This is the model class for table "pemeriksaanrad_m".
+ *
+ * The followings are the available columns in table 'pemeriksaanrad_m':
+ * @property integer $pemeriksaanrad_id
+ * @property integer $daftartindakan_id
+ * @property string $pemeriksaanrad_jenis
+ * @property string $pemeriksaanrad_nama
+ * @property string $pemeriksaanrad_namalainnya
+ * @property boolean $pemeriksaanrad_aktif
+ */
+class PemeriksaanradM extends CActiveRecord
+{
+                public $daftartindakan_nama;
+	/**
+	 * Returns the static model of the specified AR class.
+	 * @param string $className active record class name.
+	 * @return PemeriksaanradM the static model class
+	 */
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
+	}
+
+	/**
+	 * @return string the associated database table name
+	 */
+	public function tableName()
+	{
+		return 'pemeriksaanrad_m';
+	}
+
+	/**
+	 * @return array validation rules for model attributes.
+	 */
+	public function rules()
+	{
+		// NOTE: you should only define rules for those attributes that
+		// will receive user inputs.
+		return array(
+			array('daftartindakan_id, pemeriksaanrad_jenis, pemeriksaanrad_nama', 'required'),
+			array('daftartindakan_id', 'numerical', 'integerOnly'=>true),
+			array('pemeriksaanrad_jenis', 'length', 'max'=>100),
+			array('pemeriksaanrad_nama, pemeriksaanrad_namalainnya', 'length', 'max'=>20),
+			array('pemeriksaanrad_aktif', 'safe'),
+			// The following rule is used by search().
+			// Please remove those attributes that should not be searched.
+			array('pemeriksaanrad_id, daftartindakan_id, pemeriksaanrad_jenis, pemeriksaanrad_nama, pemeriksaanrad_namalainnya, pemeriksaanrad_aktif', 'safe', 'on'=>'search'),
+		);
+	}
+
+	/**
+	 * @return array relational rules.
+	 */
+	public function relations()
+	{
+		// NOTE: you may need to adjust the relation name and the related
+		// class name for the relations automatically generated below.
+		return array(
+                                    'daftartindakan'=>array(self::BELONGS_TO,'DaftartindakanM','daftartindakan_id'),
+		);
+	}
+
+	/**
+	 * @return array customized attribute labels (name=>label)
+	 */
+	public function attributeLabels()
+	{
+		return array(
+			'pemeriksaanrad_id' => 'ID',
+			'daftartindakan_id' => 'Daftar Tindakan',
+			'pemeriksaanrad_jenis' => 'Jenis Pemeriksaan',
+			'pemeriksaanrad_nama' => 'Nama Pemeriksaan',
+			'pemeriksaanrad_namalainnya' => 'Nama Lainnya',
+			'pemeriksaanrad_aktif' => 'Aktif',
+                                                'daftartindakan_nama'=>'Daftar tindakan',
+		);
+	}
+
+	/**
+	 * Retrieves a list of models based on the current search/filter conditions.
+	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+	 */
+	public function search()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria=new CDbCriteria;
+
+                                $criteria->with = 'daftartindakan';
+                                $criteria->compare('LOWER(daftartindakan_nama)',strtolower($this->daftartindakan_nama),true);
+		$criteria->compare('pemeriksaanrad_id',$this->pemeriksaanrad_id);
+		$criteria->compare('daftartindakan_id',$this->daftartindakan_id);
+		$criteria->compare('LOWER(pemeriksaanrad_jenis)',strtolower($this->pemeriksaanrad_jenis),true);
+		$criteria->compare('LOWER(pemeriksaanrad_nama)',strtolower($this->pemeriksaanrad_nama),true);
+		$criteria->compare('LOWER(pemeriksaanrad_namalainnya)',strtolower($this->pemeriksaanrad_namalainnya),true);
+		$criteria->compare('pemeriksaanrad_aktif',isset($this->pemeriksaanrad_aktif)?$this->pemeriksaanrad_aktif:true);
+//                $criteria->addCondition('pemeriksaanrad_aktif is true');
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+	}
+        
+        
+        public function searchPrint()
+        {
+                // Warning: Please modify the following code to remove attributes that
+                // should not be searched.
+
+                $criteria=new CDbCriteria;
+		$criteria->compare('pemeriksaanrad_id',$this->pemeriksaanrad_id);
+		$criteria->compare('daftartindakan_id',$this->daftartindakan_id);
+		$criteria->compare('LOWER(pemeriksaanrad_jenis)',strtolower($this->pemeriksaanrad_jenis),true);
+		$criteria->compare('LOWER(pemeriksaanrad_nama)',strtolower($this->pemeriksaanrad_nama),true);
+		$criteria->compare('LOWER(pemeriksaanrad_namalainnya)',strtolower($this->pemeriksaanrad_namalainnya),true);
+		$criteria->compare('pemeriksaanrad_aktif',$this->pemeriksaanrad_aktif);
+                // Klo limit lebih kecil dari nol itu berarti ga ada limit 
+                $criteria->limit=-1; 
+
+                return new CActiveDataProvider($this, array(
+                        'criteria'=>$criteria,
+                        'pagination'=>false,
+                ));
+        }
+        
+        public function getDaftarTindakanItems()
+        {
+            return DaftartindakanM::model()->findAll('daftartindakan_aktif=TRUE ORDER BY daftartindakan_nama');
+        }
+}

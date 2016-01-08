@@ -1,0 +1,156 @@
+<div class="white-container">
+    <legend class="rim2">Pengaturan <b>Kelompok Remunerasi</b></legend>
+    <?php
+    $this->breadcrumbs=array(
+            'Saindexing Ms'=>array('index'),
+            'Manage',
+    );
+
+    $arrMenu = array();
+                    (Yii::app()->user->checkAccess('Admin')) ?array_push($arrMenu,array('label'=>Yii::t('mds','Manage').' Indexing ', 'header'=>true, 'itemOptions'=>array('class'=>'heading-master'))) :  '' ;
+    //                array_push($arrMenu,array('label'=>Yii::t('mds','List').' Indexing', 'icon'=>'list', 'url'=>array('index'))) ;
+                    (Yii::app()->user->checkAccess('Create')) ?array_push($arrMenu,array('label'=>Yii::t('mds','Create').' Indexing', 'icon'=>'file', 'url'=>array('create'))) :  '' ;
+
+    $this->menu=$arrMenu;
+
+    Yii::app()->clientScript->registerScript('search', "
+    $('.search-button').click(function(){
+            $('.search-form').toggle();
+            return false;
+    });
+    $('.search-form form').submit(function(){
+            $.fn.yiiGridView.update('indexing-m-grid', {
+                    data: $(this).serialize()
+            });
+            return false;
+    });
+    ");
+    ?>
+    <?php
+        $this->widget('bootstrap.widgets.BootAlert');
+        $this->renderPartial('_tabMenu',array());
+    ?>
+    <div class="biru">
+        <div class="white">
+            <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-accordion icon-white"></i>')),'#',array('class'=>'search-button btn')); ?>
+            <div class="cari-lanjut3 search-form" style="display:none">
+                <?php $this->renderPartial('_search',array(
+                        'model'=>$model,
+                )); ?>
+            </div><!-- search-form -->
+            <!--<div class='block-tabel'>-->
+                <?php $this->widget('ext.bootstrap.widgets.BootGridView', array(
+                    'id'=>'indexing-m-grid',
+                    'dataProvider'=>$model->search(),
+                            'itemsCssClass'=>'table table-striped table-condensed',
+                    'filter'=>$model,
+                    'columns'=>array(
+                            'indexing_id',
+                            'kelrem.kelrem_nama',
+                            'indexing_nama',
+                            'indexing_singk',
+                            'indexing_nilai',
+                            'indexing_urutan',
+                            /*
+                            'indexing_aktif',
+                            */
+                            array(
+                                'header'=>'<center>Status</center>',
+                                'value'=>'($data->indexing_aktif == 1 ) ? "Aktif" : "Tidak Aktif"',
+                                'htmlOptions'=>array('style'=>'text-align:center;'),
+                            ),
+            //                array(
+            //                        'header'=>'Aktif',
+            //                        'class'=>'CCheckBoxColumn',     
+            //                        'selectableRows'=>0,
+            //                        'id'=>'rows',
+            //                        'checked'=>'$data->indexing_aktif',
+            //                ),
+                            array(
+                                'header'=>Yii::t('zii','View'),
+                                'class'=>'bootstrap.widgets.BootButtonColumn',
+                                'template'=>'{view}',
+                            ),
+                            array(
+                                'header'=>Yii::t('zii','Update'),
+                                'class'=>'bootstrap.widgets.BootButtonColumn',
+                                'template'=>'{update}',
+                            ),
+                            array(
+                                'header'=>Yii::t('zii','Delete'),
+                                'class'=>'bootstrap.widgets.BootButtonColumn',
+                                'template'=>'{remove} {delete}',
+                                'buttons'=>array(
+                                    'remove' => array (
+                                            'label'=>"<i class='icon-form-silang'></i>",
+                                            'options'=>array('title'=>Yii::t('mds','Remove Temporary')),
+                                            'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/removeTemporary",array("id"=>"$data->indexing_id"))',
+                                            'visible'=>'($data->indexing_aktif && Yii::app()->user->checkAccess("Update")) ? TRUE : FALSE',
+                                            'click'=>'function(){ removeTemporary(this); return false;}',
+                                    ),
+                                    'delete'=> array(
+                                            'visible'=>'Yii::app()->user->checkAccess("Delete")',
+                                    ),
+                                )
+                            ),
+                    ),
+                 'afterAjaxUpdate'=>'function(id, data){
+                        jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
+                        $("table").find("input[type=text]").each(function(){
+                            cekForm(this);
+                        })
+                        $("table").find("select").each(function(){
+                            cekForm(this);
+                        })
+                    }',
+                )); ?>
+            <!--</div>-->
+            <?php 
+                echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
+                echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
+                echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
+                $content = $this->renderPartial('../tips/master',array(),true);
+                $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
+                $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
+                $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
+                $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/print');
+            ?>
+        </div>
+    </div>
+</div>
+<?php    
+$js = <<< JSCRIPT
+         function cekForm(obj)
+{
+    $("#saindexing-m-search :input[name='"+ obj.name +"']").val(obj.value);
+}
+function print(caraPrint)
+{
+    window.open("${urlPrint}/"+$('#saindexing-m-search').serialize()+"&caraPrint="+caraPrint,"",'location=_new, width=900px');
+}
+JSCRIPT;
+Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);                        
+?>
+<script type="text/javascript">
+    function removeTemporary(obj){
+        var url = $(obj).attr('href');
+        myConfirm("Yakin akan menonaktifkan data ini untuk sementara?","Perhatian!",function(r) {
+            if (r){
+                 $.ajax({
+                    type:'GET',
+                    url:url,
+                    data: {},
+                    dataType: "json",
+                    success:function(data){
+                        if(data.status == 'proses_form'){
+                            $.fn.yiiGridView.update('indexing-m-grid');
+                        }else{
+                            myAlert('Data Gagal di Nonaktifkan.')
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
+                });
+           }
+       });
+    }
+</script>

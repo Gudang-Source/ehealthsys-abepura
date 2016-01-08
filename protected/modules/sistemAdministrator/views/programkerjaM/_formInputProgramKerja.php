@@ -1,0 +1,80 @@
+<fieldset class="box" id='fieldsetProgramKerja'>
+    <legend class="rim">Tambah Program Kerja</legend>
+    <?php
+    Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/form.js');
+    $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
+        'id' => 'form-program-kerja',
+        'enableAjaxValidation' => false,
+        'type' => 'horizontal',
+        'htmlOptions' => array(
+            'onKeyPress' => 'return disableKeyPress(event)'
+        ),
+        'focus' => '#' . CHtml::activeId($programKerja, 'programkerja_nama'),
+            )
+    );
+    $this->widget('bootstrap.widgets.BootAlert');
+    ?>
+    <?php echo $form->hiddenField($programKerja, 'programkerja_id', array('class' => 'span3')); ?>
+    <?php echo $form->textFieldRow($programKerja, 'programkerja_kode', array('class' => 'span1 reqForm', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 6, 'readonly' => false)); ?>
+    <?php echo $form->textFieldRow($programKerja, 'programkerja_nama', array('class' => 'span3 reqForm', 'onkeyup' => 'autoInput();', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 32, 'readonly' => false)); ?>
+    <?php echo $form->textFieldRow($programKerja, 'programkerja_namalain', array('class' => 'span3 reqForm', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 32, 'readonly' => false)); ?>
+    <?php echo $form->textAreaRow($programKerja, 'programkerja_ket', array('class' => 'span4 required', 'onkeypress' => "return $(this).focusNextInputField(event)", 'readonly' => false)); ?>
+	<?php //if(isset($aktif) && ($aktif == true)){
+		echo $form->radioButtonListInlineRow($programKerja, 'programkerja_aktif', array('Tidak', 'Aktif'), array('onkeypress'=>"return $(this).focusNextInputField(event)"));
+///		echo $form->checkBoxRow($programKerja,'programkerja_aktif', array('onkeyup'=>"return $(this).focusNextInputField(event);"));
+	//}
+	?>
+	<div class="form-actions">
+        <?php
+        echo CHtml::htmlButton(Yii::t('mds', '{icon} Create', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'onKeypress' => 'return formSubmit(this,event)'));
+        echo CHtml::htmlButton(Yii::t('mds', '{icon} Reset', array('{icon}' => '<i class="icon-refresh icon-white"></i>')), array('style' => 'display:none', 'id' => 'reseter', 'class' => 'btn btn-danger', 'type' => 'reset'));
+        ?>
+    </div>
+
+    <?php
+    $urlPostData = Yii::app()->createUrl(Yii::app()->controller->module->id . '/' . Yii::app()->controller->id . '/SimpanProgramKerja');
+    ?>
+</fieldset>
+    <script type="text/javascript">
+        $('#form-program-kerja').submit(function () {
+            var kosong = "";
+            var jumlahKosong = $("#fieldsetProgramKerja").find(".reqForm[value=" + kosong + "]");
+            if (jumlahKosong.length > 0) {
+                myAlert('Inputan bertanda bintang harap di isi !!');
+            } else {
+
+                $.post("<?php echo $urlPostData; ?>", {data: $(this).serialize()},
+                function (data) {
+                    if (data.pesan == 'exist') {
+                        myAlert('Program Kerja telah terdaftar');
+                    }
+
+                    if (data.status == 'ok') {
+                        myAlert('Program Kerja berhasil disimpan');
+                        if (data.pesan == 'insert') {
+                            $("#reseter").click();
+                            $('#fieldsetProgramKerja').find("input[name$='[programkerja_kode]']").val(data.id_parent.programkerja_kode);
+                        }
+
+                        if (typeof getTreeMenuAnggaran == 'function')
+                        {
+                            getTreeMenuAnggaran();
+                            $.fn.yiiGridView.update('AGRekeninganggaran-v', {});
+                        }
+
+                    }
+                }, "json"
+                        );
+            }
+            return false;
+        });
+
+        function autoInput() {
+            var namaProgramKerja = $('#SAProgramkerjaM_programkerja_nama').val();
+
+            $('#SAProgramkerjaM_programkerja_namalain').val(namaProgramKerja);
+        }
+		
+    </script>
+
+    <?php $this->endWidget(); ?>

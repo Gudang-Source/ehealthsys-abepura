@@ -1,0 +1,138 @@
+<style>
+body{
+    font-size:8pt;
+}
+td.uang{
+    text-align:right;
+}
+th{
+    text-align:center;
+}
+.border{
+    border:1px solid;
+}
+</style>
+<?php
+if (isset($caraprint)){
+    if($caraprint=='EXCEL')
+    {
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="'.$judul_print.'-'.date("Y/m/d").'.xls"');
+        header('Cache-Control: max-age=0');     
+    }
+}
+?> 
+<?php $this->renderPartial($this->path_view.'_headerPrint',array('colspan'=>10)); ?>
+    <div align="center" width="100%">
+        <b><?php echo $judul_print ?></b>
+    </div>
+    <table width="74%" style="margin:0px;" cellpadding="0" cellspacing="0">
+        <tr>
+            <td>No. Mutasi</td>
+            <td>:</td>
+            <td><?php echo $model->nomutasioa; ?></td>
+        </tr>
+        <tr>
+            <td>Tanggal Mutasi</td>
+            <td>:</td>
+            <td><?php echo $format->formatDateTimeForUser($model->tglmutasioa); ?></td>
+        </tr>
+        <tr>
+            <td>Ruangan Asal</td>
+            <td>:</td>
+            <td><?php echo (isset($model->ruanganasal->ruangan_nama) ? $model->ruanganasal->ruangan_nama : "-"); ?></td>
+        </tr>
+        <tr>
+            <td>Ruangan Tujuan</td>
+            <td>:</td>
+            <td><?php echo (isset($model->ruangantujuan->ruangan_nama) ? $model->ruangantujuan->ruangan_nama : ""); ?></td>
+        </tr>
+        <tr>
+            <td>Pegawai Mengetahui</td>
+            <td>:</td>
+            <td><?php echo (isset($model->pegawaimengetahui->NamaLengkap) ? $model->pegawaimengetahui->NamaLengkap : ""); ?></td>
+        </tr>
+        <tr>
+            <td>Status Mutasi</td>
+            <td>:</td>
+            <td><?php echo ((!empty($model->terimamutasi_id) ? "SUDAH DITERIMA" : "BELUM DITERIMA")); ?></td>
+        </tr>
+    </table><br/>
+    <table width="100%" style='margin-left:auto; margin-right:auto;'>
+        <thead class="border">
+            <tr>
+                <th>No.</th>
+                <th>Asal Barang</th>
+                <th>Kategori / Nama Obat</th>
+                <th>Tanggal Kadaluarsa </th>
+                <th>Satuan Kecil </th>
+                <th>Jumlah Pesan</th>
+                <th>Jumlah Mutasi</th>
+                <!--<th>HPP</th>-->
+                <!--<th>Harga Jual</th>-->
+                <!--<th>Sub Total Netto</th>-->
+            </tr>
+        </thead>
+        <?php 
+        $total = 0;
+        $subtotal = 0;
+        foreach ($modDetails as $i=>$detail){ 
+        ?>
+            <tr>
+                <td><?php echo ($i+1)."."; ?></td>
+                <td><?php echo $detail->sumberdana->sumberdana_nama; ?></td>
+                <td><?php echo (!empty($detail->obatalkes->obatalkes_kategori) ? $detail->obatalkes->obatalkes_kategori."/ " : "") ."". $detail->obatalkes->obatalkes_nama; ?></td>
+                <td><?php echo $format->formatDateTimeForUser($detail->tglkadaluarsa); ?></td>
+                <td><?php echo $detail->satuankecil->satuankecil_nama; ?></td>
+                <td><?php echo $detail->jmlpesan; ?></td>
+                <td><?php echo $detail->jmlmutasi; ?></td>
+                <!--<td class='uang'><?php // echo $format->formatUang($detail->harganetto); ?></td>-->
+                <!--<td><?php // echo $format->formatUang($detail->hargajualsatuan); ?></td>-->
+                <!--<td class="uang"><?php 
+//                    $subtotal = ($detail->harganetto * $detail->jmlmutasi);
+//                    $total += $subtotal;
+//                    echo $format->formatUang($subtotal); ?>
+                </td>-->
+            </tr>
+        <?php } ?>
+<!--        <tr class='border'>
+            <td colspan="7" align="right"><strong>Total</strong></td>
+            <td class="uang"><?php // echo $format->formatUang($total); ?></td>
+        </tr>-->
+    </table>
+<?php
+if (isset($_GET['frame'])){
+    echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info', 'onclick'=>"print('PRINT')"));
+    echo CHtml::link(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),'javascript:void(0);', array('class'=>'btn btn-info', 'onclick'=>"print('EXCEL')")); 
+?>
+    <script type='text/javascript'>
+    /**
+     * print
+     */    
+    function print(caraprint){
+        var mutasioaruangan_id = '<?php echo $model->mutasioaruangan_id; ?>';
+        window.open('<?php echo $this->createUrl('print'); ?>&mutasioaruangan_id='+mutasioaruangan_id+'&caraprint='+caraprint,'printwin','left=100,top=100,width=1000,height=640');
+    }
+    </script>
+<?php
+}else{ ?>
+    <table width="100%" style="margin-top:20px;">
+    <tr>
+        <td width="100%" align="left" align="top">
+            <table width="100%">
+                <tr>
+                    <td width="35%" align="center">
+                        <div>Pegawai Mengetahui</div>
+                        <div style="margin-top:60px;"><?php echo (isset($model->pegawaimengetahui->NamaLengkap) ? $model->pegawaimengetahui->NamaLengkap : ""); ?></div>
+                    </td>
+                    <td width="35%" align="center">
+                        <div><?php echo Yii::app()->user->getState("kabupaten_nama").", ".$format->formatDateTimeId(date('Y-m-d')); ?></div>
+                        <div>Operator</div>
+                        <div style="margin-top:60px;"><?php echo (isset($model->pegawaimutasi->NamaLengkap) ? $model->pegawaimutasi->NamaLengkap : ""); ?></div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    </table>
+<?php } ?>

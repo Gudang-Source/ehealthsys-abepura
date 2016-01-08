@@ -1,0 +1,831 @@
+<?php
+/**
+ * RND-7811 : INI SUDAH TIDAK DIGUNAKAN LAGI, FUNCTION PINDAHKAN KE CONTROLLER MASING2
+ */
+class ActionDynamicController extends Controller
+{
+    
+    public function init() {
+        parent::init();
+        Yii::import('farmasiApotek.controllers.*');
+    }
+    
+ 
+  /*
+ * Mencari Ruangan berdasarkan instalasi di tabel kelas Ruangan M
+ * and open the template in the editor.
+ */
+    public function actionGetKelasPelayanDariRuangan($encode=false,$namaModel='')
+    {
+        if(Yii::app()->request->isAjaxRequest) {
+  
+            $idRuangan = $_POST["$namaModel"]['ruangan_id'];
+            $kelasPelayanan = KelasruanganM::model()->with('kelaspelayanan')->findAll('ruangan_id='.$idRuangan.'');
+            
+            $kelasPelayanan=CHtml::listData($ruangan,'kelaspelayanan_id','kelaspelayanan.kelaspelayanan_nama');
+            
+            if(empty($kelasPelayanan)){
+                echo CHtml::tag('option', array('value'=>''),CHtml::encode('-Pilih-'),true);
+            }else{
+                echo CHtml::tag('option', array('value'=>''),CHtml::encode('-Pilih-'),true);
+                foreach($kelasPelayanan as $value=>$name)
+                {
+                    echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                }
+            }
+        }
+        Yii::app()->end();
+    }       
+    
+      
+    
+    /*
+ * Mencari Ruangan berdasarkan Kelaspelayanan_id di tabel kelas Ruangan M
+ * and open the template in the editor.
+ */
+    public function actionGetRuangan($encode=false,$namaModel='')
+    {
+        if(Yii::app()->request->isAjaxRequest) {
+            $kelaspelayanan_id = $_POST["$namaModel"]['kelaspelayanan_id'];
+            $ruangan = KelasruanganM::model()->with('ruangan')->findAll('kelaspelayanan_id='.$kelaspelayanan_id.'');
+            
+            $ruangan=CHtml::listData($ruangan,'ruangan_id','ruangan.ruangan_nama');
+            
+            if(empty($ruangan)){
+                echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih Ruangan --'),true);
+            }else{
+                echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih Ruangan --'),true);
+                foreach($ruangan as $value=>$name)
+                {
+                    echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                }
+            }
+        }
+        Yii::app()->end();
+    }
+    
+         
+    
+ 
+    
+    
+    
+    
+    
+    public function actionGetActions($encode=false)
+    {
+        if(Yii::app()->request->isAjaxRequest) {
+            $namaModul = $_POST['namaModul'];
+            $contorllerId = $_POST['namaController'];
+            $actions = CustomFunction::getActions($contorllerId, $namaModul);
+            
+            if($encode)
+            {
+                echo CJSON::encode($actions);
+            } else {
+                foreach ($actions as $value => $name)
+                {
+					echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
+                }
+            }
+        }
+        Yii::app()->end();
+    }
+    
+    
+
+    public function actionGetKelasKamarRuangan($encode=false,$namaModel='')
+    {
+        if(Yii::app()->request->isAjaxRequest) {
+            $kelasPelayanan_id = $_POST["$namaModel"]['kelaspelayanan_id'];
+           if($encode) {
+                echo CJSON::encode($kamarRuangan);
+           } else {
+                if(empty($kelasPelayanan_id)){
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                } else {
+                        echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                        $kamarRuangan = KamarruanganM::model()->findAllByAttributes(array('kelaspelayanan_id'=>$kelasPelayanan_id, 'ruangan_id'=>Params::RUANGAN_ID_BEDAH));
+                        $kamarRuangan = CHtml::listData($kamarRuangan,'kamarruangan_id','KamarDanTempatTidur');
+                        foreach($kamarRuangan as $value=>$name) {
+                            echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                        }
+                }
+           }
+        }
+        Yii::app()->end();
+    }
+
+    
+
+    public function actionGetKabupatendrNamaPropinsi($encode=false,$namaModel='',$attr='')
+    {
+        if(Yii::app()->request->isAjaxRequest) {
+            if ($namaModel == '' && $attr !== '') {
+                $propinsi_nama = $_POST["$attr"];
+            }
+             elseif ($namaModel !== '' && $attr !== '') {
+                $propinsi_nama = $_POST["$namaModel"]["$attr"];
+            }
+            $propinsi = PropinsiM::model()->findByAttributes(array('propinsi_nama'=>$propinsi_nama));
+            $propinsi_id = $propinsi->propinsi_id;
+            if (COUNT($propinsi)<1) {$propinsi_id=$propinsi_nama;}
+            $kabupaten = KabupatenM::model()->findAll("propinsi_id='$propinsi_id' ORDER BY kabupaten_nama asc");
+            $kabupaten = CHtml::listData($kabupaten,'kabupaten_id','kabupaten_nama');
+            
+            if($encode){
+                echo CJSON::encode($kabupaten);
+            } else {
+                if(empty($kabupaten)){
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                } else {
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                    foreach($kabupaten as $value=>$name) {
+                        echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                    }
+                }
+            }
+        }
+        Yii::app()->end();
+    }
+    
+    
+    
+    
+    public function actionGetNamaRujukan($encode=false,$namaModel='',$attr='')
+    {
+        if(Yii::app()->request->isAjaxRequest) {
+            if($namaModel !=='' && $attr == ''){
+                $asalrujukan_id = $_POST["$namaModel"]['asalrujukan_id'];
+            }
+             elseif ($namaModel == '' && $attr !== '') {
+                $asalrujukan_id = $_POST["$attr"];
+            }
+            elseif ($namaModel !== '' && $attr !== '') {
+                $asalrujukan_id = $_POST["$namaModel"]["$attr"];
+            }
+            $namarujukan = RujukandariM::model()->findAll('asalrujukan_id='.asalrujukan_id.'');
+            $namarujukan = CHtml::listData($namarujukan,'namaperujuk','namaperujuk');
+            
+            if($encode){
+                echo CJSON::encode($namarujukan);
+            } else {
+                if(empty($namarujukan)){
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                }else{
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                    foreach($namarujukan as $value=>$name)
+                    {
+                        echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                    }
+                }
+            }
+        }
+        Yii::app()->end();
+    }
+    
+    public function actionGetKasusPenyakit($encode=false,$namaModel='',$attr='',$listDropdown=false)
+    {
+        if(Yii::app()->request->isAjaxRequest) {
+            if($namaModel !== ''){
+                $ruangan_id = $_POST["$namaModel"]['ruangan_id'];
+            }
+             elseif ($namaModel == '' && $attr !== '') {
+                $ruangan_id = $_POST["$attr"];
+            }
+            
+            $jenisKasusPenyakit = array();
+            if(!empty($ruangan_id)) {
+                $sql = "SELECT jeniskasuspenyakit_m.jeniskasuspenyakit_id, jeniskasuspenyakit_m.jeniskasuspenyakit_nama 
+                        FROM jeniskasuspenyakit_m
+                        JOIN kasuspenyakitruangan_m ON jeniskasuspenyakit_m.jeniskasuspenyakit_id = kasuspenyakitruangan_m.jeniskasuspenyakit_id
+                        JOIN ruangan_m ON kasuspenyakitruangan_m.ruangan_id = ruangan_m.ruangan_id
+                        WHERE ruangan_m.ruangan_id = '$ruangan_id'
+                        ORDER BY jeniskasuspenyakit_m.jeniskasuspenyakit_id";
+                $modJenKasusPenyakit = JeniskasuspenyakitM::model()->findAllBySql($sql);
+
+                $jenisKasusPenyakit = CHtml::listData($modJenKasusPenyakit,'jeniskasuspenyakit_id','jeniskasuspenyakit_nama');
+            }
+            
+            if($encode){
+                echo CJSON::encode($jenisKasusPenyakit);
+            } else if(!$listDropdown) {
+                if(empty($jenisKasusPenyakit)){
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                }else{
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                    foreach($jenisKasusPenyakit as $value=>$name)
+                    {
+                        echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                    }
+                }
+            }
+            
+            if($listDropdown) {
+                if(empty($jenisKasusPenyakit)){
+                    $option = CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                }else{
+                    $option = CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                    foreach($jenisKasusPenyakit as $value=>$name)
+                    {
+                        $option .= CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                    }
+                }
+                $dataList['listPenyakit'] = $option;
+                echo json_encode($dataList);
+            }
+        }
+        Yii::app()->end();
+    }
+        
+    
+
+    public function actionKamarRuanganEkios()
+    {
+        if(Yii::app()->getRequest()->getIsAjaxRequest()) {
+            if(!empty($_POST['idRuangan'])){
+                $idRuangan = $_POST['idRuangan'];
+                $data = KamarruanganM::model()->findAllByAttributes(array('ruangan_id'=>$idRuangan),array('order'=>'kamarruangan_nokamar'));
+                $data = CHtml::listData($data,'kamarruangan_id','KamarDanTempatTidur');
+
+                if(empty($data)){
+                    $option = CHtml::tag('option',array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                }else{
+                    $option = CHtml::tag('option',array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                    foreach($data as $value=>$name) {
+                            $option .= CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
+                    }
+                }
+
+                $dataList['listKamarRuangan'] = $option;
+            } else {
+                $dataList['listKamarRuangan'] = $option = CHtml::tag('option',array('value'=>''),CHtml::encode('-- Pilih --'),true);
+            }
+
+            echo json_encode($dataList);
+            Yii::app()->end();
+        }
+    }
+
+    public function actionKelasPelayananEkios()
+    {
+        if(Yii::app()->getRequest()->getIsAjaxRequest()) {
+            if(!empty($_POST['idKelasPelayanan'])){
+                $idKelasPelayanan = $_POST['idKelasPelayanan'];
+                $data = KamarruanganM::model()->with('kelaspelayanan')->findAllByAttributes(array('kamarruangan_id'=>$idKelasPelayanan),array());
+                $data = CHtml::listData($data,'kelaspelayanan_id','kelaspelayanan.kelaspelayanan_nama');
+
+                if(empty($data)){
+                    $option = CHtml::tag('option',array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                }else{
+                    $option = CHtml::tag('option',array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                    foreach($data as $value=>$name) {
+                            $option .= CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
+                    }
+                }
+
+                $dataList['listKelasPelayanan'] = $option;
+            } else {
+                $dataList['listKelasPelayanan'] = $option = CHtml::tag('option',array('value'=>''),CHtml::encode('-- Pilih --'),true);
+            }
+
+            echo json_encode($dataList);
+            Yii::app()->end();
+        }
+    }
+    /**
+     *penggunaannya
+     * 1. digunakan di pendaftaran rawat inap
+     * @param type $encode
+     * @param type $namaModel
+     * @param type $attr 
+     */
+    public function actionGetKamarKosong($encode=false,$namaModel='',$attr='')
+    {
+        if(Yii::app()->request->isAjaxRequest) {
+            $ruangan_id = (isset($_POST['ruangan_id']) ? $_POST['ruangan_id'] : null);
+            if (empty($ruangan_id) && isset($_POST[$namaModel]['ruangan_id']))
+                $ruangan_id = $_POST[$namaModel]['ruangan_id'];
+            
+            $bookingkamar_id = (isset($_POST['bookingkamar_id']) ? $_POST['bookingkamar_id'] : null);
+            if (empty($bookingkamar_id) && isset($_POST[$namaModel]['bookingkamar_id']))
+                $bookingkamar_id = $_POST[$namaModel]['bookingkamar_id'];
+
+            $kamarKosong = array();
+            if(!empty($ruangan_id)) {
+                if(!empty($bookingkamar_id)){
+                    $kamarKosong = KamarruanganM::model()->findAllByAttributes(array('ruangan_id'=>$ruangan_id,'kamarruangan_status'=>true));
+
+                    $modBookingKamar = BookingkamarT::model()->findByPk($bookingkamar_id);
+                }else{
+                    $kamarKosong = KamarruanganM::model()->findAllByAttributes(array('ruangan_id'=>$ruangan_id,'kamarruangan_status'=>true));
+                }
+                $kamarKosong = CHtml::listData($kamarKosong,'kamarruangan_id','KamarDanTempatTidur');
+            }
+            
+            if($encode){
+                echo CJSON::encode($kamarKosong);
+            } else {
+                if(empty($kamarKosong)){
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode("-- Pilih --"),true);
+                }else{
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode("-- Pilih --"),true);
+                    foreach($kamarKosong as $value=>$name)
+                    {
+                        echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                    }
+                }
+            }
+        }
+        Yii::app()->end();
+    }
+    
+    public function actionGetAnastesi($encode=false,$namaModel='',$attr='')
+    {
+        if(Yii::app()->request->isAjaxRequest) {
+            if($namaModel !=='' && $attr == ''){
+                $jenisanastesi_id = $_POST["$namaModel"]['jenisanastesi_id'];
+            }
+             elseif ($namaModel == '' && $attr !== '') {
+                $jenisanastesi_id = $_POST["$attr"];
+            }
+             elseif ($namaModel !== '' && $attr !== '') {
+                $jenisanastesi_id = $_POST["$namaModel"]["$attr"];
+            }
+            $anastesi = AnastesiM::model()->findAll('jenisanastesi_id = '.$jenisanastesi_id.' ORDER BY anastesi_nama');
+            $anastesi = CHtml::listData($anastesi,'anastesi_id','anastesi_nama');
+            
+            if($encode){
+                echo CJSON::encode($anastesi);
+            } else {
+                if(empty($anastesi)){
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                }else{
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                    foreach($anastesi as $value=>$name)
+                    {
+                        echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                    }
+                }
+            }
+        }
+        Yii::app()->end();
+    }
+    
+    public function actionGetTypeAnastesi($encode=false,$namaModel='',$attr='')
+    {
+        if(Yii::app()->request->isAjaxRequest) {
+            if($namaModel !=='' && $attr == ''){
+                $anastesi_id = $_POST["$namaModel"]['anastesi_id'];
+            }
+             elseif ($namaModel == '' && $attr !== '') {
+                $anastesi_id = $_POST["$attr"];
+            }
+             elseif ($namaModel !== '' && $attr !== '') {
+                $anastesi_id = $_POST["$namaModel"]["$attr"];
+            }
+            $typeanastesi = TypeAnastesiM::model()->findAll('typeanastesi_id = '.$anastesi_id.' ORDER BY typeanastesi_nama');
+            $typeanastesi = CHtml::listData($typeanastesi,'typeanastesi_id','typeanastesi_nama');
+            
+            if($encode){
+                echo CJSON::encode($typeanastesi);
+            } else {
+                if(empty($typeanastesi)){
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                }else{
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                    foreach($typeanastesi as $value=>$name)
+                    {
+                        echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                    }
+                }
+            }
+        }
+        Yii::app()->end();
+    }
+    
+    public function actionGetPenjaminPasienForCheckBox($encode=false,$namaModel='')
+    {
+        if(Yii::app()->request->isAjaxRequest) {
+           $carabayar_id = $_POST["$namaModel"]['carabayar_id'];
+
+           if($encode) {
+                echo CJSON::encode($penjamin);
+           } else {
+                if(empty($carabayar_id)){
+//                    $penjamin = PenjaminpasienM::model()->findAll();
+                    echo '<label>Data Tidak Ditemukan</label>';
+                } else {
+                    $penjamindata = PenjaminpasienM::model()->findAllByAttributes(array('carabayar_id'=>$carabayar_id), array('order'=>'penjamin_nama ASC'));
+                    $penjamin = CHtml::listData($penjamindata,'penjamin_id','penjamin_nama');
+                    echo CHtml::hiddenField(''.$namaModel.'[penjamin_id]');
+                    echo "<div style='margin-left:0px;'>".CHtml::checkBox('checkAllCaraBayar',true, array('onkeypress'=>"return $(this).focusNextInputField(event)",
+                            'class'=>'checkbox-column','onclick'=>'checkAll()','checked'=>'checked'))." Pilih Semua";
+                    echo "</div><br/>";
+                    $i = 0;
+                    if (count($penjamin) > 0){
+                        foreach($penjamin as $value=>$name) {
+                            echo '<label class="checkbox">';
+                            echo CHtml::checkBox(''.$namaModel.'[penjamin_id][]', true, array('value'=>$value));
+                            echo '<label for="'.$namaModel.'_penjamin_id_'.$i.'">'.$name.'</label></label>';
+
+                            $i++;
+                        }
+                    } else{
+                        echo '<label>Data Tidak Ditemukan</label>';
+                    }
+                }
+           }
+        }
+        Yii::app()->end();
+    }
+    
+    
+    
+        
+    
+    public function actionGetRuanganAsalForCheckBox($encode=false,$namaModel='')
+    {
+        if(Yii::app()->request->isAjaxRequest) {
+           $instalasi_id = $_POST["$namaModel"]['instalasiasal_id'];
+
+           if($encode) {
+                echo CJSON::encode($ruangan);
+           } else {
+                if(empty($instalasi_id)){
+                } else {
+                    $ruangan = RuanganM::model()->findAll('instalasi_id='.$instalasi_id.'');
+                }
+                $ruangan = CHtml::listData($ruangan,'ruangan_id','ruangan_nama');
+                echo CHtml::hiddenField(''.$namaModel.'[ruanganasal_id]');
+                $i = 0;
+                if (count($ruangan) > 0){
+                    foreach($ruangan as $value=>$name) {
+//                        echo '<label class="checkbox">';
+//                        echo CHtml::checkBox(''.$namaModel."[ruangan_id][]", true, array('value'=>$value));
+//                        echo '<label for="'.$namaModel.'_ruangan_id_'.$i.'">'.$name.'</label>';
+//                        echo '</label>';
+                        $selects[] = $value;
+                        $i++;
+                    }
+                    echo CHtml::checkBoxList(''.$namaModel."[ruanganasal_id]", $selects, $ruangan, array('template'=>'<label class="checkbox">{input}{label}</label>', 'separator'=>''));
+                }
+                else{
+                    echo '<label>Data Tidak Ditemukan</label>';
+                }
+           }
+        }
+        Yii::app()->end();
+    }
+    
+    
+       
+    
+    public function actionRuanganPemesanDariInstalasi($encode=false,$namaModel='')
+    {
+        if(Yii::app()->request->isAjaxRequest) {
+  
+            $idInstalasi = $_POST["$namaModel"]['instalasipemesan_id'];
+            if (empty($idInstalasi)){
+                $ruangan = RuanganM::model()->findAll();
+            }
+            else{
+                $ruangan = RuanganM::model()->findAll('instalasi_id='.$idInstalasi.'');
+            }
+            
+            $ruangan=CHtml::listData($ruangan,'ruangan_id','ruangan_nama');
+            
+            echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                foreach($ruangan as $value=>$name)
+                {
+                    echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                }
+            
+        }
+        Yii::app()->end();
+    }   
+    
+    public function actionGetRuanganAsalNamaForCheckBox($encode=false,$namaModel='')
+    {
+        if(Yii::app()->request->isAjaxRequest) {
+           $instalasi_id = $_POST["$namaModel"]['instalasiasal_nama'];
+
+           if($encode) {
+                echo CJSON::encode($ruangan);
+           } else {
+                if(empty($instalasi_id)){
+                } else {
+                    $criteria = new CDbCriteria();
+                    $criteria->with = 'instalasi';
+                    $criteria->compare('LOWER(instalasi.instalasi_nama)',strtolower($instalasi_id), true);
+                    $ruangan = RuanganM::model()->findAll($criteria);
+                }
+                $ruangan = CHtml::listData($ruangan,'ruangan_nama','ruangan_nama');
+                echo CHtml::hiddenField(''.$namaModel.'[ruanganasal_nama]');
+                $i = 0;
+                if (count($ruangan) > 0){
+                    foreach($ruangan as $value=>$name) {
+//                        echo '<label class="checkbox">';
+//                        echo CHtml::checkBox(''.$namaModel."[ruangan_id][]", true, array('value'=>$value));
+//                        echo '<label for="'.$namaModel.'_ruangan_id_'.$i.'">'.$name.'</label>';
+//                        echo '</label>';
+                        $selects[] = $value;
+                        $i++;
+                    }
+                    echo CHtml::checkBoxList(''.$namaModel."[ruanganasal_nama]", $selects, $ruangan, array('template'=>'<label class="checkbox">{input}{label}</label>', 'separator'=>''));
+                }
+                else{
+                    echo '<label>Data Tidak Ditemukan</label>';
+                }
+           }
+        }
+        Yii::app()->end();
+    }
+    
+    // Uncomment the following methods and override them if needed
+	/*
+	public function filters()
+	{
+		// return the filter configuration for this controller, e.g.:
+		return array(
+			'inlineFilterName',
+			array(
+				'class'=>'path.to.FilterClass',
+				'propertyName'=>'propertyValue',
+			),
+		);
+	}
+
+	public function actions()
+	{
+		// return external action classes, e.g.:
+		return array(
+			'action1'=>'path.to.ActionClass',
+			'action2'=>array(
+				'class'=>'path.to.AnotherActionClass',
+				'propertyName'=>'propertyValue',
+			),
+		);
+	}
+	*/
+      
+    public function actionGetTarifKabupaten($encode=false,$namaModel='',$attr='')
+    {
+        if(Yii::app()->request->isAjaxRequest) {
+            if($namaModel !=='' && $attr == ''){
+                $propinsi_nama = $_POST["$namaModel"]['kepropinsi_nama'];
+            }
+             elseif ($namaModel == '' && $attr !== '') {
+                $propinsi_nama = $_POST["$attr"];
+            }
+             elseif ($namaModel !== '' && $attr !== '') {
+                $propinsi_nama = $_POST["$namaModel"]["$attr"];
+            }
+            
+            //$propinsi = PropinsiM::model()->find("propinsi_nama='$propinsi_nama'");
+            $criteria = new CDbCriteria;
+            $criteria->compare('propinsi.propinsi_nama',$propinsi_nama);
+            $criteria->order = 'kabupaten_nama';
+            $kabupaten = KabupatenM::model()->with('propinsi')->findAll($criteria);
+            $kabupaten = CHtml::listData($kabupaten,'kabupaten_nama','kabupaten_nama');
+            
+            if($encode){
+                echo CJSON::encode($kabupaten);
+            } else {
+                if(empty($kabupaten)){
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                } else {
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                    foreach($kabupaten as $value=>$name) {
+                        echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                    }
+                }
+            }
+        }
+        Yii::app()->end();
+    }
+    
+    public function actionGetTarifKecamatan($encode=false,$namaModel='',$attr='')
+    {
+        if(Yii::app()->request->isAjaxRequest) {
+            if($namaModel !=='' && $attr == ''){
+                $kabupaten_nama = $_POST["$namaModel"]['kekabupaten_nama'];
+            }
+             elseif ($namaModel == '' && $attr !== '') {
+                $kabupaten_nama = $_POST["$attr"];
+            }
+             elseif ($namaModel !== '' && $attr !== '') {
+                $kabupaten_nama = $_POST["$namaModel"]["$attr"];
+            }
+            $criteria = new CDbCriteria;
+            $criteria->compare('kabupaten.kabupaten_nama',$kabupaten_nama);
+            $criteria->order = 'kabupaten_nama';
+            $kecamatan = KecamatanM::model()->with('kabupaten')->findAll($criteria);
+            $kecamatan = CHtml::listData($kecamatan,'kecamatan_nama','kecamatan_nama');
+            
+            if($encode){
+                echo CJSON::encode($kecamatan);
+            } else {
+                if(empty($kecamatan)){
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                }else{
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                    foreach($kecamatan as $value=>$name)
+                    {
+                        echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                    }
+                }
+            }
+        }
+        Yii::app()->end();
+    }
+    
+    public function actionGetTarifKelurahan($encode=false,$namaModel='',$attr='')
+    {
+        if(Yii::app()->request->isAjaxRequest) {
+            if($namaModel !=='' && $attr == ''){
+                $kecamatan_nama = $_POST["$namaModel"]['kekecamatan_nama'];
+            }
+             elseif ($namaModel == '' && $attr !== '') {
+                $kecamatan_nama = $_POST["$attr"];
+            }
+            elseif ($namaModel !== '' && $attr !== '') {
+                $kecamatan_nama = $_POST["$namaModel"]["$attr"];
+            }
+            $criteria = new CDbCriteria;
+            $criteria->compare('kecamatan.kecamatan_nama',$kecamatan_nama);
+            $criteria->order = 'kecamatan_nama';
+            $kelurahan = KelurahanM::model()->with('kecamatan')->findAll($criteria);
+            $kelurahan = CHtml::listData($kelurahan,'kelurahan_nama','kelurahan_nama');
+            
+            if($encode){
+                echo CJSON::encode($kelurahan);
+            } else {
+                if(empty($kelurahan)){
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                }else{
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                    foreach($kelurahan as $value=>$name)
+                    {
+                        echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                    }
+                }
+            }
+        }
+        Yii::app()->end();
+    }
+    
+     public function actionGetSubkategori($encode=false,$namaModel='',$attr='')
+    {
+        if(Yii::app()->request->isAjaxRequest) {
+            if($namaModel !=='' && $attr == ''){
+                $jenisobatalkes_id = $_POST["$namaModel"]['jenisobatalkes_id'];
+            }
+             elseif ($namaModel == '' && $attr !== '') {
+                $jenisobatalkes_id = $_POST["$attr"];
+            }
+             elseif ($namaModel !== '' && $attr !== '') {
+                $jenisobatalkes_id = $_POST["$namaModel"]["$attr"];
+            }
+            $subkategori = SubjenisM::model()->findAll('jenisobatalkes_id='.$jenisobatalkes_id.'ORDER BY subjenis_nama');
+            $subkategori = CHtml::listData($subkategori,'subjenis_id','subjenis_nama');
+            
+            if($encode){
+                echo CJSON::encode($subkategori);
+            } else {
+                if(empty($subkategori)){
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                } else {
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                    foreach($subkategori as $value=>$name) {
+                        echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                    }
+                }
+            }
+        }
+        Yii::app()->end();
+    }
+    
+     public function actionGetSubkategoriProduk($encode=false,$namaModel='',$attr='')
+    {
+        if(Yii::app()->request->isAjaxRequest) {
+            if($namaModel !=='' && $attr == ''){
+                $jenisobatalkes_id = $_POST["$namaModel"]['category_id'];
+            }
+             elseif ($namaModel == '' && $attr !== '') {
+                $jenisobatalkes_id = $_POST["$attr"];
+            }
+             elseif ($namaModel !== '' && $attr !== '') {
+                $jenisobatalkes_id = $_POST["$namaModel"]["$attr"];
+            }
+            $subkategori = SubjenisM::model()->findAll('jenisobatalkes_id='.$jenisobatalkes_id.'ORDER BY subjenis_nama');
+            $subkategori = CHtml::listData($subkategori,'subjenis_id','subjenis_nama');
+            
+            if($encode){
+                echo CJSON::encode($subkategori);
+            } else {
+                if(empty($subkategori)){
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                } else {
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                    foreach($subkategori as $value=>$name) {
+                        echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                    }
+                }
+            }
+        }
+        Yii::app()->end();
+    }
+    
+    
+    public function actionGetAsalRujukanNama($encode=false, $namaModel = ''){
+        if(Yii::app()->request->isAjaxRequest) {
+            $asalrujukan_id = $_GET['asalrujukan_id'];
+            $asalrujukan_nama = AsalrujukanM::model()->findByAttributes(array('asalrujukan_id'=>$asalrujukan_id));
+            $data['nama'] = $asalrujukan_nama->asalrujukan_nama;
+            
+            echo json_encode($data);
+         Yii::app()->end();
+        }
+    }
+
+    public function actionGetKursUang($encode=false, $namaModel='', $namaField='')
+    {
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            $mata_uang_id = $_POST[$namaModel][$namaField];
+            $listKurs = array();
+            if(!empty($mata_uang_id)){
+                $query = "SELECT * FROM kursrp_m WHERE matauang_id = " . $mata_uang_id;
+                $result = KursrpM::model()->findAllBySql($query);
+                $listKurs = CHtml::listData($result,'kursrp_id','nilai');
+            }
+            
+            $option = "";
+            if(empty($listKurs))
+            {
+                $option = CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+            }else{
+                if(count($listKurs) > 1)
+                {
+                    $option = CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                }
+                
+                foreach($listKurs as $value=>$name)
+                {
+                    $option .= CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                }
+            }
+            echo($option);
+        }
+        Yii::app()->end();
+    }    
+    
+    public function actionGetKurs()
+    {
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            $data = array();
+            
+            $mata_uang_id = $_POST['id'];
+            $criteria=new CDbCriteria;
+            $condition = 'matauang_id = ' . ($mata_uang_id > 0 ? $mata_uang_id : 98989898989898);
+            $criteria->addCondition($condition);
+            $criteria->compare('kursrp_aktif', true);
+            $criteria->order = 'tglkursrp DESC';
+            $criteria->limit = 1;
+            $result = KursrpM::model()->find($criteria);
+            if($result)
+            {
+                $data = array(
+                    'data' => $result->attributes
+                );
+            }
+            echo json_encode($data);
+            Yii::app()->end();
+        }
+    }
+    
+    public function actionGetInstansiByProfilRs($encode=false,$namaModel='')
+    {
+        if(Yii::app()->request->isAjaxRequest) {
+            $pasienprofilrs_id = $_POST["$namaModel"]['pasienprofilrs_id'];
+            
+            $instansi = null;
+            if(empty($pasienprofilrs_id))
+            {
+                echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+            }else{
+                echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                $instansi = InstalasiM::model()->findAll('profilers_id = '. $pasienprofilrs_id .'');
+                $instansi = CHtml::listData($instansi,'instalasi_id', 'instalasi_nama');
+                foreach($instansi as $value=>$name)
+                {
+                    echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                }
+            }
+        }
+        Yii::app()->end();
+    }    
+}
+?>

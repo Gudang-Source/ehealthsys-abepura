@@ -1,0 +1,24 @@
+<?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
+	'action'=>Yii::app()->createUrl($this->route),
+	'method'=>'get',
+	'id'=>'sapemeriksaan-rad-m-search',
+        'type'=>'horizontal',
+)); ?>
+
+	<?php //echo $form->textFieldRow($model,'pemeriksaanrad_id',array('class'=>'span5')); ?>
+	
+	<?php echo $form->textFieldRow($model,'daftartindakan_nama',array('class'=>'span3')); ?>
+
+	<?php echo $form->textFieldRow($model,'pemeriksaanrad_jenis',array('class'=>'span3','maxlength'=>100)); ?>
+
+	<?php echo $form->textFieldRow($model,'pemeriksaanrad_nama',array('class'=>'span3','maxlength'=>20)); ?>
+
+	<?php echo $form->textFieldRow($model,'pemeriksaanrad_namalainnya',array('class'=>'span3','maxlength'=>20)); ?>
+
+	<?php echo $form->checkBoxRow($model,'pemeriksaanrad_aktif',array('checked'=>true)); ?>
+
+	<div class="form-actions">
+		                <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit')); ?>
+	</div>
+
+<?php $this->endWidget(); ?>

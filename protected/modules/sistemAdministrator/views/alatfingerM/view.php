@@ -1,0 +1,39 @@
+<div class="white-container">
+    <legend class="rim2">Lihat <b>Alat Finger</b></legend>
+    <?php
+    $this->breadcrumbs=array(
+            'Alatfinger Ms'=>array('index'),
+            $model->alatfinger_id,
+    );
+
+    $arrMenu = array();
+    //                array_push($arrMenu,array('label'=>Yii::t('mds','View').' Alat Finger', 'header'=>true, 'itemOptions'=>array('class'=>'heading-master'))) ;
+    //                array_push($arrMenu,array('label'=>Yii::t('mds','List').' AlatfingerM', 'icon'=>'list', 'url'=>array('index'))) ;
+    //                (Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)) ?array_push($arrMenu,array('label'=>Yii::t('mds','Create').' AlatfingerM', 'icon'=>'file', 'url'=>array('create'))) :  '' ;
+    //                (Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)) ?array_push($arrMenu,array('label'=>Yii::t('mds','Update').' AlatfingerM', 'icon'=>'pencil','url'=>array('update','id'=>$model->alatfinger_id))) :  '' ;
+    //                array_push($arrMenu,array('label'=>Yii::t('mds','Delete').' AlatfingerM','icon'=>'trash','url'=>'#','linkOptions'=>array('submit'=>array('delete','id'=>$model->alatfinger_id),'confirm'=>Yii::t('mds','Are you sure you want to delete this item?')))) ;
+                    (Yii::app()->user->checkAccess(Params::DEFAULT_ADMIN)) ?array_push($arrMenu,array('label'=>Yii::t('mds','Manage').' Alat Finger', 'icon'=>'folder-open', 'url'=>array('admin'))) :  '' ;
+
+    $this->menu=$arrMenu;
+
+    $this->widget('bootstrap.widgets.BootAlert'); ?>
+
+    <?php $this->widget('ext.bootstrap.widgets.BootDetailView',array(
+            'data'=>$model,
+            'attributes'=>array(
+                    'alatfinger_id',
+                    'namaalat',
+                    'ipfinger',
+                    'keyfinger',
+                    'lokasifinger',
+                    'keterangan',
+                    array(        
+                        'label'=>'Aktif',
+                        'type'=>'raw',
+                        'value'=>(($model->alat_aktif == true)? Yii::t('mds','Yes') : Yii::t('mds','No')),
+                    ),            
+            ),
+    )); ?>
+
+    <?php $this->widget('UserTips',array('type'=>'view'));?>
+</div>

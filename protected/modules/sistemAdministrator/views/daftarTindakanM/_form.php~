@@ -1,0 +1,97 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form.js'); ?>
+<?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
+	'id'=>'sadaftar-tindakan-m-form',
+	'enableAjaxValidation'=>false,
+        'type'=>'horizontal',
+        'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)'),
+        'focus'=>'#SADaftarTindakanM_komponenunit_id',
+)); ?>
+
+	<p class="help-block"><?php echo Yii::t('mds','Fields with <span class="required">*</span> are required.') ?></p>
+
+	<?php echo $form->errorSummary($model); ?>
+        <table>
+            <tr>
+                <td>   
+                    <?php echo $form->dropDownListRow($model,'komponenunit_id',  CHtml::listData($model->KomponenUnitItems, 'komponenunit_id', 'komponenunit_nama'),array('class'=>'inputRequire', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>                    
+                </td>
+                <td>
+                     <?php echo $form->dropDownListRow($model,'kategoritindakan_id',  CHtml::listData($model->KategoriTindakanItems, 'kategoritindakan_id', 'kategoritindakan_nama'),array('class'=>'inputRequire', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+                    
+                </td>
+            </tr>
+             <tr>
+                <td>   
+                      <?php echo $form->dropDownListRow($model,'kelompoktindakan_id',  CHtml::listData($model->KelompokTindakanItems, 'kelompoktindakan_id', 'kelompoktindakan_nama'),array('class'=>'inputRequire', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+                </td>
+                <td>
+                      <?php echo $form->textFieldRow($model,'daftartindakan_kode',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>20)); ?>
+                </td>
+            </tr>
+            <tr>
+                <td>   
+                        <?php echo $form->textFieldRow($model,'daftartindakan_nama',array('class'=>'span3', 'onkeyup'=>"namaLain(this)", 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>200)); ?>
+                </td>
+                <td>
+                        <?php echo $form->textFieldRow($model,'tindakanmedis_nama',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>200)); ?>
+                </td>
+            </tr>
+            <tr>
+                <td>   
+                        <?php echo $form->textFieldRow($model,'daftartindakan_namalainnya',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>200)); ?>
+                </td>
+                <td>
+                        <?php echo $form->textFieldRow($model,'daftartindakan_katakunci',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30)); ?>
+                </td>
+            </tr>
+             <tr>
+                <td colspan="2">
+                    <fieldset>
+                        <legend>Tindakan</legend>
+                        <table>
+                            <tr>
+                                <td>
+                                    <?php echo $form->checkBoxRow($model,'daftartindakan_karcis', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                                </td>
+                                <td>
+                                    <?php echo $form->checkBoxRow($model,'daftartindakan_visite', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>
+                                   <?php echo $form->checkBoxRow($model,'daftartindakan_konsul', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                                </td>
+                                <td>
+                                    <?php echo $form->checkBoxRow($model,'daftartindakan_akomodasi', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                                </td>
+                            </tr>
+                        </table>
+                    </fieldset>
+                </td>
+            </tr>
+        </table>
+
+            <?php //echo $form->checkBoxRow($model,'daftartindakan_aktif', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+	<div class="form-actions">
+		                <?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 
+                                                                     Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),
+                                                array('class'=>'btn btn-primary', 'type'=>'submit', 'onKeypress'=>'return formSubmit(this,event)')); ?>
+                <?php echo CHtml::link(Yii::t('mds','{icon} Cancel',array('{icon}'=>'<i class="icon-ban-circle icon-white"></i>')), 
+                        Yii::app()->createUrl($this->module->id.'/'.daftarTindakanM.'/admin'), 
+                        array('class'=>'btn btn-danger',
+                              'onclick'=>'if(!confirm("'.Yii::t('mds','Do You want to cancel?').'")) return false;')); ?>
+	<?php
+$content = $this->renderPartial('../tips/tips',array(),true);
+$this->widget('TipsMasterData',array('type'=>'transaksi','content'=>$content)); 
+?>
+        </div>
+
+<?php $this->endWidget(); ?>
+
+<script type="text/javascript">
+    function namaLain(nama)
+    {
+        document.getElementById('SADaftarTindakanM_daftartindakan_namalainnya').value = nama.value.toUpperCase();
+        document.getElementById('SADaftarTindakanM_tindakanmedis_nama').value = nama.value;
+    }
+</script>
