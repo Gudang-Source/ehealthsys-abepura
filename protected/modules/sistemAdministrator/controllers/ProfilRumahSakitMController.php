@@ -211,7 +211,7 @@ class ProfilRumahSakitMController extends MyAuthController
                 $temLogo = $model->logo_rumahsakit;
 
 		// Uncomment the following line if AJAX validation is needed
-		
+                
 
 		if(isset($_POST['SAProfilRumahSakitM']))
 		{
@@ -219,31 +219,31 @@ class ProfilRumahSakitMController extends MyAuthController
                       $model=$this->loadModel($id);
                       $model->attributes=$_POST['SAProfilRumahSakitM'];
                       $model->tglregistrasi= !empty($_POST['SAProfilRumahSakitM']['tglregistrasi'])?MyFormatter::formatDateTimeForDb($_POST['SAProfilRumahSakitM']['tglregistrasi']):null;
-					  $model->notelphumas=$_POST['SAProfilRumahSakitM']['notelphumas'];
-					  $model->luastanah=$_POST['SAProfilRumahSakitM']['luastanah'];
-					  $model->luasbangunan=$_POST['SAProfilRumahSakitM']['luasbangunan'];
-					  $model->tglakreditasi= !empty($_POST['SAProfilRumahSakitM']['tglakreditasi'])?MyFormatter::formatDateTimeForDb($_POST['SAProfilRumahSakitM']['tglakreditasi']):null;
-					  
-					  $hapusMisiRS = SAMisirsM::model()->deleteAll('profilrs_id=' . $id . '');
-					  if (isset($_POST['SAMisirsM'])) {  //Jika Misi Diisi
-							$valid = true;
-							foreach ($_POST['SAMisirsM'] as $i => $item) {
-								if (is_integer($i)) {
-									$modMisiRS = new SAMisirsM;
-									if (isset($_POST['SAMisirsM'][$i]))
-										$modMisiRS->attributes = $_POST['SAMisirsM'][$i];
-									$modMisiRS->profilrs_id = $model->profilrs_id;
-									$modMisiRS->misi = $_POST['SAMisirsM'][$i]['misi'];
+                      $model->notelphumas=$_POST['SAProfilRumahSakitM']['notelphumas'];
+                      $model->luastanah=$_POST['SAProfilRumahSakitM']['luastanah'];
+                      $model->luasbangunan=$_POST['SAProfilRumahSakitM']['luasbangunan'];
+                      $model->tglakreditasi= !empty($_POST['SAProfilRumahSakitM']['tglakreditasi'])?MyFormatter::formatDateTimeForDb($_POST['SAProfilRumahSakitM']['tglakreditasi']):null;
 
-									$valid = $modMisiRS->validate() && $valid;
+                      $hapusMisiRS = SAMisirsM::model()->deleteAll('profilrs_id=' . $id . '');
+                      if (isset($_POST['SAMisirsM'])) {  //Jika Misi Diisi
+                                    $valid = true;
+                                    foreach ($_POST['SAMisirsM'] as $i => $item) {
+                                            if (is_integer($i)) {
+                                                    $modMisiRS = new SAMisirsM;
+                                                    if (isset($_POST['SAMisirsM'][$i]))
+                                                            $modMisiRS->attributes = $_POST['SAMisirsM'][$i];
+                                                    $modMisiRS->profilrs_id = $model->profilrs_id;
+                                                    $modMisiRS->misi = $_POST['SAMisirsM'][$i]['misi'];
 
-									if ($valid) {
-										$modMisiRS->save();
-									}
-								}
-							}
-						}
-						
+                                                    $valid = $modMisiRS->validate() && $valid;
+
+                                                    if ($valid) {
+                                                            $modMisiRS->save();
+                                                    }
+                                            }
+                                    }
+                      }
+                      
                       if ($model->validate()) {
                         try {
                             
@@ -275,6 +275,9 @@ class ProfilRumahSakitMController extends MyAuthController
 //                                        unlink(Params::pathProfilRSDirectory().$temLogo);
 //                                        unlink(Params::pathProfilRSTumbsDirectory().'kecil_'.$temLogo);
                                     }
+                                    
+                                    // var_dump($fullImgSource); die;
+                                    
                                     $gambar->saveAs($fullImgSource);
                                     $thumb->create($fullImgSource)
                                             ->resize(200, 200)
@@ -357,6 +360,9 @@ class ProfilRumahSakitMController extends MyAuthController
                             $transaction->rollback();
                             Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data gagal disimpan.');
                         }
+                    } else {
+                        $transaction->rollback();
+                        Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data gagal disimpan.');
                     }
 		}
 
@@ -628,7 +634,7 @@ class ProfilRumahSakitMController extends MyAuthController
 				if(!empty($modLookup->lookup_kode)){
 					$res = $modLookup->lookup_kode;
 				}else{
-					$res = ' - ';
+					$res = '-';
 				}
                 echo json_encode($res);
                 Yii::app()->end();
@@ -642,7 +648,7 @@ class ProfilRumahSakitMController extends MyAuthController
 				if(!empty($modLookup->lookup_kode)){
 					$res = $modLookup->lookup_kode;
 				}else{
-					$res = ' - ';
+					$res = '-';
 				}
                 echo json_encode($res);
                 Yii::app()->end();
@@ -656,7 +662,7 @@ class ProfilRumahSakitMController extends MyAuthController
 				if(!empty($modLookup->lookup_kode)){
 					$res = $modLookup->lookup_kode;
 				}else{
-					$res = ' - ';
+					$res = '-';
 				}
                 echo json_encode($res);
                 Yii::app()->end();
@@ -683,7 +689,7 @@ class ProfilRumahSakitMController extends MyAuthController
 						foreach($attributes as $j=>$attribute) {
 							$returnVal[$i]["$attribute"] = $model->$attribute;
 						}
-						$returnVal[$i]['label'] = $model->nama_pegawai.' - '.$model->nomorindukpegawai;
+						$returnVal[$i]['label'] = $model->nama_pegawai.'-'.$model->nomorindukpegawai;
 						$returnVal[$i]['value'] = $model->nama_pegawai;
 					}
 				}else{
