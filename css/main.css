@@ -528,11 +528,7 @@ fieldset.box2>fieldset{margin-top: -30px !important;}
     display: inline-block;
     margin-left: 6px;
     margin-bottom: 6px;
-<<<<<<< HEAD
-    padding: 4px 2px ;
-=======
     padding: 2px;
->>>>>>> 12f1e5a9c072640a387b6430d541776accbca7b2
     position: relative;
     font-size: 0.7em;
     text-align: center;
@@ -1805,8 +1801,16 @@ ul, ul ul {
     margin: 0 auto;
     text-align: center;
     vertical-align: middle;
+    display: inline;
 }
-.logo-login img {
+
+.logo-bakti {
+    margin: 0 auto;
+    text-align: right;
+    vertical-align: middle;
+    display: inline;
+}
+.logo-login img, .logo-bakti img {
     margin: 0 auto 10px;
     max-width: 350px;
     max-height: 80px;
