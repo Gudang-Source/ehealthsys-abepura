@@ -266,7 +266,7 @@ class AksesPenggunaController extends MyAuthController
 
             $data['id']=$id;
             $data['nama_pemakai'] = $modLoginPemakai->nama_pemakai;
-            $data['nama_pegawai'] = $modLoginPemakai->pegawai->nama_pegawai;
+            $data['nama_pegawai'] = empty($modLoginPemakai->pegawai_id)?'':$modLoginPemakai->pegawai->nama_pegawai;
             echo CJSON::encode($data);
         }
         Yii::app()->end();
