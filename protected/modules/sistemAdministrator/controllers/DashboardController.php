@@ -28,7 +28,7 @@ class DashboardController extends MyAuthController
                     $criteria->compare('LOWER(menu_nama)',strtolower($postPencarian['menu_nama']), true);
 					$criteria->addCondition('modul_id = '.Yii::app()->session['modul_id']);
 					$criteria->addCondition('menu_aktif IS TRUE');
-                    $criteria->order = 'menu_urutan';
+                    $criteria->order = 'menu_nama asc';
                     $modPencarianMenu = MenumodulK::model()->findAll($criteria);
                     $content = $this->renderPartial('_listMenu',array('modPencarianMenu'=>$modPencarianMenu), true);
                 echo CJSON::encode(array(
