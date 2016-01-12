@@ -37,18 +37,23 @@
     </div>
     <div id="carimenu">
         <?php
+                $kel_id = array();
                 foreach ($kelompokMenu as $i=>$kelmenu){
+                        
                         $menuDefault = MenumodulK::model()->findByAttributes(array('kelmenu_id'=>$kelmenu->kelmenu_id,'modul_id'=>Yii::app()->session['modul_id']));
                         if(count($menuDefault)>0){
-                            $menuDetails = MenumodulK::model()->findAllByAttributes(array('kelmenu_id'=>$menuDefault->kelmenu_id,'modul_id'=>Yii::app()->session['modul_id'],'menu_aktif'=>true),array('order'=>$menuDefault->menu_urutan));
-                            foreach ($menuDetails as $i =>$menuDetail){
-                            echo "<a href=".Yii::app()->createUrl(isset($menuDetail->menu_url)?$menuDetail->menu_url:'',array('modul_id'=>Yii::app()->session['modul_id'],'kelMenu'=>$kelmenu->kelmenu_id))." class='shortcut4'>";
-                            echo "<i class='".$kelmenu->kelmenu_icon."'></i><br><br>";
-                            echo "$menuDetail->menu_nama";  
-                            echo "</a>";
-                            }
+                            $kel_id[] = $kelmenu->kelmenu_id;
                         }
                 }
+                
+                $menuDetails = MenumodulK::model()->findAllByAttributes(array('kelmenu_id'=>$kel_id,'modul_id'=>Yii::app()->session['modul_id'],'menu_aktif'=>true),array('order'=>'menu_nama'));
+                foreach ($menuDetails as $i =>$menuDetail){
+                    echo "<a href=".Yii::app()->createUrl(isset($menuDetail->menu_url)?$menuDetail->menu_url:'',array('modul_id'=>Yii::app()->session['modul_id'],'kelMenu'=>$kelmenu->kelmenu_id))." class='shortcut4'>";
+                    echo "<i class='".$kelmenu->kelmenu_icon."'></i><br><br>";
+                    echo "$menuDetail->menu_nama";  
+                    echo "</a>";
+                }
+                
             echo "</div>";
             echo "</div>";
             echo "</div>";
