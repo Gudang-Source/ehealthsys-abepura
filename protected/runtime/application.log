@@ -1,0 +1,301 @@
+2016/01/11 09:03:03 [error] [exception.CDbException] exception 'CDbException' with message 'CDbConnection gagal membuka koneksi DB: SQLSTATE[08006] [7] could not connect to server: Connection refused
+	Is the server running on host "192.168.0.52" and accepting
+	TCP/IP connections on port 5432?' in /var/www/html/ehealthsys/yii1_10/framework/db/CDbConnection.php:382
+Stack trace:
+#0 /var/www/html/ehealthsys/yii1_10/framework/db/CDbConnection.php(331): CDbConnection->open()
+#1 /var/www/html/ehealthsys/yii1_10/framework/db/CDbConnection.php(309): CDbConnection->setActive(true)
+#2 /var/www/html/ehealthsys/yii1_10/framework/base/CModule.php(388): CDbConnection->init()
+#3 /var/www/html/ehealthsys/yii1_10/framework/base/CApplication.php(431): CModule->getComponent('db')
+#4 /var/www/html/ehealthsys/yii1_10/framework/db/ar/CActiveRecord.php(615): CApplication->getDb()
+#5 /var/www/html/ehealthsys/yii1_10/framework/db/ar/CActiveRecord.php(2263): CActiveRecord->getDbConnection()
+#6 /var/www/html/ehealthsys/yii1_10/framework/db/ar/CActiveRecord.php(379): CActiveRecordMetaData->__construct(Object(ProfilrumahsakitM))
+#7 /var/www/html/ehealthsys/protected/models/ProfilrumahsakitM.php(49): CActiveRecord::model('Profilrumahsaki...')
+#8 /var/www/html/ehealthsys/protected/views/layouts/login.php(136): ProfilrumahsakitM::model()
+#9 /var/www/html/ehealthsys/yii1_10/framework/web/CBaseController.php(127): require('/var/www/html/e...')
+#10 /var/www/html/ehealthsys/yii1_10/framework/web/CBaseController.php(96): CBaseController->renderInternal('/var/www/html/e...', Array, true)
+#11 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(785): CBaseController->renderFile('/var/www/html/e...', Array, true)
+#12 /var/www/html/ehealthsys/protected/controllers/SiteController.php(129): CController->render('login', Array)
+#13 /var/www/html/ehealthsys/yii1_10/framework/web/actions/CInlineAction.php(50): SiteController->actionLogin()
+#14 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(309): CInlineAction->runWithParams(Array)
+#15 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(287): CController->runAction(Object(CInlineAction))
+#16 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#17 /var/www/html/ehealthsys/yii1_10/framework/web/CWebApplication.php(276): CController->run('login')
+#18 /var/www/html/ehealthsys/yii1_10/framework/web/CWebApplication.php(135): CWebApplication->runController('site/login')
+#19 /var/www/html/ehealthsys/yii1_10/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#20 /var/www/html/ehealthsys/index.php(15): CApplication->run()
+#21 {main}
+REQUEST_URI=/ehealthsys/index.php?r=site/login
+---
+2016/01/11 09:03:32 [error] [exception.CDbException] exception 'CDbException' with message 'CDbConnection gagal membuka koneksi DB: SQLSTATE[08006] [7] FATAL:  database "ehealthsys_running" does not exist' in /var/www/html/ehealthsys/yii1_10/framework/db/CDbConnection.php:382
+Stack trace:
+#0 /var/www/html/ehealthsys/yii1_10/framework/db/CDbConnection.php(331): CDbConnection->open()
+#1 /var/www/html/ehealthsys/yii1_10/framework/db/CDbConnection.php(309): CDbConnection->setActive(true)
+#2 /var/www/html/ehealthsys/yii1_10/framework/base/CModule.php(388): CDbConnection->init()
+#3 /var/www/html/ehealthsys/yii1_10/framework/base/CApplication.php(431): CModule->getComponent('db')
+#4 /var/www/html/ehealthsys/yii1_10/framework/db/ar/CActiveRecord.php(615): CApplication->getDb()
+#5 /var/www/html/ehealthsys/yii1_10/framework/db/ar/CActiveRecord.php(2263): CActiveRecord->getDbConnection()
+#6 /var/www/html/ehealthsys/yii1_10/framework/db/ar/CActiveRecord.php(379): CActiveRecordMetaData->__construct(Object(ProfilrumahsakitM))
+#7 /var/www/html/ehealthsys/protected/models/ProfilrumahsakitM.php(49): CActiveRecord::model('Profilrumahsaki...')
+#8 /var/www/html/ehealthsys/protected/views/layouts/login.php(136): ProfilrumahsakitM::model()
+#9 /var/www/html/ehealthsys/yii1_10/framework/web/CBaseController.php(127): require('/var/www/html/e...')
+#10 /var/www/html/ehealthsys/yii1_10/framework/web/CBaseController.php(96): CBaseController->renderInternal('/var/www/html/e...', Array, true)
+#11 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(785): CBaseController->renderFile('/var/www/html/e...', Array, true)
+#12 /var/www/html/ehealthsys/protected/controllers/SiteController.php(129): CController->render('login', Array)
+#13 /var/www/html/ehealthsys/yii1_10/framework/web/actions/CInlineAction.php(50): SiteController->actionLogin()
+#14 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(309): CInlineAction->runWithParams(Array)
+#15 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(287): CController->runAction(Object(CInlineAction))
+#16 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#17 /var/www/html/ehealthsys/yii1_10/framework/web/CWebApplication.php(276): CController->run('login')
+#18 /var/www/html/ehealthsys/yii1_10/framework/web/CWebApplication.php(135): CWebApplication->runController('site/login')
+#19 /var/www/html/ehealthsys/yii1_10/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#20 /var/www/html/ehealthsys/index.php(15): CApplication->run()
+#21 {main}
+REQUEST_URI=/ehealthsys/index.php?r=site/login
+---
+2016/01/11 09:04:23 [warning] [application] Gagal mengeset atribut unsafe "modul" dari kelas "LoginForm".
+in /var/www/html/ehealthsys/protected/controllers/SiteController.php (101)
+in /var/www/html/ehealthsys/index.php (15)
+2016/01/11 09:15:54 [warning] [application] Gagal mengeset atribut unsafe "modul" dari kelas "LoginForm".
+in /var/www/html/ehealthsys/protected/controllers/SiteController.php (101)
+in /var/www/html/ehealthsys/index.php (15)
+2016/01/11 09:17:06 [warning] [application] Gagal mengeset atribut unsafe "modul" dari kelas "LoginForm".
+in /var/www/html/ehealthsys/protected/controllers/SiteController.php (101)
+in /var/www/html/ehealthsys/index.php (15)
+2016/01/11 09:21:17 [warning] [application] Gagal mengeset atribut unsafe "modul" dari kelas "LoginForm".
+in /var/www/html/ehealthsys/protected/controllers/SiteController.php (101)
+in /var/www/html/ehealthsys/index.php (15)
+2016/01/11 09:38:23 [warning] [application] Gagal mengeset atribut unsafe "modul" dari kelas "LoginForm".
+in /var/www/html/ehealthsys/protected/controllers/SiteController.php (101)
+in /var/www/html/ehealthsys/index.php (15)
+2016/01/11 10:08:21 [warning] [application] Gagal mengeset atribut unsafe "modul" dari kelas "LoginForm".
+in /var/www/html/ehealthsys/protected/controllers/SiteController.php (101)
+in /var/www/html/ehealthsys/index.php (15)
+2016/01/11 10:22:11 [warning] [application] Gagal mengeset atribut unsafe "modul" dari kelas "LoginForm".
+in /var/www/html/ehealthsys/protected/controllers/SiteController.php (101)
+in /var/www/html/ehealthsys/index.php (15)
+2016/01/11 10:24:02 [warning] [application] Gagal mengeset atribut unsafe "organigram_id" dari kelas "SAOrganigramM".
+in /var/www/html/ehealthsys/protected/modules/sistemAdministrator/controllers/MasterOrganigramController.php (40)
+in /var/www/html/ehealthsys/index.php (15)
+2016/01/11 10:24:02 [warning] [application] Gagal mengeset atribut unsafe "atasan" dari kelas "SAOrganigramM".
+in /var/www/html/ehealthsys/protected/modules/sistemAdministrator/controllers/MasterOrganigramController.php (40)
+in /var/www/html/ehealthsys/index.php (15)
+2016/01/11 10:24:02 [warning] [application] Gagal mengeset atribut unsafe "nama_pegawai" dari kelas "SAOrganigramM".
+in /var/www/html/ehealthsys/protected/modules/sistemAdministrator/controllers/MasterOrganigramController.php (40)
+in /var/www/html/ehealthsys/index.php (15)
+2016/01/11 10:24:02 [error] [system.db.CDbCommand] CDbCommand::fetchAll() gagal: SQLSTATE[22P02]: Invalid text representation: 7 ERROR:  invalid input syntax for integer: "". Statement SQL yang dijalankan: SELECT "pegawai"."pegawai_id" AS "t1_c0", "pegawai"."kabupaten_id" AS "t1_c1", "pegawai"."pangkat_id" AS "t1_c2", "pegawai"."pendkualifikasi_id" AS "t1_c3", "pegawai"."kelurahan_id" AS "t1_c4", "pegawai"."kelompokpegawai_id" AS "t1_c5", "pegawai"."profilrs_id" AS "t1_c6", "pegawai"."pengangkatantphl_id" AS "t1_c7", "pegawai"."pendidikan_id" AS "t1_c8", "pegawai"."loginpemakai_id" AS "t1_c9", "pegawai"."kecamatan_id" AS "t1_c10", "pegawai"."registerpensiun_id" AS "t1_c11", "pegawai"."suku_id" AS "t1_c12", "pegawai"."jabatan_id" AS "t1_c13", "pegawai"."esselon_id" AS "t1_c14", "pegawai"."propinsi_id" AS "t1_c15", "pegawai"."statuskepemilikanrumah_id" AS "t1_c16", "pegawai"."gelarbelakang_id" AS "t1_c17", "pegawai"."nomorindukpegawai" AS "t1_c18", "pegawai"."no_kartupegawainegerisipil" AS "t1_c19", "pegawai"."no_karis_karsu" AS "t1_c20", "pegawai"."no_taspen" AS "t1_c21", "pegawai"."no_askes" AS "t1_c22", "pegawai"."jenisidentitas" AS "t1_c23", "pegawai"."noidentitas" AS "t1_c24", "pegawai"."gelardepan" AS "t1_c25", "pegawai"."nama_pegawai" AS "t1_c26", "pegawai"."nama_keluarga" AS "t1_c27", "pegawai"."tempatlahir_pegawai" AS "t1_c28", "pegawai"."tgl_lahirpegawai" AS "t1_c29", "pegawai"."jeniskelamin" AS "t1_c30", "pegawai"."statusperkawinan" AS "t1_c31", "pegawai"."alamat_pegawai" AS "t1_c32", "pegawai"."agama" AS "t1_c33", "pegawai"."golongandarah" AS "t1_c34", "pegawai"."rhesus" AS "t1_c35", "pegawai"."alamatemail" AS "t1_c36", "pegawai"."notelp_pegawai" AS "t1_c37", "pegawai"."nomobile_pegawai" AS "t1_c38", "pegawai"."warganegara_pegawai" AS "t1_c39", "pegawai"."jeniswaktukerja" AS "t1_c40", "pegawai"."kelompokjabatan" AS "t1_c41", "pegawai"."kategoripegawai" AS "t1_c42", "pegawai"."kategoripegawaiasal" AS "t1_c43", "pegawai"."photopegawai" AS "t1_c44", "pegawai"."nofingerprint" AS "t1_c45", "pegawai"."tinggibadan" AS "t1_c46", "pegawai"."beratbadan" AS "t1_c47", "pegawai"."kemampuanbahasa" AS "t1_c48", "pegawai"."warnakulit" AS "t1_c49", "pegawai"."nip_lama" AS "t1_c50", "pegawai"."no_rekening" AS "t1_c51", "pegawai"."bank_no_rekening" AS "t1_c52", "pegawai"."npwp" AS "t1_c53", "pegawai"."tglditerima" AS "t1_c54", "pegawai"."tglberhenti" AS "t1_c55", "pegawai"."gajipokok" AS "t1_c56", "pegawai"."create_time" AS "t1_c57", "pegawai"."update_time" AS "t1_c58", "pegawai"."create_loginpemakai_id" AS "t1_c59", "pegawai"."update_loginpemakai_id" AS "t1_c60", "pegawai"."create_ruangan" AS "t1_c61", "pegawai"."pegawai_aktif" AS "t1_c62", "pegawai"."suratizinpraktek" AS "t1_c63", "pegawai"."unit_perusahaan" AS "t1_c64", "pegawai"."golonganpegawai_id" AS "t1_c65", "pegawai"."deskripsi" AS "t1_c66", "pegawai"."garis_latitude" AS "t1_c67", "pegawai"."garis_longitude" AS "t1_c68", "pegawai"."jenistenagamedis_id" AS "t1_c69", "pegawai"."tglmasaaktifpeg" AS "t1_c70", "pegawai"."tglmasaaktifpeg_sd" AS "t1_c71", "pegawai"."shift_id" AS "t1_c72" FROM "pegawai_m" "pegawai"  WHERE ("pegawai"."pegawai_id"=:ypl0).
+in /var/www/html/ehealthsys/protected/modules/sistemAdministrator/views/masterOrganigram/_form.php (74)
+in /var/www/html/ehealthsys/protected/modules/sistemAdministrator/views/masterOrganigram/index.php (11)
+in /var/www/html/ehealthsys/protected/modules/sistemAdministrator/controllers/MasterOrganigramController.php (55)
+2016/01/11 10:24:02 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand gagal menjalankan statementSQL:SQLSTATE[22P02]: Invalid text representation: 7 ERROR:  invalid input syntax for integer: "". The SQL statement executed was: SELECT "pegawai"."pegawai_id" AS "t1_c0", "pegawai"."kabupaten_id" AS "t1_c1", "pegawai"."pangkat_id" AS "t1_c2", "pegawai"."pendkualifikasi_id" AS "t1_c3", "pegawai"."kelurahan_id" AS "t1_c4", "pegawai"."kelompokpegawai_id" AS "t1_c5", "pegawai"."profilrs_id" AS "t1_c6", "pegawai"."pengangkatantphl_id" AS "t1_c7", "pegawai"."pendidikan_id" AS "t1_c8", "pegawai"."loginpemakai_id" AS "t1_c9", "pegawai"."kecamatan_id" AS "t1_c10", "pegawai"."registerpensiun_id" AS "t1_c11", "pegawai"."suku_id" AS "t1_c12", "pegawai"."jabatan_id" AS "t1_c13", "pegawai"."esselon_id" AS "t1_c14", "pegawai"."propinsi_id" AS "t1_c15", "pegawai"."statuskepemilikanrumah_id" AS "t1_c16", "pegawai"."gelarbelakang_id" AS "t1_c17", "pegawai"."nomorindukpegawai" AS "t1_c18", "pegawai"."no_kartupegawainegerisipil" AS "t1_c19", "pegawai"."no_karis_karsu" AS "t1_c20", "pegawai"."no_taspen" AS "t1_c21", "pegawai"."no_askes" AS "t1_c22", "pegawai"."jenisidentitas" AS "t1_c23", "pegawai"."noidentitas" AS "t1_c24", "pegawai"."gelardepan" AS "t1_c25", "pegawai"."nama_pegawai" AS "t1_c26", "pegawai"."nama_keluarga" AS "t1_c27", "pegawai"."tempatlahir_pegawai" AS "t1_c28", "pegawai"."tgl_lahirpegawai" AS "t1_c29", "pegawai"."jeniskelamin" AS "t1_c30", "pegawai"."statusperkawinan" AS "t1_c31", "pegawai"."alamat_pegawai" AS "t1_c32", "pegawai"."agama" AS "t1_c33", "pegawai"."golongandarah" AS "t1_c34", "pegawai"."rhesus" AS "t1_c35", "pegawai"."alamatemail" AS "t1_c36", "pegawai"."notelp_pegawai" AS "t1_c37", "pegawai"."nomobile_pegawai" AS "t1_c38", "pegawai"."warganegara_pegawai" AS "t1_c39", "pegawai"."jeniswaktukerja" AS "t1_c40", "pegawai"."kelompokjabatan" AS "t1_c41", "pegawai"."kategoripegawai" AS "t1_c42", "pegawai"."kategoripegawaiasal" AS "t1_c43", "pegawai"."photopegawai" AS "t1_c44", "pegawai"."nofingerprint" AS "t1_c45", "pegawai"."tinggibadan" AS "t1_c46", "pegawai"."beratbadan" AS "t1_c47", "pegawai"."kemampuanbahasa" AS "t1_c48", "pegawai"."warnakulit" AS "t1_c49", "pegawai"."nip_lama" AS "t1_c50", "pegawai"."no_rekening" AS "t1_c51", "pegawai"."bank_no_rekening" AS "t1_c52", "pegawai"."npwp" AS "t1_c53", "pegawai"."tglditerima" AS "t1_c54", "pegawai"."tglberhenti" AS "t1_c55", "pegawai"."gajipokok" AS "t1_c56", "pegawai"."create_time" AS "t1_c57", "pegawai"."update_time" AS "t1_c58", "pegawai"."create_loginpemakai_id" AS "t1_c59", "pegawai"."update_loginpemakai_id" AS "t1_c60", "pegawai"."create_ruangan" AS "t1_c61", "pegawai"."pegawai_aktif" AS "t1_c62", "pegawai"."suratizinpraktek" AS "t1_c63", "pegawai"."unit_perusahaan" AS "t1_c64", "pegawai"."golonganpegawai_id" AS "t1_c65", "pegawai"."deskripsi" AS "t1_c66", "pegawai"."garis_latitude" AS "t1_c67", "pegawai"."garis_longitude" AS "t1_c68", "pegawai"."jenistenagamedis_id" AS "t1_c69", "pegawai"."tglmasaaktifpeg" AS "t1_c70", "pegawai"."tglmasaaktifpeg_sd" AS "t1_c71", "pegawai"."shift_id" AS "t1_c72" FROM "pegawai_m" "pegawai"  WHERE ("pegawai"."pegawai_id"=:ypl0)' in /var/www/html/ehealthsys/yii1_10/framework/db/CDbCommand.php:528
+Stack trace:
+#0 /var/www/html/ehealthsys/yii1_10/framework/db/CDbCommand.php(390): CDbCommand->queryInternal('fetchAll', Array, Array)
+#1 /var/www/html/ehealthsys/yii1_10/framework/db/ar/CActiveFinder.php(818): CDbCommand->queryAll()
+#2 /var/www/html/ehealthsys/yii1_10/framework/db/ar/CActiveFinder.php(529): CJoinElement->runQuery(Object(CJoinQuery))
+#3 /var/www/html/ehealthsys/yii1_10/framework/db/ar/CActiveFinder.php(167): CJoinElement->lazyFind(Object(SAOrganigramM))
+#4 /var/www/html/ehealthsys/yii1_10/framework/db/ar/CActiveRecord.php(269): CActiveFinder->lazyFind(Object(SAOrganigramM))
+#5 /var/www/html/ehealthsys/yii1_10/framework/db/ar/CActiveRecord.php(142): CActiveRecord->getRelated('pegawai')
+#6 /var/www/html/ehealthsys/protected/modules/sistemAdministrator/views/masterOrganigram/_form.php(74): CActiveRecord->__get('pegawai')
+#7 /var/www/html/ehealthsys/yii1_10/framework/web/CBaseController.php(127): require('/var/www/html/e...')
+#8 /var/www/html/ehealthsys/yii1_10/framework/web/CBaseController.php(96): CBaseController->renderInternal('/var/www/html/e...', Array, true)
+#9 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(870): CBaseController->renderFile('/var/www/html/e...', Array, true)
+#10 /var/www/html/ehealthsys/protected/modules/sistemAdministrator/views/masterOrganigram/index.php(11): CController->renderPartial('sistemAdministr...', Array)
+#11 /var/www/html/ehealthsys/yii1_10/framework/web/CBaseController.php(127): require('/var/www/html/e...')
+#12 /var/www/html/ehealthsys/yii1_10/framework/web/CBaseController.php(96): CBaseController->renderInternal('/var/www/html/e...', Array, true)
+#13 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(870): CBaseController->renderFile('/var/www/html/e...', Array, true)
+#14 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(783): CController->renderPartial('sistemAdministr...', Array, true)
+#15 /var/www/html/ehealthsys/protected/modules/sistemAdministrator/controllers/MasterOrganigramController.php(55): CController->render('sistemAdministr...', Array)
+#16 [internal function]: MasterOrganigramController->actionIndex(NULL)
+#17 /var/www/html/ehealthsys/yii1_10/framework/web/actions/CAction.php(107): ReflectionMethod->invokeArgs(Object(MasterOrganigramKPController), Array)
+#18 /var/www/html/ehealthsys/yii1_10/framework/web/actions/CInlineAction.php(48): CAction->runWithParamsInternal(Object(MasterOrganigramKPController), Object(ReflectionMethod), Array)
+#19 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(309): CInlineAction->runWithParams(Array)
+#20 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(287): CController->runAction(Object(CInlineAction))
+#21 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#22 /var/www/html/ehealthsys/yii1_10/framework/web/CWebApplication.php(276): CController->run('')
+#23 /var/www/html/ehealthsys/yii1_10/framework/web/CWebApplication.php(135): CWebApplication->runController('kepegawaian/Mas...')
+#24 /var/www/html/ehealthsys/yii1_10/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#25 /var/www/html/ehealthsys/index.php(15): CApplication->run()
+#26 {main}
+REQUEST_URI=/ehealthsys/index.php?r=kepegawaian/MasterOrganigramKP&modul_id=32
+HTTP_REFERER=http://192.168.0.52/ehealthsys/index.php?r=kepegawaian/MasterOrganigramKP&modul_id=32
+---
+2016/01/11 10:25:43 [error] [php] Array to string conversion (/var/www/html/ehealthsys/protected/modules/sistemAdministrator/views/masterOrganigram/_jsFunctions.php:6)
+Stack trace:
+#0 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(870): MasterOrganigramKPController->renderFile()
+#1 /var/www/html/ehealthsys/protected/modules/sistemAdministrator/views/masterOrganigram/index.php(14): MasterOrganigramKPController->renderPartial()
+#2 /var/www/html/ehealthsys/yii1_10/framework/web/CBaseController.php(127): require()
+#3 /var/www/html/ehealthsys/yii1_10/framework/web/CBaseController.php(96): MasterOrganigramKPController->renderInternal()
+#4 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(870): MasterOrganigramKPController->renderFile()
+#5 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(783): MasterOrganigramKPController->renderPartial()
+#6 /var/www/html/ehealthsys/protected/modules/sistemAdministrator/controllers/MasterOrganigramController.php(55): MasterOrganigramKPController->render()
+#7 unknown(0): MasterOrganigramKPController->actionIndex()
+#8 /var/www/html/ehealthsys/yii1_10/framework/web/actions/CAction.php(107): ReflectionMethod->invokeArgs()
+#9 /var/www/html/ehealthsys/yii1_10/framework/web/actions/CInlineAction.php(48): CInlineAction->runWithParamsInternal()
+#10 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(309): CInlineAction->runWithParams()
+#11 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(287): MasterOrganigramKPController->runAction()
+#12 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(266): MasterOrganigramKPController->runActionWithFilters()
+#13 /var/www/html/ehealthsys/yii1_10/framework/web/CWebApplication.php(276): MasterOrganigramKPController->run()
+#14 /var/www/html/ehealthsys/yii1_10/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#15 /var/www/html/ehealthsys/yii1_10/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#16 /var/www/html/ehealthsys/index.php(15): CWebApplication->run()
+REQUEST_URI=/ehealthsys/index.php?r=kepegawaian%2FMasterOrganigramKP&modul_id=32&SAPegawaiM%5Bjabatan_id%5D=32&SAPegawaiM%5Bnomorindukpegawai%5D=&SAPegawaiM%5Bgelardepan%5D=&SAPegawaiM%5Bnama_pegawai%5D=&SAPegawaiM%5Bjeniskelamin%5D=&SAPegawaiM_page=1&ajax=sapegawai-m-grid
+in /var/www/html/ehealthsys/protected/modules/sistemAdministrator/views/masterOrganigram/_jsFunctions.php (6)
+in /var/www/html/ehealthsys/protected/modules/sistemAdministrator/views/masterOrganigram/index.php (14)
+in /var/www/html/ehealthsys/protected/modules/sistemAdministrator/controllers/MasterOrganigramController.php (55)
+2016/01/11 10:25:55 [error] [php] Array to string conversion (/var/www/html/ehealthsys/protected/modules/sistemAdministrator/views/masterOrganigram/_jsFunctions.php:6)
+Stack trace:
+#0 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(870): MasterOrganigramKPController->renderFile()
+#1 /var/www/html/ehealthsys/protected/modules/sistemAdministrator/views/masterOrganigram/index.php(14): MasterOrganigramKPController->renderPartial()
+#2 /var/www/html/ehealthsys/yii1_10/framework/web/CBaseController.php(127): require()
+#3 /var/www/html/ehealthsys/yii1_10/framework/web/CBaseController.php(96): MasterOrganigramKPController->renderInternal()
+#4 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(870): MasterOrganigramKPController->renderFile()
+#5 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(783): MasterOrganigramKPController->renderPartial()
+#6 /var/www/html/ehealthsys/protected/modules/sistemAdministrator/controllers/MasterOrganigramController.php(55): MasterOrganigramKPController->render()
+#7 unknown(0): MasterOrganigramKPController->actionIndex()
+#8 /var/www/html/ehealthsys/yii1_10/framework/web/actions/CAction.php(107): ReflectionMethod->invokeArgs()
+#9 /var/www/html/ehealthsys/yii1_10/framework/web/actions/CInlineAction.php(48): CInlineAction->runWithParamsInternal()
+#10 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(309): CInlineAction->runWithParams()
+#11 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(287): MasterOrganigramKPController->runAction()
+#12 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(266): MasterOrganigramKPController->runActionWithFilters()
+#13 /var/www/html/ehealthsys/yii1_10/framework/web/CWebApplication.php(276): MasterOrganigramKPController->run()
+#14 /var/www/html/ehealthsys/yii1_10/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#15 /var/www/html/ehealthsys/yii1_10/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#16 /var/www/html/ehealthsys/index.php(15): CWebApplication->run()
+REQUEST_URI=/ehealthsys/index.php?r=kepegawaian%2FMasterOrganigramKP&modul_id=32&SAPegawaiM%5Bjabatan_id%5D=33&SAPegawaiM%5Bnomorindukpegawai%5D=&SAPegawaiM%5Bgelardepan%5D=&SAPegawaiM%5Bnama_pegawai%5D=&SAPegawaiM%5Bjeniskelamin%5D=&SAPegawaiM_page=1&ajax=sapegawai-m-grid
+in /var/www/html/ehealthsys/protected/modules/sistemAdministrator/views/masterOrganigram/_jsFunctions.php (6)
+in /var/www/html/ehealthsys/protected/modules/sistemAdministrator/views/masterOrganigram/index.php (14)
+in /var/www/html/ehealthsys/protected/modules/sistemAdministrator/controllers/MasterOrganigramController.php (55)
+2016/01/11 10:29:16 [warning] [application] Gagal mengeset atribut unsafe "organigram_id" dari kelas "SAOrganigramM".
+in /var/www/html/ehealthsys/protected/modules/sistemAdministrator/controllers/MasterOrganigramController.php (40)
+in /var/www/html/ehealthsys/index.php (15)
+2016/01/11 10:29:16 [warning] [application] Gagal mengeset atribut unsafe "atasan" dari kelas "SAOrganigramM".
+in /var/www/html/ehealthsys/protected/modules/sistemAdministrator/controllers/MasterOrganigramController.php (40)
+in /var/www/html/ehealthsys/index.php (15)
+2016/01/11 10:29:16 [warning] [application] Gagal mengeset atribut unsafe "nama_pegawai" dari kelas "SAOrganigramM".
+in /var/www/html/ehealthsys/protected/modules/sistemAdministrator/controllers/MasterOrganigramController.php (40)
+in /var/www/html/ehealthsys/index.php (15)
+2016/01/11 10:31:15 [error] [php] Array to string conversion (/var/www/html/ehealthsys/protected/modules/sistemAdministrator/views/masterOrganigram/_jsFunctions.php:6)
+Stack trace:
+#0 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(870): MasterOrganigramKPController->renderFile()
+#1 /var/www/html/ehealthsys/protected/modules/sistemAdministrator/views/masterOrganigram/index.php(14): MasterOrganigramKPController->renderPartial()
+#2 /var/www/html/ehealthsys/yii1_10/framework/web/CBaseController.php(127): require()
+#3 /var/www/html/ehealthsys/yii1_10/framework/web/CBaseController.php(96): MasterOrganigramKPController->renderInternal()
+#4 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(870): MasterOrganigramKPController->renderFile()
+#5 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(783): MasterOrganigramKPController->renderPartial()
+#6 /var/www/html/ehealthsys/protected/modules/sistemAdministrator/controllers/MasterOrganigramController.php(55): MasterOrganigramKPController->render()
+#7 unknown(0): MasterOrganigramKPController->actionIndex()
+#8 /var/www/html/ehealthsys/yii1_10/framework/web/actions/CAction.php(107): ReflectionMethod->invokeArgs()
+#9 /var/www/html/ehealthsys/yii1_10/framework/web/actions/CInlineAction.php(48): CInlineAction->runWithParamsInternal()
+#10 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(309): CInlineAction->runWithParams()
+#11 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(287): MasterOrganigramKPController->runAction()
+#12 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(266): MasterOrganigramKPController->runActionWithFilters()
+#13 /var/www/html/ehealthsys/yii1_10/framework/web/CWebApplication.php(276): MasterOrganigramKPController->run()
+#14 /var/www/html/ehealthsys/yii1_10/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#15 /var/www/html/ehealthsys/yii1_10/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#16 /var/www/html/ehealthsys/index.php(15): CWebApplication->run()
+REQUEST_URI=/ehealthsys/index.php?r=kepegawaian%2FmasterOrganigramKP%2Findex&sukses=1&SAPegawaiM%5Bjabatan_id%5D=&SAPegawaiM%5Bnomorindukpegawai%5D=&SAPegawaiM%5Bgelardepan%5D=&SAPegawaiM%5Bnama_pegawai%5D=selena&SAPegawaiM%5Bjeniskelamin%5D=&SAPegawaiM_page=1&ajax=sapegawai-m-grid
+in /var/www/html/ehealthsys/protected/modules/sistemAdministrator/views/masterOrganigram/_jsFunctions.php (6)
+in /var/www/html/ehealthsys/protected/modules/sistemAdministrator/views/masterOrganigram/index.php (14)
+in /var/www/html/ehealthsys/protected/modules/sistemAdministrator/controllers/MasterOrganigramController.php (55)
+2016/01/11 10:31:23 [error] [php] Array to string conversion (/var/www/html/ehealthsys/protected/modules/sistemAdministrator/views/masterOrganigram/_jsFunctions.php:6)
+Stack trace:
+#0 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(870): MasterOrganigramKPController->renderFile()
+#1 /var/www/html/ehealthsys/protected/modules/sistemAdministrator/views/masterOrganigram/index.php(14): MasterOrganigramKPController->renderPartial()
+#2 /var/www/html/ehealthsys/yii1_10/framework/web/CBaseController.php(127): require()
+#3 /var/www/html/ehealthsys/yii1_10/framework/web/CBaseController.php(96): MasterOrganigramKPController->renderInternal()
+#4 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(870): MasterOrganigramKPController->renderFile()
+#5 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(783): MasterOrganigramKPController->renderPartial()
+#6 /var/www/html/ehealthsys/protected/modules/sistemAdministrator/controllers/MasterOrganigramController.php(55): MasterOrganigramKPController->render()
+#7 unknown(0): MasterOrganigramKPController->actionIndex()
+#8 /var/www/html/ehealthsys/yii1_10/framework/web/actions/CAction.php(107): ReflectionMethod->invokeArgs()
+#9 /var/www/html/ehealthsys/yii1_10/framework/web/actions/CInlineAction.php(48): CInlineAction->runWithParamsInternal()
+#10 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(309): CInlineAction->runWithParams()
+#11 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(287): MasterOrganigramKPController->runAction()
+#12 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(266): MasterOrganigramKPController->runActionWithFilters()
+#13 /var/www/html/ehealthsys/yii1_10/framework/web/CWebApplication.php(276): MasterOrganigramKPController->run()
+#14 /var/www/html/ehealthsys/yii1_10/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#15 /var/www/html/ehealthsys/yii1_10/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#16 /var/www/html/ehealthsys/index.php(15): CWebApplication->run()
+REQUEST_URI=/ehealthsys/index.php?r=kepegawaian%2FmasterOrganigramKP%2Findex&sukses=1&SAPegawaiM%5Bjabatan_id%5D=&SAPegawaiM%5Bnomorindukpegawai%5D=&SAPegawaiM%5Bgelardepan%5D=&SAPegawaiM%5Bnama_pegawai%5D=gomez&SAPegawaiM%5Bjeniskelamin%5D=&SAPegawaiM_page=1&ajax=sapegawai-m-grid
+in /var/www/html/ehealthsys/protected/modules/sistemAdministrator/views/masterOrganigram/_jsFunctions.php (6)
+in /var/www/html/ehealthsys/protected/modules/sistemAdministrator/views/masterOrganigram/index.php (14)
+in /var/www/html/ehealthsys/protected/modules/sistemAdministrator/controllers/MasterOrganigramController.php (55)
+2016/01/11 10:31:59 [warning] [application] Gagal mengeset atribut unsafe "organigram_id" dari kelas "SAOrganigramM".
+in /var/www/html/ehealthsys/protected/modules/sistemAdministrator/controllers/MasterOrganigramController.php (40)
+in /var/www/html/ehealthsys/index.php (15)
+2016/01/11 10:31:59 [warning] [application] Gagal mengeset atribut unsafe "atasan" dari kelas "SAOrganigramM".
+in /var/www/html/ehealthsys/protected/modules/sistemAdministrator/controllers/MasterOrganigramController.php (40)
+in /var/www/html/ehealthsys/index.php (15)
+2016/01/11 10:31:59 [warning] [application] Gagal mengeset atribut unsafe "nama_pegawai" dari kelas "SAOrganigramM".
+in /var/www/html/ehealthsys/protected/modules/sistemAdministrator/controllers/MasterOrganigramController.php (40)
+in /var/www/html/ehealthsys/index.php (15)
+2016/01/11 17:33:11 [warning] [application] Gagal mengeset atribut unsafe "modul" dari kelas "LoginForm".
+in /var/www/html/ehealthsys/protected/controllers/SiteController.php (101)
+in /var/www/html/ehealthsys/index.php (15)
+2016/01/11 17:33:14 [warning] [application] Gagal mengeset atribut unsafe "modul" dari kelas "LoginForm".
+in /var/www/html/ehealthsys/protected/controllers/SiteController.php (101)
+in /var/www/html/ehealthsys/index.php (15)
+2016/01/11 17:36:02 [warning] [application] Gagal mengeset atribut unsafe "modul" dari kelas "LoginForm".
+in /var/www/html/ehealthsys/protected/controllers/SiteController.php (101)
+in /var/www/html/ehealthsys/index.php (15)
+2016/01/12 06:08:06 [warning] [application] Gagal mengeset atribut unsafe "modul" dari kelas "LoginForm".
+in /var/www/html/ehealthsys/protected/controllers/SiteController.php (101)
+in /var/www/html/ehealthsys/index.php (15)
+2016/01/12 06:11:51 [warning] [application] Gagal mengeset atribut unsafe "organigram_id" dari kelas "SAOrganigramM".
+in /var/www/html/ehealthsys/protected/modules/sistemAdministrator/controllers/MasterOrganigramController.php (40)
+in /var/www/html/ehealthsys/index.php (15)
+2016/01/12 06:11:51 [warning] [application] Gagal mengeset atribut unsafe "atasan" dari kelas "SAOrganigramM".
+in /var/www/html/ehealthsys/protected/modules/sistemAdministrator/controllers/MasterOrganigramController.php (40)
+in /var/www/html/ehealthsys/index.php (15)
+2016/01/12 06:11:51 [warning] [application] Gagal mengeset atribut unsafe "nama_pegawai" dari kelas "SAOrganigramM".
+in /var/www/html/ehealthsys/protected/modules/sistemAdministrator/controllers/MasterOrganigramController.php (40)
+in /var/www/html/ehealthsys/index.php (15)
+2016/01/12 06:14:34 [warning] [application] Gagal mengeset atribut unsafe "atasan" dari kelas "SAOrganigramM".
+in /var/www/html/ehealthsys/protected/modules/sistemAdministrator/controllers/MasterOrganigramController.php (305)
+in /var/www/html/ehealthsys/index.php (15)
+2016/01/12 06:14:34 [warning] [application] Gagal mengeset atribut unsafe "nama_pegawai" dari kelas "SAOrganigramM".
+in /var/www/html/ehealthsys/protected/modules/sistemAdministrator/controllers/MasterOrganigramController.php (305)
+in /var/www/html/ehealthsys/index.php (15)
+2016/01/12 06:14:35 [error] [php] preg_replace(): The /e modifier is deprecated, use preg_replace_callback instead (/var/www/html/ehealthsys/protected/extensions/PDF/includes/functions.php:66)
+Stack trace:
+#0 /var/www/html/ehealthsys/protected/extensions/PDF/mpdf.php(13383): MyPDF->purify_utf8()
+#1 /var/www/html/ehealthsys/protected/modules/sistemAdministrator/controllers/MasterOrganigramController.php(322): MyPDF->WriteHTML()
+#2 /var/www/html/ehealthsys/yii1_10/framework/web/actions/CInlineAction.php(50): MasterOrganigramKPController->actionPrint()
+#3 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(309): CInlineAction->runWithParams()
+#4 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(287): MasterOrganigramKPController->runAction()
+#5 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(266): MasterOrganigramKPController->runActionWithFilters()
+#6 /var/www/html/ehealthsys/yii1_10/framework/web/CWebApplication.php(276): MasterOrganigramKPController->run()
+#7 /var/www/html/ehealthsys/yii1_10/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#8 /var/www/html/ehealthsys/yii1_10/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#9 /var/www/html/ehealthsys/index.php(15): CWebApplication->run()
+REQUEST_URI=/ehealthsys/index.php?r=kepegawaian/masterOrganigramKP/print/SAOrganigramM%5Borganigram_kode%5D=&SAOrganigramM%5Batasan%5D=&SAOrganigramM%5Borganigram_unitkerja%5D=&SAOrganigramM%5Borganigram_formasi%5D=&SAOrganigramM%5Bnama_pegawai%5D=&SAOrganigramM%5Borganigram_pelaksanakerja%5D=&SAOrganigramM%5Borganigram_periode%5D=&SAOrganigramM%5Borganigram_sampaidengan%5D=&caraPrint=PDF
+in /var/www/html/ehealthsys/protected/extensions/PDF/includes/functions.php (66)
+in /var/www/html/ehealthsys/protected/extensions/PDF/mpdf.php (30803)
+in /var/www/html/ehealthsys/protected/extensions/PDF/mpdf.php (13383)
+2016/01/12 06:14:40 [warning] [application] Gagal mengeset atribut unsafe "atasan" dari kelas "SAOrganigramM".
+in /var/www/html/ehealthsys/protected/modules/sistemAdministrator/controllers/MasterOrganigramController.php (305)
+in /var/www/html/ehealthsys/index.php (15)
+2016/01/12 06:14:40 [warning] [application] Gagal mengeset atribut unsafe "nama_pegawai" dari kelas "SAOrganigramM".
+in /var/www/html/ehealthsys/protected/modules/sistemAdministrator/controllers/MasterOrganigramController.php (305)
+in /var/www/html/ehealthsys/index.php (15)
+2016/01/12 06:14:48 [warning] [application] Gagal mengeset atribut unsafe "atasan" dari kelas "SAOrganigramM".
+in /var/www/html/ehealthsys/protected/modules/sistemAdministrator/controllers/MasterOrganigramController.php (305)
+in /var/www/html/ehealthsys/index.php (15)
+2016/01/12 06:14:48 [warning] [application] Gagal mengeset atribut unsafe "nama_pegawai" dari kelas "SAOrganigramM".
+in /var/www/html/ehealthsys/protected/modules/sistemAdministrator/controllers/MasterOrganigramController.php (305)
+in /var/www/html/ehealthsys/index.php (15)
+2016/01/12 06:22:44 [error] [php] preg_replace(): The /e modifier is deprecated, use preg_replace_callback instead (/var/www/html/ehealthsys/protected/extensions/PDF/includes/functions.php:66)
+Stack trace:
+#0 /var/www/html/ehealthsys/protected/extensions/PDF/mpdf.php(13383): MyPDF->purify_utf8()
+#1 /var/www/html/ehealthsys/protected/modules/kepegawaian/controllers/GelarBelakangMController.php(215): MyPDF->WriteHTML()
+#2 /var/www/html/ehealthsys/yii1_10/framework/web/actions/CInlineAction.php(50): GelarBelakangMController->actionPrint()
+#3 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(309): CInlineAction->runWithParams()
+#4 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(287): GelarBelakangMController->runAction()
+#5 /var/www/html/ehealthsys/yii1_10/framework/web/CController.php(266): GelarBelakangMController->runActionWithFilters()
+#6 /var/www/html/ehealthsys/yii1_10/framework/web/CWebApplication.php(276): GelarBelakangMController->run()
+#7 /var/www/html/ehealthsys/yii1_10/framework/web/CWebApplication.php(135): CWebApplication->runController()
+#8 /var/www/html/ehealthsys/yii1_10/framework/base/CApplication.php(162): CWebApplication->processRequest()
+#9 /var/www/html/ehealthsys/index.php(15): CWebApplication->run()
+REQUEST_URI=/ehealthsys/index.php?r=kepegawaian/gelarBelakangM/print/r=kepegawaian%2FgelarBelakangM%2FAdmin&KPGelarBelakangM%5Bgelarbelakang_nama%5D=&KPGelarBelakangM%5Bgelarbelakang_namalainnya%5D=&KPGelarBelakangM%5Bgelarbelakang_aktif%5D=0&KPGelarBelakangM%5Bgelarbelakang_aktif%5D=1&caraPrint=PDF
+in /var/www/html/ehealthsys/protected/extensions/PDF/includes/functions.php (66)
+in /var/www/html/ehealthsys/protected/extensions/PDF/mpdf.php (30803)
+in /var/www/html/ehealthsys/protected/extensions/PDF/mpdf.php (13383)
