@@ -16,7 +16,7 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
 
 <div>
     <div class="innova">
-        <img src="<?php echo Yii::app()->getBaseUrl('webroot').'/data/images/innova.png'; ?>" alt="SIMRS" />
+        <img src="<?php echo Yii::app()->getBaseUrl('webroot').'/data/images/ehealthsys.png'; ?>" alt="SIMRS" />
     </div>
     <div class="tablet">
             <div class="form">

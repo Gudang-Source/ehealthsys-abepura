@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<link rel="shortcut icon" href="<?php echo Yii::app()->baseUrl;?>/images/icon/favicon.png"/>
+<link rel="shortcut icon" href="<?php echo Yii::app()->baseUrl;?>/images/icon/favicon.ico"/>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="language" content="en" />
 
@@ -25,15 +25,28 @@
         <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form.js'); ?>
 	<style type="text/css">
         .pengumuman{
-            margin: 25px auto !important;padding:10px 10px 15px 10px;width:70%;border:0;color:#ffffff;font-size:20px;
-            position: relative;bottom: 0 !important;display: table;background: rgba(255, 255, 255, 0.3);
-            padding: 10px;box-shadow: 0px 0px 12px #1E6213;border: 1px solid rgba(255, 255, 255, 0.4);
-            -webkit-border-radius:15px;-moz-border-radius:15px;border-radius:15px;
+            margin: 25px auto !important;
+            padding:10px 10px 15px 10px;
+            width:70%;
+            border:0;
+            color:#ffffff;
+            font-size:20px;
+            position: relative;
+            bottom: 0 !important;
+            display: table;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            box-shadow: 0px 0px 12px black;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            -webkit-border-radius:15px;
+            -moz-border-radius:15px;
+            border-radius:15px;
         }
         .logo-login{float:left;}
-        .profil_rs{float:right;text-align:right;color: #212121;font-size: 14px;}
-        .logo-login{margin-right:10px;}
+        .logo-bakti{float:right;}
+        .profil_rs{text-align:center;color: #212121;font-size: 14px; float: left; width: calc(100% - 140px)}
         .contain{width:60%;margin:0 auto;}
+        .nama_rs{font-size: 35px; font-weight:bold; }
     </style>
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
         <script>
@@ -138,13 +151,16 @@ $(function() {
             <div class='logo-login'>
                 <img src='<?php echo Params::urlProfilRSDirectory().$profil->logo_rumahsakit ?>' alt='logo RUMKIT' />
             </div>
-            <div class="profil_rs">
-                <b><?php echo $profil->nama_rumahsakit; ?></b>
-                <?php $profil->alamatlokasi_rumahsakit; ?><br/>
-                Telp : <?php echo $profil->no_telp_profilrs; ?><br/>
-                Fax : <?php echo $profil->no_faksimili; ?><br/>
-                email : <?php echo $profil->email; ?><br/>
+            <div class="profil_rs col-sm-5">
+                <div class="nama_rs"><?php echo $profil->nama_rumahsakit; ?></div>
+                <?php echo $profil->alamatlokasi_rumahsakit; ?>,
+                Telp : <?php echo $profil->no_telp_profilrs; ?> - 
+                Fax : <?php echo $profil->no_faksimili; ?><br/> 
+                email : <?php echo $profil->email; ?> 
                 website : <?php echo $profil->website; ?>
+            </div>
+            <div class='logo-bakti'>
+                <img src='<?php echo Params::urlProfilRSDirectory()."../baktihusada.png" ?>' alt='logo BAKTIHUSADA' />
             </div>
         </div>
 		<?php 
