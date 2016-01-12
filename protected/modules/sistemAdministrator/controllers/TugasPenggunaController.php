@@ -70,32 +70,42 @@ class TugasPenggunaController extends MyAuthController
      * Memanggil dan Mengubah sebagian data.
      * @param integer $id the ID of the model to be updated
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id, $modul_id = null)
     {
         $model=$this->loadModel($id);
+        // var_dump($model->attributes); die;
         $data = array();
         $criteria = new CDbCriteria;
         $criteria->select = array('modul_id');
         $criteria->group = 'modul_id';
-		if (!empty($model->peranpengguna_id)){
-			$criteria->addCondition('peranpengguna_id ='.$model->peranpengguna_id);
+		if (!empty($model->tugas_nama)){
+			$criteria->addCondition("tugas_nama = '".$model->tugas_nama."'");
 		}
+                if (!empty($modul_id)) {
+                        $criteria->compare('modul_id',$modul_id);
+                }
 		$criteria->order = "modul_id";
         $moduls = SATugaspenggunaK::model()->findAll($criteria);
-		
+        
         $criteria1 = new CDbCriteria;
         $criteria1->select = array('controller_nama','modul_id');
         $criteria1->group = 'controller_nama,modul_id';
-		if (!empty($model->peranpengguna_id)){
-			$criteria1->addCondition('peranpengguna_id ='.$model->peranpengguna_id);
+		if (!empty($model->tugas_nama)){
+			$criteria1->addCondition("tugas_nama = '".$model->tugas_nama."'");
 		}
+                if (!empty($modul_id)) {
+                        $criteria1->compare('modul_id',$modul_id);
+                }
 		$criteria1->order = "modul_id";
         $controllers = SATugaspenggunaK::model()->findAll($criteria1);
 
         $criteria2 = new CDbCriteria;
-		if (!empty($model->peranpengguna_id)){
-			$criteria2->addCondition('peranpengguna_id ='.$model->peranpengguna_id);
+		if (!empty($model->tugas_nama)){
+			$criteria2->addCondition("tugas_nama = '".$model->tugas_nama."'");
 		}
+                if (!empty($modul_id)) {
+                        $criteria2->compare('modul_id',$modul_id);
+                }
         $actions = SATugaspenggunaK::model()->findAll($criteria2);
 		
         foreach ($moduls as $i => $modul) { 
@@ -103,7 +113,7 @@ class TugasPenggunaController extends MyAuthController
 		$data[$modul->modul->url_modul]['semua']=CustomFunction::getControllers($modul->modul->url_modul);
 			foreach ($controllers as $j => $controller) {
 			if($modul->modul_id == $controller->modul_id){				
-				$data[$modul->modul->url_modul]['pilihan'][$controller->controller_nama]=CustomFunction::getActions($controller->controller_nama, $modul->modul->url_modul);
+				//  $data[$modul->modul->url_modul]['pilihan'][$controller->controller_nama]=CustomFunction::getActions($controller->controller_nama, $modul->modul->url_modul);
 				}					
 			}		
 		}
@@ -114,6 +124,7 @@ class TugasPenggunaController extends MyAuthController
             try{
                 SATugaspenggunaK::model()->deleteAllByAttributes(array(
                     'peranpengguna_id'=>$_POST['SATugaspenggunaK']['peranpengguna_id'],
+                    'modul_id'=>$modul_id,
                 ));
                 foreach ($_POST['controller'] as $i => $value) {
                     foreach($value AS $ii => $cont){
@@ -148,7 +159,8 @@ class TugasPenggunaController extends MyAuthController
                 'moduls'=>$moduls,
                 'controllers'=>$controllers,
                 'actions'=>$actions,
-                'data'=>$data
+                'data'=>$data,
+                'modul_id'=>$modul_id,
         ));
     }
 
@@ -205,7 +217,7 @@ class TugasPenggunaController extends MyAuthController
      */
     public function loadModel($id)
     {
-            $model=SATugaspenggunaK::model()->findByAttributes(array('peranpengguna_id'=>$id));
+            $model=SATugaspenggunaK::model()->findByAttributes(array('tugaspengguna_id'=>$id));
             if($model===null)
                     throw new CHttpException(404,'The requested page does not exist.');
             return $model;
@@ -265,16 +277,16 @@ class TugasPenggunaController extends MyAuthController
                 echo CJSON::encode($controllers);
             } else {
                 echo "<span id='controller_".$namaModul."'>";
-                    echo CHtml::CheckBox('checkAll_'.$namaModul,'', array(
-                                        'value'=>$modul_id,
+                    echo CHtml::CheckBox('checkAll_'.lsfirst($namaModul),'', array(
+                                        'value'=>lsfirst($modul_id),
                                         'onclick'=>'checkAll(this)',
                                         'checked'=>'checked'))." Pilih Semua";
                     echo "<br>";
                 foreach ($controllers as $value => $name) {
                     echo CHtml::CheckBox('controller['.$modul_id.'][]','', array(
-                                        'value'=>$value,
+                                        'value'=>lsfirst($value),
                                         'onclick'=>'tambahAction(this)',
-                                        'modul'=>$namaModul,
+                                        'modul'=>lsfirst($namaModul),
                                         ));
                     echo '&nbsp;'.$name.'<br>';
                     // echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
@@ -307,8 +319,8 @@ class TugasPenggunaController extends MyAuthController
                 foreach ($actions as $value => $name)
                 {
                     echo CHtml::CheckBox('action['.$contorllerId.'][]','', array(
-                                    'value'=>$value,
-                                    'controller'=>$contorllerId,
+                                    'value'=>lcfirst($value),
+                                    'controller'=>lcfirst($contorllerId),
                                     ));
                     echo '&nbsp;'.$name.'<br>';
                     // echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);

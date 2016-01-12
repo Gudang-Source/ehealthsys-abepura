@@ -8,8 +8,9 @@ $this->breadcrumbs=array(
 ?>
 
 <?php $this->widget('bootstrap.widgets.BootAlert'); ?>
-<?php echo $this->renderPartial('_formUpdate',array('model'=>$model,'data'=>$data)); ?>
-<?php $this->renderPartial('_jsFunctions',array()); ?>
+<?php echo $this->renderPartial('_formUpdate',array('model'=>$model,'data'=>$data, 'modul_id'=>$modul_id)); ?>
+<?php $this->renderPartial('_jsFunctions',array()); 
+?>
 
 <script type="text/javascript">
 	function checkModul(){
@@ -31,13 +32,15 @@ $this->breadcrumbs=array(
         var controller = [
             <?php 
             foreach ($controllers as $i => $controller) {
-                echo "['".$controller->controller_nama."','".$controller->modul->url_modul."'],";
+                echo "['".lcfirst($controller->controller_nama)."','".$controller->modul->url_modul."'],";
             }
             ?>
         ];
 
         controller.forEach(function(data){
+            console.log('input[modul="'+data[1]+'"][controller="'+data[0]+'"]');
             $('input[modul="'+data[1]+'"][value="'+data[0]+'"]').prop("checked",true);
+            tambahAction($('input[modul="'+data[1]+'"][value="'+data[0]+'"]'), true);
         });
     }
 
@@ -45,7 +48,7 @@ $this->breadcrumbs=array(
         var action = [
             <?php 
             foreach ($actions as $i => $action) {
-                echo "['".$action->action_nama."','".$action->controller_nama."'],";
+                echo "['".lcfirst($action->action_nama)."','".lcfirst($action->controller_nama)."'],";
             }
             ?>
         ];

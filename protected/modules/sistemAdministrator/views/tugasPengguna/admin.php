@@ -84,7 +84,7 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                 'buttons'=>array(
                         'update' => array(
                                 'options'=>array('title'=>Yii::t('mds','Ubah')),
-                                    'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/update",array("id"=>"$data->peranpengguna_id"))',					
+                                    'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/update",array("id"=>$data->tugaspengguna_id, "modul_id"=>$data->modul_id))',					
                                 ),
                         ),
                 ),

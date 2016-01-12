@@ -37,7 +37,7 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($model->getModul() as $i => $modul) { ?>
+                <?php foreach ($model->getModul($modul_id) as $i => $modul) { ?>
 		<?php
 		?>
                 <tr>
@@ -61,7 +61,7 @@
                                 foreach ($data[$modul->url_modul]['semua'] as $i => $cont) {
 									
                                         echo CHtml::CheckBox('controller['.$data[$modul->url_modul]['modul_id'].'][]','', array(
-                                                            'value'=>$cont,
+                                                            'value'=>  lcfirst($cont),
                                                             'onclick'=>'tambahAction(this)',
                                                             'modul'=>$modul->url_modul,
                                                             ));
@@ -75,22 +75,24 @@
                     <td id="<?php echo 'row_action_'.$modul->url_modul; ?>">
                         <?php
                             if (isset($data[$modul->url_modul]['modul_id'])){
-                                foreach ($data[$modul->url_modul]['pilihan'] as $i => $cont) {
-                                    echo "<span id='action_".$i."' style='border:solid 1px #999; display:block'>";
-					echo CHtml::CheckBox('checkAll_'.$i,'', array(
-										'value'=>$modul->modul_nama,
-										'onclick'=>'checkAllAction(this,"'.$i.'")',
-										'checked'=>'checked'))." Pilih Semua";
-					echo "<br>";
-                                    echo "Nama Controller : <strong>".$i."</strong><br>";
-                                    foreach ($cont as $j => $action) {
-                                        echo CHtml::CheckBox('action['.$i.'][]','', array(
-                                                        'value'=>$action,
-                                                        'controller'=>$i,
-                                                        ));
-                                        echo '&nbsp;'.$action.'<br>';
+                                if (isset($data[$modul->url_modul]['pilihan'])) {
+                                    foreach ($data[$modul->url_modul]['pilihan'] as $i => $cont) {
+                                        echo "<span id='action_".$i."' style='border:solid 1px #999; display:block'>";
+                                            echo CHtml::CheckBox('checkAll_'.$i,'', array(
+                                                                                    'value'=>$modul->modul_nama,
+                                                                                    'onclick'=>'checkAllAction(this,"'.$i.'")',
+                                                                                    'checked'=>'checked'))." Pilih Semua";
+                                            echo "<br>";
+                                        echo "Nama Controller : <strong>".$i."</strong><br>";
+                                        foreach ($cont as $j => $action) {
+                                            echo CHtml::CheckBox('action['.$i.'][]','', array(
+                                                            'value'=>$action,
+                                                            'controller'=>$i,
+                                                            ));
+                                            echo '&nbsp;'.$action.'<br>';
+                                        }
+                                        echo "</span>";
                                     }
-                                    echo "</span>";
                                 }
                             }
                         ?>
