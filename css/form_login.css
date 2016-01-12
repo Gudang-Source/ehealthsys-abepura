@@ -40,7 +40,7 @@
 body
 {
 	/*background: url('../images/login.jpg') no-repeat;*/
-	background: url('../images/login_mixed.jpg') no-repeat left bottom fixed; //sudah ada semua elemen
+	background: url('../images/batik_papua.jpg') no-repeat left bottom fixed; //sudah ada semua elemen
         -webkit-background-size: cover;   
         -moz-background-size: cover;  
          -o-background-size: cover;   
@@ -547,12 +547,12 @@ div.form .place
 	width: 353px;
 	margin: 0 auto;
 	/*float:left;*/
-        background: rgba(170, 242, 139, 0.5);
+        background: rgba(255, 255, 255, 0.8);
         -webkit-border-radius: 5px;
         -moz-border-radius: 5px;
         border-radius: 5px;
         padding: 10px;
-        box-shadow: 0 0 12px #1E6213;
+        box-shadow: 0 0 12px black;
         border: 1px solid rgba(255,255,255,0.4);
 }
 
@@ -879,7 +879,14 @@ table.time>tbody>tr>td:last-child{
 }
 
 .innova{
-    width: 200px;
-    margin: 25px auto 0;
+    width: 350px;
+    margin: 25px auto 25px;
     text-align: center;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    box-shadow: 0px 0px 12px black;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    border-radius:5px;
 }
