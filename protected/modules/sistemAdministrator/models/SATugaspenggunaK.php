@@ -6,9 +6,11 @@ class SATugaspenggunaK extends TugaspenggunaK
 		return parent::model($className);
 	}
 
-	public function getModul()
+	public function getModul($modul_id = null)
     {
-        return ModulK::model()->findAll('modul_aktif = true order by modul_nama');
+            if (empty($modul_id))
+                return ModulK::model()->findAll('modul_aktif = true order by modul_nama');
+            return ModulK::model()->findAll('modul_aktif = true and modul_id = '.$modul_id.' order by modul_nama');
     }
 
     public function getPeranPengguna()

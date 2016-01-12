@@ -42,7 +42,7 @@
             <div class="control-group">
                 <?php echo CHtml::label('Nama','',array('class'=>'control-label')) ?>
                 <div class="controls">
-                    <?php echo CHtml::textField('nama_pegawai',$model->loginpemakai->pegawai->nama_pegawai,array('id'=>'namapegawai','class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>200)); ?>
+                    <?php echo CHtml::textField('nama_pegawai',empty($model->loginpemakai->pegawai)?null:$model->loginpemakai->pegawai->nama_pegawai,array('id'=>'namapegawai','class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>200)); ?>
                 </div>
             </div>
     </div>

@@ -47,7 +47,7 @@
         }
         
     }
-    function tambahAction(obj){
+    function tambahAction(obj, isUpdate){
         if($(obj).is(':checked')){
 		nama_controller = $(obj).val();
 		nama_modul = $(obj).attr('modul');
@@ -61,6 +61,9 @@
                         $("#row_action_"+nama_modul).append(data);
 			$(obj).removeAttr('disabled');
 			$(obj).parents('td').find('input[name*="checkAll"]').removeAttr('disabled');
+                        if (isUpdate) {
+                            checkAction();
+                        }
                     },
                     error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
                 });
