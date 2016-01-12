@@ -3,10 +3,10 @@
  * file setting database
  */
 return array(
-    'connectionString' => 'pgsql:host=192.168.2.10;port=5432;dbname=db_rsud',
+    'connectionString' => 'pgsql:host=192.168.0.54;port=5432;dbname=abepura_running',
     'emulatePrepare' => false,
     'username' => 'postgres',
-    'password' => '4dminpostgres',
+    'password' => 'postgres',
     'charset' => 'utf8',
 )
 ?>
