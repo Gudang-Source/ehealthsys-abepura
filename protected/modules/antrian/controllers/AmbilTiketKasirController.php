@@ -1,5 +1,6 @@
 <?php
 
+Yii::import('application.modules.antrian.controllers.AmbilTiketController');
 class AmbilTiketKasirController extends AmbilTiketController {
 
     public $layout = '//layouts/kiosAntrian';

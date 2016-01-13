@@ -28,12 +28,12 @@
     }
     .judul{
         text-align: center;
-        font-size: 45px;
+        font-size: 25px;
         font-weight: bold;
         padding-bottom: 0px;
     }
     .loket-nama{
-        font-size: 30px;
+        font-size: 20px;
         text-align: center;
         background-color:rgba(0,0,0,1);
         -moz-border-radius: 5px 5px 0 0;
@@ -45,7 +45,7 @@
     .no-antrian{
         color:#fff;
         text-align: center;
-        font-size: 122px;
+        font-size: 80px;
         font-weight: bold;
         background-color:rgba(255,255,255,0.5);
         text-shadow:
@@ -63,7 +63,7 @@
 		margin-top: 40px;
 	}
     .statistik{
-        font-size: 20px;
+        font-size: 15px;
         color:#fff;
         text-shadow:
             -1px -1px 0 #000,  
@@ -91,16 +91,15 @@
     if(count($modLokets) > 0){
         foreach($modLokets AS $i => $loket){
     ?>
-            <div class="span6">
+            <div class="span4">
                 <div id="loket_<?php echo $loket->loket_id;?>" class="antrian">
                     <div class="loket-nama" style="background-color:#484848;">
-                        <?php echo strtoupper($loket->loket_nama); ?> DI LOKET <?php echo $loket->loket_nourut; ?>
+                        <?php echo strtoupper($loket->loket_nama); ?><br/>DI LOKET <?php echo $loket->loket_nourut; ?>
                     </div>
                     <div class="no-antrian">
                         <?php echo $loket->loket_singkatan; ?>-000
                     </div>
                     <?php echo $this->renderPartial('_formAntrian',array('model'=>$model)); ?>
-                    <br>
                     <div class="statistik">
                         <?php echo $this->renderPartial('_statistik',array('loket'=>$loket)); ?>
                     </div>

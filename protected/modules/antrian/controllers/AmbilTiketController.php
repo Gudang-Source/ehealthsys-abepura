@@ -3,17 +3,20 @@
 class AmbilTiketController extends Controller
 {
         public $layout='//layouts/kiosAntrian'; 
+        
+        public $pathView = 'antrian.views.ambilTiket.';
+        
         public function actionIndex()
 	{
             $criteria = new CdbCriteria();
             $criteria->addCondition('loket_aktif = true');
             $criteria->order = "loket_nourut";
-            $modLokets = ANLoketM::model()->findAll('ispendaftaran = TRUE AND loket_aktif=TRUE ORDER BY loket_nourut');
+            $modLokets = ANLoketM::model()->findAll('ispendaftaran = TRUE AND israwatinap = FALSE AND loket_aktif=TRUE ORDER BY loket_nourut');
             $model = new ANAntrianT;
             
             
             
-            $this->render('index',array('model'=>$model,'modLokets'=>$modLokets));
+            $this->render($this->pathView.'index',array('model'=>$model,'modLokets'=>$modLokets));
 	}
         /**
          * untuk menyimpan tiket (ajax)
@@ -49,7 +52,7 @@ class AmbilTiketController extends Controller
         {
             $modAntrian = ANAntrianT::model()->findByPk($antrian_id);
             $this->layout='//layouts/printWindows';
-            $this->render('printNoAntrian',array('modAntrian'=>$modAntrian));
+            $this->render($this->pathView.'printNoAntrian',array('modAntrian'=>$modAntrian));
         }
 
         public function actionGetRunningText()

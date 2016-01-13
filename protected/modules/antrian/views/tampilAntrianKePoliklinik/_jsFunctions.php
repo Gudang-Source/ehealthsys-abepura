@@ -71,9 +71,9 @@ function setAntrians(pendaftaran_id){
                             setSuaraPanggilanSingle(kodeantrian,noantrian,ruangan_id);
                         }
                     }
-                    fitTextInBox('ruangan_'+<?php echo $i; ?>,29);
-                    fitTextInBox('dokter_'+<?php echo $i; ?>,29);
-                    fitTextInBox('pasien-deskripsi_'+<?php echo $i; ?>,20);
+                    fitTextInBox('ruangan_'+<?php echo $i; ?>,15);
+                    fitTextInBox('dokter_'+<?php echo $i; ?>,15);
+                    fitTextInBox('pasien-deskripsi_'+<?php echo $i; ?>,15);
             <?php
                 }
             }
