@@ -30,18 +30,19 @@
         padding-bottom: 0px;
     }
     .loket-nama{
-        font-size: 30px;
+        font-size: 20px;
         text-align: center;
         background-color:rgba(0,0,0,1);
         -moz-border-radius: 5px;
         -webkit-border-radius: 5px;
         border-radius: 5px;
         border: 1px solid #FFF;
+        margin-bottom: 15px;
     }
     .no-antrian{
         color:#fff;
         text-align: center;
-        font-size: 70px;
+        font-size: 60px;
         font-weight: bold;
         background-color:rgba(0,0,0,0.7);
         text-shadow:
@@ -88,7 +89,7 @@
     <div class="span4">
         <div class="loket-nama" style="background-color:#005500">
             LOKET <?php echo strtoupper(RuanganM::model()->findByPk(Params::RUANGAN_ID_APOTEK_1)->ruangan_nama); ?>
-        </div><br>
+        </div>
     <?php  
         if(count($modLokets) > 0){
             foreach($modLokets AS $i => $loket){
@@ -98,7 +99,7 @@
                         <?php echo $loket->racikan_singkatan; ?>-0000
                     </div>
                     <?php echo $this->renderPartial('_formAntrian',array('model'=>$model,'loket'=>$loket)); ?>
-                    <br>
+                   
                 </div>
         <?php
             }

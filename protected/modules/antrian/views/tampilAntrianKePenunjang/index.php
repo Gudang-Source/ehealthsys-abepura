@@ -55,7 +55,7 @@
     .no-antrian, .pasien-deskripsi{
         color:#fff;
         text-align: center;
-        font-size: 75px;
+        font-size: 55px;
         font-weight: bold;
         background-color:rgba(255,255,255,0.5);
         text-shadow:
@@ -88,6 +88,10 @@
               1px 1px 0 #000;
         background-color:rgba(0,0,0,0.8);
     }
+    
+    .content {
+        margin-top: 100px;
+    }
 </style>
 <div class="row-fluid judul"><?php echo $modLayar->layarantrian_judul; ?></div>
     <?php 
@@ -97,7 +101,7 @@
                 echo '<div class="row-fluid">';
             }    ?>
             <div class="span4">
-                <div id="ruangan_<?php echo $ruangan->ruangan_id; ?>" class="antrian" style="width:395px;height:217px;">
+                <div id="ruangan_<?php echo $ruangan->ruangan_id; ?>" class="antrian" style="width:290px;height:150px;">
                     <div class="ruangan" id="ruangan_<?php echo $i; ?>">
                         <span><?php echo strtoupper($ruangan->ruangan->ruangan_nama); ?></span>
                     </div>
