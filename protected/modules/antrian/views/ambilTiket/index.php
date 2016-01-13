@@ -1,24 +1,25 @@
 <style>
+    
     body{
         background-image:url("<?php echo Yii::app()->request->baseUrl; ?>/images/antrian/bg_kiosk_antrian.jpg"); //default
         background-repeat:no-repeat;
         background-size:cover;
     }
+    
     button.disabled{
         background:url("images/process-working.gif") no-repeat !important;
         background-position: top center !important;
     }
     button.btn-tiket {
-        width:340px;
+        width:300px;
         height:140px;
         background:	url("images/antrian/button a tanpa text.png") no-repeat;
         background-size: 100% 100%;
         border:none;
-        margin: 256px -25px 0px 128px;
         vertical-align: top;
         font-family: Arial, Helvetica, sans-serif;
         color:white;
-        font-size:38px;
+        font-size:35px;
         letter-spacing:0px;
         font-weight: bold;
         text-shadow: 2px 2px 6px #000000;
@@ -30,23 +31,46 @@
 
     .keterangan{
         /*color:#000000;*/
-        width:100%;
-        height:275px;
-        border:none;
-        margin: 32px 0px 0px 32px;
-        padding: 0px 0px 0px 420px;
-        vertical-align: top;
+        // margin: 32px 0px 0px 32px;
         font-size:20px;
-        /*text-indent: 10px;*/
-        text-align: left;
+        /*text-indent: 10px;*/ 
         font-weight: bold;
         color: #D7970B;
         text-shadow: 1px 1px 1px #000;
+        text-align: center;
     }
     
     #btn-antrian-b{
         margin-right: 25px;
         margin-left: 80px;
+    } 
+    
+    .btns {
+        float: left;
+        margin-right: 100px;
+        text-align: center;
+        width: 300px;
+    }
+    
+    .bases {
+        text-align: center;
+        width: 100%;
+        margin-left: calc((100% - (355px * 3))/2);
+        margin-top: 200px;
+    }
+    
+    .content {
+        width: 100%;
+        padding: 0px;
+        margin: 0px;
+        position:static;
+        display: block;
+        text-align: center;
+    }
+    
+    .block-footer-antrian {
+        position: absolute;
+        bottom: 0px;
     }
 </style>
 
@@ -65,7 +89,7 @@
                       'onclick'=>"window.location.href = window.location.href"));  ?>
         </div>
     </div>    
-    <div id="contentAntrian" style="height:500px;width:99%;background-size:cover;">
+    <div id="contentAntrian" style="width:100%;background-size:cover;">
     <div class="content">
         <?php echo $form->hiddenField($model,'ruangan_id', array('readonly'=>true)); ?>
         <?php echo $form->hiddenField($model,'carabayar_id', array('readonly'=>true)); ?>
@@ -74,35 +98,27 @@
         <?php echo $form->hiddenField($model,'loket_id', array('readonly'=>true)); ?>
         <?php echo $form->hiddenField($model,'noantrian', array('readonly'=>true)); ?>
 
-
+        <div class="bases">
         <?php
-        if(count($modLokets) > 0){
-            foreach ($modLokets as $key => $loket) {
-                echo CHtml::htmlButton(strtoupper($loket->loket_nama),
-                                         array('onclick'=>'simpan(this,'.$loket->loket_id.','.$loket->carabayar_id.')',
-                                        'id'=>'btn-'.strtolower(str_replace(" ","-",$loket->loket_nama)) ,
-                                        'class'=>'btn-tiket',
-                ));
-            }
-        }
+            if(count($modLokets) > 0){
+                foreach ($modLokets as $key => $loket) {
+                    echo "<div class='btns'>";
+                    echo CHtml::htmlButton(strtoupper($loket->loket_nama),
+                                             array('onclick'=>'simpan(this,'.$loket->loket_id.','.$loket->carabayar_id.')',
+                                            'id'=>'btn-'.strtolower(str_replace(" ","-",$loket->loket_nama)) ,
+                                            'class'=>'btn-tiket',
+                    ));
+                        echo "<div class='keterangan'>";
+                        echo $loket->loket_fungsi;
+                        echo "</div>";
 
-        ?>
-        <div class="keterangan">
-            <div class = "row-fluid">
-                <?php 
-                     if(count($modLokets)){
-                         foreach ($modLokets as $i => $loket){
-                             echo "<div class='span6'>";
-                             echo $loket->loket_fungsi;
-                             echo "</div>";
-                         }
-                     } 
-                    
-                ?>
-                
-            </div>
+                    echo "</div>";
+                }
+            }
+
+            ?>
+            <iframe id="print_win" src="" style="display: none;"></iframe>
         </div>
-        <iframe id="print_win" src="" style="display: none;"></iframe>
      </div>
     </div>
     <?php $this->endWidget(); ?>
