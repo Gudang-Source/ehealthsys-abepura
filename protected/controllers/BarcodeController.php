@@ -12,6 +12,13 @@ class BarcodeController extends Controller
                         'canvasWidth'=>'230',
                         'type'=>'code128',
                     ),
+                    'myBarcodeKartuPasien'=>array(
+                        'class'=>'MyBarcodeAction',
+                        'canvasWidth'=>'150',
+                        'canvasHeight'=>'60',
+                        'type'=>'code128',
+                        'is_text'=>true,
+                    ),
             );
     }
 }

@@ -26,8 +26,8 @@ class TampilAntrianKePendaftaranController extends Controller
      * @throws CHttpException
      */
     public function actionGetAntrians(){
-        if(Yii::app()->request->isAjaxRequest)
-        {
+        //if(Yii::app()->request->isAjaxRequest)
+        //{
             $format = new MyFormatter();
             $data = array();
 
@@ -41,18 +41,20 @@ class TampilAntrianKePendaftaranController extends Controller
 							$modAntrian = $this->loadModelAntrianById($loket->loket_id,$_POST['antrian_id']);
 							$modJumlah = $this->loadDataStatistik($loket->loket_id);
 						}
-						$data["an_".$i] = $modAntrian->attributes;
-						$data["an_".$i] += $loket->attributes;
-						$data["an_".$i] += $modJumlah;
+                                                if (!empty($modAntrian)) {
+                                                    $data["an_".$i] = $modAntrian->attributes;
+                                                    $data["an_".$i] += $loket->attributes;
+                                                    $data["an_".$i] += $modJumlah;
+                                                }
 					}
 				}
 			}
             
             echo CJSON::encode($data);
             Yii::app()->end();
-        }
-        else
-            throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+        //}
+        //else
+            //throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
     }
 	
 	protected function loadDataStatistik($loket_id) {

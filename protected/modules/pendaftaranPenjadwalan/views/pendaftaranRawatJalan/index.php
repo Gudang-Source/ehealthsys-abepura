@@ -5,7 +5,7 @@
             'enableAjaxValidation'=>false,
             'type'=>'horizontal',
             'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event);'),//dimatikan karena pakai verifikasi >> ,'onsubmit'=>'return requiredCheck(this);'
-            'focus'=>'#'.CHtml::activeId($modPasien,'jenisidentitas'),
+            'focus'=>'#'.CHtml::activeId($modPasien,'no_rekam_medik'),
     )); ?>
     <?php 
     if(isset($_GET['sukses'])){

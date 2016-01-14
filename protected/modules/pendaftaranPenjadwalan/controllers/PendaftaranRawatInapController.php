@@ -36,6 +36,7 @@ class PendaftaranRawatInapController extends PendaftaranRawatJalanController
             $modRujukanBpjs=new PPRujukanbpjsT;
             $modTindakan=new PPTindakanPelayananT;
             $modPembayaran = new PPPembayaranpelayananT();
+            $modAntrian=new PPAntrianT;
             $modAsuransiPasien=new PPAsuransipasienM;
             $modAsuransiPasienBpjs =new PPAsuransipasienbpjsM;
 			$modAsuransiPasienBadak =new PPAsuransipasienbadakM();
@@ -86,6 +87,7 @@ class PendaftaranRawatInapController extends PendaftaranRawatJalanController
                     $modRujukan=PPRujukanT::model()->findByPk($model->rujukan_id);
                 }
                 $dataTindakans=PPTindakanPelayananT::model()->findAllByAttributes(array('pendaftaran_id'=>$model->pendaftaran_id),"karcis_id is not null");
+                $modAntrian->tglantrian = $format->formatDateTimeForUser($modAntrian->tglantrian);
             }
 
             if(isset($idSep)){
@@ -324,6 +326,7 @@ class PendaftaranRawatInapController extends PendaftaranRawatJalanController
                 'modRujukan'=>$modRujukan,
                 'modRujukanBpjs'=>$modRujukanBpjs,
                 'modTindakan'=>$modTindakan,
+                'modAntrian'=>$modAntrian,
                 'dataTindakans'=>$dataTindakans,
                 'modAsuransiPasien'=>$modAsuransiPasien,
                 'modAsuransiPasienBpjs'=>$modAsuransiPasienBpjs,
@@ -376,6 +379,9 @@ class PendaftaranRawatInapController extends PendaftaranRawatJalanController
             $model->keterangan_pendaftaran = $post['keterangan_pendaftaran'];
 			
             if($model->save()){
+                if(!empty($model->antrian_id)){
+                    PPAntrianT::model()->updateByPk($model->antrian_id,array('pendaftaran_id'=>$model->pendaftaran_id));
+                }
                 $this->pendaftarantersimpan = true;
             }
             return $model;
