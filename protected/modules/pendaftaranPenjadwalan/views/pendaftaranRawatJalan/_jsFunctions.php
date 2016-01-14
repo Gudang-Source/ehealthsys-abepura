@@ -1777,6 +1777,7 @@ $( document ).ready(function(){
             }
         }
     ?>
+    $(".f_rm:first").focus();
 });
 
 </script>

@@ -1,4 +1,71 @@
 <style>
+    @media screen {
+	@page { size: 86mm 53mm; margin: 0px; }
+        .content-depan {
+            width: 83mm;
+            height: 50mm;
+            border: 1px solid black;
+            background-color: gray;
+        }
+
+        .pasien {
+            font-weight: bold;
+        }
+
+        .tab-pasien td {
+            padding: 0px;
+            border-collapse: collapse;
+            font-size: 10px;
+        }
+
+        .tab-pasien {
+            position: absolute;
+            top: 35mm;
+            left: 4mm;
+        }
+        
+        .barcode {
+            width: 32mm;
+            height: 14mm;
+            position: absolute;
+            top: 21mm;
+            left: 4mm;
+        }
+    }
+    
+    @media print {
+	@page { size: 86mm 53mm; margin: 0px; }
+        .content-depan {
+            width: 83mm;
+            height: 50mm;
+        }
+
+        .pasien {
+            font-weight: bold;
+        }
+
+        .tab-pasien td {
+            padding: 0px;
+            border-collapse: collapse;
+            font-size: 10px;
+        }
+
+        .tab-pasien {
+            position: absolute;
+            top: 35mm;
+            left: 4mm;
+        }
+        
+        .barcode {
+            width: 32mm;
+            height: 14mm;
+            position: absolute;
+            top: 21mm;
+            left: 4mm;
+        }
+    }
+    
+    <?php /*
     .content-depan{
     -webkit-transform: rotate(-90deg);
     -moz-transform: rotate(-90deg);
@@ -6,8 +73,8 @@
     -ms-transform: rotate(0deg);
     transform: rotate(0deg);
         color:#000000;
-        /*width:8.6cm;*/
-        width:18.6cm;
+        /*width:8.6cm;*/ /*
+        width:8.6cm;
         height:5.5cm;
         border:0px solid;
         margin: 0px 0px 0px 0px;
@@ -18,7 +85,7 @@
         <?php } ?>
         position:absolute;
     }
-    <?php if(Yii::app()->user->getState('iskartudgntemplate')){ ?>
+    <?php /* if(Yii::app()->user->getState('iskartudgntemplate')){ ?>
     .content-belakang{
         color:#000000;
         width:8.6cm;
@@ -30,7 +97,7 @@
             background-repeat:no-repeat;
         position:absolute;
     }
-    <?php } ?>
+    <?php } */ /* ?>
     .pasien{
         font-weight: bold;
         width:35%;
@@ -66,27 +133,28 @@
         position: relative;
         font-size: 9px;
     }
+     * 
+     */ ?>
 </style>
+<?php // echo "index.php?r=barcode/myBarcode&code=".$modPasien->no_rekam_medik."&is_text="; die; ?>
 <div class="content-depan">
     <div class="pasien">
         <div class="data">
-            <div style="margin-left:30px"><?php echo $modPasien->no_rekam_medik; ?></div>
-            <?php echo $modPasien->nama_pasien.", ".$modPasien->namadepan;?><br>
-            <?php echo MyFormatter::formatDateTimeForUser($modPasien->tanggal_lahir); ?> / 
-            <?php echo $modPasien->jeniskelamin; ?><br>
-            <?php echo $modPasien->alamat_pasien; ?><br>
-            <?php echo "RT ".$modPasien->rt." / RW".$modPasien->rw; ?><br>
-            <?php echo $modPasien->kabupaten->kabupaten_nama; ?><br>
+            <table class="tab-pasien">
+                <tr><td>Nama</td><td>: </td><td><?php echo strtoupper($modPasien->nama_pasien); ?></td></tr>
+                <tr><td>No RM</td><td>: </td><td><?php echo strtoupper($modPasien->no_rekam_medik); ?></td></tr>
+                <tr><td>Tgl Lahir</td><td>: </td><td><?php echo strtoupper(MyFormatter::formatDateTimeForUser($modPasien->tanggal_lahir)); ?><br></td></tr>
+            </table>
         </div>   
     </div>
-	<div class="barcode" >
-		<img src="index.php?r=barcode/myBarcode&code=<?php echo $modPasien->no_rekam_medik; ?>&is_text=" style="transform:scale(2.0)">          
+	<div class="barcode">
+		<img src="index.php?r=barcode/myBarcodeKartuPasien&code=<?php echo $modPasien->no_rekam_medik; ?>&is_text=" style="transform:scale(1.0)">          
 	</div>
-    <?php if (!empty($modPasien->photopasien)) { ?>
+    <?php /* if (!empty($modPasien->photopasien)) { ?>
         <div class="foto">
             <?php $url_photopasien = (!empty($modPasien->photopasien) ? Params::urlPasienTumbsDirectory()."kecil_".$modPasien->photopasien : ""); //Params::urlPhotoPasienDirectory()."no_photo.jpeg")?>
             <img src="<?php echo $url_photopasien ?>">
         </div>
-    <?php } ?>
-</div><br>
+    <?php } */ ?>
+</div>
 <!--<div class="content-belakang"></div>  >>> RND-9125-->

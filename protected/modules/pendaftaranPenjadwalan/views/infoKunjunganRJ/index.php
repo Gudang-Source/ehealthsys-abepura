@@ -281,38 +281,42 @@ $('.search-form form').submit(function(){
                 <?php
                 $modPPInfoKunjunganRJV->tgl_awal  = $format->formatDateTimeForUser($modPPInfoKunjunganRJV->tgl_awal);
                 ?>
-                <?php echo $form->labelEx($modPPInfoKunjunganRJV,'tgl_pendaftaran', array('class'=>'control-label')) ?>
-                <div class="controls">  
-                    <?php $this->widget('MyDateTimePicker',array(
-                                        'model'=>$modPPInfoKunjunganRJV,
-                                        'attribute'=>'tgl_awal',
-                                        'mode'=>'date',
-                                        'options'=> array(
-                                           'maxDate'=>'d',
-                                           'dateFormat'=>Params::DATE_FORMAT,
-                                        ),
-                                        'htmlOptions'=>array('readonly'=>true,
-                                        'class'=>'dtPicker2',
-                                        'onkeypress'=>"return $(this).focusNextInputField(event)"),
-                    )); ?>
-                </div> 
+                <div class="control-group">
+                    <?php echo $form->labelEx($modPPInfoKunjunganRJV,'tgl_pendaftaran', array('class'=>'control-label')) ?>
+                    <div class="controls">  
+                        <?php $this->widget('MyDateTimePicker',array(
+                                            'model'=>$modPPInfoKunjunganRJV,
+                                            'attribute'=>'tgl_awal',
+                                            'mode'=>'date',
+                                            'options'=> array(
+                                               'maxDate'=>'d',
+                                               'dateFormat'=>Params::DATE_FORMAT,
+                                            ),
+                                            'htmlOptions'=>array('readonly'=>true,
+                                            'class'=>'dtPicker2',
+                                            'onkeypress'=>"return $(this).focusNextInputField(event)"),
+                        )); ?>
+                    </div> 
+                </div>
                 <?php $modPPInfoKunjunganRJV->tgl_akhir = $format->formatDateTimeForUser($modPPInfoKunjunganRJV->tgl_akhir); ?>
-                <?php echo CHtml::label(' Sampai Dengan',' Sampai Dengan', array('class'=>'control-label')) ?>
-                <div class="controls">  
-                    <?php $this->widget('MyDateTimePicker',array(
-                                        'model'=>$modPPInfoKunjunganRJV,
-                                        'attribute'=>'tgl_akhir',
-                                        'mode'=>'date',
-                                        'options'=> array(
-                                           'maxDate'=>'d',
-                                           'dateFormat'=>Params::DATE_FORMAT,
-                                       ),
-                                        'htmlOptions'=>array('readonly'=>true,
-                                        'class'=>'dtPicker2',
-                                        'onkeypress'=>"return $(this).focusNextInputField(event)"),
-                                   ));
-                    ?>
-                </div> 
+                <div class="control-group">
+                    <?php echo CHtml::label(' Sampai Dengan',' Sampai Dengan', array('class'=>'control-label')) ?>
+                    <div class="controls">  
+                        <?php $this->widget('MyDateTimePicker',array(
+                                            'model'=>$modPPInfoKunjunganRJV,
+                                            'attribute'=>'tgl_akhir',
+                                            'mode'=>'date',
+                                            'options'=> array(
+                                               'maxDate'=>'d',
+                                               'dateFormat'=>Params::DATE_FORMAT,
+                                           ),
+                                            'htmlOptions'=>array('readonly'=>true,
+                                            'class'=>'dtPicker2',
+                                            'onkeypress'=>"return $(this).focusNextInputField(event)"),
+                                       ));
+                        ?>
+                    </div> 
+                </div>
                 <?php echo $form->textFieldRow($modPPInfoKunjunganRJV,'no_rekam_medik',array('class'=>'span3 numberOnly','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50,'placeholder'=>'Ketik No. Rekam Medis')); ?>
                 <?php echo $form->textFieldRow($modPPInfoKunjunganRJV,'nama_pasien',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50,'placeholder'=>'Ketik Nama Pasien')); ?>
                 <?php echo $form->textAreaRow($modPPInfoKunjunganRJV,'alamat_pasien',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50,'placeholder'=>'Ketik Alamat Pasien')); ?>

@@ -88,7 +88,7 @@
                                 'htmlOptions'=>array('placeholder'=>'Ketik No. Rekam Medik','rel'=>'tooltip','title'=>'Ketik No. RM untuk mencari pasien',
                                     'onkeyup'=>"return $(this).focusNextInputField(event)",
                                     'onblur'=>"if($(this).val()=='') setPasienBaru(); else setPasienLama('',this.value)",
-                                    'class'=>'numbers-only'),
+                                    'class'=>'numbers-only f_rm'),
                             )); 
             ?>
             <?php echo $form->error($modPasien,'no_rekam_medik'); ?>                        
@@ -222,7 +222,6 @@
         </div>
     </div>
     <?php echo $form->dropDownListRow($modPasien,'statusperkawinan', LookupM::getItems('statusperkawinan'),array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 'onchange'=>'setNamaDepan()','class'=>'span3')); ?>
-    <?php echo $form->textFieldRow($modPasien,'nama_ayah',array('placeholder'=>'Nama Ayah Kandung Pasien','class'=>'span3 '.$nama_kapital, 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
 </div>
 <div class = "span4">
     <?php echo $form->textAreaRow($modPasien,'alamat_pasien',array('placeholder'=>'Alamat Lengkap Pasien','rows'=>2, 'cols'=>50, 'class'=>'span3 '.$alamat_kapital, 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>

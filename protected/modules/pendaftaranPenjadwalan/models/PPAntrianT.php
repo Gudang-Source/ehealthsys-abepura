@@ -75,13 +75,17 @@ class PPAntrianT extends AntrianT
         /**
          * menampilkan loket antrian (loket_m)
          */
-        public function getLokets($loket_id = null){
+        public function getLokets($loket_id = null, $israwatinap = false){
             $data = array();
             $criteria = new CDbCriteria();
             if (!empty($loket_id)){
                 $criteria->addCondition("loket_id = ".$loket_id);
             }
             $criteria->addCondition("ispendaftaran = TRUE");
+            
+            if ($israwatinap) $criteria->addCondition("israwatinap = true");
+            else $criteria->addCondition("israwatinap = false");
+            
             $criteria->addCondition("loket_aktif = TRUE");
             $criteria->order = "loket_nourut ASC";
             $modLokets = LoketM::model()->findAll($criteria);
