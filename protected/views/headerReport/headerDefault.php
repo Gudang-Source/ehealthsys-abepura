@@ -7,9 +7,6 @@
                  <img src="<?php echo Params::urlProfilRSDirectory().$data->logo_rumahsakit ?> " style="float:left; max-width: 80px; width:80px;" class='image_report'/>
             </TD>
         </TR>
-        <TD width="15%">
-            <img style="float:right; max-width: 90px; width:80px; margin-top:35px;" class='image_report'/>
-        </TD>
         <TD align="center">
             <div align="center">
                 <B>
@@ -27,13 +24,12 @@
                 <FONT FACE="Liberation Serif" color="black">Telp./Fax. <?php echo $data->no_telp_profilrs ?> / <?php echo $data->no_faksimili ?></FONT>
             </div>
         </TD>
-        <TD width="15%">&nbsp;</TD>
     </TR>
     <TR>
-        <TD colspan="4" HEIGHT=2 style="border-bottom: 1px solid #000000">&nbsp;</TD>
+        <TD colspan="2" HEIGHT=2 style="border-bottom: 1px solid #000000">&nbsp;</TD>
     </TR>
     <TR>
-        <TD ALIGN=CENTER colspan="4">
+        <TD ALIGN=CENTER colspan="2">
             <font color="black"><h5><?php echo ((isset($judulLaporan)) ? $judulLaporan : null); ?></h5></font>
         </TD>
     </TR>    
