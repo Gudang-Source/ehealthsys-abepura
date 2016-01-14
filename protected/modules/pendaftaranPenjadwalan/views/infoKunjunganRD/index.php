@@ -241,10 +241,11 @@
         <table width="100%">
             <tr>
                 <td width="30%">
-                  <?php echo $form->labelEx($modInfoKunjunganRDV,'tgl_pendaftaran', array('class'=>'control-label')) ?>
-                      <div class="controls">  
-                        <?php $modInfoKunjunganRDV->tgl_awal=$format->formatDateTimeForUser($modInfoKunjunganRDV->tgl_awal); ?>
-                         <?php $this->widget('MyDateTimePicker',array(
+                    <div class="control-group">
+                        <?php echo $form->labelEx($modInfoKunjunganRDV,'tgl_pendaftaran', array('class'=>'control-label')) ?>
+                        <div class="controls">  
+                            <?php $modInfoKunjunganRDV->tgl_awal=$format->formatDateTimeForUser($modInfoKunjunganRDV->tgl_awal); ?>
+                            <?php $this->widget('MyDateTimePicker',array(
                                              'model'=>$modInfoKunjunganRDV,
                                              'attribute'=>'tgl_awal',
                                              'mode'=>'date',
@@ -255,14 +256,15 @@
                                              'htmlOptions'=>array('readonly'=>true,
                                              'class'=>'dtPicker2',
                                              'onkeypress'=>"return $(this).focusNextInputField(event)"),
-                                        )); ?>
-                          <?php $modInfoKunjunganRDV->tgl_awal=$format->formatDateTimeForDb($modInfoKunjunganRDV->tgl_awal); ?>
-
-                  </div> 
-                         <?php echo CHtml::label(' Sampai Dengan',' Sampai Dengan', array('class'=>'control-label')) ?>
-                       <div class="controls">  
-                        <?php $modInfoKunjunganRDV->tgl_akhir=$format->formatDateTimeForUser($modInfoKunjunganRDV->tgl_akhir); ?>
-                        <?php $this->widget('MyDateTimePicker',array(
+                                            )); ?>
+                            <?php $modInfoKunjunganRDV->tgl_awal=$format->formatDateTimeForDb($modInfoKunjunganRDV->tgl_awal); ?>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <?php echo CHtml::label(' Sampai Dengan',' Sampai Dengan', array('class'=>'control-label')) ?>
+                        <div class="controls">  
+                            <?php $modInfoKunjunganRDV->tgl_akhir=$format->formatDateTimeForUser($modInfoKunjunganRDV->tgl_akhir); ?>
+                            <?php $this->widget('MyDateTimePicker',array(
                                              'model'=>$modInfoKunjunganRDV,
                                              'attribute'=>'tgl_akhir',
                                              'mode'=>'date',
@@ -274,8 +276,9 @@
                                              'class'=>'dtPicker2',
                                              'onkeypress'=>"return $(this).focusNextInputField(event)"),
                                         )); ?>
-                           <?php $modInfoKunjunganRDV->tgl_akhir=$format->formatDateTimeForDb($modInfoKunjunganRDV->tgl_akhir); ?>
-                       </div> 
+                            <?php $modInfoKunjunganRDV->tgl_akhir=$format->formatDateTimeForDb($modInfoKunjunganRDV->tgl_akhir); ?>
+                        </div>
+                    </div>
                      <?php echo $form->textFieldRow($modInfoKunjunganRDV,'no_rekam_medik',array('placeholder'=>'Ketik No. Rekam Medik','class'=>'span3 numberOnly','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
                      <?php echo $form->textFieldRow($modInfoKunjunganRDV,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
                 </td>

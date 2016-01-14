@@ -67,6 +67,7 @@ function setFormAntrian(record){
             }
             $("#dialog-panggilantrian > .dialog-content").html(data.form_antrian);
             $("#dialog-panggilantrian > .dialog-content").removeClass('animation-loading');
+            $(".f_rm:first").focus();
             return true;
         },
         error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}

@@ -13,7 +13,7 @@
     <div class="control-group">
         <?php echo CHtml::label("Dari Instalasi", 'instalasi_id', array('class'=>'control-label')); ?>
         <div class="controls">
-            <?php echo CHtml::dropDownList('instalasi_id',Params::INSTALASI_ID_RJ,CHtml::listData(PPPasienAdmisiT::model()->getInstalasis(),'instalasi_id','instalasi_nama'),array('onchange'=>'setJudulDialogPasien(this.value);setPasienRJRDReset();refreshDialogKunjungan();','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)",)); ?>
+            <?php echo CHtml::dropDownList('instalasi_id',Params::INSTALASI_ID_RJ,CHtml::listData(PPPasienAdmisiT::model()->getInstalasis(),'instalasi_id','instalasi_nama'),array('onchange'=>'setJudulDialogPasien(this.value);setPasienRJRDReset();refreshDialogKunjungan(); $(".f_rm").focus();','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)",)); ?>
         </div>
     </div>
 	<div class="control-group">
@@ -135,7 +135,7 @@
                                 'htmlOptions'=>array('placeholder'=>'Ketik No. Rekam Medik','rel'=>'tooltip','title'=>'Ketik No. RM untuk mencari pasien',
                                     'onkeyup'=>"return $(this).focusNextInputField(event)",
                                     'onblur'=>"if($(this).val()=='') setPasienRJRDReset(); else setPasienRJRD('','','',this.value)",
-                                    'class'=>'numbers-only'),
+                                    'class'=>'numbers-only f_rm'),
                             )); 
             ?>
             <?php echo $form->hiddenField($modPasien,'pasien_id',array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10)); ?>

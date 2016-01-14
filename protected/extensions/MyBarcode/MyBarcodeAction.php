@@ -59,7 +59,8 @@ class MyBarcodeAction extends CAction
             
             $this->font = dirname(__FILE__) . '/font/NOTTB___.TTF';
             
-            if (!empty($this->font) ){
+            // echo $this->font; die;
+            if (!empty($this->font)){
                 $box = imagettfbbox($this->fontSize, 0, $this->font, $data['hri']);
                 $len = $box[2] - $box[0];
                 Barcode::rotate(-$len / 2, ($data['height'] / 2) + $this->fontSize + $this->marge, $this->angle, $xt, $yt);
