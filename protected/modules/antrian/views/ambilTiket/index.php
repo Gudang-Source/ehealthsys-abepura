@@ -1,7 +1,7 @@
 <style>
     
     body{
-        background-image:url("<?php echo Yii::app()->request->baseUrl; ?>/images/antrian/bg_kiosk_antrian.jpg"); //default
+        background-image:url("<?php echo Yii::app()->request->baseUrl; ?>/images/antrian/ekios_bg_antrian_3.jpg"); //default
         background-repeat:no-repeat;
         background-size:cover;
     }
@@ -13,7 +13,7 @@
     button.btn-tiket {
         width:300px;
         height:140px;
-        background:	url("images/antrian/button a tanpa text.png") no-repeat;
+        background:	url("images/antrian/button a tanpa text ijo.png") no-repeat;
         background-size: 100% 100%;
         border:none;
         vertical-align: top;
@@ -25,7 +25,7 @@
         text-shadow: 2px 2px 6px #000000;
     }
     button.btn-tiket:hover{
-        background:	url("images/antrian/button a tanpa text (hover).png") no-repeat;
+        background:	url("images/antrian/button a tanpa text.png") no-repeat;
         background-size: 100% 100%;
     }
 
@@ -35,8 +35,8 @@
         font-size:20px;
         /*text-indent: 10px;*/ 
         font-weight: bold;
-        color: #D7970B;
-        text-shadow: 1px 1px 1px #000;
+        color: white;
+        text-shadow: 2px 2px 1px #000;
         text-align: center;
     }
     
