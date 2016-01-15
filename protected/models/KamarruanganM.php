@@ -48,7 +48,7 @@ class KamarruanganM extends CActiveRecord
 		return array(
 			array('kamarruangan_nokamar, kamarruangan_jmlbed, kamarruangan_nobed', 'required'),
 			array('kelaspelayanan_id, ruangan_id, kamarruangan_jmlbed, riwayatruangan_id', 'numerical', 'integerOnly'=>true),
-			array('kamarruangan_nokamar, kamarruangan_nobed', 'length', 'max'=>10),
+			array('kamarruangan_nokamar, kamarruangan_nobed', 'length', 'max'=>100),
 			array('kamarruangan_image', 'length', 'max'=>100),
 			array('kamarruangan_status, kamarruangan_aktif, keterangan_kamar', 'safe'),
 			// The following rule is used by search().
@@ -79,7 +79,7 @@ class KamarruanganM extends CActiveRecord
 			'kamarruangan_id' => 'Kamar Ruangan',
 			'kelaspelayanan_id' => 'Kelas Pelayanan',
 			'ruangan_id' => 'Ruangan',
-			'kamarruangan_nokamar' => 'No. Kamar',
+			'kamarruangan_nokamar' => 'Nama Kamar',
 			'kamarruangan_jmlbed' => 'Jumlah Bed',
 			'kamarruangan_nobed' => 'No. Bed',
 			'kamarruangan_status' => 'Terpakai',
@@ -145,7 +145,7 @@ class KamarruanganM extends CActiveRecord
         }
         
         public function beforeSave() {
-            $this->kamarruangan_nokamar = ucwords(strtolower($this->kamarruangan_nokamar));
+            $this->kamarruangan_nokamar = (strtolower($this->kamarruangan_nokamar));
             $this->kamarruangan_nobed = strtoupper($this->kamarruangan_nobed);
 
             return parent::beforeSave();
