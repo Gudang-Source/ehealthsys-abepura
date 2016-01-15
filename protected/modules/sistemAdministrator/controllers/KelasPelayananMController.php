@@ -117,9 +117,11 @@ class KelasPelayananMController extends MyAuthController
 
 		if(isset($_POST['SAKelasPelayananM']))
 		{
-			
-                         $jumlahRuangan=COUNT($_POST['ruangan_id']);
-                         $kelasPelayanan_id=$model->kelaspelayanan_id;
+                    
+                    $transaction = Yii::app()->db->beginTransaction();
+                    $hapuskelasRuangan=KelasruanganM::model()->deleteAll('kelaspelayanan_id='.$id.'');
+                    if (isset($_POST['ruangan_id'])) {
+                         
 //                         $model->attributes = $_POST['SAKelasPelayananM'];
 //                         echo "<pre>";
 //                            echo  $echo = $_POST['SAKelasPelayananM']['kelaspelayanan_aktif'];
@@ -127,8 +129,9 @@ class KelasPelayananMController extends MyAuthController
 //                         print_r($model->attributes);
 //                         exit();
 //                         $model->kelaspelayanan_aktif = $_POST['SAKelasPelayananM']['kelaspelayanan_aktif'];
-                         $hapuskelasRuangan=KelasruanganM::model()->deleteAll('kelaspelayanan_id='.$kelasPelayanan_id.'');
-                         $transaction = Yii::app()->db->beginTransaction();
+                         
+                         $jumlahRuangan=COUNT($_POST['ruangan_id']);
+                         $kelasPelayanan_id=$model->kelaspelayanan_id;
                             try {
                                      if($jumlahRuangan>0)
                                         {
@@ -153,7 +156,11 @@ class KelasPelayananMController extends MyAuthController
                                 {
                                     $transaction->rollback();
                                     Yii::app()->user->setFlash('error', "Data Ruangan Dan Jenis Kasus Penyakit Gagal Disimpan");
-                                }      
+                                }  
+                    } else {
+                        $transaction->commit();
+                        $this->redirect(array('admin')); 
+                    }
                             
 		}
 
