@@ -31,7 +31,7 @@
                                     )); ?>
                         </div>
                     </div>
-                    <?php echo $form->textFieldRow($model,'kamarruangan_nokamar',array('class'=>'span1', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10)); ?>
+                    <?php echo $form->textFieldRow($model,'kamarruangan_nokamar',array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                     <?php echo $form->textFieldRow($model,'kamarruangan_jmlbed',array('class'=>'span1', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10,'onkeyup'=>'noBed(this)')); ?>                 
                     <?php echo CHtml::hiddenField('jumlahBedSebelumnya'); ?>
 
