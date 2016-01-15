@@ -29,7 +29,7 @@
                             )); ?>
                 </div>
             </div>
-            <?php echo $form->textFieldRow($model,'kamarruangan_nokamar',array('class'=>'span1', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>2)); ?>
+            <?php echo $form->textFieldRow($model,'kamarruangan_nokamar',array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
             <?php echo $form->textFieldRow($model,'kamarruangan_jmlbed',array('class'=>'span1', 'onkeypress'=>"return $(this).focusNextInputField(event);",'maxlength'=>2)); ?>
             <?php echo $form->textFieldRow($model,'kamarruangan_nobed',array('class'=>'span1', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>2)); ?>
             <?php echo $form->checkBoxRow($model,'kamarTerpakai', array('onkeypress'=>"return $(this).focusNextInputField(event);"));?>
