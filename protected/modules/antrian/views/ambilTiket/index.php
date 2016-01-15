@@ -137,9 +137,11 @@
     </div>
 </div>
     
-
+<?php $konfig = KonfigsystemK::model()->find(); ?>
 <script type="text/javascript">
 
+    var socket;
+    
     function simpan(obj,loket_id, carabayar_id){
         //salin ke form
         if(!$(obj).hasClass("disabled")){
@@ -155,6 +157,9 @@
                 dataType: "json",
                 success:function(data){
                     var delaytombol = parseInt(data.delaytombol) * parseInt(1000);
+                    <?php if(Yii::app()->user->getState('is_nodejsaktif')){ ?>
+                        socket.emit('send',{conversationID:'antrian',loket_id:loket_id});
+                    <?php } ?>
                     print(data.model.antrian_id);
                     setTimeout(function(){
                         $("button").removeAttr("disabled");
@@ -181,5 +186,17 @@
         }, 
         50000  // fungsi di eksekusi setiap 50 detik sekali
     );
+    
+    $(document).ready(function() {
+        <?php if($konfig->is_nodejsaktif){ ?>
+        var chatServer='<?php echo $konfig->nodejs_host ?>';
+        if (chatServer == ''){
+            chatServer='http://localhost';
+        }
+        var chatPort='<?php echo $konfig->nodejs_port ?>';
+        socket = io.connect(chatServer+':'+chatPort);
+        socket.emit('subscribe', 'antrian');
+        <?php } ?>
+    });
 </script>
 
