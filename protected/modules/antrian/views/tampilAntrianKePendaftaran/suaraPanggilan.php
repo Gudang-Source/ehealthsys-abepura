@@ -132,7 +132,7 @@ if(count($noantrians) > 0){
 
             setPlaylist("<?php echo $i;?>","kodeantri","<?php echo strtolower(trim($modLokets[$i]->loket_singkatan)); ?>");
             setPlaylist("<?php echo $i;?>","diloket","diloket");
-            setPlaylist("<?php echo $i;?>","loket","<?php echo strtolower(trim($modLokets[$i]->loket_nourut)); ?>");
+            setPlaylist("<?php echo $i;?>","loket","<?php echo strtolower(trim($modLokets[$i]->loket_singkatan)); ?>");
 
             <?php 
             if(count($noantrian_split) > 0){

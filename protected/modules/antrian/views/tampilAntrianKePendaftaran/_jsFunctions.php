@@ -85,6 +85,20 @@ function setSuaraPanggilan(noantrians, loket_ids){
     });
 }
 
+function updateStatistik(loket_id) {
+    console.log(loket_id);
+    $.ajax({
+        type:'POST',
+        url:'<?php echo $this->createUrl('updateStatistik'); ?>',
+        data: {loket_id:loket_id},
+        dataType: "json",
+        success:function(data){
+            setTableStatistik($("#loket_"+loket_id),data.stat);
+        },
+        error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
+    });
+}
+
 $( document ).ready(function(){
     setAntrians('');
     <?php if($konfig->is_nodejsaktif){ ?>
@@ -96,7 +110,12 @@ $( document ).ready(function(){
     socket = io.connect(chatServer+':'+chatPort);
     socket.emit('subscribe', 'antrian');
     socket.on('antrian', function(data){
-        setAntrians(data.antrian_id);
+        console.log(data.loket_id);
+        if (typeof data.loket_id !== 'undefined') {
+            updateStatistik(data.loket_id);
+        } else {
+            setAntrians(data.antrian_id);
+        }
     });
     <?php }else{ ?>
     setInterval(function(){setAntrians('');},4000);

@@ -31,12 +31,13 @@ io.sockets.on('connection', function(socket){
 
     io.sockets.in(data.conversationID).emit('notification', {
         modul_id:data.modul_id,
-        status:data.status,
+        status:data.status
     });
 
     io.sockets.in(data.conversationID).emit('antrian', {
         panggil:data.panggil,
         antrian_id:data.antrian_id,
+        loket_id:data.loket_id
     });
 
   });

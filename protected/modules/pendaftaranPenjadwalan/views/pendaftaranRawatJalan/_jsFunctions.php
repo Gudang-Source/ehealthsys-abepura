@@ -1,3 +1,5 @@
+<?php $konfig = KonfigsystemK::model()->find(); ?>
+
 <script type="text/javascript">
 /**
  * set pasien lama
@@ -1739,6 +1741,15 @@ $( document ).ready(function(){
         $("#bth-lihatantrian").parent().parent().hide();
         $(".add-on").hide();
     <?php } ?>
+    <?php 
+    if (!empty($model->antrian_id)) { 
+        $antrian = AntrianT::model()->findByPk($model->antrian_id);
+        if($konfig->is_nodejsaktif){
+        ?>
+        socket.emit('send',{conversationID:'antrian',loket_id:<?php echo $antrian->loket_id; ?>});
+    <?php 
+        }
+    } ?>
 	setUmur($("#<?php echo CHtml::activeId($modPasien, 'tanggal_lahir') ;?>").val());
 	
     // Notifikasi Pasien

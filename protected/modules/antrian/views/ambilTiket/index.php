@@ -13,8 +13,8 @@
     button.btn-tiket {
         width:300px;
         height:140px;
-        background:	url("images/antrian/button a tanpa text ijo.png") no-repeat;
-        background-size: 100% 100%;
+        // background:	url("images/antrian/button a tanpa text ijo.png") no-repeat;
+        
         border:none;
         vertical-align: top;
         font-family: Arial, Helvetica, sans-serif;
@@ -23,11 +23,13 @@
         letter-spacing:0px;
         font-weight: bold;
         text-shadow: 2px 2px 6px #000000;
+        line-height: 1;
     }
+    /*
     button.btn-tiket:hover{
-        background:	url("images/antrian/button a tanpa text.png") no-repeat;
+        // background:	url("images/antrian/button a tanpa text.png") no-repeat;
         background-size: 100% 100%;
-    }
+    }*/
 
     .keterangan{
         /*color:#000000;*/
@@ -56,7 +58,7 @@
         text-align: center;
         width: 100%;
         margin-left: calc((100% - (355px * 3))/2);
-        margin-top: 200px;
+        margin-top: 150px;
     }
     
     .content {
@@ -107,9 +109,10 @@
                                              array('onclick'=>'simpan(this,'.$loket->loket_id.','.$loket->carabayar_id.')',
                                             'id'=>'btn-'.strtolower(str_replace(" ","-",$loket->loket_nama)) ,
                                             'class'=>'btn-tiket',
+                                            'style'=>"background: url('images/antrian/button_".strtolower($loket->loket_singkatan).".png') no-repeat; background-size: 100% 100%;"
                     ));
                         echo "<div class='keterangan'>";
-                        echo $loket->loket_fungsi;
+                        echo strtoupper($loket->loket_fungsi);
                         echo "</div>";
 
                     echo "</div>";
@@ -134,9 +137,11 @@
     </div>
 </div>
     
-
+<?php $konfig = KonfigsystemK::model()->find(); ?>
 <script type="text/javascript">
 
+    var socket;
+    
     function simpan(obj,loket_id, carabayar_id){
         //salin ke form
         if(!$(obj).hasClass("disabled")){
@@ -152,6 +157,9 @@
                 dataType: "json",
                 success:function(data){
                     var delaytombol = parseInt(data.delaytombol) * parseInt(1000);
+                    <?php if($konfig->is_nodejsaktif){ ?>
+                        socket.emit('send',{conversationID:'antrian',loket_id:loket_id});
+                    <?php } ?>
                     print(data.model.antrian_id);
                     setTimeout(function(){
                         $("button").removeAttr("disabled");
@@ -178,5 +186,17 @@
         }, 
         50000  // fungsi di eksekusi setiap 50 detik sekali
     );
+    
+    $(document).ready(function() {
+        <?php if($konfig->is_nodejsaktif){ ?>
+        var chatServer='<?php echo $konfig->nodejs_host ?>';
+        if (chatServer == ''){
+            chatServer='http://localhost';
+        }
+        var chatPort='<?php echo $konfig->nodejs_port ?>';
+        socket = io.connect(chatServer+':'+chatPort);
+        socket.emit('subscribe', 'antrian');
+        <?php } ?>
+    });
 </script>
 

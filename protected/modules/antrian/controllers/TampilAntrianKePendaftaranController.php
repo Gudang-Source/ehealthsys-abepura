@@ -56,6 +56,17 @@ class TampilAntrianKePendaftaranController extends Controller
         //else
             //throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
     }
+    
+    public function actionUpdateStatistik() {
+        $format = new MyFormatter();
+        $data = array();
+        
+        if (isset($_POST['loket_id'])) {
+            $modJumlah = $this->loadDataStatistik($_POST['loket_id']);
+        }
+        echo CJSON::encode(array('stat'=>$modJumlah));
+        Yii::app()->end();
+    }
 	
 	protected function loadDataStatistik($loket_id) {
 		$default = '000';

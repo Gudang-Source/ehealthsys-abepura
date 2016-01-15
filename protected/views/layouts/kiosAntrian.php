@@ -8,7 +8,8 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/animation-loading.css" />
     
     <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/js.sound/jquery.jplayer.min.js'); ?>
-    
+    <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/socket.io.js'); ?>
+        
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
     <script>
             function updateClock ( )
