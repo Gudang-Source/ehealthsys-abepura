@@ -84,7 +84,7 @@
         background-color:#bb0c0c !important; 
     }
 </style>
-<div class="row-fluid judul">NO. ANTRIAN PENDAFTARAN RAWAT JALAN</div>
+<div class="row-fluid judul">NO. ANTRIAN PENDAFTARAN</div>
 <?php echo CHtml::hiddenField('jamsekarang',"",array('readonly'=>true,'class'=>'realtime')) ;?>
 <div class="row-fluid">
     <?php  
@@ -94,7 +94,7 @@
             <div class="span4">
                 <div id="loket_<?php echo $loket->loket_id;?>" class="antrian">
                     <div class="loket-nama" style="background-color:#484848;">
-                        <?php echo strtoupper($loket->loket_nama); ?><br/>DI LOKET <?php echo $loket->loket_nourut; ?>
+                        <?php echo strtoupper($loket->loket_nama); ?><br/>DI LOKET <?php echo $loket->loket_singkatan; ?>
                     </div>
                     <div class="no-antrian">
                         <?php echo $loket->loket_singkatan; ?>-000

@@ -23,6 +23,7 @@
         letter-spacing:0px;
         font-weight: bold;
         text-shadow: 2px 2px 6px #000000;
+        line-height: 1;
     }
     button.btn-tiket:hover{
         background:	url("images/antrian/button a tanpa text.png") no-repeat;
@@ -56,7 +57,7 @@
         text-align: center;
         width: 100%;
         margin-left: calc((100% - (355px * 3))/2);
-        margin-top: 200px;
+        margin-top: 100px;
     }
     
     .content {
@@ -109,7 +110,7 @@
                                             'class'=>'btn-tiket',
                     ));
                         echo "<div class='keterangan'>";
-                        echo $loket->loket_fungsi;
+                        echo strtoupper($loket->loket_fungsi);
                         echo "</div>";
 
                     echo "</div>";

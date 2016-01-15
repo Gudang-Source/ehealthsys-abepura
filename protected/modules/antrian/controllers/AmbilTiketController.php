@@ -11,7 +11,7 @@ class AmbilTiketController extends Controller
             $criteria = new CdbCriteria();
             $criteria->addCondition('loket_aktif = true');
             $criteria->order = "loket_nourut";
-            $modLokets = ANLoketM::model()->findAll('ispendaftaran = TRUE AND israwatinap = FALSE AND loket_aktif=TRUE ORDER BY loket_nourut');
+            $modLokets = ANLoketM::model()->findAll('ispendaftaran = TRUE AND loket_aktif=TRUE ORDER BY loket_nourut');
             $model = new ANAntrianT;
             
             

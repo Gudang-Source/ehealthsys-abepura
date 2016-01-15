@@ -1,6 +1,6 @@
 <table>
     <tr>
-        <td id="label_jmlpasien">JUMLAH <?php echo (strpos(strtolower($loket->loket_nama), 'pasien') !== false)?"":"PASIEN"?> <?php echo strtoupper($loket->loket_nama); ?></td>
+        <td id="label_jmlpasien">JUMLAH <?php echo (strpos(strtolower($loket->loket_namalain), 'pasien') !== false)?"":"PASIEN"?> <?php echo strtoupper($loket->loket_namalain); ?></td>
         <td id="jmlpasien">000</td>
     </tr>
     <tr>
