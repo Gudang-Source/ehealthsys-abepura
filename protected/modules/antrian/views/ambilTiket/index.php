@@ -157,7 +157,7 @@
                 dataType: "json",
                 success:function(data){
                     var delaytombol = parseInt(data.delaytombol) * parseInt(1000);
-                    <?php if(Yii::app()->user->getState('is_nodejsaktif')){ ?>
+                    <?php if($konfig->is_nodejsaktif){ ?>
                         socket.emit('send',{conversationID:'antrian',loket_id:loket_id});
                     <?php } ?>
                     print(data.model.antrian_id);
