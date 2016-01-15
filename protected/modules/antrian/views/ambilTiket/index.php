@@ -13,8 +13,8 @@
     button.btn-tiket {
         width:300px;
         height:140px;
-        background:	url("images/antrian/button a tanpa text ijo.png") no-repeat;
-        background-size: 100% 100%;
+        // background:	url("images/antrian/button a tanpa text ijo.png") no-repeat;
+        
         border:none;
         vertical-align: top;
         font-family: Arial, Helvetica, sans-serif;
@@ -25,10 +25,11 @@
         text-shadow: 2px 2px 6px #000000;
         line-height: 1;
     }
+    /*
     button.btn-tiket:hover{
-        background:	url("images/antrian/button a tanpa text.png") no-repeat;
+        // background:	url("images/antrian/button a tanpa text.png") no-repeat;
         background-size: 100% 100%;
-    }
+    }*/
 
     .keterangan{
         /*color:#000000;*/
@@ -108,6 +109,7 @@
                                              array('onclick'=>'simpan(this,'.$loket->loket_id.','.$loket->carabayar_id.')',
                                             'id'=>'btn-'.strtolower(str_replace(" ","-",$loket->loket_nama)) ,
                                             'class'=>'btn-tiket',
+                                            'style'=>"background: url('images/antrian/button_".strtolower($loket->loket_singkatan).".png') no-repeat; background-size: 100% 100%;"
                     ));
                         echo "<div class='keterangan'>";
                         echo strtoupper($loket->loket_fungsi);
