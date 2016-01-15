@@ -1,7 +1,7 @@
 <style>
     
     body{
-        background-image:url("<?php echo Yii::app()->request->baseUrl; ?>/images/antrian/ekios_bg_antrian_3.png"); //default
+        background-image:url("<?php echo Yii::app()->request->baseUrl; ?>/images/antrian/ekios_bg_antrian_3.jpg"); //default
         background-repeat:no-repeat;
         background-size:cover;
     }
