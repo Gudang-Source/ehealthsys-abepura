@@ -1,7 +1,7 @@
 <style>
     
     body{
-        background-image:url("<?php echo Yii::app()->request->baseUrl; ?>/images/antrian/ekios_bg_antrian_3.jpg"); //default
+        background-image:url("<?php echo Yii::app()->request->baseUrl; ?>/images/antrian/ekios_bg_antrian_3.png"); //default
         background-repeat:no-repeat;
         background-size:cover;
     }
@@ -57,7 +57,7 @@
         text-align: center;
         width: 100%;
         margin-left: calc((100% - (355px * 3))/2);
-        margin-top: 100px;
+        margin-top: 150px;
     }
     
     .content {
