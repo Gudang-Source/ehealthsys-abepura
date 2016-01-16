@@ -145,8 +145,8 @@ class KamarruanganM extends CActiveRecord
         }
         
         public function beforeSave() {
-            $this->kamarruangan_nokamar = (strtolower($this->kamarruangan_nokamar));
-            $this->kamarruangan_nobed = strtoupper($this->kamarruangan_nobed);
+            $this->kamarruangan_nokamar = ($this->kamarruangan_nokamar);
+            $this->kamarruangan_nobed = ($this->kamarruangan_nobed);
 
             return parent::beforeSave();
         }
