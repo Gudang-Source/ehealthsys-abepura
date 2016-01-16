@@ -1,3 +1,5 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/ion.sound.min.js'); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/suara.antrian.js'); ?>
 <div class="white-container">
     <legend class="rim2">Informasi Daftar <b>Pasien Poliklinik</b></legend>
     <?php
