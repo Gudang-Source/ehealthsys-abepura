@@ -1,26 +1,26 @@
 <?php $data=ProfilrumahsakitM::model()->findByPk(Params::DEFAULT_PROFIL_RUMAH_SAKIT); ?>
-<table width="<?php echo ((isset($width)) ? $width : "100%")?>">
+<table width="<?php echo ((isset($width)) ? $width : "100%")?>" class="headers">
     <TR>
         <!--<TD width="15%" height="50%">-->
         <TR>
-            <TD ROWSPAN=2 ALIGN=CENTER VALIGN=MIDDLE>
+            <TD ROWSPAN=2 ALIGN=CENTER VALIGN=MIDDLE class="logo_profil">
                  <img src="<?php echo Params::urlProfilRSDirectory().$data->logo_rumahsakit ?> " style="float:left; max-width: 80px; width:80px;" class='image_report'/>
             </TD>
         </TR>
         <TD align="center">
-            <div align="center">
+            <div align="center" class="nama_profil">
                 <B>
                     <FONT FACE="Liberation Serif" SIZE=4 color="black">
                         <?php echo $data->nama_rumahsakit ?>
                     </FONT>
                 </B>
             </div>
-            <div align="center">
+            <div align="center" class="jalan_profil">
                 <FONT FACE="Liberation Serif" color="black">
                     <?php echo $data->alamatlokasi_rumahsakit ?>
                 </FONT>                
             </div>
-            <div align="center">
+            <div align="center" class="kontak_profil">
                 <FONT FACE="Liberation Serif" color="black">Telp./Fax. <?php echo $data->no_telp_profilrs ?> / <?php echo $data->no_faksimili ?></FONT>
             </div>
         </TD>
@@ -29,7 +29,7 @@
         <TD colspan="2" HEIGHT=2 style="border-bottom: 1px solid #000000">&nbsp;</TD>
     </TR>
     <TR>
-        <TD ALIGN=CENTER colspan="2">
+        <TD ALIGN=CENTER colspan="2" class="judul">
             <font color="black"><h5><?php echo ((isset($judulLaporan)) ? $judulLaporan : null); ?></h5></font>
         </TD>
     </TR>    
