@@ -2,6 +2,7 @@
 <?php 
 $jenissuara = KonfigsystemK::model()->findByPk(Params::DEFAULT_PROFIL_RUMAH_SAKIT)->jenissuaraantrian; 
 $jenissuara = isset($jenissuara)?$jenissuara:'PEREMPUAN';
+
 ?>
 <script type="text/javascript">
 /**
@@ -10,7 +11,7 @@ $jenissuara = isset($jenissuara)?$jenissuara:'PEREMPUAN';
  * @param {type} ii
  * @param {type} file
  * @returns {undefined}
- */
+ */ /*
 function mainkanPertama(){
     $("#jquery_jplayer_<?php echo $modRuangan->ruangan_id;?>_antrian").jPlayer({
         ready: function () {
@@ -48,7 +49,7 @@ function mainkanPertama(){
  * @param {type} ii
  * @param {type} file
  * @returns {undefined}
- */    
+ */    /* 
 function setPlaylist(i,id,file) {
     $("#jquery_jplayer_" +i+"_"+id).jPlayer( {
         ready: function () {
@@ -97,9 +98,11 @@ function setPlaylist(i,id,file) {
         wmode: "window",
         cssSelectorAncestor: "#jp_interface_"+i+"_"+ id,
     });
-}
+} */
 </script>
 
+
+<?php /*
 <div id="jplayer_<?php echo $modRuangan->ruangan_id;?>">
     <div id="jquery_jplayer_<?php echo $modRuangan->ruangan_id;?>_antrian" class="jp-jplayer"></div>
     <div id="jquery_jplayer_<?php echo $modRuangan->ruangan_id;?>_kodeantri" class="jp-jplayer"></div>
@@ -139,4 +142,32 @@ function setPlaylist(i,id,file) {
 $(document).ready(function(){
     mainkanPertama();
 });
+</script>
+ * 
+ */ ?>
+
+<script>
+$(document).ready(function() {
+    setJenisSuaraAntrian("<?php echo Yii::app()->request->baseUrl;?>/data/sounds/antrian/mp3/<?php echo $jenissuara ?>/");
+    registerSuaraAntrian([
+        {'name': 'noantrian'},
+        
+        <?php foreach (str_split(trim($modRuangan->ruangan_singkatan)) as $item) : ?>
+        {'name': '<?php echo strtolower($item); ?>'},
+        <?php endforeach; ?>
+            
+        <?php $noantrian_split = explode(" ", strtolower(MyFormatter::formatNumberTerbilang((int)$noantrian)));
+        if(count($noantrian_split) > 0){
+            foreach($noantrian_split as $ii => $nomor){
+        ?>
+        {'name': '<?php echo strtolower($nomor); ?>'}, 
+        <?php 
+            }
+        } ?>
+                    
+        {'name': 'poliklinik'},
+        {'name': '<?php echo strtolower(trim($modRuangan->ruangan_filesuara)); ?>'},
+    ]);
+});
+
 </script>
