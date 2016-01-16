@@ -31,6 +31,10 @@
             top: 21mm;
             left: 4mm;
         }
+        
+        .ofs {
+            padding-left: 1mm !important;
+        }
     }
     
     @media print {
@@ -62,6 +66,9 @@
             position: absolute;
             top: 21mm;
             left: 4mm;
+        }
+        .ofs {
+            padding-left: 1mm !important;
         }
     }
     
@@ -141,9 +148,9 @@
     <div class="pasien">
         <div class="data">
             <table class="tab-pasien">
-                <tr><td>Nama</td><td>: </td><td><?php echo strtoupper($modPasien->nama_pasien); ?></td></tr>
-                <tr><td>No RM</td><td>: </td><td><?php echo strtoupper($modPasien->no_rekam_medik); ?></td></tr>
-                <tr><td>Tgl Lahir</td><td>: </td><td><?php echo strtoupper(MyFormatter::formatDateTimeForUser($modPasien->tanggal_lahir)); ?><br></td></tr>
+                <tr><td>Nama</td><td>: </td><td class="ofs"><?php echo strtoupper($modPasien->nama_pasien); ?></td></tr>
+                <tr><td>No RM</td><td>: </td><td class="ofs"><?php echo strtoupper($modPasien->no_rekam_medik); ?></td></tr>
+                <tr><td>Tgl Lahir</td><td>: </td><td class="ofs"><?php echo strtoupper(MyFormatter::formatDateTimeForUser($modPasien->tanggal_lahir)); ?><br></td></tr>
             </table>
         </div>   
     </div>
