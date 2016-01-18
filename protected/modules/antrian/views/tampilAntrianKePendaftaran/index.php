@@ -1,6 +1,6 @@
 <style>
     body{
-        background-image: url("images/antrian/bg_antrian.jpg");
+        background-image: url("images/antrian/bg_antrian_1.jpg");
 		background-repeat: no-repeat;
 		background-position: center top;
 		background-size: 100% auto;
