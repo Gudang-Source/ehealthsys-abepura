@@ -96,7 +96,10 @@
 <table width="100%">
     <tr>
         <td width="50%"></td>
-        <td style="text-align: center;">Pendaftaran Penjadwalan</td>
+        <td style="text-align: center;"><?php 
+        $ruangan = RuanganM::model()->findByPk(Yii::app()->user->getState('ruangan_id'));
+        echo $ruangan->ruangan_nama;
+        ?></td>
     </tr>
     <tr height="60px" valign="bottom">
         <td></td>
