@@ -96,11 +96,14 @@
 <table width="100%">
     <tr>
         <td width="50%"></td>
-        <td>Kasir</td>
+        <td style="text-align: center;"><?php 
+        $ruangan = RuanganM::model()->findByPk(Yii::app()->user->getState('ruangan_id'));
+        echo $ruangan->ruangan_nama;
+        ?></td>
     </tr>
     <tr height="60px" valign="bottom">
         <td></td>
-        <td><?php echo $modPegawai->nama_pegawai; ?></td>
+        <td style="text-align: center;"><?php echo $modPegawai->nama_pegawai; ?></td>
     </tr>
 </table>
 
