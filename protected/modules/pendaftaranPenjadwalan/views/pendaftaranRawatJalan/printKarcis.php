@@ -9,7 +9,10 @@
         font-size: 8pt !important;
     }
     body{
-        width:7.9cm;
+        width:100%;
+    }
+    .borderers {
+        border-bottom: 1px dashed black;
     }
 </style>
 <?php echo $this->renderPartial('pendaftaranPenjadwalan.views.pendaftaranRawatJalan._headerPrint'); ?>
@@ -61,7 +64,7 @@
         <td><?php echo $modPendaftaran->ruangan->ruangan_nama; ?></td>
     </tr>
     <tr>
-        <td colspan="3">_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _</td>
+        <td colspan="3" class="borderers"></td>
     </tr>
     <tr>
         <td colspan="3">&nbsp;</td>
