@@ -9,7 +9,7 @@
         font-size: 8pt !important;
     }
     body{
-        width:7.9cm;
+        width:100%;
     }
 </style>
 <?php echo $this->renderPartial('pendaftaranPenjadwalan.views.pendaftaranRawatJalan._headerPrint'); ?>
