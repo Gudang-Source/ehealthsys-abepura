@@ -31,6 +31,13 @@
             top: 21mm;
             left: 4mm;
         }
+        .barcode_rm {
+            position: absolute;
+            top: 29mm;
+            left: 7mm;
+            letter-spacing: 3mm;
+            font-weight: bold;
+        }
         
         .ofs {
             padding-left: 1mm !important;
@@ -66,6 +73,13 @@
             position: absolute;
             top: 21mm;
             left: 4mm;
+        }
+        .barcode_rm {
+            position: absolute;
+            top: 29mm;
+            left: 7mm;
+            letter-spacing: 3mm;
+            font-weight: bold;
         }
         .ofs {
             padding-left: 1mm !important;
@@ -157,6 +171,9 @@
 	<div class="barcode">
 		<img src="index.php?r=barcode/myBarcodeKartuPasien&code=<?php echo $modPasien->no_rekam_medik; ?>&is_text=" style="transform:scale(1.0)">          
 	</div>
+        <div class="barcode_rm">
+                <?php echo $modPasien->no_rekam_medik; ?>
+        </div>
     <?php /* if (!empty($modPasien->photopasien)) { ?>
         <div class="foto">
             <?php $url_photopasien = (!empty($modPasien->photopasien) ? Params::urlPasienTumbsDirectory()."kecil_".$modPasien->photopasien : ""); //Params::urlPhotoPasienDirectory()."no_photo.jpeg")?>
