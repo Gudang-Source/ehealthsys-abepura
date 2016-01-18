@@ -96,11 +96,11 @@
 <table width="100%">
     <tr>
         <td width="50%"></td>
-        <td>Kasir</td>
+        <td style="text-align: center;">Pendaftaran Penjadwalan</td>
     </tr>
     <tr height="60px" valign="bottom">
         <td></td>
-        <td><?php echo $modPegawai->nama_pegawai; ?></td>
+        <td style="text-align: center;"><?php echo $modPegawai->nama_pegawai; ?></td>
     </tr>
 </table>
 
