@@ -84,7 +84,7 @@
         background-color:#bb0c0c !important; 
     }
 </style>
-<div class="row-fluid judul">NO. ANTRIAN PENDAFTARAN</div>
+<div class="row-fluid judul">NOMOR ANTRIAN PENDAFTARAN</div>
 <?php echo CHtml::hiddenField('jamsekarang',"",array('readonly'=>true,'class'=>'realtime')) ;?>
 <div class="row-fluid">
     <?php  
