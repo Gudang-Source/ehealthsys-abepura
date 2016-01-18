@@ -83,8 +83,39 @@
 	#loket_3 .loket-nama{
         background-color:#bb0c0c !important; 
     }
+    .block-footer-antrian {
+        position: absolute;
+        bottom: 0px;
+        width: 100%;
+        
+        background-color: white;
+        
+    }
+    #textrunning {
+        color: #007;
+        text-shadow: none;
+    }
+    
+    #clock {
+        position: absolute;
+        bottom: 0px;
+        right: 0px;
+        color: #007;
+        text-shadow: none;
+        font-weight: bold;
+        font-size: 20px;
+        padding: 0px;
+        padding-left: 6px;
+        padding-right: 6px;
+        background-color: white;
+    }
+    
+    .content {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
 </style>
-<div class="row-fluid judul">NO. ANTRIAN PENDAFTARAN</div>
+<div class="row-fluid judul">NOMOR ANTRIAN PENDAFTARAN</div>
 <?php echo CHtml::hiddenField('jamsekarang',"",array('readonly'=>true,'class'=>'realtime')) ;?>
 <div class="row-fluid">
     <?php  
@@ -110,5 +141,49 @@
     }
     ?>
 </div>
+<div class="block-footer-antrian">
+    <div id="footerAntrian">
+        <marquee direction="left" scrollamount="10" id="textrunning">
+            <?php echo Yii::app()->user->getState('nama_rumahsakit')." - ".Yii::app()->user->getState('motto'); ?>
+        </marquee>
+    </div> 
+    <div id="footerClock">
+        <div id="clock"></div>
+    </div>
+</div>
 <?php echo $this->renderPartial('_jsFunctions',array('model'=>$model,'konfig'=>$konfig)); ?>
-<div id="suarapanggilan" ></div> <!-- >
+<div id="suarapanggilan" ></div>
+<script>
+            function updateClock ( )
+            {
+                var currentTime = new Date ( );
+                var currentHours = currentTime.getHours ( );
+                var currentMinutes = currentTime.getMinutes ( );
+                var currentSeconds = currentTime.getSeconds ( );
+                
+                // Pad the minutes and seconds with leading zeros, if required
+                currentMinutes = ( currentMinutes < 10 ? "0" : "" ) + currentMinutes;
+                currentSeconds = ( currentSeconds < 10 ? "0" : "" ) + currentSeconds;
+                
+                // Choose either "AM" or "PM" as appropriate
+                var timeOfDay = ( currentHours < 12 ) ? "AM" : "PM";
+                
+                // Convert the hours component to 12-hour format if needed
+                currentHours = ( currentHours > 12 ) ? currentHours - 12 : currentHours;
+                
+                // Convert an hours component of "0" to "12"
+                currentHours = ( currentHours == 0 ) ? 12 : currentHours;
+                
+                // Compose the string for display
+                var currentTimeString = currentHours + ":" + currentMinutes + ":" + currentSeconds + " " + timeOfDay;
+                
+                $("#clock").html(currentTimeString);
+                
+            }
+            
+            $(document).ready(function()
+            {
+                setInterval('updateClock()', 1000);
+            });
+        </script>
+                                 
