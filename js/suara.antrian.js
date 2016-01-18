@@ -47,12 +47,12 @@ function registerSuaraAntrian(arr, jenisSuara) {
     }*/
     
     _suaraLen += suaraTru2.length;
-    console.log("registered sound : " + suaraTru2.length + " - total : " + _suaraLen);
-    console.log("sound path : " + _jenisSuara);
+    // console.log("registered sound : " + suaraTru2.length + " - total : " + _suaraLen);
+    // console.log("sound path : " + _jenisSuara);
     
     if (suaraTru2.length != 0) {
         $.each(suaraTru2, function(idx, val) {
-            console.log ("To be loaded : " + _jenisSuara + val.name + ".mp3");
+            // console.log ("To be loaded : " + _jenisSuara + val.name + ".mp3");
             var sound = new Howl({
                 urls: [_jenisSuara + val.name + ".mp3", _jenisSuara + val.name + ".ogg"],
                 onload: cekPreloadAntrian,
@@ -73,7 +73,7 @@ function registerSuaraAntrian(arr, jenisSuara) {
 
 function cekPreloadAntrian() {
     _suaraIdx++;
-    console.log("Loaded : " + _suaraIdx + " dari " + _suaraLen);
+    // console.log("Loaded : " + _suaraIdx + " dari " + _suaraLen);
     
     if (_suaraIdx == _suaraLen) {
         _isgo = true;
@@ -103,7 +103,7 @@ function cekPreloadAntrian(obj) {
 
 
 function playAntrian() {
-    console.log("Play antrian");
+    // console.log("Play antrian");
     
     if (_isgo) {
         if (_arrSuaraPlayList.length === 0) {
@@ -118,8 +118,8 @@ function playAntrian() {
             _plIdx = 0;
             playAntrian();
         } else {
-            console.log("playlist length : " + _plLen + " , playlist idx : " + _plIdx);
-            console.log("sound play : " + _arrSuaraPlayList[0][_plIdx].name);
+            // console.log("playlist length : " + _plLen + " , playlist idx : " + _plIdx);
+            // console.log("sound play : " + _arrSuaraPlayList[0][_plIdx].name);
             _arrDat[_arrSuaraPlayList[0][_plIdx].name].play();
             _plIdx++;
         }
