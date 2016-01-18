@@ -77,12 +77,14 @@
         padding: 2px 7px;
         border: 1px solid #fff;
     }
+    /*
     #loket_2 .loket-nama{
         background-color:#000099 !important; 
     }
 	#loket_3 .loket-nama{
         background-color:#bb0c0c !important; 
     }
+    */
     .block-footer-antrian {
         position: absolute;
         bottom: 0px;
@@ -119,12 +121,14 @@
 <?php echo CHtml::hiddenField('jamsekarang',"",array('readonly'=>true,'class'=>'realtime')) ;?>
 <div class="row-fluid">
     <?php  
+    $col = array("#0c0", "#00a", "#ea0");
+    $cnt = 0;
     if(count($modLokets) > 0){
         foreach($modLokets AS $i => $loket){
     ?>
             <div class="span4">
                 <div id="loket_<?php echo $loket->loket_id;?>" class="antrian">
-                    <div class="loket-nama" style="background-color:#484848;">
+                    <div class="loket-nama" style="background-color:<?php echo $col[$cnt]; ?>;">
                         <?php echo strtoupper($loket->loket_nama); ?><br/>DI LOKET <?php echo $loket->loket_singkatan; ?>
                     </div>
                     <div class="no-antrian">
@@ -137,14 +141,16 @@
                 </div>
             </div>
     <?php
+            $cnt++;
         }
     }
     ?>
 </div>
+<?php $profil = ProfilrumahsakitM::model()->find(); ?>
 <div class="block-footer-antrian">
     <div id="footerAntrian">
         <marquee direction="left" scrollamount="10" id="textrunning">
-            <?php echo Yii::app()->user->getState('nama_rumahsakit')." - ".Yii::app()->user->getState('motto'); ?>
+            <?php echo $profil->nama_rumahsakit." - ".$profil->motto; ?>
         </marquee>
     </div> 
     <div id="footerClock">
@@ -154,12 +160,19 @@
 <?php echo $this->renderPartial('_jsFunctions',array('model'=>$model,'konfig'=>$konfig)); ?>
 <div id="suarapanggilan" ></div>
 <script>
+            var mon = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
             function updateClock ( )
             {
+                
+                
                 var currentTime = new Date ( );
                 var currentHours = currentTime.getHours ( );
                 var currentMinutes = currentTime.getMinutes ( );
                 var currentSeconds = currentTime.getSeconds ( );
+                
+                var currentDate = currentTime.getDate();
+                var currentMonth = currentTime.getMonth();
+                var currentYear = currentTime.getFullYear();
                 
                 // Pad the minutes and seconds with leading zeros, if required
                 currentMinutes = ( currentMinutes < 10 ? "0" : "" ) + currentMinutes;
@@ -175,7 +188,7 @@
                 currentHours = ( currentHours == 0 ) ? 12 : currentHours;
                 
                 // Compose the string for display
-                var currentTimeString = currentHours + ":" + currentMinutes + ":" + currentSeconds + " " + timeOfDay;
+                var currentTimeString = currentDate + " " + mon[currentMonth] + " " + currentYear + " - " + currentHours + ":" + currentMinutes + ":" + currentSeconds + " " + timeOfDay;
                 
                 $("#clock").html(currentTimeString);
                 
@@ -185,5 +198,6 @@
             {
                 setInterval('updateClock()', 1000);
             });
+            
         </script>
                                  

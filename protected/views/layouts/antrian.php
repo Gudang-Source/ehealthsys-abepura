@@ -27,8 +27,8 @@
         <?php // Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/webcam.js'); ?>
         
         <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/js.sound/jquery.jplayer.min.js'); ?>
-        <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/ion.sound.min.js'); ?>
-        <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/suara.antrian.js'); ?>
+        <script type="text/javascript" src="<?php echo Yii::app()->baseUrl.'/js/howler.min.js'; ?>"></script>
+        <script type="text/javascript" src="<?php echo Yii::app()->baseUrl.'/js/suara.antrian.js'; ?>"></script>
         <link rel="shortcut icon" href="<?php echo Yii::app()->baseUrl;?>/images/icon/favicon.png"/>
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
