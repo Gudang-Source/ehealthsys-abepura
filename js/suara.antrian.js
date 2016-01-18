@@ -14,7 +14,7 @@ var _plIdx = 0;
 
 // is antrian loaded
 var _isgo = false;
-var _usplaying = false;
+var _isplaying = false;
 
 
 function setJenisSuaraAntrian(jenis) {
