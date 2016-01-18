@@ -14,7 +14,7 @@ var _plIdx = 0;
 
 // is antrian loaded
 var _isgo = false;
-var _usplaying = false;
+var _isplaying = false;
 
 
 function setJenisSuaraAntrian(jenis) {
@@ -77,7 +77,7 @@ function cekPreloadAntrian() {
     
     if (_suaraIdx == _suaraLen) {
         _isgo = true;
-        playAntrian();
+        if (!_isplaying) playAntrian();
     }
 }
 
@@ -107,8 +107,8 @@ function playAntrian() {
     
     if (_isgo) {
         if (_arrSuaraPlayList.length === 0) {
-            return false;
             _isplaying = false;
+            return false;
         }
         _isplaying = true;
         _plLen = _arrSuaraPlayList[0].length;
