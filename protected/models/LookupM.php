@@ -123,7 +123,8 @@ class LookupM extends CActiveRecord
             $models=self::model()->findAll($criteria);
             if(count($models) > 0){
                 foreach($models as $model)
-                    $data[$model->lookup_value]= ucwords(strtolower($model->lookup_name));
+                    // $data[$model->lookup_value]= ucwords(strtolower($model->lookup_name));
+                    $data[$model->lookup_value]= ($model->lookup_name);
             }else{
                 $data[""] = null;
             }
