@@ -35,9 +35,16 @@ class SATarifTindakanM extends TariftindakanM{
             );
         }        
         
-        public function getKomponenTarif(){
+        public function getKomponenTarif($plus_total = true){
 //        	return KomponentarifM::model()->findAll('komponentarif_id != :komponentarif',array(':komponentarif'=>  Params::KOMPONENTARIF_ID_TOTAL));
-        	return KomponentarifM::model()->findAll();
+        	$criteria = new CDbCriteria();
+                if (!$plus_total) {
+                    $criteria->addCondition('komponentarif_id <> '.Params::KOMPONENTARIF_ID_TOTAL);
+                }
+                $criteria->addCondition('komponentarif_aktif = true');
+                $criteria->order = 'komponentarif_nama asc';
+                
+                return KomponentarifM::model()->findAll($criteria);
         }
         public function searchDaftarTindakan()
 	{

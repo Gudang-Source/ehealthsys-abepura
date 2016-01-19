@@ -10,9 +10,11 @@
             <?php  //echo $form->textFieldRow($model, 'ruangan_nama',array('class'=>'span3')) ?>
 			<?php
 					$ruanganid = Yii::app()->user->ruangan_id;
-					$modruangan = RuanganM::model()->findByPK($ruanganid);
-					echo CHtml::hiddenField('ruanganid',$ruanganid,array('readonly'=>true));
-					echo $form->textFieldRow($model,'ruangan_nama',array('value'=>$modruangan->ruangan_nama,'readonly'=>true,'class'=>'span2',));
+                                        if ($ruanganid != 1) {
+                                            $modruangan = RuanganM::model()->findByPK($ruanganid);
+                                            echo CHtml::hiddenField('ruanganid',$ruanganid,array('readonly'=>true));
+                                            echo $form->textFieldRow($model,'ruangan_nama',array('value'=>$modruangan->ruangan_nama,'readonly'=>true,'class'=>'span2',));
+                                        }
 			?>
         </td>
         <td>
