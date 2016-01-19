@@ -65,8 +65,8 @@
 	
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/formWizard/smart_wizard.css" />
         
-        <script type="text/javascript" src="<?php echo Yii::app()->baseUrl.'/js/howler.min.js'; ?>"></script>
-        <script type="text/javascript" src="<?php echo Yii::app()->baseUrl.'/js/suara.antrian.js'; ?>"></script>
+        <?php /* <script type="text/javascript" src="<?php echo Yii::app()->baseUrl.'/js/howler.min.js'; ?>"></script> */ ?>
+        <?php /* <script type="text/javascript" src="<?php echo Yii::app()->baseUrl.'/js/suara.antrian.js'; ?>"></script> */ ?>
 	<?php // Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery-1.3.2.js'); ?>
 	<?php // Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/mws.js'); ?>
 	
@@ -102,7 +102,7 @@
             $namaRuangan = Yii::app()->user->getState('ruangan_nama');
             $idModul = ((!empty($this->module->id)) ? $this->module->id : null);
             $idUser = ((!empty(Yii::app()->user->id)) ? Yii::app()->user->id : null);
-            $modulMenu = ((!empty($this->module->menu)) ? $this->module->menu : null);
+            $modulMenu = ((!empty($this->module->menu) && Yii::app()->user->ruangan_id != 1) ? $this->module->menu : null);
 			$tglLogin = Yii::app()->user->getState('lastLoginTime');
 			if(!empty($tglLogin)){
 				$tglLogin = MyFormatter::formatDateTimeForUser($tglLogin); 
@@ -224,7 +224,8 @@
 											((empty($modul->icon_modul))?  : "<a href='".$link_home."' class='navbar-link' rel='tooltip' data-original-title='".$modul->modul_namalainnya."'><img class='navbar-image marginplus' src='".Params::urlIconModulDirectory().$modul->icon_modul."'/></a>"),
 											('<div class="blocking">'.((empty($namaInstalasi))?  : "<a class='navbar-text-baru' style='font-weight: bold;'>".$namaInstalasi."</a>".((empty($namaRuangan)) ? "" : "<br/><a class='navbar-text-baru' style='font-weight: bold;'>".$namaRuangan."</a>"))."</div>"),                    
 										),
-								)); ?>
+								)); 
+                                                                ?>
 							</td>
 							<td style="vertical-align:middle;text-align:right;padding:0px;">
 								<table class="outer-menulink">
