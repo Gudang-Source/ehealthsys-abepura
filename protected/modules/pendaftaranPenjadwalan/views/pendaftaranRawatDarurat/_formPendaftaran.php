@@ -9,10 +9,10 @@
                                       array('empty'=>'-- Pilih --',
                                     'onchange'=>"setDropdownDokter(this.value);setDropdownJeniskasuspenyakit(this.value);setKarcis();setAntrianRuangan()",
                                     'onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span3',
-                                    'ajax'=>array(
-                                          'type'=>'POST',
-                                          'url'=>$this->createUrl('SetDropdownKelasPelayanan',array('encode'=>false,'namaModel'=>get_class($model))),
-                                          'update'=>'#'.CHtml::activeId($model, 'kelaspelayanan_id')),
+                                    //'ajax'=>array(
+                                    //      'type'=>'POST',
+                                    //      'url'=>$this->createUrl('SetDropdownKelasPelayanan',array('encode'=>false,'namaModel'=>get_class($model))),
+                                    //      'update'=>'#'.CHtml::activeId($model, 'kelaspelayanan_id')),
                                     )); ?>  
                 <div class="checkbox inline">
                     <i class="icon-home" style="margin:0" rel="tooltip" title="Ceklis jika Kunjungan Rumah"></i>
@@ -22,7 +22,7 @@
             </div>
         </div>
         <?php echo $form->dropDownListRow($model,'jeniskasuspenyakit_id', CHtml::listData($model->getJenisKasusPenyakitItems($model->ruangan_id), 'jeniskasuspenyakit_id', 'jeniskasuspenyakit_nama') ,array('onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span3')); ?>
-        <?php echo $form->dropDownListRow($model,'kelaspelayanan_id', CHtml::listData($model->getKelasPelayananItems($model->ruangan_id), 'kelaspelayanan_id', 'kelaspelayanan_nama') ,array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)",'onchange'=>"setKarcis()", 'class'=>'span3')); ?>
+        <span hidden><?php echo $form->dropDownListRow($model,'kelaspelayanan_id', CHtml::listData($model->getKelasPelayananItems($model->ruangan_id), 'kelaspelayanan_id', 'kelaspelayanan_nama') ,array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)",'onchange'=>"setKarcis()", 'class'=>'span3')); ?></span>
         <div class="control-group">
             <label for="PPPendaftaranT_pegawai_id" class="control-label required">
                             Dokter <span class="required">*</span>

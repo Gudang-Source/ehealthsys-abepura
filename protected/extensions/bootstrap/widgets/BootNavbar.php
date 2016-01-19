@@ -46,7 +46,11 @@ class BootNavbar extends BootWidget
 	 * @var boolean whether to enable collapsing on narrow screens. Default to false.
 	 */
 	public $collapse = false;
-
+        /**
+         * @var string spacial class on element containers
+         */
+        public $excontainer = "";
+        
 	/**
 	 * Initializes the widget.
 	 */
@@ -91,7 +95,7 @@ class BootNavbar extends BootWidget
 		$containerCssClass = $this->fluid ? 'container-fluid' : 'container';
 
 		echo CHtml::openTag('div', $this->htmlOptions);
-		echo '<div class="navbar-inner"><div class="'.$containerCssClass.'">';
+		echo '<div class="navbar-inner"><div class="'.$containerCssClass.' '.$this->excontainer.'">';
 
 		if ($this->collapse)
 		{

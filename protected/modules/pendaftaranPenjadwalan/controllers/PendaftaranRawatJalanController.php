@@ -184,6 +184,8 @@ class PendaftaranRawatJalanController extends MyAuthController
                 $criteria->addInCondition('tujuansms',$_POST['tujuansms']);
             }
             $modSmsgateway = SmsgatewayM::model()->findAll($criteria);
+            
+            $model->kelaspelayanan_id = Params::KELASPELAYANAN_ID_TANPA_KELAS;
 
             if(isset($_POST['buatjanjipoli_id'])){ //dari informasi janji poli
                 if(!empty($_POST['buatjanjipoli_id'])){

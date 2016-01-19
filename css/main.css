@@ -64,7 +64,8 @@ body
 	width: 100%;
 	margin: 0;
 	padding: 0 ;
-        background: #4DA81F;
+        background-image: url('../images/batik_papua.jpg');
+        background-repeat: repeat;
 }
 .box-header td {padding:0;}
 .box-header .logo-rumkit {
@@ -126,6 +127,16 @@ background-color:white;
 background: url(images/kamarKosong.gif);
 /*background-repeat: no-repeat;*/
 text-align: right;
+}
+
+.cont2 {
+    background-color: rgba(0,0,0,.8);
+    border-radius: 0px 0px 0px 5px;
+}
+
+.cont3 {
+    background-color: rgba(0,0,0,.8);
+    border-radius: 5px;
 }
 
 #page
@@ -1114,7 +1125,7 @@ a.navbar-text-baru:hover{
     float:left;
     margin-right:5px;
     margin-top:3px;
-    width: 120px;
+    width: auto;
 }
 
 /*===========================
