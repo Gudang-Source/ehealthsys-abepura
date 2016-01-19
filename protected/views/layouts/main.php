@@ -154,7 +154,7 @@
                         <tr>
                             <td rowspan="2" class="logo-rumkit">
                                 <div class="bg-logo">
-                                    <a href="<?php echo Yii::app()->createUrl('/site/index') ?>">
+                                    <a href="#" onclick="return false;">
                                             <img src="<?php echo Params::urlProfilRSDirectory().Yii::app()->user->getState('logo_rumahsakit'); ?> " alt="LOGO" style="max-height:50px" alt="LOGO" title="<?php echo Yii::app()->user->getState('nama_rumahsakit'); ?>" />
                                     </a>
                                 </div>
@@ -213,9 +213,9 @@
                                                         <td width="27%" style="padding:2px 0;">
 								<?php $this->widget('bootstrap.widgets.BootNavbar', array(
 									'fixed'=>false,
-									//'brand'=>Yii::app()->name,
-									'brand'=>'<img src="images/home.jpg" class="navbar-image marginMin" title="Halaman Utama" rel="tooltip" />',
-									'brandUrl'=>Yii::app()->createUrl('/site/index'),
+									'brand'=>false,
+									//'brand'=>'<img src="images/home.jpg" class="navbar-image marginMin" title="Halaman Utama" rel="tooltip" />',
+									//'brandUrl'=>Yii::app()->createUrl('/site/index'),
 									'collapse'=>false, // requires bootstrap-responsive.css
 									'fluid'=>false,
                                                                         'excontainer'=>'cont3',
