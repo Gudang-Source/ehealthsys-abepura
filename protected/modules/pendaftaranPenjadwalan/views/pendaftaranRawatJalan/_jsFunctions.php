@@ -400,58 +400,64 @@ function setDaerahPasien(propinsi_id,kabupaten_id,kecamatan_id,kelurahan_id){
     });
 }
 /**
- * set nama depan berdasarkan umur, jenis kelamin dan status perkawinan 
- * 
+ * set nama depan berdasarkan umur, jenis kelamin dan status perkawinan
+ *
  * @returns {undefined} */
 function setNamaDepan(){
-//    DIKOMEN KARENA MASIH SALAH ALGORITMA >> NEXT DIPERBAIKI
-//    var statusperkawinan = $("#<?php echo CHtml::activeId($modPasien,"statusperkawinan"); ?>");
-//    var namadepan = $("#<?php echo CHtml::activeId($modPasien,"namadepan"); ?>");
-//    var umur = $("#<?php echo CHtml::activeId($model,'umur');?>").val().substr(0,2);
-//    umur = parseInt(umur);
-//    if(umur <= 5){
-//        namadepan.val('By.');
-//        if(statusperkawinan.length > 0 && statusperkawinan.val() != "DIBAWAH UMUR"){
-//            statusperkawinan.val('');
-//            myAlert('Maaf status perkawinan belum cukup usia');
-//        }
-//    }else if(umur <= 13){ //
-//        namadepan.val('An.');
-//        if(statusperkawinan.length > 0 && statusperkawinan.val() != "DIBAWAH UMUR"){
-//            statusperkawinan.val('');
-//            myAlert('Maaf status perkawinan belum cukup usia');
-//        }
-//    }else{
-//        if($('#<?php echo get_class($modPasien);?>_jeniskelamin_0').is(':checked')){
-//            if(statusperkawinan.val() !== 'JANDA'){
-//                namadepan.val('Tn.');
-//            }else{
-//                myAlert('Pilih status pernikahan yang sesuai');
-//                statusperkawinan.val('KAWIN');
-//                var namadepan = $('#PPPasienM_namadepan').val('Tn.');
-//            }
-//            
-//        }
-//        if($('#PPPasienM_jeniskelamin_1').is(':checked')){
-//            if(statusperkawinan.val() !== 'DUDA'){
-//                if(statusperkawinan.val() === 'KAWIN' || statusperkawinan.val() == 'JANDA' || statusperkawinan.val() == 'NIKAH SIRIH' || statusperkawinan.val() == 'POLIGAMI'){
-//                    namadepan.val('Ny.');
-//                }else{
-//                    namadepan.val('Nn');
-//                }                
-//            }else{
-//                myAlert('Pilih status pernikahan yang sesuai');
-//                statusperkawinan.val('KAWIN');
-//                namadepan.val('Ny.');
-//            }
-//        }
-//        
-//        if (statusperkawinan.val() == "DIBAWAH UMUR"){
-//            myAlert('Pilih status pernikahan yang sesuai');
-//            statusperkawinan.val('BELUM KAWIN');
-//        }
-//    }
     
+    var statusperkawinan = $('#PPPasienM_statusperkawinan').val();
+    var namadepan = $('#PPPasienM_namadepan');
+    var umur = $("#<?php echo CHtml::activeId($model,'umur');?>").val().substr(0,2);
+    umur = parseInt(umur);
+    
+    console.log(umur);
+
+    if(umur <= 5){
+        var namadepan = $('#PPPasienM_namadepan').val('By. ');
+        if(statusperkawinan.length > 0 && statusperkawinan != "DIBAWAH UMUR"){
+            $('#PPPasienM_statusperkawinan').val('');
+            alert('Maaf status perkawinan belum cukup usia');
+        }
+    }else if(umur <= 13){ //
+        var namadepan = $('#PPPasienM_namadepan').val('An. ');
+        if(statusperkawinan.length > 0 && statusperkawinan != "DIBAWAH UMUR"){
+            $('#PPPasienM_statusperkawinan').val('');
+            alert('Maaf status perkawinan belum cukup usia');
+        }
+    }else{;
+        if($('#PPPasienM_jeniskelamin_0').is(':checked')){
+            if(statusperkawinan !== 'JANDA'){
+                var namadepan = $('#PPPasienM_namadepan').val('Tn. ');
+            }else{
+                alert('Pilih status pernikahan yang sesuai');
+                $('#PPPasienM_statusperkawinan').val('KAWIN');
+                var namadepan = $('#PPPasienM_namadepan').val('Tn. ')
+            }
+
+        }
+
+
+        if($('#PPPasienM_jeniskelamin_1').is(':checked')){
+        $('#PPPasienM_namadepan').val('Nn. ');
+            if(statusperkawinan !== 'DUDA'){
+             var namadepan = $('#PPPasienM_namadepan').val('Nn. ');
+                if(statusperkawinan === 'KAWIN' || statusperkawinan == 'JANDA' || statusperkawinan == 'NIKAH SIRIH' || statusperkawinan == 'POLIGAMI'){
+                    var namadepan = $('#PPPasienM_namadepan').val('Ny. ');
+                }else{
+                    var namadepan = $('#PPPasienM_namadepan').val('Nn. ');
+                }
+            }else{
+                alert('Pilih status pernikahan yang sesuai');
+                $('#PPPasienM_statusperkawinan').val('KAWIN');
+                var namadepan = $('#PPPasienM_namadepan').val('Ny. ');
+            }
+        }
+
+        if (statusperkawinan == "DIBAWAH UMUR"){
+            alert('Pilih status pernikahan yang sesuai');
+            $('#PPPasienM_statusperkawinan').val('BELUM KAWIN');
+        }
+    }
 }
 /**
  * set nilai tanggal_lahir dari umur 
@@ -485,6 +491,7 @@ function setUmur(tanggal_lahir)
        dataType: "json",
        success:function(data){
            $("#<?php echo CHtml::activeId($model,"umur");?>").val(data.umur);
+           setNamaDepan();
        },
         error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
     });

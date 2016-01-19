@@ -17,4 +17,12 @@ class SATugaspenggunaK extends TugaspenggunaK
     {
         return PeranpenggunaK::model()->findAll('peranpengguna_aktif = true order by peranpenggunanama');
     }
+    
+    public function searchTugasPengguna() {
+        $provider = $this->search();
+        $provider->criteria->group = 'peranpengguna_id, tugas_nama, tugas_namalainnya';
+        $provider->criteria->select = $provider->criteria->group;
+        
+        return $provider;
+    }
 }
