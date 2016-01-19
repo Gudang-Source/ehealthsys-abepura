@@ -22,63 +22,76 @@ class TarifTindakanController extends MyAuthController
 
 	public function actionIndex()
 	{
-        $detailtersimpan = true;
-		$model=new SATarifTindakanM;
-        $modDetails=new TariftindakanM;
-        $lists = array();
-		$model->komponentarif_id = Params::KOMPONENTARIF_ID_TOTAL;
+            $detailtersimpan = true;
+            $model=new SATarifTindakanM;
+            $modDetails=new TariftindakanM;
+            $lists = array();
+            $model->komponentarif_id = Params::KOMPONENTARIF_ID_TOTAL;
 
-        if(isset($_GET['jenistarif_id'])&&isset($_GET['perdatarif_id'])&&isset($_GET['perdatarif_id'])&&isset($_GET['daftartindakan_id'])){
-            $jenistarif_id = $_GET['jenistarif_id'];
-            $perdatarif_id = $_GET['perdatarif_id'];
-            $kelaspelayanan_id = $_GET['kelaspelayanan_id'];
-            $daftartindakan_id = $_GET['daftartindakan_id'];
-            $criteria = new CDbCriteria;
-            $criteria->addCondition('jenistarif_id ='.$jenistarif_id);
-            $criteria->addCondition('perdatarif_id ='.$perdatarif_id);
-            $criteria->addCondition('kelaspelayanan_id ='.$kelaspelayanan_id);
-            $criteria->addCondition('daftartindakan_id ='.$daftartindakan_id);
-            $lists = TariftindakanM::model()->findAll($criteria);
-            $model->jenistarif_id = $jenistarif_id;
-            $model->perdatarif_id = $perdatarif_id;
-            $model->kelaspelayanan_id = $kelaspelayanan_id;
-            $model->daftartindakan_id = $daftartindakan_id;
-        }
+            if(isset($_GET['jenistarif_id'])&&isset($_GET['perdatarif_id'])&&isset($_GET['perdatarif_id'])&&isset($_GET['daftartindakan_id'])){
+                $jenistarif_id = $_GET['jenistarif_id'];
+                $perdatarif_id = $_GET['perdatarif_id'];
+                $kelaspelayanan_id = $_GET['kelaspelayanan_id'];
+                $daftartindakan_id = $_GET['daftartindakan_id'];
+                $criteria = new CDbCriteria;
+                $criteria->addCondition('jenistarif_id ='.$jenistarif_id);
+                $criteria->addCondition('perdatarif_id ='.$perdatarif_id);
+                $criteria->addCondition('kelaspelayanan_id ='.$kelaspelayanan_id);
+                $criteria->addCondition('daftartindakan_id ='.$daftartindakan_id);
+                $lists = TariftindakanM::model()->findAll($criteria);
+                $model->jenistarif_id = $jenistarif_id;
+                $model->perdatarif_id = $perdatarif_id;
+                $model->kelaspelayanan_id = $kelaspelayanan_id;
+                $model->daftartindakan_id = $daftartindakan_id;
+            }
 
-        if(isset($_POST['TariftindakanM'])){
-            $transaction = Yii::app()->db->beginTransaction();
-            try {
-                foreach ($_POST['TariftindakanM'] as $i => $post) {
-                    if(empty($post['tariftindakan_id'])){
-                        $modDetail = new TariftindakanM;
-                        $modDetail->attributes = $post;
-                        $modDetail->create_time = date('Y-m-d H:i:s');
-                        $modDetail->create_loginpemakai_id = Yii::app()->user->id;
-                        $modDetail->create_ruangan = Yii::app()->user->getState('ruangan_id');
-                        if($modDetail->validate()){
-                            $modDetail->save();
-                        }else{
-                            $detailtersimpan &= false;
+            if(isset($_POST['TariftindakanM'])){
+                $transaction = Yii::app()->db->beginTransaction();
+                try {
+                    $total = 0;
+                    $modTotal = new TariftindakanM;
+                    
+                    foreach ($_POST['TariftindakanM'] as $i => $post) {
+                        if(empty($post['tariftindakan_id'])){
+                            $modDetail = new TariftindakanM;
+                            $modDetail->attributes = $modTotal->attributes = $post;
+                            $modDetail->create_time = date('Y-m-d H:i:s');
+                            $modDetail->create_loginpemakai_id = Yii::app()->user->id;
+                            $modDetail->create_ruangan = Yii::app()->user->getState('ruangan_id');
+                            if($modDetail->validate()){
+                                $detailtersimpan &= $modDetail->save();
+                                $total += $modDetail->harga_tariftindakan;
+                            }else{
+                                $detailtersimpan &= false;
+                            }
                         }
                     }
+                    
+                    $modTotal->komponentarif_id = Params::KOMPONENTARIF_ID_TOTAL;
+                    $modTotal->create_time = date('Y-m-d H:i:s');
+                    $modTotal->create_loginpemakai_id = Yii::app()->user->id;
+                    $modTotal->create_ruangan = Yii::app()->user->getState('ruangan_id');
+                    
+                    if ($modTotal->validate()) {
+                        $detailtersimpan &= $modTotal->save();
+                    } else $detailtersimpan &= false;
+                    
+                    if($detailtersimpan){
+                        $transaction->commit();
+                        $this->redirect(array('admin','sukses'=>1));
+                    }
+                } catch (Exception $e) {
+                    $transaction->rollback();
+                     Yii::app()->user->setFlash('error',"Data pasien gagal disimpan !".MyExceptionMessage::getMessage($e,true));
                 }
 
-                if($detailtersimpan){
-                    $transaction->commit();
-                    $this->redirect(array('admin','sukses'=>1));
-                }
-            } catch (Exception $e) {
-                $transaction->rollback();
-                 Yii::app()->user->setFlash('error',"Data pasien gagal disimpan !".MyExceptionMessage::getMessage($e,true));
+
             }
-            
-            
-        }
-		$this->render('create',array(
-			'model'=>$model,
-            'modDetails'=>$modDetails,
-            'lists'=>$lists
-		));
+            $this->render('create',array(
+		'model'=>$model,
+                'modDetails'=>$modDetails,
+                'lists'=>$lists
+            ));
 	}
         
 	public function actionDelete($id)
