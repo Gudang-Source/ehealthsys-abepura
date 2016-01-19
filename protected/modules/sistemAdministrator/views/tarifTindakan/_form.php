@@ -70,7 +70,7 @@
                     <?php echo $form->hiddenField($model,'daftartindakan_id',array('class'=>'daftartindakan_id')); ?>
                 </div>
             </div>
-            <?php echo $form->dropDownListRow($model,'komponentarif_id',  CHtml::listData($model->getKomponenTarif(), 'komponentarif_id', 'komponentarif_nama'),array('class'=>'span3 komponentarif_id', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+            <?php echo $form->dropDownListRow($model,'komponentarif_id',  CHtml::listData($model->getKomponenTarif(false), 'komponentarif_id', 'komponentarif_nama'),array('class'=>'span3 komponentarif_id', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
 			<?php // echo $form->hiddenField($model,'komponentarif_id',array('value'=>  Params::KOMPONENTARIF_ID_TOTAL)); ?>
             <div class="control-group">
                 <label class="control-label" >Harga Tindakan</label>
