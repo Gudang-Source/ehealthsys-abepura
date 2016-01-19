@@ -227,43 +227,61 @@ class DaftarTindakanMController extends MyAuthController
                 
 		if(isset($_POST['SADaftarTindakanM']))
 		{
-			
-                         $jumlahRuangan=COUNT($_POST['ruangan_id']);
-                         $daftarTindakan_id=$model->daftartindakan_id;
-                         $hapusTindakanRuangan=TindakanruanganM::model()->deleteAll('daftartindakan_id='.$daftarTindakan_id.''); 
-                         $transaction = Yii::app()->db->beginTransaction();
-                            try {
-                                $success = true;
+                    $transaction = Yii::app()->db->beginTransaction();
+                    $model->attributes=$_POST['SADaftarTindakanM'];
+                    
+                    try {
+                    
+                        if ($model->save()) {
+                            
+                            $success = true;
+                            $daftarTindakan_id=$model->daftartindakan_id;
+                            $hapusTindakanRuangan=TindakanruanganM::model()->deleteAll('daftartindakan_id='.$daftarTindakan_id.''); 
+                            
+                            if (isset($_POST['ruangan_id'])) {
+                                $jumlahRuangan=COUNT($_POST['ruangan_id']);
+                                
+
                                 if($jumlahRuangan>0)
                                 {
                                     for($i=0; $i<$jumlahRuangan; $i++)
-                                        {
-                                            $modTindakanRuangan = new TindakanruanganM;
-                                            $modTindakanRuangan->ruangan_id=$_POST['ruangan_id'][$i];
-                                            $modTindakanRuangan->daftartindakan_id=$daftarTindakan_id;
-                                            if (!$modTindakanRuangan->save()){
-                                                $success = false;
-                                            }
-                                        }                
-                                }                    
-                                $model->attributes=$_POST['SADaftarTindakanM'];
-
-                                if ($success && $model->save()){
-                                    Yii::app()->user->setFlash('success', "Data Ruangan Dan Daftar Tindakan Berhasil Disimpan");
-                                    $transaction->commit();
-                                    $this->redirect(array('admin')); 
-                                }else{
-                                    $transaction->rollback();
-                                    Yii::app()->user->setFlash('error', "Data Ruangan Dan Daftar Tindakan Gagal Disimpan");
+                                    {
+                                        $modTindakanRuangan = new TindakanruanganM;
+                                        $modTindakanRuangan->ruangan_id=$_POST['ruangan_id'][$i];
+                                        $modTindakanRuangan->daftartindakan_id=$daftarTindakan_id;
+                                        if (!$modTindakanRuangan->save()){
+                                            $success = false;
+                                        }
+                                    }                
                                 }
                             }
-                            catch (Exception $e)
-                                {
-                                    $transaction->rollback();
-                                    Yii::app()->user->setFlash('error', "Data Ruangan Dan Daftar Tindakan Gagal Disimpan");
-                                }      
+                            if ($success && $model->save()){
+                                Yii::app()->user->setFlash('success', "Data Ruangan Dan Daftar Tindakan Berhasil Disimpan");
+                                $transaction->commit();
+                                $this->redirect(array('admin')); 
+                            }else{
+                                $transaction->rollback();
+                                Yii::app()->user->setFlash('error', "Data Ruangan Dan Daftar Tindakan Gagal Disimpan");
+                            }
+                        } else{
+                            $transaction->rollback();
+                            Yii::app()->user->setFlash('error', "Data Ruangan Dan Daftar Tindakan Gagal Disimpan");
+                        }
+
+                         
+                         
+                         
                             
-		}
+                                
+                                 
+
+                        
+                    } catch (Exception $e)
+                    {
+                        $transaction->rollback();
+                        Yii::app()->user->setFlash('error', "Data Ruangan Dan Daftar Tindakan Gagal Disimpan");
+                    }         
+		}  
 
 		$this->render('update',array(
 			'model'=>$model,'modRuangan'=>$modRuangan
