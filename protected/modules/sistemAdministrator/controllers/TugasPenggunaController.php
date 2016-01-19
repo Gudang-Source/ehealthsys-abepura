@@ -277,16 +277,16 @@ class TugasPenggunaController extends MyAuthController
                 echo CJSON::encode($controllers);
             } else {
                 echo "<span id='controller_".$namaModul."'>";
-                    echo CHtml::CheckBox('checkAll_'.lsfirst($namaModul),'', array(
-                                        'value'=>lsfirst($modul_id),
+                    echo CHtml::CheckBox('checkAll_'.  lcfirst($namaModul),'', array(
+                                        'value'=>lcfirst($modul_id),
                                         'onclick'=>'checkAll(this)',
                                         'checked'=>'checked'))." Pilih Semua";
                     echo "<br>";
                 foreach ($controllers as $value => $name) {
                     echo CHtml::CheckBox('controller['.$modul_id.'][]','', array(
-                                        'value'=>lsfirst($value),
+                                        'value'=>lcfirst($value),
                                         'onclick'=>'tambahAction(this)',
-                                        'modul'=>lsfirst($namaModul),
+                                        'modul'=>lcfirst($namaModul),
                                         ));
                     echo '&nbsp;'.$name.'<br>';
                     // echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
