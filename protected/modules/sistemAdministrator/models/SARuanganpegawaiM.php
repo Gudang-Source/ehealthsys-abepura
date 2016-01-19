@@ -23,10 +23,10 @@ class SARuanganpegawaiM extends RuanganpegawaiM
         $criteria->with = array('ruangan','pegawai');
         $criteria->order = 'pegawai.nama_pegawai';
                         
-        if (Yii::app()->controller->module->id =='sistemAdministrator') {
+        if (Yii::app()->controller->module->id !='sistemAdministrator') {
             $criteria->addCondition('t.ruangan_id ='.Yii::app()->user->getState('ruangan_id'));
         }else{
-			if (!empty($sessionruangan)){
+			if (!empty($sessionruangan) && $sessionruangan != 1){
 				$criteria->addCondition('t.ruangan_id ='.$sessionruangan);
 			}
         }  
@@ -60,10 +60,10 @@ class SARuanganpegawaiM extends RuanganpegawaiM
 		$criteria->with = array('ruangan','pegawai');
 		$criteria->order = 'pegawai.nama_pegawai';
                                 
-		if (Yii::app()->controller->module->id =='sistemAdministrator') {
+		if (Yii::app()->controller->module->id !='sistemAdministrator') {
 			$criteria->addCondition('t.ruangan_id ='.Yii::app()->user->getState('ruangan_id'));
 		}else{
-			$criteria->addCondition('t.ruangan_id ='.$sessionruangan);
+			$criteria->addCondition('t.ruangan_id ='.$sessionruangan && $sessionruangan != 1);
 		}  
 		$criteria->compare('LOWER(pegawai.nama_pegawai)',strtolower($this->nama_pegawai),true);
 		$criteria->compare('LOWER(ruangan.ruangan_nama)',strtolower($this->ruangan_nama),true);
