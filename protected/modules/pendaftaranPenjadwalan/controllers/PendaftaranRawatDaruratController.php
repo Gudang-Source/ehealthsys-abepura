@@ -66,6 +66,8 @@ class PendaftaranRawatDaruratController extends PendaftaranRawatJalanController
 			$criteria->limit = 10;
 			$modPasienTerakhir = PPInfoKunjunganRDV::model()->findAll($criteria);
 			
+            $model->kelaspelayanan_id = Params::KELASPELAYANAN_ID_TANPA_KELAS;            
+            
             //==load data
             if(isset($id)){
                 $model = $this->loadModel($id);
