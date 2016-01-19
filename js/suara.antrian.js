@@ -16,9 +16,13 @@ var _plIdx = 0;
 var _isgo = false;
 var _isplaying = false;
 
+var soundList = "";
+
 
 function setJenisSuaraAntrian(jenis) {
-    if (_jenisSuara == "") _jenisSuara = jenis;
+    if (_jenisSuara == "") {
+        _jenisSuara = jenis;
+    }
 }
 
 function registerSuaraAntrian(arr, jenisSuara) {
