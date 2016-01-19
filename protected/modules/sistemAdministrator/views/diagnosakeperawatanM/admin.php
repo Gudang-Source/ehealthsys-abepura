@@ -28,7 +28,7 @@
                     return false;
             });
             ");
-
+            $path_view = $this->path_view;
             $this->widget('bootstrap.widgets.BootAlert'); ?>
             <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-accordion icon-white"></i>')),'#',array('class'=>'search-button btn')); ?>
             <div class="cari-lanjut2 search-form" style="display:none">
@@ -67,7 +67,9 @@
                             array(
                                  'header'=>'Kriteria Hasil',
                                  'type'=>'raw',
-                                 'value'=>'$this->grid->getOwner()->renderPartial("$this->path_view."\'_KriteriaHasil\',array(\'diagnosakeperawatan_id\'=>$data->diagnosakeperawatan_id),true)',
+                                 'value'=>function($data) use ($path_view) {
+                                        Yii::app()->controller->renderPartial($path_view."_KriteriaHasil",array("diagnosakeperawatan_id"=>$data->diagnosakeperawatan_id),true);
+                                 }
 
                             ),
                             array(
