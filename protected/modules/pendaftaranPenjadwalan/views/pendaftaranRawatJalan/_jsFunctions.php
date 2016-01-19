@@ -121,7 +121,7 @@ function setPasienBaru(){
     $("#<?php echo CHtml::activeId($modPasien,"propinsi_id");?>").val(<?php echo $modPasien->propinsi_id; ?>);
     $("#<?php echo CHtml::activeId($modPasien,"kabupaten_id");?>").val(<?php echo $modPasien->kabupaten_id; ?>);
     $("#<?php echo CHtml::activeId($modPasien,"kecamatan_id");?>").val(<?php echo $modPasien->kecamatan_id; ?>);
-    $("#<?php echo CHtml::activeId($modPasien,"kelurahan_id");?>").val("");
+    $("#<?php echo CHtml::activeId($modPasien,"kelurahan_id");?>").val("<?php echo $modPasien->kelurahan_id; ?>");
     $("#<?php echo CHtml::activeId($modPasien,"no_telepon_pasien");?>").val("");
     $("#<?php echo CHtml::activeId($modPasien,"no_mobile_pasien");?>").val("");
     $("#<?php echo CHtml::activeId($modPasien,"suku_id");?>").val(<?php echo $modPasien->suku_id; ?>);
