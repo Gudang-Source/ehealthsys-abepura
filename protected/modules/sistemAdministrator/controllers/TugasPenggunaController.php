@@ -217,7 +217,7 @@ class TugasPenggunaController extends MyAuthController
      */
     public function loadModel($id)
     {
-            $model=SATugaspenggunaK::model()->findByAttributes(array('tugaspengguna_id'=>$id));
+            $model=SATugaspenggunaK::model()->findByAttributes(array('tugas_nama'=>$id));
             if($model===null)
                     throw new CHttpException(404,'The requested page does not exist.');
             return $model;

@@ -28,7 +28,7 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
     <?php $this->widget('ext.bootstrap.widgets.BootGroupGridView',array(
         'id'=>'satugaspengguna-k-grid',
         'mergeColumns'=>array('peranpengguna.peranpenggunanama','tugas_nama','tugas_namalainnya','controller_nama'),
-        'dataProvider'=>$model->search(),
+        'dataProvider'=>$model->searchTugasPengguna(),
         'filter'=>$model,
         'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
@@ -54,13 +54,27 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                 ),
                 'tugas_nama',
                 'tugas_namalainnya',
+                
                 array(
                 'name'=>'modul_id',
-                'value'=>'$data->modul->modul_nama',
-                'filter'=>CHtml::listData($model->getNamaModul(), 'modul_id', 'modul_nama')
+                'type'=>'raw',
+                'value'=>function($data) {
+                    $dat = TugaspenggunaK::model()->findAllByAttributes(array('tugas_nama'=>$data->tugas_nama), array(
+                        'group'=>'modul_id', 'select'=>'modul_id',
+                    ));
+                    $str = "<ul>";
+                    foreach ($dat as $item) {
+                        $str .= "<li>".$item->modul->modul_nama."</li>";
+                    }
+                    $str .= "</ul>";
+                    
+                    return $str;
+                    //$data->modul->modul_nama;
+                },
+                //'filter'=>CHtml::listData($model->getNamaModul(), 'modul_id', 'modul_nama')
                 ),
-                'controller_nama',
-                'action_nama',
+                //'controller_nama',
+                //'action_nama',
                 /*
                 'keterangan_tugas',
                 'tugaspengguna_aktif',
@@ -78,16 +92,27 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                         ),
                 ),
                 array(
-                'header'=>Yii::t('zii','Update'),
+                    'header'=>Yii::t('zii','Update'),
+                    'type'=>'raw',
+                    'value'=>function($data) {
+                        $mod = ModulK::model()->findAll(array('condition'=>'modul_aktif = true', 'order'=>'modul_nama asc'));
+                        return CHtml::dropDownList('update_modul', null, CHtml::listData($mod, 'modul_id', 'modul_nama'), array(
+                            'empty'=>'-- Update --', 
+                            'data-tugas'=>$data->tugas_nama,
+                            'onchange'=>"redirectTugas('".$data->tugas_nama."', this);"));
+                    }
+                    /*
                 'class'=>'bootstrap.widgets.BootButtonColumn',
                 'template'=>'{update}',
                 'buttons'=>array(
                         'update' => array(
                                 'options'=>array('title'=>Yii::t('mds','Ubah')),
-                                    'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/update",array("id"=>$data->tugaspengguna_id, "modul_id"=>$data->modul_id))',					
+                                    'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/update",array("id"=>$data->tugas_nama, "modul_id"=>$data->modul_id))',					
                                 ),
                         ),
-                ),
+                     * 
+                     */
+                ), /*
                 array(
                 'header'=>Yii::t('zii','Delete'),
                 'class'=>'bootstrap.widgets.BootButtonColumn',
@@ -104,6 +129,8 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                                                         ),
                         )
         ),
+                 * 
+                 */
     ),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
     )); ?>
@@ -126,3 +153,13 @@ function print(caraPrint)
 JSCRIPT;
 Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);                        
 ?>
+
+
+<?php $urlUpdate = Yii::app()->controller->createUrl('update'); ?>
+<script>
+
+function redirectTugas(tugas, id) {
+   window.location.replace("<?php echo $urlUpdate; ?>&id=" + tugas + "&modul_id=" + $(id).val());
+}
+
+</script>
