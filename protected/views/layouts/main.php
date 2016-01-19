@@ -65,6 +65,8 @@
 	
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/formWizard/smart_wizard.css" />
         
+        <script type="text/javascript" src="<?php echo Yii::app()->baseUrl.'/js/howler.min.js'; ?>"></script>
+        <script type="text/javascript" src="<?php echo Yii::app()->baseUrl.'/js/suara.antrian.js'; ?>"></script>
 	<?php // Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery-1.3.2.js'); ?>
 	<?php // Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/mws.js'); ?>
 	
@@ -164,6 +166,7 @@
 					'brandUrl'=>Yii::app()->createUrl('/site/index'),
 					'collapse'=>false, // requires bootstrap-responsive.css
 					'fluid'=>false,
+                                        'excontainer'=>'cont2',
 					'items'=>
 						array(
 							array(
@@ -173,7 +176,7 @@
 
 								'items'=>array(
 									array('label'=>'Login', 'url'=>Yii::app()->createUrl('/site/login'), 'visible'=>Yii::app()->user->isGuest),
-									array('label'=>' <i class="icon-user icon-white"></i> '.Yii::app()->user->name.(!empty($tglLogin) ? '<span> | '.$tglLogin.'</span>' : ''), 'visible'=>!Yii::app()->user->isGuest,
+									array('label'=>' <i class="icon-user icon-white"></i> '.Yii::app()->user->name, 'visible'=>!Yii::app()->user->isGuest,
 									'items'=>array(
 										array('label'=>''),
 										array('label'=>'Ganti Password', 'url'=>'javascript:dialogGantiPassword()'),
@@ -196,7 +199,7 @@
 							$informasi,
 							'<div id="clock" class="realtime pull-right navbar-text-baru"></div>',
 							'<a class="marginplus" href="javascript:void(0);" class="navbar-link"><img class="clock-image marginplus" src="images/clock.png"/></a>',
-							'<div class="rumkit">'.Yii::app()->user->getState('nama_rumahsakit').'</div>',
+							'<div class="rumkit" style="margin-left: 5px; margin-top: 2px;">'.Yii::app()->user->getState('nama_rumahsakit').'</div>',
 
 						),
 					)); ?>
@@ -211,14 +214,15 @@
 								<?php $this->widget('bootstrap.widgets.BootNavbar', array(
 									'fixed'=>false,
 									//'brand'=>Yii::app()->name,
-									'brand'=>'<img src="images/home.png" class="navbar-image marginMin" title="Halaman Utama" rel="tooltip" />',
+									'brand'=>'<img src="images/home.jpg" class="navbar-image marginMin" title="Halaman Utama" rel="tooltip" />',
 									'brandUrl'=>Yii::app()->createUrl('/site/index'),
 									'collapse'=>false, // requires bootstrap-responsive.css
 									'fluid'=>false,
+                                                                        'excontainer'=>'cont3',
 									'items'=>
 										array(
 											((empty($modul->icon_modul))?  : "<a href='".$link_home."' class='navbar-link' rel='tooltip' data-original-title='".$modul->modul_namalainnya."'><img class='navbar-image marginplus' src='".Params::urlIconModulDirectory().$modul->icon_modul."'/></a>"),
-											('<div class="blocking">'.((empty($namaInstalasi))?  : "<a class='navbar-text-baru'>".$namaInstalasi."</a>".((empty($namaRuangan)) ? "" : "<br/><a class='navbar-text-baru'>".$namaRuangan."</a>"))."</div>"),                    
+											('<div class="blocking">'.((empty($namaInstalasi))?  : "<a class='navbar-text-baru' style='font-weight: bold;'>".$namaInstalasi."</a>".((empty($namaRuangan)) ? "" : "<br/><a class='navbar-text-baru' style='font-weight: bold;'>".$namaRuangan."</a>"))."</div>"),                    
 										),
 								)); ?>
 							</td>
@@ -226,7 +230,7 @@
 								<table class="outer-menulink">
 									<tr>
 										<td>
-											<?php
+											<?php 
 											$this->widget('application.extensions.menu.SMenu',
 												array(
 												"menu"=> MenuModul::getMenuModul($modulMenu),

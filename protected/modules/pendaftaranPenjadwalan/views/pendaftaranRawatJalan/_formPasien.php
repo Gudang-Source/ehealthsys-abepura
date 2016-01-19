@@ -222,6 +222,15 @@
         </div>
     </div>
     <?php echo $form->dropDownListRow($modPasien,'statusperkawinan', LookupM::getItems('statusperkawinan'),array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 'onchange'=>'setNamaDepan()','class'=>'span3')); ?>
+    <?php echo $form->textFieldRow($modPasien,'nama_ayah',array('placeholder'=>'Nama Ayah Kandung Pasien','class'=>'span3 '.$nama_kapital, 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+    <?php echo $form->textFieldRow($modPasien,'nama_ibu',array('placeholder'=>'Nama Ibu Kandung Pasien','class'=>'span3 '.$nama_kapital, 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+    <div class="control-group ">
+        <?php echo $form->labelEx($modPasien,'anakke', array('class'=>'control-label')) ?>
+        <div class="controls">
+            <?php echo $form->textField($modPasien,'anakke', array('class'=>'span1 integer','maxlength'=>2,'onkeypress'=>"return $(this).focusNextInputField(event)", )).' dari '; ?> 
+            <?php echo $form->textField($modPasien,'jumlah_bersaudara', array('class'=>'span1 integer','maxlength'=>2,'onkeypress'=>"return $(this).focusNextInputField(event)", )).' bersaudara'; ?>    
+        </div>
+    </div>
 </div>
 <div class = "span4">
     <?php echo $form->textAreaRow($modPasien,'alamat_pasien',array('placeholder'=>'Alamat Lengkap Pasien','rows'=>2, 'cols'=>50, 'class'=>'span3 '.$alamat_kapital, 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
@@ -298,6 +307,7 @@
             <?php echo $form->error($modPasien, 'kelurahan_id'); ?>
         </div>
     </div>
+    <?php echo $form->textFieldRow($modPasien,'alamatemail',array('placeholder'=>'contoh: info@piinformasi.com','class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
     <div class="control-group ">
         <?php echo CHtml::label("No. Mobile Pasien", '',array('class'=>'control-label'))?>
         <div class="controls">
@@ -321,6 +331,18 @@
 			<?php echo $form->dropDownList($modPasien,'agama', LookupM::getItems('agama'),array('class'=>'span3','empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
 		</div>
 	</div>
+    <div class="control-group ">
+        <?php echo $form->labelEx($modPasien,'suku_id', array('class'=>'control-label refreshable')) ?>
+        <div class="controls">
+                    <?php echo $form->dropDownList($modPasien,'suku_id', CHtml::listData($modPasien->getSukuItems(), 'suku_id', 'suku_nama'),array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+            </div>
+    </div>
+    <div class="control-group ">
+        <?php echo $form->labelEx($modPasien,'pendidikan_id', array('class'=>'control-label refreshable')) ?>
+        <div class="controls">
+                    <?php echo $form->dropDownList($modPasien,'pendidikan_id', CHtml::listData($modPasien->getPendidikanItems(), 'pendidikan_id', 'pendidikan_nama'),array('empty'=>'-- Pilih --','class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+            </div>
+    </div>
 </div>
 <div class = "span4">
         <?php echo  $form->hiddenField($modPasien,'photopasien',array('readonly'=>true,'class'=>'span3 numbers-only', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>20)); ?>
@@ -335,7 +357,7 @@
             ?>
             <img id="photo-preview" src="<?php echo $url_photopasien?>"width="84px"/> 
         </div>
-        <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+        <?php /* $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
             'id'=>'form-detailpasien',
             'content'=>array(
                 'content-detailpasien'=>array(
@@ -349,7 +371,9 @@
                     'active'=>false,
                     ),   
                 ),
-        )); ?>
+        ));
+         *  ?>
+         */ ?>
         <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
             'id'=>'form-pegawai',
             'content'=>array(
