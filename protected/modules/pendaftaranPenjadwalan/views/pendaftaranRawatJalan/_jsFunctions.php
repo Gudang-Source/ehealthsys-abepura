@@ -418,7 +418,7 @@ function setNamaDepan(){
             $('#PPPasienM_statusperkawinan').val('');
             alert('Maaf status perkawinan belum cukup usia');
         }
-    }else if(umur <= 13){ //
+    }else if(umur <= 14){ //
         var namadepan = $('#PPPasienM_namadepan').val('An. ');
         if(statusperkawinan.length > 0 && statusperkawinan != "DIBAWAH UMUR"){
             $('#PPPasienM_statusperkawinan').val('');
