@@ -26,7 +26,7 @@ class TarifTindakanController extends MyAuthController
             $model=new SATarifTindakanM;
             $modDetails=new TariftindakanM;
             $lists = array();
-            $model->komponentarif_id = Params::KOMPONENTARIF_ID_TOTAL;
+            // $model->komponentarif_id = Params::KOMPONENTARIF_ID_TOTAL;
 
             if(isset($_GET['jenistarif_id'])&&isset($_GET['perdatarif_id'])&&isset($_GET['perdatarif_id'])&&isset($_GET['daftartindakan_id'])){
                 $jenistarif_id = $_GET['jenistarif_id'];
@@ -47,34 +47,52 @@ class TarifTindakanController extends MyAuthController
 
             if(isset($_POST['TariftindakanM'])){
                 $transaction = Yii::app()->db->beginTransaction();
+                // var_dump($_POST); die;
+                
+                foreach ($lists as $item) {
+                    $item->delete();
+                }
+                
                 try {
+                    // var_dump($_POST);
+                    
                     $total = 0;
                     $modTotal = new TariftindakanM;
                     
                     foreach ($_POST['TariftindakanM'] as $i => $post) {
-                        if(empty($post['tariftindakan_id'])){
+                        //var_dump($post);
+                        //if(empty($post['tariftindakan_id'])){
                             $modDetail = new TariftindakanM;
                             $modDetail->attributes = $modTotal->attributes = $post;
+                            // var_dump($modDetail->attributes); die;
                             $modDetail->create_time = date('Y-m-d H:i:s');
                             $modDetail->create_loginpemakai_id = Yii::app()->user->id;
                             $modDetail->create_ruangan = Yii::app()->user->getState('ruangan_id');
+                            
                             if($modDetail->validate()){
                                 $detailtersimpan &= $modDetail->save();
                                 $total += $modDetail->harga_tariftindakan;
                             }else{
+                                // var_dump($modDetail->errors); die;
                                 $detailtersimpan &= false;
                             }
-                        }
+                        //}
                     }
                     
                     $modTotal->komponentarif_id = Params::KOMPONENTARIF_ID_TOTAL;
+                    $modTotal->harga_tariftindakan = $total;
                     $modTotal->create_time = date('Y-m-d H:i:s');
                     $modTotal->create_loginpemakai_id = Yii::app()->user->id;
                     $modTotal->create_ruangan = Yii::app()->user->getState('ruangan_id');
                     
                     if ($modTotal->validate()) {
                         $detailtersimpan &= $modTotal->save();
-                    } else $detailtersimpan &= false;
+                    } else {
+                        var_dump($modTotal->errors);
+                        $detailtersimpan &= false;
+                    }
+                    
+                    //var_dump($detailtersimpan); die;
                     
                     if($detailtersimpan){
                         $transaction->commit();
