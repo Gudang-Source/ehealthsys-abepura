@@ -68,6 +68,7 @@ class TarifTindakanController extends MyAuthController
                     }
                     
                     $modTotal->komponentarif_id = Params::KOMPONENTARIF_ID_TOTAL;
+                    $modTotal->harga_tariftindakan = $total;
                     $modTotal->create_time = date('Y-m-d H:i:s');
                     $modTotal->create_loginpemakai_id = Yii::app()->user->id;
                     $modTotal->create_ruangan = Yii::app()->user->getState('ruangan_id');
