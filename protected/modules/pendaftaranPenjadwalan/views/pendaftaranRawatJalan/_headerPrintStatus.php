@@ -4,7 +4,7 @@
         <td width="25%" align="center">
             <img src="<?php echo Params::urlProfilRSDirectory().$modProfilRs->logo_rumahsakit ?> " style="max-width: 80px; width:80px;"/>
         </td>
-        <td align="left">
+        <td align="center">
             <div>
                 <b>PEMERINTAH PROPINSI <?php echo strtoupper($modProfilRs->propinsi->propinsi_nama); ?></b>
             </div>

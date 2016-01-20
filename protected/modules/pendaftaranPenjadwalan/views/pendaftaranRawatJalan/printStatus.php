@@ -137,7 +137,7 @@
     </tr> -->
 </table>
 
-<!-- <div style="border: 0px solid;margin-top: 10px;text-align:center;width:200px;">
+<div style="border: 0px solid;margin-top: 10px;text-align:center;width:200px;">
     <img style="height: 64px;" src="index.php?r=barcode/myBarcode&code=<?php echo $modPendaftaran->pendaftaran_id; ?>&is_text=" >  
     <div class="barcode-label"><?php echo $modPendaftaran->pendaftaran_id; ?></div>
-</div> -->
+</div>
