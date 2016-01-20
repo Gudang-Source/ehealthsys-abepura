@@ -124,6 +124,7 @@
             <?php
                 if(count($modDetails)>0){
                     foreach ($lists as $i => $detail) {
+                        if ($detail->komponentarif_id == Params::KOMPONENTARIF_ID_TOTAL) continue;
                         echo $this->renderPartial('_rowDetail',array('model'=>$detail));
                     }  
                 }
@@ -363,6 +364,10 @@ $this->endWidget();
             });
         }
     }   
+    
+    $(document).ready(function() {
+        renameInputRow($('#table-tariftindakan'));
+    });
 
 
 </script>
