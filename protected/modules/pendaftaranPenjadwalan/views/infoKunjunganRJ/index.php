@@ -37,7 +37,7 @@ $('.search-form form').submit(function(){
                   'header'=>'Tgl. Pendaftaran',
                   'type'=>'raw',
                   'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)',
-                ),
+                ), /*
                                 array(
                     'header'=>'No. RM',
                     'name'=>'no_rm',
@@ -50,23 +50,29 @@ $('.search-form form').submit(function(){
                        "title"=>"Klik Untuk Mengubah Data Pasien",
                        "onclick"=>"$(\'#editPasien\').dialog(\'open\');return true;"))',
                     'htmlOptions'=>array('style'=>'text-align: left; width:60px')
-                ),
+                ), */
                 array(
-                    'header'=>'No. Pendaftaran',
+                    'header'=>'No. RM/</br>No. Pendaftaran',
                     'name'=>'no_pendaftaran',
                     'type'=>'raw',
-                    'value'=>'(!empty($data->no_pendaftaran) ? CHtml::link("<i class=icon-form-print></i> ".$data->no_pendaftaran, "javascript:print(\'$data->pendaftaran_id\');",array("rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik untuk mencetak Status Pasien")) : "-")',
+                    'value'=>'
+                       CHtml::link("<i class=\'icon-form-ubah\'></i><br>".$data->no_rekam_medik, Yii::app()->createUrl("/pendaftaranPenjadwalan/InfoKunjunganRJ/ubahPasienAjax", array("pendaftaran_id"=>$data->pendaftaran_id)),
+                       array("class"=>"",
+                       "target"=>"frameEditPasien",
+                       "rel"=>"tooltip",
+                       "title"=>"Klik Untuk Mengubah Data Pasien",
+                       "onclick"=>"$(\'#editPasien\').dialog(\'open\');return true;"))."<br/>".(!empty($data->no_pendaftaran) ? CHtml::link("<i class=icon-form-print></i> ".$data->no_pendaftaran, "javascript:print(\'$data->pendaftaran_id\');",array("rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik untuk mencetak Status Pasien")) : "-")',
                     'htmlOptions'=>array('style'=>'text-align: center;')
-                ),
+                ), /*
                 array(
                     'header'=>'Nama Depan',
                     'type'=>'raw',
                     'value'=>'$data->namadepan'
-                ),
+                ), */
                 array(
-                    'header'=>'Nama',
+                    'header'=>'Nama Pasien',
                     'type'=>'raw',
-                    'value'=>'$data->NamaAlias'
+                    'value'=>'$data->namadepan." ".$data->NamaAlias'
                 ),
                 'alamat_pasien',
                 array(
@@ -151,7 +157,7 @@ $('.search-form form').submit(function(){
                        'style'=>'text-align:center;'
                       // 'class'=>'rajal'
                    )
-                ),
+                ), /*
                 array(
                    'name'=>'Kelas Pelayanan ',
                    'type'=>'raw',
@@ -161,6 +167,7 @@ $('.search-form form').submit(function(){
                       // 'class'=>'rajal'
                    )
                 ),
+                 * */
                 array(
                    'header'=>'Poliklinik',
                    'name'=>'ruangan_nama',
@@ -191,6 +198,7 @@ $('.search-form form').submit(function(){
 //                     
 //                   )
 //                ),
+                /*
                 array(
                    'header'=>'Verifikasi Diagnosa',
                    'type'=>'raw',
@@ -218,6 +226,7 @@ $('.search-form form').submit(function(){
                                 ))',          
                    'htmlOptions'=>array('style'=>'text-align: left; width:40px'),
                 ),  
+                 * */
 //                array(
 //                   'name'=>'statusperiksa',
 //                   'type'=>'raw',
@@ -345,7 +354,23 @@ $('.search-form form').submit(function(){
                 ?>
             </td>
             <td>
-                <?php echo $form->dropDownListRow($modPPInfoKunjunganRJV,'kabupaten_id',array(),
+                <?php echo $form->dropDownListRow($modPPInfoKunjunganRJV, 'statusperiksa', 
+                        Params::statusPeriksa(), array('empty'=>'-- Pilih --')); ?>
+                
+                <?php echo $form->dropDownListRow($modPPInfoKunjunganRJV, 'pegawai_id', 
+                        CHtml::listData(DokterV::model()->findAllByAttributes(array(
+                            'instalasi_id'=>Params::INSTALASI_ID_RJ,
+                        ), array(
+                            'order'=>'nama_pegawai asc'
+                        )), 'pegawai_id', 'namaLengkap'), array('empty'=>'-- Pilih --')); ?>
+                
+                <?php echo $form->dropDownListRow($modPPInfoKunjunganRJV, 'ruangan_id', CHtml::listData(RuanganM::model()->findAllByAttributes(array(
+                            'instalasi_id'=>Params::INSTALASI_ID_RJ,
+                        ), array(
+                            'order'=>'ruangan_nama asc'
+                        )), 'ruangan_id', 'ruangan_nama'), array('empty'=>'-- Pilih --')); ?>
+                
+                <?php /* echo $form->dropDownListRow($modPPInfoKunjunganRJV,'kabupaten_id',array(),
                                    array('empty'=>'-- Pilih --',
                                          'ajax'=>array('type'=>'POST',
                                                        'url'=>$this->createUrl('SetDropdownKecamatan',array('encode'=>false,'model_nama'=>get_class($modPPInfoKunjunganRJV))),
@@ -361,7 +386,8 @@ $('.search-form form').submit(function(){
                                                        'onkeypress'=>"return $(this).focusNextInputField(event)"
                                        ));
                 ?>
-                <?php echo $form->dropDownListRow($modPPInfoKunjunganRJV,'kelurahan_id',array(),array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+                <?php echo $form->dropDownListRow($modPPInfoKunjunganRJV,'kelurahan_id',array(),array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)")); 
+                 */ ?>
             </td>
         </tr>
     </table>

@@ -1,7 +1,6 @@
 <?php echo $form->hiddenField($model, 'pendaftaran_id', array('readonly'=>true,'class'=>'span3')); ?>
 <?php echo $form->hiddenField($model, 'kelaspelayanan_id', array('readonly'=>true,'class'=>'span3')); ?>
 <div class = "span4">
-    <fieldset class="box2">
         <?php 
             if(Yii::app()->user->getState('tgltransaksimundur')){
             ?>
@@ -57,101 +56,6 @@
         )); ?>
         <?php echo $form->dropDownListRow($model,'penjamin_id', CHtml::listData($model->getPenjaminItems($model->carabayar_id), 'penjamin_id', 'penjamin_nama') ,array('empty'=>'-- Pilih --','onchange'=>'setKarcis(); setAsuransiBadak(this.value); cekValiditasPenjamin(this.value);','onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span3')); ?>
         <?php echo $form->textAreaRow($model,'keterangan_pendaftaran',array('placeholder'=>'Catatan Khusus Pendaftaran','rows'=>2, 'cols'=>50, 'class'=>'span3 ','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
-    </fieldset>
-        <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
-            'id'=>'form-asuransi',
-            'content'=>array(
-                'content-asuransi'=>array(
-                    'header'=>CHtml::htmlButton("<i class='icon-minus icon-white'></i>",array('class'=>'btn btn-primary btn-mini','onclick'=>'','onkeyup'=>"return $(this).focusNextInputField(event)",'rel'=>'tooltip','title'=>'Klik untuk Tampilkan Asuransi')).'<b> <span class="judulasuransi">Asuransi Baru</span> </b> &nbsp &nbsp <span class="refreshasuransi" style="display:none;">'
-							 .CHtml::htmlButton('<i class="icon-refresh icon-white"></i>',array('class'=>'btn btn-danger btn-mini pull-center','onclick'=>'setAsuransiBaru();','onkeyup'=>"return $(this).focusNextInputField(event)",'rel'=>'tooltip','title'=>'Klik untuk input asuransi baru')).'</span>',
-                    'isi'=>$this->renderPartial($this->path_view.'_formAsuransi',array(
-                            'form'=>$form,
-                            'model'=>$model,
-                            'modPasien'=>$modPasien,
-                            'modAsuransiPasien'=>$modAsuransiPasien,
-                            ),true),
-                    'active'=>false,
-                ),   
-            ),
-            'htmlOptions'=>array('style'=>(($model->is_bpjs)?'display:none':'')),
-    )); ?>
-    <?php echo $form->hiddenField($model,'is_bpjs', array('readonly'=>true,'class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-    <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
-            'id'=>'form-bpjs',
-            'content'=>array(
-                'content-bpjs'=>array(
-                    'header'=>CHtml::htmlButton("<i class='icon-minus icon-white'></i>",array('class'=>'btn btn-primary btn-mini','onclick'=>'','onkeyup'=>"return $(this).focusNextInputField(event)",'rel'=>'tooltip','title'=>'Klik untuk Tampilkan Asuransi',)).'<b> BPJS '.CHtml::htmlButton('<i class="icon-refresh icon-white"></i>',array('class'=>'btn btn-danger btn-mini','onclick'=>'resetFormBpjs();','onkeyup'=>"return $(this).focusNextInputField(event)",'rel'=>'tooltip','title'=>'Klik untuk mengulang form bpjs.')).'</b>',
-                    'isi'=>$this->renderPartial($this->path_view.'_formAsuransiBpjs',array(
-                            'form'=>$form,
-                            'model'=>$model,
-                            'modPasien'=>$modPasien,
-                            'modRujukanBpjs'=>$modRujukanBpjs,
-                            'modAsuransiPasien'=>$modAsuransiPasienBpjs,
-                            'modSep'=>$modSep,
-                            ),true),
-                    'active'=>$model->is_bpjs,
-                ),   
-            ),
-            'htmlOptions'=>array('style'=>(($model->is_bpjs)?'':'display:none')),
-    )); ?>
-	<?php 
-	$this->Widget('ext.bootstrap.widgets.BootAccordion',array(
-            'id'=>'form-asubadak',
-            'content'=>array(
-                'content-asubadak'=>array(
-                    'header'=>CHtml::htmlButton("<i class='icon-minus icon-white'></i>",array('class'=>'btn btn-primary btn-mini','onclick'=>'','onkeyup'=>"return $(this).focusNextInputField(event)",'rel'=>'tooltip','title'=>'Klik untuk Tampilkan Form')).'<b> <span class="judulasuransi">Asuransi PT. Badak LNG </span> </b> &nbsp &nbsp <span class="refreshasuransi" >'
-							 .CHtml::htmlButton('<i class="icon-refresh icon-white"></i>',array('class'=>'btn btn-danger btn-mini pull-center','onclick'=>'setAsuransiBadakReset();','onkeyup'=>"return $(this).focusNextInputField(event)",'rel'=>'tooltip','title'=>'Klik untuk membersihkan field')).'</span>',
-                    'isi'=>$this->renderPartial($this->path_view.'_formAsuransiBadak',array(
-                            'form'=>$form,
-                            'model'=>$model,
-                            'modPasien'=>$modPasien,
-                            'modAsuransiPasienBadak'=>$modAsuransiPasienBadak,
-                            ),true),
-                    'active'=>$model->is_asubadak,
-                ),   
-            ),
-            'htmlOptions'=>array('style'=>(($model->is_asubadak)?'':'display:none')),
-    )); 
-	?>
-    <?php 
-	$this->Widget('ext.bootstrap.widgets.BootAccordion',array(
-            'id'=>'form-asudepartemen',
-            'content'=>array(
-                'content-asudepartemen'=>array(
-                    'header'=>CHtml::htmlButton("<i class='icon-minus icon-white'></i>",array('class'=>'btn btn-primary btn-mini','onclick'=>'','onkeyup'=>"return $(this).focusNextInputField(event)",'rel'=>'tooltip','title'=>'Klik untuk Tampilkan Form')).'<b> <span class="judulasuransi">Asuransi Departemen </span> </b> &nbsp &nbsp <span class="refreshasuransi" >'
-							 .CHtml::htmlButton('<i class="icon-refresh icon-white"></i>',array('class'=>'btn btn-danger btn-mini pull-center','onclick'=>'setAsuransiBadakReset();','onkeyup'=>"return $(this).focusNextInputField(event)",'rel'=>'tooltip','title'=>'Klik untuk membersihkan field')).'</span>',
-                    'isi'=>
-					$this->renderPartial($this->path_view.'_formAsuransiDepartemen',array(
-                            'form'=>$form,
-                            'model'=>$model,
-                            'modPasien'=>$modPasien,
-                            'modAsuransiPasienDepartemen'=>$modAsuransiPasienDepartemen,
-                            ),true),
-                    'active'=>$model->is_asudepartemen,
-                ),   
-            ),
-            'htmlOptions'=>array('style'=>(($model->is_asudepartemen)?'':'display:none')),
-    )); 
-	?>
-    <?php 
-	$this->Widget('ext.bootstrap.widgets.BootAccordion',array(
-            'id'=>'form-asupekerja',
-            'content'=>array(
-                'content-asupekerja'=>array(
-                    'header'=>CHtml::htmlButton("<i class='icon-minus icon-white'></i>",array('class'=>'btn btn-primary btn-mini','onclick'=>'','onkeyup'=>"return $(this).focusNextInputField(event)",'rel'=>'tooltip','title'=>'Klik untuk Tampilkan Form')).'<b> <span class="judulasuransi">Asuransi Pekerja PT. Badak LNG </span> </b> &nbsp &nbsp <span class="refreshasuransi" >'
-							 .CHtml::htmlButton('<i class="icon-refresh icon-white"></i>',array('class'=>'btn btn-danger btn-mini pull-center','onclick'=>'setAsuransiBadakReset();','onkeyup'=>"return $(this).focusNextInputField(event)",'rel'=>'tooltip','title'=>'Klik untuk membersihkan field')).'</span>',
-                    'isi'=>
-					$this->renderPartial($this->path_view.'_formAsuransiPekerja',array(
-                            'form'=>$form,
-                            'model'=>$model,
-                            'modPasien'=>$modPasien,
-                            'modAsuransiPasienPekerja'=>$modAsuransiPasienPekerja,
-                            'modPegawai'=>$modPegawai,
-                            ),true),
-                    'active'=>$model->is_asupekerja,
-                ),   
-            ),
-            'htmlOptions'=>array('style'=>(($model->is_asupekerja)?'':'display:none')),
-    )); 
-	?>
+
+        
 </div>

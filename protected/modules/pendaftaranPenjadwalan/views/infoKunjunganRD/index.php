@@ -43,7 +43,7 @@
         //                    'htmlOptions'=>array('style'=>'text-align: left; width:120px')
         //                ),
                                         array(
-                            'header'=>'No. Rekam Medis / <br> No. Pendaftaran',
+                            'header'=>'No. RM/<br>No. Pendaftaran',
                             'name'=>'no_pendaftaran',
                             'type'=>'raw',
                             'value'=>'
@@ -58,16 +58,16 @@
                                                                  CHtml::link("<i class=icon-form-print></i> ".$data->no_pendaftaran, "javascript:print(\'$data->pendaftaran_id\');",array("rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik Untuk Print Lembar Poli")) : "-") 
                                                                  ',
                             'htmlOptions'=>array('style'=>'text-align: center; width:120px')
-                        ), 
+                        ), /*
                        array(
                            'header'=>'Nama Depan',
                            'type'=>'raw',
                            'value'=>'$data->namadepan',
-                       ),
+                       ), */
                        array(
                            'header'=>'Nama Pasien',
                            'type'=>'raw',
-                           'value'=>'$data->NamaAlias',
+                           'value'=>'$data->namadepan." ".$data->NamaAlias',
                        ),
                         'alamat_pasien',
                         array(
@@ -138,7 +138,7 @@
                                 'style'=>'text-align:center;',
                                 'class'=>'gawat'
                             )  
-                        ),
+                        ), /*
                         array(
                             'name'=>'Kelas Pelayanan',
                             'type'=>'raw',
@@ -147,7 +147,7 @@
                                 'style'=>'text-align:center;',
                                 'class'=>'gawat'
                             )
-                        ),
+                        ), */
                         array(
                            'header'=>'Ruangan',
                            'name'=>'ruangan_nama',
@@ -160,7 +160,7 @@
 							'type'=>'raw',
 							'value'=>'"<div style=\'width:100px;\'>" . CHtml::link("<i class=icon-form-ubah></i>". $data->keterangan_pendaftaran," ",array("onclick"=>"ubahKeterangan(\'$data->pendaftaran_id\');$(\'#editKeterangan\').dialog(\'open\');return false;", "rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik Untuk Mengubah Keterangan Pendaftaran")) . "</div>"',
 							'htmlOptions'=>array('style'=>'text-align: left')
-						),
+						), /*
                         array(
                        'header'=>'Verifikasi Diagnosa',
                        'type'=>'raw',
@@ -185,7 +185,7 @@
                            'htmlOptions'=>array(
                                 'style'=>'text-align: left',
                            ),
-                        ),
+                        ), */
                         //  array(
                         //    'header'=>'Pemeriksaan Fisik <br/> & Anamnesa',
                         //    'type'=>'raw',
@@ -285,6 +285,9 @@
                 <td>
                     <?php echo $form->textAreaRow($modInfoKunjunganRDV,'alamat_pasien',array('placeholder'=>'Ketik Alamat Pasien','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
                     <?php echo $form->dropDownListRow($modInfoKunjunganRDV,'status_konfirmasi',CustomFunction::getStatusKonfirmasi(),array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",)); ?>
+                    
+                </td>
+                <td>
                     <?php echo $form->dropDownListRow($modInfoKunjunganRDV,'carabayar_id', CHtml::listData($modInfoKunjunganRDV->getCaraBayarItems(), 'carabayar_id', 'carabayar_nama') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",
                             'ajax' => array('type'=>'POST',
                                 'url'=> $this->createUrl('GetPenjaminPasien',array('encode'=>false,'namaModel'=>'PPInfoKunjunganRDV')), 
@@ -294,9 +297,7 @@
 
                     <?php echo CHtml::label('Penjamin',' Penjamin', array('class'=>'control-label')) ?>&nbsp;&nbsp;
                     <?php echo $form->dropDownList($modInfoKunjunganRDV,'penjamin_id', CHtml::listData($modInfoKunjunganRDV->getPenjaminItems(), 'penjamin_id', 'penjamin_nama') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",)); ?>
-                </td>
-                <td>
-                    <?php echo $form->dropDownListRow($modInfoKunjunganRDV,'propinsi_id', CHtml::listData($modInfoKunjunganRDV->getPropinsiItems(), 'propinsi_id', 'propinsi_nama'), 
+                    <?php /* echo $form->dropDownListRow($modInfoKunjunganRDV,'propinsi_id', CHtml::listData($modInfoKunjunganRDV->getPropinsiItems(), 'propinsi_id', 'propinsi_nama'), 
                                          array('empty'=>'-- Pilih --',
                                                'ajax'=>array('type'=>'POST',
                                                              'url'=>$this->createUrl('SetDropdownKabupaten',array('encode'=>false,'model_nama'=>get_class($model))),
@@ -317,7 +318,8 @@
                                                               'update'=>'#PPInfoKunjunganRDV_kelurahan_id'),
                                                               'onkeypress'=>"return $(this).focusNextInputField(event)"
                                               )); ?>
-                    <?php echo $form->dropDownListRow($modInfoKunjunganRDV,'kelurahan_id',array(),array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+                    <?php echo $form->dropDownListRow($modInfoKunjunganRDV,'kelurahan_id',array(),array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)")); 
+                     */ ?>
                 </td>
             </tr>
         </table>
