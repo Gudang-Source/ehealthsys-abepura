@@ -79,38 +79,45 @@ class DaftarTindakanMController extends MyAuthController
 //                        echo "b";exit; 
 //                        echo "<pre>";
 //                        echo print_r($_POST['SATarifTindakanM']);exit;
-                        $modDetailKomponen = $this->validasiTabular($_POST['SATarifTindakanM'],$model);
+                        //$modDetailKomponen = $this->validasiTabular($_POST['SATarifTindakanM'],$model);
+                        $ok = true;
                         
                         $jumlahDetailKomponen = COUNT($modDetailKomponen);
 //                        echo $jumlahDetailKomponen;exit;
                         $jumlahDetail = 0;
-                        if($model->save()){
-                            $modDetailKomponen = $this->validasiTabular($_POST['SATarifTindakanM'],$model);
+                        if($model->validate()){
+                            $ok &= $model->save();
+                            //$modDetailKomponen = $this->validasiTabular($_POST['SATarifTindakanM'],$model);
 //                            echo "c";exit;
-                                if(isset($_POST['cekTarifTindakan'])){
-                                    if($jumlahDetailKomponen > 0){
+                            /*
+                            if(isset($_POST['cekTarifTindakan'])){
+                                if($jumlahDetailKomponen > 0){
 //                                        echo "d";exit;
-                                        foreach($modDetailKomponen as $key=>$modDetail){
+                                    foreach($modDetailKomponen as $key=>$modDetail){
 //                                            echo "e"; exit;
 //                                            $modDetail->daftartindakan_id = $model->daftartindakan_id; 
-                                           $modDetail->save();
+                                       $modDetail->save();
 //                                                echo "f";exit;
-                                                $jumlahDetail++;
+                                            $jumlahDetail++;
 //                                            }
 //                                            echo print_r($modDetail->attributes());
 //                                            echo print_r($jumlahDetail);exit;
 //                                            echo print_r($jumlahDetailKomponen);exit;
-                                        }
-//                                       exit;
                                     }
+//                                       exit;
                                 }
+                            }
+                             * 
+                             */
                         }else{
+                            $ok = false;
 //                            echo "g";exit;
-                            $transaction->rollback();
-                            Yii::app()->user->setFlash('error',"Data gagal disimpan");
+//                          
+                            //$transaction->rollback();
+                            //Yii::app()->user->setFlash('error',"Data gagal disimpan");
                         }
                         
-                        if ($jumlahDetailKomponen == $jumlahDetail){
+                        if ($ok){
 //                            echo "h";exit;
                             $transaction->commit();
                             Yii::app()->user->setFlash('success','<strong>Berhasil</strong>Data Berhasil disimpan');
