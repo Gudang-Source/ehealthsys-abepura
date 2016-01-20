@@ -48,6 +48,7 @@ class PendaftaranRawatInapController extends PendaftaranRawatJalanController
             $modPasien->propinsi_id = Yii::app()->user->getState('propinsi_id');
             $modPasien->kabupaten_id = Yii::app()->user->getState('kabupaten_id');
             $modPasien->kecamatan_id = Yii::app()->user->getState('kecamatan_id');
+            $modPasien->kelurahan_id = Yii::app()->user->getState('kelurahan_id');
             $modPasien->warga_negara = Params::DEFAULT_WARGANEGARA;
             $modPasien->agama = Params::DEFAULT_AGAMA;
             $model->is_adakarcis = Yii::app()->user->getState('iskarcis'); //RND-7737
@@ -647,11 +648,17 @@ class PendaftaranRawatInapController extends PendaftaranRawatJalanController
         /**
          * @param type $pendaftaran_id
          */
-        public function actionPrintStatusRI($pendaftaran_id) 
+        public function actionPrintStatusRI($pendaftaran_id = null, $pasienadmisi_id = null) 
         {
+            
             $this->layout='//layouts/printWindows';
             $format = new MyFormatter;
-			$modPendaftaran = PendaftaranT::model()->findByPk($pendaftaran_id);
+            if (!empty($pasienadmisi_id)) {
+                $modPendaftaran = PendaftaranT::model()->findByAttributes(array("pasienadmisi_id"=>$pasienadmisi_id));
+                $pendaftaran_id = $modPendaftaran->pendaftaran_id;
+            } else {
+                $modPendaftaran = PendaftaranT::model()->findByPk($pendaftaran_id);
+            }
             $modPasienAdmisi = PasienadmisiT::model()->findByAttributes(array('pendaftaran_id'=>$pendaftaran_id));
 			$modPasien=  PasienM::model()->findByPk($modPendaftaran->pasien_id);
             $karcis_id = null;
