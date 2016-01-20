@@ -22,7 +22,7 @@ Class Params
 	const DEFAULT_RUANGAN_KIOSK= 2;           //pendaftaran rawat jalan
 	const DEFAULT_RUANGAN_KIOSK_KASIR= 146;   //kasir sentral
 
-	const DEFAULT_SESSION_INACTIVE = 150;   //batas session (menit)                  
+	const DEFAULT_SESSION_INACTIVE = 1440;   //batas session (menit)                  
 
 	const DEFAULT_KERTAS_UKURAN = 'A4';
 	const DEFAULT_KERTAS_POSISI = 'P';
