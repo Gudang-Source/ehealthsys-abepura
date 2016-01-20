@@ -36,7 +36,7 @@ $('#formCari').submit(function(){
                            'htmlOptions'=>array('style'=>'width:120px')
                         ),
                         array(
-                            'header'=>'No. Rekam Medik',
+                            'header'=>'No. Rekam Medik<br/>',
                             'type'=>'raw',
                             'value'=>'
                                                     CHtml::link("<i class=\'icon-form-ubah\'></i> ".$data->pasien->no_rekam_medik, Yii::app()->createUrl("/pendaftaranPenjadwalan/InfoKunjunganRJ/ubahPasienAjax", array("pendaftaran_id"=>$data->pendaftaran_id)),
@@ -71,12 +71,12 @@ $('#formCari').submit(function(){
                             'header'=>'Tanggal Masuk Penunjang',
                             'type'=>'raw',
                             'value'=>'MyFormatter::formatDateTimeForUser($data->tglmasukpenunjang)',
-                        ),
+                        ), /*
                         array(
                             'header'=>'Kelas Pelayanan',
                             'type'=>'raw',
                             'value'=>'$data->kelaspelayanan->kelaspelayanan_nama',
-                        ),
+                        ), */
                         array(
                             'header'=>'Jenis Kasus Penyakit',
                             'type'=>'raw',
@@ -148,9 +148,22 @@ $('#formCari').submit(function(){
                 </div>
                 <div class="span4">
                     <?php echo $form->textFieldRow($model,'no_rekam_medik',array('placeholder'=>'Ketik No. Rekam Medik','class'=>'span3 numberOnly','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
+                    <?php echo $form->textFieldRow($model,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
                 </div>
                 <div class="span4">
-                    <?php echo $form->textFieldRow($model,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
+                    <?php echo $form->dropDownListRow($model, 'ruangan_id', CHtml::listData(RuanganM::model()->findAllByAttributes(array(
+                            'ruangan_id'=>array(53, 56, 47, 57),
+                        ), array(
+                            'order'=>'ruangan_nama asc'
+                        )), 'ruangan_id', 'ruangan_nama'), array('empty'=>'-- Pilih --')); ?>
+                    <?php //echo $form->dropDownListRow($model,'status_konfirmasi',CustomFunction::getStatusKonfirmasi(),array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",)); ?>
+                </div>
+                <div class="span4">
+                    <?php echo $form->dropDownListRow($model, 'ruanganasal_id', CHtml::listData(RuanganM::model()->findAllByAttributes(array(
+                            'instalasi_id'=>array(Params::INSTALASI_ID_RJ, Params::INSTALASI_ID_RD, Params::INSTALASI_ID_RI),
+                        ), array(
+                            'order'=>'instalasi_id asc, ruangan_nama asc'
+                        )), 'ruangan_id', 'ruangan_nama'), array('empty'=>'-- Pilih --')); ?>
                     <?php //echo $form->dropDownListRow($model,'status_konfirmasi',CustomFunction::getStatusKonfirmasi(),array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",)); ?>
                 </div>
             </div>
