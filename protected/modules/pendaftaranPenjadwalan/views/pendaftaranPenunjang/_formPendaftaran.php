@@ -2,7 +2,7 @@
 <?php echo $form->hiddenField($model, 'kelaspelayanan_id', array('readonly'=>true,'class'=>'span3')); ?>
 <div class = "span4">
         <?php 
-            if(Yii::app()->user->getState('tgltransaksimundur')){
+            /* if(Yii::app()->user->getState('tgltransaksimundur')){
             ?>
                     <div class="control-group ">
                             <?php echo $form->labelEx($model,'tgl_pendaftaran', array('class'=>'control-label')) ?>
@@ -23,9 +23,9 @@
                             </div>
                     </div>
             <?php
-            }else{
+            }else{ */
                     echo $form->textFieldRow($model,'tgl_pendaftaran',array('readonly'=>true,'class'=>'span3 realtime', 'onkeyup'=>"return $(this).focusNextInputField(event);")); 
-            }
+            // }
             ?>
         <div class="control-group ">
             <?php echo $form->labelEx($model,'tglrenkontrol', array('class'=>'control-label')) ?>
