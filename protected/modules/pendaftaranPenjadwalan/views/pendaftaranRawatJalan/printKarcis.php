@@ -106,7 +106,7 @@
     </tr>
     <tr height="60px" valign="bottom">
         <td></td>
-        <td style="text-align: center;"><?php echo $modPegawai->nama_pegawai; ?></td>
+        <td style="text-align: center;"><?php echo !empty($modPegawai)?$modPegawai->nama_pegawai:"-"; ?></td>
     </tr>
 </table>
 
