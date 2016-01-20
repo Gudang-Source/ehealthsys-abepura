@@ -154,10 +154,10 @@ class UserIdentity extends CUserIdentity
                         }
                         $this->setState('periode_ids',$periode);
                     }
-                    //Non aktifkan user dengan aktifitas terakhir >= 1 jam
+                    //Non aktifkan user dengan aktifitas terakhir >= 24 jam
                     LoginpemakaiK::model()->updateAll(array(
                         'statuslogin'=>false
-                    ),"(DATE_PART('hour', '".date('Y-m-d H:i:s')."'::timestamp without time zone - waktuterakhiraktifitas) >= 1) AND statuslogin = TRUE");
+                    ),"(DATE_PART('hour', '".date('Y-m-d H:i:s')."'::timestamp without time zone - waktuterakhiraktifitas) >= 24) AND statuslogin = TRUE");
 
                 }
                 return!$this->errorCode;
