@@ -74,9 +74,9 @@
                         'class'=>'bootstrap.widgets.BootButtonColumn',
                         'template'=>'{update}',
                         'buttons'=>array(
-                            'update' => array (
-                                          'visible'=>'Yii::app()->user->checkAccess("Update")',
-                                        ),
+                            'update'// => array (
+                                    //      'visible'=>'Yii::app()->user->checkAccess("Update")',
+                                    //    ),
                          ),
                     ),
                     array(

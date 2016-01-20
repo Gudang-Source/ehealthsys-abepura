@@ -1708,6 +1708,90 @@ function cekValiditasPenjamin(penjamin_id){
 	
 }
 
+function cekStatusPekerjaan(obj)
+{
+    var namaDepan = $('#PPPasienM_namadepan').val();
+    var namaPekerjaan = obj.value;
+    var umur = $("#<?php echo CHtml::activeId($model,'umur');?>").val().substr(0,2);
+    umur = parseInt(umur);
+
+    if(namaDepan.length > 0)
+    {
+        if(umur < 15){
+            if(namaPekerjaan !== '13' && namaPekerjaan != '10'){
+                if(namaPekerjaan !== ''){
+                    alert('Pasien masih di bawah umur, coba cek ulang');
+                }
+                $(obj).val('');
+            }else{
+                $(obj).val(namaPekerjaan);
+            }
+        }else{
+            if(namaPekerjaan === '12'){
+                if(namaDepan === 'Ny.'){
+                    $(obj).val('9');
+                }else if(namaDepan === 'Nn.' && namaPekerjaan === '9'){
+                    alert('Pasien belum menikah, coba cek ulang');
+                    $(obj).val('');
+                }else{
+                    $(obj).val('');
+                }
+                alert('Pilih pekerjaan yang tepat');
+            }else{
+                if(namaPekerjaan === '9'){
+                    if(namaDepan !== 'Ny.'){
+                      if ($("#PPPasienM_jeniskelamin_0").is(":checked")) alert ("Silahkan Cek Kembali Jenis Kelamin Yang Dipilih!");
+                      else alert('Silahkan Cek Kembali Status Perkawinan Anda!');
+                      $(obj).val('');
+                    }
+                }
+            }
+        }
+/*
+        if(namaPekerjaan === '12' && umur < 17)
+        {
+            if(namaDepan !== 'BY. Ny.' && namaDepan !== 'An.' && namaDepan !== 'Nn')
+            {
+                alert('Pilih pekerjaan yang sesuai');
+                $(obj).val('');
+            }
+        }else{
+            if(namaDepan === 'BY. Ny.')
+            {
+                alert('Pilih pekerjaan yang sesuai');
+                $(obj).val('');
+            }else{
+                if(namaPekerjaan === '11' || namaPekerjaan === '10')
+                {
+                    if(namaDepan !== 'An.' && namaDepan !== 'Nn'){
+                        alert('Pilih pekerjaan yang sesuai');
+                        $(obj).val('');
+                    }
+                }else{
+                    if(namaPekerjaan !== '13' && namaPekerjaan !== '14')
+                    {
+                        if(namaPekerjaan === '9' && namaDepan !== 'Ny.')
+                        {
+                            alert('Pilih pekerjaan yang sesuai');
+                            $(obj).val('');
+                        }else{
+                            if((namaDepan === 'An.' || namaDepan === 'Nn') && umur < 25){
+                                alert('Pilih pekerjaan yang sesuai');
+                                $(obj).val('');
+                            }
+                        }
+                    }
+                }
+            }
+        }
+*/
+    }else{
+        $(obj).val('');
+        alert('Pilih gelar kehormatan terlebih dahulu');
+    }
+
+}
+
 /**
  * load ruangan pasien terakhir
  * @returns {undefined}
@@ -1795,7 +1879,7 @@ $( document ).ready(function(){
             }
         }
     ?>
-    $(".f_rm:first").focus();
+    setTimeout(function() {$(".f_rm:first").focus();}, 500);
 });
 
 </script>
