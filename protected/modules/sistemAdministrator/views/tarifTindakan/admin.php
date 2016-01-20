@@ -111,7 +111,7 @@
                             'buttons'=>array(
                                 'update' => array
                                     (
-                                        'visible'=>'Yii::app()->controller->checkAccess(array("action"=>Params::DEFAULT_UPDATE))',
+                                        //'visible'=>'Yii::app()->controller->checkAccess(array("action"=>Params::DEFAULT_UPDATE))',
                                         'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/index",array("perdatarif_id"=>"$data->perdatarif_id","jenistarif_id"=>"$data->jenistarif_id","kelaspelayanan_id"=>"$data->kelaspelayanan_id","daftartindakan_id"=>"$data->daftartindakan_id"))',
                                     ),
 
