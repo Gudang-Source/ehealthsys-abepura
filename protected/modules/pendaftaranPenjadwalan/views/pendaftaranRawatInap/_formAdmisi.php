@@ -33,7 +33,9 @@
         <div class='control-group'>
             <?php echo CHtml::label("Ruangan Inap <span class='required'>*</span>", CHtml::activeId($model,'ruangan_id'),array('class'=>'control-label required'))?>                                   
             <div class='controls'>
-                <?php echo $form->dropDownList($modPasienAdmisi,'ruangan_id', CHtml::listData($model->getRuanganItems(Params::INSTALASI_ID_RI), 'ruangan_id', 'ruangan_nama') ,
+                <?php 
+                $ruangan = RuanganM::model()->findAllByAttributes(array('instalasi_id'=>Params::INSTALASI_ID_RI, 'ruangan_aktif'=>true));
+                echo $form->dropDownList($modPasienAdmisi,'ruangan_id', CHtml::listData($ruangan, 'ruangan_id', 'ruangan_nama') ,
                                       array('empty'=>'-- Pilih --',
                                     'onchange'=>"setDropdownDokter(this.value);setDropDownKelasPelayanan(this.value);setKarcis();setAntrianRuanganAdmisi();setDropdownJeniskasuspenyakit(this.value);",
                                     'onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span3',
@@ -64,7 +66,7 @@
         </div>
 
 
-        <?php echo $form->dropDownListRow($model,'jeniskasuspenyakit_id', CHtml::listData($model->getJenisKasusPenyakitItems($modPasienAdmisi->ruangan_id), 'jeniskasuspenyakit_id', 'jeniskasuspenyakit_nama') ,array('onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span3')); ?>
+        <?php echo $form->dropDownListRow($model,'jeniskasuspenyakit_id', CHtml::listData($model->getJenisKasusPenyakitItems($modPasienAdmisi->ruangan_id), 'jeniskasuspenyakit_id', 'jeniskasuspenyakit_nama') ,array('onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span3', 'empty'=>'-- Pilih --')); ?>
         <?php echo $form->dropDownListRow($modPasienAdmisi,'kelaspelayanan_id', CHtml::listData($model->getKelasPelayananItems($modPasienAdmisi->ruangan_id), 'kelaspelayanan_id', 'kelaspelayanan_nama') ,array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)",'onchange'=>"setKarcis()", 'class'=>'span3')); ?>
         <div class="control-group">
             <?php echo $form->labelEx($modPasienAdmisi,'pegawai_id',array('class'=>'control-label')); ?>

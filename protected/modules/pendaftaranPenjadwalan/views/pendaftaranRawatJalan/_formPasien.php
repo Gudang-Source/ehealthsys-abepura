@@ -129,7 +129,7 @@
                                             return false;
                                         }',
                                 ),
-                                'htmlOptions'=>array('placeholder'=>'No. Identitas Pasien','rel'=>'tooltip','title'=>'Ketik No. Identitas untuk masukan data / mencari pasien','onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span2'),
+                                'htmlOptions'=>array('placeholder'=>'No. Identitas Pasien','rel'=>'tooltip','title'=>'Ketik No. Identitas untuk masukan data / mencari pasien','onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span3'),
                             )); 
             ?>
 
@@ -171,7 +171,7 @@
                                             return false;
                                         }',
                                 ),
-                                'htmlOptions'=>array('placeholder'=>'Nama Lengkap Pasien','rel'=>'tooltip','title'=>'Ketik Nama untuk masukan data / mencari pasien','onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span2 '.$nama_kapital),
+                                'htmlOptions'=>array('placeholder'=>'Nama Lengkap Pasien','rel'=>'tooltip','title'=>'Ketik Nama untuk masukan data / mencari pasien','onkeyup'=>"return $(this).focusNextInputField(event)", 'class'=>'span3 '.$nama_kapital),
                             )); 
             ?>
             <?php echo $form->error($modPasien,'namadepan'); ?>
