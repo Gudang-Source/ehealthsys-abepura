@@ -375,6 +375,24 @@ Class Params
 	const JENISKELOMPOK_XY = 'XY'; //disesuaikan dengan lookup_m.lookup_type = 'jnskelompok'
 	//===   END KONSTANTA ===
 
+        
+        /* Hardcode status periksa */
+        public static function statusPeriksa() {
+            return array(
+                'ANTRIAN'=>'ANTRIAN',
+                'SEDANG PERIKSA'=>'SEDANG PERIKSA',
+                'SUDAH DI PERIKSA'=>'SUDAH DIPERIKSA',
+                'SEDANG DIRAWAT INAP'=>'SEDANG DIRAWAT INAP',
+                'SUDAH PULANG'=>'SUDAH PULANG',
+            );
+        }
+        public static function statusPeriksaPT() {
+            return array(
+                'ANTRIAN'=>'ANTRIAN',
+                'SEDANG PERIKSA'=>'SEDANG PERIKSA',
+                'SUDAH DI PERIKSA'=>'SUDAH DIPERIKSA',
+            );
+        }
 	
 	//=== PATH & URL ===
 	//Merupakan inisialisasi path dan url yang digunakan untuk menyimpan dan mengakses file

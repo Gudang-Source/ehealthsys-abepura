@@ -111,7 +111,7 @@ class PasienmasukpenunjangT extends CActiveRecord
 			'pendaftaran_id' => 'No. Pendaftaran',
 			'pegawai_id' => 'Dokter',
 			'kelaspelayanan_id' => 'Kelas Pelayanan',
-			'ruangan_id' => 'Ruangan/Poli',
+			'ruangan_id' => 'Ruangan Penunjang',
 			'pasienadmisi_id' => 'Pasien Admisi',
 			'no_masukpenunjang' => 'No. Masuk Penunjang',
 			'tglmasukpenunjang' => 'Tanggal Masuk Penunjang',

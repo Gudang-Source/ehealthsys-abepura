@@ -227,7 +227,7 @@ class InfokunjunganrjV extends CActiveRecord
 			'pengantar' => 'Pengantar',
 			'hubungankeluarga' => 'Hubungan Keluarga',
 			'nama_pj' => 'Nama Pj',
-			'ruangan_id' => 'Ruangan',
+			'ruangan_id' => 'Poliklinik',
 			'ruangan_nama' => 'Ruangan',
 			'instalasi_id' => 'Instalasi',
 			'instalasi_nama' => 'Instalasi',
@@ -242,7 +242,8 @@ class InfokunjunganrjV extends CActiveRecord
                         'statusperiksa'=>'Status Periksa',
                         'tgl_awal'=>'Tanggal Pendaftaran Dari',
                         'tgl_akhir'=>'Sampai Dengan',
-                        'noantrian'=>'No. Antrian'
+                        'noantrian'=>'No. Antrian',
+                        'pegawai_id'=>'Dokter Pemeriksa',
 		);
 	}
 

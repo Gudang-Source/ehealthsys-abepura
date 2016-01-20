@@ -56,16 +56,16 @@ $('.search-form form').submit(function(){
                                                              CHtml::link("<i class=icon-form-print></i> ".$data->no_pendaftaran, "javascript:print(\'$data->pendaftaran_id\');",array("rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik Untuk Print Lembar Poli")) : "-") 
                                                              ',
                                             'htmlOptions'=>array('style'=>'text-align: center; width:120px')
-                                    ), 
+                                    ), /*
                         array(
                             'header'=>'Nama Depan',
                             'type'=>'raw',
                             'value'=>'$data->namadepan'
-                        ),
+                        ), */
                         array(
-                            'header'=>'Nama',
+                            'header'=>'Nama Pasien',
                             'type'=>'raw',
-                            'value'=>'$data->NamaAlias'
+                            'value'=>'$data->namadepan." ".$data->NamaAlias'
                         ),
                         'alamat_pasien',
                         array(
@@ -80,7 +80,7 @@ $('.search-form form').submit(function(){
                            'value'=>'$data->statusmasuk',
                         ),
                         array(
-                           'header'=>'Status Masuk',
+                           'header'=>'Cara Masuk',
                            'type'=>'raw',
                            'value'=>'$data->caramasuk_nama',
                         ),
@@ -189,7 +189,7 @@ $('.search-form form').submit(function(){
 							'type'=>'raw',
 							'value'=>'"<div style=\'width:100px;\'>" . CHtml::link("<i class=icon-form-ubah></i>". $data->keterangan_pendaftaran," ",array("onclick"=>"ubahKeterangan(\'$data->pendaftaran_id\');$(\'#editKeterangan\').dialog(\'open\');return false;", "rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik Untuk Mengubah Keterangan Pendaftaran")) . "</div>"',
 							'htmlOptions'=>array('style'=>'text-align: left')
-						),
+						), /*
                         array(
                                 'header'=>'Pemeriksaan Fisik & Anamnesa',
                                 'type'=>'raw',
@@ -208,7 +208,7 @@ $('.search-form form').submit(function(){
                                               "rel"=>"tooltip",
                                               "title"=>"Klik Verifikasi Diagnosa",
                                 )))."</div>"',  
-                        ),
+                        ), */
                         array(
                             'name'=>'statusperiksa',
                             'type'=>'raw',
@@ -242,6 +242,7 @@ $('.search-form form').submit(function(){
         <table class="row-fluid">
             <tr>
                 <td width='30%'>
+                    <div class="control-group">
                     <?php echo $form->labelEx($modPPInfoKunjunganRIV,'tgl_pendaftaran', array('class'=>'control-label')) ?>
                           <div class="controls">  
                             <?php $modPPInfoKunjunganRIV->tgl_awal=$format->formatDateTimeForUser($modPPInfoKunjunganRIV->tgl_awal); ?>
@@ -259,6 +260,9 @@ $('.search-form form').submit(function(){
                             )); ?>
                               <?php $modPPInfoKunjunganRIV->tgl_awal=$format->formatDateTimeForDb($modPPInfoKunjunganRIV->tgl_awal); ?>
                       </div> 
+                    </div>
+                    <div class="control-group">
+                    
                             <?php echo CHtml::label(' Sampai Dengan',' Sampai Dengan', array('class'=>'control-label')) ?>
                             <div class="controls">  
                             <?php $modPPInfoKunjunganRIV->tgl_akhir=$format->formatDateTimeForUser($modPPInfoKunjunganRIV->tgl_akhir); ?>
@@ -276,6 +280,7 @@ $('.search-form form').submit(function(){
                                             )); ?>
                             <?php $modPPInfoKunjunganRIV->tgl_akhir=$format->formatDateTimeForDb($modPPInfoKunjunganRIV->tgl_akhir); ?>
                            </div> 
+                    </div>
                         <?php echo $form->textFieldRow($modPPInfoKunjunganRIV,'no_rekam_medik',array('placeholder'=>'Ketik No. Rekam Medik','class'=>'span3 numberOnly','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
                         <?php echo $form->textFieldRow($modPPInfoKunjunganRIV,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
                         <?php echo $form->textAreaRow($modPPInfoKunjunganRIV,'alamat_pasien',array('placeholder'=>'Ketik Alamat Pasien','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>          
@@ -292,7 +297,7 @@ $('.search-form form').submit(function(){
                     <?php echo $form->dropDownList($modPPInfoKunjunganRIV,'penjamin_id', CHtml::listData($modPPInfoKunjunganRIV->getPenjaminItems(), 'penjamin_id', 'penjamin_nama') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",)); ?>
                 </td>
                 <td>
-                    <?php echo $form->dropDownListRow($modPPInfoKunjunganRIV,'propinsi_id', CHtml::listData($modPPInfoKunjunganRIV->getPropinsiItems(), 'propinsi_id', 'propinsi_nama'), 
+                    <?php /* echo $form->dropDownListRow($modPPInfoKunjunganRIV,'propinsi_id', CHtml::listData($modPPInfoKunjunganRIV->getPropinsiItems(), 'propinsi_id', 'propinsi_nama'), 
                         array('empty'=>'-- Pilih --',
                               'ajax'=>array('type'=>'POST',
                                             'url'=>$this->createUrl('SetDropdownKabupaten',array('encode'=>false,'model_nama'=>get_class($modPPInfoKunjunganRIV))),
@@ -313,7 +318,7 @@ $('.search-form form').submit(function(){
                                             'update'=>'#PPInfoKunjunganRIV_kelurahan_id'),
                                             'onkeypress'=>"return $(this).focusNextInputField(event)"
                             )); ?>    
-                    <?php echo $form->dropDownListRow($modPPInfoKunjunganRIV,'kelurahan_id',array(),array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+                    <?php echo $form->dropDownListRow($modPPInfoKunjunganRIV,'kelurahan_id',array(),array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)")); */ ?>
                 </td>
             </tr>
         </table>
