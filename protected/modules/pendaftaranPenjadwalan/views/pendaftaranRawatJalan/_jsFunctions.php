@@ -1728,9 +1728,9 @@ function cekStatusPekerjaan(obj)
             }
         }else{
             if(namaPekerjaan === '12'){
-                if(namaDepan === 'Ny.'){
+                if(namaDepan === 'Ny. '){
                     $(obj).val('9');
-                }else if(namaDepan === 'Nn.' && namaPekerjaan === '9'){
+                }else if(namaDepan === 'Nn. ' && namaPekerjaan === '9'){
                     alert('Pasien belum menikah, coba cek ulang');
                     $(obj).val('');
                 }else{
@@ -1739,7 +1739,7 @@ function cekStatusPekerjaan(obj)
                 alert('Pilih pekerjaan yang tepat');
             }else{
                 if(namaPekerjaan === '9'){
-                    if(namaDepan !== 'Ny.'){
+                    if(namaDepan !== 'Ny. '){
                       if ($("#PPPasienM_jeniskelamin_0").is(":checked")) alert ("Silahkan Cek Kembali Jenis Kelamin Yang Dipilih!");
                       else alert('Silahkan Cek Kembali Status Perkawinan Anda!');
                       $(obj).val('');
