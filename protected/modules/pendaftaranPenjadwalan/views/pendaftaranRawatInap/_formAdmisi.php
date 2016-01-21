@@ -1,6 +1,6 @@
 <?php echo $form->hiddenField($modPasienAdmisi, 'pasienadmisi_id', array('readonly'=>true,'class'=>'span3')); ?>
 <div class = "span4">
-    <fieldset class="box2">
+    <!--fieldset class="box"-->
         <?php 
             /* if(Yii::app()->user->getState('tgltransaksimundur')){
             ?>
@@ -92,7 +92,7 @@
 
         <?php echo $form->dropDownListRow($modPasienAdmisi,'penjamin_id', CHtml::listData($model->getPenjaminItems($model->carabayar_id), 'penjamin_id', 'penjamin_nama') ,array('empty'=>'-- Pilih --','onchange'=>'setKarcis(); setAsuransiBadakAdmisi(this.value); cekValiditasPenjaminAdmisi(this.value);','onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span3')); ?>
         <?php echo $form->textAreaRow($model,'keterangan_pendaftaran',array('placeholder'=>'Catatan Khusus Pendaftaran','rows'=>2, 'cols'=>50, 'class'=>'span3 ','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
-    </fieldset>
+    <!--/fieldset-->
         <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
             'id'=>'form-asuransi',
             'content'=>array(
