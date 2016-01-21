@@ -356,7 +356,7 @@ class PendaftaranRawatInapController extends PendaftaranRawatJalanController
             $model->no_urutantri = MyGenerator::noAntrian($model->ruangan_id);
             $model->golonganumur_id = CustomFunction::getGolonganUmur($modPasien->tanggal_lahir);
             $model->umur = CustomFunction::getUmur($modPasien->tanggal_lahir);
-            $model->statusperiksa = Params::STATUSPERIKSA_ANTRIAN;
+            $model->statusperiksa = Params::STATUSPERIKSA_SEDANG_DIRAWATINAP;
             $model->statuspasien = (empty($postPasien['pasien_id']) ? Params::STATUSPASIEN_BARU : Params::STATUSPASIEN_LAMA);
             $model->kunjungan = CustomFunction::getKunjungan($modPasien, $model->ruangan_id);
             $model->shift_id = Yii::app()->user->getState('shift_id');
