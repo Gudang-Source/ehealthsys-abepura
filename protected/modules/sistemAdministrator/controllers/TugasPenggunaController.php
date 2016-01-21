@@ -30,15 +30,22 @@ class TugasPenggunaController extends MyAuthController
         $model=new SATugaspenggunaK;
         if(isset($_POST['SATugaspenggunaK']))
         {
+            
+            // var_dump($_POST); die;
             $transaction = Yii::app()->db->beginTransaction();
             try{
+                //var_dump($_POST['controller']); die;
+                
                 foreach ($_POST['controller'] as $i => $value) {
 					foreach($value AS $ii => $cont){
 						if(isset($_POST['action'][$cont])){
 							foreach($_POST['action'][$cont] AS $iii => $act){
-								$cek = SATugaspenggunaK::model()->findByAttributes(array('peranpengguna_id'=>$_POST['SATugaspenggunaK']['peranpengguna_id'],
-																						'controller_nama'=>$cont,
-																						'action_nama'=>$act));
+								$cek = SATugaspenggunaK::model()->findByAttributes(array(
+                                                                    'peranpengguna_id'=>$_POST['SATugaspenggunaK']['peranpengguna_id'],
+                                                                    'tugas_nama'=>$_POST['SATugaspenggunaK']['tugas_nama'],
+                                                                    'controller_nama'=>$cont,
+                                                                    'modul_id'=>$i,
+                                                                    'action_nama'=>$act));
 								if(!$cek){
 									$model = new SATugaspenggunaK;
 									$model->attributes=$_POST['SATugaspenggunaK'];
@@ -51,6 +58,7 @@ class TugasPenggunaController extends MyAuthController
 						}
                     }
                 }
+                
                 $transaction->commit();
                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
                 $this->redirect(array('admin'));
@@ -136,6 +144,7 @@ class TugasPenggunaController extends MyAuthController
                                                             'peranpengguna_id'=>$_POST['SATugaspenggunaK']['peranpengguna_id'],
                                                             'tugas_nama'=>$_POST['SATugaspenggunaK']['tugas_nama'], 
                                                             'controller_nama'=>$cont,
+                                                            'modul_id'=>$i,
                                                             'action_nama'=>$act)
                                                         );
 							if(!$cek){
