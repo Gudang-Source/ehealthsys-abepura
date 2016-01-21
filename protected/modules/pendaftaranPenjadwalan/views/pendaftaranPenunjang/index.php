@@ -190,6 +190,7 @@
                     if(count($modPasienMasukPenunjangs) > 0){
                         echo '<div></div>';
                         foreach($modPasienMasukPenunjangs AS $i=>$modPasienMasukPenunjang){
+                            $modPasienMasukPenunjangs[$i]->kelaspelayanan_id = Params::KELASPELAYANAN_ID_TANPA_KELAS;
                             echo '<div class = "span4">';
                                 echo $form->hiddenField($modPasienMasukPenunjangs[$i],'['.$i.']is_pilihpenunjang', array('readonly'=>true,'class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)"));
                                 $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
@@ -207,6 +208,7 @@
                                         ),   
                                     ),
                                 )); 
+                                /*
                                 echo $form->hiddenField($modPasienMasukPenunjangs[$i],'['.$i.']is_adakarcis', array('readonly'=>true,'class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)"));
                                 $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
                                         'id'=>'form-karcis-'.$i,
@@ -225,6 +227,8 @@
                                             ),   
                                         ),
                                 )); 
+                                 * 
+                                 */
                             echo '</div>';
                         }
                     }
@@ -248,7 +252,7 @@
                                 'onclick'=>'return refreshForm(this);'));  ?>
                 <?php
                     if($model->isNewRecord){
-                        echo CHtml::link(Yii::t('mds', '{icon} Print Karcis', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('rel'=>'tooltip','title'=>'Tombol akan aktif setelah data tersimpan','class'=>'btn btn-info','onclick'=>"return false",'disabled'=>true, 'style'=>'cursor:not-allowed;')).'&nbsp;';
+                        // echo CHtml::link(Yii::t('mds', '{icon} Print Karcis', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('rel'=>'tooltip','title'=>'Tombol akan aktif setelah data tersimpan','class'=>'btn btn-info','onclick'=>"return false",'disabled'=>true, 'style'=>'cursor:not-allowed;')).'&nbsp;';
                         echo CHtml::link(Yii::t('mds', '{icon} Print Status Pasien', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('rel'=>'tooltip','title'=>'Tombol akan aktif setelah data tersimpan','class'=>'btn btn-info','onclick'=>"return false",'disabled'=>true, 'style'=>'cursor:not-allowed;')).'&nbsp;';
                         echo CHtml::link(Yii::t('mds', '{icon} Print Kartu Pasien', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('rel'=>'tooltip','title'=>'Tombol akan aktif setelah data tersimpan','class'=>'btn btn-info','onclick'=>"return false",'disabled'=>true, 'style'=>'cursor:not-allowed;')).'&nbsp;';
                         if(Yii::app()->user->getState('isbridging')){
@@ -257,7 +261,7 @@
                             echo CHtml::link(Yii::t('mds', '{icon} Print SEP', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('rel'=>'tooltip','title'=>'Fitur Bridging tidak aktif!','class'=>'btn btn-info','onclick'=>"return false",'disabled'=>true, 'style'=>'cursor:not-allowed;'));
                         }
                     }else{
-                        echo CHtml::link(Yii::t('mds', '{icon} Print Karcis', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"printKarcis();return false",'disabled'=>FALSE  )).'&nbsp;';
+                        // echo CHtml::link(Yii::t('mds', '{icon} Print Karcis', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"printKarcis();return false",'disabled'=>FALSE  )).'&nbsp;';
                         echo CHtml::link(Yii::t('mds', '{icon} Print Status Pasien', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"printStatus();return false",'disabled'=>FALSE  )).'&nbsp;';
                         echo CHtml::link(Yii::t('mds', '{icon} Print Kartu Pasien', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"printKartuPasien();return false",'disabled'=>FALSE  )).'&nbsp;';
                         if(Yii::app()->user->getState('isbridging')){
