@@ -371,7 +371,7 @@ class PendaftaranRawatJalanController extends MyAuthController
                         $smspenanggungjawab = 1;
                         foreach ($modSmsgateway as $i => $smsgateway) {
                             $isiPesan = $smsgateway->templatesms;
-
+                            
                             $attributes = $modPasien->getAttributes();
                             foreach($attributes as $attributes => $value){
                                 $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
@@ -406,16 +406,16 @@ class PendaftaranRawatJalanController extends MyAuthController
                                 }else{
                                     $smsdokter = 0;
                                 }
-                            }elseif($smsgateway->tujuansms == Params::TUJUANSMS_PENANGGUNGJAWAB && $smsgateway->statussms){
+                            } /*elseif($smsgateway->tujuansms == Params::TUJUANSMS_PENANGGUNGJAWAB && $smsgateway->statussms){
                                 if(!empty($modPenanggungJawab->no_mobilepj)){
                                     $sms->kirim($modPenanggungJawab->no_mobilepj,$isiPesan);
                                 }else{
                                     $smspenanggungjawab = 0;
                                 }
-                            }
-                        }
+                            } */
+                        } 
                         // END SMS GATEWAY
-
+                        
                         if($this->septersimpan){
                             $this->redirect(array('index','id'=>$model->pendaftaran_id,'idSep'=>$modSep->sep_id,'sukses'=>1,'smspasien'=>$smspasien,'smsdokter'=>$smsdokter,'smspenanggungjawab'=>$smspenanggungjawab));
                         }else{

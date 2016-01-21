@@ -148,6 +148,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
             <?php echo $form->checkBoxRow($model, 'isbayarkekasirpenunjang', array('rel' => 'tooltip', 'title' => $model->getAttributeTooltip('isbayarkekasirpenunjang'), 'onkeyup' => "return $(this).focusNextInputField(event);")); ?>
             <?php echo $form->checkBoxRow($model, 'isjurnalotomatis', array('rel' => 'tooltip', 'title' => $model->getAttributeTooltip('isjurnalotomatis'), 'onkeyup' => "return $(this).focusNextInputField(event);")); ?>
             <?php echo $form->checkBoxRow($model, 'ispostingotomatis', array('rel' => 'tooltip', 'title' => $model->getAttributeTooltip('ispostingotomatis'), 'onkeyup' => "return $(this).focusNextInputField(event);")); ?>
+            <?php echo $form->checkBoxRow($model, 'issmsgateway', array('rel' => 'tooltip', 'title' => $model->getAttributeTooltip('ispostingotomatis'), 'onkeyup' => "return $(this).focusNextInputField(event);")); ?>
         </div>
         <div class="box">
             <div class="control-group ">
