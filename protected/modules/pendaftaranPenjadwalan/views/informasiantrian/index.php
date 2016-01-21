@@ -36,11 +36,17 @@
         <div class="table-responsive">
         <?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
         'id'=>'ppinformasiantrianpasien-grid',
-        'dataProvider'=>$model->searchTable(),
+        'dataProvider'=>$model->searchTable(true),
     //	'filter'=>$model,
             'template'=>"{summary}\n{items}\n{pager}",
             'itemsCssClass'=>'table table-striped table-condensed',
             'columns'=>array(
+                    array(
+                        'header'=>'Tgl Pendaftaran',
+                        'value'=>function($data) {
+                            return MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran);
+                        }
+                    ),
                     array(
                             'header'=>'Nama Instalasi',
                             'value'=>'$data->instalasi_nama',
@@ -48,8 +54,16 @@
                     array(
                         'header'=>'Nama Ruangan',
                         'value'=>'$data->ruangan_nama',
-                    ),                
-                    'no_urutantri',
+                    ),   
+                    array (
+                        'header'=>'No Antrian',
+                        'value'=>function($data) {
+                            $p = PendaftaranT::model()->findByPk($data->pendaftaran_id);
+                            $antrian = AntrianT::model()->findByPk($p->antrian_id);
+                            
+                            if (!empty($antrian)) return $antrian->loket->loket_singkatan."-".$antrian->noantrian;
+                        }
+                    ),
                     'no_rekam_medik',
                     'nama_pasien',
                     'no_pendaftaran',
