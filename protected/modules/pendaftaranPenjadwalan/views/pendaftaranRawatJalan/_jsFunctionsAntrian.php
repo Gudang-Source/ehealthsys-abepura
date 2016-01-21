@@ -37,6 +37,7 @@ function panggilAntrian(ket){
 				$("#dialog-panggilantrian .btn-primary").parent().removeClass('animation-loading');
 				$('#dialog-panggilantrian .btn-primary').removeAttr("disabled");
 				$('#dialog-panggilantrian .btn-primary').attr("onclick",attr_onclick);
+                                $(".f_rm:first").focus();
 			},3000); //3 detik tombol baru aktif
         },
         error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
