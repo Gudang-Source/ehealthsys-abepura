@@ -29,10 +29,10 @@
             </div>
         </div>
         <div class="span6">
-            <?php 
+            <?php /*
             if(Yii::app()->user->getState('issmsgateway')){
                $this->renderPartial($this->path_view.'_formSms', array('form'=>$form,'modSmsgateway'=>$modSmsgateway)); 
-            }
+            } */
             ?>
         </div>
     </div>
@@ -82,7 +82,19 @@
                                 'active'=>$model->is_adakarcis,
                             ),   
                         ),
-					)); ?>
+		)); ?>
+                <?php if(Yii::app()->user->getState('issmsgateway')){
+                    $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+                        'id'=>'form-smsgateway',
+                        'content'=>array(
+                            'content-smsgateway'=>array(
+                                'header'=>CHtml::htmlButton("<i class='icon-minus icon-white'></i>",array('class'=>'btn btn-primary btn-mini','onclick'=>'','onkeyup'=>"return $(this).focusNextInputField(event)",'rel'=>'tooltip','title'=>'Klik untuk tampilkan riwayat kunjungan pasien')).'<b> Riwayat Kunjungan Pasien</b>',
+                                'isi'=> $this->renderPartial($this->path_view.'_formSms', array('form'=>$form,'modSmsgateway'=>$modSmsgateway), true),
+                                'active'=>true,
+                            ),   
+                        ),
+                    ));
+                } ?>
                 </div>
                 <div class = "span4">
                     <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
@@ -112,7 +124,6 @@
         <?php // echo $this->renderPartial('_formAdmisi', array('form'=>$form,'model'=>$model, 'modPasien'=>$modPasien, 'modPasienAdmisi'=>$modPasienAdmisi, 'modRujukan'=>$modRujukan, 'modRujukanBpjs'=>$modRujukanBpjs, 'modAsuransiPasien'=>$modAsuransiPasien, 'modAsuransiPasienBpjs'=>$modAsuransiPasienBpjs, 'modSep'=>$modSep,'modAsuransiPasienBadak'=>$modAsuransiPasienBadak,'modAsuransiPasienDepartemen'=>$modAsuransiPasienDepartemen,'modAsuransiPasienPekerja'=>$modAsuransiPasienPekerja,'modPegawai'=>$modPegawai)); ?>
             <!--<div class = "span4">-->
                 <?php // echo $form->hiddenField($model,'is_adakarcis', array('readonly'=>true,'class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-                    
                 <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
                         'id'=>'form-riwayatpasien',
                         'content'=>array(

@@ -193,6 +193,7 @@ class KonfigsystemK extends CActiveRecord {
             'delaytombolantrian' => 'Delay Tombol Antrian',
             'normlama_min' => 'No. RM Lama Dari',
             'normlama_maks' => 'Sampai dengan',
+            'issmsgateway' => 'SMS Gateway',
         );
     }
 

@@ -5,8 +5,11 @@
 		</label>
         <div class="controls">
             <?php 
-	            echo CHtml::checkBoxList('tujuansms',$modSmsgateway, CHtml::listData($modSmsgateway,'tujuansms','tujuansms'), array('style'=>'float:left'));
-			?>
+                foreach ($modSmsgateway as $idx=>$item) {
+                    echo CHtml::checkBox('tujuansms['.$idx."]", $item->tujuansms, array('uncheckValue'=>null)).$item->tujuansms."<br>";
+                }
+	            //echo CHtml::checkBoxList('tujuansms',$modSmsgateway, CHtml::listData($modSmsgateway,'tujuansms','tujuansms'), array('style'=>'float:left'));
+            ?>
         </div>
     </div>
 <script type="text/javascript">
