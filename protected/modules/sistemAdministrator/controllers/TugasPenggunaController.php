@@ -120,18 +120,24 @@ class TugasPenggunaController extends MyAuthController
 
         if(isset($_POST['SATugaspenggunaK']))
         {
+            //var_dump($_POST); die;
+            
             $transaction = Yii::app()->db->beginTransaction();
             try{
-                SATugaspenggunaK::model()->deleteAllByAttributes(array(
-                    'peranpengguna_id'=>$_POST['SATugaspenggunaK']['peranpengguna_id'],
+                $ok = SATugaspenggunaK::model()->deleteAllByAttributes(array(
+                    'peranpengguna_id'=>$_POST['SATugaspenggunaK']['peranpengguna_id'], 
+                    'tugas_nama'=>$_POST['SATugaspenggunaK']['tugas_nama'], 
                     'modul_id'=>$modul_id,
                 ));
                 foreach ($_POST['controller'] as $i => $value) {
                     foreach($value AS $ii => $cont){
                         foreach($_POST['action'][$cont] AS $iii => $act){
-							$cek = SATugaspenggunaK::model()->findByAttributes(array('peranpengguna_id'=>$_POST['SATugaspenggunaK']['peranpengguna_id'],
-																						'controller_nama'=>$cont,
-																						'action_nama'=>$act));
+							$cek = SATugaspenggunaK::model()->findByAttributes(array(
+                                                            'peranpengguna_id'=>$_POST['SATugaspenggunaK']['peranpengguna_id'],
+                                                            'tugas_nama'=>$_POST['SATugaspenggunaK']['tugas_nama'], 
+                                                            'controller_nama'=>$cont,
+                                                            'action_nama'=>$act)
+                                                        );
 							if(!$cek){
 								$model = new SATugaspenggunaK;
 								$model->attributes=$_POST['SATugaspenggunaK'];
