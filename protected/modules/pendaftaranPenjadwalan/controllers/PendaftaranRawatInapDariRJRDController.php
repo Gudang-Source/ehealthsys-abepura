@@ -214,6 +214,7 @@ class PendaftaranRawatInapDariRJRDController extends PendaftaranRawatInapControl
                     
                     if($this->pasientersimpan && $this->pendaftarantersimpan && $this->penanggungjawabtersimpan && $this->rujukantersimpan && $this->karcistersimpan && $this->komponentindakantersimpan && $this->admisitersimpan && $this->masukkamartersimpan && $this->asuransipasientersimpan){
                         $model->statusperiksa = Params::STATUSPERIKSA_SEDANG_DIRAWATINAP;
+                        $model->alihstatus = true;
 						$model->save();
 
                         // SMS GATEWAY

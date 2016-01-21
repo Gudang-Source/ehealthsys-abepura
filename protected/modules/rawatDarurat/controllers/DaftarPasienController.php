@@ -208,8 +208,15 @@ class DaftarPasienController extends MyAuthController {
                     $modPasien->save();
                 }
                 if ($this->validPulang && $this->validRujukan) {
-                    PendaftaranT::model()->updateByPk($modelPulang->pendaftaran_id, array('tglselesaiperiksa' => date('Y-m-d H:i:s'), 'pasienpulang_id' => $modelPulang->pasienpulang_id, 'statusperiksa' => 'SUDAH PULANG'));
-
+                    
+                    PendaftaranT::model()->updateByPk($modelPulang->pendaftaran_id, array('tglselesaiperiksa' => date('Y-m-d H:i:s'), 'pasienpulang_id' => $modelPulang->pasienpulang_id));
+                    
+                    if ($modelPulang->carakeluar_id != Params::CARAKELUAR_ID_RAWATINAP) {
+                        PendaftaranT::model()->updateByPk($modelPulang->pendaftaran_id, array('tglselesaiperiksa' => date('Y-m-d H:i:s'), 'statusperiksa' => 'SUDAH PULANG'));
+                    } else {
+                        PendaftaranT::model()->updateByPk($modelPulang->pendaftaran_id, array('tglselesaiperiksa' => date('Y-m-d H:i:s'), 'statusperiksa' => Params::STATUSPERIKSA_SEDANG_DIRAWATINAP));
+                    }
+                    
                     // SMS GATEWAY
 
                     $sms = new Sms();

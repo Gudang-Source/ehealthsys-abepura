@@ -211,7 +211,7 @@ Class Params
 	const STATUSPERIKSA_SEDANG_PERIKSA = 'SEDANG PERIKSA'; //disesuaikan dengan lookup_m.lookup_type = statusperiksa
 	const STATUSPERIKSA_SEDANG_DIRAWATINAP = 'SEDANG DIRAWAT INAP'; //disesuaikan dengan lookup_m.lookup_type = statusperiksa
 	const STATUSPERIKSA_BATAL_PERIKSA = 'BATAL PERIKSA'; //disesuaikan dengan lookup_m.lookup_type = statusperiksa     
-	const STATUSPERIKSA_SUDAH_DIPERIKSA = 'SUDAH DIPERIKSA'; //disesuaikan dengan lookup_m.lookup_type = statusperiksa
+	const STATUSPERIKSA_SUDAH_DIPERIKSA = 'SUDAH DI PERIKSA'; //disesuaikan dengan lookup_m.lookup_type = statusperiksa
 	const STATUSPERIKSA_SUDAH_PULANG = 'SUDAH PULANG'; //disesuaikan dengan lookup_m.lookup_type = statusperiksa
 
 	const STATUSPERIKSAHASIL_SUDAH = 'SUDAH'; //disesuaikan dengan lookup_m.lookup_type = statusperiksahasil
@@ -381,7 +381,7 @@ Class Params
             return array(
                 'ANTRIAN'=>'ANTRIAN',
                 'SEDANG PERIKSA'=>'SEDANG PERIKSA',
-                'SUDAH DI PERIKSA'=>'SUDAH DIPERIKSA',
+                'SUDAH DI PERIKSA'=>'SUDAH DI PERIKSA',
                 'SEDANG DIRAWAT INAP'=>'SEDANG DIRAWAT INAP',
                 'SUDAH PULANG'=>'SUDAH PULANG',
             );
@@ -390,7 +390,7 @@ Class Params
             return array(
                 'ANTRIAN'=>'ANTRIAN',
                 'SEDANG PERIKSA'=>'SEDANG PERIKSA',
-                'SUDAH DI PERIKSA'=>'SUDAH DIPERIKSA',
+                'SUDAH DI PERIKSA'=>'SUDAH DI PERIKSA',
             );
         }
 	

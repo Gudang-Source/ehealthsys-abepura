@@ -9,7 +9,12 @@
                     'name'=>'no_urutantri',
                     'type'=>'raw',
                     'header'=>'No. Antrian <br>/ Panggil Antrian',
-                    'value'=>'$data->ruangan_singkatan."-".$data->no_urutantri."<br>".(($data->panggilantrian == TRUE) ? "Sudah Dipanggil" : CHtml::htmlButton(Yii::t("mds","{icon}",array("{icon}"=>"<i class=\'icon-volume-up icon-white\'></i>")),array("class"=>"btn btn-primary","onclick"=>"panggilAntrian(\"$data->pendaftaran_id\"); setSuaraPanggilanSingle(\"$data->ruangan_singkatan\",\"$data->no_urutantri\",\"$data->ruangan_id\")","rel"=>"tooltip","title"=>"Klik untuk memanggil pasien ini")))'
+                    'value'=>function($data) {
+                        if (!empty($data->antrian_id)) {
+                            $antrian = AntrianT::model()->findByPk($data->antrian_id);
+                            return $antrian->loket->loket_singkatan."-".$antrian->noantrian."<br>".(($data->panggilantrian == TRUE) ? "Sudah Dipanggil" : CHtml::htmlButton(Yii::t("mds","{icon}",array("{icon}"=>"<i class='icon-volume-up icon-white'></i>")),array("class"=>"btn btn-primary","onclick"=>"panggilAntrian('".$data->pendaftaran_id."');","rel"=>"tooltip","title"=>"Klik untuk memanggil pasien ini")));
+                        } else return "-";
+                    },
                 ),
 				array(
 					'name'=>'tgl_pendaftaran',
@@ -77,15 +82,15 @@
 					'header'=>'Tindak Lanjut<br/>ke Rawat Inap',
 					'type'=>'raw',
 					'value'=>'($data->statusperiksa == "'.Params::STATUSPERIKSA_SEDANG_DIRAWATINAP.'") ? 
-						("Pasien di Rawat Inap<br>".$data->getNamaKamar()."<br>".$data->getNoBed().
+						("DIRAWAT INAP".
 						CHtml::link("<i class=\'icon-form-sampah\'></i>", Yii::app()->controller->createUrl("/'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/BatalRawatInap",array("pendaftaran_id"=>$data->pendaftaran_id)) , array("title"=>"Klik Untuk Batal Proses Tindak Lanjut Pasien","target"=>"iframeBatalRawatInap", "onclick"=>"$(\"#dialogBatalRawatInap\").dialog(\"open\");", "rel"=>"tooltip")))
 						:  
-						CHtml::link("<i class=\'icon-form-ri\'></i>", Yii::app()->createUrl("/'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/tindakLanjutRI", array("instalasi_id"=>$data->instalasi_id,"pendaftaran_id"=>$data->pendaftaran_id)),
+						CHtml::link("<i class=\'icon-form-ri\'></i>", "#",
 							array("class"=>"",
 							"target"=>"frameTindakLanjut",
 							"rel"=>"tooltip",
 							"title"=>"Klik untuk Proses Tindak Lanjut Pasien",
-							"onclick"=>"$(\'#dialogTindakLanjut\').dialog(\'open\');"))',
+							"onclick"=>"tindaklanjutrawatjalan(".$data->pendaftaran_id.")"))',
 					'htmlOptions'=>array('style'=>'text-align: center; width:60px')
 					),
                 array(
