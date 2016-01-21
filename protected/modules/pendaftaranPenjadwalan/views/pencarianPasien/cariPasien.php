@@ -94,7 +94,7 @@
                             array(
                                 'name'=>'kelurahan_id',
                                  'filter'=>  CHtml::listData($modKel, 'kelurahan_id', 'kelurahan_nama'),
-                                'value'=>'(isset($data->keluranan_id) ? KelurahanM::model()->findByPk($data->kelurahan_id)->kelurahan_nama : "")',
+                                'value'=>'(isset($data->kelurahan_id) ? KelurahanM::model()->findByPk($data->kelurahan_id)->kelurahan_nama : "-")',
                             ),
                             array(
                                 'header'=>'Riwayat <br/> Kunjungan',
