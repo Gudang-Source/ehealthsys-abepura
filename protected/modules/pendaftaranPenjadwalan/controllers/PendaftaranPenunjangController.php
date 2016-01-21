@@ -58,6 +58,7 @@ class PendaftaranPenunjangController extends PendaftaranRawatJalanController
             $modPasien->propinsi_id = Yii::app()->user->getState('propinsi_id');
             $modPasien->kabupaten_id = Yii::app()->user->getState('kabupaten_id');
             $modPasien->kecamatan_id = Yii::app()->user->getState('kecamatan_id');
+            $modPasien->kelurahan_id = Yii::app()->user->getState('kelurahan_id');
             $modPasien->warga_negara = Params::DEFAULT_WARGANEGARA;
             $modPasien->agama = Params::DEFAULT_AGAMA;
 
@@ -167,6 +168,18 @@ class PendaftaranPenunjangController extends PendaftaranRawatJalanController
                         $this->asuransipasientersimpan = true;
                     }
 
+                    // var_dump($_POST);
+                    
+                    // ambil dokter pasien punjang
+                    if(isset($_POST['PPPasienMasukPenunjangT'])){
+                        foreach ($_POST['PPPasienMasukPenunjangT'] as $item) {
+                            if ($item['is_pilihpenunjang'] == 1) {
+                                $model->pegawai_id = $item['pegawai_id'];
+                                break;
+                            }
+                        }
+                    }
+                    
                     if($_POST['PPPendaftaranT']['is_bpjs']){
                         $model = $this->simpanPendaftaranPenunjang($model,$modPasien,$modRujukanBpjs,$modPenanggungJawab, $_POST['PPPendaftaranT'], $_POST['PPPasienM'],$modAsuransiPasienBpjs);
                         $modSep = $this->simpanSep($model,$modPasien,$modRujukanBpjs,$modAsuransiPasienBpjs,$_POST['PPSepT']);
@@ -216,7 +229,7 @@ class PendaftaranPenunjangController extends PendaftaranRawatJalanController
                                 }
                                 $this->karcistersimpan = true;
                                 $this->komponentindakantersimpan = true;
-                                if($postPenunjang['is_adakarcis']){
+                                if(isset($postPenunjang['is_adakarcis']) && $postPenunjang['is_adakarcis']){
                                     if(isset($_POST['PPKarcisV'][$i])){
                                         if(count($_POST['PPKarcisV'][$i]) > 0){
                                             foreach($_POST['PPKarcisV'][$i] as $ii => $postkarcis){
@@ -446,7 +459,7 @@ class PendaftaranPenunjangController extends PendaftaranRawatJalanController
             $model->kelompokumur_id = CustomFunction::getKelompokUmur($modPasien->tanggal_lahir);
             $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
             $model->instalasi_id = Yii::app()->user->getState('instalasi_id');
-            $model->pegawai_id = Yii::app()->user->getState('pegawai_id');
+            // if ($model->pegawai_id = Yii::app()->user->getState('pegawai_id'));
             $model->jeniskasuspenyakit_id = Params::DEFAULT_JENISKASUSPENYAKIT_PENUNJANG;
             $model->kelaspelayanan_id = Params::DEFAULT_KELASPELAYANAN_PENUNJANG;
             $model->no_urutantri = MyGenerator::noAntrian($model->ruangan_id);
@@ -472,6 +485,8 @@ class PendaftaranPenunjangController extends PendaftaranRawatJalanController
             $model->tglrenkontrol = $format->formatDateTimeForDb($model->tglrenkontrol);
             $model->asuransipasien_id = $modAsuransiPasien->asuransipasien_id;
             $model->keterangan_pendaftaran = $post['keterangan_pendaftaran'];
+            
+            // var_dump($model->validate()); die;
 
             if($model->save()){
                 $this->pendaftarantersimpan = true;
