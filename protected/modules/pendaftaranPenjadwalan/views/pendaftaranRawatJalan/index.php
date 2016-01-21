@@ -26,14 +26,7 @@
                     <?php echo CHtml::htmlButton(Yii::t('mds','{icon}',array('{icon}'=>'<i class="icon-volume-up icon-white"></i>')),array('id'=>'bth-lihatantrian','title'=>'Klik untuk menampilkan form antrian','rel'=>'tooltip','class'=>'btn  btn-mini btn-primary', 'onclick'=>'$("#dialog-panggilantrian").dialog("open");')); ?>
                 </div>
             </div>
-        </div>
-        <div class="span6">
-                <?php 
-                if(Yii::app()->user->getState('issmsgateway')){
-                   $this->renderPartial($this->path_view.'_formSms', array('form'=>$form,'modSmsgateway'=>$modSmsgateway)); 
-                }
-                ?>
-        </div>
+        </div> 
     </div>
     <fieldset class="box" id="form-pasien">
         <legend class="rim"><span class='judul'>Data Pasien Baru </span><span class='tombol' style='display:none;'><?php echo CHtml::htmlButton('<i class="icon-refresh icon-white"></i>',array('class'=>'btn btn-danger btn-mini','onclick'=>'setPasienBaru();','onkeyup'=>"return $(this).focusNextInputField(event)",'rel'=>'tooltip','title'=>'Klik untuk kembali ke Pasien Baru')); ?></span></legend>
@@ -99,6 +92,23 @@
                         ),
                         'htmlOptions'=>array('style'=>(($model->is_bpjs)?'display:none':'')),
                 )); ?>
+                <?php 
+                if(Yii::app()->user->getState('issmsgateway')){
+                    $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+                        'id'=>'form-smsgateway',
+                        'content'=>array(
+                            'content-riwayatpasien'=>array(
+                                'header'=>CHtml::htmlButton("<i class='icon-minus icon-white'></i>",array('class'=>'btn btn-primary btn-mini','onclick'=>'','onkeyup'=>"return $(this).focusNextInputField(event)",'rel'=>'tooltip','title'=>'Klik untuk tampilkan riwayat kunjungan pasien')).'<b> Riwayat Kunjungan Pasien</b>',
+                                'isi'=> $this->renderPartial($this->path_view.'_formSms', array('form'=>$form,'modSmsgateway'=>$modSmsgateway), true),
+                                'active'=>true,
+                            ),   
+                        ),
+                    ));
+                    
+                  
+                }
+                ?>
+                
 				<?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
                         'id'=>'form-riwayatpasien',
                         'content'=>array(
