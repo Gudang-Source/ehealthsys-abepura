@@ -2,7 +2,7 @@
 <div class = "span4">
     <fieldset class="box2">
         <?php 
-            if(Yii::app()->user->getState('tgltransaksimundur')){
+            /* if(Yii::app()->user->getState('tgltransaksimundur')){
             ?>
                     <div class="control-group ">
                             <?php echo $form->labelEx($modPasienAdmisi,'tgladmisi', array('class'=>'control-label')) ?>
@@ -23,9 +23,9 @@
                             </div>
                     </div>
             <?php
-            }else{ 
+            }else{ */
                     echo $form->textFieldRow($modPasienAdmisi,'tgladmisi',array('readonly'=>true,'class'=>'span3 realtime', 'onkeyup'=>"return $(this).focusNextInputField(event);")); 
-            }
+            // }
             ?>
         <?php // echo $form->dropDownListRow($model,'keadaanmasuk', LookupM::getItems('keadaanmasuk'),array('empty'=>'-- Pilih --','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
         <?php // echo $form->dropDownListRow($model,'transportasi', LookupM::getItems('transportasi'),array('empty'=>'-- Pilih --','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
