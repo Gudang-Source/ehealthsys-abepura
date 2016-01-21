@@ -214,7 +214,7 @@ class DaftarPasienController extends MyAuthController {
                     if ($modelPulang->carakeluar_id != Params::CARAKELUAR_ID_RAWATINAP) {
                         PendaftaranT::model()->updateByPk($modelPulang->pendaftaran_id, array('tglselesaiperiksa' => date('Y-m-d H:i:s'), 'statusperiksa' => 'SUDAH PULANG'));
                     } else {
-                        PendaftaranT::model()->updateByPk($modelPulang->pendaftaran_id, array('tglselesaiperiksa' => date('Y-m-d H:i:s'), 'statusperiksa' => 'SUDAH DI PERIKSA'));
+                        PendaftaranT::model()->updateByPk($modelPulang->pendaftaran_id, array('tglselesaiperiksa' => date('Y-m-d H:i:s'), 'statusperiksa' => Params::STATUSPERIKSA_SEDANG_DIRAWATINAP));
                     }
                     
                     // SMS GATEWAY
