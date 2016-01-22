@@ -1572,6 +1572,23 @@ class PendaftaranRawatJalanController extends MyAuthController
                 )
             );
         }
+        
+        /**
+         * Catat print kartu
+         * @param type $model PasienM data Pasien
+         */
+        public function catatPrintKartu($model) {
+            $pk = new KartupasienR();
+            $pk->pasien_id = $model->pasien_id;
+            $pk->tglprintkartu = date('Y-m-d H:i:s');
+            $pk->statusprintkartu = true;
+            $pk->create_time = date('Y-m-d');
+            $pk->create_loginpemakai_id = Yii::app()->user->id;
+            
+            if ($pk->validate()) {
+                $pk->save();
+            }
+        }
 
         /**
          * @param type $sep_id

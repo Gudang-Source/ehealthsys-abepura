@@ -182,3 +182,6 @@
     <?php } */ ?>
 </div>
 <!--<div class="content-belakang"></div>  >>> RND-9125-->
+<?php
+$this->catatPrintKartu($modPasien);
+?>

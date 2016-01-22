@@ -58,12 +58,13 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                 <?php $model->tgl_akhir = $format->formatDateTimeForDb($model->tgl_akhir); ?>
             </div>
         </div>
-        <?php echo $form->textFieldRow($model, 'no_rekam_medik', array('placeholder'=>'Ketik No. Rekam Medik','class' => 'span3', 'maxlength' => 10)); ?>
     </div>
     <div class="span4">
+        <?php echo $form->textFieldRow($model, 'no_rekam_medik', array('placeholder'=>'Ketik No. Rekam Medik','class' => 'span3', 'maxlength' => 10)); ?>
         <?php echo $form->textFieldRow($model, 'nama_pasien', array('placeholder'=>'Ketik Nama Pasien','class' => 'span3', 'maxlength' => 50)); ?>
         <?php echo $form->textFieldRow($model,'alamat_pasien',array('placeholder'=>'Ketik Alamat Pasien','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
     </div>
+    <?php /*
     <div class="span4">
         <div class="control-group ">
             <?php echo CHtml::label('RT / RW','rt', array('class'=>'control-label inline')) ?>
@@ -78,6 +79,8 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                 $model, 'statusprintkartu',array( '0' => 'Belum', '1' => 'Sudah'),array('empty'=>'-- Pilih --', 'options'=>array(1=>array('selected'=>false)))
         ); ?>
     </div>
+     * 
+     */ ?>
 </div>
 <div class="form-actions">
     <?php echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="icon-search icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit')); ?>

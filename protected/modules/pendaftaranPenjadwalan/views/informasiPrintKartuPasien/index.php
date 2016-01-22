@@ -24,7 +24,10 @@ $('.search-form form').submit(function(){
                 'template'=>"{summary}\n{items}\n{pager}",
                 'itemsCssClass'=>'table table-striped table-condensed',
                     'columns'=>array(
-                                    'tglprintkartu',
+                        array(
+                            'name'=>'tglprintkartu',
+                            'value'=>'MyFormatter::formatDateTimeForUser($data->tglprintkartu)',
+                        ),
                         array(
                             'name'=>'no_rekam_medik',
                             'type'=>'raw',
@@ -36,7 +39,7 @@ $('.search-form form').submit(function(){
                         array(
                             'name'=>'nama_pasien',
                             'type'=>'raw',
-                            'value'=>'$data->NamaAlias',
+                            'value'=>'$data->pasien->nama_pasien',
                         ),
                         array(
                             'name'=>'Jenis Kelamin',
@@ -46,7 +49,7 @@ $('.search-form form').submit(function(){
                         array(
                             'name'=>'Alamat Pasien',
                             'type'=>'raw',
-                            'value'=>'$data->pasien->alamat_pasien." Rt. ".$data->pasien->rt." / ".$data->pasien->rw ',
+                            'value'=>'$data->pasien->alamat_pasien',
                         ),
                         /*
                         array(
@@ -55,7 +58,7 @@ $('.search-form form').submit(function(){
                             'value'=>'CHtml::link("<i class=\"icon-print\"></i>", "javascript:cetak(\'$data->kartupasien_id\',\'$data->pasien_id\');", array("rel"=>"tooltip","title"=>"Klik untuk mengeprint kartu pasien"))',
                         ),
                          * 
-                         */
+                         
                         array(
                             'header'=>'Status Print',
                             'type'=>'raw',
@@ -63,7 +66,7 @@ $('.search-form form').submit(function(){
                                     'name'=>'status_print',
                             ),
                             'value'=>'$data->statusprintkartu?"Sudah":"Belum"',
-                        ),
+                        ), */
                     ),
                     'afterAjaxUpdate'=>'function(id, data){
                             var xxx = "";
@@ -114,15 +117,15 @@ $('.search-form form').submit(function(){
 
         function cetak(kartupasien_id,pasien_id)
         {
-            var url = '<?php echo $url."/update"; ?>';
-            var urlPrintKartuPasien = '<?php echo $urlPrintKartuPasien; ?>';
-            $.post(url, {kartupasien_id: kartupasien_id ,pasien_id: pasien_id},
-                function(data){
-                    $.fn.yiiGridView.update('ppinformasiprintkartupasien-grid', {
-                            data: $('#ppinformasiprintkartupasien-search').serialize()
-                    });
-                },"json");
-            window.open(urlPrintKartuPasien+pasien_id,'printwi','left=100,top=100,width=310,height=230');
+            var url = '<?php echo Yii::app()->createUrl('pendaftaranPenjadwalan/pendaftaranRawatJalan/printKartuPasien'); ?>&pasien_id=' + pasien_id;
+            //var urlPrintKartuPasien = '<?php echo $urlPrintKartuPasien; ?>';
+            //$.post(url, {kartupasien_id: kartupasien_id ,pasien_id: pasien_id},
+            //    function(data){
+            //        $.fn.yiiGridView.update('ppinformasiprintkartupasien-grid', {
+           //                 data: $('#ppinformasiprintkartupasien-search').serialize()
+            //        });
+           //     },"json");
+            window.open(url,'printwi','left=100,top=100,width=310,height=230');
         }
     </script>
 
