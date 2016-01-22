@@ -90,7 +90,14 @@ $('#formCari').submit(function(){
                             'value'=>'"<div style=\'width:100px;\'>" . CHtml::link("<i class=icon-form-ubah></i>". $data->pendaftaran->keterangan_pendaftaran," ",array("onclick"=>"ubahKeterangan(\'$data->pendaftaran_id\');$(\'#editKeterangan\').dialog(\'open\');return false;", "rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik Untuk Mengubah Keterangan Pendaftaran")) . "</div>"',
                             'htmlOptions'=>array('style'=>'text-align: left; width: 75px;')
                         ),
-
+                        array(
+                            'header'=>'Petugas Loket',
+                            'type'=>'raw',
+                            'value'=>function($data) {
+                                $lp = LoginpemakaiK::model()->findByPk($data->create_loginpemakai_id);
+                                return $lp->nama_pemakai;
+                            }
+                        ),
                     ),
                     'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
             )); ?>

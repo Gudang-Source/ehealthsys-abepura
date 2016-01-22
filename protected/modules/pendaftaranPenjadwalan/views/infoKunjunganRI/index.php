@@ -40,22 +40,26 @@ $('.search-form form').submit(function(){
             //                'value'=>'(!empty($data->no_pendaftaran) ? CHtml::link("<i class=icon-print></i> ".$data->no_pendaftaran, "javascript:print(\'$data->pasienadmisi_id\');",array("rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik Untuk Print Lembar Poli")) : "-") . "<br>" . CHtml::link("<i class=icon-pencil-brown></i> ".$data->no_rekam_medik, Yii::app()->createUrl("pendaftaranPenjadwalan/InfoKunjunganRJ/ubahPasien",array("id"=>"$data->pasien_id", "menu"=>"RI")),array("rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik Untuk Edit Data Pasien"))',
             //                'htmlOptions'=>array('style'=>'text-align: left; width:120px')
             //            ),
-                                    array(
-                                            'header'=>'No. Rekam Medis / <br> No. Pendaftaran',
-                                            'name'=>'no_pendaftaran',
-                                            'type'=>'raw',
-                                            'value'=>'
-                                                            CHtml::link("<i class=\'icon-form-ubah\'></i> ".$data->no_rekam_medik, Yii::app()->createUrl("/pendaftaranPenjadwalan/InfoKunjunganRJ/ubahPasienAjax", array("pendaftaran_id"=>$data->pendaftaran_id)),
+                            array(
+                                'header'=>'No. RM',
+                                'name'=>'no_rekam_medik',
+                                'type'=>'raw',
+                                'htmlOptions'=>array('style'=>'text-align: center;'),
+                                'value'=>'CHtml::link("<i class=\'icon-form-ubah\'></i><br/>".$data->no_rekam_medik, Yii::app()->createUrl("/pendaftaranPenjadwalan/InfoKunjunganRJ/ubahPasienAjax", array("pendaftaran_id"=>$data->pendaftaran_id)),
                                                             array("class"=>"",
                                                             "target"=>"frameEditPasien",
                                                             "rel"=>"tooltip",
                                                             "title"=>"Klik Untuk Mengubah Data Pasien",
-                                                            "onclick"=>"$(\'#editPasien\').dialog(\'open\');return true;"))
-                                                            ." <br> " .
-                                                             (!empty($data->no_pendaftaran) ? 
-                                                             CHtml::link("<i class=icon-form-print></i> ".$data->no_pendaftaran, "javascript:print(\'$data->pendaftaran_id\');",array("rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik Untuk Print Lembar Poli")) : "-") 
+                                                            "onclick"=>"$(\'#editPasien\').dialog(\'open\');return true;"))'
+                            ),
+                                    array(
+                                            'header'=>'No. Pendaftaran',
+                                            'name'=>'no_pendaftaran',
+                                            'type'=>'raw',
+                                            'value'=>'(!empty($data->no_pendaftaran) ? 
+                                                             CHtml::link("<i class=icon-form-print></i><br/>".$data->no_pendaftaran, "javascript:print(\'$data->pendaftaran_id\');",array("rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik Untuk Print Lembar Poli")) : "-") 
                                                              ',
-                                            'htmlOptions'=>array('style'=>'text-align: center; width:120px')
+                                            'htmlOptions'=>array('style'=>'text-align: center;')
                                     ), /*
                         array(
                             'header'=>'Nama Depan',
@@ -65,7 +69,7 @@ $('.search-form form').submit(function(){
                         array(
                             'header'=>'Nama Pasien',
                             'type'=>'raw',
-                            'value'=>'$data->namadepan." ".$data->NamaAlias'
+                            'value'=>'$data->namadepan." ".$data->nama_pasien'
                         ),
                         'alamat_pasien',
                         array(
@@ -218,6 +222,14 @@ $('.search-form form').submit(function(){
                                 'class'=>'status'
                             )
                         ),
+                        array(
+                            'header'=>'Petugas Loket',
+                            'type'=>'raw',
+                            'value'=>function($data) {
+                                $lp = LoginpemakaiK::model()->findByPk($data->create_loginpemakai_id);
+                                return $lp->nama_pemakai;
+                            }
+                        )
                     ),
                     'afterAjaxUpdate'=>'function(id, data){
                         jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
