@@ -9,12 +9,7 @@
                     'name'=>'no_urutantri',
                     'type'=>'raw',
                     'header'=>'No. Antrian <br>/ Panggil Antrian',
-                    'value'=>function($data) {
-                        if (!empty($data->antrian_id)) {
-                            $antrian = AntrianT::model()->findByPk($data->antrian_id);
-                            return $antrian->loket->loket_singkatan."-".$antrian->noantrian."<br>".(($data->panggilantrian == TRUE) ? "Sudah Dipanggil" : CHtml::htmlButton(Yii::t("mds","{icon}",array("{icon}"=>"<i class='icon-volume-up icon-white'></i>")),array("class"=>"btn btn-primary","onclick"=>"panggilAntrian('".$data->pendaftaran_id."');","rel"=>"tooltip","title"=>"Klik untuk memanggil pasien ini")));
-                        } else return "-";
-                    },
+                    'value'=>'$data->ruangan_singkatan."-".$data->no_urutantri."<br>".(($data->panggilantrian == TRUE) ? "Sudah Dipanggil" : CHtml::htmlButton(Yii::t("mds","{icon}",array("{icon}"=>"<i class=\'icon-volume-up icon-white\'></i>")),array("class"=>"btn btn-primary","onclick"=>"panggilAntrian(\"$data->pendaftaran_id\"); setSuaraPanggilanSingle(\"$data->ruangan_singkatan\",\"$data->no_urutantri\",\"$data->ruangan_id\")","rel"=>"tooltip","title"=>"Klik untuk memanggil pasien ini")))'
                 ),
 				array(
 					'name'=>'tgl_pendaftaran',
