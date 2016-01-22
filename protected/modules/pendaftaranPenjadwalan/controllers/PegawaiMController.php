@@ -287,6 +287,20 @@ class PegawaiMController extends MyAuthController
 			'model'=>$model,
 		));
 	}
+        
+        public function actionInformasi() {
+            $model = new PegawairuanganV;
+            $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+            
+            if (isset($_GET['PegawairuanganV'])) {
+                $model->attributes = $_GET['PegawairuanganV'];
+                $model->nama_pemakai = $_GET['PegawairuanganV']['nama_pemakai'];
+            }
+            
+            $this->render('informasi',array(
+		'model'=>$model,
+            ));
+        }
 
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
