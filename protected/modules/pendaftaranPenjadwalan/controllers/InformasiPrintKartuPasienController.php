@@ -85,6 +85,7 @@ class InformasiPrintKartuPasienController extends MyAuthController
         $model=new PPInformasiprintkartupasienR('search');
         $model->tgl_awal = date('Y-m-d');
         $model->tgl_akhir = date('Y-m-d');
+        
         if(isset($_GET['PPInformasiprintkartupasienR'])){
             $model->attributes=$_GET['PPInformasiprintkartupasienR'];
             $model->no_rekam_medik = $_GET['PPInformasiprintkartupasienR']['no_rekam_medik'];
