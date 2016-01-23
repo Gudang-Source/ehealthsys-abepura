@@ -13,7 +13,7 @@ foreach ($modRiwayatKirimKeUnitLain as $i => $riwayat) {
     $modPermintaan = RJPermintaanPenunjangT::model()->with('daftartindakan','operasi')->findAllByAttributes(array('pasienkirimkeunitlain_id'=>$riwayat->pasienkirimkeunitlain_id));
     ?>
     <tr>
-        <td><?php echo $riwayat->tgl_kirimpasien; ?></td>
+        <td><?php echo MyFormatter::formatDateTimeForUser($riwayat->tgl_kirimpasien); ?></td>
         <td>
             <?php
             foreach($modPermintaan as $j => $permintaan){

@@ -17,8 +17,9 @@ class ResepturController extends MyAuthController
 			$modReseptur->noresep = MyGenerator::noResepReseptur();
 			
             $modReseptur->pegawai_id = $modPendaftaran->pegawai_id;
-            $modReseptur->ruangan_id = Params::RUANGAN_ID_APOTEK_1;
+            //$modReseptur->ruangan_id = Params::RUANGAN_ID_APOTEK_1;
             $modReseptur->ruanganreseptur_id = $ruangan_id;
+            $modReseptur->ruangan_id = 60; // Apotek Rawat Jalan
 			
 			if(isset($_GET['reseptur_id'])){
 				$modReseptur = RJResepturT::model()->findByPk($_GET['reseptur_id']);
