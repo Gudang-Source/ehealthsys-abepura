@@ -50,7 +50,7 @@
                                             return false;
                                         }',
                                 ),
-//                                'tombolDialog'=>array('idDialog'=>'dialogKunjungan'),
+                                'tombolDialog'=>array('idDialog'=>'dialogKunjungan'),
                                 'htmlOptions'=>array('placeholder'=>'Ketik No. Pendaftaran','class'=>'all-caps','rel'=>'tooltip','title'=>'Ketik no. pendaftaran / klik icon untuk mencari data kunjungan',
                                     'onkeyup'=>"if($(this).val() == ''){ $(no_pendaftaran).focus() }else{return $(this).focusNextInputField(event)}", 'onchange'=>"if($(this).val() == '') setKunjunganReset();"	                                  
                                     ),
@@ -145,7 +145,7 @@
 											return false;
                                         }',
                                 ),
-                                'tombolDialog'=>array('idDialog'=>'dialogKunjungan'),
+                                //'tombolDialog'=>array('idDialog'=>'dialogKunjungan'),
                                 'htmlOptions'=>array('placeholder'=>'Ketik No. Rekam Medik','rel'=>'tooltip','title'=>'Ketik no. rekam medik untuk mencari data kunjungan',
                                     'onkeyup'=>"return $(this).focusNextInputField(event)",
                                     'class'=>'numbers-only',
