@@ -141,7 +141,7 @@ class PendaftaranRawatJalanController extends MyAuthController
 	/**
 	 * Index transaksi pendaftaran
 	 */
-	public function actionIndex($id = null, $idSep = null)
+	public function actionIndex($id = null, $idSep = null, $idAntrian = null)
 	{
             $format = new MyFormatter();
             $model=new PPPendaftaranT;
@@ -209,6 +209,18 @@ class PendaftaranRawatJalanController extends MyAuthController
             }
             
             //==load data
+            
+            if (!empty($idAntrian)) {
+                $modAntrian = PPAntrianT::model()->findByPk($idAntrian, array(
+                    'condition'=>'pendaftaran_id is null',
+                ));
+                if (empty($modAntrian)) {
+                    $modAntrian = new PPAntrianT;
+                } else {
+                    $model->antrian_id = $modAntrian->antrian_id;
+                }
+            }
+            
             if(isset($id)){
                 $model = $this->loadModel($id);
                 if(isset($idSep)){
@@ -523,6 +535,9 @@ class PendaftaranRawatJalanController extends MyAuthController
             }
             $modPasien->kelurahan_id = (!empty($modPasien->kelurahan_id) ? $modPasien->kelurahan_id : null);
             $modPasien->statusrekammedis = Params::STATUSREKAMMEDIS_AKTIF;
+            
+            // var_dump($modPasien->attributes); die;
+            
             if($modPasien->save()){
                 $this->pasientersimpan = true;
             }

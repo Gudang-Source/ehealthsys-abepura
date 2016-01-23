@@ -18,6 +18,13 @@ echo $form->dropDownListRow($modPasienMasukPenunjang,'['.$i.']jeniskasuspenyakit
         <?php echo $form->dropDownList($modPasienMasukPenunjang,'['.$i.']pegawai_id', CHtml::listData($peg, 'pegawai_id', 'nama_pegawai') ,array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)", 'class'=>'span3')); ?>
     </div>
 </div>
+<?php if (!$modPasienMasukPenunjang->isNewRecord): ?>
+<div class="control-group">
+    <div class="controls">
+        <?php echo CHtml::link(Yii::t('mds', '{icon} Print Antrian', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('rel'=>'tooltip','title'=>'Tombol akan aktif setelah data tersimpan','class'=>'btn btn-info','onclick'=>"return false",)).'&nbsp;'; ?>
+    </div>
+</div>
+<?php endif; ?>
 
 
 

@@ -24,7 +24,7 @@ class PendaftaranRawatInapController extends PendaftaranRawatJalanController
 	/**
 	 * Index transaksi pendaftaran
 	 */
-	public function actionIndex($id = null, $idSep = null)
+	public function actionIndex($id = null, $idSep = null, $idAntrian = null)
 	{
             $format = new MyFormatter();
             $model=new PPPendaftaranT;
