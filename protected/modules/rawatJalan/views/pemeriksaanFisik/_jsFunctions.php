@@ -7,7 +7,10 @@ function printPemeriksaanFisik()
 
 function defaultparamedis()
 {
-    var paramedis = '<?php echo PegawaiM::model()->findByPk(Yii::app()->user->getState('pegawai_id'))->nama_pegawai; ?>';
+    var paramedis = '<?php 
+    $pegawai = PegawaiM::model()->findByPk(Yii::app()->user->getState('pegawai_id'));
+    if (!empty($pegawai)) echo $pegawai->nama_pegawai; 
+    ?>';
     $("#<?php echo CHtml::activeId($modPemeriksaanFisik,'paramedis_nama') ?>").val(paramedis);
 }
 

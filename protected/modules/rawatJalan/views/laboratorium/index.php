@@ -40,7 +40,9 @@ $this->widget('application.extensions.moneymask.MMask',array(
 ?>
 
 <!--<legend class="rim2">Laboratorium</legend>-->
-<?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
+<?php 
+$modKirimKeUnitLain->kelaspelayanan_id = Params::KELASPELAYANAN_ID_TANPA_KELAS;
+$form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
     'id'=>'rjpasien-laboratorium-t-form',
     'enableAjaxValidation'=>false,
         'type'=>'horizontal',
@@ -56,7 +58,7 @@ $this->widget('application.extensions.moneymask.MMask',array(
     </div>
     <?php echo $form->errorSummary($modKirimKeUnitLain); ?>
     <p class="help-block"><?php echo Yii::t('mds','Fields with <span class="required">*</span> are required.') ?></p>
-    <?php echo $form->dropDownListRow($modKirimKeUnitLain,'kelaspelayanan_id', CHtml::listData($modPendaftaran->getKelasPelayananItems(), 'kelaspelayanan_id', 'kelaspelayanan_nama') ,array('onkeyup'=>"return $(this).focusNextInputField(event)", 'class'=>'reqKunjungan')); ?>
+    <span hidden><?php echo $form->dropDownListRow($modKirimKeUnitLain,'kelaspelayanan_id', CHtml::listData($modPendaftaran->getKelasPelayananItems(), 'kelaspelayanan_id', 'kelaspelayanan_nama') ,array('onkeyup'=>"return $(this).focusNextInputField(event)", 'class'=>'reqKunjungan')); ?></span>
 
     <div class="tab-pane active span12" id="tabs-basic">
         <div class="tabbable">

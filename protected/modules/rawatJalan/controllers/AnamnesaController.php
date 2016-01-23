@@ -50,8 +50,8 @@ class AnamnesaController extends MyAuthController
                 }
 				
                 $modAnamnesa=$cekAnamnesa;
-				$pegawai = PegawaiM::model()->findByPk(Yii::app()->user->getState('pegawai_id'));
-                $modAnamnesa->paramedis_nama = $pegawai->nama_pegawai;
+		$pegawai = PegawaiM::model()->findByPk(Yii::app()->user->getState('pegawai_id'));
+                $modAnamnesa->paramedis_nama = empty($pegawai)?null:$pegawai->nama_pegawai;
 				
                 //$modAnamnesa->riwayatimunisasi = $modPendaftaran->statuspasien;
             } else {  
@@ -59,8 +59,8 @@ class AnamnesaController extends MyAuthController
                 $modAnamnesa=new RJAnamnesaT;
                 $modAnamnesa->pegawai_id=$modPendaftaran->pegawai_id;
 //                $modAnamnesa->paramedis_nama = "Rina Trianasari, AMd. AK";
-				$pegawai = PegawaiM::model()->findByPk(Yii::app()->user->getState('pegawai_id'));
-                $modAnamnesa->paramedis_nama = $pegawai->nama_pegawai;
+		$pegawai = PegawaiM::model()->findByPk(Yii::app()->user->getState('pegawai_id'));
+                $modAnamnesa->paramedis_nama = empty($pegawai)?null:$pegawai->nama_pegawai;
                 $modAnamnesa->pendaftaran_id=$modPendaftaran->pendaftaran_id;
                 $modAnamnesa->pasien_id=$modPendaftaran->pasien_id;
                 $modAnamnesa->tglanamnesis=date('Y-m-d H:i:s');

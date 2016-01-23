@@ -93,7 +93,7 @@
 				<div class="control-group">
 					<label class="control-label">Etiket</label>
 					<div class="controls">
-						<?php echo CHtml::dropDownList('etiketnonracikan', '', LookupM::getItems('etiket'),array('style'=>'width:150px;')); ?>
+						<?php echo CHtml::dropDownList('etiketnonracikan', '', LookupM::getItems('etiket')); ?>
 					</div>
 				</div>
                 <div class="control-group ">

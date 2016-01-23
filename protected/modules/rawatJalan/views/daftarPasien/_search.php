@@ -43,7 +43,10 @@
 
             <?php echo $form->textFieldRow($model,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien', 'class'=>'span3','maxlength'=>50)); ?>
 
-            <?php echo $form->dropDownListRow($model,'statusperiksa', LookupM::getItems('statusperiksa'),array('empty'=>'-- Pilih --')); ?>
+            <?php 
+            $mods = LookupM::getItems('statusperiksa');
+            unset($mods['BATAL PERIKSA']);
+            echo $form->dropDownListRow($model,'statusperiksa', $mods, array('empty'=>'-- Pilih --')); ?>
             <div class="control-group ">
                     <label for="namaPasien" class="control-label">
                        Dokter Penanggung Jawab

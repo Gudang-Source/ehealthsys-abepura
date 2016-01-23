@@ -32,7 +32,7 @@ class PemeriksaanFisikController extends MyAuthController
 				{  //Jika Pasien Sudah Melakukan Pemeriksaan Fisik  Sebelumnya
 					$modPemeriksaanFisik=$cekPemeriksaanFisik;
 					$pegawai = PegawaiM::model()->findByPk(Yii::app()->user->getState('pegawai_id'));
-					$modPemeriksaanFisik->paramedis_nama = $pegawai->nama_pegawai;
+					$modPemeriksaanFisik->paramedis_nama = empty($pegawai)?null:$pegawai->nama_pegawai;
 					$modPemeriksaanFisik->update_time=date('Y-m-d H:i:s');
 					$modPemeriksaanFisik->update_loginpemakai_id=Yii::app()->user->id;
 					if((!empty($modPemeriksaanFisik->gcs_eye))&&(!empty($modPemeriksaanFisik->gcs_verbal))&&(!empty($modPemeriksaanFisik->gcs_motorik))){
@@ -41,7 +41,7 @@ class PemeriksaanFisikController extends MyAuthController
 				}else{  //Jika Pasien Belum Pernah melakukan Pemeriksaan Fisik
 					$modPemeriksaanFisik=new RJPemeriksaanFisikT;
 					$pegawai = PegawaiM::model()->findByPk(Yii::app()->user->getState('pegawai_id'));
-					$modPemeriksaanFisik->paramedis_nama = $pegawai->nama_pegawai;
+					$modPemeriksaanFisik->paramedis_nama = empty($pegawai)?null:$pegawai->nama_pegawai;
 					$modPemeriksaanFisik->pegawai_id=$modPendaftaran->pegawai_id;
 					$modPemeriksaanFisik->pendaftaran_id=$modPendaftaran->pendaftaran_id;
 					$modPemeriksaanFisik->pasien_id=$modPasien->pasien_id;
