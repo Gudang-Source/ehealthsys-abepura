@@ -12,34 +12,35 @@
                     'value'=>'$data->ruangan_singkatan."-".$data->no_urutantri."<br>".(($data->panggilantrian == TRUE) ? "Sudah Dipanggil" : CHtml::htmlButton(Yii::t("mds","{icon}",array("{icon}"=>"<i class=\'icon-volume-up icon-white\'></i>")),array("class"=>"btn btn-primary","onclick"=>"panggilAntrian(\"$data->pendaftaran_id\"); setSuaraPanggilanSingle(\"$data->ruangan_singkatan\",\"$data->no_urutantri\",\"$data->ruangan_id\")","rel"=>"tooltip","title"=>"Klik untuk memanggil pasien ini")))'
                 ),
 				array(
+                                        'header'=>'Tgl Pendaftaran/<br/>No Pendaftaran',
 					'name'=>'tgl_pendaftaran',
 					'type'=>'raw',
-					'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)',
+					'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."<br/>".$data->no_pendaftaran',
 				),
                 array(
-                    'name'=>'No_pendaftaran'.'/<br/>'.'No_rekam_medik',
+                    'name'=>'No_rekam_medik',
                     'type'=>'raw',
-                    'value'=>'"$data->no_pendaftaran"."<br/>"."$data->no_rekam_medik"',
+                    'value'=>'$data->no_rekam_medik',
                 ),
                 array(
-                    'name'=>'nama_pasien'.'/<br/>'.'Alias',
+                    'name'=>'nama_pasien',
                     'type'=>'raw',
-                    'value'=>'"$data->nama_pasien"."<br/>"."$data->nama_bin"',
+                    'value'=>'$data->namadepan." ".$data->nama_pasien',
                 ),
                 array(
-                    'name'=>'alamat_pasien'.'/<br/>'.'RT RW',
+                    'name'=>'alamat_pasien',
                     'type'=>'raw',
-                    'value'=>'"$data->alamat_pasien"."<br/>"."$data->RTRW"',
+                    'value'=>'$data->alamat_pasien',
                 ),
                 array(
-                    'name'=>'Penjamin'.'/<br/>'.'Cara Bayar',
+                    'name'=>'Cara Bayar'.'/<br/>'.'Penjamin',
                     'type'=>'raw',
-                    'value'=>'"$data->penjamin_nama"."<br/>"."$data->carabayar_nama"',
+                    'value'=>'"$data->carabayar_nama"."<br/>"."$data->penjamin_nama"',
                 ),
                 array(
-                    'header'=>'Dokter / <br> Kelas Pelayanan',
+                    'header'=>'Dokter',
                     'type'=>'raw',
-                    'value'=>'"<div style=\'width:100px;\'>" . CHtml::link("<i class=icon-pencil-brown></i> ". $data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama," ",array("onclick"=>"ubahDokterPeriksa(\'$data->pendaftaran_id\');$(\'#editDokterPeriksa\').dialog(\'open\');return false;", "rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik Untuk Mengubah Data Dokter Periksa")) . "</div>"."<br/>"."$data->kelaspelayanan_nama"',
+                    'value'=>'"<div style=\'width:100px;\'>" . CHtml::link("<i class=icon-pencil-brown></i> ". $data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama," ",array("onclick"=>"ubahDokterPeriksa(\'$data->pendaftaran_id\');$(\'#editDokterPeriksa\').dialog(\'open\');return false;", "rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik Untuk Mengubah Data Dokter Periksa")) . "</div>"',
                     'htmlOptions'=>array(
                        'style'=>'text-align:center;',
                        'class'=>'rajal'
@@ -73,21 +74,24 @@
 								))',
 					'htmlOptions'=>array('style'=>'text-align: center; width:60px')
 				),
-				array(
-					'header'=>'Tindak Lanjut<br/>ke Rawat Inap',
-					'type'=>'raw',
-					'value'=>'($data->statusperiksa == "'.Params::STATUSPERIKSA_SEDANG_DIRAWATINAP.'") ? 
-						("DIRAWAT INAP".
-						CHtml::link("<i class=\'icon-form-sampah\'></i>", Yii::app()->controller->createUrl("/'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/BatalRawatInap",array("pendaftaran_id"=>$data->pendaftaran_id)) , array("title"=>"Klik Untuk Batal Proses Tindak Lanjut Pasien","target"=>"iframeBatalRawatInap", "onclick"=>"$(\"#dialogBatalRawatInap\").dialog(\"open\");", "rel"=>"tooltip")))
-						:  
-						CHtml::link("<i class=\'icon-form-ri\'></i>", "#",
-							array("class"=>"",
-							"target"=>"frameTindakLanjut",
-							"rel"=>"tooltip",
-							"title"=>"Klik untuk Proses Tindak Lanjut Pasien",
-							"onclick"=>"tindaklanjutrawatjalan(".$data->pendaftaran_id.")"))',
-					'htmlOptions'=>array('style'=>'text-align: center; width:60px')
-					),
+                array(
+                        'header'=>'Tindak Lanjut<br/>ke Rawat Inap',
+                        'type'=>'raw',
+                        'value'=>function($data) {
+                            $admisi = PasienadmisiT::model()->findByAttributes(array('pendaftaran_id'=>$data->pendaftaran_id));
+                            return ($data->statusperiksa == Params::STATUSPERIKSA_SEDANG_DIRAWATINAP) ? 
+                                ("DIRAWAT INAP".
+                                (!empty($admisi)?"":CHtml::link("<i class='icon-form-silang'></i>", Yii::app()->controller->createUrl("/".Yii::app()->controller->module->id."/".Yii::app()->controller->id."/BatalRawatInap",array("pendaftaran_id"=>$data->pendaftaran_id)) , array("title"=>"Klik Untuk Batal Proses Tindak Lanjut Pasien","target"=>"iframeBatalRawatInap", "onclick"=>"$('#dialogBatalRawatInap').dialog('open');", "rel"=>"tooltip"))))
+                                :  
+                                CHtml::link("<i class='icon-form-ri'></i>", "#",
+                                        array("class"=>"",
+                                        "target"=>"frameTindakLanjut",
+                                        "rel"=>"tooltip",
+                                        "title"=>"Klik untuk Proses Tindak Lanjut Pasien",
+                                        "onclick"=>"tindaklanjutrawatjalan(".$data->pendaftaran_id.")"));
+                        },
+                        'htmlOptions'=>array('style'=>'text-align: center; width:60px')
+                        ),
                 array(
                     'header'=>'Rencana Kontrol',
                     'type'=>'raw',
@@ -128,7 +132,11 @@
 		array(
 			'header'=>'Batal Periksa',
 			'type'=>'raw',
-			'value'=>'CHtml::link("<i class=\'icon-form-silang\'></i>", "javascript:batalperiksa($data->pendaftaran_id)",array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk membatalkan pemeriksaan"))',
+			'value'=>function($data) {
+                            $admisi = PasienadmisiT::model()->findByAttributes(array('pendaftaran_id'=>$data->pendaftaran_id));
+                            if (empty($admisi)) return CHtml::link("<i class='icon-form-silang'></i>", "javascript:batalperiksa($data->pendaftaran_id)",array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk membatalkan pemeriksaan"));
+                            return "-";
+                        },
 			'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
 		),
     ),

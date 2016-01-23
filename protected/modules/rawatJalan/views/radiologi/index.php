@@ -16,7 +16,7 @@ $this->widget('bootstrap.widgets.BootAlert');
     <h6>Tabel Riwayat <b>Pemeriksaan Radiologi Pasien</b></h6>
     <?php $this->renderPartial($this->path_view.'_listKirimKeUnitLain',array('modRiwayatKirimKeUnitLain'=>$modRiwayatKirimKeUnitLain)) ?>
     <div class="control-group ">
-            <?php echo $form->dropDownListRow($modKirimKeUnitLain,'kelaspelayanan_id', CHtml::listData($modPendaftaran->getKelasPelayananItems(), 'kelaspelayanan_id', 'kelaspelayanan_nama') ,array('onkeypress'=>"return $(this).focusNextInputField(event)", 'class'=>'reqKunjungan')); ?>
+        <span hidden><?php echo $form->dropDownListRow($modKirimKeUnitLain,'kelaspelayanan_id', CHtml::listData($modPendaftaran->getKelasPelayananItems(), 'kelaspelayanan_id', 'kelaspelayanan_nama') ,array('onkeypress'=>"return $(this).focusNextInputField(event)", 'class'=>'reqKunjungan')); ?></span>
     </div>
 </div>
 <div class="formInputTab">

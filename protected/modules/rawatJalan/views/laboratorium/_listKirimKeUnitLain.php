@@ -14,7 +14,7 @@ foreach ($modRiwayatKirimKeUnitLain as $i => $riwayat) {
     $modPermintaan = RJPermintaanPenunjangT::model()->with('daftartindakan','pemeriksaanlab')->findAllByAttributes(array('pasienkirimkeunitlain_id'=>$riwayat->pasienkirimkeunitlain_id));
     ?>
     <tr>
-        <td><?php echo $riwayat->tgl_kirimpasien; ?></td>
+        <td><?php echo MyFormatter::formatDateTimeForUser($riwayat->tgl_kirimpasien); ?></td>
         <td><?php echo $riwayat->pasienkirimkeunitlain_id;?> <a href='' onclick="printPermintaan('<?php echo $riwayat->pasienkirimkeunitlain_id; ?>')"><i class="icon-print"></i></a> </td>
         <td>
             <?php
