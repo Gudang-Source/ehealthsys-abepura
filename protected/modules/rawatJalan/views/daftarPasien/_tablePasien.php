@@ -79,7 +79,8 @@
                         'type'=>'raw',
                         'value'=>function($data) {
                             $admisi = PasienadmisiT::model()->findByAttributes(array('pendaftaran_id'=>$data->pendaftaran_id));
-                            return ($data->statusperiksa == Params::STATUSPERIKSA_SEDANG_DIRAWATINAP) ? 
+                            $pulang = PasienpulangT::model()->findByAttributes(array('pendaftaran_id'=>$data->pendaftaran_id));
+                            return (!empty($pulang) && $pulang->carakeluar_id = Params::CARAKELUAR_ID_RAWATINAP) ? 
                                 ("DIRAWAT INAP".
                                 (!empty($admisi)?"":CHtml::link("<i class='icon-form-silang'></i>", Yii::app()->controller->createUrl("/".Yii::app()->controller->module->id."/".Yii::app()->controller->id."/BatalRawatInap",array("pendaftaran_id"=>$data->pendaftaran_id)) , array("title"=>"Klik Untuk Batal Proses Tindak Lanjut Pasien","target"=>"iframeBatalRawatInap", "onclick"=>"$('#dialogBatalRawatInap').dialog('open');", "rel"=>"tooltip"))))
                                 :  
