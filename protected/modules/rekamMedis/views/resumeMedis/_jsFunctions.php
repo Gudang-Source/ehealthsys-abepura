@@ -136,7 +136,7 @@ function setResume(pendaftaran_id){
                 myAlert(data.pesan);
                 setKunjunganReset();
             }else{
-				$('#diagnosasementara-label').html(data.diagnosaawal);
+				$('#diagnosasementara-label').val(data.diagnosaawal);
 				$('#diagnosaawal_id').val(data.diagnosaid); 
             }
             $("#form-dataresume > div").removeClass("animation-loading");
@@ -158,7 +158,7 @@ function setResume(pendaftaran_id){
                 myAlert(data.pesan);
                 setKunjunganReset();
             }else{
-				$('#diagnosautama-label').html(data.diagnosautama);
+				$('#diagnosautama-label').val(data.diagnosautama);
 				$('#diagnosautama_id').val(data.diagnosautamaid); 
 				$('#diagnosasekunder1_id').val(data.diagnosasekunderid1); 
 				$('#diagnosasekunder2_id').val(data.diagnosasekunderid2); 
@@ -225,8 +225,8 @@ function loadDiagnosa(){
 	if(pendaftaran_id != ''){
 		var diagnosa_awal = '<?= $dataDiagnosa['diagnosaawal']; ?>';
 		var diagnosa_akhir = '<?= $dataDiagnosa['diagnosautama']; ?>';
-		$('#diagnosasementara-label').html(diagnosa_awal);
-		$('#diagnosautama-label').html(diagnosa_akhir);
+		$('#diagnosasementara-label').val(diagnosa_awal);
+		$('#diagnosautama-label').val(diagnosa_akhir);
 	}
 }
 

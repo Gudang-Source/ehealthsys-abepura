@@ -5,4 +5,9 @@ class RKInfopasienpengunjungV extends InfopasienpengunjungV{
 	{
 		return parent::model($className);
 	}
+        
+        public function searchDialogKunjungan() {
+            $provider = $this->search();
+            return $provider;
+        }
 }
