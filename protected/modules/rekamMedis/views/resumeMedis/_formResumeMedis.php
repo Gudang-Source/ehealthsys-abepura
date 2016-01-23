@@ -29,8 +29,11 @@
     <div class="control-group">
             <?php echo CHtml::label('3. Diagnosa Sementara : &nbsp;', '', array('class'=>'control-label')); ?>
         <div class="controls">	
-            <div id='diagnosasementara-label'>
+            <?php echo CHtml::textArea('diagnosasementara-label', '', array('readonly'=>true)); ?>
+            <?php /*<div id='diagnosasementara-label'>
             </div>
+             * 
+             */ ?>
         </div>
     </div>
     <div class="control-group">
@@ -45,7 +48,11 @@
     <div class="control-group">
             <?php echo CHtml::label('5. Diagnosa Akhir :', '', array('class'=>'control-label')); ?>
         <div class="controls">
+            <?php echo CHtml::textArea('diagnosautama-label', '', array('readonly'=>true)); ?>
+            <?php /*
             <div id='diagnosautama-label'></div>
+             * 
+             */ ?>
         </div>
     </div>
     <div class="control-group">

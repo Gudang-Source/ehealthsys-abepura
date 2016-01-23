@@ -145,6 +145,7 @@
 											return false;
                                         }',
                                 ),
+                                'tombolDialog'=>array('idDialog'=>'dialogKunjungan'),
                                 'htmlOptions'=>array('placeholder'=>'Ketik No. Rekam Medik','rel'=>'tooltip','title'=>'Ketik no. rekam medik untuk mencari data kunjungan',
                                     'onkeyup'=>"return $(this).focusNextInputField(event)",
                                     'class'=>'numbers-only',
@@ -262,87 +263,87 @@
 
 <?php 
 // LNG-221 Jika Memakai dialog box akan memberatkan load data pasien,, solusinya dengan menggunakan autocomplete
-//========= Dialog buat cari data pendaftaran / kunjungan =========================
-//$this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
-//    'id'=>'dialogKunjungan',
-//    'options'=>array(
-//        'title'=>'Pencarian Data Kunjungan Pasien',
-//        'autoOpen'=>false,
-//        'modal'=>true,
-//        'width'=>980,
-//        'height'=>650,
-//        'resizable'=>false,
-//    ),
-//));
-//    $modDialogKunjungan = new RKInfopasienpengunjungV('searchDialogKunjungan');
-//    $modDialogKunjungan->unsetAttributes();
-//    if(isset($_GET['RKInfopasienpengunjungV'])) {
-//        $modDialogKunjungan->attributes = $_GET['RKInfopasienpengunjungV'];
-//        $modDialogKunjungan->no_pendaftaran = (isset($_GET['RKInfopasienpengunjungV']['no_pendaftaran']) ? $_GET['RKInfopasienpengunjungV']['no_pendaftaran'] : "");
-//        $modDialogKunjungan->no_rekam_medik = (isset($_GET['RKInfopasienpengunjungV']['no_rekam_medik']) ? $_GET['RKInfopasienpengunjungV']['no_rekam_medik'] : "");
-//        $modDialogKunjungan->nama_pasien = (isset($_GET['RKInfopasienpengunjungV']['nama_pasien']) ? $_GET['RKInfopasienpengunjungV']['nama_pasien'] : "");
-//        $modDialogKunjungan->carabayar_nama = (isset($_GET['RKInfopasienpengunjungV']['carabayar_nama']) ? $_GET['RKInfopasienpengunjungV']['carabayar_nama'] : "");
-//        $modDialogKunjungan->ruangan_nama = (isset($_GET['RKInfopasienpengunjungV']['ruangan_nama']) ? $_GET['RKInfopasienpengunjungV']['ruangan_nama'] : "");
-//    }
-//
-//    $this->widget('ext.bootstrap.widgets.BootGridView',array(
-//            'id'=>'datakunjungan-grid',
-//            'dataProvider'=>$modDialogKunjungan->searchDialogKunjungan(),
-//            'filter'=>$modDialogKunjungan,
-//            'template'=>"{summary}\n{items}\n{pager}",
-//            'itemsCssClass'=>'table table-striped table-bordered table-condensed',
-//            'columns'=>array(
-//                    array(
-//                        'header'=>'Pilih',
-//                        'type'=>'raw',
-//                        'value'=>'CHtml::Link("<i class=\"icon-check\"></i>","javascript:void(0);",array("class"=>"btn-small", 
-//                                        "id" => "selectPendaftaran",
-//                                        "onClick" => "
-//                                            setKunjungan($data->pendaftaran_id, \"\", \"\", \"\");
-//                                            $(\"#dialogKunjungan\").dialog(\"close\");
-//                                        "))',
-//                    ),
-//                    'no_pendaftaran',
-//                    array(
-//                        'name'=>'tgl_pendaftaran',
-//                        'type'=>'raw',
-//                        'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)',
-//                        'filter'=> false,
-//                    ),
-//                    array(
-//                        'name'=>'no_rekam_medik',
-//                        'type'=>'raw',
-//                        'value'=>'$data->no_rekam_medik',
-//                    ),
-//                    'nama_pasien',
-////                    'jeniskelamin',
-//                    array(
-//                        'name'=>'jeniskelamin',
-//                        'type'=>'raw',
-//                        'filter'=>LookupM::model()->getItems('jeniskelamin'),
-//                    ),
-//                    array(
-//                        'name'=>'instalasi_id',
-//                        'value'=>'$data->instalasi_nama',
-//                        'type'=>'raw',
-////                        'filter'=>CHtml::listData(BKPendaftaranT::model()->getInstalasis(),'instalasi_id','instalasi_nama'), //dipilih dari instalasi form kunjungan
-//                        'filter'=>CHtml::activeHiddenField($modDialogKunjungan,'instalasi_id'),
-//                    ),
-//                    array(
-//                        'name'=>'ruangan_nama',
-//                        'type'=>'raw',
-//                    ),
-//                    array(
-//                        'name'=>'carabayar_nama',
-//                        'type'=>'raw',
-//                        'value'=>'$data->carabayar_nama',
-//                    ),
-//
-//
-//            ),
-//            'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
-//    ));
-//
-//$this->endWidget();
-////======= end pendaftaran dialog =============
+// ========= Dialog buat cari data pendaftaran / kunjungan =========================
+$this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
+    'id'=>'dialogKunjungan',
+    'options'=>array(
+        'title'=>'Pencarian Data Kunjungan Pasien',
+        'autoOpen'=>false,
+        'modal'=>true,
+        'width'=>980,
+       'height'=>650,
+        'resizable'=>false,
+    ),
+));
+    $modDialogKunjungan = new RKInfopasienpengunjungV('searchDialogKunjungan');
+    $modDialogKunjungan->unsetAttributes();
+    if(isset($_GET['RKInfopasienpengunjungV'])) {
+        $modDialogKunjungan->attributes = $_GET['RKInfopasienpengunjungV'];
+        $modDialogKunjungan->no_pendaftaran = (isset($_GET['RKInfopasienpengunjungV']['no_pendaftaran']) ? $_GET['RKInfopasienpengunjungV']['no_pendaftaran'] : "");
+        $modDialogKunjungan->no_rekam_medik = (isset($_GET['RKInfopasienpengunjungV']['no_rekam_medik']) ? $_GET['RKInfopasienpengunjungV']['no_rekam_medik'] : "");
+        $modDialogKunjungan->nama_pasien = (isset($_GET['RKInfopasienpengunjungV']['nama_pasien']) ? $_GET['RKInfopasienpengunjungV']['nama_pasien'] : "");
+        $modDialogKunjungan->carabayar_nama = (isset($_GET['RKInfopasienpengunjungV']['carabayar_nama']) ? $_GET['RKInfopasienpengunjungV']['carabayar_nama'] : "");
+        $modDialogKunjungan->ruangan_nama = (isset($_GET['RKInfopasienpengunjungV']['ruangan_nama']) ? $_GET['RKInfopasienpengunjungV']['ruangan_nama'] : "");
+    }
+
+    $this->widget('ext.bootstrap.widgets.BootGridView',array(
+            'id'=>'datakunjungan-grid',
+            'dataProvider'=>$modDialogKunjungan->searchDialogKunjungan(),
+            'filter'=>$modDialogKunjungan,
+            'template'=>"{summary}\n{items}\n{pager}",
+            'itemsCssClass'=>'table table-striped table-bordered table-condensed',
+            'columns'=>array(
+                    array(
+                        'header'=>'Pilih',
+                        'type'=>'raw',
+                        'value'=>'CHtml::Link("<i class=\"icon-check\"></i>","javascript:void(0);",array("class"=>"btn-small", 
+                                        "id" => "selectPendaftaran",
+                                        "onClick" => "
+                                            setKunjungan($data->pendaftaran_id, \"\", \"\", \"\");
+                                            $(\"#dialogKunjungan\").dialog(\"close\");
+                                        "))',
+                    ),
+                    'no_pendaftaran',
+                    array(
+                        'name'=>'tgl_pendaftaran',
+                        'type'=>'raw',
+                        'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)',
+                        'filter'=> false,
+                    ),
+                    array(
+                        'name'=>'no_rekam_medik',
+                        'type'=>'raw',
+                        'value'=>'$data->no_rekam_medik',
+                    ),
+                    'nama_pasien',
+//                    'jeniskelamin',
+                    array(
+                        'name'=>'jeniskelamin',
+                        'type'=>'raw',
+                        'filter'=>LookupM::model()->getItems('jeniskelamin'),
+                    ),
+                    array(
+                        'name'=>'instalasi_id',
+                        'value'=>'$data->instalasi_nama',
+                        'type'=>'raw',
+//                        'filter'=>CHtml::listData(BKPendaftaranT::model()->getInstalasis(),'instalasi_id','instalasi_nama'), //dipilih dari instalasi form kunjungan
+                        'filter'=>CHtml::activeHiddenField($modDialogKunjungan,'instalasi_id'),
+                    ),
+                    array(
+                        'name'=>'ruangan_nama',
+                        'type'=>'raw',
+                    ),
+                    array(
+                        'name'=>'carabayar_nama',
+                        'type'=>'raw',
+                        'value'=>'$data->carabayar_nama',
+                    ),
+
+
+            ),
+            'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+    ));
+
+$this->endWidget();
+//======= end pendaftaran dialog =============
 ?>
