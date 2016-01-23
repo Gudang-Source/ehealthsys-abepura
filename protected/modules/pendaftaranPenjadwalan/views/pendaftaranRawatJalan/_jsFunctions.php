@@ -557,6 +557,7 @@ function setDropdownDokter(ruangan_id)
        dataType: "json",
        success:function(data){
            $("#<?php echo CHtml::activeId($model,"pegawai_id");?>").html(data.listDokter);
+           cekPilihSatu($("#<?php echo CHtml::activeId($model,"pegawai_id");?>"));
        },
         error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
     });
@@ -574,6 +575,7 @@ function setDropdownJeniskasuspenyakit(ruangan_id)
        dataType: "json",
        success:function(data){
            $("#<?php echo CHtml::activeId($model,"jeniskasuspenyakit_id");?>").html(data.listKasuspenyakit);
+           cekPilihSatu($("#<?php echo CHtml::activeId($model,"jeniskasuspenyakit_id");?>"));
        },
         error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
     });
@@ -1821,6 +1823,15 @@ function resetFormPegawai(){
 	$('#PPPegawaiM_jabatan_nama').val('');
 }
 
+
+function cekPilihSatu(obj) {
+    // console.log($(obj).find('option').length);
+    
+    if ($(obj).find('option').length == 2) {
+        $(obj).val($(obj).find('option').eq(1).val());
+        $(obj).change();
+    }
+}
 /**
  * javascript yang di running setelah halaman ready / load sempurna
  * posisi script ini harus tetap dibawah
