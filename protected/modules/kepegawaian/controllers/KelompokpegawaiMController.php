@@ -7,6 +7,9 @@ class KelompokpegawaiMController extends MyAuthController
 	 */
 	public $layout='//layouts/column1';
         public $defaultAction = 'admin';
+        
+        public $path_view = "kepegawaian.views.kelompokpegawaiM.";
+        public $hasTab = true;
 
 	/**
 	 * Displays a particular model.
@@ -14,7 +17,7 @@ class KelompokpegawaiMController extends MyAuthController
 	 */
 	public function actionView($id)
 	{
-		$this->render('view',array(
+		$this->render($this->path_view.'view',array(
 			'model'=>$this->loadModel($id),
 		));
 	}
@@ -41,7 +44,7 @@ class KelompokpegawaiMController extends MyAuthController
                         }
 		}
 
-		$this->render('create',array(
+		$this->render($this->path_view.'create',array(
 			'model'=>$model,
 		));
 	}
@@ -68,7 +71,7 @@ class KelompokpegawaiMController extends MyAuthController
                         }
 		}
 
-		$this->render('update',array(
+		$this->render($this->path_view.'update',array(
 			'model'=>$model,
 		));
 	}
@@ -79,7 +82,7 @@ class KelompokpegawaiMController extends MyAuthController
 	public function actionIndex()
 	{
 		$dataProvider=new CActiveDataProvider('KPKelompokpegawaiM');
-		$this->render('index',array(
+		$this->render($this->path_view.'index',array(
 			'dataProvider'=>$dataProvider,
 		));
 	}
@@ -95,7 +98,7 @@ class KelompokpegawaiMController extends MyAuthController
 		if(isset($_GET['KPKelompokpegawaiM']))
 			$model->attributes=$_GET['KPKelompokpegawaiM'];
 
-		$this->render('admin',array(
+		$this->render($this->path_view.'admin',array(
 			'model'=>$model,
 		));
 	}
@@ -200,11 +203,11 @@ class KelompokpegawaiMController extends MyAuthController
             $caraPrint=$_REQUEST['caraPrint'];
             if($caraPrint=='PRINT') {
                 $this->layout='//layouts/printWindows';
-                $this->render('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+                $this->render($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
             }
             else if($caraPrint=='EXCEL') {
                 $this->layout='//layouts/printExcel';
-                $this->render('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+                $this->render($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
             }
             else if($_REQUEST['caraPrint']=='PDF') {
                 $ukuranKertasPDF = Yii::app()->user->getState('ukuran_kertas');                  //Ukuran Kertas Pdf
@@ -214,7 +217,7 @@ class KelompokpegawaiMController extends MyAuthController
                 $stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
                 $mpdf->WriteHTML($stylesheet,1);  
                 $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
-                $mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
+                $mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
                 $mpdf->Output();
             }                       
         }
