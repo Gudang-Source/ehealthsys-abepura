@@ -1556,7 +1556,10 @@ class PendaftaranRawatJalanController extends MyAuthController
             $format = new MyFormatter;
             $modPendaftaran = PendaftaranT::model()->findByPk($pendaftaran_id);
             $modPasien = PasienM::model()->findByPk($modPendaftaran->pasien_id);
-            $modPegawai = PegawaiM::model()->findByPk(Yii::app()->user->id);
+            $lp = LoginpemakaiK::model()->findByPk(Yii::app()->user->id);
+            
+            if (!empty($lp)) $modPegawai = PegawaiM::model()->findByPk($lp->pegawai_id);
+            else $modPegawai = new PegawaiM;
 
             $karcis_id = null;
             $modTindakan =  TindakanpelayananT::model()->findByAttributes(array('pendaftaran_id'=>$modPendaftaran->pendaftaran_id), "karcis_id IS NOT NULL");
