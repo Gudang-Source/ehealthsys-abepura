@@ -15,15 +15,18 @@
     <?php $this->widget('bootstrap.widgets.BootAlert'); ?>
     <?php echo $form->errorSummary($model); ?>
     <?php echo $form->errorSummary($modPasien); ?>
-
     <div class="row-fluid">
         <div class="span6">
-            <?php /*
-            if(Yii::app()->user->getState('issmsgateway')){
-               $this->renderPartial($this->path_view.'_formSms', array('form'=>$form,'modSmsgateway'=>$modSmsgateway)); 
-            } */
-            ?>
-        </div>
+            <div class="control-group">
+                <?php echo CHtml::label('No. Antrian','noantrian',array('class'=>'control-label'));?>
+                <div class="controls">
+                    <?php echo $form->hiddenField($model,'antrian_id',array('readonly'=>true));?>
+                    <?php echo CHtml::dropDownList('cari_loket_id', $modAntrian->loket_id,CHtml::listData($modAntrian->getLokets(), 'loket_id', 'loket_nama'),array('class'=>'span2','empty'=>'-- Pilih --','onchange'=>'setFormAntrian("reset");') )?>
+                    <?php echo CHtml::textField('noantrian',$modAntrian->noantrian,array('readonly'=>true,'class'=>'span2', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+                    <?php echo CHtml::htmlButton(Yii::t('mds','{icon}',array('{icon}'=>'<i class="icon-volume-up icon-white"></i>')),array('id'=>'bth-lihatantrian','title'=>'Klik untuk menampilkan form antrian','rel'=>'tooltip','class'=>'btn  btn-mini btn-primary', 'onclick'=>'$("#dialog-panggilantrian").dialog("open");')); ?>
+                </div>
+            </div>
+        </div> 
     </div>
 
     <fieldset class="box" id="form-pasien">
@@ -299,6 +302,36 @@
     <?php $this->renderPartial('_tablePendaftaranTerakhir', array()); ?>
 
 
+    <?php 
+    $autoopen = Yii::app()->user->getState('isantrian');
+    if(!empty($model->pendaftaran_id)){
+        $autoopen = false;
+    }
+    $this->beginWidget('zii.widgets.jui.CJuiDialog', array( 
+        'id'=>'dialog-panggilantrian',
+        'options'=>array(
+            'title'=>'No. Antrian',
+            'autoOpen'=>$autoopen,
+            'width'=>180,
+            'resizable'=>false,
+            'position'=>array("right",140),
+        ),
+    ));
+    ?>
+    <div class="dialog-content">
+        <?php echo $this->renderPartial($this->path_view.'_formPanggilAntrian', array('modAntrian'=>$modAntrian)); ?>
+    </div>
+
+    <div style="text-align: center;">
+            <?php echo CHtml::htmlButton(Yii::t('mds','{icon}',array('{icon}'=>'<i class="icon-backward icon-white"></i>')),array('title'=>'Klik untuk tampilkan antrian sebelumnya','rel'=>'tooltip','class'=>'btn  btn-mini btn-danger','onclick'=>'setFormAntrian("prev");','style'=>'font-size:10px; width:24px; height:24px;')); ?>
+            <?php echo CHtml::htmlButton(Yii::t('mds','{icon}',array('{icon}'=>'<i class="icon-forward icon-white"></i>')),array('title'=>'Klik untuk tampilkan antrian berikutnya','rel'=>'tooltip','class'=>'btn  btn-mini btn-danger','onclick'=>'setFormAntrian("next");','style'=>'font-size:10px; width:24px; height:24px;')); ?>
+            <?php //RND-1956 >>> echo CHtml::htmlButton(Yii::t('mds','{icon}',array('{icon}'=>'<i class="icon-volume-down icon-white"></i>')),array('title'=>'Klik untuk membatalkan pemanggilan antrian ini','rel'=>'tooltip','class'=>'btn  btn-mini btn-danger', 'onclick'=>'if(requiredCheck(this)){ panggilAntrian("batal");}','style'=>'font-size:10px; width:24px; height:24px;')); ?>
+            <?php echo CHtml::htmlButton(Yii::t('mds','{icon}',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')),array('title'=>'Klik untuk mengulang antrian','rel'=>'tooltip','class'=>'btn btn-mini btn-danger','onclick'=>'if(confirm("Apakah akan mengulang antrian ?")){setFormAntrian("reset");}','style'=>'font-size:10px; width:24px; height:24px;')); ?>
+        <br>
+            <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Panggil / Daftar',array('id'=>'btn-panggilantrian','{icon}'=>'<i class="icon-volume-up icon-white"></i>')),array('title'=>'Klik untuk memanggil antrian ini','rel'=>'tooltip','class'=>'btn  btn-mini btn-primary', 'onclick'=>'if(requiredCheck(this)){ panggilAntrian();}','style'=>'font-size:10px; width:128px; height:24px;')); ?>
+    </div>
+    <?php $this->endWidget(); ?>
+    
 
 <?php 
 // Dialog buat nambah data propinsi =========================
@@ -488,6 +521,7 @@ echo '<div class="dialog-content"></div>';
     $this->endWidget();
     ?>
 <?php $this->renderPartial($this->path_view.'_jsFunctions', array('model'=>$model, 'modPasien'=>$modPasien, 'modPegawai'=>$modPegawai, 'modPenanggungJawab'=>$modPenanggungJawab, 'modRujukan'=>$modRujukan, 'modRujukanBpjs'=>$modRujukanBpjs, 'modAsuransiPasien'=>$modAsuransiPasien, 'modAsuransiPasienBpjs'=>$modAsuransiPasienBpjs, 'modSep'=>$modSep,'modAsuransiPasienBadak'=>$modAsuransiPasienBadak,'modAsuransiPasienDepartemen'=>$modAsuransiPasienDepartemen,'modAsuransiPasienPekerja'=>$modAsuransiPasienPekerja,'modPegawai'=>$modPegawai)); ?>
+<?php $this->renderPartial($this->path_view.'_jsFunctionsAntrian', array('model'=>$model, 'modPasien'=>$modPasien, 'modPenanggungJawab'=>$modPenanggungJawab, 'modRujukan'=>$modRujukan, 'modAntrian'=>$modAntrian)); ?>
 <?php $this->renderPartial('_jsFunctions', array('model'=>$model, 'modPasien'=>$modPasien,'modPasienMasukPenunjangs'=>$modPasienMasukPenunjangs)); ?>
        
 
