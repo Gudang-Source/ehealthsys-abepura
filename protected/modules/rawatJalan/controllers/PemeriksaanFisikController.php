@@ -98,6 +98,7 @@ class PemeriksaanFisikController extends MyAuthController
 										}
 									}
 								}
+                                                                
 								if($this->simpanpemeriksaanfisik && $this->simpanpemeriksaangambar){
 									$transaction->commit();
 									Yii::app()->user->setFlash('success',"Data Pemeriksaan Fisik berhasil disimpan");
@@ -166,13 +167,12 @@ class PemeriksaanFisikController extends MyAuthController
 			$modPemeriksaanGambar->tglpemeriksaan = date('Y-m-d H:i:s');
 			$modPemeriksaanGambar->create_time = date('Y-m-d H:i:s');
 			$modPemeriksaanGambar->create_loginpemakai_id = Yii::app()->user->id;
-			$modPemeriksaanGambar->create_ruangan = Yii::app()->user->getState('pegawai_id');
+			$modPemeriksaanGambar->create_ruangan = Yii::app()->user->getState('ruangan_id');
 			
 			if($modPemeriksaanGambar->validate()){ 
-				$modPemeriksaanGambar->save();
-				return true;
+				return $modPemeriksaanGambar->save();
 			} else {
-				return false;
+                                return false;
 			}
 			
         }
