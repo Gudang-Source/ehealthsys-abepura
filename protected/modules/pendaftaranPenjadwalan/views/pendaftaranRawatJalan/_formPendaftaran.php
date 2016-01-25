@@ -74,9 +74,9 @@
                                                         'ajax' => array('type'=>'POST',
                                                             'url'=> $this->createUrl('SetDropdownPenjaminPasien',array('encode'=>false,'namaModel'=>get_class($model))), 
     //                                                        'update'=>'#'.CHtml::activeId($model, 'penjamin_id'),  //DIHIDE KARENA DIGANTIKAN DENGAN 'success'
-                                                            'success'=>'function(data){$("#'.CHtml::activeId($model, "penjamin_id").'").html(data); setKarcis();}',
+                                                            'success'=>'function(data){$("#'.CHtml::activeId($model, "penjamin_id").'").html(data); setKarcis(); cekPilihSatu($("#'.CHtml::activeId($model,"penjamin_id").'")); }',
                                                         ),
-                                                        'onchange'=>'setFormAsuransi(this.value); cekCaraBayarBadak(this.value);',
+                                                        'onchange'=>'setFormAsuransi(this.value);',
                                                         'class'=>'span3',
                             )); ?>
                     </div>

@@ -23,12 +23,12 @@
                     'header'=>'No. Pendaftaran',
                     'type'=>'raw',
                     'value'=>'$data->no_pendaftaran',
-                ),
+                ), /*
                 array(
                     'header'=>'Instalasi',
                     'type'=>'raw',
                     'value'=>'isset($data->instalasi_id)?$data->instalasi->instalasi_nama:" - "',
-                ),
+                ), */
                 array(
                     'header'=>'Poliklinik/Ruangan',
                     'type'=>'raw',
@@ -37,7 +37,7 @@
                 array(
                     'header'=>'Dokter',
                     'type'=>'raw',
-                    'value'=>'(isset($data->pegawai_id) ? $data->pegawai->nama_pegawai : "")',
+                    'value'=>'(isset($data->pegawai_id) ? $data->pegawai->namaLengkap : "")',
                 ),
 //                array(
 //                    'header'=>'Cara Bayar',
