@@ -157,7 +157,7 @@ class PasienM extends CActiveRecord
 			array('no_telepon_pasien', 'length', 'max'=>15),
 			array('photopasien', 'length', 'max'=>200),
 			array('alamatemail', 'length', 'max'=>100),
-			array('update_time, update_loginpemakai_id, tgl_meninggal, ispasienluar, create_ruangan, no_jemkespa', 'safe'),
+			array('update_time, update_loginpemakai_id, tgl_meninggal, ispasienluar, create_ruangan, no_jamkespa', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('pasien_id, kelompokumur_id, kecamatan_id, pendidikan_id, profilrs_id, kelurahan_id, loginpemakai_id, suku_id, pekerjaan_id, kabupaten_id, propinsi_id, dokrekammedis_id, no_rekam_medik, tgl_rekam_medik, jenisidentitas, no_identitas_pasien, namadepan, nama_pasien, nama_bin, jeniskelamin, tempat_lahir, tanggal_lahir, alamat_pasien, rt, rw, statusperkawinan, agama, golongandarah, rhesus, anakke, jumlah_bersaudara, no_telepon_pasien, no_mobile_pasien, warga_negara, photopasien, alamatemail, statusrekammedis, create_time, update_time, create_loginpemakai_id, update_loginpemakai_id, tgl_meninggal, ispasienluar, create_ruangan, nama_ibu, nama_ayah, norm_lama, pegawai_id', 'safe', 'on'=>'search'),
