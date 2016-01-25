@@ -55,7 +55,7 @@
     <tr>
         <td>Nama Pasien</td>
         <td>:</td>
-        <td><?php echo $modPasien->namadepan.$modPasien->nama_pasien.(!empty($modPasien->nama_bin) ? " (".$modPasien->nama_bin.")" : ""); ?></td>
+        <td><?php echo $modPasien->namadepan.$modPasien->nama_pasien; ?></td>
     </tr>
     <tr>
         <td>No. Rekam Medis</td>
@@ -81,7 +81,7 @@
     <tr>
         <td>Nama Pasien</td>
         <td>:</td>
-        <td><?php echo $modPasien->namadepan.$modPasien->nama_pasien.(!empty($modPasien->nama_bin) ? " (".$modPasien->nama_bin.")" : ""); ?></td>
+        <td><?php echo $modPasien->namadepan.$modPasien->nama_pasien; ?></td>
     </tr>
     <tr>
         <td>No. Rekam Medis</td>

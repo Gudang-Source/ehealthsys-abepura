@@ -381,8 +381,16 @@ class PendaftaranRawatJalanController extends MyAuthController
                         $smspasien = 1;
                         $smsdokter = 1;
                         $smspenanggungjawab = 1;
+                        
+                        $model->tgl_pendaftaran = MyFormatter::formatDateTimeForUser($model->tgl_pendaftaran);
+                        $model->no_urutantri = $model->ruangan->ruangan_singkatan."-".$model->no_urutantri;
+                        
+                        $modPegawai->nama_pegawai = $modPegawai->namaLengkap;
+                        
                         foreach ($modSmsgateway as $i => $smsgateway) {
+                            
                             $isiPesan = $smsgateway->templatesms;
+                            $isiPesan = "${isiPesan}";
                             
                             $attributes = $modPasien->getAttributes();
                             foreach($attributes as $attributes => $value){
@@ -406,6 +414,10 @@ class PendaftaranRawatJalanController extends MyAuthController
                             }
                             $isiPesan = str_replace("{{hari}}",MyFormatter::getDayName($model->tgl_pendaftaran),$isiPesan);
                             $isiPesan = str_replace("{{nama_rumahsakit}}",Yii::app()->user->getState('nama_rumahsakit'),$isiPesan);
+                            $isiPesan = str_replace("\\n", hex2bin("0a"), $isiPesan);
+                            
+                            //var_dump($isiPesan);
+                            
                             if($smsgateway->tujuansms == Params::TUJUANSMS_PASIEN && $smsgateway->statussms){
                                 if(!empty($modPasien->no_mobile_pasien)){
                                     $sms->kirim($modPasien->no_mobile_pasien,$isiPesan);
@@ -426,6 +438,8 @@ class PendaftaranRawatJalanController extends MyAuthController
                                 }
                             } */
                         } 
+                        
+                        // die;
                         // END SMS GATEWAY
                         
                         if($this->septersimpan){
