@@ -20,6 +20,7 @@ function setPasienLama(pasien_id, no_rekam_medik ){
                 $("#cari_no_rekam_medik").val(data.no_rekam_medik);
                 $("#<?php echo CHtml::activeId($modPasien,'pasien_id');?>").val(data.pasien_id);
                 $("#<?php echo CHtml::activeId($modPasien,"jenisidentitas");?>").val(data.jenisidentitas);
+                $("#<?php echo CHtml::activeId($modPasien,"no_jamkespa");?>").val(data.no_jamkespa);
                 $("#<?php echo CHtml::activeId($modPasien,"no_identitas_pasien");?>").val(data.no_identitas_pasien);
                 $("#<?php echo CHtml::activeId($modPasien,"namadepan");?>").val(data.namadepan);
                 $("#<?php echo CHtml::activeId($modPasien,"nama_pasien");?>").val(data.nama_pasien);
