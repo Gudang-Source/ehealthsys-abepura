@@ -24,7 +24,7 @@ class PendaftaranRawatInapController extends PendaftaranRawatJalanController
 	/**
 	 * Index transaksi pendaftaran
 	 */
-	public function actionIndex($id = null, $idSep = null)
+	public function actionIndex($id = null, $idSep = null, $idAntrian = null)
 	{
             $format = new MyFormatter();
             $model=new PPPendaftaranT;
@@ -71,6 +71,18 @@ class PendaftaranRawatInapController extends PendaftaranRawatJalanController
             $modSmsgateway = SmsgatewayM::model()->findAll($criteria);
 
             //==load data
+            
+            if (!empty($idAntrian)) {
+                $modAntrian = PPAntrianT::model()->findByPk($idAntrian, array(
+                    'condition'=>'pendaftaran_id is null',
+                ));
+                if (empty($modAntrian)) {
+                    $modAntrian = new PPAntrianT;
+                } else {
+                    $model->antrian_id = $modAntrian->antrian_id;
+                }
+            }
+            
             if(isset($id)){
                 $model = $this->loadModel($id);
                 if(isset($idSep)){

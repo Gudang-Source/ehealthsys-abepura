@@ -24,10 +24,13 @@ class PPInformasiantrianpasien extends InformasiantrianpasienV {
 
         $criteria = new CDbCriteria();
         
-        $criteria->addBetweenCondition('DATE(t.tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
+        
+        $criteria->addBetweenCondition('DATE(t.tglantrian)', $this->tgl_awal, $this->tgl_akhir);
+        /*
 		if(!empty($this->pasien_id)){
 			$criteria->addCondition("t.pasien_id' = ".$this->pasien_id);			
 		}
+        */
         $criteria->compare('LOWER(t.jenisidentitas)', strtolower($this->jenisidentitas), true);
         $criteria->compare('LOWER(t.no_identitas_pasien)', strtolower($this->no_identitas_pasien), true);
         $criteria->compare('LOWER(t.namadepan)', strtolower($this->namadepan), true);
@@ -47,6 +50,7 @@ class PPInformasiantrianpasien extends InformasiantrianpasienV {
         $criteria->compare('LOWER(t.statusperkawinan)', strtolower($this->statusperkawinan), true);
         $criteria->compare('LOWER(t.no_rekam_medik)', strtolower($this->no_rekam_medik), true);
         $criteria->compare('LOWER(t.tgl_rekam_medik)', strtolower($this->tgl_rekam_medik), true);
+        
 		if(!empty($this->propinsi_id)){
 			$criteria->addCondition("t.propinsi_id' = ".$this->propinsi_id);			
 		}
@@ -84,6 +88,7 @@ class PPInformasiantrianpasien extends InformasiantrianpasienV {
         $criteria->compare('LOWER(t.create_time)', strtolower($this->create_time), true);
         $criteria->compare('LOWER(t.create_loginpemakai_id)', strtolower($this->create_loginpemakai_id), true);
         $criteria->compare('LOWER(t.create_ruangan)', strtolower($this->create_ruangan), true);
+        
 		if(!empty($this->carabayar_id)){
 			$criteria->addCondition("t.carabayar_id' = ".$this->carabayar_id);			
 		}
@@ -109,13 +114,15 @@ class PPInformasiantrianpasien extends InformasiantrianpasienV {
 			$criteria->addCondition("t.jeniskasuspenyakit_id = ".$this->jeniskasuspenyakit_id);			
 		}
         $criteria->compare('LOWER(t.jeniskasuspenyakit_nama)', strtolower($this->jeniskasuspenyakit_nama), true);
-	
+	/*
         if ($loketOnly) {
-            $criteria->join = 'join pendaftaran_t p on p.pendaftaran_id = t.pendaftaran_id '
+            $criteria->join = 'left join pendaftaran_t p on p.pendaftaran_id = t.pendaftaran_id '
                     . 'join antrian_t a on a.antrian_id = p.antrian_id';
-        }
+        }*/
         
         //$criteria->addCondition('t.antrian_id is not null');
+        
+        $criteria->order = 't.tglantrian';
         
         return $criteria;
     }
