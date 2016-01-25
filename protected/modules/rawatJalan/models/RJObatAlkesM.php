@@ -81,6 +81,7 @@ class RJObatAlkesM extends ObatalkesM
                 }else{
                     $criteria->compare('LOWER(obatalkes_nama)',strtolower($this->obatalkes_nama),true);
                 }
+                $criteria->compare('LOWER(obatalkes_nama)',strtolower($this->obatalkes_nama),true);
                 $criteria->addCondition('obatalkes_farmasi is true');
 				
                 return new CActiveDataProvider($this, array(
