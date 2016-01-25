@@ -1,12 +1,14 @@
 <?php 
 $linkRJ = $this->createUrl('/pendaftaranPenjadwalan/pendaftaranRawatJalan'); 
 $linkPJ = $this->createUrl('/pendaftaranPenjadwalan/pendaftaranPenunjang'); 
+$linkRI = $this->createUrl('/pendaftaranPenjadwalan/pendaftaranRawatInap'); 
 ?>
 
 <script>
 
 var urlRJ = '<?php echo $linkRJ; ?>';
 var urlPJ = '<?php echo $linkPJ; ?>';
+var urlRI = '<?php echo $linkRI; ?>';
 
 function panggilAntrian(id) {
     $.ajax({
@@ -40,6 +42,8 @@ function daftarPasien(obj, id) {
         window.location.replace(urlRJ + "&idAntrian=" + antrian_id);
     } else if (val == 2) {
         window.location.replace(urlPJ + "&idAntrian=" + antrian_id);
+    } else if (val == 3) {
+        window.location.replace(urlRI + "&idAntrian=" + antrian_id);
     }
 }
 </script>

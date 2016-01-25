@@ -71,6 +71,18 @@ class PendaftaranRawatInapController extends PendaftaranRawatJalanController
             $modSmsgateway = SmsgatewayM::model()->findAll($criteria);
 
             //==load data
+            
+            if (!empty($idAntrian)) {
+                $modAntrian = PPAntrianT::model()->findByPk($idAntrian, array(
+                    'condition'=>'pendaftaran_id is null',
+                ));
+                if (empty($modAntrian)) {
+                    $modAntrian = new PPAntrianT;
+                } else {
+                    $model->antrian_id = $modAntrian->antrian_id;
+                }
+            }
+            
             if(isset($id)){
                 $model = $this->loadModel($id);
                 if(isset($idSep)){

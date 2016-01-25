@@ -89,10 +89,17 @@
                         'type'=>'raw',
                         'value'=>function($data) {
                             if (empty($data->pendaftaran_id)) {
-                                return CHtml::dropDownList('dd_pendaftaran',null,array(
-                                    1 => 'Rawat Jalan',
-                                    2 => 'Penunjang',
-                                ), array ('empty'=>'-- Daftar --', 'onchange'=>'daftarPasien(this, "'.$data->antrian_id.'")'));
+                                $antrian = AntrianT::model()->findByPk($data->antrian_id);
+                                if ($antrian->loket_id != 13) {
+                                    return CHtml::dropDownList('dd_pendaftaran',null,array(
+                                        1 => 'Rawat Jalan',
+                                        2 => 'Penunjang',
+                                    ), array ('empty'=>'-- Daftar --', 'onchange'=>'daftarPasien(this, "'.$data->antrian_id.'")'));
+                                } else {
+                                    return CHtml::dropDownList('dd_pendaftaran',null,array(
+                                        3 => 'Rawat Inap',
+                                    ), array ('empty'=>'-- Daftar --', 'onchange'=>'daftarPasien(this, "'.$data->antrian_id.'")'));
+                                }
                             } return '-';
                         },
                         'htmlOptions'=>array(
