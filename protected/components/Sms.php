@@ -21,6 +21,17 @@
 	        return $hex;
 	    }
 
+        private function get2RandomHex() {
+            $possibilities = array(1, 2, 3, 4, 5, 6, 7, 8, 9, "A", "B", "C", "D", "E", "F" );
+            shuffle($possibilities);
+            $hex = "";
+            for($i=1;$i<=2;$i++){
+                $hex .= $possibilities[rand(0,14)];
+            }
+            return $hex;
+	}
+            
+            
         /**
          * Digunakan untuk mengirim pesan
          * @param type $notujuans = array() , @pesan = text
@@ -30,15 +41,18 @@
             $issmsgateway = Yii::app()->user->getState('issmsgateway');
             if($issmsgateway){
                 $pesan = str_split(isset($pesan)?$pesan:'', 153);
+                
+                // var_dump($pesan);
+                
                 $jumlah_part = count($pesan);
                 $id = null;
                 $udh = '';
                 $hex_number = '';
                 if(is_array($no_tujuans)){
                     foreach ($no_tujuans as $i => $nomor) {
-                        $hex_number = $this->getRandomHex();
+                        $hex_number = $this->get2RandomHex();
                         foreach ($pesan as $j => $psn) {
-                            $udh = $hex_number.str_pad($jumlah_part, 2, "0", STR_PAD_LEFT).str_pad($j+1, 2, "0", STR_PAD_LEFT);
+                            $udh = "050003".$hex_number.str_pad($jumlah_part, 2, "0", STR_PAD_LEFT).str_pad($j+1, 2, "0", STR_PAD_LEFT);
                             if(count($pesan)<=1){
                                 $udh = '';
                             }
@@ -71,9 +85,10 @@
                         }
                     }
                 }else{
-                    $hex_number = $this->getRandomHex();
+                    $hex_number = $this->get2RandomHex();
                     foreach ($pesan as $j => $psn) {
-                        $udh = $hex_number.str_pad($jumlah_part, 2, "0", STR_PAD_LEFT).str_pad($j+1, 2, "0", STR_PAD_LEFT);
+                        $udh = "050003".$hex_number.str_pad($jumlah_part, 2, "0", STR_PAD_LEFT).str_pad($j+1, 2, "0", STR_PAD_LEFT);
+                        // var_dump($udh);
                         if(count($pesan)<=1){
                             $udh = '';
                         }
@@ -82,11 +97,12 @@
                             $model->DestinationNumber = $no_tujuans;
                             $model->UDH = $udh;
                             $model->TextDecoded = $psn;
-                            $model->MultiPart = ($jumlah_part>1)?'true':'false';
+                            $model->MultiPart = ($jumlah_part>1)?true:false;
                             $model->CreatorID = Yii::app()->user->id;
                             if($model->save()){
                             $this->pesantersimpan &= true;
                             $id = $model->ID;
+                            // var_dump($model->attributes);
                             }else{
                                 $this->pesantersimpan &= false;
                             }
@@ -96,6 +112,7 @@
                             $modMultiPart->TextDecoded = $psn;
                             $modMultiPart->ID = $id;
                             $modMultiPart->SequencePosition = $j+1;
+                            // var_dump($modMultiPart->attributes);
                             if($modMultiPart->save()){
                                 $this->pesantersimpan &= true;
                             }else{
