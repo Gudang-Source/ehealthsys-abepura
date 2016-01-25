@@ -25,6 +25,7 @@ function setPasienRJRD(pendaftaran_id, no_pendaftaran, pasien_id, no_rekam_medik
 				$("#cari_nomorindukpegawai").val(data.nomorindukpegawai); // untuk load filed NIP
                 $("#<?php echo CHtml::activeId($model,'pendaftaran_id');?>").val(data.pendaftaran_id);
                 $("#<?php echo CHtml::activeId($modPasien,'pasien_id');?>").val(data.pasien_id);
+                $("#<?php echo CHtml::activeId($modPasien,"no_jamkespa");?>").val(data.no_jamkespa);
                 $("#<?php echo CHtml::activeId($modPasien,"jenisidentitas");?>").val(data.jenisidentitas);
                 $("#<?php echo CHtml::activeId($modPasien,"no_identitas_pasien");?>").val(data.no_identitas_pasien);
                 $("#<?php echo CHtml::activeId($modPasien,"namadepan");?>").val(data.namadepan);

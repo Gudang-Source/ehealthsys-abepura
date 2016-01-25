@@ -95,7 +95,13 @@
             <?php echo $form->hiddenField($modPasien,'pasien_id',array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10)); ?>
         </div>
     </div>
-
+    <div class="control-group ">
+        <?php echo $form->labelEx($modPasien,'no_jamkespa', array('class'=>'control-label')) ?>
+        <div class="controls">
+            <?php echo $form->textField($modPasien, 'no_jamkespa', array('class'=>'span3')); ?>
+            <?php echo $form->error($modPasien,'no_jamkespa'); ?>
+        </div>
+    </div>
     <div class="control-group ">
         <?php echo $form->labelEx($modPasien,'no_identitas_pasien', array('class'=>'control-label refreshable')) ?>
         <div class="controls">
