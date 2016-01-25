@@ -44,12 +44,22 @@
                             'htmlOptions'=>array('style'=>'text-align:right;'),
                     ),
                     ////'smsgateway_id',
+                    /*
                     array(
                             'name'=>'smsgateway_id',
                             'value'=>'$data->smsgateway_id',
                             'filter'=>false,
+                    ),*/
+                    array(
+                        'name'=>'modul_id',
+                        'type'=>'raw',
+                        'value'=>function($data) {
+                            $model = ModulK::model()->findByPk($data->modul_id);
+                            
+                            return $model->modul_nama;
+                        }
                     ),
-                    'modul_id',
+                    'modcontroller',
                     'tujuansms',
                     'jenissms',
                     'formatsms',
