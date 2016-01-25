@@ -28,13 +28,14 @@
     ");
 
     $this->widget('bootstrap.widgets.BootAlert');
-    $this->renderPartial('_tabMenu',array());
+    
+    if ($this->hasTab) $this->renderPartial($this->path_view.'_tabMenu',array());
     ?>
     <div class="biru">
         <div class="white">
             <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-accordion icon-white"></i>')),'#',array('class'=>'search-button btn')); ?>
             <div class="cari-lanjut3 search-form" style="display:none">
-                <?php $this->renderPartial('_search',array(
+                <?php $this->renderPartial($this->path_view.'_search',array(
                         'model'=>$model,
                 )); ?>
             </div><!-- search-form -->
@@ -108,7 +109,7 @@
     echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
     echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
     echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
-    $content = $this->renderPartial('../tips/master',array(),true);
+    $content = $this->renderPartial('kepegawaian.views/tips/master',array(),true);
     $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
     $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
     $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
