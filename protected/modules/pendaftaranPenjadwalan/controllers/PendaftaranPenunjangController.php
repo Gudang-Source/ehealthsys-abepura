@@ -17,7 +17,7 @@ class PendaftaranPenunjangController extends PendaftaranRawatJalanController
 	/**
 	 * Index transaksi pendaftaran
 	 */
-	public function actionIndex($id = null, $idSep = null)
+	public function actionIndex($id = null, $idSep = null, $idAntrian = null)
 	{
             $format = new MyFormatter();
             $model=new PPPendaftaranT;
@@ -32,6 +32,7 @@ class PendaftaranPenunjangController extends PendaftaranRawatJalanController
             $modAsuransiPasienDepartemen =new PPAsuransipasiendepartemenM();
             $modAsuransiPasienPekerja =new PPAsuransipasienpegawaiM();
             $modSep=new PPSepT;
+            $modAntrian = new PPAntrianT;
 			$model->is_pasienrujukan = 1;
 			$model->is_asubadak = 0;
             $model->is_asudepartemen = 0;
@@ -76,6 +77,17 @@ class PendaftaranPenunjangController extends PendaftaranRawatJalanController
             $modSmsgateway = SmsgatewayM::model()->findAll($criteria);
 
             //==load data
+            if (!empty($idAntrian)) {
+                $modAntrian = PPAntrianT::model()->findByPk($idAntrian, array(
+                    'condition'=>'pendaftaran_id is null',
+                ));
+                if (empty($modAntrian)) {
+                    $modAntrian = new PPAntrianT;
+                } else {
+                    $model->antrian_id = $modAntrian->antrian_id;
+                }
+            }
+            
             if(isset($id)){
                 $model = $this->loadModel($id);
                 $modPasien=PPPasienM::model()->findByPk($model->pasien_id);
@@ -349,7 +361,8 @@ class PendaftaranPenunjangController extends PendaftaranRawatJalanController
                 'modAsuransiPasienDepartemen'=>$modAsuransiPasienDepartemen,
                 'modKarcis'=>$modKarcis,
                 'modSep'=>$modSep,
-                'modSmsgateway'=>$modSmsgateway
+                'modSmsgateway'=>$modSmsgateway,
+                'modAntrian'=>$modAntrian,
             ));
 	}
         
@@ -489,6 +502,9 @@ class PendaftaranPenunjangController extends PendaftaranRawatJalanController
             // var_dump($model->validate()); die;
 
             if($model->save()){
+                if(!empty($model->antrian_id)){
+                    PPAntrianT::model()->updateByPk($model->antrian_id,array('pendaftaran_id'=>$model->pendaftaran_id));
+                }
                 $this->pendaftarantersimpan = true;
             }
             return $model;

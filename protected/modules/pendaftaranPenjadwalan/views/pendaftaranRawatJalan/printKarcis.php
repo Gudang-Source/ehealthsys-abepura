@@ -14,17 +14,21 @@
     .borderers {
         border-bottom: 1px dashed black;
     }
+    
+    .tab-det td {
+        vertical-align: top;
+    }
 </style>
 <?php echo $this->renderPartial('pendaftaranPenjadwalan.views.pendaftaranRawatJalan._headerPrint'); ?>
-<table width="100%">
+<table width="100%" class="tab-det">
     <tr>
         <td align="center" valig="middle" colspan="3">
-            <b><?php echo $judul_print ?></b>
+            <b><?php echo strtoupper($judul_print) ?></b>
         </td>
     </tr>
      <tr>
         <td align="center" valig="middle" colspan="3">
-             Data Pasien
+             DATA PASIEN
         </td>
     </tr>
     <?php // if($modPendaftaran->carabayar_id == Params::CARABAYAR_ID_MEMBAYAR){ ?>
@@ -67,7 +71,7 @@
         <td colspan="3" class="borderers"></td>
     </tr>
     <tr>
-        <td colspan="3">&nbsp;</td>
+        <td colspan="3" style="text-align: center;">KUNJUNGAN PASIEN</td>
     </tr>
     <tr>
         <td>No. Pendaftaran</td>

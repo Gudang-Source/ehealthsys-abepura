@@ -823,7 +823,10 @@ Class Params
 
 	//======== End path dan url File CALK ========
 	
-    
+        
+        public function getLoketRJP() {
+            return array(1, 2);
+        }
+        
 }
-
 ?>

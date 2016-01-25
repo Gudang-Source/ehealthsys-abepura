@@ -206,6 +206,7 @@
             <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Panggil / Daftar',array('id'=>'btn-panggilantrian','{icon}'=>'<i class="icon-volume-up icon-white"></i>')),array('title'=>'Klik untuk memanggil antrian ini','rel'=>'tooltip','class'=>'btn  btn-mini btn-primary', 'onclick'=>'if(requiredCheck(this)){ panggilAntrian();}','style'=>'font-size:10px; width:128px; height:24px;')); ?>
     </div>
     <?php $this->endWidget(); ?>
+    
     <?php 
     $this->beginWidget('zii.widgets.jui.CJuiDialog', array( 
         'id'=>'dialog-verifikasi',

@@ -42,6 +42,12 @@
             'itemsCssClass'=>'table table-striped table-condensed',
             'columns'=>array(
                     array(
+                        'header'=>'Tgl Antrian',
+                        'value'=>function($data) {
+                            return MyFormatter::formatDateTimeForUser($data->tglantrian);
+                        }
+                    ),
+                    array(
                         'header'=>'Tgl Pendaftaran',
                         'value'=>function($data) {
                             return MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran);
@@ -57,12 +63,7 @@
                     ),   
                     array (
                         'header'=>'No Antrian',
-                        'value'=>function($data) {
-                            $p = PendaftaranT::model()->findByPk($data->pendaftaran_id);
-                            $antrian = AntrianT::model()->findByPk($p->antrian_id);
-                            
-                            if (!empty($antrian)) return $antrian->loket->loket_singkatan."-".$antrian->noantrian;
-                        }
+                        'name'=>'noantrian_loket',
                     ),
                     'no_rekam_medik',
                     'nama_pasien',
@@ -73,7 +74,39 @@
                         'value'=>'$data->caraBayarPenjamin',
                         'filter'=>false,
                     ),
-                    'statusperiksa',
+                    array(
+                        'header'=>'Panggil',
+                        'type'=>'raw',
+                        'value'=>function($data) {
+                            return ($data->panggil_flaq)?"-":CHtml::htmlButton(Yii::t("mds","{icon}",array("{icon}"=>"<i class='icon-volume-up icon-white'></i>")),array("class"=>"btn btn-primary","onclick"=>"panggilAntrian(".$data->antrian_id."); return false;","rel"=>"tooltip","title"=>"Klik untuk memanggil nomor antrian"));
+                        },
+                        'htmlOptions'=>array(
+                            'style'=>'text-align: center;',
+                        ),
+                    ),
+                    array(
+                        'header'=>'Daftar',
+                        'type'=>'raw',
+                        'value'=>function($data) {
+                            if (empty($data->pendaftaran_id)) {
+                                $antrian = AntrianT::model()->findByPk($data->antrian_id);
+                                if ($antrian->loket_id != 13) {
+                                    return CHtml::dropDownList('dd_pendaftaran',null,array(
+                                        1 => 'Rawat Jalan',
+                                        2 => 'Penunjang',
+                                    ), array ('empty'=>'-- Daftar --', 'onchange'=>'daftarPasien(this, "'.$data->antrian_id.'")'));
+                                } else {
+                                    return CHtml::dropDownList('dd_pendaftaran',null,array(
+                                        3 => 'Rawat Inap',
+                                    ), array ('empty'=>'-- Daftar --', 'onchange'=>'daftarPasien(this, "'.$data->antrian_id.'")'));
+                                }
+                            } return '-';
+                        },
+                        'htmlOptions'=>array(
+                            'style'=>'text-align: center;',
+                        ),
+                    ),
+                    // 'statusperiksa',
     //		'pasien_id',
     //		'jenisidentitas',
     //		'no_identitas_pasien',
@@ -151,3 +184,6 @@
     )); ?> 
     <!-- search-form -->
 </div>
+    <?php $this->renderPartial('pendaftaranPenjadwalan.views.informasiantrian._jsFunction',array(
+            'model'=>$model,'format'=>$format
+    )); ?> 

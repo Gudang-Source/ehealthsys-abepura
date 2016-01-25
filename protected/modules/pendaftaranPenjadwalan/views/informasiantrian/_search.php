@@ -18,7 +18,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
     <div class="row-fluid">
         <div class="span4">
             <div class="control-group ">
-                <?php echo $form->labelEx($model, 'tgl_pendaftaran', array('class' => 'control-label')) ?>
+                <?php echo $form->labelEx($model, 'tgl_antrian', array('class' => 'control-label')) ?>
                 <div class="controls">
                     <?php $model->tgl_awal = $format->formatDateTimeForUser($model->tgl_awal); ?>
                     <?php
