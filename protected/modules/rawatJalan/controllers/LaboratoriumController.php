@@ -24,8 +24,8 @@ class LaboratoriumController extends MyAuthController
             $modKirimKeUnitLain = new RJPasienKirimKeUnitLainT;
             $modKirimKeUnitLain->tgl_kirimpasien = date('Y-m-d H:i:s');
             $modKirimKeUnitLain->pegawai_id = $modPendaftaran->pegawai_id;
-			$modKirimKeUnitLain->kelaspelayanan_id = $modPendaftaran->kelaspelayanan_id; //RND-8117
-			$modKirimKeUnitLain->isbayarkekasirpenunjang = Yii::app()->user->getState('isbayarkekasirpenunjang');
+			$modKirimKeUnitLain->kelaspelayanan_id = Params::KELASPELAYANAN_ID_TANPA_KELAS; 
+			if ($modPendaftaran->carabayar_id == Params::CARABAYAR_ID_MEMBAYAR && $modPendaftaran->penjamin_id = Params::PENJAMIN_ID_UMUM) $modKirimKeUnitLain->isbayarkekasirpenunjang = Yii::app()->user->getState('isbayarkekasirpenunjang');
             $modJenisPeriksaLab = RJJenisPemeriksaanLabM::model()->findAllByAttributes(array('jenispemeriksaanlab_aktif'=>true),array('order'=>'jenispemeriksaanlab_urutan')); 
             $modPeriksaLab = RJPemeriksaanLabM::model()->findAllByAttributes(array('pemeriksaanlab_aktif'=>true),array('order'=>'pemeriksaanlab_id, pemeriksaanlab_urutan'));
             
