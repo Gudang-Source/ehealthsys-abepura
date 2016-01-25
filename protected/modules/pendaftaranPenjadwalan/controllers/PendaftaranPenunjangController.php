@@ -184,9 +184,12 @@ class PendaftaranPenunjangController extends PendaftaranRawatJalanController
                     
                     // ambil dokter pasien punjang
                     if(isset($_POST['PPPasienMasukPenunjangT'])){
+                        var_dump($_POST['PPPasienMasukPenunjangT']);
                         foreach ($_POST['PPPasienMasukPenunjangT'] as $item) {
                             if ($item['is_pilihpenunjang'] == 1) {
                                 $model->pegawai_id = $item['pegawai_id'];
+                                $model->ruangan_id = $item['ruangan_id'];
+                                $model->instalasi_id = $model->ruangan->instalasi_id;
                                 break;
                             }
                         }
@@ -265,6 +268,12 @@ class PendaftaranPenunjangController extends PendaftaranRawatJalanController
                         $smspasien = 1;
                         $smsdokter = 1;
                         $smspenanggungjawab = 1;
+                        
+                        $model->tgl_pendaftaran = MyFormatter::formatDateTimeForUser($model->tgl_pendaftaran);
+                        $model->no_urutantri = $model->ruangan->ruangan_singkatan."-".$model->no_urutantri;
+                        
+                        $modPegawai->nama_pegawai = $modPegawai->namaLengkap;
+                        
                         
                         foreach ($modSmsgateway as $i => $smsgateway) {
                             $isiPesan = $smsgateway->templatesms;
@@ -470,8 +479,8 @@ class PendaftaranPenunjangController extends PendaftaranRawatJalanController
             $model->penanggungjawab_id = $modPenanggungJawab->penanggungjawab_id;
             $model->rujukan_id = $modRujukan->rujukan_id;
             $model->kelompokumur_id = CustomFunction::getKelompokUmur($modPasien->tanggal_lahir);
-            $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
-            $model->instalasi_id = Yii::app()->user->getState('instalasi_id');
+            if (empty($model->ruangan_id)) $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+            if (empty($model->instalasi_id)) $model->instalasi_id = Yii::app()->user->getState('instalasi_id');
             // if ($model->pegawai_id = Yii::app()->user->getState('pegawai_id'));
             $model->jeniskasuspenyakit_id = Params::DEFAULT_JENISKASUSPENYAKIT_PENUNJANG;
             $model->kelaspelayanan_id = Params::DEFAULT_KELASPELAYANAN_PENUNJANG;
@@ -498,6 +507,8 @@ class PendaftaranPenunjangController extends PendaftaranRawatJalanController
             $model->tglrenkontrol = $format->formatDateTimeForDb($model->tglrenkontrol);
             $model->asuransipasien_id = $modAsuransiPasien->asuransipasien_id;
             $model->keterangan_pendaftaran = $post['keterangan_pendaftaran'];
+            
+            // var_dump($model->attributes); die;
             
             // var_dump($model->validate()); die;
 
