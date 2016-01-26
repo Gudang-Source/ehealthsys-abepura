@@ -299,7 +299,7 @@ class MyOdontogramAction extends CAction
             $this->drawBorderSilang($image, 0, 0, $xCenter, $yCenter, $this->canvasWidth, $this->canvasHeight, $black);
             
             $this->drawKotakTengah($image, $this->tebal, $this->lebar, $this->canvasWidth, $this->canvasHeight, $$warnaTengah, $black);
-            
+            $i = null;
             $this->drawBorder($image, $black, $this->canvasWidth, $this->canvasHeight,$i);
             
             $lengthCode = strlen($this->code);
