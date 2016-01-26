@@ -63,7 +63,7 @@ class PendaftaranRawatInapController extends PendaftaranRawatJalanController
             $modul_id = ModulK::model()->findByAttributes(array('url_modul'=>$nama_modul))->modul_id;
             $criteria = new CDbCriteria;
             $criteria->compare('modul_id',$modul_id);
-            $criteria->compare('LOWER(modcontroller)',strtolower($nama_controller),true);
+            $criteria->compare('LOWER(modcontroller)',strtolower($nama_controller)."controller",true);
             $criteria->compare('LOWER(modaction)',strtolower($nama_action),true);
             if(isset($_POST['tujuansms'])){
                 $criteria->addInCondition('tujuansms',$_POST['tujuansms']);

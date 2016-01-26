@@ -42,6 +42,8 @@ class PendaftaranRadiologiRujukanRSController extends PendaftaranRadiologiContro
 			$criteria->addInCondition('tujuansms',$_POST['tujuansms']);
 		}
 		$modSmsgateway = SmsgatewayM::model()->findAll($criteria);
+                
+                $modPemeriksaanRad->kelaspelayanan_id = Params::KELASPELAYANAN_ID_TANPA_KELAS;
 		
 		if(isset($_GET['pasienkirimkeunitlain_id'])){
 			$modKunjungan = ROPasienKirimKeUnitLainV::model()->findByAttributes(array('pasienkirimkeunitlain_id'=>$_GET['pasienkirimkeunitlain_id']));

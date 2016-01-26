@@ -130,7 +130,7 @@
     <div class="control-group">
         <?php echo CHtml::label('Tanggal Lahir / Umur', 'tanggal_lahir', array('class'=>'control-label')); ?>
         <div class="controls">
-            <?php echo CHtml::textField('tanggal_lahir',$modKunjungan->tanggal_lahir,array('readonly'=>true,'class'=>'span2', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+            <?php echo CHtml::textField('tanggal_lahir',  MyFormatter::formatDateTimeForUser($modKunjungan->tanggal_lahir),array('readonly'=>true,'class'=>'span2', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
             <?php echo CHtml::textField('umur',$modKunjungan->umur,array('readonly'=>true,'class'=>'span2', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
         </div>
     </div>
@@ -145,10 +145,10 @@
     <div class="control-group">
         <?php echo CHtml::label("Tgl. Pendaftaran <span class='required'>*</span>", 'tgl_pendaftaran', array('class'=>'control-label required')); ?>
         <div class="controls">
-            <?php echo CHtml::textField('tgl_pendaftaran',$modKunjungan->tgl_pendaftaran,array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+            <?php echo CHtml::textField('tgl_pendaftaran',  MyFormatter::formatDateTimeForUser($modKunjungan->tgl_pendaftaran),array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
         </div>
     </div>
-    <div class="control-group">
+    <div class="control-group" hidden>
         <?php echo CHtml::label("Kelas Pelayanan", 'kelaspelayanan_id', array('class'=>'control-label')); ?>
         <div class="controls">
             <?php echo CHtml::hiddenField('kelaspelayanan_id',$modKunjungan->kelaspelayanan_id,array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
