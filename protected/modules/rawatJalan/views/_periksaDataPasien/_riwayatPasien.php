@@ -118,7 +118,7 @@
                 </td>
                 <td><?php $this->renderPartial('/_periksaDataPasien/_diagnosa', array('pendaftaran_id'=>$modKunjungan->pendaftaran_id)); ?></td>
                 <td><?php $this->renderPartial('/_periksaDataPasien/_operasi', array('pendaftaran_id'=>$modKunjungan->pendaftaran_id, 'pasien_id'=>$modKunjungan->pasien_id)); ?></td>
-                <td><?php echo isset($modKunjungan->pegawai_id)?$modKunjungan->pegawai->nama_pegawai:' - '; ?></td>
+                <td><?php echo isset($modKunjungan->pegawai_id)?$modKunjungan->pegawai->namaLengkap:' - '; ?></td>
                 <td><?php $this->renderPartial('/_periksaDataPasien/_rujukKeluar', array('pendaftaran_id'=>$modKunjungan->pendaftaran_id, 'pasien_id'=>$modKunjungan->pasien_id)); ?></td>
             </tr>
             <?php } ?>
