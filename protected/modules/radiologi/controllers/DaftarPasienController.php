@@ -105,7 +105,6 @@ class DaftarPasienController extends MyAuthController
                     )
                 );
             }
-            
             $this->render('hasilPemeriksaan',
                 array(
                     'modHasilpemeriksaanRad'=>$modHasilpemeriksaanRad,
