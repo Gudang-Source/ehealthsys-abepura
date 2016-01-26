@@ -57,7 +57,11 @@
                             $model = ModulK::model()->findByPk($data->modul_id);
                             
                             return $model->modul_nama;
-                        }
+                        },
+                        'filter'=>  CHtml::activeDropDownList($model, 'modul_id', CHtml::listData(ModulK::model()->findAll(array(
+                            'condition'=>'modul_aktif = true',
+                            'order'=>'modul_nama'
+                        )), 'modul_id', 'modul_nama'), array('empty'=>'-- Pilih --')),
                     ),
                     'modcontroller',
                     'tujuansms',
