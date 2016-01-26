@@ -311,7 +311,7 @@ BLOCK;
                         $this->widget('application.extensions.emultiselect.EMultiSelect', array('sortable' => true, 'searchable' => true)
                         );
                         echo CHtml::dropDownList(
-                                'ruangan_id[]', '', CHtml::listData(SARuanganM::model()->findAll(array('order' => 'ruangan_nama')), 'ruangan_id', 'ruangan_nama'), array('multiple' => 'multiple', 'key' => 'ruangan_id', 'class' => 'multiselect', 'style' => 'width:500px;height:150px', 'onkeyup' => "return $(this).focusNextInputField(event);")
+                                'ruangan_id[]', '', CHtml::listData(SARuanganM::model()->findAll(array('order' => 'ruangan_nama', 'condition'=>'ruangan_aktif = true')), 'ruangan_id', 'ruangan_nama'), array('multiple' => 'multiple', 'key' => 'ruangan_id', 'class' => 'multiselect', 'style' => 'width:500px;height:150px', 'onkeyup' => "return $(this).focusNextInputField(event);")
                         );
                         ?>
                     </div>
