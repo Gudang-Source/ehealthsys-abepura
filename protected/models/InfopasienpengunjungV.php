@@ -216,7 +216,7 @@ class InfopasienpengunjungV extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-                $criteria->addCondition('tgl_pendaftaran BETWEEN \''.$this->tgl_awal.'\' and \''.$this->tgl_akhir.'\'');
+                if (!empty($this->tgl_awal) && trim($this->tgl_awal) != "" && !empty($this->tgl_akhir) && trim($this->tgl_akhir) != "") $criteria->addCondition('tgl_pendaftaran BETWEEN \''.$this->tgl_awal.'\' and \''.$this->tgl_akhir.'\'');
 		$criteria->compare('pasien_id',$this->pasien_id);
 		$criteria->compare('LOWER(jenisidentitas)',strtolower($this->jenisidentitas),true);
 		$criteria->compare('LOWER(no_identitas_pasien)',strtolower($this->no_identitas_pasien),true);

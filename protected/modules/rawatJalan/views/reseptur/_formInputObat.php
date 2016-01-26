@@ -343,6 +343,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'header'=>'Tanggal Kadaluarsa',
             'name'=>'tglkadaluarsa',
             'filter'=>'',
+            'value'=>'MyFormatter::formatDateTimeForUser($data->tglkadaluarsa)'
         ),        
         array(
             'name'=>'satuankecil.satuankecil_nama',
@@ -369,11 +370,17 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 		array(
 				'name'=>'hargajual',
 				'value'=>'number_format($data->hargajual)',
+                                'htmlOptions'=>array(
+                                    'style'=>'text-align: right',
+                                ),
 			),
         array(
             'header'=>'Stok',
             'type'=>'raw',
             'value'=>'StokobatalkesT::getJumlahStok($data->obatalkes_id,"'.$modObatDialog->ruangan_id.'")',
+            'htmlOptions'=>array(
+                                    'style'=>'text-align: right',
+                                ),
         ),
 
         

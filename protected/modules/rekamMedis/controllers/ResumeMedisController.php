@@ -174,10 +174,14 @@ class ResumeMedisController extends MyAuthController
      * @param type $pendaftaran_id
      * @return RKInfopasienpengunjungV
      */
-    public function loadModPasienPengunjung($pendaftaran_id){
+    public function loadModPasienPengunjung($pendaftaran_id) {
             $criteria=new CDbCriteria;
             $criteria->addCondition("pendaftaran_id = ".$pendaftaran_id);
             $model = RKInfopasienpengunjungV::model()->find($criteria);
+            if (!empty($model)) {
+                $pegawai = PegawaiM::model()->findByPk($model->dokterpenanggungjawab_id);
+                $model->dokterpenanggungjawab_nama = $pegawai->namaLengkap;
+            }
             return $model;
     }
 	
