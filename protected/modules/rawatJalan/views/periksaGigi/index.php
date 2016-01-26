@@ -291,20 +291,24 @@
                     array(
                         'header'=>'Pilih',
                         'type'=>'raw',
-                        'value'=>'CHtml::link("<i class=\'icon-form-check\'></i> ", "javascript:void(0)",array("onclick"=>"ambilOdontogram($data->pasien_id,$data->pendaftaran_id);
-                                    \$(\"#tglpendaftaran\").text(\"$data->tgl_pendaftaran\");
-                                    \$(\"#nopendaftaran\").text(\"$data->no_pendaftaran\");
-                                    \$(\"#tgllahirumur\").text(\"$data->tanggal_lahir / $data->umur\");
-                                    \$(\"#jeniskasuspenyakit\").text(\"$data->jeniskasuspenyakit_nama\");
-                                    \$(\"#goldarah\").text(\"$data->golongandarah\");
-                                    \$(\"#namapegawai\").text(\"$data->nama_pegawai\");
-                                    \$(\"#namapasien\").text(\"$data->nama_pasien\");
-                                    \$(\"#binbinti\").text(\"$data->nama_bin\");
-                                    \$(\"#jeniskelamin\").text(\"$data->jeniskelamin\");
-                                   \$(\"#OdontogramdetailT_pegawai_id\").val(\"$data->pegawai_id\");
-                                    \$(\"#alamat\").text(\"$data->alamat_pasien\");",
+                        'value'=>function($data) {
+                            $pegawai = PegawaiM::model()->findByPk($data->pegawai_id);
+                            
+                            return CHtml::link("<i class='icon-form-check'></i> ", "javascript:void(0)",array("onclick"=>"ambilOdontogram(".$data->pasien_id.",".$data->pendaftaran_id.");
+                                    $('#tglpendaftaran').text('".$data->tgl_pendaftaran."');
+                                    $('#nopendaftaran').text('".$data->no_pendaftaran."');
+                                    $('#tgllahirumur').text('".$data->tanggal_lahir." / ".$data->umur."');
+                                    $('#jeniskasuspenyakit').text('".$data->jeniskasuspenyakit_nama."');
+                                    $('#goldarah').text('".$data->golongandarah."');
+                                    $('#namapegawai').text('".$pegawai->namaLengkap."');
+                                    $('#namapasien').text('".$data->nama_pasien."');
+                                    $('#binbinti').text('".$data->nama_bin."');
+                                    $('#jeniskelamin').text('".$data->jeniskelamin."');
+                                    $('#OdontogramdetailT_pegawai_id').val('".$data->pegawai_id."');
+                                    $('#alamat').text('".$data->alamat_pasien."');",
 
-                        "rel"=>"tooltip","title"=>"Klik untuk Pemeriksaan Pasien"))',
+                                    "rel"=>"tooltip","title"=>"Klik untuk Pemeriksaan Pasien"));
+                            },
                       'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
                     ),
 
