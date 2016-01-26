@@ -1,3 +1,16 @@
+<script>
+    var ekt = document.body;
+    if (ekt.requestFullscreen) {
+      ekt.requestFullscreen();
+    } else if (ekt.msRequestFullscreen) {
+      ekt.msRequestFullscreen();
+    } else if (ekt.mozRequestFullScreen) {
+      ekt.mozRequestFullScreen();
+    } else if (ekt.webkitRequestFullscreen) {
+      ekt.webkitRequestFullscreen();
+    }
+</script>
+
 <style>
     body{
         background-image:url("<?php echo Params::urlBackgroundAntrian().$modLayar->layarantrian_latarbelakang; ?>");
@@ -22,11 +35,11 @@
     }
     .content {
         /*margin: 0;*/
-        margin: 90px 20px 20px 20px;
+        margin: 125px 20px 20px 20px;
     }
     .judul{
         text-align: center;
-        font-size: 15px;
+        font-size: 20px;
         font-weight: bold;
         padding-bottom: 0px;
     }
@@ -37,7 +50,7 @@
         /*font-size: 85%;*/
         overflow: hidden;
         text-align: center;
-        background-color: rgba(39, 62, 29, 0.8);
+        background-color: #020;
     }
     .ruangan{
         -moz-border-radius: 5px 5px 0 0;
@@ -48,7 +61,7 @@
     }
     .dokter{
         /*font-size: 70%;*/
-        color: #00FF00;
+        color: #3F3;
         border: 1px solid #fff;
         border-bottom: none;
         border-top:none;
@@ -56,14 +69,14 @@
     .no-antrian, .pasien-deskripsi{
         color:#fff;
         text-align: center;
-        font-size: 25px;
+        font-size: 45px;
         font-weight: bold;
         background-color:rgba(255,255,255,0.5);
         text-shadow:
-            -1px -1px 0 #000,  
-             1px -1px 0 #000,
-             -1px 1px 0 #000,
-              1px 1px 0 #000;
+            -1.5px -1.5px 0 #000,  
+             1.5px -1.5px 0 #000,
+             -1.5px 1.5px 0 #000,
+              1.5px 1.5px 0 #000;
     }
     .no-antrian{
         border: 1px solid #fff;
@@ -72,12 +85,19 @@
     }
     .pasien-deskripsi{
         /*font-size: 70%;*/
-        width: <?php echo $modLayar ->layarantrian_itemwidth; ?>;
+        width: <?php echo $modLayar->layarantrian_itemwidth; ?>;
         -moz-border-radius: 0 0 5px 5px;
         -webkit-border-radius: 0 0 5px 5px;
         border-radius: 0 0 5px 5px;
         border: 1px solid #fff;
         border-top:none;
+        background-color: #020;
+        
+        text-shadow:
+            -1px -1px 0 #000,  
+             1px -1px 0 #000,
+             -1px 1px 0 #000,
+              1px 1px 0 #000;
         /*height: 20px;*/
     }
     .statistik{
@@ -92,6 +112,12 @@
     .pasien-deskripsi span {
         font-size: 10px !important;
     }
+    
+    .w1 {
+        width: 25%;
+        float: left;
+        padding-left: 5px;
+    }
 </style>
 <div class="row-fluid judul"><?php echo $modLayar->layarantrian_judul; ?></div>
     <?php 
@@ -100,8 +126,8 @@
             if(($i==0)||($i) % 4 == 0){
                 echo '<div class="row-fluid">';
             }    ?>
-            <div class="span3" style="margin-right: 10px">
-                <div id="ruangan_<?php echo $ruangan->ruangan_id; ?>" class="antrian" style="width:200px;height:80px;">
+            <div class="w1">
+                <div id="ruangan_<?php echo $ruangan->ruangan_id; ?>" class="antrian" style="width:230px;height:80px;">
                     <div class="ruangan" id="ruangan_<?php echo $i; ?>">
                         <span><?php echo strtoupper($ruangan->ruangan->ruangan_nama); ?></span>
                     </div>
