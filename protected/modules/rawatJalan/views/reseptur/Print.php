@@ -25,11 +25,11 @@ echo $this->renderPartial('application.views.headerReport.headerDefault',array('
     <tr>
         <td <?php // $td = array(); echo $td; ?>>
             <label class='control-label'><?php echo CHtml::encode($modPendaftaran->pasien->getAttributeLabel('nama_pasien')); ?>:</label>
-            <?php echo CHtml::encode($modPendaftaran->pasien->nama_pasien); ?>
+            <?php echo CHtml::encode($modPendaftaran->pasien->namadepan.$modPendaftaran->pasien->nama_pasien); ?>
         </td>
         <td>
             <label class='control-label'><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('tgl_pendaftaran')); ?>:</label>
-            <?php echo CHtml::encode($modPendaftaran->tgl_pendaftaran); ?>
+            <?php echo CHtml::encode(MyFormatter::formatDateTimeForUser($modPendaftaran->tgl_pendaftaran)); ?>
         </td>
     </tr><br/>
     <tr>
@@ -60,7 +60,7 @@ echo $this->renderPartial('application.views.headerReport.headerDefault',array('
         </td>
         <td>
             <label class='control-label'><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('Nama Dokter')); ?>:</label>
-            <?php echo CHtml::encode($modPendaftaran->pegawai->nama_pegawai); ?>
+            <?php echo CHtml::encode($modPendaftaran->pegawai->namaLengkap); ?>
         </td>
     </tr>
        
@@ -86,9 +86,9 @@ echo $this->renderPartial('application.views.headerReport.headerDefault',array('
     <tr>
         <td><?php echo $detail->obatalkes->obatalkes_nama ?></td>
         <td><?php echo $detail->satuankecil->satuankecil_nama ?></td>
-        <td><?php echo $detail->hargajual_reseptur ?></td>
-        <td><?php echo $detail->qty_reseptur ?></td>
-        <td><?php echo number_format($detail->qty_reseptur * $detail->hargajual_reseptur) ?></td>
+        <td style="text-align: right"><?php echo number_format($detail->hargajual_reseptur) ?></td>
+        <td style="text-align: right"><?php echo $detail->qty_reseptur ?></td>
+        <td style="text-align: right"><?php echo number_format($detail->qty_reseptur * $detail->hargajual_reseptur) ?></td>
     </tr>
     <?php } ?>
 </table>
@@ -99,7 +99,7 @@ echo $this->renderPartial('application.views.headerReport.headerDefault',array('
 <div align="CENTER">
      Dokter Pemeriksa
     <br/><br/><br/><br/>
-   ( <?php echo CHtml::encode($modPendaftaran->pegawai->nama_pegawai); ?> )
+   ( <?php echo CHtml::encode($modPendaftaran->pegawai->namaLengkap); ?> )
 </div>
         </td>
         

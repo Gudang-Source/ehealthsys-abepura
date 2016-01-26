@@ -277,6 +277,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 ));
     $modDialogKunjungan = new RKInfopasienpengunjungV('searchDialogKunjungan');
     $modDialogKunjungan->unsetAttributes();
+    $modDialogKunjungan->ruangan_id = Yii::app()->user->getState('ruangan_id');
     if(isset($_GET['RKInfopasienpengunjungV'])) {
         $modDialogKunjungan->attributes = $_GET['RKInfopasienpengunjungV'];
         $modDialogKunjungan->no_pendaftaran = (isset($_GET['RKInfopasienpengunjungV']['no_pendaftaran']) ? $_GET['RKInfopasienpengunjungV']['no_pendaftaran'] : "");
@@ -315,14 +316,19 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                         'type'=>'raw',
                         'value'=>'$data->no_rekam_medik',
                     ),
-                    'nama_pasien',
+                    array(
+                        'name'=>'nama_pasien',
+                        'value'=>'$data->namadepan.$data->nama_pasien',
+                    ),
 //                    'jeniskelamin',
                     array(
                         'name'=>'jeniskelamin',
+                        'header'=>'Jenis Kelamin',
                         'type'=>'raw',
                         'filter'=>LookupM::model()->getItems('jeniskelamin'),
-                    ),
+                    ), /*
                     array(
+                        'header'=>'Instalasi',
                         'name'=>'instalasi_id',
                         'value'=>'$data->instalasi_nama',
                         'type'=>'raw',
@@ -330,10 +336,12 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                         'filter'=>CHtml::activeHiddenField($modDialogKunjungan,'instalasi_id'),
                     ),
                     array(
+                        'header'=>'Ruangan',
                         'name'=>'ruangan_nama',
                         'type'=>'raw',
-                    ),
+                    ), */
                     array(
+                        'header'=>'Cara Bayar',
                         'name'=>'carabayar_nama',
                         'type'=>'raw',
                         'value'=>'$data->carabayar_nama',
