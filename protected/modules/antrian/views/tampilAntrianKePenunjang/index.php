@@ -32,11 +32,11 @@
     .ruangan,.dokter{
         color: #FFFF00;
         width: <?php echo $modLayar->layarantrian_itemwidth; ?>;
-        height: 29px;
+        height: 50px;
         /*font-size: 85%;*/
         overflow: hidden;
         text-align: center;
-        background-color: rgba(39, 62, 29, 0.8);
+        background-color: #020;
     }
     .ruangan{
         -moz-border-radius: 5px 5px 0 0;
@@ -55,14 +55,18 @@
     .no-antrian, .pasien-deskripsi{
         color:#fff;
         text-align: center;
-        font-size: 55px;
+        font-size: 120px;
         font-weight: bold;
         background-color:rgba(255,255,255,0.5);
         text-shadow:
-            -2px -2px 0 #000,  
-             1px -2px 0 #000,
+             -2px -2px 0 #000,
+             2px -2px 0 #000,
              -2px 2px 0 #000,
-              2px 2px 0 #000;
+             2px 2px 0 #000,
+             0px -2px 0 #000,
+             0px 2px 0 #000,
+             -2px 0px 0 #000,
+             2px 0px 0 #000;
     }
     .no-antrian{
         border: 1px solid #fff;
@@ -77,31 +81,36 @@
         border-radius: 0 0 5px 5px;
         border: 1px solid #fff;
         border-top:none;
+        background-color: #020;
         /*height: 20px;*/
     }
     .statistik{
         color:#fff;
         text-shadow:
-            -1px -1px 0 #000,  
-             1px -1px 0 #000,
-             -1px 1px 0 #000,
-              1px 1px 0 #000;
+            -2px -2px 0 #000,
+             2px -2px 0 #000,
+             -2px 2px 0 #000,
+             2px 2px 0 #000,
+             0px -2px 0 #000,
+             0px 2px 0 #000,
+             -2px 0px 0 #000,
+             2px 0px 0 #000;
         background-color:rgba(0,0,0,0.8);
     }
     
     .content {
-        margin-top: 100px;
+        margin-top: 140px;
     }
 </style>
-<div class="row-fluid judul"><?php echo $modLayar->layarantrian_judul; ?></div>
+<!--div class="row-fluid judul"><?php echo $modLayar->layarantrian_judul; ?></div-->
     <?php 
     if(count($modRuangans) > 0){
         foreach($modRuangans AS $i=>$ruangan){
             if(($i==0)||($i) % 3 == 0){
                 echo '<div class="row-fluid">';
             }    ?>
-            <div class="span4">
-                <div id="ruangan_<?php echo $ruangan->ruangan_id; ?>" class="antrian" style="width:290px;height:150px;">
+            <div>
+                <div id="ruangan_<?php echo $ruangan->ruangan_id; ?>" class="antrian" style="width:100%;height:150px;">
                     <div class="ruangan" id="ruangan_<?php echo $i; ?>">
                         <span><?php echo strtoupper($ruangan->ruangan->ruangan_nama); ?></span>
                     </div>

@@ -156,7 +156,7 @@ class TariftindakanperdaV extends CActiveRecord
 		$criteria->compare('daftartindakan_id',$this->daftartindakan_id);
 		$criteria->compare('kelaspelayanan_id',$this->kelaspelayanan_id);
         $criteria->order = 'daftartindakan_id ASC';
-		$criteria->limit=10;
+		// $criteria->limit=10;
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 			'pagination'=>false
