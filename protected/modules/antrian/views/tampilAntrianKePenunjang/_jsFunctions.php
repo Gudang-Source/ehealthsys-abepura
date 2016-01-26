@@ -74,9 +74,9 @@ function setAntrians(pasienmasukpenunjang_id){
 
                         }
                     }
-                    fitTextInBox('ruangan_'+<?php echo $i; ?>,29);
-                    fitTextInBox('dokter_'+<?php echo $i; ?>,29);
-                    fitTextInBox('pasien-deskripsi_'+<?php echo $i; ?>,20);
+                    fitTextInBox('ruangan_'+<?php echo $i; ?>,50);
+                    fitTextInBox('dokter_'+<?php echo $i; ?>,50);
+                    fitTextInBox('pasien-deskripsi_'+<?php echo $i; ?>,50);
             <?php
                 }
             }

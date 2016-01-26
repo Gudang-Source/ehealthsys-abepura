@@ -26,7 +26,7 @@
                                     'name'=>'no_urutperiksa',
                                     'type'=>'raw',
                                     'header'=>'No. Antrian <br>/ Panggil Antrian',
-                                    'value'=>'$data->ruangan_singkatan."-".$data->no_urutperiksa."<br>".((($data->panggilantrian == TRUE) || "'.date('Y-m-d',strtotime($modPasienMasukPenunjang->tglmasukpenunjang)).'" != "'.date('Y-m-d').'") ? "Sudah Dipanggil" : CHtml::htmlButton(Yii::t("mds","{icon}",array("{icon}"=>"<i class=\'icon-volume-up icon-white\'></i>")),array("class"=>"btn btn-primary","onclick"=>"panggilAntrian(\"$data->pasienmasukpenunjang_id\"); setSuaraPanggilanSingle(\"$data->ruangan_singkatan\",\"$data->no_urutperiksa\",\"$data->ruangan_id\")","rel"=>"tooltip","title"=>"Klik untuk memanggil pasien ini")))'
+                                    'value'=>'$data->ruangan_singkatan."-".$data->no_urutperiksa."<br>".CHtml::htmlButton(Yii::t("mds","{icon}",array("{icon}"=>"<i class=\'icon-volume-up icon-white\'></i>")),array("class"=>"btn btn-primary","onclick"=>"panggilAntrian(\"$data->pasienmasukpenunjang_id\"); setSuaraPanggilanSingle(\"$data->ruangan_singkatan\",\"$data->no_urutperiksa\",\"$data->ruangan_id\")","rel"=>"tooltip","title"=>"Klik untuk memanggil pasien ini"))'
                             ),
     //            'tgl_pendaftaran', menggunakan tgl masuk penunjang agar urutan pendaftaran sesuai jika dari RI,RJ,RD
                             array(
