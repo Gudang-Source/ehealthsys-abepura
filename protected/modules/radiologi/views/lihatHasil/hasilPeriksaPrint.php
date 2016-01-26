@@ -10,7 +10,7 @@
         font-size: 11pt;
         font-family: Arial;
     }
-    td .isi_hasil p{
+    td .isi_hasil p {
         font-size: 11pt; 
         font-family: Arial;
     }

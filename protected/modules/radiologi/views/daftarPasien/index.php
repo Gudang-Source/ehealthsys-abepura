@@ -141,6 +141,7 @@
         <table width="100%" class="table-condensed">
 			<tr> <br>
                         <td>
+                            <div class="control-group">
                           <?php echo CHtml::label('Tanggal Pendaftaran','tglPendaftaran', array('class'=>'control-label')) ?>
                                   <div class="controls">  
 									 
@@ -159,7 +160,9 @@
                                                                                  'onkeypress'=>"return $(this).focusNextInputField(event)"),
                                                                         )); ?>
 
-                                   </div> 
+                                   </div>
+                            </div>
+                            <div class="control-group">
                                          <?php echo CHtml::label(' Sampai Dengan',' s/d', array('class'=>'control-label')) ?>
                                    <div class="controls">  
                                         <?php $this->widget('MyDateTimePicker',array(
@@ -174,6 +177,7 @@
                                                                                  'onkeypress'=>"return $(this).focusNextInputField(event)"),
 											)); ?>
                                    </div> 
+                            </div>
                                  <?php echo $form->textFieldRow($modPasienMasukPenunjang,'no_rekam_medik',array('autofocus'=>true, 'class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik no. rekam medik')); ?>
 
                         </td>
