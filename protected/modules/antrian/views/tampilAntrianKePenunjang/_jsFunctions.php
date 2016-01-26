@@ -64,15 +64,15 @@ function setAntrians(pasienmasukpenunjang_id){
                     if(data.r_<?php echo $ruangan->ruangan_id;?>.pasien_id !== null){
 
                         var pasienmasukpenunjang_id = $("#ruangan_<?php echo $ruangan->ruangan_id;?>  #<?php echo CHtml::activeId($model, 'pasienmasukpenunjang_id'); ?>").val();
-                        if(data.r_<?php echo $ruangan->ruangan_id;?>.pasienmasukpenunjang_id != pasienmasukpenunjang_id){
-                            console.log('tes');
+                        //if(data.r_<?php echo $ruangan->ruangan_id;?>.pasienmasukpenunjang_id != pasienmasukpenunjang_id){
+                        //    console.log('tes');
                             setFormAntrian($("#ruangan_<?php echo $ruangan->ruangan_id;?>"),data.r_<?php echo $ruangan->ruangan_id;?>);
                             var kodeantrian = data.r_<?php echo $ruangan->ruangan_id;?>.ruangan_singkatan;
                             var noantrian = data.r_<?php echo $ruangan->ruangan_id;?>.no_urutperiksa;
                             var ruangan_id = data.r_<?php echo $ruangan->ruangan_id;?>.ruangan_id;
                             setSuaraPanggilanSingle(kodeantrian,noantrian,ruangan_id);
 
-                        }
+                        //}
                     }
                     fitTextInBox('ruangan_'+<?php echo $i; ?>,50);
                     fitTextInBox('dokter_'+<?php echo $i; ?>,50);
