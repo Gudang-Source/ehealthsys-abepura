@@ -63,7 +63,7 @@
     <tr>
         <td>Nama Pasien</td>
         <td>: <?php echo $masukpenunjang->namadepan." ".$masukpenunjang->nama_pasien; ?></td>
-        <td width="10%">Dokter</td>
+        <td width="10%">Nama Perujuk</td>
         <td>: <?php 
         if (isset($masukpenunjang->nama_perujuk)){
             echo $masukpenunjang->nama_perujuk;
@@ -146,8 +146,11 @@
     }
     ?>
 <?php
+/*
 $urlPrint=  Yii::app()->createAbsoluteUrl($this->module->id.'/'.$this->id.'/HasilPeriksaPrint', array("pendaftaran_id"=>$masukpenunjang->pendaftaran_id,"pasien_id"=>$masukpenunjang->pasien_id,"pasienmasukpenunjang_id"=>$masukpenunjang->pasienmasukpenunjang_id));
 $js = <<< JSCRIPT
+        
+        
 function print(caraPrint)
 {
     if(caraPrint == 'PRINT'){
@@ -165,4 +168,7 @@ function print(caraPrint)
 }
 JSCRIPT;
 Yii::app()->clientScript->registerScript('print',$js,  CClientScript::POS_HEAD);
+ * 
+ */
 ?>
+

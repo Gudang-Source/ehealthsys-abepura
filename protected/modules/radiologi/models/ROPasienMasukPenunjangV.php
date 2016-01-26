@@ -87,7 +87,8 @@ class ROPasienMasukPenunjangV extends PasienmasukpenunjangV
             $dokter = PegawaiM::model()->findByAttributes(
                 array('pegawai_id'=>$pegawai_id)
             );
-            return $dokter->nama_pegawai;
+            if (empty($dokter)) return "-";
+            return $dokter->namaLengkap;
         }
         
         /**

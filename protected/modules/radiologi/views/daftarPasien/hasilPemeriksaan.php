@@ -180,7 +180,7 @@
 <script>
 function ambilReferensi(idPemeriksaanRad,row)
 {
-    //myAlert(<?php echo Yii::app()->user->pegawai_id; ?>);
+    //myAlert(<?php //echo Yii::app()->user->pegawai_id; ?>);
     $.post("<?php echo $this->createUrl('GetReferensiHasilRad');?>",{idPemeriksaanRad: idPemeriksaanRad},
         function(data){
            //menambahkan nilai ke elemen yang di hide oleh widget redactor.js
