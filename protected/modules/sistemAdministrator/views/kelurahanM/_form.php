@@ -91,7 +91,9 @@ function renameInput(modelName,attributeName)
     var trLength = $('#tbl-kelurahan tr').length;
     var i = 1;
     $('#tbl-kelurahan tr').each(function(){
-        $(this).find('input[name$="['+attributeName+']"]').attr('name',modelName+'['+i+']['+attributeName+']');
+        $(this).find('input[name*="['+attributeName+']"]').eq(0)
+            .attr('name',modelName+'['+i+']['+attributeName+']')
+            .attr('id',modelName+'_'+i+'_'+attributeName);
         i++;
     });
 }
@@ -115,6 +117,7 @@ Yii::app()->clientScript->registerScript('multiple input',$js, CClientScript::PO
 <script type="text/javascript">
     function namaLain(nama)
     {
-        document.getElementById('SAKelurahanM_1_kelurahan_namalainnya').value = nama.value.toUpperCase();
+        $(nama).parent().parent().find('input[name*="kelurahan_namalainnya"]').val($(nama).val().toUpperCase());
+        //document.getElementById('SAKelurahanM_1_kelurahan_namalainnya').value = nama.value.toUpperCase();
     }
 </script>
