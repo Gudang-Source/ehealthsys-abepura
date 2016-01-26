@@ -25,7 +25,7 @@ echo $this->renderPartial('application.views.headerReport.headerDefault',array('
     <tr>
         <td <?php // $td = array(); echo $td; ?>>
             <label class='control-label'><?php echo CHtml::encode($modPendaftaran->pasien->getAttributeLabel('nama_pasien')); ?>:</label>
-            <?php echo CHtml::encode($modPendaftaran->pasien->nama_pasien); ?>
+            <?php echo CHtml::encode($modPendaftaran->pasien->namadepan.$modPendaftaran->pasien->nama_pasien); ?>
         </td>
         <td>
             <label class='control-label'><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('tgl_pendaftaran')); ?>:</label>
