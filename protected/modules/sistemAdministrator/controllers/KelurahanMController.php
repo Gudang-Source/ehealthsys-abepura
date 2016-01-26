@@ -37,28 +37,32 @@ class KelurahanMController extends MyAuthController
 
 		if(isset($_POST['SAKelurahanM']))
 		{
-                                      $valid=true;
-                                        foreach($_POST['SAKelurahanM'] as $i=>$item)
-                                        {
-                                            if(is_integer($i)) 
-                                            {
-                                                $model=new SAKelurahanM;
-                                                if(isset($_POST['SAKelurahanM'][$i]))
-                                                    $model->attributes=$_POST['SAKelurahanM'][$i];
-                                                    $model->kecamatan_id = $_POST['SAKelurahanM']['kecamatan_id'];
-                                                    $model->kelurahan_aktif = true;
-                                                    $valid=$model->validate() && $valid;
-                                                    echo $i;
-                                                if($valid) 
-                                                {
-                                                    $model->save();
-                                                        Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-                                                } else {
-                                                        Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data tidak valid.');
-                                                }
-                                            }
-                                        }
-                                    $this->redirect(array('admin'));
+                        $trans = Yii::app()->db->beginTransaction();
+                        $valid=true;
+                        
+                        foreach($_POST['SAKelurahanM'] as $i=>$item)
+                        {
+                            if(is_integer($i)) 
+                            {
+                                $model=new SAKelurahanM;
+                                if(isset($_POST['SAKelurahanM'][$i]))
+                                    $model->attributes=$_POST['SAKelurahanM'][$i];
+                                    $model->kecamatan_id = $_POST['SAKelurahanM']['kecamatan_id'];
+                                    $model->kelurahan_aktif = true;
+                                    $valid=$model->validate() && $valid;
+                                    var_dump($valid);
+                                    if($valid) $valid &= $model->save();
+                            }
+                        }
+
+                        if ($valid) {
+                            $trans->commit();
+                            Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                        } else {
+                            $trans->rollback();
+                            Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data tidak valid.');
+                        }
+                        $this->redirect(array('admin'));
 		}
 
 		$this->render($this->path_view.'create',array(
