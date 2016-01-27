@@ -53,7 +53,7 @@ $('.search-form form').submit(function(){
 		array(
 			'name'=>'jenispemeriksaanlab_id',
 			'value'=>'$data->jenispemeriksaan->jenispemeriksaanlab_nama',
-			'filter'=>CHtml::listData(JenispemeriksaanlabM::model()->findAll(array('order'=>'jenispemeriksaanlab_urutan'),'jenispemeriksaanlab_aktif = true'), 'jenispemeriksaanlab_id', 'jenispemeriksaanlab_nama'),
+			'filter'=>CHtml::listData(JenispemeriksaanlabM::model()->findAll(array('order'=>'jenispemeriksaanlab_urutan', 'condition'=>'jenispemeriksaanlab_aktif = true'),'jenispemeriksaanlab_aktif = true'), 'jenispemeriksaanlab_id', 'jenispemeriksaanlab_nama'),
 		),
 		array(
 			'name'=>'daftartindakan_id',
