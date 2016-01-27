@@ -83,7 +83,7 @@
                         'buttons'=>array(
                                         'update' => array(
                                             'options'=>array('rel'=>'tooltip','title'=>'Ubah Pekerjaan'),
-                                            'visible'=>'Yii::app()->user->checkAccess("Update")',
+                                            // 'visible'=>'Yii::app()->user->checkAccess("Update")',
                                             ),
                                         ),
                     ),

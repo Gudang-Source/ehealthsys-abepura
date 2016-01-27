@@ -11,7 +11,7 @@
 
 	<?php echo $form->errorSummary($model); ?>
 
-            <?php echo $form->textFieldRow($model,'pekerjaan_nama',array('class'=>'span3', 'onkeyup'=>"namaLain(this)", 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+            <?php echo $form->textFieldRow($model,'pekerjaan_nama',array('class'=>'span3', 'onkeyup'=>"validasiAN(this.value); namaLain(this)", 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
             <?php echo $form->textFieldRow($model,'pekerjaan_namalainnya',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
             <?php //echo $form->checkBoxRow($model,'pekerjaan_aktif', array('onkeypress'=>"return nextFocus(this,event,'btn_simpan','SAPekerjaanM_pekerjaan_namalainnya')")); ?>
 	<div class="form-actions">
@@ -35,5 +35,9 @@
     function namaLain(nama)
     {
         document.getElementById('SAPekerjaanM_pekerjaan_namalainnya').value = nama.value.toUpperCase();
+    }
+    
+    function validasiAN(nama) {
+        $('#SAPekerjaanM_pekerjaan_nama').val(nama.replace(/[^a-z0-9\s]+/gi, ""));
     }
 </script>
