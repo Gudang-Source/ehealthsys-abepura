@@ -10,6 +10,8 @@ class RencanaKeperawatanMController extends MyAuthController
 	public $defaultAction = 'admin';
 	public $path_view = 'sistemAdministrator.views.rencanaKeperawatanM.';
 	public $path_views = 'sistemAdministrator.views.';
+        public $hasTab = false;
+        
 	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
@@ -21,6 +23,11 @@ class RencanaKeperawatanMController extends MyAuthController
 		));
 	}
 
+        public function init() {
+            parent::init();
+            if ($this->hasTab) $this->layout = '//layouts/iframe';
+        }
+        
 	/**
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.

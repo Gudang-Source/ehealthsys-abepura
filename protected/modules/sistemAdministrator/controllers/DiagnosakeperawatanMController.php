@@ -10,6 +10,7 @@ class DiagnosakeperawatanMController extends MyAuthController
 	public $defaultAction = 'admin';
 	public $path_view = 'sistemAdministrator.views.diagnosakeperawatanM.';
 	public $path_views = 'sistemAdministrator.views.';	
+        public $hasTab = false;
 	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
@@ -20,6 +21,11 @@ class DiagnosakeperawatanMController extends MyAuthController
 			'model'=>$this->loadModel($id),
 		));
 	}
+        
+        public function init() {
+            parent::init();
+            if ($this->hasTab) $this->layout = '//layouts/iframe';
+        }
 
 	/**
 	 * Creates a new model.
