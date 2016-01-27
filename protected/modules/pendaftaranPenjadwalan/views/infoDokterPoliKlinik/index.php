@@ -66,7 +66,7 @@
                     </div>
                 </div>
                     <?php //echo $form->dropDownListRow($model,'jadwaldokter_hari', $listHari ,array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);",'empty'=>'- Pilih -')); ?>
-                    <?php echo $form->dropDownListRow($model,'pegawai_id', CHtml::listData(PPPendaftaranT::model()->getDokterItemsInstalasi(Params::INSTALASI_ID_RJ), 'pegawai_id', 'nama_pegawai') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+                    <?php echo $form->dropDownListRow($model,'pegawai_id', CHtml::listData(PPPendaftaranT::model()->getDokterItemsInstalasi(Params::INSTALASI_ID_RJ), 'pegawai_id', 'namaLengkap') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
 
                 </td>
                 <td>

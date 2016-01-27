@@ -473,7 +473,7 @@ class PPPendaftaranT extends PendaftaranT
 	public function getDokterItemsInstalasi($instalasi_id='')
 	{
 		if(!empty($instalasi_id))
-			return DokterV::model()->findAllByAttributes(array('instalasi_id'=>$instalasi_id,'pegawai_aktif'=>true));
+			return DokterV::model()->findAllByAttributes(array('instalasi_id'=>$instalasi_id,'pegawai_aktif'=>true), array('order'=>'nama_pegawai asc'));
 		else
 			return array();
 	}
