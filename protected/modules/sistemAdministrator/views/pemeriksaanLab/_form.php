@@ -14,7 +14,7 @@
 
 		<div class = "span4">
 			<?php echo $form->textFieldRow($model,'pemeriksaanlab_urutan',array('class'=>'span3 integer', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
-			<?php echo $form->dropDownListRow($model,'jenispemeriksaanlab_id',CHtml::listData(JenispemeriksaanlabM::model()->findAll(array('order'=>'jenispemeriksaanlab_urutan'),'jenispemeriksaanlab_aktif = true'), 'jenispemeriksaanlab_id', 'jenispemeriksaanlab_nama'),array('empty'=>'-- Pilih --','class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+			<?php echo $form->dropDownListRow($model,'jenispemeriksaanlab_id',CHtml::listData(JenispemeriksaanlabM::model()->findAll(array('order'=>'jenispemeriksaanlab_urutan', 'condition'=>'jenispemeriksaanlab_aktif = true'),'jenispemeriksaanlab_aktif = true'), 'jenispemeriksaanlab_id', 'jenispemeriksaanlab_nama'),array('empty'=>'-- Pilih --','class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
 			<div class="control-group ">
 				<?php echo $form->labelEx($model,'Tindakan / Pemeriksaan <span class="required">*</span>',array('class'=>'control-label required')); ?>
 					<div class="controls">

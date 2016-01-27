@@ -1,7 +1,4 @@
 <style type="text/css">
-body{
-    width: 21cm;
-}
 </style>
 <?php 
 if($caraPrint=='EXCEL')
@@ -148,7 +145,7 @@ foreach ($modRiwayatKirimKeUnitLain as $i => $riwayat) {
             $User = ((!empty($login->nama_pemakai)) ? $login->nama_pemakai : ' - ');
         ?>
         <td width="30%" align="center"><?php echo $namaRuangan.' - '.$User; ?></td>
-        <td width="40%" align="center"></td>
-        <td width="30%" align="center">( <?php echo CHtml::encode($modPendaftaran->pegawai->nama_pegawai); ?> )</td>
+        <td width="30%" align="center"></td>
+        <td width="40%" align="center">( <?php echo CHtml::encode($modPendaftaran->pegawai->namaLengkap); ?> )</td>
     <tr>
 </table>

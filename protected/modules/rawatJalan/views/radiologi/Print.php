@@ -145,6 +145,6 @@ foreach ($modRiwayatKirimKeUnitLain as $i => $riwayat) {
         ?>
         <td width="40%" align="center"><?php echo $namaRuangan.' - '.$User; ?></td>
         <td width="20%" align="center"></td>
-        <td width="40%" align="center">( <?php echo CHtml::encode($modPendaftaran->pegawai->nama_pegawai); ?> )</td>
+        <td width="40%" align="center">( <?php echo CHtml::encode($modPendaftaran->pegawai->namaLengkap); ?> )</td>
     <tr>
 </table>

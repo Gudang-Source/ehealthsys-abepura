@@ -279,8 +279,8 @@ class JadwaldokterMController extends MyAuthController
                     if (count($jadwal['jadwal']) > 0){
                         foreach ($jadwal['jadwal'] as $key => $value) {
                             foreach ($value['dokter'] as $i => $row) {
-                                if ($row['cek'] == 1){
-                                    if (count($row['dokter']) > 0){
+                                if (isset($row['cek']) && $row['cek'] == 1){
+                                    if (isset($row['dokter']) && count($row['dokter']) > 0){
                                         foreach ($row['dokter'] as $j => $row2) {
                                             if (!empty($row2['jadwaldokter_id'])){
                                                 $jadwalDokter = JadwaldokterM::model()->findByPk($row2['jadwaldokter_id']);

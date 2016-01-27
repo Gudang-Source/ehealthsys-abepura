@@ -32,11 +32,11 @@ Simpan</button> berfungsi untuk menyimpan.
 	<td>9. </td>
 	<td><table border="0">
 		<tr>
-			<td>Navigasi di atas berfungsi untuk menampilkan pencarian dalam bentuk digram batang, pie, atau garis.</td>
+			<td>Navigasi di atas berfungsi untuk menampilkan pencarian/form (misal dalam bentuk diagram batang, pie, atau garis).</td>
 		</tr>
 		<tr>
 			<td>
-				<ul class="nav nav-tabs" style="width:170px;">
+				<ul class="nav nav-tabs" style="width:250px;">
 					<li class="active" type="batang" onclick="setType(this);">
 					<a>Batang</a>
 					</li>
