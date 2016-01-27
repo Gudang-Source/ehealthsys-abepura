@@ -280,13 +280,13 @@ Class Params
 	const KELOMPOKTINDAKAN_ID_LAB	= 25; //kelompoktindakan_m laboratorium
 	const KELOMPOKTINDAKAN_ID_MCU	= 26; //kelompoktindakan_m mcu
 
-	const SATUAN_TINDAKAN_PENDAFTARAN = 'Hari';  //disesuaikan dengan lookup_m.lookup_type = satuantindakan
-	const SATUAN_TINDAKAN_VISITE = 'Kali';  //disesuaikan dengan lookup_m.lookup_type = satuantindakan
-	const SATUAN_TINDAKAN_LABORATORIUM = 'Kali';  //disesuaikan dengan lookup_m.lookup_type = satuantindakan
-	const SATUAN_TINDAKAN_REHAB_MEDIS = 'Kali';  //disesuaikan dengan lookup_m.lookup_type = satuantindakan
-	const SATUAN_LAMARAWAT_RD = 'Jam';              
-	const SATUAN_LAMARAWAT_RI = 'Hari'; 
-	const SATUAN_LAMARAWAT_RJ = 'Hari'; 
+	const SATUAN_TINDAKAN_PENDAFTARAN = 'KALI';  //disesuaikan dengan lookup_m.lookup_type = satuantindakan
+	const SATUAN_TINDAKAN_VISITE = 'KALI';  //disesuaikan dengan lookup_m.lookup_type = satuantindakan
+	const SATUAN_TINDAKAN_LABORATORIUM = 'KALI';  //disesuaikan dengan lookup_m.lookup_type = satuantindakan
+	const SATUAN_TINDAKAN_REHAB_MEDIS = 'KALI';  //disesuaikan dengan lookup_m.lookup_type = satuantindakan
+	const SATUAN_LAMARAWAT_RD = 'JAM';              
+	const SATUAN_LAMARAWAT_RI = 'HARI'; 
+	const SATUAN_LAMARAWAT_RJ = 'HARI'; 
 	const SATUAN_KECIL = 'SATUANKECIL';
 	
 	const SATUANJML_URT = "Buah"; //berdasarkan lookup_m.lookup_type = ukuranrumahtangga
