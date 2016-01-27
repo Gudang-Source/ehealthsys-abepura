@@ -28,7 +28,7 @@
                                 foreach ($jadwal as $counter => $row) {
                                     $ruangan[$row->ruangan->ruangan_nama][$counter] = $row->attributes;
                                     $ruangan[$row->ruangan->ruangan_nama][$counter]['instalasi_nama'] = $row->instalasi->instalasi_nama;
-                                    $ruangan[$row->ruangan->ruangan_nama][$counter]['nama_pegawai'] = $row->pegawai->nama_pegawai;
+                                    $ruangan[$row->ruangan->ruangan_nama][$counter]['nama_pegawai'] = $row->pegawai->namaLengkap;
                                     $ruangan[$row->ruangan->ruangan_nama]['active'] = ($row->ruangan_id == $variable['ruangan_id']) ? 'active' : '';
                                 }
                                 foreach ($ruangan as $counter => $row) {
