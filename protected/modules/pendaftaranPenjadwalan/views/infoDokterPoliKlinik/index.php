@@ -58,7 +58,7 @@
                     <div class="controls">
                         <div class="input-append">
                             <input type="text" name="PPJadwaldokterM[jadwaldokter_mulai]" id="RDJadwaldokterM_jadwaldokter_mulai" onkeypress="return $(this).focusNextInputField(event);" readonly="readonly" class="hasDatepicker">
-                            <span class="add-on"><i class="icon-calendar"></i></span>
+                            <span class="add-on" onclick="$('#RDJadwaldokterM_jadwaldokter_mulai').focus()"><i class="icon-calendar"></i></span>
                         </div>                    
                     </div>
                 </div>
