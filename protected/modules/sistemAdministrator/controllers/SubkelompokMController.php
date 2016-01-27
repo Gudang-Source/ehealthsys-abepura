@@ -28,7 +28,7 @@ class SubkelompokMController extends MyAuthController
 	 */
 	public function actionCreate()
 	{
-                if(!Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
+                // if(!Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		$model=new SASubkelompokM;
                 //$model->subkelompok_kode = MyGenerator::kodeSubKelompok();
 
@@ -56,7 +56,7 @@ class SubkelompokMController extends MyAuthController
 	 */
 	public function actionUpdate($id)
 	{
-                if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
+                // if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		$model=$this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
