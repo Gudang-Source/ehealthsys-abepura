@@ -12,6 +12,7 @@
     <?php echo $form->errorSummary($model); ?>
     <?php echo $form->errorSummary($modTandabukti); ?>
     <?php echo $form->errorSummary($modPemakaianuangmuka); ?>
+    <?php /*
     <div class="control-group">
         <?php echo CHtml::label('No. Antrian','noantrian',array('class'=>'control-label'));?>
         <div class="controls">
@@ -21,6 +22,9 @@
             <?php echo CHtml::htmlButton(Yii::t('mds','{icon}',array('{icon}'=>'<i class="icon-volume-up icon-white"></i>')),array('id'=>'btn-panggilantrian','title'=>'Klik untuk menampilkan form antrian','rel'=>'tooltip','class'=>'btn  btn-mini btn-primary', 'onclick'=>'$("#dialog-panggilantrian").dialog("open");')); ?>
         </div>
     </div>
+     * 
+     * 
+     */ ?>
     <fieldset class="box" id="form-datakunjungan">
         <legend class="rim"><span class='judul'>Data Kunjungan </span><span class='tombol' style='display:none;'><?php echo CHtml::htmlButton('<i class="icon-refresh icon-white"></i>',array('class'=>'btn btn-danger btn-mini','onclick'=>'setKunjunganReset();','onkeyup'=>"return $(this).focusNextInputField(event)",'rel'=>'tooltip','title'=>'Klik untuk mengulang data kunjungan')); ?></span></legend>
         <div class="row-fluid">
@@ -120,7 +124,7 @@
         </div>
     </div>
     <?php $this->endWidget(); ?>
-    <?php 
+    <?php /*
     $autoopen = Yii::app()->user->getState('isantrian');
     if(!empty($model->pendaftaran_id)){
         $autoopen = false;
@@ -148,5 +152,5 @@
         <br>
             <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Panggil / Daftar',array('{icon}'=>'<i class="icon-volume-up icon-white"></i>')),array('title'=>'Klik untuk memanggil antrian ini','rel'=>'tooltip','class'=>'btn  btn-mini btn-primary', 'onclick'=>'if(requiredCheck(this)){ panggilAntrian();}','style'=>'font-size:10px; width:128px; height:24px;')); ?>
     </div>
-    <?php $this->endWidget(); ?>
+    <?php $this->endWidget(); */ ?>
 </div>
