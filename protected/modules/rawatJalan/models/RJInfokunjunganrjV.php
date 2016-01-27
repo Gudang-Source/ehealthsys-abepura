@@ -862,6 +862,40 @@ class RJInfokunjunganrjV extends InfokunjunganrjV {
 		}		
 		return $status_dokumen;
    }
+   
+   
+   /**
+    * 
+    * @return type String Link HTML untuk pemeriksan pasien
+    */
+   public function getLinkPeriksaPasien() {
+       if ($this->penjamin_id == Params::PENJAMIN_ID_UMUM) {
+            $pendaftaran = PendaftaranT::model()->findByPk($this->pendaftaran_id);
+           
+            $tindakan = TindakanpelayananT::model()->findByAttributes(array(
+                'pendaftaran_id'=>$this->pendaftaran_id,
+                'karcis_id'=>$pendaftaran->karcis_id,
+            ));
+            if (empty($tindakan)) {
+                $tindakan = TindakanpelayananT::model()->findByAttributes(array(
+                    'pendaftaran_id'=>$this->pendaftaran_id,
+                    'ruangan_id'=>2,
+                ));
+            }
+
+            if (empty($tindakan->tindakansudahbayar_id)) {
+                return "KARCIS BELUM DIBAYAR";
+            }
+           
+           
+       }
+       
+       if (!$this->alihstatus) {
+           return CHtml::link("<i class='icon-form-periksa'></i> ", Yii::app()->controller->createUrl("/rawatJalan/pemeriksaanPasien",array("pendaftaran_id"=>$this->pendaftaran_id)),array("id"=>$this->no_pendaftaran,"rel"=>"tooltip","title"=>"Klik untuk Pemeriksaan Pasien"));
+       } else {
+           return CHtml::link("<i class='icon-list-alt'></i>", "javascript:cektindaklanjut()",array("rel"=>"tooltip","title"=>"Klik untuk Pemeriksaan Pasien"));
+       }
+   }
 }
 
 ?>
