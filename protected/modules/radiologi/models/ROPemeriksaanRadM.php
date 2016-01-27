@@ -2,7 +2,7 @@
 
 class ROPemeriksaanRadM extends PemeriksaanradM
 {
-    public $refhasilrad_id,$jenispemeriksaanrad_nama,$pemeriksaanrad_jenis;
+    public $refhasilrad_id,$jenispemeriksaanrad_nama,$pemeriksaanrad_jenis, $daftartindakan_nama;
     public $isChecked = false; //status jika di pilih
 	public $is_adareferensihasil = 0; //refrensi hasil jika dipilih => RND-8166
     /**
@@ -43,6 +43,7 @@ class ROPemeriksaanRadM extends PemeriksaanradM
 		if(!empty($this->jenispemeriksaanrad_id)){
 			$criteria->addCondition("t.jenispemeriksaanrad_id = ".$this->jenispemeriksaanrad_id);					
 		}
+        $criteria->compare('LOWER(daftartindakan.daftartindakan_nama)', strtolower($this->daftartindakan_nama), true);
         $criteria->compare('LOWER(t.pemeriksaanrad_nama)',strtolower($this->pemeriksaanrad_nama),true);
         $criteria->compare('LOWER(t.pemeriksaanrad_namalainnya)',strtolower($this->pemeriksaanrad_namalainnya),true);
         $criteria->compare('LOWER(jenispemeriksaanrad.jenispemeriksaanrad_nama)',strtolower($this->jenispemeriksaanrad_nama),true);

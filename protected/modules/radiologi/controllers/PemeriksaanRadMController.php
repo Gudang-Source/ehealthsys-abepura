@@ -124,6 +124,7 @@ class PemeriksaanRadMController extends MyAuthController
 		if(isset($_GET['ROPemeriksaanRadM'])){
 			$model->attributes=$_GET['ROPemeriksaanRadM'];
 			$model->jenispemeriksaanrad_nama= isset($_GET['ROPemeriksaanRadM']['jenispemeriksaanrad_nama']) ? $_GET['ROPemeriksaanRadM']['jenispemeriksaanrad_nama'] : null;
+                        $model->daftartindakan_nama = isset($_GET['ROPemeriksaanRadM']['daftartindakan_nama']) ? $_GET['ROPemeriksaanRadM']['daftartindakan_nama'] : null;
 		}
 		$this->render('admin',array(
 			'model'=>$model,
