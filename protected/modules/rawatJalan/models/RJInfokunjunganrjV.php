@@ -884,7 +884,7 @@ class RJInfokunjunganrjV extends InfokunjunganrjV {
             }
 
             if (empty($tindakan->tindakansudahbayar_id)) {
-                return "KARCIS BELUM DIBAYAR";
+                return CHtml::link("<i class='icon-form-periksa'></i> ", '#', array("id"=>$this->no_pendaftaran,"rel"=>"tooltip","title"=>"Klik untuk Pemeriksaan Pasien", "onclick"=>"myAlert('Pasien belum membayar karcis.'); return false;"));
             }
            
            
