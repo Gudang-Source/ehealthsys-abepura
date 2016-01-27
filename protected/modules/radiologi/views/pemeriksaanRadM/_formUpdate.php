@@ -58,7 +58,7 @@
                         </div>
                     </div>
                     <?php echo $form->HiddenField($model,'daftartindakan_id',CHtml::listData($model->DaftarTindakanItems, 'daftartindakan_id', 'daftartindakan_nama'),array('empty'=>'-- Pilih --','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-                    <?php echo $form->dropDownListRow($model,'jenispemeriksaanrad_id',CHtml::listData(JenispemeriksaanradM::model()->findAll(array('order'=>'jenispemeriksaanrad_nama')), 'jenispemeriksaanrad_id','jenispemeriksaanrad_nama'),array('class'=>'span3','empty'=>'--Pilih--')); ?>
+                    <?php echo $form->dropDownListRow($model,'jenispemeriksaanrad_id',CHtml::listData(JenispemeriksaanradM::model()->findAll(array('order'=>'jenispemeriksaanrad_nama', 'condition'=>'jenispemeriksaanrad_aktif = true')), 'jenispemeriksaanrad_id','jenispemeriksaanrad_nama'),array('class'=>'span3','empty'=>'--Pilih--')); ?>
                 </td>
                 <td>
                     <?php echo $form->textFieldRow($model,'pemeriksaanrad_nama',array('class'=>'span3', 'onkeyup'=>"namaLain(this)", 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>20)); ?>
