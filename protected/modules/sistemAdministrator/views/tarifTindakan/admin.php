@@ -62,14 +62,15 @@
                              'value'=>'$data->kelaspelayanan_nama',
                     ),
                     array(
+                            'header'=>'Daftar Tindakan',
                             'name'=>'kategoritindakan_id',
                             'filter'=>  CHtml::listData(SATarifTindakanM ::model()->KategoriTindakanItems, 'kategoritindakan_id', 'kategoritindakan_nama'),
     //                        'value'=>array($this,'gridKategoriTindakan'),
                             'value'=>'$data->kategoritindakan_nama',
                     ),
                     array(
-                            'name'=>'daftartindakan_id',
-                            'filter'=>  CHtml::listData(SATarifTindakanM ::model()->DaftarTindakanItems, 'daftartindakan_id', 'daftartindakan_nama'),
+                            'name'=>'daftartindakan_nama',
+                            //'filter'=>  CHtml::listData(SATarifTindakanM ::model()->DaftarTindakanItems, 'daftartindakan_id', 'daftartindakan_nama'),
     //                         'value'=>array($this,'gridDaftarTindakan'),
                              'value'=>'$data->daftartindakan_nama',
                     ),
