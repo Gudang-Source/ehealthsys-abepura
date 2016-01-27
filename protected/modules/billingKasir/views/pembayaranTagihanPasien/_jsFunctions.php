@@ -1,4 +1,6 @@
 <script type="text/javascript">
+var carapembayaran = "";
+
 /**
  * set form kunjungan
  * @param {type} pasien_id
@@ -7,6 +9,7 @@
 function setKunjungan(pendaftaran_id, no_pendaftaran, no_rekam_medik, pasienadmisi_id ){
     $("#form-datakunjungan > div").addClass("animation-loading");
     var instalasi_id = $("#instalasi_id").val();
+    carapembayaran = "";
     $.ajax({
         type:'POST',
         url:'<?php echo $this->createUrl('GetDataKunjungan'); ?>',
@@ -50,6 +53,8 @@ function setKunjungan(pendaftaran_id, no_pendaftaran, no_rekam_medik, pasienadmi
             }
             //uangmuka
             $("#<?php echo CHtml::activeId($modPemakaianuangmuka, 'totaluangmuka') ?>").val(data.jumlahuangmuka);
+
+            carapembayaran = data.metode_pembayaran;
 
             setRincianTindakan();
             setRincianObatalkes();
@@ -111,6 +116,8 @@ function setKunjunganReset(){
     $("#<?php echo CHtml::activeId($modTandabukti, 'darinama_bkm') ?>").val("");
     $("#<?php echo CHtml::activeId($modTandabukti, 'alamat_bkm') ?>").val("");
     $("#<?php echo CHtml::activeId($modTandabukti, 'sebagaipembayaran_bkm') ?>").val("");
+    
+    carapembayaran = "";
     
     setRincianTindakan();
     setRincianObatalkes();
@@ -453,6 +460,7 @@ function hitungJmlpembayaran(){
     var jmlpembulatan = parseInt($("#<?php echo CHtml::activeId($modTandabukti,'jmlpembulatan');?>").val());
     var jmlpembayaran = totaliurbiaya + biayaadministrasi + biayamaterai + jmlpembulatan;
     $("#<?php echo CHtml::activeId($modTandabukti,'jmlpembayaran');?>").val(jmlpembayaran);
+    $("#<?php echo CHtml::activeId($modTandabukti,'uangditerima');?>").val(jmlpembayaran);
     formatNumberSemua();
     
     hitungUangKembalian();
@@ -482,15 +490,22 @@ function hitungUangKembalian(){
         setTimeout(function(){$("#<?php echo CHtml::activeId($modPemakaianuangmuka,'pemakaianuangmuka');?>").focus();},1000);
     }
     sisauangmuka = totaluangmuka-pemakaianuangmuka;
-    $("#<?php echo CHtml::activeId($modTandabukti,'carapembayaran');?>").val("<?php echo Params::CARAPEMBAYARAN_TUNAI; ?>");
+    
+    if (carapembayaran.trim() !== "") {
+        $("#<?php echo CHtml::activeId($modTandabukti,'carapembayaran');?>").val(carapembayaran);
+    } else {
+        $("#<?php echo CHtml::activeId($modTandabukti,'carapembayaran');?>").val("<?php echo Params::CARAPEMBAYARAN_TUNAI; ?>");
+    }
     if(uangmasuk == 0){
         uangkembalian = 0;
         totalsisatagihan = jmlpembayaran;
+        /*
         if((totalsubsidiasuransi+totalsubsidirs) > 0 && jmlpembayaran == 0){
             $("#<?php echo CHtml::activeId($modTandabukti,'carapembayaran');?>").val("<?php echo Params::CARAPEMBAYARAN_PIUTANG; ?>");
         }else{
             $("#<?php echo CHtml::activeId($modTandabukti,'carapembayaran');?>").val("<?php echo Params::CARAPEMBAYARAN_HUTANG; ?>");
         }
+            */
     }else if(uangmasuk < jmlpembayaran){
         uangkembalian = 0;
         totalsisatagihan = jmlpembayaran - uangmasuk;

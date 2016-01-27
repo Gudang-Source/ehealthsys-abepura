@@ -353,6 +353,8 @@ class PendaftaranRawatJalanController extends MyAuthController
                                 foreach($_POST['PPTindakanPelayananT'] as $i => $karcis){
                                     if($karcis['is_pilihtindakan']){
                                         $dataTindakans[$i] = $this->simpanKarcis($modTindakan, $model ,$karcis);
+                                        $model->karcis_id = $dataTindakans[$i]->karcis_id;
+                                        $model->save();
                                     }
                                 }
                             }
@@ -368,7 +370,7 @@ class PendaftaranRawatJalanController extends MyAuthController
 						$modJanjipoli->pendaftaran_id = $model->pendaftaran_id;
 						$modJanjipoli->save();
 					}
-                    
+                                            
                     if($this->pasientersimpan && $this->pendaftarantersimpan && $this->penanggungjawabtersimpan && $this->rujukantersimpan && $this->karcistersimpan && $this->komponentindakantersimpan && $this->asuransipasientersimpan){
                         $transaction->commit();
                         //Di set di form >> Yii::app()->user->setFlash('success', "Data pasien berhasil disimpan !");
