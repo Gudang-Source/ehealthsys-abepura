@@ -73,6 +73,7 @@ class PendaftaranRadiologiRujukanRSController extends PendaftaranRadiologiContro
 
 		if(isset($_POST['ROPasienmasukpenunjangT']))
 		{
+                        //var_dump($_POST);
 			if(!empty($_POST['ROPasienmasukpenunjangT']['pasienkirimkeunitlain_id'])){
 				$modKunjungan = ROPasienKirimKeUnitLainV::model()->findByAttributes(array('pasienkirimkeunitlain_id'=>$_POST['ROPasienmasukpenunjangT']['pasienkirimkeunitlain_id']));
 			}else{
@@ -89,6 +90,8 @@ class PendaftaranRadiologiRujukanRSController extends PendaftaranRadiologiContro
 				}else{
 					$pasienkirimterupdate = true;
 				}
+                                
+                                //var_dump($modPasienMasukPenunjang->attributes); die;
 				
 				if(isset($_POST['ROTindakanpelayananT'])){
 					if(count($_POST['ROTindakanpelayananT']) > 0){
@@ -102,6 +105,7 @@ class PendaftaranRadiologiRujukanRSController extends PendaftaranRadiologiContro
 								$dataTindakans[$ii]->dokterpemeriksa1_id=$modPasienMasukPenunjang->pegawai_id;
 								$dataTindakans[$ii]->perawat_id = (!empty($modPasienMasukPenunjang->perawat_id) ? $modPasienMasukPenunjang->perawat_id : null);
 								$dataTindakans[$ii]->update();
+                                                                $modHasilPemeriksaan = $this->simpanHasilPemeriksaanRad($modPasienMasukPenunjang, $dataTindakans[$ii], $tindakan);
 							}else{ 
 								$dataTindakans[$ii] = $this->simpanTindakanPelayanan($modPendaftaran,$modPasienMasukPenunjang,$tindakan);
 								$modHasilPemeriksaan = $this->simpanHasilPemeriksaanRad($modPasienMasukPenunjang, $dataTindakans[$ii], $tindakan);
@@ -157,7 +161,7 @@ class PendaftaranRadiologiRujukanRSController extends PendaftaranRadiologiContro
 //                        }
 //                    }
 //                }
-				   
+				// die;
 				if($this->pasienpenunjangtersimpan && $this->tindakanpelayanantersimpan && $this->komponentindakantersimpan && $this->hasilpemeriksaantersimpan && $pasienkirimterupdate && $this->obatalkespasientersimpan && $this->stokobatalkestersimpan){
 					
 					// SMS GATEWAY
