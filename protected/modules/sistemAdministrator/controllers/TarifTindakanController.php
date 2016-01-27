@@ -9,6 +9,8 @@ class TarifTindakanController extends MyAuthController
 	public $_lastDaftarTindakanId2 = null;
 	public $_lastTindakanTarifId = null;
 	public $_lastKelasPelayanan_id = null;
+        
+        public $daftartindakan_nama;
 
 	public function actionView($id)
 	{
@@ -114,7 +116,16 @@ class TarifTindakanController extends MyAuthController
         
 	public function actionDelete($id)
 	{
-		
+            if (Yii::app()->request->isAjaxRequest) {
+                $model = TariftindakanM::model()->findByPk($id);
+                TariftindakanM::model()->deleteAllByAttributes(array(
+                    'kelaspelayanan_id'=>$model->kelaspelayanan_id,
+                    'daftartindakan_id'=>$model->daftartindakan_id,
+                    'jenistarif_id'=>$model->jenistarif_id,
+                    'perdatarif_id'=>$model->perdatarif_id,
+                ));
+                Yii::app()->end();
+            }
 	}
 
 
@@ -122,8 +133,9 @@ class TarifTindakanController extends MyAuthController
 	{
 		$model=new TariftindakanperdaV('search');
 		$model->unsetAttributes(); 
-		if(isset($_GET['TariftindakanperdaV']))
+		if(isset($_GET['TariftindakanperdaV'])) {
 			$model->attributes=$_GET['TariftindakanperdaV'];
+                }
 
 		$this->render('admin',array(
 			'model'=>$model,

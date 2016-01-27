@@ -42,15 +42,15 @@ $('.search-form form').submit(function(){
 
                 ),
                      array(
-                        'name'=>'daftartindakan_id',
+                        'name'=>'daftartindakan_nama',
                         //'filter'=>  CHtml::listData($model->DaftarTindakanItems, 'daftartindakan_id', 'daftartindakan_nama'),
-                        'filter'=>  CHtml::listData(DaftartindakanM::model()->findAll(array('order'=>'daftartindakan_nama')), 'daftartindakan_id','daftartindakan_nama'),
+                        //'filter'=>  //CHtml::listData(DaftartindakanM::model()->findAll(array('order'=>'daftartindakan_nama')), 'daftartindakan_id','daftartindakan_nama'),
                         'value'=>'$data->daftartindakan->daftartindakan_nama',
 
                 ),
              array(     'header'=>'Jenis Pemeriksaan',
                         'name'=>'jenispemeriksaanrad_id',
-                        'filter'=>  CHtml::listData(JenispemeriksaanradM::model()->findAll(array('order'=>'jenispemeriksaanrad_nama')), 'jenispemeriksaanrad_id','jenispemeriksaanrad_nama'),
+                        'filter'=>  CHtml::activeDropDownList($model, 'jenispemeriksaanrad_id', CHtml::listData(JenispemeriksaanradM::model()->findAll(array('order'=>'jenispemeriksaanrad_nama', 'condition'=>'jenispemeriksaanrad_aktif = true')), 'jenispemeriksaanrad_id','jenispemeriksaanrad_nama'), array('empty'=>'--Pilih--')),
                         'value'=>'$data->jenispemeriksaanrad->jenispemeriksaanrad_nama',
 
                 ),
