@@ -50,7 +50,7 @@ class SANofitikasiR extends NofitikasiR
 		$criteria->compare('LOWER(update_time)',strtolower($this->update_time),true);
 		$criteria->compare('LOWER(create_loginpemakai_id)',strtolower($this->create_loginpemakai_id),true);
 		$criteria->compare('LOWER(update_loginpemakai_id)',strtolower($this->update_loginpemakai_id),true);
-		$criteria->compare('LOWER(create_ruangan)',strtolower($this->create_ruangan),true);
+		$criteria->compare('create_ruangan',$this->create_ruangan);
 		$criteria->compare('lamahrnotif',$this->lamahrnotif);
 		
 		return new CActiveDataProvider($this, array(
