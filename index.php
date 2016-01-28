@@ -1,10 +1,10 @@
 <?php
 ini_set('memory_limit', '-1');
-//error_reporting(0); //UNTUK PRODUKSI
-error_reporting(E_ALL | E_STRICT); //UNTUK DEVELOPMENT
+error_reporting(0); //UNTUK PRODUKSI
+//error_reporting(E_ALL | E_STRICT); //UNTUK DEVELOPMENT
 // change the following paths if necessary
-//$yii=dirname(__FILE__).'/yii1_10/framework/yiilite.php'; //UNTUK PRODUKSI
-$yii=dirname(__FILE__).'/yii1_10/framework/yii.php'; //UNTUK DEVELOPMENT
+$yii=dirname(__FILE__).'/yii1_10/framework/yiilite.php'; //UNTUK PRODUKSI
+//$yii=dirname(__FILE__).'/yii1_10/framework/yii.php'; //UNTUK DEVELOPMENT
 $config=dirname(__FILE__).'/protected/config/main.php';
 // remove the following lines when in production mode
 //defined('YII_DEBUG') or define('YII_DEBUG',false); //UNTUK PRODUKSI
