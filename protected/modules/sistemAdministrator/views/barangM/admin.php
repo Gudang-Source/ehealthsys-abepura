@@ -26,15 +26,7 @@
             return false;
     });
     ");
-<<<<<<< HEAD
-
-    $this->widget('bootstrap.widgets.BootAlert'); ?>
-    <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-accordion icon-white"></i>')),'#',array('class'=>'search-button btn')); ?>
-    <div class="cari-lanjut search-form" style="display:none">
-=======
 	?>
-<div class="white-container">
-    <legend class="rim2">Pengaturan <b>Barang</b></legend>
 		
    <?php 
 	if (!empty($_GET['sukses'])){
@@ -44,16 +36,12 @@
 	?>
     <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),'#',array('class'=>'search-button btn')); ?>
     <div class="cari-lanjut2 search-form" style="display:none">
->>>>>>> 12f1e5a9c072640a387b6430d541776accbca7b2
         <?php $this->renderPartial($this->path_view.'_search',array(
                 'model'=>$model,
         )); ?>
     </div><!-- search-form -->
-<<<<<<< HEAD
-    <div class='block-tabel'>
-=======
+
     <!--<div class="block-tabel">-->
->>>>>>> 12f1e5a9c072640a387b6430d541776accbca7b2
         <!--<h6>Tabel <b>Barang</b></h6>-->
         <?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'id'=>'sabarang-m-grid',
