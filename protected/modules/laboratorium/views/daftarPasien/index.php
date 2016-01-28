@@ -83,34 +83,54 @@ JSCRIPT;
                             'name'=>'no_urutperiksa',
                             'type'=>'raw',
                             'header'=>'No. Antrian <br>/ Panggil Antrian',
-                            'value'=>'$data->ruangan_singkatan."-".$data->no_urutperiksa."<br>".((($data->panggilantrian == TRUE) || "'.date('Y-m-d',strtotime($modPasienMasukPenunjang->tglmasukpenunjang)).'" != "'.date('Y-m-d').'") ? "Sudah Dipanggil" : CHtml::htmlButton(Yii::t("mds","{icon}",array("{icon}"=>"<i class=\'icon-volume-up icon-white\'></i>")),array("class"=>"btn btn-primary","onclick"=>"panggilAntrian(\"$data->pasienmasukpenunjang_id\"); setSuaraPanggilanSingle(\"$data->ruangan_singkatan\",\"$data->no_urutperiksa\",\"$data->ruangan_id\")","rel"=>"tooltip","title"=>"Klik untuk memanggil pasien ini")))'
+                            'value'=>'$data->ruangan_singkatan."-".$data->no_urutperiksa."<br>".CHtml::htmlButton(Yii::t("mds","{icon}",array("{icon}"=>"<i class=\'icon-volume-up icon-white\'></i>")),array("class"=>"btn btn-primary","onclick"=>"panggilAntrian(\"$data->pasienmasukpenunjang_id\"); setSuaraPanggilanSingle(\"$data->ruangan_singkatan\",\"$data->no_urutperiksa\",\"$data->ruangan_id\")","rel"=>"tooltip","title"=>"Klik untuk memanggil pasien ini"))'
                     ),
-                    'tglmasukpenunjang',
-                    'ruanganasal_nama',
-                    'nama_dokterasal',
+                    array(
+                        'header'=>'Tgl. Pendaftaran<br/>No. Pendaftaran',
+                        'name'=>'tgl_pendaftaran',
+                        'type'=>'raw',
+                        'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."<br/>".$data->no_pendaftaran',
+                    ),
+                    array(
+                        'header'=>'Tgl. Masuk Penunjang<br/>No. Penunjang',
+                        'name'=>'no_masukpenunjang',
+                        'type'=>'raw',
+                        'value'=>'(($data->statusperiksahasil != "SUDAH") ? CHtml::link("<i class=\"icon-form-ubah\"></i><br/>".MyFormatter::formatDateTimeForUser($data->tglmasukpenunjang)."<br/>".$data->no_masukpenunjang,Yii::app()->controller->createUrl("pemeriksaanPasienLaboratorium/index",array("pasienmasukpenunjang_id"=>$data->pasienmasukpenunjang_id)),array("rel"=>"tooltip","title"=>"Klik Untuk Mengubah Pemeriksaan")) : MyFormatter::formatDateTimeForUser($data->tglmasukpenunjang)."<br/>".$data->no_masukpenunjang)',
+                    ),
+                    array(
+                        'header'=>'Ruangan<br/>Dokter Asal',
+                        'name'=>'ruanganasal_nama',
+                        'type'=>'raw',
+                        'value'=>function($data) {
+                            $pegawai = PegawaiM::model()->findByAttributes(array(
+                                'nama_pegawai'=>$data->nama_dokterasal,
+                            ));
+                            
+                            return $data->ruanganasal_nama."/<br/>".$pegawai->namaLengkap;
+                        },
+                    ),
                     'nama_perujuk',
                     array(
                         'name'=>'no_rekam_medik',
                         'type'=>'raw',
-                        'header'=>'No. Pendaftaran<br>No. RM',
-                        'value'=>'(($data->statusperiksahasil != "SUDAH") ? CHtml::link("<i class=\"icon-form-ubah\"></i>$data->no_pendaftaran",Yii::app()->controller->createUrl("pemeriksaanPasienLaboratorium/index",array("pasienmasukpenunjang_id"=>$data->pasienmasukpenunjang_id)),array("rel"=>"tooltip","title"=>"Klik Untuk Mengubah Pemeriksaan")) : $data->no_pendaftaran). "\n" . $data->no_rekam_medik',
+                        'header'=>'No. RM',
+                        'value'=>'$data->no_rekam_medik',
                     ),
                     array(
                         'header'=>'Nama Pasien / Panggilan',
                         'type'=>'raw',
         //                'value'=> '((substr($data->no_rekam_medik,0,-6)) == "LB" || (substr($data->no_rekam_medik,0,-6)) == "RD" ? CHtml::link("<i class=\"icon-pencil\"></i>", Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/ubahPasien",array("id"=>"$data->pasien_id")), array("rel"=>"tooltip","title"=>"Klik untuk mengubah data pasien"))." ".CHtml::link($data->nama_pasien.\' / \'.$data->nama_bin, Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/ubahPasien",array("id"=>"$data->pasien_id")), array("rel"=>"tooltip","title"=>"Klik untuk mengubah data pasien")) : $data->nama_pasien.\' / \'.$data->nama_bin )',
-                        'value'=> '(($data->instalasiasal_id == '.PARAMS::INSTALASI_ID_LAB.') ? CHtml::link("<i class=\"icon-form-ubah\"></i> ".$data->NamaPasienNamaBin, Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/ubahPasien",array("id"=>"$data->pasien_id","pendaftaran_id"=>"$data->pendaftaran_id","modul_id"=>"'.Yii::app()->session['modul_id'].'")), array("rel"=>"tooltip","title"=>"Klik untuk mengubah data pasien")) : $data->NamaPasienNamaBin )',
+                        'value'=> '(($data->instalasiasal_id == '.PARAMS::INSTALASI_ID_LAB.') ? CHtml::link("<i class=\"icon-form-ubah\"></i> ".$data->namadepan.$data->nama_pasien, Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/ubahPasien",array("id"=>"$data->pasien_id","pendaftaran_id"=>"$data->pendaftaran_id","modul_id"=>"'.Yii::app()->session['modul_id'].'")), array("rel"=>"tooltip","title"=>"Klik untuk mengubah data pasien")) : $data->namadepan.$data->nama_pasien )',
                     ),
                     array(
-                        'header'=>'Jenis Kelamin',
+                        'header'=>'Jenis Kelamin/<br/>Umur',
                         'type'=>'raw',
-                        'value'=>'$data->jeniskelamin',
+                        'value'=>'$data->jeniskelamin."/<br/>".$data->umur',
                     ),
-                    'umur',
                     'alamat_pasien',
 
                     array(
-                        'header'=>'Cara Bayar',
+                        'header'=>'Cara Bayar /<br/> Penjamin',
                         'name'=>'CaraBayarPenjamin',
                         'type'=>'raw',
                         'value'=>'$data->caraBayarPenjamin',    

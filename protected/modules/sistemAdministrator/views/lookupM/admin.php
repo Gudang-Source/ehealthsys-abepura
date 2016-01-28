@@ -1,6 +1,6 @@
 <div class='white-container'>
     <legend class='rim2'>Pengaturan <b>Satuan Barang</b></legend>
-    <?//php $this->renderPartial($this->path_view.'_tabMenu',array()); ?>
+    <?php // $this->renderPartial($this->path_view.'_tabMenu',array()); ?>
     <div class='biru'>
         <div class="white">
             <?php

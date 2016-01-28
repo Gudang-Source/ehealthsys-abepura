@@ -12,9 +12,16 @@
 		array(
 			'name'=>'tarifTotal',
 			'value'=>'$this->grid->getOwner()->renderPartial(\'rawatJalan.views.informasiTarif._tarifTotal\',array(\'kelaspelayanan_id\'=>$data->kelaspelayanan_id,\'daftartindakan_id\'=>$data->daftartindakan_id),true)',
-		),
+                        'htmlOptions'=>array('style'=>'text-align: right'),
+                ),
+                array(
+                    'name'=>'persencyto_tind',
+                    'htmlOptions'=>array('style'=>'text-align: right'),
+                ), array(
+                    'name'=>'persendiskon_tind',
+                    'htmlOptions'=>array('style'=>'text-align: right'),
+                ),
 		'persencyto_tind',
-		'persendiskon_tind',
 		array(
 			'name'=>'Komponen Tarif',
 			'type'=>'raw',

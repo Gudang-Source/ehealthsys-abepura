@@ -86,14 +86,20 @@ class PendaftaranLaboratoriumRujukanRSController extends PendaftaranLaboratorium
                         foreach($_POST['LBTindakanPelayananT'][0] AS $ii => $tindakan){
                             if(!empty($tindakan['tindakanpelayanan_id'])){
                                 $dataTindakans[$ii] = LBTindakanPelayananT::model()->findByPk($tindakan['tindakanpelayanan_id']);
-								$dataTindakans[$ii]->attributes = $modPasienMasukPenunjang->attributes;
-								$dataTindakans[$ii]->dokterpemeriksa1_id=$modPasienMasukPenunjang->pegawai_id;
-								$dataTindakans[$ii]->perawat_id = (!empty($modPasienMasukPenunjang->perawat_id) ? $modPasienMasukPenunjang->perawat_id : null);
-								$dataTindakans[$ii]->qty_tindakan = $tindakan['qty_tindakan'];
-								$dataTindakans[$ii]->tarif_tindakan = ($tindakan['tarif_tindakan']);
-								$dataTindakans[$ii]->update();
+                                $dataTindakans[$ii]->attributes = $modPasienMasukPenunjang->attributes;
+                                $dataTindakans[$ii]->dokterpemeriksa1_id=$modPasienMasukPenunjang->pegawai_id;
+                                $dataTindakans[$ii]->perawat_id = (!empty($modPasienMasukPenunjang->perawat_id) ? $modPasienMasukPenunjang->perawat_id : null);
+                                $dataTindakans[$ii]->qty_tindakan = $tindakan['qty_tindakan'];
+                                $dataTindakans[$ii]->tarif_tindakan = ($tindakan['tarif_tindakan']);
+                                $dataTindakans[$ii]->update();
+                                
+                                if($_POST['LBPasienmasukpenunjangT']['ruangan_id'] == Params::RUANGAN_ID_LAB_KLINIK){ 
+                                    $this->simpanDetailHasilPemeriksaanLab($modHasilPemeriksaan, $dataTindakans[$ii],$tindakan);
+                                } else if($_POST['LBPasienmasukpenunjangT']['ruangan_id'] == Params::RUANGAN_ID_LAB_ANATOMI){
+                                    $modHasilPemeriksaanPA = $this->simpanHasilPemeriksaanPA($modPasienMasukPenunjang, $dataTindakans[$ii], $tindakan);
+                                }                            
                             }else{
-								$dataTindakans[$ii] = $this->simpanTindakanPelayanan($modPendaftaran,$modPasienMasukPenunjang,$tindakan);
+				$dataTindakans[$ii] = $this->simpanTindakanPelayanan($modPendaftaran,$modPasienMasukPenunjang,$tindakan);
                                 if($_POST['LBPasienmasukpenunjangT']['ruangan_id'] == Params::RUANGAN_ID_LAB_KLINIK){
                                     if(!empty($modHasilPemeriksaan->hasilpemeriksaanlab_id)){
                                         if(empty($tindakan['tindakanpelayanan_id'])){ //jika tindakan baru
@@ -147,7 +153,7 @@ class PendaftaranLaboratoriumRujukanRSController extends PendaftaranLaboratorium
 						}
 					}
                 }
-                   
+                
                 if($this->pasienpenunjangtersimpan && $this->tindakanpelayanantersimpan && $this->komponentindakantersimpan && $this->hasilpemeriksaantersimpan && $pasienkirimterupdate && $this->obatalkespasientersimpan && $this->stokobatalkestersimpan){
                     
                     // SMS GATEWAY

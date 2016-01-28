@@ -441,6 +441,34 @@ class ActionDynamicController extends Controller
     }
     
     
+    public function actionGetPenjaminPasien($encode=false,$namaModel='')
+    {
+        if(Yii::app()->request->isAjaxRequest) {
+            $carabayar_id = $_POST["$namaModel"]['carabayar_id'];
+
+           if($encode)
+           {
+                echo CJSON::encode($penjamin);
+           } else {
+                if(empty($carabayar_id)){
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                } else {
+                    $penjamin = PenjaminpasienM::model()->findAllByAttributes(array('carabayar_id'=>$carabayar_id,'penjamin_aktif'=>true), array('order'=>'penjamin_nama ASC'));
+                    if(count($penjamin) > 1)
+                    {
+                        echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                    }
+                    $penjamin = CHtml::listData($penjamin,'penjamin_id','penjamin_nama');
+                    foreach($penjamin as $value=>$name) {
+                        echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                    }
+                }
+           }
+        }
+        Yii::app()->end();
+    }
+    
+    
     
         
     
