@@ -72,7 +72,8 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                                                                                             'ajax'=>array(
                                                                                                 'type'=>'POST',
                                                                                                 'url'=>  CController::createUrl('site/dynamicRuangan'),
-                                                                                                'update'=>'#LoginForm_ruangan',)));  ?>
+                                                                                                //'update'=>'#LoginForm_ruangan',
+                                                                                                'success'=>'function(data) {updateRuangan(data);}')));  ?>
                                                 <?php echo $form->error($model,'instalasi'); ?>
                                 </div>
                         </div>
@@ -180,9 +181,14 @@ function getRuangan(){
 		data: {instalasi:instalasi},//
 		dataType: "json",
 		success:function(data){
+                    $('#LoginForm_ruangan').change();
 		},
 		error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
 	});
+}
+
+function updateRuangan(data) {
+    $('#LoginForm_ruangan').html(data).change();
 }
 
 
