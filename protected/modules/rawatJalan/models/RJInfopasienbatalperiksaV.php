@@ -20,7 +20,7 @@ class RJInfopasienbatalperiksaV extends InfopasienbatalperiksaV
 
 		$criteria=new CDbCriteria;
 
-		$criteria->addBetweenCondition('DATE(tgl_pendaftaran)',$this->tgl_awal,$this->tgl_akhir,true);
+		$criteria->addBetweenCondition('DATE(tglbatal)',$this->tgl_awal,$this->tgl_akhir,true);
 		
 		if(!empty($this->pasien_id)){
 			$criteria->addCondition("pasien_id = ".$this->pasien_id);		

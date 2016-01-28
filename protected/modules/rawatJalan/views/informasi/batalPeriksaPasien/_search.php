@@ -11,7 +11,7 @@
         <td>
             <?php //echo  $form->textFieldRow($model,'tgl_pendaftaran'); ?>
             <div class="control-group ">
-                <?php echo $form->labelEx($model,'tgl_pendaftaran', array('class'=>'control-label')) ?>
+                <?php echo $form->labelEx($model,'tglbatal', array('class'=>'control-label')) ?>
                 <div class="controls">
                     <?php   
                         $model->tgl_awal = $format->formatDateTimeForUser($model->tgl_awal);
@@ -50,7 +50,7 @@
             </div>
         </td>
         <td>
-            <?php echo $form->textFieldRow($model,'no_pendaftaran',array('placeholder'=>'Ketik No. Pendaftaran','style'=>'width:204px;', 'maxlength'=>20)); ?>
+            <?php // echo $form->textFieldRow($model,'no_pendaftaran',array('placeholder'=>'Ketik No. Pendaftaran','style'=>'width:204px;', 'maxlength'=>20)); ?>
             <?php echo $form->textFieldRow($model,'no_rekam_medik',array('placeholder'=>'Ketik No. Rekam Medik','class'=>'span3', 'maxlength'=>10)); ?>
         </td>
         <td>
