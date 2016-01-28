@@ -45,7 +45,7 @@ class PPPasienM extends PasienM
 			array('kelompokumur_id, kecamatan_id, pendidikan_id, profilrs_id, kelurahan_id, loginpemakai_id, suku_id, pekerjaan_id, kabupaten_id, propinsi_id, dokrekammedis_id, rt, rw, anakke, jumlah_bersaudara, pegawai_id', 'numerical', 'integerOnly'=>true),
 			array('no_rekam_medik, statusrekammedis, norm_lama', 'length', 'max'=>10),
 			array('jenisidentitas, namadepan, jeniskelamin, statusperkawinan, agama, rhesus, no_mobile_pasien', 'length', 'max'=>20),
-			array('no_identitas_pasien, nama_bin', 'length', 'max'=>30),
+			array('no_identitas_pasien', 'length', 'max'=>30),
 			array('nama_pasien, nama_ibu, nama_ayah', 'length', 'max'=>50),
 			array('tempat_lahir, warga_negara', 'length', 'max'=>25),
 			array('golongandarah', 'length', 'max'=>2),
@@ -80,6 +80,8 @@ class PPPasienM extends PasienM
                                 'pagination'=>false,
                         ));
 	}
+        
+        
 	public function searchDialogBadak()
 	{
 				$criteria=new CDbCriteria;
