@@ -128,6 +128,24 @@ class SiteController extends Controller
 //                                            'modKomen'=>$modKomen
                         ));
 	}
+        
+        /**
+         * ===========================================================
+         * Lupa password
+         * ===========================================================
+         */
+        public function actionLupaPassword() {
+            $this->layout = '//layouts/login';
+            
+            $model = new LupaPasswordForm;
+            $this->render('lupaPassword',array('model'=>$model));
+        }
+        
+        /**
+         * ===========================================================
+         * End Lupa password
+         * ===========================================================
+         */
 
 	/**
 	 * Logs out the current user and redirect to homepage.
