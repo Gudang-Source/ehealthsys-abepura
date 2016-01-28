@@ -25,7 +25,7 @@
                 array(
                     'header'=>'Dokter',
                     'type'=>'raw',
-                    'value'=>'$data->gelardepan.$data->nama_pegawai.",".$data->gelarbelakang_nama',
+                    'value'=>'$data->gelardepan.$data->nama_pegawai.", ".$data->gelarbelakang_nama',
                 ),
                 'jeniskasuspenyakit_nama',
                 array(
