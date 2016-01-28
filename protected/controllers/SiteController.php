@@ -659,7 +659,8 @@ class SiteController extends Controller
 
                 $attributes = array(
                     'modul_id'=>Yii::app()->session['modul_id'],
-                    'isread'=> false
+                    'isread'=> false,
+                    'create_ruangan'=>Yii::app()->user->getState('ruangan_id'),
                 );
                 $data['count_notif'] = count(NofitikasiR::model()->findAllByAttributes($attributes,array('order'=>'create_time desc', 'limit'=>11)));
 
