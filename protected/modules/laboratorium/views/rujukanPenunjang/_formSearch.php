@@ -14,8 +14,8 @@
         <td>
             <div class="control-group ">
                 <label for="namaPasien" class="control-label">
-                    <?php $model->cbTglMasuk = false; ?>
-                    <?php echo CHtml::activeCheckBox($model,'cbTglMasuk', array('uncheckValue'=>0,'onClick'=>'cekTanggal()')); ?>
+                    <?php //$model->cbTglMasuk = false; ?>
+                    <?php //echo CHtml::activeCheckBox($model,'cbTglMasuk', array('uncheckValue'=>0,'onClick'=>'cekTanggal()')); ?>
                     Tanggal Rujukan 
                 </label>
                 <div class="controls">

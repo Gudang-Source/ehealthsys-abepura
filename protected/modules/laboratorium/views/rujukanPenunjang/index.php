@@ -130,6 +130,7 @@
     </fieldset>
 </div>
 <script type="text/javascript">
+    /*
     document.getElementById('LBPasienKirimKeUnitLainV_tgl_awal_date').setAttribute("style", "display:none;");
     document.getElementById('LBPasienKirimKeUnitLainV_tgl_akhir_date').setAttribute("style", "display:none;");
     function cekTanggal() {
@@ -144,6 +145,7 @@
             document.getElementById('LBPasienKirimKeUnitLainV_tgl_akhir_date').setAttribute("style", "display:none;");
         }
     }
+    */
 
 
     function batalperiksa(pendaftaran_id, idKirimUnit)

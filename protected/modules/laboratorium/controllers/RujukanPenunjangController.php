@@ -9,11 +9,12 @@ class RujukanPenunjangController extends MyAuthController
         $model = new LBPasienKirimKeUnitLainV();
         $model->tgl_awal = date('Y-m-d', strtotime('-5 days'));
         $model->tgl_akhir = date('Y-m-d');
+        $model->cbTglMasuk = true;
         
         if(isset($_GET['LBPasienKirimKeUnitLainV'])){
             $model->attributes = $_GET['LBPasienKirimKeUnitLainV'];
             
-            $model->cbTglMasuk = $_GET['LBPasienKirimKeUnitLainV']['cbTglMasuk'];
+            //$model->cbTglMasuk = $_GET['LBPasienKirimKeUnitLainV']['cbTglMasuk'];
             $model->tgl_awal = $format->formatDateTimeForDb($_GET['LBPasienKirimKeUnitLainV']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['LBPasienKirimKeUnitLainV']['tgl_akhir']);
         }
