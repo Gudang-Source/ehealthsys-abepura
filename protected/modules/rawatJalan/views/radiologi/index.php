@@ -31,6 +31,7 @@ $this->widget('bootstrap.widgets.BootAlert');
                         $jenisPeriksa = '';
                         foreach($modPeriksaRad as $i=>$pemeriksaan){ 
                             $ceklist = false;
+                            if ($pemeriksaan->jenispemeriksaanrad->jenispemeriksaanrad_aktif == false) continue;
                             if($jenisPeriksa != $pemeriksaan->jenispemeriksaanrad->jenispemeriksaanrad_nama){
                                 echo ($jenisPeriksa!='') ? "</div>" : "";
                                 $jenisPeriksa = $pemeriksaan->jenispemeriksaanrad->jenispemeriksaanrad_nama;

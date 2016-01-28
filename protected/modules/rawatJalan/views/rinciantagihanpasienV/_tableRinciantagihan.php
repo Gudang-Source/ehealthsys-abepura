@@ -6,38 +6,41 @@
         'itemsCssClass'=>'table table-striped table-condensed',
 	'columns'=>array(
 				array(
+                                    'name'=>'Tgl. Pendaftaran<br/>No. Pendaftaran',
 					'name'=>'tgl_pendaftaran',
 					'type'=>'raw',
-					'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)',
+					'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."<br/>".$data->no_pendaftaran',
 				),
                 array(
-                    'header'=>'No. Rekam Medik<br/>No. Pendaftaran',
+                    'header'=>'No. Rekam Medik',
                     'type'=>'raw',
-                    'value'=>'$data->no_rekam_medik.\'<br/>\'.$data->no_pendaftaran',
+                    'value'=>'$data->no_rekam_medik',
                 ),
                 array(
                     'header'=>'Nama Pasien',
                     'type'=>'raw',
-                    'value'=>'$data->NamaNamaBIN',
+                    'value'=>'$data->namadepan.$data->nama_pasien',
+                ),
+//                'nama_pegawai',
+                array(
+                    'header'=>'Dokter',
+                    'type'=>'raw',
+                    'value'=>'$data->gelardepan.$data->nama_pegawai.",".$data->gelarbelakang_nama',
+                ),
+                'jeniskasuspenyakit_nama',
+                array(
+                    'name'=>'statusperiksa',
                 ),
                 array(
                     'header'=>'Cara Bayar<br/>Penjamin',
                     'type'=>'raw',
                     'value'=>'$data->CaraBayarPenjamin',
                 ),
-//                'nama_pegawai',
-                array(
-                    'header'=>'Dokter / <br> Kelas Pelayanan',
-                    'type'=>'raw',
-                    'value'=>'"$data->nama_pegawai"."<br/>"."$data->kelaspelayanan_nama"',
-                ),
-                'jeniskasuspenyakit_nama',
-                
                 array(
                     'header'=>'Total Tagihan',
                     'type'=>'raw',
                     'value'=>'number_format($data->Totaltagihan,0,\',\',\'.\')',  
-//                    'htmlOptions'=>array('style'=>'text-align:right;'),
+                    'htmlOptions'=>array('style'=>'text-align:right;'),
                 ),
                 array(
                     'header'=>'Status Bayar',
