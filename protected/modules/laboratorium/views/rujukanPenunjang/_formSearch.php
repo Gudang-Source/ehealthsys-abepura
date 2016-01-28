@@ -13,26 +13,6 @@
     <tr>
         <td>
             <div class="control-group ">
-                <label for="noPendaftaran" class="control-label">No. Pendaftaran </label>
-                <div class="controls">
-                    <?php echo CHtml::activeTextField($model,'no_pendaftaran',array('placeholder'=>'Ketik No. Pendaftaran')); ?>
-                </div>
-            </div>    
-            <div class="control-group ">
-                <label for="noRekamMedik" class="control-label">No. Rekam Medik </label>
-                <div class="controls">
-                    <?php echo CHtml::activeTextField($model,'no_rekam_medik',array('placeholder'=>'Ketik No. Rekam Medik')); ?>
-                </div>
-            </div>    
-            <div class="control-group ">
-                <label for="namaPasien" class="control-label">Nama Pasien </label>
-                <div class="controls">
-                    <?php echo CHtml::activeTextField($model,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien')); ?>
-                </div>
-            </div> 
-        </td>
-        <td>
-            <div class="control-group ">
                 <label for="namaPasien" class="control-label">
                     <?php $model->cbTglMasuk = false; ?>
                     <?php echo CHtml::activeCheckBox($model,'cbTglMasuk', array('uncheckValue'=>0,'onClick'=>'cekTanggal()')); ?>
@@ -74,6 +54,26 @@
                         <?php $model->tgl_akhir = $format->formatDateTimeForDb($model->tgl_akhir); ?>
                 </div>
             </div>
+        </td>
+        <td>
+            <div class="control-group ">
+                <label for="noPendaftaran" class="control-label">No. Pendaftaran </label>
+                <div class="controls">
+                    <?php echo CHtml::activeTextField($model,'no_pendaftaran',array('placeholder'=>'Ketik No. Pendaftaran')); ?>
+                </div>
+            </div>    
+            <div class="control-group ">
+                <label for="noRekamMedik" class="control-label">No. Rekam Medik </label>
+                <div class="controls">
+                    <?php echo CHtml::activeTextField($model,'no_rekam_medik',array('placeholder'=>'Ketik No. Rekam Medik')); ?>
+                </div>
+            </div>    
+            <div class="control-group ">
+                <label for="namaPasien" class="control-label">Nama Pasien </label>
+                <div class="controls">
+                    <?php echo CHtml::activeTextField($model,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien')); ?>
+                </div>
+            </div> 
         </td>
     </tr>
 </table>
