@@ -249,6 +249,24 @@ class PendaftaranRawatInapController extends PendaftaranRawatJalanController
                         }
                     }
                     
+                    $judul = 'Pendaftaran Pasien';
+                    
+                    if ($model->statuspasien == 'PENGUNJUNG LAMA') {
+                        $judul .= " Lama";
+                    } else $judul .= " Baru";
+                    
+                    $judul .= " Rawat Inap Langsung";
+                    
+                    $isi = $modPasien->no_rekam_medik.' - '.$modPasien->nama_pasien;
+                    
+                    
+                    
+                    $ok = CustomFunction::broadcastNotif($judul, $isi, array(
+                        array('instalasi_id'=>Params::INSTALASI_ID_RI, 'ruangan_id'=>$model->ruangan_id, 'modul_id'=>7),
+                        array('instalasi_id'=>Params::INSTALASI_ID_FARMASI, 'ruangan_id'=>Params::RUANGAN_ID_APOTEK_1, 'modul_id'=>10),
+                        array('instalasi_id'=>Params::INSTALASI_ID_KASIR, 'ruangan_id'=>Params::RUANGAN_ID_KASIR, 'modul_id'=>19),
+                    ));     
+                    
                     if($this->pasientersimpan && $this->pendaftarantersimpan && $this->penanggungjawabtersimpan && $this->rujukantersimpan && $this->karcistersimpan && $this->komponentindakantersimpan && $this->admisitersimpan && $this->masukkamartersimpan && $this->asuransipasientersimpan){
                         
                         // SMS GATEWAY

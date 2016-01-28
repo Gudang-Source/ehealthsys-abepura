@@ -116,7 +116,8 @@ Class Params
 	const KOMPONENUNIT_ID_GIZI = 23; // komponenunit_id untuk konsultasi gizi 
 
 	const RUANGAN_ID_AMBULANCE = 64;
-	const RUANGAN_ID_APOTEK_1 = 59;   
+	const RUANGAN_ID_APOTEK_1 = 59; 
+        const RUANGAN_ID_APOTEK_RJ = 60;
 	const RUANGAN_ID_BEDAH = 57;               
 	const RUANGAN_ID_FISIOTERAPI = 47;      
 	const RUANGAN_ID_GIZI = 62;         
@@ -128,7 +129,8 @@ Class Params
 	const RUANGAN_ID_PERINATOLOGI = 157;   
 	const RUANGAN_ID_RAD = 56;         
 	const RUANGAN_ID_STERILISASI = 223;     
-	const RUANGAN_ID_LAUNDRY = 226;        
+	const RUANGAN_ID_LAUNDRY = 226;     
+        const RUANGAN_ID_KASIR = 66;
 
 	const KELASPELAYANAN_ID_TANPA_KELAS = 6;
 

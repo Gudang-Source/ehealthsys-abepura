@@ -7,6 +7,85 @@
 class CustomFunction
 {
     /**
+     * Menyebarkan notifikasi secara bersamaan.
+     * 
+     * @author Deni Hamdani <pii.deni.prg@gmail.com>        
+     * @param string $judul Judul dari notifikasi
+     * @param string $isi Isi/Konten dari notifikasi
+     * @param mixed $tujuan Data tujuan yang tiap subarray-nya terdiri dari:
+     * - instalasi_id
+     * - ruangan_id (bisa dalam bentuk array maupun integer)
+     * - modul_id
+     * @return boolean Jika sukses menambahkan notifikasi ke tempat tujuan. False 
+     * jika sebaliknya.
+     * 
+     */
+    public static function broadcastNotif($judul, $isi, $tujuan) {
+        $param = array();
+        $param['tglnotifikasi'] = date('Y-m-d H:i:s');
+        $param['create_time'] = date('Y-m-d H:i:s');
+        $param['create_loginpemakai_id'] = Yii::app()->user->id;
+        $param['judulnotifikasi'] = $judul;
+        $param['isinotifikasi'] = $isi;
+        
+        $ok = true;
+        foreach ($tujuan as $item) {
+            $param['instalasi_id'] = $item['instalasi_id'];
+            $param['modul_id'] = $item['modul_id'];
+            
+            if (is_array($item['ruangan_id'])) {
+                foreach ($item['ruangan_id'] as $ruangan) {
+                    $param['create_ruangan'] = $ruangan;
+                    $ok = $ok && self::insertNotifikasi($param);
+                }
+            } else {
+                $param['create_ruangan'] = $item['ruangan_id'];
+                $ok = $ok && self::insertNotifikasi($param);
+            }
+        }
+        
+        return $ok;
+    }
+    
+    
+    /**
+     * Untuk menambahkan notifikasi
+     * digunakan juga di semua module
+     * @param type $params
+     * @return boolean
+     */
+    public static function insertNotifikasi($params){
+        $is_simpan = false;
+        $model = new NofitikasiR;
+        $model->attributes = $params;
+
+        $criteria = new CDbCriteria;
+        $criteria->compare('instalasi_id',$params['instalasi_id']);
+        $criteria->compare('modul_id',$params['modul_id']);
+        $criteria->compare('LOWER(isinotifikasi)',strtolower($params['isinotifikasi']),true);
+        $criteria->compare('create_ruangan',$params['create_ruangan']);
+        $criteria->addCondition("DATE(tglnotifikasi) = DATE(NOW()) AND isread = false");
+        $is_exist = NofitikasiR::model()->find($criteria);
+        if(!$is_exist)
+        {
+            if($model->save()){
+                $is_simpan = true;
+            }
+        }else{
+            $attributes = array(
+                'update_time' => date('Y-m-d H:i:s'),
+                'update_loginpemakai_id' => Yii::app()->user->id,
+            );
+            $update = $model::model()->updateByPk($is_exist['nofitikasi_id'], $attributes);
+            if($update){
+                $is_simpan = true;
+            }
+        }
+        return $is_simpan;
+    }
+    
+    
+    /**
      * Menghitung hari antara 2 tanggal
      * @param type $dateFrom
      * @param type $dateTo

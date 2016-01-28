@@ -355,7 +355,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
         'autoOpen'=>false,
         'width'=>720,
         'height'=>475,
-        'close'=>'js:function(){ clearFrameSrc(); }',
+        'close'=>'js:function(){ clearFrameSrc(); get_notifikasi(); }',
         'modal'=>true,
     ),
 ));

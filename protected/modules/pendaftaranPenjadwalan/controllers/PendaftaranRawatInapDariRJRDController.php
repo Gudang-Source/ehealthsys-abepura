@@ -212,6 +212,18 @@ class PendaftaranRawatInapDariRJRDController extends PendaftaranRawatInapControl
                         }
                     }
                     
+                    $judul = 'Pendaftaran Pasien Rujuk Rawat Inap';
+                    
+                    $isi = $modPasien->no_rekam_medik.' - '.$modPasien->nama_pasien;
+                    
+                    
+                    
+                    $ok = CustomFunction::broadcastNotif($judul, $isi, array(
+                        array('instalasi_id'=>Params::INSTALASI_ID_RI, 'ruangan_id'=>$model->ruangan_id, 'modul_id'=>7),
+                        array('instalasi_id'=>Params::INSTALASI_ID_FARMASI, 'ruangan_id'=>Params::RUANGAN_ID_APOTEK_1, 'modul_id'=>10),
+                        array('instalasi_id'=>Params::INSTALASI_ID_KASIR, 'ruangan_id'=>Params::RUANGAN_ID_KASIR, 'modul_id'=>19),
+                    ));     
+                    
                     if($this->pasientersimpan && $this->pendaftarantersimpan && $this->penanggungjawabtersimpan && $this->rujukantersimpan && $this->karcistersimpan && $this->komponentindakantersimpan && $this->admisitersimpan && $this->masukkamartersimpan && $this->asuransipasientersimpan){
                         $model->statusperiksa = Params::STATUSPERIKSA_SEDANG_DIRAWATINAP;
                         $model->alihstatus = true;
