@@ -3,23 +3,29 @@
 	'dataProvider'=>$model->searchInformasiBatalPeriksaPasien(),
 	'template'=>"{summary}\n{items}\n{pager}",
 	'itemsCssClass'=>'table table-striped table-condensed',
-	'columns'=>array(	
+	'columns'=>array(
 		array(
+			'header'=>'Tanggal Pembatalan',
+			'type'=>'raw',
+			'value'=>'MyFormatter::formatDateTimeForUser($data->tglbatal)',
+		),	
+		array(
+                        'header'=>'Tgl. Pendaftaran<br/>No.Pendaftaran',
 			'name'=>'tgl_pendaftaran',
 			'type'=>'raw',
-			'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)',
+			'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."<br/>".$data->no_pendaftaran',
 		),
 		array(
-			'name'=>'no_pendaftaran',
-			'header'=>'No. Pendaftaran'.'/<br/>'.'No. Rekam Medik',
+			'name'=>'no_rekam_medik',
+			'header'=>'No. Rekam Medik',
 			'type'=>'raw',
-			'value'=>'"$data->no_pendaftaran"."<br/>"."$data->no_rekam_medik"',
+			'value'=>'$data->no_rekam_medik',
 		),
 		array(
 			'name'=>'nama_pasien',
-			'header'=>'Nama Pasien'.'/<br/>'.'Alias',
+			'header'=>'Nama Pasien',
 			'type'=>'raw',
-			'value'=>'"$data->nama_pasien"."<br/>"."$data->nama_bin"',
+			'value'=>'$data->namadepan.$data->nama_pasien',
 		),
 		array(
 			'name'=>'carabayar_nama',
@@ -31,18 +37,13 @@
 			'name'=>'nama_pegawai',
 			'header'=>'Dokter',
 			'type'=>'raw',
-			'value'=>'$data->nama_pegawai',
+			'value'=>'$data->gelardepan.$data->nama_pegawai.",".$data->gelarbelakang_nama',
 		),
 		array(
 			'name'=>'jeniskasuspenyakit_nama',
 			'header'=>'Kasus Penyakit',
 			'type'=>'raw',
 			'value'=>'$data->jeniskasuspenyakit_nama',
-		),
-		array(
-			'header'=>'Tanggal Pembatalan',
-			'type'=>'raw',
-			'value'=>'MyFormatter::formatDateTimeForUser($data->tglbatal)',
 		),
 		array(
 			'name'=>'keterangan_batal',
