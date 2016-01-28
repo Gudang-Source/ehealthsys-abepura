@@ -229,7 +229,7 @@ class InfopasienbatalperiksaV extends CActiveRecord
 			'nama_pegawai' => 'Nama Pegawai',
 			'gelarbelakang_nama' => 'Gelarbelakang Nama',
 			'pasienbatalperiksa_id' => 'Pasienbatalperiksa',
-			'tglbatal' => 'Tglbatal',
+			'tglbatal' => 'Tgl Pembatalan',
 			'keterangan_batal' => 'Keterangan Batal',
 			'create_time' => 'Create Time',
 			'update_time' => 'Update Time',
