@@ -15,6 +15,10 @@
                     <?php echo $form->textFieldRow($model,'ruangan_nama',array('class'=>'span3', 'onkeyup'=>"namaLain(this)", 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
                     <?php echo $form->textFieldRow($model,'ruangan_namalainnya',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
                     <?php echo $form->textFieldRow($model,'ruangan_lokasi',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
+                    <?php echo $form->dropDownListRow($model,'modul_id',  CHtml::listData(ModulK::model()->findAll(array(
+                        'condition'=>'modul_aktif = true',
+                        'order'=>'modul_nama'
+                    )), 'modul_id', 'modul_nama'),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
                     <div>
                         <?php echo $form->checkBoxRow($model,'ruangan_aktif', array('onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
                     </div>

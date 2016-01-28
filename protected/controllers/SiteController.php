@@ -636,6 +636,19 @@ class SiteController extends Controller
             }
         }
         
+        public function actionPilihModul() {
+            if(Yii::app()->getRequest()->getIsAjaxRequest()) {
+                $res = null;
+                if (isset($_POST['ruangan_id'])) {
+                    $ruangan = RuanganM::model()->findByPk($_POST['ruangan_id']);
+                    if (!empty($ruangan)) $res = $ruangan->modul_id;
+                }
+                
+                echo CJSON::encode(array('modul_id'=>$res));
+            }
+            
+        }
+        
         public function actionGetNotifikasi(){
             if(Yii::app()->getRequest()->getIsAjaxRequest())
             {

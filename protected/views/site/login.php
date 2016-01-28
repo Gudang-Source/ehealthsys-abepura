@@ -82,7 +82,7 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                                 </div>
                                 <div class="rowfield">
                                         <?php //LOAD BY AJAX echo $form->dropDownList($model, 'ruangan', CHtml::listData(RuanganM::model()->getRuanganByInstalasi($model->instalasi), 'ruangan_id', 'ruangan_nama'),array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event);"));  ?>
-                                        <?php echo $form->dropDownList($model, 'ruangan', array(),array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event);"));  ?>
+                                        <?php echo $form->dropDownList($model, 'ruangan', array(),array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event);", 'onchange'=>'pilihModul(this)'));  ?>
                                                 <?php echo $form->error($model,'ruangan'); ?>
                                 </div>
                         </div>
@@ -183,5 +183,21 @@ function getRuangan(){
 		},
 		error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
 	});
+}
+
+
+function pilihModul(obj) {
+    var ruangan_id = $(obj).val();
+    
+    $.ajax({
+		type:'POST',
+		url:'<?php echo $this->createUrl('pilihModul'); ?>',
+		data: {ruangan_id:ruangan_id},//
+		dataType: "json",
+		success:function(data){
+                    $("#LoginForm_modul").val(data.modul_id);
+		},
+		error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
+    });
 }
 </script>
