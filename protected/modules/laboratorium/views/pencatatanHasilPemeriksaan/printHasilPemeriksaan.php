@@ -1,4 +1,4 @@
-<div class="white-container">
+<!--div class="white-container"-->
     <?php
     if($caraPrint=='EXCEL')
     {
@@ -69,9 +69,9 @@
                         <?php echo $no_urut; ?>
                     </td>
                     <td><?php echo $modDetail->pemeriksaandetail->nilairujukan->namapemeriksaandet ?></td>
-                    <td><?php echo $modDetail->hasilpemeriksaan; ?></td>
+                    <td style="text-align: center;"><?php echo $modDetail->hasilpemeriksaan; ?></td>
                     <!-- Karena <sup> jadi tidak superscript >> <td><?php // echo htmlentities($modDetail->NilaiRujukan, ENT_QUOTES | ENT_IGNORE, "UTF-8"); ?></td>-->
-                    <td><?php echo $modDetail->NilaiRujukan; ?></td>
+                    <td style="text-align: center;"><?php echo $modDetail->NilaiRujukan; ?></td>
                     <td><?php echo $modDetail->HasilPemeriksaanSatuan; ?></td>
                     <td><?php echo $modDetail->HasilPemeriksaanMetode; ?></td>
                 </tr>
@@ -111,7 +111,7 @@
     <table width="100%" >
         <tr>
             
-            <td><?php echo Yii::app()->user->getState('kabupaten_nama') ?>, <?php echo date('d/m/Y') ?></td>
+            <td><?php echo Yii::app()->user->getState('kabupaten_nama') ?>, <?php echo MyFormatter::formatDateTimeForUser(date('Y-m-d')); ?></td>
         </tr>
 		<br>
         <tr>
@@ -126,7 +126,7 @@
         </tr> 
     </table>
     <?php } ?>
-</div>
+<!--/div-->
 <script>
 /**
  * print hasil pemeriksaan 
