@@ -259,6 +259,17 @@ class PendaftaranPenunjangController extends PendaftaranRawatJalanController
                         }
                     }
                     
+                    $judul = 'Pendaftaran Pasien';
+                    $judul .= " Penunjang";
+                    
+                    $isi = $modPasien->no_rekam_medik.' - '.$modPasien->nama_pasien;
+                    
+                    $ok = CustomFunction::broadcastNotif($judul, $isi, array(
+                        array('instalasi_id'=>$model->ruangan->instalasi_id, 'ruangan_id'=>$model->ruangan_id, 'modul_id'=>$model->ruangan->modul_id),
+                        // array('instalasi_id'=>Params::INSTALASI_ID_FARMASI, 'ruangan_id'=>Params::RUANGAN_ID_APOTEK_RJ, 'modul_id'=>10),
+                        array('instalasi_id'=>Params::INSTALASI_ID_KASIR, 'ruangan_id'=>Params::RUANGAN_ID_KASIR, 'modul_id'=>19),
+                    ));     
+                    
                     if($this->pasientersimpan && $this->pendaftarantersimpan && $this->penanggungjawabtersimpan && $this->rujukantersimpan && $this->karcistersimpan && $this->tindakanpelayanantersimpan && $this->komponentindakantersimpan && $this->pasienpenunjangtersimpan && $this->asuransipasientersimpan){
                         
                         // SMS GATEWAY

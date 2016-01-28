@@ -15,6 +15,7 @@ class NotifikasiFrameController extends NotifikasiRController
     {
         $model=new SANofitikasiR('searchFrame');
         $model->unsetAttributes();  // clear any default values
+        $model->create_ruangan = Yii::app()->user->getState('ruangan_id');
         if(isset($_GET['SANofitikasiR'])){
             $model->attributes=$_GET['SANofitikasiR'];
         }
