@@ -128,7 +128,7 @@ class KelaspelayananM extends CActiveRecord
 	}
         
         public function beforeSave() {
-            $this->kelaspelayanan_nama = ucwords(strtolower($this->kelaspelayanan_nama));
+            $this->kelaspelayanan_nama = $this->kelaspelayanan_nama;
             $this->kelaspelayanan_namalainnya = strtoupper($this->kelaspelayanan_namalainnya);
             return parent::beforeSave();
         }

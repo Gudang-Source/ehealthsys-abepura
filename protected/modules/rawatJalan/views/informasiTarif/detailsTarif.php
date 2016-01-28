@@ -3,7 +3,7 @@ echo "<table>";
 echo "<tr>
         <td>Kategori Tindakan</td>
         <td>:</td>
-        <td>".(empty($modTarif['kategoritindakan_nama']) ? $modTarif['kategoritindakan_nama'] : "-")."</td>
+        <td>".(!empty($modTarif->kategoritindakan_nama) ? $modTarif->kategoritindakan_nama : "-")."</td>
 
          </tr>";
 echo "<tr>
@@ -24,7 +24,7 @@ echo "<table class='table table-bordered table-condensed'>";
 foreach($modTarifTindakan AS $tampilTarifTindakan):
     echo "<tr>
             <td>".$tampilTarifTindakan->komponentarif['komponentarif_nama']."</td>
-            <td>Rp. ".number_format($tampilTarifTindakan['harga_tariftindakan'])."</td>    
+            <td style='text-align:right;'>Rp. ".number_format($tampilTarifTindakan['harga_tariftindakan'])."</td>    
           </tr>"; 
 $tarifTotal = null;
 $tarifTotal=$tarifTotal+$tampilTarifTindakan['harga_tariftindakan'];
@@ -33,7 +33,7 @@ echo "<tr>
         <td colspan=\"2\">
      <tr>
         <td>Total</td>
-        <td>Rp. ".number_format($tarifTotal)."
+        <td style='text-align:right;'>Rp. ".number_format($tarifTotal)."
     </table>";
 }else{
     echo "Tarif Belum Disetting";
