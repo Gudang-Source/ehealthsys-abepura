@@ -890,7 +890,7 @@ class RJInfokunjunganrjV extends InfokunjunganrjV {
                 }
             }
             
-            return $tindakan->tindakanpelayanan_id;
+            // return $tindakan->tindakanpelayanan_id;
             
             if (!empty($tindakan)) {
                 if (empty($tindakan->tindakansudahbayar_id)) {
