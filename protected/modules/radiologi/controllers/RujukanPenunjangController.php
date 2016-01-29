@@ -8,18 +8,21 @@ class RujukanPenunjangController extends MyAuthController
 			if(isset($_GET['ajax']) && $_GET['ajax']=='pasienpenunjangrujukan-m-grid') {
 				$format = new MyFormatter;
 				echo $format->formatDateTimeForDb($_GET['tgl_akhir']);
-				$criteria->compare('LOWER(no_pendaftaran)', strtolower($_GET['noPendaftaran']),true);
-				$criteria->compare('LOWER(nama_pasien)', strtolower($_GET['namaPasien']),true);
-				$criteria->compare('LOWER(no_rekam_medik)', strtolower($_GET['noRekamMedik']),true);
+				$criteria->compare('LOWER(t.no_pendaftaran)', strtolower($_GET['noPendaftaran']),true);
+				$criteria->compare('LOWER(t.nama_pasien)', strtolower($_GET['namaPasien']),true);
+				$criteria->compare('LOWER(t.no_rekam_medik)', strtolower($_GET['noRekamMedik']),true);
 				if($_GET['cbTglMasuk'])
-					$criteria->addBetweenCondition('tgl_kirimpasien', "'".$format->formatDateTimeForDb($_GET['tgl_awal'])."'", "'".$format->formatDateTimeForDb($_GET['tgl_akhir'])."'");
+					$criteria->addBetweenCondition('t.tgl_kirimpasien', "'".$format->formatDateTimeForDb($_GET['tgl_awal'])."'", "'".$format->formatDateTimeForDb($_GET['tgl_akhir'])."'");
 			} else {
 //                $criteria->addBetweenCondition('tgl_pendaftaran', date('Y-m-d'), date('Y-m-d'));
-				$criteria->addBetweenCondition('date(tgl_pendaftaran)', date('Y-m-d', strtotime('-5 days')).' 00:00:00', date('Y-m-d H:i:s'));
+				$criteria->addBetweenCondition('date(t.tgl_pendaftaran)', date('Y-m-d', strtotime('-5 days')).' 00:00:00', date('Y-m-d H:i:s'));
 			}
-			$criteria->addCondition('instalasi_id = '.Yii::app()->user->getState('instalasi_id'));
-			$criteria->order='tgl_kirimpasien DESC';
+			$criteria->addCondition('t.instalasi_id = '.Yii::app()->user->getState('instalasi_id'));
+			$criteria->order='t.tgl_kirimpasien DESC';
 			
+                        $criteria->join = "join pendaftaran_t p on p.pendaftaran_id = t.pendaftaran_id";
+                        $criteria->addCondition('p.pasienbatalperiksa_id is null');
+                        
 			$dataProvider = new CActiveDataProvider(PasienkirimkeunitlainV::model(), array(
 			'criteria'=>$criteria,
 		));
