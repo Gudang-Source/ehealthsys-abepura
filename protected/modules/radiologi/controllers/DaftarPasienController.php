@@ -440,7 +440,7 @@ class DaftarPasienController extends MyAuthController
                             $data['pesan'] = "Pemanggilan no. antrian ".$pasienMasukPenunjang->no_urutperiksa." dibatalkan !";
                         }
                     }else{
-                        $data['pesan'] = "No. antrian ".$pasienMasukPenunjang->no_urutperiksa." sudah dipanggil sebelumnya !";
+                        $data['pesan'] = "No. antrian ".$pasienMasukPenunjang->no_urutperiksa." dipanggil !";
                     }
                 }else{
                     $pasienMasukPenunjang->panggilantrian = true;
