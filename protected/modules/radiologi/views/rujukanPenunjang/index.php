@@ -10,35 +10,45 @@
             'template'=>"{summary}\n{items}\n{pager}",
             'itemsCssClass'=>'table table-striped table-condensed',
             'columns'=>array(
-                    'tgl_pendaftaran',
-                    'tgl_kirimpasien',
-                    // 'ruangan_id',
                     array(
-                        'header'=>' Instalasi<br/>Ruangan/Poliklinik Asal',
+                        'header'=>'Tgl. Pendaftaran/<br/>No. Pendaftaran',
+                        'name'=>'tgl_pendaftaran',
+                        'type'=>'raw',
+                        'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."/<br/>".$data->no_pendaftaran'
+                    ),
+                    'tgl_kirimpasien',
+                    array(
+                        'header'=>' Instalasi/<br/>Ruangan Asal',
                         'value'=>'$data->InstalasiNamaRuanganNama',
                     ),
-                    'no_pendaftaran',
+                    //'tgl_pendaftaran',
+                    // 'ruangan_id',
+                    
+                    //'no_pendaftaran',
                     'no_rekam_medik',
                     array(
                         'header'=>'Nama Pasien',
-                        'value'=>'$data->NamaPasienNamaBin',
+                        'value'=>'$data->namadepan.$data->nama_pasien',
                     ),
+                    'alamat_pasien',
+                /*
                     array(
                         'header'=>'Nama Perujuk',
                         'value'=>'$data->nama_pegawai',
-                    ),                
-                    array(
-                        'header'=>'Cara Bayar / Penjamin',
-                        'value'=>'$data->CaraBayarPenjaminNama',
                     ),
+                 * 
+                 */   /*
                     array(
                         'header'=>'Kelas Pelayanan',
                         'type'=>'raw',
                         'value'=>'$data->kelaspelayanan_nama',
-                    ),
-                    'jeniskasuspenyakit_nama',
+                    ), */
+                    'jeniskasuspenyakit_nama',             
+                    array(
+                        'header'=>'Cara Bayar / Penjamin',
+                        'value'=>'$data->CaraBayarPenjaminNama',
+                    ), 
     //                'pendaftaran.umur',
-                    'alamat_pasien',
     //                'pemeriksaanrad_nama',
     //                array(
     //                    'header'=>'Periksa',
@@ -90,8 +100,8 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
 <div class="divForForm"></div>
 <?php $this->endWidget(); ?>
 <script type="text/javascript">
-document.getElementById('tgl_awal_date').setAttribute("style","display:none;");
-document.getElementById('tgl_akhir_date').setAttribute("style","display:none;");
+// document.getElementById('tgl_awal_date').setAttribute("style","display:none;");
+// document.getElementById('tgl_akhir_date').setAttribute("style","display:none;");
 function cekTanggal(){
 
     var checklist = $('#cbTglMasuk');
