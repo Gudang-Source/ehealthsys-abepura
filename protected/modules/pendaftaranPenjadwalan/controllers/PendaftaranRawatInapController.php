@@ -580,11 +580,11 @@ class PendaftaranRawatInapController extends PendaftaranRawatJalanController
                 $kamarKosong = array();
                 if(!empty($ruangan_id)) {
                     if(!empty($bookingkamar_id)){
-                        $kamarKosong = KamarruanganM::model()->findAllByAttributes(array('ruangan_id'=>$ruangan_id,'kamarruangan_status'=>true));
+                        $kamarKosong = KamarruanganM::model()->findAllByAttributes(array('ruangan_id'=>$ruangan_id,'kamarruangan_status'=>true, 'kamarruangan_aktif'=>true));
 
                         $modBookingKamar = BookingkamarT::model()->findByPk($bookingkamar_id);
                     }else{
-                        $kamarKosong = KamarruanganM::model()->findAllByAttributes(array('ruangan_id'=>$ruangan_id,'kamarruangan_status'=>true));
+                        $kamarKosong = KamarruanganM::model()->findAllByAttributes(array('ruangan_id'=>$ruangan_id,'kamarruangan_status'=>true, 'kamarruangan_aktif'=>true));
                     }
                     $kamarKosong = CHtml::listData($kamarKosong,'kamarruangan_id','KamarDanTempatTidur');
                 }
