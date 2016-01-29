@@ -43,7 +43,7 @@ class PemeriksaanradM extends CActiveRecord
 			array('daftartindakan_id, pemeriksaanrad_nama, jenispemeriksaanrad_id', 'required'),
 			array('daftartindakan_id', 'numerical', 'integerOnly'=>true),
 			// array('pemeriksaanrad_jenis', 'length', 'max'=>100),
-			array('pemeriksaanrad_nama, pemeriksaanrad_namalainnya', 'length', 'max'=>20),
+			array('pemeriksaanrad_nama, pemeriksaanrad_namalainnya', 'length', 'max'=>100),
 			array('pemeriksaanrad_aktif,jenispemeriksaanrad_id', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
