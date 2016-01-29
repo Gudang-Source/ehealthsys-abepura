@@ -100,8 +100,8 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
 <div class="divForForm"></div>
 <?php $this->endWidget(); ?>
 <script type="text/javascript">
-document.getElementById('tgl_awal_date').setAttribute("style","display:none;");
-document.getElementById('tgl_akhir_date').setAttribute("style","display:none;");
+// document.getElementById('tgl_awal_date').setAttribute("style","display:none;");
+// document.getElementById('tgl_akhir_date').setAttribute("style","display:none;");
 function cekTanggal(){
 
     var checklist = $('#cbTglMasuk');
