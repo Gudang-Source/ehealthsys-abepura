@@ -30,11 +30,37 @@
                             ),
     //            'tgl_pendaftaran', menggunakan tgl masuk penunjang agar urutan pendaftaran sesuai jika dari RI,RJ,RD
                             array(
-                                    'header'=>'Tanggal Pendaftaran',
+                                    'header'=>'Tgl. Pendaftaran<br/>No Pendaftaran',
+                                    'name'=>'tgl_pendaftaran',
+                                    'type'=>'raw',
+                                    'value'=>'CHtml::link("<i class=\"icon-form-ubah\"></i><br/>".$data->tgl_pendaftaran."/<br/>".$data->no_pendaftaran,Yii::app()->controller->createUrl("pemeriksaanPasienRadiologi/index",array("pasienmasukpenunjang_id"=>$data->pasienmasukpenunjang_id)),array("rel"=>"tooltip","title"=>"Klik untuk mengubah pemeriksaan"))'
+                            ),
+                            array(
+                                    'header'=>'Tgl. Penunjang<br/>No. Penunjang',
                                     'name'=>'tglmasukpenunjang',
+                                    'type'=>'raw',
+                                    'value'=>'$data->tglmasukpenunjang."/<br/>".$data->no_masukpenunjang'
+                            ),
+                            array(
+                                'header'=>'Ruangan<br/>Dokter Asal',
+                                'name'=>'ruanganasal_nama',
+                                'type'=>'raw',
+                                'value'=>function($data) {
+                                    $pegawai = PegawaiM::model()->findByAttributes(array(
+                                        'nama_pegawai'=>$data->nama_dokterasal,
+                                    ));
+                                    return $data->ruanganasal_nama."/<br/>".(empty($pegawai)?"-":$pegawai->namaLengkap);
+                                },
+                            ),
+                            'nama_perujuk',
+                            array(
+                                'name'=>'no_rekam_medik',
+                                'type'=>'raw',
+                                'header'=>'No. RM',
+                                'value'=>'$data->no_rekam_medik',
                             ),
                             // 'ruanganasal_id',
-                            'ruanganasal_nama',
+                            
     //            array(
     //                'name'=>'no_pendaftaran',
     //                'header'=>'No. Pendaftaran',
@@ -43,6 +69,7 @@
     //                'htmlOptions'=>array('width'=>'100px'),
     //            ),
                             //TEST BETA
+                /*
                             array(
                                     'name'=>'no_pendaftaran',
                                     'header'=>'No. Pendaftaran',
@@ -50,11 +77,13 @@
                                     'value'=>'CHtml::link("<i class=\"icon-form-ubah\"></i>$data->no_pendaftaran",Yii::app()->controller->createUrl("pemeriksaanPasienRadiologi/index",array("pasienmasukpenunjang_id"=>$data->pasienmasukpenunjang_id)),array("rel"=>"tooltip","title"=>"Klik untuk mengubah pemeriksaan"))',
                                     'htmlOptions'=>array('width'=>'100px'),
                             ),
-                            'no_rekam_medik',
+                 * 
+                 */
+                            //'no_rekam_medik',
                             array(
-                                    'header'=>'Nama Pasien / Panggilan',
+                                    'header'=>'Nama Pasien',
                                     'type'=>'raw',
-                                    'value'=> '((substr($data->no_rekam_medik,0,-6)) == "LB" || (substr($data->no_rekam_medik,0,-6)) == "RO" ? CHtml::link("<i class=\"icon-pencil-blue\"></i> ".$data->nama_pasien.\' / \'.$data->nama_bin, Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/ubahPasien",array("id"=>"$data->pasien_id","modul_id"=>"'.Yii::app()->session['modul_id'].'")), array("rel"=>"tooltip","title"=>"Klik untuk mengubah data pasien")) : $data->nama_pasien.\' / \'.$data->nama_bin )',
+                                    'value'=> '((substr($data->no_rekam_medik,0,-6)) == "LB" || (substr($data->no_rekam_medik,0,-6)) == "RO" ? CHtml::link("<i class=\"icon-pencil-blue\"></i><br/>".$data->namadepan.$data->nama_pasien.\' / \'.$data->nama_bin, Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/ubahPasien",array("id"=>"$data->pasien_id","modul_id"=>"'.Yii::app()->session['modul_id'].'")), array("rel"=>"tooltip","title"=>"Klik untuk mengubah data pasien")) : $data->namadepan.$data->nama_pasien )',
                             ),
     //            array(
     //                'header'=>'Kasus Penyakit / <br> Kelas Pelayanan',
@@ -63,16 +92,21 @@
     //            ),
     //            'jeniskasuspenyakit_nama',
                             array(
-                                    'header'=>'Jenis Kelamin',
+                                    'header'=>'Jenis Kelamin/<br/>Umur',
                                     'type'=>'raw',
-                                    'value'=>'$data->jeniskelamin',
+                                    'value'=>'$data->jeniskelamin."/<br/>".$data->umur',
                             ),
-                            'umur',
                             'alamat_pasien',
 
                             array(
                                     'header'=>'Cara Bayar / Penjamin',
                                     'value'=>'$data->caraBayarPenjamin',
+                            ),
+                            array(
+                                'header'=>'Dokter Pemeriksa',
+                                'type'=>'raw',
+                //                'value'=>'($data->statusperiksahasil == Params::STATUSPERIKSAHASIL_SEDANG) ? CHtml::link("<i class=\"icon-pencil-blue\"></i>". $data->getNamaLengkapDokter($data->pegawai_id),Yii::app()->controller->createUrl("/'.$module.'/'.$controller.'/ApprovePemeriksaan",array("pendaftaran_id"=>$data->pendaftaran_id,"pasienmasukpenunjang_id"=>$data->pasienmasukpenunjang_id)),array("rel"=>"tooltip","title"=>"Klik untuk menyetujui pemeriksaan", "onclick"=>"return confirm(\"Apakah Anda akan menyetujui pemeriksaan ini?\");")) : $data->getNamaLengkapDokter($data->pegawai_id)',
+                                'value'=>'$data->getNamaLengkapDokter($data->pegawai_id)',
                             ),
                              array(
                                     'header'=>'Masukkan Hasil',
