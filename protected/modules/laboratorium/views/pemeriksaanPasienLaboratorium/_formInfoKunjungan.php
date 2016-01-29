@@ -106,7 +106,7 @@
             <?php echo CHtml::textField('ruanganasal_nama',$modKunjungan->ruanganasal_nama,array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);"));  ?>
         </div>
     </div>
-    <div class="control-group">
+    <div class="control-group" hidden>
         <?php echo CHtml::label("Kelas Pelayanan", 'kelaspelayanan_id', array('class'=>'control-label')); ?>
         <div class="controls">
             <?php echo CHtml::hiddenField('kelaspelayanan_id',$modKunjungan->kelaspelayanan_id,array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>

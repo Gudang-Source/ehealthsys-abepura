@@ -82,7 +82,7 @@
                     ),
                     array(
                         'name'=>'pegawai_id',
-                        'value'=>$model->pegawai->nama_pegawai,
+                        'value'=>$model->pegawai->namaLengkap,
                     ),
                     array(
                         'name'=>'carabayar_id',

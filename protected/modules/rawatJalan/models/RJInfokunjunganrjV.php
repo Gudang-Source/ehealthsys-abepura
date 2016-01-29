@@ -874,22 +874,29 @@ class RJInfokunjunganrjV extends InfokunjunganrjV {
        if ($this->penjamin_id == Params::PENJAMIN_ID_UMUM) {
             $pendaftaran = PendaftaranT::model()->findByPk($this->pendaftaran_id);
            
-            $tindakan = TindakanpelayananT::model()->findByAttributes(array(
-                'pendaftaran_id'=>$this->pendaftaran_id,
-                'karcis_id'=>$pendaftaran->karcis_id,
-            ));
-            if (empty($tindakan)) {
+            if (!empty($pendaftaran->karcis_id)) {
                 $tindakan = TindakanpelayananT::model()->findByAttributes(array(
                     'pendaftaran_id'=>$this->pendaftaran_id,
-                    'ruangan_id'=>2,
+                    'karcis_id'=>$pendaftaran->karcis_id,
                 ));
+            } else {
+                if (empty($tindakan)) {
+                    $tindakan = TindakanpelayananT::model()->findByAttributes(array(
+                        'pendaftaran_id'=>$this->pendaftaran_id,
+                        'ruangan_id'=>2,
+                    ), array(
+                        'condition'=>'karcis_id is not null'
+                    ));
+                }
             }
-
-            if (empty($tindakan->tindakansudahbayar_id)) {
-                return CHtml::link("<i class='icon-form-periksa'></i> ", '#', array("id"=>$this->no_pendaftaran,"rel"=>"tooltip","title"=>"Klik untuk Pemeriksaan Pasien", "onclick"=>"myAlert('Pasien belum membayar karcis.'); return false;"));
+            
+            // return $tindakan->tindakanpelayanan_id;
+            
+            if (!empty($tindakan)) {
+                if (empty($tindakan->tindakansudahbayar_id)) {
+                    return CHtml::link("<i class='icon-form-periksa'></i> ", '#', array("id"=>$this->no_pendaftaran,"rel"=>"tooltip","title"=>"Klik untuk Pemeriksaan Pasien", "onclick"=>"myAlert('Pasien belum membayar karcis.'); return false;"));
+                }
             }
-           
-           
        }
        
        if (!$this->alihstatus) {

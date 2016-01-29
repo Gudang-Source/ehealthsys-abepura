@@ -127,7 +127,7 @@
                                                     'minDate' => 'd',
                                                     //
                                                 ),
-                                                'htmlOptions'=>array('class'=>'dtPicker2-5', 'onkeypress'=>"return $(this).focusNextInputField(event)"
+                                                'htmlOptions'=>array('class'=>'dtPicker2-5 realtime', 'onkeypress'=>"return $(this).focusNextInputField(event)"
                                                 ),
                         )); ?>
 
