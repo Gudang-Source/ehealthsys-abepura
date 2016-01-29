@@ -153,7 +153,7 @@ $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
 												'dateFormat'=>Params::DATE_FORMAT,
 												'maxDate' => 'd',
 											),
-											'htmlOptions'=>array('readonly'=>true),
+											'htmlOptions'=>array('readonly'=>true, 'class'=>'realtime'),
 					)); ?>
 			</div>
 		</div>

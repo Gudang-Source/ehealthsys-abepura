@@ -77,7 +77,7 @@ $this->widget('bootstrap.widgets.BootAlert');
                                                         'dateFormat'=>Params::DATE_FORMAT,
                                                         'maxDate' => 'd',
                                                     ),
-                                                    'htmlOptions'=>array('readonly'=>true),
+                                                    'htmlOptions'=>array('readonly'=>true, 'class'=>'realtime'),
                             )); ?>
                     </div>
                 </div>
