@@ -24,28 +24,8 @@
         <tr>
             <td>
                 <div class="control-group ">
-                    <label for="noPendaftaran" class="control-label">No. Pendaftaran </label>
-                    <div class="controls">
-                        <input type="text" value="" maxlength="20" placeholder="Ketik no. pendaftaran" id="noPendaftaran" name="noPendaftaran" autofocus=true onkeypress="return $(this).focusNextInputField(event)" empty="-- Pilih --">
-                    </div>
-                </div>    
-                <div class="control-group ">
-                    <label for="noRekamMedik" class="control-label">No. Rekam Medik </label>
-                    <div class="controls">
-                        <input type="text" value="" maxlength="10" placeholder="Ketik no. rekam medik" id="noRekamMedik" name="noRekamMedik" onkeypress="return $(this).focusNextInputField(event)" empty="-- Pilih --">
-                    </div>
-                </div>    
-                <div class="control-group ">
-                    <label for="namaPasien" class="control-label">Nama Pasien </label>
-                    <div class="controls">
-                        <input type="text" value="" maxlength="50" placeholder="Ketik nama pasien" id="namaPasien" name="namaPasien" onkeypress="return $(this).focusNextInputField(event)" empty="-- Pilih --">
-                    </div>
-                </div> 
-            </td>
-            <td>
-                <div class="control-group ">
                     <label for="namaPasien" class="control-label">
-                        <?php echo CHtml::checkBox('cbTglMasuk', false, array('uncheckValue'=>0,'onClick'=>'cekTanggal()')); ?>
+                        <?php // echo CHtml::checkBox('cbTglMasuk', false, array('uncheckValue'=>0,'onClick'=>'cekTanggal()')); ?>
                         Tanggal Masuk 
                     </label>
                     <div class="controls">
@@ -79,6 +59,26 @@
                         )); ?>
                     </div>
                 </div>
+            </td>
+            <td>
+                <div class="control-group ">
+                    <label for="noPendaftaran" class="control-label">No. Pendaftaran </label>
+                    <div class="controls">
+                        <input type="text" value="" maxlength="20" placeholder="Ketik no. pendaftaran" id="noPendaftaran" name="noPendaftaran" autofocus=true onkeypress="return $(this).focusNextInputField(event)" empty="-- Pilih --">
+                    </div>
+                </div>    
+                <div class="control-group ">
+                    <label for="noRekamMedik" class="control-label">No. Rekam Medik </label>
+                    <div class="controls">
+                        <input type="text" value="" maxlength="10" placeholder="Ketik no. rekam medik" id="noRekamMedik" name="noRekamMedik" onkeypress="return $(this).focusNextInputField(event)" empty="-- Pilih --">
+                    </div>
+                </div>    
+                <div class="control-group ">
+                    <label for="namaPasien" class="control-label">Nama Pasien </label>
+                    <div class="controls">
+                        <input type="text" value="" maxlength="50" placeholder="Ketik nama pasien" id="namaPasien" name="namaPasien" onkeypress="return $(this).focusNextInputField(event)" empty="-- Pilih --">
+                    </div>
+                </div> 
             </td>
         </tr>
     </table>

@@ -11,8 +11,7 @@ class RujukanPenunjangController extends MyAuthController
 				$criteria->compare('LOWER(t.no_pendaftaran)', strtolower($_GET['noPendaftaran']),true);
 				$criteria->compare('LOWER(t.nama_pasien)', strtolower($_GET['namaPasien']),true);
 				$criteria->compare('LOWER(t.no_rekam_medik)', strtolower($_GET['noRekamMedik']),true);
-				if($_GET['cbTglMasuk'])
-					$criteria->addBetweenCondition('t.tgl_kirimpasien', "'".$format->formatDateTimeForDb($_GET['tgl_awal'])."'", "'".$format->formatDateTimeForDb($_GET['tgl_akhir'])."'");
+				$criteria->addBetweenCondition('t.tgl_kirimpasien::date', $format->formatDateTimeForDb($_GET['tgl_awal']), $format->formatDateTimeForDb($_GET['tgl_akhir']));
 			} else {
 //                $criteria->addBetweenCondition('tgl_pendaftaran', date('Y-m-d'), date('Y-m-d'));
 				$criteria->addBetweenCondition('date(t.tgl_pendaftaran)', date('Y-m-d', strtotime('-5 days')).' 00:00:00', date('Y-m-d H:i:s'));
