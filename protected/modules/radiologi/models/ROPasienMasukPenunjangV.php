@@ -28,6 +28,8 @@ class ROPasienMasukPenunjangV extends PasienmasukpenunjangV
             $criteria->compare('LOWER(t.no_pendaftaran)',strtolower($this->no_pendaftaran),true);
             $criteria->compare('LOWER(t.nama_pasien)',strtolower($this->nama_pasien),true);
             $criteria->compare('LOWER(t.nama_bin)',strtolower($this->nama_bin),true);
+            $criteria->compare('t.carabayar_id', $this->carabayar_id);
+            $criteria->compare('t.penjamin_id', $this->penjamin_id);
             $criteria->addCondition('t.ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
             $batal = "BATAL PERIKSA";
             $criteria->addCondition('t.statusperiksa <> \''.$batal.'\'');
