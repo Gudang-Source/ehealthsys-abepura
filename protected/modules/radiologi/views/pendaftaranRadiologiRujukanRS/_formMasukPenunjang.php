@@ -28,7 +28,7 @@
 						   'options'=> array(
 						   'dateFormat'=>Params::DATE_FORMAT,
 						),
-						   'htmlOptions'=>array('readonly'=>true,'class'=>'span3',
+						   'htmlOptions'=>array('readonly'=>true,'class'=>'span3 realtime',
 						   'onkeypress'=>"return $(this).focusNextInputField(event)"),
 		)); 
 		?>
