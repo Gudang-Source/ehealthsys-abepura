@@ -444,7 +444,7 @@ JSCRIPT;
                     insert_notifikasi(params);
                 } 
                 <?php if(Yii::app()->user->getState('is_nodejsaktif')){ ?>
-                socket.emit('send',{conversationID:'antrian',panggil:1,antrian_id:pasienmasukpenunjang_id});
+                socket.emit('send',{conversationID:'antrian',panggil:3,antrian_id:pasienmasukpenunjang_id});
                 <?php } ?>
                 $.fn.yiiGridView.update('daftarpasien-v-grid');
             },

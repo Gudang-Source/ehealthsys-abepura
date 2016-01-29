@@ -156,7 +156,8 @@ $( document ).ready(function(){
     socket = io.connect(chatServer+':'+chatPort);
     socket.emit('subscribe', 'antrian');
     socket.on('antrian', function(data){
-        setAntrians(data.antrian_id);
+        console.log(data.antrian_id);
+        if (data.panggil == 3) setAntrians(data.antrian_id);
     });
     <?php }else{ ?>
     setInterval(function(){setAntrians('');},4000);

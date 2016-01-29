@@ -114,7 +114,7 @@ $( document ).ready(function(){
         if (typeof data.loket_id !== 'undefined') {
             updateStatistik(data.loket_id);
         } else {
-            setAntrians(data.antrian_id);
+            if (data.panggil == 1) setAntrians(data.antrian_id);
         }
     });
     <?php }else{ ?>

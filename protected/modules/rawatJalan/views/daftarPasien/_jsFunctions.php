@@ -354,7 +354,7 @@ function panggilAntrian(pendaftaran_id){
                 insert_notifikasi(params);
             } 
             <?php if(Yii::app()->user->getState('is_nodejsaktif')){ ?>
-            socket.emit('send',{conversationID:'antrian',panggil:1,antrian_id:pendaftaran_id});
+            socket.emit('send',{conversationID:'antrian',panggil:2,antrian_id:pendaftaran_id});
             <?php } ?>
             $.fn.yiiGridView.update('daftarpasien-v-grid');
         },
