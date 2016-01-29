@@ -42,27 +42,27 @@
        echo $this->renderPartial('application.views.headerReport.headerDefault'); ?>
 
 <table style="width:100%;font-family: arial;font-size: 10pt;">
-    <tr ><?php $format=new MyFormatter();?>
-        <td width="50%" style="border:none;"><center><?php  echo $rumahSakit['alamatlokasi_rumahsakit'].", ".$format->formatDateTimeId(date('Y-m-d')); ?></center></td>
+    <tr ><?php $format=new MyFormatter(); ?>
+        <td width="50%" style="border:none;"><center><?php  echo $rumahSakit->kabupaten->kabupaten_nama.", ".$format->formatDateTimeId(date('Y-m-d')); ?></center></td>
         <td width="15%" style="border:none;">Penanggungjawab</td>
         <td width="35%" style="border:none;">: <?php echo $pemeriksa['gelardepan']." ".$pemeriksa['nama_pegawai'].", ".$pemeriksa['gelarbelakang']['gelarbelakang_nama']; ?></td>
     </tr><br>
-    <tr> 
+    <!--tr> 
         <td style="border:none;"></td>
         <td style="border:none;">Izin</td>
         <td style="border:none;">: YM.01.05/8/455/IV.46/DKK/2008</td>
-    </tr>
+    </tr-->
     <tr>
 </table><br><br>
 <table style="font-family: arial;font-size: 10pt;" class="grid">
     <tr>
-        <td width="10%">No. Rad</td>
+        <td nowrap>No. Registrasi Radiologi</td>
         <td width="40%">: <?php echo $masukpenunjang->no_masukpenunjang; ?></td>
         <td width="50%" colspan="2">Data Perujuk</td>
     </tr>
     <tr>
-        <td>Nama Pasien</td>
-        <td>: <?php echo $masukpenunjang->namadepan." ".$masukpenunjang->nama_pasien; ?></td>
+        <td>No. RM / Nama Pasien</td>
+        <td>: <?php echo $masukpenunjang->no_rekam_medik." / ".$masukpenunjang->namadepan." ".$masukpenunjang->nama_pasien; ?></td>
         <td width="10%">Nama Perujuk</td>
         <td>: <?php 
         if (isset($masukpenunjang->nama_perujuk)){
@@ -73,8 +73,8 @@
         ?></td>
     </tr>
     <tr>
-        <td>Umur </td>
-        <td>: <?php echo $masukpenunjang->umur."; ".$masukpenunjang->jeniskelamin; ?></td>
+        <td>Umur / Jenis Kelamin</td>
+        <td>: <?php echo $masukpenunjang->umur." / ".$masukpenunjang->jeniskelamin; ?></td>
         <td>Alamat</td>
         <td>: <?php echo $masukpenunjang->alamatlengkapperujuk; ?></td>
     </tr>
@@ -88,7 +88,7 @@
 <div style="font-family:arial;font-size:12pt;">
     <b>
     <?php
-        echo $masukpenunjang->no_rekam_medik . '/' . $masukpenunjang->ruanganasal_nama . '/' . $masukpenunjang->kelaspelayanan_nama;
+        // echo $masukpenunjang->no_rekam_medik . '/' . $masukpenunjang->ruanganasal_nama . '/' . $masukpenunjang->kelaspelayanan_nama;
     ?>
     </b>
 </div>
