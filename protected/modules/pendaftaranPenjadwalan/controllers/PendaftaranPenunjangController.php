@@ -259,8 +259,8 @@ class PendaftaranPenunjangController extends PendaftaranRawatJalanController
                         }
                     }
                     
-                    $judul = 'Pendaftaran Pasien';
-                    $judul .= " Penunjang";
+                    $judul = 'Pendaftaran Pasien ';
+                    $judul .= $model->ruangan->ruangan_nama;
                     
                     $isi = $modPasien->no_rekam_medik.' - '.$modPasien->nama_pasien;
                     
