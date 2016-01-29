@@ -30,11 +30,12 @@ class ROPasienMasukPenunjangV extends PasienmasukpenunjangV
             $criteria->compare('LOWER(t.nama_bin)',strtolower($this->nama_bin),true);
             $criteria->addCondition('t.ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
             $batal = "BATAL PERIKSA";
-            $criteria->addCondition('statusperiksa <> \''.$batal.'\'');
+            $criteria->addCondition('t.statusperiksa <> \''.$batal.'\'');
             $this->tgl_awal = MyFormatter::formatDateTimeForDb($this->tgl_awal);
             $this->tgl_akhir = MyFormatter::formatDateTimeForDb($this->tgl_akhir);
             $criteria->addBetweenCondition('DATE(t.tglmasukpenunjang)', $this->tgl_awal, $this->tgl_akhir);
-
+            $criteria->join = "join pendaftaran_t p on p.pendaftaran_id = t.pendaftaran_id";
+            $criteria->addCondition("p.pasienbatalperiksa_id is null");
 
 //                $criteria->with=array('pasien','jeniskasuspenyakit','pendaftaran','jeniskasuspenyakit','pegawai','kelaspelayanan','ruangan','pasienadmisi','ruanganasal');
             $criteria->order = "t.tglmasukpenunjang DESC"; //tgl masuk penunjang = tgl pendaftaran rad
@@ -159,28 +160,32 @@ class ROPasienMasukPenunjangV extends PasienmasukpenunjangV
                 // Warning: Please modify the following code to remove attributes that
                 // should not be searched.
                 $criteria=new CDbCriteria;
-                $criteria->compare('LOWER(no_pendaftaran)',strtolower($this->no_pendaftaran),true);
-                $criteria->compare('LOWER(no_masukpenunjang)',strtolower($this->no_masukpenunjang),true);
-                $criteria->compare('LOWER(no_rekam_medik)',strtolower($this->no_rekam_medik),true);
-                $criteria->compare('LOWER(nama_pasien)',strtolower($this->nama_pasien),true);
-                $criteria->compare('LOWER(instalasiasal_nama)',strtolower($this->instalasiasal_nama),true);
-                $criteria->compare('LOWER(ruanganasal_nama)',strtolower($this->ruanganasal_nama),true);
+                $criteria->compare('LOWER(t.no_pendaftaran)',strtolower($this->no_pendaftaran),true);
+                $criteria->compare('LOWER(t.no_masukpenunjang)',strtolower($this->no_masukpenunjang),true);
+                $criteria->compare('LOWER(t.no_rekam_medik)',strtolower($this->no_rekam_medik),true);
+                $criteria->compare('LOWER(t.nama_pasien)',strtolower($this->nama_pasien),true);
+                $criteria->compare('LOWER(t.instalasiasal_nama)',strtolower($this->instalasiasal_nama),true);
+                $criteria->compare('LOWER(t.ruanganasal_nama)',strtolower($this->ruanganasal_nama),true);
 				if(!empty($this->carabayar_id)){
-					$criteria->addCondition("carabayar_id = ".$this->carabayar_id);					
+					$criteria->addCondition("t.carabayar_id = ".$this->carabayar_id);					
 				}
 				if(!empty($this->penjamin_id)){
-					$criteria->addCondition("penjamin_id = ".$this->penjamin_id);					
+					$criteria->addCondition("t.penjamin_id = ".$this->penjamin_id);					
 				}
-                $criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
+                $criteria->compare('LOWER(t.penjamin_nama)',strtolower($this->penjamin_nama),true);
 				if(!empty($this->ruangan_id)){
-					$criteria->addCondition("ruangan_id = ".$this->ruangan_id);					
+					$criteria->addCondition("t.ruangan_id = ".$this->ruangan_id);					
 				}
-                $criteria->compare('LOWER(nama_pegawai)',($this->nama_pegawai));
-                $criteria->compare('LOWER(nama_pegawai)',strtolower($this->nama_pegawai),true);
-                $criteria->compare('LOWER(pekerjaan_nama)',strtolower($this->pekerjaan_nama),true);
-                $criteria->compare('LOWER(jeniskasuspenyakit_nama)',strtolower($this->jeniskasuspenyakit_nama),true);
-                $criteria->order = 'tglmasukpenunjang DESC';
-                $criteria->limit = 10;
+                $criteria->compare('LOWER(t.nama_pegawai)',($this->nama_pegawai));
+                $criteria->compare('LOWER(t.nama_pegawai)',strtolower($this->nama_pegawai),true);
+                $criteria->compare('LOWER(t.pekerjaan_nama)',strtolower($this->pekerjaan_nama),true);
+                $criteria->compare('LOWER(t.jeniskasuspenyakit_nama)',strtolower($this->jeniskasuspenyakit_nama),true);
+                $criteria->order = 't.tglmasukpenunjang DESC';
+                
+                $criteria->join = "join pendaftaran_t p on p.pendaftaran_id = t.pendaftaran_id";
+                $criteria->addCondition("p.pasienbatalperiksa_id is null");
+                
+                //$criteria->limit = 10;
                 return new CActiveDataProvider($this, array(
                         'criteria'=>$criteria,
                         'pagination'=>false,

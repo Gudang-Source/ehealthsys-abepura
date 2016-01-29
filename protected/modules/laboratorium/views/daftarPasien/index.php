@@ -105,8 +105,7 @@ JSCRIPT;
                             $pegawai = PegawaiM::model()->findByAttributes(array(
                                 'nama_pegawai'=>$data->nama_dokterasal,
                             ));
-                            
-                            return $data->ruanganasal_nama."/<br/>".$pegawai->namaLengkap;
+                            return $data->ruanganasal_nama."/<br/>".(empty($pegawai)?"-":$pegawai->namaLengkap);
                         },
                     ),
                     'nama_perujuk',
