@@ -63,6 +63,7 @@ class CustomFunction
         $criteria->compare('instalasi_id',$params['instalasi_id']);
         $criteria->compare('modul_id',$params['modul_id']);
         $criteria->compare('LOWER(isinotifikasi)',strtolower($params['isinotifikasi']),true);
+        $criteria->compare('LOWER(judulnotifikasi)',strtolower($params['judulnotifikasi']),true);
         $criteria->compare('create_ruangan',$params['create_ruangan']);
         $criteria->addCondition("DATE(tglnotifikasi) = DATE(NOW()) AND isread = false");
         $is_exist = NofitikasiR::model()->find($criteria);
