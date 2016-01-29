@@ -8,8 +8,8 @@
     td, th{
         font-size: 8pt !important;
     }
-    body{
-        width:7.9cm;
+    .dasheds {
+        border-bottom: 1px dashed black;
     }
 </style>
 <?php echo $this->renderPartial('pendaftaranPenjadwalan.views.pendaftaranRawatJalan._headerPrint'); ?>
@@ -51,7 +51,7 @@
         <td><?php echo $modPendaftaran->ruangan->ruangan_nama; ?></td>
     </tr>
 	<tr>
-		<td colspan="3">_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _</td>
+		<td colspan="3" class="dasheds"></td>
 	</tr>
 	<tr>
 		<td colspan="3">&nbsp;</td>
@@ -108,11 +108,11 @@
 <table width="100%">
     <tr>
         <td width="50%"></td>
-        <td>Kasir</td>
+        <td>Petugas Loket</td>
     </tr>
     <tr height="60px" valign="bottom">
         <td></td>
-        <td><?php echo $modPegawai->nama_pegawai; ?></td>
+        <td><?php echo empty($modPegawai)?"-":$modPegawai->nama_pegawai; ?></td>
     </tr>
 </table>
 

@@ -169,7 +169,7 @@ class KamarruanganM extends CActiveRecord
                 return RuanganM::model()->findAllByAttributes(array('instalasi_id'=>$instalasi,'ruangan_aktif'=>true),array('order'=>'ruangan_nama'));
             }
             else{
-                return RuanganM::model()->findAll(array('order'=>'ruangan_nama'));
+                return RuanganM::model()->findAll(array('order'=>'ruangan_nama', 'condition'=>'ruangan_aktif = true'));
             }
         }  
         
