@@ -74,9 +74,14 @@
                     'ishurufkapital',
                     'modcontroller',
                     'modaction',
-                    'templatesms',
-                    'statussms',
-                    */
+                    'templatesms', */
+                    array(
+                        'name'=>'statussms',
+                        'value'=>'$data->statussms?"Aktif":"Tidak Aktif"',
+                        'htmlOptions'=>array(
+                            'style'=>'text-align: center',
+                        )
+                    ),
                     array(
                             'header'=>Yii::t('zii','View'),
                             'class'=>'bootstrap.widgets.BootButtonColumn',

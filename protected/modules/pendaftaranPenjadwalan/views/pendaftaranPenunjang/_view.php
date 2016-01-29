@@ -141,7 +141,7 @@
                             echo "<td>".$modPasienMasukPenunjang['ruangan']->instalasi->instalasi_nama."</td>";
                             echo "<td>".$modPasienMasukPenunjang['ruangan']->ruangan_nama."</td>";
                             echo "<td>".$modPasienMasukPenunjang['kelaspelayanan']->kelaspelayanan_nama." /"
-                                    .$modPasienMasukPenunjang['pegawai']->gelardepan." ".$modPasienMasukPenunjang['pegawai']->nama_pegawai." ".$modPasienMasukPenunjang['pegawai']->gelarbelakang_nama."</td>";
+                                    .$modPasienMasukPenunjang['pegawai']->namaLengkap."</td>";
                             echo "</tr>";
                         }
                         ?>

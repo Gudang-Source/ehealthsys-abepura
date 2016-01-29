@@ -102,10 +102,10 @@ class SmsgatewayMController extends MyAuthController
 			$model = $this->loadModel($id);
 			// set non-active this
 			// example: 
-			// $model->modelaktif = false;
-			// if($model->save()){
-			//	$data['sukses'] = 1;
-			// }
+			$model->statussms = false;
+			if($model->save()){
+				$data['sukses'] = 1;
+			}
 			echo CJSON::encode($data); 
 		}
 	}
