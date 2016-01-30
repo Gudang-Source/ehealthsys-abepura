@@ -216,9 +216,36 @@
 
                         </td>
                         <td>
-                                 <?php echo $form->textFieldRow($modPasienMasukPenunjang,'no_pendaftaran',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik no. pendaftaran')); ?>
-                                 <?php echo $form->textFieldRow($modPasienMasukPenunjang,'nama_pasien',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik nama pasien')); ?>
-                                 <?php echo $form->textFieldRow($modPasienMasukPenunjang,'nama_bin',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Alias')); ?>
+                                <?php echo $form->textFieldRow($modPasienMasukPenunjang,'no_pendaftaran',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik no. pendaftaran')); ?>
+                                <?php echo $form->textFieldRow($modPasienMasukPenunjang,'nama_pasien',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik nama pasien')); ?>
+                                <?php // echo $form->textFieldRow($modPasienMasukPenunjang,'nama_bin',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Alias')); ?>
+                                <?php 
+                                $carabayar = CarabayarM::model()->findAll(array(
+                                    'condition'=>'carabayar_aktif = true',
+                                    'order'=>'carabayar_nourut',
+                                ));
+                                foreach ($carabayar as $idx=>$item) {
+                                    $penjamins = PenjaminpasienM::model()->findByAttributes(array(
+                                        'carabayar_id'=>$item->carabayar_id,
+                                        'penjamin_aktif'=>true,
+                                   ));
+                                   if (empty($penjamins)) unset($carabayar[$idx]);
+                                }
+                                $penjamin = PenjaminpasienM::model()->findAll(array(
+                                    'condition'=>'penjamin_aktif = true',
+                                    'order'=>'penjamin_nama',
+                                ));
+                                echo $form->dropDownListRow($modPasienMasukPenunjang,'carabayar_id', CHtml::listData($carabayar, 'carabayar_id', 'carabayar_nama'), array(
+                                    'empty'=>'-- Pilih --',
+                                    'class'=>'span3', 
+                                    'ajax' => array('type'=>'POST',
+                                        'url'=> $this->createUrl('/actionDynamic/getPenjaminPasien',array('encode'=>false,'namaModel'=>get_class($modPasienMasukPenunjang))), 
+                                        'success'=>'function(data){$("#'.CHtml::activeId($modPasienMasukPenunjang, "penjamin_id").'").html(data); }',
+                                    ),
+                                 ));
+                                echo $form->dropDownListRow($modPasienMasukPenunjang,'penjamin_id', CHtml::listData($penjamin, 'penjamin_id', 'penjamin_nama'), array('empty'=>'-- Pilih --', 'class'=>'span3', 'maxlength'=>50));
+
+                                ?>
                         </td>
 
 					</br></tr>
