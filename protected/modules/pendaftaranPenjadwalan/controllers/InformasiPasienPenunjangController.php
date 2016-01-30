@@ -24,6 +24,9 @@ class InformasiPasienPenunjangController extends MyAuthController
                 $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPPasienMasukPenunjangT']['tgl_akhir']);
                 $model->no_rekam_medik = $_GET['PPPasienMasukPenunjangT']['no_rekam_medik'];
                 $model->nama_pasien = $_GET['PPPasienMasukPenunjangT']['nama_pasien'];
+                $model->carabayar_id = $_GET['PPPasienMasukPenunjangT']['carabayar_id'];
+                $model->penjamin_id = $_GET['PPPasienMasukPenunjangT']['penjamin_id'];
+                $model->statusperiksa_pendaftaran = $_GET['PPPasienMasukPenunjangT']['statusperiksa_pendaftaran'];
             }                
             $this->render($this->path_view.'index',array(
                     'model'=>$model,'format'=>$format

@@ -34,6 +34,8 @@ class PasienmasukpenunjangT extends CActiveRecord
         public $namaPasien;
         public $namaBinPasien;
         public $no_rekam_medik, $nama_pasien ,$carabayar_nama;
+        public $carabayar_id, $penjamin_id;
+        public $statusperiksa_pendaftaran;
 
     /**
 	 * Returns the static model of the specified AR class.
@@ -131,7 +133,10 @@ class PasienmasukpenunjangT extends CActiveRecord
                         'namaPasien'=>'Nama Pasien',
                         'namaBinPasien'=>'Bin',
                         'pasienkirimkeunitlain_id'=>'Pasien Kirim Ke Unit Lain',
-                        'no_rekam_medik' => 'No. Rekam Medik'
+                        'no_rekam_medik' => 'No. Rekam Medik',
+                        'carabayar_id' => 'Cara Bayar',
+                        'penjamin_id' => 'Penjamin',
+                        'statusperiksa_pendaftaran' => 'Status Periksa',
 		);
 	}
 
