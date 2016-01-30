@@ -164,7 +164,7 @@
                 <br>
                 <br>
                 <br>
-                Printed By : <?=$masukpenunjang->getNamaPegawai(Yii::app()->user->getState('pegawai_id'))?> <?=date('d/m/Y H:i:s')?>
+                Printed By : <?=$masukpenunjang->getNamaPegawai(Yii::app()->user->getState('pegawai_id'))?> <?=MyFormatter::formatDateTimeForUser(date('Y-m-d H:i:s'))?>
             </td>
             <td align="center">
                 <br>
