@@ -28,10 +28,15 @@
                         <?php // echo CHtml::checkBox('cbTglMasuk', false, array('uncheckValue'=>0,'onClick'=>'cekTanggal()')); ?>
                         Tanggal Masuk 
                     </label>
+                    <?php 
+                    $model->tgl_awal = MyFormatter::formatDateTimeForUser($model->tgl_awal);
+                    $model->tgl_akhir = MyFormatter::formatDateTimeForUser($model->tgl_akhir);
+                    ?>
                     <div class="controls">
                         <?php   $format = new MyFormatter;
                                 $this->widget('MyDateTimePicker',array(
-                                                'name'=>'tgl_awal',
+                                                'model'=>$model,
+                                                'attribute'=>'tgl_awal',
     //                                            'value'=> date('d M Y').' 00:00:00',
                                                 'value'=> $format->formatDateTimeForUser(date('d M Y', strtotime('-5 days'))),
                                                 'mode'=>'date',
@@ -48,7 +53,8 @@
                         <div class="controls">
                                 <?php   
                                 $this->widget('MyDateTimePicker',array(
-                                                'name'=>'tgl_akhir',
+                                                'model'=>$model,
+                                                'attribute'=>'tgl_akhir',
                                                 'value'=> $format->formatDateTimeForUser(date('d M Y')),
                                                 'mode'=>'date',
                                                 'options'=> array(
@@ -64,19 +70,19 @@
                 <div class="control-group ">
                     <label for="noPendaftaran" class="control-label">No. Pendaftaran </label>
                     <div class="controls">
-                        <input type="text" value="" maxlength="20" placeholder="Ketik no. pendaftaran" id="noPendaftaran" name="noPendaftaran" autofocus=true onkeypress="return $(this).focusNextInputField(event)" empty="-- Pilih --">
+                        <input type="text" value="" maxlength="20" placeholder="Ketik no. pendaftaran" id="noPendaftaran" name="PasienkirimkeunitlainV[no_pendaftaran]" autofocus=true onkeypress="return $(this).focusNextInputField(event)" empty="-- Pilih --">
                     </div>
                 </div>    
                 <div class="control-group ">
                     <label for="noRekamMedik" class="control-label">No. Rekam Medik </label>
                     <div class="controls">
-                        <input type="text" value="" maxlength="10" placeholder="Ketik no. rekam medik" id="noRekamMedik" name="noRekamMedik" onkeypress="return $(this).focusNextInputField(event)" empty="-- Pilih --">
+                        <input type="text" value="" maxlength="10" placeholder="Ketik no. rekam medik" id="noRekamMedik" name="PasienkirimkeunitlainV[no_rekam_medik]" onkeypress="return $(this).focusNextInputField(event)" empty="-- Pilih --">
                     </div>
                 </div>    
                 <div class="control-group ">
                     <label for="namaPasien" class="control-label">Nama Pasien </label>
                     <div class="controls">
-                        <input type="text" value="" maxlength="50" placeholder="Ketik nama pasien" id="namaPasien" name="namaPasien" onkeypress="return $(this).focusNextInputField(event)" empty="-- Pilih --">
+                        <input type="text" value="" maxlength="50" placeholder="Ketik nama pasien" id="namaPasien" name="PasienkirimkeunitlainV[nama_pasien]" onkeypress="return $(this).focusNextInputField(event)" empty="-- Pilih --">
                     </div>
                 </div> 
             </td>
