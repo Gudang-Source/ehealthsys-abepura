@@ -32,7 +32,10 @@
                     ),
                     'no_pendaftaran',
                     'no_rekam_medik',
-                    'nama_pasien',
+                    array(
+                        'name'=>'nama_pasien',
+                        'value'=>'$data->namadepan.$data->nama_pasien'
+                    ),
                     array(
                         'name'=>'tempat_lahir',
                         'type'=>'raw',
