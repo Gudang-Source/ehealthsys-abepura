@@ -79,7 +79,7 @@
 			<td><?php echo MyFormatter::formatDateTimeForUser($pasien->tgl_pendaftaran); ?></td>
 			<td><?php echo $pasien->no_pendaftaran; ?></td>
 			<td><?php echo $pasien->no_rekam_medik; ?></td>
-			<td><?php echo $pasien->nama_pasien; ?></td>
+			<td><?php echo $pasien->namadepan.$pasien->nama_pasien; ?></td>
 			<td><?php echo $pasien->tempat_lahir.", ".MyFormatter::formatDateTimeForUser($pasien->tanggal_lahir); ?></td>
 			<td><?php echo $pasien->umur; ?></td>
 			<td><?php echo $pasien->jeniskelamin; ?></td>
