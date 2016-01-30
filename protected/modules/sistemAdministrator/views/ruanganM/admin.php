@@ -54,7 +54,7 @@
                  array(
                             'name'=>'instalasi_id',
                             'filter'=>  CHtml::listData($model->InstalasiItems, 'instalasi_id', 'instalasi_nama'),
-                            'value'=>'$data->instalasi->instalasi_nama',
+                            'value'=>'empty($data->instalasi_id)?"-":$data->instalasi->instalasi_nama',
                     ),
                     'ruangan_nama',
                     'ruangan_lokasi',

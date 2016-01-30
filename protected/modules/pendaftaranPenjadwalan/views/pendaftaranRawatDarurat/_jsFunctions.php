@@ -100,5 +100,8 @@ function setVerifikasi(){
     }
     return false;
 }
+$(document).ready(function() {
+    cekPilihSatu($("#PPPendaftaranT_ruangan_id"));
+});
 </script>
     

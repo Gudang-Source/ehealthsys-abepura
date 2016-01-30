@@ -175,8 +175,30 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                 $(\"#daftartindakan_nama\").val(\'$data->daftartindakan_nama\');
                                 $(\'#dialogTindakan\').dialog(\'close\');return false;"))'
             ),
-            'kelompoktindakan_nama',
-            'kategoritindakan_nama',
+            array(
+                'header'=>'Kategori Tindakan',
+                'name'=>'kategoritindakan_id',
+                'type'=>'raw',
+                'value'=>'$data->kategoritindakan_nama',
+                'filter'=>CHtml::activeDropDownList($modTindakanRad, 'kategoritindakan_id', CHtml::listData(
+                    KategoritindakanM::model()->findAll(array(
+                    'condition'=>'kategoritindakan_aktif = true', 
+                    'order'=>'kategoritindakan_nama'
+                )), 'kategoritindakan_id', 'kategoritindakan_nama'), array('empty'=>'-- Pilih --')
+                ),
+            ),
+            array(
+                'header'=>'Kelompok Tindakan',
+                'name'=>'kelompoktindakan_id',
+                'type'=>'raw',
+                'value'=>'$data->kelompoktindakan_nama',
+                'filter'=>CHtml::activeDropDownList($modTindakanRad, 'kelompoktindakan_id', CHtml::listData(
+                KelompoktindakanM::model()->findAll(array(
+                    'condition'=>'kelompoktindakan_aktif = true', 
+                    'order'=>'kelompoktindakan_nama'
+                )), 'kelompoktindakan_id', 'kelompoktindakan_nama'), array('empty'=>'-- Pilih --')
+                ),
+            ),
             'daftartindakan_kode',
             'daftartindakan_nama',
             'harga_tariftindakan',
