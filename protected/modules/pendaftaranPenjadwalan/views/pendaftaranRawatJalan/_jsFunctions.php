@@ -71,7 +71,7 @@ function setPasienLama(pasien_id, no_rekam_medik ){
                 setUmur(data.tanggal_lahir);
                 setKarcis();
                 setRiwayatKunjunganPasien(data.pasien_id);
-				setAsuransiPasienLama(data.pasien_id);
+                setAsuransiPasienLama(data.pasien_id);
 				getRuanganPoliklinikPasien();
                 
                 $("#form-pasien > legend > .judul").html('Data Pasien Lama ');
@@ -91,6 +91,7 @@ function setPasienLama(pasien_id, no_rekam_medik ){
             $("#<?php echo CHtml::activeId($model, 'ruangan_id'); ?>").focus(); //<<RND-820 (custom)
             window.scrollBy(0,380); //<<RND-820 (custom)
             $("#form-pasien > div").removeClass("animation-loading");
+            hideHitunganRM();
         },
         error: function (jqXHR, textStatus, errorThrown) { myAlert("Data Pasien tidak ditemukan !"); $("#form-pasien > div").removeClass("animation-loading");}
     });
@@ -144,6 +145,7 @@ function setPasienBaru(){
     setJenisKelaminPasien("");
     setKarcis();
 	setPegawaiReset();
+    showHitunganRM();
 
     $("#form-pasien > legend > .judul").html('Data Pasien Baru ');
     $("#form-pasien > legend > .tombol").attr('style','display:none;');
@@ -290,7 +292,7 @@ function setAsuransiPasienLama(pasien_id){
         dataType: "json",
         success:function(data){
 			if(data != null){
-				if(confirm("Apakah pasien ini akan menggunakan penjamin "+data.penjamin_nama+"?")){
+				// if(confirm("Apakah pasien ini akan menggunakan penjamin "+data.penjamin_nama+"?")){
 //				}
 //				confirm("Apakah pasien ini akan menggunakan penjamin "+data.penjamin_nama+"?","Konfirmasi!",function(r) {
 //					if(r){
@@ -308,6 +310,10 @@ function setAsuransiPasienLama(pasien_id){
 						var datastatus_konfirmasi = data.status_konfirmasi;
 						var datatgl_konfirmasi = data.tgl_konfirmasi;
 						
+                                                $("#<?php echo CHtml::activeId($model,"carabayar_id");?>").val(datacarabayar_id);
+						$("#<?php echo CHtml::activeId($model,"penjamin_id");?>").html(datalistPenjamin);
+                                                
+                                                /*
 						$.ajax({
 							type:'POST',
 							url:'<?php echo $this->createUrl('CekCaraBayarBadak'); ?>',
@@ -344,10 +350,11 @@ function setAsuransiPasienLama(pasien_id){
 							},
 							error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
 						});
+                                                */
 						
 						
 						
-					} 
+					//} 
 //				}); 
 			}
         },
@@ -1833,6 +1840,34 @@ function cekPilihSatu(obj) {
         $(obj).change();
     }
 }
+
+var otoval = 1
+function switchOtomatis(obj) {
+    otoval = $(obj).val();
+    checkOto();
+}
+
+function checkOto() {
+    if (otoval == 1) {
+        $(".rm_lama").show();
+        $(".rm_baru").hide();
+        $("#no_rekam_medik_baru").val("");  
+    } else {
+        $(".rm_baru").show();
+        $(".rm_lama").hide();
+        $("#no_rekam_medik_baru").val("");
+    }
+}
+
+function hideHitunganRM() {
+    $(".rm_control").hide();
+}
+
+function showHitunganRM() {
+    $(".rm_control").show();
+    checkOto();
+}
+
 /**
  * javascript yang di running setelah halaman ready / load sempurna
  * posisi script ini harus tetap dibawah

@@ -241,21 +241,28 @@ class MyGenerator
         		
 		$sql = "SELECT CAST(SUBSTR(no_rekam_medik,".(strlen($prefix)+1).",".(strlen($default)).") AS integer) nomaksimal 
 					FROM pasien_m WHERE ispasienluar=$is_pasienluar AND no_rekam_medik like '".$prefix."%' 
-					ORDER BY pasien_id DESC 
+					ORDER BY no_rekam_medik DESC 
 					LIMIT 1";
+
         $pasien = Yii::app()->db->createCommand($sql)->queryRow();
+        
         if(isset($pasien['nomaksimal'])){
 			$nomaksimal = $pasien['nomaksimal']+1;
 			$sql = "SELECT normlama_min, normlama_maks FROM konfigsystem_k LIMIT 1";
 			$normlama = Yii::app()->db->createCommand($sql)->queryRow();
-			
+                        
+                        // var_dump($nomaksimal);
+                        
 			if($nomaksimal == $normlama['normlama_min']){
-				$nomaksimal = ((int)$normlama['normlama_maks'])+1;
-			}
+                            $nomaksimal = ((int)$normlama['normlama_maks'])+1;
+			} else if ($nomaksimal >= ((int)$normlama['normlama_min']) && $nomaksimal < ((int)$normlama['normlama_maks']+1)) {
+                            $nomaksimal = ((int)$normlama['normlama_maks'])+1;
+                        }
 			$no_rm_baru = $prefix.str_pad($nomaksimal, $digit_rm, 0,STR_PAD_LEFT);
 		}else{
 			$no_rm_baru = $prefix.$default;
-		}
+		}    
+                // var_dump($no_rm_baru); die;
         return trim($no_rm_baru);
     }
     
