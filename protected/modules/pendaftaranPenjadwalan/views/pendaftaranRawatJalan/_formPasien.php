@@ -10,7 +10,26 @@
 }
 </style>
 <div class = "span4">
-    <div class="control-group">
+    <div class="control-group rm_control">
+        <label class="control-label">Hitung Rekam Medik</label>
+        <div class="controls">
+            <?php 
+            echo CHtml::radioButton('rb_rm', true, array(
+                'value'=>1,
+                'name'=>'otomatis',
+                'uncheckValue'=>null,
+                'onchange'=>'switchOtomatis(this)',
+            ))."Otomatis ";
+            echo CHtml::radioButton('rb_rm', false, array(
+                'value'=>0,
+                'name'=>'otomatis',
+                'uncheckValue'=>null,
+                'onchange'=>'switchOtomatis(this)',
+            ))."Maunal ";
+            ?>
+        </div>
+    </div>
+    <div class="control-group rm_lama">
         <?php echo CHtml::label("Cari NIP", 'nomorindukpegawai', array('class'=>'control-label'))?>
         <div class="controls">
             <?php 
@@ -52,8 +71,19 @@
             <?php // echo $form->hiddenField($modPasien,'pasien_id',array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10)); ?>
         </div>
     </div>
-	
-    <div class="control-group">
+    <div class="control-group rm_baru" hidden>
+        <?php echo CHtml::label($modPasien->getAttributeLabel('no_rekam_medik')." Lama", 'no_rekam_medik', array('class'=>'control-label'))?>
+        <div class="controls">
+            <?php echo $form->textField($modPasien, 'no_rekam_medik', array(
+                'id'=>'no_rekam_medik_baru', 
+                'class'=>'numbers-only span3',
+                'rel'=>'tooltip',
+                'title'=>'Ketik No. RM pasien yang ada sebelumnya',
+                'maxlength'=>6,
+            )); ?>
+        </div>
+    </div>
+    <div class="control-group rm_lama">
         <?php echo CHtml::label("Cari ".$modPasien->getAttributeLabel('no_rekam_medik'), 'no_rekam_medik', array('class'=>'control-label'))?>
         <div class="controls">
             <?php 
