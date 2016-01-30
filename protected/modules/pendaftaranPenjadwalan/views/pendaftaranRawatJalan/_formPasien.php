@@ -25,7 +25,7 @@
                 'name'=>'otomatis',
                 'uncheckValue'=>null,
                 'onchange'=>'switchOtomatis(this)',
-            ))."Maunal ";
+            ))."Manual ";
             ?>
         </div>
     </div>
