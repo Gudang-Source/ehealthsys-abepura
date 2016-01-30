@@ -36,6 +36,9 @@
         padding: 5px;
         background: #309C5C;
     }
+    .sub-judul {
+        font-weight: bold;
+    }
 </style>
 <?php //if($modHasilPeriksa->printhasillab == '1') {echo '<div class="watermark">';}  ?>
 <?php  //echo $this->renderPartial('application.views.headerReport.headerDefaultSurat');
@@ -58,7 +61,7 @@
     <tr>
         <td nowrap>No. Registrasi Radiologi</td>
         <td width="40%">: <?php echo $masukpenunjang->no_masukpenunjang; ?></td>
-        <td width="50%" colspan="2">Data Perujuk</td>
+        <td width="50%" colspan="2" style="font-weight: bold;">Data Perujuk</td>
     </tr>
     <tr>
         <td>No. RM / Nama Pasien</td>
@@ -84,6 +87,12 @@
         <td>No. Telp</td>
         <td>: <?php echo $masukpenunjang->notelpperujuk; ?></td>
     </tr>
+    <tr>
+        <td>Ruangan / Poli</td>
+        <td>: <?php echo $masukpenunjang->ruanganasal_nama; ?> </td>
+        <td>Pemeriksaan</td>
+        <td><?php echo $detailHasil[0]->pemeriksaanrad->pemeriksaanrad_nama; ?></td>
+    </tr>
 </table>
 <div style="font-family:arial;font-size:12pt;">
     <b>
@@ -93,21 +102,37 @@
     </b>
 </div>
 <br>
-<table border="1" width="100%" cellpadding="0" cellspacing="0" class="title">
+<table border="1" width="100%" cellpadding="0" cellspacing="0" class="title" hidden>
     <tr>
         <td width="50%">BAGIAN RADIOLOGI</td>
         <td><?php echo $pemeriksa['gelardepan']." ".$pemeriksa['nama_pegawai'].", ".$pemeriksa['gelarbelakang']['gelarbelakang_nama'] ?></td>
     </tr>
 </table>
+
 <table style="border:1px solid #000; margin:4px auto;"  width="100%">
     <?php if (count($detailHasil) > 0 ){ 
 	foreach ($detailHasil as $i=>$hasil) { ?>
-    <tr style="border-bottom: 1px solid #000;">
+    <tr style="border-bottom: 1px solid #000;" hidden>
         <td style="font-family: Arial; font-size: 14pt;font-weight: bold;"><?php echo $hasil->pemeriksaanrad->pemeriksaanrad_nama; ?></td>
     </tr>
     <tr>
         <td class="isi_hasil">
+            <div class="sub-judul">Hasil :</div>
             <?php echo (strlen($hasil->hasilexpertise) > 0 ? $hasil->hasilexpertise : ' - '); ?>
+        </td>
+    </tr>
+    <tr>
+        <td class="isi_hasil">
+            <br/>
+            <div class="sub-judul">Kesan :</div>
+            <?php echo (strlen($hasil->kesan_hasilrad) > 0 ? $hasil->kesan_hasilrad : ' - '); ?>
+        </td>
+    </tr>
+    <tr>
+        <td class="isi_hasil">
+            <br/>
+            <div class="sub-judul">Kesimpulan :</div>
+            <?php echo (strlen($hasil->kesimpulan_hasilrad) > 0 ? $hasil->kesimpulan_hasilrad : ' - '); ?>
         </td>
     </tr>
     <?php }} ?>
@@ -116,7 +141,7 @@
 <table width="100%" border="0" cellpadding="0" cellspacing="0">
     <tr>
         <td align="left" width="50%">&nbsp;</td>
-        <td align="center">PEMERIKSA</td>
+        <td align="center">Salam Sejawat,</td>
     </tr>
     <tr>
         <td align="left">
@@ -126,7 +151,7 @@
             <br>
             <br>
             <br>
-            Printed By : <?=$masukpenunjang->getNamaPegawai(Yii::app()->user->getState('pegawai_id'))?> <?=date('d/m/Y H:i:s')?>
+            Printed By : <?=$masukpenunjang->getNamaPegawai(Yii::app()->user->getState('pegawai_id'))?> <?=  MyFormatter::formatDateTimeForUser(date('Y-m-d H:i:s'))?>
         </td>
         <td align="center">
             <br>
@@ -135,7 +160,10 @@
             <br>
             <br>
             <br>            
-            <?=$masukpenunjang->getNamaLengkapDokter($masukpenunjang->pegawai_id)?>
+            <div style="text-decoration: underline; font-weight: bold;"><?=$masukpenunjang->getNamaLengkapDokter($masukpenunjang->pegawai_id)?></div>
+            <?php 
+            $pegawai = PegawaiM::model()->findByPk($masukpenunjang->pegawai_id);
+            echo empty($pegawai)?"":"Nip.".$pegawai->nomorindukpegawai; ?>
         </td>
     </tr>
 </table>

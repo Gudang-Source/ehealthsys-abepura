@@ -38,6 +38,9 @@
             padding: 5px;
             background: #309C5C;
         }
+        .sub-judul {
+            font-weight: bold;
+        }
     </style>
     <?php //if($modHasilPeriksa->printhasillab == '1') {echo '<div class="watermark">';}  ?>
 
@@ -91,6 +94,12 @@
             <td>No. Telepon</td>
             <td>: <?php echo $masukpenunjang->notelpperujuk; ?></td>
         </tr>
+        <tr>
+            <td>Ruangan / Poli</td>
+            <td>: <?php echo $masukpenunjang->ruanganasal_nama; ?> </td>
+            <td></td>
+            <td></td>
+        </tr>
     </table>
     <div style="font-family:arial;font-size:12pt;">
         <b>
@@ -119,10 +128,25 @@
                 </td>
             </tr>
             <tr>
-                <td class="isi_hasil">
-                    <?php echo (strlen($detail->hasilexpertise) > 0 ? $detail->hasilexpertise : ' - '); ?>
-                </td>
-            </tr>
+        <td class="isi_hasil">
+            <div class="sub-judul">Hasil :</div>
+            <?php echo (strlen($detail->hasilexpertise) > 0 ? $detail->hasilexpertise : ' - '); ?>
+        </td>
+        </tr>
+        <tr>
+            <td class="isi_hasil">
+                <br/>
+                <div class="sub-judul">Kesan :</div>
+                <?php echo (strlen($detail->kesan_hasilrad) > 0 ? $detail->kesan_hasilrad : ' - '); ?>
+            </td>
+        </tr>
+        <tr>
+            <td class="isi_hasil">
+                <br/>
+                <div class="sub-judul">Kesimpulan :</div>
+                <?php echo (strlen($detail->kesimpulan_hasilrad) > 0 ? $detail->kesimpulan_hasilrad : ' - '); ?>
+            </td>
+        </tr>
         </table>
     <?php endforeach; ?>
 
@@ -149,7 +173,10 @@
                 <br>
                 <br>
                 <br>            
-                <?=$masukpenunjang->getNamaLengkapDokter($masukpenunjang->pegawai_id)?>
+                <div style="text-decoration: underline; font-weight: bold;"><?=$masukpenunjang->getNamaLengkapDokter($masukpenunjang->pegawai_id)?></div>
+                <?php 
+                $pegawai = PegawaiM::model()->findByPk($masukpenunjang->pegawai_id);
+                echo empty($pegawai)?"":"Nip.".$pegawai->nomorindukpegawai; ?>
             </td>
         </tr>
     </table>
