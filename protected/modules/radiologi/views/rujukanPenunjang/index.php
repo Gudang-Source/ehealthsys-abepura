@@ -84,7 +84,7 @@
         ));
         ?>
     </div>
-    <?php $this->renderPartial('_formSearch',array());?>
+    <?php $this->renderPartial('_formSearch',array('model' => $model));?>
 <?php
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array( 
     'id'=>'dialogKonfirm',

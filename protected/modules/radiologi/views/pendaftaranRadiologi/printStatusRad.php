@@ -6,8 +6,7 @@
         letter-spacing: 10px;
     }
     body{
-        width: 10cm;
-        height: 11cm;
+        width: 100%;
     }
     th, td, div{
         font-family:Times New Roman;
@@ -26,7 +25,8 @@ $format = new MyFormatter;
             </td>
         </tr>
          <tr>
-            <td align="center" valig="middle" colspan="3">
+             <td align="center" valig="middle" colspan="3" style="text-decoration: underline;">
+                 <br/>
                  Data Pasien
             </td>
         </tr>
@@ -58,7 +58,7 @@ $format = new MyFormatter;
         <tr>
             <td>Tanggal Lahir / Umur</td>
             <td>:</td>
-            <td><?php echo date("d-m-Y", strtotime($modPasien->tanggal_lahir)); ?>/<?php echo $modPendaftaran->umur; ?></td>
+            <td><?php echo MyFormatter::formatDateTimeForUser($modPasien->tanggal_lahir); ?>/<?php echo $modPendaftaran->umur; ?></td>
         </tr>
         <tr>
             <td>Cara Bayar / Penjamin</td>
@@ -67,6 +67,7 @@ $format = new MyFormatter;
         </tr>
         <tr>
             <td align="center" valig="middle" colspan="3">
+                <br/>
                 <u><?php echo isset($modPasienMasukPenunjang->ruangan->ruangan_nama) ? $modPasienMasukPenunjang->ruangan->ruangan_nama : "-"; ?></u>
             </td>
         </tr>
@@ -85,6 +86,7 @@ $format = new MyFormatter;
             <td>:</td>
             <td><?php echo isset($modPasienMasukPenunjang->pegawai->NamaLengkap) ? $modPasienMasukPenunjang->pegawai->NamaLengkap : "-"; ?></td>
         </tr>
+        <?php /*
         <tr>
             <td>Karcis</td>
             <td>:</td>
@@ -102,6 +104,8 @@ $format = new MyFormatter;
                 ?>
             </td>
         </tr>
+         * 
+         */ ?>
 <!--                    <tr>
             <td>Status Pembayaran Karcis</td>
             <td>:</td>
@@ -109,6 +113,7 @@ $format = new MyFormatter;
         </tr>-->
         <tr>
             <td colspan="3" align="center">
+                            <br/>
                             <div align="center" valign="middle"><strong><u>Daftar Pemeriksaan</u></strong></div>
                             <table border="1" style="margin-top: 10px;text-align:center;width:360px;">
                                 <thead>

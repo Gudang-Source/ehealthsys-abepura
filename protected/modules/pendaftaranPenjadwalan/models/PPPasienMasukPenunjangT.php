@@ -57,7 +57,7 @@ class PPPasienMasukPenunjangT extends PasienmasukpenunjangT{
 				$criteria->addCondition("pendaftaran_id = ".$this->pendaftaran_id); 			
 			}
 			if(!empty($this->pegawai_id)){
-				$criteria->addCondition("pegawai_id = ".$this->pegawai_id); 			
+				$criteria->addCondition("t.pegawai_id = ".$this->pegawai_id); 			
 			}
 			if(!empty($this->kelaspelayanan_id)){
 				$criteria->addCondition("kelaspelayanan_id = ".$this->kelaspelayanan_id); 			
@@ -81,9 +81,12 @@ class PPPasienMasukPenunjangT extends PasienmasukpenunjangT{
             $criteria->compare('LOWER(create_ruangan)',strtolower($this->create_ruangan),true);
             $criteria->compare('LOWER(pasien.nama_pasien)',strtolower($this->nama_pasien),true);
             $criteria->compare('LOWER(pasien.no_rekam_medik)',strtolower($this->no_rekam_medik),true);
+            $criteria->compare('pendaftaran.carabayar_id', $this->carabayar_id);
+            $criteria->compare('pendaftaran.penjamin_id', $this->penjamin_id);
+            $criteria->compare('pendaftaran.statusperiksa', $this->statusperiksa_pendaftaran);
             $criteria->addBetweenCondition('DATE(tglmasukpenunjang)', $this->tgl_awal, $this->tgl_akhir);
             $criteria->order = 'tglmasukpenunjang DESC';
-            $criteria->with=array('pasien');
+            $criteria->with=array('pasien', 'pendaftaran');
 
             return new CActiveDataProvider($this, array(
                     'criteria'=>$criteria,

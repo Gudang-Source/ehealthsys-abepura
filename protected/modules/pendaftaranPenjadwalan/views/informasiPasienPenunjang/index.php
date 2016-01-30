@@ -24,16 +24,15 @@ $('#formCari').submit(function(){
                     'itemsCssClass'=>'table table-striped table-condensed',
                     'columns'=>array(
                         array(
+                            'header'=>'Tgl. Pendaftaran/<br/>No. Pendaftaran',
                             'name'=>'pendaftaran.tgl_pendaftaran',
                             'type'=>'raw',
-                            'value'=>'MyFormatter::formatDateTimeForUser($data->pendaftaran->tgl_pendaftaran)',
+                            'value'=>'MyFormatter::formatDateTimeForUser($data->pendaftaran->tgl_pendaftaran)."/<br/>".$data->pendaftaran->no_pendaftaran',
                         ),
                         array(
-                           'header'=>'No. Pendaftaran',
-                           'name'=>'pendaftaran.no_pendaftaran',
-                           'type'=>'raw',
-                           'value'=>'$data->pendaftaran->no_pendaftaran',
-                           'htmlOptions'=>array('style'=>'width:120px')
+                            'header'=>'Tgl. Masuk Penunjang/<br/>No. Masuk Penunjang',
+                            'type'=>'raw',
+                            'value'=>'MyFormatter::formatDateTimeForUser($data->tglmasukpenunjang)."/<br/>".$data->no_masukpenunjang',
                         ),
                         array(
                             'header'=>'No. Rekam Medik<br/>',
@@ -50,12 +49,13 @@ $('#formCari').submit(function(){
                         array(
                             'header'=>'Nama Pasien',
                             'type'=>'raw',
-                            'value'=>'$data->pasien->nama_pasien',
+                            'value'=>'$data->pasien->namadepan.$data->pasien->nama_pasien',
                         ),
                         array(
-                            'header'=>'Ruangan Penunjang',
+                            'header'=>'Jenis Kasus Penyakit',
                             'type'=>'raw',
-                            'value'=>'$data->ruangan->ruangan_nama',
+                            'value'=>'$data->jeniskasuspenyakit->jeniskasuspenyakit_nama',
+                            'htmlOptions'=>array('style'=>'text-align: left; width: 75px;')
                         ),
                         array(
                             'header'=>'Ruangan Asal',
@@ -63,26 +63,31 @@ $('#formCari').submit(function(){
                             'value'=>'$data->ruanganasal->ruangan_nama',
                         ),
                         array(
-                            'header'=>'No. Masuk Penunjang',
+                            'header'=>'Ruangan Penunjang',
                             'type'=>'raw',
-                            'value'=>'$data->no_masukpenunjang',
+                            'value'=>'$data->ruangan->ruangan_nama',
                         ),
                         array(
-                            'header'=>'Tanggal Masuk Penunjang',
+                            'header'=>'Dokter',
                             'type'=>'raw',
-                            'value'=>'MyFormatter::formatDateTimeForUser($data->tglmasukpenunjang)',
-                        ), /*
+                            'value'=>'$data->pegawai->namaLengkap',
+                        ),
+                        array(
+                            'header'=>'Cara Bayar/<br/>Penjamin',
+                            'type'=>'raw',
+                            'value'=>'$data->pendaftaran->carabayar->carabayar_nama."/<br/>".$data->pendaftaran->penjamin->penjamin_nama',
+                        ),
+                        array(
+                            'header'=>'Status Periksa',
+                            'type'=>'raw',
+                            'value'=>'$data->pendaftaran->statusperiksa',
+                        ),
+                         /*
                         array(
                             'header'=>'Kelas Pelayanan',
                             'type'=>'raw',
                             'value'=>'$data->kelaspelayanan->kelaspelayanan_nama',
                         ), */
-                        array(
-                            'header'=>'Jenis Kasus Penyakit',
-                            'type'=>'raw',
-                            'value'=>'$data->jeniskasuspenyakit->jeniskasuspenyakit_nama',
-                            'htmlOptions'=>array('style'=>'text-align: left; width: 75px;')
-                        ),
                         array(
                             'header'=>'Keterangan Pendaftaran',
                             'name'=>'pendaftaran.keterangan_pendaftaran',
@@ -156,16 +161,52 @@ $('#formCari').submit(function(){
                 <div class="span4">
                     <?php echo $form->textFieldRow($model,'no_rekam_medik',array('placeholder'=>'Ketik No. Rekam Medik','class'=>'span3 numberOnly','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
                     <?php echo $form->textFieldRow($model,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
+                    <?php 
+                    $carabayar = CarabayarM::model()->findAll(array(
+                        'condition'=>'carabayar_aktif = true',
+                        'order'=>'carabayar_nourut',
+                    ));
+                    foreach ($carabayar as $idx=>$item) {
+                        $penjamins = PenjaminpasienM::model()->findByAttributes(array(
+                            'carabayar_id'=>$item->carabayar_id,
+                            'penjamin_aktif'=>true,
+                       ));
+                       if (empty($penjamins)) unset($carabayar[$idx]);
+                    }
+                    $penjamin = PenjaminpasienM::model()->findAll(array(
+                        'condition'=>'penjamin_aktif = true',
+                        'order'=>'penjamin_nama',
+                    ));
+                    echo $form->dropDownListRow($model,'carabayar_id', CHtml::listData($carabayar, 'carabayar_id', 'carabayar_nama'), array(
+                        'empty'=>'-- Pilih --',
+                        'class'=>'span3', 
+                        'ajax' => array('type'=>'POST',
+                            'url'=> $this->createUrl('/actionDynamic/getPenjaminPasien',array('encode'=>false,'namaModel'=>get_class($model))), 
+                            'success'=>'function(data){$("#'.CHtml::activeId($model, "penjamin_id").'").html(data); }',
+                        ),
+                     ));
+                    echo $form->dropDownListRow($model,'penjamin_id', CHtml::listData($penjamin, 'penjamin_id', 'penjamin_nama'), array('empty'=>'-- Pilih --', 'class'=>'span3'));
+                    ?>
                 </div>
+                 
                 <div class="span4">
+                    <?php
+                    $pegawai = CHtml::listData(DokterV::model()->findAllByAttributes(array(
+                        'instalasi_id'=>array(5, 6, 8, 7, 10),
+                    )), 'pegawai_id', 'namaLengkap');
+                    
+                    echo $form->dropDownListRow($model, 'pegawai_id', $pegawai, array(
+                        'empty'=>'-- Pilih --',
+                    ));
+                    
+                    ?>
+                    <?php echo $form->dropDownListRow($model,'statusperiksa_pendaftaran', Params::statusPeriksa(), array('empty'=>'-- Pilih --')); ?>
                     <?php echo $form->dropDownListRow($model, 'ruangan_id', CHtml::listData(RuanganM::model()->findAllByAttributes(array(
                             'ruangan_id'=>array(53, 56, 47, 57),
                         ), array(
                             'order'=>'ruangan_nama asc'
                         )), 'ruangan_id', 'ruangan_nama'), array('empty'=>'-- Pilih --')); ?>
                     <?php //echo $form->dropDownListRow($model,'status_konfirmasi',CustomFunction::getStatusKonfirmasi(),array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",)); ?>
-                </div>
-                <div class="span4">
                     <?php echo $form->dropDownListRow($model, 'ruanganasal_id', CHtml::listData(RuanganM::model()->findAllByAttributes(array(
                             'instalasi_id'=>array(Params::INSTALASI_ID_RJ, Params::INSTALASI_ID_RD, Params::INSTALASI_ID_RI),
                         ), array(

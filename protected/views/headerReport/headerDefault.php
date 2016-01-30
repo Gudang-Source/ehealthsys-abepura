@@ -7,7 +7,7 @@
                  <img src="<?php echo Params::urlProfilRSDirectory().$data->logo_rumahsakit ?> " style="float:left; max-width: 80px; width:80px;" class='image_report'/>
             </TD>
         </TR>
-        <TD align="center">
+        <TD align="center" width="100%">
             <div align="center" class="nama_profil">
                 <B>
                     <FONT FACE="Liberation Serif" SIZE=4 color="black">

@@ -38,9 +38,13 @@ class PendaftaranRadiologiRujukanRSController extends PendaftaranRadiologiContro
 		$criteria->compare('modul_id',$modul_id);
 		$criteria->compare('LOWER(modcontroller)',strtolower($nama_controller),true);
 		$criteria->compare('LOWER(modaction)',strtolower($nama_action),true);
-		if(isset($_POST['tujuansms'])){
+		
+               // var_dump($_POST); die;
+                
+                if(isset($_POST['tujuansms'])){
 			$criteria->addInCondition('tujuansms',$_POST['tujuansms']);
 		}
+                
 		$modSmsgateway = SmsgatewayM::model()->findAll($criteria);
                 
                 $modPemeriksaanRad->kelaspelayanan_id = Params::KELASPELAYANAN_ID_TANPA_KELAS;
@@ -170,38 +174,45 @@ class PendaftaranRadiologiRujukanRSController extends PendaftaranRadiologiContro
 					$modRuangan = $modPasienMasukPenunjang->ruangan;
 					$sms = new Sms();
 					$smspasien = 1;
+                                        
+                                        // var_dump(count($modSmsgateway)); die;
+                                        
+                                        //var_dump($_POST['tujuansms']); // die;
+                                        
 					foreach ($modSmsgateway as $i => $smsgateway) {
-						$isiPesan = $smsgateway->templatesms;
+                                                if (isset($_POST['tujuansms']) && in_array($smsgateway->tujuansms, $_POST['tujuansms'])) {
+                                                    
+                                                    $isiPesan = $smsgateway->templatesms;
 
-						$attributes = $modPasienMasukPenunjang->getAttributes();
-						foreach($attributes as $attributes => $value){
-							$isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
-						}
-						$attributes = $modPasien->getAttributes();
-						foreach($attributes as $attributes => $value){
-							$isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
-						}
-						$attributes = $modPendaftaran->getAttributes();
-						foreach($attributes as $attributes => $value){
-							$isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
-						}
-						$attributes = $modRuangan->getAttributes();
-						foreach($attributes as $attributes => $value){
-							$isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
-						}
+                                                    $attributes = $modPasienMasukPenunjang->getAttributes();
+                                                    foreach($attributes as $attributes => $value){
+                                                            $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
+                                                    }
+                                                    $attributes = $modPasien->getAttributes();
+                                                    foreach($attributes as $attributes => $value){
+                                                            $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
+                                                    }
+                                                    $attributes = $modPendaftaran->getAttributes();
+                                                    foreach($attributes as $attributes => $value){
+                                                            $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
+                                                    }
+                                                    $attributes = $modRuangan->getAttributes();
+                                                    foreach($attributes as $attributes => $value){
+                                                            $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
+                                                    }
 
-						$isiPesan = str_replace("{{hari}}",MyFormatter::getDayName($modPasienMasukPenunjang->tglmasukpenunjang),$isiPesan);
+                                                    $isiPesan = str_replace("{{hari}}",MyFormatter::getDayName($modPasienMasukPenunjang->tglmasukpenunjang),$isiPesan);
 
-						if($smsgateway->tujuansms == Params::TUJUANSMS_PASIEN && $smsgateway->statussms){
-							if(!empty($modPasien->no_mobile_pasien)){
-								$sms->kirim($modPasien->no_mobile_pasien,$isiPesan);
-							}else{
-								$smspasien = 0;
-							}
-						}
+                                                    if($smsgateway->tujuansms == Params::TUJUANSMS_PASIEN && $smsgateway->statussms){
+                                                            if(!empty($modPasien->no_mobile_pasien)){
+                                                                    $sms->kirim($modPasien->no_mobile_pasien,$isiPesan);
+                                                            }else{
+                                                                    $smspasien = 0;
+                                                            }
+                                                    }
+                                                }
 					}
 					// END SMS GATEWAY
-
 					$transaction->commit();
 					Yii::app()->user->setFlash('success', "Data pemeriksaan radiologi berhasil disimpan !");
 					$this->redirect(array('index','pasienmasukpenunjang_id'=>$modPasienMasukPenunjang->pasienmasukpenunjang_id,'smspasien'=>$smspasien,'sukses'=>1));
