@@ -114,6 +114,9 @@ class PembayaranTagihanPasienController extends MyAuthController
                         $modUpdatePendaftaran = PendaftaranT::model()->updateByPk($model->pendaftaran_id,array('pembayaranpelayanan_id'=>$model->pembayaranpelayanan_id));
                     }
                 }
+                
+                $this->broadcastNotifBayarKarcisUmum($modKunjungan, $model);
+                
                 if($this->pembayaranpelayanan_tersimpan && $this->tandabuktibayar_tersimpan && $this->tindakansudahbayar_tersimpan && $this->oasudahbayar_tersimpan && $this->pemakaianuangmuka_tersimpan && $this->bayarangsuran_tersimpan){
                     //Di set di form >> Yii::app()->user->setFlash('success', 'Data pembayaran berhasil disimpan !');
 		          
@@ -122,28 +125,30 @@ class PembayaranTagihanPasienController extends MyAuthController
                     $sms = new Sms();
                     $smspasien = 1;
                     foreach ($modSmsgateway as $i => $smsgateway) {
-                        $isiPesan = $smsgateway->templatesms;
+                        if (isset($_POST['tujuansms']) && in_array($smsgateway->tujuansms, $_POST['tujuansms'])) {
+                            $isiPesan = $smsgateway->templatesms;
 
-                        $attributes = $modPasien->getAttributes();
-                        foreach($attributes as $attributes => $value){
-                            $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
-                        }
-                        $attributes = $modTandabukti->getAttributes();
-                        foreach($attributes as $attributes => $value){
-                            $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
-                        }
-                        $attributes = $model->getAttributes();
-                        foreach($attributes as $attributes => $value){
-                            $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
-                        }
-          
-                        $isiPesan = str_replace("{{hari}}",MyFormatter::getDayName($modTandabukti->tglbuktibayar),$isiPesan);
-                        
-                        if($smsgateway->tujuansms == Params::TUJUANSMS_PASIEN && $smsgateway->statussms){
-                            if(!empty($modPasien->no_mobile_pasien)){
-                                $sms->kirim($modPasien->no_mobile_pasien,$isiPesan);
-                            }else{
-                                $smspasien = 0;
+                            $attributes = $modPasien->getAttributes();
+                            foreach($attributes as $attributes => $value){
+                                $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
+                            }
+                            $attributes = $modTandabukti->getAttributes();
+                            foreach($attributes as $attributes => $value){
+                                $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
+                            }
+                            $attributes = $model->getAttributes();
+                            foreach($attributes as $attributes => $value){
+                                $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
+                            }
+
+                            $isiPesan = str_replace("{{hari}}",MyFormatter::getDayName($modTandabukti->tglbuktibayar),$isiPesan);
+
+                            if($smsgateway->tujuansms == Params::TUJUANSMS_PASIEN && $smsgateway->statussms){
+                                if(!empty($modPasien->no_mobile_pasien)){
+                                    $sms->kirim($modPasien->no_mobile_pasien,$isiPesan);
+                                }else{
+                                    $smspasien = 0;
+                                }
                             }
                         }
                         
@@ -199,6 +204,44 @@ class PembayaranTagihanPasienController extends MyAuthController
             'modAntrian'=>$modAntrian,
         ));
     }
+    
+    protected function broadcastNotifBayarKarcisUmum($modKunjungan, $model) {
+        $judul = "Pembayaran Karcis Pasien Umum";
+        $isi = "";
+        
+        if ($modKunjungan->penjamin_id == Params::PENJAMIN_ID_UMUM && $modKunjungan->instalasi_id == Params::INSTALASI_ID_RJ) {
+            $pendaftaran = PendaftaranT::model()->findByPk($modKunjungan->pendaftaran_id);
+            if (!empty($pendaftaran->karcis_id)) {
+                $tindakan = TindakanpelayananT::model()->findByAttributes(array(
+                    'pendaftaran_id'=>$pendaftaran->pendaftaran_id,
+                    'karcis_id'=>$pendaftaran->karcis_id,
+                ));
+            } else {
+                if (empty($tindakan)) {
+                    $tindakan = TindakanpelayananT::model()->findByAttributes(array(
+                        'pendaftaran_id'=>$pendaftaran->pendaftaran_id,
+                        'ruangan_id'=>2,
+                    ), array(
+                        'condition'=>'karcis_id is not null'
+                    ));
+                }
+            }
+            
+            if (!empty($tindakan)) {
+                if (!empty($tindakan->tindakansudahbayar_id)) {
+                    $isi = $modKunjungan->no_rekam_medik." - ".$modKunjungan->namadepan.$modKunjungan->nama_pasien." - ".MyFormatter::formatNumberForPrint($model->totalbiayapelayanan);
+                    // echo $isi;
+                    
+                    CustomFunction::broadcastNotif($judul, $isi, array(
+                        array('instalasi_id'=>Params::INSTALASI_ID_RJ, 'ruangan_id'=>$pendaftaran->ruangan_id, 'modul_id'=>5),
+                    ));
+                   
+                   // return CHtml::link("<i class='icon-form-periksa'></i> ", '#', array("id"=>$this->no_pendaftaran,"rel"=>"tooltip","title"=>"Klik untuk Pemeriksaan Pasien", "onclick"=>"myAlert('Pasien belum membayar karcis.'); return false;"));
+                }
+            }
+        }
+    }
+    
     /**
      * simpan BKPembayaranpelayananT
      * @param type $model

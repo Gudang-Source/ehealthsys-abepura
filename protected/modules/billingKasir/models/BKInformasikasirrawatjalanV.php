@@ -111,7 +111,7 @@ class BKInformasikasirrawatjalanV extends InformasikasirrawatjalanV
 				$criteria->addCondition('carabayar_id = '.$this->carabayar_id);
 			}
             $criteria->order = 'tgl_pendaftaran DESC';
-            $criteria->limit = 5;
+            // $criteria->limit = 5;
             if($this->instalasi_id == Params::INSTALASI_ID_RJ){
                 $model = new BKInformasikasirrawatjalanV;
             }else if($this->instalasi_id == Params::INSTALASI_ID_RD){
@@ -122,7 +122,7 @@ class BKInformasikasirrawatjalanV extends InformasikasirrawatjalanV
             
             return new CActiveDataProvider($model, array(
                         'criteria'=>$criteria,
-                        'pagination'=>false,
+                        // 'pagination'=>false,
                 ));
         }
         
