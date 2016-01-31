@@ -74,10 +74,10 @@ class PPPasienM extends PasienM
                         }else{
                             $criteria->addCondition('ispasienluar = FALSE');
                         }
-                $criteria->limit=5;
+                //$criteria->limit=5;
                         return new CActiveDataProvider($this, array(
                                 'criteria'=>$criteria,
-                                'pagination'=>false,
+                                //'pagination'=>false,
                         ));
 	}
         
