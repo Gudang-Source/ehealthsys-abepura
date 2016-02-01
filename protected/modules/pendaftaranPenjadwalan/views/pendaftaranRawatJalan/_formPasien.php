@@ -493,7 +493,8 @@
 		}
         
         $kec = KecamatanM::model()->findByAttributes(array(
-            'kecamatan_nama' => $modDataPasien->cari_kecamatan_nama
+            'kecamatan_nama' => $modDataPasien->cari_kecamatan_nama,
+            'kecamatan_aktif' => true,
         ));
         
         if (empty($kec)) $kec_id = null;

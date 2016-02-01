@@ -41,6 +41,8 @@ class PPPasientindaklanjutkeriV extends PasientindaklanjutkeriV
             $criteria->compare('LOWER(kabupaten_nama)', strtolower($this->kabupaten_nama), true);
             $criteria->compare('LOWER(kecamatan_nama)', strtolower($this->kecamatan_nama), true);
             $criteria->compare('LOWER(kelurahan_nama)', strtolower($this->kelurahan_nama), true);
+            $criteria->compare('kecamatan_id', $this->kecamatan_id);
+            $criteria->compare('kelurahan_id', $this->kelurahan_id);
             $criteria->compare('LOWER(statusperiksa)', strtolower($this->statusperiksa), true);
             $criteria->addCondition('pasienpulang_id is not null');
             $criteria->order = 'tgl_pendaftaran DESC';

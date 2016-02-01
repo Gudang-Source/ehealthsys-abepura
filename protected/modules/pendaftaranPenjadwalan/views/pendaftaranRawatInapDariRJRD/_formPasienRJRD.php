@@ -432,10 +432,11 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'autoOpen'=>false,
         'modal'=>true,
         'width'=>1100,
-        'height'=>480,
+        'height'=>800,
         'resizable'=>false,
     ),
 ));
+    $kec_id = null;
     $modDialogKunjungan = new PPPasientindaklanjutkeriV('searchDialogUntukPendaftaranRI');
     $modDialogKunjungan->unsetAttributes();
     $format = new MyFormatter();
@@ -444,6 +445,19 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         $modDialogKunjungan->attributes = $_GET['PPPasientindaklanjutkeriV'];
         $modDialogKunjungan->tanggal_lahir =  isset($_GET['PPPasientindaklanjutkeriV']['tanggal_lahir']) ? $format->formatDateTimeForDb($_GET['PPPasientindaklanjutkeriV']['tanggal_lahir']) : null;
         $modDialogKunjungan->instalasi_id = $_GET['PPPasientindaklanjutkeriV']['instalasi_id'];
+        
+        $modDialogKunjungan->kecamatan_id = $_GET['PPPasientindaklanjutkeriV']['kecamatan_id'];
+        $modDialogKunjungan->kelurahan_id = $_GET['PPPasientindaklanjutkeriV']['kelurahan_id'];
+        
+        /*
+        $kec = KecamatanM::model()->findByAttributes(array(
+            'kecamatan_id' => $modDialogKunjungan->kecamatan_id
+        ));
+        
+        if (empty($kec)) $kec_id = null;
+        else $kec_id = $kec->kecamatan_id;
+         * 
+         */
     }
 
     $this->widget('ext.bootstrap.widgets.BootGridView',array(
@@ -509,10 +523,64 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                         'type'=>'raw',
                     ),
 //                    'kabupaten_nama',
-                    'kecamatan_nama',
-                    'kelurahan_nama',
-                    'carabayar_nama',
-                    'penjamin_nama',
+                    array(
+                        'header'=>'Nama Kecamatan',
+                        'name'=>'kecamatan_id',
+                        'type'=>'raw',
+                        'value'=>'$data->kecamatan_nama',
+                        'filter'=>CHtml::activeDropDownList($modDialogKunjungan, 'kecamatan_id', 
+                                CHtml::listData(KecamatanM::model()->findAll(array(
+                                    'condition'=>'kecamatan_aktif = true',
+                                    'order'=>'kecamatan_nama asc',
+                                )), 'kecamatan_id', 'kecamatan_nama'), array(
+                                    'empty'=>'-- Pilih --',
+                                )),
+                    ),
+                    array(
+                        'header'=>'Nama Kelurahan',
+                        'name'=>'kelurahan_id',
+                        'type'=>'raw',
+                        'value'=>'$data->kelurahan_nama',
+                        'filter'=>CHtml::activeDropDownList($modDialogKunjungan, 'kelurahan_id', 
+                                CHtml::listData(KelurahanM::model()->findAllByAttributes(array(
+                                    'kecamatan_id'=>empty($modDialogKunjungan->kecamatan_id)?null:$modDialogKunjungan->kecamatan_id,
+                                ), array(
+                                    'condition'=>'kelurahan_aktif = true',
+                                    'order'=>'kelurahan_nama asc',
+                                )), 'kelurahan_id', 'kelurahan_nama'), array(
+                                    'empty'=>'-- Pilih --',
+                                )),
+                    ),
+                    array(
+                        'header'=>'Nama Kecamatan',
+                        'name'=>'carabayar_id',
+                        'type'=>'raw',
+                        'value'=>'$data->carabayar_nama',
+                        'filter'=>CHtml::activeDropDownList($modDialogKunjungan, 'carabayar_id', 
+                                CHtml::listData(CarabayarM::model()->findAll(array(
+                                    'condition'=>'carabayar_aktif = true',
+                                    'order'=>'carabayar_nama asc',
+                                )), 'carabayar_id', 'carabayar_nama'), array(
+                                    'empty'=>'-- Pilih --',
+                                )),
+                    ),
+                    array(
+                        'header'=>'Nama Kelurahan',
+                        'name'=>'penjamin_id',
+                        'type'=>'raw',
+                        'value'=>'$data->penjamin_nama',
+                        'filter'=>CHtml::activeDropDownList($modDialogKunjungan, 'penjamin_id', 
+                                CHtml::listData(PenjaminpasienM::model()->findAllByAttributes(array(
+                                    'carabayar_id'=>empty($modDialogKunjungan->carabayar_id)?null:$modDialogKunjungan->carabayar_id,
+                                ), array(
+                                    'condition'=>'penjamin_aktif = true',
+                                    'order'=>'penjamin_nama asc',
+                                )), 'carabayar_id', 'penjamin_nama'), array(
+                                    'empty'=>'-- Pilih --',
+                                )),
+                    ),
+                    //'carabayar_nama',
+                    //'penjamin_nama',
                     'statusperiksa',
                     
             ),
@@ -539,7 +607,7 @@ $this->endWidget();
             'autoOpen'=>false,
             'modal'=>true,
             'width'=>1060,
-            'height'=>480,
+            'height'=>800,
             'resizable'=>false,
         ),
     ));
