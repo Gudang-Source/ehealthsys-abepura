@@ -49,7 +49,7 @@ class DiagnosaM extends CActiveRecord
 			array('diagnosa_imunisasi, diagnosa_aktif,klasifikasidiagnosa_id', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('diagnosa_id, diagnosa_kode, diagnosa_nama, diagnosa_namalainnya, diagnosa_katakunci, diagnosa_nourut, diagnosa_imunisasi, diagnosa_aktif, klasifikasidiagnosa_id', 'safe', 'on'=>'search'),
+			array('diagnosa_id, diagnosa_kode, diagnosa_nama, diagnosa_namalainnya, diagnosa_katakunci, diagnosa_nourut, diagnosa_imunisasi, diagnosa_aktif, klasifikasidiagnosa_id, dtd_id', 'safe', 'on'=>'search'),
 		);
 	}
 

@@ -12,7 +12,6 @@ class InformasiTabularListController extends MyAuthController
                 if(isset($_GET['RJTabularListM'])){
                     $modTabularList->attributes=$_GET['RJTabularListM'];
                 }
-                
                 if(isset($_GET['RJDtdM'])){
                     $modDTDM->attributes=$_GET['RJDtdM'];
                 }
@@ -22,10 +21,12 @@ class InformasiTabularListController extends MyAuthController
                 
                 if(isset($_REQUEST['RJDiagnosaM'])){
                     $modDiagnosa->attributes=$_GET['RJDiagnosaM'];
+                    $modDiagnosa->dtd_id=$_GET['RJDiagnosaM']['dtd_id'];
                 }
                 else if(isset($_GET['RJDDiagnosa_dtd_id'])){
                     $modDiagnosa->dtd_id=$_GET['RJDDiagnosa_dtd_id'];
                 } 
+                
 // =========================Akhir Update Dari Grid============================== 
 
 //==========================Update Dari Klik====================================
@@ -34,13 +35,14 @@ class InformasiTabularListController extends MyAuthController
                 
                     
 //==========================Akhir Update Dari Klik==============================
-                if (Yii::app()->request->isAjaxRequest) {
-                        echo $this->renderPartial('_table', array('modDTDM'=>$modDTDM),true);
-                    }else{
+
+                //if (Yii::app()->request->isAjaxRequest) {
+                 //       echo $this->renderPartial('_table', array('modDTDM'=>$modDTDM),true);
+                //    }else{
                            $this->render('index',array('modTabularList'=>$modTabularList,'modDTDM'=>$modDTDM,
                                 'modDiagnosa'=>$modDiagnosa));
                        
-                    }
+               //     }
 		
 	}
 
