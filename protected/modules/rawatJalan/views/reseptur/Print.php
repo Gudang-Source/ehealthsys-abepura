@@ -47,9 +47,14 @@ echo $this->renderPartial('application.views.headerReport.headerDefault',array('
                 <label class='control-label'><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('umur')); ?>:</label>
                 <?php echo CHtml::encode($modPendaftaran->umur); ?>
         </td>
-        <td>
+        <td hidden>
              <label class='control-label'><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('Kelas Pelayanan')); ?>:</label>
             <?php echo CHtml::encode($modPendaftaran->kelaspelayanan->kelaspelayanan_nama); ?>
+        </td>
+        
+        <td>
+            <label class='control-label'><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('Nama Dokter')); ?>:</label>
+            <?php echo CHtml::encode($modPendaftaran->pegawai->namaLengkap); ?>
         </td>
     </tr><br/>
     <tr>
@@ -57,10 +62,6 @@ echo $this->renderPartial('application.views.headerReport.headerDefault',array('
                 <label class='control-label'><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('Cara Bayar / Penjamin ')); ?>:</label>
                 <?php echo CHtml::encode($modPendaftaran->carabayar->carabayar_nama); ?> / <?php echo CHtml::encode($modPendaftaran->penjamin->penjamin_nama); ?>
             
-        </td>
-        <td>
-            <label class='control-label'><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('Nama Dokter')); ?>:</label>
-            <?php echo CHtml::encode($modPendaftaran->pegawai->namaLengkap); ?>
         </td>
     </tr>
        
@@ -70,7 +71,7 @@ echo $this->renderPartial('application.views.headerReport.headerDefault',array('
     <thead>
         <tr>
             <th>Nama Obat</th>
-            <th>Satuan</th>
+            <!--th>Satuan</th-->
             <th>Estimasi Harga Satuan</th>
             <th>Jumlah</th>
             <th>Sub Total</th>
@@ -85,10 +86,10 @@ echo $this->renderPartial('application.views.headerReport.headerDefault',array('
         foreach ($modDetailResep as $detail) { ?>
     <tr>
         <td><?php echo $detail->obatalkes->obatalkes_nama ?></td>
-        <td><?php echo $detail->satuankecil->satuankecil_nama ?></td>
-        <td style="text-align: right"><?php echo number_format($detail->hargajual_reseptur) ?></td>
-        <td style="text-align: right"><?php echo $detail->qty_reseptur ?></td>
-        <td style="text-align: right"><?php echo number_format($detail->qty_reseptur * $detail->hargajual_reseptur) ?></td>
+        <!--td><?php //echo $detail->satuankecil->satuankecil_nama ?></td-->
+        <td style="text-align: right"><?php echo number_format($detail->hargasatuan_reseptur) ?></td>
+        <td style="text-align: right"><?php echo $detail->qty_reseptur." ".$detail->satuankecil->satuankecil_nama ?></td>
+        <td style="text-align: right"><?php echo number_format($detail->qty_reseptur * $detail->hargasatuan_reseptur) ?></td>
     </tr>
     <?php } ?>
 </table>

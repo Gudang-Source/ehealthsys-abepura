@@ -47,10 +47,10 @@ if(!isset($_GET['sukses'])){
                 <th>Resep</th>
                 <th>R ke</th>
                 <th>Kode / Nama Obat</th>
-                <th>Sumber Dana</th>
-                <th>Satuan Kecil</th>
+                <!--th>Sumber Dana</th>
+                <th>Satuan Kecil</th-->
                 <th>Jumlah</th>
-                <th>Stok</th>
+                <!--th>Stok</th-->
                 <th>Estimasi Harga</th>
                 <!--<th>Discount (%)</th>-->
                 <th>Sub Total</th>
@@ -72,7 +72,7 @@ if(!isset($_GET['sukses'])){
 		<tfoot>
 			<tr>
 
-				<td colspan="7" style="text-align: right;"><b>Total Estimasi Harga</b></td>
+				<td colspan="4" style="text-align: right;"><b>Total Estimasi Harga</b></td>
 				<td><input type="text" readonly name="totalHargaReseptur" id="totalHargaReseptur" class="inputFormTabel lebar2 integer" /></td>
 				<td colspan="3"></td>
 			</tr>
