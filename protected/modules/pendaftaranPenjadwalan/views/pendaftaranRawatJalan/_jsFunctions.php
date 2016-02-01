@@ -17,9 +17,16 @@ function setPasienLama(pasien_id, no_rekam_medik, is_manual){
     $.ajax({
         type:'POST',
         url:'<?php echo $this->createUrl('GetDataPasien'); ?>',
-        data: {pasien_id:pasien_id, no_rekam_medik:no_rekam_medik},
+        data: {pasien_id:pasien_id, no_rekam_medik:no_rekam_medik, is_manual:is_manual},
         dataType: "json",
         success:function(data){
+            if (data.lebih) {
+                myAlert("No RM Tidak tersedia");
+                $("#form-pasien > div").removeClass("animation-loading");
+                $("#no_rekam_medik_baru").val("");
+                return false;
+            }
+            
             if(data.statusrekammedis.trim() == "<?php echo Params::STATUSREKAMMEDIS_AKTIF?>"){
 				$("#cari_nomorindukpegawai").val(data.nomorindukpegawai); // untuk load filed NIP
                 $("#cari_no_rekam_medik").val(data.no_rekam_medik);
@@ -1083,6 +1090,8 @@ function tampilFormAsuransi(){
         $('#content-asuransi').find(".not-required").addClass("required").removeClass("not-required");
         $('#content-asuransi').removeAttr("style").attr("style","height:auto"); 
         $('#content-asuransi').find("input,select,textarea").removeAttr("disabled");
+        
+        cekJamkespa();
   
 }
 function sembunyiFormAsuBadak(){
@@ -1177,6 +1186,19 @@ function tampilFormRujukan(){
         var is_pasienrujukan = $("#<?php echo CHtml::activeId($model, "is_pasienrujukan"); ?>");
         is_pasienrujukan.val(0);
 }
+
+
+function cekJamkespa() { 
+    /*
+    console.log("Kicking");
+    if ($("#<?php echo CHtml::activeId($model, "carabayar_id"); ?>").val() == 18) {
+        $("#<?php echo CHtml::activeId($modAsuransiPasien, "nopeserta"); ?>").val($("#<?php echo CHtml::activeId($modPasien, "no_rekam_medik"); ?>").val());
+        $("#<?php echo CHtml::activeId($modAsuransiPasien, "nokartuasuransi"); ?>").val($("#<?php echo CHtml::activeId($modPasien, "no_rekam_medik"); ?>").val());
+        $("#<?php echo CHtml::activeId($modAsuransiPasien, "namapemilikasuransi"); ?>").val($("#<?php echo CHtml::activeId($modPasien, "nama_pasien"); ?>").val());
+        $("#<?php echo CHtml::activeId($modAsuransiPasien, "kelastanggunganasuransi_id"); ?>").val(<?php echo Params::KELASPELAYANAN_ID_KELAS_III; ?>);
+    } */
+}
+
 /**
  * pilih karcis (check - uncheck)
  * harus pilih salah satu

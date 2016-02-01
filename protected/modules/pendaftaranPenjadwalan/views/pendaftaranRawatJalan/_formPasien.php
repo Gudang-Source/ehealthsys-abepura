@@ -31,7 +31,7 @@
             ?>
         </div>
     </div>
-    <div class="control-group rm_lama">
+    <div class="control-group">
         <?php echo CHtml::label("Cari NIP", 'nomorindukpegawai', array('class'=>'control-label'))?>
         <div class="controls">
             <?php 
