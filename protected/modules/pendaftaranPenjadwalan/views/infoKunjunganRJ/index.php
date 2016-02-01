@@ -38,7 +38,14 @@ $('.search-form form').submit(function(){
                   'type'=>'raw',
                   'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)',
                 ), 
-                                array(
+                array(
+                    'header'=>'No. Pendaftaran',
+                    'name'=>'no_pendaftaran',
+                    'type'=>'raw',
+                    'value'=>'(!empty($data->no_pendaftaran) ? CHtml::link("<i class=icon-form-print></i> ".$data->no_pendaftaran, "javascript:print(\'$data->pendaftaran_id\');",array("rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik untuk mencetak Status Pasien")) : "-")',
+                    'htmlOptions'=>array('style'=>'text-align: center;')
+                ), 
+                array(
                     'header'=>'No. RM',
                     'name'=>'no_rm',
                     'type'=>'raw',
@@ -50,14 +57,7 @@ $('.search-form form').submit(function(){
                        "title"=>"Klik Untuk Mengubah Data Pasien",
                        "onclick"=>"$(\'#editPasien\').dialog(\'open\');return true;"))',
                     'htmlOptions'=>array('style'=>'text-align: left; width:60px')
-                ),
-                array(
-                    'header'=>'No. Pendaftaran',
-                    'name'=>'no_pendaftaran',
-                    'type'=>'raw',
-                    'value'=>'(!empty($data->no_pendaftaran) ? CHtml::link("<i class=icon-form-print></i> ".$data->no_pendaftaran, "javascript:print(\'$data->pendaftaran_id\');",array("rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik untuk mencetak Status Pasien")) : "-")',
-                    'htmlOptions'=>array('style'=>'text-align: center;')
-                ), /*
+                ),/*
                 array(
                     'header'=>'Nama Depan',
                     'type'=>'raw',
@@ -346,13 +346,13 @@ $('.search-form form').submit(function(){
                         <?php echo $form->dropDownList($modPPInfoKunjunganRJV,'penjamin_id', CHtml::listData($modPPInfoKunjunganRJV->getPenjaminItems(), 'penjamin_id', 'penjamin_nama') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",)); ?>
                     </div>
                 </div>
-                <?php echo $form->dropDownListRow($modPPInfoKunjunganRJV,'propinsi_id', CHtml::listData($modPPInfoKunjunganRJV->getPropinsiItems(), 'propinsi_id', 'propinsi_nama'), 
+                <?php /* echo $form->dropDownListRow($modPPInfoKunjunganRJV,'propinsi_id', CHtml::listData($modPPInfoKunjunganRJV->getPropinsiItems(), 'propinsi_id', 'propinsi_nama'), 
                                       array('empty'=>'-- Pilih --',
                                             'ajax'=>array('type'=>'POST',
                                                           'url'=>$this->createUrl('SetDropdownKabupaten',array('encode'=>false,'model_nama'=>get_class($modPPInfoKunjunganRJV))),
                                                           'update'=>'#PPInfoKunjunganRJV_kabupaten_id'),
                                           'onkeypress'=>"return $(this).focusNextInputField(event)"
-                                          ));
+                                          )); */
                 ?>
             </td>
             <td>
