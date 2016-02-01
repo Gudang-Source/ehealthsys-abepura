@@ -19,12 +19,14 @@
                 'name'=>'otomatis',
                 'uncheckValue'=>null,
                 'onchange'=>'switchOtomatis(this)',
+                'class'=>'rb_rm',
             ))."Otomatis ";
             echo CHtml::radioButton('rb_rm', false, array(
                 'value'=>0,
                 'name'=>'otomatis',
                 'uncheckValue'=>null,
                 'onchange'=>'switchOtomatis(this)',
+                'class'=>'rb_rm',
             ))."Manual ";
             ?>
         </div>
@@ -74,13 +76,47 @@
     <div class="control-group rm_baru" hidden>
         <?php echo CHtml::label($modPasien->getAttributeLabel('no_rekam_medik')." Lama", 'no_rekam_medik', array('class'=>'control-label'))?>
         <div class="controls">
-            <?php echo $form->textField($modPasien, 'no_rekam_medik', array(
+            <?php $this->widget('MyJuiAutoComplete', array(
+                                'model'=>$modPasien,
+                                'attribute'=>'no_rekam_medik',
+                                'value'=>$modPasien->no_rekam_medik,
+                                'source'=>'js: function(request, response) {
+                                               $.ajax({
+                                                   url: "'.$this->createUrl('AutocompletePasienLama').'",
+                                                   dataType: "json",
+                                                   data: {
+                                                       no_rekam_medik: request.term,
+                                                   },
+                                                   success: function (data) {
+                                                           response(data);
+                                                   }
+                                               })
+                                            }',
+                                 'options'=>array(
+                                       'minLength' => 4,
+                                        'focus'=> 'js:function( event, ui ) {
+                                             $(this).val( "");
+                                             return false;
+                                         }',
+                                       'select'=>'js:function( event, ui ) {
+                                            $(this).val( ui.item.value);
+                                            setPasienLama(ui.item.pasien_id);
+                                            return false;
+                                        }',
+                                ),
+                                'tombolDialog'=>array('idDialog'=>'dialogPasien'),
+                                'htmlOptions'=>array('placeholder'=>'Ketik No. Rekam Medik','rel'=>'tooltip','title'=>'Ketik No. RM untuk mencari pasien',
+                                    'onkeyup'=>"return $(this).focusNextInputField(event)",
+                                    'onblur'=>"if($(this).val()=='') setPasienBaru(); else setPasienLama('',this.value, true)",
+                                    'class'=>'numbers-only f_rm', 'maxlength'=>6, 'id'=>'no_rekam_medik_baru'),
+                            )); ?>
+            <?php /* echo $form->textField($modPasien, 'no_rekam_medik', array(
                 'id'=>'no_rekam_medik_baru', 
                 'class'=>'numbers-only span3',
                 'rel'=>'tooltip',
                 'title'=>'Ketik No. RM pasien yang ada sebelumnya',
                 'maxlength'=>6,
-            )); ?>
+            )); */ ?>
         </div>
     </div>
     <div class="control-group rm_lama">
@@ -438,10 +474,11 @@
             'autoOpen'=>false,
             'modal'=>true,
             'width'=>1060,
-            'height'=>480,
+            'height'=>800,
             'resizable'=>false,
         ),
     ));
+    $kec_id = null;
     $modDataPasien = new PPPasienM('searchDialog');
     $modDataPasien->unsetAttributes();
     $format = new MyFormatter();
@@ -454,6 +491,13 @@
 		if(isset($_GET['PPPasienM']['nomorindukpegawai'])){
 			$modDataPasien->nomorindukpegawai = $_GET['PPPasienM']['nomorindukpegawai'];
 		}
+        
+        $kec = KecamatanM::model()->findByAttributes(array(
+            'kecamatan_nama' => $modDataPasien->cari_kecamatan_nama
+        ));
+        
+        if (empty($kec)) $kec_id = null;
+        else $kec_id = $kec->kecamatan_id;
         
     }
     
@@ -505,19 +549,35 @@
                         'htmlOptions'=>array('width'=>'80','style'=>'text-align:center'),
                     ),
                     'alamat_pasien',
-                    'rw',
-                    'rt',
-                    array(
-                        'header'=>'Nama Kelurahan',
-                        'name'=>'cari_kelurahan_nama',
-                        'type'=>'raw',
-                        'value'=>'isset($data->kelurahan_id) ? $data->kelurahan->kelurahan_nama : ""'
-                    ),
+                    //'rw',
+                    //'rt',
                     array(
                         'header'=>'Nama Kecamatan',
                         'name'=>'cari_kecamatan_nama',
                         'type'=>'raw',
-                        'value'=>'$data->kecamatan->kecamatan_nama'
+                        'value'=>'$data->kecamatan->kecamatan_nama',
+                        'filter'=>CHtml::activeDropDownList($modDataPasien, 'cari_kecamatan_nama', 
+                                CHtml::listData(KecamatanM::model()->findAll(array(
+                                    'condition'=>'kecamatan_aktif = true',
+                                    'order'=>'kecamatan_nama asc',
+                                )), 'kecamatan_nama', 'kecamatan_nama'), array(
+                                    'empty'=>'-- Pilih --',
+                                )),
+                    ),
+                    array(
+                        'header'=>'Nama Kelurahan',
+                        'name'=>'cari_kelurahan_nama',
+                        'type'=>'raw',
+                        'value'=>'isset($data->kelurahan_id) ? $data->kelurahan->kelurahan_nama : ""',
+                        'filter'=>CHtml::activeDropDownList($modDataPasien, 'cari_kelurahan_nama', 
+                                CHtml::listData(KelurahanM::model()->findAllByAttributes(array(
+                                    'kecamatan_id'=>$kec_id,
+                                ), array(
+                                    'condition'=>'kelurahan_aktif = true',
+                                    'order'=>'kelurahan_nama asc',
+                                )), 'kelurahan_nama', 'kelurahan_nama'), array(
+                                    'empty'=>'-- Pilih --',
+                                )),
                     ),
                     'norm_lama',
                     array(
@@ -544,6 +604,30 @@
     ?>
 
     <?php
+    
+    $kec_id = null;
+    $modDataPasien2 = new PPPasienM('searchDialog');
+    $modDataPasien2->unsetAttributes();
+    $format = new MyFormatter();
+    $modDataPasien2->ispasienluar = FALSE;
+    if(isset($_GET['PPPasienM'])) {
+        $modDataPasien2->attributes = $_GET['PPPasienM'];
+//        $modDataPasien->tanggal_lahir =  isset($_GET['PPPasienM']['tanggal_lahir']) ? $format->formatDateTimeForDb($_GET['PPPasienM']['tanggal_lahir']) : null;
+        $modDataPasien2->cari_kelurahan_nama = $_GET['PPPasienM']['cari_kelurahan_nama'];
+        $modDataPasien2->cari_kecamatan_nama = $_GET['PPPasienM']['cari_kecamatan_nama'];
+		if(isset($_GET['PPPasienM']['nomorindukpegawai'])){
+			$modDataPasien2->nomorindukpegawai = $_GET['PPPasienM']['nomorindukpegawai'];
+		}
+        
+        $kec = KecamatanM::model()->findByAttributes(array(
+            'kecamatan_nama' => $modDataPasien2->cari_kecamatan_nama
+        ));
+        
+        if (empty($kec)) $kec_id = null;
+        else $kec_id = $kec->kecamatan_id;
+        
+    }
+    
     $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'id'=>'dialogPasienBadak',
         'options'=>array(
@@ -551,15 +635,15 @@
             'autoOpen'=>false,
             'modal'=>true,
             'width'=>1060,
-            'height'=>480,
+            'height'=>800,
             'resizable'=>false,
         ),
     ));
 	
     $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'id'=>'pasienbadak-m-grid',
-            'dataProvider'=>$modDataPasien->searchDialogBadak(),
-            'filter'=>$modDataPasien,
+            'dataProvider'=>$modDataPasien2->searchDialogBadak(),
+            'filter'=>$modDataPasien2,
             'template'=>"{summary}\n{items}\n{pager}",
             'itemsCssClass'=>'table table-striped table-bordered table-condensed',
             'columns'=>array(
@@ -598,7 +682,7 @@
                         'name'=>'tanggal_lahir',
                         'value'=>'MyFormatter::formatDateTimeForUser($data->tanggal_lahir)',
                         'filter'=>$this->widget('MyDateTimePicker',array(
-                                        'model'=>$modDataPasien,
+                                        'model'=>$modDataPasien2,
                                         'attribute'=>'tanggal_lahir',
                                         'mode'=>'date',
                                         'options'=> array(
@@ -610,19 +694,35 @@
                         'htmlOptions'=>array('width'=>'80','style'=>'text-align:center'),
                     ),
                     'alamat_pasien',
-                    'rw',
-                    'rt',
-                    array(
-                        'header'=>'Nama Kelurahan',
-                        'name'=>'cari_kelurahan_nama',
-                        'type'=>'raw',
-                        'value'=>'isset($data->kelurahan_id) ? $data->kelurahan->kelurahan_nama : ""'
-                    ),
+                    //'rw',
+                    //'rt',
                     array(
                         'header'=>'Nama Kecamatan',
                         'name'=>'cari_kecamatan_nama',
                         'type'=>'raw',
-                        'value'=>'$data->kecamatan->kecamatan_nama'
+                        'value'=>'$data->kecamatan->kecamatan_nama',
+                        'filter'=>CHtml::activeDropDownList($modDataPasien2, 'cari_kecamatan_nama', 
+                                CHtml::listData(KecamatanM::model()->findAll(array(
+                                    'condition'=>'kecamatan_aktif = true',
+                                    'order'=>'kecamatan_nama asc',
+                                )), 'kecamatan_nama', 'kecamatan_nama'), array(
+                                    'empty'=>'-- Pilih --',
+                                )),
+                    ),
+                    array(
+                        'header'=>'Nama Kelurahan',
+                        'name'=>'cari_kelurahan_nama',
+                        'type'=>'raw',
+                        'value'=>'isset($data->kelurahan_id) ? $data->kelurahan->kelurahan_nama : ""',
+                        'filter'=>CHtml::activeDropDownList($modDataPasien2, 'cari_kelurahan_nama', 
+                                CHtml::listData(KelurahanM::model()->findAllByAttributes(array(
+                                    'kecamatan_id'=>$kec_id,
+                                ), array(
+                                    'condition'=>'kelurahan_aktif = true',
+                                    'order'=>'kelurahan_nama asc',
+                                )), 'kelurahan_nama', 'kelurahan_nama'), array(
+                                    'empty'=>'-- Pilih --',
+                                )),
                     ),
                     'norm_lama',
                     array(

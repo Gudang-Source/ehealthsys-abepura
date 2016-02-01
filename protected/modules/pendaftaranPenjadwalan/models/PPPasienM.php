@@ -84,13 +84,14 @@ class PPPasienM extends PasienM
         
 	public function searchDialogBadak()
 	{
-				$criteria=new CDbCriteria;
+		$criteria=$this->criteriaSearch();
                 $criteria->join = " LEFT JOIN kecamatan_m ON t.kecamatan_id = kecamatan_m.kecamatan_id
                                              JOIN pegawai_m ON t.pegawai_id = pegawai_m.pegawai_id
                                              LEFT JOIN kelurahan_m ON t.kelurahan_id = kelurahan_m.kelurahan_id ";
                 $criteria->compare('LOWER(kecamatan_m.kecamatan_nama)',  strtolower($this->cari_kecamatan_nama), true);
                 $criteria->compare('LOWER(kelurahan_m.kelurahan_nama)',  strtolower($this->cari_kelurahan_nama), true);
                 $criteria->compare('LOWER(pegawai_m.nomorindukpegawai)',  strtolower($this->nomorindukpegawai), true);
+                $criteria->compare('LOWER(t.nama_pasien)',  strtolower($this->nama_pasien), true);
 				if(!empty($this->jeniskelamin)){
 					$criteria->compare('LOWER(t.jeniskelamin)',  strtolower($this->jeniskelamin), true);
 				}
@@ -99,7 +100,7 @@ class PPPasienM extends PasienM
                         }else{
                             $criteria->addCondition('ispasienluar = FALSE');
                         }
-                $criteria->limit=5;
+                // $criteria->limit=5;
                         return new CActiveDataProvider($this, array(
                                 'criteria'=>$criteria,
                                 'pagination'=>false,
