@@ -82,7 +82,9 @@ if(!empty($modTindakans)) {
     </td>
 </tr>
 <tr>
-    <td><div class="input-append"><?php echo CHtml::activeTextField($modTindakan, '[0]tgl_tindakan', array('readonly'=>true,'class'=>'tanggal dtPicker2', 'style'=>'float:left;','value'=>date('Y-m-d H:i:s'))); ?><span class="add-on"><i class="icon-calendar"></i><i class="icon-time"></i></span></div></td>
+    <td><div class="input-append"><?php 
+    // $modTindakan->tgl_tindakan = MyFormatter::formatDateTimeForUser($modTindakan->tgl_tindakan);
+    echo CHtml::activeTextField($modTindakan, '[0]tgl_tindakan', array('readonly'=>true,'class'=>'tanggal dtPicker2', 'style'=>'float:left;','value'=>  MyFormatter::formatDateTimeForUser(date('Y-m-d H:i:s')))); ?><span class="add-on"><i class="icon-calendar"></i><i class="icon-time"></i></span></div></td>
     <td style="text-align: right;"><b>Pemeriksa :</b></td>
     <td colspan="6">
         <table style="margin:0;">
