@@ -46,7 +46,7 @@ class PPPasientindaklanjutkeriV extends PasientindaklanjutkeriV
             $criteria->compare('LOWER(statusperiksa)', strtolower($this->statusperiksa), true);
             $criteria->addCondition('pasienpulang_id is not null');
             $criteria->order = 'tgl_pendaftaran DESC';
-            $criteria->limit = 5;
+            // $criteria->limit = 5;
             
             return new CActiveDataProvider($this, array(
                         'criteria'=>$criteria,
