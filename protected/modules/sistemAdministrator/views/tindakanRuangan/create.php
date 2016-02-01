@@ -210,11 +210,16 @@
             ),
             array(
                 'name' => 'kelompoktindakan.kelompoktindakan_nama',
-                'filter' => CHtml::activeDropDownList($modDaftarTindakan, 'kelompoktindakan_id', CHtml::listData(SAKelompokTindakanM::getItems(), 'kelompoktindakan_id', 'kelompoktindakan_nama'), array('empty' => '')),
+                'filter' => CHtml::activeDropDownList($modDaftarTindakan, 'kelompoktindakan_id', CHtml::listData(SAKelompokTindakanM::getItems(), 'kelompoktindakan_id', 'kelompoktindakan_nama'), array('empty' => '-- Pilih --')),
             ),
             array(
                 'name' => 'kategoritindakan.kategoritindakan_nama',
-                'filter' => CHtml::activeDropDownList($modDaftarTindakan, 'kategoritindakan_id', CHtml::listData(SAKategoriTindakanM::getItems(), 'kategoritindakan_id', 'kategoritindakan_nama'), array('empty' => '')),
+                'filter' => CHtml::activeDropDownList($modDaftarTindakan, 'kategoritindakan_id', CHtml::listData(SAKategoriTindakanM::getItems(), 'kategoritindakan_id', 'kategoritindakan_nama'), array('empty' => '-- Pilih --')),
+            ),
+            array(
+                'name'=> 'komponenunit_id',
+                'value'=> '$data->komponenunit->komponenunit_nama',
+                'filter' => CHtml::activeDropDownList($modDaftarTindakan, 'komponenunit_id', CHtml::listData(SAKomponenUnitM::getItems(), 'komponenunit_id', 'komponenunit_nama'), array('empty' => '-- Pilih --')),
             ),
             'daftartindakan_kode',
             'daftartindakan_nama',
