@@ -46,15 +46,15 @@
                                 'name'=>'no_rekam_medik',
                                 'type'=>'raw',
                                 'value'=>'CHtml::link("<i class=\"icon-form-print\"></i>", "javascript:print(\'$data->pasien_id\',\'$data->umur\');", array("rel"=>"tooltip","title"=>"Klik untuk mencetak kartu pasien"))." ".CHtml::link($data->no_rekam_medik, "javascript:print(\'$data->pasien_id\',\'$data->umur\');", array("rel"=>"tooltip","title"=>"Klik untuk mencetak kartu pasien"))',
-                            ),
+                            ), /*
                             array(
                                 'name'=>'namadepan',
                                 'value'=>'$data->namadepan',
-                            ),
+                            ), */
                             array(
                                 'name'=>'Nama Pasien',
                                 'type'=>'raw',
-                                'value'=>'CHtml::link("<i class=\"icon-form-ubah\"></i>", Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/ubahPasien",array("id"=>"$data->pasien_id")), array("rel"=>"tooltip","title"=>"Klik untuk mengubah data pasien"))." ".CHtml::link($data->nama_pasien, Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/ubahPasien",array("id"=>"$data->pasien_id")), array("rel"=>"tooltip","title"=>"Klik untuk mengubah data pasien"))',
+                                'value'=>'CHtml::link("<i class=\"icon-form-ubah\"></i>", Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/ubahPasien",array("id"=>"$data->pasien_id")), array("rel"=>"tooltip","title"=>"Klik untuk mengubah data pasien"))." ".CHtml::link($data->namadepan.$data->nama_pasien, Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/ubahPasien",array("id"=>"$data->pasien_id")), array("rel"=>"tooltip","title"=>"Klik untuk mengubah data pasien"))',
                             ),
                             array(
                                 'name'=>'jeniskelamin',
@@ -63,11 +63,11 @@
                             array(
                                 'name'=>'alamat_pasien',
                                 'value'=>'$data->alamat_pasien',
-                            ),
+                            ), /*
                             array(
                                 'name'=>'Rt/Rw',
                                 'value'=>'$data->rt." / ".$data->rw',
-                            ),
+                            ), */
                             /*
                              * Jangan Dihapus, takutnya nanti kepake lagi  . . .You Know lah :p
                             array(
