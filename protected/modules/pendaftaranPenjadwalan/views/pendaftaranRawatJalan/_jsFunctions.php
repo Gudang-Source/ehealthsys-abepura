@@ -1886,7 +1886,7 @@ function switchOtomatis(obj) {
 
 function checkOto() {
     if (otoval == 1) {
-        $(".rm_lama").show();
+        $(".rm_lama").hide();
         $(".rm_baru").hide();
         $("#no_rekam_medik_baru").val("");  
     } else {
@@ -1898,6 +1898,7 @@ function checkOto() {
 
 function hideHitunganRM() {
     $(".rm_control").hide();
+    $(".rm_state").show();
 }
 
 function showHitunganRM() {

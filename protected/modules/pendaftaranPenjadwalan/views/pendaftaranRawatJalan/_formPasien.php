@@ -31,7 +31,7 @@
             ?>
         </div>
     </div>
-    <div class="control-group">
+    <div class="control-group rm_baru rm_state" hidden>
         <?php echo CHtml::label("Cari NIP", 'nomorindukpegawai', array('class'=>'control-label'))?>
         <div class="controls">
             <?php 
@@ -119,7 +119,7 @@
             )); */ ?>
         </div>
     </div>
-    <div class="control-group rm_lama">
+    <div class="control-group rm_lama rm_state" hidden>
         <?php echo CHtml::label("Cari ".$modPasien->getAttributeLabel('no_rekam_medik'), 'no_rekam_medik', array('class'=>'control-label'))?>
         <div class="controls">
             <?php 
