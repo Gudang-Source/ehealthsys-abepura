@@ -5,6 +5,7 @@ class ResepturController extends MyAuthController
     public $path_view = 'rawatJalan.views.reseptur.';
     public $successSave = false;
     public $reseptur_id;
+    
     public function actionIndex($pendaftaran_id)
 	{
 			$ruangan_id = isset($_GET['ruangan_id']) ? $_GET['ruangan_id'] : Yii::app()->user->getState('ruangan_id');
@@ -31,7 +32,11 @@ class ResepturController extends MyAuthController
                 $transaction = Yii::app()->db->beginTransaction();
                 try {
                     $this->saveReseptur($_POST, $modPendaftaran);
-						
+				
+                    $this->broadcastNotifReseptur($modPendaftaran);
+                    
+                    // die;
+                    
                     if($this->successSave){
                         $transaction->commit();
                         Yii::app()->user->setFlash('success',"Data Resep berhasil disimpan");
@@ -61,6 +66,29 @@ class ResepturController extends MyAuthController
                                         ));
 	}
 	
+        protected function broadcastNotifReseptur($modPendaftaran) {
+            $reseptur = ResepturT::model()->findByPk($this->reseptur_id);
+            
+            //var_dump($modPendaftaran->attributes); 
+            //var_dump($reseptur->attributes); 
+            
+            $rr = RuanganM::model()->findByPk($reseptur->ruanganreseptur_id);
+            $dokter = PegawaiM::model()->findByPk($reseptur->pegawai_id);
+            $pasien = PasienM::model()->findByPk($reseptur->pasien_id);
+            
+            //var_dump($rr->attributes);
+            
+            $judul = "Reseptur Pasien";
+            $isi = $reseptur->noresep." - ".$rr->ruangan_nama." - ".$dokter->namaLengkap." - ".
+                    $pasien->no_rekam_medik." - ".$pasien->namadepan.$pasien->nama_pasien;
+            
+            //var_dump($isi);
+            
+            $ok = CustomFunction::broadcastNotif($judul, $isi, array(
+                array('instalasi_id'=>Params::INSTALASI_ID_FARMASI, 'ruangan_id'=>$reseptur->ruangan_id, 'modul_id'=>10),
+            ));     
+        }
+        
 	protected function saveReseptur($post,$modPendaftaran)
 	{
 		$reseptur = new RJResepturT;
