@@ -86,7 +86,7 @@
                     ),
                     array(
                         'name'=>'pegawai_id',
-                        'value'=>$modPasienAdmisi->pegawai->nama_pegawai,
+                        'value'=>$modPasienAdmisi->pegawai->namaLengkap,
                     ),
                     array(
                         'name'=>'carabayar_id',
