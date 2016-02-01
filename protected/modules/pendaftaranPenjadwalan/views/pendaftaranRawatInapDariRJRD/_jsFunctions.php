@@ -114,8 +114,8 @@ function setAsuransiPasienLama(pasien_id){
         dataType: "json",
         success:function(data){
 			if(data != null){
-				myConfirm("Apakah pasien ini akan menggunakan penjamin "+data.penjamin_nama+"?","Konfirmasi!",function(r) {
-					if(r){
+				//myConfirm("Apakah pasien ini akan menggunakan penjamin "+data.penjamin_nama+"?","Konfirmasi!",function(r) {
+					//if(r){
 						
 						var datacarabayar_id = data.carabayar_id;
 						var datalistPenjamin = data.listPenjamin;
@@ -134,6 +134,7 @@ function setAsuransiPasienLama(pasien_id){
 						$("#<?php echo CHtml::activeId($modPasienAdmisi,"penjamin_id");?>").html(data.listPenjamin);
 						$("#<?php echo CHtml::activeId($modPasienAdmisi,"penjamin_id");?>").val(data.penjamin_id);
 						
+                                                /*
 						$.ajax({
 							type:'POST',
 							url:'<?php echo $this->createUrl('CekCaraBayarBadak'); ?>',
@@ -170,9 +171,10 @@ function setAsuransiPasienLama(pasien_id){
 							},
 							error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
 						});
+                                                */
 						
-					} 
-				}); 
+					//} 
+				//}); 
 			}
 			
         },
