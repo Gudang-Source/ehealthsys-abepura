@@ -198,14 +198,14 @@ class ResepturController extends MyAuthController
 			$jmlStok = StokobatalkesT::getJumlahStok($obatalkes_id, $ruangan_id);
 			
 			$modObatAlkes = RJObatAlkesM::model()->findByPk($obatalkes_id);
-            if($jmlStok > 0){
+            //if($jmlStok > 0){
                 $modResepturDetail->obatalkes_id = $modObatAlkes->obatalkes_id;
                 $modResepturDetail->sumberdana_id = $modObatAlkes->sumberdana_id;
                 $modResepturDetail->satuankecil_id = $modObatAlkes->satuankecil_id;
 				$modResepturDetail->racikan_id = ($isRacikan == 0) ? Params::RACIKAN_ID_NONRACIKAN : Params::RACIKAN_ID_RACIKAN;
                 $modResepturDetail->r = 'R/';
                 $modResepturDetail->qty_reseptur = ceil($jumlah); // LNG Ceil (Pembulatan keatas request pak tito)
-				$modResepturDetail->jmlstok = $jmlStok;
+		$modResepturDetail->jmlstok = $jmlStok;
                 $modResepturDetail->kekuatan_reseptur = $modObatAlkes->kekuatan;
                 $modResepturDetail->satuankekuatan = $modObatAlkes->satuankekuatan;
                 
@@ -219,9 +219,9 @@ class ResepturController extends MyAuthController
 				
 				$form .= $this->renderPartial($this->path_view.'_rowDetail', array('modResepturDetail'=>$modResepturDetail), true);
 				
-            }else{
-                $pesan = "Stok tidak mencukupi!";
-            }
+            //}else{
+            //    $pesan = "Stok tidak mencukupi!";
+            //}
             
             echo CJSON::encode(array('form'=>$form, 'pesan'=>$pesan));
             Yii::app()->end(); 
