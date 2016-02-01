@@ -1075,6 +1075,23 @@ class PendaftaranRawatJalanController extends MyAuthController
                 $pasien_id = isset($_POST['pasien_id']) ? $_POST['pasien_id'] : null;
                 $no_rekam_medik = isset($_POST['no_rekam_medik']) ? $_POST['no_rekam_medik'] : null;
                 $returnVal = array();
+                
+                $returnVal['lebih'] = false;
+                
+                if (isset($_POST['is_manual']) && $_POST['is_manual'] == true) {
+                    $rm_last = PasienM::model()->find(array(
+                        'condition'=>'ispasienluar = false',
+                        'order'=>'no_rekam_medik desc'
+                    ));
+                    //echo $no_rekam_medik." ".$rm_last->no_rekam_medik; die;
+                    if ((int)$no_rekam_medik > (int)$rm_last->no_rekam_medik) {
+                        $returnVal['lebih'] = true;
+                        echo CJSON::encode($returnVal);
+                        Yii::app()->end();
+                    }
+                }
+                
+                
                 $criteria = new CDbCriteria();
 				if(!empty($pasien_id)){$criteria->addCondition("pasien_id = ".$pasien_id); }
 				if(!empty($no_rekam_medik)){$criteria->addCondition("no_rekam_medik = '".$no_rekam_medik."'"); }

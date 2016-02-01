@@ -133,7 +133,8 @@ Class Params
         const RUANGAN_ID_KASIR = 66;
 
 	const KELASPELAYANAN_ID_TANPA_KELAS = 6;
-
+        const KELASPELAYANAN_ID_KELAS_III = 4;
+        
 	const PENJAMIN_ID_UMUM = 1;
 	const PENJAMIN_ID_GRATIS = 96;
 	
