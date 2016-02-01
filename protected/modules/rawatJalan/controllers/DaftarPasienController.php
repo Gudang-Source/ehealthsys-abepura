@@ -1880,8 +1880,12 @@ class DaftarPasienController extends MyAuthController
 			if(Yii::app()->getRequest()->getIsAjaxRequest()) {
 				if(!empty($_POST['idRuangan'])){
 					$idRuangan = $_POST['idRuangan'];
-					$data = DokterV::model()->findAllByAttributes(array('ruangan_id'=>$idRuangan),array('order'=>'nama_pegawai'));
-					$data = CHtml::listData($data,'pegawai_id','nama_pegawai');
+                                        $idPegawai = $_POST['idPegawai'];
+                                        
+					$data = DokterV::model()->findAllByAttributes(array('ruangan_id'=>$idRuangan),array('order'=>'nama_pegawai',
+                                            'condition'=>'pegawai_id <> '.$idPegawai,
+                                        ));
+					$data = CHtml::listData($data,'pegawai_id','namaLengkap');
 
 					if(empty($data)){
 						$option = CHtml::tag('option',array('value'=>''),CHtml::encode('-- Pilih --'),true);
