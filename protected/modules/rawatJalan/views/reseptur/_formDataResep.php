@@ -16,7 +16,7 @@
 										'maxDate' => 'd',
 										'yearRange'=> "-60:+0",
 									),
-									'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3', 'onkeypress'=>"return $(this).focusNextInputField(event)"
+									'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3 realtime', 'onkeypress'=>"return $(this).focusNextInputField(event)"
 									),
 			)); ?>
 			<?php echo $form->error($modReseptur, 'tglreseptur'); ?>
