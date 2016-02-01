@@ -206,17 +206,19 @@ echo $form->textFieldRow($model, 'ruangan_nama', array('value' => $modruangan->r
                                 ))',
             ),
             array(
+                'name'=>'jeniskasuspenyakit_nama',
                 'header' => 'Nama Kasus',
                 'value' => '$data->jeniskasuspenyakit_nama',
             ),
             array(
+                'name'=>'jeniskasuspenyakit_namalainnya',
                 'header' => 'Nama Lainnya',
                 'value' => '$data->jeniskasuspenyakit_namalainnya',
-            ),
+            ),/*
             array(
                 'header' => 'Urutan',
                 'value' => '$data->jeniskasuspenyakit_urutan',
-            ),
+            ),*/
         ),
         'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
     ));
@@ -264,10 +266,12 @@ echo $form->textFieldRow($model, 'ruangan_nama', array('value' => $modruangan->r
                                 ))',
             ),
             array(
+                'name' => 'diagnosa_nama',
                 'header' => 'Nama Diagnosa',
                 'value' => '$data->diagnosa_nama',
             ),
             array(
+                'name' => 'diagnosa_namalainnya',
                 'header' => 'Nama Lainnya',
                 'value' => '$data->diagnosa_namalainnya',
             ),
