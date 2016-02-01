@@ -779,10 +779,18 @@ class PendaftaranRawatJalanController extends MyAuthController
             $modAsuransiPasien->create_loginpemakai_id = Yii::app()->user->id;
             $modAsuransiPasien->create_time = date("Y-m-d H:i:s");
             $modAsuransiPasien->tgl_konfirmasi = $format->formatDateTimeForDb($modAsuransiPasien->tgl_konfirmasi);
-			$modAsuransiPasien->hubkeluarga = isset($postAsuransiPasien['hubkeluarga'])?$postAsuransiPasien['hubkeluarga']:'';
-			if(empty($postAsuransiPasien['nokartuasuransi'])){
-				$modAsuransiPasien->nokartuasuransi = $modAsuransiPasien->nopeserta;
-			}
+            $modAsuransiPasien->hubkeluarga = isset($postAsuransiPasien['hubkeluarga'])?$postAsuransiPasien['hubkeluarga']:'';
+            // var_dump($postPendaftaran);
+            // var_dump($postPasien->attributes);
+            if($postPendaftaran['carabayar_id'] == Params::CARABAYAR_ID_JAMKESPA) {
+                $modAsuransiPasien->nopeserta = $postPasien->no_rekam_medik;
+                $modAsuransiPasien->status_konfirmasi = 1;
+            }
+            if(empty($postAsuransiPasien['nokartuasuransi'])){
+                $modAsuransiPasien->nokartuasuransi = $modAsuransiPasien->nopeserta;
+            }
+            // var_dump($modAsuransiPasien->attributes); 
+            // var_dump($modAsuransiPasien->validate()); die;
             if($modAsuransiPasien->save()){
                 $this->asuransipasientersimpan = true;
             }

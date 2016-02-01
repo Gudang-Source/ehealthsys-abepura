@@ -1048,8 +1048,10 @@ function setFormAsuransi(carabayar_id){
     var carabayar_id_bpjs = <?php echo Params::CARABAYAR_ID_BPJS;?>;
     if(carabayar_id == carabayar_id_umum){
         sembunyiFormAsuransi();
+        cekJamkespa();
     }else{
         tampilFormAsuransi();
+        cekJamkespa();
     }
 }
 <?php } ?>
@@ -1090,9 +1092,6 @@ function tampilFormAsuransi(){
         $('#content-asuransi').find(".not-required").addClass("required").removeClass("not-required");
         $('#content-asuransi').removeAttr("style").attr("style","height:auto"); 
         $('#content-asuransi').find("input,select,textarea").removeAttr("disabled");
-        
-        cekJamkespa();
-  
 }
 function sembunyiFormAsuBadak(){
         $('#content-asubadak').find(".required").addClass("not-required").removeClass("required");
@@ -1189,14 +1188,19 @@ function tampilFormRujukan(){
 
 
 function cekJamkespa() { 
-    /*
-    console.log("Kicking");
     if ($("#<?php echo CHtml::activeId($model, "carabayar_id"); ?>").val() == 18) {
+        $(".jks_spec").addClass("not-required").removeClass("required").parents(".control-group").hide();
         $("#<?php echo CHtml::activeId($modAsuransiPasien, "nopeserta"); ?>").val($("#<?php echo CHtml::activeId($modPasien, "no_rekam_medik"); ?>").val());
         $("#<?php echo CHtml::activeId($modAsuransiPasien, "nokartuasuransi"); ?>").val($("#<?php echo CHtml::activeId($modPasien, "no_rekam_medik"); ?>").val());
         $("#<?php echo CHtml::activeId($modAsuransiPasien, "namapemilikasuransi"); ?>").val($("#<?php echo CHtml::activeId($modPasien, "nama_pasien"); ?>").val());
         $("#<?php echo CHtml::activeId($modAsuransiPasien, "kelastanggunganasuransi_id"); ?>").val(<?php echo Params::KELASPELAYANAN_ID_KELAS_III; ?>);
-    } */
+    } else {
+        $(".jks_spec").removeClass("not-required").addClass("required").parents(".control-group").show();
+        $("#<?php echo CHtml::activeId($modAsuransiPasien, "nopeserta"); ?>").val("");
+        $("#<?php echo CHtml::activeId($modAsuransiPasien, "nokartuasuransi"); ?>").val("");
+        $("#<?php echo CHtml::activeId($modAsuransiPasien, "namapemilikasuransi"); ?>").val("");
+        $("#<?php echo CHtml::activeId($modAsuransiPasien, "kelastanggunganasuransi_id"); ?>").val("");
+    }
 }
 
 /**

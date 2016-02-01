@@ -69,6 +69,7 @@ Class Params
 	const CARABAYAR_ID_PEKERJA = 7; 
 	const CARABAYAR_ID_GRATIS = 8; 
 	const CARABAYAR_ID_PERUSAHAAN = 9; 
+        const CARABAYAR_ID_JAMKESPA = 18;
 
 	
 	const MODUL_ID_SISADMIN = 1;

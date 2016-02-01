@@ -1,6 +1,6 @@
 
 <div class="control-group">
-        <?php echo CHtml::label("Cari ".$modAsuransiPasien->getAttributeLabel('nopeserta')." <span class='required'>*</span>", 'nopeserta', array('class'=>'control-label required'))?>
+        <?php echo CHtml::label("Cari ".$modAsuransiPasien->getAttributeLabel('nopeserta')." <span class='required jks_spec'>*</span>", 'nopeserta', array('class'=>'control-label required jks_spec'))?>
         <div class="controls">
             <?php 
                 $this->widget('MyJuiAutoComplete', array(
@@ -54,7 +54,7 @@
 </div>
 <?php echo $form->hiddenField($modAsuransiPasien,'asuransipasien_id',array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10)); ?>
 <div class="control-group">
-        <?php echo CHtml::label("Cari ".$modAsuransiPasien->getAttributeLabel('nokartuasuransi')." <span class='required'>*</span>", 'nokartuasuransi', array('class'=>'control-label required'))?>
+        <?php echo CHtml::label("Cari ".$modAsuransiPasien->getAttributeLabel('nokartuasuransi')." <span class='required jks_spec'>*</span>", 'nokartuasuransi', array('class'=>'control-label required jks_spec'))?>
         <div class="controls">
             <?php 
                 $this->widget('MyJuiAutoComplete', array(
