@@ -6,9 +6,14 @@
  * @param {type} pasien_id
  * @returns {undefined}
  */
-function setPasienLama(pasien_id, no_rekam_medik ){
+var otoval = 1; // untuk hitung rekam medik
+
+function setPasienLama(pasien_id, no_rekam_medik, is_manual){
     $("#form-pasien > div").addClass("animation-loading");
     setPasienBaru(); 
+    
+    var beforeOto = otoval;
+    
     $.ajax({
         type:'POST',
         url:'<?php echo $this->createUrl('GetDataPasien'); ?>',
@@ -72,7 +77,12 @@ function setPasienLama(pasien_id, no_rekam_medik ){
                 setKarcis();
                 setRiwayatKunjunganPasien(data.pasien_id);
                 setAsuransiPasienLama(data.pasien_id);
-				getRuanganPoliklinikPasien();
+		getRuanganPoliklinikPasien();
+                
+                
+                $(".rb_rm").eq(0).click();
+                
+                
                 
                 $("#form-pasien > legend > .judul").html('Data Pasien Lama ');
                 $("#form-pasien > legend > .tombol").attr('style','display:true;');
@@ -93,7 +103,12 @@ function setPasienLama(pasien_id, no_rekam_medik ){
             $("#form-pasien > div").removeClass("animation-loading");
             hideHitunganRM();
         },
-        error: function (jqXHR, textStatus, errorThrown) { myAlert("Data Pasien tidak ditemukan !"); $("#form-pasien > div").removeClass("animation-loading");}
+        error: function (jqXHR, textStatus, errorThrown) { 
+            if (!is_manual) myAlert("Data Pasien tidak ditemukan !"); 
+            else $("#no_rekam_medik_baru").val(no_rekam_medik);
+            
+            $("#form-pasien > div").removeClass("animation-loading");
+        }
     });
 
 }
@@ -1841,7 +1856,7 @@ function cekPilihSatu(obj) {
     }
 }
 
-var otoval = 1
+
 function switchOtomatis(obj) {
     otoval = $(obj).val();
     checkOto();
