@@ -90,15 +90,15 @@
                 var dokter = data.gelardepan + " " + data.nama_pegawai + " " + data.gelarbelakang_nama;
                 $('#dp').val(dokter);
 				$('#RJUbahdokterR_dokterlama_id').val(data.pegawai_id);
-                listDokterRuangan(data.ruangan_id);
+                listDokterRuangan(data.ruangan_id, data.pegawai_id);
             },
         "json");
     }
     loadDataPendaftaran();
     
-    function listDokterRuangan(idRuangan)
+    function listDokterRuangan(idRuangan, idPegawai)
     {
-        $.post("<?php echo $this->createUrl('listDokterRuangan')?>", { idRuangan: idRuangan },
+        $.post("<?php echo $this->createUrl('listDokterRuangan')?>", { idRuangan: idRuangan, idPegawai },
             function(data){
                 $('#RJPendaftaranT_pegawai_id').html(data.listDokter);
         }, "json");

@@ -31,10 +31,14 @@
                         <?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
                         'id'=>'diagnosa-grid',
                         'dataProvider'=>$modDiagnosa->searchRJ(),
+                        'filter'=>$modDiagnosa,
                         'template'=>"{summary}\n{items}\n{pager}",
                         'itemsCssClass'=>'table table-striped table-condensed',
                         'columns'=>array(	
-                                'diagnosa_kode',	
+                            array(
+                                'name' => 'diagnosa_kode',
+                                'filter' => CHtml::activeTextField($modDiagnosa, 'diagnosa_kode').CHtml::activeHiddenField($modDiagnosa, 'dtd_id', array('id'=>'diagnosa_dtd')),
+                            ),
                                 'diagnosa_nama',
                          ),
                         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});diagnosahideshow();}',
@@ -47,6 +51,7 @@
             </tr>
         </table>
     </div>
+    <?php /*
     <div class="search-form">
         <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
                 'id'=>'diagnosa-form',
@@ -81,28 +86,35 @@
                 ?>
             </div>
         </fieldset>
+        <?php $this->endWidget(); ?>
     </div>    
+     * 
+     */ ?>
 
     
-<?php $this->endWidget(); ?>
+
 
 <?php
 $js = <<< JSCRIPT
 function cariDtd(obj,tabularlist_id)
 {
-    $(obj).parent().find("div").html("rizky");
+    $("#dtd_tabularlist_id").val(tabularlist_id);
     $('#diagnosa-div').attr("style","display:none");
-     $('#dtd-div').attr("style","display:block");
+    $('#dtd-div').attr("style","display:block");
+        
+        
+        
     $.fn.yiiGridView.update('dtd-grid', {
-            data: { RJDtdM_tabularlist_id : tabularlist_id}
+            data: $("#dtd-grid :input").serialize()
     });
 
 }
    
 function cariDiagnosa(dtd_id)
 {
-     $.fn.yiiGridView.update('diagnosa-grid', {
-            data: { RJDDiagnosa_dtd_id : dtd_id}
+    $("#diagnosa_dtd").val(dtd_id);    
+    $.fn.yiiGridView.update('diagnosa-grid', {
+            data: $("#diagnosa-grid :input").serialize()
     });
 }
 
