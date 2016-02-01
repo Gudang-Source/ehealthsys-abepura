@@ -16,7 +16,7 @@ class TindakanruanganM extends CActiveRecord
 	 */
     
         public $ruangan_nama,$daftartindakan_nama,$kategoritindakan_nama,$daftartindakan_kode,$harga_tariftindakan,$kategoritindakan_id,$nama_pelayanan;
-        public $kelompoktindakan_nama;
+        public $kelompoktindakan_nama, $komponenunit_id;
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);

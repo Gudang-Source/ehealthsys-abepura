@@ -117,4 +117,11 @@ class KomponenunitM extends CActiveRecord
             $this->komponenunit_namalainnya = strtoupper($this->komponenunit_namalainnya);
             return parent::beforeSave();
         }
+        
+        public static function getItems() {
+            return self::model()->findAll(array(
+                'condition'=>'komponenunit_aktif = true',
+                'order'=>'komponenunit_nama',
+            ));
+        }
 }
