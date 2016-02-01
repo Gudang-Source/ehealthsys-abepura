@@ -21,7 +21,7 @@ function setPasienLama(pasien_id, no_rekam_medik, is_manual){
         dataType: "json",
         success:function(data){
             if (data.lebih) {
-                myAlert("No RM Tidak tersedia");
+                myAlert("No RM digunakan untuk hitungan otomatis. Pilih antara 000001 - 347499");
                 $("#form-pasien > div").removeClass("animation-loading");
                 $("#no_rekam_medik_baru").val("");
                 return false;
