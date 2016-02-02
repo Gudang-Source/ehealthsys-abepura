@@ -314,7 +314,7 @@ function setAsuransiPasienLama(pasien_id){
         dataType: "json",
         success:function(data){
 			if(data != null){
-				// if(confirm("Apakah pasien ini akan menggunakan penjamin "+data.penjamin_nama+"?")){
+                                if(confirm("Apakah pasien ini akan menggunakan penjamin "+data.penjamin_nama+"?")){
 //				}
 //				confirm("Apakah pasien ini akan menggunakan penjamin "+data.penjamin_nama+"?","Konfirmasi!",function(r) {
 //					if(r){
@@ -335,14 +335,14 @@ function setAsuransiPasienLama(pasien_id){
                                                 $("#<?php echo CHtml::activeId($model,"carabayar_id");?>").val(datacarabayar_id);
 						$("#<?php echo CHtml::activeId($model,"penjamin_id");?>").html(datalistPenjamin);
                                                 
-                                                /*
-						$.ajax({
-							type:'POST',
-							url:'<?php echo $this->createUrl('CekCaraBayarBadak'); ?>',
-							data: {pasien_id: pasien_id,pegawai_id:pegawai_id},
-							dataType: "json",
-							success:function(data){
-								if(data.status === true){
+                                                
+						// $.ajax({
+						//	type:'POST',
+						//	url:'<?php echo $this->createUrl('CekCaraBayarBadak'); ?>',
+						//	data: {pasien_id: pasien_id,pegawai_id:pegawai_id},
+						//	dataType: "json",
+						//	success:function(data){
+						//		if(data.status === true){
 									
 									setFormAsuransi(datacarabayar_id);
 									$("#<?php echo CHtml::activeId($model,"carabayar_id");?>").val(datacarabayar_id);
@@ -350,8 +350,8 @@ function setAsuransiPasienLama(pasien_id){
 									$("#<?php echo CHtml::activeId($model,"penjamin_id");?>").val(datapenjamin_id);
 									if(datacarabayar_id == <?php echo Params::CARABAYAR_ID_BPJS ?>){
 										getAsuransiNoKartu(datanopeserta);
-									}else if((datacarabayar_id == <?php echo Params::CARABAYAR_ID_BADAK; ?>) || (datacarabayar_id == <?php echo Params::CARABAYAR_ID_DEP_BADAK; ?>) || (datacarabayar_id == <?php echo Params::CARABAYAR_ID_PEKERJA; ?>)){
-										setAsuransiBadak(data);
+									//}else if((datacarabayar_id == <?php echo Params::CARABAYAR_ID_BADAK; ?>) || (datacarabayar_id == <?php echo Params::CARABAYAR_ID_DEP_BADAK; ?>) || (datacarabayar_id == <?php echo Params::CARABAYAR_ID_PEKERJA; ?>)){
+									//	setAsuransiBadak(data);
 									}else{
 										$("#<?php echo CHtml::activeId($modAsuransiPasien,'nopeserta') ?>").val(datanopeserta);
 										$("#<?php echo CHtml::activeId($modAsuransiPasien,'asuransipasien_id') ?>").val(dataasuransipasien_id);
@@ -364,19 +364,18 @@ function setAsuransiPasienLama(pasien_id){
 										$("#<?php echo CHtml::activeId($modAsuransiPasien,'tgl_konfirmasi') ?>").val(datatgl_konfirmasi);
 									}
 									
-								}else{
-									myAlert(data.pesan);
-									$("#<?php echo CHtml::activeId($model,"penjamin_id");?>").val("");
-									$("#<?php echo CHtml::activeId($model,"carabayar_id");?>").val("");
-								}
-							},
-							error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
-						});
-                                                */
+								//}else{
+								//	myAlert(data.pesan);
+								//	$("#<?php echo CHtml::activeId($model,"penjamin_id");?>").val("");
+								//	$("#<?php echo CHtml::activeId($model,"carabayar_id");?>").val("");
+								//}
+							//},
+						//	error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
+						//});
 						
 						
 						
-					//} 
+					} 
 //				}); 
 			}
         },
