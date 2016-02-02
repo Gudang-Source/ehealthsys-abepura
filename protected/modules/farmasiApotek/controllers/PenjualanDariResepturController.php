@@ -33,12 +33,15 @@ class PenjualanDariResepturController extends PenjualanResepRSController
 		
 		// load penjualan resep berdasarkan reseptur_id (bisa ada data bisa juga tidak)
 		$modPenjualan =  FAPenjualanResepT::model()->findByAttributes(array('reseptur_id'=>$reseptur_id));
-		if(count($modPenjualan)>0){
+		$modPenjualan->tglpenjualan = MyFormatter::formatDateTimeForUser($modPenjualan->tglpenjualan);
+                $modPenjualan->tglresep = MyFormatter::formatDateTimeForUser($modPenjualan->tglresep);
+                // var_dump($modPenjualan->attributes); die;
+                if(count($modPenjualan)>0){
 			$this->ada_penjualan = true;
 		}else{
 			$modPenjualan = new FAPenjualanResepT;
 			$modPenjualan->tglpenjualan = Yii::app()->dateFormatter->formatDateTime(CDateTimeParser::parse($modPenjualan->tglpenjualan, 'yyyy-MM-dd hh:mm:ss','medium',null)); 
-			$modPenjualan->tglresep = Yii::app()->dateFormatter->formatDateTime(CDateTimeParser::parse($modPenjualan->tglresep, 'yyyy-MM-dd hh:mm:ss','medium',null));
+			$modPenjualan->tglresep = MyFormatter::formatDateTimeForUser($modReseptur->tglreseptur);
 			$modPenjualan->noresep = MyGenerator::noResep($instalasi_id);
 			$modPenjualan->pegawai_id = $modReseptur->pegawai_id;
 			$modPenjualan->totharganetto= 0;
@@ -203,6 +206,8 @@ class PenjualanDariResepturController extends PenjualanResepRSController
                  * 
                  */
                                 // die;
+                                
+                                $this->broadcastPenjualanKeKasir($modPenjualan);
 				try{
 					if($this->obatalkespasientersimpan&&$this->stokobatalkestersimpan){
 						$transaction->commit();
@@ -230,7 +235,7 @@ class PenjualanDariResepturController extends PenjualanResepRSController
 						'instalasi_id'=>$instalasi_id
 						));
 	}
-	
+        
 	public function actionSetObatAlkesPasien()
     {
         if(Yii::app()->request->isAjaxRequest) { 
@@ -510,6 +515,7 @@ class PenjualanDariResepturController extends PenjualanResepRSController
 	
 	protected function savePenjualanResepRS($modPendaftaran,$penjualanResep,$modReseptur=null)
 	{
+                //var_dump($modReseptur->attributes);
 		$format = new MyFormatter();
 		$modPenjualan = new FAPenjualanResepT;
 		$modPenjualan->attributes = $penjualanResep;
@@ -523,7 +529,7 @@ class PenjualanDariResepturController extends PenjualanResepRSController
 		$modPasienAdmisi = PasienadmisiT::model()->findByAttributes(array("pendaftaran_id"=>$modPendaftaran->pendaftaran_id, "pasien_id"=>$modPendaftaran->pasien_id));
 		$modPenjualan->pasienadmisi_id = (empty($modPasienAdmisi->pasienadmisi_id)) ? null : $modPasienAdmisi->pasienadmisi_id;
 		$modPenjualan->tglpenjualan = $format->formatDateTimeForDb($_POST['FAPenjualanResepT']['tglpenjualan']);
-		$modPenjualan->tglresep = date('Y-m-d H:i:s');
+		$modPenjualan->tglresep = !empty($modReseptur)?$modReseptur->tglreseptur:date('Y-m-d H:i:s');
 		$modPenjualan->ruanganasal_nama = Yii::app()->user->getState('ruangan_nama');
 		$modPenjualan->instalasiasal_nama = Yii::app()->user->getState('instalasi_nama');
 		$modPenjualan->reseptur_id = (!empty($modReseptur->reseptur_id) ? $modReseptur->reseptur_id : null);
@@ -534,7 +540,7 @@ class PenjualanDariResepturController extends PenjualanResepRSController
 		}
 		$modPenjualan->ruangan_id = Yii::app()->user->getState('ruangan_id');
 		$modPenjualan->pembulatanharga = Yii::app()->user->getState('pembulatanharga');
-		$modPenjualan->noresep = MyGenerator::noResep($_POST['instalasi_id']);
+		$modPenjualan->noresep = !empty($modReseptur)?$modReseptur->noresep:MyGenerator::noResep($_POST['instalasi_id']);
 		$modPenjualan->subsidiasuransi = 0;
 		$modPenjualan->subsidipemerintah = 0;
 		$modPenjualan->subsidirs = 0;
@@ -544,6 +550,8 @@ class PenjualanDariResepturController extends PenjualanResepRSController
 		$modPenjualan->create_loginpemakai_id = Yii::app()->user->id;
 		$modPenjualan->create_ruangan = Yii::app()->user->getState('ruangan_id');
 		
+                // var_dump($modPenjualan->attributes);
+                
 		if($modPenjualan->validate()){
 			$modPenjualan->save();
 			PendaftaranT::model()->updateByPk($modPenjualan->pendaftaran_id, array('pembayaranpelayanan_id'=>null));

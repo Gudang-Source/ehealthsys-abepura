@@ -1,4 +1,9 @@
-	<tr>
+<?php
+
+$satuan = !empty($modObatAlkesPasien->obatalkes->satuankecil_id) ? $modObatAlkesPasien->obatalkes->satuankecil->satuankecil_nama : "";
+
+?>
+        <tr>
 		<td>
 			<span id="isi-r" name="[ii][isi_r]">R/</span>
 		</td>
@@ -17,23 +22,25 @@
 		<td>
 			<?php echo CHtml::activeTextField($modObatAlkesPasien, '[ii]obatalkes_nama',array('readonly'=>true,'class'=>'span3','value'=>$modObatAlkesPasien->ObatAlkesNama)); //,'onblur'=>'hitungSubTotal(this)'?>
 		</td>
-		<td>
+		<td nowrap>
 			<?php
 			if(isset($modDetailReseptur[$iii])){
-				echo CHtml::activeTextField($modDetailReseptur[$iii], '[ii]qty_reseptur',array('readonly'=>true,'style'=>'width:50px;')); //,'onblur'=>'hitungSubTotal(this)'
+				echo CHtml::activeTextField($modDetailReseptur[$iii], '[ii]qty_reseptur',array('readonly'=>true,'style'=>'width:50px; text-align: right;')); //,'onblur'=>'hitungSubTotal(this)'
 			}else{ ?>
 				<span name="[ii][obatalkes_kode]"> - </span>
 			<?php } ?>
+                        <?php echo $satuan; ?>
 		</td>
-		<td>
-			<?php echo CHtml::activeTextField($modObatAlkesPasien, '[ii]qty_dilayani',array('readonly'=>true,'style'=>'width:50px;','value'=>$modObatAlkesPasien->qty_oa,'onblur'=>'hitungSubTotal(this);')); ?>
+		<td nowrap>
+			<?php echo CHtml::activeTextField($modObatAlkesPasien, '[ii]qty_dilayani',array('readonly'=>true,'style'=>'width:50px; text-align: right;','value'=>$modObatAlkesPasien->qty_oa,'onblur'=>'hitungSubTotal(this);')); ?>
+                        <?php echo $satuan; ?>
 		</td>
 		<td>
 			<span name="[ii][sumberdana_nama]"><?php echo (!empty($modObatAlkesPasien->sumberdana_id) ? $modObatAlkesPasien->obatalkes->sumberdana->sumberdana_nama : "") ?></span>
 		</td>
-		<td>
+		<!--td>
 			<span name="[ii][satuankecil_nama]"><?php echo (!empty($modObatAlkesPasien->obatalkes->satuankecil_id) ? $modObatAlkesPasien->obatalkes->satuankecil->satuankecil_nama : "") ?></span>
-		</td>
+		</td-->
 		<td>
 			<?php echo CHtml::activeTextField($modObatAlkesPasien, '[ii]hargajual_oa',array('readonly'=>true,'style'=>'width:60px;', 'class'=>'integer')); ?>
 		</td>
