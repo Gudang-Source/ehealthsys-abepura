@@ -18,6 +18,8 @@ class PembayaranTagihanPasienController extends MyAuthController
     public $pemakaianuangmuka_tersimpan = false;
     public $bayarangsuran_tersimpan = false;
     public $bayarsemuatindakanoa = false;
+    
+    public $isbayarkarcis = false;
 
     /**
      * Membuat dan menyimpan data baru.
@@ -116,6 +118,9 @@ class PembayaranTagihanPasienController extends MyAuthController
                 }
                 
                 $this->broadcastNotifBayarKarcisUmum($modKunjungan, $model);
+                if (!$this->isbayarkarcis) $this->broadcastNotifBayarTagihanPasien($modKunjungan, $model);
+                
+                // die;
                 
                 if($this->pembayaranpelayanan_tersimpan && $this->tandabuktibayar_tersimpan && $this->tindakansudahbayar_tersimpan && $this->oasudahbayar_tersimpan && $this->pemakaianuangmuka_tersimpan && $this->bayarangsuran_tersimpan){
                     //Di set di form >> Yii::app()->user->setFlash('success', 'Data pembayaran berhasil disimpan !');
@@ -205,6 +210,18 @@ class PembayaranTagihanPasienController extends MyAuthController
         ));
     }
     
+    protected function broadcastNotifBayarTagihanPasien($modKunjungan, $model) {
+        //$judul = "Pembayaran Tagihan Pasien";
+        //$isi = $isi = $modKunjungan->no_rekam_medik." - ".$modKunjungan->namadepan.$modKunjungan->nama_pasien." - ".MyFormatter::formatNumberForPrint($model->totalbiayapelayanan);
+        
+        //var_dump($modKunjungan->attributes); die;
+        
+        
+        //$cur = array(
+        //    array('instalasi_id'=>Params::INSTALASI_ID_RJ, 'ruangan_id'=>$pendaftaran->ruangan_id, 'modul_id'=>5),
+        //);
+    }
+    
     protected function broadcastNotifBayarKarcisUmum($modKunjungan, $model) {
         $judul = "Pembayaran Karcis Pasien Umum";
         $isi = "";
@@ -229,12 +246,17 @@ class PembayaranTagihanPasienController extends MyAuthController
             
             if (!empty($tindakan)) {
                 if (!empty($tindakan->tindakansudahbayar_id)) {
-                    $isi = $modKunjungan->no_rekam_medik." - ".$modKunjungan->namadepan.$modKunjungan->nama_pasien." - ".MyFormatter::formatNumberForPrint($model->totalbiayapelayanan);
-                    // echo $isi;
+                    $sb = TindakansudahbayarT::model()->findByPk($tindakan->tindakansudahbayar_id);
+                    if ($sb->pembayaranpelayanan_id == $model->pembayaranpelayanan_id) {
+                        $isi = $modKunjungan->no_rekam_medik." - ".$modKunjungan->namadepan.$modKunjungan->nama_pasien." - ".MyFormatter::formatNumberForPrint($model->totalbiayapelayanan);
+                        // echo $isi;
                     
-                    CustomFunction::broadcastNotif($judul, $isi, array(
-                        array('instalasi_id'=>Params::INSTALASI_ID_RJ, 'ruangan_id'=>$pendaftaran->ruangan_id, 'modul_id'=>5),
-                    ));
+                        CustomFunction::broadcastNotif($judul, $isi, array(
+                            array('instalasi_id'=>Params::INSTALASI_ID_RJ, 'ruangan_id'=>$pendaftaran->ruangan_id, 'modul_id'=>5),
+                        ));
+                        
+                        $this->isbayarkarcis = true;
+                    }
                    
                    // return CHtml::link("<i class='icon-form-periksa'></i> ", '#', array("id"=>$this->no_pendaftaran,"rel"=>"tooltip","title"=>"Klik untuk Pemeriksaan Pasien", "onclick"=>"myAlert('Pasien belum membayar karcis.'); return false;"));
                 }

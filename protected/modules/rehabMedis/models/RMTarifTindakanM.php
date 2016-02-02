@@ -41,7 +41,7 @@ class RMTarifTindakanM extends TariftindakanM{
 
 		$criteria=new CDbCriteria;
 		if (!empty($this->tariftindakan_id)){
-			$criteria->addCondition('tariftindakan_id ='.$this->tariftindakan_id);
+			$criteria->addCondition('t.tariftindakan_id ='.$this->tariftindakan_id);
 		}
 		if (!empty($this->jenistarif_id)){
 			$criteria->addCondition('t.jenistarif_id ='.$this->jenistarif_id);
@@ -63,8 +63,18 @@ class RMTarifTindakanM extends TariftindakanM{
 		if (!empty($this->kelaspelayanan_id)){
 			$criteria->addCondition('t.kelaspelayanan_id ='.$this->kelaspelayanan_id);
 		}
+                
+                $criteria->compare('tr.ruangan_id', Yii::app()->user->getState('ruangan_id'));
+                
                 //$criteria->addCondition('t.komponentarif_id = '.Params::KOMPONENTARIF_ID_TOTAL);
-                $criteria->with=array('perdatarif','jenistarif','komponentarif','daftartindakan','kelaspelayanan');
+                //$criteria->with=array('perdatarif','jenistarif','komponentarif','daftartindakan','kelaspelayanan');
+                $criteria->join = 
+                        "left join daftartindakan_m daftartindakan on daftartindakan.daftartindakan_id = t.daftartindakan_id "
+                        . "left join perdatarif_m perdatarif on perdatarif.perdatarif_id = t.perdatarif_id "
+                        . "left join jenistarif_m jenistarif on jenistarif.jenistarif_id = t.jenistarif_id "
+                        . "left join komponentarif_m komponentarif on komponentarif.komponentarif_id = t.komponentarif_id "
+                        . "left join kelaspelayanan_m kelaspelayanan on kelaspelayanan.kelaspelayanan_id = t.kelaspelayanan_id "
+                        . "left join tindakanruangan_m tr on daftartindakan.daftartindakan_id = tr.daftartindakan_id";
                 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
