@@ -2,6 +2,22 @@
     .cols_hide{
         display:none;
     }
+    
+    <?php if (isset($_GET['caraPrint'])) : ?>
+    .table {
+        border-collapse:collapse;
+        box-shadow: none;
+    }
+    .table th, .table td {
+        background-color: #fff !important;
+        border: 1px solid black !important;
+    }
+    
+    .table th {
+        text-align: center !important;
+    }
+    
+    <?php endif; ?>
 </style>
 <?php 
 if (isset($caraPrint)){
@@ -23,7 +39,6 @@ echo CHtml::css('.control-label{
     color:black;
     padding-right:10px;
     }
-    
 ');
 ?>
 <table width="100%" style='margin-left:auto; margin-right:auto;font-size:12px; '>
@@ -34,7 +49,7 @@ echo CHtml::css('.control-label{
         <td width="40%"></td>
         <td>Tgl. Pendaftaran</td>
         <td>:</td>
-        <td><?php echo $modPendaftaran->tgl_pendaftaran; ?></td>
+        <td><?php echo MyFormatter::formatDateTimeForUser($modPendaftaran->tgl_pendaftaran); ?></td>
     </tr>
     <tr>
         <td>Jeni Kelamin</td>
@@ -72,7 +87,7 @@ echo CHtml::css('.control-label{
             ?>
         </td>
     </tr>
-    <tr>
+    <!--tr>
         <td>Nama Pasien</td>
         <td>:</td>
         <td><?php echo $modPendaftaran->pasien->nama_pasien?></td>
@@ -80,7 +95,7 @@ echo CHtml::css('.control-label{
         <td>Tgl. Pendaftaran</td>
         <td>:</td>
         <td><?php echo $modPendaftaran->tgl_pendaftaran?></td>
-    </tr>
+    </tr-->
     <tr>
         <td>Penjamin</td>
         <td>:</td>
@@ -187,17 +202,18 @@ echo CHtml::css('.control-label{
                 $ruanganTd = '';
             }
             $subtot = $row->tarifcyto_tindakan + ($row->tarif_satuan * $row->qty_tindakan);
+            $pegawai = PegawaiM::model()->findByPk($row->pegawai_id);
             echo '<tr>
                     '.$ruanganTd.'
-                    <td>'.$row->kategoritindakan_nama.' ('.$row->nama_pegawai.')<br/>'.$row->daftartindakan_nama.'
+                    <td>'.$row->kategoritindakan_nama.' ('.$pegawai->namaLengkap.')<br/>'.$row->daftartindakan_nama.'
                     </td>
                     <td style="text-align:right;">'.number_format($row->tarif_satuan,0,',','.').'
                     </td>
-                    <td>'.$row->qty_tindakan.'
+                    <td style="text-align:right;">'.$row->qty_tindakan.'
                     </td>
                     <td style="text-align:right;">'.number_format($row->tarifcyto_tindakan,0,',','.').'
                     </td>
-                    <td>'.$row->discount_tindakan.'
+                    <td style="text-align:right;">'.$row->discount_tindakan.'
                     </td>
                     <td style="text-align:right;">'.number_format($subtot,0,',','.').'
                     </td>
@@ -216,12 +232,12 @@ echo CHtml::css('.control-label{
         <tr>
             <td colspan="6"><div class='pull-right'>Total Tagihan</div></td>
             <td style="text-align:right;"><?php echo number_format($total,0,',','.'); ?></td>
-            <td></td>
+            <td rowspan="4"></td>
         </tr>
         <tr>
             <td colspan="6"><div class='pull-right'>Subsidi Asuransi</div></td>
             <td style="text-align:right;"><?php echo number_format($subsidiAsuransi,0,',','.'); ?></td>
-            <td></td>
+            <!--td></td-->
         </tr>
         <!-- <tr class="cols_hide">
             <td colspan="6"><div class='pull-right'>Subsidi Pemerintah</div></td>
@@ -231,12 +247,12 @@ echo CHtml::css('.control-label{
         <tr>
             <td colspan="6"><div class='pull-right'>Subsidi Rumah Sakit</div></td>
             <td style="text-align:right;"><?php echo number_format($subsidiRumahSakit,0,',','.'); ?></td>
-            <td></td>
+            <!--td></td-->
         </tr>
         <tr>
             <td colspan="6"><div class='pull-right'>Iur Biaya</div></td>
-            <td style="text-align:right;"><?php echo number_format($iurBiaya,0,',','.'); ?></td>
-            <td></td>
+            <td style="text-align:right;"><?php echo number_format(($total - $iurBiaya),0,',','.'); ?></td>
+            <!--td></td-->
         </tr>
     </tfoot>
 </table>
