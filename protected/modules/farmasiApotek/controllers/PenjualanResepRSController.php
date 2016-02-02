@@ -565,6 +565,7 @@ class PenjualanResepRSController extends MyAuthController
             foreach($attributes as $j=>$attribute) {
                 $returnVal["$attribute"] = $model->$attribute;
             }
+            $returnVal["nama_pasien"] = $model->namadepan.$model->nama_pasien;
             $returnVal["tanggal_lahir"] = $format->formatDateTimeForUser($model->tanggal_lahir);
             $returnVal["tgl_pendaftaran"] = $format->formatDateTimeForUser($model->tgl_pendaftaran);
             echo CJSON::encode($returnVal);
@@ -929,4 +930,19 @@ class PenjualanResepRSController extends MyAuthController
 		Yii::app()->end();
 	}
         
+        public function broadcastPenjualanKeKasir($modPenjualan) {
+            // var_dump($modPenjualan->attributes);
+            
+            $pegawai = PegawaiM::model()->findByPk($modPenjualan->pegawai_id);
+            $pasien = PasienM::model()->findByPk($modPenjualan->pasien_id);
+            
+            $judul = "Penjualan Resep Pasien";
+            $isi = $modPenjualan->noresep." - ".$pegawai->namaLengkap." - ".$pasien->no_rekam_medik." - ".$pasien->namadepan.$pasien->nama_pasien;
+            
+            CustomFunction::broadcastNotif($judul, $isi, array(
+                array('instalasi_id'=>Params::INSTALASI_ID_KASIR, 'ruangan_id'=>Params::RUANGAN_ID_KASIR, 'modul_id'=>19),
+            ));
+            
+            // var_dump($isi);
+        }
 }

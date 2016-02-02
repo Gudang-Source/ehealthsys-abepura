@@ -50,7 +50,7 @@ if(isset($_GET['sukses'])){
                 <th>Jumlah Pada Resep</th>
                 <th>Jumlah Dilayani</th>
                 <th>Sumber Dana</th>
-                <th>Satuan Kecil</th>
+                <!--th>Satuan Kecil</th-->
                 <th>Harga</th>
                 <th>Sub Total</th>
                 <th>Signa</th>
@@ -83,8 +83,8 @@ if(isset($_GET['sukses'])){
                 <th>Jumlah Pada Resep</th>
                 <th>Jumlah Dilayani</th>
                 <th>Sumber Dana</th>
-                <th>Satuan Kecil</th>
-                <th>Stok</th>
+                <!--th>Satuan Kecil</th--!>
+                <!--th>Stok</th-->
                 <th>Harga</th>
                 <th>Sub Total</th>
                 <th>Signa</th>
@@ -108,7 +108,7 @@ if(isset($_GET['sukses'])){
 			<tr>
 				<td colspan="3"></td>
 				<td><strong>Takaran Resep : </strong><?php echo $form->dropDownList($modPenjualan, 'takaranresep', LookupM::getItems('takaranresep') ,array('class'=>'span1','onkeyup'=>"return $(this).focusNextInputField(event)",'onchange'=>'ubahTakaranResep(this);')); ?></td>
-				<td colspan="5"></td>
+				<td colspan="3"></td>
 				<td style="text-align: right;"><strong>Total</strong></td>
 				<td><strong>
 					<?php // echo CHtml::textField('grandtotal','',array('readonly'=>true,'class'=>'span2 integer', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>

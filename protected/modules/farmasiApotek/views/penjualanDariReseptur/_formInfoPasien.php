@@ -92,7 +92,7 @@
         <?php echo CHtml::label("Nama Pasien <font style=color:red;> * </font>", 'nama_pasien', array('class'=>'control-label required')); ?>
         <div class="controls">
             <?php echo CHtml::hiddenField('namadepan',$modInfoRI->namadepan,array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
-			<?php echo CHtml::textField('nama_pasien',$modInfoRI->nama_pasien,array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+			<?php echo CHtml::textField('nama_pasien',$modInfoRI->namadepan.$modInfoRI->nama_pasien,array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
         </div>
     </div>
     <div class="control-group">

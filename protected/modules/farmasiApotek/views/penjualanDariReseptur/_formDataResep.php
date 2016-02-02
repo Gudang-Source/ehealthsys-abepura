@@ -7,7 +7,10 @@
                     <div class="control-group ">
                         <?php echo $form->labelEx($modPenjualan,'tglresep', array('class'=>'control-label')) ?>
                         <div class="controls">
-                        <?php   
+                        <?php                       
+                                                    $modPenjualan->tglpenjualan = MyFormatter::formatDateTimeForUser($modPenjualan->tglpenjualan);
+                                                    $modPenjualan->tglresep = MyFormatter::formatDateTimeForUser($modPenjualan->tglresep);
+                                                    
                                                     if($this->ada_penjualan){
                                                             echo $form->textField($modPenjualan,'tglresep',array('readonly'=>true, 'style'=>'width:170px;'));
                                                     }else{
@@ -37,7 +40,7 @@
                     <?php echo $form->labelEx($modPenjualan,'pegawai_id', array('class'=>'control-label')); ?> 
                     <div class="controls">
                         <?php echo CHtml::activeHiddenField($modPenjualan,'pegawai_id'); ?>
-                                            <?php echo $form->textField($modReseptur,'pegawai_id',array('readonly'=>true, 'style'=>'width:170px;','value'=>$modReseptur->pegawai2->nama_pegawai)); ?><br>
+                                            <?php echo $form->textField($modReseptur,'pegawai_id',array('readonly'=>true, 'style'=>'width:250px;','value'=>$modReseptur->pegawai2->namaLengkap)); ?><br>
                             <!--<div style="float:left;">-->
                                 <?php
     //								echo $modReseptur->pegawai_id;exit;
@@ -87,7 +90,7 @@
                                                                                         'maxDate' => 'd',
                                                                                         'yearRange'=> "-60:+0",
                                                                                 ),
-                                                                                'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3', 'style'=>'width:128px;', 'onkeypress'=>"return $(this).focusNextInputField(event)"
+                                                                                'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3 realtime', 'style'=>'width:128px;', 'onkeypress'=>"return $(this).focusNextInputField(event)"
                                                                                 ),
                                         ));
                                         }
