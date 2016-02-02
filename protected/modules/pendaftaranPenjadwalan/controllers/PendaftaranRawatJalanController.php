@@ -789,6 +789,12 @@ class PendaftaranRawatJalanController extends MyAuthController
             if(empty($postAsuransiPasien['nokartuasuransi'])){
                 $modAsuransiPasien->nokartuasuransi = $modAsuransiPasien->nopeserta;
             }
+            
+            if ($modAsuransiPasien->status_konfirmasi == 1) {
+                $modAsuransiPasien->status_konfirmasi = "SUDAH DIKONFIRMASI";
+            } else if ($modAsuransiPasien->status_konfirmasi == 0) {
+                $modAsuransiPasien->status_konfirmasi = "BELUM DIKONFIRMASI";
+            }
             // var_dump($modAsuransiPasien->attributes); 
             // var_dump($modAsuransiPasien->validate()); die;
             if($modAsuransiPasien->save()){
