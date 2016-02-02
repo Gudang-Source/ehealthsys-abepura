@@ -1,4 +1,7 @@
 <?php
+Yii::import('farmasiApotek.controllers.PenjualanResepRSController');
+Yii::import('farmasiApotek.views.penjualanResepRS.*');
+
 class PenjualanResepUmumController extends PenjualanResepRSController{
     
     public $defaultAction = 'index';
