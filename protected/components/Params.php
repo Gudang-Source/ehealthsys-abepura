@@ -120,7 +120,7 @@ Class Params
 	const RUANGAN_ID_APOTEK_1 = 59; 
         const RUANGAN_ID_APOTEK_RJ = 60;
 	const RUANGAN_ID_BEDAH = 57;               
-	const RUANGAN_ID_FISIOTERAPI = 47;      
+	const RUANGAN_ID_FISIOTERAPI = 90;      
 	const RUANGAN_ID_GIZI = 62;         
 	const RUANGAN_ID_GUDANG_FARMASI = 58;
 	const RUANGAN_ID_KLINIK_MCU = 25;		//Ruangan Klinik MCU
