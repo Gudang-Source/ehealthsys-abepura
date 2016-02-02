@@ -46,7 +46,7 @@ class PendaftaranPenunjangController extends PendaftaranRawatJalanController
             $ruanganpenunjangs = RuanganM::model()->findAll($criteria);
             if(count($ruanganpenunjangs) > 0){
                 foreach($ruanganpenunjangs AS $i=>$ruangan){
-                    if ($ruangan->ruangan_id != Params::RUANGAN_ID_LAB_KLINIK && $ruangan->ruangan_id != Params::RUANGAN_ID_RAD && $ruangan->ruangan_id != Params::RUANGAN_ID_FISIOTERAPI) continue;
+                    if ($ruangan->ruangan_id != Params::RUANGAN_ID_LAB_KLINIK && $ruangan->ruangan_id != Params::RUANGAN_ID_RAD) continue;
                     $modPasienMasukPenunjangs[$i] = new PPPasienMasukPenunjangT;
                     $modPasienMasukPenunjangs[$i]->is_pilihpenunjang = 0;
                     $modPasienMasukPenunjangs[$i]->ruangan_id = $ruangan->ruangan_id;
