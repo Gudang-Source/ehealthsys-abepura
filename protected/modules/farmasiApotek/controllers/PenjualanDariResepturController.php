@@ -97,23 +97,62 @@ class PenjualanDariResepturController extends PenjualanResepRSController
                     foreach($_POST['FAResepturDetailT'] AS $i => $postDetail){
                         $modDetails[$i] = new FAObatalkesPasienT;
                         $modDetails[$i]->attributes = $postDetail;
-                        $modStok = StokobatalkesT::model()->findByPk($postDetail['stokobatalkes_id']);
+                        $modDetails[$i]->penjualanresep_id = $modPenjualan->penjualanresep_id;
+                        $modDetails[$i]->tipepaket_id = Params::TIPEPAKET_ID_NONPAKET;
+                        $modDetails[$i]->ruangan_id = Yii::app()->user->getState('ruangan_id');
+                        $modDetails[$i]->shift_id = Yii::app()->user->getState('shift_id');
+                        $modDetails[$i]->pendaftaran_id = $modPenjualan->pendaftaran_id;
+                        $modDetails[$i]->pasien_id = $modPenjualan->pasien_id;
+                        $modDetails[$i]->carabayar_id = $modPenjualan->carabayar_id;
+                        $modDetails[$i]->penjamin_id = $modPenjualan->penjamin_id;
+                        $modDetails[$i]->pegawai_id = $modPenjualan->pegawai_id;
+                        $modDetails[$i]->tglpelayanan = date("Y-m-d H:i:s");
+                        $modDetails[$i]->r = "R/";
+                        $modDetails[$i]->qty_oa = $postDetail['qty_dilayani'];
+			$modDetails[$i]->hargajual_oa = $postDetail['hargajual_reseptur'];
+			$modDetails[$i]->harganetto_oa = $postDetail['harganetto_reseptur'];
+			$modDetails[$i]->hargasatuan_oa = $postDetail['hargasatuan_reseptur'];
+                        $modDetails[$i]->signa_oa = $postDetail['signa_reseptur'];
+			$modDetails[$i]->create_time = date("Y-m-d H:i:s");
+			$modDetails[$i]->create_loginpemakai_id = Yii::app()->user->id;
+			$modDetails[$i]->create_ruangan = Yii::app()->user->getState('ruangan_id');
+                        $modDetails[$i]->kelaspelayanan_id = $modPenjualan->kelaspelayanan_id;
+                        $modDetails[$i]->pasienadmisi_id = $modPenjualan->pasienadmisi_id;
+                        //var_dump($postDetail);
+                        //var_dump($modPenjualan->attributes);
+                        //var_dump($modDetails[$i]->attributes);
+                        if ($modDetails[$i]->validate()) {
+                            $this->obatalkespasientersimpan &= $modDetails[$i]->save();
+                        } else {
+                            $this->obatalkespasientersimpan &= false;
+                        }
+                        
+                        $this->simpanStokObatAlkesOut2($modDetails[$i]);
+                        
+                        //var_dump($modDetails[$i]->errors);
+                        
+                        
+                        
+                        //$modStok = StokobatalkesT::model()->findByPk($postDetail['stokobatalkes_id']);
 //                        $modDetails[$i]->stokobatalkes_id = $modStok->stokobatalkes_id;
-						
+                        /*
                         $obatalkes_id = $postDetail['obatalkes_id'];
                         if(isset($detailGroups[$obatalkes_id])){
                             $detailGroups[$obatalkes_id]['qty_oa'] += $postDetail['qty_dilayani'];
                         }else{
                             $detailGroups[$obatalkes_id]['obatalkes_id'] = $postDetail['obatalkes_id'];
                             $detailGroups[$obatalkes_id]['qty_oa'] = $postDetail['qty_dilayani'];
-                        }	
+                        }
+                         * 
+                         */	
                     }
                     //END GROUP
                 }
 
-                $obathabis = "";
+                //$obathabis = "";
                 //PROSES PENGURAIAN OBAT DAN JUMLAH MENJADI STOKOBATALKES_T (METODE ANTRIAN)
 				$ii = 0;
+                /*
                 foreach($detailGroups AS $i => $detail){
                     $modStokOAs = StokobatalkesT::getStokObatAlkesAktif($detail['obatalkes_id'], $detail['qty_oa'], Yii::app()->user->getState('ruangan_id'));
                     if(count($modStokOAs) > 0){
@@ -161,6 +200,9 @@ class PenjualanDariResepturController extends PenjualanResepRSController
                     }
 					$ii++;
                 }
+                 * 
+                 */
+                                // die;
 				try{
 					if($this->obatalkespasientersimpan&&$this->stokobatalkestersimpan){
 						$transaction->commit();

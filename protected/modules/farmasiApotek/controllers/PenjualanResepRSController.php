@@ -485,6 +485,42 @@ class PenjualanResepRSController extends MyAuthController
         }
         return $modStokOaNew;      
     }
+    
+    protected function simpanStokObatAlkesOut2($modObatAlkesPasien){
+        $format = new MyFormatter;
+        //$modStokOa = StokobatalkesT::model()->findByPk($stokobatalkesasal_id);
+        $oa = ObatalkesM::model()->findByPk($modObatAlkesPasien->obatalkes_id);
+        //var_dump($oa->attributes);
+        $modStokOaNew = new StokobatalkesT;
+        $modStokOaNew->attributes = $oa->attributes;
+        $modStokOaNew->attributes = $modObatAlkesPasien->attributes; //duplicate
+        $modStokOaNew->unsetIdTransaksi();
+        $modStokOaNew->qtystok_in = 0;
+        $modStokOaNew->qtystok_out = ceil($modObatAlkesPasien->qty_oa); // LNG Ceil (Pembulatan keatas request pak tito)
+        $modStokOaNew->obatalkespasien_id = $modObatAlkesPasien->obatalkespasien_id;
+        //$modStokOaNew->stokobatalkesasal_id = $stokobatalkesasal_id;
+        $modStokOaNew->create_time = date('Y-m-d H:i:s');
+        $modStokOaNew->update_time = $modStokOaNew->tglterima = date('Y-m-d H:i:s');
+        $modStokOaNew->create_loginpemakai_id = Yii::app()->user->id;
+        $modStokOaNew->update_loginpemakai_id = Yii::app()->user->id;
+        $modStokOaNew->create_ruangan = Yii::app()->user->ruangan_id;
+	
+        //$modStokOaNew->validate();
+        //var_dump($modStokOaNew->errors); 
+        
+        // var_dump($modStokOaNew->attributes); die;
+        
+        if($modStokOaNew->validate()){ 
+            $this->stokobatalkestersimpan &= $modStokOaNew->save();
+            // $modStokOaNew->setStokOaAktifBerdasarkanStok();
+        } else {
+            $this->stokobatalkestersimpan &= false;
+        }
+        
+        // var_dump($this->stokobatalkestersimpan);
+        
+        return $modStokOaNew;      
+    }
 
 
     /**
