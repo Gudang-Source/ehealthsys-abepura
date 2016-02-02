@@ -635,13 +635,22 @@ function setKarcis()
     var ruangan_id=$("#<?php echo CHtml::activeId($model,"ruangan_id");?>").val();
     var penjamin_id=$("#<?php echo CHtml::activeId($model,"penjamin_id");?>").val();
     var pasien_id=$("#<?php echo CHtml::activeId($modPasien,"pasien_id");?>").val();
+    var no_rekam_medik=$("#no_rekam_medik_baru").val();
+    
+    // console.log(no_rekam_medik);
     
     if(kelaspelayanan_id !== "" && ruangan_id !== "" && penjamin_id !== "") {
         $("#form-karcis").addClass("animation-loading");
         $.ajax({
             type:'POST',
             url:'<?php echo $this->createUrl('SetKarcis'); ?>',
-            data: {kelaspelayanan_id:kelaspelayanan_id, ruangan_id : ruangan_id, penjamin_id:penjamin_id, pasien_id:pasien_id},//
+            data: {
+                kelaspelayanan_id:kelaspelayanan_id, 
+                ruangan_id : ruangan_id, 
+                penjamin_id:penjamin_id, 
+                pasien_id:pasien_id,
+                no_rekam_medik: no_rekam_medik,
+            },//
             dataType: "json",
             success:function(data){
                 $("#form-karcis #content-karcis-html").html(data.listKarcis);
@@ -1047,7 +1056,7 @@ function setFormAsuransi(carabayar_id){
     var carabayar_id_bpjs = <?php echo Params::CARABAYAR_ID_BPJS;?>;
     if(carabayar_id == carabayar_id_umum){
         sembunyiFormAsuransi();
-        cekJamkespa();
+        //cekJamkespa();
     }else{
         tampilFormAsuransi();
         cekJamkespa();
@@ -1195,7 +1204,8 @@ function cekJamkespa() {
         $("#<?php echo CHtml::activeId($modAsuransiPasien, "namapemilikasuransi"); ?>").val($("#<?php echo CHtml::activeId($modPasien, "nama_pasien"); ?>").val());
         $("#<?php echo CHtml::activeId($modAsuransiPasien, "kelastanggunganasuransi_id"); ?>").val(<?php echo Params::KELASPELAYANAN_ID_KELAS_III; ?>);
     } else {
-        $(".jks_spec").removeClass("not-required").addClass("required").parents(".control-group").show();
+        $(".jks_spec").parents(".control-group").show();
+        // $(".jks_spec").removeClass("not-required").addClass("required").parents(".control-group").show();
         $("#<?php echo CHtml::activeId($modAsuransiPasien, "nopeserta"); ?>").val("");
         $("#<?php echo CHtml::activeId($modAsuransiPasien, "nokartuasuransi"); ?>").val("");
         $("#<?php echo CHtml::activeId($modAsuransiPasien, "namapemilikasuransi"); ?>").val("");

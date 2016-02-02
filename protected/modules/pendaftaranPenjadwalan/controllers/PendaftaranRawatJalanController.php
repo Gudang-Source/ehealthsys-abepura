@@ -18,6 +18,8 @@ class PendaftaranRawatJalanController extends MyAuthController
 	public $asuransipasientersimpan = false;
 	public $septersimpan = false;
         
+        public $is_rm_manual = false;
+        
 	/**
          * menampilkan detail pendaftaran
          * @param type $id
@@ -257,7 +259,7 @@ class PendaftaranRawatJalanController extends MyAuthController
                 $transaction = Yii::app()->db->beginTransaction();
                 try {
                     $modPasien = $this->simpanPasien($modPasien, $_POST['PPPasienM']);
-					
+                    //var_dump($this->is_rm_manual);
                     if($_POST['PPPendaftaranT']['is_adapjpasien']){
                         if(isset($_POST['PPPenanggungJawabM'])){
                             $modPenanggungJawab = $this->simpanPenanggungjawab($modPenanggungJawab, $_POST['PPPenanggungJawabM']);
@@ -388,9 +390,9 @@ class PendaftaranRawatJalanController extends MyAuthController
                         array('instalasi_id'=>Params::INSTALASI_ID_FARMASI, 'ruangan_id'=>Params::RUANGAN_ID_APOTEK_RJ, 'modul_id'=>10),
                         array('instalasi_id'=>Params::INSTALASI_ID_KASIR, 'ruangan_id'=>Params::RUANGAN_ID_KASIR, 'modul_id'=>19),
                     ));              
-                                        
+                    // die;           
                     if($this->pasientersimpan && $this->pendaftarantersimpan && $this->penanggungjawabtersimpan && $this->rujukantersimpan && $this->karcistersimpan && $this->komponentindakantersimpan && $this->asuransipasientersimpan){
-                        $transaction->commit();
+                        
                         //Di set di form >> Yii::app()->user->setFlash('success', "Data pasien berhasil disimpan !");
 //                      RND-666 >>>  $this->redirect(array('view','id'=>$model->pendaftaran_id,'sukses'=>1));
 
@@ -464,6 +466,7 @@ class PendaftaranRawatJalanController extends MyAuthController
                         // die;
                         // END SMS GATEWAY
                         
+                        $transaction->commit();
                         if($this->septersimpan){
                             $this->redirect(array('index','id'=>$model->pendaftaran_id,'idSep'=>$modSep->sep_id,'sukses'=>1,'smspasien'=>$smspasien,'smsdokter'=>$smsdokter,'smspenanggungjawab'=>$smspenanggungjawab));
                         }else{
@@ -567,7 +570,11 @@ class PendaftaranRawatJalanController extends MyAuthController
                 $modPasien->create_ruangan = Yii::app()->user->getState('ruangan_id');
                 $modPasien->create_loginpemakai_id = Yii::app()->user->id;
                 $modPasien->create_time = date('Y-m-d H:i:s');
-                if (empty($modPasien->no_rekam_medik) || trim($modPasien->no_rekam_medik) == "") $modPasien->no_rekam_medik = MyGenerator::noRekamMedik();
+                if (empty($modPasien->no_rekam_medik) || trim($modPasien->no_rekam_medik) == "") {
+                    $modPasien->no_rekam_medik = MyGenerator::noRekamMedik();
+                } else {
+                    $this->is_rm_manual = true;
+                }
             }else{
                 $modPasien->update_loginpemakai_id = Yii::app()->user->id;
                 $modPasien->update_time = date('Y-m-d H:i:s');
@@ -600,6 +607,11 @@ class PendaftaranRawatJalanController extends MyAuthController
             $model->statusperiksa = Params::STATUSPERIKSA_ANTRIAN;
             $model->statuspasien = (empty($postPasien['pasien_id']) ? Params::STATUSPASIEN_BARU : Params::STATUSPASIEN_LAMA);
             $model->kunjungan = CustomFunction::getKunjungan($modPasien, $model->ruangan_id);
+            if ($this->is_rm_manual) {
+                $model->statuspasien = Params::STATUSPASIEN_LAMA;
+                $model->kunjungan = Params::STATUSKUNJUNGAN_LAMA;
+            }
+            
             $model->shift_id = Yii::app()->user->getState('shift_id');
             $model->create_ruangan = Yii::app()->user->getState('ruangan_id');
             $model->create_loginpemakai_id = Yii::app()->user->id;
@@ -647,7 +659,7 @@ class PendaftaranRawatJalanController extends MyAuthController
 				$tglakandilayani = date('Y-m-d H:i:s', $tanggal);
 				$model->tglakandilayani = $tglakandilayani;
 			}
-			
+			// var_dump($model->attributes); die;
             if($model->save()){
                 if(!empty($model->antrian_id)){
                     PPAntrianT::model()->updateByPk($model->antrian_id,array('pendaftaran_id'=>$model->pendaftaran_id));
@@ -1542,6 +1554,7 @@ class PendaftaranRawatJalanController extends MyAuthController
                 $kelaspelayanan_id=$_POST['kelaspelayanan_id'];
                 $ruangan_id = $_POST['ruangan_id'];
                 $pasien_id = $_POST['pasien_id'];
+                $no_rekam_medik = isset($_POST['no_rekam_medik'])?$_POST['no_rekam_medik']:"";
                 $penjamin_id = $_POST['penjamin_id'];
                 $form ='';
 				
@@ -1552,6 +1565,8 @@ class PendaftaranRawatJalanController extends MyAuthController
                         if(isset($modPasien)){
                             $is_pasienbaru = ($modPasien->statusrekammedis == Params::STATUSREKAMMEDIS_AKTIF) ? 'false' : 'true';
                         }
+                    } else if (trim($no_rekam_medik) != "") {
+                        $is_pasienbaru = 'false';
                     }
                     $criteria = new CdbCriteria();
                     $criteria->addCondition("kelaspelayanan_id = ".$kelaspelayanan_id);
