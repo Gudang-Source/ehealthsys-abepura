@@ -42,7 +42,8 @@ class RinciantagihanpasienVController extends MyAuthController
             $data['judulLaporan'] = 'Rincian Tagihan Pasien';
             $modPendaftaran = RJPendaftaranT::model()->findByPk($id);
             $modRincian = RJRinciantagihanpasienV::model()->findAllByAttributes(array('pendaftaran_id' => $id), array('order'=>'ruangan_id'));
-            $data['nama_pegawai'] = LoginpemakaiK::model()->findByPK(Yii::app()->user->id)->pegawai->nama_pegawai;
+            $lp = LoginpemakaiK::model()->findByPK(Yii::app()->user->id);
+            $data['nama_pegawai'] = empty($lp->pegawai_id)?"-":$lp->pegawai->nama_pegawai;
 //            $modRincian->pendaftaran_id = $id;
             $this->render('rawatJalan.views.rinciantagihanpasienV.rincian', array('modPendaftaran'=>$modPendaftaran, 'modRincian'=>$modRincian, 'data'=>$data));
         }
@@ -89,7 +90,8 @@ class RinciantagihanpasienVController extends MyAuthController
             $id = $_REQUEST['id'];
             $modPendaftaran = RJPendaftaranT::model()->findByPk($id);
             $modRincian = RJRinciantagihanpasienV::model()->findAllByAttributes(array('pendaftaran_id' => $id), array('order'=>'ruangan_id'));
-            $data['nama_pegawai'] = LoginpemakaiK::model()->findByPK(Yii::app()->user->id)->pegawai->nama_pegawai;
+            $lp = LoginpemakaiK::model()->findByPK(Yii::app()->user->id);
+            $data['nama_pegawai'] = empty($lp->pegawai_id)?"-":$lp->pegawai->nama_pegawai;
             $data['judulLaporan']='Data Rincian Tagihan Pasien';
             $caraPrint=$_REQUEST['caraPrint'];
             if($caraPrint=='PRINT') {

@@ -51,7 +51,7 @@
                 array(
                     'header'=>'Rincian',
                     'type'=>'raw',
-                    'value'=>'CHtml::link("<icon class=\'icon-form-detail\'></idcon>", Yii::app()->createUrl("billingKasir/PembayaranTagihanPasien/PrintRincianBelumBayar", array("instalasi_id"=>Yii::app()->user->getState(\'instalasi_id\'), "pendaftaran_id"=>$data->pendaftaran_id, "frame"=>1)), array("target"=>"frameRincian", "rel"=>"tooltip", "title"=>"lihat rincian tagihan pasien", "onclick"=>"$(\'#dialogRincian\').dialog(\'open\');"))','htmlOptions'=>array('style'=>'text-align:left; width:40px')
+                    'value'=>'CHtml::link("<icon class=\'icon-form-detail\'></idcon>", Yii::app()->controller->createUrl("rincian", array("id"=>$data->pendaftaran_id, "frame"=>1)), array("target"=>"frameRincian", "rel"=>"tooltip", "title"=>"lihat rincian tagihan pasien", "onclick"=>"$(\'#dialogRincian\').dialog(\'open\');"))','htmlOptions'=>array('style'=>'text-align:left; width:40px')
                 ),		
 	),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
