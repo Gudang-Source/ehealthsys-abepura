@@ -1,5 +1,8 @@
 <?php
 
+Yii::import('farmasiApotek.controllers.LaporanFarmasiController');
+Yii::import('farmasiApotek.views.laporanFarmasi.*');
+
 class LaporanController extends LaporanFarmasiController {
 
     //untuk range tanggal default

@@ -1,5 +1,8 @@
 <?php
 
+Yii::import('farmasiApotek.controllers.InformasiPenjualanResepController');
+Yii::import('farmasiApotek.views.informasiPenjualanResep.*');
+
 class InformasiResepPasienController extends InformasiPenjualanResepController
 {
     public function actionIndex()
