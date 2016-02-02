@@ -784,7 +784,7 @@ class PendaftaranRawatJalanController extends MyAuthController
             // var_dump($postPasien->attributes);
             if($postPendaftaran['carabayar_id'] == Params::CARABAYAR_ID_JAMKESPA) {
                 $modAsuransiPasien->nopeserta = $postPasien->no_rekam_medik;
-                $modAsuransiPasien->status_konfirmasi = 1;
+                // $modAsuransiPasien->status_konfirmasi = 1;
             }
             if(empty($postAsuransiPasien['nokartuasuransi'])){
                 $modAsuransiPasien->nokartuasuransi = $modAsuransiPasien->nopeserta;

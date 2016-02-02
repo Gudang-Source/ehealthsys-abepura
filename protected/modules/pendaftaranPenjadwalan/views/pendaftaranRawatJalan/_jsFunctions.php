@@ -1092,6 +1092,7 @@ function tampilFormAsuransi(){
         $('#content-asuransi').find(".not-required").addClass("required").removeClass("not-required");
         $('#content-asuransi').removeAttr("style").attr("style","height:auto"); 
         $('#content-asuransi').find("input,select,textarea").removeAttr("disabled");
+        $("#<?php echo CHtml::activeId($modAsuransiPasien, "status_konfirmasi"); ?>").prop("checked", true);
 }
 function sembunyiFormAsuBadak(){
         $('#content-asubadak').find(".required").addClass("not-required").removeClass("required");
