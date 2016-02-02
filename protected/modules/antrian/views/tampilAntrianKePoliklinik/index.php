@@ -118,6 +118,34 @@
         float: left;
         padding-left: 5px;
     }
+    
+    .block-footer-antrian {
+        position: absolute;
+        bottom: 0px;
+        width: 100%;
+        background-color: white;
+        
+    }
+    
+    #textrunning {
+        color: #007;
+        text-shadow: none;
+        font-size: 20px;
+    }
+    
+    #clock {
+        position: absolute;
+        bottom: 0px;
+        right: 0px;
+        color: #007;
+        text-shadow: none;
+        font-weight: bold;
+        font-size: 20px;
+        padding: 0px;
+        padding-left: 6px;
+        padding-right: 6px;
+        background-color: white;
+    }
 </style>
 <div class="row-fluid judul"><?php echo $modLayar->layarantrian_judul; ?></div>
     <?php 
@@ -153,4 +181,57 @@
         }
     } 
     ?>
+<?php $profil = ProfilrumahsakitM::model()->find(); ?>
+<div class="block-footer-antrian">
+    <div id="footerAntrian">
+        <marquee direction="left" scrollamount="10" id="textrunning">
+            <?php echo $profil->nama_rumahsakit." - ".$profil->motto; ?>
+        </marquee>
+    </div> 
+    <div id="footerClock">
+        <div id="clock"></div>
+    </div>
+</div>
 <?php echo $this->renderPartial('_jsFunctions',array('model'=>$model,'modRuangans'=>$modRuangans,'modLayar'=>$modLayar,'konfig'=>$konfig)); ?>
+
+<script>
+            var mon = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
+            function updateClock ( )
+            {
+                
+                
+                var currentTime = new Date ( );
+                var currentHours = currentTime.getHours ( );
+                var currentMinutes = currentTime.getMinutes ( );
+                var currentSeconds = currentTime.getSeconds ( );
+                
+                var currentDate = currentTime.getDate();
+                var currentMonth = currentTime.getMonth();
+                var currentYear = currentTime.getFullYear();
+                
+                // Pad the minutes and seconds with leading zeros, if required
+                currentMinutes = ( currentMinutes < 10 ? "0" : "" ) + currentMinutes;
+                currentSeconds = ( currentSeconds < 10 ? "0" : "" ) + currentSeconds;
+                
+                // Choose either "AM" or "PM" as appropriate
+                var timeOfDay = ( currentHours < 12 ) ? "AM" : "PM";
+                
+                // Convert the hours component to 12-hour format if needed
+                currentHours = ( currentHours > 12 ) ? currentHours - 12 : currentHours;
+                
+                // Convert an hours component of "0" to "12"
+                currentHours = ( currentHours == 0 ) ? 12 : currentHours;
+                
+                // Compose the string for display
+                var currentTimeString = currentDate + " " + mon[currentMonth] + " " + currentYear + " - " + currentHours + ":" + currentMinutes + ":" + currentSeconds + " " + timeOfDay;
+                
+                $("#clock").html(currentTimeString);
+                
+            }
+            
+            $(document).ready(function()
+            {
+                setInterval('updateClock()', 1000);
+            });
+            
+        </script>
