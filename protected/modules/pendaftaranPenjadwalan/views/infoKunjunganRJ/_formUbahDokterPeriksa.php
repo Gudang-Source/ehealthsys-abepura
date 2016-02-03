@@ -14,28 +14,28 @@
     <?php echo Yii::t('mds','Fields with <span class="required">*</span> are required.') ?>
 </p>
 <?php echo $form->errorSummary(array($model,$modUbahDokter)); ?>
-<?php echo $form->hiddenField($model, 'pendaftaran_id',array('readonly'=>true)); ?>
-<?php echo $form->textFieldRow($model, 'no_pendaftaran',array('readonly'=>true)); ?>
+<?php echo $form->hiddenField($model, 'pendaftaran_id',array('readonly'=>true, 'id'=>'dok_pendaftaran_id')); ?>
+<?php echo $form->textFieldRow($model, 'no_pendaftaran',array('readonly'=>true, 'id'=>'dok_no_pendaftaran')); ?>
 <div class="control-group ">
     <?php echo CHtml::label('Nama Pasien', '', array('class'=>'control-label')) ?>
     <div class="controls">
-        <?php echo CHtml::textField('np','',array('readonly'=>true)); ?>
+        <?php echo CHtml::textField('dok_np','',array('readonly'=>true)); ?>
     </div>
 </div>
 <?php
     echo $form->dropDownListRow($model,'ruangan_id',
         CHtml::listData($model->getRuanganItems(), 'ruangan_id', 'ruangan_nama'),
-        array('empty'=>'-- Pilih --','disabled'=>'disabled')
+        array('empty'=>'-- Pilih --','disabled'=>'disabled', 'id'=>'dok_ruangan_id')
     );
 ?>
 <div class="control-group ">
     <?php echo CHtml::label('Dokter Lama', '', array('class'=>'control-label')) ?>
     <div class="controls">
-        <?php echo CHtml::textField('dp','',array('readonly'=>true)); ?>
+        <?php echo CHtml::textField('dok_dp','',array('readonly'=>true)); ?>
     </div>
 </div>
 <div class="control-group ">
-    <?php echo CHtml::label('Dokter Baru', 'db', array('class'=>'control-label')) ?>
+    <?php echo CHtml::label('Dokter Baru', 'dok_db', array('class'=>'control-label')) ?>
     <div class="controls">
         <?php
 			echo $form->dropDownList($model,'pegawai_id',
@@ -59,7 +59,7 @@
 <div class="control-group ">
     <?php echo CHtml::label('Keterangan', 'k', array('class'=>'control-label')) ?>
     <div class="controls">
-       <?php echo $form->hiddenField($modUbahDokter,'dokterlama_id',array('class'=>'span3 ', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+       <?php echo $form->hiddenField($modUbahDokter,'dokterlama_id',array('class'=>'span3 ', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'id'=>'dok_dokterlama_id')); ?>
        <?php echo $form->textArea($modUbahDokter,'keterangan',array('placeholder'=>'Keterangan Perubahan Dokter','rows'=>2, 'cols'=>60, 'class'=>'span3 ', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
     </div>
 </div>
@@ -83,22 +83,25 @@
         var pendaftaran_id = $('#temp_idPendaftaranDP').val();
         $.post("<?php echo ($menu == 'RD' ? $this->createUrl('getDataPendaftaranRD') : Yii::app()->createUrl('pendaftaranPenjadwalan/infoKunjunganRJ/getDataPendaftaranRJ')); ?>", { pendaftaran_id: pendaftaran_id },
             function(data){
-                $('#PPPendaftaranT_no_pendaftaran').val(data.no_pendaftaran);
-                $('#PPPendaftaranT_pendaftaran_id').val(data.pendaftaran_id);
-                $('#np').val(data.nama_pasien);
-                $('#PPPendaftaranT_ruangan_id').val(data.ruangan_id);
+                $('#dok_no_pendaftaran').val(data.no_pendaftaran);
+                $('#dok_pendaftaran_id').val(data.pendaftaran_id);
+                $('#dok_np').val(data.nama_pasien);
+                $('#dok_ruangan_id').val(data.ruangan_id);
                 var dokter = data.gelardepan + " " + data.nama_pegawai + " " + data.gelarbelakang_nama;
-                $('#dp').val(dokter);
-                $('#PPUbahdokterR_dokterlama_id').val(data.pegawai_id);
-                listDokterRuangan(data.ruangan_id);
+                $('#dok_dp').val(dokter);
+                $('#dok_dokterlama_id').val(data.pegawai_id);
+                listDokterRuangan(data.ruangan_id, data.pegawai_id);
             },
         "json");
     }
     loadDataPendaftaran();
     
-    function listDokterRuangan(idRuangan)
+    function listDokterRuangan(idRuangan, idPegawai)
     {
-        $.post("<?php echo $this->createUrl('listDokterRuangan')?>", { idRuangan: idRuangan },
+        $.post("<?php echo $this->createUrl('listDokterRuangan')?>", { 
+            idRuangan: idRuangan, 
+            idPegawai: idPegawai,
+        },
             function(data){
                 $('#PPPendaftaranT_pegawai_id').html(data.listDokter);
         }, "json");

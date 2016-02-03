@@ -112,9 +112,30 @@
 <?php echo $form->dropDownListRow($modAsuransiPasien,'kelastanggunganasuransi_id', CHtml::listData(PPPendaftaranT::model()->getKelasTanggunganItems(), 'kelaspelayanan_id', 'kelaspelayanan_nama') ,array('disabled'=>true,'empty'=>'-- Pilih --','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
 <?php echo $form->textFieldRow($modAsuransiPasien,'namaperusahaan',array('placeholder'=>'Nama Perusahaan Asuransi','class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
 <div class="control-group ">
+    <label class="control-label">Status Konfirmasi</label>
     <div class="controls">
-         <?php echo $form->checkBox($modAsuransiPasien,'status_konfirmasi', array('onkeyup'=>"return $(this).focusNextInputField(event)",'checked'=>false)); ?><label> Telah Dikonfirmasi</label>
-        <?php echo $form->error($modAsuransiPasien, 'status_konfirmasi'); ?>
+
+            <?php 
+            echo CHtml::activeRadioButton($modAsuransiPasien, 'status_konfirmasi', array(
+                'value'=>1,
+                'uncheckValue'=>null,
+                'id'=>'konfirmasi_sudah',
+                'onchange'=>'$("#PPAsuransipasienM_tgl_konfirmasi").prop("disabled", false);',
+               // 'onchange'=>'switchOtomatis(this)',
+                'class'=>'rb_kon',
+                'checked'=>'checked',
+            ))."Sudah ";
+            echo CHtml::activeRadioButton($modAsuransiPasien, 'status_konfirmasi', array(
+                'value'=>0,
+                'uncheckValue'=>null,
+                'onchange'=>'$("#PPAsuransipasienM_tgl_konfirmasi").prop("disabled", true);',
+                'class'=>'rb_kon',
+                'id'=>'konfirmasi_sudah',
+                'checked'=>false,
+            ))."Belum ";
+            ?>
+         <?php //echo $form->checkBox($modAsuransiPasien,'status_konfirmasi', array('onkeypress'=>"return $(this).focusNextInputField(event)",'checked'=>false)); ?>
+        <?php echo $form->error($modAsuransiPasien, 'tgl_konfirmasi'); ?>
     </div>
 </div>
 <div class="control-group ">
