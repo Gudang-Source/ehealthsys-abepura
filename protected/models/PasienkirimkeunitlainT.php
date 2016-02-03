@@ -233,9 +233,13 @@ class PasienkirimkeunitlainT extends CActiveRecord
 //              DATA YANG DILOAD TERLALU BANYAK (BERAT) >>  return DokterV::model()->findAllByAttributes(array('pegawai_aktif'=>true),array('order'=>'nama_pegawai'));
                 //criteria disamakan dengan dokter_v
 				$criteria = new CDbCriteria();
-				$criteria->addInCondition('kelompokpegawai_id', array(Params::KELOMPOKPEGAWAI_ID_TENAGA_MEDIK, Params::KELOMPOKPEGAWAI_ID_PARAMEDIS_KEPERAWATAN));
-				$criteria->addCondition("pegawai_aktif = TRUE");
-				$criteria->order = 'nama_pegawai';
+				$criteria->addInCondition('t.kelompokpegawai_id', array(Params::KELOMPOKPEGAWAI_ID_TENAGA_MEDIK, Params::KELOMPOKPEGAWAI_ID_PARAMEDIS_KEPERAWATAN));
+				$criteria->addCondition("t.pegawai_aktif = TRUE");
+                                if (!empty($ruangan_id)) {
+                                    $criteria->join = "join ruanganpegawai_m r on r.pegawai_id = t.pegawai_id";
+                                    $criteria->compare('r.ruangan_id', $ruangan_id);
+                                }
+				$criteria->order = 't.nama_pegawai';
                 return PegawaiM::model()->findAll($criteria);
 //            }
         }
