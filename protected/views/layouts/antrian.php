@@ -34,7 +34,7 @@
 </head>
 <body>
     <style>
-        body{ //default
+        body{ /* //default */
             background-image:url("images/antrian/bg_antrian.jpg"); 
             background-repeat:no-repeat;
             /*width:980px;*/

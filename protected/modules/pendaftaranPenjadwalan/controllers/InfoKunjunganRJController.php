@@ -201,6 +201,7 @@ class InfoKunjunganRJController extends MyAuthController
 
             if(isset($_POST['UbahcarabayarR']))
             {
+                // var_dump($_POST); die;
                 $pendaftaran_id = $_POST['pendaftaran_id'];
                 $model->attributes = $_POST['UbahcarabayarR'];
                 $model->pendaftaran_id = $_POST['pendaftaran_id'];
@@ -237,7 +238,7 @@ class InfoKunjunganRJController extends MyAuthController
                                         $modAsuransiPasien = PPAsuransipasienM::model()->findByPk($_POST['PPAsuransipasienM']['asuransipasien_id']);
                                     }
                                 }
-								$modAsuransiPasien = $this->simpanAsuransiPasien($modAsuransiPasien, $modPendaftaran, $modPasien, $_POST['PPAsuransipasienM']);
+				$modAsuransiPasien = $this->simpanAsuransiPasien($modAsuransiPasien, $modPendaftaran, $modPasien, $_POST['PPAsuransipasienM']);
                             }else{
                                 $this->asuransipasientersimpan = true;
                             }
@@ -247,7 +248,7 @@ class InfoKunjunganRJController extends MyAuthController
                                         $modAsuransiPasienBpjs = PPAsuransipasienM::model()->findByPk($_POST['PPAsuransipasienbpjsM']['asuransipasien_id']);
                                     }
                                 }
-								$modAsuransiPasienBpjs = $this->simpanAsuransiPasien($modAsuransiPasienBpjs, $modPendaftaran, $modPasien, $_POST['PPAsuransipasienbpjsM']);
+				$modAsuransiPasienBpjs = $this->simpanAsuransiPasien($modAsuransiPasienBpjs, $modPendaftaran, $modPasien, $_POST['PPAsuransipasienbpjsM']);
                             }else{
                                 $this->asuransipasientersimpan = true;
                             }
@@ -790,6 +791,17 @@ class InfoKunjunganRJController extends MyAuthController
             $modAsuransiPasien->create_loginpemakai_id = Yii::app()->user->id;
             $modAsuransiPasien->create_time = date("Y-m-d H:i:s");
             $modAsuransiPasien->tgl_konfirmasi = $format->formatDateTimeForDb($modAsuransiPasien->tgl_konfirmasi);
+            
+            if (empty($modAsuransiPasien->nopeserta)) $modAsuransiPasien->nopeserta = $modAsuransiPasien->nokartuasuransi;
+            
+            //var_dump($modAsuransiPasien->attributes);
+            
+            //$modAsuransiPasien->validate();
+            
+            //var_dump($modAsuransiPasien->errors);
+            
+            //die;
+            
             if($modAsuransiPasien->save()){
                 $this->asuransipasientersimpan = true;
             }

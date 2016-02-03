@@ -112,6 +112,7 @@ class InfoKunjunganRIController extends MyAuthController
 			
             if(isset($_POST['UbahcarabayarR']))
             {
+                // var_dump($_POST); die;
                 $pendaftaran_id = $_POST['pendaftaran_id'];
                 $model->attributes = $_POST['UbahcarabayarR'];
                 $model->pendaftaran_id = $_POST['pendaftaran_id'];
@@ -310,6 +311,8 @@ class InfoKunjunganRIController extends MyAuthController
             $modAsuransiPasien->create_loginpemakai_id = Yii::app()->user->id;
             $modAsuransiPasien->create_time = date("Y-m-d H:i:s");
             $modAsuransiPasien->tgl_konfirmasi = $format->formatDateTimeForDb($modAsuransiPasien->tgl_konfirmasi);
+            if (empty($modAsuransiPasien->nopeserta)) $modAsuransiPasien->nopeserta = $modAsuransiPasien->nokartuasuransi;
+            
             if($modAsuransiPasien->save()){
                 $this->asuransipasientersimpan = true;
             }

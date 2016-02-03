@@ -357,7 +357,7 @@ function onClickAsuransi()
             $('#divAsuransi').hide();
             $('#divAsuransi input').attr('disabled','true');
             $('#divAsuransi select').attr('disabled','true');
-            $('#divAsuransi input').attr('value','');
+            $('#divAsuransi input:not(.rb_kon)').attr('value','');
             $('#divAsuransi select').attr('value','');
 
         <?php 
@@ -373,7 +373,7 @@ function onClickAsuransi()
             $('#divAsuransi').hide();
             $('#divAsuransi input').attr('disabled','true');
             $('#divAsuransi select').attr('disabled','true');
-            $('#divAsuransi input').attr('value','');
+            $('#divAsuransi input:not(.rb_kon)').attr('value','');
             $('#divAsuransi select').attr('value','');
 
             $('#divAsuransiBpjs').hide();

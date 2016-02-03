@@ -43,7 +43,7 @@
 	}
 ?>
 <style>
-	//untuk label yg bisa refresh
+	/* untuk label yg bisa refresh */
 	label.refreshable:hover{
 		cursor:pointer;
 		color:#0000FF;
