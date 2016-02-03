@@ -69,7 +69,7 @@
                 ?>
                         <tr>
                             <td></td>
-                            <td>
+                            <td id="row_peran_<?php echo $i; ?>">
                             <?php 
                                 echo CHtml::CheckBox('peran','', array(
                                             'value'=>$i,

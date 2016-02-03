@@ -99,7 +99,7 @@ class AksesPenggunaController extends MyAuthController
 			$criteria->addCondition('peranpengguna_id ='.$model->peranpengguna_id);
 		}
         $perans = SAAksespenggunaK::model()->findAll($criteria);
-
+        
         foreach ($modPeran as $i => $peran) {
             $data[$peran->peranpengguna_id]['nama'] = $peran->peranpenggunanama;
             foreach ($perans as $j => $per) {
@@ -111,6 +111,8 @@ class AksesPenggunaController extends MyAuthController
 						$criteria->addCondition('peranpengguna_id ='.$peran->peranpengguna_id);
 					}
                     $modTugas = SATugaspenggunaK::model()->findAll($criteria);
+                    
+                    
                     $data[$peran->peranpengguna_id]['modul'] = $modTugas;
                 }else{
                     $data[$peran->peranpengguna_id]['modul'] = array();
@@ -121,8 +123,11 @@ class AksesPenggunaController extends MyAuthController
         $criteria1 = new CDbCriteria;
 		if (!empty($model->peranpengguna_id)){
 			$criteria1->addCondition('peranpengguna_id ='.$model->peranpengguna_id);
+                        $criteria1->addCondition('loginpemakai_id ='.$model->loginpemakai_id);
 		}
         $moduls = SAAksespenggunaK::model()->findAll($criteria1);
+        
+        
 
         if(isset($_POST['SAAksespenggunaK']))
         {
