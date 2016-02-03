@@ -15,6 +15,7 @@
                         ),
                         //'dtd_kode',	
                         'dtd_nama',
+                        'dtd_namalainnya',
                  ),
                 'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
                 )); ?>
