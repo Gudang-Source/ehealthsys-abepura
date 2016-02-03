@@ -298,7 +298,15 @@
                 <td>
                     <?php echo $form->textAreaRow($modInfoKunjunganRDV,'alamat_pasien',array('placeholder'=>'Ketik Alamat Pasien','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
                     <?php echo $form->dropDownListRow($modInfoKunjunganRDV,'status_konfirmasi',CustomFunction::getStatusKonfirmasi(),array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",)); ?>
-                    
+                    <?php echo $form->dropDownListRow($modInfoKunjunganRDV, 'pegawai_id', 
+                        CHtml::listData(DokterV::model()->findAllByAttributes(array(
+                            'instalasi_id'=>Params::INSTALASI_ID_RD,
+                        ), array(
+                            'order'=>'nama_pegawai asc'
+                        )), 'pegawai_id', 'namaLengkap'), array('empty'=>'-- Pilih --')); ?>
+                
+                    <?php echo $form->dropDownListRow($modInfoKunjunganRDV, 'statusperiksa', 
+                        Params::statusPeriksa(), array('empty'=>'-- Pilih --')); ?>
                 </td>
                 <td>
                     <?php echo $form->dropDownListRow($modInfoKunjunganRDV,'carabayar_id', CHtml::listData($modInfoKunjunganRDV->getCaraBayarItems(), 'carabayar_id', 'carabayar_nama') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",

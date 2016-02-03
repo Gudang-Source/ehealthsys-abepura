@@ -43,7 +43,7 @@ if(isset($_GET['sukses'])){
 <div class="control-group ">
     <?php echo CHtml::label('Dokter Lama', 'dp', array('class'=>'control-label')) ?>
     <div class="controls">
-        <?php echo CHtml::textField('dp',$model->pegawai->nama_pegawai,array('readonly'=>true)); ?>
+        <?php echo CHtml::textField('dp',$model->pegawai->namaLengkap,array('readonly'=>true)); ?>
     </div>
 </div>
 <div class="control-group ">
@@ -52,7 +52,7 @@ if(isset($_GET['sukses'])){
         <?php
 			echo $form->dropDownList($model,'pegawai_id',
 					CHtml::listData(
-						$model->getDokterItems($model->ruangan_id), 'pegawai_id', 'nama_pegawai'
+						$model->getDokterItems($model->ruangan_id), 'pegawai_id', 'namaLengkap'
 					),
 					array('empty'=>'-- Pilih --', 'onkeypress'=>"return $(this).focusNextInputField(event)")
 				);
