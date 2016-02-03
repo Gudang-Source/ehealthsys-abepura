@@ -939,6 +939,8 @@ class InfoKunjunganRDController extends MyAuthController
 		public function actionListDokterRuangan()
 		{
 			if(Yii::app()->getRequest()->getIsAjaxRequest()) {
+                                $idPegawai = null;
+                                if (isset($_POST['idPegawai'])) $idPegawai = $_POST['idPegawai'];
 				if(!empty($_POST['idRuangan'])){
 					$idRuangan = $_POST['idRuangan'];
 					$data = DokterV::model()->findAllByAttributes(array('ruangan_id'=>$idRuangan),array('order'=>'nama_pegawai'));
@@ -949,6 +951,7 @@ class InfoKunjunganRDController extends MyAuthController
 					}else{
 						$option = CHtml::tag('option',array('value'=>''),CHtml::encode('-- Pilih --'),true);
 						foreach($data as $value=>$name) {
+                                                        if ($value == $idPegawai) continue;
 								$option .= CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
 						}
 					}
