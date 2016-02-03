@@ -57,6 +57,7 @@
                             'value'=>'empty($data->instalasi_id)?"-":$data->instalasi->instalasi_nama',
                     ),
                     'ruangan_nama',
+                    'ruangan_singkatan',
                     'ruangan_lokasi',
                      array(
                          'header'=>'Kasus Penyakit',
