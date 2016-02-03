@@ -658,6 +658,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
         'minWidth'=>640,
         'modal'=>true,
         'resizable'=>false,
+        'close'=>'js:function() {$.fn.yiiGridView.update("PPInfoKunjungan-v")}'
         //'hide'=>explode,
     ),
 ));

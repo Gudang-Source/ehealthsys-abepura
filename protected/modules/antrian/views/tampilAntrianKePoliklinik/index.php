@@ -19,7 +19,7 @@
         color:#000;
     }
     div{
-        font-size: 10px;
+        font-size: 20px;
         font-weight:bold;
         letter-spacing:2px;
         color: #fff;
@@ -41,12 +41,14 @@
         text-align: center;
         font-size: 20px;
         font-weight: bold;
+        color: black;
         padding-bottom: 0px;
+        text-shadow: none;
     }
     .ruangan,.dokter{
         color: #FFFF00;
         width: <?php echo $modLayar->layarantrian_itemwidth; ?>;
-        height: 15px;
+        height: 20px;
         /*font-size: 85%;*/
         overflow: hidden;
         text-align: center;
@@ -69,14 +71,17 @@
     .no-antrian, .pasien-deskripsi{
         color:#fff;
         text-align: center;
-        font-size: 45px;
+        font-size: 50px;
         font-weight: bold;
+        color: black;
         background-color:rgba(255,255,255,0.5);
+        
         text-shadow:
-            -1.5px -1.5px 0 #000,  
-             1.5px -1.5px 0 #000,
-             -1.5px 1.5px 0 #000,
-              1.5px 1.5px 0 #000;
+            -1.5px -1.5px 0 #aaa,  
+             1.5px -1.5px 0 #aaa,
+             -1.5px 1.5px 0 #aaa,
+              1.5px 1.5px 0 #aaa;
+        
     }
     .no-antrian{
         border: 1px solid #fff;
@@ -92,6 +97,7 @@
         border: 1px solid #fff;
         border-top:none;
         background-color: #020;
+        color: white;
         
         text-shadow:
             -1px -1px 0 #000,  
@@ -110,7 +116,7 @@
         background-color:rgba(0,0,0,0.8);
     }
     .pasien-deskripsi span {
-        font-size: 10px !important;
+        font-size: 15px !important;
     }
     
     .w1 {

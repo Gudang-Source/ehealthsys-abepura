@@ -56,8 +56,29 @@ $form = $this->beginWidget(
         <?php echo $form->textFieldRow($modAsuransiPasien,'namaperusahaan', array('disabled'=>true,'onkeypress'=>"return $(this).focusNextInputField(event)",'placeholder'=>'Nama Perusahaan'));?>
         <?php echo $form->dropDownListRow($modAsuransiPasien,'kelastanggunganasuransi_id', CHtml::listData($modPendaftaran->getKelasPelayananItems(), 'kelaspelayanan_id', 'kelaspelayanan_nama') ,array('disabled'=>true,'empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",'style'=>'width:120px;')); ?>
         <div class="control-group ">
+            <label class="control-label">Status Konfirmasi</label>
             <div class="controls">
-                 <?php echo $form->checkBox($modAsuransiPasien,'status_konfirmasi', array('onkeypress'=>"return $(this).focusNextInputField(event)",'checked'=>false)); ?>Status Konfirmasi
+        
+                    <?php 
+                    echo CHtml::activeRadioButton($modAsuransiPasien, 'status_konfirmasi', array(
+                        'value'=>'SUDAH DIKONFIRMASI',
+                        'uncheckValue'=>null,
+                        'id'=>'konfirmasi_sudah',
+                        'onchange'=>'$("#PPAsuransipasienM_tgl_konfirmasi").prop("disabled", false);',
+                       // 'onchange'=>'switchOtomatis(this)',
+                        'class'=>'rb_kon',
+                        'checked'=>'checked',
+                    ))."Sudah ";
+                    echo CHtml::activeRadioButton($modAsuransiPasien, 'status_konfirmasi', array(
+                        'value'=>'BELUM DIKONFIRMASI',
+                        'uncheckValue'=>null,
+                        'onchange'=>'$("#PPAsuransipasienM_tgl_konfirmasi").prop("disabled", true);',
+                        'class'=>'rb_kon',
+                        'id'=>'konfirmasi_sudah',
+                        'checked'=>false,
+                    ))."Belum ";
+                    ?>
+                 <?php //echo $form->checkBox($modAsuransiPasien,'status_konfirmasi', array('onkeypress'=>"return $(this).focusNextInputField(event)",'checked'=>false)); ?>
                 <?php echo $form->error($modAsuransiPasien, 'tgl_konfirmasi'); ?>
             </div>
         </div>
@@ -346,8 +367,7 @@ function onClickAsuransi()
             $('#divAsuransi select').removeAttr('disabled');
             $('#divAsuransi').show();
         <?php } ?>
-        
-    }else{
+    } else {
         if(data[cara_bayar] != undefined)
         {
             $('#divAsuransi').hide();
@@ -367,6 +387,11 @@ function onClickAsuransi()
             $('#divAsuransi input').removeAttr('disabled');
             $('#divAsuransi select').removeAttr('disabled');
             $('#divAsuransi').show();
+            if (cara_bayar == <?php echo Params::CARABAYAR_ID_JAMKESPA; ?>) {
+                $("#PPAsuransipasienM_nokartuasuransi").val("<?php echo $modPendaftaran->pasien->no_rekam_medik; ?>");
+                $("#PPAsuransipasienM_namapemilikasuransi").val("<?php echo $modPendaftaran->pasien->nama_pasien; ?>");
+                $("#PPAsuransipasienM_kelastanggunganasuransi_id").val(<?php echo Params::KELASPELAYANAN_ID_KELAS_III; ?>);
+            }
 
             $('#divAsuransiBpjs').hide();
             $('#divAsuransiBpjs input').attr('disabled','true');

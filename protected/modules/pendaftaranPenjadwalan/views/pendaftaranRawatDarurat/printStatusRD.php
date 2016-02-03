@@ -65,9 +65,9 @@
         </td>
     </tr>-->
     <tr>
-        <td>Ruangan Tujuan / No. Antrian</td>
+        <td>Ruangan Tujuan<!-- / No. Antrian--></td>
         <td>:</td>
-        <td><?php echo $modPendaftaran->ruangan->ruangan_nama; ?>/<?php echo $modPendaftaran->no_urutantri; ?></td>
+        <td><?php echo $modPendaftaran->ruangan->ruangan_nama; ?><!--/<?php echo $modPendaftaran->no_urutantri; ?>--></td>
     </tr>
 <!--    <tr>
         <td>Karcis</td>
