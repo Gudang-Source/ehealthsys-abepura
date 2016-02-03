@@ -154,6 +154,11 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                 echo $form->dropDownListRow($model, 'pendkualifikasi_id', CHtml::listData($model->getPendidikanKualifikasiItems(), 'pendkualifikasi_id', 'pendkualifikasi_nama'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",
                 ));
                 ?>
+                
+                <?php
+                echo $form->dropDownListRow($model, 'golonganpegawai_id', CHtml::listData($model->golonganPegawaiitems, 'golonganpegawai_id', 'golonganpegawai_nama'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",
+                ));
+                ?>
             </td>
             <td rowspan="2">
                 <?php echo $form->textAreaRow($model, 'alamat_pegawai', array('rows' => 3, 'cols' => 50, 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>

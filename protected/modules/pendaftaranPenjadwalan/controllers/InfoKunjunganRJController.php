@@ -1199,16 +1199,19 @@ class InfoKunjunganRJController extends MyAuthController
 		public function actionListDokterRuangan()
 		{
 			if(Yii::app()->getRequest()->getIsAjaxRequest()) {
+                                $idPegawai = null;
+                                if(isset($_POST['idPegawai'])) $idPegawai = $_POST['idPegawai'];
 				if(!empty($_POST['idRuangan'])){
 					$idRuangan = $_POST['idRuangan'];
 					$data = DokterV::model()->findAllByAttributes(array('ruangan_id'=>$idRuangan),array('order'=>'nama_pegawai'));
-					$data = CHtml::listData($data,'pegawai_id','NamaLengkap');
+					$data = CHtml::listData($data,'pegawai_id','namaLengkap');
 
 					if(empty($data)){
 						$option = CHtml::tag('option',array('value'=>''),CHtml::encode('-- Pilih --'),true);
 					}else{
 						$option = CHtml::tag('option',array('value'=>''),CHtml::encode('-- Pilih --'),true);
 						foreach($data as $value=>$name) {
+                                                                if ($value == $idPegawai) continue;
 								$option .= CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
 						}
 					}
@@ -1577,7 +1580,7 @@ class InfoKunjunganRJController extends MyAuthController
 					$pegawai_id=$_POST['pegawai_id'];
 					$ruangan_id = $_POST['ruangan_id'];
 					$criteria=new CDbCriteria;
-					$criteria->select ='t.ruangan_id, t.pegawai_id, t.nama_pegawai';
+					$criteria->select ='t.ruangan_id, t.pegawai_id, t.nama_pegawai, t.gelardepan, t.gelarbelakang_nama';
 					$criteria->addCondition("t.ruangan_id = ".$ruangan_id);
 					if(!empty($jeniskasuspenyakit_id)){
 						$criteria->addCondition("t.pegawai_id = ".$pegawai_id);
@@ -1588,11 +1591,11 @@ class InfoKunjunganRJController extends MyAuthController
 					  foreach($dataDokter AS $dokters){
 						  if($dokters['pegawai_id']==$pegawai_id)
 							 {
-								   $dokter .='<option value="'.$dokters['pegawai_id'].'" selected="selected">'.$dokters['nama_pegawai'].'</option>';
+								   $dokter .='<option value="'.$dokters['pegawai_id'].'" selected="selected">'.$dokters->namaLengkap.'</option>';
 							 }
 						 else
 							  {
-								   $dokter .='<option value="'.$dokters['pegawai_id'].'">'.$dokters['nama_pegawai'].'</option>';
+								   $dokter .='<option value="'.$dokters['pegawai_id'].'">'.$dokters->namaLengkap.'</option>';
 							  }
 					  } 
 					$data['dokter']=$dokter;    
