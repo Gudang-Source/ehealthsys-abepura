@@ -50,6 +50,7 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
 		'tabularlist_chapter',
 		'tabularlist_block',
 		'tabularlist_title',
+                'tabularlist_title2',
 		'tabularlist_revisi',
                 array(
                     'header'=>'<center>Status</center>',
