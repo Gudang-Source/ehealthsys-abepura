@@ -66,7 +66,7 @@ function simpanUbahRuangan(){
 		success:function(data){
 			myAlert(data.pesan);
 			$.fn.yiiGridView.update('PPInfoKunjungan-v', {
-						data: $('#formCari').serialize()
+				data: $('#formCari').serialize()
 			});
 			$('#ganti_poli').dialog('close');
 		},
