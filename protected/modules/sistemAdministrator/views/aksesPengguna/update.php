@@ -40,7 +40,7 @@
         ];
 
         controller.forEach(function(data){
-            $('input[value="'+data[0]+'"]').prop("checked",true);
+            $("#row_peran_" + data).find('input[value="'+data[0]+'"]').prop("checked",true);
         });
     }
 
