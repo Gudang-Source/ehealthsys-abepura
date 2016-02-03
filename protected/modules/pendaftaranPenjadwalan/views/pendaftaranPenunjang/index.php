@@ -153,6 +153,19 @@
             'htmlOptions'=>array('style'=>(($model->is_asupekerja)?'':'display:none')),
     )); 
 	?>
+                
+                <?php if(Yii::app()->user->getState('issmsgateway')){
+                    $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+                        'id'=>'form-smsgateway',
+                        'content'=>array(
+                            'content-smsgateway'=>array(
+                                'header'=>CHtml::htmlButton("<i class='icon-minus icon-white'></i>",array('class'=>'btn btn-primary btn-mini','onclick'=>'','onkeyup'=>"return $(this).focusNextInputField(event)",'rel'=>'tooltip','title'=>'Klik untuk tampilkan Kirim SMS')).'<b> Kirim SMS</b>',
+                                'isi'=> $this->renderPartial($this->path_view.'_formSms', array('form'=>$form,'modSmsgateway'=>$modSmsgateway), true),
+                                'active'=>true,
+                            ),   
+                        ),
+                    ));
+                } ?>
             </div>            
             <div class = "span4">
                 <?php echo $form->hiddenField($model,'is_pasienrujukan', array('readonly'=>true,'class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
@@ -171,18 +184,6 @@
                         ),
                         'htmlOptions'=>array('style'=>(($model->is_bpjs)?'display:none':'')),
                 )); ?>
-                <?php if(Yii::app()->user->getState('issmsgateway')){
-                    $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
-                        'id'=>'form-smsgateway',
-                        'content'=>array(
-                            'content-smsgateway'=>array(
-                                'header'=>CHtml::htmlButton("<i class='icon-minus icon-white'></i>",array('class'=>'btn btn-primary btn-mini','onclick'=>'','onkeyup'=>"return $(this).focusNextInputField(event)",'rel'=>'tooltip','title'=>'Klik untuk tampilkan Kirim SMS')).'<b> Kirim SMS</b>',
-                                'isi'=> $this->renderPartial($this->path_view.'_formSms', array('form'=>$form,'modSmsgateway'=>$modSmsgateway), true),
-                                'active'=>true,
-                            ),   
-                        ),
-                    ));
-                } ?>
                 <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
                         'id'=>'form-riwayatpasien',
                         'content'=>array(

@@ -408,5 +408,9 @@ function printLabelGelang()
     window.open('<?php echo $this->createUrl('PendaftaranRawatInap/printLabelGelang',array('pendaftaran_id'=>$model->pendaftaran_id)); ?>','printwin','left=100,top=100,width=480,height=640');
 }
 
+$(document).ready(function() {
+    $("#cari_loket_id").val(13).change();
+});
+
 </script>
     

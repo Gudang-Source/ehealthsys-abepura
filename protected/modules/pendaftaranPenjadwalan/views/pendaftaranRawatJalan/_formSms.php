@@ -3,7 +3,7 @@
         <div class="controls">
             <?php 
                 foreach ($modSmsgateway as $idx=>$item) {
-                    echo CHtml::checkBox('tujuansms['.$idx."]", false, array('value'=>$item->tujuansms, 'uncheckValue'=>null)).$item->tujuansms."<br>";
+                    echo CHtml::checkBox('tujuansms['.$idx."]", false, array('value'=>$item->tujuansms, 'uncheckValue'=>null))." ".$item->tujuansms."<br>";
                 }
 	            //echo CHtml::checkBoxList('tujuansms',$modSmsgateway, CHtml::listData($modSmsgateway,'tujuansms','tujuansms'), array('style'=>'float:left'));
             ?>
