@@ -39,45 +39,73 @@
                         'value'=>'(empty($data->noantrian) ? "Tanpa Antrian" : $data->racikanantrian_singkatan."-".$data->noantrian."<br>".(($data->panggilantrian == true) ? "Sudah Dipanggil" : CHtml::htmlButton(Yii::t("mds","{icon}",array("{icon}"=>"<i class=\'icon-volume-up icon-white\'></i>")),array("class"=>"btn btn-primary","onclick"=>"panggilAntrian(\"$data->penjualanresep_id\",\"$data->antrianfarmasi_id\")","rel"=>"tooltip","title"=>"Klik untuk memanggil pasien ini"))))',
                     ),
                     array(
-                        'header'=>'Tanggal Penjualan /<br/> Tanggal Resep',
+                        'header'=>'Tanggal Penjualan/<br/>No Resep',
                         'type'=>'raw',
-                        'value'=>'$data->tglpenjualan." / <br>".$data->tglresep',
-                    ),
+                        'value'=>'$data->tglpenjualan."/<br/>".$data->noresep',
+                    ), /*
                     array(
                         'header'=>'No. Resep',
                         'type'=>'raw',
                         'value'=>'$data->noresep',
-                    ),
+                    ), */
                     array(
                         'header'=>'Jenis Penjualan',
                         'type'=>'raw',
                         'value'=>'$data->jenispenjualan',
                     ),
                     array(
-                        'header'=>'No. Rekam Medik /<br/> Nama Pasien ',
+                        'header'=>'No. Rekam Medik',
                         'type'=>'raw',
-                        'value'=>'"$data->no_rekam_medik"."<br/>"."$data->nama_pasien"',
+                        'value'=>'$data->no_rekam_medik',
                     ),
                     array(
-                        'header'=>'Umur / <br> Jenis Kelamin',
-                        'type'=>'raw',
-                        'value'=>'"$data->umur"."<br/>"."$data->jeniskelamin"',
+                        'name'=>'nama_pasien',
+                        'value'=>'$data->namadepan.$data->nama_pasien',
                     ),
+                    array(
+                        'header'=>'Jenis Kelamin /<br/>Umur',
+                        'type'=>'raw',
+                        'value'=>'"$data->jeniskelamin"."<br/>"."$data->umur"',
+                    ),
+                    array(
+                        'header'=>'Jenis Kasus Penyakit',
+                        'type'=>'raw',
+                        'value'=>function($data) {
+                            $p = PendaftaranT::model()->findByPk($data->pendaftaran_id);
+                            return !empty($p)?$p->jeniskasuspenyakit->jeniskasuspenyakit_nama:"-";
+                        }
+                    ),
+                    array(
+                        'header'=>'Cara Bayar/<br/>Penjamin',
+                        'type'=>'raw',
+                        'value'=>'$data->carabayar_nama."/<br/>".$data->penjamin_nama',
+                    ),
+                    /*
                     array(
                         'header'=>'Alamat',
                         'type'=>'raw',
                         'value'=>'$data->alamat_pasien',
-                    ),
+                    ), */   
                     array(
-                        'header'=>'Dokter',
+                        'header'=>'Dokter/<br/>Ruangan',
                         'type'=>'raw',
-                        'value'=>'$data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama',
+                        'value'=>'$data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama."/<br>".$data->ruanganasal_nama',
+                    ), 
+                    array(
+                        'header'=>'Status Periksa',
+                        'type'=>'raw',
+                        'value'=>function($data) {
+                            $pd = PendaftaranT::model()->findByPk($data->pendaftaran_id);
+                            return $pd->statusperiksa;
+                        },
                     ),
+                            
+                            /*
                     array(
                         'header'=>'Panggil Antrian',
                         'type'=>'raw',
                         'value'=>'',
-                    ),
+                    ), */
                     array(
                         'header'=>'Ubah',
                         'type'=>'raw',
@@ -188,6 +216,32 @@
                 <td>
                     <?php echo $form->textFieldRow($modInfoPenjualan,'no_rekam_medik',array('placeholder'=>'Ketik No. Rekam Medik','class'=>'span3 numbersOnly','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
                     <?php echo $form->textFieldRow($modInfoPenjualan,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+                    <?php 
+                    $carabayar = CarabayarM::model()->findAll(array(
+                        'condition'=>'carabayar_aktif = true',
+                        'order'=>'carabayar_nourut',
+                    ));
+                    foreach ($carabayar as $idx=>$item) {
+                        $penjamins = PenjaminpasienM::model()->findByAttributes(array(
+                            'carabayar_id'=>$item->carabayar_id,
+                            'penjamin_aktif'=>true,
+                       ));
+                       if (empty($penjamins)) unset($carabayar[$idx]);
+                    }
+                    $penjamin = PenjaminpasienM::model()->findAll(array(
+                        'condition'=>'penjamin_aktif = true',
+                        'order'=>'penjamin_nama',
+                    ));
+                    echo $form->dropDownListRow($modInfoPenjualan,'carabayar_id', CHtml::listData($carabayar, 'carabayar_id', 'carabayar_nama'), array(
+                        'empty'=>'-- Pilih --',
+                        'class'=>'span3', 
+                        'ajax' => array('type'=>'POST',
+                            'url'=> $this->createUrl('/actionDynamic/getPenjaminPasien',array('encode'=>false,'namaModel'=>get_class($modInfoPenjualan))), 
+                            'success'=>'function(data){$("#'.CHtml::activeId($modInfoPenjualan, "penjamin_id").'").html(data); }',
+                        ),
+                     ));
+                    echo $form->dropDownListRow($modInfoPenjualan,'penjamin_id', CHtml::listData($penjamin, 'penjamin_id', 'penjamin_nama'), array('empty'=>'-- Pilih --', 'class'=>'span3'));
+                    ?>
                 </td>
                 <td>
                     <div class="control-group">
@@ -203,6 +257,26 @@
                             <?php echo $form->textField($modInfoPenjualan,'noresep',array('placeholder'=>'Ketik No. Resep','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
                         </div>
                     </div>
+                    <?php echo $form->dropDownListRow($modInfoPenjualan,'statusperiksa', Params::statusPeriksa(), array('empty'=>'-- Pilih --')); ?>
+                    <?php
+                    $pegawai = CHtml::listData(DokterV::model()->findAllByAttributes(array(
+                        'instalasi_id'=>array(2, 3, 4),
+                    ), array(
+                        'order'=>'nama_pegawai asc',
+                    )), 'pegawai_id', 'namaLengkap');
+                    
+                    echo $form->dropDownListRow($modInfoPenjualan, 'pegawai_id', $pegawai, array(
+                        'empty'=>'-- Pilih --',
+                    ));
+                    
+                    ?>
+                    <?php echo $form->dropDownListRow($modInfoPenjualan, 'ruanganasal_nama', CHtml::listData(RuanganM::model()->findAllByAttributes(array(
+                            'instalasi_id'=>array(2, 3, 4),
+                            'ruangan_aktif'=>true,
+                        ), array(
+                            'order'=>'instalasi_id, ruangan_nama asc'
+                        )), 'ruangan_nama', 'ruangan_nama'), array('empty'=>'-- Pilih --')); 
+                    ?>
                 </td>
             </tr>
         </table>

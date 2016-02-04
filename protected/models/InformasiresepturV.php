@@ -90,6 +90,8 @@
  */
 class InformasiresepturV extends CActiveRecord
 {
+        public $statusperiksa;
+    
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -160,7 +162,7 @@ class InformasiresepturV extends CActiveRecord
 			'noreseptur' => 'No. Resep',
 			'instalasireseptur_id' => 'Instalasireseptur',
 			'instalasireseptur_nama' => 'Instalasireseptur Nama',
-			'ruanganreseptur_id' => 'Ruanganreseptur',
+			'ruanganreseptur_id' => 'Ruangan Reseptur',
 			'ruanganreseptur_nama' => 'Ruanganreseptur Nama',
 			'fileresep' => 'Fileresep',
 			'pasien_id' => 'Pasien',
@@ -201,7 +203,7 @@ class InformasiresepturV extends CActiveRecord
 			'no_pendaftaran' => 'No. Pendaftaran',
 			'pasienadmisi_id' => 'Pasienadmisi',
 			'tgladmisi' => 'Tgladmisi',
-			'pegawai_id' => 'Pegawai',
+			'pegawai_id' => 'Dokter',
 			'nomorindukpegawai' => 'Nomorindukpegawai',
 			'pegawai_jenisidentitas' => 'Pegawai Jenisidentitas',
 			'pegawai_noidentitas' => 'Pegawai Noidentitas',
@@ -210,7 +212,7 @@ class InformasiresepturV extends CActiveRecord
 			'gelarbelakang_nama' => 'Gelarbelakang Nama',
 			'penjualanresep_id' => 'Penjualanresep',
 			'tglresep' => 'Tglresep',
-			'noresep' => 'Noresep',
+			'noresep' => 'No Resep',
 			'tglpenjualan' => 'Tglpenjualan',
 			'unitdosis_id' => 'Unitdosis',
 			'instalasiunitdosis_id' => 'Instalasiunitdosis',
@@ -234,6 +236,7 @@ class InformasiresepturV extends CActiveRecord
 			'jeniskasuspenyakit_id' => 'Jeniskasuspenyakit',
 			'jeniskasuspenyakit_nama' => 'Jenis Kasus Penyakit',
 			'umur' => 'Umur',
+                        'statusperiksa' => 'Status Periksa',
 		);
 	}
 
@@ -248,89 +251,89 @@ class InformasiresepturV extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('instalasi_id',$this->instalasi_id);
-		$criteria->compare('LOWER(instalasi_nama)',strtolower($this->instalasi_nama),true);
-		$criteria->compare('ruangan_id',$this->ruangan_id);
-		$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
-		$criteria->compare('reseptur_id',$this->reseptur_id);
-		$criteria->compare('LOWER(tglreseptur)',strtolower($this->tglreseptur),true);
-		$criteria->compare('LOWER(noreseptur)',strtolower($this->noreseptur),true);
-		$criteria->compare('instalasireseptur_id',$this->instalasireseptur_id);
-		$criteria->compare('LOWER(instalasireseptur_nama)',strtolower($this->instalasireseptur_nama),true);
-		$criteria->compare('ruanganreseptur_id',$this->ruanganreseptur_id);
-		$criteria->compare('LOWER(ruanganreseptur_nama)',strtolower($this->ruanganreseptur_nama),true);
-		$criteria->compare('LOWER(fileresep)',strtolower($this->fileresep),true);
-		$criteria->compare('pasien_id',$this->pasien_id);
-		$criteria->compare('LOWER(no_rekam_medik)',strtolower($this->no_rekam_medik),true);
-		$criteria->compare('LOWER(pasien_jenisidentitas)',strtolower($this->pasien_jenisidentitas),true);
-		$criteria->compare('LOWER(pasien_noidentitas)',strtolower($this->pasien_noidentitas),true);
-		$criteria->compare('LOWER(namadepan)',strtolower($this->namadepan),true);
-		$criteria->compare('LOWER(nama_pasien)',strtolower($this->nama_pasien),true);
-		$criteria->compare('LOWER(nama_bin)',strtolower($this->nama_bin),true);
-		$criteria->compare('LOWER(jeniskelamin)',strtolower($this->jeniskelamin),true);
-		$criteria->compare('LOWER(tempat_lahir)',strtolower($this->tempat_lahir),true);
-		$criteria->compare('LOWER(tanggal_lahir)',strtolower($this->tanggal_lahir),true);
-		$criteria->compare('LOWER(alamat_pasien)',strtolower($this->alamat_pasien),true);
-		$criteria->compare('rt',$this->rt);
-		$criteria->compare('rw',$this->rw);
-		$criteria->compare('kelurahan_id',$this->kelurahan_id);
-		$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
-		$criteria->compare('kecamatan_id',$this->kecamatan_id);
-		$criteria->compare('LOWER(kecamatan_nama)',strtolower($this->kecamatan_nama),true);
-		$criteria->compare('kabupaten_id',$this->kabupaten_id);
-		$criteria->compare('LOWER(kabupaten_nama)',strtolower($this->kabupaten_nama),true);
-		$criteria->compare('propinsi_id',$this->propinsi_id);
-		$criteria->compare('LOWER(propinsi_nama)',strtolower($this->propinsi_nama),true);
-		$criteria->compare('LOWER(statusperkawinan)',strtolower($this->statusperkawinan),true);
-		$criteria->compare('LOWER(agama)',strtolower($this->agama),true);
-		$criteria->compare('LOWER(golongandarah)',strtolower($this->golongandarah),true);
-		$criteria->compare('LOWER(rhesus)',strtolower($this->rhesus),true);
-		$criteria->compare('anakke',$this->anakke);
-		$criteria->compare('jumlah_bersaudara',$this->jumlah_bersaudara);
-		$criteria->compare('LOWER(no_telepon_pasien)',strtolower($this->no_telepon_pasien),true);
-		$criteria->compare('LOWER(no_mobile_pasien)',strtolower($this->no_mobile_pasien),true);
-		$criteria->compare('LOWER(warga_negara)',strtolower($this->warga_negara),true);
-		$criteria->compare('LOWER(alamatemail)',strtolower($this->alamatemail),true);
-		$criteria->compare('LOWER(nama_ibu)',strtolower($this->nama_ibu),true);
-		$criteria->compare('LOWER(nama_ayah)',strtolower($this->nama_ayah),true);
-		$criteria->compare('pendaftaran_id',$this->pendaftaran_id);
-		$criteria->compare('LOWER(tgl_pendaftaran)',strtolower($this->tgl_pendaftaran),true);
-		$criteria->compare('LOWER(no_pendaftaran)',strtolower($this->no_pendaftaran),true);
-		$criteria->compare('pasienadmisi_id',$this->pasienadmisi_id);
-		$criteria->compare('LOWER(tgladmisi)',strtolower($this->tgladmisi),true);
-		$criteria->compare('pegawai_id',$this->pegawai_id);
-		$criteria->compare('LOWER(nomorindukpegawai)',strtolower($this->nomorindukpegawai),true);
-		$criteria->compare('LOWER(pegawai_jenisidentitas)',strtolower($this->pegawai_jenisidentitas),true);
-		$criteria->compare('LOWER(pegawai_noidentitas)',strtolower($this->pegawai_noidentitas),true);
-		$criteria->compare('LOWER(gelardepan)',strtolower($this->gelardepan),true);
-		$criteria->compare('LOWER(nama_pegawai)',strtolower($this->nama_pegawai),true);
-		$criteria->compare('LOWER(gelarbelakang_nama)',strtolower($this->gelarbelakang_nama),true);
-		$criteria->compare('penjualanresep_id',$this->penjualanresep_id);
-		$criteria->compare('LOWER(tglresep)',strtolower($this->tglresep),true);
-		$criteria->compare('LOWER(noresep)',strtolower($this->noresep),true);
-		$criteria->compare('LOWER(tglpenjualan)',strtolower($this->tglpenjualan),true);
-		$criteria->compare('unitdosis_id',$this->unitdosis_id);
-		$criteria->compare('instalasiunitdosis_id',$this->instalasiunitdosis_id);
-		$criteria->compare('LOWER(instalasiunitdosis_nama)',strtolower($this->instalasiunitdosis_nama),true);
-		$criteria->compare('ruanganunitdosis_id',$this->ruanganunitdosis_id);
-		$criteria->compare('LOWER(ruanganunitdosis_nama)',strtolower($this->ruanganunitdosis_nama),true);
-		$criteria->compare('LOWER(tgluntidosis)',strtolower($this->tgluntidosis),true);
-		$criteria->compare('LOWER(nounitdosis)',strtolower($this->nounitdosis),true);
-		$criteria->compare('beratbadan_kg',$this->beratbadan_kg);
-		$criteria->compare('tinggibadan_cm',$this->tinggibadan_cm);
-		$criteria->compare('LOWER(alergiobat)',strtolower($this->alergiobat),true);
-		$criteria->compare('LOWER(create_time)',strtolower($this->create_time),true);
-		$criteria->compare('LOWER(update_time)',strtolower($this->update_time),true);
-		$criteria->compare('LOWER(create_loginpemakai_id)',strtolower($this->create_loginpemakai_id),true);
-		$criteria->compare('LOWER(update_loginpemakai_id)',strtolower($this->update_loginpemakai_id),true);
-		$criteria->compare('LOWER(create_ruangan)',strtolower($this->create_ruangan),true);
-		$criteria->compare('carabayar_id',$this->carabayar_id);
-		$criteria->compare('LOWER(carabayar_nama)',strtolower($this->carabayar_nama),true);
-		$criteria->compare('penjamin_id',$this->penjamin_id);
-		$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
-		$criteria->compare('jeniskasuspenyakit_id',$this->jeniskasuspenyakit_id);
-		$criteria->compare('LOWER(jeniskasuspenyakit_nama)',strtolower($this->jeniskasuspenyakit_nama),true);
-		$criteria->compare('LOWER(umur)',strtolower($this->umur),true);
+		$criteria->compare('t.instalasi_id',$this->instalasi_id);
+		$criteria->compare('LOWER(t.instalasi_nama)',strtolower($this->instalasi_nama),true);
+		$criteria->compare('t.ruangan_id',$this->ruangan_id);
+		$criteria->compare('LOWER(t.ruangan_nama)',strtolower($this->ruangan_nama),true);
+		$criteria->compare('t.reseptur_id',$this->reseptur_id);
+		$criteria->compare('LOWER(t.tglreseptur)',strtolower($this->tglreseptur),true);
+		$criteria->compare('LOWER(t.noreseptur)',strtolower($this->noreseptur),true);
+		$criteria->compare('t.instalasireseptur_id',$this->instalasireseptur_id);
+		$criteria->compare('LOWER(t.instalasireseptur_nama)',strtolower($this->instalasireseptur_nama),true);
+		$criteria->compare('t.ruanganreseptur_id',$this->ruanganreseptur_id);
+		$criteria->compare('LOWER(t.ruanganreseptur_nama)',strtolower($this->ruanganreseptur_nama),true);
+		$criteria->compare('LOWER(t.fileresep)',strtolower($this->fileresep),true);
+		$criteria->compare('t.pasien_id',$this->pasien_id);
+		$criteria->compare('LOWER(t.no_rekam_medik)',strtolower($this->no_rekam_medik),true);
+		$criteria->compare('LOWER(t.pasien_jenisidentitas)',strtolower($this->pasien_jenisidentitas),true);
+		$criteria->compare('LOWER(t.pasien_noidentitas)',strtolower($this->pasien_noidentitas),true);
+		$criteria->compare('LOWER(t.namadepan)',strtolower($this->namadepan),true);
+		$criteria->compare('LOWER(t.nama_pasien)',strtolower($this->nama_pasien),true);
+		$criteria->compare('LOWER(t.nama_bin)',strtolower($this->nama_bin),true);
+		$criteria->compare('LOWER(t.jeniskelamin)',strtolower($this->jeniskelamin),true);
+		$criteria->compare('LOWER(t.tempat_lahir)',strtolower($this->tempat_lahir),true);
+		$criteria->compare('LOWER(t.tanggal_lahir)',strtolower($this->tanggal_lahir),true);
+		$criteria->compare('LOWER(t.alamat_pasien)',strtolower($this->alamat_pasien),true);
+		$criteria->compare('t.rt',$this->rt);
+		$criteria->compare('t.rw',$this->rw);
+		$criteria->compare('t.kelurahan_id',$this->kelurahan_id);
+		$criteria->compare('LOWER(t.kelurahan_nama)',strtolower($this->kelurahan_nama),true);
+		$criteria->compare('t.kecamatan_id',$this->kecamatan_id);
+		$criteria->compare('LOWER(t.kecamatan_nama)',strtolower($this->kecamatan_nama),true);
+		$criteria->compare('t.kabupaten_id',$this->kabupaten_id);
+		$criteria->compare('LOWER(t.kabupaten_nama)',strtolower($this->kabupaten_nama),true);
+		$criteria->compare('t.propinsi_id',$this->propinsi_id);
+		$criteria->compare('LOWER(t.propinsi_nama)',strtolower($this->propinsi_nama),true);
+		$criteria->compare('LOWER(t.statusperkawinan)',strtolower($this->statusperkawinan),true);
+		$criteria->compare('LOWER(t.agama)',strtolower($this->agama),true);
+		$criteria->compare('LOWER(t.golongandarah)',strtolower($this->golongandarah),true);
+		$criteria->compare('LOWER(t.rhesus)',strtolower($this->rhesus),true);
+		$criteria->compare('t.anakke',$this->anakke);
+		$criteria->compare('t.jumlah_bersaudara',$this->jumlah_bersaudara);
+		$criteria->compare('LOWER(t.no_telepon_pasien)',strtolower($this->no_telepon_pasien),true);
+		$criteria->compare('LOWER(t.no_mobile_pasien)',strtolower($this->no_mobile_pasien),true);
+		$criteria->compare('LOWER(t.warga_negara)',strtolower($this->warga_negara),true);
+		$criteria->compare('LOWER(t.alamatemail)',strtolower($this->alamatemail),true);
+		$criteria->compare('LOWER(t.nama_ibu)',strtolower($this->nama_ibu),true);
+		$criteria->compare('LOWER(t.nama_ayah)',strtolower($this->nama_ayah),true);
+		$criteria->compare('t.pendaftaran_id',$this->pendaftaran_id);
+		$criteria->compare('LOWER(t.tgl_pendaftaran)',strtolower($this->tgl_pendaftaran),true);
+		$criteria->compare('LOWER(t.no_pendaftaran)',strtolower($this->no_pendaftaran),true);
+		$criteria->compare('t.pasienadmisi_id',$this->pasienadmisi_id);
+		$criteria->compare('LOWER(t.tgladmisi)',strtolower($this->tgladmisi),true);
+		$criteria->compare('t.pegawai_id',$this->pegawai_id);
+		$criteria->compare('LOWER(t.nomorindukpegawai)',strtolower($this->nomorindukpegawai),true);
+		$criteria->compare('LOWER(t.pegawai_jenisidentitas)',strtolower($this->pegawai_jenisidentitas),true);
+		$criteria->compare('LOWER(t.pegawai_noidentitas)',strtolower($this->pegawai_noidentitas),true);
+		$criteria->compare('LOWER(t.gelardepan)',strtolower($this->gelardepan),true);
+		$criteria->compare('LOWER(t.nama_pegawai)',strtolower($this->nama_pegawai),true);
+		$criteria->compare('LOWER(t.gelarbelakang_nama)',strtolower($this->gelarbelakang_nama),true);
+		$criteria->compare('t.penjualanresep_id',$this->penjualanresep_id);
+		$criteria->compare('LOWER(t.tglresep)',strtolower($this->tglresep),true);
+		$criteria->compare('LOWER(t.noresep)',strtolower($this->noresep),true);
+		$criteria->compare('LOWER(t.tglpenjualan)',strtolower($this->tglpenjualan),true);
+		$criteria->compare('t.unitdosis_id',$this->unitdosis_id);
+		$criteria->compare('t.instalasiunitdosis_id',$this->instalasiunitdosis_id);
+		$criteria->compare('LOWER(t.instalasiunitdosis_nama)',strtolower($this->instalasiunitdosis_nama),true);
+		$criteria->compare('t.ruanganunitdosis_id',$this->ruanganunitdosis_id);
+		$criteria->compare('LOWER(t.ruanganunitdosis_nama)',strtolower($this->ruanganunitdosis_nama),true);
+		$criteria->compare('LOWER(t.tgluntidosis)',strtolower($this->tgluntidosis),true);
+		$criteria->compare('LOWER(t.nounitdosis)',strtolower($this->nounitdosis),true);
+		$criteria->compare('t.beratbadan_kg',$this->beratbadan_kg);
+		$criteria->compare('t.tinggibadan_cm',$this->tinggibadan_cm);
+		$criteria->compare('LOWER(t.alergiobat)',strtolower($this->alergiobat),true);
+		$criteria->compare('LOWER(t.create_time)',strtolower($this->create_time),true);
+		$criteria->compare('LOWER(t.update_time)',strtolower($this->update_time),true);
+		$criteria->compare('LOWER(t.create_loginpemakai_id)',strtolower($this->create_loginpemakai_id),true);
+		$criteria->compare('LOWER(t.update_loginpemakai_id)',strtolower($this->update_loginpemakai_id),true);
+		$criteria->compare('LOWER(t.create_ruangan)',strtolower($this->create_ruangan),true);
+		$criteria->compare('t.carabayar_id',$this->carabayar_id);
+		$criteria->compare('LOWER(t.carabayar_nama)',strtolower($this->carabayar_nama),true);
+		$criteria->compare('t.penjamin_id',$this->penjamin_id);
+		$criteria->compare('LOWER(t.penjamin_nama)',strtolower($this->penjamin_nama),true);
+		$criteria->compare('t.jeniskasuspenyakit_id',$this->jeniskasuspenyakit_id);
+		$criteria->compare('LOWER(t.jeniskasuspenyakit_nama)',strtolower($this->jeniskasuspenyakit_nama),true);
+		$criteria->compare('LOWER(t.umur)',strtolower($this->umur),true);
 
 		return $criteria;
 	}

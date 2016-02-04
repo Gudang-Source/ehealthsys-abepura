@@ -37,22 +37,55 @@
             'template'=>"{summary}\n{items}\n{pager}",
             'itemsCssClass'=>'table table-striped table-condensed',
             'columns'=>array(
-                'noreseptur',
-                            array (
-                            'name'=>'tglreseptur',
+                 array (
+                    'header'=>'Tgl. Resep/<br>No. Resep',
+                            'name'=>'tglreseptur."/<br/>".$data->noreseptur',
                             'type'=>'raw',
                             'value'=>'MyFormatter::formatDateTimeForUser($data->tglreseptur)'
                             ),
-                'no_pendaftaran',
+                array(
+                    'header'=>'Tgl. Pendaftaran/<br/>No. Pendaftaran',
+                    'type'=>'raw',
+                    'name'=>'tgl_pendaftaran',
+                    'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."/<br/>".$data->no_pendaftaran',
+                ),
+                //'no_pendaftaran',
                 'no_rekam_medik',
-                'nama_pasien',
-                'nama_bin',
-                'carabayar_nama',
-                'penjamin_nama',
+                array(
+                    'name'=>'nama_pasien',
+                    'value'=>'$data->namadepan.$data->nama_pasien',
+                ),
+                array(
+                    'header'=>'Jenis Kelamin/<br/>Umur',
+                    'type'=>'raw',
+                    'value'=>'$data->jeniskelamin."/<br/>".$data->umur',
+                ),
                 'jeniskasuspenyakit_nama',
-                'umur',
-                'instalasi_nama',
-                'ruangan_nama',
+                //'nama_bin',
+                array(
+                    'header'=>'Carabayar/<br/>Penjamin',
+                    'type'=>'raw',
+                    'value'=>'$data->carabayar_nama."/<br/>".$data->penjamin_nama',
+                ),
+                array(
+                    'header'=>'Dokter/<br/>Ruangan',
+                    'name'=>'pegawai_nama',
+                    'type'=>'raw',
+                    'value'=>'$data->gelardepan." ".$data->nama_pegawai.", ".$data->gelarbelakang_nama."/<br/>".$data->ruanganreseptur_nama',
+                ),
+                array(
+                    'header'=>'Status Periksa',
+                    'type'=>'raw',
+                    'value'=>function($data) {
+                        $pd = PendaftaranT::model()->findByPk($data->pendaftaran_id);
+                        return $pd->statusperiksa;
+                    },
+                ),
+                //'car,abayar_nama',
+                //'penjamin_nama',
+                //'umur',
+                //'instalasi_nama',
+                //'ruangan_nama',
                 array(
                     'header'=>'Reseptur',
                     'type'=>'raw', 
@@ -161,12 +194,57 @@
                     </div>
                 </td>
                 <td>
+                    <?php echo $form->textFieldRow($model,'noreseptur',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
                     <?php echo $form->textFieldRow($model,'no_rekam_medik',array('class'=>'span3 numberOnly','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
-                    <?php echo $form->textFieldRow($model,'noresep',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+                    <?php echo $form->textFieldRow($model,'nama_pasien',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+                    <?php 
+                    $carabayar = CarabayarM::model()->findAll(array(
+                        'condition'=>'carabayar_aktif = true',
+                        'order'=>'carabayar_nourut',
+                    ));
+                    foreach ($carabayar as $idx=>$item) {
+                        $penjamins = PenjaminpasienM::model()->findByAttributes(array(
+                            'carabayar_id'=>$item->carabayar_id,
+                            'penjamin_aktif'=>true,
+                       ));
+                       if (empty($penjamins)) unset($carabayar[$idx]);
+                    }
+                    $penjamin = PenjaminpasienM::model()->findAll(array(
+                        'condition'=>'penjamin_aktif = true',
+                        'order'=>'penjamin_nama',
+                    ));
+                    echo $form->dropDownListRow($model,'carabayar_id', CHtml::listData($carabayar, 'carabayar_id', 'carabayar_nama'), array(
+                        'empty'=>'-- Pilih --',
+                        'class'=>'span3', 
+                        'ajax' => array('type'=>'POST',
+                            'url'=> $this->createUrl('/actionDynamic/getPenjaminPasien',array('encode'=>false,'namaModel'=>get_class($model))), 
+                            'success'=>'function(data){$("#'.CHtml::activeId($model, "penjamin_id").'").html(data); }',
+                        ),
+                     ));
+                    echo $form->dropDownListRow($model,'penjamin_id', CHtml::listData($penjamin, 'penjamin_id', 'penjamin_nama'), array('empty'=>'-- Pilih --', 'class'=>'span3'));
+                    ?>
                 </td>
                 <td>
-                    <?php echo $form->textFieldRow($model,'nama_pasien',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
-                    <?php echo $form->textFieldRow($model,'nama_bin',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+                    <?php
+                    $pegawai = CHtml::listData(DokterV::model()->findAllByAttributes(array(
+                        'instalasi_id'=>array(2, 3, 4),
+                    ), array(
+                        'order'=>'nama_pegawai asc',
+                    )), 'pegawai_id', 'namaLengkap');
+                    
+                    echo $form->dropDownListRow($model, 'pegawai_id', $pegawai, array(
+                        'empty'=>'-- Pilih --',
+                    ));
+                    
+                    ?>
+                    <?php echo $form->dropDownListRow($model,'statusperiksa', Params::statusPeriksa(), array('empty'=>'-- Pilih --')); ?>
+                    <?php echo $form->dropDownListRow($model, 'ruanganreseptur_id', CHtml::listData(RuanganM::model()->findAllByAttributes(array(
+                            'instalasi_id'=>array(2, 3, 4),
+                            'ruangan_aktif'=>true,
+                        ), array(
+                            'order'=>'instalasi_id, ruangan_nama asc'
+                        )), 'ruangan_id', 'ruangan_nama'), array('empty'=>'-- Pilih --')); ?>
+                    <?php //echo $form->textFieldRow($model,'nama_bin',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
                 </td>
             </tr>
         </table>
