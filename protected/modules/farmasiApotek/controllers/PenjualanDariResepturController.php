@@ -33,8 +33,8 @@ class PenjualanDariResepturController extends PenjualanResepRSController
 		
 		// load penjualan resep berdasarkan reseptur_id (bisa ada data bisa juga tidak)
 		$modPenjualan =  FAPenjualanResepT::model()->findByAttributes(array('reseptur_id'=>$reseptur_id));
-		$modPenjualan->tglpenjualan = MyFormatter::formatDateTimeForUser($modPenjualan->tglpenjualan);
-                $modPenjualan->tglresep = MyFormatter::formatDateTimeForUser($modPenjualan->tglresep);
+		if (!empty($modPenjualan->tglpenjualan)) $modPenjualan->tglpenjualan = MyFormatter::formatDateTimeForUser($modPenjualan->tglpenjualan);
+                if (!empty($modPenjualan->tglresep)) $modPenjualan->tglresep = MyFormatter::formatDateTimeForUser($modPenjualan->tglresep);
                 // var_dump($modPenjualan->attributes); die;
                 if(count($modPenjualan)>0){
 			$this->ada_penjualan = true;
