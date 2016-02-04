@@ -59,8 +59,8 @@
                     <?php echo $form->dropDownListRow($model,'jenispemeriksaanrad_id',CHtml::listData(JenispemeriksaanradM::model()->findAll(), 'jenispemeriksaanrad_id', 'jenispemeriksaanrad_nama'), array('empty'=>'-- Pilih --','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
                 </td>
                 <td>
-                    <?php echo $form->textFieldRow($model,'pemeriksaanrad_nama',array('class'=>'span3', 'onkeyup'=>"namaLain(this)", 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>20)); ?>
-                    <?php echo $form->textFieldRow($model,'pemeriksaanrad_namalainnya',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>20)); ?>
+                    <?php echo $form->textFieldRow($model,'pemeriksaanrad_nama',array('class'=>'span3', 'onkeyup'=>"namaLain(this)", 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
+                    <?php echo $form->textFieldRow($model,'pemeriksaanrad_namalainnya',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
                     <div>
                         <?php echo $form->checkBoxRow($model,'pemeriksaanrad_aktif', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                     </div>
