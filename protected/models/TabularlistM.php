@@ -42,10 +42,10 @@ class TabularlistM extends CActiveRecord
 		return array(
 			array('tabularlist_chapter, tabularlist_block', 'required'),
 			array('tabularlist_chapter, tabularlist_block, tabularlist_revisi, tabularlist_versi', 'length', 'max'=>50),
-			array('tabularlist_title, tabularlist_aktif', 'safe'),
+			array('tabularlist_title, tabularlist_title2, tabularlist_aktif', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('tabularlist_id, tabularlist_chapter, tabularlist_block, tabularlist_title, tabularlist_revisi, tabularlist_versi, tabularlist_aktif', 'safe', 'on'=>'search'),
+			array('tabularlist_id, tabularlist_chapter, tabularlist_block, tabularlist_title, tabularlist_revisi, tabularlist_versi, tabularlist_aktif, tabularlist_title2', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -70,6 +70,7 @@ class TabularlistM extends CActiveRecord
 			'tabularlist_chapter' => 'Chapter',
 			'tabularlist_block' => 'Block',
 			'tabularlist_title' => 'Title',
+                        'tabularlist_title2' => 'Judul',
 			'tabularlist_revisi' => 'Revisi',
 			'tabularlist_versi' => 'Versi',
 			'tabularlist_aktif' => 'Aktif',

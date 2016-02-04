@@ -15,6 +15,7 @@
             <tr>
                 <td>
                     <?php echo $form->textAreaRow($model,'tabularlist_title',array('rows'=>6, 'cols'=>50, 'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                    <?php echo $form->textAreaRow($model,'tabularlist_title2',array('rows'=>6, 'cols'=>50, 'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                 </td>
                 <td>
                     <?php echo $form->textFieldRow($model,'tabularlist_chapter',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>

@@ -61,6 +61,7 @@ class PPInfoKunjunganRDV extends InfokunjunganrdV
 		$criteria->compare('LOWER(no_rekam_medik)',strtolower($this->no_rekam_medik),true);
 		$criteria->compare('LOWER(nama_pasien)',strtolower($this->nama_pasien),true);
 		$criteria->compare('LOWER(nama_bin)',strtolower($this->nama_bin),true);
+                $criteria->compare('pegawai_id', $this->pegawai_id);
 		$criteria->compare('LOWER(alamat_pasien)',strtolower($this->alamat_pasien),true);
 		if(!empty($this->propinsi_id)){
 			$criteria->addCondition("propinsi_id = ".$this->propinsi_id); 			
