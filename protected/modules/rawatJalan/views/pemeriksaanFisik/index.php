@@ -38,7 +38,7 @@ $this->widget('bootstrap.widgets.BootAlert');
                                                              'dateFormat'=>Params::DATE_FORMAT,
                                                              'maxDate'=>'d',   
                                                                      ),
-                                                             'htmlOptions'=>array('readonly'=>true, 'class'=>'dtPicker3',
+                                                             'htmlOptions'=>array('readonly'=>true, 'class'=>'dtPicker3 realtime',
                                                              'onkeypress'=>"return $(this).focusNextInputField(event)"),
                                                     )); ?>
                     </div>
@@ -237,7 +237,7 @@ $this->widget('bootstrap.widgets.BootAlert');
 							'attribute' => 'td_systolic',
 							'mask' => '999',
 							'placeholder'=>'0',
-							'htmlOptions' => array('class'=>'span1 integer systolic', 'onkeypress'=>"return $(this).focusNextInputField(event)",'onkeyup'=>'returnValue(this); getText();') // change(this); getTekananDarah(this) change(this);getText();
+							'htmlOptions' => array('class'=>'span1 systolic', 'onkeypress'=>"return $(this).focusNextInputField(event)",'onkeyup'=>'returnValue(this); getText();') // change(this); getTekananDarah(this) change(this);getText();
 							));
 							?>Mm
 							<?php // echo $form->textField($modPemeriksaanFisik,'td_diastolic',array('onblur'=>'','readonly'=>false,'class'=>'span1 integer numbersOnly diastolic', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>3, 'onkeyup'=>'returnValue(this)'));?>
@@ -247,7 +247,7 @@ $this->widget('bootstrap.widgets.BootAlert');
 							'attribute' => 'td_diastolic',
 							'mask' => '999',
 							'placeholder'=>'0',
-							'htmlOptions' => array('class'=>'span1 integer diastolic', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'onkeyup'=>'returnValue(this); getText();') //getTekananDarah(this); ,'onkeyup'=>'getText();'
+							'htmlOptions' => array('class'=>'span1 diastolic', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'onkeyup'=>'returnValue(this); getText();') //getTekananDarah(this); ,'onkeyup'=>'getText();'
 							));
 							?>Hg
                      <?php // echo $form->textField($modPemeriksaanFisik,'td_systolic',array('class'=>'span1 numbersOnly systolic', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>3, 'onkeyup'=>'returnValue(this)'));?>
@@ -285,7 +285,7 @@ $this->widget('bootstrap.widgets.BootAlert');
             <div class="control-group ">
                     <?php echo $form->LabelEx($modPemeriksaanFisik,'detaknadi',array('label'=>'<i class="icon-facetime-video hoveringIcon" onclick="getfromDevice();"></i> Detak Nadi','class'=>'control-label'));?>
                     <div class="controls">
-                             <?php echo $form->textField($modPemeriksaanFisik,'detaknadi',array('class'=>'span2  numbersOnly', 'maxlength'=>10, 'onkeypress'=>"return $(this).focusNextInputField(event)"));?>
+                             <?php echo $form->textField($modPemeriksaanFisik,'detaknadi',array('class'=>'span2  numbersOnly', 'maxlength'=>3, 'onkeypress'=>"return $(this).focusNextInputField(event)"));?>
                      /Menit
                     </div>
             </div>
@@ -300,14 +300,14 @@ $this->widget('bootstrap.widgets.BootAlert');
             <div class="control-group ">
                     <?php echo $form->LabelEx($modPemeriksaanFisik,'pernapasan',array('class'=>'control-label'));?>
                     <div class="controls">
-                             <?php echo $form->textField($modPemeriksaanFisik,'pernapasan',array('class'=>'span2 integer numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10));?>
+                             <?php echo $form->textField($modPemeriksaanFisik,'pernapasan',array('class'=>'span2 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>2));?>
                      /Menit
                     </div>
             </div>
             <div class="control-group ">
                     <?php echo $form->LabelEx($modPemeriksaanFisik,'suhutubuh',array('class'=>'control-label'));?>
                     <div class="controls">
-                             <?php echo $form->textField($modPemeriksaanFisik,'suhutubuh',array('class'=>'span2 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10));?>
+                             <?php echo $form->textField($modPemeriksaanFisik,'suhutubuh',array('class'=>'span2 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>2));?>
                      &#176 Celcius
                     </div>
             </div>
@@ -315,8 +315,8 @@ $this->widget('bootstrap.widgets.BootAlert');
                     <?php echo CHtml::Label('Tinggi Badan / Berat Badan','',array('class'=>'control-label'));?>
                     <div class="controls">
                             <div class="groupUkurans">
-                                    <?php echo $form->textField($modPemeriksaanFisik,'tinggibadan_cm',array('class'=>'span1 numbersOnly tinggibadan', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10,'size'=>3));?>
-                                    <?php echo $form->hiddenField($modPemeriksaanFisik,'tinggibadan_cm',array('class'=>'span1 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10,'size'=>3));?>
+                                    <?php echo $form->textField($modPemeriksaanFisik,'tinggibadan_cm',array('class'=>'span1 numbersOnly tinggibadan', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>3,'size'=>3));?>
+                                    <?php echo $form->hiddenField($modPemeriksaanFisik,'tinggibadan_cm',array('class'=>'span1 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>3,'size'=>3));?>
                                     <?php echo CHtml::dropDownList('meter', '100', array('100'=>'Cm', '0.01'=>'M'), array('style'=>'width:50px;','class'=>'span1', 'onchange'=>'gantiJumlah(this)')); ?>
                             </div>
                             <div class="groupUkurans">
