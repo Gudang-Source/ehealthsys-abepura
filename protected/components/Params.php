@@ -73,6 +73,7 @@ Class Params
 
 	
 	const MODUL_ID_SISADMIN = 1;
+        const MODUL_ID_PENDAFTARAN = 2;
 	const MODUL_ID_RJ = 5;
 	const MODUL_ID_RD = 6;
 	const MODUL_ID_RI = 7;
@@ -89,6 +90,7 @@ Class Params
 	const MODUL_ID_AKUNTANSI = 26;
 	const MODUL_ID_KEUANGAN = 44;
 
+        const INSTALASI_ID_RM = 1;
 	const INSTALASI_ID_RJ = 2;
 	const INSTALASI_ID_RD = 3;
 	const INSTALASI_ID_RI = 4;
@@ -132,6 +134,7 @@ Class Params
 	const RUANGAN_ID_STERILISASI = 223;     
 	const RUANGAN_ID_LAUNDRY = 226;     
         const RUANGAN_ID_KASIR = 66;
+        const RUANGAN_ID_LOKET = 2;
 
 	const KELASPELAYANAN_ID_TANPA_KELAS = 6;
         const KELASPELAYANAN_ID_KELAS_III = 4;
