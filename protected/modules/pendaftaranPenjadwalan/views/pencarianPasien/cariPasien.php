@@ -57,13 +57,23 @@
                                 'value'=>'CHtml::link("<i class=\"icon-form-ubah\"></i>", Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/ubahPasien",array("id"=>"$data->pasien_id")), array("rel"=>"tooltip","title"=>"Klik untuk mengubah data pasien"))." ".CHtml::link($data->namadepan.$data->nama_pasien, Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/ubahPasien",array("id"=>"$data->pasien_id")), array("rel"=>"tooltip","title"=>"Klik untuk mengubah data pasien"))',
                             ),
                             array(
+                                'header'=>'Tgl. Lahir',
+                                'value'=>'MyFormatter::formatDateTimeForUser($data->tanggal_lahir)',
+                            ),
+                            array(
                                 'name'=>'jeniskelamin',
                                 'value'=>'$data->jeniskelamin',
                             ),
                             array(
                                 'name'=>'alamat_pasien',
                                 'value'=>'$data->alamat_pasien',
-                            ), /*
+                            ), 
+                            array(
+                                'header'=>'Pekerjaan',
+                                'value'=>'$data->pekerjaan->pekerjaan_nama',
+                            ),
+                            'agama',
+                            /*
                             array(
                                 'name'=>'Rt/Rw',
                                 'value'=>'$data->rt." / ".$data->rw',
@@ -75,7 +85,7 @@
                                 'type'=>'raw',
                                 'value'=>'(!empty($data->penanggungjawab_id) ? CHtml::link($data->penanggungJawab->nama_pj, Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/ubahPenanggungJawab",array("id"=>"$data->penanggungjawab_id")), array("rel"=>"tooltip","title"=>"Klik untuk mengubah data penanggung jawab"))." ".CHtml::link("<i class=\"icon-pencil\"></i>", Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/ubahPenanggungJawab",array("id"=>"$data->penanggungjawab_id")), array("rel"=>"tooltip","title"=>"Klik untuk mengubah data penanggung jawab")) : "-") ',
                             ),
-                            */
+                            */ /*
                             array(
                                 'name'=>'propinsi_id',
                                 'filter'=>  CHtml::listData($modProp, 'propinsi_id', 'propinsi_nama'),
@@ -96,6 +106,7 @@
                                  'filter'=>  CHtml::listData($modKel, 'kelurahan_id', 'kelurahan_nama'),
                                 'value'=>'(isset($data->kelurahan_id) ? KelurahanM::model()->findByPk($data->kelurahan_id)->kelurahan_nama : "-")',
                             ),
+                             * */
                             array(
                                 'header'=>'Riwayat <br/> Kunjungan',
                                 'type'=>'raw',
@@ -382,7 +393,7 @@ function cekTanggal(){
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array( 
     'id'=>'dialogRiwayatKunjungan',
     'options'=>array(
-        'title'=>'Riwayat Pasien',
+        'title'=>'Riwayat Kunjungan',
         'autoOpen'=>false,
         'modal'=>true,
         'minWidth'=>980,
