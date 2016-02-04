@@ -3,7 +3,7 @@
 /**
  * Description of PencatatanPasienController
  *
- * @author root
+ * @author Deni Hamdani <pii.deni.prg@gmail.com>
  */
 Yii::import('pendaftaranPenjadwalan.models.*');
 
