@@ -609,7 +609,7 @@ class PendaftaranRadiologiRujukanRSController extends PendaftaranRadiologiContro
                     $criteria->addCondition('penjamin_id = '.$postPemeriksaan['penjamin_id']);
                     $criteria->compare('LOWER(jenispemeriksaanrad_nama)',strtolower($postPemeriksaan['jenispemeriksaanrad_nama']), true);
                     $criteria->compare('LOWER(pemeriksaanrad_nama)',strtolower($postPemeriksaan['pemeriksaanrad_nama']), true);
-                    $criteria->order = "jenispemeriksaanrad_urutan, pemeriksaanrad_urutan";
+                    $criteria->order = "jenispemeriksaanrad_id, pemeriksaanrad_urutan";
                     $modPemeriksaanRads = ROTarifpemeriksaanradruanganV::model()->findAll($criteria);
                     $content = $this->renderPartial($this->path_view_pendaftaran.'_checklistPemeriksaanRad',array('modPemeriksaanRads'=>$modPemeriksaanRads), true);
                 }
