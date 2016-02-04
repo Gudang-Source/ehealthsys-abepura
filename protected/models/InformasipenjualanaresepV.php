@@ -83,6 +83,7 @@
  */
 class InformasipenjualanaresepV extends CActiveRecord
 {
+        public $statusperiksa;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -224,6 +225,8 @@ class InformasipenjualanaresepV extends CActiveRecord
 			'tipepaket_id' => 'Tipe Paket',
 			'oasudahbayar_id' => 'Oa Sudah Bayar',
 			'noantrian' => 'No. Antrian',
+                        'statusperiksa' => 'Status Periksa',
+                        'pegawai_id' => 'Dokter',
 		);
 	}
 
