@@ -89,7 +89,7 @@ class DiagnosaController extends MyAuthController
             if($valid){
                 foreach ($morbiditas as $j => $morbiditasPasien) {
                     $morbiditasPasien->save();
-//                     $updateStatusPeriksa=PendaftaranT::model()->updateByPk($modPendaftaran->pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SUDAH_DIPERIKSA)); // LNG-959
+                    $updateStatusPeriksa=PendaftaranT::model()->updateByPk($modPendaftaran->pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SUDAH_DIPERIKSA, 'tglselesaiperiksa'=>date('Y-m-d H:i:s'))); // LNG-959
                 }
                 //echo 'VALID';
                 $this->successSave = true;
@@ -251,8 +251,8 @@ class DiagnosaController extends MyAuthController
             $valid = $morbiditas->validate();
             if($valid){
                 $morbiditas->save();
+                PendaftaranT::model()->updateByPk($modPendaftaran->pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SUDAH_DIPERIKSA, 'tglselesaiperiksa'=>date('Y-m-d H:i:s')));
             }
-            
         }
     }
 

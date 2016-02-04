@@ -103,7 +103,7 @@ class ResepturController extends MyAuthController
 		
 		if($reseptur->validate()){
 			$reseptur->save();
- 			$updateStatusPeriksa=PendaftaranT::model()->updateByPk($modPendaftaran->pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SUDAH_DIPERIKSA));
+ 			$updateStatusPeriksa=PendaftaranT::model()->updateByPk($modPendaftaran->pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SUDAH_DIPERIKSA, 'tglselesaiperiksa'=>date('Y-m-d H:i:s')));
 			
 			/* ================================================ */
 			/* Proses update status periksa KonsulPoli EHS-179  */
