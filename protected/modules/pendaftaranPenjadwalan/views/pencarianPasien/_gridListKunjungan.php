@@ -1,15 +1,30 @@
 <table class="table table-condensed" id="dataPasienKunjungan">
     <tr>
+        <td>Tgl. Rekam Medik</td>
+        <td>: <?php echo MyFormatter::formatDateTimeForUser($modPasien->tgl_rekam_medik); ?></td>
+        <td>Alamat</td>
+        <td>: <?php echo $modPasien->alamat_pasien; ?></td>
+    </tr>
+    
+    <tr>
         <td>No. Rekam Medik</td>
         <td>: <?php echo $modPasien->no_rekam_medik; ?></td>
+        <td>Pekerjaan</td>
+        <td>: <?php echo $modPasien->pekerjaan->pekerjaan_nama; ?></td>
+    </tr>
+    <tr>
         <td>Nama Pasien</td>
         <td>: <?php echo $modPasien->nama_pasien; ?></td>
+        <td>Agama</td>
+        <td>: <?php echo $modPasien->agama; ?></td>
+    </tr>
+    <tr>
+        <td>Tgl. Lahir</td>
+        <td>: <?php echo MyFormatter::formatDateTimeForUser($modPasien->tanggal_lahir); ?></td>
     </tr>
     <tr>
         <td>Jenis Kelamin</td>
         <td>: <?php echo $modPasien->jeniskelamin; ?></td>
-        <td>Nama Bin</td>
-        <td>: <?php echo $modPasien->nama_bin; ?></td>
     </tr>
 </table>
 <style>
@@ -40,18 +55,53 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
                 'header' => 'No',
                 'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
             ),
-            'ruangan.ruangan_nama',
             'no_pendaftaran',
-            'tgl_pendaftaran',
-            'tglselesaiperiksa',
             array(
-                'header'=>'Ke Penunjang',
-                'type'=>'raw',
-                'value'=>'$this->grid->owner->renderPartial('.$this->path_view.'."_pasienMasukPenunjang", array("pendaftaran_id"=>$data->pendaftaran_id))',
+                'name'=>'tgl_pendaftaran',
+                'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)',
             ),
-            'pasienadmisiTs.tgladmisi',
-            'pasienadmisiTs.ruangan.ruangan_nama',
-            'pasienadmisiTs.kelaspelayanan.kelaspelayanan_nama',
+            array(
+                'name'=>'tglselesaiperiksa',
+                'value'=>'MyFormatter::formatDateTimeForUser($data->tglselesaiperiksa)',
+            ),
+            array(
+                'name'=>'ruangan.ruangan_nama',
+                'header'=>'Ruangan/Poliklinik',
+            ),
+            array(
+                'header'=>'Penunjang',
+                'type'=>'raw',
+                'value'=>'$this->grid->owner->renderPartial("'.$this->path_view.'_pasienMasukPenunjang", array("pendaftaran_id"=>$data->pendaftaran_id))',
+            ),
+            array(
+                'header'=>'Tgl. Admisi',
+                'type'=>'raw',
+                'value'=>function($data) use (&$admisi) {
+                    $admisi = PasienadmisiT::model()->findByAttributes(array('pendaftaran_id'=>$data->pendaftaran_id));
+                    if (!empty($admisi)) return MyFormatter::formatDateTimeForUser($admisi->tgladmisi);
+                    return "-";
+                }, 
+            ),
+            //'pasienadmisiTs.tgladmisi', 
+            array(
+                'header'=>'Ruangan/Kelas Pelayanan',
+                'type'=>'raw',
+                'value'=>function($data) use (&$admisi) {
+                    if (!empty($admisi)) return $admisi->ruangan->ruangan_nama." / ".$admisi->kelaspelayanan->kelaspelayanan_nama;
+                    return "-";
+                }, 
+            ), 
+            array(
+                'header'=>'Kamar/No Bed',
+                'type'=>'raw',
+                'value'=>function($data) use (&$admisi) {
+                    if (!empty($admisi)) return $admisi->kamarruangan->kamarruangan_nokamar." / ".$admisi->kamarruangan->kamarruangan_nobed;
+                    return "-";
+                }
+                //'!empty($data->pasienadmisi_id)?($data->pasienadmisi->kamarruangan->kamarruangan_nokamar." / ".$data->pasienadmisiTs->kamarruangan->kamarruangan_nobed):"-"',
+            ), 
+            //'pasienadmisiTs.ruangan.ruangan_nama',
+            //'pasienadmisiTs.kelaspelayanan.kelaspelayanan_nama',
             array(
                 'header'=>'Cara Pulang / Kondisi',
                 'type'=>'raw',
