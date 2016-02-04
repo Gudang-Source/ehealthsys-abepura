@@ -83,7 +83,7 @@ class FAObatalkesM extends ObatalkesM
 		$criteria->compare('LOWER(satuankecil.satuankecil_nama)',strtolower($this->satuankecilNama),true);
 		$criteria->compare('LOWER(sumberdana.sumberdana_nama)',strtolower($this->sumberdanaNama),true);
                 $criteria->addCondition('obatalkes_farmasi is true');
-                $criteria->limit=10;
+                // $criteria->limit=10;
                 return new CActiveDataProvider($this, array(
                                 'criteria'=>$criteria,
 								'pagination'=>false,
@@ -122,7 +122,7 @@ class FAObatalkesM extends ObatalkesM
         $criteria->compare('LOWER(jenisobatalkes_m.jenisobatalkes_nama)',strtolower($this->jenisobatalkes_nama),true);
         $criteria->addCondition('obatalkes_aktif = TRUE');
         $criteria->order='obatalkes_nama ASC';
-		$criteria->limit = 10;
+		// $criteria->limit = 10;
         return new CActiveDataProvider($this, array(
                 'criteria'=>$criteria,
 				'pagination'=>false,
@@ -192,7 +192,7 @@ class FAObatalkesM extends ObatalkesM
 		$criteria->compare('LOWER(sumberdana.sumberdana_nama)',strtolower($this->sumberdanaNama),true);
 		$criteria->compare('t.obatalkes_farmasi',$this->obatalkes_farmasi);
 		$criteria->order='obatalkes_nama ASC';
-		$criteria->limit = 10;
+		// $criteria->limit = 10;
 		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

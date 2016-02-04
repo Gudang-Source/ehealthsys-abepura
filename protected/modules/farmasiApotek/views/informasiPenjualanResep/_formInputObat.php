@@ -204,7 +204,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'header'=>'Tanggal Kadaluarsa',
             'name'=>'tglkadaluarsa',
             'filter'=>'',
-        ),        
+        ),       /* 
         array(
             'name'=>'satuankecil.satuankecil_nama',
             'header'=>'Satuan Kecil',
@@ -213,6 +213,8 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'name'=>'satuanbesar.satuanbesar_nama',
             'header'=>'Satuan Besar',
         ),
+         * 
+         */
         array(
             'header'=>'HJA Resep',
             'type'=>'raw',
@@ -229,7 +231,10 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
         array(
             'header'=>'Jumlah Stok',
             'type'=>'raw',
-            'value'=>'$data->StokObatRuangan',
+            'value'=>'$data->StokObatRuangan." ".$data->satuankecil->satuankecil_nama',
+            'htmlOptions'=>array(
+                'style'=>'text-align: right',
+            )
         ),
 
         
@@ -287,7 +292,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 'header'=>'Tanggal Kadaluarsa',
                 'name'=>'tglkadaluarsa',
                 'filter'=>'',
-            ),        
+            ),        /*
             array(
                 'name'=>'satuankecil.satuankecil_nama',
                 'header'=>'Satuan Kecil',
@@ -295,7 +300,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
             array(
                 'name'=>'satuanbesar.satuanbesar_nama',
                 'header'=>'Satuan Besar',
-            ),
+            ),*/
             array(
                 'header'=>'HJA Resep',
                 'type'=>'raw',
@@ -312,7 +317,10 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
             array(
                 'header'=>'Jumlah Stok',
                 'type'=>'raw',
-                'value'=>'$data->StokObatRuangan',
+                'value'=>'$data->StokObatRuangan." ".$data->satuankecil->satuankecil_nama',
+                'htmlOptions'=>array(
+                    'style'=>'text-align: right',
+                )
             ),
 
         
