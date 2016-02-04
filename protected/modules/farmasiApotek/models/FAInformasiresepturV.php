@@ -12,9 +12,11 @@ class FAInformasiresepturV extends InformasiresepturV
 	public function searchInformasiPasienResep()
     {
         $criteria=$this->criteriaSearch();
-        $criteria->addBetweenCondition('date(tglreseptur)', $this->tgl_awal, $this->tgl_akhir);
-        $criteria->order = 'tglreseptur DESC';
-        $criteria->limit=10;
+        $criteria->addBetweenCondition('date(t.tglreseptur)', $this->tgl_awal, $this->tgl_akhir);
+        $criteria->order = 't.tglreseptur DESC';
+        $criteria->join = "join pendaftaran_t p on p.pendaftaran_id = t.pendaftaran_id";
+        $criteria->compare('lower(p.statusperiksa)', strtolower($this->statusperiksa), true);
+        // $criteria->limit=10;
 
         return new CActiveDataProvider($this, array(
                 'criteria'=>$criteria,

@@ -34,10 +34,10 @@ class FAInformasipenjualanresepV extends InformasipenjualanaresepV
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-                $criteria->select = array('t.racikanantrian_singkatan, t.noantrian, t.panggilantrian, t.antrianlewat, t.pendaftaran_id, penjualanresep_t.jenispenjualan','penjualanresep_t.returresep_id',' t.jenispenjualan','t.penjualanresep_id','t.pasien_id','t.pegawai_id', 't.nama_pegawai','t.alamat_pasien','t.no_rekam_medik','t.namadepan','t.nama_pasien','t.nama_bin','t.tanggal_lahir',
+                $criteria->select = array('t.gelardepan, t.gelarbelakang_nama, t.racikanantrian_singkatan, t.carabayar_nama, t.penjamin_nama, t.noantrian, t.panggilantrian, t.antrianlewat, t.pendaftaran_id, penjualanresep_t.jenispenjualan','penjualanresep_t.returresep_id',' t.jenispenjualan','t.penjualanresep_id','t.pasien_id','t.pegawai_id', 't.nama_pegawai','t.alamat_pasien','t.no_rekam_medik','t.namadepan','t.nama_pasien','t.nama_bin','t.tanggal_lahir',
                                           't.noresep','t.totharganetto','t.totalhargajual','t.instalasiasal_nama','t.ruanganasal_nama','t.reseptur_id',
                                           't.tglpenjualan','(pendaftaran_t.umur) as umur','t.jeniskelamin','t.tglresep, t.create_ruangan,t.antrianfarmasi_id');
-                $criteria->group = 't.racikanantrian_singkatan, t.noantrian, t.panggilantrian, t.antrianlewat, t.pendaftaran_id, penjualanresep_t.jenispenjualan, penjualanresep_t.returresep_id, t.jenispenjualan, t.no_rekam_medik, t.namadepan, t.nama_pasien, t.nama_bin, t.tanggal_lahir, t.noresep, t.totharganetto,
+                $criteria->group = 't.gelardepan, t.gelarbelakang_nama, t.racikanantrian_singkatan, t.carabayar_nama, t.penjamin_nama, t.noantrian, t.panggilantrian, t.antrianlewat, t.pendaftaran_id, penjualanresep_t.jenispenjualan, penjualanresep_t.returresep_id, t.jenispenjualan, t.no_rekam_medik, t.namadepan, t.nama_pasien, t.nama_bin, t.tanggal_lahir, t.noresep, t.totharganetto,
                                     t.totalhargajual, t.instalasiasal_nama, t.ruanganasal_nama, t.penjualanresep_id, t.reseptur_id, t.pegawai_id, t.nama_pegawai, t.tglpenjualan, t.pasien_id,pendaftaran_t.umur, t.jeniskelamin, t.alamat_pasien, t.tglresep, t.create_ruangan,t.antrianfarmasi_id';
                 $criteria->join = 'LEFT JOIN pendaftaran_t ON pendaftaran_t.pendaftaran_id = t.pendaftaran_id LEFT JOIN penjualanresep_t ON penjualanresep_t.penjualanresep_id = t.penjualanresep_id';
                 //HARUSNYA JANGAN ADA JOIN DI MODEL YANG MEMANGGIL VIEW TABLE (DB), JIKA ADA YG PERLU DI TAMBAHKAN HUBUNGI ANALIS
@@ -55,6 +55,10 @@ class FAInformasipenjualanresepV extends InformasipenjualanaresepV
 		$criteria->compare('LOWER(t.noresep)',strtolower($this->noresep),true);
 		$criteria->compare('t.totharganetto',$this->totharganetto);
 		$criteria->compare('t.totalhargajual',$this->totalhargajual);
+                $criteria->compare('t.carabayar_id', $this->carabayar_id);
+                $criteria->compare('t.penjamin_id', $this->penjamin_id);
+                $criteria->compare('t.pegawai_id', $this->pegawai_id);
+                $criteria->compare('lower(pendaftaran_t.statusperiksa)', strtolower($this->statusperiksa));
 		$criteria->compare('LOWER(t.instalasiasal_nama)',strtolower($this->instalasiasal_nama),true);
 		$criteria->compare('LOWER(t.ruanganasal_nama)',strtolower($this->ruanganasal_nama),true);
 		if(!empty($this->reseptur_id)){

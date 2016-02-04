@@ -22,6 +22,7 @@ class InformasiPenjualanResepController extends MyAuthController
                 $modInfoPenjualan->attributes = $_GET['FAInformasipenjualanresepV'];
                 $modInfoPenjualan->tgl_awal = $format->formatDateTimeForDb($_GET['FAInformasipenjualanresepV']['tgl_awal']);
                 $modInfoPenjualan->tgl_akhir = $format->formatDateTimeForDb($_GET['FAInformasipenjualanresepV']['tgl_akhir']);
+                $modInfoPenjualan->statusperiksa = $_GET['FAInformasipenjualanresepV']['statusperiksa'];
             }
 		
             $this->render('index',array('format'=>$format,'modInfoPenjualan'=>$modInfoPenjualan));
