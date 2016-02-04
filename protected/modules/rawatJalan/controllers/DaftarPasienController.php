@@ -753,6 +753,7 @@ class DaftarPasienController extends MyAuthController
               $smspasien = 1;
              
              if(isset($_POST['PendaftaranT'])){
+                 
                     $renKontrol = $format->formatDateTimeForDb($_POST['PendaftaranT']['tglrenkontrol']);
                     $pasien_id = $_POST['PendaftaranT']['pendaftaran_id'];
                     $transaction = Yii::app()->db->beginTransaction();
@@ -2219,7 +2220,7 @@ class DaftarPasienController extends MyAuthController
 				$update = PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SEDANG_PERIKSA));
 			}else{
 			if($status == "SEDANG PERIKSA"){
-				$update = PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SUDAH_DIPERIKSA));
+				$update = PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SUDAH_DIPERIKSA, 'tglselesaiperiksa'=>date('Y-m-d H:i:s')));
 			}else if($status == "SEDANG DIRAWAT INAP"){
 				$update = PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SUDAH_PULANG));
 			}

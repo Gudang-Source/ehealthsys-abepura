@@ -10,7 +10,7 @@
         <td>No. Rekam Medik</td>
         <td>: <?php echo $modPasien->no_rekam_medik; ?></td>
         <td>Pekerjaan</td>
-        <td>: <?php echo $modPasien->pekerjaan->pekerjaan_nama; ?></td>
+        <td>: <?php echo empty($modPasien->pekerjaan_id)?"-":$modPasien->pekerjaan->pekerjaan_nama; ?></td>
     </tr>
     <tr>
         <td>Nama Pasien</td>
