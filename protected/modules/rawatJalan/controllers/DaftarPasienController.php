@@ -840,9 +840,13 @@ class DaftarPasienController extends MyAuthController
         
         public function actionPasienRujukRI()
         {
-              if(Yii::app()->request->isAjaxRequest) {
-              $pendaftaran_id= (isset($_POST['pendaftaran_id']) ? $_POST['pendaftaran_id'] : null);
-              $pasien_id=  PendaftaranT::model()->findByPk($pendaftaran_id)->pasien_id;
+            if(Yii::app()->request->isAjaxRequest) {
+                $pendaftaran_id= (isset($_POST['pendaftaran_id']) ? $_POST['pendaftaran_id'] : null);
+                $modPendaftaran = PendaftaranT::model()->findByPk($pendaftaran_id);
+                $modRuangan = RuanganM::model()->findByPk($modPendaftaran->ruangan_id);
+                $modInstalasi = InstalasiM::model()->findByPk($modRuangan->instalasi_id);
+                $pasien_id = $modPendaftaran->pasien_id;
+                $modPasien = PasienM::model()->findByPk($pasien_id);
                 $modPasienPulang = new PasienpulangT;
                 $modPasienPulang->pendaftaran_id=$pendaftaran_id;
                 $modPasienPulang->pasien_id=$pasien_id;
@@ -852,6 +856,18 @@ class DaftarPasienController extends MyAuthController
                 $modPasienPulang->ruanganakhir_id=Yii::app()->user->getState('ruangan_id');
                 $modPasienPulang->lamarawat=0;
                 $modPasienPulang->satuanlamarawat='lamarawat';
+               
+                $judul = 'Pasien Rujuk ke Rawat Inap';
+
+                $isi = $modPasien->no_rekam_medik.' - '.$modPasien->nama_pasien
+                        .' - '.$modInstalasi->instalasi_nama.' - '.$modRuangan->ruangan_nama;
+
+
+
+                $ok = CustomFunction::broadcastNotif($judul, $isi, array(
+                    array('instalasi_id'=>Params::INSTALASI_ID_RM, 'ruangan_id'=>Params::RUANGAN_ID_LOKET, 'modul_id'=>Params::MODUL_ID_PENDAFTARAN),
+                )); 
+                
                 if($modPasienPulang->save()){
                     PendaftaranT::model()->updateByPk($pendaftaran_id, array('pasienpulang_id'=>$modPasienPulang->pasienpulang_id,'statusperiksa'=>Params::STATUSPERIKSA_SEDANG_DIRAWATINAP));
                     $data['pesan']='Berhasil';
