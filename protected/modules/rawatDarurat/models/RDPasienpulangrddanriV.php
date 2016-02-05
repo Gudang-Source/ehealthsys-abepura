@@ -145,22 +145,25 @@ class RDPasienpulangrddanriV extends PasienpulangrddanriV
                 // Warning: Please modify the following code to remove attributes that
                 // should not be searched.
                 $criteria=new CDbCriteria;
-                $criteria->compare('LOWER(no_pendaftaran)',strtolower($this->no_pendaftaran),true);
-                $criteria->compare('LOWER(nama_pasien)',strtolower($this->nama_pasien),true);
-                $criteria->compare('LOWER(nama_bin)',strtolower($this->nama_bin),true);
-                $criteria->compare('LOWER(no_rekam_medik)',strtolower($this->no_rekam_medik),true);
-                $criteria->compare('LOWER(keterangan_kamar)',strtolower($this->keterangan_kamar),true);
-                if(($this->ceklis)==true){ 
-                    $criteria->addBetweenCondition('DATE(tglpasienpulang)',$this->tgl_awal,$this->tgl_akhir);
-                }
+                $criteria->compare('LOWER(t.no_pendaftaran)',strtolower($this->no_pendaftaran),true);
+                $criteria->compare('LOWER(t.nama_pasien)',strtolower($this->nama_pasien),true);
+                $criteria->compare('LOWER(t.nama_bin)',strtolower($this->nama_bin),true);
+                $criteria->compare('LOWER(t.no_rekam_medik)',strtolower($this->no_rekam_medik),true);
+                $criteria->compare('LOWER(t.keterangan_kamar)',strtolower($this->keterangan_kamar),true);
+                
+                //if(($this->ceklis)==true){ 
+                    $criteria->addBetweenCondition('DATE(t.tglpasienpulang)',$this->tgl_awal,$this->tgl_akhir);
+                //}
 				if(!empty($this->penjamin_id)){
-					$criteria->addCondition("penjamin_id = ".$this->penjamin_id);				
+					$criteria->addCondition("t.penjamin_id = ".$this->penjamin_id);				
 				}
 				if(!empty($this->carabayar_id)){
-					$criteria->addCondition("carabayar_id = ".$this->carabayar_id);				
+					$criteria->addCondition("t.carabayar_id = ".$this->carabayar_id);				
 				}
 
-				
+                $criteria->join = "left join pendaftaran_t p on p.pendaftaran_id = t.pendaftaran_id";
+                $criteria->compare('p.pegawai_id', $this->pegawai_id);
+                                
                 return new CActiveDataProvider($this, array(
 					'criteria'=>$criteria,
 				));

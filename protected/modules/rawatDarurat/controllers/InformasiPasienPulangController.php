@@ -14,7 +14,8 @@ class InformasiPasienPulangController extends MyAuthController
                 $modPasienYangPulang->attributes=$_GET['RDPasienpulangrddanriV'];
                 $modPasienYangPulang->tgl_awal = $format->formatDateTimeForDb($_GET['RDPasienpulangrddanriV']['tgl_awal']);
                 $modPasienYangPulang->tgl_akhir = $format->formatDateTimeForDb($_GET['RDPasienpulangrddanriV']['tgl_akhir']);
-                $modPasienYangPulang->ceklis = $_REQUEST['RDPasienpulangrddanriV']['ceklis'];
+                // $modPasienYangPulang->ceklis = $_REQUEST['RDPasienpulangrddanriV']['ceklis'];
+                $modPasienYangPulang->pegawai_id = $_REQUEST['RDPasienpulangrddanriV']['pegawai_id'];
             }
 			
 			$this->render('index',array(
