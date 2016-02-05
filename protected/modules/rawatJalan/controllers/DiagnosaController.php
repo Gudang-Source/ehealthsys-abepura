@@ -12,10 +12,10 @@ class DiagnosaController extends MyAuthController
             $modPendaftaran = RJPendaftaranT::model()->with('jeniskasuspenyakit')->findByPk($pendaftaran_id);
             $modPasien = RJPasienM::model()->findByPk($modPendaftaran->pasien_id);
             
-            $modDiagnosa = new RJDiagnosaM('searchDiagnosis');
+            $modDiagnosa = new DiagnosaV('searchDiagnosis');
             $modDiagnosa->unsetAttributes();  // clear any default values
-            if(isset($_GET['RJDiagnosaM']))
-                $modDiagnosa->attributes=$_GET['RJDiagnosaM'];
+            if(isset($_GET['DiagnosaV']))
+                $modDiagnosa->attributes=$_GET['DiagnosaV'];
             
             $modMorbiditas[0] = new RJPasienMorbiditasT;
             $modMorbiditas[0]->pendaftaran_id = $pendaftaran_id;
@@ -26,11 +26,11 @@ class DiagnosaController extends MyAuthController
             $modMorbiditas[0]->jeniskasuspenyakit_id = $modPendaftaran->jeniskasuspenyakit_id;
             $modMorbiditas[0]->pegawai_id = $modPendaftaran->pegawai_id;
             
-            $modKasuspenyakitDiagnosa = new RJKasusPenyakitDiagnosaM('search');
+            $modKasuspenyakitDiagnosa = new KasuspenyakitdiagnosaV('search');
             $modKasuspenyakitDiagnosa->unsetAttributes();  // clear any default values
             $modKasuspenyakitDiagnosa->jeniskasuspenyakit_id = $modPendaftaran->jeniskasuspenyakit_id;
-            if(isset($_GET['RJKasusPenyakitDiagnosaM'])){
-                $modKasuspenyakitDiagnosa->attributes=$_GET['RJKasusPenyakitDiagnosaM'];
+            if(isset($_GET['KasuspenyakitdiagnosaV'])){
+                $modKasuspenyakitDiagnosa->attributes=$_GET['KasuspenyakitdiagnosaV'];
                 $modKasuspenyakitDiagnosa->jeniskasuspenyakit_id = $modPendaftaran->jeniskasuspenyakit_id;
             }
             

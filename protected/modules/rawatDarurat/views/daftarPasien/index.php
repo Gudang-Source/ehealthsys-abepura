@@ -50,15 +50,9 @@
         <table width="100%" class="table-condensed">
             <tr>
                 <td>
-                     <?php echo $form->textFieldRow($model,'no_pendaftaran',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik no.pendaftaran')); ?>
-                     <?php echo $form->textFieldRow($model,'nama_pasien',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik nama pasien')); ?>
-                     <?php echo $form->textFieldRow($model,'nama_bin',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik alias/nama panggilan')); ?>
-                     <?php echo $form->textFieldRow($model,'no_rekam_medik',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik no.rekam medik')); ?>
-                </td>
-                <td>
                     <div class="control-group ">
                         <label for="namaPasien" class="control-label">
-                            <?php echo CHtml::activecheckBox($model, 'ceklis', array('uncheckValue'=>0,'onClick'=>'cekTanggal()','rel'=>'tooltip' ,'data-original-title'=>'Cek untuk pencarian berdasarkan tanggal')); ?>
+                            <?php // echo CHtml::activecheckBox($model, 'ceklis', array('uncheckValue'=>0,'onClick'=>'cekTanggal()','rel'=>'tooltip' ,'data-original-title'=>'Cek untuk pencarian berdasarkan tanggal')); ?>
                             Tanggal Masuk 
                         </label>
                         <div class="controls">
@@ -95,8 +89,52 @@
                             <?php $model->tgl_akhir = $format->formatDateTimeForDb($model->tgl_akhir); ?>
                         </div>
                     </div> 
-                         <?php echo $form->dropDownListRow($model,'statusperiksa', LookupM::getItems('statusperiksa'),array('empty'=>'-- Pilih --')); ?>
+                         <?php 
+                         $item = LookupM::getItems('statusperiksa');
+                         unset($item['BATAL PERIKSA']);
+                         echo $form->dropDownListRow($model,'statusperiksa', $item,array('empty'=>'-- Pilih --')); ?>
 
+                </td>
+                <td>
+                     <?php echo $form->textFieldRow($model,'no_pendaftaran',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik no.pendaftaran')); ?>
+                     <?php echo $form->textFieldRow($model,'nama_pasien',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik nama pasien')); ?>
+                     <?php echo $form->textFieldRow($model,'nama_bin',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik alias/nama panggilan')); ?>
+                     <?php echo $form->textFieldRow($model,'no_rekam_medik',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik no.rekam medik')); ?>
+                </td>
+                <td>
+                    <?php echo $form->dropDownListRow($model, 'pegawai_id', 
+                        CHtml::listData(DokterV::model()->findAllByAttributes(array(
+                            'instalasi_id'=>Params::INSTALASI_ID_RD,
+                        ), array(
+                            'order'=>'nama_pegawai asc'
+                        )), 'pegawai_id', 'namaLengkap'), array('empty'=>'-- Pilih --', 'class'=>'span3')); 
+                    ?>
+                    <?php 
+                    $carabayar = CarabayarM::model()->findAll(array(
+                        'condition'=>'carabayar_aktif = true',
+                        'order'=>'carabayar_nourut',
+                    ));
+                    foreach ($carabayar as $idx=>$item) {
+                        $penjamins = PenjaminpasienM::model()->findByAttributes(array(
+                            'carabayar_id'=>$item->carabayar_id,
+                            'penjamin_aktif'=>true,
+                       ));
+                       if (empty($penjamins)) unset($carabayar[$idx]);
+                    }
+                    $penjamin = PenjaminpasienM::model()->findAll(array(
+                        'condition'=>'penjamin_aktif = true',
+                        'order'=>'penjamin_nama',
+                    ));
+                    echo $form->dropDownListRow($model,'carabayar_id', CHtml::listData($carabayar, 'carabayar_id', 'carabayar_nama'), array(
+                        'empty'=>'-- Pilih --',
+                        'class'=>'span3', 
+                        'ajax' => array('type'=>'POST',
+                            'url'=> $this->createUrl('/actionDynamic/getPenjaminPasien',array('encode'=>false,'namaModel'=>get_class($model))), 
+                            'success'=>'function(data){$("#'.CHtml::activeId($model, "penjamin_id").'").html(data); }',
+                        ),
+                     ));
+                    echo $form->dropDownListRow($model,'penjamin_id', CHtml::listData($penjamin, 'penjamin_id', 'penjamin_nama'), array('empty'=>'-- Pilih --', 'class'=>'span3'));
+                    ?>
                 </td>
             </tr>
         </table>
@@ -538,8 +576,8 @@ function addPasienPulang(pendaftaran_id,pasien_id)
     
 </script>
 <script type="text/javascript">
-document.getElementById('RDInfoKunjunganRDV_tgl_awal_date').setAttribute("style","display:none;");
-document.getElementById('RDInfoKunjunganRDV_tgl_akhir_date').setAttribute("style","display:none;");
+// document.getElementById('RDInfoKunjunganRDV_tgl_awal_date').setAttribute("style","display:none;");
+// document.getElementById('RDInfoKunjunganRDV_tgl_akhir_date').setAttribute("style","display:none;");
 function cekTanggal(){
 
     var checklist = $('#RDInfoKunjunganRDV_ceklis');

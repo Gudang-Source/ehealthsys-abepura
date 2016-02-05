@@ -95,6 +95,7 @@ class PasienpulangrddanriV extends CActiveRecord
         public $tgl_akhir;
         public $keterangan_kamar;
         public $ceklis=false;
+        public $pegawai_id;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -237,6 +238,7 @@ class PasienpulangrddanriV extends CActiveRecord
 			'pengobatan_ruj' => 'Pengobatan Ruj',
 			'lainlain_ruj' => 'Lain-lain Ruj',
 			'catatandokterperujuk' => 'Catatan Dokter Perujuk',
+                        'pegawai_id' => 'Dokter,'
 		);
 	}
 
