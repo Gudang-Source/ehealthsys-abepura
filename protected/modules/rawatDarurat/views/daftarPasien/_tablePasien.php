@@ -117,7 +117,7 @@
                     array(
                        'header'=>'Tindak Lanjut',
                        'type'=>'raw',
-						'value'=>'(($data->pasienpulang_id != 0) OR ($data->carakeluar != "")) ? $data->carakeluar : CHtml::link("<icon class=\'icon-form-ubah\'></icon>", Yii::app()->createUrl("/rawatDarurat/daftarPasien/PasienPulang", array("pendaftaran_id"=>$data->pendaftaran_id,"dialog"=>true)), array("target"=>"iframePasienPulang", "onclick"=>"$(\'#dialogPasienPulang\').dialog(\'open\');","rel"=>"tooltip", "title"=>"Klik untuk menambahkan tindak lanjut"))','htmlOptions'=>array('style'=>'text-align: center; width:40px')
+						'value'=>'(($data->pasienpulang_id != 0) OR ($data->carakeluar != "")) ? $data->carakeluar : CHtml::link("<icon class=\'icon-form-ri\'></icon>", Yii::app()->createUrl("/rawatDarurat/daftarPasien/PasienPulang", array("pendaftaran_id"=>$data->pendaftaran_id,"dialog"=>true)), array("target"=>"iframePasienPulang", "onclick"=>"$(\'#dialogPasienPulang\').dialog(\'open\');","rel"=>"tooltip", "title"=>"Klik untuk menambahkan tindak lanjut"))','htmlOptions'=>array('style'=>'text-align: center; width:40px')
                     ), /*
 					array(
 						'header'=>'Tindak Lanjut<br/>ke Rawat Inap',

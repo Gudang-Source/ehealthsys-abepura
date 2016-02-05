@@ -215,6 +215,7 @@ class DaftarPasienController extends MyAuthController {
                         PendaftaranT::model()->updateByPk($modelPulang->pendaftaran_id, array('tglselesaiperiksa' => date('Y-m-d H:i:s'), 'statusperiksa' => 'SUDAH PULANG'));
                     } else {
                         PendaftaranT::model()->updateByPk($modelPulang->pendaftaran_id, array('tglselesaiperiksa' => date('Y-m-d H:i:s'), 'statusperiksa' => Params::STATUSPERIKSA_SEDANG_DIRAWATINAP));
+                        $this->notifPasienRujukKeRawatInap($modPendaftaran);
                     }
                     
                     // SMS GATEWAY
@@ -223,36 +224,38 @@ class DaftarPasienController extends MyAuthController {
                     $modCaraKeluar = $modelPulang->carakeluar;
                     $modKondisiKeluar = $modelPulang->kondisikeluar;
                     foreach ($modSmsgateway as $i => $smsgateway) {
-                        $isiPesan = $smsgateway->templatesms;
+                        if(isset($_POST['tujuansms']) && in_array($smsgateway->tujuansms, $_POST['tujuansms'])) {
+                            $isiPesan = $smsgateway->templatesms;
 
-                        $attributes = $modPasien->getAttributes();
-                        foreach ($attributes as $attributes => $value) {
-                            $isiPesan = str_replace("{{" . $attributes . "}}", $value, $isiPesan);
-                        }
-                        $attributes = $modelPulang->getAttributes();
-                        foreach ($attributes as $attributes => $value) {
-                            $isiPesan = str_replace("{{" . $attributes . "}}", $value, $isiPesan);
-                        }
-                        $attributes = $modKondisiKeluar->getAttributes();
-                        foreach ($attributes as $attributes => $value) {
-                            $isiPesan = str_replace("{{" . $attributes . "}}", $value, $isiPesan);
-                        }
-                        $attributes = $modCaraKeluar->getAttributes();
-                        foreach ($attributes as $attributes => $value) {
-                            $isiPesan = str_replace("{{" . $attributes . "}}", $value, $isiPesan);
-                        }
-                        $isiPesan = str_replace("{{hari}}", MyFormatter::getDayName($modelPulang->tglpasienpulang), $isiPesan);
+                            $attributes = $modPasien->getAttributes();
+                            foreach ($attributes as $attributes => $value) {
+                                $isiPesan = str_replace("{{" . $attributes . "}}", $value, $isiPesan);
+                            }
+                            $attributes = $modelPulang->getAttributes();
+                            foreach ($attributes as $attributes => $value) {
+                                $isiPesan = str_replace("{{" . $attributes . "}}", $value, $isiPesan);
+                            }
+                            $attributes = $modKondisiKeluar->getAttributes();
+                            foreach ($attributes as $attributes => $value) {
+                                $isiPesan = str_replace("{{" . $attributes . "}}", $value, $isiPesan);
+                            }
+                            $attributes = $modCaraKeluar->getAttributes();
+                            foreach ($attributes as $attributes => $value) {
+                                $isiPesan = str_replace("{{" . $attributes . "}}", $value, $isiPesan);
+                            }
+                            $isiPesan = str_replace("{{hari}}", MyFormatter::getDayName($modelPulang->tglpasienpulang), $isiPesan);
 
-                        if ($smsgateway->tujuansms == Params::TUJUANSMS_PASIEN && $smsgateway->statussms) {
-                            if (!empty($modPasien->no_mobile_pasien)) {
-                                $sms->kirim($modPasien->no_mobile_pasien, $isiPesan);
-                            } else {
-                                $smspasien = 0;
+                            if ($smsgateway->tujuansms == Params::TUJUANSMS_PASIEN && $smsgateway->statussms) {
+                                if (!empty($modPasien->no_mobile_pasien)) {
+                                    $sms->kirim($modPasien->no_mobile_pasien, $isiPesan);
+                                } else {
+                                    $smspasien = 0;
+                                }
                             }
                         }
                     }
                     // END SMS GATEWAY
-
+                   // die; 
                     $transaction->commit();
                     Yii::app()->user->setFlash('success', 'Data berhasil disimpan !');
                     if ($dialog) {
@@ -276,6 +279,22 @@ class DaftarPasienController extends MyAuthController {
         ));
     }
 
+    protected function notifPasienRujukKeRawatInap($modPendaftaran) {
+        $modRuangan = RuanganM::model()->findByPk($modPendaftaran->ruangan_id);
+        $modInstalasi = InstalasiM::model()->findByPk($modRuangan->instalasi_id);
+        $pasien_id = $modPendaftaran->pasien_id;
+        $modPasien = PasienM::model()->findByPk($pasien_id);
+        
+        $judul = 'Pasien Rujuk ke Rawat Inap';
+
+        $isi = $modPasien->no_rekam_medik.' - '.$modPasien->nama_pasien
+                .' - '.$modInstalasi->instalasi_nama.' - '.$modRuangan->ruangan_nama;
+        
+        $ok = CustomFunction::broadcastNotif($judul, $isi, array(
+            array('instalasi_id'=>Params::INSTALASI_ID_RM, 'ruangan_id'=>Params::RUANGAN_ID_LOKET, 'modul_id'=>Params::MODUL_ID_PENDAFTARAN),
+        )); 
+    }
+    
     protected function savePasienPulang($modPasienPulang, $attrPasienPulang, $pasienadmisi_id = '') {
         $modelPulangNew = new RDPasienPulangT;
         $modelPulangNew->attributes = $attrPasienPulang;
