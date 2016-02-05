@@ -25,6 +25,7 @@ class RinciantagihanpasienVController extends MyAuthController
                     $format = new MyFormatter();
                     $model->tgl_awal  = $format->formatDateTimeForDb($_REQUEST['RJInfokunjunganrjV']['tgl_awal']);
                     $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['RJInfokunjunganrjV']['tgl_akhir']);
+                    $model->pegawai_id = $_GET['RJInfokunjunganrjV']['pegawai_id'];
                     $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
                 }
 

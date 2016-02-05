@@ -15,17 +15,9 @@ $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
     <table width="100%" class="table-condensed">
         <tr>
             <td>
-                 <?php echo $form->textFieldRow($modPasienYangPulang,'no_pendaftaran',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik no.pendaftaran')); ?>
-                 <?php echo $form->textFieldRow($modPasienYangPulang,'nama_pasien',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik nama pasien')); ?>
-                 <?php echo $form->textFieldRow($modPasienYangPulang,'nama_bin',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik nama bin')); ?>
-                 <?php echo $form->textFieldRow($modPasienYangPulang,'no_rekam_medik',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik no.rekam medik')); ?>
-                 <?php echo $form->textFieldRow($modPasienYangPulang,'keterangan_kamar',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik keterangan kamar.')); ?>
-                 
-            </td>
-            <td>
                 <div class="control-group ">
                     <label for="namaPasien" class="control-label">
-                        <?php echo CHtml::activecheckBox($modPasienYangPulang, 'ceklis',array('onClick'=>'cekTanggal()','rel'=>'tooltip' ,'data-original-title'=>'Cek untuk pencarian berdasarkan tanggal')); ?>
+                        <?php //echo CHtml::activecheckBox($modPasienYangPulang, 'ceklis',array('onClick'=>'cekTanggal()','rel'=>'tooltip' ,'data-original-title'=>'Cek untuk pencarian berdasarkan tanggal')); ?>
                         Tanggal Pulang 
                     </label>
                     <div class="controls">
@@ -66,6 +58,20 @@ $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
                         )); ?>
 
                  <?php echo $form->dropDownListRow($modPasienYangPulang,'penjamin_id', CHtml::listData($modPasienYangPulang->getPenjaminItems($modPasienYangPulang->carabayar_id), 'penjamin_id', 'penjamin_nama') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",)); ?>
+                <?php echo $form->dropDownListRow($modPasienYangPulang, 'pegawai_id', 
+                        CHtml::listData(DokterV::model()->findAllByAttributes(array(
+                            'instalasi_id'=>Params::INSTALASI_ID_RD,
+                        ), array(
+                            'order'=>'nama_pegawai asc'
+                        )), 'pegawai_id', 'namaLengkap'), array('empty'=>'-- Pilih --')); ?>
+            </td>
+            <td>
+                 <?php echo $form->textFieldRow($modPasienYangPulang,'no_pendaftaran',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik no.pendaftaran')); ?>
+                 <?php echo $form->textFieldRow($modPasienYangPulang,'nama_pasien',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik nama pasien')); ?>
+                 <?php echo $form->textFieldRow($modPasienYangPulang,'nama_bin',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik nama bin')); ?>
+                 <?php echo $form->textFieldRow($modPasienYangPulang,'no_rekam_medik',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik no.rekam medik')); ?>
+                 <?php //echo $form->textFieldRow($modPasienYangPulang,'keterangan_kamar',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik keterangan kamar.')); ?>
+                 
             </td>
         </tr>
     </table>

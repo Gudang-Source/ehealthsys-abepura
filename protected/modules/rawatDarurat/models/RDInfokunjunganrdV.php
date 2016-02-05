@@ -502,6 +502,7 @@ class RDInfokunjunganrdV extends InfokunjunganrdV {
         $criteria->compare('LOWER(t.no_rekam_medik)', strtolower($this->no_rekam_medik), true);
         $criteria->compare('LOWER(t.nama_pasien)', strtolower($this->nama_pasien), true);
         $criteria->compare('LOWER(t.statusperiksa)', strtolower($this->statusperiksa), true);
+        $criteria->compare('t.pegawai_id', $this->pegawai_id);
         $criteria->addCondition('t.ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
         $criteria->order = 't.tgl_pendaftaran DESC';
         if ($this->statusBayar == 'LUNAS'){

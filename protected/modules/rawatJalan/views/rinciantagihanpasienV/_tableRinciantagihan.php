@@ -1,4 +1,5 @@
-<?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
+<?php 
+$this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'rjrinciantagihanpasien-v-grid',
 	'dataProvider'=>$model->searchDaftarPasienRincian(),
 //	'filter'=>$model,
@@ -22,14 +23,20 @@
                     'value'=>'$data->namadepan.$data->nama_pasien',
                 ),
 //                'nama_pegawai',
+                'jeniskasuspenyakit_nama',
                 array(
                     'header'=>'Dokter',
                     'type'=>'raw',
-                    'value'=>'$data->gelardepan.$data->nama_pegawai.", ".$data->gelarbelakang_nama',
+                    'value'=>function($data) use (&$p) {
+                        $p = PendaftaranT::model()->findByPk($data->pendaftaran_id);
+                        return $p->pegawai->namaLengkap;
+                    } // '$data->gelardepan.$data->nama_pegawai.", ".$data->gelarbelakang_nama',
                 ),
-                'jeniskasuspenyakit_nama',
                 array(
-                    'name'=>'statusperiksa',
+                    'header'=>'Status Periksa',
+                    'value'=>function($data) use (&$p) {
+                        return $p->statusperiksa;
+                    }
                 ),
                 array(
                     'header'=>'Cara Bayar<br/>Penjamin',

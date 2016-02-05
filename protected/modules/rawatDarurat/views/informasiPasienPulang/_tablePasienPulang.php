@@ -10,42 +10,55 @@
                     'value'=>'$data->tglpasienpulang',
                 ),
                 array(
+                    'header'=>'Tgl. Pendaftaran/ <BR> No. Pendaftaran',
+                    'type'=>'raw',
+                    'value'=>'$data->tgl_pendaftaran."/<br/>".$data->no_pendaftaran',
+                ),
+                array(
+                    'header'=>'No. Rekam Medik',
+                    'type'=>'raw',
+                    'value'=>'$data->no_rekam_medik'
+                ),  
+                array(
+                    'header'=>'Nama Pasien',
+                    'type'=>'raw',
+                    'value'=>'$data->namadepan.$data->nama_pasien'
+                ),
+                array(
+                    'header'=>'Jenis Kasus Penyakit',
+                    'value'=>'$data->jeniskasuspenyakit_nama',
+                ), 
+                array(
+                    'header'=>'Cara Bayar/ Penjamin',
+                    'type'=>'raw',
+                    'value'=>'$data->CaraBayardanPenjamin'
+                ),
+                array(
+                    'header'=>'Dokter',
+                    'type'=>'raw',
+                    'value'=>function($data) {
+                        $p = PendaftaranT::model()->findByPk($data->pendaftaran_id);
+                        return $p->pegawai->namaLengkap;
+                    },
+                ),
+                array(
                     'header'=>'Cara/ Kondisi Pulang',
-			'type'=>'raw',
+                    'type'=>'raw',
                     'value'=>'$data->CaradanKondisiPulang'
 		),
-               
-                array(
-                    'header'=>'Tgl. Pendaftaran',
-                    'value'=>'$data->tgl_pendaftaran',
-	),
+                
 //                'tgladmisi',
-                array(
-                    'header'=>'No. Rekam Medik / <BR> No. Pendaftaran',
-                    'type'=>'raw',
-                    'value'=>'$data->NoRMdanNoPendaftaran'
-                ),
-            
-                array(
-                    'header'=>'Nama / Alias',
-                    'type'=>'raw',
-                    'value'=>'$data->NamadanNamaBIN'
-                ),    
+                
 //                'umur',
-//                 array(
-//                       'header'=>'Cara Bayar/ Penjamin',
-//                        'type'=>'raw',
-//                        'value'=>'$data->CaraBayardanPenjamin'
-//                    ),
+//                
+                /*
                 array(
                     'header'=>'Kelas Pelayanan',
                     'type'=>'raw',
                     'value'=>'$data->KelasPelayanan'
-                ),   
-                array(
-                    'header'=>'Nama Jenis Kasus Penyakit',
-                    'value'=>'$data->jeniskasuspenyakit_nama',
                 ),
+                 * 
+                 */ 
 //                'jeniskasuspenyakit_nama',
 
 //                array(
