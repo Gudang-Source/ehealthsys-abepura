@@ -494,7 +494,7 @@ class PenjualanResepRSController extends MyAuthController
         $modStokOaNew = new StokobatalkesT;
         $modStokOaNew->attributes = $oa->attributes;
         $modStokOaNew->attributes = $modObatAlkesPasien->attributes; //duplicate
-        $modStokOaNew->unsetIdTransaksi();
+        //$modStokOaNew->unsetIdTransaksi();
         $modStokOaNew->qtystok_in = 0;
         $modStokOaNew->qtystok_out = ceil($modObatAlkesPasien->qty_oa); // LNG Ceil (Pembulatan keatas request pak tito)
         $modStokOaNew->obatalkespasien_id = $modObatAlkesPasien->obatalkespasien_id;
