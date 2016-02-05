@@ -14,10 +14,10 @@ class RinciantagihanpasienVRDController extends RinciantagihanpasienVController 
                 $model->statusBayar = $_GET['RDInfokunjunganrdV']['statusBayar'];                
                 $model->tgl_awal  = $format->formatDateTimeForDb($_GET['RDInfokunjunganrdV']['tgl_awal']);
                 $model->tgl_akhir = $format->formatDateTimeForDb($_GET['RDInfokunjunganrdV']['tgl_akhir']);
+                $model->pegawai_id = $_GET['RDInfokunjunganrdV']['pegawai_id'];
                 $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
             }
 
-            
         if (Yii::app()->request->isAjaxRequest) {
                     echo $this->renderPartial('rawatJalan.views.rinciantagihanpasienV._tableRinciantagihan', array('model'=>$model));
                 }else{

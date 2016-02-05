@@ -605,6 +605,7 @@ class RJInfokunjunganrjV extends InfokunjunganrjV {
         $criteria->compare('LOWER(t.statusperiksa)', strtolower($this->statusperiksa), true);
         $criteria->compare('t.carabayar_id', $this->carabayar_id);
         $criteria->compare('t.penjamin_id', $this->penjamin_id);
+        $criteria->compare('t.pegawai_id', $this->pegawai_id);
         $criteria->addCondition('t.ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
         $criteria->order = 't.tgl_pendaftaran ASC';
         if ($this->statusBayar == 'LUNAS'){            
