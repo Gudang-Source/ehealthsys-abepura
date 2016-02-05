@@ -9,31 +9,58 @@
                 'itemsCssClass'=>'table table-striped table-condensed',
 	'columns'=>array(
                     array(
+                        'header'=>'Tgl. Pendaftaran/<br/>No. Pendaftaran',
                        'name'=>'tgl_pendaftaran',
                         'type'=>'raw',
-                        'value'=>'$data->tgl_pendaftaran'
+                        'value'=>'$data->tgl_pendaftaran."/<br/>".$data->no_pendaftaran'
                     ),
 //                    array(
 //                        'header'=>'Instalasi / Poliklinik',
 //                        'value'=>'$data->insatalasiRuangan'
 //                    ),
                     array(
-                       'name'=>'no_pendaftaran',
-                        'type'=>'raw',
-                        'value'=>'$data->no_pendaftaran',
-                    ),
-                    array(
                        'name'=>'no_rekam_medik',
                         'type'=>'raw',
                         'value'=>'$data->no_rekam_medik',
                     ),
                     array(
-                        'header'=>'Nama Pasien / Bin',
-                        'value'=>'$data->namaNamaBin'
+                        'header'=>'Nama Pasien',
+                        'value'=>'$data->namadepan.$data->nama_pasien'
+                    ),
+                    array(
+                        'header'=>'Jenis Kelamin/<br/>Umur',
+                        'type'=>'raw',
+                        'value'=>'$data->jeniskelamin."/<br/>".$data->umur',
+                    ),
+                    array(
+                       'name'=>'alamat_pasien',
+                        'type'=>'raw',
+                        'value'=>'$data->alamat_pasien',
+                    ),
+                    array(
+                        'header'=>'Kasus Penyakit',
+                        'type'=>'raw',
+//                        'value'=>'"$data->jeniskasuspenyakit_nama"."<br/>"."$data->kelaspelayanan_nama"',
+						'value'=>'CHtml::hiddenField("RDInfoKunjunganRDV[$data->pendaftaran_id][pendaftaran_id]", $data->pendaftaran_id, array("id"=>"pendaftaran_id","onkeypress"=>"return $(this).focusNextInputField(event)","class"=>"span3"))."".CHtml::link("<i class=icon-form-ubah></i> ".$data->jeniskasuspenyakit_nama,"javascript:void(0)",array("onclick"=>"ubahKasusPenyakit(this,$data->pendaftaran_id,$data->jeniskasuspenyakit_id);return false;","class"=>"kasus_penyakit","rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik Untuk Mengubah Data Kasus Penyakit"))',
+						'htmlOptions'=>array(
+							'style'=>'text-align: center',
+							'class'=>'list_kasus_penyakit'
+						)
+                    ),
+                    array(
+                       'name'=>'Rujukan',
+                        'type'=>'raw',
+                        'value'=>'(!empty($data->asalrujukan_nama))? $data->asalrujukan_nama : "-"',
                     ),
                     array(
                         'header'=>'Cara Bayar / Penjamin',
                         'value'=>'$data->caraBayarPenjamin',
+                    ),
+                    array(
+                        'header'=>'Status Periksa',
+                        'type'=>'raw',
+//                        'value'=>'$data->statusperiksa.CHtml::link("<i class=icon-pencil></i>","",array("href"=>"","rel"=>"tooltip","title"=>"Klik Untuk Mengubah Status Periksa","onclick"=>"{buatSessionUbahStatus($data->pendaftaran_id); ubahStatusPeriksa(); $(\'#dialogUbahStatus\').dialog(\'open\');}return false;"))',
+                        'value'=>'$data->getStatus($data->statusperiksa,$data->pendaftaran_id)',
                     ),
                     // array(
                     //    'name'=>'Dokter',
@@ -44,7 +71,7 @@
                         'name'=>'Dokter',
                         'type'=>'raw',
                         'value'=>'"<div style=\'width:100px;\'>" . CHtml::link("<i class=icon-pencil-brown></i> ". $data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama," ",array("onclick"=>"ubahDokterPeriksa(\'$data->pendaftaran_id\');$(\'#editDokterPeriksa\').dialog(\'open\');return false;", "rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik Untuk Mengubah Data Dokter Periksa")) . "</div>"',
-                    ),
+                    ), /*
                     array(
                        'name'=>'Transportasi',
                         'type'=>'raw',
@@ -55,42 +82,18 @@
                         'type'=>'raw',
                         'value'=>'(!empty($data->caramasuk_nama))? $data->caramasuk_nama : "-"',
                     ),
-                    array(
-                       'name'=>'Rujukan',
-                        'type'=>'raw',
-                        'value'=>'(!empty($data->asalrujukan_nama))? $data->asalrujukan_nama : "-"',
-                    ),
+                     * 
+                     */
 //                    array(
 //                       'name'=>'kelaspelayanan_nama',
 //                        'type'=>'raw',
 //                        'value'=>'$data->kelaspelayanan_nama',
 //                    ),
-                    array(
-                        'header'=>'Kasus Penyakit / <br> Kelas Pelayanan',
-                        'type'=>'raw',
-//                        'value'=>'"$data->jeniskasuspenyakit_nama"."<br/>"."$data->kelaspelayanan_nama"',
-						'value'=>'CHtml::hiddenField("RDInfoKunjunganRDV[$data->pendaftaran_id][pendaftaran_id]", $data->pendaftaran_id, array("id"=>"pendaftaran_id","onkeypress"=>"return $(this).focusNextInputField(event)","class"=>"span3"))."".CHtml::link("<i class=icon-form-ubah></i> ".$data->jeniskasuspenyakit_nama,"javascript:void(0)",array("onclick"=>"ubahKasusPenyakit(this,$data->pendaftaran_id,$data->jeniskasuspenyakit_id);return false;","class"=>"kasus_penyakit","rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik Untuk Mengubah Data Kasus Penyakit"))."<br/>"."$data->kelaspelayanan_nama"',
-						'htmlOptions'=>array(
-							'style'=>'text-align: center',
-							'class'=>'list_kasus_penyakit'
-						)
-                    ),
                    // array(
                    //    'name'=>'pembayaranpelayanan_id',
                    //     'type'=>'raw',
                    //     'value'=>'$data->pembayaranpelayanan_id',
                    // ),
-                    array(
-                       'name'=>'alamat_pasien',
-                        'type'=>'raw',
-                        'value'=>'$data->alamat_pasien',
-                    ),
-                    array(
-                        'header'=>'Status Periksa',
-                        'type'=>'raw',
-//                        'value'=>'$data->statusperiksa.CHtml::link("<i class=icon-pencil></i>","",array("href"=>"","rel"=>"tooltip","title"=>"Klik Untuk Mengubah Status Periksa","onclick"=>"{buatSessionUbahStatus($data->pendaftaran_id); ubahStatusPeriksa(); $(\'#dialogUbahStatus\').dialog(\'open\');}return false;"))',
-                        'value'=>'$data->getStatus($data->statusperiksa,$data->pendaftaran_id)',
-                    ),
                     array(
                         'name'=>'Pemeriksaan Pasien',
                         'type'=>'raw',

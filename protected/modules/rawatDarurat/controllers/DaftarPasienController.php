@@ -62,12 +62,12 @@ class DaftarPasienController extends MyAuthController {
         $model = new RDInfoKunjunganRDV;
         $model->tgl_awal = date('Y-m-d');
         $model->tgl_akhir = date('Y-m-d');
-        $model->ceklis = false;
+        $model->ceklis = true;
         if (isset($_REQUEST['RDInfoKunjunganRDV'])) {
             $model->attributes = $_REQUEST['RDInfoKunjunganRDV'];
             $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['RDInfoKunjunganRDV']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['RDInfoKunjunganRDV']['tgl_akhir']);
-            $model->ceklis = $_REQUEST['RDInfoKunjunganRDV']['ceklis'];
+            //$model->ceklis = $_REQUEST['RDInfoKunjunganRDV']['ceklis'];
         }
         if (Yii::app()->request->isAjaxRequest) {
             echo $this->renderPartial('_tablePasien', array('model' => $model));
