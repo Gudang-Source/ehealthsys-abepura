@@ -18,7 +18,7 @@ class RadiologiTRIController extends MyAuthController
             $modKirimKeUnitLain->pegawai_id = $modPendaftaran->pegawai_id;
 			$modKirimKeUnitLain->kelaspelayanan_id = $modAdmisi->kelaspelayanan_id; //RND-8117
 			$modKirimKeUnitLain->isbayarkekasirpenunjang = Yii::app()->user->getState('isbayarkekasirpenunjang');
-            $modPeriksaRad = RIPemeriksaanRadM::model()->findAllByAttributes(array('pemeriksaanrad_aktif'=>true),array('order'=>'jenispemeriksaanrad_id, pemeriksaanrad_urutan ASC'));
+            $modPeriksaRad = RIPemeriksaanRadM::model()->with('jenispemeriksaanrad')->findAllByAttributes(array('pemeriksaanrad_aktif'=>true),array('order'=>'jenispemeriksaanrad.jenispemeriksaanrad_urutan, pemeriksaanrad_urutan ASC'));
             
             $modJenisTarif = JenistarifpenjaminM::model()->find('penjamin_id ='.$modAdmisi->penjamin_id);
 
