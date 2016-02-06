@@ -1,6 +1,7 @@
 <?php $this->widget('bootstrap.widgets.BootAlert'); ?>
 <?php
 if(!empty($modPasien)){
+    $modPasien->nama_pasien = $modPasien->namadepan.$modPasien->nama_pasien;
 ?>
 <fieldset class="box">
     <legend class="rim">Data Pasien</legend>
@@ -32,8 +33,11 @@ if(!empty($modPasien)){
             <td><?php echo CHtml::activeLabel($modPendaftaran, 'umur',array('class'=>'control-label')); ?></td>
             <td><?php echo CHtml::activeTextField($modPendaftaran, 'umur', array('readonly'=>true)); ?></td>
             
-            <td><?php echo CHtml::activeLabel($modPasien, 'nama_bin',array('class'=>'control-label')); ?></td>
-            <td><?php echo CHtml::activeTextField($modPasien, 'nama_bin', array('readonly'=>true)); ?></td>
+            <td hidden><?php echo CHtml::activeLabel($modPasien, 'nama_bin',array('class'=>'control-label')); ?></td>
+            <td hidden><?php echo CHtml::activeTextField($modPasien, 'nama_bin', array('readonly'=>true)); ?></td>
+            
+            <td><?php echo CHtml::activeLabel($modPasien, 'jeniskelamin',array('class'=>'control-label')); ?></td>
+            <td><?php echo CHtml::activeTextField($modPasien, 'jeniskelamin', array('readonly'=>true)); ?></td>
         </tr>
         <tr>
             <td><?php echo CHtml::activeLabel($modPendaftaran, 'jeniskasuspenyakit_id',array('class'=>'control-label')); ?></td>
@@ -43,30 +47,30 @@ if(!empty($modPasien)){
                 <?php echo CHtml::activeHiddenField($modPendaftaran, 'carabayar_id', array('readonly'=>true)); ?>
             </td>
             
-            <td><?php echo CHtml::activeLabel($modPasien, 'jeniskelamin',array('class'=>'control-label')); ?></td>
-            <td><?php echo CHtml::activeTextField($modPasien, 'jeniskelamin', array('readonly'=>true)); ?></td>
-        </tr>
-        <tr>
-            <td><?php echo CHtml::activeLabel($modPendaftaran->pegawai, 'dokter_pemeriksa', array('class'=>'control-label')); ?></td>
-            <td><?php echo CHtml::activeTextField($modPendaftaran->pegawai, 'nama_pegawai', array('readonly'=>true)); ?></td>
-
             <td><?php echo CHtml::Label('No. Kamar / No. Bed',(isset($modAdmisi->kamarruangan_id) ? $modAdmisi->kamarruangan->kamarruangan_nokamar : ""), array('class'=>'control-label')); ?></td>
             <td class="span3">
                 <?php if(isset($modAdmisi->kamarruangan_id)){ ?>
-                <?php echo CHtml::activeTextField($modAdmisi->kamarruangan, 'kamarruangan_nokamar', array('readonly'=>true, 'style'=>'width:40%')); ?> /
-                <?php echo CHtml::activeTextField($modAdmisi->kamarruangan, 'kamarruangan_nobed', array('readonly'=>true, 'style'=>'width:40%')); ?>
+                <?php echo CHtml::activeTextField($modAdmisi->kamarruangan, 'kamarruangan_nokamar', array('readonly'=>true, 'style'=>'width:70%')); ?> /
+                <?php echo CHtml::activeTextField($modAdmisi->kamarruangan, 'kamarruangan_nobed', array('readonly'=>true, 'style'=>'width:20%')); ?>
                 <?php }else{ ?>
-                <?php echo CHtml::TextField('kamarruangan_nokamar', '', array('readonly'=>true, 'style'=>'width:40%')); ?> /
-                <?php echo CHtml::TextField('kamarruangan_nobed', '', array('readonly'=>true, 'style'=>'width:40%')); ?>
+                <?php echo CHtml::TextField('kamarruangan_nokamar', '', array('readonly'=>true, 'style'=>'width:70%')); ?> /
+                <?php echo CHtml::TextField('kamarruangan_nobed', '', array('readonly'=>true, 'style'=>'width:20%')); ?>
                 <?php } ?>
             </td>
         </tr>
         <tr>
-            <td></td>
-            <td></td>
+            <td><?php echo CHtml::activeLabel($modPendaftaran->pegawai, 'dokter_pemeriksa', array('class'=>'control-label')); ?></td>
+            <td><?php echo CHtml::activeTextField($modPendaftaran->pegawai, 'namaLengkap', array('readonly'=>true)); ?></td>
 
             <td><?php echo CHtml::activeLabel($modAdmisi->kelaspelayanan, 'kelaspelayanan_nama', array('class'=>'control-label')); ?></td>
             <td><?php echo CHtml::activeTextField($modAdmisi->kelaspelayanan, 'kelaspelayanan_nama', array('readonly'=>true)); ?></td>
+        </tr>
+        <tr>
+            <td><?php echo CHtml::activeLabel($modPendaftaran->carabayar, 'cara bayar ', array('class'=>'control-label')); ?></td>
+            <td><?php echo CHtml::activeTextField($modPendaftaran->carabayar, 'carabayar_nama', array('readonly'=>true)); ?></td>
+
+            <td><?php echo CHtml::activeLabel($modAdmisi->penjamin, 'penjamin', array('class'=>'control-label')); ?></td>
+            <td><?php echo CHtml::activeTextField($modAdmisi->penjamin, 'penjamin_nama', array('readonly'=>true)); ?></td>
         </tr>
     </table>
 </fieldset>
