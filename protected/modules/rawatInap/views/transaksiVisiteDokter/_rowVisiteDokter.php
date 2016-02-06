@@ -14,10 +14,13 @@ foreach ($modInformasiVisite as $i=>$detail):
         <?php echo (!empty($detail->tglAdmisiMasukKamar) ? $detail->tglAdmisiMasukKamar : "") ?>
     </td>
     <td>
-        <?php echo (!empty($detail->noRmNoPend) ? $detail->noRmNoPend : "") ?>
+        <?php echo (!empty($detail->no_pendaftaran) ? MyFormatter::formatDateTimeForUser($detail->tgl_pendaftaran)."/<br/>".$detail->no_pendaftaran : "") ?>
     </td>
     <td>
-        <?php echo (!empty($detail->namaPasienNamaBin) ? $detail->namaPasienNamaBin : "") ?>
+        <?php echo (!empty($detail->no_rekam_medik) ? $detail->no_rekam_medik : "") ?>
+    </td>
+    <td>
+        <?php echo (!empty($detail->nama_pasien) ? $detail->namadepan.$detail->nama_pasien : "") ?>
     </td>
     <td>
         <?php echo (!empty($detail->jeniskelamin) ? $detail->jeniskelamin : "") ?>
@@ -26,6 +29,7 @@ foreach ($modInformasiVisite as $i=>$detail):
         <?php echo (!empty($detail->caraBayarPenjamin) ? $detail->caraBayarPenjamin : "") ?>
     </td>
 	<td>
+        <?php echo (!empty($detail->kamarruangan_id)) ? $detail->kamarruangan_nokamar."/".$detail->kamarruangan_nobed : ""; ?>
         <?php echo (!empty($detail->kelaspelayanan_nama) ? $detail->kelaspelayanan_nama : "") ?>
     </td>
 	<td>
