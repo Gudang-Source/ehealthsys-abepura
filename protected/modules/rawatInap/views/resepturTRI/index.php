@@ -42,9 +42,9 @@ $this->widget('bootstrap.widgets.BootAlert');
                 <th>R ke</th>
                 <th>Kode / Nama Obat</th>
                 <th>Sumber Dana</th>
-                <th>Satuan Kecil</th>
+                <!--th>Satuan Kecil</th-->
                 <th>Jumlah</th>
-                <th>Stok</th>
+                <!--th>Stok</th-->
                 <th>Estimasi Harga</th>
                 <!--<th>Discount (%)</th>-->
                 <th>Sub Total</th>
@@ -57,7 +57,7 @@ $this->widget('bootstrap.widgets.BootAlert');
 		<tbody></tbody>
 		<tfoot>
 			<tr>
-				<td colspan="7" style="text-align: right;"><b>Total Estimasi Harga</b></td>
+				<td colspan="6" style="text-align: right;"><b>Total Estimasi Harga</b></td>
 				<td><input type="text" readonly name="totalHargaReseptur" id="totalHargaReseptur" class="inputFormTabel lebar2 integer" /></td>
 				<td colspan="3"></td>
 			</tr>
