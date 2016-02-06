@@ -266,28 +266,28 @@ class TransaksiVisiteDokterController extends MyAuthController
     public function actionLoadFormVisiteDokter()
     {
         if(Yii::app()->request->isAjaxRequest) { 
-			$pesan = '';
-            
-			$pegawai_id	= $_POST['pegawai_id'];
-			$ruangan = Yii::app()->user->getState('ruangan_id');
-			$kelaspelayananruangan = Yii::app()->user->getState('kelaspelayananruangan');
+            $pesan = '';
+
+            $pegawai_id	= $_POST['pegawai_id'];
+            $ruangan = Yii::app()->user->getState('ruangan_id');
+            $kelaspelayananruangan = Yii::app()->user->getState('kelaspelayananruangan');
 
             $modTindakans = new RITindakanPelayananT;
-			$criteria=new CDbCriteria;
+            $criteria=new CDbCriteria;
 
-			$criteria->addCondition('ruangan_id = '.$ruangan);
-			if(!empty($kelaspelayananruangan)){
-				$criteria->addInCondition("kelaspelayanan_id",$kelaspelayananruangan); 	
-				if (is_array($kelaspelayananruangan)){
-					$criteria->addInCondition("kelaspelayanan_id",$kelaspelayananruangan); 	
-				}else{
-					$criteria->addCondition("kelaspelayanan_id = ".$kelaspelayananruangan); 	
-				}
-			}
-			$modInformasiVisite = RIInfopasienmasukkamarV::model()->findAll($criteria);
-			if(count($modInformasiVisite) == 0 ){
-				$pesan = 'Data Tidak Ada !';
-			}
+            $criteria->addCondition('ruangan_id = '.$ruangan);
+            if(!empty($kelaspelayananruangan)){
+                    $criteria->addInCondition("kelaspelayanan_id",$kelaspelayananruangan); 	
+                    if (is_array($kelaspelayananruangan)){
+                            $criteria->addInCondition("kelaspelayanan_id",$kelaspelayananruangan); 	
+                    }else{
+                            $criteria->addCondition("kelaspelayanan_id = ".$kelaspelayananruangan); 	
+                    }
+            }
+            $modInformasiVisite = RIInfopasienmasukkamarV::model()->findAll($criteria);
+            if(count($modInformasiVisite) == 0 ){
+                    $pesan = 'Data Tidak Ada !';
+            }
             
             echo CJSON::encode(array(
                 'status'=>'create_form', 

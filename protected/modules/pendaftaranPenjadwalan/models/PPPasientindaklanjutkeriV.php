@@ -7,6 +7,9 @@ class PPPasientindaklanjutkeriV extends PasientindaklanjutkeriV
 	 * @param string $className active record class name.
 	 * @return PasientindaklanjutkeriV the static model class
 	 */
+    
+        public $kecamatan_id, $kelurahan_id;
+    
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);

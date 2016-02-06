@@ -23,7 +23,8 @@ class ResepturTRIController extends MyAuthController
 			$modReseptur->noresep = MyGenerator::noResepReseptur();
             $modReseptur->pegawai_id = $modPendaftaran->pegawai_id;
             $modReseptur->ruanganreseptur_id = Yii::app()->user->getState('ruangan_id');
-			
+            $modReseptur->ruangan_id = Params::RUANGAN_ID_APOTEK_1;
+            
 			if(isset($_GET['reseptur_id'])){
 				$modReseptur = RIResepturT::model()->findByPk($_GET['reseptur_id']);
 				$modResepturDetail = RIResepturDetailT::model()->findAllByAttributes(array('reseptur_id'=>$_GET['reseptur_id']));
@@ -123,12 +124,19 @@ class ResepturTRIController extends MyAuthController
             $reseptur->ruanganreseptur_id = Yii::app()->user->getState('ruangan_id');
             $reseptur->pasien_id = $modPendaftaran->pasien_id;
             $reseptur->pasienadmisi_id = $_GET['pasienadmisi_id'];
+            
+            // var_dump($reseptur->validate());
+            // var_dump($reseptur->errors);
+            // var_dump($this->successSave);
+            
             if($reseptur->validate()){
-                $reseptur->save();                
+                $reseptur->save();   
                 $this->saveDetailReseptur($post, $reseptur);
             } else {
                 $this->successSave = false;
             }
+            
+            // var_dump($this->successSave); die;
         }
         
         protected function saveDetailReseptur($post,$reseptur)
@@ -138,16 +146,29 @@ class ResepturTRIController extends MyAuthController
 				$detail = new RIResepturDetailT;
 				$detail->reseptur_id = $reseptur->reseptur_id;
 				$detail->attributes = $detailreseptur;
+                                
+                                $detail->harganetto_reseptur = str_replace(",", "", $detail->harganetto_reseptur);
+                                $detail->hargasatuan_reseptur = str_replace(",", "", $detail->hargasatuan_reseptur);
+                                $detail->hargajual_reseptur = str_replace(",", "", $detail->hargajual_reseptur);
+                                
+                                
 				$detail->signa_reseptur = $detailreseptur['signa_reseptur'];
 				$detail->iter = $detailreseptur['iter'];
 				$detail->satuansediaan = $detailreseptur['satuansediaan'];
 				$this->reseptur_id = $reseptur->reseptur_id;
 				$valid = $detail->validate() && $valid;
+                                
+                                //var_dump($detail->attributes);
+                                //var_dump($detail->errors);
+                                
 				if($valid){
 					$detail->save();
 				}
             }
             $this->successSave = ($valid) ? true : false;
+            
+            
+            // var_dump($this->successSave); die;
         }
 
         /**
@@ -391,14 +412,14 @@ class ResepturTRIController extends MyAuthController
 			$jmlStok = StokobatalkesT::getJumlahStok($obatalkes_id, $ruangan_id);
 			
 			$modObatAlkes = RIObatalkesM::model()->findByPk($obatalkes_id);
-            if($jmlStok > 0){
+            //if($jmlStok > 0){
                 $modResepturDetail->obatalkes_id = $modObatAlkes->obatalkes_id;
                 $modResepturDetail->sumberdana_id = $modObatAlkes->sumberdana_id;
                 $modResepturDetail->satuankecil_id = $modObatAlkes->satuankecil_id;
 				$modResepturDetail->racikan_id = ($isRacikan == 0) ? Params::RACIKAN_ID_NONRACIKAN : Params::RACIKAN_ID_RACIKAN;
                 $modResepturDetail->r = 'R/';
                 $modResepturDetail->qty_reseptur = ceil($jumlah); // LNG Ceil (Pembulatan keatas request pak tito)
-				$modResepturDetail->jmlstok = $jmlStok;
+				$modResepturDetail->jmlstok = 0; //$jmlStok;
                 $modResepturDetail->kekuatan_reseptur = $modObatAlkes->kekuatan;
                 $modResepturDetail->satuankekuatan = $modObatAlkes->satuankekuatan;
                 
@@ -412,9 +433,9 @@ class ResepturTRIController extends MyAuthController
 				
 				$form .= $this->renderPartial('_rowDetail', array('modResepturDetail'=>$modResepturDetail), true);
 				
-            }else{
-                $pesan = "Stok tidak mencukupi!";
-            }
+            //}else{
+            //    $pesan = "Stok tidak mencukupi!";
+            //}
             
             echo CJSON::encode(array('form'=>$form, 'pesan'=>$pesan));
             Yii::app()->end(); 

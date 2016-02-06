@@ -60,7 +60,12 @@
                                     <?php echo CHtml::label('Jenis Visite','Jenis Visite', array()); ?>
                             </div>
                             <div class="controls">
-                                    <?php $this->widget('MyJuiAutoComplete',array(
+                                <?php 
+                                echo CHtml::dropDownList('jenisVisite', null, CHtml::listdata(RIDaftarTindakanM::model()->findAll('daftartindakan_visite=TRUE'),"daftartindakan_nama","daftartindakan_nama"), array(
+                                        'empty'=>'-- Pilih --'
+                                        ));
+                                ?>
+                                    <?php /* $this->widget('MyJuiAutoComplete',array(
                             'name'=>'jenisVisite',    
                             'value'=>'',
                             'sourceUrl'=> $this->createUrl('GetDaftarTindakanVisite'),
@@ -78,7 +83,7 @@
 
                             ),
                             'htmlOptions'=>array('onkeypress'=>"return $(this).focusNextInputField(event)"),
-                            )); ?>
+                            )); */ ?>
                             </div>
                         </div>
                     </td>
@@ -152,15 +157,16 @@
         <table class="items table table-striped table-condensed" id="table-visite">
             <thead>
                 <tr>
-                    <th>Tanggal Admisi / Masuk Kamar</th>
-                    <th>No. Rekam Medik / No. Pendaftaran</th>
+                    <th>Tanggal Admisi/<br/>Masuk Kamar</th>
+                    <th>Tgl. Pendaftaran/<br/>No. Pendaftaran</th>
+                    <th>No. Rekam Medik</th>
                     <th>Nama Pasien / Alias</th>
                     <th>Jenis Kelamin</th>
                     <th>Cara Bayar / Penjamin</th>
-                    <th>Kelas Pelayanan</th>
+                    <th>Kamar/</br>Kelas Pelayanan</th>
                     <th>Kasus Penyakit</th>
                     <th>Dokter Penanggung Jawab</th>
-					<th>Visite Dokter <span class="required"> *</span></th>
+                    <th>Visite Dokter <span class="required"> *</span></th>
                     <th>Pilih</th>
                 </tr>
             </thead>

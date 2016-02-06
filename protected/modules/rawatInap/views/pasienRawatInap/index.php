@@ -109,7 +109,7 @@
                                                                             "onclick"=>"$(\'#dialogAlergiObat\').dialog(\'open\');"
                                                                             ))',
                                                     'htmlOptions'=>array('style'=>'text-align: center; width:60px')
-                                            ),
+                                            ), /*
                                             array(
                                                     'name'=>'Label Gelang',
                                                     'type'=>'raw',
@@ -121,7 +121,7 @@
                                                                             "onclick"=>"$(\'#dialogLabelGelang\').dialog(\'open\');"
                                                                             ))',
                                                     'htmlOptions'=>array('style'=>'text-align: center; width:60px')
-                                            ),
+                                            ), */
 
             //                    array(
             //                       'header'=>'Tindak Lanjut',

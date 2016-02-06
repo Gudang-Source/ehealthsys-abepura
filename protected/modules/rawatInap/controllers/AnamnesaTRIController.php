@@ -49,12 +49,12 @@ class AnamnesaTRIController extends MyAuthController
                 $modAnamnesa=$cekAnamnesa;
                 //$modAnamnesa->riwayatimunisasi = $modPendaftaran->statuspasien;
 				$pegawai = PegawaiM::model()->findByPk(Yii::app()->user->getState('pegawai_id'));
-                $modAnamnesa->paramedis_nama = $pegawai->nama_pegawai;
+                if (!empty($pegawai)) $modAnamnesa->paramedis_nama = $pegawai->nama_pegawai;
             } else {  
                 ////Jika Pasien Belum Pernah melakukan Anamnesa
                 $modAnamnesa=new RIAnamnesaT;
-				$pegawai = PegawaiM::model()->findByPk(Yii::app()->user->getState('pegawai_id'));
-                $modAnamnesa->paramedis_nama = $pegawai->nama_pegawai;
+		$pegawai = PegawaiM::model()->findByPk(Yii::app()->user->getState('pegawai_id'));
+                if (!empty($pegawai)) $modAnamnesa->paramedis_nama = $pegawai->nama_pegawai;
                 $modAnamnesa->pegawai_id=$modPendaftaran->pegawai_id;
                 $modAnamnesa->pendaftaran_id=$modPendaftaran->pendaftaran_id;
                 $modAnamnesa->pasien_id=$modPendaftaran->pasien_id;

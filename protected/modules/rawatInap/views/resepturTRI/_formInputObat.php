@@ -547,7 +547,7 @@ function cekObat(){
 	}else if(jumlah_obat<= 0){
      myAlert('Anda Belum memilih Obat Yang Akan Diminta');  
      return false;
-	}else if (deposit == ""){
+	} /* else if (deposit == ""){
 		myConfirm("Pasien Belum Melakukan Deposit!","Perhatian!",function(r) {
 		   if(r){	
 			   // notifikasi
@@ -575,7 +575,7 @@ function cekObat(){
 					}, 2000);
 				}
 			});
-	}else{
+	} */ else{
 		$('#rjreseptur-t-form').submit();
 	}
    return false;

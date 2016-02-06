@@ -446,8 +446,8 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         $modDialogKunjungan->tanggal_lahir =  isset($_GET['PPPasientindaklanjutkeriV']['tanggal_lahir']) ? $format->formatDateTimeForDb($_GET['PPPasientindaklanjutkeriV']['tanggal_lahir']) : null;
         $modDialogKunjungan->instalasi_id = $_GET['PPPasientindaklanjutkeriV']['instalasi_id'];
         
-        $modDialogKunjungan->kecamatan_id = $_GET['PPPasientindaklanjutkeriV']['kecamatan_id'];
-        $modDialogKunjungan->kelurahan_id = $_GET['PPPasientindaklanjutkeriV']['kelurahan_id'];
+        if (isset($_GET['PPPasientindaklanjutkeriV']['kecamatan_id'])) $modDialogKunjungan->kecamatan_id = $_GET['PPPasientindaklanjutkeriV']['kecamatan_id'];
+        if (isset($_GET['PPPasientindaklanjutkeriV']['kelurahan_id'])) $modDialogKunjungan->kelurahan_id = $_GET['PPPasientindaklanjutkeriV']['kelurahan_id'];
         
         /*
         $kec = KecamatanM::model()->findByAttributes(array(
