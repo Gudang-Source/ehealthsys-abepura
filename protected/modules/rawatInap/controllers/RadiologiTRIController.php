@@ -52,36 +52,52 @@ class RadiologiTRIController extends MyAuthController
                     
                     if($this->statusSaveKirimkeUnitLain && $this->statusSavePermintaanPenunjang){
                         
+                        $judul = 'Pasien Rawat Inap Rujuk ke Radiologi';
+                    
+                        $isi = $modPasien->no_rekam_medik.' - '.$modPasien->nama_pasien;
+                        $mr = RuanganM::model()->findByPk($modKirimKeUnitLain->ruangan_id);
+
+                        // var_dump($mr->attributes); die;
+
+
+                        $ok = CustomFunction::broadcastNotif($judul, $isi, array(
+                            array('instalasi_id'=>$mr->instalasi_id, 'ruangan_id'=>$mr->ruangan_id, 'modul_id'=>$mr->modul_id),
+                            // array('instalasi_id'=>Params::INSTALASI_ID_FARMASI, 'ruangan_id'=>Params::RUANGAN_ID_APOTEK_RJ, 'modul_id'=>10),
+                            array('instalasi_id'=>Params::INSTALASI_ID_KASIR, 'ruangan_id'=>Params::RUANGAN_ID_KASIR, 'modul_id'=>19),
+                        )); 
+                        
                         // SMS GATEWAY
                         $modPegawai = $modPendaftaran->pegawai;
                         $sms = new Sms();
                         $smspasien = 1;
                         foreach ($modSmsgateway as $i => $smsgateway) {
-                            $isiPesan = $smsgateway->templatesms;
+                            if (isset($_POST['tujuansms']) && in_array($smsgateway->tujuansms, $_POST['tujuansms'])) { 
+                                $isiPesan = $smsgateway->templatesms;
 
-                            $attributes = $modPasien->getAttributes();
-                            foreach($attributes as $attributes => $value){
-                                $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
-                            }
-                            $attributes = $modPendaftaran->getAttributes();
-                            foreach($attributes as $attributes => $value){
-                                $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
-                            }
-                            $attributes = $modPegawai->getAttributes();
-                            foreach($attributes as $attributes => $value){
-                                $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
-                            }
-                            $attributes = $modKirimKeUnitLain->getAttributes();
-                            foreach($attributes as $attributes => $value){
-                                $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
-                            }
-                            $isiPesan = str_replace("{{hari}}",MyFormatter::getDayName($modKirimKeUnitLain->tgl_kirimpasien),$isiPesan);
-                            
-                            if($smsgateway->tujuansms == Params::TUJUANSMS_PASIEN && $smsgateway->statussms){
-                                if(!empty($modPasien->no_mobile_pasien)){
-                                    $sms->kirim($modPasien->no_mobile_pasien,$isiPesan);
-                                }else{
-                                    $smspasien = 0;
+                                $attributes = $modPasien->getAttributes();
+                                foreach($attributes as $attributes => $value){
+                                    $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
+                                }
+                                $attributes = $modPendaftaran->getAttributes();
+                                foreach($attributes as $attributes => $value){
+                                    $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
+                                }
+                                $attributes = $modPegawai->getAttributes();
+                                foreach($attributes as $attributes => $value){
+                                    $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
+                                }
+                                $attributes = $modKirimKeUnitLain->getAttributes();
+                                foreach($attributes as $attributes => $value){
+                                    $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
+                                }
+                                $isiPesan = str_replace("{{hari}}",MyFormatter::getDayName($modKirimKeUnitLain->tgl_kirimpasien),$isiPesan);
+
+                                if($smsgateway->tujuansms == Params::TUJUANSMS_PASIEN && $smsgateway->statussms){
+                                    if(!empty($modPasien->no_mobile_pasien)){
+                                        $sms->kirim($modPasien->no_mobile_pasien,$isiPesan);
+                                    }else{
+                                        $smspasien = 0;
+                                    }
                                 }
                             }
                         }
@@ -159,7 +175,7 @@ class RadiologiTRIController extends MyAuthController
                 $modPermintaan->pasienkirimkeunitlain_id = $modKirimKeUnitLain->pasienkirimkeunitlain_id;
                 $modPermintaan->noperminatanpenujang = MyGenerator::noPermintaanPenunjang('PR');
                 $modPermintaan->qtypermintaan = $permintaan['inputqty'][$i];
-                $modPermintaan->tarif_pelayananan = $permintaan['inputtarifpemeriksaanrad'][$i];
+                $modPermintaan->tarif_pelayananan = str_replace(",", "", $permintaan['inputtarifpemeriksaanrad'][$i]);
                 $modPermintaan->tglpermintaankepenunjang = $modKirimKeUnitLain->tgl_kirimpasien; //date('Y-m-d H:i:s');
                 if($modPermintaan->validate()){
                     if($modPermintaan->save()){
