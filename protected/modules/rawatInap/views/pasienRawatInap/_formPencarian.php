@@ -15,7 +15,7 @@ $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
             <td>
                 <div class="control-group ">
                     <label for="namaPasien" class="control-label">
-                        <?php echo CHtml::activecheckBox($model, 'ceklis', array('uncheckValue'=>0,'rel'=>'tooltip' ,'onClick'=>'cekTanggal()','data-original-title'=>'Cek untuk pencarian berdasarkan tanggal')); ?>
+                        <?php //echo CHtml::activecheckBox($model, 'ceklis', array('uncheckValue'=>0,'rel'=>'tooltip' ,'onClick'=>'cekTanggal()','data-original-title'=>'Cek untuk pencarian berdasarkan tanggal')); ?>
                         Tanggal Masuk 
                     </label>
                     <div class="controls">
@@ -98,8 +98,8 @@ echo CHtml::hiddenField('pasien_id');
 <?php $this->endWidget();?>
 </fieldset>  
 <script>
-document.getElementById('RIInfopasienmasukkamarV_tgl_awal_date').setAttribute("style","display:none;");
-document.getElementById('RIInfopasienmasukkamarV_tgl_akhir_date').setAttribute("style","display:none;");
+// document.getElementById('RIInfopasienmasukkamarV_tgl_awal_date').setAttribute("style","display:none;");
+// document.getElementById('RIInfopasienmasukkamarV_tgl_akhir_date').setAttribute("style","display:none;");
 function cekTanggal(){
 
     var checklist = $('#RIInfopasienmasukkamarV_ceklis');

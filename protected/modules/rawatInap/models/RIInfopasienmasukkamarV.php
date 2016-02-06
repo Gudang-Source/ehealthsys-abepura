@@ -22,7 +22,7 @@ class RIInfopasienmasukkamarV extends InfopasienmasukkamarV
 	{
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
-
+        
 		$criteria=new CDbCriteria;
 		
 		$criteria->addCondition('ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
@@ -39,10 +39,10 @@ class RIInfopasienmasukkamarV extends InfopasienmasukkamarV
 		$criteria->compare('LOWER(nama_pasien)',strtolower($this->nama_pasien),true);
 		$criteria->compare('LOWER(no_pendaftaran)',strtolower($this->no_pendaftaran),true);
 		$criteria->compare('LOWER(nama_pegawai)',strtolower($this->nama_pegawai),true);
-		if($this->ceklis == 1)
-		{
-			$criteria->addBetweenCondition('tgladmisi',$this->tgl_awal,$this->tgl_akhir);
-		}
+		//if($this->ceklis == 1)
+		//{
+			$criteria->addBetweenCondition('tgladmisi::date',$this->tgl_awal,$this->tgl_akhir);
+		//}
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
