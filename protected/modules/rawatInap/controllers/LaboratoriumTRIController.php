@@ -66,11 +66,27 @@ class LaboratoriumTRIController extends MyAuthController
 					
 //	RND-9378		if($this->statusSaveKirimkeUnitLain && $this->statusSavePermintaanPenunjang && $this->tindakanpelayanantersimpan){
 					if($this->tindakanpelayanantersimpan){
+                                                $judul = 'Pasien Rawat Inap Rujuk ke Laboratorium';
+                    
+                                                $isi = $modPasien->no_rekam_medik.' - '.$modPasien->nama_pasien;
+                                                $mr = RuanganM::model()->findByPk($modKirimKeUnitLain->ruangan_id);
+
+                                                // var_dump($mr->attributes); die;
+
+
+                                                $ok = CustomFunction::broadcastNotif($judul, $isi, array(
+                                                    array('instalasi_id'=>$mr->instalasi_id, 'ruangan_id'=>$mr->ruangan_id, 'modul_id'=>$mr->modul_id),
+                                                    // array('instalasi_id'=>Params::INSTALASI_ID_FARMASI, 'ruangan_id'=>Params::RUANGAN_ID_APOTEK_RJ, 'modul_id'=>10),
+                                                    array('instalasi_id'=>Params::INSTALASI_ID_KASIR, 'ruangan_id'=>Params::RUANGAN_ID_KASIR, 'modul_id'=>19),
+                                                )); 
+                                            
 						// SMS GATEWAY
 						$modPegawai = $modPendaftaran->pegawai;
 						$sms = new Sms();
 						$smspasien = 1;
+                                                
 						foreach ($modSmsgateway as $i => $smsgateway) {
+                                                    if (isset($_POST['tujuansms']) && in_array($smsgateway->tujuansms, $_POST['tujuansms'])) { 
 							$isiPesan = $smsgateway->templatesms;
 
 							$attributes = $modPasien->getAttributes();
@@ -100,6 +116,7 @@ class LaboratoriumTRIController extends MyAuthController
 									$smspasien = 0;
 								}
 							}
+                                                    }
 						}
 						// END SMS GATEWAY
 						
