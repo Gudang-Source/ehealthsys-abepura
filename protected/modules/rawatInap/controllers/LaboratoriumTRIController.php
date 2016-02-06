@@ -17,7 +17,7 @@ class LaboratoriumTRIController extends MyAuthController
 			$modKirimKeUnitLain->tgl_kirimpasien = date('Y-m-d H:i:s');
 			$modKirimKeUnitLain->pegawai_id = $modPendaftaran->pegawai_id;
 			$modKirimKeUnitLain->kelaspelayanan_id = $modAdmisi->kelaspelayanan_id; //RND-8117
-			$modKirimKeUnitLain->isbayarkekasirpenunjang = Yii::app()->user->getState('isbayarkekasirpenunjang');
+			$modKirimKeUnitLain->isbayarkekasirpenunjang = ($modPendaftaran->carabayar_id == 1)?Yii::app()->user->getState('isbayarkekasirpenunjang'):false;
 			$modJenisPeriksaLab = RIJenisPemeriksaanLabM::model()->findAllByAttributes(array('jenispemeriksaanlab_aktif'=>true),array('order'=>'jenispemeriksaanlab_urutan'));
 			$modPeriksaLab = RIPemeriksaanLabM::model()->findAllByAttributes(array('pemeriksaanlab_aktif'=>true),array('order'=>'pemeriksaanlab_id, pemeriksaanlab_urutan'));
 					 
@@ -66,11 +66,27 @@ class LaboratoriumTRIController extends MyAuthController
 					
 //	RND-9378		if($this->statusSaveKirimkeUnitLain && $this->statusSavePermintaanPenunjang && $this->tindakanpelayanantersimpan){
 					if($this->tindakanpelayanantersimpan){
+                                                $judul = 'Pasien Rawat Inap Rujuk ke Laboratorium';
+                    
+                                                $isi = $modPasien->no_rekam_medik.' - '.$modPasien->nama_pasien;
+                                                $mr = RuanganM::model()->findByPk($modKirimKeUnitLain->ruangan_id);
+
+                                                // var_dump($mr->attributes); die;
+
+
+                                                $ok = CustomFunction::broadcastNotif($judul, $isi, array(
+                                                    array('instalasi_id'=>$mr->instalasi_id, 'ruangan_id'=>$mr->ruangan_id, 'modul_id'=>$mr->modul_id),
+                                                    // array('instalasi_id'=>Params::INSTALASI_ID_FARMASI, 'ruangan_id'=>Params::RUANGAN_ID_APOTEK_RJ, 'modul_id'=>10),
+                                                    array('instalasi_id'=>Params::INSTALASI_ID_KASIR, 'ruangan_id'=>Params::RUANGAN_ID_KASIR, 'modul_id'=>19),
+                                                )); 
+                                            
 						// SMS GATEWAY
 						$modPegawai = $modPendaftaran->pegawai;
 						$sms = new Sms();
 						$smspasien = 1;
+                                                
 						foreach ($modSmsgateway as $i => $smsgateway) {
+                                                    if (isset($_POST['tujuansms']) && in_array($smsgateway->tujuansms, $_POST['tujuansms'])) { 
 							$isiPesan = $smsgateway->templatesms;
 
 							$attributes = $modPasien->getAttributes();
@@ -100,6 +116,7 @@ class LaboratoriumTRIController extends MyAuthController
 									$smspasien = 0;
 								}
 							}
+                                                    }
 						}
 						// END SMS GATEWAY
 						
@@ -173,9 +190,9 @@ class LaboratoriumTRIController extends MyAuthController
 				$modPermintaan->pasienkirimkeunitlain_id = $modKirimKeUnitLain->pasienkirimkeunitlain_id;
 				$modPermintaan->noperminatanpenujang = MyGenerator::noPermintaanPenunjang('PL');
 				$modPermintaan->qtypermintaan = $permintaan['inputqty'][$i];
-				$modPermintaan->tarif_pelayananan = $permintaan['inputtarifpemeriksaanlab'][$i];
+				$modPermintaan->tarif_pelayananan = str_replace(",","",$permintaan['inputtarifpemeriksaanlab'][$i]);
 				$modPermintaan->tglpermintaankepenunjang = MyFormatter::formatDateTimeForDb($modKirimKeUnitLain->tgl_kirimpasien);
-				if($modPermintaan->validate()){
+                                if($modPermintaan->validate()){
 					if ($modPermintaan->save()){
 						$this->statusSavePermintaanPenunjang = true;
 						if($modKirimKeUnitLain->isbayarkekasirpenunjang){ 
@@ -225,7 +242,7 @@ class LaboratoriumTRIController extends MyAuthController
 			$modTindakan->tarif_medis=0;
 			$modTindakan->tarif_paramedis=0;
 			$modTindakan->tarif_bhp=0;
-			
+                        
 			if($modTindakan->validate()){
 				if($modTindakan->save()){
 					$this->komponentindakantersimpan &= $modTindakan->saveTindakanKomponen();
@@ -248,7 +265,7 @@ class LaboratoriumTRIController extends MyAuthController
 				$transaction = Yii::app()->db->beginTransaction();
 				try {
 					$loadPermintaans = PermintaankepenunjangT::model()->findAllByAttributes(array('pasienkirimkeunitlain_id'=>$pasienkirimkeunitlain_id));
-					if(count($loadPermintaans) > 0){
+                                        if(count($loadPermintaans) > 0){
 						foreach($loadPermintaans AS $i => $permintaan){
 							$hapuspermintaan = true;
 							if(!empty($permintaan->tindakanpelayanan_id)){
@@ -276,7 +293,7 @@ class LaboratoriumTRIController extends MyAuthController
 					$data['pesan'] = "Pasien kirim ke laboratorium gagal dibatalkan karena tindakan sudah dibayarkan!";
 					$data['sukses'] = 0;
 				}
-				$modRiwayatKirimKeUnitLain = RJPasienKirimKeUnitLainT::model()->findAllByAttributes(array('pendaftaran_id'=>$pendaftaran_id),
+				$modRiwayatKirimKeUnitLain = PasienkirimkeunitlainT::model()->findAllByAttributes(array('pendaftaran_id'=>$pendaftaran_id),
 						'pasienmasukpenunjang_id IS NULL AND ruangan_id IN('.Params::RUANGAN_ID_LAB_KLINIK.','.Params::RUANGAN_ID_LAB_ANATOMI.')');
 				$data['result'] = $this->renderPartial('_listKirimKeUnitLain', array('modRiwayatKirimKeUnitLain'=>$modRiwayatKirimKeUnitLain), true);
 

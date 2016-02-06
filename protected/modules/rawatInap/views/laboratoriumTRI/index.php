@@ -119,7 +119,7 @@ $this->widget('bootstrap.widgets.BootAlert');
                                                         'dateFormat'=>Params::DATE_FORMAT,
                                                         'maxDate' => 'd',
                                                     ),
-                                                    'htmlOptions'=>array('readonly'=>true),
+                                                    'htmlOptions'=>array('readonly'=>true, 'class'=>'realtime'),
                             )); ?>
                     </div>
                 </div>
@@ -292,6 +292,7 @@ function hitungTotal(){
 function cekInput(){
 	var deposit = $('#deposit').val();
 	var periksaTotal = unformatNumber($('#periksaTotal').val());
+        /*
 	if (deposit == ""){
 		myConfirm("Pasien Belum Melakukan Deposit!","Perhatian!",function(r) {
 		   if(r){	
@@ -320,9 +321,9 @@ function cekInput(){
 					}, 2000);
 				}
 			});
-	}else{
+	}else{ */
 		$('#rjpasien-laboratorium-t-form').submit();
-	}
+	//}
    return false;
 }
 
