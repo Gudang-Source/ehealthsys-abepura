@@ -55,7 +55,7 @@ class PemeriksaanFisikTRIController extends MyAuthController
                     {  //Jika Pasien Sudah Melakukan Pemeriksaan Fisik  Sebelumnya
                         $modPemeriksaanFisik=$cekPemeriksaanFisik;
 			$pegawai = PegawaiM::model()->findByPk(Yii::app()->user->getState('pegawai_id'));
-			$modPemeriksaanFisik->paramedis_nama = $pegawai->nama_pegawai;
+			if (!empty($pegawai)) $modPemeriksaanFisik->paramedis_nama = $pegawai->nama_pegawai;
                     }
                 else
                     {  //Jika Pasien Belum Pernah melakukan Pemeriksaan Fisik
@@ -65,7 +65,7 @@ class PemeriksaanFisikTRIController extends MyAuthController
                         $modPemeriksaanFisik->pasien_id=$modPasien->pasien_id;
                         $modPemeriksaanFisik->tglperiksafisik=date('Y-m-d H:i:s');
 			$pegawai = PegawaiM::model()->findByPk(Yii::app()->user->getState('pegawai_id'));
-			$modPemeriksaanFisik->paramedis_nama = $pegawai->nama_pegawai;
+			if (!empty($pegawai)) $modPemeriksaanFisik->paramedis_nama = $pegawai->nama_pegawai;
                     }
 //            $modPemeriksaanFisik->td_diastolic = $result[2];
 //            $modPemeriksaanFisik->td_systolic = $result[1];
