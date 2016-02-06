@@ -166,7 +166,7 @@
                     <th>Kamar/</br>Kelas Pelayanan</th>
                     <th>Kasus Penyakit</th>
                     <th>Dokter Penanggung Jawab</th>
-					<th>Visite Dokter <span class="required"> *</span></th>
+                    <th>Visite Dokter <span class="required"> *</span></th>
                     <th>Pilih</th>
                 </tr>
             </thead>

@@ -2,6 +2,7 @@
 <?php
 if(!empty($modPasien)){
     $modPasien->nama_pasien = $modPasien->namadepan.$modPasien->nama_pasien;
+    $modPendaftaran->tgl_pendaftaran = MyFormatter::formatDateTimeForUser($modPendaftaran->tgl_pendaftaran);
 ?>
 <fieldset class="box">
     <legend class="rim">Data Pasien</legend>
