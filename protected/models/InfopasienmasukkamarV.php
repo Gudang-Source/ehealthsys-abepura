@@ -508,7 +508,7 @@ class InfopasienmasukkamarV extends CActiveRecord
         public function getTglAdmisiMasukKamar()
         {       
                 $tglMasukKamar = (!empty($this->kamarruangan_id)) ? $this->tglmasukkamar : '-';
-                $time = $this->tgladmisi.' / </br>'.$tglMasukKamar;
+                $time = MyFormatter::formatDateTimeForUser($this->tgladmisi).' / </br>'.  MyFormatter::formatDateTimeForUser($tglMasukKamar);
                 return $time;
         }
         
