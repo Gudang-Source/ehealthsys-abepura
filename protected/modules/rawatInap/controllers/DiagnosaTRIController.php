@@ -32,7 +32,7 @@ class DiagnosaTRIController extends MyAuthController
 		$modMorbiditas[0]->jeniskasuspenyakit_id = $modPendaftaran->jeniskasuspenyakit_id;
 		$modMorbiditas[0]->pegawai_id = $modPendaftaran->pegawai_id;
 
-		$modKasuspenyakitDiagnosa = new RIKasusPenyakitDiagnosaM('search');
+		$modKasuspenyakitDiagnosa = new KasuspenyakitdiagnosaV('search');
 		$modKasuspenyakitDiagnosa->unsetAttributes();  // clear any default values
 		$modKasuspenyakitDiagnosa->jeniskasuspenyakit_id = $modPendaftaran->jeniskasuspenyakit_id;
 		if(isset($_GET['RIKasusPenyakitDiagnosaM'])){
