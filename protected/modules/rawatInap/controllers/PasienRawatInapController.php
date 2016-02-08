@@ -23,12 +23,13 @@ class PasienRawatInapController extends MyAuthController
         $model = new RIInfopasienmasukkamarV;
         $model->tgl_awal  = date('Y-m-d');
         $model->tgl_akhir = date('Y-m-d');
+        $model->ceklis = true;
 
         if(isset ($_REQUEST['RIInfopasienmasukkamarV'])){
             $model->attributes=$_REQUEST['RIInfopasienmasukkamarV'];
             $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['RIInfopasienmasukkamarV']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['RIInfopasienmasukkamarV']['tgl_akhir']);
-            $model->ceklis = $_REQUEST['RIInfopasienmasukkamarV']['ceklis'];
+            //$model->ceklis = $_REQUEST['RIInfopasienmasukkamarV']['ceklis'];
        }
        
         $this->render('index',array('model'=>$model,'format'=>$format));
