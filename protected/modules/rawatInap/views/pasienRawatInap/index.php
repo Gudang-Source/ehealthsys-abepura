@@ -38,31 +38,37 @@
                                 'value'=>'$data->caramasuk_nama',
                             ),
                             array(
-                               'header'=>'No. RM / No. Pendaftaran',
+                                'header'=>'Tgl. Pendaftaran/<br/>No. Pendaftaran',
                                 'type'=>'raw',
-                                'value'=>'$data->noRmNoPend',
+                                'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."/<br/>".$data->no_pendaftaran'
                             ),
                             array(
-                                'header'=>'Nama Pasien / Alias',
-                                'value'=>'$data->namaPasienNamaBin'
+                               'header'=>'No. Rekam Medik',
+                                'type'=>'raw',
+                                'value'=>'$data->no_rekam_medik',
                             ),
+                            array(
+                                'header'=>'Nama Pasien',
+                                'value'=>'$data->namadepan.$data->nama_pasien'
+                            ), 
+                            array(
+                                'header'=>'Cara Bayar / Penjamin',
+                                'value'=>'$data->caraBayarPenjamin',
+                            ),
+                            /*
                             array(
                                 'name'=>'jeniskelamin',
                                 'value'=>'$data->jeniskelamin',
-                            ),
+                            ), 
                             array(
                                 'name'=>'umur',
                                 'type'=>'raw',
                                 'value'=>'CHtml::hiddenField("RIInfokunjunganriV[$data->pendaftaran_id][pendaftaran_id]", $data->pendaftaran_id, array("id"=>"pendaftaran_id","onkeypress"=>"return $(this).focusNextInputField(event)","class"=>"span3"))."".$data->umur',
-                            ),
+                            ), */
                             array(
                                'name'=>'Dokter',
                                 'type'=>'raw',
                                 'value'=>'"<div style=\'width:100px;\'>" . CHtml::link("<i class=icon-pencil-brown></i> ". $data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama," ",array("onclick"=>"ubahDokterPeriksa(\'$data->pendaftaran_id\',\'$data->pasienadmisi_id\');$(\'#editDokterPeriksa\').dialog(\'open\');return false;", "rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik Untuk Mengubah Data Dokter Periksa")) . "</div>"',
-                            ),
-                            array(
-                                'header'=>'Cara Bayar / Penjamin',
-                                'value'=>'$data->caraBayarPenjamin',
                             ),
                             array(
                                'name'=>'kelaspelayanan_nama',
