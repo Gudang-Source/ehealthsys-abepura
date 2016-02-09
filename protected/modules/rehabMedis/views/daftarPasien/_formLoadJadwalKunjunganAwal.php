@@ -21,7 +21,7 @@
             <?php   
                 $this->widget('MyDateTimePicker',array(
                     'name'=>'JadwalKunjungan[tgljadwalrm][]',
-                    'value'=> date('Y-m-d h:i:s'),
+                    'value'=> MyFormatter::formatDateTimeForUser(date('Y-m-d h:i:s')),
                     'mode'=>'datetime',
                     'options'=> array(
                         'dateFormat'=>Params::DATE_FORMAT,
@@ -44,7 +44,7 @@
             <?php echo CHtml::dropDownList('JadwalKunjungan[paramedis2_id][]', '' , CHtml::listData(RMPendaftaranT::model()->getParamedisItems(Params::RUANGAN_ID_FISIOTERAPI), 'pegawai_id', 'nama_pegawai') ,array('empty'=>'-- Paramedis 2 --','onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'span2 required')); ?>
         </td>
         <td>
-            <?php echo CHtml::dropDownList('JadwalKunjungan[pegawai_id][]', '' , CHtml::listData(RMPendaftaranT::model()->getDokterItems(Params::RUANGAN_ID_FISIOTERAPI), 'pegawai_id', 'nama_pegawai') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",)); ?>
+            <?php echo CHtml::dropDownList('JadwalKunjungan[pegawai_id][]', '' , CHtml::listData(RMPendaftaranT::model()->getDokterItems(Params::RUANGAN_ID_FISIOTERAPI), 'pegawai_id', 'namaLengkap') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",)); ?>
         </td>
     </tr>
 <?php endfor; ?>
