@@ -29,7 +29,7 @@
             ?>
             <tr>
                 <td><?php echo $jadwalKunjungan->nourutjadwal ?></td>
-                <td><?php echo $jadwalKunjungan->harijadwalrm.' - '.$jadwalKunjungan->tgljadwalrm ?></td>
+                <td><?php echo $jadwalKunjungan->harijadwalrm.' - '.MyFormatter::formatDateTimeForUser($jadwalKunjungan->tgljadwalrm) ?></td>
                 <?php $tindakans = HasilpemeriksaanrmT::model()->findAllByAttributes(array('jadwalkunjunganrm_id'=>$jadwalKunjungan->jadwalkunjunganrm_id)) ?>
                 <td>
                 <?php 
@@ -45,7 +45,7 @@
                     <?php echo (!empty($jadwalKunjungan->paramedis2_id)) ?  ParamedisV::model()->findByAttributes(array('pegawai_id'=>$jadwalKunjungan->paramedis2_id))->nama_pegawai : '-' ?>
                 </td>
                 <td>
-                    <?php echo (!empty($jadwalKunjungan->pegawai_id)) ? DokterV::model()->findByAttributes(array('pegawai_id'=>$jadwalKunjungan->pegawai_id))->nama_pegawai : '-' ?>
+                    <?php echo (!empty($jadwalKunjungan->pegawai_id)) ? DokterV::model()->findByAttributes(array('pegawai_id'=>$jadwalKunjungan->pegawai_id))->namaLengkap : '-' ?>
                 </td>
                 <td>
                     <?php echo ($jadwalKunjungan->statusterapi) ? 'Sudah' : 'Belum' ?>
