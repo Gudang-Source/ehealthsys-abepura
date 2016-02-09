@@ -31,7 +31,7 @@ class DtdMController extends MyAuthController
 	{
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		$model=new SADtdM;
-		$modDTDDiagnosaM=new SADTDDiagnosaM;
+		//$modDTDDiagnosaM=new SADTDDiagnosaM;
 
 
 		/**		
@@ -58,8 +58,8 @@ class DtdMController extends MyAuthController
                         if(isset($_POST['Morbiditas'])){
                         $modDtdDiag = $_POST['Morbiditas'];
                         $dtd_id=$model->dtd_id;
-                        $hapusDTDDiagnosaM=SADTDDiagnosaM::model()->deleteAll('dtd_id='.$dtd_id.''); 
-                        
+                        //$hapusDTDDiagnosaM=SADTDDiagnosaM::model()->deleteAll('dtd_id='.$dtd_id.''); 
+                        /*
                             foreach ($modDtdDiag as $key => $value)
                                 {
                                     $modDTDDiagnosaM=new SADTDDiagnosaM; 
@@ -68,6 +68,8 @@ class DtdMController extends MyAuthController
                                     $modDTDDiagnosaM->save();
 
                                 }
+                         * 
+                         */
                         }
                            $transaction->commit();
                         Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');    
@@ -82,7 +84,7 @@ class DtdMController extends MyAuthController
 
 		$this->render($this->path_view.'create',array(
 			'model'=>$model,
-			'modDTDDiagnosaM'=>$modDTDDiagnosaM,
+			//'modDTDDiagnosaM'=>$modDTDDiagnosaM,
 			'modDiagnosa'=>$modDiagnosa,
 		));
 	}
@@ -96,7 +98,7 @@ class DtdMController extends MyAuthController
 	{
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		$model=$this->loadModel($id);
-                $modDTDDiagnosaM=SADTDDiagnosaM::model()->findAll('dtd_id='.$id.'');; 
+                //$modDTDDiagnosaM=SADTDDiagnosaM::model()->findAll('dtd_id='.$id.'');; 
 		// Uncomment the following line if AJAX validation is needed
 		
 
@@ -108,10 +110,11 @@ class DtdMController extends MyAuthController
                         $model->attributes=$_POST['SADtdM'];
                         $model->dtd_aktif=TRUE;
                         $model->save();
-                         $modDtdDiag = $_POST['Morbiditas'];
+                         //$modDtdDiag = $_POST['Morbiditas'];
                         $dtd_id=$model->dtd_id;
-                        $hapusDTDDiagnosaM=SADTDDiagnosaM::model()->deleteAll('dtd_id='.$dtd_id.''); 
+                        //$hapusDTDDiagnosaM=SADTDDiagnosaM::model()->deleteAll('dtd_id='.$dtd_id.''); 
                         
+                        /*
                             foreach ($modDtdDiag as $key => $value)
                                 {
                                     $modDTDDiagnosaM=new SADTDDiagnosaM; 
@@ -120,7 +123,7 @@ class DtdMController extends MyAuthController
                                     $modDTDDiagnosaM->save();
 
                                 }
-                       
+                        */
                            $transaction->commit();
                         Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');    
                         $this->redirect(array('admin'));  
@@ -133,7 +136,8 @@ class DtdMController extends MyAuthController
 		}
 
 		$this->render($this->path_view.'update',array(
-			'model'=>$model,'modDTDDiagnosaM'=>$modDTDDiagnosaM
+			'model'=>$model,
+                        //'modDTDDiagnosaM'=>$modDTDDiagnosaM
 		));
 	}
 
@@ -153,8 +157,9 @@ class DtdMController extends MyAuthController
                         {
                             $dtd = $this->loadModel($id);
                             $hapusDtd = $this->loadModel($id)->delete();
-                            $hapusDTDDiagnosaM=SADTDDiagnosaM::model()->deleteAll('dtd_id='.$id.''); 
-                            if($hapusDTDDiagnosaM && $hapusDtd){
+                            
+                            // $hapusDTDDiagnosaM=SADTDDiagnosaM::model()->deleteAll('dtd_id='.$id.''); 
+                            if($hapusDtd){
                                 $transaction->commit();
                             }
                         }
