@@ -54,11 +54,14 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                         'type'=>'raw',
                         'value'=>'($data->dtd_menular==1)? Yii::t("mds","Yes") : Yii::t("mds","No")',
                 ),
+            /*
                  array(
                      'header'=>'ICD-X',
                      'type'=>'raw',
                      'value'=>'$this->grid->getOwner()->renderPartial(\''.$this->path_view.'_icdx\',array(\'dtd_id\'=>$data->dtd_id),true)',
                 ),
+             * 
+             */
                 array(
                     'header'=>'<center>Status</center>',
                     'value'=>'($data->dtd_aktif == 1 ) ? "Aktif" : "Tidak Aktif"',

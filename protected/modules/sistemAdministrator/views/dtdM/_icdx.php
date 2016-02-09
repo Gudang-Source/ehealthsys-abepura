@@ -1,5 +1,6 @@
 
 <?php
+/*
 $modDTDDiagnosaM=SADTDDiagnosaM::model()->findAll('dtd_id='.$dtd_id.'');
 if(COUNT($modDTDDiagnosaM)>0)
     {   
@@ -14,4 +15,6 @@ else
     {
         echo Yii::t('zii','Not set'); 
     }   
+ * 
+ */
 ?>
