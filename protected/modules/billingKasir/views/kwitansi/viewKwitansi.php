@@ -2,7 +2,7 @@
 <!--KWITANSI -->
 <style>
     table, td, div{
-        font-size: 10pt;
+        font-size: 8pt;
         font-family: Arial;
     }
     .catatan{
@@ -10,7 +10,7 @@
         text-align: left;
     }
     .uang{
-        font-size: 15pt;
+        font-size: 12pt;
         font-weight: bold;
     }
     .terbilang{
@@ -70,7 +70,7 @@ if (isset($caraPrint)){
                 <tbody>
                     <tr>
                         <td colspan="3" align="center">
-                            <div align="center" style="font-size:18pt;text-decoration: underline;"><b>KUITANSI<?php echo $ru; ?></b></div>
+                            <div align="center" style="font-size:15pt;text-decoration: underline;"><b>KUITANSI<?php echo $ru; ?></b></div>
                         </td>
                     </tr> 
                     <?php /*
@@ -133,7 +133,7 @@ if (isset($caraPrint)){
                                 <div align="center" style="border:1px solid #000000;width:200px;padding:5px;" class="uang">
                                     Rp. <?php echo number_format($modTandaBukti->jmlpembayaran,0,'','.');?>,-
                                 </div>
-                                <br><br>
+                                <br>
                                 <div colspan="2" class="catatan">
                                     LEMBAR I : Pasien<br/>
                                     LEMBAR II : Ruangan<br/>
@@ -156,7 +156,7 @@ if (isset($caraPrint)){
                             ?>
                            
                             <br>
-                            Petugas RS,<br><br><br><br><br>                             
+                            Petugas RS,<br><br><br><br>                           
                             <?php $pegawai = LoginpemakaiK::pegawaiLoginPemakai(); ?>
                             <b><?php echo empty($pegawai)?"-":$pegawai->nama_pegawai; ?></b><br/>
                             <b style="border-top: 1px solid black;">NIP. <?php echo empty($pegawai)?"-":$pegawai->nomorindukpegawai; ?></b>
