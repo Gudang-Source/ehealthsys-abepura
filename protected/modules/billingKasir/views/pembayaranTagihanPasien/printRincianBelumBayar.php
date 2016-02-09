@@ -1,18 +1,18 @@
 <style>
     th, td, div{
         font-family: Arial;
-        font-size: 9.7pt;
+        font-size: 10pt;
     }
     .tandatangan{
         vertical-align: bottom;
         text-align: center;
     }
     body{
-        width: 10cm;
-        height: 11cm;
+        width: 100%;
+        /* height: 11cm; */
     }
     .identitas{
-        line-height: 10px;
+        line-height: 12px;
     }
 </style>
 <?php
@@ -22,29 +22,30 @@ $format = new MyFormatter;
 <table class="identitas">
     <tr>
         <td>
-            Ruang / Instalasi : <b><?php echo $modPendaftaran->instalasi->instalasi_nama; ?></b>
+            Instalasi
         </td>
+        <td>: <b><?php echo $modPendaftaran->instalasi->instalasi_nama; ?></b></td>
     </tr>
     <tr>
-        <td>No. Pendaftaan
-            :  <?php echo $modPendaftaran->no_pendaftaran; ?></td></tr>
+        <td>No. Pendaftaan</td>
+        <td>: <?php echo $modPendaftaran->no_pendaftaran; ?></td></tr>
     <tr>
-        <td>No. Rekam Medik
-        :  <?php echo $modPendaftaran->pasien->no_rekam_medik; ?></td>
+        <td nowrap>No. Rekam Medik</td>
+        <td>: <?php echo $modPendaftaran->pasien->no_rekam_medik; ?></td>
     </tr>
     <tr>
-        <td>Nama
-            : <?php echo $modPendaftaran->pasien->namadepan." ".$modPendaftaran->pasien->nama_pasien;?></td></tr>
+        <td>Nama</td>
+        <td>: <?php echo $modPendaftaran->pasien->namadepan." ".$modPendaftaran->pasien->nama_pasien;?></td></tr>
     <tr>
-        <td>Alamat
-            : <?php echo $modPendaftaran->pasien->alamat_pasien;?></td>
+        <td>Alamat</td>
+        <td>: <?php echo $modPendaftaran->pasien->alamat_pasien;?></td>
     </tr>
     <tr>
-        <td>Tanggal : <?php echo substr($format->formatDateTimeId($modPendaftaran->tgl_pendaftaran),0,-9);?></td>
+        <td>Tanggal </td><td>: <?php echo substr($format->formatDateTimeId($modPendaftaran->tgl_pendaftaran),0,-9);?></td>
 <!--  dicomment karena RND-5888      <td>No. KPK : <?php echo (isset($modPendaftaran->no_asuransi)?$modPendaftaran->no_asuransi:"-"); ?></td>-->
     </tr>
 </table>
-<table>
+<table width="100%">
     <thead style='border:1px solid;'>
         <th style='text-align: center;'>No.</th>
         <th style='text-align: center;'>Tanggal Tindakan</th>
