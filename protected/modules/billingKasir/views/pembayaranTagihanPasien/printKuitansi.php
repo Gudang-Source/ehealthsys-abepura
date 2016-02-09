@@ -156,7 +156,7 @@ if (isset($caraPrint)){
                             ?>
                            
                             <br>
-                            Petugas RS,<br><br><br><br>                           
+                            Petugas Kasir,<br><br><br><br>                           
                             <?php $pegawai = LoginpemakaiK::pegawaiLoginPemakai(); ?>
                             <b><?php echo empty($pegawai)?"-":$pegawai->nama_pegawai; ?></b><br/>
                             <b style="border-top: 1px solid black;">NIP. <?php echo empty($pegawai)?"-":$pegawai->nomorindukpegawai; ?></b>
