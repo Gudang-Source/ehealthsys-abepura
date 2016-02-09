@@ -96,8 +96,6 @@ $format = new MyFormatter;
         </tr>    
     </tfoot>
 </table>
-<br/>
-<br/>
 <table>
     <tr align="right">
          <td colspan="5"></td>
