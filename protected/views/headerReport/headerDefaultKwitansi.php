@@ -9,9 +9,12 @@
         </TR>
         <TD align="center" width="100%">
             <div align="center" class="nama_profil">
+                <font FACE="Liberation Serif" size="4">PEMERINTAH PROVINSI <?php echo strtoupper(Yii::app()->user->getState('propinsi_nama')); ?></div>
+            </div>
+            <div align="center" class="nama_profil">
                 <B>
                     <FONT FACE="Liberation Serif" SIZE=4 color="black">
-                        <?php echo $data->nama_rumahsakit ?>
+                        RUMAH SAKIT UMUM DAERAH ABEPURA
                     </FONT>
                 </B>
             </div>

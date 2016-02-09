@@ -231,7 +231,9 @@ $this->widget('bootstrap.widgets.BootAlert');
             <div class="control-group ">
                     <?php echo $form->LabelEx($modPemeriksaanFisik,'tekanandarah',array('class'=>'control-label'));?>
                     <div class="controls">
-                     <?php
+                     <?php 
+                     echo $form->textField($modPemeriksaanFisik,'td_systolic',array('class'=>'span1 numbersOnly systolic', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>3, 'onkeyup'=>'returnValue(this); getText();', 'style'=>'text-align: right;'));
+                     /*
 							$this->widget('CMaskedTextField', array(
 							'model' => $modPemeriksaanFisik,
 							'attribute' => 'td_systolic',
@@ -239,16 +241,18 @@ $this->widget('bootstrap.widgets.BootAlert');
 							'placeholder'=>'0',
 							'htmlOptions' => array('class'=>'span1 systolic', 'onkeypress'=>"return $(this).focusNextInputField(event)",'onkeyup'=>'returnValue(this); getText();') // change(this); getTekananDarah(this) change(this);getText();
 							));
-							?>Mm
+		     */ ?>Mm
 							<?php // echo $form->textField($modPemeriksaanFisik,'td_diastolic',array('onblur'=>'','readonly'=>false,'class'=>'span1 integer numbersOnly diastolic', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>3, 'onkeyup'=>'returnValue(this)'));?>
-                     <?php
+                     <?php 
+                     echo $form->textField($modPemeriksaanFisik,'td_diastolic',array('onblur'=>'','readonly'=>false,'class'=>'span1 numbersOnly diastolic', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>3, 'onkeyup'=>'returnValue(this); getText();', 'style'=>'text-align: right;')); 
+                     /*
 							$this->widget('CMaskedTextField', array(
 							'model' => $modPemeriksaanFisik,
 							'attribute' => 'td_diastolic',
 							'mask' => '999',
 							'placeholder'=>'0',
 							'htmlOptions' => array('class'=>'span1 diastolic', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'onkeyup'=>'returnValue(this); getText();') //getTekananDarah(this); ,'onkeyup'=>'getText();'
-							));
+							)); */
 							?>Hg
                      <?php // echo $form->textField($modPemeriksaanFisik,'td_systolic',array('class'=>'span1 numbersOnly systolic', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>3, 'onkeyup'=>'returnValue(this)'));?>
 						&nbsp;
