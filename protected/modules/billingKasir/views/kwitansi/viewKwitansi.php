@@ -57,7 +57,10 @@ if (isset($caraPrint)){
         <tr>
             <td colspan="3">
                 <?php 
-                $slippage = "No Kwitansi : ".$modTandaBukti->nobuktibayar;
+                $ru = "";
+                if (!empty($modPendaftaran->pasienadmisi_id)) $ru = " RAWAT INAP";
+                else $ru = " ".strtoupper($modPendaftaran->instalasi->instalasi_nama);
+                $slippage = "No Kuitansi : ".$modTandaBukti->nobuktibayar;
                 echo $this->renderPartial('application.views.headerReport.headerDefaultKwitansi', array('noKwitansi'=>$slippage)); ?>
             </td>
         </tr>
@@ -67,7 +70,7 @@ if (isset($caraPrint)){
                 <tbody>
                     <tr>
                         <td colspan="3" align="center">
-                            <div align="center" style="font-size:18pt;text-decoration: underline;"><b>KUITANSI</b></div>
+                            <div align="center" style="font-size:18pt;text-decoration: underline;"><b>KUITANSI<?php echo $ru; ?></b></div>
                         </td>
                     </tr> 
                     <?php /*

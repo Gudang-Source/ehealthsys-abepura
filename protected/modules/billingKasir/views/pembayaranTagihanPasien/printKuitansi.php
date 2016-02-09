@@ -54,7 +54,10 @@ if (isset($caraPrint)){
 
 <table width="100%">
     <?php 
-    $slippage = "No Kwitansi : ".$modTandaBukti->nobuktibayar;
+    $slippage = "No Kuitansi : ".$modTandaBukti->nobuktibayar;
+    $ru = "";
+    if (!empty($modPendaftaran->pasienadmisi_id)) $ru = " RAWAT INAP";
+    else $ru = " ".strtoupper($modPendaftaran->instalasi->instalasi_nama);
     
     if (isset($caraPrint)){ ?>
         <tr>
@@ -69,7 +72,7 @@ if (isset($caraPrint)){
                 <tbody>
                     <tr>
                         <td colspan="3" align="center">
-                            <div align="center" style="font-size:18pt;text-decoration: underline;"><b>KUITANSI</b></div>
+                            <div align="center" style="font-size:18pt;text-decoration: underline;"><b>KUITANSI<?php echo $ru; ?></b></div>
                         </td>
                     </tr>                    
                     <!--tr>
