@@ -169,6 +169,7 @@
         <div class="controls">
             <?php echo CHtml::hiddenField('namadepan',$modKunjungan->namadepan,array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
             <?php 
+                $modKunjungan->nama_pasien = $modKunjungan->namadepan.$modKunjungan->nama_pasien;
                 $this->widget('MyJuiAutoComplete', array(
                                 'name'=>'nama_pasien',
                                 'value'=>$modKunjungan->nama_pasien,
@@ -204,7 +205,7 @@
             ?>
         </div>
     </div>
-    <div class="control-group">
+    <div class="control-group" hidden>
         <?php echo CHtml::label('Alias', 'nama_bin', array('class'=>'control-label')); ?>
         <div class="controls">
             <?php echo CHtml::textField('nama_bin',$modKunjungan->nama_bin,array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
