@@ -281,5 +281,14 @@ class RMMasukPenunjangV extends PasienmasukpenunjangV
             else
                 return array();
         }
-                
+               
+        public function getNamaLengkapDokter($pegawai_id)
+        {
+            $dokter = DokterV::model()->findByAttributes(array('pegawai_id'=>$pegawai_id));
+            if(!empty($dokter->nama_pegawai)){
+                return (isset($dokter->gelardepan) ? $dokter->gelardepan." " : "").$dokter->nama_pegawai.", ".(isset($dokter->gelarbelakang_nama) ? $dokter->gelarbelakang_nama : "");
+            }else{
+                return "-";
+            }
+        }
 }
