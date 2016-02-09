@@ -26,8 +26,8 @@
         </TD>
     </TR>
     <TR>
-        <TD colspan="2" style="border-bottom: 1px solid #000000" class="judul" align="RIGHT">
-            <font color="black"><h5><?php echo ((isset($noKwitansi)) ? $noKwitansi : null); ?></h5></font>
+        <TD colspan="2" style="border-bottom: 1px solid #000000; text-align: right !important;">
+            <?php echo ((isset($noKwitansi)) ? $noKwitansi : null); ?>
         </TD>
     </TR>
 </table>
