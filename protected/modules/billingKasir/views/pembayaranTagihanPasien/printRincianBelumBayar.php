@@ -74,8 +74,8 @@ $format = new MyFormatter;
 				<td style='text-align:left;'>".(MyFormatter::formatDateTimeForUser($rincian->tgl_tindakan))."</td>
 				<td>".$jenisPelayanan."</td>
 				<td style='text-align: center;'>".$rincian->qty_tindakan."</td>
-				<td style='text-align: center;'>".(MyFormatter::formatNumberForPrint($rincian->tarif_satuan))."</td>
-				<td style='text-align: center;'>".(MyFormatter::formatNumberForPrint($rincian->qty_tindakan*$rincian->tarif_satuan))."</td>      
+				<td style='text-align: right;'>".(MyFormatter::formatNumberForPrint($rincian->tarif_satuan))."</td>
+				<td style='text-align: right;'>".(MyFormatter::formatNumberForPrint($rincian->qty_tindakan*$rincian->tarif_satuan))."</td>      
 			 </tr>";  
 			$no++;
 			endforeach;
@@ -84,15 +84,15 @@ $format = new MyFormatter;
     </tbody>
     <tfoot>
         <tr>
-            <td colspan='4' align='right' style="font-weight:bold;">Jumlah Biaya</td>
-            <td align='right' style="font-weight:bold;"><?php echo $format->formatNumberForPrint($totalbiaya); ?></td>
+            <td colspan='5' align='right' style="font-weight:bold;">Jumlah Biaya</td>
+            <td align='right' style="font-weight:bold; text-align: right;s"><?php echo $format->formatNumberForPrint($totalbiaya); ?></td>
         </tr>
         <tr>
             <td colspan='5' align='center' style="font-style:italic;">(<?php echo $format->formatNumberTerbilang($totalbiaya); ?> rupiah)</td>
         </tr>
         <tr><td></td></tr>
         <tr><td colspan="2">
-        <?php echo date("d-m-Y"); ?>&nbsp;&nbsp;<?php echo $modPendaftaran->carabayar->carabayar_nama;?></td>
+        <?php echo MyFormatter::formatDateTimeForUser(date("d-m-Y")); ?>&nbsp;&nbsp;<?php echo $modPendaftaran->carabayar->carabayar_nama;?></td>
         </tr>    
     </tfoot>
 </table>
