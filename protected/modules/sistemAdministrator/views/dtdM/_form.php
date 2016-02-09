@@ -38,7 +38,7 @@
                 
 
                 
-                
+                <?php /*
                 <div class='control-group'>
                     <label class ='control-label'>Diagnosa</label>
                     <?php echo CHtml::hiddenField('diagnosa_id'); ?>
@@ -54,7 +54,9 @@
                                   'title' => "Klik untuk menambahkan Diagnosa Pasien",
                                   )
                       );
-                    ?>    
+                    ?>   
+                 * 
+                 */ ?> 
 
                     
 
@@ -79,8 +81,8 @@
                  //=======================   Isi Widget==============================================
                  
                 
-
-                      
+                 
+                /*
                 $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 'id'=>'sadtd-m-grid',
                 'dataProvider'=>$modDiagnosa->searchDiagnosis(),
@@ -111,10 +113,13 @@
                               cekForm(this);
                           })
                       }',
-              ));                   
+              ));     
+                 * 
+                 */              
                   $this->endWidget();
                   //========= end obatAlkes dialog =============================
             ?>
+            <?php /*
                   <fieldset>                  
                   <table id="tbl_diagnosa" class="table table-condensed" width="500%">
                       <thead>
@@ -135,6 +140,7 @@
                   </table>
                 </fieldset>
 
+                    */ ?>
               </div>
             </div>
             <?php //echo $form->checkBoxRow($model,'dtd_aktif', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>

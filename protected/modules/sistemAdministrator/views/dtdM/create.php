@@ -15,5 +15,8 @@
 
     $this->widget('bootstrap.widgets.BootAlert'); ?>
 
-    <?php echo $this->renderPartial($this->path_view.'_form', array('model'=>$model,'modDTDDiagnosaM'=>$modDTDDiagnosaM,'modDiagnosa'=>$modDiagnosa)); ?>
+    <?php echo $this->renderPartial($this->path_view.'_form', array(
+        'model'=>$model,
+        //'modDTDDiagnosaM'=>$modDTDDiagnosaM,
+        'modDiagnosa'=>$modDiagnosa)); ?>
 </fieldset>

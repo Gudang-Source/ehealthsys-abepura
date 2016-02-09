@@ -33,6 +33,7 @@
                     <?php echo $form->checkBoxRow($model,'dtd_aktif', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                 </td>
             </tr>
+            <?php /*
             <tr>
                 <td colspan="2">
                      <?php //echo $form->labelEx($modDTDDiagnosaM,'diagnosa_id',array('class'=>'control-label'));  ?>
@@ -58,6 +59,8 @@
                         </div>
                 </td>
             </tr>
+             * 
+             */ ?>
         </table>
 	<div class="form-actions">
 		                <?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 
