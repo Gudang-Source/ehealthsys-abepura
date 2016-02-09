@@ -54,13 +54,13 @@ if (isset($caraPrint)){
 <?php $this->endWidget(); ?>
 
 <table width="100%">
-    <?php if (!isset($caraPrint)){ ?>
-<!--        <tr>
+        <tr>
             <td colspan="3">
-                <?php // echo $this->renderPartial('application.views.headerReport.headerDefault'); ?>
+                <?php 
+                $slippage = "No Kwitansi : ".$modTandaBukti->nobuktibayar;
+                echo $this->renderPartial('application.views.headerReport.headerDefaultKwitansi', array('noKwitansi'=>$slippage)); ?>
             </td>
-        </tr>-->
-    <?php } ?>
+        </tr>
     <tr>
         <td align="center" valig="middle" colspan="3">
             <table align="center" cellspacing=0 width="100%">
@@ -69,19 +69,22 @@ if (isset($caraPrint)){
                         <td colspan="3" align="center">
                             <div align="center" style="font-size:18pt;text-decoration: underline;"><b>KUITANSI</b></div>
                         </td>
-                    </tr>                    
+                    </tr> 
+                    <?php /*
                     <tr>
                         <td width="20%">No. Kuitansi</td>
                         <td width="2%">:</td>
                         <td align="left"><?php echo $modTandaBukti->nobuktibayar;?></td>
                     </tr>
+                     * 
+                     */ ?>
                     <tr>
                         <td>Sudah Terima Dari</td>
                         <td>:</td>
                         <td><?php echo $modTandaBukti->darinama_bkm;?></td>
                     </tr>
                     <tr>
-                        <td>Banyak Uang</td>
+                        <td>Uang Sejumlah</td>
                         <td>:</td>
                         <td class="terbilang">
                             <?php
@@ -99,11 +102,19 @@ if (isset($caraPrint)){
                         <td>:</td>
                         <td><?php echo $modTandaBukti->sebagaipembayaran_bkm;?><?php //echo date('d/m/Y',  strtotime($modPendaftaran->tgl_pendaftaran));?></td>
                     </tr>
+                    <?php /*
                     <tr>
                         <td>Nama Pasien</td>
                         <td>:</td>
                         <td><?php echo $modTandaBukti->pembayaranpelayanan->pendaftaran->pasien->nama_pasien; ?> - No. RM : <?php echo $modTandaBukti->pembayaranpelayanan->pendaftaran->pasien->no_rekam_medik ?></td>
                     </tr>
+                    <tr>
+                        <td>Cara Bayar</td>
+                        <td>:</td>
+                        <td><?php echo $modTandaBukti->pembayaranpelayanan->pendaftaran->carabayar->carabayar_nama; ?> - Penjamin : <?php echo $modTandaBukti->pembayaranpelayanan->pendaftaran->penjamin->penjamin_nama ?></td>
+                    </tr>
+                     * 
+                     */ ?>
                 </tbody>
             </table>
             <table frame=void align=left cellspacing=0 cols=11 rules=none border=0 width="100%">
@@ -121,25 +132,33 @@ if (isset($caraPrint)){
                                 </div>
                                 <br><br>
                                 <div colspan="2" class="catatan">
+                                    LEMBAR I : Pasien<br/>
+                                    LEMBAR II : Ruangan<br/>
+                                    LEMBAR III : Arsip Keuangan<br/>
+                                    <!--
                                     Catatan : untuk pembayaran melalui Cheque / Bilyet Giro (BG)<br>
                                     Belum dianggap lunas apabila Cheque/Bilyet Giro (BG) Belum Diuangkan<br>
                                     <i>*Kuitansi ini sah bila ada tandatangan petugas dan cap <?php echo $data->nama_rumahsakit; ?>*</i>
+                                    -->
+                                    
                                 </div>
                             </div>
                         </td>
                         <td class="tandatangan">
 
-                            <?php echo Yii::app()->user->getState('kabupaten_nama') ?>, 
+                            <?php echo Yii::app()->user->getState('kecamatan_nama') ?>, 
                             <?php 
-	                            echo $format->formatDateTimeId($modTandaBukti->tglbuktibayar);
+	                            echo $format->formatDateTimeId(date('Y-m-d H:i:s'));
 
                             ?>
                            
                             <br>
                             Petugas RS,<br><br><br><br><br>                             
                             <?php $pegawai = LoginpemakaiK::pegawaiLoginPemakai(); ?>
-                            <b><?php echo empty($pegawai)?"-":$pegawai->nama_pegawai; ?></b>
-                                
+                            <b><?php echo empty($pegawai)?"-":$pegawai->nama_pegawai; ?></b><br/>
+                            <b style="border-top: 1px solid black;">NIP. <?php echo empty($pegawai)?"-":$pegawai->nomorindukpegawai; ?></b>
+                               
+                            
                             <?php echo CHtml::hiddenField('isprint',$modTandaBukti->isprint); ?>
                         </td>
                     </tr>
