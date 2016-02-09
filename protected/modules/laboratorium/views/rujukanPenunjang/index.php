@@ -74,10 +74,10 @@
                 ),
                 'alamat_pasien',
                 array(
-                    'header' => 'Kasus Penyakit / <br/> Kelas Pelayanan',
+                    'header' => 'Kasus Penyakit',
                     'name' => 'kasus_pelayanan',
                     'type' => 'raw',
-                    'value' => '"$data->jeniskasuspenyakit_nama"."<br/>"."$data->kelaspelayanan_nama"',
+                    'value' => '"$data->jeniskasuspenyakit_nama"',
                 ),
                 array(
                     'header' => 'Cara Bayar / Penjamin',
