@@ -28,44 +28,73 @@ $('#daftarPasien-form').submit(function(){
                     'name'=>'no_urutperiksa',
                     'type'=>'raw',
                     'header'=>'No. Antrian <br>/ Panggil Antrian',
-                    'value'=>'$data->ruangan_singkatan."-".$data->no_urutperiksa."<br>".((($data->panggilantrian == TRUE) || "'.date('Y-m-d',strtotime($modPasienMasukPenunjang->tglmasukpenunjang)).'" != "'.date('Y-m-d').'") ? "Sudah Dipanggil" : CHtml::htmlButton(Yii::t("mds","{icon}",array("{icon}"=>"<i class=\'icon-volume-up icon-white\'></i>")),array("class"=>"btn btn-primary","onclick"=>"panggilAntrian(\"$data->pasienmasukpenunjang_id\"); setSuaraPanggilanSingle(\"$data->ruangan_singkatan\",\"$data->no_urutperiksa\",\"$data->ruangan_id\")","rel"=>"tooltip","title"=>"Klik untuk memanggil pasien ini")))'
+                    'value'=>'$data->ruangan_singkatan."-".$data->no_urutperiksa."<br>".CHtml::htmlButton(Yii::t("mds","{icon}",array("{icon}"=>"<i class=\'icon-volume-up icon-white\'></i>")),array("class"=>"btn btn-primary","onclick"=>"panggilAntrian(\"$data->pasienmasukpenunjang_id\"); setSuaraPanggilanSingle(\"$data->ruangan_singkatan\",\"$data->no_urutperiksa\",\"$data->ruangan_id\")","rel"=>"tooltip","title"=>"Klik untuk memanggil pasien ini"))'
                 ),
-                'tglmasukpenunjang', 
+                array(
+                'name'=>'tgl_pendaftaran',
+                'header'=>'Tgl. Pendaftaran/<br/>No. Pendaftaran',
+                'type'=>'raw',
+                'value'=>'CHtml::link("<i class=\"icon-form-ubah\"></i><br/>".MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."<br/>".$data->no_pendaftaran,Yii::app()->controller->createUrl("pemeriksaanRehabilitasiMedis/index",array("pasienmasukpenunjang_id"=>$data->pasienmasukpenunjang_id)),array("rel"=>"tooltip","title"=>"Klik untuk mengubah pemeriksaan"))',
+                'htmlOptions'=>array('width'=>'100px'),
+                ),
+                array(
+                        'header'=>'Tgl. Masuk Penunjang<br/>No. Penunjang',
+                        'name'=>'no_masukpenunjang',
+                        'type'=>'raw',
+                        'value'=>'MyFormatter::formatDateTimeForUser($data->tglmasukpenunjang)."<br/>".$data->no_masukpenunjang',
+                    ),
+                // 'tglmasukpenunjang', 
 
                 array(
-                'header'=>'Instalasi / Ruangan Asal',
-                'value'=>'$data->insatalasiRuanganAsal'
-                ),
+                        'header'=>'Ruangan/<br/>Dokter Asal',
+                        'name'=>'ruanganasal_nama',
+                        'type'=>'raw',
+                        'value'=>function($data) {
+                            $pegawai = PegawaiM::model()->findByAttributes(array(
+                                'nama_pegawai'=>$data->nama_dokterasal,
+                            ));
+                            return $data->ruanganasal_nama."/<br/>".(empty($pegawai)?"-":$pegawai->namaLengkap);
+                        },
+                    ),
 
     //            'no_pendaftaran',
                 array(
-                'name'=>'no_pendaftaran',
-                'header'=>'No. Pendaftaran',
-                'type'=>'raw',
-                'value'=>'CHtml::link("<i class=\"icon-form-ubah\"></i>$data->no_pendaftaran",Yii::app()->controller->createUrl("pemeriksaanRehabilitasiMedis/index",array("pasienmasukpenunjang_id"=>$data->pasienmasukpenunjang_id)),array("rel"=>"tooltip","title"=>"Klik untuk mengubah pemeriksaan"))',
-                'htmlOptions'=>array('width'=>'100px'),
+                    'header'=>'No. RM',
+                    'name'=> 'no_rekam_medik',
                 ),
-                'no_rekam_medik',
+               
 
                 array(
-                'header'=>'Nama Pasien / Alias',
-                'value'=>'$data->namaPasienNamaBin'
+                'header'=>'Nama Pasien',
+                'value'=>'$data->namadepan.$data->nama_pasien'
                 ),
-
+                array(
+                    'header'=>'Jenis Kelamin/<br/>Umur',
+                    'type'=>'raw',
+                    'value'=>'$data->jeniskelamin."/<br/>".$data->umur',
+                ),
+                /*
                 array(
                     'header'=>'Kasus Penyakit / <br> Kelas Pelayanan',
                     'type'=>'raw',
                     'value'=>'"$data->jeniskasuspenyakit_nama"."<br/>"."$data->kelaspelayanan_nama"',
                 ),
-                'umur',
+                 * 
+                 */
+                //'umur',
                 'alamat_pasien',
 
                 array(
-                'header'=>'Cara Bayar / Penjamin',
-                'value'=>'$data->caraBayarPenjamin',
+                    'header'=>'Cara Bayar / Penjamin',
+                    'value'=>'$data->caraBayarPenjamin',
                 ),
-
-                'nama_pegawai',
+                array(
+                        'header'=>'Dokter Pemeriksa',
+                        'type'=>'raw',
+        //                'value'=>'($data->statusperiksahasil == Params::STATUSPERIKSAHASIL_SEDANG) ? CHtml::link("<i class=\"icon-pencil-blue\"></i>". $data->getNamaLengkapDokter($data->pegawai_id),Yii::app()->controller->createUrl("/'.$module.'/'.$controller.'/ApprovePemeriksaan",array("pendaftaran_id"=>$data->pendaftaran_id,"pasienmasukpenunjang_id"=>$data->pasienmasukpenunjang_id)),array("rel"=>"tooltip","title"=>"Klik untuk menyetujui pemeriksaan", "onclick"=>"return confirm(\"Apakah Anda akan menyetujui pemeriksaan ini?\");")) : $data->getNamaLengkapDokter($data->pegawai_id)',
+                        'value'=>'$data->getNamaLengkapDokter($data->pegawai_id)',
+                    ),
+                //'nama_pegawai',
     //            'kelaspelayanan_nama',
 
                 array(
@@ -146,18 +175,10 @@ $('#daftarPasien-form').submit(function(){
         <legend class="rim"><i class="icon-white icon-search"></i> Pencarian</legend>
         <table width="100%" class="table-condensed">
             <tr>
-                <td width="35%">
-                    <?php echo $form->textFieldRow($modPasienMasukPenunjang,'no_pendaftaran',array('placeholder'=>'Ketik No. Pendaftaran', 'class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
-                    <?php echo $form->textFieldRow($modPasienMasukPenunjang,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
-                </td>
-                <td width="35%">
-                    <?php echo $form->textFieldRow($modPasienMasukPenunjang,'nama_bin',array('placeholder'=>'Ketik Nama Panggilan','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
-                    <?php echo $form->textFieldRow($modPasienMasukPenunjang,'no_rekam_medik',array('placeholder'=>'Ketik No. Rekam Medik','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?> 
-                </td>
                 <td width="30%">
                     <div class="control-group ">
                         <label for="namaPasien" class="control-label">
-                            <?php echo CHtml::activecheckBox($modPasienMasukPenunjang, 'ceklis', array('uncheckValue'=>0,'rel'=>'tooltip', 'onClick'=>'cekTanggal()','data-original-title'=>'Cek untuk pencarian berdasarkan tanggal')); ?>
+                            <?php // echo CHtml::activecheckBox($modPasienMasukPenunjang, 'ceklis', array('uncheckValue'=>0,'rel'=>'tooltip', 'onClick'=>'cekTanggal()','data-original-title'=>'Cek untuk pencarian berdasarkan tanggal')); ?>
                             Tanggal Masuk 
                         </label>
                         <div class="controls">
@@ -192,6 +213,16 @@ $('#daftarPasien-form').submit(function(){
                         </div>
                     </div>
                 </td>
+                <td width="35%">
+                    <?php echo $form->textFieldRow($modPasienMasukPenunjang,'no_rekam_medik',array('placeholder'=>'Ketik No. Rekam Medik','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
+                    <?php echo $form->textFieldRow($modPasienMasukPenunjang,'no_pendaftaran',array('placeholder'=>'Ketik No. Pendaftaran', 'class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
+                    
+                </td>
+                <td width="35%">
+                    <?php echo $form->textFieldRow($modPasienMasukPenunjang,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
+                    <?php echo $form->textFieldRow($modPasienMasukPenunjang,'nama_bin',array('placeholder'=>'Ketik Nama Panggilan','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
+                     
+                </td>
             </tr>
         </table>
         <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),
@@ -206,8 +237,8 @@ $('#daftarPasien-form').submit(function(){
 </div>
 <script type="text/javascript">
     
-    document.getElementById('RMMasukPenunjangV_tgl_awal_date').setAttribute("style","display:none;");
-    document.getElementById('RMMasukPenunjangV_tgl_akhir_date').setAttribute("style","display:none;");
+    //document.getElementById('RMMasukPenunjangV_tgl_awal_date').setAttribute("style","display:none;");
+    //document.getElementById('RMMasukPenunjangV_tgl_akhir_date').setAttribute("style","display:none;");
     function cekTanggal(){
         
         var checklist = $('#RMMasukPenunjangV_ceklis');
