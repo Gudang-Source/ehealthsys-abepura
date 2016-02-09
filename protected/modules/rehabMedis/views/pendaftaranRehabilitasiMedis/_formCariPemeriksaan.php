@@ -6,7 +6,10 @@
         <div class="control-group" style="float:left;">
             <?php echo CHtml::activeLabel($modPemeriksaanRm, 'jenistindakanrm_id',array('class'=>'control-label')); ?>
             <div class="controls">
-                <?php echo CHtml::activeTextField($modPemeriksaanRm, 'jenistindakanrm_nama',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)","onchange"=>"updateChecklistPemeriksaanRehab();",)); ?>
+                <?php echo CHtml::activeDropDownList($modPemeriksaanRm, 'jenistindakanrm_nama',CHtml::listData(JenistindakanrmM::model()->findAll(array(
+                    'condition'=>'jenistindakanrm_aktif = true',
+                    'order'=>'jenistindakanrm_nama asc',
+                )),'jenistindakanrm_nama','jenistindakanrm_nama'),array('empty'=>'-- Pilih --','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)","onchange"=>"updateChecklistPemeriksaanRehab();",)); ?>
             </div>
         </div>
         <div class="control-group" style="float:left;">
