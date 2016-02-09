@@ -102,7 +102,7 @@ if (isset($caraPrint)){
                     <tr>
                         <td>Nama Pasien</td>
                         <td>:</td>
-                        <td><?php echo $modTandaBukti->pembayaran->pendaftaran->pasien->nama_pasien; ?> - No. RM : <?php echo $modTandaBukti->pembayaran->pendaftaran->pasien->no_rekam_medik ?></td>
+                        <td><?php echo $modTandaBukti->pembayaranpelayanan->pendaftaran->pasien->nama_pasien; ?> - No. RM : <?php echo $modTandaBukti->pembayaranpelayanan->pendaftaran->pasien->no_rekam_medik ?></td>
                     </tr>
                 </tbody>
             </table>
@@ -138,7 +138,7 @@ if (isset($caraPrint)){
                             <br>
                             Petugas RS,<br><br><br><br><br>                             
                             <?php $pegawai = LoginpemakaiK::pegawaiLoginPemakai(); ?>
-                            <b><?php echo $pegawai->nama_pegawai; ?></b>
+                            <b><?php echo empty($pegawai)?"-":$pegawai->nama_pegawai; ?></b>
                                 
                             <?php echo CHtml::hiddenField('isprint',$modTandaBukti->isprint); ?>
                         </td>

@@ -1,18 +1,18 @@
 <style>
     th, td, div{
         font-family: Arial;
-        font-size: 9.7pt;
+        font-size: 10pt;
     }
     .tandatangan{
         vertical-align: bottom;
         text-align: center;
     }
     body{
-        width: 10cm;
-        height: 11cm;
+        width: 100%;
+        /* height: 11cm; */
     }
     .identitas{
-        line-height: 10px;
+        line-height: 12px;
     }
 </style>
 <?php
@@ -22,29 +22,30 @@ $format = new MyFormatter;
 <table class="identitas">
     <tr>
         <td>
-            Ruang / Instalasi : <b><?php echo $modPendaftaran->instalasi->instalasi_nama; ?></b>
+            Instalasi
         </td>
+        <td>: <b><?php echo $modPendaftaran->instalasi->instalasi_nama; ?></b></td>
     </tr>
     <tr>
-        <td>No. Pendaftaan
-            :  <?php echo $modPendaftaran->no_pendaftaran; ?></td></tr>
+        <td>No. Pendaftaan</td>
+        <td>: <?php echo $modPendaftaran->no_pendaftaran; ?></td></tr>
     <tr>
-        <td>No. Rekam Medik
-        :  <?php echo $modPendaftaran->pasien->no_rekam_medik; ?></td>
+        <td nowrap>No. Rekam Medik</td>
+        <td>: <?php echo $modPendaftaran->pasien->no_rekam_medik; ?></td>
     </tr>
     <tr>
-        <td>Nama
-            : <?php echo $modPendaftaran->pasien->namadepan." ".$modPendaftaran->pasien->nama_pasien;?></td></tr>
+        <td>Nama</td>
+        <td>: <?php echo $modPendaftaran->pasien->namadepan." ".$modPendaftaran->pasien->nama_pasien;?></td></tr>
     <tr>
-        <td>Alamat
-            : <?php echo $modPendaftaran->pasien->alamat_pasien;?></td>
+        <td>Alamat</td>
+        <td>: <?php echo $modPendaftaran->pasien->alamat_pasien;?></td>
     </tr>
     <tr>
-        <td>Tanggal : <?php echo substr($format->formatDateTimeId($modPendaftaran->tgl_pendaftaran),0,-9);?></td>
+        <td>Tanggal </td><td>: <?php echo substr($format->formatDateTimeId($modPendaftaran->tgl_pendaftaran),0,-9);?></td>
 <!--  dicomment karena RND-5888      <td>No. KPK : <?php echo (isset($modPendaftaran->no_asuransi)?$modPendaftaran->no_asuransi:"-"); ?></td>-->
     </tr>
 </table>
-<table>
+<table width="100%">
     <thead style='border:1px solid;'>
         <th style='text-align: center;'>No.</th>
         <th style='text-align: center;'>Tanggal Tindakan</th>
@@ -73,8 +74,8 @@ $format = new MyFormatter;
 				<td style='text-align:left;'>".(MyFormatter::formatDateTimeForUser($rincian->tgl_tindakan))."</td>
 				<td>".$jenisPelayanan."</td>
 				<td style='text-align: center;'>".$rincian->qty_tindakan."</td>
-				<td style='text-align: center;'>".(MyFormatter::formatNumberForPrint($rincian->tarif_satuan))."</td>
-				<td style='text-align: center;'>".(MyFormatter::formatNumberForPrint($rincian->qty_tindakan*$rincian->tarif_satuan))."</td>      
+				<td style='text-align: right;'>".(MyFormatter::formatNumberForPrint($rincian->tarif_satuan))."</td>
+				<td style='text-align: right;'>".(MyFormatter::formatNumberForPrint($rincian->qty_tindakan*$rincian->tarif_satuan))."</td>      
 			 </tr>";  
 			$no++;
 			endforeach;
@@ -83,15 +84,15 @@ $format = new MyFormatter;
     </tbody>
     <tfoot>
         <tr>
-            <td colspan='4' align='right' style="font-weight:bold;">Jumlah Biaya</td>
-            <td align='right' style="font-weight:bold;"><?php echo $format->formatNumberForPrint($totalbiaya); ?></td>
+            <td colspan='5' align='right' style="font-weight:bold;">Jumlah Biaya</td>
+            <td align='right' style="font-weight:bold; text-align: right;s"><?php echo $format->formatNumberForPrint($totalbiaya); ?></td>
         </tr>
         <tr>
             <td colspan='5' align='center' style="font-style:italic;">(<?php echo $format->formatNumberTerbilang($totalbiaya); ?> rupiah)</td>
         </tr>
         <tr><td></td></tr>
         <tr><td colspan="2">
-        <?php echo date("d-m-Y"); ?>&nbsp;&nbsp;<?php echo $modPendaftaran->carabayar->carabayar_nama;?></td>
+        <?php echo MyFormatter::formatDateTimeForUser(date("d-m-Y")); ?>&nbsp;&nbsp;<?php echo $modPendaftaran->carabayar->carabayar_nama;?></td>
         </tr>    
     </tfoot>
 </table>
