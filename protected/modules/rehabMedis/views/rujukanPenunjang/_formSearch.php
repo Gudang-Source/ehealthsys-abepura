@@ -23,28 +23,8 @@ $this->widget('bootstrap.widgets.BootAlert');
     <tr>
         <td>
             <div class="control-group ">
-                <label for="noPendaftaran" class="control-label">No. Pendaftaran </label>
-                <div class="controls">
-                    <input type="text" placeholder="Ketik No. Pendaftaran" value="" maxlength="20" id="noPendaftaran" name="noPendaftaran" onkeypress="return $(this).focusNextInputField(event)" empty="-- Pilih --">
-                </div>
-            </div>    
-            <div class="control-group ">
-                <label for="noRekamMedik" class="control-label">No. Rekam Medik </label>
-                <div class="controls">
-                    <input type="text"  placeholder="Ketik No. Rekam Medik" value="" maxlength="10" id="noRekamMedik" name="noRekamMedik" onkeypress="return $(this).focusNextInputField(event)" empty="-- Pilih --">
-                </div>
-            </div>    
-            <div class="control-group ">
-                <label for="namaPasien" class="control-label">Nama Pasien </label>
-                <div class="controls">
-                    <input type="text"  placeholder="Ketik Nama Pasien" value="" maxlength="50" id="namaPasien" name="namaPasien" onkeypress="return $(this).focusNextInputField(event)" empty="-- Pilih --">
-                </div>
-            </div> 
-        </td>
-        <td>
-            <div class="control-group ">
                 <label for="namaPasien" class="control-label">
-                    <?php echo CHtml::checkBox('cbTglMasuk', false, array('uncheckValue'=>0,'rel'=>'tooltip' ,'onClick'=>'cekTanggal()', 'data-original-title'=>'Cek untuk pencarian berdasarkan tanggal')); ?>
+                    <?php //  echo CHtml::checkBox('cbTglMasuk', false, array('uncheckValue'=>0,'rel'=>'tooltip' ,'onClick'=>'cekTanggal()', 'data-original-title'=>'Cek untuk pencarian berdasarkan tanggal')); ?>
                     Tanggal Masuk 
                 </label>
                 <div class="controls">
@@ -62,7 +42,9 @@ $this->widget('bootstrap.widgets.BootAlert');
                     )); 
                           ?>
                       
-                   </div> 
+                   </div>
+            </div>
+            <div class="control-group">
                      <?php echo CHtml::label(' Sampai Dengan',' s/d', array('class'=>'control-label')) ?>
 
                    <div class="controls"> 
@@ -80,6 +62,26 @@ $this->widget('bootstrap.widgets.BootAlert');
                     )); ?>
                 </div>
             </div>
+        </td>
+        <td>
+            <div class="control-group ">
+                <label for="noPendaftaran" class="control-label">No. Pendaftaran </label>
+                <div class="controls">
+                    <input type="text" placeholder="Ketik No. Pendaftaran" value="" maxlength="20" id="noPendaftaran" name="noPendaftaran" onkeypress="return $(this).focusNextInputField(event)" empty="-- Pilih --">
+                </div>
+            </div>    
+            <div class="control-group ">
+                <label for="noRekamMedik" class="control-label">No. Rekam Medik </label>
+                <div class="controls">
+                    <input type="text"  placeholder="Ketik No. Rekam Medik" value="" maxlength="10" id="noRekamMedik" name="noRekamMedik" onkeypress="return $(this).focusNextInputField(event)" empty="-- Pilih --">
+                </div>
+            </div>    
+            <div class="control-group ">
+                <label for="namaPasien" class="control-label">Nama Pasien </label>
+                <div class="controls">
+                    <input type="text"  placeholder="Ketik Nama Pasien" value="" maxlength="50" id="namaPasien" name="namaPasien" onkeypress="return $(this).focusNextInputField(event)" empty="-- Pilih --">
+                </div>
+            </div> 
         </td>
     </tr>
 </table>
@@ -101,8 +103,8 @@ $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));  ?>
 <?php $this->endWidget(); ?>
 <script type="text/javascript">
     
-    document.getElementById('tgl_awal_date').setAttribute("style","display:none;");
-    document.getElementById('tgl_akhir_date').setAttribute("style","display:none;");
+    // document.getElementById('tgl_awal_date').setAttribute("style","display:none;");
+    // document.getElementById('tgl_akhir_date').setAttribute("style","display:none;");
     function cekTanggal(){
         
         var checklist = $('#cbTglMasuk');
