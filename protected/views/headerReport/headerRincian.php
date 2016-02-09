@@ -1,8 +1,9 @@
 <style>  
+    /*
     body{
         width: 10cm;
         height: 11cm;
-    }
+    }*/
 </style>
 <?php $data=ProfilrumahsakitM::model()->findByPk(Params::DEFAULT_PROFIL_RUMAH_SAKIT); ?>
 <table width="100%">
