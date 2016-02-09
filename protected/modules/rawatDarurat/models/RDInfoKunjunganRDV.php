@@ -101,6 +101,9 @@ class RDInfoKunjunganRDV extends InfokunjunganrdV
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+                        'sort'=>array(
+                            'defaultOrder'=>'tgl_pendaftaran asc',
+                        )
 		));
 	}
         
