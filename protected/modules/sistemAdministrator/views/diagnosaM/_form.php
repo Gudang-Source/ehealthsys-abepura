@@ -15,11 +15,11 @@
 			<div class="span4">
 				<?php echo $form->dropDownListRow($model,'klasifikasidiagnosa_id',SAKlasifikasidiagnosaM::model()->getDropdownItems(),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);",'empty'=>'-- Pilih --')); ?>
 				<?php echo $form->textFieldRow($model,'diagnosa_kode',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10)); ?>
-				<?php echo $form->textFieldRow($model,'diagnosa_nama',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+				<?php echo $form->textFieldRow($model,'diagnosa_nama',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
 			</div>
 			<div class="span4">
-				<?php echo $form->textFieldRow($model,'diagnosa_namalainnya',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
-				<?php echo $form->textFieldRow($model,'diagnosa_katakunci',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+				<?php echo $form->textFieldRow($model,'diagnosa_namalainnya',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+				<?php echo $form->textFieldRow($model,'diagnosa_katakunci',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
 			</div>
 			<div class="span4">
 				<?php echo $form->textFieldRow($model,'diagnosa_nourut',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>

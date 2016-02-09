@@ -54,17 +54,21 @@ if(!empty($modPasienPenunjang)){
 				</div>
 			</div>
 			<div class="control-group">
+                                <?php $modPasienPenunjang->nama_pasien = $modPasienPenunjang->namadepan.$modPasienPenunjang->nama_pasien; ?>
 				<?php echo CHtml::activeLabel($modPasienPenunjang, 'nama_pasien',array('class'=>'control-label')); ?>
 				<div class="controls">
 					<?php echo CHtml::activeTextField($modPasienPenunjang, 'nama_pasien', array('readonly'=>true)); ?>
 				</div>
 			</div>
+                        <?php /*
 			<div class="control-group">
 				<?php echo CHtml::activeLabel($modPasienPenunjang, 'nama_bin',array('class'=>'control-label')); ?>
 				<div class="controls">
 					<?php echo CHtml::activeTextField($modPasienPenunjang, 'nama_bin', array('readonly'=>true)); ?>
 				</div>
 			</div>
+                         * 
+                         */ ?>
 		</div>
 		<div class="span4">
 			<?php 

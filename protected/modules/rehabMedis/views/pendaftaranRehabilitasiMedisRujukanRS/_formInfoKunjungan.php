@@ -139,7 +139,7 @@
             <?php 
                 $this->widget('MyJuiAutoComplete', array(
                                 'name'=>'nama_pasien',
-                                'value'=>$modKunjungan->nama_pasien,
+                                'value'=>$modKunjungan->namadepan.$modKunjungan->nama_pasien,
                                 'source'=>'js: function(request, response) {
                                                $.ajax({
                                                    url: "'.$this->createUrl('AutocompleteKunjungan').'",
