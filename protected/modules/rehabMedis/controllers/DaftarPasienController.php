@@ -13,11 +13,12 @@ class DaftarPasienController extends MyAuthController
 		$format = new MyFormatter();
 		$modPasienMasukPenunjang->tgl_awal = date("d M Y");
 		$modPasienMasukPenunjang->tgl_akhir = date('d M Y');
+                $modPasienMasukPenunjang->ceklis = true;
 		if(isset ($_REQUEST['RMMasukPenunjangV'])){
 			 $modPasienMasukPenunjang->attributes=$_REQUEST['RMMasukPenunjangV'];
 			 $modPasienMasukPenunjang->tgl_awal = $format->formatDateTimeForDb($_REQUEST['RMMasukPenunjangV']['tgl_awal']);
 			 $modPasienMasukPenunjang->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['RMMasukPenunjangV']['tgl_akhir']);
-			 $modPasienMasukPenunjang->ceklis = $_REQUEST['RMMasukPenunjangV']['ceklis'];
+			 // $modPasienMasukPenunjang->ceklis = $_REQUEST['RMMasukPenunjangV']['ceklis'];
 		}
 		$this->render('index',array(
 			'modPasienMasukPenunjang'=>$modPasienMasukPenunjang                                 
