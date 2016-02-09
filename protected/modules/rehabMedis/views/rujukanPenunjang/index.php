@@ -9,25 +9,35 @@
             'template'=>"{summary}\n{items}\n{pager}",
             'itemsCssClass'=>'table table-striped table-condensed',
             'columns'=>array(
-                    'tgl_pendaftaran',
+                    array(
+                        'name'=>'tgl_pendaftaran',
+                        'header'=>'Tgl. Pendaftaran/<br/>No. Pendaftaran',
+                        'type'=>'raw',
+                        'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."/</br/>".$data->no_pendaftaran',
+                    ),
                     'tgl_kirimpasien',
                     array(
                         'header'=>'Instalasi / Ruangan Asal',
                         'value'=>'$data->InstalasiNamaRuanganNama',
                     ),
-                    'no_pendaftaran',
+                    //'no_pendaftaran',
                     'no_rekam_medik',
                     array(
-                        'header'=>'Nama Pasien / Alias',
-                        'value'=>'$data->NamaPasienNamaBin',
+                        'header'=>'Nama Pasien',
+                        'value'=>'$data->namadepan.$data->nama_pasien',
+                    ),
+                    'alamat_pasien',
+                    array(
+                        'header' => 'Kasus Penyakit / <br/> Kelas Pelayanan',
+                        'name' => 'kasus_pelayanan',
+                        'type' => 'raw',
+                        'value' => '"$data->jeniskasuspenyakit_nama"."<br/>"."$data->kelaspelayanan_nama"',
                     ),
                     array(
                         'header'=>'Cara Bayar / Penjamin',
                         'value'=>'$data->CaraBayarPenjaminNama',
                     ),
-                    'jeniskasuspenyakit_nama',
     //                'umur',
-                    'alamat_pasien',
     //                'pemeriksaanrad_nama',
                     array(
                         'header'=>'&nbsp;&nbsp;Pemeriksaan&nbsp;&nbsp;',

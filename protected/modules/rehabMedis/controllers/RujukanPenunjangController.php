@@ -12,10 +12,10 @@ class RujukanPenunjangController extends MyAuthController
                 $criteria->compare('LOWER(no_pendaftaran)', strtolower($_GET['noPendaftaran']),true);
                 $criteria->compare('LOWER(nama_pasien)', strtolower($_GET['namaPasien']),true);
                 $criteria->compare('LOWER(no_rekam_medik)', strtolower($_GET['noRekamMedik']),true);
-                if($_GET['cbTglMasuk'])
-                    $criteria->addBetweenCondition('tgl_kirimpasien', "'".$format->formatDateTimeForDb($_GET['tgl_awal'])."'", "'".$format->formatDateTimeForDb($_GET['tgl_akhir'])."'");
+                //if($_GET['cbTglMasuk'])
+                    $criteria->addBetweenCondition('tgl_kirimpasien::date', "'".$format->formatDateTimeForDb($_GET['tgl_awal'])."'", "'".$format->formatDateTimeForDb($_GET['tgl_akhir'])."'");
             } else {
-                //$criteria->addBetweenCondition('tgl_pendaftaran', date('Y-m-d').' 00:00:00', date('Y-m-d').' 23:59:59');
+                $criteria->addBetweenCondition('tgl_kirimpasien::date', date('Y-m-d'), date('Y-m-d'));
             }
             $criteria->addCondition('instalasi_id ='.Yii::app()->user->getState('instalasi_id'));
             
