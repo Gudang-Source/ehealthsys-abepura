@@ -51,10 +51,8 @@ $this->widget('bootstrap.widgets.BootAlert');
         <h6>
         <div class="control-group ">
             <div class="pull-left" style="padding-left:30px;">
-                <label for="berdasarKasusPenyakit" class="checkbox">
-                    <?php echo CHtml::checkBox('berdasarKasusPenyakit', true, array('onclick'=>'daftarDiagnosa(this)')); ?>
-                </label>
-                Berdasarkan <b>Kasus Penyakit</b>
+                    
+                Berdasarkan : <b><?php echo CHtml::radioButton('berdasarKasusPenyakit', true, array('onclick'=>'daftarDiagnosa(this)', 'class'=>'kp_t')); ?>Diagnosa ICD X &nbsp;&nbsp;&nbsp;&nbsp;<?php echo CHtml::radioButton('berdasarKasusPenyakit', false, array('onclick'=>'daftarDiagnosa(this)', 'class'=>'kp_f')); ?>Kasus Penyakit</b>
             </div>
         </div>
         </h6>
@@ -187,13 +185,13 @@ function cekInputDiagnosa(idDiagnosa)
 
 function daftarDiagnosa(obj)
 {
-    if($(obj).is(':checked')){
+    if (!$(".kp_t").is(":checked")) {
+        console.log("Kick");
         $('#tblDiagnosa').hide();
         $('#tblKasuspenyakitDiagnosa').show();
     } else {
         $('#tblDiagnosa').show();
-        $('#tblKasuspenyakitDiagnosa').hide
-        ();
+        $('#tblKasuspenyakitDiagnosa').hide();
     }
     
 //    $('#tblDiagnosaPasien tbody tr').detach();
@@ -377,6 +375,8 @@ function palidasiForm(obj)
 }
 
 
+daftarDiagnosa(null);
+        
 JS;
 Yii::app()->clientScript->registerScript('js',$js,CClientScript::POS_READY);
 ?>   
