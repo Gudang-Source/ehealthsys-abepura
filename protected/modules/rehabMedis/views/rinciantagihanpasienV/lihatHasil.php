@@ -5,7 +5,7 @@
     </tr>
     <tr>
         <td>Tanggal Pendaftaran</td><td>:</td><td><?php echo substr($masukpenunjang->tgl_pendaftaran,0,-9); ?></td>
-        <td>Nama Pasien</td><td>:</td><td><?php echo $masukpenunjang->nama_pasien; ?></td>
+        <td>Nama Pasien</td><td>:</td><td><?php echo $masukpenunjang->namadepan.$masukpenunjang->nama_pasien; ?></td>
     </tr>
     <tr>
         <td>Ruangan</td><td>:</td><td><?php echo $masukpenunjang->ruangan_nama; ?></td>
@@ -40,7 +40,7 @@
                 Keterangan
             </th>
             <th>
-                Peralatan yang digunakan
+                Evaluasi
             </th>
         </tr>
     </thead>
@@ -55,7 +55,7 @@
                         <td><?php echo $hasil->tindakanrm->tindakanrm_nama;?></td>
                         <td><center><?php echo $hasil->hasilpemeriksaanrm; ?></center></td>
                         <td><center><?php echo $hasil->keteranganhasilrm; ?></center></td>
-                        <td><center><?php echo $hasil->peralatandigunakan; ?></center></td>
+                        <td><center><?php echo $hasil->evaluasi; ?></center></td>
                     </tr>
                 <?php }} ?>
             </tr>
