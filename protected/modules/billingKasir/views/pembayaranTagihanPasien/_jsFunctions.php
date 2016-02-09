@@ -529,7 +529,9 @@ function hitungUangKembalian(){
  * @returns {undefined}
  */
 function setDataPembayar(){
-    var darinama_bkm = $("#no_pendaftaran").val()+"-"+$("#no_rekam_medik").val()+"-"+$("#namadepan").val()+" "+$("#nama_pasien").val();
+    var darinama_bkm = 
+            //$("#no_pendaftaran").val()+"-"+
+            $("#no_rekam_medik").val()+"-"+$("#namadepan").val()+" "+$("#nama_pasien").val();
     var alamat_bkm = $("#alamat_pasien").val();
     var sebagaipembayaran_bkm = "BIAYA PELAYANAN RUMAH SAKIT TANGGAL "+($("#tgl_pendaftaran").val());
     if($("#instalasi_id").val() == <?php echo Params::INSTALASI_ID_RI; ?>){
