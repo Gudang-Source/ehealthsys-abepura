@@ -7,7 +7,10 @@
         <div class="control-group" style="float:left;">
             <?php echo CHtml::activeLabel($modPemeriksaanLab, 'jenispemeriksaanlab_id',array('class'=>'control-label')); ?>
             <div class="controls">
-                <?php echo CHtml::activeTextField($modPemeriksaanLab, 'jenispemeriksaanlab_nama',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)","onchange"=>"updateChecklistPemeriksaanLab();",'placeholder'=>'Ketik Nama Jenis Pemeriksaan Lab',)); ?>
+                <?php echo CHtml::activeDropDownList($modPemeriksaanLab, 'jenispemeriksaanlab_nama', CHtml::listData(JenispemeriksaanlabM::model()->findAll(array(
+                    'condition'=>'jenispemeriksaanlab_aktif = true',
+                    'order'=>'jenispemeriksaanlab_urutan',
+                )), 'jenispemeriksaanlab_nama', 'jenispemeriksaanlab_nama') ,array('empty'=>'-- Pilih --','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)","onchange"=>"updateChecklistPemeriksaanLab();",'placeholder'=>'Ketik Nama Jenis Pemeriksaan Lab',)); ?>
             </div>
         </div>
         <div class="control-group" style="float:left;">
