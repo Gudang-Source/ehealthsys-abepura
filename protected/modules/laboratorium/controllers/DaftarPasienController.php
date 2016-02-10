@@ -966,6 +966,10 @@ class DaftarPasienController extends MyAuthController {
                 'pasienmasukpenunjang_id'=>$pasienMasukPenunjang->pasienmasukpenunjang_id,
             ));
             
+            $oa = ObatalkespasienT::model()->findAllByAttributes(array(
+                'pasienmasukpenunjang_id'=>$pasienMasukPenunjang->pasienmasukpenunjang_id,
+            ));
+            
             foreach ($detail as $item) {
                 $ok = $ok && DetailhasilpemeriksaanlabT::model()->deleteByPk($item->detailhasilpemeriksaanlab_id);
             }
@@ -981,7 +985,13 @@ class DaftarPasienController extends MyAuthController {
             // var_dump($ok); die;
             
             // TODO : Hapus Obatalkes
-            
+            /*
+            foreach ($oa as $item) {
+                $ok = $ok && StokobatalkesT::model()->deleteAllByAttributes(array(
+                    'obatalkespasien_id'=>$item->obatalkespasien_id,
+                ));
+                $ok = $ok && ObatalkespasienT::model()->deleteByPk($item->obatalkespasien_id);
+            } */
         }
         
 	public function actionBatalPeriksaPasienLuar2() {//ini fungsi yang lama tapi jangan Di HAPUS, takut minta di rubah lagi

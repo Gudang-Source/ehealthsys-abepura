@@ -186,8 +186,8 @@ class RujukanPenunjangController extends MyAuthController
 					$status_bayar = 'ok';
 				}else{
 					$status_bayar = 'not';
+                                        TindakankomponenT::model()->deleteAllByAttributes(array('tindakanpelayanan_id'=>$permintaan->tindakanpelayanan_id));
 					TindakanpelayananT::model()->deleteByPk($permintaan->tindakanpelayanan_id);
-					TindakankomponenT::model()->deleteAllByAttributes(array('tindakanpelayanan_id'=>$permintaan->tindakanpelayanan_id));
 				}
 			}
 
