@@ -40,7 +40,7 @@ class DiagnosakeperawatanMController extends MyAuthController
                 $modDiagnosa = array();
 		// Uncomment the following line if AJAX validation is needed
 		
-
+                //var_dump($_POST); die;
 		  if(isset($_POST['DiagnosakeperawatanM'])) {
                                     $valid=true;
                                     foreach($_POST['DiagnosakeperawatanM'] as $i=>$item)

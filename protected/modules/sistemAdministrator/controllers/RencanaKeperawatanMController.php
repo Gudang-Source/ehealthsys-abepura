@@ -83,9 +83,39 @@ class RencanaKeperawatanMController extends MyAuthController
 
 		// Uncomment the following line if AJAX validation is needed
 		
-                                //var_dump($_POST); die;
 		if(isset($_POST['RencanakeperawatanM']))
-                    {
+                    { 
+                        // var_dump($_POST);
+                        $ok = true;
+                        $trans = Yii::app()->db->beginTransaction();
+                        $sub = RencanaKeperawatanM::model()->findByPk($_POST['RencanakeperawatanM'][1]['rencanakeperawatan_id']);
+                        foreach ($_POST['RencanakeperawatanM'] as $item) {
+                            $model = new RencanaKeperawatanM;
+                            $model->diagnosakeperawatan_id = $sub->diagnosakeperawatan_id;
+                            if (!empty($item['rencanakeperawatan_id'])) {
+                                $model = RencanaKeperawatanM::model()->findByPk($item['rencanakeperawatan_id']);
+                            }
+                            
+                            $model->attributes = $item;
+                            if ($model->iskolaborasiintervensi == 1) $model->iskolaborasiintervensi = true;
+                            else $model->iskolaborasiintervensi = false;
+                            
+                            if ($model->validate()) {
+                                $ok = $ok && $model->save();
+                            } else $ok = false;
+                        }
+                        // var_dump($ok);
+                        
+                        if ($ok) {
+                            $trans->commit();
+                            Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                        } else {
+                            $trans->rollback();
+                            Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data tidak valid.');
+                        }
+                        
+                        $this->redirect(array('admin'));
+                    /*
                     //var_dump($_POST); die;
                    // echo '<pre>'; print_r($_POST['RIRencanakeperawatanM']);
                    // exit();
@@ -149,6 +179,8 @@ class RencanaKeperawatanMController extends MyAuthController
                             }
                         }
                         $this->redirect(array('admin'));
+                     * 
+                     */
                       }   
 
 		$this->render($this->path_view.'update',array(
