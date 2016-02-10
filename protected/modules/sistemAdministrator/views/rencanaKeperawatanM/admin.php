@@ -92,7 +92,7 @@
                     array(
                         'header'=>'<center>Hapus</center>',
                         'type'=>'raw',
-                        'value'=>'($data->iskolaborasiintervensi)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->rencanakeperawatan_id)",array("id"=>"$data->rencanakeperawatan_id","rel"=>"tooltip","title"=>"Menonaktifkan Rencana Keperawatan"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->rencanakeperawatan_id)",array("id"=>"$data->rencanakeperawatan_id","rel"=>"tooltip","title"=>"Hapus Rencana Keperawatan")):CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->rencanakeperawatan_id)",array("id"=>"$data->rencanakeperawatan_id","rel"=>"tooltip","title"=>"Hapus Rencana Keperawatan"));',
+                        'value'=>'CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->rencanakeperawatan_id)",array("id"=>"$data->rencanakeperawatan_id","rel"=>"tooltip","title"=>"Hapus Rencana Keperawatan"))',
                         'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
                     ),
                     ),
