@@ -28,9 +28,11 @@ class TarifTindakanController extends MyAuthController
             $model=new SATarifTindakanM;
             $modDetails=new TariftindakanM;
             $lists = array();
+            $isCreate = true;
             // $model->komponentarif_id = Params::KOMPONENTARIF_ID_TOTAL;
 
             if(isset($_GET['jenistarif_id'])&&isset($_GET['perdatarif_id'])&&isset($_GET['perdatarif_id'])&&isset($_GET['daftartindakan_id'])){
+                $isCreate = false;
                 $jenistarif_id = $_GET['jenistarif_id'];
                 $perdatarif_id = $_GET['perdatarif_id'];
                 $kelaspelayanan_id = $_GET['kelaspelayanan_id'];
@@ -110,7 +112,8 @@ class TarifTindakanController extends MyAuthController
             $this->render('create',array(
 		'model'=>$model,
                 'modDetails'=>$modDetails,
-                'lists'=>$lists
+                'lists'=>$lists,
+                'isCreate'=>$isCreate,
             ));
 	}
         
@@ -345,17 +348,24 @@ class TarifTindakanController extends MyAuthController
             $perdatarif_id = $_POST['perdatarif_id'];
             $kelaspelayanan_id = $_POST['kelaspelayanan_id'];
             $daftartindakan_id = $_POST['daftartindakan_id'];
+            $isCreate = $_POST['isCreate'];
 
             $data['form'] = "";
+            $data['error'] = 0;
             $criteria = new CDbCriteria;
             $criteria->addCondition('jenistarif_id ='.$jenistarif_id);
             $criteria->addCondition('perdatarif_id ='.$perdatarif_id);
             $criteria->addCondition('kelaspelayanan_id ='.$kelaspelayanan_id);
             $criteria->addCondition('daftartindakan_id ='.$daftartindakan_id);
             $models = TariftindakanM::model()->findAll($criteria);
+           
+            
             if(count($models) > 0){
-                foreach ($models AS $i=>$model){
-                    $data['form'] .= $this->renderPartial('_rowDetail',array('model'=>$model),true);
+                if ($isCreate) $data['error'] = 1;
+                else {
+                    foreach ($models AS $i=>$model){
+                        $data['form'] .= $this->renderPartial('_rowDetail',array('model'=>$model),true);
+                    }
                 }
             }
             echo CJSON::encode($data);

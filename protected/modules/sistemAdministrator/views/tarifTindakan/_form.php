@@ -340,10 +340,13 @@ $this->endWidget();
     }
 
     function setTarifDet(){
+        isCreate = <?php echo $isCreate?"true":"false"; ?>;
         daftartindakan_id = $('#form .daftartindakan_id').val();
         kelaspelayanan_id = $('#form .kelaspelayanan_id').val();
         perdatarif_id = $('#form .perdatarif_id').val();
         jenistarif_id = $('#form .jenistarif_id').val();
+        
+        console.log(isCreate);
 
         
         if(daftartindakan_id!=''&&kelaspelayanan_id!=''&&perdatarif_id!=''&&jenistarif_id!=''){
@@ -352,12 +355,17 @@ $this->endWidget();
             $.ajax({
                 type:'POST',
                 url:'<?php echo $this->createUrl("setTarifDet") ?>',
-                data: {perdatarif_id : perdatarif_id, jenistarif_id : jenistarif_id, kelaspelayanan_id : kelaspelayanan_id, daftartindakan_id : daftartindakan_id},//
+                data: {perdatarif_id : perdatarif_id, jenistarif_id : jenistarif_id, kelaspelayanan_id : kelaspelayanan_id, daftartindakan_id : daftartindakan_id, isCreate: isCreate},//
                 dataType: "json",
                 success:function(data){
-                    $('#table-tariftindakan > tbody').append(data.form);
-                    jQuery('a[rel="tooltip"],button[rel="tooltip"],input[rel="tooltip"]').tooltip({"placement":"bottom"});
-                    renameInputRow($("#table-tariftindakan"));
+                    if (data.error == 1) {
+                        myAlert("Tindakan sudah memiliki tarif");
+                        $(".daftartindakan_id, #daftartindakan").val("");
+                    } else {
+                        $('#table-tariftindakan > tbody').append(data.form);
+                        jQuery('a[rel="tooltip"],button[rel="tooltip"],input[rel="tooltip"]').tooltip({"placement":"bottom"});
+                        renameInputRow($("#table-tariftindakan"));
+                    }
                     $("#table-tariftindakan").removeClass("animation-loading");
                 },
                 error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
