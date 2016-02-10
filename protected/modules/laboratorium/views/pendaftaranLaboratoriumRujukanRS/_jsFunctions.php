@@ -235,13 +235,19 @@ function setCheckedPemeriksaan(obj_table){
  * set otomatis pilih pemeriksaan dari tabel permintaan ke penunjang 
  */
 function setCheckedPemeriksaanDariPermintaan(){
+    var carabayar = $('#carabayar_id').val();
     $('#form-tindakanpemeriksaan table > tbody').html("");
     setCheckedPemeriksaan($("#form-tindakanpemeriksaan"));
     $("#form-permintaankepenunjang").find('input[name$="[pemeriksaanlab_id]"]').each(function(){
         var pemeriksaanlab_id = $(this).val();
+        var status_bayar = $(this).parents("tr").find(".status_bayar").html().trim();
+        
         var checkbox_pemeriksaan = $("div.checklists").find('input[name$="[is_pilih]"][value='+pemeriksaanlab_id+']');
 		if(checkbox_pemeriksaan.val()){
+                    // jika pemeriksaan pada pasien umum belum dibayar maka tidak akan ditampilkan
+                        
 			checkbox_pemeriksaan.attr('checked',true);
+                        if (carabayar == 1 && status_bayar == "BELUM LUNAS") return false;
 			pilihPemeriksaanIni(checkbox_pemeriksaan);
 			//memindahkan tindakanpelayanan_id RND-6827
 			var tindakanpelayanan_id = $(this).parents('tr').find('input[name$="[tindakanpelayanan_id]"]').val();
@@ -249,7 +255,7 @@ function setCheckedPemeriksaanDariPermintaan(){
 			if(tindakanpelayanan_id > 0){
 				rowpermintaan.parents('tr').find('input[name$="[tindakanpelayanan_id]"]').val(tindakanpelayanan_id);
 				checkbox_pemeriksaan.attr('disabled', true);
-			}
+                        }
 		}
 		//end memindahkan tindakanpelayanan_id
     });

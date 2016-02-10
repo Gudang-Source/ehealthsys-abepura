@@ -32,7 +32,7 @@
                                     'showOn' => false,
                                     'maxDate' => 'd',
                                 ),
-                                'htmlOptions'=>array('class'=>'dtPicker3 datetimemask','onkeyup'=>"return $(this).focusNextInputField(event)",),
+                                'htmlOptions'=>array('class'=>'dtPicker3 datetimemask realtime','onkeyup'=>"return $(this).focusNextInputField(event)",),
                         )); ?>
                     </div>
                 </div>
@@ -50,7 +50,7 @@
                                     'showOn' => false,
     //                                    'maxDate' => 'd',
                                 ),
-                                'htmlOptions'=>array('class'=>'dtPicker3 datetimemask','onkeyup'=>"return $(this).focusNextInputField(event)",),
+                                'htmlOptions'=>array('class'=>'dtPicker3 datetimemask realtime','onkeyup'=>"return $(this).focusNextInputField(event)",),
                         )); ?>
                     </div>
                 </div>

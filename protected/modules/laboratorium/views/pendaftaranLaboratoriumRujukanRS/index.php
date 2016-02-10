@@ -16,15 +16,6 @@
             $this->widget('bootstrap.widgets.BootAlert');
         }
     ?>
-    <div class="row-fluid">
-        <div class="span6">
-                <?php 
-                if(Yii::app()->user->getState('issmsgateway')){
-                   $this->renderPartial($this->path_view.'_formSms', array('form'=>$form,'modSmsgateway'=>$modSmsgateway)); 
-                }
-                ?>
-        </div>
-    </div>
     <fieldset class="box" id="form-datakunjungan">
         <legend class="rim"><span class='judul'>Data Rujukan </span><span class='tombol' style='display:none;'><?php echo CHtml::htmlButton('<i class="icon-refresh icon-white"></i>',array('class'=>'btn btn-danger btn-mini','onclick'=>'setKunjunganReset();','onkeyup'=>"return $(this).focusNextInputField(event)",'rel'=>'tooltip','title'=>'Klik untuk mengulang data kunjungan')); ?></span></legend>
         <div class="row-fluid">
@@ -95,6 +86,16 @@
                             <tbody>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+                <div class="block-tabel">
+                    <h6>Kirim <b>SMS</b></h6>
+                    <div style="">
+                        <?php 
+                        if(Yii::app()->user->getState('issmsgateway')){
+                           $this->renderPartial($this->path_view.'_formSms', array('form'=>$form,'modSmsgateway'=>$modSmsgateway)); 
+                        }
+                        ?>
                     </div>
                 </div>
             </div>

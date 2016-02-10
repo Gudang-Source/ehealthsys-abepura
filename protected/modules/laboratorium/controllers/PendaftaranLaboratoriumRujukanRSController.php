@@ -164,6 +164,7 @@ class PendaftaranLaboratoriumRujukanRSController extends PendaftaranLaboratorium
 						$modRuangan = $modPasienMasukPenunjang->ruangan;
 						$sms = new Sms();
 						foreach ($modSmsgateway as $i => $smsgateway) {
+                                                    if (isset($_POST['tujuansms']) && in_array($smsgateway->tujuansms, $_POST['tujuansms'])) {
 							$isiPesan = $smsgateway->templatesms;
 
 							$attributes = $modPasienMasukPenunjang->getAttributes();
@@ -192,7 +193,7 @@ class PendaftaranLaboratoriumRujukanRSController extends PendaftaranLaboratorium
 									$smspasien = 0;
 								}
 							}
-
+                                                    }
 						}
 					}
                     // END SMS GATEWAY

@@ -50,8 +50,9 @@ class AnamnesaController extends MyAuthController
                 }
 				
                 $modAnamnesa=$cekAnamnesa;
-		$pegawai = PegawaiM::model()->findByPk(Yii::app()->user->getState('pegawai_id'));
-                $modAnamnesa->paramedis_nama = empty($pegawai)?null:$pegawai->nama_pegawai;
+                
+		//if ($modAnamnesa->paramedis_nama) $pegawai = PegawaiM::model()->findByPk(Yii::app()->user->getState('pegawai_id'));
+                //$modAnamnesa->paramedis_nama = empty($pegawai)?null:$pegawai->nama_pegawai;
 				
                 //$modAnamnesa->riwayatimunisasi = $modPendaftaran->statuspasien;
             } else {  
@@ -128,6 +129,7 @@ class AnamnesaController extends MyAuthController
                     $modAnamnesa->create_ruangan = isset($_GET['ruangan_id']) ? $_GET['ruangan_id'] : Yii::app()->user->getState('ruangan_id');
 //					echo print_r($modAnamnesa->attributes);exit;
                     /* ================================================ */
+                    
                     if($modAnamnesa->save()){
                         $transaction->commit();
                         $this->redirect(array('index','pendaftaran_id'=>$pendaftaran_id,'sukses'=>1));       
