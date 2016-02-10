@@ -435,6 +435,25 @@ $this->widget('bootstrap.widgets.BootAlert');
             </div>
         </fieldset>
     </div>
+    <div class="span4">
+        <fieldset class='box'>
+            <legend class="rim">Tanda Vital Janin</legend>
+            <div id="divJanin" style="display: block">
+                <div class="control-group ">
+                        <?php echo $form->labelEx($modPemeriksaanFisik,'denyutjantung_janin', array('class'=>'control-label')) ?>
+                        <div class="controls">
+                                <?php echo $form->textField($modPemeriksaanFisik, 'denyutjantung_janin', array('class'=>'span2 numbersOnly', 'style'=>'text-align: right;')); ?> /menit
+                        </div>
+                </div>
+                <div class="control-group ">
+                        <?php echo $form->labelEx($modPemeriksaanFisik,'tinggifundus_uteri', array('class'=>'control-label')) ?>
+                        <div class="controls">
+                                <?php echo $form->textField($modPemeriksaanFisik, 'tinggifundus_uteri', array('class'=>'span2 numbersOnly', 'style'=>'text-align: right;')); ?> cm
+                        </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
 </div>
 <!--<legend class="accord1" style="width:460px;">-->
 <!--		<?php // echo CHtml::checkBox('pemeriksaanFisik',false, array('onkeypress'=>"return $(this).focusNextInputField(event)")) ?> Pemeriksaan Anggota Tubuh-->
