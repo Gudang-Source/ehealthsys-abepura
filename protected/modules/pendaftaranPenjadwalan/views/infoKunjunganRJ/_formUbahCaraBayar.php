@@ -363,6 +363,13 @@ function onClickAsuransi()
         <?php 
             }else{
         ?>
+            $('#divAsuransiBpjs').hide();
+            $('#divAsuransiBpjs input').attr('disabled','true');
+            $('#divAsuransiBpjs select').attr('disabled','true');
+            $('#divAsuransiBpjs textarea').attr('disabled','true');
+            $('#divAsuransiBpjs input').attr('value','');
+            $('#divAsuransiBpjs select').attr('value','');
+            $('#divAsuransiBpjs textarea').attr('value','');
             $('#divAsuransi input').removeAttr('disabled');
             $('#divAsuransi select').removeAttr('disabled');
             $('#divAsuransi').show();
