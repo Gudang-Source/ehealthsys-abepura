@@ -30,7 +30,8 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
             <?php echo $form->dropDownListRow($modAnamnesa, 'pegawai_id', CHtml::listData($modAnamnesa->getDokterItems($modPendaftaran->ruangan_id), 'pegawai_id', 'NamaLengkap'), array('onkeypress' => "return $(this).focusNextInputField(event);",)); ?>
             <?php // echo $form->dropDownListRow($modAnamnesa, 'paramedis_nama', CHtml::listData(ParamedisV::model()->findAll("ruangan_id = ".Yii::app()->user->getState('ruangan_id')), 'nama_pegawai', 'NamaLengkap'), array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>                        
             <div class="control-group ">
-                <?php echo $form->label($modAnamnesa, 'perawat', array('class' => 'control-label')) ?>
+                <?php 
+                echo $form->label($modAnamnesa, 'perawat', array('class' => 'control-label')) ?>
 				<div class="controls">
 					<?php echo $form->dropDownList($modAnamnesa,'paramedis_nama', CHtml::listData($modAnamnesa->ParamedisItems, 'pegawai.nama_pegawai', 'pegawai.NamaLengkap'),array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
 				</div>
@@ -531,7 +532,7 @@ $(document).ready(function(){
 		}
     });
 	
-    defaultparamedis();     
+    // defaultparamedis();     
 });
 
 </script>
