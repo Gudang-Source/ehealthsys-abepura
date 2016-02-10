@@ -64,6 +64,31 @@ class ActionDynamicController extends Controller
         Yii::app()->end();
     }
     
+        /*
+ * Mencari Ruangan berdasarkan instalasiasal_id di tabel kelas Ruangan M
+ * and open the template in the editor.
+ */
+    public function actionGetRuanganAsalDariInstalasiAsal($encode=false,$namaModel='')
+    {
+        if(Yii::app()->request->isAjaxRequest) {
+            $instalasi = $_POST["$namaModel"]['instalasiasal_id'];
+            $ruangan = RuanganM::model()->findAll('instalasi_id='.$instalasi.' and ruangan_aktif = true');
+            
+            $ruangan=CHtml::listData($ruangan,'ruangan_id','ruangan_nama');
+            
+            if(empty($ruangan)){
+                echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+            }else{
+                echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                foreach($ruangan as $value=>$name)
+                {
+                    echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                }
+            }
+        }
+        Yii::app()->end();
+    }
+    
          
     
  
