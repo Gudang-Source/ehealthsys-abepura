@@ -534,9 +534,9 @@ function setDataPembayar(){
             $("#no_rekam_medik").val()+"-"+$("#namadepan").val()+" "+$("#nama_pasien").val();
     var alamat_bkm = $("#alamat_pasien").val();
     var sebagaipembayaran_bkm = "BIAYA PELAYANAN RUMAH SAKIT TANGGAL "+($("#tgl_pendaftaran").val());
-    if($("#instalasi_id").val() == <?php echo Params::INSTALASI_ID_RI; ?>){
-        sebagaipembayaran_bkm = "BIAYA PELAYANAN RUMAH SAKIT DARI TANGGAL "+($("#tgl_pendaftaran").val())+" SAMPAI DENGAN "+($("#tglselesaiperiksa").val());
-    }
+    //if($("#instalasi_id").val() == <?php echo Params::INSTALASI_ID_RI; ?>){
+    //    sebagaipembayaran_bkm = "BIAYA PELAYANAN RUMAH SAKIT DARI TANGGAL "+($("#tgl_pendaftaran").val())+" SAMPAI DENGAN "+($("#tglselesaiperiksa").val());
+    //}
     $("#<?php echo CHtml::activeId($modTandabukti, 'darinama_bkm') ?>").val(darinama_bkm);
     $("#<?php echo CHtml::activeId($modTandabukti, 'alamat_bkm') ?>").val(alamat_bkm);
     $("#<?php echo CHtml::activeId($modTandabukti, 'sebagaipembayaran_bkm') ?>").val(sebagaipembayaran_bkm);
