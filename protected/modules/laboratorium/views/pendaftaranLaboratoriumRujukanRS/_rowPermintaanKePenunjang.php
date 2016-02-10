@@ -9,7 +9,7 @@
         <?php echo CHtml::activeHiddenField($modPermintaan,'['.$i.'][ii]daftartindakan_id',array('readonly'=>true,'class'=>'span1')); ?>
         <?php echo CHtml::activeHiddenField($modPermintaan,'['.$i.'][ii]tindakanpelayanan_id',array('readonly'=>true,'class'=>'span1')); ?>
     </td>
-	<td>
+	<td class="status_bayar">
 		<?php
 		if(!empty($modPermintaan->tindakanpelayanan_id)){
 			if(!empty($modPermintaan->tindakanpelayanan->tindakansudahbayar_id)){
