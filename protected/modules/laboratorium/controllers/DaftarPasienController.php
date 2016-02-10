@@ -965,11 +965,11 @@ class DaftarPasienController extends MyAuthController {
             $tindakan = TindakanpelayananT::model()->findAllByAttributes(array(
                 'pasienmasukpenunjang_id'=>$pasienMasukPenunjang->pasienmasukpenunjang_id,
             ));
-            
+            /*
             $oa = ObatalkespasienT::model()->findAllByAttributes(array(
                 'pasienmasukpenunjang_id'=>$pasienMasukPenunjang->pasienmasukpenunjang_id,
             ));
-            
+            */
             foreach ($detail as $item) {
                 $ok = $ok && DetailhasilpemeriksaanlabT::model()->deleteByPk($item->detailhasilpemeriksaanlab_id);
             }
