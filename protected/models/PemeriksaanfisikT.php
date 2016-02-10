@@ -78,7 +78,7 @@ class PemeriksaanfisikT extends CActiveRecord
 			array('tekanandarah', 'length', 'max'=>20),
 			array('detaknadi, kelainanpadabagtubuh', 'length', 'max'=>30),
 			array('suhutubuh, beratbadan_kg, tinggibadan_cm, pernapasan', 'length', 'max'=>10),
-			array('meanarteripressure, td_systolic, td_diastolic, bb_ideal, kulit, mata, telinga, hidung, leher, tenggorokan, jantung, payudara, abdomen, update_time, update_loginpemakai_id,Lila, LingkarPinggang, LingkarPinggul, TebalLemak, TinggiLutut, ', 'safe'),
+			array('meanarteripressure, td_systolic, td_diastolic, bb_ideal, kulit, mata, telinga, hidung, leher, tenggorokan, jantung, payudara, abdomen, update_time, update_loginpemakai_id,Lila, LingkarPinggang, LingkarPinggul, TebalLemak, TinggiLutut, denyutjantung_janin, tinggifundus_uteri', 'safe'),
 			
 //                        DI NON-AKTIFKAN AGAR BRIDGING UNTUK MOBILE DOKTER BISA BERJALAN
 //                        array('create_time','default','value'=>date( 'Y-m-d H:i:s'),'setOnEmpty'=>false,'on'=>'insert'),
@@ -182,6 +182,8 @@ class PemeriksaanfisikT extends CActiveRecord
 			'kulit_berkeringat'=>'Berkeringat',
 			'akral'=>'Akral',
 			'namaGCS'=>'Nilai GCS',
+                        'denyutjantung_janin'=>'Denyut Jantung Janin',
+                        'tinggifundus_uteri'=>'Tinggi Fundus Uteri',
 		);
 	}
 
