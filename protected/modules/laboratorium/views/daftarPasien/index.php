@@ -392,7 +392,11 @@ JSCRIPT;
                                   params = {instalasi_id:<?php echo Yii::app()->user->getState("instalasi_id"); ?>, modul_id:<?php echo Yii::app()->session['modul_id']; ?>, judulnotifikasi:'GAGAL KIRIM SMS PASIEN', isinotifikasi:'Pasien '+data.nama_pasien+' tidak memiliki nomor mobile'}; // 16 
                                   insert_notifikasi(params);
                                 }
-                                window.location = "<?php echo Yii::app()->createUrl('laboratorium/daftarPasien/index&status=1')?>";
+                                if (data.pesan == 'exist') {
+                                    myAlert(data.keterangan);
+                                } else {
+                                    window.location = "<?php echo Yii::app()->createUrl('laboratorium/daftarPasien/index&status=1')?>";
+                                }
                               }else{
                                   if(data.status == 'exist')
                                   {
