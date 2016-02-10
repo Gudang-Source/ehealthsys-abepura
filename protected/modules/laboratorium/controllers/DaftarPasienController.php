@@ -721,6 +721,7 @@ class DaftarPasienController extends MyAuthController {
 
 			try {
 				$pendaftaran_id = $_POST['pendaftaran_id'];
+                                //$pendaftaranT = PendaftaranT::model()->findByPk($pendaftaran_id);
 				$idPenunjang = $_POST['idPenunjang'];
 
 				/*
@@ -814,7 +815,7 @@ class DaftarPasienController extends MyAuthController {
 						$keterangan = "<div class='flash-success'>Data berhasil disimpan</div>";
 					} else {
 						$pesan = 'exist';
-						$keterangan = "<div class='flash-success'>Pasien <b> " . $pendaftaranT->pendaftaran->pasien->nama_pasien . " 
+						$keterangan = "<div class='flash-success'>Pasien <b> " . $pasienMasukPenunjang->pendaftaran->pasien->nama_pasien . " 
                                             </b> sudah melakukan pembayaran pemeriksaan </div>";
 					}
 				} else {
@@ -826,9 +827,19 @@ class DaftarPasienController extends MyAuthController {
 					);
 					$tindakan = LBTindakanPelayananT::model()->findAllByAttributes($attributes);
 					if (count($tindakan) > 0) {
-						if (empty($tindakan->tindakansudahbayar_id)) {
+                                                $isbayar = false;
+                                                foreach ($tindakan as $item) {
+                                                    if (!empty($item->tindakansudahbayar_id)) {
+                                                        $isbayar = true;
+                                                        break;
+                                                    }
+                                                }
+                                                
+                                                
+						if (!$isbayar) {
 							$findHasil = HasilpemeriksaanlabT::model()->findAllByAttributes(array('pasienmasukpenunjang_id' => $pasienMasukPenunjang->pasienmasukpenunjang_id));
-							if (empty($pendaftaran->pembayaranpelayanan_id)) {
+							
+                                                        if (empty($pendaftaran->pembayaranpelayanan_id)) {
 								$model = new PasienbatalperiksaR();
 								$model->pendaftaran_id = $pendaftaran_id;
 								$model->pasien_id = $pasien_id;
@@ -858,12 +869,12 @@ class DaftarPasienController extends MyAuthController {
 								$keterangan = "<div class='flash-success'>Data berhasil disimpan</div>";
 							} else {
 								$pesan = 'exist';
-								$keterangan = "<div class='flash-success'>Pasien <b> " . $pendaftaranT->pendaftaran->pasien->nama_pasien . " 
+								$keterangan = "<div class='flash-success'>Pasien <b> " . $pasienMasukPenunjang->pendaftaran->pasien->nama_pasien . " 
                                                         </b> sudah melakukan pembayaran pemeriksaan </div>";
 							}
 						} else {
 							$pesan = 'exist';
-							$keterangan = "<div class='flash-success'>Pasien <b> " . $pendaftaranT->pendaftaran->pasien->nama_pasien . " 
+							$keterangan = "<div class='flash-success'>Pasien <b> " . $pasienMasukPenunjang->pendaftaran->pasien->nama_pasien . " 
                                                 </b> sudah melakukan pembayaran pemeriksaan </div>";
 						}
 					} else {
@@ -900,12 +911,12 @@ class DaftarPasienController extends MyAuthController {
 								$keterangan = "<div class='flash-success'>Data berhasil disimpan</div>";
 							} else {
 								$pesan = 'exist';
-								$keterangan = "<div class='flash-success'>Pasien <b> " . $pendaftaranT->pendaftaran->pasien->nama_pasien . " 
+								$keterangan = "<div class='flash-success'>Pasien <b> " . $pasienMasukPenunjang->pendaftaran->pasien->nama_pasien . " 
                                                             </b> sudah melakukan pembayaran pemeriksaan </div>";
 							}
 						} else {
 							$pesan = 'exist';
-							$keterangan = "<div class='flash-success'>Pasien <b> " . $pendaftaranT->pendaftaran->pasien->nama_pasien . " 
+							$keterangan = "<div class='flash-success'>Pasien <b> " . $pasienMasukPenunjang->pendaftaran->pasien->nama_pasien . " 
                                                 </b> sudah melakukan pembayaran pemeriksaan </div>";
 						}
 					}
