@@ -33,7 +33,7 @@
         .ui-jqgrid-btable tbody .jqgrow td {border:none !important;border-left:1px solid #DDDDDD !important;vertical-align:bottom !important}
         .link-a{text-decoration: none;margin-top: 2px;}
         a.link-a:hover{text-decoration: none; font-color:#fff !important;}
-		//untuk label yg bisa refresh
+		/* untuk label yg bisa refresh */
 		label.refreshable:hover{
 			cursor:pointer;
 			color:#0000FF;
@@ -102,7 +102,7 @@
             $namaRuangan = Yii::app()->user->getState('ruangan_nama');
             $idModul = ((!empty($this->module->id)) ? $this->module->id : null);
             $idUser = ((!empty(Yii::app()->user->id)) ? Yii::app()->user->id : null);
-            $modulMenu = ((!empty($this->module->menu) && Yii::app()->user->ruangan_id != 1) ? $this->module->menu : null);
+            $modulMenu = ((!empty($this->module->menu) && $this->module->id != 'sistemAdministrator') ? $this->module->menu : null);
 			$tglLogin = Yii::app()->user->getState('lastLoginTime');
 			if(!empty($tglLogin)){
 				$tglLogin = MyFormatter::formatDateTimeForUser($tglLogin); 
