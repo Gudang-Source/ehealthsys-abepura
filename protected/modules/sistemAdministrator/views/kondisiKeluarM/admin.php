@@ -17,12 +17,14 @@ $('.search-form form').submit(function(){
 });
 ");
 ?>
+<?php if (!$this->isFrame) : ?>
 <legend class="rim2">Pengaturan Kondisi Keluar</legend>
+<?php endif; ?>
 <?php $this->widget('bootstrap.widgets.BootAlert'); ?>
 
 <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-search"></i>')),'#',array('class'=>'search-button btn')); ?>
 <div class="search-form" style="display:none">
-<?php $this->renderPartial('_search',array(
+<?php $this->renderPartial($this->path_view.'_search',array(
 	'model'=>$model,
 )); ?>
 </div><!-- search-form -->
@@ -64,6 +66,7 @@ $('.search-form form').submit(function(){
                         'buttons'=>array(
                             'view' => array(),
                          ),
+                        'htmlOptions'=>array('style'=>'text-align: center; '),
 		),
 		array(
                         'header'=>Yii::t('zii','Update'),
@@ -72,6 +75,7 @@ $('.search-form form').submit(function(){
                         'buttons'=>array(
                             'update' => array(),
                          ),
+                        'htmlOptions'=>array('style'=>'text-align: center; '),
 		),
 		array(
                         'header'=>Yii::t('zii','Delete'),
@@ -83,9 +87,11 @@ $('.search-form form').submit(function(){
                                                 'options'=>array('title'=>Yii::t('mds','Remove Temporary')),
                                                 'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/nonActive",array("id"=>"$data->kondisikeluar_id"))',
                                                 'click'=>'function(){return confirm("'.Yii::t("mds","Do You want to remove this item temporary?").'");}',
+                                                'visible'=>'$data->kondisikeluar_aktif',
                                         ),
                                         'delete'=> array(),
-                        )
+                        ),
+                        'htmlOptions'=>array('style'=>'text-align: center; '),
 		),
 	),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',

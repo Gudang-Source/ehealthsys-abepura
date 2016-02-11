@@ -66,6 +66,7 @@ $('.search-form form').submit(function(){
                         'buttons'=>array(
                             'view' => array(),
                          ),
+                         'htmlOptions'=>array('style'=>'text-align: center; '),
 		),
 		array(
                         'header'=>Yii::t('zii','Update'),
@@ -74,6 +75,7 @@ $('.search-form form').submit(function(){
                         'buttons'=>array(
                             'update' => array(),
                          ),
+                        'htmlOptions'=>array('style'=>'text-align: center; '),
 		),
 		array(
                         'header'=>Yii::t('zii','Delete'),

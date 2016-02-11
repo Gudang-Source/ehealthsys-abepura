@@ -171,11 +171,11 @@ class CarakeluarMController extends MyAuthController
         $caraPrint=$_REQUEST['caraPrint'];
         if($caraPrint=='PRINT') {
             $this->layout='//layouts/printWindows';
-            $this->render('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+            $this->render($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
         }
         else if($caraPrint=='EXCEL') {
             $this->layout='//layouts/printExcel';
-            $this->render('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+            $this->render($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
         }
         else if($_REQUEST['caraPrint']=='PDF') {
             $ukuranKertasPDF = Yii::app()->user->getState('ukuran_kertas');                  //Ukuran Kertas Pdf
@@ -185,7 +185,7 @@ class CarakeluarMController extends MyAuthController
             $stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
             $mpdf->WriteHTML($stylesheet,1);  
             $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
-            $mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
+            $mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
             $mpdf->Output();
         }                       
     }
