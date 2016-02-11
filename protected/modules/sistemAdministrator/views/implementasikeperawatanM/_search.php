@@ -17,7 +17,7 @@
     </tr>
     <tr>
         <td>
-            <?php echo $form->checkBoxRow($model,'iskolaborasiimplementasi',array('checked'=>'iskolaborasiimplementasi')); ?>
+            <?php // echo $form->checkBoxRow($model,'iskolaborasiimplementasi',array('checked'=>'iskolaborasiimplementasi')); ?>
         </td>
     </tr>
 </table>

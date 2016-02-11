@@ -34,7 +34,16 @@ class ImplementasikeperawatanMController extends MyAuthController
 	public function actionCreate()
 	{
                  //if(!Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}                                             
-		$model=new ImplementasikeperawatanM;
+		if (isset($_POST['ax'])) {
+                    if (isset($_POST['param'])) {
+                        call_user_func(array($this, $_POST['f']), $_POST['param']);
+                    } else {
+                        call_user_func(array($this, $_POST['f']));
+                    }
+                    Yii::app()->end();
+                }
+                 
+                $model=new ImplementasikeperawatanM;
 
 		// Uncomment the following line if AJAX validation is needed
 		
@@ -70,6 +79,22 @@ class ImplementasikeperawatanMController extends MyAuthController
 		));
 	}
 
+        protected function setDropRencana($param) {
+            $id = $param['id'];
+            $ren = RencanakeperawatanM::model()->findAllByAttributes(array(
+                'diagnosakeperawatan_id'=>$id,
+            ));
+            
+            $res = "";
+            
+            $res .= '<option value="">-- Pilih --</option>';
+            foreach ($ren as $item) {
+                $res .= '<option value="'.$item->rencanakeperawatan_id.'">'.$item->rencana_intervensi.'</option>';
+            }
+            
+            echo CJSON::encode(array('html'=>$res));
+        }
+        
 	/**
 	 * Updates a particular model.
 	 * If update is successful, the browser will be redirected to the 'view' page.
@@ -86,7 +111,44 @@ class ImplementasikeperawatanMController extends MyAuthController
 
 		if(isset($_POST['SAImplementasikeperawatanM']))
                     {
-
+                        var_dump($_POST);
+                        $ok = true;
+                        $trans = Yii::app()->db->beginTransaction();
+                        $sub = ImplementasikeperawatanM::model()->findByPk($_POST['ImplementasikeperawatanM'][1]['implementasikeperawatan_id']);
+                        foreach ($_POST['ImplementasikeperawatanM'] as $item) {
+                            $model = new ImplementasikeperawatanM;
+                            $model->diagnosakeperawatan_id = $sub->diagnosakeperawatan_id;
+                            
+                            if (!empty($item['implementasikeperawatan_id'])) {
+                                $model = ImplementasikeperawatanM::model()->findByPk($item['implementasikeperawatan_id']);
+                            }
+                            
+                            $model->attributes = $item;
+                            if ($model->iskolaborasiimplementasi == 1) $model->iskolaborasiimplementasi = true;
+                            else $model->iskolaborasiimplementasi = false;
+                            
+                            //var_dump($model->validate());
+                            //var_dump($model->errors);
+                            
+                            //var_dump($model->attributes);
+                            
+                            if ($model->validate()) {
+                                $ok = $ok && $model->save();
+                            } else $ok = false;
+                        }
+                        //var_dump($ok); die;
+                        
+                        if ($ok) {
+                            $trans->commit();
+                            Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                        } else {
+                            $trans->rollback();
+                            Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data tidak valid.');
+                        }
+                        
+                        $this->redirect(array('admin'));
+                        /*
+                        var_dump($_POST); die;
                         $valid=true;
                         foreach($_POST['ImplementasikeperawatanM'] as $i=>$item)
                         {
@@ -130,8 +192,10 @@ class ImplementasikeperawatanMController extends MyAuthController
                             	Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data tidak valid.');
                             }
                         }
+                         * 
+                         */
 
-                        $this->redirect(array('admin'));
+                        
                       }   
 
 		$this->render($this->path_view.'update',array(

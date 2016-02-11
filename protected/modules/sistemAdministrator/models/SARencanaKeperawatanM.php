@@ -28,7 +28,7 @@ class SARencanakeperawatanM extends RencanakeperawatanM
 		$criteria->compare('LOWER(rencana_kode)',strtolower($this->rencana_kode),true);
 		$criteria->compare('LOWER(rencana_intervensi)',strtolower($this->rencana_intervensi),true);
 		$criteria->compare('LOWER(rencana_rasionalisasi)',strtolower($this->rencana_rasionalisasi),true);
-		$criteria->compare('iskolaborasiintervensi',isset($this->iskolaborasiintervensi)?$this->iskolaborasiintervensi:true);
+		// $criteria->compare('iskolaborasiintervensi',isset($this->iskolaborasiintervensi)?$this->iskolaborasiintervensi:true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
