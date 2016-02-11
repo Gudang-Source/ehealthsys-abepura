@@ -72,9 +72,9 @@ class KondisiKeluarM extends CActiveRecord
 	{
 		return array(
 			'kondisikeluar_id' => 'Id Kondisi Keluar',
-			'carakeluar_id' => 'Id Cara Keluar',
+			'carakeluar_id' => 'Cara Keluar',
 			'kondisikeluar_nama' => 'Nama Kondisi Keluar',
-			'kondisikeluar_namalain' => 'Nama Lain Kondisi Keluar',
+			'kondisikeluar_namalain' => 'Nama Lain',
 			'kondisikeluar_aktif' => 'Aktif',
 		);
 	}
