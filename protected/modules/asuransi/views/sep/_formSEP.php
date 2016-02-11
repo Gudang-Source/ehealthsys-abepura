@@ -1,5 +1,4 @@
-<div class="row-fluid">
-    <div class="span4">
+<div class="span6">
 	<div class="control-group">
         <?php echo CHtml::label("Cari ".$model->getAttributeLabel('no peserta')." <span class='required'>*</span> <i class=\"icon-search\" onclick=\"getAsuransiNoKartu($('#".CHtml::activeId($model,"nopeserta")."').val());\", style=\"cursor:pointer;\" rel='tooltip' title='klik untuk mengecek peserta'></i>", 'nopeserta', array('class'=>'control-label'))?>
         <div class="controls">
@@ -164,10 +163,9 @@
 			?>
 			<?php echo $form->error($modRujukanBpjs,'no_rujukan'); ?>                        
 		</div>
-	</div>	
-    </div>
-    <div class="span4">
-        <div class="control-group ">
+	</div>
+	
+	<div class="control-group ">
 		<?php echo $form->labelEx($modRujukanBpjs,'rujukandari_id', array('class'=>'control-label')); ?>
 		<div class="controls">
 			<?php echo $form->dropDownList($modRujukanBpjs,'rujukandari_id',CHtml::listData($modRujukanBpjs->getRujukanDariItems($modRujukanBpjs->asalrujukan_id), 'rujukandari_id', 'namaperujuk'),
@@ -257,23 +255,14 @@
 			<?php echo $form->error($modRujukanBpjs, 'diagnosa_rujukan'); ?>
 		</div>
 	</div>
-        <?php 
+	
+	
+</div>
+<div class="span6">
+	<?php 
 		if (Yii::app()->user->getState('isbridging')) { 
 	?>
 	<?php echo $form->hiddenField($model,'sep_id', array('placeholder'=>'','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-        <div class="control-group ">
-		<label class="control-label">
-		<?php echo CHtml::checkBox('isSepManual','',array('onchange'=>'setSEP(this)')); ?>
-		No. SEP
-		<!-- <span class="required">*</span> -->
-		</label>
-		<div class="controls">
-			<?php echo $form->textField($model,'nosep',array('placeholder'=>'No. SEP Manual / Otomatis','class'=>'span3 nosep', 'disabled'=>'disabled' ,'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
-			<?php echo $form->error($model, 'nosep'); ?>
-		</div>
-	</div>
-    </div>
-    <div class="span4">
 	<!-- <div class="control-group ">
 		<?php echo $form->labelEx($model,'tglsep', array('class'=>'control-label')) ?>
 		<div class="controls">
@@ -293,6 +282,17 @@
 			<?php echo $form->error($model, 'tglsep'); ?>
 		</div>
 	</div> -->
+	<div class="control-group ">
+		<label class="control-label">
+		<?php echo CHtml::checkBox('isSepManual','',array('onchange'=>'setSEP(this)')); ?>
+		No. SEP
+		<!-- <span class="required">*</span> -->
+		</label>
+		<div class="controls">
+			<?php echo $form->textField($model,'nosep',array('placeholder'=>'No. SEP Manual / Otomatis','class'=>'span3 nosep', 'disabled'=>'disabled' ,'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+			<?php echo $form->error($model, 'nosep'); ?>
+		</div>
+	</div>
 	<?php //echo $form->textFieldRow($model,'nosep', array('placeholder'=>'','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
 	<?php echo $form->textFieldRow($model,'ppkrujukan', array('placeholder'=>'','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
 	<?php //echo $form->hiddenField($model,'ppkpelayanan', array('placeholder'=>'','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
@@ -323,5 +323,4 @@
 			)); ?>
 		</div>
 	</div>
-    </div>
 </div>

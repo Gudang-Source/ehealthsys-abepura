@@ -18,17 +18,17 @@ $('.search-form form').submit(function(){
 ");
 ?>
 <div class="white-container">
-	<legend class="rim2">Surat Eligibilitas <b>Peserta (SEP)</b></legend>
+	<legend class="rim2">Surat Eligibilitas Peserta <b>(SEP)</b></legend>
 	<?php $this->widget('bootstrap.widgets.BootAlert'); ?>
 
-	<?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-accordion icon-white"></i>')),'#',array('class'=>'search-button btn')); ?>
-	<div class="cari-lanjut2 search-form" style="display:none">
+	<?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-search"></i>')),'#',array('class'=>'search-button btn')); ?>
+	<div class="cari-lanjut search-form" style="display:none">
 	<?php $this->renderPartial('_search',array(
 		'model'=>$model,
 	)); ?>
 	</div><!-- search-form -->
-	<!--<div class="block-tabel">-->
-		<!--<h6 class="rim2">Tabel Surat Eligibilitas Peserta (SEP)</h6>-->
+	<div class="block-tabel">
+		<h6 class="rim2">Tabel Surat Eligibilitas Peserta (SEP)</h6>
 	<?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
 		'id'=>'assep-t-grid',
 		'dataProvider'=>$model->search(),
@@ -150,7 +150,7 @@ $('.search-form form').submit(function(){
 		),
 		'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 	)); ?>
-<!--</div>-->
+</div>
 <?php 
 	echo CHtml::link(Yii::t('mds','{icon} Tambah SEP',array('{icon}'=>'<i class="icon-plus icon-white"></i>')),$this->createUrl('create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp"; 
 	echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 

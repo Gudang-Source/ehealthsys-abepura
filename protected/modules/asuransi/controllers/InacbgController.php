@@ -6,6 +6,7 @@ class InacbgController extends MyAuthController{
 	public $path_view_inacbg = 'asuransi.views.inacbg.';
 	public $path_view_billingkasir = 'billingKasir.views.';
 	public $inacbgtersimpan = false;
+	public $diagnosainacbgtersimpan = false;
 	public $bridgingfinalisasiberhasil = true;
 	public $updatefinalisasitersimpan = true;
 	
@@ -19,14 +20,19 @@ class InacbgController extends MyAuthController{
 		$modPasienMorbiditas = new ARPasienmorbiditasT();
 		$modInasisCbg = new ARInasiscbgT();
 		$modInasisCmg = new ARInasiscmgT();
+		$modDiagnosaInacbg = array();
 		
 		if(!empty($_GET['inacbg_id'])){
 			$model = ARInacbgT::model()->findByPk($_GET['inacbg_id']);
 			$modSEP = ARSepT::model()->findByPK($model->sep_id);
 			$modPendaftaran = ARPendaftaranT::model()->findByPK($model->pendaftaran_id);
 			$modPasien = ARPasienM::model()->findByPK($model->pasien_id);
-			$modPasienAdmisi = ARPasienadmisiT::model()->findByPK($model->pasienadmisi_id);
-			$modPasienPulang = ARPasienpulangT::model()->findByPK($model->pasienpulang_id);
+			if(!empty($model->pasienadmisi_id)){
+				$modPasienAdmisi = ARPasienadmisiT::model()->findByPK($model->pasienadmisi_id);
+			}			
+			if(!empty($model->pasienpulang_id)){
+				$modPasienPulang = ARPasienpulangT::model()->findByPK($model->pasienpulang_id);
+			}
 			$modPasienMorbiditas = ARPasienmorbiditasT::model()->findAllByAttributes(array('pendaftaran_id'=>$model->pendaftaran_id));
 		}
 		
@@ -36,7 +42,16 @@ class InacbgController extends MyAuthController{
 				$model->attributes = $_POST['ARInacbgT'];
 				$model = $this->simpanInacbg($model,$_POST['ARInacbgT'],$_POST['ARSepT'],$_POST['ARPendaftaranT'],$_POST['ARPasienM'],$_POST['ARPasienadmisiT'],$_POST['ARPasienpulangT']);
 				
-				if($this->inacbgtersimpan){                        
+				if($model){
+					if(isset($_POST['ARPasienmorbiditasT'])){
+						if(count($_POST['ARPasienmorbiditasT']) > 0){
+							foreach($_POST['ARPasienmorbiditasT'] as $i=>$detail){
+								$modDiagnosaInacbg[$i] = $this->simpanDiagnosaInacbg($model,$modDiagnosaInacbg,$detail);
+							}
+						}
+					}
+				}
+				if($this->inacbgtersimpan && $this->diagnosainacbgtersimpan){                        
 					$transaction->commit();
 					Yii::app()->user->setFlash('success',"Data berhasil disimpan");
 					$this->redirect(array('index','inacbg_id'=>$model->inacbg_id,'sukses'=>1));
@@ -59,7 +74,8 @@ class InacbgController extends MyAuthController{
 			'modPasienPulang'=>$modPasienPulang,
 			'modPasienMorbiditas'=>$modPasienMorbiditas,
 			'modInasisCbg'=>$modInasisCbg,
-			'modInasisCmg'=>$modInasisCmg
+			'modInasisCmg'=>$modInasisCmg,
+			'modDiagnosaInacbg'=>$modDiagnosaInacbg
 		));
 	}	
 	
@@ -303,14 +319,6 @@ class InacbgController extends MyAuthController{
     }
 	
 	public function simpanInacbg($model,$postInacbg,$postSep,$postPendaftaran,$postPasien,$postPasienAdmisi,$postPasienPulang){
-//		echo "<pre>";
-//		print_r($postInacbg['totaltarif']);
-//		print_r($postSep);
-//		print_r($postPendaftaran);
-//		print_r($postPasien);
-//		print_r($postPasienAdmisi);
-//		print_r($postPasienPulang);
-//		exit;
 		$format = new MyFormatter();
 		$model = new ARInacbgT();
 		
@@ -357,6 +365,30 @@ class InacbgController extends MyAuthController{
 		}
 		
 		return $model;
+	}
+	
+	public function simpanDiagnosaInacbg($model,$postDiagnosa,$detail){		
+		$format = new MyFormatter();
+		$modDiagnosa = ARDiagnosaM::model()->findByPk($detail['diagnosa_id']);
+		$modDiagnosaInacbg = new ARDiagnosainacbgT();
+		
+		$modDiagnosaInacbg->attributes = $postDiagnosa;
+		$modDiagnosaInacbg->pasienmorbiditas_id = $detail['pasienmorbiditas_id'];		
+		$modDiagnosaInacbg->inacbg_id = $model->inacbg_id;		
+		$modDiagnosaInacbg->pendaftaran_id = $model->pendaftaran_id;		
+		$modDiagnosaInacbg->kodediagnosainacbg = isset($modDiagnosa->diagnosa_kode) ? $modDiagnosa->diagnosa_kode : "";		
+		$modDiagnosaInacbg->namadiagnosainacbg = isset($modDiagnosa->diagnosa_nama) ? $modDiagnosa->diagnosa_nama : "";		
+		$modDiagnosaInacbg->create_time = date('Y-m-d H:i:s');
+		$modDiagnosaInacbg->create_loginpemakai_id = Yii::app()->user->id;
+		$modDiagnosaInacbg->create_ruangan = Yii::app()->user->getState('ruangan_id');
+		
+		if($modDiagnosaInacbg->save()){
+			$this->diagnosainacbgtersimpan = true;
+		}else{
+			$this->diagnosainacbgtersimpan = false;
+		}
+		
+		return $modDiagnosaInacbg;
 	}
 	
 	public function actionBpjsInterface()
@@ -415,7 +447,6 @@ class InacbgController extends MyAuthController{
 					break;
 			}
 			Yii::app()->end();
-		}
-		
+		}		
 	}
 }

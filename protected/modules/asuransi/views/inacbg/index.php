@@ -84,7 +84,8 @@
 			'modPasien'=>$modPasien,
 			'modPasienAdmisi'=>$modPasienAdmisi,
 			'modPasienPulang'=>$modPasienPulang,
-			'modPasienMorbiditas'=>$modPasienMorbiditas)); ?>
+			'modPasienMorbiditas'=>$modPasienMorbiditas,
+			'modDiagnosaInacbg'=>$modDiagnosaInacbg)); ?>
 
  <?php $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
 	'id' => 'dialogRincian',
