@@ -57,6 +57,6 @@
         ?>
     </div>
     <fieldset class="box">
-        <?php $this->renderPartial('_formSearch',array());  ?>
+        <?php $this->renderPartial('_formSearch',array('model'=>$model));  ?>
     </fieldset>
 </div>
