@@ -536,6 +536,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                         'filter'=>CHtml::activeDropDownList($modDialogKunjungan, 'ruangan_id', CHtml::listData(RuanganM::model()->findAll($cr), 'ruangan_id', 'ruangan_nama'), array('empty'=>'-- Pilih --')), 
                     ),
 //                    'kabupaten_nama',
+                /*
                     array(
                         'header'=>'Nama Kecamatan',
                         'name'=>'kecamatan_id',
@@ -548,7 +549,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                                 )), 'kecamatan_id', 'kecamatan_nama'), array(
                                     'empty'=>'-- Pilih --',
                                 )),
-                    ),
+                    ), 
                     array(
                         'header'=>'Nama Kelurahan',
                         'name'=>'kelurahan_id',
@@ -564,6 +565,8 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                                     'empty'=>'-- Pilih --',
                                 )),
                     ),
+                 * 
+                 */
                     array(
                         'header'=>'Cara Bayar',
                         'name'=>'carabayar_id',
