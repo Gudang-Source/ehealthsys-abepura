@@ -74,7 +74,6 @@ class DaftarPasienController extends MyAuthController
                             'pegawai_id'=>$_POST['ROPasienmasukpenunjangT']['pegawai_id']
                         )
                     );
-                        
 
                     $transaction->commit();
                     Yii::app()->user->setFlash('success',"Data berhasil Disimpan");

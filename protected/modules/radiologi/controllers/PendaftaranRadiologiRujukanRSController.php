@@ -129,7 +129,12 @@ class PendaftaranRadiologiRujukanRSController extends PendaftaranRadiologiContro
 					foreach($_POST['ROObatalkespasienT'] AS $i => $postDetail){
 						$modDetails[$i] = new ROObatalkespasienT;
 						$modDetails[$i]->attributes = $postDetail;
-						$modStok = StokobatalkesT::model()->findByPk($postDetail['stokobatalkes_id']);
+						
+                                                $modDetails[$i] = $this->simpanObatAlkesPasien2($modPasienMasukPenunjang,$postDetail);
+                                                $this->simpanStokObatAlkesOut2($modDetails[$i]);
+                                                
+                                                /*
+                                                $modStok = StokobatalkesT::model()->findByPk($postDetail['stokobatalkes_id']);
 						$modDetails[$i]->stokobatalkes_id = $modStok->stokobatalkes_id;
 						$obatalkes_id = $postDetail['obatalkes_id'];
 						if(isset($detailGroups[$obatalkes_id])){
@@ -137,8 +142,9 @@ class PendaftaranRadiologiRujukanRSController extends PendaftaranRadiologiContro
 						}else{
 							$detailGroups[$obatalkes_id]['obatalkes_id'] = $postDetail['obatalkes_id'];
 							$detailGroups[$obatalkes_id]['qty_oa'] = $postDetail['qty_oa'];
-						}
+						} */
 					}
+                                        /*
 					$obathabis = "";
 					//PROSES PENGURAIAN OBAT DAN JUMLAH MENJADI STOKOBATALKES_T (METODE ANTRIAN)
 					foreach($detailGroups AS $i => $detail){
@@ -153,7 +159,7 @@ class PendaftaranRadiologiRujukanRSController extends PendaftaranRadiologiContro
 							$obathabis .= "<br>- ".ObatalkesM::model()->findByPk($detail['obatalkes_id'])->obatalkes_nama;
 
 						}
-					}
+					}*/
 					//END GROUP
 				  }
 			   }
@@ -165,7 +171,9 @@ class PendaftaranRadiologiRujukanRSController extends PendaftaranRadiologiContro
 //                        }
 //                    }
 //                }
-				// die;
+                                //echo 'Kick';
+                                //var_dump($this->pasienpenunjangtersimpan && $this->tindakanpelayanantersimpan && $this->komponentindakantersimpan && $this->hasilpemeriksaantersimpan && $pasienkirimterupdate && $this->obatalkespasientersimpan && $this->stokobatalkestersimpan);
+				//die;
 				if($this->pasienpenunjangtersimpan && $this->tindakanpelayanantersimpan && $this->komponentindakantersimpan && $this->hasilpemeriksaantersimpan && $pasienkirimterupdate && $this->obatalkespasientersimpan && $this->stokobatalkestersimpan){
 					
 					// SMS GATEWAY
@@ -246,6 +254,78 @@ class PendaftaranRadiologiRujukanRSController extends PendaftaranRadiologiContro
 	}
 
 	
+        public function simpanObatAlkesPasien2($modPasienMasukPenunjang ,$postDetail){        
+		$modObatAlkesPasien = new ROObatalkespasienT;
+                // var_dump($postDetail);
+                $oa = ObatalkesM::model()->findByPk($postDetail['obatalkes_id']);
+		$modObatAlkesPasien->attributes = $postDetail;
+		$modObatAlkesPasien->tglpelayanan = date("Y-m-d H:i:s");
+		$modObatAlkesPasien->tipepaket_id = Params::TIPEPAKET_ID_NONPAKET;
+		$modObatAlkesPasien->ruangan_id = Yii::app()->user->getState('ruangan_id');
+		$modObatAlkesPasien->pendaftaran_id = $modPasienMasukPenunjang->pendaftaran_id;
+		$modObatAlkesPasien->pasienmasukpenunjang_id = $modPasienMasukPenunjang->pasienmasukpenunjang_id;
+		$modObatAlkesPasien->pasienadmisi_id = $modPasienMasukPenunjang->pasienadmisi_id;
+		$modObatAlkesPasien->carabayar_id = $modPasienMasukPenunjang->pendaftaran->carabayar_id;
+		$modObatAlkesPasien->penjamin_id = $modPasienMasukPenunjang->pendaftaran->penjamin_id;
+		$modObatAlkesPasien->pegawai_id = $modPasienMasukPenunjang->pegawai_id;
+		$modObatAlkesPasien->shift_id = Yii::app()->user->getState('shift_id');
+		$modObatAlkesPasien->pasien_id = $modPasienMasukPenunjang->pasien_id;
+		$modObatAlkesPasien->kelaspelayanan_id = $modPasienMasukPenunjang->kelaspelayanan_id;
+		$modObatAlkesPasien->tglpelayanan = date ('Y-m-d H:i:s');
+		$modObatAlkesPasien->create_loginpemakai_id = Yii::app()->user->id;
+		$modObatAlkesPasien->create_ruangan = Yii::app()->user->getState('ruangan_id');
+		$modObatAlkesPasien->create_time = date ('Y-m-d H:i:s');
+		$modObatAlkesPasien->qty_oa = $postDetail['qty_oa']; //$stokOa->qtystok_terpakai;
+		//$modObatAlkesPasien->qty_stok = $stokOa->qtystok;
+		$modObatAlkesPasien->harganetto_oa = $oa->harganetto; //$stokOa->HPP;
+		$modObatAlkesPasien->hargasatuan_oa = $oa->hargajual; //$stokOa->HargaJualSatuan;
+		$modObatAlkesPasien->hargajual_oa = $modObatAlkesPasien->hargasatuan_oa * $modObatAlkesPasien->qty_oa;
+		$modObatAlkesPasien->iurbiaya = $modObatAlkesPasien->hargajual_oa;
+		 //foreach ($postObatAlkesPasien AS $i => $postDetail) {
+			//if ($stokOa->obatalkes_id==$postDetail['obatalkes_id']) {
+				$modObatAlkesPasien->sumberdana_id = $postDetail['sumberdana_id'];                
+				$modObatAlkesPasien->satuankecil_id = $postDetail['satuankecil_id'];                
+				$modObatAlkesPasien->qty_stok = $postDetail['qty_stok'];                
+			//}
+		//}
+                //var_dump($modObatAlkesPasien->validate());         
+                //var_dump($modObatAlkesPasien->errors);
+                //var_dump($modObatAlkesPasien->attributes); die;
+
+		if($modObatAlkesPasien->save()){
+			$this->obatalkespasientersimpan &= true;
+		}else{
+			$this->obatalkespasientersimpan &= false;
+		}
+		
+//        old
+//        $modObatAlkesPasien = new ROObatalkespasienT;
+//        $modObatAlkesPasien->attributes = $post;
+//        $modObatAlkesPasien->tipepaket_id = Params::TIPEPAKET_ID_NONPAKET;
+//        $modObatAlkesPasien->ruangan_id = Yii::app()->user->getState('ruangan_id');
+//        $modObatAlkesPasien->pendaftaran_id = $modPasienMasukPenunjang->pendaftaran_id;
+//        $modObatAlkesPasien->pasienmasukpenunjang_id = $modPasienMasukPenunjang->pasienmasukpenunjang_id;
+//        $modObatAlkesPasien->pasienadmisi_id = $modPasienMasukPenunjang->pasienadmisi_id;
+//        $modObatAlkesPasien->carabayar_id = $modPasienMasukPenunjang->pendaftaran->carabayar_id;
+//        $modObatAlkesPasien->penjamin_id = $modPasienMasukPenunjang->pendaftaran->penjamin_id;
+//        $modObatAlkesPasien->pegawai_id = $modPasienMasukPenunjang->pegawai_id;
+//        $modObatAlkesPasien->shift_id = Yii::app()->user->getState('shift_id');
+//        $modObatAlkesPasien->pasien_id = $modPasienMasukPenunjang->pasien_id;
+//        $modObatAlkesPasien->kelaspelayanan_id = $modPasienMasukPenunjang->kelaspelayanan_id;
+//        $modObatAlkesPasien->tglpelayanan = date ('Y-m-d H:i:s');
+//        $modObatAlkesPasien->create_loginpemakai_id = Yii::app()->user->id;
+//        $modObatAlkesPasien->create_ruangan = Yii::app()->user->getState('ruangan_id');
+//        $modObatAlkesPasien->create_time = date ('Y-m-d H:i:s');
+//        
+//        if($modObatAlkesPasien->validate()) {
+//            $modObatAlkesPasien->save();
+//            StokobatalkesT::kurangiStok($modObatAlkesPasien->qty_oa, $modObatAlkesPasien->obatalkes_id);
+//        } else {
+//            $this->obatalkespasientersimpan &= false;
+//        }
+		return $modObatAlkesPasien;
+	}
+        
 	/**
 	 * simpan ROObatalkespasienT
 	 * @param type $modPasienMasukPenunjang
@@ -321,6 +401,43 @@ class PendaftaranRadiologiRujukanRSController extends PendaftaranRadiologiContro
 		return $modObatAlkesPasien;
 	}
 	
+        /**
+	 * simpan StokobatalkesT Jumlah Out
+	 * @param type $stokobatalkesasal_id
+	 * @param type $modObatAlkesPasien
+	 * @return \StokobatalkesT
+	 */
+	protected function simpanStokObatAlkesOut2($modObatAlkesPasien){
+		$format = new MyFormatter;
+                $oa = ObatalkesM::model()->findByPk($modObatAlkesPasien->obatalkes_id);
+		//$modStokOa = StokobatalkesT::model()->findByPk($stokobatalkesasal_id);
+		$modStokOaNew = new StokobatalkesT;
+                $modStokOaNew->attributes = $oa->attributes;
+		$modStokOaNew->attributes = $modObatAlkesPasien->attributes; //duplicate
+		// $modStokOaNew->unsetIdTransaksi(); //new / autoincrement pk
+		$modStokOaNew->qtystok_in = 0;
+		$modStokOaNew->qtystok_out = $modObatAlkesPasien->qty_oa;
+		$modStokOaNew->obatalkespasien_id = $modObatAlkesPasien->obatalkespasien_id;
+		//$modStokOaNew->stokobatalkesasal_id = $stokobatalkesasal_id;
+		$modStokOaNew->create_time = date('Y-m-d H:i:s');
+		$modStokOaNew->update_time = $modStokOaNew->tglterima = date('Y-m-d H:i:s');
+		$modStokOaNew->create_loginpemakai_id = Yii::app()->user->id;
+		$modStokOaNew->update_loginpemakai_id = Yii::app()->user->id;
+		$modStokOaNew->create_ruangan = Yii::app()->user->ruangan_id;
+                
+                //var_dump($modStokOaNew->validate());
+                //var_dump($modStokOaNew->errors);
+                //var_dump($modStokOaNew->attributes); die;
+		
+		if($modStokOaNew->validate()){ 
+			$modStokOaNew->save();
+			//$modStokOaNew->setStokOaAktifBerdasarkanStok();
+		} else {
+			$this->stokobatalkestersimpan &= false;
+		}
+		return $modStokOaNew;      
+	}
+        
 	/**
 	 * simpan StokobatalkesT Jumlah Out
 	 * @param type $stokobatalkesasal_id
@@ -471,17 +588,18 @@ class PendaftaranRadiologiRujukanRSController extends PendaftaranRadiologiContro
 			$modObatAlkesPasien = new ROObatalkespasienT;
 			$ruangan_id = Yii::app()->user->getState('ruangan_id');
 			$modStokOAs = StokobatalkesT::getStokObatAlkesAktif($obatalkes_id, $jumlah, $ruangan_id);
-			if(count($modStokOAs) > 0){
+			$oa = ObatalkesM::model()->findByPk($obatalkes_id);
+                        //if(count($modStokOAs) > 0){
 
-				foreach($modStokOAs AS $i => $stok){
-					$modObatAlkesPasien->sumberdana_id = (isset($stok->penerimaandetail->sumberdana_id) ? $stok->penerimaandetail->sumberdana_id : $stok->obatalkes->sumberdana_id);
-					$modObatAlkesPasien->obatalkes_id = $stok->obatalkes_id;
-					$modObatAlkesPasien->qty_oa = $stok->qtystok_terpakai;
-					$modObatAlkesPasien->harganetto_oa = $stok->HPP;
-					$modObatAlkesPasien->hargasatuan_oa = $stok->HargaJualSatuan;
-					$modObatAlkesPasien->qty_stok = $stok->qtystok;
+			//	foreach($modStokOAs AS $i => $stok){
+					$modObatAlkesPasien->sumberdana_id = $oa->sumberdana_id; //(isset($stok->penerimaandetail->sumberdana_id) ? $stok->penerimaandetail->sumberdana_id : $stok->obatalkes->sumberdana_id);
+					$modObatAlkesPasien->obatalkes_id = $oa->obatalkes_id; //$stok->obatalkes_id;
+					$modObatAlkesPasien->qty_oa = $jumlah; //$stok->qtystok_terpakai;
+					$modObatAlkesPasien->harganetto_oa = $oa->harganetto; //$stok->HPP;
+					$modObatAlkesPasien->hargasatuan_oa = $oa->hargajual; //$stok->HargaJualSatuan;
+					$modObatAlkesPasien->qty_stok = 0; //$stok->qtystok;
 					$modObatAlkesPasien->hargajual_oa = $modObatAlkesPasien->qty_oa * $modObatAlkesPasien->hargasatuan_oa;
-					$modObatAlkesPasien->stokobatalkes_id = $stok->stokobatalkes_id;
+					$modObatAlkesPasien->stokobatalkes_id = null; //$stok->stokobatalkes_id;
 					$modObatAlkesPasien->biayaservice = 0;
 					$modObatAlkesPasien->biayakonseling = 0;
 					$modObatAlkesPasien->jasadokterresep = 0;
@@ -493,15 +611,15 @@ class PendaftaranRadiologiRujukanRSController extends PendaftaranRadiologiContro
 					$modObatAlkesPasien->subsidipemerintah = 0;
 					$modObatAlkesPasien->subsidirs = 0;
 					$modObatAlkesPasien->iurbiaya = $modObatAlkesPasien->qty_oa * $modObatAlkesPasien->hargasatuan_oa;
-					$modObatAlkesPasien->satuankecil_id = $stok->satuankecil_id;
-					$modObatAlkesPasien->satuankecil_nama = $stok->satuankecil->satuankecil_nama;
-					$modObatAlkesPasien->obatalkes_nama = $stok->obatalkes->obatalkes_nama;
+					$modObatAlkesPasien->satuankecil_id = $oa->satuankecil_id; //$stok->satuankecil_id;
+					$modObatAlkesPasien->satuankecil_nama = $oa->satuankecil->satuankecil_nama; //$stok->satuankecil->satuankecil_nama;
+					$modObatAlkesPasien->obatalkes_nama = $oa->obatalkes_nama; //$stok->obatalkes->obatalkes_nama;
 					
 					$form .= $this->renderPartial($this->path_view.'_rowObatAlkesPasien', array('modObatAlkesPasien'=>$modObatAlkesPasien), true);
-				}
-			}else{
-				$pesan = "Stok tidak mencukupi!";
-			}
+			//	}
+			//}else{
+			//	$pesan = "Stok tidak mencukupi!";
+			//}
 			
 			echo CJSON::encode(array('form'=>$form, 'pesan'=>$pesan));
 			Yii::app()->end(); 
