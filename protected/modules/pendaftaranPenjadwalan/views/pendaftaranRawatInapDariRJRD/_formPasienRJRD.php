@@ -446,7 +446,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     // $modDialogKunjungan->instalasi_id = Params::INSTALASI_ID_RJ;
     if(isset($_GET['PPPasientindaklanjutkeriV'])) {
         $modDialogKunjungan->attributes = $_GET['PPPasientindaklanjutkeriV'];
-        $modDialogKunjungan->tanggal_lahir =  isset($_GET['PPPasientindaklanjutkeriV']['tanggal_lahir']) ? $format->formatDateTimeForDb($_GET['PPPasientindaklanjutkeriV']['tanggal_lahir']) : null;
+        //$modDialogKunjungan->tanggal_lahir =  isset($_GET['PPPasientindaklanjutkeriV']['tanggal_lahir']) ? $format->formatDateTimeForDb($_GET['PPPasientindaklanjutkeriV']['tanggal_lahir']) : null;
         $modDialogKunjungan->instalasi_id = $_GET['PPPasientindaklanjutkeriV']['instalasi_id'];
         
         if (isset($_GET['PPPasientindaklanjutkeriV']['kecamatan_id'])) $modDialogKunjungan->kecamatan_id = $_GET['PPPasientindaklanjutkeriV']['kecamatan_id'];
@@ -462,6 +462,12 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
          * 
          */
     }
+    
+    $cr = new CDbCriteria();
+    if (!empty($modDialogKunjungan->instalasi_id)) $cr->compare('instalasi_id', $modDialogKunjungan->instalasi_id);
+    else $cr->compare('instalasi_id', array(2,3));
+    $cr->addCondition('ruangan_aktif = true');
+    $cr->order = 'ruangan_nama';
 
     $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'id'=>'datakunjungan-grid',
@@ -500,7 +506,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                         'name'=>'jeniskelamin',
                         'type'=>'raw',
                         'filter'=>LookupM::model()->getItems('jeniskelamin'),
-                    ),
+                    ), /*
                     array(
                         'name'=>'tanggal_lahir',
                         'value'=>'MyFormatter::formatDateTimeForUser($data->tanggal_lahir)',
@@ -515,7 +521,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                                         ),true
                                     ),
                         'htmlOptions'=>array('width'=>'80','style'=>'text-align:center'),
-                    ),
+                    ), */
                     array(
                         'name'=>'instalasi_id',
                         'value'=>'$data->instalasi_nama',
@@ -524,9 +530,10 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                         //'filter'=>CHtml::activeHiddenField($modDialogKunjungan,'instalasi_id'),
                     ),
                     array(
-                        'name'=>'ruangan_nama',
-                        'header'=>'Poliklinik/Ruangan',
+                        'name'=>'ruangan_id',
+                        'header'=>'Ruangan',
                         'type'=>'raw',
+                        'filter'=>CHtml::activeDropDownList($modDialogKunjungan, 'ruangan_id', CHtml::listData(RuanganM::model()->findAll($cr), 'ruangan_id', 'ruangan_nama'), array('empty'=>'-- Pilih --')), 
                     ),
 //                    'kabupaten_nama',
                     array(
@@ -558,7 +565,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                                 )),
                     ),
                     array(
-                        'header'=>'Nama Kecamatan',
+                        'header'=>'Cara Bayar',
                         'name'=>'carabayar_id',
                         'type'=>'raw',
                         'value'=>'$data->carabayar_nama',
@@ -571,7 +578,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                                 )),
                     ),
                     array(
-                        'header'=>'Nama Kelurahan',
+                        'header'=>'Penjamin',
                         'name'=>'penjamin_id',
                         'type'=>'raw',
                         'value'=>'$data->penjamin_nama',
