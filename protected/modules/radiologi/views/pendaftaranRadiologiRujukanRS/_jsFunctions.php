@@ -234,14 +234,18 @@ function setCheckedPemeriksaan(obj_table){
  * set otomatis pilih pemeriksaan dari tabel permintaan ke penunjang 
  */
 function setCheckedPemeriksaanDariPermintaan(){
+    var carabayar = $('#carabayar_id').val();
     $('#form-tindakanpemeriksaan table > tbody').html("");
     setCheckedPemeriksaan($("#form-tindakanpemeriksaan"));
     $("#form-permintaankepenunjang").find('input[name$="[pemeriksaanrad_id]"]').each(function(){
         var pemeriksaanrad_id = $(this).val();
+        var status_bayar = $(this).parents("tr").find(".status_bayar").html().trim();
+        
         var checkbox_pemeriksaan = $("div.checklists").find('input[name$="[is_pilih]"][value='+pemeriksaanrad_id+']');
-
+        
         if(checkbox_pemeriksaan.val()){
 			checkbox_pemeriksaan.attr('checked',true);
+                        if (carabayar == 1 && status_bayar == "BELUM LUNAS") return false;
 			pilihPemeriksaanIni(checkbox_pemeriksaan);
 			//memindahkan tindakanpelayanan_id RND-6827
 			var tindakanpelayanan_id = $(this).parents('tr').find('input[name$="[tindakanpelayanan_id]"]').val();

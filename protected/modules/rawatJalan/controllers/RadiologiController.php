@@ -20,6 +20,7 @@ class RadiologiController extends MyAuthController
             $modKirimKeUnitLain->pegawai_id = $modPendaftaran->pegawai_id;
             $modKirimKeUnitLain->kelaspelayanan_id = Params::KELASPELAYANAN_ID_TANPA_KELAS;
             if ($modPendaftaran->carabayar_id == Params::CARABAYAR_ID_MEMBAYAR && $modPendaftaran->penjamin_id == Params::PENJAMIN_ID_UMUM) $modKirimKeUnitLain->isbayarkekasirpenunjang = Yii::app()->user->getState('isbayarkekasirpenunjang');
+            else $modKirimKeUnitLain->isbayarkekasirpenunjang = false;
             $modPeriksaRad = RJPemeriksaanRadM::model()->findAllByAttributes(array('pemeriksaanrad_aktif'=>true),array('order'=>'jenispemeriksaanrad_id, pemeriksaanrad_urutan ASC'));
             
             $modJenisTarif = JenistarifpenjaminM::model()->find('penjamin_id ='.$modPendaftaran->penjamin_id);
