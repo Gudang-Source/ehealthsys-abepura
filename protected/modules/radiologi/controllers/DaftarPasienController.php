@@ -434,6 +434,8 @@ class DaftarPasienController extends MyAuthController
             
             if ($ok) {
                 $status = "ok";
+            } else {
+                $pesan = "exist";
             }
             
         } else {
