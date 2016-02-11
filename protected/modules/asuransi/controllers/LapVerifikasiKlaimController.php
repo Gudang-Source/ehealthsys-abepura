@@ -2,19 +2,23 @@
 class LapVerifikasiKlaimController extends MyAuthController{
 	
 	public $defaultAction = 'index';
-	public $path_view = 'asuransi.view.lapVerifikasiKlaim.';
+	public $path_view = 'asuransi.views.lapVerifikasiKlaim.';
 	
 	public function actionIndex(){
 		$format = new MyFormatter();
-		$model=new ARLapveriklaiminasisR();
+		$model=new ARLapverifikasiinasisV('searchLaporan');
 		$model->unsetAttributes();
-		$model->tgl_awal = date('d M Y');
-		$model->tgl_akhir = date('d M Y');
+		$model->verifikasi_bytagihan = 0;
+		$model->verifikasi_bytagihan_sampaidengan = 0;
+		$model->verifikasi_bytarifgruper = 0;
+		$model->verifikasi_bytarifgruper_sampaidengan = 0;
 		
-		if(isset($_GET['ARLapveriklaiminasisR'])){
-				$model->attributes=$_GET['ARLapveriklaiminasisR'];
-				$model->tgl_awal=$format->formatDateTimeForDb($_GET['ARLapveriklaiminasisR']['tgl_awal']);
-				$model->tgl_akhir=$format->formatDateTimeForDb($_GET['ARLapveriklaiminasisR']['tgl_akhir']);
+		if(isset($_GET['ARLapverifikasiinasisV'])){
+				$model->attributes=$_GET['ARLapverifikasiinasisV'];
+				$model->verifikasiinasis_tglmasuk=$format->formatDateTimeForDb($_GET['ARLapverifikasiinasisV']['verifikasiinasis_tglmasuk']);
+				$model->verifikasiinasis_tglmasuk_sampaidengan=$format->formatDateTimeForDb($_GET['ARLapverifikasiinasisV']['verifikasiinasis_tglmasuk_sampaidengan']);
+				$model->verifikasiinasis_tglkeluar=$format->formatDateTimeForDb($_GET['ARLapverifikasiinasisV']['verifikasiinasis_tglkeluar']);
+				$model->verifikasiinasis_tglkeluar_sampaidengan=$format->formatDateTimeForDb($_GET['ARLapverifikasiinasisV']['verifikasiinasis_tglkeluar_sampaidengan']);
 		}
 		
 		$this->render($this->path_view.'index',array(
@@ -25,15 +29,17 @@ class LapVerifikasiKlaimController extends MyAuthController{
 	
 	public function actionPrint(){
         $format = new MyFormatter();
-        $model = new ARLapveriklaiminasisR();
+        $model = new ARLapverifikasiinasisV();
         $judulLaporan = 'Laporan Verifikasi Klaim';
         //Data Grafik
         $data['title'] = 'Laporan Verifikasi Klaim';
         $data['type'] = (isset($_REQUEST['type']) ? $_REQUEST['type'] : null);
-        if (isset($_REQUEST['ARLapveriklaiminasisR'])) {
-            $model->attributes = $_REQUEST['ARLapveriklaiminasisR'];
-            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['ARLapveriklaiminasisR']['tgl_awal']);
-            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['ARLapveriklaiminasisR']['tgl_akhir']);
+        if (isset($_REQUEST['ARLapverifikasiinasisV'])) {
+            $model->attributes = $_REQUEST['ARLapverifikasiinasisV'];
+            $model->verifikasiinasis_tglmasuk=$format->formatDateTimeForDb($_REQUEST['ARLapverifikasiinasisV']['verifikasiinasis_tglmasuk']);
+			$model->verifikasiinasis_tglmasuk_sampaidengan=$format->formatDateTimeForDb($_REQUEST['ARLapverifikasiinasisV']['verifikasiinasis_tglmasuk_sampaidengan']);
+			$model->verifikasiinasis_tglkeluar=$format->formatDateTimeForDb($_REQUEST['ARLapverifikasiinasisV']['verifikasiinasis_tglkeluar']);
+			$model->verifikasiinasis_tglkeluar_sampaidengan=$format->formatDateTimeForDb($_REQUEST['ARLapverifikasiinasisV']['verifikasiinasis_tglkeluar_sampaidengan']);
         }
 
         $caraPrint = $_REQUEST['caraPrint'];
