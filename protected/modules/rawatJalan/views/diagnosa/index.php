@@ -142,7 +142,7 @@ function inputDiagnosa(obj,idDiagnosa)
 		}
         jQuery.ajax({
             'url':'<?php echo $this->createUrl('SaveDiagnosis')?>',
-            'data':{IdPendaftaran:IdPendaftaran, tglDiagnosa:tglDiagnosa, idDiagnosa:idDiagnosa, kelompokDiagnosa:kelompokDiagnosa},
+            'data':{IdPendaftaran:IdPendaftaran, tglDiagnosa:tglDiagnosa, idDiagnosa:idDiagnosa, kelompokDiagnosa:idKelDiagnosa},
             'type':'post',
             'dataType':'json',
             'success':function(data){

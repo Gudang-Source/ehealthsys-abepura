@@ -117,7 +117,30 @@
                     array(
                        'header'=>'Tindak Lanjut',
                        'type'=>'raw',
-						'value'=>'(($data->pasienpulang_id != 0) OR ($data->carakeluar != "")) ? $data->carakeluar : CHtml::link("<icon class=\'icon-form-ri\'></icon>", Yii::app()->createUrl("/rawatDarurat/daftarPasien/PasienPulang", array("pendaftaran_id"=>$data->pendaftaran_id,"dialog"=>true)), array("target"=>"iframePasienPulang", "onclick"=>"$(\'#dialogPasienPulang\').dialog(\'open\');","rel"=>"tooltip", "title"=>"Klik untuk menambahkan tindak lanjut"))','htmlOptions'=>array('style'=>'text-align: center; width:40px')
+                        'value'=>function($data) {
+                            if (($data->pasienpulang_id != 0) OR ($data->carakeluar != "")) {
+                                $admisi = PasienadmisiT::model()->findByAttributes(array('pendaftaran_id'=>$data->pendaftaran_id));
+                                if (!empty($admisi)) {
+                                    $kamar = empty($admisi->kamarruangan_id)?"":($admisi->kamarruangan->kamarruangan_nokamar."<br/>".$admisi->kamarruangan->kamarruangan_nobed);
+                                    $ruangan = empty($admisi->ruangan_id)?"":$admisi->ruangan->ruangan_nama;
+                                    
+                                    return $ruangan."</br>".$kamar;
+                                }
+                                return $data->carakeluar;
+                            } else {
+                                return CHtml::link(
+                                        '<icon class="icon-form-ri"></icon>', Yii::app()->createUrl("/rawatDarurat/daftarPasien/PasienPulang", array("pendaftaran_id"=>$data->pendaftaran_id,"dialog"=>true)), 
+                                        array(
+                                            "target"=>"iframePasienPulang", 
+                                            "onclick"=>"$('#dialogPasienPulang').dialog('open');",
+                                            "rel"=>"tooltip", 
+                                            "title"=>"Klik untuk menambahkan tindak lanjut",
+                                            
+                                        ));
+                            }
+                        },
+                        'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
+                        //'(($data->pasienpulang_id != 0) OR ($data->carakeluar != "")) ? $data->carakeluar : 
                     ), /*
 					array(
 						'header'=>'Tindak Lanjut<br/>ke Rawat Inap',
@@ -151,7 +174,11 @@
 					array(
 						'header'=>'Batal Periksa',
 						'type'=>'raw',
-						'value'=>'CHtml::link("<i class=\'icon-form-silang\'></i>", "javascript:batalperiksa($data->pendaftaran_id)",array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk membatalkan pemeriksaan"))',
+						'value'=>function($data) {
+                                                    $admisi = PasienadmisiT::model()->findByAttributes(array('pendaftaran_id'=>$data->pendaftaran_id));
+                                                    if (empty($admisi)) return CHtml::link('<i class="icon-form-silang"></i>', "javascript:batalperiksa($data->pendaftaran_id)",array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk membatalkan pemeriksaan"));
+                                                    else return "-";
+                                                },
 						'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
 					),
             ),
