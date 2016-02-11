@@ -10,18 +10,19 @@
     <td>
         <span name="[ii][obatalkes_nama]"><?php echo (!empty($modObatAlkesPasien->obatalkes_nama) ? $modObatAlkesPasien->obatalkes_nama : "") ?></span>
     </td>
-    <td>
+    <td hidden>
         <span name="[ii][satuankecil_nama]"><?php echo (!empty($modObatAlkesPasien->satuankecil_nama) ? $modObatAlkesPasien->satuankecil_nama : "") ?></span>
     </td>
 <!-- RND-3097   <td>
         <?php // echo CHtml::activeHiddenField($modObatAlkesPasien,'[ii]harganetto_oa',array('readonly'=>true,'class'=>'span2 integer')); ?>
         <?php // echo CHtml::activeTextField($modObatAlkesPasien,'[ii]hargajual_oa',array('readonly'=>true,'class'=>'span2 integer','style'=>'width:90px;')); ?>
     </td>-->
-    <td>
+    <td hidden>
         <?php echo CHtml::activeTextField($modObatAlkesPasien,'[ii]qty_stok',array('readonly'=>true,'class'=>'span1 integer', 'onkeyup'=>"return $(this).focusNextInputField(event)",)); ?>
     </td>
     <td>
-        <?php echo CHtml::activeTextField($modObatAlkesPasien,'[ii]qty_oa',array('class'=>'span1 integer', 'onblur'=>'hitungSubTotal(this)', 'onkeyup'=>"return $(this).focusNextInputField(event)",)); ?>
+        <?php echo CHtml::activeTextField($modObatAlkesPasien,'[ii]qty_oa',array('class'=>'span1 integer', 'style'=>'text-align: right', 'onblur'=>'hitungSubTotal(this)', 'onkeyup'=>"return $(this).focusNextInputField(event)",)); ?>
+        <?php echo (!empty($modObatAlkesPasien->satuankecil_nama) ? $modObatAlkesPasien->satuankecil_nama : "") ?>
     </td>
 <!--  RND-3097  <td>
         <?php // echo CHtml::activeTextField($modObatAlkesPasien,'[ii]iurbiaya',array('readonly'=>true,'class'=>'span2 integer','style'=>'width:90px;')); ?>
