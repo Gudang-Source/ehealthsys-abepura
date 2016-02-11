@@ -17,12 +17,14 @@ $('.search-form form').submit(function(){
 });
 ");
 ?>
-<legend class="rim2">Pengaturan Cara Keluar</legend>
+<?php if (!$this->isFrame): ?>
+    <legend class="rim2">Pengaturan Cara Keluar</legend>
+<?php endif; ?>
 <?php $this->widget('bootstrap.widgets.BootAlert'); ?>
 
 <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-search"></i>')),'#',array('class'=>'search-button btn')); ?>
 <div class="search-form" style="display:none">
-<?php $this->renderPartial('_search',array(
+<?php $this->renderPartial($this->path_view.'_search',array(
 	'model'=>$model,
 )); ?>
 </div><!-- search-form -->
@@ -41,12 +43,15 @@ $('.search-form form').submit(function(){
                         'htmlOptions'=>array('style'=>'text-align:right;'),
                 ),
 		////'carakeluar_id',
+            /*
 		array(
                         'header'=>'ID',
                         'name'=>'carakeluar_id',
                         'value'=>'$data->carakeluar_id',
                         'filter'=>false,
                 ),
+             * 
+             */
 		'carakeluar_nama',
 		'carakeluar_namalain',
 		array(
@@ -80,9 +85,11 @@ $('.search-form form').submit(function(){
                                                 'options'=>array('title'=>Yii::t('mds','Remove Temporary')),
                                                 'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/nonActive",array("id"=>"$data->carakeluar_id"))',
                                                 'click'=>'function(){return confirm("'.Yii::t("mds","Do You want to remove this item temporary?").'");}',
+                                                'visible'=>'$data->carakeluar_aktif',
                                         ),
                                         'delete'=> array(),
-                        )
+                        ),
+                        'htmlOptions'=>array('style'=>'text-align: center;'),
 		),
 	),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',

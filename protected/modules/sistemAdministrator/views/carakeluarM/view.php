@@ -1,3 +1,4 @@
+<?php if ($this->isFrame): ?>
 <?php
 $this->breadcrumbs=array(
 	'Carakeluar Ms'=>array('index'),
@@ -5,6 +6,7 @@ $this->breadcrumbs=array(
 );
 ?>
 <legend class="rim2">Lihat Cara Keluar</legend>
+<?php endif; ?>
 <?php $this->widget('bootstrap.widgets.BootAlert'); ?>
 <div class="row-fluid">
     <div class="span6">

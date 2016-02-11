@@ -9,7 +9,13 @@ class CarakeluarMController extends MyAuthController
      */
     public $layout='//layouts/column1';
     public $defaultAction = 'admin';
-
+    public $path_view = 'sistemAdministrator.views.carakeluarM.';
+    public $isFrame = false;
+    
+    public function init() {
+        parent::init();
+        if ($this->isFrame) $this->layout='//layouts/iframe';
+    }
     /**
      * Menampilkan detail data.
      * @param integer $id the ID of the model to be displayed
@@ -17,7 +23,7 @@ class CarakeluarMController extends MyAuthController
     public function actionView($id)
     {
         $model = $this->loadModel($id);
-        $this->render('view',array(
+        $this->render($this->path_view.'view',array(
                 'model'=>$model,
         ));
     }
@@ -37,11 +43,11 @@ class CarakeluarMController extends MyAuthController
             $model->attributes=$_POST['SACarakeluarM'];
             if($model->save()){
                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-                $this->redirect(array('view','id'=>$model->carakeluar_id));
+                $this->redirect(array('admin'));
             }
         }
 
-        $this->render('create',array(
+        $this->render($this->path_view.'create',array(
             'model'=>$model,
         ));
     }
@@ -62,11 +68,11 @@ class CarakeluarMController extends MyAuthController
             $model->attributes=$_POST['SACarakeluarM'];
             if($model->save()){
                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-                $this->redirect(array('view','id'=>$model->carakeluar_id));
+                $this->redirect(array('admin'));
             }
         }
 
-        $this->render('update',array(
+        $this->render($this->path_view.'update',array(
                 'model'=>$model,
         ));
     }
@@ -98,12 +104,10 @@ class CarakeluarMController extends MyAuthController
         $model = $this->loadModel($id);
         // set non-active this
         // example: 
-        // $model->modelaktif = false;
-        // $model->save();
+        $model->carakeluar_aktif = false;
+        $model->save();
         Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil di non-aktif kan.');
-        $this->render('view',array(
-                'model'=>$model,
-        ));
+        $this->redirect(array('admin'));
     }
 
     /**
@@ -112,7 +116,7 @@ class CarakeluarMController extends MyAuthController
     public function actionIndex()
     {
         $dataProvider=new CActiveDataProvider('SACarakeluarM');
-        $this->render('index',array(
+        $this->render($this->path_view.'index',array(
             'dataProvider'=>$dataProvider,
         ));
     }
@@ -127,7 +131,7 @@ class CarakeluarMController extends MyAuthController
         if(isset($_GET['SACarakeluarM'])){
             $model->attributes=$_GET['SACarakeluarM'];
         }
-        $this->render('admin',array(
+        $this->render($this->path_view.'admin',array(
                 'model'=>$model,
         ));
     }
