@@ -38,15 +38,18 @@ class RencanaKeperawatanMController extends MyAuthController
 		$model=new SARencanaKeperawatanM;
 
 		// Uncomment the following line if AJAX validation is needed
-		
-
-		  if(isset($_POST['RencanaKeperawatanM']))
+	
+//var_dump($_POST); die;
+		  if(isset($_POST['SARencanaKeperawatanM']))
                                     {
+                        //var_dump($_POST); die;
                                         $valid=true;
                                         $jmlhsave = 0;
-                                        foreach ($_POST['RencanaKeperawatanM'] as $data=>$item)
+                                        //var_dump($_POST); die;
+                                        //echo COUNT($_POST['SARencanaKeperawatanM']); die;
+                                        foreach ($_POST['SARencanaKeperawatanM'] as $data=>$item)
                                         {
-                                                    $model=new RencanaKeperawatanM;
+                                                    $model=new SARencanaKeperawatanM;
                                                     $model->attributes=$item;
                                                     //$model->lookup_id = $_POST['LookupM']['lookup_id'];
 //                                                    $model->diagnosakeperawatan_kode = $_POST['DiagnosakeperawatanM']['diagnosakeperawatan_kode'];
@@ -55,7 +58,7 @@ class RencanaKeperawatanMController extends MyAuthController
                                                         $jmlhsave++;
                                                     }
                                             }
-                                        if ($jmlhsave==COUNT($_POST['RencanaKeperawatanM'])) {
+                                        if ($jmlhsave==COUNT($_POST['SARencanaKeperawatanM'])) {
                                             Yii::app()->user->setFlash('success','<strong>Berhasil</strong> Data berhasil disimpan');
                                             $this->redirect(array('admin'));
                                         }
@@ -80,18 +83,49 @@ class RencanaKeperawatanMController extends MyAuthController
 
 		// Uncomment the following line if AJAX validation is needed
 		
-
-		if(isset($_POST['SARencanaKeperawatanM']))
-                    {
+		if(isset($_POST['RencanakeperawatanM']))
+                    { 
+                        // var_dump($_POST);
+                        $ok = true;
+                        $trans = Yii::app()->db->beginTransaction();
+                        $sub = RencanaKeperawatanM::model()->findByPk($_POST['RencanakeperawatanM'][1]['rencanakeperawatan_id']);
+                        foreach ($_POST['RencanakeperawatanM'] as $item) {
+                            $model = new RencanaKeperawatanM;
+                            $model->diagnosakeperawatan_id = $sub->diagnosakeperawatan_id;
+                            if (!empty($item['rencanakeperawatan_id'])) {
+                                $model = RencanaKeperawatanM::model()->findByPk($item['rencanakeperawatan_id']);
+                            }
+                            
+                            $model->attributes = $item;
+                            if ($model->iskolaborasiintervensi == 1) $model->iskolaborasiintervensi = true;
+                            else $model->iskolaborasiintervensi = false;
+                            
+                            if ($model->validate()) {
+                                $ok = $ok && $model->save();
+                            } else $ok = false;
+                        }
+                        // var_dump($ok);
+                        
+                        if ($ok) {
+                            $trans->commit();
+                            Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                        } else {
+                            $trans->rollback();
+                            Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data tidak valid.');
+                        }
+                        
+                        $this->redirect(array('admin'));
+                    /*
+                    //var_dump($_POST); die;
                    // echo '<pre>'; print_r($_POST['RIRencanakeperawatanM']);
                    // exit();
                         $valid=true;
-                        foreach($_POST['RencanaKeperawatanM'] as $i=>$item)
+                        foreach($_POST['RencanakeperawatanM'] as $i=>$item)
                         {
                             if(is_integer($i)) {
 
-                                if(!empty($_POST['RencanaKeperawatanM'][$i]['rencanakeperawatan_id'])){
-                                        $model = RencanaKeperawatanM::model()->findByPk($_POST['RencanaKeperawatanM'][$i]['rencanaKeperawatan_id']);
+                                if(!empty($_POST['RencanakeperawatanM'][$i]['rencanakeperawatan_id'])){
+                                        $model = RencanaKeperawatanM::model()->findByPk($_POST['RencanakeperawatanM'][$i]['rencanaKeperawatan_id']);
 //                                        $model->diagnosakeperawatan_id = $_POST['SARencanakeperawatanM'][$i]['diagnosakeperawatan_id'];
                                 }else{
                                     $model=new RencanaKeperawatanM;
@@ -104,18 +138,18 @@ class RencanaKeperawatanMController extends MyAuthController
 //                                    if ((!empty($_POST['RIRencanakeperawatanM']['diagnosakeperawatan_id']))||(($_POST['RIRencanakeperawatanM']['diagnosakeperawatan_id']) != 0)){
 //                                        RencanakeperawatanM::model()->deleteByPk($_POST['RIRencanakeperawatanM'][$i]['diagnosakeperawatan_id']);
                                 
-                                if(isset($_POST['RencanaKeperawatanM'][$i]))
+                                if(isset($_POST['RencanakeperawatanM'][$i]))
                                     // if ($_POST['RIRencanakeperawatanM']['diagnosakeperawatan_id'] == 0){
                                     //     $_POST['RIRencanakeperawatanM']['diagnosakeperawatan_id'] = null;
                                     // }
-                                    if (empty($_POST['RencanaKeperawatanM'][$i]['rencanaKeperawatan_id'])){
+                                    if (empty($_POST['RencanakeperawatanM'][$i]['rencanaKeperawatan_id'])){
                                         $model=new RencanaKeperawatanM;
-                                        $model->attributes=$_POST['RencanaKeperawatanM'][$i];
+                                        $model->attributes=$_POST['RencanakeperawatanM'][$i];
                                         
                                     }else{
 //                                        echo 'b';
-                                        $model = RencanaKeperawatanM::model()->findByPk($_POST['RencanaKeperawatanM'][$i]['rencanakeperawatan_id']);
-                                        $model->attributes=$_POST['RencanaKeperawatanM'][$i];
+                                        $model = RencanaKeperawatanM::model()->findByPk($_POST['RencanakeperawatanM'][$i]['rencanakeperawatan_id']);
+                                        $model->attributes=$_POST['RencanakeperawatanM'][$i];
                                     }
                                     
                                     if (!empty($model->diagnosakeperawatan_id)){
@@ -127,7 +161,7 @@ class RencanaKeperawatanMController extends MyAuthController
                                         $model->rencanakeperawatan_id = $_POST['rencanakeperawatan_id'][$i]['rencanakeperawatan_id'];
                                     }
                                     //$model->lookup_id = $_POST['LookupM']['lookup_id'];
-                                    $model->rencana_kode = $_POST['RencanaKeperawatanM'][$i]['rencana_kode'];
+                                    $model->rencana_kode = $_POST['RencanakeperawatanM'][$i]['rencana_kode'];
                                    // $model->lookup_aktif = true;
 //                                    echo '<pre>';
 //                                    echo print_r($_POST['RIRencanakeperawatanM'][$i]);
@@ -145,6 +179,8 @@ class RencanaKeperawatanMController extends MyAuthController
                             }
                         }
                         $this->redirect(array('admin'));
+                     * 
+                     */
                       }   
 
 		$this->render($this->path_view.'update',array(
@@ -173,8 +209,8 @@ class RencanaKeperawatanMController extends MyAuthController
                 
 		$model=new SARencanaKeperawatanM('searchData');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['SARencanaKeperawatanM']))
-			$model->attributes=$_GET['SARencanaKeperawatanM'];
+		if(isset($_GET['SARencanakeperawatanM']))
+			$model->attributes=$_GET['SARencanakeperawatanM'];
 
 		$this->render($this->path_view.'admin',array(
 			'model'=>$model,
