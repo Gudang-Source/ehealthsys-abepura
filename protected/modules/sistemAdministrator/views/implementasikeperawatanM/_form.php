@@ -80,6 +80,10 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
 ));
 
  $modDiagnosakeperawatan =new SADiagnosakeperawatanM;
+ if (isset($_GET['SADiagnosakeperawatanM'])) {
+     $modDiagnosakeperawatan->diagnosa_keperawatan = $_GET['SADiagnosakeperawatanM']['diagnosa_keperawatan'];
+     $modDiagnosakeperawatan->diagnosa_medis = $_GET['SADiagnosakeperawatanM']['diagnosa_medis'];
+ }
 $this->widget('ext.bootstrap.widgets.BootGridView',array( 
     'id'=>'sadiagnosakeperawatan-m-grid', 
     'dataProvider'=>$modDiagnosakeperawatan->search(), 
