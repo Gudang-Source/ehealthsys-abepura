@@ -55,12 +55,12 @@
                             array(
                                     'name'=>'diagnosakeperawatan_id',
                                     'filter'=>  CHtml::listData($model->DiagnosaKeperawatanItems, 'diagnosakeperawatan_id', 'diagnosakeperawatan_kode'),
-                                    'value'=>'$data->diagnosakeperawatan->diagnosakeperawatan_kode',
+                                    'value'=>'$data->diagnosakeperawatan->diagnosakeperawatan_kode." - ".$data->diagnosakeperawatan->diagnosa_keperawatan',
                             ),
                             array(
                                     'name'=>'rencanakeperawatan_id',
                                     'filter'=>  CHtml::listData($model->RencanaKeperawatanItems, 'rencanakeperawatan_id', 'rencana_kode'),
-                                    'value'=>'$data->rencanakeperawatan->rencana_kode',
+                                    'value'=>'$data->rencanakeperawatan->rencana_kode." - ".$data->rencanakeperawatan->rencana_intervensi',
                             ),
                             'implementasikeperawatan_kode',
                             'implementasi_nama',
@@ -96,7 +96,7 @@
                     array(
                         'header'=>'<center>Hapus</center>',
                         'type'=>'raw',
-                        'value'=>'($data->iskolaborasiimplementasi)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->implementasikeperawatan_id)",array("id"=>"$data->implementasikeperawatan_id","rel"=>"tooltip","title"=>"Menonaktifkan Implementasi Keperawatan"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->implementasikeperawatan_id)",array("id"=>"$data->implementasikeperawatan_id","rel"=>"tooltip","title"=>"Hapus Implementasi Keperawatan")):CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->implementasikeperawatan_id)",array("id"=>"$data->implementasikeperawatan_id","rel"=>"tooltip","title"=>"Hapus Implementasi Keperawatan"));',
+                        'value'=>'CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->implementasikeperawatan_id)",array("id"=>"$data->implementasikeperawatan_id","rel"=>"tooltip","title"=>"Hapus Implementasi Keperawatan"))',
                         'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
                     ),
                     ),

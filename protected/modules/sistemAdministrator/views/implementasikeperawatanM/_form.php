@@ -51,6 +51,7 @@
                                                        'select'=>'js:function( event, ui ) {
                                                             $("#'.CHtml::activeId($model, 'diagnosakeperawatan_id').'").val(ui.item.diagnosakeperawatan_id);
                                                             $("#DiagnosakeperawatanM_diagnosakeperawatan_kode").val(ui.item.diagnosa_keperawatan);
+                                                            filterRencana(ui.item.diagnosakeperawatan_id);
                                                             return false;
                                                         }',
                                                 ),
@@ -79,6 +80,10 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
 ));
 
  $modDiagnosakeperawatan =new SADiagnosakeperawatanM;
+ if (isset($_GET['SADiagnosakeperawatanM'])) {
+     $modDiagnosakeperawatan->diagnosa_keperawatan = $_GET['SADiagnosakeperawatanM']['diagnosa_keperawatan'];
+     $modDiagnosakeperawatan->diagnosa_medis = $_GET['SADiagnosakeperawatanM']['diagnosa_medis'];
+ }
 $this->widget('ext.bootstrap.widgets.BootGridView',array( 
     'id'=>'sadiagnosakeperawatan-m-grid', 
     'dataProvider'=>$modDiagnosakeperawatan->search(), 
@@ -97,6 +102,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                                         $(\"#'.CHtml::activeId($model,'diagnosakeperawatan_id').'\").val(\"$data->diagnosakeperawatan_id\");
                                                         $(\"#DiagnosakeperawatanM_diagnosakeperawatan_kode\").val(\"$data->diagnosa_keperawatan\");
                                                         $(\"#dialogDiagnosaKeperawatan\").dialog(\"close\");    
+                                                        filterRencana(".$data->diagnosakeperawatan_id.");
                                                         "
                                                  ))',
                 ), 
@@ -141,7 +147,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                         0 => 'Tidak',
                                         1 => 'Ya'); ?>
                 <td>
-                    <?php echo $form->dropDownList($model,'[1]rencanakeperawatan_id',CHtml::listData(RencanakeperawatanM::model()->findAll(), 'rencanakeperawatan_id', 'rencana_intervensi'),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+                    <?php echo $form->dropDownList($model,'[1]rencanakeperawatan_id',CHtml::listData(RencanakeperawatanM::model()->findAll(), 'rencanakeperawatan_id', 'rencana_intervensi'),array('class'=>'span3 rencana', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
                     
                 </td>
                 <td>
@@ -178,6 +184,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 <?php
 $buttonMinus = CHtml::link('<i class="icon-minus-sign icon-white"></i>', '#', array('class'=>'btn btn-danger','onclick'=>'delRow(this); return false;'));
 $confimMessage = Yii::t('mds','Do You want to remove?');
+$urlCreate = $this->createUrl('create');
 $js = <<< JSCRIPT
 function addRow(obj)
 {
@@ -216,6 +223,14 @@ function delRow(obj)
         renameInput('ImplementasikeperawatanM','implementasi_nama');
         renameInput('ImplementasikeperawatanM','iskolaborasiimplementasi');
     }
+}
+        
+function filterRencana(id) {
+    $.post('$urlCreate', {ax:true, f: 'setDropRencana', param:{id: id}}, function(data){
+        $('.rencana').each(function() {
+            $(this).html(data.html);
+        });
+    }, 'json');
 }
 JSCRIPT;
 Yii::app()->clientScript->registerScript('multiple input',$js, CClientScript::POS_HEAD);
