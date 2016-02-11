@@ -283,9 +283,12 @@ class DaftarPasienController extends MyAuthController
                     $status = 'not';
                 }
                 
+                $this->hapusTindakanDanOa($pasienMasukPenunjang, $status, $pesan);
+                
                 /*
                  * cek data tindakan_pelayanan
                  */
+                /*
                 $attributes = array(
                     'pasienmasukpenunjang_id' => $pasienMasukPenunjang->pasienmasukpenunjang_id,
                     'tindakansudahbayar_id' => null
@@ -319,7 +322,10 @@ class DaftarPasienController extends MyAuthController
                 }else{
                     $pesan = 'exist';
                 }
-
+                 * 
+                 */
+                //var_dump($pesan);
+                //die;
                 /*
                  * kondisi_commit
                  */
@@ -329,26 +335,28 @@ class DaftarPasienController extends MyAuthController
                     $modPasien = PasienM::model()->findByPk($model->pasien_id);
                     $sms = new Sms();
                     foreach ($modSmsgateway as $i => $smsgateway) {
-                        $isiPesan = $smsgateway->templatesms;
+                        if(isset($_POST['tujuansms']) && in_array($smsgateway->tujuansms, $_POST['tujuansms'])){
+                            $isiPesan = $smsgateway->templatesms;
 
-                        $attributes = $modPasien->getAttributes();
-                        foreach($attributes as $attributes => $value){
-                            $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
-                        }
-                        $attributes = $model->getAttributes();
-                        foreach($attributes as $attributes => $value){
-                            $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
-                        }
-                        $isiPesan = str_replace("{{hari}}",MyFormatter::getDayName($model->tglbatal),$isiPesan);
-                       
-                        
-                        if($smsgateway->tujuansms == Params::TUJUANSMS_PASIEN && $smsgateway->statussms){
-                            if(!empty($modPasien->no_mobile_pasien)){
-                                $sms->kirim($modPasien->no_mobile_pasien,$isiPesan);
-                            }else{
-                                $smspasien = 0;
+                            $attributes = $modPasien->getAttributes();
+                            foreach($attributes as $attributes => $value){
+                                $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
                             }
+                            $attributes = $model->getAttributes();
+                            foreach($attributes as $attributes => $value){
+                                $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
+                            }
+                            $isiPesan = str_replace("{{hari}}",MyFormatter::getDayName($model->tglbatal),$isiPesan);
 
+
+                            if($smsgateway->tujuansms == Params::TUJUANSMS_PASIEN && $smsgateway->statussms){
+                                if(!empty($modPasien->no_mobile_pasien)){
+                                    $sms->kirim($modPasien->no_mobile_pasien,$isiPesan);
+                                }else{
+                                    $smspasien = 0;
+                                }
+
+                            }
                         }
                         
                     }
@@ -366,8 +374,8 @@ class DaftarPasienController extends MyAuthController
                 $transaction->rollback();
             }            
             $data = array(
-                'pesan'=>'succes',
-                'status'=>'ok',
+                'pesan'=>$pesan,
+                'status'=>$status,
                 'smspasien'=>$smspasien,
                 'nama_pasien'=>$nama_pasien
             );
@@ -375,6 +383,66 @@ class DaftarPasienController extends MyAuthController
             Yii::app()->end();            
         }
     }
+
+    protected function hapusTindakanDanOa($pasienMasukPenunjang, &$status, &$pesan) {
+        $ok = true;
+        $isbayar = false;
+        $tindakan = TindakanpelayananT::model()->findAllByAttributes(array(
+            'pasienmasukpenunjang_id'=>$pasienMasukPenunjang->pasienmasukpenunjang_id
+        ));
+        $hasilpemeriksaan = HasilpemeriksaanradT::model()->findAllByAttributes(array(
+            'pasienmasukpenunjang_id'=>$pasienMasukPenunjang->pasienmasukpenunjang_id
+        ));
+        
+        $oa = ObatalkespasienT::model()->findAllByAttributes(array(
+            'pasienmasukpenunjang_id'=>$pasienMasukPenunjang->pasienmasukpenunjang_id,
+        ));
+        
+        
+        foreach ($tindakan as $item) {
+            if (!empty($item->tindakansudahbayar_id)) {
+                $isbayar = true;
+                break;
+            }
+        }
+        
+        if (!$isbayar) {
+            foreach ($tindakan as $item) {
+                $ok = $ok && TindakanpelayananT::model()->updateByPk($item->tindakanpelayanan_id, array(
+                    'hasilpemeriksaanrad_id'=>null,
+                ));
+            }
+            
+            foreach ($hasilpemeriksaan as $item) {
+                $ok = $ok && HasilpemeriksaanradT::model()->deleteByPk($item->hasilpemeriksaanrad_id);
+            }
+            
+            foreach ($tindakan as $item) {
+                $ok = $ok && TindakankomponenT::model()->deleteAllByAttributes(array(
+                    'tindakanpelayanan_id'=>$item->tindakanpelayanan_id,
+                ));
+                $ok = $ok && TindakanpelayananT::model()->deleteByPk($item->tindakanpelayanan_id);
+            }
+            
+            // farmasi
+            foreach ($oa as $item) {
+                $ok = $ok && StokobatalkesT::model()->deleteAllByAttributes(array(
+                    'obatalkespasien_id'=>$item->obatalkespasien_id
+                ));
+                $ok = $ok && ObatalkespasienT::model()->deleteByPk($item->obatalkespasien_id);
+            }
+            
+            if ($ok) {
+                $status = "ok";
+            }
+            
+        } else {
+            $ok = false;
+            $status = "exist";
+            $pesan = "exist";
+        }
+    }
+
 
     /**
      * action ketika tombol panggil di klik
