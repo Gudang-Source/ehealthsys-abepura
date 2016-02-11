@@ -99,6 +99,8 @@ class AnamnesaController extends MyAuthController
                 try {
                     $detTriase = (isset($_POST['RJTriase']) ? $_POST['RJTriase'] : null);
                     $modAnamnesa->attributes=$_POST['RJAnamnesaT'];
+                    if (empty($modAnamnesa->hpht)) $modAnamnesa->hpht = null;
+                    if (empty($modAnamnesa->tgl_persalinan)) $modAnamnesa->tgl_persalinan = null;
                     if(isset($detTriase)){
                         if(count($detTriase) > 0){
                             foreach($detTriase as $i=>$triase){
