@@ -212,7 +212,7 @@ class InformasikasirrawatjalanV extends CActiveRecord
 			'kelaspelayanan_id' => 'Kelaspelayanan',
 			'kelaspelayanan_nama' => 'Kelaspelayanan Nama',
 			'gelardepan' => 'Gelardepan',
-			'nama_pegawai' => 'Nama Pegawai',
+			'nama_pegawai' => 'Dokter',
 			'gelarbelakang_nama' => 'Gelarbelakang Nama',
 			'pembayaranpelayanan_id' => 'Pembayaranpelayanan',
 			'namaperusahaan' => 'Namaperusahaan',
