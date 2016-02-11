@@ -4,10 +4,10 @@
  * @param {type} pasien_id
  * @returns {undefined}
  */
-function setPasienRJRD(pendaftaran_id, no_pendaftaran, pasien_id, no_rekam_medik ){
+function setPasienRJRD(pendaftaran_id, no_pendaftaran, pasien_id, no_rekam_medik, instalasi_id ){
     $("#form-pasien > div").addClass("animation-loading");
     setPasienRJRDReset();
-    var instalasi_id = $("#instalasi_id").val();
+    // var instalasi_id = $("#instalasi_id").val();
     $.ajax({
         type:'POST',
         url:'<?php echo $this->createUrl('GetDataPasienRJRD'); ?>',

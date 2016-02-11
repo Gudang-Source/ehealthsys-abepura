@@ -10,12 +10,15 @@
 }
 </style>
 <div class = "span4">
+    <?php /*
     <div class="control-group">
         <?php echo CHtml::label("Dari Instalasi", 'instalasi_id', array('class'=>'control-label')); ?>
         <div class="controls">
             <?php echo CHtml::dropDownList('instalasi_id',Params::INSTALASI_ID_RJ,CHtml::listData(PPPasienAdmisiT::model()->getInstalasis(),'instalasi_id','instalasi_nama'),array('onchange'=>'setJudulDialogPasien(this.value);setPasienRJRDReset();refreshDialogKunjungan(); $(".f_rm").focus();','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)",)); ?>
         </div>
     </div>
+     * 
+     */ ?>
 	<div class="control-group">
         <?php echo CHtml::label("Cari NIP", 'nomorindukpegawai', array('class'=>'control-label'))?>
         <div class="controls">
@@ -440,7 +443,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     $modDialogKunjungan = new PPPasientindaklanjutkeriV('searchDialogUntukPendaftaranRI');
     $modDialogKunjungan->unsetAttributes();
     $format = new MyFormatter();
-    $modDialogKunjungan->instalasi_id = Params::INSTALASI_ID_RJ;
+    // $modDialogKunjungan->instalasi_id = Params::INSTALASI_ID_RJ;
     if(isset($_GET['PPPasientindaklanjutkeriV'])) {
         $modDialogKunjungan->attributes = $_GET['PPPasientindaklanjutkeriV'];
         $modDialogKunjungan->tanggal_lahir =  isset($_GET['PPPasientindaklanjutkeriV']['tanggal_lahir']) ? $format->formatDateTimeForDb($_GET['PPPasientindaklanjutkeriV']['tanggal_lahir']) : null;
@@ -473,7 +476,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                         'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","javascript:void(0);",array("class"=>"btn-small", 
                                         "id" => "selectPendaftaran",
                                         "onClick" => "
-                                            setPasienRJRD($data->pendaftaran_id, \"\", \"\", \"\");
+                                            setPasienRJRD($data->pendaftaran_id, \"\", \"\", \"\", $data->instalasi_id);
                                             $(\"#dialogKunjungan\").dialog(\"close\");
                                         "))',
                     ),
@@ -489,7 +492,10 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                         'type'=>'raw',
                         'value'=>'$data->no_rekam_medik',
                     ),
-                    'nama_pasien',
+                    array(
+                        'name'=>'nama_pasien',
+                        'value'=>'$data->namadepan.$data->nama_pasien',
+                    ),
                     array(
                         'name'=>'jeniskelamin',
                         'type'=>'raw',
@@ -514,8 +520,8 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                         'name'=>'instalasi_id',
                         'value'=>'$data->instalasi_nama',
                         'type'=>'raw',
-//                        'filter'=>CHtml::listData(BKPendaftaranT::model()->getInstalasis(),'instalasi_id','instalasi_nama'), //dipilih dari instalasi form pasien
-                        'filter'=>CHtml::activeHiddenField($modDialogKunjungan,'instalasi_id'),
+                        'filter'=>CHtml::activeDropDownList($modDialogKunjungan, 'instalasi_id', array(2=>'Rawat Jalan', 3=>'Rawat Darurat'), array('empty'=>'-- Pilih --')), //dipilih dari instalasi form pasien
+                        //'filter'=>CHtml::activeHiddenField($modDialogKunjungan,'instalasi_id'),
                     ),
                     array(
                         'name'=>'ruangan_nama',
