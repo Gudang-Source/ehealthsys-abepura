@@ -71,7 +71,7 @@ class CarakeluarM extends CActiveRecord
 		return array(
 			'carakeluar_id' => 'Id Cara Keluar',
 			'carakeluar_nama' => 'Nama Cara Keluar',
-			'carakeluar_namalain' => 'Nama Lain Cara Keluar',
+			'carakeluar_namalain' => 'Nama Lain',
 			'carakeluar_aktif' => 'Aktif',
 		);
 	}
@@ -130,6 +130,6 @@ class CarakeluarM extends CActiveRecord
 
         public static function getCarakeluarItems()
         {
-            return $this->findAll('carakeluar_aktif=TRUE ORDER BY carakeluar_nama');
+            return self::model()->findAll('carakeluar_aktif=TRUE ORDER BY carakeluar_nama');
         }
 }

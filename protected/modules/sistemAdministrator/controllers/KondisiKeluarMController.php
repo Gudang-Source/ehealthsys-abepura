@@ -9,7 +9,14 @@ class KondisiKeluarMController extends MyAuthController
      */
     public $layout='//layouts/column1';
     public $defaultAction = 'admin';
-
+    public $path_view = 'sistemAdministrator.views.kondisiKeluarM.';
+    public $isFrame = false;
+    
+    public function init() {
+        parent::init();
+        if ($this->isFrame) $this->layout='//layouts/iframe';
+    }
+    
     /**
      * Menampilkan detail data.
      * @param integer $id the ID of the model to be displayed
@@ -17,7 +24,7 @@ class KondisiKeluarMController extends MyAuthController
     public function actionView($id)
     {
         $model = $this->loadModel($id);
-        $this->render('view',array(
+        $this->render($this->path_view.'view',array(
                 'model'=>$model,
         ));
     }
@@ -37,11 +44,11 @@ class KondisiKeluarMController extends MyAuthController
             $model->attributes=$_POST['SAKondisikeluarM'];
             if($model->save()){
                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-                $this->redirect(array('view','id'=>$model->kondisikeluar_id));
+                $this->redirect(array('admin'));
             }
         }
 
-        $this->render('create',array(
+        $this->render($this->path_view.'create',array(
             'model'=>$model,
         ));
     }
@@ -62,11 +69,11 @@ class KondisiKeluarMController extends MyAuthController
             $model->attributes=$_POST['SAKondisikeluarM'];
             if($model->save()){
                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-                $this->redirect(array('view','id'=>$model->kondisikeluar_id));
+                $this->redirect(array('admin'));
             }
         }
 
-        $this->render('update',array(
+        $this->render($this->path_view.'update',array(
                 'model'=>$model,
         ));
     }
@@ -98,12 +105,10 @@ class KondisiKeluarMController extends MyAuthController
         $model = $this->loadModel($id);
         // set non-active this
         // example: 
-        // $model->modelaktif = false;
-        // $model->save();
+        $model->kondisikeluar_aktif = false;
+        $model->save();
         Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil di non-aktif kan.');
-        $this->render('view',array(
-                'model'=>$model,
-        ));
+        $this->redirect(array('admin'));
     }
 
     /**
@@ -112,7 +117,7 @@ class KondisiKeluarMController extends MyAuthController
     public function actionIndex()
     {
         $dataProvider=new CActiveDataProvider('SAKondisikeluarM');
-        $this->render('index',array(
+        $this->render($this->path_view.'index',array(
             'dataProvider'=>$dataProvider,
         ));
     }
@@ -127,7 +132,7 @@ class KondisiKeluarMController extends MyAuthController
         if(isset($_GET['SAKondisikeluarM'])){
             $model->attributes=$_GET['SAKondisikeluarM'];
         }
-        $this->render('admin',array(
+        $this->render($this->path_view.'admin',array(
                 'model'=>$model,
         ));
     }
@@ -167,11 +172,11 @@ class KondisiKeluarMController extends MyAuthController
         $caraPrint=$_REQUEST['caraPrint'];
         if($caraPrint=='PRINT') {
             $this->layout='//layouts/printWindows';
-            $this->render('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+            $this->render($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
         }
         else if($caraPrint=='EXCEL') {
             $this->layout='//layouts/printExcel';
-            $this->render('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+            $this->render($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
         }
         else if($_REQUEST['caraPrint']=='PDF') {
             $ukuranKertasPDF = Yii::app()->user->getState('ukuran_kertas');                  //Ukuran Kertas Pdf
@@ -181,7 +186,7 @@ class KondisiKeluarMController extends MyAuthController
             $stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
             $mpdf->WriteHTML($stylesheet,1);  
             $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
-            $mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
+            $mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
             $mpdf->Output();
         }                       
     }

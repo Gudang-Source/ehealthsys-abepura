@@ -366,10 +366,13 @@ class PendaftaranRawatInapDariRJRDController extends PendaftaranRawatInapControl
                     $modRujukan=null;
                     $modTindakan = null;
 
+                    $model = PendaftaranT::model()->findByAttributes(array(
+                        'pendaftaran_id'=>$_POST['PPPendaftaranT']['pendaftaran_id']
+                    ));
                     $model->attributes = $_POST['PPPendaftaranT'];
 					$model->keterangan_pendaftaran = $_POST['PPPendaftaranT']['keterangan_pendaftaran'];
                     $model->no_pendaftaran = $_POST['cari_no_pendaftaran'];
-                    $model->instalasi_id = $_POST['instalasi_id'];
+                    if (isset($_POST['instalasi_id'])) $model->instalasi_id = $_POST['instalasi_id'];
                     $modPasien->attributes = $_POST['PPPasienM'];
                     $modPasien->no_rekam_medik = $_POST['cari_no_rekam_medik'];
                     $modPasienAdmisi->attributes = $_POST['PPPasienAdmisiT'];
@@ -429,7 +432,7 @@ class PendaftaranRawatInapDariRJRDController extends PendaftaranRawatInapControl
         {
             if(Yii::app()->request->isAjaxRequest) {
                 $format = new MyFormatter();
-                $instalasi_id = $_POST['instalasi_id']; //wajib
+                $instalasi_id = isset($_GET['instalasi_id'])?$_GET['instalasi_id']:null;
                 $pendaftaran_id = isset($_POST['pendaftaran_id']) ? $_POST['pendaftaran_id'] : null;
                 $no_pendaftaran = isset($_POST['no_pendaftaran']) ? $_POST['no_pendaftaran'] : null;
                 $pasien_id = isset($_POST['pasien_id']) ? $_POST['pasien_id'] : null;
@@ -479,7 +482,7 @@ class PendaftaranRawatInapDariRJRDController extends PendaftaranRawatInapControl
             if(Yii::app()->request->isAjaxRequest) {
                 $format = new MyFormatter();
                 $returnVal = array();
-                $instalasi_id = $_GET['instalasi_id'];
+                $instalasi_id = isset($_GET['instalasi_id'])?$_GET['instalasi_id']:null;
                 $no_pendaftaran = isset($_GET['no_pendaftaran']) ? $_GET['no_pendaftaran'] : null;
                 $no_rekam_medik = isset($_GET['no_rekam_medik']) ? $_GET['no_rekam_medik'] : null;
                 $no_identitas_pasien = isset($_GET['no_identitas_pasien']) ? $_GET['no_identitas_pasien'] : null;
@@ -495,6 +498,7 @@ class PendaftaranRawatInapDariRJRDController extends PendaftaranRawatInapControl
 					$criteria->compare('LOWER(no_rekam_medik)', strtolower($no_rekam_medik), true);
 					$criteria->compare('LOWER(no_identitas_pasien)', strtolower($no_identitas_pasien), true);
 					$criteria->compare('LOWER(nama_pasien)', strtolower($nama_pasien), true);
+                                        $criteria->addCondition('pasienpulang_id is not null');
 					$criteria->order = 'no_rekam_medik, nama_pasien';
 					$criteria->limit = 50;
 					$models = PPPasientindaklanjutkeriV::model()->findAll($criteria);
@@ -505,14 +509,14 @@ class PendaftaranRawatInapDariRJRDController extends PendaftaranRawatInapControl
 						foreach($attributes as $j=>$attribute) {
 							$returnVal[$i]["$attribute"] = $model->$attribute;
 						}
-						$returnVal[$i]['label'] = $model->no_pendaftaran.' - '.$model->no_rekam_medik.' - '.$model->namadepan.$model->nama_pasien." - ".(!empty($model->nama_ayah) ? $model->nama_ayah : "(nama ayah tidak ada)");
+						$returnVal[$i]['label'] = $model->no_pendaftaran.' - '.$model->no_rekam_medik.' - '.$model->namadepan.$model->nama_pasien;
 						$returnVal[$i]['value'] = $model->no_pendaftaran;
 					}
 				}else{
 					$criteria = new CDbCriteria();
 					$criteria->compare('LOWER(pegawai_m.nomorindukpegawai)', strtolower($no_badge), true);
 					$criteria->join = "JOIN pegawai_m ON t.pegawai_id = pegawai_m.pegawai_id";
-					$criteria->order = 'pegawai_m.nomorindukpegawai, t.nama_pasien';
+					$criteria->order = 'pegawai_m.nomorindukpegawai, t.nama_pasien'; 
 					$criteria->limit = 50;
 					$models = PPPasienM::model()->findAll($criteria);
 					foreach($models as $i=>$model)

@@ -1,7 +1,7 @@
 <?php
-Yii::import('sistemAdministrator.controllers.CaraKeluarMController');
+Yii::import('sistemAdministrator.controllers.CarakeluarMController');
 Yii::import('sistemAdministrator.models.*');
-class CaraKeluarMRDController extends CaraKeluarMController
+class CaraKeluarMRDController extends CarakeluarMController
 {
-	
+    public $isFrame = true;
 }
