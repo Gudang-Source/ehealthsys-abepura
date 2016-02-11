@@ -100,8 +100,8 @@
         <td style="width:70%;height:86px"><?php echo isset($modAnamnesa->triase_id)?$modAnamnesa->triase->keterangan_triase:" - "; ?></td>
     </tr>
     <tr>
-        <td style="width:30%;height:86px">HTPD</td>
-        <td style="width:70%;height:86px"><?php echo !empty($modAnamnesa->apht)?  MyFormatter::formatDateTimeForUser($modAnamnesa->apht):" - "; ?></td>
+        <td style="width:30%;height:86px">HPHT</td>
+        <td style="width:70%;height:86px"><?php echo !empty($modAnamnesa->hpht)?  MyFormatter::formatDateTimeForUser($modAnamnesa->hpht):" - "; ?></td>
     </tr>	
     <tr>
         <td style="width:30%;height:86px">Tgl Persalinan</td>

@@ -133,13 +133,13 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 	
             <div class="control-group ">
                 <?php 
-                if (!empty($modAnamnesa->apht)) $modAnamnesa->apht = MyFormatter::formatDateTimeForUser($modAnamnesa->apht);
-                echo $form->labelEx($modAnamnesa, 'apht', array('class' => 'control-label')) ?>
+                if (!empty($modAnamnesa->hpht)) $modAnamnesa->hpht = MyFormatter::formatDateTimeForUser($modAnamnesa->hpht);
+                echo $form->labelEx($modAnamnesa, 'hpht', array('class' => 'control-label')) ?>
                 <div class="controls">  
                     <?php
                     $this->widget('MyDateTimePicker', array(
                         'model' => $modAnamnesa,
-                        'attribute' => 'apht',
+                        'attribute' => 'hpht',
                         'value'=>null,
                         'mode' => 'datetime',
                         'options' => array(
