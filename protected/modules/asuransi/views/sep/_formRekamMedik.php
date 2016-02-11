@@ -1,76 +1,71 @@
-<div class="row-fluid">
-    <div class="span4">
-            <div class="control-group">
-            <?php echo CHtml::label("Cari ".$model->getAttributeLabel('no_rekam_medik'), 'no_rekam_medik', array('class'=>'control-label'))?>
-            <div class="controls">
-                            <?php echo $form->hiddenField($model,'pasien_id'); ?>
-                <?php 
-                    $this->widget('MyJuiAutoComplete', array(
-                                                                    'model'=>$model,
-                                                                    'attribute'=>'no_rekam_medik',
-    //                                'name'=>'no_rekam_medik',
-                                    'value'=>$model->no_rekam_medik,
-                                    'source'=>'js: function(request, response) {
-                                                   $.ajax({
-                                                       url: "'.$this->createUrl('AutocompletePasien').'",
-                                                       dataType: "json",
-                                                       data: {
-                                                           no_rekam_medik: request.term,
-                                                       },
-                                                       success: function (data) {
-                                                               response(data);
-                                                       }
-                                                   })
-                                                }',
-                                     'options'=>array(
-                                           'minLength' => 4,
-                                            'focus'=> 'js:function( event, ui ) {
-                                                 $(this).val( "");
-                                                 return false;
-                                             }',
-                                           'select'=>'js:function( event, ui ) {
-                                                $(this).val( ui.item.value);                                            
-                                                $("#'.CHtml::activeId($model,'pasien_id').'").val( ui.item.pasien_id);                                            
-                                                return false;
+<div class="span6">
+	<div class="control-group">
+        <?php echo CHtml::label("Cari ".$model->getAttributeLabel('no_rekam_medik'), 'no_rekam_medik', array('class'=>'control-label'))?>
+        <div class="controls">
+			<?php echo $form->hiddenField($model,'pasien_id'); ?>
+            <?php 
+                $this->widget('MyJuiAutoComplete', array(
+								'model'=>$model,
+								'attribute'=>'no_rekam_medik',
+//                                'name'=>'no_rekam_medik',
+                                'value'=>$model->no_rekam_medik,
+                                'source'=>'js: function(request, response) {
+                                               $.ajax({
+                                                   url: "'.$this->createUrl('AutocompletePasien').'",
+                                                   dataType: "json",
+                                                   data: {
+                                                       no_rekam_medik: request.term,
+                                                   },
+                                                   success: function (data) {
+                                                           response(data);
+                                                   }
+                                               })
                                             }',
-                                    ),
-                                    'tombolDialog'=>array('idDialog'=>'dialogPasien'),
-                                    'htmlOptions'=>array('placeholder'=>'Ketik No. Rekam Medik','rel'=>'tooltip','title'=>'Ketik No. RM untuk mencari pasien',
-                                                                            'onkeyup'=>"return $(this).focusNextInputField(event)",
-                                                                            'class'=>'numbers-only'),
-                                )); 
-                ?>
-                <?php echo $form->error($model,'no_rekam_medik'); ?>                        
-            </div>
+                                 'options'=>array(
+                                       'minLength' => 4,
+                                        'focus'=> 'js:function( event, ui ) {
+                                             $(this).val( "");
+                                             return false;
+                                         }',
+                                       'select'=>'js:function( event, ui ) {
+                                            $(this).val( ui.item.value);                                            
+                                            $("#'.CHtml::activeId($model,'pasien_id').'").val( ui.item.pasien_id);                                            
+                                            return false;
+                                        }',
+                                ),
+                                'tombolDialog'=>array('idDialog'=>'dialogPasien'),
+                                'htmlOptions'=>array('placeholder'=>'Ketik No. Rekam Medik','rel'=>'tooltip','title'=>'Ketik No. RM untuk mencari pasien',
+									'onkeyup'=>"return $(this).focusNextInputField(event)",
+									'class'=>'numbers-only'),
+                            )); 
+            ?>
+            <?php echo $form->error($model,'no_rekam_medik'); ?>                        
         </div>
     </div>
-    <div class="span4">
-        <div class="control-group ">
-                <?php echo $form->labelEx($model,'Cara Bayar', array('class'=>'control-label refreshable')) ?>
-                <div class="controls">
-                        <?php echo $form->dropDownList($model,'carabayar_id', CHtml::listData($model->getCaraBayarItems(), 'carabayar_id', 'carabayar_nama') ,array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)",
+	<div class="control-group ">
+		<?php echo $form->labelEx($model,'Cara Bayar', array('class'=>'control-label refreshable')) ?>
+		<div class="controls">
+			<?php echo $form->dropDownList($model,'carabayar_id', CHtml::listData($model->getCaraBayarItems(), 'carabayar_id', 'carabayar_nama') ,array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)",
                                                     'ajax' => array('type'=>'POST',
                                                         'url'=> $this->createUrl('SetDropdownPenjaminPasien',array('encode'=>false,'namaModel'=>get_class($model))), 
-    //                                                        'update'=>'#'.CHtml::activeId($model, 'penjamin_id'),  //DIHIDE KARENA DIGANTIKAN DENGAN 'success'
+//                                                        'update'=>'#'.CHtml::activeId($model, 'penjamin_id'),  //DIHIDE KARENA DIGANTIKAN DENGAN 'success'
                                                         'success'=>'function(data){$("#'.CHtml::activeId($model, "penjamin_id").'").html(data);}',
                                                     ),
                                                     'class'=>'span3',
-                        )); ?>
-                </div>
-        </div>
-    </div>
-    <div class="span4">
-        <div class="control-group">
-            <?php echo $form->labelEx($model,'Penjamin', array('class'=>'control-label')) ?>
-            <div class="controls">
-                    <?php echo $form->dropDownList($model,'penjamin_id', CHtml::listData($model->getPenjaminItems($model->carabayar_id), 'penjamin_id', 'penjamin_nama') ,array('empty'=>'-- Pilih --',
-                                                            'onkeyup'=>"return $(this).focusNextInputField(event)",
-                                                            'class'=>'span3'
-                    )); ?>
-            </div>
-        </div>
-    </div>
+			)); ?>
+		</div>
+	</div>
+    <div class="control-group">
+		<?php echo $form->labelEx($model,'Penjamin', array('class'=>'control-label')) ?>
+		<div class="controls">
+			<?php echo $form->dropDownList($model,'penjamin_id', CHtml::listData($model->getPenjaminItems($model->carabayar_id), 'penjamin_id', 'penjamin_nama') ,array('empty'=>'-- Pilih --',
+								'onkeyup'=>"return $(this).focusNextInputField(event)",
+								'class'=>'span3'
+			)); ?>
+		</div>
+	</div>
 </div>
+<div class="span6"></div>
  <?php
     $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'id'=>'dialogPasien',

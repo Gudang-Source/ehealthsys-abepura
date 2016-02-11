@@ -18,7 +18,6 @@
 				$this->widget('bootstrap.widgets.BootAlert'); 
 		?>
 	</fieldset>
-<<<<<<< HEAD
 	<?php
 	$form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 		'id' => 'pembayarankapitasi-t-form',
@@ -32,21 +31,6 @@
 		<table id="tableList" class="table table-striped table-condensed">
 			<thead>
 				<tr>
-=======
-    <?php
-    $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
-        'id' => 'pembayarankapitasi-t-form',
-        'enableAjaxValidation' => false,
-        'type' => 'horizontal',
-        'htmlOptions' => array('onKeyPress' => 'return disableKeyPress(event);', 'onsubmit'=>'return requiredCheck(this);'),
-    ));
-    ?>
-	<div class="block-tabel" id="form-perhitungan">
-            <h6><span class='judul'>Perhitungan <b>Tarif Kapitasi</b></span></h6>
-	<table id="tableList" class="table table-striped table-condensed">
-		<thead>
-				<tr>				
->>>>>>> 12f1e5a9c072640a387b6430d541776accbca7b2
 					<th>No</th>
 					<th>No. Rekam Medik <br/> No. Pendaftaran</th>
 					<th>Nama Pasien</th>
@@ -66,7 +50,6 @@
 				?>
 			</tbody>
 			<tfoot>
-<<<<<<< HEAD
 				<tr class="trfooter">
 					<td colspan="3">Total</td>
 					<td><?php echo CHtml::textField('ARPembayarankapitasiT_pembayarankapitasi_totaltarifkapitasi', $totalTarif, array('readonly'=>true,'class'=>'inputFormTabel integer lebar3','style'=>'width:70px;',)); ?></td>
@@ -76,23 +59,6 @@
 			</tfoot>
 		</table>
 	</fieldset>
-=======
-               <tr class="trfooter">
-                    <td colspan="3">Total</td>
-                    <?php
-                                            $totalTarif = 0;
-                    ?>
-                    <td>
-                        <?php echo CHtml::textField("totalTarif", $totalTarif, array('readonly'=>true,'class'=>'inputFormTabel integer lebar3','style'=>'width:70px;',)); ?>
-                    </td>
-                    <td></td>
-                     <td></td>
-                </tr>
-            </tfoot>
-	</table>
-	</div>
-	
->>>>>>> 12f1e5a9c072640a387b6430d541776accbca7b2
 	<fieldset class="box" id="form-perhitungan">
 		<legend class="rim"><span class='judul'>Pembayaran Tarif Kapitasi</span></legend>
 		<div class="row-fluid">    

@@ -43,67 +43,70 @@
 		array(
 			'header'=>'Tanggal Masuk (SEP)',
 			'type'=>'raw',
-			'value'=>'MyFormatter::formatDateTimeForUser($data->laporansep_tgl)',
+			'value'=>'MyFormatter::formatDateTimeForUser($data->verifikasi_tglsep)',
 		),
 		array(
 			'header'=>'Tanggal Pulang',
 			'type'=>'raw',
-			'value'=>'MyFormatter::formatDateTimeForUser($data->tglsep)',
+			'value'=>'MyFormatter::formatDateTimeForUser($data->verifikasi_tglpulang)',
 		),
 		array(
 			'header'=>'Jenis Pelayanan',
 			'type'=>'raw',
-			'value'=>'MyFormatter::formatDateTimeForUser($data->tglpulang)',
+			'value'=>'$data->verifikasiinasis_jnspelayanan',
 		),
 		array(
 			'header'=>'Kelas Pelayanan',
 			'type'=>'raw',
-			'value'=>'$data->kdinacbg',
+			'value'=>'$data->verifikasiinasis_kelaspelayanan',
 		),
 		array(
 			'header'=>'Status',
 			'type'=>'raw',
-			'value'=>'$data->nminacbg',
+			'value'=>'$data->verifikasiinasis_status',
 		),
 		array(
 			'header'=>'No. RM',
 			'type'=>'raw',
-			'value'=>'$data->jnspelayanan',
+			'value'=>'$data->no_rekam_medik',
 		),
 		array(
 			'name'=>'No. Peserta',
 			'type'=>'raw',
-			'value'=>'$data->nomr',
+			'value'=>'$data->sep',
 		),
 		array(
 			'name'=>'Nama Pasien',
 			'type'=>'raw',
-			'value'=>'$data->nosep',
+			'value'=>'$data->nama_pasien',
 		),
 		array(
 			'name'=>'No. SEP',
 			'type'=>'raw',
-			'value'=>'$data->nokartu',
+			'value'=>'$data->nosep',
 		),
 		array(
 			'name'=>'Kode INA-CBG',
 			'type'=>'raw',
-			'value'=>'$data->nama',
+			'value'=>'$data->verifikasi_kdinacbg',
 		),
 		array(
 			'name'=>'Nama INA-CBG',
 			'type'=>'raw',
-			'value'=>'$data->kdstatsep',
-		),
+			'value'=>'$data->verifikasi_nminacbg',
+		),	
 		array(
 			'name'=>'Total Tagihan',
 			'type'=>'raw',
-			'value'=>'$data->nmstatsep',
-		),		
+			'value'=>'number_format($data->verifikasi_bytagihan)',
+			'htmlOptions'=>array(
+				'style'=>'text-align:right;',
+			),
+		),
 		array(
 			'name'=>'Total Gruper',
 			'type'=>'raw',
-			'value'=>'number_format($data->bytagihan)',
+			'value'=>'number_format($data->verifikasi_bytarifgruper)',
 			'htmlOptions'=>array(
 				'style'=>'text-align:right;',
 			),
@@ -111,7 +114,7 @@
 		array(
 			'name'=>'Tagihan Pelayanan RS',
 			'type'=>'raw',
-			'value'=>'number_format($data->bytarifgruper)',
+			'value'=>'number_format($data->verifikasi_bytagihanrs)',
 			'htmlOptions'=>array(
 				'style'=>'text-align:right;',
 			),
@@ -119,7 +122,7 @@
 		array(
 			'name'=>'Top Up',
 			'type'=>'raw',
-			'value'=>'number_format($data->bytarifrs)',
+			'value'=>'number_format($data->verifikasi_bytopup)',
 			'htmlOptions'=>array(
 				'style'=>'text-align:right;',
 			),
