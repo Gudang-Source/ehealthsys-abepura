@@ -130,7 +130,68 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
             </div>
             <?php //echo $form->textAreaRow($modAnamnesa, 'riwayatpenyakitterdahulu', array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));  ?>           
             <?php echo $form->textAreaRow($modAnamnesa, 'riwayatalergiobat', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
-	</div>
+	
+            <div class="control-group ">
+                <?php 
+                if (!empty($modAnamnesa->apht)) $modAnamnesa->apht = MyFormatter::formatDateTimeForUser($modAnamnesa->apht);
+                echo $form->labelEx($modAnamnesa, 'apht', array('class' => 'control-label')) ?>
+                <div class="controls">  
+                    <?php
+                    $this->widget('MyDateTimePicker', array(
+                        'model' => $modAnamnesa,
+                        'attribute' => 'apht',
+                        'value'=>null,
+                        'mode' => 'datetime',
+                        'options' => array(
+                            'dateFormat' => Params::DATE_FORMAT,
+                            'maxDate' => 'd',
+                        ),
+                        'htmlOptions' => array(
+                            'readonly' => true,
+                            'onkeypress' => "return $(this).focusNextInputField(event)",
+                            'class'=>'span3 htpd',
+                        ),
+                    ));
+                    ?>
+                    <?php
+                    echo CHtml::htmlButton('Kosongkan', array('class' => 'btn btn-primary', 'onclick' => "$('.htpd').val('');",
+                        'id' => 'btnKosongAPHT', 'onkeypress' => "return $(this).focusNextInputField(event)",
+                        ))
+                    ?>
+                </div>
+            </div>
+            <div class="control-group ">
+                <?php 
+                if (!empty($modAnamnesa->tgl_persalinan)) $modAnamnesa->tgl_persalinan = MyFormatter::formatDateTimeForUser($modAnamnesa->tgl_persalinan);
+                echo $form->labelEx($modAnamnesa, 'tgl_persalinan', array('class' => 'control-label')) ?>
+                <div class="controls">  
+                    <?php
+                    $this->widget('MyDateTimePicker', array(
+                        'model' => $modAnamnesa,
+                        'attribute' => 'tgl_persalinan',
+                        'value'=>null,
+                        'mode' => 'datetime',
+                        'options' => array(
+                            'dateFormat' => Params::DATE_FORMAT,
+                            'maxDate' => 'd',
+                        ),
+                        'htmlOptions' => array(
+                            'readonly' => true,
+                            'onkeypress' => "return $(this).focusNextInputField(event)",
+                            'class'=>'span3 tgl_persalinan',
+                        ),
+                    ));
+                    ?>
+                    <?php
+                    echo CHtml::htmlButton('Kosongkan', array('class' => 'btn btn-primary', 'onclick' => "$('.tgl_persalinan').val('');",
+                        'id' => 'btnKosongTglPersalinan', 'onkeypress' => "return $(this).focusNextInputField(event)",
+                        ))
+                    ?>
+                </div>
+            </div>
+            
+        
+        </div>
 	<div class="span6">
             <?php echo $form->labelEx($modAnamnesa, 'tglanamnesis', array('class' => 'control-label')) ?>
             <div class="controls">  

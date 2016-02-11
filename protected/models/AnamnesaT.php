@@ -84,10 +84,10 @@ class AnamnesaT extends CActiveRecord
 			array('riwayatimunisasi, riwayatimunisasiblm, riwayatobatygsering', 'length', 'max'=>500),
 			array('keb_olahraga, keb_konsumsialkohol, keb_minumkopi', 'length', 'max'=>5),
 			array('keb_jnsolahraga', 'length', 'max'=>200),
-			array('tglanamnesis, keluhanutama, keluhantambahan, keterangananamesa, update_time, update_loginpemakai_id, statusmerokok, riwayat_kecelakaan, riwayat_operasi', 'safe'),
+			array('tglanamnesis, keluhanutama, keluhantambahan, keterangananamesa, update_time, update_loginpemakai_id, statusmerokok, riwayat_kecelakaan, riwayat_operasi, apht, tgl_persalinan', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('anamesa_id, pendaftaran_id, pasien_id, triase_id, pasienadmisi_id, pegawai_id, tglanamnesis, keluhanutama, keluhantambahan, riwayatpenyakitterdahulu, riwayatpenyakitkeluarga, lamasakit, pengobatanygsudahdilakukan, riwayatalergiobat, riwayatkelahiran, riwayatmakanan, riwayatimunisasi, paramedis_nama, keterangananamesa, create_time, update_time, create_loginpemakai_id, update_loginpemakai_id, create_ruangan, riwayatperjalananpasien, petugas_triase_id, statusmerokok, jmlrokok_btg_hr, riwayatimunisasiblm, riwayatobatygsering, keb_olahraga, keb_jnsolahraga, keb_frekuensi_kaliminggu, keb_konsumsialkohol, keb_minumkopi, riwayat_kecelakaan, riwayat_operasi, konsumsi_drug', 'safe', 'on'=>'search'),
+			array('anamesa_id, pendaftaran_id, pasien_id, triase_id, pasienadmisi_id, pegawai_id, tglanamnesis, keluhanutama, keluhantambahan, riwayatpenyakitterdahulu, riwayatpenyakitkeluarga, lamasakit, pengobatanygsudahdilakukan, riwayatalergiobat, riwayatkelahiran, riwayatmakanan, riwayatimunisasi, paramedis_nama, keterangananamesa, create_time, update_time, create_loginpemakai_id, update_loginpemakai_id, create_ruangan, riwayatperjalananpasien, petugas_triase_id, statusmerokok, jmlrokok_btg_hr, riwayatimunisasiblm, riwayatobatygsering, keb_olahraga, keb_jnsolahraga, keb_frekuensi_kaliminggu, keb_konsumsialkohol, keb_minumkopi, riwayat_kecelakaan, riwayat_operasi, konsumsi_drug, apht, tgl_persalinan', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -151,6 +151,8 @@ class AnamnesaT extends CActiveRecord
 			'riwayat_kecelakaan' => 'Riwayat Kecelakaan',
 			'riwayat_operasi' => 'Riwayat Operasi',
 			'konsumsi_drug' => 'Konsumsi Drug',
+                        'apht'=>'APHT',
+                        'tgl_persalinan'=>'Tanggal Persalinan',
 		);
 	}
 
