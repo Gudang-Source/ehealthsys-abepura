@@ -174,7 +174,11 @@
 					array(
 						'header'=>'Batal Periksa',
 						'type'=>'raw',
-						'value'=>'CHtml::link("<i class=\'icon-form-silang\'></i>", "javascript:batalperiksa($data->pendaftaran_id)",array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk membatalkan pemeriksaan"))',
+						'value'=>function($data) {
+                                                    $admisi = PasienadmisiT::model()->findByAttributes(array('pendaftaran_id'=>$data->pendaftaran_id));
+                                                    if (empty($admisi)) return CHtml::link('<i class="icon-form-silang"></i>', "javascript:batalperiksa($data->pendaftaran_id)",array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk membatalkan pemeriksaan"));
+                                                    else return "-";
+                                                },
 						'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
 					),
             ),
