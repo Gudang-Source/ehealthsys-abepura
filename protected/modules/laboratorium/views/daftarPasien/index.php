@@ -146,7 +146,7 @@ JSCRIPT;
                         'header'=>'Dokter Pemeriksa',
                         'type'=>'raw',
         //                'value'=>'($data->statusperiksahasil == Params::STATUSPERIKSAHASIL_SEDANG) ? CHtml::link("<i class=\"icon-pencil-blue\"></i>". $data->getNamaLengkapDokter($data->pegawai_id),Yii::app()->controller->createUrl("/'.$module.'/'.$controller.'/ApprovePemeriksaan",array("pendaftaran_id"=>$data->pendaftaran_id,"pasienmasukpenunjang_id"=>$data->pasienmasukpenunjang_id)),array("rel"=>"tooltip","title"=>"Klik untuk menyetujui pemeriksaan", "onclick"=>"return confirm(\"Apakah Anda akan menyetujui pemeriksaan ini?\");")) : $data->getNamaLengkapDokter($data->pegawai_id)',
-                        'value'=>'($data->statusperiksahasil == Params::STATUSPERIKSAHASIL_SEDANG) ? CHtml::link("<i class=\"icon-pencil-blue\"></i>".$data->getNamaLengkapDokter($data->pegawai_id), "javascript:approveperiksa($data->pendaftaran_id, $data->pasienmasukpenunjang_id)",array("rel"=>"tooltip","title"=>"Klik untuk menyetujui pemeriksaan")) : $data->getNamaLengkapDokter($data->pegawai_id)',
+                        'value'=>'($data->statusperiksahasil == Params::STATUSPERIKSAHASIL_SEDANG) ? CHtml::link("<i class=\"icon-pencil-blue\"></i>".$data->getNamaLengkapDokter($data->pegawaipenunjang_id), "javascript:approveperiksa($data->pendaftaran_id, $data->pasienmasukpenunjang_id)",array("rel"=>"tooltip","title"=>"Klik untuk menyetujui pemeriksaan")) : $data->getNamaLengkapDokter($data->pegawaipenunjang_id)',
                     ),
         //            array(
         //                'header'=>'Status Print',

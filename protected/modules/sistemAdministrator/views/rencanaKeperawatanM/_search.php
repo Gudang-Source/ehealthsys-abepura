@@ -13,11 +13,14 @@
             <?php echo $form->textFieldRow($model,'rencana_kode',array('class'=>'span3','maxlength'=>20)); ?>
         </td>
     </tr>
+    <?php /*
     <tr>
         <td colspan="2">
             <?php echo $form->checkBoxRow($model,'iskolaborasiintervensi', array('checked'=>'$data->iskolaborasiintervensi')); ?>
         </td>
     </tr>
+     * 
+     */ ?>
 </table>
 	<?php //echo $form->textFieldRow($model,'rencanakeperawatan_id',array('class'=>'span5')); ?>
 

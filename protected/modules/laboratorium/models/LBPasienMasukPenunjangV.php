@@ -7,6 +7,7 @@ class LBPasienMasukPenunjangV extends PasienmasukpenunjangV
     public $isPasienBatalPeriksa = false; //MENAMPILKAN PASIEN YG DIBATALKAN
     public $bulan;
     public $tgl_awal,$tgl_akhir;
+    public $pegawaipenunjang_id;
 	public $perawat_id = null; //untuk tindakanpelayanan_t (analis lab)
     /**
      * Returns the static model of the specified AR class.
@@ -27,7 +28,7 @@ class LBPasienMasukPenunjangV extends PasienmasukpenunjangV
             // should not be searched.
 
             $criteria=new CDbCriteria;
-            $criteria->select = "*, hasilpemeriksaanlab_t, t.pasienbatalperiksa_id, tglbatal, keterangan_batal";
+            $criteria->select = "*, hasilpemeriksaanlab_t, t.pegawai_id as pegawaipenunjang_id, t.pasienbatalperiksa_id, tglbatal, keterangan_batal";
             $criteria->join = "
                 JOIN hasilpemeriksaanlab_t ON hasilpemeriksaanlab_t.pasien_id = t.pasien_id AND hasilpemeriksaanlab_t.pendaftaran_id = t.pendaftaran_id AND hasilpemeriksaanlab_t.pasienmasukpenunjang_id = t.pasienmasukpenunjang_id
                 join pendaftaran_t p on p.pendaftaran_id = t.pendaftaran_id
@@ -277,9 +278,10 @@ class LBPasienMasukPenunjangV extends PasienmasukpenunjangV
         
     public function getNamaLengkapDokter($pegawai_id)
     {
+        // return $pegawai_id;
         $dokter = DokterV::model()->findByAttributes(array('pegawai_id'=>$pegawai_id));
         if(!empty($dokter->nama_pegawai)){
-            return (isset($dokter->gelardepan) ? $dokter->gelardepan." " : "").$dokter->nama_pegawai.", ".(isset($dokter->gelarbelakang_nama) ? $dokter->gelarbelakang_nama : "");
+            return $dokter->namaLengkap;
         }else{
             return "-";
         }

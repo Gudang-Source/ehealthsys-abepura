@@ -79,6 +79,9 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
 ));
 
  $modDiagnosa =new RIDiagnosaM;
+ if (isset($_GET['RIDiagnosaM'])) {
+     $modDiagnosa->attributes = $_GET['RIDiagnosaM'];
+ }
 $this->widget('ext.bootstrap.widgets.BootGridView',array( 
     'id'=>'sadiagnosa-m-grid', 
     'dataProvider'=>$modDiagnosa->search(), 

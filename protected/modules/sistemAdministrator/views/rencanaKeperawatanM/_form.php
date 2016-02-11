@@ -77,7 +77,11 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
     ),
 ));
 
- $modDiagnosakeperawatan =new SADiagnosakeperawatanM;
+$modDiagnosakeperawatan =new SADiagnosakeperawatanM;
+if (isset($_GET['SADiagnosakeperawatanM'])) {
+    $modDiagnosakeperawatan->diagnosa_keperawatan = $_GET['SADiagnosakeperawatanM']['diagnosa_keperawatan'];
+    $modDiagnosakeperawatan->diagnosa_medis = $_GET['SADiagnosakeperawatanM']['diagnosa_medis'];
+}
 $this->widget('ext.bootstrap.widgets.BootGridView',array( 
     'id'=>'sadiagnosakeperawatan-m-grid', 
     'dataProvider'=>$modDiagnosakeperawatan->search(), 
@@ -191,10 +195,10 @@ function addRow(obj)
     $('#tbl-RencanaKeperawatan tr:last').after('<tr>'+tr+'</tr>');
     $('#tbl-RencanaKeperawatan tr:last td:last').append('$buttonMinus');
         
-        renameInput('RencanakeperawatanM','rencana_kode');
-        renameInput('RencanakeperawatanM','rencana_intervensi');
-        renameInput('RencanakeperawatanM','rencana_rasionalisasi');
-        renameInput('RencanakeperawatanM','iskolaborasiintervensi');
+        renameInput('SARencanaKeperawatanM','rencana_kode');
+        renameInput('SARencanaKeperawatanM','rencana_intervensi');
+        renameInput('SARencanaKeperawatanM','rencana_rasionalisasi');
+        renameInput('SARencanaKeperawatanM','iskolaborasiintervensi');
 $('#tbl-RencanaKeperawatan tr:last').find('input').val('');
 
 }
@@ -217,10 +221,10 @@ function delRow(obj)
     else {
         $(obj).parent().parent().remove();
         
-        renameInput('RencanakeperawatanM','rencana_kode');
-        renameInput('RencanakeperawatanM','rencana_intervensi');
-        renameInput('RencanakeperawatanM','rencana_rasionalisasi');
-        renameInput('RencanakeperawatanM','iskolaborasiintervensi');
+        renameInput('SARencanaKeperawatanM','rencana_kode');
+        renameInput('SARencanaKeperawatanM','rencana_intervensi');
+        renameInput('SARencanaKeperawatanM','rencana_rasionalisasi');
+        renameInput('SARencanaKeperawatanM','iskolaborasiintervensi');
     }
 }
 JSCRIPT;

@@ -863,7 +863,7 @@ class DaftarPasienController extends MyAuthController {
 									'update_loginpemakai_id' => Yii::app()->user->id
 								);
 								$penunjang = PasienmasukpenunjangT::model()->updateByPk($pasienMasukPenunjang->pasienmasukpenunjang_id, $attributes);
-
+                                                                $this->hapusTindakanPemeriksaan($pasienMasukPenunjang);
 								$pesan = 'success';
 								$status = 'ok';
 								$keterangan = "<div class='flash-success'>Data berhasil disimpan</div>";
@@ -925,6 +925,7 @@ class DaftarPasienController extends MyAuthController {
 				/*
 				 * kondisi_commit
 				 */
+                                // var_dump($status); die;
 				if ($status == 'ok') {
 					$transaction->commit();
 				} else {
@@ -947,7 +948,52 @@ class DaftarPasienController extends MyAuthController {
 			Yii::app()->end();
 		}
 	}
-
+        
+        /**
+         * Hapus tindakan dan hasil pada laboratorium.
+         * @param type PasienmasukpenunjangT $pasienMasukPenunjang data pasien penunjang.
+         */
+        public function hapusTindakanPemeriksaan($pasienMasukPenunjang) {
+            $ok = true;
+            $hasil = HasilpemeriksaanlabT::model()->findByAttributes(array(
+                'pasienmasukpenunjang_id'=>$pasienMasukPenunjang->pasienmasukpenunjang_id,
+            ));
+            $detail = DetailhasilpemeriksaanlabT::model()->findAllByAttributes(array(
+                'hasilpemeriksaanlab_id'=>$hasil->hasilpemeriksaanlab_id,
+            ));
+            
+            $tindakan = TindakanpelayananT::model()->findAllByAttributes(array(
+                'pasienmasukpenunjang_id'=>$pasienMasukPenunjang->pasienmasukpenunjang_id,
+            ));
+            /*
+            $oa = ObatalkespasienT::model()->findAllByAttributes(array(
+                'pasienmasukpenunjang_id'=>$pasienMasukPenunjang->pasienmasukpenunjang_id,
+            ));
+            */
+            foreach ($detail as $item) {
+                $ok = $ok && DetailhasilpemeriksaanlabT::model()->deleteByPk($item->detailhasilpemeriksaanlab_id);
+            }
+            $ok = $ok && HasilpemeriksaanlabT::model()->deleteByPk($hasil->hasilpemeriksaanlab_id);
+            
+            foreach ($tindakan as $item) {
+                $ok = $ok && TindakankomponenT::model()->deleteAllByAttributes(array(
+                    'tindakanpelayanan_id'=>$item->tindakanpelayanan_id,
+                ));
+                $ok = $ok && TindakanpelayananT::model()->deleteByPk($item->tindakanpelayanan_id);
+            }
+            
+            // var_dump($ok); die;
+            
+            // TODO : Hapus Obatalkes
+            /*
+            foreach ($oa as $item) {
+                $ok = $ok && StokobatalkesT::model()->deleteAllByAttributes(array(
+                    'obatalkespasien_id'=>$item->obatalkespasien_id,
+                ));
+                $ok = $ok && ObatalkespasienT::model()->deleteByPk($item->obatalkespasien_id);
+            } */
+        }
+        
 	public function actionBatalPeriksaPasienLuar2() {//ini fungsi yang lama tapi jangan Di HAPUS, takut minta di rubah lagi
 		// if(!Yii::app()->user->checkAccess(Params::DEFAULT_OPERATING)){
 		//     throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));

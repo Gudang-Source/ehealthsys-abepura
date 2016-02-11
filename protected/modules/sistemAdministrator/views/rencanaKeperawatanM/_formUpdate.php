@@ -87,13 +87,13 @@ function addRow(obj)
     $('#tbl-RencanaKeperawatan tr:last').after('<tr>'+tr+'</tr>');
     $('#tbl-RencanaKeperawatan tr:last td:last').append('$buttonMinus');
         
-        renameInput('RIRencanakeperawatanM','diagnosakeperawatan_id');
-        renameInput('RIRencanakeperawatanM','rencanakeperawatan_id');
-        renameInput('RIRencanakeperawatanM','rencana_kode');
-        renameInput('RIRencanakeperawatanM','rencana_intervensi');
-        renameInput('RIRencanakeperawatanM','rencana_rasionalisasi');
-        renameInput('RIRencanakeperawatanM','iskolaborasiintervensi');
-        renameInput('RIRencanakeperawatanM','rencanakeperawatan_id');
+        renameInput('RencanakeperawatanM','diagnosakeperawatan_id');
+        renameInput('RencanakeperawatanM','rencanakeperawatan_id');
+        renameInput('RencanakeperawatanM','rencana_kode');
+        renameInput('RencanakeperawatanM','rencana_intervensi');
+        renameInput('RencanakeperawatanM','rencana_rasionalisasi');
+        renameInput('RencanakeperawatanM','iskolaborasiintervensi');
+        renameInput('RencanakeperawatanM','rencanakeperawatan_id');
     $('#tbl-RencanaKeperawatan tr:last').find('input').val('');
     $('#tbl-RencanaKeperawatan tr:last').find('textarea').val('');
     $('#tbl-RencanaKeperawatan tr:last').find('select').val('');
@@ -117,11 +117,11 @@ function delRow(obj)
     if(!confirm("$confimMessage")) return false;
     else {
         $(obj).parent().parent().remove();
-        renameInput('RIRencanakeperawatanM','diagnosakeperawatan_id');
-        renameInput('RIRencanakeperawatanM','rencana_kode');
-        renameInput('RIRencanakeperawatanM','rencana_intervensi');
-        renameInput('RIRencanakeperawatanM','rencana_rasionalisasi');
-        renameInput('RIRencanakeperawatanM','iskolaborasiintervensi');
+        renameInput('RencanakeperawatanM','diagnosakeperawatan_id');
+        renameInput('RencanakeperawatanM','rencana_kode');
+        renameInput('RencanakeperawatanM','rencana_intervensi');
+        renameInput('RencanakeperawatanM','rencana_rasionalisasi');
+        renameInput('RencanakeperawatanM','iskolaborasiintervensi');
     }
 }
 JSCRIPT;
