@@ -18,70 +18,126 @@ $('#search-penunjangrujukan-form').submit(function(){
 ");
 
 $this->widget('bootstrap.widgets.BootAlert');
+$format = new MyFormatter;
 ?>
 <table width="100%">
     <tr>
         <td>
             <div class="control-group ">
                 <label for="namaPasien" class="control-label">
-                    <?php //  echo CHtml::checkBox('cbTglMasuk', false, array('uncheckValue'=>0,'rel'=>'tooltip' ,'onClick'=>'cekTanggal()', 'data-original-title'=>'Cek untuk pencarian berdasarkan tanggal')); ?>
-                    Tanggal Masuk 
+                    <?php //$model->cbTglMasuk = false; ?>
+                    <?php //echo CHtml::activeCheckBox($model,'cbTglMasuk', array('uncheckValue'=>0,'onClick'=>'cekTanggal()')); ?>
+                    Tanggal Rujukan 
                 </label>
                 <div class="controls">
+                    <?php $model->tgl_awal = $format->formatDateTimeForUser($model->tgl_awal); ?>
                     <?php   $format = new MyFormatter;
                             $this->widget('MyDateTimePicker',array(
-                                            'name'=>'tgl_awal',
-                                            'attribute'=>'tgl_awal',
-                                            'value'=> date('d M Y'),
-                                            'mode'=>'date',
-                                            'options'=> array(
-                                                'dateFormat'=>Params::DATE_FORMAT,
-                                                'maxDate' => 'd',
-                                            ),
-                                            'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3'),
+                            'model' => $model,
+                            'attribute' => 'tgl_awal',
+                            'mode' => 'date',
+//                                          'maxDate'=>'d',
+                            'options' => array(
+                                'dateFormat' => Params::DATE_FORMAT,
+                            ),
+                            'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3'),
                     )); 
-                          ?>
-                      
-                   </div>
-            </div>
-            <div class="control-group">
-                     <?php echo CHtml::label(' Sampai Dengan',' s/d', array('class'=>'control-label')) ?>
-
-                   <div class="controls"> 
+                       ?> 
+                    <?php $model->tgl_awal = $format->formatDateTimeForDb($model->tgl_awal); ?>
+                </div></div>
+						<div class="control-group ">
+                    <label for="namaPasien" class="control-label">
+                       Sampai dengan
+                      </label>
+                    <div class="controls">
+                            <?php $model->tgl_akhir = $format->formatDateTimeForUser($model->tgl_akhir); ?>
                             <?php   
                             $this->widget('MyDateTimePicker',array(
-                                            'name'=>'tgl_akhir',
-                                            'attribute'=>'tgl_akhir',
-                                            'value'=> date('d M Y'),
-                                            'mode'=>'date',
-                                            'options'=> array(
-                                                'dateFormat'=>Params::DATE_FORMAT,
-                                                'maxDate' => 'd',
-                                            ),
-                                            'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3'),
+                            'model' => $model,
+                            'attribute' => 'tgl_akhir',
+                            'mode' => 'date',
+//                                          'maxDate'=>'d',
+                            'options' => array(
+                                'dateFormat' => Params::DATE_FORMAT,
+                            ),
+                            'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3'),
                     )); ?>
+                        <?php $model->tgl_akhir = $format->formatDateTimeForDb($model->tgl_akhir); ?>
                 </div>
             </div>
         </td>
         <td>
+            <?php /*
             <div class="control-group ">
                 <label for="noPendaftaran" class="control-label">No. Pendaftaran </label>
                 <div class="controls">
-                    <input type="text" placeholder="Ketik No. Pendaftaran" value="" maxlength="20" id="noPendaftaran" name="noPendaftaran" onkeypress="return $(this).focusNextInputField(event)" empty="-- Pilih --">
+                    <?php echo CHtml::activeTextField($model,'no_pendaftaran',array('placeholder'=>'Ketik No. Pendaftaran')); ?>
                 </div>
-            </div>    
+            </div>  
+             * 
+             */ ?>  
             <div class="control-group ">
                 <label for="noRekamMedik" class="control-label">No. Rekam Medik </label>
                 <div class="controls">
-                    <input type="text"  placeholder="Ketik No. Rekam Medik" value="" maxlength="10" id="noRekamMedik" name="noRekamMedik" onkeypress="return $(this).focusNextInputField(event)" empty="-- Pilih --">
+                    <?php echo CHtml::activeTextField($model,'no_rekam_medik',array('placeholder'=>'Ketik No. Rekam Medik')); ?>
                 </div>
             </div>    
             <div class="control-group ">
                 <label for="namaPasien" class="control-label">Nama Pasien </label>
                 <div class="controls">
-                    <input type="text"  placeholder="Ketik Nama Pasien" value="" maxlength="50" id="namaPasien" name="namaPasien" onkeypress="return $(this).focusNextInputField(event)" empty="-- Pilih --">
+                    <?php echo CHtml::activeTextField($model,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien')); ?>
                 </div>
             </div> 
+        </td>
+        <td>
+            <?php
+                $instalasi = InstalasiM::model()->findAllByAttributes(array(
+                    'instalasi_id' => array(2,3,4),
+                ));
+                $ruangan = RuanganM::model()->findAllByAttributes(array(
+                    'instalasi_id' => array(2,3,4),
+                    'ruangan_aktif' => true,
+                ), array(
+                    'order'=>'instalasi_id, ruangan_nama',
+                ));
+                echo $form->dropDownListRow($model,'instalasiasal_id', CHtml::listData($instalasi, 'instalasi_id', 'instalasi_nama'), array(
+                    'empty'=>'-- Pilih --',
+                    'class'=>'span3', 
+                    'ajax' => array('type'=>'POST',
+                        'url'=> $this->createUrl('/actionDynamic/getRuanganAsalDariInstalasiAsal',array('encode'=>false,'namaModel'=>get_class($model))), 
+                        'success'=>'function(data){$("#'.CHtml::activeId($model, "ruanganasal_id").'").html(data); }',
+                    ),
+                 ));
+                echo $form->dropDownListRow($model,'ruanganasal_id', CHtml::listData($ruangan, 'ruangan_id', 'ruangan_nama'), array('empty'=>'-- Pilih --', 'class'=>'span3', 'maxlength'=>50));
+
+            ?>
+            <?php 
+                $carabayar = CarabayarM::model()->findAll(array(
+                    'condition'=>'carabayar_aktif = true',
+                    'order'=>'carabayar_nourut',
+                ));
+                foreach ($carabayar as $idx=>$item) {
+                    $penjamins = PenjaminpasienM::model()->findByAttributes(array(
+                        'carabayar_id'=>$item->carabayar_id,
+                        'penjamin_aktif'=>true,
+                   ));
+                   if (empty($penjamins)) unset($carabayar[$idx]);
+                }
+                $penjamin = PenjaminpasienM::model()->findAll(array(
+                    'condition'=>'penjamin_aktif = true',
+                    'order'=>'penjamin_nama',
+                ));
+                echo $form->dropDownListRow($model,'carabayar_id', CHtml::listData($carabayar, 'carabayar_id', 'carabayar_nama'), array(
+                    'empty'=>'-- Pilih --',
+                    'class'=>'span3', 
+                    'ajax' => array('type'=>'POST',
+                        'url'=> $this->createUrl('/actionDynamic/getPenjaminPasien',array('encode'=>false,'namaModel'=>get_class($model))), 
+                        'success'=>'function(data){$("#'.CHtml::activeId($model, "penjamin_id").'").html(data); }',
+                    ),
+                 ));
+                echo $form->dropDownListRow($model,'penjamin_id', CHtml::listData($penjamin, 'penjamin_id', 'penjamin_nama'), array('empty'=>'-- Pilih --', 'class'=>'span3', 'maxlength'=>50));
+
+            ?>
         </td>
     </tr>
 </table>
