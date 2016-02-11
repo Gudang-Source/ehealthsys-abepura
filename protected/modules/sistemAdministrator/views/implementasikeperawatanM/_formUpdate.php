@@ -38,7 +38,7 @@
                                         1 => 'Ya'); ?>
                 <td>
                     <?php echo $form->hiddenField($ImplementasiKeperawatan, "[$i]implementasikeperawatan_id", array('value'=>$ImplementasiKeperawatan->implementasikeperawatan_id));?>
-                    <?php echo $form->dropDownList($ImplementasiKeperawatan,"[$i]rencanakeperawatan_id",CHtml::listData(RencanakeperawatanM::model()->findAll(), 'rencanakeperawatan_id', 'rencana_intervensi'), array('value'=>$ImplementasiKeperawatan->rencanakeperawatan_id, 'class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?> 
+                    <?php echo $form->dropDownList($ImplementasiKeperawatan,"[$i]rencanakeperawatan_id",CHtml::listData(RencanakeperawatanM::model()->findAllByAttributes(array('diagnosakeperawatan_id'=>$model->diagnosakeperawatan_id)), 'rencanakeperawatan_id', 'rencana_intervensi'), array('value'=>$ImplementasiKeperawatan->rencanakeperawatan_id, 'class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?> 
                 </td>
                 <td>
                     <?php echo $form->textField($ImplementasiKeperawatan,"[$i]implementasikeperawatan_kode",array('value'=>$ImplementasiKeperawatan->implementasikeperawatan_kode,'class'=>'span2','onkeypress'=>"return $(this).focusNextInputField(event);")); ?> 
@@ -85,14 +85,16 @@ function addRow(obj)
     var tr = $('#tbl-ImplementasiKeperawatan tbody tr:first').html();
     $('#tbl-ImplementasiKeperawatan tr:last').after('<tr>'+tr+'</tr>');
     $('#tbl-ImplementasiKeperawatan tr:last td:last').append('$buttonMinus');
-        renameInput('RIImplementasikeperawatanM','implementasikeperawatan_id');
-        renameInput('RIImplementasikeperawatanM','rencanakeperawatan_id');
-        renameInput('RIImplementasikeperawatanM','implementasikeperawatan_kode');
-        renameInput('RIImplementasikeperawatanM','implementasi_nama');
-        renameInput('RIImplementasikeperawatanM','iskolaborasiimplementasi');
+        
         $('#tbl-ImplementasiKeperawatan tr:last').find('input').val('');
         $('#tbl-ImplementasiKeperawatan tr:last').find('textarea').val('');
         $('#tbl-ImplementasiKeperawatan tr:last').find('select').val('');
+        
+        renameInput('ImplementasikeperawatanM','implementasikeperawatan_id');
+        renameInput('ImplementasikeperawatanM','rencanakeperawatan_id');
+        renameInput('ImplementasikeperawatanM','implementasikeperawatan_kode');
+        renameInput('ImplementasikeperawatanM','implementasi_nama');
+        renameInput('ImplementasikeperawatanM','iskolaborasiimplementasi');
 
 }
 
@@ -113,11 +115,11 @@ function delRow(obj)
     if(!confirm("$confimMessage")) return false;
     else {
         $(obj).parent().parent().remove();
-        renameInput('RIImplementasikeperawatanM','implementasikeperawatan_id');
-        renameInput('RIImplementasikeperawatanM','rencanakeperawatan_id');
-        renameInput('RIImplementasikeperawatanM','implementasikeperawatan_kode');
-        renameInput('RIImplementasikeperawatanM','implementasi_nama');
-        renameInput('RIImplementasikeperawatanM','iskolaborasiimplementasi');
+        renameInput('ImplementasikeperawatanM','implementasikeperawatan_id');
+        renameInput('ImplementasikeperawatanM','rencanakeperawatan_id');
+        renameInput('ImplementasikeperawatanM','implementasikeperawatan_kode');
+        renameInput('ImplementasikeperawatanM','implementasi_nama');
+        renameInput('ImplementasikeperawatanM','iskolaborasiimplementasi');
     }
 }
 JSCRIPT;
