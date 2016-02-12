@@ -31,6 +31,7 @@
                 'dataProvider'=>$modRJ->searchRJ(),
                 'template'=>"{summary}\n{items}\n{pager}",
                 'itemsCssClass'=>'table table-striped table-condensed',
+                /*
                 'mergeHeaders'=>array(
                     array(
                         'name'=>'<center>Penjamin</center>',
@@ -38,11 +39,14 @@
                         'end'=>6,
                     ),
                 ),
+                 * 
+                 */
                 'columns'=>array(
                             array(
+                                'header'=>'Tgl. Pendaftaran/<br/>No. Pendaftaran',
                                 'name'=>'tgl_pendaftaran',
                                 'type'=>'raw',
-                                'value'=>'$data->Tanggal',
+                                'value'=>'$data->Tanggal."/<br/>".$data->no_pendaftaran',
                                 'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:left;'),
                             ),
                             /*
@@ -54,13 +58,13 @@
                                 'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:left;'),
                             ),
                              * 
-                             */
+                             *//*
                             array(
                                 'name'=>'no_pendaftaran',
                                 'type'=>'raw',
                                 'value'=>'$data->no_pendaftaran',
                                 'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:left;'),
-                            ),
+                            ), */
                             array(
                                 'name'=>'no_rekam_medik',
                                 'type'=>'raw',
@@ -71,48 +75,7 @@
                                 'header'=>'Nama',
                                 'name'=>'nama_pasien',
                                 'type'=>'raw',
-                                'value'=>'$data->nama_pasien',
-                                'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:left;'),
-                            ),
-                            array(
-                                'header'=>'Nama Panggilan',
-                                'name'=>'nama_bin',
-                                'type'=>'raw',
-                                'value'=>'$data->nama_bin',
-                                'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:left;')
-                            ),
-                            array(
-                                'header'=>'Cara Bayar',
-                                'name'=>'carabayar_nama',
-                                'type'=>'raw',
-                                'value'=>'$data->carabayar_nama',
-                                'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:left;')
-                            ),
-                            array(
-                                'header'=>'Penjamin',
-                                'name'=>'penjamin_nama',
-                                'type'=>'raw',
-                                'value'=>'$data->penjamin_nama',
-                                'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:left;')
-                            ),
-                            array(
-                                'header'=>'Penanggung',
-                                'name'=>'nama_pj',
-                                'type'=>'raw',
-                                'value'=>'isset($data->nama_pj) ? CHtml::Link($data->nama_pj,Yii::app()->controller->createUrl("DaftarPasien/informasiPenanggung",array("id"=>$data->no_pendaftaran,"frame"=>true)),array("class"=>"", "target"=>"iframeInformasiPenanggung", "onclick"=>"$(\"#dialogInformasiPenanggung\").dialog(\"open\");","rel"=>"tooltip", "title"=>"Klik untuk melihat Informasi Penanggung Jawab",)) : "-"',
-                                'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:left;'),
-                            ),
-                            array(
-                                'header'=>'Nama Instalasi<br/> /<br/> Ruangan',
-                                'name'=>'instalasi_nama',
-                                'type'=>'raw',
-                                'value'=>'$data->instalasi_nama." / <br/> ".$data->ruangan_nama',
-                            ),
-                            array(
-                                'header'=>'Jenis Kasus Penyakit',
-                                'name'=>'jeniskasuspenyakit_nama',
-                                'type'=>'raw',
-                                'value'=>'$data->jeniskasuspenyakit_nama',
+                                'value'=>'$data->namadepan.$data->nama_pasien',
                                 'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:left;'),
                             ),
                             array(
@@ -122,12 +85,60 @@
                                 'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:left;'),
                             ),
                             array(
+                                'header'=>'Jenis Kasus Penyakit',
+                                'name'=>'jeniskasuspenyakit_nama',
+                                'type'=>'raw',
+                                'value'=>'$data->jeniskasuspenyakit_nama',
+                                'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:left;'),
+                            ),
+                            array(
                                 'header'=>'Alamat',
                                 'name'=>'alamat_pasien',
                                 'type'=>'raw',
                                 'value'=>'$data->alamat_pasien',
                                 'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:left;'),
+                            ), 
+                            array(
+                                'header'=>'Poliklinik/<br/>Dokter',
+                                'name'=>'ruangan_nama',
+                                'type'=>'raw',
+                                'value'=>'$data->ruangan_nama."/<br/>".$data->gelardepan.$data->nama_pegawai.", ".$data->gelarbelakang_nama',
                             ),
+                            /*
+                            array(
+                                'header'=>'Nama Panggilan',
+                                'name'=>'nama_bin',
+                                'type'=>'raw',
+                                'value'=>'$data->nama_bin',
+                                'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:left;')
+                            ), */
+                            array(
+                                'header'=>'Cara Bayar/<br/>Penjamin',
+                                'name'=>'carabayar_nama',
+                                'type'=>'raw',
+                                'value'=>'$data->carabayar_nama."/<br/>".$data->penjamin_nama',
+                                'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:left;')
+                            ), /*
+                            array(
+                                'header'=>'Penjamin',
+                                'name'=>'penjamin_nama',
+                                'type'=>'raw',
+                                'value'=>'$data->penjamin_nama',
+                                'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:left;')
+                            ), */
+                            array(
+                                'header'=>'Penanggung',
+                                'name'=>'nama_pj',
+                                'type'=>'raw',
+                                'value'=>'isset($data->nama_pj) ? CHtml::Link($data->nama_pj,Yii::app()->controller->createUrl("DaftarPasien/informasiPenanggung",array("id"=>$data->no_pendaftaran,"frame"=>true)),array("class"=>"", "target"=>"iframeInformasiPenanggung", "onclick"=>"$(\"#dialogInformasiPenanggung\").dialog(\"open\");","rel"=>"tooltip", "title"=>"Klik untuk melihat Informasi Penanggung Jawab",)) : "-"',
+                                'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:left;'),
+                            ),/*
+                            array(
+                                'header'=>'Nama Instalasi<br/> /<br/> Ruangan',
+                                'name'=>'instalasi_nama',
+                                'type'=>'raw',
+                                'value'=>'$data->instalasi_nama." / <br/> ".$data->ruangan_nama',
+                            ), */
                       array(
                           'header'=>'Status Periksa',
                             'type'=>'raw',
