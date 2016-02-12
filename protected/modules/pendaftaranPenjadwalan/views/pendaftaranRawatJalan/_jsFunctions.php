@@ -787,7 +787,7 @@ function addRujukanDari()
             {
                 $('#dialogAddRujukanDari div.divForFormRujukanDari').html(data.div);
                 $('#PPRujukanT_nama_perujuk').html(data.namarujukan);
-                setTimeout("$('#dialogAddRujukanDari').dialog('close')",1000);
+                setTimeout("$('#dialogAddRujukanDari').dialog('close'); $('.rujukandari_id').change(); ",1000);
             }
        },
         error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
