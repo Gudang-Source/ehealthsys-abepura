@@ -152,7 +152,7 @@ class AnamnesaT extends CActiveRecord
 			'riwayat_operasi' => 'Riwayat Operasi',
 			'konsumsi_drug' => 'Konsumsi Drug',
                         'hpht'=>'HPHT',
-                        'tgl_persalinan'=>'Tanggal Persalinan',
+                        'tgl_persalinan'=>'Tgl. Tarsiran Persalinan',
 		);
 	}
 
