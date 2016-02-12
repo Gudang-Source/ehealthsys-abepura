@@ -19,9 +19,10 @@ class BKInformasikasirinappulangV extends InformasikasirinappulangV
             $criteria=new CDbCriteria;
 
             if($this->ceklis==0){
-                    $criteria->addBetweenCondition('DATE(t.tglpulang)',$this->tgl_awal,$this->tgl_akhir);	
+                    $criteria->addBetweenCondition('DATE(t.tgladmisi)',$this->tgl_awal_admisi,$this->tgl_akhir_admisi);	       
             }else{
-                    $criteria->addBetweenCondition('DATE(t.tgladmisi)',$this->tgl_awal_admisi,$this->tgl_akhir_admisi);	
+                    $criteria->addBetweenCondition('DATE(t.tglpulang)',$this->tgl_awal,$this->tgl_akhir);
+                    
             }
 
             $criteria->addCondition('t.pembayaranpelayanan_id IS NULL');

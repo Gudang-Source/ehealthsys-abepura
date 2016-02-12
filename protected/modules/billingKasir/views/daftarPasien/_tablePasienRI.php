@@ -32,26 +32,26 @@
                     array(
                         'name'=>'nama_pasien',
                         'type'=>'raw',
-                        'value'=>'$data->nama_pasien',
-                    ),
+                        'value'=>'$data->namadepan.$data->nama_pasien',
+                    ), /*
                     array(
                         'header'=>'Alias',
                         'name'=>'nama_bin',
                         'type'=>'raw',
                         'value'=>'$data->nama_bin',
-                    ),
+                    ), */
                     array(
-                        'header'=>'Cara Bayar',
+                        'header'=>'Cara Bayar/<br/>Penjamin',
                         'name'=>'carabayar_nama',
                         'type'=>'raw',
-                        'value'=>'$data->carabayar_nama',
-                    ),
+                        'value'=>'$data->carabayar_nama."/<br/>".$data->penjamin_nama',
+                    ), /*
                     array(
                         'header'=>'Nama Penjamin',
                         'name'=>'penjamin_nama',
                         'type'=>'raw',
                         'value'=>'$data->penjamin_nama',
-                    ),
+                    ), */
                     array(
                         'header'=>'Nama Jenis Kasus Penyakit',
                         'name'=>'jeniskasuspenyakit_nama',
