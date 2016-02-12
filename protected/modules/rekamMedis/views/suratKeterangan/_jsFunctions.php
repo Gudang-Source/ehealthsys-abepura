@@ -1,11 +1,12 @@
 <?php
+/*
 $gets = "";
 if(isset($_GET)){
     foreach($_GET AS $name => $get){
         if($name != "r")
             $gets .= "&".$name."=".$get;
     }
-}
+}*/
 ?>
 <?php $baseUrl = Yii::app()->createUrl("/");?>
 <script type='text/javascript'>
