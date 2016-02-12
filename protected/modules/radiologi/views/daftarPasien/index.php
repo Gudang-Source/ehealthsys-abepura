@@ -274,15 +274,15 @@ function batalperiksa(pendaftaran_id)
 					  function(data){
 						  if(data.status == 'ok'){
 							if(data.smspasien==0){
-							  var params = [];
-							  params = {instalasi_id:<?php echo Yii::app()->user->getState("instalasi_id"); ?>, modul_id:<?php echo Yii::app()->session['modul_id']; ?>, judulnotifikasi:'GAGAL KIRIM SMS PASIEN', isinotifikasi:'Pasien '+data.nama_pasien+' tidak memiliki nomor mobile'}; // 16 
-							  insert_notifikasi(params);
+							  //var params = [];
+							  //params = {instalasi_id:<?php echo Yii::app()->user->getState("instalasi_id"); ?>, modul_id:<?php echo Yii::app()->session['modul_id']; ?>, judulnotifikasi:'GAGAL KIRIM SMS PASIEN', isinotifikasi:'Pasien '+data.nama_pasien+' tidak memiliki nomor mobile'}; // 16 
+							  //insert_notifikasi(params);
 							}
-							  window.location = "<?php echo Yii::app()->createUrl(Yii::app()->controller->module->id . '/' . Yii::app()->controller->id . '/index&succes=2')?>";
+							window.location = "<?php echo Yii::app()->createUrl(Yii::app()->controller->module->id . '/' . Yii::app()->controller->id . '/index&succes=2')?>";
 						  }else{
 							  if(data.status == 'exist')
 							  {
-								  myAlert('Pasien telah melakukan pemeriksaan');
+								  myAlert('Pasien telah melakukan pemeriksaan / pembayaran');
 							  }
 
 						  }

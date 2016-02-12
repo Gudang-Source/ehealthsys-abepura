@@ -125,15 +125,15 @@
     <?php echo $form->labelEx($modRujukanBpjs,'asalrujukan_id', array('class'=>'control-label')) ?>
     <div class="controls">
     <?php echo $form->dropDownList($modRujukanBpjs,'asalrujukan_id', CHtml::listData($modRujukanBpjs->getAsalRujukanItems(), 'asalrujukan_id', 'asalrujukan_nama'), 
-                                      array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)",
+                                      array('class'=>'span3 rujukandari_id','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)",
                                             'ajax'=>array('type'=>'POST',
                                                           'url'=>$this->createUrl('GetRujukanDari',array('encode'=>false,'namaModel'=>'PPRujukanbpjsT')),
                                                           'update'=>'#'.CHtml::activeId($modRujukanBpjs, 'rujukandari_id'),),
                                             'onchange'=>"clearRujukanBpjs();",)); ?>
-        <?php /*RND-666 >> echo CHtml::htmlButton('<i class="icon-plus-sign icon-white"></i>', 
+        <?php /* echo CHtml::htmlButton('<i class="icon-plus-sign icon-white"></i>', 
                                         array('class'=>'btn btn-primary','onclick'=>"{addAsalRujukan(); $('#dialogAddAsalRujukan').dialog('open');}",
                                               'id'=>'btnAddAsalRujukan','onkeyup'=>"return $(this).focusNextInputField(event)",
-                                              'rel'=>'tooltip','title'=>'Klik untuk menambah '.$modRujukanBpjs->getAttributeLabel('asalrujukan_id'))) */?>
+                                              'rel'=>'tooltip','title'=>'Klik untuk menambah '.$modRujukanBpjs->getAttributeLabel('asalrujukan_id'))) */ ?>
         <?php echo $form->error($modRujukanBpjs, 'asalrujukan_id'); ?>
     </div>
 </div>
@@ -167,10 +167,10 @@
     <div class="controls">
         <?php echo $form->dropDownList($modRujukanBpjs,'rujukandari_id',CHtml::listData($modRujukanBpjs->getRujukanDariItems($modRujukanBpjs->asalrujukan_id), 'rujukandari_id', 'namaperujuk'),
                                           array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)",'onchange'=>'setNamaPerujukBpjs();')); ?>
-        <?php /*RND-666 >> echo CHtml::htmlButton('<i class="icon-plus-sign icon-white"></i>', 
+        <?php echo CHtml::htmlButton('<i class="icon-plus-sign icon-white"></i>', 
                                         array('class'=>'btn btn-primary','onclick'=>"{addRujukanDari(); $('#dialogAddRujukanDari').dialog('open');}",
                                               'id'=>'btnAddRujukanDari','onkeyup'=>"return $(this).focusNextInputField(event)",
-                                              'rel'=>'tooltip','title'=>'Klik untuk menambah '.$modRujukanBpjs->getAttributeLabel('nama_perujuk'))) */?>
+                                              'rel'=>'tooltip','title'=>'Klik untuk menambah '.$modRujukanBpjs->getAttributeLabel('nama_perujuk'))) ?>
         <?php echo $form->error($modRujukanBpjs, 'rujukandari_id'); ?>
     </div>
 </div>

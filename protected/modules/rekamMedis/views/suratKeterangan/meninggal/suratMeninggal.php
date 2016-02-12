@@ -213,12 +213,15 @@ if(!empty($_GET['suratketerangan_id'])){
 </div><br><br>
 	<div style="margin-left: 400px">
 		<?php $date = date('Y-m-d'); ?>
-		<?php echo $data->kabupaten->kabupaten_nama ;?>, <?php echo $format->formatDateTimeForUser($date); ?><br>
+		<?php echo $data->kecamatan->kecamatan_nama ;?>, <?php echo $format->formatDateTimeForUser($date); ?><br>
 		Dokter Pemeriksa, 
 		<br><br><br><br><br>
 	<!--    (_________________)-->
 	<?php
-		echo CHtml::activeDropDownList($model,'mengetahui_surat', CHtml::listData(PegawaiV::model()->findAll(), 'nama_pegawai', 'nama_pegawai'), array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)"));
+		echo CHtml::activeDropDownList($model,'mengetahui_surat', CHtml::listData(PegawaiV::model()->findAll(array(
+                    'condition'=>'pegawai_aktif = true',
+                    'order'=>'nama_pegawai',
+                )), 'namaLengkap', 'namaLengkap'), array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)"));
 	?>
 	</div>
 </TABLE>

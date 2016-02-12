@@ -173,7 +173,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                         'mode' => 'datetime',
                         'options' => array(
                             'dateFormat' => Params::DATE_FORMAT,
-                            'maxDate' => 'd',
+                            //'maxDate' => 'd',
                         ),
                         'htmlOptions' => array(
                             'readonly' => true,

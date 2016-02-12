@@ -104,7 +104,7 @@
         <td style="width:70%;height:86px"><?php echo !empty($modAnamnesa->hpht)?  MyFormatter::formatDateTimeForUser($modAnamnesa->hpht):" - "; ?></td>
     </tr>	
     <tr>
-        <td style="width:30%;height:86px">Tgl Persalinan</td>
+        <td style="width:30%;height:86px">Tgl Tafsiran Persalinan</td>
         <td style="width:70%;height:86px"><?php echo !empty($modAnamnesa->tgl_persalinan)?  MyFormatter::formatDateTimeForUser($modAnamnesa->tgl_persalinan):" - "; ?></td>
     </tr>	
 </table><br><br><br>

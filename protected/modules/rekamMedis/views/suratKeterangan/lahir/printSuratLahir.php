@@ -148,7 +148,7 @@ if(!empty($_GET['suratketerangan_id'])){
 </div><br><br>
 <div style="margin-left: 400px" class="allcontent">
 		<?php $date = date('Y-m-d'); ?>
-		<?php echo strtoupper($data->kabupaten->kabupaten_nama) ;?>, <?php echo strtoupper($format->formatDateTimeForUser($date)); ?><br>
+		<?php echo strtoupper($data->kecamatan->kecamatan_nama) ;?>, <?php echo strtoupper($format->formatDateTimeForUser($date)); ?><br>
 		<?php echo strtoupper($data->nama_rumahsakit);?>,
 		<br><br><br><br><br>
 	<?php echo strtoupper($model->mengetahui_surat); ?>
