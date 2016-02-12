@@ -50,7 +50,7 @@ $this->widget('bootstrap.widgets.BootAlert');
             <?php //echo $form->dropDownListRow($modKonsul,'asalpoliklinikkonsul_id', CHtml::listData($modKonsul->getRuanganInstalasiItems(''), 'ruangan_id', 'ruangan_nama'),
                                             //array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
             <?php echo $form->dropDownListRow($modKonsul,'pegawai_id', CHtml::listData($modKonsul->getDokterItems($modPendaftaran->ruangan_id), 'pegawai_id', 'NamaLengkap'),
-                                                array('empty'=>'-- Pilih --','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                                                array('empty'=>'-- Pilih --','class'=>'span3 dokter-konsul', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
             <?php echo $form->textAreaRow($modKonsul,'catatan_dokter_konsul',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
             <div class="control-group ">
                 <label class="control-label"> </label>
@@ -195,6 +195,8 @@ function setTarif(){
     var kelaspelayanan_id = '<?php echo $modPendaftaran->kelaspelayanan_id; ?>';
     $.post('<?php echo $this->createUrl('ajaxSetTarif') ?>', {ruangan_id:ruangan_id,penjamin_id:penjamin_id,kelaspelayanan_id:kelaspelayanan_id}, function(data){
         $('#tarif_poliklinik').html(data.result);
+        $('.dokter-konsul').html(data.dokter);
+        
     }, 'json');
 }
 

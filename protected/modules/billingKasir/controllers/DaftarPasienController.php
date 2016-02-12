@@ -47,16 +47,14 @@ class DaftarPasienController extends MyAuthController
                 
                 if(isset($_GET['BKInformasikasirinappulangV'])){
                     $modRI->attributes = $_GET['BKInformasikasirinappulangV'];
-                    if(!empty($_GET['BKInformasikasirinappulangV']['tgl_awal'])){
-                        $modRI->tgl_awal = $format->formatDateTimeForDb($_GET['BKInformasikasirinappulangV']['tgl_awal']);
-                    }
-                    if(!empty($_GET['BKInformasikasirinappulangV']['tgl_akhir'])){
-                        $modRI->tgl_akhir = $format->formatDateTimeForDb($_GET['BKInformasikasirinappulangV']['tgl_akhir']);
-                    }
+                    
+                    $modRI->tgl_awal_admisi = $format->formatDateTimeForDb($_GET['BKInformasikasirinappulangV']['tgl_awal_admisi']);
+                    $modRI->tgl_akhir_admisi = $format->formatDateTimeForDb($_GET['BKInformasikasirinappulangV']['tgl_akhir_admisi']);
+                        
                     $modRI->ceklis = $_GET['BKInformasikasirinappulangV']['ceklis'];
                     if($modRI->ceklis==1){
-                        $modRI->tgl_awal_admisi = $format->formatDateTimeForDb($_GET['BKInformasikasirinappulangV']['tgl_awal_admisi']);
-                        $modRI->tgl_akhir_admisi = $format->formatDateTimeForDb($_GET['BKInformasikasirinappulangV']['tgl_akhir_admisi']);
+                        $modRI->tgl_akhir = $format->formatDateTimeForDb($_GET['BKInformasikasirinappulangV']['tgl_akhir']);
+                        $modRI->tgl_awal = $format->formatDateTimeForDb($_GET['BKInformasikasirinappulangV']['tgl_awal']);
                     }
                 }
                 if (Yii::app()->request->isAjaxRequest) {

@@ -232,7 +232,7 @@ class InformasikasirinappulangV extends CActiveRecord
 			'update_loginpemakai_id' => 'Update Loginpemakai',
 			'create_ruangan' => 'Create Ruangan',
 			'gelardepan' => 'Gelardepan',
-			'nama_pegawai' => 'Nama Pegawai',
+			'nama_pegawai' => 'Dokter',
 			'gelarbelakang_nama' => 'Gelarbelakang Nama',
 			'tglpasienpulang' => 'Tglpasienpulang',
 			'carakeluar' => 'Carakeluar',

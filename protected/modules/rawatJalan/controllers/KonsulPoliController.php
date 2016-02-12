@@ -236,10 +236,26 @@ class KonsulPoliController extends MyAuthController
             $model = TariftindakanM::model()->findAll($criteria);
             
             $data['result'] = $this->renderPartial($this->path_view.'_listTarifKonsul', array('model'=>$model,'ruangan_nama'=>$ruangan_nama), true);
-
+            $data['dokter'] = $this->loadDokterRuangan($ruangan_id);
+            
+            
             echo json_encode($data);
             Yii::app()->end();
             }
+        }
+        
+        protected function loadDokterRuangan($ruangan_id) {
+            $dokter = DokterV::model()->findAllByAttributes(array(
+                'pegawai_aktif'=>true,
+                'ruangan_id'=>$ruangan_id,
+            ));
+            $dat = CHtml::listData($dokter, 'pegawai_id', 'namaLengkap');
+            $str = count($dat)>1?'<option value="">-- Pilih --</option>':'';
+            foreach ($dat as $val=>$item) {
+                $str .= '<option value="'.$val.'">'.$item.'</option>';
+            }
+            
+            return $str;
         }
         
         public function actionPrint()
