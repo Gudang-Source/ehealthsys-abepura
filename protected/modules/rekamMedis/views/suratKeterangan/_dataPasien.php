@@ -46,7 +46,7 @@
                                         return false;
                                     }',
                             ),
-//                            'tombolDialog'=>array('idDialog'=>'dialogPasien','idTombol'=>'tombolPasienDialog'),
+                            //'tombolDialog'=>array('idDialog'=>'dialogPasien','idTombol'=>'tombolPasienDialog'),
                             'htmlOptions'=>array('class'=>'span3', 'placeholder'=>'Ketik No. Rekam Medik'),
                         )); 
                     }
@@ -76,7 +76,38 @@
                     if (!empty($modPasien->pasien_id)) { 
                         echo CHtml::textField('RKPasienM[nama_pasien]', $modPasien->nama_pasien, array('readonly'=>true));
                     }else{
-                        echo CHtml::textField('RKPasienM[nama_pasien]', '', array('readonly'=>true));
+                        $this->widget('MyJuiAutoComplete', array(
+                            'name'=>'RKPasienM[nama_pasien]',
+                            'value'=>$modPasien->nama_pasien,
+                            'source'=>'js: function(request, response) {
+                                           $.ajax({
+                                               url: "'.Yii::app()->createUrl('rekamMedis/SuratKeterangan/daftarPasien').'",
+                                               dataType: "json",
+                                               data: {
+                                                   term2: request.term,
+                                                   instalasiId: $("#RKPendaftaranT_instalasi_id").val(),
+                                               },
+                                               success: function (data) {
+                                                       response(data);
+                                               }
+                                           })
+                                        }',
+                             'options'=>array(
+                                   'showAnim'=>'fold',
+                                   'minLength' => 2,
+                                   'focus'=> 'js:function( event, ui ) {
+                                        $(this).val(ui.item.value);
+
+                                        return false;
+                                    }',
+                                   'select'=>'js:function( event, ui ) {
+                                        isiDataPasien(ui.item);
+                                        return false;
+                                    }',
+                            ),
+                            //'tombolDialog'=>array('idDialog'=>'dialogPasien','idTombol'=>'tombolPasienDialog'),
+                            'htmlOptions'=>array('class'=>'span3', 'placeholder'=>'Ketik No. Rekam Medik'),
+                        ));
                     }
                 ?>
             </td>
@@ -164,27 +195,8 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'value'=>'CHtml::Link("<i class=\"icon-check\"></i>","javascript:void(0);",array("class"=>"btn-small", 
                                     "id" => "selectPendaftaran",
                                     "onClick" => "
+                                        loadPasien(".$data->no_rekam_medik.");
                                         $(\"#dialogPasien\").dialog(\"close\");
-
-                                        $(\"#RKPendaftaranT_tgl_pendaftaran\").val(\"$data->tgl_pendaftaran\");
-                                        $(\"#RKPendaftaranT_no_pendaftaran\").val(\"$data->no_pendaftaran\");
-                                        $(\"#RKPendaftaranT_umur\").val(\"$data->umur\");
-                                        $(\"#RKPendaftaranT_jeniskasuspenyakit_nama\").val(\"$data->jeniskasuspenyakit_nama\");
-                                        $(\"#RKPendaftaranT_instalasi_id\").val(\"$data->instalasi_id\");
-                                        $(\"#RKPendaftaranT_instalasi_nama\").val(\"$data->instalasi_nama\");
-                                        $(\"#RKPendaftaranT_ruangan_nama\").val(\"$data->ruangan_nama\");
-                                        $(\"#RKPendaftaranT_pendaftaran_id\").val(\"$data->pendaftaran_id\");
-                                        $(\"#RKPendaftaranT_carabayar_id\").val(\"$data->carabayar_id\");
-                                        $(\"#RKPendaftaranT_penjamin_id\").val(\"$data->penjamin_id\");
-                                        $(\"#RKPendaftaranT_kelaspelayanan_id\").val(\"$data->kelaspelayanan_id\");
-                                        $(\"#RKPendaftaranT_pasienadmisi_id\").val(\"$data->pasienadmisi_id\");
-
-                                        $(\"#RKPasienM_jeniskelamin\").val(\"$data->jeniskelamin\");
-                                        $(\"#RKPasienM_no_rekam_medik\").val(\"$data->no_rekam_medik\");
-                                        $(\"#RKPasienM_nama_pasien\").val(\"$data->nama_pasien\");
-                                        $(\"#RKPasienM_nama_bin\").val(\"$data->nama_bin\");
-                                        $(\"#RKPendaftaranT_carabayar_nama\").val(\"$data->carabayar_nama\");
-                                        $(\"#RKPendaftaranT_penjamin_nama\").val(\"$data->penjamin_nama\");
                                         
                                         tab = $(\".active\").length;
                                         if(tab > 1){
@@ -226,12 +238,16 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 
 $this->endWidget();
 //========= end pendaftaran dialog =============================
+
+
+$urlPasien = Yii::app()->createUrl('rekamMedis/SuratKeterangan/daftarPasien');
 ?>
 
 
 <script type="text/javascript">
 function isiDataPasien(data)
 {
+    
     $("#RKPendaftaranT_tgl_pendaftaran").val(data.tgl_pendaftaran);
     $("#RKPendaftaranT_no_pendaftaran").val(data.no_pendaftaran);
     $("#RKPendaftaranT_umur").val(data.umur);
@@ -248,12 +264,27 @@ function isiDataPasien(data)
     $("#RKPendaftaranT_caramasuk_id").val(data.caramasuk_id);
     
     $("#RKPasienM_jeniskelamin").val(data.jeniskelamin);
+    $("#RKPasienM_no_rekam_medik").val(data.no_rekam_medik);
     $("#RKPasienM_nama_pasien").val(data.namapasien);
     $("#RKPasienM_nama_bin").val(data.namabin);
     $("#RKPendaftaranT_carabayar_nama").val(data.carabayar_nama);
     $("#RKPendaftaranT_penjamin_nama").val(data.penjamin_nama);
     
     cekTabulasi();
+}
+
+function loadPasien(rm) {
+    $.ajax({
+       url: "<?php echo $urlPasien; ?>",
+       dataType: "json",
+       data: {
+           term: rm,
+           instalasiId: $("#RKPendaftaranT_instalasi_id").val(),
+       },
+       success: function (data) {
+            isiDataPasien(data[0]);
+       }
+   })
 }
 
 function cekTabulasi(){

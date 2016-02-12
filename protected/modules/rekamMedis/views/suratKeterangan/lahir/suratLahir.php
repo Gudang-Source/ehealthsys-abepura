@@ -102,20 +102,20 @@ if(!empty($_GET['suratketerangan_id'])){
                 <td>PANJANG BADAN</td>
                 <td>:</td>
                 <td><?php echo CHtml::activeTextField($model, 'lahir_panjangbadan_cm', array('readonly'=>false,
-														'onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'span1','placeholder'=>'Cm',)); ?> CM</td>
+														'onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'span1 numbersOnly','placeholder'=>'Cm', 'maxlength'=>2, 'style'=>'text-align: right;')); ?> CM</td>
             </tr>
             <tr>
                 <td>BERAT BADAN</td>
                 <td>:</td>
                 <td><?php echo CHtml::activeTextField($model, 'lahir_beratbadan_gram', array('readonly'=>false,
-														'onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'span1','placeholder'=>'Gr')); ?> GRAM</td>
+														'onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'span1 numbersOnly','placeholder'=>'Gr', 'maxlength'=>4, 'style'=>'text-align: right;')); ?> GRAM</td>
             </tr>
             <tr>
                 <td>PENOLONG PERSALINAN</td>
                 <td>:</td>
                 <td>
 					<?php
-						echo CHtml::activeDropDownList($model,'dokter_persalinan_id', CHtml::listData(PegawaiV::model()->findAll(), 'pegawai_id', 'nama_pegawai'), array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)"));
+						echo CHtml::activeDropDownList($model,'dokter_persalinan_id', CHtml::listData(PegawaiV::model()->findAll(), 'pegawai_id', 'namaLengkap'), array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)"));
 					?>
 				</td>
             </tr>
@@ -157,12 +157,15 @@ if(!empty($_GET['suratketerangan_id'])){
 </div><br><br>
 <div style="margin-left: 400px" class="allcontent">
 		<?php $date = date('Y-m-d'); ?>
-		<?php echo strtoupper($data->kabupaten->kabupaten_nama) ;?>, <?php echo strtoupper($format->formatDateTimeForUser($date)); ?><br>
+		<?php echo strtoupper($data->kecamatan->kecamatan_nama) ;?>, <?php echo strtoupper($format->formatDateTimeForUser($date)); ?><br>
 		<?php echo strtoupper($data->nama_rumahsakit);?>,
 		<br><br><br><br><br>
 	<!--    (_________________)-->
 	<?php
-		echo CHtml::activeDropDownList($model,'mengetahui_surat', CHtml::listData(PegawaiV::model()->findAll(), 'nama_pegawai', 'nama_pegawai'), array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)"));
+		echo CHtml::activeDropDownList($model,'mengetahui_surat', CHtml::listData(PegawaiV::model()->findAll(array(
+                    'condition'=>'pegawai_aktif = true',
+                    'order'=>'nama_pegawai',
+                )), 'namaLengkap', 'namaLengkap'), array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)"));
 	?>
 	</div>
 </TABLE>

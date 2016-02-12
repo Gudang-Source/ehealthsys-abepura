@@ -1612,8 +1612,11 @@ class SuratKeteranganController extends MyAuthController
             $criteria->select = 'pendaftaran_t.pendaftaran_id, pasienadmisi_t.caramasuk_id, t.pasien_id, pendaftaran_t.pasienadmisi_id, t.nama_pasien,
                                      pendaftaran_t.no_pendaftaran, pendaftaran_t.tgl_pendaftaran,jeniskelamin,no_rekam_medik,
                                      carabayar_m.carabayar_id,carabayar_m.carabayar_nama,penjaminpasien_m.penjamin_id,penjaminpasien_m.penjamin_nama,
-                                     umur,jeniskasuspenyakit_m.jeniskasuspenyakit_nama,ruangan_m.ruangan_nama';
-            $criteria->compare('LOWER(t.no_rekam_medik)', strtolower($_GET['term']), true);
+                                     umur,jeniskasuspenyakit_m.jeniskasuspenyakit_nama,ruangan_m.ruangan_nama, t.namadepan';
+            
+            if (isset($_GET['term'])) $criteria->compare('LOWER(t.no_rekam_medik)', strtolower($_GET['term']), true);
+            else if (isset($_GET['term2'])) $criteria->compare('LOWER(t.nama_pasien)', strtolower($_GET['term2']), true);
+            
             $criteria->limit = 5;
             
             $criteria->join ='JOIN pendaftaran_t ON t.pasien_id = pendaftaran_t.pasien_id
@@ -1627,6 +1630,7 @@ class SuratKeteranganController extends MyAuthController
             //kembalikan format
             
                 $models = RKPasienM::model()->findAll($criteria);
+            $returnVal = array();
             foreach($models as $i=>$model)
             {
                 $attributes = $model->attributeNames();
@@ -1634,10 +1638,10 @@ class SuratKeteranganController extends MyAuthController
                     $returnVal[$i]["$attribute"] = $model->$attribute;
                     
                 }
-                $returnVal[$i]['label'] = $model->no_rekam_medik.' - '.$model->nama_pasien.' - '.$model->no_pendaftaran.' - '.$model->tgl_pendaftaran; //.' - '.$model->statusperiksa
+                $returnVal[$i]['label'] = $model->no_rekam_medik.' - '.$model->nama_pasien.' - '.$model->no_pendaftaran.' - '.$format->formatDateTimeForUser($model->tgl_pendaftaran); //.' - '.$model->statusperiksa
                 $returnVal[$i]['value'] = $model->no_rekam_medik;
                 $returnVal[$i]['jeniskelamin'] = $model->jeniskelamin;
-                $returnVal[$i]['namapasien'] = $model->nama_pasien;
+                $returnVal[$i]['namapasien'] = $model->namadepan.$model->nama_pasien;
                 $returnVal[$i]['namabin'] = $model->nama_bin;
                 $returnVal[$i]['jeniskasuspenyakit'] = $model->jeniskasuspenyakit_nama;
                 $returnVal[$i]['namainstalasi'] = $model->instalasi_nama;

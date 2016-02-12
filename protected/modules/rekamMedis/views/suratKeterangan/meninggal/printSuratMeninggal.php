@@ -130,7 +130,7 @@
 		<br>
     <div style="margin-left: 450px">
 		<?php $date = date('Y-m-d'); ?>
-		<?php echo $data->kabupaten->kabupaten_nama ;?>, <?php echo $format->formatDateTimeForUser($date); ?><br>
+		<?php echo $data->kecamatan->kecamatan_nama ;?>, <?php echo $format->formatDateTimeForUser($date); ?><br>
 		Dokter Pemeriksa, 
 		<br><br><br><br><br>
 	<!--    (_________________)-->
