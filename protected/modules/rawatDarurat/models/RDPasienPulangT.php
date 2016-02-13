@@ -18,7 +18,7 @@ class RDPasienPulangT extends PasienpulangT
     */
     public function getCarakeluarItems()
     {
-        return CarakeluarM::model()->findAllByAttributes(array('carakeluar_aktif'=>true),array('order'=>'carakeluar_nama'));
+        return CarakeluarM::model()->findAllByAttributes(array('carakeluar_aktif'=>true),array('order'=>'carakeluar_urutan'));
     }
 
     /**

@@ -207,6 +207,8 @@ class DaftarPasienController extends MyAuthController {
                     $modPasien->tgl_meninggal = $format->formatDateTimeForDb($_POST['RDPasienPulangT']['tgl_meninggal']);
                     $modPasien->save();
                 }
+                //var_dump($this->validPulang && $this->validRujukan);
+                //var_dump($modPasien->attributes); die;
                 if ($this->validPulang && $this->validRujukan) {
                     
                     PendaftaranT::model()->updateByPk($modelPulang->pendaftaran_id, array('tglselesaiperiksa' => date('Y-m-d H:i:s'), 'pasienpulang_id' => $modelPulang->pasienpulang_id));
@@ -304,7 +306,7 @@ class DaftarPasienController extends MyAuthController {
         $modelPulangNew->create_ruangan = Yii::app()->user->getState('ruangan_id');
         $modelPulangNew->create_loginpemakai_id = Yii::app()->user->id;
         $modelPulangNew->pasienadmisi_id = (Yii::app()->user->getState('instalasi_id') == Params::INSTALASI_ID_RD) ? null : $pasienadmisi_id;
-
+        
         if ($modelPulangNew->save()) {
             $this->validPulang = true;
         }
@@ -356,7 +358,7 @@ class DaftarPasienController extends MyAuthController {
                 if (empty($kondisikeluar)) {
                     echo CHtml::tag('option', array('value' => ''), CHtml::encode('-- Pilih --'), true);
                 } else {
-                    echo CHtml::tag('option', array('value' => ''), CHtml::encode('-- Pilih --'), true);
+                    if (count($kondisikeluar) != 1) echo CHtml::tag('option', array('value' => ''), CHtml::encode('-- Pilih --'), true);
                     foreach ($kondisikeluar as $value => $name) {
                         echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
                     }
