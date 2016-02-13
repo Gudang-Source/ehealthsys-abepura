@@ -230,19 +230,6 @@
 <?php echo $form->textField($modelPulang, 'hariperawatan', array('class' => 'span1', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?> Hari
                     </div>
                 </div>
-<<<<<<< HEAD
-                <div class="control-group ">
-                        <?php echo $form->labelEx($modMasukKamar,'lamadirawat_kamar', array('class'=>'control-label')) ?>
-                        <div class="controls">
-                                <?php echo $form->textField($modMasukKamar,'lamadirawat_kamar',array('class'=>'span1', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?> Hari
-                        </div>
-                </div>
-                <div class="control-group ">
-                        <?php echo $form->labelEx($modelPulang,'hariperawatan', array('class'=>'control-label')) ?>
-                        <div class="controls">
-                                <?php echo $form->textField($modelPulang,'hariperawatan',array('class'=>'span1', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?> Hari
-                        </div>
-                </div>
                 <div class="control-group ">
                     <?php echo $form->labelEx($modelPulang,'keterangankeluar', array('class'=>'control-label')) ?>
                     <div class="controls">
@@ -254,20 +241,6 @@
                <fieldset class="box">
                     <legend class="rim">
                         <?php echo CHtml::checkBox('isDead', $modelPulang->isDead, array('onkeypress'=>"return $(this).focusNextInputField(event)")) ?>
-=======
-
-            </td>
-            <td width="50%">
-                <div class="control-group ">
-                        <?php echo $form->labelEx($modelPulang, 'keterangankeluar', array('class' => 'control-label')) ?>
-                    <div class="controls">
-                            <?php echo $form->textArea($modelPulang, 'keterangankeluar', array('placeholder' => 'Keterangan Pasien Pulang', 'class' => 'span3', 'cols' => 50, 'rows' => 3)); ?>
-                    </div>
-                </div>
-                <fieldset class="">
-                    <legend>
-                            <?php echo CHtml::checkBox('isDead', $modelPulang->isDead, array('onkeypress' => "return $(this).focusNextInputField(event)")) ?>
->>>>>>> 24e55615287ce5f651411e3ec230ac92f23c1642
                         Pasien Meninggal
                     </legend>
                     <div class="control-group ">
@@ -288,15 +261,10 @@ $this->widget('MyDateTimePicker', array(
                         </div>
                     </div>
                 </fieldset> 
-<<<<<<< HEAD
                 <fieldset class="box">
                     <legend class="rim">
                         <?php echo CHtml::checkBox('isKontrol', $modelPulang->isKontrol, array('onkeypress'=>"return $(this).focusNextInputField(event)")) ?>
-=======
-                <fieldset class="">
-                    <legend>
-                            <?php echo CHtml::checkBox('isKontrol', $modelPulang->isKontrol, array('onkeypress' => "return $(this).focusNextInputField(event)")) ?>
->>>>>>> 24e55615287ce5f651411e3ec230ac92f23c1642
+
                         Rencana Kontrol Pasien
                     </legend>
                     <div class="control-group ">
