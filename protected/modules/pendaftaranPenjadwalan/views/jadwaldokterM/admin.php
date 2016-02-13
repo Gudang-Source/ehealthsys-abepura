@@ -56,8 +56,14 @@
                     ),
 					array(
                         'name'=>'pegawai_id',
-                        'filter'=>  CHtml::listData(PPPendaftaranT::model()->getDokterItems(), 'pegawai_id', 'nama_pegawai'),
-                        'value'=>'(isset($data->pegawai->nama_pegawai) ? $data->pegawai->nama_pegawai : "")',
+                        'filter'=>  CHtml::listData(PPPendaftaranT::model()->getDokterItems(), 'pegawai_id', 'namaLengkap'),
+                        'value'=>'(isset($data->pegawai->nama_pegawai) ? $data->pegawai->namaLengkap : "")',
+                    ),
+                    array(
+                        'header'=>'Tgl. Jadwal',
+                        'name'=>'jadwaldokter_tgl',
+                        'value'=>'MyFormatter::formatDateTimeForUser($data->jadwaldokter_tgl)',
+                        'filter'=>false,
                     ),
                     'jadwaldokter_hari',
                     'jadwaldokter_buka',

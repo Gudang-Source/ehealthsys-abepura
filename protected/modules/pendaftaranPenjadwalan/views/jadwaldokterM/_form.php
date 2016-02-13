@@ -24,9 +24,9 @@
                     <?php $this->widget('MyDateTimePicker',array(
                                             'model'=>$model,
                                             'attribute'=>'jadwaldokter_mulai',
-                                            'mode'=>'time',
+                                            'mode'=>'date',
                                             'options'=> array(
-                                                'dateFormat'=>Params::DATE_FORMAT_MEDIUM,
+                                                'dateFormat'=>Params::DATE_FORMAT,
                                             ),
                                             'htmlOptions'=>array('readonly'=>true,
                                                                  'onkeypress'=>"return $(this).focusNextInputField(event);",
@@ -41,9 +41,9 @@
                     <?php $this->widget('MyDateTimePicker',array(
                                             'model'=>$model,
                                             'attribute'=>'jadwaldokter_tutup',
-                                            'mode'=>'time',
+                                            'mode'=>'date',
                                             'options'=> array(
-                                                'dateFormat'=>Params::DATE_FORMAT_MEDIUM,
+                                                'dateFormat'=>Params::DATE_FORMAT,
                                             ),
                                             'htmlOptions'=>array('readonly'=>true,
                                                                  'onkeypress'=>"return $(this).focusNextInputField(event);",

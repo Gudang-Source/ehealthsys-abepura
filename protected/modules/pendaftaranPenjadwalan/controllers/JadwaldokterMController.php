@@ -328,7 +328,7 @@ class JadwaldokterMController extends MyAuthController
                     $criteria->addNotInCondition('jadwaldokter_id', $listUpdate);
                     $criteria->addBetweenCondition('jadwaldokter_tgl',$jadwal['txtStartDate'],$jadwal['txtEndDate']);
                     $criteria->addCondition('instalasi_id = '.$jadwal['instalasi']);
-                    JadwaldokterM::model()->deleteAll($criteria);
+                    //JadwaldokterM::model()->deleteAll($criteria);
                     if ($jumlah > 0 && ($return)){
                         $transaction->commit();
                         Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
@@ -416,7 +416,7 @@ class JadwaldokterMController extends MyAuthController
                 foreach($dokters as $dokter)
                 {
                     $dokter_id = (isset($dokter->pegawai_id) ? $dokter->pegawai_id : null);
-                    $dokter_nama = (isset($dokter->nama_pegawai) ? $dokter->nama_pegawai : null);
+                    $dokter_nama = (isset($dokter->nama_pegawai) ? $dokter->namaLengkap : null);
                     $data['options'] .= CHtml::tag('option',array('value'=>$dokter_id),CHtml::encode($dokter_nama),true);
                 }
 

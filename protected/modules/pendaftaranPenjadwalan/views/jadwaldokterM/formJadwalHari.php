@@ -27,9 +27,9 @@ $jadwaldokter_hari = (isset($tglExplode[0])) ? $tglExplode[0] : "";
             echo "<div id='div_".$i."_".$poli->ruangan_id."'>";
             $input = '';
             if (count($modJadwal) > 0){
-                $dokter = CHtml::listData(DokterV::model()->findAllByAttributes(array('ruangan_id'=>$poli->ruangan_id)), 'pegawai_id', 'nama_pegawai');
+                $dokter = CHtml::listData(DokterV::model()->findAllByAttributes(array('ruangan_id'=>$poli->ruangan_id)), 'pegawai_id', 'namaLengkap');
                 foreach ($modJadwal as $key => $value) {
-                    $input .= '<ul class="div_'.$i.'_'.$key.' classInline"><li>'.CHtml::dropDownList('jadwalDokter[jadwal]['.$i.'][dokter]['.$poli->ruangan_id.'][dokter]['.$key.'][pegawai_id]', $value->pegawai_id, $dokter, array('class'=>"inputDokter span2", 'id'=>"jadwalDokter_'.$i.'_'.$poli->ruangan_id.'_'.$key.'", 'style'=>'display:inline-block;')).
+                    $input .= '<ul class="div_'.$i.'_'.$key.' classInline"><li>'.CHtml::dropDownList('jadwalDokter[jadwal]['.$i.'][dokter]['.$poli->ruangan_id.'][dokter]['.$key.'][pegawai_id]', $value->pegawai_id, $dokter, array('class'=>"inputDokter span3", 'id'=>"jadwalDokter_'.$i.'_'.$poli->ruangan_id.'_'.$key.'", 'style'=>'display:inline-block;')).
                             CHtml::hiddenField('jadwalDokter[jadwal]['.$i.'][dokter]['.$poli->ruangan_id.'][dokter]['.$key.'][jadwaldokter_id]', $value->jadwaldokter_id).
                             '</li>';
 //                    $input .= '<select style="display:inline-block;" name="jadwalDokter[jadwal]['.$i.'][dokter]['.$poli->ruangan_id.'][dokter]['.$key.'][pegawai_id]" id="jadwalDokter_'.$i.'_'.$poli->ruangan_id.'_'.$key.'" type="text" class="inputDokter span2" ></select>';
