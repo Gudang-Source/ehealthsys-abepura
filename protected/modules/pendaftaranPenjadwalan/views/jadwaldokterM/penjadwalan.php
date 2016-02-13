@@ -137,7 +137,7 @@ function insertInputDokter(idTabel, idRuangan, obj)
     //var jmlBaris = $('#div_'+idTabel+'_'+idBaris+' input').length;
     parent = $(obj).parents("#tabelForm_"+idTabel+" tr td");
     var jmlBaris = parent.find(".inputDokter").length;
-    var input = '<li><select style="display:inline-block;" name="jadwalDokter[jadwal]['+idTabel+'][dokter]['+idRuangan+'][dokter]['+jmlBaris+'][pegawai_id]" id="jadwalDokter_'+idTabel+'_'+idRuangan+'_'+jmlBaris+'" type="text" class="inputDokter span2" ></select></li>';
+    var input = '<li><select style="display:inline-block;" name="jadwalDokter[jadwal]['+idTabel+'][dokter]['+idRuangan+'][dokter]['+jmlBaris+'][pegawai_id]" id="jadwalDokter_'+idTabel+'_'+idRuangan+'_'+jmlBaris+'" type="text" class="inputDokter span3" ></select></li>';
     input += '<li><div style="display:inline-block;margin-bottom:-7px;" class="input-append"><input style="float:left" type="text" name="jadwalDokter[jadwal]['+idTabel+'][dokter]['+idRuangan+'][dokter]['+jmlBaris+'][jadwaldokter_mulai]" class="span1 timePickerTest"><span class="add-on"><i class="icon-time"></i></span></div></li>';
     input += '<li>s/d</li>';
     input += '<li><div style="display:inline-block;margin-bottom:-7px;" class="input-append"><input style="float:left" type="text" name="jadwalDokter[jadwal]['+idTabel+'][dokter]['+idRuangan+'][dokter]['+jmlBaris+'][jadwaldokter_tutup]" class="span1 timePickerTest"><span class="add-on"><i class="icon-time"></i></span></div></li>';
