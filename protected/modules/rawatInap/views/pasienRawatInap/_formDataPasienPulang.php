@@ -1,6 +1,7 @@
 <?php $this->widget('bootstrap.widgets.BootAlert'); ?>
 <?php
 if(!empty($modRD)){
+    $modRD->nama_pasien = $modRD->namadepan.$modRD->nama_pasien;
 ?>
 <fieldset>
     <legend>Data Pasien</legend>

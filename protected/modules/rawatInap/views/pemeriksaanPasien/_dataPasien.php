@@ -67,8 +67,8 @@ if(!empty($modPasien)){
             <td><?php echo CHtml::activeTextField($modAdmisi->kelaspelayanan, 'kelaspelayanan_nama', array('readonly'=>true)); ?></td>
         </tr>
         <tr>
-            <td><?php echo CHtml::activeLabel($modPendaftaran->carabayar, 'cara bayar ', array('class'=>'control-label')); ?></td>
-            <td><?php echo CHtml::activeTextField($modPendaftaran->carabayar, 'carabayar_nama', array('readonly'=>true)); ?></td>
+            <td><?php echo CHtml::activeLabel($modAdmisi->carabayar, 'cara bayar ', array('class'=>'control-label')); ?></td>
+            <td><?php echo CHtml::activeTextField($modAdmisi->carabayar, 'carabayar_nama', array('readonly'=>true)); ?></td>
 
             <td><?php echo CHtml::activeLabel($modAdmisi->penjamin, 'penjamin', array('class'=>'control-label')); ?></td>
             <td><?php echo CHtml::activeTextField($modAdmisi->penjamin, 'penjamin_nama', array('readonly'=>true)); ?></td>
