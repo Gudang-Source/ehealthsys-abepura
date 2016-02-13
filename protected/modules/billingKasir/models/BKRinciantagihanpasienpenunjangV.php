@@ -16,7 +16,7 @@ class BKRinciantagihanpasienpenunjangV extends RinciantagihanpasienpenunjangV
         public function searchRincianTagihan()
         {
             $criteria=new CDbCriteria;
-            $criteria->group = 'tgl_pendaftaran,no_pendaftaran, pendaftaran_id, no_rekam_medik, nama_pasien, nama_bin ,pendaftaran_id, carabayar_nama, ruangan_nama, pembayaranpelayanan_id, instalasi_id, instalasi_nama';
+            $criteria->group = 'tgl_pendaftaran,no_pendaftaran, pendaftaran_id, no_rekam_medik, nama_pasien, nama_bin ,pendaftaran_id, carabayar_nama, penjamin_nama, ruangan_nama, pembayaranpelayanan_id, instalasi_id, instalasi_nama';
             $criteria->select = $criteria->group.' , sum(tarif_tindakan) as totaltagihan';
             $criteria->addBetweenCondition('date(tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
             $criteria->compare('LOWER(namadepan)',strtolower($this->namadepan),true);
@@ -57,6 +57,7 @@ class BKRinciantagihanpasienpenunjangV extends RinciantagihanpasienpenunjangV
 			
             $criteria->addInCondition('ruanganpendaftaran_id', $ruangans);
             $criteria->addInCondition('ruanganpenunjang_id',  $ruangans);
+            $criteria->compare('ruangan_id', $this->ruangan_id);
             $criteria->compare('LOWER(jeniskasuspenyakit_nama)',strtolower($this->jeniskasuspenyakit_nama),true);
             if ($this->statusBayar == 'LUNAS'){
                 $criteria->addCondition('pembayaranpelayanan_id is not null');

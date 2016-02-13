@@ -89,9 +89,9 @@ class BKInformasikasirinappulangV extends InformasikasirinappulangV
 	public function getRuanganItems($instalasi_id=null)
         {
             if($instalasi_id==null){
-            return RuanganM::model()->findAllByAttributes(array(),array('order'=>'ruangan_nama'));
+            return RuanganM::model()->findAllByAttributes(array(),array('order'=>'ruangan_nama', 'condition'=>'ruangan_aktif = true'));
             }else{
-            return RuanganM::model()->findAllByAttributes(array('instalasi_id'=>$instalasi_id),array('order'=>'ruangan_nama'));   
+            return RuanganM::model()->findAllByAttributes(array('instalasi_id'=>$instalasi_id, 'ruangan_aktif'=>'true'),array('order'=>'ruangan_nama'));   
             }
         }
 }
