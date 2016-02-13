@@ -32,9 +32,9 @@ class RinciantagihanpasienLabController extends MyAuthController
         $criteria = new CDbCriteria();
         $criteria->order = 'ruangan_id';
         $criteria->addCondition('pendaftaran_id = '.$id);
-        if(isset($pembayaranpelayanan_id)){
+        if(empty($pembayaranpelayanan_id)){
             $criteria->addCondition('tindakansudahbayar_id IS NULL'); //belum lunas rincianpemeriksaanlabrad_v RincianpemeriksaanlabradV
-            $modRincian = RincianpemeriksaanlabradV::model()->findAll($criteria);
+            $modRincian = BKRinciantagihanpasienpenunjangV::model()->findAll($criteria);
         }else{
             // $criteria->addCondition('tindakansudahbayar_id > 0'); //sudah lunas rinciantagihapasiensudahbayar_v
             $modRincian = RinciantagihapasiensudahbayarV::model()->findAll($criteria);
@@ -42,7 +42,8 @@ class RinciantagihanpasienLabController extends MyAuthController
         $modRincianTagihan = RinciantagihanpasienV::model()->find('pendaftaran_id = '.$id.' and tindakansudahbayar_id is null');
         $modPendaftaran = PendaftaranT::model()->findByPk($id);
         $modPasien = PasienM::model()->findByPk($modPendaftaran->pasien_id);
-        $data['nama_pegawai'] = LoginpemakaiK::model()->findByPK(Yii::app()->user->id)->pegawai->nama_pegawai;
+        $lp = LoginpemakaiK::model()->findByPK(Yii::app()->user->id);
+        $data['nama_pegawai'] = empty($lp->pegawai_id)?"":$lp->pegawai->nama_pegawai;
 
         $this->render('billingKasir.views.rinciantagihanpasienLab.rincian',
                 array('modRincian'=>$modRincian, 'data'=>$data,
@@ -61,11 +62,12 @@ class RinciantagihanpasienLabController extends MyAuthController
                 $criteria->addCondition('pendaftaran_id = '.$id);
                 $criteria->addCondition('tindakansudahbayar_id IS NULL'); //belum lunas
                 $criteria->order = 'ruangan_id';
-                $modRincian = RincianpemeriksaanlabradV::model()->findAll($criteria);
+                $modRincian = BKRinciantagihanpasienpenunjangV::model()->findAll($criteria);
                 $modRincianTagihan = RinciantagihanpasienV::model()->find('pendaftaran_id = '.$id.' and tindakansudahbayar_id is null');
                 $modPendaftaran = BKPendaftaranT::model()->findByPk($id);
                 $modPasien = PasienM::model()->findByPk($modPendaftaran->pasien_id);
-                $data['nama_pegawai'] = LoginpemakaiK::model()->findByPK(Yii::app()->user->id)->pegawai->nama_pegawai;
+                $lp = LoginpemakaiK::model()->findByPK(Yii::app()->user->id);
+                $data['nama_pegawai'] = empty($lp->pegawai_id)?"":$lp->pegawai->nama_pegawai;
                 $data['jenis_cetakan'] = 'kwitansi';
 
                 if($caraPrint == 'PDF')
@@ -108,7 +110,22 @@ class RinciantagihanpasienLabController extends MyAuthController
                             'modRincianTagihan'=>$modRincianTagihan,
                             'modPendaftaran'=>$modPendaftaran,
                             'modPasien'=>$modPasien,
+                            'caraPrint'=>$caraPrint,
                         ), true
+                    );
+                } else {
+                    $this->layout = '//layouts/printWindows';
+                    $this->render('rincianNew',
+                        array(
+                            'modPendaftaran'=>$modPendaftaran, 
+                            'modRincian'=>$modRincian, 
+                            'data'=>$data, 
+                            'format'=>$format,
+                            'modRincianTagihan'=>$modRincianTagihan,
+                            'modPendaftaran'=>$modPendaftaran,
+                            'modPasien'=>$modPasien,
+                            'caraPrint'=>$caraPrint,
+                        )
                     );
                 }
 

@@ -86,7 +86,6 @@ class FAObatalkesM extends ObatalkesM
                 // $criteria->limit=10;
                 return new CActiveDataProvider($this, array(
                                 'criteria'=>$criteria,
-								'pagination'=>false,
                         ));
                 }
                 
@@ -196,7 +195,7 @@ class FAObatalkesM extends ObatalkesM
 		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-			'pagination'=>false,
+                        'pagination'=>true,
 		));
 	}
     /**
