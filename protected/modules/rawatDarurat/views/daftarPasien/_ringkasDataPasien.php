@@ -1,7 +1,12 @@
-<?php $this->widget('bootstrap.widgets.BootAlert'); ?>
+<?php 
+
+$this->widget('bootstrap.widgets.BootAlert'); 
+$modPendaftaran->tgl_pendaftaran = MyFormatter::formatDateTimeForUser($modPendaftaran->tgl_pendaftaran);
+$modPasien->nama_pasien = $modPasien->namadepan.$modPasien->nama_pasien;
+
+?>
 
 <fieldset>
-    <legend class="rim">Data Pasien</legend>
     <table>
         <tr>
             <td><?php echo CHtml::activeLabel($modPendaftaran, 'tgl_pendaftaran',array('class'=>'control-label')); ?></td>
