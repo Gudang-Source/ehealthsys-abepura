@@ -787,6 +787,7 @@ class DaftarPasienController extends MyAuthController {
 						$sms = new Sms();
 
 						foreach ($modSmsgateway as $i => $smsgateway) {
+                                                    if (isset($_POST['tujuansms']) && in_array($smsgateway->tujuansms, $_POST['tujuansms'])) {
 							$isiPesan = $smsgateway->templatesms;
 
 							$attributes = $modPasien->getAttributes();
@@ -798,7 +799,7 @@ class DaftarPasienController extends MyAuthController {
 								$isiPesan = str_replace("{{" . $attributes . "}}", $value, $isiPesan);
 							}
 							$isiPesan = str_replace("{{hari}}", MyFormatter::getDayName($model->tglbatal), $isiPesan);
-
+                                                        
 
 							if ($smsgateway->tujuansms == Params::TUJUANSMS_PASIEN && $smsgateway->statussms) {
 								if (!empty($modPasien->no_mobile_pasien)) {
@@ -807,9 +808,10 @@ class DaftarPasienController extends MyAuthController {
 									$smspasien = 0;
 								}
 							}
+                                                    }
 						}
 						// END SMS GATEWAY
-
+                                                $this->notifPasienBatalPemeriksaan($pasienMasukPenunjang);
 						$pesan = 'success';
 						$status = 'ok';
 						$keterangan = "<div class='flash-success'>Data berhasil disimpan</div>";
@@ -864,6 +866,7 @@ class DaftarPasienController extends MyAuthController {
 								);
 								$penunjang = PasienmasukpenunjangT::model()->updateByPk($pasienMasukPenunjang->pasienmasukpenunjang_id, $attributes);
                                                                 $this->hapusTindakanPemeriksaan($pasienMasukPenunjang);
+                                                                $this->notifPasienBatalPemeriksaan($pasienMasukPenunjang);
 								$pesan = 'success';
 								$status = 'ok';
 								$keterangan = "<div class='flash-success'>Data berhasil disimpan</div>";
@@ -949,6 +952,32 @@ class DaftarPasienController extends MyAuthController {
 		}
 	}
         
+        public function notifPasienBatalPemeriksaan($pasienMasukPenunjang) {
+            // var_dump($pasienMasukPenunjang->attributes); die;
+            
+            if (!empty($pasienMasukPenunjang->pasienkirimkeunitlain_id)) {
+                $ki = PasienkirimkeunitlainT::model()->findByPk($pasienMasukPenunjang->pasienkirimkeunitlain_id);
+                $modRuangan = RuanganM::model()->findByPk($ki->create_ruangan);
+            } else {
+                $modRuangan = RuanganM::model()->findByPk(Params::RUANGAN_ID_LOKET);
+            }
+            
+            // var_dump($modRuangan->attributes); die;
+            
+            //$modRuangan = RuanganM::model()->findByPk($modKirimKeunitlain->create_ruangan);
+            $pasien_id = $pasienMasukPenunjang->pasien_id;
+            $modPasien = PasienM::model()->findByPk($pasien_id);
+            $judul = 'Pasien Batal Pemeriksaan Laboratorium';
+
+            $isi = $modPasien->no_rekam_medik.' - '.$modPasien->nama_pasien;
+            
+            //var_dump($judul." , ".$isi);
+            
+            $ok = CustomFunction::broadcastNotif($judul, $isi, array(
+                array('instalasi_id'=>$modRuangan->instalasi_id, 'ruangan_id'=>$modRuangan->ruangan_id, 'modul_id'=>$modRuangan->modul_id),
+            )); 
+        }
+        
         /**
          * Hapus tindakan dan hasil pada laboratorium.
          * @param type PasienmasukpenunjangT $pasienMasukPenunjang data pasien penunjang.
@@ -965,11 +994,11 @@ class DaftarPasienController extends MyAuthController {
             $tindakan = TindakanpelayananT::model()->findAllByAttributes(array(
                 'pasienmasukpenunjang_id'=>$pasienMasukPenunjang->pasienmasukpenunjang_id,
             ));
-            /*
+            
             $oa = ObatalkespasienT::model()->findAllByAttributes(array(
                 'pasienmasukpenunjang_id'=>$pasienMasukPenunjang->pasienmasukpenunjang_id,
             ));
-            */
+            
             foreach ($detail as $item) {
                 $ok = $ok && DetailhasilpemeriksaanlabT::model()->deleteByPk($item->detailhasilpemeriksaanlab_id);
             }
@@ -982,16 +1011,18 @@ class DaftarPasienController extends MyAuthController {
                 $ok = $ok && TindakanpelayananT::model()->deleteByPk($item->tindakanpelayanan_id);
             }
             
-            // var_dump($ok); die;
+            
             
             // TODO : Hapus Obatalkes
-            /*
+            
             foreach ($oa as $item) {
                 $ok = $ok && StokobatalkesT::model()->deleteAllByAttributes(array(
                     'obatalkespasien_id'=>$item->obatalkespasien_id,
                 ));
                 $ok = $ok && ObatalkespasienT::model()->deleteByPk($item->obatalkespasien_id);
-            } */
+            }
+            
+            //var_dump($ok); die;
         }
         
 	public function actionBatalPeriksaPasienLuar2() {//ini fungsi yang lama tapi jangan Di HAPUS, takut minta di rubah lagi

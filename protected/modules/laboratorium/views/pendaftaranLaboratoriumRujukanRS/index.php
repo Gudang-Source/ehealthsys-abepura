@@ -147,9 +147,9 @@
                                     <tr>
                                         <th>No.</th>
                                         <th>Obat / Alat Kesehatan</th>
-                                        <th>Satuan Kecil</th>
+                                        <!--th>Satuan Kecil</th-->
                                         <!--RND-3097 <th>Harga</th>-->
-                                        <th>Stok</th>
+                                        <!--th>Stok</th-->
                                         <th>Jumlah</th>
                                         <!--RND-3097 <th>Sub Total</th>-->
                                         <th>Batal</th>
