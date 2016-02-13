@@ -20,24 +20,20 @@ echo CHtml::css('.control-label{
     table{
         font-size:11px;
     }
+    
 ');
 ?>
 <table width="100%" style="margin:0px;" cellpadding="0" cellspacing="0">
     <tr>
         <td>
             <table width="100%" cellpadding="0" cellspacing="0">
-                    <td width="50%">
-                        <label class='control-label'>
-                            No. RM / No. Pend :
-                        </label>
-                            <?php echo CHtml::encode($modPasien->no_rekam_medik); ?> / 
-                            <?php echo CHtml::encode($modPendaftaran->no_pendaftaran); ?>
-                    </td>
-                    <Td width="5%"></td>
+                <tr>
+                    <td>No. RM / No. Pend</td>
+                    <td>:</td>
+                    <td><?php echo CHtml::encode($modPasien->no_rekam_medik); ?> / <?php echo CHtml::encode($modPendaftaran->no_pendaftaran); ?></td>
+                    <td>Nama PJP :</td>
+                    <td>:</td>
                     <td>
-                        <label class='control-label'>
-                            Nama PJP :
-                        </label>
                         <?php
                             if(strlen($modPendaftaran->penanggungjawab_id) > 0)
                             {
@@ -49,19 +45,12 @@ echo CHtml::css('.control-label{
                     </td>
                 </tr>
                 <tr>
-
-                <tr>
+                    <td>Nama Pasien</td>
+                    <td>:</td>
+                    <td><?php echo CHtml::encode($modPasien->namadepan.$modPasien->nama_pasien); ?></td>
+                    <td>Alamat PJP</td>
+                    <td>:</td>
                     <td>
-                        <label class='control-label'>
-                            Nama Pasien :
-                        </label>
-                        <?php echo CHtml::encode($modPasien->nama_pasien); ?>
-                    </td>
-                    <Td></td>
-                    <td>   
-                        <label class='control-label'>
-                            Alamat PJP :
-                        </label>
                         <?php
                             if(strlen($modPendaftaran->penanggungjawab_id) > 0)
                             {
@@ -73,36 +62,24 @@ echo CHtml::css('.control-label{
                     </td>
                 </tr>
                 <tr>
-                    <td>
-                        <label class='control-label'>
-                            Jenis Kelamin :
-                        </label>
-                            <?php echo CHtml::encode($modPasien->jeniskelamin); ?>
-                    </td>
-                    <Td></td>
-                    <td>   
-                        <label class='control-label'>
-                            Alamat Pasien :
-                        </label>
-                            <?php echo CHtml::encode($modPasien->alamat_pasien); ?>
-                    </td>
+                    <td>Jenis Kelamin</td>
+                    <td>:</td>
+                    <td><?php echo CHtml::encode($modPasien->jeniskelamin); ?></td>
+                    <td>Alamat Pasien</td>
+                    <td>:</td>
+                    <td><?php echo CHtml::encode($modPasien->alamat_pasien); ?></td>
                 </tr>
                 <tr>
+                    <td>Umur</td>
+                    <td>:</td>
+                    <td><?php echo CHtml::encode(substr($modPendaftaran->umur, 0,7)); ?></td>
+                    <td nowrap>Cara Bayar / Penjamin</td>
+                    <td>:</td>
                     <td>
-                        <label class='control-label'>
-                            Umur :
-                        </label>
-                            <?php echo CHtml::encode(substr($modPendaftaran->umur, 0,7)); ?>
-                    </td>
-                    <Td></td>
-                    <td>   
-                        <label class='control-label'>
-                            Cara Bayar - Penjamin :
-                        </label>
                         <?php
                             if(strlen($modPendaftaran->carabayar_id)  && strlen($modPendaftaran->penjamin_id) > 0)
                             {
-                                echo CHtml::encode($modPendaftaran->carabayar->carabayar_nama)." - ". CHtml::encode($modPendaftaran->penjamin->penjamin_nama);
+                                echo CHtml::encode($modPendaftaran->carabayar->carabayar_nama)." / ". CHtml::encode($modPendaftaran->penjamin->penjamin_nama);
                             }else{
                                 echo '-'."/"."-";
                             }
@@ -110,15 +87,12 @@ echo CHtml::css('.control-label{
                     </td>
                 </tr>
                 <tr>
+                    <td>Unit Pelayanan</td>
+                    <td>:</td>
+                    <td><?php echo CHtml::encode($modPendaftaran->instalasi->instalasi_nama); ?></td>
+                    <td>Nama Rujukan</td>
+                    <td>:</td>
                     <td>
-                        <label class='control-label'>Unit Pelayanan :</label>
-                            <?php echo CHtml::encode($modPendaftaran->instalasi->instalasi_nama); ?>
-                    </td>
-                    <Td></td>
-                    <td>   
-                        <label class='control-label'>
-                            Nama Rujukan :
-                        </label>
                         <?php
                         if(!empty($modPendaftaran->rujukan_id)){
                             if(strlen($modPendaftaran->rujukan->nama_perujuk)> 0){
@@ -131,15 +105,12 @@ echo CHtml::css('.control-label{
                     </td>
                 </tr>
                 <tr>
+                    <td>Dokter Pemeriksa</td>
+                    <td>:</td>
+                    <td><?php echo CHtml::encode($modPendaftaran->pegawai->namaLengkap); ?></td>
+                    <td>Rujukan Dari</td>
+                    <td>:</td>
                     <td>
-                        <label class='control-label'>Dokter Pemeriksa :</label>
-                        <?php echo CHtml::encode($modPendaftaran->pegawai->nama_pegawai); ?>                        
-                    </td>
-                    <Td></td>
-                    <td>   
-                        <label class='control-label'>
-                            Rujukan Dari :
-                        </label>
                         <?php
                             if(!empty($modPendaftaran->rujukan_id)> 0)
                             {
@@ -151,22 +122,21 @@ echo CHtml::css('.control-label{
                     </td>
                 </tr>
                 <tr>
+                    <td nowrap>Tanggal Pemeriksaan</td>
+                    <td>:</td>
                     <td>
-                        <label class='control-label'>Tanggal Perawatan / Tanggal Pemeriksaan :</label>
                         <?php
                             if(strlen($modPendaftaran->tgl_pendaftaran) > 0)
                             {
-                                echo CHtml::encode($modPendaftaran->tgl_pendaftaran);
+                                echo CHtml::encode(MyFormatter::formatDateTimeForUser($modPendaftaran->tgl_pendaftaran));
                             }else{
                                 echo '-';
                             }
-                        ?>                      
+                        ?>  
                     </td>
-                    <Td></td>
-                    <td>   
-                        <label class='control-label'>
-                            No. Rujukan :
-                        </label>
+                    <td>No. Rujukan</td>
+                    <td>:</td>
+                    <td>
                         <?php
                             if(!empty($modPendaftaran->rujukan_id)> 0)
                             {
@@ -178,8 +148,9 @@ echo CHtml::css('.control-label{
                     </td>
                 </tr>
                 <tr>
+                    <td>Tanggal Tindakan</td>
+                    <td>:</td>
                     <td>
-                        <label class='control-label'>Tanggal Tindakan :</label>
                         <?php
                                 if(isset($modRincianTagihan->pendaftaran_id))
                                 {
@@ -187,10 +158,9 @@ echo CHtml::css('.control-label{
                                 }else{
                                     echo '-';
                                 }                          
-                        ?>                      
+                        ?>
                     </td>
-                    <Td></td>
-                    <td></td>
+                    <td colspan="3"></td>
                 </tr>
             </table>            
         </td>
@@ -263,7 +233,7 @@ echo CHtml::css('.control-label{
                             $col .= '<td>&nbsp;</td>';
                             $col .= '<td>'. $val['daftartindakan_nama'] .'</td>';
                             $col .= '<td style="text-align:right;">'. number_format($val['harga'],0,"",".") .'</td>';
-                            $col .= '<td>'. $val['qty'] .'</td>';
+                            $col .= '<td style="text-align:right;">'. $val['qty'] .'</td>';
                             $col .= '<td style="text-align:right;">'. number_format($val['total'],0,"",".") .'</td>';
                             $col .= '</tr>';
                             if(strlen($val['nama_pegawai']) > 0)
@@ -272,7 +242,7 @@ echo CHtml::css('.control-label{
                                 $col .= '<td>&nbsp;</td>';
                                 $col .= '<td>'. $val['nama_pegawai'] .'</td>';
                                 $col .= '<td style="text-align:right;">'. number_format($val['harga_dokter'],0,"",".") .'</td>';
-                                $col .= '<td>'. $val['qty'] .'</td>';
+                                $col .= '<td style="text-align:right;">'. $val['qty'] .'</td>';
                                 $col .= '<td style="text-align:right;">'. number_format($val['total_dokter'],0,"",".") .'</td>';
                                 $col .= '</tr>';                                
                             }
@@ -372,7 +342,7 @@ echo CHtml::css('.control-label{
 
 //        echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
         echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
-        echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'printPdf(\'PDF\')'))."&nbsp&nbsp"; 
+        echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
         $this->widget('UserTips',array('type'=>'admin'));
         $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
         $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
