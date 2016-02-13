@@ -376,6 +376,10 @@ function setInfoPasien(pendaftaran_id, no_pendaftaran, no_rekam_medik, pasienadm
             
             $("#form-infopasien > div").removeClass("animation-loading");
             $("#nama_pasien").focus();
+            
+            
+            $(".ruangandokter_id").val(data.ruangan_id);
+            $.fn.yiiGridView.update("pegawaiYangMengajukan-m-grid", {data: $("#dialogDokter :input").serialize()});
         },
         error: function (jqXHR, textStatus, errorThrown) { 
             myAlert("Data kunjungan tidak ditemukan !"); 

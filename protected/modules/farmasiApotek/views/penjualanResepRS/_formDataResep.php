@@ -145,9 +145,11 @@ if(!isset($_GET['sukses'])){ //RND-5894
 			),
 
 			array(
+                            'name'=>'nama_pegawai',
 			  'header'=>'Nama Dokter Resep',
 			  'type'=>'raw',
 			  'value'=>'$data->NamaLengkap',
+                          'filter'=>Chtml::activeTextField($modDokter, 'nama_pegawai').CHtml::activeHiddenField($modDokter, 'ruangan_id', array('class'=>'ruangandokter_id')),
 			),
 			'jeniskelamin',
 			'nomorindukpegawai',
