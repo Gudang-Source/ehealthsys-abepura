@@ -1,6 +1,7 @@
 <?php //Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form.js'); ?>
 
 <fieldset class="box">
+    <legend class="rim">Data Pasien</legend>
 <?php 
     echo $this->renderPartial('_ringkasDataPasien',array('modPendaftaran'=>$modPendaftaran,'modPasien'=>$modPasien)) 
 ?>
@@ -9,7 +10,7 @@
 	'id'=>'pasienpulang-t-form',
 	'enableAjaxValidation'=>false,
         'type'=>'horizontal',
-        'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)'),
+        'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)', 'onSubmit'=>'return cekValidasi()'),
         'focus'=>'#',
 )); ?>
 <fieldset class="box">
@@ -46,7 +47,7 @@
                         <?php echo $form->labelEx($modelPulang,'carakeluar_id', array('class'=>'control-label')) ?>
                         <div class="controls">
                             <?php echo $form->dropDownList($modelPulang,'carakeluar_id', CHtml::listData($modelPulang->getCarakeluarItems(), 'carakeluar_id', 'carakeluar_nama'), 
-                                        array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 'onclick'=>'cekCaraKeluar(this);',
+                                        array('class'=>'span3 carakeluar_id','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 'onchange'=>'cekCaraKeluar(this);',
                                                 'ajax'=>array('type'=>'POST',
                                                             'url'=>$this->createUrl('SetDropDownKondisiKeluar',array('encode'=>false,'model_nama'=>get_class($modelPulang))),
                                                             'update'=>"#".CHtml::activeId($modelPulang, 'kondisikeluar_id'),
@@ -100,9 +101,9 @@
                      <?php //echo $form->textFieldRow($modelPulang,'satuanlamarawat',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
                 </td>
                 <td width="50%">
-                   <fieldset class="box2">
+                   <fieldset class="box2 box-meninggal" hidden>
                         <legend class="rim">
-                            <?php echo CHtml::checkBox('isDead', $modelPulang->isDead, array('onkeypress'=>"return $(this).focusNextInputField(event)")) ?>
+                            <?php echo CHtml::checkBox('isDead', $modelPulang->isDead, array('onkeypress'=>"return $(this).focusNextInputField(event)", "readonly"=>true)) ?>
                             Pasien Meninggal
                         </legend>
                         <div class="control-group ">
@@ -116,7 +117,7 @@
                                                             'options'=> array(
                                                                 'dateFormat'=>Params::DATE_FORMAT,
                                                             ),
-                                                            'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker2-5','readonly'=>true),
+                                                            'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker2-5 tgl_meninggal','readonly'=>true, 'disabled'=>true),
                                     )); ?>
 
                                 </div>
@@ -155,6 +156,16 @@
             $('#divRujukan textarea').attr('disabled','true');
             $('#divRujukan').hide(500);
         }
+        
+        if(obj.value == "<?php echo Params::CARAKELUAR_ID_MENINGGAL ?>"){
+            $("#isDead").prop("checked", true);
+            $(".box-meninggal").show();
+            $(".tgl_meninggal").prop("disabled", false).val("");
+        } else {
+            $("#isDead").prop("checked", false);
+            $(".box-meninggal").hide();
+            $(".tgl_meninggal").prop("disabled", true).val("");
+        }
     }
     function cekKondisiKeluar(obj){
         if(obj.value == "<?php echo Params::KONDISIKELUAR_ID_MENINGGAL_1 ?>" || obj.value == "<?php echo Params::KONDISIKELUAR_ID_MENINGGAL_2 ?>")
@@ -165,7 +176,7 @@
         else
         {
             $('#isDead').removeAttr('checked');
-            $('#RDPasienPulangT_tgl_meninggal').attr('disabled','true');
+            $('#RDPasienPulangT_tgl_meninggal').attr('disabled',true);
         }
     }
     function konfirmasi()
@@ -181,6 +192,30 @@
             }
         });
     }
+    
+    function cekValidasi() {
+        var keluar = $("#RDPasienPulangT_carakeluar_id").val();
+        var kondisi = $("#RDPasienPulangT_kondisikeluar_id").val();
+        var isd = $("#isDead").is(":checked");
+        var tgld = $(".tgl_meninggal").val();
+        
+        if (keluar.trim() === "") {
+            myAlert("Cara Keluar harus diisi.");
+            return false;
+        }
+        console.log(kondisi);
+        if (kondisi.trim() === "") {
+            myAlert("Kondisi Pulang harus diisi.");
+            return false;
+        }
+        if (isd && tgld.trim() === "") {
+            myAlert("Tanggal Meninggal harus diisi.");
+            return false;
+        }
+        
+        return true;
+    }
+    
     $(document).ready(function(){
         // Notifikasi Pasien
         <?php 
@@ -194,7 +229,7 @@
                 }
             }
         ?>
-    })
+    });
 </script>
 <?php if($tersimpan == true) {?>
 <script>

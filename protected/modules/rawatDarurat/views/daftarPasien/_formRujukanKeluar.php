@@ -74,5 +74,6 @@
                 $('#RDPasienPulangT_carakeluar_id').val('');
         }
         $('#divRujukan').slideToggle(500);
+        $('.carakeluar_id').change();
     });
 </script>
