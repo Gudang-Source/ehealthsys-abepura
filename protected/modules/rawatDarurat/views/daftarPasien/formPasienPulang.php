@@ -203,7 +203,6 @@
             myAlert("Cara Keluar harus diisi.");
             return false;
         }
-        console.log(kondisi);
         if (kondisi.trim() === "") {
             myAlert("Kondisi Pulang harus diisi.");
             return false;
