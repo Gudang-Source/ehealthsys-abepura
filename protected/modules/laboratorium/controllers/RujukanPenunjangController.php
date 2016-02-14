@@ -228,12 +228,12 @@ class RujukanPenunjangController extends MyAuthController
                 $status = 'ok';	
 				$keterangan = "pasien berhasil dibatalkan";
 			}
-
 			/*
 			 * kondisi_commit
 			 */
 			if($status == 'ok')
 			{
+                                $this->notifBatalRujuk($modKirimKeunitlain);
 				$transaction->commit();
 			}else{
 				$transaction->rollback();
@@ -255,4 +255,21 @@ class RujukanPenunjangController extends MyAuthController
 		 Yii::app()->end();
 		}
 	}
+        
+        protected function notifBatalRujuk($modKirimKeunitlain) {
+            
+            $modRuangan = RuanganM::model()->findByPk($modKirimKeunitlain->create_ruangan);
+            $pasien_id = $modKirimKeunitlain->pasien_id;
+            $modPasien = PasienM::model()->findByPk($pasien_id);
+            $judul = 'Pasien Batal Rujuk Laboratorium';
+
+            $isi = $modPasien->no_rekam_medik.' - '.$modPasien->nama_pasien
+                    .'<br/>Tgl Rujuk : '.MyFormatter::formatDateTimeForUser($modKirimKeunitlain->tgl_kirimpasien);
+            
+            //var_dump($judul." , ".$isi);
+            
+            $ok = CustomFunction::broadcastNotif($judul, $isi, array(
+                array('instalasi_id'=>$modRuangan->instalasi_id, 'ruangan_id'=>$modRuangan->ruangan_id, 'modul_id'=>$modRuangan->modul_id),
+            )); 
+        }
 }
