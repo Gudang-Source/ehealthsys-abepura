@@ -109,7 +109,7 @@ if(isset($_GET['FAObatalkesM'])) {
 echo CHtml::hiddenField('obatalkes_untuk',0,array('readonly'=>true));
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'ObatalkesM-m-grid',
-	'dataProvider'=>$modObatAlkes->search(),
+	'dataProvider'=>$modObatAlkes->searchObatFarmasi(),
 	'filter'=>$modObatAlkes,
         'template'=>"{items}\n{pager}",
 //        'template'=>"{summary}\n{items}\n{pager}",
