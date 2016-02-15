@@ -242,7 +242,7 @@ class MasukkamarT extends CActiveRecord
         public function getNoKamarRuangan($kamarruangan_id)
         {
             $kamarKosong = KamarruanganM::model()->findByAttributes(
-                array('kamarruangan_id'=>$kamarruangan_id)
+                array('kamarruangan_id'=>$kamarruangan_id, 'kamarruangan_aktif'=>true)
             );
             return (isset($kamarKosong->kamarruangan_nokamar ) ? $kamarKosong->kamarruangan_nokamar : ""). ' - ' . (isset($kamarKosong->kamarruangan_nobed) ? $kamarKosong->kamarruangan_nobed : "");
         } 
@@ -258,7 +258,7 @@ class MasukkamarT extends CActiveRecord
         public function getKamarKosongItems($ruangan_id = '')
         {
             if(!empty($ruangan_id))
-                return $kamarKosong = KamarruanganM::model()->findAllByAttributes(array('ruangan_id'=>$ruangan_id,'kamarruangan_status'=>true));
+                return $kamarKosong = KamarruanganM::model()->findAllByAttributes(array('ruangan_id'=>$ruangan_id,'kamarruangan_status'=>true, 'kamarruangan_aktif'=>true));
             else
                 return array();
         }

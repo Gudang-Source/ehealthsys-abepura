@@ -164,7 +164,7 @@
                         // window.location = "<?php echo Yii::app()->createUrl(Yii::app()->controller->module->id . '/' . Yii::app()->controller->id . '/index&succes=2') ?>";
 //                                 $('#dialogKonfirm div.divForForm').html(data.keterangan);
                         $('#dialogKonfirm').dialog('open');
-                        console.log('test');
+                        //console.log('test');
                         $('#pasienpenunjangrujukan-m-grid').yiiGridView('update');
 //                        JQuery('#pasienpenunjangrujukan-m-grid').yiiGridView('update');
                     }
