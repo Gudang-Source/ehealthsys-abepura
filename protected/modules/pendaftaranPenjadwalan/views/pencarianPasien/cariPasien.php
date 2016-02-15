@@ -32,8 +32,8 @@
                 'mergeHeaders'=>array(
                     array(
                         'name'=>'<center>Daftarkan</center>',
-                        'start'=>9, //indeks kolom 3
-                        'end'=>10, //indeks kolom 4
+                        'start'=>(Yii::app()->user->getState('ruangan_id') == 6)?10:9, //indeks kolom 3
+                        'end'=>(Yii::app()->user->getState('ruangan_id') == 6)?11:10, //indeks kolom 4
                     ),
                 ),
                 'columns'=>array(
@@ -107,6 +107,12 @@
                                 'value'=>'(isset($data->kelurahan_id) ? KelurahanM::model()->findByPk($data->kelurahan_id)->kelurahan_nama : "-")',
                             ),
                              * */
+                            array(
+                                'header'=>'Status RM',
+                                'type'=>'raw',
+                                'value'=>'$data->statusrekammedis',
+                                'visible'=>Yii::app()->user->getState('ruangan_id') == 6,
+                            ),
                             array(
                                 'header'=>'Riwayat <br/> Kunjungan',
                                 'type'=>'raw',
@@ -241,6 +247,10 @@
                                                                                             'update'=>'#PPPasienM_kelurahan_id',))); 
                     ?>
                     <?php echo $form->dropDownListRow($model,'kelurahan_id', array(),array('empty'=>'-- Pilih --',
+                                                                                        'onkeypress'=>"return $(this).focusNextInputField(event)",
+                                                                                        )); 
+                    ?>
+                    <?php echo $form->dropDownListRow($model,'statusrekammedis', array(Params::STATUSREKAMMEDIS_AKTIF=>'Aktif', Params::STATUSREKAMMEDIS_NON_AKTIF=>"Non Aktif"),array('empty'=>'-- Pilih --',
                                                                                         'onkeypress'=>"return $(this).focusNextInputField(event)",
                                                                                         )); 
                     ?>
