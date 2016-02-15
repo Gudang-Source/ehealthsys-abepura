@@ -109,7 +109,7 @@ if(isset($_GET['FAObatalkesM'])) {
 echo CHtml::hiddenField('obatalkes_untuk',0,array('readonly'=>true));
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'ObatalkesM-m-grid',
-	'dataProvider'=>$modObatAlkes->searchObatFarmasi(),
+	'dataProvider'=>$modObatAlkes->search(),
 	'filter'=>$modObatAlkes,
         'template'=>"{items}\n{pager}",
 //        'template'=>"{summary}\n{items}\n{pager}",
@@ -130,7 +130,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                                 $(\"#dialogObatalkesM\").dialog(\"close\"); 
                                                 
                                     "))',
-                ),
+                ), /*
                 array(
                     'header'=>'Kategori Obat',
                     'value'=>'$data->obatalkes_kategori',
@@ -138,7 +138,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 array(
                     'header'=>'Golongan Obat',
                     'value'=>'$data->obatalkes_golongan',
-                ),
+                ), */
                 array(
                     'header'=>'Kode Obat',
                     'filter'=>  CHtml::activeTextField($modObatAlkes, 'obatalkes_kode'),
@@ -160,18 +160,21 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 array(
                     'header'=>'Kemasan Besar',
                     'value'=>'$data->kemasanbesar',
+                    'htmlOptions'=>array('style'=>'text-align: right'),
                 ),
                 array(
                     'header'=>'Kekuatan',
                     'value'=>'$data->kekuatan',
+                    'htmlOptions'=>array('style'=>'text-align: right'),
                 ),
                 array(
                     'header'=>'Jumlah Stok',
                     'value'=>'$data->StokObatRuangan',
+                    'htmlOptions'=>array('style'=>'text-align: right'),
                 ),
                 array(
                     'header'=>'Tgl. Kadaluarsa',
-                    'value'=>'$data->tglkadaluarsa',
+                    'value'=>'MyFormatter::formatDateTimeForUser($data->tglkadaluarsa)',
                 ),
             ),
             'afterAjaxUpdate' => 'function(id, data){
