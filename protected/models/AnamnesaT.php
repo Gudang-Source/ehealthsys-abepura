@@ -79,7 +79,7 @@ class AnamnesaT extends CActiveRecord
 		return array(
 			array('pendaftaran_id, pasien_id, pegawai_id, create_time, create_loginpemakai_id, create_ruangan', 'required'),
 			array('pendaftaran_id, pasien_id, triase_id, pasienadmisi_id, pegawai_id, petugas_triase_id, jmlrokok_btg_hr, keb_frekuensi_kaliminggu', 'numerical', 'integerOnly'=>true),
-			array('riwayatpenyakitterdahulu, riwayatpenyakitkeluarga, pengobatanygsudahdilakukan, riwayatalergiobat, riwayatkelahiran, riwayatmakanan, paramedis_nama, riwayatperjalananpasien', 'length', 'max'=>100),
+			array('riwayatpenyakitterdahulu, riwayatpenyakitkeluarga, pengobatanygsudahdilakukan, riwayatalergiobat, riwayatkelahiran, riwayatmakanan, paramedis_nama, riwayatperjalananpasien', 'length', 'max'=>300),
 			array('lamasakit', 'length', 'max'=>20),
 			array('riwayatimunisasi, riwayatimunisasiblm, riwayatobatygsering', 'length', 'max'=>500),
 			array('keb_olahraga, keb_konsumsialkohol, keb_minumkopi', 'length', 'max'=>5),
