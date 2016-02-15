@@ -539,5 +539,17 @@ class PencarianPasienController extends MyAuthController
 				throw new CHttpException(403,'Tidak dapat mengurai data');
 			Yii::app()->end();
 		}
+                
+                
+                public function actionNonAktifPasien() {
+                    if(Yii::app()->request->isAjaxRequest) {
+                        if (isset($_POST['id'])) {
+                            PasienM::model()->updateByPk($_POST['id'], array(
+                                'statusrekammedis'=>  Params::STATUSREKAMMEDIS_NON_AKTIF,
+                            ));
+                        }
+                    }
+                    Yii::app()->end();
+                }
 
 }

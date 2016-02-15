@@ -32,8 +32,8 @@
                 'mergeHeaders'=>array(
                     array(
                         'name'=>'<center>Daftarkan</center>',
-                        'start'=>11, //indeks kolom 3
-                        'end'=>13, //indeks kolom 4
+                        'start'=>9, //indeks kolom 3
+                        'end'=>10, //indeks kolom 4
                     ),
                 ),
                 'columns'=>array(
@@ -137,6 +137,17 @@
                                     "index.php?r=pendaftaranPenjadwalan/PendaftaranRawatDarurat/index&pasien_id=$data->pasien_id",array("id"=>"$data->pasien_id",
                                         "title"=>"Klik Untuk Mendaftarkan ke Rawat Darurat","rel"=>"tooltip")) : "Pasien Sudah Didaftarkan <br/> Ke Rawat Darurat") ',
                                 'htmlOptions'=>array('style'=>'text-align:left;'),
+                            ),
+                            array(
+                                'header'=>'Non Aktif',
+                                'type'=>'raw',
+                                'value'=>function($data) {
+                                    return CHtml::link('<i class="icon-form-silang"></i>', '#', array('onclick'=>'nonaktifPasien('.$data->pasien_id.', "'.$data->namadepan.$data->nama_pasien.'", "'.$data->no_rekam_medik.'"); return false;'));
+                                },
+                                'htmlOptions'=>array(
+                                    'style'=>'text-align: center',
+                                ),
+                                'visible'=>Yii::app()->user->getState('ruangan_id') == 6,
                             ),
                     ),
                 'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
@@ -353,6 +364,7 @@ Yii::app()->clientScript->registerScript('numberOnly',$js,CClientScript::POS_REA
 )); ?>
     <?php echo CHtml::hiddenField('pasien_id','',array('readonly'=>true));?>
 <?php $this->endWidget(); ?>
+<?php $urlna = $this->createUrl('nonAktifPasien'); ?>
 <script>
 document.getElementById('PPPasienM_tgl_rm_awal_date').setAttribute("style","display:none;");
 document.getElementById('PPPasienM_tgl_rm_akhir_date').setAttribute("style","display:none;");
@@ -387,6 +399,13 @@ function cekTanggal(){
             resetIframe(frameObj);
             obj.style.height = (obj.contentWindow.document.body.scrollHeight) + 'px';
     }
+function nonaktifPasien(id, nama, rm) {
+    if (confirm("Anda yakin untuk menonaktifkan pasien " + nama + " (" + rm + ")?\nAnda tidak dapat mengaktifkan kembali.")) {
+        $.post("<?php echo $urlna; ?>",{id: id}, function(data) {
+            $.fn.yiiGridView.update("pencarianpasien-grid");
+        }, 'json');
+    }
+}
 </script>
 <?php 
 // Dialog buat Copy Resep =========================
