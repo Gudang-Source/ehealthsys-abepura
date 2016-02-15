@@ -10,6 +10,12 @@
 <?php echo $form->errorSummary($model); ?>
 <div class="row-fluid">
     <div class = "span4">
+        <?php 
+        $dtd = DtdM::model()->findAll(array(
+            'condition'=>'dtd_aktif = true',
+            'order'=>'dtd_kode asc',
+        ));
+        echo $form->dropDownListRow($model, 'dtd_id', CHtml::listData($dtd, 'dtd_id', 'dtd_kode')); ?>
         <?php echo $form->textFieldRow($model,'klasifikasidiagnosa_kode',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10)); ?>
         <?php echo $form->textFieldRow($model,'klasifikasidiagnosa_nama',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>500)); ?>
         <div>
