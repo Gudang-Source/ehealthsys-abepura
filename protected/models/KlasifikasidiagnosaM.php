@@ -42,11 +42,11 @@ class KlasifikasidiagnosaM extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('klasifikasidiagnosa_id, klasifikasidiagnosa_kode, klasifikasidiagnosa_nama, klasifikasidiagnosa_aktif', 'required'),
+			array('klasifikasidiagnosa_kode, klasifikasidiagnosa_nama, klasifikasidiagnosa_aktif', 'required'),
 			array('klasifikasidiagnosa_id', 'numerical', 'integerOnly'=>true),
 			array('klasifikasidiagnosa_kode', 'length', 'max'=>10),
 			array('klasifikasidiagnosa_nama', 'length', 'max'=>500),
-			array('klasifikasidiagnosa_namalain, klasifikasidiagnosa_desc', 'safe'),
+			array('klasifikasidiagnosa_namalain, klasifikasidiagnosa_desc, dtd_id', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('klasifikasidiagnosa_id, klasifikasidiagnosa_kode, klasifikasidiagnosa_nama, klasifikasidiagnosa_namalain, klasifikasidiagnosa_aktif, klasifikasidiagnosa_desc', 'safe', 'on'=>'search'),
