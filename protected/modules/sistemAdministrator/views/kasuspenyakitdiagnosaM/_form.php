@@ -266,6 +266,9 @@ echo $form->textFieldRow($model, 'ruangan_nama', array('value' => $modruangan->r
                                 ))',
             ),
             array(
+                'name' => 'diagnosa_kode',
+            ),
+            array(
                 'name' => 'diagnosa_nama',
                 'header' => 'Nama Diagnosa',
                 'value' => '$data->diagnosa_nama',
