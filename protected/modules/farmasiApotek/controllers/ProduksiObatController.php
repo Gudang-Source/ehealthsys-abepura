@@ -8,7 +8,7 @@ class ProduksiObatController extends MyAuthController
         public $msgObat = "";
         public $msgStok = "";
         public $msgKosong = "";
-        public $modProduksiDetails="";
+        //public $modProduksiDetails="";
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
@@ -16,7 +16,8 @@ class ProduksiObatController extends MyAuthController
 	public $layout='//layouts/column1';
         public $defaultAction = 'create';
 
-	
+	public $modProduksiDetails = true;
+        public $stokobatalkestersimpan = true;
 	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
@@ -69,7 +70,9 @@ class ProduksiObatController extends MyAuthController
                         foreach($_POST['FAProduksiobatdetT'] AS $i => $postDetail){
                             $modProduksiDetails[$i] = new FAProduksiobatdetT;
                             $modProduksiDetails[$i]->attributes = $postDetail;
-                            $modStok = StokobatalkesT::model()->findByPk($postDetail['stokobatalkes_id']);
+                            $modProduksiDetails[$i] = $this->simpanProduksiDetail2($model, $postDetail);
+                            $this->simpanStokObatAlkesOut2($modProduksiDetails[$i]);
+                            /* $modStok = StokobatalkesT::model()->findByPk($postDetail['stokobatalkes_id']);
                             $modProduksiDetails[$i]->stokobatalkes_id = $modStok->stokobatalkes_id;
                             $modProduksiDetails[$i]->tglterima = $modStok->tglterima;
                             $obatalkes_id = $postDetail['obatalkes_id'];
@@ -78,9 +81,10 @@ class ProduksiObatController extends MyAuthController
                             }else{
                                 $detailGroups[$obatalkes_id]['obatalkes_id'] = $postDetail['obatalkes_id'];
                                 $detailGroups[$obatalkes_id]['qtyproduksi'] = $postDetail['qtyproduksi'];
-                            }
+                            } */
                         }
                         //END GROUP
+                        /*
                         foreach($detailGroups AS $i => $detail){
                             $modStokOAs = StokobatalkesT::getStokObatAlkesAktif($detail['obatalkes_id'], $detail['qtyproduksi'], Yii::app()->user->getState('ruangan_id'));
                             if(count($modStokOAs) > 0){
@@ -94,7 +98,10 @@ class ProduksiObatController extends MyAuthController
                                 $obathabis .= "<br>- ".ObatalkesM::model()->findByPk($detail['obatalkes_id'])->obatalkes_nama;
                             }
                         }
-                            if($suksesDetail){ 
+                         * 
+                         */
+                            //var_dump($this->modProduksiDetails && $this->stokobatalkestersimpan); die;
+                            if ($this->modProduksiDetails && $this->stokobatalkestersimpan) { 
                                 $modObatalkesM->attributes = $_POST['FAObatalkesM'];
                                 (empty($modObatalkesM->ppn_persen)?$modObatalkesM->ppn_persen=0:"");
                                 (empty($modObatalkesM->hargajual)?$modObatalkesM->hargajual=0:"");
@@ -103,8 +110,10 @@ class ProduksiObatController extends MyAuthController
                                 (empty($modObatalkesM->hargaaverage)?$modObatalkesM->hargaaverage=0:"");
                                 (empty($modObatalkesM->discountinue)?$modObatalkesM->discountinue=0:"");
                                 $modObatalkesM->tglkadaluarsa = MyFormatter::formatDateTimeForDb($_POST['FAObatalkesM']['tglkadaluarsa']);
+
                                 if($modObatalkesM->save()){
-                                    $obat = $this->simpanStokObatAlkesIn($stok['stokobatalkes_id'],$modObatalkesM);
+                                    $obat = $this->simpanStokObatAlkesIn2($modObatalkesM);
+                                    //die;
                                     if ($obat->save()){
                                             $transaction->commit();
                                             Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
@@ -281,6 +290,39 @@ class ProduksiObatController extends MyAuthController
                 $mpdf->Output();
             }                       
         }
+        
+        /**
+         * untuk menyimpan dan validasi detail produksi
+         * @param type $model
+         * @param type $postDetails
+         * @return boolean
+         */
+        protected function simpanProduksiDetail2($model, $postDetail){
+                $modProduksiDetails = new FAProduksiobatdetT;
+                $modProduksiDetails->attributes = $postDetail;
+                $modProduksiDetails->produksiobat_id = $model->produksiobat_id;
+                $modProduksiDetails->qtyproduksi = ceil($modProduksiDetails->qtyproduksi);
+                /*
+                $modProduksiDetails->qtyproduksi = $postDetail->qtyproduksi;
+                $modProduksiDetails->satuankecil_id = $stok->satuankecil_id;
+                $modProduksiDetails->obatalkes_id = $stok->obatalkes_id;
+                $modProduksiDetails->produksiobat_id = $model->obatalkes_id;
+                $modProduksiDetails->hpp = $postDetail->hpp;
+                $modProduksiDetails->harganetto = $stok->harganetto;
+                $modProduksiDetails->hargasatuan = $postDetail->hargasatuan;
+                $modProduksiDetails->keterangan = $model->keternganprdobat;
+                $modProduksiDetails->produksiobat_id = $model->produksiobat_id;
+                $modProduksiDetails->obatalkesproduksi_id = null;
+                 * 
+                 */
+               if($modProduksiDetails->save()){
+                    $this->modProduksiDetails &= true;
+                }else{
+                    $this->modProduksiDetails &= false;
+                }
+                return $modProduksiDetails;
+        }
+        
         /**
          * untuk menyimpan dan validasi detail produksi
          * @param type $model
@@ -308,6 +350,42 @@ class ProduksiObatController extends MyAuthController
         }
         
         /**
+        * simpan StokobatalkesT Jumlah Out
+        * @param type $stokobatalkesasal_id
+        * @param type $modObatAlkesPasien
+        * @return \StokobatalkesT
+        */
+   //        $stok['stokobatalkes_id'], $modDetails[$i]
+        protected function simpanStokObatAlkesOut2($modDetails){
+            $format = new MyFormatter;
+            //$modStokOa = StokobatalkesT::model()->findByPk($stokobatalkesasal_id);
+            $oa = ObatalkesM::model()->findByPk($modDetails->obatalkes_id);
+            $modStokOaNew = new StokobatalkesT;
+            $modStokOaNew->attributes = $modDetails->attributes; //duplicate
+            $modStokOaNew->attributes = $oa->attributes;
+            //$modStokOaNew->unsetIdTransaksi(); //new / autoincrement pk
+            $modStokOaNew->qtystok_in = 0;
+            $modStokOaNew->qtystok_out = $modDetails->qtyproduksi;
+   //        $modStokOaNew->obatalkespasien_id = $modObatAlkesPasien->obatalkespasien_id;
+            //$modStokOaNew->stokobatalkesasal_id = $stokobatalkesasal_id;
+            
+            $modStokOaNew->create_time = $modStokOaNew->tglterima = date('Y-m-d H:i:s');
+            $modStokOaNew->update_time = date('Y-m-d H:i:s');
+            $modStokOaNew->create_loginpemakai_id = Yii::app()->user->id;
+            $modStokOaNew->update_loginpemakai_id = Yii::app()->user->id;
+            $modStokOaNew->create_ruangan = $modStokOaNew->ruangan_id = Yii::app()->user->ruangan_id;
+            $modStokOaNew->validate();
+            // var_dump($modStokOaNew->getErrors()); die;
+            if($modStokOaNew->validate()){ 
+                $modStokOaNew->save();
+                //$modStokOaNew->setStokOaAktifBerdasarkanStok();
+            } else {
+                $this->stokobatalkestersimpan &= false;
+            }
+            return $modStokOaNew;      
+        }
+        
+        /**
      * simpan StokobatalkesT Jumlah Out
      * @param type $stokobatalkesasal_id
      * @param type $modObatAlkesPasien
@@ -332,6 +410,33 @@ class ProduksiObatController extends MyAuthController
         if($modStokOaNew->validateStok()){ 
             $modStokOaNew->save();
             $modStokOaNew->setStokOaAktifBerdasarkanStok();
+        } else {
+            $this->stokobatalkestersimpan &= false;
+        }
+        return $modStokOaNew;      
+    }
+    
+    protected function simpanStokObatAlkesIn2($modObatalkesM){
+        $format = new MyFormatter;
+        //$modStokOa = StokobatalkesT::model()->findByPk($stokobatalkesasal_id);
+        $modStokOaNew = new StokobatalkesT;
+        $modStokOaNew->attributes = $modObatalkesM->attributes; //duplicate
+        //$modStokOaNew->unsetIdTransaksi(); //new / autoincrement pk
+        $modStokOaNew->obatalkes_id = $modObatalkesM->obatalkes_id;
+        $modStokOaNew->qtystok_in = $_POST['FAObatalkesM']['stoksekarang'];
+        $modStokOaNew->qtystok_out = 0;
+        $modStokOaNew->satuankecil_id = $_POST['FAObatalkesM']['satuankecil_id'];
+        $modStokOaNew->tglterima = date("Y-m-d H:i:s");
+        $modStokOaNew->create_time = date('Y-m-d H:i:s');
+        $modStokOaNew->update_time = date('Y-m-d H:i:s');
+        $modStokOaNew->create_loginpemakai_id = Yii::app()->user->id;
+        $modStokOaNew->update_loginpemakai_id = Yii::app()->user->id;
+        $modStokOaNew->create_ruangan = Yii::app()->user->ruangan_id;
+        $modStokOaNew->ruangan_id = Yii::app()->user->ruangan_id;
+        $modStokOaNew->stokoa_aktif = true;
+        
+        if($modStokOaNew->validate()) { 
+            $modStokOaNew->save();
         } else {
             $this->stokobatalkestersimpan &= false;
         }
@@ -382,32 +487,33 @@ class ProduksiObatController extends MyAuthController
             $modProduksiDetail = new FAProduksiobatdetT;
             $ruangan_id = Yii::app()->user->getState('ruangan_id');
             $modStokOAs = StokobatalkesT::getStokObatAlkesAktif($obatalkes_id, $jumlah, $ruangan_id);
-            if(count($modStokOAs) > 0){
-                $totalharganetto = 0;
-                $totalhargajual = 0;
-                foreach($modStokOAs AS $i => $stok){
+            $oa = ObatalkesM::model()->findByPk($obatalkes_id);
+            //if(count($modStokOAs) > 0){
+            //    $totalharganetto = 0;
+            //    $totalhargajual = 0;
+            //    foreach($modStokOAs AS $i => $stok){
                     
-                    $modProduksiDetail->stokobatalkes_id = $stok->stokobatalkes_id;
-                    $modProduksiDetail->qtyproduksi = $stok->qtystok_terpakai;
-                    $modProduksiDetail->harganetto = $stok->HPP;
-                    $modProduksiDetail->hargasatuan = $stok->HargaJualSatuan;
-                    $modProduksiDetail->obatalkes_id = $stok->obatalkes_id;
-                    $modProduksiDetail->qtystok = $stok->qtystok_in - $stok->qtystok_out;
-                    $modProduksiDetail->obatalkes_nama = $modProduksiDetail->obatalkes->obatalkes_nama;
-                    $modProduksiDetail->obatalkes_kode = $modProduksiDetail->obatalkes->obatalkes_kode;
-                    $modProduksiDetail->hpp = $modProduksiDetail->obatalkes->hpp;
-                    $modProduksiDetail->satuankecil_id = $modProduksiDetail->obatalkes->satuankecil_id;
-                    $modProduksiDetail->satuankecil_nama = $stok->satuankecil->satuankecil_nama;
-                    $modProduksiDetail->kekuatan = $modProduksiDetail->obatalkes->kekuatan;
-                    $modProduksiDetail->kemasanbesar = $modProduksiDetail->obatalkes->kemasanbesar;
-                    $totalharganetto += $modProduksiDetail->harganetto;
-                    $totalhargajual += $modProduksiDetail->hargasatuan;
+                    $modProduksiDetail->stokobatalkes_id = null; //$stok->stokobatalkes_id;
+                    $modProduksiDetail->qtyproduksi = $jumlah; //$stok->qtystok_terpakai;
+                    $modProduksiDetail->harganetto = $oa->harganetto; //$stok->HPP;
+                    $modProduksiDetail->hargasatuan = $oa->hargajual; //$stok->HargaJualSatuan;
+                    $modProduksiDetail->obatalkes_id = $oa->obatalkes_id; //$stok->obatalkes_id;
+                    $modProduksiDetail->qtystok = 0; //$stok->qtystok_in - $stok->qtystok_out;
+                    $modProduksiDetail->obatalkes_nama = $oa->obatalkes_nama; //$modProduksiDetail->obatalkes->obatalkes_nama;
+                    $modProduksiDetail->obatalkes_kode = $oa->obatalkes_kode; //$modProduksiDetail->obatalkes->obatalkes_kode;
+                    $modProduksiDetail->hpp = $oa->hpp; //$modProduksiDetail->obatalkes->hpp;
+                    $modProduksiDetail->satuankecil_id = $oa->satuankecil_id; //$modProduksiDetail->obatalkes->satuankecil_id;
+                    $modProduksiDetail->satuankecil_nama = $oa->satuankecil->satuankecil_nama; //$stok->satuankecil->satuankecil_nama;
+                    $modProduksiDetail->kekuatan = $oa->kekuatan; //$modProduksiDetail->obatalkes->kekuatan;
+                    $modProduksiDetail->kemasanbesar = $oa->kemasanbesar; //$modProduksiDetail->obatalkes->kemasanbesar;
+                    $totalharganetto = $modProduksiDetail->harganetto;
+                    $totalhargajual = $modProduksiDetail->hargasatuan;
 //                    $form .= $this->renderPartial('_rowDetailProduksi', array('modProduksiDetail'=>$modProduksiDetail,'removeButton'=>$removeButton), true);
                     
-                }
-            }else{
-                $pesan = "Stok kosong!";
-            }
+            //    }
+            //}else{
+            //    $pesan = "Stok kosong!";
+            //}
 //            echo CJSON::encode(array('form'=>$form, 'pesan'=>$pesan));
             echo CJSON::encode(array('detailBahan'=>$modProduksiDetail->attributes,
                                                     'qtystok'=>isset($modProduksiDetail->qtystok)?$modProduksiDetail->qtystok:"",

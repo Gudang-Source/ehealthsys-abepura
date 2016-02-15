@@ -51,7 +51,7 @@ class FAObatalkesM extends ObatalkesM
 			$criteria->addCondition("jenisobatalkes_id = ".$this->jenisobatalkes_id);						
 		}
 		if(!empty($this->therapiobat_id)){
-			$criteria->join = ('JOIN therapimapobat_m ON therapimapobat_m.obatalkes_id = t.obatalkes_id');
+			$criteria->join .= ('JOIN therapimapobat_m ON therapimapobat_m.obatalkes_id = t.obatalkes_id');
 			$criteria->addCondition('therapimapobat_m.therapiobat_id = '.$this->therapiobat_id);
 		}
 		$criteria->compare('LOWER(obatalkes_kode)',strtolower($this->obatalkes_kode),true);
@@ -124,7 +124,7 @@ class FAObatalkesM extends ObatalkesM
 		// $criteria->limit = 10;
         return new CActiveDataProvider($this, array(
                 'criteria'=>$criteria,
-				'pagination'=>false,
+				'pagination'=>true,
         ));
     }
 	
@@ -134,23 +134,23 @@ class FAObatalkesM extends ObatalkesM
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-
+                
 		$criteria->with = array('sumberdana','satuankecil');
 		
 		if(!empty($this->obatalkes_id)){
-			$criteria->addCondition("obatalkes_id = ".$this->obatalkes_id);						
+			$criteria->addCondition("t.obatalkes_id = ".$this->obatalkes_id);						
 		}
 		if(!empty($this->lokasigudang_id)){
-			$criteria->addCondition("lokasigudang_id = ".$this->lokasigudang_id);						
+			$criteria->addCondition("t.lokasigudang_id = ".$this->lokasigudang_id);						
 		}
 		if(!empty($this->therapiobat_id)){
-			$criteria->addCondition("therapiobat_id = ".$this->therapiobat_id);						
+			$criteria->addCondition("t.therapiobat_id = ".$this->therapiobat_id);						
 		}
 		if(!empty($this->generik_id)){
-			$criteria->addCondition("generik_id = ".$this->generik_id);						
+			$criteria->addCondition("t.generik_id = ".$this->generik_id);						
 		}
 		if(!empty($this->satuanbesar_id)){
-			$criteria->addCondition("satuanbesar_id = ".$this->satuanbesar_id);						
+			$criteria->addCondition("t.satuanbesar_id = ".$this->satuanbesar_id);						
 		}
 		if(!empty($this->sumberdana_id)){
 			$criteria->addCondition("t.sumberdana_id = ".$this->sumberdana_id);						
@@ -159,43 +159,42 @@ class FAObatalkesM extends ObatalkesM
 			$criteria->addCondition("t.satuankecil_id = ".$this->satuankecil_id);						
 		}
 		if(!empty($this->jenisobatalkes_id)){
-			$criteria->addCondition("jenisobatalkes_id = ".$this->jenisobatalkes_id);						
+			$criteria->addCondition("t.jenisobatalkes_id = ".$this->jenisobatalkes_id);						
 		}
-		$criteria->compare('LOWER(obatalkes_kode)',strtolower($this->obatalkes_kode),true);
-		$criteria->compare('LOWER(obatalkes_nama)',strtolower($this->obatalkes_nama),true);
-		$criteria->compare('LOWER(obatalkes_golongan)',strtolower($this->obatalkes_golongan),true);
-		$criteria->compare('LOWER(obatalkes_kategori)',strtolower($this->obatalkes_kategori),true);
-		$criteria->compare('LOWER(obatalkes_kadarobat)',strtolower($this->obatalkes_kadarobat),true);
-		$criteria->compare('LOWER(noregister)',strtolower($this->noregister),true);
-		$criteria->compare('LOWER(nobatch)',strtolower($this->nobatch),true);
-		$criteria->compare('kemasanbesar',$this->kemasanbesar);
-		$criteria->compare('kekuatan',$this->kekuatan);
-		$criteria->compare('LOWER(satuankekuatan)',strtolower($this->satuankekuatan),true);
+		$criteria->compare('LOWER(t.obatalkes_kode)',strtolower($this->obatalkes_kode),true);
+		$criteria->compare('LOWER(t.obatalkes_nama)',strtolower($this->obatalkes_nama),true);
+		$criteria->compare('LOWER(t.obatalkes_golongan)',strtolower($this->obatalkes_golongan),true);
+		$criteria->compare('LOWER(t.obatalkes_kategori)',strtolower($this->obatalkes_kategori),true);
+		$criteria->compare('LOWER(t.obatalkes_kadarobat)',strtolower($this->obatalkes_kadarobat),true);
+		$criteria->compare('LOWER(t.noregister)',strtolower($this->noregister),true);
+		$criteria->compare('LOWER(t.nobatch)',strtolower($this->nobatch),true);
+		$criteria->compare('t.kemasanbesar',$this->kemasanbesar);
+		$criteria->compare('t.kekuatan',$this->kekuatan);
+		$criteria->compare('LOWER(t.satuankekuatan)',strtolower($this->satuankekuatan),true);
                 
-		$criteria->compare('harganetto',$this->harganetto);
-		$criteria->compare('hargajual',$this->hargajual);
-		$criteria->compare('discount',$this->discount);
-		$criteria->compare('marginresep',$this->marginresep);
-		$criteria->compare('jasadokter',$this->jasadokter);
-		$criteria->compare('hjaresep',$this->hjaresep);
-		$criteria->compare('marginnonresep',$this->marginnonresep);
-		$criteria->compare('hjanonresep',$this->hjanonresep);
-		$criteria->compare('hpp',$this->hpp);
+		$criteria->compare('t.harganetto',$this->harganetto);
+		$criteria->compare('t.hargajual',$this->hargajual);
+		$criteria->compare('t.discount',$this->discount);
+		$criteria->compare('t.marginresep',$this->marginresep);
+		$criteria->compare('t.jasadokter',$this->jasadokter);
+		$criteria->compare('t.hjaresep',$this->hjaresep);
+		$criteria->compare('t.marginnonresep',$this->marginnonresep);
+		$criteria->compare('t.hjanonresep',$this->hjanonresep);
+		$criteria->compare('t.hpp',$this->hpp);
                 
-		$criteria->compare('LOWER(tglkadaluarsa)',strtolower($this->tglkadaluarsa),true);
-		$criteria->compare('minimalstok',$this->minimalstok);
-		$criteria->compare('LOWER(formularium)',strtolower($this->formularium),true);
-		$criteria->compare('discountinue',$this->discountinue);
-		$criteria->compare('obatalkes_aktif',isset($this->obatalkes_aktif)?$this->obatalkes_aktif:true);
-		$criteria->compare('LOWER(satuankecil.satuankecil_nama)',strtolower($this->satuankecilNama),true);
-		$criteria->compare('LOWER(sumberdana.sumberdana_nama)',strtolower($this->sumberdanaNama),true);
+		$criteria->compare('LOWER(t.tglkadaluarsa)',strtolower($this->tglkadaluarsa),true);
+		$criteria->compare('t.minimalstok',$this->minimalstok);
+		$criteria->compare('LOWER(t.formularium)',strtolower($this->formularium),true);
+		$criteria->compare('t.discountinue',$this->discountinue);
+		$criteria->compare('t.obatalkes_aktif',isset($this->obatalkes_aktif)?$this->obatalkes_aktif:true);
+		$criteria->compare('LOWER(t.satuankecil.satuankecil_nama)',strtolower($this->satuankecilNama),true);
+		$criteria->compare('LOWER(t.sumberdana.sumberdana_nama)',strtolower($this->sumberdanaNama),true);
 		$criteria->compare('t.obatalkes_farmasi',$this->obatalkes_farmasi);
-		$criteria->order='obatalkes_nama ASC';
+		$criteria->order='t.obatalkes_nama ASC';
 		// $criteria->limit = 10;
 		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-                        'pagination'=>true,
 		));
 	}
     /**
