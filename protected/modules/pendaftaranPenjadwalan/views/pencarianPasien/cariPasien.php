@@ -32,8 +32,8 @@
                 'mergeHeaders'=>array(
                     array(
                         'name'=>'<center>Daftarkan</center>',
-                        'start'=>(Yii::app()->user->getState('ruangan_id') == 6)?10:9, //indeks kolom 3
-                        'end'=>(Yii::app()->user->getState('ruangan_id') == 6)?11:10, //indeks kolom 4
+                        'start'=>10, //indeks kolom 3
+                        'end'=>11, //indeks kolom 4
                     ),
                 ),
                 'columns'=>array(
@@ -111,7 +111,6 @@
                                 'header'=>'Status RM',
                                 'type'=>'raw',
                                 'value'=>'$data->statusrekammedis',
-                                'visible'=>Yii::app()->user->getState('ruangan_id') == 6,
                             ),
                             array(
                                 'header'=>'Riwayat <br/> Kunjungan',
