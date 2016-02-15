@@ -21,9 +21,9 @@
     <thead>
         <tr>
 			<th>Kode / Nama Obat</th>
-			<th>Satuan Kecil</th>
+			<th hidden>Satuan Kecil</th>
 			<th>Jumlah</th>
-			<th>Stok</th>
+			<th hidden>Stok</th>
 			<th>Harga Satuan</th>
 			<th>Sub Total</th>
 		</tr>
@@ -55,7 +55,7 @@
 					<td width="35%" align="center">
 						<div>Dibuat Oleh :</div>
 						<div style="margin-top:60px;"><?php echo isset($modPesan->pegmengetahui_id) ? $modPesan->pegawaimengetahui->NamaLengkap : "" ?></div>
-						<div>(Petugas Gudang Farmasi)</div>
+						<div>(Petugas <?php echo Yii::app()->user->getState('ruangan_nama') ?>)</div>
 					</td>
 				</tr>
 			</table>
