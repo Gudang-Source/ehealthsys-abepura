@@ -61,9 +61,9 @@
             <thead>
                 <tr>
                     <th>Kode / Nama Obat</th>
-                    <th>Satuan Kecil</th>
+                    <th hidden>Satuan Kecil</th>
                     <th>Jumlah</th>
-                    <th>Stok</th>
+                    <th hidden>Stok</th>
                     <th>Harga Satuan</th>
                     <th>Sub Total</th>
                                         <?php echo ($disabled)?"":"<th>Batal</th>"; ?>
@@ -82,7 +82,7 @@
             </tbody>
                         <tfoot>
                                 <tr>
-                    <th colspan="5" style="text-align: right;">Total</th>
+                    <th colspan="3" style="text-align: right;">Total</th>
                     <th><?php echo $form->textField($model, 'totalharga',array('class'=>'integer','style'=>'width:100px;', 'readonly'=>'true')); ?></th>
                     <th></th>
                 </tr>

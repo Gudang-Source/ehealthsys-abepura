@@ -34,7 +34,10 @@ class PemakaianObatController extends MyAuthController
 					foreach($_POST['FAPemakaianobatdetailT'] AS $i => $postDetail){
 						$modDetails[$i] = new FAPemakaianobatdetailT;
 						$modDetails[$i]->attributes = $postDetail;
-						$modStok = StokobatalkesT::model()->findByPk($postDetail['stokobatalkes_id']);
+                                                $modDetails[$i] = $this->savePemakaianObatDetail2($model, $postDetail );
+						$this->simpanStokObatAlkesOut2($modDetails[$i]);
+                                                /*
+                                                $modStok = StokobatalkesT::model()->findByPk($postDetail['stokobatalkes_id']);
 						$modDetails[$i]->stokobatalkes_id = $modStok->stokobatalkes_id;
 						$obatalkes_id = $postDetail['obatalkes_id'];
 						if(isset($detailGroups[$obatalkes_id])){
@@ -42,10 +45,11 @@ class PemakaianObatController extends MyAuthController
 						}else{
 							$detailGroups[$obatalkes_id]['obatalkes_id'] = $postDetail['obatalkes_id'];
 							$detailGroups[$obatalkes_id]['qty_satuanpakai'] = $postDetail['qty_satuanpakai'];
-						}
+						} */
 					}
 					//END GROUP
 				}
+                                /*
 				$obathabis = "";
                 //PROSES PENGURAIAN OBAT DAN JUMLAH MENJADI STOKOBATALKES_T (METODE ANTRIAN)
                 foreach($detailGroups AS $i => $detail){
@@ -59,8 +63,8 @@ class PemakaianObatController extends MyAuthController
                         $this->stokobatalkestersimpan &= false;
                         $obathabis .= "<br>- ".ObatalkesM::model()->findByPk($detail['obatalkes_id'])->obatalkes_nama;
                     }
-                }
-				
+                } */
+				//die;
 				try {
 					if($this->pemakaianobatdetailsimpan&&$this->stokobatalkestersimpan){
 						$transaction->commit();
@@ -107,24 +111,71 @@ class PemakaianObatController extends MyAuthController
 		return $model;
 	}
 	
-	protected function savePemakaianObatDetail($model,$stokOa,$postPemakaianObatDetail){
-        $format = new MyFormatter;
-        $modPemakaianObatDetail = new FAPemakaianobatdetailT();
-        $modPemakaianObatDetail->attributes = $stokOa->attributes;
-        $modPemakaianObatDetail->pemakaianobat_id = $model->pemakaianobat_id;
-        $modPemakaianObatDetail->qty_satuanpakai = $stokOa->qtystok_terpakai;
-        $modPemakaianObatDetail->harga_satuanpakai = $stokOa->HargaJualSatuan;
-        $modPemakaianObatDetail->harganetto_satuanpakai = $stokOa->HPP;
-        $modPemakaianObatDetail->ket_obatpakai = $model->ket_pemakaianobat;
-        if($modPemakaianObatDetail->save()){
-            $this->pemakaianobatdetailsimpan &= true;
-        }else{
-            $this->pemakaianobatdetailsimpan &= false;
+        protected function savePemakaianObatDetail2($model,$postPemakaianObatDetail){
+            $format = new MyFormatter;
+            $oa = ObatalkesM::model()->findByPk($postPemakaianObatDetail['obatalkes_id']);
+            $modPemakaianObatDetail = new FAPemakaianobatdetailT();
+            $modPemakaianObatDetail->attributes = $postPemakaianObatDetail;
+            $modPemakaianObatDetail->pemakaianobat_id = $model->pemakaianobat_id;
+            //$modPemakaianObatDetail->qty_satuanpakai = $stokOa->qtystok_terpakai;
+            //$modPemakaianObatDetail->harga_satuanpakai = $stokOa->HargaJualSatuan;
+            //$modPemakaianObatDetail->harganetto_satuanpakai = $stokOa->HPP;
+            $modPemakaianObatDetail->ket_obatpakai = $model->ket_pemakaianobat;
+            $modPemakaianObatDetail->satuankecil_id = $oa->satuankecil_id;
+            if($modPemakaianObatDetail->save()){
+                $this->pemakaianobatdetailsimpan &= true;
+            }else{
+                $this->pemakaianobatdetailsimpan &= false;
+            }
+            return $modPemakaianObatDetail;
         }
-        return $modPemakaianObatDetail;
+        
+	protected function savePemakaianObatDetail($model,$stokOa,$postPemakaianObatDetail){
+            $format = new MyFormatter;
+            $modPemakaianObatDetail = new FAPemakaianobatdetailT();
+            $modPemakaianObatDetail->attributes = $stokOa->attributes;
+            $modPemakaianObatDetail->pemakaianobat_id = $model->pemakaianobat_id;
+            $modPemakaianObatDetail->qty_satuanpakai = $stokOa->qtystok_terpakai;
+            $modPemakaianObatDetail->harga_satuanpakai = $stokOa->HargaJualSatuan;
+            $modPemakaianObatDetail->harganetto_satuanpakai = $stokOa->HPP;
+            $modPemakaianObatDetail->ket_obatpakai = $model->ket_pemakaianobat;
+            if($modPemakaianObatDetail->save()){
+                $this->pemakaianobatdetailsimpan &= true;
+            }else{
+                $this->pemakaianobatdetailsimpan &= false;
+            }
+            return $modPemakaianObatDetail;
+        }
+	
+    protected function simpanStokObatAlkesOut2($modPemakaianObatDetail){
+        $format = new MyFormatter;
+        //$modStokOa = StokobatalkesT::model()->findByPk($stokobatalkesasal_id);
+	$oa = ObatalkesM::model()->findByPk($modPemakaianObatDetail->obatalkes_id);	
+        $modStokOaNew = new StokobatalkesT;
+        $modStokOaNew->attributes = $modPemakaianObatDetail->attributes; //duplicate
+        $modStokOaNew->attributes = $oa->attributes;
+        //$modStokOaNew->unsetIdTransaksi(); //new / autoincrement pk
+        $modStokOaNew->qtystok_in = 0;
+        $modStokOaNew->qtystok_out = $modPemakaianObatDetail->qty_satuanpakai;
+        $modStokOaNew->pemakaianobatdetail_id = $modPemakaianObatDetail->pemakaianobatdetail_id;
+        //$modStokOaNew->stokobatalkesasal_id = $stokobatalkesasal_id;
+        $modStokOaNew->create_time = $modStokOaNew->tglterima = date('Y-m-d H:i:s');
+        $modStokOaNew->update_time = date('Y-m-d H:i:s');
+        $modStokOaNew->create_loginpemakai_id = Yii::app()->user->id;
+        $modStokOaNew->update_loginpemakai_id = Yii::app()->user->id;
+        $modStokOaNew->create_ruangan = $modStokOaNew->ruangan_id = Yii::app()->user->ruangan_id;
+        $modStokOaNew->validate();
+        //var_dump($modStokOaNew->errors); die;
+        
+        if($modStokOaNew->validate()){ 
+            $modStokOaNew->save();
+            //$modStokOaNew->setStokOaAktifBerdasarkanStok();
+        } else {
+            $this->stokobatalkestersimpan &= false;
+        }
+        return $modStokOaNew;      
     }
-	
-	
+    
     protected function simpanStokObatAlkesOut($stokobatalkesasal_id,$modPemakaianObatDetail){
         $format = new MyFormatter;
         $modStokOa = StokobatalkesT::model()->findByPk($stokobatalkesasal_id);
@@ -224,22 +275,23 @@ class PemakaianObatController extends MyAuthController
 			$modPemakaianObatDetail = new FAPemakaianobatdetailT();
             $ruangan_id = Yii::app()->user->getState('ruangan_id');
             $modStokOAs = StokobatalkesT::getStokObatAlkesAktif($obatalkes_id, $jumlah, $ruangan_id);
-            if(count($modStokOAs) > 0){
+            $oa = ObatalkesM::model()->findByPk($obatalkes_id);
+            //if(count($modStokOAs) > 0){
 
-                foreach($modStokOAs AS $i => $stok){
-					$modPemakaianObatDetail->satuankecil_id = $stok->satuankecil_id;
-					$modPemakaianObatDetail->obatalkes_id = $stok->obatalkes_id;
-					$modPemakaianObatDetail->stokobatalkes_id = $stok->stokobatalkes_id;
-					$modPemakaianObatDetail->qty_satuanpakai = $stok->qtystok_terpakai;
-					$modPemakaianObatDetail->harga_satuanpakai = $stok->HargaJualSatuan;
-					$modPemakaianObatDetail->harganetto_satuanpakai = $stok->HPP;
-					$modPemakaianObatDetail->jmlstok = $stok->qtystok;
+                //foreach($modStokOAs AS $i => $stok){
+					$modPemakaianObatDetail->satuankecil_id = $oa->satuankecil_id; //$stok->satuankecil_id;
+					$modPemakaianObatDetail->obatalkes_id = $oa->obatalkes_id; //$stok->obatalkes_id;
+					$modPemakaianObatDetail->stokobatalkes_id = null; //$stok->stokobatalkes_id;
+					$modPemakaianObatDetail->qty_satuanpakai = $jumlah; //$stok->qtystok_terpakai;
+					$modPemakaianObatDetail->harga_satuanpakai = $oa->hargajual; //$stok->HargaJualSatuan;
+					$modPemakaianObatDetail->harganetto_satuanpakai = $oa->harganetto; //$stok->HPP;
+					$modPemakaianObatDetail->jmlstok = 0; //$stok->qtystok;
 					$modPemakaianObatDetail->subtotal = $modPemakaianObatDetail->qty_satuanpakai*$modPemakaianObatDetail->harga_satuanpakai;
                     $form .= $this->renderPartial($this->path_view.'_rowDetail', array('modPemakaianObatDetail'=>$modPemakaianObatDetail), true);
-                }
-            }else{
-                $pesan = "Stok tidak mencukupi!";
-            }
+                //}
+            //}else{
+            //    $pesan = "Stok tidak mencukupi!";
+            //}
             
             echo CJSON::encode(array('form'=>$form, 'pesan'=>$pesan));
             Yii::app()->end(); 
