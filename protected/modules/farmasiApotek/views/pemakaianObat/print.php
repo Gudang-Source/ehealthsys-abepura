@@ -47,7 +47,7 @@
 			<table width="100%">
 				<tr>
 					<td width="35%" align="center">
-						<div>Mengetahui<br>Ka. Instalasi Farmasi</div>
+						<div>Mengetahui<br>Instalasi <?php echo Yii::app()->user->getState('instalasi_nama'); ?></div>
 						<div style="margin-top:60px;"><?php echo isset($modPesan->pegpemesan_id) ? $modPesan->pegawaipemesan->NamaLengkap : "" ?></div>
 					</td>
 					<td width="35%" align="center">
