@@ -121,7 +121,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
         'diagnosa_aktif',
         */
     ),
-        'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+        'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"}); injekEnterDiagnosa();}',
 )); 
 ?> 
 </div>
@@ -240,6 +240,25 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                             "onClick" => "inputDiagnosa(this,$data->diagnosa_id);return false;"))',
         ),
     ),
-        'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+        'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"}); injekEnterPenyakitDiagnosa();}',
 )); ?> 
 </div>
+<script>
+function injekEnterDiagnosa() {
+    $("#tblDiagnosa :input").keypress(function(e) {
+        if (e.key.toLowerCase() === "enter") {
+            $.fn.yiiGridView.update("rjdiagnosa-m-grid", {data: $("#tblDiagnosa :input").serialize()});
+        }
+    });
+}
+
+function injekEnterPenyakitDiagnosa() {
+    $("#tblKasuspenyakitDiagnosa :input").keypress(function(e) {
+        if (e.key.toLowerCase() === "enter") {
+            $.fn.yiiGridView.update("rjkasuspenyakitdiagnosa-m-grid", {data: $("#tblKasuspenyakitDiagnosa :input").serialize()});
+        }
+    });
+}
+
+injekEnterDiagnosa(); injekEnterPenyakitDiagnosa();
+</script>
