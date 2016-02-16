@@ -147,6 +147,7 @@
                                 'header'=>'Non Aktif',
                                 'type'=>'raw',
                                 'value'=>function($data) {
+                                    if ($data->statusrekammedik == Params::STATUSREKAMMEDIS_NON_AKTIF) return "-";
                                     return CHtml::link('<i class="icon-form-silang"></i>', '#', array('onclick'=>'nonaktifPasien('.$data->pasien_id.', "'.$data->namadepan.$data->nama_pasien.'", "'.$data->no_rekam_medik.'"); return false;'));
                                 },
                                 'htmlOptions'=>array(
