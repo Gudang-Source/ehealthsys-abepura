@@ -222,7 +222,7 @@ class PenjualanResepRSController extends MyAuthController
                         $transaction->rollback();
                         Yii::app()->user->setFlash('error',"Data detail penjualan resep gagal disimpan !");
                         if(!$this->stokobatalkestersimpan){
-                            Yii::app()->user->setFlash('error',"Data ddetail penjualan resep gagal disimpan ! Stok obat berikut tidak mencukupi !:".$obathabis);
+                            Yii::app()->user->setFlash('error',"Data ddetail penjualan resep gagal disimpan ! Stok obat berikut tidak mencukupi !:"); //.$obathabis);
                         }
                     }
                 } catch (Exception $e) {
