@@ -1,3 +1,8 @@
+<style>
+    .selected-diagnosa td {
+        background-color: yellow !important;
+    }
+</style>
 <?php
 $this->breadcrumbs=array(
     'Diagnosa',
@@ -117,40 +122,42 @@ function inputDiagnosa(obj,idDiagnosa)
 
     var tglDiagnosa = $('#RJPasienMorbiditasT_0_tglmorbiditas').val();
     if(!cekInputDiagnosa(idDiagnosa)) {
-        $(obj).parent().parent().css("background-color", "yellow");
+         
+        //console.log($(obj).parents('tr').;
         jQuery.ajax({'url':'<?php echo Yii::app()->createUrl('rawatJalan/pemeriksaanPasien/loadFormDiagnosis')?>',
                  'data':{tglDiagnosa:tglDiagnosa, idDiagnosa:idDiagnosa, idKelDiagnosa:idKelDiagnosa},
                  'type':'post',
                  'dataType':'json',
                  'success':function(data) {
-					if(data.status=='fail'){
-						myAlert(data.pesan);
-					}else{
-						 $('#tblDiagnosaPasien tbody').append(data.form);
+                    if(data.status=='fail'){
+			myAlert(data.pesan);
+                    }else{
+			$('#tblDiagnosaPasien tbody').append(data.form);
                         renameInput('Morbiditas','diagnosa');
                         renameInput('Morbiditas','kelompokDiagnosa');
                         // renameInput('Morbiditas','diagnosaTindakan');
                         // renameInput('Morbiditas','sebabDiagnosa');
                         renameInput('Morbiditas','infeksiNosokomial');
-					}
+                        
+                        if($('#berdasarKasusPenyakit').is(':checked')){
+			var kelompokDiagnosa = $('#tblKasuspenyakitDiagnosa #kelompokDiagnosa_'+idDiagnosa).val();
+                        }else{
+                            var kelompokDiagnosa = $('#tblDiagnosa #kelompokDiagnosa_'+idDiagnosa).val();
+                        }
+                            jQuery.ajax({
+                                'url':'<?php echo $this->createUrl('SaveDiagnosis')?>',
+                                'data':{IdPendaftaran:IdPendaftaran, tglDiagnosa:tglDiagnosa, idDiagnosa:idDiagnosa, kelompokDiagnosa:idKelDiagnosa},
+                                'type':'post',
+                                'dataType':'json',
+                                'success':function(data){
+                                    console.log("BERHASIL DISIMPAN...!");
+                                    $(obj).parent().parent().addClass('selected-diagnosa');
+                                },
+                                'cache':false
+                            });
+                        }
                  } ,
                  'cache':false});
-		if($('#berdasarKasusPenyakit').is(':checked')){
-			var kelompokDiagnosa = $('#tblKasuspenyakitDiagnosa #kelompokDiagnosa_'+idDiagnosa).val();
-		}else{
-			var kelompokDiagnosa = $('#tblDiagnosa #kelompokDiagnosa_'+idDiagnosa).val();
-		}
-        jQuery.ajax({
-            'url':'<?php echo $this->createUrl('SaveDiagnosis')?>',
-            'data':{IdPendaftaran:IdPendaftaran, tglDiagnosa:tglDiagnosa, idDiagnosa:idDiagnosa, kelompokDiagnosa:idKelDiagnosa},
-            'type':'post',
-            'dataType':'json',
-            'success':function(data){
-                console.log("BERHASIL DISIMPAN...!");            
-            },
-            'cache':false
-        });
-
     }else{
         if(confirm('Apakah Anda Akan Membatalkan Diagnosa No. '+idDiagnosa+' ?')){
             $('#tblDiagnosaPasien').find('input[class$="idDiagnosa"]').each(function(){
