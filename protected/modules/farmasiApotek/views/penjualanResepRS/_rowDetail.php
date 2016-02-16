@@ -19,13 +19,14 @@
         <?php echo CHtml::activeHiddenField($modObatAlkesPasien, '[ii]sumberdana_id',array('readonly'=>true,'style'=>'width:110px;')); ?>
         <span name="[ii][sumberdana_nama]"><?php echo (!empty($modObatAlkesPasien->sumberdana_id) ? $modObatAlkesPasien->obatalkes->sumberdana->sumberdana_nama : "") ?></span>
     </td>
-    <td>
+    <td hidden>
         <span name="[ii][satuankecil_nama]"><?php echo (!empty($modObatAlkesPasien->obatalkes->satuankecil_id) ? $modObatAlkesPasien->obatalkes->satuankecil->satuankecil_nama : "") ?></span>
     </td>
     <td>
         <?php echo CHtml::activeTextField($modObatAlkesPasien, '[ii]qty_oa',array('readonly'=>true,'style'=>'width:50px;')); //,'onblur'=>'hitungSubTotal(this)'?>
+        <?php echo (!empty($modObatAlkesPasien->obatalkes->satuankecil_id) ? $modObatAlkesPasien->obatalkes->satuankecil->satuankecil_nama : "") ?>
     </td>
-    <td>
+    <td hidden>
         <?php echo CHtml::activeTextField($modObatAlkesPasien, '[ii]jmlstok',array('readonly'=>true,'style'=>'width:50px;')); ?>
     </td>
     <td>
