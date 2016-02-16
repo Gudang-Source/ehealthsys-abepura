@@ -25,7 +25,8 @@ class RJPemeriksaanFisikT extends PemeriksaanfisikT
 	    $ruangan_id = Yii::app()->user->getState('ruangan_id');
 	    $criteria->addCondition('t.ruangan_id='.$ruangan_id);
 	    $paramedis = Params::KELOMPOKPEGAWAI_ID_TENAGA_KEPERAWATAN;
-	    $criteria->addCondition('kelompokpegawai_m.kelompokpegawai_id='.$paramedis);
+	    //$criteria->addCondition('kelompokpegawai_m.kelompokpegawai_id='.$paramedis);
+            $criteria->addCondition('kelompokpegawai_m.kelompokpegawai_id <> 1 ');
 	    
 	    return RuanganpegawaiM::model()->findAll($criteria);
 	}
