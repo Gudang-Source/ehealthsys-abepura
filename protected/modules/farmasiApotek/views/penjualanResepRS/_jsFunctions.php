@@ -674,7 +674,7 @@ function setThreapiobat_id(obatalkes_id){
 }
 
 function formjenisresep(jenisresep){
-	$("#formjenisresep").addClass("animation-loading");
+	$(".formjenisresep").addClass("animation-loading");
 	setTimeout(function(){
 		if(jenisresep==1){
 			$("#form-nonracikan").hide();
@@ -683,7 +683,7 @@ function formjenisresep(jenisresep){
 			$("#form-nonracikan").show();
 			$("#form-racikan").hide();
 		}
-		$("#formjenisresep").removeClass("animation-loading");
+		$(".formjenisresep").removeClass("animation-loading");
 	},500);
 }
 
