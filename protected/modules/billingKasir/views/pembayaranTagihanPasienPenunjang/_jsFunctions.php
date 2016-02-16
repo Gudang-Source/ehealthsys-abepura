@@ -87,7 +87,7 @@
      * @returns {undefined}
      */
     function setDataPembayar(){
-        var darinama_bkm = $("#no_pendaftaran").val()+"-"+$("#no_rekam_medik").val()+"-"+$("#namadepan").val()+" "+$("#nama_pasien").val();
+        var darinama_bkm = $("#no_rekam_medik").val()+" - "+$("#namadepan").val()+" "+$("#nama_pasien").val();
         var alamat_bkm = $("#alamat_pasien").val();
         var instalasi_nama = $("#instalasi_id option:selected").text();
         var sebagaipembayaran_bkm = "BIAYA PELAYANAN "+instalasi_nama.toUpperCase();

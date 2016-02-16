@@ -1,6 +1,9 @@
 <?php $data=ProfilrumahsakitM::model()->findByPk(Params::DEFAULT_PROFIL_RUMAH_SAKIT); ?>
 <!--KUITANSI -->
 <style>
+    body {
+        letter-spacing: 2px;
+    }
     table, td, div{
         font-size: 8pt;
         font-family: Arial;
