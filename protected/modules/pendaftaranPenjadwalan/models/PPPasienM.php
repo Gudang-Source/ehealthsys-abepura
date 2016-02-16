@@ -144,6 +144,7 @@ class PPPasienM extends PasienM
 					$criteria->addCondition("t.kelurahan_id = ".$this->kelurahan_id); 			
 				}
                $criteria->compare('LOWER(alamat_pasien)',strtolower($this->alamat_pasien),true);
+               $criteria->compare('statusrekammedis', $this->statusrekammedis);
                $criteria->compare('rt',$this->rt);
                $criteria->compare('rw',$this->rw);
                $criteria->with = array('propinsi','kabupaten','kecamatan','kelurahan');

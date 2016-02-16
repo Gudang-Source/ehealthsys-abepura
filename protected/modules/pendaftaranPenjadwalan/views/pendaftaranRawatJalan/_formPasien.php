@@ -482,6 +482,7 @@
     $modDataPasien = new PPPasienM('searchDialog');
     $modDataPasien->unsetAttributes();
     $format = new MyFormatter();
+    $modDataPasien->statusrekammedis = Params::STATUSREKAMMEDIS_AKTIF;
     $modDataPasien->ispasienluar = FALSE;
     if(isset($_GET['PPPasienM'])) {
         $modDataPasien->attributes = $_GET['PPPasienM'];
