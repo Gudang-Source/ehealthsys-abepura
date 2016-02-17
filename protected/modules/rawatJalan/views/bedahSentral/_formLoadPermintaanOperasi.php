@@ -11,7 +11,6 @@ $idDaftarTindakan=$modOperasi->daftartindakan_id;
     <td>
         <?php echo $kegiatanOperasi; ?>
         <?php echo CHtml::hiddenField("permintaanPenunjang[idDaftarTindakan][]", $idDaftarTindakan,array('class'=>'inputFormTabel','readonly'=>true)); ?>
-
     </td>
     <td>
         <?php echo $namaOperasi; ?>
