@@ -506,6 +506,7 @@ function testUpdateStok(qty,obatalkes_id)
 
 function cekInput()
 {
+    
     var kosong = 0 ;
 	var deposit = $('#deposit').val();
 	var totTarif = unformatNumber($('#totalTarif').val());
@@ -526,7 +527,8 @@ function cekInput()
         myAlert('Isi dulu nama tindakan !');
         return false;
     }
-	hitungTotalTarif();	
+	hitungTotalTarif();
+        /*
 	if (deposit == ""){
 		 myConfirm("Pasien Belum Melakukan Deposit!","Perhatian!",function(r) {
 			if(r){	
@@ -569,10 +571,10 @@ function cekInput()
 					}
 				}
 			});
-		}else{
-			simpanTransaksi();
-		}
-	}
+		}else{ */
+		simpanTransaksi();
+		// }
+	//}
 }
 
 function simpanTransaksi(){
