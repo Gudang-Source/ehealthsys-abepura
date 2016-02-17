@@ -239,48 +239,56 @@ $this->widget('bootstrap.widgets.BootAlert');
                 <div class="control-group ">
                     <?php echo $form->LabelEx($modPemeriksaanFisik,'tekanandarah',array('class'=>'control-label'));?>
                     <div class="controls">
-                            <?php
-                                    $modPemeriksaanFisik->tekanandarah = empty($modPemeriksaanFisik->tekanandarah) ? "000 / 000" : $modPemeriksaanFisik->tekanandarah;
-                                    $this->widget('CMaskedTextField', array(
-                                    'model' => $modPemeriksaanFisik,
-                                    'attribute' => 'tekanandarah',
-                                    'mask' => '999 / 999',
-                                    'placeholder'=>'000 / 000',
-                                    'htmlOptions' => array('readonly'=>true, 'class'=>'span2', 'style'=>'width:60px;','onkeypress'=>"return $(this).focusNextInputField(event)") //,'onkeyup'=>'getTekananDarah(this);''onfocus'=>'change(this);', 'onblur'=>'change(this);',
-                                    ));
-                                    ?>
-                             <?php //echo $form->textField($modPemeriksaanFisik,'tekanandarah',array('class'=>'span2 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10));?>
-                     /MmHg <?php echo "    ";?>
-                     <?php
-                                    $this->widget('CMaskedTextField', array(
-                                    'model' => $modPemeriksaanFisik,
-                                    'attribute' => 'td_systolic',
-                                    'mask' => '999',
-                                    'placeholder'=>'0',
-                                    'htmlOptions' => array('class'=>'span1 integer systolic', 'onkeypress'=>"return $(this).focusNextInputField(event)",'onkeyup'=>'returnValue(this); getText();') // change(this); getTekananDarah(this) change(this);getText();
-                                    ));
-                                    ?>Mm
-                                    <?php // echo $form->textField($modPemeriksaanFisik,'td_diastolic',array('onblur'=>'','readonly'=>false,'class'=>'span1 integer numbersOnly diastolic', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>3, 'onkeyup'=>'returnValue(this)'));?>
-                     <?php
-                                    $this->widget('CMaskedTextField', array(
-                                    'model' => $modPemeriksaanFisik,
-                                    'attribute' => 'td_diastolic',
-                                    'mask' => '999',
-                                    'placeholder'=>'0',
-                                    'htmlOptions' => array('class'=>'span1 integer diastolic', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'onkeyup'=>'returnValue(this); getText();') //getTekananDarah(this); ,'onkeyup'=>'getText();'
-                                    ));
-                                    ?>Hg
+                     <?php 
+                     echo $form->textField($modPemeriksaanFisik,'td_systolic',array('class'=>'span1 numbersOnly systolic', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>3, 'onkeyup'=>'returnValue(this); getText();', 'style'=>'text-align: right;'));
+                     /*
+							$this->widget('CMaskedTextField', array(
+							'model' => $modPemeriksaanFisik,
+							'attribute' => 'td_systolic',
+							'mask' => '999',
+							'placeholder'=>'0',
+							'htmlOptions' => array('class'=>'span1 systolic', 'onkeypress'=>"return $(this).focusNextInputField(event)",'onkeyup'=>'returnValue(this); getText();') // change(this); getTekananDarah(this) change(this);getText();
+							));
+		     */ ?>Mm
+							<?php // echo $form->textField($modPemeriksaanFisik,'td_diastolic',array('onblur'=>'','readonly'=>false,'class'=>'span1 integer numbersOnly diastolic', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>3, 'onkeyup'=>'returnValue(this)'));?>
+                     <?php 
+                     echo $form->textField($modPemeriksaanFisik,'td_diastolic',array('onblur'=>'','readonly'=>false,'class'=>'span1 numbersOnly diastolic', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>3, 'onkeyup'=>'returnValue(this); getText();', 'style'=>'text-align: right;')); 
+                     /*
+							$this->widget('CMaskedTextField', array(
+							'model' => $modPemeriksaanFisik,
+							'attribute' => 'td_diastolic',
+							'mask' => '999',
+							'placeholder'=>'0',
+							'htmlOptions' => array('class'=>'span1 diastolic', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'onkeyup'=>'returnValue(this); getText();') //getTekananDarah(this); ,'onkeyup'=>'getText();'
+							)); */
+							?>Hg
                      <?php // echo $form->textField($modPemeriksaanFisik,'td_systolic',array('class'=>'span1 numbersOnly systolic', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>3, 'onkeyup'=>'returnValue(this)'));?>
-
+						&nbsp;
                     </div>
-                </div>
+            </div>
+			<div class="control-group ">
+				<?php echo CHtml::Label('','',array('class'=>'control-label'));?>
+				<div class="controls">
+					<?php
+						$modPemeriksaanFisik->tekanandarah = empty($modPemeriksaanFisik->tekanandarah) ? "000 / 000" : $modPemeriksaanFisik->tekanandarah;
+						$this->widget('CMaskedTextField', array(
+						'model' => $modPemeriksaanFisik,
+						'attribute' => 'tekanandarah',
+						'mask' => '999 / 999',
+						'placeholder'=>'000 / 000',
+						'htmlOptions' => array('readonly'=>true, 'class'=>'span2', 'style'=>'width:60px;','onkeypress'=>"return $(this).focusNextInputField(event)") //,'onkeyup'=>'getTekananDarah(this);''onfocus'=>'change(this);', 'onblur'=>'change(this);',
+						));
+					?> Mm/Hg
+				</div>
+			</div>
                 <div class="control-group ">
+                    <?php echo CHtml::label('','',array('class'=>'control-label'));?>
                     <div class="controls">
-                             <?php echo CHtml::textField('tekananDarah','', array('class'=>'span3 ', 'readonly'=>true, 'onkeypress'=>"return $(this).focusNextInputField(event);"));?>
+                             <?php echo CHtml::textField('tekananDarah','', array('class'=>'span2 ', 'readonly'=>true, 'onkeypress'=>"return $(this).focusNextInputField(event);"));?>
                     </div>
                 </div>
                 <div class="control-group ">
-                    <?php echo $form->LabelEx($modPemeriksaanFisik,'meanarteripressure',array('class'=>'control-label'));?>
+                    <?php echo $form->LabelEx($modPemeriksaanFisik,'mean arteri pressure',array('class'=>'control-label'));?>
                     <div class="controls">
                              <?php echo $form->textField($modPemeriksaanFisik,'meanarteripressure',array('readonly'=>true, 'class'=>'span2 integer numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10));?>
                     </div>
