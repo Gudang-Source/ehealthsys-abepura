@@ -17,7 +17,7 @@ $idDaftarTindakan=$modOperasi->daftartindakan_id;
         <?php echo $namaOperasi; ?>
         <?php echo CHtml::hiddenField("permintaanPenunjang[inputoperasi][]", $idOperasi,array('class'=>'inputFormTabel','readonly'=>true)); ?>
     </td>
-    <td>
+    <td hidden>
         <?php echo CHtml::textField("permintaanPenunjang[inputtarifoperasi][]", $tarif,array('class'=>'inputFormTabel lebar3 integer','readonly'=>true)); ?>
     </td>
     <td><?php echo CHtml::textField("permintaanPenunjang[inputqty][]", '1',array('class'=>'inputFormTabel lebar1 integer')); ?></td>
