@@ -74,8 +74,12 @@
                     ),
                     array(
                         'name'=>'ruangan_id',
-                        'label'=>'Poliklinik',
+                        'label'=>'Ruangan',
                         'value'=>$modPasienAdmisi->ruangan->ruangan_nama,
+                    ),
+                    array(
+                        'label'=>'Kamar',
+                        'value'=>isset($modPasienAdmisi->kamarruangan->kamarruangan_nokamar) ? $modPasienAdmisi->kamarruangan->kamarruangan_nokamar : "-",
                     ),
                     array(
                         'name'=>'jeniskasuspenyakit_id',
@@ -87,7 +91,7 @@
                     ),
                     array(
                         'name'=>'pegawai_id',
-                        'value'=>$modPasienAdmisi->pegawai->nama_pegawai,
+                        'value'=>$modPasienAdmisi->pegawai->namaLengkap,
                     ),
                     array(
                         'name'=>'carabayar_id',

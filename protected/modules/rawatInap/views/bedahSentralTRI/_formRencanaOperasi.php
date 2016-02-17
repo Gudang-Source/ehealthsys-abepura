@@ -4,13 +4,13 @@
         <tr>
             <th>Jenis Operasi</th>
             <th>Operasi</th>
-            <th>Tarif</th>
+            <!--th>Tarif</th-->
             <th>Jumlah</th>
         </tr>
     </thead>
     <tbody></tbody>
 </table>
-<table class="table table-bordered table-condensed">
+<table class="table table-bordered table-condensed" hidden>
 	<tr><td width="70%" style="text-align: right;">Total Biaya Pemeriksaan</td><td><?php echo CHtml::textField('totalTarif', '',array('class'=>'span2', 'style'=>'text-align:right;', 'disabled'=>'disabled'));?></td></tr>
 </table>
 

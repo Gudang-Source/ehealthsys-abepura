@@ -3,7 +3,7 @@
         <tr>
             <th>Tanggal Kirim Ke Bedah Sentral</th>
             <th>Permintaan Operasi</th>
-            <th>Tarif</th>
+            <!--th>Tarif</th-->
             <th>Jumlah</th>
             <th>&nbsp;</th>
         </tr>
@@ -20,15 +20,15 @@ foreach ($modRiwayatKirimKeUnitLain as $i => $riwayat) {
                 echo $permintaan->operasi->operasi_nama.'<br/>';
             } ?>
         </td>
-        <td>
-            <?php
+        <!-- td>
+            <?php /*
             foreach($modPermintaan as $j => $permintaan){
                 $modTarif = TariftindakanM::model()->findByAttributes(array('kelaspelayanan_id'=>$riwayat->kelaspelayanan_id,
                                                                             'daftartindakan_id'=>$permintaan->operasi->daftartindakan_id,
                                                                             'komponentarif_id'=>Params::KOMPONENTARIF_ID_TOTAL));
                 echo (!empty($modTarif->harga_tariftindakan))? number_format($modTarif->harga_tariftindakan).'<br/>':'0 <br/>';
-            } ?>
-        </td>
+            } */ ?>
+        </td-->
         <td>
             <?php
             foreach($modPermintaan as $j => $permintaan){

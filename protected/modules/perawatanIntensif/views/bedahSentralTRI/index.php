@@ -137,7 +137,8 @@ function hitungTotalTarif()
 function cekInput(){
 	var deposit = $('#deposit').val();
 	var totalTarif = unformatNumber($('#totalTarif').val());
-	if (deposit == ""){
+	/*
+        if (deposit == ""){
 		myConfirm("Pasien Belum Melakukan Deposit!","Perhatian!",function(r) {
 		   if(r){	
 			   // notifikasi
@@ -165,9 +166,9 @@ function cekInput(){
 					}, 2000);
 				}
 			});
-	}else{
+	}else{ */
 		$('#rjbedahsentral-t-form').submit();
-	}
+	//}
 }
 
 $(document).ready(function(){

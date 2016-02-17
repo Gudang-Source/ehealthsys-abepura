@@ -114,10 +114,10 @@ class PemeriksaanFisikTRIController extends MyAuthController
                                 $modPemeriksaanFisik->kulit_pucat=$_POST['RIPemeriksaanFisikT']['kulit_pucat'];
                                 $modPemeriksaanFisik->kulit_berkeringat=$_POST['RIPemeriksaanFisikT']['kulit_berkeringat'];
                                 $modPemeriksaanFisik->akral=$_POST['RIPemeriksaanFisikT']['akral'];
-								
+								//$modPemeriksaanFisik->validate();
 								if($modPemeriksaanFisik->validate()){
 									if($modPemeriksaanFisik->save()){
-										$updateStatusPeriksa=PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SEDANG_PERIKSA));
+										//$updateStatusPeriksa=PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SEDANG_PERIKSA));
 										$this->simpanpemeriksaanfisik = true;
 									}
 								}
@@ -125,10 +125,11 @@ class PemeriksaanFisikTRIController extends MyAuthController
 									if(count($_POST['RIPemeriksaangambarT'])>0){
 										foreach($_POST['RIPemeriksaangambarT'] as $i =>$postperiksagbr){
 											$this->simpanpemeriksaangambar &= $this->simpanPemeriksaanGambar($postperiksagbr,$modPemeriksaanFisik,$modGambarTubuh);
+                                                                                        var_dump($this->simpanpemeriksaangambar);
 										}
 									}
 								}
-								
+				//var_dump($this->simpanpemeriksaanfisik && $this->simpanpemeriksaangambar); die;				
                                 if($this->simpanpemeriksaanfisik && $this->simpanpemeriksaangambar){
 									$transaction->commit();
 									Yii::app()->user->setFlash('success',"Data Pemeriksaan Fisik berhasil disimpan");
@@ -372,7 +373,7 @@ class PemeriksaanFisikTRIController extends MyAuthController
 		$modPemeriksaanGambar->tglpemeriksaan = date('Y-m-d H:i:s');
 		$modPemeriksaanGambar->create_time = date('Y-m-d H:i:s');
 		$modPemeriksaanGambar->create_loginpemakai_id = Yii::app()->user->id;
-		$modPemeriksaanGambar->create_ruangan = Yii::app()->user->getState('pegawai_id');
+		$modPemeriksaanGambar->create_ruangan = Yii::app()->user->getState('ruangan_id');
 
 		if($modPemeriksaanGambar->validate()){ 
 			$modPemeriksaanGambar->save();
