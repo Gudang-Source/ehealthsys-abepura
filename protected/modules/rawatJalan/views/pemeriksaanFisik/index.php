@@ -281,7 +281,7 @@ $this->widget('bootstrap.widgets.BootAlert');
                     </div>
             </div>
             <div class="control-group ">
-                    <?php echo $form->LabelEx($modPemeriksaanFisik,'meanarteripressure',array('class'=>'control-label'));?>
+                    <?php echo $form->LabelEx($modPemeriksaanFisik,'mean arteri pressure',array('class'=>'control-label'));?>
                     <div class="controls">
                              <?php echo $form->textField($modPemeriksaanFisik,'meanarteripressure',array('readonly'=>true, 'class'=>'span2 integer numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10));?>
                     </div>

@@ -34,7 +34,7 @@
             <?php echo CHtml::label("Ruangan Inap <span class='required'>*</span>", CHtml::activeId($model,'ruangan_id'),array('class'=>'control-label required'))?>                                   
             <div class='controls'>
                 <?php 
-                $ruangan = RuanganM::model()->findAllByAttributes(array('instalasi_id'=>Params::INSTALASI_ID_RI, 'ruangan_aktif'=>true));
+                $ruangan = RuanganM::model()->findAllByAttributes(array('instalasi_id'=>($this->langsung?Params::INSTALASI_ID_RI:array(Params::INSTALASI_ID_RI, Params::INSTALASI_ID_ICU)), 'ruangan_aktif'=>true));
                 echo $form->dropDownList($modPasienAdmisi,'ruangan_id', CHtml::listData($ruangan, 'ruangan_id', 'ruangan_nama') ,
                                       array('empty'=>'-- Pilih --',
                                     'onchange'=>"setDropdownDokter(this.value);setDropDownKelasPelayanan(this.value);setKarcis();setAntrianRuanganAdmisi();setDropdownJeniskasuspenyakit(this.value);",

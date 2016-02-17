@@ -20,6 +20,7 @@ class PendaftaranRawatInapDariRJRDController extends PendaftaranRawatInapControl
         public $rujukantersimpan = false;
         public $successSaveMasukKamar = false;
         public $admisitersimpan = false;
+        public $langsung = false;
         
 	/**
 	 * Index transaksi pendaftaran

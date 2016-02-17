@@ -1,3 +1,6 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/jquery.taggd.js'); ?>
+<?php Yii::app()->getClientScript()->registerCssFile(Yii::app()->baseUrl . '/css/taggd.css'); ?>
+
 <?php
 $this->breadcrumbs=array(
 	'Anamnesa',
@@ -11,31 +14,16 @@ $this->widget('bootstrap.widgets.BootAlert');
         'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)'),
         'focus' => '#RJPemeriksaanFisikT_keadaanumum_annoninput .maininput',
 )); ?>
-<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/jquery.taggd.js'); ?>
-<?php Yii::app()->getClientScript()->registerCssFile(Yii::app()->baseUrl . '/css/taggd.css'); ?>
 <style>
 .groupUkurans{
         display:inline;
 }
 </style>
-	<p class="help-block"><?php echo Yii::t('mds','Fields with <span class="required">*</span> are required.') ?></p>
-        <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
-            'id'=>'tabel-riwayatpemeriksaanfisik',
-            'content'=>array(
-                'content-detailpemeriksaanfisik'=>array(
-                    'header'=>CHtml::htmlButton("<i class='icon-minus icon-white'></i>",array('class'=>'btn btn-primary btn-mini','onclick'=>'','onkeyup'=>"return $(this).focusNextInputField(event)",'rel'=>'tooltip','title'=>'Klik untuk tampilkan Riwayat Pemeriksaan Fisik')).'<b> Tabel Riwayat Pemeriksaan Fisik</b>',
-                    'isi'=>$this->renderPartial('_tabelRiwayatFisik',array(
-                            'tabelPemeriksaan'=>$tabelPemeriksaan,
-                            'format'=>$format,
-                            ),true),
-                    'active'=>true,
-                    ),   
-                ),
-        )); ?>
+
 <?php echo $form->errorSummary($modPemeriksaanFisik); ?>
 <div class="row-fluid">
     <div class="span4">
-        <fieldset class="box">
+        <fieldset class='box'>
             <legend class="rim">Data Pemeriksaan</legend>
             <?php echo CHtml::hiddenField('url',$this->createUrl('',array('pendaftaran_id'=>$modPendaftaran->pendaftaran_id)),array('readonly'=>TRUE));?>
                     <?php echo CHtml::hiddenField('berubah','',array('readonly'=>TRUE));?>
@@ -50,7 +38,7 @@ $this->widget('bootstrap.widgets.BootAlert');
                                                              'dateFormat'=>Params::DATE_FORMAT,
                                                              'maxDate'=>'d',   
                                                                      ),
-                                                             'htmlOptions'=>array('readonly'=>true, 'class'=>'dtPicker3',
+                                                             'htmlOptions'=>array('readonly'=>true, 'class'=>'dtPicker3 realtime',
                                                              'onkeypress'=>"return $(this).focusNextInputField(event)"),
                                                     )); ?>
                     </div>
@@ -81,9 +69,14 @@ $this->widget('bootstrap.widgets.BootAlert');
                             <?php echo $form->error($modPemeriksaanFisik, 'keadaanumum'); ?>
                     </div>
             </div>
-            <?php echo $form->dropDownListRow($modPemeriksaanFisik,'pegawai_id',CHtml::listData($modPemeriksaanFisik->getDokterItems($modPendaftaran->ruangan_id), 'pegawai_id', 'NamaLengkap'),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);",));?>
-                    <?php echo $form->dropDownListRow($modPemeriksaanFisik,'paramedis_nama', CHtml::listData($modPemeriksaanFisik->ParamedisItems, 'pegawai.nama_pegawai', 'pegawai.NamaLengkap'),array('empty'=>'-- Pilih --','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
-               <!--<div class="control-group ">
+            <?php echo $form->dropDownListRow($modPemeriksaanFisik,'pegawai_id',CHtml::listData($modPemeriksaanFisik->getDokterItems($modPendaftaran->ruangan_id), 'pegawai_id', 'NamaLengkap'),array('onkeypress'=>"return $(this).focusNextInputField(event);",));?>
+			<div class="control-group ">
+                <?php echo $form->label($modPemeriksaanFisik, 'perawat', array('class' => 'control-label')) ?>
+				<div class="controls">
+					<?php echo $form->dropDownList($modPemeriksaanFisik,'paramedis_nama', CHtml::listData($modPemeriksaanFisik->ParamedisItems, 'pegawai.nama_pegawai', 'pegawai.NamaLengkap'),array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
+				</div>
+			</div>
+				<!--<div class="control-group ">
                       <?php echo $form->LabelEx($modPemeriksaanFisik,'paramedis_nama',array('class'=>'control-label'));?>
                       <div class="controls">
                               <?php $this->widget('MyJuiAutoComplete',array(
@@ -105,9 +98,8 @@ $this->widget('bootstrap.widgets.BootAlert');
               </div> 
                -->
         </fieldset>
-        <fieldset class="box">
+        <fieldset class='box'>
             <legend class="rim">Pemeriksaan Thorax</legend>
-            <br>
             <?php echo $form->textFieldRow($modPemeriksaanFisik,'inspeksi',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
             <?php echo $form->textFieldRow($modPemeriksaanFisik,'palpasi',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
 
@@ -116,7 +108,7 @@ $this->widget('bootstrap.widgets.BootAlert');
         </fieldset>
     </div>
     <div class="span4">
-            <style>
+        <style>
         .hoveringIcon:hover{
             background-color: #FFA0A2;
             cursor: pointer;
@@ -234,169 +226,179 @@ $this->widget('bootstrap.widgets.BootAlert');
                     }
 
             </style>
-            <fieldset class="box">
-                <legend class="rim">Tanda Vital</legend>
-                <div class="control-group ">
+        <fieldset class='box'>
+            <legend class="rim">Tanda Vital</legend>
+            <div class="control-group ">
                     <?php echo $form->LabelEx($modPemeriksaanFisik,'tekanandarah',array('class'=>'control-label'));?>
                     <div class="controls">
-                            <?php
-                                    $modPemeriksaanFisik->tekanandarah = empty($modPemeriksaanFisik->tekanandarah) ? "000 / 000" : $modPemeriksaanFisik->tekanandarah;
-                                    $this->widget('CMaskedTextField', array(
-                                    'model' => $modPemeriksaanFisik,
-                                    'attribute' => 'tekanandarah',
-                                    'mask' => '999 / 999',
-                                    'placeholder'=>'000 / 000',
-                                    'htmlOptions' => array('readonly'=>true, 'class'=>'span2', 'style'=>'width:60px;','onkeypress'=>"return $(this).focusNextInputField(event)") //,'onkeyup'=>'getTekananDarah(this);''onfocus'=>'change(this);', 'onblur'=>'change(this);',
-                                    ));
-                                    ?>
-                             <?php //echo $form->textField($modPemeriksaanFisik,'tekanandarah',array('class'=>'span2 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10));?>
-                     /MmHg <?php echo "    ";?>
-                     <?php
-                                    $this->widget('CMaskedTextField', array(
-                                    'model' => $modPemeriksaanFisik,
-                                    'attribute' => 'td_systolic',
-                                    'mask' => '999',
-                                    'placeholder'=>'0',
-                                    'htmlOptions' => array('class'=>'span1 integer systolic', 'onkeypress'=>"return $(this).focusNextInputField(event)",'onkeyup'=>'returnValue(this); getText();') // change(this); getTekananDarah(this) change(this);getText();
-                                    ));
-                                    ?>Mm
-                                    <?php // echo $form->textField($modPemeriksaanFisik,'td_diastolic',array('onblur'=>'','readonly'=>false,'class'=>'span1 integer numbersOnly diastolic', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>3, 'onkeyup'=>'returnValue(this)'));?>
-                     <?php
-                                    $this->widget('CMaskedTextField', array(
-                                    'model' => $modPemeriksaanFisik,
-                                    'attribute' => 'td_diastolic',
-                                    'mask' => '999',
-                                    'placeholder'=>'0',
-                                    'htmlOptions' => array('class'=>'span1 integer diastolic', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'onkeyup'=>'returnValue(this); getText();') //getTekananDarah(this); ,'onkeyup'=>'getText();'
-                                    ));
-                                    ?>Hg
+                     <?php 
+                     echo $form->textField($modPemeriksaanFisik,'td_systolic',array('class'=>'span1 numbersOnly systolic', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>3, 'onkeyup'=>'returnValue(this); getText();', 'style'=>'text-align: right;'));
+                     /*
+							$this->widget('CMaskedTextField', array(
+							'model' => $modPemeriksaanFisik,
+							'attribute' => 'td_systolic',
+							'mask' => '999',
+							'placeholder'=>'0',
+							'htmlOptions' => array('class'=>'span1 systolic', 'onkeypress'=>"return $(this).focusNextInputField(event)",'onkeyup'=>'returnValue(this); getText();') // change(this); getTekananDarah(this) change(this);getText();
+							));
+		     */ ?>Mm
+							<?php // echo $form->textField($modPemeriksaanFisik,'td_diastolic',array('onblur'=>'','readonly'=>false,'class'=>'span1 integer numbersOnly diastolic', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>3, 'onkeyup'=>'returnValue(this)'));?>
+                     <?php 
+                     echo $form->textField($modPemeriksaanFisik,'td_diastolic',array('onblur'=>'','readonly'=>false,'class'=>'span1 numbersOnly diastolic', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>3, 'onkeyup'=>'returnValue(this); getText();', 'style'=>'text-align: right;')); 
+                     /*
+							$this->widget('CMaskedTextField', array(
+							'model' => $modPemeriksaanFisik,
+							'attribute' => 'td_diastolic',
+							'mask' => '999',
+							'placeholder'=>'0',
+							'htmlOptions' => array('class'=>'span1 diastolic', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'onkeyup'=>'returnValue(this); getText();') //getTekananDarah(this); ,'onkeyup'=>'getText();'
+							)); */
+							?>Hg
                      <?php // echo $form->textField($modPemeriksaanFisik,'td_systolic',array('class'=>'span1 numbersOnly systolic', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>3, 'onkeyup'=>'returnValue(this)'));?>
-
+						&nbsp;
                     </div>
-                </div>
-                <div class="control-group ">
-                    <div class="controls">
-                             <?php echo CHtml::textField('tekananDarah','', array('class'=>'span3 ', 'readonly'=>true, 'onkeypress'=>"return $(this).focusNextInputField(event);"));?>
+            </div>
+			<div class="control-group ">
+				<?php echo CHtml::Label('','',array('class'=>'control-label'));?>
+				<div class="controls">
+					<?php
+						$modPemeriksaanFisik->tekanandarah = empty($modPemeriksaanFisik->tekanandarah) ? "000 / 000" : $modPemeriksaanFisik->tekanandarah;
+						$this->widget('CMaskedTextField', array(
+						'model' => $modPemeriksaanFisik,
+						'attribute' => 'tekanandarah',
+						'mask' => '999 / 999',
+						'placeholder'=>'000 / 000',
+						'htmlOptions' => array('readonly'=>true, 'class'=>'span2', 'style'=>'width:60px;','onkeypress'=>"return $(this).focusNextInputField(event)") //,'onkeyup'=>'getTekananDarah(this);''onfocus'=>'change(this);', 'onblur'=>'change(this);',
+						));
+					?> Mm/Hg
+				</div>
+			</div>
+            <div class="control-group ">
+				<div class="controls">
+				<?php echo CHtml::label('','',array('class'=>'control-label'));?>
+                    
+                             <?php echo CHtml::textField('tekananDarah','', array('class'=>'span2', 'readonly'=>true, 'onkeypress'=>"return $(this).focusNextInputField(event);"));?>
                     </div>
-                </div>
-                <div class="control-group ">
-                    <?php echo $form->LabelEx($modPemeriksaanFisik,'meanarteripressure',array('class'=>'control-label'));?>
+            </div>
+            <div class="control-group ">
+                    <?php echo $form->LabelEx($modPemeriksaanFisik,'mean arteri pressure',array('class'=>'control-label'));?>
                     <div class="controls">
                              <?php echo $form->textField($modPemeriksaanFisik,'meanarteripressure',array('readonly'=>true, 'class'=>'span2 integer numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10));?>
                     </div>
-                </div>
-                <div class="control-group ">
-                        <?php echo $form->LabelEx($modPemeriksaanFisik,'detaknadi',array('label'=>'<i class="icon-facetime-video hoveringIcon" onclick="getfromDevice();"></i> Detak Nadi','class'=>'control-label'));?>
-                        <div class="controls">
-                                 <?php echo $form->textField($modPemeriksaanFisik,'detaknadi',array('class'=>'span2  numbersOnly', 'maxlength'=>10, 'onkeypress'=>"return $(this).focusNextInputField(event)"));?>
-                         /Menit
-                        </div>
-                </div>
-                <div class="control-group ">
-                         <?php echo $form->LabelEx($modPemeriksaanFisik,'denyutjantung',array('label'=>'<i class="icon-facetime-video hoveringIcon" onclick="getfromDevice();"></i> Denyut Jantung','class'=>'control-label'));?>
-                         <div class="controls">
-                         <?php
-                         echo $form->dropDownList($modPemeriksaanFisik, 'denyutjantung', CHtml::listData(LookupM::model()->findAllByAttributes(array('lookup_type'=>Params::LOOKUPTYPE_DENYUTJANTUNG)), 'lookup_value', 'lookup_name'), array('empty'=>'-- Pilih --'));
-                         ?>
-                         </div>
-                </div>
-                <div class="control-group ">
-                        <?php echo $form->LabelEx($modPemeriksaanFisik,'pernapasan',array('class'=>'control-label'));?>
-                        <div class="controls">
-                                 <?php echo $form->textField($modPemeriksaanFisik,'pernapasan',array('class'=>'span2 integer numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10));?>
-                         /Menit
-                        </div>
-                </div>
-                <div class="control-group ">
-                        <?php echo $form->LabelEx($modPemeriksaanFisik,'suhutubuh',array('class'=>'control-label'));?>
-                        <div class="controls">
-                                 <?php echo $form->textField($modPemeriksaanFisik,'suhutubuh',array('class'=>'span2 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10));?>
-                         &#176 Celcius
-                        </div>
-                </div>
-                <div class="control-group ">
-                        <?php echo $form->LabelEx($modPemeriksaanFisik,'tinggibadan_cm',array('class'=>'control-label','style'=>'width:75px'));?>
-                        <?php echo $form->LabelEx($modPemeriksaanFisik,'beratbadan_kg',array('class'=>'control-label','style'=>'width:80px'));?>
-                        <div class="controls">
-                                <div class="groupUkurans">
-                                        <?php echo $form->textField($modPemeriksaanFisik,'tinggibadan_cm',array('class'=>'span1 numbersOnly tinggibadan', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10,'size'=>3));?>
-                                        <?php echo $form->hiddenField($modPemeriksaanFisik,'tinggibadan_cm',array('class'=>'span1 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10,'size'=>3));?>
-                                        <?php echo CHtml::dropDownList('meter', '100', array('100'=>'Cm', '0.01'=>'M'), array('style'=>'width:50px;','class'=>'span1', 'onchange'=>'gantiJumlah(this)')); ?>
-                                </div>
-                                <div class="groupUkurans">
-                                 <?php echo $form->textField($modPemeriksaanFisik,'beratbadan_kg',array('class'=>'span1 numbersOnly beratbadan', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10,'size'=>3));?>
-                                 <?php echo $form->hiddenField($modPemeriksaanFisik,'beratbadan_kg',array('class'=>'span1 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10,'size'=>3));?>
-                                 <?php echo CHtml::dropDownList('gram', '0.001', array('1000'=>'Gr', '0.001'=>'Kg'), array('class'=>'span1', 'onchange'=>'gantiJumlah(this)')); ?>
-                                </div>
-                        </div>
-                </div>
-                <div class="control-group ">
-                        <?php echo $form->LabelEx($modPemeriksaanFisik,'bb_ideal',array('class'=>'control-label'));?>
-                        <div class="controls">
-                                 <?php echo $form->textField($modPemeriksaanFisik,'bb_ideal',array('class'=>'span2 integer numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10, 'readonly'=>true)).' ';?>Kg
-                        </div>
-                </div>
-                <div class="control-group ">
-                        <label class='control-label'>Index Masa Tubuh</label>
-                        <div class="controls">
-                                 <?php echo CHtml::textField('imtValue', '', array('readonly'=>true, 'class'=>'span1'));?>
-                                 <?php echo CHtml::textField('imt', '', array('readonly'=>true, 'class'=>'span2'));?>
-                        </div>
-                </div>
-                <?php echo $form->textFieldRow($modPemeriksaanFisik,'kelainanpadabagtubuh',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30)); ?>
-            </fieldset>
+            </div>
+            <div class="control-group ">
+                    <?php echo $form->LabelEx($modPemeriksaanFisik,'detaknadi',array('label'=>'<i class="icon-facetime-video hoveringIcon" onclick="getfromDevice();"></i> Detak Nadi','class'=>'control-label'));?>
+                    <div class="controls">
+                             <?php echo $form->textField($modPemeriksaanFisik,'detaknadi',array('class'=>'span2  numbersOnly', 'maxlength'=>3, 'onkeypress'=>"return $(this).focusNextInputField(event)"));?>
+                     /Menit
+                    </div>
+            </div>
+            <div class="control-group ">
+                     <?php echo $form->LabelEx($modPemeriksaanFisik,'denyutjantung',array('label'=>'<i class="icon-facetime-video hoveringIcon" onclick="getfromDevice();"></i> Denyut Jantung','class'=>'control-label'));?>
+                     <div class="controls">
+                     <?php
+                     echo $form->dropDownList($modPemeriksaanFisik, 'denyutjantung', CHtml::listData(LookupM::model()->findAllByAttributes(array('lookup_type'=>Params::LOOKUPTYPE_DENYUTJANTUNG)), 'lookup_value', 'lookup_name'), array('empty'=>'-- Pilih --'));
+                     ?>
+                     </div>
+            </div>
+            <div class="control-group ">
+                    <?php echo $form->LabelEx($modPemeriksaanFisik,'pernapasan',array('class'=>'control-label'));?>
+                    <div class="controls">
+                             <?php echo $form->textField($modPemeriksaanFisik,'pernapasan',array('class'=>'span2 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>2));?>
+                     /Menit
+                    </div>
+            </div>
+            <div class="control-group ">
+                    <?php echo $form->LabelEx($modPemeriksaanFisik,'suhutubuh',array('class'=>'control-label'));?>
+                    <div class="controls">
+                             <?php echo $form->textField($modPemeriksaanFisik,'suhutubuh',array('class'=>'span2 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>2));?>
+                     &#176 Celcius
+                    </div>
+            </div>
+            <div class="control-group ">
+                    <?php echo CHtml::Label('Tinggi Badan / Berat Badan','',array('class'=>'control-label'));?>
+                    <div class="controls">
+                            <div class="groupUkurans">
+                                    <?php echo $form->textField($modPemeriksaanFisik,'tinggibadan_cm',array('class'=>'span1 numbersOnly tinggibadan', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>3,'size'=>3));?>
+                                    <?php echo $form->hiddenField($modPemeriksaanFisik,'tinggibadan_cm',array('class'=>'span1 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>3,'size'=>3));?>
+                                    <?php echo CHtml::dropDownList('meter', '100', array('100'=>'Cm', '0.01'=>'M'), array('style'=>'width:50px;','class'=>'span1', 'onchange'=>'gantiJumlah(this)')); ?>
+                            </div>
+                            <div class="groupUkurans">
+                             <?php echo $form->textField($modPemeriksaanFisik,'beratbadan_kg',array('class'=>'span1 numbersOnly beratbadan', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10,'size'=>3));?>
+                             <?php echo $form->hiddenField($modPemeriksaanFisik,'beratbadan_kg',array('class'=>'span1 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10,'size'=>3));?>
+                             <?php echo CHtml::dropDownList('gram', '0.001', array('1000'=>'Gr', '0.001'=>'Kg'), array('class'=>'span1', 'onchange'=>'gantiJumlah(this)')); ?>
+                            </div>
+                    </div>
+            </div>
+            <div class="control-group ">
+                    <?php echo $form->LabelEx($modPemeriksaanFisik,'bb_ideal',array('class'=>'control-label'));?>
+                    <div class="controls">
+                             <?php echo $form->textField($modPemeriksaanFisik,'bb_ideal',array('class'=>'span2 integer numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10, 'readonly'=>true)).' ';?>Kg
+                    </div>
+            </div>
+            <div class="control-group ">
+                    <label class='control-label'>Index Masa Tubuh</label>
+                    <div class="controls">
+                             <?php echo CHtml::textField('imtValue', '', array('readonly'=>true, 'class'=>'span1'));?>
+                             <?php echo CHtml::textField('imt', '', array('readonly'=>true, 'class'=>'span2'));?>
+                    </div>
+            </div>
+
+            <?php echo $form->textFieldRow($modPemeriksaanFisik,'kelainanpadabagtubuh',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30)); ?>
+        </fieldset>
     </div>
     <div class="span4">
-        <fieldset class="box">
-            <legend class="rim">Glasgow Coma Scale 
-                    <?php echo CHtml::link('<i class="icon-chevron-right icon-white" style="cursor:pointer;"></i>', '', array('onclick'=>"$('#dialogGCS').dialog('open')", 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-
+        <fieldset class='box'>
+            <legend class="rim">Glasgow Coma Scale
+                    <?php echo CHtml::link('<i class="icon-chevron-right" style="cursor:pointer;"></i>', '', array('onclick'=>"$('#dialogGCS').dialog('open')", 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
             </legend>
             <div id="divGlowComoScale" style="display: block">
-                <?php // echo  CHtml::button('Gunakan Metode GCS',array('class'=>'btn btn-info','onclick'=>"$('#dialogGCS').dialog('open')", 'onkeypress'=>"return $(this).focusNextInputField(event);"));?>
-                <div class="control-group ">
-                        <?php echo $form->labelEx($modPemeriksaanFisik,'gcs_eye', array('class'=>'control-label')) ?>
-                        <div class="controls">
-                                <?php $crit = new CDbCriteria();
-                                        $crit->compare('LOWER(metodegcs_singkatan)',"e");
-                                        $crit->addCondition('metodegcs_nilai is not null');
-                                        $crit->order = 'metodegcs_nilai ASC';
-                                         echo $form->dropDownList($modPemeriksaanFisik,'gcs_eye',  
-                                                        CHtml::listData(RIMetodeGCSM::model()->findAll($crit), 'metodegcs_nilai', 'textMetodeGCSM'),array('empty'=>'-- Pilih --', 'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);",'onchange'=>'hitungCGS()')); ?>
-                        </div>
-                </div>
-                <div class="control-group ">
-                        <?php echo $form->labelEx($modPemeriksaanFisik,'gcs_verbal', array('class'=>'control-label')) ?>
-                        <div class="controls">
-                                <?php 
-                                $crit3 = new CDbCriteria();
-                                $crit3->compare('LOWER(metodegcs_singkatan)',"v");
-                                $crit3->addCondition('metodegcs_nilai is not null');
-                                $crit3->order = 'metodegcs_nilai ASC';
-                                echo $form->dropDownList($modPemeriksaanFisik,'gcs_verbal',
-                                                CHtml::listData(RIMetodeGCSM::model()->findAll($crit3), 'metodegcs_nilai', 'textMetodeGCSM'),array('empty'=>'-- Pilih --', 'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);",'onchange'=>'hitungCGS()')); ?>
-                        </div>
-                </div>
-                <div class="control-group ">
-                        <?php echo $form->labelEx($modPemeriksaanFisik,'gcs_motorik', array('class'=>'control-label')) ?>
-                        <div class="controls">
-                                <?php 
-                                $crit2 = new CDbCriteria();
-                                $crit2->compare('LOWER(metodegcs_singkatan)',"m");
-                                $crit2->addCondition('metodegcs_nilai is not null');
-                                $crit2->order = 'metodegcs_nilai ASC';
-                                echo $form->dropDownList($modPemeriksaanFisik,'gcs_motorik',
-                                                CHtml::listData(RIMetodeGCSM::model()->findAll($crit2), 'metodegcs_nilai', 'textMetodeGCSM'),array('empty'=>'-- Pilih --', 'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);",'onchange'=>'hitungCGS()')); ?>
-                        </div>
-                </div>
-                <div class="control-group ">
-                        <?php echo $form->labelEx($modPemeriksaanFisik,'namaGCS', array('class'=>'control-label')) ?>
-                        <div class="controls">
-                                <?php echo $form->hiddenField($modPemeriksaanFisik,'gcs_id',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10)); ?>
-                                <?php echo CHtml::textField('namaGCS',(isset($modPemeriksaanFisik->gcs->gcs_nama) ? $modPemeriksaanFisik->gcs->gcs_nama : "-"),array('disabled'=>true,'class'=>'span2')); ?>
-                        </div>
-                </div>
-                <?php  $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+                    <?php // echo  CHtml::button('Gunakan Metode GCS',array('class'=>'btn btn-info','onclick'=>"$('#dialogGCS').dialog('open')", 'onkeypress'=>"return $(this).focusNextInputField(event);"));?>
+                            <div class="control-group ">
+                                    <?php echo $form->labelEx($modPemeriksaanFisik,'gcs_eye', array('class'=>'control-label')) ?>
+                                    <div class="controls">
+                                            <?php $crit = new CDbCriteria();
+                                                    $crit->compare('LOWER(metodegcs_singkatan)',"e");
+                                                    $crit->addCondition('metodegcs_nilai is not null');
+                                                    $crit->order = 'metodegcs_nilai ASC';
+                                                     echo $form->dropDownList($modPemeriksaanFisik,'gcs_eye',  
+                                                                    CHtml::listData(RJMetodeGCSM::model()->findAll($crit), 'metodegcs_nilai', 'textMetodeGCSM'),array('empty'=>'-- Pilih --', 'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);",'onchange'=>'hitungCGS()')); ?>
+                                    </div>
+                            </div>
+                            <div class="control-group ">
+                                    <?php echo $form->labelEx($modPemeriksaanFisik,'gcs_verbal', array('class'=>'control-label')) ?>
+                                    <div class="controls">
+                                            <?php 
+                                            $crit3 = new CDbCriteria();
+                                            $crit3->compare('LOWER(metodegcs_singkatan)',"v");
+                                            $crit3->addCondition('metodegcs_nilai is not null');
+                                            $crit3->order = 'metodegcs_nilai ASC';
+                                            echo $form->dropDownList($modPemeriksaanFisik,'gcs_verbal',
+                                                            CHtml::listData(RJMetodeGCSM::model()->findAll($crit3), 'metodegcs_nilai', 'textMetodeGCSM'),array('empty'=>'-- Pilih --', 'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);",'onchange'=>'hitungCGS()')); ?>
+                                    </div>
+                            </div>
+                            <div class="control-group ">
+                                    <?php echo $form->labelEx($modPemeriksaanFisik,'gcs_motorik', array('class'=>'control-label')) ?>
+                                    <div class="controls">
+                                            <?php 
+                                            $crit2 = new CDbCriteria();
+                                            $crit2->compare('LOWER(metodegcs_singkatan)',"m");
+                                            $crit2->addCondition('metodegcs_nilai is not null');
+                                            $crit2->order = 'metodegcs_nilai ASC';
+                                            echo $form->dropDownList($modPemeriksaanFisik,'gcs_motorik',
+                                                            CHtml::listData(RJMetodeGCSM::model()->findAll($crit2), 'metodegcs_nilai', 'textMetodeGCSM'),array('empty'=>'-- Pilih --', 'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);",'onchange'=>'hitungCGS()')); ?>
+                                    </div>
+                            </div>
+                            <div class="control-group ">
+                                    <?php echo $form->labelEx($modPemeriksaanFisik,'namaGCS', array('class'=>'control-label')) ?>
+                                    <div class="controls">
+                                            <?php echo $form->hiddenField($modPemeriksaanFisik,'gcs_id',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10)); ?>
+                                            <?php // echo CHtml::textField('namaGCS',(isset($modPemeriksaanFisik->gcs->gcs_nama) ? $modPemeriksaanFisik->gcs->gcs_nama : "-"),array('disabled'=>true,'class'=>'span1')); ?>
+                                            <?php echo $form->textField($modPemeriksaanFisik,'namaGCS',array('class'=>'span1 integer numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);",'readonly'=>true)).' ';?>
+                                    </div>
+                            </div>
+
+            <?php  $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
                     'id'=>'dialogGCS',
                     'options'=>array(
                             'title'=>'',
@@ -407,16 +409,17 @@ $this->widget('bootstrap.widgets.BootAlert');
                             //'hide'=>'explode',
                             'resizelable'=>false,
                     ),
-                ));
-                ?>       
-                <table>
-                    <?php foreach ($modRIMetodeGSCM AS $i=>$item):
-                        if($item->metodegcs_nilai==''){
+            ));
+
+            ?>       
+            <table>
+            <?php foreach ($modRJMetodeGSCM AS $i=>$item):
+                    if($item->metodegcs_nilai==''){
                             echo "<tr bgcolor='#E5ECF9'>
                                             <td>".$item->metodegcs_nama."</td>
                                             <td>&nbsp;</td>    
                                       </tr>";
-                        }else{
+                    }else{
                               echo "<tr>
                                             <td>".$item->metodegcs_nama."</td>
                                             <td><div id=\"divTombol\">".CHtml::button($item->metodegcs_nilai,array('class'=>'btn btn-prymari',
@@ -424,10 +427,30 @@ $this->widget('bootstrap.widgets.BootAlert');
                                                                                                                                              'id'=>$item->metodegcs_singkatan,
                                                                                                                                              ))."</div></td>    
                                       </tr>";
-                        }
+                    }
                     endforeach;?>
-                </table>
-                <?php $this->endWidget();?>
+            </table>
+            <?php $this->endWidget();?>
+
+            </div>
+        </fieldset>
+    </div>
+    <div class="span4">
+        <fieldset class='box'>
+            <legend class="rim">Tanda Vital Janin</legend>
+            <div id="divJanin" style="display: block">
+                <div class="control-group ">
+                        <?php echo $form->labelEx($modPemeriksaanFisik,'denyutjantung_janin', array('class'=>'control-label')) ?>
+                        <div class="controls">
+                                <?php echo $form->textField($modPemeriksaanFisik, 'denyutjantung_janin', array('class'=>'span2 numbersOnly', 'style'=>'text-align: right;')); ?> /menit
+                        </div>
+                </div>
+                <div class="control-group ">
+                        <?php echo $form->labelEx($modPemeriksaanFisik,'tinggifundus_uteri', array('class'=>'control-label')) ?>
+                        <div class="controls">
+                                <?php echo $form->textField($modPemeriksaanFisik, 'tinggifundus_uteri', array('class'=>'span2 numbersOnly', 'style'=>'text-align: right;')); ?> cm
+                        </div>
+                </div>
             </div>
         </fieldset>
     </div>
@@ -436,72 +459,72 @@ $this->widget('bootstrap.widgets.BootAlert');
 <!--		<?php // echo CHtml::checkBox('pemeriksaanFisik',false, array('onkeypress'=>"return $(this).focusNextInputField(event)")) ?> Pemeriksaan Anggota Tubuh-->
 <!--</legend>-->
 <!--<div id="divBagianYAngDiperiksa" class="" style="display: none">-->
-<fieldset class="box">
+<fieldset class='box'>
     <legend class="rim">Pemeriksaan Anggota Tubuh</legend>
     <div class="row-fluid">
-        <div class="span7 box">
-                <div align="center" id="imgtag">
-                        <img id="myImgId" src="<?php echo Params::urlPhotoAnatomiTubuh().$modGambarTubuh->FileNameGambar; ?>" class="taggd"/> 
-                <div id="tagbox"></div>
-                </div>
-        </div>
-        <div class="span1">
-                &nbsp;
-        </div>
-        <div class="span5">
-            <div class="block-tabel">
-                <h6>Tabel <b>Pemeriksaan</b></h6>
-                <table class="items table table-striped table-condensed" id="table-bagtubuh">
-                        <thead>
-                                <tr>
-                                        <th  width='30'>No.</th>
-                                        <th  width='120'>Tanggal Pemeriksaan</th>
-                                        <th>Bagian Tubuh</th>
-                                        <th>Keterangan</th>
-                                        <th  width='80'>Batal / Hapus</th>
-                                </tr>
-                        </thead>
-                        <tbody>
-                                <?php
-                                        $format = new MyFormatter();
-                                        if(!empty($modPemeriksaanGambar)){
-                                                foreach($modPemeriksaanGambar as $ii => $vv){?>
-                                                        <tr>
-                                                                <td><center><?= $ii+1; ?></center></td>
-                                                                <td><?= $format->formatDateTimeForUser($vv->tglpemeriksaan); ?></td>
-                                                                <td>
-                                                                        <?= $vv->bagiantubuh->namabagtubuh; ?>
-                                                                        <?php echo CHtml::HiddenField('bagiantubuh_id', $vv->bagiantubuh_id,array('style'=>'width:50px;', 'class'=>'integer')); ?>
-                                                                        <?php echo CHtml::HiddenField('pemeriksaangambar_id', $vv->pemeriksaangambar_id,array('style'=>'width:50px;', 'class'=>'integer')); ?>
-                                                                        <?php echo CHtml::HiddenField('kordinat_tubuh_x', $vv->kordinat_tubuh_x,array('style'=>'width:50px;', 'class'=>'integer')); ?>
-                                                                        <?php echo CHtml::HiddenField('kordinat_tubuh_y', $vv->kordinat_tubuh_y,array('style'=>'width:50px;', 'class'=>'integer')); ?>
-                                                                </td>
-                                                                <td><?= $vv->keterangan_periksa_gbr; ?></td>
-                                                                <td><a onclick="hapusBagianTubuh(this);return false;" rel="tooltip" href="javascript:void(0);" title="Klik untuk membatalkan pemilihan pemeriksaan ini"><i class="icon-form-sampah"></i></a></td>
-                                                        </tr>
-                                                <?php }
-                                        }
-                                ?>
-                        </tbody>
-                </table>
+            <div class="span7 box2">
+                    <div align="center" id="imgtag">
+                            <img id="myImgId" src="<?php echo Params::urlPhotoAnatomiTubuh().$modGambarTubuh->FileNameGambar; ?>" class="taggd"/> 
+                    <div id="tagbox"></div>
+                    </div>
             </div>
-        </div>
-        <?php // echo $form->textAreaRow($modPemeriksaanFisik,'kepala',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-        <?php // echo $form->textAreaRow($modPemeriksaanFisik,'mata',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-        <?php // echo $form->textAreaRow($modPemeriksaanFisik,'hidung',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-        <?php // echo $form->textAreaRow($modPemeriksaanFisik,'telinga',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-        <?php // echo $form->textAreaRow($modPemeriksaanFisik,'tenggorokan',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-        <?php // echo $form->textAreaRow($modPemeriksaanFisik,'leher',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-        <?php // echo $form->textAreaRow($modPemeriksaanFisik,'jantung',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-        <?php // echo $form->textAreaRow($modPemeriksaanFisik,'payudara',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-        <?php // echo $form->textAreaRow($modPemeriksaanFisik,'abdomen',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-        <?php // echo $form->textAreaRow($modPemeriksaanFisik,'kulit',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+            <div class="span1">
+                    &nbsp;
+            </div>
+            <div class="span4">
+                <div class='block-tabel'>
+                    <h6>Tabel <b>Pemeriksaan</b></h6>
+                    <table class="items table table-striped table-condensed" id="table-bagtubuh">
+                            <thead>
+                                    <tr>
+                                            <th  width='30'>No.</th>
+                                            <th>Bagian Tubuh</th>
+                                            <th>Keterangan</th>
+                                            <th  width='80'>Batal / Hapus</th>
+                                    </tr>
+                            </thead>
+                            <tbody>
+                                    <?php
+                                            if(!empty($modPemeriksaanGambar)){
+                                                    foreach($modPemeriksaanGambar as $ii => $vv){?>
+                                                            <tr>
+                                                                    <td><center><?= $ii+1; ?></center></td>
+                                                                    <td>
+                                                                            <?= $vv->
+                                                                                    bagiantubuh->
+                                                                                    namabagtubuh; ?>
+                                                                            <?php echo CHtml::HiddenField('bagiantubuh_id', $vv->bagiantubuh_id,array('style'=>'width:50px;', 'class'=>'integer')); ?>
+                                                                            <?php echo CHtml::HiddenField('pemeriksaangambar_id', $vv->pemeriksaangambar_id,array('style'=>'width:50px;', 'class'=>'integer')); ?>
+                                                                            <?php echo CHtml::HiddenField('kordinat_tubuh_x', $vv->kordinat_tubuh_x,array('style'=>'width:50px;', 'class'=>'integer')); ?>
+                                                                            <?php echo CHtml::HiddenField('kordinat_tubuh_y', $vv->kordinat_tubuh_y,array('style'=>'width:50px;', 'class'=>'integer')); ?>
+                                                                    </td>
+                                                                    <td><?= $vv->keterangan_periksa_gbr; ?></td>
+                                                                    <td><center><a onclick="hapusBagianTubuh(this);return false;" rel="tooltip" href="javascript:void(0);" title="Klik untuk membatalkan pemilihan pemeriksaan ini"><i class="icon-trash"></i></a></center></td>
+                                                            </tr>
+                                                    <?php }
+                                            }
+                                    ?>
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+            <?php // echo $form->textAreaRow($modPemeriksaanFisik,'kepala',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+            <?php // echo $form->textAreaRow($modPemeriksaanFisik,'mata',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+            <?php // echo $form->textAreaRow($modPemeriksaanFisik,'hidung',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+            <?php // echo $form->textAreaRow($modPemeriksaanFisik,'telinga',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+            <?php // echo $form->textAreaRow($modPemeriksaanFisik,'tenggorokan',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+            <?php // echo $form->textAreaRow($modPemeriksaanFisik,'leher',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+            <?php // echo $form->textAreaRow($modPemeriksaanFisik,'jantung',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+            <?php // echo $form->textAreaRow($modPemeriksaanFisik,'payudara',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+            <?php // echo $form->textAreaRow($modPemeriksaanFisik,'abdomen',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+            <?php // echo $form->textAreaRow($modPemeriksaanFisik,'kulit',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+    <br>
     </div>
 </fieldset>
 <!--</div>-->
 <div class="row-fluid">
     <div class="span3">
-        <fieldset class="box">
+        <fieldset class='box'>
             <legend class="rim">Jalan Nafas</legend><br>
             <div class="control-group ">
                     <?php echo $form->labelEx($modPemeriksaanFisik,'jn_paten', array('class'=>'control-label')) ?>
@@ -536,7 +559,7 @@ $this->widget('bootstrap.widgets.BootAlert');
         </fieldset>
     </div>
     <div class="span3">
-        <fieldset class="box">
+        <fieldset class='box'>
             <legend class="rim">Pernafasan </legend><br>
             <div class="control-group ">
                     <?php echo $form->labelEx($modPemeriksaanFisik,'pgp_normal', array('class'=>'control-label')) ?>
@@ -569,7 +592,7 @@ $this->widget('bootstrap.widgets.BootAlert');
                     </div>
             </div>
         </fieldset>
-        <fieldset class="box">
+        <fieldset class='box'>
             <legend class="rim">Pernafasan Gerakan Dada</legend><br>
             <div class="control-group ">
                     <?php echo $form->labelEx($modPemeriksaanFisik,'pgd_simetri', array('class'=>'control-label')) ?>
@@ -585,89 +608,81 @@ $this->widget('bootstrap.widgets.BootAlert');
             </div>
         </fieldset>
     </div>
-    <div class="span6" style="width:53.17%">
-        <fieldset class="box">
-            <legend class="rim">Sirkulasi </legend>
-            <table width="100%">
-                <tr>
-                    <td>
-                        <div class="control-group ">
-                                <?php echo $form->labelEx($modPemeriksaanFisik,'sirkulasi_nadicarotis', array('class'=>'control-label')) ?>
-                                <div class="controls">
-                                        <?php echo $form->textField($modPemeriksaanFisik,'sirkulasi_nadicarotis',array('class'=>'span1 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>3, 'onkeyup'=>'returnValue(this)'));?> x/Menit
-                                </div>
-                        </div>
-                        <div class="control-group ">
-                                <?php echo $form->labelEx($modPemeriksaanFisik,'sirkulasi_nadiradialis', array('class'=>'control-label')) ?>
-                                <div class="controls">
-                                        <?php echo $form->textField($modPemeriksaanFisik,'sirkulasi_nadiradialis',array('class'=>'span1 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>3, 'onkeyup'=>'returnValue(this)'));?> x/Menit
-                                </div>
-                        </div>
-                        <div class="control-group ">
-                                <?php echo $form->labelEx($modPemeriksaanFisik,'cfr_kecil_2', array('class'=>'control-label')) ?>
-                                <div class="controls">
-                                        <?php echo $form->checkBox($modPemeriksaanFisik,'cfr_kecil_2', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-                                        <= 2
-                                </div>
-                        </div>
-                        <div class="control-group ">
-                                <?php echo $form->labelEx($modPemeriksaanFisik,'cfr_besar_2', array('class'=>'control-label')) ?>
-                                <div class="controls">
-                                        <?php echo $form->checkBox($modPemeriksaanFisik,'cfr_besar_2', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-                                        >= 2
-                                </div>
-                        </div>
-                        <div class="control-group ">
-                                <?php echo $form->labelEx($modPemeriksaanFisik,'kulit_normal', array('class'=>'control-label')) ?>
-                                <div class="controls">
-                                        <?php echo $form->checkBox($modPemeriksaanFisik,'kulit_normal', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-                                </div>
-                        </div>
-                        <div class="control-group ">
-                                <?php echo $form->labelEx($modPemeriksaanFisik,'kulit_jaundice', array('class'=>'control-label')) ?>
-                                <div class="controls">
-                                        <?php echo $form->checkBox($modPemeriksaanFisik,'kulit_jaundice', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-                                </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="control-group ">
-                                <?php echo $form->labelEx($modPemeriksaanFisik,'kulit_cyanosis', array('class'=>'control-label')) ?>
-                                <div class="controls">
-                                        <?php echo $form->checkBox($modPemeriksaanFisik,'kulit_cyanosis', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-                                </div>
-                        </div>
-                        <div class="control-group ">
-                                <?php echo $form->labelEx($modPemeriksaanFisik,'kulit_pucat', array('class'=>'control-label')) ?>
-                                <div class="controls">
-                                        <?php echo $form->checkBox($modPemeriksaanFisik,'kulit_pucat', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-                                </div>
-                        </div>
-                        <div class="control-group ">
-                                <?php echo $form->labelEx($modPemeriksaanFisik,'kulit_berkeringat', array('class'=>'control-label')) ?>
-                                <div class="controls">
-                                        <?php echo $form->checkBox($modPemeriksaanFisik,'kulit_berkeringat', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-                                </div>
-                        </div>
-                        <div class="control-group ">
-                                <?php echo $form->labelEx($modPemeriksaanFisik,'akral', array('class'=>'control-label')) ?>
-                                <div class="controls">
-                                        <?php echo $form->textArea($modPemeriksaanFisik,'akral',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-                                </div>
-                        </div>
-                    </td>
-                </tr>
-            </table>  
+    <div class="span6">
+        <fieldset class='box'>
+            <legend class="rim">Sirkulasi</legend>
+            <div class="control-group ">
+                    <?php echo $form->labelEx($modPemeriksaanFisik,'sirkulasi_nadicarotis', array('class'=>'control-label')) ?>
+                    <div class="controls">
+                            <?php echo $form->textField($modPemeriksaanFisik,'sirkulasi_nadicarotis',array('class'=>'span1 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>3, 'onkeyup'=>'returnValue(this)'));?> x/Menit
+                    </div>
+            </div>
+            <div class="control-group ">
+                    <?php echo $form->labelEx($modPemeriksaanFisik,'sirkulasi_nadiradialis', array('class'=>'control-label')) ?>
+                    <div class="controls">
+                            <?php echo $form->textField($modPemeriksaanFisik,'sirkulasi_nadiradialis',array('class'=>'span1 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>3, 'onkeyup'=>'returnValue(this)'));?> x/Menit
+                    </div>
+            </div>
+            <div class="control-group ">
+                    <?php echo $form->labelEx($modPemeriksaanFisik,'cfr_kecil_2', array('class'=>'control-label')) ?>
+                    <div class="controls">
+                            <?php echo $form->checkBox($modPemeriksaanFisik,'cfr_kecil_2', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                            <= 2
+                    </div>
+            </div>
+            <div class="control-group ">
+                    <?php echo $form->labelEx($modPemeriksaanFisik,'cfr_besar_2', array('class'=>'control-label')) ?>
+                    <div class="controls">
+                            <?php echo $form->checkBox($modPemeriksaanFisik,'cfr_besar_2', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                            >= 2
+                    </div>
+            </div>
+            <div class="control-group ">
+                    <?php echo $form->labelEx($modPemeriksaanFisik,'kulit_normal', array('class'=>'control-label')) ?>
+                    <div class="controls">
+                            <?php echo $form->checkBox($modPemeriksaanFisik,'kulit_normal', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                    </div>
+            </div>
+            <div class="control-group ">
+                    <?php echo $form->labelEx($modPemeriksaanFisik,'kulit_jaundice', array('class'=>'control-label')) ?>
+                    <div class="controls">
+                            <?php echo $form->checkBox($modPemeriksaanFisik,'kulit_jaundice', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                    </div>
+            </div>
+            <div class="control-group ">
+                    <?php echo $form->labelEx($modPemeriksaanFisik,'kulit_cyanosis', array('class'=>'control-label')) ?>
+                    <div class="controls">
+                            <?php echo $form->checkBox($modPemeriksaanFisik,'kulit_cyanosis', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                    </div>
+            </div>
+            <div class="control-group ">
+                    <?php echo $form->labelEx($modPemeriksaanFisik,'kulit_pucat', array('class'=>'control-label')) ?>
+                    <div class="controls">
+                            <?php echo $form->checkBox($modPemeriksaanFisik,'kulit_pucat', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                    </div>
+            </div>
+            <div class="control-group ">
+                    <?php echo $form->labelEx($modPemeriksaanFisik,'kulit_berkeringat', array('class'=>'control-label')) ?>
+                    <div class="controls">
+                            <?php echo $form->checkBox($modPemeriksaanFisik,'kulit_berkeringat', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                    </div>
+            </div>
+            <div class="control-group ">
+                    <?php echo $form->labelEx($modPemeriksaanFisik,'akral', array('class'=>'control-label')) ?>
+                    <div class="controls">
+                            <?php echo $form->textArea($modPemeriksaanFisik,'akral',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                    </div>
+            </div>
         </fieldset>
     </div>
 </div>
 <div class="form-actions">
-	<?php
-        if(!isset($_GET['sukses'])){
-			echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit', 'onKeypress'=>'return formSubmit(this,event)','id'=>'btn_simpan')).'&nbsp;';
+    <?php echo CHtml::htmlButton($modPemeriksaanFisik->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 
+            Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),
+            array('class'=>'btn btn-primary', 'type'=>'submit', 'onKeypress'=>'return formSubmit(this,event)','id'=>'btn_simpan')).'&nbsp;'; 
+        if($modPemeriksaanFisik->isNewRecord){
             echo CHtml::link(Yii::t('mds', '{icon} Print Pemeriksaan Fisik', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('rel'=>'tooltip','title'=>'Tombol akan aktif setelah data tersimpan','class'=>'btn btn-info','onclick'=>"return false",'disabled'=>true, 'style'=>'cursor:not-allowed;'));
         }else{
-			echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button', 'onKeypress'=>'return formSubmit(this,event)','disabled'=>TRUE)).'&nbsp;';
             echo CHtml::link(Yii::t('mds', '{icon} Print Pemeriksaan Fisik', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"printPemeriksaanFisik();return false",'disabled'=>FALSE  ));
         }
 
@@ -697,7 +712,7 @@ $js = <<< JS
 //    change($(this));
 //});
 
-   $('#namaGCS').attr('value','Hasil Metode GCS');
+   $('#namaGCS').attr('value',' - ');
 
 $('#pemeriksaanFisik').attr('checked',true);
 $('#divBagianYAngDiperiksa').slideToggle(500);
@@ -819,8 +834,7 @@ function hitungCGS()
         $.post("${urlgetMetodeGCS}",{gcs_eye: gcs_eye,gcs_motorik:gcs_motorik,gcs_verbal:gcs_verbal},
         function(data){
                if(data.pesan==null){
-                 $('#RJPemeriksaanFisikT_gcs_id').val(data.idGCS);
-                 $('#namaGCS').val(data.namaGCS);
+                 $('#RJPemeriksaanFisikT_namaGCS').val(data);
                }else{
                     myAlert(data.pesan);
                }    
@@ -987,7 +1001,7 @@ $(this).val(orignalValue);
 JS;
 Yii::app()->clientScript->registerScript('numberOnly',$js,CClientScript::POS_READY);
 ?> 
-<?php echo $this->renderPartial('_jsFunctions', array(
+<?php echo $this->renderPartial($this->path_view.'_jsFunctions', array(
 																'modPendaftaran'=>$modPendaftaran,
 																'modPemeriksaanFisik'=>$modPemeriksaanFisik,
 																'modBagianTubuh'=>$modBagianTubuh,
