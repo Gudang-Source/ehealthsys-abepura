@@ -5,7 +5,7 @@
             <tr>
                 <th>Jenis Operasi</th>
                 <th>Operasi</th>
-                <th>Tarif</th>
+                <!--th>Tarif</th-->
                 <th>Jumlah</th>
             </tr>
         </thead>
