@@ -20,6 +20,7 @@ class PendaftaranRawatInapController extends PendaftaranRawatJalanController
         public $masukkamartersimpan = false;
         public $admisitersimpan = false;
         public $asuransipasientersimpan = false;
+        public $langsung = true;
         
 	/**
 	 * Index transaksi pendaftaran
