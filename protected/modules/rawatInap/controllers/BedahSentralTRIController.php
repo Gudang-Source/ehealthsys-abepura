@@ -135,6 +135,8 @@ class BedahSentralTRIController extends MyAuthController
                 $jenistarif = JenistarifpenjaminM::model()->find('penjamin_id ='.$modPasienAdmisi->penjamin_id)->jenistarif_id;
                 $modOperasi = OperasiM::model()->with('kegiatanoperasi')->findByPk($operasi_id);
                 
+                // var_dump($modOperasi->attributes); die;
+                
                 $criteria = new CDbCriteria();
                 $criteria->addCondition('daftartindakan_id ='.$modOperasi->daftartindakan_id);
                 $criteria->addCondition('kelaspelayanan_id ='.$kelaspelayanan_id);
@@ -149,7 +151,8 @@ class BedahSentralTRIController extends MyAuthController
 //                                                                            'kelaspelayanan_id'=>$kelaspelayanan_id,
 //                                                                            'jenistarif_id'=>$jenistarif,
 //                                                                            'komponentarif_id'=>Params::KOMPONENTARIF_ID_TOTAL));
-
+                
+                
                 echo CJSON::encode(array(
                     'status'=>'create_form', 
                     'form'=>$this->renderPartial('_formLoadPermintaanOperasi', array('modOperasi'=>$modOperasi,
