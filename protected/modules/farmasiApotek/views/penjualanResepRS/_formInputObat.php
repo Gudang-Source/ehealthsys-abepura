@@ -1,4 +1,4 @@
-<fieldset class="box"  id="form-nonracikan formjenisresep">
+<fieldset class="box formjenisresep"  id="form-nonracikan">
     <legend class="rim-a">Data Obat (Non Racikan) <?php echo CHtml::htmlButton('<i class="icon-refresh icon-white"></i>', array('class' => 'btn btn-danger btn-mini', 'onclick' => 'terapiobat_reset();', 'onkeyup' => "return $(this).focusNextInputField(event)", 'rel' => 'tooltip', 'title' => 'Klik untuk me-refresh form obat non racik')); ?></legend>
     <div class="row-fluid">
         <?php echo CHtml::hiddenField('therapiobat_id', '', array('readonly' => true)) ?>
@@ -113,7 +113,7 @@
                 </div>
     </div>
 </fieldset>
-<fieldset class="box" id="form-racikan" >
+<fieldset class="box formjenisresep" id="form-racikan" >
                         <legend class="rim">Data Obat (Racikan)</legend>
                         <div id="formanak">
                                 <div class="control-group " >

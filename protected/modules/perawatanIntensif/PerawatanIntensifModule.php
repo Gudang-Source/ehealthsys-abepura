@@ -2,7 +2,7 @@
 
 class PerawatanIntensifModule extends CWebModule
 {
-    public $defaultController = 'default';
+    public $defaultController = 'moduleDashboardRI';
 
     public $kelompokMenu = array();
     public $menu = array();
@@ -16,6 +16,8 @@ class PerawatanIntensifModule extends CWebModule
 		$this->setImport(array(
 			'perawatanIntensif.models.*',
 			'perawatanIntensif.components.*',
+                        'rawatInap.models.*',
+			'rawatInap.components.*',
 		));
                 
             if(!empty($_REQUEST['modul_id']))

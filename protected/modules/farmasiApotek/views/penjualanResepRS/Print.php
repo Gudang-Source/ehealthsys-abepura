@@ -73,7 +73,7 @@ if (!isset($_GET['frame'])){
             <th style="text-align: center;">Kode / Nama Obat</th>
             <th style="text-align: center;">Etiket</th>
             <th style="text-align: center;">Signa</th>
-            <th style="text-align: center;">Satuan Kecil</th>
+            <!--th style="text-align: center;">Satuan Kecil</th-->
             <th style="text-align: center;">Jumlah</th>
             <th style="text-align: center;">Harga Satuan</th>  
             <!--<th style="text-align: center;">Diskon (%)</th>-->
@@ -92,8 +92,8 @@ if (!isset($_GET['frame'])){
                 <td><?php echo (!empty($modObat->obatalkes->obatalkes_kode) ? $modObat->obatalkes->obatalkes_kode."/ " : "") ."". $modObat->obatalkes->obatalkes_nama; ?></td>
                 <td><?php echo (!empty($modObat->etiket) ? $modObat->etiket : ""); ?></td>
                 <td><?php echo (!empty($modObat->signa_oa) ? $modObat->signa_oa : ""); ?></td>
-                <td><?php echo $modObat->satuankecil->satuankecil_nama; ?></td>
-                <td align="right"><?php echo $modObat->qty_oa; ?></td>
+                <!--td><?php echo $modObat->satuankecil->satuankecil_nama; ?></td-->
+                <td align="right"><?php echo $modObat->qty_oa." ".$modObat->satuankecil->satuankecil_nama; ?></td>
                 <td align="right"><?php echo $format->formatUang($modObat->hargasatuan_oa); ?></td>
                 <!--<td align="right"><?php // echo $modObat->discount; ?></td>-->
                 <td align="right"><?php 
@@ -109,7 +109,7 @@ if (!isset($_GET['frame'])){
         <?php } ?>
         <tfoot class="border">
             <tr>
-                <td colspan="10" align="center"><strong>Total</strong></td>
+                <td colspan="9" align="center"><strong>Total</strong></td>
                 <td align="right"><?php echo $format->formatUang($total); ?></td>
             </tr>
         </tfoot>
