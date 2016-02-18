@@ -52,9 +52,6 @@ class BedahSentralTRIController extends MyAuthController
                             // array('instalasi_id'=>Params::INSTALASI_ID_FARMASI, 'ruangan_id'=>Params::RUANGAN_ID_APOTEK_RJ, 'modul_id'=>10),
                             array('instalasi_id'=>Params::INSTALASI_ID_KASIR, 'ruangan_id'=>Params::RUANGAN_ID_KASIR, 'modul_id'=>19),
                         ));
-                        if($this->statusSaveKirimkeUnitLain && $this->statusSavePermintaanPenunjang){
-
-                    
                     if($this->statusSaveKirimkeUnitLain && $this->statusSavePermintaanPenunjang){
                         $transaction->commit();
                         Yii::app()->user->setFlash('success',"Data Berhasil disimpan");
