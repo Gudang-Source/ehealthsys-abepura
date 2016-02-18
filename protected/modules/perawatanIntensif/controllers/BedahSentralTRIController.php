@@ -39,7 +39,7 @@ class BedahSentralTRIController extends MyAuthController
                         $this->statusSavePermintaanPenunjang = true;
                     }
                     
-                    $judul = 'Pasien Rawat Inap Rujuk ke Bedah Sentral';
+                    $judul = 'Pasien Rawat Intensif Rujuk ke Bedah Sentral';
 
                         $isi = $modPasien->no_rekam_medik.' - '.$modPasien->nama_pasien;
                         $mr = RuanganM::model()->findByPk($modKirimKeUnitLain->ruangan_id);
