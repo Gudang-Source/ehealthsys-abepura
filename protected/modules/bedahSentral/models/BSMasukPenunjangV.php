@@ -267,7 +267,7 @@ class BSMasukPenunjangV extends PasienmasukpenunjangV
         public function getKamarKosongItems($ruangan_id = '')
         {
             if(!empty($ruangan_id))
-                return $kamarKosong = KamarruanganM::model()->findAllByAttributes(array('ruangan_id'=>$ruangan_id,'kamarruangan_status'=>true));
+                return $kamarKosong = KamarruanganM::model()->findAllByAttributes(array('ruangan_id'=>$ruangan_id,'kamarruangan_status'=>true, 'kamarruangan_aktif'=>true));
             else
                 return array();
         }
