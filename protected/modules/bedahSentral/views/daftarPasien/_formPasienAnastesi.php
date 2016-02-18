@@ -38,7 +38,7 @@
 //        DIPINDAHKAN KE TABEL GRID BAWAH
 //        echo $form->dropDownListRow($modAnastesi,'typeanastesi_id', array() ,array('disabled'=>true,'empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",)); ?>
         
-        <?php echo $form->dropDownListRow($modAnastesi,'dokteranastesi_id', CHtml::listData($modPenunjang->getDokterItems(Params::RUANGAN_ID_BEDAH), 'pegawai_id', 'nama_pegawai') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",'value'=>$modRencanaOperasiAttrib->dokteranastesi_id)); ?>
+        <?php echo $form->dropDownListRow($modAnastesi,'dokteranastesi_id', CHtml::listData($modPenunjang->getDokterItems(Params::RUANGAN_ID_BEDAH), 'pegawai_id', 'namaLengkap') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",'value'=>$modRencanaOperasiAttrib->dokteranastesi_id)); ?>
         
         <?php echo $form->dropDownListRow($modAnastesi,'perawatanastesi_id', CHtml::listData($modPenunjang->getParamedisItems(Params::RUANGAN_ID_BEDAH), 'pegawai_id', 'nama_pegawai') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",'value'=>$modRencanaOperasiAttrib->perawat_id)); ?>
         

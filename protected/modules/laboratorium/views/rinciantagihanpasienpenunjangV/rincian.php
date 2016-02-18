@@ -164,10 +164,10 @@ echo CHtml::css('.control-label{
             else{
                 $ruanganTd = '';
             }
-            
+            $p = PegawaiM::model()->findByPk($row->pegawai_id);
             echo '<tr>
                     '.$ruanganTd.'
-                    <td>'.$row->kategoritindakan_nama.' ('.$row->nama_pegawai.')<br/>'.$row->daftartindakan_nama.'
+                    <td>'.$row->kategoritindakan_nama.' ('.$p->namaLengkap.')<br/>'.$row->daftartindakan_nama.'
                     </td>
                     <td class="textright">'.number_format($row->tarif_satuan, 0,',','.').'
                     </td>

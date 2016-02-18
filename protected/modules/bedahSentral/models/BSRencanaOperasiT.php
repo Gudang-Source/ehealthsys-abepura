@@ -88,7 +88,7 @@ class BSRencanaOperasiT extends RencanaoperasiT
     public function getKamarKosongItems($kelaspelayanan_id = null)
     {
         if(!empty($kelaspelayanan_id))
-            return $kamarKosong = KamarruanganM::model()->findAllByAttributes(array('kelaspelayanan_id'=>$kelaspelayanan_id,'ruangan_id'=>Params::RUANGAN_ID_BEDAH,'kamarruangan_status'=>true));
+            return $kamarKosong = KamarruanganM::model()->findAllByAttributes(array('kelaspelayanan_id'=>$kelaspelayanan_id,'ruangan_id'=>Params::RUANGAN_ID_BEDAH,'kamarruangan_status'=>true, 'kamarruangan_aktif'=>true));
         else
             return array(); 
     }
