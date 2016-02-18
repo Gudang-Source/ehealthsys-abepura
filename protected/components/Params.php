@@ -401,6 +401,16 @@ Class Params
                 'SUDAH DI PERIKSA'=>'SUDAH DI PERIKSA',
             );
         }
+        
+        public static function sys2bpjsKelas($id=null) {
+            $arr = array(
+                '3'=>1,
+                '5'=>2,
+                '4'=>3,
+            );
+            if (!empty($id)) return $arr[$id];
+            return $arr;
+        }
 	
 	//=== PATH & URL ===
 	//Merupakan inisialisasi path dan url yang digunakan untuk menyimpan dan mengakses file

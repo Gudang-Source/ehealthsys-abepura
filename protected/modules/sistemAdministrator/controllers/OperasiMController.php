@@ -63,7 +63,10 @@ class OperasiMController extends MyAuthController
 
 		if(isset($_POST['SAOperasiM']))
 		{
+                        //var_dump($_POST);
 			$model->attributes=$_POST['SAOperasiM'];
+                        $model->daftartindakan_id = $_POST['daftartindakan_id'];
+                        //var_dump($model->attributes); die;
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
 				$this->redirect(array('admin','id'=>$model->operasi_id));

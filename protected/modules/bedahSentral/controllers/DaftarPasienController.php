@@ -173,7 +173,7 @@ class DaftarPasienController extends MyAuthController
                                 $modTindakanPelayanan->bidan_id = $_POST['BSRencanaOperasiT']['bidan_id'];
                                 $modTindakanPelayanan->suster_id = $_POST['BSRencanaOperasiT']['suster_id'];
 //                                $modTindakanPelayanan->tarifcyto_tindakan = 0;
-                                $modTindakanPelayanan->tarif_satuan = $format->formatNumberForDb($dataGrid[$i]['tarif_satuan']);
+                                $modTindakanPelayanan->tarif_satuan = str_replace(",", "", $dataGrid[$i]['tarif_satuan']);
 //                                $modTindakanPelayanan->tarif_tindakan = $modTindakanPelayanan->tarif_satuan * $modTindakanPelayanan->qty_tindakan;
 								$modTindakanPelayanan->tarif_tindakan = $dataGrid[$i]['tarif_tindakan'];
 								$modTindakanPelayanan->tarifcyto_tindakan = $modTindakanPelayanan->qty_tindakan * $modTindakanPelayanan->tarif_satuan * $dataGrid[$i]['persencyto_tind'] / 100;
@@ -270,7 +270,7 @@ class DaftarPasienController extends MyAuthController
                                 }
                             }
                         }
-                    }          
+                    }
                     if($is_succes && ($this->isAdaTarif))
                     {
                         $transaction->commit();
@@ -779,6 +779,7 @@ class DaftarPasienController extends MyAuthController
                     if($valid)
                     {
                         $modPakaiBahan[$i]->save();
+                        $this->simpanStokKeluar($modPakaiBahan[$i]);
                         /*
                         StokObatAlkesT::kurangiStok(
                             $modPakaiBahan[$i]->qty_oa,
@@ -789,6 +790,40 @@ class DaftarPasienController extends MyAuthController
                     }
                 }
             }
+        }
+        
+        function simpanStokKeluar($modPemakaianBahan) {
+            $format = new MyFormatter;
+            //$modStokOa = StokobatalkesT::model()->findByPk($stokobatalkesasal_id);
+            $oa = ObatalkesM::model()->findByPk($modPemakaianBahan->obatalkes_id);
+            //var_dump($oa->attributes);
+            $modStokOaNew = new StokobatalkesT;
+            $modStokOaNew->attributes = $oa->attributes;
+            $modStokOaNew->attributes = $modPemakaianBahan->attributes; //duplicate
+            //$modStokOaNew->unsetIdTransaksi();
+            $modStokOaNew->qtystok_in = 0;
+            $modStokOaNew->qtystok_out = ceil($modPemakaianBahan->qty_oa); // LNG Ceil (Pembulatan keatas request pak tito)
+            $modStokOaNew->obatalkespasien_id = $modPemakaianBahan->obatalkespasien_id;
+            //$modStokOaNew->stokobatalkesasal_id = $stokobatalkesasal_id;
+            $modStokOaNew->create_time = date('Y-m-d H:i:s');
+            $modStokOaNew->update_time = $modStokOaNew->tglterima = date('Y-m-d H:i:s');
+            $modStokOaNew->create_loginpemakai_id = Yii::app()->user->id;
+            $modStokOaNew->update_loginpemakai_id = Yii::app()->user->id;
+            $modStokOaNew->create_ruangan = Yii::app()->user->ruangan_id;
+
+            //$modStokOaNew->validate();
+            //var_dump($modStokOaNew->errors); 
+
+            // var_dump($modStokOaNew->attributes); die;
+
+            if($modStokOaNew->validate()){ 
+                $modStokOaNew->save();
+                // $modStokOaNew->setStokOaAktifBerdasarkanStok();
+            }
+
+            // var_dump($this->stokobatalkestersimpan);
+
+            return $modStokOaNew;
         }
         
         protected function savePaketBmhp($modPendaftaran,$paketBmhp,$tindakan)

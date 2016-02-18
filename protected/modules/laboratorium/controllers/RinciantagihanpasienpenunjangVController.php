@@ -48,7 +48,8 @@ class RinciantagihanpasienpenunjangVController extends MyAuthController
                 $modPenunjang = PasienmasukpenunjangT::model()->find($criteria);
             }
             $modRincian = LBRinciantagihanpasienpenunjangV::model()->findAllByAttributes(array('pendaftaran_id' => $id,'ruangan_id'=>Yii::app()->user->getState('ruangan_id')));
-            $data['nama_pegawai'] = LoginpemakaiK::model()->findByPK(Yii::app()->user->id)->pegawai->nama_pegawai;
+            $lp = LoginpemakaiK::model()->findByPK(Yii::app()->user->id);
+            $data['nama_pegawai'] = empty($lp->pegawai_id)?null:$lp->pegawai->nama_pegawai;
             $this->render('laboratorium.views.rinciantagihanpasienpenunjangV.rincian', array(
 				'modPenunjang'=>$modPenunjang,
 				'modPendaftaran'=>$modPendaftaran, 
