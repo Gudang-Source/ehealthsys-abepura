@@ -64,7 +64,7 @@ $this->widget('application.extensions.moneymask.MMask',array(
                     <div class="controls">
                         <?php 
                             echo $form->dropDownList($modRencanaOperasiAttrib,'dokterpelaksana1_id',
-                                CHtml::listData($modPenunjang->getDokterItems(Params::RUANGAN_ID_BEDAH), 'pegawai_id', 'nama_pegawai'),
+                                CHtml::listData($modPenunjang->getDokterItems(Params::RUANGAN_ID_BEDAH), 'pegawai_id', 'namaLengkap'),
                                 array(
                                     'empty'=>'-- Pelaksana 1 --',
                                     'onkeypress'=>"return $(this).focusNextInputField(event)"
@@ -79,7 +79,7 @@ $this->widget('application.extensions.moneymask.MMask',array(
                     <div class="controls">
                         <?php 
                             echo $form->dropDownList($modRencanaOperasiAttrib,'dokterpelaksana2_id', 
-                                CHtml::listData($modPenunjang->getDokterItems(Params::RUANGAN_ID_BEDAH), 'pegawai_id', 'nama_pegawai'),
+                                CHtml::listData($modPenunjang->getDokterItems(Params::RUANGAN_ID_BEDAH), 'pegawai_id', 'namaLengkap'),
                                 array(
                                     'empty'=>'-- Pelaksana 2 --',
                                     'onkeypress'=>"return $(this).focusNextInputField(event)"
