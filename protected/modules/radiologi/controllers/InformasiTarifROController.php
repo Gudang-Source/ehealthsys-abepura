@@ -9,12 +9,12 @@ class InformasiTarifROController extends InformasiTarifController
 		$modTarifRad = new ROTarifpemeriksaanradruanganV('searchTarif');
 		$modTarifRad->jenistarif_id = Params::JENISTARIF_ID_PELAYANAN;
 		$modTarifRad->instalasi_id = Yii::app()->user->getState('instalasi_id');
-		$modTarifRad->carabayar_id = Params::CARABAYAR_ID_MEMBAYAR;
-		$modTarifRad->penjamin_id = Params::PENJAMIN_ID_UMUM;
+		//$modTarifRad->carabayar_id = Params::CARABAYAR_ID_MEMBAYAR;
+		//$modTarifRad->penjamin_id = Params::PENJAMIN_ID_UMUM;
 		if(isset($_GET['ROTarifpemeriksaanradruanganV'])){
 			$modTarifRad->attributes=$_GET['ROTarifpemeriksaanradruanganV'];
-			$modTarifRad->carabayar_id=$_GET['ROTarifpemeriksaanradruanganV']['carabayar_id'];
-			$modTarifRad->penjamin_id=$_GET['ROTarifpemeriksaanradruanganV']['penjamin_id'];
+			//$modTarifRad->carabayar_id=$_GET['ROTarifpemeriksaanradruanganV']['carabayar_id'];
+			//$modTarifRad->penjamin_id=$_GET['ROTarifpemeriksaanradruanganV']['penjamin_id'];
 		}
 		$this->render($this->path_view_ro.'index',array('modTarifRad'=>$modTarifRad));
 	} 
@@ -91,12 +91,12 @@ class InformasiTarifROController extends InformasiTarifController
             $modTarifRad = new ROTarifpemeriksaanradruanganV('searchTarif');
             $modTarifRad->jenistarif_id = Params::JENISTARIF_ID_PELAYANAN;
             $modTarifRad->instalasi_id = Yii::app()->user->getState('instalasi_id');
-            $modTarifRad->carabayar_id = Params::CARABAYAR_ID_MEMBAYAR;
-            $modTarifRad->penjamin_id = Params::PENJAMIN_ID_UMUM;
+            //$modTarifRad->carabayar_id = Params::CARABAYAR_ID_MEMBAYAR;
+            //$modTarifRad->penjamin_id = Params::PENJAMIN_ID_UMUM;
             if(isset($_GET['ROTarifpemeriksaanradruanganV'])){
                     $modTarifRad->attributes=$_GET['ROTarifpemeriksaanradruanganV'];
-                    $modTarifRad->carabayar_id=$_GET['ROTarifpemeriksaanradruanganV']['carabayar_id'];
-                    $modTarifRad->penjamin_id=$_GET['ROTarifpemeriksaanradruanganV']['penjamin_id'];
+                    //$modTarifRad->carabayar_id=$_GET['ROTarifpemeriksaanradruanganV']['carabayar_id'];
+                    //$modTarifRad->penjamin_id=$_GET['ROTarifpemeriksaanradruanganV']['penjamin_id'];
             }
             $this->render($this->path_view_ro.'print',array('modTarifRad'=>$modTarifRad));
         }

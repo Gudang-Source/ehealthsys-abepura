@@ -119,29 +119,10 @@
                                                                     'kelaspelayanan_id', 'kelaspelayanan_nama'),
                                                                         array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); 
                 ?>
-                <?php echo $form->textFieldRow($modTarifRad, 'pemeriksaanrad_nama',array( 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30, 'autofocus'=>TRUE)); ?>
+                
             </div>
             <div class="span4">
-                <div class="control-group">
-                    <div class="control-label">Cara Bayar</div>
-                    <div class="controls">
-                        <?php echo $form->dropDownList($modTarifRad,'carabayar_id', CHtml::listData(CarabayarM::model()->findAll(), 'carabayar_id', 'carabayar_nama') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",
-                                        'ajax' => array('type'=>'POST',
-                                                'url'=> $this->createUrl('SetDropdownPenjaminPasien',array('encode'=>false,'namaModel'=>get_class($modTarifRad))), 
-                                                'update'=>'#'.CHtml::activeId($modTarifRad, 'penjamin_id')
-                                        ),
-                         )); ?>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <div class="control-label">
-                        <?php echo CHtml::label('Penjamin',' Penjamin', array('class'=>'control-label')) ?>&nbsp;&nbsp;&nbsp;&nbsp;
-                    </div>
-                    <div class="controls">
-                        <?php echo $form->dropDownList($modTarifRad,'penjamin_id', CHtml::listData(PenjaminpasienM::model()->findAll(), 'penjamin_id', 'penjamin_nama') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",)); ?>
-            
-                    </div>
-                </div>
+                <?php echo $form->textFieldRow($modTarifRad, 'pemeriksaanrad_nama',array( 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30, 'autofocus'=>TRUE)); ?>
             </div>
         </div>
         <div class="form-actions">
