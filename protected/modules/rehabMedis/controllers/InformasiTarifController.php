@@ -17,19 +17,21 @@ class InformasiTarifController extends MyAuthController
 		$this->render('index',array('modTarifTindakanRuanganV'=>$modTarifTindakanRuanganV));
 	}
         
-        public function actionDetailsTarif($idKelasPelayanan,$idDaftarTindakan, $idKategoriTindakan){
+        public function actionDetailsTarif($idKelasPelayanan,$idDaftarTindakan, $idKategoriTindakan, $jenistarif_id){
             
             $this->layout='//layouts/iframe';
             if($idKelasPelayanan!=''){
             $modTarifTindakan= RMTariftindakanM::model()->with('komponentarif')->findAll('kelaspelayanan_id='.$idKelasPelayanan.' AND 
                                                                daftartindakan_id='.$idDaftarTindakan.'
+                                                               and t.jenistarif_id='.$jenistarif_id.'
                                                                AND t.komponentarif_id!='.Params::KOMPONENTARIF_ID_TOTAL.'');
             }else{ 
                 $modTarifTindakan=RMTariftindakanM::model()->with('komponentarif')->findAll('daftartindakan_id='.$idDaftarTindakan.'
                                                                AND t.komponentarif_id!='.Params::KOMPONENTARIF_ID_TOTAL.'
+                                                               and t.jenistarif_id='.$jenistarif_id.'
                                                                AND kelaspelayanan_id isNull');
             }
-            $modTarif = TariftindakanperdaruanganV::model()->find('daftartindakan_id = '.$idDaftarTindakan.' and kelaspelayanan_id = '.$idKelasPelayanan.' and kategoritindakan_id = '.$idKategoriTindakan);
+            $modTarif = TariftindakanperdaruanganV::model()->find('daftartindakan_id = '.$idDaftarTindakan.' and kelaspelayanan_id = '.$idKelasPelayanan.' and kategoritindakan_id = '.$idKategoriTindakan.' and jenistarif_id = '.$jenistarif_id);
             $jumlahTarifTindakan=COUNT($modTarifTindakan);
             
             $this->render('detailsTarif',array('modTarif'=>$modTarif,
@@ -37,6 +39,17 @@ class InformasiTarifController extends MyAuthController
                                                 'jumlahTarifTindakan'=>$jumlahTarifTindakan));
             
             
+        }
+        
+        public function actionPrint() {
+            $this->layout = '//layouts/iframe';
+            $modTarifTindakanRuanganV = new RMTariftindakanperdaruanganV;
+
+            if(isset($_GET['RMTariftindakanperdaruanganV'])){
+                $modTarifTindakanRuanganV->attributes=$_GET['RMTariftindakanperdaruanganV'];
+
+            }
+            $this->render('print',array('modTarifTindakanRuanganV'=>$modTarifTindakanRuanganV));
         }
 
 }

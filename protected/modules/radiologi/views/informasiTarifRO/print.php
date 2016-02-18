@@ -25,6 +25,7 @@ $format = new MyFormatter();
             'header'=>'No.',
             'value'=>'$row+1',
         ),
+        'jenistarif_nama',
         'jenispemeriksaanrad_nama',
         'pemeriksaanrad_nama',
         array(

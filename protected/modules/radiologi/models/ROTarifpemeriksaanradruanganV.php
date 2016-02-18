@@ -62,7 +62,7 @@ class ROTarifpemeriksaanradruanganV extends TarifpemeriksaanradruanganV
 		return new CActiveDataProvider($this, array(
 				'criteria'=>$criteria,
                                 'sort'=>array(
-                                    'defaultOrder'=>'jenispemeriksaanrad_nama, pemeriksaanrad_nama, kelaspelayanan_id'
+                                    'defaultOrder'=>'jenistarif_nama, jenispemeriksaanrad_nama, pemeriksaanrad_nama, kelaspelayanan_id'
                                 )
 		));
 	}
