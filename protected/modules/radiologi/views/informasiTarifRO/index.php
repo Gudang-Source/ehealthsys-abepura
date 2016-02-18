@@ -13,8 +13,9 @@
             'columns'=>array(
                 array(
                     'header'=>'No.',
-                    'value'=>'$this->grid->dataProvider->pagination->currentPage * $this->grid->dataProvider->pagination->pageSize + ($row+1)',
+                    'value'=>'$row+1',
                 ),
+                'jenistarif_nama',
                 'jenispemeriksaanrad_nama',
                 'pemeriksaanrad_nama',
                 'kelaspelayanan_nama',

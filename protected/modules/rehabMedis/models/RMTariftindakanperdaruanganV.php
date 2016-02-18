@@ -25,6 +25,7 @@ class RMTariftindakanperdaruanganV  extends TariftindakanperdaruanganV
 						$criteria->addCondition('kelaspelayanan_id ='.$this->kelaspelayanan_id);
 					}
                     $criteria->compare('LOWER(daftartindakan_nama)',  strtolower($this->daftartindakan_id),true);
+                    $criteria->compare('jenistarif_id', $this->jenistarif_id);
                     if (!empty($this->kategoritindakan_id)){
 						$criteria->addCondition('kategoritindakan_id ='.$this->kategoritindakan_id);
 					}
@@ -41,8 +42,19 @@ class RMTariftindakanperdaruanganV  extends TariftindakanperdaruanganV
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+                        'sort'=>array(
+                            'defaultOrder'=>'jenistarif_nama, kelompoktindakan_nama, kategoritindakan_nama, daftartindakan_nama'
+                        )
 		));
 	}
+        
+        public function searchInformasiPrint() {
+            $provider = $this->searchInformasi();
+            $provider->criteria->limit = -1;
+            $provider->pagination = false;
+            
+            return $provider;
+        }
         
         
 
