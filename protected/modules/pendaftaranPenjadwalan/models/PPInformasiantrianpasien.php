@@ -50,7 +50,7 @@ class PPInformasiantrianpasien extends InformasiantrianpasienV {
         $criteria->compare('LOWER(t.statusperkawinan)', strtolower($this->statusperkawinan), true);
         $criteria->compare('LOWER(t.no_rekam_medik)', strtolower($this->no_rekam_medik), true);
         $criteria->compare('LOWER(t.tgl_rekam_medik)', strtolower($this->tgl_rekam_medik), true);
-        
+
 		if(!empty($this->propinsi_id)){
 			$criteria->addCondition("t.propinsi_id' = ".$this->propinsi_id);			
 		}
@@ -114,7 +114,12 @@ class PPInformasiantrianpasien extends InformasiantrianpasienV {
 			$criteria->addCondition("t.jeniskasuspenyakit_id = ".$this->jeniskasuspenyakit_id);			
 		}
         $criteria->compare('LOWER(t.jeniskasuspenyakit_nama)', strtolower($this->jeniskasuspenyakit_nama), true);
-	/*
+	$criteria->compare('a.loket_id', $this->loket_id);
+        
+        $criteria->join = 'join antrian_t a on a.antrian_id = t.antrian_id';
+        
+        
+        /*
         if ($loketOnly) {
             $criteria->join = 'left join pendaftaran_t p on p.pendaftaran_id = t.pendaftaran_id '
                     . 'join antrian_t a on a.antrian_id = p.antrian_id';

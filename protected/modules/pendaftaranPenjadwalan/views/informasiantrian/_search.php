@@ -65,13 +65,10 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                                                         'update' => '#ruangan',  //selector to update
                                                     ),)); ?>
             <div class="control-group ">
-                <?php echo $form->labelEx($model, 'ruangan_id', array('class'=>'control-label')); ?>
-                <div class="controls">
-                    <div id='ruangan'>
-                        <label> Data Tidak Ditemukan</label>
-                    <?php //echo $form->checkBoxList($model, 'ruangan_id', array(), array('empty'=>'-- Pilih --', 'class' => 'span5')); ?>
-                        </div>
-                </div>
+                <?php echo $form->dropDownListRow($model, 'loket_id', CHtml::listData(LoketM::model()->findAll(array(
+                    'condition'=>'loket_aktif = true',
+                    'order'=>'loket_nourut',
+                )), 'loket_id', 'loket_singkatan'), array('class' => 'span3','empty' => '-- Pilih --')); ?>
             </div>
             <?php echo $form->textFieldRow($model, 'no_rekam_medik', array('class' => 'span3', 'maxlength' => 10,'placeholder'=>'Ketik No. Rekam Medik')); ?>
         </div>
