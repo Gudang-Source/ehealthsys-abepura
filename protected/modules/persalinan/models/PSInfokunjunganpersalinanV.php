@@ -17,7 +17,7 @@ class PSInfokunjunganpersalinanV extends InfokunjunganpersalinanV
 		$criteria=new CDbCriteria;
                 
 
-        $criteria->addCondition('date(tgl_pendaftaran) BETWEEN \''.$this->tgl_awal.'\' AND \''.$this->tgl_akhir.'\'');
+                $criteria->addCondition('date(tgl_pendaftaran)::date BETWEEN \''.$this->tgl_awal.'\'::date AND \''.$this->tgl_akhir.'\'::date');
 
 		$criteria->compare('LOWER(tgl_pendaftaran)',strtolower($this->tgl_pendaftaran),true);
 		$criteria->compare('LOWER(no_pendaftaran)',strtolower($this->no_pendaftaran),true);
