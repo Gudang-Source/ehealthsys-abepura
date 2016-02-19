@@ -156,7 +156,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
             
             <td>
                 <div class="control-group">
-                    <?php echo CHtml::activeLabel($modTindakan, 'bidan_id'); ?>
+                    <?php echo CHtml::activeLabel($modTindakan, 'perawat_1'); ?>
                     <div class="controls">
                         <?php $this->widget('MyJuiAutoComplete',array(
                                     'name'=>'bidan_id',
@@ -182,7 +182,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                     </div>
                 </div>
                 <div class="control-group">
-                    <?php echo CHtml::activeLabel($modTindakan, 'suster_id'); ?>
+                    <?php echo CHtml::activeLabel($modTindakan, 'perawat_2'); ?>
                     <div class="controls">
                         <?php $this->widget('MyJuiAutoComplete',array(
                                     'name'=>'suster_id',
@@ -208,7 +208,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                     </div>
                 </div>
                 <div class="control-group">
-                    <?php echo CHtml::activeLabel($modTindakan, 'perawat_id'); ?>
+                    <?php echo CHtml::activeLabel($modTindakan, 'perawat_3'); ?>
                     <div class="controls">
                         <?php $this->widget('MyJuiAutoComplete',array(
                                     'name'=>'perawat_id',
