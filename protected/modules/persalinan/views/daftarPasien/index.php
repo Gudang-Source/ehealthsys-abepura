@@ -16,7 +16,7 @@
             });
             return false;
     });
-    ");
+    "); 
     ?>
 
     <?php $this->widget('bootstrap.widgets.BootAlert'); ?>
@@ -43,7 +43,7 @@
                                     ),
                                     array(
                                             'header'=>'Nama Pasien / Alias',
-                                            'value'=>'$data->namaNamaBin'
+                                            'value'=>'$data->namadepan.$data->nama_pasien'
                                     ),
                                     array(
                                             'header'=>'Cara Bayar / Penjamin',
@@ -151,7 +151,120 @@
                     ),
                     'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
             ));     
-            }else{        
+            }
+            else if (Yii::app()->user->getState('instalasi_id')==Params::INSTALASI_ID_RI) {
+                $this->widget('ext.bootstrap.widgets.BootGridView', array(
+                    'id'=>'daftarPasien-grid',
+                    'dataProvider'=>$model->searchPasien(),
+                    'template'=>"{summary}\n{items}\n{pager}",
+                    'itemsCssClass'=>'table table-striped table-condensed',
+                    'columns'=>array(
+                            array(
+                                    'header'=>'Tanggal Pendaftaran',
+                                    'name'=>'tgl_pendaftaran',
+                                    'type'=>'raw',
+                                    'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)'
+                            ),
+                            array(
+                                    'header'=>'No. Pendaftaran / No. Rekam Medik',
+                                    'type'=>'raw',
+                                    'value'=>'$data->noPendaftaranRekammedik',
+                            ),
+                            array(
+                                    'header'=>'Nama Pasien / Panggilan',
+                                    'value'=>'$data->namaNamaBin'
+                            ),
+                            array(
+                                    'header'=>'Cara Bayar / Penjamin',
+                                    'type'=>'raw',
+                                    'value'=>'$data->caraBayarPenjamin2',
+                            ),
+                            array(
+                                    'header'=>'Cara Masuk / Transportasi',
+                                    'type'=>'raw',
+                                    'value'=>'$data->caraMasukTransportasi',
+                            ),
+
+                            array(
+                                    'header'=>'Dokter',
+                                    'type'=>'raw',
+                                    'value'=>'$data->nama_pegawai',
+                            ),
+                            array(
+                                    'header'=>'Rujukan',
+                                    'type'=>'raw',
+                                    'value'=>'(!empty($data->asalrujukan_nama))? $data->asalrujukan_nama : "-"',
+                            ),
+                            array(
+                                    'header'=>'Nama Jenis Kasus Penyakit',
+                                    'type'=>'raw',
+                                    'value'=>'$data->jeniskasuspenyakit_nama',
+                            ),
+                            array(
+                                    'header'=>'Alamat Pasien',
+                                    'type'=>'raw',
+                                    'value'=>'$data->alamat_pasien',
+                            ),
+                            array(
+                                    'header'=>'Status Periksa',
+                                    'type'=>'raw',
+                                    'value'=>'$data->statusperiksa',
+                            ),
+                            array(
+                                    'header'=>'Persalinan',
+                                    'class'=>'bootstrap.widgets.BootButtonColumn',
+                                    'template'=>'{lihat}',
+                                    'buttons'=>array(
+                                                                    'lihat' => array (
+                                                                                    'label'=>"<i class='icon-form-persalinan'></i>",
+                                                                                    'options'=>array('title'=>'Persalinan'),
+                                                                                    'url'=>'Yii::app()->createUrl("persalinan/persalinanT/index",array("id"=>"$data->pendaftaran_id"))',                            
+                                                                            ),
+                                            ),
+                            ),
+                            array(
+                                    'header'=>'Kelahiran',
+                                    'class'=>'bootstrap.widgets.BootButtonColumn',
+                                    'template'=>'{lihat}',
+                                    'buttons'=>array(
+                                                                    'lihat' => array (
+                                                                                    'label'=>"<i class='icon-form-kelahiran'></i>",
+                                                                                    'options'=>array('title'=>'Kelahiran', 'class'=>'kelahiran'),
+                                                                                    'url'=>'Yii::app()->createUrl("persalinan/kelahiranbayiT/index",array("id"=>"$data->pendaftaran_id"))',                            
+                                                                            ),
+                                            ),
+                            ), /*
+                            array(
+                                    'name'=>'Pemeriksaan Pasien',
+                                    'type'=>'raw',
+                                    'value'=>'CHtml::link("<i class=\'icon-form-periksa\'></i> ", Yii::app()->controller->createUrl("/persalinan/pemeriksaanPasienPersalinan",array("pendaftaran_id"=>$data->pendaftaran_id)),array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk Pemeriksaan Pasien"))',
+                                    'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
+                            ),
+                            array(
+                                    'header'=>'Pasien Pulang',
+                                    'type'=>'raw',
+                                     'value'=>'(($data->pasienpulang_id != 0) OR ($data->carakeluar_nama != "")) ? $data->carakeluar_nama : 
+                                                             $data->getTindakLanjut($data->statusperiksa,$data->pendaftaran_id,$data->no_pendaftaran,$data->pasienpulang_id,$data->carakeluar_id,$data->alihstatus)',
+                                    'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
+                            ), /*
+                            array(
+                                    'name'=>'Tindak Lanjut<br/>ke Rawat Inap',
+                                    'type'=>'raw',
+                                    'value'=>'(!empty($data->pasienpulang_id)) ?  "Pasien di Rawat Inap".
+                                       CHtml::link("<i class=\'icon-form-silang\'></i>", Yii::app()->createUrl("/rawatDarurat/DaftarPasien/BatalRawatInap",array("pendaftaran_id"=>$data->pendaftaran_id)) , array("title"=>"Klik Untuk Batal Proses Tindak Lanjut Pasien","target"=>"iframeBatalRawatInap", "onclick"=>"$(\"#dialogBatalRawatInap\").dialog(\"open\");", "rel"=>"tooltip"))  :  
+                                       (($data->statusperiksa==Params::STATUSPERIKSA_BATAL_PERIKSA) ? "" : CHtml::link("<i class=\'icon-user\'></i>", Yii::app()->createUrl("/rawatJalan/DaftarPasien/tindakLanjutRI", array("instalasi_id"=>$data->instalasi_id,"pendaftaran_id"=>$data->pendaftaran_id)),
+                                       array("class"=>"",
+                                       "target"=>"frameTindakLanjut",
+                                       "rel"=>"tooltip",
+                                       "title"=>"Klik untuk Proses Tindak Lanjut Pasien",
+                                       "onclick"=>"$(\'#dialogTindakLanjut\').dialog(\'open\');")))',
+                                    'htmlOptions'=>array('style'=>'text-align: center; width:60px')
+                            ), */
+
+                    ),
+                    'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+                ));
+            } else{        
                     $this->widget('ext.bootstrap.widgets.BootGridView', array(
             'id'=>'daftarPasien-grid',
             'dataProvider'=>$model->searchPasien(),
@@ -249,7 +362,7 @@
                     array(
                                     'name'=>'Tindak Lanjut<br/>ke Rawat Inap',
                                     'type'=>'raw',
-                                    'value'=>'(!empty($data->pasienpulang_id) ) ?  "Pasien di Rawat Inap".
+                                    'value'=>'(!empty($data->pasienpulang_id)) ?  "Pasien di Rawat Inap".
                                        CHtml::link("<i class=\'icon-form-silang\'></i>", Yii::app()->createUrl("/rawatDarurat/DaftarPasien/BatalRawatInap",array("pendaftaran_id"=>$data->pendaftaran_id)) , array("title"=>"Klik Untuk Batal Proses Tindak Lanjut Pasien","target"=>"iframeBatalRawatInap", "onclick"=>"$(\"#dialogBatalRawatInap\").dialog(\"open\");", "rel"=>"tooltip"))  :  
                                        (($data->statusperiksa==Params::STATUSPERIKSA_BATAL_PERIKSA) ? "" : CHtml::link("<i class=\'icon-user\'></i>", Yii::app()->createUrl("/rawatJalan/DaftarPasien/tindakLanjutRI", array("instalasi_id"=>$data->instalasi_id,"pendaftaran_id"=>$data->pendaftaran_id)),
                                        array("class"=>"",

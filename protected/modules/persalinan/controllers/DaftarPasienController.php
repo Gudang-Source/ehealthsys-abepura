@@ -21,7 +21,6 @@ class DaftarPasienController extends MyAuthController
             $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PSInfokunjunganpersalinanV']['tgl_akhir']);
             $model->ceklis = $_REQUEST['PSInfokunjunganpersalinanV']['ceklis'];
         }
-
         $this->render('index',array('model'=>$model,'format'=>$format));
     }
     
