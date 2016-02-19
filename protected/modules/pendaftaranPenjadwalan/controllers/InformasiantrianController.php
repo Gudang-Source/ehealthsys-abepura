@@ -120,8 +120,9 @@ class InformasiantrianController extends MyAuthController
 			$model->attributes=$_GET['PPInformasiantrianpasien'];                        
                         $model->tgl_awal = $format->formatDateTimeForDb($model->tgl_awal);
                         $model->tgl_akhir = $format->formatDateTimeForDb($model->tgl_akhir);
-                        echo $model->tgl_awal;
-                        echo $model->tgl_akhir;
+                        $model->loket_id = $_GET['PPInformasiantrianpasien']['loket_id'];
+                        //echo $model->tgl_awal;
+                        //echo $model->tgl_akhir;
                 }
                 
 		$this->render('index',array(
