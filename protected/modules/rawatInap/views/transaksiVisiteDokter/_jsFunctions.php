@@ -4,7 +4,10 @@ function searchVisite()
 {
 	//unformatNumberSemua();
     var pegawai_id = $('#<?php echo CHtml::activeId($model, "pegawai_id"); ?>').val();
-    var pilih = $('#<?php echo CHtml::activeId($model,'is_dokter'); ?>');
+    var no_rekam_medik = $('#<?php echo CHtml::activeId($model, "no_rekam_medik"); ?>').val();
+    var nama_pasien = $('#<?php echo CHtml::activeId($model, "nama_pasien"); ?>').val();
+    var pilih = ($('#<?php echo CHtml::activeId($model,'is_dokter'); ?>').is(":checked"))?1:0;
+    
 
 //	if($(obj).is(':checked')){
 //		if(nama_pegawai == ''){
@@ -23,7 +26,12 @@ function searchVisite()
 			$.ajax({
 				type:'POST',
 				url:'<?php echo $this->createUrl('LoadFormVisiteDokter'); ?>',
-				data: {pegawai_id:pegawai_id},
+				data: {
+                                    pegawai_id:pegawai_id,
+                                    no_rekam_medik:no_rekam_medik,
+                                    nama_pasien:nama_pasien,
+                                    pilih: pilih,
+                                },
 				dataType: "json",
 				success:function(data){
 					if(data.pesan !== ""){
