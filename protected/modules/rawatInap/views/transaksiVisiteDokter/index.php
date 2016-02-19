@@ -123,7 +123,7 @@
                         </div>
                         <div class="control-group" style="padding-left: 124px;">
                             <label class='controls'>
-                                <?php echo CHtml::activeCheckBox($model,'is_dokter',array('onclick'=>'setDokter(this);','style'=>'width : 10px', 'onkeyup' => "return $(this).focusNextInputField(event)"))?>                
+                                <?php echo CHtml::activeCheckBox($model,'is_dokter',array('style'=>'width : 10px', 'onkeyup' => "return $(this).focusNextInputField(event)"))?>                
                                 Dokter Penanggung Jawab
                             </label>
                         </div>
@@ -330,20 +330,21 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn_small",
                 "id"=>"selectPegawai",
                 "onClick"=>"samakanDokter($data->pegawai_id);
-                            $(\"#namaDokter\").val(\"$data->nama_pegawai\");
-                            $(\"#'.CHtml::activeId($model,'nama_pegawai').'\").val(\"$data->nama_pegawai\");
+                            $(\"#namaDokter\").val(\"$data->namaLengkap\");
+                            $(\"#'.CHtml::activeId($model,'nama_pegawai').'\").val(\"$data->namaLengkap\");
                             $(\"#'.CHtml::activeId($model,'pegawai_id').'\").val(\"$data->pegawai_id\");
                             $(\"#dialogDokter\").dialog(\"close\");
                             return false;"
                 ))'
         ),
         
-        'gelardepan',
+        //'gelardepan',
          array(
             'name'=>'nama_pegawai',
             'header'=>'Nama Dokter',
+            'value'=>'$data->namaLengkap',
          ),
-        'gelarbelakang_nama',
+        //'gelarbelakang_nama',
         'jeniskelamin',
         'notelp_pegawai',
         'nomobile_pegawai',

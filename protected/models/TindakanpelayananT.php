@@ -406,8 +406,50 @@ class TindakanpelayananT extends CActiveRecord
 		 */
 		public function saveTindakanKomponen(){
 			$tindakankomponentersimpan = true;
-			
-			return $tindakankomponentersimpan;
+                    
+                        $jenis = JenistarifpenjaminM::model()->findByAttributes(array(
+                            'penjamin_id'=>$this->penjamin_id,
+                        ));
+                        $komponen = TariftindakanM::model()->findAllByAttributes(array(
+                            'kelaspelayanan_id'=>$this->kelaspelayanan_id,
+                            'jenistarif_id'=>$jenis->jenistarif_id,
+                            'daftartindakan_id'=>$this->daftartindakan_id,
+                            'perdatarif_id'=>1,
+                        ), array(
+                            'condition'=>'komponentarif_id <> 6',
+                        ));
+                        
+                        //var_dump(count($komponen));
+                    
+                        $total = 0;
+                        $satuan = 0;
+                        
+                        
+                        foreach ($komponen as $item) {
+                            // var_dump($item->attributes);
+                            $tarif = new TindakankomponenT();
+                            $tarif->tindakanpelayanan_id = $this->tindakanpelayanan_id;
+                            $tarif->komponentarif_id = $item->komponentarif_id;
+                            $tarif->tarif_kompsatuan = $item->harga_tariftindakan;
+                            $tarif->tarif_tindakankomp = $tarif->tarif_kompsatuan * $this->qty_tindakan;
+                            $tarif->tarifcyto_tindakankomp = 0;
+                            $tarif->subsidiasuransikomp = 0;
+                            $tarif->subsidipemerintahkomp = 0;
+                            $tarif->subsidirumahsakitkomp = 0;
+                            $tarif->iurbiayakomp = $tarif->tarif_tindakankomp;
+                            
+                            if ($tarif->save()) {
+                                $satuan += $tarif->tarif_kompsatuan;
+                                $total += $tarif->tarif_tindakankomp;
+                            } else {
+                                $tindakankomponentersimpan = false;
+                            }
+                        }
+                        
+                        $this->tarif_satuan = $satuan;
+                        $this->tarif_tindakan = $this->iurbiaya_tindakan = $total;
+                        
+                        return $tindakankomponentersimpan && $this->save();
 		}
 
 		/**
