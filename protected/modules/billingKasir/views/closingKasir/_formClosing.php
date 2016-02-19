@@ -343,4 +343,5 @@ Yii::app()->clientScript->registerScript('dialog',$js,CClientScript::POS_HEAD);
         $("#BKClosingkasirT_sampaidengan").val(tgl_akhir);
     }
     setTanggalClosing();
+    $("#BKClosingkasirT_closingsaldoawal").keyup();
 </script>

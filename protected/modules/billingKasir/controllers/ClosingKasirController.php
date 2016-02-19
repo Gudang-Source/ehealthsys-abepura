@@ -25,6 +25,7 @@ class ClosingKasirController extends MyAuthController
             $mBuktBayar->attributes = $_POST['BKTandabuktibayarT'];
             $mBuktBayar->tgl_awal = $format->formatDateTimeForDb($_POST['BKTandabuktibayarT']['tgl_awal']);
             $mBuktBayar->tgl_akhir = $format->formatDateTimeForDb($_POST['BKTandabuktibayarT']['tgl_akhir']);
+            $mBuktBayar->create_loginpemakai_id = $_POST['BKTandabuktibayarT']['create_loginpemakai_id'];
             
             $model->closingdari = $mBuktBayar->tgl_awal;
             $model->sampaidengan = $mBuktBayar->tgl_akhir;
@@ -39,14 +40,15 @@ class ClosingKasirController extends MyAuthController
             
         }
         $criteria = new CDbCriteria;
+        $criteria->join .= "left join loginpemakai_k m on m.loginpemakai_id = t.create_loginpemakai_id";
 		if(!empty($mBuktBayar->ruangan_id)){
-			$criteria->addCondition("ruangan_id = ".$mBuktBayar->ruangan_id);					
+			$criteria->addCondition("t.ruangan_id = ".$mBuktBayar->ruangan_id);					
 		}
 		if(!empty($mBuktBayar->create_loginpemakai_id)){
-			$criteria->addCondition("create_loginpemakai_id = ".$mBuktBayar->create_loginpemakai_id);					
+			$criteria->addCondition("m.pegawai_id = ".$mBuktBayar->create_loginpemakai_id);					
 		}
-        $criteria->addCondition('closingkasir_id IS NULL');
-        $criteria->addBetweenCondition('DATE(tglpenerimaan)', $mBuktBayar->tgl_awal, $mBuktBayar->tgl_akhir);
+        $criteria->addCondition('t.closingkasir_id IS NULL');
+        $criteria->addBetweenCondition('DATE(t.tglpenerimaan)', $mBuktBayar->tgl_awal, $mBuktBayar->tgl_akhir);
         $rPenerimaanUmum = PenerimaanumumT::model()->findAll($criteria);
         $total_penerimaan_umum = 0;
         foreach($rPenerimaanUmum as $val)
@@ -56,15 +58,16 @@ class ClosingKasirController extends MyAuthController
         $informasi['total_penerimaan_umum'] = $total_penerimaan_umum;
         // MyFormatter::formatNumberForUser($total_penerimaan_umum);
         $criteria_dua = new CDbCriteria;
+        $criteria_dua->join .= "left join loginpemakai_k m on m.loginpemakai_id = t.create_loginpemakai_id";
 		if(!empty($mBuktBayar->ruangan_id)){
-			$criteria->addCondition("create_ruangan = ".$mBuktBayar->ruangan_id);					
+			$criteria->addCondition("t.create_ruangan = ".$mBuktBayar->ruangan_id);					
 		}
 		if(!empty($mBuktBayar->create_loginpemakai_id)){
-			$criteria->addCondition("create_loginpemakai_id = ".$mBuktBayar->create_loginpemakai_id);					
+			$criteria->addCondition("m.pegawai_id = ".$mBuktBayar->create_loginpemakai_id);					
 		}
-        $criteria_dua->addCondition('closingkasir_id IS NULL');
-        $criteria_dua->addCondition('batalkeluarumum_id IS NULL');
-        $criteria_dua->addBetweenCondition('DATE(tglpengeluaran)', $mBuktBayar->tgl_awal, $mBuktBayar->tgl_akhir);
+        $criteria_dua->addCondition('t.closingkasir_id IS NULL');
+        $criteria_dua->addCondition('t.batalkeluarumum_id IS NULL');
+        $criteria_dua->addBetweenCondition('DATE(t.tglpengeluaran)', $mBuktBayar->tgl_awal, $mBuktBayar->tgl_akhir);
         $rPengeluaranUmum = PengeluaranumumT::model()->findAll($criteria_dua);
         $total_pengeluaran_umum = 0;
         
