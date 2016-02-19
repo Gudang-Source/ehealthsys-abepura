@@ -87,10 +87,10 @@ class PenjualanKaryawanController extends PenjualanResepRSController {
 
         $transaction = Yii::app()->db->beginTransaction();
         if (isset($_POST['FAPenjualanResepT'])) {
-
+            //var_dump($_POST); die;
             $modPasien = FAPasienM::model()->findByPk($_POST['pasien_id']);
+            //var_dump($modPasien->attributes); die;
             $modPenjualan = $this->savePenjualanResep($modPasien, $_POST['FAPenjualanResepT']);
-
             if ($this->penjualantersimpan) {
 
                 if (count($_POST['FAObatalkesPasienT']) > 0) {
@@ -99,6 +99,9 @@ class PenjualanKaryawanController extends PenjualanResepRSController {
                     foreach ($_POST['FAObatalkesPasienT'] AS $i => $postDetail) {
                         $modDetails[$i] = new FAObatalkesPasienT;
                         $modDetails[$i]->attributes = $postDetail;
+                        $modDetails[$i] = $this->simpanObatAlkesPasien2($modPasien, $modPenjualan, $postDetail);
+                        $this->simpanStokObatAlkesOut2($modDetails[$i]);
+                        /*
                         $modStok = StokobatalkesT::model()->findByPk($postDetail['stokobatalkes_id']);
                         $modDetails[$i]->stokobatalkes_id = $modStok->stokobatalkes_id;
                         $obatalkes_id = $postDetail['obatalkes_id'];
@@ -107,11 +110,12 @@ class PenjualanKaryawanController extends PenjualanResepRSController {
                         } else {
                             $detailGroups[$obatalkes_id]['obatalkes_id'] = $postDetail['obatalkes_id'];
                             $detailGroups[$obatalkes_id]['qty_oa'] = $postDetail['qty_oa'];
-                        }
+                        }*/
                     }
                     //END GROUP
                 }
 
+                /*
                 $obathabis = "";
                 //PROSES PENGURAIAN OBAT DAN JUMLAH MENJADI STOKOBATALKES_T (METODE ANTRIAN)
                 foreach ($detailGroups AS $i => $detail) {
@@ -127,7 +131,10 @@ class PenjualanKaryawanController extends PenjualanResepRSController {
                         $obathabis .= "<br>- " . ObatalkesM::model()->findByPk($detail['obatalkes_id'])->obatalkes_nama;
                     }
                 }
-
+                 * 
+                 */
+                //var_dump($this->obatalkespasientersimpan && $this->stokobatalkestersimpan);
+                //die;
                 try {
                     if ($this->obatalkespasientersimpan && $this->stokobatalkestersimpan) {
                         if (isset($modPenjualan->pegawai_id) && !empty($modPenjualan->pegawai_id)) {
@@ -235,6 +242,72 @@ class PenjualanKaryawanController extends PenjualanResepRSController {
         return $modPenjualan;
     }
 
+    /**
+     * simpan ObatalkesPasienT Jumlah Out
+     * @param type $modPenjualan
+     * @param type $postObatAlkesPasien
+     * @return \ObatalkesPasienT
+     */
+    protected function simpanObatAlkesPasien2($modPasien, $modPenjualan, $postObatAlkesPasien) {
+        //var_dump($postObatAlkesPasien);
+        $oa = ObatalkesM::model()->findByPk($postObatAlkesPasien['obatalkes_id']);
+        $format = new MyFormatter;
+        $modObatAlkes = new FAObatalkesPasienT;
+        $modObatAlkes->attributes = $oa->attributes;
+        $modObatAlkes->attributes = $postObatAlkesPasien;
+        $modObatAlkes->tglpelayanan = date("Y-m-d H:i:s");
+        $modObatAlkes->tipepaket_id = Params::TIPEPAKET_ID_NONPAKET;
+        $modObatAlkes->ruangan_id = Yii::app()->user->getState('ruangan_id');
+        $modObatAlkes->carabayar_id = $modPenjualan->carabayar_id;
+        $modObatAlkes->pegawai_id = Yii::app()->user->getState('pegawai_id');
+        if (empty($modObatAlkes->pegawai_id)) $modObatAlkes->pegawai_id = $modPenjualan->pegawai_id; 
+        $modObatAlkes->shift_id = Yii::app()->user->getState('shift_id');
+        $modObatAlkes->pendaftaran_id = null;
+        $modObatAlkes->pasien_id = $modPasien->pasien_id;
+        $modObatAlkes->penjamin_id = $modPenjualan->penjamin_id;
+        $modObatAlkes->create_time = date("Y-m-d H:i:s");
+        $modObatAlkes->create_loginpemakai_id = Yii::app()->user->id;
+        $modObatAlkes->create_ruangan = Yii::app()->user->getState('ruangan_id');
+        $modObatAlkes->penjualanresep_id = $modPenjualan->penjualanresep_id;
+        //$modObatAlkes->qty_oa = $stokOa->qtystok_terpakai;
+        //$modObatAlkes->jmlstok = $stokOa->qtystok;
+        //$modObatAlkes->harganetto_oa = $stokOa->HPP;
+        //$modObatAlkes->hargasatuan_oa = $stokOa->HargaJualSatuan;
+        $modObatAlkes->hargajual_oa = $modObatAlkes->hargasatuan_oa * $modObatAlkes->qty_oa;
+        //foreach ($postObatAlkesPasien AS $i => $postDetail) {
+            //if ($stokOa->obatalkes_id == $postDetail['obatalkes_id']) {
+                $modObatAlkes->sumberdana_id = $postObatAlkesPasien['sumberdana_id'];
+                $modObatAlkes->r = $postObatAlkesPasien['r'];
+                $modObatAlkes->rke = $postObatAlkesPasien['rke'];
+                $modObatAlkes->permintaan_oa = $postObatAlkesPasien['permintaan_oa'];
+                $modObatAlkes->kekuatan_oa = $postObatAlkesPasien['kekuatan_oa'];
+                $modObatAlkes->jmlkemasan_oa = $postObatAlkesPasien['jmlkemasan_oa'];
+//                $modObatAlkes->biayaservice = $postDetail['biayaservice'];
+//                $modObatAlkes->biayakonseling = $postDetail['biayakonseling'];
+//                $modObatAlkes->jasadokterresep = $postDetail['jasadokterresep'];
+//                $modObatAlkes->biayakemasan = $postDetail['biayakemasan'];
+//                $modObatAlkes->biayaadministrasi = $postDetail['biayaadministrasi'];
+//                $modObatAlkes->tarifcyto = $postDetail['tarifcyto'];
+//                $modObatAlkes->subsidiasuransi = $postDetail['subsidiasuransi'];
+//                $modObatAlkes->subsidipemerintah = $postDetail['subsidipemerintah'];
+//                $modObatAlkes->subsidirs = $postDetail['subsidirs'];
+//                $modObatAlkes->discount = $postDetail['discount'];
+                $modObatAlkes->signa_oa = $postObatAlkesPasien['signa_oa'];
+                $modObatAlkes->etiket = $postObatAlkesPasien['etiket'];
+            //}
+            //$modObatAlkes->iurbiaya = $modObatAlkes->hargajual_oa;
+        //}
+                
+        //var_dump($modObatAlkes->attributes); die;
+
+        if ($modObatAlkes->save()) {
+            $this->obatalkespasientersimpan &= true;
+        } else {
+            $this->obatalkespasientersimpan &= false;
+        }
+        return $modObatAlkes;
+    }
+    
     /**
      * simpan ObatalkesPasienT Jumlah Out
      * @param type $modPenjualan
