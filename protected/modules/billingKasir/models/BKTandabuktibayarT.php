@@ -62,14 +62,20 @@ class BKTandabuktibayarT extends TandabuktibayarT {
 	public function searchTable() {
 		$criteria = new CDbCriteria;
 
+                $criteria->join .= "left join loginpemakai_k p on p.loginpemakai_id = t.create_loginpemakai_id";
+                
 		if (!empty($this->shift_id)) {
-			$criteria->addCondition("shift_id = " . $this->shift_id);
+			$criteria->addCondition("t.shift_id = " . $this->shift_id);
 		}
 		if (!empty($this->ruangan_id)) {
-			$criteria->addCondition("ruangan_id = " . $this->ruangan_id);
+			$criteria->addCondition("t.ruangan_id = " . $this->ruangan_id);
 		}
-		$criteria->addBetweenCondition('DATE(tglbuktibayar)', $this->tgl_awal, $this->tgl_akhir);
-		$criteria->addCondition('closingkasir_id IS NULL AND pembatalanuangmuka_id IS NULL');
+                if (!empty($this->create_loginpemakai_id)) {
+			$criteria->addCondition("p.pegawai_id = " . $this->create_loginpemakai_id);
+		}
+                
+		$criteria->addBetweenCondition('DATE(t.tglbuktibayar)', $this->tgl_awal, $this->tgl_akhir);
+		$criteria->addCondition('t.closingkasir_id IS NULL AND t.pembatalanuangmuka_id IS NULL');
 		return new CActiveDataProvider($this, array(
 			'criteria' => $criteria,
 			'pagination' => false,
