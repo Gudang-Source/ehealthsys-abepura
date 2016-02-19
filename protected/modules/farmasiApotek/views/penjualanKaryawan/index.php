@@ -77,9 +77,9 @@
                     <th>R ke</th>
                     <th>Kode / Nama Obat</th>
                     <th>Sumber Dana</th>
-                    <th>Satuan Kecil</th>
+                    <!--th>Satuan Kecil</th-->
                     <th>Jumlah</th>
-                    <th>Stok</th>
+                    <!--th>Stok</th-->
                     <th>Harga</th>
                     <!--<th>Discount (%)</th>-->
                     <th>Sub Total</th>

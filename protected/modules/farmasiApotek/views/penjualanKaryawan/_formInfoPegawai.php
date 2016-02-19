@@ -1,18 +1,4 @@
 <div class = "span4">
-<<<<<<< HEAD
-	<div class="control-group ">
-		<?php echo $form->labelEx($modPenjualan,'jenispenjualan', array('readonly'=>true,'class'=>'control-label')) ?>
-		<div class="controls">
-			<?php 
-			echo $form->dropDownList($modPenjualan,'jenispenjualan', LookupM::getItems('penjualankaryawan'),  
-					array('empty'=>'-- Pilih --','readonly'=>true, 'onkeypress'=>"return $(this).focusNextInputField(event)", 'class'=>'span3', 'onchange'=>'jenisPenjualan()'
-			)); ?>   
-		</div>
-	</div>
-		<?php echo CHtml::hiddenField('pasien_id','',array('readonly'=>true)); ?>
-		<?php echo CHtml::activeHiddenField($modPenjualan,'pasienpegawai_id','',array('readonly'=>true)); ?>
-    <div class="control-group" id="pegawai">
-=======
     <div class="control-group ">
             <?php echo $form->labelEx($modPenjualan,'jenispenjualan', array('readonly'=>true,'class'=>'control-label')) ?>
             <div class="controls">
@@ -25,7 +11,7 @@
     <?php echo CHtml::hiddenField('pasien_id','',array('readonly'=>true)); ?>
     <?php echo CHtml::activeHiddenField($modPenjualan,'pasienpegawai_id','',array('readonly'=>true)); ?>
     <div class="control-group" id="karyawan">
->>>>>>> 12f1e5a9c072640a387b6430d541776accbca7b2
+
         <label class="control-label" for="FAPegawaiV_nomorindukpegawai">NIP</label>
         <div class="controls">
             <?php 
