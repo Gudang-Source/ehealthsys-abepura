@@ -273,6 +273,7 @@ function renameInput(modelName,attributeName)
         
     });
 }
+
 // addDokter = tidak digunakan -> diganti dengan addDokterLengkap
 function addDokter(obj)
 {
@@ -318,12 +319,24 @@ function updateDokterPemeriksa1(value){
 //     $('#'+idBtnAddDokter).parents('td').find('input[name$="[dokterpendamping_id]"]').val(item.pegawai_id);
 // }
 
-// function setDokterAnastesi(item)
-// {
-//     var idBtnAddDokter = $('#dialogPemeriksaLengkap #rowTindakan').val();
-//     $('#'+idBtnAddDokter).parents('td').find('input[name$="[dokteranastesi_id]"]').val(item.pegawai_id);
-// }
+function setDokterAnastesi(item)
+{
+    var row = $('#dialogPemeriksaLengkap #rowTindakan').val();
+    $('#RITindakanPelayananT_'+row+'_dokteranastesi_id').val(item.pegawai_id);
+    $('#tampilanDokterAnastesi_'+row).html("Dokter Anastesi : "+item.nama_pegawai);
+    /*
+     var idBtnAddDokter = $('#dialogPemeriksaLengkap #rowTindakan').val();
+     $('#'+idBtnAddDokter).parents('td').find('input[name$="[dokteranastesi_id]"]').val(item.pegawai_id); */
+}
 
+function updateDokterAnastesi(value){
+	if(value == ''){
+		var row = $('#dialogPemeriksaLengkap #rowTindakan').val();
+		$('#RITindakanPelayananT_'+row+'_dokteranastesi_id').val('');
+		$('#tampilanDokterAnastesi_'+row).html('');
+	}
+}
+       
 function setDokterDelegasi(item)
 {
     var row = $('#dialogPemeriksaLengkap #rowTindakan').val();

@@ -824,6 +824,8 @@ class TindakanTRIController extends MyAuthController
                 $criteria = new CDbCriteria();
                 if (isset($_GET['term'])){
                     $criteria->compare('LOWER(nama_pegawai)', strtolower($_GET['term']), true);
+                } else if (isset($_POST['id'])) {
+                    $criteria->compare('pegawai_id', $_POST['id']);
                 }
                 $criteria->order = 'nama_pegawai';
                 if (isset($_GET['idPegawai'])){
