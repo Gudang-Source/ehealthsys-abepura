@@ -68,6 +68,7 @@ class InformasiantrianpasienV extends CActiveRecord
 {
         public $tgl_awal;
         public $tgl_akhir;
+        public $loket_id;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -188,6 +189,7 @@ class InformasiantrianpasienV extends CActiveRecord
 			'jeniskasuspenyakit_id' => 'Jenis Kasus Penyakit',
 			'jeniskasuspenyakit_nama' => 'Jenis Kasus Penyakit Nama',
                         'CaraBayarPenjamin'=>'Cara Bayar/ Penjamin',
+                        'loket_id'=>'Loket',
 		);
 	}
 
