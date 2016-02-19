@@ -68,6 +68,32 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                         )); ?>
                     </div>
                 </div>
+                <div class="control-group">
+                    <?php echo CHtml::activeLabel($modTindakan, 'dokteranastesi_id'); ?>
+                    <div class="controls">
+                        <?php $this->widget('MyJuiAutoComplete',array(
+                                    'name'=>'dokteranastesi_id',
+                                    'value'=>'',
+                                    'sourceUrl'=> Yii::app()->createUrl('rawatInap/tindakanTRI/GetDokter'),
+                                    'options'=>array(
+                                       'showAnim'=>'fold',
+                                       'minLength' => 4,
+                                       'focus'=> 'js:function( event, ui ) {
+                                            $("#dokteranastesi_id").val( ui.item.label);
+                                            return false;
+                                        }',
+                                       'select'=>'js:function( event, ui ) {
+                                            setDokterAnastesi(ui.item);
+                                            return false;
+                                        }',
+
+                                    ),
+                                    'htmlOptions'=>array(
+										'onblur' => 'if(this.value === ""){ $("#dokteranastesi_id").val("");} ',
+										'onkeypress'=>"return $(this).focusNextInputField(event)"),
+                        )); ?>
+                    </div>
+                </div>
                 <!-- <div class="control-group">
                     <?php echo CHtml::activeLabel($modTindakan, 'dokterpemeriksa2_id'); ?>
                     <div class="controls">
@@ -120,32 +146,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                         )); ?>
                     </div>
                 </div>
-                <div class="control-group">
-                    <?php echo CHtml::activeLabel($modTindakan, 'dokteranastesi_id'); ?>
-                    <div class="controls">
-                        <?php $this->widget('MyJuiAutoComplete',array(
-                                    'name'=>'dokteranastesi_id',
-                                    'value'=>'',
-                                    'sourceUrl'=> Yii::app()->createUrl('rawatInap/tindakanTRI/GetDokter'),
-                                    'options'=>array(
-                                       'showAnim'=>'fold',
-                                       'minLength' => 4,
-                                       'focus'=> 'js:function( event, ui ) {
-                                            $("#dokteranastesi_id").val( ui.item.label);
-                                            return false;
-                                        }',
-                                       'select'=>'js:function( event, ui ) {
-                                            setDokterAnastesi(ui.item);
-                                            return false;
-                                        }',
-
-                                    ),
-                                    'htmlOptions'=>array(
-										'onblur' => 'if(this.value === ""){ $("#dokteranastesi_id").val("");} ',
-										'onkeypress'=>"return $(this).focusNextInputField(event)"),
-                        )); ?>
-                    </div>
-                </div> -->
+                 -->
             </td>
             
             <td>
