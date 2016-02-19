@@ -93,6 +93,7 @@ if(!empty($modTindakans)) {
             </td>
             <td style="background-color:transparent;border:0px;" width="250px"><div id="tampilanDokterPemeriksa_0"><?php echo (empty($modTindakan->dokterpemeriksa1_id)) ? "" : "Dokter Pemeriksa : ".$modTindakan->dokterpemeriksa1Nama ?></div></td>
             <td style="background-color:transparent;border:0px;"><div id="tampilanDokterDelegasi_0"></div></td>
+            <td style="background-color:transparent;border:0px;"><div id="tampilanDokterAnastesi_0"></div></td>
             <td style="background-color:transparent;border:0px;"><?php echo CHtml::activeTextField($modTindakan, '[0]keterangantindakan', array('readonly'=>false,'class'=>'inputFormTabel span3','placeholder'=>'Keterangan Tindakan')) ?></td> 
           </tr>
 		  <tr>
