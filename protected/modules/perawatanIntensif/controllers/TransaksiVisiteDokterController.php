@@ -70,9 +70,10 @@ class TransaksiVisiteDokterController extends MyAuthController
 							$modTindakans->create_loginpemakai_id=Yii::app()->user->id;
 							$modTindakans->create_ruangan =Yii::app()->user->getState('ruangan_id');
 							
-							
+			    //var_dump($modTindakans->attributes);				
                             if($modTindakans->save()){
                                 // SMS GATEWAY
+                                /*
                                 $modPegawai = $modTindakans->dokter1;
                                 $modPasien = $modTindakans->pasien;
                                 $modRuangan = $modTindakans->ruangan;
@@ -108,12 +109,15 @@ class TransaksiVisiteDokterController extends MyAuthController
                                     }
                                 }
                                 // END SMS GATEWAY
+                                 * 
+                                 */
                                 $jumlahTersimpan++;
                                 $modTindakans->saveTindakanKomponen();
                             }
+                            //var_dump($modTindakans->attributes);
                           }
                     }
-                    
+                    //die;
                     if($jumlahCeklist==$jumlahTersimpan){
                        $transaction->commit();
                        Yii::app()->user->setFlash('success',"Data Berhasil disimpan ");
@@ -269,11 +273,23 @@ class TransaksiVisiteDokterController extends MyAuthController
             $pesan = '';
 
             $pegawai_id	= $_POST['pegawai_id'];
+            $no_rekam_medik = (isset($_POST['no_rekam_medik']))?$_POST['no_rekam_medik']:null;
+            $nama_pasien = (isset($_POST['no_rekam_medik']))?$_POST['nama_pasien']:null;
             $ruangan = Yii::app()->user->getState('ruangan_id');
             $kelaspelayananruangan = Yii::app()->user->getState('kelaspelayananruangan');
-
+            $pilih = $_POST['pilih']?$_POST['pilih']:null;
+            $nama = "";
+            
             $modTindakans = new RITindakanPelayananT;
             $criteria=new CDbCriteria;
+            
+            
+            if ($pilih == 1) {
+                $p = PegawaiM::model()->findByPk($pegawai_id);
+                $nama = $p->nama_pegawai;
+                $criteria->compare('lower(nama_pegawai)', strtolower($nama), true);
+            }
+
 
             $criteria->addCondition('ruangan_id = '.$ruangan);
             if(!empty($kelaspelayananruangan)){
@@ -284,6 +300,9 @@ class TransaksiVisiteDokterController extends MyAuthController
                             $criteria->addCondition("kelaspelayanan_id = ".$kelaspelayananruangan); 	
                     }
             }
+            
+            $criteria->compare('lower(no_rekam_medik)', strtolower($no_rekam_medik), true);
+            $criteria->compare('lower(nama_pasien)', strtolower($nama_pasien), true);
             $modInformasiVisite = RIInfopasienmasukkamarV::model()->findAll($criteria);
             if(count($modInformasiVisite) == 0 ){
                     $pesan = 'Data Tidak Ada !';
