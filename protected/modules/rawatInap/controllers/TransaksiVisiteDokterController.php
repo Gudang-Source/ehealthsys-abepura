@@ -33,6 +33,7 @@ class TransaksiVisiteDokterController extends MyAuthController
 //               echo $jumlahPasien;exit;
 			   $transaction = Yii::app()->db->beginTransaction();
                 try {
+                    // var_dump($_POST); die;
                    	if($jumlahPasien > 0){
 					foreach($_POST['RITindakanPelayananT'] AS $i => $detail){
 						if($_POST['RITindakanPelayananT'][$i]['dipilih']=='Ya'){//Jika Diceklist   
@@ -112,7 +113,7 @@ class TransaksiVisiteDokterController extends MyAuthController
                                  * 
                                  */
                                 $jumlahTersimpan++;
-                                $modTindakans->saveTindakanKomponen();
+                                $this->saveTindakanKomponen($modTindakans);
                             }
                             //var_dump($modTindakans->attributes);
                           }
@@ -149,6 +150,54 @@ class TransaksiVisiteDokterController extends MyAuthController
            $this->render('index',array('model'=>$model,'format'=>$format));
 
 	}
+        
+        public function saveTindakanKomponen($modTindakans){
+            $tindakankomponentersimpan = true;
+
+            $jenis = JenistarifpenjaminM::model()->findByAttributes(array(
+                'penjamin_id'=>$modTindakans->penjamin_id,
+            ));
+            $komponen = TariftindakanM::model()->findAllByAttributes(array(
+                'kelaspelayanan_id'=>$modTindakans->kelaspelayanan_id,
+                'jenistarif_id'=>$jenis->jenistarif_id,
+                'daftartindakan_id'=>$modTindakans->daftartindakan_id,
+                'perdatarif_id'=>1,
+            ), array(
+                'condition'=>'komponentarif_id <> 6',
+            ));
+
+            //var_dump(count($komponen));
+
+            $total = 0;
+            $satuan = 0;
+
+
+            foreach ($komponen as $item) {
+                // var_dump($item->attributes);
+                $tarif = new TindakankomponenT();
+                $tarif->tindakanpelayanan_id = $modTindakans->tindakanpelayanan_id;
+                $tarif->komponentarif_id = $item->komponentarif_id;
+                $tarif->tarif_kompsatuan = $item->harga_tariftindakan;
+                $tarif->tarif_tindakankomp = $tarif->tarif_kompsatuan * $modTindakans->qty_tindakan;
+                $tarif->tarifcyto_tindakankomp = 0;
+                $tarif->subsidiasuransikomp = 0;
+                $tarif->subsidipemerintahkomp = 0;
+                $tarif->subsidirumahsakitkomp = 0;
+                $tarif->iurbiayakomp = $tarif->tarif_tindakankomp;
+
+                if ($tarif->save()) {
+                    $satuan += $tarif->tarif_kompsatuan;
+                    $total += $tarif->tarif_tindakankomp;
+                } else {
+                    $tindakankomponentersimpan = false;
+                }
+            }
+
+            $modTindakans->tarif_satuan = $satuan;
+            $modTindakans->tarif_tindakan = $modTindakans->iurbiaya_tindakan = $total;
+
+            return $tindakankomponentersimpan && $modTindakans->save();
+    }
         
 //        public function saveTindakan()
 //        {
