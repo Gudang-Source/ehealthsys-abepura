@@ -1088,8 +1088,8 @@ class ActionAutoCompleteController extends Controller
                     foreach($attributes as $j=>$attribute) {
                         $returnVal[$i]["$attribute"] = $model->$attribute;
                     }
-                    $returnVal[$i]['label'] = $model->pegawai_id.'-'.$model->nama_pegawai;
-                    $returnVal[$i]['value'] = $model->nama_pegawai;
+                    $returnVal[$i]['label'] = $model->pegawai_id.'-'.$model->namaLengkap;
+                    $returnVal[$i]['value'] = $model->namaLengkap;
                 }
 
                 echo CJSON::encode($returnVal);

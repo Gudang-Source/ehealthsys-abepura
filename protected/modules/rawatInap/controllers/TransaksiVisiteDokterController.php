@@ -33,6 +33,7 @@ class TransaksiVisiteDokterController extends MyAuthController
 //               echo $jumlahPasien;exit;
 			   $transaction = Yii::app()->db->beginTransaction();
                 try {
+                    // var_dump($_POST); die;
                    	if($jumlahPasien > 0){
 					foreach($_POST['RITindakanPelayananT'] AS $i => $detail){
 						if($_POST['RITindakanPelayananT'][$i]['dipilih']=='Ya'){//Jika Diceklist   
@@ -70,9 +71,10 @@ class TransaksiVisiteDokterController extends MyAuthController
 							$modTindakans->create_loginpemakai_id=Yii::app()->user->id;
 							$modTindakans->create_ruangan =Yii::app()->user->getState('ruangan_id');
 							
-							
+			    //var_dump($modTindakans->attributes);				
                             if($modTindakans->save()){
                                 // SMS GATEWAY
+                                /*
                                 $modPegawai = $modTindakans->dokter1;
                                 $modPasien = $modTindakans->pasien;
                                 $modRuangan = $modTindakans->ruangan;
@@ -108,12 +110,15 @@ class TransaksiVisiteDokterController extends MyAuthController
                                     }
                                 }
                                 // END SMS GATEWAY
+                                 * 
+                                 */
                                 $jumlahTersimpan++;
-                                $modTindakans->saveTindakanKomponen();
+                                $this->saveTindakanKomponen($modTindakans);
                             }
+                            //var_dump($modTindakans->attributes);
                           }
                     }
-                    
+                    //die;
                     if($jumlahCeklist==$jumlahTersimpan){
                        $transaction->commit();
                        Yii::app()->user->setFlash('success',"Data Berhasil disimpan ");
@@ -145,6 +150,54 @@ class TransaksiVisiteDokterController extends MyAuthController
            $this->render('index',array('model'=>$model,'format'=>$format));
 
 	}
+        
+        public function saveTindakanKomponen($modTindakans){
+            $tindakankomponentersimpan = true;
+
+            $jenis = JenistarifpenjaminM::model()->findByAttributes(array(
+                'penjamin_id'=>$modTindakans->penjamin_id,
+            ));
+            $komponen = TariftindakanM::model()->findAllByAttributes(array(
+                'kelaspelayanan_id'=>$modTindakans->kelaspelayanan_id,
+                'jenistarif_id'=>$jenis->jenistarif_id,
+                'daftartindakan_id'=>$modTindakans->daftartindakan_id,
+                'perdatarif_id'=>1,
+            ), array(
+                'condition'=>'komponentarif_id <> 6',
+            ));
+
+            //var_dump(count($komponen));
+
+            $total = 0;
+            $satuan = 0;
+
+
+            foreach ($komponen as $item) {
+                // var_dump($item->attributes);
+                $tarif = new TindakankomponenT();
+                $tarif->tindakanpelayanan_id = $modTindakans->tindakanpelayanan_id;
+                $tarif->komponentarif_id = $item->komponentarif_id;
+                $tarif->tarif_kompsatuan = $item->harga_tariftindakan;
+                $tarif->tarif_tindakankomp = $tarif->tarif_kompsatuan * $modTindakans->qty_tindakan;
+                $tarif->tarifcyto_tindakankomp = 0;
+                $tarif->subsidiasuransikomp = 0;
+                $tarif->subsidipemerintahkomp = 0;
+                $tarif->subsidirumahsakitkomp = 0;
+                $tarif->iurbiayakomp = $tarif->tarif_tindakankomp;
+
+                if ($tarif->save()) {
+                    $satuan += $tarif->tarif_kompsatuan;
+                    $total += $tarif->tarif_tindakankomp;
+                } else {
+                    $tindakankomponentersimpan = false;
+                }
+            }
+
+            $modTindakans->tarif_satuan = $satuan;
+            $modTindakans->tarif_tindakan = $modTindakans->iurbiaya_tindakan = $total;
+
+            return $tindakankomponentersimpan && $modTindakans->save();
+    }
         
 //        public function saveTindakan()
 //        {
@@ -269,11 +322,23 @@ class TransaksiVisiteDokterController extends MyAuthController
             $pesan = '';
 
             $pegawai_id	= $_POST['pegawai_id'];
+            $no_rekam_medik = (isset($_POST['no_rekam_medik']))?$_POST['no_rekam_medik']:null;
+            $nama_pasien = (isset($_POST['no_rekam_medik']))?$_POST['nama_pasien']:null;
             $ruangan = Yii::app()->user->getState('ruangan_id');
             $kelaspelayananruangan = Yii::app()->user->getState('kelaspelayananruangan');
-
+            $pilih = $_POST['pilih']?$_POST['pilih']:null;
+            $nama = "";
+            
             $modTindakans = new RITindakanPelayananT;
             $criteria=new CDbCriteria;
+            
+            
+            if ($pilih == 1) {
+                $p = PegawaiM::model()->findByPk($pegawai_id);
+                $nama = $p->nama_pegawai;
+                $criteria->compare('lower(nama_pegawai)', strtolower($nama), true);
+            }
+
 
             $criteria->addCondition('ruangan_id = '.$ruangan);
             if(!empty($kelaspelayananruangan)){
@@ -284,6 +349,9 @@ class TransaksiVisiteDokterController extends MyAuthController
                             $criteria->addCondition("kelaspelayanan_id = ".$kelaspelayananruangan); 	
                     }
             }
+            
+            $criteria->compare('lower(no_rekam_medik)', strtolower($no_rekam_medik), true);
+            $criteria->compare('lower(nama_pasien)', strtolower($nama_pasien), true);
             $modInformasiVisite = RIInfopasienmasukkamarV::model()->findAll($criteria);
             if(count($modInformasiVisite) == 0 ){
                     $pesan = 'Data Tidak Ada !';

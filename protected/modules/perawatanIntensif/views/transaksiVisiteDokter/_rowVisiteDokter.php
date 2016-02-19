@@ -29,7 +29,7 @@ foreach ($modInformasiVisite as $i=>$detail):
         <?php echo (!empty($detail->caraBayarPenjamin) ? $detail->caraBayarPenjamin : "") ?>
     </td>
 	<td>
-        <?php echo (!empty($detail->kamarruangan_id)) ? $detail->kamarruangan_nokamar."/".$detail->kamarruangan_nobed : ""; ?>
+        <?php echo (!empty($detail->kamarruangan_id)) ? $detail->kamarruangan_nokamar.":".$detail->kamarruangan_nobed : ""; ?>/<br/>
         <?php echo (!empty($detail->kelaspelayanan_nama) ? $detail->kelaspelayanan_nama : "") ?>
     </td>
 	<td>
