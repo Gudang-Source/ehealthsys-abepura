@@ -7,7 +7,7 @@ class SukuMController extends MyAuthController
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	public $layout='//layouts/column1';
+	public $layout='//layouts/main';
 	public $defaultAction = 'admin';
        
 	/**
@@ -27,7 +27,7 @@ class SukuMController extends MyAuthController
 	 */
 	public function actionCreate()
 	{
-               if(!Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}                       
+               // if(!Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}                       
 		$model=new SASukuM;
 
 		// Uncomment the following line if AJAX validation is needed
@@ -54,7 +54,7 @@ class SukuMController extends MyAuthController
 	 */
 	public function actionUpdate($id)
 	{
-                if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}                       
+                // if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}                       
 		$model=$this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
@@ -90,7 +90,7 @@ class SukuMController extends MyAuthController
 	 */
 	public function actionAdmin()
 	{
-                if(!Yii::app()->user->checkAccess(Params::DEFAULT_ADMIN)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}              
+                // if(!Yii::app()->user->checkAccess(Params::DEFAULT_ADMIN)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}              
 		$model=new SASukuM('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['SASukuM']))
@@ -108,7 +108,7 @@ class SukuMController extends MyAuthController
 	 */
 	public function loadModel($id)
 	{
-		$model=SASukuM::model()->findByPk($id);
+		// $model=SASukuM::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -191,7 +191,7 @@ class SukuMController extends MyAuthController
         
         public function actionPrint()
         {
-             if(!Yii::app()->user->checkAccess(Params::DEFAULT_ADMIN)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}              
+             // if(!Yii::app()->user->checkAccess(Params::DEFAULT_ADMIN)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}              
              $model= new SASukuM;
              $model->attributes=$_REQUEST['SASukuM'];
              $judulLaporan='Laporan Data Pendidikan';
