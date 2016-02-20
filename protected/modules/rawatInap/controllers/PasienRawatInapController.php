@@ -1116,6 +1116,7 @@ class PasienRawatInapController extends MyAuthController
         
         public static function saveAkomodasi($modPendaftaran, $modPasienAdmisi, $lamaRawat)
         {
+            //echo $lamaRawat; die;
             $cekTindakanKomponen=0;
             $modMasukKamar = InfopasienmasukkamarV::model()->findByAttributes(array(
                 'pendaftaran_id'=>$modPasienAdmisi->pendaftaran_id,
