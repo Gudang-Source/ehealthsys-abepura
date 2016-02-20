@@ -51,6 +51,10 @@ class AnamnesaController extends MyAuthController
 				
                 $modAnamnesa=$cekAnamnesa;
                 
+                $lama = explode(" ",$modAnamnesa->lamasakit);
+                $modAnamnesa->lamasakit = $lama[0];
+                if (!empty($lama[1])) $modAnamnesa->satuanWaktu = $lama[1];
+                
 		//if ($modAnamnesa->paramedis_nama) $pegawai = PegawaiM::model()->findByPk(Yii::app()->user->getState('pegawai_id'));
                 //$modAnamnesa->paramedis_nama = empty($pegawai)?null:$pegawai->nama_pegawai;
 				
@@ -99,6 +103,8 @@ class AnamnesaController extends MyAuthController
                 try {
                     $detTriase = (isset($_POST['RJTriase']) ? $_POST['RJTriase'] : null);
                     $modAnamnesa->attributes=$_POST['RJAnamnesaT'];
+                    $modAnamnesa->lamasakit .= " ".$_POST['RJAnamnesaT']['satuanWaktu'];
+                    
                     if (empty($modAnamnesa->hpht)) $modAnamnesa->hpht = null;
                     if (empty($modAnamnesa->tgl_persalinan)) $modAnamnesa->tgl_persalinan = null;
                     if(isset($detTriase)){
