@@ -93,10 +93,12 @@ class CustomFunction
      * @return type
      */
     public static function hitungHari($dateFrom,$dateTo=''){
+        
         $dateTo = (!empty($dateTo)) ? strtotime($dateTo) : time(); // or your date as well
         $dateFrom = strtotime($dateFrom);
-        $datediff = $dateTo - $dateFrom;
-        $hari = floor($datediff/(60*60*24));
+        //echo floor($dateFrom/(60*60*24))." - ".; die;
+        //$datediff = $dateTo - $dateFrom;
+        $hari = ceil(time()/(60*60*24)) - floor($dateFrom/(60*60*24));
         return $hari;
     }
 	/**

@@ -343,8 +343,48 @@ class TindakanpelayananT extends CActiveRecord
             
             return parent::beforeSave();
         }
+        
+        protected function afterSave() {
+            parent::afterSave();
             
-                
+            $this->checkSudahbayar();
+        }
+        
+        function checkSudahBayar() {
+            $pendaftaran = PendaftaranT::model()->findByPk($this->pendaftaran_id);
+            $adm = PasienadmisiT::model()->findByAttributes(array('pendaftaran_id'=>$pendaftaran->pendaftaran_id));
+            
+            if ($this->cekTindakanOa()) {
+                // echo $this->pendaftaran_id; die;
+                PendaftaranT::model()->updateByPk($this->pendaftaran_id, array(
+                    'pembayaranpelayanan_id'=>null,
+                ));
+                if (!empty($adm)) {
+                    PasienadmisiT::model()->updateByPk($adm->pasienadmisi_id, array(
+                        'pembayaranpelayanan_id'=>null,
+                    ));
+                }
+            }
+        }
+
+        function cekTindakanOa() {
+            $tindakan = self::model()->findAllByAttributes(array(
+                'pendaftaran_id'=>$this->pendaftaran_id,
+            ), array(
+                'condition'=>'tindakansudahbayar_id is null',
+            ));
+            
+            $oa = ObatalkespasienT::model()->findAllByAttributes(array(
+                'pendaftaran_id'=>$this->pendaftaran_id,
+            ), array(
+                'condition'=>'oasudahbayar_id is null',
+            ));
+            
+            return (count($tindakan) + count($oa)) > 0;
+        }
+
+
+
 //        FUNGSI INI JANGAN DIGUNAKAN LAGI (BERLAKU DI SEMUA MODEL) KARENA SERING TERJADI ERROR KETIKA UPDATE
 //        protected function afterFind(){
 //            foreach($this->metadata->tableSchema->columns as $columnName => $column){

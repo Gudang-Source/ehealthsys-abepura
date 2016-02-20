@@ -17,7 +17,7 @@ class BKInformasikasirinappulangV extends InformasikasirinappulangV
 	{
 
             $criteria=new CDbCriteria;
-
+            
             if($this->ceklis==0){
                     $criteria->addBetweenCondition('DATE(t.tgladmisi)',$this->tgl_awal_admisi,$this->tgl_akhir_admisi);	       
             }else{
@@ -25,7 +25,7 @@ class BKInformasikasirinappulangV extends InformasikasirinappulangV
                     
             }
 
-            $criteria->addCondition('t.pembayaranpelayanan_id IS NULL');
+            //$criteria->addCondition('t.pembayaranpelayanan_id IS NULL');
             $criteria->compare('LOWER(namadepan)',strtolower($this->namadepan),true);
             $criteria->compare('LOWER(nama_pasien)',strtolower($this->nama_pasien),true);
             $criteria->compare('LOWER(nama_bin)',strtolower($this->nama_bin),true);
@@ -68,9 +68,11 @@ class BKInformasikasirinappulangV extends InformasikasirinappulangV
 			if(!empty($this->instalasi_id)){
 				$criteria->addCondition('instalasi_id = '.$this->instalasi_id);
 			}
+                        
 			if(!empty($this->ruanganakhir_id)){
-				$criteria->addCondition('ruanganakhir_id = '.$this->ruanganakhir_id);
+				$criteria->addCondition('ruangan_id = '.$this->ruanganakhir_id);
 			}
+                        
             $criteria->order = 'tgladmisi DESC';
             //$criteria->compare('LOWER(statusperiksa)',strtolower(Params::STATUSPERIKSA_SUDAH_DIPERIKSA));
 

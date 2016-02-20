@@ -24,7 +24,7 @@ $format = new MyFormatter;
         <td>
             Instalasi
         </td>
-        <td>: <b><?php echo $modPendaftaran->instalasi->instalasi_nama; ?></b></td>
+        <td>: <b><?php echo $modInstalasi->instalasi_nama; ?></b></td>
     </tr>
     <tr>
         <td>No. Pendaftaan</td>
