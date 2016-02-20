@@ -112,6 +112,46 @@ class ObatalkespasienT extends CActiveRecord
 		);
 	}
         
+        protected function afterSave() {
+            parent::afterSave();
+            
+            if (!empty($this->pendaftaran)) $this->checkSudahbayar();
+        }
+        
+        function checkSudahBayar() {
+            $pendaftaran = PendaftaranT::model()->findByPk($this->pendaftaran_id);
+            
+            $adm = PasienadmisiT::model()->findByAttributes(array('pendaftaran_id'=>$pendaftaran->pendaftaran_id));
+            
+            if ($this->cekTindakanOa()) {
+                // echo $this->pendaftaran_id; die;
+                PendaftaranT::model()->updateByPk($this->pendaftaran_id, array(
+                    'pembayaranpelayanan_id'=>null,
+                ));
+                if (!empty($adm)) {
+                    PasienadmisiT::model()->updateByPk($adm->pasienadmisi_id, array(
+                        'pembayaranpelayanan_id'=>null,
+                    ));
+                }
+            }
+        }
+
+        function cekTindakanOa() {
+            $tindakan = self::model()->findAllByAttributes(array(
+                'pendaftaran_id'=>$this->pendaftaran_id,
+            ), array(
+                'condition'=>'tindakansudahbayar_id is null',
+            ));
+            
+            $oa = ObatalkespasienT::model()->findAllByAttributes(array(
+                'pendaftaran_id'=>$this->pendaftaran_id,
+            ), array(
+                'condition'=>'oasudahbayar_id is null',
+            ));
+            
+            return (count($tindakan) + count($oa)) > 0;
+        }
+        
         public function cekStok(){
             if (!$this->hasErrors()){
                 $stok = StokobatalkesT::getJumlahStok($this->obatalkes_id);
