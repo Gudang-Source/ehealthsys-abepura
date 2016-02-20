@@ -12,6 +12,8 @@ class RJAnamnesaT extends AnamnesaT
 		return parent::model($className);
 	}
         
+        public $satuanWaktu;
+        
 	public function searchDiagnosaAnamnesa(){
 		$criteria=new CDbCriteria;
 

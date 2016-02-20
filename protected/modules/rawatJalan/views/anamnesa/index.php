@@ -101,7 +101,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                 <?php echo $form->labelEx($modAnamnesa, 'lamasakit', array('class' => 'control-label')) ?>
                 <div class="controls">
 				<?php echo $form->textField($modAnamnesa, 'lamasakit', array('class' => 'span1 integer', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
-				<?php echo $form->labelEx($modAnamnesa, 'hari') ?>
+				<?php echo $form->dropDownList($modAnamnesa, 'satuanWaktu', array('Hari'=>'Hari', 'Minggu'=>'Minggu', 'Bulan'=>'Bulan', 'Tahun'=>'Tahun'), array('class'=>'span2', 'empty'=>'-- Pilih --')); ?>
 				</div>
 			</div>
 			<div class="control-group ">
