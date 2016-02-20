@@ -407,18 +407,10 @@
         <legend class="rim"><i class='icon-white icon-search'></i> Pencarian</legend>
 	<table width='100%' class="table-condensed">
             <tr>
-                <td width='35%'>
-                    <?php echo $form->textFieldRow($model,'no_rekam_medik',array('placeholder'=>'Ketik No. Rekam Medik','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
-                    <?php echo $form->textFieldRow($model,'no_pendaftaran',array('placeholder'=>'Ketik No. Pendaftaran','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
-                </td>
-                <td width='35%'>
-                    <?php echo $form->textFieldRow($model,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
-                    <?php echo $form->textFieldRow($model,'nama_bin',array('placeholder'=>'Ketik Nama Panggilan','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
-                </td>
                 <td>
                     <div class="control-group ">
                         <label for="namaPasien" class="control-label">
-                                <?php echo CHtml::activecheckBox($model, 'ceklis', array('uncheckValue'=>0,'onClick'=>'cekTanggal()','rel'=>'tooltip' ,'data-original-title'=>'Cek untuk pencarian berdasarkan tanggal')); ?>
+                                <?php // echo CHtml::activecheckBox($model, 'ceklis', array('uncheckValue'=>0,'onClick'=>'cekTanggal()','rel'=>'tooltip' ,'data-original-title'=>'Cek untuk pencarian berdasarkan tanggal')); ?>
                                 Tanggal Masuk 
                         </label>
                         <div class="controls">
@@ -444,17 +436,24 @@
                                     $this->widget('MyDateTimePicker',array(
                                                                     'model'=>$model,
                                                                     'attribute'=>'tgl_akhir',
-                                                                    'mode'=>'date',
-                                                                    'options'=> array(
-                                                                            'dateFormat'=>Params::DATE_FORMAT,
-                                                                            'maxDate' => 'd',
-                                                                    ),
-                                                                    'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3'),
-                                    )); 
-                                    $model->tgl_akhir = $format->formatDateTimeForDb($model->tgl_akhir);
-                            ?>
-                        </div>
-                    </div> 
+                                                                        'mode'=>'date',
+                                                                        'options'=> array(
+                                                                                'dateFormat'=>Params::DATE_FORMAT,
+                                                                                'maxDate' => 'd',
+                                                                        ),
+                                                                        'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3'),
+                                        )); 
+                                        $model->tgl_akhir = $format->formatDateTimeForDb($model->tgl_akhir);
+                                ?>
+                            </div>
+                        </div> 
+                </td>
+                <td width='35%'>
+                    <?php echo $form->textFieldRow($model,'no_rekam_medik',array('placeholder'=>'Ketik No. Rekam Medik','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
+                    <?php echo $form->textFieldRow($model,'no_pendaftaran',array('placeholder'=>'Ketik No. Pendaftaran','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
+                    <?php echo $form->textFieldRow($model,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
+                </td>
+                <td width='35%'>
                 </td>
             </tr>
 	</table>
@@ -542,8 +541,8 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
 <?php $this->endWidget(); ?>
 
 <script>
-document.getElementById('PSInfokunjunganpersalinanV_tgl_awal_date').setAttribute("style","display:none;");
-document.getElementById('PSInfokunjunganpersalinanV_tgl_akhir_date').setAttribute("style","display:none;");
+// document.getElementById('PSInfokunjunganpersalinanV_tgl_awal_date').setAttribute("style","display:none;");
+// document.getElementById('PSInfokunjunganpersalinanV_tgl_akhir_date').setAttribute("style","display:none;");
 function cekTanggal(){
 
 	var checklist = $('#PSInfokunjunganpersalinanV_ceklis');
