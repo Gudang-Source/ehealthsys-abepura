@@ -36,13 +36,13 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
 
 	<?php echo $form->errorSummary($model); ?>
         
-        <table>
+        <table width="100%">
             <tr>
                 <td>
 
                      <?php echo $form->textFieldRow($model,'obatalkes_nama',array('class'=>'span4', 'readonly'=>true)); ?>
                      <?php //echo $form->textFieldRow($model,'satuankecilNama',array('class'=>'span2', 'readonly'=>true)); ?>
-                     <?php echo $form->textFieldRow($model,'obatAlkes',array('class'=>'span3', 'readonly'=>true));  ?>
+                     <?php //echo $form->textFieldRow($model,'obatAlkes',array('class'=>'span3', 'readonly'=>true));  ?>
                      <?php echo $form->textFieldRow($model,'obatalkes_kategori',array('class'=>'span2', 'readonly'=>true)); ?>
                     
                     <?php $a = $_GET['status']; if( $a == "hargajual"){ ?>
@@ -134,14 +134,14 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                             <legend class="rim">HPP</legend>
                             <div class="row-fluid">
                                 <div class="span6">
-                                    <div class="control-group" style="margin-left:-30px;">
+                                    <div class="control-group">
                                         <?php echo CHtml::label('Harga Beli','hargabeli', array('class'=>'control-label')); ?>
                                         <div class="controls">
                                             <?php echo CHtml::textField('hargabeli','', array('class'=>'control-label integer','onkeyup'=>'hitung_harganetto()')); ?>
                                         </div>
                                     </div>
                                     
-                                    <div class="control-group" style="margin-left:-30px;">
+                                    <div class="control-group">
                                         <?php echo $form->labelEx($model,'satuanbesar_id',array('class'=>'control-label'));?>
                                         <div class="controls">
                                             <?php echo $form->dropDownList($model,'satuanbesar_id',
@@ -151,7 +151,7 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                                         </div>
                                     </div> 
                                     
-                                    <div class="control-group" style="margin-left:-30px;">
+                                    <div class="control-group">
                                         <?php echo CHtml::label('Isi Netto','kemasanbesar',array('class'=>'control-label'));?>
                                         <div class="controls">
                                             <?php echo $form->textField($model,'kemasanbesar',array('class'=>'span1 integer', 
@@ -159,25 +159,25 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                                         </div>
                                     </div> 
                                     
-                                    <div class="control-group" style="margin-left:-30px;">
+                                    <div class="control-group">
                                         <?php echo $form->labelEx($model,'satuankecil_id',array('class'=>'control-label'));?>
                                         <div class="controls">
                                             <?php echo $form->dropDownList($model,'satuankecil_id',
                                                     CHtml::listData($model->SatuanKecilItems, 'satuankecil_id', 'satuankecil_nama'),
-                                                    array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",
+                                                    array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event)",
                                                     'empty'=>'-- Pilih --',)); ?>
                                         </div>
                                     </div> 
                                 </div>
                                 <div class="span6">
-                                    <div class="control-group" style="margin-left:-30px;">
+                                    <div class="control-group">
                                         <?php echo $form->labelEx($model,'harganetto',array('class'=>'control-label'));?>
                                         <div class="controls">
                                             <?php echo $form->textField($model,'harganetto',array('class'=>'span2 integer', 
                                                     'onkeypress'=>"return $(this).focusNextInputField(event);",'onkeyup'=>'hitung_hargabeli();')); ?>
                                         </div>
                                     </div>
-                                    <div class="control-group" style="margin-left:-30px;">
+                                    <div class="control-group">
                                         <?php echo $form->labelEx($model,'discount',array('class'=>'control-label'));?>
                                         <div class="controls">
                                             <?php echo $form->textField($model,'discount',array('class'=>'span1 float', 
@@ -185,7 +185,7 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                                         </div>
                                     </div> 
                                     
-                                    <div class="control-group" style="margin-left:-30px;">
+                                    <div class="control-group">
                                         <?php echo $form->labelEx($model,'ppn_persen',array('class'=>'control-label'));?>
                                         <div class="controls">
                                             <?php echo $form->textField($model,'ppn_persen',array('class'=>'span1 float', 
@@ -193,7 +193,7 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                                         </div>
                                     </div>  
                                     
-                                    <div class="control-group" style="margin-left:-30px;">
+                                    <div class="control-group">
                                         <?php echo Chtml::label('HPP','hpp',array('class'=>'control-label'));?>
                                         <div class="controls">
                                             <?php echo $form->textField($model,'hpp',array('class'=>'span1 integer', 'onkeyup'=>'marginResep();', 
@@ -274,15 +274,17 @@ if($tersimpan=='Ya'){ ?>
 <script type="text/javascript">
 function hitungHpp()
 {
-    var harganetto = unformatNumber($('#GFObatAlkesM_harganetto').val());
-    var discount = unformatNumber($('#GFObatAlkesM_discount').val());
-    var ppn = unformatNumber($('#GFObatAlkesM_ppn_persen').val());
+    var harganetto = unformatNumber($('#SAObatalkesM_harganetto').val());
+    var discount = unformatNumber($('#SAObatalkesM_discount').val());
+    var ppn = unformatNumber($('#SAObatalkesM_ppn_persen').val());
     
     jumlahDiskon = (harganetto - (harganetto * (discount/100)))
     jumlahPpn = (jumlahDiskon * (ppn / 100));
     hpp = jumlahDiskon + jumlahPpn;
     
-    $('#GFObatAlkesM_hpp').val(formatInteger(hpp));
+    console.log(hpp);
+    
+    $('#SAObatalkesM_hpp').val(formatInteger(hpp));
 }
 
 function cekInput()
@@ -293,8 +295,8 @@ function cekInput()
 }
 
 function hitung_hargabeli(){
-    var harganetto  = unformatNumber($('#GFObatAlkesM_harganetto').val());
-    var isinetto = unformatNumber($('#GFObatAlkesM_kemasanbesar').val());
+    var harganetto  = unformatNumber($('#SAObatAlkesM_harganetto').val());
+    var isinetto = unformatNumber($('#SAObatAlkesM_kemasanbesar').val());
     total_hargabeli = harganetto * isinetto;
     $('#hargabeli').val(formatNumber(total_hargabeli));
     hitungHpp();
@@ -302,23 +304,10 @@ function hitung_hargabeli(){
 
 function hitung_harganetto(){
     var hargabeli = unformatNumber($('#hargabeli').val());
-    var isinetto  = unformatNumber($('#GFObatAlkesM_kemasanbesar').val());
+    var isinetto  = unformatNumber($('#SAObatalkesM_kemasanbesar').val());
     total_harganetto = hargabeli / isinetto;
-    $('#GFObatAlkesM_harganetto').val(formatNumber(total_harganetto));
+    $('#SAObatalkesM_harganetto').val(formatNumber(total_harganetto));
     hitungHpp();
-}
-
-function hitungHpp()
-{
-    var harganetto = unformatNumber($('#GFObatAlkesM_harganetto').val());
-    var discount = unformatNumber($('#GFObatAlkesM_discount').val());
-    var ppn = unformatNumber($('#GFObatAlkesM_ppn_persen').val());
-    
-    jumlahDiskon = (harganetto - (harganetto * (discount/100)))
-    jumlahPpn = (jumlahDiskon * (ppn / 100));
-    hpp = jumlahDiskon + jumlahPpn;
-    
-    $('#GFObatAlkesM_hpp').val(formatInteger(hpp));
 }
 
 function cekInput()
@@ -329,18 +318,10 @@ function cekInput()
 }
 
 function hitung_hargabeli(){
-    var harganetto  = unformatNumber($('#GFObatAlkesM_harganetto').val());
-    var isinetto = unformatNumber($('#GFObatAlkesM_kemasanbesar').val());
+    var harganetto  = unformatNumber($('#SAObatAlkesM_harganetto').val());
+    var isinetto = unformatNumber($('#SAObatAlkesM_kemasanbesar').val());
     total_hargabeli = harganetto * isinetto;
     $('#hargabeli').val(formatNumber(total_hargabeli));
-    hitungHpp();
-}
-
-function hitung_harganetto(){
-    var hargabeli = unformatNumber($('#hargabeli').val());
-    var isinetto  = unformatNumber($('#GFObatAlkesM_kemasanbesar').val());
-    total_harganetto = hargabeli / isinetto;
-    $('#GFObatAlkesM_harganetto').val(formatNumber(total_harganetto));
     hitungHpp();
 }
 
