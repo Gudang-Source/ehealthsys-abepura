@@ -18,7 +18,7 @@ class PasienRawatInapController extends MyAuthController
   public function actionIndex()
   {
            
-        $this->pageTitle = Yii::app()->name." - Pasien Rawat Inap";
+        $this->pageTitle = Yii::app()->name." - Pasien Rawat Intensif";
         $format = new MyFormatter();
         $model = new RIInfopasienmasukkamarV;
         $model->tgl_awal  = date('Y-m-d');
@@ -175,7 +175,7 @@ class PasienRawatInapController extends MyAuthController
                           $this->updateMasukKamar($modMasukKamar,$_POST['RIMasukKamarT']);
                           if(!isset($modTariftindakan->harga_tariftindakan)){
                             echo "<script>
-                                        myAlert('Maaf, Harga Tarif Kamar Rawat Inap Belum Ada. Silahkan Hubungi Bagian Administrasi');
+                                        myAlert('Maaf, Harga Tarif Kamar Rawat Intensif Belum Ada. Silahkan Hubungi Bagian Administrasi');
                                         window.location.href('".Yii::app()->createUrl('/PasienRawatInap/index')."');
                                     </script>";
                             }else{

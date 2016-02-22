@@ -14,14 +14,14 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'columns'=>array(
         'nomorindukpegawai',
         'kelompokjabatan',
-        'nama_pegawai',
+        array('name'=>'nama_pegawai', 'value'=>'$data->namaLengkap'),
         array(
             'header'=>'Pilih',
             'type'=>'raw',
             'value'=>'CHtml::Link("<i class=\"icon-check\"></i>","javascript:void(0);",array("class"=>"btn-small", 
                             "id" => "selectPasien",
                             "onClick" => "inputPegawai($data->pegawai_id,
-                                                    \'$data->nama_pegawai\',\'$data->kelompokjabatan\');return false;"))',
+                                                    \'$data->namaLengkap\',\'$data->kelompokjabatan\');return false;"))',
         )
     ),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',

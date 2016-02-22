@@ -105,8 +105,10 @@ if(!empty($_GET['suratketerangan_id'])){
                 <tr>
                     <td>Umur</td>
                     <td>:</td>
-                    <td><?php echo CHtml::textField('nama_pasien',$modPasien->tanggal_lahir, array('readonly'=>false,
-                                'onkeypress'=>"return $(this).focusNextInputField(event)")); ?></td>
+                    <td><?php echo CHtml::textField('nama_pasien',$modPendaftaran->umur, array('readonly'=>false,
+                            'onkeypress'=>"return $(this).focusNextInputField(event)", 'class'=>'span2')); ?>
+                    <?php echo CHtml::textField('nama_pasien',  MyFormatter::formatDateTimeForUser($modPasien->tanggal_lahir), array('readonly'=>false,
+                            'onkeypress'=>"return $(this).focusNextInputField(event)", 'class'=>'span2')); ?></td>
                 </tr>
                 <tr>
                     <td>Jenis Kelamin</td>
@@ -140,13 +142,16 @@ if(!empty($_GET['suratketerangan_id'])){
 </div><br><br><br><br><br>
 <div style="margin-left: 50px">
     <?php $date = date('Y-m-d'); ?>
-    <?php echo $data->kabupaten->kabupaten_nama ;?>, <?php echo $format->formatDateTimeForUser($date); ?>
+    <?php echo $data->kecamatan->kecamatan_nama ;?>, <?php echo $format->formatDateTimeForUser($date); ?>
 <br/>
 Direktur RS,<br><br><br><br><br>
 <!--    (_________________)-->
-<?php
-    echo CHtml::activeDropDownList($model,'mengetahui_surat', CHtml::listData(PegawaiV::model()->findAll(), 'nama_pegawai', 'nama_pegawai'), array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)"));
-?>
+        <?php
+		echo CHtml::activeDropDownList($model,'mengetahui_surat', CHtml::listData(PegawaiV::model()->findAll(array(
+                    'condition'=>'pegawai_aktif = true',
+                    'order'=>'nama_pegawai',
+                )), 'namaLengkap', 'namaLengkap'), array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)"));
+	?>
 </div>
 </TABLE>
 <?php 
