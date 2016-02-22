@@ -38,9 +38,11 @@ $format = new MyFormatter();
     <p align="justify">
         <table width="50%" style="margin-left:100px;width:auto;">
             <tr>
-                <td style="padding-right: 55px;">Nama Supir</td>
+                <td>Nama Pengemudi</td>
                 <td>:</td>
-                <td><?php echo (!empty($model->supirambulans_id) ? $model->supir->nama_pegawai : "-"); ?></td>
+                <td><?php 
+                $supir = PegawaiM::model()->findByPk($model->supirambulans_id);
+                echo empty($supir)?"-":$supir->nama_pegawai; ?></td>
             </tr>
             <tr>
                 <td style="padding-right: 55px;">No. SIM</td>
