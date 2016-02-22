@@ -18,7 +18,7 @@ class PasienRawatInapController extends MyAuthController
   public function actionIndex()
   {
            
-        $this->pageTitle = Yii::app()->name." - Pasien Rawat Inap";
+        $this->pageTitle = Yii::app()->name." - Pasien Rawat Intensif";
         $format = new MyFormatter();
         $model = new RIInfopasienmasukkamarV;
         $model->tgl_awal  = date('Y-m-d');
@@ -175,7 +175,7 @@ class PasienRawatInapController extends MyAuthController
                           $this->updateMasukKamar($modMasukKamar,$_POST['RIMasukKamarT']);
                           if(!isset($modTariftindakan->harga_tariftindakan)){
                             echo "<script>
-                                        myAlert('Maaf, Harga Tarif Kamar Rawat Inap Belum Ada. Silahkan Hubungi Bagian Administrasi');
+                                        myAlert('Maaf, Harga Tarif Kamar Rawat Intensif Belum Ada. Silahkan Hubungi Bagian Administrasi');
                                         window.location.href('".Yii::app()->createUrl('/PasienRawatInap/index')."');
                                     </script>";
                             }else{
@@ -191,14 +191,16 @@ class PasienRawatInapController extends MyAuthController
                       
                           $modPasienAdmisi = RIPasienAdmisiT::model()->findByPk($modelPulang->pasienadmisi_id);
                           $this->updatePasienAdmisi($modPasienAdmisi, $modelPulang);
-                          
+                          /*
                           if(Yii::app()->user->getState('akomodasiotomatis') == true){ 
 								if(PasienRawatInapController::cekAkomodasiHariIni($modPendaftaran, $modPasienAdmisi, $modMasukKamar)){  
 									  $this->saveAkomodasi($modPendaftaran, $modPasienAdmisi, $modMasukKamar->lamadirawat_kamar);
 								}else{
 									Yii::app()->user->setFlash('error',"Biaya akomodasi pasien gagal tersimpan. Silahkan cek tarif akomodasi!");
 								}
-                          }                         
+                          }          
+                           * 
+                           */           
                           
                             if(isset($_POST['pakeRujukan']) && $_POST['pakeRujukan']=='1')//Jika Pake Rujukan
                             {
@@ -1114,6 +1116,7 @@ class PasienRawatInapController extends MyAuthController
         
         public static function saveAkomodasi($modPendaftaran, $modPasienAdmisi, $lamaRawat)
         {
+            //echo $lamaRawat; die;
             $cekTindakanKomponen=0;
             $modMasukKamar = InfopasienmasukkamarV::model()->findByAttributes(array(
                 'pendaftaran_id'=>$modPasienAdmisi->pendaftaran_id,
