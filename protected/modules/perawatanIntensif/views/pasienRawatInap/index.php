@@ -1,5 +1,5 @@
 <div class="white-container">
-    <legend class="rim2">Informasi Pasien <b>Rawat Inap</b></legend>
+    <legend class="rim2">Informasi Pasien <b>Rawat Intensif</b></legend>
     <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form.js'); ?>
 
     <?php
@@ -17,7 +17,7 @@
     ");
     ?>
     <div class="block-tabel">
-        <h6>Tabel Pasien <b>Rawat Inap</b></h6>
+        <h6>Tabel Pasien <b>Rawat Intensif</b></h6>
         <div class="table-responsive">
             <?php
                 $this->widget('ext.bootstrap.widgets.BootGridView', array(
@@ -132,7 +132,7 @@
             //                    array(
             //                       'header'=>'Tindak Lanjut',
             //                       'type'=>'raw',
-            //                       'value'=>'((!empty($data->pasienpulang_id)) ? $data->carakeluar : CHtml::link("<i class=\'icon-share\'></i> ",Yii::app()->controller->createUrl("'.Yii::app()->controller->id.'/TindakLanjutDariPasienRI",array("pendaftaran_id"=>$data->pendaftaran_id)) ,array("title"=>"Klik Untuk Tindak lanjut Pasien","target"=>"iframeTindakLanjut", "onclick"=>"$(\"#dialogTindakLanjut\").dialog(\"open\");", "rel"=>"tooltip"))."<br>".CHtml::link("<i class=\'icon-remove\'></i>", "javascript:cekHakAkses($data->pendaftaran_id)",array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk Batal Rawat Inap")))',
+            //                       'value'=>'((!empty($data->pasienpulang_id)) ? $data->carakeluar : CHtml::link("<i class=\'icon-share\'></i> ",Yii::app()->controller->createUrl("'.Yii::app()->controller->id.'/TindakLanjutDariPasienRI",array("pendaftaran_id"=>$data->pendaftaran_id)) ,array("title"=>"Klik Untuk Tindak lanjut Pasien","target"=>"iframeTindakLanjut", "onclick"=>"$(\"#dialogTindakLanjut\").dialog(\"open\");", "rel"=>"tooltip"))."<br>".CHtml::link("<i class=\'icon-remove\'></i>", "javascript:cekHakAkses($data->pendaftaran_id)",array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk Batal Rawat Intensif")))',
             //                       'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
             //                    ),
                             array(
@@ -174,7 +174,7 @@
                                'value'=>'CHtml::link("<i class=\'icon-form-silang\'></i>", 
                                          Yii::app()->controller->createUrl("'.Yii::app()->controller->id.'/batalRawatInap",
                                          array("pendaftaran_id"=>$data->pendaftaran_id)),
-                                         array("title"=>"Klik untuk Batal Rawat Inap", "target"=>"iframeBatalRawatInap",
+                                         array("title"=>"Klik untuk Batal Rawat Intensif", "target"=>"iframeBatalRawatInap",
                                          "onclick"=>"$(\"#dialogBatalRawatInap\").dialog(\"open\");", "rel"=>"tooltip"))',
                                'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
                             ),
@@ -271,7 +271,7 @@
     $this->beginWidget('zii.widgets.jui.CJuiDialog', array( 
         'id'=>'dialogMasukKamar',
         'options'=>array(
-            'title'=>'Masuk Kamar Rawat Inap',
+            'title'=>'Masuk Kamar Rawat Intensif',
             'autoOpen'=>false,
             'modal'=>true,
             'minWidth'=>800,
@@ -307,11 +307,11 @@
     <?php $this->endWidget(); ?>
 
     <?php 
-    // Dialog untuk batal Rawat Inap =========================
+    // Dialog untuk batal Rawat Intensif =========================
     $this->beginWidget('zii.widgets.jui.CJuiDialog', array( 
         'id'=>'dialogBatalRawatInap',
         'options'=>array(
-            'title'=>'Pembatalan Pasien Rawat Inap',
+            'title'=>'Pembatalan Pasien Rawat Intensif',
             'autoOpen'=>false,
             'modal'=>true,
             'minWidth'=>800,
