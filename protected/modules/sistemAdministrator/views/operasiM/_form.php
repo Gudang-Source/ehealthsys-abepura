@@ -117,7 +117,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'filter'=>$modTindakanRad,
         'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
-    'columns'=>array(
+        'columns'=>array(
             array(
                 'header'=>'Pilih',
                 'type'=>'raw',
@@ -130,9 +130,23 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                 $(\"#daftartindakan_id\").val(\'$data->daftartindakan_id\');
                                 $(\"#daftartindakan_nama\").val(\'$data->daftartindakan_nama\');
                                 $(\'#dialogTindakan\').dialog(\'close\');return false;"))'
+            ),             
+            array(
+                'name'=>'kelompoktindakan_nama',
+                'header'=>'Kelompok Tindakan',                
+                'type'=>'raw',                
+                'filter'=> CHtml::listData(KelompoktindakanM::model()->findAll(), 'kelompoktindakan_nama', 'kelompoktindakan_nama'),           
+                'value'=>'$data->kelompoktindakan_nama',
+            ),  
+            //'kelompoktindakan_nama',
+            array(
+                'name'=>'kategoritindakan_nama',
+                'header'=>'Kelompok Tindakan',                
+                'type'=>'raw',                
+                'filter'=> CHtml::listData(KategoritindakanM::model()->findAll(), 'kategoritindakan_nama', 'kategoritindakan_nama'),           
+                'value'=>'$data->kategoritindakan_nama',
             ),
-            'kelompoktindakan_nama',
-            'kategoritindakan_nama',
+            //'kategoritindakan_nama',
             'daftartindakan_kode',
             'daftartindakan_nama',
             'harga_tariftindakan',
