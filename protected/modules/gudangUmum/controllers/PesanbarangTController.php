@@ -80,7 +80,7 @@ class PesanbarangTController extends MyAuthController
 		$model->tglpesanbarang = date('d M Y H:i:s');
 		$modLogin = LoginpemakaiK::model()->findByAttributes(array('loginpemakai_id'=>Yii::app()->user->id));
 		$model->pegpemesan_id = $modLogin->pegawai_id;
-		$model->pegpemesan_nama = $modLogin->pegawai->nama_pegawai;
+		if (!empty($model->pegpemesan_id)) $model->pegpemesan_nama = $modLogin->pegawai->nama_pegawai;
 		$model->ruanganpemesan_id = Yii::app()->user->getState('ruangan_id');
 		$model->instalasi_id = $model->ruanganpemesan->instalasi->instalasi_id;
 		if (isset($id)){
