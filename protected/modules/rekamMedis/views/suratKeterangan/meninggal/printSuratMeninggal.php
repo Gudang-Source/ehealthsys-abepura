@@ -11,11 +11,11 @@
 		$pendaftaran_id = $_GET["pendaftaran_id"];
 		$modPendaftaran = PendaftaranT::model()->findByPk($pendaftaran_id);
 		$modPasien = PasienM::model()->findByPk($modPendaftaran->pasien_id);
-		$model->mengetahui_surat = $modPendaftaran->pegawai->nama_pegawai;
+		// $model->mengetahui_surat = $modPendaftaran->pegawai->nama_pegawai;
 		$modPasien->tanggal_lahir = $format->formatDateTimeForUser($modPasien->tanggal_lahir);
 		if(!empty($modPendaftaran->pasienadmisi_id)){
 			$modAdmisi = PasienadmisiT::model()->findByPk($modPendaftaran->pasienadmisi_id);
-			$model->mengetahui_surat = (isset($modAdmisi->pasienadmisi_id) ? $modAdmisi->pegawai->nama_pegawai : "");
+			// $model->mengetahui_surat = (isset($modAdmisi->pasienadmisi_id) ? $modAdmisi->pegawai->namaLengkap : $model->mengetahui_surat);
 		}else{
 			$modAdmisi = new PasienadmisiT;
 			$modAdmisi->tgladmisi = date('Y-m-d')." 00:00:00";

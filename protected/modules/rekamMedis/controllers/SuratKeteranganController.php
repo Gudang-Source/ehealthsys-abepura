@@ -7,6 +7,8 @@ class SuratKeteranganController extends MyAuthController
     public $path_view = 'rekamMedis.views.suratKeterangan.';
 
 	
+    public $kodepos = "-";
+    
     public function actionIndex()
     {
         $modJenisSurat=new RKJenisSuratM;
@@ -536,6 +538,8 @@ class SuratKeteranganController extends MyAuthController
                 $model->create_loginpemakai_id = Yii::app()->user->id;
                 $model->update_loginpemakai_id = Yii::app()->user->id;
                 $model->create_ruangan = Yii::app()->user->getState('ruangan_id');
+                
+                //var_dump($model->attributes); die;
 				
                 if($model->validate()){
                    if($model->save()){
