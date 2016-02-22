@@ -4,7 +4,7 @@
 			<i class="entypo-home"></i>
 		</div>
 		<div data-delay="0" data-duration="1500" data-postfix="" data-end="<?php echo $dataKolom[1]; ?>" data-start="0" class="num">0</div>
-		<h3>Pasien Rawat Inap</h3>
+		<h3>Pasien Rawat Intensif</h3>
 		<p>Hari Ini <?php echo MyFormatter::formatDateTimeId(date("Y-m-d")); ?></p>
 	</div>
 </div>
