@@ -55,7 +55,7 @@ class MutasibrgTController extends MyAuthController {
         $model->totalhargamutasi = 0;
         $modLogin = LoginpemakaiK::model()->findByAttributes(array('loginpemakai_id' => Yii::app()->user->id));
         $model->pegpengirim_id = $modLogin->pegawai_id;
-        $model->pegpengirim_nama = $modLogin->pegawai->nama_pegawai;
+        if (!empty($model->pegpengirim_id)) $model->pegpengirim_nama = $modLogin->pegawai->nama_pegawai;
         if (isset($_GET['idMutasi'])){
             $idMutasi = $_GET['idMutasi'];
             $modelMutasi = GUMutasibrgT::model()->findByPk($idMutasi);

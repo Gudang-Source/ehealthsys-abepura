@@ -58,7 +58,7 @@ if(isset($_POST["EXCEL"]))
             <tr>
                 <td>Umur/Tgl. lahir</td>
                 <td>:</td>
-                <td><?php echo $modPendaftaran->umur." / ".$modPasien->tanggal_lahir ?></td>
+                <td><?php echo $modPendaftaran->umur." / ".  MyFormatter::formatDateTimeForUser($modPasien->tanggal_lahir); ?></td>
             </tr>
             <tr>
                 <td>Jenis Kelamin</td>
@@ -92,7 +92,7 @@ if(isset($_POST["EXCEL"]))
 </div><br><br><br><br><br>
 <div style="margin-left:400px;text-align:center;">
     <?php $date = date('Y-m-d'); ?>
-    <?php echo $data->kabupaten->kabupaten_nama ;?>, <?php echo $format->formatDateTimeForUser($date); ?>
+    <?php echo $data->kecamatan->kecamatan_nama ;?>, <?php echo $format->formatDateTimeForUser($date); ?>
 <br><br><br><br><br>
     <?php echo (!empty($model->mengetahui_surat) ? "<u><b>".$model->mengetahui_surat."</b></u>" : " _________________ " ) ; ?>
 </div>

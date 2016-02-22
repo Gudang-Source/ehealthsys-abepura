@@ -7,6 +7,8 @@ class SuratKeteranganController extends MyAuthController
     public $path_view = 'rekamMedis.views.suratKeterangan.';
 
 	
+    public $kodepos = "-";
+    
     public function actionIndex()
     {
         $modJenisSurat=new RKJenisSuratM;
@@ -536,6 +538,8 @@ class SuratKeteranganController extends MyAuthController
                 $model->create_loginpemakai_id = Yii::app()->user->id;
                 $model->update_loginpemakai_id = Yii::app()->user->id;
                 $model->create_ruangan = Yii::app()->user->getState('ruangan_id');
+                
+                //var_dump($model->attributes); die;
 				
                 if($model->validate()){
                    if($model->save()){
@@ -989,7 +993,8 @@ class SuratKeteranganController extends MyAuthController
                 $model->judulsurat = "SURAT KETERANGAN CUTI HAMIL";
                 $model->tglistirahat = $format->formatDateTimeForDb($_POST['RKSuratketeranganR']['tglistirahat']);
                 $model->tglperkiraanpartus = $format->formatDateTimeForDb($_POST['RKSuratketeranganR']['tglperkiraanpartus']);
-
+                $model->usiakehamilan = $_POST['RKSuratketeranganR']['usiakehamilan'];
+                               
                 $model->create_time = date('Y-m-d');
                 $model->update_time = date('Y-m-d');
                 $model->create_loginpemakai_id = Yii::app()->user->id;
@@ -1076,7 +1081,7 @@ class SuratKeteranganController extends MyAuthController
                 $model->profilrs_id = 1;
                 $model->judulsurat = "SURAT KETERANGAN CUTI PASCA MELAHIRKAN";
                 $model->lamaistirahat = $_POST['RKSuratketeranganR']['lamaistirahat'];  
-
+                $model->usiakehamilan = $_POST['RKSuratketeranganR']['usiakehamilan'];  
                 $model->create_time = date('Y-m-d');
                 $model->update_time = date('Y-m-d');
                 $model->create_loginpemakai_id = Yii::app()->user->id;

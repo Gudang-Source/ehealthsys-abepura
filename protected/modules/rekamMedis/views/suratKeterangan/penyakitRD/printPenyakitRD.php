@@ -6,7 +6,7 @@ if(isset($_POST["EXCEL"]))
     header('Cache-Control: max-age=0');     
 } 
 $data=ProfilrumahsakitM::model()->findByPk(Params::DEFAULT_PROFIL_RUMAH_SAKIT);
-if(!empty($modPendaftaran->pasienadmisi_t)){
+if(!empty($modPendaftaran->pasienadmisi_id)){
     $modAdmisi = PasienadmisiT::model()->findByPk($modPendaftaran->pasienadmisi_id);
 }
 $pendaftaran_id = $modPendaftaran->pendaftaran_id;
@@ -86,7 +86,7 @@ $format = new MyFormatter();
             <tr>
                 <td style='padding-right: 68px;'>Umur/Tgl. lahir</td>
                 <td>:</td>
-                <td><?php echo $modPendaftaran->umur." / ".$modPasien->tanggal_lahir ?></td>
+                <td><?php echo $modPendaftaran->umur." / ".  MyFormatter::formatDateTimeForUser($modPasien->tanggal_lahir); ?></td>
             </tr>
             <tr>
                 <td style='padding-right: 68px;'>Jenis Kelamin</td>
@@ -105,7 +105,7 @@ $format = new MyFormatter();
             </tr>
         </table><br>
         <p align="justify">
-            Adalah benar sedang dirawat inap/ opname di RS <?php echo $data->nama_rumahsakit;?> mulai tanggal <?php echo (!empty($modAdmisi->tgladmisi) ? $format->formatDateTimeForUser($modAdmisi->tgladmisi) : "_____________"); ?> .
+            Adalah benar sedang dirawat inap/ opname di RS <?php echo $data->nama_rumahsakit;?> mulai tanggal <?php echo (!empty($modAdmisi->tgladmisi) ? $format->formatDateTimeForUser($modAdmisi->tgladmisi) : "_____________"); ?>.
             Berdasarkan hasil pemeriksaan dokter dapat diinformasikan sebagai berikut :
             <br/>
             <table width="41%" style="margin-left:100px;width:auto;">
@@ -156,7 +156,7 @@ $format = new MyFormatter();
 </div><br><br><br><br><br>
 <div style="margin-left:400px;text-align:center;">
     <?php $date = date('Y-m-d'); ?>
-    <?php echo $data->kabupaten->kabupaten_nama ;?>, <?php echo $format->formatDateTimeForUser($date); ?>
+    <?php echo $data->kecamatan->kecamatan_nama ;?>, <?php echo $format->formatDateTimeForUser($date); ?>
 <br><br><br><br><br>
     <?php echo (!empty($model->mengetahui_surat) ? "<u><b>".$model->mengetahui_surat."</b></u>" : " _________________ " ) ; ?>
 </div>
