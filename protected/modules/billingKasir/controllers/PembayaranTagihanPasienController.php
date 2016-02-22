@@ -815,6 +815,7 @@ class PembayaranTagihanPasienController extends MyAuthController
             $criteria->addCondition('pendaftaran_id = '.$pendaftaran_id);
             $criteria->addCondition('pasienadmisi_id = '.$pasienadmisi_id);
             $criteria->order = 'ruangantindakan_id';
+            $criteria->order = 'tgl_tindakan';
             $modRincians = BKRincianbelumbayarrawatinapV::model()->findAll($criteria);
             $modPendaftaran=PendaftaranT::model()->findByPk($pendaftaran_id);
         }
