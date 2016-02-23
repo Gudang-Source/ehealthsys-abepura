@@ -43,17 +43,17 @@
         </div>
         <div class="satuanbesar" style="display:none;">
             <?php echo CHtml::activeDropDownList($modPenerimaanBarangDetail, '[ii]satuanbesar_id', CHtml::listData(SatuanbesarM::model()->findAll(),'satuanbesar_id','satuanbesar_nama'),array('style'=>'width:80px;')); ?>
-            <?php echo CHtml::activeTextField($modPenerimaanBarangDetail,'[ii]kemasanbesar',array('readonly'=>true,'class'=>'span2 integer','style'=>'width:90px;')); ?>
+            <?php echo CHtml::activeTextField($modPenerimaanBarangDetail,'[ii]kemasanbesar',array('readonly'=>true,'class'=>'span2 integer kemasanbesar','style'=>'width:90px;')); ?>
         </div>
     </td>
-	<td>
+	<td hidden>
 		<?php echo CHtml::activeTextField($modPenerimaanBarangDetail,'[ii]jmlpermintaan',array('readonly'=>true,'class'=>'span2 integer','style'=>'width:90px;','onblur'=>'hitungTotal();','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
 	</td>
     <td>        
-        <?php echo CHtml::activeTextField($modPenerimaanBarangDetail,'[ii]jmlterima',array('readonly'=>false,'class'=>'span2 integer','style'=>'width:90px;','onblur'=>'hitungTotal();','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php echo CHtml::activeTextField($modPenerimaanBarangDetail,'[ii]jmlterima',array('readonly'=>false,'class'=>'span2 integer qty','style'=>'width:90px;','onblur'=>'hitungTotal();','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
     </td>
     <td>
-        <?php echo CHtml::activeTextField($modPenerimaanBarangDetail,'[ii]harganettoper',array('readonly'=>false,'class'=>'span2 integer','onblur'=>'hitungTotal();','style'=>'width:90px;','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php echo CHtml::activeTextField($modPenerimaanBarangDetail,'[ii]harganettoper',array('readonly'=>false,'class'=>'span2 integer netto','onblur'=>'hitungTotal();','style'=>'width:90px;','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
     </td>
     <td>
         <?php echo CHtml::activeTextField($modPenerimaanBarangDetail,'[ii]persendiscount',array('readonly'=>false,'class'=>'span2 integer','onblur'=>'setJmlDiskon(this);hitungTotal();','style'=>'width:45px;','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>

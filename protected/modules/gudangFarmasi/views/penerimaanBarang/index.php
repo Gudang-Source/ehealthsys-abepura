@@ -40,7 +40,7 @@
                         <th>No. Batch</th>
                         <th>Tanggal Kadaluarsa</th>
                         <th>Satuan</th>
-                        <th>Jumlah Pesan</th>
+                        <th hidden>Jumlah Pesan</th>
                         <th>Jumlah Terima</th>
                         <th>Harga Satuan</th>
                         <th>Diskon (%)</th>
@@ -61,7 +61,7 @@
                     ?>
                     <tfoot>
                         <tr>
-                            <td colspan="9">Total</td>
+                            <td colspan="10">Total</td>
                             <td><?php echo CHtml::textField('total','',array('class'=>'span2 integer','style'=>'width:90px;','readonly'=>true))?></td>
                             <td></td>
                         </tr>
