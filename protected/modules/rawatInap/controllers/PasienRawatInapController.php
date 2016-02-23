@@ -1123,15 +1123,34 @@ class PasienRawatInapController extends MyAuthController
                 'order'=>'masukkamar_id asc',
             ));
             
+            $downer = 0;
             foreach ($masuk as $idx=>$item) {
-                // var_dump($item->attributes);
+                //var_dump($item->tglmasukkamar." ".$item->kelaspelayanan->kelaspelayanan_nama." ".$item->kelaspelayanan->urutankelas);
                 $next = !empty($masuk[$idx+1])?$masuk[$idx+1]:null;
-                $ok = $ok && self::simpanAkomodasiInap($modPasienAdmisi, $masuk[$idx], $next);
+                $selisih = 0;
+                if (!empty($next)) {
+                    if ($item->kelaspelayanan->urutankelas > $next->kelaspelayanan->urutankelas) {
+                        $selisih = (CustomFunction::hitungHari($item->tglmasukkamar, $next->tglmasukkamar) + 1);
+                        $downer = -1;
+                    } else {
+                        $selisih = (CustomFunction::hitungHari($item->tglmasukkamar, $next->tglmasukkamar) - 1);
+                        $downer = 0;
+                    }
+                } else {
+                    $selisih = (CustomFunction::hitungHari($item->tglmasukkamar) + 1 + $downer);
+                }
+                
+                //var_dump($selisih);
+                
+                // var_dump($item->attributes);
+                //$next = !empty($masuk[$idx+1])?$masuk[$idx+1]:null;
+                if ($selisih > 0) $ok = $ok && self::simpanAkomodasiInap($modPasienAdmisi, $masuk[$idx], $selisih);
             }
+            
+            //var_dump($ok); die;
             
             return $ok;
             
-            //var_dump($ok); die;
             
             /*
             //echo $lamaRawat; die;
@@ -1222,16 +1241,18 @@ class PasienRawatInapController extends MyAuthController
              */
         }
         
-        public static function simpanAkomodasiInap($modPasienAdmisi, $masukkamar, $next) {
+        public static function simpanAkomodasiInap($modPasienAdmisi, $masukkamar, $selisih) {
             // periksa tindakan pelayanan
             
             $ok = true;
-            
+            /*
             if (!empty($next)) {
                 $selisih = CustomFunction::hitungHari($masukkamar->tglmasukkamar, $next->tglmasukkamar) - 1;
             } else {
                 $selisih = CustomFunction::hitungHari($masukkamar->tglmasukkamar, null);
             }
+             * 
+             */
             // var_dump($selisih);
             
             $tindakan = TindakanpelayananT::model()->findAllByAttributes(array(
