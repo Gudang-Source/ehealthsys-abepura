@@ -287,6 +287,7 @@ Class Params
 	const KELOMPOKTINDAKAN_ID_RAD	= 10; //kelompoktindakan_m radiodiagnostik
 	const KELOMPOKTINDAKAN_ID_LAB	= 25; //kelompoktindakan_m laboratorium
 	const KELOMPOKTINDAKAN_ID_MCU	= 26; //kelompoktindakan_m mcu
+        const KELOMPOKTINDAKAN_ID_AKOMODASI = 14;
 
 	const SATUAN_TINDAKAN_PENDAFTARAN = 'KALI';  //disesuaikan dengan lookup_m.lookup_type = satuantindakan
 	const SATUAN_TINDAKAN_VISITE = 'KALI';  //disesuaikan dengan lookup_m.lookup_type = satuantindakan
