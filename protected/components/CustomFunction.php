@@ -98,7 +98,7 @@ class CustomFunction
         $dateFrom = strtotime($dateFrom);
         //echo floor($dateFrom/(60*60*24))." - ".; die;
         //$datediff = $dateTo - $dateFrom;
-        $hari = ceil(time()/(60*60*24)) - floor($dateFrom/(60*60*24));
+        $hari = ceil($dateTo/(60*60*24)) - floor($dateFrom/(60*60*24));
         return $hari;
     }
 	/**
