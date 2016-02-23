@@ -55,7 +55,7 @@ class MutasiObatAlkesController extends MyAuthController
                                 $modDetails[$ii] = new GFMutasioadetailT();
                                 $modDetails[$ii]->stokobatalkes_id = $stok->stokobatalkes_id;
                                 $modDetails[$ii]->jmlmutasi = $stok->qtystok_terpakai;
-								$modDetails[$ii]->jmlpesan = $stok->qtystok_terpakai; 
+				$modDetails[$ii]->jmlpesan = $stok->qtystok_terpakai; 
                                 $modDetails[$ii]->harganetto = $stok->HPP;
                                 $modDetails[$ii]->hargajualsatuan = $stok->HargaJualSatuan;
                                 $modDetails[$ii]->sumberdana_id = (isset($stok->penerimaandetail->sumberdana_id) ? $stok->penerimaandetail->sumberdana_id : $stok->obatalkes->sumberdana_id);
@@ -107,20 +107,23 @@ class MutasiObatAlkesController extends MyAuthController
                             foreach($_POST['GFMutasioadetailT'] AS $i => $postDetail){
                                 $modDetails[$i] = new GFMutasioadetailT;
                                 $modDetails[$i]->attributes = $postDetail;
-                                $modStok = StokobatalkesT::model()->findByPk($postDetail['stokobatalkes_id']);
-                                $modDetails[$i]->stokobatalkes_id = $modStok->stokobatalkes_id;
-                                $modDetails[$i]->tglterima = $modStok->tglterima;
+                                //$modStok = StokobatalkesT::model()->findByPk($postDetail['stokobatalkes_id']);
+                                $modDetails[$i]->stokobatalkes_id = null; //$modStok->stokobatalkes_id;
+                                //$modDetails[$i]->tglterima = $modStok->tglterima;
                                 $modDetails[$i]->pesanoadetail_id = $postDetail['pesanoadetail_id'];
-                                $obatalkes_id = $postDetail['obatalkes_id'];
+                                //$obatalkes_id = $postDetail['obatalkes_id'];
+                                $modDetails[$i] = $this->simpanMutasiDetail2($model, $postDetail);
+                                $this->simpanStokObatAlkesOut2($modDetails[$i]);
+                                /*
                                 if(isset($detailGroups[$obatalkes_id])){
                                     $detailGroups[$obatalkes_id]['jmlmutasi'] += $postDetail['jmlmutasi'];
                                 }else{
                                     $detailGroups[$obatalkes_id]['obatalkes_id'] = $postDetail['obatalkes_id'];
                                     $detailGroups[$obatalkes_id]['jmlmutasi'] = $postDetail['jmlmutasi'];
-                                }
+                                }*/
                             }
                             //END GROUP
-                        }
+                        } /*
                         $obathabis = "";
                         //PROSES PENGURAIAN OBAT DAN JUMLAH MENJADI STOKOBATALKES_T (METODE ANTRIAN)
                         foreach($detailGroups AS $i => $detail){
@@ -134,7 +137,10 @@ class MutasiObatAlkesController extends MyAuthController
                                 $this->stokobatalkestersimpan &= false;
                                 $obathabis .= "<br>- ".ObatalkesM::model()->findByPk($detail['obatalkes_id'])->obatalkes_nama;
                             }
-                        }
+                        } */
+                        
+                        //var_dump($this->mutasidetailtersimpan && $this->stokobatalkestersimpan);
+                        //die;
                         if($this->mutasidetailtersimpan && $this->stokobatalkestersimpan){
                             $transaction->commit();
                             $sukses = 1;
@@ -149,7 +155,7 @@ class MutasiObatAlkesController extends MyAuthController
 //                            echo "-".$this->mutasidetailtersimpan."<br>";
 //                            echo "-".$this->stokobatalkestersimpan."<br>";
 //                            exit;
-                        }
+                        } 
                     }
                 }
             } catch (Exception $e) {
@@ -167,6 +173,77 @@ class MutasiObatAlkesController extends MyAuthController
             'pesan'=>$pesan,
             'modelPesanObat'=>$modelPesanObat
         ));
+    }
+    
+    /**
+     * untuk menyimpan MutasioadetailT
+     * @param type $modMutasi
+     * @param type $postDetail
+     */
+    protected function simpanMutasiDetail2($modMutasi, $postDetail){
+        $modMutasiDetail = new GFMutasioadetailT;
+        $modMutasiDetail->attributes = $postDetail;
+        $modMutasiDetail->mutasioaruangan_id = $modMutasi->mutasioaruangan_id;
+        //$modMutasiDetail->stokobatalkes_id = $modStokOa->stokobatalkes_id;
+        //$modMutasiDetail->jmlmutasi = $modStokOa->qtystok_terpakai;
+        //$modMutasiDetail->harganetto = $modStokOa->HPP;
+        //$modMutasiDetail->hargajualsatuan = $modStokOa->HargaJualSatuan;
+        //$modMutasiDetail->sumberdana_id = (isset($modStokOa->penerimaandetail->sumberdana_id) ? $modStokOa->penerimaandetail->sumberdana_id : $modStokOa->obatalkes->sumberdana_id);
+        //$modMutasiDetail->obatalkes_id = $modStokOa->obatalkes_id;
+        //$modMutasiDetail->tglkadaluarsa = $modStokOa->tglkadaluarsa;
+        //$modMutasiDetail->jmlstok = $modStokOa->qtystok;
+        //$modMutasiDetail->tglterima = MyFormatter::formatDateTimeForDb($modStokOa->tglterima);
+        $modMutasiDetail->tglkadaluarsa = MyFormatter::formatDateTimeForDb($modMutasiDetail->tglkadaluarsa);
+        $modMutasiDetail->jmlpesan = (empty($modMutasiDetail->jmlpesan) ? 0 : $modMutasiDetail->jmlpesan);
+        $modMutasiDetail->persendiscount = (empty($modMutasiDetail->persendiscount) ? 0 : $modMutasiDetail->persendiscount);
+        $modMutasiDetail->totalharga = ($modMutasiDetail->harganetto * $modMutasiDetail->jmlmutasi);
+        //$modMutasiDetail->satuankecil_id = $modStokOa->satuankecil_id;
+        
+        // var_dump($modMutasiDetail->attributes);
+        
+        if($modMutasiDetail->save()){
+            $this->mutasidetailtersimpan &= true;
+        }else{
+            $this->mutasidetailtersimpan &= false;
+        }
+        return $modMutasiDetail;
+    }
+    
+    /**
+     * simpan StokobatalkesT Jumlah Out
+     * @param type $stokobatalkesasal_id
+     * @param type $modMutasi
+     * @param type $modMutasiDetail
+     * @return \StokobatalkesT
+     */
+    protected function simpanStokObatAlkesOut2($modMutasiDetail){
+        $format = new MyFormatter;
+        $oa = ObatalkesM::model()->findByPk($modMutasiDetail->obatalkes_id);
+        //$modStokOa = StokobatalkesT::model()->findByPk($stokobatalkesasal_id);
+        $modStokOaNew = new StokobatalkesT;
+        $modStokOaNew->attributes = $modMutasiDetail->attributes; //$modStokOa->attributes; //duplicate
+        $modStokOaNew->attributes = $oa->attributes; //$modStokOa->attributes; //duplicate
+        //$modStokOaNew->unsetIdTransaksi(); //new / autoincrement pk
+        $modStokOaNew->qtystok_in = 0;
+        $modStokOaNew->qtystok_out = $modMutasiDetail->jmlmutasi;
+        $modStokOaNew->mutasioadetail_id = $modMutasiDetail->mutasioadetail_id;
+        // $modStokOaNew->stokobatalkesasal_id = $stokobatalkesasal_id;
+        $modStokOaNew->create_time = date('Y-m-d H:i:s');
+        $modStokOaNew->update_time = $modStokOaNew->tglterima = date('Y-m-d H:i:s');
+        $modStokOaNew->create_loginpemakai_id = Yii::app()->user->id;
+        $modStokOaNew->update_loginpemakai_id = Yii::app()->user->id;
+        $modStokOaNew->create_ruangan = $modStokOaNew->ruangan_id = Yii::app()->user->ruangan_id;
+        
+        // $modStokOaNew->validate();
+        // var_dump($modStokOaNew->errors); die;
+        
+        if($modStokOaNew->validate()){ 
+            $modStokOaNew->save();
+            // $modStokOaNew->setStokOaAktifBerdasarkanStok();
+        } else {
+            $this->stokobatalkestersimpan &= false;
+        }
+        return $modStokOaNew;      
     }
     
     /**
@@ -316,30 +393,30 @@ class MutasiObatAlkesController extends MyAuthController
             $pesan = "";
             $format = new MyFormatter();
             $modMutasiDetail = new GFMutasioadetailT;
-			
-            $modStokOAs = StokobatalkesT::getStokObatAlkesAktif($obatalkes_id, $jumlah, $ruangan_id);
-            if(count($modStokOAs) > 0){
+            $oa = ObatalkesM::model()->findByPk($obatalkes_id);
+            //$modStokOAs = StokobatalkesT::getStokObatAlkesAktif($obatalkes_id, $jumlah, $ruangan_id);
+            //if(count($modStokOAs) > 0){
                 $totalharganetto = 0;
                 $totalhargajual = 0;
-                foreach($modStokOAs AS $i => $stok){
-                    $modMutasiDetail->stokobatalkes_id = $stok->stokobatalkes_id;
-                    $modMutasiDetail->jmlmutasi = $stok->qtystok_terpakai;
-                    $modMutasiDetail->harganetto = $stok->HPP;
-                    $modMutasiDetail->hargajualsatuan = $stok->HargaJualSatuan;
-                    $modMutasiDetail->sumberdana_id = (isset($stok->penerimaandetail->sumberdana_id) ? $stok->penerimaandetail->sumberdana_id : $stok->obatalkes->sumberdana_id);
-                    $modMutasiDetail->obatalkes_id = $stok->obatalkes_id;
-					$modMutasiDetail->satuankecil_id = $stok->satuankecil_id;
-					$modMutasiDetail->satuankecil_nama = $stok->satuankecil->satuankecil_nama;
-                    $modMutasiDetail->tglkadaluarsa = $format->formatDateTimeForUser($stok->tglkadaluarsa);
-                    $modMutasiDetail->jmlstok = $stok->qtystok;
-                    $modMutasiDetail->tglterima = $format->formatDateTimeForUser($stok->tglterima);
+            //    foreach($modStokOAs AS $i => $stok){
+                    $modMutasiDetail->stokobatalkes_id = null; //$stok->stokobatalkes_id;
+                    $modMutasiDetail->jmlmutasi = $jumlah; //$stok->qtystok_terpakai;
+                    $modMutasiDetail->harganetto = $oa->harganetto; //$stok->HPP;
+                    $modMutasiDetail->hargajualsatuan = $oa->hargajual; //$stok->HargaJualSatuan;
+                    $modMutasiDetail->sumberdana_id = $oa->sumberdana_id; //(isset($stok->penerimaandetail->sumberdana_id) ? $stok->penerimaandetail->sumberdana_id : $stok->obatalkes->sumberdana_id);
+                    $modMutasiDetail->obatalkes_id = $oa->obatalkes_id; //$stok->obatalkes_id;
+                    $modMutasiDetail->satuankecil_id = $oa->satuankecil_id; //$stok->satuankecil_id;
+                    $modMutasiDetail->satuankecil_nama = $oa->satuankecil->satuankecil_nama; //$stok->satuankecil->satuankecil_nama;
+                    $modMutasiDetail->tglkadaluarsa = $oa->tglkadaluarsa; //$format->formatDateTimeForUser($stok->tglkadaluarsa);
+                    $modMutasiDetail->jmlstok = 0; //$stok->qtystok;
+                    $modMutasiDetail->tglterima = $format->formatDateTimeForUser(date('Y-m-d H:i:s')); //$format->formatDateTimeForUser($stok->tglterima);
                     $totalharganetto += $modMutasiDetail->harganetto;
                     $totalhargajual += $modMutasiDetail->hargajualsatuan;
                     $form .= $this->renderPartial($this->path_view.'_rowMutasiDetail', array('modMutasiDetail'=>$modMutasiDetail), true);
-                }
-            }else{
-                $pesan = "Stok tidak mencukupi!";
-            }
+                //}
+            //}else{
+            //    $pesan = "Stok tidak mencukupi!";
+            //}
             
             echo CJSON::encode(array('form'=>$form, 'pesan'=>$pesan));
             Yii::app()->end(); 
