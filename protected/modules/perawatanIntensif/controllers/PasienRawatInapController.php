@@ -175,7 +175,7 @@ class PasienRawatInapController extends MyAuthController
                           $this->updateMasukKamar($modMasukKamar,$_POST['RIMasukKamarT']);
                           if(!isset($modTariftindakan->harga_tariftindakan)){
                             echo "<script>
-                                        myAlert('Maaf, Harga Tarif Kamar Intensif Inap Belum Ada. Silahkan Hubungi Bagian Administrasi');
+                                        myAlert('Maaf, Harga Tarif Kamar Intensif Belum Ada. Silahkan Hubungi Bagian Administrasi');
                                         window.location.href('".Yii::app()->createUrl('/PasienRawatInap/index')."');
                                     </script>";
                             }else{
