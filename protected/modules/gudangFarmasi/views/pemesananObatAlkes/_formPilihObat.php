@@ -82,8 +82,8 @@ if(isset($_GET['GFObatalkesM'])){
     $modObatAlkes->jenisobatalkes_nama = isset($_GET['GFObatalkesM']['jenisobatalkes_nama'])?$_GET['GFObatalkesM']['jenisobatalkes_nama']:null;
     $modObatAlkes->satuankecil_nama = isset($_GET['GFObatalkesM']['satuankecil_nama'])?$_GET['GFObatalkesM']['satuankecil_nama']:null;
     if(isset($_GET['GFObatalkesM']['ruangan_id'])){
-		$_GET['pesanobatalkes_id'] = $_GET['GFObatalkesM']['ruangan_id'];
-	}
+		$_GET['GFPesanobatalkesT']['ruangan_id'] = $_GET['GFObatalkesM']['ruangan_id'];
+    }
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'obatalkes-m-grid',

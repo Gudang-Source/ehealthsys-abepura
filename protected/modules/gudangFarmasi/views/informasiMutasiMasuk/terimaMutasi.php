@@ -44,7 +44,7 @@ if(isset($_GET['sukses'])){
                 <th>Asal Barang</th>
                 <th>Kategori / Nama Obat</th>
                 <th>Tanggal Kadaluarsa </th>
-                <th>Satuan Kecil </th>
+                <th hidden>Satuan Kecil </th>
                 <th>Jumlah Mutasi</th>
                 <th>Jumlah Terima</th>
                 <th>HPP</th>
@@ -63,7 +63,7 @@ if(isset($_GET['sukses'])){
             ?>
             <tfoot>
                 <tr>
-                    <td colspan="9" style="text-align:right;">Total</td>
+                    <td colspan="8" style="text-align:right;">Total</td>
                     <td><?php echo CHtml::textField('total',0,array('readonly'=>true,'class'=>'span2 integer','style'=>'width:80px;'))?></td>
                     <td></td>
                 </tr>
