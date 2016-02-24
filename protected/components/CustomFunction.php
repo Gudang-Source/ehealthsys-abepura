@@ -94,12 +94,23 @@ class CustomFunction
      */
     public static function hitungHari($dateFrom,$dateTo=''){
         
-        $dateTo = (!empty($dateTo)) ? strtotime($dateTo) : time(); // or your date as well
-        $dateFrom = strtotime($dateFrom);
+        $dateTo = (!empty($dateTo)) ? date('Y-m-d', strtotime($dateTo)) : date('Y-m-d'); // or your date as well
+        $dateFrom = date('Y-m-d', strtotime($dateFrom));
+        
+        // var_dump($dateFrom." - ".$dateTo);
+        
+        $d1 = new DateTime($dateFrom);
+        $d2 = new DateTime($dateTo);
+        
+        $interval = $d1->diff($d2);
+        
+        return $interval->format('%a');
+        
         //echo floor($dateFrom/(60*60*24))." - ".; die;
         //$datediff = $dateTo - $dateFrom;
-        $hari = ceil($dateTo/(60*60*24)) - floor($dateFrom/(60*60*24));
-        return $hari;
+        //var_dump($dateTo/(60*60*24)." - ".$dateFrom/(60*60*24));
+        //$hari = ceil($dateTo/(60*60*24)) - floor($dateFrom/(60*60*24));
+        // return 0; //$hari;
     }
 	/**
 	 * menghitung lama hari perawatan medis
