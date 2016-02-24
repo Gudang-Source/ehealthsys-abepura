@@ -49,30 +49,31 @@ class MutasiObatAlkesController extends MyAuthController
                 if (count($modDetailPesan) > 0){
 					$ii = 0;
                     foreach ($modDetailPesan as $a => $detail) {
-                        $modStokOAs = StokobatalkesT::getStokObatAlkesAktif($detail->obatalkes_id, $detail->jmlpesan, $ruangan_id);
-                        if(count($modStokOAs) > 0){
-                            foreach($modStokOAs AS $i => $stok){
+                        $oa = ObatalkesM::model()->findByPk($detail->obatalkes_id);
+                        //$modStokOAs = StokobatalkesT::getStokObatAlkesAktif($detail->obatalkes_id, $detail->jmlpesan, $ruangan_id);
+                        //if(count($modStokOAs) > 0){
+                            //foreach($modStokOAs AS $i => $stok){
                                 $modDetails[$ii] = new GFMutasioadetailT();
-                                $modDetails[$ii]->stokobatalkes_id = $stok->stokobatalkes_id;
-                                $modDetails[$ii]->jmlmutasi = $stok->qtystok_terpakai;
-				$modDetails[$ii]->jmlpesan = $stok->qtystok_terpakai; 
-                                $modDetails[$ii]->harganetto = $stok->HPP;
-                                $modDetails[$ii]->hargajualsatuan = $stok->HargaJualSatuan;
-                                $modDetails[$ii]->sumberdana_id = (isset($stok->penerimaandetail->sumberdana_id) ? $stok->penerimaandetail->sumberdana_id : $stok->obatalkes->sumberdana_id);
-                                $modDetails[$ii]->obatalkes_id = $stok->obatalkes_id;
-                                $modDetails[$ii]->satuankecil_id = $stok->satuankecil_id;
-                                $modDetails[$ii]->satuankecil_nama = $stok->satuankecil->satuankecil_nama;
-                                $modDetails[$ii]->tglkadaluarsa = $format->formatDateTimeForUser($stok->tglkadaluarsa);
-                                $modDetails[$ii]->jmlstok = $stok->qtystok;
-                                $modDetails[$ii]->tglterima = $format->formatDateTimeForUser($stok->tglterima);
+                                $modDetails[$ii]->stokobatalkes_id = null; //$stok->stokobatalkes_id;
+                                $modDetails[$ii]->jmlmutasi = $detail->jmlpesan; //$stok->qtystok_terpakai;
+				$modDetails[$ii]->jmlpesan = $detail->jmlpesan; //$stok->qtystok_terpakai; 
+                                $modDetails[$ii]->harganetto = $oa->harganetto; //$stok->HPP;
+                                $modDetails[$ii]->hargajualsatuan = $oa->hargajual; //$stok->HargaJualSatuan;
+                                $modDetails[$ii]->sumberdana_id = $oa->sumberdana_id; //(isset($stok->penerimaandetail->sumberdana_id) ? $stok->penerimaandetail->sumberdana_id : $stok->obatalkes->sumberdana_id);
+                                $modDetails[$ii]->obatalkes_id = $oa->obatalkes_id; //$stok->obatalkes_id;
+                                $modDetails[$ii]->satuankecil_id = $oa->satuankecil_id; //$stok->satuankecil_id;
+                                $modDetails[$ii]->satuankecil_nama = $oa->satuankecil->satuankecil_nama; //$stok->satuankecil->satuankecil_nama;
+                                $modDetails[$ii]->tglkadaluarsa = $oa->tglkadaluarsa; //$format->formatDateTimeForUser($stok->tglkadaluarsa);
+                                $modDetails[$ii]->jmlstok = 0; //$stok->qtystok;
+                                $modDetails[$ii]->tglterima = $format->formatDateTimeForUser(date('Y-m-d H:i:s'));
                                 $modDetails[$ii]->pesanoadetail_id = $detail->pesanoadetail_id;
                                 $totalharganetto += $modDetails[$ii]->harganetto;
                                 $totalhargajual += $modDetails[$ii]->hargajualsatuan;	
 								$ii ++;
-                            }
-                        }else{
-                            $pesan = "Stok obat ".$detail->obatalkes->obatalkes_nama." tidak mencukupi!";
-                        }
+                           // }
+                       // }else{
+                       //     $pesan = "Stok obat ".$detail->obatalkes->obatalkes_nama." tidak mencukupi!";
+                       // }
                     }
                 }
 
@@ -141,6 +142,8 @@ class MutasiObatAlkesController extends MyAuthController
                         
                         //var_dump($this->mutasidetailtersimpan && $this->stokobatalkestersimpan);
                         //die;
+                        $this->insertNotifMutasi($model);
+                        
                         if($this->mutasidetailtersimpan && $this->stokobatalkestersimpan){
                             $transaction->commit();
                             $sukses = 1;
@@ -173,6 +176,31 @@ class MutasiObatAlkesController extends MyAuthController
             'pesan'=>$pesan,
             'modelPesanObat'=>$modelPesanObat
         ));
+    }
+    
+    public function insertNotifMutasi($model) {
+        //var_dump($model->attributes); die;
+        
+        $ruangan = RuanganM::model()->findByPk($model->ruangantujuan_id);
+        $asal = RuanganM::model()->findByPk($model->ruanganasal_id);
+        $judul = 'Mutasi Obat Alkes';
+                    
+        $isi = "Mutasi Asal : ".$asal->ruangan_nama."<br/>No. Mutasi : ";
+        $isi .= CHtml::link($model->nomutasioa, $this->createUrl('print', array(
+           'mutasioaruangan_id'=>$model->mutasioaruangan_id,
+        )), array('target'=>'_blank'));
+
+        // var_dump($mr->attributes); die;
+
+        //var_dump($isi); die;
+        //var_dump($ruangan->attributes); die;
+        $ok = CustomFunction::broadcastNotif($judul, $isi, array(
+            array('instalasi_id'=>$ruangan->instalasi_id, 'ruangan_id'=>$ruangan->ruangan_id, 'modul_id'=>$ruangan->modul_id),
+            // array('instalasi_id'=>Params::INSTALASI_ID_FARMASI, 'ruangan_id'=>Params::RUANGAN_ID_APOTEK_RJ, 'modul_id'=>10),
+            // array('instalasi_id'=>Params::INSTALASI_ID_KASIR, 'ruangan_id'=>Params::RUANGAN_ID_KASIR, 'modul_id'=>19),
+        )); 
+        
+        //var_dump($ok); die;
     }
     
     /**
