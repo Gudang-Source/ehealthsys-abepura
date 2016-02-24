@@ -109,16 +109,32 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'name'=>'jenisobatalkes_id',
                     'type'=>'raw',
                     'value'=>'(!empty($data->jenisobatalkes_id) ? $data->jenisobatalkes->jenisobatalkes_nama : "")',
-                    'filter'=>  CHtml::activeTextField($modObatAlkes, 'jenisobatalkes_nama'),
+                    'filter'=>  CHtml::listData(JenisobatalkesM::model()->findAll(), 'jenisobatalkes_id','jenisobatalkes_nama'),
                 ),
                 'obatalkes_nama',
-                'obatalkes_kategori',
-                'obatalkes_golongan',
+                //'obatalkes_kategori',
+                // yang bawah
+                array(
+                    'name'=>'obatalkes_kategori',
+                    'type'=>'raw',
+                    'value'=>'$data->obatalkes_kategori',
+                    'filter'=> LookupM::getItems('obatalkes_kategori'),
+                ),
+            
+                //'obatalkes_golongan',
+                //yangbawah
+                array(
+                    'name'=>'obatalkes_golongan',
+                    'type'=>'raw',
+                    'value'=>'$data->obatalkes_golongan',
+                    'filter'=> LookupM::getItems('obatalkes_golongan'),
+                ),
+            
                 array(
                     'name'=>'satuankecil_id',
                     'type'=>'raw',
                     'value'=>'$data->satuankecil->satuankecil_nama',
-                    'filter'=>  CHtml::activeTextField($modObatAlkes, 'satuankecil_nama'),
+                    'filter'=>  CHtml::listData(SatuankecilM::model()->findAll(), 'satuankecil_id','satuankecil_nama'),
                 ),
 		// dicomment karena RND-5732
 //                array(
@@ -131,6 +147,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'header'=>'Jumlah Stok',
                     'type'=>'raw',
                     'value'=>'$data->StokObatRuanganPemesan',
+                    'htmlOptions'=>array('style' => 'text-align: right;')
                 ),  
 	),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
