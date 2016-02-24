@@ -1149,7 +1149,7 @@ class PasienRawatInapController extends MyAuthController
                 if ($selisih > 0) $ok = $ok && self::simpanAkomodasiInap($modPasienAdmisi, $masuk[$idx], $selisih);
             }
             
-            var_dump($ok); die;
+            // var_dump($ok); die;
             
             return $ok;
             
