@@ -52,12 +52,12 @@ echo $this->renderPartial('application.views.headerReport.headerDefault',array('
         <tr>
             <td>Tanggal Pemesanan</td>
             <td>:</td>
-            <td><?php echo $format->formatDateTimeForUser(date('Y-m-d', strtotime($model->tglpemesanan)));//$model->tglpemesanan; ?></td>
+            <td><?php echo $format->formatDateTimeForUser(date('Y-m-d H:i:s', strtotime($model->tglpemesanan)));//$model->tglpemesanan; ?></td>
         </tr>
         <tr>
             <td>Tanggal Pesanan Minta Dikirim</td>
             <td>:</td>
-            <td><?php echo $format->formatDateTimeForUser(date('Y-m-d', strtotime($model->tglmintadikirim))); ?></td>
+            <td><?php echo $format->formatDateTimeForUser(date('Y-m-d H:i:s', strtotime($model->tglmintadikirim))); ?></td>
         </tr>
         <tr>
             <td>Ruang Pemesan</td>
