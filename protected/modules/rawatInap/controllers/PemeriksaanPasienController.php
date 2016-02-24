@@ -18,8 +18,23 @@ class PemeriksaanPasienController extends MyAuthController
 			$format = new MyFormatter();
 			
 			if(Yii::app()->user->getState('akomodasiotomatis') == true){ //RND-7757
-				$modMasukKamar = RIMasukKamarT::model()->findByAttributes(array('pasienadmisi_id'=>$modAdmisi->pasienadmisi_id),array("order"=>"masukkamar_id DESC"));
-				if(PasienRawatInapController::cekAkomodasiHariIni($modPendaftaran, $modAdmisi, $modMasukKamar)){
+                                $transaction_ako = Yii::app()->db->beginTransaction();
+				$ok = PasienRawatInapController::saveAkomodasi($modPendaftaran, $modAdmisi);
+                                //var_dump($ok); die;
+                                //
+                                
+                                if ($ok) {
+                                    $transaction_ako->commit();
+                                    Yii::app()->user->setFlash('success',"Biaya akomodasi pasien otomatis diperbaharui!");
+                                } else {
+                                    $transaction_ako->rollback();
+                                    Yii::app()->user->setFlash('error',"Biaya akomodasi pasien gagal tersimpan. Silahkan cek tarif akomodasi!");
+                                }
+                                
+                                //die;
+                                //$modMasukKamar = RIMasukKamarT::model()->findByAttributes(array('pasienadmisi_id'=>$modAdmisi->pasienadmisi_id),array("order"=>"masukkamar_id DESC"));
+				/*
+                                if(PasienRawatInapController::cekAkomodasiHariIni($modPendaftaran, $modAdmisi, $modMasukKamar)){
 					$transaction_ako = Yii::app()->db->beginTransaction();
 					try {
 						$selisihHari = CustomFunction::hitungHari($format->formatDateTimeForDb($modMasukKamar->tglmasukkamar));
@@ -36,7 +51,7 @@ class PemeriksaanPasienController extends MyAuthController
 					}
 				}else{
 					//Yii::app()->user->setFlash('warning',"Tidak ada perubahan biaya akomodasi!");
-				}
+				} */
 			}
 
 			
