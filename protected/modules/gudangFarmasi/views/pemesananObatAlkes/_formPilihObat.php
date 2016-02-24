@@ -147,6 +147,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'header'=>'Jumlah Stok',
                     'type'=>'raw',
                     'value'=>'$data->StokObatRuanganPemesan',
+                    'htmlOptions'=>array('style' => 'text-align: right;')
                 ),  
 	),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
