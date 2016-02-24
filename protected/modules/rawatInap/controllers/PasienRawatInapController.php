@@ -1012,6 +1012,8 @@ class PasienRawatInapController extends MyAuthController
                             );
                             $errors[] = $pesan;                                
                         }
+                        
+                        self::saveAkomodasi($modPendaftaran, $modPasienAdmisi);
 
                         if($is_simpan)
                         {
@@ -1147,7 +1149,7 @@ class PasienRawatInapController extends MyAuthController
                 if ($selisih > 0) $ok = $ok && self::simpanAkomodasiInap($modPasienAdmisi, $masuk[$idx], $selisih);
             }
             
-            //var_dump($ok); die;
+            var_dump($ok); die;
             
             return $ok;
             
@@ -1253,7 +1255,6 @@ class PasienRawatInapController extends MyAuthController
             }
              * 
              */
-            // var_dump($selisih);
             
             $tindakan = TindakanpelayananT::model()->findAllByAttributes(array(
                 'masukkamar_id'=>$masukkamar->masukkamar_id,
@@ -1261,7 +1262,15 @@ class PasienRawatInapController extends MyAuthController
             if (empty($tindakan)) {
                 $ok = $ok && self::simpanTindakanAkomodasi($modPasienAdmisi, $masukkamar, $selisih);
             } else {
+                $qty = 0;
+                foreach ($tindakan as $item) {
+                    $qty += $item->qty_tindakan;
+                }
                 
+                $selisih -= $qty;
+                if ($selisih > 0) {
+                    $ok = $ok && self::simpanTindakanAkomodasi($modPasienAdmisi, $masukkamar, $selisih);
+                }
             }
             
             return $ok;
