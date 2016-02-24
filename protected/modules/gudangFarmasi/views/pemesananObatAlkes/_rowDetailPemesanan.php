@@ -10,11 +10,11 @@
     <td>
         <span name="[ii][obatalkes_nama]"><?php echo (!empty($modDetail->obatalkes_id) ? $modDetail->obatalkes->obatalkes_nama : "") ?></span>
     </td>
-     <td>
+     <td hidden>
         <?php echo CHtml::activeDropDownList($modDetail, '[ii]satuankecil_id', CHtml::listData(SatuankecilM::model()->findAll(),'satuankecil_id','satuankecil_nama'),array('style'=>'width:80px;')); ?>
     </td>
     <td>
-        <?php echo CHtml::activeTextField($modDetail,'[ii]jmlpesan',array('readonly'=>true,'class'=>'span2 integer','style'=>'width:45px;','onblur'=>'hitungTotal();','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php echo CHtml::activeTextField($modDetail,'[ii]jmlpesan',array('readonly'=>true,'class'=>'span2 integer','style'=>'width:45px;','onblur'=>'hitungTotal();','onkeyup'=>"return $(this).focusNextInputField(event);"))." ".$modDetail->satuankecil->satuankecil_nama; ?>
     </td>
     <td>
         <a onclick="batalPemesananDetail(this);return false;" rel="tooltip" href="javascript:void(0);" title="Klik untuk membatalkan mutasi obat alkes ini"><i class="icon-remove"></i></a>
