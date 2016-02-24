@@ -18,7 +18,7 @@ class PasienRawatInapController extends MyAuthController
   public function actionIndex()
   {
            
-        $this->pageTitle = Yii::app()->name." - Pasien Rawat Intensif";
+        $this->pageTitle = Yii::app()->name." - Pasien Rawat Inap";
         $format = new MyFormatter();
         $model = new RIInfopasienmasukkamarV;
         $model->tgl_awal  = date('Y-m-d');
@@ -175,7 +175,7 @@ class PasienRawatInapController extends MyAuthController
                           $this->updateMasukKamar($modMasukKamar,$_POST['RIMasukKamarT']);
                           if(!isset($modTariftindakan->harga_tariftindakan)){
                             echo "<script>
-                                        myAlert('Maaf, Harga Tarif Kamar Rawat Intensif Belum Ada. Silahkan Hubungi Bagian Administrasi');
+                                        myAlert('Maaf, Harga Tarif Kamar Rawat Inap Belum Ada. Silahkan Hubungi Bagian Administrasi');
                                         window.location.href('".Yii::app()->createUrl('/PasienRawatInap/index')."');
                                     </script>";
                             }else{
@@ -1012,6 +1012,8 @@ class PasienRawatInapController extends MyAuthController
                             );
                             $errors[] = $pesan;                                
                         }
+                        
+                        self::saveAkomodasi($modPendaftaran, $modPasienAdmisi);
 
                         if($is_simpan)
                         {
@@ -1114,8 +1116,45 @@ class PasienRawatInapController extends MyAuthController
 			}
         }
         
-        public static function saveAkomodasi($modPendaftaran, $modPasienAdmisi, $lamaRawat)
+        public static function saveAkomodasi($modPendaftaran, $modPasienAdmisi)
         {
+            $ok = self::hapusTindakanAkomodasiTanpaMasukKamar($modPasienAdmisi);
+            $masuk = MasukkamarT::model()->findAllByAttributes(array(
+                'pasienadmisi_id'=>$modPasienAdmisi->pasienadmisi_id,
+            ), array(
+                'order'=>'masukkamar_id asc',
+            ));
+            
+            $downer = 0;
+            foreach ($masuk as $idx=>$item) {
+                //var_dump($item->tglmasukkamar." ".$item->kelaspelayanan->kelaspelayanan_nama." ".$item->kelaspelayanan->urutankelas);
+                $next = !empty($masuk[$idx+1])?$masuk[$idx+1]:null;
+                $selisih = 0;
+                if (!empty($next)) {
+                    if ($item->kelaspelayanan->urutankelas > $next->kelaspelayanan->urutankelas) {
+                        $selisih = (CustomFunction::hitungHari($item->tglmasukkamar, $next->tglmasukkamar) + 1);
+                        $downer = -1;
+                    } else {
+                        $selisih = (CustomFunction::hitungHari($item->tglmasukkamar, $next->tglmasukkamar) - 1);
+                        $downer = 0;
+                    }
+                } else {
+                    $selisih = (CustomFunction::hitungHari($item->tglmasukkamar) + 1 + $downer);
+                }
+                
+                //var_dump($selisih);
+                
+                // var_dump($item->attributes);
+                //$next = !empty($masuk[$idx+1])?$masuk[$idx+1]:null;
+                if ($selisih > 0) $ok = $ok && self::simpanAkomodasiInap($modPasienAdmisi, $masuk[$idx], $selisih);
+            }
+            
+            var_dump($ok); die;
+            
+            return $ok;
+            
+            
+            /*
             //echo $lamaRawat; die;
             $cekTindakanKomponen=0;
             $modMasukKamar = InfopasienmasukkamarV::model()->findByAttributes(array(
@@ -1200,6 +1239,132 @@ class PasienRawatInapController extends MyAuthController
 				}                    
             }
             return $modTindakanPelayan;
+             * 
+             */
+        }
+        
+        public static function simpanAkomodasiInap($modPasienAdmisi, $masukkamar, $selisih) {
+            // periksa tindakan pelayanan
+            
+            $ok = true;
+            /*
+            if (!empty($next)) {
+                $selisih = CustomFunction::hitungHari($masukkamar->tglmasukkamar, $next->tglmasukkamar) - 1;
+            } else {
+                $selisih = CustomFunction::hitungHari($masukkamar->tglmasukkamar, null);
+            }
+             * 
+             */
+            
+            $tindakan = TindakanpelayananT::model()->findAllByAttributes(array(
+                'masukkamar_id'=>$masukkamar->masukkamar_id,
+            ));
+            if (empty($tindakan)) {
+                $ok = $ok && self::simpanTindakanAkomodasi($modPasienAdmisi, $masukkamar, $selisih);
+            } else {
+                $qty = 0;
+                foreach ($tindakan as $item) {
+                    $qty += $item->qty_tindakan;
+                }
+                
+                $selisih -= $qty;
+                if ($selisih > 0) {
+                    $ok = $ok && self::simpanTindakanAkomodasi($modPasienAdmisi, $masukkamar, $selisih);
+                }
+            }
+            
+            return $ok;
+        }
+        
+        public static function simpanTindakanAkomodasi($modPasienAdmisi, $masukkamar, $selisih) {
+            $akomodasi = PasienRawatInapController::tindakanAkomodasi($masukkamar->kelaspelayanan_id,$masukkamar->penjamin_id,$masukkamar->ruangan_id); 
+            $tindakan = new TindakanpelayananT;
+            
+            $tindakan->penjamin_id = $masukkamar->penjamin_id;
+            $tindakan->pasien_id = $modPasienAdmisi->pasien_id;
+            $tindakan->pasienadmisi_id = $modPasienAdmisi->pasienadmisi_id;
+            $tindakan->kelaspelayanan_id = $modPasienAdmisi->kelaspelayanan_id;
+            $tindakan->instalasi_id = Yii::app()->user->getState('instalasi_id');
+            $tindakan->pendaftaran_id = $modPasienAdmisi->pendaftaran_id;
+            $tindakan->shift_id = Yii::app()->user->getState('shift_id');
+            $tindakan->daftartindakan_id = (isset($akomodasi->daftartindakan_id) ? $akomodasi->daftartindakan_id:"");
+            $tindakan->carabayar_id = $modPasienAdmisi->carabayar_id;
+            $tindakan->jeniskasuspenyakit_id = $modPasienAdmisi->pendaftaran->jeniskasuspenyakit_id;
+            
+            $tindakan->tarif_satuan = (isset($akomodasi->harga_tariftindakan) ? $akomodasi->harga_tariftindakan:"");
+            $tindakan->qty_tindakan = $selisih;
+            $tindakan->tarif_tindakan = $tindakan->tarif_satuan * $tindakan->qty_tindakan;
+            $tindakan->satuantindakan = Params::SATUAN_TINDAKAN_PENDAFTARAN;
+            $tindakan->cyto_tindakan = 0;
+            $tindakan->tarifcyto_tindakan = 0;
+            $tindakan->dokterpemeriksa1_id = NULL;
+            $tindakan->discount_tindakan = 0;
+            $tindakan->subsidiasuransi_tindakan = 0;
+            $tindakan->subsidipemerintah_tindakan = 0;
+            $tindakan->subsisidirumahsakit_tindakan = 0;
+            $tindakan->iurbiaya_tindakan=0;
+            $tindakan->pembebasan_tindakan=0;
+            $tindakan->ruangan_id = Yii::app()->user->getState('ruangan_id');
+            $tindakan->tipepaket_id = PasienRawatInapController::tipePaketAkomodasi($modPasienAdmisi->pendaftaran, $modPasienAdmisi, $tindakan->daftartindakan_id);
+            $tindakan->create_time = date('Y-m-d H:i:s');
+            $tindakan->create_loginpemakai_id = Yii::app()->user->id;
+            $tindakan->create_ruangan = Yii::app()->user->getState('ruangan_id');
+            $tindakan->tarif_rsakomodasi = 0;
+            $tindakan->tarif_medis = 0;
+            $tindakan->tarif_paramedis = 0;
+            $tindakan->tarif_bhp = 0;
+            $tindakan->tgl_tindakan = $masukkamar->tglmasukkamar;
+            $tindakan->masukkamar_id = $masukkamar->masukkamar_id;
+            
+            $ok = true;
+            
+            if ($tindakan->validate()) {
+                $ok = $ok && $tindakan->save();
+                $tindakan->saveTindakanKomponen();
+                
+                //$komponen = TindakankomponenT::model()->findAllByAttributes(array(
+                //    'tindakanpelayanan_id'=>$tindakan->tindakanpelayanan_id,
+                //));
+                //var_dump(count($komponen));
+            } else {
+                $ok = false;
+            }
+            
+            return $ok;
+            // var_dump($tindakan->attributes);
+        }
+        
+        public static function hapusTindakanAkomodasiTanpaMasukKamar($modPasienAdmisi) {
+            $dt = DaftartindakanM::model()->findAllByAttributes(array(
+                'kelompoktindakan_id'=>Params::KELOMPOKTINDAKAN_ID_AKOMODASI,
+                'daftartindakan_akomodasi'=>true,
+                'daftartindakan_aktif'=>true,
+            ), array(
+                'select'=>'daftartindakan_id',
+            ));
+            
+            $ok = true;
+            
+            foreach ($dt as $item) {
+                $tindakan = TindakanpelayananT::model()->findAllByAttributes(array(
+                    'pendaftaran_id'=>$modPasienAdmisi->pendaftaran_id,
+                    'daftartindakan_id'=>$item->daftartindakan_id,
+                ), array(
+                    'select'=>'tindakanpelayanan_id',
+                    'condition'=>'tindakansudahbayar_id is null',
+                ));
+                
+                foreach ($tindakan as $dat) {
+                    $ok = $ok && TindakankomponenT::model()->deleteAllByAttributes(array(
+                        'tindakanpelayanan_id'=>$dat->tindakanpelayanan_id,
+                    ));
+                    $ok = $ok && TindakanpelayananT::model()->deleteByPk($dat->tindakanpelayanan_id);
+                }
+            }
+            
+            //var_dump($ok);
+            
+            return $ok;
         }
         
 		public static function tindakanAkomodasi($kelaspelayanan_id,$penjamin_id,$ruangan_id=null)
