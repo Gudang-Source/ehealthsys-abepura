@@ -42,7 +42,7 @@
 			return array($uid, $timestmp, $hasher);
 		}
 
-		private function request($url, $hashsignature, $uid, $timestmp, $method='', $myvars='')
+		private function request($url, $hashsignature, $uid, $timestmp, $method='', $myvars='', $contentType=null)
 		{
 			$session = curl_init($url);
 			$arrheader =  array(
@@ -50,8 +50,14 @@
 				'x-timestamp: '.$timestmp,
 				'x-signature: '.$hashsignature,
 				'Accept: application/json',
-				'Content-Type: application/xml; charset=utf-8',
+				//'Content-Type: application/xml; charset=utf-8',
 				);
+                        
+                        if (!empty($contentType)) {
+                            array_push($arrheader, $contentType);
+                        } else {
+                            array_push($arrheader, 'Content-Type: application/xml; charset=utf-8');
+                        }
 
 			curl_setopt($session, CURLOPT_URL, $url);
 			curl_setopt($session, CURLOPT_HTTPHEADER, $arrheader);
@@ -103,7 +109,8 @@
 		function search_kartu($query)
 		{
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
-			$completeUrl = $this->url.'/peserta/'.$query;
+			$completeUrl = $this->url.'/peserta/peserta/'.$query;
+                        //echo $completeUrl; die;
 			return $this->request($completeUrl, $hashsignature, $uid, $timestmp);
 		}
 
@@ -172,22 +179,28 @@
 								<diagAwal>'.$diagawal.'</diagAwal>
 								<poliTujuan>'.$politujuan.'</poliTujuan>
 								<klsRawat>'.$klsrawat.'</klsRawat>
+                                                                <lakaLantas>2</lakaLantas>
 								<user>'.$user.'</user>
 								<noMr>'.$nomr.'</noMr>
 							</t_sep>
 						</data>
 					</request>';
-
-
+                        
+                        // echo CHtml::encode($query);
+                        //var_dump($this->HashBPJS());
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
 			
-			$completeUrl = $this->url.'/sep/create';
+			$completeUrl = $this->url.'/SEP/sep';
+                        //echo $completeUrl;
 			
-			$result = $this->request($completeUrl, $hashsignature, $uid, $timestmp, 'POST', $query);
-			$result = json_decode($result, true);
+			$result = $this->request($completeUrl, $hashsignature, $uid, $timestmp, 'POST', $query, 'Application/x‐www‐form‐urlencoded');
+			//echo($result); die;
+                        $result = json_decode($result, true);
 			
+                        // var_dump($result); die;
+                        
 			$final_result['response'] = $result['response'];
-			$final_result['metadata'] = $result['metaData'];
+			$final_result['metadata'] = $result['metadata'];
 
 			$this->mapping_trans($result['response'], $no_trans, $ppkpelayanan);
 			return json_encode($final_result);
