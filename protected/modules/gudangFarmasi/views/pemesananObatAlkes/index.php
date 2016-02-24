@@ -41,7 +41,7 @@
                         <th>No.</th>
                         <th>Asal Barang</th>
                         <th>Nama Obat</th>
-                        <th>Satuan Kecil </th>
+                        <th hidden>Satuan Kecil </th>
                         <th>Jumlah</th>
                         <th>Batal</th>
                     </tr>
