@@ -1278,6 +1278,11 @@ class PasienRawatInapController extends MyAuthController
         
         public static function simpanTindakanAkomodasi($modPasienAdmisi, $masukkamar, $selisih) {
             $akomodasi = PasienRawatInapController::tindakanAkomodasi($masukkamar->kelaspelayanan_id,$masukkamar->penjamin_id,$masukkamar->ruangan_id); 
+            
+            if(empty($akomodasi)) {
+                return true;
+            }
+            
             $tindakan = new TindakanpelayananT;
             
             $tindakan->penjamin_id = $masukkamar->penjamin_id;
