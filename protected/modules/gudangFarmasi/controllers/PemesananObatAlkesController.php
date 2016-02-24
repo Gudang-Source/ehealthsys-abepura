@@ -48,6 +48,8 @@ class PemesananObatAlkesController extends MyAuthController{
                             $this->pesanobatalkestersimpan = false;
                         }
                     }
+                $this->simpanNotifPesanObat($modPesanObatalkes);
+                // die;
                 if($this->pesanobatalkestersimpan){
                     $transaction->commit();
                     $modPesanObatalkes->isNewRecord = FALSE;
@@ -69,6 +71,32 @@ class PemesananObatAlkesController extends MyAuthController{
             'instalasiTujuans'=>$instalasiTujuans,
             'ruanganTujuans'=>$ruanganTujuans,
         ));
+    }
+    
+    
+    public function simpanNotifPesanObat($modPesanObatalkes) {
+        // var_dump($modPesanObatalkes->attributes); die;
+        
+        $ruangan = RuanganM::model()->findByPk($modPesanObatalkes->ruangan_id);
+        $asal = RuanganM::model()->findByPk($modPesanObatalkes->ruanganpemesan_id);
+        $judul = 'Pemesanan Obat Alkes';
+                    
+        $isi = "Pemesan : ".$ruangan->ruangan_nama."<br/>No. Pemesanan : ";
+        $isi .= CHtml::link($modPesanObatalkes->nopemesanan, $this->createUrl('print', array(
+            'pesanobatalkes_id'=>$modPesanObatalkes->pesanobatalkes_id,
+        )), array('target'=>'_blank'));
+
+        // var_dump($mr->attributes); die;
+
+        // var_dump($isi); die;
+        //var_dump($ruangan->attributes); die;
+        $ok = CustomFunction::broadcastNotif($judul, $isi, array(
+            array('instalasi_id'=>$ruangan->instalasi_id, 'ruangan_id'=>$ruangan->ruangan_id, 'modul_id'=>$ruangan->modul_id),
+            // array('instalasi_id'=>Params::INSTALASI_ID_FARMASI, 'ruangan_id'=>Params::RUANGAN_ID_APOTEK_RJ, 'modul_id'=>10),
+            // array('instalasi_id'=>Params::INSTALASI_ID_KASIR, 'ruangan_id'=>Params::RUANGAN_ID_KASIR, 'modul_id'=>19),
+        )); 
+        
+        //var_dump($ok); die;
     }
 
     /**
