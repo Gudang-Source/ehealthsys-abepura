@@ -81,7 +81,7 @@ class PemesananObatAlkesController extends MyAuthController{
         $asal = RuanganM::model()->findByPk($modPesanObatalkes->ruanganpemesan_id);
         $judul = 'Pemesanan Obat Alkes';
                     
-        $isi = "Pemesan : ".$ruangan->ruangan_nama."<br/>No. Pemesanan : ";
+        $isi = "Pemesan : ".$asal->ruangan_nama."<br/>No. Pemesanan : ";
         $isi .= CHtml::link($modPesanObatalkes->nopemesanan, $this->createUrl('print', array(
             'pesanobatalkes_id'=>$modPesanObatalkes->pesanobatalkes_id,
         )), array('target'=>'_blank'));
