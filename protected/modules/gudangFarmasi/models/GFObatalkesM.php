@@ -156,10 +156,10 @@ class GFObatalkesM extends ObatalkesM
             $criteria->compare('LOWER(jenisobatalkes_m.jenisobatalkes_nama)',strtolower($this->jenisobatalkes_nama),true);
             $criteria->addCondition('obatalkes_aktif = TRUE');
             $criteria->order='obatalkes_nama ASC';
-			$criteria->limit = 10;
+			//$criteria->limit = 10;
             return new CActiveDataProvider($this, array(
                     'criteria'=>$criteria,
-					'pagination'=>false,
+					//'pagination'=>false,
             ));
     }
     /**

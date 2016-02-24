@@ -110,14 +110,27 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                         ))',
                 ),
                 array(
+                    'header'=>'Jenis Obat Alkes',
                     'name'=>'jenisobatalkes_id',
                     'type'=>'raw',
-                    'value'=>'(!empty($data->jenisobatalkes_id) ? $data->jenisobatalkes_nama : "")',
-                    'filter'=>  CHtml::activeTextField($modObatAlkes, 'jenisobatalkes_nama')." ".CHtml::activeHiddenField($modObatAlkes,'is_nobatch_tglkadaluarsa'),
+                    'value'=>'(!empty($data->jenisobatalkes_id) ? $data->jenisobatalkes->jenisobatalkes_nama : "")',
+                    'filter'=>  CHtml::activeDropDownList($modObatAlkes, 'jenisobatalkes_id', CHtml::listData(JenisobatalkesM::model()->findAll(array(
+                        'condition'=>'jenisobatalkes_aktif = true',
+                        'order'=>'jenisobatalkes_nama'
+                    )), 'jenisobatalkes_id', 'jenisobatalkes_nama'), array('empty'=>'-- Pilih --')),
+                ),
+                
+                array(
+                    'name'=>'obatalkes_kategori',
+                    'filter'=> CHtml::activeDropDownList($modObatAlkes, 'obatalkes_kategori', LookupM::getItems('obatalkes_kategori'), array('empty'=>'-- Pilih --'))
+                ),
+                array(
+                    'name'=>'obatalkes_golongan',
+                    'filter'=> CHtml::activeDropDownList($modObatAlkes, 'obatalkes_golongan', LookupM::getItems('obatalkes_golongan'), array('empty'=>'-- Pilih --'))
                 ),
                 'obatalkes_nama',
-                'obatalkes_kategori',
-                'obatalkes_golongan',
+                //'obatalkes_kategori',
+                //'obatalkes_golongan',
                 'nobatch',
 				array(
                     'name'=>'tglkadaluarsa',

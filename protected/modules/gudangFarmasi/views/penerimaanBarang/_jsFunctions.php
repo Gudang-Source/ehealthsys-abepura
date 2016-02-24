@@ -102,12 +102,13 @@ function hitungTotal(){
         var jmlppn  = parseInt($('#ppn').val());
         var jmlpph  = parseInt($('#pph').val());
         var jmlpermintaan  = parseInt($(this).find('input[name$="[jmlpermintaan]"]').val());
+        var jmlterima  = parseInt($(this).find('input[name$="[jmlterima]"]').val());
         var harganetto  = parseInt($(this).find('input[name$="[harganettoper]"]').val());
         var persendis  = parseInt($(this).find('input[name$="[persendiscount]"]').val());
         var jmldis  = parseInt($(this).find('input[name$="[jmldiscount]"]').val());
         
 		
-        subtotal = harganetto * jmlpermintaan;
+        subtotal = harganetto * jmlterima;// jmlpermintaan;
         totalharganetto += subtotal;
         
         if(subtotal <= 0){
@@ -116,7 +117,7 @@ function hitungTotal(){
         
         if(jmlppn > 0){
             ppn = (harganetto * (jmlppn/100));
-            subtotal = ((harganetto + ppn) * jmlpermintaan);
+            subtotal = ((harganetto + ppn) * jmlterima); //jmlpermintaan);
         }
         totalppn += (ppn * jmlpermintaan);
         
@@ -132,6 +133,8 @@ function hitungTotal(){
         }else{
             subtotal = subtotal - jmldis;
         }       
+        
+        console.log(subtotal);
         
         total += subtotal;
         $(this).find('input[name$="[subtotal]"]').val(subtotal);
@@ -244,15 +247,20 @@ function formatNumberSemua(){
 }
 
 function pilihSatuan(obj){
+    unformatNumberSemua();
     var satuanobat = $(obj).val();
     
     if(satuanobat == '<?php echo PARAMS::SATUAN_KECIL; ?>'){
         $(obj).parents('tr').find('.satuankecil').show();
         $(obj).parents('tr').find('.satuanbesar').hide();
+        $(obj).parents('tr').find('.netto').val($(obj).parents('tr').find('.netto').val() / $(obj).parents('tr').find('.kemasanbesar').val());
     }else{
         $(obj).parents('tr').find('.satuanbesar').show();
         $(obj).parents('tr').find('.satuankecil').hide();
+        $(obj).parents('tr').find('.netto').val($(obj).parents('tr').find('.netto').val() * $(obj).parents('tr').find('.kemasanbesar').val());
     }
+    formatNumberSemua();
+    hitungTotal();
 }
 
 function persenPpn(obj){

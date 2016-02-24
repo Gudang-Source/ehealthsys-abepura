@@ -37,9 +37,9 @@ if (!isset($_GET['frame'])){
     echo $this->renderPartial($this->path_view.'_headerPrint'); 
 }
 ?>
-    <table width="74%" style="margin:0px;" cellpadding="0" cellspacing="0">
+    <table width="100%" style="margin:0px;" cellpadding="0" cellspacing="0">
         <tr>
-            <td align="center" valig="middle" colspan="3">
+            <td align="center" valig="middle" colspan="6">
                 <b><?php echo $judul_print ?></b>
             </td>
         </tr>
@@ -124,8 +124,8 @@ if (!isset($_GET['frame'])){
             </tr>
         <?php } ?>
         <tr>
-            <td colspan="9" align="center"><strong>Total</strong></td>
-            <td align="right"><?php echo $format->formatUang($total); ?></td>
+            <td colspan="10" align="center"><strong>Total</strong></td>
+            <td align="right"><b><?php echo $format->formatUang($total); ?></b></td>
         </tr>
     </table>
 <?php

@@ -321,7 +321,7 @@ class PenerimaanBarangController extends MyAuthController
         $modStok->tglstok_out = NULL;
         if(!empty($modPenerimaanDetail->satuanbesar_id)){
             $modStok->qtystok_in = $modPenerimaanDetail->jmlterima * $modPenerimaanDetail->kemasanbesar ;
-            $modStok->harganetto = ($modPenerimaanDetail->harganettoper / $modStok->qtystok_in);
+            $modStok->harganetto = ($modPenerimaanDetail->harganettoper / $modPenerimaanDetail->kemasanbesar);
         }else{
             $modStok->qtystok_in = $modPenerimaanDetail->jmlterima;
             $modStok->harganetto = $modPenerimaanDetail->harganettoper;
@@ -373,10 +373,10 @@ class PenerimaanBarangController extends MyAuthController
             $loadObatAlkes->hargajual = $hargajual;
 			
             if($loadObatAlkes->save()){
-				
-			}else{
-				$this->stokobatalkestersimpan &= false;
-			}
+            		
+            }else{
+            	$this->stokobatalkestersimpan &= false;
+            }
             
         } else {
             $this->stokobatalkestersimpan &= false;
