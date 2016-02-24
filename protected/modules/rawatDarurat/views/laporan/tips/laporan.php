@@ -21,21 +21,23 @@
             <i class="icon-print icon-white"></i>Print</a> untuk mencetak data.</td>
     </tr>
     <tr>
-        <td>5. </td>
-        <td><table border="0">
-    <tr>
-        <td>Navigasi di atas berfungsi untuk menampilkan pencarian dalam bentuk digram batang, pie, atau garis.</td>
-    </tr>
-    <tr>
-        <td><ul class="nav nav-tabs" style="width:170px;">
-            <li class="active" type="batang" >
-            <a>Batang</a></li>
-            <li class="" type="pie">
-            <a>Pie</a></li>
-            <li class="" type="garis">
-            <a>Garis</a></li>
+        <td></td>
+        <td><ul class="nav nav-tabs" style="width:500px;">
+                <li class="active" type="batang" >
+                    <a>Batang</a>
+                </li>
+                <li class="" type="pie">
+                    <a>Pie</a>
+                </li>
+                <li class="" type="garis">
+                    <a>Garis</a>
+                </li>
             </ul>
         </td>
     </tr>
+    <tr>
+        <td>5. </td>        
+        <td>Navigasi di atas berfungsi untuk menampilkan pencarian dalam bentuk diagram batang, pie, atau garis.</td>
+    </tr>    
 </table>
 </p>
