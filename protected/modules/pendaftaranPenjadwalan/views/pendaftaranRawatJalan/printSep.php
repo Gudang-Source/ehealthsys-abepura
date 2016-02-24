@@ -85,7 +85,7 @@
         <td></td>
         <td>Kelas Rawat</td>
         <td>:</td>
-        <td><?php echo $modAsuransiPasienBpjs->kelastanggunganasuransi_id; ?></td>
+        <td><?php echo $modAsuransiPasienBpjs->kelastanggunganasuransi->kelasbpjs_id; ?></td>
     </tr>
     <tr>
         <td width="18%">Asal Faskes Tk.I</td>
