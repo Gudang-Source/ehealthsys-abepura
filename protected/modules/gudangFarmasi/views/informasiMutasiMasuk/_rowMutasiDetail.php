@@ -24,17 +24,19 @@
     <td>
         <?php echo CHtml::activeTextField($modMutasiDetail, '[ii]tglkadaluarsa',array('readonly'=>true,'style'=>'width:80px;')); ?>
     </td>
-    <td>
+    <td hidden>
         <?php //TIDAK BOLEH MERUBAH SATUAN DI TRANSAKSI echo CHtml::activeDropDownList($modMutasiDetail, '[ii]satuankecil_id', CHtml::listData(SatuankecilM::model()->findAll(),'satuankecil_id','satuankecil_nama'),array('style'=>'width:80px;')); ?>
 		<?php echo CHtml::activeHiddenField($modMutasiDetail, '[ii]satuankecil_id', array('style'=>'width:80px;')); ?>
         <?php echo CHtml::textField('[ii]satuankecil_nama', (isset($modMutasiDetail->satuankecil_id) ? $modMutasiDetail->satuankecil->satuankecil_nama : ""),array('style'=>'width:80px;')); ?>
     </td>
     <td>
         <?php echo CHtml::activeTextField($modMutasiDetail,'[ii]jmlmutasi',array('readonly'=>true,'class'=>'span2 integer','style'=>'width:45px;','onblur'=>'hitungTotal();','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php echo isset($modMutasiDetail->satuankecil_id) ? $modMutasiDetail->satuankecil->satuankecil_nama : ""; ?>
     </td>
     <td>
         <?php echo CHtml::activeTextField($modMutasiDetail,'[ii]jmlterima',array('readonly'=>true,'class'=>'span2 integer','style'=>'width:45px;','onblur'=>'hitungTotal();','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
         <?php echo CHtml::activeHiddenField($modMutasiDetail,'[ii]jmlstok',array('readonly'=>true,'class'=>'span2 integer','style'=>'width:45px;','onblur'=>'hitungTotal();','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php echo isset($modMutasiDetail->satuankecil_id) ? $modMutasiDetail->satuankecil->satuankecil_nama : ""; ?>
     </td>
     <td>
         <?php echo CHtml::activeTextField($modMutasiDetail,'[ii]harganettoterima',array('readonly'=>true,'class'=>'span2 integer','style'=>'width:80px;','onblur'=>'hitungTotal();')); ?>
