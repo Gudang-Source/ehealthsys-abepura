@@ -118,7 +118,10 @@
                 array(
                    'header'=>'Batal Periksa',
                    'type'=>'raw',
-                   'value'=>'CHtml::link("<i class=\'icon-form-silang\'></i>", "javascript:batalPeriksa($data->pasienmasukpenunjang_id)",array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk membatalkan Pemeriksaan"))',
+                   'value'=>function($data) {
+                        if (in_array($data->getStatusOperasi($data->pasienmasukpenunjang_id),array("MULAI", "SELESAI"))) return "-";
+                        return CHtml::link("<i class='icon-form-silang'></i>", "javascript:batalPeriksa($data->pasienmasukpenunjang_id)",array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk membatalkan Pemeriksaan"));
+                   },
                    'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
                 ),
             ),

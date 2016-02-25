@@ -228,6 +228,29 @@ class PasienkirimkeunitlainV extends CActiveRecord
             ));
         }
         
+        public function searchRujukBedah() {
+            $criteria = new CDbCriteria();
+            $criteria->compare('lower(t.no_pendaftaran)', strtolower($this->no_pendaftaran), true);
+            $criteria->compare('lower(t.no_rekam_medik)', strtolower($this->no_rekam_medik), true);
+            $criteria->compare('lower(t.nama_pasien)', strtolower($this->nama_pasien), true);
+            $criteria->compare('t.ruangan_id', Params::RUANGAN_ID_BEDAH);
+            if (!empty($this->tgl_awal) && !empty($this->tgl_akhir)) {
+                $criteria->addBetweenCondition('t.tgl_kirimpasien::date', $this->tgl_awal, $this->tgl_akhir);
+            }
+            $criteria->join = "left join pendaftaran_t p on p.pendaftaran_id = t.pendaftaran_id";
+            $criteria->addCondition('p.pasienbatalperiksa_id is null');
+            $criteria->addCondition('t.instalasi_id = '.Yii::app()->user->getState('instalasi_id'));
+            $criteria->compare('t.ruanganasal_id', $this->ruanganasal_id);
+            $criteria->compare('t.instalasiasal_id', $this->instalasiasal_id);
+            $criteria->compare('t.carabayar_id', $this->carabayar_id);
+            $criteria->compare('t.penjamin_id', $this->penjamin_id);
+            $criteria->order='t.tgl_kirimpasien DESC';
+            
+            return new CActiveDataProvider($this, array(
+                'criteria'=>$criteria,
+            ));
+        }
+        
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
