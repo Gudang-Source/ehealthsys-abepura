@@ -43,6 +43,7 @@ class MonitoringrawatdaruratV extends CActiveRecord
                 public $tgl_akhir;
                 public $tgl_awaladmisi;
                 public $tgl_akhiradmisi;
+                public $pegawai_id;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -71,7 +72,7 @@ class MonitoringrawatdaruratV extends CActiveRecord
 		return array(
 			array('pasien_id, pendaftaran_id, carabayar_id, penjamin_id, ruangan_id, instalasi_id, jeniskasuspenyakit_id, kelaspelayanan_id, pembayaranpelayanan_id, pasienpulang_id, pasienbatalperiksa_id', 'numerical', 'integerOnly'=>true),
 			array('namadepan, jeniskelamin, no_pendaftaran', 'length', 'max'=>20),
-			array('nama_pasien, statusperiksa, statuspasien, kunjungan, carabayar_nama, penjamin_nama, ruangan_nama, instalasi_nama, kelaspelayanan_nama, carakeluar, kondisipulang', 'length', 'max'=>50),
+			array('nama_pasien, statusperiksa, statuspasien, kunjungan, carabayar_nama, penjamin_nama, ruangan_nama, instalasi_nama, kelaspelayanan_nama, carakeluar_id, kondisipulang', 'length', 'max'=>50),
 			array('nama_bin, umur', 'length', 'max'=>30),
 			array('no_rekam_medik', 'length', 'max'=>10),
 			array('no_urutantri', 'length', 'max'=>6),
@@ -133,6 +134,7 @@ class MonitoringrawatdaruratV extends CActiveRecord
                         'carakeluar_id' => 'Cara keluar',
 			'kondisipulang' => 'Kondisi pulang',
 			'pasienbatalperiksa_id' => 'Pasienbatalperiksa',
+                        'pegawai_id' => 'Dokter',
 		);
 	}
 
@@ -146,7 +148,7 @@ class MonitoringrawatdaruratV extends CActiveRecord
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-
+               
 		$criteria->compare('pasien_id',$this->pasien_id);
 		$criteria->compare('LOWER(namadepan)',strtolower($this->namadepan),true);
 		$criteria->compare('LOWER(nama_pasien)',strtolower($this->nama_pasien),true);
@@ -179,7 +181,8 @@ class MonitoringrawatdaruratV extends CActiveRecord
 		$criteria->compare('LOWER(carakeluar)',strtolower($this->carakeluar),true);
 		$criteria->compare('LOWER(kondisipulang)',strtolower($this->kondisipulang),true);
 		$criteria->compare('pasienbatalperiksa_id',$this->pasienbatalperiksa_id);
-
+                
+                
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
@@ -239,14 +242,18 @@ class MonitoringrawatdaruratV extends CActiveRecord
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-
-                                $criteria->order = 'tgl_pendaftaran DESC';
-		$criteria->addBetweenCondition('DATE(tgl_pendaftaran)',$this->tgl_awal,$this->tgl_akhir);
-		$criteria->compare('LOWER(no_pendaftaran)',strtolower($this->no_pendaftaran),true);
-		$criteria->compare('LOWER(no_rekam_medik)',strtolower($this->no_rekam_medik),true);
-		$criteria->compare('LOWER(nama_pasien)',strtolower($this->nama_pasien),true);
-		$criteria->compare('LOWER(carakeluar)',strtolower($this->carakeluar),true);
-		$criteria->compare('LOWER(kondisipulang)',strtolower($this->kondisipulang),true);
+                $criteria->join = 'JOIN pendaftaran_t p on p.pendaftaran_id = t.pendaftaran_id';
+                $criteria->order = 't.tgl_pendaftaran DESC';
+		$criteria->addBetweenCondition('DATE(t.tgl_pendaftaran)',$this->tgl_awal,$this->tgl_akhir);
+		$criteria->compare('LOWER(t.no_pendaftaran)',strtolower($this->no_pendaftaran),true);
+		$criteria->compare('LOWER(t.no_rekam_medik)',strtolower($this->no_rekam_medik),true);
+		$criteria->compare('LOWER(t.nama_pasien)',strtolower($this->nama_pasien),true);
+		$criteria->compare('LOWER(t.carakeluar)',strtolower($this->carakeluar),true);
+		$criteria->compare('LOWER(t.kondisipulang)',strtolower($this->kondisipulang),true);
+                $criteria->compare('t.carabayar_id',$this->carabayar_id);
+                $criteria->compare('t.carakeluar_id',$this->carakeluar_id);
+                $criteria->compare('t.penjamin_id',$this->penjamin_id);
+                $criteria->compare('p.pegawai_id', $this->pegawai_id);
                 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

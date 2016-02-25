@@ -101,6 +101,7 @@ class MonitoringController extends MyAuthController
                                     $model->tgl_awal  = $format->formatDateTimeForDb($_REQUEST['RKMonitoringrawatjalanV']['tgl_awal']);
                                     $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['RKMonitoringrawatjalanV']['tgl_akhir']);
                                     $model->attributes = $_GET['RKMonitoringrawatjalanV'];
+                                    $model->pegawai_id = $_GET['RKMonitoringrawatjalanV']['pegawai_id'];
                                 }
 		$this->render('indexRawatjalan',array(
 			'model'=>$model,
@@ -118,6 +119,8 @@ class MonitoringController extends MyAuthController
                                     $model->attributes = $_GET['RKMonitoringrawatdaruratV'];
                                     $model->tgl_awal  = $format->formatDateTimeForDb($_REQUEST['RKMonitoringrawatdaruratV']['tgl_awal']);
                                     $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['RKMonitoringrawatdaruratV']['tgl_akhir']);
+                                    $model->pegawai_id = $_GET['RKMonitoringrawatdaruratV']['pegawai_id'];
+                                   
                                 }
 		$this->render('indexRawatdarurat',array(
 			'model'=>$model,
@@ -136,6 +139,7 @@ class MonitoringController extends MyAuthController
                 $format = new MyFormatter();
                 $model->tgl_awal  = $format->formatDateTimeForDb($_REQUEST['RKMonitoringrawatinapV']['tgl_awal']);
                 $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['RKMonitoringrawatinapV']['tgl_akhir']);
+                $model->pegawai_id = $_GET['RKMonitoringrawatinapV']['pegawai_id'];
                 if ($_GET['RKMonitoringrawatinapV']['tglmasukkamar'] > 0) {
                     $model->tglmasukkamar = $format->formatDateTimeForDb($_REQUEST['RKMonitoringrawatinapV']['tglmasukkamar']);
                 } else {
@@ -153,9 +157,10 @@ class MonitoringController extends MyAuthController
 	{
 		$model=new RKMonitoringrawatjalanV('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['RKMonitoringrawatjalanV']))
-			$model->attributes=$_GET['RKMonitoringrawatjalanV'];
-
+		if(isset($_GET['RKMonitoringrawatjalanV'])) {
+			$model->attributes= $_GET['RKMonitoringrawatjalanV'];
+                        $model->pegawai_id = $_GET['RKMonitoringrawatjalanV']['pegawai_id'];
+                }
 		$this->render('admin',array(
 			'model'=>$model,
 		));
