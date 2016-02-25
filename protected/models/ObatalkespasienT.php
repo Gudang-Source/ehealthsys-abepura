@@ -137,13 +137,13 @@ class ObatalkespasienT extends CActiveRecord
         }
 
         function cekTindakanOa() {
-            $tindakan = self::model()->findAllByAttributes(array(
+            $tindakan = TindakanpelayananT::model()->findAllByAttributes(array(
                 'pendaftaran_id'=>$this->pendaftaran_id,
             ), array(
                 'condition'=>'tindakansudahbayar_id is null',
             ));
             
-            $oa = ObatalkespasienT::model()->findAllByAttributes(array(
+            $oa = self::model()->findAllByAttributes(array(
                 'pendaftaran_id'=>$this->pendaftaran_id,
             ), array(
                 'condition'=>'oasudahbayar_id is null',
