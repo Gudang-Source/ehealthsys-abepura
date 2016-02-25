@@ -49,12 +49,50 @@
                             <td>
                                 <?php echo $form->textFieldRow($model,'no_rekam_medik',array('class'=>'span3','onkeypress'=>'$(this).focusNextInputField(event)', 'autofocus'=>true, 'placeholder'=>'Ketik no. rekam medik')); ?>
                                 <?php echo $form->textFieldRow($model,'no_pendaftaran',array('class'=>'span3','onkeypress'=>'$(this).focusNextInputField(event)', 'placeholder'=>'Ketik no. pendaftaran')); ?>
+                                <br>
+                                <?php echo $form->dropDownListRow($model,'ruangan_id',CHtml::listData(RuanganM::getRuanganByInstalasi(Params::INSTALASI_ID_RJ),'ruangan_id','ruangan_nama'),array('empty'=>'-- Pilih --','class'=>'','onkeypress'=>'$(this).focusNextInputField(event)')); ?>
+                                
+                                <?php echo $form->dropDownListRow($model, 'pegawai_id', 
+                                            CHtml::listData(DokterV::model()->findAllByAttributes(array(
+                                                'instalasi_id'=>Params::INSTALASI_ID_RJ,
+                                            ), array(
+                                                'order'=>'nama_pegawai asc'
+                                            )), 'pegawai_id', 'namaLengkap'), array('empty'=>'-- Pilih --')); ?>
+                                
+                                <?php /*echo $form->dropDownListRow($model, 'pendaftaran_id', 
+                                            CHtml::listData(DokterV::model()->findAllByAttributes(array(
+                                                'instalasi_id'=>Params::INSTALASI_ID_RJ,
+                                            ), array(
+                                                'order'=>'nama_pegawai asc'
+                                            )), 'pegawai_id', 'namaLengkap'), array('empty'=>'-- Pilih --'));*/ ?>
+                                 <?php /*echo $form->dropDownListRow($model, 'ruangan_id', CHtml::listData(RuanganM::model()->findAllByAttributes(array(
+                                        'instalasi_id'=>Params::INSTALASI_ID_RJ,
+                                    ), array(
+                                        'order'=>'ruangan_nama asc'
+                                    )), 'ruangan_id', 'ruangan_nama'), array('empty'=>'-- Pilih --')); */?>
+                                <?php //echo $form->dropDownListRow($model,'ruangan_id',CHtml::listData(RuanganM::getRuanganByInstalasi('2'),'ruangan_id','ruangan_nama'),array('empty'=>'-- Pilih --','class'=>'','onkeypress'=>'$(this).focusNextInputField(event)')); ?>
+                                <?php //echo $form->textFieldRow($model,'no_pendaftaran',array('class'=>'span3','onkeypress'=>'$(this).focusNextInputField(event)', 'placeholder'=>'Ketik no. pendaftaran')); ?>
                             </td>
                             <td>
                                 <?php echo $form->textFieldRow($model,'nama_pasien', array('placeholder'=>'Ketik nama pasien')); ?>
                                 <?php echo $form->dropDownListRow($model,'jeniskasuspenyakit_id',CHtml::listData($model->getJeniskasuspenyakitItems(),'jeniskasuspenyakit_id','jeniskasuspenyakit_nama'),array('empty'=>'-- Pilih --','onkeypress'=>'$(this).focusNextInputField(event)')); ?>
                                 <?php echo $form->dropDownListRow($model,'statusperiksa',LookupM::getItems('statusperiksa'),array('empty'=>'-- Pilih --','class'=>'','onkeypress'=>'$(this).focusNextInputField(event)')); ?>
-                            </td>
+                                <?php //echo $form->dropDownListRow($model,'carabayar_id',CHtml::listData(CarabayarM::model()->CarabayarItems,'carabayar_id','carabayar_nama'),array('empty'=>'-- Pilih --','class'=>'','onkeypress'=>'$(this).focusNextInputField(event)')); ?>
+                                <?php //echo $form->dropDownListRow($model,'penjamin_id',  PenjaminrekM::model()->getPenjaminItems(),array('empty'=>'-- Pilih --','class'=>'','onkeypress'=>'$(this).focusNextInputField(event)')); ?>
+                            
+                                <?php echo $form->dropDownListRow($model,'carabayar_id', CHtml::listData(CarabayarM::model()->CarabayarItems, 'carabayar_id', 'carabayar_nama') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",
+                                            'ajax' => array('type'=>'POST',
+                                                'url'=> $this->createUrl('/actionDynamic/getPenjaminPasien',array('encode'=>false,'namaModel'=>'RKMonitoringrawatjalanV')), 
+                                                'update'=>'#RKMonitoringrawatjalanV_penjamin_id'  //selector to update
+                                            ),
+                                )); ?>
+                                <div class="control-group">
+                                    <?php echo CHtml::label('Penjamin',' Penjamin', array('class'=>'control-label')) ?>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <div class="controls">
+                                        <?php echo $form->dropDownList($model,'penjamin_id', PenjaminrekM::model()->getPenjaminItems() ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",)); ?>
+                                    </div>
+                                </div>
+                            </td><?php //CHtml::listData(PenjaminpasienM::model()->findAll('penjamin_aktif = true order by penjamin_nama'),'penjamin_id','penjamin_nama') ?>
                         </tr>
                     </table>
                     </div>

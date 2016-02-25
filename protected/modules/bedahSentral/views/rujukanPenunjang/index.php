@@ -9,30 +9,42 @@
             'template'=>"{summary}\n{items}\n{pager}",
             'itemsCssClass'=>'table table-striped table-condensed',
             'columns'=>array(
-                    'tgl_pendaftaran',
+                    array(
+                        'header'=>'Tgl. Pendaftaran/<br/>No. Pendaftaran',
+                        'name'=>'tgl_pendaftaran',
+                        'type'=>'raw',
+                        'value'=>'$data->tgl_pendaftaran."/<br/>".$data->no_pendaftaran',
+                    ),
                     'tgl_kirimpasien',
                     array(
-                        'header'=>'Instalasi / Ruangan Asal',
-                        'value'=>'$data->InstalasiNamaRuanganNama',
+                    'header' => 'Instalasi<br/>Ruangan Asal',
+                        'name' => 'instalasi_ruangan',
+                        'value' => '$data->InstalasiNamaRuanganNama',
                     ),
-                    'no_pendaftaran',
                     'no_rekam_medik',
                     array(
-                        'header'=>'Nama Pasien',
-                        'value'=>'$data->NamaPasienNamaBin',
+                        'header' => 'Nama Pasien',
+                        'name' => 'nama_pasien_panggilan',
+                        'value' => '$data->namadepan.$data->nama_pasien',
+                    ),
+                    'alamat_pasien',
+                    array(
+                        'header' => 'Kasus Penyakit',
+                        'name' => 'kasus_pelayanan',
+                        'type' => 'raw',
+                        'value' => '"$data->jeniskasuspenyakit_nama"',
                     ),
                     array(
                         'header'=>'Cara Bayar / Penjamin',
                         'value'=>'$data->CaraBayarPenjaminNama',
-                    ),
+                    ), /*
                     array(
                         'header'=>'Kasus Penyakit / <br> Kelas Pelayanan',
                         'type'=>'raw',
                         'value'=>'"$data->jeniskasuspenyakit_nama"."<br/>"."$data->kelaspelayanan_nama"',
-                    ),
+                    ), */
     //                'jeniskasuspenyakit_nama',
     //                'umur',
-                    'alamat_pasien',
     //                'pemeriksaanrad_nama',
                     array(
                         'header'=>'Rencana Operasi',
@@ -58,13 +70,13 @@
     </div>
     <fieldset class="box">
         <?php
-            $this->renderPartial('_formSearch',array()); 
+            $this->renderPartial('_formSearch',array('model' => $model)); 
         ?>
     </fieldset>
 </div>
 <script type="text/javascript">
-document.getElementById('tgl_awal_date').setAttribute("style","display:none;");
-document.getElementById('tgl_akhir_date').setAttribute("style","display:none;");
+// document.getElementById('tgl_awal_date').setAttribute("style","display:none;");
+// document.getElementById('tgl_akhir_date').setAttribute("style","display:none;");
 function cekTanggal(){
 
     var checklist = $('#cbTglMasuk');

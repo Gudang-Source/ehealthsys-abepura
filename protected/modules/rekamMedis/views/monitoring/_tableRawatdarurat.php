@@ -7,53 +7,61 @@
                         array(
                             'header'=>'No.',
                             'value'=>'$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1',
-                        ),
-                        array(
-                            'header'=>'No. pendaftaran',
-                            'value'=>'$data->no_pendaftaran',
-                        ),
-                        array(
-                            'header'=>'Nama pasien',
-                            'value'=>'$data->nama_pasien',
-                        ),
-                        array(
-                            'header'=>'Jenis kelamin',
-                            'value'=>'$data->jeniskelamin',
-                        ),
-                        array(
-                            'header'=>'Kasus enyakit',
-                            'value'=>'$data->jeniskasuspenyakit_nama',
-                        ),
-                        array(
-                            'header'=>'Poliklinik',
-                            'value'=>'$data->ruangan_nama',
-                        ),
-                        array(
-                            'header'=>'Cara bayar / Penjamin',
-                            'value'=>'$data->carabayar_nama',
-                        ),
+                        ),  
                         array(
                             'header'=>'Tanggal Pendaftaran',
                             'value'=>'$data->tgl_pendaftaran',
                         ),
                         array(
-                            'header'=>'Jenis kasus penyakit',
+                            'header'=>'No. Pendaftaran',
+                            'value'=>'$data->no_pendaftaran',
+                        ),
+                        array(
+                            'header'=>'No. Rekam Medik',
+                            'value'=>'$data->no_rekam_medik',
+                        ),
+                        array(
+                            'header'=>'Nama Pasien',
+                            'value'=>'$data->nama_pasien',
+                        ),
+                        array(
+                            'header'=>'Jenis Kelamin',
+                            'value'=>'$data->jeniskelamin',
+                        ),
+                        array(
+                            'header'=>'Jenis Kasus Penyakit',
                             'value'=>'$data->jeniskasuspenyakit_nama',
                         ),
                         array(
+                            'header'=>'Dokter',
+                            'value'=>function($data){
+                                $p = PendaftaranT::model()->findByPk($data->pendaftaran_id);
+                                return $p->pegawai->namaLengkap;
+                            },
+                        ),
+                        array(
+                            'header'=>'Cara Bayar / Penjamin',
+                            'value'=>'$data->carabayar_nama." / ".$data->penjamin_nama',
+                        ),
+                         array(
                             'header'=>'Status Periksa',
                             'value'=>'$data->statusperiksa',
                         ),
+                      /*  array(
+                            'header'=>'Poliklinik',
+                            'value'=>'$data->ruangan_nama',
+                        ),                                               */
+                       
                         array(
-                            'header'=>'Cara keluar',
+                            'header'=>'Cara Keluar',
                             'value'=>'$data->carakeluar',
                         ),
                         array(
-                            'header'=>'Status bayar',
+                            'header'=>'Status Bayar',
                             'value'=>'$data->carabayar_nama',
                         ),
                         array(
-                            'header'=>'Alih status',
+                            'header'=>'Alih Status',
                             'value'=>'$data->alihstatus',
                         ),
 //		'pasien_id',
