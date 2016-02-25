@@ -301,6 +301,7 @@ $this->endWidget();
 
 			array(
 			  'header'=>'Nama Pegawai',
+                          'name'=>'nama_pegawai',
 			  'type'=>'raw',
 			  'value'=>'$data->NamaLengkap',
 			),
