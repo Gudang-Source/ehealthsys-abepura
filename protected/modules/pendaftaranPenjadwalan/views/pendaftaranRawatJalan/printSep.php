@@ -99,15 +99,15 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                </tr>
-                <tr>
-                    <td class = "header">Diagnosa Awal</td>
+                </tr>               
+                <tr valign = "top">
+                    <td class = "header" >Diagnosa Awal</td>
                     <td>:</td>
                     <td><?php echo $modSep->diagnosaawal; ?></td>
                     <td>&nbsp;</td>
-                    <td>Pasien/<br>Keluarga Pasien</td>
+                    <td style = "padding-left:20px">Pasien/<br>Keluarga Pasien</td>
                     <td style = "padding-left:20px">&nbsp;</td>
-                    <td>Petugas<br>BPJS Kesehatan</td>
+                    <td style = "padding-left:20px">Petugas<br>BPJS Kesehatan</td>
                 </tr>
                 <tr>
                     <td class = "header">Catatan</td>
@@ -129,9 +129,9 @@
                 <tr>
                     <td class = "header" colspan = "3" style="font-size: 8pt !important;"></td>
                     <td>&nbsp;</td>
-                    <td><div style = "padding:0px;margin:0px;height:10px;width:120px;border-top: solid 1px #000;"></div></td>
+                    <td style = "padding-left:20px"><div style = "padding:0px;margin:0px;height:10px;width:120px;border-top: solid 1px #000;"></div></td>
                     <td></td>
-                    <td><div style = "padding:0px;margin:0px;height:10px;width:120px;border-top: solid 1px #000;"></div></td>                    
+                    <td style = "padding-left:20px"><div style = "padding:0px;margin:0px;height:10px;width:120px;border-top: solid 1px #000;"></div></td>                    
                 </tr>
             </table>
         </td>
