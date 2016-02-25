@@ -64,7 +64,7 @@ class MonitoringrawatinapV extends CActiveRecord
         public $tgl_awal;
         public $tgl_akhir;
         public $cekTanggalAdmisi;
-        
+        public $pegawai_id;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -176,6 +176,7 @@ class MonitoringrawatinapV extends CActiveRecord
 			'tglpasienpulang' => 'Tglpasienpulang',
 			'carakeluar' => 'Cara pulang',
 			'kondisipulang' => 'Kondisi pulang',
+                        'pegawai_id' => 'Dokter'
 		);
 	}
 
@@ -326,17 +327,21 @@ class MonitoringrawatinapV extends CActiveRecord
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-
-                $criteria->order = 'tgladmisi DESC';
+                $criteria->join = 'JOIN pendaftaran_t p ON p.pendaftaran_id = t.pendaftaran_id';
+                $criteria->order = 't.tgladmisi DESC';
                 if ($this->cekTanggalAdmisi){
-                    $criteria->addBetweenCondition('DATE(tgladmisi)',$this->tgl_awal,$this->tgl_akhir);
+                    $criteria->addBetweenCondition('DATE(t.tgladmisi)',$this->tgl_awal,$this->tgl_akhir);
                 }
-                $criteria->compare('tglmasukkamar',$this->tglmasukkamar);
-		$criteria->compare('LOWER(no_rekam_medik)',strtolower($this->no_rekam_medik),true);
-		$criteria->compare('LOWER(no_pendaftaran)',strtolower($this->no_pendaftaran),true);
-		$criteria->compare('LOWER(nama_pasien)',strtolower($this->nama_pasien),true);
-		$criteria->compare('LOWER(carakeluar)',strtolower($this->carakeluar),true);
-		$criteria->compare('LOWER(kondisipulang)',strtolower($this->kondisipulang),true);
+                $criteria->compare('t.tglmasukkamar',$this->tglmasukkamar);
+		$criteria->compare('LOWER(t.no_rekam_medik)',strtolower($this->no_rekam_medik),true);
+		$criteria->compare('LOWER(t.no_pendaftaran)',strtolower($this->no_pendaftaran),true);
+		$criteria->compare('LOWER(t.nama_pasien)',strtolower($this->nama_pasien),true);
+		$criteria->compare('LOWER(t.arakeluar)',strtolower($this->carakeluar),true);
+		$criteria->compare('LOWER(t.kondisipulang)',strtolower($this->kondisipulang),true);
+                $criteria->compare('t.carabayar_id',$this->carabayar_id);
+                $criteria->compare('t.penjamin_id',$this->penjamin_id);
+                $criteria->compare('t.ruangan_id',$this->ruangan_id);
+                $criteria->compare('p.pegawai_id',$this->pegawai_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -8,54 +8,63 @@
                             'header'=>'No.',
                             'value'=>'$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1',
                         ),
+                         array(
+                            'header'=>'Tanggal Pendaftaran',
+                            'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)',
+                        ),
                         array(
-                            'header'=>'No. pendaftaran',
+                            'header'=>'No. Pendaftaran',
                             'value'=>'$data->no_pendaftaran',
                         ),
                         array(
-                            'header'=>'Nama pasien',
+                            'header'=>'No. Rekam Medik',
+                            'value'=>'$data->no_rekam_medik',
+                        ),
+                        array(
+                            'header'=>'Nama Pasien',
                             'value'=>'$data->nama_pasien',
                         ),
                         array(
-                            'header'=>'Jenis kelamin',
+                            'header'=>'Jenis Kelamin',
                             'value'=>'$data->jeniskelamin',
+                        ),
+                         array(
+                            'header'=>'Jenis Kasus Penyakit',
+                            'value'=>'$data->jeniskasuspenyakit_nama',
+                        ),
+                        array(
+                            'header'=>'Dokter',
+                            'value'=>function($data){
+                                $p = PendaftaranT::model()->findByPk($data->pendaftaran_id);
+                                return $p->pegawai->namaLengkap;
+                            },
                         ),
                         array(
                             'header'=>'Kelas Pelayanan',
                             'value'=>'$data->kelaspelayanan_nama',
                         ),
+                         array(
+                            'header'=>'Ruangan / Kamar',
+                            'value'=>'$data->ruangan_nama." / ".$data->nomasukkamar',
+                        ),
+                        array(
+                            'header'=>'Cara Masuk',
+                            'value'=>'$data->caramasuk_nama',
+                        ),
                         array(
                             'header'=>'Cara bayar / Penjamin',
-                            'value'=>'$data->carabayar_nama',
-                        ),
-                        array(
-                            'header'=>'Tanggal Pendaftaran',
-                            'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)',
-                        ),
-                        array(
-                            'header'=>'Jenis kasus penyakit',
-                            'value'=>'$data->jeniskasuspenyakit_nama',
+                            'value'=>'$data->carabayar_nama." / ".$data->penjamin_nama',
                         ),
                         array(
                             'header'=>'Status Periksa',
                             'value'=>'$data->statusperiksa',
                         ),
-                        array(
+                       /* array(
                             'header'=>'Tanggal masuk kamar',
                             'value'=>'MyFormatter::formatDateTimeForUser($data->tglmasukkamar)',
-                        ),
-                        array(
-                            'header'=>'Ruangan',
-                            'value'=>'$data->ruangan_nama',
-                        ),
-                        array(
-                            'header'=>'No. kamar',
-                            'value'=>'$data->nomasukkamar'
-                        ),
-                        array(
-                            'header'=>'Cara masuk',
-                            'value'=>'$data->caramasuk_nama',
-                        ),
+                        ),*/
+                                              
+                        
 //		'pasien_id',
 //		'namadepan',
 //		'nama_pasien',
