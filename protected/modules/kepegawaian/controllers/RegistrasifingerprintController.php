@@ -227,7 +227,7 @@ class RegistrasifingerprintController extends MyAuthController
 		while($Response=fgets($Connect)){
 			$buffer=$buffer.$Response;
 		}
-                die;
+                // die;
                 
                 //var_dump($buffer); die;
                 
