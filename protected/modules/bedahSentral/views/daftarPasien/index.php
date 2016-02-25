@@ -5,7 +5,7 @@
      $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
      $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
 
-    Yii::app()->clientScript->registerScript('cari wew', "
+    Yii::app()->clientScript->registerScript('cariwew', "
     $('#daftarPasien-form').submit(function(){
             $('#daftarpasien-v-grid').addClass('animation-loading');
             $.fn.yiiGridView.update('daftarpasien-v-grid', {
@@ -30,36 +30,67 @@
     //                    'header'=>'No. Antrian <br>/ Panggil Antrian',
     //                    'value'=>'$data->ruangan_singkatan."-".$data->no_urutperiksa."<br>".(($data->panggilantrian == TRUE) ? "Sudah Dipanggil" : CHtml::htmlButton(Yii::t("mds","{icon}",array("{icon}"=>"<i class=\'icon-volume-up icon-white\'></i>")),array("class"=>"btn btn-primary","onclick"=>"panggilAntrian(\"$data->pasienmasukpenunjang_id\"); setSuaraPanggilanSingle(\"$data->ruangan_singkatan\",\"$data->no_urutperiksa\",\"$data->ruangan_id\")","rel"=>"tooltip","title"=>"Klik untuk memanggil pasien ini")))'
     //                ),
-                'tglmasukpenunjang', 
+                array(
+                        'header'=>'Tgl. Masuk Penunjang<br/>No. Penunjang',
+                        'name'=>'no_masukpenunjang',
+                        'type'=>'raw',
+                        'value'=>'MyFormatter::formatDateTimeForUser($data->tglmasukpenunjang)."<br/>".$data->no_masukpenunjang',
+                    ),
 
                 array(
-                'header'=>'Instalasi / Ruangan Asal',
-                'value'=>'$data->insatalasiRuanganAsal'
-                ),
-
-                'no_pendaftaran',
-                'no_rekam_medik',
+                        'header'=>'Instalasi/<br/>Ruangan Asal',
+                        'name'=>'ruanganasal_nama',
+                        'type'=>'raw',
+                        'value'=>function($data) {
+                            //$pegawai = PegawaiM::model()->findByAttributes(array(
+                            //    'nama_pegawai'=>$data->nama_dokterasal,
+                            //));
+                            return $data->instalasiasal_nama."/<br/>".$data->ruanganasal_nama; //."/<br/>".(empty($pegawai)?"-":$pegawai->namaLengkap);
+                        },
+                    ),
 
                 array(
-                'header'=>'Nama Pasien / Bin',
-                'value'=>'$data->namaPasienNamaBin'
+                'name'=>'tgl_pendaftaran',
+                'header'=>'No. Pendaftaran',
+                'type'=>'raw',
+                'value'=>'$data->no_pendaftaran',
+                'htmlOptions'=>array('width'=>'100px'),
                 ),
+                array(
+                    'header'=>'No. RM',
+                    'name'=> 'no_rekam_medik',
+                ),
+                array(
+                    'header'=>'Nama Pasien',
+                    'value'=>'$data->namadepan.$data->nama_pasien'
+                ),
+                array(
+                    'header'=>'Umur',
+                    'type'=>'raw',
+                    'value'=>'$data->umur',
+                ),
+                'alamat_pasien',
                 array(
                     'header'=>'Kasus Penyakit / <br> Kelas Pelayanan',
                     'type'=>'raw',
                     'value'=>'"$data->jeniskasuspenyakit_nama"."<br/>"."$data->kelaspelayanan_nama"',
                 ),
     //            'jeniskasuspenyakit_nama',    
-                'umur',
-                'alamat_pasien',
 
                 array(
                 'header'=>'Cara Bayar / Penjamin',
                 'value'=>'$data->caraBayarPenjamin',
                 ),
 
-                'nama_pegawai',
-                'kelaspelayanan_nama',
+                array(
+                        'header'=>'Dokter Pemeriksa',
+                        'type'=>'raw',
+        //                'value'=>'($data->statusperiksahasil == Params::STATUSPERIKSAHASIL_SEDANG) ? CHtml::link("<i class=\"icon-pencil-blue\"></i>". $data->getNamaLengkapDokter($data->pegawai_id),Yii::app()->controller->createUrl("/'.$module.'/'.$controller.'/ApprovePemeriksaan",array("pendaftaran_id"=>$data->pendaftaran_id,"pasienmasukpenunjang_id"=>$data->pasienmasukpenunjang_id)),array("rel"=>"tooltip","title"=>"Klik untuk menyetujui pemeriksaan", "onclick"=>"return confirm(\"Apakah Anda akan menyetujui pemeriksaan ini?\");")) : $data->getNamaLengkapDokter($data->pegawai_id)',
+                        'value'=>function($data) {
+                            $p = PegawaiM::model()->findByPk($data->pegawai_id);
+                            return $p->namaLengkap;
+                        }, //'$data->pegawai_id',
+                    ),
                 array(
                                     'header'=>'Rencana Operasi',
                                     'type'=>'raw',
@@ -87,7 +118,10 @@
                 array(
                    'header'=>'Batal Periksa',
                    'type'=>'raw',
-                   'value'=>'CHtml::link("<i class=\'icon-form-silang\'></i>", "javascript:batalPeriksa($data->pasienmasukpenunjang_id)",array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk membatalkan Pemeriksaan"))',
+                   'value'=>function($data) {
+                        if (in_array($data->getStatusOperasi($data->pasienmasukpenunjang_id),array("MULAI", "SELESAI"))) return "-";
+                        return CHtml::link("<i class='icon-form-silang'></i>", "javascript:batalPeriksa($data->pasienmasukpenunjang_id)",array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk membatalkan Pemeriksaan"));
+                   },
                    'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
                 ),
             ),
@@ -99,7 +133,7 @@
         $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
         'action'=>Yii::app()->createUrl($this->route),
         'method'=>'get',
-        'id'=>'daftarpasien-v-grid',
+        'id'=>'daftarPasien-form',
         'type'=>'horizontal',
         'htmlOptions'=>array('enctype'=>'multipart/form-data','onKeyPress'=>'return disableKeyPress(event)'),
 
@@ -109,17 +143,9 @@
         <table width="100%" class="table-condensed">
             <tr>
                 <td width="33%">
-                    <?php echo $form->textFieldRow($modPasienMasukPenunjang,'no_pendaftaran',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'autofocus'=>true, 'placeholder'=>'Ketik no. pendaftaran')); ?>
-                    <?php echo $form->textFieldRow($modPasienMasukPenunjang,'nama_pasien',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik nama pasien')); ?>
-                </td>
-                <td>
-                    <?php echo $form->textFieldRow($modPasienMasukPenunjang,'nama_bin',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Alias')); ?>
-                    <?php echo $form->textFieldRow($modPasienMasukPenunjang,'no_rekam_medik',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=>'Ketik no. rekam medik')); ?>
-                </td>
-                <td width="33%">
                     <div class="control-group ">
                         <label for="namaPasien" class="control-label">
-                            <?php echo CHtml::activecheckBox($modPasienMasukPenunjang, 'ceklis', array('uncheckValue'=>0,'onClick'=>'cekTanggal()','rel'=>'tooltip' ,'data-original-title'=>'Cek untuk pencarian berdasarkan tanggal')); ?>
+                            <?php // echo CHtml::activecheckBox($modPasienMasukPenunjang, 'ceklis', array('uncheckValue'=>0,'onClick'=>'cekTanggal()','rel'=>'tooltip' ,'data-original-title'=>'Cek untuk pencarian berdasarkan tanggal')); ?>
                             Tanggal Masuk 
                         </label>
                         <div class="controls">
@@ -137,7 +163,9 @@
                                                     'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3'),
                             )); ?>
 
-                       </div> 
+                        </div> 
+                    </div>
+                    <div class="control-group">
                          <?php echo CHtml::label(' Sampai Dengan',' s/d', array('class'=>'control-label')) ?>
 
                        <div class="controls"> 
@@ -154,9 +182,59 @@
                             )); ?>
                         </div>
                     </div> 
-                     </div>
-
                 </td>
+                <td width="33%">
+                    <?php echo $form->textFieldRow($modPasienMasukPenunjang,'no_rekam_medik',array('placeholder'=>'Ketik No. Rekam Medik','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
+                    <?php echo $form->textFieldRow($modPasienMasukPenunjang,'no_pendaftaran',array('placeholder'=>'Ketik No. Pendaftaran', 'class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
+                    <?php echo $form->textFieldRow($modPasienMasukPenunjang,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
+                </td>
+                <td>
+                    <?php 
+                    
+                    
+                    
+                    $carabayar = CarabayarM::model()->findAll(array(
+                        'condition'=>'carabayar_aktif = true',
+                        'order'=>'carabayar_nourut',
+                    ));
+                    $penjamin = PenjaminpasienM::model()->findAll(array(
+                        'condition'=>'penjamin_aktif = true',
+                        'order'=>'penjamin_nama',
+                    ));
+                    $dokter = DokterV::model()->findAll(array(
+                        'condition'=>'pegawai_aktif = true and ruangan_id = '.Yii::app()->user->getState('ruangan_id'),
+                        'order'=>'nama_pegawai',
+                    ));
+                    foreach ($carabayar as $idx=>$item) {
+                        $penjamins = PenjaminpasienM::model()->findByAttributes(array(
+                            'carabayar_id'=>$item->carabayar_id,
+                            'penjamin_aktif'=>true,
+                       ));
+                       if (empty($penjamins)) unset($carabayar[$idx]);
+                    }
+                    
+                    echo $form->dropDownListRow($modPasienMasukPenunjang,'ruanganasal_id', CHtml::listData(RuanganM::model()->findAllByAttributes(array(
+                        'instalasi_id'=>array(2,3,4),
+                        'ruangan_aktif'=>'true'
+                    ), array(
+                        'order'=>'instalasi_id, ruangan_nama',
+                    )), 'ruangan_id', 'ruangan_nama'), array('empty'=>'-- Pilih --', 'class'=>'span3', 'maxlength'=>50));
+                    
+                    echo $form->dropDownListRow($modPasienMasukPenunjang,'pegawai_id', CHtml::listData($dokter, 'pegawai_id', 'namaLengkap'), array('empty'=>'-- Pilih --', 'class'=>'span3'));
+                    
+                    echo $form->dropDownListRow($modPasienMasukPenunjang,'carabayar_id', CHtml::listData($carabayar, 'carabayar_id', 'carabayar_nama'), array(
+                        'empty'=>'-- Pilih --',
+                        'class'=>'span3', 
+                        'ajax' => array('type'=>'POST',
+                            'url'=> $this->createUrl('/actionDynamic/getPenjaminPasien',array('encode'=>false,'namaModel'=>get_class($modPasienMasukPenunjang))), 
+                            'success'=>'function(data){$("#'.CHtml::activeId($modPasienMasukPenunjang, "penjamin_id").'").html(data); }',
+                        ),
+                    ));
+                    
+                    echo $form->dropDownListRow($modPasienMasukPenunjang,'penjamin_id', CHtml::listData($penjamin, 'penjamin_id', 'penjamin_nama'), array('empty'=>'-- Pilih --', 'class'=>'span3', 'maxlength'=>50));
+                    ?>
+                </td>
+                
             </tr>
         </table>
     <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),
@@ -175,8 +253,8 @@
     <?php $this->endWidget();?>
 </div>
 <script type="text/javascript">
-document.getElementById('BSMasukPenunjangV_tgl_awal_date').setAttribute("style","display:none;");
-document.getElementById('BSMasukPenunjangV_tgl_akhir_date').setAttribute("style","display:none;");
+//document.getElementById('BSMasukPenunjangV_tgl_awal_date').setAttribute("style","display:none;");
+//document.getElementById('BSMasukPenunjangV_tgl_akhir_date').setAttribute("style","display:none;");
 function cekTanggal(){
 
     var checklist = $('#BSMasukPenunjangV_ceklis');
