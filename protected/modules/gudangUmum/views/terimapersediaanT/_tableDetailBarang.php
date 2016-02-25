@@ -27,7 +27,7 @@
         foreach ($modDetails as $i=>$detail){?>
         <?php $modBarang = BarangM::model()->findByPk($detail->barang_id); ?>
             <tr>   
-                <td><?php 
+                <td><?php
                     echo CHtml::activeHiddenField($detail, '['.$i.']barang_id',array('class'=>'barang')); 
                     echo !empty($modBarang->bidang_id)?$modBarang->bidang->subkelompok->kelompok->golongan->golongan_nama:null; 
                     ?>
@@ -39,14 +39,14 @@
                 
                 <td>
                 <?php 
-                    echo CHtml::activeTextField($detail, '['.$i.']hargabeli', array('class'=>'span1 numbersOnly', 'onblur'=>'setTotalHarga();',  'readonly'=>true));
+                    echo CHtml::activeTextField($detail, '['.$i.']hargabeli', array('class'=>'span2 numbersOnly', 'onblur'=>'setTotalHarga();',  'readonly'=>true, 'style'=>'text-align: right;'));
                     echo '<br/>';
                     echo $form->error($detail, '['.$i.']hargabeli');
                 ?>
                 </td>
                 <td>
                 <?php 
-                    echo CHtml::activeTextField($detail, '['.$i.']hargasatuan', array('class'=>'span1 numbersOnly satuan', 'onblur'=>'setTotalHarga();', 'readonly'=>true));
+                    echo CHtml::activeTextField($detail, '['.$i.']hargasatuan', array('class'=>'span2 numbersOnly satuan', 'onblur'=>'setTotalHarga();', 'readonly'=>true, 'style'=>'text-align: right;'));
                     echo '<br/>';
                     echo $form->error($detail, '['.$i.']hargasatuan');
                 ?>
@@ -54,7 +54,7 @@
                 <?php if (isset($modBeli)) { ?>
                 <td>
                 <?php 
-                    echo CHtml::activeTextField($detail, '['.$i.']jmlbeli', array('class'=>'span1 numbersOnly beli', 'readonly'=>true));
+                    echo CHtml::activeTextField($detail, '['.$i.']jmlbeli', array('class'=>'span1 numbersOnly beli', 'readonly'=>true, 'style'=>'text-align: right;'));
                     echo '<br/>';
                     echo $form->error($detail, '['.$i.']jmlbeli');
                 ?>
@@ -62,7 +62,7 @@
                 <?php } ?>
                 <td>
                 <?php 
-                    echo CHtml::activeTextField($detail, '['.$i.']jmlterima', array('class'=>'span1 numbersOnly qty', 'onblur'=>'setTotalHarga();'.(isset($modBeli)) ?'cekTerima(this)':''));
+                    echo CHtml::activeTextField($detail, '['.$i.']jmlterima', array('class'=>'span1 numbersOnly qty', 'onblur'=>'setTotalHarga();'.(isset($modBeli)) ?'cekTerima(this)':'', 'style'=>'text-align: right;'));
                     echo '<br/>';
                     echo $form->error($detail, '['.$i.']jmlterima');
                 ?>

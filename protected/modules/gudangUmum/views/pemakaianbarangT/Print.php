@@ -27,10 +27,6 @@ echo CHtml::css('.control-label{
     .border{
         border:1px solid;
     }
-    .kertas{
-     width:20cm;
-     height:12cm;
-    }
 ');
 ?>  
 <?php
@@ -71,7 +67,7 @@ $modProfilRs = ProfilrumahsakitM::model()->findByPk(Params::DEFAULT_PROFIL_RUMAH
             <th>Nama Barang</th>
             <th>Merk / No. Seri</th>
             <th>Ukuran / Bahan Barang</th>
-			<th>Satuan</th>
+			<!--th>Satuan</th-->
 			<th>Jumlah Pakai</th>
             <th>Harga Netto</th>
             <th>Harga Satuan</th>
@@ -81,14 +77,16 @@ $modProfilRs = ProfilrumahsakitM::model()->findByPk(Params::DEFAULT_PROFIL_RUMAH
 			$total_hargajual = 0;
 			$total_jmlpakai = 0;
 			foreach ($modPemakaianBarangDetail as $i=>$modBarang){ 
-        ?>
+                             $brg = $modBarang->barang;
+        ?>                 
             <tr>
-                <td><?php echo !empty($modBarang->bidang_id)?$modBarang->bidang->subkelompok->kelompok->golongan->golongan_nama:null;  ?></td>
-                <td><?php echo !empty($modBarang->bidang_id)? $modBarang->bidang->subkelompok->kelompok->kelompok_nama:null; ?></td>
-				<td><?php echo !empty($modBarang->bidang_id)?$modBarang->bidang->subkelompok->subkelompok_nama:null; ?></td>
-				<td><?php echo !empty($modBarang->bidang_id)?$modBarang->bidang->bidang_nama:null; ?></td>
-                <td><?php echo $modBarang->satuanpakai; ?></td>
-				<td style="text-align:center;"><?php echo ($modBarang->jmlpakai); ?></td>
+                <td><?php echo !empty($brg->bidang_id)?$brg->barang_kode:null;  ?></td>
+                <td><?php echo !empty($brg->bidang_id)? $brg->barang_type:null; ?></td>
+				<td><?php echo !empty($brg->bidang_id)?$brg->barang_nama:null; ?></td>
+				<td><?php echo !empty($brg->bidang_id)?$brg->barang_merk." / ".$brg->barang_noseri:null; ?></td>
+                                <td><?php echo !empty($brg->bidang_id)?$brg->barang_ukuran." / ".$brg->barang_bahan:null; ?></td>
+                <!--td><?php //echo $modBarang->satuanpakai; ?></td-->
+				<td style="text-align:center;"><?php echo ($modBarang->jmlpakai)." ".$modBarang->satuanpakai; ?></td>
                 <td style="text-align:right;"><?php echo $format::formatNumberForUser($modBarang->harganetto); ?></td>
 				<td style="text-align:right;"><?php echo $format::formatNumberForUser($modBarang->hargajual); ?></td>
 				<?php
@@ -99,10 +97,10 @@ $modProfilRs = ProfilrumahsakitM::model()->findByPk(Params::DEFAULT_PROFIL_RUMAH
             </tr>
         <?php } ?>
         <tr>
-            <td colspan="6" align="center"><strong>Total</strong></td>
-            <td style="text-align: center;"><?php echo ($total_jmlpakai); ?></td>
-            <td style="text-align: right;"><?php echo $format->formatUang($total_harganetto); ?></td>
-            <td style="text-align: right;"><?php echo $format->formatUang($total_hargajual); ?></td>
+            <td colspan="5" align="center"><strong>Total</strong></td>
+            <td style="text-align: center;"><?php //echo ($total_jmlpakai); ?></td>
+            <td style="text-align: right;"><?php echo $format->formatNumberForPrint($total_harganetto); ?></td>
+            <td style="text-align: right;"><?php echo $format->formatNumberForPrint($total_hargajual); ?></td>
         </tr>
     </table>
 <?php
