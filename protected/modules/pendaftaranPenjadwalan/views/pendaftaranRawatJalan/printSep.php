@@ -11,6 +11,7 @@
     }
     body{
         width: 21.7cm;
+        font-family: arial;
     }
     
     td.header
@@ -21,7 +22,7 @@
 <?php //echo $this->renderPartial('pendaftaranPenjadwalan.views.pendaftaranRawatJalan._headerPrintStatus'); ?>
 <table width="100%" border = "0" style = "text-align:left;">
     <thead>
-        <th width = "25%" style = "padding:20px;"><img src="<?php echo Yii::app()->getBaseUrl('webroot').'/images/BPJS.jpg'; ?>" width="300px" style = "height:50px;"></th>
+        <th width = "25%" style = "padding:20px;"><img src="<?php echo Yii::app()->getBaseUrl('webroot').'/images/BPJS.jpg'; ?>" width="200px"></th>
         <th align='center' style="font-weight:bold;padding:0px;"><font style="font-size:15px;"><?php echo $judul_print; ?><br><?php echo $data->nama_rumahsakit; ?></font></th>        
         <th  style = "padding:0px;"><img src="<?php echo Params::urlProfilRSDirectory().$data->logo_rumahsakit ?>" width="120px"></th>
     </thead>
