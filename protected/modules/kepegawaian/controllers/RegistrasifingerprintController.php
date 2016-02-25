@@ -63,6 +63,7 @@ class RegistrasifingerprintController extends MyAuthController
                 }
 		if(isset($_POST['KPRegistrasifingerprint']) && isset($_POST['id_alat_finger']))
 		{
+                    //var_dump($_POST); die;
                         $idAlatFinger = $_POST['id_alat_finger'];
                         $modAlat = AlatfingerM::model()->findByPk($idAlatFinger);
                         
@@ -80,6 +81,9 @@ class RegistrasifingerprintController extends MyAuthController
                             
                             
                             $transaction = Yii::app()->db->beginTransaction();
+                            
+                            //var_dump($modDetails); die;
+                            
                             try{
                                 $jumlah = 0;
                                 foreach($modDetails as $i=>$v){
@@ -90,14 +94,17 @@ class RegistrasifingerprintController extends MyAuthController
                                         )
                                     );
                                     */
+                                    
+                                    // var_dump($idAlatFinger." : ".$v->nofingerprint); die;
+                                    
                                     $cek_id = NofingeralatM::model()->findByAttributes(
                                         array(
                                             'alatfinger_id'=>$idAlatFinger,
-                                            'nofingerprint'=>$v->nofingerprint
+                                            'nofinger'=>$v->nofingerprint
                                         )
                                     );
                                     
-                                    if(is_null($cek_id->pegawai_id))
+                                    if(empty($cek_id) || empty($cek_id->pegawai_id))
                                     {
                                         $fingerHistori = new KPNofingeralatM;
                                         $fingerHistori->create_loginpemakai_id = Yii::app()->user->id;
@@ -125,6 +132,7 @@ class RegistrasifingerprintController extends MyAuthController
                                         throw new Exception('No. Finger telah terdaftar coba cek ulang');
                                     }
                                 }
+                                
                                 if (($jumlah > 0)&&(count($modDetails) == $jumlah)){
                                     $jumlah = 0;
                                     foreach ($modDetails as $i=>$v){
@@ -145,7 +153,7 @@ class RegistrasifingerprintController extends MyAuthController
                                             throw new Exception('Gagal disimpan ke alat');
                                         }
                                     }
-                                    
+                                    echo "Kick"; die;
                                     if ($jumlah == count($modDetails)){
                                         $transaction->commit();
 
@@ -182,16 +190,16 @@ class RegistrasifingerprintController extends MyAuthController
 	}
         
         private function connection($ip){
-            $result = false;
-            if (fsockopen($ip, "80", $errno, $errstr, 1)){
-                $result = fsockopen($ip, "80", $errno, $errstr, 1);
-            }
-            return $result;
+           // $result = false;
+            //if (fsockopen($ip, "4370", $errno, $errstr, 1)){
+            return fsockopen($ip, "4370", $errno, $errstr, 1);
+            //}
+            //return $result;
         }
         
         private function cekConnection($ip){
             $result = false;
-            if (fsockopen($ip, "80", $errno, $errstr, 1)){
+            if (fsockopen($ip, "4370", $errno, $errstr, 1)){
                 $result = true;
             }
             return $result;
@@ -202,7 +210,8 @@ class RegistrasifingerprintController extends MyAuthController
 //            $Key = Params::KEY_FINGER_PRINT;
             $Connect = $this->connection($IP);
             if($Connect){
-                $soap_request="<SetUserInfo><ArgComKey Xsi:type=\"xsd:integer\">".$Key."</ArgComKey><Arg>
+                // var_dump($Response=fgets($Connect)); die;
+                    $soap_request="<SetUserInfo><ArgComKey Xsi:type=\"xsd:integer\">".$Key."</ArgComKey><Arg>
                         <PIN>".$model->nofingerprint."</ PIN>
                         <Name>".$model->nama_pegawai."</Name>
                         </Arg></SetUserInfo>";
@@ -212,10 +221,20 @@ class RegistrasifingerprintController extends MyAuthController
                 fputs($Connect, "Content-Length: ".strlen($soap_request).$newLine.$newLine);
                 fputs($Connect, $soap_request.$newLine);
 		$buffer="";
-		while($Response=fgets($Connect, 1024)){
+                
+                
+                
+		while($Response=fgets($Connect)){
 			$buffer=$buffer.$Response;
 		}
+                die;
+                
+                //var_dump($buffer); die;
+                
                 $buffer=$this->ParseData($buffer,"<Information>","</Information>");
+                
+                //var_dump($buffer); die;
+                
                 if ($buffer == 'Successfully!'){
                     return true;
                 }
