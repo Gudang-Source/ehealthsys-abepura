@@ -384,7 +384,7 @@ class TerimapersediaanTController extends MyAuthController
         
         public function actionPrint($id){
             $this->layout='//layouts/printWindows';
-            $judulLaporan='Data Pembelian Barang';
+            $judulLaporan='Data Penerimaan Barang';
             $modTerima = TerimapersediaanT::model()->findByPk($id);
             $modDetailTerima = TerimapersdetailT::model()->findAllByAttributes(array('terimapersediaan_id'=>$modTerima->terimapersediaan_id));
             $this->render('detailInformasi', array(
