@@ -9,7 +9,68 @@ if (isset($caraPrint)){
     echo $this->renderPartial('application.views.headerReport.headerDefault',array('judulLaporan'=>$judulLaporan));     
 }
 ?>
-<?php if(empty($modTerapi[0]->reseptur_id)){ ?>
+
+<?php foreach ($checkers as $tgl=>$item) : ?>
+<table>
+    <tr>
+        <td>No. Resep</td><td>: <?php echo $item['noresep']; ?></td>
+        <td>Tgl. Resep</td><td>: <?php echo MyFormatter::formatDateTimeForUser($tgl); ?></td>
+    </tr>
+</table>
+<table class="items table table-bordered table-striped table-condensed">
+    <thead>
+        <tr>
+            <th> Jenis Obat</th>
+            <th> Nama Obat </th>
+            <th> Etiket / Signa</th>
+            <th> Jumlah </th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php 
+        $oa = array();
+        if ($item['tipe'] == 1) {
+            $dat = ResepturdetailT::model()->findAllByAttributes(array(
+                'reseptur_id'=>$item['id'],
+            ));
+            foreach ($dat as $item) {
+                array_push($oa, array(
+                    'jenis'=>$item->obatalkes->jenisobatalkes->jenisobatalkes_nama,
+                    'nama'=>$item->obatalkes->obatalkes_nama,
+                    'etiket'=>$item->etiket." / ".$item->signa_reseptur,
+                    'qty'=>$item->qty_reseptur,
+                    'satuan'=>!empty($item->satuankecil_id)?$item->satuankecil->satuankecil_nama:"",
+                ));
+            }
+        } else if ($item['tipe'] == 2) {
+            $dat = ObatalkespasienT::model()->findAllByAttributes(array(
+                'penjualanresep_id'=>$item['id'],
+            ));
+            foreach ($dat as $item) {
+                array_push($oa, array(
+                    'jenis'=>$item->obatalkes->jenisobatalkes->jenisobatalkes_nama,
+                    'nama'=>$item->obatalkes->obatalkes_nama,
+                    'etiket'=>$item->etiket." / ".$item->signa_oa,
+                    'qty'=>$item->qty_oa,
+                    'satuan'=>!empty($item->satuankecil_id)?$item->satuankecil->satuankecil_nama:"",
+                ));
+            }
+        }
+        ?>
+        <?php foreach ($oa as $item): ?>
+        <tr>
+            <td><?php echo $item['jenis']; ?></td>
+            <td><?php echo $item['nama']; ?></td>
+            <td><?php echo $item['etiket']; ?></td>
+            <td style="text-align: right;"><?php echo $item['qty']; ?></td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+<hr/>
+<?php endforeach; ?>
+
+<?php /* if(empty($modTerapi[0]->reseptur_id)){ ?>
 <table>
     <tr>
         <td> No. Reseptur </td><td>: - </td>
@@ -70,4 +131,4 @@ if (isset($caraPrint)){
     ), 
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}', 
 )); ?> 
-<?php } ?>
+<?php } */ ?>
