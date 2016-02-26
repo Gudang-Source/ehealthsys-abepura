@@ -34,6 +34,14 @@
 					</div>
 				</div>
 				<?php echo $form->textFieldRow($model,'nopemakaianbrg',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100,'readonly'=>true)); ?>
+                                <?php echo $form->dropDownListRow($model,'pegawai_id',Chtml::listData(
+                                            PegawairuanganV::model()->findAllByAttributes(array(
+                                            'pegawai_aktif'=>true,
+                                            'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
+                                        ), array(
+                                            'order'=>'nama_pegawai asc'
+                                        ))
+                                        ,'pegawai_id','nama_pegawai'),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'empty'=>'-- Pilih --')); ?>
 			</div>
 			<div class="span4">
 				<?php echo $form->textAreaRow($model,'untukkeperluan',array('rows'=>3, 'cols'=>80, 'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>

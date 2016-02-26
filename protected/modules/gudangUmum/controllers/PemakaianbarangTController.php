@@ -36,6 +36,7 @@ class PemakaianbarangTController extends MyAuthController
         $modLogin = LoginpemakaiK::model()->findByAttributes(array('loginpemakai_id' => Yii::app()->user->id));
         $model->create_time = date('Y-m-d H:i:s');
 		$model->tglpemakaianbrg = date('Y-m-d H:i:s');
+                $model->pegawai_id = Yii::app()->user->getState('pegawai_id');
 		$modDetails = array();
 
         if(isset($_GET['id'])){
@@ -48,7 +49,8 @@ class PemakaianbarangTController extends MyAuthController
 			$model->attributes=$_POST['GUPemakaianbarangT'];
 			$model->tglpemakaianbrg = $format->formatDateTimeForDb($model->tglpemakaianbrg);
 			$model->nopemakaianbrg 	= MyGenerator::noPemakaianBarang();
-			$model->pegawai_id = Yii::app()->user->getState('pegawai_id');
+			//$model->pegawai_id = Yii::app()->user->getState('pegawai_id');
+                        // var_dump($model->attributes); die;
             if (count($_POST['GUPemakaianbrgdetailT']) > 0){
                 if ($model->validate()){
                     $transaction = Yii::app()->db->beginTransaction();
