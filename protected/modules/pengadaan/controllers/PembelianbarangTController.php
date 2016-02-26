@@ -35,7 +35,7 @@ class PembelianbarangTController extends MyAuthController
 		$modDetails = array();
 		$modPesan = array();
 		$modBeli = array();
-		$model->tglpembelian = date('Y-m-d H:i:s');
+		$model->tglpembelian = date('Y-m-d');
 
 		$instalasi_id = Yii::app()->user->getState('instalasi_id');
 		$model->nopembelian = MyGenerator::noPembelianBarang();
@@ -54,6 +54,8 @@ class PembelianbarangTController extends MyAuthController
 				$modDetails = ADBelibrgdetailT::model()->findAll('pembelianbarang_id = '.$id);
 			}
 		}
+                
+                $model->tglpembelian = MyFormatter::formatDateTimeForUser($model->tglpembelian);
 		// Uncomment the following line if AJAX validation is needed
 		
                 
