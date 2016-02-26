@@ -200,19 +200,19 @@
                 <?php echo $form->textAreaRow($model,'keterangan_persediaan',array('rows'=>6, 'cols'=>50, 'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
             </td>
             <td>
-                <?php echo $form->textFieldRow($model,'totalharga',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'readonly'=>true)); ?>
+                <?php echo $form->textFieldRow($model,'totalharga',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'readonly'=>true, 'style'=>'text-align: right;')); ?>
                 <div class="control-group ">
                     <?php echo $form->labelEx($model, 'discount', array('class' => 'control-label')) ?>
                     <div class="controls">
-                        <?php echo Chtml::textField('discountpersen', '', array('class' => 'span1 numbersOnly', 'onblur'=>'setTotalHarga();')); ?> % = 
-                        <?php echo $form->textField($model, 'discount', array('readonly' => true, 'class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+                        <?php echo Chtml::textField('discountpersen', '', array('class' => 'span1 numbersOnly', 'onblur'=>'setTotalHarga();', 'style'=>'text-align: right;')); ?> % = 
+                        <?php echo $form->textField($model, 'discount', array('readonly' => true, 'class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'style'=>'text-align: right;')); ?>
                         <?php echo $form->error($model, 'discount'); ?>
                     </div>
                 </div>
                 <?php //echo $form->textFieldRow($model,'discount',array('class'=>'span3 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-                <?php echo $form->textFieldRow($model,'biayaadministrasi',array('class'=>'span3 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-                <?php echo $form->textFieldRow($model,'pajakpph',array('class'=>'span3 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-                <?php echo $form->textFieldRow($model,'pajakppn',array('class'=>'span3 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                <?php echo $form->textFieldRow($model,'biayaadministrasi',array('class'=>'span3 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right;')); ?>
+                <?php echo $form->textFieldRow($model,'pajakpph',array('class'=>'span3 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right;')); ?>
+                <?php echo $form->textFieldRow($model,'pajakppn',array('class'=>'span3 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right;')); ?>
                 <?php echo $form->textFieldRow($model,'nofakturpajak',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100,'placeholder'=>'Ketikan No. Faktur Pajak')); ?>
                 <div class="control-group ">
                     <?php echo $form->labelEx($model,'tgljatuhtempo', array('class'=>'control-label')) ?>
@@ -248,7 +248,8 @@
         <?php if (isset($modDetails)){
             echo $form->errorSummary($modDetails);
         } ?>
-        <?php if (!isset($modBeli)){    
+        <?php 
+        if (empty($modBeli->pembelianbarang_id)){    
             $this->renderPartial('_formDetailBarang', array('model'=>$model, 'form'=>$form)); 
         }?>
         <?php $this->renderPartial('_tableDetailBarang', array('model'=>$model, 'form'=>$form, 'modDetails'=>$modDetails, 'modDetailBeli'=>$modDetailBeli, 'modBeli'=>$modBeli)); ?>
