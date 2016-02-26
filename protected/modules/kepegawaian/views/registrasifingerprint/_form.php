@@ -37,7 +37,7 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
 <?php echo $form->errorSummary($model); ?>
 <br />
 <?php
-$konfigFinger = AlatfingerM::model()->findAll();
+$konfigFinger = AlatfingerM::model()->findAll('alat_aktif = true');
 if (is_array($konfigFinger)){    
     echo '<div class="control-group "><label for="KPPresensiT_no_fingerprint" class="control-label required">No. Finger Print <span class="required">*</span></label>
             <div class="controls">';

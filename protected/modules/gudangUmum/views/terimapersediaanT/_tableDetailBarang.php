@@ -10,13 +10,13 @@
             <th>Barang</th>
             <th>Harga Beli</th>
             <th>Harga Satuan</th>
-            <?php if (isset($modBeli)) { ?>
+            <?php if (!empty($modBeli->pembelianbarang_id)) { ?>
             <th>Jumlah Beli</th>
             <?php } ?>
             <th>Jumlah Terima</th>
             <th>Satuan</th>
             <th>Ukuran<br/>Bahan</th>
-            <th>kondisibarang</th>
+            <th>kondisi Barang</th>
             <th>Batal</th>
         </tr>
     </thead>
