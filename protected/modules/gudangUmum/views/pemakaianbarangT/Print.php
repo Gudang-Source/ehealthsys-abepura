@@ -126,7 +126,7 @@ if (isset($_GET['frame'])){
                 <tr>
                     <td width="35%" align="center">
                         <div>Mengetahui<br></div>
-                        <div style="margin-top:60px;"><?php echo Yii::app()->user->getState('nama_pegawai'); ?></div>
+                        <div style="margin-top:60px;"><?php echo $modPemakaianBarang->pegawai->nama_pegawai; ?></div>
                     </td>
                     <td width="35%" align="center">
                     </td>
