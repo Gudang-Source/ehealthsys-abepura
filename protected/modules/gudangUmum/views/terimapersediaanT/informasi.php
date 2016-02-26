@@ -94,7 +94,7 @@
                     array(
                         'header'=>'Rincian',
                         'type'=>'raw',
-                        'value'=>'CHtml::link("<i class=\'icon-form-detail\'></i> ",  Yii::app()->controller->createUrl("/gudangUmum/TerimapersediaanT/detailTerimaPersediaan",array("id"=>$data->terimapersediaan_id)),array("target"=>"frameDetail","rel"=>"tooltip","title"=>"Klik untuk Detail Pembelian Barang", "onclick"=>"window.parent.$(\'#dialogDetail\').dialog(\'open\')"));',    'htmlOptions'=>array('style'=>'text-align: left; width:40px')
+                        'value'=>'CHtml::link("<i class=\'icon-form-detail\'></i> ",  Yii::app()->controller->createUrl("/gudangUmum/TerimapersediaanT/detailTerimaPersediaan",array("id"=>$data->terimapersediaan_id,"frame"=>1)),array("target"=>"frameDetail","rel"=>"tooltip","title"=>"Klik untuk Detail Penerimaan Barang", "onclick"=>"window.parent.$(\'#dialogDetail\').dialog(\'open\')"));',    'htmlOptions'=>array('style'=>'text-align: left; width:40px')
                     ),
                     array(
                         'header'=>'Retur Penerimaan',
@@ -136,7 +136,7 @@
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
     'id' => 'dialogDetail',
     'options' => array(
-        'title' => 'Detail Pembelian Barang',
+        'title' => 'Detail Penerimaan Barang',
         'autoOpen' => false,
         'modal' => true,
         'zIndex'=>1002,
