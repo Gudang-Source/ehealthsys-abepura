@@ -50,7 +50,7 @@ class PemakaianbarangT extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('ruangan_id, tglpemakaianbrg, nopemakaianbrg, untukkeperluan, create_time, create_loginpemakai_id, create_ruangan', 'required'),
+			array('ruangan_id, tglpemakaianbrg, nopemakaianbrg, untukkeperluan, create_time, create_loginpemakai_id, create_ruangan, pegawai_id', 'required'),
 			array('ruangan_id, create_loginpemakai_id, update_loginpemakai_id, create_ruangan', 'numerical', 'integerOnly'=>true),
 			array('nopemakaianbrg', 'length', 'max'=>20),
 			array('untukkeperluan', 'length', 'max'=>500),
@@ -71,6 +71,7 @@ class PemakaianbarangT extends CActiveRecord
 		return array(
 			'pemakaianbrgdetail' => array(self::HAS_MANY, 'PemakaianbrgdetailT', 'pemakaianbarang_id'),
 			'ruangan' => array(self::BELONGS_TO, 'RuanganM', 'ruangan_id'),
+                        'pegawai' => array(self::BELONGS_TO, 'PegawaiM', 'pegawai_id'),
 		);
 	}
 
@@ -91,6 +92,7 @@ class PemakaianbarangT extends CActiveRecord
 			'create_loginpemakai_id' => 'Create Login Pemakai',
 			'update_loginpemakai_id' => 'Update Login Pemakai',
 			'create_ruangan' => 'Create Ruangan',
+                        'pegawai_id' => 'Pegawai Mengetahui',
 		);
 	}
 
