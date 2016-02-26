@@ -16,7 +16,7 @@
             <th>Jumlah Terima</th>
             <th>Satuan</th>
             <th>Ukuran<br/>Bahan</th>
-            <th>kondisibarang</th>
+            <th>kondisi Barang</th>
             <th>Batal</th>
         </tr>
     </thead>
