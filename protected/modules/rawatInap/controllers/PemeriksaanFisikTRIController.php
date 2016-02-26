@@ -426,4 +426,24 @@ class PemeriksaanFisikTRIController extends MyAuthController
         Yii::app()->end();
     }
 	
+    public function actionGetMetodeGCS(){
+         if(Yii::app()->request->isAjaxRequest) {
+         $gcs_eye=$_POST['gcs_eye'];
+         $gcs_motorik=$_POST['gcs_motorik'];
+         $gcs_verbal=$_POST['gcs_verbal'];
+         
+         $jumlah = $gcs_eye + $gcs_motorik+$gcs_verbal;
+         
+         //$namaGCS=GcsM::model()->find(''.$jumlah.'>=gcs_nilaimin AND '.$jumlah.'<=gcs_nilaimax AND gcs_aktif=TRUE');
+         //if(COUNT($namaGCS)>0){//Jika Nilai GCSnya ada
+         //$data['idGCS']=$namaGCS->gcs_id;
+         //$data['namaGCS']=$namaGCS->gcs_nama;
+         //}else{
+         //    $data['pesan']='Nilai GCS Tidak Ditemukan';
+         //}
+		 $data = $jumlah; //LNG 815
+         echo json_encode($data);
+         Yii::app()->end();
+        }
+    }
 }
