@@ -697,7 +697,7 @@ class BarangV extends CActiveRecord
             // should not be searched.
 
             $criteria=$this->criteriaSearch();
-            $criteria->limit=10;
+            //$criteria->limit=10;
 
             return new CActiveDataProvider($this, array(
                     'criteria'=>$criteria,
