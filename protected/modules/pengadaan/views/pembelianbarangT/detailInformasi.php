@@ -2,8 +2,45 @@
     echo $this->renderPartial('application.views.headerReport.headerDefault',array('judulLaporan'=>$judulLaporan));      
 }
 ?>
-<table bgcolor='white' class='table table-striped table-bordered table-condensed'>
-    <tr bgcolor='white'>
+<?php
+    $format = new MyFormatter;
+?>
+<style>
+
+.table
+{
+    border: 1px solid #000;
+    border-radius: 0px 0px 0px 0px;
+    box-shadow: 0px 0px 0px 0px;
+}
+    
+.table-striped tbody tr:nth-child(2n+1) td
+{
+    background-color: #fff;
+}
+
+.table th
+{
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+    
+}
+
+.c th + th, .c td + td, .c th + td, .c td + th 
+{
+    border-left: 1px solid #000;
+    
+}
+
+.d th + th, .d td + td, .d th + td, .d td + th 
+{
+    border-left: 0px;
+    
+}
+</style>
+
+<table bgcolor='white' class='table table-striped table-bordered table-condensed d' style = "border:0px">
+    <tr bgcolor='white' >
         <td bgcolor='white'>
              <b><?php echo CHtml::encode($modBeli->getAttributeLabel('nopembelian')); ?>:</b>
             <?php echo CHtml::encode($modBeli->nopembelian); ?>
@@ -11,20 +48,25 @@
              <b><?php echo CHtml::encode($modBeli->getAttributeLabel('tglpembelian')); ?>:</b>
             <?php echo CHtml::encode($modBeli->tglpembelian); ?>
              <br/>
-             
+             <b><?php echo CHtml::encode($modBeli->getAttributeLabel('tgldikirim')); ?>:</b>
+            <?php echo CHtml::encode($modBeli->tgldikirim); ?>
+             <br/>                                    
         </td>
         <td bgcolor='white'>
              <b><?php echo CHtml::encode($modBeli->getAttributeLabel('peg_pemesanan_id')); ?>:</b>
             <?php echo CHtml::encode($modBeli->pemesan->nama_pegawai); ?>
-            <br />
-             <b><?php echo CHtml::encode($modBeli->getAttributeLabel('create_time')); ?>:</b>
-            <?php echo CHtml::encode($modBeli->create_time); ?>
-            <br />
+            <br />             
+             <b><?php echo "Nama Supplier" ?>:</b>
+            <?php 
+                $nama = SupplierM::model()->findByAttributes(array('supplier_id'=>$modBeli->supplier_id));
+                echo $nama->supplier_nama;
+            ?>
+             <br/>  
         </td>
     </tr>   
 </table>
 
-<table id="tableObatAlkes" class="table table-striped table-bordered table-condensed" bgcolor='white'>
+<table id="tableObatAlkes" class="table table-striped table-bordered table-condensed c" bgcolor='white'>
     <thead>
         <th>No.Urut</th>
         <th>Golongan</th>
@@ -35,7 +77,7 @@
         <th>Harga Beli</th>
         <th>Harga Satuan</th>
         <th>Jumlah Beli</th>
-        <th>Satuan</th>
+        <!--<th>Satuan</th>-->
         <th>Ukuran<br/>Bahan</th>
     </thead>
     <tbody>
@@ -50,10 +92,10 @@
                 <td bgcolor='white'><?php echo !empty($modBarang->bidang_id)?$modBarang->bidang->subkelompok->subkelompok_nama:null; ?></td>
                 <td bgcolor='white'><?php echo !empty($modBarang->bidang_id)?$modBarang->bidang->bidang_nama:null; ?></td>
                 <td bgcolor='white'><?php echo $modBarang->barang_nama; ?></td>
-                <td bgcolor='white'><?php echo $detail->hargabeli; ?></td>
-                <td bgcolor='white'><?php echo $detail->hargasatuan; ?></td>
-                <td bgcolor='white'><?php echo $detail->jmlbeli; ?></td>
-                <td bgcolor='white'><?php echo $detail->satuanbeli; ?></td>
+                <td bgcolor='white' style = "text-align:right;"><?php echo $format->formatNumberForPrint($detail->hargabeli); ?></td>
+                <td bgcolor='white' style = "text-align:right;"><?php echo $format->formatNumberForPrint($detail->hargasatuan); ?></td>
+                <td bgcolor='white' style = "text-align:right;"><?php echo $format->formatNumberForPrint($detail->jmlbeli).' '.$detail->satuanbeli; ?></td>
+                <!--<td bgcolor='white'><?php //echo $detail->satuanbeli; ?></td>-->
                 <td bgcolor='white'><?php echo $modBarang->barang_ukuran; ?><br/><?php echo $modBarang->barang_bahan; ?></td>
             </tr>   
             <?php 
