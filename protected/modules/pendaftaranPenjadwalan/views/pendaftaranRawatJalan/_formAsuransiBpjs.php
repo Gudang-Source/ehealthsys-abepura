@@ -166,7 +166,7 @@
     <?php echo $form->labelEx($modRujukanBpjs,'rujukandari_id', array('class'=>'control-label')); ?>
     <div class="controls">
         <?php echo $form->dropDownList($modRujukanBpjs,'rujukandari_id',CHtml::listData($modRujukanBpjs->getRujukanDariItems($modRujukanBpjs->asalrujukan_id), 'rujukandari_id', 'namaperujuk'),
-                                          array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)",'onchange'=>'setNamaPerujukBpjs();')); ?>
+                                          array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)",'onchange'=>'setNamaPerujukBpjs(); getPPK(this)')); ?>
         <?php echo CHtml::htmlButton('<i class="icon-plus-sign icon-white"></i>', 
                                         array('class'=>'btn btn-primary','onclick'=>"{addRujukanDari(); $('#dialogAddRujukanDari').dialog('open');}",
                                               'id'=>'btnAddRujukanDari','onkeyup'=>"return $(this).focusNextInputField(event)",
