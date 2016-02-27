@@ -17,7 +17,15 @@
 			echo $form->dropDownListRow($model,'warnadokrm_id', CHtml::listData($model->getWarnaItems(), 'warnadokrm_id', 'warnadokrm_namawarna'), array('empty'=>'-- Pilih Warna Dokumen RK --','style'=>'width:180px;', 'onkeypress'=>"return $(this).focusNextInputField(event)"));
 			echo $form->dropDownListRow($model,'subrak_id', CHtml::listData($model->getSubrakItems(), 'subrak_id', 'subrak_nama'), array('empty'=>'-- Pilih Subrak --','style'=>'width:180px;', 'onkeypress'=>"return $(this).focusNextInputField(event)"));
 			echo $form->dropDownListRow($model,'lokasirak_id', CHtml::listData($model->getLokasirakItems(), 'lokasirak_id', 'lokasirak_nama'), array('empty'=>'-- Pilih Lokasi Rak --','style'=>'width:180px;', 'onkeypress'=>"return $(this).focusNextInputField(event)"));
-			?>
+			
+                        if (!empty($pasien)) {
+                            $model->pasien_id = $pasien->pasien_id;
+                            $model->nama_pasien = $pasien->namadepan.$pasien->nama_pasien;
+                            $model->tglrekammedis = $pasien->tgl_rekam_medik;
+                        }
+                        $model->warnadokrm_id = $tipe;
+                        
+                        ?>
 			<div class="control-group">
 			<?php echo $form->labelEx($model,'pasien_id',array('class'=>'control-label')); ?>
 				<div class="controls">
@@ -90,7 +98,7 @@
 					<div class="controls">
 						<?php   
 						$model->tglmasukrak = (!empty($model->tglmasukrak) ? date("d/m/Y",strtotime($model->tglmasukrak)) : null);
-						$this->widget('MyDateTimePicker',array(
+                                                $this->widget('MyDateTimePicker',array(
 												'model'=>$model,
 												'attribute'=>'tglmasukrak',
 												'mode'=>'date',
