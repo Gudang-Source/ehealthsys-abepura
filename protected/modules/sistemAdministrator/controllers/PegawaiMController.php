@@ -303,8 +303,10 @@ class PegawaiMController extends MyAuthController
                 
 		$model=new SAPegawaiM('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['SAPegawaiM']))
+		if(isset($_GET['SAPegawaiM'])) {
 			$model->attributes=$_GET['SAPegawaiM'];
+                        $model->ruangan_id=$_GET['SAPegawaiM']['ruangan_id'];
+                }
 
 		$this->render('admin',array(
 			'model'=>$model,
