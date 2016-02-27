@@ -53,7 +53,7 @@ $('#rminfo-pasien-baru-v-search').submit(function(){
                         'header'=>'No. Rekam Medik / No. Pendaftaran',
                         'type'=>'raw',
                         'value'=>function($data) {
-                            return Chtml::link('<i class="icon-form-input"></i>'.$data->no_rekam_medik, Yii::app()->createUrl('rekamMedis/pembuatanDokumenRK/create', array('pasien_id'=>$data->pasien_id, 'tipe'=>3)), array("rel"=>"tooltip","title"=>"Klik untuk Pembuatan Dokumen RM Pasien Baru", "target"=>"_blank"))
+                            return Chtml::link('<i class="icon-form-input"></i>'.$data->no_rekam_medik, Yii::app()->createUrl('rekamMedis/pembuatanDokumenRK/create', array('pasien_id'=>$data->pasien_id, 'tipe'=>3)), array("rel"=>"tooltip","title"=>"Klik untuk Pencatatan Berkas RM Pasien Baru", "target"=>"_blank"))
                                     ." / ".(!empty($data->no_pendaftaran) ? CHtml::link("<i class=icon-form-print></i> ".$data->no_pendaftaran, "javascript:print(\'$data->pendaftaran_id\');",array("rel"=>"tooltip","title"=>"Klik Untuk Print Lembar Poli")) : "-");
                         },
                    'htmlOptions'=>array('style'=>'text-align: center; width:120px')
