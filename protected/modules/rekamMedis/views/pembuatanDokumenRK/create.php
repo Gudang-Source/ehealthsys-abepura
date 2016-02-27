@@ -14,5 +14,5 @@
     }
     ?>
     <?php $this->widget('bootstrap.widgets.BootAlert'); ?>
-    <?php echo $this->renderPartial($this->path_view_rm.'_form', array('model'=>$model)); ?>
+    <?php echo $this->renderPartial($this->path_view_rm.'_form', array('model'=>$model, 'pasien'=>$pasien, 'tipe'=>$tipe)); ?>
 </div>
