@@ -60,6 +60,7 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
 		'spesialis',
 		'alamatlengkap',
 		'notelp',
+                'ppkrujukan',
 		array(
                         'header'=>Yii::t('zii','View'),
 			'class'=>'bootstrap.widgets.BootButtonColumn',
