@@ -1,5 +1,8 @@
 <?php $data=ProfilrumahsakitM::model()->findByPk(Params::DEFAULT_PROFIL_RUMAH_SAKIT); ?>
-<style>   
+<style>  
+    body{
+        font-family:arial;
+    }
     .barcode-label{
         margin-top:-20px;
         z-index: 1;
@@ -23,8 +26,8 @@
 <table width="100%" border = "0" style = "text-align:left;">
     <thead>
         <th width = "25%" style = "padding:20px;"><img src="<?php echo Yii::app()->getBaseUrl('webroot').'/images/BPJS.jpg'; ?>" width="200px"></th>
-        <th align='center' style="font-weight:bold;padding:0px;"><font style="font-size:15px;"><?php echo $judul_print; ?><br><?php echo $data->nama_rumahsakit; ?></font></th>        
-        <th  style = "padding:0px;"><img src="<?php echo Params::urlProfilRSDirectory().$data->logo_rumahsakit ?>" width="120px"></th>
+        <th align='center' style="font-weight:bold;padding:0px;"><font style="font-size:17px;"><?php echo $judul_print; ?><br><?php echo $data->nama_rumahsakit; ?></font></th>        
+        <th  style = "padding:0px;"><!--<img src="<?php //echo Params::urlProfilRSDirectory().$data->logo_rumahsakit ?>" width="120px">--></th>
     </thead>
     <tbody>
         <td colspan = "4">
@@ -32,9 +35,9 @@
                 <tr>
                     <td class = "header">No. SEP</td>
                     <td>:</td>
-                    <td><?php echo $modSep->nosep; ?></td>
+                    <td><font style="font-size:17px;font-weight:bold;font-family: arial;"><?php echo $modSep->nosep; ?></font></td>
                     <td>&nbsp;</td>
-                    <td>No. DMK</td>
+                    <td><font>No. DMK</font></td>
                     <td>:</td>
                     <td><?php echo $modPasien->no_rekam_medik; ?></td>
                 </tr>
