@@ -57,6 +57,21 @@ class SAPegawaiM extends PegawaiM
             return KelurahanM::model()->findAll('kelurahan_aktif=TRUE ORDER BY kelurahan_nama asc');
     }   
     
+    public function searchSA() {
+        $provider = $this->search();
+        $provider->criteria->join = 'left join ruanganpegawai_m r on t.pegawai_id = r.pegawai_id';
+        $provider->criteria->distinct = true;
+        if ($this->ruangan_id != 'V') {
+            $provider->criteria->compare('r.ruangan_id', $this->ruangan_id);
+        } else {
+            $provider->criteria->addCondition('r.ruangan_id is null');
+        }
+        
+        return $provider;
+    }
+    
+    
+    
     /**
      * Overide function karena ada format tanggal yang salah saat simpan / update
      */

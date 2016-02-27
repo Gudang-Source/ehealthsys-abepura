@@ -8,18 +8,21 @@ class PembuatanDokumenRKController extends DokumenRekamMedisController
 	/**
 	 * Membuat dan menyimpan data baru.
 	 */
-	public function actionCreate()
+	public function actionCreate($pasien_id = null, $tipe = null)
 	{
 		$format = new MyFormatter();
 		$model=new SADokrekammedisM;
 		$model->nodokumenrm = '-Otomatis-';
-
+                $model->tglmasukrak = date('y-m-d');
+                $model->warnadokrm_id = $tipe;
 		// Uncomment the following line if AJAX validation is needed
 		
 		if(isset($_GET['id'])){
 			$model = SADokrekammedisM::model()->findByPk($_GET['id']);
 		}
 
+                $pasien = PasienM::model()->findByPk($pasien_id);
+                
 		if(isset($_POST['SADokrekammedisM']))
 		{
 			$model->attributes=$_POST['SADokrekammedisM'];
@@ -43,6 +46,8 @@ class PembuatanDokumenRKController extends DokumenRekamMedisController
 
 		$this->render($this->path_view_rm.'create',array(
 			'model'=>$model,
+                        'pasien'=>$pasien,
+                        'tipe'=>$tipe,
 		));
 	}
 	

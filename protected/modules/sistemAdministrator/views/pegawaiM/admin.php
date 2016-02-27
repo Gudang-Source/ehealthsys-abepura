@@ -55,10 +55,15 @@
                                                         'click'=>'function(){return confirm("'.Yii::t("mds","Do You want to remove this item temporary?").'");}',
                                                 )
                 );
-
+        $rd = CHtml::listData(RuanganM::model()->findAllByAttributes(array(
+                'ruangan_aktif'=>'true',
+            ), array(
+                'order'=>'ruangan_nama',
+            )), 'ruangan_id', 'ruangan_nama');
+            $rd['V'] = 'Tidak diset';
         $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 'id'=>'sapegawai-m-grid',
-                'dataProvider'=>$model->search(),
+                'dataProvider'=>$model->searchSA(),
                 'filter'=>$model,
                 'template'=>"{summary}\n{items}\n{pager}",
                 'itemsCssClass'=>'table table-striped table-bordered table-condensed',
@@ -82,7 +87,7 @@
                              'name'=>'ruangan',
                              'type'=>'raw',
                              'value'=>'$this->grid->getOwner()->renderPartial(\'_ruanganPegawai\',array(\'pegawai_id\'=>$data->pegawai_id),true)',
-                             'filter'=>false
+                             'filter'=>  CHtml::activeDropDownList($model, 'ruangan_id', $rd, array('empty'=>'-- Pilih --')),
                         ),
         //        	array(
         //                        'header'=>'Aktif',

@@ -17,10 +17,22 @@
         </td>
     </tr>
     <tr>
-        <td colspan="3">
+        <td>
             <?php echo $form->checkBoxRow($model,'pegawai_aktif',array('checked'=>'pegawai_aktif')); ?>
         </td>
+        <td colspan="2">
+            <?php 
+            $rd = CHtml::listData(RuanganM::model()->findAllByAttributes(array(
+                'ruangan_aktif'=>'true',
+            ), array(
+                'order'=>'ruangan_nama',
+            )), 'ruangan_id', 'ruangan_nama');
+            $rd['V'] = 'Tidak diset';
+            
+            echo $form->dropDownListRow($model,'ruangan_id',$rd,array('class'=>'span3','empty'=>'-- Pilih --')); ?>
+        </td>
     </tr>
+    
 </table>
 	<?php //echo $form->textFieldRow($model,'pegawai_id',array('class'=>'span5')); ?>
 

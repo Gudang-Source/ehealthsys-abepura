@@ -65,35 +65,69 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
         'title' => 'Daftar Barang',
         'autoOpen' => false,
         'modal' => true,
-        'width' => 750,
+        'width' => 900,
         'height' => 600,
         'resizable' => false,
     ),
 ));
 
-$modBarang = new GUBarangM('search');
-$modBarang->unsetAttributes();
-//$modPegawai->ruangan_id = 0;
-if (isset($_GET['GUBarangM']))
-    $modPegawai->attributes = $_GET['GUBarangM'];
+$modBarang = new BarangV('search');
 
+$modBarang->unsetAttributes();
+
+//$modPegawai->ruangan_id = 0;
+if (isset($_GET['BarangV']))
+    $modBarang->attributes = $_GET['BarangV'];
+
+$modBarang->barang_aktif = true;
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'barang-m-grid',
-    'dataProvider'=>$modBarang->searchDialog(),
+    'dataProvider'=>$modBarang->search(),
     'filter'=>$modBarang,
         'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
     'columns'=>array(
         ////'barang_id',
+        /*
         array(
                         'name'=>'barang_id',
                         'value'=>'$data->barang_id',
                         'filter'=>false,
                 ),
-        'bidang.subkelompok.kelompok.golongan.golongan_nama',
-        'bidang.subkelompok.kelompok.kelompok_nama',
-        'bidang.subkelompok.subkelompok_nama',
-        'bidang.bidang_nama',
+         * 
+         */
+        array(
+            'name'=>'golongan_id',
+            'value'=>'$data->golongan_nama',
+            'filter'=>  CHtml::listData(GolonganM::model()->findAll(array(
+                'condition'=>'golongan_aktif = true',
+                'order'=>'golongan_nama',
+            )), 'golongan_id', 'golongan_nama')
+        ),
+        array(
+            'name'=>'kelompok_id',
+            'value'=>'$data->kelompok_nama',
+            'filter'=>  CHtml::listData(KelompokM::model()->findAll(array(
+                'condition'=>'kelompok_aktif = true',
+                'order'=>'kelompok_nama',
+            )), 'kelompok_id', 'kelompok_nama')
+        ),
+        array(
+            'name'=>'subkelompok_id',
+            'value'=>'$data->subkelompok_nama',
+            'filter'=>  CHtml::listData(SubkelompokM::model()->findAll(array(
+                'condition'=>'subkelompok_aktif = true',
+                'order'=>'subkelompok_nama',
+            )), 'subkelompok_id', 'subkelompok_nama')
+        ),
+        array(
+            'name'=>'bidang_id',
+            'value'=>'$data->bidang_nama',
+            'filter'=>  CHtml::listData(BidangM::model()->findAll(array(
+                'condition'=>'bidang_aktif = true',
+                'order'=>'bidang_nama',
+            )), 'bidang_id', 'bidang_nama')
+        ),
 //        'bidang_id',
 //        'barang_type',
 //        'barang_kode',
