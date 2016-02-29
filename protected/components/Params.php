@@ -140,6 +140,7 @@ Class Params
 
 	const KELASPELAYANAN_ID_TANPA_KELAS = 6;
         const KELASPELAYANAN_ID_KELAS_III = 4;
+        const KELASPELAYANAN_ID_VIP = 2;
         
 	const PENJAMIN_ID_UMUM = 1;
 	const PENJAMIN_ID_GRATIS = 96;
