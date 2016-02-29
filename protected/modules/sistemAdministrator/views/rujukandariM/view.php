@@ -24,6 +24,6 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                     'notelp',
             ),
     )); ?>
-    <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Daftar Rujukan', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('Admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
+    <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Perujuk', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('Admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
     <?php $this->widget('UserTips',array('type'=>'view'));?>
-<!--</fieldset>-->
+<!--</fieldset> DAFTAR RUJUKAN-->

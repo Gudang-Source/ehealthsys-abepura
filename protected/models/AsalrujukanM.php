@@ -90,7 +90,7 @@ class AsalrujukanM extends CActiveRecord
 		$criteria->compare('LOWER(asalrujukan_namalainnya)',strtolower($this->asalrujukan_namalainnya),true);
 		$criteria->compare('asalrujukan_aktif',isset($this->asalrujukan_aktif)?$this->asalrujukan_aktif:true);
 //                $criteria->addCondition('asalrujukan_aktif is true');
-                $criteria->order = 'asalrujukan_id';
+                //$criteria->order = 'asalrujukan_id ASC';
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
                     
@@ -109,7 +109,7 @@ class AsalrujukanM extends CActiveRecord
 		$criteria->compare('LOWER(asalrujukan_institusi)',strtolower($this->asalrujukan_institusi),true);
 		$criteria->compare('LOWER(asalrujukan_namalainnya)',strtolower($this->asalrujukan_namalainnya),true);
 //		$criteria->compare('asalrujukan_aktif',$this->asalrujukan_aktif);
-                $criteria->order = 'asalrujukan_id';
+               // $criteria->order = 'asalrujukan_id';
                 $criteria->limit = -1;
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
