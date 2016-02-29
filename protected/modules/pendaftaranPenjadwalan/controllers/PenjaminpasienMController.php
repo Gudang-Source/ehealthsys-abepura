@@ -34,19 +34,26 @@ class PenjaminpasienMController extends MyAuthController
 
 		 if(isset($_POST['PPPenjaminpasienM']))
                     {
-
+                     //   $model->attributes=$_POST['PPPenjaminpasienM'];
+                        
+                        
+                        
                         $valid=true;
+                        
+                        
                         foreach($_POST['PPPenjaminpasienM'] as $i=>$item)
                         {
-
+                        
+                           
                             if(is_integer($i)) {
                                 $model=new PPPenjaminpasienM;
                                 if(isset($_POST['PPPenjaminpasienM'][$i]))
                                     $model->attributes=$_POST['PPPenjaminpasienM'][$i];
                                     $model->carabayar_id = $_POST['carabayar_id'];
                                     $model->penjamin_aktif = true;
+                                    
                                     $valid=$model->validate() && $valid;
-                                    echo $i;
+                                    
                                 if($valid) {
                                     $model->save();
                                         Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
@@ -55,6 +62,8 @@ class PenjaminpasienMController extends MyAuthController
                                 }
                             }
                         }
+                        
+                        
                         $this->redirect(array('admin'));
                       }   
 

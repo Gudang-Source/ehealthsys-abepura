@@ -21,7 +21,7 @@
             </tr>
             <tr>
                 <td>
-                    <?php echo $form->textFieldRow($model,'penjamin_namalainnya',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+                    <?php echo $form->textFieldRow($model,'penjamin_namalainnya',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>70)); ?>
                 </td>
             </tr>
             <tr>
