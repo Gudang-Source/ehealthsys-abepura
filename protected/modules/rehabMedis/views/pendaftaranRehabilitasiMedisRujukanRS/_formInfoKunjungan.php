@@ -62,7 +62,7 @@
         </div>
     </div>
     <div class="control-group">
-        <?php echo CHtml::label("Kelas Pelayanan Asal", 'kelaspelayanan_id', array('class'=>'control-label')); ?>
+        <?php echo CHtml::label("Kelas Pelayanan Rujukan", 'kelaspelayanan_id', array('class'=>'control-label')); ?>
         <div class="controls">
             <?php echo CHtml::hiddenField('kelaspelayananasal_id',$modKunjungan->kelaspelayanan_id,array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
             <?php echo CHtml::textField('kelaspelayananasal_nama',$modKunjungan->kelaspelayanan_nama,array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
