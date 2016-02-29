@@ -86,7 +86,7 @@ class CaramasukM extends CActiveRecord
 		$criteria->compare('LOWER(caramasuk_namalainnya)',strtolower($this->caramasuk_namalainnya),true);
 		$criteria->compare('caramasuk_aktif',isset($this->caramasuk_aktif)?$this->caramasuk_aktif:true);
 //                $criteria->addCondition('caramasuk_aktif is true');
-                $criteria->order = 'caramasuk_id';
+               // $criteria->order = 'caramasuk_id';
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));

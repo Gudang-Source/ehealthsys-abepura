@@ -102,7 +102,7 @@ if (isset($_GET['TariftindakanperdaruanganV'])) {
 
 $provider = $modTarifTindakan->search();
 $provider->criteria->select = $provider->criteria->group = "daftartindakan_id, daftartindakan_nama, kelaspelayanan_id, kelaspelayanan_nama";
-$provider->criteria->select .= ", sum(harga_tariftindakan) as harga_tariftindakan";
+//$provider->criteria->select .= ", sum(harga_tariftindakan) as harga_tariftindakan";
 
 $this->widget('ext.bootstrap.widgets.BootGridView', array(
     'id'=>'satarif-tindakan-m-grid', 
@@ -136,12 +136,13 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
                         'value'=>'$data->kelaspelayanan_nama',
                         'filter'=>CHtml::listData(KelaspelayananM::model()->findAll('kelaspelayanan_aktif = true'), 'kelaspelayanan_id', 'kelaspelayanan_nama'),
                 ), 
+        /*
         array( 
                         'name'=>'harga_tariftindakan', 
                         'value'=>'number_format($data->harga_tariftindakan,0,".",",")', 
                         'filter'=>false, 
                         'htmlOptions'=>array('style'=>'text-align: right;'),
-                ),
+                ), */
     ),
     'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
 ));
