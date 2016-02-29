@@ -139,6 +139,17 @@ class PendaftaranRawatJalanController extends MyAuthController
         }
         Yii::app()->end();
     }
+        
+        public function actionGetPPKRujukan() {
+            if(Yii::app()->request->isAjaxRequest) {
+                if (isset($_POST['rujukan_id'])) {
+                    $rujukan = RujukandariM::model()->findByPk($_POST['rujukan_id']);
+                    echo $rujukan->ppkrujukan;
+                } else {
+                    echo "";
+                }
+            }
+        }
 
 	/**
 	 * Index transaksi pendaftaran
