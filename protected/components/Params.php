@@ -126,6 +126,7 @@ Class Params
 	const RUANGAN_ID_FISIOTERAPI = 90;      
 	const RUANGAN_ID_GIZI = 62;         
 	const RUANGAN_ID_GUDANG_FARMASI = 58;
+        const RUANGAN_ID_GUDANG_UMUM = 222;
 	const RUANGAN_ID_KLINIK_MCU = 25;		//Ruangan Klinik MCU
 	const RUANGAN_ID_LAB = 52;         //digunakan jika ruangan lab klinik & anatomi di non-aktifkan
 	const RUANGAN_ID_LAB_KLINIK = 53;  
