@@ -51,6 +51,7 @@ class PencatatanPasienController extends MyAuthController {
             if (isset($_POST['no_rm'])) {
                 $no_rm = $_POST['no_rm'];
                 $ada = 0;
+                $max = KonfigsystemK::model()->find();
                 
                 $pasien = PasienM::model()->findByAttributes(array(
                     'no_rekam_medik' => $no_rm,
@@ -59,6 +60,9 @@ class PencatatanPasienController extends MyAuthController {
                 if (!empty($pasien)) {
                     $ada = 1;
                     $pasien = $pasien->attributes;
+                } else if ((int)$no_rm > $max->normlama_maks) {
+                    $ada = 2;
+                    $pasien = array('no_rekam_medik'=>$no_rm);
                 } else {
                     $pasien = null;
                 }
