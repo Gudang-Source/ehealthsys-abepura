@@ -170,7 +170,7 @@ class KecamatanM extends CActiveRecord
          */
         public function getKecamatanItems()
         {
-            return $this->findAll(array('order'=>'kecamatan_nama'));
+            return $this->findAll("kecamatan_aktif = TRUE ORDER BY kecamatan_nama");
         }
         
         /**
