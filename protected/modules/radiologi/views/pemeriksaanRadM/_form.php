@@ -122,10 +122,10 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     ),
 ));
 
-$modTindakanRad = new TariftindakanperdatotalV('search');
+$modTindakanRad = new DaftartindakanM('search');
 $modTindakanRad->unsetAttributes();
-if(isset($_GET['TariftindakanperdatotalV']))
-    $modTindakanRad->attributes = $_GET['TariftindakanperdatotalV'];
+if(isset($_GET['DaftartindakanM']))
+    $modTindakanRad->attributes = $_GET['DaftartindakanM'];
 
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'sainstalasi-m-grid',
@@ -151,7 +151,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 'header'=>'Kategori Tindakan',
                 'name'=>'kategoritindakan_id',
                 'type'=>'raw',
-                'value'=>'$data->kategoritindakan_nama',
+                'value'=>'$data->kategoritindakan->kategoritindakan_nama',
                 'filter'=>CHtml::activeDropDownList($modTindakanRad, 'kategoritindakan_id', CHtml::listData(
                     KategoritindakanM::model()->findAll(array(
                     'condition'=>'kategoritindakan_aktif = true', 
@@ -163,7 +163,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 'header'=>'Kelompok Tindakan',
                 'name'=>'kelompoktindakan_id',
                 'type'=>'raw',
-                'value'=>'$data->kelompoktindakan_nama',
+                'value'=>'$data->kelompoktindakan->kelompoktindakan_nama',
                 'filter'=>CHtml::activeDropDownList($modTindakanRad, 'kelompoktindakan_id', CHtml::listData(
                 KelompoktindakanM::model()->findAll(array(
                     'condition'=>'kelompoktindakan_aktif = true', 
@@ -174,7 +174,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
             //'kategoritindakan_nama',
             'daftartindakan_kode',
             'daftartindakan_nama',
-            'harga_tariftindakan',
+            //'harga_tariftindakan',
 	),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 )); 
