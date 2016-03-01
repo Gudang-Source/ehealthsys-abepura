@@ -54,7 +54,7 @@ echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class
 		    'header'=>'Cara Bayar',
                     'name'=>'carabayar_id',
                     'value'=>'$data->carabayar->carabayar_nama',
-                    'filter'=>  CHtml::listData($model->getCarabayarItems(), 'carabayar_id', 'carabayar_nama'),
+                    'filter'=> CHtml::dropDownList('PPPenjaminpasienM[carabayar_id]',$model->carabayar_id,CHtml::listData($model->getCarabayarItems(), 'carabayar_id', 'carabayar_nama'), array('empty'=>'--Pilih--')),
                 ),
 		'penjamin_nama',
 		'penjamin_namalainnya',

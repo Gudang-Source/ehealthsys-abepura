@@ -1,4 +1,15 @@
 <style>
+.tabel
+{
+ border:1px solid #000;
+}
+thead th 
+{
+    background: #fff;    
+    border-bottom:1px solid #000;
+    color: #000;
+}
+    
 body{
     font-size:8pt;
 }
@@ -10,6 +21,12 @@ th{
 }
 .border{
     border:1px solid;
+}
+
+.tabel th + th, .tabel td + td
+{
+    border-left: 1px solid #000;
+    
 }
 </style>
 <?php
@@ -53,14 +70,14 @@ if (isset($caraprint)){
             <td><?php echo (isset($model->pegawaimengetahui->NamaLengkap) ? $model->pegawaimengetahui->NamaLengkap : ""); ?></td>
         </tr>
     </table><br/>
-    <table width="100%" style='margin-left:auto; margin-right:auto;'>
+    <table width="100%" style='margin-left:auto; margin-right:auto;' class = 'tabel'>
         <thead class="border">
             <tr>
                 <th>No.</th>
                 <th>Asal Barang</th>
                 <th>Kategori / Nama Obat</th>
                 <th>Tanggal Kadaluarsa </th>
-                <th>Satuan Kecil </th>
+                <!--<th>Satuan Kecil </th>-->
                 <th>Jumlah Mutasi</th>
                 <th>Jumlah Terima</th>
                 <th>HPP</th>
@@ -78,9 +95,9 @@ if (isset($caraprint)){
                 <td><?php echo $detail->sumberdana->sumberdana_nama; ?></td>
                 <td><?php echo (!empty($detail->obatalkes->obatalkes_kategori) ? $detail->obatalkes->obatalkes_kategori."/ " : "") ."". $detail->obatalkes->obatalkes_nama; ?></td>
                 <td><?php echo $format->formatDateTimeForUser($detail->tglkadaluarsa); ?></td>
-                <td><?php echo $detail->satuankecil->satuankecil_nama; ?></td>
-                <td><?php echo $detail->jmlmutasi; ?></td>
-                <td><?php echo $detail->jmlterima; ?></td>
+                <!--<td><?php //echo $detail->satuankecil->satuankecil_nama; ?></td>-->
+                <td><?php echo $detail->jmlmutasi.' '.$detail->satuankecil->satuankecil_nama; ?></td>
+                <td><?php echo $detail->jmlterima.' '.$detail->satuankecil->satuankecil_nama; ?></td>
                 <td class='uang'><?php echo $format->formatUang($detail->harganettoterima); ?></td>
                 <!--<td><?php // echo $format->formatUang($detail->hargajualterima); ?></td>-->
                 <td class="uang"><?php 
@@ -91,7 +108,7 @@ if (isset($caraprint)){
             </tr>
         <?php } ?>
         <tr class='border'>
-            <td colspan="8" align="right"><strong>Total</strong></td>
+            <td colspan="7" style="text-align:right"><strong>Total</strong></td>
             <td class="uang"><?php echo $format->formatUang($total); ?></td>
         </tr>
     </table>

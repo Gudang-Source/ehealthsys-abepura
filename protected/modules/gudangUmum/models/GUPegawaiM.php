@@ -90,11 +90,11 @@ class GUPegawaiM extends PegawaiM
 		$criteria->compare('LOWER(kategoripegawaiasal)',strtolower($this->kategoripegawaiasal),true);
 		$criteria->compare('LOWER(photopegawai)',strtolower($this->photopegawai),true);
 		$criteria->compare('pegawai_aktif',$this->pegawai_aktif);
-		$criteria->limit = 10;
+		//$criteria->limit = 10;
 		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-			'pagination'=>false,
+			//'pagination'=>false,
 		));
 	}
 

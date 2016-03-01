@@ -738,6 +738,14 @@ function setNamaPerujukBpjs(){
     $("#<?php echo CHtml::activeId($modRujukanBpjs, 'nama_perujuk')?>").val(nama_perujuk);
 }
 
+function getPPK(obj) {
+    var id = $(obj).val();
+    $("#<?php echo CHtml::activeId($modSep, 'ppkrujukan')?>").val("");
+    $.post('<?php echo $this->createUrl('getPPKRujukan'); ?>', {rujukan_id: id}, function(data) {
+        $("#<?php echo CHtml::activeId($modSep, 'ppkrujukan')?>").val(data);
+    });
+}
+
 /**
  * menambahkan asal rujukan
  * @returns {Boolean}

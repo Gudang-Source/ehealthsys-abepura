@@ -148,7 +148,7 @@ echo $form->errorSummary(array($modMasukKamar)); ?>
                             echo $form->dropDownListRow(
                                 $modPindahKamar,
                                 'ruangan_id',
-                                CHtml::listData($modPindahKamar->getRuanganItems(Params::INSTALASI_ID_RI), 'ruangan_id', 'ruangan_nama'),
+                                CHtml::listData($modPindahKamar->getRuanganItems(array(Params::INSTALASI_ID_RI, Params::INSTALASI_ID_ICU)), 'ruangan_id', 'ruangan_nama'),
                                 array(
                                     'empty'=>'-- Pilih --',
                                     'onkeypress'=>"return $(this).focusNextInputField(event)",

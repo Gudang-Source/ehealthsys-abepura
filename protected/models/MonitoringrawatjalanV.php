@@ -38,6 +38,8 @@ class MonitoringrawatjalanV extends CActiveRecord
 {
                 public $tgl_awal;
                 public $tgl_akhir;
+                public $nama_dokter;
+                public $pegawai_id;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -113,7 +115,7 @@ class MonitoringrawatjalanV extends CActiveRecord
 			'carabayar_nama' => 'Carabayar Nama',
 			'penjamin_id' => 'Penjamin',
 			'penjamin_nama' => 'Penjamin Nama',
-			'ruangan_id' => 'Ruangan',
+			'ruangan_id' => 'Poliklinik',
 			'ruangan_nama' => 'Ruangan Nama',
 			'instalasi_id' => 'Instalasi',
 			'instalasi_nama' => 'Instalasi Nama',
@@ -124,6 +126,7 @@ class MonitoringrawatjalanV extends CActiveRecord
 			'pembayaranpelayanan_id' => 'Pembayaranpelayanan',
 			'alihstatus' => 'Alihstatus',
 			'pasienbatalperiksa_id' => 'Pasienbatalperiksa',
+                        'pegawai_id' => 'Dokter'
 		);
 	}
 
@@ -224,15 +227,18 @@ class MonitoringrawatjalanV extends CActiveRecord
                 // should not be searched.
 
                 $criteria=new CDbCriteria;
-
-                $criteria->order = 'tgl_pendaftaran DESC';
-                $criteria->addBetweenCondition('DATE(tgl_pendaftaran)',$this->tgl_awal,$this->tgl_akhir);
-                $criteria->compare('LOWER(no_rekam_medik)',strtolower($this->no_rekam_medik),true);
-                $criteria->compare('LOWER(no_pendaftaran)',strtolower($this->no_pendaftaran),true);
-                $criteria->compare('LOWER(nama_pasien)',strtolower($this->nama_pasien),true);
-                $criteria->compare('jeniskasuspenyakit_id',$this->jeniskasuspenyakit_id);
-                $criteria->compare('LOWER(statusperiksa)',strtolower($this->statusperiksa),true);
-
+                $criteria->join = 'JOIN pendaftaran_t p on p.pendaftaran_id = t.pendaftaran_id';
+                $criteria->order = 't.tgl_pendaftaran DESC';
+                $criteria->addBetweenCondition('DATE(t.tgl_pendaftaran)',$this->tgl_awal,$this->tgl_akhir);
+                $criteria->compare('LOWER(t.no_rekam_medik)',strtolower($this->no_rekam_medik),true);
+                $criteria->compare('LOWER(t.no_pendaftaran)',strtolower($this->no_pendaftaran),true);
+                $criteria->compare('LOWER(t.nama_pasien)',strtolower($this->nama_pasien),true);
+                $criteria->compare('t.jeniskasuspenyakit_id',$this->jeniskasuspenyakit_id);
+                $criteria->compare('t.carabayar_id',$this->carabayar_id);
+                $criteria->compare('t.penjamin_id',$this->penjamin_id);
+                $criteria->compare('t.ruangan_id',$this->ruangan_id);
+                $criteria->compare('LOWER(t.statusperiksa)',strtolower($this->statusperiksa),true);
+                $criteria->compare('p.pegawai_id', $this->pegawai_id);
                 return new CActiveDataProvider($this, array(
                         'criteria'=>$criteria,
                 ));
@@ -240,7 +246,7 @@ class MonitoringrawatjalanV extends CActiveRecord
         
         public function getJeniskasuspenyakitItems() {
             return JeniskasuspenyakitM::model()->findAll('jeniskasuspenyakit_aktif=TRUE ORDER BY jeniskasuspenyakit_nama');
-        }
+        }                
         
         public static function getStatusAutoRefresh(){
             return MonitoringrawatjalanV::model()->find()->autorefresh;

@@ -51,7 +51,7 @@ echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class
 		//'kabupaten_id',
                 array(
                     'name'=>'kabupaten_id',
-                    'filter'=>  CHtml::listData($model->getKabupatenItems(), 'kabupaten_id', 'kabupaten_nama'),
+                    'filter'=> CHtml::dropDownList('PPKecamatanM[kabupaten_id]',$model->kabupaten_id,CHtml::listData($model->getKabupatenItems(), 'kabupaten_id', 'kabupaten_nama'), array('empty'=>'--Pilih--')),
                     'value'=>'$data->kabupaten->kabupaten_nama',
                 ),
 		'kecamatan_nama',

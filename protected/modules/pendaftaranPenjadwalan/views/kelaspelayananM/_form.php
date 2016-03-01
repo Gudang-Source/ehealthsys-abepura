@@ -17,11 +17,11 @@
         <table id="tbl-kelasPelayanan" class="table table-striped table-bordered table-condensed">
             <tr>
                 <td>
-                    <?php echo $form->textField($model,'[1]kelaspelayanan_nama',array('class'=>'span3', 'onkeyup'=>"namaLain(this)", 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50,'placeholder'=>$model->getAttributeLabel('kelaspelayanan_nama'))); ?>
+                    <?php echo $form->textField($model,'[1]kelaspelayanan_nama',array('class'=>'span3', 'onkeyup'=>"namaLain(this)", 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>25,'placeholder'=>$model->getAttributeLabel('kelaspelayanan_nama'))); ?>
                     <span class="required">*</span>
                 </td>
                 <td>
-                    <?php echo $form->textField($model,'[1]kelaspelayanan_namalainnya',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50, 'placeholder'=> $model->getAttributeLabel('kelaspelayanan_namalainnya'))); ?>
+                    <?php echo $form->textField($model,'[1]kelaspelayanan_namalainnya',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>25, 'placeholder'=> $model->getAttributeLabel('kelaspelayanan_namalainnya'))); ?>
                 </td>
                 <td>
                     <?php echo CHtml::link('<i class="icon-plus-sign icon-white"></i>', '#', array('onkeyup'=>"return $(this).focusNextInputField(event);", 'class'=>'btn btn-primary','onclick'=>'addRow(this)','id'=>'row1-plus')); ?>

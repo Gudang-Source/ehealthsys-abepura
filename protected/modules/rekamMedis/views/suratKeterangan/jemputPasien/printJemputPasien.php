@@ -38,7 +38,7 @@ $waktu = $tglberangkat[1];
     <p align="justify">
         Kepada Yth :<br/>
         <?php echo $model->kepadayth;?></br>
-        <?php echo $data->kabupaten->kabupaten_nama; ?> 20157  
+        <?php echo $data->kecamatan->kecamatan_nama." ".$this->kodepos; ?>  
     </p><br/>
     <p align="justify" class="paragraph">
         Saya yang bertanda tangan di bawah ini :
@@ -49,7 +49,7 @@ $waktu = $tglberangkat[1];
             <tr>
                 <td>Nama</td>
                 <td>:</td>
-                <td><?php echo (!empty($model->ygbertandatangan_id) ? $model->pegawai->nama_pegawai : "-"); ?></td>
+                <td><?php echo (!empty($model->ygbertandatangan_id) ? $model->pegawai->namaLengkap : "-"); ?></td>
             </tr>
             <tr>
                 <td>Jabatan</td>
@@ -118,7 +118,9 @@ $waktu = $tglberangkat[1];
                 <tr>
                     <td>Nama Pengemudi</td>
                     <td>:</td>
-                    <td><?php echo (!empty($model->supirambulans_id) ? $model->pegawai->nama_pegawai : "-"); ?></td>
+                    <td><?php 
+                    $supir = PegawaiM::model()->findByPk($model->supirambulans_id);
+                    echo empty($supir)?"-":$supir->nama_pegawai; ?></td>
                 </tr>
             </table>
             Demikian permohonan ini kami perbuat. Atas perhatian Bapak kami ucapakan terima kasih.
@@ -126,7 +128,7 @@ $waktu = $tglberangkat[1];
 </div><br><br><br><br><br>
 <div style="margin-left:400px;text-align: center;">
     <?php $date = date('Y-m-d'); ?>
-    <?php echo $data->kabupaten->kabupaten_nama ;?>, <?php echo $format->formatDateTimeForUser($date); ?>
+    <?php echo $data->kecamatan->kecamatan_nama ;?>, <?php echo $format->formatDateTimeForUser($date); ?>
 <br><br><br><br><br>
     <?php echo (!empty($model->mengetahui_surat) ? "<u><b>".$model->mengetahui_surat."</b></u>" : " _________________ " ) ; ?>
 </div>

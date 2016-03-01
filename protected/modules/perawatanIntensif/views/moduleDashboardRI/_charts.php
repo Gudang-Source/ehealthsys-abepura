@@ -45,7 +45,7 @@
 			<tr>
 				<th width="50%" class="col-padding-1">
 					<div class="pull-left">
-						<div class="h4 no-margin">Rawat Inap Langsung</div>
+						<div class="h4 no-margin">Rawat Intensif Langsung</div>
 						<small><?php echo $dataKolom[6]; ?></small>
 					</div>
 					<span class="pull-right uniquevisitors">
@@ -53,7 +53,7 @@
 				</th>
 				<th width="50%" class="col-padding-1">
 					<div class="pull-left">
-						<div class="h4 no-margin">Rawat Inap Dari RJ/RD</div>
+						<div class="h4 no-margin">Rawat Intensif Dari RJ/RD</div>
 						<small><?php echo $dataKolom[5]; ?></small>
 					</div>
 					<span class="pull-right pageviews">

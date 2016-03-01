@@ -35,13 +35,13 @@ class PembelianbarangTController extends MyAuthController
 		$modDetails = array();
 		$modPesan = array();
 		$modBeli = array();
-		$model->tglpembelian = date('Y-m-d H:i:s');
+		$model->tglpembelian = date('Y-m-d');
 
 		$instalasi_id = Yii::app()->user->getState('instalasi_id');
 		$model->nopembelian = MyGenerator::noPembelianBarang();
 		$modLogin = LoginpemakaiK::model()->findByAttributes(array('loginpemakai_id' => Yii::app()->user->id));
 		$model->peg_pemesanan_id = $modLogin->pegawai_id;
-		$model->peg_pemesan_nama = $modLogin->pegawai->nama_pegawai;
+		if (!empty($modLogin->pegawai_id)) $model->peg_pemesan_nama = $modLogin->pegawai->nama_pegawai;
                 
 		if (isset($id)){
 			$model = ADPembelianbarangT::model()->findByPk($id);
@@ -54,6 +54,8 @@ class PembelianbarangTController extends MyAuthController
 				$modDetails = ADBelibrgdetailT::model()->findAll('pembelianbarang_id = '.$id);
 			}
 		}
+                
+                $model->tglpembelian = MyFormatter::formatDateTimeForUser($model->tglpembelian);
 		// Uncomment the following line if AJAX validation is needed
 		
                 
@@ -134,8 +136,8 @@ class PembelianbarangTController extends MyAuthController
             $modDetail->barang_id = $idBarang;
             $modDetail->satuanbeli = $satuan;
             $modDetail->jmlbeli = $jumlah;
-            $modDetail->hargabeli=0;
-            $modDetail->hargasatuan = 0;
+            $modDetail->hargabeli=$modBarang->barang_harganetto;
+            $modDetail->hargasatuan = $modBarang->barang_hargajual;
             $modDetail->jmldlmkemasan = $modBarang->barang_jmldlmkemasan;
             
             $tr = $this->renderPartial($this->path_view.'_detailPembelianBarang', array('modBarang'=>$modBarang, 'modDetail'=>$modDetail), true);

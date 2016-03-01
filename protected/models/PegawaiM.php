@@ -68,6 +68,7 @@ class PegawaiM extends CActiveRecord
         public $bank_no_rekening;
         public $gelarbelakang_nama;
         public $dokter_pemeriksa;
+        public $ruangan_id;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -213,6 +214,7 @@ class PegawaiM extends CActiveRecord
 			'tglmasaaktifpeg'=>'Masa Aktif',
 			'tglmasaaktifpeg_sd'=>'Sampai Dengan',
                         'golonganpegawai_id'=>'Golongan Pegawai',
+                        'ruangan_id'=>'Ruangan Pegawai',
 		);
 	}
 
@@ -227,7 +229,7 @@ class PegawaiM extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('pegawai_id',$this->pegawai_id);
+		$criteria->compare('t.pegawai_id',$this->pegawai_id);
 		$criteria->compare('kelurahan_id',$this->kelurahan_id);
 		$criteria->compare('kecamatan_id',$this->kecamatan_id);
 		$criteria->compare('profilrs_id',$this->profilrs_id);

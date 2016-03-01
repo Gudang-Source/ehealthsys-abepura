@@ -252,6 +252,7 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
 
 			array(
 				'header'=>'Nama Pegawai',
+                                'name'=>'nama_pegawai',
 				'type'=>'raw',
 				'value'=>'$data->NamaLengkap',
 			),
@@ -300,6 +301,7 @@ $this->endWidget();
 
 			array(
 			  'header'=>'Nama Pegawai',
+                          'name'=>'nama_pegawai',
 			  'type'=>'raw',
 			  'value'=>'$data->NamaLengkap',
 			),

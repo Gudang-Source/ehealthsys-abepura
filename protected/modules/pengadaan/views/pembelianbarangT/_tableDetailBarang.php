@@ -35,27 +35,27 @@
                 <td><?php echo $modBarang->barang_nama; ?></td>
                 <td>
                 <?php 
-                    echo CHtml::activeTextField($detail, '['.$i.']hargabeli', array('class'=>'span1 numbersOnly mutasi', 'onblur'=>'cekStok(this);'));
+                    echo CHtml::activeTextField($detail, '['.$i.']hargabeli', array('class'=>'span2 numbersOnly mutasi', 'onblur'=>'cekStok(this);', 'style'=>'text-align: right;'));
                     echo '<br/>';
                     echo $form->error($detail, '['.$i.']hargabeli');
                 ?>
                 </td>
                 <td>
                 <?php 
-                    echo CHtml::activeTextField($detail, '['.$i.']hargasatuan', array('class'=>'span1 numbersOnly mutasi', 'onblur'=>'cekStok(this);'));
+                    echo CHtml::activeTextField($detail, '['.$i.']hargasatuan', array('class'=>'span2 numbersOnly mutasi', 'onblur'=>'cekStok(this);', 'style'=>'text-align: right;'));
                     echo '<br/>';
                     echo $form->error($detail, '['.$i.']hargasatuan');
                 ?>
                 </td>
                 <td>
                 <?php 
-                    echo CHtml::activeTextField($detail, '['.$i.']jmlbeli', array('class'=>'span1 numbersOnly qty', 'onblur'=>'cekStok(this);'));
+                    echo CHtml::activeTextField($detail, '['.$i.']jmlbeli', array('class'=>'span1 numbersOnly qty', 'onblur'=>'cekStok(this);', 'style'=>'text-align: right;'));
                     echo '<br/>';
                     echo $form->error($detail, '['.$i.']jmlbeli');
                 ?>
                 </td>
                 <td><?php echo CHtml::activeDropDownList($detail, '['.$i.']satuanbeli', LookupM::getItems('satuanbarang'), array('empty'=>'-- Pilih --', 'class'=>'span2')); ?></td>
-                <td><?php echo CHtml::activeTextField($detail, '['.$i.']jmldlmkemasan', array('class'=>'span1 numbersOnly qty', 'onblur'=>'cekStok(this);'));
+                <td><?php echo CHtml::activeTextField($detail, '['.$i.']jmldlmkemasan', array('class'=>'span1 numbersOnly qty', 'onblur'=>'cekStok(this);', 'style'=>'text-align: right;'));
                     echo '<br/>';
                     echo $form->error($detail, '['.$i.']jmlbeli'); ?></td>
 				<?php if ($model->isNewRecord) { ?>

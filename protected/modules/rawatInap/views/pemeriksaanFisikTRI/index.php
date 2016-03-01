@@ -820,15 +820,20 @@ $(obj).attr("class","btn btn-success");
 
 function hitungCGS()
 {
-    gcs_eye =  $('#RJPemeriksaanFisikT_gcs_eye').val();
-    gcs_motorik =  $('#RJPemeriksaanFisikT_gcs_motorik').val();
-    gcs_verbal =  $('#RJPemeriksaanFisikT_gcs_verbal').val();    
+    gcs_eye =  $('#RIPemeriksaanFisikT_gcs_eye').val();
+    gcs_motorik =  $('#RIPemeriksaanFisikT_gcs_motorik').val();
+    gcs_verbal =  $('#RIPemeriksaanFisikT_gcs_verbal').val();  
+        
+    console.log(gcs_eye);    
+    console.log(gcs_motorik);    
+    console.log(gcs_verbal);    
+   
     if((gcs_eye!='') && (gcs_motorik!='') &&(gcs_verbal!='')){
         $.post("${urlgetMetodeGCS}",{gcs_eye: gcs_eye,gcs_motorik:gcs_motorik,gcs_verbal:gcs_verbal},
         function(data){
                if(data.pesan==null){
-                 $('#RJPemeriksaanFisikT_gcs_id').val(data.idGCS);
-                 $('#namaGCS').val(data.namaGCS);
+                 $('#RJPemeriksaanFisikT_gcs_id').val(data);
+                 $('#namaGCS').val(data);
                }else{
                     myAlert(data.pesan);
                }    

@@ -126,6 +126,7 @@ Class Params
 	const RUANGAN_ID_FISIOTERAPI = 90;      
 	const RUANGAN_ID_GIZI = 62;         
 	const RUANGAN_ID_GUDANG_FARMASI = 58;
+        const RUANGAN_ID_GUDANG_UMUM = 222;
 	const RUANGAN_ID_KLINIK_MCU = 25;		//Ruangan Klinik MCU
 	const RUANGAN_ID_LAB = 52;         //digunakan jika ruangan lab klinik & anatomi di non-aktifkan
 	const RUANGAN_ID_LAB_KLINIK = 53;  
@@ -139,6 +140,7 @@ Class Params
 
 	const KELASPELAYANAN_ID_TANPA_KELAS = 6;
         const KELASPELAYANAN_ID_KELAS_III = 4;
+        const KELASPELAYANAN_ID_VIP = 2;
         
 	const PENJAMIN_ID_UMUM = 1;
 	const PENJAMIN_ID_GRATIS = 96;
@@ -287,6 +289,7 @@ Class Params
 	const KELOMPOKTINDAKAN_ID_RAD	= 10; //kelompoktindakan_m radiodiagnostik
 	const KELOMPOKTINDAKAN_ID_LAB	= 25; //kelompoktindakan_m laboratorium
 	const KELOMPOKTINDAKAN_ID_MCU	= 26; //kelompoktindakan_m mcu
+        const KELOMPOKTINDAKAN_ID_AKOMODASI = 14;
 
 	const SATUAN_TINDAKAN_PENDAFTARAN = 'KALI';  //disesuaikan dengan lookup_m.lookup_type = satuantindakan
 	const SATUAN_TINDAKAN_VISITE = 'KALI';  //disesuaikan dengan lookup_m.lookup_type = satuantindakan

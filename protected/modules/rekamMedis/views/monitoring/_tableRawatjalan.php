@@ -9,43 +9,53 @@
                             'value'=>'$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1',
                         ),
                         array(
-                            'header'=>'No. pendaftaran',
+                            'header'=>'Tanggal Pendaftaran',
+                            'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)',
+                        ),
+                        array(
+                            'header'=>'No. Pendaftaran',
                             'value'=>'$data->no_pendaftaran',
                         ),
                         array(
-                            'header'=>'Nama pasien',
+                            'header'=>'No. Rekam Medik',
+                            'value'=>'$data->no_rekam_medik',
+                        ),
+                        array(
+                            'header'=>'Nama Pasien',
                             'value'=>'$data->nama_pasien',
                         ),
                         array(
-                            'header'=>'Jenis kelamin',
+                            'header'=>'Jenis Kelamin',
                             'value'=>'$data->jeniskelamin',
                         ),
                         array(
-                            'header'=>'Kasus enyakit',
+                            'header'=>'Jenis Kasus Penyakit',
                             'value'=>'$data->jeniskasuspenyakit_nama',
+                        ),
+                        array(
+                            'header'=>'Dokter',
+                            'value'=>function($data) {
+                                $p = PendaftaranT::model()->findByPk($data->pendaftaran_id);
+                                return $p->pegawai->namaLengkap;
+                            },
                         ),
                         array(
                             'header'=>'Poliklinik',
                             'value'=>'$data->ruangan_nama',
                         ),
                         array(
-                            'header'=>'Cara bayar / Penjamin',
-                            'value'=>'$data->carabayar_nama',
-                        ),
-                        array(
-                            'header'=>'Tanggal Pendaftaran',
-                            'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)',
-                        ),
-                        array(
-                            'header'=>'Jenis kasus penyakit',
-                            'value'=>'$data->jeniskasuspenyakit_nama',
-                        ),
+                            'header'=>'Cara Bayar / Penjamin',
+                            'value'=>function($data){
+                                $p = $data->carabayar_nama.' / '.$data->penjamin_nama;
+                                return $p;
+                            },
+                        ),                                              
                         array(
                             'header'=>'Status Periksa',
                             'value'=>'$data->statusperiksa',
                         ),
                         array(
-                            'header'=>'Status bayar',
+                            'header'=>'Status Bayar',
                             'value'=>'(($data->pembayaranpelayanan_id == "") ? "Belum bayar" : "Sudah bayar")',
                         ),
 //		'pasien_id',

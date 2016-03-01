@@ -134,7 +134,7 @@ class RehabMedisTRIController extends MyAuthController
             $modKirimKeUnitLain->pasien_id = $modAdmisi->pasien_id;
             $modKirimKeUnitLain->pendaftaran_id = $modAdmisi->pendaftaran_id;
             //$modKirimKeUnitLain->pegawai_id = $modPendaftaran->pegawai_id;
-            $modKirimKeUnitLain->kelaspelayanan_id = $modAdmisi->kelaspelayanan_id;
+            $modKirimKeUnitLain->kelaspelayanan_id = ($modAdmisi->kelaspelayanan_id == Params::KELASPELAYANAN_ID_VIP?$modAdmisi->kelaspelayanan_id:Params::KELASPELAYANAN_ID_TANPA_KELAS);
             $modKirimKeUnitLain->instalasi_id = Params::INSTALASI_ID_REHAB;
             $modKirimKeUnitLain->ruangan_id = Params::RUANGAN_ID_FISIOTERAPI;
             $modKirimKeUnitLain->create_time = date("Y-m-d H:i:s");

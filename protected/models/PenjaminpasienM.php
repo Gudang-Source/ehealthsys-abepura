@@ -45,7 +45,7 @@ class PenjaminpasienM extends CActiveRecord
 			array('penjamin_aktif', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('penjamin_id, carabayar_nama, penjamin_nama, penjamin_namalainnya, penjamin_aktif', 'safe', 'on'=>'search'),
+			array('penjamin_id, carabayar_id, carabayar_nama, penjamin_nama, penjamin_namalainnya, penjamin_aktif', 'safe', 'on'=>'search'),
 		);
 	}
 

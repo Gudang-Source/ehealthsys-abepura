@@ -55,7 +55,7 @@ class MutasibrgTController extends MyAuthController {
         $model->totalhargamutasi = 0;
         $modLogin = LoginpemakaiK::model()->findByAttributes(array('loginpemakai_id' => Yii::app()->user->id));
         $model->pegpengirim_id = $modLogin->pegawai_id;
-        $model->pegpengirim_nama = $modLogin->pegawai->nama_pegawai;
+        if (!empty($model->pegpengirim_id)) $model->pegpengirim_nama = $modLogin->pegawai->nama_pegawai;
         if (isset($_GET['idMutasi'])){
             $idMutasi = $_GET['idMutasi'];
             $modelMutasi = GUMutasibrgT::model()->findByPk($idMutasi);
@@ -111,6 +111,7 @@ class MutasibrgTController extends MyAuthController {
                                 MutasibrgT::model()->updateByPk($model->mutasibrg_id, array('totalhargamutasi'=>$total));
                             }
                         }
+                        $this->simpanNotifMutasiBarang($model);
                         if ($success == true) {
                             $transaction->commit();                            
                             $this->redirect(array('index', 'idMutasi'=>$model->mutasibrg_id,'sukses'=>1));
@@ -134,6 +135,30 @@ class MutasibrgTController extends MyAuthController {
             'model' => $model, 'modDetails' => $modDetails, 'modPesan'=>$modPesan,
         ));
     }
+    
+    public function simpanNotifMutasiBarang($model) {
+        var_dump($model->attributes);
+
+        $asal = RuanganM::model()->findByPk(Params::RUANGAN_ID_GUDANG_UMUM);
+        $ruangan = RuanganM::model()->findByPk($model->ruangantujuan_id);
+        $judul = 'Mutasi Barang';
+
+        $isi = "Mutasi Asal : ".$asal->ruangan_nama."<br/>No. Mutasi : ";
+        $isi .= CHtml::link($model->nomutasibrg, Yii::app()->createUrl('/gudangUmum/MutasibrgT/detailMutasiBarang', array(
+            'id'=>$model->mutasibrg_id,
+        )), array('target'=>'_blank'));
+
+        //var_dump($isi); die;
+        //var_dump($ruangan->attributes); die;
+        $ok = CustomFunction::broadcastNotif($judul, $isi, array(
+            array('instalasi_id'=>$ruangan->instalasi_id, 'ruangan_id'=>$ruangan->ruangan_id, 'modul_id'=>$ruangan->modul_id),
+            // array('instalasi_id'=>Params::INSTALASI_ID_FARMASI, 'ruangan_id'=>Params::RUANGAN_ID_APOTEK_RJ, 'modul_id'=>10),
+            // array('instalasi_id'=>Params::INSTALASI_ID_KASIR, 'ruangan_id'=>Params::RUANGAN_ID_KASIR, 'modul_id'=>19),
+        ));
+
+        //var_dump($ok); die;
+    }
+    
     
     protected function validateTable($datas, $model) {
         $valid = true;

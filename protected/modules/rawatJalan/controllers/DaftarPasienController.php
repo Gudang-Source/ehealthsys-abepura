@@ -352,9 +352,55 @@ class DaftarPasienController extends MyAuthController
         public function actionDetailTerapi($id){
             $this->layout='//layouts/iframe';
             $modPendaftaran = RJPendaftaranT::model()->with('carabayar','penjamin')->findByPk($id);
-//            $modTerapi = RJPenjualanresepT::model()->with('reseptur')->findAllByAttributes(array('pendaftaran_id'=>$id));
-            $modTerapi = ResepturT::model()->findAllByAttributes(array('pendaftaran_id'=>$id));
-            $modDetailTerapi = new RJResepturDetailT('searchDetailTerapi');
+            
+            $penjualan = PenjualanresepT::model()->findAllByAttributes(array(
+                'pendaftaran_id'=>$id,
+            ));
+            
+            $prereseptur = ResepturT::model()->findAllByAttributes(array(
+                'pendaftaran_id'=>$id,
+            ));
+            
+            $reseptur = array();
+            
+            foreach ($prereseptur as $item) {
+                foreach ($penjualan as $item2) {
+                    if ($item->reseptur_id == $item2->reseptur_id || $item->penjualanresep_id == $item2->penjualanresep_id) {
+                        continue;
+                    }
+                }
+                array_push($reseptur, $item);
+            }
+            
+            $checkers = array();
+            
+            foreach ($reseptur as $item) {
+                $checkers[$item->tglreseptur] = array(
+                    'tipe'=>1,
+                    'noresep'=>$item->noresep,
+                    'id'=>$item->reseptur_id,
+                );
+            }
+            
+            foreach ($penjualan as $item) {
+                $checkers[$item->tglresep] = array(
+                    'tipe'=>2,
+                    'noresep'=>$item->noresep,
+                    'id'=>$item->penjualanresep_id,
+                );
+            }
+            
+            ksort($checkers);
+            
+            $this->render('/_periksaDataPasien/_terapi', 
+                    array('modPendaftaran'=>$modPendaftaran, 
+                        'checkers'=>$checkers));
+            
+            /*
+            //$modTerapi = RJPenjualanresepT::model()->with('reseptur')->findAllByAttributes(array('pendaftaran_id'=>$id));
+            //$modTerapi = ResepturT::model()->findAllByAttributes(array('pendaftaran_id'=>$id));
+            //$modDetailTerapi = new RJResepturDetailT('searchDetailTerapi');
+            $modDetailTerapi = new RJObatalkesPasienT;
             $format = new MyFormatter;
             $modPasien = RJPasienM::model()->findByPK($modPendaftaran->pasien_id);
             $this->render('/_periksaDataPasien/_terapi', 
@@ -362,6 +408,8 @@ class DaftarPasienController extends MyAuthController
                         'modTerapi'=>$modTerapi,
                         'modDetailTerapi'=>$modDetailTerapi,
                         'modPasien'=>$modPasien));
+             * 
+             */
         }
         
         public function actionDetailPemakaianBahan($id){

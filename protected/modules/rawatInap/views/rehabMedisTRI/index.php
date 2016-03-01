@@ -143,7 +143,7 @@ function inputperiksa(obj)
 {
     if($(obj).is(':checked')) {
         var tindakanrm_id = obj.value;
-        var kelaspelayanan_id = <?php echo $modAdmisi->kelaspelayanan_id ?>;
+        var kelaspelayanan_id = <?php echo $modAdmisi->kelaspelayanan_id==Params::KELASPELAYANAN_ID_VIP?$modAdmisi->kelaspelayanan_id:Params::KELASPELAYANAN_ID_TANPA_KELAS ?>;
         var pendaftaran_id = <?php echo $modAdmisi->pendaftaran_id ?>;
         jQuery.ajax({'url':'<?php echo Yii::app()->createUrl('rawatInap/rehabMedisTRI/loadFormPermintaanRehabMedis')?>',
                  'data':{tindakanrm_id:tindakanrm_id, kelaspelayanan_id:kelaspelayanan_id,pendaftaran_id:pendaftaran_id},
@@ -206,7 +206,8 @@ function hitungTotal(){
 function cekInput(){
 	var deposit = $('#deposit').val();
 	var totalTarif = unformatNumber($('#totalTarif').val());
-	if (deposit == ""){
+	/*
+        if (deposit == ""){
 		myConfirm("Pasien Belum Melakukan Deposit!","Perhatian!",function(r) {
 		   if(r){	
 			   // notifikasi
@@ -234,9 +235,9 @@ function cekInput(){
 					}, 2000);
 				}
 			});
-	}else{
+	}else{ */
 		$('#rjpasien-rehabMedis-t-form').submit();
-	}
+	// }
 }
 
 $(document).ready(function(){

@@ -13,10 +13,10 @@
             <?php echo $form->textFieldRow($model,'asalrujukan_nama',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
         </td>
         <td>
-            <?php echo $form->textFieldRow($model,'asalrujukan_institusi',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>20)); ?>
+            <?php echo $form->textFieldRow($model,'asalrujukan_institusi',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
         </td>
         <td>
-            <?php echo $form->textFieldRow($model,'asalrujukan_namalainnya',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>20)); ?>
+            <?php echo $form->textFieldRow($model,'asalrujukan_namalainnya',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
         </td>
     </tr>
     <tr>

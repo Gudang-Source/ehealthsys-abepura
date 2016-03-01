@@ -33,7 +33,7 @@ class TerimapersediaanTController extends MyAuthController
 		$model->nopenerimaan = 'Otomatis';				
 		$modLogin = LoginpemakaiK::model()->findByAttributes(array('loginpemakai_id' => Yii::app()->user->id));
 		$model->peg_penerima_id = $modLogin->pegawai_id;
-		$model->peg_penerima_nama = $modLogin->pegawai->nama_pegawai;
+		if (!empty($modLogin->pegawai_id)) $model->peg_penerima_nama = $modLogin->pegawai->nama_pegawai;
 		$model->ruanganpenerima_id = Yii::app()->user->getState('ruangan_id');
 		$model->instalasi_id = $model->ruangan->instalasi_id;
 		$model->tglterima = date('Y-m-d');
@@ -51,17 +51,19 @@ class TerimapersediaanTController extends MyAuthController
                 
                 if (isset($_GET['id'])){
                     $id = $_GET['id'];
-                    $modBeli = PembelianbarangT::model()->find('pembelianbarang_id = '.$id.' and terimapersediaan_id is null');
-                    if (count($modBeli) == 1){
-                        $modDetailBeli = BelibrgdetailT::model()->findAllByAttributes(array('pembelianbarang_id'=>$id));
-                        $model->pembelianbarang_id = $id;
-                        $model->sumberdana_id = $modBeli->sumberdana_id;
-                        foreach ($modDetailBeli as $i=>$row){
-                            $modDetails[$i] = new TerimapersdetailT();
-                            $modDetails[$i]->attributes = $row->attributes;
-                            $modDetails[$i]->jmlterima = $row->jmlbeli;
-                            $modDetails[$i]->jmlbeli = $row->jmlbeli;
-                            $modDetails[$i]->jmldalamkemasan = $row->barang->barang_jmldlmkemasan;
+                    if (!empty($id)) {
+                        $modBeli = PembelianbarangT::model()->find('pembelianbarang_id = '.$id.' and terimapersediaan_id is null');
+                        if (count($modBeli) == 1){
+                            $modDetailBeli = BelibrgdetailT::model()->findAllByAttributes(array('pembelianbarang_id'=>$id));
+                            $model->pembelianbarang_id = $id;
+                            $model->sumberdana_id = $modBeli->sumberdana_id;
+                            foreach ($modDetailBeli as $i=>$row){
+                                $modDetails[$i] = new TerimapersdetailT();
+                                $modDetails[$i]->attributes = $row->attributes;
+                                $modDetails[$i]->jmlterima = $row->jmlbeli;
+                                $modDetails[$i]->jmlbeli = $row->jmlbeli;
+                                $modDetails[$i]->jmldalamkemasan = $row->jmldlmkemasan; //$row->barang->barang_jmldlmkemasan;
+                            }
                         }
                     }
                 }
@@ -81,15 +83,19 @@ class TerimapersediaanTController extends MyAuthController
 			$model->create_time=date("Y-m-d");
 			$model->create_loginpemakai_id = Yii::app()->user->id;
 			$model->create_ruangan = Yii::app()->user->getState('ruangan_id');
-			$model->pembelianbarang_id = $id;
+			if (!empty($id)) $model->pembelianbarang_id = $id;
 			if (count($_POST['TerimapersdetailT']) > 0){
                             if ($model->validate()){
                                 $transaction = Yii::app()->db->beginTransaction();
 								$success = true;
                                 try{
                                     if($model->save()){
-										$modDetailBeli = BelibrgdetailT::model()->findAllByAttributes(array('pembelianbarang_id'=>$id));
-										$modDetails = $this->validasiTabular($model, $_POST['TerimapersdetailT'], $modDetailBeli);
+                                                                                if (empty($id)) {
+                                                                                    $modDetailBeli = new BelibrgdetailT;
+                                                                                } else {
+                                                                                    $modDetailBeli = BelibrgdetailT::model()->findAllByAttributes(array('pembelianbarang_id'=>$id));
+                                                                                }
+                                                                                $modDetails = $this->validasiTabular($model, $_POST['TerimapersdetailT'], $modDetailBeli);
                                         if (!empty($model->pembelianbarang_id)){
                                             PembelianbarangT::model()->updateByPk($model->pembelianbarang_id, array('terimapersediaan_id'=>$model->terimapersediaan_id));
                                         }
@@ -169,7 +175,7 @@ class TerimapersediaanTController extends MyAuthController
                 $modDetails[$i] = new TerimapersdetailT();
                 $modDetails[$i]->attributes = $row;
                 $modDetails[$i]->terimapersediaan_id = $model->terimapersediaan_id;
-                if (isset($beli)){
+                if (!empty($beli->pembelianbarang_id)){
                     $modDetails[$i]->jmlbeli = $beli[$i]->jmlbeli;
                 }
                 $valid = $modDetails[$i]->validate() && $valid;
@@ -378,7 +384,7 @@ class TerimapersediaanTController extends MyAuthController
         
         public function actionPrint($id){
             $this->layout='//layouts/printWindows';
-            $judulLaporan='Data Pembelian Barang';
+            $judulLaporan='Data Penerimaan Barang';
             $modTerima = TerimapersediaanT::model()->findByPk($id);
             $modDetailTerima = TerimapersdetailT::model()->findAllByAttributes(array('terimapersediaan_id'=>$modTerima->terimapersediaan_id));
             $this->render('detailInformasi', array(

@@ -43,10 +43,10 @@ class RujukandariM extends CActiveRecord
 			array('asalrujukan_id', 'numerical', 'integerOnly'=>true),
 			array('namaperujuk, notelp', 'length', 'max'=>100),
 			array('spesialis', 'length', 'max'=>50),
-			array('alamatlengkap', 'safe'),
+			array('alamatlengkap, ppkrujukan', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('rujukandari_id, asalrujukan_id, namaperujuk, spesialis, alamatlengkap, notelp', 'safe', 'on'=>'search'),
+			array('rujukandari_id, asalrujukan_id, namaperujuk, spesialis, alamatlengkap, notelp, ppkrujukan', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -75,6 +75,7 @@ class RujukandariM extends CActiveRecord
 			'spesialis' => 'Spesialis',
 			'alamatlengkap' => 'Alamat Lengkap',
 			'notelp' => 'No. Telephone',
+                        'ppkrujukan'=>'PPK Rujukan',
 		);
 	}
 

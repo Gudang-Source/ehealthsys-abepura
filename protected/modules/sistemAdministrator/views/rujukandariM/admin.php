@@ -50,7 +50,8 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
 		array(
                         'name'=>'asalrujukan_id',
                         'value'=>'$data->asalrujukan->asalrujukan_nama',
-                        'filter'=>CHtml::listData(AsalrujukanM::model()->findAll(),'asalrujukan_id','asalrujukan_nama'),
+                        'filter'=> CHtml::dropDownList('RujukandariM[asalrujukan_id]',$model->asalrujukan_id,CHtml::listData(AsalrujukanM::model()->findAll('asalrujukan_aktif = TRUE'),'asalrujukan_id','asalrujukan_nama'),array('empty'=>'--Pilih--'))
+                        //'filter'=> CHtml::listData(AsalrujukanM::model()->findAll('asalrujukan_aktif = TRUE'),'asalrujukan_id','asalrujukan_nama')
                 ),
                 array(
                         'name'=>'namaperujuk',
@@ -60,6 +61,7 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
 		'spesialis',
 		'alamatlengkap',
 		'notelp',
+                'ppkrujukan',
 		array(
                         'header'=>Yii::t('zii','View'),
 			'class'=>'bootstrap.widgets.BootButtonColumn',
@@ -109,11 +111,13 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
     )); ?>
 <!--</div>-->
 <?php 
-echo CHtml::link(Yii::t('mds', '{icon} Tambah Daftar Rujukan', array('{icon}'=>'<i class="icon-plus icon-white"></i>')), $this->createUrl('create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp";
+echo CHtml::link(Yii::t('mds', '{icon} Tambah Perujuk', array('{icon}'=>'<i class="icon-plus icon-white"></i>')), $this->createUrl('create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp";
 echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
 echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
 echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
-$this->widget('UserTips',array('type'=>'admin'));
+$content = $this->renderPartial($this->path_view.'tips/tipsAdmin',array(),true);
+$this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
+//$this->widget('UserTips',array('type'=>'admin'));
 $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
 $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
 $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/print');

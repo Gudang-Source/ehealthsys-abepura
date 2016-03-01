@@ -56,15 +56,12 @@
             </div>
         </td>
         <td>
-            <?php /*
             <div class="control-group ">
                 <label for="noPendaftaran" class="control-label">No. Pendaftaran </label>
                 <div class="controls">
                     <?php echo CHtml::activeTextField($model,'no_pendaftaran',array('placeholder'=>'Ketik No. Pendaftaran')); ?>
                 </div>
-            </div>  
-             * 
-             */ ?>  
+            </div> 
             <div class="control-group ">
                 <label for="noRekamMedik" class="control-label">No. Rekam Medik </label>
                 <div class="controls">

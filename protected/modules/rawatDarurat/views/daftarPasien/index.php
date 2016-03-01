@@ -220,6 +220,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
     //========= end pasienpulang_t dialog =============================
 
     // Dialog untuk Batal Rawat Inap =========================
+    /*
     $this->beginWidget('zii.widgets.jui.CJuiDialog', array( 
         'id'=>'dialogBatalRawatInap',
         'options'=>array(
@@ -238,7 +239,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
     </iframe>
     <?php
 
-    $this->endWidget();
+    $this->endWidget(); */
     //========= end ubah status periksa dialog =============================
     ?>
 
@@ -717,3 +718,15 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
 ?>
 <iframe name='frameAlergiObat' width="100%" height="100%"></iframe>
 <?php $this->endWidget(); ?>
+
+<script>
+ubahSummaryEnd = function(obj) {
+    var grid_id = $(obj).parent().parent().attr("id");
+    //console.log(grid_id);
+    console.log($('#RDInfoKunjunganRDV_items, #daftarPasien-form :input').serialize());
+    $.fn.yiiGridView.update(grid_id, {
+            data : $('#RDInfoKunjunganRDV_items, #daftarPasien-form :input').serialize()
+    });
+    return false;
+} 
+</script>

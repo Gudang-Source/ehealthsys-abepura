@@ -14,6 +14,34 @@ if($caraprint == 'EXCEL')
 echo $this->renderPartial('application.views.headerReport.headerDefault',array('judulLaporan'=>$judul_print, 'colspan'=>''));      
 
 ?>
+<style>
+
+.table
+{
+    border: 1px solid #000;
+    border-radius: 0px 0px 0px 0px;
+    box-shadow: 0px 0px 0px 0px;
+}
+    
+.table-striped tbody tr:nth-child(2n+1) td
+{
+    background-color: #fff;
+}
+
+.table th
+{
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+    
+}
+
+.table-striped th + th, .table-striped td + td, .table-striped th + td, .table-striped td + th 
+{
+    border-left: 1px solid #000;
+    
+}
+</style>
+
 <fieldset>
     <table width="74%" style="margin:0px;" cellpadding="0" cellspacing="0">
         <tr>
@@ -24,12 +52,12 @@ echo $this->renderPartial('application.views.headerReport.headerDefault',array('
         <tr>
             <td>Tanggal Pemesanan</td>
             <td>:</td>
-            <td><?php echo $model->tglpemesanan; ?></td>
+            <td><?php echo $format->formatDateTimeForUser(date('Y-m-d H:i:s', strtotime($model->tglpemesanan)));//$model->tglpemesanan; ?></td>
         </tr>
         <tr>
             <td>Tanggal Pesanan Minta Dikirim</td>
             <td>:</td>
-            <td><?php echo $model->tglpemesanan; ?></td>
+            <td><?php echo $format->formatDateTimeForUser(date('Y-m-d H:i:s', strtotime($model->tglmintadikirim))); ?></td>
         </tr>
         <tr>
             <td>Ruang Pemesan</td>
@@ -68,20 +96,20 @@ echo $this->renderPartial('application.views.headerReport.headerDefault',array('
                 <th>No.</th>
                 <th>Asal Barang</th>
                 <th>Nama Obat</th>
-                <th>Satuan Kecil </th>
+               <!-- <th>Satuan Kecil </th>-->
                 <th>Jumlah</th>
             </tr>
         </thead>
         <tbody>
-            <?php
+            <?php            
             if(count($modDetails) > 0){
-                foreach($modDetails AS $i=>$modDetail){ ?>
-            <tr>
+                foreach($modDetails AS $i=>$modDetail){ ?>           
+            
                 <td><?php echo $i+1; ?></td>
                 <td><?php echo (!empty($modDetail->sumberdana_id) ? $modDetail->sumberdana->sumberdana_nama : ""); ?></td>
                 <td><?php echo (!empty($modDetail->obatalkes_id) ? $modDetail->obatalkes->obatalkes_nama : ""); ?></td>
-                <td><?php echo (!empty($modDetail->satuankecil_id) ? $modDetail->obatalkes->satuankecil->satuankecil_nama : ""); ?></td>
-                <td><?php echo $modDetail->jmlpesan; ?></td>
+               <!-- <td><?php //echo (!empty($modDetail->satuankecil_id) ? $modDetail->obatalkes->satuankecil->satuankecil_nama : ""); ?></td>-->
+                <td style = "text-align:right;"><?php echo $modDetail->jmlpesan.' '.(!empty($modDetail->satuankecil_id) ? $modDetail->obatalkes->satuankecil->satuankecil_nama : ""); ?></td>
             </tr>
             <?php    }
             }

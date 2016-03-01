@@ -11,8 +11,8 @@
 	<?php echo $form->errorSummary($model); ?>
 
             <?php echo $form->textFieldRow($model,'asalrujukan_nama',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
-            <?php echo $form->textFieldRow($model,'asalrujukan_institusi',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>20)); ?>
-            <?php echo $form->textFieldRow($model,'asalrujukan_namalainnya',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>20)); ?>
+            <?php echo $form->textFieldRow($model,'asalrujukan_institusi',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
+            <?php echo $form->textFieldRow($model,'asalrujukan_namalainnya',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
             <?php //echo $form->checkBoxRow($model,'asalrujukan_aktif', array('onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
 	<div class="form-actions">
             <?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 

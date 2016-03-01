@@ -87,13 +87,14 @@ class KelaspelayananMController extends MyAuthController
                             if($valid) {
                                 $model->save();
                                     Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                                    $this->redirect(array('admin'));
                             } else {
                                     Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data tidak valid.');
                             }
                         }
                     }
                       
-                    $this->redirect(array('admin'));
+                    
 		}
 
 		$this->render('create',array(
@@ -116,8 +117,12 @@ class KelaspelayananMController extends MyAuthController
 
 		if(isset($_POST['PPKelaspelayananM']))
 		{
-			
-                         $jumlahRuangan=COUNT($_POST['ruangan_id']);
+                         if (isset($_POST['ruangan_id'])):
+                             $jumlahRuangan=COUNT($_POST['ruangan_id']);
+                         else:    
+                             $jumlahRuangan=0;
+                         endif;
+                                            
                          $kelasPelayanan_id=$model->kelaspelayanan_id;
                          $hapuskelasRuangan=KelasruanganM::model()->deleteAll('kelaspelayanan_id='.$kelasPelayanan_id.'');
                          $transaction = Yii::app()->db->beginTransaction();

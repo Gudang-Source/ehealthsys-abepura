@@ -139,6 +139,17 @@ class PendaftaranRawatJalanController extends MyAuthController
         }
         Yii::app()->end();
     }
+        
+        public function actionGetPPKRujukan() {
+            if(Yii::app()->request->isAjaxRequest) {
+                if (isset($_POST['rujukan_id'])) {
+                    $rujukan = RujukandariM::model()->findByPk($_POST['rujukan_id']);
+                    echo $rujukan->ppkrujukan;
+                } else {
+                    echo "";
+                }
+            }
+        }
 
 	/**
 	 * Index transaksi pendaftaran
@@ -821,7 +832,8 @@ class PendaftaranRawatJalanController extends MyAuthController
             $reqSep = null;
             $modSep = new PPSepT;
             $bpjs = new Bpjs();
-
+            $kelas = KelaspelayananM::model()->findByPk($modAsuransiPasienBpjs->kelastanggunganasuransi_id);
+            //var_dump($modRujukanBpjs->attributes); die;
             $modSep->tglsep = date('Y-m-d H:i:s');
             $modSep->nokartuasuransi = $modAsuransiPasienBpjs->nopeserta;
             $modSep->tglrujukan = $modRujukanBpjs->tanggal_rujukan;
@@ -830,14 +842,16 @@ class PendaftaranRawatJalanController extends MyAuthController
             $modSep->ppkpelayanan = Yii::app()->user->getState('ppkpelayanan');
             $modSep->jnspelayanan = ($model->instalasi_id==Params::INSTALASI_ID_RI)?Params::JENISPELAYANAN_RI:Params::JENISPELAYANAN_RJ;
             $modSep->catatansep = $postSep['catatansep'];
-            $data_diagnosa = explode(', ', $modRujukanBpjs->diagnosa_rujukan);
+            $data_diagnosa = explode(', ', $modRujukanBpjs->kddiagnosa_rujukan);
             $modSep->diagnosaawal = isset($data_diagnosa[0])?$data_diagnosa[0]:'';
             $modSep->politujuan = $model->ruangan_id;
-            $modSep->klsrawat = $modAsuransiPasienBpjs->kelastanggunganasuransi_id;
+            $modSep->klsrawat = $kelas->kelasbpjs_id;
             $modSep->tglpulang = date('Y-m-d H:i:s');
             $modSep->create_time = date('Y-m-d H:i:s');
             $modSep->create_loginpemakai_id = Yii::app()->user->id;
             $modSep->create_ruangan = Yii::app()->user->getState('ruangan_id');
+            
+            //var_dump($modSep->attributes); die;
             
             if(isset($_POST['isSepManual'])){
                 if($_POST['isSepManual']==false){

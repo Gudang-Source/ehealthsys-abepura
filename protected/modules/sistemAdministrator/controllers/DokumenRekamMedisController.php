@@ -26,7 +26,7 @@ class DokumenRekamMedisController extends MyAuthController
 	/**
 	 * Membuat dan menyimpan data baru.
 	 */
-	public function actionCreate()
+	public function actionCreate($pasien_id = null, $tipe = null)
 	{
 		$format = new MyFormatter();
 		$model=new SADokrekammedisM;

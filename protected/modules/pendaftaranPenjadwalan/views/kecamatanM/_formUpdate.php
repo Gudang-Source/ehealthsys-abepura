@@ -50,7 +50,7 @@
 		<?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Kecamatan', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
 			$this->createUrl('/pendaftaranPenjadwalan/kecamatanM/Admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
                 <?php
-			$content = $this->renderPartial('../tips/tipsaddedit2b',array(),true);
+			$content = $this->renderPartial('../tips/tipsaddedit',array(),true);
 			$this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
 		?>
     </div>

@@ -80,7 +80,7 @@ class PesanbarangTController extends MyAuthController
 		$model->tglpesanbarang = date('d M Y H:i:s');
 		$modLogin = LoginpemakaiK::model()->findByAttributes(array('loginpemakai_id'=>Yii::app()->user->id));
 		$model->pegpemesan_id = $modLogin->pegawai_id;
-		$model->pegpemesan_nama = $modLogin->pegawai->nama_pegawai;
+		if (!empty($model->pegpemesan_id)) $model->pegpemesan_nama = $modLogin->pegawai->nama_pegawai;
 		$model->ruanganpemesan_id = Yii::app()->user->getState('ruangan_id');
 		$model->instalasi_id = $model->ruanganpemesan->instalasi->instalasi_id;
 		if (isset($id)){
@@ -134,6 +134,9 @@ class PesanbarangTController extends MyAuthController
 //                                    $params['judulnotifikasi'] = 'Pesan Barang';
 //                                    $nofitikasi = NotifikasiRController::insertNotifikasi($params);
                                     
+                                    // NOTIF
+                                    $this->simpanNotifPesanBarang($model);
+                                    
                                     if ($success == true){
                                         $transaction->commit();
                                         Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
@@ -162,6 +165,33 @@ class PesanbarangTController extends MyAuthController
 		));
 	}
 	
+        
+        
+        public function simpanNotifPesanBarang($model) {
+            //var_dump($model->attributes);
+
+            $ruangan = RuanganM::model()->findByPk(Params::RUANGAN_ID_GUDANG_UMUM);
+            $asal = RuanganM::model()->findByPk($model->ruanganpemesan_id);
+            $judul = 'Pemesanan Barang';
+
+            $isi = "Pemesan : ".$asal->ruangan_nama."<br/>No. Pemesanan : ";
+            $isi .= CHtml::link($model->nopemesanan, Yii::app()->createUrl('/gudangUmum/pesanbarangT/detailPesanBarang', array(
+                'id'=>$model->pesanbarang_id,
+            )), array('target'=>'_blank'));
+
+            // var_dump($isi); die;
+
+            // var_dump($isi); die;
+            //var_dump($ruangan->attributes); die;
+            $ok = CustomFunction::broadcastNotif($judul, $isi, array(
+                array('instalasi_id'=>$ruangan->instalasi_id, 'ruangan_id'=>$ruangan->ruangan_id, 'modul_id'=>$ruangan->modul_id),
+                // array('instalasi_id'=>Params::INSTALASI_ID_FARMASI, 'ruangan_id'=>Params::RUANGAN_ID_APOTEK_RJ, 'modul_id'=>10),
+                // array('instalasi_id'=>Params::INSTALASI_ID_KASIR, 'ruangan_id'=>Params::RUANGAN_ID_KASIR, 'modul_id'=>19),
+            ));
+
+            //var_dump($ok); die;
+        }
+        
 	/**
      * Mengatur dropdown ruangan
      * @param type $encode jika = true maka return array jika false maka set Dropdown 
