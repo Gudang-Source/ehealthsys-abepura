@@ -52,7 +52,7 @@ echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class
 		//'kecamatan_id',
 		array(
 				'name'=>'kecamatan_id',
-				'filter'=>  CHtml::listData($model->getKecamatanItems(), 'kecamatan_id', 'kecamatan_nama'),
+				'filter'=> CHtml::dropDownList('PPKelurahanM[kecamatan_id]',$model->kecamatan_id,CHtml::listData($model->getKecamatanItems(), 'kecamatan_id', 'kecamatan_nama'),array('empty'=>'--Pilih--')),
 				'value'=>'$data->kecamatan->kecamatan_nama',
 		),
 		'kelurahan_nama',
