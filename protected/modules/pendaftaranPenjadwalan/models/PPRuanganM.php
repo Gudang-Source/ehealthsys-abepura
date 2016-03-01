@@ -133,7 +133,7 @@ class PPRuanganM extends RuanganM{
 		
 	public function getRuanganItems()
 	{
-		return RuanganM::model()->findAll('ruangan_aktif=true ORDER BY ruangan_nama');
+		return RuanganM::model()->findAll(array('order'=>'ruangan_nama'));
 	}
 
 	public function getNamaModel() 
