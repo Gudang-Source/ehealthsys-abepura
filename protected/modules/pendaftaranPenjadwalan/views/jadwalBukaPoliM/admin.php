@@ -47,7 +47,7 @@
                     array(
                             'name'=>'ruangan_id',
                             'value'=>'$data->ruangan->ruangan_nama',
-                            'filter'=>CHtml::listData($model->getRuanganItems(), 'ruangan_id', 'ruangan_nama'),
+                            'filter'=>  CHtml::dropDownList('PPJadwalBukaPoliM[ruangan_id]',$model->ruangan_id,CHtml::listData($model->getRuanganItems(), 'ruangan_id', 'ruangan_nama'), array('empty'=>'--Pilih--')),
                     ),
                     'hari',
                     'jmabuka',
