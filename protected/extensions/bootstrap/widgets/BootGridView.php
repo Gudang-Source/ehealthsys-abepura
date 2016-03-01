@@ -41,8 +41,9 @@ class BootGridView extends CGridView
 	 * @since 1.1.1
 	 */
 	public $filterCssClass='filters';
+        
+        public $pageSizeInput = true;
     
-	
 	/**
 	 * Initializes the grid view.
 	 * modified RND-5395
@@ -71,7 +72,7 @@ class BootGridView extends CGridView
 		{
 			if(($summaryText=$this->summaryText)===null){
 //				$summaryText=Yii::t('zii','Displaying {start}-{end} of {count} result(s). {items_dropdown} rows per page.');
-				$summaryText=Yii::t('zii','Menampilkan {start}-{end} dari {count} hasil. {items_dropdown} baris per halaman.');
+				$summaryText=Yii::t('zii','Menampilkan {start}-{end} dari {count} hasil. {items_dropdown}');
 			}
 			$pagination=$this->dataProvider->getPagination();
 			$total=$this->dataProvider->getTotalItemCount();
@@ -82,7 +83,7 @@ class BootGridView extends CGridView
 				$end=$total;
 				$start=$end-$count+1;
 			}
-			$items_dropdown = CHtml::dropDownList($this->dataProvider->modelClass.'_items', $this->items_perpage, $this->getItemsPerPage($total),array('onchange'=>'ubahSummaryEnd(this);','style'=>'width:70px'));
+			$items_dropdown = $this->pageSizeInput?CHtml::dropDownList($this->dataProvider->modelClass.'_items', $this->items_perpage, $this->getItemsPerPage($total),array('onchange'=>'ubahSummaryEnd(this);','style'=>'width:70px', 'class'=>'page-item-size'))." baris per halaman.":"";
 			echo strtr($summaryText,array(
 				'{start}'=>$start,
 				'{end}'=>$end,
@@ -135,7 +136,8 @@ class BootGridView extends CGridView
 		parent::registerClientScript();
 		Yii::app()->clientScript->registerScript("ubahSummaryEnd", 
 <<<JAVASCRIPT
-		function ubahSummaryEnd(obj){
+                var ubahSummaryEnd = function(obj) {
+		//function ubahSummaryEnd(obj){
 				var grid_id = $(obj).parent().parent().attr("id");
 				$.fn.yiiGridView.update(grid_id, {
 					data : $('#'+grid_id).find('input, textarea, select').serialize()
@@ -143,7 +145,7 @@ class BootGridView extends CGridView
 				return false;
 		}
 JAVASCRIPT
-		, CClientScript::POS_END);
+		, CClientScript::POS_HEAD);
 	}
 	
 }
