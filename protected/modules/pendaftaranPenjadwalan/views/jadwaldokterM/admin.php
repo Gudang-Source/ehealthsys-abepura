@@ -51,12 +51,12 @@
                     array(
                             'header'=>'Nama Ruangan',
                             'name'=>'ruangan_id',
-                            'filter'=>  CHtml::listData(PPPendaftaranT::model()->getRuanganItems(), 'ruangan_id', 'ruangan_nama'),
+                            'filter'=> CHtml::dropDownList('PPJadwaldokterM[ruangan_id]',$model->ruangan_id, CHtml::listData(PPPendaftaranT::model()->getRuanganItems(), 'ruangan_id', 'ruangan_nama'),array('empty'=>'--Pilih--')),
                             'value'=>'$data->ruangan->ruangan_nama',
                     ),
 					array(
                         'name'=>'pegawai_id',
-                        'filter'=>  CHtml::listData(PPPendaftaranT::model()->getDokterItems(), 'pegawai_id', 'namaLengkap'),
+                        'filter'=>  CHtml::dropDownList('PPJadwaldokterM[pegawai_id]',$model->pegawai_id, CHtml::listData(PPPendaftaranT::model()->getDokterItems(), 'pegawai_id', 'namaLengkap'),array('empty'=>'--Pilih--')),
                         'value'=>'(isset($data->pegawai->nama_pegawai) ? $data->pegawai->namaLengkap : "")',
                     ),
                     array(
@@ -64,7 +64,7 @@
                         'name'=>'jadwaldokter_tgl',
                         'value'=>'MyFormatter::formatDateTimeForUser($data->jadwaldokter_tgl)',
                         'filter'=>false,
-                    ),
+                    ),                    
                     'jadwaldokter_hari',
                     'jadwaldokter_buka',
                     array(
@@ -115,7 +115,7 @@
             echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
             echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
             echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
-            $content = $this->renderPartial($this->path_view.'tips/tipsAdmin',array(),true);
+            $content = $this->renderPartial('../tips/master2',array(),true);
             $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
             $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
             $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai

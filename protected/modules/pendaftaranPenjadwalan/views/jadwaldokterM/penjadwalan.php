@@ -80,42 +80,47 @@
                                                                 'update'=>'#inputPoli')));
                 ?>
                 <br/><br/>
-                <div class="form-actions" style='width:300px;margin-left:-40px;'>
-                    <table border="0" >
-                      <tr>
-                           <td><div style='margin-left:20px;'><?php echo CHtml::htmlButton(Yii::t('mds','{icon} Buat Jadwal',array('{icon}'=>'<i class="icon-list-alt icon-white"></i>')),
-                                                    array('class'=>'btn btn-blue', 'type'=>'button', 'onClick'=>'generateInput();'));?></div></td >
-                           <td><div id='submitForm'>
-                                   <?php
-                                       echo  CHtml::htmlButton(Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),
-                                                    array('class'=>'btn btn-primary', 'type'=>'button','onsubmit'=>'return requiredCheck(this);'));
-                                   ?>
-                               </div></td>
-                           <td><div id='batalForm'>
-                                   <?php
-                                        echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
-                                            $this->createUrl('admin'), 
-                                                array('class'=>'btn btn-danger'));
-                                   ?>
-                               </div></td>
-                      </tr>
-                    </table>
-                </div>
+                
             </td>
             <td>Poliklinik</td>
             <td rowspan="2">
                 <div id="inputPoli" ></div><br/><br/><br/>
             </td>
         </tr>
-        
+        </table>
     <!--    <tr><td></td>
             <td colspan="2"><div id='submitForm'></div></td>
-        </tr>-->
+        </tr>-->                   
+        <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Buat Jadwal',array('{icon}'=>'<i class="icon-list-alt icon-white"></i>')),
+                                                    array('class'=>'btn btn-blue', 'type'=>'button', 'onClick'=>'generateInput();'));?>                         
+                    <?php
+                        echo  CHtml::htmlButton(Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),
+                                     array('class'=>'btn btn-primary', 'type'=>'button','onsubmit'=>'return requiredCheck(this);'));
+                    ?>
+                            
+                                   <?php
+                                        echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+                                            $this->createUrl('admin'), 
+                                                array('class'=>'btn btn-danger',
+                                                        'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;',
+                                                    ));
+                                   ?>                          
+                         <?php
+                            echo CHtml::link(Yii::t('mds','{icon} Pengaturan Jadwal Dokter',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));
+                           ?>
+                           <?php
+                            $content = $this->renderPartial('../tips/tipsaddeditjadwal',array(),true);
+                            $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
+                        ?>
+                            
+                
+        <table>
         <tr>
             <td colspan="4"><div id='inputForm'></div></td>
         </tr>
 
     </table>
+                       
 </div>
 <?php $this->endWidget(); ?>
 

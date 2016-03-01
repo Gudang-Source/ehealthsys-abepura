@@ -20,8 +20,8 @@ Simpan
   <tr>
     <td>4. </td>
     <td>Gunakan tombol ini <div class="btn btn-danger">
-      <i class="icon-ban-circle icon-white"></i>
-      Batal
+      <i class="icon-refresh icon-white"></i>
+      Ulang
       </div> berfungsi untuk kembali.</td>
   </tr>
 </table>
