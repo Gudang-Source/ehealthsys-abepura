@@ -5,6 +5,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 //	'filter'=>$model,
         'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-condensed',
+        'pageSizeInput'=>false,
 	'columns'=>array(
 				array(
                                     'name'=>'Tgl. Pendaftaran<br/>No. Pendaftaran',
