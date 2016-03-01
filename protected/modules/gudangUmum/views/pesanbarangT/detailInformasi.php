@@ -73,15 +73,15 @@
 			<table width="100%">
 				<tr>
 					<td width="35%" align="center">
-						<div>Mengetahui<br>Ka. Instalasi Farmasi</div>
-						<div style="margin-top:60px;"><?php echo isset($modPesan->pegpemesan_id) ? $modPesan->pegawaipemesan->NamaLengkap : "" ?></div>
+						<div>Mengetahui<br>Ka. Gudang Umum </div>
+						<div style="margin-top:60px;"><?php echo isset($modPesan->pegmengetahui_id) ? $modPesan->pegawaimengetahui->NamaLengkap : "" ?></div>
 					</td>
 					<td width="35%" align="center">
 					</td>
 					<td width="35%" align="center">
 						<div>Dibuat Oleh :</div>
-						<div style="margin-top:60px;"><?php echo isset($modPesan->pegmengetahui_id) ? $modPesan->pegawaimengetahui->NamaLengkap : "" ?></div>
-						<div>(Petugas Gudang Farmasi)</div>
+						<div style="margin-top:60px;"><?php echo isset($modPesan->pegpemesan_id) ? $modPesan->pegawaipemesan->NamaLengkap : "" ?></div>
+						<div>(Petugas Gudang Umum)</div>
 					</td>
 				</tr>
 			</table>
