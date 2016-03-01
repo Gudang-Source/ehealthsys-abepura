@@ -358,7 +358,7 @@ class MutasibrgTController extends MyAuthController {
             $model->tgl_awal = $format->formatDateTimeForDb($model->tgl_awal);
             $model->tgl_akhir = $format->formatDateTimeForDb($model->tgl_akhir);
             if($model->ruangantujuan_id == ""){
-                $model->ruangantujuan_id = Yii::app()->user->getState('ruangan_id');
+                //$model->ruangantujuan_id = Yii::app()->user->getState('ruangan_id');
             }
         }
 
