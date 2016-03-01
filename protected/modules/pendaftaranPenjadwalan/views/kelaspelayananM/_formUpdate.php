@@ -18,12 +18,12 @@
             </tr>
             <tr>
                 <td>
-                    <?php echo $form->textFieldRow($model,'kelaspelayanan_nama',array('class'=>'span3', 'onkeyup'=>"namaLain(this)", 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+                    <?php echo $form->textFieldRow($model,'kelaspelayanan_nama',array('class'=>'span3', 'onkeyup'=>"namaLain(this)", 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>25)); ?>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <?php echo $form->textFieldRow($model,'kelaspelayanan_namalainnya',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+                    <?php echo $form->textFieldRow($model,'kelaspelayanan_namalainnya',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>25)); ?>
                 </td>
             </tr>
             <tr>
@@ -53,7 +53,7 @@
                 echo CHtml::dropDownList(
                 'ruangan_id[]',
                 $arrRuangan,
-                CHtml::listData(PPRuanganM::model()->findAll(array('order'=>'ruangan_nama')), 'ruangan_id', 'ruangan_nama'),
+                CHtml::listData(PPRuanganM::model()->findAll("ruangan_aktif = TRUE ORDER BY ruangan_nama"), 'ruangan_id', 'ruangan_nama'),
                 array('multiple'=>'multiple','key'=>'ruangan_id', 'class'=>'multiselect','style'=>'width:500px;height:150px')
                         );
           ?>
@@ -71,7 +71,7 @@
                         <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Kelas Pelayanan', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
                             $this->createUrl('/pendaftaranPenjadwalan/kelaspelayananM/Admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
                         <?php
-                            $content = $this->renderPartial('../tips/tipsaddedit2b',array(),true);
+                            $content = $this->renderPartial('../tips/tipsaddedit',array(),true);
                             $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
                         ?>
     
