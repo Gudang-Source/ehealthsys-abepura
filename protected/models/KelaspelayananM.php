@@ -135,7 +135,7 @@ class KelaspelayananM extends CActiveRecord
         
         public function getJenisKelasItems()
         {
-            return JeniskelasM::model()->findAll(array('order'=>'jeniskelas_nama'));
+            return JeniskelasM::model()->findAll("jeniskelas_aktif = TRUE ORDER BY jeniskelas_nama");
         }
         
         public function getItems(){

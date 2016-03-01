@@ -57,7 +57,7 @@
 				<?php echo $form->textField($model,'[1]kelurahan_namalainnya',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=> $model->getAttributeLabel('kelurahan_namalainnya'))); ?>
 			</td>
 			<td>
-				<?php echo $form->textField($model,'[1]kode_pos',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=> $model->getAttributeLabel('kode_pos'))); ?>
+				<?php echo $form->textField($model,'[1]kode_pos',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)", 'maxlength'=>15, 'placeholder'=> $model->getAttributeLabel('kode_pos'))); ?>
 			</td>
 			<td>
 				<?php echo CHtml::button( '+', array('class'=>'btn btn-primary','onkeypress'=>"addRow(this);return $(this).focusNextInputField(event);",'onclick'=>'addRow(this);$(this).focusNextInputField()','id'=>'row1-plus')); ?>

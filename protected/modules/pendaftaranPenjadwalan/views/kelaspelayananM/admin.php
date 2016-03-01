@@ -44,7 +44,7 @@ echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class
 		array(
 			'name'=>'jeniskelas_id',
 			//'type'=>'raw',
-			'filter'=>  CHtml::listData($model->getJeniskelasItems(), 'jeniskelas_id', 'jeniskelas_nama'),
+			'filter'=> CHtml::dropDownList('PPKelaspelayananM[jeniskelas_id]',$model->jeniskelas_id,CHtml::listData($model->getJeniskelasItems(), 'jeniskelas_id', 'jeniskelas_nama'), array('empty'=>'--Pilih--')),
 			'value'=>'$data->jeniskelas->jeniskelas_nama',
 		),
 		'kelaspelayanan_nama',

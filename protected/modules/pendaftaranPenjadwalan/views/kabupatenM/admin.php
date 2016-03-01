@@ -52,7 +52,7 @@ echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class
                 array(
                     'name'=>'propinsi_id',
                     'value'=>'$data->propinsi->propinsi_nama',
-                    'filter'=>  CHtml::listData($model->getPropinsiItems(), 'propinsi_id', 'propinsi_nama'),
+                    'filter'=> CHtml::dropDownList('PPKabupatenM[propinsi_id]',$model->propinsi_id,CHtml::listData($model->getPropinsiItems(), 'propinsi_id', 'propinsi_nama'),array('empty'=>'--Pilih--')),
                 ),
                 array(
                   'name'=>'kabupaten_nama',

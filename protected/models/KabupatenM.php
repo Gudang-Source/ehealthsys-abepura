@@ -143,7 +143,7 @@ class KabupatenM extends CActiveRecord
          */
         public function getKabupatenItemsProp($propId)
         {
-            return $this->findAllByAttributes(array('propinsi_id'=>$propId),array('order'=>'kabupaten_nama'));
+            return $this->findAllByAttributes(array('propinsi_id'=>$propId, 'kabupaten_aktif'=>TRUE),array('order'=>'kabupaten_nama'));
         }
         
         /**
@@ -152,7 +152,7 @@ class KabupatenM extends CActiveRecord
          */
         public function getKabupatenItems()
         {
-            return $this->findAll(array('order'=>'kabupaten_nama'));
+            return $this->findAll("kabupaten_aktif = TRUE ORDER BY kabupaten_nama");
         }
        
 }

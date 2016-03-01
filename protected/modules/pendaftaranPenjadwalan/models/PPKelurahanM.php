@@ -40,10 +40,10 @@ class PPKelurahanM extends KelurahanM {
 		$criteria->compare('kecamatan_id',$this->kecamatan_id);
 		$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
 		$criteria->compare('LOWER(kelurahan_namalainnya)',strtolower($this->kelurahan_namalainnya),true);
-		$criteria->compare('LOWER(kode_pos)',strtolower($this->kode_pos),true);
-		$criteria->order = 'kelurahan_id';
-		$criteria->with=array('kecamatan');
+		$criteria->compare('LOWER(kode_pos)',strtolower($this->kode_pos),true);		
+		//$criteria->with=array('kecamatan');
 		$criteria->compare('kelurahan_aktif',isset($this->kelurahan_aktif)?$this->kelurahan_aktif:true);
+                $criteria->order = 'kelurahan_id';
 		$criteria->limit=-1; 
 
 		return new CActiveDataProvider($this, array(
