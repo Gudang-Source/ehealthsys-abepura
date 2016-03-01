@@ -1,7 +1,7 @@
 <?php
-Yii::import('gudangUmum.controllers.PemakaianbarangTController');
+Yii::import('gudangUmum.controllers.MutasibrgTController');
 Yii::import('gudangUmum.models.*');
-class PemakaianbarangTPPController extends PemakaianbarangTController
+class MutasibrgTPPController extends MutasibrgTController
 {
         
 }
