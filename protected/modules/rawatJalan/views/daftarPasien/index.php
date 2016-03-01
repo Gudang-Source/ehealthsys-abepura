@@ -477,3 +477,15 @@ JS;
     ?>
     <iframe name='frameStatusDokumen' width="100%" height="100%"></iframe>
     <?php $this->endWidget(); ?>
+
+<script>
+ubahSummaryEnd = function(obj) {
+    var grid_id = $(obj).parent().parent().attr("id");
+    //console.log(grid_id);
+    //console.log($('#RJInfokunjunganrjV_items, #daftarPasien-form :input').serialize());
+    $.fn.yiiGridView.update(grid_id, {
+            data : $('#RJInfokunjunganrjV_items, #caripasien-form :input').serialize()
+    });
+    return false;
+} 
+</script>
