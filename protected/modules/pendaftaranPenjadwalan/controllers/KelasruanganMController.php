@@ -38,7 +38,13 @@ class KelasruanganMController extends MyAuthController
                    
                     $transaction = Yii::app()->db->beginTransaction();
                             try {
-                                    $jumlahRuangan=COUNT($_POST['kelaspelayanan_id']);
+                                    
+                                    if (isset($_POST['kelaspelayanan_id'])):
+                                        $jumlahRuangan=COUNT($_POST['kelaspelayanan_id']);                                    
+                                    else:    
+                                        $jumlahRuangan = 0;                                    
+                                    endif;
+                                    
                                     $ruangan_id=$_POST['PPKelasruanganM']['ruangan_id'];
                                     $hapuskelasRuangan=KelasruanganM::model()->deleteAll('ruangan_id='.$ruangan_id.'');
                                     for($i=0; $i<=$jumlahRuangan-1; $i++)
@@ -83,7 +89,12 @@ class KelasruanganMController extends MyAuthController
 		{       
                    $transaction = Yii::app()->db->beginTransaction();
                             try {
-                                    $jumlahRuangan=COUNT($_POST['kelaspelayanan_id']);
+                                    if (isset($_POST['kelaspelayanan_id'])):
+                                        $jumlahRuangan=COUNT($_POST['kelaspelayanan_id']);                                    
+                                    else:    
+                                        $jumlahRuangan = 0;                                    
+                                    endif;
+                                    
                                     $ruangan_id=$_POST['PPRuanganM']['ruangan_id'];
                                     $hapuskelasRuangan=KelasruanganM::model()->deleteAll('ruangan_id='.$ruangan_id.''); 
                                     for($i=0; $i<=$jumlahRuangan; $i++)
@@ -195,6 +206,7 @@ class KelasruanganMController extends MyAuthController
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
                 //SAKabupatenM::model()->updateByPk($id, array('kabupaten_aktif'=>false));
                 //$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+                      
 	}
         
         public function actionPrint()

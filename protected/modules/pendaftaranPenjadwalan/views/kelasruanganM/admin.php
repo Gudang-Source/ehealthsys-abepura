@@ -54,7 +54,7 @@ echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class
                      'header'=>'Kelas Pelayanan ',
                      'type'=>'raw',
                      'value'=>'$this->grid->getOwner()->renderPartial(\'_kelaspelayanan\',array(\'ruangan_id\'=>$data->ruangan_id),true)',
-                 ), 
+                 ),                   		 
 		array(
                         'header'=>Yii::t('zii','View'),
 			'class'=>'bootstrap.widgets.BootButtonColumn',
@@ -74,7 +74,7 @@ echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class
                                 'options'=>array('rel'=>'tooltip','title'=>'Ubah Kelas Ruangan'),
                             ),
                          ),
-		),
+		),                
 		array(
                         'header'=>Yii::t('zii','Delete'),
 			'class'=>'bootstrap.widgets.BootButtonColumn',

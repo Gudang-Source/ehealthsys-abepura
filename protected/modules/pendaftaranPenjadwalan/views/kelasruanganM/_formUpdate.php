@@ -10,8 +10,17 @@
 	<p class="help-block"><?php echo Yii::t('mds','Fields with <span class="required">*</span> are required.') ?></p>
 
 	<?php echo $form->errorSummary($model); ?>
-
-            <?php echo $form->dropDownListRow($model,'ruangan_id',  CHtml::listData($model->getRuanganItems(), 'ruangan_id', 'ruangan_nama'),array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);",'empty'=>'-- Pilih --')); ?>
+            <table width = "100%">
+                <tr>
+                    <td><?php echo $form->dropDownListRow($model,'ruangan_id',  CHtml::listData($model->getRuanganItems(), 'ruangan_id', 'ruangan_nama'),array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);",'empty'=>'-- Pilih --')); ?></td>
+                </tr>
+                <tr>
+                <td>
+                    <?php //echo $form->checkBoxRow($model,'ruangan_aktif', array('onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+                </td>
+                </tr>
+            </table>
+            
         
         <div class="control-group">
     <div class="controls">
@@ -29,7 +38,7 @@
                 echo CHtml::dropDownList(
                 'kelaspelayanan_id[]',
                 $arrKelasPelayanan,
-                CHtml::listData(PPKelaspelayananM::model()->findAll(array('order'=>'kelaspelayanan_nama')), 'kelaspelayanan_id', 'kelaspelayanan_nama'),
+                CHtml::listData(PPKelaspelayananM::model()->findAll("kelaspelayanan_aktif = TRUE ORDER BY kelaspelayanan_nama"), 'kelaspelayanan_id', 'kelaspelayanan_nama'),
                 array('multiple'=>'multiple','key'=>'kelaspelayanan_id', 'class'=>'multiselect','style'=>'width:500px;height:150px')
                         );
           ?>
@@ -47,7 +56,7 @@
                         <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Kelas Ruangan', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
                             $this->createUrl('/pendaftaranPenjadwalan/kelasruanganM/Admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
                         <?php
-                            $content = $this->renderPartial('../tips/tipsaddedit2b',array(),true);
+                            $content = $this->renderPartial('../tips/tipsaddedit',array(),true);
                             $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
                         ?>
    

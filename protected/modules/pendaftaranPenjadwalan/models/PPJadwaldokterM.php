@@ -52,7 +52,7 @@ class PPJadwaldokterM extends JadwaldokterM
 		$criteria->compare('LOWER(update_loginpemakai_id)',strtolower($this->update_loginpemakai_id),true);
 		$criteria->compare('LOWER(create_ruangan)',strtolower($this->create_ruangan),true);
 		$criteria->join='JOIN pegawai_m ON t.pegawai_id = pegawai_m.pegawai_id'; 
-		$criteria->order="nama_pegawai ASC";
+		//$criteria->order="nama_pegawai ASC";
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
