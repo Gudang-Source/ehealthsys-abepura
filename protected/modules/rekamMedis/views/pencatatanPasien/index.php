@@ -43,6 +43,10 @@
                         echo CHtml::link(Yii::t('mds', '{icon} Print Kartu Pasien', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"printKartuPasien('$modPasien->pasien_id');return false",'disabled'=>FALSE  )).'&nbsp;';
                     }
                 ?>
+                <?php
+                            $content = $this->renderPartial('rekamMedis.views.tips.transaksi2',array(),true);
+                            $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
+                        ?>
 
                 <?php 
                 //$content = $this->renderPartial($this->path_view.'tips/tipsPendaftaranRawatJalan',array(),true);
