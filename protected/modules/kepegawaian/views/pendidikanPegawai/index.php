@@ -211,6 +211,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
         $('#' + id_span).on('click', function () {
             $('#' + id).datepicker('show');
         });
+        $(".datemask").mask("99/99/9999");
     }
     function renameInputpendidikanpegawai1() {
         nourut = 1;
