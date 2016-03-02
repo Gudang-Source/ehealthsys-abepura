@@ -21,7 +21,10 @@
             return false;
     });
     ");
-
+    if (isset($_GET['sukses'])):
+        Yii::app()->user->setFlash('success','<strong>Berhasil</strong>Data Berhasil disimpan');
+    endif;
+    
     $this->widget('bootstrap.widgets.BootAlert'); ?>
 
     <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-accordion icon-white"></i>')),'#',array('class'=>'search-button btn')); ?>
@@ -45,9 +48,9 @@
             ),
                     array(
                             'header'=>'Jenis Kasus Penyakit',
-                            'name'=>'jeniskasuspenyakit_nama',
+                            'name'=>'jeniskasuspenyakit_id',
                             'value'=>'$data->jeniskasuspenyakit->jeniskasuspenyakit_nama',
-							'filter'=> CHtml::activeDropDownList($model, 'jeniskasuspenyakit_id', CHtml::listData(SAJenisKasusPenyakitM::model()->getItems(),'jeniskasuspenyakit_id','jeniskasuspenyakit_nama'),array('empty'=>'')),
+			    'filter'=> CHtml::activeDropDownList($model, 'jeniskasuspenyakit_id', CHtml::listData(SAJenisKasusPenyakitM::model()->getItems(),'jeniskasuspenyakit_id','jeniskasuspenyakit_nama'),array('empty'=>'--Pilih--')),
                             'htmlOptions'=>array(
                                     'style'=>'border-left:solid 1px #DDDDDD',
                             ),
