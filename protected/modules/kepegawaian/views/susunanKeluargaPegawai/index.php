@@ -168,7 +168,7 @@ $this->widget('bootstrap.widgets.BootAlert');
                          'maxDate' => 'd',
                         'yearRange'=> "-150:+0",
                         ),
-                        'htmlOptions'=>array('placeholder'=>'00/00/0000','class'=>'dtPicker2 datemask', 'onkeyup'=>"return $(this).focusNextInputField(event)", 'readonly'=>true
+                        'htmlOptions'=>array('placeholder'=>'00/00/0000','class'=>'dtPicker2 datemask', 'onkeyup'=>"return $(this).focusNextInputField(event)"
                         ),
                         )); ?>
                     </td>
@@ -278,6 +278,7 @@ function registerDateJs(id,id_span){
     {'timeOnlyTitle':'Pilih Waktu',
     'changeYear':true,'changeMonth':true,'showAnim':'fold','yearRange':'-80y:+20y'}));
     $('#'+id_span).on('click', function(){$('#'+id).datepicker('show');});
+    $(".datemask").mask("99/99/9999");
 }
 
 function Pengorganisasidata()
