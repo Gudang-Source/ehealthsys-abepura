@@ -57,12 +57,13 @@ class KelurahanMController extends MyAuthController
 
                         if ($valid) {
                             $trans->commit();
-                            Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                            
+                            $this->redirect(array('admin', 'sukses'=>1));
                         } else {
                             $trans->rollback();
                             Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data tidak valid.');
                         }
-                        $this->redirect(array('admin'));
+                        
 		}
 
 		$this->render($this->path_view.'create',array(
@@ -89,7 +90,7 @@ class KelurahanMController extends MyAuthController
                                                 $model->kelurahan_aktif = $_POST['SAKelurahanM']['kelurahan_aktif'];
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->kelurahan_id));
+				$this->redirect(array('admin','id'=>$model->kelurahan_id, 'sukses'=>1));
                         }
 		}
 

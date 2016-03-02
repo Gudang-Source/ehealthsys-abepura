@@ -104,7 +104,7 @@ class KasuspenyakitruanganM extends CActiveRecord
 		$criteria->compare('LOWER(jeniskasuspenyakit.jeniskasuspenyakit_namalainnya)',strtolower($this->jeniskasuspenyakit_namalainnya),true);
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
+			'criteria'=>$criteria,                       
 		));
 	}
         
@@ -130,6 +130,14 @@ class KasuspenyakitruanganM extends CActiveRecord
 		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+                         'sort' => array(
+                            'attributes' => array(
+                                'jeniskasuspenyakit_nama' => array(
+                                    'asc' => 'jeniskasuspenyakit.jeniskasuspenyakit_nama',
+                                    'desc' => 'jeniskasuspenyakit.jeniskasuspenyakit_nama DESC'
+                                )
+                            )
+                        )
 		));
 	}
         
