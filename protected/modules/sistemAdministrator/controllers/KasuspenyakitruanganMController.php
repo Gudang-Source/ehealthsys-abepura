@@ -48,7 +48,7 @@ class KasuspenyakitruanganMController extends MyAuthController
 				if ($jumlah == count($_POST['jeniskasuspenyakit_id'])){
 					$transaction->commit();
 					Yii::app()->user->setFlash('success','<strong>Berhasil</strong>Data Berhasil disimpan');
-					$this->redirect(array('admin'));
+					$this->redirect(array('admin','sukses'=>1));
 				}
 				else{
 					$transaction->rollback();
@@ -99,7 +99,7 @@ class KasuspenyakitruanganMController extends MyAuthController
 				if ($jumlah == count($_POST['jeniskasuspenyakit_id'])){
 					$transaction->commit();
 					Yii::app()->user->setFlash('success','<strong>Berhasil</strong>Data Berhasil disimpan');
-					$this->redirect(array('admin'));
+					$this->redirect(array('admin','sukses'=>1));
 				}
 				else{
 					$transaction->rollback();
