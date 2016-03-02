@@ -40,7 +40,7 @@ class TindakanRMController extends MyAuthController
 			$model->tindakanrm_aktif=true;
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->tindakanrm_id));
+				$this->redirect(array('admin','id'=>$model->tindakanrm_id, 'sukses'=>1));
                         }
 		}
 
@@ -68,7 +68,7 @@ class TindakanRMController extends MyAuthController
 			$model->attributes=$_POST['RMTindakanrmM'];
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->tindakanrm_id));
+				$this->redirect(array('admin','id'=>$model->tindakanrm_id,'sukses'=>1));
                         }
 		}
 

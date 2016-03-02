@@ -57,7 +57,7 @@
                     ),
                     array(
                             'header'=>'Nama Lain Kasus',
-                            'name'=>'jeniskasuspenyakit_id',
+                            'name'=>'jeniskasuspenyakit_nama',
                             'value'=>'$data->jeniskasuspenyakit->jeniskasuspenyakit_namalainnya',
                     ),
                     array(
