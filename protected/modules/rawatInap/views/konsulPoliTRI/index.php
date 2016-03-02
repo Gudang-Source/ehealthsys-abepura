@@ -47,10 +47,10 @@ $this->widget('bootstrap.widgets.BootAlert');
                 </div>
             </td>
             <td>
-                <?php echo $form->dropDownListRow($modKonsul,'ruangan_id', CHtml::listData($modKonsul->getRuanganInstalasiItems($modPendaftaran->instalasi_id,true), 'ruangan_id', 'ruangan_nama'),
+                <?php echo $form->dropDownListRow($modKonsul,'ruangan_id', CHtml::listData($modKonsul->getRuanganInstalasiItems(Params::INSTALASI_ID_RJ,true), 'ruangan_id', 'ruangan_nama'),
                                                     array('empty'=>'-- Pilih --','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);",'onchange'=>'setTarif()')); ?>
                 <?php echo $form->dropDownListRow($modKonsul,'pegawai_id', CHtml::listData($modKonsul->getDokterItems(), 'pegawai_id', 'NamaLengkap'),
-                                                    array('empty'=>'-- Pilih --','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                                                    array('empty'=>'-- Pilih --','class'=>'span3 dokter-konsul', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
             </td>
             <td>
                 <?php //echo $form->dropDownListRow($modKonsul,'asalpoliklinikkonsul_id', CHtml::listData($modKonsul->getRuanganInstalasiItems(''), 'ruangan_id', 'ruangan_nama'),
@@ -174,6 +174,7 @@ function setTarif(){
     var kelaspelayanan_id = '<?php echo $modPendaftaran->kelaspelayanan_id; ?>';
     $.post('<?php echo $this->createUrl('ajaxSetTarif') ?>', {ruangan_id:ruangan_id,penjamin_id:penjamin_id,kelaspelayanan_id:kelaspelayanan_id}, function(data){
         $('#tarif_poliklinik').html(data.result);
+        $('.dokter-konsul').html(data.dokter);
 	hitungTotalTarif();
     }, 'json');
 }
