@@ -101,11 +101,11 @@ $this->widget('bootstrap.widgets.BootAlert');
                         )); ?>
                     </td>
                     <td>
-                        <?php echo $form->dropDownList($detail,'['.$i.']pekerjaan_nama',CHtml::listData(PekerjaanM::model()->findAll(), 'pekerjaan_nama', 'pekerjaan_nama'),array('class'=>'span1', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+                        <?php echo $form->dropDownList($detail,'['.$i.']pekerjaan_nama',CHtml::listData(PekerjaanM::model()->findAll('pekerjaan_aktif = true'), 'pekerjaan_nama', 'pekerjaan_nama'),array('class'=>'span1', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
 
                     </td>
                     <td>
-                        <?php echo $form->dropDownList($detail,'['.$i.']pendidikan_nama',CHtml::listData(PendidikanM::model()->findAll(), 'pendidikan_nama', 'pendidikan_nama'),array('class'=>'span1', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+                        <?php echo $form->dropDownList($detail,'['.$i.']pendidikan_nama',CHtml::listData(PendidikanM::model()->findAll('pendidikan_aktif = true'), 'pendidikan_nama', 'pendidikan_nama'),array('class'=>'span1', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
                     </td>
                     <td>
                         <?php
@@ -168,15 +168,15 @@ $this->widget('bootstrap.widgets.BootAlert');
                          'maxDate' => 'd',
                         'yearRange'=> "-150:+0",
                         ),
-                        'htmlOptions'=>array('placeholder'=>'00/00/0000','class'=>'dtPicker2 datemask', 'onkeyup'=>"return $(this).focusNextInputField(event)"
+                        'htmlOptions'=>array('placeholder'=>'00/00/0000','class'=>'dtPicker2 datemask', 'onkeyup'=>"return $(this).focusNextInputField(event)", 'readonly'=>true
                         ),
                         )); ?>
                     </td>
                     <td>
-                        <?php echo $form->dropDownList($modSusunanKeluarga,'['.$x.']pekerjaan_nama',CHtml::listData(PekerjaanM::model()->findAll(), 'pekerjaan_nama', 'pekerjaan_nama'),array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+                        <?php echo $form->dropDownList($modSusunanKeluarga,'['.$x.']pekerjaan_nama',CHtml::listData(PekerjaanM::model()->findAll('pekerjaan_aktif = true'), 'pekerjaan_nama', 'pekerjaan_nama'),array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
                     </td>
                     <td>
-                        <?php echo $form->dropDownList($modSusunanKeluarga,'['.$x.']pendidikan_nama',CHtml::listData(PendidikanM::model()->findAll(), 'pendidikan_nama', 'pendidikan_nama'),array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+                        <?php echo $form->dropDownList($modSusunanKeluarga,'['.$x.']pendidikan_nama',CHtml::listData(PendidikanM::model()->findAll('pendidikan_aktif = true'), 'pendidikan_nama', 'pendidikan_nama'),array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
 
                     </td>
                     <td>
