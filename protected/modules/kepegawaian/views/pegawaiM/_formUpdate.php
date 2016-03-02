@@ -362,7 +362,7 @@ BLOCK;
                            echo CHtml::dropDownList(
                            'ruangan_id[]',
                            $arrRuanganPegawai,
-                           CHtml::listData(KPRuanganM::model()->findAll(array('order'=>'ruangan_nama')), 'ruangan_id', 'ruangan_nama'),
+                           CHtml::listData(KPRuanganM::model()->findAll(array('order'=>'ruangan_nama', 'condition'=>'ruangan_aktif = true')), 'ruangan_id', 'ruangan_nama'),
                            array('multiple'=>'multiple','key'=>'ruangan_id', 'class'=>'multiselect','style'=>'width:500px;height:150px')
                                    );
                     ?>
