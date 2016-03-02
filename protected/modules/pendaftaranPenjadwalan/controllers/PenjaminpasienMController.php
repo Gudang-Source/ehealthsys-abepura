@@ -57,6 +57,7 @@ class PenjaminpasienMController extends MyAuthController
                                 if($valid) {
                                     $model->save();
                                         Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                                        $this->redirect(array('admin'));
                                 } else {
                                         Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data tidak valid.');
                                 }
@@ -64,7 +65,7 @@ class PenjaminpasienMController extends MyAuthController
                         }
                         
                         
-                        $this->redirect(array('admin'));
+                        
                       }   
 
 		$this->render('create',array(

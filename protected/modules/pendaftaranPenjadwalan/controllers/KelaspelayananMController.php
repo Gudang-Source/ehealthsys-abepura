@@ -267,31 +267,31 @@ class KelaspelayananMController extends MyAuthController
                 //PPKelaspelayananM::model()->updateByPk($id, array('kelaspelayanan_aktif'=>false));
                 //$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 //			
-			$id = $_POST['id'];   
-        if(isset($_POST['id']))
-        {
-           $update = KelaspelayananM::model()->updateByPk($id,array('kelaspelayanan_aktif'=>false));
-		   
-		   
-           if($update)
+            $id = $_POST['id'];   
+            if(isset($_POST['id']))
             {
-                if (Yii::app()->request->isAjaxRequest)
+               $update = KelaspelayananM::model()->updateByPk($id,array('kelaspelayanan_aktif'=>false));
+
+
+               if($update)
                 {
-                    echo CJSON::encode(array(
-                        'status'=>'proses_form', 
-                        ));
-                    exit;               
-                }
-             }
-        } else {
-                if (Yii::app()->request->isAjaxRequest)
-                {
-                    echo CJSON::encode(array(
-                        'status'=>'proses_form', 
-                        ));
-                    exit;               
-                }
-        }
+                    if (Yii::app()->request->isAjaxRequest)
+                    {
+                        echo CJSON::encode(array(
+                            'status'=>'proses_form', 
+                            ));
+                        exit;               
+                    }
+                 }
+            } else {
+                    if (Yii::app()->request->isAjaxRequest)
+                    {
+                        echo CJSON::encode(array(
+                            'status'=>'proses_form', 
+                            ));
+                        exit;               
+                    }
+            }
 	}
         
         public function actionPrint()

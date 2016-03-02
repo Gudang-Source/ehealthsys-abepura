@@ -37,7 +37,7 @@ class KelasruanganM extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('ruangan_id, kelaspelayanan_id', 'required'),
-                                                array('ruangan_id, kelaspelayanan_id', 'cekdata'),
+                        array('ruangan_id, kelaspelayanan_id', 'cekdata'),
 			array('ruangan_id, kelaspelayanan_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -145,12 +145,12 @@ class KelasruanganM extends CActiveRecord
         
           public function getRuanganItems()
                 {
-                    return RuanganM::model()->findAll(array('order'=>'ruangan_nama'));
+                    return RuanganM::model()->findAll("ruangan_aktif = TRUE ORDER BY ruangan_nama");
                 }
                 
            public function getKelasPelayananItems()
                 {
-                    return KelaspelayananM::model()->findAll(array('order'=>'kelaspelayanan_nama'));
+                    return KelaspelayananM::model()->findAll("kelaspelayanan_aktif = TRUE ORDERBY kelaspelayanan_nama");
                 }      
                 
 //                public function primaryKey() {

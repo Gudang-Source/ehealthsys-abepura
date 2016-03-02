@@ -249,18 +249,20 @@ class PenjualanDariResepturController extends PenjualanResepRSController
 			$otherdata = array();
             $ruangan_id = Yii::app()->user->getState('ruangan_id');
             $modStokOAs = StokobatalkesT::getStokObatAlkesAktif($obatalkes_id, $jumlah, $ruangan_id);
-            if(count($modStokOAs) > 0){
+            $oa = ObatalkesM::model()->findByPk($obatalkes_id);
+            $otherdata = array();
+            //if(count($modStokOAs) > 0){
 
-                foreach($modStokOAs AS $i => $stok){
-                    $modObatAlkesPasien->sumberdana_id = (isset($stok->penerimaandetail->sumberdana_id) ? $stok->penerimaandetail->sumberdana_id : $stok->obatalkes->sumberdana_id);
-                    $modObatAlkesPasien->obatalkes_id = $stok->obatalkes_id;
-                    $modObatAlkesPasien->qty_oa = $stok->qtystok_terpakai;
-                    $modObatAlkesPasien->harganetto_oa = $stok->HPP;
-                    $modObatAlkesPasien->hargasatuan_oa = $stok->HargaJualSatuan;
-                    $modObatAlkesPasien->jmlstok = $stok->qtystok;
+                //foreach($modStokOAs AS $i => $stok){
+                    $modObatAlkesPasien->sumberdana_id = $oa->sumberdana_id; //(isset($stok->penerimaandetail->sumberdana_id) ? $stok->penerimaandetail->sumberdana_id : $stok->obatalkes->sumberdana_id);
+                    $modObatAlkesPasien->obatalkes_id = $oa->obatalkes_id; //$stok->obatalkes_id;
+                    $modObatAlkesPasien->qty_oa = $jumlah; //$stok->qtystok_terpakai;
+                    $modObatAlkesPasien->harganetto_oa = $oa->harganetto; //$stok->HPP;
+                    $modObatAlkesPasien->hargasatuan_oa = $oa->hargajual; //$stok->HargaJualSatuan;
+                    $modObatAlkesPasien->jmlstok = 0; //$stok->qtystok;
                     $modObatAlkesPasien->r = 'R/';
                     $modObatAlkesPasien->hargajual_oa = $modObatAlkesPasien->qty_oa * $modObatAlkesPasien->hargasatuan_oa;
-                    $modObatAlkesPasien->stokobatalkes_id = $stok->stokobatalkes_id;
+                    $modObatAlkesPasien->stokobatalkes_id = null; //$stok->stokobatalkes_id;
                     $modObatAlkesPasien->biayaservice = 0;
                     $modObatAlkesPasien->biayakonseling = 0;
                     $modObatAlkesPasien->jasadokterresep = 0;
@@ -273,12 +275,12 @@ class PenjualanDariResepturController extends PenjualanResepRSController
                     $modObatAlkesPasien->subsidirs = 0;
                     $modObatAlkesPasien->iurbiaya = $modObatAlkesPasien->qty_oa * $modObatAlkesPasien->hargasatuan_oa;
 					$modObatAlkesPasien->therapiobat_id = $therapiobat_id;
-					$otherdata['stok'] = $stok->qtystok;
-					$otherdata['stokobatalkes_id'] = $stok->stokobatalkes_id;
-                }
-            }else{
-                $pesan = "Stok tidak mencukupi!";
-            }
+					//$otherdata['stok'] = $stok->qtystok;
+					//$otherdata['stokobatalkes_id'] = $stok->stokobatalkes_id;
+                //}
+            //}else{
+            //    $pesan = "Stok tidak mencukupi!";
+            //}
             
             echo CJSON::encode(array('modObatAlkesPasien'=>$modObatAlkesPasien, 'pesan'=>$pesan,'otherdata'=>$otherdata));
             Yii::app()->end(); 
