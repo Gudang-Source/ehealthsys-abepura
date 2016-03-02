@@ -29,7 +29,7 @@
                                                         'onSelect'=>'js:function(){setLamaKerja(this);}',
                                                         'yearRange'=> "-150:+0",
                                                     ),
-                                                    'htmlOptions'=>array('placeholder'=>'00/00/0000','class'=>'dtPicker2 datemask', 'onkeyup'=>"return $(this).focusNextInputField(event)"
+                                                    'htmlOptions'=>array('placeholder'=>'00/00/0000','class'=>'dtPicker2 datemask', 'onkeyup'=>"return $(this).focusNextInputField(event)", 'onblur'=>'setLamaKerja(this);'
                                                     ),
                             )); ?>
                         </td>
@@ -46,7 +46,7 @@
                                                         // 'maxDate' => 'd',
                                                         'yearRange'=> "-150:+0",
                                                     ),
-                                                    'htmlOptions'=>array('placeholder'=>'00/00/0000','class'=>'dtPicker2 datemask', 'onkeyup'=>"return $(this).focusNextInputField(event)"
+                                                    'htmlOptions'=>array('placeholder'=>'00/00/0000','class'=>'dtPicker2 datemask', 'onkeyup'=>"return $(this).focusNextInputField(event)", 'onblur'=>'setLamaKerja(this);'
                                                     ),
                             )); ?>
                         </td>
