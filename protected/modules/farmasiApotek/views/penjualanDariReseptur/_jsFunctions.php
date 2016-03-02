@@ -241,7 +241,7 @@ function pilihObatalkes(obatalkes_id,obatalkes_nama,stok,hargajual,harganetto,ob
 			$("#"+tindakan_untuk).parents('tr').find('input[name$="[sumberdana_id]"]').val(sumberdana_id);
 			$("#"+tindakan_untuk).parents('tr').find('span[name$="[sumberdana_nama]"]').html(sumberdana_nama);
 			$("#"+tindakan_untuk).parents('tr').find('input[name$="[satuankecil_id]"]').val(satuankecil_id);
-			$("#"+tindakan_untuk).parents('tr').find('span[name$="[satuankecil_nama]"]').html(satuankecil_nama);
+			$("#"+tindakan_untuk).parents('tr').find('span.satuan').html(satuankecil_nama);
 			$("#"+tindakan_untuk).parents('tr').find('input[name$="[iter]"]').val(1);
 			$("#"+tindakan_untuk).parents('tr').find('input[name$="[stokobatalkes_id]"]').val(data.otherdata.stokobatalkes_id);
 			if(baru==1){

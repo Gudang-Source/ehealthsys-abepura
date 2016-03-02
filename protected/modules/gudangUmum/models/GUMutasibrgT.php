@@ -33,7 +33,7 @@ class GUMutasibrgT extends MutasibrgT {
 		if(!empty($this->pegmengetahui_id)){
 			$criteria->addCondition("pegmengetahui_id = ".$this->pegmengetahui_id);			
 		}
-		if(!empty($this->ruangantujuan_id)){
+		if(!empty($this->ruangantujuan_id) && trim($this->ruangantujuan_id) != ""){
 			$criteria->addCondition("ruangantujuan_id = ".$this->ruangantujuan_id);			
 		}
         $criteria->compare('LOWER(create_time)', strtolower($this->create_time), true);

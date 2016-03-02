@@ -19,20 +19,20 @@
 			)); ?>
 		</td>
 		<td>
-			<?php echo CHtml::activeTextField($modResepturDetail, '[ii]qty_reseptur',array('readonly'=>true,'style'=>'width:50px;')); //,'onblur'=>'hitungSubTotal(this)'?>
+			<?php echo CHtml::activeTextField($modResepturDetail, '[ii]qty_reseptur',array('readonly'=>true,'style'=>'width:50px; text-align: right;')); //,'onblur'=>'hitungSubTotal(this)'?><span class="satuan"></span>
 		</td>
 		<td>
-			<?php echo CHtml::activeTextField($modResepturDetail, '[ii]qty_dilayani',array('readonly'=>false,'style'=>'width:50px;','value'=>$modResepturDetail->qty_reseptur,'onblur'=>'hitungSubTotal(this);')); ?>
+			<?php echo CHtml::activeTextField($modResepturDetail, '[ii]qty_dilayani',array('readonly'=>false,'style'=>'width:50px; text-align: right;','value'=>$modResepturDetail->qty_reseptur,'onblur'=>'hitungSubTotal(this);')); ?><span class="satuan"></span>
 		</td>
 		<td>
 			<span name="[ii][sumberdana_nama]"><?php echo (!empty($modResepturDetail->sumberdana_id) ? $modResepturDetail->obatalkes->sumberdana->sumberdana_nama : "") ?></span>
 			<?php echo CHtml::activeHiddenField($modResepturDetail, '[ii]sumberdana_id',array('readonly'=>true,'style'=>'width:110px;')); ?>
 		</td>
-		<td>
+		<td hidden>
 			<span name="[ii][satuankecil_nama]"><?php echo (!empty($modResepturDetail->obatalkes->satuankecil_id) ? $modResepturDetail->obatalkes->satuankecil->satuankecil_nama : "") ?></span>
 			<?php echo CHtml::activeHiddenField($modResepturDetail, '[ii]satuankecil_id',array('readonly'=>true,'style'=>'width:110px;')); ?>
 		</td>
-		<td>
+		<td hidden>
 			<?php echo CHtml::activeTextField($modResepturDetail, '[ii]jmlstok',array('readonly'=>true,'style'=>'width:50px;','class'=>'integer')); ?>
 		</td>
 		<td>
