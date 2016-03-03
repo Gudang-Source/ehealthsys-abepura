@@ -13,7 +13,7 @@
         <table width="100%">
             <tr>
                 <td>
-                    <?php echo $form->textFieldRow($model,'warnanomorrm_angka',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                    <?php echo $form->textFieldRow($model,'warnanomorrm_angka',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);" , 'maxlength'=>5)); ?>
                 </td>
             </tr>
             <tr>

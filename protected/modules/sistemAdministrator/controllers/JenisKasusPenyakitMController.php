@@ -71,21 +71,19 @@ class JenisKasusPenyakitMController extends MyAuthController
 		
 
 		if(isset($_POST['SAJenisKasusPenyakitM']))
-		{       $valid = true;
-                       
+		{
 			$transaction = Yii::app()->db->beginTransaction();
                             try {
-                                   // $model = new SAJenisKasusPenyakitM;
+                                    $model = new SAJenisKasusPenyakitM;
                                     $model->attributes=$_POST['SAJenisKasusPenyakitM'];
                                     $model->jeniskasuspenyakit_aktif=TRUE;
                                     
-                                    $jumlahRuangan= isset($_POST['ruangan_id'])?COUNT($_POST['ruangan_id']):0;
+                                   $jumlahRuangan= isset($_POST['ruangan_id'])?COUNT($_POST['ruangan_id']):0;
                                    // $jenisKasusPenyakit_id=$model->jeniskasuspenyakit_id;
                                    // $hapusKasusPenyakitRuangan=KasuspenyakitruanganM::model()->deleteAll('jeniskasuspenyakit_id='.$jenisKasusPenyakit_id.''); 
-                                     $valid=$model->validate() && $valid;
-                                     if($valid)
-                                     {
-                                         $model->save(); 
+                                    
+                                    if($model->save()){
+
                                         if($jumlahRuangan>0)
                                            {
                                                $dataRuangan = $_POST['ruangan_id'];
@@ -98,13 +96,10 @@ class JenisKasusPenyakitMController extends MyAuthController
                                                        $modKasusPenyakitRuangan->jeniskasuspenyakit_id=$model->jeniskasuspenyakit_id;
                                                        $modKasusPenyakitRuangan->save();
                                                    }
-                                           }        
-                                           
-                                           
+                                           }                                             
                                            Yii::app()->user->setFlash('success', "Data Ruangan Dan Jenis Kasus Penyakit Berhasil Disimpan");
                                             $transaction->commit();
-                                           
-                                            $this->redirect(array('admin'));
+                                            $this->redirect(array('admin', 'sukses'=>1));
                                     }
                                         
                                 }   
@@ -157,7 +152,7 @@ class JenisKasusPenyakitMController extends MyAuthController
                                     if($model->save()){                                        
                                         $transaction->commit();
                                         Yii::app()->user->setFlash('success', "Data Ruangan Dan Jenis Kasus Penyakit Berhasil Disimpan");
-                                        $this->redirect(array('admin','id'=>$model->jeniskasuspenyakit_id));
+                                        $this->redirect(array('admin', 'sukses'=>1));
                                     } 
                                 }   
                             catch (Exception $e)

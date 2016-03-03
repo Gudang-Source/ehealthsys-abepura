@@ -12,7 +12,7 @@
 
 	<?php echo $form->errorSummary($model); ?>
 
-            <?php echo $form->textFieldRow($model,'warnanomorrm_angka',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+            <?php echo $form->textFieldRow($model,'warnanomorrm_angka',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>5)); ?>
             <?php echo $form->textFieldRow($model,'warnanomorrm_warna',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>20)); ?>
             <?php echo $form->textFieldRow($model,'warnanomorrm_kodewarna',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>20)); ?>
             <?php //echo $form->checkBoxRow($model,'warnanomorrm_aktif', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>

@@ -13,6 +13,7 @@
             ?>
             <?php echo $form->textFieldRow($model,'namaperujuk',array('class'=>'span3','maxlength'=>100)); ?>
             <?php echo $form->textFieldRow($model,'spesialis',array('class'=>'span3','maxlength'=>50)); ?>
+            <?php echo $form->textFieldRow($model,'ppkrujukan',array('class'=>'span3', 'maxlength'=>50)); ?>
         </td>
         <td>
             <?php echo $form->textAreaRow($model,'alamatlengkap',array('rows'=>5, 'cols'=>30, 'class'=>'span3')); ?>

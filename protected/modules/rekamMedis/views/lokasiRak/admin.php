@@ -1,8 +1,8 @@
 <div class="white-container">
     <legend class="rim2">Pengaturan <b>Lokasi Rak</b></legend>
-    <?php $this->renderPartial('_tabMenu',array()); ?>
-    <div class="biru">
-        <div class="white">
+    <?php //$this->renderPartial('_tabMenu',array()); ?>
+    <!--<div class="biru">
+        <div class="white">-->
             <?php
             $this->breadcrumbs=array(
                     'Rmlokasi Raks'=>array('index'),
@@ -105,8 +105,8 @@
                     }',
                 )); ?>
             <!--</div>-->
-        </div>
-    </div>
+        <!--</div>
+    </div>-->
     <?php 
     echo CHtml::link(Yii::t('mds', '{icon} Tambah Lokasi Rak', array('{icon}'=>'<i class="icon-plus icon-white"></i>')), $this->createUrl('lokasiRak/create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp";
     echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
@@ -131,12 +131,12 @@ function print(caraPrint)
 JSCRIPT;
     Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);                        
     ?>
-</div>
+<!--</div>-->
 <script type="text/javascript">
-    function removeTemporary(id){
+     function removeTemporary(id){
         var url = '<?php echo $url."/removeTemporary"; ?>';
-        var answer = confirm('Yakin akan menonaktifkan data ini untuk sementara?');
-            if (answer){
+        myConfirm("Yakin akan menonaktifkan data ini untuk sementara?","Perhatian!",function(r) {
+            if (r){
                  $.post(url, {id: id},
                      function(data){
                         if(data.status == 'proses_form'){
@@ -146,13 +146,14 @@ JSCRIPT;
                             }
                 },"json");
            }
+       });
     }
     
     function deleteRecord(id){
         var id = id;
         var url = '<?php echo $url."/delete"; ?>';
-        var answer = confirm('Yakin Akan Menghapus Data ini ?');
-            if (answer){
+        myConfirm("Yakin Akan Menghapus Data ini ?","Perhatian!",function(r) {
+            if (r){
                  $.post(url, {id: id},
                      function(data){
                         if(data.status == 'proses_form'){
@@ -162,6 +163,7 @@ JSCRIPT;
                             }
                 },"json");
            }
+       });
     }
     
     $(document).ready(function(){
