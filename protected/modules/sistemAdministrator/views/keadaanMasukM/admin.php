@@ -1,3 +1,5 @@
+<fieldset class="box">
+    <legend class="rim">Pengaturan Keadaan Masuk</legend>
 <?php
 $this->breadcrumbs=array(
 		'Rdkeadaan Masuk Ms'=>array('index'),
@@ -192,3 +194,4 @@ JSCRIPT;
         $('input[name="SAKeadaanMasukM[lookup_name]"]').focus();
     })
 </script>
+</fieldset>
