@@ -47,7 +47,7 @@ echo CHtml::css('.control-label{
         <label class='control-label'><?php echo CHtml::encode($modPasien->getAttributeLabel('tanggal_lahir')); ?>:</label>
     </td>
     <td>
-        <?php echo CHtml::encode($modPasien->tanggal_lahir); ?>
+        <?php echo CHtml::encode(MyFormatter::formatDateTimeForUser($modPasien->tanggal_lahir)); ?>
     </td>
     <td width="5%">
     </td>
@@ -94,7 +94,7 @@ echo CHtml::css('.control-label{
     ?>
         <tr>
             <td><?php echo $modNoPenunjang['no_masukpenunjang'] ?></td>
-            <td><?php echo $detail['tglhasilpemeriksaanlab'] ?></td>
+            <td><?php echo MyFormatter::formatDateTimeForUser($detail['tglhasilpemeriksaanlab']); ?></td>
             <td><?php echo $datadetail->pemeriksaanlab->daftartindakan->daftartindakan_nama ?></td>
             <td><?php echo $datadetail['hasilpemeriksaan'] ?></td>
             <td><?php echo $datadetail->nilairujukan ?></td>
