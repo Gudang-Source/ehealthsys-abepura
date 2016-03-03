@@ -219,6 +219,7 @@ function registerDateJs(id,id_span){
     {'timeOnlyTitle':'Pilih Waktu',
     'changeYear':true,'changeMonth':true,'showAnim':'fold','yearRange':'-80y:+20y'}));
     $('#'+id_span).on('click', function(){$('#'+id).datepicker('show');});
+    $(".datemask").mask("99/99/9999");
 }
 function Pengorganisasidata()
 {

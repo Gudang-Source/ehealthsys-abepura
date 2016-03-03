@@ -64,16 +64,18 @@ class DiklatPegawaiController extends MyAuthController
             $tr = '';
             foreach ($modPegawaidiklat as $row)
             {
+                $dt = MyFormatter::formatDateTimeForUser(date('Y-m-d', strtotime(MyFormatter::formatDateTimeForDb($row->pegawaidiklat_tahun))));
+                $ds = MyFormatter::formatDateTimeForUser(date('Y-m-d', strtotime(MyFormatter::formatDateTimeForDb($row->tglditetapkandiklat))));
                 $urlDelete = $this->createUrl('deletePegawaidiklat',array('pegawaidiklat_id'=>$row->pegawaidiklat_id,'pegawai_id'=>$pegawai_id));
                 $tr .= '<tr>';
                     $tr .= '<td>'.$i.' </td>';
                     $tr .= '<td>'.$row->jenisdiklat->jenisdiklat_nama.'</td>';
                     $tr .= '<td>'.$row->pegawaidiklat_nama.'</td>';
-                    $tr .= '<td>'.$row->pegawaidiklat_tahun.'</td>';
+                    $tr .= '<td>'.$dt.'</td>';
                     $tr .= '<td>'.$row->pegawaidiklat_lamanya.'</td>';
                     $tr .= '<td>'.$row->pegawaidiklat_tempat.'</td>';
                     $tr .= '<td>'.$row->nomorkeputusandiklat.'</td>';
-                    $tr .= '<td>'.$row->tglditetapkandiklat.'</td>';
+                    $tr .= '<td>'.$ds.'</td>';
                     $tr .= '<td>'.$row->pejabatygmemdiklat.'</td>';
                     $tr .= '<td>'.$row->pegawaidiklat_keterangan.'</td>';
                     $tr .= '<td>'.CHtml::link('<i class="icon-form-sampah"></i>',$urlDelete,array('onclick'=>'hapus(this); return false')).'</td>';
