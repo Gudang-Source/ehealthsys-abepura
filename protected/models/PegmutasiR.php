@@ -157,7 +157,7 @@ class PegmutasiR extends CActiveRecord
         }
         
         public function getJabatanItems() {
-            return JabatanM::model()->findAll();
+            return JabatanM::model()->findAll('jabatan_aktif = true order by jabatan_nama');
         }
         
         public function getPangkatItems() {
