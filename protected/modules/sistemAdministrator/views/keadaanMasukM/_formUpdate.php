@@ -16,7 +16,7 @@
     </tr>
     <tr>
         <td>
-            <?php echo $form->textFieldRow($model,'lookup_urutan',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+            <?php echo $form->textFieldRow($model,'lookup_urutan',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10)); ?>
         </td>
     </tr>
     <tr>
