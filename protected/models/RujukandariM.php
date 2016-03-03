@@ -96,6 +96,7 @@ class RujukandariM extends CActiveRecord
 		$criteria->compare('LOWER(spesialis)',strtolower($this->spesialis),true);
 		$criteria->compare('LOWER(alamatlengkap)',strtolower($this->alamatlengkap),true);
 		$criteria->compare('LOWER(notelp)',strtolower($this->notelp),true);
+                $criteria->compare('LOWER(ppkrujukan)',strtolower($this->ppkrujukan),true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

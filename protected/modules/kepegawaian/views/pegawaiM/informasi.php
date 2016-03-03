@@ -13,7 +13,7 @@
                 $('.search-form').toggle();
                 return false;
         });
-        $('.search-form form').submit(function(){
+        $('#sapegawai-m-search').submit(function(){
                 $.fn.yiiGridView.update('sapegawai-m-grid', {
                         data: $(this).serialize()
                 });
@@ -70,7 +70,7 @@
                     ),
                     array(
                             'header'=>'Tempat, Tanggal Lahir',
-                            'value'=>'$data->tempatlahir_pegawai." , ".$data->tgl_lahirpegawai'
+                            'value'=>'$data->tempatlahir_pegawai." , ".MyFormatter::formatDateTimeForUser($data->tgl_lahirpegawai)'
 
                     ),
                     array(

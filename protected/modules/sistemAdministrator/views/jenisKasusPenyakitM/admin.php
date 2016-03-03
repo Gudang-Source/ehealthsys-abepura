@@ -25,10 +25,13 @@
             return false;
     });
     ");
-
-    $this->widget('bootstrap.widgets.BootAlert');      
-    ?>
     
+    if (isset($_GET['sukses'])):
+        Yii::app()->user->setFlash('success', "Data Ruangan Dan Jenis Kasus Penyakit Berhasil Disimpan");
+    endif;
+    
+    $this->widget('bootstrap.widgets.BootAlert');  ?>     
+  
     <?php echo CHtml::link(Yii::t('mds','{icon} Pencarian Lanjut',array('{icon}'=>'<i class="icon-accordion icon-white"></i>')),'#',array('class'=>'search-button btn')); ?>
     <div class="cari-lanjut2 search-form" style="display:none">
         <?php $this->renderPartial($this->path_view.'_search',array(

@@ -70,7 +70,7 @@ class PrestasiKerjaPegawaiController extends MyAuthController
             {
                 $urlDelete = $this->createUrl('deletePrestasi',array('id'=>$row->prestasikerja_id,'pegawai_id'=>$pegawai));
                 $tr .= '<tr>';
-                $tr .= '<td>'.$i.' </td>';
+                $tr .= '<td hidden>'.$i.' </td>';
                 $tr .= '<td>'.$row->nourutprestasi.'</td>';
                 $tr .= '<td>'.  MyFormatter::formatDateTimeForUser($row->tglprestasidiperoleh).'</td>';
                 $tr .= '<td>'.$row->instansipemberi.'</td>';

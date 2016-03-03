@@ -47,7 +47,7 @@ class TindakanrmM extends CActiveRecord
 			array('tindakanrm_aktif', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('tindakanrm_id, jenistindakanrm_id, daftartindakan_id, tindakanrm_nama, tindakanrm_namalainnya, tindakanrm_aktif', 'safe', 'on'=>'search'),
+			array('tindakanrm_id, jenistindakanrm_id, daftartindakan_id, daftartindakan_nama, tindakanrm_nama, tindakanrm_namalainnya, tindakanrm_aktif', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -103,7 +103,15 @@ class TindakanrmM extends CActiveRecord
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-		));
+                        'sort'=>array(
+                            'attributes'=>array(
+                                'daftartindakan_nama'=>array(
+                                    'asc'=>'daftartindakan.daftartindakan_nama',
+                                    'desc'=>'daftartindakan.daftartindakan_nama DESC',
+                                ),
+                                '*',
+                            ),
+		)));
 	}
         
         

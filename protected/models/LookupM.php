@@ -45,6 +45,9 @@ class LookupM extends CActiveRecord
 			array('lookup_type', 'length', 'max'=>100),
 			array('lookup_name, lookup_value', 'length', 'max'=>200),
 			array('lookup_kode', 'length', 'max'=>50),
+                        array('lookup_urutan', 'length', 'max'=>10),
+                        array('lookup_urutan', 'compare', 'operator'=>'<=', 'compareValue'=>2147483647),
+                        array('lookup_urutan', 'compare', 'operator'=>'>=', 'compareValue'=>-2147483648),
 			array('lookup_aktif', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.

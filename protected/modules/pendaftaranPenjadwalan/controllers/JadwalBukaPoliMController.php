@@ -37,7 +37,7 @@ class JadwalBukaPoliMController extends MyAuthController
 			$model->attributes=$_POST['PPJadwalBukaPoliM'];
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->jadwalbukapoli_id));
+				$this->redirect(array('admin','id'=>$model->jadwalbukapoli_id,'sukses'=>1));
                         }
 		}
 
@@ -64,7 +64,7 @@ class JadwalBukaPoliMController extends MyAuthController
 			$model->attributes=$_POST['PPJadwalBukaPoliM'];
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->jadwalbukapoli_id));
+				$this->redirect(array('admin','id'=>$model->jadwalbukapoli_id,'sukses'=>1));
                         }
 		}
 

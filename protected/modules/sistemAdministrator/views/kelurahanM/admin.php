@@ -25,7 +25,10 @@
             return false;
     });
     ");
-
+    if(isset($_GET['sukses'])):
+        Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+    endif;
+    
     $this->widget('bootstrap.widgets.BootAlert'); ?>
     <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-accordion icon-white"></i>')),'#',array('class'=>'search-button btn')); ?>
     <div class="cari-lanjut search-form" style="display:none">
@@ -49,7 +52,7 @@
                     ),
                     array(
                             'name'=>'kecamatan_id',
-                            'filter'=>  CHtml::listData($model->getKecamatanItems(), 'kecamatan_id', 'kecamatan_nama'),
+                            'filter'=> CHtml::dropDownList('SAKelurahanM[kecamatan_id]',$model->kecamatan_id,CHtml::listData($model->getKecamatanItems(), 'kecamatan_id', 'kecamatan_nama'),array('empty'=>'--Pilih--')),
                             'value'=>'$data->kecamatan->kecamatan_nama',
                     ),
                     'kelurahan_nama',
