@@ -31,7 +31,7 @@ echo CHtml::css('.control-label{
         <label class='control-label'><?php echo CHtml::encode($modPasien->getAttributeLabel('nama_pasien')); ?>:</label>
     </td>
     <td>
-        <?php echo CHtml::encode($modPasien->nama_pasien); ?>
+        <?php echo CHtml::encode($modPasien->namadepan.$modPasien->nama_pasien); ?>
     </td>
     <td width="5%">
     </td>
