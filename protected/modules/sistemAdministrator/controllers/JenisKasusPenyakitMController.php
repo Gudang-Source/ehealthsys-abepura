@@ -97,7 +97,7 @@ class JenisKasusPenyakitMController extends MyAuthController
                                                        $modKasusPenyakitRuangan->save();
                                                    }
                                            }                                             
-                                           Yii::app()->user->setFlash('success', "Data Ruangan Dan Jenis Kasus Penyakit Berhasil Disimpan");
+                                            Yii::app()->user->setFlash('success', "Data Ruangan Dan Jenis Kasus Penyakit Berhasil Disimpan");
                                             $transaction->commit();
                                             $this->redirect(array('admin', 'sukses'=>1));
                                     }
