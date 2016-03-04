@@ -552,6 +552,10 @@ function setFormObatReseptur(){
 
 function cekObat(){
     if(requiredCheck($("form"))){
+        if ($("#FAPenjualanResepT_pegawai_id").val() == "") {
+            alert("Dokter harus diisi");
+            return false;
+        }
         var jumlah_obat = $('#table-obatalkespasien tbody tr').length;
         if(jumlah_obat <= 0){
                 myAlert('Isikan obat alkes terlebih dahulu.');

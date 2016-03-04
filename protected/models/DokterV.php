@@ -167,6 +167,13 @@ class DokterV extends CActiveRecord
 		));
 	}
         
+        public function searchDokterResep() {
+            $p = $this->search();
+            $p->criteria->select = $p->criteria->group = "pegawai_id, gelardepan, nama_pegawai, gelarbelakang_nama, jeniskelamin, nomorindukpegawai";
+            $p->sort->defaultOrder = 'nama_pegawai';
+            return $p;
+        }
+        
         
         public function searchPrint()
         {
