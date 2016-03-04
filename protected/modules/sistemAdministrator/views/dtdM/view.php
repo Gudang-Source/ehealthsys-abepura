@@ -1,3 +1,5 @@
+<fieldset class="box row-fluid">
+    <legend class="rim">Lihat DTD</legend>
 <?php
 //$this->breadcrumbs=array(
 //	'Sadtd Ms'=>array('index'),
@@ -37,6 +39,6 @@
                 ),
 	),
 )); ?>
-
+<?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan DTD', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('dtdMRD/Admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')).'&nbsp;';?>
 <?php $this->widget('UserTips',array('type'=>'view'));?>
-<?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan DTD', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('dtdM/Admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
+</fieldset>

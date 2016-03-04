@@ -1,3 +1,5 @@
+<fieldset class="box row-fluid">
+    <legend class="rim">Pengaturan Klasifikasi Diagnosa</legend>
 <?php
 $this->breadcrumbs=array(
 	'Saklasifikasidiagnosa Ms'=>array('index'),
@@ -44,13 +46,14 @@ $('.search-form form').submit(function(){
 		),
 		'klasifikasidiagnosa_kode',
 		'klasifikasidiagnosa_nama',
-		'klasifikasidiagnosa_namalain',
-		array(
-			'name'=>'klasifikasidiagnosa_aktif',
-			'value'=>'($data->klasifikasidiagnosa_aktif) ? "Aktif" : "Non-aktif"',
-			'filter'=>array(true=>'Aktif',false=>'Non-aktif'),
-		),
+		'klasifikasidiagnosa_namalain',		
 		'klasifikasidiagnosa_desc',
+                array(
+                        'header' => 'Status',
+			//'name'=>'klasifikasidiagnosa_aktif',
+			'value'=>'($data->klasifikasidiagnosa_aktif) ? "Aktif" : "Tidak Aktif"',
+			//'filter'=>array(true=>'Aktif',false=>'Non-aktif'),
+		),
 		array(
 			'header'=>Yii::t('zii','View'),
 			'class'=>'bootstrap.widgets.BootButtonColumn',
@@ -71,14 +74,22 @@ $('.search-form form').submit(function(){
 			'header'=>Yii::t('zii','Delete'),
 			'class'=>'bootstrap.widgets.BootButtonColumn',
                         'htmlOptions'=>array('style'=>'width:80px;'),
-			'template'=>'{remove} {delete}',
+			'template'=>'{remove} {add} {delete}',
 			'buttons'=>array(
 				'remove' => array (
-						'label'=>"<i class='icon-form-silang'></i>",
-						'options'=>array('title'=>Yii::t('mds','Remove Temporary')),
-						'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/nonActive",array("id"=>$data->klasifikasidiagnosa_id))',
-						'click'=>'function(){nonActive(this);return false;}',
-				),
+                                    'label'=>"<i class='icon-form-silang'></i>",
+                                    'options'=>array('rel' => 'tooltip' , 'title'=> 'Menonaktifkan DTD'),
+                                    'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/nonActive",array("id"=>"$data->klasifikasidiagnosa_id"))',
+                                    'visible'=>'($data->klasifikasidiagnosa_aktif) ? TRUE : FALSE',
+                                    'click'=>'function(){ nonActive(this); return false;}',
+                                ),
+                                'add' => array (
+                                        'label'=>"<i class='icon-form-check'></i>",
+                                        'options'=>array('rel' => 'tooltip' , 'title'=> 'Mengaktifkan DTD'),
+                                        'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/nonActive",array("id"=>"$data->klasifikasidiagnosa_id", "add"=>1))',
+                                        'visible'=>'($data->klasifikasidiagnosa_aktif) ? FALSE : TRUE',
+                                        'click'=>'function(){ active(this, 1); return false;}',
+                                ),
 				'delete'=> array(),
 			)
 		),
@@ -113,28 +124,50 @@ function print(caraPrint)
 JSCRIPT;
 Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);    
 ?>
-<script type="text/javascript">	
-	function nonActive(obj){
-		myConfirm("Yakin akan menonaktifkan data ini untuk sementara?","Perhatian!",
-			function(r){
-				if(r){ 
-					$.ajax({
-						type:'GET',
-						url:obj.href,
-						data: {},//
-						dataType: "json",
-						success:function(data){
-							$.fn.yiiGridView.update('saklasifikasidiagnosa-m-grid');
-							if(data.sukses > 0){
-							}else{
-								myAlert('Data gagal dinonaktifkan!');
-							}
-						},
-						error: function (jqXHR, textStatus, errorThrown) { myAlert('Data gagal dinonaktifkan!'); console.log(errorThrown);}
-					});
-				}
-			}
-		);
-		return false;
-	}
+<script type="text/javascript">
+    function nonActive(obj){
+        var url = $(obj).attr('href');
+        myConfirm("Yakin akan menonaktifkan data ini untuk sementara?","Perhatian!",function(r) {
+            if (r){
+                 $.ajax({
+                    type:'GET',
+                    url:url,
+                    data: {},
+                    dataType: "json",
+                    success:function(data){
+                        if(data.status == 'proses_form'){
+                            $.fn.yiiGridView.update('saklasifikasidiagnosa-m-grid');
+                        }else{
+                            myAlert('Data Gagal di Nonaktifkan.')
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
+                });
+           }
+       });
+    }
+    
+    function active(obj, add){
+        var url = $(obj).attr('href')+$(add).attr('href');
+        myConfirm("Yakin akan mengaktifkan data ini untuk sementara?","Perhatian!",function(r) {
+            if (r){
+                 $.ajax({
+                    type:'GET',
+                    url:url,
+                    data: {},
+                    dataType: "json",
+                    success:function(data){
+                        if(data.status == 'proses_form'){
+                            $.fn.yiiGridView.update('saklasifikasidiagnosa-m-grid');
+                        }else{
+                            myAlert('Data Gagal di Aktifkan.')
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
+                });
+           }
+       });
+    }
+       
 </script>
+</fieldset>

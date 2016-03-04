@@ -167,7 +167,12 @@ class TabularListMController extends MyAuthController
                     $id = $_POST['id'];   
                     if(isset($_POST['id']))
                     {
-                       $update = SATabularListM::model()->updateByPk($id,array('tabularlist_aktif'=>false));
+                       if (isset($_POST['add'])):
+                           $update = SATabularListM::model()->updateByPk($id,array('tabularlist_aktif'=>true));
+                       else:    
+                           $update = SATabularListM::model()->updateByPk($id,array('tabularlist_aktif'=>false));                       
+                       endif;
+                       
                        if($update)
                         {
                             if (Yii::app()->request->isAjaxRequest)
@@ -188,7 +193,7 @@ class TabularListMController extends MyAuthController
                             }
                     }
 
-                }
+                }                                
         
         
         public function actionPrint()

@@ -1,3 +1,5 @@
+<fieldset class="box row-fluid">
+    <legend class="rim">Pengaturan DTD</legend>
 <?php
 $this->breadcrumbs=array(
 	'Sadtd Ms'=>array('index'),
@@ -99,7 +101,7 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
 		array(
                         'header'=>Yii::t('zii','Delete'),
 			'class'=>'bootstrap.widgets.BootButtonColumn',
-                        'template'=>'{remove} {delete}',
+                        'template'=>'{remove} {add} {delete}',
                         'buttons'=>array(
                             'remove' => array (
                                     'label'=>"<i class='icon-form-silang'></i>",
@@ -107,6 +109,13 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                                     'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/removeTemporary",array("id"=>"$data->dtd_id"))',
                                     'visible'=>'($data->dtd_aktif) ? TRUE : FALSE',
                                     'click'=>'function(){ removeTemporary(this); return false;}',
+                            ),
+                            'add' => array (
+                                    'label'=>"<i class='icon-form-check'></i>",
+                                    'options'=>array('rel' => 'tooltip' , 'title'=> 'Mengaktifkan DTD'),
+                                    'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/removeTemporary",array("id"=>"$data->dtd_id", "add"=>1))',
+                                    'visible'=>'($data->dtd_aktif) ? FALSE : TRUE',
+                                    'click'=>'function(){ addTemporary(this, 1); return false;}',
                             ),
                             'delete'=> array(
 //                                    'visible'=>'Yii::app()->controller->checkAccess(array("action"=>Params::DEFAULT_DELETE))',
@@ -168,8 +177,31 @@ Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);
            }
        });
     }
+    
+    function addTemporary(obj, add){
+        var url = $(obj).attr('href')+$(add).attr('href');
+        myConfirm("Yakin akan mengaktifkan data ini untuk sementara?","Perhatian!",function(r) {
+            if (r){
+                 $.ajax({
+                    type:'GET',
+                    url:url,
+                    data: {},
+                    dataType: "json",
+                    success:function(data){
+                        if(data.status == 'proses_form'){
+                            $.fn.yiiGridView.update('sadtd-m-grid');
+                        }else{
+                            myAlert('Data Gagal di Aktifkan.')
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
+                });
+           }
+       });
+    }
+    
     $(document).ready(function(){
         $('input[name="SADtdM[dtd_noterperinci]"]').focus();
     });
 </script>
-<br/><br/><br/><br/><br/>
+</fieldset>

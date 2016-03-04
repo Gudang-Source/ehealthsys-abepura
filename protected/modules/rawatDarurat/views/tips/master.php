@@ -3,19 +3,19 @@
 <table border="0" style="padding :none;">
   <tr>
     <td>1. </td>
-    <td>Icon <i class="icon-eye-open"></i> untuk melihat data lebih rinci.</td>
+    <td>Icon <i class="icon-form-lihat"></i> untuk melihat data lebih rinci.</td>
   </tr>
   <tr>
     <td>2. </td>
-    <td>Icon <i class="icon-pencil"></i> untuk mengubah data.</td>
+    <td>Icon <i class="icon-form-ubah"></i> untuk mengubah data.</td>
   </tr>
   <tr>
     <td>3. </td>
-    <td>Icon <i class="icon-remove"></i> untuk menonaktifkan data.</td>
+    <td>Icon <i class="icon-form-silang"></i> untuk menonaktifkan data.</td>
   </tr>
   <tr>
     <td>4. </td>
-    <td>Icon <i class="icon-trash"></i> untuk menghapus data.</td>
+    <td>Icon <i class="icon-form-sampah"></i> untuk menghapus data.</td>
   </tr>
    <tr>
     <td>5. </td>

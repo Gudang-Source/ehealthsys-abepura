@@ -13,7 +13,7 @@
         <table width="100%">
             <tr>
                 <td>
-                     <?php echo $form->textFieldRow($model,'dtd_noterperinci',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+                     <?php echo $form->textFieldRow($model,'dtd_noterperinci',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>400)); ?>
                      <div class="control-group">
                       <?php echo $form->labelEx($model,'tabularlist_id',array('class'=>'control-label required')); ?>
                          <div class="controls inline">

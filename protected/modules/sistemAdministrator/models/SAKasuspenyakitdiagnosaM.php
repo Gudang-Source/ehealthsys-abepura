@@ -45,7 +45,7 @@ class SAKasuspenyakitdiagnosaM extends KasuspenyakitdiagnosaM
                                     'diagnosa_id' => 'Diagnosa',
                                     'diagnosa_nourut'=>'No. Urut',
                                     'diagnosa_kode'=>'Kode',
-                                    'diagnosa_nama'=>'Nama',
+                                    'diagnosa_nama'=>'Diagnosa Nama',
                                     'diagnosa_namalainnya'=>'Nama Lain',
                                     'diagnosa_katakunci'=>'Kata Kunci',
 		);
@@ -79,5 +79,7 @@ class SAKasuspenyakitdiagnosaM extends KasuspenyakitdiagnosaM
 			'criteria'=>$criteria,
 		));
 	}
+        
+        
 
 }

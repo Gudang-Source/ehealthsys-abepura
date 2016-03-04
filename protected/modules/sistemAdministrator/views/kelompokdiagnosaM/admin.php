@@ -1,3 +1,5 @@
+<fieldset class="box row-fluid">
+    <legend class="rim">Pengaturan Kelompok Diagnosa</legend>
 <?php
 $this->breadcrumbs=array(
 	'Sakelompok Diagnosa Ms'=>array('index'),
@@ -101,10 +103,16 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
 //                                        ),
 //                        )
 //		),
-		array(
+		/*array(
             'header'=>'Hapus',
             'type'=>'raw',
             'value'=>'($data->kelompokdiagnosa_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->kelompokdiagnosa_id)",array("id"=>"$data->kelompokdiagnosa_id","rel"=>"tooltip","title"=>"Menonaktifkan Kelompok Diagnosa"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->kelompokdiagnosa_id)",array("id"=>"$data->kelompokdiagnosa_id","rel"=>"tooltip","title"=>"Hapus Kelompok Diagnosa")):CHtml::link("<i class=\'icon-trash\'></i> ", "javascript:deleteRecord($data->kelompokdiagnosa_id)",array("id"=>"$data->kelompokdiagnosa_id","rel"=>"tooltip","title"=>"Hapus Kelompok Diagnosa"));',
+            'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
+        ),*/
+            array(
+            'header'=>'Hapus',
+            'type'=>'raw',
+            'value'=>'($data->kelompokdiagnosa_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->kelompokdiagnosa_id)",array("id"=>"$data->kelompokdiagnosa_id","rel"=>"tooltip","title"=>"Menonaktifkan Tabular List"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->kelompokdiagnosa_id)",array("id"=>"$data->kelompokdiagnosa_id","rel"=>"tooltip","title"=>"Hapus Tabular List")):CHtml::link("<i class=\'icon-form-check\'></i> ","javascript:addTemporary($data->kelompokdiagnosa_id, 1)",array("id"=>"$data->kelompokdiagnosa_id","rel"=>"tooltip","title"=>"Aktifkan Tabular List"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->kelompokdiagnosa_id)",array("id"=>"$data->kelompokdiagnosa_id","rel"=>"tooltip","title"=>"Hapus Tabular List"));',
             'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
         ),
 	),
@@ -180,6 +188,22 @@ $url=  Yii::app()->createAbsoluteUrl($module.'/'.$controller);
        });
     }
     
+    function addTemporary(id, add){
+        var url = '<?php echo $url."/removeTemporary"; ?>';
+        myConfirm("Yakin akan mengaktifkan data ini untuk sementara?","Perhatian!",function(r) {
+            if (r){
+                 $.post(url, {id: id, add:add},
+                     function(data){
+                        if(data.status == 'proses_form'){
+                                $.fn.yiiGridView.update('sakelompok-diagnosa-m-grid');
+                            }else{
+                                myAlert('Data Gagal di Aktifkan.')
+                            }
+                },"json");
+           }
+       });
+    }
+    
     function deleteRecord(id){
         var id = id;
         var url = '<?php echo $url."/delete"; ?>';
@@ -200,4 +224,4 @@ $url=  Yii::app()->createAbsoluteUrl($module.'/'.$controller);
         $('input[name="SAKelompokDiagnosaM[kelompokdiagnosa_nama]"]').focus();
     });
 </script>
-<br /><br /><br /><br /><br /><br />
+</fieldset>
