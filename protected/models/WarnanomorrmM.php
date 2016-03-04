@@ -41,6 +41,9 @@ class WarnanomorrmM extends CActiveRecord
 			array('warnanomorrm_angka, warnanomorrm_warna', 'required'),
 			array('warnanomorrm_angka', 'numerical', 'integerOnly'=>true),
 			array('warnanomorrm_warna, warnanomorrm_kodewarna', 'length', 'max'=>20),
+                        array('warnanomorrm_angka','length','max'=>5),
+                        array('warnanomorrm_angka','compare','operator'=>'<=','compareValue'=>32767),
+                        array('warnanomorrm_angka','compare','operator'=>'>=','compareValue'=>0),
 			array('warnanomorrm_aktif', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.

@@ -1,8 +1,8 @@
 <div class="white-container">
     <legend class="rim2">Pengaturan <b>Warna Nomor</b></legend>
-    <?php $this->renderPartial('_tabMenu',array()); ?>
-    <div class="biru">
-        <div class="white">
+    <?php //$this->renderPartial('_tabMenu',array()); ?>
+    <!--<div class="biru">
+        <div class="white">-->
             <?php
             $this->breadcrumbs=array(
                     'Rmwarna Nomors'=>array('index'),
@@ -88,12 +88,12 @@
                                                     ),
                                      ),
                             ),
-                    array(
+                   array(
                         'header'=>'Hapus',
                         'type'=>'raw',
                         'value'=>'($data->warnanomorrm_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->warnanomorrm_id)",array("id"=>"$data->warnanomorrm_id","rel"=>"tooltip","title"=>"Menonaktifkan warna nomor"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->warnanomorrm_id)",array("id"=>"$data->warnanomorrm_id","rel"=>"tooltip","title"=>"Hapus warna nomor")):CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->warnanomorrm_id)",array("id"=>"$data->warnanomorrm_id","rel"=>"tooltip","title"=>"Hapus warna nomor"));',
                         'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
-                    ),
+                    ),                     
                     ),
                    'afterAjaxUpdate'=>'function(id, data){
                         jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
@@ -106,8 +106,8 @@
                     }',
                 )); ?>
             <!--</div>-->
-        </div>
-    </div>
+        <!--</div>
+    </div>-->
     <?php 
     echo CHtml::link(Yii::t('mds', '{icon} Tambah Warna Nomor', array('{icon}'=>'<i class="icon-plus icon-white"></i>')), $this->createUrl('warnaNomor/create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp";
     echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
@@ -136,8 +136,8 @@ JSCRIPT;
 <script type="text/javascript">
     function removeTemporary(id){
         var url = '<?php echo $url."/removeTemporary"; ?>';
-        var answer = confirm('Yakin akan menonaktifkan data ini untuk sementara?');
-            if (answer){
+        myConfirm("Yakin akan menonaktifkan data ini untuk sementara?","Perhatian!",function(r) {
+            if (r){
                  $.post(url, {id: id},
                      function(data){
                         if(data.status == 'proses_form'){
@@ -147,13 +147,14 @@ JSCRIPT;
                             }
                 },"json");
            }
+       });
     }
     
     function deleteRecord(id){
         var id = id;
         var url = '<?php echo $url."/delete"; ?>';
-        var answer = confirm('Yakin Akan Menghapus Data ini ?');
-            if (answer){
+        myConfirm("Yakin Akan Menghapus Data ini ?","Perhatian!",function(r) {
+            if (r){
                  $.post(url, {id: id},
                      function(data){
                         if(data.status == 'proses_form'){
@@ -163,7 +164,9 @@ JSCRIPT;
                             }
                 },"json");
            }
+       });
     }
+    
     $(document).ready(function(){
         $("input[name='RKWarnaNomor[warnanomorrm_angka]']").focus();
     });

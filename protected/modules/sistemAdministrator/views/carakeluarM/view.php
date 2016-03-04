@@ -1,12 +1,16 @@
-<?php if (!$this->isFrame): ?>
+<fieldset class="box">
+<?php if (!$this->isFrame) : ?>
+<legend class="rim2">Lihat Cara Keluar</legend>
+<?php else: ?>
+<legend class="rim">Lihat Cara Keluar</legend>
+<?php endif; ?>
 <?php
 $this->breadcrumbs=array(
 	'Carakeluar Ms'=>array('index'),
 	$model->carakeluar_id,
 );
 ?>
-<legend class="rim2">Lihat Cara Keluar</legend>
-<?php endif; ?>
+
 <?php $this->widget('bootstrap.widgets.BootAlert'); ?>
 <div class="row-fluid">
     <div class="span6">
@@ -39,3 +43,4 @@ $this->breadcrumbs=array(
     <?php $this->widget('UserTips',array('type'=>'view'));?>
     </div>
 </div>
+</fieldset>

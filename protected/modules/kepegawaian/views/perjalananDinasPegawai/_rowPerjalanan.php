@@ -23,11 +23,11 @@
                                 <?php echo $form->textArea($model,'['.$i.']alamattujuan',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30)); ?>
                             </td>
                             <td>
-                                <?php echo $form->dropDownList($model,'['.$i.']propinsi_nama',CHtml::listData(PropinsiM::model()->findAll(), 'propinsi_nama', 'propinsi_nama'),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+                                <?php echo $form->dropDownList($model,'['.$i.']propinsi_nama',CHtml::listData(PropinsiM::model()->findAll('propinsi_aktif = true'), 'propinsi_nama', 'propinsi_nama'),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --', 'onChange'=>'getKabupaten(this)')); ?>
                                 <?php //echo $form->textField($model,'['.$x.']propinsi_nama',array('class'=>'span1', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30)); ?>
                             </td>
                             <td>
-                                <?php echo $form->dropDownList($model,'['.$i.']kotakabupaten_nama',CHtml::listData(KabupatenM::model()->findAll(), 'kabupaten_nama', 'kabupaten_nama'),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+                                <?php echo $form->dropDownList($model,'['.$i.']kotakabupaten_nama',CHtml::listData(KabupatenM::model()->findAll('kabupaten_aktif = true'), 'kabupaten_nama', 'kabupaten_nama'),array('class'=>'span3 kabupaten', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
                                 <?php //echo $form->textField($model,'['.$x.']kotakabupaten_nama',array('class'=>'span1', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30)); ?>
                             </td>
                             <td>

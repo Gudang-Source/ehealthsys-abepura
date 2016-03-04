@@ -19,7 +19,9 @@
             return false;
     });
     ");
-
+    if (isset($_GET['sukses'])):
+        Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+    endif;
     $this->widget('bootstrap.widgets.BootAlert'); ?>
 
     <?php 

@@ -50,7 +50,8 @@ class InformasiRiwayatPasienController extends MyAuthController
         // }
         // $modRincian = LBRinciantagihanpasienpenunjangV::model()->findAllByAttributes(array('pendaftaran_id' => $id), array('order'=>'ruangan_id'));
             
-        $data['nama_pegawai'] = LoginpemakaiK::model()->findByPK(Yii::app()->user->id)->pegawai->nama_pegawai;
+        $lp = LoginpemakaiK::model()->findByPK(Yii::app()->user->id);
+        $data['nama_pegawai'] = empty($lp->pegawai_id)?"":LoginpemakaiK::model()->findByPK(Yii::app()->user->id)->pegawai->nama_pegawai;
         $this->render('laboratorium.views.informasiRiwayatPasien.rincian', array('modHasilPemeriksaan'=>$modHasilPemeriksaan, 'modPasien'=>$modPasien, 'data'=>$data));
     }
         

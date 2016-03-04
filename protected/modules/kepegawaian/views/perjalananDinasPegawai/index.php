@@ -151,10 +151,10 @@ $this->widget('bootstrap.widgets.BootAlert');
                         <?php echo $form->textArea($modPerjalananDinas,'['.$x.']alamattujuan',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);",  'rows'=>'3','col'=>'2')); ?>
                     </td>
                     <td>
-                        <?php echo $form->dropDownList($modPerjalananDinas,'['.$x.']propinsi_nama',CHtml::listData(PropinsiM::model()->findAll(), 'propinsi_nama', 'propinsi_nama'),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+                        <?php echo $form->dropDownList($modPerjalananDinas,'['.$x.']propinsi_nama',CHtml::listData(PropinsiM::model()->findAll(array('order'=>'propinsi_nama')), 'propinsi_nama', 'propinsi_nama'),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --', 'onchange'=>'getKabupaten(this)')); ?>
                     </td>
                     <td>
-                        <?php echo $form->dropDownList($modPerjalananDinas,'['.$x.']kotakabupaten_nama',CHtml::listData(KabupatenM::model()->findAll(), 'kabupaten_nama', 'kabupaten_nama'),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+                        <?php echo $form->dropDownList($modPerjalananDinas,'['.$x.']kotakabupaten_nama',CHtml::listData(KabupatenM::model()->findAll(array('order'=>'kabupaten_nama')), 'kabupaten_nama', 'kabupaten_nama'),array('class'=>'span3 kabupaten', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
                     </td>
                     <td>
                         <?php
@@ -273,6 +273,7 @@ function registerDateJs(id,id_span){
     {'timeOnlyTitle':'Pilih Waktu',
     'changeYear':true,'changeMonth':true,'showAnim':'fold','yearRange':'-80y:+20y'}));
     $('#'+id_span).on('click', function(){$('#'+id).datepicker('show');});
+    $(".datemask").mask("99/99/9999");
 }
 
 function Pengorganisasidata()
@@ -313,6 +314,14 @@ function hapus(obj){
         }
     }); 
     
+}
+
+function getKabupaten(obj) {
+    $.post("<?php echo Yii::app()->createUrl('actionDynamic/getKabupatendrNamaPropinsi', array('attr'=>'propinsi_nama')); ?>", {
+        propinsi_nama: $(obj).val(),
+    }, function(data) {
+        $(obj).parents('tr').find('.kabupaten').html(data);
+    });
 }
 
 $(document).ready(function(){

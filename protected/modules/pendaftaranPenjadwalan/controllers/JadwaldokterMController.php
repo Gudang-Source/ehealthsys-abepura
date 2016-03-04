@@ -49,7 +49,7 @@ class JadwaldokterMController extends MyAuthController
 			$model->jadwaldokter_buka = $model->jadwaldokter_mulai.' S/d '.$model->jadwaldokter_tutup;
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->jadwaldokter_id));
+				$this->redirect(array('admin','id'=>$model->jadwaldokter_id,'sukses'=>1));
                         }
 		}
 
@@ -86,7 +86,7 @@ class JadwaldokterMController extends MyAuthController
                         $model->jadwaldokter_buka = $model->jadwaldokter_mulai.' S/d '.$model->jadwaldokter_tutup;
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->jadwaldokter_id));
+				$this->redirect(array('admin','id'=>$model->jadwaldokter_id,'sukses'=>1));
                         }
 		}
 

@@ -126,7 +126,7 @@ if(!isset($_GET['sukses'])){ //RND-5894
 	}
 	$this->widget('ext.bootstrap.widgets.BootGridView',array(
 		'id'=>'pegawaiYangMengajukan-m-grid',
-		'dataProvider'=>$modDokter->search(),
+		'dataProvider'=>$modDokter->searchDokterResep(),
 		'filter'=>$modDokter,
 		'template'=>"{items}\n{pager}",
 	//    'template'=>"{summary}\n{items}\n{pager}",
@@ -149,7 +149,7 @@ if(!isset($_GET['sukses'])){ //RND-5894
 			  'header'=>'Nama Dokter Resep',
 			  'type'=>'raw',
 			  'value'=>'$data->NamaLengkap',
-                          'filter'=>Chtml::activeTextField($modDokter, 'nama_pegawai').CHtml::activeHiddenField($modDokter, 'ruangan_id', array('class'=>'ruangandokter_id')),
+                          'filter'=>Chtml::activeTextField($modDokter, 'nama_pegawai'),
 			),
 			'jeniskelamin',
 			'nomorindukpegawai',

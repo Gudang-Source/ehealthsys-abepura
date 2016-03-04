@@ -49,7 +49,7 @@ class HukumDisiplinPegawaiController extends MyAuthController
             $tr = '';
             foreach ($modHukdisiplin as $row)
             {
-
+                $ruangan = RuanganM::model()->findByPk($row->hukdisiplin_ruangan);
                 $urlDelete = $this->createUrl('deleteHukdisiplin',array('hukdisiplin_id'=>$row->hukdisiplin_id,'pegawai_id'=>$pegawai_id));
                 $tr .= '<tr>';
 
@@ -57,9 +57,9 @@ class HukumDisiplinPegawaiController extends MyAuthController
                     $tr .= '<td>'.$row->jnshukdisiplin->jnshukdisiplin_nama.'</td>';
                     $tr .= '<td>'.$row->jabatan->jabatan_nama.'</td>';
                     $tr .= '<td>'.  MyFormatter::formatDateTimeForUser($row->hukdisiplin_tglhukuman).'</td>';
-                    $tr .= '<td>'.$row->hukdisiplin_ruangan.'</td>';
+                    $tr .= '<td>'.$ruangan->ruangan_nama.'</td>';
                     $tr .= '<td>'.$row->hukdisiplin_nosk.'</td>';
-					$tr .= '<td>'.(isset($row->hukdisiplin_lamabln) ? $row->hukdisiplin_lamabln."bulan" : '-').'</td>';
+					$tr .= '<td>'.(isset($row->hukdisiplin_lama) ? $row->hukdisiplin_lama." ".$row->hukdisiplin_satuanlama : '-').'</td>';
 					$tr .= '<td>'.$row->hukdisiplin_keterangan.'</td>';
 
                     $tr .= '<td>'.CHtml::link('<i class="icon-form-sampah"></i>',$urlDelete,array('onclick'=>'hapus(this); return false')).'</td>';
