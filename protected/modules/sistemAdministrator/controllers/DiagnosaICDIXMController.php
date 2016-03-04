@@ -162,7 +162,12 @@ class DiagnosaICDIXMController extends MyAuthController
             $id = $_GET['id'];   
             if(isset($_GET['id']))
             {
-               $update = DiagnosaicdixM::model()->updateByPk($id,array('diagnosaicdix_aktif'=>false));
+               if (isset($_GET['add'])):
+                    $update = DiagnosaicdixM::model()->updateByPk($id,array('diagnosaicdix_aktif'=>true));
+                else:    
+                    $update = DiagnosaicdixM::model()->updateByPk($id,array('diagnosaicdix_aktif'=>false));
+                endif;
+                
                if($update)
                 {
                     if (Yii::app()->request->isAjaxRequest)

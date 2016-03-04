@@ -15,15 +15,15 @@
             <tr>
                 <td>
                     <?php echo $form->textFieldRow($model,'diagnosaicdix_kode',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10)); ?>
-                    <?php echo $form->textFieldRow($model,'diagnosaicdix_nama',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+                    <?php echo $form->textFieldRow($model,'diagnosaicdix_nama',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
                 </td>
                 <td>
-                    <?php echo $form->textFieldRow($model,'diagnosaicdix_namalainnya',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+                    <?php echo $form->textFieldRow($model,'diagnosaicdix_namalainnya',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
                     <?php echo $form->textFieldRow($model,'diagnosatindakan_katakunci',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
                 </td>
             </tr>
         </table>     
-            <?php echo $form->textFieldRow($model,'diagnosaicdix_nourut',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+            <?php echo $form->textFieldRow($model,'diagnosaicdix_nourut',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>9)); ?>
             <?php //echo $form->checkBoxRow($model,'diagnosaicdix_aktif', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
 	<div class="form-actions">
 		                <?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 
