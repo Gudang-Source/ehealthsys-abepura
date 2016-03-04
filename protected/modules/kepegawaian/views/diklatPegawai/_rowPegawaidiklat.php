@@ -35,7 +35,7 @@
 		<?php echo $form->textField($modPegawaidiklat,'['.$i.']pegawaidiklat_tempat',array('onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'span2')); ?>
 	</td>
 	<td>
-		<?php echo $form->textField($modPegawaidiklat,'['.$i.']nomorkeputusandiklat',array('class'=>'span2 numbers-only','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+		<?php echo $form->textField($modPegawaidiklat,'['.$i.']nomorkeputusandiklat',array('class'=>'span2 numbers-only','onkeypress'=>"return $(this).focusNextInputField(event)",'style'=>'width:20px')); ?>
 	</td>
 	<td>
 		<?php 

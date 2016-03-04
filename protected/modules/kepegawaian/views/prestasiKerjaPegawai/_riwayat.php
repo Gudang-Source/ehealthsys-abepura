@@ -1,7 +1,7 @@
 <table class="table table-striped table-condensed" id="tableRiwayatJabatan">
     <thead>
         <tr>
-            <th rowspan="2">No</th>
+            <th rowspan="2" hidden>No</th>
             <th rowspan="2">No. Urut Prestasi</th>
             <th rowspan="2">Tanggal Perolehan</th>
             <th rowspan="2">Instansi Pemberi</th>
