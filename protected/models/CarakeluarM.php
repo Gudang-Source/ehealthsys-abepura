@@ -90,7 +90,7 @@ class CarakeluarM extends CActiveRecord
 		$criteria->compare('carakeluar_id',$this->carakeluar_id);
 		$criteria->compare('LOWER(carakeluar_nama)',strtolower($this->carakeluar_nama),true);
 		$criteria->compare('LOWER(carakeluar_namalain)',strtolower($this->carakeluar_namalain),true);
-		$criteria->compare('carakeluar_aktif',$this->carakeluar_aktif);
+		$criteria->compare('carakeluar_aktif',isset($this->carakeluar_aktif)?$this->carakeluar_aktif:true);
 
 		return $criteria;
 	}

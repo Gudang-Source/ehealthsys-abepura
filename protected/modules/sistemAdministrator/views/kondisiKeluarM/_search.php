@@ -13,7 +13,7 @@
 
 	<?php echo $form->textFieldRow($model,'kondisikeluar_namalain',array('class'=>'span3','maxlength'=>100)); ?>
 
-	<?php echo $form->checkBoxRow($model,'kondisikeluar_aktif'); ?>
+	<?php echo $form->checkBoxRow($model,'kondisikeluar_aktif', array('checked'=>'$data->kondisikeluar_aktif')); ?>
 
 	<div class="form-actions">
 		                <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit')); ?>

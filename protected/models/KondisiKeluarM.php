@@ -94,7 +94,7 @@ class KondisiKeluarM extends CActiveRecord
 		$criteria->compare('carakeluar_id',$this->carakeluar_id);
 		$criteria->compare('LOWER(kondisikeluar_nama)',strtolower($this->kondisikeluar_nama),true);
 		$criteria->compare('LOWER(kondisikeluar_namalain)',strtolower($this->kondisikeluar_namalain),true);
-		$criteria->compare('kondisikeluar_aktif',$this->kondisikeluar_aktif);
+		$criteria->compare('kondisikeluar_aktif',isset($this->kondisikeluar_aktif)?$this->kondisikeluar_aktif:true);
 
 		return $criteria;
 	}
