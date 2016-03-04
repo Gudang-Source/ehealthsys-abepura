@@ -1208,8 +1208,7 @@ function tampilFormRujukan(){
 
 
 function cekJamkespa() {
-    if ($("#<?php echo CHtml::activeId($model, "carabayar_id"); ?>").val() == 18) {
-        //alert("Kick");
+    if ($("#<?php echo CHtml::activeId((!empty($modPasienAdmisi)?$modPasienAdmisi:$model), "carabayar_id"); ?>").val() == 18) {
         $(".jks_spec").addClass("not-required").removeClass("required").parents(".control-group").hide();
         $("#<?php echo CHtml::activeId($modAsuransiPasien, "nopeserta"); ?>").val($("#<?php echo CHtml::activeId($modPasien, "no_rekam_medik"); ?>").val());
         $("#<?php echo CHtml::activeId($modAsuransiPasien, "nokartuasuransi"); ?>").val($("#<?php echo CHtml::activeId($modPasien, "no_rekam_medik"); ?>").val());
@@ -1897,7 +1896,6 @@ function resetFormPegawai(){
 
 function cekPilihSatu(obj) {
     // console.log($(obj).find('option').length);
-    
     if ($(obj).find('option').length == 2) {
         $(obj).val($(obj).find('option').eq(1).val());
         $(obj).change();
