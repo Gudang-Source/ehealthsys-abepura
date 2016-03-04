@@ -44,7 +44,7 @@ class DiagnosaM extends CActiveRecord
 		return array(
 			array('diagnosa_nama, diagnosa_kode, diagnosa_nama', 'required'),
 			array('diagnosa_nourut', 'numerical', 'integerOnly'=>true),
-			array('diagnosa_kode', 'length', 'max'=>10),
+			array('diagnosa_kode', 'length', 'max'=>10),                        
 			// array('diagnosa_nama, diagnosa_namalainnya, diagnosa_katakunci', 'length', 'max'=>50),
 			array('diagnosa_imunisasi, diagnosa_aktif,klasifikasidiagnosa_id', 'safe'),
 			// The following rule is used by search().

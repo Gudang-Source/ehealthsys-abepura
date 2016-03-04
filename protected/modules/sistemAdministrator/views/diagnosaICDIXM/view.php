@@ -1,3 +1,5 @@
+<fieldset class="box row-fluid">
+    <legend class="rim">Lihat Diagnosa ICD IX</legend>
 <?php
 //$this->breadcrumbs=array(
 //	'Sadiagnosa Icdixms'=>array('index'),
@@ -28,5 +30,7 @@
 		'diagnosaicdix_aktif',
 	),
 )); ?>
-
+<?php echo CHtml::link(Yii::t('mds','{icon} Ubah',array('{icon}'=>'<i class="icon-pencil icon-white"></i>')),$this->createUrl('update',array('id'=>$model->diagnosaicdix_id,'modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')).'&nbsp;'; ?>
+<?php echo CHtml::link(Yii::t('mds','{icon} Pengaturan Diagnosa ICD IX',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')).'&nbsp;'; ?>
 <?php $this->widget('UserTips',array('type'=>'view'));?>
+</fieldset>

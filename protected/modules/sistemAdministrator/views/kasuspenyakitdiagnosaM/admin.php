@@ -26,7 +26,9 @@
             return false;
     });
     ");
-
+    if (isset($_GET['sukses'])):
+        Yii::app()->user->setFlash('success','<strong>Berhasil</strong> Data berhasil disimpan');
+    endif;
     $this->widget('bootstrap.widgets.BootAlert'); ?>
 
     <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-accordion icon-white"></i>')),'#',array('class'=>'search-button btn')); ?>
@@ -38,7 +40,7 @@
         <?php $this->widget('ext.bootstrap.widgets.BootGroupGridView',array(
             'id'=>'rikasuspenyakitdiagnosa-m-grid',
             'dataProvider'=>$model->searchTabel(),
-    //	'filter'=>$model,
+     	    'filter'=>$model,
             'mergeColumns'=>'jeniskasuspenyakit.jeniskasuspenyakit_nama',
             'template'=>"{summary}\n{items}\n{pager}",
             'itemsCssClass'=>'table table-striped table-condensed',
@@ -48,17 +50,20 @@
                             'name'=>'jeniskasuspenyakit.jeniskasuspenyakit_nama',
                             'header'=>'Jenis Kasus Penyakit',
                             'value'=>'$data->jeniskasuspenyakit->jeniskasuspenyakit_nama',
+                            'filter' => CHtml::DropDownList('SAKasuspenyakitdiagnosaM[jeniskasuspenyakit_id]', $model->jeniskasuspenyakit_id, CHtml::listData($model->getJeniskasuspenyakitItems(),'jeniskasuspenyakit_id','jeniskasuspenyakit_nama'),array('empty'=>'-- Pilih --'))
                         ),
+                        //'jeniskasuspenyakit.jeniskasuspenyakit_nama',
                         array(
                             'header'=>'Nama Diagnosa',
-                            'value'=>'$data->diagnosa->diagnosa_nama',
-                            'htmlOptions'=>array(
-                                'style'=>'border-left:solid 1px #DDDDDD',
-                            ),
+                            'name' => 'diagnosa.diagnosa_nama',
+                            'value'=>'$data->diagnosa->diagnosa_nama',                            
+                            'filter'=> CHtml::activeTextField($model,'diagnosa_nama'),                            
                         ),
                         array(
                             'header'=>'Nama Lainnya',
+                            'name' => 'diagnosa.diagnosa_namalainnya',
                             'value'=>'$data->diagnosa->diagnosa_namalainnya',
+                            'filter'=> CHtml::activeTextField($model,'diagnosa_namalainnya'),                            
                         ),
                         array(
                             'header'=>Yii::t('zii','View'),
@@ -102,7 +107,7 @@
     echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
     echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
     echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
-    $content = $this->renderPartial($this->path_view.'tips/tipsCreateUpdate',array(),true);
+    $content = $this->renderPartial($this->path_view.'tips/tipsAdmin',array(),true);
     $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
     $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
     $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai

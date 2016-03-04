@@ -37,7 +37,7 @@ class KasuspenyakitdiagnosaM extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('jeniskasuspenyakit_id, diagnosa_id', 'required'),
-                                                array('jeniskasuspenyakit_id, diagnosa_id', 'cekdata'),
+                        array('jeniskasuspenyakit_id, diagnosa_id', 'cekdata'),
 			array('jeniskasuspenyakit_id, diagnosa_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -78,6 +78,7 @@ class KasuspenyakitdiagnosaM extends CActiveRecord
 		return array(
 			'jeniskasuspenyakit_id' => 'Jenis Kasus Penyakit',
 			'diagnosa_id' => 'Diagnosa',
+                        'diagnosa_nama' => 'Nama Diagnosa'
 		);
 	}
 
@@ -106,17 +107,36 @@ class KasuspenyakitdiagnosaM extends CActiveRecord
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-
-                $criteria->with=array('diagnosa','jeniskasuspenyakit');
+                
 		$criteria->compare('t.jeniskasuspenyakit_id',$this->jeniskasuspenyakit_id);
 		$criteria->compare('t.diagnosa_id',$this->diagnosa_id);
-                $criteria->compare('LOWER(diagnosa.diagnosa_nama)',strtolower($this->diagnosa_nama),true);
+                //$criteria->compare('LOWER(diagnosa.diagnosa_nama)',strtolower($this->diagnosa_nama),true);
                 $criteria->compare('LOWER(diagnosa.diagnosa_namalainnya)',strtolower($this->diagnosa_namalainnya),true);
                 $criteria->compare('LOWER(jeniskasuspenyakit.jeniskasuspenyakit_nama)',strtolower($this->jeniskasuspenyakit_nama),true);                
-                $criteria->order = 't.jeniskasuspenyakit_id asc';
+                $criteria->with=array('diagnosa','jeniskasuspenyakit');
+                $criteria->addSearchCondition('LOWER(diagnosa.diagnosa_nama)', strtolower($this->diagnosa_nama));
+                $criteria->addSearchCondition('LOWER(diagnosa.diagnosa_namalainnya)', strtolower($this->diagnosa_namalainnya));
+
+               // $criteria->order = 'jeniskasuspenyakit.jeniskasuspenyakit_nama ASC';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+                        'sort' => array(
+                            'attributes' => array(
+                                'jeniskasuspenyakit.jeniskasuspenyakit_nama' => array(
+                                    'asc' => 'jeniskasuspenyakit.jeniskasuspenyakit_nama ASC',
+                                    'desc' => 'jeniskasuspenyakit.jeniskasuspenyakit_nama DESC',
+                                ),
+                                 'diagnosa.diagnosa_nama' => array(
+                                    'asc' => 'diagnosa.diagnosa_nama ASC',
+                                    'desc' => 'diagnosa.diagnosa_nama DESC',
+                                ),
+                                'diagnosa.diagnosa_namalainnya' => array(
+                                    'asc' => 'diagnosa.diagnosa_namalainnya ASC',
+                                    'desc' => 'diagnosa.diagnosa_namalainnya DESC',
+                                )
+                            )
+                        )
 		));
 	}
         
@@ -140,11 +160,11 @@ class KasuspenyakitdiagnosaM extends CActiveRecord
         
         public function getJeniskasuspenyakitItems()
         {
-            return JeniskasuspenyakitM::model()->findAll();
+            return JeniskasuspenyakitM::model()->findAll('jeniskasuspenyakit_aktif = TRUE ORDER BY jeniskasuspenyakit_nama');
         }
         
         public function getDiagnosaItems()
         {
-            return DiagnosaM::model()->findAll();
+            return DiagnosaM::model()->findAll('diagnosa_aktif = TRUE ORDER BY diagnosa_nama');
         }
 }

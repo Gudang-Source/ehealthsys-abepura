@@ -18,6 +18,8 @@ class KasuspenyakitdiagnosaMController extends MyAuthController
             $model->unsetAttributes();
             if (isset($_GET['SAKasuspenyakitdiagnosaM'])){
                 $model->attributes = $_GET['SAKasuspenyakitdiagnosaM'];
+                $model->diagnosa_nama = $_GET['SAKasuspenyakitdiagnosaM']['diagnosa_nama'];
+                $model->diagnosa_namalainnya = $_GET['SAKasuspenyakitdiagnosaM']['diagnosa_namalainnya'];                
             }
             $this->render($this->path_view.'admin',array('model'=>$model));
         }
@@ -42,7 +44,7 @@ class KasuspenyakitdiagnosaMController extends MyAuthController
                     if ($jumlah == count($modDetails)) {
                         $transaction->commit();
                         Yii::app()->user->setFlash('success','<strong>Berhasil</strong> Data Berhasil disimpan');
-                        $this->redirect(array('admin'));
+                        $this->redirect(array('admin', 'sukses'=>1));
                     } else {
                         throw new Exception('Error');
                     }
@@ -91,7 +93,7 @@ class KasuspenyakitdiagnosaMController extends MyAuthController
                     if ($jmlhsave==COUNT($_POST['SAKasuspenyakitdiagnosaM']))
                     {
                         Yii::app()->user->setFlash('success','<strong>Berhasil</strong> Data berhasil disimpan');
-                        $this->redirect(array('admin'));
+                        $this->redirect(array('admin', 'sukses'=>1));
                     }
 //                        $modDetails = $this->validasiTabular($model, $_POST['SAKasuspenyakitdiagnosaM']);
 //                        $transaction = Yii::app()->db->beginTransaction();
@@ -245,7 +247,7 @@ class KasuspenyakitdiagnosaMController extends MyAuthController
 								."</td>";
 					$tr .= "<td>".$moddiagnosa->diagnosa_kode.' - '.$moddiagnosa->diagnosa_nama."</td>";
 					$tr .= "<td>".$moddiagnosa->diagnosa_namalainnya."</td>";
-					$tr .= "<td>".CHtml::link("<i class='icon-remove'></i>", '#', array('onclick'=>'hapusBaris(this);return false;'))."</td>";
+					$tr .= "<td>".CHtml::link("<i class='icon-form-silang'></i>", '#', array('onclick'=>'hapusBaris(this);return false;'))."</td>";
 					$tr .= "</tr>";
 
 			   $data['tr']=$tr;

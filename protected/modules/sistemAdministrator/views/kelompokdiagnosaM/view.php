@@ -1,3 +1,5 @@
+<fieldset class="box row-fluid">
+    <legend class="rim">Lihat Kelompok Diagnosa</legend>
 <?php
 //$this->breadcrumbs=array(
 //	'Sakelompok Diagnosa Ms'=>array('index'),
@@ -30,5 +32,7 @@
 	),
 )); ?>
 
-<?php $this->widget('UserTips',array('type'=>'view'));?>
+
 <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Kelompok Diagnosa', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
+    <?php $this->widget('UserTips',array('type'=>'view'));?>
+</fieldset>
