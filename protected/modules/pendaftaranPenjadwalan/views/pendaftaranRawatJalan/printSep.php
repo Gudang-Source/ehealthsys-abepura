@@ -29,7 +29,7 @@
 <?php //echo $this->renderPartial('pendaftaranPenjadwalan.views.pendaftaranRawatJalan._headerPrintStatus'); ?>
 <table width="100%" border = "0" style = "text-align:left;" >
     <thead>
-        <th width = "25%" style = "padding:20px;"><img src="<?php echo Yii::app()->getBaseUrl('webroot').'/images/BPJS.jpg'; ?>" width="200px"></th>
+        <th width = "25%" style = "padding-left:20px;"><img src="<?php echo Yii::app()->getBaseUrl('webroot').'/images/BPJS.jpg'; ?>" width="200px"></th>
         <th align='center' style="font-weight:bold;padding-right:200px;"><font style="font-size:17px;"><?php echo $judul_print; ?><br><?php echo $data->nama_rumahsakit; ?></font></th>        
        <!-- <th  style = "padding:0px;"><!--<img src="<?php //echo Params::urlProfilRSDirectory().$data->logo_rumahsakit ?>" width="120px"></th>-->
     </thead>
@@ -50,35 +50,35 @@
                     <td>:</td>
                     <td style = "padding-left:20px;"><?php echo $modSep->tglsep; ?></td>
                     <td>&nbsp;</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>Peserta</td>
+                    <td>:</td>
+                    <td><?php echo isset($modJenisPeserta->jenispeserta_nama)?$modJenisPeserta->jenispeserta_nama:'-';?></td>                    
                 </tr>
                 <tr>
                     <td class = "header">No. Kartu</td>
                     <td>:</td>
                     <td style = "padding-left:20px;"><?php echo $modSep->nokartuasuransi; ?></td>
                     <td>&nbsp;</td>
-                    <td>Peserta</td>
-                    <td>:</td>
-                    <td><?php echo isset($modJenisPeserta->jenispeserta_nama)?$modJenisPeserta->jenispeserta_nama:'-';?></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                 </tr>
                 <tr>
                     <td class = "header">Nama Peserta</td>
                     <td>:</td>
                     <td style = "padding-left:20px;"><?php echo $modAsuransiPasienBpjs->namapemilikasuransi;?></td>
                     <td>&nbsp;</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>COB</td>
+                    <td>:</td>
+                    <td></td>                    
                 </tr>
                 <tr>
                     <td class = "header">Tgl. Lahir</td>
                     <td>:</td>
                     <td style = "padding-left:20px;"><?php echo $modPasien->tanggal_lahir; ?></td>
                     <td>&nbsp;</td>
-                    <td>COB</td>
-                    <td>:</td>
+                    <td></td>
+                    <td></td>
                     <td></td>
                 </tr>
                 <tr>
@@ -104,18 +104,18 @@
                     <td>:</td>
                     <td style = "padding-left:20px;"><?php echo "-"; ?></td>
                     <td>&nbsp;</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td style = "padding-left:20px" rowspan="2">Pasien/<br>Keluarga Pasien</td>
+                    <td style = "padding-left:20px">&nbsp;</td>
+                    <td style = "padding-left:20px" rowspan="2">Petugas<br>BPJS Kesehatan</td>                    
                 </tr>               
                 <tr valign = "top">
                     <td class = "header" >Diagnosa Awal</td>
                     <td>:</td>
                     <td style = "padding-left:20px;"><?php echo $modSep->diagnosaawal; ?></td>
                     <td>&nbsp;</td>
-                    <td style = "padding-left:20px">Pasien/<br>Keluarga Pasien</td>
-                    <td style = "padding-left:20px">&nbsp;</td>
-                    <td style = "padding-left:20px">Petugas<br>BPJS Kesehatan</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                 </tr>
                 <tr>
                     <td class = "header">Catatan</td>
@@ -137,9 +137,9 @@
                 <tr>
                     <td class = "header" colspan = "3" style="font-size: 6pt !important;"></td>
                     <td>&nbsp;</td>
-                    <td style = "padding-left:20px"><div style = "padding:0px;margin:0px;height:10px;width:120px;border-top: solid 1px #000;"></div></td>
+                    <td style = "padding-left:20px"><div style = "padding:0px;margin:0px;height:10px;width:120px;border-top: solid 2px #000;"></div></td>
                     <td></td>
-                    <td style = "padding-left:20px"><div style = "padding:0px;margin:0px;height:10px;width:120px;border-top: solid 1px #000;"></div></td>                    
+                    <td style = "padding-left:20px"><div style = "padding:0px;margin:0px;height:10px;width:120px;border-top: solid 2px #000;"></div></td>                    
                 </tr>
             </table>
         </td>
