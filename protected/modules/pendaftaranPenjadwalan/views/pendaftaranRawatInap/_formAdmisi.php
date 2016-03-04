@@ -82,7 +82,7 @@
                                                                                                                             'ajax' => array('type'=>'POST',
                                                                                                                                     'url'=> $this->createUrl('SetDropdownPenjaminPasien',array('encode'=>false,'namaModel'=>get_class($modPasienAdmisi))), 
                     //                                                        'update'=>'#'.CHtml::activeId($model, 'penjamin_id'),  //DIHIDE KARENA DIGANTIKAN DENGAN 'success'
-                                                                                                                                    'success'=>'function(data){$("#'.CHtml::activeId($modPasienAdmisi, "penjamin_id").'").html(data);setKarcis();}',
+                                                                                                                                    'success'=>'function(data){$("#'.CHtml::activeId($modPasienAdmisi, "penjamin_id").'").html(data);setKarcis(); cekPilihSatu($("#'.CHtml::activeId($modPasienAdmisi,"penjamin_id").'"));}',
                                                                                                                             ),
                                                                                                                             'onchange'=>'setFormAsuransi(this.value); cekCaraBayarBadak(this.value);',
                                                                                                                             'class'=>'span3',
@@ -90,7 +90,7 @@
                     </div>
             </div>
 
-        <?php echo $form->dropDownListRow($modPasienAdmisi,'penjamin_id', CHtml::listData($model->getPenjaminItems($model->carabayar_id), 'penjamin_id', 'penjamin_nama') ,array('empty'=>'-- Pilih --','onchange'=>'setKarcis(); setAsuransiBadakAdmisi(this.value); cekValiditasPenjaminAdmisi(this.value);','onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span3')); ?>
+        <?php echo $form->dropDownListRow($modPasienAdmisi,'penjamin_id', CHtml::listData($model->getPenjaminItems($model->carabayar_id), 'penjamin_id', 'penjamin_nama') ,array('empty'=>'-- Pilih --','onchange'=>'setKarcis(); setNamaAsuransiDariPenjamin(this); setAsuransiBadakAdmisi(this.value); cekValiditasPenjaminAdmisi(this.value);','onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span3')); ?>
         <?php echo $form->textAreaRow($model,'keterangan_pendaftaran',array('placeholder'=>'Catatan Khusus Pendaftaran','rows'=>2, 'cols'=>50, 'class'=>'span3 ','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
     <!--/fieldset-->
         <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(

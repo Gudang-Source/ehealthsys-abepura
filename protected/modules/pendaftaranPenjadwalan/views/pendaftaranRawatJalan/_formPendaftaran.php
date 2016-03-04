@@ -83,7 +83,7 @@
             </div>
 
         <?php echo $form->dropDownListRow($model,'penjamin_id', CHtml::listData($model->getPenjaminItems($model->carabayar_id), 'penjamin_id', 'penjamin_nama') ,array('empty'=>'-- Pilih --',
-                                                                                    'onchange'=>'setKarcis(); setAsuransiBadak(this.value); cekValiditasPenjamin(this.value);',
+                                                                                    'onchange'=>'setKarcis(); setNamaAsuransiDariPenjamin(this); setAsuransiBadak(this.value); cekValiditasPenjamin(this.value);',
                                                                                     'onkeyup'=>"return $(this).focusNextInputField(event)",
                                                                                     'class'=>'span3'
                                             )); ?>

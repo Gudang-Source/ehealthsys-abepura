@@ -99,7 +99,41 @@ class KondisiKeluarMController extends MyAuthController
     /**
      * Memanggil dan menonaktifkan status 
      */
-    public function actionNonActive($id)
+    public function actionActive($id)
+	{
+		if(Yii::app()->request->isAjaxRequest)
+		{
+			$data['sukses']=0;
+			$model = $this->loadModel($id);
+			// set active this
+			// example: 
+			 $model->kondisikeluar_aktif = true;
+			 if($model->save()){
+				$data['sukses'] = 1;
+			 }
+			echo CJSON::encode($data); 
+		}
+	}
+	/**
+	 * Memanggil dan mengaktifkan status 
+	 */
+	public function actionNonActive($id)
+	{
+		if(Yii::app()->request->isAjaxRequest)
+		{
+			$data['sukses']=0;
+			$model = $this->loadModel($id);
+			// set active this
+			// example: 
+			 $model->kondisikeluar_aktif = false;
+			 if($model->save()){
+				$data['sukses'] = 1;
+			 }
+			echo CJSON::encode($data); 
+		}
+	}
+    
+    /*public function actionNonActive($id)
     {
         // we only allow deletion via POST request
         $model = $this->loadModel($id);
@@ -109,7 +143,7 @@ class KondisiKeluarMController extends MyAuthController
         $model->save();
         Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil di non-aktif kan.');
         $this->redirect(array('admin'));
-    }
+    }*/
 
     /**
      * Melihat daftar data.

@@ -1,4 +1,9 @@
-<?php if (!$this->isFrame): ?>
+<fieldset class="box">
+<?php if (!$this->isFrame) : ?>
+<legend class="rim2">Ubah Cara Keluar</legend>
+<?php else: ?>
+<legend class="rim">Ubah Cara Keluar</legend>
+<?php endif; ?>
 <?php
 $this->breadcrumbs=array(
 	'Carakeluar Ms'=>array('index'),
@@ -7,9 +12,9 @@ $this->breadcrumbs=array(
 );
 
 ?>
-<legend class="rim2">Ubah Cara Keluar</legend>
-<?php endif; ?>
+
 
 <?php $this->widget('bootstrap.widgets.BootAlert'); ?>
 
 <?php echo $this->renderPartial($this->path_view.'_form',array('model'=>$model)); ?>
+</fieldset>

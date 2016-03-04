@@ -1042,18 +1042,21 @@ function setFormAsuransi(carabayar_id){
 		sembunyiFormAsuDepartemen();
 		sembunyiFormAsuPekerja();
 		
-        tampilFormAsuransi();
-        sembunyiFormBpjs();
-        $('#form-bpjs').hide(); 
-        $('#form-asuransi').show(); 
-        $('#form-rujukan').show();
+                tampilFormAsuransi();
+                sembunyiFormBpjs();
+                $('#form-bpjs').hide(); 
+                $('#form-asuransi').show(); 
+                $('#form-rujukan').show();
 		$('#form-asubadak').hide();
 		$('#form-asudepartemen').hide();
 		$('#form-asupekerja').hide();
+                cekTanggalKonfirmasi();
 		
 //		$(".judulasuransi").html("Asuransi Baru");
+//		
 //		$(".refreshasuransi").attr("style","display:none;");
     }
+    cekJamkespa();
 }
 <?php }else{ ?>
 /**
@@ -1064,7 +1067,7 @@ function setFormAsuransi(carabayar_id){
     var carabayar_id_bpjs = <?php echo Params::CARABAYAR_ID_BPJS;?>;
     if(carabayar_id == carabayar_id_umum){
         sembunyiFormAsuransi();
-        //cekJamkespa();
+        cekJamkespa();
     }else{
         tampilFormAsuransi();
         cekJamkespa();
@@ -1204,16 +1207,16 @@ function tampilFormRujukan(){
 }
 
 
-function cekJamkespa() { 
-    if ($("#<?php echo CHtml::activeId($model, "carabayar_id"); ?>").val() == 18) {
+function cekJamkespa() {
+    if ($("#<?php echo CHtml::activeId((!empty($modPasienAdmisi)?$modPasienAdmisi:$model), "carabayar_id"); ?>").val() == 18) {
         $(".jks_spec").addClass("not-required").removeClass("required").parents(".control-group").hide();
         $("#<?php echo CHtml::activeId($modAsuransiPasien, "nopeserta"); ?>").val($("#<?php echo CHtml::activeId($modPasien, "no_rekam_medik"); ?>").val());
         $("#<?php echo CHtml::activeId($modAsuransiPasien, "nokartuasuransi"); ?>").val($("#<?php echo CHtml::activeId($modPasien, "no_rekam_medik"); ?>").val());
         $("#<?php echo CHtml::activeId($modAsuransiPasien, "namapemilikasuransi"); ?>").val($("#<?php echo CHtml::activeId($modPasien, "nama_pasien"); ?>").val());
         $("#<?php echo CHtml::activeId($modAsuransiPasien, "kelastanggunganasuransi_id"); ?>").val(<?php echo Params::KELASPELAYANAN_ID_KELAS_III; ?>);
     } else {
-        $(".jks_spec").parents(".control-group").show();
-        // $(".jks_spec").removeClass("not-required").addClass("required").parents(".control-group").show();
+        //$(".jks_spec").parents(".control-group").show();
+        $(".jks_spec").removeClass("not-required").addClass("required").parents(".control-group").show();
         $("#<?php echo CHtml::activeId($modAsuransiPasien, "nopeserta"); ?>").val("");
         $("#<?php echo CHtml::activeId($modAsuransiPasien, "nokartuasuransi"); ?>").val("");
         $("#<?php echo CHtml::activeId($modAsuransiPasien, "namapemilikasuransi"); ?>").val("");
@@ -1893,9 +1896,11 @@ function resetFormPegawai(){
 
 function cekPilihSatu(obj) {
     // console.log($(obj).find('option').length);
-    
     if ($(obj).find('option').length == 2) {
         $(obj).val($(obj).find('option').eq(1).val());
+        $(obj).change();
+    }
+    if ($(obj).find('option').length == 1) {
         $(obj).change();
     }
 }
@@ -1927,6 +1932,31 @@ function showHitunganRM() {
     $(".rm_control").show();
     checkOto();
 }
+
+function setNamaAsuransiDariPenjamin(obj) {
+    var t = ($(obj).find(":selected").text()).toUpperCase();
+    $("#<?php echo CHtml::activeId($modAsuransiPasien,"namaperusahaan");?>").val(t);
+}
+
+function cekTanggalKonfirmasi() {
+    if ($(".rb_kon").eq(0).is(":checked")) {
+        var d = new Date();
+        var ds = numPads(d.getDate(), "00") + "/" + numPads(d.getMonth()+1, "00") + "/" + d.getFullYear();
+        var dt = numPads(d.getHours(), "00") + ":" + numPads(d.getMinutes(), "00") + ":" + numPads(d.getSeconds(), "00");
+        
+        $("#<?php echo CHtml::activeId($modAsuransiPasien,"tgl_konfirmasi");?>").val(ds + " " + dt);
+    } else {
+        $("#<?php echo CHtml::activeId($modAsuransiPasien,"tgl_konfirmasi");?>").val("");
+    }
+}
+
+function numPads(str, pad) {
+    return (pad + str).slice(-pad.length);
+}
+
+$(".rb_kon").change(function() {
+    cekTanggalKonfirmasi();
+});
 
 /**
  * javascript yang di running setelah halaman ready / load sempurna
