@@ -1,12 +1,15 @@
-<?php if (!$this->isFrame): ?>
+<fieldset class="box">
+<?php if (!$this->isFrame) : ?>
+<legend class="rim2">Lihat Kondisi Keluar</legend>
+<?php else: ?>
+<legend class="rim">Lihat Kondisi Keluar</legend>
+<?php endif; ?>
 <?php
 $this->breadcrumbs=array(
 	'Kondisi Keluar Ms'=>array('index'),
 	$model->kondisikeluar_id,
 );
 ?>
-<legend class="rim2">Lihat Kondisi Keluar</legend>
-<?php endif; ?>
 <?php $this->widget('bootstrap.widgets.BootAlert'); ?>
 <div class="row-fluid">
     <div class="span6">

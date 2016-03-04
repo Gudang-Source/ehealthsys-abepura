@@ -1,3 +1,4 @@
+<fieldset class="box">
 <?php
 $this->breadcrumbs=array(
 	'Carakeluar Ms'=>array('index'),
@@ -17,8 +18,10 @@ $('.search-form form').submit(function(){
 });
 ");
 ?>
-<?php if (!$this->isFrame): ?>
-    <legend class="rim2">Pengaturan Cara Keluar</legend>
+<?php if (!$this->isFrame) : ?>
+<legend class="rim2">Pengaturan Cara Keluar</legend>
+<?php else: ?>
+<legend class='rim'>Pengaturan Cara Keluar</legend>
 <?php endif; ?>
 <?php $this->widget('bootstrap.widgets.BootAlert'); ?>
 
@@ -28,7 +31,7 @@ $('.search-form form').submit(function(){
 	'model'=>$model,
 )); ?>
 </div><!-- search-form -->
-<legend class='rim'>Tabel Cara Keluar</legend>
+<!--<legend class='rim'>Tabel Cara Keluar</legend>-->
 <?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'carakeluar-m-grid',
 	'dataProvider'=>$model->search(),
@@ -80,14 +83,28 @@ $('.search-form form').submit(function(){
 		array(
                         'header'=>Yii::t('zii','Delete'),
 			'class'=>'bootstrap.widgets.BootButtonColumn',
-                        'template'=>'{remove} {delete}',
+                        'template'=>'{remove} {add} {delete}',
                         'buttons'=>array(
-                                        'remove' => array (
-                                                'label'=>"<i class='icon-remove'></i>",
+                                        /*'remove' => array (
+                                                'label'=>"<i class='icon-form-silang'></i>",
                                                 'options'=>array('title'=>Yii::t('mds','Remove Temporary')),
                                                 'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/nonActive",array("id"=>"$data->carakeluar_id"))',
                                                 'click'=>'function(){return confirm("'.Yii::t("mds","Do You want to remove this item temporary?").'");}',
                                                 'visible'=>'$data->carakeluar_aktif',
+                                        ),*/
+                                         'remove' => array (
+								'label'=>"<i class='icon-form-silang'></i>",
+								'options'=>array('title'=>Yii::t('mds','Remove Temporary')),
+								'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/nonActive",array("id"=>$data->carakeluar_id))',
+								'click'=>'function(){nonActive(this);return false;}',
+								'visible'=>'(($data->carakeluar_aktif)? TRUE : FALSE)'
+						),
+                                        'add' => array (
+                                                        'label'=>"<i class='icon-form-check'></i>",
+                                                        'options'=>array('title'=>Yii::t('mds','Add Temporary')),
+                                                        'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/active",array("id"=>$data->carakeluar_id))',
+                                                        'click'=>'function(){active(this);return false;}',
+                                                        'visible'=>'(($data->carakeluar_aktif)? FALSE : TRUE)'
                                         ),
                                         'delete'=> array(),
                         ),
@@ -103,7 +120,8 @@ $('.search-form form').submit(function(){
         echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
         echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
         echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
-        $this->widget('UserTips',array('type'=>'admin'));
+        $content = $this->renderPartial('/tips/master',array(),true);        
+        $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
         $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
         $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
         $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/print');
@@ -116,3 +134,54 @@ function print(caraPrint)
 JSCRIPT;
 Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);                        
 ?>
+<script type="text/javascript">
+	function nonActive(obj){
+		myConfirm("Yakin akan menonaktifkan data ini untuk sementara?","Perhatian!",
+			function(r){
+				if(r){ 
+					$.ajax({
+						type:'GET',
+						url:obj.href,
+						data: {},//
+						dataType: "json",
+						success:function(data){
+							$.fn.yiiGridView.update('carakeluar-m-grid');
+							if(data.sukses > 0){
+							}else{
+								myAlert('Data gagal dinonaktifkan!');
+							}
+						},
+						error: function (jqXHR, textStatus, errorThrown) { myAlert('Data gagal dinonaktifkan!'); console.log(errorThrown);}
+					});
+				}
+			}
+		);
+		return false;
+	}
+	function active(obj){
+		myConfirm("Yakin akan mengaktifkan data ini untuk sementara?","Perhatian!",
+			function(r){
+				if(r){ 
+					$.ajax({
+						type:'GET',
+						url:obj.href,
+						data: {},//
+						dataType: "json",
+						success:function(data){
+							$.fn.yiiGridView.update('carakeluar-m-grid');
+							if(data.sukses > 0){
+							}else{
+								myAlert('Data gagal diaktifkan!');
+							}
+						},
+						error: function (jqXHR, textStatus, errorThrown) { myAlert('Data gagal diaktifkan!'); console.log(errorThrown);}
+					});
+				}
+			}
+		);
+		return false;
+	}
+
+    
+</script>
+</fieldset>

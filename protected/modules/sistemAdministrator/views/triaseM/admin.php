@@ -1,3 +1,5 @@
+<fieldset class="box">
+    <legend class="rim">Pengaturan Triase</legend>
 <?php
 $this->breadcrumbs=array(
 		'Rdtriase Ms'=>array('index'),
@@ -188,3 +190,4 @@ JSCRIPT;
         $('input[name="SATriaseM[triase_nama]"]').focus();
     })
 </script>
+</fieldset>

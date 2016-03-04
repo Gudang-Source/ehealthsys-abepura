@@ -1,3 +1,5 @@
+<fieldset class="box">
+    <legend class="rim">Pengaturan Transportasi</legend>
 <?php
 $this->breadcrumbs=array(
 		'Rdtransportasi Ms'=>array('index'),
@@ -187,3 +189,4 @@ JSCRIPT;
         $('input[name="SATransportasiM[lookup_name]"]').focus();
     })
 </script>
+</fieldset>
