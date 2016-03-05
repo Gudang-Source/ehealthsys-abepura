@@ -55,9 +55,10 @@ class BKLaporanCaraBayar extends LaporankunjunganrsV {
         $criteria = new CDbCriteria;
         $criteria->addBetweenCondition('tgl_pendaftaran', $this->tgl_awal, $this->tgl_akhir);
         $criteria->addCondition('penjamin_id != 117');
-		if(!empty($this->ruangan_id)){
-			$criteria->addCondition('ruangan_id = '.$this->ruangan_id);
-		}
+        $criteria->compare('ruangan_id', $this->ruangan_id);
+		//if(!empty($this->ruangan_id)){
+		//	$criteria->addCondition('ruangan_id = '.$this->ruangan_id);
+		//}
         return $criteria;
     }
     

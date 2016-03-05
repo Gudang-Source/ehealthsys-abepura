@@ -71,6 +71,7 @@
 				$modIndikatorPerilakus = KPIndikatorperilakuM::model()->findAllByAttributes(array('indikatorperilaku_aktif'=>true),array('order'=>'jenispenilaian_id asc,kompetensi_id asc'));
 				if(count($modIndikatorPerilakus)>0){
 					foreach($modIndikatorPerilakus as $ii =>$modIndikatorPerilaku){
+                                                $modPenilaianPegawaiDet->attributes = $modIndikatorPerilaku->attributes;
 						echo "<tr id=tr$modIndikatorPerilaku->indikatorperilaku_id>";
 							echo "<td>".$modIndikatorPerilaku->jenispenilaian->jenispenilaian_nama.
 										$form->hiddenField($modPenilaianPegawaiDet,'['.$ii.']jenispenilaian_id',array('class'=>'span1','readonly'=>TRUE,'value'=>$modIndikatorPerilaku->jenispenilaian_id))
@@ -80,13 +81,14 @@
 								."</td>";
 							echo "<td>".$modIndikatorPerilaku->indikatorperilaku_nama.
 										$form->hiddenField($modPenilaianPegawaiDet,'['.$ii.']indikatorperilaku_id',array('class'=>'span1','readonly'=>TRUE,'value'=>$modIndikatorPerilaku->indikatorperilaku_id)).
-										$form->hiddenField($modPenilaianPegawaiDet,'['.$ii.']penilaianpegdet_socre',array('onkeypress'=>'$(this).focusNextInputField(event)')).
-										$form->hiddenField($modPenilaianPegawaiDet,'['.$ii.']kolomrating_id',array('class'=>'span1'))
+										//$form->hiddenField($modPenilaianPegawaiDet,'['.$ii.']penilaianpegdet_socre',array('onkeypress'=>'$(this).focusNextInputField(event)')).
+										$form->hiddenField($modPenilaianPegawaiDet,'['.$ii.']kolomrating_id',array('class'=>'span1')).
+                                                                                $form->hiddenField($modPenilaianPegawaiDet,'['.$ii.']point',array('class'=>'span1'))
 								."</td>";
 							echo "<td>".
-									$form->textField($modPenilaianPegawaiDet,'['.$ii.']penilaianpegdet_socre',array('class'=>'numbers-only','style'=>'width:60px','onkeypress'=>'$(this).focusNextInputField(event)','placeholder'=>'','onblur'=>'cekScore(this)','readonly'=>FALSE)).
+									$form->textField($modPenilaianPegawaiDet,'['.$ii.']penilaianpegdet_socre',array('class'=>'numbers-only','style'=>'width:60px; text-align:right','onkeypress'=>'$(this).focusNextInputField(event)','placeholder'=>'','onblur'=>'cekScore(this)','readonly'=>FALSE)).
 									CHtml::activeHiddenField($modPenilaianPegawaiDet,'['.$ii.']kolomrating_id',array('class'=>'span1','readonly'=>TRUE))
-									."</td>";
+									."<span class=\"pesan\" style=\"font-weight: bold; font-style: italic; padding: 10px;\"></span></td>";
 // ada perbedaan isi tabel kolomrating_m pada db_innovaehospital_dev_20151216 dengan db_innovaehospital_dev
 //							echo "<td>";
 //									$modKolomRatings = KPKolomratingM::model()->findAllByAttributes(array('indikatorperilaku_id'=>$modIndikatorPerilaku->indikatorperilaku_id),array('order'=>'indikatorperilaku_id asc'));?>
@@ -113,11 +115,11 @@
 				</tr>
 				<tr>
 					<td colspan="3" style='text-align: right; font-weight: bold'>Total Score Level</td>
-					<td><?php echo $form->textField($model,'jumlahpenilaian',array('class'=>'numbers-only','style'=>'width:130px','onkeypress'=>'$(this).focusNextInputField(event)','readonly'=>true)) ?></td>
+					<td><?php echo $form->textField($model,'jumlahpenilaian',array('class'=>'numbers-only','style'=>'width:130px; text-align: right;','onkeypress'=>'$(this).focusNextInputField(event)','readonly'=>true)) ?></td>
 				</tr>
 				<tr>
 					<td colspan="3" style='text-align: right; font-weight: bold'>Rata-rata Level</td>
-					<td><?php echo $form->textField($model,'nilairatapenilaian',array('class'=>'numbers-only','style'=>'width:130px','onkeypress'=>'$(this).focusNextInputField(event)','readonly'=>true)) ?></td>
+					<td><?php echo $form->textField($model,'nilairatapenilaian',array('class'=>'numbers-only','style'=>'width:130px; text-align: right;','onkeypress'=>'$(this).focusNextInputField(event)','readonly'=>true)) ?></td>
 				</tr>
 				<tr>
 					<td colspan="3" style='text-align: right; font-weight: bold'>Level KKJ</td>

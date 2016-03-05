@@ -34,7 +34,7 @@ class KolomRatingController extends MyAuthController
 			$model->attributes=$_POST['KPKolomratingM'];
 			if($model->save()){
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('view','id'=>$model->kolomrating_id));
+				$this->redirect(array('admin'));
 			}
 		}
 
@@ -59,7 +59,7 @@ class KolomRatingController extends MyAuthController
 			$model->attributes=$_POST['KPKolomratingM'];
 			if($model->save()){
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('view','id'=>$model->kolomrating_id));
+				$this->redirect(array('admin'));
 			}
 		}
 
