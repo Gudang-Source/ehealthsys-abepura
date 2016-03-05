@@ -1,3 +1,5 @@
+<fieldset class="box row-fluid">
+    <legend class="rim">Lihat Tabular List</legend>
 <?php
 //$this->breadcrumbs=array(
 //	'Ritabular List Ms'=>array('index'),
@@ -32,5 +34,8 @@
                 ),
 	),
 )); ?>
-
+<?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Tabular List', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
+                                                                    $this->createUrl('Admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')).'&nbsp;';?>
+    
 <?php $this->widget('UserTips',array('type'=>'view'));?>
+</fieldset>

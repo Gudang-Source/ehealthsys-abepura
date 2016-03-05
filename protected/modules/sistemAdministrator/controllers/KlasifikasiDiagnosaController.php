@@ -90,21 +90,53 @@ class KlasifikasiDiagnosaController extends MyAuthController
 	/**
 	 * Memanggil dan menonaktifkan status 
 	 */
-	public function actionNonActive($id)
-	{
+	public function actionNonActive()
+	{   /*
 		if(Yii::app()->request->isAjaxRequest)
 		{
 			$data['sukses']=0;
 			$model = $this->loadModel($id);
 			// set non-active this
 			// example: 
-			// $model->modelaktif = false;
-			// if($model->save()){
-			//	$data['sukses'] = 1;
-			// }
+			 $model->klasifikasidiagnosa_aktif = false;
+			 if($model->save()){
+				$data['sukses'] = 1;
+			 }
 			echo CJSON::encode($data); 
-		}
+		}*/
+            $id = $_GET['id'];   
+            if(isset($_GET['id']))
+            {               
+                if (isset($_GET['add'])):
+                    $update = SAKlasifikasidiagnosaM::model()->updateByPk($id,array('klasifikasidiagnosa_aktif'=>true));
+                else:    
+                    $update = SAKlasifikasidiagnosaM::model()->updateByPk($id,array('klasifikasidiagnosa_aktif'=>false));                       
+                endif;
+                
+               if($update)
+                {
+                    if (Yii::app()->request->isAjaxRequest)
+                    {
+                        echo CJSON::encode(array(
+                            'status'=>'proses_form', 
+                            ));
+                        exit;               
+                    }
+                 }
+            } else {
+                    if (Yii::app()->request->isAjaxRequest)
+                    {
+                        echo CJSON::encode(array(
+                            'status'=>'proses_form', 
+                            ));
+                        exit;               
+                    }
+            }
 	}
+        
+        
+        
+       
 
 	/**
 	 * Melihat daftar data.

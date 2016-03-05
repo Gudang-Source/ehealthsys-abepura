@@ -1,3 +1,5 @@
+<fieldset class="box row-fluid">
+    <legend class="rim">Pengaturan Tabular List</legend>
 <?php
 $this->breadcrumbs=array(
 	'Satabular List Ms'=>array('index'),
@@ -88,7 +90,7 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
         array(
             'header'=>'Hapus',
             'type'=>'raw',
-            'value'=>'($data->tabularlist_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->tabularlist_id)",array("id"=>"$data->tabularlist_id","rel"=>"tooltip","title"=>"Menonaktifkan Tabular List"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->tabularlist_id)",array("id"=>"$data->tabularlist_id","rel"=>"tooltip","title"=>"Hapus Tabular List")):CHtml::link("<i class=\'icon-trash\'></i> ", "javascript:deleteRecord($data->tabularlist_id)",array("id"=>"$data->tabularlist_id","rel"=>"tooltip","title"=>"Hapus Tabular List"));',
+            'value'=>'($data->tabularlist_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->tabularlist_id)",array("id"=>"$data->tabularlist_id","rel"=>"tooltip","title"=>"Menonaktifkan Tabular List"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->tabularlist_id)",array("id"=>"$data->tabularlist_id","rel"=>"tooltip","title"=>"Hapus Tabular List")):CHtml::link("<i class=\'icon-form-check\'></i> ","javascript:addTemporary($data->tabularlist_id, 1)",array("id"=>"$data->tabularlist_id","rel"=>"tooltip","title"=>"Aktifkan Tabular List"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->tabularlist_id)",array("id"=>"$data->tabularlist_id","rel"=>"tooltip","title"=>"Hapus Tabular List"));',
             'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
         ),
 	),
@@ -131,7 +133,7 @@ Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);
 
 <br/><br/><br/><br/><br/><br/>
 
-<script type="text/javascript">
+<script type="text/javascript">        
     function removeTemporary(id){
         var url = '<?php echo $url."/removeTemporary"; ?>';
         myConfirm("Yakin akan menonaktifkan data ini untuk sementara?","Perhatian!",function(r) {
@@ -148,6 +150,22 @@ Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);
        });
     }
     
+    function addTemporary(id, add){
+        var url = '<?php echo $url."/removeTemporary"; ?>';
+        myConfirm("Yakin akan mengaktifkan data ini untuk sementara?","Perhatian!",function(r) {
+            if (r){
+                 $.post(url, {id: id, add:add},
+                     function(data){
+                        if(data.status == 'proses_form'){
+                                $.fn.yiiGridView.update('satabular-list-m-grid');
+                            }else{
+                                myAlert('Data Gagal di Aktifkan.')
+                            }
+                },"json");
+           }
+       });
+    }
+        
     function deleteRecord(id){
         var id = id;
         var url = '<?php echo $url."/delete"; ?>';
@@ -168,3 +186,4 @@ Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);
         $('input[name="SATabularListM[tabularlist_chapter]"]').focus();
     });
 </script>
+</fieldset>

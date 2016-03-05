@@ -170,31 +170,36 @@ class KelompokdiagnosaMController extends MyAuthController
 //                SAKelompokDiagnosaM::model()->updateByPk($id, array('kelompokdiagnosa_aktif'=>false));
 //                $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
             if(Yii::app()->request->isAjaxRequest)
-			{
-				$id = $_POST['id']; 
-				if(isset($_POST['id']))
-				{
-				   $update = SAKelompokDiagnosaM::model()->updateByPk($id,array('kelompokdiagnosa_aktif'=>false));
-				   if($update)
-					{
-						if (Yii::app()->request->isAjaxRequest)
-						{
-							echo CJSON::encode(array(
-								'status'=>'proses_form', 
-								));
-							exit;               
-						}
-					 }
-				} else {
-						if (Yii::app()->request->isAjaxRequest)
-						{
-							echo CJSON::encode(array(
-								'status'=>'proses_form', 
-								));
-							exit;               
-						}
-				}
-			}
+            {
+                    $id = $_POST['id']; 
+                    if(isset($_POST['id']))
+                    {
+                       if (isset($_POST['add'])):
+                           $update = SAKelompokDiagnosaM::model()->updateByPk($id,array('kelompokdiagnosa_aktif'=>true));
+                       else:    
+                           $update = SAKelompokDiagnosaM::model()->updateByPk($id,array('kelompokdiagnosa_aktif'=>false));                       
+                       endif;
+                       
+                       if($update)
+                            {
+                                    if (Yii::app()->request->isAjaxRequest)
+                                    {
+                                            echo CJSON::encode(array(
+                                                    'status'=>'proses_form', 
+                                                    ));
+                                            exit;               
+                                    }
+                             }
+                    } else {
+                                    if (Yii::app()->request->isAjaxRequest)
+                                    {
+                                            echo CJSON::encode(array(
+                                                    'status'=>'proses_form', 
+                                                    ));
+                                            exit;               
+                                    }
+                    }
+            }
 	}
         
         public function actionPrint()

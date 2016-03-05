@@ -241,8 +241,13 @@ class DtdMController extends MyAuthController
 
             $id = $_GET['id'];   
             if(isset($_GET['id']))
-            {
-               $update = SADtdM::model()->updateByPk($id,array('dtd_aktif'=>false));
+            {               
+                if (isset($_GET['add'])):
+                    $update = SADtdM::model()->updateByPk($id,array('dtd_aktif'=>true));
+                else:    
+                    $update = SADtdM::model()->updateByPk($id,array('dtd_aktif'=>false));                       
+                endif;
+                
                if($update)
                 {
                     if (Yii::app()->request->isAjaxRequest)
