@@ -147,7 +147,7 @@
                                             
                                                                         
                         <?php
-                            $content = $this->renderPartial('sistemAdministrator.views.tips.tipsaddedit3a',array(),true);
+                            $content = $this->renderPartial('sistemAdministrator.views.tips.tipsaddedit2e',array(),true);
                             $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
                         ?>
     </div>

@@ -92,7 +92,7 @@
         $modRuanganpegawai = RuanganpegawaiM::model()->findAllByAttributes(array('ruangan_id'=>$id));
         foreach ($modRuanganpegawai as $value)
         {
-            $hapus = Yii::app()->createUrl('rawatJalan/ruanganpegawaiM/Delete',array('id'=>"$value->ruangan_id",'pegawai'=>"$value->pegawai_id"));
+            $hapus = Yii::app()->createUrl('rawatDarurat/ruanganpegawaiMRD/Delete',array('id[ruangan_id]'=>"$value->ruangan_id",'id[pegawai_id]'=>"$value->pegawai_id"));
             $tr = '<tr>';
             $tr .= '<td>'.$modInstalasi->instalasi_nama.'</td>';
             $tr .= '<td>'.$value->ruangan->ruangan_nama.'</td>';
