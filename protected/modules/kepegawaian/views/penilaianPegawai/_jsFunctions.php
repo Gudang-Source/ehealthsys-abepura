@@ -157,7 +157,7 @@ function cekValiditas(){
 					cekscore &= false;
 				}
 		});
-		if((cekrating == true)&&(cekscore == true)){
+		if((cekscore == true)){
 			$('#sapegawai-m-form').submit();
 			$(".animation-loading").removeClass("animation-loading");
 			$("form").find('.float').each(function(){
@@ -207,31 +207,38 @@ function setKolomRating(obj,trke){
 function cekScore(obj){
 	var nilai = obj.value;
 	var kolomrating_id = $(obj).parents('td').find('input[name*="[kolomrating_id]"').val();
+        var indikator = $(obj).parents('tr').find('input[name*="[indikatorperilaku_id]"').val();
 	var obj_totalscore = $(obj).parents('table').find('input[name*="[jumlahpenilaian]"');
 	var obj_ratarata = $(obj).parents('table').find('input[name*="[nilairatapenilaian]"');
 	var totalscore = 0;
 	var ratarata = 0;
 	var jumlahrows = $(".tablepenilaian > tbody > tr").length;
+        
+        console.log(indikator);
+        
 	$(".tablepenilaian > tfoot > tr").find('input[name*="[jumlahpenilaian]"').addClass("animation-loading-1");
 	$(".tablepenilaian > tfoot > tr").find('input[name*="[nilairatapenilaian]"').addClass("animation-loading-1");
 	$.ajax({
 		type:'POST',
 		url:'<?php echo $this->createUrl('CekScore'); ?>',
-		data: {nilai : nilai,kolomrating_id:kolomrating_id},
+		data: {nilai : nilai,indikator:indikator},
 		dataType: "json",
 		success:function(data){
+                        $(obj).parents('tr').find('.pesan').html(data.pesanSkor);
+                        $(obj).parents('tr').find('input[name*="[kolomrating_id]"').val(data.rating_id);
+                        $(obj).parents('tr').find('input[name*="[point]"').val(data.point);
 			if(data.pesan != ''){
 				myAlert(data.pesan);
 				$(obj).val('');
 				$(obj).focus();
 			}else{
 				$(".tablepenilaian > tbody > tr").each(function(){
-					var score = parseFloat($(this).find('input[name*="[penilaianpegdet_socre]"]').val());
-					if(isNaN(score)){ score = 0; }
+					var score = parseFloat($(this).find('input[name*="[point]"]').val());
+                                        if(isNaN(score)){ score = 0; }
 					totalscore += score;
 				});
 				obj_totalscore.val(totalscore);
-				obj_ratarata.val(totalscore/jumlahrows);
+				obj_ratarata.val(Math.round(totalscore/jumlahrows));
 			}
 			$(".tablepenilaian > tfoot > tr").find('input[name*="[jumlahpenilaian]"').removeClass("animation-loading-1");
 			$(".tablepenilaian > tfoot > tr").find('input[name*="[nilairatapenilaian]"').removeClass("animation-loading-1");

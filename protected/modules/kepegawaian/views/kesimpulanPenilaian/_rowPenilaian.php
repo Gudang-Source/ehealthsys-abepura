@@ -1,7 +1,7 @@
 <?php foreach ($penilaianpegawai as $i=>$detail):?>
 <tr>
     <td>
-        <?//php echo CHtml::hiddenField('no_urut',0,array('readonly'=>true,'class'=>'span1 integer', 'style'=>'width:20px;')); ?>
+        <?php // echo CHtml::hiddenField('no_urut',0,array('readonly'=>true,'class'=>'span1 integer', 'style'=>'width:20px;')); ?>
         <?php echo CHtml::activehiddenField($detail,'['.$i.']pegawai_id',array('readonly'=>true,'class'=>'span1')); ?>
         <?php echo CHtml::activeHiddenField($detail,'['.$i.']penilainip',array('readonly'=>true,'class'=>'span1')); ?>
         <?php echo CHtml::activehiddenField($detail,'['.$i.']penilainama',array('readonly'=>true,'class'=>'span1')); ?>

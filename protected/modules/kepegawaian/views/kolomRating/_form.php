@@ -13,6 +13,14 @@
 	<div class="row-fluid">
 
 		<div class = "span6">
+                        <?php echo $form->dropDownListRow($model, 'indikatorperilaku_id', CHtml::listData(
+                                            IndikatorperilakuM::model()->findAll(array(
+                                                'order'=>'indikatorperilaku_nama',
+                                                'condition'=>'indikatorperilaku_aktif = true',
+                                            )), 'indikatorperilaku_id', 'indikatorperilaku_nama'), array(
+                                                'empty'=>'-- Pilih --',
+                                                'class'=>'span3',
+                                            )); ?>
 			<?php echo $form->textFieldRow($model,'kolomrating_namalevel',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
 			<?php echo $form->textFieldRow($model,'kolomrating_point',array('class'=>'span3 numbers-only', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
 			<div class="control-group">
