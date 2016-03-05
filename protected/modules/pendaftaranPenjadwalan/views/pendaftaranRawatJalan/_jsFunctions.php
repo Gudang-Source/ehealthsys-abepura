@@ -1216,7 +1216,7 @@ function cekJamkespa() {
         $("#<?php echo CHtml::activeId($modAsuransiPasien, "kelastanggunganasuransi_id"); ?>").val(<?php echo Params::KELASPELAYANAN_ID_KELAS_III; ?>);
     } else {
         //$(".jks_spec").parents(".control-group").show();
-        $(".jks_spec").removeClass("not-required").addClass("required").parents(".control-group").show();
+        //$(".jks_spec").removeClass("not-required").addClass("required").parents(".control-group").show();
         $("#<?php echo CHtml::activeId($modAsuransiPasien, "nopeserta"); ?>").val("");
         $("#<?php echo CHtml::activeId($modAsuransiPasien, "nokartuasuransi"); ?>").val("");
         $("#<?php echo CHtml::activeId($modAsuransiPasien, "namapemilikasuransi"); ?>").val("");
@@ -1952,6 +1952,56 @@ function cekTanggalKonfirmasi() {
 
 function numPads(str, pad) {
     return (pad + str).slice(-pad.length);
+}
+
+function getBpjsPPKRujukan(ppk) {
+    if (<?php echo (Yii::app()->user->getState('isbridging')==TRUE)?1:0; ?>) {}else{myAlert('Fitur Bridging tidak aktif!'); return false;}
+    if (ppk=="") {myAlert('Isi data terlebih dahulu!'); return false;}
+    if (ppk.trim().length != 8) {myAlert('PPK Rujukan harus 8 Digit'); return false;}
+    var aksi = 12; // 12 cari ppk rujukan
+    var setting = {
+        url : "<?php echo $this->createUrl('bpjsInterface'); ?>",
+        type : 'GET',
+        dataType : 'html',
+        data : 'param='+ aksi + '&ppkrujukan=' + ppk + '&start=0&limit=1',
+        beforeSend: function(){
+            $("#content-bpjs").addClass("animation-loading");
+        },
+        success: function(data){
+            $("#content-bpjs").removeClass("animation-loading");
+            console.log(data);
+            var obj = JSON.parse(data);
+            if(obj.response!=null){
+                console.log(obj.metadata.code);
+                myAlert("PKK : " + obj.response.list[0].kdProvider + "\n" +
+                        "Nama : " + obj.response.list[0].nmProvider + "\n" +
+                        "Cabang : " + obj.response.list[0].nmCabang);
+                /*
+				var peserta = obj.response.peserta;
+				$("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'nopeserta') ?>").val(peserta.noKartu);
+				$("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'nokartuasuransi') ?>").val(peserta.noKartu);
+				$("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'namapemilikasuransi') ?>").val(peserta.nama);
+				$("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'jenispeserta_id') ?>").val(peserta.jenisPeserta.kdJenisPeserta);
+//              $("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'kelastanggunganasuransi_id') ?>").val(peserta.kelasTanggungan.kdKelas); // <<tidak sama dengan kelaspelayanan_id
+				// OVERWRITES old selecor
+				jQuery.expr[':'].contains = function(a, i, m) {
+				  return jQuery(a).text().toUpperCase()
+					  .indexOf(m[3].toUpperCase()) >= 0;
+				};
+				$("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'kelastanggunganasuransi_id') ?>").find("option:contains('"+peserta.kelasTanggungan.nmKelas+"')").attr("selected",true);
+                */
+            }else{
+              myAlert(obj.metadata.message);
+            }
+        },
+        error: function(data){
+            $("#content-bpjs").removeClass("animation-loading");
+        }
+    }
+    
+    if(typeof ajax_request !== 'undefined') 
+        ajax_request.abort();
+    ajax_request = $.ajax(setting);
 }
 
 $(".rb_kon").change(function() {
