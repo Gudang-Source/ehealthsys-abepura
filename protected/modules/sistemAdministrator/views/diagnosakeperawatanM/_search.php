@@ -5,13 +5,15 @@
         'type'=>'horizontal',
 )); ?>
 <table width="100%">
-    <tr>
+    <tr>        
         <td>
+            <?php echo $form->textAreaRow($model,'diagnosa_nama',array('rows'=>3, 'cols'=>30, 'class'=>'span3')); ?>
             <?php echo $form->textFieldRow($model,'diagnosakeperawatan_kode',array('class'=>'span2','maxlength'=>10)); ?>
             <?php echo $form->checkBoxRow($model,'diagnosa_keperawatan_aktif', array('checked'=>'$data->diagnosa_keperawatan_aktif')); ?>
         </td>
         <td>
             <?php echo $form->textAreaRow($model,'diagnosa_medis',array('rows'=>3, 'cols'=>30, 'class'=>'span3')); ?>
+            <?php echo $form->textAreaRow($model,'diagnosa_tujuan',array('rows'=>3, 'cols'=>30, 'class'=>'span3')); ?>             
         </td>
         <td>
             <?php echo $form->textAreaRow($model,'diagnosa_keperawatan',array('rows'=>3, 'cols'=>30, 'class'=>'span3')); ?>

@@ -107,6 +107,15 @@ class DiagnosakeperawatanM extends CActiveRecord
 
                         return new CActiveDataProvider($this, array(
                                 'criteria'=>$criteria,
+                                'sort' => array(
+                            'attributes' => array(
+                                'diagnosa_nama' => array(
+                                    'asc' => 'diagnosa.diagnosa_nama ASC',
+                                    'desc' => 'diagnosa.diagnosa_nama DESC',
+                                    ),
+                                    '*',
+                            ),
+                                    )
                         ));
 	}
         

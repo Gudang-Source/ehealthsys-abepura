@@ -6,7 +6,7 @@ class DiagnosakeperawatanMController extends MyAuthController
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	public $layout='//layouts/column1';
+	public $layout='//layouts/iframe';
 	public $defaultAction = 'admin';
 	public $path_view = 'sistemAdministrator.views.diagnosakeperawatanM.';
 	public $path_views = 'sistemAdministrator.views.';	
@@ -255,7 +255,12 @@ class DiagnosakeperawatanMController extends MyAuthController
         $id = $_POST['id'];   
         if(isset($_POST['id']))
         {
-           $update = DiagnosakeperawatanM::model()->updateByPk($id,array('diagnosa_keperawatan_aktif'=>false));
+           if (isset($_POST['add'])):
+               $update = DiagnosakeperawatanM::model()->updateByPk($id,array('diagnosa_keperawatan_aktif'=>true));          
+           else:
+               $update = DiagnosakeperawatanM::model()->updateByPk($id,array('diagnosa_keperawatan_aktif'=>false));                   
+           endif;     
+           
            if($update)
             {
                 if (Yii::app()->request->isAjaxRequest)
