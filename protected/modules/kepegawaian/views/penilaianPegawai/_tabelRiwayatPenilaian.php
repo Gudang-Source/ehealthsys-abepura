@@ -17,7 +17,7 @@
         <td><?php echo $format->formatDateTimeForUser($penilaian->periodepenilaian)."-".$format->formatDateTimeForUser($penilaian->sampaidengan); ?></td>
         <td><?php echo isset($penilaian->jumlahpenilaian)?$penilaian->jumlahpenilaian:"-"; ?></td>
         <td><?php echo isset($penilaian->nilairatapenilaian)?$penilaian->nilairatapenilaian:"-"; ?></td>
-        <td><?php echo isset($penilaian->performaceindex)?$penilaian->performaceindex:"-"; ?></td>
+        <td><?php echo isset($penilaian->performanceindex)?$penilaian->performanceindex:"-"; ?></td>
         <td><?php echo isset($penilaian->penilainama)?$penilaian->penilainama:"-"; ?></td>
         <td><center>
         <?php

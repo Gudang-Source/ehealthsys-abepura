@@ -40,11 +40,11 @@ class KolomratingM extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('indikatorperilaku_id, kolomrating_namalevel, kolomrating_point, kolomrating_uraian, kolomrating_deskripsi', 'required'),
+			array('indikatorperilaku_id, kolomrating_namalevel, kolomrating_point, kolomrating_nilaiawal, kolomrating_nilaiakhir', 'required'),
 			array('indikatorperilaku_id, kolomrating_point', 'numerical', 'integerOnly'=>true),
 			array('kolomrating_namalevel', 'length', 'max'=>100),
 			array('kolomrating_uraian', 'length', 'max'=>500),
-			array('kolomrating_aktif', 'safe'),
+			array('kolomrating_aktif, kolomrating_uraian, kolomrating_deskripsi', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('kolomrating_id, indikatorperilaku_id, kolomrating_namalevel, kolomrating_point, kolomrating_uraian, kolomrating_deskripsi, kolomrating_aktif', 'safe', 'on'=>'search'),
@@ -75,6 +75,8 @@ class KolomratingM extends CActiveRecord
 			'kolomrating_uraian' => 'Uraian',
 			'kolomrating_deskripsi' => 'Deskripsi',
 			'kolomrating_aktif' => 'Status',
+                        'kolomrating_nilaiawal' => 'Skor Awal',
+                        'kolomrating_nilaiakhir' => 'Skor Akhir',
 		);
 	}
 

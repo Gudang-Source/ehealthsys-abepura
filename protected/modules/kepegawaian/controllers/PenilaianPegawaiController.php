@@ -21,6 +21,7 @@ class PenilaianPegawaiController extends MyAuthController
 		$modPenilaianPegawaiDet = new KPPenilaianpegawaidetT();
 		$model->tglpenilaian = date('d-m-Y'); // format seperti ini karena buat ngisi date mask
 		if(isset($_POST['KPPenilaianpegawaiT'])){
+                        $ok = true;
 			$transaction = Yii::app()->db->beginTransaction();
 			try {
 				$model=new KPPenilaianpegawaiT();
@@ -31,8 +32,12 @@ class PenilaianPegawaiController extends MyAuthController
 				$model->create_loginpemakai_id = Yii::app()->user->id;
 				$model->create_ruangan = Yii::app()->user->ruangan_id;
 				$model->create_time = date('Y-m-d H:i:s');
+                                
+                                $model->validate();
+                                //var_dump($model->errors);
+                                
 				if($model->validate()){
-					$model->save();
+					$ok = $ok && $model->save();
 					foreach($_POST['KPPenilaianpegawaidetT'] as $i => $postDetail){
 						$modPenilaianPegawaiDet=new KPPenilaianpegawaidetT();
 						$modPenilaianPegawaiDet->attributes=$postDetail;
@@ -47,11 +52,15 @@ class PenilaianPegawaiController extends MyAuthController
 							$this->saveDetail &= false;
 						}
 					}
-				}
-				if($this->saveDetail){
+				} else {
+                                    $ok = false;
+                                }
+                                //var_dump($ok, $this->saveDetail); die;
+                                
+				if($ok && $this->saveDetail){
 					$transaction->commit();
 					Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-					$this->redirect(array('index','penilaianpegawai_id'=>$model->penilaianpegawai_id,'sukses'=>1));
+					$this->redirect(array('index','id'=>$model->pegawai_id,'sukses'=>1));
 				}else{
 					$transaction->rollback();
 					Yii::app()->user->setFlash('error',"<strong>Gagal!</strong> Data Gagal Disimpan.");
@@ -62,7 +71,7 @@ class PenilaianPegawaiController extends MyAuthController
 			}
 		}
 		
-        if(!empty($id)){
+                if(!empty($id)){
 			$modPegawai = KPPegawaiM::model()->findByPk($id);
 			$modPegawai->jabatan_id = (isset($modPegawai->jabatan_id) ? $modPegawai->jabatan_id : null);
 			$modPegawai->jabatan_nama = (isset($modPegawai->jabatan_id) ? $modPegawai->jabatan->jabatan_nama : "-");
@@ -75,7 +84,7 @@ class PenilaianPegawaiController extends MyAuthController
 			$modPegawai->tgl_lahirpegawai = (isset($modPegawai->tgl_lahirpegawai) ? $format->formatDateTimeForUser($modPegawai->tgl_lahirpegawai) : "-");
 			
 			$tabelPenilaian = KPPenilaianpegawaiT::model()->findAllByAttributes(array('pegawai_id'=>$modPegawai->pegawai_id));
-			
+			$model->pegawai_id = $id;
 		}
 		
 		$this->render('index',array(
@@ -171,16 +180,27 @@ class PenilaianPegawaiController extends MyAuthController
 	{
 		if(Yii::app()->request->isAjaxRequest) {
 			$nilai = $_POST['nilai'];
-			$kolomrating_id = $_POST['kolomrating_id'];
+			$indikator = $_POST['indikator'];
 			$pesan = '';
-			if((!empty($nilai))&&(!empty($kolomrating_id))){
-				$modKolomRating = KPKolomratingM::model()->findByPk($kolomrating_id);
-				if(($nilai >= $modKolomRating->kolomrating_nilaiwal)&&($nilai <= $modKolomRating->kolomrating_nilaiakhir)){
+                        $pesanSkor = '';
+                        $rating_id = null;
+                        $point = 0;
+			if((!empty($nilai))&&(!empty($indikator))){
+				//$modKolomRating = KPKolomratingM::model()->findByPk($kolomrating_id);
+                                $cr = new CDbCriteria;
+                                $cr->compare('indikatorperilaku_id',$indikator);
+                                $cr->addCondition($nilai." between kolomrating_nilaiawal and kolomrating_nilaiakhir");
+                                $modKolomRating = KPKolomratingM::model()->find($cr);
+                                
+				if(!empty($modKolomRating)){
+                                        $pesanSkor = $modKolomRating->kolomrating_namalevel;
+                                        $rating_id = $modKolomRating->kolomrating_id;
+                                        $point = $modKolomRating->kolomrating_point;
 				}else{
-					$pesan = 'Rating "'.$modKolomRating->kolomrating_nama.'" harus memiliki score antara '.$modKolomRating->kolomrating_nilaiwal.' - '.$modKolomRating->kolomrating_nilaiakhir;
+					$pesan = 'Rating diluar jangkauan';
 				}
 			}
-			echo CJSON::encode(array('pesan'=>$pesan));
+			echo CJSON::encode(array('pesan'=>$pesan, 'pesanSkor'=>$pesanSkor, 'rating_id'=>$rating_id, 'point'=>$point));
 		}
 		Yii::app()->end();
 

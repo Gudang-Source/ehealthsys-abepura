@@ -23,6 +23,7 @@ class KPPenilaianpegawaidetT extends PenilaianpegawaidetT
 	 * @param string $className active record class name.
 	 * @return PenilaianpegawaidetT the static model class
 	 */
+        public $point;
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);

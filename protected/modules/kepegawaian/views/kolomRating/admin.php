@@ -42,10 +42,37 @@ $('.search-form form').submit(function(){
 				'type'=>'raw',
 				'htmlOptions'=>array('style'=>'text-align:right;'),
 			),
+                        array(
+                            'name'=>'indikatorperilaku_id',
+                            'type'=>'raw',
+                            'value'=>function($data) {
+                                $indikator = IndikatorperilakuM::model()->findByPk($data->indikatorperilaku_id);
+                                return $indikator->indikatorperilaku_nama;
+                            },
+                            'filter'=>CHtml::activeDropDownList($model, 'indikatorperilaku_id', CHtml::listData(
+                                            IndikatorperilakuM::model()->findAll(array(
+                                                'order'=>'indikatorperilaku_nama',
+                                                'condition'=>'indikatorperilaku_aktif = true',
+                                            )), 'indikatorperilaku_id', 'indikatorperilaku_nama'), array(
+                                                'empty'=>'-- Pilih --',
+                                            )),
+                        ),
 			'kolomrating_namalevel',
 			'kolomrating_point',
 			'kolomrating_uraian',
 			'kolomrating_deskripsi',
+                        array(
+                            'name'=>'kolomrating_nilaiawal',
+                            'htmlOptions'=>array(
+                                'style'=>'text-align: right',
+                            ),
+                        ),
+                        array(
+                            'name'=>'kolomrating_nilaiakhir',
+                            'htmlOptions'=>array(
+                                'style'=>'text-align: right',
+                            ),
+                        ),
 			array(
 				'header'=>'Status',
 				'value'=>'($data->kolomrating_aktif == 1) ? "Aktif" : "Tidak Aktif"',
