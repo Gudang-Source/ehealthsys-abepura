@@ -11,7 +11,7 @@
   </tr>
   <tr>
     <td>3. </td>
-    <td>Icon <button class="btn btn-primary"><i class = "icon-plus icon-white"></i></button> untuk mengkosongkan field daftar tindakan.</td>
+    <td>Icon <button class="btn btn-danger"><i class = "icon-refresh icon-white"></i></button> untuk mengkosongkan field daftar tindakan.</td>
   </tr>   
 </table>
 </p>
