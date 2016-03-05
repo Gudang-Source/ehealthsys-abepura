@@ -879,6 +879,44 @@ class ActionDynamicController extends Controller
             }
         }
         Yii::app()->end();
-    }    
+    }
+
+    public function actionGetRuanganForCheckBox($encode=false,$namaModel='')
+    {
+        if(Yii::app()->request->isAjaxRequest) {
+           $instalasi_id = $_POST["$namaModel"]['instalasi_id'];
+           if($encode){
+                echo CJSON::encode($ruangan);
+           } else {
+                if(empty($instalasi_id)){
+                    $ruangan = RuanganM::model()->findAll('ruangan_aktif = TRUE and instalasi_id=9999');
+                } else {
+                    $ruangan = RuanganM::model()->findAll('ruangan_aktif = TRUE and instalasi_id='.$instalasi_id.'');
+                }
+                $ruangan = CHtml::listData($ruangan,'ruangan_id','ruangan_nama');
+                echo CHtml::hiddenField(''.$namaModel.'[ruangan_id]');
+                $i = 0;
+                if (count($ruangan) > 0){
+                      echo "<div  >".CHtml::checkBox('checkAllRuangan',true, array('onkeypress'=>"return $(this).focusNextInputField(event)",
+                                'class'=>'checkbox-column','onclick'=>'checkAll()','checked'=>'checked'))." Pilih Semua";
+                      echo "</div>";
+                    foreach($ruangan as $value=>$name) {
+
+//                        echo '<label class="checkbox">';
+//                        echo CHtml::checkBox(''.$namaModel."[ruangan_id][]", true, array('value'=>$value));
+//                        echo '<label for="'.$namaModel.'_ruangan_id_'.$i.'">'.$name.'</label>';
+//                        echo '</label>';
+                        $selects[] = $value;
+                        $i++;
+                    }
+                    echo CHtml::checkBoxList(''.$namaModel."[ruangan_id]", $selects, $ruangan);
+                }
+                else{
+                    echo '<label>Data Tidak Ditemukan</label>';
+                }
+           }
+        }
+        Yii::app()->end();
+    }
 }
 ?>
