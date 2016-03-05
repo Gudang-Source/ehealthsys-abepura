@@ -13,15 +13,25 @@
 	<div class="row-fluid">
 
 		<div class = "span6">
+                        <?php echo $form->dropDownListRow($model, 'indikatorperilaku_id', CHtml::listData(
+                                            IndikatorperilakuM::model()->findAll(array(
+                                                'order'=>'indikatorperilaku_nama',
+                                                'condition'=>'indikatorperilaku_aktif = true',
+                                            )), 'indikatorperilaku_id', 'indikatorperilaku_nama'), array(
+                                                'empty'=>'-- Pilih --',
+                                                'class'=>'span3',
+                                            )); ?>
 			<?php echo $form->textFieldRow($model,'kolomrating_namalevel',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
 			<?php echo $form->textFieldRow($model,'kolomrating_point',array('class'=>'span3 numbers-only', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
 			<div class="control-group">
 				<?php echo CHtml::label('Score','Score', array('class'=>'control-label')) ?>
 				<div class="controls">
-					<?php echo $form->textField($model,'kolomrating_uraian',array('class'=>'span1 numbers-only')); ?> s/d 
-					<?php echo $form->textField($model,'kolomrating_deskripsi',array('class'=>'span1 numbers-only')); ?>
+					<?php echo $form->textField($model,'kolomrating_nilaiawal',array('class'=>'span1 numbers-only')); ?> s/d 
+					<?php echo $form->textField($model,'kolomrating_nilaiakhir',array('class'=>'span1 numbers-only')); ?>
 				</div>
 			</div>
+                        <?php echo $form->textFieldRow($model,'kolomrating_uraian',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
+			<?php echo $form->textAreaRow($model,'kolomrating_deskripsi',array('class'=>'span3 numbers-only', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
 			<div class="control-group">
 				<?php echo CHtml::label('Status','indikatorperilaku_aktif', array('class'=>'control-label')) ?>
 				<div class="controls">

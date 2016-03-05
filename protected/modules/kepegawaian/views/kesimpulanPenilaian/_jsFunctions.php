@@ -69,11 +69,15 @@ function searchPenerimaan(){
 function hitungHasil(){
 	var total = 0;
 	var rata2 = 0;
+        var cnt = 0;
     $('#tabel-kesimpulan tbody tr').each(function(){
         var jumlahpenilaian  = parseInt($(this).find('input[name$="[jumlahpenilaian]"]').val());
         total += jumlahpenilaian;
-		rata2 = total/jumlahpenilaian;
+        cnt++;
+		//rata2 = total/jumlahpenilaian;
     });
+    rata2 = total/cnt;
+    
     $('#<?php echo CHtml::activeId($modKesimpulan,"totalpenilaian"); ?>').val(total);
     $('#<?php echo CHtml::activeId($modKesimpulan,"ratapenilaian"); ?>').val(rata2);	
 }

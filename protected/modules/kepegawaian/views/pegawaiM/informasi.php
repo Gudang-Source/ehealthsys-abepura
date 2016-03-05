@@ -118,7 +118,7 @@
 					array(
 							'header'=>'kesimpulan dan saran penilaian',
 							'type'=>'raw',
-							'value'=>'CHtml::link("<i class=\'icon-form-penilaianpegawai\'></i>",Yii::app()->createUrl(\'kepegawaian/KesimpulanSaran/index&id=\'.$data->pegawai_id),array("rel"=>"tooltip","title"=>"klik untuk input kesimpulan dan saran penilaian"))',
+							'value'=>'CHtml::link("<i class=\'icon-form-penilaianpegawai\'></i>",Yii::app()->createUrl(\'kepegawaian/kesimpulanPenilaian/index&id=\'.$data->pegawai_id),array("rel"=>"tooltip","title"=>"klik untuk input kesimpulan dan saran penilaian"))',
 							'htmlOptions'=>array('style'=>'text-align: center; width:60px'),
 					),				
 					array(

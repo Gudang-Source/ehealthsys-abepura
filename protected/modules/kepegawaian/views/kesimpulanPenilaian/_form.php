@@ -98,7 +98,7 @@ if (isset($_GET['PegawaiM']))
     $modPegawai->attributes = $_GET['PegawaiM'];
 
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
-	'id'=>'pegawai-m-grid',
+	'id'=>'pegawaikesimpulan-m-grid',
 	'dataProvider'=>$modPegawai->search(),
 	'filter'=>$modPegawai,
     'template'=>"{summary}\n{items}\n{pager}",
