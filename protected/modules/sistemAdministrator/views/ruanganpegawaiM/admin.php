@@ -70,17 +70,17 @@
                                 ),
                             ),
                         ),
-                        array(
-                            'header'=>Yii::t('zii','Update'),
-                            'class'=>'ext.bootsrap.widgets.BootButtonColumn',
-                            'template'=>'{update}',
-                            'buttons'=>array(
-                                'update'=>array(
-                                    'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/Update",array("id"=>"$data->ruangan_id"))',
-                                    'options'=>array('rel' => 'tooltip' , 'title'=> 'ubah Ruangan Pegawai' ),
-                                ),
-                            ),
-                        ),
+            //            array(
+         //                   'header'=>Yii::t('zii','Update'),
+          //                  'class'=>'ext.bootsrap.widgets.BootButtonColumn',
+          //                  'template'=>'{update}',
+         //                   'buttons'=>array(
+         //                       'update'=>array(
+        //                            'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/Update",array("id"=>"$data->ruangan_id"))',
+        //                            'options'=>array('rel' => 'tooltip' , 'title'=> 'ubah Ruangan Pegawai' ),
+        //                        ),
+        //                    ),
+         //               ),
                         array(
                             'header'=>'Hapus',
                             'class'=>'ext.bootstrap.widgets.BootButtonColumn',
