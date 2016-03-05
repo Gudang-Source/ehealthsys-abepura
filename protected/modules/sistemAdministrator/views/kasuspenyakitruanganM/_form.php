@@ -94,7 +94,7 @@
                 //         $tr .= "<td>".$modruangan->ruangan_nama."</td>";
                 //         $tr .= "<td>".$modJeniskasuspenyakit->jeniskasuspenyakit_nama."</td>";
                 //         $tr .= "<td>".$modJeniskasuspenyakit->jeniskasuspenyakit_namalainnya."</td>";
-                //         $tr .= "<td>".CHtml::link("<i class='icon-remove'></i>", '#', array('onclick'=>'remove(this);'))."</td>";
+                //         $tr .= "<td>".CHtml::link("<i class='icon-form-silang'></i>", '#', array('onclick'=>'remove(this);'))."</td>";
                 //         $tr .= "</tr>";
                 //         echo $tr;
                 //     }
@@ -150,7 +150,7 @@
             array(
                 'header'=>'Pilih',
                 'type'=>'raw',
-                'value'=>'CHtml::Link("<i class=\"icon-check\"></i>","#",
+                'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",
                                 array(
                                         "class"=>"btn-small",
                                         "id" => "selectKasuspenyakit",

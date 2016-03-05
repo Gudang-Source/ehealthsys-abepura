@@ -122,7 +122,7 @@
                         $tr .= "<td>".$modruangan->ruangan_nama."</td>";
                         $tr .= "<td>".$modJeniskasuspenyakit->jeniskasuspenyakit_nama."</td>";
                         $tr .= "<td>".$modJeniskasuspenyakit->jeniskasuspenyakit_namalainnya."</td>";
-                        $tr .= "<td>".CHtml::link("<i class='icon-remove'></i>", '#', array('onclick'=>'remove(this);'))."</td>";
+                        $tr .= "<td>".CHtml::link("<i class='icon-form-silang'></i>", '#', array('onclick'=>'remove(this);'))."</td>";
                         $tr .= "</tr>";
                         echo $tr;
                     }

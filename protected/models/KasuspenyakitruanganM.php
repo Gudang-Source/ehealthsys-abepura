@@ -135,6 +135,14 @@ class KasuspenyakitruanganM extends CActiveRecord
                                 'jeniskasuspenyakit_nama' => array(
                                     'asc' => 'jeniskasuspenyakit.jeniskasuspenyakit_nama',
                                     'desc' => 'jeniskasuspenyakit.jeniskasuspenyakit_nama DESC'
+                                ),
+                                'jeniskasuspenyakit_id' => array(
+                                    'asc' => 'jeniskasuspenyakit.jeniskasuspenyakit_id ASC',
+                                    'desc' => 'jeniskasuspenyakit.jeniskasuspenyakit_id DESC'
+                                ),
+                                'jeniskasuspenyakit_namalainnya' => array(
+                                    'asc' => 'jeniskasuspenyakit.jeniskasuspenyakit_namalainnya ASC',
+                                    'desc' => 'jeniskasuspenyakit.jeniskasuspenyakit_namalainnya DESC'
                                 )
                             )
                         )
@@ -174,12 +182,12 @@ class KasuspenyakitruanganM extends CActiveRecord
                  */
         public function getRuanganItems()
         {
-            return RuanganM::model()->findAll(array('order'=>'ruangan_nama'));
+            return RuanganM::model()->findAll("ruangan_aktif = TRUE ORDER BY ruangan_nama ASC");
         }
 
         public function getJenisKasusPenyakitItems()
         {
-            return JeniskasuspenyakitM::model()->findAll(array('order'=>'jeniskasuspenyakit_nama'));
+            return JeniskasuspenyakitM::model()->findAll("jeniskasuspenyakit_aktif = TRUE ORDER BY jeniskasuspenyakit_nama ASC");
         }
 
 }
