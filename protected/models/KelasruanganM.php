@@ -90,7 +90,7 @@ class KelasruanganM extends CActiveRecord
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-
+                //$criteria->with('kelaspelayanan');
 		$criteria->compare('ruangan_id',$this->ruangan_id);
 		$criteria->compare('kelaspelayanan_id',$this->kelaspelayanan_id);
 
@@ -125,7 +125,7 @@ class KelasruanganM extends CActiveRecord
                 $criteria->with=array('ruangan','kelaspelayanan');
 //                                $criteria->distinct = true;
 //                                $criteria->select = array('ruangan_id','kelaspelayanan_id');
-                                $criteria->order = 'ruangan.ruangan_nama,kelaspelayanan.kelaspelayanan_nama';
+                               // $criteria->order = 'ruangan.ruangan_nama,kelaspelayanan.kelaspelayanan_nama';
                 if (Yii::app()->controller->module->id =='sistemAdministrator') {
                     $criteria->compare('t.ruangan_id',Params::RUANGAN_ID_RAD);
                 }else{
@@ -139,7 +139,16 @@ class KelasruanganM extends CActiveRecord
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-                                                'pagination'=>false,
+                        'pagination'=>false,
+                        'sort' => array(
+                            'attributes' => array(
+                                'kelaspelayanan_nama' => array(
+                                    'asc' => 'kelaspelayanan.kelaspelayanan_nama ASC',
+                                    'desc' => 'kelaspelayanan.kelaspelayanan_nama DESC',
+                                ),
+                                '*',
+                            )
+                        )
 		));
 	}
         

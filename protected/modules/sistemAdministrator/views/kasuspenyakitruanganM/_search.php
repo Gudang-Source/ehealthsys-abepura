@@ -7,6 +7,7 @@
 
 
 	<?php echo $form->DropDownListRow($model, 'jeniskasuspenyakit_id', CHtml::listData(SAJenisKasusPenyakitM::model()->getItems(),'jeniskasuspenyakit_id','jeniskasuspenyakit_nama'),array('empty'=>'-- Pilih --')); ?>
+        <?php echo $form->TextFieldRow($model, 'jeniskasuspenyakit_namalainnya'); ?>
 	<div class="form-actions">
 		<?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit')); ?>
 	</div>

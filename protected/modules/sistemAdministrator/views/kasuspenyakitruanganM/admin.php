@@ -44,8 +44,8 @@
                     array(
                             'name'=>'ruangan.ruangan_nama',
                             'header'=>'Nama Ruangan',
-                            'value'=>'$data->ruangan->ruangan_nama',
-            ),
+                            'value'=>'$data->ruangan->ruangan_nama',                            
+                         ),
                     array(
                             'header'=>'Jenis Kasus Penyakit',
                             'name'=>'jeniskasuspenyakit_id',
@@ -57,7 +57,7 @@
                     ),
                     array(
                             'header'=>'Nama Lain Kasus',
-                            'name'=>'jeniskasuspenyakit_nama',
+                            'name'=>'jeniskasuspenyakit_namalainnya',
                             'value'=>'$data->jeniskasuspenyakit->jeniskasuspenyakit_namalainnya',
                     ),
                     array(

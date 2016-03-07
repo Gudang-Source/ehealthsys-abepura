@@ -6,7 +6,7 @@ class ImplementasikeperawatanMController extends MyAuthController
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	public $layout='//layouts/column1';
+	public $layout='//layouts/iframe';
 	public $defaultAction = 'admin';
 	public $path_view = 'sistemAdministrator.views.implementasikeperawatanM.';
 	public $path_views = 'sistemAdministrator.views.';
@@ -114,7 +114,7 @@ class ImplementasikeperawatanMController extends MyAuthController
                         var_dump($_POST);
                         $ok = true;
                         $trans = Yii::app()->db->beginTransaction();
-                        $sub = ImplementasikeperawatanM::model()->findByPk($_POST['ImplementasikeperawatanM'][1]['implementasikeperawatan_id']);
+                        $sub = ImplementasikeperawatanM::model()->findByPk($_POST['ImplementasikeperawatanM'][0]['implementasikeperawatan_id']);
                         foreach ($_POST['ImplementasikeperawatanM'] as $item) {
                             $model = new ImplementasikeperawatanM;
                             $model->diagnosakeperawatan_id = $sub->diagnosakeperawatan_id;
@@ -329,11 +329,11 @@ class ImplementasikeperawatanMController extends MyAuthController
                     $caraPrint=$_REQUEST['caraPrint'];
                     if($caraPrint=='PRINT') {
                         $this->layout='//layouts/printWindows';
-                        $this->render('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+                        $this->render($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
                     }
                     else if($caraPrint=='EXCEL') {
                         $this->layout='//layouts/printExcel';
-                        $this->render('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+                        $this->render($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
                     }
                     else if($_REQUEST['caraPrint']=='PDF') {
                         $ukuranKertasPDF = Yii::app()->user->getState('ukuran_kertas');                  //Ukuran Kertas Pdf
@@ -343,7 +343,7 @@ class ImplementasikeperawatanMController extends MyAuthController
                         $stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
                         $mpdf->WriteHTML($stylesheet,1);  
                         $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
-                        $mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
+                        $mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
                         $mpdf->Output();
                     }                       
                 }}

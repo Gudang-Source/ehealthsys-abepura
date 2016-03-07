@@ -25,7 +25,9 @@
             return false;
     });
     ");
-
+    if (isset($_GET['sukses'])):
+        Yii::app()->user->setFlash('success','<strong>Berhasil</strong> Data Berhasil disimpan');
+    endif;
     $this->widget('bootstrap.widgets.BootAlert'); ?>
 
     <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-accordion icon-white"></i>')),'#',array('class'=>'search-button btn')); ?>
@@ -46,6 +48,7 @@
                             'name'=>'ruangan_nama',
                             'header'=>'Nama Ruangan',
                             'value'=>'$data->ruangan->ruangan_nama',
+                            'filter'=>false,
                         ),
                         array(
                             'name'=>'nama_pegawai',
@@ -67,17 +70,17 @@
                                 ),
                             ),
                         ),
-//                        array(
-//                            'header'=>Yii::t('zii','Update'),
-//                            'class'=>'ext.bootsrap.widgets.BootButtonColumn',
-//                            'template'=>'{update}',
-//                            'buttons'=>array(
-//                                'update'=>array(
-//                                    'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/Update",array("id"=>"$data->ruangan_id"))',
-//                                    'options'=>array('rel' => 'tooltip' , 'title'=> 'ubah Ruangan Pegawai' ),
-//                                ),
-//                            ),
-//                        ),
+            //            array(
+         //                   'header'=>Yii::t('zii','Update'),
+          //                  'class'=>'ext.bootsrap.widgets.BootButtonColumn',
+          //                  'template'=>'{update}',
+         //                   'buttons'=>array(
+         //                       'update'=>array(
+        //                            'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/Update",array("id"=>"$data->ruangan_id"))',
+        //                            'options'=>array('rel' => 'tooltip' , 'title'=> 'ubah Ruangan Pegawai' ),
+        //                        ),
+        //                    ),
+         //               ),
                         array(
                             'header'=>'Hapus',
                             'class'=>'ext.bootstrap.widgets.BootButtonColumn',

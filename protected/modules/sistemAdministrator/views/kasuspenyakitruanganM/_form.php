@@ -94,7 +94,7 @@
                 //         $tr .= "<td>".$modruangan->ruangan_nama."</td>";
                 //         $tr .= "<td>".$modJeniskasuspenyakit->jeniskasuspenyakit_nama."</td>";
                 //         $tr .= "<td>".$modJeniskasuspenyakit->jeniskasuspenyakit_namalainnya."</td>";
-                //         $tr .= "<td>".CHtml::link("<i class='icon-remove'></i>", '#', array('onclick'=>'remove(this);'))."</td>";
+                //         $tr .= "<td>".CHtml::link("<i class='icon-form-silang'></i>", '#', array('onclick'=>'remove(this);'))."</td>";
                 //         $tr .= "</tr>";
                 //         echo $tr;
                 //     }
@@ -115,7 +115,7 @@
                         <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Kasus Penyakit Ruangan', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')), $this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
 
                         <?php
-                            $content = $this->renderPartial('sistemAdministrator.views.tips.tipsaddedit3a',array(),true);
+                            $content = $this->renderPartial('sistemAdministrator.views.tips.tipsaddedit2e',array(),true);
                             $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
                         ?>
 	</div>
@@ -150,7 +150,7 @@
             array(
                 'header'=>'Pilih',
                 'type'=>'raw',
-                'value'=>'CHtml::Link("<i class=\"icon-check\"></i>","#",
+                'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",
                                 array(
                                         "class"=>"btn-small",
                                         "id" => "selectKasuspenyakit",

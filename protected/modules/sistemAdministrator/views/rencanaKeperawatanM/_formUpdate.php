@@ -41,7 +41,7 @@
 
                             <?php echo $form->hiddenField($rencanaKeperawatan, "[$i]rencanakeperawatan_id", array('value'=>$rencanaKeperawatan->rencanakeperawatan_id));?>
 
-                            <?php echo $form->textField($rencanaKeperawatan,"[$i]rencana_kode",array('value'=>$rencanaKeperawatan->rencana_kode, 'class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?> 
+                            <?php echo $form->textField($rencanaKeperawatan,"[$i]rencana_kode",array('value'=>$rencanaKeperawatan->rencana_kode, 'class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);" , 'maxlength'=>20)); ?> 
                         </td>
                         <td>
                             <?php echo $form->textArea($rencanaKeperawatan,"[$i]rencana_intervensi",array('value'=>$rencanaKeperawatan->rencana_intervensi, 'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>

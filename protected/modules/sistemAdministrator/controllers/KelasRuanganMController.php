@@ -50,7 +50,7 @@ class KelasRuanganMController extends MyAuthController
 
 								 Yii::app()->user->setFlash('success', "Data Kelas Ruangan Berhasil Disimpan");
 								 $transaction->commit();
-								 $this->redirect(array('admin'));
+								 $this->redirect(array('admin', 'sukses'=>1));
 						}   
 					catch (Exception $e)
 						{
@@ -111,7 +111,7 @@ class KelasRuanganMController extends MyAuthController
 	public function actionAdmin()
 	{
                 
-		$model=new SAKelasruanganM('search');
+		$model=new SAKelasruanganM('searchTabel');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['SAKelasruanganM'])){
 			$model->attributes=$_GET['SAKelasruanganM'];

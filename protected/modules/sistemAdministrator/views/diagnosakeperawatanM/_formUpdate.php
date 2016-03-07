@@ -44,7 +44,7 @@
             <?php echo $form->textField($DiagnosaId,"[$i]diagnosakeperawatan_kode",array('value'=>(isset($DiagnosaId->diagnosakeperawatan_kode) ? $DiagnosaId->diagnosakeperawatan_kode : ""), 'class'=>'span1', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?> 
         </td>
         <td>
-            <?php echo $form->textArea($DiagnosaId,"[$i]diagnosa_medis",array('value'=>(isset($row->diagnosakeperawatan_medis) ? $row->diagnosakeperawatan_medis : ""),'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10)); ?>
+            <?php echo $form->textArea($DiagnosaId,"[$i]diagnosa_medis",array('value'=>(isset($row->diagnosakeperawatan_medis) ? $row->diagnosakeperawatan_medis : ""),'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
         </td>
         <td>
             <?php echo $form->textArea($DiagnosaId,"[$i]diagnosa_keperawatan",array('value'=>(isset($row->diagnosakeperawatan_keperawatan) ? $row->diagnosakeperawatan_keperawatan : ""),'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
