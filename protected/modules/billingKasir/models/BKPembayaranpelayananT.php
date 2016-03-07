@@ -128,7 +128,7 @@ class BKPembayaranpelayananT extends PembayaranpelayananT
                 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-//  RND-6992                      'pagination'=>false,
+                        'pagination'=>false,
 		));
 	}
         
@@ -156,7 +156,7 @@ class BKPembayaranpelayananT extends PembayaranpelayananT
                 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-//  RND-6992                      'pagination'=>false,
+                        'pagination'=>false,
 		));            
         }
         
@@ -182,7 +182,7 @@ class BKPembayaranpelayananT extends PembayaranpelayananT
                 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-//  RND-6992                      'pagination'=>false,
+                        'pagination'=>false,
 		));            
         }
         // end print //
