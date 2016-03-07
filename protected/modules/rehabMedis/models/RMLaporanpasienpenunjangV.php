@@ -122,9 +122,9 @@ class RMLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
 		if (!empty($ruangan_id)){
 			$criteria->addCondition('ruanganpenunj_id ='.$ruangan_id);
 		}
-        if(!is_array($this->kunjungan)){
-            $this->kunjungan = 0;
-        }
+        //if(!is_array($this->kunjungan)){
+        //    $this->kunjungan = 0;
+        //}
         $criteria->compare('kunjungan', $this->kunjungan);
 
         return new CActiveDataProvider($this, array(
