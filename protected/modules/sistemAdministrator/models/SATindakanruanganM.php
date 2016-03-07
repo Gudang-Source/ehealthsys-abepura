@@ -27,6 +27,28 @@ class SATindakanruanganM extends TindakanruanganM
 		$criteria->compare('LOWER(daftartindakan.daftartindakan_nama)',  strtolower($this->daftartindakan_nama), true);
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+                        'sort' => array(
+                          'attributes' => array(
+                              'kelompoktindakan_nama' => array(
+                                  'asc' => 'kelompoktindakan.kelompoktindakan_nama ASC',
+                                  'desc' => 'kelompoktindakan.kelompoktindakan_nama DESC',
+                                ),
+                               'kategoritindakan_nama' => array(
+                                  'asc' => 'kategoritindakan.kategoritindakan_nama ASC',
+                                  'desc' => 'kategoritindakan.kategoritindakan_nama DESC',
+                                ),
+                               'daftartindakan_kode' => array(
+                                  'asc' => 'daftartindakan.daftartindakan_kode ASC',
+                                  'desc' => 'daftartindakan.daftartindakan_kode DESC',
+                                ),
+                                'daftartindakan_nama' => array(
+                                  'asc' => 'daftartindakan.daftartindakan_nama ASC',
+                                  'desc' => 'daftartindakan.daftartindakan_nama DESC',
+                                ),
+                                '*',
+                              
+                          )  
+                        ),
 		));
 	}
 }

@@ -191,7 +191,7 @@ class KasuspenyakitruanganMController extends MyAuthController
                 $tr .= "<td>".$modRuangan->ruangan_nama."</td>";
                 $tr .= "<td>".$modJeniskasuspenyakit->jeniskasuspenyakit_nama."</td>";
                 $tr .= "<td>".$modJeniskasuspenyakit->jeniskasuspenyakit_namalainnya."</td>";
-                $tr .= "<td>".CHtml::link("<i class='icon-remove'></i>", '#', array('onclick'=>'hapusBaris(this); return false;'))."</td>";
+                $tr .= "<td>".CHtml::link("<i class='icon-form-silang'></i>", '#', array('onclick'=>'hapusBaris(this); return false;'))."</td>";
                 $tr .= "</tr>";
 
            $data['tr']=$tr;

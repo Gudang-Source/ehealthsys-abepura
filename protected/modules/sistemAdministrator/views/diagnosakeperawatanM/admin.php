@@ -53,6 +53,7 @@
                             ),
                             array(
                                 'header'=>'Diagnosa',
+                                'name' => 'diagnosa_nama',
                                 'value'=>'$data->diagnosa->diagnosa_nama',
                                 'filter'=>  CHtml::activeTextField($model,'diagnosa_nama'),
                             ),
@@ -64,6 +65,7 @@
                             /*
                             'diagnosa_keperawatan_aktif',
                             */
+                            
                             array(
                                  'header'=>'Kriteria Hasil',
                                  'type'=>'raw',
@@ -72,6 +74,10 @@
                                  }
 
                             ),
+                            array(
+                                'header'=>'Status',                                
+                                'value'=>'($data->diagnosa_keperawatan_aktif)?"Aktif":"Tidak Aktif"',                                
+                            ),        
                             array(
                                     'header'=>Yii::t('zii','View'),
                                     'class'=>'bootstrap.widgets.BootButtonColumn',
@@ -96,7 +102,7 @@
                     array(
                         'header'=>'<center>Hapus</center>',
                         'type'=>'raw',
-                        'value'=>'($data->diagnosa_keperawatan_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->diagnosakeperawatan_id)",array("id"=>"$data->diagnosakeperawatan_id","rel"=>"tooltip","title"=>"Menonaktifkan Diagnosa Keperawatan"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->diagnosakeperawatan_id)",array("id"=>"$data->diagnosakeperawatan_id","rel"=>"tooltip","title"=>"Hapus Diagnosa Keperawatan")):CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->diagnosakeperawatan_id)",array("id"=>"$data->diagnosakeperawatan_id","rel"=>"tooltip","title"=>"Hapus Diagnosa Keperawatan"));',
+                        'value'=>'($data->diagnosa_keperawatan_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->diagnosakeperawatan_id)",array("id"=>"$data->diagnosakeperawatan_id","rel"=>"tooltip","title"=>"Menonaktifkan Diagnosa Keperawatan"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->diagnosakeperawatan_id)",array("id"=>"$data->diagnosakeperawatan_id","rel"=>"tooltip","title"=>"Hapus Diagnosa Keperawatan")):CHtml::link("<i class=\'icon-form-check\'></i> ","javascript:addTemporary($data->diagnosakeperawatan_id, 1)",array("id"=>"$data->diagnosakeperawatan_id","rel"=>"tooltip","title"=>"Mengaktifkan Diagnosa Keperawatan"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->diagnosakeperawatan_id)",array("id"=>"$data->diagnosakeperawatan_id","rel"=>"tooltip","title"=>"Hapus Diagnosa Keperawatan"));',
                         'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
                     ),
                     ),
@@ -141,6 +147,22 @@ JSCRIPT;
         myConfirm("Yakin akan menonaktifkan data ini untuk sementara?","Perhatian!",function(r) {
             if (r){
                  $.post(url, {id: id},
+                     function(data){
+                        if(data.status == 'proses_form'){
+                                $.fn.yiiGridView.update('sadiagnosakeperawatan-m-grid');
+                            }else{
+                                myAlert('Data Gagal di Nonaktifkan')
+                            }
+                },"json");
+           }
+        });
+    }
+    
+    function addTemporary(id, add){
+        var url = '<?php echo $url."/removeTemporary"; ?>';
+        myConfirm("Yakin akan mengaktifkan data ini untuk sementara?","Perhatian!",function(r) {
+            if (r){
+                 $.post(url, {id: id, add:add},
                      function(data){
                         if(data.status == 'proses_form'){
                                 $.fn.yiiGridView.update('sadiagnosakeperawatan-m-grid');

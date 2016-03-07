@@ -27,7 +27,9 @@ $('.search-form form').submit(function(){
 	return false;
 });
 ");
-
+if (isset($_GET['sukses'])):
+    Yii::app()->user->setFlash('success','<strong>Berhasil</strong>Data Berhasil disimpan');
+endif;
 $this->widget('bootstrap.widgets.BootAlert'); ?>
 
 <?php 
@@ -42,7 +44,7 @@ echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class
     <!--<h6>Tabel Kelas Ruangan</h6>-->
     <?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'id'=>'ppruangan-m-grid',
-            'dataProvider'=>$model->search(),
+            'dataProvider'=>$model->searchTabel(),
             'filter'=>$model,
                     'template'=>"{summary}\n{items}{pager}",
                     'itemsCssClass'=>'table table-striped table-bordered table-condensed',
@@ -60,8 +62,9 @@ echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class
                             array(
                                     'header'=>'Kelas Pelayanan ',
                                     'type'=>'raw',
+                                    'name' => 'kelaspelayanan_nama',
                                     'value'=>'$data->kelaspelayanan->kelaspelayanan_nama',
-                                    'filter'=> CHtml::activeDropDownList($model, 'kelaspelayanan_id', CHtml::listData(SAKelasPelayananM::model()->getItems(),'kelaspelayanan_id','kelaspelayanan_nama'),array('empty'=>''))
+                                    'filter'=> CHtml::activeDropDownList($model, 'kelaspelayanan_id', CHtml::listData(SAKelasPelayananM::model()->getItems(),'kelaspelayanan_id','kelaspelayanan_nama'),array('empty'=>'--Pilih--'))
                             ), 
                             array(
                                     'header'=>Yii::t('zii','View'),

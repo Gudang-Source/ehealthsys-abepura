@@ -54,12 +54,12 @@
                             ),
                             array(
                                     'name'=>'diagnosakeperawatan_id',
-                                    'filter'=>  CHtml::listData($model->DiagnosaKeperawatanItems, 'diagnosakeperawatan_id', 'diagnosakeperawatan_kode'),
+                                    'filter'=> CHtml::dropDownList('SAImplementasikeperawatanM[diagnosakeperawatan_id]',$model->diagnosakeperawatan_id,CHtml::listData($model->DiagnosaKeperawatanItems, 'diagnosakeperawatan_id', 'diagnosakeperawatan_kode'),array('empty'=>'--Pilih--')),
                                     'value'=>'$data->diagnosakeperawatan->diagnosakeperawatan_kode." - ".$data->diagnosakeperawatan->diagnosa_keperawatan',
                             ),
                             array(
                                     'name'=>'rencanakeperawatan_id',
-                                    'filter'=>  CHtml::listData($model->RencanaKeperawatanItems, 'rencanakeperawatan_id', 'rencana_kode'),
+                                    'filter'=>  CHtml::dropDownList('SAImplementasikeperawatanM[rencanakeperawatan_id]',$model->rencanakeperawatan_id,CHtml::listData($model->RencanaKeperawatanItems, 'rencanakeperawatan_id', 'rencana_kode'), array('empty'=>'--Pilih--')),
                                     'value'=>'$data->rencanakeperawatan->rencana_kode." - ".$data->rencanakeperawatan->rencana_intervensi',
                             ),
                             'implementasikeperawatan_kode',

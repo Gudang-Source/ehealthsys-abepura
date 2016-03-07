@@ -7,11 +7,11 @@
 <table width="100%">
     <tr>
         <td>
+            <?php echo$form->dropDownListRow($model, 'diagnosakeperawatan_id',CHtml::listData($model->DiagnosaKeperawatanItems, 'diagnosakeperawatan_id', 'diagnosakeperawatan_kode'),array('empty'=>'--Pilih--')); ?>
             <?php echo $form->textFieldRow($model,'implementasikeperawatan_kode',array('class'=>'span3','maxlength'=>20)); ?>
-        </td>
-    </tr>
-    <tr>
+        </td>    
         <td>
+            <?php echo $form->dropDownListRow($model, 'rencanakeperawatan_id',CHtml::listData($model->RencanaKeperawatanItems, 'rencanakeperawatan_id', 'rencana_kode'), array('empty'=>'--Pilih--')); ?>
             <?php echo $form->textAreaRow($model,'implementasi_nama',array('rows'=>6, 'cols'=>20, 'class'=>'span3')); ?>
         </td>
     </tr>

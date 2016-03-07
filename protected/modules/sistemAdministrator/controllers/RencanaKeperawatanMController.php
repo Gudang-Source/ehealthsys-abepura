@@ -6,7 +6,7 @@ class RencanaKeperawatanMController extends MyAuthController
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	public $layout='//layouts/column1';
+	public $layout='//layouts/iframe';
 	public $defaultAction = 'admin';
 	public $path_view = 'sistemAdministrator.views.rencanaKeperawatanM.';
 	public $path_views = 'sistemAdministrator.views.';
@@ -35,19 +35,19 @@ class RencanaKeperawatanMController extends MyAuthController
 	public function actionCreate()
 	{
                  //if(!Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}                                             
-		$model=new SARencanaKeperawatanM;
+		$model=new SARencanakeperawatanM;
 
 		// Uncomment the following line if AJAX validation is needed
 	
 //var_dump($_POST); die;
-		  if(isset($_POST['SARencanaKeperawatanM']))
+		  if(isset($_POST['SARencanakeperawatanM']))
                                     {
                         //var_dump($_POST); die;
                                         $valid=true;
                                         $jmlhsave = 0;
                                         //var_dump($_POST); die;
                                         //echo COUNT($_POST['SARencanaKeperawatanM']); die;
-                                        foreach ($_POST['SARencanaKeperawatanM'] as $data=>$item)
+                                        foreach ($_POST['SARencanakeperawatanM'] as $data=>$item)
                                         {
                                                     $model=new SARencanaKeperawatanM;
                                                     $model->attributes=$item;
@@ -58,7 +58,7 @@ class RencanaKeperawatanMController extends MyAuthController
                                                         $jmlhsave++;
                                                     }
                                             }
-                                        if ($jmlhsave==COUNT($_POST['SARencanaKeperawatanM'])) {
+                                        if ($jmlhsave==COUNT($_POST['SARencanakeperawatanM'])) {
                                             Yii::app()->user->setFlash('success','<strong>Berhasil</strong> Data berhasil disimpan');
                                             $this->redirect(array('admin'));
                                         }
@@ -79,7 +79,7 @@ class RencanaKeperawatanMController extends MyAuthController
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		$model=$this->loadModel($id);
                 $modRencanaKeperawatan = RencanaKeperawatanM::model()->findAllByAttributes(array('diagnosakeperawatan_id'=>$model->diagnosakeperawatan_id));
-				$modDiagnosakeperawatan = SADiagnosakeperawatanM::model()->findByPk($model->diagnosakeperawatan_id);
+                $modDiagnosakeperawatan = SADiagnosakeperawatanM::model()->findByPk($model->diagnosakeperawatan_id);
 
 		// Uncomment the following line if AJAX validation is needed
 		
@@ -88,7 +88,7 @@ class RencanaKeperawatanMController extends MyAuthController
                         // var_dump($_POST);
                         $ok = true;
                         $trans = Yii::app()->db->beginTransaction();
-                        $sub = RencanaKeperawatanM::model()->findByPk($_POST['RencanakeperawatanM'][1]['rencanakeperawatan_id']);
+                        $sub = RencanaKeperawatanM::model()->findByPk($_POST['RencanakeperawatanM'][0]['rencanakeperawatan_id']);
                         foreach ($_POST['RencanakeperawatanM'] as $item) {
                             $model = new RencanaKeperawatanM;
                             $model->diagnosakeperawatan_id = $sub->diagnosakeperawatan_id;
@@ -207,7 +207,7 @@ class RencanaKeperawatanMController extends MyAuthController
 	public function actionAdmin()
 	{
                 
-		$model=new SARencanaKeperawatanM('searchData');
+		$model=new SARencanakeperawatanM('searchData');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['SARencanakeperawatanM']))
 			$model->attributes=$_GET['SARencanakeperawatanM'];
@@ -224,7 +224,7 @@ class RencanaKeperawatanMController extends MyAuthController
 	 */
 	public function loadModel($id)
 	{
-		$model=SARencanaKeperawatanM::model()->findByPk($id);
+		$model=SARencanakeperawatanM::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -315,19 +315,19 @@ class RencanaKeperawatanMController extends MyAuthController
         public function actionPrint()
          {
                                                               
-             $model= new RencanakeperawatanM;
-             $model->attributes=$_REQUEST['RencanakeperawatanM'];
+             $model= new SARencanakeperawatanM;
+             $model->attributes=$_REQUEST['SARencanakeperawatanM'];
              $judulLaporan='Laporan Rencana Keperawatan';
              $caraPrint=$_REQUEST['caraPrint'];
             if($caraPrint=='PRINT')
                 {
                     $this->layout='//layouts/printWindows';
-                    $this->render('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+                    $this->render($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
                 }
             else if($caraPrint=='EXCEL')    
                 {
                     $this->layout='//layouts/printExcel';
-                    $this->render('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+                    $this->render($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
                 }
             else if($_REQUEST['caraPrint']=='PDF')
                 {
@@ -339,7 +339,7 @@ class RencanaKeperawatanMController extends MyAuthController
                     $stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
                     $mpdf->WriteHTML($stylesheet,1);  
                     $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
-                    $mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
+                    $mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
                     $mpdf->Output();
                 }                       
          }

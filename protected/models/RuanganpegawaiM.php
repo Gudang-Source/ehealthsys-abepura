@@ -142,6 +142,10 @@ class RuanganpegawaiM extends CActiveRecord
                                     'asc'=>'ruangan.ruangan_nama',
                                     'desc'=>'ruangan.ruangan_nama DESC',
                                 ),
+                                'nama_pegawai'=>array(
+                                    'asc'=>'pegawai.nama_pegawai ASC',
+                                    'desc'=>'pegawai.nama_pegawai DESC',
+                                ),
                                 '*',
                             ),
                         ),

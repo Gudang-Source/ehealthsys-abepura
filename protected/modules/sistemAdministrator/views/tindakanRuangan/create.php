@@ -164,7 +164,7 @@
 	<div class="form-actions">
 		<?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Tindakan Ruangan', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')), $this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
 		<?php
-			$content = $this->renderPartial('rawatJalan.views.tips.tipsaddedit3',array(),true);
+			$content = $this->renderPartial('sistemAdministrator.views.tindakanRuangan.tips.tipsaddedit',array(),true);
 			$this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
 		?>
 	</div>

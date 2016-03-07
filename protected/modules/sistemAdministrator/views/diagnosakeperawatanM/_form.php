@@ -147,10 +147,10 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     
                 </td>
                 <td>
-                    <?php echo $form->textField($model,'[1]diagnosakeperawatan_kode',array('class'=>'span1', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?> 
+                    <?php echo $form->textField($model,'[1]diagnosakeperawatan_kode',array('class'=>'span1', 'onkeypress'=>"return $(this).focusNextInputField(event);",'maxlength'=>10)); ?> 
                 </td>
                 <td>
-                    <?php echo $form->textArea($model,'[1]diagnosa_medis',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10)); ?>
+                    <?php echo $form->textArea($model,'[1]diagnosa_medis',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                 </td>
                 <td>
                     <?php echo $form->textArea($model,'[1]diagnosa_keperawatan',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>

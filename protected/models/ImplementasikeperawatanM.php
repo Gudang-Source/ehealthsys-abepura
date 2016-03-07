@@ -123,7 +123,7 @@ class ImplementasikeperawatanM extends CActiveRecord
         }
          public function getDiagnosaKeperawatanItems()
         {
-            return DiagnosakeperawatanM::model()->findAll(array('order'=>'diagnosakeperawatan_kode'));
+            return DiagnosakeperawatanM::model()->findAll("diagnosa_keperawatan_aktif = TRUE ORDER BY diagnosakeperawatan_kode ASC");
         }
         public function getRencanaKeperawatanItems()
         {
