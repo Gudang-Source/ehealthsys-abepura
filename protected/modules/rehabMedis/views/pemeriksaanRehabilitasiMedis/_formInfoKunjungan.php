@@ -290,8 +290,8 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     $modDialogKunjungan = new RMPasienMasukPenunjangV('searchDialogKunjungan');
     $modDialogKunjungan->unsetAttributes();
     $modDialogKunjungan->ruangan_id = Yii::app()->user->getState('ruangan_id');
-    if(isset($_GET['ROPasienMasukPenunjangV'])) {
-        $modDialogKunjungan->attributes = $_GET['ROPasienMasukPenunjangV'];
+    if(isset($_GET['RMPasienMasukPenunjangV'])) {
+        $modDialogKunjungan->attributes = $_GET['RMPasienMasukPenunjangV'];
     }
 
     $this->widget('ext.bootstrap.widgets.BootGridView',array(
