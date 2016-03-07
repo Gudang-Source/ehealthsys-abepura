@@ -49,7 +49,7 @@ class RuanganpegawaiMController extends MyAuthController
                             if ($jumlah == COUNT($_POST['pegawai_id'])) {
                                 $transaction->commit();
                                 Yii::app()->user->setFlash('success','<strong>Berhasil</strong> Data Berhasil disimpan');
-                                $this->redirect(array('admin'));
+                                $this->redirect(array('admin','sukses'=>1));
                             } else {
                                 $transaction->rollback();
                             }
@@ -102,7 +102,7 @@ class RuanganpegawaiMController extends MyAuthController
                             if ($jumlah == COUNT($_POST['pegawai_id'])) {
                                 $transaction->commit();
                                 Yii::app()->user->setFlash('success','<strong>Berhasil</strong> Data Berhasil disimpan');
-                                $this->redirect(array('admin'));
+                                $this->redirect(array('admin','sukses'=>1));
                             } else {
                                 $transaction->rollback();
                             }
@@ -228,7 +228,7 @@ class RuanganpegawaiMController extends MyAuthController
                 $tr .= "<td>".$modruangan->ruangan_nama."</td>";
                 $tr .= "<td>".$modruangan->ruangan_namalainnya."</td>";
                 $tr .= "<td>".$modpegawai->NamaLengkap."</td>";
-                $tr .= "<td>".CHtml::link("<i class='icon-remove'></i>", '#', array('onclick'=>'hapusBaris(this); return false;'))."</td>";
+                $tr .= "<td>".CHtml::link("<i class='icon-form-silang'></i>", '#', array('onclick'=>'hapusBaris(this); return false;'))."</td>";
                 $tr .= "</tr>";
 
            $data['tr']=$tr;

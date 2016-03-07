@@ -104,9 +104,19 @@ class DiagnosakeperawatanM extends CActiveRecord
                         $criteria->compare('LOWER(diagnosa.diagnosa_nama)',strtolower($this->diagnosa_nama),true);
         //                $criteria->addCondition('diagnosa_keperawatan_aktif is true');
                         $criteria->with=array('diagnosa');
+                        //$criteria->order = 'diagnosakeperawatan_id ASC';
 
                         return new CActiveDataProvider($this, array(
                                 'criteria'=>$criteria,
+                                'sort' => array(
+                            'attributes' => array(
+                                'diagnosa_nama' => array(
+                                    'asc' => 'diagnosa.diagnosa_nama ASC',
+                                    'desc' => 'diagnosa.diagnosa_nama DESC',
+                                    ),
+                                    '*',
+                            ),
+                                    )
                         ));
 	}
         

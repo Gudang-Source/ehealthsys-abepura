@@ -7,10 +7,13 @@
 <table>
     <tr>
         <td>
-            <?php echo $form->textFieldRow($model,'diagnosakeperawatan_id',array('class'=>'span3')); ?>
+            <?php //echo $form->textFieldRow($model,'diagnosakeperawatan_id',array('class'=>'span3')); ?>
+            <?php echo $form->dropDownListRow($model,'diagnosakeperawatan_id',CHtml::listData($model->DiagnosaKeperawatanItems, 'diagnosakeperawatan_id', 'diagnosakeperawatan_kode'), array('empty'=>'--Pilih--')); ?>
+            <?php echo $form->textAreaRow($model,'rencana_intervensi',array('rows'=>3, 'cols'=>30, 'class'=>'span3')); ?>
         </td>
         <td>
             <?php echo $form->textFieldRow($model,'rencana_kode',array('class'=>'span3','maxlength'=>20)); ?>
+            <?php echo $form->textAreaRow($model,'rencana_rasionalisasi',array('rows'=>3, 'cols'=>30, 'class'=>'span3')); ?>
         </td>
     </tr>
     <?php /*

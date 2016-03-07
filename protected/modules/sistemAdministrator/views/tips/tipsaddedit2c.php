@@ -3,7 +3,7 @@
 <table border="0" style="padding :none;">
   <tr>
     <td width="10px">1. </td>
-    <td>Gunakan tombol ini  <i class="icon-list-alt"></i><i class="icon-search"></i>
+    <td>Gunakan tombol ini  <i class="icon-list"></i><i class="icon-search"></i>
        untuk melakukan pencarian.</td>
   </tr>
   <tr>
@@ -25,8 +25,8 @@ Simpan
   <tr>
     <td>5. </td>
     <td>Gunakan tombol ini <div class="btn btn-danger">
-      <i class="icon-ban-circle icon-white"></i>
-      Batal
+      <i class="icon-refresh icon-white"></i>
+      Ulang
       </div> berfungsi untuk kembali.</td>
   </tr>
 </table>

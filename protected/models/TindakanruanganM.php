@@ -129,12 +129,12 @@ class TindakanruanganM extends CActiveRecord
         
         public function getDaftarTindakanItems()
         {
-           return DaftartindakanM::model()->findAll(array('order'=>'daftartindakan_nama'));
+           return DaftartindakanM::model()->findAll("daftartindakan_aktif = true ORDER BY daftartindakan_nama ASC");
         }
         
          public function getRuanganItems()
         {
-            return RuanganM::model()->findAll(array('order'=>'ruangan_nama'));
+            return RuanganM::model()->findAll("ruangan_aktif = true ORDER BY ruangan_nama ASC");
         }
         
         public function searchPelRek(){
@@ -177,4 +177,6 @@ class TindakanruanganM extends CActiveRecord
                         'pagination'=>false,
 			));
         }
+        
+       
 }

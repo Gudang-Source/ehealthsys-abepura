@@ -124,6 +124,6 @@ class JeniskasuspenyakitM extends CActiveRecord
         
           public function getJenisKasusPenyakitItems()
                 {
-                    return JeniskasuspenyakitM::model()->findAll(array('order'=>'jeniskasuspenyakit_nama'));
+                    return JeniskasuspenyakitM::model()->findAll("jeniskasuspenyakit_aktif = TRUE ORDER BY jeniskasuspenyakit_nama");
                 }
 }

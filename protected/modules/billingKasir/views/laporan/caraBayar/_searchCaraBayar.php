@@ -19,8 +19,7 @@
             margin-top:5px;
         }
         #ruangan label{
-            width: 120px;
-            display:inline-block;
+            width: 120px;            
         }
         .nav-tabs>li>a{display:block; cursor:pointer;}
     </style>
