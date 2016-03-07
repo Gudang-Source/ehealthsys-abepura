@@ -82,6 +82,8 @@
  */
 class LaporanpasienpenunjangV extends CActiveRecord
 {
+        public $tgl_awal;
+        public $tgl_akhir;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
