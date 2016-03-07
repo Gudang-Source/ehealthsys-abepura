@@ -138,7 +138,10 @@
 				array('class'=>'btn btn-danger',
 					  'onclick'=>'return refreshForm(this);')); ?>
 		<?php echo CHtml::link(Yii::t('mds','{icon} Pengaturan Detail Pemeriksaan',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
-		<?php $this->widget('UserTips',array('type'=>'create'));?>
+		<?php 
+                    $content = $this->renderPartial($this->path_view.'tips/tipsCreate',array(),true);
+                    $this->widget('UserTips',array('content'=>$content));
+                ?>
 		</div>
 	</div>
 <?php $this->endWidget(); ?>

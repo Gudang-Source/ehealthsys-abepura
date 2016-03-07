@@ -100,13 +100,20 @@ class NilaiRujukanLabController extends MyAuthController
 		{
 			$data['sukses']=0;
 			$model = $this->loadModel($id);
-			$model->nilairujukan_aktif = false;
+                        if (isset($_GET['add'])):
+                            $model->nilairujukan_aktif = true;                        
+                        else:    
+                            $model->nilairujukan_aktif = false;                        
+                        endif;
+			
 			if($model->save()){
 				$data['sukses'] = 1;
 			}
 			echo CJSON::encode($data); 
 		}
 	}
+        
+        
 
 	/**
 	 * Melihat daftar data.

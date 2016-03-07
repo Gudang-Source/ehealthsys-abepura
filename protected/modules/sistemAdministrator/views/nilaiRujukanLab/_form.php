@@ -22,7 +22,8 @@
 			<?php echo $form->textFieldRow($model,'nilairujukan_nama',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
 			<?php echo $form->textFieldRow($model,'nilairujukan_min',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
 			<?php echo $form->textFieldRow($model,'nilairujukan_max',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
-			<?php echo $form->textFieldRow($model,'nilairujukan_satuan',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+			<?php //echo $form->textFieldRow($model,'nilairujukan_satuan',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+                        <?php echo $form->dropDownListRow($model, 'nilairujukan_satuan',LookupM::getItems('satuanhasillab'), array('empty'=>'--Pilih--')); ?>
 		</div>
 		<div class = "span4">
 			<?php echo $form->textFieldRow($model,'nilairujukan_metode',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30)); ?>
@@ -37,7 +38,8 @@
 				$this->createUrl('create'), 
 				array('class'=>'btn btn-danger',
 					  'onclick'=>'return refreshForm(this);')); ?>
-		<?php echo CHtml::link(Yii::t('mds','{icon} Pengaturan Nilai Rujukan (Referensi) Lab',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
+		<?php //echo CHtml::link(Yii::t('mds','{icon} Pengaturan Nilai Rujukan (Referensi) Lab',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
+                <?php echo CHtml::link(Yii::t('mds','{icon} Pengaturan Nilai Rujukan (Referensi)',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
 		<?php 
 		$content = $this->renderPartial($this->path_view.'tips/tipsCreate',array(),true);
 		$this->widget('UserTips',array('content'=>$content));

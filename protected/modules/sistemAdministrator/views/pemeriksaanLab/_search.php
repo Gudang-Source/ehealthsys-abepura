@@ -6,7 +6,7 @@
 )); ?>
 <div class="row-fluid">
 	<div class="span4">
-		<?php echo $form->dropDownListRow($model,'jenispemeriksaanlab_id',  CHtml::listData(JenispemeriksaanlabM::model()->findAll(array('order'=>'jenispemeriksaanlab_urutan'),'jenispemeriksaanlab_aktif = true'), 'jenispemeriksaanlab_id', 'jenispemeriksaanlab_nama'),array('empty'=>'','class'=>'span3')); ?>
+		<?php echo $form->dropDownListRow($model,'jenispemeriksaanlab_id',  CHtml::listData(JenispemeriksaanlabM::model()->findAll("jenispemeriksaanlab_aktif = TRUE ORDER BY jenispemeriksaanlab_urutan ASC"), 'jenispemeriksaanlab_id', 'jenispemeriksaanlab_nama'),array('empty'=>'--Pilih--','class'=>'span3')); ?>
 
 		<?php echo $form->textFieldRow($model,'pemeriksaanlab_urutan',array('class'=>'span3')); ?>
 
@@ -35,7 +35,7 @@
 
 	<div class="form-actions">
 		<?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit')); ?>
-		<?php echo CHtml::htmlButton(Yii::t('mds','{icon} Reset',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-danger', 'type'=>'reset')); ?>
+		<?php echo CHtml::htmlButton(Yii::t('mds','{icon} Reset',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')),array('class'=>'btn btn-danger', 'type'=>'reset')); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

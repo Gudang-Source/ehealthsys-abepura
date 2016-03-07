@@ -6,9 +6,9 @@
 )); ?>
 <div class="row-fluid">
 	<div class="span4">
-		<?php echo $form->dropDownListRow($model,'kelkumurhasillab_id', CHtml::listData(KelkumurhasillabM::model()->findAll(array('order'=>'kelkumurhasillab_urutan'),'kelkumurhasillab_aktif = true'),'kelkumurhasillab_id','kelkumurhasillabnama'),array('empty'=>'','class'=>'span3')); ?>
+		<?php echo $form->dropDownListRow($model,'kelkumurhasillab_id', CHtml::listData(KelkumurhasillabM::model()->findAll(array('order'=>'kelkumurhasillab_urutan'),'kelkumurhasillab_aktif = true'),'kelkumurhasillab_id','kelkumurhasillabnama'),array('empty'=>'--Pilih--','class'=>'span3')); ?>
 
-		<?php echo $form->dropDownListRow($model,'nilairujukan_jeniskelamin', LookupM::getItems('jeniskelamin'), array('empty'=>'','class'=>'span3','maxlength'=>50)); ?>
+		<?php echo $form->dropDownListRow($model,'nilairujukan_jeniskelamin', LookupM::getItems('jeniskelamin'), array('empty'=>'--Pilih--','class'=>'span3','maxlength'=>50)); ?>
 
 		<?php echo $form->textFieldRow($model,'kelompokdet',array('class'=>'span3','maxlength'=>50)); ?>
 
@@ -29,7 +29,9 @@
 	<div class="span4">
 
 
-		<?php echo $form->textFieldRow($model,'nilairujukan_satuan',array('class'=>'span3','maxlength'=>50)); ?>
+		<?php //echo $form->textFieldRow($model,'nilairujukan_satuan',array('class'=>'span3','maxlength'=>50)); 
+                      echo $form->dropDownListRow($model, 'nilairujukan_satuan',LookupM::getItems('satuanhasillab'), array('empty'=>'--Pilih--'))
+                ?>
 
 		<?php echo $form->textFieldRow($model,'nilairujukan_metode',array('class'=>'span3','maxlength'=>30)); ?>
             <div>

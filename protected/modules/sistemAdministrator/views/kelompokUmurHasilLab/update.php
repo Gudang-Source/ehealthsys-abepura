@@ -1,5 +1,5 @@
 <fieldset class="box">
-    <legend class="rim">Ubah Kelompok Umur Hasil Lab</legend>
+    <legend class="rim">Ubah Kelompok Umur</legend>
     <?php
     $this->breadcrumbs=array(
             'Lbkelkumurhasillab Ms'=>array('index'),

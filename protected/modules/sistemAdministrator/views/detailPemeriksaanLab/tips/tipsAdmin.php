@@ -9,6 +9,10 @@
     <td style="vertical-align: middle;">2. </td>
     <td>Icon <i class="icon-form-ubah"></i> untuk mengubah data.</td>
   </tr>
+ <!-- <tr>
+    <td style="vertical-align: middle;"3. </td>
+    <td>Icon <i class="icon-form-silang"></i> untuk menonaktifkan data.</td>
+  </tr>-->
   <tr>
     <td style="vertical-align: middle;">3. </td>
     <td>Icon <i class="icon-form-sampah"></i> untuk menghapus data.</td>
@@ -40,13 +44,6 @@ Print
 <i class="icon-accordion icon-white"></i>
 Pencarian Lanjut
 </a> untuk pencarian data lebih lanjut.</td>
-  </tr>
-  <tr>
-    <td style="vertical-align: middle;">8. </td>
-    <td>Tombol <a class="btn btn-success" href="#">
-<i class="icon-plus icon-white"></i>
-Tambah Tanggungan Penjamin
-</a> untuk menambah data.</td>
   </tr>
 </table>
 </p>

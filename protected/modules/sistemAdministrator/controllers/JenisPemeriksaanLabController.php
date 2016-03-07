@@ -100,7 +100,13 @@ class JenisPemeriksaanLabController extends MyAuthController
 		{
 			$data['sukses']=0;
 			$model = $this->loadModel($id);
-			$model->jenispemeriksaanlab_aktif = false;
+                        
+                        if (isset($_GET['add'])):
+                            $model->jenispemeriksaanlab_aktif = true;                        
+                        else:    
+                            $model->jenispemeriksaanlab_aktif = false;                        
+                        endif;
+                        			
 			if($model->save()){
 				$data['sukses'] = 1;
 			}

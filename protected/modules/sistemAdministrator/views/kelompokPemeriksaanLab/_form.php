@@ -16,7 +16,7 @@
     </tr>
     <tr>
         <td>
-            <?php echo $form->textFieldRow($model,'lookup_urutan',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+            <?php echo $form->textFieldRow($model,'lookup_urutan',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>9)); ?>
         </td>
     </tr>
     <tr>
@@ -43,7 +43,8 @@
                                     array('class'=>'btn btn-danger',
                                     'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
                         <?php
-                            echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Kelompok Pemeriksaan Laboratorium', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp";
+                            //echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Kelompok Pemeriksaan Laboratorium', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp";
+                            echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Kelompok Pemeriksaan', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp";
                             $content = $this->renderPartial($this->path_view.'tips.tipsCreateUpdate',array(),true);
                             $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
                         ?>

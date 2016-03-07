@@ -1,5 +1,5 @@
-<!--<fieldset class="box">-->
-    <!--<legend class="rim">Lihat Kelompok Pemeriksaan Laboratorium</legend>-->
+<fieldset class="box">
+    <legend class="rim">Lihat Kelompok Pemeriksaan</legend>
     <?php
     $this->breadcrumbs=array(
             'Rdkeadaan Masuk Ms'=>array('index'),
@@ -33,6 +33,8 @@
             ),
     )); ?>
 
-    <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Kelompok Pemeriksaan Laboratorium', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp";
+    <?php //echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Kelompok Pemeriksaan Laboratorium', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp";
+          echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Kelompok Pemeriksaan', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp";
+          $this->widget('UserTips',array('type'=>'view'));
 //                                $this->widget('UserTips',array('type'=>'view'));?>
-<!--</fieldset>-->
+</fieldset>

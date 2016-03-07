@@ -19,13 +19,13 @@ Simpan
 Ulang
 </button> untuk mengulang halaman.</td>
   </tr>
- 
+ <!--
   <tr>
     <td>3. </td>
     <td>Tombol <a class="btn btn-success" href="#">
 <i class="icon-file icon-white"></i>
 Pengaturan 
 </a> untuk kembali ke pengaturan data.</td>
-  </tr>
+  </tr>-->
 </table>
 </p>

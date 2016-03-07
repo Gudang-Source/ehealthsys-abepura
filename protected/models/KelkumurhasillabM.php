@@ -103,7 +103,7 @@ class KelkumurhasillabM extends CActiveRecord
 		$criteria->compare('kelkumurhasillab_urutan',$this->kelkumurhasillab_urutan);
 		$criteria->compare('LOWER(satuankelumur)',strtolower($this->satuankelumur),true);
 		$criteria->compare('kelkumurhasillab_aktif',isset($this->kelkumurhasillab_aktif)?$this->kelkumurhasillab_aktif:true);
-		$criteria->order = 'kelkumurhasillab_urutan';
+		//$criteria->order = 'kelkumurhasillab_urutan ASC';
 
 		return $criteria;
 	}
