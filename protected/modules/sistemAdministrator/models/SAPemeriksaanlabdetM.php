@@ -56,9 +56,46 @@ class SAPemeriksaanlabdetM extends PemeriksaanlabdetM{
 
 		$criteria=$this->criteriaSearch();
 		$criteria->limit=10;
-		$criteria->order = 't.pemeriksaanlab_id, kelompokdet, namapemeriksaandet, pemeriksaanlab_urutan, pemeriksaanlabdet_nourut ASC';
+		//$criteria->order = 't.pemeriksaanlab_id, kelompokdet, namapemeriksaandet, pemeriksaanlab_urutan, pemeriksaanlabdet_nourut ASC';
 		return new CActiveDataProvider($this, array(
 				'criteria'=>$criteria,
+                                'sort' => array(
+                                    'attributes' => array(
+                                        'pemeriksaanlab_nama' => array(
+                                            'asc' => 'pemeriksaanlab.pemeriksaanlab_nama ASC',
+                                            'desc' => 'pemeriksaanlab.pemeriksaanlab_nama DESC',
+                                        ),//pemeriksaanlabdet_id
+                                        'kelompokdet' => array(
+                                            'asc' => 'kelompokdet ASC',
+                                            'desc' => 'kelompokdet DESC',
+                                        ),
+                                        'namapemeriksaandet' => array(
+                                            'asc' => 'namapemeriksaandet ASC',
+                                            'desc' => 'namapemeriksaandet DESC',
+                                        ),//kelompokdet
+                                        'nilairujukan_jeniskelamin' => array(
+                                            'asc' => 'nilairujukan.nilairujukan_jeniskelamin ASC',
+                                            'desc' => 'nilairujukan.nilairujukan_jeniskelamin DESC',
+                                        ),//
+                                        'nilairujukan_nama' => array(
+                                            'asc' => 'nilairujukan.nilairujukan_nama ASC',
+                                            'desc' => 'nilairujukan.nilairujukan_nama DESC',
+                                        ),
+                                         'nilairujukan_min' => array(
+                                            'asc' => 'nilairujukan.nilairujukan_min ASC',
+                                            'desc' => 'nilairujukan.nilairujukan_min DESC',
+                                        ),
+                                         'nilairujukan_max' => array(
+                                            'asc' => 'nilairujukan.nilairujukan_max ASC',
+                                            'desc' => 'nilairujukan.nilairujukan_max DESC',
+                                        ),//
+                                        'nilairujukan_satuan' => array(
+                                            'asc' => 'nilairujukan.nilairujukan_satuan ASC',
+                                            'desc' => 'nilairujukan.nilairujukan_satuan DESC',
+                                        ),
+                                        '*',
+                                    ),
+                                ),
 		));
 	}
 
@@ -101,5 +138,9 @@ class SAPemeriksaanlabdetM extends PemeriksaanlabdetM{
 	 */
 	public function getNilaiRujukan(){
 		return CustomFunction::symbolsConverter($this->nilairujukan->nilairujukan_nama);
+	}
+               
+	public function getNilaiSatuan(){
+		return CustomFunction::symbolsConverter($this->nilairujukan_satuan);
 	}
 }

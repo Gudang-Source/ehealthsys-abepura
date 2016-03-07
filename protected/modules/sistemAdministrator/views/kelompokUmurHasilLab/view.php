@@ -1,3 +1,5 @@
+<fieldset class="box">
+    <legend class="rim">Lihat Kelompok Umur</legend>
 <!--<fieldset class="box">-->
     <!--<legend class="rim">Lihat Kelompok Umur Hasil Lab</legend>-->
     <?php
@@ -41,8 +43,9 @@
     </div>
     <div class="row-fluid">
         <div class="form-actions">
-        <?php echo CHtml::link(Yii::t('mds','{icon} Pengaturan Kelompok Umur Hasil Lab',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
+        <?php //echo CHtml::link(Yii::t('mds','{icon} Pengaturan Kelompok Umur Hasil Lab',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
+            <?php echo CHtml::link(Yii::t('mds','{icon} Pengaturan Kelompok',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
         <?php $this->widget('UserTips',array('type'=>'view'));?>
         </div>
     </div>
-<!--</fieldset>-->
+</fieldset>

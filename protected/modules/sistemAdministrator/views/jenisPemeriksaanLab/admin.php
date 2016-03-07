@@ -1,3 +1,5 @@
+<fieldset class="box">    
+    <legend class="rim">Pengaturan Jenis Pemeriksaan</legend>
 <?php
 $this->breadcrumbs=array(
 	'Sajenispemeriksaanlab Ms'=>array('index'),
@@ -47,6 +49,10 @@ $('.search-form form').submit(function(){
 		'jenispemeriksaanlab_nama',
 		'jenispemeriksaanlab_namalainnya',
 		'jenispemeriksaanlab_kelompok',
+                array(
+                    'header' => 'Status',
+                    'value' => '($data->jenispemeriksaanlab_aktif==1)?"Aktif":"Tidak Aktif"',
+                ),                
 		array(
 			'header'=>Yii::t('zii','View'),
 			'class'=>'bootstrap.widgets.BootButtonColumn',
@@ -66,7 +72,7 @@ $('.search-form form').submit(function(){
 		array(
 			'header'=>Yii::t('zii','Delete'),
 			'class'=>'bootstrap.widgets.BootButtonColumn',
-			'template'=>'{remove} {delete}',
+			'template'=>'{remove} {add} {delete}',
 			'buttons'=>array(
 				'remove' => array (
 						'label'=>"<i class='icon-form-silang'></i>",
@@ -74,6 +80,13 @@ $('.search-form form').submit(function(){
 						'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/nonActive",array("id"=>$data->jenispemeriksaanlab_id))',
 						'click'=>'function(){nonActive(this);return false;}',
 						'visible'=>'$data->jenispemeriksaanlab_aktif',
+				),
+                                'add' => array (
+						'label'=>"<i class='icon-form-check'></i>",
+						'options'=>array('title'=>Yii::t('mds','Add Temporary')),
+						'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/nonActive",array("id"=>$data->jenispemeriksaanlab_id))',
+						'click'=>'function(){active(this,1);return false;}',
+						'visible'=>'($data->jenispemeriksaanlab_aktif) ? FALSE : TRUE',
 				),
 				'delete'=> array(),
 			)
@@ -88,7 +101,8 @@ $('.search-form form').submit(function(){
 )); ?>
 
 <?php 
-	echo CHtml::link(Yii::t('mds','{icon} Tambah Jenis Pemeriksaan Lab',array('{icon}'=>'<i class="icon-plus icon-white"></i>')),$this->createUrl('create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp"; 
+	//echo CHtml::link(Yii::t('mds','{icon} Tambah Jenis Pemeriksaan Lab',array('{icon}'=>'<i class="icon-plus icon-white"></i>')),$this->createUrl('create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp"; 
+        echo CHtml::link(Yii::t('mds','{icon} Tambah Jenis Pemeriksaan',array('{icon}'=>'<i class="icon-plus icon-white"></i>')),$this->createUrl('create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp"; 
 	echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
 	echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
 	echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
@@ -132,4 +146,29 @@ Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);
 		);
 		return false;
 	}
+        
+        function active(obj, add){
+		myConfirm("Yakin akan mengaktifkan data ini untuk sementara?","Perhatian!",
+			function(r){
+				if(r){ 
+					$.ajax({
+						type:'GET',
+						url:obj.href,
+						data: {add:add},//
+						dataType: "json",
+						success:function(data){
+							$.fn.yiiGridView.update('sajenispemeriksaanlab-m-grid');
+							if(data.sukses > 0){
+							}else{
+								myAlert('Data gagal diaktifkan!');
+							}
+						},
+						error: function (jqXHR, textStatus, errorThrown) { myAlert('Data gagal dinonaktifkan!'); console.log(errorThrown);}
+					});
+				}
+			}
+		);
+		return false;
+	}
 </script>
+</fieldset>

@@ -1,3 +1,5 @@
+<fieldset class="box">
+    <legend class="rim">Pengaturan Kelompok Umur</legend>
             <?php
             $this->breadcrumbs=array(
                     'Lbkelkumurhasillab Ms'=>array('index'),
@@ -50,7 +52,12 @@
                             'kelkumurhasillabnama',
                             'umurminlab',
                             'umurmakslab',
-                            'satuankelumur',
+                            //'satuankelumur',//
+                             array(
+                                    'name'=>'satuankelumur',
+                                    'value'=>'$data->satuankelumur',
+                                    'filter'=> CHtml::dropDownList('SAKelkumurhasillabM[satuankelumur]',$model->satuankelumur, LookupM::getItems(Params::LOOKUPTYPE_SATUAN_KELOMPOK_UMUR),array('empty'=>'--Pilih--','class'=>'span3 satuankelumur',  'onchange'=>'setHariLab()')),                                    
+                            ),
                             'kelkumurhasillab_urutan',
                             array(
                                     'header'=>'Status',
@@ -81,7 +88,7 @@
                                     'buttons'=>
                                     array(
                                             'add' => array (
-                                                            'label'=>"<i class='icon-plus'></i>",
+                                                            'label'=>"<i class='icon-form-check'></i>",
                                                             'options'=>array('title'=>Yii::t('mds','Active Temporary')),
                                                             'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/active",array("id"=>$data->kelkumurhasillab_id))',
                                                             'visible'=>'($data->kelkumurhasillab_aktif) ? FALSE : TRUE',
@@ -113,7 +120,8 @@
                 )); ?>
     <!--</div>-->
     <?php 
-    echo CHtml::link(Yii::t('mds','{icon} Tambah Kelompok Umur Hasil Lab',array('{icon}'=>'<i class="icon-plus icon-white"></i>')),$this->createUrl('create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp"; 
+    //echo CHtml::link(Yii::t('mds','{icon} Tambah Kelompok Umur Hasil Lab',array('{icon}'=>'<i class="icon-plus icon-white"></i>')),$this->createUrl('create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp"; 
+    echo CHtml::link(Yii::t('mds','{icon} Tambah Kelompok Umur',array('{icon}'=>'<i class="icon-plus icon-white"></i>')),$this->createUrl('create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp"; 
     echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
     echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
     echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
@@ -181,3 +189,4 @@ JSCRIPT;
 		return false;
 	}
 </script>
+</fieldset>

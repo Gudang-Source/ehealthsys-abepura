@@ -74,6 +74,7 @@ class PemeriksaanlabdetM extends CActiveRecord
 			'nilairujukan_id' => 'Nilai Rujukan',
 			'pemeriksaanlab_id' => 'Pemeriksaan Lab',
 			'pemeriksaanlabdet_nourut' => 'No. Urut',
+                        'nilairujukan_jeniskelamin' => 'Jenis Kelamin'
 		);
 	}
 

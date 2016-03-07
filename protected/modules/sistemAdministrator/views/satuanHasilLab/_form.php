@@ -40,7 +40,8 @@
                 array('class'=>'btn btn-danger',
                 'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
     <?php
-        echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Satuan Hasil Laboratorium', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp";
+        //echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Satuan Hasil Laboratorium', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp";
+        echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Satuan Hasil', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp";
         $content = $this->renderPartial($this->path_view.'tips/tipsCreateUpdate',array(),true);
         $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
     ?>
