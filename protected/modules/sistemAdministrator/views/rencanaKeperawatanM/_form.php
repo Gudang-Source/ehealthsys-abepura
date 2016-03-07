@@ -143,7 +143,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                         0 => 'Tidak',
                                         1 => 'Ya'); ?>
                 <td>
-                    <?php echo $form->textField($model,'[1]rencana_kode',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?> 
+                    <?php echo $form->textField($model,'[1]rencana_kode',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>20)); ?> 
                 </td>
                 <td>
                     <?php echo $form->textArea($model,'[1]rencana_intervensi',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
