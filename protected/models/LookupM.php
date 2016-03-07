@@ -121,7 +121,7 @@ class LookupM extends CActiveRecord
                 $lookup_type = isset($lookup_type) ? trim(strtolower($lookup_type)) : null;
                 $criteria->compare('lookup_type',$lookup_type);
             }
-            $criteria->order = "lookup_urutan";
+            $criteria->order = "lookup_name ASC";
             $criteria->addCondition("lookup_aktif IS TRUE");
             $models=self::model()->findAll($criteria);
             if(count($models) > 0){

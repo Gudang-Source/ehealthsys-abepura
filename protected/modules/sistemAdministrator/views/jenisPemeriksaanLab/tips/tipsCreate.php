@@ -19,7 +19,7 @@ Simpan
 Ulang
 </button> untuk mengulang halaman.</td>
   </tr>
- 
+ <!--
   <tr>
     <td>3. </td>
     <td>Tombol <a class="btn btn-success" href="#">
@@ -27,5 +27,6 @@ Ulang
 Pengaturan 
 </a> untuk kembali ke pengaturan data.</td>
   </tr>
+ -->
 </table>
 </p>

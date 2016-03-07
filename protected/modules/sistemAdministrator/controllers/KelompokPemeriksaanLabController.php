@@ -169,8 +169,13 @@ class KelompokPemeriksaanLabController extends MyAuthController
         
         $id = $_POST['id'];   
         if(isset($_POST['id']))
-        {
-           $update = SALookupM::model()->updateByPk($id,array('lookup_aktif'=>false));
+        {           
+           if (isset($_POST['add'])):
+               $update = SALookupM::model()->updateByPk($id,array('lookup_aktif'=>true));           
+           else:    
+               $update = SALookupM::model()->updateByPk($id,array('lookup_aktif'=>false));
+           endif;
+           
            if($update)
             {
                 if (Yii::app()->request->isAjaxRequest)

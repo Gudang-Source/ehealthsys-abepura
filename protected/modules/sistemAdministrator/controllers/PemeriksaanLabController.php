@@ -124,7 +124,13 @@ class PemeriksaanLabController extends MyAuthController
 		{
 			$data['sukses']=0;
 			$model = $this->loadModel($id);
-			$model->pemeriksaanlab_aktif = false;
+                        
+                        if (isset($_GET['add'])):
+                            $model->pemeriksaanlab_aktif = true;                        
+                        else:    
+                            $model->pemeriksaanlab_aktif = false;                        
+                        endif;
+                        			
 			if($model->save()){
 				$data['sukses'] = 1;
 			}

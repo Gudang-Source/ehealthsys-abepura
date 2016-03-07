@@ -50,48 +50,55 @@ if(isset($_GET['sukses'])){
 		array(
 			'header'=>'Nama Pemeriksaan',
 			'type'=>'raw',
+                        'name' => 'pemeriksaanlab_nama',
 			'value'=>'$data->pemeriksaanlab->pemeriksaanlab_nama',
 			'filter'=>  CHtml::activeTextField($model,'pemeriksaanlab_nama'),
 		),
 		array(
 			'header'=>'Kelompok Detail',
 			'type'=>'raw',
+                        'name' => 'kelompokdet',
 			'value'=>'$data->getNamaPemeriksaanDet($data->pemeriksaanlabdet_id)',
 			'filter'=>  CHtml::activeTextField($model,'kelompokdet'),
 		),
 		array(
 			'header'=>'Nama Pemeriksaan Detail',
 			'type'=>'raw',
+                        'name' => 'namapemeriksaandet',
 			'value'=>'$data->getKelompokDet($data->pemeriksaanlabdet_id)',
 			'filter'=>  CHtml::activeTextField($model,'namapemeriksaandet'),
 		),	
-		array(
-			'name'=>'nilairujukan.nilairujukan_jeniskelamin',
+		array(			
 			'type'=>'raw',
-			'filter'=>  CHtml::activeTextField($model,'nilairujukan_jeniskelamin'),
+                        'name'=>'nilairujukan_jeniskelamin',
+			'value'=>'$data->nilairujukan->nilairujukan_jeniskelamin',
+			'filter'=> CHtml::dropDownList('SAPemeriksaanlabdetM[nilairujukan_jeniskelamin]',$model->nilairujukan_jeniskelamin,LookupM::getItems('jeniskelamin'), array('empty'=>'--Pilih--')),
 		),
-		array(
-			'name'=>'nilairujukan.nilairujukan_nama',
+		array(                        			
 			'type'=>'raw',
+                        'name' => 'nilairujukan_nama',
 			'value'=>'$data->NilaiRujukan',
-			'filter'=>  CHtml::activeTextField($model,'nilairujukan_nama'),
+			'filter'=>  CHtml::activeTextField($model,'nilairujukan_nama',array('class'=>'numbers-only')),
 		),
 		array(
-			'name'=>'nilairujukan.nilairujukan_min',
-			'type'=>'raw',
+			'name'=>'nilairujukan_min',
+			'type'=>'raw',       
+                        'value' => '$data->nilairujukan->nilairujukan_min',
 			'filter'=>  CHtml::activeTextField($model,'nilairujukan_min',array('class'=>'numbers-only')),
 		),
 		array(
-			'name'=>'nilairujukan.nilairujukan_max',
+			'name'=>'nilairujukan_max',
 			'type'=>'raw',
+                        'value' => '$data->nilairujukan->nilairujukan_max',
 			'filter'=>  CHtml::activeTextField($model,'nilairujukan_max',array('class'=>'numbers-only')),
 		),
 		array(
-			'name'=>'nilairujukan.nilairujukan_satuan',
+			'name'=>'nilairujukan_satuan',
 			'type'=>'raw',
-			'filter'=>  CHtml::activeTextField($model,'nilairujukan_satuan',array('class'=>'numbers-only')),
-		),
-		'pemeriksaanlabdet_nourut',
+			'value'=>'$data->nilairujukan->nilairujukan_satuan',
+			'filter'=> CHtml::dropDownList('SAPemeriksaanlabdetM[nilairujukan_satuan]',$model->nilairujukan_satuan,LookupM::getItems('satuanhasillab'), array('empty'=>'--Pilih--')),//,
+		),	
+	'pemeriksaanlabdet_nourut',
 		array(
 			'header'=>Yii::t('zii','View'),
 			'class'=>'bootstrap.widgets.BootButtonColumn',
@@ -132,7 +139,8 @@ if(isset($_GET['sukses'])){
 	echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
 	echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
 	echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
-	$this->widget('UserTips',array('type'=>'admin'));
+	$content = $this->renderPartial($this->path_view.'tips/tipsAdmin',array(),true);
+	$this->widget('UserTips',array('content'=>$content));
 	$urlPrint= $this->createUrl('print');
 
 $js = <<< JSCRIPT

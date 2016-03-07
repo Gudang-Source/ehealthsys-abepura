@@ -36,7 +36,7 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                 array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>  
           </div>
         </div> 
-        <?php echo $form->textFieldRow($model,'nomorindukpegawai',array('class'=>'required','onkeyup'=>"return $(this).focusNextInputField(event)",'placeholder'=>'Nomor Induk Pegawai')); ?>
+        <?php echo $form->textFieldRow($model,'nomorindukpegawai',array('class'=>'required','onkeyup'=>"return $(this).focusNextInputField(event)",'placeholder'=>'Nomor Induk Pegawai', 'maxlength' => 18, 'class'=>'numbers-only')); ?>
         
         <div class="control-group">
                 <?php echo CHtml::label('Jenis Identitas','jenisidentitas',array('class'=>'control-label')); ?>

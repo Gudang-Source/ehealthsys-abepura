@@ -24,7 +24,7 @@
 			<?php echo $form->textFieldRow($model,'harimakslab',array('class'=>'span3 integer harimakslab', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
 		</div>
 		<div class = "span4">
-			<?php echo $form->textFieldRow($model,'kelkumurhasillab_urutan',array('class'=>'span1 integer', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+			<?php echo $form->textFieldRow($model,'kelkumurhasillab_urutan',array('class'=>'span1 integer', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>9)); ?>
 			<?php echo $form->checkBoxRow($model,'kelkumurhasillab_aktif', array('onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
 		</div>
 	</div>
@@ -35,7 +35,8 @@
 				$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), 
 				array('class'=>'btn btn-danger',
 				'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
-		<?php echo CHtml::link(Yii::t('mds','{icon} Pengaturan Kelompok Umur Hasil Lab',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
+		<?php //echo CHtml::link(Yii::t('mds','{icon} Pengaturan Kelompok Umur Hasil Lab',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
+            	<?php echo CHtml::link(Yii::t('mds','{icon} Pengaturan Kelompok Umur',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
 		<?php	$content = $this->renderPartial($this->path_view.'tips.tipsCreateUpdate',array(),true);
 				$this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); ?>
 		</div>

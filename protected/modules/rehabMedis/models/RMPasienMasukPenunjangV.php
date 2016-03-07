@@ -107,6 +107,7 @@ class RMPasienMasukPenunjangV extends PasienmasukpenunjangV
             $criteria->compare('LOWER(nama_pegawai)',strtolower($this->nama_pegawai),true);
             $criteria->compare('LOWER(pekerjaan_nama)',strtolower($this->pekerjaan_nama),true);
             $criteria->compare('LOWER(jeniskasuspenyakit_nama)',strtolower($this->jeniskasuspenyakit_nama),true);
+            $criteria->compare('LOWER(jeniskelamin)',strtolower($this->jeniskelamin),true);
             $criteria->order = 'tglmasukpenunjang DESC';
             //$criteria->limit = 10;
             return new CActiveDataProvider($this, array(

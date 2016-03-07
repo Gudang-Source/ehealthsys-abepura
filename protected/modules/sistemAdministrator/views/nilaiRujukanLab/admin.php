@@ -1,4 +1,7 @@
-<?php
+
+<fieldset class="box">
+    <legend class="rim">Pengaturan Nilai Rujukan (Referensi)</legend>
+        <?php
 $this->breadcrumbs=array(
 	'Sanilairujukan Ms'=>array('index'),
 	'Manage',
@@ -45,13 +48,13 @@ $('.search-form form').submit(function(){
 			'name'=>'kelkumurhasillab_id',
 			'type'=>'raw',
 			'value'=>'isset($data->kelkumurhasillab->kelkumurhasillabnama) ? $data->kelkumurhasillab->kelkumurhasillabnama : "-"',
-			'filter'=>CHtml::listData(KelkumurhasillabM::model()->findAll(array('order'=>'kelkumurhasillab_urutan'),'kelkumurhasillab_aktif = true'),'kelkumurhasillab_id','kelkumurhasillabnama'),
+			'filter'=>  CHtml::dropDownList('SANilairujukanM[kelkumurhasillab_id]',$model->kelkumurhasillab_id,CHtml::listData(KelkumurhasillabM::model()->findAll(array('order'=>'kelkumurhasillab_urutan'),'kelkumurhasillab_aktif = true'),'kelkumurhasillab_id','kelkumurhasillabnama'), array('empty'=>'--Pilih--')),
 		),
 		array(
 			'name'=>'nilairujukan_jeniskelamin',
 			'type'=>'raw',
 			'value'=>'$data->nilairujukan_jeniskelamin',
-			'filter'=>LookupM::getItems('jeniskelamin'),
+			'filter'=> CHtml::dropDownList('SANilairujukanM[nilairujukan_jeniskelamin]',$model->nilairujukan_jeniskelamin,LookupM::getItems('jeniskelamin'), array('empty'=>'--Pilih--')),
 		),
 		'kelompokdet',
 		'namapemeriksaandet',
@@ -59,7 +62,7 @@ $('.search-form form').submit(function(){
 			'name'=>'nilairujukan_nama',
 			'type'=>'raw',
 			'value'=>'$data->NilaiRujukan',
-			'filter'=>LookupM::getItems('nilairujukan_nama'),
+			//'filter'=> CHtml::dropDownList('SANilairujukanM[nilairujukan_nama]',$model->nilairujukan_nama,LookupM::getItems('nilairujukan_nama'), array('empty'=>'--Pilih--')),//,
 		),
 		'nilairujukan_min',
 		'nilairujukan_max',
@@ -67,7 +70,7 @@ $('.search-form form').submit(function(){
 			'name'=>'nilairujukan_satuan',
 			'type'=>'raw',
 			'value'=>'$data->NilaiSatuan',
-			'filter'=>LookupM::getItems('nilairujukan_satuan'),
+			'filter'=> CHtml::dropDownList('SANilairujukanM[nilairujukan_satuan]',$model->nilairujukan_satuan,LookupM::getItems('satuanhasillab'), array('empty'=>'--Pilih--')),//,
 		),
 		'nilairujukan_metode',
 		array(
@@ -89,7 +92,7 @@ $('.search-form form').submit(function(){
 		array(
 			'header'=>Yii::t('zii','Delete'),
 			'class'=>'bootstrap.widgets.BootButtonColumn',
-			'template'=>'{remove} {delete}',
+			'template'=>'{remove} {add} {delete}',
 			'buttons'=>array(
 				'remove' => array (
 						'label'=>"<i class='icon-form-silang'></i>",
@@ -98,6 +101,13 @@ $('.search-form form').submit(function(){
 						'click'=>'function(){nonActive(this);return false;}',
 						'visible'=>'$data->nilairujukan_aktif',
 				),
+                                 'add' => array (
+                                                'label'=>"<i class='icon-form-check'></i>",
+                                                'options'=>array('title'=>Yii::t('mds','Active Temporary')),
+                                                'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/nonActive",array("id"=>$data->nilairujukan_id))',
+                                                'visible'=>'($data->nilairujukan_aktif) ? FALSE : TRUE',
+                                                'click'=>'function(){active(this,1);return false;}',
+                                            ),
 				'delete'=> array(),
                         
 			),
@@ -108,7 +118,8 @@ $('.search-form form').submit(function(){
 )); ?>
 
 <?php 
-	echo CHtml::link(Yii::t('mds','{icon} Tambah Nilai Rujukan (Referensi) Lab',array('{icon}'=>'<i class="icon-plus icon-white"></i>')),$this->createUrl('create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp"; 
+	//echo CHtml::link(Yii::t('mds','{icon} Tambah Nilai Rujukan (Referensi) Lab',array('{icon}'=>'<i class="icon-plus icon-white"></i>')),$this->createUrl('create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp"; 
+        echo CHtml::link(Yii::t('mds','{icon} Tambah Nilai Rujukan (Referensi)',array('{icon}'=>'<i class="icon-plus icon-white"></i>')),$this->createUrl('create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp"; 
 	echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
 	echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
 	echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
@@ -148,4 +159,30 @@ Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);
 		);
 		return false;
 	}
+        
+        function active(obj, add){
+		myConfirm("Yakin akan mengaktifkan data ini untuk sementara?","Perhatian!",
+			function(r){
+				if(r){ 
+					$.ajax({
+						type:'GET',
+						url:obj.href,
+						data: {add:add},//
+						dataType: "json",
+						success:function(data){
+							$.fn.yiiGridView.update('sanilairujukan-m-grid');
+							if(data.sukses > 0){
+							}else{
+								myAlert('Data gagal diaktifkan!');
+							}
+						},
+						error: function (jqXHR, textStatus, errorThrown) { myAlert('Data gagal dinonaktifkan!'); console.log(errorThrown);}
+					});
+				}
+			}
+		);
+		return false;
+	}
+               
 </script>
+</fieldset>

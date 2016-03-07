@@ -30,7 +30,7 @@
 		<div class="control-group">
 			<?php echo CHtml::label('Jenis Kelamin','nilairujukan_jeniskelamin',array('class'=>'control-label')); ?>
 			<div class="controls">
-				<?php echo $form->dropDownList($model,'nilairujukan_jeniskelamin',LookupM::getItems('jeniskelamin'),array('empty'=>'','class'=>'span3')); ?>
+				<?php echo $form->dropDownList($model,'nilairujukan_jeniskelamin',LookupM::getItems('jeniskelamin'),array('empty'=>'--Pilih--','class'=>'span3')); ?>
 			</div>
 		</div>
 		<div class="control-group">
@@ -50,13 +50,14 @@
 		<div class="control-group">
 			<?php echo CHtml::label('Nilai Maksimum','nilairujukan_max',array('class'=>'control-label')); ?>
 			<div class="controls">
-				<?php echo $form->textField($model,'nilairujukan_max',array('class'=>'span3')); ?>
+				<?php echo $form->textField($model,'nilairujukan_max',array('class'=>'span3 numbers-only')); ?>
 			</div>
 		</div>
 		<div class="control-group">
 			<?php echo CHtml::label('Satuan','nilairujukan_satuan',array('class'=>'control-label')); ?>
 			<div class="controls">
-				<?php echo $form->textField($model,'nilairujukan_satuan',array('class'=>'span3')); ?>
+				<?php //echo $form->textField($model,'nilairujukan_satuan',array('class'=>'span3')); ?>
+                                <?php echo $form->dropDownList($model,'nilairujukan_satuan',LookupM::getItems('satuanhasillab'),array('empty'=>'--Pilih--','class'=>'span3')); ?>
 			</div>
 		</div>
 		<div class="control-group">

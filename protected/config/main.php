@@ -96,6 +96,7 @@ return array(
 		'anestesi', //AT
 		'pengadaan', //AD
 		'rumahTangga', //RT
+                'jasamedis', //JM
 				
 				
 //               SEMENTARA DIHAPUS >> RND-1253 'mobileSIE',

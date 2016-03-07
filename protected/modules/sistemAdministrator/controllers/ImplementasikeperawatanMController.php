@@ -323,8 +323,8 @@ class ImplementasikeperawatanMController extends MyAuthController
        public function actionPrint()
                 {
                     
-                    $model= new ImplementasikeperawatanM;
-                    $model->attributes=$_REQUEST['ImplementasikeperawatanM'];
+                    $model= new SAImplementasikeperawatanM;
+                    $model->attributes=$_REQUEST['SAImplementasikeperawatanM'];
                     $judulLaporan='Data Implementasi Keperawatan';
                     $caraPrint=$_REQUEST['caraPrint'];
                     if($caraPrint=='PRINT') {
