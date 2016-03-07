@@ -216,7 +216,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
             <div class="control-group ">
                 <?php echo $form->labelEx($modAnamnesa, 'pengobatanygsudahdilakukan', array('class' => 'control-label')) ?>
                 <div class="controls">
-                    <?php echo $form->textArea($modAnamnesa, 'pengobatanygsudahdilakukan', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 300)); ?>
+                    <?php echo $form->textArea($modAnamnesa, 'pengobatanygsudahdilakukan', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 1000)); ?>
                     <?php
                     echo CHtml::htmlButton('<i class="icon-plus-sign icon-white"></i> <i class="icon-white icon-chevron-right"></i>', array('class' => 'btn btn-primary', 'onclick' => "$('#dialogPengobatanYgSudahDilakukan').dialog('open');",
                         'id' => 'btnAddPengobatanYgSudahDilakukan', 'onkeypress' => "return $(this).focusNextInputField(event)",

@@ -958,8 +958,8 @@ class PenjualanResepRSController extends MyAuthController
 				$criteria->compare('pegawai_id', $_GET['idPegawai']);
 			}
 			$criteria->addCondition('kelompokpegawai_id = 1');
-			$criteria->select = 'gelardepan, nama_pegawai, gelarbelakang_nama';
-			$criteria->group = 'gelardepan, nama_pegawai, gelarbelakang_nama';
+			$criteria->select = 'gelardepan, nama_pegawai, gelarbelakang_nama, pegawai_id';
+			$criteria->group = 'gelardepan, nama_pegawai, gelarbelakang_nama, pegawai_id';
 			$models = DokterV::model()->findAll($criteria);
 			foreach($models as $i=>$model)
 			{
