@@ -25,7 +25,7 @@
                             array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>  
                     </div>
                 </div>   
-                <?php echo $form->textFieldRow($model,'nomorindukpegawai',array( 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30)); ?>
+                <?php echo $form->textFieldRow($model,'nomorindukpegawai',array( 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength' => 18, 'class'=>'numbers-only')); ?>
                 <div class="control-group">
                     <?php echo $form->labelEx($model,'gelardepan',array('class'=>'control-label')); ?>
                     <div class="controls">

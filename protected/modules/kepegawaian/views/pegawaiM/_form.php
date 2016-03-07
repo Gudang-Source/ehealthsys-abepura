@@ -103,7 +103,7 @@ BLOCK;
                 </td>
                 <td>
                        <?php echo $form->textFieldRow($model,'tempPhoto',array('readonly'=>TRUE,'value'=>$random.'.jpg')); ?>
-                       <?php echo $form->textFieldRow($model,'nomorindukpegawai',array( 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30)); ?>
+                       <?php echo $form->textFieldRow($model,'nomorindukpegawai',array( 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength' => 18, 'class'=>'numbers-only')); ?>
                 </td>
             </tr> 
             <tr>
