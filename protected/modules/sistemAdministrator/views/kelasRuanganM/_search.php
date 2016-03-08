@@ -31,7 +31,7 @@
             <div class="control-group">
                     <?php echo CHtml::label('Kelas Pelayanan', 'kelaspelayanan_id', array('class'=>'control-label')); ?>
                     <div class="controls">
-                            <?php echo CHtml::activeDropDownList($model, 'kelaspelayanan_id', CHtml::listData(SAKelasPelayananM::model()->getItems(),'kelaspelayanan_id','kelaspelayanan_nama'),array('empty'=>'')); ?>
+                            <?php echo CHtml::activeDropDownList($model, 'kelaspelayanan_id', CHtml::listData(SAKelasPelayananM::model()->getItems(),'kelaspelayanan_id','kelaspelayanan_nama'),array('empty'=>'--Pilih--')); ?>
                     </div>
             </div>
         </td>
