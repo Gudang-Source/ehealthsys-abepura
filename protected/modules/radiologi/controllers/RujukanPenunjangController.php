@@ -75,7 +75,7 @@ class RujukanPenunjangController extends MyAuthController
 	 */
 	public function actionbatalRujuk()
 	{
-		if(Yii::app()->request->isAjaxRequest) {
+            if(Yii::app()->request->isAjaxRequest) {
 		$pendaftaran_id = $_POST['pendaftaran_id'];
 		$idKirimUnit = $_POST['idKirimUnit'];
 
@@ -98,81 +98,67 @@ class RujukanPenunjangController extends MyAuthController
 		$status = 'ok';
 		$status_bayar = 'ok';
 
-		try{			
-			$modPermintaanPenunjang = ROPermintaanKePenunjangT::model()->findAllByAttributes(array('pasienkirimkeunitlain_id'=>$idKirimUnit));
-			$modPasienKirimUnit = ROPasienKirimKeUnitLainT::model()->findByPk($idKirimUnit);
-
-			foreach($modPermintaanPenunjang as $i=>$permintaan){
-				$modTindakanPelayanan = ROTindakanpelayananT::model()->findByPk($permintaan->tindakanpelayanan_id);
-				if(!empty($modTindakanPelayanan->tindakansudahbayar_id)){
-					$status_bayar = 'ok';
-				}else{
-					$status_bayar = 'not';
-					TindakanpelayananT::model()->deleteByPk($permintaan->tindakanpelayanan_id);
-					TindakankomponenT::model()->deleteAllByAttributes(array('tindakanpelayanan_id'=>$permintaan->tindakanpelayanan_id));
-				}
-			}
-
-			if($status_bayar == 'ok'){
-				$keterangan = "Pemeriksaan tidak bisa dibatalkan karena ada pemeriksaan yang sudah dibayarkan";
-//					$keterangan = "<div class='flash-success'>Pemeriksaan tidak bisa dibatalkan karena ada pemeriksaan yang sudah dibayarkan</div>";
-			}else{
-				// SMS GATEWAY
-		        $modKirimKeunitlain = PasienkirimkeunitlainT::model()->findByPk($idKirimUnit);
-		        $modPasien = $modKirimKeunitlain->pasien;
-		        $nama_pasien = $modPasien->nama_pasien;
-		        $sms = new Sms();
-		        foreach ($modSmsgateway as $i => $smsgateway) {
-		            $isiPesan = $smsgateway->templatesms;
-
-		            $attributes = $modPasien->getAttributes();
-		            foreach($attributes as $attributes => $value){
-		                $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
-		            }
-		       
-		            $isiPesan = str_replace("{{hari}}",MyFormatter::getDayName(date('Y-m-d')),$isiPesan);
-		            $isiPesan = str_replace("{{sekarang}}",MyFormatter::formatDateTimeForUser(date('Y-m-d')),$isiPesan);
-		            
-		            if($smsgateway->tujuansms == Params::TUJUANSMS_PASIEN && $smsgateway->statussms){
-		                if(!empty($modPasien->no_mobile_pasien)){
-		                    $sms->kirim($modPasien->no_mobile_pasien,$isiPesan);
-		                }else{
-		                    $smspasien = 0;
-		                }
-		            }
-		            
-		        }
-		        // END SMS GATEWAY
-
-				PermintaankepenunjangT::model()->deleteAllByAttributes(array('pasienkirimkeunitlain_id'=>$idKirimUnit));
-				PasienkirimkeunitlainT::model()->deleteByPk($idKirimUnit);
-				$status = 'ok';	
-				$keterangan = "pasien berhasil dibatalkan";
-			}
-
-			/*
-			 * kondisi_commit
-			 */
-			if($status == 'ok')
-			{
-				$transaction->commit();
-			}else{
-				$transaction->rollback();
-			}
-
-		}catch(Exception $ex){
-			print_r($ex);
-			$status = 'not';
-			$transaction->rollback();
-		}            
-		$data = array(
-			'status'=>$status,
-			'keterangan'=>$keterangan,
-			'smspasien'=>$smspasien,
-			'nama_pasien'=>$nama_pasien
-		);
-		echo json_encode($data);
-		 Yii::app()->end();
-		}
+		try {
+                    $criteria = new CDbCriteria();
+                    $criteria->select = "count(t.permintaankepenunjang_id) as permintaankepenunjang_id";
+                    $criteria->join = "join tindakanpelayanan_t tp on tp.tindakanpelayanan_id = t.tindakanpelayanan_id ";
+                    $criteria->addCondition("t.pasienkirimkeunitlain_id = ".$idKirimUnit." and tp.tindakansudahbayar_id is not null");
+                    $permintaan = PermintaankepenunjangT::model()->find($criteria);
+                    if ($permintaan->permintaankepenunjang_id > 0) {
+                        $keterangan = "Pemeriksaan tidak bisa dibatalkan karena ada pemeriksaan yang sudah dibayarkan";
+                    } else {
+                        $ok = true;
+                        $kirim = PasienkirimkeunitlainT::model()->findByPk($idKirimUnit);
+                        $permintaan = PermintaankepenunjangT::model()->findAllByAttributes(array(
+                            'pasienkirimkeunitlain_id'=>$idKirimUnit
+                        ));
+                        foreach ($permintaan as $item) {
+                            if (!empty($item->tindakanpelayanan_id)) {
+                                $ok = $ok && TindakanpelayananT::model()->deleteByPk($item->tindakanpelayanan_id);
+                            }
+                        }
+                        $ok = $ok && PermintaankepenunjangT::model()->deleteAllByAttributes(array('pasienkirimkeunitlain_id'=>$idKirimUnit));
+                        $ok = $ok && PasienkirimkeunitlainT::model()->deleteByPk($idKirimUnit);
+                        $keterangan = "Pasien berhasil dibatalkan";
+                        //var_dump($ok);
+                        //die;
+                        if($status == 'ok') {
+                                $this->notifBatalRujuk($kirim);
+                                $transaction->commit();
+                        } else {
+                                $transaction->rollback();
+                        }
+                    }
+                } catch (Exception $ex) {
+                    print_r($ex);
+                    $status = 'not';
+                    $transaction->rollback();
+                }
+                $data = array(
+                    'status'=>$status,
+                    'keterangan'=>$keterangan,
+                    //'smspasien'=>$smspasien,
+                    //'nama_pasien'=>$nama_pasien,
+                );
+                echo json_encode($data);
+                Yii::app()->end(); 
+            }
 	}
+        
+        protected function notifBatalRujuk($modKirimKeunitlain) {
+            
+            $modRuangan = RuanganM::model()->findByPk($modKirimKeunitlain->create_ruangan);
+            $pasien_id = $modKirimKeunitlain->pasien_id;
+            $modPasien = PasienM::model()->findByPk($pasien_id);
+            $judul = 'Pasien Batal Rujuk Radiologi';
+
+            $isi = $modPasien->no_rekam_medik.' - '.$modPasien->nama_pasien
+                    .'<br/>Tgl Rujuk : '.MyFormatter::formatDateTimeForUser($modKirimKeunitlain->tgl_kirimpasien);
+            
+            //var_dump($judul." , ".$isi);
+            
+            $ok = CustomFunction::broadcastNotif($judul, $isi, array(
+                array('instalasi_id'=>$modRuangan->instalasi_id, 'ruangan_id'=>$modRuangan->ruangan_id, 'modul_id'=>$modRuangan->modul_id),
+            )); 
+        }
 }

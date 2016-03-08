@@ -298,32 +298,44 @@ class LaboratoriumController extends MyAuthController
 				$data['pesan'] = "Pasien kirim ke laboratorium gagal dibatalkan!";
 				$data['sukses'] = 0;
 				
+                                $status = 'ok';
+                                
 				$transaction = Yii::app()->db->beginTransaction();
 				try {
-					$loadPermintaans = PermintaankepenunjangT::model()->findAllByAttributes(array('pasienkirimkeunitlain_id'=>$pasienkirimkeunitlain_id));
-					if(count($loadPermintaans) > 0){
-						foreach($loadPermintaans AS $i => $permintaan){
-							$hapuspermintaan = true;
-							if(!empty($permintaan->tindakanpelayanan_id)){
-								if(!empty($permintaan->tindakanpelayanan->tindakansudahbayar_id)){
-									$hapuspermintaan = false;
-								}else{
-									$permintaan->tindakanpelayanan->delete();
-								}
-							}
-							if($hapuspermintaan){
-								if($permintaan->delete()){
-									$data['pesan'] = "Pasien kirim ke laboratorium berhasil dibatalkan!";
-									$data['sukses'] = 1;
-								}
-							}else{
-								$data['pesan'] = "Pasien kirim ke laboratorium tidak bisa dibatalkan karena tindakan sudah dibayarkan!";
-								$data['sukses'] = 0;
-							}
-						}
-					}
-					PasienkirimkeunitlainT::model()->deleteByPk($pasienkirimkeunitlain_id);
-					$transaction->commit();
+                                        $criteria = new CDbCriteria();
+                                        $criteria->select = "count(t.permintaankepenunjang_id) as permintaankepenunjang_id";
+                                        $criteria->join = "join tindakanpelayanan_t tp on tp.tindakanpelayanan_id = t.tindakanpelayanan_id ";
+                                        $criteria->addCondition("t.pasienkirimkeunitlain_id = ".$pasienkirimkeunitlain_id." and tp.tindakansudahbayar_id is not null");
+                                        $permintaan = PermintaankepenunjangT::model()->find($criteria);
+                                        
+                                        if ($permintaan->permintaankepenunjang_id > 0) {
+                                            $data['pesan'] = "Pasien kirim ke laboratorium tidak bisa dibatalkan karena tindakan sudah dibayarkan!";
+                                            $data['sukses'] = 0;
+                                        } else {
+                                            $ok = true;
+                                            $kirim = PasienkirimkeunitlainT::model()->findByPk($pasienkirimkeunitlain_id);
+                                            $permintaan = PermintaankepenunjangT::model()->findAllByAttributes(array(
+                                                'pasienkirimkeunitlain_id'=>$pasienkirimkeunitlain_id
+                                            ));
+                                            foreach ($permintaan as $item) {
+                                                if (!empty($item->tindakanpelayanan_id)) {
+                                                    $ok = $ok && TindakanpelayananT::model()->deleteByPk($item->tindakanpelayanan_id);
+                                                }
+                                            }
+                                            $ok = $ok && PermintaankepenunjangT::model()->deleteAllByAttributes(array('pasienkirimkeunitlain_id'=>$pasienkirimkeunitlain_id));
+                                            $ok = $ok && PasienkirimkeunitlainT::model()->deleteByPk($pasienkirimkeunitlain_id);
+                                            $keterangan = "Pasien berhasil dibatalkan";
+                                            
+                                            if($status == 'ok' && $ok) {
+                                                    $data['pesan'] = "Pasien kirim ke laboratorium berhasil dibatalkan!";
+                                                    $data['sukses'] = 1;
+                                                    $transaction->commit();
+                                            } else {
+                                                    $transaction->rollback();
+                                                    $data['pesan'] = "Pasien kirim ke laboratorium tidak bisa dibatalkan karena tindakan sudah dibayarkan!";
+                                                    $data['sukses'] = 0;
+                                            }
+                                        }
 				}catch (Exception $exc) {
 					$transaction->rollback();
 					$data['pesan'] = "Pasien kirim ke laboratorium gagal dibatalkan karena tindakan sudah dibayarkan!";
