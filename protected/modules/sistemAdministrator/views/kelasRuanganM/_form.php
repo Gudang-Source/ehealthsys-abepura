@@ -26,7 +26,7 @@
 					
 				   $this->widget('application.extensions.emultiselect.EMultiSelect', array('sortable' => true, 'searchable' => true));
 					echo CHtml::dropDownList('kelaspelayanan_id[]',$arrKelasPelayanan,
-						CHtml::listData(KelaspelayananM::model()->findAll(array('order'=>'kelaspelayanan_nama')), 'kelaspelayanan_id', 'kelaspelayanan_nama'),
+						CHtml::listData(KelaspelayananM::model()->findAll("kelaspelayanan_aktif = TRUE ORDER BY kelaspelayanan_nama"), 'kelaspelayanan_id', 'kelaspelayanan_nama'),
 						array('multiple'=>'multiple','key'=>'kelaspelayanan_id', 'class'=>'multiselect','style'=>'width:500px;height:150px')
 					);
 			  ?>
