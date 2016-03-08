@@ -49,7 +49,7 @@ class PemeriksaanRadMController extends MyAuthController
 				}
 
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->pemeriksaanrad_id));
+				$this->redirect(array('admin','id'=>$model->pemeriksaanrad_id, 'sukses'=>1));
 			}
 		}
 
@@ -92,7 +92,7 @@ class PemeriksaanRadMController extends MyAuthController
                             $modReferensiHasil->save();
                             
                             Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-                            $this->redirect(array('admin','id'=>$model->pemeriksaanrad_id));
+                            $this->redirect(array('admin','id'=>$model->pemeriksaanrad_id, 'sukses'=>1));
                         }
 		}
 
@@ -182,7 +182,12 @@ class PemeriksaanRadMController extends MyAuthController
 			$model = $this->loadModel($id);
 			// set non-active this
 			// example: 
-			 $model->pemeriksaanrad_aktif = 0;
+                        if (isset($_GET['add'])):
+                            $model->pemeriksaanrad_aktif = 1;                        
+                        else:    
+                            $model->pemeriksaanrad_aktif = 0;                        
+                        endif;
+			 
 			 if($model->save()){
 				$data['sukses'] = 1;
 			 }

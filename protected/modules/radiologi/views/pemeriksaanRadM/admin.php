@@ -18,6 +18,11 @@ $('.search-form form').submit(function(){
 	return false;
 });
 "); ?>
+    <?php
+        if(isset($_GET['sukses'])):
+            Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+        endif;
+    ?>
 	<?php $this->widget('bootstrap.widgets.BootAlert'); ?>
     <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-accordion icon-white"></i>')),'#',array('class'=>'search-button btn')); ?>
 <div class="cari-lanjut2 search-form" style="display:none">
@@ -45,7 +50,8 @@ $('.search-form form').submit(function(){
                         'name'=>'daftartindakan_nama',
                         //'filter'=>  CHtml::listData($model->DaftarTindakanItems, 'daftartindakan_id', 'daftartindakan_nama'),
                         //'filter'=>  //CHtml::listData(DaftartindakanM::model()->findAll(array('order'=>'daftartindakan_nama')), 'daftartindakan_id','daftartindakan_nama'),
-                        'value'=>'$data->daftartindakan->daftartindakan_nama',
+                         'filter' => CHtml::activeDropDownList($model,'daftartindakan_id',CHtml::listData(DaftartindakanM::model()->findAll("daftartindakan_aktif = TRUE ORDER BY daftartindakan_nama ASC"), 'daftartindakan_id','daftartindakan_nama'),array('class'=>'span3','empty'=>'--Pilih--')),
+                         'value'=>'$data->daftartindakan->daftartindakan_nama',
 
                 ),
              array(     'header'=>'Jenis Pemeriksaan',
@@ -91,18 +97,40 @@ $('.search-form form').submit(function(){
                                         ),
                          ),
                 ),
-        array(
+        /*array(
             'header'=>'Non Aktif',
             'type'=>'raw',
             'value'=>'($data->pemeriksaanrad_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->pemeriksaanrad_id)",array("id"=>"$data->pemeriksaanrad_id","rel"=>"tooltip","title"=>"Menonaktifkan pemeriksaan radiologi"))." ".CHtml::link("", "javascript:deleteRecord($data->pemeriksaanrad_id)",array("id"=>"$data->pemeriksaanrad_id","rel"=>"tooltip","title"=>"Hapus pemeriksaan radiologi")):CHtml::link("<i class=\'icon-trash\'></i> ", "javascript:deleteRecord($data->pemeriksaanrad_id)",array("id"=>"$data->pemeriksaanrad_id","rel"=>"tooltip"));',
             'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
-        ),
-            array(
+        ),*/
+           /* array(
             'header'=>'Hapus',
             'type'=>'raw',
-            'value'=>'($data->pemeriksaanrad_id)?CHtml::link("<i class=\'icon-form-sampah\'></i> ","javascript:statusDelete($data->pemeriksaanrad_id)",array("id"=>"$data->pemeriksaanrad_id","rel"=>"tooltip","title"=>"Menghapus pemeriksaan radiologi"))." ".CHtml::link("", "javascript:deleteRecord($data->pemeriksaanrad_id)",array("id"=>"$data->pemeriksaanrad_id","rel"=>"tooltip","title"=>"Hapus pemeriksaan radiologi")):CHtml::link("<i class=\'icon-trash\'></i> ", "javascript:deleteRecord($data->pemeriksaanrad_id)",array("id"=>"$data->pemeriksaanrad_id","rel"=>"tooltip"));',
+            'value'=>'($data->pemeriksaanrad_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->pemeriksaanrad_id)",array("id"=>"$data->pemeriksaanrad_id","rel"=>"tooltip","title"=>"Menonaktifkan pemeriksaan radiologi"))." ".CHtml::link("", "javascript:deleteRecord($data->pemeriksaanrad_id)",array("id"=>"$data->pemeriksaanrad_id","rel"=>"tooltip","title"=>"Hapus pemeriksaan radiologi")):CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:addTemporary($data->pemeriksaanrad_id)",array("id"=>"$data->pemeriksaanrad_id","rel"=>"tooltip","title"=>"Mengaktifkan pemeriksaan radiologi"))." ".CHtml::link("<i class=\'icon-trash\'></i> ", "javascript:deleteRecord($data->pemeriksaanrad_id)",array("id"=>"$data->pemeriksaanrad_id","rel"=>"tooltip"));',
             'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
-        ),
+        ),*/
+            array(
+			'header'=>Yii::t('zii','Delete'),
+			'class'=>'bootstrap.widgets.BootButtonColumn',
+			'template'=>'{remove} {add} {delete}',
+			'buttons'=>array(
+				'remove' => array (
+						'label'=>"<i class='icon-form-silang'></i>",
+						'options'=>array('title'=>Yii::t('mds','Remove Temporary')),
+						'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/nonActive",array("id"=>$data->pemeriksaanrad_id))',
+						'click'=>'function(){nonActive(this);return false;}',
+						'visible'=>'$data->pemeriksaanrad_aktif',
+				),
+                                'add' => array (
+                                                'label'=>"<i class='icon-form-check'></i>",
+                                                'options'=>array('title'=>Yii::t('mds','Active Temporary')),
+                                                'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/nonActive",array("id"=>$data->pemeriksaanrad_id))',
+                                                'visible'=>'($data->pemeriksaanrad_aktif) ? FALSE : TRUE',
+                                                'click'=>'function(){active(this,1);return false;}',
+                                ),
+				'delete'=> array(),
+			)
+		),
 
         ),
        'afterAjaxUpdate'=>'function(id, data){
@@ -122,7 +150,7 @@ echo CHtml::link(Yii::t('mds', '{icon} Tambah Pemeriksaan Radiologi
 echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
 echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
 echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
-$content = $this->renderPartial('../tips/master',array(),true);
+$content = $this->renderPartial('../tips/master3',array(),true);
 $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
 $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
 $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
@@ -206,6 +234,30 @@ function nonActive(obj){
 							if(data.sukses > 0){
 							}else{
 								myAlert('Data gagal dinonaktifkan!');
+							}
+						},
+						error: function (jqXHR, textStatus, errorThrown) { myAlert('Data gagal dinonaktifkan!'); console.log(errorThrown);}
+					});
+				}
+			}
+		);
+		return false;
+	}
+        
+        function active(obj, add){
+		myConfirm("Yakin akan mengaktifkan data ini untuk sementara?","Perhatian!",
+			function(r){
+				if(r){ 
+					$.ajax({
+						type:'GET',
+						url:obj.href,
+						data: {add:add},//
+						dataType: "json",
+						success:function(data){
+							$.fn.yiiGridView.update('sapemeriksaan-rad-m-grid');
+							if(data.sukses > 0){
+							}else{
+								myAlert('Data gagal aktifkan!');
 							}
 						},
 						error: function (jqXHR, textStatus, errorThrown) { myAlert('Data gagal dinonaktifkan!'); console.log(errorThrown);}
