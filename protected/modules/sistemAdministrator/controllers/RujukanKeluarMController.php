@@ -166,7 +166,13 @@ class RujukanKeluarMController extends MyAuthController
         $id = $_POST['id'];   
         if(isset($_POST['id']))
         {
-           $update = SARujukankeluarM::model()->updateByPk($id,array('rujukankeluar_aktif'=>false));
+           
+           if (isset($_POST['add'])):
+               $update = SARujukankeluarM::model()->updateByPk($id,array('rujukankeluar_aktif'=>true));           
+           else:    
+               $update = SARujukankeluarM::model()->updateByPk($id,array('rujukankeluar_aktif'=>false));           
+           endif;
+           
            if($update)
             {
                 if (Yii::app()->request->isAjaxRequest)
