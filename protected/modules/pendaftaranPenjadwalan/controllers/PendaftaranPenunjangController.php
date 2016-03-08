@@ -175,7 +175,8 @@ class PendaftaranPenunjangController extends PendaftaranRawatJalanController
                                 $modAsuransiPasienBpjs = PPAsuransipasienM::model()->findByPk($_POST['PPAsuransipasienbpjsM']['asuransipasien_id']);
                             }
                         }
-						$modAsuransiPasienBpjs = $this->simpanAsuransiPasien($modAsuransiPasienBpjs, $_POST['PPPendaftaranT'], $modPasien, $_POST['PPAsuransipasienbpjsM']);
+                        if (empty($modAsuransiPasienBpjs)) $modAsuransiPasienBpjs = new PPAsuransipasienM;
+			$modAsuransiPasienBpjs = $this->simpanAsuransiPasien($modAsuransiPasienBpjs, $_POST['PPPendaftaranT'], $modPasien, $_POST['PPAsuransipasienbpjsM']);
                     }else{
                         $this->asuransipasientersimpan = true;
                     }
@@ -184,7 +185,7 @@ class PendaftaranPenunjangController extends PendaftaranRawatJalanController
                     
                     // ambil dokter pasien punjang
                     if(isset($_POST['PPPasienMasukPenunjangT'])){
-                        var_dump($_POST['PPPasienMasukPenunjangT']);
+                        // var_dump($_POST['PPPasienMasukPenunjangT']);
                         foreach ($_POST['PPPasienMasukPenunjangT'] as $item) {
                             if ($item['is_pilihpenunjang'] == 1) {
                                 $model->pegawai_id = $item['pegawai_id'];
