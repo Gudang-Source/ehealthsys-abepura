@@ -109,7 +109,7 @@
                     'htmlOptions' => array('style' => 'text-align:left;'),
                 ),
                 array(
-                    'header' => 'Batal Periksa',
+                    'header' => 'Batal Rujuk',
                     'type' => 'raw',
                     'value' => 'CHtml::link("<i class=\'icon-form-silang\'></i>", "javascript:batalperiksa($data->pendaftaran_id,$data->pasienkirimkeunitlain_id)",array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk membatalkan rujukan"))',
                     'htmlOptions' => array('style' => 'text-align: left; width:40px'),
@@ -161,12 +161,15 @@
                             params = {instalasi_id:<?php echo Yii::app()->user->getState("instalasi_id"); ?>, modul_id:<?php echo Yii::app()->session['modul_id']; ?>, judulnotifikasi: 'GAGAL KIRIM SMS PASIEN', isinotifikasi: 'Pasien ' + data.nama_pasien + ' tidak memiliki nomor mobile'}; // 16 
                             insert_notifikasi(params);
                         }
+                        myAlert(data.keterangan);
                         // window.location = "<?php echo Yii::app()->createUrl(Yii::app()->controller->module->id . '/' . Yii::app()->controller->id . '/index&succes=2') ?>";
 //                                 $('#dialogKonfirm div.divForForm').html(data.keterangan);
                         $('#dialogKonfirm').dialog('open');
                         //console.log('test');
                         $('#pasienpenunjangrujukan-m-grid').yiiGridView('update');
 //                        JQuery('#pasienpenunjangrujukan-m-grid').yiiGridView('update');
+                    } else {
+                        myAlert(data.keterangan);
                     }
                 }, 'json'
                         );
