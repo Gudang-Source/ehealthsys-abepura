@@ -38,7 +38,7 @@ class KegiatanOperasiMController extends MyAuthController
 			$model->attributes=$_POST['SAKegiatanOperasiM'];
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->kegiatanoperasi_id));
+				$this->redirect(array('admin','id'=>$model->kegiatanoperasi_id, 'sukses'=>1));
                         }
 		}
 
@@ -65,7 +65,7 @@ class KegiatanOperasiMController extends MyAuthController
 			$model->attributes=$_POST['SAKegiatanOperasiM'];
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->kegiatanoperasi_id));
+				$this->redirect(array('admin','id'=>$model->kegiatanoperasi_id, 'sukses'=>1));
                         }
 		}
 
@@ -164,8 +164,12 @@ class KegiatanOperasiMController extends MyAuthController
                     
                     $id = $_POST['id'];   
                     if(isset($_POST['id']))
-                    {
-                       $update = SAKegiatanOperasiM::model()->updateByPk($id,array('kegiatanoperasi_aktif'=>false));
+                    {                       
+                       if (isset($_POST['add'])):
+                           $update = SAKegiatanOperasiM::model()->updateByPk($id,array('kegiatanoperasi_aktif'=>true));
+                       else:
+                           $update = SAKegiatanOperasiM::model()->updateByPk($id,array('kegiatanoperasi_aktif'=>false));
+                       endif;
                        if($update)
                         {
                             if (Yii::app()->request->isAjaxRequest)

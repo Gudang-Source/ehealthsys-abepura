@@ -26,7 +26,10 @@
             return false;
     });
     ");
-
+    if (isset($_GET['sukses'])):
+        Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+    endif;
+    
     $this->widget('bootstrap.widgets.BootAlert'); ?>
     <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-accordion icon-white"></i>')),'#',array('class'=>'search-button btn')); ?>
     <div class="cari-lanjut2 search-form" style="display:none">
@@ -89,7 +92,7 @@
                      array(
                         'header'=>'Hapus',
                         'type'=>'raw',
-                        'value'=>'($data->kegiatanoperasi_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->kegiatanoperasi_id)",array("id"=>"$data->kegiatanoperasi_id","rel"=>"tooltip","title"=>"Menonaktifkan Kegiatan Operasi"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->kegiatanoperasi_id)",array("id"=>"$data->kegiatanoperasi_id","rel"=>"tooltip","title"=>"Hapus Kegiatan Operasi")):CHtml::link("<i class=\'icon-tform-sampah\'></i> ", "javascript:deleteRecord($data->kegiatanoperasi_id)",array("id"=>"$data->kegiatanoperasi_id","rel"=>"tooltip","title"=>"Hapus Kegiatan Operasi"));',
+                        'value'=>'($data->kegiatanoperasi_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->kegiatanoperasi_id)",array("id"=>"$data->kegiatanoperasi_id","rel"=>"tooltip","title"=>"Menonaktifkan Kegiatan Operasi"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->kegiatanoperasi_id)",array("id"=>"$data->kegiatanoperasi_id","rel"=>"tooltip","title"=>"Hapus Kegiatan Operasi")):CHtml::link("<i class=\'icon-form-check\'></i> ","javascript:addTemporary($data->kegiatanoperasi_id, 1)",array("id"=>"$data->kegiatanoperasi_id","rel"=>"tooltip","title"=>"Mengaktifkan Kegiatan Operasi"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->kegiatanoperasi_id)",array("id"=>"$data->kegiatanoperasi_id","rel"=>"tooltip","title"=>"Hapus Kegiatan Operasi"));',
                         'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
 
                     ),
@@ -131,6 +134,22 @@ JSCRIPT;
                                 $.fn.yiiGridView.update('bskegiatan-operasi-m-grid');
                             }else{
                                 myAlert('Data Gagal di Nonaktifkan')
+                            }
+                },"json");
+           }
+       });
+    }
+    
+    function addTemporary(id, add){
+        var url = '<?php echo $url."/removeTemporary"; ?>';
+        myConfirm("Yakin akan mengaktifkan data ini untuk sementara?","Perhatian!",function(r) {
+            if (r){
+                 $.post(url, {id: id, add:add},
+                     function(data){
+                        if(data.status == 'proses_form'){
+                                $.fn.yiiGridView.update('bskegiatan-operasi-m-grid');
+                            }else{
+                                myAlert('Data Gagal di Aktifkan')
                             }
                 },"json");
            }
