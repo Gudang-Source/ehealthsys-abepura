@@ -1,3 +1,5 @@
+<fieldset class="box">
+    <legend class="rim">Lihat Asal Rujukan</legend>
 <?php
 $this->breadcrumbs=array(
 	'Saasal Rujukan Ms'=>array('index'),
@@ -28,4 +30,4 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
     )); ?>
     <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Asal Rujukan', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('Admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
     <?php $this->widget('UserTips',array('type'=>'view'));?>
-<!--</fieldset>-->
+</fieldset>

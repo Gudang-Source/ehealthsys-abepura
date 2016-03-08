@@ -166,8 +166,13 @@ class AsalRujukanMController extends MyAuthController
                     
                     $id = $_POST['id'];   
                     if(isset($_POST['id']))
-                    {
-                       $update = SAAsalRujukanM::model()->updateByPk($id,array('asalrujukan_aktif'=>false));
+                    {                       
+                       if (isset($_POST['add'])):
+                           $update = SAAsalRujukanM::model()->updateByPk($id,array('asalrujukan_aktif'=>true));                       
+                       else:
+                           $update = SAAsalRujukanM::model()->updateByPk($id,array('asalrujukan_aktif'=>false));                       
+                       endif;
+                       
                        if($update)
                         {
                             if (Yii::app()->request->isAjaxRequest)
