@@ -5,13 +5,26 @@
         'Saruangan Ms'=>array('index'),
         'Manage',
     );
-
+    Yii::app()->clientScript->registerScript('search', "
+            $('.search-button').click(function(){
+                    $('.search-form').toggle();
+                $('#SATindakanruanganM_instalasi_nama').focus();
+                    return false;
+            });
+            $('.search-form form').submit(function(){
+                    $.fn.yiiGridView.update('saruangan-m-grid', {
+                            data: $(this).serialize()
+                    });
+                    return false;
+            });
+            ");
+    
 	$controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
 	$module = Yii::app()->controller->module->id;
 
     $this->widget('bootstrap.widgets.BootAlert'); ?>
 
-    <?php // echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-accordion icon-white"></i>')),'#',array('class'=>'search-button btn')); ?>
+    <?php  echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-accordion icon-white"></i>')),'#',array('class'=>'search-button btn')); ?>
     <div class="cari-lanjut search-form" style="display:none">
     <?php $this->renderPartial($this->path_view.'_search',array(
         'model'=>$model,
@@ -24,7 +37,7 @@
         'filter'=>$model,
             'template'=>"{summary}\n{items}{pager}",
             'itemsCssClass'=>'table table-striped table-condensed',
-        'columns'=>array(
+        'columns'=>array(                        
 			array(
 				'header'=>'Kelompok Tindakan',
 				'name'=>'kelompoktindakan_nama',
