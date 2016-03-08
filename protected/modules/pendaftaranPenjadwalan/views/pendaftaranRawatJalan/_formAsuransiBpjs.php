@@ -315,7 +315,13 @@
     </div>
 </div>
 <?php //echo $form->textFieldRow($modSep,'nosep', array('placeholder'=>'','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-<?php echo $form->textFieldRow($modSep,'ppkrujukan', array('placeholder'=>'','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+<div class="control-group">
+        <?php echo CHtml::label("PPK Rujukan <span class='required'>*</span> <i class=\"icon-search\" onclick=\"getBpjsPPKRujukan($('#".CHtml::activeId($modSep,"ppkrujukan")."').val());\", style=\"cursor:pointer;\" rel='tooltip' title='klik untuk mengecek PPK Rujukan'></i>", 'ppkrujukan', array('class'=>'control-label'))?>
+        <div class="controls">
+    
+<?php echo $form->textField($modSep,'ppkrujukan', array('placeholder'=>'','class'=>'span3 all-caps','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+        </div>
+</div>
 <?php //echo $form->hiddenField($modSep,'ppkpelayanan', array('placeholder'=>'','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
 <?php //echo $form->dropDownListRow($modSep,'jnspelayanan',LookupM::getItems('jenispelayanan'), array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)",'onchange'=>'setNamaPerujuk();')); ?>
 <?php echo $form->textAreaRow($modSep,'catatansep', array('placeholder'=>'','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>

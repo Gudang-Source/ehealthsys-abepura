@@ -827,7 +827,7 @@ class PendaftaranRawatJalanController extends MyAuthController
         }
 
         public function simpanSep($model,$modPasien,$modRujukanBpjs,$modAsuransiPasienBpjs,$postSep){
-			echo "<pre>";
+			//echo "<pre>";
 //			print_r($_POST);exit;
             $reqSep = null;
             $modSep = new PPSepT;
@@ -844,22 +844,25 @@ class PendaftaranRawatJalanController extends MyAuthController
             $modSep->catatansep = $postSep['catatansep'];
             $data_diagnosa = explode(', ', $modRujukanBpjs->kddiagnosa_rujukan);
             $modSep->diagnosaawal = isset($data_diagnosa[0])?$data_diagnosa[0]:'';
-            $modSep->politujuan = $model->ruangan_id;
+            $modSep->politujuan = $model->ruangan->ruangan_singkatan;
             $modSep->klsrawat = $kelas->kelasbpjs_id;
             $modSep->tglpulang = date('Y-m-d H:i:s');
             $modSep->create_time = date('Y-m-d H:i:s');
             $modSep->create_loginpemakai_id = Yii::app()->user->id;
             $modSep->create_ruangan = Yii::app()->user->getState('ruangan_id');
             
-            //var_dump($modSep->attributes); die;
-            
+            // var_dump($modSep->attributes); die;
             if(isset($_POST['isSepManual'])){
                 if($_POST['isSepManual']==false){
                     $reqSep = json_decode($bpjs->create_sep($modSep->nokartuasuransi, $modSep->tglsep, $modSep->tglrujukan, $modSep->norujukan, $modSep->ppkrujukan, $modSep->ppkpelayanan, $modSep->jnspelayanan, $modSep->catatansep, $modSep->diagnosaawal, $modSep->politujuan, $modSep->klsrawat, Yii::app()->user->id, $modPasien->no_rekam_medik, $model->pendaftaran_id),true);
+                    // var_dump($reqSep); die;
                     if ($reqSep['metadata']['code']==200) {
                         $modSep->nosep = $reqSep['response'];
                         if($modSep->save()){
                             $this->septersimpan = true;
+                            RujukandariM::model()->updateByPk($modRujukanBpjs->rujukandari_id, array(
+                                'ppkrujukan'=>$modSep->ppkrujukan,
+                            ));
                         }
                     } 
                 }else{
@@ -870,10 +873,15 @@ class PendaftaranRawatJalanController extends MyAuthController
                 }
             }else{
 				$reqSep = json_decode($bpjs->create_sep($modSep->nokartuasuransi, $modSep->tglsep, $modSep->tglrujukan, $modSep->norujukan, $modSep->ppkrujukan, $modSep->ppkpelayanan, $modSep->jnspelayanan, $modSep->catatansep, $modSep->diagnosaawal, $modSep->politujuan, $modSep->klsrawat, Yii::app()->user->id, $modPasien->no_rekam_medik, $model->pendaftaran_id),true);
-				if ($reqSep['metadata']['code']==200) {
+				// var_dump($reqSep); die;
+                                if ($reqSep['metadata']['code']==200) {
+                                        // var_dump($reqSep); die;
 					$modSep->nosep = $reqSep['response'];
 					if($modSep->save()){
 						$this->septersimpan = true;
+                                                RujukandariM::model()->updateByPk($modRujukanBpjs->rujukandari_id, array(
+                                                    'ppkrujukan'=>$modSep->ppkrujukan,
+                                                ));
 					}
 				} 
 			}
