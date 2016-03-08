@@ -7,11 +7,11 @@
 <table width="100%">
     <tr>
         <td>
-            <?php echo $form->dropDownListRow($model,'daftartindakan_id',CHtml::listData(DaftartindakanM::model()->findAll(array('order'=>'daftartindakan_nama')), 'daftartindakan_id','daftartindakan_nama'),array('class'=>'span3','empty'=>'--Pilih--')); ?>
+            <?php echo $form->dropDownListRow($model,'daftartindakan_id',CHtml::listData(DaftartindakanM::model()->findAll("daftartindakan_aktif = TRUE ORDER BY daftartindakan_nama ASC"), 'daftartindakan_id','daftartindakan_nama'),array('class'=>'span3','empty'=>'--Pilih--')); ?>
             <?php echo $form->textFieldRow($model,'pemeriksaanrad_namalainnya',array('class'=>'span3','maxlength'=>20)); ?>
         </td>
         <td>
-            <?php echo $form->dropDownListRow($model,'jenispemeriksaanrad_id',CHtml::listData(JenispemeriksaanradM::model()->findAll(array('order'=>'jenispemeriksaanrad_nama')), 'jenispemeriksaanrad_id','jenispemeriksaanrad_nama'),array('class'=>'span3','empty'=>'--Pilih--')); ?>
+            <?php echo $form->dropDownListRow($model,'jenispemeriksaanrad_id',CHtml::listData(JenispemeriksaanradM::model()->findAll("jenispemeriksaanrad_aktif = TRUE ORDER BY jenispemeriksaanrad_nama"), 'jenispemeriksaanrad_id','jenispemeriksaanrad_nama'),array('class'=>'span3','empty'=>'--Pilih--')); ?>
         </td>
         <td>
             <?php echo $form->textFieldRow($model,'pemeriksaanrad_nama',array('class'=>'span3','maxlength'=>20)); ?>

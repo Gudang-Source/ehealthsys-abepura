@@ -51,6 +51,15 @@ class ROPemeriksaanRadM extends PemeriksaanradM
 
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
+            'sort' => array(
+                'attributes' => array(
+                    'daftartindakan_nama' => array(
+                        'asc' => 'daftartindakan.daftartindakan_nama ASC',
+                        'desc' => 'daftartindakan.daftartindakan_nama DESC',
+                    ),
+                    '*',
+                )
+            )
         ));
     }
 	
