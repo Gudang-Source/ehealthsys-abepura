@@ -10,5 +10,11 @@
     <td>Icon <i class="icon-form-sampah"></i> untuk menghapus data.</td>
   </tr>
    <tr>
+    <td style="vertical-align: middle;">3. </td>
+    <td>Tombol <a class="search-button btn" href="#">
+    <i class="icon-accordion icon-white"></i>
+    Pencarian Lanjut
+    </a> untuk pencarian data lebih lanjut.</td>
+  </tr>
 </table>
 </p>
