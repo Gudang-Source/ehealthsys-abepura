@@ -326,8 +326,8 @@ Class Params
 	const JENISPENJUALAN_DOKTER = "PENJUALAN DOKTER"; //disesuaikan dengan lookup_m.lookup_type = jenispenjualan
 	const JENISPENJUALAN_KARYAWAN = "PENJUALAN KARYAWAN"; //disesuaikan dengan lookup_m.lookup_type = jenispenjualan
 
-	const JENISPELAYANAN_RJ = 1; //di ambil dari lookup_m.lookup_type = jenispelayanan
-	const JENISPELAYANAN_RI = 2; //di ambil dari lookup_m.lookup_type = jenispelayanan
+	const JENISPELAYANAN_RJ = 2; //di ambil dari lookup_m.lookup_type = jenispelayanan
+	const JENISPELAYANAN_RI = 1; //di ambil dari lookup_m.lookup_type = jenispelayanan
 	
 	const OBATALKESPASIEN_BMHP = "BM"; //disesuaikan dengan lookup_m.lookup_type = 'jnspelayanan'
 

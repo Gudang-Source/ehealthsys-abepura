@@ -186,15 +186,15 @@
 						</data>
 					</request>';
                         
-                        // echo CHtml::encode($query);
+                        //echo CHtml::encode($query); die;
                         //var_dump($this->HashBPJS());
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
 			
 			$completeUrl = $this->url.'/SEP/sep';
-                        //echo $completeUrl;
+                        // echo $completeUrl; die;
 			
 			$result = $this->request($completeUrl, $hashsignature, $uid, $timestmp, 'POST', $query, 'Application/x‐www‐form‐urlencoded');
-			//echo($result); die;
+			// echo($result); die;
                         $result = json_decode($result, true);
 			
                         // var_dump($result); die;
@@ -259,7 +259,7 @@
 
 		function detail_ppk_rujukan($query, $start, $limit){
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
-			$completeUrl = $this->url.'/ref/provider/query?nama='.$query.'&start='.$start.'&limit='.$limit;
+			$completeUrl = $this->url.'/provider/ref/provider/query?nama='.$query.'&start='.$start.'&limit='.$limit;
 			return $this->request($completeUrl, $hashsignature, $uid, $timestmp);
 		}
 		
