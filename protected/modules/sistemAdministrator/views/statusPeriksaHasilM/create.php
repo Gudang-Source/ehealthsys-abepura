@@ -1,5 +1,5 @@
 <div class="white-container">
-    <legend class="rim2">Tambah <b>Status Hasil Periksa Laboratorium</b></legend>
+    <legend class="rim2">Tambah <b>Status Hasil Periksa</b></legend>
     <?php
     $this->breadcrumbs=array(
             'Rdkeadaan Masuk Ms'=>array('index'),

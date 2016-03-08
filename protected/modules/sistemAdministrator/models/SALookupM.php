@@ -228,7 +228,7 @@ class SALookupM extends LookupM {
         $criteria->compare('lookup_urutan', $this->lookup_urutan);
         $criteria->compare('lookup_kode', $this->lookup_kode);
         $criteria->compare('lookup_aktif', $this->lookup_aktif);
-        //$criteria->compare('lookup_aktif',isset($this->lookup_aktif)?$this->lookup_aktif:true);
+        $criteria->compare('lookup_aktif',isset($this->lookup_aktif)?$this->lookup_aktif:true);
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
         ));

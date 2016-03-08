@@ -42,7 +42,7 @@ class StatusPeriksaHasilMController extends MyAuthController
                         $model->lookup_value = $model->lookup_name;
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->lookup_id));
+				$this->redirect(array('admin','id'=>$model->lookup_id, 'sukses'=>1));
                         }
 		}
 
@@ -71,7 +71,7 @@ class StatusPeriksaHasilMController extends MyAuthController
                         $model->lookup_value = $model->lookup_name;
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->lookup_id));
+				$this->redirect(array('admin','id'=>$model->lookup_id, 'sukses'=>1));
                         }
 		}
 
@@ -171,7 +171,12 @@ class StatusPeriksaHasilMController extends MyAuthController
         $id = $_POST['id'];   
         if(isset($_POST['id']))
         {
-           $update = SALookupM::model()->updateByPk($id,array('lookup_aktif'=>false));
+           if (isset($_POST['add'])) :
+               $update = SALookupM::model()->updateByPk($id,array('lookup_aktif'=>true));
+           else:
+               $update = SALookupM::model()->updateByPk($id,array('lookup_aktif'=>false));
+           endif;
+           
            if($update)
             {
                 if (Yii::app()->request->isAjaxRequest)

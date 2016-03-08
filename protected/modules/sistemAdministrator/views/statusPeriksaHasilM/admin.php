@@ -1,5 +1,5 @@
 <div class="white-container">
-    <legend class="rim2">Pengaturan <b>Status Hasil Periksa Laboratorium</b></legend>
+    <legend class="rim2">Pengaturan <b>Status Hasil Periksa</b></legend>
             <?php
             $this->breadcrumbs=array(
                     'Rdkeadaan Masuk Ms'=>array('index'),
@@ -26,7 +26,9 @@
                     return false;
             });
             ");
-
+            if (isset($_GET['sukses'])):
+                Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+            endif;
             $this->widget('bootstrap.widgets.BootAlert'); ?>
             <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-accordion icon-white"></i>')),'#',array('class'=>'search-button btn')); ?>
             <div class="cari-lanjut2 search-form" style="display:none">
@@ -84,7 +86,7 @@
                     array(
                         'header'=>'<center>Hapus</center>',
                         'type'=>'raw',
-                        'value'=>'($data->lookup_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->lookup_id)",array("id"=>"$data->lookup_id","rel"=>"tooltip","title"=>"Menonaktifkan"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->lookup_id)",array("id"=>"$data->lookup_id","rel"=>"tooltip","title"=>"Hapus")):CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->lookup_id)",array("id"=>"$data->lookup_id","rel"=>"tooltip","title"=>"Hapus"));',
+                        'value'=>'($data->lookup_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->lookup_id)",array("id"=>"$data->lookup_id","rel"=>"tooltip","title"=>"Menonaktifkan"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->lookup_id)",array("id"=>"$data->lookup_id","rel"=>"tooltip","title"=>"Hapus")):CHtml::link("<i class=\'icon-form-check\'></i> ","javascript:addTemporary($data->lookup_id, 1)",array("id"=>"$data->lookup_id","rel"=>"tooltip","title"=>"Mengaktifkan"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->lookup_id)",array("id"=>"$data->lookup_id","rel"=>"tooltip","title"=>"Hapus"));',
                         'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
                     ),
                     ),
@@ -133,6 +135,23 @@ JSCRIPT;
                                 $.fn.yiiGridView.update('rdkeadaan-masuk-m-grid');
                             }else{
                                 myAlert('Data Gagal di Nonaktifkan')
+                            }
+                },"json");
+           }
+       });
+    }
+    
+    function addTemporary(id, add){
+        var url = '<?php echo $url."/removeTemporary"; ?>';
+        myConfirm('Yakin akan mengaktifkan data ini untuk sementara?', 'Perhatian!', function(r)
+        {
+            if (r){
+                 $.post(url, {id: id, add:add},
+                     function(data){
+                        if(data.status == 'proses_form'){
+                                $.fn.yiiGridView.update('rdkeadaan-masuk-m-grid');
+                            }else{
+                                myAlert('Data Gagal di Aktifkan')
                             }
                 },"json");
            }
