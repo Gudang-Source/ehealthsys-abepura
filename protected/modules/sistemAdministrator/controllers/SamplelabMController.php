@@ -40,7 +40,7 @@ class SamplelabMController extends MyAuthController
 			$model->attributes=$_POST['SASamplelabM'];
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->samplelab_id));
+				$this->redirect(array('admin','id'=>$model->samplelab_id,'sukses'=>1));
                         }
 		}
 
@@ -67,7 +67,7 @@ class SamplelabMController extends MyAuthController
 			$model->attributes=$_POST['SASamplelabM'];
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->samplelab_id));
+				$this->redirect(array('admin','id'=>$model->samplelab_id,'sukses'=>1));
                         }
 		}
 
@@ -171,7 +171,12 @@ class SamplelabMController extends MyAuthController
         $id = $_POST['id'];   
         if(isset($_POST['id']))
         {
-           $update = SASamplelabM::model()->updateByPk($id,array('samplelab_aktif'=>false));
+           
+           if (isset($_POST['add'])):
+               $update = SASamplelabM::model()->updateByPk($id,array('samplelab_aktif'=>true));
+           else:
+               $update = SASamplelabM::model()->updateByPk($id,array('samplelab_aktif'=>false));            
+           endif;
            if($update)
             {
                 if (Yii::app()->request->isAjaxRequest)
