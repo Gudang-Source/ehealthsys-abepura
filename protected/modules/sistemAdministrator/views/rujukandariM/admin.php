@@ -1,3 +1,5 @@
+<fieldset class="box">
+    <legend class="rim">Pengaturan Perujuk</legend>
 <?php
 $this->breadcrumbs=array(
 	'Rujukandari Ms'=>array('index'),
@@ -50,7 +52,7 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
 		array(
                         'name'=>'asalrujukan_id',
                         'value'=>'$data->asalrujukan->asalrujukan_nama',
-                        'filter'=> CHtml::dropDownList('RujukandariM[asalrujukan_id]',$model->asalrujukan_id,CHtml::listData(AsalrujukanM::model()->findAll('asalrujukan_aktif = TRUE'),'asalrujukan_id','asalrujukan_nama'),array('empty'=>'--Pilih--'))
+                        'filter'=> CHtml::dropDownList('RujukandariM[asalrujukan_id]',$model->asalrujukan_id,CHtml::listData(AsalrujukanM::model()->findAll('asalrujukan_aktif = TRUE ORDER BY asalrujukan_nama ASC'),'asalrujukan_id','asalrujukan_nama'),array('empty'=>'--Pilih--'))
                         //'filter'=> CHtml::listData(AsalrujukanM::model()->findAll('asalrujukan_aktif = TRUE'),'asalrujukan_id','asalrujukan_nama')
                 ),
                 array(
@@ -161,3 +163,4 @@ function removeTemporary(obj){
 }
 $('.filters #RujukandariM_namaperujuk').focus();    
 </script>
+</fieldset>

@@ -8,7 +8,7 @@
     <tr>
         <td>
             <?php
-                echo $form->dropDownListRow($model, 'asalrujukan_id', CHtml::listData(AsalrujukanM::model()->findAll(), 'asalrujukan_id', 'asalrujukan_nama'),array('empty'=>'-- Pilih --',
+                echo $form->dropDownListRow($model, 'asalrujukan_id', CHtml::listData(AsalrujukanM::model()->findAll('asalrujukan_aktif = TRUE ORDER BY asalrujukan_nama ASC'), 'asalrujukan_id', 'asalrujukan_nama'),array('empty'=>'-- Pilih --',
                 'onkeypress'=>"return $(this).focusNextInputField(event)")); 
             ?>
             <?php echo $form->textFieldRow($model,'namaperujuk',array('class'=>'span3','maxlength'=>100)); ?>

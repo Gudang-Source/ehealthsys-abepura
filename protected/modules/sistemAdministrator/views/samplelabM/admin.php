@@ -27,7 +27,11 @@
                     return false;
             });
             ");
-
+            
+            if (isset($_GET['sukses'])):
+                Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+            endif;
+            
             $this->widget('bootstrap.widgets.BootAlert'); ?>
             <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-accordion icon-white"></i>')),'#',array('class'=>'search-button btn')); ?>
             <div class="cari-lanjut2 search-form" style="display:none">
@@ -83,7 +87,7 @@
                     array(
                         'header'=>'Hapus',
                         'type'=>'raw',
-                        'value'=>'($data->samplelab_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->samplelab_id)",array("id"=>"$data->samplelab_id","rel"=>"tooltip","title"=>"Menonaktifkan"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->samplelab_id)",array("id"=>"$data->samplelab_id","rel"=>"tooltip","title"=>"Hapus")):CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->samplelab_id)",array("id"=>"$data->samplelab_id","rel"=>"tooltip","title"=>"Hapus"));',
+                        'value'=>'($data->samplelab_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->samplelab_id)",array("id"=>"$data->samplelab_id","rel"=>"tooltip","title"=>"Menonaktifkan"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->samplelab_id)",array("id"=>"$data->samplelab_id","rel"=>"tooltip","title"=>"Hapus")):CHtml::link("<i class=\'icon-form-check\'></i> ","javascript:addTemporary($data->samplelab_id, 1)",array("id"=>"$data->samplelab_id","rel"=>"tooltip","title"=>"Mengaktifkan"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->samplelab_id)",array("id"=>"$data->samplelab_id","rel"=>"tooltip","title"=>"Hapus"));',
                         'htmlOptions'=>array('style'=>'text-align:left; width:80px'),
                     ),
                     ),
@@ -132,6 +136,23 @@ JSCRIPT;
                                 $.fn.yiiGridView.update('lksamplelab-m-grid');
                             }else{
                                 myAlert('Data Gagal di Nonaktifkan')
+                            }
+                },"json");
+           }
+        });
+    }
+    
+    function addTemporary(id, add){
+        var url = '<?php echo $url."/removeTemporary"; ?>';
+        myConfirm('Yakin akan mengaktifkan data ini untuk sementara?', 'Perhatian!', function(r)
+        {
+            if (r){
+                 $.post(url, {id: id, add:add},
+                     function(data){
+                        if(data.status == 'proses_form'){
+                                $.fn.yiiGridView.update('lksamplelab-m-grid');
+                            }else{
+                                myAlert('Data Gagal di Aktifkan')
                             }
                 },"json");
            }

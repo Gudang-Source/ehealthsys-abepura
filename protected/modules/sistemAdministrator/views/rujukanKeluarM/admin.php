@@ -1,3 +1,5 @@
+<fieldset class="box">
+    <legend class="rim">Pengaturan Rujukan Ke Luar</legend>
             <?php
             $this->breadcrumbs=array(
                     'Lkrujukankeluar Ms'=>array('index'),
@@ -81,7 +83,7 @@
                     array(
                         'header'=>'Hapus',
                         'type'=>'raw',
-                        'value'=>'($data->rujukankeluar_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->rujukankeluar_id)",array("id"=>"$data->rujukankeluar_id","rel"=>"tooltip","title"=>"Menonaktifkan"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->rujukankeluar_id)",array("id"=>"$data->rujukankeluar_id","rel"=>"tooltip","title"=>"Hapus")):CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->rujukankeluar_id)",array("id"=>"$data->rujukankeluar_id","rel"=>"tooltip","title"=>"Hapus"));',
+                        'value'=>'($data->rujukankeluar_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->rujukankeluar_id)",array("id"=>"$data->rujukankeluar_id","rel"=>"tooltip","title"=>"Menonaktifkan"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->rujukankeluar_id)",array("id"=>"$data->rujukankeluar_id","rel"=>"tooltip","title"=>"Hapus")):CHtml::link("<i class=\'icon-form-check\'></i> ","javascript:addTemporary($data->rujukankeluar_id, 1)",array("id"=>"$data->rujukankeluar_id","rel"=>"tooltip","title"=>"Mengaktifkan"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->rujukankeluar_id)",array("id"=>"$data->rujukankeluar_id","rel"=>"tooltip","title"=>"Hapus"));',
                         'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
                     ),
                     ),
@@ -137,6 +139,23 @@ JSCRIPT;
        });
     }
     
+    function addTemporary(id, add){
+        var url = '<?php echo $url."/removeTemporary"; ?>';
+        myConfirm('Yakin akan mengaktifkan data ini untuk sementara?', 'Perhatian!', function(r)
+        {
+            if (r){
+                 $.post(url, {id: id, add:add},
+                     function(data){
+                        if(data.status == 'proses_form'){
+                                $.fn.yiiGridView.update('lkrujukankeluar-m-grid');
+                            }else{
+                                myAlert('Data Gagal di Aktifkan')
+                            }
+                },"json");
+           }
+       });
+    }
+    
     function deleteRecord(id){
         var id = id;
         var url = '<?php echo $url."/delete"; ?>';
@@ -158,3 +177,4 @@ $(document).ready(function(){
         $("input[name='SARujukankeluarM[rumahsakitrujukan]']").focus();
 });
 </script>
+</fieldset>

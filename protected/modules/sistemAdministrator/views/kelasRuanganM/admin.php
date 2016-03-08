@@ -28,7 +28,7 @@ $('.search-form form').submit(function(){
 });
 ");
 if (isset($_GET['sukses'])):
-    Yii::app()->user->setFlash('success','<strong>Berhasil</strong>Data Berhasil disimpan');
+    Yii::app()->user->setFlash('success','<strong>Berhasil</strong> Data Berhasil disimpan');
 endif;
 $this->widget('bootstrap.widgets.BootAlert'); ?>
 

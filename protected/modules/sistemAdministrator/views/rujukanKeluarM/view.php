@@ -1,3 +1,5 @@
+<fieldset class="box">
+    <legend class="rim">Lihat Rujukan Ke Luar</legend>
 <!--<fieldset class="box">-->
     <!--<legend class="rim">Lihat Rujukan Keluar</legend>-->
     <?php
@@ -36,3 +38,4 @@
     <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Rujukan Keluar', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp";
                                 $this->widget('UserTips',array('type'=>'view'));?>
 <!--</fieldset>-->
+</fieldset>

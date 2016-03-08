@@ -1,3 +1,5 @@
+<fieldset class="box">
+    <legend class="rim">Pengaturan Asal Rujukan</legend>
 <?php
 $this->breadcrumbs=array(
 	'Saasal Rujukan Ms'=>array('index'),
@@ -94,7 +96,7 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                  array(
                     'header'=>'Hapus',
                     'type'=>'raw',
-                    'value'=>'($data->asalrujukan_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->asalrujukan_id)",array("id"=>"$data->asalrujukan_id","rel"=>"tooltip","title"=>"Menonaktifkan Asal Rujukan"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->asalrujukan_id)",array("id"=>"$data->asalrujukan_id","rel"=>"tooltip","title"=>"Hapus Asal Rujukan")):CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->asalrujukan_id)",array("id"=>"$data->asalrujukan_id","rel"=>"tooltip","title"=>"Hapus Asal Rujukan"));',
+                    'value'=>'($data->asalrujukan_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->asalrujukan_id)",array("id"=>"$data->asalrujukan_id","rel"=>"tooltip","title"=>"Menonaktifkan Asal Rujukan"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->asalrujukan_id)",array("id"=>"$data->asalrujukan_id","rel"=>"tooltip","title"=>"Hapus Asal Rujukan")):CHtml::link("<i class=\'icon-form-check\'></i> ","javascript:addTemporary($data->asalrujukan_id, 1)",array("id"=>"$data->asalrujukan_id","rel"=>"tooltip","title"=>"Mengaktifkan Asal Rujukan"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->asalrujukan_id)",array("id"=>"$data->asalrujukan_id","rel"=>"tooltip","title"=>"Hapus Asal Rujukan"));',
                     'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
                 ),
 	),
@@ -147,6 +149,22 @@ Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);
 	   });
     }
     
+    function addTemporary(id, add){
+        var url = '<?php echo $url."/removeTemporary"; ?>';
+        myConfirm("Yakin akan mengaktifkan data ini untuk sementara?","Perhatian!",function(r) {
+            if (r){
+                 $.post(url, {id: id, add:add},
+                     function(data){
+                        if(data.status == 'proses_form'){
+                                $.fn.yiiGridView.update('saasal-rujukan-m-grid');
+                            }else{
+                                myAlert('Data Gagal di Nonaktifkan')
+                            }
+                },"json");
+           }
+	   });
+    }
+    
     function deleteRecord(id){
         var id = id;
         var url = '<?php echo $url."/delete"; ?>';
@@ -165,3 +183,4 @@ Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);
     }
     $('.filters #SAAsalRujukanM_asalrujukan_nama').focus();
 </script>
+</fieldset>
