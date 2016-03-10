@@ -1,5 +1,40 @@
 <?php $modProfilRs = ProfilrumahsakitM::model()->findByPk(Params::DEFAULT_PROFIL_RUMAH_SAKIT); ?>
-<table width="50%">
+<style>       
+    table.a  tr td 
+    {
+      vertical-align: top;
+    }
+    
+    table.a  tr td label
+    {
+      font-size:8pt;
+    }
+    
+    table.a  tr td 
+    {
+      font-size:8pt;
+    }
+    
+    table  tr td label
+    {
+      font-size:8pt;
+    }
+    
+    table  tr td 
+    {
+      font-size:8pt;
+    }
+    
+   @media (min-width:0px) and (max-width: 1000px) {
+    table
+    {
+        width:100%;
+        padding:10px;
+    }
+    
+}
+</style>
+<table width="50%" >
         <tbody><tr>
             <td width="80" valign="MIDDLE" align="CENTER" rowspan="3">
                  <img src="<?php echo Params::urlProfilRSDirectory().$modProfilRs->logo_rumahsakit ?> " style="max-width: 80px; width:80px;"/>
@@ -32,50 +67,58 @@
 </table>
 
 
-<table width="50%" >
+<table width="50%" class = "a">
     <tr>
         <td width='15%'>
             <label class='control-label'>NIP / No. Pendaftaran</label>
         </td>
-		<td width='35%'>: <?php echo !empty($modPendaftaran->pasien->pegawai_id)?$modPendaftaran->pasien->pegawai->nomorindukpegawai:'-'; ?> / <?php echo $modPendaftaran->no_pendaftaran; ?></td>
+        <td>:</td>
+        <td width='35%'> <?php echo !empty($modPendaftaran->pasien->pegawai_id)?$modPendaftaran->pasien->pegawai->nomorindukpegawai:'-'; ?> / <?php echo $modPendaftaran->no_pendaftaran; ?></td>
         <td width='15%'>
 			<label class='control-label'>No. Resep</label>
         </td>
-        <td width='35%'>: <?php echo $modReseptur->noresep; ?></td>
+        <td>:</td>
+        <td width='35%'> <?php echo $modReseptur->noresep; ?></td>
     </tr>
     <tr>
         <td width='15%'>
             <label class='control-label'>Nama Pasien</label>
         </td>
-		<td width='35%'>: <?php echo $modPendaftaran->pasien->nama_pasien; ?></td>
+        <td>:</td>
+		<td width='35%'> <?php echo $modPendaftaran->pasien->nama_pasien; ?></td>
         <td width='15%'>
 			<label class='control-label'>Dokter Penulis Resep</label>
         </td>
-        <td width='35%'>: <?php echo $modReseptur->GetNamaLengkapPegawai($modReseptur->pegawai_id); ?></td>
+        <td>:</td>
+        <td width='35%'> <?php echo $modReseptur->GetNamaLengkapPegawai($modReseptur->pegawai_id); ?></td>
     </tr>
     <tr>
         <td width='15%'>
             <label class='control-label'>Umur</label>
         </td>
-		<td width='35%'>: <?php echo $modPendaftaran->umur; ?></td>
+        <td>:</td>
+        <td width='35%'> <?php echo $modPendaftaran->umur; ?></td>
         <td width='15%'>
-			<label class='control-label'>Tanggal Resep</label>
+            <label class='control-label'>Tanggal Resep</label>
         </td>
-        <td width='35%'>: <?php echo $modReseptur->tglreseptur; ?></td>
+        <td>:</td>
+        <td width='35%'> <?php echo $modReseptur->tglreseptur; ?></td>
     </tr>
     <tr>
         <td width='15%'>
             <label class='control-label'>Alamat</label>
         </td>
-		<td width='35%'>: <?php echo $modPendaftaran->pasien->alamat_pasien; ?></td>
+        <td>:</td>
+		<td width='35%'> <?php echo $modPendaftaran->pasien->alamat_pasien; ?></td>
         <td width='15%'>
 			<label class='control-label'>Ruangan</label>
         </td>
-        <td width='35%'>: <?php echo $modReseptur->ruanganreseptur->ruangan_nama; ?></td>
+        <td>:</td>
+        <td width='35%'> <?php echo $modReseptur->ruanganreseptur->ruangan_nama; ?></td>
     </tr>
        
     </table>
-<br/><br/><br/><br/>
+<br/><br/>
 
 <style>
 	.iter {
@@ -90,7 +133,14 @@
 		text-align: center;
 		width:  15%;
 		margin-left: 85%;
+                font-size: 8pt;
 	} 
+        
+        @media (min-width:0px) and (max-width: 1000px) {
+    .iter
+    {
+        width:100%;
+    }
 </style>
 <?php foreach($kerangkaLooping as $i => $detail){ ?>
 	<?php
@@ -105,10 +155,10 @@
 			<table width="50%">
 				<tbody>
 					<tr>
-						<td width='10%'>R <?php echo $detail->rke; ?></td>
-						<td width='50%' style="border-left: 0px; border-right: 0px;"><?php echo $item->obatalkes->obatalkes_nama; ?></td>
-						<td width='25%'>No </td>
-						<td width='25%'><?php echo CustomFunction::Romawi($item->qty_reseptur); ?></td>
+						<td >R <?php echo $detail->rke; ?></td>
+						<td  style="border-left: 0px; border-right: 0px;"><?php echo $item->obatalkes->obatalkes_nama; ?></td>
+						<td >No </td>
+						<td ><?php echo CustomFunction::Romawi($item->qty_reseptur); ?></td>
 					</tr>
 					<tr>
 						<td colspan="4"><?php echo $item->signa_reseptur; ?></td>
@@ -119,10 +169,10 @@
 			<table width="50%">
 				<tbody>
 					<tr>
-						<td width='10%'>R <?php echo $detail->rke; ?></td>
-						<td width='50%' style="border-left: 0px; border-right: 0px;"><?php echo $item->obatalkes->obatalkes_nama; ?></td>
-						<td width='25%'> </td>
-						<td width='25%'></td>
+						<td >R <?php echo $detail->rke; ?></td>
+						<td  style="border-left: 0px; border-right: 0px;"><?php echo $item->obatalkes->obatalkes_nama; ?></td>
+						<td > </td>
+						<td ></td>
 					</tr>
 					<tr>
 						<td></td>
@@ -139,7 +189,7 @@
  <fieldset class='iter'>
 	 <legend>Iter <?php echo $detail->iter; ?></legend>
  </fieldset>
-<br/><br/><br>
+<br/>
 <?php } ?>
 
 <?php
