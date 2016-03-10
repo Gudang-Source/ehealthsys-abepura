@@ -26,7 +26,11 @@
             return false;
     });
     ");
-
+    
+    if (isset($_GET['sukses'])):
+        Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+    endif;
+    
     $this->widget('bootstrap.widgets.BootAlert'); ?>
     <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-accordion icon-white"></i>')),'#',array('class'=>'search-button btn')); ?>
     <div class="cari-lanjut2 search-form" style="display:none">
@@ -42,12 +46,30 @@
             'filter'=>$model,
             'template'=>"{summary}\n{items}\n{pager}",
             'itemsCssClass'=>'table table-striped table-condensed',
-            'columns'=>array(
+            'columns'=>array(//
                     array(
                         'header'=>'ID Operasi',
                         'name'=>'operasi_id',
                         'value'=>'$data->operasi_id',
                         'filter'=>false,
+                    ),                    
+                    array(
+                        'header'=>'Kegiatan Operasi',
+                        'name'=>'kegiatanoperasi_id',
+                        'value'=>'$data->kegiatanoperasi->kegiatanoperasi_nama',
+                        'filter' => CHtml::activeDropDownList($model,'kegiatanoperasi_id',  CHtml::listData(SAKegiatanOperasiM::model()->getAllItems(), 'kegiatanoperasi_id', 'kegiatanoperasi_nama'),array('empty'=>'- Pilih -','class'=>'span2', 'style'=>'width:160px'))
+                    ),
+                    array(
+                        'header'=>'Daftar Tindakan',
+                        'name'=>'daftartindakan_nama',
+                        'value'=>'$data->daftartindakan->daftartindakan_nama',                        
+                        //'filter'=> CHtml::activeTextField($model, 'daftartindakan_nama')
+                        'filter' => $this->widget('MyJuiAutoComplete', array(
+                                        'model' => $model,
+                                        'attribute'=>'daftartindakan_nama',
+            //                                            'value'=>$model->daftartindakan->daftartindakan_nama,                                                             
+                                        'tombolDialog'=>array('idDialog'=>'dialogTindakan'),
+                            ),true),
                     ),
                     array(
                         'header'=>'Kode Operasi',
@@ -93,12 +115,14 @@
                     array(
                         'header'=>'Hapus',
                         'type'=>'raw',
-                        'value'=>'($data->operasi_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->operasi_id)",array("id"=>"$data->operasi_id","rel"=>"tooltip","title"=>"Menonaktifkan operasi"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->operasi_id)",array("id"=>"$data->operasi_id","rel"=>"tooltip","title"=>"Hapus operasi")):CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->operasi_id)",array("id"=>"$data->operasi_id","rel"=>"tooltip","title"=>"Hapus operasi"));',
+                        'value'=>'($data->operasi_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->operasi_id)",array("id"=>"$data->operasi_id","rel"=>"tooltip","title"=>"Menonaktifkan operasi"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->operasi_id)",array("id"=>"$data->operasi_id","rel"=>"tooltip","title"=>"Hapus operasi")):CHtml::link("<i class=\'icon-form-check\'></i> ","javascript:addTemporary($data->operasi_id, 1)",array("id"=>"$data->operasi_id","rel"=>"tooltip","title"=>"Mengaktifkan operasi"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->operasi_id)",array("id"=>"$data->operasi_id","rel"=>"tooltip","title"=>"Hapus operasi"));',
                         'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
                     ),
             ),
-            'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
-        )); ?>
+            'afterAjaxUpdate'=> 'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+            
+        )); 
+        ?>
     <!--</div>-->
     <?php
     echo CHtml::link(Yii::t('mds', '{icon} Tambah Operasi', array('{icon}'=>'<i class="icon-plus icon-white"></i>')), $this->createUrl('create',array('modul_id'=> Yii::app()->session['modul_id'])), 
@@ -137,6 +161,22 @@ JSCRIPT;
                                 $.fn.yiiGridView.update('bsoperasi-m-grid');
                             }else{
                                 myAlert('Data Gagal di Nonaktifkan')
+                            }
+                },"json");
+           }
+        });
+    }
+    
+    function addTemporary(id, add){
+        var url = '<?php echo $url."/removeTemporary"; ?>';
+        myConfirm("Yakin akan mengaktifkan data ini untuk sementara?","Perhatian!",function(r) {
+            if (r){
+                 $.post(url, {id: id, add:add},
+                     function(data){
+                        if(data.status == 'proses_form'){
+                                $.fn.yiiGridView.update('bsoperasi-m-grid');
+                            }else{
+                                myAlert('Data Gagal di Aktifkan')
                             }
                 },"json");
            }

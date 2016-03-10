@@ -57,7 +57,7 @@ $('.search-form form').submit(function(){
 		array(
 			'header'=>'Rak Penyimpanan',
 			'type'=>'raw',
-			'value'=>'$data->rak->lokasipenyimpanan_nama'
+			'value'=>'empty($data->rakpenyimpanan_id)?"-":$data->rak->rakpenyimpanan_nama'
 		),
 		array(
 			'header'=>'Bahan',

@@ -27,6 +27,10 @@
     });
     ");
 
+    if (isset($_GET['sukses']))    :
+        Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+    endif;
+    
     $this->widget('bootstrap.widgets.BootAlert'); ?>
     <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-accordion icon-white"></i>')),'#',array('class'=>'search-button btn')); ?>
     <div class="cari-lanjut2 search-form" style="display:none">
@@ -53,6 +57,7 @@
                       'header'=>'Nama Operasi',
                       'name'=>'operasi_nama',
                       'value'=>'$data->operasi->operasi_nama',
+                      'filter' => CHtml::activeDropDownlist($model,'operasi_id',  CHtml::listData(OperasiM::model()->getAllItems(), 'operasi_id', 'operasi_nama'),array('empty'=>'- Pilih -','class'=>'span3', 'style'=>'width:160px', 'onkeypress'=>"return $(this).focusNextInputField(event);"))  
                     ),
                     'detailoperasi_nama',
                     'detailoperasi_namalainnya',
