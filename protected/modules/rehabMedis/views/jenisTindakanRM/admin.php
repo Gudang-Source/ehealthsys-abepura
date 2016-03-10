@@ -25,7 +25,9 @@ $('#rmjenis-tindakanrm-m-search').submit(function(){
 	return false;
 });
 ");
-
+if (isset($_GET['sukses'])):
+    Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+endif;
 $this->widget('bootstrap.widgets.BootAlert'); ?>
 
 <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),'#',array('class'=>'search-button btn')); ?>
