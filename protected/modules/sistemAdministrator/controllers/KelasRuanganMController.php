@@ -165,7 +165,7 @@ class KelasRuanganMController extends MyAuthController
         {
             $model= new SAKelasruanganM();
             $model->attributes=$_REQUEST['SAKelasruanganM'];
-            $judulLaporan='Data Ruangan';
+            $judulLaporan='Data Kelas Ruangan';
             $caraPrint=$_REQUEST['caraPrint'];
             if($caraPrint=='PRINT') {
                 $this->layout='//layouts/printWindows';
@@ -184,7 +184,7 @@ class KelasRuanganMController extends MyAuthController
                 $mpdf->WriteHTML($stylesheet,1);  
                 $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
                 $mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-                $mpdf->Output();
+                $mpdf->Output($judulLaporan.'-'.date("Y/m/d").'.pdf', 'I');
             }                       
         }
 }
