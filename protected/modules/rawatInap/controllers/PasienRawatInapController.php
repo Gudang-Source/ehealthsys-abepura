@@ -1476,20 +1476,31 @@ class PasienRawatInapController extends MyAuthController
                               $kamarruangan_status = false;
                             }
 
-                            $masukKamar = MasukkamarT::model()->findByAttributes(array('pasienadmisi_id'=>$admisi_id));
-                            if($masukKamar){
-                               MasukkamarT::model()->deleteByPk($masukKamar->masukkamar_id);
-                            }
+                            $ok = $this->hapusTindakanDanUpdate($modAdmisi);
+                            
+                            //$masukKamar = MasukkamarT::model()->findByAttributes(array('pasienadmisi_id'=>$admisi_id));
+                            //if($masukKamar){
+                            //   MasukkamarT::model()->deleteByPk($masukKamar->masukkamar_id);
+                            //}
 							if(!empty($kamarRuangan->kamarruangan_id)){
 								KamarruanganM::model()->updateByPk($kamarRuangan->kamarruangan_id, array('kamarruangan_status'=>$kamarruangan_status,'keterangan_kamar'=>$keterangan_kamar));
 							}
                             $pendaftaran = PendaftaranT::model()->updateByPk($pendaftaran_id, array('pasienadmisi_id'=>null,'alihstatus'=>false));
                             // $deleteAdmisi = PasienadmisiT::model()->deleteByPk($admisi_id); //RND-1592
-
-                            if($pendaftaran){                               
+                            
+                            // hapus tindakan
+                            
+                            if($pendaftaran && $ok){                               
                                 $transaction->commit();
                                 Yii::app()->user->setFlash('success',"Data berhasil disimpan");
                                 $tersimpan='Ya';                            
+                            } else {
+                                $transaction->rollback();
+                                if (!$ok) {
+                                    Yii::app()->user->setFlash('error',"Rawat Inap tidak bisa dibatalkan karena ada tindakan yang sudah dibayarkan!");
+                                } else {
+                                    Yii::app()->user->setFlash('error',"Data gagal disimpan");
+                                }
                             }
                          }else{
                             $transaction->rollback();
@@ -1506,6 +1517,57 @@ class PasienRawatInapController extends MyAuthController
              }
              
              $this->render('formBatalRawatInap', array('modPendaftaran'=>$modPendaftaran, 'modPasien'=>$modPasien, 'modPasienBatalRawat'=>$modPasienBatalRawat, 'tersimpan'=>$tersimpan));
+        }
+        
+        public function hapusTindakanDanUpdate($admisi) {
+            $cr = new CDbCriteria();
+            $cr->select = "count(*) as tindakanpelayanan_id";
+            $cr->addCondition("tindakansudahbayar_id is not null and pasienadmisi_id = ".$admisi->pasienadmisi_id);
+            $dat = TindakanpelayananT::model()->find($cr);
+            $ok = true;
+            if ($dat->tindakanpelayanan_id > 0) {
+                echo "MK"; die;
+                return false;
+            } else {
+                $ok = $ok && TindakanpelayananT::model()->deleteAllByAttributes(array(
+                    'pasienadmisi_id'=>$admisi->pasienadmisi_id
+                ));
+                //var_dump($ok);
+                $ok = $ok && PendaftaranT::model()->updateByPk($admisi->pendaftaran_id, array(
+                    'statusperiksa'=>Params::STATUSPERIKSA_SUDAH_PULANG,
+                    'pasienadmisi_id'=>null,
+                )); 
+                //var_dump($ok); 
+                
+                $pk = PindahkamarT::model()->findAllByAttributes(array(
+                    'pasienadmisi_id'=>$admisi->pasienadmisi_id,
+                ));
+                
+                if (count($pk) > 0) {
+                    $ok = $ok && PindahkamarT::model()->updateAll(array(
+                        'masukkamar_id'=>null,
+                    ), array(
+                        'condition'=>'pasienadmisi_id = '.$admisi->pasienadmisi_id,
+                    )); 
+                }
+                //var_dump($ok);
+                
+                $ok = $ok && MasukkamarT::model()->deleteAllByAttributes(array(
+                    'pasienadmisi_id'=>$admisi->pasienadmisi_id,
+                ));
+                if (count($pk) > 0) {
+                    $ok = $ok && PindahkamarT::model()->deleteAllByAttributes(array(
+                        'pasienadmisi_id'=>$admisi->pasienadmisi_id,
+                    ));
+                }
+                //var_dump($ok);
+                //$ok = $ok && PasienadmisiT::model()->deleteByPk($admisi->pasienadmisi_id);
+                
+                //var_dump($ok); die;
+                return $ok;
+            }
+            echo 'Kick';
+            die;
         }
         
         public function actionRencanaPulangPasienRI($idPasienadmisi)
