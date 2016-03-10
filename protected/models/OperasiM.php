@@ -19,6 +19,8 @@ class OperasiM extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return OperasiM the static model class
 	 */
+         public $daftartindakan_nama;
+    
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -47,7 +49,7 @@ class OperasiM extends CActiveRecord
 			array('operasi_aktif', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('operasi_id, daftartindakan_id, kegiatanoperasi_id, operasi_kode, operasi_nama, operasi_namalainnya, operasi_aktif', 'safe', 'on'=>'search'),
+			array('daftartindakan_nama, operasi_id, daftartindakan_id, kegiatanoperasi_id, operasi_kode, operasi_nama, operasi_namalainnya, operasi_aktif', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -91,17 +93,27 @@ class OperasiM extends CActiveRecord
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-
-		$criteria->compare('operasi_id',$this->operasi_id);
-		$criteria->compare('daftartindakan_id',$this->daftartindakan_id);
-		$criteria->compare('kegiatanoperasi_id',$this->kegiatanoperasi_id);
-		$criteria->compare('LOWER(operasi_kode)',strtolower($this->operasi_kode),true);
-		$criteria->compare('LOWER(operasi_nama)',strtolower($this->operasi_nama),true);
-		$criteria->compare('LOWER(operasi_namalainnya)',strtolower($this->operasi_namalainnya),true);
-		$criteria->compare('operasi_aktif',isset($this->operasi_aktif)?$this->operasi_aktif:true);
+                $criteria->with = array('daftartindakan');
+		$criteria->compare('t.operasi_id',$this->operasi_id);
+		$criteria->compare('t.daftartindakan_id',$this->daftartindakan_id);
+		$criteria->compare('t.kegiatanoperasi_id',$this->kegiatanoperasi_id);
+		$criteria->compare('LOWER(t.operasi_kode)',strtolower($this->operasi_kode),true);
+		$criteria->compare('LOWER(t.operasi_nama)',strtolower($this->operasi_nama),true);
+		$criteria->compare('LOWER(t.operasi_namalainnya)',strtolower($this->operasi_namalainnya),true);
+                $criteria->compare('LOWER(daftartindakan.daftartindakan_nama)',strtolower($this->daftartindakan_nama),true);
+		$criteria->compare('t.operasi_aktif',isset($this->operasi_aktif)?$this->operasi_aktif:true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+                        'sort' => array(
+                            'attributes' => array(
+                                'daftartindakan_nama' => array(
+                                    'asc' => 'daftartindakan.daftartindakan_nama ASC',
+                                    'desc' => 'daftartindakan.daftartindakan_nama DESC',
+                                ),
+                                '*',
+                            )
+                        )
 		));
 	}
         

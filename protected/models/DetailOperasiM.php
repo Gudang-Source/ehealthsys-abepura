@@ -98,6 +98,15 @@ class DetailOperasiM extends CActiveRecord
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+                        'sort' => array(
+                            'attributes' => array(
+                                'operasi_nama' => array(
+                                    'asc' => 'operasi.operasi_nama ASC',
+                                    'desc' => 'operasi.operasi_nama DESC',
+                                ),
+                                '*',
+                            )
+                        )
 		));
 	}
         
