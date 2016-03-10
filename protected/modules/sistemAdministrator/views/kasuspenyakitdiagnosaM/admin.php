@@ -55,7 +55,7 @@
                         //'jeniskasuspenyakit.jeniskasuspenyakit_nama',
                         array(
                             'header'=>'Kode Diagnosa',
-                            'name' => 'diagnosa.diagnosa_kode',
+                            'name' => 'diagnosa_kode',
                             'value'=>'$data->diagnosa->diagnosa_kode',                            
                             'filter'=> CHtml::activeTextField($model,'diagnosa_kode'),
                         ),

@@ -14,7 +14,7 @@ class KasuspenyakitdiagnosaM extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return KasuspenyakitdiagnosaM the static model class
 	 */
-        public $diagnosa_nama,$diagnosa_namalainnya,$jeniskasuspenyakit_nama;
+        public $diagnosa_nama,$diagnosa_namalainnya,$jeniskasuspenyakit_nama, $diagnosa_kode;
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -41,7 +41,7 @@ class KasuspenyakitdiagnosaM extends CActiveRecord
 			array('jeniskasuspenyakit_id, diagnosa_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('jeniskasuspenyakit_id, diagnosa_id, diagnosa_nama, diagnosa_namalainnya, jeniskasuspenyakit_nama', 'safe', 'on'=>'search'),
+			array('diagnosa_kode, jeniskasuspenyakit_id, diagnosa_id, diagnosa_nama, diagnosa_namalainnya, jeniskasuspenyakit_nama', 'safe', 'on'=>'search'),
 		);
 	}
         
@@ -95,6 +95,7 @@ class KasuspenyakitdiagnosaM extends CActiveRecord
 
 		$criteria->compare('jeniskasuspenyakit_id',$this->jeniskasuspenyakit_id);
 		$criteria->compare('diagnosa_id',$this->diagnosa_id);
+                $criteria->compare('t.diagnosa_kode',$this->diagnosa_kode);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -110,6 +111,7 @@ class KasuspenyakitdiagnosaM extends CActiveRecord
                 
 		$criteria->compare('t.jeniskasuspenyakit_id',$this->jeniskasuspenyakit_id);
 		$criteria->compare('t.diagnosa_id',$this->diagnosa_id);
+                $criteria->compare('LOWER(diagnosa.diagnosa_kode)',  strtolower($this->diagnosa_kode), true);
                 //$criteria->compare('LOWER(diagnosa.diagnosa_nama)',strtolower($this->diagnosa_nama),true);
                 $criteria->compare('LOWER(diagnosa.diagnosa_namalainnya)',strtolower($this->diagnosa_namalainnya),true);
                 $criteria->compare('LOWER(jeniskasuspenyakit.jeniskasuspenyakit_nama)',strtolower($this->jeniskasuspenyakit_nama),true);                
@@ -134,7 +136,12 @@ class KasuspenyakitdiagnosaM extends CActiveRecord
                                 'diagnosa.diagnosa_namalainnya' => array(
                                     'asc' => 'diagnosa.diagnosa_namalainnya ASC',
                                     'desc' => 'diagnosa.diagnosa_namalainnya DESC',
-                                )
+                                ),
+                                'diagnosa_kode' => array(
+                                    'asc' => 'diagnosa.diagnosa_kode ASC',
+                                    'desc' => 'diagnosa.diagnosa_kode DESC',
+                                ),
+                                '*',
                             )
                         )
 		));
