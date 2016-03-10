@@ -36,10 +36,10 @@ class OperasiMController extends MyAuthController
 		if(isset($_POST['SAOperasiM']))
 		{
 			$model->attributes=$_POST['SAOperasiM'];
-			$model->daftartindakan_id = $_POST['daftartindakan_id'];
+			//$model->daftartindakan_id = $_POST['daftartindakan_id'];
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->operasi_id));
+				$this->redirect(array('admin','id'=>$model->operasi_id, 'sukses'=>1));
                         }
 		}
 
@@ -65,11 +65,11 @@ class OperasiMController extends MyAuthController
 		{
                         //var_dump($_POST);
 			$model->attributes=$_POST['SAOperasiM'];
-                        $model->daftartindakan_id = $_POST['daftartindakan_id'];
+                        //$model->daftartindakan_id = $_POST['daftartindakan_id'];
                         //var_dump($model->attributes); die;
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->operasi_id));
+				$this->redirect(array('admin','id'=>$model->operasi_id, 'sukses'=>1));
                         }
 		}
 
@@ -194,7 +194,12 @@ class OperasiMController extends MyAuthController
                     $id = $_POST['id'];   
                     if(isset($_POST['id']))
                     {
-                       $update = SAOperasiM::model()->updateByPk($id,array('operasi_aktif'=>false));
+                       
+                       if (isset($_POST['add'])):
+                           $update = SAOperasiM::model()->updateByPk($id,array('operasi_aktif'=>true));                       
+                       else:    
+                           $update = SAOperasiM::model()->updateByPk($id,array('operasi_aktif'=>false));                       
+                       endif;
                        if($update)
                         {
                             if (Yii::app()->request->isAjaxRequest)
@@ -240,7 +245,7 @@ class OperasiMController extends MyAuthController
                 $mpdf->WriteHTML($stylesheet,1);  
                 $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
                 $mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-                $mpdf->Output();
+                $mpdf->Output($judulLaporan.'-'.date("Y/m/d").'.pdf', 'I');
             }                       
         }
 }

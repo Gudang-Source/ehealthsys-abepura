@@ -12,9 +12,9 @@
                 <div class="controls">
                     <?php echo CHtml::hiddenField('daftartindakan_id'); ?>
                     <?php 
-                        $this->widget('MyJuiAutoComplete', array(
-
-                                        'name'=>'daftartindakan_nama',
+                       $this->widget('MyJuiAutoComplete', array(
+                                        'model' => $model,
+                                        'attribute'=>'daftartindakan_nama',
             //                                            'value'=>$model->daftartindakan->daftartindakan_nama,
                                         'value'=>$model->getDaftarTindakanNama($model->daftartindakan_id),
                                         'source'=>'js: function(request, response) {
@@ -38,7 +38,7 @@
                                                 }',
                                                'select'=>'js:function( event, ui ) { 
                                                     $("#daftartindakan_id").val(ui.item.daftartindakan_id);
-                                                    $("#daftartindakan_nama").val(ui.item.daftartindakan_nama);
+                                                    $("#SAOperasiM_daftartindakan_nama").val(ui.item.daftartindakan_nama);
                                                     return false;
                                                 }',
                                         ),
@@ -47,7 +47,7 @@
                                                 'placeholder'=>"Daftar Tindakan",
                                         ),
                                         'tombolDialog'=>array('idDialog'=>'dialogTindakan'),
-                                    )); 
+                                    ));
                      ?>
                 </div>
             </div>
@@ -97,10 +97,10 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     ),
 ));
 
-$modTindakanRad = new TariftindakanperdatotalV('search');
+$modTindakanRad = new DaftartindakanM('search');
 $modTindakanRad->unsetAttributes();
-if(isset($_GET['TariftindakanperdatotalV']))
-    $modTindakanRad->attributes = $_GET['TariftindakanperdatotalV'];
+if(isset($_GET['DaftartindakanM']))
+    $modTindakanRad->attributes = $_GET['DaftartindakanM'];
 
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'sainstalasi-m-grid',
@@ -108,7 +108,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'filter'=>$modTindakanRad,
         'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
-    'columns'=>array(
+        'columns'=>array(
             array(
                 'header'=>'Pilih',
                 'type'=>'raw',
@@ -118,15 +118,31 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                 "class"=>"btn-small", 
                                 "id" => "selectTindakan",
                                 "onClick" => "
-                                $(\"#daftartindakan_id\").val(\'$data->daftartindakan_id\');
-                                $(\"#daftartindakan_nama\").val(\'$data->daftartindakan_nama\');
+                                $(\"#SAOperasiM_daftartindakan_id\").val(\'$data->daftartindakan_id\');
+                                $(\"input[id=SAOperasiM_daftartindakan_nama]\").val(\'$data->daftartindakan_nama\');
+                                $.fn.yiiGridView.update(\"bsoperasi-m-grid\", {
+					data: $(\"#bsoperasi-m-grid .filters input, #bsoperasi-m-grid .filters select\").serialize()
+				});
                                 $(\'#dialogTindakan\').dialog(\'close\');return false;"))'
+            ),             
+            array(
+                'name'=>'kelompoktindakan_nama',
+                'header'=>'Kelompok Tindakan',                
+                'type'=>'raw',                
+                'filter'=> CHtml::dropDownList('DaftartindakanM[kelompoktindakan_nama]',$modTindakanRad->kelompoktindakan_nama,CHtml::listData(KelompoktindakanM::model()->findAll("kelompoktindakan_aktif = TRUE ORDER BY kelompoktindakan_nama"), 'kelompoktindakan_nama', 'kelompoktindakan_nama'), array('empty'=>'--Pilih')),           
+                'value'=>'$data->kelompoktindakan->kelompoktindakan_nama',
+            ),  
+            //'kelompoktindakan_nama',
+            array(
+                'name'=>'kategoritindakan_nama',
+                'header'=>'Kategori Tindakan',                
+                'type'=>'raw',                
+                'filter'=> CHtml::dropDownList('DaftartindakanM[kategoritindakan_nama]',$modTindakanRad->kategoritindakan_nama,CHtml::listData(KategoritindakanM::model()->findAll("kategoritindakan_aktif = TRUE ORDER BY kategoritindakan_nama"), 'kategoritindakan_nama', 'kategoritindakan_nama'), array('empty'=>'--Pilih--')),           
+                'value'=>'$data->kategoritindakan->kategoritindakan_nama',
             ),
-            'kelompoktindakan_nama',
-            'kategoritindakan_nama',
+            //'kategoritindakan_nama',
             'daftartindakan_kode',
-            'daftartindakan_nama',
-            'harga_tariftindakan',
+            'daftartindakan_nama',          
     ),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 )); 
