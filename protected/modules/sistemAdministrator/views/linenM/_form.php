@@ -74,7 +74,7 @@
 			</div>
 			<?php echo $form->textFieldRow($model,'tahunbeli',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>6)); ?>
 			<?php echo $form->textFieldRow($model,'warna',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>20)); ?>
-			<?php echo $form->dropDownListRow($model,'rakpenyimpanan_id',CHtml::listData(LokasipenyimpananM::model()->findAll(), 'instalasi_id', 'lokasipenyimpanan_nama'),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+			<?php echo $form->dropDownListRow($model,'rakpenyimpanan_id',CHtml::listData(RakpenyimpananM::model()->findAll(), 'rakpenyimpanan_id', 'rakpenyimpanan_nama'),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
 		</div>
 		<div class="span4">
 			<?php echo $form->dropDownListRow($model,'satuanlinen',LookupM::getItems('satuanbarang'),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
