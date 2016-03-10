@@ -18,6 +18,7 @@ class KasuspenyakitdiagnosaMController extends MyAuthController
             $model->unsetAttributes();
             if (isset($_GET['SAKasuspenyakitdiagnosaM'])){
                 $model->attributes = $_GET['SAKasuspenyakitdiagnosaM'];
+                $model->diagnosa_kode = $_GET['SAKasuspenyakitdiagnosaM']['diagnosa_kode'];
                 $model->diagnosa_nama = $_GET['SAKasuspenyakitdiagnosaM']['diagnosa_nama'];
                 $model->diagnosa_namalainnya = $_GET['SAKasuspenyakitdiagnosaM']['diagnosa_namalainnya'];                
             }
