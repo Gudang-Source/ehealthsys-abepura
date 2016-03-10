@@ -7,7 +7,7 @@
             <div class="control-group ">
                 <?php echo CHtml::label('Kelas Pelayanan', 'kelaspelayanan_id', array('class' => 'control-label')); ?>
                 <div class="controls">
-                    <?php echo $form->dropDownList($model,'kelaspelayanan_id',CHtml::listData($model->getKelasPelayananItems(), 'kelaspelayanan_id', 'kelaspelayanan_nama'),array('empty'=>'--Pilih--')); ?>
+                    <?php echo $form->dropDownList($model,'kelaspelayanan_id',CHtml::listData($model->getKelasPelayananItems(), 'kelaspelayanan_id', 'kelaspelayanan_nama'),array('class'=>'span3','empty'=>'--Pilih--')); ?>
                 </div>
             </div>
 <!--            <div class="control-group ">

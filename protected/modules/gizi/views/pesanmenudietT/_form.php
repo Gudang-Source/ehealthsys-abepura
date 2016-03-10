@@ -146,8 +146,8 @@
                 </td>
                 <td>
                     <div class="control-group ">
-                        <label class='control-label'>Jenis Waktu</label>
-                        <div>
+                        <label class='control-label' style = "text-align:left;padding-left:25px;">Jenis Waktu</label>
+                        <div >
                             <?php                 
                             $modJenisWaktu = JeniswaktuM::getJenisWaktu();
                             $myData = CHtml::encodeArray(CHtml::listData($modJenisWaktu, 'jeniswaktu_id', 'jeniswaktu_id'));
@@ -155,7 +155,7 @@
                             ?>
                             <fieldset>
                                     <?php echo '<table>
-                                                    <tr>
+                                                    <tr >
                                                         <td>
                                                             '.Chtml::checkBoxList('jeniswaktu', $myData, CHtml::listData($modJenisWaktu, 'jeniswaktu_id', 'jeniswaktu_nama'), array('template'=>'<label class="checkbox inline">{input}{label}</label>', 'separator'=>'', 'style'=>'margin-left:2px;max-width:10px;','class'=>'span2 jeniswaktu', 'onkeypress' => "return $(this).focusNextInputField(event)")).'
                                                         </td>
@@ -166,8 +166,8 @@
                         </div>   
                     </div>
                     <div class="control-group ">
-                        <label class='control-label'>Jumlah</label>
-                        <div class="controls">
+                        <label class='' style = "text-align:left;padding-left:25px;padding-right:5px;">Jumlah</label>
+                     
                             <?php echo Chtml::textField('jumlah', 1, array('class'=>'span1 numbersOnly', 'onkeypress' => "return $(this).focusNextInputField(event)",)); ?>                
                             <?php echo Chtml::dropDownList('URT', '', LookupM::getItems('ukuranrumahtangga'), array('empty'=>'-- Pilih --', 'class'=>'span2', 'onkeypress' => "return $(this).focusNextInputField(event)",)); ?>                
                             <?php
@@ -177,7 +177,7 @@
                                 'rel' => "tooltip",
                                 'title' => "Klik untuk menambahkan Menu Diet",));
                             ?>
-                        </div>
+                        
                     </div>
                 </td>
             </tr>
