@@ -82,7 +82,7 @@ class LinenM extends CActiveRecord
             'bahan' => array(self::BELONGS_TO, 'BahanlinenM', 'bahanlinen_id'),
             'jenis' => array(self::BELONGS_TO, 'JenislinenM', 'jenislinen_id'),
             'ruangan' => array(self::BELONGS_TO, 'RuanganM', 'ruangan_id'),
-            'rak' => array(self::BELONGS_TO, 'LokasipenyimpananM', 'rakpenyimpanan_id'),
+            'rak' => array(self::BELONGS_TO, 'RakpenyimpananM', 'rakpenyimpanan_id'),
 		);
 	}
 

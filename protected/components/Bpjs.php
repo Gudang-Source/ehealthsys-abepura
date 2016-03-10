@@ -165,28 +165,29 @@
 		
 		function create_sep($nokartu, $tglsep, $tglrujukan, $norujukan, $ppkrujukan, $ppkpelayanan, $jnspelayanan, $catatan, $diagawal, $politujuan, $klsrawat, $user, $nomr, $no_trans)
 		{
-			$query = '<request>
-						<data>
-							<t_sep>
-								<noKartu>'.$nokartu.'</noKartu>
-								<tglSep>'.$tglsep.'</tglSep>
-								<tglRujukan>'.$tglrujukan.'</tglRujukan>
-								<noRujukan>'.$norujukan.'</noRujukan>
-								<ppkRujukan>'.$ppkrujukan.'</ppkRujukan>
-								<ppkPelayanan>'.$ppkpelayanan.'</ppkPelayanan>
-								<jnsPelayanan>'.$jnspelayanan.'</jnsPelayanan>
-								<catatan>'.$catatan.'</catatan>
-								<diagAwal>'.$diagawal.'</diagAwal>
-								<poliTujuan>'.$politujuan.'</poliTujuan>
-								<klsRawat>'.$klsrawat.'</klsRawat>
-                                                                <lakaLantas>2</lakaLantas>
-								<user>'.$user.'</user>
-								<noMr>'.$nomr.'</noMr>
-							</t_sep>
-						</data>
-					</request>';
+			$query = 
+                '<request>
+                        <data>
+                                <t_sep>
+                                        <noKartu>'.$nokartu.'</noKartu>
+                                        <tglSep>'.$tglsep.'</tglSep>
+                                        <tglRujukan>'.$tglrujukan.'</tglRujukan>
+                                        <noRujukan>'.$norujukan.'</noRujukan>
+                                        <ppkRujukan>'.$ppkrujukan.'</ppkRujukan>
+                                        <ppkPelayanan>'.$ppkpelayanan.'</ppkPelayanan>
+                                        <jnsPelayanan>'.$jnspelayanan.'</jnsPelayanan>
+                                        <catatan>'.$catatan.'</catatan>
+                                        <diagAwal>'.$diagawal.'</diagAwal>
+                                        <poliTujuan>'.$politujuan.'</poliTujuan>
+                                        <klsRawat>'.$klsrawat.'</klsRawat>
+                                        <lakaLantas>2</lakaLantas>
+                                        <user>'.$user.'</user>
+                                        <noMr>'.$nomr.'</noMr>
+                                </t_sep>
+                        </data>
+                </request>';
                         
-                        //echo CHtml::encode($query); die;
+                        //echo "<pre>".CHtml::encode($query)."</pre>"; die;
                         //var_dump($this->HashBPJS());
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
 			

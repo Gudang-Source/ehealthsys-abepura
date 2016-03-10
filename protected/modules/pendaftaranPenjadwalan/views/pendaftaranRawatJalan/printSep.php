@@ -88,7 +88,13 @@
                     <td>&nbsp;</td>
                     <td>Jenis Rawat</td>
                     <td>:</td>
-                    <td><?php echo LookupM::model()->findByAttributes(array('lookup_type'=>'jenispelayanan','lookup_value'=>$modSep->jnspelayanan))->lookup_name; ?></td>
+                    <td><?php 
+                    if ($modSep->jnspelayanan == Params::JENISPELAYANAN_RI) {
+                        echo "RAWAT INAP";
+                    } else {
+                        echo "RAWAT JALAN";
+                    }
+                    ?></td>
                 </tr>
                 <tr>
                     <td class = "header">Poli Tujuan</td>
