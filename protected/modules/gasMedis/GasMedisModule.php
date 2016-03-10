@@ -16,6 +16,7 @@ class GasMedisModule extends CWebModule
 		$this->setImport(array(
 			'gasMedis.models.*',
 			'gasMedis.components.*',
+                        'sistemAdministrator.models.*',
 		));
                 
             if(!empty($_REQUEST['modul_id']))
