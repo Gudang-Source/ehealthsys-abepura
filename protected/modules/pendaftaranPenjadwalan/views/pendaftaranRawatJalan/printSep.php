@@ -48,7 +48,7 @@
                 <tr>
                     <td class = "header">Tgl. SEP</td>
                     <td>:</td>
-                    <td style = "padding-left:20px;"><?php echo $modSep->tglsep; ?></td>
+                    <td style = "padding-left:20px;"><?php echo date("d/m/Y", strtotime($modSep->tglsep)); ?></td>
                     <td>&nbsp;</td>
                     <td>Peserta</td>
                     <td>:</td>
@@ -75,16 +75,7 @@
                 <tr>
                     <td class = "header">Tgl. Lahir</td>
                     <td>:</td>
-                    <td style = "padding-left:20px;"><?php echo $modPasien->tanggal_lahir; ?></td>
-                    <td>&nbsp;</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class = "header">Jenis Kelamin</td>
-                    <td>:</td>
-                    <td style = "padding-left:20px;"><?php echo $modPasien->jeniskelamin; ?></td>
+                    <td style = "padding-left:20px;"><?php echo date("d/m/Y", strtotime($modPasien->tanggal_lahir)); ?></td>
                     <td>&nbsp;</td>
                     <td>Jenis Rawat</td>
                     <td>:</td>
@@ -97,18 +88,24 @@
                     ?></td>
                 </tr>
                 <tr>
-                    <td class = "header">Poli Tujuan</td>
+                    <td class = "header">Jenis Kelamin</td>
                     <td>:</td>
-                    <td style = "padding-left:20px;"><?php echo $modPendaftaran->ruangan->ruangan_nama; ?></td>
+                    <td style = "padding-left:20px;"><?php echo $modPasien->jeniskelamin; ?></td>
                     <td>&nbsp;</td>
                     <td>Kelas Rawat</td>
                     <td>:</td>
                     <td><?php echo $modAsuransiPasienBpjs->kelastanggunganasuransi->kelasbpjs_id; ?></td>
                 </tr>
                 <tr>
+                    <td class = "header">Poli Tujuan</td>
+                    <td>:</td>
+                    <td style = "padding-left:20px;"><?php echo $modPendaftaran->ruangan->ruangan_nama; ?></td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
                     <td class = "header">Asal Faskes Tk. I</td>
                     <td>:</td>
-                    <td style = "padding-left:20px;">-<?php //echo //$modSep->ppkrujukan; ?></td>
+                    <td style = "padding-left:20px;"><?php echo $modRujukan->rujukandari->namaperujuk; ?></td>
                     <td>&nbsp;</td>
                     <td style = "padding-left:20px" rowspan="2">Pasien/<br>Keluarga Pasien</td>
                     <td style = "padding-left:20px">&nbsp;</td>
@@ -117,7 +114,15 @@
                 <tr valign = "top">
                     <td class = "header" >Diagnosa Awal</td>
                     <td>:</td>
-                    <td style = "padding-left:20px;"><?php echo $modSep->diagnosaawal; ?></td>
+                    <td style = "padding-left:20px;"><?php 
+                    $ar = explode(" ", $modSep->diagnosaawal);
+                    $diag = DiagnosaM::model()->findAllByAttributes(array(
+                        'diagnosa_kode'=>$ar,
+                    ));
+                    foreach ($diag as $item) {
+                        echo $item->diagnosa_nama.". ";
+                    }
+                    ?></td>
                     <td>&nbsp;</td>
                     <td></td>
                     <td></td>

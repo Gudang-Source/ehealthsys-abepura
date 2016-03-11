@@ -321,6 +321,8 @@ class PendaftaranRawatJalanController extends MyAuthController
                     if($_POST['PPPendaftaranT']['is_bpjs']){
                         $model = $this->simpanPendaftaran($model,$modPasien,$modRujukanBpjs,$modPenanggungJawab, $_POST['PPPendaftaranT'], $_POST['PPPasienM'],$modAsuransiPasienBpjs);
                         $modSep = $this->simpanSep($model,$modPasien,$modRujukanBpjs,$modAsuransiPasienBpjs,$_POST['PPSepT']);
+                        $model->sep_id = $modSep->sep_id;
+                        $model->update();
                     }else{
                         $model = $this->simpanPendaftaran($model,$modPasien,$modRujukan,$modPenanggungJawab, $_POST['PPPendaftaranT'], $_POST['PPPasienM'],$modAsuransiPasien);
                     }
@@ -855,7 +857,7 @@ class PendaftaranRawatJalanController extends MyAuthController
             if(isset($_POST['isSepManual'])){
                 if($_POST['isSepManual']==false){
                     $reqSep = json_decode($bpjs->create_sep($modSep->nokartuasuransi, $modSep->tglsep, $modSep->tglrujukan, $modSep->norujukan, $modSep->ppkrujukan, $modSep->ppkpelayanan, $modSep->jnspelayanan, $modSep->catatansep, $modSep->diagnosaawal, $modSep->politujuan, $modSep->klsrawat, Yii::app()->user->id, $modPasien->no_rekam_medik, $model->pendaftaran_id),true);
-                    // var_dump($reqSep); die;
+                    //var_dump($reqSep); die;
                     if ($reqSep['metadata']['code']==200) {
                         $modSep->nosep = $reqSep['response'];
                         if($modSep->save()){
@@ -873,7 +875,7 @@ class PendaftaranRawatJalanController extends MyAuthController
                 }
             }else{
 				$reqSep = json_decode($bpjs->create_sep($modSep->nokartuasuransi, $modSep->tglsep, $modSep->tglrujukan, $modSep->norujukan, $modSep->ppkrujukan, $modSep->ppkpelayanan, $modSep->jnspelayanan, $modSep->catatansep, $modSep->diagnosaawal, $modSep->politujuan, $modSep->klsrawat, Yii::app()->user->id, $modPasien->no_rekam_medik, $model->pendaftaran_id),true);
-				// var_dump($reqSep); die;
+				//var_dump($reqSep); die;
                                 if ($reqSep['metadata']['code']==200) {
                                         // var_dump($reqSep); die;
 					$modSep->nosep = $reqSep['response'];
@@ -1724,6 +1726,7 @@ class PendaftaranRawatJalanController extends MyAuthController
             $format = new MyFormatter;
             $modRujukanBpjs = new PPRujukanbpjsT;
             $modSep = PPSepT::model()->findByPk($sep_id);
+            $bpjs = new Bpjs();
             $modAsuransiPasienBpjs = PPAsuransipasienbpjsM::model()->findByAttributes(array('nopeserta'=>$modSep->nokartuasuransi)); 
             $modJenisPeserta = PPJenisPesertaM::model()->findByPk($modAsuransiPasienBpjs->jenispeserta_id);
             if (isset($modSep->norujukan)) {
@@ -1731,6 +1734,9 @@ class PendaftaranRawatJalanController extends MyAuthController
             }
             $modPendaftaran = PPPendaftaranT::model()->findByPk($pendaftaran_id);
             $modPasien = PPPasienM::model()->findByPk($modPendaftaran->pasien_id);
+            $modRujukan = RujukanT::model()->findByPk($modPendaftaran->rujukan_id);
+            
+            
             $judul_print = 'SURAT ELIGIBILITAS PESERTA';
             $this->render($this->path_view.'printSep', array(
                                 'format'=>$format,
@@ -1741,6 +1747,7 @@ class PendaftaranRawatJalanController extends MyAuthController
                                 'modPendaftaran'=>$modPendaftaran,
                                 'modPasien'=>$modPasien,
                                 'modJenisPeserta'=>$modJenisPeserta,
+                                'modRujukan'=>$modRujukan,
             ));
         } 
         
