@@ -1,5 +1,5 @@
 <div class="white-container">
-    <legend class="rim2">Pengaturan <b>Golongan</b></legend>
+    <legend class="rim2">Ubah <b>Golongan</b></legend>
     <?php
     $this->breadcrumbs=array(
             'Sagolongan Ms'=>array('index'),
@@ -18,5 +18,5 @@
 
     $this->widget('bootstrap.widgets.BootAlert'); ?>
 
-    <?php echo $this->renderPartial('_formUpdate',array('model'=>$model)); ?>
+    <?php echo $this->renderPartial($this->path_view.'_formUpdate',array('model'=>$model)); ?>
 </div>

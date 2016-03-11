@@ -42,7 +42,7 @@
             'filter'=>$model,
             'template'=>"{summary}\n{items}\n{pager}",
             'itemsCssClass'=>'table table-striped table-bordered table-condensed',
-            'columns'=>array(
+            'columns'=>array(//
                     ////'bidang_id',
                     array(
                             'name'=>'bidang_id',
@@ -51,7 +51,7 @@
                     ),
                     array(
                             'name'=>'subkelompok_id',
-                            'filter'=>  CHtml::listData($model->SubKelompokItems, 'subkelompok_id', 'subkelompok_nama'),
+                            'filter'=> CHtml::dropDownList('SABidangM[subkelompok_id]',$model->subkelompok_id,CHtml::listData($model->SubKelompokItems, 'subkelompok_id', 'subkelompok_nama'),array('empty'=>'--Pilih--')),
                             'value'=>'$data->subkelompok->subkelompok_nama',
                     ),
                     'bidang_kode',

@@ -1,5 +1,5 @@
 <div class="white-container">
-    <legend class="rim2">Pengaturan <b>Pabrik</b></legend>
+    <legend class="rim2">Pengaturan <b>Pabrik Farmasi</b></legend>
     <?php  
     $sukses = null;
     if(isset($_GET['id'])){

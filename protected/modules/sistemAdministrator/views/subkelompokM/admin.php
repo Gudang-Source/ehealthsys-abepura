@@ -1,3 +1,5 @@
+<div class="white-container">
+    <legend class="rim2">Pengaturan <b>Sub Kelompok</b></legend>
 <?php
 $this->breadcrumbs=array(
 	'Sasubkelompok Ms'=>array('index'),
@@ -48,7 +50,7 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                 ),
 		array(
                         'name'=>'kelompok_id',
-                        'filter'=>  CHtml::listData($model->KelompokItems, 'kelompok_id', 'kelompok_nama'),
+                        'filter'=> CHtml::dropDownList('SASubkelompokM[kelompok_id]',$model->kelompok_id,CHtml::listData($model->KelompokItems, 'kelompok_id', 'kelompok_nama'), array('empty'=>'--Pilih--')),
                         'value'=>'$data->kelompok->kelompok_nama',
                 ),
 		'subkelompok_kode',
@@ -85,7 +87,7 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                 array(
                     'header'=>'Hapus',
                     'type'=>'raw',
-                    'value'=>'($data->subkelompok_aktif)?CHtml::link("<i class=\'icon-remove\'></i> ","javascript:removeTemporary($data->subkelompok_id)",array("id"=>"$data->subkelompok_id","rel"=>"tooltip","title"=>"Menonaktifkan"))." ".CHtml::link("<i class=\'icon-trash\'></i> ", "javascript:deleteRecord($data->subkelompok_id)",array("id"=>"$data->subkelompok_id","rel"=>"tooltip","title"=>"Hapus")):CHtml::link("<i class=\'icon-trash\'></i> ", "javascript:deleteRecord($data->subkelompok_id)",array("id"=>"$data->subkelompok_id","rel"=>"tooltip","title"=>"Hapus"));',
+                    'value'=>'($data->subkelompok_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->subkelompok_id)",array("id"=>"$data->subkelompok_id","rel"=>"tooltip","title"=>"Menonaktifkan"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->subkelompok_id)",array("id"=>"$data->subkelompok_id","rel"=>"tooltip","title"=>"Hapus")):CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->subkelompok_id)",array("id"=>"$data->subkelompok_id","rel"=>"tooltip","title"=>"Hapus"));',
                     'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
                 ),
 	),
@@ -161,3 +163,4 @@ Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);
         $('input[name="SASubkelompokM[subkelompok_kode]"]').focus();
     })
 </script>
+</div>

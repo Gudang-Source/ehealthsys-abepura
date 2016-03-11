@@ -27,8 +27,8 @@
                 <?php //$this->widget('UserTips',array('type'=>'update'));?>
 		<?php
 echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Golongan', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp";
-$content = $this->renderPartial('../tips/tipsaddedit',array(),true);
-$this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
+$content = $this->renderPartial($this->path_tips.'tipsaddedit',array(),true);
+$this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
 ?></div>
 
 <?php $this->endWidget(); ?>

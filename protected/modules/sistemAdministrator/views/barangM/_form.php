@@ -112,11 +112,12 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
         'onclick' => 'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));
     echo "&nbsp;";
     ?>
+    
+    <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Barang', array('{icon}' => '<i class="icon-folder-open icon-white"></i>')), $this->createUrl('/gudangUmum/BarangMGU', array('modul_id' => Yii::app()->session['modul_id'])), array('class' => 'btn btn-success')); ?>
     <?php
     $content = $this->renderPartial($this->path_tips.'tipsaddedit', array(), true);
     $this->widget('UserTips', array('type' => 'transaksi', 'content' => $content));
     ?>
-    <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Barang', array('{icon}' => '<i class="icon-folder-open icon-white"></i>')), $this->createUrl('/sistemAdministrator/BarangM/Admin', array('modul_id' => Yii::app()->session['modul_id'])), array('class' => 'btn btn-success')); ?>
 </div>
 
 <?php $this->endWidget(); ?>

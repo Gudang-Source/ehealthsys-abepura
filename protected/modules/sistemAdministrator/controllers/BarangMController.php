@@ -80,7 +80,7 @@ class BarangMController extends MyAuthController
                             }
                             $transaction->commit();
                             Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-                            $this->redirect(array('admin'));
+                            $this->redirect(array('admin','id'=>1));
                         } catch (Exception $e) {
                             $transaction->rollback();
                             Yii::app()->user->setFlash('error',"Data gagal disimpan ".MyExceptionMessage::getMessage($e,true));
@@ -148,7 +148,7 @@ class BarangMController extends MyAuthController
                             
                             $transaction->commit();
                             Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-                            $this->redirect(array('admin'));
+                            $this->redirect(array('admin','id'=>1));
                         } catch (Exception $e) {
                             $transaction->rollback();
                             Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data gagal disimpan.');
@@ -175,9 +175,12 @@ class BarangMController extends MyAuthController
 	/**
 	 * Manages all models.
 	 */
-	public function actionAdmin()
+	public function actionAdmin($id='')
 	{
-                
+                if($id == 1 ):
+                    Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                endif;
+                 
 		$model=new SABarangM('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['SABarangM'])){
@@ -328,7 +331,7 @@ class BarangMController extends MyAuthController
                 $mpdf->WriteHTML($stylesheet,1);  
                 $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
                 $mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-                $mpdf->Output();
+                $mpdf->Output($judulLaporan.'-'.date("Y/m/d").'.pdf', 'I');
             }                       
         }
 }
