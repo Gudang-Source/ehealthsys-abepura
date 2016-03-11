@@ -125,10 +125,11 @@
 				array('class'=>'btn btn-danger',
 					  'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
 	
-	<?php echo CHtml::link(Yii::t('mds', '{icon} Mapping Kelas Terapi Obat', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
+	<?php //echo CHtml::link(Yii::t('mds', '{icon} Mapping Kelas Terapi Obat', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
+                echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Kelas Terapi Obat', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
 			$this->createUrl(Yii::app()->controller->id.'/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
 	<?php
-		$content = $this->renderPartial('gudangFarmasi.views.tips.tipsaddrow',array(),true);
+		$content = $this->renderPartial('gudangFarmasi.views.tips.tipsaddrow1',array(),true);
 		$this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
 	?>
 </div>

@@ -112,7 +112,20 @@ class TherapimapobatM extends CActiveRecord
             // Warning: Please modify the following code to remove attributes that
             // should not be searched.
 
-            $criteria=$this->criteriaSearch();
+            //$criteria=$this->criteriaSearch();
+            $criteria=new CDbCriteria;
+            $criteria->with = array('obatalkes','therapiobat');
+            if(!empty($this->therapiobat_id)){
+                    $criteria->addCondition('therapiobat.therapiobat_id = '.$this->therapiobat_id);
+            }
+            if(!empty($this->obatalkes_id)){
+                    $criteria->addCondition('obatalkes.obatalkes_id = '.$this->obatalkes_id);
+            }
+            $criteria->compare('LOWER(obatalkes.obatalkes_nama)',  strtolower($this->obatalkes_nama),true);
+            $criteria->compare('LOWER(therapiobat.therapiobat_nama)',  strtolower($this->therapiobat_nama),true); 		
+            $criteria->addCondition('therapiobat.therapiobat_aktif is TRUE');
+            $criteria->addCondition('obatalkes.obatalkes_aktif is TRUE');
+				
             $criteria->limit=-1; 
 
             return new CActiveDataProvider($this, array(
