@@ -1,3 +1,5 @@
+<fieldset class="box">
+    <legend class="rim">Pengaturan Generik</legend>
 <!--<div class="white-container">
     <legend class="rim2">Pengaturan <b>Generik</b></legend>
     <div class="biru">
@@ -172,3 +174,4 @@ JSCRIPT;
     }
     $('.filters #GFGenerikM_generik_nama').focus();
 </script>
+</fieldset>

@@ -1,3 +1,5 @@
+<fieldset class="box">
+    <legend class="rim">Pengaturan Satuan Kecil</legend>
 <!--<div class="white-container">
     <legend class="rim2">Pengaturan <b>Satuan Kecil</b></legend>
     <div class="biru">
@@ -170,3 +172,4 @@ JSCRIPT;
     }
     $('.filters #SASatuankecilM_satuankecil_nama').focus();
 </script>
+</fieldset>

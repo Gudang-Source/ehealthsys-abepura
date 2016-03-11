@@ -1,5 +1,5 @@
 <fieldset class="box">
-    <legend class="rim">Tambah Jenis Obat ALkes</legend>
+    <legend class="rim">Tambah Jenis Obat</legend>
     
     <?php
     $this->breadcrumbs=array(

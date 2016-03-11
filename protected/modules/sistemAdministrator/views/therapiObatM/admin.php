@@ -1,3 +1,5 @@
+<fieldset class="box">
+    <legend class="rim">Pengaturan Therapi Obat</legend>
 <!--<div class="white-container">
     <legend class="rim2">Pengaturan <b>Therapi Obat</b></legend>
     <div class="biru">
@@ -170,3 +172,4 @@ JSCRIPT;
     }
     $('.filters #GFTherapiObatM_therapiobat_nama').focus();
 </script>
+</fieldset>

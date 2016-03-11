@@ -1,3 +1,5 @@
+<fieldset class="box">
+    <legend class="rim">Pengaturan Jenis Obat</legend>
 <!--<fieldset class="box">
     <legend class="rim">Pengaturan Jenis Obat Alkes</legend>-->
     <?php
@@ -169,3 +171,4 @@ JSCRIPT;
     }
     $('.filters #GFJenisObatAlkesM_jenisobatalkes_nama').focus();
 </script>
+</fieldset>
