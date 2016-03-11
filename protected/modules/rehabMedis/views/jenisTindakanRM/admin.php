@@ -1,5 +1,5 @@
 <div class="white-container">
-	<legend class="rim2">Pengaturan Jenis <b>Tindakan Rekam Medik</b></legend>
+	<legend class="rim2">Pengaturan <b>Jenis Tindakan Rehabilitasi Medis</b></legend>
 <?php
 $this->breadcrumbs=array(
 	'Rmjenis Tindakanrm Ms'=>array('index'),
@@ -25,7 +25,9 @@ $('#rmjenis-tindakanrm-m-search').submit(function(){
 	return false;
 });
 ");
-
+if (isset($_GET['sukses'])):
+    Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+endif;
 $this->widget('bootstrap.widgets.BootAlert'); ?>
 
 <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),'#',array('class'=>'search-button btn')); ?>
@@ -93,7 +95,7 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
 )); ?>
 <!--</div>-->
 <?php 
-        echo CHtml::link(Yii::t('mds', '{icon} Tambah Jenis Tindakan', array('{icon}'=>'<i class="icon-plus icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp";
+        echo CHtml::link(Yii::t('mds', '{icon} Tambah Jenis Tindakan Rehabilitasi Medis', array('{icon}'=>'<i class="icon-plus icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp";
         echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
         echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
         echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 

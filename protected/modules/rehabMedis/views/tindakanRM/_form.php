@@ -69,7 +69,7 @@
                                     Yii::app()->createUrl($this->module->id.'/tindakanRM/admin'), 
                                     array('class'=>'btn btn-danger',
                                           'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
-                        <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Tindakan', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
+                        <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Tindakan Rehabilitasi Medis', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
                                                                     $this->createUrl('tindakanRM/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
                         <?php
                             $content = $this->renderPartial('sistemAdministrator.views.tips.tipsaddedit3a',array(),true);
@@ -93,21 +93,22 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
     ),
 ));
 
-$modTarifTindakan = new TariftindakanperdaruanganV('search');
+//$modTarifTindakan = new TariftindakanperdaruanganV('search');
+$modTarifTindakan = new DaftartindakanM('search');
 $modTarifTindakan->unsetAttributes();
-$modTarifTindakan->ruangan_id = Yii::app()->user->getState('ruangan_id');
-if (isset($_GET['TariftindakanperdaruanganV'])) {
-    $modTarifTindakan->attributes = $_GET['TariftindakanperdaruanganV'];
+//$modTarifTindakan->ruangan_id = Yii::app()->user->getState('ruangan_id');
+if (isset($_GET['DaftartindakanM'])) {
+    $modTarifTindakan->attributes = $_GET['DaftartindakanM'];
 }
 
 $provider = $modTarifTindakan->search();
-$provider->criteria->select = $provider->criteria->group = "daftartindakan_id, daftartindakan_nama, kelaspelayanan_id, kelaspelayanan_nama";
+//$provider->criteria->select = $provider->criteria->group = "daftartindakan_id, daftartindakan_nama, kelaspelayanan_id, kelaspelayanan_nama";
 //$provider->criteria->select .= ", sum(harga_tariftindakan) as harga_tariftindakan";
 
 $this->widget('ext.bootstrap.widgets.BootGridView', array(
     'id'=>'satarif-tindakan-m-grid', 
     //'ajaxUrl'=>Yii::app()->createUrl('actionAjax/CariDataPasien'),
-    'dataProvider' => $provider, //$modTarifTindakan->search(),
+    'dataProvider' => $modTarifTindakan->search(), //$modTarifTindakan->search(),
     'filter' => $modTarifTindakan,
     'template' => "{summary}\n{items}\n{pager}",
     'itemsCssClass' => 'table table-striped table-bordered table-condensed',
@@ -127,15 +128,29 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
         //                 'value'=>'$data->tariftindakan_id', 
         //                 'filter'=>false, 
         //         ),
-        array( 
-                        'name'=>'daftartindakan_id', 
-                        'value'=>'$data->daftartindakan_nama',
-                ), 
-        array( 
+        array(
+                'name'=>'kelompoktindakan_nama',
+                'header'=>'Kelompok Tindakan',                
+                'type'=>'raw',                
+                'filter'=> CHtml::dropDownList('DaftartindakanM[kelompoktindakan_nama]',$modTarifTindakan->kelompoktindakan_nama,CHtml::listData(KelompoktindakanM::model()->findAll("kelompoktindakan_aktif = TRUE ORDER BY kelompoktindakan_nama"), 'kelompoktindakan_nama', 'kelompoktindakan_nama'), array('empty'=>'--Pilih')),           
+                'value'=>'$data->kelompoktindakan->kelompoktindakan_nama',
+            ),  
+            //'kelompoktindakan_nama',
+            array(
+                'name'=>'kategoritindakan_nama',
+                'header'=>'Kategori Tindakan',                
+                'type'=>'raw',                
+                'filter'=> CHtml::dropDownList('DaftartindakanM[kategoritindakan_nama]',$modTarifTindakan->kategoritindakan_nama,CHtml::listData(KategoritindakanM::model()->findAll("kategoritindakan_aktif = TRUE ORDER BY kategoritindakan_nama"), 'kategoritindakan_nama', 'kategoritindakan_nama'), array('empty'=>'--Pilih--')),           
+                'value'=>'$data->kategoritindakan->kategoritindakan_nama',
+            ),
+            //'kategoritindakan_nama',
+            'daftartindakan_kode',
+            'daftartindakan_nama',   
+       /* array( 
                         'name'=>'kelaspelayanan_id', 
                         'value'=>'$data->kelaspelayanan_nama',
                         'filter'=>CHtml::listData(KelaspelayananM::model()->findAll('kelaspelayanan_aktif = true'), 'kelaspelayanan_id', 'kelaspelayanan_nama'),
-                ), 
+                ), */
         /*
         array( 
                         'name'=>'harga_tariftindakan', 
