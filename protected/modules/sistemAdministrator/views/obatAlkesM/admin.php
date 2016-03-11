@@ -74,20 +74,20 @@
                     array(
                             'header'=>'Jenis Obat',
                             'name'=>'jenisobatalkes_id',
-                            'filter'=>  CHtml::listData($model->JenisObatAlkesItems, 'jenisobatalkes_id', 'jenisobatalkes_nama'),
+                            'filter'=> CHtml::dropDownList('SAObatalkesM[jenisobatalkes_id]',$model->jenisobatalkes_id,CHtml::listData($model->JenisObatAlkesItems, 'jenisobatalkes_id', 'jenisobatalkes_nama'),array('empty'=>'--Pilih--')),
                             'value'=>'(isset($data->jenisobatalkes->jenisobatalkes_nama) ? $data->jenisobatalkes->jenisobatalkes_nama : "")',
                     ),
                     array(
                             'header'=>'Satuan Besar',
                             'name'=>'satuanbesar_id',
-                            'filter'=>  CHtml::listData($model->SatuanBesarItems, 'satuanbesar_id', 'satuanbesar_nama'),
+                            'filter'=> CHtml::dropDownList('SAObatalkesM[satuanbesar_id]',$model->satuanbesar_id,CHtml::listData($model->SatuanBesarItems, 'satuanbesar_id', 'satuanbesar_nama'),array('empty'=>'--Pilih--')),
                             'value'=>'(isset($data->satuanbesar->satuanbesar_nama) ? $data->satuanbesar->satuanbesar_nama : "")',
                     ),
 
                     array(
                             'header'=>'Satuan Kecil',
                             'name'=>'satuankecil_id',
-                            'filter'=>  CHtml::listData($model->SatuanKecilItems, 'satuankecil_id', 'satuankecil_nama'),
+                            'filter'=>  CHtml::dropDownList('SAObatalkesM[satuankecil_id]',$model->satuankecil_id,CHtml::listData($model->SatuanKecilItems, 'satuankecil_id', 'satuankecil_nama'), array('empty'=>'--Pilih--')),
                             'value'=>'(isset($data->satuankecil->satuankecil_nama) ? $data->satuankecil->satuankecil_nama : "")',
                     ),
                     array(
@@ -135,7 +135,7 @@
                      array(
                             // 'header'=>'Satuan Kecil',
                             'name'=>'ven',
-                            'filter'=>  LookupM::getItems('ven'),
+                            'filter'=>  CHtml::dropDownList('SAObatalkesM[ven]',$model->ven,LookupM::getItems('ven'),array('empty'=>'--Pilih--')),//,
                             'value'=>'(isset($data->ven) ? ($data->ven=="v"?"Viral":($data->ven=="e"?"Essential":($data->ven=="n"?"Non-essential":""))) : "")',
                     ),
     //                array(

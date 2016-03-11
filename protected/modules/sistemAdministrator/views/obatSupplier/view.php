@@ -70,7 +70,8 @@
             </tbody>
         </table>
     </div>
-    <?php $this->widget('UserTips',array('type'=>'view'));?>
+    
     <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Obat Supplier', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
             $this->createUrl(Yii::app()->controller->id.'/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
+    <?php $this->widget('UserTips',array('type'=>'view'));?>
 </div>

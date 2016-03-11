@@ -61,7 +61,7 @@ class ObatSupplierController extends MyAuthController
 							if ($success == true){
 								$transaction->commit();
 								Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-								$this->redirect(array('admin'/*,'supplier_id'=>$model->supplier_id*/));
+								$this->redirect(array('admin','id'=>1/*,'supplier_id'=>$model->supplier_id*/));
 							}
 							else{
 								$transaction->rollback();
@@ -141,7 +141,7 @@ class ObatSupplierController extends MyAuthController
 						if ($success == true){
 							$transaction->commit();
 							Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-							$this->redirect(array('admin'));
+							$this->redirect(array('admin','id'=>1));
 						}
 						else{
 							$transaction->rollback();
@@ -324,7 +324,7 @@ class ObatSupplierController extends MyAuthController
 				$mpdf->WriteHTML($stylesheet,1);  
 				$mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
 				$mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-				$mpdf->Output();
+				$mpdf->Output($judulLaporan.'-'.date("Y/m/d").'.pdf', 'I');
 			}  
 		}
 
