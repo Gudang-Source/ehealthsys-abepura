@@ -43,7 +43,7 @@
                 Yii::app()->createUrl($this->module->id.'/tindakanRM/admin'), 
                 array('class'=>'btn btn-danger',
                       'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
-    <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Tindakan', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
+    <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Tindakan Rehabilitasi Medis', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
                                                 $this->createUrl('tindakanRM/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
     <?php
         $content = $this->renderPartial('sistemAdministrator.views.tips.tipsaddedit',array(),true);

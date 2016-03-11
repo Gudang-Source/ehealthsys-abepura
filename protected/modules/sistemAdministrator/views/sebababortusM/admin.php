@@ -26,7 +26,9 @@
             return false;
     });
     ");
-
+    if (isset($_GET['sukses'])):
+        Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+    endif;
     $this->widget('bootstrap.widgets.BootAlert'); ?>
     <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-accordion icon-white"></i>')),'#',array('class'=>'search-button btn')); ?>
     <div class="cari-lanjut2 search-form" style="display:none">
@@ -51,7 +53,7 @@
                     ),
                     array(
                             'name'=>'kelsebababortus_id',
-                            'filter'=>  CHtml::listData($model->KelSebabAbortusItems, 'kelsebababortus_id', 'kelsebababortus_nama'),
+                            'filter'=> CHtml::dropDownList('SASebababortusM[kelsebababortus_id]',$model->kelsebababortus_id,CHtml::listData($model->KelSebabAbortusItems, 'kelsebababortus_id', 'kelsebababortus_nama'), array('empty'=>'--Pilih--')),
                             'value'=>'$data->kelsebababortus->kelsebababortus_nama',
                     ),
                     'sebababortus_nama',

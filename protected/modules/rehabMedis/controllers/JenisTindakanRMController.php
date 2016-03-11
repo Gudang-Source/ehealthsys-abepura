@@ -35,7 +35,7 @@ class JenisTindakanRMController extends MyAuthController
 			$model->jenistindakanrm_aktif = true;
 			if($model->save()){
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->jenistindakanrm_id));
+				$this->redirect(array('admin','id'=>$model->jenistindakanrm_id, 'sukses'=> 1));
 			}
 		}
 
@@ -58,7 +58,7 @@ class JenisTindakanRMController extends MyAuthController
 			$model->attributes=$_POST['RMJenisTindakanrmM'];
 			if($model->save()){
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->jenistindakanrm_id));
+				$this->redirect(array('admin','id'=>$model->jenistindakanrm_id, 'sukses'=> 1));
 			}
 		}
 
@@ -209,7 +209,7 @@ class JenisTindakanRMController extends MyAuthController
 			$mpdf->WriteHTML($stylesheet,1);  
 			$mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
 			$mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-			$mpdf->Output();
+			$mpdf->Output($judulLaporan.'-'.date("Y/m/d").'.pdf', 'I');
 		}                       
 	}
 }

@@ -1,5 +1,5 @@
 <div class='white-container'>
-    <legend class='rim2'>Lihat <b>Tindakan #<?php echo $model->tindakanrm_id ?></b></legend>
+    <legend class='rim2'>Lihat <b>Tindakan Rehabilitasi Medis</b></legend>
     <?php
     $this->breadcrumbs=array(
             'Rmtindakanrm Ms'=>array('index'),
@@ -29,7 +29,7 @@
             ),
             ),
     )); ?>
-    <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Tindakan', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
+    <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Tindakan Rehabilitasi Medis', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
                                                                         $this->createUrl('tindakanRM/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
     <?php $this->widget('UserTips',array('type'=>'view'));?>
 </div>
