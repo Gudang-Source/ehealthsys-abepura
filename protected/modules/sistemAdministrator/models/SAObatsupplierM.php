@@ -120,9 +120,30 @@ class SAObatsupplierM extends ObatsupplierM
 		if(!empty($this->ppn_persen)){
 			$criteria->addCondition('t.ppn_persen= '.$this->ppn_persen);
 		}
-				$criteria->order='supplier.supplier_kode ASC';
+				//$criteria->order='supplier.supplier_kode ASC';
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+                        'sort' => array(
+                            'attributes' => array(
+                                'supplier_kode' => array(
+                                    'asc' => 'supplier.supplier_kode ASC',
+                                    'desc' => 'supplier.supplier_kode DESC',
+                                ),
+                                'supplier_nama' => array(
+                                    'asc' => 'supplier.supplier_nama ASC',
+                                    'desc' => 'supplier.supplier_nama DESC',
+                                ),
+                                'supplier_alamat' => array(
+                                    'asc' => 'supplier.supplier_alamat ASC',
+                                    'desc' => 'supplier.supplier_alamat DESC',
+                                ),
+                                'obatalkes_nama' => array(
+                                    'asc' => 'obatalkes.obatalkes_nama ASC',
+                                    'desc' => 'obatalkes.obatalkes_nama DESC',
+                                ),
+                                '*',
+                            )
+                        )
 		));
 	}
 	public function searchObatED()

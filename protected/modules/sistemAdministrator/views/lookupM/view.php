@@ -26,7 +26,7 @@
                 array(
                          'label'=>'Nama',
                          'type'=>'raw',
-                         'value'=>$this->renderPartial('_Lookup',array('lookup_id'=>$model->lookup_id),true),
+                         'value'=>$this->renderPartial($this->path_view.'_Lookup',array('lookup_id'=>$model->lookup_id),true),
                      ),
                     //'komponentarif_aktif',
                     array(            
@@ -42,6 +42,7 @@
             ),
     )); ?>
 
+    
+    <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Satuan Barang', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('/gudangUmum/lookupMGU/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
     <?php $this->widget('UserTips',array('type'=>'view'));?>
-    <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Satuan Barang', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('/gudangUmum/lookupM/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
 </div>

@@ -50,7 +50,7 @@
                     ),
                     array(
                             'name'=>'golongan_id',
-                            'filter'=>  CHtml::listData($model->GolonganItems, 'golongan_id', 'golongan_nama'),
+                            'filter'=> CHtml::dropDownList('SAKelompokM[golongan_id]',$model->golongan_id,CHtml::listData($model->GolonganItems, 'golongan_id', 'golongan_nama'), array('empty'=>'--Pilih--')),
                             'value'=>'$data->golongan->golongan_nama',
                     ),
                     'kelompok_kode',

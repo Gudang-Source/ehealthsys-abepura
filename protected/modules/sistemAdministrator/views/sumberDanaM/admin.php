@@ -1,3 +1,5 @@
+<fieldset class="box">
+    <legend class="rim">Pengaturan Asal Barang</legend>
 <!--<div class="white-container">
     <legend class="rim2">Pengaturan <b>Asal Barang</b></legend>
     <div class="biru">
@@ -170,3 +172,4 @@ JSCRIPT;
     }
     $('.filters #GFSumberDanaM_sumberdana_nama').focus();
 </script>
+</fieldset>

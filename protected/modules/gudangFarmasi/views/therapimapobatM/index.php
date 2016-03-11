@@ -1,5 +1,5 @@
 <div class="white-container">
-    <legend class="rim2">Tambah <b>Detail Pemeriksaan</b></legend>
+    <legend class="rim2">Tambah <b>Kelas Terapi Obat</b></legend>
     <?php
     $this->breadcrumbs=array(
             'Gfobat Alkes Ms'=>array('index'),

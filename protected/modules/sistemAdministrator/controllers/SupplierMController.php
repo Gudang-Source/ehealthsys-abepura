@@ -73,7 +73,7 @@ class SupplierMController extends MyAuthController
 						
                            $transaction->commit();
                            Yii::app()->user->setFlash('success','Data berhasil disimpan');
-                           $this->redirect(array('admin','id'=>$model->supplier_id));
+                           $this->redirect(array('admin','id'=>1));
                        }else{
                           Yii::app()->user->setFlash('error', "Data Suplier dan Obat Supplier Gagal Disimpan");
                        }     
@@ -145,7 +145,7 @@ class SupplierMController extends MyAuthController
                                if($this->successSaveSupplier && ($cekObatAlkes==$jumlahObatAlkes)){
                                    $transaction->commit();
                                    Yii::app()->user->setFlash('success', "Data Suplier dan Obat Supplier Berhasil Disimpan");
-                                   $this->redirect(array('admin'));
+                                   $this->redirect(array('admin','id'=>1));
                                }else{
                                   Yii::app()->user->setFlash('error', "Data Suplier dan Obat Supplier Gagal Disimpan");
                                }     
@@ -364,7 +364,7 @@ class SupplierMController extends MyAuthController
                 $mpdf->WriteHTML($stylesheet,1);  
                 $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
                 $mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-                $mpdf->Output();
+                $mpdf->Output($judulLaporan.'-'.date("Y/m/d").'.pdf', 'I');
             }                       
         }
 }

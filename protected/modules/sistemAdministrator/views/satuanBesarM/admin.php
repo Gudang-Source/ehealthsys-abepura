@@ -1,3 +1,5 @@
+<fieldset class="box">
+    <legend class="rim">Pengaturan Satuan Besar</legend>
 <!--<div class="white-container">
     <legend class="rim2">Pengaturan <b>Satuan Besar</b></legend>
     <div class="biru">
@@ -171,3 +173,4 @@ JSCRIPT;
     
     $('.filters #GFSatuanBesarM_satuanbesar_nama').focus();
 </script>
+</fieldset>

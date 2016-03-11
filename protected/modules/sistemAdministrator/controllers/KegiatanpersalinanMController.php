@@ -39,7 +39,7 @@ class KegiatanpersalinanMController extends MyAuthController
 			$model->attributes=$_POST['SAKegiatanpersalinanM'];
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->kegiatanpersalinan_id));
+				$this->redirect(array('admin','id'=>$model->kegiatanpersalinan_id, 'sukses'=>1));
                         }
 		}
 
@@ -66,7 +66,7 @@ class KegiatanpersalinanMController extends MyAuthController
 			$model->attributes=$_POST['SAKegiatanpersalinanM'];
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->kegiatanpersalinan_id));
+				$this->redirect(array('admin','id'=>$model->kegiatanpersalinan_id, 'sukses'=>1));
                         }
 		}
 
@@ -213,7 +213,7 @@ class KegiatanpersalinanMController extends MyAuthController
                 $mpdf->WriteHTML($stylesheet,1);  
                 $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
                 $mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-                $mpdf->Output();
+                $mpdf->Output($judulLaporan.'-'.date("Y/m/d").'.pdf', 'I');
             }                       
         }
 }

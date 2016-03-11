@@ -134,6 +134,19 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
         'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
 	'columns'=>array(
+            array(
+                    'header'=>'Pilih',
+                    'type'=>'raw',
+                    'value'=>'CHtml::Link("<i class=\"icon-check\"></i>",
+                                "#",
+                                array(
+                                    "class"=>"btn-small", 
+                                    "id" => "selectKelompok",
+                                    "onClick" => "
+                                    $(\"#'.CHtml::activeId($model, 'subkelompok_id').'\").val($data->subkelompok_id);
+                                    $(\"#subkelompokNama\").val(\'$data->subkelompok_nama\');
+                                    $(\'#dialogSubKelompok\').dialog(\'close\');return false;"))'
+                ),
  array(
                       'header'=>'Sub Kelompok',
                      'filter'=>  CHtml::listData($model->SubKelompokItems, 'subkelompok_id', 'subkelompok_nama'),
@@ -149,19 +162,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 
 		
                 
-                array(
-                    'header'=>'Pilih',
-                    'type'=>'raw',
-                    'value'=>'CHtml::Link("<i class=\"icon-check\"></i>",
-                                "#",
-                                array(
-                                    "class"=>"btn-small", 
-                                    "id" => "selectKelompok",
-                                    "onClick" => "
-                                    $(\"#'.CHtml::activeId($model, 'subkelompok_id').'\").val($data->subkelompok_id);
-                                    $(\"#subkelompokNama\").val(\'$data->subkelompok_nama\');
-                                    $(\'#dialogSubKelompok\').dialog(\'close\');return false;"))'
-                ),
+                
 	),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 )); 

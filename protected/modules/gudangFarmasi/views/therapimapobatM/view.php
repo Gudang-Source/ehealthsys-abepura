@@ -1,5 +1,6 @@
 <div class="white-container">
-    <legend class="rim2">Lihat Mapping <b>Kelas Terapi Obat</b></legend>
+    <!--<legend class="rim2">Lihat Mapping <b>Kelas Terapi Obat</b></legend>-->
+    <legend class="rim2">Lihat <b>Kelas Terapi Obat</b></legend>
     <?php
     $this->breadcrumbs=array(
             'Gfobat Alkes Ms'=>array('index'),
@@ -44,7 +45,8 @@
 	),
     )); ?>
 
-    <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Mapping Kelas Terapi Obat', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
+    <?php //echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Mapping Kelas Terapi Obat', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
+            echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Kelas Terapi Obat', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
             $this->createUrl(Yii::app()->controller->id.'/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
     <?php $this->widget('UserTips',array('type'=>'view'));?>
 </div>

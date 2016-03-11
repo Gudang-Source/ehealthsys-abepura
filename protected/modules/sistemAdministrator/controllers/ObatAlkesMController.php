@@ -14,6 +14,9 @@ class ObatAlkesMController extends MyAuthController
 		public $succesSaveModObatAlkesDetail=false;
 		public $obatSupplierTersimpan=true;
 		public $therapiObatTersimpan=true;
+                
+                public $lockJenis = false;
+                public $defaultJenis;
 		
 		public function actionCekOtoritas()
 		{
@@ -74,6 +77,10 @@ class ObatAlkesMController extends MyAuthController
 		$model->marginresep = 0;
 		$model->jasadokter = 0;
 		$model->hjaresep = 0;
+                
+                if (!empty($this->defaultJenis)) {
+                    $model->jenisobatalkes_id = $this->defaultJenis;
+                }
 
 		$model->formObatAlkesDetail = true;
 		$modObatAlkesDetail = new ObatalkesdetailM;
@@ -361,6 +368,9 @@ class ObatAlkesMController extends MyAuthController
 				
 		$model=new SAObatalkesM('search');
 		$model->unsetAttributes();  // clear any default values
+                if (!empty($this->defaultJenis)) {
+                    $model->jenisobatalkes_id = $this->defaultJenis;
+                }
 		if(isset($_GET['SAObatalkesM']))
 			$model->attributes=$_GET['SAObatalkesM'];
 
@@ -696,7 +706,7 @@ class ObatAlkesMController extends MyAuthController
 				$mpdf->WriteHTML($stylesheet,1);  
 				$mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
 				$mpdf->WriteHTML($this->renderPartial($this->path_view.'PrintMaster',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-				$mpdf->Output();
+				$mpdf->Output($judulLaporan.'-'.date("Y/m/d").'.pdf', 'I');
 			}                       
 		}
 }
