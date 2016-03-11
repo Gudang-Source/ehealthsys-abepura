@@ -1,6 +1,11 @@
 <span class="required"><i>Bagian dengan tanda * harus diisi.</i></span>
 <p>
 <table border="0" style="padding :none;">
+    <tr>
+        <td width="10px">1. </td>
+        <td>icon ini  <i class="icon-list"></i><i class="icon-search"></i>
+        berfungsi untuk mencari data.</td>
+  </tr>
   <tr>
     <td width="10px">1. </td>
     <td>Gunakan tombol ini  <div class="btn btn-primary"><i class="icon-ok icon-white"></i>
@@ -10,8 +15,8 @@ Simpan
   <tr>
     <td>2. </td>
     <td>Gunakan tombol ini <div class="btn btn-danger">
-      <i class="icon-ban-circle icon-white"></i>
-      Batal
+      <i class="icon-refresh icon-white"></i>
+      Ulang
       </div> berfungsi untuk kembali.</td>
   </tr>
 </table>

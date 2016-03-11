@@ -1,3 +1,5 @@
+<fieldset class="box">
+    <legend class="rim">Pengaturan Kadar Obat</legend>
 <!--<div class="white-container">
     <legend class="rim2">Pengaturan <b>Kadar Obat</b></legend>
     <div class="biru">
@@ -178,3 +180,4 @@ JSCRIPT;
     }
     $('.filters #SALookupM_lookup_name').focus();
 </script>
+</fieldset>
