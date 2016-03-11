@@ -1,5 +1,5 @@
 <?php
-
+Yii::import('rawatInap.controllers.PasienRawatInapController');
 class PasienRuanganLainController extends MyAuthController
 {
 	public function actionIndex()
@@ -116,10 +116,16 @@ class PasienRuanganLainController extends MyAuthController
             $idPindahKamar = $_POST['idPindahKamar'];
             $idMasukKamar = $_POST['idMasukKamar'];
            
+            //var_dump($_POST); die;
+            
             $modPindahKamar = PindahkamarT::model()->findByPk($idPindahKamar);
-            $modMasukKamar = MasukkamarT::model()->findByPk($idMasukKamar);
+            $modMasukKamar = MasukkamarT::model()->findByAttributes(array('pindahkamar_id'=>$idPindahKamar));
             $modMasukKamarBaru = MasukkamarT::model()->findByPk($modPindahKamar->masukkamar_id);
 
+            //var_dump($modMasukKamar->attributes);
+            //var_dump($modMasukKamarBaru->attributes);
+            //die;
+            
             $transaction = Yii::app()->db->beginTransaction();
             try {
                 $success = false;
@@ -136,22 +142,28 @@ class PasienRuanganLainController extends MyAuthController
                 
                 $updateMasukKamar = $modMasukKamar->save();
                 
-                $updateKamar1 = KamarruanganM::model()->updateByPk($modPindahKamar->kamarruangan_id, array('kamarruangan_status'=>true));
+                $updateKamar1 = KamarruanganM::model()->updateByPk($modPindahKamar->kamarruangan_id, array('kamarruangan_status'=>true, 'keterangan_kamar'=>'TERSEDIA'));
                 $updateKamar2 = KamarruanganM::model()->updateByPk($modPasienAdmisi->kamarruangan_id, array('kamarruangan_status'=>false));
                 
-                $modPindahKamar->masukkamar_id = null;
-                $modPindahKamar->save();
-
+                //$modPindahKamar->masukkamar_id = null;
+                //$modPindahKamar->save();
+                //var_dump($idPindahKamar, $idMasukKamar);
+                $ok = PindahkamarT::model()->deleteByPk($idPindahKamar);
+                $ok = $ok && MasukkamarT::model()->deleteByPk($idMasukKamar);
+                //var_dump($ok); die;
+                
+                $ok = $ok && PasienRawatInapController::saveAkomodasi($modPasienAdmisi->pendaftaran, $modPasienAdmisi);
+                // var_dump($ok); die;
                 if($updatePasienAdmisi && $updateMasukKamar ) //TIDAK PERLU DI VALIDASI >> && $updateKamar1 && $updateKamar2
                 {       
                      //Hapus masukkamar baru
-                     if (isset($modMasukKamarBaru) ? $modMasukKamarBaru->delete():true){
+                    if ($ok){
                             $success = true;
                             echo CJSON::encode(array(
                                    'status'=>'true',
                                    'div'=>"<div class='flash-success'>Data Pasien <b></b> berhasil disimpan </div>"
-                                   ));                       
-                     }                    
+                            ));                       
+                    }                    
                 }
                 
                 if ($success){
