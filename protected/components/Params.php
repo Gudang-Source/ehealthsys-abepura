@@ -160,6 +160,8 @@ Class Params
 	
 	const JENISPENGELUARAN_ID_PENGGAJIAN = 2; //id untuk jenispengeluaran penggajian pegawai
 
+        const JENISOBATALKES_ID_GASMEDIS = 11;
+        
 	const KOMPONENGAJI_ID_PINJAMAN = 9;
 
 	const CARAMASUK_ID_LANGSUNG_RI = 1;          //id untuk cara masuk langsung rawat inap
