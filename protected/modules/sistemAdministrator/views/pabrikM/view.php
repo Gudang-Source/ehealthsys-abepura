@@ -1,5 +1,5 @@
 <div class="white-container">
-    <legend class="rim2">Lihat <b>Pabrik</b></legend>
+    <legend class="rim2">Lihat <b>Pabrik Farmasi</b></legend>
     <?php
     $this->breadcrumbs=array(
             'Gfpabrik Ms'=>array('index'),

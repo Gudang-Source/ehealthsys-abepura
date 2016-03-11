@@ -29,10 +29,9 @@
 	?>
 		
    <?php 
-	if (!empty($_GET['sukses'])){
+	
 		$this->widget('bootstrap.widgets.BootAlert'); 
-		Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-	}
+		
 	?>
     <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),'#',array('class'=>'search-button btn')); ?>
     <div class="cari-lanjut2 search-form" style="display:none">
@@ -58,13 +57,13 @@
                     ),
                     array(
                         'name'=>'bidang_id',
-                        'filter'=>  CHtml::listData($model->BidangItems, 'bidang_id', 'bidang_nama'),
+                        'filter'=> CHtml::dropDownList('SABarangM[bidang_id]',$model->bidang_id,CHtml::listData($model->BidangItems, 'bidang_id', 'bidang_nama'),array('empty'=>'--Pilih--')),
                         'value'=>'isset($data->bidang_id)?$data->bidang->bidang_nama:" - "',
                     ),
                     array(
                         'name'=>'barang_type',
                         'value'=>'$data->barang_type',
-                        'filter'=>CHtml::activeTextField($model, 'barang_type'),
+                        'filter'=> CHtml::activeTextField($model, 'barang_type'),
                     ),
                     'barang_kode',
                     'barang_nama',

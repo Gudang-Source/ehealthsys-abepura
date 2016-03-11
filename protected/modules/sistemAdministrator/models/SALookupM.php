@@ -250,10 +250,11 @@ class SALookupM extends LookupM {
             $criteria->compare('lookup_urutan',$this->lookup_urutan);
             $criteria->compare('LOWER(lookup_kode)',strtolower($this->lookup_kode),true);
             $criteria->compare('lookup_aktif',isset($this->lookup_aktif)?$this->lookup_aktif:true);
-            $criteria->order = 'lookup_type, lookup_urutan';
+            //$criteria->order = 'lookup_type, lookup_urutan';
 
             return new CActiveDataProvider($this, array(
                     'criteria'=>$criteria,
+                    
             ));
     }	
 

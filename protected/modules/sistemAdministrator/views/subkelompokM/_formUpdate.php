@@ -70,7 +70,7 @@
                 <?php //$this->widget('UserTips',array('type'=>'create'));?>
     <?php
 echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Sub Kelompok', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp";
-$content = $this->renderPartial('../tips/tipsaddedit',array(),true);
+$content = $this->renderPartial($this->path_tips.'tipsaddedit3a',array(),true);
 $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
 ?>
         </div>
@@ -157,9 +157,22 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
 	'columns'=>array(
                 array(
+                    'header'=>'Pilih',
+                    'type'=>'raw',
+                    'value'=>'CHtml::Link("<i class=\"icon-check\"></i>",
+                                "#",
+                                array(
+                                    "class"=>"btn-small", 
+                                    "id" => "selectKelompok",
+                                    "onClick" => "
+                                    $(\"#'.CHtml::activeId($model, 'kelompok_id').'\").val(\'$data->kelompok_id\');
+                                    $(\"#kelompokNama\").val(\'$data->kelompok_nama\');
+                                    $(\'#dialogKelompok\').dialog(\'close\');return false;"))'
+                ),
+                array(
                         'header'=>'Golongan',
                         'filter'=>  CHtml::listData($model->GolonganItems, 'golongan_id', 'golongan_nama'),
-                        'value'=>'$this->grid->getOwner()->renderPartial(\'listGolongan\', array(\'idKelompok\'=>$data->kelompok_id))',
+                        'value'=>'$this->grid->getOwner()->renderPartial(\'sistemAdministrator.views.subkelompokM.listGolongan\', array(\'idKelompok\'=>$data->kelompok_id))',
                 ),
                 array(
                         'header'=>'Kelompok ',
