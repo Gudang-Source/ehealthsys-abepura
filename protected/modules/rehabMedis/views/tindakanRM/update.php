@@ -1,5 +1,5 @@
 <div class="white-container">
-    <legend class='rim2'>Ubah <b>Tindakan #<?php echo $model->tindakanrm_id ?></b></legend>
+    <legend class='rim2'>Ubah <b>Tindakan Rehabilitasi Medis</b></legend>
     <?php
     $this->breadcrumbs=array(
             'Rmtindakanrm Ms'=>array('index'),

@@ -84,16 +84,21 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
     ),
 ));
 
-$modTarifTindakan = new RMTarifTindakanM('search');
+$modTarifTindakan = new DaftartindakanM('search');
 $modTarifTindakan->unsetAttributes();
-$modTarifTindakan->kelaspelayanan_id = 0;
-if (isset($_GET['SATarifTindakanM'])) {
-    $modTarifTindakan->attributes = $_GET['SATarifTindakanM'];
+//$modTarifTindakan->ruangan_id = Yii::app()->user->getState('ruangan_id');
+if (isset($_GET['DaftartindakanM'])) {
+    $modTarifTindakan->attributes = $_GET['DaftartindakanM'];
 }
+
+$provider = $modTarifTindakan->search();
+//$provider->criteria->select = $provider->criteria->group = "daftartindakan_id, daftartindakan_nama, kelaspelayanan_id, kelaspelayanan_nama";
+//$provider->criteria->select .= ", sum(harga_tariftindakan) as harga_tariftindakan";
+
 $this->widget('ext.bootstrap.widgets.BootGridView', array(
     'id'=>'satarif-tindakan-m-grid', 
     //'ajaxUrl'=>Yii::app()->createUrl('actionAjax/CariDataPasien'),
-    'dataProvider' => $modTarifTindakan->searchDaftarTindakan(),
+    'dataProvider' => $modTarifTindakan->search(), //$modTarifTindakan->search(),
     'filter' => $modTarifTindakan,
     'template' => "{summary}\n{items}\n{pager}",
     'itemsCssClass' => 'table table-striped table-bordered table-condensed',
@@ -104,7 +109,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
             'value' => 'CHtml::Link("<i class=\"icon-check\"></i>","#",array("class"=>"btn-small", 
                                             "id" => "selectDaftarTindakan",
                                             "onClick" => "$(\"#RMTindakanrmM_daftartindakan_id\").val(\"$data->daftartindakan_id\");
-                                                          $(\"#RMTindakanrmM_daftartindakan_nama\").val(\"".$data->daftartindakan->daftartindakan_nama." - ".$data->kelaspelayanan->kelaspelayanan_nama." - ".$data->harga_tariftindakan."\");
+                                                          $(\"#RMTindakanrmM_daftartindakan_nama\").val(\"".$data->daftartindakan_nama."\");
                                                           $(\"#dialogDaftarTindakan\").dialog(\"close\");    
                                                 "))',
         ),
@@ -113,20 +118,36 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
         //                 'value'=>'$data->tariftindakan_id', 
         //                 'filter'=>false, 
         //         ),
-        array( 
-                        'name'=>'daftartindakan_id', 
-                        'value'=>'$data->daftartindakan->daftartindakan_nama',
-                ),
-        array( 
+        array(
+                'name'=>'kelompoktindakan_nama',
+                'header'=>'Kelompok Tindakan',                
+                'type'=>'raw',                
+                'filter'=> CHtml::dropDownList('DaftartindakanM[kelompoktindakan_nama]',$modTarifTindakan->kelompoktindakan_nama,CHtml::listData(KelompoktindakanM::model()->findAll("kelompoktindakan_aktif = TRUE ORDER BY kelompoktindakan_nama"), 'kelompoktindakan_nama', 'kelompoktindakan_nama'), array('empty'=>'--Pilih')),           
+                'value'=>'$data->kelompoktindakan->kelompoktindakan_nama',
+            ),  
+            //'kelompoktindakan_nama',
+            array(
+                'name'=>'kategoritindakan_nama',
+                'header'=>'Kategori Tindakan',                
+                'type'=>'raw',                
+                'filter'=> CHtml::dropDownList('DaftartindakanM[kategoritindakan_nama]',$modTarifTindakan->kategoritindakan_nama,CHtml::listData(KategoritindakanM::model()->findAll("kategoritindakan_aktif = TRUE ORDER BY kategoritindakan_nama"), 'kategoritindakan_nama', 'kategoritindakan_nama'), array('empty'=>'--Pilih--')),           
+                'value'=>'$data->kategoritindakan->kategoritindakan_nama',
+            ),
+            //'kategoritindakan_nama',
+            'daftartindakan_kode',
+            'daftartindakan_nama',   
+       /* array( 
                         'name'=>'kelaspelayanan_id', 
-                        'value'=>'$data->kelaspelayanan->kelaspelayanan_nama',
-                        'filter'=>CHtml::listData($modTarifTindakan->KelasPelayanan, 'kelaspelayanan_id', 'kelaspelayanan_nama'),
-                ),
+                        'value'=>'$data->kelaspelayanan_nama',
+                        'filter'=>CHtml::listData(KelaspelayananM::model()->findAll('kelaspelayanan_aktif = true'), 'kelaspelayanan_id', 'kelaspelayanan_nama'),
+                ), */
+        /*
         array( 
                         'name'=>'harga_tariftindakan', 
                         'value'=>'number_format($data->harga_tariftindakan,0,".",",")', 
                         'filter'=>false, 
-                ),
+                        'htmlOptions'=>array('style'=>'text-align: right;'),
+                ), */
     ),
     'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
 ));
