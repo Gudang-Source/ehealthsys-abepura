@@ -22,32 +22,32 @@
                     <tr>
                         <td width="25%">&nbsp;</td>
                         <td width="25%">&nbsp;</td>
-                        <td style="text-align:right;" width="25%" align="right">No. BKK</td>
-                        <td width="25%">: &nbsp;<?php echo !empty($modPengeluaran->tandabuktikeluar_id)?$modPengeluaran->buktikeluar->nokaskeluar:' - '; ?></td>
+                        <td style="text-align:right;" width="25%" align="right">No. BKM</td>
+                        <td width="25%">: &nbsp;<?php echo !empty($modPenerimaan->tandabuktibayar_id)?$modPenerimaan->buktibayar->nobuktibayar:' - '; ?></td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
-                        <td style="text-align:right;" align="right">Tanggal BKK</td>
-                        <td>: &nbsp;<?php echo !empty($modPengeluaran->tandabuktikeluar_id)?  MyFormatter::formatDateTimeForUser($modPengeluaran->buktikeluar->tglkaskeluar):' - '; ?></td>
+                        <td style="text-align:right;" align="right">Tanggal BKM</td>
+                        <td>: &nbsp;<?php echo !empty($modPenerimaan->tandabuktibayar_id)?  MyFormatter::formatDateTimeForUser($modPenerimaan->buktibayar->tglbuktibayar):' - '; ?></td>
                     </tr>
                 </table>
             </td>
         </tr>
         <tr>
             <td>
-                <table width="1024">
+                <table width="100%">
                     <tr>
                         <td width="150">Telah Bayar Kepada</td>
-                        <td>:&nbsp;<?php echo $modPengeluaran->nopengeluaran.' / '.$modPengeluaran->jenispengeluaran->jenispengeluaran_nama.' / '.(!empty($modPengeluaran->tandabuktikeluar_id)?$modPengeluaran->buktikeluar->namapenerima:' - '); ?></td>
+                        <td>:&nbsp;<?php echo $modPenerimaan->nopenerimaan.' / '.$modPenerimaan->jenispenerimaan->jenispenerimaan_nama.' / '.(!empty($modPenerimaan->tandabuktibayar_id)?$modPenerimaan->buktibayar->darinama_bkm:' - '); ?></td>
                     </tr>
                     <tr>
                         <td>Dalam Jumlah Angka </td>
-                        <td>: &nbsp;<span class="currency"><?php echo MyFormatter::formatUang($modPengeluaran->totalharga);?></span></td>
+                        <td>: &nbsp;<span class="currency"><?php echo MyFormatter::formatUang($modPenerimaan->totalharga);?></span></td>
                     </tr>
                     <tr>
                         <td>Dalam Jumlah Huruf</td>
-                        <td>:<i>&nbsp;<?php echo MyFormatter::formatNumberTerbilang($modPengeluaran->totalharga); ?> Rupiah</i></td>
+                        <td>:<i>&nbsp;<?php echo MyFormatter::formatNumberTerbilang($modPenerimaan->totalharga); ?> Rupiah</i></td>
                     </tr>
                 </table>
             </td>
@@ -57,8 +57,8 @@
         </tr>
         <tr>
             <td>
-				<?php if(count($modUraianKeluarUmum) > 0){ ?>
-                <table width="1024" class="<?php echo (isset($_GET['caraPrint']) ? "grid" : "table-striped table-bordered table-condensed")?>">
+				<?php if(count($modUraianTerimaUmum) > 0){ ?>
+                <table width="100%" class="<?php echo (isset($_GET['caraPrint']) ? "grid" : "table-striped table-bordered table-condensed")?>">
                     <thead>
                         <tr>
                             <th style="text-align:center;" width="150">Tanggal</th>
@@ -69,10 +69,10 @@
                     <tbody>
                         <?php
 							$rows = '';
-							foreach($modUraianKeluarUmum as $val)
+							foreach($modUraianTerimaUmum as $val)
 							{
 								$rows .= '<tr>';
-								$rows .= '<td>'. MyFormatter::formatDateTimeForUser($modPengeluaran->tglpengeluaran) .'</td>';
+								$rows .= '<td>'. MyFormatter::formatDateTimeForUser($modPenerimaan->tglpenerimaan) .'</td>';
 								$rows .= '<td>'. $val->uraiantransaksi .'</td>';
 								$rows .= '<td style="text-align:right;">'. MyFormatter::formatUang($val->totalharga) .'</td>';
 								$rows .= '</tr>';                                    
@@ -105,7 +105,7 @@
             ?>
 		</div>
 <?php
-$urlPrint = $this->createUrl('DetailPengeluaranUmum&pengeluaranumum_id='.$modPengeluaran->pengeluaranumum_id);
+$urlPrint = $this->createUrl('DetailPenerimaanUmum&penerimaanumum_id='.$modPenerimaan->penerimaanumum_id);
 $js = <<< JSCRIPT
 function print(caraPrint)
 {

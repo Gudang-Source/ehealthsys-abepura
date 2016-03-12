@@ -78,6 +78,15 @@ class PengeluaranUmumController extends MyAuthController {
 					if (isset($data_parsing['KUPengeluaranumumT']['isurainkeluarumum'])) {
 						$modUraian = $this->saveUraian($data_parsing['KUUraiankeluarumumT'], $modPengUmum);
 					}
+                                        
+                                        $modPengUmum->tandabuktikeluar_id = $modBuktiKeluar->tandabuktikeluar_id;
+                                        $modPengUmum->update();
+                                        $modBuktiKeluar->pengeluaranumum_id = $modPengUmum->pengeluaranumum_id;
+                                        $modBuktiKeluar->update();
+                                        
+                                        //var_dump($modPengUmum->attributes);
+                                        
+                                        //var_dump($modBuktiKeluar->attributes); die;
 
 					$modJurnalRekening = $this->saveJurnalRekening($modPengUmum, $data_parsing['KUPengeluaranumumT']);
 					$params = array(
@@ -331,7 +340,7 @@ class PengeluaranUmumController extends MyAuthController {
 
 		$modJurnalRekening->jenisjurnal_id = Params::JENISJURNAL_ID_PENGELUARAN_KAS;
 		$periodeID = Yii::app()->user->getState('periode_ids');
-		$modJurnalRekening->rekperiod_id = Yii::app()->user->getState('periode_ids');
+		$modJurnalRekening->rekperiod_id = Yii::app()->user->getState('periode_ids')[0];
 		$modJurnalRekening->create_time = $modPenUmum->tglpengeluaran;
 		$modJurnalRekening->create_loginpemakai_id = Yii::app()->user->id;
 		$modJurnalRekening->create_ruangan = Yii::app()->user->getState('ruangan_id');
