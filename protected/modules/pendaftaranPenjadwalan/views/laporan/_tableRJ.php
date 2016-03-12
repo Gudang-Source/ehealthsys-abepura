@@ -128,7 +128,7 @@
                    'htmlOptions'=>array('style'=>'text-align: center')
                 ),
                 array(
-                   'name'=>'Nama Dokter Poly',
+                   'name'=>'Nama Dokter Poli',
                    'type'=>'raw',
                    'value'=>'$data->nama_pegawai',
                    'htmlOptions'=>array('style'=>'text-align: center')
