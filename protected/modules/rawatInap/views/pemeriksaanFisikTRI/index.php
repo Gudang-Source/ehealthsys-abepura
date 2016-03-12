@@ -276,7 +276,7 @@ $this->widget('bootstrap.widgets.BootAlert');
 						'attribute' => 'tekanandarah',
 						'mask' => '999 / 999',
 						'placeholder'=>'000 / 000',
-						'htmlOptions' => array('readonly'=>true, 'class'=>'span2', 'style'=>'width:60px;','onkeypress'=>"return $(this).focusNextInputField(event)") //,'onkeyup'=>'getTekananDarah(this);''onfocus'=>'change(this);', 'onblur'=>'change(this);',
+						'htmlOptions' => array('readonly'=>true, 'class'=>'span2 integer', 'style'=>'width:60px;','onkeypress'=>"return $(this).focusNextInputField(event)") //,'onkeyup'=>'getTekananDarah(this);''onfocus'=>'change(this);', 'onblur'=>'change(this);',
 						));
 					?> Mm/Hg
 				</div>
@@ -296,7 +296,7 @@ $this->widget('bootstrap.widgets.BootAlert');
                 <div class="control-group ">
                         <?php echo $form->LabelEx($modPemeriksaanFisik,'detaknadi',array('label'=>'<i class="icon-facetime-video hoveringIcon" onclick="getfromDevice();"></i> Detak Nadi','class'=>'control-label'));?>
                         <div class="controls">
-                                 <?php echo $form->textField($modPemeriksaanFisik,'detaknadi',array('class'=>'span2  numbersOnly', 'maxlength'=>10, 'onkeypress'=>"return $(this).focusNextInputField(event)"));?>
+                                 <?php echo $form->textField($modPemeriksaanFisik,'detaknadi',array('class'=>'span2 integer  numbersOnly', 'maxlength'=>10, 'onkeypress'=>"return $(this).focusNextInputField(event)"));?>
                          /Menit
                         </div>
                 </div>
@@ -318,7 +318,7 @@ $this->widget('bootstrap.widgets.BootAlert');
                 <div class="control-group ">
                         <?php echo $form->LabelEx($modPemeriksaanFisik,'suhutubuh',array('class'=>'control-label'));?>
                         <div class="controls">
-                                 <?php echo $form->textField($modPemeriksaanFisik,'suhutubuh',array('class'=>'span2 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10));?>
+                                 <?php echo $form->textField($modPemeriksaanFisik,'suhutubuh',array('class'=>'span2 integer numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10));?>
                          &#176 Celcius
                         </div>
                 </div>
@@ -327,12 +327,12 @@ $this->widget('bootstrap.widgets.BootAlert');
                         <?php echo $form->LabelEx($modPemeriksaanFisik,'beratbadan_kg',array('class'=>'control-label','style'=>'width:80px'));?>
                         <div class="controls">
                                 <div class="groupUkurans">
-                                        <?php echo $form->textField($modPemeriksaanFisik,'tinggibadan_cm',array('class'=>'span1 numbersOnly tinggibadan', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10,'size'=>3));?>
-                                        <?php echo $form->hiddenField($modPemeriksaanFisik,'tinggibadan_cm',array('class'=>'span1 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10,'size'=>3));?>
+                                        <?php echo $form->textField($modPemeriksaanFisik,'tinggibadan_cm',array('class'=>'span1 integer numbersOnly tinggibadan', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10,'size'=>3));?>
+                                        <?php echo $form->hiddenField($modPemeriksaanFisik,'tinggibadan_cm',array('class'=>'span1  numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10,'size'=>3));?>
                                         <?php echo CHtml::dropDownList('meter', '100', array('100'=>'Cm', '0.01'=>'M'), array('style'=>'width:50px;','class'=>'span1', 'onchange'=>'gantiJumlah(this)')); ?>
                                 </div>
                                 <div class="groupUkurans">
-                                 <?php echo $form->textField($modPemeriksaanFisik,'beratbadan_kg',array('class'=>'span1 numbersOnly beratbadan', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10,'size'=>3));?>
+                                 <?php echo $form->textField($modPemeriksaanFisik,'beratbadan_kg',array('class'=>'span1 integer numbersOnly beratbadan', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10,'size'=>3));?>
                                  <?php echo $form->hiddenField($modPemeriksaanFisik,'beratbadan_kg',array('class'=>'span1 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10,'size'=>3));?>
                                  <?php echo CHtml::dropDownList('gram', '0.001', array('1000'=>'Gr', '0.001'=>'Kg'), array('class'=>'span1', 'onchange'=>'gantiJumlah(this)')); ?>
                                 </div>
