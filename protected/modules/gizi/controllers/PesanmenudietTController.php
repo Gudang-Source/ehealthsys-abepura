@@ -153,7 +153,7 @@ class PesanmenudietTController extends MyAuthController
 		$model=new GZPesanmenudietT;
 		$model->tglpesanmenu = date('d M Y H:i:s');
 		$model->nopesanmenu = MyGenerator::noPesanMenuDiet();
-		$pegawai_nama = PegawaiM::model()->findByPK(LoginpemakaiK::model()->findByPk(Yii::app()->user->id)->pegawai_id)->nama_pegawai;
+		$pegawai_nama = ""; //PegawaiM::model()->findByPK(LoginpemakaiK::model()->findByPk(Yii::app()->user->id)->pegawai_id)->nama_pegawai;
 		$model->nama_pemesan = $pegawai_nama;
 		$model->kelaspelayanan_id = Params::KELASPELAYANAN_ID_TANPA_KELAS;
 		$model->carabayar_id = Params::CARABAYAR_ID_MEMBAYAR;
