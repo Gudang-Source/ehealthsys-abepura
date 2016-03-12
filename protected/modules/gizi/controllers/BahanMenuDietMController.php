@@ -48,7 +48,7 @@ class BahanMenuDietMController extends MyAuthController
                     $modBahanMenuDiet = new BahanMenuDietM;
                     $modMenuDiet = MenuDietM::model()->findByPk($menudiet_id);
                     $modBahanMakanan=BahanmakananM::model()->findByPK($bahanmakanan_id);
-                    $return = array();
+                    $return = "";
                         $tr = "";
                         $tr .="<tr><td>";
                         $tr .= CHtml::checkBox('checkList[]',true,array('class'=>'cekList', 'onkeypress'=>"return $(this).focusNextInputField(event);"));
@@ -232,7 +232,7 @@ class BahanMenuDietMController extends MyAuthController
                         $mpdf->WriteHTML($stylesheet,1);  
                         $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
                         $mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-                        $mpdf->Output();
+                        $mpdf->Output($judulLaporan.'-'.date('Y/m/d').'.pdf','I');
                     }                       
                 }
 }

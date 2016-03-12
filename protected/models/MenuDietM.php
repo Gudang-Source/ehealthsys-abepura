@@ -111,7 +111,7 @@ class MenuDietM extends CActiveRecord
 						   LEFT JOIN kelaspelayanan_m on kelaspelayanan_m.kelaspelayanan_id = tariftindakan_m.kelaspelayanan_id';
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
+			'criteria'=>$criteria,                       
 		));
 	}
         

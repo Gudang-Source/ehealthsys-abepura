@@ -197,6 +197,6 @@ class BahanmakananM extends CActiveRecord
         
         public function getGolBahanMakananItems()
         {
-            return GolbahanmakananM::model()->findAll('golbahanmakanan_aktif=TRUE ORDER BY golbahanmakanan_id');
+            return GolbahanmakananM::model()->findAll('golbahanmakanan_aktif=TRUE ORDER BY golbahanmakanan_nama');
         }
 }

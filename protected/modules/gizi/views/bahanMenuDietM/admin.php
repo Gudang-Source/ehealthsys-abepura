@@ -52,13 +52,13 @@
                             array(
                                 'header'=>'Nama Menu Diet',
                                 'name'=>'menudiet_id',
-                                'filter'=>Chtml::listData($model->getMenuDietItems(),'menudiet_id','menudiet_nama'),
+                                'filter'=> CHtml::dropDownList('BahanMenuDietM[menudiet_id]',$model->menudiet_id,Chtml::listData($model->getMenuDietItems(),'menudiet_id','menudiet_nama'), array('empty'=>'--Pilih--')),
                                 'value'=>'$data->menudiet->menudiet_nama',
                             ),
                             array(
                                 'header'=>'Nama Bahan Makanan',
                                 'name'=>'bahanmakanan_id',
-                                'filter'=>CHtml::listData($model->getBahanMakananItems(),'bahanmakanan_id','namabahanmakanan'),
+                                'filter'=> CHtml::dropDownList('BahanMenuDietM[bahanmakanan_id]',$model->bahanmakanan_id,CHtml::listData($model->getBahanMakananItems(),'bahanmakanan_id','namabahanmakanan'),array('empty'=>'--Pilih--')),
                                 'value'=>'$data->bahanmakanan->namabahanmakanan',
                             ),
                             'jmlbahan',
