@@ -90,6 +90,25 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm',
                 'footerHtmlOptions'=>array('style'=>'text-align:right;color:white'),
                 'footer'=>'-',
             ),
+            array(
+                        'header'=>'<center>Lihat Detail</center>',
+                        'type'=>'raw',
+                        'value'=>'CHtml::Link("<i class=\"icon-form-lihat\"></i>",Yii::app()->controller->createUrl("DetailPenerimaanUmum",array("penerimaanumum_id"=>$data->penerimaanumum_id,"frame"=>true)),
+                                    array("class"=>"", 
+                                          "target"=>"iframeDetPenerimaan",
+                                          "onclick"=>"$(\"#dialogDetPenerimaan\").dialog(\"open\");",
+                                          "rel"=>"tooltip",
+                                          "title"=>"Klik untuk detail Penerimaan",
+                                    ))',
+                                    'htmlOptions'=>array(
+                                        'style'=>'text-align: center;'
+                                    ),
+                        'htmlOptions' => array(
+                                                    'style' => 'width: 100px; text-align: center;',
+                                            ),
+                                            'footerHtmlOptions'=>array('style'=>'text-align:right;color:white'),
+                        'footer'=>'',
+            ),
             array( 
                 'header'=>'Retur / Batal',
                 'type'=>'raw',
@@ -195,3 +214,21 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
 <?php    
 $this->endWidget('zii.widgets.jui.CJuiDialog');
 //===============================Akhir Dialog Retur================================
+
+
+$this->beginWidget('zii.widgets.jui.CJuiDialog', array( 
+    'id'=>'dialogDetPenerimaan',
+    'options'=>array(
+        'title'=>'Detail Penerimaan',
+        'autoOpen'=>false,
+        'modal'=>true,
+        'minWidth'=>980,
+        'minHeight'=>610,
+        'resizable'=>true,
+    ),
+));
+?>
+<iframe src="" name="iframeDetPenerimaan" width="100%" height="550" ></iframe>
+<?php
+$this->endWidget();
+?>

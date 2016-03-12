@@ -18,6 +18,24 @@ class InformasiPenerimaanUmumController extends MyAuthController
             
             $this->render($this->path_view. 'index', array('modPenerimaan'=>$modPenerimaan));
 	}
+        
+        public function actionDetailPenerimaanUmum($penerimaanumum_id)
+	{
+		if(isset($_GET['caraPrint'])){
+			$this->layout='//layouts/printWindows';
+		}else{
+			$this->layout = '//layouts/iframe';
+		}
+		$modPenerimaan = KUPenerimaanUmumT::model()->findByPk($penerimaanumum_id);
+		if(!count($modPenerimaan)>0){
+			echo "<h4>Data penerimaan umum tidak ditemukan!!</h4>";exit;
+		}
+		$modUraianTerimaUmum = UraianpenumumT::model()->findAllByAttributes(array('penerimaanumum_id'=>$penerimaanumum_id));
+		$this->render($this->path_view. 'detailPenerimaan',array(
+					'modUraianTerimaUmum'=>$modUraianTerimaUmum,
+					'modPenerimaan'=>$modPenerimaan,
+				));
+	} 
 
 	// Uncomment the following methods and override them if needed
 	/*
