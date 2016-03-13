@@ -23,6 +23,7 @@ class PenerimaanUmumController extends MyAuthController
 		$modTandaBukti->biayaadministrasi = 0;
 		$modTandaBukti->biayamaterai = 0;
 		$modTandaBukti->jmlpembayaran = $modPenUmum->totalharga;
+                $modTandaBukti->carapembayaran = Params::CARAPEMBAYARAN_TUNAI;
 		$modJurnalRekening = array();
 		$modJurnalDetail = array();
 		$modJUrnalPosting = array();
@@ -218,11 +219,13 @@ class PenerimaanUmumController extends MyAuthController
 		$modJurnalRekening->nobku = "";
 		$modJurnalRekening->urianjurnal = $postPenUmum['jenisKodeNama'];
 		$modJurnalRekening->jenisjurnal_id = Params::JENISJURNAL_ID_PENERIMAAN_KAS;
-		$modJurnalRekening->rekperiod_id = Yii::app()->user->getState('periode_ids');
+		$modJurnalRekening->rekperiod_id = Yii::app()->user->getState('periode_ids')[0];
 		$modJurnalRekening->create_time = $modPenUmum->tglpenerimaan;
 		$modJurnalRekening->create_loginpemakai_id = Yii::app()->user->id;
 		$modJurnalRekening->create_ruangan = Yii::app()->user->getState('ruangan_id');
 
+                // var_dump($modJurnalRekening->attributes); die;
+                
 		if($modJurnalRekening->validate()){
 			$modJurnalRekening->save();
 			$this->succesSave = true;

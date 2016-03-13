@@ -121,11 +121,11 @@ class BahanMenuDietM extends CActiveRecord
         
         public function getMenuDietItems()
         {
-            return MenuDietM::model()->findAll();
+            return MenuDietM::model()->findAll(array('order'=>'menudiet_nama'));
         }
         
         public function getBahanMakananItems()
         {
-            return BahanmakananM::model()->findAll();
+            return BahanmakananM::model()->findAll(array('order'=>'namabahanmakanan'));
         }
 }

@@ -89,12 +89,13 @@ function simpanPengeluaran(params)
                     {
                         if(data.action == 'insert')
                         {
-                            myAlert("Simpan data berhasil");
+                            alert("Simpan data berhasil");
                             $("#tblInputUraian").find('tr[class$="child"]').detach();
-                            $("#reseter").click();
-                            $("#input-pengeluaran").find("input[name$='[nopengeluaran]']").val(data.pesan.nopengeluaran);
-                            $("#input-pengeluaran").find("input[name$='[nokaskeluar]']").val(data.pesan.nokaskeluar);
-                            $("#tblInputRekening > tbody").find('tr').detach();
+                            location.reload();
+                            //$("#reseter").click();
+                            //$("#input-pengeluaran").find("input[name$='[nopengeluaran]']").val(data.pesan.nopengeluaran);
+                            //$("#input-pengeluaran").find("input[name$='[nokaskeluar]']").val(data.pesan.nokaskeluar);
+                            //$("#tblInputRekening > tbody").find('tr').detach();
                         }else{
                             myAlert("Update data berhasil");
                         }

@@ -151,15 +151,15 @@
         'autoOpen'=>false,
         'modal'=>true,
         'width'=>900,
-        'height'=>400,
+        'height'=>600,
         'resizable'=>false,
     ),
 ));
    
 $modMenuDiet = new GZMenuDietM('search');
 $modMenuDiet->unsetAttributes();
-if(isset($_GET['SAMenuDietM'])) {
-    $modMenuDiet->attributes = $_GET['SAMenuDietM'];
+if(isset($_GET['GZMenuDietM'])) {
+    $modMenuDiet->attributes = $_GET['GZMenuDietM'];
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'menudiet-grid',
@@ -184,19 +184,23 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                         ),
                         array(
                             'header'=>'Jenis Diet',
-                            'filter'=>CHtml::listData($modMenuDiet->getJenisdietItems(),'jenisdiet_id','jenisdiet_nama'),
+                            'name' => 'jenisdiet_id',
+                            'filter'=> CHtml::dropDownList('GZMenuDietM[jenisdiet_id]',$modMenuDiet->jenisdiet_id,CHtml::listData($modMenuDiet->getJenisdietItems(),'jenisdiet_id','jenisdiet_nama'),array('empty'=>'--Pilih--')),
                             'value'=>'$data->jenisdiet->jenisdiet_nama',
                         ),
                         array(
                             'header'=>'Nama Menu Diet',
+                            'name' => 'menudiet_nama',
                             'value'=>'$data->menudiet_nama',
                         ),
                         array(
                             'header'=>'Jumlah Porsi',
+                            'name' => 'jml_porsi',
                             'value'=>'$data->jml_porsi',
                         ),
                         array(
                             'header'=>'URT',
+                            'name' => 'ukuranrumahtangga',
                             'value'=>'$data->ukuranrumahtangga',
                         ),
 	),
@@ -213,15 +217,15 @@ $this->endWidget();
         'autoOpen'=>false,
         'modal'=>true,
         'width'=>900,
-        'height'=>400,
+        'height'=>600,
         'resizable'=>false,
     ),
 ));
    
 $modBahanMakanan = new GZBahanmakananM('search');
 $modBahanMakanan->unsetAttributes();
-if(isset($_GET['SABahanMakananM'])) {
-    $modBahanMakanan->attributes = $_GET['SABahanMakananM'];
+if(isset($_GET['GZBahanmakananM'])) {
+    $modBahanMakanan->attributes = $_GET['GZBahanmakananM'];
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'bahanmakanan-grid',
@@ -247,27 +251,33 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                         ),
                         array(
                             'header'=>'Golongan Bahan',
-                            'filter'=>CHtml::listData($modBahanMakanan->getGolBahanMakananItems(),'golbahanmakanan_id','golbahanmakanan_nama'),
+                            'name' => 'golbahanmakanan_id',
+                            'filter'=> CHtml::dropDownList('GZBahanmakananM[golbahanmakanan_id]',$modBahanMakanan->golbahanmakanan_id,CHtml::listData($modBahanMakanan->getGolBahanMakananItems(),'golbahanmakanan_id','golbahanmakanan_nama'), array('empty'=>'--Pilih--')),
                             'value'=>'$data->golbahanmakanan->golbahanmakanan_nama',
                         ),
                         array(
                             'header'=>'Jenis Bahan',
+                            'name' => 'jenisbahanmakanan',
                             'value'=>'$data->jenisbahanmakanan',
                         ),
                         array(
                             'header'=>'Kelompok Makanan',
+                            'name' => 'kelbahanmakanan',
                             'value'=>'$data->kelbahanmakanan',
                         ),
                         array(
                             'header'=>'Nama Bahan Makanan',
+                            'name' => 'namabahanmakanan',
                             'value'=>'$data->namabahanmakanan',
                         ),
                         array(
                             'header'=>'Jumlah Persediaan',
+                            'name' => 'jmlpersediaan',
                             'value'=>'$data->jmlpersediaan',
                         ),
                         array(
                             'header'=>'Satuan',
+                            'name' => 'satuanbahan',
                             'value'=>'$data->satuanbahan',
                         ),
 	),

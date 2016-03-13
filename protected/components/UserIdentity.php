@@ -147,7 +147,7 @@ class UserIdentity extends CUserIdentity
                         }
                         $this->setState('usersModul', $usersModul);
                         
-                        $modPeriode = RekperiodM::model()->findAllByAttributes(array('isclosing'=>false));
+                        $modPeriode = RekperiodM::model()->findAllByAttributes(array('isclosing'=>false), array('order'=>'perideawal'));
                         $periode = array();
                         foreach($modPeriode as $x=>$value){
                             $periode[$x] = $value->rekperiod_id;
