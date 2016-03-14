@@ -6,7 +6,7 @@ class JadwalMakanMController extends MyAuthController
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	public $layout='//layouts/column1';
+	public $layout='//layouts/iframe';
                 public $defaultAction='admin';
                 public $jenisdiet_nama;
                 public $tipediet_nama;
@@ -186,7 +186,7 @@ class JadwalMakanMController extends MyAuthController
 			$modTipeDiet=TipeDietM::model()->findByPK($tipedietid);
 			$modJenisWaktu = JenisWaktuM::model()->findByPK($jeniswaktuid);
 			$modMenuDiet = MenuDietM::model()->findByPK($menudietid);
-			$return = array();
+			$return = "";
 			$tipejeniswaktu = JenisWaktuM::model()->findAll('jeniswaktu_aktif = true ORDER BY jeniswaktu_id');
 				$tr = "";
 				$tr .="<tr><td>";
@@ -218,7 +218,7 @@ class JadwalMakanMController extends MyAuthController
 					}
 				}
 				$tr .= "<td>";
-				$tr .= CHtml::link("<i class='icon-minus'></i>", '#', array('onclick'=>'hapusRowJadwalMakan(this);return false;','rel'=>'tooltip','title'=>'Klik untuk membatalkan jadwal makan'));
+				$tr .= CHtml::link("<i class='icon-form-silang'></i>", '#', array('onclick'=>'hapusRowJadwalMakan(this);return false;','rel'=>'tooltip','title'=>'Klik untuk membatalkan jadwal makan'));
 				$tr .= "</td>";
 				$tr .= "</tr>";   
 			$return .= $tr;
@@ -267,7 +267,7 @@ class JadwalMakanMController extends MyAuthController
                         $mpdf->WriteHTML($stylesheet,1);  
                         $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
                         $mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-                        $mpdf->Output();
+                        $mpdf->Output($judulLaporan.'-'.date('Y/m/d').'.pdf','I');
                     }                       
                 }
 

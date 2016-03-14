@@ -1,8 +1,10 @@
-<div class="white-container">
-    <legend class="rim2">Pengaturan <b>Jaswal Makan</b></legend>
-    <?php $this->renderPartial('_tabMenu',array()); ?>
-    <div class="biru">
-        <div class="white">
+<fieldset class="box row-fluid">
+    <legend class="rim">Pengaturan <b>Jadwal Makanan</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Pengaturan <b>Jaswal Makan</b></legend>-->
+    <?php //$this->renderPartial('_tabMenu',array()); ?>
+    <!--<div class="biru">
+        <div class="white">-->
             <?php
             $this->breadcrumbs=array(
                     'Gzjadwalmakan Ms'=>array('index'),
@@ -42,26 +44,26 @@
                     'dataProvider'=>$model->search(),
                     'filter'=>$model,
                             'itemsCssClass'=>'table table-condensed table-striped',
-                            'template'=>"{summary}{pager}\n{items}",
+                            'template'=>"{summary}\n{items}{pager}",
                     'columns'=>array(
                             array(
                                 'name'=>'jenisdiet_id',
-                                'filter'=>CHtml::listData($model->getJenisdietItems(), 'jenisdiet_id','jenisdiet_nama'),
+                                'filter'=> CHtml::dropDownList('JadwalMakanM[jenisdiet_id]',$model->jenisdiet_id, CHtml::listData($model->getJenisdietItems(), 'jenisdiet_id','jenisdiet_nama'), array('empty'=>'--Pilih--')),
                                 'value'=>'$data->jenisdiet->jenisdiet_nama',
                             ),
                             array(
                                 'name'=>'tipediet_id',
-                                'filter'=>CHtml::listData($model->getTipeDietItems(), 'tipediet_id','tipediet_nama'),
+                                'filter'=> CHtml::dropDownList('JadwalMakanM[tipediet_id]',$model->tipediet_id,CHtml::listData($model->getTipeDietItems(), 'tipediet_id','tipediet_nama'), array('empty'=>'--Pilih--')),
                                 'value'=>'$data->tipediet->tipediet_nama',
                             ),
                             array(
                                 'name'=>'jeniswaktu_id',
-                                'filter'=>CHtml::listData($model->getJenisWaktuItems(), 'jeniswaktu_id','jeniswaktu_nama'),
+                                'filter'=> CHtml::dropDownList('JadwalMakanM[jeniswaktu_id]',$model->jeniswaktu_id,CHtml::listData($model->getJenisWaktuItems(), 'jeniswaktu_id','jeniswaktu_nama'), array('empty'=>'--Pilih--')),
                                 'value'=>'$data->jeniswaktu->jeniswaktu_nama',
                             ),
                             array(
                                 'name'=>'menudiet_id',
-                                'filter'=>CHtml::listData($model->getMenuDietItems(),'menudiet_id','menudiet_nama'),
+                                'filter'=> CHtml::dropDownList('JadwalMakanM[menudiet_id]',$model->menudiet_id,CHtml::listData($model->getMenuDietItems(),'menudiet_id','menudiet_nama'), array('empty'=>'--Pilih--')),
                                 'value'=>'$data->menudiet->menudiet_nama',
                             ),
                             array(
@@ -106,8 +108,8 @@
                     }',
                 )); ?>
             <!--</div>-->
-        </div>
-    </div>
+        <!--</div>
+    </div>-->
     <?php 
     echo CHtml::link(Yii::t('mds', '{icon} Tambah Jadwal Makan', array('{icon}'=>'<i class="icon-plus icon-white"></i>')), $this->createUrl('jadwalMakanM/create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp";
     echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
@@ -131,4 +133,5 @@ function print(caraPrint)
 JSCRIPT;
     Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);                        
     ?>
-</div>
+<!--</div>-->
+</fieldset>

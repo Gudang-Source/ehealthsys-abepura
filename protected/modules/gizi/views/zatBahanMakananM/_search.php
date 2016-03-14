@@ -17,7 +17,7 @@
             array('class'=>'inputRequire', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --',)); ?>
         </td>
         <td>
-            <?php echo $form->textFieldRow($model,'kandunganbahan',array('class'=>'span2')); ?>
+            <?php echo $form->textFieldRow($model,'kandunganbahan',array('class'=>'span2 numbersOnly')); ?>
         </td>
     </tr>
 </table>

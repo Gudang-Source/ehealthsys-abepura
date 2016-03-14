@@ -1,8 +1,10 @@
-<div class="white-container">
-    <legend class="rim2">Pengaturan Zat <b>Bahan Makanan</b></legend>
-    <?php $this->renderPartial('_tabMenu',array()); ?>
-    <div class="biru">
-        <div class="white">
+<fieldset class="box row-fluid">
+    <legend class="rim">Pengaturan <b>Zat Bahan Makanan</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Pengaturan Zat <b>Bahan Makanan</b></legend>-->
+    <?php //$this->renderPartial('_tabMenu',array()); ?>
+    <!--<div class="biru">
+        <div class="white">-->
             <?php
             $this->breadcrumbs=array(
                     'Gzzatbahanmakanan Ms'=>array('index'),
@@ -43,7 +45,7 @@
                     'dataProvider'=>$model->search(),
                     'filter'=>$model,
                             'itemsCssClass'=>'table table-striped table-condensed',
-                            'template'=>"{summary}{pager}\n{items}",
+                            'template'=>"{summary}\n{items}{pager}",
                     'columns'=>array(
                             array(
                                 'header'=>'ID',
@@ -51,15 +53,19 @@
                             ),
                             array(
                                 'name'=>'zatgizi_id',
-                                'filter'=> CHtml::listData($model->getZatgiziItems(), 'zatgizi_id','zatgizi_nama'),
+                                'filter'=> CHtml::dropDownList('ZatBahanMakananM[zatgizi_id]',$model->zatgizi_id,CHtml::listData($model->getZatgiziItems(), 'zatgizi_id','zatgizi_nama'), array('empty'=>'--Pilih--')),
                                 'value'=>'$data->zatgizi->zatgizi_nama',
                             ),
                             array(
                                 'name'=>'bahanmakanan_id',
-                                'filter'=>CHtml::listData($model->getBahanMakananItems(), 'bahanmakanan_id', 'namabahanmakanan'),
+                                'filter'=> CHtml::dropDownList('ZatBahanMakananM[bahanmakanan_id]',$model->bahanmakanan_id,CHtml::listData($model->getBahanMakananItems(), 'bahanmakanan_id', 'namabahanmakanan'), array('empty'=>'--Pilih--')),
                                 'value'=>'$data->bahanmakanan->namabahanmakanan',
                             ),
-                            'kandunganbahan',
+                            //'kandunganbahan',
+                            array(
+                                'name'=>'kandunganbahan',
+                                'filter'=> CHtml::activeTextField($model, 'kandunganbahan', array('class'=>'numbersOnly')),    
+                            ),
                             array(
                                 'header'=>Yii::t('mds','View'),
                                 'class'=>'bootstrap.widgets.BootButtonColumn',
@@ -102,8 +108,8 @@
                     }',
                 )); ?>
             <!--</div>-->
-        </div>
-    </div>
+        <!--</div>
+    </div>-->
     <?php 
     echo CHtml::link(Yii::t('mds', '{icon} Tambah Zat Bahan Makanan', array('{icon}'=>'<i class="icon-plus icon-white"></i>')), $this->createUrl('zatBahanMakananM/create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp";
     echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
@@ -127,6 +133,27 @@ function print(caraPrint)
 }
 JSCRIPT;
     Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);                        
+    
+    $js = <<< JS
+$('.numbersOnly').keyup(function() {
+var d = $(this).attr('numeric');
+var value = $(this).val();
+var orignalValue = value;
+value = value.replace(/[0-9.]*/g, "");
+var msg = "Only Integer Values allowed.";
+
+if (d == 'decimal') {
+value = value.replace(/\./, "");
+msg = "Only Numeric Values allowed.";
+}
+
+if (value != '') {
+orignalValue = orignalValue.replace(/([^0-9.].*)/g, "")
+$(this).val(orignalValue);
+}
+});
+JS;
+Yii::app()->clientScript->registerScript('numberOnly',$js,CClientScript::POS_READY);
     ?>
 </div>
 <script>
@@ -134,3 +161,4 @@ $(document).ready(function(){
 $("input[name='ZatBahanMakananM[kandunganbahan]']").focus();
 });
 </script>
+</fieldset>

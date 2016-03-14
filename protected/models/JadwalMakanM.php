@@ -129,21 +129,21 @@ class JadwalMakanM extends CActiveRecord
         
         public function getJenisWaktuItems()
         {
-            return JenisWaktuM::model()->findAll('jeniswaktu_aktif=TRUE ORDER BY jeniswaktu_id');
+            return JenisWaktuM::model()->findAll('jeniswaktu_aktif=TRUE ORDER BY jeniswaktu_nama');
         }
         
         public function getJenisdietItems()
         {
-            return JenisdietM::model()->findAll('jenisdiet_aktif=TRUE ORDER BY jenisdiet_id');
+            return JenisdietM::model()->findAll('jenisdiet_aktif=TRUE ORDER BY jenisdiet_nama');
         }
         
         public function getTipeDietItems()
         {
-            return TipeDietM::model()->findAll('tipediet_aktif=TRUE ORDER BY tipediet_id');
+            return TipeDietM::model()->findAll('tipediet_aktif=TRUE ORDER BY tipediet_nama');
         }
         
         public function getMenuDietItems()
         {
-            return MenuDietM::model()->findAll();
+            return MenuDietM::model()->findAll(array('order'=>'menudiet_nama'));
         }
 }

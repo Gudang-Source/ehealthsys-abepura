@@ -1,5 +1,7 @@
-<div class="white-container">
-    <legend class="rim2">Lihat <b>Jadwal Makan</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Lihat <b>Jadwal Makan</b></legend>-->
+<fieldset class="box row-fluid">
+    <legend class="rim">Lihat <b>Jadwal Makanan</b></legend>
     <?php
     $this->breadcrumbs=array(
             'Gzjadwalmakan Ms'=>array('index'),
@@ -27,4 +29,8 @@
                     'menudiet.menudiet_nama',
             ),
     )); ?>
-</div>
+    <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Jadwal Makan', array('{icon}' => '<i class="icon-folder-open icon-white"></i>')), $this->createUrl('jadwalMakanM/admin', array('modul_id' => Yii::app()->session['modul_id'])), array('class' => 'btn btn-success'));
+    ?>
+    <?php $this->widget('UserTips',array('type'=>'view'));?>
+<!--</div>-->
+</fieldset>

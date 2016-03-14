@@ -11,7 +11,7 @@
         <td>
             <?php echo CHtml::label('Jenis Diet','jjenisdiet',array('class'=>"control-label")) ?>
             <div class="controls">
-                <?php echo CHtml::hiddenField('jenisdietid', '', array('readonly'=>true)) ?>
+                <?php echo CHtml::hiddenField('JadwalMakanM[jenisdiet_id]', '', array('readonly'=>true)) ?>
                 <?php $this->widget('MyJuiAutoComplete', array(
                        'name'=>'jenisdiet', 
                         'source'=>'js: function(request, response) {
@@ -35,7 +35,7 @@
                                         return false;
                                         }',
                                    'select'=>'js:function( event, ui ) {
-                                       $("#jenisdietid").val(ui.item.jenisdiet_id);
+                                       $("#JadwalMakanM_jenisdiet_id").val(ui.item.jenisdiet_id);
                                        $("#jenisdiet_nama").val(ui.item.jenisdiet_nama);
                                         return false;
                                     }',
@@ -53,7 +53,7 @@
         <td>
             <?php echo CHtml::label('Tipe Diet','ttipediet',array('class'=>"control-label")) ?>
             <div class="controls">
-                <?php echo CHtml::hiddenField('tipedietid', '', array('readonly'=>true)) ?>
+                <?php echo CHtml::hiddenField('JadwalMakanM[tipediet_id]', '', array('readonly'=>true)) ?>
                 <?php $this->widget('MyJuiAutoComplete', array(
                        'name'=>'tipediet', 
                         'source'=>'js: function(request, response) {
@@ -77,7 +77,7 @@
                                         return false;
                                         }',
                                    'select'=>'js:function( event, ui ) {
-                                       $("#tipedietid").val(ui.item.tipediet_id);
+                                       $("#JadwalMakanM_tipediet_id").val(ui.item.tipediet_id);
                                        $("#tipediet_nama").val(ui.item.tipediet_nama);
                                         return false;
                                     }',
@@ -93,9 +93,13 @@
             </div>
         </td>
         <td>
+            <?php echo CHtml::label('Jenis Waktu','jjeniswaktu',array('class'=>"control-label")); ?>
+            <?php echo CHtml::dropDownList('JadwalMakanM[jeniswaktu_id]',$model->jeniswaktu_id,CHtml::listData($model->getJenisWaktuItems(), 'jeniswaktu_id','jeniswaktu_nama'), array('empty'=>'--Pilih--')); ?>
+        </td>
+        <td>
             <?php echo CHtml::label('Menu Diet','mmenudiet',array('class'=>"control-label")) ?>
             <div class="controls">
-                            <?php echo CHtml::hiddenField('menudietid', '', array('readonly'=>true)) ?>
+                            <?php echo CHtml::hiddenField('JadwalMakanM[menudiet_id]', '', array('readonly'=>true)) ?>
                             <?php $this->widget('MyJuiAutoComplete', array(
                        'name'=>'menudiet', 
                         'source'=>'js: function(request, response) {
@@ -119,7 +123,7 @@
                                         return false;
                                         }',
                                    'select'=>'js:function( event, ui ) {
-                                       $("#menudietid").val(ui.item.menudiet_id);
+                                       $("#JadwalMakanM_menudiet_id").val(ui.item.menudiet_id);
                                         return false;
                                     }',
                         ),
@@ -175,7 +179,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                             array(
                                                     "class"=>"btn-small",
                                                     "id" => "selectJenisdiet",
-                                                    "onClick" => "\$(\"#jenisdietid\").val($data->jenisdiet_id);
+                                                    "onClick" => "\$(\"#JadwalMakanM_jenisdiet_id\").val($data->jenisdiet_id);
                                                                           \$(\"#jenisdiet\").val(\"$data->jenisdiet_nama\");
                                                                           \$(\"#dialogJenisdiet\").dialog(\"close\");"
                                              )
@@ -224,7 +228,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                             array(
                                                     "class"=>"btn-small",
                                                     "id" => "selectTipeDiet",
-                                                    "onClick" => "\$(\"#tipedietid\").val($data->tipediet_id);
+                                                    "onClick" => "\$(\"#JadwalMakanM_tipediet_id\").val($data->tipediet_id);
                                                                           \$(\"#tipediet\").val(\"$data->tipediet_nama\");
                                                                           \$(\"#dialogTipeDiet\").dialog(\"close\");
                                                                           \$(\"#tableJadwalMakan\").append(\"<tr><td>tes..</td></tr>\");"
@@ -273,7 +277,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                             array(
                                                     "class"=>"btn-small",
                                                     "id" => "selectTipeDiet",
-                                                    "onClick" => "\$(\"#menudietid\").val($data->menudiet_id);
+                                                    "onClick" => "\$(\"#JadwalMakanM_menudiet_id\").val($data->menudiet_id);
                                                                           \$(\"#menudiet\").val(\"$data->menudiet_nama\");
                                                                           \$(\"#dialogMenuDiet\").dialog(\"close\");"
                                              )
