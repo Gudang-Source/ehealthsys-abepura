@@ -11,7 +11,11 @@ class PemesananObatAlkesController extends MyAuthController{
     	$modPesanObatalkes->tglpemesanan = date('Y-m-d H:i:s');
     	$modPesanObatalkes->tglmintadikirim = date('Y-m-d H:i:s');
         $modPesanObatalkes->instalasitujuan_id = Params::INSTALASI_ID_FARMASI;
-    	$modDetails = array();
+        $modPesanObatalkes->ruangan_id = Params::RUANGAN_ID_GUDANG_FARMASI;
+    	$modPesanObatalkes->pegawaipemesan_id = Yii::app()->user->getState('pegawai_id');
+        $modPesanObatalkes->statuspesan = Params::STATUSPESAN_BIASA;
+        if (!empty($modPesanObatalkes->pegawaipemesan_id)) $modPesanObatalkes->pegawaipemesan_nama = $modPesanObatalkes->pegawaipemesan->namaLengkap;
+        $modDetails = array();
         $instalasiTujuans = CHtml::listData(GFInstalasiM::getInstalasiTujuanMutasis(),'instalasi_id','instalasi_nama');
         $ruanganTujuans = CHtml::listData(GFRuanganM::getRuanganTujuanMutasis($modPesanObatalkes->instalasitujuan_id),'ruangan_id','ruangan_nama');
 

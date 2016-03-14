@@ -306,7 +306,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                     array(
                         'name'=>'jeniskelamin',
                         'type'=>'raw',
-                        'filter'=>LookupM::model()->getItems('jeniskelamin'),
+                        'filter'=> CHtml::dropDownList('FAPasienM[jeniskelamin]',$modDialogPasien->jeniskelamin,LookupM::model()->getItems('jeniskelamin'), array('empty'=>'--Pilih--')),
                     ),
                     array(
                         'name'=>'instalasi_id',

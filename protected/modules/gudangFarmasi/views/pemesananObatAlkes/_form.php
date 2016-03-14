@@ -42,53 +42,10 @@
 //                                'maxDate' => 'd',
                                 'yearRange'=> "-150:+0",
                             ),
-                            'htmlOptions'=>array('placeholder'=>'00/00/0000 00:00:00','class'=>'dtPicker2 datetimemask','onkeyup'=>"return $(this).focusNextInputField(event)"
+                            'htmlOptions'=>array('class'=>'dtPicker2 realtime','onkeyup'=>"return $(this).focusNextInputField(event)"
                             ),
                     )); ?>
                 </div>
-        </div>
-        <div class="control-group ">
-            <?php echo $form->labelEx($model, 'pegawaimengetahui_id', array('class' => 'control-label')); ?>
-            <div class="controls">
-                <?php echo $form->hiddenField($model, 'pegawaimengetahui_id'); ?>
-                <?php
-                $this->widget('MyJuiAutoComplete', array(
-                    'model'=>$model,
-                    'attribute' => 'pegawaimengetahui_nama',
-                    'source' => 'js: function(request, response) {
-                                       $.ajax({
-                                           url: "' . $this->createUrl('AutocompletePegawai') . '",
-                                           dataType: "json",
-                                           data: {
-                                               term: request.term,
-                                           },
-                                           success: function (data) {
-                                                   response(data);
-                                           }
-                                       })
-                                    }',
-                    'options' => array(
-                        'showAnim' => 'fold',
-                        'minLength' => 3,
-                        'focus' => 'js:function( event, ui ) {
-                            $(this).val( ui.item.label);
-                            return false;
-                        }',
-                        'select' => 'js:function( event, ui ) {
-                            $("#'.Chtml::activeId($model, 'pegawaimengetahui_id') . '").val(ui.item.pegawai_id); 
-                            return false;
-                        }',
-                    ),
-                    'htmlOptions' => array(
-                                            'placeholder'=>'Ketikan Pegawai Mengetahui',
-                        'class'=>'pegawaimengetahui_nama',
-                        'onkeyup'=>"return $(this).focusNextInputField(event)",
-                        'onblur' => 'if(this.value === "") $("#'.Chtml::activeId($model, 'pegawaimengetahui_id') . '").val(""); '
-                    ),
-                    'tombolDialog' => array('idDialog' => 'dialogPegawaiMengetahui'),
-                ));
-                ?>
-            </div>
         </div>
     </div>
     <div class = "span4">
@@ -135,6 +92,49 @@
                 ?>
             </div>
         </div>
+        <div class="control-group ">
+            <?php echo $form->labelEx($model, 'pegawaimengetahui_id', array('class' => 'control-label')); ?>
+            <div class="controls">
+                <?php echo $form->hiddenField($model, 'pegawaimengetahui_id'); ?>
+                <?php
+                $this->widget('MyJuiAutoComplete', array(
+                    'model'=>$model,
+                    'attribute' => 'pegawaimengetahui_nama',
+                    'source' => 'js: function(request, response) {
+                                       $.ajax({
+                                           url: "' . $this->createUrl('AutocompletePegawai') . '",
+                                           dataType: "json",
+                                           data: {
+                                               term: request.term,
+                                           },
+                                           success: function (data) {
+                                                   response(data);
+                                           }
+                                       })
+                                    }',
+                    'options' => array(
+                        'showAnim' => 'fold',
+                        'minLength' => 3,
+                        'focus' => 'js:function( event, ui ) {
+                            $(this).val( ui.item.label);
+                            return false;
+                        }',
+                        'select' => 'js:function( event, ui ) {
+                            $("#'.Chtml::activeId($model, 'pegawaimengetahui_id') . '").val(ui.item.pegawai_id); 
+                            return false;
+                        }',
+                    ),
+                    'htmlOptions' => array(
+                                            'placeholder'=>'Ketikan Pegawai Mengetahui',
+                        'class'=>'pegawaimengetahui_nama',
+                        'onkeyup'=>"return $(this).focusNextInputField(event)",
+                        'onblur' => 'if(this.value === "") $("#'.Chtml::activeId($model, 'pegawaimengetahui_id') . '").val(""); '
+                    ),
+                    'tombolDialog' => array('idDialog' => 'dialogPegawaiMengetahui'),
+                ));
+                ?>
+            </div>
+        </div>
         <?php echo $form->textAreaRow($model,'keterangan_pesan',array('rows'=>3, 'cols'=>50, 'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);",'placeholder'=>'Keterangan Pesan')); ?>
     </div>
 </div>
@@ -155,12 +155,13 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 
 $modPegawaiMengetahui = new GFPegawaiV('searchDialog');
 $modPegawaiMengetahui->unsetAttributes();
+$modPegawaiMengetahui->ruangan_id = Yii::app()->user->getState("ruangan_id");
 if(isset($_GET['GFPegawaiV'])) {
     $modPegawaiMengetahui->attributes = $_GET['GFPegawaiV'];
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'pegawaimengetahui-grid',
-    'dataProvider'=>$modPegawaiMengetahui->searchDialog(),
+    'dataProvider'=>$modPegawaiMengetahui->searchDialogMengetahui(),
     'filter'=>$modPegawaiMengetahui,
         'template'=>"{items}\n{pager}",
 //        'template'=>"{summary}\n{items}\n{pager}",

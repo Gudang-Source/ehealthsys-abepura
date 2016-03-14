@@ -1,8 +1,8 @@
-<div class="white-container">
-    <legend class="rim2">Pengaturan <b>Bahan Makanan</b></legend>
-    <?php $this->renderPartial('_tabMenu',array()); ?>
-    <div class="biru">
-        <div class="white">
+<fieldset class="box row-fluid">
+    <legend class="rim">Pengaturan <b>Bahan Makanan</b></legend>
+    <?php //$this->renderPartial('_tabMenu',array()); ?>
+    <!--<div class="biru">
+        <div class="white">-->
             <?php
             $this->breadcrumbs=array(
                     'gzbahanmakanan Ms'=>array('index'),
@@ -28,8 +28,10 @@
                     return false;
             });
             ");
-
+            //var_dump(Yii::app()->user->getFlash('success'));
+            
             $this->widget('bootstrap.widgets.BootAlert'); ?>
+    
             <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-white icon-accordion"></i>')),'#',array('class'=>'search-button btn')); ?>
             <div class="cari-lanjut3 search-form" style="display:none">
                 <?php $this->renderPartial('_search',array(
@@ -43,7 +45,7 @@
                     'dataProvider'=>$model->search(),
                     'filter'=>$model,
                             'itemsCssClass'=>'table table-striped table-condensed',
-                            'template'=>"{summary}{pager}\n{items}",
+                            'template'=>"{summary}\n{items}{pager}",
                     'columns'=>array(
                             array(
                                     'header'=>'ID',
@@ -51,22 +53,22 @@
                                 ),
                             array(
                                     'name'=>'golbahanmakanan_id',
-                                    'filter'=>CHtml::listData($model->getGolBahanMakananItems(), 'golbahanmakanan_id','golbahanmakanan_nama'),
+                                    'filter'=> CHtml::dropDownList('BahanmakananM[golbahanmakanan_id]', $model->golbahanmakanan_id,CHtml::listData($model->getGolBahanMakananItems(), 'golbahanmakanan_id','golbahanmakanan_nama'), array('empty'=>'--Pilih--')),
                                     'value'=>'$data->golbahanmakanan->golbahanmakanan_nama',
                                 ),
                     array(
                                     'name'=>'sumberdanabhn',
-                                    'filter'=>CHtml::listData($model->SumberDanaItems, 'lookup_name', 'lookup_value'),
+                                    'filter'=> CHtml::dropDownList('BahanmakananM[sumberdanabhn]', $model->sumberdanabhn,CHtml::listData($model->SumberDanaItems, 'lookup_name', 'lookup_value'), array('empty'=>'--Pilih--')),
                                     'value'=>'$data->sumberdanabhn',
                                 ),
                     array(
                                     'name'=>'jenisbahanmakanan',
-                                    'filter'=>CHtml::listData($model->JenisBahanMakananItems, 'lookup_name', 'lookup_value'),
+                                    'filter'=> CHtml::dropDownList('BahanmakananM[jenisbahanmakanan]', $model->jenisbahanmakanan,CHtml::listData($model->JenisBahanMakananItems, 'lookup_name', 'lookup_value'), array('empty'=>'--Pilih--')),
                                     'value'=>'$data->jenisbahanmakanan',
                                 ),
                     array(
                                     'name'=>'kelbahanmakanan',
-                                    'filter'=>CHtml::listData($model->KelBahanMakananItems, 'lookup_name', 'lookup_value'),
+                                    'filter'=> CHtml::dropDownList('BahanmakananM[kelbahanmakanan]', $model->kelbahanmakanan,CHtml::listData($model->KelBahanMakananItems, 'lookup_name', 'lookup_value'), array('empty'=>'--Pilih--')),
                                     'value'=>'$data->kelbahanmakanan',
                                 ),
                             'namabahanmakanan',
@@ -120,8 +122,8 @@
                     }',
                 )); ?>
             <!--</div>-->
-        </div>
-    </div>
+        <!--</div>
+    </div>-->
     <?php 
     echo CHtml::link(Yii::t('mds', '{icon} Tambah Bahan Makanan', array('{icon}'=>'<i class="icon-plus icon-white"></i>')), $this->createUrl('bahanMakananM/create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp";
     echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
@@ -147,7 +149,7 @@ function print(caraPrint)
 JSCRIPT;
     Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);                        
     ?>
-</div>
+<!--</div>-->
 <script type="text/javascript">
     function deleteRecord(id){
         var id = id;
@@ -170,3 +172,4 @@ $(document).ready(function(){
 $("input[name='BahanmakananM[namabahanmakanan]']").focus();
 });
 </script>
+</fieldset>

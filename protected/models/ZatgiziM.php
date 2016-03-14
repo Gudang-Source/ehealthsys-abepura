@@ -89,7 +89,7 @@ class ZatgiziM extends CActiveRecord
 		$criteria->compare('LOWER(zatgizi_satuan)',strtolower($this->zatgizi_satuan),true);
 		$criteria->compare('LOWER(zatgizi_namalainnya)',strtolower($this->zatgizi_namalainnya),true);
 		$criteria->compare('zatgizi_aktif',isset($this->zatgizi_aktif)?$this->zatgizi_aktif:true);
-		$criteria->order='zatgizi_id';
+		//$criteria->order='zatgizi_id';
 //                $criteria->addCondition('zatgizi_aktif is true');
 
 		return new CActiveDataProvider($this, array(

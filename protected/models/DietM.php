@@ -58,9 +58,9 @@ class DietM extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-                                                'tipediet' => array(self::BELONGS_TO, 'TipeDietM', 'tipediet_id'),
+                        'tipediet' => array(self::BELONGS_TO, 'TipeDietM', 'tipediet_id'),
 			'zatgizi' => array(self::BELONGS_TO, 'ZatgiziM', 'zatgizi_id'),
-                                                'jenisdiet' => array(self::BELONGS_TO, 'JenisdietM', 'jenisdiet_id'),
+                        'jenisdiet' => array(self::BELONGS_TO, 'JenisdietM', 'jenisdiet_id'),
 		);
 	}
 

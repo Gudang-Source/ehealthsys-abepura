@@ -1,8 +1,11 @@
-<div class="white-container">
-    <legend class="rim2">Pengaturan <b>Bahan Diet</b></legend>
-    <?php $this->renderPartial('_tabMenu',array()); ?>
-    <div class="biru">
-        <div class="white">
+<!--<div class="white-container">
+    <legend class="rim2">Pengaturan <b>Bahan Diet</b></legend>-->
+<fieldset class="box row-fluid">
+    <legend class="rim">Pengaturan <b>Bahan Diet</b></legend>
+    <?php //$this->renderPartial('_tabMenu',array()); ?>
+    <!--<div class="biru">
+        <div class="white">-->
+    
             <?php
             $this->breadcrumbs=array(
                     'gzbahandiet Ms'=>array('index'),
@@ -43,7 +46,7 @@
                     'dataProvider'=>$model->search(),
                     'filter'=>$model,
                             'itemsCssClass'=>'table table-condensed table-striped',
-                            'template'=>"{summary}{pager}\n{items}",
+                            'template'=>"{summary}\n{items}{pager}",
                     'columns'=>array(
                             array(
                                                 'header'=>'ID',
@@ -164,3 +167,4 @@ $(document).ready(function(){
 $("input[name='BahandietM[bahandiet_nama]']").focus();
 });
 </script>
+</fieldset>

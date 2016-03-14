@@ -7,14 +7,14 @@ class BahanMakananMController extends MyAuthController
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
 	public $layout='//layouts/column1';
-                public $defaultAction='admin';
+                public $defaultAction='index';
 
 	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */
 	public function actionView($id)
-	{
+	{   $this->layout = '//layouts/iframe';
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
 		));
@@ -25,7 +25,7 @@ class BahanMakananMController extends MyAuthController
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
 	public function actionCreate()
-	{
+	{   $this->layout = '//layouts/iframe';
 		$model=new BahanmakananM;
                                 $models=new ZatBahanMakananM;
 
@@ -52,7 +52,7 @@ class BahanMakananMController extends MyAuthController
                                                     } 
                                                 }
                                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!!</strong> Data berhasil disimpan.');
-                                                $this->redirect(array('admin'));
+                                                $this->redirect(array('admin','tab'=>'frame'));
 		}
 
 		$this->render('create',array(
@@ -66,7 +66,7 @@ class BahanMakananMController extends MyAuthController
 	 * @param integer $id the ID of the model to be updated
 	 */
 	public function actionUpdate($id)
-	{
+	{   $this->layout = '//layouts/iframe';
                 $zatgizi = "";
 		$model=BahanmakananM::model()->findByPK($id);
                                 $modZatBahanMakananM=ZatBahanMakananM::model()->findAllByAttributes(array('bahanmakanan_id'=>$model->bahanmakanan_id));
@@ -95,7 +95,7 @@ class BahanMakananMController extends MyAuthController
                                                 }
                                                 if($model->save())
                                                         Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-                                                        $this->redirect(array('admin','id'=>$model->bahanmakanan_id));
+                                                        $this->redirect(array('admin','id'=>$model->bahanmakanan_id ,'tab'=>'frame'));
 		}
 
 		$this->render('update',array(
@@ -159,6 +159,13 @@ class BahanMakananMController extends MyAuthController
 	 */
 	public function actionAdmin()
 	{
+                if (!isset($_GET['tab'])):
+                    //$this->layout = '//layouts/column1';    
+                    $this->redirect($this->createUrl('/gizi/BahanMakananM&modul_id',array('modul_id'=>Yii::app()->session['modul_id'])));
+                else:
+                    $this->layout = '//layouts/iframe';
+                endif;
+            
 		$model=new BahanmakananM('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['BahanmakananM']))
@@ -221,7 +228,7 @@ class BahanMakananMController extends MyAuthController
                         $mpdf->WriteHTML($stylesheet,1);  
                         $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
                         $mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-                        $mpdf->Output();
+                        $mpdf->Output($judulLaporan.'-'.date('Y/m/d').'.pdf','I');
                     }                       
                 }
 }

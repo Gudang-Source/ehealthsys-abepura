@@ -117,11 +117,11 @@ class ZatMenuDietM extends CActiveRecord
         
         public function getZatgiziItems()
         {
-            return ZatgiziM::model()->findAll('zatgizi_aktif=TRUE ORDER BY zatgizi_id');
+            return ZatgiziM::model()->findAll('zatgizi_aktif=TRUE ORDER BY zatgizi_nama');
         }
         
         public function getMenuDietItems()
         {
-            return MenuDietM::model()->findAll();
+            return MenuDietM::model()->findAll(array('order'=>'menudiet_nama'));
         }
 }

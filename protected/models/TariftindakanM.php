@@ -179,6 +179,23 @@ class TariftindakanM extends CActiveRecord
 
                 return new CActiveDataProvider($this, array(
                         'criteria'=>$criteria,
+                        'sort' => array(
+                            'attributes' => array(
+                                'daftartindakan_nama' => array(
+                                    'asc' => 'daftartindakan.daftartindakan_nama ASC',
+                                    'desc' => 'daftartindakan.daftartindakan_nama DESC',
+                                ),
+                                 'tindakanmedis_nama' => array(
+                                    'asc' => 'daftartindakan.tindakanmedis_nama ASC',
+                                    'desc' => 'daftartindakan.tindakanmedis_nama DESC',
+                                ),
+                                 'kelaspelayanan_nama' => array(
+                                    'asc' => 'kelaspelayanan.kelaspelayanan_nama ASC',
+                                    'desc' => 'kelaspelayanan.kelaspelayanan_nama DESC',
+                                ),
+                                '*',
+                            )
+                        )
                 ));
         }
         

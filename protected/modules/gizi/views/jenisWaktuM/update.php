@@ -1,5 +1,7 @@
-<div class="white-container">
-    <legend class="rim2">Ubah <b>Jenis Waktu</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Ubah <b>Jenis Waktu</b></legend>-->
+<fieldset class="box row-fluid">
+    <legend class="rim">Ubah <b>Jenis Waktu</b></legend>
     <?php
     $this->breadcrumbs=array(
             'Gzjeniswaktu Ms'=>array('index'),
@@ -20,4 +22,5 @@
 
     <?php echo $this->renderPartial('_form',array('model'=>$model)); ?>
     <?php //$this->widget('UserTips',array('type'=>'update'));?>
-</div>
+<!--</div>-->
+</fieldset>

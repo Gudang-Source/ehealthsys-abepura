@@ -1,5 +1,7 @@
-<div class="white-container">
-    <legend class="rim2">Ubah <b>Tipe Diet</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Ubah <b>Tipe Diet</b></legend>-->
+<fieldset class="box row-fluid">
+    <legend class="rim">Ubah <b>Tipe Diet</b></legend>
     <?php
     $this->breadcrumbs=array(
             'Gztipediet Ms'=>array('index'),
@@ -19,4 +21,5 @@
     $this->widget('bootstrap.widgets.BootAlert'); ?>
 
     <?php echo $this->renderPartial('_form',array('model'=>$model)); ?>
-</div>
+<!--</div>-->
+</fieldset>

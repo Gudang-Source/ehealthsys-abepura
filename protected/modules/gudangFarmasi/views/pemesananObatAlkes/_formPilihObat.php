@@ -2,7 +2,7 @@
     <tr>
         <td>
             <div class="control-group ">
-                <?php echo CHtml::label('Nama Obat & Kesehatan', 'obatalkes_nama', array('class'=>'control-label')); ?>
+                <?php echo CHtml::label('Obat & Alat Kesehatan', 'obatalkes_nama', array('class'=>'control-label')); ?>
                 <div class="controls">
                     <?php echo CHtml::hiddenField('obatalkes_id'); ?>
                     <?php echo CHtml::hiddenField('obatalkes_kode'); ?>
@@ -67,7 +67,7 @@
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     'id'=>'dialogObatAlkes',
     'options'=>array(
-        'title'=>'Obat & Alat Kesehatan',
+        'title'=>'Daftar Stok <span id="dialog_ruangan"></span>',
         'autoOpen'=>false,
         'modal'=>true,
         'width'=>980,
@@ -89,8 +89,8 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'obatalkes-m-grid',
 	'dataProvider'=>$modObatAlkes->searchDialog(),
 	'filter'=>$modObatAlkes,
-        'template'=>"{items}\n{pager}",
-//        'template'=>"{summary}\n{items}\n{pager}",
+        // 'template'=>"{items}\n{pager}",
+        'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
 	'columns'=>array(
                 array(
@@ -109,33 +109,34 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'name'=>'jenisobatalkes_id',
                     'type'=>'raw',
                     'value'=>'(!empty($data->jenisobatalkes_id) ? $data->jenisobatalkes->jenisobatalkes_nama : "")',
-                    'filter'=>  CHtml::listData(JenisobatalkesM::model()->findAll(), 'jenisobatalkes_id','jenisobatalkes_nama'),
+                    'filter'=>  Chtml::activeDropDownList($modObatAlkes, 'jenisobatalkes_id', CHtml::listData(JenisobatalkesM::model()->findAll(), 'jenisobatalkes_id','jenisobatalkes_nama'), array('empty'=>'-- Pilih --')),
                 ),
-                'obatalkes_nama',
-                //'obatalkes_kategori',
-                // yang bawah
-                array(
-                    'name'=>'obatalkes_kategori',
-                    'type'=>'raw',
-                    'value'=>'$data->obatalkes_kategori',
-                    'filter'=> LookupM::getItems('obatalkes_kategori'),
-                ),
-            
-                //'obatalkes_golongan',
-                //yangbawah
                 array(
                     'name'=>'obatalkes_golongan',
                     'type'=>'raw',
                     'value'=>'$data->obatalkes_golongan',
-                    'filter'=> LookupM::getItems('obatalkes_golongan'),
+                    'filter'=> CHtml::activeDropDownList($modObatAlkes, 'obatalkes_kategori', LookupM::getItems('obatalkes_golongan'), array('empty'=>'-- Pilih --')),
                 ),
-            
+                array(
+                    'name'=>'obatalkes_kategori',
+                    'type'=>'raw',
+                    'value'=>'$data->obatalkes_kategori',
+                    'filter'=> CHtml::activeDropDownList($modObatAlkes, 'obatalkes_kategori', LookupM::getItems('obatalkes_kategori'), array('empty'=>'-- Pilih --')),
+                ),
+                'obatalkes_nama',
+                //'obatalkes_kategori',
+                // yang bawah
+                //'obatalkes_golongan',
+                //yangbawah
+                /*
                 array(
                     'name'=>'satuankecil_id',
                     'type'=>'raw',
                     'value'=>'$data->satuankecil->satuankecil_nama',
                     'filter'=>  CHtml::listData(SatuankecilM::model()->findAll(), 'satuankecil_id','satuankecil_nama'),
                 ),
+                 * 
+                 */
 		// dicomment karena RND-5732
 //                array(
 //                    'name'=>'hargajual',
@@ -146,7 +147,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 array(
                     'header'=>'Jumlah Stok',
                     'type'=>'raw',
-                    'value'=>'$data->StokObatRuanganPemesan',
+                    'value'=>'$data->StokObatRuanganPemesan." ".(empty($data->satuankecil_id)?"":$data->satuankecil->satuankecil_nama)',
                     'htmlOptions'=>array('style' => 'text-align: right;')
                 ),  
 	),

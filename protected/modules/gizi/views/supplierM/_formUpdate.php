@@ -32,7 +32,12 @@
 				</div>
 			</div>
 			<?php
-				$propinsi_id = isset($model->supplier_propinsi) ? PropinsiM::model()->findByPk($model->supplier_propinsi)->propinsi_id : null;
+                             $cek = $model->supplier_propinsi;
+                            $propinsi_id = '';        
+                            if ($cek != ''):
+                               $propinsi_id = PropinsiM::model()->findByPk($model->supplier_propinsi)->propinsi_id;
+                            endif;
+				//$propinsi_id = isset($model->supplier_propinsi) ? PropinsiM::model()->findByPk($model->supplier_propinsi)->propinsi_id : null;
 			?>
 			<?php echo $form->dropDownListRow($model,'supplier_kabupaten', CHtml::listData($model->getKabupatenItems($propinsi_id), 'kabupaten_id', 'kabupaten_nama') ,array('empty'=>'-- Pilih --',
 												'onkeyup'=>"return $(this).focusNextInputField(event)",

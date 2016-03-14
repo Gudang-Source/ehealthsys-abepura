@@ -121,6 +121,6 @@ class ZatBahanMakananM extends CActiveRecord
         
         public function getBahanMakananItems()
         {
-            return BahanmakananM::model()->findAll();
+            return BahanmakananM::model()->findAll(array('order'=>'namabahanmakanan ASC'));
         }
 }

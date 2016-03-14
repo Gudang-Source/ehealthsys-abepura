@@ -136,7 +136,9 @@ function formatNumberSemua(){
 
 function refreshDialogOA(){
 	$("#obatalkes_nama").addClass("animation-loading-1");
+        var ru = $("#GFPesanobatalkesT_ruangan_id option:selected").html();
 	setTimeout(function(){
+                $("#dialog_ruangan").html(ru);
 		$("#obatalkes_nama").removeClass("animation-loading-1");
 	},500);
 }
@@ -173,5 +175,6 @@ $(document).ready(function(){
     <?php
         }
     ?>
+    refreshDialogOA();
 });
 </script>
