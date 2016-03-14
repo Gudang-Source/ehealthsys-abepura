@@ -12,12 +12,12 @@
 <table width="100%">
     <tr>
         <td>
-            <?php echo $form->textFieldRow($model,'tipediet_nama',array('class'=>'span3', 'onkeyup'=>"namaLain(this)", 'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+            <?php echo $form->textFieldRow($model,'tipediet_nama',array('class'=>'span3', 'onkeyup'=>"namaLain(this)", 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>400)); ?>
         </td>
     </tr>
     <tr>
         <td>
-            <?php echo $form->textFieldRow($model,'tipediet_namalainnya',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+            <?php echo $form->textFieldRow($model,'tipediet_namalainnya',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>400)); ?>
         </td>
     </tr>
     <tr>

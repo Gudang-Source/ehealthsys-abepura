@@ -18,7 +18,15 @@
                 'empty'=>'-- Pilih --',)); ?>
         </td>
         <td>
-            <?php echo $form->textFieldRow($model,'diet_kandungan'); ?>
+            <?php
+                echo $form->dropDownListRow($model,'zatgizi_id',
+                CHtml::listData($model->ZatgiziItems, 'zatgizi_id', 'zatgizi_nama'),
+                array('class'=>'inputRequire', 'onkeypress'=>"return $(this).focusNextInputField(event)",
+                'empty'=>'-- Pilih --',));                
+            ?>
+        </td>
+        <td>
+            <?php echo $form->textFieldRow($model,'diet_kandungan', array('class'=>'numbersOnly')); ?>
         </td>
     </tr>
 </table>

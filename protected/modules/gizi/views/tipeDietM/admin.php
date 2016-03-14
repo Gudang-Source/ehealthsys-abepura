@@ -1,8 +1,10 @@
-<div class="white-container">
-    <legend class="rim2">Pengaturan <b>Tipe Diet</b></legend>
-    <?php $this->renderPartial('_tabMenu',array()); ?>
-    <div class="biru">
-        <div class="white">
+<!--<div class="white-container">
+    <legend class="rim2">Pengaturan <b>Tipe Diet</b></legend>-->
+<fieldset class="box row-fluid">
+    <legend class="rim">Pengaturan <b>Tipe Diet</b></legend>
+    <?php //$this->renderPartial('_tabMenu',array()); ?>
+    <!--<div class="biru">
+        <div class="white">-->
             <?php
             $this->breadcrumbs=array(
                     'Gztipediet Ms'=>array('index'),
@@ -97,8 +99,8 @@
                     }',
                 )); ?>
             <!--</div>-->
-        </div>
-    </div>
+        <!--</div>
+    </div>-->
     <?php 
     echo CHtml::link(Yii::t('mds', '{icon} Tambah Tipe Diet', array('{icon}'=>'<i class="icon-plus icon-white"></i>')), $this->createUrl('tipeDietM/create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp";
     echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
@@ -165,3 +167,4 @@ $(document).ready(function(){
 $("input[name='TipeDietM[tipediet_nama]']").focus();
 })
 </script>
+</fieldset>

@@ -1,5 +1,7 @@
-<div class="white-container">
-    <legend class="rim2">Lihat <b>Zat Gizi</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Lihat <b>Zat Gizi</b></legend>-->
+<fieldset class="box row-fluid">
+    <legend class="rim">Lihat <b>Zat Gizi</b></legend>
     <?php
     $this->breadcrumbs=array(
             'Gzpropinsi Ms'=>array('index'),
@@ -32,6 +34,8 @@
                     ),
             ),
     )); ?>
-
+    <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Zat Gizi', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
+                                                $this->createUrl('ZatgiziM/admin',array('modul_id'=> Yii::app()->session['modul_id'],'tab'=>'frame')), array('class'=>'btn btn-success'));?>
     <?php $this->widget('UserTips',array('type'=>'view'));?>
-</div>
+<!--</div>-->
+</fieldset>

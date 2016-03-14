@@ -1,8 +1,10 @@
-<div class="white-container">
-    <legend class="rim2">Pengaturan Bahan <b>Menu Diet</b></legend>
-    <?php echo $this->renderPartial('_tabMenu',array()); ?>
-    <div class="biru">
-        <div class="white">
+<!--<div class="white-container">
+    <legend class="rim2">Pengaturan Bahan <b>Menu Diet</b></legend>-->
+<fieldset class="box row-fluid">
+    <legend class="rim">Pengaturan <b>Bahan Menu Diet</b></legend>
+    <?php //echo $this->renderPartial('_tabMenu',array()); ?>
+    <!--<div class="biru">
+        <div class="white">-->
             <?php
             $this->breadcrumbs=array(
                     'Gzbahanmenudiet Ms'=>array('index'),
@@ -104,8 +106,8 @@
                     }',
                 )); ?>
             <!--</div>-->
-        </div>
-    </div>
+        <!--</div>
+    </div>-->
     <?php 
     echo CHtml::link(Yii::t('mds', '{icon} Tambah Bahan Menu Diet', array('{icon}'=>'<i class="icon-plus icon-white"></i>')), $this->createUrl('bahanMenuDietM/create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp";
     echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
@@ -136,3 +138,4 @@ JSCRIPT;
     $("input[name='BahanMenuDietM[jmlbahan]']").focus();
     });
 </script>
+    </fieldset>

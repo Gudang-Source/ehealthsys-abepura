@@ -1,8 +1,10 @@
-<div class="white-container">
-    <legend class="rim2">Pengaturan Zat <b>Menu Diet</b></legend>
-    <?php $this->renderPartial('_tabMenu',array()); ?>
-    <div class="biru">
-        <div class="white">
+<!--<div class="white-container">
+    <legend class="rim2">Pengaturan Zat <b>Menu Diet</b></legend>-->
+<fieldset class="box row-fluid">
+    <legend class="rim">Pengaturan <b>Zat Menu Diet</b></legend>
+    <?php //$this->renderPartial('_tabMenu',array()); ?>
+    <!--<div class="biru">
+        <div class="white">-->
             <?php
             $this->breadcrumbs=array(
                     'Gzzatmenudiet Ms'=>array('index'),
@@ -43,7 +45,7 @@
                     'dataProvider'=>$model->search(),
                     'filter'=>$model,
                             'itemsCssClass'=>'table table-striped table-condensed',
-                            'template'=>"{summary}{pager}\n{items}",
+                            'template'=>"{summary}\n{items}{pager}",
                     'columns'=>array(
                             array(
                                 'header'=>'ID',
@@ -51,12 +53,12 @@
                             ),
                             array(
                                 'name'=>'zatgizi_id',
-                                'filter'=>CHtml::listData($model->getZatgiziItems(),'zatgizi_id','zatgizi_nama'),
+                                'filter'=> CHtml::dropDownList('ZatMenuDietM[zatgizi_id]',$model->zatgizi_id,CHtml::listData($model->getZatgiziItems(),'zatgizi_id','zatgizi_nama'),array('empty'=>'--Pilih--')),
                                 'value'=>'$data->zatgizi->zatgizi_nama',
                             ),
                             array(
                                 'name'=>'menudiet_id',
-                                'filter'=>CHtml::listData($model->getMenuDietItems(),'menudiet_id','menudiet_nama'),
+                                'filter'=> CHtml::dropDownList('ZatMenuDietM[menudiet_id]',$model->menudiet_id,CHtml::listData($model->getMenuDietItems(),'menudiet_id','menudiet_nama'),array('empty'=>'--Pilih--')),
                                 'value'=>'$data->menudiet->menudiet_nama',
                             ),
                             'kandunganmenudiet',
@@ -102,8 +104,8 @@
                     }',
                 )); ?>
             <!--</div>-->
-        </div>
-    </div>
+        <!--</div>
+    </div>-->
     <?php 
     echo CHtml::link(Yii::t('mds', '{icon} Tambah Zat Menu Diet', array('{icon}'=>'<i class="icon-plus icon-white"></i>')), $this->createUrl('zatMenuDietM/create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp";
     echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
@@ -129,9 +131,10 @@ function print(caraPrint)
 JSCRIPT;
     Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);                        
     ?>
-</div>
+<!--</div>-->
 <script>
 $(document).ready(function(){
 $("input[name='ZatMenuDietM[kandunganmenudiet]']").focus();
 });
 </script>
+</fieldset>
