@@ -1,8 +1,10 @@
-<div class="white-container">
-    <legend class="rim2">Pengaturan <b>Diet</b></legend>
-    <?php $this->renderPartial('_tabMenu',array()); ?>
-    <div class="biru">
-        <div class="white">
+<!--<div class="white-container">
+    <legend class="rim2">Pengaturan <b>Diet</b></legend>-->
+<fieldset class="box row-fluid">
+    <legend class="rim">Pengaturan <b>Diet</b></legend>
+    <?php //$this->renderPartial('_tabMenu',array()); ?>
+    <!--<div class="biru">
+        <div class="white">-->
             <?php
             $this->breadcrumbs=array(
                     'Gzdiet Ms'=>array('index'),
@@ -47,20 +49,24 @@
                     'columns'=>array(
                                             array(
                                                 'name'=>'tipediet_id',
-                                                'filter'=>CHtml::listData($model->getTipeDietItems(), 'tipediet_id','tipediet_nama'),
+                                                'filter'=> CHtml::dropDownList('DietM[tipediet_id]',$model->tipediet_id,CHtml::listData($model->getTipeDietItems(), 'tipediet_id','tipediet_nama'), array('empty'=>'--Pilih--')),
                                                 'value'=>'$data->tipediet->tipediet_nama',
                                             ),
                             array(
                                                 'name'=>'jenisdiet_id',
-                                                'filter'=>CHtml::listData($model->getJenisdietItems(), 'jenisdiet_id','jenisdiet_nama'),
+                                                'filter'=> CHtml::dropDownList('DietM[jenisdiet_id]',$model->jenisdiet_id,CHtml::listData($model->getJenisdietItems(), 'jenisdiet_id','jenisdiet_nama'), array('empty'=>'--Pilih--')),
                                                 'value'=>'$data->jenisdiet->jenisdiet_nama',
                                             ),
                             array(
                                                 'name'=>'zatgizi_id',
-                                                'filter'=> CHtml::listData($model->getZatgiziItems(), 'zatgizi_id','zatgizi_nama'),
+                                                'filter'=> CHtml::dropDownList('DietM[zatgizi_id]',$model->zatgizi_id,CHtml::listData($model->getZatgiziItems(), 'zatgizi_id','zatgizi_nama'), array('empty'=>'--Pilih--')),
                                                 'value'=>'$data->zatgizi->zatgizi_nama',
                                             ),
-                            'diet_kandungan',
+                            //'diet_kandungan',
+                            array(
+                                'name' => 'diet_kandungan',
+                                'filter' => CHtml::activeTextField($model, 'diet_kandungan', array('class'=>'numbersOnly')),
+                            ),
                                             array(
                                                 'header'=>Yii::t('zii','View'),
                                                 'class'=>'bootstrap.widgets.BootButtonColumn',
@@ -103,10 +109,10 @@
                     }',
                 )); ?>
             <!--</div>-->
-        </div>
-    </div>
+        <!--</div>
+    </div>-->
     <?php 
-    echo CHtml::link(Yii::t('mds', '{icon} Tambah Bahan Diet', array('{icon}'=>'<i class="icon-plus icon-white"></i>')), $this->createUrl('dietM/create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp";
+    echo CHtml::link(Yii::t('mds', '{icon} Tambah Diet', array('{icon}'=>'<i class="icon-plus icon-white"></i>')), $this->createUrl('dietM/create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp";
     echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
     echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
     echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
@@ -130,7 +136,28 @@ $js = <<< JSCRIPT
     
     }
 JSCRIPT;
-    Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);                        
+    Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);   
+    
+  $js = <<< JS
+$('.numbersOnly').keyup(function() {
+var d = $(this).attr('numeric');
+var value = $(this).val();
+var orignalValue = value;
+value = value.replace(/[0-9.]*/g, "");
+var msg = "Only Integer Values allowed.";
+
+if (d == 'decimal') {
+value = value.replace(/\./, "");
+msg = "Only Numeric Values allowed.";
+}
+
+if (value != '') {
+orignalValue = orignalValue.replace(/([^0-9.].*)/g, "")
+$(this).val(orignalValue);
+}
+});
+JS;
+Yii::app()->clientScript->registerScript('numberOnly',$js,CClientScript::POS_READY);    
     ?>
 </div>
 <script>
@@ -138,3 +165,4 @@ $(document).ready(function(){
 $("input[name='DietM[diet_kandungan]']").focus();
 });
 </script>
+</fieldset>

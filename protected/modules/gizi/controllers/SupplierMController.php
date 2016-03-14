@@ -40,9 +40,22 @@ class SupplierMController extends MyAuthController
                     $transaction = Yii::app()->db->beginTransaction();
                     try {
                             $model->attributes=$_POST['GZSupplierM'];
-							$propinsi = PropinsiM::model()->findByPk($_POST['GZSupplierM']['supplier_propinsi']);
-							$model->supplier_propinsi = isset($_POST['GZSupplierM']['supplier_propinsi']) ?  $propinsi->propinsi_nama : "";
-							$model->supplier_kabupaten = isset($_POST['GZSupplierM']['supplier_kabupaten']) ? KabupatenM::model()->findByPk($_POST['GZSupplierM']['supplier_kabupaten'])->kabupaten_nama : "";
+                            
+                            $propinsi_nama = '';
+                            $kabupaten_nama = '';
+                            
+                            $cek = $_POST['GZSupplierM']['supplier_propinsi'];
+                                if ($cek != ''):
+                                    
+                                    
+                                    $propinsi = PropinsiM::model()->findByPk($_POST['GZSupplierM']['supplier_propinsi']);    
+                                    $propinsi_nama = $propinsi->propinsi_nama;
+                                    $kabupaten_nama = KabupatenM::model()->findByPk($_POST['GZSupplierM']['supplier_kabupaten'])->kabupaten_nama;
+                                endif;
+                                    
+                                $model->supplier_propinsi = isset($_POST['GZSupplierM']['supplier_propinsi']) ?  $propinsi_nama : "";
+                                $model->supplier_kabupaten = isset($_POST['GZSupplierM']['supplier_kabupaten']) ? $kabupaten_nama : "";
+                               
                             if($model->validate()){//Jika Data Untuk Model Supplier Valid
                             if($model->save()){//Jika Model Supplier Sudah Disimpan
                              $this->successSaveSupplier=true;
@@ -75,7 +88,7 @@ class SupplierMController extends MyAuthController
 	            if($this->successSaveSupplier && ($cekObatAlkes == $jumlahObatAlkes)){
 	               $transaction->commit();
 	               Yii::app()->user->setFlash('success', "Data Suplier dan Obat Supplier Berhasil Disimpan");
-	               $this->redirect(array('admin'));
+	               $this->redirect(array('admin','id'=>1));
 	            }else{
 	              Yii::app()->user->setFlash('error', "Data Suplier dan Obat Supplier Gagal Disimpan");
 	            }     
@@ -105,8 +118,19 @@ class SupplierMController extends MyAuthController
 		
 		$propinsi = PropinsiM::model()->findByAttributes(array('propinsi_nama'=>$model->supplier_propinsi));
 		$kabupaten = KabupatenM::model()->findByAttributes(array('kabupaten_nama'=>$model->supplier_kabupaten));
-		$model->supplier_propinsi = isset($model->supplier_propinsi) ?  $propinsi->propinsi_id : "";
-		$model->supplier_kabupaten = isset($model->supplier_kabupaten) ? $kabupaten->kabupaten_id : "";
+                
+                $propinsi_id = $model->supplier_propinsi;
+                $kabupaten_id = $model->supplier_propinsi;
+                
+                if ($propinsi_id != ''):
+                   $model->supplier_propinsi = $propinsi->propinsi_id;
+                endif;
+                
+                 if ($kabupaten_id != ''):
+                   $model->supplier_kabupaten = $kabupaten->kabupaten_id;
+                endif;
+		//$model->supplier_propinsi = isset($model->supplier_propinsi) ?  $propinsi->propinsi_id : "";
+		//$model->supplier_kabupaten = isset($model->supplier_propinsi) ? $kabupaten->kabupaten_id : "";
 		if(isset($_POST['GZSupplierM']))
 		{
 			if(isset($_POST['GZSupplierM']))
@@ -115,9 +139,24 @@ class SupplierMController extends MyAuthController
                            $transaction = Yii::app()->db->beginTransaction();
                            try {
                                 $model->attributes=$_POST['GZSupplierM'];
-								$propinsi = PropinsiM::model()->findByPk($_POST['GZSupplierM']['supplier_propinsi']);
-								$model->supplier_propinsi = isset($_POST['GZSupplierM']['supplier_propinsi']) ?  $propinsi->propinsi_nama : "";
-								$model->supplier_kabupaten = isset($_POST['GZSupplierM']['supplier_kabupaten']) ? KabupatenM::model()->findByPk($_POST['GZSupplierM']['supplier_kabupaten'])->kabupaten_nama : "";
+                                    //$propinsi = PropinsiM::model()->findByPk($_POST['GZSupplierM']['supplier_propinsi']);
+                                    //$model->supplier_propinsi = isset($_POST['GZSupplierM']['supplier_propinsi']) ?  $propinsi->propinsi_nama : "";
+                                    //$model->supplier_kabupaten = isset($_POST['GZSupplierM']['supplier_kabupaten']) ? KabupatenM::model()->findByPk($_POST['GZSupplierM']['supplier_kabupaten'])->kabupaten_nama : "";
+                                     $propinsi_nama = '';
+                                    $kabupaten_nama = '';
+                                    
+                                    $cek = $_POST['GZSupplierM']['supplier_propinsi'];
+                                        if ($cek != ''):
+
+                                            
+                                            $propinsi = PropinsiM::model()->findByPk($_POST['GZSupplierM']['supplier_propinsi']);    
+                                            $propinsi_nama = $propinsi->propinsi_nama;
+                                            $kabupaten_nama = KabupatenM::model()->findByPk($_POST['GZSupplierM']['supplier_kabupaten'])->kabupaten_nama;
+                                        endif;
+
+                                        $model->supplier_propinsi = isset($_POST['GZSupplierM']['supplier_propinsi']) ?  $propinsi_nama : "";
+                                        $model->supplier_kabupaten = isset($_POST['GZSupplierM']['supplier_kabupaten']) ? $kabupaten_nama : "";
+                                        
                                 if($model->validate()){//Jika Data Untuk Model Supplier Valid
                                    if($model->save()){//Jika Model Supplier Sudah Disimpan
                                     $idSupplier=$model->supplier_id;  
@@ -152,7 +191,7 @@ class SupplierMController extends MyAuthController
                                if($this->successSaveSupplier && ($cekObatAlkes==$jumlahObatAlkes)){
                                    $transaction->commit();
                                    Yii::app()->user->setFlash('success', "Data Suplier dan Obat Supplier Berhasil Disimpan");
-                                   $this->redirect(array('admin'));
+                                   $this->redirect(array('admin','id'=>1));
                                }else{
                                   Yii::app()->user->setFlash('error', "Data Suplier dan Obat Supplier Gagal Disimpan");
                                }     
@@ -183,8 +222,11 @@ class SupplierMController extends MyAuthController
 	/**
 	 * Manages all models.
 	 */
-	public function actionAdmin()
+	public function actionAdmin($id='')
 	{
+            if ($id == 1):
+                Yii::app()->user->setFlash('success', "Data Suplier Berhasil Disimpan");
+            endif;
                 
 		$model=new GZSupplierM('search');
 		$model->unsetAttributes();  // clear any default values
@@ -315,7 +357,7 @@ class SupplierMController extends MyAuthController
 			$mpdf->WriteHTML($stylesheet,1);  
 			$mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
 			$mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-			$mpdf->Output();
+			$mpdf->Output($judulLaporan.'-'.date('Y/m-d').'.pdf','I');
 		}                       
 	}
 	

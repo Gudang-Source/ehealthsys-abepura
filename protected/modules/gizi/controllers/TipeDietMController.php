@@ -6,7 +6,7 @@ class TipeDietMController extends MyAuthController
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	public $layout='//layouts/column1';
+	public $layout='//layouts/iframe';
                 public $defaultAction = 'admin';
 
 	/**
@@ -33,10 +33,11 @@ class TipeDietMController extends MyAuthController
 
 		if(isset($_POST['TipeDietM']))
 		{
-			$model->attributes=$_POST['TipeDietM'];
-			if($model->save())
-                                                                Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+			$model->attributes=$_POST['TipeDietM'];                       
+			if($model->save()){
+                                Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');                        
 				$this->redirect(array('admin'));
+                        }        
 		}
 
 		$this->render('create',array(
@@ -228,7 +229,7 @@ class TipeDietMController extends MyAuthController
                         $mpdf->WriteHTML($stylesheet,1);  
                         $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
                         $mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-                        $mpdf->Output();
+                        $mpdf->Output($judulLaporan.'-'.date('Y/m/d').'.pdf','I');
                     }                       
                 }
 }

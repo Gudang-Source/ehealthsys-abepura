@@ -32,7 +32,13 @@
 				</div>
 			</div>
 			<?php
-				$propinsi_id = isset($model->supplier_propinsi) ? PropinsiM::model()->findByPk($model->supplier_propinsi)->propinsi_id : null;
+                            $cek = $model->supplier_propinsi;
+                            $propinsi_id = '';        
+                            if ($cek != ''):
+                               $propinsi_id = PropinsiM::model()->findByPk($model->supplier_propinsi)->propinsi_id;
+                            endif;
+				//propinsi_id = isset($model->supplier_propinsi) ? PropinsiM::model()->findByPk($model->supplier_propinsi)->propinsi_id : '';
+                                
 			?>
 			<?php echo $form->dropDownListRow($model,'supplier_kabupaten', CHtml::listData($model->getKabupatenItems($propinsi_id), 'kabupaten_id', 'kabupaten_nama') ,array('empty'=>'-- Pilih --',
 												'onkeyup'=>"return $(this).focusNextInputField(event)",
@@ -98,7 +104,7 @@
     <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Supplier', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
                                                 $this->createUrl('supplierM/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
     <?php
-        $content = $this->renderPartial('../tips/tipsaddedit',array(),true);
+        $content = $this->renderPartial('../tips/tipsaddedit1a',array(),true);
         $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
     ?>
 </div>

@@ -1,5 +1,7 @@
-<div class="white-container">
-    <legend class="rim2">Lihat <b>Bahan Diet</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Lihat <b>Bahan Diet</b></legend>-->
+<fieldset class="box row-fluid">
+    <legend class="rim">Lihat <b>Bahan Diet</b></legend>
     <?php
     $this->breadcrumbs=array(
             'gzbahandiet Ms'=>array('index'),
@@ -31,4 +33,10 @@
                                             ),
             ),
     )); ?>
-</div>
+     <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Bahan Diet', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
+                                                $this->createUrl('bahandietM/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
+    <?php       
+        $this->widget('UserTips',array('type'=>'view'));
+    ?>
+<!--</div>-->
+</fieldset>

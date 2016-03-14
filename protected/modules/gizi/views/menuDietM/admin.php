@@ -1,8 +1,10 @@
-<div class="white-container">
-    <legend class="rim2">Pengaturan <b>Menu Diet</b></legend>
-    <?php $this->renderPartial('_tabMenu',array()); ?>
-    <div class="biru">
-        <div class="white">
+<!--<div class="white-container">
+    <legend class="rim2">Pengaturan <b>Menu Diet</b></legend>-->
+<fieldset class="box row-fluid">
+    <legend class="rim">Pengaturan <b>Menu Diet</b></legend>
+    <?php //$this->renderPartial('_tabMenu',array()); ?>
+    <!--<div class="biru">
+        <div class="white">-->
             <?php
             $this->breadcrumbs=array(
                     'Gzmenudiet Ms'=>array('index'),
@@ -43,7 +45,7 @@
                     'dataProvider'=>$model->search(),
                     'filter'=>$model,
                             'itemsCssClass'=>'table table-striped table-condensed',
-                            'template'=>"{summary}{pager}\n{items}",
+                            'template'=>"{summary}\n{items}{pager}",
                     'columns'=>array(
                             array(
                                 'header'=>'ID',
@@ -51,7 +53,7 @@
                             ),
                             array(
                                 'name'=>'jenisdiet_id',
-                                'filter'=>CHtml::listData($model->getJenisdietItems(), 'jenisdiet_id','jenisdiet_nama'),
+                                'filter'=> CHtml::dropDownList('MenuDietM[jenisdiet_id]',$model->jenisdiet_id,CHtml::listData($model->getJenisdietItems(), 'jenisdiet_id','jenisdiet_nama'), array('empty'=>'--Pilih--')),
                                 'value'=>'$data->jenisdiet->jenisdiet_nama',
                             ),
                             'menudiet_nama',
@@ -104,8 +106,8 @@
                     }',
                 )); ?>
             <!--</div>-->
-        </div>
-    </div>
+        <!--</div>
+    </div>-->
     <?php
     echo CHtml::link(Yii::t('mds', '{icon} Tambah Menu Diet', array('{icon}'=>'<i class="icon-plus icon-white"></i>')), $this->createUrl('menuDietM/create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp";
     echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
@@ -135,7 +137,7 @@ function print(obj)
 JSCRIPT;
     Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);                        
     ?>
-</div>
+<!--</div>-->
 <script type="text/javascript">
     function deleteRecord(id){
         var id = id;
@@ -158,3 +160,4 @@ $(document).ready(function(){
 $("input[name='MenuDietM[menudiet_nama]']").focus();
 });
 </script>
+</fieldset>
