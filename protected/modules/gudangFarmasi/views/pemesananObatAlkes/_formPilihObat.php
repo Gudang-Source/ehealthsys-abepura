@@ -2,7 +2,7 @@
     <tr>
         <td>
             <div class="control-group ">
-                <?php echo CHtml::label('Nama Obat & Kesehatan', 'obatalkes_nama', array('class'=>'control-label')); ?>
+                <?php echo CHtml::label('Obat & Alat Kesehatan', 'obatalkes_nama', array('class'=>'control-label')); ?>
                 <div class="controls">
                     <?php echo CHtml::hiddenField('obatalkes_id'); ?>
                     <?php echo CHtml::hiddenField('obatalkes_kode'); ?>
@@ -67,7 +67,7 @@
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     'id'=>'dialogObatAlkes',
     'options'=>array(
-        'title'=>'Daftar Stok '.Yii::app()->user->getState('ruangan_nama'),
+        'title'=>'Daftar Stok <span id="dialog_ruangan"></span>',
         'autoOpen'=>false,
         'modal'=>true,
         'width'=>980,

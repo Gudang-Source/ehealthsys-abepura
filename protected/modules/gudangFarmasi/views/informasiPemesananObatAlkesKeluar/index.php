@@ -25,7 +25,7 @@ $('#divSearch-form form').submit(function(){
                             'value'=>'MyFormatter::formatDateTimeForUser($data->tglpemesanan)',
                         ),
                         'nopemesanan',
-                        'ruanganpemesan_nama',
+                        //'ruanganpemesan_nama',
                         'ruangantujuan_nama',
                         'statuspesan',
                         array(
@@ -42,7 +42,13 @@ $('#divSearch-form form').submit(function(){
                             'header'=>'Mutasi',
                             'type'=>'raw',
         //                    'value'=>'$data->terimamutasi_id',
-                            'value'=>'(!empty($data->mutasioaruangan_id) ? "SUDAH DIMUTASI" : !empty($data->terimamutasi_id) ? "SUDAH DITERIMA" : "BELUM DIMUTASI")',
+                            'value'=>function($data) {
+                                if (!empty($data->mutasioaruangan_id)) {
+                                    return "SUDAH DIMUTASI";
+                                } else {
+                                    return '<a href="javascript:deleteRecord('.$data->pesanobatalkes_id.')" rel="tooltip" title="Klik untuk membatalkan Pemesanan">BELUM DIMUTASI<br/><i class="glyphicon glyphicon-remove"></i></a>';
+                                }
+                            },
                         ),
                         array(
                             'header'=>'Rincian',
@@ -83,3 +89,22 @@ $('#divSearch-form form').submit(function(){
     //===============================Akhir Dialog Details================================
     ?>
 </div>
+<script type="text/javascript">
+function deleteRecord(id){
+    var id = id;
+    var url = '<?php echo $this->createUrl("batalPemesananObatAlkes"); ?>';
+    myConfirm('Apakah anda yakin akan membatalkan transaksi ini?', 'Perhatian!', function(r){
+        if(r){
+            $.post(url, {id: id},
+                function(data){
+                    if(data.status == 'proses_form'){
+                        $.fn.yiiGridView.update('pemesananobatalkeskeluar-m-grid');
+                        //toastSuccess('Data Berhasil di Batalkan');
+                    }else{
+                        myAlert('Data Gagal di Batalkan')
+                    }
+            },"json");
+        }
+    });
+}
+</script>

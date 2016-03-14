@@ -76,6 +76,11 @@ class GFInformasipesanobatalkesV extends InformasipesanobatalkesV
 		}
 		$criteria->compare('tglterima',$this->tglterima,true);
 		$criteria->compare('noterimamutasi',$this->noterimamutasi,true);
+                if ($this->statusmutasi == 1) {
+                    $criteria->addCondition('mutasioaruangan_id is not null');
+                } else if ($this->statusmutasi == 2) {
+                    $criteria->addCondition('mutasioaruangan_id is null');
+                }
                 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
