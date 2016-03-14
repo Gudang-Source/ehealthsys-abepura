@@ -172,27 +172,27 @@ class BahanmakananM extends CActiveRecord
         
         public function getJenisBahanMakananItems()
         {
-            return LookupM::model()->findAll("lookup_type='jenisbahanmakanan' ORDER BY lookup_name");
+            return LookupM::model()->findAll("lookup_type='jenisbahanmakanan' AND lookup_aktif = TRUE ORDER BY lookup_name");
         }
         
         public function getKelBahanMakananItems()
         {
-            return LookupM::model()->findAll("lookup_type='kelompokbahanmakanan' ORDER BY lookup_name");
+            return LookupM::model()->findAll("lookup_type='kelompokbahanmakanan' AND lookup_aktif = TRUE ORDER BY lookup_name");
         }
         
         public function getSumberDanaItems()
         {
-            return LookupM::model()->findAll("lookup_type='sumberdanabahan' ORDER BY lookup_name");
+            return LookupM::model()->findAll("lookup_type='sumberdanabahan' AND lookup_aktif = TRUE ORDER BY lookup_name");
         }
         
         public function getJmlDlmKemasanItems()
         {
-            return LookupM::model()->findAll("lookup_type='jmldlmkemasan' ORDER BY lookup_name");
+            return LookupM::model()->findAll("lookup_type='jmldlmkemasan' AND lookup_aktif = TRUE ORDER BY lookup_name");
         }
         
         public function getSatuanBahanMakananItems()
         {
-            return LookupM::model()->findAll("lookup_type='satuanbahanmakanan' ORDER BY lookup_name");
+            return LookupM::model()->findAll("lookup_type='satuanbahanmakanan' AND lookup_aktif = TRUE ORDER BY lookup_name");
         }
         
         public function getGolBahanMakananItems()

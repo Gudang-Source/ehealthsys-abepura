@@ -1,5 +1,7 @@
-<div class="white-container">
-    <legend class="rim2">Ubah <b>Jadwal Makanan</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Ubah <b>Jadwal Makanan</b></legend>-->
+<fieldset class="box row-fluid">
+    <legend class="rim">Ubah <b>Jadwal Makanan</b></legend>
     <?php
     $this->breadcrumbs=array(
             'Gzjadwalmakan Ms'=>array('index'),
@@ -19,4 +21,5 @@
     $this->widget('bootstrap.widgets.BootAlert'); ?>
 
     <?php echo $this->renderPartial('_formUpdate',array('model'=>$model)); ?>
-</div>
+<!--</div>-->
+</fieldset>

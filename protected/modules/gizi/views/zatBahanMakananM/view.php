@@ -1,5 +1,7 @@
-<div class="white-container">
-    <legend class="rim2">Lihat Zat <b>Bahan Makanan</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Lihat Zat <b>Bahan Makanan</b></legend>-->
+<fieldset class="box row-fluid">
+    <legend class="rim">Lihat <b>Zat Bahan Makanan</b></legend>
     <?php
     $this->breadcrumbs=array(
             'Gzzatbahanmakanan Ms'=>array('index'),
@@ -27,6 +29,8 @@
                                     'kandunganbahan',
             ),
     )); ?>
-
+    <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Zat Bahan Makanan', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
+                                                                    $this->createUrl('zatBahanMakananM/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
     <?php $this->widget('UserTips',array('type'=>'view'));?>
-</div>
+<!--</div>-->
+</fieldset>

@@ -1,5 +1,7 @@
-<div class="white-container">
-    <legend class="rim2">Ubah Golongan <b>Bahan Makanan</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Ubah Golongan <b>Bahan Makanan</b></legend>-->
+<fieldset class="box row-fluid">
+    <legend class="rim">Ubah <b>Golongan Bahan Makanan</b></legend>
     <?php
     $this->breadcrumbs=array(
             'Gzgolbahanmakanan Ms'=>array('index'),
@@ -17,4 +19,5 @@
 
     <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
     <?php //$this->widget('UserTips',array('type'=>'create'));?>
-</div>
+<!--</div>-->
+</fieldset>
