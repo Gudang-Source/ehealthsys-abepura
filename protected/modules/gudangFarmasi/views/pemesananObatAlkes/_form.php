@@ -47,49 +47,6 @@
                     )); ?>
                 </div>
         </div>
-        <div class="control-group ">
-            <?php echo $form->labelEx($model, 'pegawaimengetahui_id', array('class' => 'control-label')); ?>
-            <div class="controls">
-                <?php echo $form->hiddenField($model, 'pegawaimengetahui_id'); ?>
-                <?php
-                $this->widget('MyJuiAutoComplete', array(
-                    'model'=>$model,
-                    'attribute' => 'pegawaimengetahui_nama',
-                    'source' => 'js: function(request, response) {
-                                       $.ajax({
-                                           url: "' . $this->createUrl('AutocompletePegawai') . '",
-                                           dataType: "json",
-                                           data: {
-                                               term: request.term,
-                                           },
-                                           success: function (data) {
-                                                   response(data);
-                                           }
-                                       })
-                                    }',
-                    'options' => array(
-                        'showAnim' => 'fold',
-                        'minLength' => 3,
-                        'focus' => 'js:function( event, ui ) {
-                            $(this).val( ui.item.label);
-                            return false;
-                        }',
-                        'select' => 'js:function( event, ui ) {
-                            $("#'.Chtml::activeId($model, 'pegawaimengetahui_id') . '").val(ui.item.pegawai_id); 
-                            return false;
-                        }',
-                    ),
-                    'htmlOptions' => array(
-                                            'placeholder'=>'Ketikan Pegawai Mengetahui',
-                        'class'=>'pegawaimengetahui_nama',
-                        'onkeyup'=>"return $(this).focusNextInputField(event)",
-                        'onblur' => 'if(this.value === "") $("#'.Chtml::activeId($model, 'pegawaimengetahui_id') . '").val(""); '
-                    ),
-                    'tombolDialog' => array('idDialog' => 'dialogPegawaiMengetahui'),
-                ));
-                ?>
-            </div>
-        </div>
     </div>
     <div class = "span4">
         <div class="control-group ">
@@ -131,6 +88,49 @@
                         'onblur' => 'if(this.value === "") $("#'.Chtml::activeId($model, 'pegawaipemesan_id') . '").val(""); '
                     ),
                     'tombolDialog' => array('idDialog' => 'dialogPegawaiMenyetujui'),
+                ));
+                ?>
+            </div>
+        </div>
+        <div class="control-group ">
+            <?php echo $form->labelEx($model, 'pegawaimengetahui_id', array('class' => 'control-label')); ?>
+            <div class="controls">
+                <?php echo $form->hiddenField($model, 'pegawaimengetahui_id'); ?>
+                <?php
+                $this->widget('MyJuiAutoComplete', array(
+                    'model'=>$model,
+                    'attribute' => 'pegawaimengetahui_nama',
+                    'source' => 'js: function(request, response) {
+                                       $.ajax({
+                                           url: "' . $this->createUrl('AutocompletePegawai') . '",
+                                           dataType: "json",
+                                           data: {
+                                               term: request.term,
+                                           },
+                                           success: function (data) {
+                                                   response(data);
+                                           }
+                                       })
+                                    }',
+                    'options' => array(
+                        'showAnim' => 'fold',
+                        'minLength' => 3,
+                        'focus' => 'js:function( event, ui ) {
+                            $(this).val( ui.item.label);
+                            return false;
+                        }',
+                        'select' => 'js:function( event, ui ) {
+                            $("#'.Chtml::activeId($model, 'pegawaimengetahui_id') . '").val(ui.item.pegawai_id); 
+                            return false;
+                        }',
+                    ),
+                    'htmlOptions' => array(
+                                            'placeholder'=>'Ketikan Pegawai Mengetahui',
+                        'class'=>'pegawaimengetahui_nama',
+                        'onkeyup'=>"return $(this).focusNextInputField(event)",
+                        'onblur' => 'if(this.value === "") $("#'.Chtml::activeId($model, 'pegawaimengetahui_id') . '").val(""); '
+                    ),
+                    'tombolDialog' => array('idDialog' => 'dialogPegawaiMengetahui'),
                 ));
                 ?>
             </div>

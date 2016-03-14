@@ -51,17 +51,19 @@
                     </div> 
             </td>
             <td>
-                <?php echo $form->textFieldRow($model,'nopemesanan',array('placeholder'=>'Ketik No. Pemesanan','class'=>'numberOnly','style'=>'width:204px')); ?>
-                <?php echo $form->dropDownListRow($model,'instalasipemesan_id', $instalasiPemesanans, 
+                <?php echo $form->dropDownListRow($model,'instalasitujuan_id', $instalasiPemesanans, 
                         array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
                                 'ajax'=>array('type'=>'POST',
                                             'url'=>$this->createUrl('SetDropdownRuangan',array('encode'=>false,'model_nama'=>get_class($model))),
                                             'update'=>"#".CHtml::activeId($model, 'ruanganpemesan_id'),
                                 )));?>
+                
+                <?php echo $form->dropDownListRow($model,'ruangantujuan_id',$ruanganPemesanans,array('class'=>'span3','empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+                <?php echo $form->dropDownListRow($model,'statuspesan', LookupM::getItems('statuspesan'),array('class'=>'span3','empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+                <?php echo $form->dropDownListRow($model,'statusmutasi', array(1=>'SUDAH DIMUTASi', 2=>'BELUM DIMUTASI'), array('class'=>'span3','empty'=>'-- Pilih --')); ?>
             </td>
             <td>
-                <?php echo $form->dropDownListRow($model,'ruanganpemesan_id',$ruanganPemesanans,array('class'=>'span3','empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
-                <?php echo $form->dropDownListRow($model,'statuspesan', LookupM::getItems('statuspesan'),array('class'=>'span3','empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+                <?php echo $form->textFieldRow($model,'nopemesanan',array('placeholder'=>'Ketik No. Pemesanan','class'=>'numberOnly','style'=>'width:204px')); ?>
             </td>
         </tr>
     </table>

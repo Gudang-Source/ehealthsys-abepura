@@ -40,6 +40,7 @@
  */
 class InformasipesanobatalkesV extends CActiveRecord
 {
+        public $statusmutasi;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -126,6 +127,7 @@ class InformasipesanobatalkesV extends CActiveRecord
 			'create_loginpemakai_id' => 'Create Loginpemakai',
 			'update_loginpemakai_id' => 'Update Loginpemakai',
 			'create_ruangan' => 'Create Ruangan',
+                        'statusmutasi' => 'Status Mutasi',
 		);
 	}
 
