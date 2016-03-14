@@ -42,7 +42,7 @@
 //                                'maxDate' => 'd',
                                 'yearRange'=> "-150:+0",
                             ),
-                            'htmlOptions'=>array('placeholder'=>'00/00/0000 00:00:00','class'=>'dtPicker2 datetimemask','onkeyup'=>"return $(this).focusNextInputField(event)"
+                            'htmlOptions'=>array('class'=>'dtPicker2 realtime','onkeyup'=>"return $(this).focusNextInputField(event)"
                             ),
                     )); ?>
                 </div>
@@ -155,12 +155,13 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 
 $modPegawaiMengetahui = new GFPegawaiV('searchDialog');
 $modPegawaiMengetahui->unsetAttributes();
+$modPegawaiMengetahui->ruangan_id = Yii::app()->user->getState("ruangan_id");
 if(isset($_GET['GFPegawaiV'])) {
     $modPegawaiMengetahui->attributes = $_GET['GFPegawaiV'];
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'pegawaimengetahui-grid',
-    'dataProvider'=>$modPegawaiMengetahui->searchDialog(),
+    'dataProvider'=>$modPegawaiMengetahui->searchDialogMengetahui(),
     'filter'=>$modPegawaiMengetahui,
         'template'=>"{items}\n{pager}",
 //        'template'=>"{summary}\n{items}\n{pager}",
