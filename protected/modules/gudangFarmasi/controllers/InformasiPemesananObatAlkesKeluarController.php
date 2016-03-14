@@ -17,11 +17,12 @@ class InformasiPemesananObatAlkesKeluarController extends MyAuthController
         $ruanganPemesanans = CHtml::listData(GFRuanganM::getRuanganPemesananObatAlkes(Params::INSTALASI_ID_FARMASI),'ruangan_id','ruangan_nama');
         if(isset($_GET['GFInformasipesanobatalkesV'])){
             $model->attributes=$_GET['GFInformasipesanobatalkesV'];
-            $model->instalasipemesan_id = $_GET['GFInformasipesanobatalkesV']['instalasipemesan_id'];
-            $model->ruanganpemesan_id = $_GET['GFInformasipesanobatalkesV']['ruanganpemesan_id'];
+            $model->instalasitujuan_id = $_GET['GFInformasipesanobatalkesV']['instalasitujuan_id'];
+            $model->ruangantujuan_id = $_GET['GFInformasipesanobatalkesV']['ruangantujuan_id'];
             if(($model->ruanganpemesan_id)==""){
                 $model->ruanganpemesan_id=Yii::app()->user->getState('ruangan_id');
             }
+            $model->statusmutasi = $_GET['GFInformasipesanobatalkesV']['statusmutasi'];
             $model->tgl_awal=$format->formatDateTimeForDb($_GET['GFInformasipesanobatalkesV']['tgl_awal']);
             $model->tgl_akhir=$format->formatDateTimeForDb($_GET['GFInformasipesanobatalkesV']['tgl_akhir']);
         }
@@ -74,5 +75,42 @@ class InformasiPemesananObatAlkesKeluarController extends MyAuthController
 	public function getUrlPrint(){
 		return $this->createUrl('PemesananObatAlkes/print');
 	}
+        
+        public function actionBatalPemesananObatAlkes(){
+            if (Yii::app()->request->isPostRequest){
+            	   $id = $_POST['id'];
+                $trans = Yii::app()->db->beginTransaction();
+                $ok = true;
+                $ok = $ok && PesanoadetailT::model()->deleteAllByAttributes(array('pesanobatalkes_id'=>$id));
+                $ok = $ok && PesanobatalkesT::model()->deleteByPk($id);
+
+                //var_dump($ok); die;
+                if ($ok) {
+                		//$trans->rollback();
+                		$trans->commit();
+                		//$arr = array('info'=>'Pemesanan berhasil dibatalkan', 'status'=>'success');
+                } else {
+                		$trans->rollback();
+                	//	$arr = array('info'=>'Pemesanan gagal dibatalkan', 'status'=>'gagal');
+                }
+                //echo CJSON::encode($arr);
+                //Yii::app()->end();
+
+                if (Yii::app()->request->isAjaxRequest)
+                    {
+                        echo CJSON::encode(array(
+                            'status'=>'proses_form',
+                            'div'=>"<div class='flash-success'>Data berhasil dihapus.</div>",
+                            ));
+                        exit;
+                    }
+
+                // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+                if(!isset($_GET['ajax']))
+                        $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+        }
+        else
+                throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+      }
 }
 
