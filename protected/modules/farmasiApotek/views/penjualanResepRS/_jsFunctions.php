@@ -757,6 +757,31 @@ function setDropDownRke(){
 	});
 }
 
+function hitungPecahanDosisRacikan() {
+    var pembilang = $("#dosis_pembliang").val();
+    var penyebut = $("#dosis_penyebut").val();
+    var kekuatan = $("#kekuatanObat").val();
+    var hasil = 0;
+    
+    if (penyebut == 0) {
+        myAlert("Penyebut tidak boleh 0.");
+        return false;
+    }
+    
+    if (kekuatan.trim() == "") {
+        myAlert("Kekuatan obat belum ada.");
+        return false;
+    }
+    
+    hasil = Math.floor((pembilang / penyebut) * kekuatan);
+    
+    $("#dosis_pembliang").val("");
+    $("#dosis_penyebut").val("");
+    
+    $("#permintaan").val(hasil).blur();
+    $("#dialogPecahanDosis").dialog("close");
+}
+
 
 
 /**
