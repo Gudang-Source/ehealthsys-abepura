@@ -101,13 +101,8 @@
             array(
                 'header'=>'Hapus',
                 'type'=>'raw',
-<<<<<<< HEAD
-                'value'=>'(!$data->isclosing)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->rekperiod_id)",array("id"=>"$data->rekperiod_id","rel"=>"tooltip","title"=>"Closing"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->rekperiod_id)",array("id"=>"$data->rekperiod_id","rel"=>"tooltip","title"=>"Hapus")):CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->rekperiod_id)",array("id"=>"$data->rekperiod_id","rel"=>"tooltip","title"=>"Hapus"));',
-                'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
-=======
                 'value'=>'(!$data->isclosing)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->rekperiod_id)",array("id"=>"$data->rekperiod_id","rel"=>"tooltip","title"=>"Menonaktifkan"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->rekperiod_id)",array("id"=>"$data->rekperiod_id","rel"=>"tooltip","title"=>"Hapus")):CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->rekperiod_id)",array("id"=>"$data->rekperiod_id","rel"=>"tooltip","title"=>"Hapus"));',
                 'htmlOptions'=>array('style'=>'text-align: left; width:80px'),
->>>>>>> 12f1e5a9c072640a387b6430d541776accbca7b2
             ),
             ),
             'afterAjaxUpdate'=>'function(id, data){
