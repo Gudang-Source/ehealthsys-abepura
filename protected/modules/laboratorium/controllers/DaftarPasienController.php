@@ -696,261 +696,121 @@ class DaftarPasienController extends MyAuthController {
 		}
 	}
 
-	public function actionBatalPeriksaPasienLuar() {
-		$idKirimUnit = null;
-
-		$nama_modul = Yii::app()->controller->module->id;
-		$nama_controller = Yii::app()->controller->id;
-		$nama_action = Yii::app()->controller->action->id;
-		$modul_id = ModulK::model()->findByAttributes(array('url_modul' => $nama_modul))->modul_id;
-		$criteria = new CDbCriteria;
-		$criteria->compare('modul_id', $modul_id);
-		$criteria->compare('LOWER(modcontroller)', strtolower($nama_controller), true);
-		$criteria->compare('LOWER(modaction)', strtolower($nama_action), true);
-		if (isset($_POST['tujuansms'])) {
-			$criteria->addInCondition('tujuansms', $_POST['tujuansms']);
-		}
-		$modSmsgateway = SmsgatewayM::model()->findAll($criteria);
-		$smspasien = 1;
-		$nama_pasien = '';
-
+        public function actionBatalPenunjang() {
+                $idKirimUnit = null;
+                $keterangan = "";
+                $nama_pasien = "";
+                
 		if (Yii::app()->request->isAjaxRequest) {
 			$transaction = Yii::app()->db->beginTransaction();
 			$pesan = 'success';
 			$status = 'ok';
+                        $ok = true;
+                        try {
+                            $id = $_POST['pendaftaran_id'];
+                            $idPenunjang = $_POST['idPenunjang'];
+                            
+                            $pendaftaran = PendaftaranT::model()->findByPk($id);
+                            $penunjang = PasienmasukpenunjangT::model()->findByPk($idPenunjang);
+                            $nama_pasien = $pendaftaran->pasien->nama_pasien;
+                            
+                            // periksa tindakan
+                            $criteria = new CDbCriteria();
+                            $criteria->select = "count(tindakanpelayanan_id) as tindakanpelayanan_id";
+                            $criteria->addCondition("pasienmasukpenunjang_id = ".$idPenunjang." and tindakansudahbayar_id is not null");
+                            $tindakan = TindakanpelayananT::model()->find($criteria);
+                            
+                            if ($tindakan->tindakanpelayanan_id > 0) {
+                                $pesan = 'exist';
+				$keterangan = "<div class='flash-success'>Pasien <b> " . $pendaftaran->pasien->nama_pasien . " 
+                                </b> sudah melakukan pembayaran pemeriksaan </div>";
+                                $ok = false;
+                            } else {
+                                $ok = $ok && TindakanpelayananT::model()->updateAll(array(
+                                    'detailhasilpemeriksaanlab_id'=>null,
+                                    'hasilpemeriksaanrm_id'=>null,
+                                    'hasilpemeriksaanrad_id'=>null,
+                                    'hasilpemeriksaanpa_id'=>null,
+                                ), 'pasienmasukpenunjang_id = '.$idPenunjang);
+                                $ok = $ok && TindakanpelayananT::model()->deleteAllByAttributes(array(
+                                    'pasienmasukpenunjang_id' => $idPenunjang,
+                                ));
+                                // $ok = $ok && PasienmasukpenunjangT::model()->deleteByPk();
+                            }
+                            
+                            //var_dump($ok);
+                            
+                            // simpan batal periksa penunjang
+                            $model = new PasienbatalperiksaR();
+                            $model->pendaftaran_id = $id;
+                            $model->pasien_id = $pendaftaran->pasien_id;
+                            $model->pasienmasukpenunjang_id = $penunjang->pasienmasukpenunjang_id;
+                            $model->pasienkirimkeunitlain_id = $penunjang->pasienkirimkeunitlain_id;
+                            $model->tglbatal = date('Y-m-d');
+                            $model->keterangan_batal = "Batal Laboratorium";
+                            $model->create_time = date('Y-m-d H:i:s');
+                            $model->update_time = null;
+                            $model->create_loginpemakai_id = Yii::app()->user->id;
+                            $model->create_ruangan = Yii::app()->user->getState('ruangan_id');
 
-			try {
-				$pendaftaran_id = $_POST['pendaftaran_id'];
-                                //$pendaftaranT = PendaftaranT::model()->findByPk($pendaftaran_id);
-				$idPenunjang = $_POST['idPenunjang'];
-
-				/*
-				 * cek data pendaftaran &  pasien masuk penunjang
-				 */
-				$pasienMasukPenunjang = PasienmasukpenunjangT::model()->findByAttributes(
-						array(
-							'pasienmasukpenunjang_id' => $idPenunjang,
-							'ruangan_id' => Params::RUANGAN_ID_LAB_KLINIK
-						)
+                            if ($model->validate()) {
+                                $ok = $ok && $model->save();
+                            } else $ok = false;
+                            
+                            //var_dump($ok);
+                            
+                            if (empty($penunjang->pasienkirimkeunitlain_id)) {
+                                $attributes = array(
+                                    'statusperiksa' => 'BATAL PERIKSA',
+                                    'pasienbatalperiksa_id' => $model->pasienbatalperiksa_id,
+                                    'update_time' => date('Y-m-d H:i:s'),
+                                    'update_loginpemakai_id' => Yii::app()->user->id
 				);
-
-				if (count($pasienMasukPenunjang) > 0) {
-					$pendaftaran = PendaftaranT::model()->findByPk($pasienMasukPenunjang->pendaftaran_id);
-					$pendaftaran_id = $pasienMasukPenunjang->pendaftaran_id;
-					$pasien_id = $pasienMasukPenunjang->pasien_id;
-					$pasienmasukpenunjang_id = $pasienMasukPenunjang->pasienmasukpenunjang_id;
-					$pasienkirimkeunitlain_id = $pasienMasukPenunjang->pasienkirimkeunitlain_id;
-				} else {
-					$pendaftaran = PendaftaranT::model()->findByPk($pendaftaran_id);
-					$pendaftaran_id = $pendaftaran->pendaftaran_id;
-					$pasien_id = $pendaftaran->pasien_id;
-					$pasienmasukpenunjang_id = null;
-					$pasienkirimkeunitlain_id = $idKirimUnit;
-				}
-				//                echo $pasienMasukPenunjang->pendaftaran_id.'<br/>';
-				//                echo $pasienMasukPenunjang->pasien_id.'<br/>';
-				//                echo $pasienMasukPenunjang->pasienmasukpenunjang_id;exit;
-				/** end cek data pendaftaran & pasien masuk penunjang * */
-				if (empty($pasienMasukPenunjang->pasienkirimkeunitlain_id)) {
-					$model = new PasienbatalperiksaR();
-					$model->pendaftaran_id = $pendaftaran_id;
-					$model->pasien_id = $pasien_id;
-					$model->pasienmasukpenunjang_id = $pasienmasukpenunjang_id;
-					$model->tglbatal = date('Y-m-d');
-					$model->keterangan_batal = "Batal Laboratorium";
-					$model->create_time = date('Y-m-d H:i:s');
-					$model->update_time = null;
-					$model->create_loginpemakai_id = Yii::app()->user->id;
-					$model->create_ruangan = Yii::app()->user->getState('ruangan_id');
-
-					if (!$model->save()) {
-						$status = 'not';
-						$pesan = 'exist';
-						$keterangan = "<div class='flash-success'>Data gagal disimpan</div>";
-					}
-
-					if (empty($pendaftaran->pembayaranpelayanan_id)) {
-						$attributes = array(
-							'pasienbatalperiksa_id' => $model->pasienbatalperiksa_id,
-							'update_time' => date('Y-m-d H:i:s'),
-							'update_loginpemakai_id' => Yii::app()->user->id
-						);
-						$pendaftaran = LBPendaftaranT::model()->updateByPk($pendaftaran_id, $attributes);
-
-						// $attributes = array(
-						//     'pasienkirimkeunitlain_id' => $pasienMasukPenunjang->pasienkirimkeunitlain_id
-						// );
-						// $Perminataan_penunjang = PermintaankepenunjangT::model()->deleteAllByAttributes($attributes);
-						// SMS GATEWAY
-						$modPasien = PasienM::model()->findByPk($model->pasien_id);
-						$nama_pasien = $modPasien->nama_pasien;
-						$sms = new Sms();
-
-						foreach ($modSmsgateway as $i => $smsgateway) {
-                                                    if (isset($_POST['tujuansms']) && in_array($smsgateway->tujuansms, $_POST['tujuansms'])) {
-							$isiPesan = $smsgateway->templatesms;
-
-							$attributes = $modPasien->getAttributes();
-							foreach ($attributes as $attributes => $value) {
-								$isiPesan = str_replace("{{" . $attributes . "}}", $value, $isiPesan);
-							}
-							$attributes = $model->getAttributes();
-							foreach ($attributes as $attributes => $value) {
-								$isiPesan = str_replace("{{" . $attributes . "}}", $value, $isiPesan);
-							}
-							$isiPesan = str_replace("{{hari}}", MyFormatter::getDayName($model->tglbatal), $isiPesan);
-                                                        
-
-							if ($smsgateway->tujuansms == Params::TUJUANSMS_PASIEN && $smsgateway->statussms) {
-								if (!empty($modPasien->no_mobile_pasien)) {
-									$sms->kirim($modPasien->no_mobile_pasien, $isiPesan);
-								} else {
-									$smspasien = 0;
-								}
-							}
-                                                    }
-						}
-						// END SMS GATEWAY
-                                                $this->notifPasienBatalPemeriksaan($pasienMasukPenunjang);
-						$pesan = 'success';
-						$status = 'ok';
-						$keterangan = "<div class='flash-success'>Data berhasil disimpan</div>";
-					} else {
-						$pesan = 'exist';
-						$keterangan = "<div class='flash-success'>Pasien <b> " . $pasienMasukPenunjang->pendaftaran->pasien->nama_pasien . " 
-                                            </b> sudah melakukan pembayaran pemeriksaan </div>";
-					}
-				} else {
-					/*
-					 * cek data tindakan_pelayanan
-					 */
-					$attributes = array(
-						'pasienmasukpenunjang_id' => $pasienMasukPenunjang->pasienmasukpenunjang_id,
-					);
-					$tindakan = LBTindakanPelayananT::model()->findAllByAttributes($attributes);
-					if (count($tindakan) > 0) {
-                                                $isbayar = false;
-                                                foreach ($tindakan as $item) {
-                                                    if (!empty($item->tindakansudahbayar_id)) {
-                                                        $isbayar = true;
-                                                        break;
-                                                    }
-                                                }
-                                                
-                                                
-						if (!$isbayar) {
-							$findHasil = HasilpemeriksaanlabT::model()->findAllByAttributes(array('pasienmasukpenunjang_id' => $pasienMasukPenunjang->pasienmasukpenunjang_id));
-							
-                                                        if (empty($pendaftaran->pembayaranpelayanan_id)) {
-								$model = new PasienbatalperiksaR();
-								$model->pendaftaran_id = $pendaftaran_id;
-								$model->pasien_id = $pasien_id;
-								$model->pasienmasukpenunjang_id = $pasienmasukpenunjang_id;
-								$model->pasienkirimkeunitlain_id = $pasienkirimkeunitlain_id;
-								$model->tglbatal = date('Y-m-d');
-								$model->keterangan_batal = "Batal Laboratorium";
-								$model->create_time = date('Y-m-d H:i:s');
-								$model->update_time = null;
-								$model->create_loginpemakai_id = Yii::app()->user->id;
-								$model->create_ruangan = Yii::app()->user->getState('ruangan_id');
-
-								if (!$model->save()) {
-									$status = 'not';
-									$pesan = 'exist';
-									$keterangan = "<div class='flash-success'>Data gagal disimpan</div>";
-								}
-								$attributes = array(
-									'statusperiksa' => 'BATAL PERIKSA',
-									'update_time' => date('Y-m-d H:i:s'),
-									'update_loginpemakai_id' => Yii::app()->user->id
-								);
-								$penunjang = PasienmasukpenunjangT::model()->updateByPk($pasienMasukPenunjang->pasienmasukpenunjang_id, $attributes);
-                                                                $this->hapusTindakanPemeriksaan($pasienMasukPenunjang);
-                                                                $this->notifPasienBatalPemeriksaan($pasienMasukPenunjang);
-								$pesan = 'success';
-								$status = 'ok';
-								$keterangan = "<div class='flash-success'>Data berhasil disimpan</div>";
-							} else {
-								$pesan = 'exist';
-								$keterangan = "<div class='flash-success'>Pasien <b> " . $pasienMasukPenunjang->pendaftaran->pasien->nama_pasien . " 
-                                                        </b> sudah melakukan pembayaran pemeriksaan </div>";
-							}
-						} else {
-							$pesan = 'exist';
-							$keterangan = "<div class='flash-success'>Pasien <b> " . $pasienMasukPenunjang->pendaftaran->pasien->nama_pasien . " 
-                                                </b> sudah melakukan pembayaran pemeriksaan </div>";
-						}
-					} else {
-						if (empty($tindakan->tindakansudahbayar_id)) {
-							$findHasil = HasilpemeriksaanlabT::model()->findAllByAttributes(array('pasienmasukpenunjang_id' => $pasienMasukPenunjang->pasienmasukpenunjang_id));
-							$model = new PasienbatalperiksaR();
-							$model->pendaftaran_id = $pendaftaran_id;
-							$model->pasien_id = $pasien_id;
-							$model->pasienmasukpenunjang_id = $pasienmasukpenunjang_id;
-							$model->pasienkirimkeunitlain_id = $pasienkirimkeunitlain_id;
-							$model->tglbatal = date('Y-m-d');
-							$model->keterangan_batal = "Batal Laboratorium";
-							$model->create_time = date('Y-m-d H:i:s');
-							$model->update_time = null;
-							$model->create_loginpemakai_id = Yii::app()->user->id;
-							$model->create_ruangan = Yii::app()->user->getState('ruangan_id');
-
-							if (!$model->save()) {
-								$status = 'not';
-								$pesan = 'exist';
-								$keterangan = "<div class='flash-success'>Data gagal disimpan</div>";
-							}
-
-							if (empty($pendaftaran->pembayaranpelayanan_id)) {
-								$attributes = array(
-									'statusperiksa' => 'BATAL PERIKSA',
-									'update_time' => date('Y-m-d H:i:s'),
-									'update_loginpemakai_id' => Yii::app()->user->id
-								);
-								$penunjang = PasienmasukpenunjangT::model()->updateByPk($pasienMasukPenunjang->pasienmasukpenunjang_id, $attributes);
-
-								$pesan = 'success';
-								$status = 'ok';
-								$keterangan = "<div class='flash-success'>Data berhasil disimpan</div>";
-							} else {
-								$pesan = 'exist';
-								$keterangan = "<div class='flash-success'>Pasien <b> " . $pasienMasukPenunjang->pendaftaran->pasien->nama_pasien . " 
-                                                            </b> sudah melakukan pembayaran pemeriksaan </div>";
-							}
-						} else {
-							$pesan = 'exist';
-							$keterangan = "<div class='flash-success'>Pasien <b> " . $pasienMasukPenunjang->pendaftaran->pasien->nama_pasien . " 
-                                                </b> sudah melakukan pembayaran pemeriksaan </div>";
-						}
-					}
-				}
-
-				/*
-				 * kondisi_commit
-				 */
-                                // var_dump($status); die;
-				if ($status == 'ok') {
-					$transaction->commit();
-				} else {
-					$transaction->rollback();
-				}
-			} catch (Exception $ex) {
-				print_r($ex);
-				$status = 'not';
-				$transaction->rollback();
-			}
-
-			$data['pesan'] = $pesan;
+                                $ok = $ok && PendaftaranT::model()->updateByPk($id, $attributes);
+                            } else {
+                                $attributes = array(
+                                    'statusperiksa' => 'BATAL PERIKSA',
+                                    'update_time' => date('Y-m-d H:i:s'),
+                                    'update_loginpemakai_id' => Yii::app()->user->id
+                                );
+                                $this->notifPasienBatalPemeriksaan($penunjang);
+                                $ok = $ok && PasienmasukpenunjangT::model()->updateByPk($idPenunjang, $attributes);
+                            }
+                            
+                            $oa = ObatalkespasienT::model()->findAllByAttributes(array(
+                                'pasienmasukpenunjang_id'=>$pasienMasukPenunjang->pasienmasukpenunjang_id,
+                            ));
+                            foreach ($oa as $item) {
+                                $ok = $ok && StokobatalkesT::model()->deleteAllByAttributes(array(
+                                    'obatalkespasien_id'=>$item->obatalkespasien_id,
+                                ));
+                                $ok = $ok && ObatalkespasienT::model()->deleteByPk($item->obatalkespasien_id);
+                            }
+                            
+                            //var_dump($ok);die;
+                            if ($ok) {
+                                $transaction->commit();
+                            } else {
+                                $transaction->rollback();
+                            }
+                            
+                        } catch (Exception $ex) {
+                            print_r($ex);
+                            $status = 'not';
+                            $transaction->rollback();
+                        }
+                        
+                        $data['pesan'] = $pesan;
 			$data['status'] = $status;
 			$data['keterangan'] = $keterangan;
-			$data['smspasien'] = $smspasien;
+			//$data['smspasien'] = $smspasien;
 			$data['nama_pasien'] = $nama_pasien;
-
-
-			echo json_encode($data);
+                        
+                        echo json_encode($data);
+                        
 			Yii::app()->end();
 		}
-	}
+        }
         
         public function notifPasienBatalPemeriksaan($pasienMasukPenunjang) {
             // var_dump($pasienMasukPenunjang->attributes); die;
