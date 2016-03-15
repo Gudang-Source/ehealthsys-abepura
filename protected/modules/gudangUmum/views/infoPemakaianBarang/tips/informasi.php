@@ -15,7 +15,7 @@
             Icon <i class="icon-form-silang"></i> untuk membatalkan data.
         </li>
         <li>
-            Icon <i class="icon-calendar"></i> untuk memilih tanggal.
+            Icon <i class="icon-calendar"></i> untuk menentukan tanggal.
         </li>
     </div>           
 </ol>
