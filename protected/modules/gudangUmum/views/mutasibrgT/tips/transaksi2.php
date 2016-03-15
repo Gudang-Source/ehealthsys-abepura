@@ -3,7 +3,7 @@
 <table border="0" style="padding :none;">
   <tr>
     <td>1. </td>
-    <td>Icon <i class="icon-calendar"></i> untuk menentukan tanggal.</td>
+    <td>Icon <i class="icon-calendar"></i><i class="icon-time"></i> untuk menentukan tanggal dan waktu pendaftaran.</td>
   </tr>
   <tr>
     <td>2. </td>
@@ -34,10 +34,11 @@ Cari
  
  <tr>
     <td>7. </td>
-    <td>Gunakan tombol ini <a class="btn btn-danger" >
-<i class="icon-refresh icon-white"></i></a>
+    <td>Gunakan tombol ini <a class="btn btn-danger" href="/simrs/index.php?r=rawatInap/pasienRawatInap/formTindakLanjutDariPasienRI">
+<i class="icon-refresh icon-white"></i>
 Ulang
 </a> untunk mengulang kembali inputan.</td>
+  </tr>
   </tr>
   <tr>
     <td>8. </td>
