@@ -614,6 +614,148 @@ class DaftarPasienController extends MyAuthController
 		   throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
 	}
 
+        public function actionBatalPemeriksaan() {
+                $idKirimUnit = null;
+                $keterangan = "";
+                $nama_pasien = "";
+                
+		if (Yii::app()->request->isAjaxRequest) {
+			$transaction = Yii::app()->db->beginTransaction();
+			$pesan = 'success';
+			$status = 'ok';
+                        $ok = true;
+                        try {
+                            $id = $_POST['pendaftaran_id'];
+                            $idPenunjang = $_POST['idPenunjang'];
+                            
+                            $pendaftaran = PendaftaranT::model()->findByPk($id);
+                            $penunjang = PasienmasukpenunjangT::model()->findByPk($idPenunjang);
+                            $nama_pasien = $pendaftaran->pasien->nama_pasien;
+                            
+                            // periksa tindakan
+                            $criteria = new CDbCriteria();
+                            $criteria->select = "count(tindakanpelayanan_id) as tindakanpelayanan_id";
+                            $criteria->addCondition("pasienmasukpenunjang_id = ".$idPenunjang." and tindakansudahbayar_id is not null");
+                            $tindakan = TindakanpelayananT::model()->find($criteria);
+                            
+                            if ($tindakan->tindakanpelayanan_id > 0) {
+                                $pesan = 'exist';
+				$keterangan = "<div class='flash-success'>Pasien <b> " . $pendaftaran->pasien->nama_pasien . " 
+                                </b> sudah melakukan pembayaran pemeriksaan </div>";
+                                $ok = false;
+                            } else {
+                                $ok = $ok && TindakanpelayananT::model()->updateAll(array(
+                                    'detailhasilpemeriksaanlab_id'=>null,
+                                    'hasilpemeriksaanrm_id'=>null,
+                                    'hasilpemeriksaanrad_id'=>null,
+                                    'hasilpemeriksaanpa_id'=>null,
+                                ), 'pasienmasukpenunjang_id = '.$idPenunjang);
+                                $ok = $ok && TindakanpelayananT::model()->deleteAllByAttributes(array(
+                                    'pasienmasukpenunjang_id' => $idPenunjang,
+                                ));
+                                // $ok = $ok && PasienmasukpenunjangT::model()->deleteByPk();
+                            }
+                            
+                            //var_dump($ok);
+                            
+                            // simpan batal periksa penunjang
+                            $model = new PasienbatalperiksaR();
+                            $model->pendaftaran_id = $id;
+                            $model->pasien_id = $pendaftaran->pasien_id;
+                            $model->pasienmasukpenunjang_id = $penunjang->pasienmasukpenunjang_id;
+                            $model->pasienkirimkeunitlain_id = $penunjang->pasienkirimkeunitlain_id;
+                            $model->tglbatal = date('Y-m-d');
+                            $model->keterangan_batal = "Batal Laboratorium";
+                            $model->create_time = date('Y-m-d H:i:s');
+                            $model->update_time = null;
+                            $model->create_loginpemakai_id = Yii::app()->user->id;
+                            $model->create_ruangan = Yii::app()->user->getState('ruangan_id');
+
+                            if ($model->validate()) {
+                                $ok = $ok && $model->save();
+                            } else $ok = false;
+                            
+                            //var_dump($ok);
+                            
+                            if (empty($penunjang->pasienkirimkeunitlain_id)) {
+                                $attributes = array(
+                                    'statusperiksa' => 'BATAL PERIKSA',
+                                    'pasienbatalperiksa_id' => $model->pasienbatalperiksa_id,
+                                    'update_time' => date('Y-m-d H:i:s'),
+                                    'update_loginpemakai_id' => Yii::app()->user->id
+				);
+                                $ok = $ok && PendaftaranT::model()->updateByPk($id, $attributes);
+                            } else {
+                                $attributes = array(
+                                    'statusperiksa' => 'BATAL PERIKSA',
+                                    'update_time' => date('Y-m-d H:i:s'),
+                                    'update_loginpemakai_id' => Yii::app()->user->id
+                                );
+                                $this->notifPasienBatalPemeriksaan($penunjang);
+                                $ok = $ok && PasienmasukpenunjangT::model()->updateByPk($idPenunjang, $attributes);
+                            }
+                            
+                            $oa = ObatalkespasienT::model()->findAllByAttributes(array(
+                                'pasienmasukpenunjang_id'=>$idPenunjang,
+                            ));
+                            foreach ($oa as $item) {
+                                $ok = $ok && StokobatalkesT::model()->deleteAllByAttributes(array(
+                                    'obatalkespasien_id'=>$item->obatalkespasien_id,
+                                ));
+                                $ok = $ok && ObatalkespasienT::model()->deleteByPk($item->obatalkespasien_id);
+                            }
+                            
+                            // var_dump($ok);die;
+                            if ($ok) {
+                                $transaction->commit();
+                            } else {
+                                $transaction->rollback();
+                            }
+                            
+                        } catch (Exception $ex) {
+                            print_r($ex);
+                            $status = 'not';
+                            $transaction->rollback();
+                        }
+                        
+                        $data['pesan'] = $pesan;
+			$data['status'] = $status;
+			$data['keterangan'] = $keterangan;
+			//$data['smspasien'] = $smspasien;
+			$data['nama_pasien'] = $nama_pasien;
+                        
+                        echo json_encode($data);
+                        
+			Yii::app()->end();
+		}
+        }
+        
+        public function notifPasienBatalPemeriksaan($pasienMasukPenunjang) {
+            // var_dump($pasienMasukPenunjang->attributes); die;
+            
+            if (!empty($pasienMasukPenunjang->pasienkirimkeunitlain_id)) {
+                $ki = PasienkirimkeunitlainT::model()->findByPk($pasienMasukPenunjang->pasienkirimkeunitlain_id);
+                $modRuangan = RuanganM::model()->findByPk($ki->create_ruangan);
+            } else {
+                $modRuangan = RuanganM::model()->findByPk(Params::RUANGAN_ID_LOKET);
+            }
+            
+            // var_dump($modRuangan->attributes); die;
+            
+            //$modRuangan = RuanganM::model()->findByPk($modKirimKeunitlain->create_ruangan);
+            $pasien_id = $pasienMasukPenunjang->pasien_id;
+            $modPasien = PasienM::model()->findByPk($pasien_id);
+            $judul = 'Pasien Batal Pemeriksaan Laboratorium';
+
+            $isi = $modPasien->no_rekam_medik.' - '.$modPasien->nama_pasien;
+            
+            //var_dump($judul." , ".$isi);
+            
+            $ok = CustomFunction::broadcastNotif($judul, $isi, array(
+                array('instalasi_id'=>$modRuangan->instalasi_id, 'ruangan_id'=>$modRuangan->ruangan_id, 'modul_id'=>$modRuangan->modul_id),
+            )); 
+        }
+        
 	public function actionGetAntrianTerakhir(){
 		if(Yii::app()->request->isAjaxRequest)
 		{

@@ -384,14 +384,16 @@ JSCRIPT;
        myConfirm('Anda yakin akan membatalkan pemeriksaan laboratorium pasien ini?', 'Perhatian!', function(r)
        {
             if(r){
-                $.post('<?php echo Yii::app()->createUrl('laboratorium/daftarPasien/BatalPeriksaPasienLuar')?>',{pendaftaran_id:pendaftaran_id,idPenunjang:idPenunjang},
+                $.post('<?php echo Yii::app()->createUrl('laboratorium/daftarPasien/batalPenunjang')?>',{pendaftaran_id:pendaftaran_id,idPenunjang:idPenunjang},
                           function(data){
                               if(data.status == 'ok'){
+                                /*
                                 if(data.smspasien==0){
                                   var params = [];
                                   params = {instalasi_id:<?php echo Yii::app()->user->getState("instalasi_id"); ?>, modul_id:<?php echo Yii::app()->session['modul_id']; ?>, judulnotifikasi:'GAGAL KIRIM SMS PASIEN', isinotifikasi:'Pasien '+data.nama_pasien+' tidak memiliki nomor mobile'}; // 16 
                                   insert_notifikasi(params);
                                 }
+                                */
                                 if (data.pesan == 'exist') {
                                     myAlert(data.keterangan);
                                 } else {

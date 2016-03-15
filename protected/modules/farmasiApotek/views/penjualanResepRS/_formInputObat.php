@@ -146,7 +146,7 @@
                                 <div class="control-group ">
                                         <label class="control-label" for="jmlKemasan">Jumlah Permintaan</label>
                                         <div class="controls">
-                                                <?php echo CHtml::textField('jmlKemasanObat', '', array('disabled'=>false,'onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'inputFormTabel span1  numbers-only','onblur'=>'hitungJumlahObat()')) ?>
+                                                <?php echo CHtml::textField('jmlKemasanObat', '', array('disabled'=>false,'onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'inputFormTabel span1  numbers-only','onblur'=>'hitungJumlahObat()', 'style'=>'text-align: right;')) ?>
                                                 <?php echo CHtml::dropDownList('satuansediaan', '', LookupM::getItems(Params::LOOKUPTYPE_SEDIAANOBATRACIKAN),array('class'=>'inputFormTabel span1','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
                                         </div>
                                 </div>
@@ -192,14 +192,15 @@
                                 <div class="control-group ">
                                         <label class="control-label" for="permintaan">Permintaan Dosis</label>
                                         <div class="controls">
-                                                <?php echo CHtml::textField('permintaan', '', array('disabled'=>false,'onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'inputFormTabel span1  numbers-only','onblur'=>'hitungJumlahObat()')) ?>
+                                                <?php echo CHtml::textField('permintaan', '', array('disabled'=>false,'onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'inputFormTabel span1  numbers-only','onblur'=>'hitungJumlahObat()', 'style'=>'text-align: right;')) ?>
                                                 <?php echo CHtml::dropDownList('', '', LookupM::getItems('satuankekuatan'),array('class'=>'inputFormTabel span1','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+                                                <?php echo Chtml::button("Pecahan", array('onclick'=>'$("#dialogPecahanDosis").dialog("open");', 'class'=>'btn btn-primary')); ?>
                                         </div>
                                 </div>
                                 <div class="control-group ">
                                         <label class="control-label" for="kekuatanObat">Kekuatan</label>
                                         <div class="controls">
-                                                <?php echo CHtml::textField('kekuatanObat', '', array('disabled'=>false,'onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'inputFormTabel span1  numbers-only','readonly'=>true,"rel"=>"tooltip","title"=>"Kekuatan diambil dari data obat yang dipilih",)) ?>
+                                                <?php echo CHtml::textField('kekuatanObat', '', array('disabled'=>false,'onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'inputFormTabel span1  numbers-only','readonly'=>true,"rel"=>"tooltip","title"=>"Kekuatan diambil dari data obat yang dipilih", 'style'=>'text-align: right;')) ?>
                                                 <span id="satuanKekuatanObat"></span>
                                         </div>
                                 </div>
@@ -276,6 +277,24 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
 
 $this->endWidget();
 ?>	
+
+<?php
+$this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+    'id' => 'dialogPecahanDosis',
+    'options' => array(
+        'title' => 'Pecahan Dosis',
+        'autoOpen' => false,
+        'modal' => true,
+        'minWidth' => 50,
+        'minHeight' => 100,
+        'resizable' => false,
+    ),
+)); ?>
+        <?php echo CHtml::textField('dosis_pembliang', '', array('class'=>'span1 numbers-only', 'style'=>'text-align: right;'))." / ".
+        CHtml::textField('dosis_penyebut', '', array('class'=>'span1 numbers-only', 'style'=>'text-align: right;'))." "; ?>
+        <?php echo CHtml::button('OK', array('onclick'=>'hitungPecahanDosisRacikan()', 'class'=>'btn btn-primary')); ?>
+<?php $this->endWidget(); ?>
+
 
 <?php
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
