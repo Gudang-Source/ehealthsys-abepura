@@ -21,7 +21,7 @@
 		<?php echo $form->textFieldRow($model,'barang_thnbeli',array('class'=>'span3')); ?>
 		
 		<?php
-		echo $form->dropDownListRow($model, 'instalasi_id', CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true'), 'instalasi_id', 'instalasi_nama'), array('empty' => '-- Pilih --', 'class' => 'span3',
+		echo $form->dropDownListRow($model, 'instalasi_id', CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true ORDER BY instalasi_nama ASC'), 'instalasi_id', 'instalasi_nama'), array('empty' => '-- Pilih --', 'class' => 'span3',
 			'ajax' => array('type' => 'POST',
 				'url' => $this->createUrl('SetDropdownRuangan',array('encode'=>false,'model_nama'=>get_class($model))),
 				'update' => '#' . CHtml::activeId($model, 'ruangan_id') . ''),));
