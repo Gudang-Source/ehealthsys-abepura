@@ -554,4 +554,23 @@ class PendaftaranRawatInapDariRJRDController extends PendaftaranRawatInapControl
 							'modPendaftaran'=>$modPendaftaran
 		));
 	}
+        
+        
+        public function actionCekCaraBayarBPJS() {
+            if(Yii::app()->request->isAjaxRequest) {
+                $cr = new CDbCriteria();
+                $cr->compare("pasien_id", $_POST['pasien_id']);
+                $cr->order = "asuransipasien_id desc";
+                $cr->limit = 1;
+                $asuransi = AsuransipasienM::model()->find($cr);
+                
+                $res = array("dat"=>null);
+                if (!empty($asuransi)) {
+                    $res["dat"] = $asuransi->attributes;
+                }
+                
+                echo CJSON::encode($res);
+            }
+            Yii::app()->end();
+        }
 }
