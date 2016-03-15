@@ -5,7 +5,7 @@ if (isset($_GET['idMutasi']) && !empty($_GET['idMutasi'])) {
 ?>
 <?php $this->widget('bootstrap.widgets.BootAlert'); ?>
 <div class="white-container">
-    <legend class="rim2">Mutasi <b>Barang</b></legend>
+    <legend class="rim2">Transaksi Mutasi <b>Barang</b></legend>
     <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/form.js'); ?>
     <?php
     $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
@@ -196,7 +196,7 @@ if (isset($_GET['idMutasi']) && !empty($_GET['idMutasi'])) {
 			}
 		?>
         <?php
-        $content = $this->renderPartial('gudangUmum.views.tips.informasi', array(), true);
+        $content = $this->renderPartial('gudangUmum.views.mutasibrgT.tips.transaksi2', array(), true);
         $this->widget('UserTips', array('type' => 'transaksi', 'content' => $content));
         ?>	
     </div>
@@ -231,17 +231,7 @@ if (isset($_GET['idMutasi']) && !empty($_GET['idMutasi'])) {
         'itemsCssClass' => 'table table-striped table-bordered table-condensed',
         'columns' => array(
             ////'pegawai_id',
-
-            'nama_pegawai',
-            'nomorindukpegawai',
-            'alamat_pegawai',
-            'agama',
-            array(
-                'name' => 'jeniskelamin',
-                'filter' => LookupM::getItems('jeniskelamin'),
-                'value' => '$data->jeniskelamin',
-            ),
-            array(
+             array(
                 'header' => 'Pilih',
                 'type' => 'raw',
                 'value' => 'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
@@ -252,6 +242,16 @@ if (isset($_GET['idMutasi']) && !empty($_GET['idMutasi'])) {
                                         $(\'#dialogPegawaiMengetahui\').dialog(\'close\');
                                         return false;"))',
             ),
+            'nama_pegawai',
+            'nomorindukpegawai',
+            'alamat_pegawai',
+            'agama',
+            array(
+                'name' => 'jeniskelamin',
+                'filter' => CHtml::dropDownList('GUPegawaiM[jeniskelamin]',$modPegawai->jeniskelamin,LookupM::getItems('jeniskelamin'), array('empty'=>'--Pilih--')),
+                'value' => '$data->jeniskelamin',
+            ),
+           
         ),
         'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
     ));
@@ -286,16 +286,6 @@ if (isset($_GET['idMutasi']) && !empty($_GET['idMutasi'])) {
         'itemsCssClass' => 'table table-striped table-bordered table-condensed',
         'columns' => array(
             ////'pegawai_id',
-
-            'nama_pegawai',
-            'nomorindukpegawai',
-            'alamat_pegawai',
-            'agama',
-            array(
-                'name' => 'jeniskelamin',
-                'filter' => LookupM::getItems('jeniskelamin'),
-                'value' => '$data->jeniskelamin',
-            ),
             array(
                 'header' => 'Pilih',
                 'type' => 'raw',
@@ -307,6 +297,16 @@ if (isset($_GET['idMutasi']) && !empty($_GET['idMutasi'])) {
                                     $(\'#dialogPegawai\').dialog(\'close\');
                                     return false;"))',
             ),
+            'nama_pegawai',
+            'nomorindukpegawai',
+            'alamat_pegawai',
+            'agama',
+            array(
+                'name' => 'jeniskelamin',
+                'filter' => CHtml::dropDownList('GUPegawaiM[jeniskelamin]',$modPegawai->jeniskelamin,LookupM::getItems('jeniskelamin'), array('empty'=>'--Pilih--')),
+                'value' => '$data->jeniskelamin',
+            ),
+            
         ),
         'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
     ));

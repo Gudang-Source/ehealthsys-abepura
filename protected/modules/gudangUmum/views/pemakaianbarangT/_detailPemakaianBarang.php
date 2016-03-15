@@ -16,5 +16,5 @@
     <td><?php echo CHtml::activeTextField($modDetail, '[ii]hargajual', array('class'=>'span2 integer satuan', )); ?></td>
     <td><?php echo CHtml::activeTextField($modDetail, '[ii]jmlpakai', array('class'=>'span1 float qty', )); ?></td>
     <td><?php echo CHtml::activeDropDownList($modDetail, '[ii]satuanpakai', LookupM::getItems('satuanbarang'), array('empty'=>'-- Pilih --', 'class'=>'span2')); ?></td>
-    <td><?php echo Chtml::link('<icon class="icon-remove"></icon>', '', array('onclick'=>'batal(this);', 'style'=>'cursor:pointer;', 'class'=>'cancel')); ?></td>
+    <td><?php echo Chtml::link('<icon class="icon-form-silang"></icon>', '', array('onclick'=>'batal(this);', 'style'=>'cursor:pointer;', 'class'=>'cancel')); ?></td>
 </tr>        

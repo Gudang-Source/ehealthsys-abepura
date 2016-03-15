@@ -275,8 +275,8 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
             'id'=>'datakunjungan-grid',
             'dataProvider'=>$modDialogPasien->searchPasienRumahsakitV(),
             'filter'=>$modDialogPasien,
-            'template'=>"{items}\n{pager}",
-//            'template'=>"{summary}\n{items}\n{pager}",
+            //'template'=>"{items}\n{pager}",
+            'template'=>"{summary}\n{items}\n{pager}",
             'itemsCssClass'=>'table table-striped table-bordered table-condensed',
             'columns'=>array(
                     array(

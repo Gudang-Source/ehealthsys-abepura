@@ -13,7 +13,7 @@
 //        ),true
 //    ); 
 
-echo CHtml::dropDownList('Dokumen[warnadokrm_id][]','',CHtml::listData(WarnadokrmM::model()->findAll(),'warnadokrm_id','warnadokrm_namawarna'),array('empty'=>'--Pilih--'));
+echo CHtml::dropDownList('Dokumen[warnadokrm_id][]','',CHtml::listData(WarnadokrmM::model()->findAll("warnadokrm_aktif = TRUE ORDER BY warnadokrm_namawarna ASC" ),'warnadokrm_id','warnadokrm_namawarna'),array('empty'=>'--Pilih--'));
 //echo CHtml::dropDownList("Dokumen[warnadokrm_id][]","",CHtml::listData(WarnadokrmM::model()->findAll(), "warnadokrm_id", "warnadokrm_namawarna"),array("options" => array("'.Params::INSTALASI_ID_RJ.'"=>array("selected"=>true))));
 ?>
 

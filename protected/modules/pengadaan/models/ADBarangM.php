@@ -58,7 +58,7 @@ class ADBarangM extends BarangM
 		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-			'pagination'=>false,
+			//'pagination'=>false,                       
 		));
 	}
 
