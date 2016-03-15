@@ -240,7 +240,7 @@
 			}
 		?>
         <?php
-        $content = $this->renderPartial('pengadaan.views.tips/transaksi', array(), true);
+        $content = $this->renderPartial('pengadaan.views.tips/transaksi4', array(), true);
         $this->widget('UserTips', array('type' => 'transaksi', 'content' => $content));
         ?>
     </div>
@@ -272,8 +272,8 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
     'id' => 'pegawai-m-grid',
     'dataProvider' => $modPegawai->searchDialog(),
     'filter' => $modPegawai,
-    'template' => "{summary}\n{items}\n{pager}",
-    'itemsCssClass' => 'table table-striped table-bordered table-condensed',
+    'template'=>"{summary}\n{items}\n{pager}",
+    'itemsCssClass'=>'table table-striped table-bordered table-condensed',
     'columns' => array(
         ////'pegawai_id',
         array(
@@ -294,7 +294,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
         'agama',
         array(
             'name' => 'jeniskelamin',
-            'filter' => LookupM::getItems('jeniskelamin'),
+            'filter' => CHtml::dropDownList('ADPegawaiM[jeniskelamin]',$modPegawai->jeniskelamin,LookupM::getItems('jeniskelamin'),array('empty'=>'--Pilih--')),
             'value' => '$data->jeniskelamin',
         ),
     ),
