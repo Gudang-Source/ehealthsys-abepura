@@ -68,7 +68,7 @@
                     <?php echo $form->labelEx($model, 'ruanganpemesan_id', array('class' => 'control-label')); ?>
                     <div class="controls">
                         <?php
-                        echo $form->dropDownList($model, 'instalasi_id', CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true'), 'instalasi_id', 'instalasi_nama'), array('autofocus'=>true, 'empty' => '-- Pilih --', 'class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50,
+                        echo $form->dropDownList($model, 'instalasi_id', CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true ORDER BY instalasi_nama ASC'), 'instalasi_id', 'instalasi_nama'), array('autofocus'=>true, 'empty' => '-- Pilih --', 'class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50,
                             'ajax' => array('type' => 'POST',
                                 'url' => $this->createUrl('SetDropdownRuangan',array('encode'=>false,'model_nama'=>get_class($model))),
                                 'update' => '#' . CHtml::activeId($model, 'ruanganpemesan_id') . ''),));
@@ -224,7 +224,7 @@
 			}
 		?>
         <?php
-            $content = $this->renderPartial('gudangUmum.views.pesanbarangT.tips',array(),true);
+            $content = $this->renderPartial('gudangUmum.views.pesanbarangT.tips.transaksi2',array(),true);
             $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
         ?>	
     </div>
@@ -252,8 +252,8 @@
         'id' => 'pegawai-m-grid',
         'dataProvider' => $modPegawai->searchDialog(),
         'filter' => $modPegawai,
-        'template' => "{items}\n{pager}",
-    //    'template' => "{summary}\n{items}\n{pager}",
+       // 'template' => "{items}\n{pager}",
+        'template' => "{summary}\n{items}\n{pager}",
         'itemsCssClass' => 'table table-striped table-bordered table-condensed',
         'columns' => array(
             ////'pegawai_id',
@@ -274,7 +274,7 @@
             'agama',
             array(
                 'name' => 'jeniskelamin',
-                'filter' => LookupM::getItems('jeniskelamin'),
+                'filter' => CHtml::dropDownList('GUPegawaiM[jeniskelamin]',$modPegawai->jeniskelamin,LookupM::getItems('jeniskelamin'),array('empty'=>'--Pilih--')),
                 'value' => '$data->jeniskelamin',
             ),
 
@@ -307,8 +307,8 @@
         'id' => 'pegawai-m-grid2',
         'dataProvider' => $modPegawai2->searchDialog(),
         'filter' => $modPegawai2,
-        'template' => "{items}\n{pager}",
-    //    'template' => "{summary}\n{items}\n{pager}",
+        //'template' => "{items}\n{pager}",
+        'template' => "{summary}\n{items}\n{pager}",
         'itemsCssClass' => 'table table-striped table-bordered table-condensed',
         'columns' => array(
             ////'pegawai_id',
@@ -329,7 +329,7 @@
             'agama',
             array(
                 'name' => 'jeniskelamin',
-                'filter' => LookupM::getItems('jeniskelamin'),
+                'filter' => CHtml::dropDownList('GUPegawaiM[jeniskelamin]',$modPegawai->jeniskelamin,LookupM::getItems('jeniskelamin'),array('empty'=>'--Pilih--')),
                 'value' => '$data->jeniskelamin',
             ),
 
