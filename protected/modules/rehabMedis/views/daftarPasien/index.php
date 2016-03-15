@@ -123,9 +123,15 @@ $('#daftarPasien-form').submit(function(){
                     'header'=>'Rincian Tagihan',
                     'type'=>'raw',
                     'value'=>'CHtml::link("<icon class=\'icon-form-detailtagihan\'></idcon>", Yii::app()->createUrl("'.$modul.'/'.$controller.'/rincian", array("id"=>$data->pendaftaran_id)), array("target"=>"frameRincian", "onclick"=>"$(\'#dialogRincian\').dialog(\'open\');"))','htmlOptions'=>array('style'=>'text-align: center; width:40px')
-                    ),  
-
+                ),  
+                array(
+                   'header'=>'Batal Periksa',
+                   'type'=>'raw',
+                   'value'=>'CHtml::link("<i class=\'icon-form-silang\'></i>", "javascript:batalperiksa(".$data->pendaftaran_id.", ".$data->pasienmasukpenunjang_id.")",array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk membatalkan pemeriksaan"))',
+                   'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
                 ),
+            ),
+                
             'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
         )); ?>
     </div>
@@ -278,7 +284,37 @@ $('#daftarPasien-form').submit(function(){
     <?php $this->endWidget();?>
 </div>
 <script type="text/javascript">
-    
+    function batalperiksa(pendaftaran_id, penunjang_id)
+    {
+            myConfirm("Anda yakin akan membatalkan pemeriksaan radiologi pasien ini?","Perhatian!",function(r) {
+                    if(r){
+                            $.post('<?php echo Yii::app()->createUrl(Yii::app()->controller->module->id . '/' . Yii::app()->controller->id . '/' . 'batalPemeriksaan')?>',{pendaftaran_id:pendaftaran_id, idPenunjang: penunjang_id},
+                                function(data){
+                                    if(data.status == 'ok'){
+                                        /*
+                                        if(data.smspasien==0){
+                                          var params = [];
+                                          params = {instalasi_id:<?php echo Yii::app()->user->getState("instalasi_id"); ?>, modul_id:<?php echo Yii::app()->session['modul_id']; ?>, judulnotifikasi:'GAGAL KIRIM SMS PASIEN', isinotifikasi:'Pasien '+data.nama_pasien+' tidak memiliki nomor mobile'}; // 16 
+                                          insert_notifikasi(params);
+                                        }
+                                        */
+                                        if (data.pesan == 'exist') {
+                                            myAlert(data.keterangan);
+                                        } else {
+                                            window.location = "<?php echo Yii::app()->createUrl('laboratorium/daftarPasien/index&status=1')?>";
+                                        }
+                                    }else{
+                                        if(data.status == 'exist')
+                                        {
+                                            myAlert('Pasien telah melakukan pemeriksaan');
+                                        }
+
+                                    }
+                                },'json'
+                            );
+                    }
+            });
+    }
     //document.getElementById('RMMasukPenunjangV_tgl_awal_date').setAttribute("style","display:none;");
     //document.getElementById('RMMasukPenunjangV_tgl_akhir_date').setAttribute("style","display:none;");
     function cekTanggal(){

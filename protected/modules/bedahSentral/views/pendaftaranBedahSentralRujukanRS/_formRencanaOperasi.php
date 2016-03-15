@@ -15,7 +15,7 @@
 	</div>
 </div>
 <?php // echo $form->textFieldRow($modRencanaOperasi,'norencanaoperasi',array('readonly'=>true)) ?>
-<?php echo $form->dropDownListRow($modRencanaOperasi,'kamarruangan_id', CHtml::listData($modRencanaOperasi->getKamarKosongItems(4), 'kamarruangan_id', 'KamarDanTempatTidur') , 
+<?php echo $form->dropDownListRow($modRencanaOperasi,'kamarruangan_id', CHtml::listData($modRencanaOperasi->getKamarKosongItems(), 'kamarruangan_id', 'KamarDanTempatTidur') , 
 							   array('empty'=>'-- Pilih --',
 											'onkeypress'=>"return $(this).focusNextInputField(event)",
 											'class'=>'span3'
