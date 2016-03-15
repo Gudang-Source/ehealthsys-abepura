@@ -294,7 +294,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
         'agama',
         array(
             'name' => 'jeniskelamin',
-            'filter' => LookupM::getItems('jeniskelamin'),
+            'filter' => CHtml::dropDownList('ADPegawaiM[jeniskelamin]',$modPegawai->jeniskelamin,LookupM::getItems('jeniskelamin'),array('empty'=>'--Pilih--')),
             'value' => '$data->jeniskelamin',
         ),
     ),
