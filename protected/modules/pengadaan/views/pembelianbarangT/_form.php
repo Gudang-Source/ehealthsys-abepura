@@ -240,7 +240,7 @@
 			}
 		?>
         <?php
-        $content = $this->renderPartial('pengadaan.views.tips/transaksi', array(), true);
+        $content = $this->renderPartial('pengadaan.views.tips/transaksi4', array(), true);
         $this->widget('UserTips', array('type' => 'transaksi', 'content' => $content));
         ?>
     </div>
