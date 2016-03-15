@@ -56,7 +56,7 @@
                 <!-- <td><?php //echo CHtml::activeTextField($detail, '['.$i.']jmldlmkemasan', array('class'=>'span1 integer qty', 'onblur'=>'cekStok(this);'));
                     //echo '<br/>';
                     //echo $form->error($detail, '['.$i.']jmlpakai'); ?></td> -->
-                <td><?php echo Chtml::link('<icon class="icon-remove"></icon>', '', array('onclick'=>'batal(this);', 'style'=>'cursor:pointer;', 'class'=>'cancel')); ?></td>
+                <td><?php echo Chtml::link('<icon class="icon-form-silang"></icon>', '', array('onclick'=>'batal(this);', 'style'=>'cursor:pointer;', 'class'=>'cancel')); ?></td>
             </tr>   
         <?php }
         }

@@ -72,7 +72,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
         'autoOpen' => false,
         'modal' => true,
         'width' => 1000,
-        'height' => 500,
+        'height' => 600,
         'resizable' => false,
     ),
 ));
@@ -87,7 +87,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'barang-m-grid',
     'dataProvider'=>$modBarang->searchDialog(),
     'filter'=>$modBarang,
-	'template'=>"{pager}{summary}\n{items}",
+	'template'=>"{summary}\n{items}{pager}",
 	'itemsCssClass'=>'table table-striped table-bordered table-condensed',
     'columns'=>array(
         array(
@@ -113,7 +113,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
         'barang_warna', 
         array(
             'name'=>'barang_satuan',
-            'filter'=>LookupM::getItems('satuanbarang'),
+            'filter'=> CHtml::dropDownList('GUBarangM[barang_satuan]',$modBarang->barang_satuan,LookupM::getItems('satuanbarang'), array('empty'=>'--Pilih--')),
             'value'=>'$data->barang_satuan',
         ),
     ),

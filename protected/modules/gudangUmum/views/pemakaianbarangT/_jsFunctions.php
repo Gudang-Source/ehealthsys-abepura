@@ -190,7 +190,7 @@ $(document).ready(function(){
 		
 		$("#table-detailbarang :input").attr("readonly",true);
         $("#table-detailbarang .add-on").remove();
-        $("#table-detailbarang .icon-remove").remove();
+        $("#table-detailbarang .icon-form-silang").remove();
         
         $("#gupemakaianbarang-t-form :input").attr("readonly",true);
         $("#gupemakaianbarang-t-form .dtPicker3").attr("readonly",true);
