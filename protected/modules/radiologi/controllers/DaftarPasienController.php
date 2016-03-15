@@ -209,180 +209,147 @@ class DaftarPasienController extends MyAuthController
 		$this->render($this->path_view.'ubahPasien',array('model'=>$model));
 	}
         
-    public function actionBatalPemeriksaan()
-    {
-
-        if(Yii::app()->request->isAjaxRequest)
-        {   
-            $transaction = Yii::app()->db->beginTransaction();
-            $pesan = 'success';
-            $status = 'ok';
-
-            $nama_modul = Yii::app()->controller->module->id;
-            $nama_controller = Yii::app()->controller->id;
-            $nama_action = Yii::app()->controller->action->id;
-            $modul_id = ModulK::model()->findByAttributes(array('url_modul'=>$nama_modul))->modul_id;
-            $criteria = new CDbCriteria;
-            $criteria->compare('modul_id',$modul_id);
-            $criteria->compare('LOWER(modcontroller)',strtolower($nama_controller),true);
-            $criteria->compare('LOWER(modaction)',strtolower($nama_action),true);
-            if(isset($_POST['tujuansms'])){
-                $criteria->addInCondition('tujuansms',$_POST['tujuansms']);
-            }
-            $modSmsgateway = SmsgatewayM::model()->findAll($criteria);
-            $smspasien = 1;
-            $nama_pasien = '';
-
-            try{
+        public function actionBatalPemeriksaan() {
+                $idKirimUnit = null;
+                $keterangan = "";
+                $nama_pasien = "";
                 
-                /*
-                 * cek data pendaftaran pasien masuk penunjang
-                 */
-                $pendaftaran_id = $_POST['pendaftaran_id'];
-                $criteria = new CDbCriteria();
-				if(!empty($pendaftaran_id)){
-					$criteria->addCondition("pendaftaran_id = ".$pendaftaran_id);					
-				}
-                
-                $pasienMasukPenunjang = PasienmasukpenunjangT::model()->find($criteria);
-
-                $model = new PasienbatalperiksaR();
-                $model->pendaftaran_id = $pendaftaran_id;
-                $model->pasien_id = $pasienMasukPenunjang->pasien_id;
-                $model->tglbatal = date('Y-m-d');
-                $model->keterangan_batal = "Batal Radiologi";
-                $model->create_ruangan = Yii::app()->user->getState('ruangan_id');
-                if(!$model->save())
-                {
-                    $status = 'not';
-                }
-                
-                if($pasienMasukPenunjang->pasienkirimkeunitlain_id == null)
-                {
-                    $attributes = array(
-                        'pasienbatalperiksa_id' => $model->pasienbatalperiksa_id,
-                        'update_time' => date('Y-m-d H:i:s'),
-                        'update_loginpemakai_id' => Yii::app()->user->id
-                    );
-                    $pendaftaran = ROPendaftaranT::model()->updateByPk($pendaftaran_id, $attributes);
-                    
-                    $attributes = array(
-                        'pasienkirimkeunitlain_id' => $pasienMasukPenunjang->pasienkirimkeunitlain_id
-                    );
-                    $Perminataan_penunjang = PermintaankepenunjangT::model()->deleteAllByAttributes($attributes);
-                }
-
-                $attributes = array(
-                    'statusperiksa' => 'BATAL PERIKSA',
-                    'update_time' => date('Y-m-d H:i:s'),
-                    'update_loginpemakai_id' => Yii::app()->user->id
-                );
-                $penunjang = PasienmasukpenunjangT::model()->updateByPk($pasienMasukPenunjang->pasienmasukpenunjang_id, $attributes);
-                if(!$penunjang)
-                {
-                    $status = 'not';
-                }
-                
-                $this->hapusTindakanDanOa($pasienMasukPenunjang, $status, $pesan);
-                
-                /*
-                 * cek data tindakan_pelayanan
-                 */
-                /*
-                $attributes = array(
-                    'pasienmasukpenunjang_id' => $pasienMasukPenunjang->pasienmasukpenunjang_id,
-                    'tindakansudahbayar_id' => null
-                );
-                
-                $criteria2 = new CDbCriteria();
-                $criteria2->addCondition('pasienmasukpenunjang_id = '.$pasienMasukPenunjang->pasienmasukpenunjang_id);
-                $criteria2->addCondition('tindakansudahbayar_id is null');
-                $tindakan = TindakanpelayananT::model()->findAll($criteria2);
-
-                if(count($tindakan) > 0)
-                {
-                    
-                    foreach($tindakan as $val=>$key)
-                    {
-                        $attributes = array(
-                            'tindakanpelayanan_id' => $key->tindakanpelayanan_id
-                        );
-                        $hapus_komponen= TindakankomponenT::model()->deleteAllByAttributes($attributes);
-                    }
-                    
-                    $attributes = array(
-                        'pasienmasukpenunjang_id' => $pasienMasukPenunjang->pasienmasukpenunjang_id
-                    );
-
-                    $hapus_tindakan = TindakanPelayananT::model()->deleteAllByAttributes($attributes);
-                    if(!$hapus_tindakan)
-                    {
-                        $status = 'not';
-                    }
-                }else{
-                    $pesan = 'exist';
-                }
-                 * 
-                 */
-                //var_dump($pesan);
-                //die;
-                /*
-                 * kondisi_commit
-                 */
-                if($status == 'ok')
-                {
-                    // SMS GATEWAY
-                    $modPasien = PasienM::model()->findByPk($model->pasien_id);
-                    $sms = new Sms();
-                    foreach ($modSmsgateway as $i => $smsgateway) {
-                        if(isset($_POST['tujuansms']) && in_array($smsgateway->tujuansms, $_POST['tujuansms'])){
-                            $isiPesan = $smsgateway->templatesms;
-
-                            $attributes = $modPasien->getAttributes();
-                            foreach($attributes as $attributes => $value){
-                                $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
+		if (Yii::app()->request->isAjaxRequest) {
+			$transaction = Yii::app()->db->beginTransaction();
+			$pesan = 'success';
+			$status = 'ok';
+                        $ok = true;
+                        try {
+                            $id = $_POST['pendaftaran_id'];
+                            $idPenunjang = $_POST['idPenunjang'];
+                            
+                            $pendaftaran = PendaftaranT::model()->findByPk($id);
+                            $penunjang = PasienmasukpenunjangT::model()->findByPk($idPenunjang);
+                            $nama_pasien = $pendaftaran->pasien->nama_pasien;
+                            
+                            // periksa tindakan
+                            $criteria = new CDbCriteria();
+                            $criteria->select = "count(tindakanpelayanan_id) as tindakanpelayanan_id";
+                            $criteria->addCondition("pasienmasukpenunjang_id = ".$idPenunjang." and tindakansudahbayar_id is not null");
+                            $tindakan = TindakanpelayananT::model()->find($criteria);
+                            
+                            if ($tindakan->tindakanpelayanan_id > 0) {
+                                $pesan = 'exist';
+				$keterangan = "<div class='flash-success'>Pasien <b> " . $pendaftaran->pasien->nama_pasien . " 
+                                </b> sudah melakukan pembayaran pemeriksaan </div>";
+                                $ok = false;
+                            } else {
+                                $ok = $ok && TindakanpelayananT::model()->updateAll(array(
+                                    'detailhasilpemeriksaanlab_id'=>null,
+                                    'hasilpemeriksaanrm_id'=>null,
+                                    'hasilpemeriksaanrad_id'=>null,
+                                    'hasilpemeriksaanpa_id'=>null,
+                                ), 'pasienmasukpenunjang_id = '.$idPenunjang);
+                                $ok = $ok && TindakanpelayananT::model()->deleteAllByAttributes(array(
+                                    'pasienmasukpenunjang_id' => $idPenunjang,
+                                ));
+                                // $ok = $ok && PasienmasukpenunjangT::model()->deleteByPk();
                             }
-                            $attributes = $model->getAttributes();
-                            foreach($attributes as $attributes => $value){
-                                $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
+                            
+                            //var_dump($ok);
+                            
+                            // simpan batal periksa penunjang
+                            $model = new PasienbatalperiksaR();
+                            $model->pendaftaran_id = $id;
+                            $model->pasien_id = $pendaftaran->pasien_id;
+                            $model->pasienmasukpenunjang_id = $penunjang->pasienmasukpenunjang_id;
+                            $model->pasienkirimkeunitlain_id = $penunjang->pasienkirimkeunitlain_id;
+                            $model->tglbatal = date('Y-m-d');
+                            $model->keterangan_batal = "Batal Laboratorium";
+                            $model->create_time = date('Y-m-d H:i:s');
+                            $model->update_time = null;
+                            $model->create_loginpemakai_id = Yii::app()->user->id;
+                            $model->create_ruangan = Yii::app()->user->getState('ruangan_id');
+
+                            if ($model->validate()) {
+                                $ok = $ok && $model->save();
+                            } else $ok = false;
+                            
+                            //var_dump($ok);
+                            
+                            if (empty($penunjang->pasienkirimkeunitlain_id)) {
+                                $attributes = array(
+                                    'statusperiksa' => 'BATAL PERIKSA',
+                                    'pasienbatalperiksa_id' => $model->pasienbatalperiksa_id,
+                                    'update_time' => date('Y-m-d H:i:s'),
+                                    'update_loginpemakai_id' => Yii::app()->user->id
+				);
+                                $ok = $ok && PendaftaranT::model()->updateByPk($id, $attributes);
+                            } else {
+                                $attributes = array(
+                                    'statusperiksa' => 'BATAL PERIKSA',
+                                    'update_time' => date('Y-m-d H:i:s'),
+                                    'update_loginpemakai_id' => Yii::app()->user->id
+                                );
+                                $this->notifPasienBatalPemeriksaan($penunjang);
+                                $ok = $ok && PasienmasukpenunjangT::model()->updateByPk($idPenunjang, $attributes);
                             }
-                            $isiPesan = str_replace("{{hari}}",MyFormatter::getDayName($model->tglbatal),$isiPesan);
-
-
-                            if($smsgateway->tujuansms == Params::TUJUANSMS_PASIEN && $smsgateway->statussms){
-                                if(!empty($modPasien->no_mobile_pasien)){
-                                    $sms->kirim($modPasien->no_mobile_pasien,$isiPesan);
-                                }else{
-                                    $smspasien = 0;
-                                }
-
+                            
+                            $oa = ObatalkespasienT::model()->findAllByAttributes(array(
+                                'pasienmasukpenunjang_id'=>$idPenunjang,
+                            ));
+                            foreach ($oa as $item) {
+                                $ok = $ok && StokobatalkesT::model()->deleteAllByAttributes(array(
+                                    'obatalkespasien_id'=>$item->obatalkespasien_id,
+                                ));
+                                $ok = $ok && ObatalkespasienT::model()->deleteByPk($item->obatalkespasien_id);
                             }
+                            
+                            //var_dump($ok);die;
+                            if ($ok) {
+                                $transaction->commit();
+                            } else {
+                                $transaction->rollback();
+                            }
+                            
+                        } catch (Exception $ex) {
+                            print_r($ex);
+                            $status = 'not';
+                            $transaction->rollback();
                         }
                         
-                    }
-                    $nama_pasien = $modPasien->nama_pasien;
-                    // END SMS GATEWAY
-                    $transaction->commit();
-                }else{
-                    $transaction->rollback();
-                    
-                }
-
-            }catch(Exception $ex){
-                print_r($ex);
-                $status = 'not';
-                $transaction->rollback();
-            }            
-            $data = array(
-                'pesan'=>$pesan,
-                'status'=>$status,
-                'smspasien'=>$smspasien,
-                'nama_pasien'=>$nama_pasien
-            );
-            echo json_encode($data);
-            Yii::app()->end();            
+                        $data['pesan'] = $pesan;
+			$data['status'] = $status;
+			$data['keterangan'] = $keterangan;
+			//$data['smspasien'] = $smspasien;
+			$data['nama_pasien'] = $nama_pasien;
+                        
+                        echo json_encode($data);
+                        
+			Yii::app()->end();
+		}
         }
-    }
+        
+        public function notifPasienBatalPemeriksaan($pasienMasukPenunjang) {
+            // var_dump($pasienMasukPenunjang->attributes); die;
+            
+            if (!empty($pasienMasukPenunjang->pasienkirimkeunitlain_id)) {
+                $ki = PasienkirimkeunitlainT::model()->findByPk($pasienMasukPenunjang->pasienkirimkeunitlain_id);
+                $modRuangan = RuanganM::model()->findByPk($ki->create_ruangan);
+            } else {
+                $modRuangan = RuanganM::model()->findByPk(Params::RUANGAN_ID_LOKET);
+            }
+            
+            // var_dump($modRuangan->attributes); die;
+            
+            //$modRuangan = RuanganM::model()->findByPk($modKirimKeunitlain->create_ruangan);
+            $pasien_id = $pasienMasukPenunjang->pasien_id;
+            $modPasien = PasienM::model()->findByPk($pasien_id);
+            $judul = 'Pasien Batal Pemeriksaan Laboratorium';
+
+            $isi = $modPasien->no_rekam_medik.' - '.$modPasien->nama_pasien;
+            
+            //var_dump($judul." , ".$isi);
+            
+            $ok = CustomFunction::broadcastNotif($judul, $isi, array(
+                array('instalasi_id'=>$modRuangan->instalasi_id, 'ruangan_id'=>$modRuangan->ruangan_id, 'modul_id'=>$modRuangan->modul_id),
+            )); 
+        }
 
     protected function hapusTindakanDanOa($pasienMasukPenunjang, &$status, &$pesan) {
         $ok = true;

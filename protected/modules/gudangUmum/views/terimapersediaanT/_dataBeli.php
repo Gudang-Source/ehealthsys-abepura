@@ -26,7 +26,7 @@
                 <div class="controls">
 				
                     <?php
-						echo CHtml::activeDropDownList($modBeli,'supplier_id', CHtml::listData(SupplierM::model()->findAll('supplier_aktif = true'), 'supplier_id', 'supplier_nama'), array('empty'=>'-- Pilih --', 'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);"));
+						echo CHtml::activeDropDownList($modBeli,'supplier_id', CHtml::listData(SupplierM::model()->findAll('supplier_aktif = true ORDER BY supplier_nama ASC'), 'supplier_id', 'supplier_nama'), array('empty'=>'-- Pilih --', 'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);"));
                     ?>
                 </div>
             </div>

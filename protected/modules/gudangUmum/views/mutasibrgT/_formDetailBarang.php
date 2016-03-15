@@ -100,6 +100,19 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'template'=>"{summary}\n{items}\n{pager}",
 	'itemsCssClass'=>'table table-striped table-bordered table-condensed',
     'columns'=>array(
+         array(
+            'header' => 'Pilih',
+            'type' => 'raw',
+            'value' => 'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
+                                    "id" => "selectBarang",
+                                    "onClick" => "
+                                        
+                                        $(\'#idBarang\').val(\'$data->barang_id\');
+                                        $(\'#namaBarang\').val(\'$data->barang_nama\');
+                                        $(\'#satuan\').val(\'$data->barang_satuan\');
+                                        $(\'#dialogBarang\').dialog(\'close\');
+                                        return false;"))',
+        ),   
         array(
 			'name'=>'barang_id',
 			'value'=>'$data->barang_id',
@@ -112,24 +125,12 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
         'barang_nama',
         array(
             'name'=>'barang_satuan',
-            'filter'=>LookupM::getItems('satuanbarang'),
+            'filter'=> CHtml::dropDownList('GUBarangM[barang_satuan]',$modBarang->barang_satuan,LookupM::getItems('satuanbarang'), array('empty'=>'--Pilih--')),
             'value'=>'$data->barang_satuan',
         ),
         'barang_ukuran',
         'barang_bahan',
-        array(
-            'header' => 'Pilih',
-            'type' => 'raw',
-            'value' => 'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
-                                    "id" => "selectBarang",
-                                    "onClick" => "
-                                        
-                                        $(\'#idBarang\').val(\'$data->barang_id\');
-                                        $(\'#namaBarang\').val(\'$data->barang_nama\');
-                                        $(\'#satuan\').val(\'$data->barang_satuan\');
-                                        $(\'#dialogBarang\').dialog(\'close\');
-                                        return false;"))',
-        ),
+        
     ),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 ));

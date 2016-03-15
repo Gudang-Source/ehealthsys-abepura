@@ -15,12 +15,18 @@
   </tr>
   <tr>
     <td>4. </td>
+    <td>Gunakan tombol ini  <button class="btn btn-primary" name="yt0" type="submit"><i class="icon-plus icon-white"></i>
+
+</button>  untuk menambahkan transaksi.</td>
+  </tr>
+  <tr>
+    <td>5. </td>
     <td>Gunakan tombol ini  <button class="btn btn-primary" name="yt0" type="submit"><i class="icon-ok icon-white"></i>
 Simpan
 </button> berfungsi untuk menyimpan</td>
   </tr>
   <tr>
-    <td>5. </td>
+    <td>6. </td>
     <td>Gunakan tombol ini <a class="btn btn-danger">
 <i class="icon-refresh icon-white"></i>
 Ulang

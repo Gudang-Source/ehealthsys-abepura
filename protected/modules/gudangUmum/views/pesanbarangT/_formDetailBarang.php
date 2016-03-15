@@ -96,8 +96,8 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'barang-m-grid',
     'dataProvider'=>$modBarang->searchDialog(),
     'filter'=>$modBarang,
-        'template'=>"{items}\n{pager}",
-//        'template'=>"{summary}\n{items}\n{pager}",
+       // 'template'=>"{items}\n{pager}",
+        'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
     'columns'=>array(
         ////'barang_id',
@@ -130,7 +130,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 //        'barang_satuan',
         array(
             'name'=>'barang_satuan',
-            'filter'=>LookupM::getItems('satuanbarang'),
+            'filter'=> CHtml::dropDownList('GUBarangM[barang_satuan]',$modBarang->barang_satuan,LookupM::getItems('satuanbarang'),array('empty'=>'--Pilih--')),
             'value'=>'$data->barang_satuan',
         ),
         'barang_ukuran',
@@ -241,8 +241,8 @@ Yii::app()->clientScript->registerScript('onready','
         }
         else if (!jQuery.isNumeric(idPemesan)){
             //myAlert("'.CHtml::encode($model->getAttributeLabel('pegpemesan_id')).' harus diisi");
-            myAlert("Silakan isi kolom yang bertanda *!");
-            idPemesan.focus();
+            myAlert("Silakan isi kolom yang bertanda *");
+            // idPemesan.focus();
             return false;
         }
         

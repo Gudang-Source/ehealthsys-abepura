@@ -8,7 +8,7 @@
     <tr>
         <td>2. </td>
         <td>Gunakan icon ini <span class="add-on"><a id="" href="#">
-            <i class="icon-list-alt"></i><i class="icon-search"></i></a>
+            <i class="icon-list"></i><i class="icon-search"></i></a>
             </span> berfungsi untuk mencari dan menampilkan list datanya.
         </td>
     </tr>

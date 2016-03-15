@@ -151,3 +151,4 @@ echo '<iframe src="" name="frameDetail" width="100%" height="500">
 
 $this->endWidget();
 ?>
+</div>

@@ -26,7 +26,7 @@
         <tr>
             <td>
                 <?php //echo $form->textFieldRow($model,'pembelianbarang_id',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-                <?php echo $form->dropDownListRow($model,'sumberdana_id', CHtml::listData(SumberdanaM::model()->findAll('sumberdana_aktif = true'), 'sumberdana_id', 'sumberdana_nama'), array('empty'=>'-- Pilih --', 'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                <?php echo $form->dropDownListRow($model,'sumberdana_id', CHtml::listData(SumberdanaM::model()->findAll('sumberdana_aktif = true ORDER BY sumberdana_nama'), 'sumberdana_id', 'sumberdana_nama'), array('empty'=>'-- Pilih --', 'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                 <?php //echo $form->textFieldRow($model,'returpenerimaan_id',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                 <?php //echo $form->textFieldRow($model,'tglterima',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                 <div class="control-group ">
@@ -188,7 +188,7 @@
                    <?php echo $form->labelEx($model, 'ruanganpenerima_id', array('class'=>'control-label')); ?>
                     <div class="controls">
                         <?php
-                        echo $form->dropDownList($model, 'instalasi_id', CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true'), 'instalasi_id', 'instalasi_nama'), array('empty' => '-- Pilih --', 'class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50,
+                        echo $form->dropDownList($model, 'instalasi_id', CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true ORDER BY instalasi_nama'), 'instalasi_id', 'instalasi_nama'), array('empty' => '-- Pilih --', 'class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50,
                             'ajax' => array('type' => 'POST',
                                 'url' => $this->createUrl('SetDropdownRuangan',array('encode'=>false,'model_nama'=>get_class($model))),
                                 'update' => '#' . CHtml::activeId($model, 'ruanganpenerima_id') . ''),));
@@ -204,7 +204,7 @@
                 <div class="control-group ">
                     <?php echo $form->labelEx($model, 'discount', array('class' => 'control-label')) ?>
                     <div class="controls">
-                        <?php echo Chtml::textField('discountpersen', '', array('class' => 'span1 numbersOnly', 'onblur'=>'setTotalHarga();', 'style'=>'text-align: right;')); ?> % = 
+                        <?php echo Chtml::textField('discountpersen', '0', array('class' => 'span1 numbersOnly', 'onblur'=>'setTotalHarga();', 'style'=>'text-align: right;')); ?> % = 
                         <?php echo $form->textField($model, 'discount', array('readonly' => true, 'class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'style'=>'text-align: right;')); ?>
                         <?php echo $form->error($model, 'discount'); ?>
                     </div>
@@ -263,7 +263,7 @@
                             array('class'=>'btn btn-danger',
                                 'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r) {if(r) window.location = "'.$this->createUrl('Index').'";} ); return false;'));  ?>
         <?php
-        $content = $this->renderPartial('../tips/informasi_pencarian_mutasi',array(),true);
+        $content = $this->renderPartial('../tips/transaksi_penerimaan_persediaan',array(),true);
         $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
         ?>
     </div>
@@ -297,17 +297,6 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
         'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
     'columns'=>array(
-        ////'pegawai_id',
-        
-            'nama_pegawai',
-            'nomorindukpegawai',
-                'alamat_pegawai',
-        'agama',
-            array(
-                'name'=>'jeniskelamin',
-                'filter'=>  LookupM::getItems('jeniskelamin'),
-                'value'=>'$data->jeniskelamin',
-                ),
         array(
             'header' => 'Pilih',
             'type' => 'raw',
@@ -320,6 +309,17 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                     $(\'#dialogPegawai\').dialog(\'close\');
                                     return false;"))',
         ),
+        ////'pegawai_id',
+        
+            'nama_pegawai',
+            'nomorindukpegawai',
+                'alamat_pegawai',
+        'agama',
+            array(
+                'name'=>'jeniskelamin',
+                'filter'=> CHtml::dropDownList('GUPegawaiM[jeniskelamin]',$modPegawai->jeniskelamin,LookupM::getItems('jeniskelamin'),array('empty'=>'--Pilih--')),
+                'value'=>'$data->jeniskelamin',
+                ),        
     ),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 ));
