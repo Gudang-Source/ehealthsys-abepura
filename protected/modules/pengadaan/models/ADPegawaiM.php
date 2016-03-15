@@ -84,7 +84,7 @@ class ADPegawaiM extends PegawaiM
 		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-			'pagination'=>false,
+			//'pagination'=>false,
 		));
 	}
 }

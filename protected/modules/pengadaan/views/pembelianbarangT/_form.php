@@ -272,8 +272,8 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
     'id' => 'pegawai-m-grid',
     'dataProvider' => $modPegawai->searchDialog(),
     'filter' => $modPegawai,
-    'template' => "{summary}\n{items}\n{pager}",
-    'itemsCssClass' => 'table table-striped table-bordered table-condensed',
+    'template'=>"{summary}\n{items}\n{pager}",
+    'itemsCssClass'=>'table table-striped table-bordered table-condensed',
     'columns' => array(
         ////'pegawai_id',
         array(
