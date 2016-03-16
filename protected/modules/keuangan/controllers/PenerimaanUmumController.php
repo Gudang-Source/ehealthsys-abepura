@@ -210,6 +210,11 @@ class PenerimaanUmumController extends MyAuthController
         
 	protected function saveJurnalRekening($modPenUmum, $postPenUmum)
 	{
+                $period = Yii::app()->user->getState('periode_ids');
+                if (is_array($period)) {
+                    $period = $period[0];
+                }
+            
 		$modJurnalRekening = new KUJurnalrekeningT;
 		$modJurnalRekening->tglbuktijurnal = $modPenUmum->tglpenerimaan;
 		$modJurnalRekening->nobuktijurnal = MyGenerator::noBuktiJurnalRek();
@@ -219,12 +224,10 @@ class PenerimaanUmumController extends MyAuthController
 		$modJurnalRekening->nobku = "";
 		$modJurnalRekening->urianjurnal = $postPenUmum['jenisKodeNama'];
 		$modJurnalRekening->jenisjurnal_id = Params::JENISJURNAL_ID_PENERIMAAN_KAS;
-		$modJurnalRekening->rekperiod_id = Yii::app()->user->getState('periode_ids')[0];
+		$modJurnalRekening->rekperiod_id = $period;
 		$modJurnalRekening->create_time = $modPenUmum->tglpenerimaan;
 		$modJurnalRekening->create_loginpemakai_id = Yii::app()->user->id;
 		$modJurnalRekening->create_ruangan = Yii::app()->user->getState('ruangan_id');
-
-                // var_dump($modJurnalRekening->attributes); die;
                 
 		if($modJurnalRekening->validate()){
 			$modJurnalRekening->save();
