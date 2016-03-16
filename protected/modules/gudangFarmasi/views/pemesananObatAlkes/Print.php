@@ -120,7 +120,7 @@ echo $this->renderPartial('application.views.headerReport.headerDefault',array('
 <table width="80%" style="margin-top:20px;">
     <tr>
         <td width="50%" align="center">
-			Pegawai Menyetujui,
+			Pegawai Pemesan,
             <div style="margin-top:50px;"></div><?php echo (isset($model->pegawaipemesan->NamaLengkap) ? $model->pegawaipemesan->NamaLengkap : ""); ?>
 		</td>
         <td width="50%" align="center">

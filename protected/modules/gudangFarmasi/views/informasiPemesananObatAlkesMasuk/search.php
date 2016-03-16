@@ -62,6 +62,7 @@
             <td>
                 <?php echo $form->dropDownListRow($model,'ruanganpemesan_id',$ruanganPemesanans,array('class'=>'span3','empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
                 <?php echo $form->dropDownListRow($model,'statuspesan', LookupM::getItems('statuspesan'),array('class'=>'span3','empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+                <?php echo $form->dropDownListRow($model,'statusmutasi', array(1=>'SUDAH DIMUTASi', 2=>'BELUM DIMUTASI'), array('class'=>'span3','empty'=>'-- Pilih --')); ?>
             </td>
         </tr>
     </table>
