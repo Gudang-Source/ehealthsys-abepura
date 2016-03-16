@@ -97,51 +97,6 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
          * 
          */
         array(
-            'name'=>'golongan_id',
-            'value'=>'$data->golongan_nama',
-            'filter'=>  CHtml::listData(GolonganM::model()->findAll(array(
-                'condition'=>'golongan_aktif = true',
-                'order'=>'golongan_nama',
-            )), 'golongan_id', 'golongan_nama')
-        ),
-        array(
-            'name'=>'kelompok_id',
-            'value'=>'$data->kelompok_nama',
-            'filter'=>  CHtml::listData(KelompokM::model()->findAll(array(
-                'condition'=>'kelompok_aktif = true',
-                'order'=>'kelompok_nama',
-            )), 'kelompok_id', 'kelompok_nama')
-        ),
-        array(
-            'name'=>'subkelompok_id',
-            'value'=>'$data->subkelompok_nama',
-            'filter'=>  CHtml::listData(SubkelompokM::model()->findAll(array(
-                'condition'=>'subkelompok_aktif = true',
-                'order'=>'subkelompok_nama',
-            )), 'subkelompok_id', 'subkelompok_nama')
-        ),
-        array(
-            'name'=>'bidang_id',
-            'value'=>'$data->bidang_nama',
-            'filter'=>  CHtml::listData(BidangM::model()->findAll(array(
-                'condition'=>'bidang_aktif = true',
-                'order'=>'bidang_nama',
-            )), 'bidang_id', 'bidang_nama')
-        ),
-//        'bidang_id',
-//        'barang_type',
-//        'barang_kode',
-        'barang_nama',
-//        'barang_satuan',
-        array(
-            'name'=>'barang_satuan',
-            'filter'=>LookupM::getItems('satuanbarang'),
-            'value'=>'$data->barang_satuan',
-        ),
-        'barang_ukuran',
-        'barang_bahan',
-//        'barang_namalainnya',
-        array(
             'header' => 'Pilih',
             'type' => 'raw',
             'value' => 'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
@@ -154,6 +109,52 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                         $(\'#dialogBarang\').dialog(\'close\');
                                         return false;"))',
         ),
+        array(
+            'name'=>'golongan_id',
+            'value'=>'$data->golongan_nama',
+            'filter'=> CHtml::dropDownList('BarangV[golongan_id]',$modBarang->golongan_id,CHtml::listData(GolonganM::model()->findAll(array(
+                'condition'=>'golongan_aktif = true',
+                'order'=>'golongan_nama',
+            )), 'golongan_id', 'golongan_nama'),array('empty'=>'--Pilih--'))
+        ),
+        array(
+            'name'=>'kelompok_id',
+            'value'=>'$data->kelompok_nama',
+            'filter'=>   CHtml::dropDownList('BarangV[kelompok_id]',$modBarang->kelompok_id,CHtml::listData(KelompokM::model()->findAll(array(
+                'condition'=>'kelompok_aktif = true',
+                'order'=>'kelompok_nama',
+            )), 'kelompok_id', 'kelompok_nama'),array('empty'=>'--Pilih--'))
+        ),
+        array(
+            'name'=>'subkelompok_id',
+            'value'=>'$data->subkelompok_nama',
+            'filter'=>  CHtml::dropDownList('BarangV[subkelompok_id]',$modBarang->subkelompok_id,CHtml::listData(SubkelompokM::model()->findAll(array(
+                'condition'=>'subkelompok_aktif = true',
+                'order'=>'subkelompok_nama',
+            )), 'subkelompok_id', 'subkelompok_nama'),array('empty'=>'--Pilih--'))
+        ),
+        array(
+            'name'=>'bidang_id',
+            'value'=>'$data->bidang_nama',
+            'filter'=>  CHtml::dropDownList('BarangV[bidang_id]',$modBarang->bidang_id,CHtml::listData(BidangM::model()->findAll(array(
+                'condition'=>'bidang_aktif = true',
+                'order'=>'bidang_nama',
+            )), 'bidang_id', 'bidang_nama'),array('empty'=>'--Pilih--'))
+        ),
+//        'bidang_id',
+//        'barang_type',
+//        'barang_kode',
+        'barang_nama',
+//        'barang_satuan',
+        array(
+            'name'=>'barang_satuan',
+            'filter'=>  CHtml::dropDownList('BarangV[barang_satuan]',$modBarang->barang_satuan,LookupM::getItems('satuanbarang'),array('empty'=>'--Pilih--')),
+            'value'=>'$data->barang_satuan',
+        ),
+        'barang_ukuran',
+        'barang_bahan',
+//        'barang_namalainnya',
+        
     ),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 ));

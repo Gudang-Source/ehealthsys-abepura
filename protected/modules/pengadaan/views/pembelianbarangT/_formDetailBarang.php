@@ -124,7 +124,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 //        'barang_satuan',
         array(
             'name'=>'barang_satuan',
-            'filter'=>LookupM::getItems('satuanbarang'),
+            'filter'=> CHtml::dropDownList('ADBarangM[barang_satuan]',$modBarang->barang_satuan,LookupM::getItems('satuanbarang'),array('empty'=>'--Pilih--')),
             'value'=>'$data->barang_satuan',
         ),
         'barang_ukuran',

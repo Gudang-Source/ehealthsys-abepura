@@ -22,8 +22,8 @@
         <tr>
             <td>
                 <?php //echo $form->textFieldRow($model,'terimapersediaan_id',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-                <?php echo $form->dropDownListRow($model, 'sumberdana_id', CHtml::listData(SumberdanaM::model()->findAll('sumberdana_aktif = true'), 'sumberdana_id', 'sumberdana_nama'), array('empty' => '-- Pilih --', 'class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
-                <?php echo $form->dropDownListRow($model, 'supplier_id', CHtml::listData(SupplierM::model()->findAll('supplier_aktif = true'), 'supplier_id', 'supplier_nama'), array('empty' => '-- Pilih --', 'class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+                <?php echo $form->dropDownListRow($model, 'sumberdana_id', CHtml::listData(SumberdanaM::model()->findAll('sumberdana_aktif = true ORDER BY sumberdana_nama'), 'sumberdana_id', 'sumberdana_nama'), array('empty' => '-- Pilih --', 'class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+                <?php echo $form->dropDownListRow($model, 'supplier_id', CHtml::listData(SupplierM::model()->findAll('supplier_aktif = true ORDER BY supplier_nama'), 'supplier_id', 'supplier_nama'), array('empty' => '-- Pilih --', 'class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
                     <?php //echo $form->textFieldRow($model,'tglpembelian',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);"));  ?>
                     <?php echo $form->textFieldRow($model, 'nopembelian', array('readonly' => true, 'class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
             </td>
@@ -240,7 +240,7 @@
 			}
 		?>
         <?php
-        $content = $this->renderPartial('pengadaan.views.tips/transaksi', array(), true);
+        $content = $this->renderPartial('pengadaan.views.tips/transaksi4', array(), true);
         $this->widget('UserTips', array('type' => 'transaksi', 'content' => $content));
         ?>
     </div>
@@ -272,8 +272,8 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
     'id' => 'pegawai-m-grid',
     'dataProvider' => $modPegawai->searchDialog(),
     'filter' => $modPegawai,
-    'template' => "{summary}\n{items}\n{pager}",
-    'itemsCssClass' => 'table table-striped table-bordered table-condensed',
+    'template'=>"{summary}\n{items}\n{pager}",
+    'itemsCssClass'=>'table table-striped table-bordered table-condensed',
     'columns' => array(
         ////'pegawai_id',
         array(
@@ -294,7 +294,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
         'agama',
         array(
             'name' => 'jeniskelamin',
-            'filter' => LookupM::getItems('jeniskelamin'),
+            'filter' => CHtml::dropDownList('ADPegawaiM[jeniskelamin]',$modPegawai->jeniskelamin,LookupM::getItems('jeniskelamin'),array('empty'=>'--Pilih--')),
             'value' => '$data->jeniskelamin',
         ),
     ),

@@ -139,3 +139,4 @@ $this->endWidget();
 		return false;
 	}
 </script>
+</div>
