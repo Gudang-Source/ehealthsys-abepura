@@ -7,31 +7,24 @@
   </tr>
   <tr>
     <td>2. </td>
-    <td>Icon <i class="icon-list-alt"></i> berfungsi untuk menampilkan list data secara detail.</td>
+    <td>Icon <i class="icon-form-detail"></i> berfungsi untuk menampilkan rincian data secara detail.</td>
   </tr>
   <tr>
     <td>3. </td>
-    <td>Icon <i class="icon-remove"></i> berfungsi untuk membatalkan transaksi.</td>
+    <td>Icon <i class="icon-form-silang"></i> berfungsi untuk membatalkan transaksi.</td>
   </tr>
   <tr>
     <td>4. </td>
     <td>Gunakan tombol ini  <button class="btn btn-primary" name="yt0" type="button"><i class="icon-search icon-white"></i>
 Cari
-</button> berfungsi untuk menyimpan</td>
+</button> berfungsi untuk mencari data</td>
   </tr>
   <tr>
     <td>5. </td>
     <td>Gunakan tombol ini <a class="btn btn-danger" href="javascript:void(0);">
 <i class="icon-refresh icon-white"></i>
 Ulang
-</a> untunk mengulang kembali inputan.</td>
-  </tr>
-  <tr>
-    <td>6. </td>
-    <td>Gunakan tombol ini <a class="btn btn-info" href="javascript:void(0);">
-<i class="icon-info-sign icon-white"></i>
-Petunjuk
-</a> untunk melihat petunjuk.</td>
-  </tr>
+</a> untuk mengulang kembali inputan.</td>
+  </tr>  
 </table>
 </p>

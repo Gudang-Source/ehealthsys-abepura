@@ -352,7 +352,7 @@ class MutasibrgTController extends MyAuthController {
         $format = new MyFormatter();
         $model->tgl_awal = date('Y-m-d');
         $model->tgl_akhir = date('Y-m-d');
-        $model->ruangantujuan_id = Yii::app()->user->getState('ruangan_id');
+        //$model->ruangantujuan_id = Yii::app()->user->getState('ruangan_id');
         if (isset($_GET['GUMutasibrgT'])) {
             $model->attributes = $_GET['GUMutasibrgT'];            
             $model->tgl_awal = $format->formatDateTimeForDb($model->tgl_awal);
