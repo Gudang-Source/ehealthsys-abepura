@@ -47,7 +47,7 @@
                         echo CHtml::dropDownList(
                         'ruangan_id[]',
                         $arrRuangan,
-                        CHtml::listData(SARuanganM::model()->findAll(array('order'=>'ruangan_nama')), 'ruangan_id', 'ruangan_nama'),
+                        CHtml::listData(SARuanganM::model()->findAll("ruangan_aktif = TRUE ORDER BY ruangan_nama ASC"), 'ruangan_id', 'ruangan_nama'),
                         array('multiple'=>'multiple','key'=>'ruangan_id', 'class'=>'multiselect','style'=>'width:500px;height:150px')
                         );
                     ?>

@@ -71,7 +71,7 @@
             <td>Instalasi</td>
             <td>
                 <?php
-                    echo CHtml::dropDownList('jadwalDokter[instalasi]', '', CHtml::listData(InstalasirevenuecostV::model()->findAll(), 'instalasi_id', 'instalasi_nama'), 
+                    echo CHtml::dropDownList('jadwalDokter[instalasi]', '', CHtml::listData(InstalasirevenuecostV::model()->findAll(array('order'=>'instalasi_nama ASC')), 'instalasi_id', 'instalasi_nama'), 
                                             array('empty'=>'-- Pilih --',
                                                   'id'=>'instalasi',
                                                   'onchange'=>'$("#inputForm").html("");',
