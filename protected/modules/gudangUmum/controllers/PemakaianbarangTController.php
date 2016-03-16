@@ -7,8 +7,8 @@ class PemakaianbarangTController extends MyAuthController
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
 	public $layout='//layouts/column1';
-    public $defaultAction = 'index';
-    public $path_view = 'gudangUmum.views.pemakaianbarangT.';
+        public $defaultAction = 'index';
+        public $path_view = 'gudangUmum.views.pemakaianbarangT.';
 	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed

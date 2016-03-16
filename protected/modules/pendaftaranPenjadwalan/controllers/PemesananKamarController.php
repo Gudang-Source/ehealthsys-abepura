@@ -471,7 +471,7 @@ class PemesananKamarController extends MyAuthController
     {
         if(Yii::app()->request->isAjaxRequest) {
             $ruangan_id = $_POST["$namaModel"]['ruangan_id'];
-            $ruangan = KamarruanganM::model()->findAll('ruangan_id='.$ruangan_id.'ORDER BY kamarruangan_nokamar');
+            $ruangan = KamarruanganM::model()->findAll('ruangan_id='.$ruangan_id.' AND kamarruangan_aktif = TRUE ORDER BY kamarruangan_nokamar');
             
             $ruangan=CHtml::listData($ruangan,'kamarruangan_id','KamarDanTempatTidur');
             
@@ -533,7 +533,7 @@ class PemesananKamarController extends MyAuthController
     {
         if(Yii::app()->request->isAjaxRequest) {
             $kamarRuangan_id = $_POST["$namaModel"]['kamarruangan_id'];
-            $kelasPelayanan = KamarruanganM::model()->with('kelaspelayanan')->findAll('kamarruangan_id='.$kamarRuangan_id.'',array());
+            $kelasPelayanan = KamarruanganM::model()->with('kelaspelayanan')->findAll('kamarruangan_id='.$kamarRuangan_id.' AND kelaspelayanan.kelaspelayanan_aktif = TRUE');
             
             $kelasPelayanan=CHtml::listData($kelasPelayanan,'kelaspelayanan_id','kelaspelayanan.kelaspelayanan_nama');
             

@@ -92,9 +92,10 @@ class PPPasienM extends PasienM
                 $criteria->compare('LOWER(kelurahan_m.kelurahan_nama)',  strtolower($this->cari_kelurahan_nama), true);
                 $criteria->compare('LOWER(pegawai_m.nomorindukpegawai)',  strtolower($this->nomorindukpegawai), true);
                 $criteria->compare('LOWER(t.nama_pasien)',  strtolower($this->nama_pasien), true);
-				if(!empty($this->jeniskelamin)){
-					$criteria->compare('LOWER(t.jeniskelamin)',  strtolower($this->jeniskelamin), true);
-				}
+                $criteria->compare('LOWER(t.nama_bin)',  strtolower($this->nama_bin), true);
+				//if(!empty($this->jeniskelamin)){
+		$criteria->compare('LOWER(t.jeniskelamin)',  strtolower($this->jeniskelamin), true);
+				//}
                         if($this->ispasienluar){
                             $criteria->addCondition('ispasienluar = TRUE');
                         }else{
@@ -103,7 +104,7 @@ class PPPasienM extends PasienM
                 // $criteria->limit=5;
                         return new CActiveDataProvider($this, array(
                                 'criteria'=>$criteria,
-                                'pagination'=>false,
+                                //'pagination'=>false,
                         ));
 	}
         /**
