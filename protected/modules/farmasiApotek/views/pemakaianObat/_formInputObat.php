@@ -78,8 +78,8 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
     'id' => 'obatAlkesDialog-m-grid',
     'dataProvider' => $modObatDialog->searchObatFarmasi(),
     'filter' => $modObatDialog,
-    'template' => "{items}\n{pager}",
-//    'template'=>"{summary}\n{items}\n{pager}",
+    //'template' => "{items}\n{pager}",
+    'template'=>"{summary}\n{items}\n{pager}",
     'itemsCssClass' => 'table table-striped table-bordered table-condensed',
     'columns' => array(
         array(

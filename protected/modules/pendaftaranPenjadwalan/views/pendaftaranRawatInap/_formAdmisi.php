@@ -34,7 +34,7 @@
             <?php echo CHtml::label("Ruangan Inap <span class='required'>*</span>", CHtml::activeId($model,'ruangan_id'),array('class'=>'control-label required'))?>                                   
             <div class='controls'>
                 <?php 
-                $ruangan = RuanganM::model()->findAllByAttributes(array('instalasi_id'=>($this->langsung?Params::INSTALASI_ID_RI:array(Params::INSTALASI_ID_RI, Params::INSTALASI_ID_ICU)), 'ruangan_aktif'=>true));
+                $ruangan = RuanganM::model()->findAllByAttributes(array('instalasi_id'=>($this->langsung?Params::INSTALASI_ID_RI:array(Params::INSTALASI_ID_RI, Params::INSTALASI_ID_ICU)), 'ruangan_aktif'=>true),array('order'=>'ruangan_nama ASC'));
                 echo $form->dropDownList($modPasienAdmisi,'ruangan_id', CHtml::listData($ruangan, 'ruangan_id', 'ruangan_nama') ,
                                       array('empty'=>'-- Pilih --',
                                     'onchange'=>"setDropdownDokter(this.value);setDropDownKelasPelayanan(this.value);setKarcis();setAntrianRuanganAdmisi();setDropdownJeniskasuspenyakit(this.value);",
@@ -55,7 +55,7 @@
         <div class="control-group">
                     <?php echo $form->LabelEx($modPasienAdmisi,'kamarruangan_id',array('class'=>'control-label'));?>
             <div class='controls'>
-                <?php echo $form->dropDownList($modPasienAdmisi,'kamarruangan_id', !empty($modPasienAdmisi->ruangan_id) ? CHtml::listData(KamarruanganM::model()->findAllByAttributes(array('ruangan_id'=>$modPasienAdmisi->ruangan_id,'kamarruangan_status'=>true)),'kamarruangan_id','KamarDanTempatTidur') : array() ,
+                <?php echo $form->dropDownList($modPasienAdmisi,'kamarruangan_id', !empty($modPasienAdmisi->ruangan_id) ? CHtml::listData(KamarruanganM::model()->findAllByAttributes(array('ruangan_id'=>$modPasienAdmisi->ruangan_id,'kamarruangan_status'=>true),array('order'=>'kamarruangan_nokamar')),'kamarruangan_id','kamarruangan_id') : array() ,
                                 array('empty'=>'-- Pilih --',
                                     'onkeypress'=>"return $(this).focusNextInputField(event)",
                                     'class'=>'span2',
