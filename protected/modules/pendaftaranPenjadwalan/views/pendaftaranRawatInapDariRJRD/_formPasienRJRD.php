@@ -431,7 +431,7 @@
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     'id'=>'dialogKunjungan',
     'options'=>array(
-        'title'=>'Pencarian Data Pasien',
+        'title'=>'Pencarian No Pendaftaran Data Pasien',
         'autoOpen'=>false,
         'modal'=>true,
         'width'=>1100,
@@ -505,7 +505,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                     array(
                         'name'=>'jeniskelamin',
                         'type'=>'raw',
-                        'filter'=>LookupM::model()->getItems('jeniskelamin'),
+                        'filter'=> CHtml::dropDownList('PPPasientindaklanjutkeriV[jeniskelamin]',$modDialogKunjungan->jeniskelamin,LookupM::model()->getItems('jeniskelamin'),array('empty'=>'--Pilih--')),
                     ), /*
                     array(
                         'name'=>'tanggal_lahir',
@@ -619,7 +619,7 @@ $this->endWidget();
     $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'id'=>'dialogPasienBadak',
         'options'=>array(
-            'title'=>'Pencarian Data Pasien',
+            'title'=>'Pencarian NIP Data Pasien',
             'autoOpen'=>false,
             'modal'=>true,
             'width'=>1060,
@@ -638,6 +638,7 @@ $this->endWidget();
         $modDataPasien->cari_kelurahan_nama = $_GET['PPPasienM']['cari_kelurahan_nama'];
         $modDataPasien->cari_kecamatan_nama = $_GET['PPPasienM']['cari_kecamatan_nama'];
         $modDataPasien->nomorindukpegawai = $_GET['PPPasienM']['nomorindukpegawai'];
+        $modDataPasien->nama_bin = $_GET['PPPasienM']['nama_bin'];
         
     }
 	
@@ -670,7 +671,7 @@ $this->endWidget();
                     array(
                         'name'=>'jeniskelamin',
                         'type'=>'raw',
-                        'filter'=> LookupM::model()->getItems('jeniskelamin'),
+                        'filter'=> CHtml::dropDownList('PPPasienM[jeniskelamin]',$modDataPasien->jeniskelamin,LookupM::model()->getItems('jeniskelamin'),array('empty'=>'--Pilih--')),
                         'value'=>'$data->jeniskelamin'
                     ),
                 
@@ -713,7 +714,7 @@ $this->endWidget();
                     array(
                         'name'=>'statusrekammedis',
                         'type'=>'raw',
-                        'filter'=> LookupM::getItems('statusrekammedis'),
+                        'filter'=> CHtml::dropDownList('PPPasienM[statusrekammedis]',$modDataPasien->statusrekammedis,LookupM::getItems('statusrekammedis'),array('empty'=>'--Pilih--')),
                         'value'=>'$data->statusrekammedis',
                     ),
             ),

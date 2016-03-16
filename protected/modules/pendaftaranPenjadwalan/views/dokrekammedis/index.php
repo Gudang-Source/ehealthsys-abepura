@@ -77,7 +77,7 @@
         'autoOpen' => false,
         'modal' => true,
         'width' => 600,
-        'height' => 400,
+        'height' => 600,
         'resizable' => false,
     ),
 ));
@@ -92,7 +92,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'petugaspengirim-grid',
 	'dataProvider'=>$modPetugasPengirim->searchDialog(),
 	'filter'=>$modPetugasPengirim,
-	'template'=>"{items}\n{pager}",
+	'template'=>"{summary}\n{items}\n{pager}",
 	'itemsCssClass'=>'table table-striped table-bordered table-condensed',
 	'columns'=>array(
 		array(

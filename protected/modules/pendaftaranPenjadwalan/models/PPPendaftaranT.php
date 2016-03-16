@@ -114,7 +114,7 @@ class PPPendaftaranT extends PendaftaranT
          */
         public function getKelasTanggunganItems()
         {
-            return KelaspelayananM::model()->findAllByAttributes(array('kelaspelayanan_aktif'=>true),array('order'=>'urutankelas'));
+            return KelaspelayananM::model()->findAllByAttributes(array('kelaspelayanan_aktif'=>true),array('order'=>'kelaspelayanan_nama'));
         }
         
         /**
@@ -123,7 +123,7 @@ class PPPendaftaranT extends PendaftaranT
          */
         public function getCaraBayarItems()
         {
-            return CarabayarM::model()->findAllByAttributes(array('carabayar_aktif'=>true),array('order'=>'carabayar_nourut'));
+            return CarabayarM::model()->findAllByAttributes(array('carabayar_aktif'=>true),array('order'=>'carabayar_nama'));
         }
         /**
          * Mengambil daftar semua penjamin

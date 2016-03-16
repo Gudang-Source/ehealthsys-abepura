@@ -161,7 +161,7 @@ $this->endWidget();
     $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'id'=>'dialogPasienBadak',
         'options'=>array(
-            'title'=>'Pencarian Data Pasien',
+            'title'=>'Pencarian No Badge Data Pasien',
             'autoOpen'=>false,
             'modal'=>true,
             'width'=>1060,
@@ -179,6 +179,7 @@ $this->endWidget();
 //        $modDataPasien->tanggal_lahir =  isset($_GET['PPPasienM']['tanggal_lahir']) ? $format->formatDateTimeForDb($_GET['PPPasienM']['tanggal_lahir']) : null;
         $modDataPasien->cari_kelurahan_nama = $_GET['PPPasienM']['cari_kelurahan_nama'];
         $modDataPasien->cari_kecamatan_nama = $_GET['PPPasienM']['cari_kecamatan_nama'];
+        $modDataPasien->nama_bin = $_GET['PPPasienM']['nama_bin'];
 		if(isset($_GET['PPPasienM']['nomorindukpegawai'])){
 			$modDataPasien->nomorindukpegawai = $_GET['PPPasienM']['nomorindukpegawai'];
 		}        
@@ -249,30 +250,30 @@ $this->endWidget();
 			array(
 				'name'=>'jeniskelamin',
 				'type'=>'raw',
-				'filter'=> LookupM::model()->getItems('jeniskelamin'),
+				'filter'=> CHtml::dropDownList('PPPasienM[jeniskelamin]',$modDataPasien->jeniskelamin,LookupM::model()->getItems('jeniskelamin'),array('empty'=>'--Pilih--')),
 				'value'=>'$data->jeniskelamin'
 			),
 
-//                    array(
-//                        'name'=>'tanggal_lahir',
-//                        'type'=>'raw',
-//                        'value'=>'MyFormatter::formatDateTimeForUser($data->tanggal_lahir)',
-//                    ),
+                    array(
+                        'name'=>'tanggal_lahir',
+                        'type'=>'raw',
+                        'value'=>'MyFormatter::formatDateTimeForUser($data->tanggal_lahir)',
+                    ),
 			array(
-				'name'=>'tanggal_lahir',
-				'value'=>'MyFormatter::formatDateTimeForUser($data->tanggal_lahir)',
-				'filter'=>$this->widget('MyDateTimePicker',array(
-						'model'=>$modDataPasien,
-						'attribute'=>'tanggal_lahir',
-						'mode'=>'date',
-						'options'=> array(
-							'dateFormat'=>Params::DATE_FORMAT,
-						),
-						'htmlOptions'=>array('readonly'=>false, 'class'=>'dtPicker3','id'=>'tanggal_lahir','placeholder'=>'23 Jan 1993'),
-					),true
-				),
-				'htmlOptions'=>array('width'=>'80','style'=>'text-align:center'),
-			),
+                        'name'=>'tanggal_lahir',
+                        'value'=>'MyFormatter::formatDateTimeForUser($data->tanggal_lahir)',
+                        'filter'=>$this->widget('MyDateTimePicker',array(
+                                        'model'=>$modDataPasien,
+                                        'attribute'=>'tanggal_lahir',
+                                        'mode'=>'date',
+                                        'options'=> array(
+                                        'dateFormat'=>Params::DATE_FORMAT,
+                                                            ),
+                                        'htmlOptions'=>array('readonly'=>false, 'class'=>'dtPicker3','id'=>'tanggal_lahir','placeholder'=>'23 Jan 1993'),
+                                        ),true
+                                    ),
+                        'htmlOptions'=>array('width'=>'80','style'=>'text-align:center'),
+                    ),
 			'alamat_pasien',
 			'rw',
 			'rt',
@@ -292,7 +293,7 @@ $this->endWidget();
 			array(
 				'name'=>'statusrekammedis',
 				'type'=>'raw',
-				'filter'=> LookupM::getItems('statusrekammedis'),
+				'filter'=> CHtml::dropDownList('PPPasienM[statusrekammedis]',$modDataPasien->jeniskelamin,LookupM::getItems('statusrekammedis'),array('empty'=>'--Pilih--')),
 				'value'=>'$data->statusrekammedis',
 			),
 		),
