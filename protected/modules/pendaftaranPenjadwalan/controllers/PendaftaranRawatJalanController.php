@@ -795,21 +795,33 @@ class PendaftaranRawatJalanController extends MyAuthController
 		 * @param type $postAsuransiPasien
 		 * @return type
 		 */
-        public function simpanAsuransiPasien($modAsuransiPasien, $postPendaftaran, $postPasien, $postAsuransiPasien){
+        public function simpanAsuransiPasien($modAsuransiPasien, $postPendaftaran, $postPasien, $postAsuransiPasien, $postAdmisi = null){
+            // var_dump($postAdmisi); die;
+            
             $format = new MyFormatter();
+            
+            $carabayar = isset($postPendaftaran['carabayar_id'])?$postPendaftaran['carabayar_id']:null;
+            if (empty($carabayar)) $carabayar = isset($postAdmisi['carabayar_id'])?$postAdmisi['carabayar_id']:null;
+            
+            $penjamin = isset($postPendaftaran['penjamin_id'])?$postPendaftaran['penjamin_id']:null;
+            if (empty($penjamin)) $penjamin = isset($postAdmisi['penjamin_id'])?$postAdmisi['penjamin_id']:null;
+            
             $modAsuransiPasien->attributes = $postAsuransiPasien;
             $modAsuransiPasien->pasien_id = isset($postPasien['pasien_id'])?$postPasien['pasien_id']:null;
-            $modAsuransiPasien->penjamin_id = isset($postPendaftaran['penjamin_id'])?$postPendaftaran['penjamin_id']:null;
-            $modAsuransiPasien->carabayar_id = isset($postPendaftaran['carabayar_id'])?$postPendaftaran['carabayar_id']:null;
+            $modAsuransiPasien->penjamin_id = $penjamin;
+            $modAsuransiPasien->carabayar_id = $carabayar;
             $modAsuransiPasien->create_loginpemakai_id = Yii::app()->user->id;
             $modAsuransiPasien->create_time = date("Y-m-d H:i:s");
             $modAsuransiPasien->tgl_konfirmasi = $format->formatDateTimeForDb($modAsuransiPasien->tgl_konfirmasi);
             $modAsuransiPasien->hubkeluarga = isset($postAsuransiPasien['hubkeluarga'])?$postAsuransiPasien['hubkeluarga']:'';
             // var_dump($postPendaftaran);
             // var_dump($postPasien->attributes);
-            if($postPendaftaran['carabayar_id'] == Params::CARABAYAR_ID_JAMKESPA) {
+            if($carabayar == Params::CARABAYAR_ID_JAMKESPA) {
                 $modAsuransiPasien->nopeserta = $postPasien->no_rekam_medik;
                 // $modAsuransiPasien->status_konfirmasi = 1;
+            } else if ($carabayar == Params::CARABAYAR_ID_BPJS) {
+                $modAsuransiPasien->status_konfirmasi = 1;
+                $modAsuransiPasien->tgl_konfirmasi = date('Y-m-d H:i:s');
             }
             if(empty($postAsuransiPasien['nokartuasuransi'])){
                 $modAsuransiPasien->nokartuasuransi = $modAsuransiPasien->nopeserta;
@@ -820,8 +832,8 @@ class PendaftaranRawatJalanController extends MyAuthController
             } else if ($modAsuransiPasien->status_konfirmasi == 0) {
                 $modAsuransiPasien->status_konfirmasi = "BELUM DIKONFIRMASI";
             }
-            // var_dump($modAsuransiPasien->attributes); 
-            // var_dump($modAsuransiPasien->validate()); die;
+            //var_dump($modAsuransiPasien->attributes); 
+            //var_dump($modAsuransiPasien->validate()); die;
             if($modAsuransiPasien->save()){
                 $this->asuransipasientersimpan = true;
             }

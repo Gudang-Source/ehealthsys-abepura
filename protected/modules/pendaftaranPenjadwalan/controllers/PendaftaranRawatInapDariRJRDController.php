@@ -132,19 +132,17 @@ class PendaftaranRawatInapDariRJRDController extends PendaftaranRawatInapControl
                     }else{
                         $this->asuransipasientersimpan = true;
                     }
-                    
+                    //var_dump($_POST); die;
                     if(isset($_POST['PPAsuransipasienbpjsM'])){
                         if(isset($_POST['PPAsuransipasienbpjsM']['asuransipasien_id'])){
                             if(!empty($_POST['PPAsuransipasienbpjsM']['asuransipasien_id'])){
                                 $modAsuransiPasienBpjs = PPAsuransipasienM::model()->findByPk($_POST['PPAsuransipasienbpjsM']['asuransipasien_id']);
                             }
                         }
-						$modAsuransiPasienBpjs = $this->simpanAsuransiPasien($modAsuransiPasienBpjs, $_POST['PPPendaftaranT'], $modPasien, $_POST['PPAsuransipasienbpjsM']);
+						$modAsuransiPasienBpjs = $this->simpanAsuransiPasien($modAsuransiPasienBpjs, $_POST['PPPendaftaranT'], $modPasien, $_POST['PPAsuransipasienbpjsM'], $_POST['PPPasienAdmisiT']);
                     }else{
                         $this->asuransipasientersimpan = true;
                     }
-
-                    
                     
                     $modLoadPendaftaran = PPPendaftaranT::model()->findByPk($_POST['PPPendaftaranT']['pendaftaran_id']);
 					$modLoadPendaftaran->keterangan_pendaftaran = $_POST['PPPendaftaranT']['keterangan_pendaftaran'];
@@ -152,9 +150,11 @@ class PendaftaranRawatInapDariRJRDController extends PendaftaranRawatInapControl
                         $model = $modLoadPendaftaran;
                     }
                     if($_POST['PPPendaftaranT']['is_bpjs']){
+                        $this->cekSepHariIniDanHapus($modAsuransiPasienBpjs);
                         $modSep = $this->simpanSep($model,$modPasien,$modRujukanBpjs,$modAsuransiPasienBpjs,$_POST['PPSepT']);
+                        if (!empty($modSep->sep_id)) $model->sep_id = $modSep->sep_id;
+                        $model->update();
                     }
-
                     $modPasienAdmisi = $this->simpanPasienAdmisi($model,$modPasien,$modPasienAdmisi,$_POST['PPPasienAdmisiT']);
                     $model->pasienadmisi_id = $modPasienAdmisi->pasienadmisi_id;
 					
@@ -603,5 +603,30 @@ class PendaftaranRawatInapDariRJRDController extends PendaftaranRawatInapControl
                 echo CJSON::encode($res);
             }
             Yii::app()->end();
+        }
+        
+        protected function cekSepHariIniDanHapus($modAsuransiPasienBpjs) {
+            $bpjs = new Bpjs();
+            $dat = json_decode($bpjs->riwayat_terakhir($modAsuransiPasienBpjs->nokartuasuransi));
+            
+            // var_dump($dat); die;
+            
+            if ($dat->metadata->code != 200) return false;
+            
+            $last = $dat->response->list[0];
+            if ($last->tglSEP != date('Y-m-d')) return false;
+            $sep = $last->noSEP;
+            $ppk = substr($sep, 0, 8);
+            
+            $str = "<request><data><t_sep>";
+            $str .= "<noSep>".$sep."</noSep>";
+            $str .= "<ppkPelayanan>".$ppk."</ppkPelayanan>";
+            $str .= "</t_sep></data></request>";
+            
+            $dat = json_decode($bpjs->delete_transaksi($str));
+            
+            // var_dump($dat);
+            
+            //die;
         }
 }
