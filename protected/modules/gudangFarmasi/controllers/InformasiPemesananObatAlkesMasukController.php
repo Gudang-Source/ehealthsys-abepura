@@ -18,6 +18,8 @@ class InformasiPemesananObatAlkesMasukController extends MyAuthController
             $model->attributes=$_GET['GFInformasipesanobatalkesV'];
             $model->tgl_awal=$format->formatDateTimeForDb($_GET['GFInformasipesanobatalkesV']['tgl_awal']);
             $model->tgl_akhir=$format->formatDateTimeForDb($_GET['GFInformasipesanobatalkesV']['tgl_akhir']);
+        
+            $model->statusmutasi = $_GET['GFInformasipesanobatalkesV']['statusmutasi'];
         }
         $this->render($this->path_view.'index',array(
             'format'=>$format,

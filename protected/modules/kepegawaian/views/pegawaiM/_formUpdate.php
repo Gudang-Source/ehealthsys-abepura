@@ -47,7 +47,7 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
         </div>
         
         <div class="control-group">
-            <?php echo $form->labelEx($model,'nama_pegawai',array('class'=>'control-label required')); ?>
+            <?php echo CHtml::label('Nama Pegawai <font style = "color:red;">*</font>','namapegawai',array('class'=>'control-label')); ////$form->labelEx($model,'nama_pegawai',array('class'=>'control-label required')); ?>
             <div class="controls">
                 <?php echo $form->dropDownList($model,'gelardepan',CHtml::listData($model->getGelarDepanItems(), 'lookup_name', 'lookup_name'), 
                              array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 

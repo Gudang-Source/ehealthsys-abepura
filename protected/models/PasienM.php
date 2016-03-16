@@ -327,13 +327,13 @@ class PasienM extends CActiveRecord
 		$criteria->compare('LOWER(no_identitas_pasien)',strtolower($this->no_identitas_pasien),true);
 		$criteria->compare('LOWER(namadepan)',strtolower($this->namadepan),true);
 		$criteria->compare('LOWER(nama_pasien)',strtolower($this->nama_pasien),true);
-		$criteria->compare('LOWER(nama_bin)',strtolower($this->nama_bin),true);
-		$criteria->compare('LOWER(jeniskelamin)',strtolower($this->jeniskelamin),true);
+		$criteria->compare('LOWER(t.nama_bin)',strtolower($this->nama_bin),true);
+		$criteria->compare('LOWER(t.jeniskelamin)',strtolower($this->jeniskelamin),true);
 		$criteria->compare('LOWER(tempat_lahir)',strtolower($this->tempat_lahir),true);
 		$criteria->compare('DATE(tanggal_lahir)',$format->formatDateTimeForDb($this->tanggal_lahir));
 		$criteria->compare('LOWER(alamat_pasien)',strtolower($this->alamat_pasien),true);
-		$criteria->compare('rt',$this->rt);
-		$criteria->compare('rw',$this->rw);
+		$criteria->compare('t.rt',$this->rt);
+		$criteria->compare('t.rw',$this->rw);
 		$criteria->compare('LOWER(statusperkawinan)',strtolower($this->statusperkawinan),true);
 		$criteria->compare('LOWER(agama)',strtolower($this->agama),true);
 		$criteria->compare('LOWER(golongandarah)',strtolower($this->golongandarah),true);
