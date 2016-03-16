@@ -79,10 +79,11 @@ $modObatAlkes = new GFObatalkesM('searchDialog');
 $modObatAlkes->unsetAttributes();
 if(isset($_GET['GFObatalkesM'])){
     $modObatAlkes->attributes = $_GET['GFObatalkesM'];
-    $modObatAlkes->jenisobatalkes_nama = isset($_GET['GFObatalkesM']['jenisobatalkes_nama'])?$_GET['GFObatalkesM']['jenisobatalkes_nama']:null;
-    $modObatAlkes->satuankecil_nama = isset($_GET['GFObatalkesM']['satuankecil_nama'])?$_GET['GFObatalkesM']['satuankecil_nama']:null;
+    //$modObatAlkes->jenisobatalkes_nama = isset($_GET['GFObatalkesM']['jenisobatalkes_nama'])?$_GET['GFObatalkesM']['jenisobatalkes_nama']:null;
+    //$modObatAlkes->satuankecil_nama = isset($_GET['GFObatalkesM']['satuankecil_nama'])?$_GET['GFObatalkesM']['satuankecil_nama']:null;
     if(isset($_GET['GFObatalkesM']['ruangan_id'])){
 		$_GET['GFPesanobatalkesT']['ruangan_id'] = $_GET['GFObatalkesM']['ruangan_id'];
+                
     }
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
@@ -115,7 +116,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'name'=>'obatalkes_golongan',
                     'type'=>'raw',
                     'value'=>'$data->obatalkes_golongan',
-                    'filter'=> CHtml::activeDropDownList($modObatAlkes, 'obatalkes_kategori', LookupM::getItems('obatalkes_golongan'), array('empty'=>'-- Pilih --')),
+                    'filter'=> CHtml::activeDropDownList($modObatAlkes, 'obatalkes_golongan', LookupM::getItems('obatalkes_golongan'), array('empty'=>'-- Pilih --')),
                 ),
                 array(
                     'name'=>'obatalkes_kategori',
