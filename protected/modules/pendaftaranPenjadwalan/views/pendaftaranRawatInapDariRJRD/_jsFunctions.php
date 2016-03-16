@@ -107,6 +107,7 @@ function setJudulDialogPasien(isi=null){
  */
 function setAsuransiPasienLama(pasien_id){
 	var pegawai_id = $("#PPPasienM_pegawai_id").val();
+        var pendaftaran_id = $("#PPPendaftaranT_pendaftaran_id").val();
 	$.ajax({
         type:'POST',
         url:'<?php echo $this->createUrl('SetAsuransiPasienLama'); ?>',
@@ -136,13 +137,21 @@ function setAsuransiPasienLama(pasien_id){
 						
                                                 if (data.carabayar_id == <?php echo Params::CARABAYAR_ID_BPJS; ?>) {
                                                     $("#<?php echo CHtml::activeId($modPasienAdmisi,"carabayar_id");?>").change();
-                                                    // console.log("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'asuransipasien_id') ?>");
                                                     $("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'asuransipasien_id') ?>").val(data.asuransipasien_id);
-                                                    $("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'no_peserta') ?>").val(data.no_peserta);
+                                                    $("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'nopeserta') ?>").val(data.nokartuasuransi);
                                                     $("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'nokartuasuransi') ?>").val(data.nokartuasuransi);
                                                     $("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'namapemilikasuransi') ?>").val(data.namapemilikasuransi);
                                                     $("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'jenispeserta_id') ?>").val(data.jenispeserta_id);
                                                     $("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'kelastanggunganasuransi_id') ?>").val(data.kelastanggunganasuransi_id);
+                                                    $.post("<?php echo $this->createUrl("cekCaraBayarBPJS"); ?>", {
+                                                        pendaftaran_id: pendaftaran_id,
+                                                        pasien_id: pasien_id,
+                                                    }, function(data2) {
+                                                        $("#<?php echo CHtml::activeId($modSep,'ppkrujukan') ?>").val(data2.ppk);
+                                                        $("#<?php echo CHtml::activeId($modRujukanBpjs,'no_rujukan') ?>").val(data2.ruj);
+                                                        $("#<?php echo CHtml::activeId($modRujukanBpjs,'tanggal_rujukan') ?>").val(data2.tglruj);   
+                                                        setDiagnosaBpjs(data2.diag.kode, data2.diag.nama);
+                                                    }, "json");
                                                 }
                                                 
                                                 /*

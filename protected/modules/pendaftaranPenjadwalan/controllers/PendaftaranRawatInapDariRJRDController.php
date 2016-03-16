@@ -563,12 +563,43 @@ class PendaftaranRawatInapDariRJRDController extends PendaftaranRawatInapControl
                 $cr->order = "asuransipasien_id desc";
                 $cr->limit = 1;
                 $asuransi = AsuransipasienM::model()->find($cr);
+                $pendaftaran = PendaftaranT::model()->findByPk($_POST['pendaftaran_id']);
+                $pp = PasienpulangT::model()->findByAttributes(array(
+                    'pendaftaran_id'=>$pendaftaran->pendaftaran_id,
+                ));
+                $profil = ProfilrumahsakitM::model()->find();
                 
-                $res = array("dat"=>null);
+                $ruangan = CHtml::listData(RuanganM::model()->findAllByAttributes(array(
+                    'instalasi_id'=>array(Params::INSTALASI_ID_RJ, Params::INSTALASI_ID_RD),
+                )), 'ruangan_id', 'ruangan_id');
+                
+                $morbid = PasienmorbiditasT::model()->findByAttributes(array(
+                    'pendaftaran_id'=>$pendaftaran->pendaftaran_id,
+                    'ruangan_id'=>$ruangan,
+                ), array(
+                    'order'=>'kelompokdiagnosa_id asc',
+                ));
+                
+                $res = array(
+                    "dat"=>null, 
+                    "diag"=>array(
+                        "kode"=>null,
+                        "nama"=>null,
+                    ),
+                );
                 if (!empty($asuransi)) {
                     $res["dat"] = $asuransi->attributes;
                 }
                 
+                $res["ppk"] = $profil->ppkpelayanan;
+                $res["ruj"] = date('dmY');
+                $res["tglruj"] = date("d/m/Y H:i:s", strtotime($pp->tglpasienpulang));
+                
+                if (!empty($morbid)) {
+                    $diag = DiagnosaM::model()->findByPk($morbid->diagnosa_id);
+                    $res["diag"]["kode"] = $diag->diagnosa_kode;
+                    $res["diag"]["nama"] = $diag->diagnosa_nama;
+                }
                 echo CJSON::encode($res);
             }
             Yii::app()->end();
