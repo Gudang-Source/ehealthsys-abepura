@@ -95,7 +95,9 @@ class BSRencanaOperasiT extends RencanaoperasiT
 	public function getDokterItems($ruangan_id='')
     {
         if(!empty($ruangan_id))
-            return DokterV::model()->findAllByAttributes(array('ruangan_id'=>$ruangan_id));
+            return DokterV::model()->findAllByAttributes(array('ruangan_id'=>$ruangan_id), array(
+                'order'=>'nama_pegawai',
+            ));
         else
             return array();
     }
@@ -103,7 +105,9 @@ class BSRencanaOperasiT extends RencanaoperasiT
 	public function getParamedisItems($ruangan_id='')
 	{
 		if(!empty($ruangan_id))
-			return ParamedisV::model()->findAllByAttributes(array('ruangan_id'=>$ruangan_id));
+			return ParamedisV::model()->findAllByAttributes(array('ruangan_id'=>$ruangan_id), array(
+                            'order'=>'nama_pegawai',
+                        ));
 		else
 			return array();
 	}
@@ -111,7 +115,9 @@ class BSRencanaOperasiT extends RencanaoperasiT
 	public function getBidanItems($ruangan_id='')
 	{
 		if(!empty($ruangan_id))
-			return PegawaiM::model()->findAllByAttributes(array('kelompokpegawai_id'=>Params::KELOMPOKPEGAWAI_ID_BIDAN));
+			return PegawaiM::model()->findAllByAttributes(array('kelompokpegawai_id'=>Params::KELOMPOKPEGAWAI_ID_BIDAN), array(
+                            'order'=>'nama_pegawai',
+                        ));
 		else
 			return array();
 	}
