@@ -187,7 +187,7 @@
                         </data>
                 </request>';
                         
-                        echo "<pre>".CHtml::encode($query)."</pre>"; die;
+                        // echo "<pre>".CHtml::encode($query)."</pre>"; die;
                         //var_dump($this->HashBPJS());
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
 			
@@ -195,7 +195,7 @@
                         // echo $completeUrl; die;
 			
 			$result = $this->request($completeUrl, $hashsignature, $uid, $timestmp, 'POST', $query, 'Application/x‐www‐form‐urlencoded');
-			echo($result); die;
+			// echo($result); die;
                         $result = json_decode($result, true);
 			
                         // var_dump($result); die;

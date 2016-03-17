@@ -840,7 +840,7 @@ class PendaftaranRawatJalanController extends MyAuthController
             return $modAsuransiPasien;
         }
 
-        public function simpanSep($model,$modPasien,$modRujukanBpjs,$modAsuransiPasienBpjs,$postSep){
+        public function simpanSep($model,$modPasien,$modRujukanBpjs,$modAsuransiPasienBpjs,$postSep, $isRI = false){
 			//echo "<pre>";
 //			print_r($_POST);exit;
             $reqSep = null;
@@ -854,7 +854,7 @@ class PendaftaranRawatJalanController extends MyAuthController
             $modSep->norujukan = $modRujukanBpjs->no_rujukan;
             $modSep->ppkrujukan = $postSep['ppkrujukan']; 
             $modSep->ppkpelayanan = Yii::app()->user->getState('ppkpelayanan');
-            $modSep->jnspelayanan = ($model->instalasi_id==Params::INSTALASI_ID_RI)?Params::JENISPELAYANAN_RI:Params::JENISPELAYANAN_RJ;
+            $modSep->jnspelayanan = ($model->instalasi_id==Params::INSTALASI_ID_RI || $isRI)?Params::JENISPELAYANAN_RI:Params::JENISPELAYANAN_RJ;
             $modSep->catatansep = $postSep['catatansep'];
             $data_diagnosa = explode(', ', $modRujukanBpjs->kddiagnosa_rujukan);
             $modSep->diagnosaawal = isset($data_diagnosa[0])?$data_diagnosa[0]:'';

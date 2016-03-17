@@ -151,8 +151,9 @@ class PendaftaranRawatInapDariRJRDController extends PendaftaranRawatInapControl
                     }
                     if($_POST['PPPendaftaranT']['is_bpjs']){
                         $this->cekSepHariIniDanHapus($modAsuransiPasienBpjs);
-                        $modSep = $this->simpanSep($model,$modPasien,$modRujukanBpjs,$modAsuransiPasienBpjs,$_POST['PPSepT']);
+                        $modSep = $this->simpanSep($model,$modPasien,$modRujukanBpjs,$modAsuransiPasienBpjs,$_POST['PPSepT'], true);
                         if (!empty($modSep->sep_id)) $model->sep_id = $modSep->sep_id;
+                        if (!empty($modRujukanBpjs->rujukan_id)) $model->rujukan_id = $modRujukanBpjs->rujukan_id;
                         $model->update();
                     }
                     $modPasienAdmisi = $this->simpanPasienAdmisi($model,$modPasien,$modPasienAdmisi,$_POST['PPPasienAdmisiT']);
