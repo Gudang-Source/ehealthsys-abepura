@@ -154,7 +154,7 @@ class InfoKunjunganRJController extends MyAuthController
                 $idCaraBayar = $_POST['carabayar_id'];
                 $idPenjamin = '';
             
-                $modPenjamins = PenjaminpasienM::model()->findAllByAttributes(array('carabayar_id'=>$idCaraBayar,'penjamin_aktif'=>true));
+                $modPenjamins = PenjaminpasienM::model()->findAllByAttributes(array('carabayar_id'=>$idCaraBayar,'penjamin_aktif'=>true),array('order'=>'penjamin_nama ASC'));
 
                 if(isset($_POST['penjamin_id'])) {
                     $idPenjamin = $_POST['penjamin_id'];
@@ -1594,6 +1594,8 @@ class InfoKunjunganRJController extends MyAuthController
 					$criteria=new CDbCriteria;
 					$criteria->select ='t.ruangan_id, t.pegawai_id, t.nama_pegawai, t.gelardepan, t.gelarbelakang_nama';
 					$criteria->addCondition("t.ruangan_id = ".$ruangan_id);
+                                        $criteria->addCondition("t.pegawai_aktif = TRUE");
+                                        $criteria->order = "t.nama_pegawai, t.gelardepan ASC";
 					if(!empty($jeniskasuspenyakit_id)){
 						$criteria->addCondition("t.pegawai_id = ".$pegawai_id);
 					}

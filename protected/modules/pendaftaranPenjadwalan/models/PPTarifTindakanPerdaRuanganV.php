@@ -50,7 +50,7 @@ class PPTarifTindakanPerdaRuanganV  extends TariftindakanperdaruanganV
 				$criteria->addCondition('instalasi_id ='.$instalasi_id);
 			}
             $criteria->addCondition('ruangan_aktif = true');
-            $criteria->order = "ruangan_nama";
+            $criteria->order = "ruangan_nama ASC";
             return RuanganM::model()->findAll($criteria);
         }
         
@@ -62,7 +62,7 @@ class PPTarifTindakanPerdaRuanganV  extends TariftindakanperdaruanganV
         {
             $criteria = new CDbCriteria();
             $criteria->addCondition('instalasi_aktif = true');
-            $criteria->order = "instalasi_nama";
+            $criteria->order = "instalasi_nama ASC";
             return InstalasiM::model()->findAll($criteria);
         }
 }

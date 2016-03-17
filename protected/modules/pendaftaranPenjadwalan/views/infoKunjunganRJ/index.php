@@ -362,12 +362,14 @@ $('.search-form form').submit(function(){
                 <?php echo $form->dropDownListRow($modPPInfoKunjunganRJV, 'pegawai_id', 
                         CHtml::listData(DokterV::model()->findAllByAttributes(array(
                             'instalasi_id'=>Params::INSTALASI_ID_RJ,
+                            'pegawai_aktif'=>true,
                         ), array(
                             'order'=>'nama_pegawai asc'
                         )), 'pegawai_id', 'namaLengkap'), array('empty'=>'-- Pilih --')); ?>
                 
                 <?php echo $form->dropDownListRow($modPPInfoKunjunganRJV, 'ruangan_id', CHtml::listData(RuanganM::model()->findAllByAttributes(array(
                             'instalasi_id'=>Params::INSTALASI_ID_RJ,
+                            'ruangan_aktif' => true,
                         ), array(
                             'order'=>'ruangan_nama asc'
                         )), 'ruangan_id', 'ruangan_nama'), array('empty'=>'-- Pilih --')); ?>

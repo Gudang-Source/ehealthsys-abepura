@@ -60,14 +60,14 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
             <?php echo $form->textFieldRow($model, 'no_pendaftaran', array('class' => 'span3', 'maxlength' => 20,'placeholder'=>'Ketik No. Pendaftaran')); ?>
         </div>
         <div class="span4">
-            <?php echo $form->dropDownListRow($model, 'instalasi_id', CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true and instalasi_id in (2,4)'), 'instalasi_id', 'instalasi_nama'), array('empty'=>'-- Pilih --', 'class' => 'span3', 'ajax' => array('type' => 'POST',
+            <?php echo $form->dropDownListRow($model, 'instalasi_id', CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true and instalasi_id in (2,4) ORDER BY instalasi_nama'), 'instalasi_id', 'instalasi_nama'), array('empty'=>'-- Pilih --', 'class' => 'span3', 'ajax' => array('type' => 'POST',
                                                         'url' => $this->createUrl('GetRuanganForCheckBox', array('encode' => false, 'namaModel' => ''.$model->getNamaModel().'')),
                                                         'update' => '#ruangan',  //selector to update
                                                     ),)); ?>
             <div class="control-group ">
                 <?php echo $form->dropDownListRow($model, 'loket_id', CHtml::listData(LoketM::model()->findAll(array(
                     'condition'=>'loket_aktif = true',
-                    'order'=>'loket_nourut',
+                    'order'=>'loket_singkatan',
                 )), 'loket_id', 'loket_singkatan'), array('class' => 'span3','empty' => '-- Pilih --')); ?>
             </div>
             <?php echo $form->textFieldRow($model, 'no_rekam_medik', array('class' => 'span3', 'maxlength' => 10,'placeholder'=>'Ketik No. Rekam Medik')); ?>
