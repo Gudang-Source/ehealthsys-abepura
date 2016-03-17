@@ -115,7 +115,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
         <div class="control-group ">
             <?php echo CHtml::activeLabel($model, 'instalasi_id', array('class'=>'control-label')); ?>
             <div class="controls">
-                <?php echo $form->dropDownList($model, 'instalasi_id', CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true'), 'instalasi_id', 'instalasi_nama'), array('empty'=>'-- Pilih --', 'class' => 'span3', 'ajax' => array('type' => 'POST',
+                <?php echo $form->dropDownList($model, 'instalasi_id', CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true ORDER BY instalasi_nama ASC'), 'instalasi_id', 'instalasi_nama'), array('empty'=>'-- Pilih --', 'class' => 'span3', 'ajax' => array('type' => 'POST',
                                                     'url' => $this->createUrl('GetRuanganDariInstalasi', array('encode' => false, 'namaModel' => ''.get_class($model).'')),
                                                     'update' => '#PPPendaftaranT_ruangan_id',  //selector to update
                                                 ),)); ?>
@@ -124,7 +124,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
         <div class="control-group ">
             <?php echo CHtml::activeLabel($model, 'ruangan_id', array('class'=>'control-label')); ?>
             <div class="controls">
-                <?php echo $form->dropDownList($model, 'ruangan_id',CHtml::listData(RuanganM::model()->findAll('ruangan_aktif = true'), 'ruangan_id', 'ruangan_nama'), array('empty'=>'-- Pilih --'));  ?>
+                <?php echo $form->dropDownList($model, 'ruangan_id',CHtml::listData(RuanganM::model()->findAll('ruangan_aktif = true ORDER BY ruangan_nama ASC'), 'ruangan_id', 'ruangan_nama'), array('empty'=>'-- Pilih --'));  ?>
             </div>
         </div>
     </div>

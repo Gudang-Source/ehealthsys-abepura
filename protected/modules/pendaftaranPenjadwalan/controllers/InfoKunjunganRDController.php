@@ -600,7 +600,7 @@ class InfoKunjunganRDController extends MyAuthController
 							JOIN kasuspenyakitruangan_m ON jeniskasuspenyakit_m.jeniskasuspenyakit_id = kasuspenyakitruangan_m.jeniskasuspenyakit_id
 							JOIN ruangan_m ON kasuspenyakitruangan_m.ruangan_id = ruangan_m.ruangan_id
 							WHERE ruangan_m.ruangan_id = '$ruangan_id'
-							ORDER BY jeniskasuspenyakit_m.jeniskasuspenyakit_id";
+							ORDER BY jeniskasuspenyakit_m.jeniskasuspenyakit_nama ASC";
 					$modJenKasusPenyakit = JeniskasuspenyakitM::model()->findAllBySql($sql);
 
 					$jenisKasusPenyakit = CHtml::listData($modJenKasusPenyakit,'jeniskasuspenyakit_id','jeniskasuspenyakit_nama');

@@ -86,7 +86,7 @@ class PPPendaftaranT extends PendaftaranT
 				$criteria->addCondition('kasuspenyakitruangan_m.ruangan_id = '.$ruangan_id);
 			}
             $criteria->addCondition('t.jeniskasuspenyakit_aktif = true');
-            $criteria->order = "t.jeniskasuspenyakit_nama";
+            $criteria->order = "t.jeniskasuspenyakit_nama ASC";
             return JeniskasuspenyakitM::model()->findAll($criteria);
         }
 	
@@ -104,7 +104,7 @@ class PPPendaftaranT extends PendaftaranT
 				$criteria->addCondition('kelasruangan_m.ruangan_id ='.$ruangan_id);
 			}
 			$criteria->addCondition('t.kelaspelayanan_aktif = true');
-			$criteria->order = "t.urutankelas";
+			$criteria->order = "t.kelaspelayanan_nama ASC";
 			return KelaspelayananM::model()->findAll($criteria);
         }
         
@@ -148,7 +148,7 @@ class PPPendaftaranT extends PendaftaranT
 				$criteria->addCondition("ruangan_id= ".$ruangan_id);			
 			}
             $criteria->addCondition('pegawai_aktif = true');
-            $criteria->order = "nama_pegawai, gelardepan";
+            $criteria->order = "nama_pegawai, gelardepan ASC";
             $modDokter = DokterV::model()->findAll($criteria);
             return $modDokter;
         }

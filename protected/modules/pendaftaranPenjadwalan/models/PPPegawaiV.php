@@ -24,7 +24,7 @@ class PPPegawaiV extends PegawaiV
 
     public function getkelompokPegawaiItems()
     {
-        return KelompokpegawaiM::model()->findAll(array('order'=>'kelompokpegawai_nama'));
+        return KelompokpegawaiM::model()->findAll("kelompokpegawai_aktif = TRUE ORDER BY kelompokpegawai_nama ASC");
     }  
 
     public function getPendidikanKualifikasiItems()
@@ -34,7 +34,7 @@ class PPPegawaiV extends PegawaiV
 
     public function getJabatanItems()
     {
-        return JabatanM::model()->findAll(array('order'=>'jabatan_nama'));
+        return JabatanM::model()->findAll("jabatan_aktif = TRUE ORDER BY jabatan_nama ASC");
     } 
 
     public function getPendidikanItems()
@@ -44,7 +44,7 @@ class PPPegawaiV extends PegawaiV
 
      public function getPangkatItems()
     {
-        return PangkatM::model()->findAll(array('order'=>'pangkat_nama'));
+        return PangkatM::model()->findAll("pangkat_aktif = TRUE ORDER BY pangkat_nama ASC");
     } 
 
     public function getPropinsiItems()

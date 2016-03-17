@@ -116,7 +116,7 @@
                     );
                 ?>
                 <?php 
-                        echo $form->dropDownListRow($modTarifTindakanRuanganV, 'jenistarif_id', CHtml::listData(JenistarifM::model()->findAllByAttributes(array('jenistarif_aktif'=>true)), 'jenistarif_id', 'jenistarif_nama'), array('empty'=>'-- Pilih --', 'class'=>'span3')); 
+                        echo $form->dropDownListRow($modTarifTindakanRuanganV, 'jenistarif_id', CHtml::listData(JenistarifM::model()->findAllByAttributes(array('jenistarif_aktif'=>true),array('order'=>'jenistarif_nama ASC')), 'jenistarif_id', 'jenistarif_nama'), array('empty'=>'-- Pilih --', 'class'=>'span3')); 
                 ?>
             </div>
             <div class="span4">
@@ -131,7 +131,7 @@
                 ?>
                 <?php
                     echo $form->dropDownListRow($modTarifTindakanRuanganV,'kelaspelayanan_id',  
-                        CHtml::listData(KelasruanganM::model()->findAll(), 'kelaspelayanan_id', 'kelaspelayanan.kelaspelayanan_nama'),
+                        CHtml::listData(KelaspelayananM::model()->findAll("kelaspelayanan_aktif = TRUE ORDER BY kelaspelayanan_nama ASC"), 'kelaspelayanan_id', 'kelaspelayanan_nama'),
                         array(
                             'class'=>'span3', 
                             'onkeypress'=>"return $(this).focusNextInputField(event)",
