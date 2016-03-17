@@ -102,7 +102,7 @@
         <div class="control-group ">
             <?php echo CHtml::activeLabel($model,'kelaspelayanan_id',array('class'=>'control-label')); ?>
             <div class="controls">
-                <?php echo $form->dropDownList($model,'kelaspelayanan_id', array() ,array('class'=>'span3','empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+                <?php echo $form->dropDownList($model,'kelaspelayanan_id', CHtml::listData(KelaspelayananM::model()->findAll("kelaspelayanan_aktif ORDER BY kelaspelayanan_nama ASC"), 'kelaspelayanan_id', 'kelaspelayanan_nama') ,array('class'=>'span3','empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
             </div>
         </div> 
         <div class="control-group ">

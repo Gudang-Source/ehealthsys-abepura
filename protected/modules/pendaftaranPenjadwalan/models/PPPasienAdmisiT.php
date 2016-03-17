@@ -57,7 +57,7 @@ class PPPasienAdmisiT extends PasienadmisiT
     public function getDokterItems($ruangan_id='')
     {
         if(!empty($ruangan_id))
-            return DokterV::model()->findAllByAttributes(array('ruangan_id'=>$ruangan_id));
+            return DokterV::model()->findAllByAttributes(array('ruangan_id'=>$ruangan_id, 'pegawai_aktif'=>true),array('order'=>'nama_pegawai,gelardepan ASC'));
         else
             return array();
     }

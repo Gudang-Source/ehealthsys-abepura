@@ -393,9 +393,9 @@ Class Params
         public static function statusPeriksa() {
             return array(
                 'ANTRIAN'=>'ANTRIAN',
-                'SEDANG PERIKSA'=>'SEDANG PERIKSA',
-                'SUDAH DI PERIKSA'=>'SUDAH DI PERIKSA',
                 'SEDANG DIRAWAT INAP'=>'SEDANG DIRAWAT INAP',
+                'SEDANG PERIKSA'=>'SEDANG PERIKSA',
+                'SUDAH DI PERIKSA'=>'SUDAH DI PERIKSA',                
                 'SUDAH PULANG'=>'SUDAH PULANG',
             );
         }

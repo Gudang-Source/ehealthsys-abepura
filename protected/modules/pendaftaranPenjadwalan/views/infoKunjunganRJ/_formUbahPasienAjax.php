@@ -479,7 +479,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
     $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'id'=>'dialogPasienBadak',
         'options'=>array(
-            'title'=>'Pencarian Data Pasien',
+            'title'=>'Pencarian NIP Data Pasien',
             'autoOpen'=>false,
             'modal'=>true,
             'width'=>1060,
@@ -530,7 +530,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
                     array(
                         'name'=>'jeniskelamin',
                         'type'=>'raw',
-                        'filter'=> LookupM::model()->getItems('jeniskelamin'),
+                        'filter'=> CHtml::dropDownList('PPPasienM[jeniskelamin]',$modDataPasien->jeniskelamin,LookupM::model()->getItems('jeniskelamin'),array('empty'=>'--Pilih--')),
                         'value'=>'$data->jeniskelamin'
                     ),
                 
@@ -573,7 +573,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
                     array(
                         'name'=>'statusrekammedis',
                         'type'=>'raw',
-                        'filter'=> LookupM::getItems('statusrekammedis'),
+                        'filter'=> CHtml::dropDownList('PPPasienM[statusrekammedis]',$modDataPasien->statusrekammedis,LookupM::getItems('statusrekammedis'),array('empty'=>'--Pilih--')),
                         'value'=>'$data->statusrekammedis',
                     ),
             ),

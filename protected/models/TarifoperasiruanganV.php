@@ -104,13 +104,13 @@ class TarifoperasiruanganV extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'kegiatanoperasi_id' => 'Kegiatanoperasi',
-			'kegiatanoperasi_kode' => 'Kegiatanoperasi Kode',
-			'kegiatanoperasi_nama' => 'Kegiatanoperasi Nama',
+			'kegiatanoperasi_id' => 'Kegiatan Operasi',
+			'kegiatanoperasi_kode' => 'Kegiatan Operasi Kode',
+			'kegiatanoperasi_nama' => 'Kegiatan Operasi Nama',
 			'operasi_id' => 'Operasi',
 			'operasi_kode' => 'Operasi Kode',
 			'operasi_nama' => 'Operasi Nama',
-			'kategoritindakan_id' => 'Kategoritindakan',
+			'kategoritindakan_id' => 'Kategori Tindakan',
 			'kategoritindakan_nama' => 'Kategoritindakan Nama',
 			'kelompoktindakan_id' => 'Kelompoktindakan',
 			'kelompoktindakan_nama' => 'Kelompoktindakan Nama',

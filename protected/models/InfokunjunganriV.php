@@ -461,7 +461,7 @@ class InfokunjunganriV extends CActiveRecord
         
         public function getCaraBayarItems()
         {
-            return CarabayarM::model()->findAll('carabayar_aktif=TRUE') ;
+            return CarabayarM::model()->findAll('carabayar_aktif=TRUE ORDER BY carabayar_nama ASC') ;
         }
         
         public function getPenjaminItems()

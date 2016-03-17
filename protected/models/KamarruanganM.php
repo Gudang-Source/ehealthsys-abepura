@@ -65,7 +65,7 @@ class KamarruanganM extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-                     'kelaspelayanan' => array(self::BELONGS_TO, 'KelaspelayananM', 'kelaspelayanan_id'),
+                    'kelaspelayanan' => array(self::BELONGS_TO, 'KelaspelayananM', 'kelaspelayanan_id'),
                     'ruangan' => array(self::BELONGS_TO, 'RuanganM', 'ruangan_id'),
 		);
 	}

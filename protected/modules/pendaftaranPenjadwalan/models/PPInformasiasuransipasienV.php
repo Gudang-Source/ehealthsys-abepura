@@ -18,7 +18,7 @@ class PPInformasiasuransipasienV extends InformasiasuransipasienV{
 	
     public function getKelasTanggungan()
     {
-        return KelaspelayananM::model()->findAllByAttributes(array('kelaspelayanan_aktif'=>true));
+        return KelaspelayananM::model()->findAllByAttributes(array('kelaspelayanan_aktif'=>true),array('order'=>'kelaspelayanan_nama ASC'));
     }
 	
 	/**

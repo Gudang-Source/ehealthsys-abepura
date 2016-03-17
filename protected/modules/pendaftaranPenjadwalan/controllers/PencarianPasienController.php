@@ -26,10 +26,10 @@ class PencarianPasienController extends MyAuthController
 	{
                 $cek = null;
                 $format = new MyFormatter();
-                $modProp = PropinsiM::model()->findAll(array('order'=>'propinsi_nama'));
-                $modKab =  KabupatenM::model()->findAll(array('order'=>'kabupaten_nama'));
-                $modKec =  KecamatanM::model()->findAll(array('order'=>'kecamatan_nama'));
-                $modKel =  KelurahanM::model()->findAll(array('order'=>'kelurahan_nama'));
+                $modProp = PropinsiM::model()->findAll("propinsi_aktif = TRUE ORDER BY propinsi_nama ASC");
+                $modKab =  KabupatenM::model()->findAll("kabupaten_aktif = TRUE ORDER BY kabupaten_nama ASC");
+                $modKec =  KecamatanM::model()->findAll("kecamatan_aktif = TRUE ORDER BY kecamatan_nama ASC");
+                $modKel =  KelurahanM::model()->findAll("kelurahan_aktif = TRUE ORDER BY kelurahan_nama ASC");
                 $model = new PPPasienM;
                 $model->tgl_rm_awal=date('Y-m-d');
                 $model->tgl_rm_akhir =date('Y-m-d');

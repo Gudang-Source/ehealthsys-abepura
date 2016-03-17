@@ -143,6 +143,11 @@
                             echo CHtml::link(Yii::t('mds', '{icon} Print SEP', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('rel'=>'tooltip','title'=>'Fitur Bridging tidak aktif!','class'=>'btn btn-info','onclick'=>"return false",'disabled'=>true, 'style'=>'cursor:not-allowed;'));
                         }
                     }else{
+                        if (isset($modSep->sep_id)) {
+                            echo CHtml::link(Yii::t('mds', '{icon} Print SEP', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"printSEP();return false",'disabled'=>FALSE  ));
+                        }else{
+                            echo CHtml::link(Yii::t('mds', '{icon} Print SEP', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('rel'=>'tooltip','title'=>'Belum memiliki No. SEP!','class'=>'btn btn-info','onclick'=>"return false",'disabled'=>true, 'style'=>'cursor:not-allowed;'));
+                        }
                     }
                 ?>
 
@@ -349,5 +354,5 @@
 
     <?php $this->renderPartial($this->path_view_rj.'_jsFunctions', array('model'=>$model, 'modPasien'=>$modPasien, 'modPegawai'=>$modPegawai,'modPenanggungJawab'=>$modPenanggungJawab, 'modRujukan'=>$modRujukan, 'modRujukanBpjs'=>$modRujukanBpjs, 'modAsuransiPasien'=>$modAsuransiPasien, 'modAsuransiPasienBpjs'=>$modAsuransiPasienBpjs, 'modSep'=>$modSep,'modAsuransiPasienBadak'=>$modAsuransiPasienBadak,'modAsuransiPasienDepartemen'=>$modAsuransiPasienDepartemen,'modAsuransiPasienPekerja'=>$modAsuransiPasienPekerja,'modPegawai'=>$modPegawai)); ?>
 <?php $this->renderPartial($this->path_view_ri.'_jsFunctions', array('model'=>$model, 'modPasien'=>$modPasien, 'modPegawai'=>$modPegawai, 'modPasienAdmisi'=>$modPasienAdmisi, 'modPenanggungJawab'=>$modPenanggungJawab, 'modRujukan'=>$modRujukan,'modAsuransiPasien'=>$modAsuransiPasien,'modAsuransiPasienBadak'=>$modAsuransiPasienBadak,'modAsuransiPasienDepartemen'=>$modAsuransiPasienDepartemen,'modAsuransiPasienPekerja'=>$modAsuransiPasienPekerja,'modPegawai'=>$modPegawai)); ?>
-<?php $this->renderPartial('_jsFunctions', array('model'=>$model, 'modPasien'=>$modPasien, 'modPasienAdmisi'=>$modPasienAdmisi,'modPasienAdmisi'=>$modPasienAdmisi, 'modPenanggungJawab'=>$modPenanggungJawab, 'modRujukan'=>$modRujukan,'modAsuransiPasien'=>$modAsuransiPasien,'modAsuransiPasienBadak'=>$modAsuransiPasienBadak,'modAsuransiPasienDepartemen'=>$modAsuransiPasienDepartemen,'modAsuransiPasienPekerja'=>$modAsuransiPasienPekerja,'modPegawai'=>$modPegawai)); ?>
+<?php $this->renderPartial('_jsFunctions', array('model'=>$model, 'modPasien'=>$modPasien, 'modPasienAdmisi'=>$modPasienAdmisi,'modPasienAdmisi'=>$modPasienAdmisi, 'modPenanggungJawab'=>$modPenanggungJawab, 'modRujukan'=>$modRujukan,'modAsuransiPasien'=>$modAsuransiPasien,'modAsuransiPasienBpjs'=>$modAsuransiPasienBpjs,'modAsuransiPasienBadak'=>$modAsuransiPasienBadak,'modAsuransiPasienDepartemen'=>$modAsuransiPasienDepartemen,'modAsuransiPasienPekerja'=>$modAsuransiPasienPekerja,'modPegawai'=>$modPegawai, 'modSep'=>$modSep, 'modRujukanBpjs'=>$modRujukanBpjs)); ?>
 </div>
