@@ -269,6 +269,6 @@ class ResepturT extends CActiveRecord
         
         public function getApotekRawatJalan()
         {
-            return RuanganM::model()->findAllByAttributes(array('instalasi_id'=>Params::INSTALASI_ID_FARMASI, 'ruangan_aktif'=>true));
+            return RuanganM::model()->findAllByAttributes(array('instalasi_id'=>Params::INSTALASI_ID_FARMASI, 'ruangan_aktif'=>true), array("order"=>"ruangan_nama ASC"));
         }
 }

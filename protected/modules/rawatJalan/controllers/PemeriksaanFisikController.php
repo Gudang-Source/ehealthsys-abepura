@@ -308,6 +308,7 @@ class PemeriksaanFisikController extends MyAuthController
         if (Yii::app()->request->isAjaxRequest){
             $criteria = new CDbCriteria;
             $criteria->compare('LOWER(keadaanumum_nama)', strtolower($_GET['tag']),true);
+            $criteria->order = "keadaanumum_nama ASC";
             $keluhans = KeadaanumumM::model()->findAll($criteria);
             $data = array();
             foreach ($keluhans as $i => $keluhan) {

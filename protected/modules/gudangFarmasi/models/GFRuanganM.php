@@ -38,7 +38,7 @@ class GFRuanganM extends RuanganM
 				$criteria->addCondition('instalasi_id = '.$instalasi_id);
 			}
             $criteria->addCondition("ruangan_aktif = TRUE");
-            $criteria->order = "ruangan_nama";
+            $criteria->order = "ruangan_nama ASC";
             return self::model()->findAll($criteria);
         }
         /**

@@ -58,7 +58,7 @@
                     <div class="control-group ">
                         <?php echo CHtml::activeLabel($model,'ruangantujuan_id',array('class'=>'control-label')); ?>
                         <div class="controls">
-                           <?php echo $form->dropDownList($model,'ruangantujuan_id', CHtml::listData(RuanganM::model()->findAll('ruangan_aktif = true order by ruangan_nama'), 'ruangan_id', 'ruangan_nama'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20)); ?>
+                           <?php echo $form->dropDownList($model,'ruangantujuan_id', CHtml::listData(RuanganM::model()->findAll('ruangan_aktif = TRUE order by ruangan_nama'), 'ruangan_id', 'ruangan_nama'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20)); ?>
                         </div>
                     </div>
                 </td>

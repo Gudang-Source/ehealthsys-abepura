@@ -272,7 +272,7 @@ class TariftindakanperdaruanganV extends CActiveRecord
      
         public function getKelasPelayananItems()
 		{
-			return KelaspelayananM::model()->findAll(array('order'=>'kelaspelayanan_nama'));
+			return KelaspelayananM::model()->findAll("kelaspelayanan_aktif = TRUE ORDER BY kelaspelayanan_nama ASC");
 		} 
                 
         public function getKategoritindakanItems()

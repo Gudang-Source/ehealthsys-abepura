@@ -250,11 +250,11 @@ class PasienkirimkeunitlainT extends CActiveRecord
          */
         public function getRuanganGiziItems()
         {
-            return RuanganinstalasigiziV::model()->findAllByAttributes(array('ruangan_aktif'=>true),array('order'=>'ruangan_nama'));
+            return RuanganinstalasigiziV::model()->findAllByAttributes(array('ruangan_aktif'=>true),array('order'=>'ruangan_nama ASC'));
         }
         public function getAhliGiziItems()
         {
-			return PegawaiM::model()->findAllByAttributes(array('kelompokpegawai_id'=>Params::KELOMPOKPEGAWAI_ID_AHLI_GIZI));
+			return PegawaiM::model()->findAllByAttributes(array('kelompokpegawai_id'=>Params::KELOMPOKPEGAWAI_ID_AHLI_GIZI), array('order'=>'nama_pegawai ASC'));
             //return DokterV::model()->findAll();
         }
 }
