@@ -1,5 +1,6 @@
 <?php
 Yii::import('billingKasir.controllers.PemakaianBmhpController');
+Yii::import("billingKasir.controllers.TindakanRawatJalanController");
 class DietPasienController extends TindakanRawatJalanController
 {
     public $layout = "//layouts/iframe";

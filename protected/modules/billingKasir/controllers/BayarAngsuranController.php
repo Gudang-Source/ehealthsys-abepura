@@ -1,5 +1,7 @@
 <?php
 
+Yii::import("billingKasir.controllers.PembayaranTagihanPasienController");
+
 class BayarAngsuranController extends PembayaranTagihanPasienController
 {
         protected $successSave = false;

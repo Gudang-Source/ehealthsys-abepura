@@ -1,5 +1,7 @@
 <?php
 
+Yii::import("billingKasir.controllers.ReturTagihanPasienController");
+
 class ReturObatPasienController extends ReturTagihanPasienController
 {
         /**
