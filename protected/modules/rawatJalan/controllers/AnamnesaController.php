@@ -188,6 +188,7 @@ class AnamnesaController extends MyAuthController
         if (Yii::app()->request->isAjaxRequest){
             $criteria = new CDbCriteria;
             $criteria->compare('LOWER(keluhananamnesis_nama)', strtolower($_GET['tag']),true);
+            $criteria->order = "keluhananamnesis_nama ASC";
             $keluhans = KeluhananamnesisM::model()->findAll($criteria);
             $data = array();
             foreach ($keluhans as $i => $keluhan) {

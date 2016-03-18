@@ -276,7 +276,7 @@ class AnamnesaT extends CActiveRecord
 				$criteria = new CDbCriteria();
 				$criteria->addInCondition('kelompokpegawai_id', array(Params::KELOMPOKPEGAWAI_ID_TENAGA_MEDIK, Params::KELOMPOKPEGAWAI_ID_PARAMEDIS_KEPERAWATAN));
 				$criteria->addCondition("pegawai_aktif = TRUE");
-				$criteria->order = 'nama_pegawai';
+				$criteria->order = 'nama_pegawai ASC';
                 return PegawaiM::model()->findAll($criteria);
             }
         }

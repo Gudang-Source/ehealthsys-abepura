@@ -160,7 +160,7 @@ class RJAnamnesaT extends AnamnesaT
 	    $paramedis = Params::KELOMPOKPEGAWAI_ID_TENAGA_KEPERAWATAN;
 //	    $criteria->addCondition('kelompokpegawai_m.kelompokpegawai_id='.$paramedis); //RND-8563 disamakan dengan kondisi di view : paramedis_v
 	    $criteria->addCondition('kelompokpegawai_m.kelompokpegawai_id <> 1 ');
-	    
+	    $criteria->order = "pegawai_m.nama_pegawai ASC";
 	    return RuanganpegawaiM::model()->findAll($criteria);
 	}
 

@@ -1,7 +1,7 @@
 <?php
 class ResepturController extends MyAuthController
 {
-	public $layout='//layouts/iframe';
+    public $layout='//layouts/iframe';
     public $path_view = 'rawatJalan.views.reseptur.';
     public $successSave = false;
     public $reseptur_id;
