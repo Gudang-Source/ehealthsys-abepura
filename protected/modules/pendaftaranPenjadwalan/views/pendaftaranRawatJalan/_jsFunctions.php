@@ -27,6 +27,15 @@ function setPasienLama(pasien_id, no_rekam_medik, is_manual){
                 return false;
             }
             
+            <?php if ($this->id == "pendaftaranRawatInap"): ?>
+            if (data.adaDaftar) {
+                myAlert("Pasien " + data.listDaftar.pasien.namadepan + data.listDaftar.pasien.nama_pasien + " (" + data.listDaftar.no_pendaftaran + ")\n\
+                Hari ini sedang di Instalasi " + data.listDaftar.instalasi.instalasi_nama + " -> " + data.listDaftar.ruangan.ruangan_nama + ".");
+                $("#form-pasien > div").removeClass("animation-loading");
+                return false;
+            }
+            <?php endif; ?>
+            
             if(data.statusrekammedis.trim() == "<?php echo Params::STATUSREKAMMEDIS_AKTIF?>"){
 				$("#cari_nomorindukpegawai").val(data.nomorindukpegawai); // untuk load filed NIP
                 $("#cari_no_rekam_medik").val(data.no_rekam_medik);
