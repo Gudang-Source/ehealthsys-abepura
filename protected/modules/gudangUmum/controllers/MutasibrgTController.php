@@ -137,7 +137,6 @@ class MutasibrgTController extends MyAuthController {
     }
     
     public function simpanNotifMutasiBarang($model) {
-        var_dump($model->attributes);
 
         $asal = RuanganM::model()->findByPk(Params::RUANGAN_ID_GUDANG_UMUM);
         $ruangan = RuanganM::model()->findByPk($model->ruangantujuan_id);
