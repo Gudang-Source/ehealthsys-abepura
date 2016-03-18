@@ -1,5 +1,7 @@
 <?php
 
+Yii::import("billingKasir.controllers.PembayaranTagihanPasienController");
+
 class PembayaranKarcisController extends PembayaranTagihanPasienController
 {
         protected $path_view = 'billingKasir.views.pembayaranKarcis.';

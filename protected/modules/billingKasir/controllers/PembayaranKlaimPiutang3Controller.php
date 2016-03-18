@@ -1,7 +1,7 @@
 
 <?php
 
-class PembayaranKlaimPiutangController extends MyAuthController
+class PembayaranKlaimPiutang3Controller extends MyAuthController
 {
 	public $layout='//layouts/column1';
         public $path_view = 'billingKasir.views.pembayaranKlaimPiutang.';

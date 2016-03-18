@@ -1,4 +1,7 @@
 <?php
+
+Yii::import("billingKasir.controllers.PemeriksaanRadiologiController");
+
 class KonsultasiGiziController extends PemeriksaanRadiologiController
 {
     public $layout = "//layouts/iframe";

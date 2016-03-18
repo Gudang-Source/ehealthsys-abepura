@@ -1,4 +1,7 @@
 <?php
+
+Yii::import("billingKasir.controllers.TindakanRawatJalanController");
+
 class TindakanRawatDaruratController extends TindakanRawatJalanController
 {
     public $layout = "//layouts/iframe";
