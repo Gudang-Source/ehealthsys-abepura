@@ -217,9 +217,11 @@ $js = <<< JS
     
     function cekStok(obj){
         
-        var idBarang = $(obj).parents('tr').find('.barang').val();
-        var qty_pesan = $(obj).parents('tr').find('.qty_pesan').val();
+        var idBarang = parseFloat($(obj).parents('tr').find('.barang').val());
+        var qty_pesan = parseFloat($(obj).parents('tr').find('.qty_pesan').val());
         var qty = $(obj).val();
+        
+        
         if (jQuery.isNumeric(qty_pesan)){
             if (qty > qty_pesan){
                 myAlert('Jumlah yang dimutasikan tidak boleh lebih besar dari pesanan');
