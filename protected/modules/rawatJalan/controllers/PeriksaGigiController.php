@@ -22,7 +22,7 @@ class PeriksaGigiController extends Controller
 		$kunjunganPasien->ruangan_id = Yii::app()->user->getState('ruangan_id');
 		if(isset($_GET['RJInfokunjunganrjV'])){
 			$kunjunganPasien->attributes = $_GET['RJInfokunjunganrjV'];
-			$format = new MyFormatter();
+			$format = new MyFormatter();                        
 			$kunjunganPasien->tgl_pendaftaran  = $format->formatDateTimeForDb($_REQUEST['RJInfokunjunganrjV']['tgl_pendaftaran']);
 			$kunjunganPasien->statusperiksa  = $_REQUEST['RJInfokunjunganrjV']['statusperiksa'];
 			//$kunjunganPasien->ruangan_id = Yii::app()->user->getState('ruangan_id');

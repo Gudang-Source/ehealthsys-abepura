@@ -156,7 +156,13 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                  'no_pendaftaran',
                  'nama_pasien', 
                  'alamat_pasien',
-                 'penjamin_nama',
+                 //'penjamin_nama',
+                 array(
+                   'name' => 'penjamin_nama',
+                   'header' => 'Nama Penjamin',
+                   'value' => '$data->penjamin_nama',
+                   'filter'   => CHtml::dropDownList('RJInfokunjunganrjV[penjamin_nama]',$modDataPasien->penjamin_nama,CHtml::listData(PenjaminpasienM::model()->findAll("penjamin_aktif = TRUE ORDER BY penjamin_nama ASC"), 'penjamin_nama', 'penjamin_nama'),array('empty'=>'--Pilih--'))
+                 ),
                  'nama_pegawai',
                  'jeniskasuspenyakit_nama',
 
