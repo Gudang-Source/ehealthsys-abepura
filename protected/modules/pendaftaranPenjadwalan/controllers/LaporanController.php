@@ -6499,7 +6499,7 @@ class LaporanController extends MyAuthController {
             $mpdf->WriteHTML($stylesheet, 1);
             $mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);
             $mpdf->WriteHTML($this->renderPartial($target, array('model' => $model, 'periode'=>$periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
-            $mpdf->Output();
+            $mpdf->Output($judulLaporan.'-'.date('Y/m/d').'.pdf','I');
         }
     }
     
@@ -6652,7 +6652,7 @@ class LaporanController extends MyAuthController {
             if(empty($ruangan)){
                 echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
             }else{
-                echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                //  echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
                 foreach($ruangan as $value=>$name)
                 {
                     echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);

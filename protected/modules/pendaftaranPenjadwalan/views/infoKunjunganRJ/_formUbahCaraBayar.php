@@ -36,7 +36,7 @@ $form = $this->beginWidget(
     </div>
     <?php
         echo $form->dropDownListRow(
-            $modPendaftaran,'carabayar_id',CHtml::listData(CarabayarM::model()->findAllByAttributes(array('carabayar_aktif'=>true)), 'carabayar_id', 'carabayar_nama'),
+            $modPendaftaran,'carabayar_id',CHtml::listData(CarabayarM::model()->findAllByAttributes(array('carabayar_aktif'=>true), array('order'=>'carabayar_nama ASC')), 'carabayar_id', 'carabayar_nama'),
             array(
                 'onchange'=>"listPenjamin(this.value);onClickAsuransi(this);"
             )

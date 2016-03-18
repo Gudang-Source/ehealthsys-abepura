@@ -1,32 +1,52 @@
-<ol class="row-fluid">
-    <div class="span6">
-        <li>
-            Bagian dengan tanda bintang <span class="required">*</span> harus diisi.
-        </li>
-        <li>
-            Icon  <i class="icon-calendar"></i><i class="icon-time"></i>untuk menentukan tanggal dan waktu transaksi.
-        </li>
-        <li>
-            Tombol  <div class="btn btn-primary" name="yt0" type="button"><i class="icon-search icon-white"></i></div>
-            berfungsi untuk mencari data berdasarkan form pencarian.
-        </li>       
-        <li>
-            Tombol  <div class="btn btn-primary" name="yt0" type="button"><i class="icon-ok icon-white"></i> Simpan</div>
+Bagian dengan tanda bintang <span class="required">*</span> harus diisi.
+<table>
+    <tr>       
+        <td> 
+            1. Tombol  <div class="btn btn-primary" name="yt0" type="button"><i class="icon-search icon-white"></i> Tampilkan</div>
+            berfungsi untuk mencari data berdasarkan pencarian stok obat alkes opname dan menampilkannya pada tabel stok obat alkes opname.
+        </td>
+    </tr>
+    <tr>       
+        <td> 
+            2. Tombol  <div class="btn btn-primary" name="yt0" type="button"><i class="icon-search icon-white"></i></div>
+            berfungsi untuk mencari data berdasarkan form pencarian pada tabel stok obat alkes opname.
+        </td>
+    </tr>
+    <tr>       
+        <td> 
+            3. Tombol  <div class="btn btn-danger" name="yt0" type="button"><i class="icon-refresh icon-white"></i></div>
+            berfungsi untuk membersihkan form pencarian pada tabel stok obat alkes opname.
+        </td>
+    </tr>
+    <tr>
+        <td>
+            4. Icon <span class="add-on"><a id="" href="javascript:void(0);"><i class="icon-list"></i><i class="icon-search"></i></a></span> 
+            berfungsi untuk mencari dan menampilkan daftar data sesuai yang diketikan serta menampilkan dialog box jika diklik.
+        </td>
+    </tr>
+    <tr>
+        <td>
+             5. Tombol  <div class="btn btn-primary" name="yt0" type="button"><i class="icon-ok icon-white"></i> Simpan</div>
             berfungsi untuk menyimpan.
-        </li>
-    </div>
-    <div class="span6">
-        <li>
-            Tombol  <div class="btn btn-danger" name="yt0" type="button"><i class="icon-refresh icon-white"></i> Ulang</div>
-            berfungsi untuk melakukan pembayaran ulang.
-        </li>
-        <li>
-            Tombol  <div class="btn btn-info" name="yt0" type="button"><i class="icon-print icon-white"></i></div> dapat digunakan (sedang aktif)
+        </td>
+    </tr>
+     <tr>
+        <td>
+             6. Tombol  <div class="btn btn-danger" name="yt0" type="button"><i class="icon-refresh icon-white"></i> Ulang</div>
+            berfungsi untuk mengulang kembali inputan.
+        </td>
+    </tr>
+     <tr>
+        <td>
+            7. Tombol  <div class="btn btn-info" name="yt0" type="button"><i class="icon-print icon-white"></i></div> dapat digunakan (sedang aktif)
             sedangkan tombol <div class="btn btn-info" name="yt0" type="button" disabled="disabled"><i class="icon-print icon-white"></i></div> tidak dapat digunakan (tidak aktif).
-        </li>
-        <li>
-            Tombol  <div class="btn btn-info" name="yt0" type="button"><i class="icon-print icon-white"></i> Print </div>
+        </td>
+    </tr>
+     <tr>
+        <td>
+             8.  Tombol  <div class="btn btn-info" name="yt0" type="button"><i class="icon-print icon-white"></i> Print </div>
             berfungsi untuk mencetak Stock Opname.
-        </li>
-    </div>
-</ol>
+        </td>
+    </tr>     
+</table>
+  

@@ -277,7 +277,7 @@ class TariftindakanperdaruanganV extends CActiveRecord
                 
         public function getKategoritindakanItems()
 		{
-			return KategoritindakanM::model()->findAll(array('order'=>'kategoritindakan_nama'));
+			return KategoritindakanM::model()->findAll("kategoritindakan_aktif = TRUE ORDER BY kategoritindakan_nama ASC");
 		}     
         /**
          * menampilkan kategori tindakan

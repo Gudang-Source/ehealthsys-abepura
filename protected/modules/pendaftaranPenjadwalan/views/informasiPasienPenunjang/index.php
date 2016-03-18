@@ -164,13 +164,13 @@ $('#formCari').submit(function(){
                     <?php 
                     $carabayar = CarabayarM::model()->findAll(array(
                         'condition'=>'carabayar_aktif = true',
-                        'order'=>'carabayar_nourut',
+                        'order'=>'carabayar_nama',
                     ));
                     foreach ($carabayar as $idx=>$item) {
                         $penjamins = PenjaminpasienM::model()->findByAttributes(array(
                             'carabayar_id'=>$item->carabayar_id,
                             'penjamin_aktif'=>true,
-                       ));
+                       ),array('order'=>'penjamin_nama ASC'));
                        if (empty($penjamins)) unset($carabayar[$idx]);
                     }
                     $penjamin = PenjaminpasienM::model()->findAll(array(
@@ -193,7 +193,8 @@ $('#formCari').submit(function(){
                     <?php
                     $pegawai = CHtml::listData(DokterV::model()->findAllByAttributes(array(
                         'instalasi_id'=>array(5, 6, 8, 7, 10),
-                    )), 'pegawai_id', 'namaLengkap');
+                        'pegawai_aktif'=>true,
+                    ),array('order'=>'nama_pegawai, gelardepan ASC')), 'pegawai_id', 'namaLengkap');
                     
                     echo $form->dropDownListRow($model, 'pegawai_id', $pegawai, array(
                         'empty'=>'-- Pilih --',
@@ -203,14 +204,16 @@ $('#formCari').submit(function(){
                     <?php echo $form->dropDownListRow($model,'statusperiksa_pendaftaran', Params::statusPeriksa(), array('empty'=>'-- Pilih --')); ?>
                     <?php echo $form->dropDownListRow($model, 'ruangan_id', CHtml::listData(RuanganM::model()->findAllByAttributes(array(
                             'ruangan_id'=>array(53, 56, 47, 57),
+                            'ruangan_aktif'=>true,
                         ), array(
                             'order'=>'ruangan_nama asc'
                         )), 'ruangan_id', 'ruangan_nama'), array('empty'=>'-- Pilih --')); ?>
                     <?php //echo $form->dropDownListRow($model,'status_konfirmasi',CustomFunction::getStatusKonfirmasi(),array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",)); ?>
                     <?php echo $form->dropDownListRow($model, 'ruanganasal_id', CHtml::listData(RuanganM::model()->findAllByAttributes(array(
                             'instalasi_id'=>array(Params::INSTALASI_ID_RJ, Params::INSTALASI_ID_RD, Params::INSTALASI_ID_RI),
+                            'ruangan_aktif'=>true,
                         ), array(
-                            'order'=>'instalasi_id asc, ruangan_nama asc'
+                            'order'=>'ruangan_nama asc'
                         )), 'ruangan_id', 'ruangan_nama'), array('empty'=>'-- Pilih --')); ?>
                     <?php //echo $form->dropDownListRow($model,'status_konfirmasi',CustomFunction::getStatusKonfirmasi(),array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",)); ?>
                 </div>

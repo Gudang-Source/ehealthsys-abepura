@@ -537,8 +537,9 @@ class LaporanController extends MyAuthController {
                 case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
                 default : null;
             }
-            $model->tgl_awal = $model->tgl_awal." 00:00:00";
-            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            $model->tgl_awal = $model->tgl_awal;
+            $model->tgl_akhir = $model->tgl_akhir;
+            
         }
         
         $caraPrint = $_REQUEST['caraPrint'];
@@ -1000,7 +1001,7 @@ class LaporanController extends MyAuthController {
             $mpdf->WriteHTML($stylesheet, 1);
             $mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);
             $mpdf->WriteHTML($this->renderPartial($target, array('model' => $model, 'periode'=>$periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
-            $mpdf->Output();
+            $mpdf->Output($judulLaporan.'-'.date('Y/m/d').'.pdf','I');
         }
     }  
     

@@ -187,7 +187,7 @@
                         </data>
                 </request>';
                         
-                        //echo "<pre>".CHtml::encode($query)."</pre>"; die;
+                        // echo "<pre>".CHtml::encode($query)."</pre>"; die;
                         //var_dump($this->HashBPJS());
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
 			
@@ -242,13 +242,13 @@
 
 		function delete_transaksi($query){
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
-			$completeUrl = $this->url.'/sep/';
-			return $this->request($completeUrl, $hashsignature, $uid, $timestmp, 'DELETE', $query);		
+			$completeUrl = $this->url.'/SEP/sep';
+			return $this->request($completeUrl, $hashsignature, $uid, $timestmp, 'DELETE', $query, 'Application/x‐www‐form‐urlencoded');		
 		}
 
 		function riwayat_terakhir($query){
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
-			$completeUrl = $this->url.'/sep/peserta/'.$query;
+			$completeUrl = $this->url.'/SEP/sep/peserta/'.$query;
 			return $this->request($completeUrl, $hashsignature, $uid, $timestmp);
 		}
 

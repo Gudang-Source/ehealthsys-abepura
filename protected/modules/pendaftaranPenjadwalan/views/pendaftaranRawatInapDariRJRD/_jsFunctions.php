@@ -107,6 +107,7 @@ function setJudulDialogPasien(isi=null){
  */
 function setAsuransiPasienLama(pasien_id){
 	var pegawai_id = $("#PPPasienM_pegawai_id").val();
+        var pendaftaran_id = $("#PPPendaftaranT_pendaftaran_id").val();
 	$.ajax({
         type:'POST',
         url:'<?php echo $this->createUrl('SetAsuransiPasienLama'); ?>',
@@ -114,8 +115,8 @@ function setAsuransiPasienLama(pasien_id){
         dataType: "json",
         success:function(data){
 			if(data != null){
-				//myConfirm("Apakah pasien ini akan menggunakan penjamin "+data.penjamin_nama+"?","Konfirmasi!",function(r) {
-					//if(r){
+				myConfirm("Apakah pasien ini akan menggunakan penjamin "+data.penjamin_nama+"?","Konfirmasi!",function(r) {
+					if(r){
 						
 						var datacarabayar_id = data.carabayar_id;
 						var datalistPenjamin = data.listPenjamin;
@@ -134,6 +135,25 @@ function setAsuransiPasienLama(pasien_id){
 						$("#<?php echo CHtml::activeId($modPasienAdmisi,"penjamin_id");?>").html(data.listPenjamin);
 						$("#<?php echo CHtml::activeId($modPasienAdmisi,"penjamin_id");?>").val(data.penjamin_id);
 						
+                                                if (data.carabayar_id == <?php echo Params::CARABAYAR_ID_BPJS; ?>) {
+                                                    $("#<?php echo CHtml::activeId($modPasienAdmisi,"carabayar_id");?>").change();
+                                                    $("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'asuransipasien_id') ?>").val(data.asuransipasien_id);
+                                                    $("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'nopeserta') ?>").val(data.nokartuasuransi);
+                                                    $("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'nokartuasuransi') ?>").val(data.nokartuasuransi);
+                                                    $("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'namapemilikasuransi') ?>").val(data.namapemilikasuransi);
+                                                    $("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'jenispeserta_id') ?>").val(data.jenispeserta_id);
+                                                    $("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'kelastanggunganasuransi_id') ?>").val(data.kelastanggunganasuransi_id);
+                                                    $.post("<?php echo $this->createUrl("cekCaraBayarBPJS"); ?>", {
+                                                        pendaftaran_id: pendaftaran_id,
+                                                        pasien_id: pasien_id,
+                                                    }, function(data2) {
+                                                        $("#<?php echo CHtml::activeId($modSep,'ppkrujukan') ?>").val(data2.ppk);
+                                                        $("#<?php echo CHtml::activeId($modRujukanBpjs,'no_rujukan') ?>").val(data2.ruj);
+                                                        $("#<?php echo CHtml::activeId($modRujukanBpjs,'tanggal_rujukan') ?>").val(data2.tglruj);   
+                                                        setDiagnosaBpjs(data2.diag.kode, data2.diag.nama);
+                                                    }, "json");
+                                                }
+                                                
                                                 /*
 						$.ajax({
 							type:'POST',
@@ -173,8 +193,8 @@ function setAsuransiPasienLama(pasien_id){
 						});
                                                 */
 						
-					//} 
-				//}); 
+					} 
+				}); 
 			}
 			
         },

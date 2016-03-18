@@ -132,19 +132,17 @@ class PendaftaranRawatInapDariRJRDController extends PendaftaranRawatInapControl
                     }else{
                         $this->asuransipasientersimpan = true;
                     }
-                    
+                    //var_dump($_POST); die;
                     if(isset($_POST['PPAsuransipasienbpjsM'])){
                         if(isset($_POST['PPAsuransipasienbpjsM']['asuransipasien_id'])){
                             if(!empty($_POST['PPAsuransipasienbpjsM']['asuransipasien_id'])){
                                 $modAsuransiPasienBpjs = PPAsuransipasienM::model()->findByPk($_POST['PPAsuransipasienbpjsM']['asuransipasien_id']);
                             }
                         }
-						$modAsuransiPasienBpjs = $this->simpanAsuransiPasien($modAsuransiPasienBpjs, $_POST['PPPendaftaranT'], $modPasien, $_POST['PPAsuransipasienbpjsM']);
+						$modAsuransiPasienBpjs = $this->simpanAsuransiPasien($modAsuransiPasienBpjs, $_POST['PPPendaftaranT'], $modPasien, $_POST['PPAsuransipasienbpjsM'], $_POST['PPPasienAdmisiT']);
                     }else{
                         $this->asuransipasientersimpan = true;
                     }
-
-                    
                     
                     $modLoadPendaftaran = PPPendaftaranT::model()->findByPk($_POST['PPPendaftaranT']['pendaftaran_id']);
 					$modLoadPendaftaran->keterangan_pendaftaran = $_POST['PPPendaftaranT']['keterangan_pendaftaran'];
@@ -152,9 +150,12 @@ class PendaftaranRawatInapDariRJRDController extends PendaftaranRawatInapControl
                         $model = $modLoadPendaftaran;
                     }
                     if($_POST['PPPendaftaranT']['is_bpjs']){
-                        $modSep = $this->simpanSep($model,$modPasien,$modRujukanBpjs,$modAsuransiPasienBpjs,$_POST['PPSepT']);
+                        $this->cekSepHariIniDanHapus($modAsuransiPasienBpjs);
+                        $modSep = $this->simpanSep($model,$modPasien,$modRujukanBpjs,$modAsuransiPasienBpjs,$_POST['PPSepT'], true);
+                        if (!empty($modSep->sep_id)) $model->sep_id = $modSep->sep_id;
+                        if (!empty($modRujukanBpjs->rujukan_id)) $model->rujukan_id = $modRujukanBpjs->rujukan_id;
+                        $model->update();
                     }
-
                     $modPasienAdmisi = $this->simpanPasienAdmisi($model,$modPasien,$modPasienAdmisi,$_POST['PPPasienAdmisiT']);
                     $model->pasienadmisi_id = $modPasienAdmisi->pasienadmisi_id;
 					
@@ -554,4 +555,79 @@ class PendaftaranRawatInapDariRJRDController extends PendaftaranRawatInapControl
 							'modPendaftaran'=>$modPendaftaran
 		));
 	}
+        
+        
+        public function actionCekCaraBayarBPJS() {
+            if(Yii::app()->request->isAjaxRequest) {
+                $cr = new CDbCriteria();
+                $cr->compare("pasien_id", $_POST['pasien_id']);
+                $cr->order = "asuransipasien_id desc";
+                $cr->limit = 1;
+                $asuransi = AsuransipasienM::model()->find($cr);
+                $pendaftaran = PendaftaranT::model()->findByPk($_POST['pendaftaran_id']);
+                $pp = PasienpulangT::model()->findByAttributes(array(
+                    'pendaftaran_id'=>$pendaftaran->pendaftaran_id,
+                ));
+                $profil = ProfilrumahsakitM::model()->find();
+                
+                $ruangan = CHtml::listData(RuanganM::model()->findAllByAttributes(array(
+                    'instalasi_id'=>array(Params::INSTALASI_ID_RJ, Params::INSTALASI_ID_RD),
+                )), 'ruangan_id', 'ruangan_id');
+                
+                $morbid = PasienmorbiditasT::model()->findByAttributes(array(
+                    'pendaftaran_id'=>$pendaftaran->pendaftaran_id,
+                    'ruangan_id'=>$ruangan,
+                ), array(
+                    'order'=>'kelompokdiagnosa_id asc',
+                ));
+                
+                $res = array(
+                    "dat"=>null, 
+                    "diag"=>array(
+                        "kode"=>null,
+                        "nama"=>null,
+                    ),
+                );
+                if (!empty($asuransi)) {
+                    $res["dat"] = $asuransi->attributes;
+                }
+                
+                $res["ppk"] = $profil->ppkpelayanan;
+                $res["ruj"] = date('dmY');
+                $res["tglruj"] = date("d/m/Y H:i:s", strtotime($pp->tglpasienpulang));
+                
+                if (!empty($morbid)) {
+                    $diag = DiagnosaM::model()->findByPk($morbid->diagnosa_id);
+                    $res["diag"]["kode"] = $diag->diagnosa_kode;
+                    $res["diag"]["nama"] = $diag->diagnosa_nama;
+                }
+                echo CJSON::encode($res);
+            }
+            Yii::app()->end();
+        }
+        
+        protected function cekSepHariIniDanHapus($modAsuransiPasienBpjs) {
+            $bpjs = new Bpjs();
+            $dat = json_decode($bpjs->riwayat_terakhir($modAsuransiPasienBpjs->nokartuasuransi));
+            
+            // var_dump($dat); die;
+            
+            if ($dat->metadata->code != 200) return false;
+            
+            $last = $dat->response->list[0];
+            if ($last->tglSEP != date('Y-m-d')) return false;
+            $sep = $last->noSEP;
+            $ppk = substr($sep, 0, 8);
+            
+            $str = "<request><data><t_sep>";
+            $str .= "<noSep>".$sep."</noSep>";
+            $str .= "<ppkPelayanan>".$ppk."</ppkPelayanan>";
+            $str .= "</t_sep></data></request>";
+            
+            $dat = json_decode($bpjs->delete_transaksi($str));
+            
+            // var_dump($dat);
+            
+            //die;
+        }
 }
