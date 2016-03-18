@@ -7,6 +7,8 @@ class RJInfokunjunganrjV extends InfokunjunganrjV {
     public $data;
     public $jumlah;
     public $tick;
+    public $statuspetiksa;
+    public $tgl_pendaftaran;
 
     /**
      * Returns the static model of the specified AR class.
@@ -61,11 +63,13 @@ class RJInfokunjunganrjV extends InfokunjunganrjV {
         $criteria->compare('LOWER(t.statusperiksa)', strtolower($this->statusperiksa), true);
         $criteria->compare('LOWER(t.ruangan_nama)', strtolower($this->ruangan_nama), true);
         $criteria->compare('LOWER(t.nama_pegawai)', strtolower($this->nama_pegawai), true);
+        $criteria->compare('LOWER(t.penjamin_nama)', strtolower($this->penjamin_nama), true);
+        $criteria->compare('LOWER(t.carabayar_nama)', strtolower($this->carabayar_nama), true);
         if (isset($this->tgl_pendaftaran)){  
             $criteria->addBetweenCondition('DATE(t.tgl_pendaftaran)', $this->tgl_pendaftaran." 00:00:00", $this->tgl_pendaftaran." 23:59:59");
         }
         $criteria->compare('LOWER(t.jeniskasuspenyakit_nama)', strtolower($this->jeniskasuspenyakit_nama), true);
-        $criteria->compare('LOWER(t.statusperiksa)', strtolower($this->statusperiksa), true);
+       // $criteria->compare('LOWER(t.statusperiksa)', strtolower($this->statusperiksa), true);
         $criteria->addCondition('t.instalasi_id = '.Yii::app()->user->getState('instalasi_id'));
         $criteria->with = array('pendaftaran');
 
@@ -74,7 +78,7 @@ class RJInfokunjunganrjV extends InfokunjunganrjV {
         $criteria->limit = 10;
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
-                    'pagination' => false,
+                    //'pagination' => false,
                 ));
     }
 

@@ -110,7 +110,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'name'=>'jenisobatalkes_id',
                     'type'=>'raw',
                     'value'=>'(!empty($data->jenisobatalkes_id) ? $data->jenisobatalkes->jenisobatalkes_nama : "")',
-                    'filter'=>  Chtml::activeDropDownList($modObatAlkes, 'jenisobatalkes_id', CHtml::listData(JenisobatalkesM::model()->findAll(), 'jenisobatalkes_id','jenisobatalkes_nama'), array('empty'=>'-- Pilih --')),
+                    'filter'=>  Chtml::activeDropDownList($modObatAlkes, 'jenisobatalkes_id', CHtml::listData(JenisobatalkesM::model()->findAll("jenisobatalkes_aktif = TRUE ORDER BY jenisobatalkes_nama ASC"), 'jenisobatalkes_id','jenisobatalkes_nama'), array('empty'=>'-- Pilih --')),
                 ),
                 array(
                     'name'=>'obatalkes_golongan',
