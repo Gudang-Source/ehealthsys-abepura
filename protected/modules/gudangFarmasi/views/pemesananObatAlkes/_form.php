@@ -235,8 +235,8 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'pegawaimenyetujui-grid',
     'dataProvider'=>$modPegawaiMenyetujui->searchDialog(),
     'filter'=>$modPegawaiMenyetujui,
-        'template'=>"{items}\n{pager}",
-//        'template'=>"{summary}\n{items}\n{pager}",
+        //'template'=>"{items}\n{pager}",
+        'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
     'columns'=>array(
                 array(

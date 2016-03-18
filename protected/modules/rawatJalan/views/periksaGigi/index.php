@@ -259,7 +259,7 @@
     $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
                 'id'=>'dialogDaftarPasien',
                 'options'=>array(
-                    'title'=>'Daftar Pasien',
+                    'title'=>'Cari No Rekam Medik Pasien',
                     'autoOpen'=>false,
                     'resizable'=>false,
                     'modal'=>true,
@@ -340,7 +340,7 @@
                         'name'=>'statusperiksa',
                         'type'=>'raw',
                         'value'=>'$data->statusperiksa',
-                        'filter' => CHtml::listData(RJInfokunjunganrjV::model()->findAll(),'statusperiksa', 'statusperiksa'),
+                        'filter' => CHtml::dropDownList('RJInfokunjunganrjV[statusperiksa]',$kunjunganPasien->statusperiksa,CHtml::listData(RJInfokunjunganrjV::model()->findAll(array('order'=>'statusperiksa ASC')),'statusperiksa', 'statusperiksa'),array('empty'=>'--Pilih--')),
                         // 'filter' =>CHtml::activeDropDownList($kunjunganPasien,'statusperiksa',
                         //     LookupM::getItems('statusperiksa'),array('options' => array('ANTRIAN'=>array('selected'=>true)))),
                     ),

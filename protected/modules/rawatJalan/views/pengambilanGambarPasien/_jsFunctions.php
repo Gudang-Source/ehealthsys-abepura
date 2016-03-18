@@ -1,5 +1,6 @@
 <?php
 $gets = "";
+
 if(isset($_GET)){
     foreach($_GET AS $name => $get){
         if($name != "r")
