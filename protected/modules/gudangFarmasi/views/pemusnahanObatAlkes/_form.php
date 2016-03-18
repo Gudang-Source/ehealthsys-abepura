@@ -200,7 +200,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 $modPegawaiMenyetujui = new GFPegawaiV('search');
 $modPegawaiMenyetujui->unsetAttributes();
 if(isset($_GET['GFPegawaiV'])) {
-    $modPegawaiMengetahui->attributes = $_GET['GFPegawaiV'];
+    $modPegawaiMenyetujui->attributes = $_GET['GFPegawaiV'];
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'pegawaimenyetujui-grid',
