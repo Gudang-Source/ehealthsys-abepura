@@ -53,7 +53,7 @@
             <?php 
             $carabayar = CarabayarM::model()->findAll(array(
                 'condition'=>'carabayar_aktif = true',
-                'order'=>'carabayar_nourut',
+                'order'=>'carabayar_nama ASC',
             ));
             foreach ($carabayar as $idx=>$item) {
                 $penjamins = PenjaminpasienM::model()->findByAttributes(array(

@@ -52,7 +52,7 @@
                        Dokter Penanggung Jawab
                       </label>
                     <div class="controls">
-                        <?php echo $form->dropDownList($model,'nama_pegawai', CHtml::listData(DokterV::model()->findAllByAttributes(array('ruangan_id'=>Yii::app()->user->getState('ruangan_id')), array('order'=>'nama_pegawai')), 'nama_pegawai', 'namaLengkap') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",)); ?>
+                        <?php echo $form->dropDownList($model,'nama_pegawai', CHtml::listData(DokterV::model()->findAllByAttributes(array('ruangan_id'=>Yii::app()->user->getState('ruangan_id'), 'pegawai_aktif'=>true), array('order'=>'nama_pegawai')), 'nama_pegawai', 'namaLengkap') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",)); ?>
                     </div>
                 </div>   
         </td>

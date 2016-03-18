@@ -140,7 +140,118 @@ class ActionDynamicController extends Controller
         }
         Yii::app()->end();
     }
+    
+    public function actionGetKabupaten($encode=false,$model_nama='',$attr='')
+        {
+            if(Yii::app()->request->isAjaxRequest) {
+                $modPasien = new PasienM;
+                if($model_nama !=='' && $attr == ''){
+                    $propinsi_id = $_POST["$model_nama"]['propinsi_id'];
+                }
+                 elseif ($model_nama == '' && $attr !== '') {
+                    $propinsi_id = $_POST["$attr"];
+                }
+                 elseif ($model_nama !== '' && $attr !== '') {
+                    $propinsi_id = $_POST["$model_nama"]["$attr"];
+                }
+                $kabupaten = null;
+                if($propinsi_id){
+                    $kabupaten = $modPasien->getKabupatenItems($propinsi_id);
+                    $kabupaten = CHtml::listData($kabupaten,'kabupaten_id','kabupaten_nama');
+                }
+                if($encode){
+                    echo CJSON::encode($kabupaten);
+                } else {
+                    if(empty($kabupaten)){
+                        echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                    } else {
+                        echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                        foreach($kabupaten as $value=>$name) {
+                            echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                        }
+                    }
+                }
+            }
+            Yii::app()->end();
+        }
+        
+        public function actionGetKecamatan($encode=false,$model_nama='',$attr='')
+        {
+            if(Yii::app()->request->isAjaxRequest) {
+                $modPasien = new PasienM;
+                if($model_nama !=='' && $attr == ''){
+                    $kabupaten_id = $_POST["$model_nama"]['kabupaten_id'];
+                }
+                 elseif ($model_nama == '' && $attr !== '') {
+                    $kabupaten_id = $_POST["$attr"];
+                }
+                 elseif ($model_nama !== '' && $attr !== '') {
+                    $kabupaten_id = $_POST["$model_nama"]["$attr"];
+                }
+                $kecamatan = null;
+                if($kabupaten_id){
+                    $kecamatan = $modPasien->getKecamatanItems($kabupaten_id);
+                    $kecamatan = CHtml::listData($kecamatan,'kecamatan_id','kecamatan_nama');
+                }
 
+                if($encode){
+                    echo CJSON::encode($kecamatan);
+                } else {
+                    if(empty($kecamatan)){
+                        echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                    }else{
+                        echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                        foreach($kecamatan as $value=>$name)
+                        {
+                            echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                        }
+                    }
+                }
+            }
+            Yii::app()->end();
+        }
+        /**
+         * Mengatur dropdown kelurahan
+         * @param type $encode jika = true maka return array jika false maka set Dropdown 
+         * @param type $model_nama
+         * @param type $attr
+         */
+        public function actionGetKelurahan($encode=false,$model_nama='',$attr='')
+        {
+            if(Yii::app()->request->isAjaxRequest) {
+                $modPasien = new PasienM;
+                if($model_nama !=='' && $attr == ''){
+                    $kecamatan_id = $_POST["$model_nama"]['kecamatan_id'];
+                }
+                 elseif ($model_nama == '' && $attr !== '') {
+                    $kecamatan_id = $_POST["$attr"];
+                }
+                elseif ($model_nama !== '' && $attr !== '') {
+                    $kecamatan_id = $_POST["$model_nama"]["$attr"];
+                }
+                $kelurahan = null;
+                if($kecamatan_id){
+                    $kelurahan = $modPasien->getKelurahanItems($kecamatan_id);
+//                    $kelurahan = KelurahanM::model()->findAll('kecamatan_id='.$kecamatan_id.'');
+                    $kelurahan = CHtml::listData($kelurahan,'kelurahan_id','kelurahan_nama');
+                }
+
+                if($encode){
+                    echo CJSON::encode($kelurahan);
+                } else {
+                    if(empty($kelurahan)){
+                        echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                    }else{
+                        echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                        foreach($kelurahan as $value=>$name)
+                        {
+                            echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                        }
+                    }
+                }
+            }
+            Yii::app()->end();
+        }
     
 
     public function actionGetKabupatendrNamaPropinsi($encode=false,$namaModel='',$attr='')

@@ -24,7 +24,7 @@ class RJBagiantubuhM extends BagiantubuhM
 	}
 	
 	public function getBagianTubuh() {
-		$modBagianTubuh = RJBagiantubuhM::model()->findAll("bagiantubuh_aktif is true");
+		$modBagianTubuh = RJBagiantubuhM::model()->findAll("bagiantubuh_aktif is true ORDER BY namabagtubuh ASC");
 		return $modBagianTubuh;
 	}
 	

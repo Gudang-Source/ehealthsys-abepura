@@ -64,7 +64,7 @@
                             <?php echo CHtml::activeLabel($model, 'ruanganpemesan_id', array('class'=>'control-label')); ?>
                         </label>
                         <div class="controls">
-                               <?php echo $form->dropDownList($model,'ruanganpemesan_id', CHtml::listData(RuanganM::model()->findAllByAttributes(array('instalasi_id'=>$model->ruanganpemesan->instalasi_id,'ruangan_aktif'=>true)), 'ruangan_id', 'ruangan_nama'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20)); ?>
+                               <?php echo $form->dropDownList($model,'ruanganpemesan_id', CHtml::listData(RuanganM::model()->findAllByAttributes(array('instalasi_id'=>$model->ruanganpemesan->instalasi_id,'ruangan_aktif'=>true), array('order'=>'ruangan_nama ')), 'ruangan_id', 'ruangan_nama'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20)); ?>
                         </div>
                     </div>
                 </td>
@@ -74,7 +74,7 @@
                            <?php echo CHtml::activeLabel($model, 'pegpemesan_id', array('class'=>'control-label')); ?>
                         </label>
                         <div class="controls">
-                              <?php echo $form->dropDownList($model,'pegpemesan_id', CHtml::listData(PegawaiM::model()->findAll('pegawai_aktif = true'), 'pegawai_id', 'nama_pegawai'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20)); ?>
+                              <?php echo $form->dropDownList($model,'pegpemesan_id', CHtml::listData(PegawaiM::model()->findAll('pegawai_aktif = true ORDER BY nama_pegawai ASC'), 'pegawai_id', 'nama_pegawai'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20)); ?>
                         </div>
                     </div>
                     <?php //echo $form->dropDownListRow($model,'sumberdanabhn', LookupM::getItems('sumberdanabahan'),array('empty'=>'-- Pilih --')); ?>

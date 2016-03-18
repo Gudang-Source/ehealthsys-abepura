@@ -84,7 +84,10 @@ echo $form->errorSummary(array($modMasukKamar)); ?>
         </tr>
         <tr>
             <td><?php echo CHtml::label('Tanggal Admisi', 'tgl_admisi',array('class'=>'control-label')); ?></td>
-            <td><?php echo CHtml::activeTextField($modPasienRIV, 'pasienadmisi_id', array('readonly'=>true)); ?></td>
+            <td>
+                <?php echo CHtml::activeHiddenField($modPasienRIV, 'pasienadmisi_id', array('readonly'=>true)); ?>
+                <?php echo CHtml::activeTextField($modPasienRIV, 'tgladmisi', array('readonly'=>true)); ?>
+            </td>
 
 
             <td><?php echo CHtml::activeLabel($modPasienRIV, 'umur',array('class'=>'control-label')); ?></td>
