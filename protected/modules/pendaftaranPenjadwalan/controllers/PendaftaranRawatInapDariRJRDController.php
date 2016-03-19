@@ -235,7 +235,7 @@ class PendaftaranRawatInapDariRJRDController extends PendaftaranRawatInapControl
                         // SMS GATEWAY
                         $modPegawai = $model->pegawai;
                         $modRuangan = $model->ruangan;
-                        $modKamarRuangan = $modPasienAdmisi->kamarruangan;
+                        // $modKamarRuangan = $modPasienAdmisi->kamarruangan;
                         $sms = new Sms();
                         $smspasien = 1;
                         $smsdokter = 1;
@@ -263,11 +263,13 @@ class PendaftaranRawatInapDariRJRDController extends PendaftaranRawatInapControl
                                 $attributes = $modPasienAdmisi->getAttributes();
                                 foreach($attributes as $attributes => $value){
                                     $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
-                                }
+                                } /*
                                 $attributes = $modKamarRuangan->getAttributes();
                                 foreach($attributes as $attributes => $value){
                                     $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
                                 }
+                                 * 
+                                 */
                                 $attributes = $modRuangan->getAttributes();
                                 foreach($attributes as $attributes => $value){
                                     $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
