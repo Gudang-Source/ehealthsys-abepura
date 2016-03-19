@@ -41,7 +41,7 @@ class AKRekperiodM extends RekperiodM
 		$criteria->addCondition('DATE(perideawal) <=\''.$next_year.'\'');
 		$criteria->addCondition('DATE(sampaidgn) >= \''.$next_year.'\'');
 		$criteria->compare('LOWER(deskripsi)',strtolower($this->deskripsi),true);
-		$criteria->order = "sampaidgn";
+		$criteria->order = "deskripsi ASC";
 		$criteria->addCondition("isclosing IS FALSE");
         $periodes = RekperiodM::model()->findAll($criteria);
 		foreach($periodes as $i => $periode){

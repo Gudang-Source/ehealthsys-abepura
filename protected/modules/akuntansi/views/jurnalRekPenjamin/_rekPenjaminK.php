@@ -15,7 +15,7 @@ penjaminrek_m.penjamin_id = $penjamin_id");
                 echo "</pre>";
             }else{                
                 echo "<pre>";
-                echo $data->rekeningdebit->nmrekening5.CHtml::Link("<i class=\"icon-pencil\"></i>",
+                echo $data->rekeningdebit->nmrekening5.CHtml::Link("<i class=\"icon-form-ubah\"></i>",
                                 Yii::app()->controller->createUrl("jurnalRekPenjamin/ubahRekeningKredit",array("id"=>$data->penjaminrek_id)),
                                 array("class"=>"", 
                                       "target"=>"iframeEditRekeningDebitKredit",

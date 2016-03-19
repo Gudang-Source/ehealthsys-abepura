@@ -40,7 +40,7 @@ class RekeningPengeluaranController extends MyAuthController
                                 if ($success == true) {
                                     $transaction->commit();
                                     Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-                                    $this->redirect(array('admin','id'=>'1'));
+                                    $this->redirect(array('admin','id'=>1));
                                 } else {
                                     $transaction->rollback();
                                     Yii::app()->user->setFlash('error', "Data gagal disimpan ");
@@ -80,11 +80,15 @@ class RekeningPengeluaranController extends MyAuthController
             return $modDetails;
         }
         
-       public function actionAdmin(){
-           
+       public function actionAdmin($id=''){
+           if ($id == 1):
+               $this->redirect(Yii::app()->createUrl('akuntansi/jurnalRekPengeluaran/admin&id=1')); 
+           else:
+               $this->redirect(Yii::app()->createUrl('akuntansi/jurnalRekPengeluaran/admin')); 
+           endif;
           $model = new AKJenispengeluaranM;
           
-          $this->redirect(Yii::app()->createUrl('akuntansi/jurnalRekPengeluaran/admin')); 
+          
        }
        
        public function actionUbahRekeningDebit($id)

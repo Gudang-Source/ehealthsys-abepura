@@ -11,7 +11,7 @@
 					<div class='control-group'>
                         <?php echo $form->labelEx($model,'matauang_id', array('class'=>'control-label')) ?>
                         <div class="controls">
-							<?php echo  $form->dropDownList($model,'matauang_id',CHtml::listData(MatauangM::model()->findAll(),'matauang_id','matauang'),array('class'=>'span3','empty'=>'--Pilih--')); ?>
+							<?php echo  $form->dropDownList($model,'matauang_id',CHtml::listData(MatauangM::model()->findAll(array('condition'=>'matauang_aktif = TRUE', 'order'=>'matauang ASC')),'matauang_id','matauang'),array('class'=>'span3','empty'=>'--Pilih--')); ?>
                         </div>
 					</div> 
                     

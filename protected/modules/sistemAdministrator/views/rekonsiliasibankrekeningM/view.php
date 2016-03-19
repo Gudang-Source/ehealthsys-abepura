@@ -1,10 +1,7 @@
-<<<<<<< HEAD
-<div class='white-container'>
-    <legend class='rim2'>Lihat <b>Rekonsiliasi Bank Rekening</b></legend>
-=======
+
 <fieldset class="box">
-    <legend class='rim'>Lihat Jurnal Rekening Penjamin</legend>
->>>>>>> 12f1e5a9c072640a387b6430d541776accbca7b2
+    <legend class='rim'>Lihat Rekening Rekonsiliasi Bank</legend>
+
     <?php
     $this->breadcrumbs=array(
             'Rekonsiliasi Bank Rekening'=>array('index'),
@@ -44,6 +41,6 @@
                     ),
             ),
     )); ?>
-
+    <?php echo CHtml::link(Yii::t('mds','{icon} Pengaturan Rekening Rekonsiliasi Bank',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
     <?php $this->widget('UserTips',array('type'=>'view'));?>
 </fieldset>

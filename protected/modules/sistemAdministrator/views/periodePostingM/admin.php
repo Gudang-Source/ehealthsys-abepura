@@ -47,12 +47,12 @@ $('#saperiodeposting-m-search').submit(function(){
 			array(
 				'name'=>'konfiganggaran_id',
 				'value'=>'$data->konfiganggaran->deskripsiperiode',
-				'filter'=>  CHtml::listData(KonfiganggaranK::model()->findAll(), 'konfiganggaran_id', 'deskripsiperiode'),
+				'filter'=> CHtml::dropDownList('SAPeriodepostingM[konfiganggaran_id]',$model->konfiganggaran_id,CHtml::listData(KonfiganggaranK::model()->findAll(array('order'=>'deskripsiperiode')), 'konfiganggaran_id', 'deskripsiperiode'),array('empty'=>'--Pilih--')),
 			),
 			array(
 				'name'=>'rekperiode_id',
 				'value'=>'$data->rekperiode->deskripsi',
-				'filter'=>  CHtml::listData(RekperiodM::model()->findAll(), 'rekperiod_id', 'deskripsi'),
+				'filter'=>  CHtml::dropDownList('SAPeriodepostingM[rekperiode_id]',$model->rekperiode_id,CHtml::listData(RekperiodM::model()->findAll(array('order'=>'deskripsi')), 'rekperiod_id', 'deskripsi'),array('empty'=>'--Pilih--')),
 			),
 			'periodeposting_nama',
 			array(
@@ -118,8 +118,9 @@ $('#saperiodeposting-m-search').submit(function(){
 	echo CHtml::link(Yii::t('mds','{icon} Tambah Periode Posting',array('{icon}'=>'<i class="icon-plus icon-white"></i>')),$this->createUrl('create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp"; 
 	echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
 	echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
-	echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
-	$this->widget('UserTips',array('content'=>''));
+	echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 	
+        $content = $this->renderPartial($this->path_tips.'master',array(),true);
+        $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));                
 	$urlPrint= $this->createUrl('print');
 	$controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
     $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai

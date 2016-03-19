@@ -14,7 +14,7 @@ supplierrek_m.supplier_id = $supplier_id");
             if(isset($_GET['caraPrint'])){
                 echo $data->rekening5->nmrekening5;
             }else{
-                echo $data->rekening5->nmrekening5.CHtml::Link("<i class=\"icon-pencil\"></i>",
+                echo $data->rekening5->nmrekening5.CHtml::Link("<i class=\"icon-form-ubah\"></i>",
                             Yii::app()->controller->createUrl("supplierRek/ubahRekeningKredit",array("id"=>$data->supplierrek_id)),
                             array("class"=>"", 
                                   "target"=>"iframeEditRekeningDebitKredit",

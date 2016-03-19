@@ -67,6 +67,22 @@
 //                        ),
 //                    ),
 				'columns'=>array(
+                                        array(
+						'header'=>'Pilih',
+						'type'=>'raw',
+						'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("style"=>"text-align:left;", 
+								"id" => "selectRekDebit",
+								"onClick" =>"
+									$(\"#rekening5_id\").val(\"$data->rekening5_id\");
+									$(\"#rekening4_id\").val(\"$data->rekening4_id\");
+									$(\"#rekening3_id\").val(\"$data->rekening3_id\");
+									$(\"#rekening2_id\").val(\"$data->rekening2_id\");
+									$(\"#rekening1_id\").val(\"$data->rekening1_id\");
+									$(\"#debit\").val(\"$data->nmrekening5\");  
+									saveDebit();
+									return false;
+						"))',
+					),
 					array(
 						'header'=>'No. Urut',
 						'name'=>'nourutrek',
@@ -114,22 +130,7 @@
 						'value'=>'($data->rekening5_nb == "D") ? "Debit" : "Kredit"',
 					),
 
-					array(
-						'header'=>'Pilih',
-						'type'=>'raw',
-						'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("style"=>"text-align:left;", 
-								"id" => "selectRekDebit",
-								"onClick" =>"
-									$(\"#rekening5_id\").val(\"$data->rekening5_id\");
-									$(\"#rekening4_id\").val(\"$data->rekening4_id\");
-									$(\"#rekening3_id\").val(\"$data->rekening3_id\");
-									$(\"#rekening2_id\").val(\"$data->rekening2_id\");
-									$(\"#rekening1_id\").val(\"$data->rekening1_id\");
-									$(\"#debit\").val(\"$data->nmrekening5\");  
-									saveDebit();
-									return false;
-						"))',
-					),
+					
 				),
 			'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
             ));

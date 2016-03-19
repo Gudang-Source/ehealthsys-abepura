@@ -113,7 +113,7 @@
             array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
 ?>
 <?php
-        $content = $this->renderPartial('../tips/master',array(),true);
+        $content = $this->renderPartial('../tips/master3',array(),true);
         $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
         $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
         $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai

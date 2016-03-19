@@ -168,11 +168,11 @@ $this->widget('ext.bootstrap.widgets.BootGridView',
                 'value'=>'$data->jmlsaldoakhirk',
                 'headerHtmlOptions'=>array('style'=>'text-align:center;'),
             ),
-            array(
+           /* array(
                'header'=>'&nbsp;',
                'type'=>'raw',
                'value'=>'CHtml::Link("<i class=\'icon-pencil-brown\'></i>", Yii::app()->controller->createUrl("SaldoAwal/editSaldoRekening",array("id"=>$data->saldoawal_id)),array("value"=>$data->saldoawal_id, "onclick"=>"editSaldoJenisRek(this);return false;","rel"=>"tooltip", "title"=>"Klik Untuk Edit<br>Saldo Rekening",))',
-            )
+            )*/
          ),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
     )

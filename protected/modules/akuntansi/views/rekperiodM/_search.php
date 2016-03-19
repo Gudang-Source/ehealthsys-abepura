@@ -6,7 +6,7 @@
             'type'=>'horizontal',
     )); 
 ?>
-        <table width='100%'>
+        <table width='100%'>            
             <tr>
                 <td>
                     <div class='control-group'>
@@ -28,6 +28,14 @@
                              ?>
                          </div>
                    </div> 
+                 
+                <div class='control-group'>
+                             <?php echo $form->labelEx($model,'isclosing', array('class'=>'control-label')) ?>
+                         <div class="controls">
+                             <?php echo $form->checkBox($model,'isclosing', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                         </div>
+                   </div>
+            
                 </td>
                 <td>
                     <div class='control-group'>
@@ -51,14 +59,13 @@
                    </div>
                 </td>
                 <td>
-                    <div class='control-group'>
-                             <?php echo $form->labelEx($model,'isclosing', array('class'=>'control-label')) ?>
+                    <div class='control-group'>                           
                          <div class="controls">
-                             <?php echo $form->checkBox($model,'isclosing', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                             <?php echo $form->TextFieldRow($model,'deskripsi', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                          </div>
                    </div>
                 </td>
-            </tr>
+            </tr>           
         </table>
 
 	<div class="form-actions">

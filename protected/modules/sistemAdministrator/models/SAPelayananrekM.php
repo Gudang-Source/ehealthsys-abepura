@@ -134,7 +134,7 @@ class SAPelayananrekM extends PelayananrekM {
 		$criteria->limit = 10;
 
 		return new CActiveDataProvider($this, array(
-			'criteria' => $criteria,
+			'criteria' => $criteria,                        
 		));
 	}
 

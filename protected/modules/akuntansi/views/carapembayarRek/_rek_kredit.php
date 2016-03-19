@@ -15,7 +15,7 @@ AND carapembrek_m.debitkredit = '".$debet."'");
             if(isset($_GET['caraPrint'])){
                 echo $data->rekening5->nmrekening5;
             }else{
-                echo $data->rekening5->nmrekening5.CHtml::Link("<i class=\"icon-pencil\"></i>",
+                echo $data->rekening5->nmrekening5.CHtml::Link("<i class=\"icon-form-ubah\"></i>",
                             Yii::app()->controller->createUrl("carapembayarRek/ubahRekeningKredit",array("id"=>$data->carapembayaran)),
                             array("class"=>"", 
                                   "target"=>"iframeEditRekeningDebitKredit",

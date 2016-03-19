@@ -28,15 +28,14 @@
 
     $this->widget('bootstrap.widgets.BootAlert'); ?>
     <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-white icon-accordion"></i>')),'#',array('class'=>'search-button btn')); ?>
-<<<<<<< HEAD:protected/modules/sistemAdministrator/views/bankM/admin.php
-    <div class="cari-lanjut search-form" style="display:none">
-        <?php $this->renderPartial($this->path_view .'_search',array(
-=======
+<!--<<<<<<< HEAD:protected/modules/sistemAdministrator/views/bankM/admin.php-->
+   <!-- <div class="cari-lanjut search-form" style="display:none">-->
+        <!--< //$this->renderPartial($this->path_view .'_search',array(-->
+<!--=======-->
     <div class="cari-lanjut2 search-form" style="display:none">
-        <?php $this->renderPartial('_search',array(
->>>>>>> 12f1e5a9c072640a387b6430d541776accbca7b2:protected/modules/akuntansi/views/bankM/admin.php
+        <?php $this->renderPartial($this->path_view .'_search',array(
                 'model'=>$model,
-        )); ?>
+        )); //>>>>>>> 12f1e5a9c072640a387b6430d541776accbca7b2:protected/modules/akuntansi/views/bankM/admin.php?>
     </div><!-- search-form -->
     <!--<div class="block-tabel">-->
         <!--<h6>Tabel <b>Bank</b></h6>-->

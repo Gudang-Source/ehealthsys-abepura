@@ -112,15 +112,22 @@
 	$this->widget('UserTips', array('type' => 'transaksi', 'content' => $content));
 	$controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
 	$module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
-	$urlPrint = Yii::app()->createAbsoluteUrl($module . '/' . $controller . '/print');
+	//$urlPrint = Yii::app()->createAbsoluteUrl($module . '/' . $controller . '/print');
+        $urlPrint= $this->createUrl('print');
 
 
-	$js = <<< JSCRIPT
+	/*$js = <<< JSCRIPT
 function print(caraPrint)
 {
     window.open("${urlPrint}/"+$('#search').serialize()+"&caraPrint="+caraPrint,"",'location=_new, width=900px');
+}*/
+        $js = <<< JSCRIPT
+function print(caraPrint)
+{
+    window.open("${urlPrint}/"+$('#jenisrekonsiliasi-m-search').serialize()+"&caraPrint="+caraPrint,"",'location=_new, width=900px');
 }
 JSCRIPT;
+
 	Yii::app()->clientScript->registerScript('print', $js, CClientScript::POS_HEAD);
 	?>
 </div>

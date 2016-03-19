@@ -26,8 +26,12 @@ class JurnalRekPenerimaanController extends MyAuthController {
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
-	public function actionCreate() {
+	public function actionCreate($id='') {
 		//if(!Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
+                if ($id == 1):
+                    Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                endif;
+                
 		$model = new AKJenispenerimaanM;
 
 		// Uncomment the following line if AJAX validation is needed
@@ -37,7 +41,7 @@ class JurnalRekPenerimaanController extends MyAuthController {
 			$model->attributes = $_POST['AKJenispenerimaanM'];
 			if ($model->save()) {
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('create', 'id' => $model->jenispenerimaan_id));
+				$this->redirect(array('create', 'id' => 1));
 			}
 		}
 
@@ -62,7 +66,7 @@ class JurnalRekPenerimaanController extends MyAuthController {
 			$model->attributes = $_POST['AKJenispenerimaanM'];
 			if ($model->save()) {
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin', 'id' => $model->jenispenerimaan_id));
+				$this->redirect(array('admin', 'id' => 1));
 			}
 		}
 
@@ -131,9 +135,12 @@ class JurnalRekPenerimaanController extends MyAuthController {
 	/**
 	 * Manages all models.
 	 */
-	public function actionAdmin() {
-
-		$model = new AKJnsPenerimaanRekM('search');
+	public function actionAdmin($id='') {
+             if ($id == 1):
+                    Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                endif;
+                
+		$model = new AKJnsPenerimaanRekM('searchJenisPenerimaan');
 		$model->unsetAttributes();
 		if (isset($_GET['AKJnsPenerimaanRekM'])) {
 			$model->attributes = $_GET['AKJnsPenerimaanRekM'];
@@ -201,7 +208,7 @@ class JurnalRekPenerimaanController extends MyAuthController {
 			$mpdf->WriteHTML($stylesheet, 1);
 			$mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);
 			$mpdf->WriteHTML($this->renderPartial('Print', array('model' => $model, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
-			$mpdf->Output();
+			$mpdf->Output($judulLaporan.'-'.date('Y/m/d').'.pdf','I');
 		}
 	}
 

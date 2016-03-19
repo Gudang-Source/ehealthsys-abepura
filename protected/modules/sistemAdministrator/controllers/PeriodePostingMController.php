@@ -10,7 +10,7 @@ class PeriodePostingMController extends MyAuthController {
 	public $layout = '//layouts/column1';
 	public $defaultAction = 'admin';
 	public $path_view = 'sistemAdministrator.views.periodePostingM.';
-
+        public $path_tips = 'sistemAdministrator.views.tips.';
 	/**
 	 * Menampilkan detail data.
 	 * @param integer $id the ID of the model to be displayed
@@ -41,10 +41,10 @@ class PeriodePostingMController extends MyAuthController {
 
 			if ($model->save()) {
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin', 'id' => $model->periodeposting_id));
+				$this->redirect(array('admin', 'id' => 1));
 			} else {
 				Yii::app()->user->setFlash('error', 'Tanggal awal periode posting dan tanggal akhir periode posting tidak boleh diantara tanggal yang sudah ada di pengaturan periode posting!');
-				$this->redirect(array('admin', 'id' => $model->periodeposting_id));
+				$this->redirect(array('admin', 'id' => 2));
 			}
 		}
 
@@ -71,10 +71,10 @@ class PeriodePostingMController extends MyAuthController {
 
 			if ($model->save()) {
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin', 'id' => $model->periodeposting_id));
+				$this->redirect(array('admin', 'id' => 1));
 			} else {
 				Yii::app()->user->setFlash('error', 'Tanggal awal periode posting dan tanggal akhir periode posting tidak boleh diantara tanggal yang sudah ada di pengaturan periode posting!');
-				$this->redirect(array('admin', 'id' => $model->periodeposting_id));
+				$this->redirect(array('admin', 'id' => 2));
 			}
 		}
 
@@ -154,7 +154,12 @@ class PeriodePostingMController extends MyAuthController {
 	/**
 	 * Pengaturan data.
 	 */
-	public function actionAdmin() {
+	public function actionAdmin($id='') {
+            if ($id == 1):
+                Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+            elseif ($id == 2):
+                Yii::app()->user->setFlash('error', 'Tanggal awal periode posting dan tanggal akhir periode posting tidak boleh diantara tanggal yang sudah ada di pengaturan periode posting!');            
+            endif;
 		$model = new SAPeriodepostingM('search');
 		$model->unsetAttributes();  // clear any default values
 		if (isset($_GET['SAPeriodepostingM'])) {
@@ -213,7 +218,7 @@ class PeriodePostingMController extends MyAuthController {
 			$mpdf->WriteHTML($stylesheet, 1);
 			$mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);
 			$mpdf->WriteHTML($this->renderPartial($this->path_view . 'Print', array('model' => $model, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
-			$mpdf->Output();
+			$mpdf->Output($judulLaporan.'-'.date('Y/m/d').'.pdf','I');
 		}
 	}
 
