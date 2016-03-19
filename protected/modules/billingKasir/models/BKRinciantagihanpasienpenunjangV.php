@@ -8,6 +8,8 @@ class BKRinciantagihanpasienpenunjangV extends RinciantagihanpasienpenunjangV
 	 * @return TindakankomponenT the static model class
 	 */
         public $totaltagihan;
+        public $is_sudahbayar;
+        
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -16,8 +18,13 @@ class BKRinciantagihanpasienpenunjangV extends RinciantagihanpasienpenunjangV
         public function searchRincianTagihan()
         {
             $criteria=new CDbCriteria;
-            $criteria->group = 'tgl_pendaftaran,no_pendaftaran, pendaftaran_id, no_rekam_medik, nama_pasien, nama_bin ,pendaftaran_id, carabayar_nama, penjamin_nama, ruangan_nama, pembayaranpelayanan_id, instalasi_id, instalasi_nama';
-            $criteria->select = $criteria->group.' , sum(tarif_tindakan) as totaltagihan';
+            
+            $str_bayar = '(case when tindakansudahbayar_id is null then true else false end)';
+            
+            $criteria->group = 'tgl_pendaftaran,no_pendaftaran, pendaftaran_id, no_rekam_medik, nama_pasien, nama_bin ,pendaftaran_id, carabayar_nama, penjamin_nama, ruangan_nama, pembayaranpelayanan_id, instalasi_id, instalasi_nama, '
+                    . $str_bayar;
+            $criteria->select = $criteria->group.' , sum(case when tindakansudahbayar_id is null then tarif_tindakan else 0 end) as totaltagihan, '
+                    . $str_bayar;
             $criteria->addBetweenCondition('date(tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
             $criteria->compare('LOWER(namadepan)',strtolower($this->namadepan),true);
             $criteria->compare('LOWER(nama_pasien)',strtolower($this->nama_pasien),true);
@@ -61,9 +68,9 @@ class BKRinciantagihanpasienpenunjangV extends RinciantagihanpasienpenunjangV
             $criteria->compare('ruangan_id', $this->ruangan_id);
             $criteria->compare('LOWER(jeniskasuspenyakit_nama)',strtolower($this->jeniskasuspenyakit_nama),true);
             if ($this->statusBayar == 'LUNAS'){
-                $criteria->addCondition('pembayaranpelayanan_id is not null');
+                $criteria->addCondition($str_bayar.' = false');
             }else if ($this->statusBayar == 'BELUM LUNAS'){
-                $criteria->addCondition('pembayaranpelayanan_id is null');
+                $criteria->addCondition($str_bayar.' = true');
             }
             $criteria->order = 'pendaftaran_id';
             return new CActiveDataProvider($this, array(
