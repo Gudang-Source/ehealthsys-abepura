@@ -85,7 +85,7 @@
                             'header'=>'Bayar Tagihan Pasien',
                             'name'=>'tagihan',
                             'type'=>'raw',
-                            'value'=>'(empty($data->pembayaranpelayanan_id) ? 
+                            'value'=>'($data->totaltagihan != 0 ? 
                                     CHtml::Link("<i class=\"icon-form-bayar\"></i>",Yii::app()->createUrl("billingKasir/pembayaranTagihanPasienPenunjang/index",array("instalasi_id"=>$data->instalasi_id,"pendaftaran_id"=>$data->pendaftaran_id,"frame"=>true)),
                                         array("class"=>"", 
                                               "target"=>"iframePembayaran",
