@@ -43,6 +43,7 @@ class BKRinciantagihanpasienpenunjangV extends RinciantagihanpasienpenunjangV
 			if(!empty($this->jeniskasuspenyakit_id)){
 				$criteria->addCondition("jeniskasuspenyakit_id = ".$this->jeniskasuspenyakit_id);					
 			}
+                        /*
 			$ruangans = array();
 			$criteria_ruangan = new CDbCriteria();
 			$criteria_ruangan->addNotInCondition("instalasi_id",array(Params::INSTALASI_ID_RI, 
@@ -53,10 +54,10 @@ class BKRinciantagihanpasienpenunjangV extends RinciantagihanpasienpenunjangV
 				foreach($modRuangans AS $ruangan){
 					$ruangans[$ruangan->ruangan_id] = $ruangan->ruangan_id;
 				}
-			}
+			} */
 			
-            $criteria->addInCondition('ruanganpendaftaran_id', $ruangans);
-            $criteria->addInCondition('ruanganpenunjang_id',  $ruangans);
+            //$criteria->addInCondition('ruanganpendaftaran_id', $ruangans);
+            //$criteria->addInCondition('ruanganpenunjang_id',  $ruangans);
             $criteria->compare('ruangan_id', $this->ruangan_id);
             $criteria->compare('LOWER(jeniskasuspenyakit_nama)',strtolower($this->jeniskasuspenyakit_nama),true);
             if ($this->statusBayar == 'LUNAS'){
