@@ -220,8 +220,8 @@
 					</request>';
 
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
-			$completeUrl = $this->url.'/sep/updtglplg/';
-			return $this->request($completeUrl, $hashsignature, $uid, $timestmp, 'PUT', $query);		
+			$completeUrl = $this->url.'/SEP/sep/updtglplg';
+			return $this->request($completeUrl, $hashsignature, $uid, $timestmp, 'PUT', $query, 'Application/x‐www‐form‐urlencoded');		
 		}
 
 		function mapping_trans($nosep, $notrans, $ppkpelayanan){

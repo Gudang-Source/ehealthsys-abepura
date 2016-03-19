@@ -222,7 +222,11 @@ class PasienRawatInapController extends MyAuthController
                                     $this->successPaseinM=false;
                                 }
                             }
-							
+                            
+                            $this->updateSEPPulang($modPendaftaran, $modelPulang);
+				
+                            // die;
+                            
                          if($this->successUpdateMasukKamar && $this->successPasienPulang
                             && $this->successUpdatePendaftaran && $this->successUpdatePasienAdmisi
                             && $this->successRujukanKeluar && $this->successPaseinM){
@@ -230,6 +234,7 @@ class PasienRawatInapController extends MyAuthController
                             $modPasien = $modPendaftaran->pasien;
                             $modCaraKeluar = $modelPulang->carakeluar;
                             $modKondisiKeluar = $modelPulang->kondisikeluar;
+                            /*
                             $sms = new Sms();
                             foreach ($modSmsgateway as $i => $smsgateway) {
                                 $isiPesan = $smsgateway->templatesms;
@@ -260,6 +265,8 @@ class PasienRawatInapController extends MyAuthController
                                     }
                                 }
                             }
+                             * 
+                             */
                             // END SMS GATEWAY
 
                              $transaction->commit();
@@ -310,6 +317,22 @@ class PasienRawatInapController extends MyAuthController
                                             'modPendaftaran'=>$modPendaftaran));
   }
         
+    public function updateSEPPulang($modPendaftaran, $modelPulang) {
+        $bpjs = new Bpjs;
+        $sep = SepT::model()->findByPk($modPendaftaran->sep_id);
+        
+        if (empty($sep)) return false;
+        
+        $noSep = $sep->nosep;
+        $ppk = substr($noSep, 0, 8);
+        $tglPulang = $modelPulang->tglpasienpulang;
+             
+        // var_dump(json_decode($bpjs->update_tanggal_pulang_sep($noSep, $tglPulang, $ppk)));
+        
+        // var_dump($noSep, $ppk, $tglPulang, $modelPulang->attributes);
+        // var_dump($modPendaftaran->attributes);
+    }
+  
     public function actionTindakLanjutDrTransaksi($id = null)
     {
        $modelPulang = new RIPasienPulangT;
