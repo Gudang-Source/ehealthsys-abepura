@@ -411,7 +411,7 @@ class PasienRawatInapController extends MyAuthController
 							$this->successPaseinM=false;
 						}
 					}
-
+                                 $this->updateSEPPulang($modPendaftaran, $modelPulang);
 				 if($this->successUpdateMasukKamar && $this->successPasienPulang
 					&& $this->successUpdatePendaftaran && $this->successUpdatePasienAdmisi
 					&& $this->successRujukanKeluar ){
@@ -422,6 +422,7 @@ class PasienRawatInapController extends MyAuthController
           $modKondisiKeluar = $modelPulang->kondisikeluar;
           $sms = new Sms();
           $smspasien = 1;
+          /*
           foreach ($modSmsgateway as $i => $smsgateway) {
               $isiPesan = $smsgateway->templatesms;
 
@@ -451,6 +452,8 @@ class PasienRawatInapController extends MyAuthController
                   }
               }
           }
+           * 
+           */
           // END SMS GATEWAY
 
 					$transaction->commit();
