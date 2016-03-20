@@ -2,7 +2,7 @@
 
 class AKSaldorekeningV extends SaldorekeningV
 {
-	public $NamaRekPeriod,$KodeRekening;
+	public $NamaRekPeriod,$KodeRekening,$kdstruktur,$kdkelompok,$kdjenis,$kdobyek,$kdrincianobyek;
     /**
     * Returns the static model of the specified AR class.
     * @param string $className active record class name.
@@ -54,7 +54,12 @@ class AKSaldorekeningV extends SaldorekeningV
 		$criteria->compare('LOWER(keterangan)',strtolower($this->keterangan),true);
 		if(!empty($this->nourutrek)){
 			$criteria->addCondition('nourutrek = '.$this->nourutrek);
-		}
+		}    
+                $criteria->compare('LOWER(kdstruktur)',strtolower($this->kdstruktur),true);
+                $criteria->compare('LOWER(kdrincianobyek)',strtolower($this->kdrincianobyek),true);
+                $criteria->compare('LOWER(kdobyek)',strtolower($this->kdobyek),true);
+                $criteria->compare('LOWER(kdjenis)',strtolower($this->kdjenis),true);
+                $criteria->compare('LOWER(kdkelompok)',strtolower($this->kdkelompok),true);
 		$criteria->compare('rekening5_aktif',$this->rekening5_aktif);
 		$criteria->compare('LOWER(kelompokrek)',strtolower($this->kelompokrek),true);
 		$criteria->compare('sak',$this->sak);
@@ -117,7 +122,12 @@ class AKSaldorekeningV extends SaldorekeningV
 		$criteria->compare('LOWER(keterangan)',strtolower($this->keterangan),true);
 		if(!empty($this->nourutrek)){
 			$criteria->addCondition('nourutrek = '.$this->nourutrek);
-		}
+		}     
+                $criteria->compare('LOWER(kdstruktur)',strtolower($this->kdstruktur),true);
+                $criteria->compare('LOWER(kdrincianobyek)',strtolower($this->kdrincianobyek),true);
+                $criteria->compare('LOWER(kdobyek)',strtolower($this->kdobyek),true);
+                $criteria->compare('LOWER(kdjenis)',strtolower($this->kdjenis),true);
+                $criteria->compare('LOWER(kdkelompok)',strtolower($this->kdkelompok),true);
 		$criteria->compare('rekening5_aktif',$this->rekening5_aktif);
 		$criteria->compare('LOWER(kelompokrek)',strtolower($this->kelompokrek),true);
 		$criteria->compare('sak',$this->sak);

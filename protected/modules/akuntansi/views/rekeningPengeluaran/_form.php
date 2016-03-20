@@ -150,6 +150,7 @@
 				Yii::app()->createUrl($this->module->id.'/jurnalRekPengeluaran/admin'), 
 					array('class'=>'btn btn-danger',
 						'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
+                <?php echo CHtml::link(Yii::t('mds','{icon} Pengaturan Jurnal Rekening Pengeluaran',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
 		<?php
 			$content = $this->renderPartial('akuntansi.views.tips.tipsaddedit3a',array(),true);
 			$this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
@@ -200,6 +201,22 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridViewNonRp',array(
 //            ),
 //        ),
 	'columns'=>array(
+                array(
+			'header'=>'Pilih',
+			'type'=>'raw',
+			'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
+				"id" => "selectRekDebit",
+				"onClick" =>"
+					$(\"#AKJnsPengeluaranRekM_rekening_1_rekening5_id\").val(\"$data->rekening5_id\");
+					$(\"#AKJnsPengeluaranRekM_rekening_1_rekening4_id\").val(\"$data->rekening4_id\");
+					$(\"#AKJnsPengeluaranRekM_rekening_1_rekening3_id\").val(\"$data->rekening3_id\");
+					$(\"#AKJnsPengeluaranRekM_rekening_1_rekening2_id\").val(\"$data->rekening2_id\");
+					$(\"#AKJnsPengeluaranRekM_rekening_1_rekening1_id\").val(\"$data->rekening1_id\");
+					$(\"#AKJnsPengeluaranRekM_rekDebit\").val(\"$data->nmrekening5\");                                                
+					$(\"#dialogRekDebit\").dialog(\"close\");    
+					return false;
+			"))',
+		),
 		array(
 			'header'=>'No. Urut',
 			'name'=>'nourutrek',
@@ -246,22 +263,7 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridViewNonRp',array(
 			'value'=>'($data->rekening5_nb == "D" ) ? "Debit" : "Kredit"',
 		),
 
-		array(
-			'header'=>'Pilih',
-			'type'=>'raw',
-			'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
-				"id" => "selectRekDebit",
-				"onClick" =>"
-					$(\"#AKJnsPengeluaranRekM_rekening_1_rekening5_id\").val(\"$data->rekening5_id\");
-					$(\"#AKJnsPengeluaranRekM_rekening_1_rekening4_id\").val(\"$data->rekening4_id\");
-					$(\"#AKJnsPengeluaranRekM_rekening_1_rekening3_id\").val(\"$data->rekening3_id\");
-					$(\"#AKJnsPengeluaranRekM_rekening_1_rekening2_id\").val(\"$data->rekening2_id\");
-					$(\"#AKJnsPengeluaranRekM_rekening_1_rekening1_id\").val(\"$data->rekening1_id\");
-					$(\"#AKJnsPengeluaranRekM_rekDebit\").val(\"$data->nmrekening5\");                                                
-					$(\"#dialogRekDebit\").dialog(\"close\");    
-					return false;
-			"))',
-		),
+		
 	),
 	'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 ));
@@ -308,6 +310,22 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 //            ),
 //        ),
 	'columns'=>array(
+                array(
+			'header'=>'Pilih',
+			'type'=>'raw',
+			'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
+					"id" => "selectRekDebit",
+					"onClick" =>"
+						$(\"#AKJnsPengeluaranRekM_rekening_2_rekening5_id\").val(\"$data->rekening5_id\");
+						$(\"#AKJnsPengeluaranRekM_rekening_2_rekening4_id\").val(\"$data->rekening4_id\");
+						$(\"#AKJnsPengeluaranRekM_rekening_2_rekening3_id\").val(\"$data->rekening3_id\");
+						$(\"#AKJnsPengeluaranRekM_rekening_2_rekening2_id\").val(\"$data->rekening2_id\");
+						$(\"#AKJnsPengeluaranRekM_rekening_2_rekening1_id\").val(\"$data->rekening1_id\");
+						$(\"#AKJnsPengeluaranRekM_rekKredit\").val(\"$data->nmrekening5\");
+						$(\"#dialogRekKredit\").dialog(\"close\");    
+						return false;
+			"))',
+		),
 		array(
 			'header'=>'No. Urut',
 			'name'=>'nourutrek',
@@ -354,22 +372,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 			'value'=>'($data->rekening5_nb == "K") ? "Kredit" : "Debit"',
 		),
 
-		array(
-			'header'=>'Pilih',
-			'type'=>'raw',
-			'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
-					"id" => "selectRekDebit",
-					"onClick" =>"
-						$(\"#AKJnsPengeluaranRekM_rekening_2_rekening5_id\").val(\"$data->rekening5_id\");
-						$(\"#AKJnsPengeluaranRekM_rekening_2_rekening4_id\").val(\"$data->rekening4_id\");
-						$(\"#AKJnsPengeluaranRekM_rekening_2_rekening3_id\").val(\"$data->rekening3_id\");
-						$(\"#AKJnsPengeluaranRekM_rekening_2_rekening2_id\").val(\"$data->rekening2_id\");
-						$(\"#AKJnsPengeluaranRekM_rekening_2_rekening1_id\").val(\"$data->rekening1_id\");
-						$(\"#AKJnsPengeluaranRekM_rekKredit\").val(\"$data->nmrekening5\");
-						$(\"#dialogRekKredit\").dialog(\"close\");    
-						return false;
-			"))',
-		),
+		
 	),
 	'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 ));
@@ -405,6 +408,18 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridViewNonRp',array(
 	'template'=>"{summary}\n{items}\n{pager}",
 	'itemsCssClass'=>'table table-striped table-bordered table-condensed',
 	'columns'=>array(
+                array(
+			'header'=>'Pilih',
+			'type'=>'raw',
+			'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
+					"id" => "selectJenisPengeluaran",
+					"onClick" =>"
+						$(\"#AKJnsPengeluaranRekM_jenispengeluaran_id\").val(\"$data->jenispengeluaran_id\");
+						$(\"#AKJnsPengeluaranRekM_jnsNama\").val(\"$data->jenispengeluaran_nama\");
+						$(\"#dialogJenisPengeluaran\").dialog(\"close\");    
+						return false;
+			"))',
+		),
 		array(
 			'header'=>'No. Urut',
 			'value'=>'$this->grid->dataProvider->Pagination->CurrentPage*$this->grid->dataProvider->pagination->pageSize+$row+1',
@@ -425,18 +440,7 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridViewNonRp',array(
 			'value'=>'$data->jenispengeluaran_namalain',
 		),
 
-		array(
-			'header'=>'Pilih',
-			'type'=>'raw',
-			'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
-					"id" => "selectJenisPengeluaran",
-					"onClick" =>"
-						$(\"#AKJnsPengeluaranRekM_jenispengeluaran_id\").val(\"$data->jenispengeluaran_id\");
-						$(\"#AKJnsPengeluaranRekM_jnsNama\").val(\"$data->jenispengeluaran_nama\");
-						$(\"#dialogJenisPengeluaran\").dialog(\"close\");    
-						return false;
-			"))',
-		),
+		
 	),
 	'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 ));

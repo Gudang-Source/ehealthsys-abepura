@@ -42,7 +42,7 @@ class RekperiodMController extends MyAuthController
 			$model->isclosing = FALSE;
 			if($model->save()){
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->rekperiod_id));
+				$this->redirect(array('admin','id'=>1));
 			}
 		}
 
@@ -70,7 +70,7 @@ class RekperiodMController extends MyAuthController
                         
 			if($model->save()){
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->rekperiod_id));
+				$this->redirect(array('admin','id'=>1));
 			}
 		}
 
@@ -93,8 +93,12 @@ class RekperiodMController extends MyAuthController
 	/**
 	 * Manages all models.
 	 */
-	public function actionAdmin()
-	{                
+	public function actionAdmin($id='')
+	{       
+                if($id == 1 ):
+                    Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                endif;
+            
 		$format = new MyFormatter();
 		$model = new AKRekperiodM('search');
 		$model->perideawal = date('Y-m-d');
@@ -228,7 +232,7 @@ class RekperiodMController extends MyAuthController
 			$mpdf->WriteHTML($stylesheet,1);  
 			$mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
 			$mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-			$mpdf->Output();
+			$mpdf->Output($judulLaporan.'-'.date('Y/m/d').'.pdf','I');
 		}                       
 	}
         

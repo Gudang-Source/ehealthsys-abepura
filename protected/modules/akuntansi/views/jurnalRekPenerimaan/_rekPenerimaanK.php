@@ -15,7 +15,7 @@ jnspenerimaanrek_m.jenispenerimaan_id = $jenispenerimaan_id AND jnspenerimaanrek
                 echo "</pre>";
             }else{                
                 echo "<pre>";
-                echo $data->rekeningkredit->nmrekening5.CHtml::Link("<i class=\"icon-pencil\"></i>",
+                echo $data->rekeningkredit->nmrekening5.CHtml::Link("<i class=\"icon-form-ubah\"></i>",
                                 Yii::app()->controller->createUrl("rekeningPenerimaan/ubahRekeningKredit",array("id"=>$data->jnspenerimaanrek_id)),
                                 array("class"=>"", 
                                       "target"=>"iframeEditRekeningDebitKredit",

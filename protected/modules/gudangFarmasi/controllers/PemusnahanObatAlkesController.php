@@ -48,7 +48,7 @@ class PemusnahanObatAlkesController extends MyAuthController
                 $model->create_loginpemakai_id=Yii::app()->user->id;
                 $model->create_ruangan=Yii::app()->user->getState('ruangan_id');
                 $model->pegawai_id=Yii::app()->user->getState('pegawai_id');
-                
+                //var_dump($model);exit;
                 if($model->save()){
                     if(isset($_POST['GFPemusnahanoadetailT'])){
                         if(count($_POST['GFPemusnahanoadetailT']) > 0){

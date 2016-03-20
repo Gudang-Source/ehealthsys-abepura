@@ -130,7 +130,7 @@ class KursrpM extends CActiveRecord
             $models = self::model()->findAll(
                 array(
                     'condition'=>'kursrp_aktif = true',
-                    'order'=>'kursrp_id',
+                    'order'=>'nilai',
                 )
             );
             $result = array();

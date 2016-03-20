@@ -139,7 +139,7 @@
     <div class="form-actions">
         <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Rekening Uang Muka', array('{icon}' => '<i class="icon-folder-open icon-white"></i>')), $this->createUrl('admin', array('modul_id' => Yii::app()->session['modul_id'])), array('class' => 'btn btn-success')); ?>
         <?php
-        $content = $this->renderPartial('rawatJalan.views.tips.tipsaddedit3', array(), true);
+        $content = $this->renderPartial($this->path_view . 'tips.tipsaddedit3', array(), true);
         $this->widget('UserTips', array('type' => 'transaksi', 'content' => $content));
         ?>
     </div>
@@ -174,7 +174,7 @@
             array(
                 'header' => 'Pilih',
                 'type' => 'raw',
-                'value' => 'CHtml::Link("<i class=\"icon-check\"></i>",
+                'value' => 'CHtml::Link("<i class=\"icon-form-check\"></i>",
                                 "#",
                                 array(
                                     "class"=>"btn-small", 

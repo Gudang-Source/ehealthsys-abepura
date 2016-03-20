@@ -67,17 +67,17 @@ $('.search-form form').submit(function(){
 			array(
 				'header'=>Yii::t('zii','Delete'),
 				'class'=>'bootstrap.widgets.BootButtonColumn',
-				'template'=>'{delete}',
+				'template'=>'{remove}{delete}',
 				'buttons'=>array(
-					/**'remove' => array (
+					'remove' => array (
 							'label'=>"<i class='icon-form-silang'></i>",
 							'options'=>array('title'=>Yii::t('mds','Remove Temporary')),
 							'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/nonActive",array("id"=>$data->kelrekening_id))',
 							'click'=>'function(){nonActive(this);return false;}',
-							'visible'=>'Yii::app()->controller->checkAccess(array("action"=>"nonActive"))',
+							//'visible'=>'Yii::app()->controller->checkAccess(array("action"=>"nonActive"))',
 					),
-					 * 
-					 */
+					 
+					 
 					'delete'=> array(
 							'visible'=>'Yii::app()->controller->checkAccess(array("action"=>Params::DEFAULT_DELETE))',
 					),

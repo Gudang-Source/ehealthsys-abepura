@@ -497,7 +497,7 @@ class PendaftaranRawatInapController extends PendaftaranRawatJalanController
             $modMasukKamar->create_time = date("Y-m-d H:i:s");
             $modMasukKamar->create_loginpemakai_id = Yii::app()->user->id;
             $modMasukKamar->create_ruangan = Yii::app()->user->getState('ruangan_id');
-			
+            
             if($modMasukKamar->save()){
 				if(!empty($modMasukKamar->kamarruangan_id)){
 					KamarruanganM::model()->updateByPk($modMasukKamar->kamarruangan_id,array('kamarruangan_status'=>false, 'keterangan_kamar'=>'IN USE'));

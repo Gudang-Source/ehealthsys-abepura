@@ -281,7 +281,7 @@ class GFObatalkesM extends ObatalkesM
 
 		return new CActiveDataProvider($model, array(
 				'criteria'=>$criteria,
-				'pagination'=>false,
+				//'pagination'=>false,
 		));
     }
 	

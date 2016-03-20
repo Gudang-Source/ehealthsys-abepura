@@ -41,7 +41,7 @@ class KursrpMController extends MyAuthController
                         $model->kursrp_aktif = TRUE;
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->kursrp_id));
+				$this->redirect(array('admin','id'=>1));
                         }
 		}
 
@@ -70,7 +70,7 @@ class KursrpMController extends MyAuthController
                         $model->tglkursrp = $format->formatDateTimeForDb($_POST['AKKursrpM']['tglkursrp']);
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->kursrp_id));
+				$this->redirect(array('admin','id'=>1));
                         }
 		}
 
@@ -93,8 +93,11 @@ class KursrpMController extends MyAuthController
 	/**
 	 * Manages all models.
 	 */
-	public function actionAdmin()
-	{
+	public function actionAdmin($id='')
+	{   
+                if ($id == 1):
+                    Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                endif;
                 
 		$model=new AKKursrpM('search');
 		$model->unsetAttributes();  // clear any default values
@@ -224,7 +227,7 @@ class KursrpMController extends MyAuthController
                 $mpdf->WriteHTML($stylesheet,1);  
                 $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
                 $mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-                $mpdf->Output();
+                $mpdf->Output($judulLaporan.'-'.date('Y/m/d').'.pdf','I');
             }                       
         }
 }

@@ -311,7 +311,7 @@ $this->widget('bootstrap.widgets.BootAlert');
             <div class="control-group ">
                     <?php echo $form->LabelEx($modPemeriksaanFisik,'suhutubuh',array('class'=>'control-label'));?>
                     <div class="controls">
-                             <?php echo $form->textField($modPemeriksaanFisik,'suhutubuh',array('class'=>'span2 integer numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>2));?>
+                             <?php echo $form->textField($modPemeriksaanFisik,'suhutubuh',array('class'=>'span2 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>2, 'style'=>'text-align:right;'));?>
                      &#176 Celcius
                     </div>
             </div>
@@ -319,7 +319,7 @@ $this->widget('bootstrap.widgets.BootAlert');
                     <?php echo CHtml::Label('Tinggi Badan / Berat Badan','',array('class'=>'control-label'));?>
                     <div class="controls">
                             <div class="groupUkurans">
-                                    <?php echo $form->textField($modPemeriksaanFisik,'tinggibadan_cm',array('class'=>'span1 integer numbersOnly tinggibadan', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>3,'size'=>3));?>
+                                    <?php echo $form->textField($modPemeriksaanFisik,'tinggibadan_cm',array('class'=>'span1 numbersOnly tinggibadan', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>3,'size'=>3, 'style'=>'text-align:right;'));?>
                                     <?php echo $form->hiddenField($modPemeriksaanFisik,'tinggibadan_cm',array('class'=>'span1 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>3,'size'=>3));?>
                                     <?php echo CHtml::dropDownList('meter', '100', array('100'=>'Cm', '0.01'=>'M'), array('style'=>'width:50px;','class'=>'span1', 'onchange'=>'gantiJumlah(this)')); ?>
                             </div>

@@ -25,7 +25,7 @@ class SAKelompokTindakanM extends KelompoktindakanM
 	public static function getItems(){
 		$criteria = new CDbCriteria();
 		$criteria->addCondition("kelompoktindakan_aktif = TRUE");
-		$criteria->order = "kelompoktindakan_urutan, kelompoktindakan_nama";
+		$criteria->order = "kelompoktindakan_nama ASC";
 		
 		return self::model()->findAll($criteria);
 	}

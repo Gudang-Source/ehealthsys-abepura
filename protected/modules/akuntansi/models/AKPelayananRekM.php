@@ -99,7 +99,10 @@ class AKPelayananRekM extends PelayananrekM {
 		// should not be searched.
 
 		$criteria = new CDbCriteria;
-
+                $criteria->with = array('ruangan');
+                $criteria->with = array('rekening5');                
+                $criteria->with = array('daftartindakan', 'komponentarif'); 
+                
 		if (!empty($this->pelayananrek_id)) {
 			$criteria->addCondition('pelayananrek_id = ' . $this->pelayananrek_id);
 		}
@@ -135,6 +138,27 @@ class AKPelayananRekM extends PelayananrekM {
 
 		return new CActiveDataProvider($this, array(
 			'criteria' => $criteria,
+                        'sort' => array(
+                            'attributes' => array(
+                                'ruangan_nama' => array(
+                                    'asc' => 'ruangan.ruangan_nama ASC',
+                                    'desc' => 'ruangan.ruangan_nama DESC',
+                                ),
+                                'nmrekening5' => array(
+                                    'asc' => 'rekening5.nmrekening5 ASC',
+                                    'desc' => 'rekening5.nmrekening5 DESC',
+                                ),
+                                'daftartindakan_nama' => array(
+                                    'asc' => 'daftartindakan.daftartindakan_nama ASC',
+                                    'desc' => 'daftartindakan.daftartindakan_nama DESC',
+                                ),
+                                'komponentarif_nama' => array(
+                                    'asc' => 'komponentarif.komponentarif_nama ASC',
+                                    'desc' => 'komponentarif.komponentarif_nama DESC',
+                                ),
+                            ),                            
+                        ),
+                        
 		));
 	}
 

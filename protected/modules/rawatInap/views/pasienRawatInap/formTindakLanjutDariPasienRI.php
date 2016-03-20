@@ -31,7 +31,9 @@
         <tr>
 
             <td><?php echo CHtml::label('Tanggal Pendaftaran', 'tgl_pendaftaran', array('class' => 'control-label')); ?></td>
-            <td><?php echo CHtml::activeTextField($modPasienRIV, 'tgl_pendaftaran', array('readonly' => true)); ?></td>
+            <td><?php 
+            $modPasienRIV->tgl_pendaftaran = MyFormatter::formatDateTimeForUser($modPasienRIV->tgl_pendaftaran);
+            echo CHtml::activeTextField($modPasienRIV, 'tgl_pendaftaran', array('readonly' => true)); ?></td>
 
             <td> <div class="control-label"> <?php echo CHtml::activeLabel($modPasienRIV, 'no_rekam_medik', array('class' => 'no_rek')); ?> </div></td>
             <td>
