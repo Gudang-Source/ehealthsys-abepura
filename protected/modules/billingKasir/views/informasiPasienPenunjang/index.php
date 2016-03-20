@@ -85,7 +85,7 @@
                             'header'=>'Bayar Tagihan Pasien',
                             'name'=>'tagihan',
                             'type'=>'raw',
-                            'value'=>'(empty($data->pembayaranpelayanan_id) ? 
+                            'value'=>'($data->totaltagihan != 0 ? 
                                     CHtml::Link("<i class=\"icon-form-bayar\"></i>",Yii::app()->createUrl("billingKasir/pembayaranTagihanPasienPenunjang/index",array("instalasi_id"=>$data->instalasi_id,"pendaftaran_id"=>$data->pendaftaran_id,"frame"=>true)),
                                         array("class"=>"", 
                                               "target"=>"iframePembayaran",
@@ -100,13 +100,18 @@
                             'header'=>'Status Pembayaran',
                             'name'=>'cetak',
                             'type'=>'raw',
-                            'value'=>'(empty($data->pembayaranpelayanan_id) ? "<div id=\"$data->pendaftaran_id\">Belum Lunas</div>" : "Sudah Lunas"."<br/>".CHtml::Link("<i class=\"icon-form-print\"></i>",Yii::app()->controller->createUrl("kwitansiLab/view",array("pendaftaran_id"=>$data->pendaftaran_id,"idPembayaranPelayanan"=>$data->pembayaranpelayanan_id,"frame"=>true)),
-                                        array("class"=>"", 
-                                              "target"=>"iframeKwitansi",
-                                              "onclick"=>"$(\"#dialogKwitansi\").dialog(\"open\");",
-                                              "rel"=>"tooltip",
-                                              "title"=>"Klik untuk cetak Kwitansi",
-                                        )))',           'htmlOptions'=>array('style'=>'text-align: left; width:40px')
+                            'value'=>function($data) {
+                                $total = (empty($data->totaltagihan)) ? "0" : $data->totaltagihan;
+            
+                                return ($total != 0 ? "<div id=\"$data->pendaftaran_id\">Belum Lunas</div>" : "Sudah Lunas"."<br/>"); /*.CHtml::Link("<i class=\"icon-form-print\"></i>",Yii::app()->controller->createUrl("kwitansiLab/view",array("pendaftaran_id"=>$data->pendaftaran_id,"idPembayaranPelayanan"=>$data->pembayaranpelayanan_id,"frame"=>true)),
+                                array("class"=>"", 
+                                      "target"=>"iframeKwitansi",
+                                      "onclick"=>"$(\"#dialogKwitansi\").dialog(\"open\");",
+                                      "rel"=>"tooltip",
+                                      "title"=>"Klik untuk cetak Kwitansi",
+                                ))); */
+                            },           
+                            'htmlOptions'=>array('style'=>'text-align: left; width:40px')
                         ),		
                 ),
                 'afterAjaxUpdate'=>'function(id, data){

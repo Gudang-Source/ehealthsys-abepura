@@ -120,7 +120,18 @@
 							array(
 								'header'=>'Status Pembayaran',
 								'type'=>'raw',
-								'value'=>'(empty($data->pembayaranpelayanan_id) ? "Belum Lunas" : "Sudah Lunas")'
+								'value'=>function($data) use (&$sb) {
+                                                                    $tindakan = TindakanpelayananT::model()->findByAttributes(array(
+                                                                        'pendaftaran_id'=>$data->pendaftaran_id,
+                                                                    ), array('condition'=>'tindakansudahbayar_id is null'));
+                                                                    $oa = ObatalkespasienT::model()->findByAttributes(array(
+                                                                        'pendaftaran_id'=>$data->pendaftaran_id,
+                                                                    ), array('condition'=>'oasudahbayar_id is null'));
+
+                                                                    $sb = !empty($oa) || !empty($tindakan);
+
+                                                                    return $sb?"Belum Lunas":"Sudah Lunas";
+                                                                }, //'(empty($data->pembayaranpelayanan_id) ? "Belum Lunas" : "Sudah Lunas")'
 	                        ),					
                             array(
                                 'header'=>'Rincian Tagihan',
