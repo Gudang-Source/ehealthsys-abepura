@@ -39,7 +39,7 @@ class TiperekeningMController extends MyAuthController
                         $model->tiperekening_aktif = TRUE;
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->tiperekening_id));
+				$this->redirect(array('admin','id'=>1));
                         }
 		}
 
@@ -66,7 +66,7 @@ class TiperekeningMController extends MyAuthController
 			$model->attributes=$_POST['AKTiperekeningM'];
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->tiperekening_id));
+				$this->redirect(array('admin','id'=>1));
                         }
 		}
 
@@ -89,9 +89,12 @@ class TiperekeningMController extends MyAuthController
 	/**
 	 * Manages all models.
 	 */
-	public function actionAdmin()
+	public function actionAdmin($id='')
 	{
-                
+                if ($id == 1):
+                    Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                endif;
+            
 		$model=new AKTiperekeningM('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['AKTiperekeningM']))
@@ -219,7 +222,7 @@ class TiperekeningMController extends MyAuthController
                 $mpdf->WriteHTML($stylesheet,1);  
                 $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
                 $mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-                $mpdf->Output();
+                $mpdf->Output($judulLaporan.'-'.date('Y/m/d').'.pdf','I');
             }                       
         }
 }

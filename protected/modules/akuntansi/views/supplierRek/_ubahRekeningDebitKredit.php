@@ -186,6 +186,18 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
             ),
         ),
 	'columns'=>array(
+                 array(
+                    'header'=>'Pilih',
+                    'type'=>'raw',
+                    'value'=>'CHtml::Link("<i class=\"icon-check\"></i>","#",array("class"=>"btn-small", 
+                                    "id" => "selectRekDebit",
+                                    "onClick" =>"
+                                                $(\"#AKPenjaminpasienM_rekeningdebit_id\").val(\"$data->rekening5_id\");
+                                                $(\"#AKPenjaminpasienM_rekDebit\").val(\"$data->nmrekening5\");                                                
+                                                $(\"#dialogRekDebit\").dialog(\"close\");    
+                                                return false;
+                            "))',
+                ),
                 array(
                     'header'=>'No. Urut',
                     'value'=>'$data->nourutrek',
@@ -223,18 +235,7 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
                     'value'=>'$data->rekening5_nb',
                 ),
             
-                array(
-                    'header'=>'Pilih',
-                    'type'=>'raw',
-                    'value'=>'CHtml::Link("<i class=\"icon-check\"></i>","#",array("class"=>"btn-small", 
-                                    "id" => "selectRekDebit",
-                                    "onClick" =>"
-                                                $(\"#AKPenjaminpasienM_rekeningdebit_id\").val(\"$data->rekening5_id\");
-                                                $(\"#AKPenjaminpasienM_rekDebit\").val(\"$data->nmrekening5\");                                                
-                                                $(\"#dialogRekDebit\").dialog(\"close\");    
-                                                return false;
-                            "))',
-                ),
+               
 	),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 ));

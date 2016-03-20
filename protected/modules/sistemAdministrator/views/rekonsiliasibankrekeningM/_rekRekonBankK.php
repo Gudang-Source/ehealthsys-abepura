@@ -15,7 +15,7 @@ rekonsiliasibankrekening_m.jenisrekonsiliasibank_id = $jenisrekonsiliasibank_id"
                 echo "</pre>";
             }else{                
                 echo "<pre>";
-                echo $data->rekeningdebit->nmrekening5.CHtml::Link("<i class=\"icon-pencil\"></i>",
+                echo $data->rekeningdebit->nmrekening5.CHtml::Link("<i class=\"icon-form-ubah\"></i>",
                                 Yii::app()->controller->createUrl(Yii::app()->controller->id ."/ubahRekeningKredit",array("id"=>$data->rekonsiliasibankrekening_id)),
                                 array("class"=>"", 
                                       "target"=>"iframeEditRekeningDebitKredit",

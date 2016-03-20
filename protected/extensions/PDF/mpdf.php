@@ -32150,8 +32150,11 @@ function AdjustHTML($html,$directionality='ltr',$usepre=true, $tabSpaces=8) {
 
 		$iterator = 0;
 		while($thereispre) //Recover <pre attributes>content</pre>
-		{
-			$temp[2][$iterator] = preg_replace("/^([^\n\t]*?)\t/me", "stripslashes('\\1') . str_repeat(' ',  ( $tabSpaces - (mb_strlen(stripslashes('\\1')) % $tabSpaces))  )",$temp[2][$iterator]);
+		{	//$str = preg_replace('/\&\#([0-9]+)\;/me', "code2utf('\\1',{$lo})",$str);        
+		        $str = preg_replace_callback('/\&\#([0-9]+)\;/m', function($m) use ($lo){return code2utf($m[1],$lo); }, $str);
+			//preg_replace("/^([^\n\t]*?)\t/me", "stripslashes('\\1') . str_repeat(' ',  ( $tabSpaces - (mb_strlen(stripslashes('\\1')) % $tabSpaces))  )",$temp[2][$iterator]);
+		
+			$temp[2][$iterator] = preg_replace_callback('/^([^\n\t]*?)\t/m', function($m) use ($tabSpaces){return stripslashes($m[1]).str_repeat(' ', ( $tabSpaces - (mb_strlen(stripslashes($m[1])) % $tabSpaces)) ); }, $temp[2][$iterator]);
 			$temp[2][$iterator] = preg_replace('/\t/',str_repeat(" ",$tabSpaces),$temp[2][$iterator]);
 
 			$temp[2][$iterator] = preg_replace('/\n/',"<br />",$temp[2][$iterator]);

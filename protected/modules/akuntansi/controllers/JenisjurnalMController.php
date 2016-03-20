@@ -39,7 +39,7 @@ class JenisjurnalMController extends MyAuthController
                         $model->jenisjurnal_aktif = TRUE;
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->jenisjurnal_id));
+				$this->redirect(array('admin','id'=>1));
                         }
 		}
 
@@ -66,7 +66,7 @@ class JenisjurnalMController extends MyAuthController
 			$model->attributes=$_POST['AKJenisjurnalM'];
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->jenisjurnal_id));
+				$this->redirect(array('admin','id'=>1));
                         }
 		}
 
@@ -89,8 +89,11 @@ class JenisjurnalMController extends MyAuthController
 	/**
 	 * Manages all models.
 	 */
-	public function actionAdmin()
+	public function actionAdmin($id='')
 	{
+                if ($id == 1):
+                    Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                endif;
                 
 		$model=new AKJenisjurnalM('search');
 		$model->unsetAttributes();  // clear any default values
@@ -219,7 +222,7 @@ class JenisjurnalMController extends MyAuthController
 			$mpdf->WriteHTML($stylesheet,1);  
 			$mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
 			$mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-			$mpdf->Output();
+			$mpdf->Output($judulLaporan.'-'.date('Y/m/d').'.pdf','I');
 		}                       
 	}
 }

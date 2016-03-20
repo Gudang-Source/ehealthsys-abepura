@@ -123,7 +123,7 @@ class MatauangM extends CActiveRecord
             $models = self::model()->findAll(
                 array(
                     'condition'=>'matauang_aktif = true',
-                    'order'=>'matauang_id',
+                    'order'=>'matauang',
                 )
             );
             $result = array();

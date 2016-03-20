@@ -15,7 +15,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 <div class="row-fluid">
 
 	<div class = "span6">
-		<?php echo $form->dropDownListRow($model, 'rekperiode_id', CHtml::listData(RekperiodM::model()->findAll(), 'rekperiod_id', 'deskripsi'), array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event)", 'empty' => '-- Pilih --')); ?>
+		<?php echo $form->dropDownListRow($model, 'rekperiode_id', CHtml::listData(RekperiodM::model()->findAll(array('order'=>'deskripsi ASC')), 'rekperiod_id', 'deskripsi'), array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event)", 'empty' => '-- Pilih --')); ?>
 		<?php echo $form->textFieldRow($model, 'periodeposting_nama', array('class' => 'span3', 'onkeyup' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>			
 		<div class="control-group ">
 			<?php echo $form->labelEx($model, 'tglperiodeposting_awal', array('class' => 'control-label')) ?>
@@ -65,8 +65,8 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 		</div>
 	</div>
 	<div class = "span6">
-		<?php echo $form->dropDownListRow($model, 'konfiganggaran_id', CHtml::listData(KonfiganggaranK::model()->findAll(), 'konfiganggaran_id', 'deskripsiperiode'), array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event)", 'empty' => '-- Pilih --')); ?>
-		<?php echo $form->textAreaRow($model, 'deskripsiperiodeposting', array('class' => 'span3', 'onkeyup' => "return $(this).focusNextInputField(event);",)); ?>
+		<?php echo $form->dropDownListRow($model, 'konfiganggaran_id', CHtml::listData(KonfiganggaranK::model()->findAll(array('order'=>'deskripsiperiode ASC')), 'konfiganggaran_id', 'deskripsiperiode'), array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event)", 'empty' => '-- Pilih --')); ?>
+		<?php echo $form->textAreaRow($model, 'deskripsiperiodeposting', array('class' => 'span3', 'onkeyup' => "return $(this).focusNextInputField(event);",'maxlength'=>200)); ?>
 		<?php
 		if (!empty($model->periodeposting_id)) {
 			?>
@@ -83,7 +83,11 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 			'onclick' => 'return refreshForm(this);'));
 		?>
 		<?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Periode Posting', array('{icon}' => '<i class="icon-folder-open icon-white"></i>')), $this->createUrl('admin', array('modul_id' => Yii::app()->session['modul_id'])), array('class' => 'btn btn-success')); ?>
-		<?php $this->widget('UserTips', array('content' => '')); ?>
+            
+		<?php 
+                    $content = $this->renderPartial($this->path_tips.'tipsaddedit4b',array(),true);
+                    $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
+                ?>
 	</div>
 </div>
 <?php $this->endWidget(); ?>

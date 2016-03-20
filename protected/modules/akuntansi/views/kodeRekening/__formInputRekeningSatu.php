@@ -15,10 +15,10 @@
     $this->widget('bootstrap.widgets.BootAlert');
     ?>
     <?php echo $form->hiddenField($rekeningSatu, 'rekening1_id', array('class' => 'span3')); ?>
-	<?php echo $form->dropDownListRow($rekeningSatu,'kelrekening_id',CHtml::listData(KelrekeningM::model()->findAll(array("condition"=>"kelrekening_aktif =  TRUE")), 'kelrekening_id', 'namakelrekening'),array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+	<?php echo $form->dropDownListRow($rekeningSatu,'kelrekening_id',CHtml::listData(KelrekeningM::model()->findAll("kelrekening_aktif =  TRUE ORDER BY namakelrekening ASC"), 'kelrekening_id', 'namakelrekening'),array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
     <?php echo $form->textFieldRow($rekeningSatu, 'kdrekening1', array('class' => 'span1 reqForm', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 6, 'readonly' => false)); ?>
-    <?php echo $form->textFieldRow($rekeningSatu, 'nmrekening1', array('class' => 'span3 reqForm', 'onkeyup' => 'autoInput();', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 32, 'readonly' => false)); ?>
-    <?php echo $form->textFieldRow($rekeningSatu, 'nmrekeninglain1', array('class' => 'span3 reqForm', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 32, 'readonly' => false)); ?>
+    <?php echo $form->textFieldRow($rekeningSatu, 'nmrekening1', array('class' => 'span3 reqForm', 'onkeyup' => 'autoInput();', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100, 'readonly' => false)); ?>
+    <?php echo $form->textFieldRow($rekeningSatu, 'nmrekeninglain1', array('class' => 'span3 reqForm', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100, 'readonly' => false)); ?>
     <?php echo $form->radioButtonListInlineRow($rekeningSatu, 'rekening1_aktif', array('Tidak', 'Aktif'), array('onkeypress' => "return $(this).focusNextInputField(event)")); ?>
     <div class="form-actions">
         <?php

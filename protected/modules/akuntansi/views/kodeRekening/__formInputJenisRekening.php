@@ -22,8 +22,8 @@
             <?php echo $form->textField($jenisRekening, 'kdrekening3', array('class' => 'span1 reqForm', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 6, 'readonly' => false)); ?>
         </div>
     </div>
-    <?php echo $form->textFieldRow($jenisRekening, 'nmrekening3', array('class' => 'span3 reqForm', 'onkeyup' => 'autoInput();', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 32, 'readonly' => false)); ?>
-    <?php echo $form->textFieldRow($jenisRekening, 'nmrekeninglain3', array('class' => 'span3 reqForm', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 32, 'readonly' => false)); ?>
+    <?php echo $form->textFieldRow($jenisRekening, 'nmrekening3', array('class' => 'span3 reqForm', 'onkeyup' => 'autoInput();', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 300, 'readonly' => false)); ?>
+    <?php echo $form->textFieldRow($jenisRekening, 'nmrekeninglain3', array('class' => 'span3 reqForm', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 300, 'readonly' => false)); ?>
     <?php // echo $form->dropDownListRow($jenisRekening, 'rekening3_nb', LookupM::getItems('jenis_rekening'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)")); ?>
     <?php echo $form->radioButtonListInlineRow($jenisRekening, 'rekening3_aktif', array('Tidak', 'Aktif'), array('onkeypress' => "return $(this).focusNextInputField(event)")); ?>
     <div class="form-actions">

@@ -23,8 +23,8 @@
         </div>
     </div>
 	<?php echo $form->textFieldRow($model, 'nourutrek', array('class' => 'span1', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 6, 'readonly' => false)); ?>
-	<?php echo $form->textFieldRow($model, 'nmrekening5', array('class' => 'span4 reqForm', 'onkeyup' => 'autoInput();', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 32, 'readonly' => false)); ?>
-	<?php echo $form->textFieldRow($model, 'nmrekeninglain5', array('class' => 'span4 reqForm', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 32, 'readonly' => false)); ?>
+	<?php echo $form->textFieldRow($model, 'nmrekening5', array('class' => 'span4 reqForm', 'onkeyup' => 'autoInput();', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 500, 'readonly' => false)); ?>
+	<?php echo $form->textFieldRow($model, 'nmrekeninglain5', array('class' => 'span4 reqForm', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 500, 'readonly' => false)); ?>
 	<?php echo $form->dropDownListRow($model, 'rekening5_nb', LookupM::getItems('jenis_rekening'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)")); ?>
 	<?php echo $form->textAreaRow($model, 'keterangan', array('class' => 'span4 required', 'onkeypress' => "return $(this).focusNextInputField(event)", 'readonly' => false)); ?>
 	<?php echo $form->dropDownListRow($model, 'tiperekening_id', TiperekeningM::items(), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)")); ?>

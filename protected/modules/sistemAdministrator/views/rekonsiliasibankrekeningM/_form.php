@@ -144,6 +144,7 @@
 				Yii::app()->createUrl($this->module->id.'/'.$this->id.'/create'), 
 					array('class'=>'btn btn-danger',
 						'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
+                                                <?php echo CHtml::link(Yii::t('mds','{icon} Pengaturan Rekening Rekonsiliasi Bank',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
 		<?php
 			$content = $this->renderPartial('akuntansi.views.tips.tipsaddedit3a',array(),true);
 			$this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
@@ -193,6 +194,22 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 //            ),
 //        ),
 	'columns'=>array(
+                array(
+			'header'=>'Pilih',
+			'type'=>'raw',
+			'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
+				"id" => "selectRekDebit",
+				"onClick" =>"
+					$(\"#SARekonsiliasibankrekeningM_rekening_1_rekening1_id\").val(\"$data->rekening1_id\");
+					$(\"#SARekonsiliasibankrekeningM_rekening_1_rekening2_id\").val(\"$data->rekening2_id\");
+					$(\"#SARekonsiliasibankrekeningM_rekening_1_rekening3_id\").val(\"$data->rekening3_id\");
+					$(\"#SARekonsiliasibankrekeningM_rekening_1_rekening4_id\").val(\"$data->rekening4_id\");
+					$(\"#SARekonsiliasibankrekeningM_rekening_1_rekening5_id\").val(\"$data->rekening5_id\");
+					$(\"#SARekonsiliasibankrekeningM_rekDebit\").val(\"$data->nmrekening5\");                                                
+					$(\"#dialogRekDebit\").dialog(\"close\");    
+					return false;
+			"))',
+		),
 		array(
 			'header'=>'No. Urut',
 			'name'=>'nourutrek',
@@ -238,22 +255,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 			'name'=>'rekening5_nb',
 			'value'=>'($data->rekening5_nb == "D") ? "Debit" : "Kredit"',
 		),
-		array(
-			'header'=>'Pilih',
-			'type'=>'raw',
-			'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
-				"id" => "selectRekDebit",
-				"onClick" =>"
-					$(\"#SARekonsiliasibankrekeningM_rekening_1_rekening1_id\").val(\"$data->rekening1_id\");
-					$(\"#SARekonsiliasibankrekeningM_rekening_1_rekening2_id\").val(\"$data->rekening2_id\");
-					$(\"#SARekonsiliasibankrekeningM_rekening_1_rekening3_id\").val(\"$data->rekening3_id\");
-					$(\"#SARekonsiliasibankrekeningM_rekening_1_rekening4_id\").val(\"$data->rekening4_id\");
-					$(\"#SARekonsiliasibankrekeningM_rekening_1_rekening5_id\").val(\"$data->rekening5_id\");
-					$(\"#SARekonsiliasibankrekeningM_rekDebit\").val(\"$data->nmrekening5\");                                                
-					$(\"#dialogRekDebit\").dialog(\"close\");    
-					return false;
-			"))',
-		),
+		
 	),
 	'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 ));
@@ -301,6 +303,22 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 //            ),
 //        ),
 	'columns'=>array(
+                array(
+			'header'=>'Pilih',
+			'type'=>'raw',
+			'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
+				"id" => "selectRekDebit",
+				"onClick" =>"
+					$(\"#SARekonsiliasibankrekeningM_rekening_2_rekening1_id\").val(\"$data->rekening1_id\");
+					$(\"#SARekonsiliasibankrekeningM_rekening_2_rekening2_id\").val(\"$data->rekening2_id\");
+					$(\"#SARekonsiliasibankrekeningM_rekening_2_rekening3_id\").val(\"$data->rekening3_id\");
+					$(\"#SARekonsiliasibankrekeningM_rekening_2_rekening4_id\").val(\"$data->rekening4_id\");
+					$(\"#SARekonsiliasibankrekeningM_rekening_2_rekening5_id\").val(\"$data->rekening5_id\");
+					$(\"#SARekonsiliasibankrekeningM_rekKredit\").val(\"$data->nmrekening5\");
+					$(\"#dialogRekKredit\").dialog(\"close\");    
+					return false;
+			"))',
+		),
 		array(
 			'header'=>'No. Urut',
 			'name'=>'nourutrek',
@@ -346,22 +364,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 			'name'=>'rekening5_nb',
 			'value'=>'($data->rekening5_nb == "D") ? "Debit" : "Kredit"',
 		),
-		array(
-			'header'=>'Pilih',
-			'type'=>'raw',
-			'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
-				"id" => "selectRekDebit",
-				"onClick" =>"
-					$(\"#SARekonsiliasibankrekeningM_rekening_2_rekening1_id\").val(\"$data->rekening1_id\");
-					$(\"#SARekonsiliasibankrekeningM_rekening_2_rekening2_id\").val(\"$data->rekening2_id\");
-					$(\"#SARekonsiliasibankrekeningM_rekening_2_rekening3_id\").val(\"$data->rekening3_id\");
-					$(\"#SARekonsiliasibankrekeningM_rekening_2_rekening4_id\").val(\"$data->rekening4_id\");
-					$(\"#SARekonsiliasibankrekeningM_rekening_2_rekening5_id\").val(\"$data->rekening5_id\");
-					$(\"#SARekonsiliasibankrekeningM_rekKredit\").val(\"$data->nmrekening5\");
-					$(\"#dialogRekKredit\").dialog(\"close\");    
-					return false;
-			"))',
-		),
+		
 	),
 	'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 ));
@@ -396,6 +399,19 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridViewNonRp',array(
 	'template'=>"{summary}\n{items}\n{pager}",
 	'itemsCssClass'=>'table table-striped table-bordered table-condensed',
 	'columns'=>array(
+                
+		array(
+			'header'=>'Pilih',
+			'type'=>'raw',
+			'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
+					"id" => "selectJenisRekonsiliasi",
+					"onClick" =>"
+						$(\"#SARekonsiliasibankrekeningM_jenisrekonsiliasibank_id\").val(\"$data->jenisrekonsiliasibank_id\");
+						$(\"#SARekonsiliasibankrekeningM_jnsNama\").val(\"$data->jenisrekonsiliasibank_nama\");
+						$(\"#dialogJenisRekonsiliasi\").dialog(\"close\");    
+						return false;
+			"))',
+		),
 		array(
 			'header'=>'No. Urut',
 			'value'=>'$this->grid->dataProvider->Pagination->CurrentPage*$this->grid->dataProvider->pagination->pageSize+$row+1',
@@ -411,18 +427,6 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridViewNonRp',array(
 			'value'=>'$data->jenisrekonsiliasibank_namalain',
 		),
 
-		array(
-			'header'=>'Pilih',
-			'type'=>'raw',
-			'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
-					"id" => "selectJenisRekonsiliasi",
-					"onClick" =>"
-						$(\"#SARekonsiliasibankrekeningM_jenisrekonsiliasibank_id\").val(\"$data->jenisrekonsiliasibank_id\");
-						$(\"#SARekonsiliasibankrekeningM_jnsNama\").val(\"$data->jenisrekonsiliasibank_nama\");
-						$(\"#dialogJenisRekonsiliasi\").dialog(\"close\");    
-						return false;
-			"))',
-		),
 	),
 	'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 ));

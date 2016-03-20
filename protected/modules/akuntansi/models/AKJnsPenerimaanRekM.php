@@ -46,6 +46,7 @@
 										JOIN rekening5_m ON rekening5_m.rekening5_id = t.rekening5_id";
                     
                     // Klo limit lebih kecil dari nol itu berarti ga ada limit 
+                                            
                     return new CActiveDataProvider($this, array(
                             'criteria'=>$criteria,
                     ));

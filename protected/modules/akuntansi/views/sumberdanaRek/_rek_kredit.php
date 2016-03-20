@@ -14,7 +14,7 @@ sumberdanarek_m.sumberdana_id = $sumberdana_id");
             if(isset($_GET['caraPrint'])){
                 echo $data->rekening5->nmrekening5;
             }else{
-                echo $data->rekening5->nmrekening5.CHtml::Link("<i class=\"icon-pencil\"></i>",
+                echo $data->rekening5->nmrekening5.CHtml::Link("<i class=\"icon-form-ubah\"></i>",
                             Yii::app()->controller->createUrl("sumberdanaRek/ubahRekeningKredit",array("id"=>$data->sumberdanarek_id)),
                             array("class"=>"", 
                                   "target"=>"iframeEditRekeningDebitKredit",

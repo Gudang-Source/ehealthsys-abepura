@@ -119,7 +119,7 @@ class TiperekeningM extends CActiveRecord
             $models = self::model()->findAll(
                 array(
                     'condition'=>'tiperekening_aktif = true',
-                    'order'=>'tiperekening_id',
+                    'order'=>'tiperekening ASC ',
                 )
             );
             foreach($models as $model)

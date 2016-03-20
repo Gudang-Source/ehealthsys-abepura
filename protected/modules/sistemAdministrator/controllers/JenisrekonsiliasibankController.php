@@ -10,6 +10,7 @@ class JenisrekonsiliasibankController extends MyAuthController
 	public $layout = '//layouts/iframe';
 	public $defaultAction = 'index';
 	public $path_view = 'sistemAdministrator.views.jenisrekonsiliasibank.';
+        public $path_tips = 'sistemAdministrator.views.tips.';
 	/**
 	 * Menampilkan detail data.
 	 * @param integer $id the ID of the model to be displayed
@@ -167,11 +168,11 @@ class JenisrekonsiliasibankController extends MyAuthController
 		$caraPrint = $_REQUEST['caraPrint'];
 		if($caraPrint=='PRINT') {
 			$this->layout = '//layouts/printWindows';
-			$this->render('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+			$this->render($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
 		}
 		else if($caraPrint=='EXCEL') {
 			$this->layout = '//layouts/printExcel';
-			$this->render('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+			$this->render($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
 		}
 		else if($_REQUEST['caraPrint']=='PDF') {
 			$ukuranKertasPDF = Yii::app()->user->getState('ukuran_kertas'); //Ukuran Kertas Pdf
@@ -181,8 +182,8 @@ class JenisrekonsiliasibankController extends MyAuthController
 			$stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
 			$mpdf->WriteHTML($stylesheet,1);  
 			$mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
-			$mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-			$mpdf->Output();
+			$mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
+			$mpdf->Output($judulLaporan.'-'.date('y/m/d').'.pdf','I');
 		}
 	}
 }

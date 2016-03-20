@@ -227,7 +227,7 @@
     <div class="form-actions">
         <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Tindakan Ruangan', array('{icon}' => '<i class="icon-folder-open icon-white"></i>')), $this->createUrl('admin', array('modul_id' => Yii::app()->session['modul_id'])), array('class' => 'btn btn-success')); ?>
         <?php
-        $content = $this->renderPartial('rawatJalan.views.tips.tipsaddedit3', array(), true);
+        $content = $this->renderPartial($this->path_view . 'tips.tipsaddedit3', array(), true);
         $this->widget('UserTips', array('type' => 'transaksi', 'content' => $content));
         ?>
     </div>
@@ -281,23 +281,23 @@
             array(
                 'header' => 'Ruangan',
                 'name' => 'ruangan_nama',
-                'filter' => CHtml::activeDropDownList($modDaftarTindakan, 'ruangan_id', CHtml::listData(SARuanganM::getItemsList(), 'ruangan_id', 'ruangan_nama'), array('empty' => '')),
+                'filter' => CHtml::activeDropDownList($modDaftarTindakan, 'ruangan_id', CHtml::listData(SARuanganM::getItemsList(), 'ruangan_id', 'ruangan_nama'), array('empty' => '--Pilih--')),
             ),
             array(
                 'header' => 'Komponen Tarif',
                 'name' => 'komponentarif_nama',
-                'filter' => CHtml::activeDropDownList($modDaftarTindakan, 'komponentarif_id', CHtml::listData(SAKomponentarifM::getItemsList(), 'komponentarif_id', 'komponentarif_nama'), array('empty' => '')),
+                'filter' => CHtml::activeDropDownList($modDaftarTindakan, 'komponentarif_id', CHtml::listData(SAKomponentarifM::getItemsList(), 'komponentarif_id', 'komponentarif_nama'), array('empty' => '--Pilih--')),
             ),
             array(
                 'header' => 'Kelompok Tindakan',
                 'name' => 'kelompoktindakan_nama',
                 'value' => 'isset($data->kelompoktindakan_nama)?$data->kelompoktindakan_nama:" - "',
-                'filter' => CHtml::activeDropDownList($modDaftarTindakan, 'kelompoktindakan_id', CHtml::listData(SAKelompokTindakanM::getItems(), 'kelompoktindakan_id', 'kelompoktindakan_nama'), array('empty' => '')),
+                'filter' => CHtml::activeDropDownList($modDaftarTindakan, 'kelompoktindakan_id', CHtml::listData(SAKelompokTindakanM::getItems(), 'kelompoktindakan_id', 'kelompoktindakan_nama'), array('empty' => '--Pilih--')),
             ),
             array(
                 'header' => 'Kategori Tindakan',
                 'name' => 'kategoritindakan_nama',
-                'filter' => CHtml::activeDropDownList($modDaftarTindakan, 'kategoritindakan_id', CHtml::listData(SAKategoriTindakanM::getItems(), 'kategoritindakan_id', 'kategoritindakan_nama'), array('empty' => '')),
+                'filter' => CHtml::activeDropDownList($modDaftarTindakan, 'kategoritindakan_id', CHtml::listData(SAKategoriTindakanM::getItems(), 'kategoritindakan_id', 'kategoritindakan_nama'), array('empty' => '--Pilih--')),
             ),
             array(
                 'header' => 'Kode Tindakan',
@@ -346,7 +346,7 @@
             array(
                 'header' => 'Pilih',
                 'type' => 'raw',
-                'value' => 'CHtml::Link("<i class=\"icon-check\"></i>",
+                'value' => 'CHtml::Link("<i class=\"icon-form-check\"></i>",
                                 "#",
                                 array(
                                     "class"=>"btn-small", 
@@ -440,7 +440,7 @@
             array(
                 'header' => 'Pilih',
                 'type' => 'raw',
-                'value' => 'CHtml::Link("<i class=\"icon-check\"></i>",
+                'value' => 'CHtml::Link("<i class=\"icon-form-check\"></i>",
                                 "#",
                                 array(
                                     "class"=>"btn-small", 

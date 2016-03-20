@@ -15,7 +15,7 @@ jnspengeluaranrek_m.jenispengeluaran_id = $jenispengeluaran_id AND jnspengeluara
                 echo "</pre>";
             }else{
                 echo "<pre>";
-                echo $data->rekeningdebit->nmrekening5.CHtml::Link("<i class=\"icon-pencil\"></i>",
+                echo $data->rekeningdebit->nmrekening5.CHtml::Link("<i class=\"icon-form-ubah\"></i>",
                                 Yii::app()->controller->createUrl("rekeningPengeluaran/ubahRekeningDebit",array("id"=>$data->jnspengeluaranrek_id)),
                                 array("class"=>"", 
                                       "target"=>"iframeEditRekeningDebitKredit",

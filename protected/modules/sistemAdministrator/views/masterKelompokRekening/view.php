@@ -34,7 +34,7 @@ $this->breadcrumbs=array(
 	<div class="row-fluid">
 		<div class="form-actions">
 		<?php echo CHtml::link(Yii::t('mds','{icon} Ubah',array('{icon}'=>'<i class="icon-pencil icon-white"></i>')),$this->createUrl('update',array('id'=>$model->kelrekening_id,'modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
-		<?php echo CHtml::link(Yii::t('mds','{icon} Pengaturan SAKelrekeningM',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
+		<?php echo CHtml::link(Yii::t('mds','{icon} Pengaturan Kelompok Rekening',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
 		<?php $this->widget('UserTips',array('content'=>''));?>
 		</div>
 	</div>

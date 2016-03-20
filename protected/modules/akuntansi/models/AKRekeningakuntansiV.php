@@ -191,7 +191,7 @@ class AKRekeningakuntansiV extends RekeningakuntansiV {
         $criteria->compare('LOWER(nmrekening3)', strtolower($this->nmrekening3), true);
         $criteria->compare('LOWER(nmrekeninglain3)', strtolower($this->nmrekeninglain3), true);
 //        $criteria->compare('LOWER(rekening3_nb)', strtolower($this->rekening3_nb), true);
-        $criteria->compare('rekening3_aktif', $this->rekening3_nb);
+        $criteria->compare('rekening3_aktif', $this->rekening3_aktif);
         if (!empty($this->rekening4_id)) {
             $criteria->addCondition("rekening4_id = " . $this->rekening4_id);
         }

@@ -70,7 +70,7 @@ class SupplierRekController extends MyAuthController
 				if ($success == true) {
 					$transaction->commit();
 					Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-					$this->redirect(array('admin'));
+					$this->redirect(array('admin','id'=>1));
 				} else {
 					$transaction->rollback();
 					Yii::app()->user->setFlash('error', "Data gagal disimpan ");
@@ -134,7 +134,7 @@ class SupplierRekController extends MyAuthController
 			$model->attributes=$_POST['AKSupplierRekM'];
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->supplier_id));
+				$this->redirect(array('admin','id'=>1));
                         }
 		}
 
@@ -249,9 +249,11 @@ class SupplierRekController extends MyAuthController
 	/**
 	 * Manages all models.
 	 */
-	public function actionAdmin()
+	public function actionAdmin($id='')
 	{
-        
+                if ($id==1):
+                    Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                endif;
 		$model=new AKSupplierRekM('search');
 		$model->unsetAttributes(); 
                 
@@ -346,7 +348,7 @@ class SupplierRekController extends MyAuthController
                 $mpdf->WriteHTML($stylesheet,1);  
                 $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
                 $mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-                $mpdf->Output();
+                $mpdf->Output($judulLaporan.'-'.date('Y/m/d').'.pdf','I');
             }                       
         }
 		
