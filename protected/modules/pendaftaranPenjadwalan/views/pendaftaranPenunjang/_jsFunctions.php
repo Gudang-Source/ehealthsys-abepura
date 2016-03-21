@@ -2,7 +2,7 @@
 /**
  * Override setKarcis di view pendaftaranRawatJalan._jsFunctions
  */
-function setKarcis(){
+function setKarcisAll(){
     <?php  
     if(count($modPasienMasukPenunjangs) > 0){
         foreach($modPasienMasukPenunjangs AS $i=>$modPasienMasukPenunjang){
@@ -24,7 +24,8 @@ function setKarcisPenunjang(form_index)
     var pasien_id=$("#<?php echo CHtml::activeId($modPasien,"pasien_id");?>").val();
     var penjamin_id=$("#<?php echo CHtml::activeId($model,"penjamin_id");?>").val();
     var ruangan_id = $("#form-masukpenunjang-"+form_index).find('input[name$="[ruangan_id]"]').val();
-    var kelaspelayanan_id = $("#form-masukpenunjang-"+form_index).find('select[name$="[kelaspelayanan_id]"]').val();
+    var kelaspelayanan_id = $("#form-masukpenunjang-"+form_index).find('input[name$="[kelaspelayanan_id]"]').val();
+    
     if(ruangan_id !== "" && kelaspelayanan_id !=="" && penjamin_id !== "") {
         $("#form-karcis-"+form_index).addClass("animation-loading");
         $.ajax({
@@ -90,6 +91,8 @@ function pilihKarcis(obj){
     }
 }
 
+
+
 function getRuanganPoliklinikPasien(){
 	// Hanya digunakan di transaksi Pendaftaran Rawat Jalan
 }
@@ -108,5 +111,12 @@ function printKarcis()
 {
     window.open('<?php echo $this->createUrl('printKarcisPenunjang',array('pendaftaran_id'=>$model->pendaftaran_id)); ?>','printwin','left=100,top=100,width=480,height=640');
 }
+
+
+$(document).ready(function() {
+    $("#form-masukpenunjang-3 a").click(function() {
+        $("#form-karcis-3 a").click();
+    });
+});
 </script>
     

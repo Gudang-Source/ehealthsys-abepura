@@ -151,9 +151,11 @@ class PendaftaranRawatDaruratController extends PendaftaranRawatJalanController
                     }else{
                         $asuransipasientersimpan = true;
                     }
-					if($_POST['PPPendaftaranT']['is_bpjs']){
+                    if($_POST['PPPendaftaranT']['is_bpjs']){
                         $model = $this->simpanPendaftaran($model,$modPasien,$modRujukanBpjs,$modPenanggungJawab, $_POST['PPPendaftaranT'], $_POST['PPPasienM'],$modAsuransiPasienBpjs);
                         $modSep = $this->simpanSep($model,$modPasien,$modRujukanBpjs,$modAsuransiPasienBpjs,$_POST['PPSepT']);
+                        $model->sep_id = $modSep->sep_id;
+                        $model->update();
                     }else{
                         $model = $this->simpanPendaftaran($model,$modPasien,$modRujukan,$modPenanggungJawab, $_POST['PPPendaftaranT'], $_POST['PPPasienM'],$modAsuransiPasien);
                     }
