@@ -199,6 +199,8 @@ class PendaftaranPenunjangController extends PendaftaranRawatJalanController
                     if($_POST['PPPendaftaranT']['is_bpjs']){
                         $model = $this->simpanPendaftaranPenunjang($model,$modPasien,$modRujukanBpjs,$modPenanggungJawab, $_POST['PPPendaftaranT'], $_POST['PPPasienM'],$modAsuransiPasienBpjs);
                         $modSep = $this->simpanSep($model,$modPasien,$modRujukanBpjs,$modAsuransiPasienBpjs,$_POST['PPSepT']);
+                        $model->sep_id = $modSep->sep_id;
+                        $model->update();
                     }else{
                         $model = $this->simpanPendaftaranPenunjang($model,$modPasien,$modRujukan,$modPenanggungJawab, $_POST['PPPendaftaranT'], $_POST['PPPasienM'],$modAsuransiPasien);
                     }
