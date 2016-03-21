@@ -128,8 +128,8 @@ if(!isset($_GET['sukses'])){ //RND-5894
 		'id'=>'pegawaiYangMengajukan-m-grid',
 		'dataProvider'=>$modDokter->searchDokterResep(),
 		'filter'=>$modDokter,
-		'template'=>"{items}\n{pager}",
-	//    'template'=>"{summary}\n{items}\n{pager}",
+		//'template'=>"{items}\n{pager}",
+	    'template'=>"{summary}\n{items}\n{pager}",
 		'itemsCssClass'=>'table table-striped table-bordered table-condensed',
 		'columns'=>array(
 			array(
