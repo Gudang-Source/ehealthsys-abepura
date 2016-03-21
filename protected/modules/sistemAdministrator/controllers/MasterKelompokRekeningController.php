@@ -10,6 +10,7 @@ class MasterKelompokRekeningController extends MyAuthController
 	public $layout = '//layouts/column1';
 	public $defaultAction = 'admin';
 	public $path_view = 'sistemAdministrator.views.masterKelompokRekening.';
+        public $path_tips = 'sistemAdministrator.views.tips.';
 
 	/**
 	 * Menampilkan detail data.

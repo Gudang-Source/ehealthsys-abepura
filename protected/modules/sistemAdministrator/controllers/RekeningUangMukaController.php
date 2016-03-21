@@ -48,6 +48,7 @@ class RekeningUangMukaController extends MyAuthController
 						if($model->save()){
 							$transaction->commit();
 							$data['sukses']=1;
+                                                        Yii::app()->user->setFlash('success', 'Tindakan '.$model->rekening5->rekening5_nama.' di '.$model->instalasi->instalasi_nama.'<strong>Berhasil!</strong> Data berhasil disimpan.');
 							$data['pesan']="Tindakan ".$model->rekening5->rekening5_nama." di ".$model->instalasi->instalasi_nama." berhasil disimpan!";
 						}else{
 							$transaction->rollback();

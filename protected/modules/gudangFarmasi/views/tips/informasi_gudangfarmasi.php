@@ -7,7 +7,7 @@
   </tr>
   <tr>
     <td>2. </td>
-    <td>Icon <i class="icon-list-alt"></i><i class="icon-search"></i> berfungsi untuk menampilkan list data secara detail.</td>
+    <td>Icon <i class="icon-form-detail"></i> berfungsi untuk menampilkan rincian data secara detail.</td>
   </tr>
   <tr>
     <td>3. </td>
@@ -20,7 +20,7 @@ Cari
     <td>Gunakan tombol ini <a class="btn btn-danger" href="/simrs/index.php?r=rawatInap/pasienRawatInap/formTindakLanjutDariPasienRI">
 <i class="icon-refresh icon-white"></i>
 Ulang
-</a> untunk mengulang kembali inputan.</td>
+</a> untuk mengulang kembali inputan.</td>
   </tr>
 </table>
 </p>
