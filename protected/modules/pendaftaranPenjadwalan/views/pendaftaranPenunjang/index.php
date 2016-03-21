@@ -54,6 +54,57 @@
     </fieldset>
     <fieldset class="box">
         <legend class="rim">Data Kunjungan</legend>
+        <fieldset class="box2">
+            <legend class="rim">Ruangan Penunjang Tujuan</legend>
+            <div class="row-fluid">
+                <?php 
+                    if(count($modPasienMasukPenunjangs) > 0){
+                        echo '<div></div>';
+                        foreach($modPasienMasukPenunjangs AS $i=>$modPasienMasukPenunjang){
+                            $modPasienMasukPenunjangs[$i]->kelaspelayanan_id = Params::KELASPELAYANAN_ID_TANPA_KELAS;
+                            echo '<div class = "span4">';
+                                echo $form->hiddenField($modPasienMasukPenunjangs[$i],'['.$i.']is_pilihpenunjang', array('readonly'=>true,'class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)"));
+                                $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+                                    'id'=>'form-masukpenunjang-'.$i,
+                                    'content'=>array(
+                                        'content-masukpenunjang-'.$i=>array(
+                                            'header'=>CHtml::htmlButton("<i class='icon-minus icon-white'></i>",array('class'=>'btn btn-primary btn-mini','onclick'=>'','onkeyup'=>"return $(this).focusNextInputField(event)",'rel'=>'tooltip','title'=>'Klik untuk memilih ruangan ini')).'<b> Kunjungan '.$modPasienMasukPenunjang->ruangan->ruangan_nama.'</b>',
+                                            'isi'=>$this->renderPartial('_formPenunjang', array(
+                                                    'form'=>$form,
+                                                    'model'=>$model,
+                                                    'i'=>$i,
+                                                    'modPasienMasukPenunjang'=>$modPasienMasukPenunjangs[$i],
+                                                    ),true),
+                                            'active'=>$modPasienMasukPenunjangs[$i]->is_pilihpenunjang,
+                                        ),   
+                                    ),
+                                )); 
+                                if ($modPasienMasukPenunjangs[$i]->ruangan_id == Params::RUANGAN_ID_FISIOTERAPI) {
+                                    echo $form->hiddenField($modPasienMasukPenunjangs[$i],'['.$i.']is_adakarcis', array('readonly'=>true,'class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)"));
+                                    $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+                                            'id'=>'form-karcis-'.$i,
+                                            'content'=>array(
+                                                'content-karcis-'.$i=>array(
+                                                    'header'=>CHtml::htmlButton("<i class='icon-minus icon-white'></i>",array('class'=>'btn btn-primary btn-mini','onclick'=>'','onkeyup'=>"return $(this).focusNextInputField(event)",'rel'=>'tooltip','title'=>'Klik untuk memilih karcis')).'<b> Karcis '.$modPasienMasukPenunjang->ruangan->ruangan_nama.'</b>',
+                                                    'isi'=>'<div id="content-karcis-html">'
+                                                            .$this->renderPartial('_formKarcis',array(
+                                                                    'form'=>$form,
+                                                                    'model'=>$model,
+                                                                    'i'=>$i,
+                                                                    'modKarcis'=>$modKarcis[$i],
+                                                                    ),true)
+                                                            .'</div>',
+                                                    'active'=>$modPasienMasukPenunjangs[$i]->is_adakarcis,
+                                                ),   
+                                            ),
+                                    )); 
+                                }
+                            echo '</div>';
+                        }
+                    }
+                    ?>
+            </div>
+        </fieldset>
         <div class="row-fluid">
         <?php echo $this->renderPartial('_formPendaftaran', array('form'=>$form,'model'=>$model, 'modPasien'=>$modPasien, 'modRujukan'=>$modRujukan, 'modRujukanBpjs'=>$modRujukanBpjs, 'modAsuransiPasien'=>$modAsuransiPasien, 'modAsuransiPasienBpjs'=>$modAsuransiPasienBpjs, 'modSep'=>$modSep,'modAsuransiPasienBadak'=>$modAsuransiPasienBadak,'modAsuransiPasienDepartemen'=>$modAsuransiPasienDepartemen,'modAsuransiPasienPekerja'=>$modAsuransiPasienPekerja,'modPegawai'=>$modPegawai)); ?>
             <div class = "span4">
@@ -199,58 +250,6 @@
                 )); ?>
             </div>
         </div>
-        <fieldset class="box2">
-            <legend class="rim">Ruangan Penunjang Tujuan</legend>
-            <div class="row-fluid">
-                <?php 
-                    if(count($modPasienMasukPenunjangs) > 0){
-                        echo '<div></div>';
-                        foreach($modPasienMasukPenunjangs AS $i=>$modPasienMasukPenunjang){
-                            $modPasienMasukPenunjangs[$i]->kelaspelayanan_id = Params::KELASPELAYANAN_ID_TANPA_KELAS;
-                            echo '<div class = "span4">';
-                                echo $form->hiddenField($modPasienMasukPenunjangs[$i],'['.$i.']is_pilihpenunjang', array('readonly'=>true,'class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)"));
-                                $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
-                                    'id'=>'form-masukpenunjang-'.$i,
-                                    'content'=>array(
-                                        'content-masukpenunjang-'.$i=>array(
-                                            'header'=>CHtml::htmlButton("<i class='icon-minus icon-white'></i>",array('class'=>'btn btn-primary btn-mini','onclick'=>'','onkeyup'=>"return $(this).focusNextInputField(event)",'rel'=>'tooltip','title'=>'Klik untuk memilih ruangan ini')).'<b> Kunjungan '.$modPasienMasukPenunjang->ruangan->ruangan_nama.'</b>',
-                                            'isi'=>$this->renderPartial('_formPenunjang', array(
-                                                    'form'=>$form,
-                                                    'model'=>$model,
-                                                    'i'=>$i,
-                                                    'modPasienMasukPenunjang'=>$modPasienMasukPenunjangs[$i],
-                                                    ),true),
-                                            'active'=>$modPasienMasukPenunjangs[$i]->is_pilihpenunjang,
-                                        ),   
-                                    ),
-                                )); 
-                                /*
-                                echo $form->hiddenField($modPasienMasukPenunjangs[$i],'['.$i.']is_adakarcis', array('readonly'=>true,'class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)"));
-                                $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
-                                        'id'=>'form-karcis-'.$i,
-                                        'content'=>array(
-                                            'content-karcis-'.$i=>array(
-                                                'header'=>CHtml::htmlButton("<i class='icon-minus icon-white'></i>",array('class'=>'btn btn-primary btn-mini','onclick'=>'','onkeyup'=>"return $(this).focusNextInputField(event)",'rel'=>'tooltip','title'=>'Klik untuk memilih karcis')).'<b> Karcis '.$modPasienMasukPenunjang->ruangan->ruangan_nama.'</b>',
-                                                'isi'=>'<div id="content-karcis-html">'
-                                                        .$this->renderPartial('_formKarcis',array(
-                                                                'form'=>$form,
-                                                                'model'=>$model,
-                                                                'i'=>$i,
-                                                                'modKarcis'=>$modKarcis[$i],
-                                                                ),true)
-                                                        .'</div>',
-                                                'active'=>$modPasienMasukPenunjangs[$i]->is_adakarcis,
-                                            ),   
-                                        ),
-                                )); 
-                                 * 
-                                 */
-                            echo '</div>';
-                        }
-                    }
-                    ?>
-            </div>
-        </fieldset>
     </fieldset>
     <div class="row-fluid">
         <div class="form-actions">
