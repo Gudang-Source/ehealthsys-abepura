@@ -99,6 +99,7 @@
                                              return false;
                                          }',
                                        'select'=>'js:function( event, ui ) {
+                                            console.log("A1");
                                             $(this).val( ui.item.value);
                                             setPasienLama(ui.item.pasien_id);
                                             return false;
@@ -107,7 +108,7 @@
                                 'tombolDialog'=>array('idDialog'=>'dialogPasien'),
                                 'htmlOptions'=>array('placeholder'=>'Ketik No. Rekam Medik','rel'=>'tooltip','title'=>'Ketik No. RM untuk mencari pasien',
                                     'onkeyup'=>"return $(this).focusNextInputField(event)",
-                                    'onblur'=>"if($(this).val()=='') setPasienBaru(); else setPasienLama('',this.value, true)",
+                                    'onblur'=>"console.log(\"A2\"); if($(this).val()=='') setPasienBaru(); else setPasienLama('',this.value, true)",
                                     'class'=>'numbers-only f_rm', 'maxlength'=>6, 'id'=>'no_rekam_medik_baru'),
                             )); ?>
             <?php /* echo $form->textField($modPasien, 'no_rekam_medik', array(

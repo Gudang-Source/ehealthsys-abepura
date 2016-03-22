@@ -7,10 +7,11 @@
  * @returns {undefined}
  */
 var otoval = 1; // untuk hitung rekam medik
-
+var isSetLama = false;
 function setPasienLama(pasien_id, no_rekam_medik, is_manual){
     $("#form-pasien > div").addClass("animation-loading");
     setPasienBaru(); 
+    isSetLama = true;
     
     var beforeOto = otoval;
     
@@ -117,12 +118,14 @@ function setPasienLama(pasien_id, no_rekam_medik, is_manual){
             $("#<?php echo CHtml::activeId($model, 'ruangan_id'); ?>").focus(); //<<RND-820 (custom)
             window.scrollBy(0,380); //<<RND-820 (custom)
             $("#form-pasien > div").removeClass("animation-loading");
+            isSetLama = false;
             hideHitunganRM();
         },
         error: function (jqXHR, textStatus, errorThrown) { 
             if (!is_manual) myAlert("Data Pasien tidak ditemukan !"); 
             else $("#no_rekam_medik_baru").val(no_rekam_medik);
             
+            isSetLama = false;
             $("#form-pasien > div").removeClass("animation-loading");
         }
     });
@@ -132,6 +135,8 @@ function setPasienLama(pasien_id, no_rekam_medik, is_manual){
  * set form pasien ke pasien baru 
  * @returns {undefined} */
 function setPasienBaru(){
+    if (setPasienLama) return false;
+
     $("#<?php echo CHtml::activeId($model,'umur');?>").val("");
     $("#<?php echo CHtml::activeId($modPasien,'pasien_id');?>").val("");
     $("#<?php echo CHtml::activeId($modPasien,"jenisidentitas");?>").val("");
