@@ -343,10 +343,10 @@ class PegawaiM extends CActiveRecord
 		$criteria->compare('LOWER(warnakulit)',strtolower($this->warnakulit),true);
 		$criteria->compare('LOWER(deskripsi)',strtolower($this->deskripsi),true);
                 $criteria->order = 'pegawai_id ASC';
-		$criteria->limit = 10;
+		//$criteria->limit = 10;
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-			'pagination'=>false,
+			//'pagination'=>false,
 		));
 	}        
         
