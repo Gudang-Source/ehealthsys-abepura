@@ -65,7 +65,7 @@ if (isset($print)){
         <td width="100%"><?php echo $model->no_produksi; ?></td>
         <td>Petugas Gas Medis</td>
         <td>:</td>
-        <td nowrap><?php echo (isset($model->petugas->nama_pegawai) ? $model->petugas->nama_pegawai : ""); ?></td>
+        <td nowrap><?php echo (isset($model->petugasgasmedis_id) ? $model->petugas->nama_pegawai : ""); ?></td>
     </tr>
     <tr>
         <td nowrap>Tanggal Produksi</td>
@@ -73,7 +73,7 @@ if (isset($print)){
         <td><?php echo $format->formatDateTimeForUser($model->tgl_produksi); ?></td>
         <td nowrap>Pegawai Mengetahui</td>
         <td>:</td>
-        <td nowrap><?php echo (isset($model->mengetahui->nama_pegawai) ? $model->mengetahui->nama_pegawai : ""); ?></td>
+        <td nowrap><?php echo (isset($model->mengetahui_id) ? $model->mengetahui->nama_pegawai : ""); ?></td>
     </tr>
 </table>
 
