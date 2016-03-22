@@ -1,6 +1,6 @@
 <fieldset class="box" id="form-produksi">
     <legend class='rim'>Data Produksi</legend>
-    <div class="span6">
+    <div class="span5">
         <div class="control-group ">
             <?php echo $form->labelEx($produksi,'tgl_produksi', array('class'=>'control-label')) ?>
             <div class="controls">
@@ -24,7 +24,7 @@
         </div>
         <?php echo $form->textFieldRow($produksi, "no_produksi", array('class'=>'span3', 'readonly'=>true)); ?>
     </div>
-    <div class="span6">
+    <div class="span5">
         <div class="control-group">
         <?php echo $form->labelEx($produksi, 'petugasgasmedis_id', array('class' => 'control-label')); ?>
         <div class="controls">
@@ -108,6 +108,15 @@
                     'tombolDialog' => array('idDialog' => 'dialogMengetahui'),
                 ));
                 ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="span5">
+        <div class="control-group ">
+            <?php echo $form->labelEx($produksi, 'keterangan', array('class' => 'control-label')); ?>
+            <div class="controls">
+                <?php echo CHtml::activeTextArea($produksi, 'keterangan', array('rows'=>5)); ?>
             </div>
         </div>
     </div>

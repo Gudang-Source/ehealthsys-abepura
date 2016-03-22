@@ -46,10 +46,10 @@ class ProduksigasmedisT extends CActiveRecord
 		return array(
 			array('tgl_produksi', 'required'),
 			array('create_loginpemakai_id, update_loginpemakai_id, create_ruangan, petugasgasmedis_id, mengetahui_id', 'numerical', 'integerOnly'=>true),
-			array('create_time, update_time, no_produksi', 'safe'),
+			array('create_time, update_time, no_produksi, keterangan', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('produksigasmedis_id, tgl_produksi, create_time, update_time, create_loginpemakai_id, update_loginpemakai_id, create_ruangan, petugasgasmedis_id, mengetahui_id, no_produksi', 'safe', 'on'=>'search'),
+			array('produksigasmedis_id, tgl_produksi, keterangan, create_time, update_time, create_loginpemakai_id, update_loginpemakai_id, create_ruangan, petugasgasmedis_id, mengetahui_id, no_produksi', 'safe', 'on'=>'search'),
                     
                         array('create_time','default','value'=>date('Y-m-d H:i:s'),'setOnEmpty'=>false,'on'=>'insert'),
                         array('update_time','default','value'=>date('Y-m-d H:i:s'),'setOnEmpty'=>false,'on'=>'update,insert'),

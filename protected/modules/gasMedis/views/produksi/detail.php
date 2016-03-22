@@ -37,6 +37,10 @@ th{
     padding-right: 5px;
     
 }
+.note {
+    border: 1px solid black;
+    padding: 3px;
+}
 </style>
 <?php
 $format = new MyFormatter;
@@ -73,7 +77,7 @@ if (isset($print)){
     </tr>
 </table>
 
-<table width="100%" style='margin-left:auto; margin-right:auto; margin-bottom: 20px;' class = "tabel">
+<table width="100%" style='margin-left:auto; margin-right:auto; margin-bottom: 5px;' class = "tabel">
     <thead class="border">
         <tr>
             <th>No.</th>
@@ -99,6 +103,9 @@ if (isset($print)){
         </tr>
     <?php } ?>
 </table>
+<div class="note">
+    <?php echo "<b>Keterangan :</b> <br/>".$model->keterangan; ?>
+</div>
 <?php
 if (empty($print)){
     echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info', 'onclick'=>"print(1)"))." ";
@@ -135,101 +142,3 @@ if (empty($print)){
     </tr>
     </table>
 <?php } ?>
-<?php /*
-<?php $this->renderPartial($this->path_view.'_headerPrint',array('colspan'=>10)); ?>
-    <div align="center" width="100%">
-        <b><?php echo $judul_print ?></b>
-    </div>
-    <table width="74%" style="margin:0px;" cellpadding="0" cellspacing="0">
-        <tr>
-            <td>No. Mutasi</td>
-            <td>:</td>
-            <td><?php echo $model->nomutasioa; ?></td>
-        </tr>
-        <tr>
-            <td>Tanggal Mutasi</td>
-            <td>:</td>
-            <td><?php echo $format->formatDateTimeForUser($model->tglmutasioa); ?></td>
-        </tr>
-        <tr>
-            <td>Ruangan Asal</td>
-            <td>:</td>
-            <td><?php echo (isset($model->ruanganasal->ruangan_nama) ? $model->ruanganasal->ruangan_nama : "-"); ?></td>
-        </tr>
-        <tr>
-            <td>Ruangan Tujuan</td>
-            <td>:</td>
-            <td><?php echo (isset($model->ruangantujuan->ruangan_nama) ? $model->ruangantujuan->ruangan_nama : ""); ?></td>
-        </tr>
-        <tr>
-            <td>Pegawai Mengetahui</td>
-            <td>:</td>
-            <td><?php echo (isset($model->pegawaimengetahui->NamaLengkap) ? $model->pegawaimengetahui->NamaLengkap : ""); ?></td>
-        </tr>
-        <tr>
-            <td>Status Mutasi</td>
-            <td>:</td>
-            <td><?php echo ((!empty($model->terimamutasi_id) ? "SUDAH DITERIMA" : "BELUM DITERIMA")); ?></td>
-        </tr>
-    </table><br/>
-    <table width="100%" style='margin-left:auto; margin-right:auto;' class = "tabel">
-        <thead class="border">
-            <tr>
-                <th>No.</th>
-                <th>Asal Barang</th>
-                <th>Kategori / Nama Obat</th>
-                <th>Tanggal Kadaluarsa </th>
-                <!--<th>Satuan Kecil </th>-->
-                <?php
-                   $periksa = MutasioaruanganT::model()->findByAttributes(array('mutasioaruangan_id'=>$model->mutasioaruangan_id));                
-                   
-                   if ($periksa->pesanobatalkes_id == ''):
-                       echo "";
-                   else:
-                       echo "<th>Jumlah Pesan</th>";
-                   endif;
-                ?> 
-                <!--<th>Jumlah Pesan</th>-->
-                <th>Jumlah Mutasi</th>
-                <!--<th>HPP</th>-->
-                <!--<th>Harga Jual</th>-->
-                <!--<th>Sub Total Netto</th>-->
-            </tr>
-        </thead>
-        <?php 
-        $total = 0;
-        $subtotal = 0;
-        foreach ($modDetails as $i=>$detail){ 
-        ?>
-            <tr>
-                <td><?php echo ($i+1)."."; ?></td>
-                <td><?php echo $detail->sumberdana->sumberdana_nama; ?></td>
-                <td><?php echo (!empty($detail->obatalkes->obatalkes_kategori) ? $detail->obatalkes->obatalkes_kategori."/ " : "") ."". $detail->obatalkes->obatalkes_nama; ?></td>
-                <td><?php echo $format->formatDateTimeForUser($detail->tglkadaluarsa); ?></td>
-                <!--<td><?php //echo $detail->satuankecil->satuankecil_nama; ?></td>-->
-                <?php
-                if ($periksa->pesanobatalkes_id == ''):
-                       echo "";
-                   else:
-                       echo "<td style = 'text-align:right;'> ".$detail->jmlpesan." ".$detail->satuankecil->satuankecil_nama."</th>";;
-                   endif;
-                ?>
-               <!-- <td><?php //echo $detail->jmlpesan.' '.$detail->satuankecil->satuankecil_nama; ?></td>-->
-                <td><?php echo $detail->jmlmutasi.' '.$detail->satuankecil->satuankecil_nama; ?></td>
-                <!--<td class='uang'><?php // echo $format->formatUang($detail->harganetto); ?></td>-->
-                <!--<td><?php // echo $format->formatUang($detail->hargajualsatuan); ?></td>-->
-                <!--<td class="uang"><?php 
-//                    $subtotal = ($detail->harganetto * $detail->jmlmutasi);
-//                    $total += $subtotal;
-//                    echo $format->formatUang($subtotal); ?>
-                </td>-->
-            </tr>
-        <?php } ?>
-<!--        <tr class='border'>
-            <td colspan="7" align="right"><strong>Total</strong></td>
-            <td class="uang"><?php // echo $format->formatUang($total); ?></td>
-        </tr>-->
-    </table>
-
-      * 
-      */ ?>
