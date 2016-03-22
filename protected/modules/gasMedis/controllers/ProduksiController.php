@@ -90,8 +90,40 @@ class ProduksiController extends MyAuthController
         
 	public function actionInformasi()
 	{
-		$this->render('informasi');
+            $model = new GMProduksigasmedisT;
+            $model->unsetAttributes();
+            $model->tgl_awal = date('Y-m-d', time() - (7 * 24 * 3600));
+            $model->tgl_akhir = date('Y-m-d');
+            
+            if (isset($_GET['GMProduksigasmedisT'])) {
+                $model->attributes = $_GET['GMProduksigasmedisT'];
+                $model->petugas_nama = $_GET['GMProduksigasmedisT']['petugas_nama'];
+                $model->mengetahui_nama = $_GET['GMProduksigasmedisT']['mengetahui_nama'];
+                $model->tgl_awal = MyFormatter::formatDateTimeForDb($_GET['GMProduksigasmedisT']['tgl_awal']);
+                $model->tgl_akhir = MyFormatter::formatDateTimeForDb($_GET['GMProduksigasmedisT']['tgl_akhir']);
+            }
+            $this->render('informasi', array('model'=>$model));
 	}
+        
+        public function actionDetail($id, $print = null) {
+            switch ($print) {
+                case 1: $this->layout = '//layouts/printWindows'; break;
+                case 2: $this->layout = '//layouts/printExcel'; break;
+                default: $this->layout = '//layouts/iframe';
+            }
+            
+            
+            $model = GMProduksigasmedisT::model()->findByPk($id);
+            $det = ProduksigasmedisdetT::model()->findAllByAttributes(array(
+                'produksigasmedis_id'=>$id
+            ));
+            
+            $this->render('detail', array(
+                'model'=>$model,
+                'det'=>$det,
+                'print'=>$print,
+            ));
+        }
         
         public function actionAutocompletePegawai()
         {

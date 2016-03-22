@@ -106,12 +106,12 @@ class ProduksigasmedisT extends CActiveRecord
 		$criteria->compare('tgl_produksi',$this->tgl_produksi,true);
 		$criteria->compare('create_time',$this->create_time,true);
 		$criteria->compare('update_time',$this->update_time,true);
-		$criteria->compare('create_loginpemakai',$this->create_loginpemakai);
-		$criteria->compare('update_loginpemakai',$this->update_loginpemakai);
+		$criteria->compare('create_loginpemakai_id',$this->create_loginpemakai_id);
+		$criteria->compare('update_loginpemakai_id',$this->update_loginpemakai_id);
 		$criteria->compare('create_ruangan',$this->create_ruangan);
 		$criteria->compare('petugasgasmedis_id',$this->petugasgasmedis_id);
 		$criteria->compare('mengetahui_id',$this->mengetahui_id);
-		$criteria->compare('no_produksi',$this->no_produksi,true);
+		$criteria->compare('lower(no_produksi)',strtolower($this->no_produksi),true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
