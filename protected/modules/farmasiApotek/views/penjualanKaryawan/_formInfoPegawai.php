@@ -162,7 +162,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'autoOpen'=>false,
         'modal'=>true,
         'width'=>980,
-        'height'=>480,
+        'height'=>550,
         'resizable'=>false,
     ),
 ));
@@ -177,8 +177,8 @@ if(!isset($_GET['sukses'])){ //RND-5894
 			'id'=>'datakunjungankaryawan-grid',
 			'dataProvider'=>$modDialogPegawai->search(),
 			'filter'=>$modDialogPegawai,
-			'template'=>"{items}\n{pager}",
-	//        'template'=>"{summary}\n{items}\n{pager}",
+			//'template'=>"{items}\n{pager}",
+                         'template'=>"{summary}\n{items}\n{pager}",
 			'itemsCssClass'=>'table table-striped table-bordered table-condensed',
 			'columns'=>array(
 				array(

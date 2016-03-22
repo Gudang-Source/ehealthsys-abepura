@@ -7,17 +7,20 @@
             Icon <i class="icon-calendar"></i><i class="icon-time"></i> berfungsi untuk menentukan tanggal dan waktu pada transaksi.
         </li>
         <li>
-            Icon <i class="icon-list-alt"></i> berfungsi untuk mencari dan menampilkan daftar data sesuai yang diketikan.
+            Icon <i class="icon-list"></i> berfungsi untuk mencari dan menampilkan daftar data sesuai yang diketikan.
         </li>
         <li>
-            Icon <span class="add-on"><a id="" href="javascript:void(0);"><i class="icon-list-alt"></i><i class="icon-search"></i></a></span> 
+            Icon <span class="add-on"><a id="" href="javascript:void(0);"><i class="icon-list"></i><i class="icon-search"></i></a></span> 
             berfungsi untuk mencari dan menampilkan daftar data sesuai yang diketikan serta menampilkan dialog box jika diklik.
         </li>
         <li>
             Tombol  <div class="btn btn-primary" name="yt0" type="button"><i class="icon-plus icon-white"></i></div>
             berfungsi untuk menambahkan items obat alkes.
         </li>       
-        
+        <li>
+            Tombol  <div class="btn btn-danger" name="yt0" type="button"><i class="icon-refresh icon-white"></i></div>
+            berfungsi untuk mengulang kembali inputan item obat alkes.
+        </li>  
     </div>
     <div class="span6">
         <li>

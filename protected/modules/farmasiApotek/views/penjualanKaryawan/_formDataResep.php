@@ -126,8 +126,8 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
     'id' => 'pegawaiYangMengajukan-m-grid',
     'dataProvider' => $modPegawai->searchByDokter(),
     'filter' => $modPegawai,
-    'template' => "{items}\n{pager}",
-//    'template'=>"{summary}\n{items}\n{pager}",
+  //  'template' => "{items}\n{pager}",
+    'template'=>"{summary}\n{items}\n{pager}",
     'itemsCssClass' => 'table table-striped table-bordered table-condensed',
     'columns' => array(
         array(
