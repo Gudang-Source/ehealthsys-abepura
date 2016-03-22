@@ -106,4 +106,12 @@ function batalProduksi(obj) {
 function cekValidasi() {
     $("#produksigasmedis-form").submit();
 }
+
+/**
+ * print
+ */    
+function print(caraprint){
+    var id = '<?php echo $model->produksigasmedis_id; ?>';
+    window.open('<?php echo $this->createUrl('detail'); ?>&id='+id+'&print=' + caraprint,'printwin','left=100,top=100,width=1000,height=640');
+}
 </script>
