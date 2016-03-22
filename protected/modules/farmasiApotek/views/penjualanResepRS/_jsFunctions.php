@@ -773,7 +773,7 @@ function hitungPecahanDosisRacikan() {
         return false;
     }
     
-    hasil = Math.floor((pembilang / penyebut) * kekuatan);
+    hasil = Math.round((pembilang / penyebut) * kekuatan);
     
     $("#dosis_pembliang").val("");
     $("#dosis_penyebut").val("");
