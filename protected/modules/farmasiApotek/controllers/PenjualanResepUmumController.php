@@ -98,7 +98,6 @@ class PenjualanResepUmumController extends PenjualanResepRSController{
                     foreach($_POST['FAObatalkesPasienT'] AS $i => $postDetail){
                         $modDetails[$i] = new FAObatalkesPasienT;
                         $modDetails[$i]->attributes = $postDetail;
-                        $modDetails[$i]->attributes = $postDetail;
                         $oa = ObatalkesM::model()->findByPk($modDetails[$i]->obatalkes_id);
                         $modDetails[$i]->penjualanresep_id = $modPenjualan->penjualanresep_id;
                         $modDetails[$i]->tipepaket_id = Params::TIPEPAKET_ID_NONPAKET;
