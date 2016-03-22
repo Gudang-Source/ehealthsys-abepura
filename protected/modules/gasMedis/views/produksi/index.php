@@ -48,15 +48,15 @@
             //var_dump(empty($id));
             $disablePrint = ($disableSave) ? false : true;
 
-            echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button', 'onclick'=>'cekValidasi();', 'onkeypress'=>'cekValidasi();','disabled'=>$disableSave)); //formSubmit(this,event)        
+            echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button', 'onclick'=>'cekValidasi();', 'onkeypress'=>'cekValidasi();','disabled'=>$disableSave))." "; //formSubmit(this,event)        
             
             if(!isset($_GET['frame'])){
                 echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
                     $this->createUrl($this->id.'/index'), 
                     array('class'=>'btn btn-danger','onclick'=>'return refreshForm(this);'
-                ));
+                ))." ";
             } 
-            echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary-blue', 'disabled'=>$disablePrint,'type'=>'button','onclick'=>'print(\'PRINT\')'));                 
+            echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary-blue', 'disabled'=>$disablePrint,'type'=>'button','onclick'=>'print(1)'))." ";                 
 
             $content = $this->renderPartial('tips/tipsProduksiGasMedis',array(),true);
             $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
@@ -65,4 +65,4 @@
     <?php $this->endWidget(); ?>
 </div>
 
-<?php echo $this->renderPartial('subIndex/_jsFunction', array(), true); ?>
+<?php echo $this->renderPartial('subIndex/_jsFunction', array('model'=>$produksi), true); ?>
