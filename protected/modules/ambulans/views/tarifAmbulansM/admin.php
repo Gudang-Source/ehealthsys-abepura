@@ -53,14 +53,34 @@
                         ),
                         array(
                             'name'=>'daftartindakan_id',
-                            'filter'=>CHtml::listData($model->getDaftartindakanItems(),'daftartindakan_id','daftartindakan_nama'),
+                            'filter'=> CHtml::dropDownList('TarifAmbulansM[daftartindakan_id]',$model->daftartindakan_id,CHtml::listData($model->getDaftartindakanItems(),'daftartindakan_id','daftartindakan_nama'),array('empty'=>'--Pilih--')),
                             'value'=>'(isset($data->daftartindakan->daftartindakan_nama) ? $data->daftartindakan->daftartindakan_nama : "")',
                         ),
                         'tarifambulans_kode',
-                        'kepropinsi_nama',
-                        'kekabupaten_nama',
-                        'kekecamatan_nama',
-                        'kekelurahan_nama',
+                        //'kepropinsi_nama',                        
+                        array(
+                            'header' => 'Ke Propinsi',
+                            'name' => 'kepropinsi_nama',
+                            'filter' => CHtml::dropDownList('TarifAmbulansM[kepropinsi_nama]',$model->kepropinsi_nama,CHtml::listData(PropinsiM::model()->findAll("propinsi_aktif = TRUE ORDER BY propinsi_nama ASC"),'propinsi_nama','propinsi_nama'),array('empty'=>'--Pilih--')),
+                        ),
+                        //'kekabupaten_nama',                         
+                        array(
+                            'header' => 'Ke Kabupaten',
+                            'name' => 'kekabupaten_nama',
+                            'filter' => CHtml::dropDownList('TarifAmbulansM[kekabupaten_nama]',$model->kekabupaten_nama,CHtml::listData(KabupatenM::model()->findAll("kabupaten_aktif = TRUE ORDER BY kabupaten_nama ASC"),'kabupaten_nama','kabupaten_nama'),array('empty'=>'--Pilih--')),
+                        ),
+                        //'kekecamatan_nama',
+                        array(
+                            'header' => 'Ke Kecamatan',
+                            'name' => 'kekecamatan_nama',
+                            'filter' => CHtml::dropDownList('TarifAmbulansM[kekecamatan_nama]',$model->kekecamatan_nama,CHtml::listData(KecamatanM::model()->findAll("kecamatan_aktif = TRUE ORDER BY kecamatan_nama ASC"),'kecamatan_nama','kecamatan_nama'),array('empty'=>'--Pilih--')),
+                        ),
+                        //'kekelurahan_nama',
+                        array(
+                            'header' => 'Ke Kelurahan',
+                            'name' => 'kekelurahan_nama',
+                            'filter' => CHtml::dropDownList('TarifAmbulansM[kekelurahan_nama]',$model->kekelurahan_nama,CHtml::listData(KelurahanM::model()->findAll("kelurahan_aktif = TRUE ORDER BY kelurahan_nama ASC"),'kelurahan_nama','kelurahan_nama'),array('empty'=>'--Pilih--')),
+                        ),
                         'tarifambulans',
                         array(
                             'header'=>Yii::t('zii','View'),
@@ -117,7 +137,7 @@
     echo "&nbsp;";
     echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')')).""; 
     echo "&nbsp;";
-    $content = $this->renderPartial('../tips/master',array(),true);
+    $content = $this->renderPartial('../tips/master2',array(),true);
     $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
     $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/print');
 

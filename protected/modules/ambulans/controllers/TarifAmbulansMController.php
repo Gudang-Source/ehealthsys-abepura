@@ -27,11 +27,12 @@ class TarifAmbulansMController extends MyAuthController
 	public function actionCreate()
 	{
 		$model=new TarifAmbulansM;
-		$modDaftartindakan = new AMDaftartindakanM;
-		$modDaftartindakan->unsetAttributes();
-		if(isset($_GET['AMDaftarTindakanM'])) {
-		    $modDaftartindakan->attributes = $_GET['AMDaftarTindakanM'];
-		}
+		//$modDaftartindakan = new AMDaftartindakanM('search');
+		//$modDaftartindakan->unsetAttributes();
+		//if(isset($_GET['AMDaftarTindakanM'])) {
+		 //   $modDaftartindakan->attributes = $_GET['AMDaftarTindakanM'];                    
+                    
+		//}
 
 		// Uncomment the following line if AJAX validation is needed
 		
@@ -40,11 +41,11 @@ class TarifAmbulansMController extends MyAuthController
 		{
 			$model->attributes=$_POST['TarifAmbulansM'];
 			if($model->save())
-				$this->redirect(array('admin','id'=>$model->tarifambulans_id));
+				$this->redirect(array('admin','id'=>1));
 		}
 
 		$this->render('create',array(
-			'model'=>$model,'modDaftartindakan'=>$modDaftartindakan,
+			'model'=>$model,
 		));
 	}
 
@@ -64,7 +65,7 @@ class TarifAmbulansMController extends MyAuthController
 		{
 			$model->attributes=$_POST['TarifAmbulansM'];
 			if($model->save())
-				$this->redirect(array('admin','id'=>$model->tarifambulans_id));
+				$this->redirect(array('admin','id'=>1));
 		}
 
 		$this->render('update',array(
@@ -96,7 +97,7 @@ class TarifAmbulansMController extends MyAuthController
 	 * Lists all models.
 	 */
 	public function actionIndex()
-	{
+	{    
 		$dataProvider=new CActiveDataProvider('TarifAmbulansM');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
@@ -106,12 +107,14 @@ class TarifAmbulansMController extends MyAuthController
 	/**
 	 * Manages all models.
 	 */
-	public function actionAdmin()
-	{
+	public function actionAdmin($id='')
+	{   if($id == 1):
+                Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+             endif;
 		$model=new TarifAmbulansM('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['TarifAmbulansM']))
-			$model->attributes=$_GET['TarifAmbulansM'];
+			$model->attributes=$_GET['TarifAmbulansM'];                        
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -167,7 +170,7 @@ class TarifAmbulansMController extends MyAuthController
 			$mpdf->WriteHTML($stylesheet,1);  
 			$mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
 			$mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-			$mpdf->Output();
+			$mpdf->Output($judulLaporan.'-'.date('Y-m-d').'.pdf','I');
 		}                       
 	}
 	

@@ -102,7 +102,7 @@
         'autoOpen'=>false,
         'modal'=>true,
         'width'=>900,
-        'height'=>400,
+        'height'=>500,
         'resizable'=>false,
         ),
     ));
