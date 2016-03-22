@@ -24,9 +24,9 @@ class DaftartindakanM extends CActiveRecord
         // public $komponenunit_nama;
         // public $kategoritindakan_nama;
         // public $kelompoktindakan_nama;
-		public $komponenunit_id;
-        public $kategoritindakan_id,$kategoritindakan_nama;
-        public $kelompoktindakan_id,$kelompoktindakan_nama;
+		public $komponenunit_id,$komponenunit_nama;
+                public $kategoritindakan_id,$kategoritindakan_nama;
+                public $kelompoktindakan_id,$kelompoktindakan_nama;                
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -90,7 +90,7 @@ class DaftartindakanM extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'daftartindakan_id' => 'ID',
+			'daftartindakan_id' => 'Daftar Tindakan',
 			'komponenunit_id' => 'Komponen Unit',
 			'kategoritindakan_id' => 'Kategori Tindakan',
 			'kelompoktindakan_id' => 'Kelompok Tindakan',
@@ -134,6 +134,7 @@ class DaftartindakanM extends CActiveRecord
 		$criteria->compare('LOWER(daftartindakan_katakunci)',strtolower($this->daftartindakan_katakunci),true);
 		$criteria->compare('LOWER(kategoritindakan.kategoritindakan_nama)',strtolower($this->kategoritindakan_nama),true);
 		$criteria->compare('LOWER(kelompoktindakan.kelompoktindakan_nama)',strtolower($this->kelompoktindakan_nama),true);
+                $criteria->compare('LOWER(kelompoktindakan.komponenunit_nama)',strtolower($this->komponenunit_nama),true);
 		$criteria->compare('daftartindakan_karcis',$this->daftartindakan_karcis);
 		$criteria->compare('daftartindakan_visite',$this->daftartindakan_visite);
 		$criteria->compare('daftartindakan_konsul',$this->daftartindakan_konsul);

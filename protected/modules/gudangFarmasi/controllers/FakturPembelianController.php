@@ -148,7 +148,7 @@ class FakturPembelianController extends MyAuthController
         ));
     }
 	
-	public function actionloadPenerimaanBarang()
+	public function actionLoadPenerimaanBarang()
     {
         if(Yii::app()->request->isAjaxRequest) { 
             $penerimaanbarang_id = $_POST['penerimaanbarang_id'];

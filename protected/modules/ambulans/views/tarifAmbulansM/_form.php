@@ -140,7 +140,11 @@
         ),
     ));
    
-
+$modDaftartindakan = new AMDaftartindakanM('search');
+$modDaftartindakan->unsetAttributes();
+if(isset($_GET['AMDaftartindakanM'])) {
+    $modDaftartindakan->attributes = $_GET['AMDaftartindakanM'];
+}
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'daftartindakan-grid',
         //'ajaxUrl'=>Yii::app()->createUrl('actionAjax/CariDataPasien'),
@@ -162,24 +166,24 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                  )
                  )',
             ),
-            array(
-                'name'=>'komponenunit_id',
-                'filter'=>  CHtml::listData($modDaftartindakan->KomponenUnitItems, 'komponenunit_id', 'komponenunit_nama'),
-                'value'=>'(isset($data->komponenunit->komponenunit_nama) ? $data->komponenunit->komponenunit_nama : "")',
+             array(
+                    'name'=>'komponenunit_id',
+                    'filter'=> CHtml::dropDownList('AMDaftartindakanM[komponenunit_id]',$modDaftartindakan->komponenunit_id,CHtml::listData($modDaftartindakan->KomponenUnitItems, 'komponenunit_id', 'komponenunit_nama'),array('empty'=>'--Pilih--')),
+                    'value'=>'(isset($data->komponenunit->komponenunit_nama) ? $data->komponenunit->komponenunit_nama : "")',
             ),
             array(
-                        'name'=>'kategoritindakan_id',
-                        'filter'=>  CHtml::listData($modDaftartindakan->KategoriTindakanItems, 'kategoritindakan_id', 'kategoritindakan_nama'),
-                        'value'=>'(isset($data->kategoritindakan->kategoritindakan_nama) ? $data->kategoritindakan->kategoritindakan_nama : "")',
+                    'name'=>'kategoritindakan_id',
+                    'filter'=> CHtml::dropDownList('AMDaftartindakanM[kategoritindakan_id]',$modDaftartindakan->kategoritindakan_id,CHtml::listData($modDaftartindakan->KategoriTindakanItems, 'kategoritindakan_id', 'kategoritindakan_nama'),array('empty'=>'--Pilih--')),
+                    'value'=>'(isset($data->kategoritindakan->kategoritindakan_nama) ? $data->kategoritindakan->kategoritindakan_nama : "")',
             ),
             array(
-                        'name'=>'kelompoktindakan_id',
-                        'filter'=>  CHtml::listData($modDaftartindakan->KelompokTindakanItems, 'kelompoktindakan_id', 'kelompoktindakan_nama'),
-                        'value'=>'(isset($data->kelompoktindakan->kelompoktindakan_nama) ? $data->kelompoktindakan->kelompoktindakan_nama : "")',
+                    'name'=>'kelompoktindakan_id',
+                    'filter'=> CHtml::dropDownList('AMDaftartindakanM[kelompoktindakan_id]',$modDaftartindakan->kelompoktindakan_id,CHtml::listData($modDaftartindakan->KelompokTindakanItems, 'kelompoktindakan_id', 'kelompoktindakan_nama'),array('empty'=>'--Pilih--')),
+                    'value'=>'(isset($data->kelompoktindakan->kelompoktindakan_nama) ? $data->kelompoktindakan->kelompoktindakan_nama : "")',
             ),
             array(
                         'name'=>'daftartindakan_nama',
-                        'filter'=>  CHtml::listData($modDaftartindakan->DaftarTindakanItems, 'daftartindakan_id', 'daftartindakan_nama'),
+                        'filter'=>  CHtml::dropDownList('AMDaftartindakanM[daftartindakan_nama]',$modDaftartindakan->daftartindakan_nama,CHtml::listData($modDaftartindakan->DaftarTindakanItems, 'daftartindakan_id', 'daftartindakan_nama'),array('empty'=>'--Pilih--')),
                         'value'=>'(isset($data->daftartindakan_nama) ? $data->daftartindakan_nama : "")',
             ),
 	),

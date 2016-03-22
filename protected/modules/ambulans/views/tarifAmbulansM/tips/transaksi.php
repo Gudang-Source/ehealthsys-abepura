@@ -4,7 +4,7 @@
     <tr>
         <td>1. </td>
         <td>Gunakan icon ini 
-            <i class="icon-list-alt"></i><i class="icon-search"></i> 
+            <i class="icon-list"></i><i class="icon-search"></i> 
             berfungsi untuk menampilkan / mencari data.</td>
     </tr>
     <tr>  

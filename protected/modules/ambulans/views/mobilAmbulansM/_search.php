@@ -11,6 +11,7 @@
             <div class="control-label">Inventaris Aset</div>
             <div class="controls">
                 <?php echo $form->hiddenField($model, 'inventarisaset_id',array('id'=>'inventarisaset_id')) ?>
+                <?php echo $form->hiddenField($model, 'barang_nama',array('id'=>'brg_nama')) ?>
                 <?php $this->widget('MyJuiAutoComplete', array(
                                                                    'name'=>'inventarisaset', 
                                                                     'source'=>'js: function(request, response) {
@@ -47,39 +48,42 @@
                                                                     'tombolDialog'=>array('idDialog'=>'dialogbarang'),
                                                             )); ?>
             </div>
-        </td>
-        <td>
-            <div class="control-label">Kode</div>
-            <div class="controls">
-                    <?php echo $form->textField($model,'mobilambulans_kode',array('size'=>20,'maxlength'=>20,'class'=>'span2')); ?>
-            </div>
-        </td>
-        <td>
-            <?php echo $form->textFieldRow($model,'kmterakhirkend',array('class'=>'span1')); ?>
-        </td>
+        </td>  
+        <td>    
+                <?php //echo CHtml::label('Kode','mobilambulans_kode'); ?>
+                <?php echo $form->textFieldRow($model,'mobilambulans_kode',array('size'=>20,'maxlength'=>20,'class'=>'span2')); ?>            
+        </td>  
+        <td>    
+                <?php //echo CHtml::label('No Polisi','nopolisi'); ?>
+                <?php echo $form->textFieldRow($model,'nopolisi',array('size'=>20,'maxlength'=>20,'class'=>'span1')); ?>
+        </td>        
+       <!-- <td>
+            <?php //echo $form->textFieldRow($model,'kmterakhirkend',array('class'=>'span1')); ?>
+        </td>-->
     </tr>
     <tr>
         <td>
             <?php echo $form->dropDownListRow($model,'jeniskendaraan',
                         CHtml::listData($model->JenisKendaraanItems, 'lookup_name', 'lookup_value'),
-                        array('class'=>'inputRequire', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --',)); ?>
+                        array('class'=>'inputRequire', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --',)); ?>            
         </td>
         <td>
-            <?php echo $form->textFieldRow($model,'isibbmliter',array('class'=>'span1')); ?>
+            <?php //echo CHtml::label('harga BBM Liter','hargabbmliter'); ?>
+            <?php echo $form->textFieldRow($model,'hargabbmliter',array('class'=>'span1')); ?>
         </td>
-        <td>
+       <!-- <td>
+            <?php //echo $form->textFieldRow($model,'isibbmliter',array('class'=>'span1')); ?>
+        </td>-->
+        <td>            
             <?php echo $form->checkBoxRow($model,'mobilambulans_aktif',array('checked'=>'checked')); ?>
         </td>
     </tr>
     <tr>
         <td>
-            <?php echo $form->textFieldRow($model,'hargabbmliter',array('class'=>'span1')); ?>
+            
         </td>
         <td colspan="2">
-            <div class="control-label">No. Polisi</div>
-            <div class="controls">
-                <?php echo $form->textField($model,'nopolisi',array('size'=>20,'maxlength'=>20,'class'=>'span1')); ?>
-            </div>
+            
         </td>
     </tr>
 </table>
@@ -126,6 +130,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                                     "id" => "selectbarang",
                                                     "onClick" => "\$(\"#inventarisaset_id\").val($data->barang_id);
                                                                           \$(\"#inventarisaset\").val(\"$data->barang_nama\");
+                                                                          \$(\"#brg_nama\").val(\"$data->barang_nama\");
                                                                           \$(\"#dialogbarang\").dialog(\"close\");"
                                              )
                              )',
