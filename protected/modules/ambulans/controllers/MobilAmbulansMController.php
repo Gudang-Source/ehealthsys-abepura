@@ -42,7 +42,7 @@ class MobilAmbulansMController extends MyAuthController
 //                        exit;
                     if($model->save()){
                         $model->isNewRecord = FALSE;
-                        $this->redirect(array('admin','id'=>$model->mobilambulans_id));                        
+                        $this->redirect(array('admin','id'=>1));                        
                     }
 		}
 
@@ -67,7 +67,7 @@ class MobilAmbulansMController extends MyAuthController
 		{
 			$model->attributes=$_POST['MobilambulansM'];
 			if($model->save())
-				$this->redirect(array('admin','id'=>$model->mobilambulans_id));
+				$this->redirect(array('admin','id'=>1));
 		}
 
 		$this->render('update',array(
@@ -100,6 +100,7 @@ class MobilAmbulansMController extends MyAuthController
 	 */
 	public function actionIndex()
 	{
+           
                         $dataProvider=new CActiveDataProvider('MobilambulansM');
                         $this->render('index',array(
                                 'dataProvider'=>$dataProvider,
@@ -109,13 +110,15 @@ class MobilAmbulansMController extends MyAuthController
 	/**
 	 * Manages all models.
 	 */
-	public function actionAdmin()
-	{
+	public function actionAdmin($id='')
+	{    if($id == 1):
+                Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+            endif;
                         $model=new MobilambulansM('search');
                         $model->unsetAttributes();  // clear any default values
-                        if(isset($_GET['MobilambulansM'])){
-                            
+                        if(isset($_GET['MobilambulansM'])){                            
                                 $model->attributes=$_GET['MobilambulansM'];
+                                $model->barang_nama=$_GET['MobilambulansM']['barang_nama'];
                                         }
                         $this->render('admin',array(
                                 'model'=>$model,
@@ -174,7 +177,7 @@ class MobilAmbulansMController extends MyAuthController
                         $mpdf->WriteHTML($stylesheet,1);  
                         $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
                         $mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-                        $mpdf->Output();
+                        $mpdf->Output($judulLaporan.'-'.date('Y/m/d').'.pdf','I');
                     }                       
                 }
                 

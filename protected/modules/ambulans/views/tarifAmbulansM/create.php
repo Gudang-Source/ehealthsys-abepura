@@ -15,6 +15,6 @@
 
     $this->widget('bootstrap.widgets.BootAlert'); ?>
 
-    <?php echo $this->renderPartial('_form', array('model'=>$model, 'modDaftartindakan'=>$modDaftartindakan)); ?>
+    <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
     <?php //$this->widget('UserTips',array('type'=>'create'));?>
 </div>

@@ -21,7 +21,7 @@ class TarifAmbulansM extends CActiveRecord
                 public $kabupaten_id;
                 public $kecamatan_id;
                 public $propinsi_id;
-                public $kelurahan_id;
+                public $kelurahan_id;                
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -147,7 +147,7 @@ class TarifAmbulansM extends CActiveRecord
         
         public function getDaftartindakanItems()
         {
-            return DaftartindakanM::model()->findAll();
+            return DaftartindakanM::model()->findAll("daftartindakan_aktif = TRUE ORDER BY daftartindakan_nama ASC");
         }
 		
         /**

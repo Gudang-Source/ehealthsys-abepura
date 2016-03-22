@@ -50,29 +50,29 @@
             </div>
             <?php echo $form->textFieldRow($model,'tarifambulans_kode',array('size'=>20,'maxlength'=>20,'class'=>'span2')); ?>
             <?php echo $form->dropDownListRow($model,'kepropinsi_nama', CHtml::listData($model->getPropinsiItems(), 'propinsi_nama', 'propinsi_nama'), 
-                                                  array('empty'=>'-- Pilih --', 'onkeypress'=>"return $(this).focusNextInputField(event)", 
+                                                  array('empty'=>'-- Pilih --','id'=>'1TarifAmbulansM_kepropinsi_nama','onkeypress'=>"return $(this).focusNextInputField(event)", 
                                                         'ajax'=>array('type'=>'POST',
                                                         'url'=>Yii::app()->createUrl('ActionDynamic/GetTarifKabupaten',array('encode'=>false,'namaModel'=>'TarifAmbulansM')),
-                                                                      'update'=>'#TarifAmbulansM_kekabupaten_nama'))); ?>
+                                                                      'update'=>'#1TarifAmbulansM_kekabupaten_nama'))); ?>
         </td>
         <td>
             <?php echo $form->dropDownListRow($model,'kekabupaten_nama', array(), 
-                                              array('empty'=>'-- Pilih --', 'onkeypress'=>"return $(this).focusNextInputField(event)", 
+                                              array('empty'=>'-- Pilih --', 'id'=>'1TarifAmbulansM_kekabupaten_nama','onkeypress'=>"return $(this).focusNextInputField(event)", 
                                                     'ajax'=>array('type'=>'POST',
                                                     'url'=>Yii::app()->createUrl('ActionDynamic/GetTarifKecamatan',array('encode'=>false,'namaModel'=>'TarifAmbulansM')),
-                                                                  'update'=>'#TarifAmbulansM_kekecamatan_nama'))); ?>
+                                                                  'update'=>'#1TarifAmbulansM_kekecamatan_nama'))); ?>
             <?php echo $form->dropDownListRow($model,'kekecamatan_nama', array(), 
-                      array('empty'=>'-- Pilih --', 'onkeypress'=>"return $(this).focusNextInputField(event)", 
+                      array('empty'=>'-- Pilih --','id'=>'1TarifAmbulansM_kekecamatan_nama', 'onkeypress'=>"return $(this).focusNextInputField(event)", 
                             'ajax'=>array('type'=>'POST',
                                           'url'=>Yii::app()->createUrl('ActionDynamic/GetTarifKelurahan',array('encode'=>false,'namaModel'=>'TarifAmbulansM')),
-                                          'update'=>'#TarifAmbulansM_kekelurahan_nama'))); ?>
+                                          'update'=>'#1TarifAmbulansM_kekelurahan_nama'))); ?>
 
             <?php echo $form->dropDownListRow($model,'kekelurahan_nama', array(), 
-                      array('empty'=>'-- Pilih --', 'onkeypress'=>"return $(this).focusNextInputField(event)", 
+                      array('empty'=>'-- Pilih --', 'id'=>'1TarifAmbulansM_kekelurahan_nama','onkeypress'=>"return $(this).focusNextInputField(event)", 
                            )); ?>
         </td>
         <td>
-            <?php echo $form->textFieldRow($model,'tarifperkm',array('class'=>'span1')); ?>
+            <?php //echo $form->textFieldRow($model,'tarifperkm',array('class'=>'span1')); ?>
             <?php echo $form->textFieldRow($model,'tarifambulans',array('class'=>'span1')); ?>
         </td>
     </tr>
@@ -125,17 +125,17 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
         ),
          array(
                     'name'=>'komponenunit_id',
-                    'filter'=>  CHtml::listData($modDaftartindakan->KomponenUnitItems, 'komponenunit_id', 'komponenunit_nama'),
+                    'filter'=> CHtml::dropDownList('AMDaftartindakanM[komponenunit_id]',$modDaftartindakan->komponenunit_id,CHtml::listData($modDaftartindakan->KomponenUnitItems, 'komponenunit_id', 'komponenunit_nama'),array('empty'=>'--Pilih--')),
                     'value'=>'(isset($data->komponenunit->komponenunit_nama) ? $data->komponenunit->komponenunit_nama : "")',
             ),
          array(
                     'name'=>'kategoritindakan_id',
-                    'filter'=>  CHtml::listData($modDaftartindakan->KategoriTindakanItems, 'kategoritindakan_id', 'kategoritindakan_nama'),
+                    'filter'=> CHtml::dropDownList('AMDaftartindakanM[kategoritindakan_id]',$modDaftartindakan->kategoritindakan_id,CHtml::listData($modDaftartindakan->KategoriTindakanItems, 'kategoritindakan_id', 'kategoritindakan_nama'),array('empty'=>'--Pilih--')),
                     'value'=>'(isset($data->kategoritindakan->kategoritindakan_nama) ? $data->kategoritindakan->kategoritindakan_nama : "")',
             ),
         array(
                     'name'=>'kelompoktindakan_id',
-                    'filter'=>  CHtml::listData($modDaftartindakan->KelompokTindakanItems, 'kelompoktindakan_id', 'kelompoktindakan_nama'),
+                    'filter'=> CHtml::dropDownList('AMDaftartindakanM[kelompoktindakan_id]',$modDaftartindakan->kelompoktindakan_id,CHtml::listData($modDaftartindakan->KelompokTindakanItems, 'kelompoktindakan_id', 'kelompoktindakan_nama'),array('empty'=>'--Pilih--')),
                     'value'=>'(isset($data->kelompoktindakan->kelompoktindakan_nama) ? $data->kelompoktindakan->kelompoktindakan_nama : "")',
             ),
 	),

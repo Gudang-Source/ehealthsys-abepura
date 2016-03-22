@@ -95,7 +95,7 @@
         'onKeypress'=>'return formSubmit(this,event)',
         'id'=>'btn_simpan','onclick'=>'do_upload()',
        )); ?>
-    <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-ban-circle icon-white"></i>')), 
+    <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
     Yii::app()->createUrl($this->module->id.'/tarifAmbulansM/admin'), 
     array('class'=>'btn btn-danger',
           'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
@@ -149,20 +149,25 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                  )',
             ),
              array(
-                        'name'=>'komponenunit_id',
-                        'filter'=>  CHtml::listData($modDaftartindakan->KomponenUnitItems, 'komponenunit_id', 'komponenunit_nama'),
-                        'value'=>'(isset($data->komponenunit->komponenunit_nama) ? $data->komponenunit->komponenunit_nama : "")',
-                ),
-             array(
-                        'name'=>'kategoritindakan_id',
-                        'filter'=>  CHtml::listData($modDaftartindakan->KategoriTindakanItems, 'kategoritindakan_id', 'kategoritindakan_nama'),
-                        'value'=>'(isset($data->kategoritindakan->kategoritindakan_nama) ? $data->kategoritindakan->kategoritindakan_nama : "")',
-                ),
+                    'name'=>'komponenunit_id',
+                    'filter'=> CHtml::dropDownList('AMDaftartindakanM[komponenunit_id]',$modDaftartindakan->komponenunit_id,CHtml::listData($modDaftartindakan->KomponenUnitItems, 'komponenunit_id', 'komponenunit_nama'),array('empty'=>'--Pilih--')),
+                    'value'=>'(isset($data->komponenunit->komponenunit_nama) ? $data->komponenunit->komponenunit_nama : "")',
+            ),
+         array(
+                    'name'=>'kategoritindakan_id',
+                    'filter'=> CHtml::dropDownList('AMDaftartindakanM[kategoritindakan_id]',$modDaftartindakan->kategoritindakan_id,CHtml::listData($modDaftartindakan->KategoriTindakanItems, 'kategoritindakan_id', 'kategoritindakan_nama'),array('empty'=>'--Pilih--')),
+                    'value'=>'(isset($data->kategoritindakan->kategoritindakan_nama) ? $data->kategoritindakan->kategoritindakan_nama : "")',
+            ),
+        array(
+                    'name'=>'kelompoktindakan_id',
+                    'filter'=> CHtml::dropDownList('AMDaftartindakanM[kelompoktindakan_id]',$modDaftartindakan->kelompoktindakan_id,CHtml::listData($modDaftartindakan->KelompokTindakanItems, 'kelompoktindakan_id', 'kelompoktindakan_nama'),array('empty'=>'--Pilih--')),
+                    'value'=>'(isset($data->kelompoktindakan->kelompoktindakan_nama) ? $data->kelompoktindakan->kelompoktindakan_nama : "")',
+            ),
             array(
-                        'name'=>'kelompoktindakan_id',
-                        'filter'=>  CHtml::listData($modDaftartindakan->KelompokTindakanItems, 'kelompoktindakan_id', 'kelompoktindakan_nama'),
-                        'value'=>'(isset($data->kelompoktindakan->kelompoktindakan_nama) ? $data->kelompoktindakan->kelompoktindakan_nama : "")',
-                ),
+                        'name'=>'daftartindakan_nama',
+                        'filter'=>  CHtml::dropDownList('AMDaftartindakanM[daftartindakan_nama]',$modDaftartindakan->daftartindakan_nama,CHtml::listData($modDaftartindakan->DaftarTindakanItems, 'daftartindakan_id', 'daftartindakan_nama'),array('empty'=>'--Pilih--')),
+                        'value'=>'(isset($data->daftartindakan_nama) ? $data->daftartindakan_nama : "")',
+            ),
 	),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 ));
