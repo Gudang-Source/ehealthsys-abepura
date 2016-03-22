@@ -346,7 +346,7 @@ class PegawaiM extends CActiveRecord
 		$criteria->limit = 10;
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-			'pagination'=>false,
+			//'pagination'=>false,
 		));
 	}        
         
