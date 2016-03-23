@@ -161,7 +161,7 @@
                 <div class="control-group">
                     <?php echo CHtml::label('Dokter','nama_dokter',array('class'=>'control-label')); ?>
                     <div class="controls">
-                        <?php echo $form->dropDownList($modInfoPenjualan,'pasienpegawai_id', CHtml::listData(PegawaiV::model()->findAll(),'pegawai_id', 'NamaLengkap'),array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+                        <?php echo $form->dropDownList($modInfoPenjualan,'pasienpegawai_id', CHtml::listData(DokterV::model()->findAll("pegawai_aktif = true ORDER BY nama_pegawai ASC"),'pegawai_id', 'NamaLengkap'),array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
                     </div>
                 </div>
             </div>
@@ -169,7 +169,7 @@
                 <div class="control-group">
                     <?php echo CHtml::label('Dokter Resep','nama_dokter',array('class'=>'control-label')); ?>
                     <div class="controls">
-                        <?php echo $form->dropDownList($modInfoPenjualan,'pegawai_id', CHtml::listData(DokterV::model()->findAll(),'pegawai_id', 'NamaLengkap'),array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+                        <?php echo $form->dropDownList($modInfoPenjualan,'pegawai_id', CHtml::listData(DokterV::model()->findAll("pegawai_aktif = true ORDER BY nama_pegawai ASC"),'pegawai_id', 'NamaLengkap'),array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
                     </div>
                 </div>
             </div>
@@ -183,7 +183,7 @@
                               'onclick'=>'myConfirm("Apakah anda ingin mengulang ini ?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));
                 ?>
                 <?php
-                    $content = $this->renderPartial('../tips/informasi_pencarian',array(),true);
+                    $content = $this->renderPartial('../tips/informasiPenjualanPegawai',array(),true);
                     $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
                 ?>
         </div>
