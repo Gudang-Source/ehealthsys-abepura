@@ -121,7 +121,11 @@ class BKLaporankunjunganPasien extends LaporankunjunganrsV {
 			$criteria->addCondition('shift_id = '.$this->shift_id);
 		}
 		if(!empty($this->ruangan_id)){
-			$criteria->addCondition('ruangan_id = '.$this->ruangan_id);
+                        if (is_array($this->ruangan_id)) {
+                            $criteria->addInCondition('ruangan_id', $this->ruangan_id);
+                        } else {
+                            $criteria->addCondition('ruangan_id = '.$this->ruangan_id);
+                        }
 		}
         $criteria->compare('LOWER(ruangan_nama)', strtolower($this->ruangan_nama), true);
 		if(!empty($this->instalasi_id)){
