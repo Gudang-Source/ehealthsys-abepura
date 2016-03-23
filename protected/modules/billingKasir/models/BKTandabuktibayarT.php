@@ -50,7 +50,7 @@ class BKTandabuktibayarT extends TandabuktibayarT {
 			'keterangan_pembayaran' => 'Keterangan Pembayaran',
 			'create_time' => 'Create Time',
 			'update_time' => 'Update Time',
-			'create_loginpemakai_id' => 'Create Loginpemakai',
+			'create_loginpemakai_id' => 'Petugas Kasir',
 			'update_loginpemakai_id' => 'Update Loginpemakai',
 			'create_ruangan' => 'Create Ruangan',
 			'isprint' => 'Isprint',
