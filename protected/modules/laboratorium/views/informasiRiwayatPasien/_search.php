@@ -77,7 +77,7 @@
                                       'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));
               ?>   
               <?php 
-                    $content = $this->renderPartial('laboratorium.views.tips.informasi',array(),true);
+                    $content = $this->renderPartial('laboratorium.views.tips.informasiRiwayatPasien',array(),true);
                     $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
                 ?>
 	</div>

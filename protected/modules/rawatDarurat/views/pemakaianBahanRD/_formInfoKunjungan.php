@@ -276,7 +276,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                     array(
                         'name'=>'jeniskelamin',
                         'type'=>'raw',
-                        'filter'=>LookupM::model()->getItems('jeniskelamin'),
+                        'filter'=> CHtml::dropDownList('RDInfoKunjunganRDV[jeniskelamin]',$modDialogKunjungan->jeniskelamin,LookupM::model()->getItems('jeniskelamin'),array('empty'=>'--Pilih--')),
                     ),
                     'instalasi_nama',
                     'ruangan_nama',
@@ -284,7 +284,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                         'name'=>'carabayar_id',
                         'type'=>'raw',
                         'value'=>'$data->carabayar_nama',
-                        'filter'=>CHtml::listData(CarabayarM::model()->findAll("carabayar_aktif IS TRUE"),'carabayar_id','carabayar_nama'),
+                        'filter'=> CHtml::dropDownList('RDInfoKunjunganRDV[carabayar_id]',$modDialogKunjungan->carabayar_id,CHtml::listData(CarabayarM::model()->findAll("carabayar_aktif = TRUE ORDER BY carabayar_nama ASC"),'carabayar_id','carabayar_nama'),array('empty'=>'--Pilih--')),
                     ),
 
 

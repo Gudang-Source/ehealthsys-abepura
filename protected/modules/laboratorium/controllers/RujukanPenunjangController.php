@@ -7,7 +7,7 @@ class RujukanPenunjangController extends MyAuthController
     {
         $format = new MyFormatter;
         $model = new LBPasienKirimKeUnitLainV();
-        $model->tgl_awal = date('Y-m-d', strtotime('-5 days'));
+        $model->tgl_awal = date('Y-m-d');//, strtotime('-5 days')
         $model->tgl_akhir = date('Y-m-d');
         $model->cbTglMasuk = true;
         

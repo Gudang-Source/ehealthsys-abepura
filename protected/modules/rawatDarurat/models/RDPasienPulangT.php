@@ -18,7 +18,7 @@ class RDPasienPulangT extends PasienpulangT
     */
     public function getCarakeluarItems()
     {
-        return CarakeluarM::model()->findAllByAttributes(array('carakeluar_aktif'=>true),array('order'=>'carakeluar_urutan'));
+        return CarakeluarM::model()->findAllByAttributes(array('carakeluar_aktif'=>true),array('order'=>'carakeluar_nama ASC'));
     }
 
     /**
@@ -28,7 +28,7 @@ class RDPasienPulangT extends PasienpulangT
     public function getKondisikeluarItems($carakeluar_id=null)
     {
          if(!empty($carakeluar_id))
-               return KondisiKeluarM::model()->findAllByAttributes(array('carakeluar_id'=>$carakeluar_id,'kondisikeluar_aktif'=>true),array('order'=>'kondisikeluar_nama'));
+               return KondisiKeluarM::model()->findAllByAttributes(array('carakeluar_id'=>$carakeluar_id,'kondisikeluar_aktif'=>true),array('order'=>'kondisikeluar_nama ASC'));
         else
                return array();
     }
