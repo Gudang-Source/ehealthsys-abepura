@@ -137,7 +137,7 @@
                                   'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));
         echo "&nbsp;"; ?>
     <?php 
-    $content = $this->renderPartial('../tips/informasi',array(),true);
+    $content = $this->renderPartial('../tips/informasi_pasien_rujukan',array(),true);
     $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));  ?>
 </div>
 
