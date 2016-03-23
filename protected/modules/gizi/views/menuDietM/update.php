@@ -20,6 +20,6 @@
 
     $this->widget('bootstrap.widgets.BootAlert'); ?>
 
-    <?php echo $this->renderPartial('_formUpdate',array('model'=>$model,'zatgizi'=>$zatgizi)); ?>
+    <?php echo $this->renderPartial('_formUpdate',array('model'=>$model,'zatgizi'=>$zatgizi, 'modZatMenuDietM'=>$modZatMenuDietM)); ?>
 <!--</div>-->
 </fieldset>

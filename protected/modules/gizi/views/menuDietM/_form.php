@@ -70,7 +70,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <?php echo $form->textFieldRow($model,'jml_porsi',array('class'=>'span1', 'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+                            <?php echo $form->textFieldRow($model,'jml_porsi',array('class'=>'span1 numbers-only', 'onkeypress'=>"return $(this).focusNextInputField(event)", "style"=>"text-align: right;")); ?>
                         </td>
                         <td>
                                 <?php echo $form->dropDownList($model,'ukuranrumahtangga',
@@ -84,10 +84,10 @@
                 <fieldset>
                   <div id="divZatgizi">
                       <span class="help-block">Kandungan Menu Diet :</span>
-                      <table id="tblinputZatgizi">
-                          <tbody>
                               <?php
-                              $datas = ZatgiziM::model()->findAll();
+                              $datas = ZatgiziM::model()->findAll(array(
+                                'order'=>'zatgizi_nama',
+                              ));
                               $returnVal = array();
                               $tr = ''; $inputHiddenZatgizi = '<input type="hidden" size="4" name="zatgizi_id[]" readonly="true"/>';
                               /* $returnVal = '<table id="tblinputzatgizi" class="table table-condensed table-bordered span3" style="width:500px;"><th> Pilih Semua <br/>'.CHtml::checkBox('checkUncheck', false, array('onclick'=>'checkUncheckAll(this);')).'</th>
@@ -98,16 +98,15 @@
                               {
                                   $tr .= "<tr><td>";
                                   $tr .= CHtml::checkBox('zatgizi_id[]', false, array('value'=>$data->getAttribute('zatgizi_id')));
-                                  $tr .= '</td><td>'.$data->getAttribute('zatgizi_nama');
-                                  $tr .= '</td><td>'.CHtml::textField("kandunganmenudiet[$data->zatgizi_id]", '0', array('size'=>6,'class'=>'default'));
+                                  $tr .= '</td><td width="100%">'.$data->getAttribute('zatgizi_nama');
+                                  $tr .= '</td><td nowrap>'.CHtml::textField("kandunganmenudiet[$data->zatgizi_id]", '0', array('size'=>6,'class'=>'default numbers-only span1', 'style'=>'text-align: right'));
+                                  $tr .= ' '.$data->zatgizi_satuan;
                                   $tr .= "</td></tr>";
                               }
                               $returnVal .= $tr;
                               $returnVal .= '</table>';
                               echo $returnVal;
                               ?>
-                          </tbody>
-                      </table>
                   </div>
               </fieldset>
             <div class="form-actions">
@@ -144,6 +143,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 
 $modTarifDiet = new TariftindakanM('search');
 $modTarifDiet->unsetAttributes();
+$modTarifDiet->komponentarif_id = 6;
 if(isset($_GET['TariftindakanM'])) {
     $modTarifDiet->attributes = $_GET['TariftindakanM'];
 }
@@ -160,7 +160,7 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
                     'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
                                     "id" => "selectRekDebit",
                                     "onClick" =>"
-                                                $(\"#MenuDietM_daftartindakan_nama\").val(\"$data->harga_tariftindakan\");
+                                                $(\"#MenuDietM_daftartindakan_nama\").val(\"".$data->daftartindakan->daftartindakan_nama."\");
                                                 $(\"#MenuDietM_daftartindakan_id\").val(\"$data->daftartindakan_id\");                                              
                                                 $(\"#dialogTarifDiet\").dialog(\"close\");    
                                                 return false;
@@ -184,7 +184,8 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
                 array(
                     'header'=>'Harga Tarif Diet',
                     'name'=>'harga_tariftindakan',
-                    'value'=>'$data->harga_tariftindakan',
+                    'value'=>'MyFormatter::formatNumberForPrint($data->harga_tariftindakan)',
+                    'htmlOptions'=>array('style'=>'text-align: right'),
                 ),
 	),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',

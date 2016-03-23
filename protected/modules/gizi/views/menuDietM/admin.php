@@ -60,6 +60,7 @@
                             'menudiet_namalain',
                             'jml_porsi',
                             'ukuranrumahtangga',
+                        /*
                             array(
                                 'header'=>'Kelas Pelayanan',
                                 'value'=>'(empty($data->kelaspelayanan_nama) ? "Tidak diset" : $data->kelaspelayanan_nama)',
@@ -68,6 +69,8 @@
                                 'header'=>'Tarif Diet',
                                 'value'=>'(empty($data->harga_tariftindakan) ? "0" : $data->harga_tariftindakan)',
                             ),
+                         * 
+                         */
                             array(
                                 'header'=>Yii::t('mds','View'),
                                 'class'=>'ext.bootstrap.widgets.BootButtonColumn',

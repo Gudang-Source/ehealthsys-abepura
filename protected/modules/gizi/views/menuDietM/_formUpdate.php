@@ -84,42 +84,39 @@
                 <fieldset>
                   <div id="divZatgizi">
                       <span class="help-block">Kandungan Menu Diet :</span>
-                      <table id="tblinputZatgizi">
-                          <tbody>
                               <?php
-                              $datas = ZatMenuDietM::model()->findAll("menudiet_id='$model->menudiet_id' ORDER BY zatmenudiet_id");
+                              $datas = ZatgiziM::model()->findAll(array(
+                                'order'=>'zatgizi_nama',
+                              ));
+                              $md = CHtml::listData($modZatMenuDietM, 'zatgizi_id', 'kandunganmenudiet');
+                              $gid = array();
+                              foreach ($md as $idx=>$val) {
+                                  array_push($gid, $idx);
+                              }
                               $returnVal = array();
                               $tr = ''; $inputHiddenZatgizi = '<input type="hidden" size="4" name="zatgizi_id[]" readonly="true"/>';
                               /* $returnVal = '<table id="tblinputzatgizi" class="table table-condensed table-bordered span3" style="width:500px;"><th> Pilih Semua <br/>'.CHtml::checkBox('checkUncheck', false, array('onclick'=>'checkUncheckAll(this);')).'</th>
                                                   <th>Nama Zatgizi</th><th>'.$inputHiddenZatgizi.'Kandungan</th>'; */
-                              $returnVal = '<table id="tblinputzatgizi" class="table table-condensed table-bordered span1" style="width:400px; float:left;"><th> Pilih </th>
+                              $returnVal = '<table id="tblinputzatgizi" class="table table-condensed table-bordered table-striped span1" style="width:400px; float:left;"><th> Pilih </th>
                                                   <th>Nama Zatgizi</th><th>'.$inputHiddenZatgizi.'Kandungan</th>';
                               foreach ($datas as $data)
                               {
-                                  $ZatgiziId = ZatgiziM::model()->findAll("zatgizi_id='$data->zatgizi_id' ORDER BY zatgizi_id");
-                                  if(!empty($zatgizi[$data->zatgizi_id])) {
-                                      $ceklis = true;
-                                      $kandungan = $data->kandunganmenudiet;
-                                  }else {
-                                      $ceklis = false;
-                                      $kandungan = 0;
+                                  $c = false; $v = 0;
+                                  if (in_array($data->zatgizi_id, $gid)) {
+                                      $c = true; $v = $md[$data->zatgizi_id];
                                   }
-                                  foreach($ZatgiziId as $ZatgiziNama)
-                                  {
                                   $tr .= "<tr><td>";
-                                  $tr .= CHtml::checkBox('zatmenudiet_id[]', $ceklis, array('value'=>$data->getAttribute('zatmenudiet_id')));
-                                  $tr .= '</td><td>'.$ZatgiziNama->getAttribute('zatgizi_nama');
-                                  $tr .= '</td><td>'.CHtml::textField("kandunganmenudiet[$data->zatmenudiet_id]", $kandungan, array('size'=>6,'class'=>'default'));
+                                  $tr .= CHtml::checkBox('zatgizi_id[]', $c, array('value'=>$data->getAttribute('zatgizi_id')));
+                                  $tr .= '</td><td width="100%">'.$data->getAttribute('zatgizi_nama');
+                                  $tr .= '</td><td nowrap>'.CHtml::textField("kandunganmenudiet[$data->zatgizi_id]", $v, array('size'=>6,'class'=>'default numbers-only span1', 'style'=>'text-align: right'));
+                                  $tr .= ' '.$data->zatgizi_satuan;
                                   $tr .= "</td></tr>";
-                                  }
-
                               }
                               $returnVal .= $tr;
                               $returnVal .= '</table>';
                               echo $returnVal;
                               ?>
-                          </tbody>
-                      </table>
+                        </div>
                   </div>
               </fieldset>
             <div class="form-actions">

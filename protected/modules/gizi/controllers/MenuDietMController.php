@@ -74,32 +74,41 @@ class MenuDietMController extends MyAuthController
 		$model=MenuDietM::model()->findByPK($id);
                 $zatgizi = "";
                                 $modZatMenuDietM=ZatMenuDietM::model()->findAllbyAttributes(array('menudiet_id'=>$model->menudiet_id));
-                                foreach ($modZatMenuDietM as $i=>$zat){
-                                    $zatgizi[$zat->zatgizi_id] = $zat->kandunganmenudiet;
-                                    $models=ZatMenuDietM::model()->findByPK($zatgizi[$zat->zatmenudiet_id]);
-                                }
+                                //foreach ($modZatMenuDietM as $i=>$zat){
+                                //    $zatgizi[$zat->zatgizi_id] = $zat->kandunganmenudiet;
+                                //    $models=ZatMenuDietM::model()->findByPK($zatgizi[$zat->zatmenudiet_id]);
+                                //}
 
 		// Uncomment the following line if AJAX validation is needed
 		
 
 		if(isset($_POST['MenuDietM']))
 		{
-			$model->attributes=$_POST['MenuDietM'];
-                                                $model->save();
-                                                if(isset($_POST['zatmenudiet_id']))
-                                                {
-
-                                                    for($i=0;$i<count($_POST['zatmenudiet_id']);$i++){
-                                                        $models= ZatMenuDietM::model()->findByPK($_POST['zatmenudiet_id'][$i]);
-                                                        $idZatgizi = $_POST['zatmenudiet_id'][$i];
-                                                        // $Kandunganbahan = $_POST['kandunganbahan'][$idZatgizi];
-                                                        $models->kandunganmenudiet = $_POST['kandunganmenudiet'][$idZatgizi];
-                                                        $models->save();
-                                                    } 
-                                                }
-			if($model->save())
-                                                                Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->menudiet_id));
+                    $model->attributes=$_POST['MenuDietM'];
+                    if ($model->validate()){
+                        $model->save();
+                    }
+                    if(isset($_POST['zatgizi_id']))
+                    {
+                        ZatMenuDietM::model()->deleteAllByAttributes(array(
+                            'menudiet_id'=>$model->menudiet_id
+                        ));
+                        for($i=0;$i<count($_POST['zatgizi_id']);$i++)
+                        {
+                            $models=new ZatMenuDietM;
+                            $idZatgizi = $_POST['zatgizi_id'][$i];
+                            $models->zatgizi_id = $_POST['zatgizi_id'][$i];
+                            $models->menudiet_id = $model->menudiet_id;
+                            if (!empty($idZatgizi)){
+                               $models->kandunganmenudiet = $_POST['kandunganmenudiet'][$idZatgizi]; 
+                            }
+                            if($models->validate()){
+                                $models->save();
+                            }
+                        }
+                    }
+                    Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                    $this->redirect(array('admin'));
 		}
 
 		$this->render('update',array(
