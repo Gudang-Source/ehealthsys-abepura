@@ -1,4 +1,3 @@
-
 <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form.js'); ?>
 <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
 	'id'=>'gzdiet-m-form',
@@ -31,31 +30,32 @@
 	<?php /* echo $form->textFieldRow($model,'diet_kandungan'); */ ?>
 
             <fieldset>
-                <div id="divZatgizi" class="table">
-                    <table id="tblinputZatgizi">
-                        <tbody>
+                <div id="divZatgizi">
                             <?php
-                            $datas = ZatgiziM::model()->findAll();
+                            $datas = ZatgiziM::model()->findAll(array(
+                                'order'=>'zatgizi_nama',
+                            ));
                             $returnVal = array();
                             $tr = ''; $inputHiddenZatgizi = '<input type="hidden" size="4" name="zatgizi[]" readonly="true"/>';
                             /* $returnVal = '<table id="tblinputzatgizi" class="table table-condensed table-bordered span3" style="width:500px;"><th> Pilih Semua <br/>'.CHtml::checkBox('checkUncheck', false, array('onclick'=>'checkUncheckAll(this);')).'</th>
                                                 <th>Nama Zatgizi</th><th>'.$inputHiddenZatgizi.'Kandungan</th>'; */
-                            $returnVal = '<table id="tblinputzatgizi" class="table table-condensed table-bordered table-striped span3" style="width:500px;"><th> Pilih </th>
-                                                <th>Nama Zatgizi</th><th>'.$inputHiddenZatgizi.'Kandungan</th>';
+                            $returnVal = '<table id="tblinputzatgizi" class="table table-condensed table-bordered table-striped" style="width:400px;">
+                                <th> Pilih </th>
+                                <th>Nama Zatgizi</th>
+                                <th>'.$inputHiddenZatgizi.'Kandungan</th>';
                             foreach ($datas as $data)
                             {
                                 $tr .= "<tr><td>";
                                 $tr .= CHtml::checkBox('zatgizi_id[]', false, array('value'=>$data->getAttribute('zatgizi_id')));
-                                $tr .= '</td><td>'.$data->getAttribute('zatgizi_nama');
-                                $tr .= '</td><td>'.CHtml::textField("diet_kandungan[$data->zatgizi_id]", '0', array('size'=>6,'class'=>'default'));
+                                $tr .= '</td><td width="100%">'.$data->getAttribute('zatgizi_nama');
+                                $tr .= '</td><td nowrap>'.CHtml::textField("diet_kandungan[$data->zatgizi_id]", '0', array('size'=>6,'class'=>'default numbers-only span1', 'style'=>'text-align: right'));
+                                $tr .= ' '.$data->zatgizi_satuan;
                                 $tr .= "</td></tr>";
                             }
                             $returnVal .= $tr;
                             $returnVal .= '</table>';
                             echo $returnVal;
                             ?>
-                        </tbody>
-                    </table>
                 </div>
             </fieldset>       
                 <div class="form-actions">

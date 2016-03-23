@@ -174,7 +174,7 @@ class TariftindakanM extends CActiveRecord
                 $criteria->compare('LOWER(daftartindakan.daftartindakan_nama)',strtolower($this->daftartindakan_nama),true);
                 $criteria->compare('LOWER(daftartindakan.tindakanmedis_nama)',strtolower($this->tindakanmedis_nama),true);
                 $criteria->compare('LOWER(daftartindakan.daftartindakan_kode)',strtolower($this->daftartindakan_kode),true);
-                $criteria->compare('daftartindakan.kategoritindakan_id',Params::DEFAULT_KATEGORITINDAKAN_GIZI);
+                $criteria->compare('daftartindakan.kelompoktindakan_id',Params::DEFAULT_KELOMPOKTINDAKAN_GIZI);
                 // Klo limit lebih kecil dari nol itu berarti ga ada limit 
 
                 return new CActiveDataProvider($this, array(
