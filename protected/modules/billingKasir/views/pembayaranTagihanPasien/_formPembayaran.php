@@ -56,9 +56,12 @@
     </div>
 </div>
 <div class="row-fluid">
-	<div class = "span4"></div>
-	<div class = "span4"></div>
-	<div class = "span4">
+    <div class = "span4">
+        <?php echo $form->textAreaRow($modTandabukti,'darinama_bkm',array('Placeholder'=>'Nama Lengkap Pembayar','class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php echo $form->textAreaRow($modTandabukti,'alamat_bkm',array('Placeholder'=>'Alamat Lengkap Pembayar','class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php echo $form->textAreaRow($modTandabukti,'sebagaipembayaran_bkm',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+    </div>
+    <div class = "span4">
         <?php echo $form->hiddenField($modTandabukti,'is_menggunakankartu',array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
         <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
         'id'=>'form-kartupembayaran',
@@ -73,9 +76,7 @@
                 ),   
             ),
         )); ?>
-        <?php echo $form->textAreaRow($modTandabukti,'darinama_bkm',array('Placeholder'=>'Nama Lengkap Pembayar','class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
-        <?php echo $form->textAreaRow($modTandabukti,'alamat_bkm',array('Placeholder'=>'Alamat Lengkap Pembayar','class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
-        <?php echo $form->textAreaRow($modTandabukti,'sebagaipembayaran_bkm',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
     </div>
+    <div class = "span4"></div>
 </div>
     
