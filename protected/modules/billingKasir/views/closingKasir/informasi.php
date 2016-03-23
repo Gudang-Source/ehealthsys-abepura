@@ -6,7 +6,7 @@
     );
 
     Yii::app()->clientScript->registerScript('search', "
-    $('#divSearch-form form').submit(function(){
+    $('#informasiclosingkasir-t-search').submit(function(){
             $('#informasiclosingkasir-m-grid').addClass('animation-loading');
             $.fn.yiiGridView.update('informasiclosingkasir-m-grid', {
                     data: $(this).serialize()
