@@ -393,12 +393,12 @@ class LaporansensuharianrdV extends CActiveRecord
         
         public function getCaraBayarItems()
         {
-            return CarabayarM::model()->findAll('carabayar_aktif=TRUE') ;
+            return CarabayarM::model()->findAll('carabayar_aktif=TRUE ORDER BY carabayar_nama ASC') ;
         }
         
         public function getPenjaminItems()
         {
-            return PenjaminpasienM::model()->findAll('penjamin_aktif=TRUE');
+            return PenjaminpasienM::model()->findAll('penjamin_aktif=TRUE ORDER BY penjamin_nama ASC');
         }
         
         public function getPropinsiItems()

@@ -12,7 +12,7 @@
  <style>
 
         #penjamin label.checkbox{
-            width: 100px;
+            width: 120px;
             display:inline-block;
         }
 
@@ -74,7 +74,7 @@
 							<div>'.CHtml::checkBox("checkAllR",true, array("onkeypress"=>"return $(this).focusNextInputField(event)",
 								"class"=>"checkbox-column","onclick"=>"checkAllRuangan()","checked"=>"checked")).' Pilih Semua </div><br/>
 							<div id="Ruangan">'.
-							$form->checkBoxList($model, 'kelaspelayanan_id', CHtml::listData(KelaspelayananM::model()->findAll(), 'kelaspelayanan_id', 'kelaspelayanan_nama'), array('value'=>'pengunjung', 'inline'=>true, 'empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)")).'
+							$form->checkBoxList($model, 'kelaspelayanan_id', CHtml::listData(KelaspelayananM::model()->findAll("kelaspelayanan_aktif = TRUE ORDER BY kelaspelayanan_nama ASC"), 'kelaspelayanan_id', 'kelaspelayanan_nama'), array('value'=>'pengunjung', 'inline'=>true, 'empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)")).'
 							</div>
 						</td>
 					 </tr>
