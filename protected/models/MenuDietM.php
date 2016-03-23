@@ -67,6 +67,7 @@ class MenuDietM extends CActiveRecord
 		return array(
                                     'jenisdiet' => array(self::BELONGS_TO, 'JenisdietM', 'jenisdiet_id'),
                                     'menudiet' => array(self::BELONGS_TO, 'MenuDietM', 'menudiet_id'),
+                                    'daftartindakan' => array(self::BELONGS_TO, 'DaftartindakanM', 'daftartindakan_id'),
 		);
 	}
 
@@ -82,7 +83,7 @@ class MenuDietM extends CActiveRecord
 			'menudiet_namalain' => 'Nama Lain Menu',
 			'jml_porsi' => 'Jumlah Porsi',
 			'ukuranrumahtangga' => 'URT',
-                        'daftartindakan_id'=>'Tarif Diet',
+                        'daftartindakan_id'=>'Tindakan Menu Diet',
 		);
 	}
 
@@ -97,7 +98,7 @@ class MenuDietM extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-        $criteria->select = 't.*, tariftindakan_m.*, kelaspelayanan_m.*, jenisdiet_m.*';
+        $criteria->select = 't.*, jenisdiet_m.*';
 		$criteria->compare('menudiet_id',$this->menudiet_id);
 		$criteria->compare('jenisdiet_m.jenisdiet_id',$this->jenisdiet_id);
 		$criteria->compare('daftartindakan_id',$this->daftartindakan_id);
@@ -105,10 +106,10 @@ class MenuDietM extends CActiveRecord
 		$criteria->compare('LOWER(menudiet_nama)',strtolower($this->menudiet_nama),true);
 		$criteria->compare('LOWER(menudiet_namalain)',strtolower($this->menudiet_namalain),true);
 		$criteria->compare('jml_porsi',$this->jml_porsi);
+
 		$criteria->compare('LOWER(ukuranrumahtangga)',strtolower($this->ukuranrumahtangga),true);
-		$criteria->join = 'LEFT JOIN tariftindakan_m on tariftindakan_m.daftartindakan_id = t.daftartindakan_id 
-						   LEFT JOIN jenisdiet_m on jenisdiet_m.jenisdiet_id = t.jenisdiet_id
-						   LEFT JOIN kelaspelayanan_m on kelaspelayanan_m.kelaspelayanan_id = tariftindakan_m.kelaspelayanan_id';
+		$criteria->join = 'LEFT JOIN jenisdiet_m on jenisdiet_m.jenisdiet_id = t.jenisdiet_id';
+                                                   
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,                       

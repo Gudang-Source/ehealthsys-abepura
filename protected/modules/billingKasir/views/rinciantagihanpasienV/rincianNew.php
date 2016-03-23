@@ -205,6 +205,7 @@ echo CHtml::css('.control-label{
                 {
                     $ruangan_id = $val->ruangan_id;
                     $row[$ruangan_id]['nama'] = $val->ruangan_nama;
+                    $row[$ruangan_id]['instalasi_id'] = $val->instalasi_id;
                     $row[$ruangan_id]['ruangan_id'] = $val->ruangan_id;
                     $row[$ruangan_id]['pendaftaran_id'] = $val->pendaftaran_id;
                     $row[$ruangan_id]['kategori'][$i]['nama_pegawai'] = $val->nama_pegawai;
@@ -264,6 +265,7 @@ echo CHtml::css('.control-label{
                         }
                         $col = '';
                         $total = 0;
+                        
                         foreach($values['kategori'] as $val)
                         {
                             if($values['instalasi_id'] == Params::INSTALASI_ID_FARMASI || $values['instalasi_id'] == Params::INSTALASI_ID_LAB)

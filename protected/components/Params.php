@@ -38,6 +38,7 @@ Class Params
 	const DEFAULT_STATUS_OPERASI = 'RENCANA';          
 
 	const DEFAULT_KATEGORITINDAKAN_GIZI = 9; //ID KATEGORI TINDAKAN = MAKANAN GIZI;
+        const DEFAULT_KELOMPOKTINDAKAN_GIZI = 23;
 
 	const DEFAULT_PASIEN_APOTEK_UMUM = 2;//id pasien untuk apotek - penjualan umum NOREKAM: AP000002
 	const DEFAULT_PASIEN_APOTEK_KARYAWAN = 3;//id pasien untuk apotek - penjualan karyawan NOREKAM: AP000003
