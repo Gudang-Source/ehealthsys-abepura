@@ -117,6 +117,7 @@
         //                                          "title"=>"Klik untuk melihat Rincian Tagihan",
         //                                    ))',          'htmlOptions'=>array('style'=>'text-align: left; width:40px')
         //                    ),
+                    /*
 							array(
 								'header'=>'Status Pembayaran',
 								'type'=>'raw',
@@ -132,7 +133,9 @@
 
                                                                     return $sb?"Belum Lunas":"Sudah Lunas";
                                                                 }, //'(empty($data->pembayaranpelayanan_id) ? "Belum Lunas" : "Sudah Lunas")'
-	                        ),					
+	                        ),
+                     * 
+                     */					
                             array(
                                 'header'=>'Rincian Tagihan',
                                 'type'=>'raw',
@@ -159,13 +162,25 @@
                             array(
                                 'header'=>'Pembayaran Kasir',
                                 'type'=>'raw',
-                                'value'=>'CHtml::Link("<i class=\"icon-form-bayar\"></i>",Yii::app()->controller->createUrl("PembayaranTagihanPasien/index",array("instalasi_id"=>Params::INSTALASI_ID_RD,"pendaftaran_id"=>$data->pendaftaran_id,"frame"=>true)),
+                                'value'=>function($data) use (&$sb) {
+                                    $tindakan = TindakanpelayananT::model()->findByAttributes(array(
+                                        'pendaftaran_id'=>$data->pendaftaran_id,
+                                    ), array('condition'=>'tindakansudahbayar_id is null'));
+                                    $oa = ObatalkespasienT::model()->findByAttributes(array(
+                                        'pendaftaran_id'=>$data->pendaftaran_id,
+                                    ), array('condition'=>'oasudahbayar_id is null'));
+
+                                    $sb = !empty($oa) || !empty($tindakan);
+
+                                    return $sb?CHtml::Link("<i class=\"icon-form-bayar\"></i>",Yii::app()->controller->createUrl("PembayaranTagihanPasien/index",array("instalasi_id"=>Params::INSTALASI_ID_RD,"pendaftaran_id"=>$data->pendaftaran_id,"frame"=>true)),
                                             array("class"=>"", 
                                                   "target"=>"iframePembayaran",
                                                   "onclick"=>"$(\"#dialogPembayaranKasir\").dialog(\"open\");",
                                                   "rel"=>"tooltip",
                                                   "title"=>"Klik untuk membayar ke kasir",
-                                            ))',          'htmlOptions'=>array('style'=>'text-align: left; width:40px')
+                                            )):"SUDAH<br/>LUNAS";
+                                },
+                                'htmlOptions'=>array('style'=>'text-align: left; width:40px')
                             ),
                     ),
                 'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',

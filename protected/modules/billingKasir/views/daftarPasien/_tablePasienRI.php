@@ -13,10 +13,10 @@
                         'value'=>'$data->combineTglPendaftaran'
                     ),
                     array(
-                        'header'=>'Nama Instalasi<br/> /<br/> Ruangan',
-                        'name'=>'instalasi_nama',
+                        'header'=>'Ruangan<br/>Kelas Pelayanan',
+                        'name'=>'ruangan_nama',
                         'type'=>'raw',
-                        'value'=>'$data->instalasi_nama." / <br/> ".$data->ruangan_nama',
+                        'value'=>'$data->ruangan_nama."<br/>".$data->kelaspelayanan_nama',
                     ),
                     array(
                         'header'=>'No. Pendaftaran',
@@ -53,10 +53,14 @@
                         'value'=>'$data->penjamin_nama',
                     ), */
                     array(
-                        'header'=>'Nama Jenis Kasus Penyakit',
-                        'name'=>'jeniskasuspenyakit_nama',
+                        'header'=>'Kamar<br/>No. Bed',
                         'type'=>'raw',
-                        'value'=>'$data->jeniskasuspenyakit_nama',
+                        'value'=>function($data) {
+                            $adm = PasienadmisiT::model()->findByPk($data->pasienadmisi_id);
+                            $km = KamarruanganM::model()->findByPk($adm->kamarruangan_id);
+                            if (empty($km)) return "-";
+                            return $km->kamarruangan_nokamar."<br/>:".$km->kamarruangan_nobed;
+                        },
                     ),
                     array(
                         'name'=>'umur',
@@ -121,13 +125,25 @@
                     array(
                         'header'=>'Pembayaran Kasir',
                         'type'=>'raw',
-                        'value'=>'CHtml::Link("<i class=\"icon-form-bayar\"></i>",Yii::app()->controller->createUrl("PembayaranTagihanPasien/index",array("instalasi_id"=>Params::INSTALASI_ID_RI,"pendaftaran_id"=>$data->pendaftaran_id,"pasienadmisi_id"=>$data->pasienadmisi_id,"frame"=>true)),
+                        'value'=>function($data) use (&$sb) {
+                                    $tindakan = TindakanpelayananT::model()->findByAttributes(array(
+                                        'pendaftaran_id'=>$data->pendaftaran_id,
+                                    ), array('condition'=>'tindakansudahbayar_id is null'));
+                                    $oa = ObatalkespasienT::model()->findByAttributes(array(
+                                        'pendaftaran_id'=>$data->pendaftaran_id,
+                                    ), array('condition'=>'oasudahbayar_id is null'));
+
+                                    $sb = !empty($oa) || !empty($tindakan);
+
+                                    return $sb?CHtml::Link("<i class=\"icon-form-bayar\"></i>",Yii::app()->controller->createUrl("PembayaranTagihanPasien/index",array("instalasi_id"=>Params::INSTALASI_ID_RI,"pendaftaran_id"=>$data->pendaftaran_id,"pasienadmisi_id"=>$data->pasienadmisi_id,"frame"=>true)),
                                     array("class"=>"", 
                                           "target"=>"iframePembayaran",
                                           "onclick"=>"$(\"#dialogPembayaranKasir\").dialog(\"open\");",
                                           "rel"=>"tooltip",
                                           "title"=>"Klik untuk membayar ke kasir",
-                                    ))',          'htmlOptions'=>array('style'=>'text-align: left; width:40px')
+                                    )):"SUDAH<br/>LUNAS";
+                                },
+                                'htmlOptions'=>array('style'=>'text-align: left; width:40px')
                     ),
             ),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',

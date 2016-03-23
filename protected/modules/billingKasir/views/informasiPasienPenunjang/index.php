@@ -41,17 +41,21 @@
                 'itemsCssClass'=>'table table-striped table-condensed',
                 'mergeColumns' => array('rincian', 'tagihan', 'cetak'),
                 'columns'=>array(
-                        'tgl_pendaftaran',
                         array(
-                            'header'=>'No. Rekam Medik<br/>No. Pendaftaran',
+                            'header'=>'Tgl. Pendaftaran<br/>No. Pendaftaran',
                             'type'=>'raw',
-                            'value'=>'$data->no_rekam_medik.\'<br/>\'.$data->no_pendaftaran',
+                            'value'=>'$data->tgl_pendaftaran."<br/>".$data->no_pendaftaran'
+                        ),
+                        array(
+                            'header'=>'No. Rekam Medik',
+                            'type'=>'raw',
+                            'value'=>'$data->no_rekam_medik',
                         ),
 
                         array(
                             'header'=>'Nama Pasien',
                             'type'=>'raw',
-                            'value'=>'$data->nama_pasien.\'<br/>\'.$data->nama_bin',
+                            'value'=>'$data->namadepan.$data->nama_pasien',
                         ),
                         array(
                             'header'=>'Cara Bayar<br/>Penjamin',
@@ -66,7 +70,8 @@
                             'htmlOptions'=>array(
                                 'class'=>'currency'
                             ),
-                            'value'=>'(empty($data->totaltagihan)) ? "0" : $data->totaltagihan',
+                            'value'=>'(empty($data->totaltagihan)) ? "0" : "Rp".MyFormatter::formatNumberForPrint($data->totaltagihan)',
+                            'htmlOptions'=>array('style'=>'text-align: right'),
                         ),            
                         array(
                         'header'=>'Rincian <br/> Tagihan',
@@ -92,7 +97,7 @@
                                               "onclick"=>"$(\"#dialogPembayaran\").dialog(\"open\");",
                                               "rel"=>"tooltip",
                                               "title"=>"Klik untuk membayar tagihan pasien",
-                                        )) : "<div id=\"$data->pendaftaran_id\">-</div>"
+                                        )) : "<div id=\"$data->pendaftaran_id\">SUDAH LUNAS</div>"
                             )',
                             'htmlOptions'=>array('style'=>'text-align: left; width:40px')
                         ),
