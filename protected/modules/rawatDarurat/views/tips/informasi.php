@@ -18,7 +18,7 @@
     <td>4. </td>
     <td>Gunakan tombol ini  <button class="btn btn-primary" name="yt0" type="submit"><i class="icon-search icon-white"></i>
 Cari
-</button> berfungsi untuk menyimpan</td>
+</button> berfungsi untuk mencari data.</td>
   </tr>
   <tr>
     <td>5. </td>

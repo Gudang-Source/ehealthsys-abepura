@@ -105,6 +105,7 @@
                     <?php echo $form->dropDownListRow($model, 'pegawai_id', 
                         CHtml::listData(DokterV::model()->findAllByAttributes(array(
                             'instalasi_id'=>Params::INSTALASI_ID_RD,
+                            'pegawai_aktif'=>true,
                         ), array(
                             'order'=>'nama_pegawai asc'
                         )), 'pegawai_id', 'namaLengkap'), array('empty'=>'-- Pilih --', 'class'=>'span3')); 
@@ -112,13 +113,15 @@
                     <?php 
                     $carabayar = CarabayarM::model()->findAll(array(
                         'condition'=>'carabayar_aktif = true',
-                        'order'=>'carabayar_nourut',
+                        'order'=>'carabayar_nama ASC',
                     ));
                     foreach ($carabayar as $idx=>$item) {
                         $penjamins = PenjaminpasienM::model()->findByAttributes(array(
                             'carabayar_id'=>$item->carabayar_id,
                             'penjamin_aktif'=>true,
-                       ));
+                       ),
+                            array('order' => 'penjamin_nama ASC')    
+                                );
                        if (empty($penjamins)) unset($carabayar[$idx]);
                     }
                     $penjamin = PenjaminpasienM::model()->findAll(array(
@@ -277,7 +280,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
         <div class="form-actions">
             <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Login',array('{icon}'=>'<i class="icon-lock icon-white"></i>')),
                                 array('class'=>'btn btn-primary', 'type'=>'submit', 'onclick'=>'cekLogin();return false;')); ?>
-             <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Cancel',array('{icon}'=>'<i class="icon-ban-circle icon-white"></i>')),
+             <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')),
                                 array('class'=>'btn btn-danger', 'type'=>'button', 'onclick'=>'batal();return false;')); ?>
         </div> 
     <?php echo CHtml::endForm(); ?>
@@ -319,7 +322,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
         <div class="form-actions">
             <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-lock icon-white"></i>')),
                                 array('class'=>'btn btn-primary', 'type'=>'submit', 'onclick'=>'simpanAlasan();return false;')); ?>
-            <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Cancel',array('{icon}'=>'<i class="icon-ban-circle icon-white"></i>')),
+            <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')),
                                 array('class'=>'btn btn-danger', 'type'=>'button', 'onclick'=>'batal();return false;')); ?>    </div> 
     <?php echo CHtml::endForm(); ?>
     <?php $this->endWidget();?>
