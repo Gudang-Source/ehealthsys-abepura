@@ -60,6 +60,11 @@
                             'menudiet_namalain',
                             'jml_porsi',
                             'ukuranrumahtangga',
+                            array(
+                                'header'=>'Tindakan',
+                                'type'=>'raw',
+                                'value'=>'empty($data->daftartindakan_id)?"-":$data->daftartindakan->daftartindakan_nama',
+                            ),
                         /*
                             array(
                                 'header'=>'Kelas Pelayanan',

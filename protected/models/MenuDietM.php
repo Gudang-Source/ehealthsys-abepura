@@ -67,6 +67,7 @@ class MenuDietM extends CActiveRecord
 		return array(
                                     'jenisdiet' => array(self::BELONGS_TO, 'JenisdietM', 'jenisdiet_id'),
                                     'menudiet' => array(self::BELONGS_TO, 'MenuDietM', 'menudiet_id'),
+                                    'daftartindakan' => array(self::BELONGS_TO, 'DaftartindakanM', 'daftartindakan_id'),
 		);
 	}
 

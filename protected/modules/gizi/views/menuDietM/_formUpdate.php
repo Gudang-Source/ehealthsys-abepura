@@ -39,8 +39,8 @@
                                  <?php echo $form->hiddenField($model,'daftartindakan_id',array('class'=>'span1')); ?>
                                     <?php
                                         $this->widget('MyJuiAutoComplete', array(
-                                            'model' => $model,
-                                            'attribute' => 'daftartindakan_nama',
+                                            'name' => CHtml::activeId($model, 'daftartindakan_nama'),
+                                            'value' => empty($model->daftartindakan_id)?"-":$model->daftartindakan->daftartindakan_nama,
                                             'sourceUrl' => Yii::app()->createUrl('ActionAutoComplete/tarifTindakanDiet'),
                                             'options' => array(
                                                 'showAnim' => 'fold',
@@ -152,6 +152,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 
 $modTarifDiet = new TariftindakanM('search');
 $modTarifDiet->unsetAttributes();
+$modTarifDiet->komponentarif_id = 6;
 if(isset($_GET['TariftindakanM'])) {
     $modTarifDiet->attributes = $_GET['TariftindakanM'];
 }
@@ -168,7 +169,7 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
                     'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
                                     "id" => "selectRekDebit",
                                     "onClick" =>"
-                                                $(\"#MenuDietM_daftartindakan_nama\").val(\"$data->harga_tariftindakan\");
+                                                $(\"#MenuDietM_daftartindakan_nama\").val(\"".$data->daftartindakan->daftartindakan_nama."\");
                                                 $(\"#MenuDietM_daftartindakan_id\").val(\"$data->daftartindakan_id\");                                              
                                                 $(\"#dialogTarifDiet\").dialog(\"close\");    
                                                 return false;
@@ -192,7 +193,7 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
                 array(
                     'header'=>'Harga Tarif Diet',
                     'name'=>'harga_tariftindakan',
-                    'value'=>'$data->harga_tariftindakan',
+                    'value'=>'MyFormatter::formatNumberForPrint($data->harga_tariftindakan)',
                 ),
 	),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
