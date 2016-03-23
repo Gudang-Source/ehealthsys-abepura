@@ -137,7 +137,7 @@ if(!isset($_GET['sukses'])){ //RND-5894
 				'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("rel"=>"tooltip","title"=>"Pilih Pegawai","class"=>"btn_small",
 					"id"=>"selectPegawai",
 					"onClick"=>"$(\"#'.CHtml::activeId($modPenjualan,'pegawai_id').'\").val(\"$data->pegawai_id\");
-								$(\"#'.CHtml::activeId($modReseptur,'dokter').'\").val(\"$data->nama_pegawai\");
+								$(\"#'.CHtml::activeId($modReseptur,'dokter').'\").val(\"$data->namaLengkap\");
 								$(\"#dialogDokter\").dialog(\"close\");
 								return false;"
 					))'
