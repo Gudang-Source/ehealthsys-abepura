@@ -256,6 +256,7 @@ class ClosingKasirController extends MyAuthController
     }
     public function actionRincian($idClosing){
         $this->layout = '//layouts/iframe';
+        /*
         $criteria=new CDbCriteria;
         $criteria->addCondition('closingkasir_id = '.$idClosing);
         $criteria->select = "closingkasir_id, nilaiuang, banyakuang, jumlahuang";
@@ -263,6 +264,17 @@ class ClosingKasirController extends MyAuthController
         $models = BKInformasiclosingkasirV::model()->findAll($criteria);
         $this->render('rincian',array(
             'models'=>$models,
+        ));
+         * 
+         */
+        
+        $closing = ClosingkasirT::model()->findByPk($idClosing);
+        $bkm = TandabuktibayarT::model()->findAllByAttributes(array('closingkasir_id'=>$idClosing), array('order'=>'tglbuktibayar asc'));
+        $rincian = RincianclosingT::model()->findAllByAttributes(array('closingkasir_id' => $idClosing), array('order'=>'nourutrincian'));
+        $this->render('rincian',array(
+            'closing'=>$closing,
+            'bkm'=>$bkm,
+            'rincian'=>$rincian,
         ));
         
     }
