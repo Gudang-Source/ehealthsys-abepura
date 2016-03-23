@@ -13,7 +13,7 @@
     <td>3. </td>
     <td>Gunakan tombol ini  <a class="btn btn-primary" name="yt0"><i class="icon-search icon-white"></i>
 Cari
-</a> berfungsi untuk menyimpan</td>
+</a> berfungsi untuk mencari data.</td>
   </tr>
   <tr>
     <td>4. </td>

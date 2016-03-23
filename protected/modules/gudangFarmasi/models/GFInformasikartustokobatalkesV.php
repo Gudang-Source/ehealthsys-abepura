@@ -166,13 +166,13 @@ class GFInformasikartustokobatalkesV extends InformasikartustokobatalkesV
                                 'mutasioaruangan_id'=>$this->getAttributeLabel("mutasioaruangan_id"),
                                 'pemakaianobat_id'=>'Pemakaian di Ruangan',
                                 'pemusnahanobatalkes_id'=>$this->getAttributeLabel("pemusnahanobatalkes_id"),
-				'penerimaanbarang_id'=>$this->getAttributeLabel("penerimaanbarang_id"),
+                                'terimamutasi_id'=>$this->getAttributeLabel("terimamutasi_id"),
+				'penerimaanbarang_id'=>$this->getAttributeLabel("penerimaanbarang_id"),                                
                                 'penjualanresep_id'=>$this->getAttributeLabel("penjualanresep_id"),				
 				'returpembelian_id'=>$this->getAttributeLabel("returpembelian_id"),
                                 'returpenerimaan_id'=>$this->getAttributeLabel("returpenerimaan_id"),
                                 'returresep_id'=>$this->getAttributeLabel("returresep_id"),
-                                'stokopname_id'=>$this->getAttributeLabel("stokopname_id"),				
-				'terimamutasi_id'=>$this->getAttributeLabel("terimamutasi_id"),
+                                'stokopname_id'=>$this->getAttributeLabel("stokopname_id"),								
 			);
 			return $transaksi;
 		}
