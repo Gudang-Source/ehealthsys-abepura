@@ -73,7 +73,7 @@ class GFObatAlkesM extends ObatalkesM
             $criteria->compare('LOWER(sumberdana_m.sumberdana_nama)',strtolower($this->sumberdana_nama),true);
             $criteria->compare('LOWER(jenisobatalkes_m.jenisobatalkes_nama)',strtolower($this->jenisobatalkes_nama),true);
             $criteria->addCondition('obatalkes_aktif = TRUE');
-            $criteria->order='obatalkes_nama ASC';
+           // $criteria->order='obatalkes_nama ASC';
             return new CActiveDataProvider($this, array(
                     'criteria'=>$criteria,
             ));

@@ -17,6 +17,6 @@
         <?php echo CHtml::activeTextField($modDetail,'[ii]jmlpesan',array('readonly'=>true,'class'=>'span2 integer','style'=>'width:45px;','onblur'=>'hitungTotal();','onkeyup'=>"return $(this).focusNextInputField(event);"))." ".$modDetail->satuankecil->satuankecil_nama; ?>
     </td>
     <td>
-        <a onclick="batalPemesananDetail(this);return false;" rel="tooltip" href="javascript:void(0);" title="Klik untuk membatalkan mutasi obat alkes ini"><i class="icon-remove"></i></a>
+        <a onclick="batalPemesananDetail(this);return false;" rel="tooltip" href="javascript:void(0);" title="Klik untuk membatalkan mutasi obat alkes ini"><i class="icon-form-silang"></i></a>
     </td>
 </tr>
