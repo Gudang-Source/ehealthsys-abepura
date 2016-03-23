@@ -200,7 +200,7 @@
                     <?php 
                     $carabayar = CarabayarM::model()->findAll(array(
                         'condition'=>'carabayar_aktif = true',
-                        'order'=>'carabayar_nourut',
+                        'order'=>'carabayar_nama ASC',
                     ));
                     foreach ($carabayar as $idx=>$item) {
                         $penjamins = PenjaminpasienM::model()->findByAttributes(array(
@@ -254,7 +254,7 @@
         <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit','onKeypress'=>'return formSubmit(this,event)')); ?>
         <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Reset',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')),array('class'=>'btn btn-danger', 'type'=>'reset')); ?>
         <?php  
-        $content = $this->renderPartial('../tips/informasi',array(),true);
+        $content = $this->renderPartial('../tips/informasiPasienResep',array(),true);
         $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
         ?>
     </div>

@@ -159,7 +159,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'triase-m-grid',
 	'dataProvider'=>$modTriase->search(),
 	'filter'=>$modTriase,
-        'template'=>"{pager}{summary}\n{items}",
+        'template'=>"{summary}\n{items}{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
 	'columns'=>array(
                 array(
@@ -225,7 +225,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'pegawai-triase-m-grid',
 	'dataProvider'=>$modPegawaiTriase->searchPegawaiTriase(),
 	'filter'=>$modPegawaiTriase,
-	'template'=>"{pager}{summary}\n{items}",
+	'template'=>"{summary}\n{items}{pager}",
 	'itemsCssClass'=>'table table-striped table-bordered table-condensed',
 	'columns'=>array(
 			array(

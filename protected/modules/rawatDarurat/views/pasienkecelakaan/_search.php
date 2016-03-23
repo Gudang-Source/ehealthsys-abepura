@@ -22,7 +22,7 @@
        <style>
 
         #jeniskecelakaan tr td label.checkbox{
-            width: 170px;
+            width: 100%;
             display:inline-block;
         }
 
@@ -75,7 +75,7 @@
 						<tr>
 							<td>
 								'.
-									$form->checkBoxList($model, 'jeniskecelakaan_id', CHtml::listData(JeniskecelakaanM::model()->findAll('jeniskecelakaan_aktif = true'), 'jeniskecelakaan_id', 'jeniskecelakaan_nama'), array('onkeypress' => "return $(this).focusNextInputField(event)",'checked'=>true)).'
+									$form->checkBoxList($model, 'jeniskecelakaan_id', CHtml::listData(JeniskecelakaanM::model()->findAll('jeniskecelakaan_aktif = true ORDER BY jeniskecelakaan_nama ASC'), 'jeniskecelakaan_id', 'jeniskecelakaan_nama'), array('onkeypress' => "return $(this).focusNextInputField(event)",'checked'=>true)).'
 							</td>
 						</tr>
 					 </table>'; ?>

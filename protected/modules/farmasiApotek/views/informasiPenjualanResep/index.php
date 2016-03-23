@@ -72,7 +72,8 @@
                         'type'=>'raw',
                         'value'=>function($data) {
                             $p = PendaftaranT::model()->findByPk($data->pendaftaran_id);
-                            return !empty($p)?$p->jeniskasuspenyakit->jeniskasuspenyakit_nama:"-";
+                            return !empty($p)?(!empty($p->jeniskasuspenyakit_id)?$p->jeniskasuspenyakit->jeniskasuspenyakit_nama:"-"):"-";
+                            //return (!empty($p)?$p->jeniskasuspenyakit->jeniskasuspenyakit_nama:"-");
                         }
                     ),
                     array(
@@ -96,7 +97,7 @@
                         'type'=>'raw',
                         'value'=>function($data) {
                             $pd = PendaftaranT::model()->findByPk($data->pendaftaran_id);
-                            return $pd->statusperiksa;
+                            return !empty($pd)?$pd->statusperiksa:"-";
                         },
                     ),
                             

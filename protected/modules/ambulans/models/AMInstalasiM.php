@@ -22,7 +22,7 @@ class AMInstalasiM extends InstalasiM
                         Params::INSTALASI_ID_RI) 
                     );
             $criteria->addCondition('instalasi_aktif = true');
-            $criteria->order = 'instalasi_id';
+            $criteria->order = 'instalasi_nama';
             $modInstalasis = InstalasiM::model()->findAll($criteria);
             if(count($modInstalasis) > 0)
                 return $modInstalasis;

@@ -33,7 +33,7 @@
         {
     ?>
         <tr>
-            <td><?php echo($data->tglbuktibayar); ?></td>
+            <td><?php echo(MyFormatter::formatDateTimeForUser($data->tglbuktibayar)); ?></td>
             <td class="nobuktibayar">
                 <?php echo($data->nobuktibayar); ?>
             </td>
@@ -111,6 +111,7 @@
     function hitungTransaksi(){
     unformatNumberSemua();
         var jumTrans = 0, totPembayaran=0, jumPelayanan=0, totPembayaranTunai=0, jumDeposit=0, totAdministrasi = 0, jumTunai = 0;
+        var jmlPiutang = 0;
         $('#tblBayarTind tbody').find('tr').each(
             function(){
                 if($(this).find('input[type="checkbox"]').is(':checked')){
@@ -138,6 +139,8 @@
                     if(is_tunai == 'TUNAI')
                     {
                         jumTunai += parseFloat(jmlpembayaran);
+                    } else if (is_tunai == 'PIUTANG') {
+                        jmlPiutang += parseFloat(jmlpembayaran);
                     }
                     
                     
@@ -155,6 +158,9 @@
         $("#BKClosingkasirT_jmltransaksi").val(jumTrans);
         $("#BKClosingkasirT_terimauangpelayanan").val(jumPelayanan);
         $("#BKClosingkasirT_terimauangmuka").val(jumDeposit);
+        $("#BKClosingkasirT_piutang").val(jmlPiutang);
+        
+        console.log(jmlPiutang);
         
         var terimauangmuka = jumDeposit;
         var jum_penerimaan_umum = $("#jum_penerimaan_umum").val();
@@ -168,7 +174,7 @@
         $("#jum_penerimaan_tunai").val(parseInt(jumTunai));
         $("#BKClosingkasirT_nilaiclosingtrans").val(jum_tutup_kasir);
         $("#BKClosingkasirT_totalsetoran").val(0);
-        $("#BKClosingkasirT_piutang").val(0);
+        // $("#BKClosingkasirT_piutang").val(0);
         $("#BKSetorbankT_jumlahsetoran").val(jum_tutup_kasir);
         
         $('.currency').each(
