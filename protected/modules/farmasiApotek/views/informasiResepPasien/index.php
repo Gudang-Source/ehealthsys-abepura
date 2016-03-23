@@ -172,7 +172,7 @@
                     <div class="control-group">
                         <?php echo CHtml::label('Ruangan Asal Obat','ruanganasalobat',array('class'=>'control-label')); ?>
                         <div class="controls">
-                            <?php echo $form->dropDownList($modInfoPenjualan,'ruanganasalobat', CHtml::listData(RuanganM::model()->findAllByAttributes(array('instalasi_id'=>Yii::app()->user->getState('instalasi_id'), 'ruangan_aktif'=>true)),'ruangan_id', 'ruangan_nama'),array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+                            <?php echo $form->dropDownList($modInfoPenjualan,'ruanganasalobat', CHtml::listData(RuanganM::model()->findAllByAttributes(array('instalasi_id'=>Yii::app()->user->getState('instalasi_id'), 'ruangan_aktif'=>true), array('order'=>'ruangan_nama ASC')),'ruangan_id', 'ruangan_nama'),array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
                         </div>
                     </div> 
                     <div class="control-group">
@@ -188,7 +188,7 @@
                 <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit')); ?>
                 <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Reset',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')),array('class'=>'btn btn-danger', 'type'=>'reset')); ?>
                 <?php  
-                    $content = $this->renderPartial('../tips/informasi_pencarian',array(),true);
+                    $content = $this->renderPartial('../tips/informasiPenjualanResep',array(),true);
                     $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
                 ?>
         </div>
