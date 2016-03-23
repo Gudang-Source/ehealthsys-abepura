@@ -204,7 +204,7 @@
                                 'value'=>function($data) use (&$sb) {
                                     $tindakan = TindakanpelayananT::model()->findByAttributes(array(
                                         'pendaftaran_id'=>$data->pendaftaran_id,
-                                    ), array('condition'=>'tindakansudahbayar_id is null and '));
+                                    ), array('condition'=>'tindakansudahbayar_id is null'));
                                     $oa = ObatalkespasienT::model()->findByAttributes(array(
                                         'pendaftaran_id'=>$data->pendaftaran_id,
                                     ), array('condition'=>'oasudahbayar_id is null'));
