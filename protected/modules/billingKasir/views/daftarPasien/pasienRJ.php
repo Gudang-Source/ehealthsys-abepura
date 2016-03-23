@@ -201,13 +201,25 @@
                                 'header'=>'Pembayaran Kasir',
                                 'type'=>'raw',
                                 'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:left;'),
-                                'value'=>'CHtml::Link("<i class=\"icon-form-bayar\"></i>",Yii::app()->controller->createUrl("PembayaranTagihanPasien/index",array("instalasi_id"=>Params::INSTALASI_ID_RJ,"pendaftaran_id"=>$data->pendaftaran_id,"frame"=>true)),
+                                'value'=>function($data) use (&$sb) {
+                                    $tindakan = TindakanpelayananT::model()->findByAttributes(array(
+                                        'pendaftaran_id'=>$data->pendaftaran_id,
+                                    ), array('condition'=>'tindakansudahbayar_id is null and '));
+                                    $oa = ObatalkespasienT::model()->findByAttributes(array(
+                                        'pendaftaran_id'=>$data->pendaftaran_id,
+                                    ), array('condition'=>'oasudahbayar_id is null'));
+
+                                    $sb = !empty($oa) || !empty($tindakan);
+
+                                    return $sb?CHtml::Link("<i class=\"icon-form-bayar\"></i>",Yii::app()->controller->createUrl("PembayaranTagihanPasien/index",array("instalasi_id"=>Params::INSTALASI_ID_RJ,"pendaftaran_id"=>$data->pendaftaran_id,"frame"=>true)),
                                             array("class"=>"", 
                                                   "target"=>"iframePembayaran",
                                                   "onclick"=>"$(\"#dialogPembayaranKasir\").dialog(\"open\");",
                                                   "rel"=>"tooltip",
                                                   "title"=>"Klik untuk membayar ke kasir",
-                                            ))',          'htmlOptions'=>array('style'=>'text-align: left; width:40px')
+                                            )):"SUDAH<br/>LUNAS";
+                                },
+                                 'htmlOptions'=>array('style'=>'text-align: left; width:40px')
                             ),
                     ),
                 'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',

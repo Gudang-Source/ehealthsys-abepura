@@ -261,8 +261,8 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'title'=>'Pencarian Data Kunjungan Pasien',
         'autoOpen'=>false,
         'modal'=>true,
-        'width'=>980,
-        'height'=>480,
+        'width'=>1100,
+        'height'=>550,
         'resizable'=>false,
     ),
 ));
@@ -313,7 +313,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                     array(
                         'name'=>'jeniskelamin',
                         'type'=>'raw',
-                        'filter'=>LookupM::model()->getItems('jeniskelamin'),
+                        'filter'=>CHtml::activeDropDownList($modDialogKunjungan, 'jeniskelamin', LookupM::model()->getItems('jeniskelamin'), array('empty'=>'-- Pilih --')),
                     ),
                     array(
                         'name'=>'instalasi_id',
@@ -323,13 +323,28 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                         'filter'=>CHtml::activeHiddenField($modDialogKunjungan,'instalasi_id'),
                     ),
                     array(
+                        'header'=>'Ruangan',
                         'name'=>'ruangan_nama',
                         'type'=>'raw',
+                        'filter'=>CHtml::activeDropDownList($modDialogKunjungan, 'ruangan_id', CHtml::listData(
+                                RuanganM::model()->findAllByAttributes(array(
+                                    'instalasi_id'=>$modDialogKunjungan->instalasi_id,
+                                    'ruangan_aktif'=>true,
+                                ), array('order'=>'ruangan_nama')), 'ruangan_id', 'ruangan_nama'), array(
+                                    'empty'=>'-- Pilih --',
+                                )),
                     ),
                     array(
+                        'header'=>'Cara Bayar',
                         'name'=>'carabayar_nama',
                         'type'=>'raw',
                         'value'=>'$data->carabayar_nama',
+                        'filter'=>CHtml::activeDropDownList($modDialogKunjungan, 'carabayar_id', CHtml::listData(
+                                CarabayarM::model()->findAllByAttributes(array(
+                                    'carabayar_aktif'=>true,
+                                ), array('order'=>'carabayar_nama')), 'carabayar_id', 'carabayar_nama'), array(
+                                    'empty'=>'-- Pilih --',
+                                )),
                     ),
 
 
