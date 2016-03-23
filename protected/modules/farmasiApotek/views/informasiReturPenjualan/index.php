@@ -149,7 +149,7 @@
                 <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit','onKeypress'=>'return formSubmit(this,event)')); ?>
                 <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Reset',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')),array('class'=>'btn btn-danger', 'type'=>'reset')); ?>
                 <?php  
-                    $content = $this->renderPartial('../tips/informasi_pencarian',array(),true);
+                    $content = $this->renderPartial('../tips/informasiReturPenjualan',array(),true);
                     $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
                 ?>
         </div>
