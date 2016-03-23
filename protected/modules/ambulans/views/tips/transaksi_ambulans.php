@@ -9,13 +9,21 @@
         <td>2. </td>
         <td>Gunakan icon ini <span class="add-on">
             <a id="">
-                <i class="icon-list-alt"></i>
+                <i class="icon-list"></i>
                 <i class="icon-search"></i>
             </a>
-            </span> berfungsi untuk mencari dan menampilkan list datanya.
+            </span> berfungsi untuk menampilkan list datanya sesuai dengan yang diketikkan dan ketika icon di klik menampilkan dialog pencarian.
         </td>
     </tr>
-  
+    <tr>
+        <td>2. </td>
+        <td>Gunakan icon ini <span class="add-on">
+            <a id="">
+                <i class="icon-list"></i>               
+            </a>
+            </span> berfungsi untuk menampilkan list datanya sesuai dengan yang diketikkan.
+        </td>
+    </tr>
     <tr>
         <td>3. </td>
         <td>Gunakan tombol ini  <a class="btn btn-primary" name="yt0">

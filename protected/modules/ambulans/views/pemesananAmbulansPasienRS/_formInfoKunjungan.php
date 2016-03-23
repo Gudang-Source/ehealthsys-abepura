@@ -306,7 +306,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
             array(
                 'name'=>'jeniskelamin',
                 'type'=>'raw',
-                'filter'=>LookupM::model()->getItems('jeniskelamin'),
+                'filter'=> CHtml::dropDownList('AMInfokunjunganrjV[jeniskelamin]',$modDialogKunjungan->jeniskelamin,LookupM::model()->getItems('jeniskelamin'),array('empty'=>'--Pilih--')),
             ),
             array(
                 'name'=>'instalasi_id',
@@ -319,9 +319,10 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                 'type'=>'raw',
             ),
             array(
-                'name'=>'carabayar_nama',
+                'name'=>'carabayar_id',
                 'type'=>'raw',
                 'value'=>'$data->carabayar_nama',
+                'filter'=> CHtml::dropDownList('AMInfokunjunganrjV[carabayar_id]',$modDialogKunjungan->carabayar_id,CHtml::listData(CarabayarM::model()->findAll("carabayar_aktif IS TRUE ORDER BY carabayar_nama ASC"),'carabayar_id','carabayar_nama'),array('empty'=>'--Pilih--'))
             ),
         ),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',

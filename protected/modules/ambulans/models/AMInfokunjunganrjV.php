@@ -399,7 +399,7 @@ class AMInfokunjunganrjV extends InfokunjunganrjV {
 
         return new CActiveDataProvider($model, array(
                     'criteria'=>$criteria,
-                    'pagination'=>false,
+                    //'pagination'=>false,
             ));
     }
 
