@@ -35,11 +35,12 @@
                                 'dateFormat' => Params::DATE_FORMAT,
                             ),
                             'htmlOptions' => array('readonly' => true,
+                                'class' => 'dtPicker2',
                                 'onkeypress' => "return $(this).focusNextInputField(event)"),
                         ));
                         ?>
                     </div> 
-                    <?php echo CHtml::label('Sampai dengan', ' s/d', array('class' => 'control-label')) ?>
+                    <?php echo CHtml::label('Sampai dengan', ' s/d', array('class' => 'control-label', 'style'=>'text-align:center;')) ?>
                     <div class="controls">  
                         <?php
                         $this->widget('MyDateTimePicker', array(
@@ -51,6 +52,7 @@
                                 'dateFormat' => Params::DATE_FORMAT,
                             ),
                             'htmlOptions' => array('readonly' => true,
+                                    'class' => 'dtPicker2',
                                 'onkeypress' => "return $(this).focusNextInputField(event)"),
                         ));
                         ?>
