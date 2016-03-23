@@ -9,6 +9,7 @@ class RinciantagihanpasienVController extends MyAuthController
 	 */
 	public $layout='//layouts/column1';
         public $defaultAction = 'admin';
+        public $path_view = 'billingKasir.views.rinciantagihanpasienV.';
 
 	public function actionIndex()
 	{
@@ -126,6 +127,7 @@ class RinciantagihanpasienVController extends MyAuthController
             {
                 $format = new MyFormatter();
                 $this->layout = '//layouts/iframe';
+                $data['judulLaporan'] = 'Rincian Biaya ';
                 $data['judulPrint'] = 'Rincian Biaya ';
                 $criteria = new CDbCriteria();
                 $criteria->addCondition('pendaftaran_id = '.$id);
@@ -151,7 +153,7 @@ class RinciantagihanpasienVController extends MyAuthController
                 if ($caraPrint == 'EXCEL') 
                 {
                     $this->layout='//layouts/printExcel';
-                    $this->render('billingKasir.views.rinciantagihanpasienV.rincianNew',array('modPendaftaran'=>$modPendaftaran, 'modRincian'=>$modRincian, 'data'=>$data, 'caraPrint'=>$caraPrint));  
+                    $this->render('billingKasir.views.rinciantagihanpasienV.rincianNew',array('modPendaftaran'=>$modPendaftaran, 'modRincian'=>$modRincian, 'data'=>$data, 'format'=>$format, 'caraPrint'=>$caraPrint));  
                 } else
                 if($caraPrint == 'PDF')
                 {
@@ -201,7 +203,7 @@ class RinciantagihanpasienVController extends MyAuthController
                     $header = 0.75 * 72 / (72/25.4);                    
                     $mpdf->AddPage($posisi,'','','','',5,5,$header+4,8,0,0);
                     $mpdf->WriteHTML(
-                        $this->renderPartial('rincianBaruPdf',
+                        $this->renderPartial($this->path_view.'rincianBaruPdf',
                             array(
                                 'modPendaftaran'=>$modPendaftaran, 
                                 'modRincian'=>$modRincian, 
@@ -211,7 +213,7 @@ class RinciantagihanpasienVController extends MyAuthController
                         )
                     );
                     
-                    $mpdf->Output();
+                    $mpdf->Output( $data['judulPrint'].'-'.date('Y/m/d').'.pdf','I');
                     exit;
                 }
 
