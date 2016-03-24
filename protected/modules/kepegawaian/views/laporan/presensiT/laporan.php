@@ -45,7 +45,7 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                'pegawai.unit_perusahaan',
                 array(
                     'header'=>'Tanggal presensi',
-                    'value'=>'date("d/m/Y H:i:s",strtotime($data->datepresensi))',
+                    'value'=>'date("d/m/Y",strtotime($data->datepresensi))',//H:i:s
                 ),
                 /*
                 array(

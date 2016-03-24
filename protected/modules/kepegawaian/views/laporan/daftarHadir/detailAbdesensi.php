@@ -30,7 +30,7 @@ Yii::app()->clientScript->registerScript('search', "
         </td>
         <td>
             <?php echo $form->textFieldRow($modPegawai,'kelompokpegawai_id',array('readonly'=>true,'value'=>$modPegawai->kelompokpegawai->kelompokpegawai_nama, 'class'=>'span3')); ?>
-            <?php echo $form->textFieldRow($modPegawai,'jabatan_id',array('readonly'=>true,'value'=>$modPegawai->jabatan->jabatan_nama, 'class'=>'span3')); ?>
+            <?php echo $form->textFieldRow($modPegawai,'jabatan_id',array('readonly'=>true,'value'=>($modPegawai->jabatan_id === null)?'':$modPegawai->jabatan->jabatan_nama, 'class'=>'span3')); ?>
             
             <div class="control-group ">
                 <?php echo $form->labelEx($model, 'tglpresensi', array('class' => 'control-label')); ?>
