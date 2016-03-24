@@ -7,22 +7,16 @@
         'itemsCssClass'=>'table table-striped table-condensed',
 	'columns'=>array(
                     array(
-                        'header'=>'Tanggal Admisi/ Tanggal Pulang Awal',
+                        'header'=>'Tgl. Admisi/<br/>Tgl. Pulang Awal',
                         'name'=>'tgl_pulang',
                         'type'=>'raw',
                         'value'=>'$data->combineTglPendaftaran'
                     ),
                     array(
-                        'header'=>'Ruangan<br/>Kelas Pelayanan',
-                        'name'=>'ruangan_nama',
-                        'type'=>'raw',
-                        'value'=>'$data->ruangan_nama."<br/>".$data->kelaspelayanan_nama',
-                    ),
-                    array(
-                        'header'=>'No. Pendaftaran',
+                        'header'=>'No. Pendaftaran/<br/>Tgl. Pendaftaran',
                         'name'=>'no_pendaftaran',
                         'type'=>'raw',
-                        'value'=>'$data->no_pendaftaran',
+                        'value'=>'$data->no_pendaftaran."<br/>".MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)',
                     ),
                     array(
                         'name'=>'no_rekam_medik',
@@ -33,19 +27,37 @@
                         'name'=>'nama_pasien',
                         'type'=>'raw',
                         'value'=>'$data->namadepan.$data->nama_pasien',
-                    ), /*
+                    ),
                     array(
-                        'header'=>'Alias',
-                        'name'=>'nama_bin',
+                        'header'=>'Jenis Kelamin/<br/>Umur',
+                        'name'=>'umur',
                         'type'=>'raw',
-                        'value'=>'$data->nama_bin',
-                    ), */
+                        'value'=>'$data->jeniskelamin."<br/>".$data->umur',
+                    ),
+                    array(
+                        'name'=>'alamat_pasien',
+                        'type'=>'raw',
+                        'value'=>'$data->alamat_pasien',
+                    ),
                     array(
                         'header'=>'Cara Bayar/<br/>Penjamin',
                         'name'=>'carabayar_nama',
                         'type'=>'raw',
                         'value'=>'$data->carabayar_nama."/<br/>".$data->penjamin_nama',
-                    ), /*
+                    ),
+                    array(
+                        'header'=>'Ruangan<br/>Kelas Pelayanan',
+                        'name'=>'ruangan_nama',
+                        'type'=>'raw',
+                        'value'=>'$data->ruangan_nama."<br/>".$data->kelaspelayanan_nama',
+                    ),
+                    /*
+                    array(
+                        'header'=>'Alias',
+                        'name'=>'nama_bin',
+                        'type'=>'raw',
+                        'value'=>'$data->nama_bin',
+                    ), */ /*
                     array(
                         'header'=>'Nama Penjamin',
                         'name'=>'penjamin_nama',
@@ -63,14 +75,9 @@
                         },
                     ),
                     array(
-                        'name'=>'umur',
+                        'header'=>'Dokter PJP',
                         'type'=>'raw',
-                        'value'=>'$data->umur',
-                    ),
-                    array(
-                        'name'=>'alamat_pasien',
-                        'type'=>'raw',
-                        'value'=>'$data->alamat_pasien',
+                        'value'=>'$data->gelardepan." ".$data->nama_pegawai.", ".$data->gelarbelakang_nama',
                     ),
                     array(
                             'header'=>'Total Tagihan',
