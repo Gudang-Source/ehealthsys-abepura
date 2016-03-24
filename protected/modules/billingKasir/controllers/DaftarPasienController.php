@@ -100,7 +100,7 @@ class DaftarPasienController extends MyAuthController
                     $model->no_pendaftaran = $_GET['BKInfopasienkarcisV']['no_pendaftaran'];
                     $model->no_rekam_medik = $_GET['BKInfopasienkarcisV']['no_rekam_medik'];
                     $model->nama_pasien = $_GET['BKInfopasienkarcisV']['nama_pasien'];
-                    $model->nama_bin = $_GET['BKInfopasienkarcisV']['nama_bin'];
+                    // $model->nama_bin = $_GET['BKInfopasienkarcisV']['nama_bin'];
                     $model->statusperiksa = $_GET['BKInfopasienkarcisV']['statusperiksa'];
                     if(!empty($_GET['BKInfopasienkarcisV']['tgl_awal']))
                     {

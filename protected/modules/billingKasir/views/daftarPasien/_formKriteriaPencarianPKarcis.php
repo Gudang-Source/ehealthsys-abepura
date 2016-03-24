@@ -56,13 +56,10 @@
             
             <?php 
             $instalasi = InstalasiM::model()->findAll(array(
-                'condition'=>'instalasi_aktif = true',
+                'condition'=>'instalasi_aktif = true and (instalasi_id in (2,3,4,20) or (revenuecenter = true and instalasirujukaninternal = true))',
                 'order'=>'instalasi_nama',
             ));
-            $ruangan = RuanganM::model()->findAll(array(
-                'condition'=>'ruangan_aktif = true',
-                'order'=>'instalasi_id, ruangan_nama',
-            ));
+            $ruangan = array();
             /*
             $pegawai = DokterV::model()->findAllByAttributes(array(
                 'instalasi_id'=>Params::INSTALASI_ID_RJ,
