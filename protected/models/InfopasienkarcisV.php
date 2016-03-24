@@ -223,7 +223,7 @@ class InfopasienkarcisV extends CActiveRecord
 			'instalasi_nama' => 'Instalasi Nama',
 			'ruangan_id' => 'Ruangan',
 			'ruangan_nama' => 'Ruangan Nama',
-			'carabayar_id' => 'Carabayar',
+			'carabayar_id' => 'Cara Bayar',
 			'carabayar_nama' => 'Carabayar Nama',
 			'penjamin_id' => 'Penjamin',
 			'penjamin_nama' => 'Penjamin Nama',
