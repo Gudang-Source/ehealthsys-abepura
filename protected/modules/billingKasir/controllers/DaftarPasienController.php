@@ -30,6 +30,7 @@ class DaftarPasienController extends MyAuthController
                     {
                         $modRD->tgl_akhir = $format->formatDateTimeForDb($_GET['BKInformasikasirrdpulangV']['tgl_akhir']);
                     }
+                    $modRD->statusBayar=$_GET['BKInformasikasirrdpulangV']['statusBayar'];
 
                 }
                 
@@ -50,7 +51,7 @@ class DaftarPasienController extends MyAuthController
                     
                     $modRI->tgl_awal_admisi = $format->formatDateTimeForDb($_GET['BKInformasikasirinappulangV']['tgl_awal_admisi']);
                     $modRI->tgl_akhir_admisi = $format->formatDateTimeForDb($_GET['BKInformasikasirinappulangV']['tgl_akhir_admisi']);
-                        
+                    $modRI->statusBayar=$_GET['BKInformasikasirinappulangV']['statusBayar'];
                     $modRI->ceklis = $_GET['BKInformasikasirinappulangV']['ceklis'];
                     if($modRI->ceklis==1){
                         $modRI->tgl_akhir = $format->formatDateTimeForDb($_GET['BKInformasikasirinappulangV']['tgl_akhir']);

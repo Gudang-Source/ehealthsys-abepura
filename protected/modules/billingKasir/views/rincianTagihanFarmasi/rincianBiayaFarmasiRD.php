@@ -13,8 +13,16 @@ echo CHtml::css('.control-label{
     td .uang{
         text-align:right;
     }
+    .tab-det thead th, .tab-det tbody td {
+        background-color: white !important;
+        border: 1px solid black !important;
+        color: black !important;
+    }
     .border{
         border:1px solid;
+    }
+    .num {
+        text-align: right;
     }
 ');
 ?>
@@ -56,7 +64,7 @@ if (isset($caraPrint)){
         $jeniskelamin       = $dataPendaftar->jeniskelamin;
         $dokter_pemeriksa   = $dataPendaftar->DokterPemeriksa;
         $carabayarPenjamin  = $dataPendaftar->CarabayarPenjamin;
-        $alamat             = $dataPendaftar->AlamatPasienPendaftar;
+        $alamat             = $dataPendaftar->alamat_pasien; //AlamatPasienPendaftar;
         $ruanganasal_nama   = $dataPendaftar->ruanganasal_nama;
         $ruangan_nama       = $dataPendaftar->ruangan_nama;
         $umur               = substr($dataPendaftar->umur,0,7);
@@ -82,7 +90,7 @@ if (isset($caraPrint)){
     }
 ?>
 <br><br><br><br>
-<table width="74%" style="margin:0px;" cellpadding="0" cellspacing="0">
+<table width="100%" style="margin:0px;" cellpadding="0" cellspacing="0">
     <tr><td><center><b><u><?php echo $data['judulHalaman']; ?></u></b></center></td></tr>
     <tr>
         <td>
@@ -172,7 +180,7 @@ if (isset($caraPrint)){
     </tr>
     <tr>
         <td>
-            <table width="100%" style='margin-left:auto; margin-right:auto;'> <!--  class='table table-striped table-bordered table-condensed' -->
+            <table width="100%" style='margin-left:auto; margin-right:auto;' class='tab-det'> <!--  class='table table-striped table-bordered table-condensed' -->
                 <thead class="border">
                     <tr>
                         <th>No.</th>
@@ -216,12 +224,12 @@ if (isset($caraPrint)){
                 <td>".$tanggal."</td>
                 <td>".$noresep[$i]."</td>
                 <td>".$obatnama[$i]."</td>
-                <td>".$qty_obat[$i]."</td>
-                <td>".number_format($hargasatuan_obat[$i],0,',','.')."</td>
-                <td>".number_format($discount_obat[$i],0,',','.')."</td>
-                <td>".number_format($harga_obat[$i],0,',','.')."</td>
-                <td>".number_format($biaya_obat[$i],0,',','.')."</td>
-                <td>".number_format($subtotal[$i],0,',','.')."</td>
+                <td class='num'>".$qty_obat[$i]."</td>
+                <td class='num'>".number_format($hargasatuan_obat[$i],0,',','.')."</td>
+                <td class='num'>".number_format($discount_obat[$i],0,',','.')."</td>
+                <td class='num'>".number_format($harga_obat[$i],0,',','.')."</td>
+                <td class='num'>".number_format($biaya_obat[$i],0,',','.')."</td>
+                <td class='num'>".number_format($subtotal[$i],0,',','.')."</td>
 
             </tr>";
 

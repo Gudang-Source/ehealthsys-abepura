@@ -30,6 +30,7 @@
  */
 class BKInformasikasirrdpulangV extends InformasikasirrdpulangV
 {
+        public $statusBayar;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -46,6 +47,41 @@ class BKInformasikasirrdpulangV extends InformasikasirrdpulangV
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
+                
+                
+                $tb = "case when n.total_belum is null then 0 else n.total_belum end";
+                $tt = "case when n.total_tindakan is null then 0 else n.total_tindakan end";
+                $ob = "case when o.total_oa_belum is null then 0 else o.total_oa_belum end";
+                $ot = "case when o.total_oa is null then 0 else o.total_oa end";
+                
+                $criteria->select = "t.*, "
+                        . "${tb} as total_belum,
+                            ${tt} as total_tindakan,
+                            ${ob} as total_oa_belum,
+                            ${ot} as total_oa";
+                
+                $criteria->join = "left join 
+                (select 
+                p.pendaftaran_id, 
+                sum(case when p.tindakansudahbayar_id is null then 1 else 0 end) as total_belum,
+                count(p.tindakanpelayanan_id) as total_tindakan
+
+                from tindakanpelayanan_t p
+                group by p.pendaftaran_id
+                ) n on n.pendaftaran_id = t.pendaftaran_id
+
+                left join 
+                (select 
+                p.pendaftaran_id, 
+                sum(case when p.oasudahbayar_id is null then 1 else 0 end) as total_oa_belum,
+                count(p.obatalkespasien_id) as total_oa
+
+                from obatalkespasien_t p
+                group by p.pendaftaran_id
+                ) o on o.pendaftaran_id = t.pendaftaran_id
+                ";
+                
+                
                 
 		$criteria->addBetweenCondition('date(tgl_pendaftaran)',$this->tgl_awal,$this->tgl_akhir,true);
 //                $criteria->addCondition('t.pembayaranpelayanan_id IS NULL');
@@ -91,6 +127,13 @@ class BKInformasikasirrdpulangV extends InformasikasirrdpulangV
 		$criteria->compare('LOWER(nama_pegawai)',strtolower($this->nama_pegawai),true);
 		$criteria->compare('LOWER(jeniskasuspenyakit_nama)',strtolower($this->jeniskasuspenyakit_nama),true);
    		$criteria->order = 'tgl_pendaftaran DESC';
+                
+                if ($this->statusBayar == "BELUM LUNAS") {
+                    $criteria->addCondition("(${tb}) > 0 or (${ob}) > 0 or (${tt}) = 0");
+                } else if ($this->statusBayar == "LUNAS") {
+                    $criteria->addCondition("(${tb}) = 0 and (${ob}) = 0 and (${tt}) > 0");
+                }
+                
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria
 		));
