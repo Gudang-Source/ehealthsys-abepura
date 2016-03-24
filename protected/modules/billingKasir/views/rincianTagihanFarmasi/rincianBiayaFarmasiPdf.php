@@ -57,7 +57,7 @@ if (isset($caraPrint)){
         $jeniskelamin       = $dataPendaftar->jeniskelamin;
         $DokterPemeriksa    = $dataPendaftar->DokterPemeriksa;
         $carabayarPenjamin  = $dataPendaftar->CarabayarPenjamin;
-        $alamat             = $dataPendaftar->AlamatPasienPendaftar;
+        $alamat             = $dataPendaftar->alamat_pasien; //AlamatPasienPendaftar;
         $ruanganasal_nama   = $dataPendaftar->ruanganasal_nama;
         $ruangan_nama       = $dataPendaftar->ruangan_nama;
         $umur               = substr($dataPendaftar->umur,0,7);
