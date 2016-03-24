@@ -209,7 +209,7 @@ class InfopasienkarcisV extends CActiveRecord
 			'no_urutantri' => 'No. Urutantri',
 			'transportasi' => 'Transportasi',
 			'keadaanmasuk' => 'Keadaanmasuk',
-			'statusperiksa' => 'Statusperiksa',
+			'statusperiksa' => 'Status Periksa',
 			'statuspasien' => 'Statuspasien',
 			'kunjungan' => 'Kunjungan',
 			'alihstatus' => 'Alihstatus',

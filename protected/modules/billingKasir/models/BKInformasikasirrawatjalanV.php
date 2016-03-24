@@ -211,9 +211,9 @@ class BKInformasikasirrawatjalanV extends InformasikasirrawatjalanV
         public function getRuanganItems($instalasi_id=null)
         {
             if($instalasi_id==null){
-            return RuanganM::model()->findAllByAttributes(array(),array('order'=>'ruangan_nama'));
+            return RuanganM::model()->findAllByAttributes(array('ruangan_aktif'=>true),array('order'=>'ruangan_nama'));
             }else{
-            return RuanganM::model()->findAllByAttributes(array('instalasi_id'=>$instalasi_id),array('order'=>'ruangan_nama'));   
+            return RuanganM::model()->findAllByAttributes(array('instalasi_id'=>$instalasi_id, 'ruangan_aktif'=>true),array('order'=>'ruangan_nama'));   
             }
         }
 }

@@ -33,21 +33,10 @@
                 'itemsCssClass'=>'table table-striped table-condensed',
                 'columns'=>array(
                     array(
-                        'header'=>'Tanggal Pendaftaran',
+                        'header'=>'Tgl. Pendaftaran/<br/>No. Pendaftaran',
                         'name'=>'tgl_pendaftaran',
                         'type'=>'raw',
-                        'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)',
-                    ),
-                    array(
-                        'name'=>'instalasi',
-                        'type'=>'raw',
-                        'value'=>'$data->instalasi_nama',
-                    ),
-                    array(
-                        'header'=>'No. Pendaftaran',
-                        'name'=>'no_pendaftaran',
-                        'type'=>'raw',
-                        'value'=>'$data->no_pendaftaran',
+                        'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."/<br/>".$data->no_pendaftaran',
                     ),
                     array(
                         'header'=>'No. Rekam Medik',
@@ -61,30 +50,6 @@
                         'value'=>'$data->nama_pasien',
                     ),
                     array(
-                        'header'=>'Bin',
-                        'name'=>'nama_bin',
-                        'type'=>'raw',
-                        'value'=>'$data->nama_bin',
-                    ),
-                    array(
-                        'header'=>'Cara Bayar',
-                        'name'=>'carabayar_nama',
-                        'type'=>'raw',
-                        'value'=>'$data->carabayar_nama',
-                    ),
-                    array(
-                        'header'=>'Penjamin',
-                        'name'=>'penjamin_nama',
-                        'type'=>'raw',
-                        'value'=>'$data->penjamin_nama',
-                    ),
-                    array(
-                        'header'=>'Kasus Penyakit',
-                        'name'=>'jeniskasuspenyakit_nama',
-                        'type'=>'raw',
-                        'value'=>'(isset($data->jeniskasuspenyakit_id) ? $data->jeniskasuspenyakit_nama : "")',
-                    ),
-                    array(
                         'name'=>'umur',
                         'type'=>'raw',
                         'value'=>'$data->umur',
@@ -96,17 +61,35 @@
                         'value'=>'$data->alamat_pasien',
                     ),
                     array(
+                        'header'=>'Jenis Kasus Penyakit',
+                        'name'=>'jeniskasuspenyakit_nama',
+                        'type'=>'raw',
+                        'value'=>'(isset($data->jeniskasuspenyakit_id) ? $data->jeniskasuspenyakit_nama : "")',
+                    ),
+                    array(
+                        'header'=>'Cara Bayar/<br/>Penjamin',
+                        'name'=>'carabayar_nama',
+                        'type'=>'raw',
+                        'value'=>'$data->carabayar_nama."/<br/>".$data->penjamin_nama',
+                    ),
+                    array(
+                        'header'=>'Instalasi/<br/>Ruangan',
+                        'name'=>'instalasi',
+                        'type'=>'raw',
+                        'value'=>'$data->instalasi_nama."/<br/>".$data->ruangan_nama',
+                    ),
+                    array(
                         'header'=>'Nama Karcis',
                         'name'=>'daftartindakan_nama',
                         'type'=>'raw',
                         'value'=>'$data->daftartindakan_nama',
-                    ),
+                    ), /*
                     array(
                         'header'=>'Tarif',
                         'name'=>'tarif_tindakan',
                         'type'=>'raw',
                         'value'=>'CHtml::link("<i class=icon-form-print></i> ".MyFormatter::formatUang($data->tarif_tindakan),"javascript:void(0)",array("rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik Untuk Print Karcis","onclick"=>"printKarcis($data->pendaftaran_id)"))',
-                    ),
+                    ), 
                     array(
                         'header'=>'Pembayaran Karcis',
                         'type'=>'raw',
@@ -118,7 +101,7 @@
                                           "title"=>"Klik untuk membayar karcis",
                                     )) : "Sudah Bayar" ',          
                         'htmlOptions'=>array('style'=>'text-align:left; width:40px')
-                    ),
+                    ) , */
                 ),
                 'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
             ));
