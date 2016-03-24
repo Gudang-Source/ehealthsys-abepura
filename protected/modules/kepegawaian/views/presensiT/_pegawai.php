@@ -77,7 +77,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     ),
 ));
 
-$modPegawai = new KPRegistrasifingerprint();
+$modPegawai = new KPRegistrasifingerprint;
 if (isset($_GET['KPRegistrasifingerprint']))
     $modPegawai->attributes = $_GET['KPRegistrasifingerprint'];
 
