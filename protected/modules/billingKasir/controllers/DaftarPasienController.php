@@ -73,6 +73,7 @@ class DaftarPasienController extends MyAuthController
                 
                 if(isset($_GET['BKInformasikasirrawatjalanV'])){
                     $modRJ->attributes = $_GET['BKInformasikasirrawatjalanV'];
+                    $modRJ->statusBayar=$_GET['BKInformasikasirrawatjalanV']['statusBayar'];
                     if(!empty($_GET['BKInformasikasirrawatjalanV']['tgl_awal']))
                     {
                         $modRJ->tgl_awal = $format->formatDateTimeForDb($_GET['BKInformasikasirrawatjalanV']['tgl_awal']);
