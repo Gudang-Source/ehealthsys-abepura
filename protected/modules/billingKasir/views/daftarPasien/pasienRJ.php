@@ -145,6 +145,30 @@
                           'value'=>'$data->statusperiksa',
                           'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:left;'),
                         ),
+                        array(
+                            'header'=>'Total Tagihan',
+                            'type'=>'raw',
+                            'value'=>function($data) {
+                                $total = 0;
+                                $tindakan = TindakanpelayananT::model()->findAllByAttributes(array(
+                                        'pendaftaran_id'=>$data->pendaftaran_id,
+                                ), array('condition'=>'tindakansudahbayar_id is null'));
+                                $oa = ObatalkespasienT::model()->findAllByAttributes(array(
+                                    'pendaftaran_id'=>$data->pendaftaran_id,
+                                ), array('condition'=>'oasudahbayar_id is null'));
+                                
+                                foreach ($tindakan as $item) {
+                                    $total += $item->tarif_satuan * $item->qty_tindakan;
+                                }
+                                foreach ($oa as $item) {
+                                    $total += $item->qty_oa * $item->hargasatuan_oa;
+                                }
+                                return "Rp".MyFormatter::formatNumberForPrint($total);
+                            },
+                            'htmlOptions'=>array(
+                                'style'=>'text-align: right',
+                            )
+                        ),
                     /*
 						array(
                             'header'=>'Status Pembayaran',
