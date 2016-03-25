@@ -13,8 +13,16 @@ echo CHtml::css('.control-label{
     td .uang{
         text-align:right;
     }
+    .tab-det thead th, .tab-det tbody td {
+        background-color: white !important;
+        border: 1px solid black !important;
+        color: black !important;
+    }
     .border{
         border:1px solid;
+    }
+    .num {
+        text-align: right;
     }
 ');
 ?>
@@ -72,7 +80,7 @@ if (isset($caraPrint)){
         $jeniskelamin       = $dataPendaftar->jeniskelamin;
         $DokterPemeriksa    = $dataPendaftar->DokterPemeriksa;
         $carabayarPenjamin  = $dataPendaftar->CarabayarPenjamin;
-        $alamat             = $dataPendaftar->AlamatPasienPendaftar;
+        $alamat             = $dataPendaftar->alamat_pasien; //AlamatPasienPendaftar;
         $ruanganasal_nama   = $dataPendaftar->ruanganasal_nama;
         $ruangan_nama       = $dataPendaftar->ruangan_nama;
         $umur               = substr($dataPendaftar->umur,0,7);
@@ -99,7 +107,7 @@ if (isset($caraPrint)){
     }
 ?>
 <br><br><br><br>
-<table width="74%" style="margin:0px;" cellpadding="0" cellspacing="0">
+<table width="100%" style="margin:0px;" cellpadding="0" cellspacing="0">
     <tr><td><center><b><u><h4><?php echo $data['judulHalaman']; ?></h4></u></b></center></td></tr>
     <tr>
         <td>
@@ -195,7 +203,7 @@ if (isset($caraPrint)){
     </tr>
     <tr>
         <td>
-            <table width="100%" style='margin-left:auto; margin-right:auto;'> 
+            <table width="100%" style='margin-left:auto; margin-right:auto;' class='tab-det'> 
                 <thead class="border">
                     <tr>
                         <th>No.</th>
@@ -239,11 +247,11 @@ if (isset($caraPrint)){
                 <td>".$noresep[$i]."</td>
                 <td>".$obatnama[$i]."</td>
                 <td>".$qty_obat[$i]."</td>
-                <td class='uang'>".number_format($hargasatuan_obat[$i])."</td>
-                <td class='uang'>".number_format($discount_obat[$i])."</td>
-                <td class='uang'>".number_format($harga_obat[$i])."</td>
-                <td class='uang'>".number_format($biaya_obat[$i])."</td>
-                <td class='uang'>".number_format($subtotal[$i])."</td>
+                <td class='uang'>".MyFormatter::formatNumberForPrint($hargasatuan_obat[$i])."</td>
+                <td class='uang'>".MyFormatter::formatNumberForPrint($discount_obat[$i])."</td>
+                <td class='uang'>".MyFormatter::formatNumberForPrint($harga_obat[$i])."</td>
+                <td class='uang'>".MyFormatter::formatNumberForPrint($biaya_obat[$i])."</td>
+                <td class='uang'>".MyFormatter::formatNumberForPrint($subtotal[$i])."</td>
 
             </tr>";
 
@@ -257,19 +265,19 @@ if (isset($caraPrint)){
         <tfoot>
             <tr>
                 <td colspan="10" class="uang"><b>Total Tagihan :</b></td>
-                <td class="uang"><b><?php echo number_format($total_tagihan); ?></b></td>
+                <td class="uang"><b><?php echo MyFormatter::formatNumberForPrint($total_tagihan); ?></b></td>
             </tr>
             <tr>
                 <td colspan="10" class="uang"><b>Tanggungan Asuransi :</b></td>
-                <td class="uang"><b><?php echo number_format($subsidiasuransi); ?></b></td>
+                <td class="uang"><b><?php echo MyFormatter::formatNumberForPrint($subsidiasuransi); ?></b></td>
             </tr>
             <tr>
                 <td colspan="10" class="uang"><b>Tanggungan Rumah Sakit :</b></td>
-                <td class="uang"><b><?php echo number_format($subsidirs); ?></b></td>
+                <td class="uang"><b><?php echo MyFormatter::formatNumberForPrint($subsidirs); ?></b></td>
             </tr>
             <tr>
                 <td colspan="10" class="uang"><b>Tanggungan Pasien :</b></td>
-                <td class="uang"><b><?php echo number_format($total_tagihan + $subsidiasuransi + $subsidirs); ?></b></td>
+                <td class="uang"><b><?php echo MyFormatter::formatNumberForPrint($total_tagihan + $subsidiasuransi + $subsidirs); ?></b></td>
             </tr>
         </tfoot>
         </table>

@@ -203,7 +203,7 @@ class InformasikasirinappulangV extends CActiveRecord
 			'no_asuransi' => 'No. Asuransi',
 			'namapemilik_asuransi' => 'Namapemilik Asuransi',
 			'nopokokperusahaan' => 'Nopokokperusahaan',
-			'carabayar_id' => 'Carabayar',
+			'carabayar_id' => 'Cara Bayar',
 			'carabayar_nama' => 'Carabayar Nama',
 			'penjamin_id' => 'Penjamin',
 			'penjamin_nama' => 'Penjamin Nama',

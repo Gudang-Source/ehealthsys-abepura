@@ -28,10 +28,10 @@ class KPRegistrasifingerprint extends PegawaiM
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-		$criteria->join = "JOIN jabatan_m ON jabatan_m.jabatan_id = t.jabatan_id 
-                           JOIN pangkat_m ON pangkat_m.pangkat_id = t.pangkat_id
-						   JOIN pendidikan_m ON pendidikan_m.pendidikan_id = t.pendidikan_id";
-
+		//$criteria->join = "INNER JOIN jabatan_m ON jabatan_m.jabatan_id = t.jabatan_id 
+                    //       INNER JOIN pangkat_m ON pangkat_m.pangkat_id = t.pangkat_id
+		//				   INNER JOIN pendidikan_m ON pendidikan_m.pendidikan_id = t.pendidikan_id";
+                $criteria->with = array('jabatan');
 		$criteria->compare('pegawai_id',$this->pegawai_id);
 		$criteria->compare('kelurahan_id',$this->kelurahan_id);
 		$criteria->compare('kecamatan_id',$this->kecamatan_id);
@@ -84,7 +84,7 @@ class KPRegistrasifingerprint extends PegawaiM
 		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-			'pagination'=>array('pageSize'=>5),
+			//'pagination'=>array('pageSize'=>5),
 		));
 	}
         public function searchRegistrasi()

@@ -32,27 +32,22 @@
                 'itemsCssClass'=>'table table-striped table-condensed',
                 'columns'=>array(
                             array(
-                                'header'=>'Tanggal Pendaftaran / <br/> Tanggal Pulang',
+                                'header'=>'Tgl. Pendaftaran/<br/>No. Pendaftaran',
                                 'name'=>'tgl_pendaftaran',
                                 'type'=>'raw',
-                                'value'=>'$data->TanggalDaftarPulang',
+                                'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."<br/>".$data->no_pendaftaran',
+                            ),
+                            array(
+                                'header'=>'Tgl. Pulang',
+                                'type'=>'raw',
+                                'name'=>'tglpasienpulang',
+                                'value'=>'MyFormatter::formatDateTimeForUser($data->tglpasienpulang)'
                             ),
                             array(
                                 'header'=>'Cara Pulang / <br/> Kondisi Pulang',
                                 'name'=>'instalasi_nama',
                                 'type'=>'raw',
                                 'value'=>'$data->carakeluar." / <br/> ".$data->kondisipulang',
-                            ),
-                            array(
-                                'header'=>'Nama Instalasi /<br/>  Ruangan',
-                                'name'=>'instalasi_nama',
-                                'type'=>'raw',
-                                'value'=>'$data->instalasi_nama." / <br/>  ".$data->ruangan_nama',
-                            ),
-                            array(
-                                'name'=>'no_pendaftaran',
-                                'type'=>'raw',
-                                'value'=>'$data->no_pendaftaran',
                             ),
                             array(
                                 'name'=>'no_rekam_medik',
@@ -63,31 +58,6 @@
                                 'name'=>'nama_pasien',
                                 'type'=>'raw',
                                 'value'=>'$data->namadepan.$data->nama_pasien',
-                            ), /*
-                            array(
-                                'name'=>'nama_bin',
-                                'type'=>'raw',
-                                'value'=>'$data->nama_bin',
-                            ),
-                             * 
-                             */ 
-                            array(
-                                'header'=>'Cara Bayar/<br/>Penjamin',
-                                'name'=>'carabayar_nama',
-                                'type'=>'raw',
-                                'value'=>'$data->carabayar_nama."/<br/>".$data->penjamin_nama',
-                            ), /*
-                            array(
-                                'header'=>'Nama Penjamin',
-                                'name'=>'penjamin_nama',
-                                'type'=>'raw',
-                                'value'=>'$data->penjamin_nama',
-                            ), */
-                            array(
-                                'header'=>'Nama Jenis Kasus Penyakit',
-                                'name'=>'jeniskasuspenyakit_nama',
-                                'type'=>'raw',
-                                'value'=>'$data->jeniskasuspenyakit_nama',
                             ),
                             array(
                                 'name'=>'umur',
@@ -99,12 +69,73 @@
                                 'type'=>'raw',
                                 'value'=>'$data->alamat_pasien',
                             ),
+                            array(
+                                'header'=>'Nama Jenis Kasus Penyakit',
+                                'name'=>'jeniskasuspenyakit_nama',
+                                'type'=>'raw',
+                                'value'=>'$data->jeniskasuspenyakit_nama',
+                            ),
+                            array(
+                                'header'=>'Ruangan',
+                                'name'=>'ruangan_nama',
+                                'type'=>'raw',
+                                'value'=>'$data->ruangan_nama',
+                            ),
+                            array(
+                                'header'=>'Cara Bayar/<br/>Penjamin',
+                                'name'=>'carabayar_nama',
+                                'type'=>'raw',
+                                'value'=>'$data->carabayar_nama."/<br/>".$data->penjamin_nama',
+                            ),
+                            array(
+                                'header'=>'Dokter',
+                                'type'=>'raw',
+                                'value'=>'$data->gelardepan." ".$data->nama_pegawai.", ".$data->gelarbelakang_nama',
+                            ),
+                    /*
+                            array(
+                                'name'=>'nama_bin',
+                                'type'=>'raw',
+                                'value'=>'$data->nama_bin',
+                            ),
+                             * 
+                             */  /*
+                            array(
+                                'header'=>'Nama Penjamin',
+                                'name'=>'penjamin_nama',
+                                'type'=>'raw',
+                                'value'=>'$data->penjamin_nama',
+                            ), */
                      array(
                           'header'=>'Status Periksa',
                           'name'=>'statusperiksa',
                           'type'=>'raw',
                           'value'=>'$data->statusperiksa',
 
+                        ),
+                        array(
+                            'header'=>'Total Tagihan',
+                            'type'=>'raw',
+                            'value'=>function($data) {
+                                $total = 0;
+                                $tindakan = TindakanpelayananT::model()->findAllByAttributes(array(
+                                        'pendaftaran_id'=>$data->pendaftaran_id,
+                                ), array('condition'=>'tindakansudahbayar_id is null'));
+                                $oa = ObatalkespasienT::model()->findAllByAttributes(array(
+                                    'pendaftaran_id'=>$data->pendaftaran_id,
+                                ), array('condition'=>'oasudahbayar_id is null'));
+                                
+                                foreach ($tindakan as $item) {
+                                    $total += $item->tarif_satuan * $item->qty_tindakan;
+                                }
+                                foreach ($oa as $item) {
+                                    $total += $item->qty_oa * $item->hargasatuan_oa;
+                                }
+                                return "Rp".MyFormatter::formatNumberForPrint($total);
+                            },
+                            'htmlOptions'=>array(
+                                'style'=>'text-align: right',
+                            )
                         ),
         //                    array(
         //                        'header'=>'Rincian Tagihan',
@@ -163,6 +194,15 @@
                                 'header'=>'Pembayaran Kasir',
                                 'type'=>'raw',
                                 'value'=>function($data) use (&$sb) {
+                                    // return $data->total_belum." : ".$data->total_oa_belum;
+                                    $td = TindakanpelayananT::model()->findByAttributes(array(
+                                        'pendaftaran_id'=>$data->pendaftaran_id,
+                                    ));
+                                    $oa = ObatalkespasienT::model()->findByAttributes(array(
+                                        'pendaftaran_id'=>$data->pendaftaran_id,
+                                    ));
+                                    if (empty($td) && empty($oa)) return "BELUM ADA TRANSAKSI";
+                                    
                                     $tindakan = TindakanpelayananT::model()->findByAttributes(array(
                                         'pendaftaran_id'=>$data->pendaftaran_id,
                                     ), array('condition'=>'tindakansudahbayar_id is null'));

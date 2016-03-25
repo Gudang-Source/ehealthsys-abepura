@@ -144,7 +144,8 @@ class RincianTagihanFarmasiController extends MyAuthController
         $modRincian = RincianbiayafarmasirjV::model()->findAll($criteria);
         $data['judulPrint'] = 'Rincian Biaya Farmasi'; 
         $judulLaporan = "";
-        $data['nama_pegawai'] = LoginpemakaiK::model()->findByPK(Yii::app()->user->id)->pegawai->nama_pegawai;
+        $lp = LoginpemakaiK::model()->findByPk(Yii::app()->user->id);
+        $data['nama_pegawai'] = empty($lp->pegawai_id)?"-":$lp->pegawai->nama_pegawai;
 
         if(isset($caraPrint))
         {
@@ -242,7 +243,8 @@ class RincianTagihanFarmasiController extends MyAuthController
         $judulPrint = '';
         $judulLaporan = '';
 
-        $data['nama_pegawai'] = LoginpemakaiK::model()->findByPK(Yii::app()->user->id)->pegawai->nama_pegawai;
+        $lp = LoginpemakaiK::model()->findByPk(Yii::app()->user->id);
+        $data['nama_pegawai'] = empty($lp->pegawai_id)?"-":$lp->pegawai->nama_pegawai;
         
         if(isset($caraPrint))
         {
@@ -328,7 +330,8 @@ class RincianTagihanFarmasiController extends MyAuthController
         $judulLaporan = '';
         $judulPrint = '';
 
-        $data['nama_pegawai'] = LoginpemakaiK::model()->findByPK(Yii::app()->user->id)->pegawai->nama_pegawai;
+        $lp = LoginpemakaiK::model()->findByPk(Yii::app()->user->id);
+        $data['nama_pegawai'] = empty($lp->pegawai_id)?"-":$lp->pegawai->nama_pegawai;
         
         if(isset($caraPrint))
         {

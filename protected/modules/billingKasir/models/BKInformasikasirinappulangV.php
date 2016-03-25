@@ -3,6 +3,7 @@ class BKInformasikasirinappulangV extends InformasikasirinappulangV
 {
         public $ceklis, $tgl_awalAdmisi, $tgl_akhirAdmisi;
         public $tgl_awal,$tgl_akhir,$tgl_awal_admisi,$tgl_akhir_admisi;
+        public $statusBayar;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -25,6 +26,39 @@ class BKInformasikasirinappulangV extends InformasikasirinappulangV
                     
             }
 
+            $tb = "case when n.total_belum is null then 0 else n.total_belum end";
+                $tt = "case when n.total_tindakan is null then 0 else n.total_tindakan end";
+                $ob = "case when o.total_oa_belum is null then 0 else o.total_oa_belum end";
+                $ot = "case when o.total_oa is null then 0 else o.total_oa end";
+                
+                $criteria->select = "t.*, "
+                        . "${tb} as total_belum,
+                            ${tt} as total_tindakan,
+                            ${ob} as total_oa_belum,
+                            ${ot} as total_oa";
+                
+                $criteria->join = "left join 
+                (select 
+                p.pendaftaran_id, 
+                sum(case when p.tindakansudahbayar_id is null then 1 else 0 end) as total_belum,
+                count(p.tindakanpelayanan_id) as total_tindakan
+
+                from tindakanpelayanan_t p
+                group by p.pendaftaran_id
+                ) n on n.pendaftaran_id = t.pendaftaran_id
+
+                left join 
+                (select 
+                p.pendaftaran_id, 
+                sum(case when p.oasudahbayar_id is null then 1 else 0 end) as total_oa_belum,
+                count(p.obatalkespasien_id) as total_oa
+
+                from obatalkespasien_t p
+                group by p.pendaftaran_id
+                ) o on o.pendaftaran_id = t.pendaftaran_id
+            ";
+            
+            
             //$criteria->addCondition('t.pembayaranpelayanan_id IS NULL');
             $criteria->compare('LOWER(namadepan)',strtolower($this->namadepan),true);
             $criteria->compare('LOWER(nama_pasien)',strtolower($this->nama_pasien),true);
@@ -72,10 +106,16 @@ class BKInformasikasirinappulangV extends InformasikasirinappulangV
 			if(!empty($this->ruanganakhir_id)){
 				$criteria->addCondition('ruangan_id = '.$this->ruanganakhir_id);
 			}
-                        
+            
             $criteria->order = 'tgladmisi DESC';
             //$criteria->compare('LOWER(statusperiksa)',strtolower(Params::STATUSPERIKSA_SUDAH_DIPERIKSA));
 
+            if ($this->statusBayar == "BELUM LUNAS") {
+                $criteria->addCondition("(${tb}) > 0 or (${ob}) > 0 or (${tt}) = 0");
+            } else if ($this->statusBayar == "LUNAS") {
+                $criteria->addCondition("(${tb}) = 0 and (${ob}) = 0 and (${tt}) > 0");
+            }
+            
             return new CActiveDataProvider($this, array(
                     'criteria'=>$criteria,
             ));

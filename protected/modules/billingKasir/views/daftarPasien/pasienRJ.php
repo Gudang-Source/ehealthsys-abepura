@@ -145,6 +145,31 @@
                           'value'=>'$data->statusperiksa',
                           'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:left;'),
                         ),
+                        array(
+                            'header'=>'Total Tagihan',
+                            'type'=>'raw',
+                            'value'=>function($data) {
+                                $total = 0;
+                                $tindakan = TindakanpelayananT::model()->findAllByAttributes(array(
+                                        'pendaftaran_id'=>$data->pendaftaran_id,
+                                ), array('condition'=>'tindakansudahbayar_id is null'));
+                                $oa = ObatalkespasienT::model()->findAllByAttributes(array(
+                                    'pendaftaran_id'=>$data->pendaftaran_id,
+                                ), array('condition'=>'oasudahbayar_id is null'));
+                                
+                                foreach ($tindakan as $item) {
+                                    $total += $item->tarif_satuan * $item->qty_tindakan;
+                                }
+                                foreach ($oa as $item) {
+                                    $total += $item->qty_oa * $item->hargasatuan_oa;
+                                }
+                                return "Rp".MyFormatter::formatNumberForPrint($total);
+                            },
+                            'htmlOptions'=>array(
+                                'style'=>'text-align: right',
+                            )
+                        ),
+                    /*
 						array(
                             'header'=>'Status Pembayaran',
                             'type'=>'raw',
@@ -161,6 +186,8 @@
                                 return $sb?"Belum Lunas":"Sudah Lunas";
                             }//'(empty($data->pembayaranpelayanan_id) ? "Belum Lunas" : "Sudah Lunas")'
                         ),
+                     * 
+                     */
         //                    array(
         //                        'header'=>'Rincian Tagihan',
         //                        'type'=>'raw',
@@ -202,6 +229,15 @@
                                 'type'=>'raw',
                                 'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:left;'),
                                 'value'=>function($data) use (&$sb) {
+                                    // return $data->total_belum." : ".$data->total_oa_belum;
+                                    $td = TindakanpelayananT::model()->findByAttributes(array(
+                                        'pendaftaran_id'=>$data->pendaftaran_id,
+                                    ));
+                                    $oa = ObatalkespasienT::model()->findByAttributes(array(
+                                        'pendaftaran_id'=>$data->pendaftaran_id,
+                                    ));
+                                    if (empty($td) && empty($oa)) return "BELUM ADA TRANSAKSI";
+                                    
                                     $tindakan = TindakanpelayananT::model()->findByAttributes(array(
                                         'pendaftaran_id'=>$data->pendaftaran_id,
                                     ), array('condition'=>'tindakansudahbayar_id is null'));

@@ -201,7 +201,7 @@ class InformasikasirrdpulangV extends CActiveRecord
 			'create_time' => 'Create Time',
 			'create_loginpemakai_id' => 'Create Loginpemakai',
 			'create_ruangan' => 'Create Ruangan',
-			'carabayar_id' => 'Carabayar',
+			'carabayar_id' => 'Cara Bayar',
 			'carabayar_nama' => 'Carabayar Nama',
 			'penjamin_id' => 'Penjamin',
 			'penjamin_nama' => 'Penjamin Nama',

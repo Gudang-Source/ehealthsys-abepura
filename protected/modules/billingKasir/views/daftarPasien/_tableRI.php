@@ -13,16 +13,16 @@
                         'value'=>'$data->combineTglPendaftaran'
                     ),
                     array(
+                        'header'=>'No. Pendaftaran',
+                        'name'=>'no_pendaftaran',
+                        'type'=>'raw',
+                        'value'=>'$data->no_pendaftaran."<br/>".MyFormatter::formatDateTimeFoUser($data->tgl_pendaftaran)',
+                    ),
+                    array(
                         'header'=>'Nama Instalasi',
                         'name'=>'instalasi_nama',
                         'type'=>'raw',
                         'value'=>'$data->instalasi_nama',
-                    ),
-                    array(
-                        'header'=>'No. Pendaftaran',
-                        'name'=>'no_pendaftaran',
-                        'type'=>'raw',
-                        'value'=>'$data->no_pendaftaran',
                     ),
                     array(
                         'name'=>'no_rekam_medik',
