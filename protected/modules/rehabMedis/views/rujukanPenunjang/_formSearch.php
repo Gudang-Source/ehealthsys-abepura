@@ -114,7 +114,7 @@ $format = new MyFormatter;
             <?php 
                 $carabayar = CarabayarM::model()->findAll(array(
                     'condition'=>'carabayar_aktif = true',
-                    'order'=>'carabayar_nourut',
+                    'order'=>'carabayar_nama',
                 ));
                 foreach ($carabayar as $idx=>$item) {
                     $penjamins = PenjaminpasienM::model()->findByAttributes(array(
@@ -151,7 +151,7 @@ $format = new MyFormatter;
                           'onclick'=>'return refreshForm(this);'));
 	?>
 		<?php 
-$content = $this->renderPartial('../tips/informasi',array(),true);
+$content = $this->renderPartial('../tips/informasiPasienRujukan',array(),true);
 $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));  ?>	
 		
     </div>
