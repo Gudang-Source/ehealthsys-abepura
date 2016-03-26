@@ -8,11 +8,16 @@
         border-collapse: collapse;
         font-size: 11px;
         font-family: tahoma;
-        border:1px solid #000;
     }
-    .grid td,th{
+    .grid td, .grid th{
         padding: 5px;
     }    
+    .grid tbody td, .grid th {
+        border: 1px solid black;
+    }
+    .grid td {
+        vertical-align: top;
+    }
 </style>
 <?php
 
@@ -52,7 +57,7 @@ if (isset($caraPrint)){
         $jeniskelamin       = $dataPendaftar->jeniskelamin;
         $DokterPemeriksa    = $dataPendaftar->DokterPemeriksa;
         $carabayarPenjamin  = $dataPendaftar->CarabayarPenjamin;
-        $alamat             = $dataPendaftar->AlamatPasienPendaftar;
+        $alamat             = $dataPendaftar->alamat_pasien; //AlamatPasienPendaftar;
         $ruanganasal_nama   = $dataPendaftar->ruanganasal_nama;
         $ruangan_nama       = $dataPendaftar->ruangan_nama;
         $umur               = substr($dataPendaftar->umur,0,7);
@@ -160,10 +165,10 @@ if (isset($caraPrint)){
     <thead>
         <tr>
             <th width="1%">No.</th>
-            <th>Jenis Obat</th>
+            <th nowrap>Jenis Obat</th>
             <th>Tanggal</th>
             <th>No. Resep</th>
-            <th>Nama Items</th>
+            <th width="100%">Nama Items</th>
             <th align='center'>Jumlah</th>
             <th align='right'>Satuan</th>
             <th align='right'>Diskon</th>
@@ -187,16 +192,16 @@ if (isset($caraPrint)){
                 echo "
                 <tr>
                     <td>".$no."</td>
-                    <td>".$jenis_obat[$i]."</td>
-                    <td>".$tanggal."</td>
-                    <td>".$noresep[$i]."</td>
+                    <td nowrap>".$jenis_obat[$i]."</td>
+                    <td nowrap>".$tanggal."</td>
+                    <td nowrap>".$noresep[$i]."</td>
                     <td>".$obatnama[$i]."</td>
                     <td align='center'>".$qty_obat[$i]."</td>
-                    <td align='right'>".number_format($hargasatuan_obat[$i])."</td>
-                    <td align='right'>".number_format($discount_obat[$i])."</td>
-                    <td align='right'>".number_format($harga_obat[$i])."</td>
-                    <td align='right'>".number_format($biaya_obat[$i])."</td>
-                    <td align='right'>".number_format($subtotal[$i])."</td>
+                    <td align='right'>".MyFormatter::formatNumberForPrint($hargasatuan_obat[$i])."</td>
+                    <td align='right'>".MyFormatter::formatNumberForPrint($discount_obat[$i])."</td>
+                    <td align='right'>".MyFormatter::formatNumberForPrint($harga_obat[$i])."</td>
+                    <td align='right'>".MyFormatter::formatNumberForPrint($biaya_obat[$i])."</td>
+                    <td align='right'>".MyFormatter::formatNumberForPrint($subtotal[$i])."</td>
 
                 </tr>";
 
@@ -204,6 +209,7 @@ if (isset($caraPrint)){
             }
         ?>
     </tbody>
+    <tfoot>
     <?php 
         if($caraPrint!='PDF'){
     ?>
@@ -211,43 +217,44 @@ if (isset($caraPrint)){
         <tr>            
             <td colspan="6"><?php echo Yii::app()->user->getState("kabupaten_nama").", ".Yii::app()->dateFormatter->formatDateTime(CDateTimeParser::parse(date('Y-m-d H:i:s'), 'yyyy-mm-dd hh:mm:ss')); ?></td>
             <td colspan="4" align="right"><b>Total Tagihan :</b></td>
-            <td align="right"><b><?php echo number_format($total_tagihan); ?></b></td>
+            <td align="right"><b><?php echo MyFormatter::formatNumberForPrint($total_tagihan); ?></b></td>
         </tr>
         <tr>
             <td colspan="6">Petugas</td>
             <td colspan="4" align="right"><b>Tanggungan Asuransi :</b></td>
-            <td align="right"><b><?php if (isset($subsidiasuransi)) { echo number_format($subsidiasuransi);} ?></b></td>
+            <td align="right"><b><?php if (isset($subsidiasuransi)) { echo MyFormatter::formatNumberForPrint($subsidiasuransi);} ?></b></td>
         </tr>
         <tr>
             <td colspan="6"></td>
             <td colspan="4" align="right"><b>Tanggungan Rumah Sakit :</b></td>
-            <td align="right"><b><?php if (isset($subsidirs)) { echo number_format($subsidirs);} ?></b></td>
+            <td align="right"><b><?php if (isset($subsidirs)) { echo MyFormatter::formatNumberForPrint($subsidirs);} ?></b></td>
         </tr>
         <tr>
             <td colspan="6"><?php echo $data['nama_pegawai']; ?></td>
             <td colspan="4" align="right"><b>Tangungan Pasien :</b></td>
-            <td align="right"><b><?php if (isset($subsidirs)) { echo number_format($total_tagihan + $subsidiasuransi + $subsidirs); } else { echo number_format($total_tagihan); } ?></b></td>
+            <td align="right"><b><?php if (isset($subsidirs)) { echo MyFormatter::formatNumberForPrint($total_tagihan + $subsidiasuransi + $subsidirs); } else { echo MyFormatter::formatNumberForPrint($total_tagihan); } ?></b></td>
         </tr>
     <?php
         }else{
     ?>
         <tr>            
             <td colspan="10" align="right"><b>Total Tagihan :</b></td>
-            <td align="right"><b><?php echo number_format($total_tagihan); ?></b></td>
+            <td align="right"><b><?php echo MyFormatter::formatNumberForPrint($total_tagihan); ?></b></td>
         </tr>
         <tr>1
             <td colspan="10" align="right"><b>Tanggungan Asuransi :</b></td>
-            <td align="right"><b><?php echo number_format($subsidiasuransi); ?></b></td>
+            <td align="right"><b><?php echo MyFormatter::formatNumberForPrint($subsidiasuransi); ?></b></td>
         </tr>
         <tr>1
             <td colspan="10" align="right"><b>Tanggungan Rumah Sakit :</b></td>
-            <td align="right"><b><?php echo number_format($subsidirs); ?></b></td>
+            <td align="right"><b><?php echo MyFormatter::formatNumberForPrint($subsidirs); ?></b></td>
         </tr>
         <tr>1
             <td colspan="10" align="right"><b>Tangungan Pasien :</b></td>
-            <td align="right"><b><?php echo number_format($total_tagihan + $subsidiasuransi + $subsidirs); ?></b></td>
+            <td align="right"><b><?php echo MyFormatter::formatNumberForPrint($total_tagihan + $subsidiasuransi + $subsidirs); ?></b></td>
         </tr>    
     <?php
         }
     ?>
+    </tfoot>
 </table>    

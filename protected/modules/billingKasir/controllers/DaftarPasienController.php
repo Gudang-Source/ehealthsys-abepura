@@ -30,6 +30,7 @@ class DaftarPasienController extends MyAuthController
                     {
                         $modRD->tgl_akhir = $format->formatDateTimeForDb($_GET['BKInformasikasirrdpulangV']['tgl_akhir']);
                     }
+                    $modRD->statusBayar=$_GET['BKInformasikasirrdpulangV']['statusBayar'];
 
                 }
                 
@@ -50,7 +51,7 @@ class DaftarPasienController extends MyAuthController
                     
                     $modRI->tgl_awal_admisi = $format->formatDateTimeForDb($_GET['BKInformasikasirinappulangV']['tgl_awal_admisi']);
                     $modRI->tgl_akhir_admisi = $format->formatDateTimeForDb($_GET['BKInformasikasirinappulangV']['tgl_akhir_admisi']);
-                        
+                    $modRI->statusBayar=$_GET['BKInformasikasirinappulangV']['statusBayar'];
                     $modRI->ceklis = $_GET['BKInformasikasirinappulangV']['ceklis'];
                     if($modRI->ceklis==1){
                         $modRI->tgl_akhir = $format->formatDateTimeForDb($_GET['BKInformasikasirinappulangV']['tgl_akhir']);
@@ -73,6 +74,7 @@ class DaftarPasienController extends MyAuthController
                 
                 if(isset($_GET['BKInformasikasirrawatjalanV'])){
                     $modRJ->attributes = $_GET['BKInformasikasirrawatjalanV'];
+                    $modRJ->statusBayar=$_GET['BKInformasikasirrawatjalanV']['statusBayar'];
                     if(!empty($_GET['BKInformasikasirrawatjalanV']['tgl_awal']))
                     {
                         $modRJ->tgl_awal = $format->formatDateTimeForDb($_GET['BKInformasikasirrawatjalanV']['tgl_awal']);
@@ -98,7 +100,7 @@ class DaftarPasienController extends MyAuthController
                     $model->no_pendaftaran = $_GET['BKInfopasienkarcisV']['no_pendaftaran'];
                     $model->no_rekam_medik = $_GET['BKInfopasienkarcisV']['no_rekam_medik'];
                     $model->nama_pasien = $_GET['BKInfopasienkarcisV']['nama_pasien'];
-                    $model->nama_bin = $_GET['BKInfopasienkarcisV']['nama_bin'];
+                    // $model->nama_bin = $_GET['BKInfopasienkarcisV']['nama_bin'];
                     $model->statusperiksa = $_GET['BKInfopasienkarcisV']['statusperiksa'];
                     if(!empty($_GET['BKInfopasienkarcisV']['tgl_awal']))
                     {
