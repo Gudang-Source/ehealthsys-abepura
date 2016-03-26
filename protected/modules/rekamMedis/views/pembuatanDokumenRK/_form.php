@@ -55,6 +55,7 @@
 										   'select'=>'js:function( event, ui ) {
 												$(this).val(ui.item.value);
 												$("#SADokrekammedisM_pasien_id").val(ui.item.pasien_id);
+                                                                                                inputPasien(ui.item.pasien_id, ui.item.nama_pasien, ui.item.no_rekam_medik);
 												return false;
 											}',
 									),
@@ -246,11 +247,14 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
 
 	
 <script type="text/javascript">	
-function inputPasien(pasien_id,namaPasien)
+function inputPasien(pasien_id,namaPasien, noRM)
 {
     $("#SADokrekammedisM_pasien_id").val(pasien_id);
     $("#SADokrekammedisM_nama_pasien").val(namaPasien);
     $("#dialogPasien").dialog('close');
+    $("#SADokrekammedisM_nomortertier").val(noRM.substring(0, 2));
+    $("#SADokrekammedisM_nomorsekunder").val(noRM.substring(2, 4));
+    $("#SADokrekammedisM_nomorprimer").val(noRM.substring(4, 6));
 }
 
 /**
