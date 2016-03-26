@@ -37,6 +37,7 @@
                                                 $("#jeniskelamin").val( ui.item.jeniskelamin);
                                                 $("#statusperkawinan").val( ui.item.statusperkawinan);
                                                 $("#jabatan").val( ui.item.jabatan_nama);
+                                                $("#agama").val( ui.item.agama);
                                                 $("#alamat_pegawai").val( ui.item.alamat_pegawai);
                                                 if(ui.item.photopegawai != null){
                                                     $("#photo_pasien").attr(\'src\',\'' . Params::urlPegawaiTumbsDirectory() . 'kecil_\'+ui.item.photopegawai);
