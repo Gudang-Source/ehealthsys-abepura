@@ -32,20 +32,20 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
             ?>
 
             <?php echo $form->textFieldRow($model, 'namabahanmakanan', array('onkeypress' => "return $(this).focusNextInputField(event)", 'size' => 60, 'maxlength' => 100)); ?>
-            <?php echo $form->textFieldRow($model, 'jmlpersediaan', array('class' => "span1", 'onkeypress' => "return $(this).focusNextInputField(event)")); ?>
+            <?php echo $form->textFieldRow($model, 'jmlpersediaan', array('class' => "span1 numbers-only",'style'=>'text-align: right;', 'onkeypress' => "return $(this).focusNextInputField(event)")); ?>
             <?php
-            echo $form->dropDownListRow($model, 'jmldlmkemasan', CHtml::listData($model->JmlDlmKemasanItems, 'lookup_name', 'lookup_value'), array('class' => 'inputRequire', 'onkeypress' => "return $(this).focusNextInputField(event)", 'empty' => '-- Pilih --',));
+            echo $form->dropDownListRow($model, 'jmldlmkemasan', CHtml::listData($model->JmlDlmKemasanItems, 'lookup_value', 'lookup_name'), array('class' => 'inputRequire', 'onkeypress' => "return $(this).focusNextInputField(event)", 'empty' => '-- Pilih --',));
             ?>
         </td>
         <td>
-            <?php echo $form->textFieldRow($model, 'jmlminimal', array('class' => "span1", 'onkeypress' => "return $(this).focusNextInputField(event)")); ?>
+            <?php echo $form->textFieldRow($model, 'jmlminimal', array('class' => "span1 numbers-only", 'onkeypress' => "return $(this).focusNextInputField(event)", 'style'=>'text-align: right;',)); ?>
             <?php // echo $form->textFieldRow($model,'sumberdanabhn',array('size'=>50,'maxlength'=>50)); ?>
             <?php
             echo $form->dropDownListRow($model, 'sumberdanabhn', CHtml::listData($model->SumberDanaItems, 'lookup_name', 'lookup_value'), array('class' => 'inputRequire', 'onkeypress' => "return $(this).focusNextInputField(event)", 'empty' => '-- Pilih --',));
             ?>
 
-            <?php echo $form->textFieldRow($model, 'harganettobahan', array('class' => "span2", 'onkeypress' => "return $(this).focusNextInputField(event)")); ?>
-            <?php echo $form->textFieldRow($model, 'hargajualbahan', array('class' => "span2", 'onkeypress' => "return $(this).focusNextInputField(event)")); ?>
+            <?php echo $form->textFieldRow($model, 'harganettobahan', array('class' => "span2 numbers-only", 'onkeypress' => "return $(this).focusNextInputField(event)", 'style'=>'text-align: right;',)); ?>
+            <?php echo $form->textFieldRow($model, 'hargajualbahan', array('class' => "span2 numbers-only", 'onkeypress' => "return $(this).focusNextInputField(event)", 'style'=>'text-align: right;',)); ?>
         </td>
         <td>
             <?php // echo $form->textFieldRow($model,'tglkadaluarsabahan');  ?>
@@ -58,7 +58,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                         'attribute' => 'tglkadaluarsabahan',
                         'mode' => 'date',
                         'options' => array(
-                            'dateFormat' => 'yy-mm-dd',
+                            'dateFormat' => 'dd M yy',
                         ),
                         'htmlOptions' => array('readonly' => true,
                             'onkeypress' => "return $(this).focusNextInputField(event)",
@@ -76,7 +76,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
             <?php
                 echo $form->dropDownListRow($model, 'satuanbahan', CHtml::listData($model->SatuanBahanMakananItems, 'lookup_name', 'lookup_value'), array('class' => 'inputRequire', 'onkeypress' => "return $(this).focusNextInputField(event)", 'empty' => '-- Pilih --',));
             ?>
-            <?php echo $form->textFieldRow($model, 'discount', array('class' => "span2", 'onkeypress' => "return $(this).focusNextInputField(event)")); ?>
+            <?php echo $form->textFieldRow($model, 'discount', array('class' => "span2 numbers-only", 'style'=>'text-align: right;', 'onkeypress' => "return $(this).focusNextInputField(event)")); ?>
         </td>
     </tr>
     <tr>
@@ -100,8 +100,9 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                             foreach ($datas as $data) {
                                 $tr .= "<tr><td>";
                                 $tr .= CHtml::checkBox('zatgizi_id[]', false, array('value' => $data->getAttribute('zatgizi_id')));
-                                $tr .= '</td><td>' . $data->getAttribute('zatgizi_nama');
-                                $tr .= '</td><td>' . CHtml::textField("kandunganbahan[$data->zatgizi_id]", '0', array('size' => 6, 'class' => 'default'));
+                                $tr .= '</td><td width="100%">' . $data->getAttribute('zatgizi_nama');
+                                $tr .= '</td><td nowrap>' . CHtml::textField("kandunganbahan[$data->zatgizi_id]", '0', array('class' => 'default span1 numbers-only', 'style'=>'text-align: right;'));
+                                $tr .= ' '.$data->zatgizi_satuan;
                                 $tr .= "</td></tr>";
                             }
                             $returnVal .= $tr;

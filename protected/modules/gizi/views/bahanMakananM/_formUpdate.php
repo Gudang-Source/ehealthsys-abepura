@@ -27,24 +27,25 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
             ?>
 
             <?php echo $form->textFieldRow($model, 'namabahanmakanan', array('onkeypress' => "return $(this).focusNextInputField(event)", 'size' => 60, 'maxlength' => 100)); ?>
-            <?php echo $form->textFieldRow($model, 'jmlpersediaan', array('class' => "span1", 'onkeypress' => "return $(this).focusNextInputField(event)")); ?>
+            <?php echo $form->textFieldRow($model, 'jmlpersediaan', array('class' => "span1 numbers-only",'style'=>'text-align: right;', 'onkeypress' => "return $(this).focusNextInputField(event)")); ?>
             <?php
-            echo $form->dropDownListRow($model, 'jmldlmkemasan', CHtml::listData($model->JmlDlmKemasanItems, 'lookup_name', 'lookup_value'), array('class' => 'inputRequire', 'onkeypress' => "return $(this).focusNextInputField(event)", 'empty' => '-- Pilih --',));
+            echo $form->dropDownListRow($model, 'jmldlmkemasan', CHtml::listData($model->JmlDlmKemasanItems, 'lookup_value', 'lookup_name'), array('class' => 'inputRequire', 'onkeypress' => "return $(this).focusNextInputField(event)", 'empty' => '-- Pilih --',));
             ?>
         </td>
         <td>
-            <?php echo $form->textFieldRow($model, 'jmlminimal', array('class' => "span1", 'onkeypress' => "return $(this).focusNextInputField(event)")); ?>
+            <?php echo $form->textFieldRow($model, 'jmlminimal', array('class' => "span1 numbers-only", 'onkeypress' => "return $(this).focusNextInputField(event)", 'style'=>'text-align: right;',)); ?>
             <?php // echo $form->textFieldRow($model,'sumberdanabhn',array('size'=>50,'maxlength'=>50)); ?>
             <?php
             echo $form->dropDownListRow($model, 'sumberdanabhn', CHtml::listData($model->SumberDanaItems, 'lookup_name', 'lookup_value'), array('class' => 'inputRequire', 'onkeypress' => "return $(this).focusNextInputField(event)", 'empty' => '-- Pilih --',));
             ?>
 
-            <?php echo $form->textFieldRow($model, 'harganettobahan', array('class' => "span2", 'onkeypress' => "return $(this).focusNextInputField(event)")); ?>
-            <?php echo $form->textFieldRow($model, 'hargajualbahan', array('class' => "span2", 'onkeypress' => "return $(this).focusNextInputField(event)")); ?>
+            <?php echo $form->textFieldRow($model, 'harganettobahan', array('class' => "span2 numbers-only", 'onkeypress' => "return $(this).focusNextInputField(event)", 'style'=>'text-align: right;',)); ?>
+            <?php echo $form->textFieldRow($model, 'hargajualbahan', array('class' => "span2 numbers-only", 'onkeypress' => "return $(this).focusNextInputField(event)", 'style'=>'text-align: right;',)); ?>
         </td>
         <td>
             <?php // echo $form->textFieldRow($model,'tglkadaluarsabahan');  ?>
             <div class="control-group">
+                <?php $model->tglkadaluarsabahan = MyFormatter::formatDateTimeForUser($model->tglkadaluarsabahan)?>
                 <?php echo $form->labelEx($model, 'tglkadaluarsabahan', array('class' => 'control-label')) ?>
                 <div class="controls">  
                     <?php
@@ -53,7 +54,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                         'attribute' => 'tglkadaluarsabahan',
                         'mode' => 'date',
                         'options' => array(
-                            'dateFormat' => 'yy-mm-dd',
+                            'dateFormat' => 'dd M yy',
                         ),
                         'htmlOptions' => array('readonly' => true,
                             'onkeypress' => "return $(this).focusNextInputField(event)",
@@ -71,7 +72,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
             <?php
                 echo $form->dropDownListRow($model, 'satuanbahan', CHtml::listData($model->SatuanBahanMakananItems, 'lookup_name', 'lookup_value'), array('class' => 'inputRequire', 'onkeypress' => "return $(this).focusNextInputField(event)", 'empty' => '-- Pilih --',));
             ?>
-            <?php echo $form->textFieldRow($model, 'discount', array('class' => "span2", 'onkeypress' => "return $(this).focusNextInputField(event)")); ?>
+            <?php echo $form->textFieldRow($model, 'discount', array('class' => "span2 numbers-only", 'style'=>'text-align: right;', 'onkeypress' => "return $(this).focusNextInputField(event)")); ?>
         </td>
     </tr>
     <tr>
@@ -83,7 +84,17 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 <!--                                    <table id="tblinputZatgizi">
                         <tbody>-->
                     <?php
-                    $datas = ZatBahanMakananM::model()->findAll("bahanmakanan_id='$model->bahanmakanan_id' ORDER BY zatbahanmakan_id");
+                    $datas = $datas = ZatgiziM::model()->findAll(array(
+                                'order'=>'zatgizi_nama',
+                              ));
+                    $md = Chtml::listData($modZatBahanMakananM, 'zatgizi_id', 'kandunganbahan');
+                    
+                    $gid = array();
+                    foreach ($md as $idx=>$val) {
+                        array_push($gid, $idx);
+                    }
+                    
+                    
                     $returnVal = array();
                     $tr = '';
                     $inputHiddenZatgizi = '<input type="hidden" size="4" name="zatgizi_id[]" readonly="true"/>';
@@ -92,21 +103,16 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                     $returnVal = '<table id="tblinputzatgizi" class="table table-condensed table-bordered span1" style="width:400px; float:left;"><th> Pilih </th>
                                                                 <th>Nama Zatgizi</th><th>' . $inputHiddenZatgizi . 'Kandungan</th>';
                     foreach ($datas as $data) {
-                        $ZatgiziId = ZatgiziM::model()->findAll("zatgizi_id='$data->zatgizi_id' ORDER BY zatgizi_id");
-                        if (!empty($zatgizi[$data->zatgizi_id])) {
-                            $ceklis = true;
-                            $kandungan = $data->kandunganbahan;
-                        } else {
-                            $ceklis = false;
-                            $kandungan = 0;
+                        $c = false; $v = 0;
+                        if (in_array($data->zatgizi_id, $gid)) {
+                            $c = true; $v = $md[$data->zatgizi_id];
                         }
-                        foreach ($ZatgiziId as $ZatgiziNama) {
-                            $tr .= "<tr><td>";
-                            $tr .= CHtml::checkBox('zatbahanmakan_id[]', $ceklis, array('value' => $data->getAttribute('zatbahanmakan_id')));
-                            $tr .= '</td><td>' . $ZatgiziNama->getAttribute('zatgizi_nama');
-                            $tr .= '</td><td>' . CHtml::textField("kandunganbahan[$data->zatbahanmakan_id]", $kandungan, array('size' => 6, 'class' => 'default'));
-                            $tr .= "</td></tr>";
-                        }
+                        $tr .= "<tr><td>";
+                        $tr .= CHtml::checkBox('zatgizi_id[]', $c, array('value'=>$data->getAttribute('zatgizi_id')));
+                        $tr .= '</td><td width="100%">'.$data->getAttribute('zatgizi_nama');
+                        $tr .= '</td><td nowrap>'.CHtml::textField("kandunganbahan[$data->zatgizi_id]", $v, array('size'=>6,'class'=>'default numbers-only span1', 'style'=>'text-align: right'));
+                        $tr .= ' '.$data->zatgizi_satuan;
+                        $tr .= "</td></tr>";
                     }
                     $returnVal .= $tr;
                     $returnVal .= '</table>';
