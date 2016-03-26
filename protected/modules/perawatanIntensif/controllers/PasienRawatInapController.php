@@ -18,7 +18,7 @@ class PasienRawatInapController extends MyAuthController
   public function actionIndex()
   {
            
-        $this->pageTitle = Yii::app()->name." - Pasien Rawat Intensif";
+        $this->pageTitle = Yii::app()->name." - Pasien Rawat Inap";
         $format = new MyFormatter();
         $model = new RIInfopasienmasukkamarV;
         $model->tgl_awal  = date('Y-m-d');
@@ -35,6 +35,43 @@ class PasienRawatInapController extends MyAuthController
         $this->render('index',array('model'=>$model,'format'=>$format));
   }
 
+public function actionTerimaDokumen() {
+    if (Yii::app()->request->isAjaxRequest) {
+        $pendaftaran = $_POST['pendaftaran_id'];
+        $pengirimanrm_id = $_POST['pengirimanrm_id'];
+      
+        $model = PendaftaranT::model()->findByPk($pendaftaran);
+        if(!empty($pengirimanrm_id)) {
+            $modPenerimaanRm = PengirimanrmT::model()->findByPk($pengirimanrm_id);      
+            $modPenerimaanRm->tglterimadokrm = date('Y-m-d H:i:s');
+            $modPenerimaanRm->petugaspenerima_id = Yii::app()->user->id;
+            $modPenerimaanRm->ruanganpenerima_id = Yii::app()->user->getState('ruangan_id');
+            if($modPenerimaanRm->save()){
+                    $model->statusdokrm = 'SUDAH DITERIMA';
+                    $model->save();
+                    $update = true;
+            }else{
+                    $update = false;
+            }
+        }
+        
+        if($update == true)
+        {
+                $status = 'proses_form';
+                $div = "<div class='flash-success'>Data Dokumen Pasien <b></b> berhasil diterima </div>";
+        }else{
+                $status = 'proses_form';
+                $div = "<div class='flash-error'>Data Dokumen Pasien <b></b> gagal diterima </div>";
+        }
+
+        echo CJSON::encode(array(
+                'status'=>$status, 
+                'div'=>$div,
+                ));
+        exit;   
+    }
+}
+  
   public function actionPrint($id = null)
          {
             //$this->layout='//layouts/iframe';
@@ -175,7 +212,7 @@ class PasienRawatInapController extends MyAuthController
                           $this->updateMasukKamar($modMasukKamar,$_POST['RIMasukKamarT']);
                           if(!isset($modTariftindakan->harga_tariftindakan)){
                             echo "<script>
-                                        myAlert('Maaf, Harga Tarif Kamar Rawat Intensif Belum Ada. Silahkan Hubungi Bagian Administrasi');
+                                        myAlert('Maaf, Harga Tarif Kamar Rawat Inap Belum Ada. Silahkan Hubungi Bagian Administrasi');
                                         window.location.href('".Yii::app()->createUrl('/PasienRawatInap/index')."');
                                     </script>";
                             }else{
@@ -222,7 +259,11 @@ class PasienRawatInapController extends MyAuthController
                                     $this->successPaseinM=false;
                                 }
                             }
-							
+                            
+                            $this->updateSEPPulang($modPendaftaran, $modelPulang);
+				
+                            // die;
+                            
                          if($this->successUpdateMasukKamar && $this->successPasienPulang
                             && $this->successUpdatePendaftaran && $this->successUpdatePasienAdmisi
                             && $this->successRujukanKeluar && $this->successPaseinM){
@@ -230,6 +271,7 @@ class PasienRawatInapController extends MyAuthController
                             $modPasien = $modPendaftaran->pasien;
                             $modCaraKeluar = $modelPulang->carakeluar;
                             $modKondisiKeluar = $modelPulang->kondisikeluar;
+                            /*
                             $sms = new Sms();
                             foreach ($modSmsgateway as $i => $smsgateway) {
                                 $isiPesan = $smsgateway->templatesms;
@@ -260,6 +302,8 @@ class PasienRawatInapController extends MyAuthController
                                     }
                                 }
                             }
+                             * 
+                             */
                             // END SMS GATEWAY
 
                              $transaction->commit();
@@ -310,6 +354,22 @@ class PasienRawatInapController extends MyAuthController
                                             'modPendaftaran'=>$modPendaftaran));
   }
         
+    public function updateSEPPulang($modPendaftaran, $modelPulang) {
+        $bpjs = new Bpjs;
+        $sep = SepT::model()->findByPk($modPendaftaran->sep_id);
+        
+        if (empty($sep)) return false;
+        
+        $noSep = $sep->nosep;
+        $ppk = substr($noSep, 0, 8);
+        $tglPulang = $modelPulang->tglpasienpulang;
+             
+        // var_dump(json_decode($bpjs->update_tanggal_pulang_sep($noSep, $tglPulang, $ppk)));
+        
+        // var_dump($noSep, $ppk, $tglPulang, $modelPulang->attributes);
+        // var_dump($modPendaftaran->attributes);
+    }
+  
     public function actionTindakLanjutDrTransaksi($id = null)
     {
        $modelPulang = new RIPasienPulangT;
@@ -388,7 +448,7 @@ class PasienRawatInapController extends MyAuthController
 							$this->successPaseinM=false;
 						}
 					}
-
+                                 $this->updateSEPPulang($modPendaftaran, $modelPulang);
 				 if($this->successUpdateMasukKamar && $this->successPasienPulang
 					&& $this->successUpdatePendaftaran && $this->successUpdatePasienAdmisi
 					&& $this->successRujukanKeluar ){
@@ -399,6 +459,7 @@ class PasienRawatInapController extends MyAuthController
           $modKondisiKeluar = $modelPulang->kondisikeluar;
           $sms = new Sms();
           $smspasien = 1;
+          /*
           foreach ($modSmsgateway as $i => $smsgateway) {
               $isiPesan = $smsgateway->templatesms;
 
@@ -428,6 +489,8 @@ class PasienRawatInapController extends MyAuthController
                   }
               }
           }
+           * 
+           */
           // END SMS GATEWAY
 
 					$transaction->commit();
