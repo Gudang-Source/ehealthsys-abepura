@@ -20,7 +20,7 @@ class AGRealisasianggpengT extends RealisasianggpengT{
 		}
 		$criteria->compare('LOWER(deskripsiperiode)',strtolower($this->deskripsiperiode),true);
 		$criteria->order = "sd_tglanggaran";
-		$criteria->addCondition("isclosing_anggaran IS FALSE");
+		$criteria->addCondition("isclosing_anggaran IS TRUE");
         $periodes = KonfiganggaranK::model()->findAll($criteria);
 		foreach($periodes as $i => $periode){
 			$periodes[$i]->deskripsiperiode = $periode->deskripsiperiode;
@@ -39,7 +39,7 @@ class AGRealisasianggpengT extends RealisasianggpengT{
 		}
 		$criteria->compare('LOWER(deskripsiperiode)',strtolower($this->deskripsiperiode),true);
 		$criteria->order = "sd_tglanggaran";
-		$criteria->addCondition("isclosing_anggaran IS FALSE");
+		$criteria->addCondition("isclosing_anggaran IS TRUE");
         $periodes = KonfiganggaranK::model()->findAll($criteria);
 		foreach($periodes as $i => $periode){
 			$periodes[$i]->deskripsiperiode = $periode->deskripsiperiode;

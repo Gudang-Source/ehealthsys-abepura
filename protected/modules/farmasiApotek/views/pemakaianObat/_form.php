@@ -38,8 +38,7 @@
 					</div>
 				<?php } ?>
 			<?php echo $form->textFieldRow($model,'nopemakaian_obat',array('disabled'=>true,'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100,'readonly'=>$disabled)); ?>
-
-			<?php echo $form->textAreaRow($model,'untukkeperluan_obat',array('rows'=>3, 'cols'=>80, 'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);",'readonly'=>$disabled)); ?>
+			
 		</div>
                 <div class="span4">
                     <?php echo $form->textAreaRow($model,'untukkeperluan_obat',array('rows'=>3, 'cols'=>80, 'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);",'readonly'=>$disabled)); ?>

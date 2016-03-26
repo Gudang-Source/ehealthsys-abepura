@@ -22,8 +22,8 @@ class AGRencanggaranpengT extends RencanggaranpengT{
 			$criteria->addCondition('konfiganggaran_id = '.$this->konfiganggaran_id);
 		}
 		$criteria->compare('LOWER(deskripsiperiode)',strtolower($this->deskripsiperiode),true);
-		$criteria->order = "sd_tglanggaran";
-		$criteria->addCondition("isclosing_anggaran IS FALSE");
+		$criteria->order = "deskripsiperiode ASC";
+		$criteria->addCondition("isclosing_anggaran IS TRUE");
         $periodes = KonfiganggaranK::model()->findAll($criteria);
 		foreach($periodes as $i => $periode){
 			$periodes[$i]->deskripsiperiode = $periode->deskripsiperiode;
@@ -39,7 +39,7 @@ class AGRencanggaranpengT extends RencanggaranpengT{
 			$criteria->addCondition('konfiganggaran_id = '.$this->konfiganggaran_id);
 		}
 		$criteria->order = "sd_tglanggaran";
-		$criteria->addCondition("isclosing_anggaran IS FALSE");
+		$criteria->addCondition("isclosing_anggaran IS TRUE");
         $periodes = KonfiganggaranK::model()->findAll($criteria);
 		foreach($periodes as $i => $periode){
 			$periodes[$i]->sd_tglanggaran = MyFormatter::formatDateTimeForUser($periode->tglanggaran). " - " .  MyFormatter::formatDateTimeForUser($periode->sd_tglanggaran);
