@@ -1,10 +1,12 @@
 <?php
-    $sql = "SELECT * FROM presensi_t WHERE pegawai_id = '".$pegawai_id ."' AND statusscan_id = '". $statusscan_id ."' AND DATE(tglpresensi) = '". $datepresensi ."'";
-    $records = YII::app()->db->createCommand($sql)->queryRow();
-    if(!empty($records['tglpresensi']))
+     $modStatuspresensi = PresensiT::model()->find("pegawai_id=$pegawai_id AND statusscan_id=$statusscan_id AND DATE(tglpresensi)='$datepresensi'");
+    $format = new MyFormatter();
+    if (!empty($modStatuspresensi))
     {
-        $jam = date('H:m:s', strtotime($records['tglpresensi']));
-        echo $jam;
+        
+        $tglpresensi = $format->formatDateTimeForDb($modStatuspresensi->tglpresensi);
+//        echo $tglpresensi;
+        echo date('H:i:s', strtotime($tglpresensi));
     } else {
         echo "-";
     }

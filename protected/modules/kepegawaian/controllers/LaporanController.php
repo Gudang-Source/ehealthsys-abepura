@@ -151,7 +151,7 @@
                         ),true
                     )
                 );
-                $mpdf->Output();
+                $mpdf->Output($judulLaporan.'-'.date('Y/m/d').'.pdf','I');
             }
         }
         
@@ -217,7 +217,7 @@
                 $mpdf->WriteHTML($stylesheet,1);
                 $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
                 $mpdf->WriteHTML($this->renderPartial('presensiT/Print',array('model'=>$model, 'periode'=>$periode,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-                $mpdf->Output();
+                $mpdf->Output($judulLaporan.'-'.date('Y/m/d').'.pdf','I');
             }                    
         }
                 
