@@ -1,5 +1,5 @@
 <div class="white-container">
-    <legend class="rim2">Informasi Pasien <b>Rawat Inap</b></legend>
+    <legend class="rim2">Informasi Pasien <b>Rawat Intensif</b></legend>
     <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form.js'); ?>
 
     <?php
@@ -195,7 +195,7 @@
                                'value'=>'CHtml::link("<i class=\'icon-form-silang\'></i>", 
                                          Yii::app()->controller->createUrl("'.Yii::app()->controller->id.'/batalRawatInap",
                                          array("pendaftaran_id"=>$data->pendaftaran_id)),
-                                         array("title"=>"Klik untuk Batal Rawat Inap", "target"=>"iframeBatalRawatInap",
+                                         array("title"=>"Klik untuk Batal Rawat Intensif", "target"=>"iframeBatalRawatInap",
                                          "onclick"=>"$(\"#dialogBatalRawatInap\").dialog(\"open\");", "rel"=>"tooltip"))',
                                'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
                             ),

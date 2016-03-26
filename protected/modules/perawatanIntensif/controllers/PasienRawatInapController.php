@@ -212,7 +212,7 @@ public function actionTerimaDokumen() {
                           $this->updateMasukKamar($modMasukKamar,$_POST['RIMasukKamarT']);
                           if(!isset($modTariftindakan->harga_tariftindakan)){
                             echo "<script>
-                                        myAlert('Maaf, Harga Tarif Kamar Rawat Inap Belum Ada. Silahkan Hubungi Bagian Administrasi');
+                                        myAlert('Maaf, Harga Tarif Kamar Rawat Intensif Belum Ada. Silahkan Hubungi Bagian Administrasi');
                                         window.location.href('".Yii::app()->createUrl('/PasienRawatInap/index')."');
                                     </script>";
                             }else{
@@ -1560,7 +1560,7 @@ public function actionTerimaDokumen() {
                             } else {
                                 $transaction->rollback();
                                 if (!$ok) {
-                                    Yii::app()->user->setFlash('error',"Rawat Inap tidak bisa dibatalkan karena ada tindakan yang sudah dibayarkan!");
+                                    Yii::app()->user->setFlash('error',"Rawat Intensif tidak bisa dibatalkan karena ada tindakan yang sudah dibayarkan!");
                                 } else {
                                     Yii::app()->user->setFlash('error',"Data gagal disimpan");
                                 }
