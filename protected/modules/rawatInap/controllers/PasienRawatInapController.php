@@ -35,6 +35,43 @@ class PasienRawatInapController extends MyAuthController
         $this->render('index',array('model'=>$model,'format'=>$format));
   }
 
+public function actionTerimaDokumen() {
+    if (Yii::app()->request->isAjaxRequest) {
+        $pendaftaran = $_POST['pendaftaran_id'];
+        $pengirimanrm_id = $_POST['pengirimanrm_id'];
+      
+        $model = PendaftaranT::model()->findByPk($pendaftaran);
+        if(!empty($pengirimanrm_id)) {
+            $modPenerimaanRm = PengirimanrmT::model()->findByPk($pengirimanrm_id);      
+            $modPenerimaanRm->tglterimadokrm = date('Y-m-d H:i:s');
+            $modPenerimaanRm->petugaspenerima_id = Yii::app()->user->id;
+            $modPenerimaanRm->ruanganpenerima_id = Yii::app()->user->getState('ruangan_id');
+            if($modPenerimaanRm->save()){
+                    $model->statusdokrm = 'SUDAH DITERIMA';
+                    $model->save();
+                    $update = true;
+            }else{
+                    $update = false;
+            }
+        }
+        
+        if($update == true)
+        {
+                $status = 'proses_form';
+                $div = "<div class='flash-success'>Data Dokumen Pasien <b></b> berhasil diterima </div>";
+        }else{
+                $status = 'proses_form';
+                $div = "<div class='flash-error'>Data Dokumen Pasien <b></b> gagal diterima </div>";
+        }
+
+        echo CJSON::encode(array(
+                'status'=>$status, 
+                'div'=>$div,
+                ));
+        exit;   
+    }
+}
+  
   public function actionPrint($id = null)
          {
             //$this->layout='//layouts/iframe';
