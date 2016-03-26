@@ -64,7 +64,7 @@
 
 <?php 
 echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-info', 'type'=>'button','onclick'=>'printHasil(\'PRINT\')')); 
-echo CHtml::link(Yii::t('mds', '{icon} Batal', array('{icon}'=>'<i class="icon-remove icon-white"></i>')), '#', array('class'=>'btn btn-info', 'onclick'=>'window.parent.$("#dialogLihatHasil").dialog(\'close\')')); 
+echo CHtml::link(Yii::t('mds', '{icon} Batal', array('{icon}'=>'<i class="icon-ban-circle icon-white"></i>')), '#', array('class'=>'btn btn-danger', 'onclick'=>'window.parent.$("#dialogLihatHasil").dialog(\'close\')')); 
 $urlPrint=  $this->createUrl($this->id.'/HasilPeriksaPrint', array("pendaftaran_id"=>$masukpenunjang->pendaftaran_id,"pasien_id"=>$masukpenunjang->pasien_id,"pasienmasukpenunjang_id"=>$masukpenunjang->pasienmasukpenunjang_id));
 $js = <<< JSCRIPT
 function printHasil(caraPrint)
