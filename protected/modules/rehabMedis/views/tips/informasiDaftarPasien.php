@@ -38,33 +38,29 @@
    <tr>
     <td style = "vertical-align:middle;">8. </td>
     <td>Icon <i class="icon-form-silang"></i> untuk membatalkan pemeriksaan rehabilitasi medis pasien.</td>
-  </tr>
+  </tr>  
   <tr>
     <td style = "vertical-align:middle;">9. </td>
-    <td>Icon <i class="icon-form-buatjadwal"></i> untuk membuat jadwal rehabilitasi medis.</td>
-  </tr>
-  <tr>
-    <td style = "vertical-align:middle;">10. </td>
     <td>Gunakan tombol ini  <button class="btn btn-primary" name="yt0" type="submit"><i class="icon-search icon-white"></i>
 Cari
 </button> berfungsi untuk menyimpan</td>
   </tr>
   <tr>
-    <td style = "vertical-align:middle;">11. </td>
+    <td style = "vertical-align:middle;">10. </td>
     <td>Gunakan tombol ini <a class="btn btn-danger" href="javascript:void(0);">
 <i class="icon-refresh icon-white"></i>
 Ulang
 </a> untuk mengulang kembali inputan.</td>
   </tr>
    <tr>
-    <td style = "vertical-align:middle;">12. </td>
+    <td style = "vertical-align:middle;">11. </td>
     <td>Gunakan tombol ini <a class="btn btn-info" href="javascript:void(0);">
 <i class="icon-print icon-white"></i>
 Print
 </a> untuk mencetak data.</td>
   </tr>
    <tr>
-    <td style = "vertical-align:middle;">13. </td>
+    <td style = "vertical-align:middle;">12. </td>
     <td>Gunakan tombol ini <a class="btn btn-danger" href="javascript:void(0);">
 <i class="icon-ban-circle icon-white"></i>
 Batal
