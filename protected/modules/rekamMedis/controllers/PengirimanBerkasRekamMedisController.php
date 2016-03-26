@@ -43,6 +43,7 @@ class PengirimanBerkasRekamMedisController extends MyAuthController
 						}
 					}
 				}
+                                // die;
 				if($this->pengirimanberkastersimpan){
 					$transaction->commit();
 						$this->redirect(array('index','sukses'=>1));
@@ -100,6 +101,8 @@ class PengirimanBerkasRekamMedisController extends MyAuthController
 		$modPengiriman->create_loginpemakai_id = Yii::app()->user->id;
 		$modPengiriman->update_loginpemakai_id = Yii::app()->user->id;
 
+                // var_dump($modPengiriman->attributes); die;
+                
 		if($modPengiriman->validate()){
 			$modPengiriman->save();
 			PendaftaranT::model()->updateByPK($modPengiriman->pendaftaran_id, array('pengirimanrm_id'=>$modPengiriman->pengirimanrm_id));

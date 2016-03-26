@@ -391,7 +391,6 @@ class DaftarPasienController extends MyAuthController
             }
             
             ksort($checkers);
-            
             $this->render('/_periksaDataPasien/_terapi', 
                     array('modPendaftaran'=>$modPendaftaran, 
                         'checkers'=>$checkers));
@@ -2073,7 +2072,8 @@ class DaftarPasienController extends MyAuthController
 		}			
 
 		$modUbahStatus = new PengirimanrmT;
-
+                $modUbahStatus->tglpengirimanrm = date('d/m/Y H:i:s');
+                
 		if(isset($_POST['PengirimanrmT']))
 		{
 			$transaction = Yii::app()->db->beginTransaction();
