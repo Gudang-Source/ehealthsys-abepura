@@ -18,7 +18,7 @@ class PasienRawatInapController extends MyAuthController
   public function actionIndex()
   {
            
-        $this->pageTitle = Yii::app()->name." - Pasien Rawat Inap";
+        $this->pageTitle = Yii::app()->name." - Pasien Rawat Intensif";
         $format = new MyFormatter();
         $model = new RIInfopasienmasukkamarV;
         $model->tgl_awal  = date('Y-m-d');
