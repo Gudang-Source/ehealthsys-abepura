@@ -18,7 +18,7 @@
                         'value'=>'CHtml::Link("<i class=\"icon-check\"></i>","javascript:void(0);",array("class"=>"btn-small", 
                                         "id" => "selectPasien",
                                         "onClick" => "inputPasien($data->pasien_id,
-                                        \'$data->nama_pasien\');return false;"))',
+                                        \'$data->nama_pasien\', \'$data->no_rekam_medik\');return false;"))',
                     ),  
 					array(
 					'name'=>'no_rekam_medik',
