@@ -7,8 +7,8 @@ class PemakaianObatController extends MyAuthController
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
 	public $layout='//layouts/column1';
-    public $defaultAction = 'index';
-    public $path_view = 'farmasiApotek.views.pemakaianObat.';
+        public $defaultAction = 'index';
+        public $path_view = 'farmasiApotek.views.pemakaianObat.';
 	public $pemakaianobatsimpan = false;
 	public $pemakaianobatdetailsimpan = true; //looping
 	public $stokobatalkestersimpan = true; //looping

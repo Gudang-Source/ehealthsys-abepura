@@ -231,7 +231,7 @@ $('#daftarPasien-form').submit(function(){
                     
                     $carabayar = CarabayarM::model()->findAll(array(
                         'condition'=>'carabayar_aktif = true',
-                        'order'=>'carabayar_nourut',
+                        'order'=>'carabayar_nama',
                     ));
                     $penjamin = PenjaminpasienM::model()->findAll(array(
                         'condition'=>'penjamin_aktif = true',
@@ -278,7 +278,7 @@ $('#daftarPasien-form').submit(function(){
         ?>
         <?php echo CHtml::link(Yii::t('mds', '{icon} Reset', array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), $this->createUrl('daftarPasien/index'), array('class'=>'btn btn-danger')); ?>
         <?php 
-        $content = $this->renderPartial('../tips/informasi',array(),true);
+        $content = $this->renderPartial('../tips/informasiDaftarPasien',array(),true);
         $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));  ?>	
     </fieldset>  
     <?php $this->endWidget();?>
@@ -286,7 +286,7 @@ $('#daftarPasien-form').submit(function(){
 <script type="text/javascript">
     function batalperiksa(pendaftaran_id, penunjang_id)
     {
-            myConfirm("Anda yakin akan membatalkan pemeriksaan radiologi pasien ini?","Perhatian!",function(r) {
+            myConfirm("Anda yakin akan membatalkan pemeriksaan rehabilitasi medis pasien ini?","Perhatian!",function(r) {
                     if(r){
                             $.post('<?php echo Yii::app()->createUrl(Yii::app()->controller->module->id . '/' . Yii::app()->controller->id . '/' . 'batalPemeriksaan')?>',{pendaftaran_id:pendaftaran_id, idPenunjang: penunjang_id},
                                 function(data){

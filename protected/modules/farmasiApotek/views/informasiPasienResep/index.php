@@ -237,12 +237,21 @@
                     ));
                     
                     ?>
+                    <?php
+                        if (Yii::app()->user->getState('ruangan_nama') == "Apotek Rawat Jalan"):
+                            $instalasi_id = array(2);
+                        else:
+                            $instalasi_id = array(2,3,4);
+                        endif;
+                    ?>
+    
+}
                     <?php echo $form->dropDownListRow($model,'statusperiksa', Params::statusPeriksa(), array('empty'=>'-- Pilih --')); ?>
                     <?php echo $form->dropDownListRow($model, 'ruanganreseptur_id', CHtml::listData(RuanganM::model()->findAllByAttributes(array(
-                            'instalasi_id'=>array(2, 3, 4),
+                            'instalasi_id'=>$instalasi_id,
                             'ruangan_aktif'=>true,
                         ), array(
-                            'order'=>'instalasi_id, ruangan_nama asc'
+                            'order'=>'ruangan_nama asc'
                         )), 'ruangan_id', 'ruangan_nama'), array('empty'=>'-- Pilih --')); ?>
                     <?php //echo $form->textFieldRow($model,'nama_bin',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
                 </td>

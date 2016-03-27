@@ -22,7 +22,7 @@ class AGRencanggaranpengT extends RencanggaranpengT{
 			$criteria->addCondition('konfiganggaran_id = '.$this->konfiganggaran_id);
 		}
 		$criteria->compare('LOWER(deskripsiperiode)',strtolower($this->deskripsiperiode),true);
-		$criteria->order = "sd_tglanggaran";
+		$criteria->order = "deskripsiperiode ASC";
 		$criteria->addCondition("isclosing_anggaran IS FALSE");
         $periodes = KonfiganggaranK::model()->findAll($criteria);
 		foreach($periodes as $i => $periode){

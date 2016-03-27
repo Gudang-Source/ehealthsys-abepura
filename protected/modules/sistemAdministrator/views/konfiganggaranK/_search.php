@@ -26,7 +26,7 @@
 
                 </div> 
                 <?php $model->sd_tglanggaran = $format->formatDateTimeForUser($model->sd_tglanggaran); ?>
-                <?php echo CHtml::label('Sampai Dengan',' Sampai Dengan', array('class'=>'control-label')) ?>
+                <?php echo CHtml::label('Sampai Dengan',' Sampai Dengan', array('class'=>'control-label', 'style' => 'text-align:center;' )) ?>
                 <div class="controls">  
                     <?php $this->widget('MyDateTimePicker',array(
                                                              'model'=>$model,
