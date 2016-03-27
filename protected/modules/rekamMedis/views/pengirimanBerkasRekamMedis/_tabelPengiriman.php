@@ -13,7 +13,7 @@
 				CHtml::hiddenField(\'Dokumen[ii][pendaftaran_id]\', $data->pendaftaran_id).
 				CHtml::hiddenField(\'Dokumen[ii][ruangan_id]\', $data->ruangan_id).
 				CHtml::hiddenField(\'Dokumen[ii][peminjamanrm_id]\', $data->peminjamanrm_id).
-				CHtml::checkBox(\'Dokumen[ii][cekList]\', false, array(\'onclick\'=>\'setUrutan();setLengkap();\', \'class\'=>\'cekList\'));
+				CHtml::checkBox("Dokumen[ii][cekList]", false, array("onclick"=>"setUrutan();setLengkap();", "class"=>"cekList"));
 				',
 		),
 		'lokasirak_nama',
@@ -36,16 +36,25 @@
 		array(
 			'header'=>'Kelengkapan',
 			'type'=>'raw',
-			'value'=>'CHtml::checkBox(\'Dokumen[ii][kelengkapan]\', \'true\', array(\'class\'=>\'lengkap\'))',
+			'value'=>'CHtml::checkBox("Dokumen[ii][kelengkapan]", true, array("class"=>"lengkap"))',
 			'htmlOptions'=>array('style'=>'text-align:center;'),
 		),
+                array(
+                    'header'=>'Print',
+                    'type'=>'raw',
+                    'value'=>function($data) {
+                        return CHtml::checkBox('Dokumen[ii][printpengiriman]', $data->printpeminjaman, array(
+                            'id'=>'Dokumen[ii][printpengiriman]',
+                        ));
+                    }
+                ),/*
 		array(
 			'header'=>'Print',
 			'class'=>'CCheckBoxColumn',     
 //			'selectableRows'=>0,
 			'id'=>'Dokumen[ii][printpengiriman]',
 			'checked'=>'$data->printpeminjaman',
-		),
+		),*/
 	),
 	'afterAjaxUpdate'=>'function(id, data){
 			var colors = jQuery(\'input[rel="colorPicker"]\').attr(\'colors\').split(\',\');

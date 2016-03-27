@@ -88,32 +88,48 @@
                                 'header'=>'No.Kamar <br> No.Bed',
                                'name'=>'kamarruangan_nokamar',
                                 'type'=>'raw',
-                                'value'=>'(!empty($data->kamarruangan_nokamar))? "Kmr : ".$data->kamarruangan_nokamar."<br>"."Bed : ".$data->kamarruangan_nobed.CHtml::link("<i class=icon-form-ubah></i>","",array("href"=>"","rel"=>"tooltip","title"=>"Klik Untuk Memasukan Pasien Ke kamar","onclick"=>"{buatSessionMasukKamar($data->masukkamar_id,$data->kelaspelayanan_id,$data->pendaftaran_id); addMasukKamar(); $(\'#dialogMasukKamar\').dialog(\'open\');}return false;")) : CHtml::link("<i class=icon-form-kamar></i>","",array("href"=>"","rel"=>"tooltip","title"=>"Klik Untuk Memasukan Pasien Ke kamar","onclick"=>"{buatSessionMasukKamar($data->masukkamar_id,$data->kelaspelayanan_id,$data->pendaftaran_id); addMasukKamar(); $(\'#dialogMasukKamar\').dialog(\'open\');}return false;"))',    
+                                'value'=>'(!empty($data->kamarruangan_nokamar))? "Kmr : ".$data->kamarruangan_nokamar."<br>"."Bed : ".$data->kamarruangan_nobed.CHtml::link("<i class=icon-form-ubah></i>","",array("href"=>"","rel"=>"tooltip","title"=>"Klik Untuk Memasukan Pasien Ke kamar","onclick"=>"{buatSessionMasukKamar($data->masukkamar_id,$data->kelaspelayanan_id,$data->pendaftaran_id); addMasukKamar(); $(\'#dialogMasukKamar\').dialog(\'open\');}return false;")) : "<span class=\"no_kamar\">".CHtml::link("<i class=icon-form-kamar></i>","",array("href"=>"","rel"=>"tooltip","title"=>"Klik Untuk Memasukan Pasien Ke kamar","onclick"=>"{buatSessionMasukKamar($data->masukkamar_id,$data->kelaspelayanan_id,$data->pendaftaran_id); addMasukKamar(); $(\'#dialogMasukKamar\').dialog(\'open\');}return false;"))',    
                                 'htmlOptions'=>array('style'=>'text-align:center;'),
                             ),
                             array(
                                'header'=>'Pindah Kamar',
                                'type'=>'raw',
-                               'value'=>'((!empty($data->pasienpulang_id)) ? $data->carakeluar : CHtml::link("<i class=\'icon-form-pindahkamar\'></i> ",Yii::app()->controller->createUrl("'.Yii::app()->controller->id.'/PindahKamarPasienRI",array("pendaftaran_id"=>$data->pendaftaran_id)) ,array("title"=>"Klik Untuk Pindah Kamar","target"=>"iframePindahKamar", "onclick"=>"$(\"#dialogPindahKamar\").dialog(\"open\");", "rel"=>"tooltip")))',
+                               'value'=>function($data) {
+                                    if (!empty($data->pasienpulang_id)) {
+                                        return $data->carakeluar;
+                                    } else if (!empty($data->kamarruangan_nokamar)) {
+                                        return CHtml::link("<i class='icon-form-pindahkamar'></i> ",Yii::app()->controller->createUrl(Yii::app()->controller->id.'/PindahKamarPasienRI',array("pendaftaran_id"=>$data->pendaftaran_id)) ,array("title"=>"Klik Untuk Pindah Kamar","target"=>"iframePindahKamar", "onclick"=>"$('#dialogPindahKamar').dialog('open');", "rel"=>"tooltip"));
+                                    } else {
+                                        return CHtml::link("<i class='icon-form-pindahkamar'></i> ","#",array("title"=>"Klik Untuk Pindah Kamar","target"=>"iframePindahKamar", "onclick"=>"myAlert('Pasien belum masuk kamar.'); return false;", "rel"=>"tooltip"));
+                                    }
+                               },
                                'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
                             ),
                             array(
                                 'name'=>'Periksa Pasien',
                                 'type'=>'raw',
                 //                        'value'=>'((!empty($data->pasienpulang_id)) ? "-" : CHtml::link("<i class=\'icon-list-alt\'></i> ", Yii::app()->controller->createUrl("/rawatInap/pemeriksaanPasien",array("pendaftaran_id"=>$data->pendaftaran_id,"pasienadmisi_id"=>$data->pasienadmisi_id)),array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk Pemeriksaan Pasien")))',
-                                'value'=>'(CHtml::link("<i class=\'icon-form-periksa\'></i> ", Yii::app()->controller->createUrl("/rawatInap/pemeriksaanPasien",array("pendaftaran_id"=>$data->pendaftaran_id,"pasienadmisi_id"=>$data->pasienadmisi_id)),array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk Pemeriksaan Pasien")))',
+                                'value'=>function($data) {
+                                    if (!empty($data->kamarruangan_nokamar)) 
+                                    return CHtml::link("<i class='icon-form-periksa'></i> ", Yii::app()->controller->createUrl("/rawatInap/pemeriksaanPasien",array("pendaftaran_id"=>$data->pendaftaran_id,"pasienadmisi_id"=>$data->pasienadmisi_id)),array("id"=>$data->no_pendaftaran,"rel"=>"tooltip","title"=>"Klik untuk Pemeriksaan Pasien"));
+                                    else return (CHtml::link("<i class='icon-form-periksa'></i> ", "#",array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk Pemeriksaan Pasien", "onclick"=>"myAlert('Pasien belum masuk kamar.'); return false;")));
+                                },
                                 'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
                             ),
                                             array(
                                                     'name'=>'Alergi Obat',
                                                     'type'=>'raw',
-                                                    'value'=>'CHtml::link("<i class=\'icon-form-riwayatperiksa\'></i> ", Yii::app()->controller->createUrl("/rawatJalan/daftarPasien/alergiObat",array("pendaftaran_id"=>$data->pendaftaran_id)),
-                                                                    array("id"=>"$data->no_pendaftaran",
-                                                                            "rel"=>"tooltip",
-                                                                            "title"=>"Klik untuk melihat riwayat alergi obat pasien",
-                                                                            "target"=>"frameAlergiObat",
-                                                                            "onclick"=>"$(\'#dialogAlergiObat\').dialog(\'open\');"
-                                                                            ))',
+                                                    'value'=>function($data) {
+                                                        $url = !empty($data->kamarruangan_nokamar) ? Yii::app()->controller->createUrl("/rawatJalan/daftarPasien/alergiObat",array("pendaftaran_id"=>$data->pendaftaran_id)) : "#";
+                                                        $click = !empty($data->kamarruangan_nokamar) ? "$('#dialogAlergiObat').dialog('open');" : "myAlert('Pasien belum masuk kamar.'); return false;";
+                                                        return  CHtml::link("<i class='icon-form-riwayatperiksa'></i> ", $url,
+                                                                array("id"=>"$data->no_pendaftaran",
+                                                                    "rel"=>"tooltip",
+                                                                    "title"=>"Klik untuk melihat riwayat alergi obat pasien",
+                                                                    "target"=>"frameAlergiObat",
+                                                                    "onclick"=>$click,
+                                                                ));
+                                            },
                                                     'htmlOptions'=>array('style'=>'text-align: center; width:60px')
                                             ), /*
                                             array(
@@ -132,7 +148,7 @@
             //                    array(
             //                       'header'=>'Tindak Lanjut',
             //                       'type'=>'raw',
-            //                       'value'=>'((!empty($data->pasienpulang_id)) ? $data->carakeluar : CHtml::link("<i class=\'icon-share\'></i> ",Yii::app()->controller->createUrl("'.Yii::app()->controller->id.'/TindakLanjutDariPasienRI",array("pendaftaran_id"=>$data->pendaftaran_id)) ,array("title"=>"Klik Untuk Tindak lanjut Pasien","target"=>"iframeTindakLanjut", "onclick"=>"$(\"#dialogTindakLanjut\").dialog(\"open\");", "rel"=>"tooltip"))."<br>".CHtml::link("<i class=\'icon-remove\'></i>", "javascript:cekHakAkses($data->pendaftaran_id)",array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk Batal Rawat Intensif")))',
+            //                       'value'=>'((!empty($data->pasienpulang_id)) ? $data->carakeluar : CHtml::link("<i class=\'icon-share\'></i> ",Yii::app()->controller->createUrl("'.Yii::app()->controller->id.'/TindakLanjutDariPasienRI",array("pendaftaran_id"=>$data->pendaftaran_id)) ,array("title"=>"Klik Untuk Tindak lanjut Pasien","target"=>"iframeTindakLanjut", "onclick"=>"$(\"#dialogTindakLanjut\").dialog(\"open\");", "rel"=>"tooltip"))."<br>".CHtml::link("<i class=\'icon-remove\'></i>", "javascript:cekHakAkses($data->pendaftaran_id)",array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk Batal Rawat Inap")))',
             //                       'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
             //                    ),
                             array(
@@ -146,13 +162,18 @@
                                                     array(
                                 'name'=>'Verifikasi Tindakan Pasien',
                                 'type'=>'raw',
-                                'value'=>'(CHtml::link("<i class=\'icon-form-detailtagihan\'></i> ", Yii::app()->controller->createUrl("/rawatInap/verifikasiTindakan",array("pendaftaran_id"=>$data->pendaftaran_id,"pasienadmisi_id"=>$data->pasienadmisi_id)),array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk Verifikasi Tindakan Pasien")))',
+                                'value'=>function($data) {
+                                        $url = !empty($data->kamarruangan_nokamar) ? Yii::app()->controller->createUrl("/rawatInap/verifikasiTindakan",array("pendaftaran_id"=>$data->pendaftaran_id,"pasienadmisi_id"=>$data->pasienadmisi_id)) : "#";
+                                        $click = !empty($data->kamarruangan_nokamar) ? "return true" : "myAlert('Pasien belum masuk kamar.'); return false;";
+                                        return (CHtml::link("<i class='icon-form-detailtagihan'></i> ", $url, array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk Verifikasi Tindakan Pasien", "onclick"=>$click)));
+                                },
                                 'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
                             ),
                             array(
                                'header'=>'Pulangkan Pasien <br/> Rencana Pulang',
                                'type'=>'raw',
-                               'value'=>'((!empty($data->pasienpulang_id)) ? $data->carakeluar : CHtml::link("<i class=\'icon-form-pulang\'></i> ",
+                               'value'=>
+                                '(empty($data->kamarruangan_nokamar))?"Belum Masuk Kamar":((!empty($data->pasienpulang_id)) ? $data->carakeluar : CHtml::link("<i class=\'icon-form-pulang\'></i> ",
                                          Yii::app()->controller->createUrl("'.Yii::app()->controller->id.'/TindakLanjutDariPasienRI",
                                          array("pendaftaran_id"=>$data->pendaftaran_id)) ,
                                          array("title"=>"Klik Untuk Pemulangan Pasien","target"=>"iframeTindakLanjut", 
@@ -196,6 +217,30 @@
             //                          'value'=>'CHtml::link("<icon class=\'icon-list-brown\'></idcon>", Yii::app()->createUrl("billingKasir/RinciantagihanpasienV/rincianBelumBayarRI", array("id"=>$data->pendaftaran_id)), array("target"=>"frameRincian", "onclick"=>"$(\'#dialogRincian\').dialog(\'open\');"))','htmlOptions'=>array('style'=>'text-align: center; width:40px')
                                       'value'=>'CHtml::link("<icon class=\'icon-form-detail\'></idcon>", Yii::app()->createUrl("/billingKasir/pembayaranTagihanPasien/printRincianBelumBayar", array("instalasi_id"=>$data->instalasi_id,"pendaftaran_id"=>$data->pendaftaran_id,"pasienadmisi_id"=>$data->pasienadmisi_id,"frame"=>true)), array("target"=>"frameRincian", "onclick"=>"$(\'#dialogRincian\').dialog(\'open\');"))','htmlOptions'=>array('style'=>'text-align: center; width:40px')
                             ),  
+                            array(
+                                    'header'=>'Status Dokumen',
+                                    'type'=>'raw',
+                                    'value'=>function($data) {
+                                        $kirimrm = PengirimanrmT::model()->findByAttributes(array(
+                                            'pendaftaran_id'=>$data->pendaftaran_id,
+                                            'ruangan_id'=>Yii::app()->user->getstate('ruangan_id'),
+                                        ));
+                                        
+                                        if (empty($kirimrm)) return '<button id="red" class="btn btn-primary" name="yt1">BELUM DI TERIMA</button>';
+                                        else if (empty($kirimrm->tglterimadokrm)) return '<button id="red" class="btn btn-primary" name="yt1" onclick="verifikasiKirimanRM('.$data->pendaftaran_id.','.$kirimrm->pengirimanrm_id.')">BELUM DI VERIFIKASI</button>';
+                                        return '<button id="red" class="btn btn-primary" name="yt1" onclick="verifikasiKirimanRM('.$data->pendaftaran_id.', '.$kirimrm->pengirimanrm_id.')">SUDAH DI VERIFIKASI</button>';
+                                    }, 
+                                            /*'($data->statusdokrm == "SUDAH DITERIMA") ? CHtml::link("<i></i> $data->statusdokrm", Yii::app()->createUrl("/'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/statusDokumenKirim", array("pengirimanrm_id"=>$data->pengirimanrm_id,"pendaftaran_id"=>$data->pendaftaran_id)),
+                                                                    array("class"=>"btn btn-primary",
+                                                                    "target"=>"frameStatusDokumen",
+                                                                    "rel"=>"tooltip",
+                                                                    "title"=>"Klik untuk mengirim dokumen ke ruangan lain",
+                                                                    "onclick"=>"$(\'#dialogStatusDokumen\').dialog(\'open\');"))
+                                            : $data->getStatusDokumen($data->pengirimanrm_id,$data->statusdokrm,$data->pendaftaran_id)',
+                                             * 
+                                             */
+                                    'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
+                            ),
                     //                   
             //                    array(
             //                       'header'=>'Rencana Pulang',
@@ -401,7 +446,6 @@
             </div>
         </div>
 
-<<<<<<< HEAD
         <div class="form-actions">
             <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Login',array('{icon}'=>'<i class="icon-lock icon-white"></i>')),
                                 array('class'=>'btn btn-primary', 'type'=>'submit', 'onclick'=>'cekLogin();return false;')); ?>
@@ -410,71 +454,6 @@
         </div> 
     <?php echo CHtml::endForm(); ?>
     <?php $this->endWidget();?>
-
-
-    <?php
-    $this->beginWidget('zii.widgets.jui.CJuiDialog', array( 
-        'id'=>'dialogAlasan',
-        'options'=>array(
-            'title'=>'Data Pasien',
-            'autoOpen'=>false,
-            'modal'=>true,
-            'width'=>1000,
-            'height'=>250,
-            'resizable'=>false,
-        ),
-    ));
-    ?>
-    <div id="divFormDataPasien"></div>
-
-
-    <?php echo CHtml::beginForm('', 'POST', array('class'=>'form-horizontal','id'=>'formAlasan')); ?>
-    <table>
-        <tr>
-            <td><?php echo CHtml::label('Alasan','Alasan', array('class'=>'')) ?></td>
-            <td>
-                <?php echo CHtml::textArea('Alasan', '', array()); ?>
-                <?php echo CHtml::hiddenField('idOtoritas', '', array('readonly'=>TRUE)); ?>
-                <?php echo CHtml::hiddenField('namaOtoritas', '', array('readonly'=>TRUE)); ?>
-                <?php echo CHtml::hiddenField('idPasienPulang', '', array('readonly'=>TRUE)); ?>
-                <?php echo CHtml::hiddenField('pendaftaran_id', '', array('readonly'=>TRUE)); ?>
-                <?php echo CHtml::hiddenField('pasienadmisi_id', '', array('readonly'=>TRUE)); ?>
-
-            </td>
-        </tr>
-    </table>
-
-        <div class="form-actions">
-            <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-lock icon-white"></i>')),
-                                array('class'=>'btn btn-primary', 'type'=>'submit', 'onclick'=>'simpanAlasan();return false;')); ?>
-            <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Cancel',array('{icon}'=>'<i class="icon-ban-circle icon-white"></i>')),
-                                array('class'=>'btn btn-danger', 'type'=>'button', 'onclick'=>'batal();return false;')); ?>    </div> 
-    <?php echo CHtml::endForm(); ?>
-    <?php $this->endWidget();?>
-
-
-    <?php
-    $this->beginWidget('zii.widgets.jui.CJuiDialog', array( 
-        'id'=>'konfirmasiDialog',
-        'options'=>array(
-            'title'=>'Konfirmasi',
-            'autoOpen'=>false,
-            'modal'=>true,
-            'width'=>400,
-            'height'=>190,
-            'resizable'=>false,
-        ),
-    ));?>
-    <div align="center">
-        User Tidak Memiliki Akses Untuk Proses Ini,<br/>
-        Yakin Akan Melakukan Ke Proses Selanjutnya ?
-    </div>
-    <div class="form-actions" align="center">
-            <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Yes',array('{icon}'=>'<i class="icon-lock icon-white"></i>')),
-                                array('class'=>'btn btn-primary', 'type'=>'button', 'onclick'=>"$('#loginDialog').dialog('open');$('#konfirmasiDialog').dialog('close');")); ?>
-            <?php echo CHtml::htmlButton(Yii::t('mds','{icon} No',array('{icon}'=>'<i class="icon-ban-circle icon-white"></i>')),
-                                array('class'=>'btn btn-danger', 'type'=>'button', 'onclick'=>"$('#konfirmasiDialog').dialog('close');")); ?>    </div> 
-=======
 <?php
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array( 
     'id'=>'dialogAlasan',
@@ -511,9 +490,6 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
         <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Cancel',array('{icon}'=>'<i class="icon-ban-circle icon-white"></i>')),
                             array('class'=>'btn btn-danger', 'type'=>'button', 'onclick'=>'batal();return false;')); ?>    </div> 
 <?php echo CHtml::endForm(); ?>
-<?php $this->endWidget();?>
-
-
 <?php $this->endWidget();?>
 </div>
 <script type="text/javascript">    
@@ -771,6 +747,25 @@ function verifikasiPulangPasien(pendaftaran_id){
 	   error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
 	});	
 	
+}
+
+
+function verifikasiKirimanRM(id, kirimrm) {
+    myConfirm('Yakin Anda Menerima Dokumen Pasien? ', 'Perhatian!', function(r){
+        if(r){
+            $.post('<?php echo $this->createUrl('terimaDokumen');?>', {
+                pendaftaran_id:id, pengirimanrm_id:kirimrm
+            }, function(data){
+                if(data.status == 'proses_form'){
+						//$('#dialogStatusDokumen div.divForForm').html(data.div);
+						$.fn.yiiGridView.update('daftarPasien-grid');
+						//setTimeout("$('#dialogStatusDokumen').dialog('close')",1000);
+					}
+            }, 'json');
+        }else{
+             preventDefault();
+        }
+    });
 }
 </script>
 <?php

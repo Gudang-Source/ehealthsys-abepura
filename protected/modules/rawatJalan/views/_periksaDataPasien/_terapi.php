@@ -35,7 +35,7 @@ if (isset($caraPrint)){
             ));
             foreach ($dat as $item) {
                 array_push($oa, array(
-                    'jenis'=>$item->obatalkes->jenisobatalkes->jenisobatalkes_nama,
+                    'jenis'=>empty($item->obatalkes->jenisobatalkes_id)?"-":$item->obatalkes->jenisobatalkes->jenisobatalkes_nama,
                     'nama'=>$item->obatalkes->obatalkes_nama,
                     'etiket'=>$item->etiket." / ".$item->signa_reseptur,
                     'qty'=>$item->qty_reseptur,
@@ -48,7 +48,7 @@ if (isset($caraPrint)){
             ));
             foreach ($dat as $item) {
                 array_push($oa, array(
-                    'jenis'=>$item->obatalkes->jenisobatalkes->jenisobatalkes_nama,
+                    'jenis'=>empty($item->obatalkes->jenisobatalkes_id)?"-":$item->obatalkes->jenisobatalkes->jenisobatalkes_nama,
                     'nama'=>$item->obatalkes->obatalkes_nama,
                     'etiket'=>$item->etiket." / ".$item->signa_oa,
                     'qty'=>$item->qty_oa,
