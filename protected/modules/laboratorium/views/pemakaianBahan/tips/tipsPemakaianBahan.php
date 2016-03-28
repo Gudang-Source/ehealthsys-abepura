@@ -29,10 +29,6 @@
         
     </div>
     <div class="span6">
-         <li>
-            Icon  <i class="icon-form-sampah"></i>
-            berfungsi untuk menghapus data.
-        </li>
         <li>
             Tombol  <div class="btn btn-primary" name="yt0" type="button"><i class="icon-ok icon-white"></i> Simpan</div>
             berfungsi untuk menyimpan.
@@ -47,7 +43,7 @@
         </li>
         <li>
             Tombol  <div class="btn btn-info" name="yt0" type="button"><i class="icon-print icon-white"></i> Print </div>
-            berfungsi untuk mencetak rincian pemakaian BMHP / Obat dan Alat Kesehatan.
+            berfungsi untuk mencetak rincian pemakaian Bahan / Obat dan Alat Kesehatan.
         </li>
     </div>
 </ol>

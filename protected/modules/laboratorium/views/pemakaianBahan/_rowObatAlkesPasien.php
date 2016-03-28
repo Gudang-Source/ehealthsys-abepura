@@ -21,6 +21,6 @@
         <?php echo CHtml::activeHiddenField($modObatAlkesPasien,'[ii]iurbiaya',array('readonly'=>true,'class'=>'span2 integer','style'=>'width:90px;')); ?>
     </td>
     <td>
-        <a onclick="batalOaPasien(this);return false;" rel="tooltip" href="javascript:void(0);" title="Klik untuk membatalkan Obat / Alat Kesehatan"><i class="icon-remove"></i></a>
+        <a onclick="batalOaPasien(this);return false;" rel="tooltip" href="javascript:void(0);" title="Klik untuk membatalkan Obat / Alat Kesehatan"><i class="icon-form-silang"></i></a>
     </td>
 </tr>
