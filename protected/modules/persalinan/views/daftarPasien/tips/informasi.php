@@ -4,17 +4,17 @@
     <tr>
         <td>1. </td>
         <td>Icon <i class="icon-calendar"></i>
-            untuk menentukan tanggal transaksi / pendaftaran.</td>
+            untuk menentukan tanggal pendaftaran.</td>
     </tr>
     <tr>
         <td>2. </td>
-        <td>Icon <i class="icon-pencil"></i>
-            untuk mengedit lembaran kerja terpilih.</td>
+        <td>Icon <i class="icon-form-persalinan"></i>
+            untuk melanjutkan ke form persalinan.</td>
     </tr>
     <tr>
         <td>3. </td>
-        <td>Icon <i class="icon-list-alt"></i>
-            berfungsi untuk menampilkan list data secara detail.</td>
+        <td>Icon <i class="icon-form-kelahiran"></i>
+            untuk melanjutkan ke form kelahiran.</td>
     </tr>
     <tr>
         <td>4. </td>

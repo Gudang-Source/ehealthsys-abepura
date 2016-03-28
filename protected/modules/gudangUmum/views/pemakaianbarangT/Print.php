@@ -60,7 +60,7 @@ $modProfilRs = ProfilrumahsakitM::model()->findByPk(Params::DEFAULT_PROFIL_RUMAH
             <td><?php echo isset($modPemakaianBarang->keteranganpakai) ? $modPemakaianBarang->keteranganpakai : "-"; ?></td>
         </tr>
     </table><br/><br>
-    <table width="100%" style='margin-left:auto; margin-right:auto;'>
+    <table width="100%" style='margin-left:auto; margin-right:auto;' class="border">
         <thead class="border">
             <th>Kode Barang</th>
             <th>Tipe Barang</th>
@@ -96,11 +96,11 @@ $modProfilRs = ProfilrumahsakitM::model()->findByPk(Params::DEFAULT_PROFIL_RUMAH
 				?>
             </tr>
         <?php } ?>
-        <tr>
-            <td colspan="5" align="center"><strong>Total</strong></td>
-            <td style="text-align: center;"><?php //echo ($total_jmlpakai); ?></td>
-            <td style="text-align: right;"><?php echo $format->formatNumberForPrint($total_harganetto); ?></td>
-            <td style="text-align: right;"><?php echo $format->formatNumberForPrint($total_hargajual); ?></td>
+        <tr style = "border-top:solid #000 1px;">
+            <td colspan="5" align="right" class = "border"><strong>Total</strong></td>
+            <td style="text-align: center;" ><?php //echo ($total_jmlpakai); ?></td>
+            <td style="text-align: right;" ><?php echo $format->formatNumberForPrint($total_harganetto); ?></td>
+            <td style="text-align: right;" ><?php echo $format->formatNumberForPrint($total_hargajual); ?></td>
         </tr>
     </table>
 <?php
