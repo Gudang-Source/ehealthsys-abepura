@@ -88,7 +88,9 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 <!--                    <table id="tblinputZatgizi">
                         <tbody>-->
                             <?php
-                            $datas = ZatgiziM::model()->findAll();
+                            $datas = ZatgiziM::model()->findAll(array(
+                                'order'=>'zatgizi_nama',
+                            ));
                             $returnVal = array();
                             $tr = '';
                             $inputHiddenZatgizi = '<input type="hidden" size="4" name="zatgizi_id[]" readonly="true"/>';
