@@ -39,7 +39,9 @@ $this->widget('bootstrap.widgets.BootAlert');?>
             <tr>
                  <td>
                     <div class="control-group ">
-                        <?php echo $form->labelEx($modelPenjualanResep,'tglresep', array('class'=>'control-label')) ?>
+                        <?php 
+                        $modelPenjualanResep->tglresep = MyFormatter::formatDateTimeForUser($modelPenjualanResep->tglresep);
+                        echo $form->labelEx($modelPenjualanResep,'tglresep', array('class'=>'control-label')) ?>
                         <div class="controls">
                             <?php   
                                  echo $form->textField($modelPenjualanResep,'tglresep',array('class'=>'span3','readonly'=>true));
@@ -91,8 +93,8 @@ $this->widget('bootstrap.widgets.BootAlert');?>
 					<th width='180'>Kode / Nama Obat Dilayani</th>
 					<th>Jumlah Pada Resep</th>
 					<th>Jumlah Dilayani</th>
-					<th>Sumber Dana</th>
-					<th>Satuan Kecil</th>
+					<th hidden>Sumber Dana</th>
+					<th hidden>Satuan Kecil</th>
 					<th>Harga</th>
 					<th>Sub Total</th>
 					<th>Signa</th>

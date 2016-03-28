@@ -56,44 +56,40 @@ if($caraPrint=='EXCEL')
 
 <table width="50%" <?php echo $style; ?>>
     <tr>
-        <td width='15%'>
-            <label class='control-label'>NIP / No. Pendaftaran</label>
-        </td>
-		<td width='35%'>: <?php echo !empty($modPendaftaran->pasien->pegawai_id)?$modPendaftaran->pasien->pegawai->nomorindukpegawai:'-'; ?> / <?php echo $modPendaftaran->no_pendaftaran; ?></td>
-        <td width='15%'>
-			<label class='control-label'>No. Resep</label>
-        </td>
-        <td width='35%'>: <?php echo $modReseptur->noresep; ?></td>
+        <td nowrap>No. Pendaftaran</td>
+        <td>:</td>
+        <td width="100%"><?php echo $modPendaftaran->no_pendaftaran; ?></td>
+        
+        <td>No. Resep</td>
+        <td>:</td>
+        <td nowrap> <?php echo $modReseptur->noresep; ?></td>
     </tr>
     <tr>
-        <td width='15%'>
-            <label class='control-label'>Nama Pasien</label>
-        </td>
-		<td width='35%'>: <?php echo $modPendaftaran->pasien->nama_pasien; ?></td>
-        <td width='15%'>
-			<label class='control-label'>Dokter Penulis Resep</label>
-        </td>
-        <td width='35%'>: <?php echo $modReseptur->GetNamaLengkapPegawai($modReseptur->pegawai_id); ?></td>
+        <td>Nama Pasien</td>
+        <td>:</td>
+        <td> <?php echo $modPendaftaran->pasien->nama_pasien; ?></td>
+        
+        <td nowrap>Dokter Penulis Resep</td>
+        <td>:</td>
+        <td nowrap> <?php echo $modReseptur->GetNamaLengkapPegawai($modReseptur->pegawai_id); ?></td>
     </tr>
     <tr>
-        <td width='15%'>
-            <label class='control-label'>Umur</label>
-        </td>
-		<td width='35%'>: <?php echo $modPendaftaran->umur; ?></td>
-        <td width='15%'>
-			<label class='control-label'>Tanggal Resep</label>
-        </td>
-        <td width='35%'>: <?php echo $modReseptur->tglreseptur; ?></td>
+        <td>Umur</td>
+        <td>:</td>
+        <td> <?php echo $modPendaftaran->umur; ?></td>
+        
+        <td>Tanggal Resep</td>
+        <td>: </td>
+        <td nowrap><?php echo $modReseptur->tglreseptur; ?></td>
     </tr>
     <tr>
-        <td width='15%'>
-            <label class='control-label'>Alamat</label>
-        </td>
-		<td width='35%'>: <?php echo $modPendaftaran->pasien->alamat_pasien; ?></td>
-        <td width='15%'>
-			<label class='control-label'>Ruangan</label>
-        </td>
-        <td width='35%'>: <?php echo $modReseptur->ruanganreseptur->ruangan_nama; ?></td>
+        <td>Alamat</td>
+        <td>:</td>
+        <td> <?php echo $modPendaftaran->pasien->alamat_pasien; ?></td>
+        
+        <td>Ruangan</td>
+        <td>:</td>
+        <td nowrap> <?php echo $modReseptur->ruanganreseptur->ruangan_nama; ?></td>
     </tr>
        
     </table>

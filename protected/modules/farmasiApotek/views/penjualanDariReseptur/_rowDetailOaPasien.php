@@ -35,7 +35,7 @@ $satuan = !empty($modObatAlkesPasien->obatalkes->satuankecil_id) ? $modObatAlkes
 			<?php echo CHtml::activeTextField($modObatAlkesPasien, '[ii]qty_dilayani',array('readonly'=>true,'style'=>'width:50px; text-align: right;','value'=>$modObatAlkesPasien->qty_oa,'onblur'=>'hitungSubTotal(this);')); ?>
                         <?php echo $satuan; ?>
 		</td>
-		<td>
+		<td hidden>
 			<span name="[ii][sumberdana_nama]"><?php echo (!empty($modObatAlkesPasien->sumberdana_id) ? $modObatAlkesPasien->obatalkes->sumberdana->sumberdana_nama : "") ?></span>
 		</td>
 		<!--td>
