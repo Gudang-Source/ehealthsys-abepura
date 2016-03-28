@@ -61,6 +61,13 @@
                 <?php echo $form->dropDownListRow($model,'ruangantujuan_id',$ruanganPemesanans,array('class'=>'span3','empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
                 <?php echo $form->dropDownListRow($model,'statuspesan', LookupM::getItems('statuspesan'),array('class'=>'span3','empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
                 <?php echo $form->dropDownListRow($model,'statusmutasi', array(1=>'SUDAH DIMUTASi', 2=>'BELUM DIMUTASI'), array('class'=>'span3','empty'=>'-- Pilih --')); ?>
+                <?php echo $form->dropDownListRow($model,'pegawaipemesan_id', 
+                        CHtml::listData(PegawairuanganV::model()->findAllByAttributes(array(
+                            'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
+                        ), array(
+                            'order'=>'nama_pegawai'
+                        )), 'pegawai_id', 'nama_pegawai')
+                        , array('class'=>'span3','empty'=>'-- Pilih --')); ?>
             </td>
             <td>
                 <?php echo $form->textFieldRow($model,'nopemesanan',array('placeholder'=>'Ketik No. Pemesanan','class'=>'numberOnly','style'=>'width:204px')); ?>

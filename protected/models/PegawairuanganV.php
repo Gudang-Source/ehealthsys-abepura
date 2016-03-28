@@ -223,4 +223,8 @@ class PegawairuanganV extends CActiveRecord
                 ));
         }
         
+        public function getNamaLengkap() {
+            return $this->gelardepan." ".$this->nama_pegawai.(!empty($this->gelarbelakang_id)?", ".$this->gelarbelakang_nama:"");
+        }
+        
 }
