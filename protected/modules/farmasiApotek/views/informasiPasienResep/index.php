@@ -100,14 +100,7 @@
                 array(
                     'header'=>'Penjualan Resep',
                     'type'=>'raw', 
-                    'value'=>'(isset($data->penjualanresep_id) ? $data->getNoPenjualanResep($data->reseptur_id). 
-					
-					CHtml::Link("<i class=\"icon-form-jualresep\"></i>",Yii::app()->controller->createUrl("PenjualanDariReseptur/Index",array("reseptur_id"=>$data->reseptur_id)),
-                                array("class"=>"", 
-                                      "target"=>"_BLANK",
-                                      "rel"=>"tooltip",
-                                      "title"=>"Klik untuk menjual resep",
-                                ))
+                    'value'=>'(isset($data->penjualanresep_id) ? $data->getNoPenjualanResep($data->reseptur_id)
 					
 					: CHtml::Link("<i class=\"icon-form-jualresep\"></i>",Yii::app()->controller->createUrl("PenjualanDariReseptur/Index",array("reseptur_id"=>$data->reseptur_id)),
                                 array("class"=>"", 
