@@ -62,6 +62,18 @@ $('#divSearch-form form').submit(function(){
                                          ))',
                             'htmlOptions'=>array('style'=>'text-align:left;'),
                         ),
+                        array(
+                            'header'=>'Batal Pemesanan',
+                            'type'=>'raw',
+                            'value'=>function($data) {
+                                if (!empty($data->mutasioaruangan_id)) return "-";
+                                return CHtml::link('<i class="icon-form-silang"></i>', '#', array(
+                                    'onclick'=>'deleteRecord('.$data->pesanobatalkes_id.')',
+                                    'ref'=>'tooltip',
+                                    'title'=>'Klik untuk membatalkan pemesanan',
+                                ));
+                            }
+                        ),
                 ),
                 'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
         )); ?>
