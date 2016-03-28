@@ -60,7 +60,9 @@
 		var kosong = "";
 		var dataKosong = $("#input-penerimaan-kas").find(".reqForm[value=" + kosong + "]");
 		if (dataKosong.length > 0) {
+                    if(requiredCheck($("#akpenerimaan-umum-t-form"))){
 			myAlert('Bagian dengan tanda * harus diisi ');
+                    }
 		} else {
 
 			var detail = 0;
