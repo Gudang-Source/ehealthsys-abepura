@@ -62,7 +62,7 @@ $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
                 <?php echo CHtml::label('Dokter Penanggung Jawab','Dokter Penanggung Jawab', array('class'=>'control-label inline')) ?>
                 <div class="controls">
                     <?php   
-                        echo $form->dropDownList($model,'nama_pegawai',CHtml::listData(PegawaiM::model()->findAll(), 'nama_pegawai', 'nama_pegawai'),array('empty'=>'--Pilih--','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); 
+                        echo $form->dropDownList($model,'nama_pegawai',CHtml::listData(PegawaiM::model()->findAll("pegawai_aktif = TRUE ORDER BY nama_pegawai ASC"), 'nama_pegawai', 'nama_pegawai'),array('empty'=>'--Pilih--','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); 
                     ?>
 
                 </div>
@@ -71,7 +71,7 @@ $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
                 <?php echo CHtml::label('Asal Instalasi','Asal Instalasi', array('class'=>'control-label inline')) ?>
                 <div class="controls">
                     <?php   
-                        echo $form->dropDownList($model,'instalasi_id',CHtml::listData(InstalasiM::model()->findAll('instalasi_id in('.PARAMS::INSTALASI_ID_RJ.','.PARAMS::INSTALASI_ID_RD.','.PARAMS::INSTALASI_ID_RI.')'), 'instalasi_id', 'instalasi_nama'),array('empty'=>'--Pilih--','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); 
+                        echo $form->dropDownList($model,'instalasi_id',CHtml::listData(InstalasiM::model()->findAll('instalasi_id in('.PARAMS::INSTALASI_ID_RJ.','.PARAMS::INSTALASI_ID_RD.','.PARAMS::INSTALASI_ID_RI.') ORDER BY instalasi_nama ASC'), 'instalasi_id', 'instalasi_nama'),array('empty'=>'--Pilih--','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); 
                     ?>
 
                 </div>
