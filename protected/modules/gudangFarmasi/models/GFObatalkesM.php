@@ -218,29 +218,32 @@ class GFObatalkesM extends ObatalkesM
 
 		$criteria=new CDbCriteria;
 		if($this->is_nobatch_tglkadaluarsa == true){
-			$criteria->compare('LOWER(jenisobatalkes_nama)',strtolower($this->jenisobatalkes_nama),true);
+                        $criteria->join = " JOIN satuankecil_m ON satuankecil_m.satuankecil_id = t.satuankecil_id
+					    LEFT JOIN jenisobatalkes_m ON jenisobatalkes_m.jenisobatalkes_id = t.jenisobatalkes_id
+						";
+			$criteria->compare('LOWER(jenisobatalkes_m.jenisobatalkes_nama)',strtolower($this->jenisobatalkes_nama),true);
 			if(!empty($this->obatalkes_id)){
-				$criteria->addCondition('obatalkes_id = '.$this->obatalkes_id);
-			}
-			$criteria->compare('LOWER(obatalkes_barcode)',strtolower($this->obatalkes_barcode),true);
-			$criteria->compare('LOWER(obatalkes_kode)',strtolower($this->obatalkes_kode),true);
-			$criteria->compare('LOWER(obatalkes_nama)',strtolower($this->obatalkes_nama),true);
-			$criteria->compare('LOWER(obatalkes_namalain)',strtolower($this->obatalkes_namalain),true);
-			$criteria->compare('LOWER(obatalkes_golongan)',strtolower($this->obatalkes_golongan),true);
-			$criteria->compare('LOWER(obatalkes_kategori)',strtolower($this->obatalkes_kategori),true);
-			$criteria->compare('LOWER(obatalkes_kadarobat)',strtolower($this->obatalkes_kadarobat),true);
+				$criteria->addCondition('t.obatalkes_id = '.$this->obatalkes_id);
+			}                       
+			$criteria->compare('LOWER(t.obatalkes_barcode)',strtolower($this->obatalkes_barcode),true);
+			$criteria->compare('LOWER(t.obatalkes_kode)',strtolower($this->obatalkes_kode),true);
+			$criteria->compare('LOWER(t.obatalkes_nama)',strtolower($this->obatalkes_nama),true);
+			$criteria->compare('LOWER(t.obatalkes_namalain)',strtolower($this->obatalkes_namalain),true);
+			$criteria->compare('LOWER(t.obatalkes_golongan)',strtolower($this->obatalkes_golongan),true);
+			$criteria->compare('LOWER(t.obatalkes_kategori)',strtolower($this->obatalkes_kategori),true);
+			$criteria->compare('LOWER(t.obatalkes_kadarobat)',strtolower($this->obatalkes_kadarobat),true);
 			
 			if(!empty($this->satuankecil_id)){
-				$criteria->addCondition('satuankecil_id = '.$this->satuankecil_id);
+				$criteria->addCondition('t.satuankecil_id = '.$this->satuankecil_id);
 			}
-			$criteria->compare('LOWER(satuankecil_nama)',strtolower($this->satuankecil_nama),true);
-			$criteria->compare('LOWER(nobatch)',strtolower($this->nobatch),true);
+			$criteria->compare('LOWER(satuankecil_m.satuankecil_nama)',strtolower($this->satuankecil_nama),true);
+			$criteria->compare('LOWER(t.nobatch)',strtolower($this->nobatch),true);
 			
 			if(!empty($this->tglkadaluarsa)){
-				$criteria->addBetweenCondition('DATE(tglkadaluarsa)', $this->tglkadaluarsa, $this->tglkadaluarsa);
+				$criteria->addBetweenCondition('DATE(t.tglkadaluarsa)', $this->tglkadaluarsa, $this->tglkadaluarsa);
 			}
 			
-			$criteria->order='obatalkes_nama ASC';
+			$criteria->order='t.obatalkes_nama ASC';
 			$criteria->limit = 10;
 			
 			$model = new GFInformasistokobatalkesV;
