@@ -18,7 +18,14 @@
             Tombol  <div class="btn btn-danger" name="yt0" type="button"><i class="icon-refresh icon-white"></i></div>
             berfungsi untuk me-refresh form.
         </li>
-        
+        <li>
+            Icon  <div class="btn btn-primary" name="yt0" type="button"><i class="icon-plus icon-white"></i></div>
+            berfungsi untuk menambahkan data.
+        </li>
+        <li>
+            Icon  <i class="icon-form-silang"></i>
+            berfungsi untuk membatalkan data.
+        </li>
         
     </div>
     <div class="span6">
@@ -35,11 +42,8 @@
             sedangkan tombol <div class="btn btn-info" name="yt0" type="button" disabled="disabled"><i class="icon-print icon-white"></i></div> tidak dapat digunakan (tidak aktif).
         </li>
         <li>
-            Tombol  <div class="btn btn-info" name="yt0" type="button"><i class="icon-print icon-white"></i> Print Status</div>
-            berfungsi untuk mencetak lembar status kunjungan pasien.
+            Tombol  <div class="btn btn-info" name="yt0" type="button"><i class="icon-print icon-white"></i> Print </div>
+            berfungsi untuk mencetak rincian pemakaian BMHP / Obat dan Alat Kesehatan.
         </li>
-		<li>
-			<span style="background-color: #00FF00"> Pemeriksaan yang sudah dibayarkan </span>
-		</li>
     </div>
 </ol>

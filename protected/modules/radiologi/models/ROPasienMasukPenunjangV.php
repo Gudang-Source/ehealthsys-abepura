@@ -168,6 +168,7 @@ class ROPasienMasukPenunjangV extends PasienmasukpenunjangV
                 $criteria->compare('LOWER(t.nama_pasien)',strtolower($this->nama_pasien),true);
                 $criteria->compare('LOWER(t.instalasiasal_nama)',strtolower($this->instalasiasal_nama),true);
                 $criteria->compare('LOWER(t.ruanganasal_nama)',strtolower($this->ruanganasal_nama),true);
+                $criteria->compare('LOWER(t.jeniskelamin)',strtolower($this->jeniskelamin),true);
 				if(!empty($this->carabayar_id)){
 					$criteria->addCondition("t.carabayar_id = ".$this->carabayar_id);					
 				}
