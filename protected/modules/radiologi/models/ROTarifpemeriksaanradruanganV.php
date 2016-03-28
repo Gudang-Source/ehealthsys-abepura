@@ -98,12 +98,12 @@ class ROTarifpemeriksaanradruanganV extends TarifpemeriksaanradruanganV
 	
 	public function getKelasPelayananItems()
 	{
-		return KelaspelayananM::model()->findAll(array('order'=>'kelaspelayanan_nama'));
+		return KelaspelayananM::model()->findAll("kelaspelayanan_aktif = TRUE ORDER BY kelaspelayanan_nama ASC");
 	} 
 
 	public function getKategoritindakanItems()
 	{
-		return KategoritindakanM::model()->findAll(array('order'=>'kategoritindakan_nama'));
+		return KategoritindakanM::model()->findAll("kategoritindakan_aktif = TRUE ORDER BY kategoritindakan_nama ASC");
 	} 
 	
 }
