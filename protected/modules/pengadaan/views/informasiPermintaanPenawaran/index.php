@@ -98,7 +98,7 @@ $('#divSearch-form form').submit(function(){
             'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
         )); ?>
     </div>
-    <?php echo $this->renderPartial('_search',array('model'=>$model,'format'=>$format)); ?>
+    <?php echo $this->renderPartial($this->path_view.'_search',array('model'=>$model,'format'=>$format)); ?>
 </div>
 <?php 
 // ===========================Dialog Details=========================================
