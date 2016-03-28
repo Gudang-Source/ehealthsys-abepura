@@ -665,7 +665,7 @@ class DaftarPasienController extends MyAuthController
                             $model->pasienmasukpenunjang_id = $penunjang->pasienmasukpenunjang_id;
                             $model->pasienkirimkeunitlain_id = $penunjang->pasienkirimkeunitlain_id;
                             $model->tglbatal = date('Y-m-d');
-                            $model->keterangan_batal = "Batal Laboratorium";
+                            $model->keterangan_batal = "Batal Rehabilitasi Medis";
                             $model->create_time = date('Y-m-d H:i:s');
                             $model->update_time = null;
                             $model->create_loginpemakai_id = Yii::app()->user->id;

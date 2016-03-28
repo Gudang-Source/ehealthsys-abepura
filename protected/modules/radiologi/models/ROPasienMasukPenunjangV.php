@@ -187,10 +187,10 @@ class ROPasienMasukPenunjangV extends PasienmasukpenunjangV
                 $criteria->join = "join pendaftaran_t p on p.pendaftaran_id = t.pendaftaran_id";
                 $criteria->addCondition("p.pasienbatalperiksa_id is null");
                 
-                //$criteria->limit = 10;
+                $criteria->limit = 10;
                 return new CActiveDataProvider($this, array(
                         'criteria'=>$criteria,
-                        'pagination'=>false,
+                        //'pagination'=>false,
                 ));
         }
 
