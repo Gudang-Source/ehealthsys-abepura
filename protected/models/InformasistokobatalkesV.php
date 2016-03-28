@@ -92,6 +92,9 @@ class InformasistokobatalkesV extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+                    //'jenisobatalkes' => array(self::BELONGS_TO, 'JenisobatalkesM', 'jenisobatalkes_id'),
+                    //'satuanbesar' => array(self::BELONGS_TO, 'SatuanbesarM', 'satuanbesar_id'),
+                   // 'satuankecil' => array(self::BELONGS_TO, 'SatuankecilM', 'satuankecil_id'),
 		);
 	}
 

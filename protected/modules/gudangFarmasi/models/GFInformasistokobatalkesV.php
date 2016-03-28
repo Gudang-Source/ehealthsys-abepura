@@ -28,8 +28,7 @@ class GFInformasistokobatalkesV extends InformasistokobatalkesV
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
-		$criteria=new CDbCriteria;
-
+		$criteria=new CDbCriteria;                
 		if(!empty($this->instalasi_id)){
 			$criteria->addCondition('instalasi_id = '.$this->instalasi_id);
 		}
