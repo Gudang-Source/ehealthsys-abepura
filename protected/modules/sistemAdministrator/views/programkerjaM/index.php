@@ -303,7 +303,7 @@ function editKegiatanProgram(obj)
         id_form['tiga'] = 'yes';
         var value = $(obj).attr('value');
         $('#fieldsetKegiatanProgram').find('legend[class="rim"]').text("Edit Kegiatan Program");
-        $.post("<?php echo Yii::app()->createUrl(Yii::app()->controller->module->id . '/' . Yii::app()->controller->id . '/getKegiatanProgram');?>", {id:value},
+        $.post("<?php echo Yii::app()->createUrl(Yii::app()->controller->module->id . '/' . Yii::app()->controller->id . '/getInformasiKegiatanProgram');?>", {id:value},
             function(data){
                 $.each(data, function(key, value){
                     $("#form-kegiatan-program").find("input[type=text][name$='["+ key +"]']").val(value);
