@@ -49,7 +49,7 @@ if(isset($_GET['sukses'])){
                 <th width='180'>Kode / Nama Obat Dilayani</th>
                 <th>Jumlah Pada Resep</th>
                 <th>Jumlah Dilayani</th>
-                <th>Sumber Dana</th>
+                <th hidden>Sumber Dana</th>
                 <!--th>Satuan Kecil</th-->
                 <th>Harga</th>
                 <th>Sub Total</th>
@@ -82,7 +82,7 @@ if(isset($_GET['sukses'])){
                 <th width='180'>Kode / Nama Obat Dilayani</th>
                 <th>Jumlah Pada Resep</th>
                 <th>Jumlah Dilayani</th>
-                <th>Sumber Dana</th>
+                <th hidden>Sumber Dana</th>
                 <!--th>Satuan Kecil</th--!>
                 <!--th>Stok</th-->
                 <th>Harga</th>
@@ -108,7 +108,7 @@ if(isset($_GET['sukses'])){
 			<tr>
 				<td colspan="3"></td>
 				<td><strong>Takaran Resep : </strong><?php echo $form->dropDownList($modPenjualan, 'takaranresep', LookupM::getItems('takaranresep') ,array('class'=>'span1','onkeyup'=>"return $(this).focusNextInputField(event)",'onchange'=>'ubahTakaranResep(this);')); ?></td>
-				<td colspan="3"></td>
+				<td colspan="2"></td>
 				<td style="text-align: right;"><strong>Total</strong></td>
 				<td><strong>
 					<?php // echo CHtml::textField('grandtotal','',array('readonly'=>true,'class'=>'span2 integer', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
@@ -200,7 +200,7 @@ if(!isset($_GET['sukses'])){
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     'id'=>'dialogOa',
     'options'=>array(
-        'title'=>'Daftar Tindakan',
+        'title'=>'Obat Alkes',
         'autoOpen'=>false,
         'modal'=>true,
         'width'=>800,
@@ -255,19 +255,15 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'header'=>'Tanggal Kadaluarsa',
             'name'=>'tglkadaluarsa',
             'filter'=>'',
-        ),        
-        array(
-            'name'=>'satuankecil.satuankecil_nama',
-            'header'=>'Satuan Kecil',
-        ),
-        array(
-            'name'=>'satuanbesar.satuanbesar_nama',
-            'header'=>'Satuan Besar',
-        ),
+            'value'=>'MyFormatter::formatDateTimeForUser($data->tglkadaluarsa)',
+            'htmlOptions'=>array(
+                'style'=>'text-align: right;',
+            )
+        ),   
         array(
             'header'=>'Stok',
             'type'=>'raw',
-            'value'=>'$data->StokObatRuangan',
+            'value'=>'$data->StokObatRuangan." ".$data->satuankecil->satuankecil_nama',
         ),
 
         

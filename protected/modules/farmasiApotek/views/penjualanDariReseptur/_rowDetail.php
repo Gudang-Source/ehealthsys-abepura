@@ -38,7 +38,7 @@ $satuan = !empty($modResepturDetail->obatalkes->satuankecil_id) ? $modResepturDe
                                 <?php echo $satuan; ?>
 			</td>
 		<?php } ?>
-		<td>
+		<td hidden>
 			<span name="[ii][sumberdana_nama]"><?php echo (!empty($modResepturDetail->sumberdana_id) ? $modResepturDetail->obatalkes->sumberdana->sumberdana_nama : "") ?></span>
 			<?php echo CHtml::activeHiddenField($modResepturDetail, '[ii]sumberdana_id',array('readonly'=>true,'style'=>'width:110px;')); ?>
                         <?php echo CHtml::activeHiddenField($modResepturDetail, '[ii]satuankecil_id',array('readonly'=>true,'style'=>'width:110px;')); ?>

@@ -63,7 +63,7 @@
                 'jeniskasuspenyakit_nama',
                 //'nama_bin',
                 array(
-                    'header'=>'Carabayar/<br/>Penjamin',
+                    'header'=>'Cara Bayar/<br/>Penjamin',
                     'type'=>'raw',
                     'value'=>'$data->carabayar_nama."/<br/>".$data->penjamin_nama',
                 ),
@@ -241,8 +241,10 @@
                         if (Yii::app()->user->getState('ruangan_nama') == "Apotek Rawat Jalan"):
                             $instalasi_id = array(2);
                         else:
-                            $instalasi_id = array(2,3,4);
+                            $instalasi_id = array(3,4);
                         endif;
+                        
+                        // var_dump($instalasi_id); die;
                     ?>
     
 }
