@@ -229,7 +229,7 @@ class InformasiresepturV extends CActiveRecord
 			'create_loginpemakai_id' => 'Create Loginpemakai',
 			'update_loginpemakai_id' => 'Update Loginpemakai',
 			'create_ruangan' => 'Create Ruangan',
-			'carabayar_id' => 'Carabayar',
+			'carabayar_id' => 'Cara Bayar',
 			'carabayar_nama' => 'Cara Bayar',
 			'penjamin_id' => 'Penjamin',
 			'penjamin_nama' => 'Penjamin',

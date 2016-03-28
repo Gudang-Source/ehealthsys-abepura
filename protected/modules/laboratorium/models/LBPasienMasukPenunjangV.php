@@ -381,7 +381,8 @@ class LBPasienMasukPenunjangV extends PasienmasukpenunjangV
 			if(!empty($this->ruangan_id)){
 				$criteria->addCondition('t.ruangan_id = '.$this->ruangan_id);
 			}
-            $criteria->compare('LOWER(t.nama_pegawai)',($this->nama_pegawai));
+            $criteria->compare('LOWER(t.nama_pegawai)',  strtolower($this->nama_pegawai),true);
+             $criteria->compare('LOWER(t.jeniskelamin)',strtolower($this->jeniskelamin),true);
             $criteria->compare('LOWER(t.nama_pegawai)',strtolower($this->nama_pegawai),true);
             $criteria->compare('LOWER(t.pekerjaan_nama)',strtolower($this->pekerjaan_nama),true);
             $criteria->compare('LOWER(t.jeniskasuspenyakit_nama)',strtolower($this->jeniskasuspenyakit_nama),true);
@@ -389,10 +390,10 @@ class LBPasienMasukPenunjangV extends PasienmasukpenunjangV
             $criteria->join = 'join pendaftaran_t p on p.pendaftaran_id = t.pendaftaran_id';
             
             $criteria->addCondition('p.pasienbatalperiksa_id is null');
-            //$criteria->limit = 10;
+            $criteria->limit = 10;
             return new CActiveDataProvider($this, array(
                     'criteria'=>$criteria,
-                    'pagination'=>false,
+                  //  'pagination'=>false,
             ));
     }
     

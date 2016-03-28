@@ -168,6 +168,7 @@ class ROPasienMasukPenunjangV extends PasienmasukpenunjangV
                 $criteria->compare('LOWER(t.nama_pasien)',strtolower($this->nama_pasien),true);
                 $criteria->compare('LOWER(t.instalasiasal_nama)',strtolower($this->instalasiasal_nama),true);
                 $criteria->compare('LOWER(t.ruanganasal_nama)',strtolower($this->ruanganasal_nama),true);
+                $criteria->compare('LOWER(t.jeniskelamin)',strtolower($this->jeniskelamin),true);
 				if(!empty($this->carabayar_id)){
 					$criteria->addCondition("t.carabayar_id = ".$this->carabayar_id);					
 				}
@@ -187,10 +188,10 @@ class ROPasienMasukPenunjangV extends PasienmasukpenunjangV
                 $criteria->join = "join pendaftaran_t p on p.pendaftaran_id = t.pendaftaran_id";
                 $criteria->addCondition("p.pasienbatalperiksa_id is null");
                 
-                //$criteria->limit = 10;
+                $criteria->limit = 10;
                 return new CActiveDataProvider($this, array(
                         'criteria'=>$criteria,
-                        'pagination'=>false,
+                        //'pagination'=>false,
                 ));
         }
 

@@ -11,6 +11,11 @@ if($caraPrint=='PDF'){
 	$table_width = "50%";
 }
 ?>
+<style>
+    .heads td {
+        vertical-align: top;
+    }
+</style>
 <?php $modProfilRs = ProfilrumahsakitM::model()->findByPk(Params::DEFAULT_PROFIL_RUMAH_SAKIT); ?>
 <table width="<?php echo $table_width; ?>">
         <tbody><tr>
@@ -44,60 +49,51 @@ if($caraPrint=='PDF'){
 </tbody>
 </table>
 
-<table width="<?php echo $table_width; ?>" >
+<table width="<?php echo $table_width; ?>" class="heads">
     <tr>
-        <td width='15%'>
-			<label class='control-label'>Tanggal Resep</label>
-        </td>
-        <td width='35%'>: <?php echo MyFormatter::formatDateTimeForUser($modPenjualan->tglpenjualan); ?></td>
-    </tr>
-    <tr>
-        <td width='15%'>
-			<label class='control-label'>No. Resep</label>
-        </td>
-        <td width='35%'>: <?php echo $modPenjualan->noresep; ?></td>
+        <td>Tanggal Resep</td>
+        <td>:</td>
+        <td> <?php echo MyFormatter::formatDateTimeForUser($modPenjualan->tglpenjualan); ?></td>
     </tr>
     <tr>
-        <td width='15%'>
-            <label class='control-label'>No. Pendaftaran / NIP</label>
-        </td>
-		<td width='35%'>:<?php echo $modPendaftaran->no_pendaftaran; ?>  / <?php echo !empty($modPendaftaran->pasien->pegawai_id)?$modPendaftaran->pasien->pegawai->nomorindukpegawai:'-'; ?></td>
+        <td>No. Resep</td>
+        <td>:</td>
+        <td> <?php echo $modPenjualan->noresep; ?></td>
     </tr>
     <tr>
-        <td width='15%'>
-            <label class='control-label'>Nama / Kel / Sis / Umur</label>
-        </td>
-		<td width='35%'>: <?php echo $modPendaftaran->pasien->nama_pasien; ?> / <?php echo $modPenjualan->pasien_id; ?> /  / <?php echo $modPendaftaran->umur; ?></td>
+        <td>No. Pendaftaran</td>
+        <td>:</td>
+        <td> <?php echo $modPenjualan->no_pendaftaran; ?></td>
     </tr>
     <tr>
-        <td width='15%'>
-            <label class='control-label'>Alamat Pasien</label>
-        </td>
-		<td width='35%'>: <?php echo $modPenjualan->pasien->alamat_pasien; ?></td>
+        <td nowrap>Nama / Kel / Sis / Umur</td>
+        <td>:</td>
+        <td> <?php echo $modPendaftaran->pasien->nama_pasien; ?> / <?php echo $modPenjualan->pasien_id; ?> /  / <?php echo $modPendaftaran->umur; ?></td>
     </tr>
-	<tr>
-        <td width='15%'>
-            <label class='control-label'>Atas Tanggungan</label>
-        </td>
-		<td width='35%'>: <?php echo $modPendaftaran->penjamin->penjamin_nama; ?> - <?php echo $modPendaftaran->carabayar->carabayar_nama; ?></td>
+    <tr>
+        <td>No. Alamat Pasien</td>
+        <td>:</td>
+        <td> <?php echo $modPenjualan->pasien->alamat_pasien; ?></td>
     </tr>
-	<tr>
-        <td width='15%'>
-            <label class='control-label'>Nama Penanggung</label>
-        </td>
-		<td width='35%'>: <?php echo !empty($modPenjualan->pasien->pegawai_id)?$modPenjualan->pasien->pegawai->nama_pegawai:' - '; ?></td>
+    <tr>
+        <td>Atas Tanggungan</td>
+        <td>:</td>
+        <td> <?php echo $modPendaftaran->penjamin->penjamin_nama; ?> - <?php echo $modPendaftaran->carabayar->carabayar_nama; ?></td>
     </tr>
-	<tr>
-        <td width='15%'>
-            <label class='control-label'>Poliklinik</label>
-        </td>
-		<td width='35%'>: <?php echo $modPenjualan->ruangan->ruangan_nama; ?></td>
+    <tr>
+        <td nowrap>Nama Penanggung</td>
+        <td>:</td>
+        <td width="100%"> <?php echo !empty($modPenjualan->pasien->pegawai_id)?$modPenjualan->pasien->pegawai->nama_pegawai:' - '; ?> </td>
     </tr>
-	<tr>
-        <td width='15%'>
-            <label class='control-label'>Dokter</label>
-        </td>
-		<td width='35%'>: <?php echo $modPenjualan->pegawai->NamaLengkap; ?></td>
+    <tr>
+        <td>Poliklinik</td>
+        <td>:</td>
+        <td> <?php echo $modPenjualan->ruangan->ruangan_nama; ?></td>
+    </tr>
+    <tr>
+        <td>Dokter</td>
+        <td>:</td>
+        <td> <?php echo $modPenjualan->pegawai->NamaLengkap; ?></td>
     </tr>
     </table>
 <br/><br/><br/><br/>
@@ -212,12 +208,12 @@ foreach($modDetailResep as $i => $detailresep){
 				</tbody>
 			</table>
 			<fieldset class='iter'>
-				<?php
+				<?php 
 				$oa_baru = '';
-				if($item->obatalkes_id != $modObatAlkes[$ii]->obatalkes_id){
+				if(!empty($modObatAlkes[$ii]->obatalkes_id) && $item->obatalkes_id != $modObatAlkes[$ii]->obatalkes_id){
 					$oa_baru = $modObatAlkes[$ii]->obatalkes->obatalkes_nama;
 				}
-				if($modObatAlkes[$ii]->qty_oa == 0){
+				if(empty($modObatAlkes[$ii]->obatalkes_id) || $modObatAlkes[$ii]->qty_oa == 0){
 					echo "<legend><i>Net Det &nbsp <span class='oabaru'>".$oa_baru."</span>  &nbsp ".$item->qty_reseptur." </i></legend>";
 				}else{
 					echo "<legend><i>Det &nbsp <span class='oabaru'>".$oa_baru."</span>  &nbsp ".$modObatAlkes[$ii]->qty_oa." </i></legend>";

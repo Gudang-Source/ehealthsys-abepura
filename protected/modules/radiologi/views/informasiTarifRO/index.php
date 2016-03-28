@@ -104,7 +104,7 @@
                                 )
                         );
                 ?>
-                <?php echo $form->dropDownListRow($modTarifRad, 'jenistarif_id', CHtml::listData(JenistarifM::model()->findAllByAttributes(array('jenistarif_aktif'=>true)), 'jenistarif_id', 'jenistarif_nama'), array('class'=>'span3')); ?>
+                <?php echo $form->dropDownListRow($modTarifRad, 'jenistarif_id', CHtml::listData(JenistarifM::model()->findAllByAttributes(array('jenistarif_aktif'=>true), array('order'=>'jenistarif_nama ASC')), 'jenistarif_id', 'jenistarif_nama'), array('class'=>'span3')); ?>
             </div>
             <div class="span4">
                 <?php 
@@ -132,6 +132,8 @@
                                                     array('class'=>'btn btn-danger', 'type'=>'reset')); ?>
              <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),
                                                     array('class'=>'btn btn-blue', 'type'=>'button', 'onclick'=>'printTarif()')); ?>
+             <?php $content = $this->renderPartial('tips/tipsInformasiTarifRO',array(),true);
+                        $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));    ?>
         </div>
     </fieldset>
     <?php $this->endWidget(); ?>

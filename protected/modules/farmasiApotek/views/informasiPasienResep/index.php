@@ -63,7 +63,7 @@
                 'jeniskasuspenyakit_nama',
                 //'nama_bin',
                 array(
-                    'header'=>'Carabayar/<br/>Penjamin',
+                    'header'=>'Cara Bayar/<br/>Penjamin',
                     'type'=>'raw',
                     'value'=>'$data->carabayar_nama."/<br/>".$data->penjamin_nama',
                 ),
@@ -100,14 +100,7 @@
                 array(
                     'header'=>'Penjualan Resep',
                     'type'=>'raw', 
-                    'value'=>'(isset($data->penjualanresep_id) ? $data->getNoPenjualanResep($data->reseptur_id). 
-					
-					CHtml::Link("<i class=\"icon-form-jualresep\"></i>",Yii::app()->controller->createUrl("PenjualanDariReseptur/Index",array("reseptur_id"=>$data->reseptur_id)),
-                                array("class"=>"", 
-                                      "target"=>"_BLANK",
-                                      "rel"=>"tooltip",
-                                      "title"=>"Klik untuk menjual resep",
-                                ))
+                    'value'=>'(isset($data->penjualanresep_id) ? $data->getNoPenjualanResep($data->reseptur_id)
 					
 					: CHtml::Link("<i class=\"icon-form-jualresep\"></i>",Yii::app()->controller->createUrl("PenjualanDariReseptur/Index",array("reseptur_id"=>$data->reseptur_id)),
                                 array("class"=>"", 
@@ -241,8 +234,10 @@
                         if (Yii::app()->user->getState('ruangan_nama') == "Apotek Rawat Jalan"):
                             $instalasi_id = array(2);
                         else:
-                            $instalasi_id = array(2,3,4);
+                            $instalasi_id = array(3,4);
                         endif;
+                        
+                        // var_dump($instalasi_id); die;
                     ?>
     
 }
