@@ -82,7 +82,11 @@ class PemeriksaanFisikController extends MyAuthController
                                 $modPemeriksaanFisik->akral=$_POST['RJPemeriksaanFisikT']['akral'];
                                 if($modPemeriksaanFisik->validate()){
 									if($modPemeriksaanFisik->save()){
-										$updateStatusPeriksa=PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SEDANG_PERIKSA));
+                                                                                $dat = PasienpulangT::model()->findByAttributes(array(
+                                                                                    // 'carakeluar_id'=>Params::CARAKELUAR_ID_RAWATINAP,
+                                                                                    'pendaftaran_id'=>$pendaftaran_id
+                                                                                ));
+										if (empty($dat)) $updateStatusPeriksa=PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SEDANG_PERIKSA));
 										$ruangan_id = isset($_GET['ruangan_id']) ? $_GET['ruangan_id'] : Yii::app()->user->getState('ruangan_id');
 										$konsulPoli = KonsulpoliT::model()->findByAttributes(array('pendaftaran_id'=>$pendaftaran_id, 'ruangan_id'=>$ruangan_id));
 										if(count($konsulPoli)>0){

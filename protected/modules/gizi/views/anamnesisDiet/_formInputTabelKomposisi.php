@@ -24,19 +24,19 @@
            <tr class="trfooter">
                 <td colspan="3">Total</td>
                 <td>
-                    <?php echo CHtml::textField("totBeratBahan", 0, array('readonly'=>false,'class'=>'inputFormTabel numbersOnly lebar3 totberatbahan','style'=>'width:80px;',)); ?>
+                    <?php echo CHtml::textField("totBeratBahan", 0, array('readonly'=>false,'class'=>'inputFormTabel numbersOnly lebar3 totberatbahan','style'=>'width:80px; text-align: right',)); ?>
                 </td>
                 <td>
-                    <?php echo CHtml::textField("totEnergiKalori", 0, array('readonly'=>false,'class'=>'inputFormTabel numbersOnly lebar3 totenergikalori','style'=>'width:80px;',)); ?>
+                    <?php echo CHtml::textField("totEnergiKalori", 0, array('readonly'=>false,'class'=>'inputFormTabel numbersOnly lebar3 totenergikalori','style'=>'width:80px; text-align: right',)); ?>
                 </td>
                 <td>
-                    <?php echo CHtml::textField("totProtein", 0, array('readonly'=>false,'class'=>'inputFormTabel numbersOnly lebar3 totprotein','style'=>'width:80px;',)); ?>
+                    <?php echo CHtml::textField("totProtein", 0, array('readonly'=>false,'class'=>'inputFormTabel numbersOnly lebar3 totprotein','style'=>'width:80px; text-align: right',)); ?>
                 </td>
                 <td>
-                    <?php echo CHtml::textField("totLemak", 0, array('readonly'=>false,'class'=>'inputFormTabel numbersOnly lebar3 totlemak','style'=>'width:80px;',)); ?>
+                    <?php echo CHtml::textField("totLemak", 0, array('readonly'=>false,'class'=>'inputFormTabel numbersOnly lebar3 totlemak','style'=>'width:80px; text-align: right',)); ?>
                 </td>
                 <td>
-                    <?php echo CHtml::textField("totHidratArang", 0, array('readonly'=>false,'class'=>'inputFormTabel numbersOnly lebar3 tothidratarang','style'=>'width:80px;',)); ?>
+                    <?php echo CHtml::textField("totHidratArang", 0, array('readonly'=>false,'class'=>'inputFormTabel numbersOnly lebar3 tothidratarang','style'=>'width:80px; text-align: right',)); ?>
                 </td>
                 <td></td>
                 <td></td>
