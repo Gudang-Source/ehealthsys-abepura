@@ -166,7 +166,11 @@ class BedahSentralController extends MyAuthController
             $modKirimKeUnitLain->nourut = MyGenerator::noUrutPasienKirimKeUnitLain($modKirimKeUnitLain->ruangan_id);
             if($modKirimKeUnitLain->validate()){
                 $modKirimKeUnitLain->save();
-                $updateStatusPeriksa=PendaftaranT::model()->updateByPk($modPendaftaran->pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SEDANG_PERIKSA));
+                $dat = PasienpulangT::model()->findByAttributes(array(
+                    // 'carakeluar_id'=>Params::CARAKELUAR_ID_RAWATINAP,
+                    'pendaftaran_id'=>$modPendaftaran->pendaftaran_id,
+                ));
+                if (empty($dat)) $updateStatusPeriksa=PendaftaranT::model()->updateByPk($modPendaftaran->pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SEDANG_PERIKSA));
                 /* ================================================ */
                 /* Proses update status periksa KonsulPoli EHS-179  */
                 /* ================================================ */
