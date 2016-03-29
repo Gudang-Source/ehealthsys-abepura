@@ -41,7 +41,7 @@
                     'header'=>'Tgl. Resep/<br>No. Resep',
                             'name'=>'tglreseptur."/<br/>".$data->noreseptur',
                             'type'=>'raw',
-                            'value'=>'MyFormatter::formatDateTimeForUser($data->tglreseptur)'
+                            'value'=>'MyFormatter::formatDateTimeForUser($data->tglreseptur)."<br/>".$data->noreseptur'
                             ),
                 array(
                     'header'=>'Tgl. Pendaftaran/<br/>No. Pendaftaran',
@@ -236,19 +236,23 @@
                         else:
                             $instalasi_id = array(3,4);
                         endif;
-                        
                         // var_dump($instalasi_id); die;
                     ?>
-    
-}
-                    <?php echo $form->dropDownListRow($model,'statusperiksa', Params::statusPeriksa(), array('empty'=>'-- Pilih --')); ?>
+                    
                     <?php echo $form->dropDownListRow($model, 'ruanganreseptur_id', CHtml::listData(RuanganM::model()->findAllByAttributes(array(
                             'instalasi_id'=>$instalasi_id,
                             'ruangan_aktif'=>true,
                         ), array(
                             'order'=>'ruangan_nama asc'
                         )), 'ruangan_id', 'ruangan_nama'), array('empty'=>'-- Pilih --')); ?>
+                    <?php echo $form->dropDownListRow($model,'statusperiksa', Params::statusPeriksa(), array('empty'=>'-- Pilih --')); ?>
                     <?php //echo $form->textFieldRow($model,'nama_bin',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+                    <div class="control-group ">
+                        <?php echo $form->labelEx($model,'statusJual', array('class'=>'control-label inline')) ?>
+                        <div class="controls">
+                            <?php echo $form->dropDownList($model, 'statusJual', array(1=>'Sudah Dijual', 2=>'Belum Dijual'), array('class'=>'span3', 'empty'=>'-- Pilih --')); ?>
+                        </div>
+                    </div>
                 </td>
             </tr>
         </table>

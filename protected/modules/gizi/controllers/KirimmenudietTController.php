@@ -183,6 +183,7 @@ class KirimmenudietTController extends MyAuthController
                             
                             $success = false;
                         }
+                        // var_dump($success, $this->successSaveTindakan); die;
                         if ($success == TRUE && $this->successSaveTindakan){
 //                           
                             $transaction->commit();
@@ -528,7 +529,7 @@ class KirimmenudietTController extends MyAuthController
                             $modTindakans->qty_tindakan = $v['jml_kirim'];
                             $modTindakans->tarif_tindakan = $modTindakans->tarif_satuan * $modTindakans->qty_tindakan;
                             $modTindakans->satuantindakan = "HARI";
-                            $modTindakans->cyto_tindakan = isset($item['cyto']) ? $item['cyto'] : false;
+                            $modTindakans->cyto_tindakan = isset($item['cyto']) ? $item['cyto'] : 0;
                             if(!$modTindakans->cyto_tindakan){ //false
 								$modTindakans->tarifcyto_tindakan = 0;
 							}else{
@@ -548,8 +549,9 @@ class KirimmenudietTController extends MyAuthController
                             $modTindakans->iurbiaya_tindakan = 0;
                             $modTindakans->ruangan_id = Yii::app()->user->getState('ruangan_id');
                             
+                            // var_dump($modTindakans->attributes);
                             $valid = $modTindakans->validate() && $valid;
-
+                            // var_dump($modTindakans->errors); die;
                             
                             if($valid){
                                 if($modTindakans->save()){

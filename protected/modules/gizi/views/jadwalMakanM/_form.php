@@ -16,6 +16,14 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
         <div class="control-group">
             <?php echo CHtml::label('Jenis Diet', 'jjenisdiet', array('class' => "control-label")) ?>
             <div class="controls">
+                <?php echo CHtml::dropDownList('jenisdietid', null, CHtml::listData(JenisdietM::model()->findAll(array(
+                    'condition'=>'jenisdiet_aktif = true',
+                    'order'=>'jenisdiet_nama',
+                )), 'jenisdiet_id', 'jenisdiet_nama'), array('empty'=>'-- Pilih --', 'onchange'=>'updateDialogMenuDiet()')); ?>
+            </div>
+            <?php /*
+            <?php echo CHtml::label('Jenis Diet', 'jjenisdiet', array('class' => "control-label")) ?>
+            <div class="controls">
                 <?php echo CHtml::hiddenField('jenisdietid', '', array('readonly' => true)) ?>
                 <?php
                 /* $jenisdiet = JenisdietM::model()->findAll();
@@ -24,7 +32,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                   'label'=>$valuejenisdiet->jenisdiet_nama,
                   'value'=>$valuejenisdiet->jenisdiet_id,
                   'id'=>$valuejenisdiet->jenisdiet_id,);
-                  endforeach; */
+                  endforeach; */ /*
                 ?>
                 <?php
                 $this->widget('MyJuiAutoComplete', array(
@@ -76,7 +84,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                 ));
                 ?>
                     </td> -->
-            </div>
+            </div> */ ?>
         </div>
         <div class="control-group">
             <?php echo CHtml::label('Tipe Diet', 'ttipediet', array('class' => "control-label")) ?>
@@ -255,7 +263,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
     <table id="tableJadwalMakan" class="table table-condensed">
         <thead>
             <tr>
-                <th><?php echo CHtml::checkBox('checkListUtama', true, array('onclick' => 'checkAll(\'cekList\',this);', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?></th>
+                <th hidden><?php echo CHtml::checkBox('checkListUtama', true, array('onclick' => 'checkAll(\'cekList\',this);', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?></th>
                 <th>Jenis Diet</th>
                 <th>Tipe Diet</th>
                 <th>Snack Pagi</th>
@@ -421,6 +429,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                                                                           \$(\"#dialogMenuDiet\").dialog(\"close\");"
                                              )
                              )',
+                'filter'=>CHtml::activeHiddenField($modMenuDiet, "jenisdiet_id"),
             ),
             'jenisdiet.jenisdiet_nama',
             'menudiet_nama',
@@ -439,6 +448,12 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
     $urlGetJadwalMakan = $this->createUrl('GetJadwalMakan');
     ?>
 <script type="text/javascript">
+    
+function updateDialogMenuDiet() {
+    var id = $("#jenisdietid").val();
+    $("#GZMenuDietM_jenisdiet_id").val(id);
+    $.fn.yiiGridView.update("menudiet-grid", {data:$("#menudiet-grid :input").serialize()});
+}    
 function submitJadwalMakan()
 {
     jenisdietid = $('#jenisdietid').val();

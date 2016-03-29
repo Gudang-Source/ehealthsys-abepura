@@ -63,15 +63,15 @@ class PesanmenudietTController extends MyAuthController
 		{
 			$model->attributes=$_POST['GZPesanmenudietT'];
 			$model->jenispesanmenu = Params::JENISPESANMENU_PASIEN;
-			$model->nama_pemesan = $pegawai_nama;
+			// $model->nama_pemesan = $pegawai_nama;
 			$model->nopesanmenu = MyGenerator::noPesanMenuDiet();
-			$model->create_loginpemakai_id = Yii::app()->user->getState('pegawai_id');
+			$model->create_loginpemakai_id = Yii::app()->user->id;
 			$model->create_ruangan = Yii::app()->user->getState('ruangan_id');
 			$model->create_time = date('Y-m-d');
 			$transaction = Yii::app()->db->beginTransaction();
 			try{
 				$success = true;
-				if($model->save()){
+				if($model->validate() && $model->save()){
 					foreach($_POST['PesanmenudetailT'] as $i=>$v){
 						if ($v['checkList'] == 1){
 							foreach($v['menudiet_id'] as $j=>$x){

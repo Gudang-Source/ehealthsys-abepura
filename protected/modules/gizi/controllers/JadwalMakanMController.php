@@ -51,31 +51,40 @@ class JadwalMakanMController extends MyAuthController
 		
 		if(isset($_POST['JadwalMakanM']))
 		{
-			$jmlJadwal = count($_POST['MenuDietM']);
-            if(count($_POST['JadwalMakanM']) > 0){
-                foreach($_POST['JadwalMakanM'] AS $i => $postJadwalMakan)
-                {
-					if(isset($_POST['JenisdietM'][$i]['checkList'])){
-						foreach($postJadwalMakan as $ii => $waktu){
-							if(!empty($waktu['jeniswaktu_id'])){
-								$model->tipediet_id = $waktu['tipediet_id'];
-								$model->jenisdiet_id = $waktu['jenisdiet_id'];
-								$model->jeniswaktu_id = $waktu['jeniswaktu_id'];
-								$model->menudiet_id = $waktu['menudiet_id'];
-								if($model->validate()){
-									$model->save();
-								} else {
-									Yii::app()->user->setFlash('error','<strong>Gagal</strong> Data gagal disimpan');
-								}
-							}
-						}
-					}
-                }
-	            Yii::app()->user->setFlash('success','<strong>Berhasil !</strong> Data Berhasil disimpan');
-				$this->redirect(array('admin'));
-            } else {
-            	Yii::app()->user->setFlash('error','<strong>Gagal</strong> Data gagal disimpan');
-            }
+                    $jmlJadwal = count($_POST['MenuDietM']);
+                    if(count($_POST['JadwalMakanM']) > 0) {
+                        $trans = Yii::app()->db->beginTransaction();
+                        $ok = true;
+                        foreach($_POST['JadwalMakanM'] AS $i => $postJadwalMakan) {
+                            if(isset($_POST['JenisdietM'][$i]['checkList'])){
+                                foreach($postJadwalMakan as $ii => $waktu){
+                                    if(!empty($waktu['jeniswaktu_id'])){
+                                        $model = new JadwalMakanM;
+                                        $model->tipediet_id = $waktu['tipediet_id'];
+                                        $model->jenisdiet_id = $waktu['jenisdiet_id'];
+                                        $model->jeniswaktu_id = $ii;
+                                        $model->menudiet_id = $waktu['menudiet_id'];
+                                        var_dump($model->attributes);
+                                        if($model->validate()){
+                                            $ok = $ok && $model->save();
+                                        } else $ok = false;
+                                    }
+                                }
+                            }
+                        }
+
+                        if ($ok) {
+                            $trans->commit();
+                            Yii::app()->user->setFlash('success','<strong>Berhasil !</strong> Data Berhasil disimpan');
+                            $this->redirect(array('admin'));
+                        } else {
+                            $trans->rollback();
+                            Yii::app()->user->setFlash('error','<strong>Gagal</strong> Data gagal disimpan');
+                        }
+                        
+                    } else {
+                        Yii::app()->user->setFlash('error','<strong>Gagal</strong> Data gagal disimpan');
+                    }
 		}
 
 		$this->render('create',array(
@@ -189,7 +198,7 @@ class JadwalMakanMController extends MyAuthController
 			$return = "";
 			$tipejeniswaktu = JenisWaktuM::model()->findAll('jeniswaktu_aktif = true ORDER BY jeniswaktu_id');
 				$tr = "";
-				$tr .="<tr><td>";
+				$tr .="<tr><td hidden>";
 				$tr .= CHtml::checkBox('JenisdietM[][checkList]',true,array('class'=>'cekList'));
 				$tr .= "</td><td>";
 				$tr .= $modJenisdiet->jenisdiet_nama;

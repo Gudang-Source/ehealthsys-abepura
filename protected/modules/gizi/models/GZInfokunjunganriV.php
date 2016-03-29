@@ -69,11 +69,11 @@ class GZInfokunjunganriV extends InfokunjunganriV {
 			$criteria->addCondition('instalasi_id ='.$this->instalasi_id);
 		}
         $criteria->order = 'tgl_pendaftaran DESC';
-        $criteria->limit = 10;
+        //$criteria->limit = 10;
 
         return new CActiveDataProvider($this, array(
 			'criteria' => $criteria,
-			'pagination'=>false,
+			//'pagination'=>false,
 		));
     }
 
