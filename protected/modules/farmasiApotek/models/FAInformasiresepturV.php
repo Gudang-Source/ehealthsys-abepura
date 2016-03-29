@@ -2,7 +2,7 @@
 
 class FAInformasiresepturV extends InformasiresepturV
 {
-	public $tgl_awal,$tgl_akhir;
+	public $tgl_awal,$tgl_akhir, $statusJual;
 
 	public static function model($className=__CLASS__)
 	{
@@ -18,6 +18,11 @@ class FAInformasiresepturV extends InformasiresepturV
             else:
                 $criteria->addInCondition('instalasireseptur_id', array(3,4));
             endif;
+        }
+        if ($this->statusJual == 1) {
+            $criteria->addCondition('penjualanresep_id is not null');
+        } else if ($this->statusJual == 2) {
+            $criteria->addCondition('penjualanresep_id is null');
         }
         $criteria->addBetweenCondition('date(t.tglreseptur)', $this->tgl_awal, $this->tgl_akhir);
         $criteria->order = 't.tglreseptur DESC';

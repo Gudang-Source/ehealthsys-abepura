@@ -11,6 +11,7 @@ class InformasiPasienResepController extends MyAuthController
         if(isset($_GET['FAInformasiresepturV'])){
             $format = new MyFormatter();
             $model->attributes = $_GET['FAInformasiresepturV'];
+            $model->statusJual = $_GET['FAInformasiresepturV']['statusJual'];
             $model->statusperiksa = $_GET['FAInformasiresepturV']['statusperiksa'];
             $model->tgl_awal = $format->formatDateTimeForDb($_GET['FAInformasiresepturV']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['FAInformasiresepturV']['tgl_akhir']);

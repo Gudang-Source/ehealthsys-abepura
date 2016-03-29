@@ -200,11 +200,11 @@ if(!isset($_GET['sukses'])){
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     'id'=>'dialogOa',
     'options'=>array(
-        'title'=>'Obat Alkes',
+        'title'=>'Stok Obat & Alkes '.Yii::app()->user->getState('ruangan_nama'),
         'autoOpen'=>false,
         'modal'=>true,
         'width'=>800,
-        'height'=>440,
+        'height'=>600,
         'resizable'=>false,
     ),
 ));
@@ -264,6 +264,9 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'header'=>'Stok',
             'type'=>'raw',
             'value'=>'$data->StokObatRuangan." ".$data->satuankecil->satuankecil_nama',
+            'htmlOptions'=>array(
+                'style'=>'text-align: right',
+            )
         ),
 
         
