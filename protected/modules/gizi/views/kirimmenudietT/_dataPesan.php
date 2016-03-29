@@ -14,6 +14,7 @@
                 <?php echo CHtml::activeLabel($modPesan, 'tglpesanmenu', array('class'=>'control-label')) ?>
                 <div class="controls">
                     <?php
+                    $modPesan->tglpesanmenu = MyFormatter::formatDateTimeForUser($modPesan->tglpesanmenu);
                     echo CHtml::activeTextField($modPesan, 'tglpesanmenu', array('readonly'=>true))
                     ?>
                 </div>

@@ -177,14 +177,14 @@ class AnamnesisDietController extends MyAuthController
                         <td>".$modBahanMakanan->namabahanmakanan."</td>
                         <td>".$modBahanMakanan->satuanbahan."</td>
                         
-                        <td>".CHtml::activetextField($modAnamnesa,'['.$jeniswaktu_id.']beratbahan',array('onkeyup'=>'setBeratBahan(this);','value'=>0,'class'=>'span1  beratbahan numbersOnly','readonly'=>FALSE, 'style'=>'width:80px;'))."</td>
-                        <td>".CHtml::activetextField($modAnamnesa,'['.$jeniswaktu_id.']energikalori',array('value'=>(empty($zatEnergi) ?  "0" : $zatEnergi),'class'=>'span1 energikalori numbersOnly','readonly'=>FALSE, 'style'=>'width:80px;')).
-                              CHtml::activeHiddenField($modAnamnesa,'['.$jeniswaktu_id.']energikalori2',array('value'=>(empty($zatEnergi) ?  "0" : $zatEnergi),'class'=>'span1 energikalori2 numbersOnly','readonly'=>FALSE, 'style'=>'width:80px;')).
+                        <td>".CHtml::activetextField($modAnamnesa,'['.$jeniswaktu_id.']beratbahan',array('onkeyup'=>'setBeratBahan(this);','value'=>0,'class'=>'span1  beratbahan numbersOnly','readonly'=>FALSE, 'style'=>'width:80px; text-align: right'))."</td>
+                        <td>".CHtml::activetextField($modAnamnesa,'['.$jeniswaktu_id.']energikalori',array('value'=>(empty($zatEnergi) ?  "0" : $zatEnergi),'class'=>'span1 energikalori numbersOnly','readonly'=>FALSE, 'style'=>'width:80px; text-align: right')).
+                              CHtml::activeHiddenField($modAnamnesa,'['.$jeniswaktu_id.']energikalori2',array('value'=>(empty($zatEnergi) ?  "0" : $zatEnergi),'class'=>'span1 energikalori2 numbersOnly','readonly'=>FALSE, 'style'=>'width:80px; text-align: right')).
                         "</td>
-                        <td>".CHtml::activetextField($modAnamnesa,'['.$jeniswaktu_id.']protein',array('value'=>(empty($zatProtein) ?  "0" : $zatProtein),'class'=>'span1 protein numbersOnly','readonly'=>FALSE, 'style'=>'width:80px;'))."</td>
-                        <td>".CHtml::activetextField($modAnamnesa,'['.$jeniswaktu_id.']lemak',array('value'=>(empty($zatLemak) ?  "0" : $zatLemak),'class'=>'span1 lemak numbersOnly','readonly'=>FALSE, 'style'=>'width:80px;'))."</td>
-                        <td>".CHtml::activetextField($modAnamnesa,'['.$jeniswaktu_id.']hidratarang',array('value'=>(empty($zatHidratArang) ?  "0" : $zatHidratArang),'class'=>'span1 hidratarang numbersOnly','readonly'=>FALSE, 'style'=>'width:80px;')).
-                              CHtml::activeHiddenField($modAnamnesa,'['.$jeniswaktu_id.']bdd',array('value'=>(empty($zatBDD) ?  "0" : $zatBDD),'class'=>'span1 bdd numbersOnly','readonly'=>FALSE, 'style'=>'width:80px;')).
+                        <td>".CHtml::activetextField($modAnamnesa,'['.$jeniswaktu_id.']protein',array('value'=>(empty($zatProtein) ?  "0" : $zatProtein),'class'=>'span1 protein numbersOnly','readonly'=>FALSE, 'style'=>'width:80px; text-align: right'))."</td>
+                        <td>".CHtml::activetextField($modAnamnesa,'['.$jeniswaktu_id.']lemak',array('value'=>(empty($zatLemak) ?  "0" : $zatLemak),'class'=>'span1 lemak numbersOnly','readonly'=>FALSE, 'style'=>'width:80px; text-align: right'))."</td>
+                        <td>".CHtml::activetextField($modAnamnesa,'['.$jeniswaktu_id.']hidratarang',array('value'=>(empty($zatHidratArang) ?  "0" : $zatHidratArang),'class'=>'span1 hidratarang numbersOnly','readonly'=>FALSE, 'style'=>'width:80px; text-align: right')).
+                              CHtml::activeHiddenField($modAnamnesa,'['.$jeniswaktu_id.']bdd',array('value'=>(empty($zatBDD) ?  "0" : $zatBDD),'class'=>'span1 bdd numbersOnly','readonly'=>FALSE, 'style'=>'width:80px; text-align: right')).
                        "</td>
                         <td>".CHtml::activeDropDownList($modAnamnesa,'['.$jeniswaktu_id.']katpekerjaan', LookupM::getItems('katpekerjaan'),array('empty'=>'--Pilih--','class'=>'span1 katpekerjaan','readonly'=>FALSE, 'style'=>'width:80px;'))."</td>
                         <td>".CHtml::activeTextField($modAnamnesa,'['.$jeniswaktu_id.']urt',array('class'=>'span1 urt','readonly'=>FALSE, 'style'=>'width:80px;'))."</td>
