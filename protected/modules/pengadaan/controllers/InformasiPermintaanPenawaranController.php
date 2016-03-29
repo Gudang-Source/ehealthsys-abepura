@@ -3,6 +3,7 @@
 class InformasiPermintaanPenawaranController extends MyAuthController
 {
         public $defaultAction ='index';
+        public $path_view = 'pengadaan.views.informasiPermintaanPenawaran.';
         
         public function actionIndex()
         {
@@ -16,7 +17,7 @@ class InformasiPermintaanPenawaranController extends MyAuthController
                 $model->tgl_awal  = $format->formatDateTimeForDb($_GET['ADInformasipermintaanpenawaranV']['tgl_awal']);
                 $model->tgl_akhir = $format->formatDateTimeForDb($_GET['ADInformasipermintaanpenawaranV']['tgl_akhir']);
             }
-            $this->render('index',array('format'=>$format,'model'=>$model));
+            $this->render($this->path_view.'index',array('format'=>$format,'model'=>$model));
 	}
 	
 	public function actionMenyetujui($permintaanpenawaran_id,$approve=false,$tolak=false)
@@ -45,7 +46,7 @@ class InformasiPermintaanPenawaranController extends MyAuthController
 		}
         $judulLaporan = 'Permintaan Penawaran';
 		$deskripsi = '';
-        $this->render('_menyetujui', array(
+        $this->render($this->path_view.'_menyetujui', array(
 				'format'=>$format,
 				'model'=>$model,
 				'judulLaporan'=>$judulLaporan,
@@ -65,11 +66,11 @@ class InformasiPermintaanPenawaranController extends MyAuthController
         $caraPrint = (isset($_REQUEST['caraPrint']) ? $_REQUEST['caraPrint'] : null);
 		if($caraPrint=='PRINT') {
 			$this->layout='//layouts/printWindows';
-			$this->render('printMenyetujui',array('format'=>$format,'model'=>$model,'modDetails'=>$modDetails,'deskripsi'=>$deskripsi,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+			$this->render($this->path_view.'printMenyetujui',array('format'=>$format,'model'=>$model,'modDetails'=>$modDetails,'deskripsi'=>$deskripsi,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
 		}
 		else if($caraPrint=='EXCEL') {
 			$this->layout='//layouts/printExcel';
-			$this->render('printMenyetujui',array('format'=>$format,'model'=>$model,'modDetails'=>$modDetails,'deskripsi'=>$deskripsi,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+			$this->render($this->path_view.'printMenyetujui',array('format'=>$format,'model'=>$model,'modDetails'=>$modDetails,'deskripsi'=>$deskripsi,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
 		}
 		else if($_REQUEST['caraPrint']=='PDF') {
 			$ukuranKertasPDF = Yii::app()->user->getState('ukuran_kertas'); //Ukuran Kertas Pdf
@@ -79,7 +80,7 @@ class InformasiPermintaanPenawaranController extends MyAuthController
 			$stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
 			$mpdf->WriteHTML($stylesheet,1);  
 			$mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
-			$mpdf->WriteHTML($this->renderPartial('printMenyetujui',array('format'=>$format,'model'=>$model,'modDetails'=>$modDetails,'deskripsi'=>$deskripsi,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
+			$mpdf->WriteHTML($this->renderPartial($this->path_view.'printMenyetujui',array('format'=>$format,'model'=>$model,'modDetails'=>$modDetails,'deskripsi'=>$deskripsi,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
 			$mpdf->Output();
 		}
     }
@@ -101,7 +102,7 @@ class InformasiPermintaanPenawaranController extends MyAuthController
 		}
         $judulLaporan = 'Permintaan Penawaran';
 		$deskripsi = '';
-        $this->render('_mengetahui', array(
+        $this->render($this->path_view.'_mengetahui', array(
 				'format'=>$format,
 				'model'=>$model,
 				'judulLaporan'=>$judulLaporan,
@@ -121,11 +122,11 @@ class InformasiPermintaanPenawaranController extends MyAuthController
         $caraPrint = (isset($_REQUEST['caraPrint']) ? $_REQUEST['caraPrint'] : null);
 		if($caraPrint=='PRINT') {
 			$this->layout='//layouts/printWindows';
-			$this->render('printMengetahui',array('format'=>$format,'model'=>$model,'modDetails'=>$modDetails,'deskripsi'=>$deskripsi,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+			$this->render($this->path_view.'printMengetahui',array('format'=>$format,'model'=>$model,'modDetails'=>$modDetails,'deskripsi'=>$deskripsi,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
 		}
 		else if($caraPrint=='EXCEL') {
 			$this->layout='//layouts/printExcel';
-			$this->render('printMengetahui',array('format'=>$format,'model'=>$model,'modDetails'=>$modDetails,'deskripsi'=>$deskripsi,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+			$this->render($this->path_view.'printMengetahui',array('format'=>$format,'model'=>$model,'modDetails'=>$modDetails,'deskripsi'=>$deskripsi,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
 		}
 		else if($_REQUEST['caraPrint']=='PDF') {
 			$ukuranKertasPDF = Yii::app()->user->getState('ukuran_kertas'); //Ukuran Kertas Pdf
@@ -135,7 +136,7 @@ class InformasiPermintaanPenawaranController extends MyAuthController
 			$stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
 			$mpdf->WriteHTML($stylesheet,1);  
 			$mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
-			$mpdf->WriteHTML($this->renderPartial('printMengetahui',array('format'=>$format,'model'=>$model,'modDetails'=>$modDetails,'deskripsi'=>$deskripsi,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
+			$mpdf->WriteHTML($this->renderPartial($this->path_view.'printMengetahui',array('format'=>$format,'model'=>$model,'modDetails'=>$modDetails,'deskripsi'=>$deskripsi,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
 			$mpdf->Output();
 		}
     }
@@ -148,7 +149,7 @@ class InformasiPermintaanPenawaranController extends MyAuthController
         $modDetails = ADPenawaranDetailT::model()->findAllByAttributes(array('permintaanpenawaran_id'=>$permintaanpenawaran_id));
         $judulLaporan = 'Permintaan Penawaran';
 		$deskripsi = '';
-        $this->render('_rincian', array(
+        $this->render($this->path_view.'_rincian', array(
 				'format'=>$format,
 				'model'=>$model,
 				'judulLaporan'=>$judulLaporan,

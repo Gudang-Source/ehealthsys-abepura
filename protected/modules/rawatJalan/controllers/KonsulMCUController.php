@@ -801,7 +801,11 @@ class KonsulMCUController extends MyAuthController
 		$ruangan_id = $modKonsul->ruangan_id;
 		if($modKonsul->save()){
 			$this->konsulpolitersimpan = true;
-			$updateStatusPeriksa=PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SEDANG_PERIKSA));
+			$dat = PasienpulangT::model()->findByAttributes(array(
+                            // 'carakeluar_id'=>Params::CARAKELUAR_ID_RAWATINAP,
+                            'pendaftaran_id'=>$pendaftaran_id
+                        ));
+                        if (empty($dat)) $updateStatusPeriksa=PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SEDANG_PERIKSA));
 			/* ================================================ */
 			/* Proses update status periksa KonsulPoli EHS-179  */
 			/* ================================================ */

@@ -3,6 +3,7 @@
 class InformasiRencKebBarangController extends MyAuthController
 {
         public $defaultAction ='index';
+        public $path_view = 'pengadaan.views.informasiRencanaKebBarang.';
         
         public function actionIndex()
         {
@@ -11,12 +12,13 @@ class InformasiRencKebBarangController extends MyAuthController
             $model->tgl_awal =date('Y-m-d');
             $model->tgl_akhir =date('Y-m-d');
             
+            
             if(isset($_GET['ADInformasirenkebbarangV'])){
                 $model->attributes=$_GET['ADInformasirenkebbarangV'];
                 $model->tgl_awal  = $format->formatDateTimeForDb($_GET['ADInformasirenkebbarangV']['tgl_awal']);
                 $model->tgl_akhir = $format->formatDateTimeForDb($_GET['ADInformasirenkebbarangV']['tgl_akhir']);
             }
-            $this->render('index',array('format'=>$format,'model'=>$model));
+            $this->render($this->path_view.'index',array('format'=>$format,'model'=>$model));
         }
         
         // Aksi untuk membatalkan rencana kebutuhan Barang
@@ -70,7 +72,7 @@ class InformasiRencKebBarangController extends MyAuthController
 
         $judul_print = 'Rencana Kebutuhan Barang';
         
-        $this->render('Print', array(
+        $this->render($this->path_view.'Print', array(
 			'format'=>$format,
 			'judul_print'=>$judul_print,
 			'modRencanaKebBarang'=>$modRencanaKebBarang,
@@ -88,7 +90,7 @@ class InformasiRencKebBarangController extends MyAuthController
         $modDetails = ADRenkebbarangdetT::model()->findAllByAttributes(array('renkebbarang_id'=>$renkebbarang_id));
         $judulLaporan = 'Rencana Kebutuhan Barang Umum';
 		$deskripsi = 'Tanggal '.MyFormatter::formatDateTimeId($model->renkebbarang_tgl);
-        $this->render('_rincian', array(
+        $this->render($this->path_view.'_rincian', array(
 				'format'=>$format,
 				'model'=>$model,
 				'judulLaporan'=>$judulLaporan,

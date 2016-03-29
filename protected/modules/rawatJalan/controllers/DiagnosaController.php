@@ -89,7 +89,11 @@ class DiagnosaController extends MyAuthController
             if($valid){
                 foreach ($morbiditas as $j => $morbiditasPasien) {
                     $morbiditasPasien->save();
-                    $updateStatusPeriksa=PendaftaranT::model()->updateByPk($modPendaftaran->pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SUDAH_DIPERIKSA, 'tglselesaiperiksa'=>date('Y-m-d H:i:s'))); // LNG-959
+                    $dat = PasienpulangT::model()->findByAttributes(array(
+                        // 'carakeluar_id'=>Params::CARAKELUAR_ID_RAWATINAP,
+                        'pendaftaran_id'=>$modPendaftaran->pendaftaran_id
+                    ));
+                    if (empty($dat)) $updateStatusPeriksa=PendaftaranT::model()->updateByPk($modPendaftaran->pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SUDAH_DIPERIKSA, 'tglselesaiperiksa'=>date('Y-m-d H:i:s'))); // LNG-959
                 }
                 //echo 'VALID';
                 $this->successSave = true;
@@ -251,7 +255,11 @@ class DiagnosaController extends MyAuthController
             $valid = $morbiditas->validate();
             if($valid){
                 $morbiditas->save();
-                PendaftaranT::model()->updateByPk($modPendaftaran->pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SUDAH_DIPERIKSA, 'tglselesaiperiksa'=>date('Y-m-d H:i:s')));
+                $dat = PasienpulangT::model()->findByAttributes(array(
+                    // 'carakeluar_id'=>Params::CARAKELUAR_ID_RAWATINAP,
+                    'pendaftaran_id'=>$IdPendaftaran
+                ));
+                if (empty($dat)) PendaftaranT::model()->updateByPk($modPendaftaran->pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SUDAH_DIPERIKSA, 'tglselesaiperiksa'=>date('Y-m-d H:i:s')));
             }
         }
     }
