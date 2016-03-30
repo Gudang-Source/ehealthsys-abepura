@@ -190,7 +190,7 @@ class KonsulGiziTRIController extends MyAuthController
             $modPasienPenunjang->no_urutperiksa =  MyGenerator::noAntrianPenunjang($modPasienPenunjang->ruangan_id);
             $modPasienPenunjang->kunjungan = $modPendaftaran->kunjungan;
             $modPasienPenunjang->statusperiksa = $modPendaftaran->statusperiksa;
-            $modPasienPenunjang->ruanganasal_id = $modPendaftaran->ruangan_id;
+            $modPasienPenunjang->ruanganasal_id = Yii::app()->user->getState('ruangan_id');
             $modPasienPenunjang->pasienkirimkeunitlain_id = $modKirimKeUnitLain->pasienkirimkeunitlain_id;
             
 //                        echo "<pre>";

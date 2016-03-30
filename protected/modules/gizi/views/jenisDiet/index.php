@@ -67,7 +67,7 @@
                     <?php echo CHtml::label('Dokter / Konselor', 'dokter/konselor', array('class' => 'control-label')) ?>
                     <div class="controls"> 
                         <?php 
-                                echo CHtml::dropDownList('pegawai_id','pegawai_id', CHtml::listData($modDietPasien->DokterItemsKonsul, 'pegawai_id', 'nama_pegawai'), 
+                                echo CHtml::dropDownList('pegawai_id','pegawai_id', CHtml::listData($modDietPasien->DokterItemsKonsul, 'pegawai_id', 'namaLengkap'), 
                                         array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);",'empty'=>'--Pilih--')); 
                         ?>                      
 
@@ -81,14 +81,14 @@
                         $this->widget('MyDateTimePicker', array(
         //                    'model' => $modAnamnesa,
         //                    'attribute' => 'tglanamesadiet',
-                            'value'=>date("Y-m-d H:i:s"),
+                            'value'=>  MyFormatter::formatDateTimeForUser(date("Y-m-d H:i:s")),
                             'name'=>'tglJenisDiet',
                             'mode' => 'datetime',
                             'options' => array(
                                 'dateFormat' => Params::DATE_FORMAT,
                                 'maxDate' => 'd',
-                                'dateFormat'=>'yy-mm-dd',
-                                'timeFormat'=>'hh:ii:ss',
+                                //'dateFormat'=>'yy-mm-dd',
+                                //'timeFormat'=>'hh:ii:ss',
                             ),
                             'htmlOptions' => array('readonly' => true,
                                 'onkeypress' => "return $(this).focusNextInputField(event)"),
@@ -247,7 +247,7 @@ function submitDietPasien()
             $.post("${urlGetJenisDietPasien}", { idJenisDiet: idJenisDiet,},
             function(data){
                 $('#tableDietPasien tbody').append(data.tr);
-                $('#tblInputKomposisi tbody tr:last').find('.numbersOnly').maskMoney({"defaultZero":true,"allowZero":true,"decimal":".","thousands":"","precision":1,"symbol":null});
+                $('#tableDietPasien tbody tr:last').find('.numbersOnly').maskMoney({"defaultZero":true,"allowZero":true,"decimal":".","thousands":"","precision":1,"symbol":null});
                 setAll(this);
                 clear();
             }, "json");
@@ -255,8 +255,10 @@ function submitDietPasien()
     clear();
 }
 
-function remove(obj) {
+function removeJDiet(obj) {
     $(obj).parents('tr').remove();
+    clear();
+    return false;
 }
 
 function clear(){

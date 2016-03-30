@@ -53,7 +53,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
             <?php echo CHtml::label('Dokter / Konselor', 'dokter/konselor', array('class' => 'control-label')) ?>
             <div class="controls"> 
                 <?php 
-                        echo CHtml::dropDownList('pegawai_id','pegawai_id', CHtml::listData($modAnamnesa->DokterItemsKonsul, 'pegawai_id', 'nama_pegawai'), 
+                        echo CHtml::dropDownList('pegawai_id','pegawai_id', CHtml::listData($modAnamnesa->DokterItemsKonsul, 'pegawai_id', 'namaLengkap'), 
                                 array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);",'empty'=>'--Pilih--')); 
                 ?>                      
                

@@ -16,7 +16,7 @@
             ));
         ?>
     </div>
-    <!--<div>
+    <div>
         <table class="items table table-striped table-bordered table-condensed" >
             <thead>
                 <tr>
@@ -30,28 +30,28 @@
             </thead>
             <tbody>
                 <?php
-    //            if(count($modAnamnesa) > 0){
-    //                foreach($modAnamnesa as $key=>$detail){
+                if(count($modAnamnesa) > 0){
+                    foreach($modAnamnesa as $key=>$detail){
                 ?>
                 <tr>
-                    <td><?php //echo ($key+1); ?> </td>
-                    <td><?php //echo $detail->pendaftaran->tgl_pendaftaran; ?></td>
-                    <td><?php //echo $detail->tglanamesadiet; ?></td>
-                    <td><?php //echo $detail->jeniswaktu->jeniswaktu_nama; ?></td>
-                    <td><?php //echo $detail->menudiet->menudiet_nama; ?></td>
-                    <td><?php //echo $detail->bahanmakanan->namabahanmakanan; ?></td>
+                    <td><?php echo ($key+1); ?> </td>
+                    <td><?php echo MyFormatter::formatDateTimeForUser($detail->pendaftaran->tgl_pendaftaran); ?></td>
+                    <td><?php echo MyFormatter::formatDateTimeForUser($detail->tglanamesadiet); ?></td>
+                    <td><?php echo $detail->jeniswaktu->jeniswaktu_nama; ?></td>
+                    <td><?php echo $detail->menudiet->menudiet_nama; ?></td>
+                    <td><?php echo $detail->bahanmakanan->namabahanmakanan; ?></td>
                 </tr>
                 <?php 
-    //                }
-    //            }else{
+                    }
+                }else{
                 ?>
                 <tr>
-                    <td colspan="5"><i>Data Tidak Ditemukan</i></td>
+                    <td colspan="6"><i>Data Tidak Ditemukan</i></td>
                 </tr>
-                <?php //} ?>
+                <?php } ?>
             </tbody>
         </table>
-    </div>-->
+    </div>
     <?php
     //========= Dialog Detail Anamnesa Diet =========================
     $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
