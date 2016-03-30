@@ -171,7 +171,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'title'=>'Daftar Menu',
         'autoOpen'=>false,
         'modal'=>true,
-        'width'=>400,
+        'width'=>600,
         'height'=>400,
         'resizable'=>false,
     ),
@@ -206,6 +206,11 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'name'=>'jenisdiet_id',
                     'type'=>'raw',
                     'value'=>'$data->jenisdiet->jenisdiet_nama',
+                    'filter'=>CHtml::activeDropDownList($modMenuDiet, 'jenisdiet_id', CHtml::listData(
+                            JenisdietM::model()->findAll(array(
+                                'condition'=>'jenisdiet_aktif = true',
+                                'order'=>'jenisdiet_id'
+                            )), 'jenisdiet_id', 'jenisdiet_nama'), array('empty'=>'-- Pilih --')),
                 ),
                 array(
                     'header'=>'Nama Menu',

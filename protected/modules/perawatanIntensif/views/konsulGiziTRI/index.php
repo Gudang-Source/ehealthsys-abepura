@@ -227,7 +227,7 @@ function cekInput(){
 	alert ('Ruangan Belum Dipilih!');
 	return false;
 	}
-	cekInputan();
+	cekInputan(); /*
 			if (deposit == ""){
 				myConfirm("Pasien Belum Melakukan Deposit!","Perhatian!",function(r) {
 				   if(r){   
@@ -256,9 +256,9 @@ function cekInput(){
 							}, 2000);
 						}
 					});
-			}else{
+			}else{ */
 				$('#rjpasien-konsulGizi-t-form').submit();
-			}
+			// }
 }
 
 function hitungTotalTarif()
@@ -280,21 +280,22 @@ $(document).ready(function(){
     ?>
         var params = [];
         params = {instalasi_id:<?php echo Yii::app()->user->getState("instalasi_id"); ?>, modul_id:<?php echo Yii::app()->session['modul_id']; ?>, judulnotifikasi:'GAGAL KIRIM SMS PASIEN', isinotifikasi:'Pasien <?php echo $modPasien->nama_pasien; ?> tidak memiliki nomor mobile'}; // 16 
-        insert_notifikasi(params);
+        // insert_notifikasi(params);
     <?php            
             }
         }
     ?>
-
+            
     <?php 
         if(isset($modKirimKeUnitLain->pasienkirimkeunitlain_id)){
     ?>
         var params = [];
         params = {instalasi_id:<?php echo Yii::app()->user->getState("instalasi_id"); ?>, modul_id:<?php echo Params::MODUL_ID_GIZI ?>, judulnotifikasi:'Pasien Rujukan', isinotifikasi:'<?php echo $modPasien->nama_pasien ?> dengan <?php echo $modPasien->no_rekam_medik ?> telah dirujuk pada <?php echo $modKirimKeUnitLain->tgl_kirimpasien ?> dari <?php echo $modKirimKeUnitLain->ruangan->ruangan_nama ?>'}; // 16 
-        insert_notifikasi(params);
+        // insert_notifikasi(params);
     <?php
         }
     ?>
+    $("#RIPasienKirimKeUnitLainT_ruangan_id").val(<?php echo Params::RUANGAN_ID_GIZI ?>).change();
 });
 $('#tarif_konsulgizi').hide();
 </script>
