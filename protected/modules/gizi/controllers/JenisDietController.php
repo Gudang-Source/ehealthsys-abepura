@@ -40,6 +40,7 @@ class JenisDietController extends MyAuthController
                 $modDietPasien->attributes=$_POST['GZDietPasienT'];
                 $modDetails = $this->validasiTabular($modPendaftaran, $_POST['GZDietPasienT']);
                 $transaction = Yii::app()->db->beginTransaction();
+                // var_dump($_POST); die;
                 try {
                         $jumlah = 0;
 
@@ -138,21 +139,25 @@ class JenisDietController extends MyAuthController
 //            $zatHidratArang = $zatGiziHidratArang->kandunganbahan;
 			
             $modDietPasien = new GZDietPasienT;
+            $rand = rand(0, 99999999);
             $nourut = 1;
                 $tr="<tr>
                         <td>".CHtml::TextField('noUrut',$nourut,array('class'=>'span1 noUrut','readonly'=>TRUE,'onClick'=>'setAll(this)')).                              
-                              CHtml::activeHiddenField($modDietPasien,'['.$idJenisDiet.']jenisdiet_id',array('value'=>$idJenisDiet, 'class'=>'menudiet_id' )).
+                              CHtml::activeHiddenField($modDietPasien,'['.$rand.']jenisdiet_id',array('value'=>$idJenisDiet, 'class'=>'menudiet_id' )).
                        "</td>
-                        <td>".CHtml::activeDropDownList($modDietPasien,'['.$idJenisDiet.']tipediet_id', CHtml::listData(TipeDietM::model()->findAll(), 'tipediet_id', 'tipediet_nama'),array('empty'=>'--Pilih--','class'=>'span1 katpekerjaan','readonly'=>FALSE, 'style'=>'width:80px;'))."</td>
+                        <td>".CHtml::activeDropDownList($modDietPasien,'['.$rand.']tipediet_id', CHtml::listData(TipeDietM::model()->findAll(), 'tipediet_id', 'tipediet_nama'),array('empty'=>'--Pilih--','class'=>'span1 katpekerjaan','readonly'=>FALSE, 'style'=>'width:80px;'))."</td>
                          
                         <td>".$modJenisDiet->jenisdiet_nama."</td>   
-                        <td>".CHtml::activetextField($modDietPasien,'['.$idJenisDiet.']energikalori',array('onkeyup'=>'setEnergiKalori(this)','value'=>0,'class'=>'span1 energikalori numbersOnly','readonly'=>FALSE, 'style'=>'width:80px;'))."</td>
-                        <td>".CHtml::activetextField($modDietPasien,'['.$idJenisDiet.']protein',array('onkeyup'=>'setProtein(this)','value'=>0,'class'=>'span1 protein numbersOnly','readonly'=>FALSE, 'style'=>'width:80px;'))."</td>
-                        <td>".CHtml::activetextField($modDietPasien,'['.$idJenisDiet.']lemak',array('onkeyup'=>'setLemak(this)','value'=>0,'class'=>'span1 lemak numbersOnly','readonly'=>FALSE, 'style'=>'width:80px;'))."</td>
-                        <td>".CHtml::activetextField($modDietPasien,'['.$idJenisDiet.']hidratarang',array('onkeyup'=>'setHidratArang(this)','value'=>0,'class'=>'span1 hidratarang numbersOnly','readonly'=>FALSE, 'style'=>'width:80px;'))."</td>
-                        <td>".CHtml::activetextField($modDietPasien,'['.$idJenisDiet.']diet_kandungan',array('onkeyup'=>'setDietKandungan(this)','value'=>0,'class'=>'span1 dietkandungan numbersOnly','readonly'=>FALSE, 'style'=>'width:80px;'))."</td>
-                        <td>".CHtml::activeTextArea($modDietPasien,'['.$idJenisDiet.']alergidengan',array('class'=>'span1 alergidengan','readonly'=>FALSE, 'style'=>'width:80px;'))."</td>
-                        <td>".CHtml::activeTextArea($modDietPasien,'['.$idJenisDiet.']keterangan',array('class'=>'span1 keterangan','readonly'=>FALSE, 'style'=>'width:80px;'))."</td>
+                        <td>".CHtml::activetextField($modDietPasien,'['.$rand.']energikalori',array('onkeyup'=>'setEnergiKalori(this)','value'=>0,'class'=>'span1 energikalori numbersOnly','readonly'=>FALSE, 'style'=>'width:80px; text-align: right;'))."</td>
+                        <td>".CHtml::activetextField($modDietPasien,'['.$rand.']protein',array('onkeyup'=>'setProtein(this)','value'=>0,'class'=>'span1 protein numbersOnly','readonly'=>FALSE, 'style'=>'width:80px; text-align: right;'))."</td>
+                        <td>".CHtml::activetextField($modDietPasien,'['.$rand.']lemak',array('onkeyup'=>'setLemak(this)','value'=>0,'class'=>'span1 lemak numbersOnly','readonly'=>FALSE, 'style'=>'width:80px; text-align: right;'))."</td>
+                        <td>".CHtml::activetextField($modDietPasien,'['.$rand.']hidratarang',array('onkeyup'=>'setHidratArang(this)','value'=>0,'class'=>'span1 hidratarang numbersOnly','readonly'=>FALSE, 'style'=>'width:80px; text-align: right;'))."</td>
+                        <td>".CHtml::activetextField($modDietPasien,'['.$rand.']diet_kandungan',array('onkeyup'=>'setDietKandungan(this)','value'=>0,'class'=>'span1 dietkandungan numbersOnly','readonly'=>FALSE, 'style'=>'width:80px; text-align: right;'))."</td>
+                        <td>".CHtml::activeTextArea($modDietPasien,'['.$rand.']alergidengan',array('class'=>'span1 alergidengan','readonly'=>FALSE, 'style'=>'width:80px;'))."</td>
+                        <td>".CHtml::activeTextArea($modDietPasien,'['.$rand.']keterangan',array('class'=>'span1 keterangan','readonly'=>FALSE, 'style'=>'width:80px;'))."</td>
+                        <td style=\"text-align: center\">".CHtml::link('<i class="icon-remove"></i>', '#', array(
+                            'onclick'=>'removeJDiet(this)',
+                        ))."</td>    
                      
                       </tr>   
                     ";

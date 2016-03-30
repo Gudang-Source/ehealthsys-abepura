@@ -47,7 +47,7 @@ class GZPendaftaranT extends PendaftaranT {
                         'pasienpulang'=>array(self::HAS_ONE, 'PasienpulangT', 'pasienpulang_id'),
                         'tindakanpelayanan'=>array(self::HAS_MANY, 'TindakanpelayananT', 'pendaftaran_id'),
                         'kelaspelayanan'=>array(self::BELONGS_TO, 'KelaspelayananM', 'kelaspelayanan_id'),
-                    
+                        'admisi'=>array(self::BELONGS_TO, 'PasienadmisiT', 'pasienadmisi_id'),
 		);
 	}
     

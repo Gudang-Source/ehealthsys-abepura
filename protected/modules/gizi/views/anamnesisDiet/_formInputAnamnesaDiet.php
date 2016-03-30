@@ -31,7 +31,7 @@ $this->widget('application.extensions.moneymask.MMask', array(
             <tbody>
                 <?php 
                 $modAnamnesa = new AnamesadietT;
-                    $modWaktuMakanan = JeniswaktuM::model()->findAll();
+                    $modWaktuMakanan = JeniswaktuM::model()->findAll('jeniswaktu_aktif = true');
                     foreach($modWaktuMakanan as $i=>$waktumakan){
                 ?>
                 <tr>
