@@ -35,7 +35,7 @@
         <tbody>
             <?php foreach($modKunjungan as $modKunjungan) { ?>
             <tr>
-                <td><?php echo $modKunjungan->no_pendaftaran; ?><br/><?php echo $modKunjungan->tgl_pendaftaran; ?></td>
+                <td><?php echo $modKunjungan->no_pendaftaran; ?><br/><?php echo MyFormatter::formatDateTimeForUser($modKunjungan->tgl_pendaftaran); ?></td>
                 <td><?php //if (count($modKunjungan->tindakanpelayanan->daftartindakan_id) != 0){
                     echo CHtml::link("<i class='icon-list-alt'></i> ",  Yii::app()->controller->createUrl("daftarPasien/DetailAnamnesaDiet",
                             array("id"=>$modKunjungan->pendaftaran_id)),array("id"=>"$modKunjungan->no_pendaftaran","target"=>"detailDialogAnamnesa","rel"=>"tooltip","title"=>"Klik untuk Detail Anamnesa Diet", "onclick"=>"var text = $(this).attr('dialog-text'); window.parent.$('#ui-dialog-title-dialogDetailAnamnesa').text(text);window.parent.$('#dialogDetailAnamnesa').dialog('open');", "dialog-text"=>"Detail Anamnesa Diet")); 
