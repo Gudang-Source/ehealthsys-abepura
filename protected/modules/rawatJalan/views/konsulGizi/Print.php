@@ -57,7 +57,7 @@ echo $this->renderPartial('application.views.headerReport.headerDefault',array('
     <tr>
         <td>Tgl. Lahir / Umur</td>
         <td>:</td>
-        <td><?php echo CHtml::encode(MyFormatter::formatDateTimeForUser($modPendaftaran->pasien->tanggal_lahir)); ?></td>
+        <td><?php echo CHtml::encode(MyFormatter::formatDateTimeForUser($modPendaftaran->pasien->tanggal_lahir)." / ".$modPendaftaran->umur); ?></td>
         
     </tr>
     <tr>
