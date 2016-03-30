@@ -184,6 +184,6 @@ class KamarruanganM extends CActiveRecord
         }
         public function getKamarDanTempatTidurPolos()
         {
-        	 'Kamar: '.$this->kamarruangan_nokamar.' - Bed: '.$this->kamarruangan_nobed;	
+        	'Kamar: '.$this->kamarruangan_nokamar.' - Bed: '.$this->kamarruangan_nobed;	
         }
 }
