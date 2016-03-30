@@ -73,7 +73,7 @@
                array(
                     'header'=>'Konsultasi Gizi',
                     'type'=>'raw',
-                    'value'=>'CHtml::link("<i class=\"icon-form-konsulgizi\"></i>",Yii::app()->controller->createUrl("/gizi/pemeriksaanGizi",array("pendaftaran_id"=>$data->pendaftaran_id,"pasien_id"=>$data->pasien_id,"pasienadmisi_id"=>"")), array("rel"=>"tooltip","title"=>"Klik untuk Rencana Pemeriksaan"))', 'htmlOptions'=>array('style'=>'text-align: center; width:40px')
+                    'value'=>'CHtml::link("<i class=\"icon-form-konsulgizi\"></i>",Yii::app()->controller->createUrl("/gizi/pemeriksaanGizi",array("pendaftaran_id"=>$data->pendaftaran_id,"pasien_id"=>$data->pasien_id,"pasienadmisi_id"=>$data->pasienadmisi_id)), array("rel"=>"tooltip","title"=>"Klik untuk Rencana Pemeriksaan"))', 'htmlOptions'=>array('style'=>'text-align: center; width:40px')
                ),
         ),
             'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',

@@ -7,7 +7,9 @@ if(!empty($modPasien)){
     <table width="100%" class="table-condensed">
         <tr>
             <td><?php echo CHtml::activeLabel($modPendaftaran, 'tgl_pendaftaran',array('class'=>'control-label')); ?>
-                <?php echo CHtml::activeHiddenField($modPendaftaran, 'pendaftaran_id',array('class'=>'control-label')); ?>
+                <?php 
+                $modPendaftaran->tgl_pendaftaran = MyFormatter::formatDateTimeForUser($modPendaftaran->tgl_pendaftaran);
+                echo CHtml::activeHiddenField($modPendaftaran, 'pendaftaran_id',array('class'=>'control-label')); ?>
             </td>
             <td><?php echo CHtml::activeTextField($modPendaftaran, 'tgl_pendaftaran', array('readonly'=>true)); ?></td>
             
@@ -35,7 +37,9 @@ if(!empty($modPasien)){
             <td><?php echo CHtml::activeTextField($modPendaftaran, 'umur', array('readonly'=>true)); ?></td>
             
             <td><?php echo CHtml::activeLabel($modPasien, 'nama_pasien',array('class'=>'control-label')); ?></td>
-            <td><?php echo CHtml::activeTextField($modPasien, 'nama_pasien', array('readonly'=>true)); ?></td>
+            <td><?php 
+            $modPasien->nama_pasien = $modPasien->namadepan.$modPasien->nama_pasien;
+            echo CHtml::activeTextField($modPasien, 'nama_pasien', array('readonly'=>true)); ?></td>
         </tr>
         <tr>
             <td><?php echo CHtml::activeLabel($modPendaftaran, 'jeniskasuspenyakit_id',array('class'=>'control-label')); ?></td>
@@ -45,15 +49,17 @@ if(!empty($modPasien)){
                 <?php echo CHtml::activeHiddenField($modPendaftaran, 'carabayar_id', array('readonly'=>true)); ?>
             </td>
             
-            <td><?php echo CHtml::activeLabel($modPasien, 'nama_bin',array('class'=>'control-label')); ?></td>
-            <td><?php echo CHtml::activeTextField($modPasien, 'nama_bin', array('readonly'=>true)); ?></td>
+            <td><?php echo CHtml::activeLabel($modPendaftaran->kelaspelayanan, 'kelaspelayanan_nama', array('class'=>'control-label')); ?></td>
+            <td><?php 
+            $modPendaftaran->kelaspelayanan_id = !empty($modPendaftaran->pasienadmisi_id)?$modPendaftaran->admisi->kelaspelayanan_id:$modPendaftaran->kelaspelayanan_id;
+            $modPendaftaran->kelaspelayanan->kelaspelayanan_nama = !empty($modPendaftaran->pasienadmisi_id)?$modPendaftaran->admisi->kelaspelayanan->kelaspelayanan_nama:$modPendaftaran->kelaspelayanan->kelaspelayanan_nama;
+            echo CHtml::activeTextField($modPendaftaran->kelaspelayanan, 'kelaspelayanan_nama', array('readonly'=>true)); ?></td>
         </tr>
         <tr>
             <td><?php echo CHtml::activeLabel($modPendaftaran->dokter, 'dokter_pemeriksa', array('class'=>'control-label')); ?></td>
-            <td><?php echo CHtml::activeTextField($modPendaftaran->dokter, 'nama_pegawai', array('readonly'=>true)); ?></td>
+            <td><?php echo CHtml::activeTextField($modPendaftaran->dokter, 'namaLengkap', array('readonly'=>true)); ?></td>
 
-            <td><?php echo CHtml::activeLabel($modPendaftaran->kelaspelayanan, 'kelaspelayanan_nama', array('class'=>'control-label')); ?></td>
-            <td><?php echo CHtml::activeTextField($modPendaftaran->kelaspelayanan, 'kelaspelayanan_nama', array('readonly'=>true)); ?></td>
+            
         </tr>
 
     </table>

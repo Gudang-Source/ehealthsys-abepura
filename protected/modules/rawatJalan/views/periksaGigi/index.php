@@ -277,7 +277,7 @@
     if(isset($_GET['RJInfokunjunganrjV'])){
         $kunjunganPasien->attributes = $_GET['RJInfokunjunganrjV'];
         $format = new MyFormatter();
-        $kunjunganPasien->tgl_pendaftaran  = $format->formatDateTimeForDb($_REQUEST['RJInfokunjunganrjV']['tgl_pendaftaran']);
+        if (isset($_GET['RJInfokunjunganrjV']['tgl_pendataran'])) $kunjunganPasien->tgl_pendaftaran  = $format->formatDateTimeForDb($_REQUEST['RJInfokunjunganrjV']['tgl_pendaftaran']);
         $kunjunganPasien->statusperiksa  = $_REQUEST['RJInfokunjunganrjV']['statusperiksa'];
 
     }
@@ -295,7 +295,7 @@
                             $pegawai = PegawaiM::model()->findByPk($data->pegawai_id);
                             
                             return CHtml::link("<i class='icon-form-check'></i> ", "javascript:void(0)",array("onclick"=>"ambilOdontogram(".$data->pasien_id.",".$data->pendaftaran_id.");
-                                    $('#tglpendaftaran').text('".$data->tgl_pendaftaran."');
+                                    $('#tglpendaftaran').text('".  MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."');
                                     $('#nopendaftaran').text('".$data->no_pendaftaran."');
                                     $('#tgllahirumur').text('".$data->tanggal_lahir." / ".$data->umur."');
                                     $('#jeniskasuspenyakit').text('".$data->jeniskasuspenyakit_nama."');
