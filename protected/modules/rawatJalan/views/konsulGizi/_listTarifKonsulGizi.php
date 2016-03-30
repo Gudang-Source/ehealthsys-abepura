@@ -4,7 +4,7 @@
     ?>
         <tr>
             <td><?php echo $modTarif->daftartindakan->daftartindakan_nama ?></td>
-            <td>
+            <td style="text-align: right;">
                 <?php echo MyFormatter::formatNumberForPrint($modTarif->harga_tariftindakan); ?>
                 <?php echo CHtml::hiddenField('daftartindakan_id['.$modTarif->daftartindakan_id.']',$modTarif->daftartindakan_id,array('class'=>'daftartindakan_id')); ?>
             </td>
