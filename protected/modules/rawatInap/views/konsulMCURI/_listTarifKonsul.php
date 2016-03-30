@@ -4,11 +4,11 @@
         <tr>
 			<th><?php echo CHtml::checkBox("RITindakanPelayananT[$i][cbTindakan]", false, array('class'=>'ceklis')) ?></th>
             <td><?php echo $ruangan_nama ?></td>
-            <td><?php echo $konsul->daftartindakan->daftartindakan_nama ?>
+            <td><?php echo $konsul->daftartindakan_nama ?>
 			<?php echo CHtml::hiddenField("RITindakanPelayananT[$i][daftartindakan_id]", $konsul->daftartindakan_id,array('class'=>'inputFormTabel','readonly'=>true)); ?>
 			<?php echo CHtml::hiddenField("RITindakanPelayananT[$i][harga_tariftindakan]", $konsul->harga_tariftindakan,array('class'=>'inputFormTabel','readonly'=>true)); ?>
 			</td>
-            <td><?php echo number_format($konsul->harga_tariftindakan) ?></td>
+                        <td style="text-align: right"><?php echo MyFormatter::formatNumberForPrint($konsul->harga_tariftindakan) ?></td>
         </tr>
     <?php } ?>
     <?php }else{ ?>

@@ -39,6 +39,7 @@ class RIInfopasienmasukkamarV extends InfopasienmasukkamarV
 		$criteria->compare('LOWER(nama_pasien)',strtolower($this->nama_pasien),true);
 		$criteria->compare('LOWER(no_pendaftaran)',strtolower($this->no_pendaftaran),true);
 		$criteria->compare('LOWER(nama_pegawai)',strtolower($this->nama_pegawai),true);
+                $criteria->compare('kamarruangan_id', $this->kamarruangan_id);
 		//if($this->ceklis == 1)
 		//{
 			$criteria->addBetweenCondition('tgladmisi::date',$this->tgl_awal,$this->tgl_akhir);

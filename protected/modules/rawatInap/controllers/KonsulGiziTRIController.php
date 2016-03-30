@@ -252,7 +252,7 @@ class KonsulGiziTRIController extends MyAuthController
                             $modTindakans[$i]->qty_tindakan = 1;
                             $modTindakans[$i]->cyto_tindakan = $item['cyto'];
                             $modTindakans[$i]->tarifcyto_tindakan = ($item['cyto']) ? (($item['cyto'] / 100) * $modTindakans[$i]->tarif_tindakan) : 0;
-                            $modTindakans[$i]->kelastanggungan_id = $modPendaftaran->kelastanggungan_id;
+                            // $modTindakans[$i]->kelastanggungan_id = $modPendaftaran->kelastanggungan_id;
                             $modTindakans[$i]->dokterpemeriksa1_id = $modPendaftaran->pegawai_id;
 
                             $modTindakans[$i]->discount_tindakan = 0;

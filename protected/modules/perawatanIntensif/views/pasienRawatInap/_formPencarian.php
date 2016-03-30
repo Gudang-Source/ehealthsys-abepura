@@ -51,15 +51,18 @@ $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
                         )); ?>
                     </div>
                 </div>
+                
+            </td>
+            <td>
                 <?php echo $form->textFieldRow($model,'no_pendaftaran',array('placeholder'=>'Ketik No. Pendaftaran','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
-                <?php echo $form->textFieldRow($model,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
-            </td>
-            <td>
-                <?php echo $form->textFieldRow($model,'nama_bin',array('placeholder'=>'Ketik Alias / Nama Panggilan','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
+                
+                <?php // echo $form->textFieldRow($model,'nama_bin',array('placeholder'=>'Ketik Alias / Nama Panggilan','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
                 <?php echo $form->textFieldRow($model,'no_rekam_medik',array('placeholder'=>'Ketik No. Rekam Medik','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
-                <?php echo $form->dropDownListRow($model,'caramasuk_id', CHtml::listData($model->getCaraMasukItems(), 'caramasuk_id', 'caramasuk_nama') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+                <?php echo $form->textFieldRow($model,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
+                
             </td>
             <td>
+                <?php echo $form->dropDownListRow($model,'caramasuk_id', CHtml::listData($model->getCaraMasukItems(), 'caramasuk_id', 'caramasuk_nama') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
                  <?php echo $form->dropDownListRow($model,'carabayar_id', CHtml::listData($model->getCaraBayarItems(), 'carabayar_id', 'carabayar_nama') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",
                                                 'ajax' => array('type'=>'POST',
                                                     'url'=> Yii::app()->createUrl('ActionDynamic/GetPenjaminPasien',array('encode'=>false,'namaModel'=>'RDPendaftaran')), 
@@ -75,7 +78,13 @@ $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
                     <div class="controls">
                         <?php echo $form->dropDownList($model,'nama_pegawai', CHtml::listData(DokterV::model()->findAll(), 'nama_pegawai', 'nama_pegawai') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",)); ?>
                     </div>
-                </div>                  
+                </div>
+                <?php echo $form->dropDownListRow($model,'kamarruangan_id',  CHtml::listData(KamarruanganM::model()->findAllByAttributes(array(
+                    'kamarruangan_aktif'=>true,
+                    'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
+                ), array(
+                    'order'=>'kamarruangan_nokamar',
+                )), 'kamarruangan_id', 'kamarDanTempatTidurPolos'),array('empty'=>'-- Pilih --','placeholder'=>'Ketik Nama Pasien','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
             </td>
         </tr>
     </table>

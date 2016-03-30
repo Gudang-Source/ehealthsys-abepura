@@ -27,13 +27,13 @@ foreach ($modRiwayatKirimKeUnitLain as $i => $riwayat) {
                 echo $permintaan->daftartindakan->daftartindakan_nama.'<br/>';
             } ?>
         </td>
-        <td>
+        <td style="text-align: right;">
             <?php
             foreach($modPermintaan as $j => $permintaan){
                 $modTarif = TariftindakanM::model()->findByAttributes(array('kelaspelayanan_id'=>$riwayat->kelaspelayanan_id,
                                                                             'daftartindakan_id'=>$permintaan->daftartindakan_id,
                                                                             'komponentarif_id'=>Params::KOMPONENTARIF_ID_TOTAL));
-                echo (!empty($modTarif->harga_tariftindakan))? $modTarif->harga_tariftindakan.'<br/>':'0 <br/>';
+                echo (!empty($modTarif->harga_tariftindakan))? MyFormatter::formatNumberForPrint($modTarif->harga_tariftindakan).'<br/>':'0 <br/>';
             } ?>
         </td>
         <td>

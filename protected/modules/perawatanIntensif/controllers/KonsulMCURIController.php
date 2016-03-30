@@ -221,7 +221,8 @@ class KonsulMCURIController extends MyAuthController{
 		if(!empty($jenistarif)){
 			$criteria->addCondition("jenistarif_id = ".$jenistarif);						
 		}
-		$model = TariftindakanM::model()->findAll($criteria);
+                $criteria->compare('ruangan_id', $ruangan_id);
+		$model = TariftindakanperdaruanganV::model()->findAll($criteria);
 
 		$form = null;
 				$form = $this->renderPartial($this->path_view.'_listTarifKonsul', 
