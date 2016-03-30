@@ -317,8 +317,10 @@ class OdontogrampasienR extends CActiveRecord
 		$prefix=$this->getTableAlias(true).'.';
 //		$criteria=$this->getCommandBuilder()->createPkCriteria($this->getTableSchema(),$pk=null,$condition,$params,$prefix);
                 $criteria = new CDbCriteria();
-                $criteria->compare('odontogrampasien_id',$pk);
+                //$criteria->compare('odontogrampasien_id',$pk);
+                $criteria->addCondition('odontogrampasien_id = '.(empty($pk)?'0':$pk));
 		$odontogram = $this->query($criteria);
+                $gigi = array();
                 $i = 18;
                 // dewasa ==============================
                 for($i=18;$i>10;$i--){
