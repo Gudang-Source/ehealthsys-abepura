@@ -70,7 +70,9 @@
                             ), 
                             array(
                                 'header'=>'Pekerjaan',
-                                'value'=>'$data->pekerjaan->pekerjaan_nama',
+                                'name' => 'pekerjaan_id',
+                                'value'=>'($data->pekerjaan_id)?$data->pekerjaan->pekerjaan_nama:"-"',
+                                
                             ),
                             'agama',
                             /*
