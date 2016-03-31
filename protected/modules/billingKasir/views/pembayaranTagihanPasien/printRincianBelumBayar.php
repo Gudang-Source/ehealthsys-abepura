@@ -119,7 +119,36 @@ $format = new MyFormatter;
          <td colspan="2"></td>
          <td colspan="2"></td>
          <td colspan="2"></td>
-         <td class="tandatangan" style="height: 50px;">.........................</td>
+         <td class="tandatangan"></td>
+    </tr><tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+    <?php $pegawai = LoginpemakaiK::pegawaiLoginPemakai(); ?>      
+    <tr align="right">
+         <td colspan="5"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td class="tandatangan" style="height: 50px;">
+                <b><?php echo empty($pegawai)?"-":$pegawai->nama_pegawai; ?></b>                
+         </td>         
+    </tr>
+    <tr align="right">
+         <td colspan="5"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td class="tandatangan" style = "border-top: 2px solid #000;">                              
+                <b>NIP. <?php echo empty($pegawai)?"-":$pegawai->nomorindukpegawai; ?></b>
+         </td>         
     </tr>
 </table>
 <?php
