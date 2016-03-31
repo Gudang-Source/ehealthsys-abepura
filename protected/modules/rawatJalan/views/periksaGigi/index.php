@@ -297,7 +297,7 @@
                             return CHtml::link("<i class='icon-form-check'></i> ", "javascript:void(0)",array("onclick"=>"ambilOdontogram(".$data->pasien_id.",".$data->pendaftaran_id.");
                                     $('#tglpendaftaran').text('".  MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."');
                                     $('#nopendaftaran').text('".$data->no_pendaftaran."');
-                                    $('#tgllahirumur').text('".$data->tanggal_lahir." / ".$data->umur."');
+                                    $('#tgllahirumur').text('".MyFormatter::formatDateTimeForUser($data->tanggal_lahir)." / ".$data->umur."');
                                     $('#jeniskasuspenyakit').text('".$data->jeniskasuspenyakit_nama."');
                                     $('#goldarah').text('".$data->golongandarah."');
                                     $('#namapegawai').text('".$pegawai->namaLengkap."');
