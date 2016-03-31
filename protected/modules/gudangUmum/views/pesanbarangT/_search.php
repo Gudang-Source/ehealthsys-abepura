@@ -89,7 +89,7 @@
                                 array('class'=>'btn btn-danger',
                                       'onclick'=>'refreshForm(this); return false;')); ?>
             <?php  
-                $content = $this->renderPartial('gudangUmum.views.pesanbarangT.tips.informasi',array(),true);
+                $content = $this->renderPartial('gudangUmum.views.pesanbarangT.tips.informasiPemesananBarang',array(),true);
                 $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
             ?>  
     </div>
