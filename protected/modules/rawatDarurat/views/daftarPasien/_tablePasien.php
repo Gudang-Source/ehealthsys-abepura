@@ -99,7 +99,10 @@
                         'type'=>'raw',
 //                        'value'=>'(!empty($data->pasienpulang_id))? "-" : CHtml::link("<i class=\'icon-list-alt\'></i> ", Yii::app()->controller->createUrl("/rawatDarurat/anamnesaTRD",array("pendaftaran_id"=>$data->pendaftaran_id)),array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk Pemeriksaan Pasien"))','htmlOptions'=>array('style'=>'text-align: center; width:40px')
                           // 'value'=>'RDInfoKunjunganRDV::getPeriksaPasien($data->statusperiksa,$data->pendaftaran_id,$data->pendaftaran->pembayaranpelayanan_id,$data->no_pendaftaran,$data->alihstatus)',
-                        'value'=>'(($data->alihstatus==FALSE) ? CHtml::link("<i class=\'icon-form-periksa\'></i> ", Yii::app()->controller->createUrl("/rawatDarurat/pemeriksaanPasienTRD",array("pendaftaran_id"=>$data->pendaftaran_id)),array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk Pemeriksaan Pasien")): CHtml::link("<i class=\'icon-form-periksa\'></i>", "javascript:cektindaklanjut()",array("rel"=>"tooltip","title"=>"Klik untuk Pemeriksaan Pasien")))',
+                        'value'=>function($data) {
+                            if (($data->pasienpulang_id != 0) OR ($data->carakeluar != "")) return "-";
+                            return (($data->alihstatus==FALSE) ? CHtml::link("<i class=\"icon-form-periksa\"></i> ", Yii::app()->controller->createUrl("/rawatDarurat/pemeriksaanPasienTRD",array("pendaftaran_id"=>$data->pendaftaran_id)),array("id"=>$data->no_pendaftaran,"rel"=>"tooltip","title"=>"Klik untuk Pemeriksaan Pasien")): CHtml::link("<i class=\'icon-form-periksa\'></i>", "javascript:cektindaklanjut()",array("rel"=>"tooltip","title"=>"Klik untuk Pemeriksaan Pasien")));
+                        },
 			'htmlOptions'=>array('style'=>'text-align: center; width:40px')
                     ),
 					array(
@@ -175,6 +178,7 @@
 						'header'=>'Batal Periksa',
 						'type'=>'raw',
 						'value'=>function($data) {
+                                                    if (($data->pasienpulang_id != 0) OR ($data->carakeluar != "")) return "-";
                                                     $admisi = PasienadmisiT::model()->findByAttributes(array('pendaftaran_id'=>$data->pendaftaran_id));
                                                     if (empty($admisi)) return CHtml::link('<i class="icon-form-silang"></i>', "javascript:batalperiksa($data->pendaftaran_id)",array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk membatalkan pemeriksaan"));
                                                     else return "-";
