@@ -1,3 +1,13 @@
+<style>
+    .table {
+        box-shadow: none;
+        border: 1px solid black;
+    }
+    .table th, .table td {
+        border: 1px solid black;
+    }
+</style>
+
 <?php if (isset($judulLaporan)){
     echo $this->renderPartial('application.views.headerReport.headerDefault',array('judulLaporan'=>$judulLaporan));      
 }
@@ -17,7 +27,7 @@
     </tr>   
 </table>
 
-<table id="tableObatAlkes" class="table table-bordered table-condensed">
+<table id="tableObatAlkes" class="table">
     <thead>
         <tr>
 			<th>Kode / Nama Obat</th>
@@ -48,14 +58,13 @@
 				<tr>
 					<td width="35%" align="center">
 						<div>Mengetahui<br>Instalasi <?php echo Yii::app()->user->getState('instalasi_nama'); ?></div>
-						<div style="margin-top:60px;"><?php echo isset($modPesan->pegpemesan_id) ? $modPesan->pegawaipemesan->NamaLengkap : "" ?></div>
+						<div style="margin-top:60px;"><?php echo isset($modPesan->pegpemesan_id) ? $modPesan->pegawaipemesan->NamaLengkap : "-" ?></div>
 					</td>
 					<td width="35%" align="center">
 					</td>
 					<td width="35%" align="center">
 						<div>Dibuat Oleh :</div>
-						<div style="margin-top:60px;"><?php echo isset($modPesan->pegmengetahui_id) ? $modPesan->pegawaimengetahui->NamaLengkap : "" ?></div>
-						<div>(Petugas <?php echo Yii::app()->user->getState('ruangan_nama') ?>)</div>
+						<div style="margin-top:60px;"><?php echo isset($modPesan->pegmengetahui_id) ? $modPesan->pegawaimengetahui->NamaLengkap : "-" ?></div>
 					</td>
 				</tr>
 			</table>
