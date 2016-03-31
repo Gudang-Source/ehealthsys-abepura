@@ -40,7 +40,7 @@
                 <td><?php echo CHtml::textField('riwayatTindakan['.$i.'][jumlah_tarif]',$format->formatNumberForUser($tindakan->qty_tindakan*$tindakan->tarif_satuan + $tindakan->tarifcyto_tindakan),array('readonly'=>true,'class'=>'integer','style'=>'width:100px;')); ?></td>
                 <td>
                     <?php
-                        echo CHtml::link("<i class=\"icon-remove\"></i>", 'javascript:void(0);', array('onclick'=>'hapusTindakan(this);return false;','rel'=>'tooltip','title'=>'Klik untuk menghapus tindakan'));
+                        echo CHtml::link("<i class=\"icon-form-silang\"></i>", 'javascript:void(0);', array('onclick'=>'hapusTindakan(this);return false;','rel'=>'tooltip','title'=>'Klik untuk menghapus tindakan'));
                     ?>
                 </td>
             </tr>
