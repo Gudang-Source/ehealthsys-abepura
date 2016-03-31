@@ -159,13 +159,13 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'petugaspengirim-grid',
 	'dataProvider'=>$modPetugasPengirim->searchDialog(),
 	'filter'=>$modPetugasPengirim,
-	'template'=>"{items}\n{pager}",
+	'template'=>"{summary}{items}\n{pager}",
 	'itemsCssClass'=>'table table-striped table-bordered table-condensed',
 	'columns'=>array(
 		array(
 			'header'=>'Pilih',
 			'type'=>'raw',
-			'value'=>'CHtml::Link("<i class=\"icon-check\"></i>","",array("class"=>"btn-small", 
+			'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","",array("class"=>"btn-small", 
 					"href"=>"",
 					"id" => "selectPetugasPengirim",
 					"onClick" => "
