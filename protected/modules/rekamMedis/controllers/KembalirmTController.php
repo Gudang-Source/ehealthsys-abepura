@@ -294,7 +294,7 @@ class KembalirmTController extends MyAuthController
 			}
 
 			$model=new RKPengirimanrmT('search');
-			$model->tgl_rekam_medik = date('Y-m-d H:i:s');
+			$model->tgl_rekam_medik = date('Y-m-d 00:00:00');
 			$model->tgl_rekam_medik_akhir = date('Y-m-d H:i:s');
 			$model->unsetAttributes();  // clear any default values
 			//$modDokRekamMedis->nodokumenrm = MyGenerator::noDokumenRM();
