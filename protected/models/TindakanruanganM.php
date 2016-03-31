@@ -16,7 +16,7 @@ class TindakanruanganM extends CActiveRecord
 	 */
     
         public $ruangan_nama,$daftartindakan_nama,$kategoritindakan_nama,$daftartindakan_kode,$harga_tariftindakan,$kategoritindakan_id,$nama_pelayanan;
-        public $kelompoktindakan_nama, $komponenunit_id;
+        public $kelompoktindakan_nama, $komponenunit_id,$komponenunit_nama;
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -71,6 +71,7 @@ class TindakanruanganM extends CActiveRecord
 			'kelompoktindakan_id' => 'kelompok Tindakan',
 			'kelompoktindakan_nama' => 'kelompok Tindakan',
 			'kategoritindakan_nama' => 'Kategori Tindakan',
+                        'komponenunit_nama' => 'Komponen Unit',
 			'daftartindakan_kode' => 'Kode Tindakan',
 			'daftartindakan_nama' => 'Nama Tindakan',
 		);
@@ -103,6 +104,7 @@ class TindakanruanganM extends CActiveRecord
 		$criteria->compare('t.daftartindakan_id',$this->daftartindakan_id);
                 $criteria->compare('LOWER(ruangan.ruangan_nama)',  strtolower($this->ruangan_nama), true);
                 $criteria->compare('LOWER(kategoritindakan.kategoritindakan_nama)',  strtolower($this->kategoritindakan_nama), true);
+                $criteria->compare('LOWER(komponenunit.komponenunit_nama)',  strtolower($this->komponenunit_nama), true);
                 $criteria->compare('LOWER(daftartindakan.daftartindakan_kode)',  strtolower($this->daftartindakan_kode), true);
                 $criteria->compare('LOWER(daftartindakan.daftartindakan_nama)',  strtolower($this->daftartindakan_nama), true);
 		return new CActiveDataProvider($this, array(
