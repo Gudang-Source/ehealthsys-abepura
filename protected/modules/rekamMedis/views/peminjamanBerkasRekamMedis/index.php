@@ -56,7 +56,7 @@ $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
         'autoOpen' => false,
         'modal' => true,
         'width' => 600,
-        'height' => 400,
+        'height' => 550,
         'resizable' => false,
     ),
 ));
@@ -71,13 +71,13 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'namapeminjam-grid',
 	'dataProvider'=>$modPeminjam->searchDialog(),
 	'filter'=>$modPeminjam,
-	'template'=>"{items}\n{pager}",
+	'template'=>"{summary}\n{items}\n{pager}",
 	'itemsCssClass'=>'table table-striped table-bordered table-condensed',
 	'columns'=>array(
 		array(
 			'header'=>'Pilih',
 			'type'=>'raw',
-			'value'=>'CHtml::Link("<i class=\"icon-check\"></i>","",array("class"=>"btn-small", 
+			'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","",array("class"=>"btn-small", 
 							"href"=>"",
 							"id" => "selectNamaPeminjam",
 							"onClick" => "
@@ -133,7 +133,7 @@ if (isset($_GET['RKDokumenpasienrmlamaV'])){
         array(
             'header'=> 'Pilih',
             'type'=>'raw',
-            'value' => 'CHtml::Link("<i class=\"icon-check\"></i>","#",array("class"=>"btn-small", 
+            'value' => 'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
 				"id" => "selectDokumen",
 				"onClick" => "
 					$(\'#'.CHtml::activeId($model,'lokasirak_nama').'\').val(\'$data->lokasirak_nama\');
@@ -150,12 +150,12 @@ if (isset($_GET['RKDokumenpasienrmlamaV'])){
         ),
         array(
             'name'=>'lokasirak_id',
-            'filter'=>  CHtml::listData(LokasirakM::model()->findAll('lokasirak_aktif = true'), 'lokasirak_id', 'lokasirak_nama'),
+            'filter'=> CHtml::dropDownList('RKDokumenpasienrmlamaV[lokasirak_id]',$modDokumenPasienLama->lokasirak_id,CHtml::listData(LokasirakM::model()->findAll('lokasirak_aktif = true ORDER BY lokasirak_nama ASC'), 'lokasirak_id', 'lokasirak_nama'),array('empty'=>'-- Pilih --')),
             'value'=>'$data->lokasirak_nama',
             ),
         array(
             'name'=>'subrak_id',
-            'filter'=>  CHtml::listData(SubrakM::model()->findAll('subrak_aktif = true'), 'subrak_id', 'subrak_nama'),
+            'filter'=>  CHtml::dropDownList('RKDokumenpasienrmlamaV[subrak_id]',$modDokumenPasienLama->subrak_id,CHtml::listData(SubrakM::model()->findAll('subrak_aktif = true ORDER BY subrak_nama ASC'), 'subrak_id', 'subrak_nama'),array('empty'=>'-- Pilih --')),
             'value'=>'$data->subrak_nama',
             ),
         array(
@@ -174,27 +174,22 @@ if (isset($_GET['RKDokumenpasienrmlamaV'])){
             ),
         array(
             'name'=>'jeniskelamin',
-            'filter'=> LookupM::getItems('jeniskelamin'),
+            'filter'=> CHtml::dropDownList('RKDokumenpasienrmlamaV[jeniskelamin]',$modDokumenPasienLama->jeniskelamin,LookupM::getItems('jeniskelamin'),array('empty'=>'-- Pilih --')),
             'value'=>'$data->jeniskelamin',
         ),
         array(
             'name'=>'alamat_pasien',
             'filter'=>false,
-            'value'=>'$data->jeniskelamin',
-        ),
+            'value'=>'$data->alamat_pasien',
+        ),       
         array(
             'name'=>'instalasi_id',
-            'filter'=>false,
-            'value'=>'$data->instalasi_nama',
-        ),
-        array(
-            'name'=>'instalasi_id',
-            'filter'=>  CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true'), 'instalasi_id', 'instalasi_nama'),
+            'filter'=>  CHtml::dropDownList('RKDokumenpasienrmlamaV[instalasi_id]',$modDokumenPasienLama->instalasi_id,CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true ORDER BY instalasi_nama ASC'), 'instalasi_id', 'instalasi_nama'),array('empty'=>'-- Pilih --')),
             'value'=>'$data->instalasi_nama',
         ),
         array(
             'name'=>'ruangan_id',
-            'filter'=>  CHtml::listData(RuanganM::model()->findAll('ruangan_aktif = true'), 'ruangan_id', 'ruangan_nama'),
+            'filter'=>  CHtml::dropDownList('RKDokumenpasienrmlamaV[ruangan_id]',$modDokumenPasienLama->ruangan_id,CHtml::listData(RuanganM::model()->findAll('ruangan_aktif = true ORDER BY ruangan_nama ASC'), 'ruangan_id', 'ruangan_nama'),array('empty'=>'-- Pilih --')),
             'value'=>'$data->ruangan_nama',
         ),
         array(
