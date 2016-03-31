@@ -80,17 +80,23 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'resizable'=>false,
     ),
 ));
-$modObatAlkes = new LBObatalkesM('searchDialog');
+$modObatAlkes = new GFInformasistokobatalkesV();
 $modObatAlkes->unsetAttributes();
-if(isset($_GET['LBObatalkesM'])){
-    $modObatAlkes->attributes = $_GET['LBObatalkesM'];
-    $modObatAlkes->jenisobatalkes_nama = $_GET['LBObatalkesM']['jenisobatalkes_nama'];
+$modObatAlkes->ruangan_id = Yii::app()->user->getState('ruangan_id');
+if(isset($_GET['GFInformasistokobatalkesV'])){
+    $modObatAlkes->attributes = $_GET['GFInformasistokobatalkesV'];
+    $modObatAlkes->jenisobatalkes_nama = $_GET['GFInformasistokobatalkesV']['jenisobatalkes_nama'];
     // $modObatAlkes->satuankecil_nama = $_GET['LBObatalkesM']['satuankecil_nama'];
 //    $modObatAlkes->sumberdana_nama = $_GET['LBObatalkesM']['sumberdana_nama'];
 }
+$provider = $modObatAlkes->searchInformasi();
+$provider->sort->defaultOrder = "obatalkes_nama";
+$provider->criteria->select = "obatalkes_id, obatalkes_kode, satuankecil_id, satuankecil_nama, obatalkes_nama, jenisobatalkes_id, obatalkes_kategori, obatalkes_golongan";
+$provider->criteria->group = $provider->criteria->select;
+
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'obatalkes-m-grid',
-	'dataProvider'=>$modObatAlkes->searchDialog(),
+	'dataProvider'=>$provider,
 	'filter'=>$modObatAlkes,
         'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
@@ -98,20 +104,26 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 array(
                     'header'=>'Pilih',
                     'type'=>'raw',
-                    'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
+                    'value'=>function($data) use (&$oa) {
+                        $oa = ObatalkesM::model()->findByPk($data->obatalkes_id);
+                        return CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
                                     "id" => "selectObat",
                                     "onClick" => "
-                                        $(\'#obatalkes_id\').val($data->obatalkes_id);
-                                        $(\'#qty_stok\').val(".StokobatalkesT::getJumlahStok($data->obatalkes_id, Yii::app()->user->getState(\'ruangan_id\')).");
-                                        $(\'#satuankecil_id\').val($data->satuankecil_id);
-                                        $(\'#satuankecil_nama\').val(\'$data->SatuanKecilNama\');
-                                        $(\'#hargajual\').val($data->hargajual);
-                                        $(\'#harganetto\').val($data->harganetto);
-                                        $(\'#obatalkes_nama\').val(\'$data->obatalkes_nama\');
-                                        $(\'#sumberdana_id\').val(\'$data->sumberdana_id\');
-                                        $(\'#dialogObatAlkes\').dialog(\'close\');
+                                        $('#obatalkes_id').val(".$oa->obatalkes_id.");
+                                        $('#obatalkes_kode').val('".$oa->obatalkes_kode."');
+                                        $('#qty_stok').val('".StokobatalkesT::getJumlahStok($data->obatalkes_id, Yii::app()->user->getState("ruangan_id"))."');
+                                        $('#satuankecil_id').val(".$oa->satuankecil_id.");
+                                        $('#satuankecil_nama').val('".$oa->SatuanKecilNama."');
+                                        $('#hargajual').val('".$oa->hargajual."');
+                                        $('#harganetto').val('".$oa->harganetto."');
+                                        $('#obatalkes_nama').val('".$oa->obatalkes_nama."');
+                                        $('#sumberdana_id').val(".$oa->sumberdana_id.");
+                                        $('#dialogObatAlkes').dialog('close');
                                         return false;"
-                                        ))',
+                                        
+                            )
+                        );
+                    },
                 ),
                 array(
                     'name'=>'jenisobatalkes_id',
@@ -146,7 +158,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'header'=>'Jumlah Stok',
                     'type'=>'raw',
                     'htmlOptions'=>array('style'=>'text-align: right;'),
-                    'value'=>'StokobatalkesT::getJumlahStok($data->obatalkes_id, Yii::app()->user->getState("ruangan_id"))." ".$data->satuankecil->satuankecil_nama',
+                    'value'=>'StokobatalkesT::getJumlahStok($data->obatalkes_id, Yii::app()->user->getState("ruangan_id"))." ".$data->satuankecil_nama',
                 ),
 
                 
