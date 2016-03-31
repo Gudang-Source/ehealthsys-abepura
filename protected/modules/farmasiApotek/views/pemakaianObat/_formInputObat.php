@@ -56,7 +56,7 @@
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
     'id' => 'dialogObat',
     'options' => array(
-        'title' => 'Daftar Obat Alkes',
+        'title' => 'Stok Obat Alkes '.Yii::app()->user->getState('ruangan_id'),
         'autoOpen' => false,
         'modal' => true,
         'minWidth' => 900,
@@ -102,7 +102,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
             'header' => 'Tanggal Kadaluarsa',
             'name' => 'tglkadaluarsa',
             'filter' => '',
-        ),
+        ), /*
         array(
             'name' => 'satuankecil.satuankecil_nama',
             'header' => 'Satuan Kecil',
@@ -110,11 +110,14 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
         array(
             'name' => 'satuanbesar.satuanbesar_nama',
             'header' => 'Satuan Besar',
-        ),
+        ), */
         array(
             'header' => 'Stok',
             'type' => 'raw',
-            'value' => '$data->StokObatRuangan',
+            'value' => 'StokobatalkesT::getJumlahStok($data->obatalkes_id, Yii::app()->user->getState("ruangan_id"))." ".$data->satuankecil->satuankecil_nama',
+            'htmlOptions'=>array(
+                'style'=>'text-align: right',
+            )
         ),
     ),
     'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
