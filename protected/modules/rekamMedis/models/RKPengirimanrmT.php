@@ -15,8 +15,9 @@ class RKPengirimanrmT extends PengirimanrmT {
 		$criteria=new CDbCriteria;
                 
                 $criteria->with = array('pendaftaran', 'dokrekammedis','pasien');
-                $criteria->addCondition('t.peminjamanrm_id is null');
-                $criteria->addCondition('dokrekammedis.subrak_id is null or dokrekammedis.lokasirak_id is null');
+                $criteria->addCondition('t.peminjamanrm_id is null');                
+                $criteria->addCondition('dokrekammedis.subrak_id is null and dokrekammedis.lokasirak_id is null');
+                
 		if (!empty($this->no_rekam_medik_akhir)){
                     $criteria->addCondition("CAST(pasien.no_rekam_medik as integer) between ".$this->no_rekam_medik." and ".$this->no_rekam_medik_akhir);
                 } else {
@@ -34,7 +35,7 @@ class RKPengirimanrmT extends PengirimanrmT {
 		$criteria->compare('LOWER(pasien.nama_pasien)',strtolower($this->nama_pasien),true);
 		$criteria->compare('LOWER(dokrekammedis.statusrekammedis)',strtolower($this->statusrekammedis),true);
 		if(!empty($this->instalasi_id)){
-			$criteria->addCondition("pendaftaran.ruangan_id = ".$this->ruangan_id);			
+			//$criteria->addCondition("pendaftaran.ruangan_id = ".$this->ruangan_id);			
 		}
 		$criteria->compare('LOWER(pendaftaran.no_pendaftaran)',strtolower($this->no_pendaftaran),true);
 		if(!empty($this->instalasi_id)){

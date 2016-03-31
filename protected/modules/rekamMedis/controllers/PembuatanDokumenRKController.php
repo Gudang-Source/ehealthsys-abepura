@@ -5,6 +5,8 @@ Yii::import('sistemAdministrator.views.dokumenRekamMedis');
 class PembuatanDokumenRKController extends DokumenRekamMedisController
 {
 	public $path_view_rm = 'rekamMedis.views.pembuatanDokumenRK.';
+        public $path_tips = 'rekamMedis.views.tips.';
+        
 	/**
 	 * Membuat dan menyimpan data baru.
 	 */

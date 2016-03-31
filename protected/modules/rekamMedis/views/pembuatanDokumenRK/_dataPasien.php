@@ -15,7 +15,7 @@
                     array(
                         'header'=>'Pilih',
                         'type'=>'raw',
-                        'value'=>'CHtml::Link("<i class=\"icon-check\"></i>","javascript:void(0);",array("class"=>"btn-small", 
+                        'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","javascript:void(0);",array("class"=>"btn-small", 
                                         "id" => "selectPasien",
                                         "onClick" => "inputPasien($data->pasien_id,
                                         \'$data->nama_pasien\', \'$data->no_rekam_medik\');return false;"))',
@@ -30,7 +30,12 @@
 					'type'=>'raw',
 					'value'=>'isset($data->namadepan)?$data->namadepan." ".$data->nama_pasien:$data->nama_pasien',
 					),
-                    'jeniskelamin',  
+                                        array(
+                                        'header' => 'Jenis Kelamin',
+					'name'=>'jeniskelamin',					
+					'value'=>'$data->jeniskelamin',
+                                        'filter' => CHtml::dropDownList('SAPasienM[jeniskelamin]',$modPasien->jeniskelamin,LookupM::getItems("jeniskelamin"),array('empty'=>'-- Pilih --'))    
+					),                                                            
         ),
             'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
     )); 
