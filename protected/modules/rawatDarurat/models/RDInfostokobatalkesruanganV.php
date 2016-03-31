@@ -62,10 +62,10 @@ class RDInfostokobatalkesruanganV extends InfostokobatalkesruanganV {
 		$criteria->compare('LOWER(tglstok_out)',strtolower($this->tglstok_out),true);
 		$criteria->compare('qtystok_in',$this->qtystok_in);
 		$criteria->compare('qtystok_out',$this->qtystok_out);
-		$criteria->compare('qtystok_current',$this->qtystok_current);
-		$criteria->compare('harganetto_oa',$this->harganetto_oa);
-		$criteria->compare('hargajual_oa',$this->hargajual_oa);
-		$criteria->compare('discount',$this->discount);
+		// $criteria->compare('qtystok_current',$this->qtystok_current);
+		// $criteria->compare('harganetto_oa',$this->harganetto_oa);
+		// $criteria->compare('hargajual_oa',$this->hargajual_oa);
+		// $criteria->compare('discount',$this->discount);
 		$criteria->compare('LOWER(create_time)',strtolower($this->create_time),true);
 		$criteria->compare('LOWER(update_time)',strtolower($this->update_time),true);
 		$criteria->compare('LOWER(create_loginpemakai_id)',strtolower($this->create_loginpemakai_id),true);
