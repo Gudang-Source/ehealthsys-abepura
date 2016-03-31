@@ -120,6 +120,7 @@ class RDInfoKunjunganRDV extends InfokunjunganrdV
 		$criteria->compare('LOWER(carakeluar)',strtolower($this->carakeluar ),true);
 		$criteria->compare('LOWER(no_rekam_medik)',strtolower($this->no_rekam_medik),true);
 		$criteria->compare('LOWER(nama_pasien)',strtolower($this->nama_pasien),true);
+                $criteria->compare('jeniskelamin', $this->jeniskelamin);
 		$criteria->compare('LOWER(nama_bin)',strtolower($this->nama_bin),true);
 		$criteria->compare('LOWER(alamat_pasien)',strtolower($this->alamat_pasien),true);
 		if(!empty($this->propinsi_id)){
@@ -156,11 +157,11 @@ class RDInfoKunjunganRDV extends InfokunjunganrdV
 			$criteria->addCondition("rujukan_id = ".$this->rujukan_id);				
 		}
 		$criteria->addCondition('ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
-		$criteria->limit = 10;
+		// $criteria->limit = 10;
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-                        'pagination'=>false,
+                        // 'pagination'=>false,
 		));
 	}
         
