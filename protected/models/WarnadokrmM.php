@@ -117,7 +117,7 @@ class WarnadokrmM extends CActiveRecord
         }
         
         public function getKodeWarna(){
-            $model = $this->findAllByAttributes(array('warnadokrm_aktif'=>true));
+            $model = $this->findAllByAttributes(array('warnadokrm_aktif'=>true),array('order'=>'warnadokrm_namawarna ASC'));
             $data = array();
             foreach($model as $row){
                 $data[] = $row->warnadokrm_kodewarna;
