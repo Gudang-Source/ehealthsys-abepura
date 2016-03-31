@@ -82,7 +82,7 @@
 //                                      'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));
                                       'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;')); ?>
         <?php
-           $content = $this->renderPartial('gudangFarmasi.views.tips.informasi_gudangfarmasi',array(),true);
+           $content = $this->renderPartial('gudangFarmasi.views.tips.informasiPemesananObatAlkesKeluar',array(),true);
            $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
         ?>
     </div>
