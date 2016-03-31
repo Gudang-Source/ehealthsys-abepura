@@ -55,10 +55,10 @@
 	</div>
 	<div class="span4">
 		<?php echo $form->textFieldRow($modPengiriman, 'nama_pasien', array('class' => 'span3', 'maxlength' => 50)); ?>
-		<?php echo $form->dropDownListRow($modPengiriman, 'instalasi_id', CHtml::listData(InstalasiM::model()->findAllByAttributes(array('instalasi_aktif'=>true)), 'instalasi_id', 'instalasi_nama'), array('empty'=>'-- Pilih --', 'class' => 'span3', 'onchange'=>'getRuangan();')); ?>
+		<?php echo $form->dropDownListRow($modPengiriman, 'instalasi_id', CHtml::listData(InstalasiM::model()->findAllByAttributes(array('instalasi_aktif'=>true), array('order'=>'instalasi_nama ASC')), 'instalasi_id', 'instalasi_nama'), array('empty'=>'-- Pilih --', 'class' => 'span3', 'onchange'=>'getRuangan();')); ?>
 	</div>
 	<div class="span4">
-		<?php echo $form->dropDownListRow($modPengiriman, 'ruangan_id', CHtml::listData(RuanganM::model()->findAllByAttributes(array('ruangan_aktif'=>true)), 'ruangan_id', 'ruangan_nama'), array('empty'=>'-- Pilih --', 'class' => 'span3', 'maxlength' => 50)); ?>
+		<?php echo $form->dropDownListRow($modPengiriman, 'ruangan_id', CHtml::listData(RuanganM::model()->findAllByAttributes(array('ruangan_aktif'=>true), array('order'=>'ruangan_nama ASC')), 'ruangan_id', 'ruangan_nama'), array('empty'=>'-- Pilih --', 'class' => 'span3', 'maxlength' => 50)); ?>
 		<?php echo $form->textFieldRow($modPengiriman, 'no_pendaftaran', array('class' => 'span3', 'maxlength' => 20)); ?>
 	</div>
 </div>

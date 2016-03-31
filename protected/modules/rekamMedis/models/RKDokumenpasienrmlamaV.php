@@ -14,7 +14,7 @@ class RKDokumenpasienrmlamaV extends DokumenpasienrmlamaV {
 		$criteria=new CDbCriteria;
 
 //		$criteria->with = array('subrak', 'pendaftaran', 'pengiriman');
-		$criteria->addCondition('t.peminjamanrm_id is null or (t.peminjamanrm_id is not null and t.kembalirm_id is not null)');
+		//$criteria->addCondition('t.peminjamanrm_id is null or (t.peminjamanrm_id is not null and t.kembalirm_id is not null)');
 		if (!empty($this->no_rekam_medik_akhir)){
 			$criteria->addCondition("CAST(t.no_rekam_medik as integer) between ".$this->no_rekam_medik." and ".$this->no_rekam_medik_akhir);
 		} else {
@@ -30,7 +30,7 @@ class RKDokumenpasienrmlamaV extends DokumenpasienrmlamaV {
 //			$criteria->compare('DATE(t.tgl_rekam_medik)',$this->tgl_rekam_medik);    
 //		}
 		
-		$criteria->addBetweenCondition('DATE(t.tgl_rekam_medik)',$this->tgl_awal,$this->tgl_akhir);
+		//$criteria->addBetweenCondition('DATE(t.tgl_rekam_medik)',$this->tgl_awal,$this->tgl_akhir);
 		
 		$criteria->compare('LOWER(t.nama_pasien)',strtolower($this->nama_pasien),true);
 		$criteria->compare('LOWER(t.statusrekammedis)',strtolower($this->statusrekammedis),true);

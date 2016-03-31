@@ -69,13 +69,13 @@
                     'header'=> 'Lokasi Rak',
                     'type'=>'raw',
                     'value'=>'
-                        CHtml::dropDownList(\'Dokumen[lokasirak_id][]\',\'\',Chtml::listData(LokasirakM::model()->findAll(\'lokasirak_aktif=true\'), \'lokasirak_id\', \'lokasirak_nama\'), array(\'empty\'=>\'-- Pilih --\',\'class\'=>\'span2 lokasiRak\'));'
+                        CHtml::dropDownList(\'Dokumen[lokasirak_id][]\',\'\',Chtml::listData(LokasirakM::model()->findAll(\'lokasirak_aktif=true ORDER BY lokasirak_nama ASC\'), \'lokasirak_id\', \'lokasirak_nama\'), array(\'empty\'=>\'-- Pilih --\',\'class\'=>\'span2 lokasiRak\'));'
                 ),
                 array(
                     'header'=> 'Sub Rak',
                     'type'=>'raw',
                     'value'=>'
-                        CHtml::dropDownList(\'Dokumen[subrak_id][]\',\'\',Chtml::listData(SubrakM::model()->findAll(\'subrak_aktif=true\'), \'subrak_id\', \'subrak_nama\'), array(\'empty\'=>\'-- Pilih --\', \'class\'=>\'span2 subRak\'));'
+                        CHtml::dropDownList(\'Dokumen[subrak_id][]\',\'\',Chtml::listData(SubrakM::model()->findAll(\'subrak_aktif=true ORDER BY subrak_nama ASC\'), \'subrak_id\', \'subrak_nama\'), array(\'empty\'=>\'-- Pilih --\', \'class\'=>\'span2 subRak\'));'
                 ),
                 //'lokasirak_id',
                 //'subrak_id',
@@ -222,7 +222,7 @@
                 array('class'=>'btn btn-danger',
                     'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r) {if(r) window.location = "'.$this->createUrl('Penyimpanan').'";} ); return false;'));  ?>
             <?php 
-            $content = $this->renderPartial('../tips/transaksi',array(),true);
+            $content = $this->renderPartial('../tips/transaksiPenyimpananDokumenRM',array(),true);
             $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));  ?>	
 
         </div>

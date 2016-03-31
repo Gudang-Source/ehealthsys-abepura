@@ -43,11 +43,19 @@
 				'name'=>'kelompoktindakan_nama',
 				'value'=>'isset($data->daftartindakan->kelompoktindakan->kelompoktindakan_nama)?$data->daftartindakan->kelompoktindakan->kelompoktindakan_nama:" - "',
 //				'filter'=>true,
+                                'filter' => CHtml::dropDownList("SATindakanruanganM[kelompoktindakan_nama]",$model->kelompoktindakan_nama,CHtml::listData(KelompoktindakanM::model()->findAll("kelompoktindakan_aktif = TRUE ORDER BY kelompoktindakan_nama ASC"), 'kelompoktindakan_nama', 'kelompoktindakan_nama'),array('empty'=>'--Pilih--')),
+				  ),
+                        array(
+				'header'=>'Komponen Unit',
+				'name'=>'komponenunit_nama',
+				'value'=>'isset($data->daftartindakan->komponenunit->komponenunit_nama)?$data->daftartindakan->komponenunit->komponenunit_nama:" - "',
+                                //'filter' => CHtml::dropDownList("SATindakanruanganM[kategoritindakan_nama]",$model->kategoritindakan_nama,CHtml::listData(KategoritindakanM::model()->findAll("kategoritindakan_aktif = TRUE ORDER BY kategoritindakan_nama ASC"), 'kategoritindakan_nama', 'kategoritindakan_nama'),array('empty'=>'--Pilih--')),
 				  ),
 			array(
 				'header'=>'Kategori Tindakan',
 				'name'=>'kategoritindakan_nama',
 				'value'=>'isset($data->daftartindakan->kategoritindakan->kategoritindakan_nama)?$data->daftartindakan->kategoritindakan->kategoritindakan_nama:" - "',
+                                'filter' => CHtml::dropDownList("SATindakanruanganM[kategoritindakan_nama]",$model->kategoritindakan_nama,CHtml::listData(KategoritindakanM::model()->findAll("kategoritindakan_aktif = TRUE ORDER BY kategoritindakan_nama ASC"), 'kategoritindakan_nama', 'kategoritindakan_nama'),array('empty'=>'--Pilih--')),
 				  ),
 			array(
 				'header'=>'Kode Tindakan',

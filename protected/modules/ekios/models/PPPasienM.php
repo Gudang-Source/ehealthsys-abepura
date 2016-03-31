@@ -11,7 +11,7 @@ class PPPasienM extends PasienM
      * @param string $className active record class name.
      * @return KelompokmenuK the static model class
      */
-    public $umur,$thn,$bln,$hr;
+    public $umur,$thn,$bln,$hr,$pekerjaan_nama;
 //    public $tgl_rm_awal;
 //    public $tgl_rm_akhir;
     public static function model($className=__CLASS__)
@@ -52,7 +52,7 @@ class PPPasienM extends PasienM
                     // Please remove those attributes that should not be searched.
                     array('nama_ibu, nama_ayah, pasien_id, pekerjaan_id, kelurahan_id, pendidikan_id, propinsi_id, kecamatan_id, suku_id, profilrs_id, kabupaten_id, no_rekam_medik, tgl_rekam_medik, jenisidentitas, no_identitas_pasien, namadepan, nama_pasien, nama_bin, jeniskelamin, kelompokumur, tempat_lahir, tanggal_lahir, alamat_pasien, rt, rw, statusperkawinan, agama, golongandarah, rhesus, anakke, jumlah_bersaudara, no_telepon_pasien, no_mobile_pasien, warga_negara, photopasien, alamatemail, statusrekammedis, create_time, update_time, create_loginpemakai_id, update_loginpemakai_id, create_ruangan, tgl_meninggal,statusrekammedis', 'safe', 'on'=>'search'),
                     array('propinsiNama, kabupatenNama, kecamatanNama, kelurahanNama','safe','on'=>'searchWithDaerah'),
-                    array('tgl_rm_awal, tgl_rm_akhir','safe','on'=>'searchPasien'),
+                    array('pekerjaan_nama, tgl_rm_awal, tgl_rm_akhir','safe','on'=>'searchPasien'),
             );
     }
     
@@ -120,6 +120,7 @@ class PPPasienM extends PasienM
             $criteria->compare('TRIM(no_rekam_medik)', trim($this->no_rekam_medik),true);
             $criteria->compare('LOWER(nama_pasien)',strtolower($this->nama_pasien),true);
             $criteria->compare('LOWER(nama_bin)',strtolower($this->nama_bin),true);
+            $criteria->compare('LOWER(pekerjaan_nama)',strtolower($this->pekerjaan_nama),true);
             $criteria->compare('t.propinsi_id',$this->propinsi_id);
             $criteria->compare('t.kabupaten_id',$this->kabupaten_id);
             $criteria->compare('t.kecamatan_id',$this->kecamatan_id);

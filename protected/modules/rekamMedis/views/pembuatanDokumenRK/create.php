@@ -1,5 +1,5 @@
 <div class="white-container">
-    <legend class="rim2">Pembuatan Dokumen <b>Rekam Medis Baru</b></legend>
+    <legend class="rim2">Pencatatan Berkas <b>Rekam Medis</b></legend>
     <?php
     $this->breadcrumbs=array(
             'Sadokrekammedis Ms'=>array('index'),

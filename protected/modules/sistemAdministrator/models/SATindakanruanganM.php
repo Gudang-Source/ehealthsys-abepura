@@ -2,7 +2,7 @@
 
 class SATindakanruanganM extends TindakanruanganM
 {
-    public $instalasi_id,$instalasi_nama,$ruangan_nama;
+    public $instalasi_id,$instalasi_nama,$ruangan_nama,$komponenunit_nama;
 
     /**
 	 * Returns the static model of the specified AR class.
@@ -17,12 +17,13 @@ class SATindakanruanganM extends TindakanruanganM
 	public function search()
 	{
 		$criteria=new CDbCriteria;
-		$criteria->with = array('ruangan','daftartindakan','daftartindakan.kategoritindakan','daftartindakan.kelompoktindakan');
+		$criteria->with = array('ruangan','daftartindakan','daftartindakan.kategoritindakan','daftartindakan.kelompoktindakan','daftartindakan.komponenunit');
 		$criteria->compare('t.ruangan_id',$this->ruangan_id);
 		$criteria->compare('t.daftartindakan_id',$this->daftartindakan_id);
 		$criteria->compare('LOWER(ruangan.ruangan_nama)',  strtolower($this->ruangan_nama), true);
 		$criteria->compare('LOWER(kelompoktindakan.kelompoktindakan_nama)',  strtolower($this->kelompoktindakan_nama), true);
 		$criteria->compare('LOWER(kategoritindakan.kategoritindakan_nama)',  strtolower($this->kategoritindakan_nama), true);
+                $criteria->compare('LOWER(komponenunit.komponenunit_nama)',  strtolower($this->komponenunit_nama), true);
 		$criteria->compare('LOWER(daftartindakan.daftartindakan_kode)',  strtolower($this->daftartindakan_kode), true);
 		$criteria->compare('LOWER(daftartindakan.daftartindakan_nama)',  strtolower($this->daftartindakan_nama), true);
 		return new CActiveDataProvider($this, array(
@@ -36,6 +37,10 @@ class SATindakanruanganM extends TindakanruanganM
                                'kategoritindakan_nama' => array(
                                   'asc' => 'kategoritindakan.kategoritindakan_nama ASC',
                                   'desc' => 'kategoritindakan.kategoritindakan_nama DESC',
+                                ),
+                              'komponenunit_nama' => array(
+                                  'asc' => 'komponenunit.komponenunit_nama ASC',
+                                  'desc' => 'komponenunit.komponenunit_nama DESC',
                                 ),
                                'daftartindakan_kode' => array(
                                   'asc' => 'daftartindakan.daftartindakan_kode ASC',

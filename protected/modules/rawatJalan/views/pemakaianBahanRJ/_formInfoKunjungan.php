@@ -264,7 +264,6 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                                         "))',
                     ),
                     'no_pendaftaran',
-                    'no_pendaftaran',
                     array(
                         'name'=>'tgl_pendaftaran',
                         'type'=>'raw',
@@ -272,14 +271,17 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                         'filter'=> false,
                     ),
                     'no_rekam_medik',
-                    'nama_pasien',
+                    array(
+                        'name'=>'nama_pasien',
+                        'value'=>'$data->namadepan.$data->nama_pasien',
+                    ), 
                     array(
                         'name'=>'jeniskelamin',
                         'type'=>'raw',
                         'filter'=> CHtml::dropDownList('RJInfokunjunganrjV[jeniskelamin]',$modDialogKunjungan->jeniskelamin,LookupM::model()->getItems('jeniskelamin'),array('empty'=>'--Pilih--')),
                     ),
-                    'instalasi_nama',
-                    'ruangan_nama',
+                    // 'instalasi_nama',
+                    // 'ruangan_nama',
                     array(
                         'name'=>'carabayar_nama',
                         'type'=>'raw',

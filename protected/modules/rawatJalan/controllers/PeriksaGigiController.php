@@ -156,7 +156,6 @@ class PeriksaGigiController extends Controller
                 $odontogrampasien_id = (isset($gigiPasien->odontogrampasien_id) ? $gigiPasien->odontogrampasien_id : null);
                 $gigi = OdontogrampasienR::model()->polaGigi($odontogrampasien_id);
                
-                
                 echo json_encode($gigi);
                 Yii::app()->end();
                 //$this->widget('Odontogram',array('gigis'=>$gigi));

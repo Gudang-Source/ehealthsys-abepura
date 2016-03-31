@@ -645,10 +645,10 @@ class RJInfokunjunganrjV extends InfokunjunganrjV {
         $criteria->compare('LOWER(carabayar_nama)', strtolower($this->carabayar_nama), true);
         $criteria->addCondition('ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
         $criteria->order = 'tgl_pendaftaran ASC';
-        $criteria->limit = 10;
+        // $criteria->limit = 10;
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
-                    'pagination' => false,
+        //             'pagination' => false,
                 ));
     }
     

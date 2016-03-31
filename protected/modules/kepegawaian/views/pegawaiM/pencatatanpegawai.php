@@ -44,13 +44,13 @@
                     array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>  
               </div>
             </div> 
-            <?php echo $form->textFieldRow($model,'nomorindukpegawai',array('class'=>'required','onkeyup'=>"return $(this).focusNextInputField(event)",'placeholder'=>'Nomor Induk Pegawai')); ?>
+            <?php echo $form->textFieldRow($model,'nomorindukpegawai',array('class'=>'required numbers-only','onkeyup'=>"return $(this).focusNextInputField(event)",'placeholder'=>'Nomor Induk Pegawai','maxlength'=>18)); ?>
 
             <div class="control-group">
                     <?php echo CHtml::label('No. Identitas','jenisidentitas',array('class'=>'control-label')); ?>
                 <div class="controls">
                     <?php echo $form->dropDownList($model,'jenisidentitas',LookupM::getItems('jenisidentitas'),array('empty'=>'-- Pilih --','id'=>'jenisidentitas','style'=>'width:70px;','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-                    <?php echo $form->textField($model,'noidentitas',array('empty'=>'-- Pilih --','id'=>'noidentitas','style'=>'width:135px;','onkeyup'=>"return $(this).focusNextInputField(event)",'placeholder'=>'No. Identitas Pegawai')); ?>
+                    <?php echo $form->textField($model,'noidentitas',array('class'=>'numbers-only','empty'=>'-- Pilih --','id'=>'noidentitas','style'=>'width:135px;','onkeyup'=>"return $(this).focusNextInputField(event)",'placeholder'=>'No. Identitas Pegawai','maxlength'=>18)); ?>
                 </div>
             </div>
     <!--         RND-4482 : Memisahkan Gelardepan,Gelar Belakang dengan Nama Pegawai-->

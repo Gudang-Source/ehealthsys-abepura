@@ -323,15 +323,15 @@ class DokrekammedisM extends CActiveRecord
         }
         
         public function getLokasirakItems() {
-            return LokasirakM::model()->findAll('lokasirak_aktif=TRUE ORDER BY lokasirak_id');
+            return LokasirakM::model()->findAll('lokasirak_aktif=TRUE ORDER BY lokasirak_nama');
         }        
         
         public function getSubrakItems() {
-            return SubrakM::model()->findAll('subrak_aktif=TRUE ORDER BY subrak_id');
+            return SubrakM::model()->findAll('subrak_aktif=TRUE ORDER BY subrak_nama');
         }
 		
         public function getWarnaItems() {
-            return WarnadokrmM::model()->findAll('warnadokrm_aktif=TRUE ORDER BY warnadokrm_id');
+            return WarnadokrmM::model()->findAll('warnadokrm_aktif=TRUE ORDER BY warnadokrm_namawarna');
         }
 		
 		

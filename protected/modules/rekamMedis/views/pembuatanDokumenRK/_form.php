@@ -14,9 +14,9 @@
 
 		<div class = "span4">
 			<?php
-			echo $form->dropDownListRow($model,'warnadokrm_id', CHtml::listData($model->getWarnaItems(), 'warnadokrm_id', 'warnadokrm_namawarna'), array('empty'=>'-- Pilih Warna Dokumen RK --','style'=>'width:180px;', 'onkeypress'=>"return $(this).focusNextInputField(event)"));
-			echo $form->dropDownListRow($model,'subrak_id', CHtml::listData($model->getSubrakItems(), 'subrak_id', 'subrak_nama'), array('empty'=>'-- Pilih Subrak --','style'=>'width:180px;', 'onkeypress'=>"return $(this).focusNextInputField(event)"));
-			echo $form->dropDownListRow($model,'lokasirak_id', CHtml::listData($model->getLokasirakItems(), 'lokasirak_id', 'lokasirak_nama'), array('empty'=>'-- Pilih Lokasi Rak --','style'=>'width:180px;', 'onkeypress'=>"return $(this).focusNextInputField(event)"));
+			echo $form->dropDownListRow($model,'warnadokrm_id', CHtml::listData($model->getWarnaItems(), 'warnadokrm_id', 'warnadokrm_namawarna'), array('empty'=>'--Pilih--','style'=>'width:180px;', 'onkeypress'=>"return $(this).focusNextInputField(event)"));
+			echo $form->dropDownListRow($model,'subrak_id', CHtml::listData($model->getSubrakItems(), 'subrak_id', 'subrak_nama'), array('empty'=>'--Pilih--','style'=>'width:180px;', 'onkeypress'=>"return $(this).focusNextInputField(event)"));
+			echo $form->dropDownListRow($model,'lokasirak_id', CHtml::listData($model->getLokasirakItems(), 'lokasirak_id', 'lokasirak_nama'), array('empty'=>'--Pilih--','style'=>'width:180px;', 'onkeypress'=>"return $(this).focusNextInputField(event)"));
 			
                         if (!empty($pasien)) {
                             $model->pasien_id = $pasien->pasien_id;
@@ -219,9 +219,9 @@
 				array('class'=>'btn btn-danger',
 					  'onclick'=>'return refreshForm(this);')); ?>
 		<?php
-			echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary-blue', 'disabled'=>$disablePrint,'type'=>'button','onclick'=>'printDokumen(\'PRINT\')'));                 
+			echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-info', 'disabled'=>$disablePrint,'type'=>'button','onclick'=>'printDokumen(\'PRINT\')'));                 
 		?>
-		<?php	$content = $this->renderPartial('sistemAdministrator.views.tips.tipsaddedit5a',array(),true);
+		<?php	$content = $this->renderPartial($this->path_tips.'transaksiPencatatanRekamMedis',array(),true);
 				$this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); ?>
 	</div>
 	</div>
