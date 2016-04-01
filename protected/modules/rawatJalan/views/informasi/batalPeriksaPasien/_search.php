@@ -52,9 +52,48 @@
         <td>
             <?php // echo $form->textFieldRow($model,'no_pendaftaran',array('placeholder'=>'Ketik No. Pendaftaran','style'=>'width:204px;', 'maxlength'=>20)); ?>
             <?php echo $form->textFieldRow($model,'no_rekam_medik',array('placeholder'=>'Ketik No. Rekam Medik','class'=>'span3', 'maxlength'=>10)); ?>
+            <?php echo $form->dropDownListRow($model, 'nama_pegawai', 
+                        CHtml::listData(DokterV::model()->findAllByAttributes(array(
+                            'instalasi_id'=>Params::INSTALASI_ID_RJ,
+                            'pegawai_aktif'=>true,
+                        ), array(
+                            'order'=>'nama_pegawai asc'
+                        )), 'nama_pegawai', 'namaLengkap'), array('empty'=>'-- Pilih --', 'class'=>'span3')); 
+                    ?>
         </td>
         <td>
-            <?php echo $form->textFieldRow($model,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien','class'=>'span3','maxlength'=>50)); ?>
+            
+        </td>
+        <td><?php echo $form->textFieldRow($model,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien','class'=>'span3','maxlength'=>50)); ?>            
+                    <?php 
+                    $carabayar = CarabayarM::model()->findAll(array(
+                        'condition'=>'carabayar_aktif = true',
+                        'order'=>'carabayar_nama ASC',
+                    ));
+                    foreach ($carabayar as $idx=>$item) {
+                        $penjamins = PenjaminpasienM::model()->findByAttributes(array(
+                            'carabayar_id'=>$item->carabayar_id,
+                            'penjamin_aktif'=>true,
+                       ),
+                            array('order' => 'penjamin_nama ASC')    
+                                );
+                       if (empty($penjamins)) unset($carabayar[$idx]);
+                    }
+                    $penjamin = PenjaminpasienM::model()->findAll(array(
+                        'condition'=>'penjamin_aktif = true',
+                        'order'=>'penjamin_nama',
+                    ));
+                    echo $form->dropDownListRow($model,'carabayar_id', CHtml::listData($carabayar, 'carabayar_id', 'carabayar_nama'), array(
+                        'empty'=>'-- Pilih --',
+                        'class'=>'span3', 
+                        'ajax' => array('type'=>'POST',
+                            'url'=> $this->createUrl('/actionDynamic/getPenjaminPasien',array('encode'=>false,'namaModel'=>get_class($model))), 
+                            'success'=>'function(data){$("#'.CHtml::activeId($model, "penjamin_id").'").html(data); }',
+                        ),
+                     ));
+                    echo $form->dropDownListRow($model,'penjamin_id', CHtml::listData($penjamin, 'penjamin_id', 'penjamin_nama'), array('empty'=>'-- Pilih --', 'class'=>'span3'));
+                    ?>
+            <?php echo $form->textFieldRow($model,'nama_pemakai',array('placeholder'=>'Ketik Nama Pembatal','class'=>'span3','maxlength'=>20)); ?>
         </td>
     </tr>
 </table>
