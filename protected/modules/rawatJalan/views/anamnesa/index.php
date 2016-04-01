@@ -100,7 +100,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
             <div class="control-group ">
                 <?php echo $form->labelEx($modAnamnesa, 'lamasakit', array('class' => 'control-label')) ?>
                 <div class="controls">
-				<?php echo $form->textField($modAnamnesa, 'lamasakit', array('class' => 'span1 integer', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+				<?php echo $form->textField($modAnamnesa, 'lamasakit', array('class' => 'span1 integer', 'onkeypress' => "return $(this).focusNextInputField(event);", "maxlength"=>2)); ?>
 				<?php echo $form->dropDownList($modAnamnesa, 'satuanWaktu', array('Hari'=>'Hari', 'Minggu'=>'Minggu', 'Bulan'=>'Bulan', 'Tahun'=>'Tahun'), array('class'=>'span2', 'empty'=>'-- Pilih --')); ?>
 				</div>
 			</div>
@@ -130,7 +130,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
             </div>
             <?php //echo $form->textAreaRow($modAnamnesa, 'riwayatpenyakitterdahulu', array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));  ?>           
             <?php echo $form->textAreaRow($modAnamnesa, 'riwayatalergiobat', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
-	
+            <?php if (Yii::app()->user->getState('ruangan_id') == Params::RUANGAN_ID_KEBIDANAN): ?>
             <div class="control-group ">
                 <?php 
                 if (!empty($modAnamnesa->hpht)) $modAnamnesa->hpht = MyFormatter::formatDateTimeForUser($modAnamnesa->hpht);
@@ -189,7 +189,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                     ?>
                 </div>
             </div>
-            
+            <?php endif; ?>
         
         </div>
 	<div class="span6">
@@ -204,7 +204,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                         'dateFormat' => Params::DATE_FORMAT,
                         'maxDate' => 'd',
                     ),
-                    'htmlOptions' => array('readonly' => true,
+                    'htmlOptions' => array('readonly' => true, 'class'=>'realtime',
                         'onkeypress' => "return $(this).focusNextInputField(event)"),
                 ));
                 ?>
