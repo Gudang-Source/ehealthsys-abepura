@@ -144,7 +144,8 @@ class TariftindakanperdaruanganV extends CActiveRecord
 			'daftartindakan_visite' => 'Daftar Tindakan Visite',
 			'daftartindakan_konsul' => 'Daftar Tindakan Konsul',
 			'daftartindakan_akomodasi' => 'Daftar Tindakan Akomodasi',
-                    
+                        'komponenunit_id' => 'Komponen Unit',
+                        'komponenunit_nama' => 'Komponen Unit',
 			'kegiatanoperasi_id' => 'Nama Kegiatan Operasi',
 			'operasi_id' => 'Nama Operasi',
 		);
