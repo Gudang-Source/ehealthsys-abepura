@@ -2,7 +2,8 @@
 class RJInfopasienbatalperiksaV extends InfopasienbatalperiksaV
 {
     
-        public $tgl_awal,$tgl_akhir;
+        public $tgl_awal,$tgl_akhir,$nama_pegawai,$carabayar_id, $penjamin_id;
+        public $nama_pemakai, $tglbatal;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -12,6 +13,17 @@ class RJInfopasienbatalperiksaV extends InfopasienbatalperiksaV
 	{
 		return parent::model($className);
 	}
+        
+        public function attributeLabels()
+	{
+		return array(
+			'nama_pegawai'=>'Dokter',
+                        'carabayar_id'=>'Cara Bayar',
+                        'penjamin_id' => 'Penjamin',
+                        'nama_pemakai' => 'Dibatalkan Oleh',  
+                        'tglbatal' => 'Tanggal Pembatalan',
+                    );
+        }
         
         public function searchInformasiBatalPeriksaPasien()
 	{
@@ -34,8 +46,10 @@ class RJInfopasienbatalperiksaV extends InfopasienbatalperiksaV
 		$criteria->compare('LOWER(tempat_lahir)',strtolower($this->tempat_lahir),true);
 		$criteria->compare('LOWER(tanggal_lahir)',strtolower($this->tanggal_lahir),true);
 		$criteria->compare('LOWER(alamat_pasien)',strtolower($this->alamat_pasien),true);
+                $criteria->compare('LOWER(nama_pegawai)',strtolower($this->nama_pegawai),true);                
 		$criteria->compare('rt',$this->rt);
 		$criteria->compare('rw',$this->rw);
+                $criteria->compare('penjamin_id',$this->penjamin_id);
 		$criteria->compare('LOWER(agama)',strtolower($this->agama),true);
 		$criteria->compare('LOWER(golongandarah)',strtolower($this->golongandarah),true);
 		$criteria->compare('LOWER(photopasien)',strtolower($this->photopasien),true);

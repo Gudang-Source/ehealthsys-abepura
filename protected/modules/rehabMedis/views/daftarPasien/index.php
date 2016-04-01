@@ -16,6 +16,14 @@ $('#daftarPasien-form').submit(function(){
 ?>
 <div class="white-container">
     <legend class="rim2">Informasi <b>Daftar Pasien</b></legend>
+    <?php 
+        if(isset($_GET['status'])){
+            if($_GET['status'] > 0){ // Jika berhasil disimpan
+                Yii::app()->user->setFlash('success',"Data rehabilitasi medis berhasil disimpan !");
+            }
+        }
+    ?>
+     <?php $this->widget('bootstrap.widgets.BootAlert'); ?> 
     <div class="block-tabel">
         <h6>Tabel <b>Daftar Pasien</b> <?php echo CHtml::htmlButton(Yii::t('mds','{icon}',array('{icon}'=>'<i class="icon-volume-up icon-white"></i>')),array('title'=>'Klik untuk memanggil antrian terakhir','rel'=>'tooltip','class'=>'btn  btn-mini btn-primary', 'onclick'=>'ambilAntrianTerakhir();','style'=>'font-size:10px;')); ?></h6>
         <?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
@@ -301,7 +309,7 @@ $('#daftarPasien-form').submit(function(){
                                         if (data.pesan == 'exist') {
                                             myAlert(data.keterangan);
                                         } else {
-                                            window.location = "<?php echo Yii::app()->createUrl('laboratorium/daftarPasien/index&status=1')?>";
+                                            window.location = "<?php echo Yii::app()->createUrl('rehabMedis/DaftarPasien&modul_id='.Yii::app()->user->modul_id.'&status=1')?>";
                                         }
                                     }else{
                                         if(data.status == 'exist')
