@@ -21,7 +21,7 @@
                 </div>
             </div>
     <div class="control-group ">
-                <label class='control-label'>Tanggal Akhir</label>
+                <label class='control-label'>Sampai Dengan</label>
                 <div class="controls">
                     <?php 
                         $this->widget('MyDateTimePicker',array(
