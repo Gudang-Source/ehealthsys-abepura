@@ -34,6 +34,8 @@ class RJInfokunjunganrjV extends InfokunjunganrjV {
         $criteria->compare('LOWER(t.nama_pasien)', strtolower($this->nama_pasien), true);
         $criteria->compare('LOWER(t.statusperiksa)', strtolower($this->statusperiksa), true);
         $criteria->compare('LOWER(t.nama_pegawai)', strtolower($this->nama_pegawai), true);
+        $criteria->compare('t.carabayar_id', $this->carabayar_id);
+        $criteria->compare('t.penjamin_id', $this->penjamin_id);
         $criteria->addCondition('t.ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
         $criteria->with = array('pendaftaran');
         //$criteria->condition = 'pasienpulang.pendaftaran_id = t.pendaftaran_id';
