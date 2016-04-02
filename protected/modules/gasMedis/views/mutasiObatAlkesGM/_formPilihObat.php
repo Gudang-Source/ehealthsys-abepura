@@ -1,4 +1,4 @@
-<div class="span4">
+<div class="span4" hidden>
     <div class="control-group">
             <?php echo CHtml::label('Berdasarkan No. Batch / Tgl. Kadaluarsa','',array('class'=>'control-label')); ?>
             <div class="controls checkbox-inline">
@@ -82,10 +82,11 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 $format = new MyFormatter();
 $modObatAlkes = new GFObatalkesM('searchDialogMutasi');
 $modObatAlkes->unsetAttributes();
+$modObatAlkes->jenisobatalkes_id = Params::JENISOBATALKES_ID_GASMEDIS;
 if(isset($_GET['GFObatalkesM'])){
     $modObatAlkes->attributes = $_GET['GFObatalkesM'];
     $modObatAlkes->is_nobatch_tglkadaluarsa = isset($_GET['GFObatalkesM']['is_nobatch_tglkadaluarsa']) ? $_GET['GFObatalkesM']['is_nobatch_tglkadaluarsa'] : null;
-    $modObatAlkes->jenisobatalkes_nama = isset($_GET['GFObatalkesM']['jenisobatalkes_nama']) ? $_GET['GFObatalkesM']['jenisobatalkes_nama'] : null;
+    // $modObatAlkes->jenisobatalkes_nama = isset($_GET['GFObatalkesM']['jenisobatalkes_nama']) ? $_GET['GFObatalkesM']['jenisobatalkes_nama'] : null;
     $modObatAlkes->satuankecil_nama = isset($_GET['GFObatalkesM']['satuankecil_nama']) ? $_GET['GFObatalkesM']['satuankecil_nama'] : null;
     $modObatAlkes->tglkadaluarsa = isset($_GET['GFObatalkesM']['tglkadaluarsa']) ? $format->formatDateTimeForDb($_GET['GFObatalkesM']['tglkadaluarsa']) : null;
 }
@@ -108,7 +109,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                         $(\'#dialogObatAlkes\').dialog(\'close\');
                                         return false;"
                                         ))',
-                ),
+                ), /*
                 array(
                     'header'=>'Jenis Obat Alkes',
                     'name'=>'jenisobatalkes_id',
@@ -119,6 +120,8 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                         'order'=>'jenisobatalkes_nama'
                     )), 'jenisobatalkes_id', 'jenisobatalkes_nama'), array('empty'=>'-- Pilih --')),
                 ),
+                 * 
+                 */
                 
                 array(
                     'name'=>'obatalkes_kategori',

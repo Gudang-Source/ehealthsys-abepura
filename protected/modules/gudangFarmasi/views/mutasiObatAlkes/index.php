@@ -32,7 +32,7 @@
             <div class="row-fluid">
                 <?php
                 if(!isset($_GET['sukses'])){
-                    $this->renderPartial($this->path_view.'_formPilihObat', array('form'=>$form,'model'=>$model)); 
+                    $this->renderPartial($this->path_oa.'_formPilihObat', array('form'=>$form,'model'=>$model)); 
                 }
                 ?>
             </div>
