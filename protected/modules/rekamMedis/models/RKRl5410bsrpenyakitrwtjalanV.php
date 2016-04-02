@@ -1,5 +1,5 @@
 <?php
-class RKRl5410bsrpenyakitrwtjalanV extends Rl5410bsrpenyakitrwtjalanV
+class RKRl5410bsrpenyakitrwtjalanV extends Rl5410bsrpenyakitrjV
 {
 	public static function model($className=__CLASS__)
 	{
