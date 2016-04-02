@@ -20,7 +20,8 @@ class BSLaporantindakankomponenV extends LaporantindakankomponenV
 		$criteria->group = 'nama_pasien,ruangan_id,ruangan_nama,no_rekam_medik,no_pendaftaran,tgl_pendaftaran,tgl_keluar,kelaspelayanan_nama,nama_pegawai,daftartindakan_nama,tarif_tindakankomp';
 		$criteria->select = $criteria->group;
 		$criteria->addBetweenCondition('date(tgl_pendaftaran)',$this->tgl_awal,$this->tgl_akhir,true);
-		if(!empty($this->pegawai_id)){
+		$criteria->compare("komponentarif_id", Params::KOMPONENTARIF_ID_PELAYANAN);
+                if(!empty($this->pegawai_id)){
 			$criteria->addCondition('pegawai_id = '.$this->pegawai_id);
 		}
 
@@ -41,6 +42,7 @@ class BSLaporantindakankomponenV extends LaporantindakankomponenV
 		if(!empty($this->pegawai_id)){
 			$criteria->addCondition('pegawai_id = '.$this->pegawai_id);
 		}
+                $criteria->compare("komponentarif_id", Params::KOMPONENTARIF_ID_PELAYANAN);
 		$criteria->limit = -1;
 
 		return new CActiveDataProvider($this, array(

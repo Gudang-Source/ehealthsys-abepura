@@ -117,6 +117,7 @@ Class Params
 	const HARGAYGDIGUNAKAN_TERAKHIR = 'TERAKHIR'; //lookup_m lookup_type = 'hargaygdigunakan'
 
 	const KOMPONENTARIF_ID_TOTAL = 6;  
+        const KOMPONENTARIF_ID_PELAYANAN = 24;
 	
 	const KOMPONENUNIT_ID_GIZI = 23; // komponenunit_id untuk konsultasi gizi 
 
