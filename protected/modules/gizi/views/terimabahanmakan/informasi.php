@@ -67,14 +67,40 @@
                     array(
                         'name'=>'totaldiscount',
                         'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+                        'value'=>'MyFormatter::formatNumberForPrint($data->totaldiscount)',
+                        'htmlOptions'=>array(
+                            'style'=>'text-align: right',
+                        ),
                     ),
                     array(
                         'name'=>'totalharganetto',
+                        'value'=>'MyFormatter::formatNumberForPrint($data->totalharganetto)',
+                        'htmlOptions'=>array(
+                            'style'=>'text-align: right',
+                        ),
                         'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                     ),
-                    'biayapengiriman',
-                    'biayatransportasi',
-                    'biayapajak',
+                    array(
+                        'name'=>'biayapengiriman',
+                        'value'=>'MyFormatter::formatNumberForPrint($data->biayapengiriman)',
+                        'htmlOptions'=>array(
+                            'style'=>'text-align: right',
+                        )
+                    ),
+                    array(
+                        'name'=>'biayatransportasi',
+                        'value'=>'MyFormatter::formatNumberForPrint($data->biayatransportasi)',
+                        'htmlOptions'=>array(
+                            'style'=>'text-align: right',
+                        )
+                    ),
+                    array(
+                        'name'=>'biayapajak',
+                        'value'=>'MyFormatter::formatNumberForPrint($data->biayapajak)',
+                        'htmlOptions'=>array(
+                            'style'=>'text-align: right',
+                        )
+                    ),
                     array(
                         'name'=>'keterangan_terima_bahan',
                         'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
