@@ -134,7 +134,7 @@ function loadTitikSesudahSimpan(){
 }
 
 $(document).ready(function(){
-    defaultparamedis();     
+    // defaultparamedis();     
 //    anatomitubuh();  
 	loadTitikSesudahSimpan();
 	
