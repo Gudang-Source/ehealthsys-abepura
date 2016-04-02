@@ -214,7 +214,7 @@
                                 if (empty($detail->menudiet_id)) {
                                     echo "<td><center>-</center></td>";
                                 } else {
-                                    echo "<td>" . CHtml::hiddenField('KirimmenupasienT[' . $i . '][jeniswaktu_id][' . $row->jeniswaktu_id . ']', $row->jeniswaktu_id, array('class' => 'jeniswaktu_id'))
+                                    echo "<td'>" . CHtml::hiddenField('KirimmenupasienT[' . $i . '][jeniswaktu_id][' . $row->jeniswaktu_id . ']', $row->jeniswaktu_id, array('class' => 'jeniswaktu_id'))
                                     . CHtml::hiddenField('KirimmenupasienT[' . $i . '][pesanmenudetail_id][' . $row->jeniswaktu_id . ']', $detail->pesanmenudetail_id)
                                     . CHtml::hiddenField('KirimmenupasienT[' . $i . '][menudiet_id][' . $row->jeniswaktu_id . ']', $detail->menudiet_id)
                                     . CHtml::textField('KirimmenupasienT[' . $i . '][menudiet_nama][' . $row->jeniswaktu_id . ']', $detail->menudiet->menudiet_nama, array('class' => 'span2 menudiet_nama', 'readonly' => false))
@@ -228,7 +228,7 @@
                                 }
                             };
 
-                            echo "<td>" . CHtml::textField('KirimmenupasienT[' . $i . '][jml_kirim]', $tampilData->jml_pesan_porsi, array('class' => 'span1 numbersOnly')) . "</td>
+                            echo "<td>" . CHtml::textField('KirimmenupasienT[' . $i . '][jml_kirim]', $tampilData->jml_pesan_porsi, array('class' => 'span1 numbersOnly', 'style'=>'text-align: right;')) . "</td>
                     <td>" . $tampilData->satuanjml_urt . "</td>";
                             echo "<td>" . CHtml::dropDownList('KirimmenupasienT[' . $i . '][status_menu]', '', LookupM::getItems('statusmakanan'), array('class' => 'inputFormTabel span2', 'empty' => '--Pilih--')) . "</td>";
                             echo "<td><center>" . CHtml::link("<i class='icon-list-alt'></i> ", Yii::app()->controller->createUrl("/gizi/RiwayatPasienMenuDiet/index", array("pendaftaran_id" => $tampilData->pendaftaran_id)), array("pendaftaran_id" => "$tampilData->pendaftaran_id",
@@ -263,7 +263,15 @@
                     <td>" . $tampilData->pasien->nama_pasien . "</td>   
                     <td>" . $tampilData->pendaftaran->umur . "</td>   
                     <td>" . $tampilData->pasien->jeniskelamin . "</td>";
-
+                        foreach (JeniswaktuM::getJenisWaktu() as $row) {
+                            $detail = KirimmenupasienT::model()->with('menudiet')->findByAttributes(array('pendaftaran_id' => $tampilData->pendaftaran_id, 'pasienadmisi_id' => $tampilData->pasienadmisi_id, 'kirimmenudiet_id' => $tampilData->kirimmenudiet_id, 'jeniswaktu_id' => $row->jeniswaktu_id,'menudiet_id'=>$tampilData->menudiet_id));
+                            if (empty($detail->menudiet_id)) {
+                                echo "<td><center>-</center></td>";
+                            } else {
+                                echo "<td>" . $detail->menudiet->menudiet_nama . "</td>";
+                            }
+                        };
+                            /*
                             foreach (JeniswaktuM::getJenisWaktu() as $row) {
                                 $detail = GZPesanmenudetailT::model()->with('menudiet')->findByAttributes(array('pendaftaran_id' => $tampilData->pendaftaran_id, 'pasienadmisi_id' => $tampilData->pasienadmisi_id, 'pesanmenudiet_id' => $tampilData->kirimmenudiet->pesanmenudiet_id, 'jeniswaktu_id' => $row->jeniswaktu_id, 'menudiet_id' => $tampilData->menudiet_id));
                                 if (empty($detail->pasienadmisi_id)) {
@@ -298,10 +306,13 @@
                                     "</td>";
                                 }
                             };
+                             * 
+                             */
 
-                            echo "<td>" . $tampilData->jml_kirim . "</td>
+                            echo "<td style='text-align: right !important'>" . $tampilData->jml_kirim . "</td>
                     <td>" . $tampilData->satuanjml_urt . "</td>";
                             echo "<td>" . $tampilData->satuanjml_urt . "</td>";
+                            echo "<td></td>"; 
     //                echo "<td>".CHtml::dropDownList('KirimmenupasienT['.$i.'][status_menu]', '', LookupM::getItems('statusmakanan'),array('class'=>'inputFormTabel span2','empty'=>'--Pilih--'))."</td>";
                             "</tr>";
                             $no++;

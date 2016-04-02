@@ -24,7 +24,7 @@ class GZMenuDietM extends MenuDietM
                 $criteria->select = 't.*, sum(tariftindakan_m.harga_tariftindakan) as harga_tariftindakan, tariftindakan_m.daftartindakan_id, t.jenisdiet_id';
                 $criteria->group = 'tariftindakan_m.daftartindakan_id, t.menudiet_id, t.jenisdiet_id,t.menudiet_nama,t.menudiet_namalain,t.jml_porsi,t.ukuranrumahtangga,t.daftartindakan_id';
 		$criteria->compare('t.menudiet_id',$this->menudiet_id);
-		$criteria->compare('t.jenisdiet_id',$this->idJenisDiet);
+		$criteria->compare('t.jenisdiet_id',$this->jenisdiet_id);
 		$criteria->compare('t.daftartindakan_id',$this->daftartindakan_id);
 		$criteria->compare('LOWER(t.menudiet_nama)',strtolower($this->menudiet_nama),true);
 		$criteria->compare('LOWER(t.menudiet_namalain)',strtolower($this->menudiet_namalain),true);

@@ -7,18 +7,16 @@
             <b><?php echo CHtml::encode($modPesan->getAttributeLabel('nopesanmenu')); ?>:</b>
             <?php echo CHtml::encode($modPesan->nopesanmenu); ?>
             <br />
-            <b><?php echo CHtml::encode($modPesan->getAttributeLabel('tglpesanmenu')); ?>:</b>
-            <?php echo CHtml::encode($modPesan->tglpesanmenu); ?>
-            <br/>
+            
 
         </td>
         <td>
             <b><?php echo CHtml::encode($modPesan->getAttributeLabel('ruangan_id')); ?>:</b>
             <?php echo CHtml::encode($modPesan->ruangan->ruangan_nama); ?>
             <br />
-            <b><?php echo CHtml::encode($modPesan->getAttributeLabel('create_time')); ?>:</b>
-            <?php echo CHtml::encode($modPesan->create_time); ?>
-            <br />
+            <b><?php echo CHtml::encode($modPesan->getAttributeLabel('tglpesanmenu')); ?>:</b>
+            <?php echo CHtml::encode(MyFormatter::formatDateTimeForUser($modPesan->tglpesanmenu)); ?>
+            <br/>
         </td>
     </tr>   
 </table>
@@ -61,7 +59,7 @@
             <td>" . $modPesan->ruangan->ruangan_nama . "</td>
             <td>" . $tampilData->pendaftaran->no_pendaftaran . "</td>   
             <td>" . $tampilData->pasien->no_rekam_medik . "</td>   
-            <td>" . $tampilData->pasien->nama_pasien . "</td>   
+            <td>" . $tampilData->pasien->namadepan.$tampilData->pasien->nama_pasien . "</td>   
             <td>" . $tampilData->pendaftaran->umur . "</td>   
             <td>" . $tampilData->pasien->jeniskelamin . "</td>";
 
@@ -74,7 +72,7 @@
                 }
             };
 
-            echo "<td>" . $tampilData->jml_pesan_porsi . "</td>
+            echo "<td style='text-align: right !important;'>" . $tampilData->jml_pesan_porsi . "</td>
             <td>" . $tampilData->satuanjml_urt . "</td>";
             "
           </tr>";

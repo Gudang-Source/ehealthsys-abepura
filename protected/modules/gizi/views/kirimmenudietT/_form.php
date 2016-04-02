@@ -446,15 +446,16 @@ Yii::app()->clientScript->registerScript('ready','
             $('#jenisdiet').val(namaJenisBaru);
 //        }
         refreshDialogMenu();
-        refreshDialogMenus();
+        // refreshDialogMenus();
         
     }
     function refreshDialogMenu(){
         var idJenisDiet = $("#GZKirimmenudietT_jenisdiet_id").val();
+        $("#GZMenuDietM_jenisdiet_id").val(idJenisDiet);
+        console.log(idJenisDiet);
+        console.log($("#gzmenudiet-m-grid :input").serialize());
         $.fn.yiiGridView.update('gzmenudiet-m-grid', {
-            data: {
-                "GZJenisdietM[jenisdiet_id]":idJenisDiet
-            }
+            data: $("#gzmenudiet-m-grid :input").serialize()
         });
     }
     /**
