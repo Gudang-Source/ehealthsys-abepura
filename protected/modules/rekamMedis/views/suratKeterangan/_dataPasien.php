@@ -1,5 +1,6 @@
 <?php $this->widget('bootstrap.widgets.BootAlert'); ?>
-<fieldset>
+<fieldset id = "fieldsetRekamMedik">
+    <form id = "form-rekam-medik">
     <table width="100%">
         <tr>
             <td><?php echo CHtml::activeLabel($modPendaftaran, 'tgl_pendaftaran',array('class'=>'control-label')); ?></td>
@@ -11,7 +12,7 @@
             
             <td>
                 <?php //echo CHtml::activeLabel($modPasien, 'no_rekam_medik',array('class'=>'control-label')); ?>
-               <div class="control-label">   <label class="no_rek" for="noRekamMedik">No. Rekam Medik</label></div>
+               <div class="control-label">   No. Rekam Medik <label  for="noRekamMedik" class = "no_rek">*</label></div>
             </td>
             <td>
                 <?php if (!empty($modPasien->no_rekam_medik)) { 
@@ -47,7 +48,7 @@
                                     }',
                             ),
                             //'tombolDialog'=>array('idDialog'=>'dialogPasien','idTombol'=>'tombolPasienDialog'),
-                            'htmlOptions'=>array('class'=>'span3', 'placeholder'=>'Ketik No. Rekam Medik'),
+                            'htmlOptions'=>array('class'=>'span3 required', 'placeholder'=>'Ketik No. Rekam Medik'),
                         )); 
                     }
                 ?>
@@ -69,7 +70,7 @@
             
             <td>
                 <?php //echo CHtml::activeLabel($modPasien, 'no_rekam_medik',array('class'=>'control-label')); ?>
-               <div class="control-label">   <label class="no_rek" for="namaPasien">Nama Pasien</label></div>
+               <div class="control-label">   Nama Pasien <label class="no_rek" for="namaPasien">*</label></div>
             </td>
             <td>
                 <?php 
@@ -106,7 +107,7 @@
                                     }',
                             ),
                             //'tombolDialog'=>array('idDialog'=>'dialogPasien','idTombol'=>'tombolPasienDialog'),
-                            'htmlOptions'=>array('class'=>'span3', 'placeholder'=>'Ketik No. Rekam Medik'),
+                            'htmlOptions'=>array('class'=>'span3 required ', 'placeholder'=>'Ketik No. Rekam Medik'),
                         ));
                     }
                 ?>
@@ -152,6 +153,7 @@
             <td></td>
         </tr>
     </table>
+    </form>
 </fieldset> 
 
 <?php 
