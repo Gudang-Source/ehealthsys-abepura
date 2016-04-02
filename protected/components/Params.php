@@ -138,6 +138,7 @@ Class Params
 	const RUANGAN_ID_LAUNDRY = 226;     
         const RUANGAN_ID_KASIR = 66;
         const RUANGAN_ID_LOKET = 2;
+        const RUANGAN_ID_KEBIDANAN = 13;
 
 	const KELASPELAYANAN_ID_TANPA_KELAS = 6;
         const KELASPELAYANAN_ID_KELAS_III = 4;

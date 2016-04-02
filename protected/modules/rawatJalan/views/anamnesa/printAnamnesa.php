@@ -99,6 +99,7 @@
         <td style="width:30%;height:86px">Keterangan Triase</td>
         <td style="width:70%;height:86px"><?php echo isset($modAnamnesa->triase_id)?$modAnamnesa->triase->keterangan_triase:" - "; ?></td>
     </tr>
+    <?php if (Yii::app()->user->getState('ruangan_id') == Params::RUANGAN_ID_KEBIDANAN): ?>
     <tr>
         <td style="width:30%;height:86px">HPHT</td>
         <td style="width:70%;height:86px"><?php echo !empty($modAnamnesa->hpht)?  MyFormatter::formatDateTimeForUser($modAnamnesa->hpht):" - "; ?></td>
@@ -106,7 +107,9 @@
     <tr>
         <td style="width:30%;height:86px">Tgl Tafsiran Persalinan</td>
         <td style="width:70%;height:86px"><?php echo !empty($modAnamnesa->tgl_persalinan)?  MyFormatter::formatDateTimeForUser($modAnamnesa->tgl_persalinan):" - "; ?></td>
-    </tr>	
+    </tr>
+    <?php endif; ?>
+    
 </table><br><br><br>
 
 <table width="100%" border="1">

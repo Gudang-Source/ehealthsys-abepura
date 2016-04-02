@@ -9,9 +9,9 @@
                     'name'=>'no_urutantri',
                     'type'=>'raw',
                     'header'=>'No. Antrian <br>/ Panggil Antrian',
-                    'value'=>function($data) {
+                    'value'=>function($data) use (&$admisi) {
                         $admisi = PasienadmisiT::model()->findByAttributes(array('pendaftaran_id'=>$data->pendaftaran_id));
-                        return $data->ruangan_singkatan."-".$data->no_urutantri."<br>".(!empty($admisi)?"":CHtml::htmlButton(Yii::t("mds","{icon}",array("{icon}"=>"<i class='icon-volume-up icon-white'></i>")),array("class"=>"btn btn-primary","onclick"=>"panggilAntrian('".$data->pendaftaran_id."'); setSuaraPanggilanSingle('".$data->ruangan_singkatan."','".$data->no_urutantri."','".$data->ruangan_id."')","rel"=>"tooltip","title"=>"Klik untuk memanggil pasien ini")));
+                        return $data->ruangan_singkatan."-".$data->no_urutantri."<br>".($data->statusperiksa != Params::STATUSPERIKSA_ANTRIAN?"":CHtml::htmlButton(Yii::t("mds","{icon}",array("{icon}"=>"<i class='icon-volume-up icon-white'></i>")),array("class"=>"btn btn-primary","onclick"=>"panggilAntrian('".$data->pendaftaran_id."'); setSuaraPanggilanSingle('".$data->ruangan_singkatan."','".$data->no_urutantri."','".$data->ruangan_id."')","rel"=>"tooltip","title"=>"Klik untuk memanggil pasien ini")));
                     },
                 ),
 				array(
@@ -43,7 +43,10 @@
                 array(
                     'header'=>'Dokter',
                     'type'=>'raw',
-                    'value'=>'"<div style=\'width:100px;\'>" . CHtml::link("<i class=icon-pencil-brown></i> ". $data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama," ",array("onclick"=>"ubahDokterPeriksa(\'$data->pendaftaran_id\');$(\'#editDokterPeriksa\').dialog(\'open\');return false;", "rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik Untuk Mengubah Data Dokter Periksa")) . "</div>"',
+                    'value'=>function($data) use (&$admisi) {
+                        if (!empty($admisi)) return $data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama;
+                        return CHtml::link("<i class=icon-pencil-brown></i> ". $data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama," ",array("onclick"=>"ubahDokterPeriksa(\'$data->pendaftaran_id\');$(\'#editDokterPeriksa\').dialog(\'open\');return false;", "rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik Untuk Mengubah Data Dokter Periksa"));
+                    },
                     'htmlOptions'=>array(
                        'style'=>'text-align:center;',
                        'class'=>'rajal'

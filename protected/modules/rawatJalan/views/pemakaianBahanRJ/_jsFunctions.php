@@ -251,10 +251,10 @@ function hitungSubTotal(obj)
     var harganetto_oa = parseInt($(obj).parents('tr').find('input[name$="[harganetto_oa]"]').val());
     subtotal = qty * harganetto_oa;
     $(obj).parents('tr').find('input[name$="[iurbiaya]"]').val(formatInteger(subtotal));
-    if(qty > qty_stok){
-        $(obj).val(qty_stok);
-        myAlert("Jumlah tidak boleh lebih besar dari stok!");
-    }
+    //if(qty > qty_stok){
+    //    $(obj).val(qty_stok);
+    //    myAlert("Jumlah tidak boleh lebih besar dari stok!");
+    //}
     formatNumberSemua();
 }
 

@@ -84,7 +84,7 @@ class DaftarPasienController extends MyAuthController
 			$mpdf->WriteHTML(
 				$this->renderPartial('/rinciantagihanpasienV/rincian', array('modPendaftaran'=>$modPendaftaran, 'modRincian'=>$modRincian, 'data'=>$data, 'caraPrint'=>$caraPrint), true)
 			);
-			$mpdf->Output();
+			$mpdf->Output($data['judulLaporan'].'-'.date('Y_m_d').'.pdf','I');
 			exit;
 		}
 
@@ -638,22 +638,32 @@ class DaftarPasienController extends MyAuthController
                             $criteria->addCondition("pasienmasukpenunjang_id = ".$idPenunjang." and tindakansudahbayar_id is not null");
                             $tindakan = TindakanpelayananT::model()->find($criteria);
                             
+                            
                             if ($tindakan->tindakanpelayanan_id > 0) {
                                 $pesan = 'exist';
 				$keterangan = "<div class='flash-success'>Pasien <b> " . $pendaftaran->pasien->nama_pasien . " 
                                 </b> sudah melakukan pembayaran pemeriksaan </div>";
                                 $ok = false;
                             } else {
-                                $ok = $ok && TindakanpelayananT::model()->updateAll(array(
-                                    'detailhasilpemeriksaanlab_id'=>null,
-                                    'hasilpemeriksaanrm_id'=>null,
-                                    'hasilpemeriksaanrad_id'=>null,
-                                    'hasilpemeriksaanpa_id'=>null,
-                                ), 'pasienmasukpenunjang_id = '.$idPenunjang);
-                                $ok = $ok && TindakanpelayananT::model()->deleteAllByAttributes(array(
-                                    'pasienmasukpenunjang_id' => $idPenunjang,
-                                ));
-                                // $ok = $ok && PasienmasukpenunjangT::model()->deleteByPk();
+                                $criteria = new CDbCriteria();
+                                $criteria->select = "count(tindakanpelayanan_id) as tindakanpelayanan_id";
+                                $criteria->addCondition("pasienmasukpenunjang_id = ".$idPenunjang." ");
+                                $tindakan = TindakanpelayananT::model()->find($criteria);
+                                if ($tindakan->tindakanpelayanan_id > 0)
+                                {
+                                    $ok = $ok && TindakanpelayananT::model()->updateAll(array(
+                                        'detailhasilpemeriksaanlab_id'=>null,
+                                        'hasilpemeriksaanrm_id'=>null,
+                                        'hasilpemeriksaanrad_id'=>null,
+                                        'hasilpemeriksaanpa_id'=>null,
+                                    ), 'pasienmasukpenunjang_id = '.$idPenunjang);
+                                    // var_dump($ok);
+                                    $ok = $ok && TindakanpelayananT::model()->deleteAllByAttributes(array(
+                                        'pasienmasukpenunjang_id' => $idPenunjang,
+                                    ));
+                                }
+                                
+                                //$ok = $ok && PasienmasukpenunjangT::model()->deleteByPk();
                             }
                             
                             //var_dump($ok);
@@ -669,8 +679,7 @@ class DaftarPasienController extends MyAuthController
                             $model->create_time = date('Y-m-d H:i:s');
                             $model->update_time = null;
                             $model->create_loginpemakai_id = Yii::app()->user->id;
-                            $model->create_ruangan = Yii::app()->user->getState('ruangan_id');
-
+                            $model->create_ruangan = Yii::app()->user->getState('ruangan_id');                            
                             if ($model->validate()) {
                                 $ok = $ok && $model->save();
                             } else $ok = false;

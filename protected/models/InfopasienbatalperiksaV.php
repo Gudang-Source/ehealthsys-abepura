@@ -229,7 +229,7 @@ class InfopasienbatalperiksaV extends CActiveRecord
 			'nama_pegawai' => 'Nama Pegawai',
 			'gelarbelakang_nama' => 'Gelarbelakang Nama',
 			'pasienbatalperiksa_id' => 'Pasienbatalperiksa',
-			'tglbatal' => 'Tgl Pembatalan',
+			'tglbatal' => 'Tanggal Pembatalan',
 			'keterangan_batal' => 'Keterangan Batal',
 			'create_time' => 'Create Time',
 			'update_time' => 'Update Time',
@@ -237,6 +237,7 @@ class InfopasienbatalperiksaV extends CActiveRecord
 			'update_loginpemakai_id' => 'Update Loginpemakai',
 			'create_ruangan' => 'Create Ruangan',
 			'nama_pemakai' => 'Nama Pemakai',
+                        'tgl_awal' => 'Tanggal Pembatalan',
 		);
 	}
 

@@ -10,11 +10,13 @@ if (isset($caraPrint)){
 }
 ?>
 
-<?php foreach ($checkers as $tgl=>$item) : ?>
-<table>
+<?php 
+if (count($checkers) == 0) echo "Terapi Obat tidak ditemukan.";
+foreach ($checkers as $tgl=>$item) : ?>
+<table width="100%">
     <tr>
-        <td>No. Resep</td><td>: <?php echo $item['noresep']; ?></td>
-        <td>Tgl. Resep</td><td>: <?php echo MyFormatter::formatDateTimeForUser($tgl); ?></td>
+        <td nowrap>No. Resep</td><td width="100%">: <?php echo $item['noresep']; ?></td>
+        <td nowrap>Tgl. Resep</td><td nowrap>: <?php echo MyFormatter::formatDateTimeForUser($tgl); ?></td>
     </tr>
 </table>
 <table class="items table table-bordered table-striped table-condensed">

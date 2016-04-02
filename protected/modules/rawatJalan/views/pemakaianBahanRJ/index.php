@@ -60,8 +60,8 @@
                     <tr>
                         <th>No.</th>
                         <th>Obat / Alat Kesehatan</th>
-                        <th>Satuan Kecil</th>
-                        <th>Stok</th>
+                        <th hidden>Satuan Kecil</th>
+                        <th hidden>Stok</th>
                         <th>Jumlah</th>
                         <th>Batal</th>
                     </tr>

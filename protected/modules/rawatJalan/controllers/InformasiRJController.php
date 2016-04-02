@@ -19,6 +19,7 @@ class InformasiRJController extends MyAuthController
 			$model->attributes = $_GET['RJInfopasienbatalperiksaV'];
 			$model->tgl_awal = $format->formatDateTimeForDb($_GET['RJInfopasienbatalperiksaV']['tgl_awal']);
 			$model->tgl_akhir = $format->formatDateTimeForDb($_GET['RJInfopasienbatalperiksaV']['tgl_akhir']);
+                        $model->nama_pegawai = $_GET['RJInfopasienbatalperiksaV']['nama_pegawai'];
 		}
 
 			$this->render($this->path_view.'batalPeriksaPasien/index',array(

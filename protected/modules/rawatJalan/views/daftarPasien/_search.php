@@ -21,7 +21,7 @@
                 </div>
             </div>
     <div class="control-group ">
-                <label class='control-label'>Tanggal Akhir</label>
+                <label class='control-label'>Sampai Dengan</label>
                 <div class="controls">
                     <?php 
                         $this->widget('MyDateTimePicker',array(
@@ -36,12 +36,15 @@
                     )); ?>    
                 </div>
             </div>
-            <?php echo $form->textFieldRow($model,'no_pendaftaran',array('placeholder'=>'Ketik No. Pendaftaran', 'class'=>'span3', 'maxlength'=>20)); ?>
         </td>
         <td>
+            <?php echo $form->textFieldRow($model,'no_pendaftaran',array('placeholder'=>'Ketik No. Pendaftaran', 'class'=>'span3', 'maxlength'=>20)); ?>
             <?php echo $form->textFieldRow($model,'no_rekam_medik',array('placeholder'=>'Ketik No. Rekam Medik', 'class'=>'span3', 'maxlength'=>10)); ?>
 
             <?php echo $form->textFieldRow($model,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien', 'class'=>'span3','maxlength'=>50)); ?>
+        </td>
+        <td>
+            
 
             <?php 
             $mods = LookupM::getItems('statusperiksa');
@@ -49,12 +52,20 @@
             echo $form->dropDownListRow($model,'statusperiksa', $mods, array('empty'=>'-- Pilih --')); ?>
             <div class="control-group ">
                     <label for="namaPasien" class="control-label">
-                       Dokter Penanggung Jawab
+                       Dokter Pemeriksa
                       </label>
                     <div class="controls">
                         <?php echo $form->dropDownList($model,'nama_pegawai', CHtml::listData(DokterV::model()->findAllByAttributes(array('ruangan_id'=>Yii::app()->user->getState('ruangan_id'), 'pegawai_aktif'=>true), array('order'=>'nama_pegawai')), 'nama_pegawai', 'namaLengkap') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",)); ?>
                     </div>
-                </div>   
+                </div>
+            <?php echo $form->dropDownListRow($model,'carabayar_id', CHtml::listData($model->getCaraBayarItems(), 'carabayar_id', 'carabayar_nama') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",
+                                                'ajax' => array('type'=>'POST',
+                                                    'url'=> Yii::app()->createUrl('ActionDynamic/GetPenjaminPasien',array('encode'=>false,'namaModel'=>get_class($model))), 
+                                                    'update'=>'#'.CHtml::activeId($model,'penjamin_id').''  //selector to update
+                                                ),
+                        )); ?>
+
+            <?php echo $form->dropDownListRow($model,'penjamin_id', CHtml::listData($model->getPenjaminItems($model->carabayar_id), 'penjamin_id', 'penjamin_nama') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",)); ?>
         </td>
     </tr>
 </table>
