@@ -88,15 +88,17 @@ class TerimabahanmakanController extends MyAuthController
                             if (isset($modPengajuan->pengajuanbahanmkn_id)){
                                 PengajuanbahanmknT::model()->updateByPk($model->pengajuanbahanmkn_id, array('terimabahanmakan_id'=>$model->terimabahanmakan_id));
                             }
+                            // var_dump($_POST['TerimabahandetailT']); die;
                             $jumlah = count($_POST['TerimabahandetailT']);
+                            $u = 1;
                             foreach ($_POST['TerimabahandetailT'] as $i => $bahanDetail) {
-                                if ($_POST['checkList'] == 1) {
+                                //if ($_POST['checkList'] == 1) {
                                     $modDetail = new GZTerimabahandetailT();
                                     $modDetail->attributes = $bahanDetail;
                                     $modDetail->terimabahanmakan_id = $model->terimabahanmakan_id;
                                     $modDetail->golbahanmakanan_id = $bahanDetail['golbahanmakanan_id'];
                                     $modDetail->bahanmakanan_id = $bahanDetail['bahanmakanan_id'];
-                                    $modDetail->nourutbahan = $bahanDetail['noUrut'];
+                                    $modDetail->nourutbahan = $u;
                                     $modDetail->ukuran_bahanterima = $bahanDetail['ukuran_bahanterima'];
                                     $modDetail->merk_bahanterima = $bahanDetail['merk_bahanterima'];
                                     $modDetail->jmlkemasan = $bahanDetail['jmlkemasan'];
@@ -112,7 +114,10 @@ class TerimabahanmakanController extends MyAuthController
                                     $modDetail->qty_terima = $bahanDetail['qty_terima'];
                                     $modDetail->satuanbahan = $bahanDetail['satuanbahan'];
                                     $modDetail->hargajualbhn = $bahanDetail['hargajualbhn'];
-                                    $modDetail->harganettobhn = $bahanDetail['harganettobhn'];
+                                    $modDetail->harganettobhn = $bahanDetail['harganettobahan'];
+                                    //var_dump($bahanDetail);
+                                    //var_dump($modDetail->attributes); die;
+                                    
                                     if ($modDetail->save()){
                                         $this->tambahStokBahanMakanan($modDetail);
                                         if (isset($modPengajuan->pengajuanbahanmkn_id)){
@@ -121,15 +126,20 @@ class TerimabahanmakanController extends MyAuthController
                                     }else{
                                         $success = false;
                                     }
-                                }
+                                    $u++;
+                                //}
                             }
                         }
                         else{
                             $success = false;
                         }
+                        
+                        // var_dump($success); die;
+                        
                         if ($success == TRUE){
 
                             // SMS GATEWAY
+                            /*
                             $modSupplier = $model->supplier;
                             $sms = new Sms();
                             $smscp1 = 1;
@@ -162,11 +172,13 @@ class TerimabahanmakanController extends MyAuthController
                                 }
                                 
                             }
+                             * 
+                             */
                             // END SMS GATEWAY
 
                             $transaction->commit();
                             Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-                             $this->redirect(array('index', 'id' =>$model->terimabahanmakan_id,'smscp1'=>$smscp1,'smscp2'=>$smscp2));
+                            // $this->redirect(array('index', 'id' =>$model->terimabahanmakan_id,'smscp1'=>$smscp1,'smscp2'=>$smscp2));
                             $this->refresh();
                         }else{
                             $transaction->rollback();
@@ -221,14 +233,14 @@ class TerimabahanmakanController extends MyAuthController
                     <td>'.$model->kelbahanmakanan.'</td>
                     <td>'.$model->namabahanmakanan.'</td>
                     <td>'.$model->jmlpersediaan.'</td>
-                    <td>'.CHtml::activeDropDownList($modDetail, '[0]satuanbahan', LookupM::getItems('satuanbahanmakanan'), array( 'class'=>'span1 satuanbahan')).'</td>
+                    <td>'.CHtml::activeDropDownList($modDetail, '[0]satuanbahan', LookupM::getItems('satuanbahanmakanan'), array( 'class'=>'span2 satuanbahan')).'</td>
 		    <td>'.CHtml::activeTextField($modDetail, '[0]harganettobahan', array('value'=>$model->harganettobahan, 'class'=>'span2 integer harganettobahan', 'onblur'=>'hitung(this);','readonly'=>false))
 			 .CHtml::activeHiddenField($modDetail, '[0]hargajualbahan', array('value'=>$model->hargajualbahan, 'class'=>'span2 integer hargajualbahan', 'readonly'=>true)).'</td>
                     <td>'.CHtml::activeTextField($modDetail, '[0]discount', array('value'=>$model->discount, 'class'=>'discount span1 integer', 'onkeyup'=>'hitungTotalDiscount();')).'</td>
-                    <td><span name="[0][tglkadaluarsabahan]">'.$model->tglkadaluarsabahan.'</span></td>
+                    <td><span name="[0][tglkadaluarsabahan]">'.MyFormatter::formatDateTimeForUser($model->tglkadaluarsabahan).'</span></td>
                     
                     <td>'.CHtml::activeTextField($modDetail, '[0]qty_terima', array('value'=>$qty, 'class'=>'span1 integer qty', 'onblur'=>'hitung(this);')).'</td>
-                    <td>'.CHtml::activeTextField($modDetail, '[0]subNetto', array('value'=>$subNetto, 'class'=>'span1 integer subNetto','readonly'=>true)).'</td>
+                    <td>'.CHtml::activeTextField($modDetail, '[0]subNetto', array('value'=>$subNetto, 'class'=>'span2 integer subNetto','readonly'=>true)).'</td>
                     <td>'.CHtml::link("<span class='icon-remove'>&nbsp;</span>",'',array('href'=>'','onclick'=>'hapus(this);return false;','style'=>'text-decoration:none;', 'class'=>'cancel')).'</td>
                     </tr>';
             echo json_encode($tr);
@@ -244,9 +256,7 @@ class TerimabahanmakanController extends MyAuthController
             $modStokBahan->qty_masuk = $detail->qty_terima;
             $modStokBahan->qty_current = $detail->qty_terima;
             $modStokBahan->qty_keluar = 0;
-            if ($modStokBahan->save()){
-
-            }
+            $modStokBahan->save();
         }
 
 	/**

@@ -272,8 +272,9 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan='13'><div class='pull-right'>Total Harga Netto</div></td>
+                    <td colspan='12'><div class='pull-right'>Total Harga Netto</div></td>
                     <td><?php echo $form->textField($model, 'totalharganetto', array('readonly' => true, 'class' => 'span2 integer', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?></td>
+                    <td></td>
                 </tr>
             </tfoot>
         </table>
@@ -404,10 +405,11 @@ JS;
         ),
     ));
 
-    $modBahanMakanan = new GZBahanmakananM('search');
+    $modBahanMakanan = new GZBahanMakananM('search');
     $modBahanMakanan->unsetAttributes();
-    if (isset($_GET['GZBahanmakananM']))
-        $modBahanMakanan->attributes = $_GET['GZBahanmakananM'];
+    if (isset($_GET['GZBahanMakananM'])) {
+        $modBahanMakanan->attributes = $_GET['GZBahanMakananM'];
+    }
 
     $this->widget('ext.bootstrap.widgets.BootGridView', array(
         'id' => 'gzbahanmakanan-m-grid',
