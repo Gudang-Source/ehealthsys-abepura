@@ -8,6 +8,10 @@ $('#divSearch-form form').submit(function(){
 	return false;
 });
 ");
+
+$provider = $model->searchDataObat();
+$provider->sort->defaultOrder = "obatalkes_nama";
+
 ?>
 <div class="white-container">
     <legend class="rim2">Informasi Stok <b>Obat Dan Alat Kesehatan</b></legend>
@@ -16,23 +20,58 @@ $('#divSearch-form form').submit(function(){
         <div class="table-responsive">
             <?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 'id'=>'informasi-grid',
-                'dataProvider'=>$model->searchInformasi(),
+                'dataProvider'=>$provider,
                 'template'=>"{summary}\n{items}\n{pager}",
                 'itemsCssClass'=>'table table-striped table-condensed',
                 'columns'=>array(
-                        'instalasi_nama',
-                        'ruangan_nama',
+                        // 'instalasi_nama',
+                        // 'ruangan_nama',
                         'jenisobatalkes_nama',
-                        'obatalkes_kode',
-						'nobatch',
+                        'obatalkes_golongan',
+                        'obatalkes_kategori',
+			//			'nobatch',
+                        /*
                         array(
                             'name'=>'tglkadaluarsa',
                             'type'=>'raw',
                             'value'=>'MyFormatter::formatDateTimeForUser($data->tglkadaluarsa)',
-                        ),					
+                        ),*/		
+                        
+                        'obatalkes_kode',
                         'obatalkes_nama',
-                        'obatalkes_golongan',
-                        'obatalkes_kategori',
+                        array(
+                            'header'=>'Diterima',
+                            'type'=>'raw',
+                            'value'=>function($data) use (&$stok) {
+                                $stok = StokobatalkesT::model()->findAllByAttributes(array(
+                                    'obatalkes_id'=>$data->obatalkes_id,
+                                    'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
+                                ));
+                                $total = 0;
+                                foreach ($stok as $item) {
+                                    $total += $item->qtystok_in;
+                                }
+                                return $total." ".$data->satuankecil->satuankecil_nama;
+                            },
+                            'htmlOptions'=>array(
+                                'style'=>'text-align: right;'
+                            )
+                        ), 
+                        array(
+                            'header'=>'Dipakai',
+                            'type'=>'raw',
+                            'value'=>function($data) use (&$stok) {
+                                $total = 0;
+                                foreach ($stok as $item) {
+                                    $total += $item->qtystok_out;
+                                }
+                                return $total." ".$data->satuankecil->satuankecil_nama;
+                            },
+                            'htmlOptions'=>array(
+                                'style'=>'text-align: right;'
+                            )
+                        )
+                    /*
                         'satuankecil_nama',
                         array(
                             'name'=>'hpp_max',
@@ -112,6 +151,8 @@ $('#divSearch-form form').submit(function(){
                                                 'value'=>'(!empty($data->rakobat_id)?$data->rakobat_nama:"-")',
                             'htmlOptions'=>array('style'=>'text-align:left; width:60px')
                         ),
+                         * 
+                         */
 //                array(
 //                    'header'=>'Rincian',
 //                    'type'=>'raw',
@@ -128,7 +169,12 @@ $('#divSearch-form form').submit(function(){
             )); ?>
         </div>
     </div>
-    <?php echo $this->renderPartial($this->path_view.'search',array('model'=>$model,'format'=>$format,'instalasiAsals'=>$instalasiAsals,'ruanganAsals'=>$ruanganAsals)); ?>
+    <?php echo $this->renderPartial($this->path_view.'search',array(
+        'model'=>$model,
+        'format'=>$format,
+        //'instalasiAsals'=>$instalasiAsals,
+        //'ruanganAsals'=>$ruanganAsals
+    )); ?>
 </div>
 <?php
     //=============================== Ganti Data Pasien Dialog =======================================

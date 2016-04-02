@@ -64,9 +64,9 @@ class GFObatalkesM extends ObatalkesM
 			$criteria->addBetweenCondition('date(tglkadaluarsa)',$this->tglkadaluarsa_awal, $this->tglkadaluarsa_akhir);
 		}
 		$criteria->compare('obatalkes_aktif',TRUE);
-		if(!isset($_GET['GFObatalkesM'])){
-			$criteria->limit = 0;
-		}
+		//if(!isset($_GET['GFObatalkesM'])){
+		//	$criteria->limit = 0;
+		//}
 		return $criteria;
     }
     
@@ -74,7 +74,7 @@ class GFObatalkesM extends ObatalkesM
 	{
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$this->criteriaDataObat(),
-                        'pagination'=>false,
+                        // 'pagination'=>false,
 		));
 	}
         
