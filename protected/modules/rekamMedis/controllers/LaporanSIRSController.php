@@ -22,9 +22,9 @@ class LaporanSIRSController extends MyAuthController
         $criteria->group = 'statuspasien';
         $criteria->addBetweenCondition('DATE(tgl_pendaftaran)',$tgl_awal,$tgl_akhir);
         
-		print_r($criteria);die();
+		//print_r($criteria);die();
         $records = Rl51PengunjungrsV::model()->findAll($criteria);
-
+             
         $periode = date('d M Y', strtotime($tgl_awal)) . ' sd ' . date('d M Y', strtotime($tgl_akhir));
         $header = array(
             '<th width="50" style="text-align:center;">NO</th>', '<th style="text-align:center;">Jenis Kegiatan</th>', '<th style="text-align:center;">Jumlah</th>'
@@ -33,14 +33,22 @@ class LaporanSIRSController extends MyAuthController
         $rows = array();
         $i=0;
         $total_jumlah = 0;
+        if (count($records)):
         foreach($records as $row)
         {
             $rows[] = array(
-                '<td>'. ($i+1).'</td>', '<td>'.$row['statuspasien'].'</td>', '<td>'.$row['jmlpasien'].'</td>'
+                '<td style = "text-align:center;">'. ($i+1).'</td>', '<td>'.$row['statuspasien'].'</td>', '<td style = "text-align:right;">'.$row['jmlpasien'].'</td>'
             );
             $i++;
             $total_jumlah += $row['jmlpasien'];
-        }
+        }    
+        else:             
+        $rows[] = array(
+            '<td colspan = "3"><i>Data Tidak Ditemukan</i></td>'
+        );
+                    
+        endif;
+            
 
         $table = '<table width="750" '. ($_GET['caraPrint'] == 'PDF' ? 'border="1"': " ") .' cellpadding="2" cellspacing="0" class="table table-striped table-bordered table-condensed">';
         $table .= '<thead>';
@@ -57,7 +65,7 @@ class LaporanSIRSController extends MyAuthController
         {
             $table .= '<tr>'. implode($xxx, '') . '<tr>';
         }
-        $table .= '<tr><td style="text-align:center;">99</td><td><b>Total</b></td><td>'. $total_jumlah .'</td><tr>';
+        $table .= '<tr><td style="text-align:center;">99</td><td style = "text-align:left;"><b>Total</b></td><td style = "text-align:right;">'. $total_jumlah .'</td><tr>';
         $table .= '</tbody>';
         $table .= '</table>';
         
@@ -72,20 +80,20 @@ class LaporanSIRSController extends MyAuthController
             $header = array(
                 '<th style="text-align:center;">NO</th>', '<th style="text-align:center;">Jenis Kegiatan</th>', '<th style="text-align:center;">Jumlah</th>'
             );
-            
+            $title = 'PENGUNJUNG RUMAH SAKIT';
             $mpdf->WriteHTML(
                 $this->renderPartial('print_laporan',
                     array(
                         'width'=>'750',
                         'formulir'=>'Formulir RL 5.1',
-                        'title'=>'KEGIATAN KUNJUNGAN RAWAT JALAN',
+                        'title'=>$title,
                         'periode'=>$periode,
                         'table'=>$table,
                         'caraPrint'=>$_GET['caraPrint']
                     ), true
                 )
             );
-            $mpdf->Output();
+            $mpdf->Output($title.'-'.date('Y_m_d').'.pdf','I');
         }else{
             $this->layout = '//layouts/printWindows';
             if($_GET['caraPrint'] == 'EXCEL')
@@ -125,14 +133,24 @@ class LaporanSIRSController extends MyAuthController
         $rows = array();
         $i=0;
         $total_jumlah = 0;
-        foreach($records as $row)
+        if (count($records) > 0):
+             foreach($records as $row)
         {
             $rows[] = array(
-                '<td>'. ($i+1).'</td>', '<td>'.$row['jeniskasuspenyakit_nama'].'</td>', '<td>'.$row['jmlpasien'].'</td>'
+                '<td style="text-align:center;">'. ($i+1).'</td>', '<td>'.$row['jeniskasuspenyakit_nama'].'</td>', '<td style="text-align:right;">'.$row['jmlpasien'].'</td>'
             );
             $i++;
             $total_jumlah += $row['jmlpasien'];
         }
+            
+        else:
+            $rows[] = array(
+                '<td colspan = "3"><i>Data Tidak Ditemukan</i></td>'
+            );
+            
+        endif;
+        
+       
 
         $table = '<table width="750" '. ($_GET['caraPrint'] == 'PDF' ? 'border="1"': " ") .' cellpadding="2" cellspacing="0" class="table table-striped table-bordered table-condensed">';
         $table .= '<thead>';
@@ -149,7 +167,7 @@ class LaporanSIRSController extends MyAuthController
         {
             $table .= '<tr>'. implode($xxx, '') . '<tr>';
         }
-        $table .= '<tr><td style="text-align:center;"></td><td><b>Total</b></td><td>'. $total_jumlah .'</td><tr>';
+        $table .= '<tr><td style="text-align:center;"></td><td><b>Total</b></td><td style="text-align:right;">'. $total_jumlah .'</td><tr>';
         $table .= '</tbody>';
         $table .= '</table>';
         
@@ -164,20 +182,20 @@ class LaporanSIRSController extends MyAuthController
             $header = array(
                 '<th style="text-align:center;">NO</th>', '<th style="text-align:center;">Jenis Kegiatan</th>', '<th style="text-align:center;">Jumlah</th>'
             );
-            
+            $title = "KEGIATAN KUNJUNGAN RAWAT JALAN";
             $mpdf->WriteHTML(
                 $this->renderPartial('print_laporan',
                     array(
                         'width'=>'750',
                         'formulir'=>'Formulir RL 5.2',
-                        'title'=>'KEGIATAN KUNJUNGAN RAWAT JALAN',
+                        'title'=>$title,
                         'periode'=>$periode,
                         'table'=>$table,
                         'caraPrint'=>$_GET['caraPrint']
                     ), true
                 )
             );
-            $mpdf->Output();
+            $mpdf->Output($title.'-'.date('Y_m_d').'.pdf','I');
         }else{
             $this->layout = '//layouts/printWindows';
             if($_GET['caraPrint'] == 'EXCEL')
@@ -197,7 +215,7 @@ class LaporanSIRSController extends MyAuthController
         }
     }
     
-    public function action10besarPenyakitRawatInap()
+    public function actionSepuluhBesarPenyakitRawatInap()
     {
         $format = new MyFormatter();
         $tgl_awal = $format->formatDateTimeForDB($_REQUEST['tgl_awal']);
@@ -209,8 +227,13 @@ class LaporanSIRSController extends MyAuthController
 //        ";
 //        $records = YII::app()->db->createCommand($sql)->queryAll();
         $criteria = new CDbCriteria();
+        $criteria->select = "diagnosa_kode, diagnosa_nama";
+        $criteria->group = "diagnosa_kode, diagnosa_nama";
         $criteria->addBetweenCondition('DATE(tglmorbiditas)',$tgl_awal,$tgl_akhir);
+        $criteria->order = "diagnosa_kode";        
         $records = Rl5310bsrpenyakitriV::model()->findAll($criteria);
+               
+        
         $periode = date('d M Y', strtotime($tgl_awal)) . ' sd ' . date('d M Y', strtotime($tgl_akhir));
         $header = array(
             '<th width="50" rowspan="2" style="text-align:center;">No. Urut</th>', 
@@ -236,7 +259,7 @@ class LaporanSIRSController extends MyAuthController
             '<td style="text-align:center;background-color:#AFAFAF">7</td>',
             '<td style="text-align:center;background-color:#AFAFAF">8</td>',
         );
-
+        
         $rows = array();
         $i=0;
         $total_lh= 0;
@@ -245,8 +268,48 @@ class LaporanSIRSController extends MyAuthController
         $total_pm= 0;
         $total_pasien = 0;
         $total_jmlpasien= 0;
+        $jumlah = 0;
+        $pasein_lh = 0;
+        $pasein_ph = 0;
+        $pasein_lm = 0;
+        $pasein_pm = 0;
         $datas = array();
-        foreach($records as $j=>$row)
+        $no = 0;
+        
+        if(count($records) > 0):                    
+            foreach($records as $row)
+            {            
+                $no++;            
+                $pasein_lh = Rl5310bsrpenyakitriV::model()->getSumPasienHM($row['diagnosa_kode'],'LAKI-LAKI','HIDUP');
+                $pasein_ph = Rl5310bsrpenyakitriV::model()->getSumPasienHM($row['diagnosa_kode'],'PEREMPUAN','HIDUP');
+                $pasein_lm = Rl5310bsrpenyakitriV::model()->getSumPasienHM($row['diagnosa_kode'],'LAKI-LAKI','MENINGGAL');
+                $pasein_pm = Rl5310bsrpenyakitriV::model()->getSumPasienHM($row['diagnosa_kode'],'PEREMPUAN','MENINGGAL');
+                $jumlah = $pasein_lh + $pasein_ph + $pasein_lm + $pasein_pm;
+
+                     $rows[] = array(
+                    '<td style=text-align:center;>'.$no.'</td>',
+                    '<td>'.$row['diagnosa_kode'].'</td>',
+                    '<td>'.$row['diagnosa_nama'].'</td>',
+                    '<td style = "text-align:center;">'.$pasein_lh.'</td>',
+                    '<td style = "text-align:center;">'.$pasein_ph.'</td>',
+                    '<td style = "text-align:center;">'.$pasein_lm.'</td>',
+                    '<td style = "text-align:center;">'.$pasein_pm.'</td>',
+                    '<td style = "text-align:center;">'.$jumlah.'</td>',
+                    );
+
+                    $total_lh += $pasein_lh;
+                    $total_lm += $pasein_lm;
+                    $total_ph += $pasein_ph;
+                    $total_pm += $pasein_pm;
+                    $total_pasien += $jumlah;
+            }
+        else:
+            $rows[] = array(
+                        '<td colspan = "8"><i>Data Tidak Ditemukan</i></td>',                                                             
+                    );
+        endif;
+         //foreach() 
+       /* foreach($records as $j=>$row)
         {
             $diagnosa_id = $row->diagnosa_id;
             $jeniskelamin = $row->jeniskelamin;
@@ -262,66 +325,73 @@ class LaporanSIRSController extends MyAuthController
                      
         }
         
-        foreach($datas as $key=>$data){
-            $diagnosa = $data['diagnosa'];
-            $temp = array();
-            foreach($diagnosa as $d) {
-                $name = "$d[diagnosa_kode] - $d[jeniskelamin] - $d[pasienhidupmati]";
-                if(!isset($temp[$name])) {
-                    $temp[$name] = $d;
-                } else {
-                    $temp[$name]['jmlpasien'] += $d['jmlpasien'];
+        if (count($datas) > 0):
+            foreach($datas as $key=>$data){
+                $diagnosa = $data['diagnosa'];
+                $temp = array();
+                foreach($diagnosa as $d) {
+                    $name = "$d[diagnosa_kode] - $d[jeniskelamin] - $d[pasienhidupmati]";
+                    if(!isset($temp[$name])) {
+                        $temp[$name] = $d;
+                    } else {
+                        $temp[$name]['jmlpasien'] += $d['jmlpasien'];
+                    }
                 }
-            }
-            $diagnosa = array_values($temp);
-            $data['diagnosa'] = $diagnosa;
-            
-            foreach($data['diagnosa'] as $x => $val)
-            {
-                if($val['pasienhidupmati'] == 'HIDUP'){
-                    if($val['jeniskelamin'] == 'LAKI-LAKI'){
-                        $lh = $val['jmlpasien'];
-                        $lm = '';
-                        $ph = '';
-                        $pm = '';
+                $diagnosa = array_values($temp);
+                $data['diagnosa'] = $diagnosa;
+
+                foreach($data['diagnosa'] as $x => $val)
+                {
+                    if($val['pasienhidupmati'] == 'HIDUP'){
+                        if($val['jeniskelamin'] == 'LAKI-LAKI'){
+                            $lh = $val['jmlpasien'];
+                            $lm = '';
+                            $ph = '';
+                            $pm = '';
+                        }else{
+                            $ph = $val['jmlpasien'];
+                            $pm = '';
+                            $lh = '';
+                            $lm = '';
+                        }                    
                     }else{
-                        $ph = $val['jmlpasien'];
-                        $pm = '';
-                        $lh = '';
-                        $lm = '';
-                    }                    
-                }else{
-                    if($val['jeniskelamin'] == 'LAKI-LAKI'){
-                        $lh = '';
-                        $lm = $val['jmlpasien'];
-                        $ph = '';
-                        $pm = '';
-                    }else{
-                        $ph = '';
-                        $pm = $val['jmlpasien'];
-                        $lh = '';
-                        $lm = '';
-                    }   
-                }
-                $jmlpasien = $lh + $lm + $ph + $pm;
-                $rows[] = array(
-                    '<td style=text-align:center;>'. ($i+1).'</td>',
-                    '<td>'.$val['diagnosa_kode'].'</td>',
-                    '<td>'.$val['diagnosa_nama'].'</td>',
-                    '<td style=text-align:center;>'.$lh.'</td>',
-                    '<td style=text-align:center;>'.$ph.'</td>',
-                    '<td style=text-align:center;>'.$lm.'</td>',
-                    '<td style=text-align:center;>'.$pm.'</td>',
-                    '<td style=text-align:center;>'.$jmlpasien.'</td>',                    
-                );
-                $i++;
-                $total_lh += $lh;
-                $total_lm += $lm;
-                $total_ph += $ph;
-                $total_pm += $pm;
-                $total_pasien += $jmlpasien;
-            }
-        }   
+                        if($val['jeniskelamin'] == 'LAKI-LAKI'){
+                            $lh = '';
+                            $lm = $val['jmlpasien'];
+                            $ph = '';
+                            $pm = '';
+                        }else{
+                            $ph = '';
+                            $pm = $val['jmlpasien'];
+                            $lh = '';
+                            $lm = '';
+                        }   
+                    }
+                    $jmlpasien = $lh + $lm + $ph + $pm;
+                    $rows[] = array(
+                        '<td style=text-align:center;>'. ($i+1).'</td>',
+                        '<td>'.$val['diagnosa_kode'].'</td>',
+                        '<td>'.$val['diagnosa_nama'].'</td>',
+                        '<td style=text-align:center;>'.$lh.'</td>',
+                        '<td style=text-align:center;>'.$ph.'</td>',
+                        '<td style=text-align:center;>'.$lm.'</td>',
+                        '<td style=text-align:center;>'.$pm.'</td>',
+                        '<td style=text-align:center;>'.$jmlpasien.'</td>',                    
+                    );
+                        $i++;
+                        $total_lh += $lh;
+                        $total_lm += $lm;
+                        $total_ph += $ph;
+                        $total_pm += $pm;
+                        $total_pasien += $jmlpasien;
+                    }
+                } 
+        else:
+            $rows[] = array(
+                        '<td colspan = "8"><i>Data Tidak Ditemukan</i></td>',                                                             
+                    );
+        endif;*/
+          
 
         $table = '<table width="750" '. ($_GET['caraPrint'] == 'PDF' ? 'border="1"': " ") .' cellpadding="2" cellspacing="0" class="table table-striped table-bordered table-condensed">';
         $table .= '<thead>';
@@ -331,6 +401,7 @@ class LaporanSIRSController extends MyAuthController
         $table .= '<tbody>';
         $table .= '<tr>';
         $table .= implode($tdCount, "");
+        
         foreach($rows as $xxx)
         {
             $table .= '<tr>'. implode($xxx, '') . '<tr>';
@@ -350,20 +421,20 @@ class LaporanSIRSController extends MyAuthController
             $header = array(
                 '<th style="text-align:center;">NO</th>', '<th style="text-align:center;">Jenis Kegiatan</th>', '<th style="text-align:center;">Jumlah</th>'
             );
-            
+            $title = "KEGIATAN KUNJUNGAN RAWAT JALAN";
             $mpdf->WriteHTML(
                 $this->renderPartial('print_laporan',
                     array(
                         'width'=>'750',
                         'formulir'=>'Formulir RL 5.2',
-                        'title'=>'KEGIATAN KUNJUNGAN RAWAT JALAN',
+                        'title'=>$title,
                         'periode'=>$periode,
                         'table'=>$table,
                         'caraPrint'=>$_GET['caraPrint']
                     ), true
                 )
             );
-            $mpdf->Output();
+            $mpdf->Output($title.'-'.date('Y_m_d').'.pdf','I');
         }else{
             $this->layout = '//layouts/printWindows';
             if($_GET['caraPrint'] == 'EXCEL')
@@ -384,7 +455,7 @@ class LaporanSIRSController extends MyAuthController
 
     }
     
-    public function action10besarPenyakitRawatJalan()
+    public function actionSepuluhBesarPenyakitRawatJalan()
     {
         $format = new MyFormatter();
         $tgl_awal = $format->formatDateTimeForDB($_REQUEST['tgl_awal']);
@@ -396,7 +467,7 @@ class LaporanSIRSController extends MyAuthController
 //        ";
 //        $records = YII::app()->db->createCommand($sql)->queryAll()
 		
-		$sql = "
+		/*$sql = "
 			SELECT
 			diagnosa_id,
 			diagnosa_kode,
@@ -453,11 +524,34 @@ class LaporanSIRSController extends MyAuthController
 			kasusdiagnosa
 			ORDER BY
 			diagnosa_kode ASC
-			";
-
-		$records = YII::app()->db->createCommand($sql)->queryAll();
-
+			";*/
+                       
+                //var_dump($records);die;
         $periode = date('d M Y', strtotime($tgl_awal)) . ' sd ' . date('d M Y', strtotime($tgl_akhir));
+        
+        $criteria = new CDbCriteria();
+        $criteria->select = "diagnosa_kode, diagnosa_nama ";
+        $criteria->group = "diagnosa_kode, diagnosa_nama";
+        $criteria->addBetweenCondition('DATE(tglmorbiditas)',$tgl_awal,$tgl_akhir);
+        $criteria->order = "diagnosa_kode";        
+        $records = Rl5410bsrpenyakitrjV::model()->findAll($criteria);
+        
+        $criteriaL = new CDbCriteria();
+        $criteriaL->select = "diagnosa_kode, sum(jmlpasien) as jmlpasien, sum(jmlkasus) as jmlkasus, jeniskelamin ";
+        $criteriaL->group = "diagnosa_kode,  jeniskelamin";
+        $criteriaL->addCondition("jeniskelamin = 'LAKI-LAKI' ");
+        $criteriaL->addBetweenCondition('DATE(tglmorbiditas)',$tgl_awal,$tgl_akhir);
+        $criteriaL->order = "diagnosa_kode";        
+        $recordsL = Rl5410bsrpenyakitrjV::model()->findAll($criteriaL);
+        
+        $criteriaP = new CDbCriteria();
+        $criteriaP->select = "diagnosa_kode,  sum(jmlpasien) as jmlpasien, sum(jmlkasus) as jmlkasus, jeniskelamin ";
+        $criteriaP->group = "diagnosa_kode,  jeniskelamin";
+        $criteriaP->addCondition("jeniskelamin = 'PEREMPUAN' ");
+        $criteriaP->addBetweenCondition('DATE(tglmorbiditas)',$tgl_awal,$tgl_akhir);
+        $criteriaP->order = "diagnosa_kode";        
+        $recordsP = Rl5410bsrpenyakitrjV::model()->findAll($criteriaP);
+                
         $header = array(
             '<th width="50" rowspan="2" style="text-align:center;">No. Urut</th>', 
             '<th rowspan="2" style="text-align:center;">KODE ICD 10</th>', 
@@ -486,8 +580,110 @@ class LaporanSIRSController extends MyAuthController
         $total_perempuan = 0;
         $total_kasus = 0;
         $total_kunjungan = 0;
+        $pasein_kl = 0;
+        $pasein_kp = 0;
+        $jumlahkasusBaru = 0;
+        $jumlah = 0;
         $datas = array();
-        foreach($records as $j=>$row)
+        $no = 0;
+        $diagnosa_kode = 0;
+        $lakilaki_kasus = 0;
+        $lakilaki_kunjungan = 0;
+        $perempuan_kasus = 0;
+        $lperempuan_kunjungan = 0;
+        foreach($records as $row)
+        {
+            $diagnosa_kode = $row->diagnosa_kode;
+            $datas[$diagnosa_kode]['diagnosa']['diagnosa_kode'] = $row->diagnosa_kode;
+            $datas[$diagnosa_kode]['diagnosa']['diagnosa_nama'] = $row->diagnosa_nama;
+            foreach($recordsL as $lakilaki):               
+                if (($row->diagnosa_kode == $lakilaki->diagnosa_kode))
+                {
+                    $datas[$diagnosa_kode]['diagnosa']['lakilaki_kasus'] = $lakilaki->jmlkasus;
+                    $datas[$diagnosa_kode]['diagnosa']['lakilaki_kunjungan'] = $lakilaki->jmlpasien;                  
+                }                  
+            endforeach;
+            
+            
+            //masukkan data wanita
+            foreach($recordsP as $perempuan):
+                  if (($row->diagnosa_kode == $perempuan->diagnosa_kode))
+                {
+                    $datas[$diagnosa_kode]['diagnosa']['perempuan_kasus'] = $perempuan->jmlkasus;
+                    $datas[$diagnosa_kode]['diagnosa']['perempuan_kunjungan'] = $perempuan->jmlpasien;                  
+                }    
+            endforeach;
+        }
+       // var_dump($datas);die;
+        
+        if(count($datas) > 0):                    
+            foreach($datas as $key => $row)
+            {            
+                $no++;        
+                       
+               // var_dump($row['diagnosa']['lakilaki_kasus']);die;
+                if (array_key_exists('lakilaki_kasus',$row['diagnosa']))
+                {
+                    $pasein_kl = $row['diagnosa']['lakilaki_kasus'];
+                }
+                else
+                {
+                    $pasein_kl = 0;
+                }
+                
+                if (array_key_exists('lakilaki_kunjungan',$row['diagnosa']))
+                {
+                    $lakilaki_kunjungan = $row['diagnosa']['lakilaki_kunjungan'];
+                }
+                else
+                {
+                    $lakilaki_kunjungan = 0;
+                }
+                
+                if (array_key_exists('perempuan_kasus',$row['diagnosa']))
+                {
+                    $pasein_kp = $row['diagnosa']['perempuan_kasus'];
+                }
+                else
+                {
+                    $pasein_kp = 0;
+                }
+                
+                if (array_key_exists('perempuan_kunjungan',$row['diagnosa']))
+                {
+                    $perempuan_kunjungan = $row['diagnosa']['perempuan_kunjungan'];
+                }
+                else
+                {
+                    $perempuan_kunjungan = 0;
+                }
+                                           
+                
+                $jumlahkasusBaru = $pasein_kl+ $pasein_kp;
+                $jumlah = $perempuan_kunjungan + $lakilaki_kunjungan;
+
+                     $rows[] = array(
+                    '<td style=text-align:center;>'.$no.'</td>',
+                    '<td>'.$row['diagnosa']['diagnosa_kode'].'</td>',
+                    '<td>'.$row['diagnosa']['diagnosa_nama'].'</td>',
+                    '<td style = "text-align:center;">'.$pasein_kl.'</td>',
+                    '<td style = "text-align:center;">'.$pasein_kp.'</td>',
+                    '<td style = "text-align:center;">'.$jumlahkasusBaru.'</td>',                    
+                    '<td style = "text-align:center;">'.$jumlah.'</td>',
+                    );
+                    
+                    $total_laki += $pasein_kl;
+                    $total_perempuan += $pasein_kp;
+                    $total_kasus +=  $jumlahkasusBaru;
+                    $total_kunjungan += $jumlah;
+                    //$total_pasien += $jumlah;
+            }
+        else:
+            $rows[] = array(
+                        '<td colspan = "8"><i>Data Tidak Ditemukan</i></td>',                                                             
+                    );
+        endif;
+        /*foreach($records as $j=>$row)
         {
             $diagnosa_id = $row['diagnosa_id'];
 //            $jeniskelamin = $row["jeniskelamin"];
@@ -505,27 +701,34 @@ class LaporanSIRSController extends MyAuthController
                      
         }
 
-        foreach($datas as $key=>$data){
-            foreach($data['diagnosa'] as $x => $val)
-            {
-                $jmlkasus = $val['jmlkunjungan'];
-				
-					$rows[] = array(
-						'<td style=text-align:center;>'. ($i+1).'</td>',
-						'<td>'.$val['diagnosa_kode'].'</td>',
-						'<td>'.$val['diagnosa_nama'].'</td>',
-						'<td style=text-align:center;>'.$val['lakilaki'].'</td>',
-						'<td style=text-align:center;>'.$val['perempuan'].'</td>',
-						'<td style=text-align:center;>'.$jmlkasus.'</td>',
-						'<td style=text-align:center;>'.$val['jmlkunjungan'].'</td>',
-					);
-                $i++;
-                $total_laki += $val['lakilaki'];
-                $total_perempuan += $val['perempuan'];
-                $total_kasus += $val['jmlkunjungan'];
-                $total_kunjungan += $val['jmlkunjungan'];
+        if (count($datas) > 0):
+            foreach($datas as $key=>$data){
+                foreach($data['diagnosa'] as $x => $val)
+                {
+                    $jmlkasus = $val['jmlkunjungan'];
+
+                                            $rows[] = array(
+                                                    '<td style=text-align:center;>'. ($i+1).'</td>',
+                                                    '<td>'.$val['diagnosa_kode'].'</td>',
+                                                    '<td>'.$val['diagnosa_nama'].'</td>',
+                                                    '<td style=text-align:center;>'.$val['lakilaki'].'</td>',
+                                                    '<td style=text-align:center;>'.$val['perempuan'].'</td>',
+                                                    '<td style=text-align:center;>'.$jmlkasus.'</td>',
+                                                    '<td style=text-align:center;>'.$val['jmlkunjungan'].'</td>',
+                                            );
+                    $i++;
+                    $total_laki += $val['lakilaki'];
+                    $total_perempuan += $val['perempuan'];
+                    $total_kasus += $val['jmlkunjungan'];
+                    $total_kunjungan += $val['jmlkunjungan'];
+                }
             }
-        }   
+        else:
+            $rows[] = array(
+                    '<td colspan = "8"><i>Data Tidak Ditemukan</i></td>',                   
+            );
+        endif;*/
+               
         $table = '<table width="750" '. ($_GET['caraPrint'] == 'PDF' ? 'border="1"': " ") .' cellpadding="2" cellspacing="0" class="table table-striped table-bordered table-condensed">';
         $table .= '<thead>';
         $table .= '<tr>'. implode($header, "") .'</tr>'.'<tr>'.implode($header2,"").'</tr>';
@@ -553,20 +756,20 @@ class LaporanSIRSController extends MyAuthController
             $header = array(
                 '<th style="text-align:center;">NO</th>', '<th style="text-align:center;">Jenis Kegiatan</th>', '<th style="text-align:center;">Jumlah</th>'
             );
-            
+            $title = "10 BESAR PENYAKIT RAWAT JALAN";
             $mpdf->WriteHTML(
                 $this->renderPartial('print_laporan',
                     array(
                         'width'=>'750',
                         'formulir'=>'Formulir RL 5.4',
-                        'title'=>'10 BESAR PENYAKIT RAWAT JALAN',
+                        'title'=>$title,
                         'periode'=>$periode,
                         'table'=>$table,
                         'caraPrint'=>$_GET['caraPrint']
                     ), true
                 )
             );
-            $mpdf->Output();
+            $mpdf->Output($title.'-'.date('Y_m_d').'.pdf','I');
         }else{
             $this->layout = '//layouts/printWindows';
             if($_GET['caraPrint'] == 'EXCEL')
@@ -831,20 +1034,20 @@ class LaporanSIRSController extends MyAuthController
             $header = array(
                 '<th style="text-align:center;">NO</th>', '<th style="text-align:center;">Jenis Kegiatan</th>', '<th style="text-align:center;">Jumlah</th>'
             );
-            
+            $title = "DATA DASAR RUMAH SAKIT";
             $mpdf->WriteHTML(
                 $this->renderPartial('print_laporan',
                     array(
                         'width'=>'1000',
                         'formulir'=>'Formulir RL 1.1',
-                        'title'=>'DATA DASAR RUMAH SAKIT',
+                        'title'=>$title,
                         'periode'=>$periode,
                         'table'=>$table,
                         'caraPrint'=>$_GET['caraPrint']
                     ), true
                 )
             );
-            $mpdf->Output();
+            $mpdf->Output($title.'-'.date('Y_m_d').'.pdf','I');
         }else{
             $this->layout = '//layouts/printWindows';
             if($_GET['caraPrint'] == 'EXCEL')
@@ -884,7 +1087,7 @@ class LaporanSIRSController extends MyAuthController
         $criteria->select = 'jeniskasuspenyakit_id, jeniskasuspenyakit_nama, sum(jlmtt) as jlmtt';
         $criteria->addCondition('instalasi_id = '.PARAMS::INSTALASI_ID_RI);
         $criteria->group = 'jeniskasuspenyakit_id, jeniskasuspenyakit_nama';
-        $criteria->order = 'jeniskasuspenyakit_id asc';
+        $criteria->order = 'jeniskasuspenyakit_id asc';        
         
         $records = RKrl13FastempattidurV::model()->findAll($criteria);
 		$modKelas = RKKelaspelayananM::model()->findAll("kelaspelayanan_aktif = TRUE");
@@ -963,20 +1166,20 @@ class LaporanSIRSController extends MyAuthController
             $header = array(
                 '<th style="text-align:center;">NO</th>', '<th style="text-align:center;">Jenis Kegiatan</th>', '<th style="text-align:center;">Jumlah</th>'
             );
-            
+            $title = "FASILITAS TEMPAT TIDUR RAWAT INAP";
             $mpdf->WriteHTML(
                 $this->renderPartial('print_laporan',
                     array(
                         'width'=>'750',
                         'formulir'=>'Formulir RL 1.3',
-                        'title'=>'FASILITAS TEMPAT TIDUR RAWAT INAP',
+                        'title'=>$title,
                         'periode'=>$periode,
                         'table'=>$table,
                         'caraPrint'=>$_GET['caraPrint']
                     ), true
                 )
             );
-            $mpdf->Output();
+            $mpdf->Output($title.'-'.date('Y_m_d').'.pdf','I');
         }else{
             $this->layout = '//layouts/printWindows';
             if($_GET['caraPrint'] == 'EXCEL')
@@ -1061,6 +1264,7 @@ class LaporanSIRSController extends MyAuthController
         foreach($recordsGroup as $m=>$value)
         {
             $kegiatanoperasi = $value->jeniskasuspenyakit_nama;
+            $dataGroup[$kegiatanoperasi]['jeniskasuspenyakit_nama'] = $value->jeniskasuspenyakit_nama;
             $dataGroup[$kegiatanoperasi]['khusus'] = $value->khusus;                    
             $dataGroup[$kegiatanoperasi]['besar'] = $value->besar;                    
             $dataGroup[$kegiatanoperasi]['sedang'] = $value->sedang;  
@@ -1078,23 +1282,31 @@ class LaporanSIRSController extends MyAuthController
         $table .= implode($tdCount, "");
         $table .= '</tr>';
             $a = 0;
-           foreach($dataGroup as $key=>$val){
-                    $table .= '<tr>';
-                    $table .= '<td style=text-align:center;>'. ($a+1).'</td>
-                        <td>'.$val['jeniskasuspenyakit_nama'].'</td>
-                        <td style=text-align:center;>'.$val['total'].'</td>
-                        <td style=text-align:center;>'.$val['khusus'].'</td>
-                        <td style=text-align:center;>'.$val['besar'].'</td>
-                        <td style=text-align:center;>'.$val['sedang'].'</td>
-                        <td style=text-align:center;>'.$val['kecil'].'</td></tr>';
-                    $a++;
-                    $total += $val['total'];
-                    $total_khusus += $val['khusus'];
-                    $total_besar += $val['besar'];
-                    $total_sedang += $val['sedang'];
-                    $total_kecil += $val['kecil'];
-                    
-            } 
+            
+            if (count($dataGroup) > 0):
+                foreach($dataGroup as $key=>$val){
+                         $table .= '<tr>';
+                         $table .= '<td style=text-align:center;>'. ($a+1).'</td>
+                             <td>'.$val['jeniskasuspenyakit_nama'].'</td>
+                             <td style=text-align:center;>'.$val['total'].'</td>
+                             <td style=text-align:center;>'.$val['khusus'].'</td>
+                             <td style=text-align:center;>'.$val['besar'].'</td>
+                             <td style=text-align:center;>'.$val['sedang'].'</td>
+                             <td style=text-align:center;>'.$val['kecil'].'</td></tr>';
+                         $a++;
+                         $total += $val['total'];
+                         $total_khusus += $val['khusus'];
+                         $total_besar += $val['besar'];
+                         $total_sedang += $val['sedang'];
+                         $total_kecil += $val['kecil'];
+
+                 }
+            else:
+                $table .= '<tr>';
+                $table .= '<td colspan=10><i>Data tidak ditemukan.</i></td>';
+                $table .= '</tr>';
+            endif;
+                 
         $table .= '<tr><td></td><td><b>Total</b></td><td style=text-align:center;>'.$total .'</td><td style=text-align:center;>'.$total_khusus .'</td><td style=text-align:center;>'.$total_besar .'</td><td style=text-align:center;>'.$total_sedang .'</td><td style=text-align:center;>'.$total_kecil .'</td><tr>';
         $table .= '</tbody>';
         $table .= '</table>';
@@ -1110,20 +1322,20 @@ class LaporanSIRSController extends MyAuthController
             $header = array(
                 '<th style="text-align:center;">NO</th>', '<th style="text-align:center;">Jenis Kegiatan</th>', '<th style="text-align:center;">Jumlah</th>'
             );
-            
+            $title = "KEGIATAN PEMBEDAHAN";
             $mpdf->WriteHTML(
                 $this->renderPartial('print_laporan',
                     array(
                         'width'=>'750',
                         'formulir'=>'Formulir RL 3.6',
-                        'title'=>'KEGIATAN PEMBEDAHAN',
+                        'title'=>$title,
                         'periode'=>$periode,
                         'table'=>$table,
                         'caraPrint'=>$_GET['caraPrint']
                     ), true
                 )
             );
-            $mpdf->Output();
+            $mpdf->Output($title.'-'.date('Y_m_d').'.pdf','I');
         }else{
             $this->layout = '//layouts/printWindows';
             if($_GET['caraPrint'] == 'EXCEL')
@@ -1291,7 +1503,8 @@ class LaporanSIRSController extends MyAuthController
         $table .= '</tr>';
         
             $a = 0;
-           foreach($records as $key=>$val){               
+        if (count($records) > 0):
+            foreach($records as $key=>$val){               
                 $table .= '<tr>';
                 $table .= '<td style=text-align:center;>'. ($key+1).'</td>
                     <td>'.$val['dtd_kode'].'</td>
@@ -1343,32 +1556,40 @@ class LaporanSIRSController extends MyAuthController
 				$total_pasienkeluarhidup += $val['pasienkeluarhidup'];
 				$total_pasienkeluarmati += $val['pasienkeluarmati'];
 
-        } 
-        $table .= '<tr><td></td><td></td><td></td><td><b>Total</b></td>
-                    <td style=text-align:center;>'.$total_0hr_l.'</td>
-                    <td style=text-align:center;>'.$total_0hr_p.'</td>
-                    <td style=text-align:center;>'.$total_6hr_l.'</td>
-                    <td style=text-align:center;>'.$total_6hr_p.'</td>
-                    <td style=text-align:center;>'.$total_28hr_l.'</td>
-                    <td style=text-align:center;>'.$total_28hr_p.'</td>
-                    <td style=text-align:center;>'.$total_1th_l.'</td>
-                    <td style=text-align:center;>'.$total_1th_p.'</td>
-                    <td style=text-align:center;>'.$total_4th_l.'</td>
-                    <td style=text-align:center;>'.$total_4th_p.'</td>
-                    <td style=text-align:center;>'.$total_14th_l.'</td>
-                    <td style=text-align:center;>'.$total_14th_p.'</td>  
-                    <td style=text-align:center;>'.$total_24th_l.'</td>
-                    <td style=text-align:center;>'.$total_24th_p.'</td>
-                    <td style=text-align:center;>'.$total_44th_l.'</td>
-                    <td style=text-align:center;>'.$total_44th_p.'</td>
-                    <td style=text-align:center;>'.$total_64th_l.'</td>
-                    <td style=text-align:center;>'.$total_64th_p.'</td>'
-                . '<td style=text-align:center;>'.$total_pasienkeluarlakilaki.'</td>'
-                . '<td style=text-align:center;>'.$total_pasienkeluarperempuan.'</td>'
-                . '<td style=text-align:center;>'.$total_pasienkeluarhidup.'</td>'
-                . '<td style=text-align:center;>'.$total_pasienkeluarmati.'</td><tr>';
-        $table .= '</tbody>';
-        $table .= '</table>';
+            } 
+        else:
+            $table .= '<tr>';
+            $table .= '<td colspan="26"><i>Data Tidak Ditemukan</i></td>';
+            $table .= '</tr>';
+        endif;  
+        
+            $table .= '<tr><td></td><td></td><td></td><td><b>Total</b></td>
+                        <td style=text-align:center;>'.$total_0hr_l.'</td>
+                        <td style=text-align:center;>'.$total_0hr_p.'</td>
+                        <td style=text-align:center;>'.$total_6hr_l.'</td>
+                        <td style=text-align:center;>'.$total_6hr_p.'</td>
+                        <td style=text-align:center;>'.$total_28hr_l.'</td>
+                        <td style=text-align:center;>'.$total_28hr_p.'</td>
+                        <td style=text-align:center;>'.$total_1th_l.'</td>
+                        <td style=text-align:center;>'.$total_1th_p.'</td>
+                        <td style=text-align:center;>'.$total_4th_l.'</td>
+                        <td style=text-align:center;>'.$total_4th_p.'</td>
+                        <td style=text-align:center;>'.$total_14th_l.'</td>
+                        <td style=text-align:center;>'.$total_14th_p.'</td>  
+                        <td style=text-align:center;>'.$total_24th_l.'</td>
+                        <td style=text-align:center;>'.$total_24th_p.'</td>
+                        <td style=text-align:center;>'.$total_44th_l.'</td>
+                        <td style=text-align:center;>'.$total_44th_p.'</td>
+                        <td style=text-align:center;>'.$total_64th_l.'</td>
+                        <td style=text-align:center;>'.$total_64th_p.'</td>'
+                    . '<td style=text-align:center;>'.$total_pasienkeluarlakilaki.'</td>'
+                    . '<td style=text-align:center;>'.$total_pasienkeluarperempuan.'</td>'
+                    . '<td style=text-align:center;>'.$total_pasienkeluarhidup.'</td>'
+                    . '<td style=text-align:center;>'.$total_pasienkeluarmati.'</td><tr>';
+            $table .= '</tbody>';
+            $table .= '</table>';
+            
+           
         
         if($_GET['caraPrint'] == 'PDF')
         {
@@ -1381,20 +1602,20 @@ class LaporanSIRSController extends MyAuthController
             $header = array(
                 '<th style="text-align:center;">NO</th>', '<th style="text-align:center;">Jenis Kegiatan</th>', '<th style="text-align:center;">Jumlah</th>'
             );
-            
+            $title = "DATA KEADAAN MORBIDITAS PASIEN RAWAT INAP RUMAH SAKIT";
             $mpdf->WriteHTML(
                 $this->renderPartial('print_laporan',
                     array(
                         'width'=>'1024',
                         'formulir'=>'Formulir RL 4.A',
-                        'title'=>'DATA KEADAAN MORBIDITAS PASIEN RAWAT INAP RUMAH SAKIT',
+                        'title'=>$title,
                         'periode'=>$periode,
                         'table'=>$table,
                         'caraPrint'=>$_GET['caraPrint']
                     ), true
                 )
             );
-            $mpdf->Output();
+            $mpdf->Output($title.'-'.date('Y_m_d').'.pdf','I');
         }else{
             $this->layout = '//layouts/printWindows';
             if($_GET['caraPrint'] == 'EXCEL')
@@ -1577,8 +1798,8 @@ class LaporanSIRSController extends MyAuthController
         $table .= implode($tdCount, "");
         $table .= '</tr>';
         
-
-           foreach($records as $a=>$val){               
+        if (count($records) > 0):
+            foreach($records as $a=>$val){               
                 $table .= '<tr>';
                 $table .= '<td style=text-align:center;>'. ($a+1).'</td>
                     <td>'.$val['dtd_kode'].'</td>
@@ -1629,9 +1850,14 @@ class LaporanSIRSController extends MyAuthController
                 $tot_kasusbaru_perempuan +=  $val['kasusbaru_perempuan'];
                 $tot_jumlahkasusbaru +=  $val['jumlahkasusbaru'];
                 $tot_jumlahkunjungan +=  $val['jumlahkunjungan'];
-
-        } 
-
+            } 
+        else:
+            $table .= "<tr>";
+            $table .= "<td colspan='24'><i>Data Tidak Ditemukan</i></td>";
+            $table .= "</tr>";
+            
+        endif;
+                   
         $table .= '<tr><td></td><td></td><td></td><td><b>Total</b></td>
                     <td style=text-align:center;>'.$tot_var_0hr_6hr_l.'</td>
                     <td style=text-align:center;>'.$tot_var_0hr_6hr_p.'</td>
@@ -1669,20 +1895,20 @@ class LaporanSIRSController extends MyAuthController
             $header = array(
                 '<th style="text-align:center;">NO</th>', '<th style="text-align:center;">Jenis Kegiatan</th>', '<th style="text-align:center;">Jumlah</th>'
             );
-            
+            $title = "DATA KEADAAN MORBIDITAS PASIEN RAWAT JALAN RUMAH SAKIT";
             $mpdf->WriteHTML(
                 $this->renderPartial('print_laporan',
                     array(
                         'width'=>'1024',
                         'formulir'=>'Formulir RL 4.B',
-                        'title'=>'DATA KEADAAN MORBIDITAS PASIEN RAWAT JALAN RUMAH SAKIT',
+                        'title'=>$title,
                         'periode'=>$periode,
                         'table'=>$table,
                         'caraPrint'=>$_GET['caraPrint']
                     ), true
                 )
             );
-            $mpdf->Output();
+            $mpdf->Output($title.'-'.date('Y_m_d').'.pdf','I');
         }else{
             $this->layout = '//layouts/printWindows';
             if($_GET['caraPrint'] == 'EXCEL')
@@ -1715,10 +1941,11 @@ class LaporanSIRSController extends MyAuthController
         $criteria->select = 'kelompokpegawai_id, kelompokpegawai_nama, jeniskelamin, pendkualifikasi_id, pendkualifikasi_nama, jmlkeadaanskrg, jmlkeblaki, jmlkebperempuan';
         $criteria->addCondition('pendkualifikasi_id IS NOT NULL');
         $criteria->group = 'kelompokpegawai_id, kelompokpegawai_nama, jeniskelamin, pendkualifikasi_id, pendkualifikasi_nama, jmlkeadaanskrg, jmlkeblaki, jmlkebperempuan';
+        
         $criteria->order = 'kelompokpegawai_nama asc';
 
         $records = RKrl2KetenagaanV::model()->findAll($criteria);
-
+        
         $periode = date('d M Y', strtotime($tgl_awal)) . ' sd ' . date('d M Y', strtotime($tgl_akhir));
         $header = array(
             '<th width="50" rowspan="2" style="text-align:center;">NO KODE</th>', 
@@ -1775,7 +2002,9 @@ class LaporanSIRSController extends MyAuthController
             } else {
                 $kurangPerempuan = $kurangPerempuan +$totalPerempuan;
             }
-            $rows[] = array(
+            if ($model->cekPendidikanKualifikasi($row['pendkualifikasi_id'], $row['jeniskelamin']) === true):
+                
+                 $rows[] = array(
                 '<td style=text-align:center;>'.$no.'</td>',
                 '<td>'.$row['pendkualifikasi_nama'].'</td>',
                 '<td>'.$model->getSumKeadaan($row['pendkualifikasi_id'],PARAMS::JENIS_KELAMIN_LAKI_LAKI).'</td>',
@@ -1783,9 +2012,13 @@ class LaporanSIRSController extends MyAuthController
                 '<td>'.$row['jmlkeblaki'].'</td>',
                 '<td>'.$row['jmlkebperempuan'].'</td>',
                 '<td>'.$totalLaki.'</td>',
-                '<td>'.$totalPerempuan.'</td>',
-              
-            );
+                '<td>'.$totalPerempuan.'</td>',                   
+                );
+            else:    
+                $no = $no -1;
+                //$rows[] = array();
+            endif;
+           
            // }
             // else{
 
@@ -1841,20 +2074,20 @@ class LaporanSIRSController extends MyAuthController
             $header = array(
                 '<th style="text-align:center;">NO</th>', '<th style="text-align:center;">Jenis Kegiatan</th>', '<th style="text-align:center;">Jumlah</th>'
             );
-            
+            $title = "KETENAGAAN";
             $mpdf->WriteHTML(
                 $this->renderPartial('print_laporan',
                     array(
                         'width'=>'750',
                         'formulir'=>'Formulir RL 2',
-                        'title'=>'KETENAGAAN',
+                        'title'=>$title,
                         'periode'=>$periode,
                         'table'=>$table,
                         'caraPrint'=>$_GET['caraPrint']
                     ), true
                 )
             );
-            $mpdf->Output();
+            $mpdf->Output($title.'-'.date('Y_m_d').'.pdf','I');
         }else{
             $this->layout = '//layouts/printWindows';
             if($_GET['caraPrint'] == 'EXCEL')
@@ -1875,7 +2108,7 @@ class LaporanSIRSController extends MyAuthController
 
     }
 
-     public function actionkunjunganRD()
+     public function actionKunjunganRD()
     {         
         $model = new RKRl32KegiatanpelayananrawatdaruratV;
         $format = new MyFormatter();
@@ -1952,29 +2185,34 @@ class LaporanSIRSController extends MyAuthController
         $totMeninggal = 0;
         $totDoa = 0;
         
-        foreach($records as $row)
-        {
-                $no++;
+        if (count($records) > 0):
+            foreach($records as $row)
+            {
+                    $no++;
+                $rows[] = array(
+                    '<td style=text-align:center;>'.$no.'</td>',
+                    '<td>'.$row['jeniskasuspenyakit_nama'].'</td>',
+                    '<td>'.$row['rujukan'].'</td>',
+                    '<td>'.$row['nonrujukan'].'</td>',
+                    '<td>'.$row['tindaklanjut_dirawat'].'</td>',
+                    '<td>'.$row['tindaklanjut_dirujuk'].'</td>',
+                    '<td>'.$row['tindaklanjut_pulang'].'</td>',
+                    '<td>'.$row['meninggal'].'</td>',
+                    '<td>'.$row['doa'].'</td>',
+                );
+                $totRujukan += $row['rujukan'];
+                $totNonRujukan += $row['nonrujukan'];
+                $totDirawat += $row['tindaklanjut_dirawat'];
+                $totDirujuk += $row['tindaklanjut_dirujuk'];
+                $totPulang += $row['tindaklanjut_pulang'];
+                $totMeninggal += $row['meninggal'];
+                $totDoa += $row['doa'];
+            }
+        else:
             $rows[] = array(
-                '<td style=text-align:center;>'.$no.'</td>',
-                '<td>'.$row['jeniskasuspenyakit_nama'].'</td>',
-                '<td>'.$row['rujukan'].'</td>',
-                '<td>'.$row['nonrujukan'].'</td>',
-                '<td>'.$row['tindaklanjut_dirawat'].'</td>',
-                '<td>'.$row['tindaklanjut_dirujuk'].'</td>',
-                '<td>'.$row['tindaklanjut_pulang'].'</td>',
-                '<td>'.$row['meninggal'].'</td>',
-                '<td>'.$row['doa'].'</td>',
-            );
-            $totRujukan += $row['rujukan'];
-            $totNonRujukan += $row['nonrujukan'];
-            $totDirawat += $row['tindaklanjut_dirawat'];
-            $totDirujuk += $row['tindaklanjut_dirujuk'];
-            $totPulang += $row['tindaklanjut_pulang'];
-            $totMeninggal += $row['meninggal'];
-            $totDoa += $row['doa'];
-        }
-
+                    '<td colspan=8><i>Data tidak ditemukan.</i></td>',                
+                );
+        endif;
         
         $table = '<table width="750" '. ($_GET['caraPrint'] == 'PDF' ? 'border="1"': " ") .' cellpadding="2" cellspacing="0" class="table table-striped table-bordered table-condensed">';
         $table .= '<thead>';
@@ -2009,20 +2247,20 @@ class LaporanSIRSController extends MyAuthController
             $header = array(
                 '<th style="text-align:center;">NO</th>', '<th style="text-align:center;">Jenis Kegiatan</th>', '<th style="text-align:center;">Jumlah</th>'
             );
-            
+            $title = "KUNJUNGAN RAWAT DARURAT";
             $mpdf->WriteHTML(
                 $this->renderPartial('print_laporan',
                     array(
                         'width'=>'750',
                         'formulir'=>'Formulir RL 3.2',
-                        'title'=>'KUNJUNGAN RAWAT DARURAT',
+                        'title'=>$title,
                         'periode'=>$periode,
                         'table'=>$table,
                         'caraPrint'=>$_GET['caraPrint']
                     ), true
                 )
             );
-            $mpdf->Output();
+            $mpdf->Output($title.'-'.date('Y_m_d').'.pdf','I');
         }else{
             $this->layout = '//layouts/printWindows';
             if($_GET['caraPrint'] == 'EXCEL')
@@ -2046,7 +2284,7 @@ class LaporanSIRSController extends MyAuthController
     /**
      * Formulir RL 1.3 KEGIATAN KESEHATAN GIGI DAN MULUT
      */
- public function actiongigiMulut()
+ public function actionGigiMulut()
     {
         $model = new RKRl33KegiatangigimulutV;
         $format = new MyFormatter();
@@ -2095,17 +2333,23 @@ class LaporanSIRSController extends MyAuthController
         $total_jumlah = 0;
         $no = 0;
         $subno = 0;
-
-        foreach($records as $row)
-        {
-                $no++;
-            $rows[] = array(
-                '<td style=text-align:center;>'.$no.'</td>',
-                '<td>'.$row['jeniskegiatan_nama'].'</td>',
-                '<td>'.$row['jumlah'].'</td>',
-            );
-            $total_jumlah += $row['jumlah'];
-        }
+        
+        if (count($records) > 0):
+            foreach($records as $row)
+            {
+                    $no++;
+                $rows[] = array(
+                    '<td style=text-align:center;>'.$no.'</td>',
+                    '<td>'.$row['jeniskegiatan_nama'].'</td>',
+                    '<td>'.$row['jumlah'].'</td>',
+                );
+                $total_jumlah += $row['jumlah'];
+            }
+        else:
+             $rows[] = array(
+                    '<td colspan=8><i>Data tidak ditemukan.</i></td>',                
+                );
+        endif;
 
 
         $table = '<table width="750" '. ($_GET['caraPrint'] == 'PDF' ? 'border="1"': " ") .' cellpadding="2" cellspacing="0" class="table table-striped table-bordered table-condensed">';
@@ -2135,20 +2379,20 @@ class LaporanSIRSController extends MyAuthController
             $header = array(
                 '<th style="text-align:center;">NO</th>', '<th style="text-align:center;">Jenis Kegiatan</th>', '<th style="text-align:center;">Jumlah</th>'
             );
-            
+            $title = "KEGIATAN KESEHATAN GIGI DAN MULUT";
             $mpdf->WriteHTML(
                 $this->renderPartial('print_laporan',
                     array(
                         'width'=>'750',
                         'formulir'=>'Formulir RL 3.3',
-                        'title'=>'KEGIATAN KESEHATAN GIGI DAN MULUT',
+                        'title'=>$title,
                         'periode'=>$periode,
                         'table'=>$table,
                         'caraPrint'=>$_GET['caraPrint']
                     ), true
                 )
             );
-            $mpdf->Output();
+            $mpdf->Output($title.'-'.date('Y_m_d').'.pdf','I');
         }else{
             $this->layout = '//layouts/printWindows';
             if($_GET['caraPrint'] == 'EXCEL')
@@ -2209,6 +2453,7 @@ class LaporanSIRSController extends MyAuthController
                             profilrs_id,
                             koders,
                             namars";
+        //$criteria->addCondition("namars = 'RSUD ABEPURA' ");
         $criteria->addBetweenCondition('tgl_laporan',$tgl_awal,$tgl_akhir);
         $records = RKRl12IndikatorpelayananrumahsakitV::model()->findAll($criteria);
 
@@ -2243,6 +2488,7 @@ class LaporanSIRSController extends MyAuthController
         );
 
         $rows = array();
+        //var_dump($records);die;
         $i=0;
         $total_lh= 0;
         $total_lm= 0;
@@ -2260,7 +2506,7 @@ class LaporanSIRSController extends MyAuthController
                     '<td style=text-align:center;>'.$record['ndr'].'</td>',
                     '<td style=text-align:center;>'.$record['gdr'].'</td>',
                     '<td style=text-align:center;>'.$records2[$i]['kunjunganperhari'].'</td>',                    
-                );
+                );                
             }   
         }else{
             $rows[] = array(
@@ -2294,20 +2540,20 @@ class LaporanSIRSController extends MyAuthController
             $header = array(
                 '<th style="text-align:center;">Tahun</th>', '<th style="text-align:center;">BOR</th>', '<th style="text-align:center;">LOS</th>', '<th style="text-align:center;">BTO</th>','<th style="text-align:center;">TOI</th>','<th style="text-align:center;">NDR</th>','<th style="text-align:center;">GDR</th>','<th style="text-align:center;">Rata-rata <br/> Kunjungan /hari</th>'
             );
-            
+            $title = "INDIKATOR PELAYANAN RUMAH SAKIT";
             $mpdf->WriteHTML(
                 $this->renderPartial('print_laporan',
                     array(
                         'width'=>'750',
                         'formulir'=>'Formulir RL 1.2',
-                        'title'=>'INDIKATOR PELAYANAN RUMAH SAKIT',
+                        'title'=>$title,
                         'periode'=>$periode,
                         'table'=>$table,
                         'caraPrint'=>$_GET['caraPrint']
                     ), true
                 )
             );
-            $mpdf->Output();
+            $mpdf->Output($title.'-'.date('Y_m_d').'.pdf','I');
         }else{
             $this->layout = '//layouts/printWindows';
             if($_GET['caraPrint'] == 'EXCEL')
@@ -2535,20 +2781,20 @@ class LaporanSIRSController extends MyAuthController
             $header = array(
                 '<th style="text-align:center;">Tahun</th>', '<th style="text-align:center;">BOR</th>', '<th style="text-align:center;">LOS</th>', '<th style="text-align:center;">BTO</th>','<th style="text-align:center;">TOI</th>','<th style="text-align:center;">NDR</th>','<th style="text-align:center;">GDR</th>','<th style="text-align:center;">Rata-rata <br/> Kunjungan /hari</th>'
             );
-            
+            $title = "KEGIATAN PELAYANAN RAWAT INAP";
             $mpdf->WriteHTML(
                 $this->renderPartial('print_laporan',
                     array(
                         'width'=>'750',
                         'formulir'=>'Formulir RL 3.1',
-                        'title'=>'KEGIATAN PELAYANAN RAWAT INAP',
+                        'title'=>$title,
                         'periode'=>$periode,
                         'table'=>$table,
                         'caraPrint'=>$_GET['caraPrint']
                     ), true
                 )
             );
-            $mpdf->Output();
+            $mpdf->Output($title.'-'.date('Y_m_d').'.pdf','I');
         }else{
             $this->layout = '//layouts/printWindows';
             if($_GET['caraPrint'] == 'EXCEL')
@@ -2796,20 +3042,20 @@ class LaporanSIRSController extends MyAuthController
             $mpdf->SetHTMLFooter($footer);
 //            $header = 0.75 * 72 / (72/25.4);                    
             $mpdf->AddPage($posisi,'','','','',5,5,5,5,0,0);
-            
+            $title = "KEGIATAN KEBIDANAN";
             $mpdf->WriteHTML(
                 $this->renderPartial('print_laporanPDF',
                     array(
                         'width'=>'750',
                         'formulir'=>'Formulir RL 3.4',
-                        'title'=>'KEGIATAN KEBIDANAN',
+                        'title'=>$title,
                         'periode'=>$periode,
                         'table'=>$table,
                         'caraPrint'=>$_GET['caraPrint']
                     ), true
                 )
             );
-            $mpdf->Output();
+            $mpdf->Output($title.'-'.date('Y_m_d').'.pdf','I');
         }else{
             $this->layout = '//layouts/printWindows';
             if($_GET['caraPrint'] == 'EXCEL')
@@ -2842,9 +3088,12 @@ class LaporanSIRSController extends MyAuthController
         
         $criteria=new CDbCriteria;
 
-        $criteria->select	= 'propinsi,kabupaten,profilrs_id,koders,namars,jeniskegiatan_kode,jeniskegiatan_nama,sum(jumlah) AS jumlah';
-        $criteria->group	= 'propinsi,kabupaten,profilrs_id,koders,namars,jeniskegiatan_kode,jeniskegiatan_nama';
-        $criteria->order	= 'koders,namars,jeniskegiatan_kode,jeniskegiatan_nama asc';
+        //$criteria->select	= 'propinsi,kabupaten,profilrs_id,koders,namars,jeniskegiatan_kode,jeniskegiatan_nama,sum(jumlah) AS jumlah';
+        //$criteria->group	= 'propinsi,kabupaten,profilrs_id,koders,namars,jeniskegiatan_kode,jeniskegiatan_nama';
+       // $criteria->order	= 'koders,namars,jeniskegiatan_kode,jeniskegiatan_nama asc';        
+        $criteria->select	= 'jeniskegiatan_kode,jeniskegiatan_nama,sum(jumlah) AS jumlah';
+        $criteria->group	= 'jeniskegiatan_kode,jeniskegiatan_nama';
+        $criteria->order	= 'jeniskegiatan_kode,jeniskegiatan_nama asc';        
         $criteria->addBetweenCondition('tgl_laporan',$tgl_awal,$tgl_akhir);
         
         $records = RKRl37KegiatanradiologiV::model()->findAll($criteria);
@@ -2878,7 +3127,7 @@ class LaporanSIRSController extends MyAuthController
         {
             $jenis = $row->jeniskegiatan_kode;
             $datas[$jenis][$row->jeniskegiatan_nama]['jeniskegiatan_nama'] = $row->jeniskegiatan_nama;
-            $datas[$jenis][$row->jeniskegiatan_nama]['jumlah'] = $row->jumlah;                     
+            $datas[$jenis][$row->jeniskegiatan_nama]['jumlah'] = $row->jumlah;                                 
         }
         
         foreach($recordsGroup as $m=>$value){
@@ -2894,21 +3143,29 @@ class LaporanSIRSController extends MyAuthController
         $table .= '<tr>';
         $table .= implode($tdCount, "");
         $table .= '</tr>';
-        foreach($dataGroup as $key=>$data){
-            $table .= '<tr>';
-            $table .= '<td colspan=3><b>'.strtoupper($data['jeniskegiatan_kode']).'</b></td></tr>';  
-            $a = 0;
-            foreach($datas[$data['jeniskegiatan_kode']] as $x => $val)
-            {
-                $jmlpasien = $val['jumlah'];
+        
+        if (count($dataGroup) > 0):
+            foreach($dataGroup as $key=>$data){
                 $table .= '<tr>';
-                $table .= '<td style=text-align:center;>'. ($a+1).'</td>
-                    <td>'.$val['jeniskegiatan_nama'].'</td>
-                    <td style=text-align:center;>'.$val['jumlah'].'</td></tr>';
-                $a++;
-                $total += $jmlpasien;
-            }
-        }   
+                $table .= '<td colspan=3><b>'.strtoupper($data['jeniskegiatan_kode']).'</b></td></tr>';  
+                $a = 0;
+                foreach($datas[$data['jeniskegiatan_kode']] as $x => $val)
+                {
+                    $jmlpasien = $val['jumlah'];
+                    $table .= '<tr>';
+                    $table .= '<td style=text-align:center;>'. ($a+1).'</td>
+                        <td>'.$val['jeniskegiatan_nama'].'</td>
+                        <td style=text-align:center;>'.$val['jumlah'].'</td></tr>';
+                    $a++;
+                    $total += $jmlpasien;
+                }
+            }   
+        else:
+            $table .= '<tr>';
+            $table .= '<td colspan=10><i>Data tidak ditemukan.</i></td>';
+            $table .= '</tr>';
+        endif;
+            
         $table .= '<tr><td></td><td><b>Total</b></td><td style=text-align:center;>'.$total .'</td><tr>';
         $table .= '</tbody>';
         $table .= '</table>';
@@ -2924,20 +3181,20 @@ class LaporanSIRSController extends MyAuthController
             $header = array(
                 '<th style="text-align:center;">NO</th>', '<th style="text-align:center;">Jenis Kegiatan</th>', '<th style="text-align:center;">Jumlah</th>'
             );
-            
+            $title = "KEGIATAN RADIOLOGI";
             $mpdf->WriteHTML(
                 $this->renderPartial('print_laporan',
                     array(
                         'width'=>'750',
                         'formulir'=>'Formulir RL 3.7',
-                        'title'=>'KEGIATAN RADIOLOGI',
+                        'title'=>$title,
                         'periode'=>$periode,
                         'table'=>$table,
                         'caraPrint'=>$_GET['caraPrint']
                     ), true
                 )
             );
-            $mpdf->Output();
+            $mpdf->Output($title.'-'.date('Y_m_d').'.pdf','I');
         }else{
             $this->layout = '//layouts/printWindows';
             if($_GET['caraPrint'] == 'EXCEL')
@@ -3135,8 +3392,10 @@ class LaporanSIRSController extends MyAuthController
             $periode = $tahun_akhir;
         }
         
-        $criteria = new CDbCriteria();
-        $criteria->order = 'jeniskegiatanlab_kode';
+        $criteria = new CDbCriteria();     
+        $criteria->select = "jeniskegiatanlab_kode, SUM(jumlah) as jumlah, jeniskegiatanlab1, jeniskegiatanlab2, jeniskegiatanlab3";
+        $criteria->group = "jeniskegiatanlab_kode, jeniskegiatanlab1, jeniskegiatanlab2, jeniskegiatanlab3";
+        $criteria->order = 'jeniskegiatanlab_kode ASC';
         $criteria->addBetweenCondition('tgl_laporan',$tgl_awal,$tgl_akhir);
         $records = RKRl38KegiatanlaboratoriumV::model()->findAll($criteria);
 		
@@ -3154,6 +3413,7 @@ class LaporanSIRSController extends MyAuthController
 
         $total= 0;
         $datas = array();
+        //var_dump($records);die;
         foreach($records as $j=>$row)
         {
 			$datas[$row->jeniskegiatanlab1]['jeniskegiatanlab1'] = $row->jeniskegiatanlab1;
@@ -3163,6 +3423,7 @@ class LaporanSIRSController extends MyAuthController
 			$datas[$row->jeniskegiatanlab1]['kegiatan2'][$row->jeniskegiatanlab2]['kegiatan3'][$row->jeniskegiatanlab3]['jeniskegiatanlab3'] = $row->jeniskegiatanlab3;
 			$datas[$row->jeniskegiatanlab1]['kegiatan2'][$row->jeniskegiatanlab2]['kegiatan3'][$row->jeniskegiatanlab3]['jeniskegiatanlab_kode'] = $row->jeniskegiatanlab_kode;
 			$datas[$row->jeniskegiatanlab1]['kegiatan2'][$row->jeniskegiatanlab2]['kegiatan3'][$row->jeniskegiatanlab3]['jumlah'] = $row->jumlah;
+                        //var_dump($datas[$row->jeniskegiatanlab1]['kegiatan2'][$row->jeniskegiatanlab2]['kegiatan3']);die;
         }
         
         $table = '<table width="750" '. ($_GET['caraPrint'] == 'PDF' ? 'border="1"': " ") .' cellpadding="2" cellspacing="0" class="table table-striped table-bordered table-condensed">';
@@ -3175,19 +3436,26 @@ class LaporanSIRSController extends MyAuthController
         $table .= '</tr>';
         $table .= '<tr><td colspan=3 style=text-align:center;><b>Patologi Klinik</b></td><tr>';
 		$table .= '</tr>';
-        foreach($datas as $i=>$data1){
+        if (count($datas) > 0):
+            foreach($datas as $i=>$data1)
+                {
+                $table .= '<tr>';
+                $table .= '<td><b>'.substr($data1['jeniskegiatanlab_kode'],0,1).'</b></td><td><b>'.strtoupper($data1['jeniskegiatanlab1']).'</b></td><td></td></tr>';
+                            foreach($data1['kegiatan2'] as $ii=>$data2){
+                                    $table .= '<tr>';
+                                    $table .= '<td><b>'.substr($data2['jeniskegiatanlab_kode'],0,3).'</b></td><td><b>&nbsp;&nbsp;&nbsp;&nbsp;'.$data2['jeniskegiatanlab2'].'</b></td><td></tr>';
+                                    foreach($data2['kegiatan3'] as $iii=>$data3){
+                                            $table .= '<tr>';
+                                            $table .= '<td>'.$data3['jeniskegiatanlab_kode'].'</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$data3['jeniskegiatanlab3'].'</td><td td style=text-align:center;>'.$data3['jumlah'].'</td></tr>';
+                                            $total += $data3['jumlah'];
+                                    }
+                            }
+                    }
+        else:
             $table .= '<tr>';
-            $table .= '<td><b>'.substr($data1['jeniskegiatanlab_kode'],0,1).'</b></td><td><b>'.strtoupper($data1['jeniskegiatanlab1']).'</b></td><td></td></tr>';
-			foreach($data1['kegiatan2'] as $ii=>$data2){
-				$table .= '<tr>';
-				$table .= '<td><b>'.substr($data2['jeniskegiatanlab_kode'],0,3).'</b></td><td><b>&nbsp;&nbsp;&nbsp;&nbsp;'.$data2['jeniskegiatanlab2'].'</b></td><td></tr>';
-				foreach($data2['kegiatan3'] as $iii=>$data3){
-					$table .= '<tr>';
-					$table .= '<td>'.$data3['jeniskegiatanlab_kode'].'</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$data3['jeniskegiatanlab3'].'</td><td td style=text-align:center;>'.$data3['jumlah'].'</td></tr>';
-					$total += $data3['jumlah'];
-				}
-			}
-		}
+            $table .= '<td colspan=10><i>Data tidak ditemukan.</i></td>';
+            $table .= '</tr>';
+        endif;                    
 		
         $table .= '<tr><td></td><td style=text-align:center;><b>Total</b></td><td style=text-align:center;><b>'.$total .'</b></td><tr>';
         $table .= '</tbody>';
@@ -3204,20 +3472,20 @@ class LaporanSIRSController extends MyAuthController
             $header = array(
                 '<th style="text-align:center;">Tahun</th>', '<th style="text-align:center;">BOR</th>', '<th style="text-align:center;">LOS</th>', '<th style="text-align:center;">BTO</th>','<th style="text-align:center;">TOI</th>','<th style="text-align:center;">NDR</th>','<th style="text-align:center;">GDR</th>','<th style="text-align:center;">Rata-rata <br/> Kunjungan /hari</th>'
             );
-            
+            $title = "PEMERIKSAAN LABORATORIUM";
             $mpdf->WriteHTML(
                 $this->renderPartial('print_laporan',
                     array(
                         'width'=>'750',
                         'formulir'=>'Formulir RL 3.8',
-                        'title'=>'PEMERIKSAAN LABORATORIUM',
+                        'title'=>$title,
                         'periode'=>$periode,
                         'table'=>$table,
                         'caraPrint'=>$_GET['caraPrint']
                     ), true
                 )
             );
-            $mpdf->Output();
+            $mpdf->Output($title.'-'.date('Y_m_d').'.pdf','I');
         }else{
             $this->layout = '//layouts/printWindows';
             if($_GET['caraPrint'] == 'EXCEL')
@@ -3340,20 +3608,20 @@ class LaporanSIRSController extends MyAuthController
             $header = array(
                 '<th style="text-align:center;">Tahun</th>', '<th style="text-align:center;">BOR</th>', '<th style="text-align:center;">LOS</th>', '<th style="text-align:center;">BTO</th>','<th style="text-align:center;">TOI</th>','<th style="text-align:center;">NDR</th>','<th style="text-align:center;">GDR</th>','<th style="text-align:center;">Rata-rata <br/> Kunjungan /hari</th>'
             );
-            
+            $title = "PELAYANAN REHABILITASI MEDIK";
             $mpdf->WriteHTML(
                 $this->renderPartial('print_laporan',
                     array(
                         'width'=>'750',
                         'formulir'=>'Formulir RL 3.9',
-                        'title'=>'PELAYANAN REHABILITASI MEDIK',
+                        'title'=>$title,
                         'periode'=>$periode,
                         'table'=>$table,
                         'caraPrint'=>$_GET['caraPrint']
                     ), true
                 )
             );
-            $mpdf->Output();
+            $mpdf->Output($title.'-'.date('Y_m_d').'.pdf','I');
         }else{
             $this->layout = '//layouts/printWindows';
             if($_GET['caraPrint'] == 'EXCEL')
@@ -3545,20 +3813,20 @@ class LaporanSIRSController extends MyAuthController
             $header = array(
                 '<th style="text-align:center;">Tahun</th>', '<th style="text-align:center;">BOR</th>', '<th style="text-align:center;">LOS</th>', '<th style="text-align:center;">BTO</th>','<th style="text-align:center;">TOI</th>','<th style="text-align:center;">NDR</th>','<th style="text-align:center;">GDR</th>','<th style="text-align:center;">Rata-rata <br/> Kunjungan /hari</th>'
             );
-            
+            $title = "KEGIATAN KELUARGA BERENCANA";
             $mpdf->WriteHTML(
                 $this->renderPartial('print_laporan',
                     array(
                         'width'=>'750',
                         'formulir'=>'Formulir RL 3.12',
-                        'title'=>'KEGIATAN KELUARGA BERENCANA',
+                        'title'=>$title,
                         'periode'=>$periode,
                         'table'=>$table,
                         'caraPrint'=>$_GET['caraPrint']
                     ), true
                 )
             );
-            $mpdf->Output();
+            $mpdf->Output($title.'-'.date('Y_m_d').'.pdf','I');
         }else{
             $this->layout = '//layouts/printWindows';
             if($_GET['caraPrint'] == 'EXCEL')
@@ -3740,20 +4008,20 @@ class LaporanSIRSController extends MyAuthController
             $header = array(
                 '<th style="text-align:center;">Tahun</th>', '<th style="text-align:center;">BOR</th>', '<th style="text-align:center;">LOS</th>', '<th style="text-align:center;">BTO</th>','<th style="text-align:center;">TOI</th>','<th style="text-align:center;">NDR</th>','<th style="text-align:center;">GDR</th>','<th style="text-align:center;">Rata-rata <br/> Kunjungan /hari</th>'
             );
-            
+            $title = "KEGIATAN RUJUKAN";
             $mpdf->WriteHTML(
                 $this->renderPartial('print_laporan',
                     array(
                         'width'=>'750',
                         'formulir'=>'Formulir RL 3.14',
-                        'title'=>'KEGIATAN RUJUKAN',
+                        'title'=>$title,
                         'periode'=>$periode,
                         'table'=>$table,
                         'caraPrint'=>$_GET['caraPrint']
                     ), true
                 )
             );
-            $mpdf->Output();
+            $mpdf->Output($title.'-'.date('Y_m_d').'.pdf','I');
         }else{
             $this->layout = '//layouts/printWindows';
             if($_GET['caraPrint'] == 'EXCEL')
@@ -3866,20 +4134,20 @@ class LaporanSIRSController extends MyAuthController
             $header = array(
                 '<th style="text-align:center;">Tahun</th>', '<th style="text-align:center;">BOR</th>', '<th style="text-align:center;">LOS</th>', '<th style="text-align:center;">BTO</th>','<th style="text-align:center;">TOI</th>','<th style="text-align:center;">NDR</th>','<th style="text-align:center;">GDR</th>','<th style="text-align:center;">Rata-rata <br/> Kunjungan /hari</th>'
             );
-            
+            $title = "KEGIATAN PELAYANAN KHUSUS";
             $mpdf->WriteHTML(
                 $this->renderPartial('print_laporan',
                     array(
                         'width'=>'750',
                         'formulir'=>'Formulir RL 3.10',
-                        'title'=>'KEGIATAN PELAYANAN KHUSUS',
+                        'title'=>$title,
                         'periode'=>$periode,
                         'table'=>$table,
                         'caraPrint'=>$_GET['caraPrint']
                     ), true
                 )
             );
-            $mpdf->Output();
+            $mpdf->Output($title.'-'.date('Y_m_d').'.pdf','I');
         }else{
             $this->layout = '//layouts/printWindows';
             if($_GET['caraPrint'] == 'EXCEL')
@@ -4101,20 +4369,20 @@ class LaporanSIRSController extends MyAuthController
             $header = array(
                 '<th style="text-align:center;">Tahun</th>', '<th style="text-align:center;">BOR</th>', '<th style="text-align:center;">LOS</th>', '<th style="text-align:center;">BTO</th>','<th style="text-align:center;">TOI</th>','<th style="text-align:center;">NDR</th>','<th style="text-align:center;">GDR</th>','<th style="text-align:center;">Rata-rata <br/> Kunjungan /hari</th>'
             );
-            
+            $title = "CARA BAYAR";
             $mpdf->WriteHTML(
                 $this->renderPartial('print_laporan',
                     array(
                         'width'=>'750',
                         'formulir'=>'Formulir RL 3.15',
-                        'title'=>'CARA BAYAR',
+                        'title'=>$title,
                         'periode'=>$periode,
                         'table'=>$table,
                         'caraPrint'=>$_GET['caraPrint']
                     ), true
                 )
             );
-            $mpdf->Output();
+            $mpdf->Output($title.'-'.date('Y_m_d').'.pdf','I');
         }else{
             $this->layout = '//layouts/printWindows';
             if($_GET['caraPrint'] == 'EXCEL')
@@ -4230,20 +4498,20 @@ class LaporanSIRSController extends MyAuthController
             $header = array(
                 '<th style="text-align:center;">Tahun</th>', '<th style="text-align:center;">BOR</th>', '<th style="text-align:center;">LOS</th>', '<th style="text-align:center;">BTO</th>','<th style="text-align:center;">TOI</th>','<th style="text-align:center;">NDR</th>','<th style="text-align:center;">GDR</th>','<th style="text-align:center;">Rata-rata <br/> Kunjungan /hari</th>'
             );
-            
+            $title = "KEGIATAN KESEHATAN JIWA";
             $mpdf->WriteHTML(
                 $this->renderPartial('print_laporan',
                     array(
                         'width'=>'750',
                         'formulir'=>'Formulir RL 3.11',
-                        'title'=>'KEGIATAN KESEHATAN JIWA',
+                        'title'=>$title,
                         'periode'=>$periode,
                         'table'=>$table,
                         'caraPrint'=>$_GET['caraPrint']
                     ), true
                 )
             );
-            $mpdf->Output();
+            $mpdf->Output($title.'-'.date('Y_m_d').'.pdf','I');
         }else{
             $this->layout = '//layouts/printWindows';
             if($_GET['caraPrint'] == 'EXCEL')
@@ -4290,7 +4558,7 @@ class LaporanSIRSController extends MyAuthController
                             kabupaten,
                             namars,
                             jeniskegiatan_id,
-                            jeniskegiatan_kode,
+                            jeniskegiatan_kode,                            
                             jeniskegiatan_nama';
         $criteria->select = 'propinsi,
                             koders,
@@ -4317,7 +4585,7 @@ class LaporanSIRSController extends MyAuthController
         $criteria->order = 'jeniskegiatan_nama';
         $criteria->addBetweenCondition('tgl_laporan',$tgl_awal,$tgl_akhir);
         $records = RKRl35Kegiatanperinatologi::model()->findAll($criteria);
-        
+        //var_dump($records);die;
         
         $header = array(
             '<th rowspan="3" width="50" style="text-align:center;vertical-align:middle;">NO</th>', 
@@ -4367,26 +4635,29 @@ class LaporanSIRSController extends MyAuthController
         $rows = array();
         $judul = array();
         $i=0;
-        $total= 0;
+        $total= 0;        
+        
         $datas = array();
+        
         foreach($records as $j=>$row)
-        {
-            $daftartindakan = $row->jeniskegiatan_nama;
-            $datas[$daftartindakan]['jeniskegiatan_nama'] = $row->jeniskegiatan_nama;                     
-            $datas[$daftartindakan]['rujukanmedis_rumah_sakit'] += $row->rujukanmedis_rumah_sakit;                                        
-            $datas[$daftartindakan]['rujukanmedis_bidan'] += $row->rujukanmedis_bidan;                                        
-            $datas[$daftartindakan]['rujukanmedis_puskesmas'] += $row->rujukanmedis_puskesmas;     
-            $datas[$daftartindakan]['rujukanmedis_faskes_lainnya'] += $row->rujukanmedis_faskes_lainnya;                                  
-            $datas[$daftartindakan]['rujukanmedis_hidup'] += $row->rujukanmedis_hidup;                                        
-            $datas[$daftartindakan]['rujukanmedis_mati'] += $row->rujukanmedis_mati;                                        
-            $datas[$daftartindakan]['rujukanmedis_total'] += $row->rujukannonmedis_mati;                                        
-            $datas[$daftartindakan]['rujukannonmedis_hidup'] += $row->rujukannonmedis_hidup; 
-            $datas[$daftartindakan]['rujukannonmedis_mati'] += $row->rujukannonmedismati;                                        
-            $datas[$daftartindakan]['rujukannonmedis_total'] += $row->rujukannonmedis_total;                                        
-            $datas[$daftartindakan]['nonrujukan_hidup'] += $row->nonrujukan_hidup; 
-            $datas[$daftartindakan]['nonrujukan_mati'] += $row->nonrujukan_mati;                                        
-            $datas[$daftartindakan]['nonrujukan_total'] += $row->nonrujukan_total;                                        
-            $datas[$daftartindakan]['dirujuk'] += $row->dirujuk;                                        
+        {           
+            
+            $daftartindakan = $row->jeniskegiatan_nama;                                          
+            $datas[$daftartindakan]['jeniskegiatan_nama'] = ($row->jeniskegiatan_nama === null)?0:$row->jeniskegiatan_nama;
+            $datas[$daftartindakan]['rujukanmedis_rumah_sakit'] = ($row->rujukanmedis_rumah_sakit  === null)?0:$row->rujukanmedis_rumah_sakit;                                        
+            $datas[$daftartindakan]['rujukanmedis_bidan'] = ($row->rujukanmedis_bidan  === null)?0:$row->rujukanmedis_bidan;                                        
+            $datas[$daftartindakan]['rujukanmedis_puskesmas'] = ($row->rujukanmedis_puskesmas  === null)?0:$row->rujukanmedis_puskesmas;     
+            $datas[$daftartindakan]['rujukanmedis_faskes_lainnya'] = ($row->rujukanmedis_faskes_lainnya  === null)?0:$row->rujukanmedis_faskes_lainnya;                                  
+            $datas[$daftartindakan]['rujukanmedis_hidup'] = ($row->rujukanmedis_hidup  === null)?0:$row->rujukanmedis_hidup;                                        
+            $datas[$daftartindakan]['rujukanmedis_mati'] = ($row->rujukanmedis_mati  === null)?0:$row->rujukanmedis_mati;                                        
+            $datas[$daftartindakan]['rujukanmedis_total'] = ($row->rujukannonmedis_mati  === null)?0:$row->rujukannonmedis_mati;                                        
+            $datas[$daftartindakan]['rujukannonmedis_hidup'] = ($row->rujukannonmedis_hidup  === null)?0:$row->rujukannonmedis_hidup; 
+            $datas[$daftartindakan]['rujukannonmedis_mati'] = ($row->rujukannonmedis_mati  === null)?0:$row->rujukannonmedis_mati;                                        
+            $datas[$daftartindakan]['rujukannonmedis_total'] = ($row->rujukannonmedis_total  === null)?0:$row->rujukannonmedis_total;                                        
+            $datas[$daftartindakan]['nonrujukan_hidup'] = ($row->nonrujukan_hidup  === null)?0:$row->nonrujukan_hidup; 
+            $datas[$daftartindakan]['nonrujukan_mati'] = ($row->nonrujukan_mati  === null)?0:$row->nonrujukan_mati;                                        
+            $datas[$daftartindakan]['nonrujukan_total'] = ($row->nonrujukan_total  === null)?0:$row->nonrujukan_total;                                        
+            $datas[$daftartindakan]['dirujuk'] = ($row->dirujuk === null)?0:$row->dirujuk;                                        
         }
         
         $total_rujukanrs = 0;                                    
@@ -4412,7 +4683,7 @@ class LaporanSIRSController extends MyAuthController
                     '<td style="text-align:center;vertical-align:middle;">'.$data['rujukanmedis_rumah_sakit'].'</td>',
                     '<td style="text-align:center;vertical-align:middle;">'.$data['rujukanmedis_bidan'].'</td>',
                     '<td style="text-align:center;vertical-align:middle;">'.$data['rujukanmedis_puskesmas'].'</td>',
-                    '<td style="text-align:center;vertical-align:middle;">'.$data['rujukanmedis_faskes_lainnya '].'</td>',
+                    '<td style="text-align:center;vertical-align:middle;">'.$data['rujukanmedis_faskes_lainnya'].'</td>',
                     '<td style="text-align:center;vertical-align:middle;">'.$data['rujukanmedis_hidup'].'</td>',
                     '<td style="text-align:center;vertical-align:middle;">'.$data['rujukanmedis_mati'].'</td>',
                     '<td style="text-align:center;vertical-align:middle;">'.$data['rujukanmedis_total'].'</td>',
@@ -4425,20 +4696,20 @@ class LaporanSIRSController extends MyAuthController
                     '<td style="text-align:center;vertical-align:middle;">'.$data['dirujuk'].'</td>',
                 );
                 $i++;
-                $total_rujukanrs = $data['rujukanmedis_rumah_sakit'];                                    
-                $total_rujukanbidan = $data['rujukanmedis_bidan'];    
-                $total_rujukanpuskesmas = $data['rujukanmedis_puskesmas'];    
-                $total_rujukanfaskeslain = $data['rujukanmedis_faskes_lainnya ']; 
-                $total_rujukanmedishidup = $data['rujukanmedis_hidup'];                                 
-                $total_rujukanmedismati = $data['rujukanmedis_mati'];                                       
-                $total_totalrujukanmedis = $data['rujukanmedis_total'];
-                $total_rujukannonmedishidup = $data['rujukannonmedis_hidup'];                                        
-                $total_rujukannonmedismati = $data['rujukannonmedis_mati'];
-                $total_totalrujukannonmedis = $data['rujukannonmedis_total'];    
-                $total_nonrujukanhidup = $data['nonrujukan_hidup'];                                 
-                $total_nonrujukanmati = $data['nonrujukan_mati'];                                       
-                $total_totalnonrujukan = $data['nonrujukan_total'];                                      
-                $total_dirujukkeluar = $data['dirujuk'];
+                $total_rujukanrs += $data['rujukanmedis_rumah_sakit'];                                    
+                $total_rujukanbidan += $data['rujukanmedis_bidan'];    
+                $total_rujukanpuskesmas += $data['rujukanmedis_puskesmas'];    
+                $total_rujukanfaskeslain += $data['rujukanmedis_faskes_lainnya']; 
+                $total_rujukanmedishidup += $data['rujukanmedis_hidup'];                                 
+                $total_rujukanmedismati += $data['rujukanmedis_mati'];                                       
+                $total_totalrujukanmedis += $data['rujukanmedis_total'];
+                $total_rujukannonmedishidup += $data['rujukannonmedis_hidup'];                                        
+                $total_rujukannonmedismati += $data['rujukannonmedis_mati'];
+                $total_totalrujukannonmedis += $data['rujukannonmedis_total'];    
+                $total_nonrujukanhidup += $data['nonrujukan_hidup'];                                 
+                $total_nonrujukanmati += $data['nonrujukan_mati'];                                       
+                $total_totalnonrujukan += $data['nonrujukan_total'];                                      
+                $total_dirujukkeluar += $data['dirujuk'];
             }   
         }else{
             $rows[] = array(
@@ -4488,20 +4759,20 @@ class LaporanSIRSController extends MyAuthController
             $header = array(
                 '<th style="text-align:center;">Tahun</th>', '<th style="text-align:center;">BOR</th>', '<th style="text-align:center;">LOS</th>', '<th style="text-align:center;">BTO</th>','<th style="text-align:center;">TOI</th>','<th style="text-align:center;">NDR</th>','<th style="text-align:center;">GDR</th>','<th style="text-align:center;">Rata-rata <br/> Kunjungan /hari</th>'
             );
-            
+            $title = "KEGIATAN PERINATOLOGI";
             $mpdf->WriteHTML(
                 $this->renderPartial('print_laporan',
                     array(
                         'width'=>'750',
                         'formulir'=>'Formulir RL 3.5',
-                        'title'=>'KEGIATAN PERINATOLOGI',
+                        'title'=>$title,
                         'periode'=>$periode,
                         'table'=>$table,
                         'caraPrint'=>$_GET['caraPrint']
                     ), true
                 )
             );
-            $mpdf->Output();
+            $mpdf->Output($title.'-'.date('Y_m_d').'.pdf','I');
         }else{
             $this->layout = '//layouts/printWindows';
             if($_GET['caraPrint'] == 'EXCEL')
@@ -4542,14 +4813,15 @@ class LaporanSIRSController extends MyAuthController
         }
         
         $criteria = new CDbCriteria();
-        $criteria->group = 'tgl_laporan,
+        /*$criteria->group = 'tgl_laporan,
                             propinsi,
                             koders,
                             profilrs_id,
                             kabupaten,
                             namars,
-                            golonganobat';
-        $criteria->select = 'tgl_laporan,
+                            golonganobat';*/
+        $criteria->group = 'golonganobat';
+        /*$criteria->select = 'tgl_laporan,
                             propinsi,
                             koders,
                             profilrs_id,
@@ -4558,26 +4830,35 @@ class LaporanSIRSController extends MyAuthController
                             golonganobat,
                             SUM(jumlahitemobat) AS jumlahitemobat,
                             SUM(jumlahitemobattersedia) AS jumlahitemobattersedia,
+                            SUM(jumlahitemobatformulatoriumtersedia) AS jumlahitemobatformulatoriumtersedia';*/
+        $criteria->select = 'golonganobat,
+                            SUM(jumlahitemobat) AS jumlahitemobat,
+                            SUM(jumlahitemobattersedia) AS jumlahitemobattersedia,
                             SUM(jumlahitemobatformulatoriumtersedia) AS jumlahitemobatformulatoriumtersedia';
         $criteria->order = 'golonganobat';
         $criteria->addBetweenCondition('date(tgl_laporan)',$tgl_awal,$tgl_akhir);
         $recordsObat = RKRl313ObatV::model()->findAll($criteria);
         
         $criteria2 = new CDbCriteria();
-        $criteria2->group = 'tgl_laporan,
+       /* $criteria2->group = 'tgl_laporan,
                             propinsi,
                             koders,
                             profilrs_id,
                             kabupaten,
                             namars,
-                            golonganobat';
-        $criteria2->select = 'tgl_laporan,
+                            golonganobat';*/
+        $criteria2->group = 'golonganobat';
+        /*$criteria2->select = 'tgl_laporan,
                             propinsi,
                             koders,
                             profilrs_id,
                             kabupaten,
                             namars,
                             golonganobat,
+                            SUM(rawatjalan) AS rawatjalan,
+                            SUM(rawatdarurat) AS rawatdarurat,
+                            SUM(rawatinap) AS rawatinap';*/
+        $criteria2->select = 'golonganobat,
                             SUM(rawatjalan) AS rawatjalan,
                             SUM(rawatdarurat) AS rawatdarurat,
                             SUM(rawatinap) AS rawatinap';
@@ -4671,11 +4952,12 @@ class LaporanSIRSController extends MyAuthController
         /**
          * untuk tabel kolom A. Pengadaan Obat
          */
-        $table = '<table width="750" '. ($_GET['caraPrint'] == 'PDF' ? 'border="1"': " ") .' cellpadding="2" cellspacing="0" class="table table-striped table-bordered table-condensed">';
-        $table .= '<div style="font-weight:bold;margin-left:10px;">3.13 Pengadaan Obat, Penulisan dan Pelayanan Resep <br/<br/><br/></div>';
-        $table .= '<div style="font-weight:bold;margin-left:10px;">A. Pengadaan Obat</div>';
-        $table .= '<thead>';
+        $table = '<div style="font-weight:bold;margin-left:10px;border: 1px 2px white;" colspan = "5">3.13 Pengadaan Obat, Penulisan dan Pelayanan Resep</div><br>';
+        $table .= '<div style="font-weight:bold;margin-left:10px;border:none;" colspan = "5">A. Pengadaan Obat</div>'; 
+        $table .= '<table width="750" '. ($_GET['caraPrint'] == 'PDF' ? 'border="1"': " ") .' cellpadding="2" cellspacing="0" class="table table-striped table-bordered table-condensed">';      
+        $table .= '<thead>';                       
         $table .= '<tr>'. implode($headerObat, "") .'</tr>';
+        
         $table .= '</thead>';
         $table .= '<tbody>'; 
         $table .= '<tr>';
@@ -4690,13 +4972,12 @@ class LaporanSIRSController extends MyAuthController
                 . '<td style="text-align:center;background-color:#AFAFAF">'.$total_jumlahitemrs .'</td>'
                 . '<td style="text-align:center;background-color:#AFAFAF">'.$total_jumlahitemformulatoriumobat .'</td>';
         $table .= '</tbody>';
-        $table .= '</table><br/>';
-        
+        $table .= '</table><br/>';        
         /**
          * untuk tabel kolom B. Penulisan dan Pelayanan Resep
          */
-        $table .= '<table width="750" '. ($_GET['caraPrint'] == 'PDF' ? 'border="1"': " ") .' cellpadding="2" cellspacing="0" class="table table-striped table-bordered table-condensed">';
         $table .= '<div style="font-weight:bold;margin-left:10px;">B. Penulisan dan Pelayanan Resep </div>';
+        $table .= '<table width="750" '. ($_GET['caraPrint'] == 'PDF' ? 'border="1"': " ") .' cellpadding="2" cellspacing="0" class="table table-striped table-bordered table-condensed">';       
         $table .= '<thead>';
         $table .= '<tr>'. implode($headerResep, "") .'</tr>';
         $table .= '</thead>';
@@ -4726,20 +5007,21 @@ class LaporanSIRSController extends MyAuthController
             $header = array(
                 '<th style="text-align:center;">Tahun</th>', '<th style="text-align:center;">BOR</th>', '<th style="text-align:center;">LOS</th>', '<th style="text-align:center;">BTO</th>','<th style="text-align:center;">TOI</th>','<th style="text-align:center;">NDR</th>','<th style="text-align:center;">GDR</th>','<th style="text-align:center;">Rata-rata <br/> Kunjungan /hari</th>'
             );
+            $title = "PENGADAAN OBAT, PENULISAN DAN PELAYANAN RESEP";
             
             $mpdf->WriteHTML(
                 $this->renderPartial('print_laporan',
                     array(
                         'width'=>'750',
                         'formulir'=>'Formulir RL 3.13',
-                        'title'=>'PENGADAAN OBAT, PENULISAN DAN PELAYANAN RESEP',
+                        'title'=>$title,
                         'periode'=>$periode,
-                        'table'=>$table,
+                        'table'=>$table,                       
                         'caraPrint'=>$_GET['caraPrint']
                     ), true
                 )
             );
-            $mpdf->Output();
+            $mpdf->Output($title.'-'.date('Y_m_d').'.pdf','I');
         }else{
             $this->layout = '//layouts/printWindows';
             if($_GET['caraPrint'] == 'EXCEL')
