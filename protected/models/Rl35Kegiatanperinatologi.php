@@ -226,4 +226,6 @@ class Rl35Kegiatanperinatologi extends CActiveRecord
                     'pagination'=>false,
             ));
         }
+        
+       
 }

@@ -1,7 +1,7 @@
 <?php
 class RKPendaftaranT extends PendaftaranT
 {
-    public $kunjunganperhari;
+    public $kunjunganperhari, $tahun;
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);

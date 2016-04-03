@@ -101,4 +101,24 @@ class Rl5310bsrpenyakitriV extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public function getSumPasienHM($diagnosa_kode, $jeniskelamin, $hidupmati)
+        {         
+                      
+           $criteria=new CDbCriteria();
+           $criteria->select = "SUM(jmlpasien) as jmlpasien";
+           $criteria->group = 'diagnosa_kode, jeniskelamin, pasienhidupmati';
+           $criteria->addCondition("diagnosa_kode = '$diagnosa_kode' ");
+           $criteria->addCondition("pasienhidupmati = '$hidupmati' ");
+           $criteria->addCondition("jeniskelamin = '$jeniskelamin' ");
+                                 
+           $totPasien = $this->findAll($criteria);
+              //var_dump($totPasien);die;
+           $tot = 0;
+           foreach($totPasien as $data){
+               $tot = $data->jmlpasien;
+           }
+           return $tot;
+        
+        }
 }

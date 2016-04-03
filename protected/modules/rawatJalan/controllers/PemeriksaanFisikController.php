@@ -28,11 +28,12 @@ class PemeriksaanFisikController extends MyAuthController
 			$modGambarTubuh = new RJGambartubuhM();
 			$modPemeriksaanGambar = RJPemeriksaangambarT::model()->findAllByAttributes(array('pendaftaran_id'=>$pendaftaran_id));
             $cekPemeriksaanFisik=RJPemeriksaanFisikT::model()->findByAttributes(array('pendaftaran_id'=>$pendaftaran_id));
-                if(COUNT($cekPemeriksaanFisik)>0)
+            
+            if(COUNT($cekPemeriksaanFisik)>0)
 				{  //Jika Pasien Sudah Melakukan Pemeriksaan Fisik  Sebelumnya
 					$modPemeriksaanFisik=$cekPemeriksaanFisik;
 					$pegawai = PegawaiM::model()->findByPk(Yii::app()->user->getState('pegawai_id'));
-					$modPemeriksaanFisik->paramedis_nama = empty($pegawai)?null:$pegawai->nama_pegawai;
+					// $modPemeriksaanFisik->paramedis_nama = empty($pegawai)?null:$pegawai->nama_pegawai;
 					$modPemeriksaanFisik->update_time=date('Y-m-d H:i:s');
 					$modPemeriksaanFisik->update_loginpemakai_id=Yii::app()->user->id;
 					if((!empty($modPemeriksaanFisik->gcs_eye))&&(!empty($modPemeriksaanFisik->gcs_verbal))&&(!empty($modPemeriksaanFisik->gcs_motorik))){
@@ -80,6 +81,7 @@ class PemeriksaanFisikController extends MyAuthController
                                 $modPemeriksaanFisik->kulit_pucat=$_POST['RJPemeriksaanFisikT']['kulit_pucat'];
                                 $modPemeriksaanFisik->kulit_berkeringat=$_POST['RJPemeriksaanFisikT']['kulit_berkeringat'];
                                 $modPemeriksaanFisik->akral=$_POST['RJPemeriksaanFisikT']['akral'];
+                                // var_dump($modPemeriksaanFisik->attributes); die;
                                 if($modPemeriksaanFisik->validate()){
 									if($modPemeriksaanFisik->save()){
                                                                                 $dat = PasienpulangT::model()->findByAttributes(array(
@@ -102,7 +104,9 @@ class PemeriksaanFisikController extends MyAuthController
 										}
 									}
 								}
-                                                                
+                                                                // var_dump($modPemeriksaanFisik->attributes);
+                                                                // var_dump($this->simpanpemeriksaanfisik,$this->simpanpemeriksaangambar); 
+                                                                // die;
 								if($this->simpanpemeriksaanfisik && $this->simpanpemeriksaangambar){
 									$transaction->commit();
 									Yii::app()->user->setFlash('success',"Data Pemeriksaan Fisik berhasil disimpan");
@@ -121,7 +125,6 @@ class PemeriksaanFisikController extends MyAuthController
                     } 
                   $modPemeriksaanFisik->tglperiksafisik = Yii::app()->dateFormatter->formatDateTime(
                                         CDateTimeParser::parse($modPemeriksaanFisik->tglperiksafisik, 'yyyy-MM-dd hh:mm:ss'));       
-		
                   $this->render($this->path_view.'index',array('modPasien'=>$modPasien,
                         'modPemeriksaanFisik'=>$modPemeriksaanFisik,
                         'modPendaftaran'=>$modPendaftaran,

@@ -685,6 +685,7 @@ class KirimmenudietTController extends MyAuthController
             $jumlah = (isset($_POST['jumlah']) ? $_POST['jumlah'] : null);
             $jeniswaktu = (isset($_POST['jeniswaktu']) ? $_POST['jeniswaktu'] : null);
             $pendaftaranId = (isset($_POST['pendaftaranId']) ? $_POST['pendaftaranId'] : null);
+            if (empty($pendaftaranId)) $pendaftaranId = (isset($_POST['pendaftaran_id']) ? $_POST['pendaftaran_id'] : null);
             $pasienAdmisi = (isset($_POST['pasienAdmisi']) ? $_POST['pasienAdmisi'] : null);
             $modDetail = new GZPesanmenudetailT();
             $modJenisWaktu = JeniswaktuM::model()->findAll('jeniswaktu_aktif = true');
@@ -692,7 +693,7 @@ class KirimmenudietTController extends MyAuthController
             $pendaftaran = PendaftaranT::model()->findByPk($pendaftaran_id);
             $tarifTindakan = TariftindakanM::model()->findAllByAttributes(array('daftartindakan_id'=>$daftartindakan_id,'kelaspelayanan_id'=>$kelaspelayanan_id,'komponentarif_id'=>Params::KOMPONENTARIF_ID_TOTAL));
             $ruangan = RuanganM::model()->with('instalasi')->findByPk($ruangan_id);
-            $tr = array();
+            $tr = "";
               foreach($tarifTindakan as $key=>$tarif){
                   if(count($tarif) > 0){
                       $satuanTarif = $tarif->harga_tariftindakan;
@@ -718,7 +719,7 @@ class KirimmenudietTController extends MyAuthController
 //            echo $pasienAdmisi;exit;
                 if (!empty($pasienadmisi_id)) {
                     $model = InfokunjunganriV::model()->findByAttributes(array('pendaftaran_id' => $pendaftaran_id, 'ruangan_id' => $ruangan_id, 'pasienadmisi_id' => $pasienadmisi_id));
-                    $modPendaftaran = PendaftaranT::model()->findByAttributes(array('pendaftaran_id' => $pendaftaran_id, 'ruangan_id' => $ruangan_id, 'pasienadmisi_id' => $pasienadmisi_id));
+                    $modPendaftaran = PendaftaranT::model()->findByAttributes(array('pendaftaran_id' => $pendaftaran_id));
                 } else {
                     $model = InfokunjunganriV::model()->findByAttributes(array('pendaftaran_id' => $pendaftaranId[$i]));
                     $modPendaftaran = PendaftaranT::model()->findByAttributes(array('pendaftaran_id' => $pendaftaranId[$i]));
@@ -744,7 +745,7 @@ class KirimmenudietTController extends MyAuthController
                         .CHtml::hiddenField('GZPesanmenudetailT[][penjamin_id]['.$v->jeniswaktu_id.']', $model->penjamin_id)
                        .CHtml::hiddenField('GZPesanmenudetailT[][kelaspelayanan_id]['.$v->jeniswaktu_id.']', $kelaspelayanan_id)
                        .CHtml::hiddenField('GZPesanmenudetailT[][jeniskasuspenyakit_id]['.$v->jeniswaktu_id.']', $model->jeniskasuspenyakit_id)
-                       .CHtml::textField('GZPesanmenudetailT[][satuanTarif]['.$v->jeniswaktu_id.']', $satuanTarif,array('class'=>'span2'))
+                       .CHtml::textField('GZPesanmenudetailT[][satuanTarif]['.$v->jeniswaktu_id.']', $satuanTarif,array('class'=>'span2 numbersOnly', 'style'=>'text-align: right'))
                        .CHtml::dropDownList('GZPesanmenudetailT[][menudiet_id]['.$v->jeniswaktu_id.']', '', Chtml::listData(MenuDietM::model()->findAll(), 'menudiet_id', 'menudiet_nama'), array('empty'=>'-- Pilih --', 'class'=>'span2 menudiet', 'options'=>array("$menudiet_id"=>array("selected"=>"selected")))).'</td>';
                     }else{
                         $tr .='<td>'.CHtml::hiddenField('GZPesanmenudetailT[][jeniswaktu_id]['.$v->jeniswaktu_id.']', $v->jeniswaktu_id )
@@ -753,14 +754,21 @@ class KirimmenudietTController extends MyAuthController
                        .CHtml::hiddenField('GZPesanmenudetailT[][daftartindakan_id]['.$v->jeniswaktu_id.']', $daftartindakan_id)
                         .CHtml::hiddenField('GZPesanmenudetailT[][kelaspelayanan_id]['.$v->jeniswaktu_id.']', $kelaspelayanan_id)
                         .CHtml::hiddenField('GZPesanmenudetailT[][jeniskasuspenyakit_id]['.$v->jeniswaktu_id.']', $model->jeniskasuspenyakit_id)
-                        .CHtml::textField('GZPesanmenudetailT[][satuanTarif]['.$v->jeniswaktu_id.']', $satuanTarif,array('class'=>'span2','style'=>'width:60px;'))
+                        .CHtml::textField('GZPesanmenudetailT[][satuanTarif]['.$v->jeniswaktu_id.']', 0, array('class'=>'span2  numbersOnly', 'style'=>'text-align: right'))
                        .CHtml::dropDownList('GZPesanmenudetailT[][menudiet_id]['.$v->jeniswaktu_id.']', '', Chtml::listData(MenuDietM::model()->findAll(), 'menudiet_id', 'menudiet_nama'), array('empty'=>'-- Pilih --', 'class'=>'span2 menudiet', )).'</td>';
                     }
                 }
-                 $tr .='<td>'.CHtml::activeTextField($modDetail, '[]jml_kirim', array('value'=>$jumlah, 'class'=>' span1 numbersOnly')).'</td>
+                 $tr .='<td>'.CHtml::activeTextField($modDetail, '[]jml_kirim', array('value'=>$jumlah, 'class'=>' span1 numbersOnly', 'style'=>'text-align: right;')).'</td>
                         <td>'.CHtml::activeDropDownList($modDetail, '[]satuanjml_urt', LookupM::getItems('ukuranrumahtangga'), array('empty'=>'-- Pilih --','style'=>'width:80px;',  'class'=>'span2 urt', 'options'=>array("$urt"=>array("selected"=>"selected")))).'</td>
                         <td>'.CHtml::activeDropDownList($modDetail, '[]status_menu', LookupM::getItems('statusmakanan'), array('empty'=>'-- Pilih --','style'=>'width:80px;', 'class'=>'span2 urt', 'options'=>array("SASET"=>array("selected"=>"selected")))).'</td>
-                        </tr>';
+                        ';
+                 $tr .= "<td><center>" . CHtml::link("<i class='icon-list-alt'></i> ", Yii::app()->controller->createUrl("/gizi/RiwayatPasienMenuDiet/index", array("pendaftaran_id" => $modPendaftaran->pendaftaran_id)), array("pendaftaran_id" => "$modPendaftaran->pendaftaran_id",
+                                "target" => "frameRiwayat",
+                                "rel" => "tooltip",
+                                "title" => "Klik untuk melihat riwayat pemeriksaan pasien",
+                                "onclick" => "window.parent.$('#dialogRiwayat').dialog('open')")) . "</center></td>";
+            
+                 $tr .= "</tr>";
             }
             
             echo json_encode($tr);
@@ -883,7 +891,7 @@ class KirimmenudietTController extends MyAuthController
 			   if(empty($instalasi_id)){
 				   echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
 			   } else {
-				   $ruangan = RuanganM::model()->findAllByAttributes(array('instalasi_id'=>$instalasi_id), array('order'=>'ruangan_nama ASC'));
+				   $ruangan = RuanganM::model()->findAllByAttributes(array('instalasi_id'=>$instalasi_id, 'ruangan_aktif'=>true), array('order'=>'ruangan_nama ASC'));
 				   if(count($ruangan) > 1)
 				   {
 					   echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);

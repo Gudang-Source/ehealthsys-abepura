@@ -10,6 +10,7 @@ class MutasiObatAlkesController extends MyAuthController
     public $layout='//layouts/column1';
     public $defaultAction = 'index';
     public $path_view = 'gudangFarmasi.views.mutasiObatAlkes.';
+    public $path_oa = 'gudangFarmasi.views.mutasiObatAlkes.';
     
     public $mutasidetailtersimpan = true; //looping
     public $stokobatalkestersimpan = true; //looping

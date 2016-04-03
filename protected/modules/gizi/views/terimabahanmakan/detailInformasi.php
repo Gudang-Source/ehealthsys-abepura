@@ -49,13 +49,13 @@
             <td>".$tampilData->bahanmakanan->jenisbahanmakanan."</td>   
             <td>".$tampilData->bahanmakanan->kelbahanmakanan."</td>   
             <td>".$tampilData->bahanmakanan->namabahanmakanan."</td>   
-            <td>".$tampilData->bahanmakanan->jmlpersediaan."</td>   
+            <td style='text-align: right;'>".$tampilData->bahanmakanan->jmlpersediaan."</td>   
             <td>".$tampilData->satuanbahan."</td>   
-            <td>".$tampilData->harganettobhn."</td>   
-            <td>".$tampilData->bahanmakanan->hargajualbahan."</td>   
+            <td style='text-align: right;'>".MyFormatter::formatNumberForPrint($tampilData->harganettobhn)."</td>   
+            <td style='text-align: right;'>".MyFormatter::formatNumberForPrint($tampilData->bahanmakanan->hargajualbahan)."</td>   
             <td>".MyFormatter::formatDateTimeForUser($tampilData->bahanmakanan->tglkadaluarsabahan)."</td>   
-            <td>".$tampilData->qty_terima."</td>   
-            <td>".$subTotal."</td>     
+            <td style='text-align: right;'>".$tampilData->qty_terima."</td>   
+            <td style='text-align: right;'>".  MyFormatter::formatNumberForPrint($subTotal)."</td>     
             
                       
          </tr>";  
@@ -72,7 +72,7 @@
         echo "<tr>
             <td colspan='11' style='text-align:right;'> Total Harga Netto</td>
            
-            <td>".$totalSubTotal."</td>
+            <td style='text-align: right;'>".  MyFormatter::formatNumberForPrint($totalSubTotal)."</td>
          </tr>";   
         ?>
     </tfoot>

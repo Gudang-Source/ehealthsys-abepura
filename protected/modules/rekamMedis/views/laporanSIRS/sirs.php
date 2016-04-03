@@ -278,13 +278,13 @@
                     <img src="<?php echo Params::urliconmenu().'RL5.2.png'?>"></img>
                     <span>Kunjungan Rawat Jalan</span>
                 </a>
-                <a href="<?php echo Yii::app()->createAbsoluteUrl(Yii::app()->controller->module->id.'/'. Yii::app()->controller->id .'/10besarPenyakitRawatInap'); ?>">
+                <a href="<?php echo Yii::app()->createAbsoluteUrl(Yii::app()->controller->module->id.'/'. Yii::app()->controller->id .'/SepuluhBesarPenyakitRawatInap'); ?>">
                     <img src="<?php echo Params::urliconmenu().'RL5.3.png'?>"></img>
-                    <span>Daftar 10 Besar Rawat Inap</span>
+                    <span>Daftar 10 Besar Penyakit Rawat Inap</span>
                 </a>
-                <a href="<?php echo Yii::app()->createAbsoluteUrl(Yii::app()->controller->module->id.'/'. Yii::app()->controller->id .'/10besarPenyakitRawatJalan'); ?>">
+                <a href="<?php echo Yii::app()->createAbsoluteUrl(Yii::app()->controller->module->id.'/'. Yii::app()->controller->id .'/SepuluhBesarPenyakitRawatJalan'); ?>">
                     <img src="<?php echo Params::urliconmenu().'RL5.4.png'?>"></img>
-                    <span>Daftar 10 Besar Rawat Jalan</span>
+                    <span>Daftar 10 Besar Penyakit Rawat Jalan</span>
                 </a>
             </div>
         </div>

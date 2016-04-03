@@ -67,7 +67,14 @@
 <div class="control-group ">
     <?php echo $form->labelEx($model, 'jenisdiet_id', array('class' => 'control-label')); ?>
     <div class="controls">
-        <?php echo $form->hiddenField($model, 'jenisdiet_id'); ?>
+        <?php echo $form->dropDownList($model, 'jenisdiet_id', CHtml::listData(JenisdietM::model()->findAll(array(
+            'condition'=>'jenisdiet_aktif = true',
+            'order'=>'jenisdiet_nama',
+        )), 'jenisdiet_id', 'jenisdiet_nama'), array(
+            'empty'=>'-- Pilih --',
+            'onchange'=>'refreshDialogMenu()',
+        )); ?>
+        <?php /* echo $form->hiddenField($model, 'jenisdiet_id'); ?>
         <?php echo CHtml::hiddenField('idJenisDiet',''); ?>
         <?php echo CHtml::hiddenField('idJenisDiet2',''); ?>
         <?php
@@ -103,6 +110,8 @@
             ),
             'tombolDialog' => array('idDialog' => 'dialogJenisDiet'),
         ));
+         * 
+         */
         ?>
     </div>
 </div>

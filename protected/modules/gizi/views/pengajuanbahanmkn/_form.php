@@ -313,10 +313,10 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
     ),
 ));
 
-$modBahanMakanan = new GZBahanmakananM('search');
+$modBahanMakanan = new GZBahanMakananM('search');
 $modBahanMakanan->unsetAttributes();
-if (isset($_GET['GZBahanmakananM']))
-    $modBahanMakanan->attributes = $_GET['GZBahanmakananM'];
+if (isset($_GET['GZBahanMakananM']))
+    $modBahanMakanan->attributes = $_GET['GZBahanMakananM'];
 
 $this->widget('ext.bootstrap.widgets.BootGridView', array(
     'id' => 'gzbahanmakanan-m-grid',

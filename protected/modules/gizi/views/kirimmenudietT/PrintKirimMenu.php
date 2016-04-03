@@ -1,3 +1,13 @@
+<style>
+    .table {
+        box-shadow: none;
+        border: 1px solid black;
+    }
+    .table th, .table td {
+        border: 1px solid black;
+    }
+</style>
+
 <?php   
 if($caraPrint=='EXCEL')
 {
@@ -21,7 +31,7 @@ echo $this->renderPartial('application.views.headerReport.headerDefault', array(
             <br/>
 
         </td>
-        <td>
+        <td hidden>
 <!--            <b><?php //echo CHtml::encode($modKirim->getAttributeLabel('ruangan_id')); ?>:</b>
             <?php //echo CHtml::encode($modKirim->ruangan->ruangan_nama); ?>
             <br />-->
@@ -37,7 +47,7 @@ echo $this->renderPartial('application.views.headerReport.headerDefault', array(
     }
 </style>
 <?php if ($modKirim->jenispesanmenu == Params::JENISPESANMENU_PASIEN) { ?>
-    <table id="tableObatAlkes" class="table table-striped table-bordered table-condensed">
+    <table id="tableObatAlkes" class="table">
         <thead>
         <tr>
             <th rowspan="2">No.Urut</th>
@@ -83,7 +93,7 @@ echo $this->renderPartial('application.views.headerReport.headerDefault', array(
                 }
             };
 
-            echo "<td>" . $tampilData->jml_kirim . "</td>
+            echo "<td style='text-align: right !important'>" . $tampilData->jml_kirim . "</td>
             <td>" . $tampilData->satuanjml_urt . "</td>";
             "
           </tr>";
