@@ -71,9 +71,11 @@ $this->widget('bootstrap.widgets.BootAlert');
             </div>
             <?php echo $form->dropDownListRow($modPemeriksaanFisik,'pegawai_id',CHtml::listData($modPemeriksaanFisik->getDokterItems($modPendaftaran->ruangan_id), 'pegawai_id', 'NamaLengkap'),array('onkeypress'=>"return $(this).focusNextInputField(event);",));?>
 			<div class="control-group ">
-                <?php echo $form->label($modPemeriksaanFisik, 'perawat', array('class' => 'control-label')) ?>
+                <?php 
+                //var_dump($modPemeriksaanFisik->attributes); die;
+                echo $form->label($modPemeriksaanFisik, 'perawat', array('class' => 'control-label')) ?>
 				<div class="controls">
-					<?php echo $form->dropDownList($modPemeriksaanFisik,'paramedis_nama', CHtml::listData($modPemeriksaanFisik->ParamedisItems, 'pegawai.nama_pegawai', 'pegawai.NamaLengkap'),array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
+					<?php echo $form->dropDownList($modPemeriksaanFisik,'paramedis_nama', CHtml::listData($modPemeriksaanFisik->ParamedisItems, 'pegawai.nama_pegawai', 'pegawai.nama_pegawai'),array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
 				</div>
 			</div>
 				<!--<div class="control-group ">

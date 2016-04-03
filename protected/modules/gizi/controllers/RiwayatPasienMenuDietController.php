@@ -37,7 +37,7 @@ class RiwayatPasienMenuDietController extends MyAuthController
 		$this->layout = '//layouts/iframe';
 		$modRiwayatKirimKeUnitLain = GZPasienKirimKeUnitLainT::model()->findAllByAttributes(array('pendaftaran_id'=>$pendaftaran_id,'instalasi_id'=>Params::INSTALASI_ID_LAB));
 		$modUnitLain = PasienKirimKeUnitLainT::model()->findByAttributes(array('pendaftaran_id'=>$pendaftaran_id,'instalasi_id'=>Params::INSTALASI_ID_LAB));
-		$idPenunjang = $modUnitLain->pasienmasukpenunjang_id;
+		$idPenunjang = empty($modUnitLain)?null:$modUnitLain->pasienmasukpenunjang_id;
 		$modTindakan = TindakanpelayananT::model()->findAllByAttributes(array('pasienmasukpenunjang_id'=>$idPenunjang));
 		$idTindakan = array();
 		foreach($modTindakan as $tindakan){
@@ -62,7 +62,7 @@ class RiwayatPasienMenuDietController extends MyAuthController
 		$this->layout = '//layouts/iframe';
 		$modRiwayatKirimKeUnitLain = GZPasienKirimKeUnitLainT::model()->findAllByAttributes(array('pendaftaran_id'=>$pendaftaran_id,'instalasi_id'=>Params::INSTALASI_ID_RAD));
 		$modUnitLain = PasienKirimKeUnitLainT::model()->findByAttributes(array('pendaftaran_id'=>$pendaftaran_id,'instalasi_id'=>Params::INSTALASI_ID_LAB));
-		$idPenunjang = $modUnitLain->pasienmasukpenunjang_id;
+		$idPenunjang = empty($modUnitLain)?null:$modUnitLain->pasienmasukpenunjang_id;
 		$modTindakan = TindakanpelayananT::model()->findAllByAttributes(array('pasienmasukpenunjang_id'=>$idPenunjang));
 		$idTindakan = array();
 		foreach($modTindakan as $tindakan){

@@ -3,7 +3,7 @@
     {
             public function actionIndex()
             {
-                    $modKomposisiBahanMakanan = new GZBahanmakananM;
+                    $modKomposisiBahanMakanan = new GZBahanMakananM;
                     
                     if(isset($_REQUEST['GZBahanMakananM'])){
                         $modKomposisiBahanMakanan->attributes=$_REQUEST['GZBahanMakananM'];

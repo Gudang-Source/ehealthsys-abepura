@@ -146,13 +146,14 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
         array(
                 'header'=>'No. Urut',
                 'value'=>'$row+1',
-                'filter'=>false,
+                'filter'=>CHtml::activeHiddenField($modMenuDiet, 'jenisdiet_id'),
         ),
         array(
             'header'=>'Jenis Diet',
             'name'=>'jenisdiet_nama',
             'type'=>'raw',
             'value'=>'$data->jenisdiet->jenisdiet_nama',
+            'filter'=>false,
         ),
         'menudiet_nama',
         'menudiet_namalain',
