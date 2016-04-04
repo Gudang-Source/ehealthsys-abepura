@@ -15,7 +15,7 @@
                 <?php echo $form->textFieldRow($model,'kodeunitkerja',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
                 <?php echo $form->textFieldRow($model,'namaunitkerja',array('class'=>'span3', 'onkeyup'=>"namaLain(this)", 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>200)); ?>
                 <?php echo $form->textFieldRow($model,'namalain',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>200)); ?>
-                <?php echo $form->dropDownListRow($model, 'nama_instalasi', CHtml::listData(InstalasiM::model()->findAllByAttributes(array('instalasi_aktif'=>true)),'instalasi_id','instalasi_nama'), array('class'=>'span3','empty'=>'-- Pilih --','onchange'=>'updateNamaRuangan()')); ?>
+                <?php echo $form->dropDownListRow($model, 'nama_instalasi', CHtml::listData(InstalasiM::model()->findAllByAttributes(array('instalasi_aktif'=>true),array('order'=>'instalasi_nama ASC')),'instalasi_id','instalasi_nama'), array('class'=>'span3','empty'=>'-- Pilih --','onchange'=>'updateNamaRuangan()')); ?>
                 <?php echo $form->error($model, 'nama_instalasi'); ?>
             </div>
             <div class="span6">

@@ -65,7 +65,9 @@
             var kosong = "";
             var jumlahKosong = $("#fieldsetSubKegiatanProgram").find(".reqForm[value=" + kosong + "]");
             if (jumlahKosong.length > 0) {
-                myAlert('Inputan bertanda bintang harap di isi !!');
+                if (requiredCheck($("#form-subkegiatan-program"))){
+                    myAlert('Inputan bertanda bintang harap di isi !!');
+                }
             } else {
 
                 $.post("<?php echo $urlPostData; ?>", {data: $(this).serialize()},
@@ -82,6 +84,12 @@
                             $('#fieldsetSubKegiatanProgram').find("input[name$='[subprogramkerja_kode]']").val(data.id_parent.subprogramkerja_kode);
                             $('#fieldsetSubKegiatanProgram').find("input[name$='[kegiatanprogram_kode]']").val(data.id_parent.kegiatanprogram_kode);
                             $('#fieldsetSubKegiatanProgram').find("input[name$='[subkegiatanprogram_kode]']").val(data.id_parent.subkegiatanprogram_kode);
+                            
+                            $( ".control-group" ).removeClass( "error" );                              
+                            $('#SASubkegiatanprogramM_subkegiatanprogram_nama').removeClass("error");
+                            $('#SASubkegiatanprogramM_subkegiatanprogram_namalain').removeClass("error");
+                            $('#SASubkegiatanprogramM_rekeningdebit_id').removeClass("error");
+                            $('#SASubkegiatanprogramM_rekeningkredit_id').removeClass("error");
                         }
 
                         if (typeof getTreeMenuAnggaran == 'function')

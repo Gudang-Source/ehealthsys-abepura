@@ -25,7 +25,7 @@
     </div>
     <?php echo $form->textFieldRow($subProgramKerja, 'subprogramkerja_nama', array('class' => 'span3 reqForm', 'onkeyup' => 'autoInput();', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 32, 'readonly' => false)); ?>
     <?php echo $form->textFieldRow($subProgramKerja, 'subprogramkerja_namalain', array('class' => 'span3 reqForm', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 32, 'readonly' => false)); ?>
-    <?php echo $form->textAreaRow($subProgramKerja, 'subprogramkerja_ket', array('class' => 'span4 required', 'onkeypress' => "return $(this).focusNextInputField(event)", 'readonly' => false)); ?>
+    <?php echo $form->textAreaRow($subProgramKerja, 'subprogramkerja_ket', array('class' => 'span4 ', 'onkeypress' => "return $(this).focusNextInputField(event)", 'readonly' => false)); ?>
 	<?php //if(isset($aktif) && ($aktif == true)){
 		echo $form->radioButtonListInlineRow($subProgramKerja, 'subprogramkerja_aktif', array('Tidak', 'Aktif'), array('onkeypress'=>"return $(this).focusNextInputField(event)"));
 //		echo $form->checkBoxRow($subProgramKerja,'subprogramkerja_aktif', array('onkeyup'=>"return $(this).focusNextInputField(event);"));
@@ -47,28 +47,34 @@
             var kosong = "";
             var jumlahKosong = $("#fieldsetSubProgramKerja").find(".reqForm[value=" + kosong + "]");
             if (jumlahKosong.length > 0) {
-                myAlert('Inputan bertanda bintang harap di isi !!');
+                if(requiredCheck($("#form-subprogram-kerja"))){
+                    myAlert('Inputan bertanda <font style = "color:red;">*</font> harap di isi !!');
+                }
             } else {
                 $.post("<?php echo $urlPostData; ?>", {data: $(this).serialize()},
                 function (data) {
-                    if (data.pesan == 'exist') {
-                        myAlert('Kode Sub Program Kerja telah terdaftar');
+                    if (data.pesan == 'exist') {                        
+                        myAlert('Kode Sub Program Kerja telah terdaftar');                        
                     }
 
                     if (data.status == 'ok') {
-                        myAlert('Sub Program Kerja berhasil disimpan');
-                        if (data.pesan == 'insert') {
+                        
+                        myAlert('Sub Program Kerja berhasil disimpan');                        
+                        if (data.pesan == 'insert') {                           
                             $("#reseter").click();
                             $('#fieldsetSubProgramKerja').find("input[name$='[programkerja_kode]']").val(data.id_parent.programkerja_kode);
-                            $('#fieldsetSubProgramKerja').find("input[name$='[subprogramkerja_kode]']").val(data.id_parent.subprogramkerja_kode);
+                            $('#fieldsetSubProgramKerja').find("input[name$='[subprogramkerja_kode]']").val(data.id_parent.subprogramkerja_kode);                            
+                            
+                            $( ".control-group" ).removeClass( "error" );                              
+                            $('#SASubprogramkerjaM_subprogramkerja_nama').removeClass("error");
+                            $('#SASubprogramkerjaM_subprogramkerja_namalain').removeClass("error");                                                        
                         }
 
                         if (typeof getTreeMenuAnggaran == 'function')
                         {
                             getTreeMenuAnggaran();
                             $.fn.yiiGridView.update('AGRekeninganggaran-v', {});
-                        }
-
+                        }                        
                     }
                 }, "json"
                         );

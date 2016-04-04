@@ -15,11 +15,11 @@
   </tr>
   <tr>
     <td>4. </td>
-    <td>Icon <i class="icon-form-silang"></i> untuk menonaktifkan.</td>
+    <td>Icon <i class="icon-form-silang"></i> untuk membuka anggaran.</td>
   </tr>
   <tr>
     <td>5. </td>
-    <td>Icon <i class="icon-form-check"></i> untuk mengaktifkan.</td>
+    <td>Icon <i class="icon-form-check"></i> untuk closing anggaran.</td>
   </tr>
    <tr>
     <td>6. </td>

@@ -76,7 +76,7 @@ class KegiatanprogramM extends CActiveRecord
 			'kegiatanprogram_id' => 'Kegiatanprogram',
 			'subprogramkerja_id' => 'Subprogramkerja',
 			'kegiatanprogram_kode' => 'Kode',
-			'kegiatanprogram_nama' => 'Nama Kegiatan Program',
+			'kegiatanprogram_nama' => 'Kegiatan Program',
 			'kegiatanprogram_namalain' => 'Nama Lain',
 			'kegiatanprogram_ket' => 'Keterangan',
 			'kegiatanprogram_aktif' => 'Aktif',

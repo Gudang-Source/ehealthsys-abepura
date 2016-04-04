@@ -200,7 +200,7 @@ class KonfiganggaranKController extends MyAuthController
 		$format = new MyFormatter;
 		$model=new SAKonfiganggaranK('search');
 		$model->unsetAttributes();  // clear any default values
-		$model->isclosing_anggaran=1;
+		$model->isclosing_anggaran=0;
 		//$model->tglanggaran=  date('Y M d');
 		//$model->sd_tglanggaran=  date('Y M d');
 		if(isset($_GET['SAKonfiganggaranK'])){
@@ -264,7 +264,7 @@ class KonfiganggaranKController extends MyAuthController
 			$mpdf->WriteHTML($stylesheet,1);  
 			$mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
 			$mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-			$mpdf->Output();
+			$mpdf->Output($judulLaporan.'-'.date('Y/m/d').'.pdf','I');
 		}
 	}
 }

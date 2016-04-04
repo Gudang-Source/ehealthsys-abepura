@@ -78,7 +78,7 @@
             array(
                 'header'=>'Hapus',
                 'type'=>'raw',
-                'value'=>'($data->isclosing_anggaran)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:nonActive($data->konfiganggaran_id)",array("id"=>"$data->konfiganggaran_id","rel"=>"tooltip","title"=>"Klik untuk menonaktifkan closing anggaran"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->konfiganggaran_id)",array("id"=>"$data->konfiganggaran_id","rel"=>"tooltip","title"=>"Klik untuk menghapus periode anggaran")):CHtml::link("<i class=\'icon-form-check\'></i> ","javascript:active($data->konfiganggaran_id)",array("id"=>"$data->konfiganggaran_id","rel"=>"tooltip","title"=>"Klik untuk mengaktifkan closing anggaran"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->konfiganggaran_id)",array("id"=>"$data->konfiganggaran_id","rel"=>"tooltip","title"=>"klik untuk menghapus periode anggaran"));',
+                'value'=>'($data->isclosing_anggaran)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:nonActive($data->konfiganggaran_id)",array("id"=>"$data->konfiganggaran_id","rel"=>"tooltip","title"=>"Klik untuk membuka anggaran"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->konfiganggaran_id)",array("id"=>"$data->konfiganggaran_id","rel"=>"tooltip","title"=>"Klik untuk menghapus periode anggaran")):CHtml::link("<i class=\'icon-form-check\'></i> ","javascript:active($data->konfiganggaran_id)",array("id"=>"$data->konfiganggaran_id","rel"=>"tooltip","title"=>"Klik untuk closing anggaran"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->konfiganggaran_id)",array("id"=>"$data->konfiganggaran_id","rel"=>"tooltip","title"=>"klik untuk menghapus periode anggaran"));',
                 'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
             ),
             ),
@@ -124,7 +124,7 @@ JSCRIPT;
     }
 	function nonActive(id){
         var url = '<?php echo $url."/nonActive"; ?>';
-		myConfirm("Yakin akan menonaktifkan data ini untuk sementara?","Perhatian!",
+		myConfirm("Yakin akan membuka anggaran ini untuk sementara?","Perhatian!",
 			function(r){
 			if(r){ 
 				$.post(url, {id: id},
@@ -140,7 +140,7 @@ JSCRIPT;
 	}
 	function active(id){
         var url = '<?php echo $url."/active"; ?>';
-		myConfirm("Yakin akan mengaktifkan data ini untuk sementara?","Perhatian!",
+		myConfirm("Yakin akan closing anggaran ini untuk sementara?","Perhatian!",
 			function(r){
 				if(r){ 
 					$.post(url, {id: id},

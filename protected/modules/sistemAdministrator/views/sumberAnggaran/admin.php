@@ -71,13 +71,21 @@ $('.search-form form').submit(function(){
 			array(
 				'header'=>Yii::t('zii','Delete'),
 				'class'=>'bootstrap.widgets.BootButtonColumn',
-				'template'=>'{remove} {delete}',
+				'template'=>'{add} {remove} {delete}',
 				'buttons'=>array(
+                                        'add' => array (
+							'label'=>"<i class='icon-form-check'></i>",
+							'options'=>array('title'=>Yii::t('mds','Add Temporary')),
+							'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/nonActive",array("id"=>$data->sumberanggaran_id))',
+							'click'=>'function(){Active(this, true);return false;}',
+                                                        'visible' => '($data->sumberanggaran_aktif)?FALSE:TRUE'
+					),
 					'remove' => array (
 							'label'=>"<i class='icon-form-silang'></i>",
 							'options'=>array('title'=>Yii::t('mds','Remove Temporary')),
 							'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/nonActive",array("id"=>$data->sumberanggaran_id))',
 							'click'=>'function(){nonActive(this);return false;}',
+                                                        'visible' => '($data->sumberanggaran_aktif)?TRUE:FALSE'
 					),
 					'delete'=> array(),
 				)
@@ -121,6 +129,30 @@ Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);
 							}
 						},
 						error: function (jqXHR, textStatus, errorThrown) { myAlert('Data gagal dinonaktifkan!'); console.log(errorThrown);}
+					});
+				}
+			}
+		);
+		return false;
+	}
+        
+        function Active(obj, status){
+		myConfirm("Yakin akan mengaktifkan data ini untuk sementara?","Perhatian!",
+			function(r){
+				if(r){ 
+					$.ajax({
+						type:'GET',
+						url:obj.href,
+						data: {status:status},//
+						dataType: "json",
+						success:function(data){
+							$.fn.yiiGridView.update('agsumberanggaran-m-grid');
+							if(data.sukses > 0){
+							}else{
+								myAlert('Data gagal diaktifkan!');
+							}
+						},
+						error: function (jqXHR, textStatus, errorThrown) { myAlert('Data gagal diaktifkan!'); console.log(errorThrown);}
 					});
 				}
 			}

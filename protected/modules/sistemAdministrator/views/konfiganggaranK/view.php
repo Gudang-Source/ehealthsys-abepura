@@ -66,8 +66,8 @@
         <?php echo CHtml::link(Yii::t('mds','{icon} Ubah',array('{icon}'=>'<i class="icon-pencil icon-white"></i>')),$this->createUrl('update',array('id'=>$model->konfiganggaran_id,'modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
         <?php echo CHtml::link(Yii::t('mds','{icon} Pengaturan Periode Anggaran',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
         <?php
-                    $content = $this->renderPartial($this->path_view.'tips/view',array(),true);
-            $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
+                   // $content = $this->renderPartial($this->path_view.'tips/view',array(),true);
+            $this->widget('UserTips',array('type'=>'view')); 
             ?>
         </div>
     </div>

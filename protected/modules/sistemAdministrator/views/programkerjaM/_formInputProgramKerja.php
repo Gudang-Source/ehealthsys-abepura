@@ -18,7 +18,7 @@
     <?php echo $form->textFieldRow($programKerja, 'programkerja_kode', array('class' => 'span1 reqForm', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 6, 'readonly' => false)); ?>
     <?php echo $form->textFieldRow($programKerja, 'programkerja_nama', array('class' => 'span3 reqForm', 'onkeyup' => 'autoInput();', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 32, 'readonly' => false)); ?>
     <?php echo $form->textFieldRow($programKerja, 'programkerja_namalain', array('class' => 'span3 reqForm', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 32, 'readonly' => false)); ?>
-    <?php echo $form->textAreaRow($programKerja, 'programkerja_ket', array('class' => 'span4 required', 'onkeypress' => "return $(this).focusNextInputField(event)", 'readonly' => false)); ?>
+    <?php echo $form->textAreaRow($programKerja, 'programkerja_ket', array('class' => 'span4', 'onkeypress' => "return $(this).focusNextInputField(event)", 'readonly' => false)); ?>
 	<?php //if(isset($aktif) && ($aktif == true)){
 		echo $form->radioButtonListInlineRow($programKerja, 'programkerja_aktif', array('Tidak', 'Aktif'), array('onkeypress'=>"return $(this).focusNextInputField(event)"));
 ///		echo $form->checkBoxRow($programKerja,'programkerja_aktif', array('onkeyup'=>"return $(this).focusNextInputField(event);"));
@@ -40,7 +40,9 @@
             var kosong = "";
             var jumlahKosong = $("#fieldsetProgramKerja").find(".reqForm[value=" + kosong + "]");
             if (jumlahKosong.length > 0) {
-                myAlert('Inputan bertanda bintang harap di isi !!');
+                if(requiredCheck($("#form-program-kerja"))){
+                    myAlert('Inputan bertanda <font style = "color:red;">*</font> harap di isi !!');
+                }
             } else {
 
                 $.post("<?php echo $urlPostData; ?>", {data: $(this).serialize()},
@@ -49,11 +51,14 @@
                         myAlert('Program Kerja telah terdaftar');
                     }
 
-                    if (data.status == 'ok') {
-                        myAlert('Program Kerja berhasil disimpan');
-                        if (data.pesan == 'insert') {
+                    if (data.status == 'ok') {                         
+                        myAlert('Program Kerja berhasil disimpan');                                                                                                     
+                                                
+                        if (data.pesan == 'insert') {                            
+                             tambahProgramKerja(this);
                             $("#reseter").click();
                             $('#fieldsetProgramKerja').find("input[name$='[programkerja_kode]']").val(data.id_parent.programkerja_kode);
+                            
                         }
 
                         if (typeof getTreeMenuAnggaran == 'function')

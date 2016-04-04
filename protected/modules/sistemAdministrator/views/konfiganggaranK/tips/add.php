@@ -7,7 +7,7 @@
   </tr>
   <tr>
 	  <td width="10px">2. </td>
-    <td>Icon <button class="btn btn-primary"><i class="icon-ok icon-white"></i>Simpan</button> untuk menyimpan data.</td>
+    <td>Gunakan Tombol ini <button class="btn btn-primary"><i class="icon-ok icon-white"></i>Simpan</button> untuk menyimpan data.</td>
   </tr>
   <tr>
     <td>3. </td>
