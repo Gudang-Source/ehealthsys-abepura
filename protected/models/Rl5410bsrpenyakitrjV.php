@@ -15,7 +15,7 @@
  */
 class Rl5410bsrpenyakitrjV extends CActiveRecord
 {
-	public $jmlkunjungan;
+	public $jmlkunjungan, $lakilaki, $perempuan;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -105,4 +105,23 @@ class Rl5410bsrpenyakitrjV extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+       public function getSumKasus($diagnosa_kode, $jeniskelamin)
+        {         
+                      
+           $criteria=new CDbCriteria();
+           $criteria->select = "SUM(jmlpasien) as jmlpasien, SUM(jmlkasus) as jmlkasus";
+           $criteria->group = 'diagnosa_kode, jeniskelamin';
+           $criteria->addCondition("diagnosa_kode = '$diagnosa_kode' ");          
+           $criteria->addCondition("jeniskelamin = '$jeniskelamin' ");
+                                 
+           $totPasien = $this->findAll($criteria);
+              //var_dump($totPasien);die;
+           $tot = '0'.'-'.'0';
+           foreach($totPasien as $data){
+               $tot = $data->jmlkasus.'-'.$data->jmlkasus;
+           }
+           return $tot;
+        
+        }
 }
