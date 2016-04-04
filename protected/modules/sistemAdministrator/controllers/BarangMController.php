@@ -32,7 +32,7 @@ class BarangMController extends MyAuthController
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		$model=new SABarangM;
 		$model->barang_aktif = true;
-		$model->barang_kode = MyGenerator::kodeBarang();
+		//$model->barang_kode = MyGenerator::kodeBarang();
 
 
 		// Uncomment the following line if AJAX validation is needed

@@ -61,7 +61,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
             ));
             ?>   
             <?php Echo CHtml::hiddenField('tempKode', $model->barang_kode); ?>
-            <?php echo $form->textFieldRow($model, 'barang_kode', array('class' => 'span2 ', 'onkeyup' => 'setKode(this);', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50,)); ?>
+            <?php echo $form->textFieldRow($model, 'barang_kode', array('class' => 'span2 ',  'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50,)); //'onkeyup' => 'setKode(this);',?>
             <?php echo $form->textFieldRow($model, 'barang_nama', array('class' => 'span2', 'onkeyup' => "namaLain(this)", 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
             <?php echo $form->textFieldRow($model, 'barang_namalainnya', array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>   
             <?php echo $form->textFieldRow($model, 'barang_merk', array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>    
