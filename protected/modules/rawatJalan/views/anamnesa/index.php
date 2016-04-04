@@ -227,7 +227,33 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
             </div>
 			<?php //echo $form->textAreaRow($modAnamnesa, 'riwayatalergiobat', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
             <?php echo $form->textAreaRow($modAnamnesa, 'riwayatmakanan', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
-            <?php echo $form->textAreaRow($modAnamnesa, 'riwayatkelahiran', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
+            <?php //echo $form->textAreaRow($modAnamnesa, 'riwayatkelahiran', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
+            <div class="control-group ">
+                <?php echo $form->labelEx($modAnamnesa, 'riwayatkelahiran', array('class' => 'control-label')) ?>
+                <div class="controls">
+                    <?php
+                        $this->widget('application.extensions.FCBKcomplete.FCBKcomplete',array(
+                            'model'=>$modAnamnesa,
+                            'attribute'=>'riwayatkelahiran',
+                            'data'=> explode(',', $modAnamnesa->riwayatkelahiran),   
+                            'debugMode'=>true,
+                            'options'=>array(
+                                //'bricket'=>false,
+                                'htmlOptions' => array('style'=>'width:100%;'),
+                                'json_url'=>$this->createUrl('/ActionAutoComplete/MasterRiwayatKelahiran'),
+                                'addontab'=> true, 
+                                'maxitems'=> 10,
+                                'input_min_size'=> 0,
+                                'cache'=> true,
+                                'newel'=> true,
+                                'addoncomma'=>true,
+                                'select_all_text'=> "", 
+                            ),
+                        ));
+                    ?>
+                    <?php echo $form->error($modAnamnesa, 'keluhantambahan'); ?>
+                </div>
+            </div>
              <div class="control-group ">
                 <?php echo $form->labelEx($modAnamnesa, 'riwayatimunisasi', array('class' => 'control-label')) ?>
                 <div class="controls">

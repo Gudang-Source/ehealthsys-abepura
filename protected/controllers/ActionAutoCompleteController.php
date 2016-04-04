@@ -2843,4 +2843,22 @@ class ActionAutoCompleteController extends Controller
          * end obatUnitDosis
          */
         
+        public function actionMasterRiwayatKelahiran() 
+        {
+        if (Yii::app()->request->isAjaxRequest){
+            $criteria = new CDbCriteria;
+            $criteria->compare('LOWER(riwayatkelahiran)', strtolower($_GET['tag']),true);
+            $criteria->order = "riwayatkelahiran ASC";
+            $keluhans = AnamnesaT::model()->findAll($criteria);
+            $data = array();
+            foreach ($keluhans as $i => $keluhan) {
+                $data[$i] = array('key'=> $keluhan->riwayatkelahiran,
+                                  'value'=> $keluhan->riwayatkelahiran);
+            }
+
+            echo CJSON::encode($data);
+        }
+        Yii::app()->end();
+        }
+        
 }

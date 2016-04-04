@@ -116,6 +116,7 @@ class AnamnesaController extends MyAuthController
                     }
 					$modAnamnesa->tglanamnesis = $format->formatDateTimeForDb($modAnamnesa->tglanamnesis);
                     $modAnamnesa->keluhanutama = isset($_POST['RJAnamnesaT']['keluhanutama']) ? ((count($_POST['RJAnamnesaT']['keluhanutama'])>0) ? implode(', ', $_POST['RJAnamnesaT']['keluhanutama']) : '') : '';
+                    $modAnamnesa->riwayatkelahiran = isset($_POST['RJAnamnesaT']['riwayatkelahiran']) ? ((count($_POST['RJAnamnesaT']['riwayatkelahiran'])>0) ? implode(', ', $_POST['RJAnamnesaT']['riwayatkelahiran']) : '') : '';
                     $modAnamnesa->keluhantambahan = isset($_POST['RJAnamnesaT']['keluhantambahan']) ? ((count($_POST['RJAnamnesaT']['keluhantambahan'])>0) ? implode(', ', $_POST['RJAnamnesaT']['keluhantambahan']) : '') : '';
                     $modAnamnesa->riwayatperjalananpasien = isset($_POST['RJAnamnesaT']['riwayatperjalananpasien'])?$_POST['RJAnamnesaT']['riwayatperjalananpasien']:null;
                     $modAnamnesa->tglanamnesis = $format->formatDateTimeForDb($_POST['RJAnamnesaT']['tglanamnesis']);
@@ -186,7 +187,7 @@ class AnamnesaController extends MyAuthController
         ));
     } 
 	
-	public function actionMasterKeluhan() 
+    public function actionMasterKeluhan() 
     {
         if (Yii::app()->request->isAjaxRequest){
             $criteria = new CDbCriteria;
@@ -203,6 +204,9 @@ class AnamnesaController extends MyAuthController
         }
         Yii::app()->end();
     }
+    
+    /* */
+    
 	
 	/**
      * actionGetTriasePasien untuk Triase Tabulasi Anamnesa:
