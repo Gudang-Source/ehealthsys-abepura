@@ -226,4 +226,28 @@ class TandabuktibayarT extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+         public function getRuanganNama($pembayaranpelayanan_id) {
+		$cek = PembayaranpelayananT::model()->findAllByAttributes(array('pembayaranpelayanan_id' => $pembayaranpelayanan_id));
+                $data = '';
+                
+                if($cek === null):
+                    $data = '-';
+                else:
+                    foreach($cek as $cekA)
+                    $data = $cekA['ruanganpelakhir_id'];
+                endif;
+                
+                $getR_id = RuanganM::model()->findAllByAttributes(array('ruangan_id' => $data));
+                if($getR_id === null):
+                    $data1 = '-';
+                else:
+                    foreach($getR_id as $ruangan_nama)
+                    $data1 = $ruangan_nama['ruangan_nama'];
+                endif;
+                
+                
+                
+                return $data1;
+	}
 }
