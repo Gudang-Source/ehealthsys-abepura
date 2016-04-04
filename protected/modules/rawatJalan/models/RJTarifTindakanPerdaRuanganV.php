@@ -21,6 +21,8 @@ class RJTarifTindakanPerdaRuanganV  extends TariftindakanperdaruanganV
                 if(!empty($this->jenistarif_id)){
 					$criteria->addCondition('jenistarif_id = '.$this->jenistarif_id);
 				}
+                                $criteria->compare('kelompoktindakan_id', $this->kelompoktindakan_id);
+                                $criteria->compare('komponenunit_id', $this->komponenunit_id);
 				$criteria->addCondition('ruangan_id ='.Yii::app()->user->getState('ruangan_id'));
                 $criteria->limit = 10;
                 

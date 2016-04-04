@@ -85,5 +85,7 @@ class BKTandabuktibayarT extends TandabuktibayarT {
 	public function getRuanganKasir() {
 		return RuanganM::model()->findAllByAttributes(array('instalasi_id' => Params::INSTALASI_ID_KASIR));
 	}
+        
+       
 
 }

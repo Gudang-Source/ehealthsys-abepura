@@ -87,8 +87,9 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
 		),
         array(
             'header'=>'Ruangan',
-            'name' => 'ruangan_nama',
+            'name' => 'ruangan_id',
             'value' => '$data->ruangan_nama',
+            'filter'=>false,
         ),
         'nama_pegawai',
         array(
@@ -146,10 +147,9 @@ $this->endWidget();
     }
     function refreshDialogMenu(){
         var idJenisDiet = $("#GZKirimmenudietT_jenisdiet_id").val();
+        $("#GZMenuDietM_jenisdiet_id").val(idJenisDiet);
         $.fn.yiiGridView.update('gzmenudiet-m-grid', {
-            data: {
-                "GZJenisdietM[jenisdiet_id]":idJenisDiet
-            }
+            data: $("#gzmenudiet-m-grid :input").serialize()
         });
     }
     /**

@@ -107,6 +107,11 @@ if (isset($caraPrint)){
                         <td>:</td>
                         <td><?php echo $modTandaBukti->sebagaipembayaran_bkm;?><?php //echo date('d/m/Y',  strtotime($modPendaftaran->tgl_pendaftaran));?></td>
                     </tr>
+                    <tr>
+                        <td>Polik Tujuan</td>
+                        <td>:</td>
+                        <td><?php echo $modTandaBukti->getRuanganNama($modTandaBukti->pembayaranpelayanan_id);?><?php //echo date('d/m/Y',  strtotime($modPendaftaran->tgl_pendaftaran));?></td>
+                    </tr>
                     <?php /*
                     <tr>
                         <td>Nama Pasien</td>
