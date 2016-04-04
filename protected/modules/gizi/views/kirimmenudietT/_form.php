@@ -452,8 +452,6 @@ Yii::app()->clientScript->registerScript('ready','
     function refreshDialogMenu(){
         var idJenisDiet = $("#GZKirimmenudietT_jenisdiet_id").val();
         $("#GZMenuDietM_jenisdiet_id").val(idJenisDiet);
-        console.log(idJenisDiet);
-        console.log($("#gzmenudiet-m-grid :input").serialize());
         $.fn.yiiGridView.update('gzmenudiet-m-grid', {
             data: $("#gzmenudiet-m-grid :input").serialize()
         });
