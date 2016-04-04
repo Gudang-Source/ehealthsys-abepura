@@ -170,7 +170,7 @@
             <th colspan="<?php echo count(JeniswaktuM::getJenisWaktu()); ?>"><center>Menu Diet</center></th>
             <th rowspan="2"><center>Jumlah</center></th>
             <th rowspan="2"><center>Satuan/URT</center></th>
-            <th rowspan="2"><center>Jenis Makanan</center></th>
+            <th rowspan="2" hidden><center>Jenis Makanan</center></th>
             </tr>
             <tr>
                 <?php

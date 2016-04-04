@@ -319,11 +319,11 @@ class KirimmenudietTController extends MyAuthController
                                                     
 											if(!empty($modDetail->pesanmenupegawai_id)){GZPesanmenupegawaiT::model()->updateByPk($modDetail->pesanmenupegawai_id, array('kirimmenupegawai_id'=>$modDetail->kirimmenupegawai_id));}
 											if (Yii::app()->user->getState('krngistokgizi') == TRUE){
-												if (StokbahanmakananT::validasiStokMenu($modDetail->jml_kirim, $modDetail->menudiet_id)){
-													StokbahanmakananT::kurangiStokMenu($modDetail->jml_kirim, $modDetail->menudiet_id);                                                            
-												}else{
-													$success = true;
-												}
+												// if (StokbahanmakananT::validasiStokMenu($modDetail->jml_kirim, $modDetail->menudiet_id)){
+												//	StokbahanmakananT::kurangiStokMenu($modDetail->jml_kirim, $modDetail->menudiet_id);                                                            
+												// }else{
+												//	$success = true;
+												// }
 											}
 										} else{
 											$success=false;
@@ -790,7 +790,7 @@ class KirimmenudietTController extends MyAuthController
             $pegawaiId = $pegawai_id;
 //            $butuh = $_POST['butuh'];
 //            $total = $_POST['total'];
-			$tr = array();
+			$tr = "";
             if (isset($butuh)){
                 if(in_array($menudiet_id, $butuh)){
                     foreach ($butuh as $i=>$dataRow){
@@ -823,11 +823,13 @@ class KirimmenudietTController extends MyAuthController
                         $jumlahButuh = $kelipatan*$v->jmlbahan*$jumlah*$jumlahPesanPegawai;
                     }
                     
-                    if (StokbahanmakananT::validasiStok($jumlahButuh, $v->bahanmakanan_id) == false){
-                        $hasil = false;
-                    }
+                    //if (StokbahanmakananT::validasiStok($jumlahButuh, $v->bahanmakanan_id) == false){
+                    //    $hasil = false;
+                    //}
                 }
             }
+            
+            // var_dump($hasil); die;
             
             if ($hasil == true){
                 if ($jumlahPesan < 1) {
