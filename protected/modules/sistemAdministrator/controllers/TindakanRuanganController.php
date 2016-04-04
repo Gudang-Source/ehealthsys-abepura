@@ -24,7 +24,7 @@ class TindakanRuanganController extends MyAuthController
             $modTindakanRuangan->attributes=$_GET['SATindakanruanganM'];
             $modTindakanRuangan->ruangan_id=$_GET['SATindakanruanganM']['ruangan_id'];
             $modTindakanRuangan->kelompoktindakan_nama=$_GET['SATindakanruanganM']['kelompoktindakan_nama'];
-            $modTindakanRuangan->kategoritindakan_nama=$_GET['SATindakanruanganM']['kategoritindakan_nama'];
+            $modTindakanRuangan->kategoritindakan_nama=$_GET['SATindakanruanganM']['kategoritindakan_nama'];           
             $modTindakanRuangan->daftartindakan_kode=$_GET['SATindakanruanganM']['daftartindakan_kode'];
             $modTindakanRuangan->daftartindakan_nama=$_GET['SATindakanruanganM']['daftartindakan_nama'];
         }
@@ -191,6 +191,7 @@ class TindakanRuanganController extends MyAuthController
             $model->kategoritindakan_nama=$_GET['SATindakanruanganM']['kategoritindakan_nama'];
             $model->daftartindakan_kode=$_GET['SATindakanruanganM']['daftartindakan_kode'];
             $model->daftartindakan_nama=$_GET['SATindakanruanganM']['daftartindakan_nama'];
+            $model->komponenunit_nama=$_GET['SATindakanruanganM']['komponenunit_nama'];
         }
             
         $this->render($this->path_view.'admin',array(

@@ -35,7 +35,7 @@ class SumberAnggaranController extends MyAuthController
 			$model->attributes=$_POST['SASumberanggaranM'];
 			if($model->save()){
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('view','id'=>$model->sumberanggaran_id));
+				$this->redirect(array('admin','id'=>1));
 			}
 		}
 
@@ -60,7 +60,7 @@ class SumberAnggaranController extends MyAuthController
 			$model->attributes=$_POST['SASumberanggaranM'];
 			if($model->save()){
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('view','id'=>$model->sumberanggaran_id));
+				$this->redirect(array('admin','id'=>1));
 			}
 		}
 
@@ -98,7 +98,13 @@ class SumberAnggaranController extends MyAuthController
 			$model = $this->loadModel($id);
 			// set non-active this
 			// example: 
-			 $model->sumberanggaran_aktif = false;
+                        if (isset($_GET['status'])):
+                            $model->sumberanggaran_aktif = true;
+                        else:
+                            $model->sumberanggaran_aktif = false;                        
+                        endif;
+                        
+			 
 			 if($model->save()){
 				$data['sukses'] = 1;
 			 }
@@ -120,8 +126,11 @@ class SumberAnggaranController extends MyAuthController
 	/**
 	 * Pengaturan data.
 	 */
-	public function actionAdmin()
+	public function actionAdmin($id='')
 	{
+            if ($id == 1):
+                Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+            endif;
 		$model=new SASumberanggaranM('search');
 		$model->unsetAttributes();  // clear any default values
 		$model->sumberanggaran_aktif = true;
@@ -183,7 +192,7 @@ class SumberAnggaranController extends MyAuthController
 			$mpdf->WriteHTML($stylesheet,1);  
 			$mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
 			$mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-			$mpdf->Output();
+			$mpdf->Output($judulLaporan.'-'.date('Y_m_d').'.pdf','I');
 		}
 	}
 }

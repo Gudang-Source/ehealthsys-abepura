@@ -101,7 +101,7 @@ class SARekeninganggaranV extends RekeninganggaranV {
 		}
 		$criteria->compare('LOWER(rekening5kredit_kode)',strtolower($this->rekening5kredit_kode),true);
 		$criteria->compare('LOWER(rekening5kredit_nama)',strtolower($this->rekening5kredit_nama),true);
-		$criteria->order = 'programkerja_id,subprogramkerja_id,kegiatanprogram_id,subkegiatanprogram_id';
+		//$criteria->order = 'programkerja_id,subprogramkerja_id,kegiatanprogram_id,subkegiatanprogram_id';
 		
         return new CActiveDataProvider($this, array(
                 'criteria'=>$criteria,

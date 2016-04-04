@@ -3,7 +3,7 @@
 <table width="100%" border="0" style="padding :none;">
   <tr>
 	  <td width="10px">1. </td>
-    <td>Icon <button class="btn btn-primary"><i class="icon-ok icon-white"></i>Simpan</button> untuk menyimpan data.</td>
+    <td>Gunakan tombol ini <button class="btn btn-primary"><i class="icon-ok icon-white"></i>Simpan</button> untuk menyimpan data.</td>
   </tr>
   <tr>
     <td>2. </td>

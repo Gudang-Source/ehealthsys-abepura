@@ -1,5 +1,6 @@
 <fieldset class="box" id='fieldsetKegiatanProgram'>
     <legend class="rim">Tambah Kegiatan Program</legend>
+    <span class="required"><i>Bagian dengan tanda * harus diisi.</i></span>
     <?php
     Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/form.js');
     $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
@@ -27,7 +28,7 @@
     </div>	
     <?php echo $form->textFieldRow($kegiatanProgram, 'kegiatanprogram_nama', array('class' => 'span3 reqForm', 'onkeyup' => 'autoInput();', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 32, 'readonly' => false)); ?>
     <?php echo $form->textFieldRow($kegiatanProgram, 'kegiatanprogram_namalain', array('class' => 'span3 reqForm', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 32, 'readonly' => false)); ?>
-    <?php echo $form->textAreaRow($kegiatanProgram, 'kegiatanprogram_ket', array('class' => 'span4 required', 'onkeypress' => "return $(this).focusNextInputField(event)", 'readonly' => false)); ?>
+    <?php echo $form->textAreaRow($kegiatanProgram, 'kegiatanprogram_ket', array('class' => 'span4', 'onkeypress' => "return $(this).focusNextInputField(event)", 'readonly' => false)); ?>
 	<?php //if(isset($aktif) && ($aktif == true)){
 		echo $form->radioButtonListInlineRow($kegiatanProgram, 'kegiatanprogram_aktif', array('Tidak', 'Aktif'), array('onkeypress'=>"return $(this).focusNextInputField(event)"));
 //		echo $form->checkBoxRow($kegiatanProgram,'kegiatanprogram_aktif', array('onkeyup'=>"return $(this).focusNextInputField(event);"));
@@ -49,7 +50,10 @@
             var kosong = "";
             var jumlahKosong = $("#fieldsetKegiatanProgram").find(".reqForm[value=" + kosong + "]");
             if (jumlahKosong.length > 0) {
-                myAlert('Inputan bertanda bintang harap di isi !!');
+                if(requiredCheck($("#form-kegiatan-program")))
+                {    
+                    myAlert('Inputan bertanda bintang harap di isi !!');
+                }
             } else {
 
                 $.post("<?php echo $urlPostData; ?>", {data: $(this).serialize()},
@@ -59,12 +63,18 @@
                     }
 
                     if (data.status == 'ok') {
-                        myAlert('Kegiatan Program berhasil disimpan');
+                        //if (requiredCheck($("#")){
+                            myAlert('Kegiatan Program berhasil disimpan');
+                        //}
                         if (data.pesan == 'insert') {
                             $("#reseter").click();
                             $('#fieldsetKegiatanProgram').find("input[name$='[programkerja_kode]']").val(data.id_parent.programkerja_kode);
                             $('#fieldsetKegiatanProgram').find("input[name$='[subprogramkerja_kode]']").val(data.id_parent.subprogramkerja_kode);
                             $('#fieldsetKegiatanProgram').find("input[name$='[kegiatanprogram_kode]']").val(data.id_parent.kegiatanprogram_kode);
+                            
+                            $( ".control-group" ).removeClass( "error" );                              
+                            $('#SAKegiatanprogramM_kegiatanprogram_nama').removeClass("error");
+                            $('#SAKegiatanprogramM_kegiatanprogram_namalain').removeClass("error");                                                        
                         }
 
                         if (typeof getTreeMenuAnggaran == 'function')
