@@ -1,5 +1,6 @@
 <fieldset class="box" id='fieldsetKegiatanProgram'>
     <legend class="rim">Tambah Kegiatan Program</legend>
+    <span class="required"><i>Bagian dengan tanda * harus diisi.</i></span>
     <?php
     Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/form.js');
     $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
