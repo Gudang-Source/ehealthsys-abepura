@@ -12,6 +12,8 @@
         if(isset($tips)):
             if ($tips == 'mortalitas'):
                $content = $this->renderPartial('../tips/laporanMortalitas',array(),true); 
+            elseif($tips == 'morbiditas'):
+               $content = $this->renderPartial('../tips/laporanMordibitas',array(),true);
             else:
                 $content = $this->renderPartial('../tips/tips',array(),true);
             endif;

@@ -78,6 +78,7 @@ class RKLaporanmorbiditasV extends LaporanmorbiditasV
             return new CActiveDataProvider($this, array(
 			'criteria'=>$crit,
                         'pagination'=>false, 
+                        'sort' => false,
 		));
         }
         /**
