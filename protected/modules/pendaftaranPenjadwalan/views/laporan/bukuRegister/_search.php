@@ -142,7 +142,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                                 'header' => 'Berdasarkan Wilayah',
                                 'isi' => '<table><tr><td>' . CHtml::hiddenField('filter', 'wilayah') . '<label>Propinsi</label></td><td>' . $form->dropDownList($modPPInfoKunjunganV, 'propinsi_id', CHtml::listData($modPPInfoKunjunganV->getPropinsiItems(), 'propinsi_id', 'propinsi_nama'), array('empty' => '-- Pilih --',
                                     'ajax' => array('type' => 'POST',
-                                        'url' => $this->createUrl('SetDropdownKabupaten', array('encode' => false, 'model_nama' => get_class($modPPInfoKunjunganV))),
+                                        'url' => $this->createUrl('/ActionDynamic/GetKabupaten', array('encode' => false, 'model_nama' => get_class($modPPInfoKunjunganV))),                                        
                                         'update' => '#' . CHtml::activeId($modPPInfoKunjunganV, 'kabupaten_id') . ''),
                                     'onkeypress' => "return $(this).focusNextInputField(event)"
                                 )) . '</td></tr><tr><td><label>Kabupaten</label></td><td>' .
