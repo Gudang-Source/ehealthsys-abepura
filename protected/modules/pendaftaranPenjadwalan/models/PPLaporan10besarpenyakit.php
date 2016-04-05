@@ -130,7 +130,7 @@ class PPLaporan10besarpenyakit extends Laporan10besarpenyakitV {
 				$criteria->addCondition("instalasi_id = ".$this->instalasi_id);			
 			}
             $criteria->compare('LOWER(instalasi_nama)',strtolower($this->instalasi_nama),true);
-                        
+                 $criteria->limit=-1;       
 //            return new CActiveDataProvider($this, array(
 //                    'criteria'=>$criteria,
 //                    'pagination' => array('pageSize' => $this->jumlahTampil,),
