@@ -687,7 +687,7 @@ class LaporanController extends MyAuthController {
         ));
     }
     
-    public function actionlaporanKecamatanKunjunganRJ(){
+    public function actionLaporanKecamatanKunjunganRJ(){
         $this->pageTitle = Yii::app()->name."- Laproan Kunjungan Rawat Jalan Berdasarkan Kecamatan";
         $model= new PPInfoKunjunganRJV('search');
         $format = new MyFormatter();
@@ -721,7 +721,7 @@ class LaporanController extends MyAuthController {
        $this->render($this->pathViewPP.'rawatJalan/kecamatanRJ',array('model'=>$model,'format'=>$format));
     }
     
-    public function actionlaporanKabKotaKunjunganRJ(){
+    public function actionLaporanKabKotaKunjunganRJ(){
 //        $tihs->pageTitle = Yii::app()->name."- Laporan Kunjungan Rawat Jalan Berdasarakan Agama";
         $model=new PPInfoKunjunganRJV('search');
         $format = new MyFormatter();
@@ -755,7 +755,7 @@ class LaporanController extends MyAuthController {
         $this->render($this->pathViewPP.'rawatJalan/kabupatenRJ',array('model'=>$model,'format'=>$format));
     }
     
-     public function actionlaporanCaraMasukKunjunganRJ(){
+     public function actionLaporanCaraMasukKunjunganRJ(){
 //        $tihs->pageTitle= Yii::app()->name."- Laporan Kunjungan Rawat Jalan Berdasarakan Cara Masuk";
         $model=new PPInfoKunjunganRJV('search');
         $format = new MyFormatter();
@@ -789,7 +789,7 @@ class LaporanController extends MyAuthController {
         $this->render($this->pathViewPP.'rawatJalan/caraMasukRJ',array('model'=>$model,'format'=>$format));
     }
     
-    public function actionlaporanRujukanKunjunganRJ(){
+    public function actionLaporanRujukanKunjunganRJ(){
         $this->pageTitle= Yii::app()->name."- Laporan Kunjungan Rawat Jalan Berdasarakan Rujukan";
         $model = new PPInfoKunjunganRJV('search');
         $format = new MyFormatter();        
@@ -823,7 +823,7 @@ class LaporanController extends MyAuthController {
         $this->render($this->pathViewPP.'rawatJalan/rujukanRJ',array('model'=>$model,'format'=>$format));
     }
     
-    public function actionlaporanPemeriksaanKunjunganRJ(){
+    public function actionLaporanPemeriksaanKunjunganRJ(){
         $this->pageTitle= Yii::app()->name."- Laporan Kunjungan Rawat Jalan Berdasarakan Pemeriksaan";
         $model=new PPInfoKunjunganRJV('search');
         $format = new MyFormatter();
@@ -857,7 +857,7 @@ class LaporanController extends MyAuthController {
         $this->render($this->pathViewPP.'rawatJalan/pemeriksaanRJ',array('model'=>$model,'format'=>$format));
     }
     
-    public function actionlaporanKetPulangKunjunganRJ(){
+    public function actionLaporanKetPulangKunjunganRJ(){
         $this->pageTitle= Yii::app()->name."- Laporan Kunjungan Rawat Jalan Berdasarakan Keterangan Pulang";
         $model=new PPInfoKunjunganRJV('search');
         $format = new MyFormatter();
@@ -891,7 +891,7 @@ class LaporanController extends MyAuthController {
         $this->render($this->pathViewPP.'rawatJalan/ketPulangRJ',array('model'=>$model,'format'=>$format));
     }
     
-    public function actionlaporanPenjaminKunjunganRJ(){
+    public function actionLaporanPenjaminKunjunganRJ(){
         $this->pageTitle= Yii::app()->name."- Laporan Kunjungan Rawat Jalan Berdasarakan Penjamin Pasien";
         $model=new PPInfoKunjunganRJV('search');
         $format = new MyFormatter();
@@ -925,7 +925,7 @@ class LaporanController extends MyAuthController {
         $this->render($this->pathViewPP.'rawatJalan/penjaminRJ',array('model'=>$model,'format'=>$format));
     }
     
-    public function actionlaporanDokterPemeriksaKunjunganRJ(){
+    public function actionLaporanDokterPemeriksaKunjunganRJ(){
         $this->pageTitle= Yii::app()->name."- Laporan Kunjungan Rawat Jalan Berdasarakan Penjamin Pasien";
         $model=new PPInfoKunjunganRJV('search');
         $format = new MyFormatter();
@@ -1179,7 +1179,7 @@ class LaporanController extends MyAuthController {
         ));
     }
     
-    public function actionlaporanKunjunganJkRI() {
+    public function actionLaporanKunjunganJkRI() {
         $this->pageTitle = Yii::app()->name." - Laporan Kunjungan Rawat Inap Berdasarkan Jenis Kelamin";
         $model = new PPInfoKunjunganRIV('search');
         $format = new MyFormatter();
@@ -1251,7 +1251,7 @@ class LaporanController extends MyAuthController {
         ));
     }
     
-    public function actionlaporanAgamaKunjunganRI(){
+    public function actionLaporanAgamaKunjunganRI(){
         $this->pageTitle=  Yii::app()->name."- Laporan Kunjungan Rawat Inap Berdasarkan Kedatangan Agama";
         $model=new PPInfoKunjunganRIV('search');
         $format = new MyFormatter();
@@ -1285,7 +1285,7 @@ class LaporanController extends MyAuthController {
         $this->render($this->pathViewPP.'rawatInap/agamaRI',array('model'=>$model,'format'=>$format));
     }
     
-    public function actionlaporanPekerjaanKunjunganRI(){
+    public function actionLaporanPekerjaanKunjunganRI(){
         $this->pageTitle=  Yii::app()->name."- Laporan Kunjungan Rawat Inap Berdasarkan Pekerjaan";
         $model= new PPInfoKunjunganRIV('search');
         $format = new MyFormatter();
@@ -1319,7 +1319,7 @@ class LaporanController extends MyAuthController {
         $this->render($this->pathViewPP.'rawatInap/pekerjaanRI',array('model'=>$model,'format'=>$format));
     }
     
-    public function actionlaporanStatusPerkawinanKunjunganRI(){
+    public function actionLaporanStatusPerkawinanKunjunganRI(){
         $this->pageTitle = Yii::app()->name."- Laporan Kunjungan Rawat Inap Berdasarkan Status Perkawinan";
         $model= new PPInfoKunjunganRIV('search');
         $format = new MyFormatter();
@@ -1354,7 +1354,7 @@ class LaporanController extends MyAuthController {
         $this->render($this->pathViewPP.'rawatInap/statusPerkawinanRI',array('model'=>$model,'format'=>$format));
     }
     
-    public function actionlaporanAlamatKunjunganRI(){
+    public function actionLaporanAlamatKunjunganRI(){
         $this->pageTitle = Yii::app()->name."- Laporan Kunjungan Rawat Inap Berdasarkan Alamat";
         $model = new PPInfoKunjunganRIV('search');
         $format = new MyFormatter();
@@ -1388,7 +1388,7 @@ class LaporanController extends MyAuthController {
         $this->render($this->pathViewPP.'rawatInap/alamatRI',array('model'=>$model,'format'=>$format));
     }
     
-    public function actionlaporanKecamatanKunjunganRI(){
+    public function actionLaporanKecamatanKunjunganRI(){
         $this->pageTitle=  Yii::app()->name."- Laporan Kunjungan Rawat Inap Berdasarkan Kecamatan";
         $model = new PPInfoKunjunganRIV('search');
         $format = new MyFormatter();
@@ -1422,7 +1422,7 @@ class LaporanController extends MyAuthController {
         $this->render($this->pathViewPP.'rawatInap/kecamatanRI',array('model'=>$model,'format'=>$format));
     }
     
-    public function actionlaporanKabKotaKunjunganRI(){
+    public function actionLaporanKabKotaKunjunganRI(){
         $this->pageTitle = Yii::app()->name."- Laporan Kunjungan Rawat Inap Berdasarkan Kota Kabupaten";
         $model= new PPInfoKunjunganRIV('search');
         $format = new MyFormatter();
@@ -1456,7 +1456,7 @@ class LaporanController extends MyAuthController {
         $this->render($this->pathViewPP.'rawatInap/kabupatenRI',array('model'=>$model,'format'=>$format));
     }
     
-    public function actionlaporanCaraMasukKunjunganRI(){
+    public function actionLaporanCaraMasukKunjunganRI(){
         $this->pageTitle = Yii::app()->name."- Laporan Kunjungan Rawat Inap Berdasarkan Cara Masuk";
         $model = new PPInfoKunjunganRIV('search');
         $format = new MyFormatter();
@@ -1490,7 +1490,7 @@ class LaporanController extends MyAuthController {
         $this->render($this->pathViewPP.'rawatInap/caraMasukRI',array('model'=>$model,'format'=>$format));
     }
     
-    public function actionlaporanRujukanKunjunganRI(){
+    public function actionLaporanRujukanKunjunganRI(){
         $this->pageTitle =  Yii::app()->name."- Laporan Kunjungan Rawat Inap Berdasarkan Rujukan";
         $model= new PPInfoKunjunganRIV('search');
         $format = new MyFormatter();
@@ -1524,7 +1524,7 @@ class LaporanController extends MyAuthController {
         $this->render($this->pathViewPP.'rawatInap/rujukanRI',array('model'=>$model,'format'=>$format));
     }
     
-    public function actionlaporanRMKunjunganRI(){
+    public function actionLaporanRMKunjunganRI(){
         $this->pageTitle =  Yii::app()->name."- Laporan Kunjungan Rawat Inap Berdasarkan Rekam Medik";
         $model= new PPInfoKunjunganRIV('search');
         $format = new MyFormatter();
@@ -1558,7 +1558,7 @@ class LaporanController extends MyAuthController {
         $this->render($this->pathViewPP.'rawatInap/rmRI',array('model'=>$model,'format'=>$format));
     }
     
-    public function actionlaporanKamarRuanganKunjunganRI(){
+    public function actionLaporanKamarRuanganKunjunganRI(){
         $this->pageTitle = Yii::app()->name."- Laporan Kunjungan Rawat Inap Berdasarkan Kamar Ruangan";
         $model = new PPInfoKunjunganRIV('search');
         $format = new MyFormatter();
@@ -1592,7 +1592,7 @@ class LaporanController extends MyAuthController {
         $this->render($this->pathViewPP.'rawatInap/kamarRuanganRI',array('model'=>$model,'format'=>$format));
     }
     
-    public function actionlaporanKetPulangKunjunganRI(){
+    public function actionLaporanKetPulangKunjunganRI(){
         $this->pageTitle = Yii::app()->name."- Laporan Kunjungan Rawat Inap Berdasarkan Keterangan Pulang";
         $model = new PPInfoKunjunganRIV('search');
         $format = new MyFormatter();
@@ -1626,7 +1626,7 @@ class LaporanController extends MyAuthController {
         $this->render($this->pathViewPP.'rawatInap/ketPulangRI',array('model'=>$model,'format'=>$format));
     }
     
-    public function actionlaporanAlasanPulangKunjunganRI(){
+    public function actionLaporanAlasanPulangKunjunganRI(){
         $this->pageTitle = Yii::app()->name."- Laporan Kunjungan Rawat Inap Berdasarkan Alasan Pulang";
         $model = new PPInfoKunjunganRIV('search');
         $format = new MyFormatter();
@@ -1661,7 +1661,7 @@ class LaporanController extends MyAuthController {
         $this->render($this->pathViewPP.'rawatInap/alasanPulangRI',array('model'=>$model,'format'=>$format));
     }
     
-    public function actionlaporanPenjaminKunjunganRI(){
+    public function actionLaporanPenjaminKunjunganRI(){
         $this->pageTitle = Yii::app()->name."- Laporan Kunjungan Rawat Inap Berdasarkan Penjamin Pasien";
         $model = new PPInfoKunjunganRIV('search');
         $format = new MyFormatter();
@@ -1695,7 +1695,7 @@ class LaporanController extends MyAuthController {
         $this->render($this->pathViewPP.'rawatInap/penjaminRI',array('model'=>$model,'format'=>$format));
     }
     
-    public function actionlaporanDokterPemeriksaKunjunganRI(){
+    public function actionLaporanDokterPemeriksaKunjunganRI(){
         $this->pageTitle = Yii::app()->name."- Laporan Kunjungan Rawat Inap Berdasarkan Dokter Pemeriksa";
         $model = new PPInfoKunjunganRIV('search');
         $format = new MyFormatter();
@@ -1729,7 +1729,7 @@ class LaporanController extends MyAuthController {
         $this->render($this->pathViewPP.'rawatInap/dokterPemeriksaRI',array('model'=>$model,'format'=>$format));
     }
     
-    public function actionlaporanUnitPelayananKunjunganRI(){
+    public function actionLaporanUnitPelayananKunjunganRI(){
         $this->pageTitle = Yii::app()->name."- Laporan Kunjungan Rawat Inap Berdasarkan Unit Pelayanan";
         $model = new PPRuanganM('search');
         $format = new MyFormatter();
