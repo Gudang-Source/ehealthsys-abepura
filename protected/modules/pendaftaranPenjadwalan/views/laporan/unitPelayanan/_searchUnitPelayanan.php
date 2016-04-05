@@ -139,7 +139,7 @@
                                         'isi'=>'<table>
                                                     <tr>
                                                         <td>'.CHtml::hiddenField('filter', 'carabayar', array('disabled'=>'disabled')).'<label>Instalasi</label></td>
-                                                        <td>'.$form->dropDownList($model, 'instalasi_id', CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true'), 'instalasi_id', 'instalasi_nama'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",
+                                                        <td>'.$form->dropDownList($model, 'instalasi_id', CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true ORDER BY instalasi_nama ASC'), 'instalasi_id', 'instalasi_nama'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",
                                                             'ajax' => array('type' => 'POST',
                                                                 'url' => Yii::app()->createUrl('ActionDynamic/GetRuanganForCheckBox', array('encode' => false, 'namaModel' => ''.get_class($model).'')),
                                                                 'update' => '#ruangan',  //selector to update
@@ -183,7 +183,7 @@
                                                         <td >'.CHtml::hiddenField('namadokter')
                                                         .'<div class="input-append"><span class="add-on">'.$form->textField($model, 'dokter_nama', array('id'=>'dokternama','data-offset-top'=>200,'data-spy'=>'affix','style'=>'margin-top:-3px; margin-left:-3px','inline'=>false, 
                                                         'onkeypress' => "return $(this).focusNextInputField(event)",'sourceUrl'=> $this->createUrl('getDokter'),'placeholder'=>'Ketikan Nama Dokter')).'<a href="javascript:void(0);" id="tombolDokterDialog" onclick="$(&quot;#dialogDokter&quot;).dialog(&quot;open&quot;);return false;">
-                                                    <i class="icon-list-alt"></i>
+                                                    <i class="icon-list"></i>
                                                     <i class="icon-search">
                                                     </i>
                                                     </a>
