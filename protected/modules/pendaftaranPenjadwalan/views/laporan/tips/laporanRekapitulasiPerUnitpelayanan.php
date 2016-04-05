@@ -7,7 +7,7 @@
   </tr>
   <tr>
     <td>2. </td>
-    <td>Icon <i class="icon-list"></i> menampilkan dialog box untuk melakukan pencarian data.</td>
+    <td>Icon <i class="icon-list"></i><i class="icon-search"></i> menampilkan dialog box untuk melakukan pencarian data.</td>
   </tr>
   <!--<tr>
     <td>2. </td>
