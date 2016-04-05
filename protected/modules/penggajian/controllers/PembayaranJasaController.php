@@ -341,7 +341,7 @@ class PembayaranJasaController extends MyAuthController
                         foreach($dataTindakans AS $k=>$tindakan){
                             if($dataDetail->pendaftaran_id == $tindakan->pendaftaran_id){
                                 $dataDetail->tarif_tindakan += $tindakan->tarif_tindakan;
-							}
+                            }
                         }
                     }
                 }
