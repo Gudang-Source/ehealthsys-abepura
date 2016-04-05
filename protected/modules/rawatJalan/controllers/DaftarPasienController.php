@@ -724,7 +724,7 @@ class DaftarPasienController extends MyAuthController
             $this->layout='//layouts/iframe';
             
             $modPasienMasukPenunjang = RJPasienMasukPenunjangT::model()->findByAttributes(array('pendaftaran_id'=>$id));
-            $modPendaftaran = PendaftaranT::model()->findByPk($id);
+            $modPendaftaran = PendaftaranT::model()->findByPk($id);            
             $modPasien = PasienM::model()->findByPk($modPendaftaran->pasien_id);
             $detailHasil = PasienmorbiditasT::model()->findAllByAttributes(array('pendaftaran_id'=>$id));
             

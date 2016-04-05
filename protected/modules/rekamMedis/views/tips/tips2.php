@@ -38,17 +38,16 @@ PDF
 </a> untuk mencetak data dalam bentuk file pdf.</td>
   </tr>
   <tr>
-    <td style = "vertical-align:middle;">5. </td>
+    <td style = "vertical-align:middle;">6. </td>
     <td>Gunakan tombol ini <a class="btn btn-primary" >
 <i class="icon-pdf icon-white"></i>
 Excel
 </a> untuk mencetak data dalam bentuk file excel.</td>
-  </tr>
+  </tr>   
   <tr>
-    <td >6. </td>
-    <td><table border="0">
-  <tr>
+    <td style = "vertical-align:middle;">7. </td>
     <td>
+ 
         <ul class="nav nav-tabs">
         <li class="active" type="batang" >
             <a>Batang</a>
@@ -63,9 +62,35 @@ Excel
     </td>
   </tr>
   <tr>
+      <td>&nbsp;</td> 
     <td>
         Navigasi di atas berfungsi untuk menampilkan pencarian dalam bentuk digram batang, pie, atau garis.
     </td>
-      </tr>
+   </tr>   
+   <tr>
+       <td>8.</td>
+       <td>
+        <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+                                 'id'=>'a',
+                                 'slide'=>true,
+                                 'content'=>array(
+                                     'content2'=>array(
+                                         'header'=>'&nbsp;',
+                                         'isi' => 'Tidak Ada Data',
+                                         'active'=>false,
+                                         ),
+                                 ),
+//                                    'htmlOptions'=>array('class'=>'aw',)
+                         )); ?>
+       </td>
+   </tr>
+   <tr>
+      <td>&nbsp;</td> 
+    <td>
+        Untuk menampilkan form atau menyembunyikan form, ketika header gambar diatas di klik.
+    </td>
+   </tr>
 </table>
 </p>
+
+				
