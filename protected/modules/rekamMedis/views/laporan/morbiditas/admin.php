@@ -35,6 +35,6 @@ $('.search-form form').submit(function(){
     $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
     $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
     $urlPrint=  Yii::app()->createAbsoluteUrl($this->module->id.'/'.$this->id.'/printLaporanMorbiditas');
-    $this->renderPartial('_footer', array('urlPrint'=>$urlPrint, 'url'=>$url)); ?>
+    $this->renderPartial('_footer', array('urlPrint'=>$urlPrint, 'url'=>$url, 'tips'=>'morbiditas')); ?>
     <?php $this->renderPartial('_jsFunctions', array('model'=>$model));?>
 </div>

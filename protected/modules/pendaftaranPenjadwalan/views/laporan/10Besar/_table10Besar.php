@@ -12,6 +12,7 @@
         $data = $model->searchTableLaporan();
          $template = "{summary}\n{items}\n{pager}";
     }
+    
 ?>
 <?php $this->widget($table,array(
     'id'=>'PPInfoKunjungan-v',
@@ -21,10 +22,11 @@
         'enableSorting'=>$sort,
         'itemsCssClass'=>'table table-striped table-condensed',
 //    'mergeColumns' => array('instalasi_nama'),
-    'columns'=>array(
+        'columns'=>array(
         array(
             'header' => 'No',
-            'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
+            'value' => '($row+1)'
+            //'value' => '(($this->grid->dataProvider->pagination->currentPage)*($this->grid->dataProvider->pagination->pageSize)) + ($row+1)'
         ),
         array(
             'header'=>'Kode Diagnosa',

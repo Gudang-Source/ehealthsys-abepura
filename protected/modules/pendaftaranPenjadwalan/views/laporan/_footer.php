@@ -19,8 +19,17 @@
         echo CHtml::htmlButton(Yii::t('mds','{icon} Grafik',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'GRAFIK\')'))."&nbsp&nbsp"; 
    ?>
         <?php
-		$content = $this->renderPartial('pendaftaranPenjadwalan.views.laporan.../tips/tips',array(),true); 
-$this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
+            if (isset($tips)):
+                if ($tips == 'rekapitulasi'):
+                    $content = $this->renderPartial('pendaftaranPenjadwalan.views.laporan.tips.laporanRekapitulasiPerUnitpelayanan',array(),true); 
+                else:
+                     $content = $this->renderPartial('pendaftaranPenjadwalan.views.laporan.tips.laporan10BesarPenyakit',array(),true);    
+                endif;
+            else:
+                $content = $this->renderPartial('pendaftaranPenjadwalan.views.laporan.tips.laporan10BesarPenyakit',array(),true); 
+            endif;		
+            
+            $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
 ?>
 
 
