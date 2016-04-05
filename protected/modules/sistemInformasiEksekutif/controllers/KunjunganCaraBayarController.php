@@ -60,7 +60,8 @@ class KunjunganCaraBayarController extends MyAuthController {
 		SELECT 
 		carabayar_id as id, carabayar_nama as nama
 		FROM carabayar_m
-		ORDER BY id ASC
+                WHERE carabayar_aktif = true 
+		ORDER BY carabayar_nama ASC
 		";
 
 
