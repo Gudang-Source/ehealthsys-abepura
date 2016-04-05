@@ -1,15 +1,17 @@
 
 <?php if (isset($caraPrint)){
   $data = $model->searchPrint();  
+  $template = "{items}";
 } else{
   $data = $model->searchTable();
+  $template = "{summary}\n{items}\n{pager}";
 }
 ?>
 
 <?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'tableLaporan',
 	'dataProvider'=>$data,
-        'template'=>"{summary}\n{items}\n{pager}",
+        'template'=>$template,
         'itemsCssClass'=>'table table-striped table-condensed',
 	'columns'=>array(
 //            'instalasi_nama',
