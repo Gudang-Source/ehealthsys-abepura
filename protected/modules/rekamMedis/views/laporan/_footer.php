@@ -9,9 +9,18 @@
 
 
         <?php
-$content = $this->renderPartial('../tips/tips',array(),true);
-$this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
-?>
+        if(isset($tips)):
+            if ($tips == 'mortalitas'):
+               $content = $this->renderPartial('../tips/laporanMortalitas',array(),true); 
+            else:
+                $content = $this->renderPartial('../tips/tips',array(),true);
+            endif;
+        else:
+            $content = $this->renderPartial('../tips/tips',array(),true);
+        endif;
+            
+            $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
+         ?>
 </div>
 <?php 
 
