@@ -34,9 +34,9 @@ $this->widget($table,array(
                         'value'=>'$data->kelompok_id',
                 ),
 		array(
-                        'name'=>'golongan_id',
-                        'filter'=>  CHtml::listData($model->GolonganItems, 'golongan_id', 'golongan_nama'),
-                        'value'=>'$data->golongan->golongan_nama',
+                        'name'=>'bidang_id',
+                        'filter'=>  CHtml::listData($model->BidangItems, 'bidang_id', 'bidang_nama'),
+                        'value'=>'$data->bidang->bidang_nama',
                 ),
 		'kelompok_kode',
 		'kelompok_nama',

@@ -58,7 +58,7 @@ class KelompokMController extends MyAuthController
 	{
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		$model=$this->loadModel($id);
-                $model->golongan_nama = GolonganM::model()->findByPk($model->golongan_id)->golongan_nama;
+                $model->bidang_nama = BidangM::model()->findByPk($model->bidang_id)->bidang_nama;
 
 		// Uncomment the following line if AJAX validation is needed
 		

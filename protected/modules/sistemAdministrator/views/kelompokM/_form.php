@@ -5,23 +5,22 @@
 	'enableAjaxValidation'=>false,
         'type'=>'horizontal',
         'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)'),
-        'focus'=>'#golonganNama',
+        'focus'=>'#bidangNama',
 )); ?>
 
 	<p class="help-block"><?php echo Yii::t('mds','Fields with <span class="required">*</span> are required.') ?></p>
 
 	<?php echo $form->errorSummary($model); ?>
             <div class="control-group ">
-                    <label class="control-label" for="bidang">Golongan</label>
+                    <label class="control-label" for="bidang">Bidang</label>
                     <div class="controls">
-                        <?php echo $form->hiddenField($model,'golongan_id'); ?>
+                        <?php echo $form->hiddenField($model,'bidang_id'); ?>
                     <?php 
-                            $this->widget('MyJuiAutoComplete', array(
-                                            
-                                            'name'=>'golonganNama',
+                            $this->widget('MyJuiAutoComplete', array(                                            
+                                            'name'=>'bidangNama',
                                             'source'=>'js: function(request, response) {
                                                            $.ajax({
-                                                               url: "'.Yii::app()->createUrl('ActionAutoComplete/getGolongan').'",
+                                                               url: "'.Yii::app()->createUrl('ActionAutoComplete/getBidang').'",
                                                                dataType: "json",
                                                                data: {
                                                                    term: request.term,
@@ -39,15 +38,15 @@
                                                         return false;
                                                     }',
                                                    'select'=>'js:function( event, ui ) { 
-                                                        $("#'.CHtml::activeId($model, 'golongan_id').'").val(ui.item.golongan_id);
-                                                        $("#golonganNama").val(ui.item.golongan_nama);
+                                                        $("#'.CHtml::activeId($model, 'bidang_id').'").val(ui.item.bidang_id);
+                                                        $("#bidangNama").val(ui.item.bidang_nama);
                                                         return false;
                                                     }',
                                             ),
                                             'htmlOptions'=>array(
                                                     'onkeypress'=>"return $(this).focusNextInputField(event)",
                                             ),
-                                            'tombolDialog'=>array('idDialog'=>'dialogGolongan'),
+                                            'tombolDialog'=>array('idDialog'=>'dialogBidang'),
                                         )); 
                         ?>
                     </div>
@@ -78,9 +77,9 @@ $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
 <?php
 //========= Dialog buat cari data Bidang =========================
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
-    'id'=>'dialogGolongan',
+    'id'=>'dialogBidang',
     'options'=>array(
-        'title'=>'Golongan',
+        'title'=>'Bidang',
         'autoOpen'=>false,
         'modal'=>true,
         'width'=>750,
@@ -89,37 +88,37 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     ),
 ));
 
-$modGolongan = new SAKelompokM('search');
-$modGolongan->unsetAttributes();
-if(isset($_GET['SAKelompokM']))
-    $modGolongan->attributes = $_GET['SAKelompokM'];
+$modBidang = new SABidangM('search');//awalnya SAkelompokM
+$modBidang->unsetAttributes();
+if(isset($_GET['SABidangM']))
+    $modBidang->attributes = $_GET['SABidangM'];
 
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'sainstalasi-m-grid',
-	'dataProvider'=>$modGolongan->search(),
-	'filter'=>$modGolongan,
+	'dataProvider'=>$modBidang->search(),
+	'filter'=>$modBidang,
         'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
 	'columns'=>array(
                 array(
                     'header'=>'Pilih',
                     'type'=>'raw',
-                    'value'=>'CHtml::Link("<i class=\"icon-check\"></i>",
+                    'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>",
                                 "#",
                                 array(
                                     "class"=>"btn-small", 
-                                    "id" => "selectGolongan",
+                                    "id" => "selectBidang",
                                     "onClick" => "
-                                    $(\"#'.CHtml::activeId($model, 'golongan_id').'\").val($data->golongan_id);
-                                    $(\"#golonganNama\").val(\'$data->golonganNama\');
-                                    $(\'#dialogGolongan\').dialog(\'close\');return false;"))'
+                                    $(\"#'.CHtml::activeId($model, 'bidang_id').'\").val($data->bidang_id);
+                                    $(\"#bidangNama\").val(\'$data->bidang_nama\');
+                                    $(\'#dialogBidang\').dialog(\'close\');return false;"))'
                 ),
                 array(
-                        'header'=>'Golongan',
-                        'filter'=>  CHtml::listData($model->GolonganItems, 'golongan_id', 'golongan_nama'),
-                        'value'=>'$data->golongan->golongan_nama',
+                        'header'=>'Bidang',
+                        'filter'=>  CHtml::listData($model->BidangItems, 'bidang_id', 'bidang_nama'),
+                        'value'=>'$data->bidang_nama',
                 ),
-                array(
+            /*    array(
                         'header'=>'Kelompok',
                         'filter'=>  CHtml::listData($model->KelompokItems, 'kelompok_id', 'kelompok_nama'),
                         'value'=>'$data->kelompok_nama',
@@ -130,7 +129,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                         'type'=>'raw',
                         
                         'value'=>'$this->grid->getOwner()->renderPartial("'.$this->path_view.'"\'listSubKelompok\', array(\'idKelompok\'=>$data->kelompok_id))',
-                ),
+                ),*/
 //                array(
 //                        'header'=>'bidang_id',
 //                        'filter'=>  CHtml::listData($model->BidangItems, 'bidang_id', 'bidang_nama'),

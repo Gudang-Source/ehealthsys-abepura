@@ -7,6 +7,7 @@
 class SABarangM extends BarangM
 {
      public $golongan_id;
+     public $bidang_id;
      public $bidang_nama;
 
     /**
