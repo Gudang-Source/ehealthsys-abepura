@@ -134,6 +134,8 @@ function addDetail(){
     var tgl_akhirPenunjang = $('#GJPembayaranjasaT_tgl_akhirPenunjang').val();
     var tgl_awalPendaftaran = $('#GJPembayaranjasaT_tgl_awalPendaftaran').val();
     var tgl_akhirPendaftaran = $('#GJPembayaranjasaT_tgl_akhirPendaftaran').val();
+    var jasa = $("#GJPembayaranjasaT_pilihDokter").val();
+    var postobj = {};
     var komponentarifIds = {};
     var i = 0;
     $('#checkBoxList').find('input').each(function(){
@@ -142,6 +144,13 @@ function addDetail(){
             i ++;
         }
     });
+    
+    if (jasa === "rujukan") {
+        pegawai_id = null;
+    } else if (jasa === "rs") {
+        rujukandari_id = null;
+    }
+    
     if(tgl_awalPenunjang.length > 0 && tgl_akhirPenunjang.length > 0 && i > 0){
         var tgl_awal = tgl_awalPenunjang;
         var tgl_akhir = tgl_akhirPenunjang;
@@ -152,15 +161,31 @@ function addDetail(){
         alert ("Silahkan isi form dengan benar ! Rujukan / Dokter, Tanggal dan Komponen Tarif wajib diisi !");
         return false;
     }
+    
+    if (jasa === "rujukan") {
+        postobj = {
+            rujukandari_id:rujukandari_id, 
+            tgl_awal:tgl_awal, 
+            tgl_akhir:tgl_akhir, 
+            komponentarifId:komponentarifIds
+        };
+        $('#GJPembayaranjasaT_pegawai_id').val("");
+    } else if (jasa === "rs") {
+        postobj = {
+            pegawai_id: pegawai_id, 
+            tgl_awal:tgl_awal, 
+            tgl_akhir:tgl_akhir, 
+            komponentarifId:komponentarifIds
+        };
+        $('#GJPembayaranjasaT_rujukandari_id').val("");
+    }
+    
+    
+    
     bersihTabelDetail();
     bersihFormPembayaran();
     $('#tabelDetail').addClass('animation-loading');
-    $.post("<?php echo $this->createUrl('addDetailPembayaranJasa'); ?>", {
-        rujukandari_id:rujukandari_id, 
-        pegawai_id: pegawai_id, 
-        tgl_awal:tgl_awal, 
-        tgl_akhir:tgl_akhir, 
-        komponentarifId:komponentarifIds},
+    $.post("<?php echo $this->createUrl('addDetailPembayaranJasa'); ?>", postobj,
         function(data){
             if (data.tr == ""){
                 myAlert('Data tidak ditemukan !');				

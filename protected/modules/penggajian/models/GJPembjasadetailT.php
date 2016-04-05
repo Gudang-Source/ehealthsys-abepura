@@ -4,6 +4,7 @@ class GJPembjasadetailT extends PembjasadetailT
 {
 	public $pilihDetail; //checkbox transaksi pembayaran jasa
 	public $penjaminId; 
+        public $pasienmasukpenunjang_id;
         /**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
