@@ -8,7 +8,7 @@ if (isset($caraPrint)){
   }
 } else{
   $data = $model->searchTableLaporan();
-  $template = "{summary}\n{items}{pager}";
+  $template = "{summary}{items}{pager}";
 }
 ?>
 <?php if(isset($caraPrint)){ ?>

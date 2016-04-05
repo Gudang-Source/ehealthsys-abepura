@@ -74,6 +74,6 @@
     $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
     $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
     $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/printRujukanKunjunganRI');
-    $this->renderPartial('_footer', array('urlPrint'=>$urlPrint, 'url'=>$url));
+    $this->renderPartial('_footer', array('urlPrint'=>$urlPrint, 'url'=>$url, 'tips'=>'tips2'));
     ?>
 </div>

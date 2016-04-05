@@ -177,7 +177,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                                                     <td>' . CHtml::hiddenField('filter', 'carabayar', array('disabled' => 'disabled')) . '<label>Cara Bayar</label></td>
                                                     <td>' . $form->dropDownList($modPPInfoKunjunganV, 'carabayar_id', CHtml::listData($modPPInfoKunjunganV->getCaraBayarItems(), 'carabayar_id', 'carabayar_nama'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",
                                 'ajax' => array('type' => 'POST',
-                                    'url' => $this->createUrl('GetPenjaminPasien', array('encode' => false, 'namaModel' => '' . get_class($modPPInfoKunjunganV) . '')),
+                                    'url' =>$this->createUrl('/ActionDynamic/GetPenjaminPasien', array('encode' => false, 'namaModel' => ''.$modPPInfoKunjunganV->getNamaModel().'')),
                                     'update' => '#' . CHtml::activeId($modPPInfoKunjunganV, 'penjamin_id') . '', //selector to update
                                 ),
                             )) . '</td>

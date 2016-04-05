@@ -145,7 +145,7 @@
                                             'header'=>'Berdasarkan Wilayah',
                                             'isi'=>'<table><tr><td>'.CHtml::hiddenField('filter', 'wilayah').'<label>Propinsi</label></td><td>'.$form->dropDownList($modPPInfoKunjunganV, 'propinsi_id', CHtml::listData($modPPInfoKunjunganV->getPropinsiItems(), 'propinsi_id', 'propinsi_nama'), array('empty' => '-- Pilih --',
                                                             'ajax' => array('type' => 'POST',
-                                                                'url' => $this->createUrl('SetDropdownKabupaten',array('encode'=>false,'model_nama'=>get_class($modPPInfoKunjunganV))),
+                                                                'url' => $this->createUrl('/ActionDynamic/GetKabupaten',array('encode'=>false,'model_nama'=>get_class($modPPInfoKunjunganV))),
                                                                 'update' => '#'.CHtml::activeId($modPPInfoKunjunganV, 'kabupaten_id').''),
                                                             'onkeypress' => "return $(this).focusNextInputField(event)"
                                                         )).'</td></tr><tr><td><label>Kabupaten</label></td><td>'.
@@ -178,7 +178,7 @@
                                                         <td>'.CHtml::hiddenField('filter', 'carabayar',array('disabled'=>'disabled')).'<label>Cara Bayar</label></td>
                                                         <td>'.$form->dropDownList($modPPInfoKunjunganV, 'carabayar_id', CHtml::listData($modPPInfoKunjunganV->getCaraBayarItems(), 'carabayar_id', 'carabayar_nama'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",
                                                             'ajax' => array('type' => 'POST',
-                                                                'url' => $this->createUrl('GetPenjaminPasien', array('encode' => false, 'namaModel' => ''.$modPPInfoKunjunganV->getNamaModel().'')),
+                                                                'url' =>$this->createUrl('/ActionDynamic/GetPenjaminPasien', array('encode' => false, 'namaModel' => ''.$modPPInfoKunjunganV->getNamaModel().'')),
                                                                 'update' => '#'.CHtml::activeId($modPPInfoKunjunganV, 'penjamin_id').'',  //selector to update
                                                             ),
                                                         )).'</td>

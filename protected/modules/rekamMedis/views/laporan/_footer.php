@@ -18,6 +18,8 @@
                 $content = $this->renderPartial('../tips/laporanCaraMasukPasien',array(),true);
             elseif($tips == 'tindakanlanjut'):
                 $content = $this->renderPartial('../tips/laporanTindakanLanjutan',array(),true);
+            elseif($tips == 'tips2'):
+                $content = $this->renderPartial('../tips/tips2',array(),true);
             else:
                 $content = $this->renderPartial('../tips/tips',array(),true);
             endif;
