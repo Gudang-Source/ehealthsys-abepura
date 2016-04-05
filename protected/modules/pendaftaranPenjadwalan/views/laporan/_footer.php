@@ -22,6 +22,8 @@
             if (isset($tips)):
                 if ($tips == 'rekapitulasi'):
                     $content = $this->renderPartial('pendaftaranPenjadwalan.views.laporan.tips.laporanRekapitulasiPerUnitpelayanan',array(),true); 
+                elseif ($tips == 'bukuregister'):
+                    $content = $this->renderPartial('pendaftaranPenjadwalan.views.laporan.tips.laporanBukuRegister',array(),true); 
                 else:
                      $content = $this->renderPartial('pendaftaranPenjadwalan.views.laporan.tips.laporan10BesarPenyakit',array(),true);    
                 endif;

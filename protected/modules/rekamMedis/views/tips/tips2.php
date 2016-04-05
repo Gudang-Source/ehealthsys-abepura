@@ -43,16 +43,9 @@ PDF
 <i class="icon-pdf icon-white"></i>
 Excel
 </a> untuk mencetak data dalam bentuk file excel.</td>
-  </tr>
-   <tr>
-    <td style = "vertical-align:middle;">7. </td>
-    <td>Gunakan tombol ini <a class="btn btn-primary" >
-<i class="icon-print icon-white"></i>
-Grafik
-</a> untuk mencetak data dalam bentuk grafik.</td>
-  </tr>
+  </tr>   
   <tr>
-    <td style = "vertical-align:middle;">8. </td>
+    <td style = "vertical-align:middle;">7. </td>
     <td>
  
         <ul class="nav nav-tabs">
@@ -75,7 +68,7 @@ Grafik
     </td>
    </tr>   
    <tr>
-       <td>9.</td>
+       <td>8.</td>
        <td>
         <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
                                  'id'=>'a',
