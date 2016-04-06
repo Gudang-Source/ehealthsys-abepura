@@ -159,7 +159,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 array(
                     'header'=>'Pilih',
                     'type'=>'raw',
-                    'value'=>'CHtml::Link("<i class=\"icon-check\"></i>",
+                    'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>",
                                 "#",
                                 array(
                                     "class"=>"btn-small", 
@@ -170,9 +170,10 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                     $(\'#dialogKelompok\').dialog(\'close\');return false;"))'
                 ),
                 array(
-                        'header'=>'Golongan',
-                        'filter'=>  CHtml::listData($model->GolonganItems, 'golongan_id', 'golongan_nama'),
-                        'value'=>'$this->grid->getOwner()->renderPartial(\'sistemAdministrator.views.subkelompokM.listGolongan\', array(\'idKelompok\'=>$data->kelompok_id))',
+                        'header'=>'Bidang',
+                        'filter'=>  CHtml::listData($model->BidangItems, 'bidang_id', 'bidang_nama'),
+                        //'value'=>'$this->grid->getOwner()->renderPartial(\'sistemAdministrator.views.subkelompokM.listGolongan\', array(\'idKelompok\'=>$data->kelompok_id))',
+                        'value' => '$data->bidang_nama',
                 ),
                 array(
                         'header'=>'Kelompok ',

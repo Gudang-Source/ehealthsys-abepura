@@ -5,7 +5,7 @@
  *
  * The followings are the available columns in table 'bidang_m':
  * @property integer $bidang_id
- * @property integer $subkelompok_id
+ * @property integer $golongan_id
  * @property string $bidang_kode
  * @property string $bidang_nama
  * @property string $bidang_namalainnya
@@ -39,14 +39,14 @@ class BidangM extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('subkelompok_id, bidang_kode, bidang_nama', 'required'),
-			array('subkelompok_id', 'numerical', 'integerOnly'=>true),
+			array('golongan_id, bidang_kode, bidang_nama', 'required'),
+			array('golongan_id', 'numerical', 'integerOnly'=>true),
 			array('bidang_kode', 'length', 'max'=>50),
 			array('bidang_nama, bidang_namalainnya', 'length', 'max'=>100),
 			array('bidang_aktif', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('bidang_id, subkelompok_id, bidang_kode, bidang_nama, bidang_namalainnya, bidang_aktif', 'safe', 'on'=>'search'),
+			array('bidang_id, golongan_id, bidang_kode, bidang_nama, bidang_namalainnya, bidang_aktif', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -58,7 +58,7 @@ class BidangM extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-                    'subkelompok' => array(self::BELONGS_TO, 'SubkelompokM', 'subkelompok_id'),
+                    'golongan' => array(self::BELONGS_TO, 'GolonganM', 'golongan_id'),
 		);
 	}
 
@@ -69,7 +69,7 @@ class BidangM extends CActiveRecord
 	{
 		return array(
 			'bidang_id' => 'ID',
-			'subkelompok_id' => 'Sub Kelompok',
+			'golongan_id' => 'Golongan',
 			'bidang_kode' => 'Kode Bidang',
 			'bidang_nama' => 'Nama Bidang',
 			'bidang_namalainnya' => 'Nama Lainnya',
@@ -89,7 +89,7 @@ class BidangM extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('bidang_id',$this->bidang_id);
-		$criteria->compare('subkelompok_id',$this->subkelompok_id);
+		$criteria->compare('golongan_id',$this->golongan_id);
 		$criteria->compare('LOWER(bidang_kode)',strtolower($this->bidang_kode),true);
 		$criteria->compare('LOWER(bidang_nama)',strtolower($this->bidang_nama),true);
 		$criteria->compare('LOWER(bidang_namalainnya)',strtolower($this->bidang_namalainnya),true);
@@ -108,11 +108,11 @@ class BidangM extends CActiveRecord
 
                 $criteria=new CDbCriteria;
 		$criteria->compare('bidang_id',$this->bidang_id);
-		$criteria->compare('subkelompok_id',$this->subkelompok_id);
+		$criteria->compare('golongan_id',$this->golongan_id);
 		$criteria->compare('LOWER(bidang_kode)',strtolower($this->bidang_kode),true);
 		$criteria->compare('LOWER(bidang_nama)',strtolower($this->bidang_nama),true);
 		$criteria->compare('LOWER(bidang_namalainnya)',strtolower($this->bidang_namalainnya),true);
-		$criteria->compare('bidang_aktif',isset($this->bidang_aktif)?$this->bidang_aktif:true);
+		//$criteria->compare('bidang_aktif',isset($this->bidang_aktif)?$this->bidang_aktif:true);
 		//$criteria->compare('bidang_aktif',$this->bidang_aktif);
                 // Klo limit lebih kecil dari nol itu berarti ga ada limit 
                 $criteria->limit=-1; 
@@ -129,5 +129,10 @@ class BidangM extends CActiveRecord
          public function getKelompokItems()
         {
             return KelompokM::model()->findAll('kelompok_aktif=true ORDER BY kelompok_nama');
+        }
+        
+         public function getGolonganItems()
+        {
+            return GolonganM::model()->findAll('golongan_aktif=true ORDER BY golongan_nama');
         }
 }

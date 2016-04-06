@@ -1,7 +1,7 @@
 
 
 <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
-	'id'=>'sasubkelompok-m-form',
+	'id'=>'sasubsubkelompok-m-form',
 	'enableAjaxValidation'=>false,
         'type'=>'horizontal',
         'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)'),
@@ -114,7 +114,7 @@
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     'id'=>'dialogKelompok',
     'options'=>array(
-        'title'=>'Golongan',
+        'title'=>'Bidang',
         'autoOpen'=>false,
         'modal'=>true,
         'width'=>750,
@@ -138,7 +138,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                  array(
                     'header'=>'Pilih',
                     'type'=>'raw',
-                    'value'=>'CHtml::Link("<i class=\"icon-check\"></i>",
+                    'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>",
                                 "#",
                                 array(
                                     "class"=>"btn-small", 
@@ -149,9 +149,10 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                     $(\'#dialogKelompok\').dialog(\'close\');return false;"))'
                 ),
                 array(
-                        'header'=>'Golongan',
-                        'filter'=>  CHtml::listData($model->GolonganItems, 'golongan_id', 'golongan_nama'),
-                        'value'=>'$this->grid->getOwner()->renderPartial(\'sistemAdministrator.views.subkelompokM.listGolongan\', array(\'idKelompok\'=>$data->kelompok_id))',
+                        'header'=>'Bidang',
+                        'filter'=>  CHtml::listData($model->BidangItems, 'bidang_id', 'bidang_nama'),
+                        //'value'=>'$this->grid->getOwner()->renderPartial(\'sistemAdministrator.views.subkelompokM.listGolongan\', array(\'idKelompok\'=>$data->kelompok_id))',
+                        'value'=>'$data->bidang_nama',
                 ),
                 array(
                         'header'=>'Kelompok ',

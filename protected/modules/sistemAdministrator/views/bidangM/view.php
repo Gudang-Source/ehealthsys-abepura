@@ -22,7 +22,7 @@
             'data'=>$model,
             'attributes'=>array(
                     'bidang_id',
-                    'subkelompok_id',
+                    'golongan_id',
                     'bidang_kode',
                     'bidang_nama',
                     'bidang_namalainnya',

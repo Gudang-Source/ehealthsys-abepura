@@ -4,8 +4,8 @@
 	<?php echo CHtml::link(CHtml::encode($data->bidang_id),array('view','id'=>$data->bidang_id)); ?>
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('subkelompok_id')); ?>:</b>
-	<?php echo CHtml::encode($data->subkelompok_id); ?>
+	<b><?php echo CHtml::encode($data->getAttributeLabel('golongan_id')); ?>:</b>
+	<?php echo CHtml::encode($data->golongan_id); ?>
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('bidang_kode')); ?>:</b>

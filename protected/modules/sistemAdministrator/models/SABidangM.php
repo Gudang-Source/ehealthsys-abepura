@@ -11,7 +11,7 @@
  */
 class SABidangM extends BidangM
 {
-   public $bidangNama; 
+   public $golonganNama, $golongan_nama; 
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
