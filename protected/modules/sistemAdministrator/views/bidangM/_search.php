@@ -7,7 +7,7 @@
 <table width="100%">
     <tr>
         <td>
-            <?php echo $form->dropDownListRow($model,'golongan_id',CHtml::listData(GolonganM::model()->findAll(), 'golongan_id', 'golongan_nama'),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+            <?php echo $form->dropDownListRow($model,'golongan_id',CHtml::listData($model->GolonganItems, 'golongan_id', 'golongan_nama'),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
         </td>
         <td>
             <?php echo $form->textFieldRow($model,'bidang_kode',array('class'=>'span3','maxlength'=>50)); ?>

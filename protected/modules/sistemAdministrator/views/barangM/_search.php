@@ -1,13 +1,15 @@
-<?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
+<?php 
+$form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
 	'action'=>Yii::app()->createUrl($this->route),
 	'method'=>'get',
 	'id'=>'sabarang-m-search',
         'type'=>'horizontal',
-)); ?>
+)); 
+?>
 <table width=100%>
     <tr>
         <td>
-            <?php echo $form->dropDownListRow($model,'bidang_id',CHtml::listData(BidangM::model()->findAll(), 'bidang_id', 'bidang_nama'),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+            <?php echo $form->dropDownListRow($model,'subsubkelompok_id',CHtml::listData(SubsubkelompokM::model()->findAll(), 'subsubkelompok_id', 'subsubkelompok_nama'),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
             <?php echo $form->textFieldRow($model,'barang_type',array('class'=>'span3','maxlength'=>50)); ?>
         </td>
         <td>
@@ -25,7 +27,7 @@
             
 
 	<div class="form-actions">
-		                <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit')); ?>
+		                <?php  echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit')); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

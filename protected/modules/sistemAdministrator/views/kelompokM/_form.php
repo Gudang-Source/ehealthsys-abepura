@@ -13,8 +13,16 @@
 	<?php echo $form->errorSummary($model); ?>
             <div class="control-group ">
                     <label class="control-label" for="bidang">Bidang</label>
+                    <?php
+                   // echo $form->dropDownListRow($model,'golongan_id',CHtml::listData($model->GolonganItems, 'golongan_id', 'golongan_nama'),array('empty'=>'-- Pilih --') ,array('autofocus'=>true, 'class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50,
+                    //        'ajax' => array('type' => 'POST',
+                                    //'url' => $this->createUrl('',array('encode'=>false,'model_nama'=>get_class($model))),
+                     //               'url' => $this->createUrl('/ActionDynamic/getBidang', array('encode' => false, 'namaModel' => ''.get_class($model).'')),
+                      //              'update' => '#SAKelompokM_bidang_id')));
+                    ?>
+                    <?php //echo $form->dropDownListRow($model, 'bidang_id' ,array('empty'=>'-- Pilih --') ,array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
                     <div class="controls">
-                        <?php echo $form->hiddenField($model,'bidang_id'); ?>
+                        <?php //echo $form->hiddenField($model,'bidang_id'); ?>
                     <?php 
                             $this->widget('MyJuiAutoComplete', array(                                            
                                             'name'=>'bidangNama',
@@ -47,7 +55,7 @@
                                                     'onkeypress'=>"return $(this).focusNextInputField(event)",
                                             ),
                                             'tombolDialog'=>array('idDialog'=>'dialogBidang'),
-                                        )); 
+                                        ));
                         ?>
                     </div>
                 </div>
@@ -114,10 +122,18 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                     $(\'#dialogBidang\').dialog(\'close\');return false;"))'
                 ),
                 array(
+                        'header'=>'Golongan',
+                        'name' => 'golongan_id',
+                        'filter'=> CHtml::dropDownList('SABidangM[golongan_id]',$modBidang->golongan_id,CHtml::listData($model->GolonganItems, 'golongan_id', 'golongan_nama'),array('empty'=>'-- Pilih --')),
+                        'value'=>'$data->golongan->golongan_nama',
+                ),
+                array(
                         'header'=>'Bidang',
-                        'filter'=>  CHtml::listData($model->BidangItems, 'bidang_id', 'bidang_nama'),
+                        'name' => 'bidang_nama',
+                        //'filter'=>  CHtml::dropDownList('SABidangM[golongan_id]',$modBidang->bidang_id,CHtml::listData($model->BidangItems, 'bidang_id', 'bidang_nama'),array('empty'=>'-- Pilih --')),
                         'value'=>'$data->bidang_nama',
                 ),
+               
             /*    array(
                         'header'=>'Kelompok',
                         'filter'=>  CHtml::listData($model->KelompokItems, 'kelompok_id', 'kelompok_nama'),

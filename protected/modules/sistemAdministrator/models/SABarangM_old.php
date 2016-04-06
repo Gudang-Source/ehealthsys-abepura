@@ -27,9 +27,9 @@ class SABarangM extends BarangM
 		if (!empty($this->barang_id)){
 			$criteria->addCondition('t.barang_id ='.$this->barang_id);
 		}
-		if (!empty($this->bidang_id)){
-			$criteria->addCondition('t.bidang_id ='.$this->bidang_id);
-		}
+		//if (!empty($this->bidang_id)){
+			//$criteria->addCondition('t.bidang_id ='.$this->bidang_id);
+		//}
 		$criteria->compare('barang_type',$this->barang_type,true);
 		$criteria->compare('barang_kode',$this->barang_kode,true);
 		$criteria->compare('barang_nama',$this->barang_nama,true);
@@ -68,9 +68,9 @@ class SABarangM extends BarangM
 		if (!empty($this->barang_id)){
 			$criteria->addCondition('t.barang_id ='.$this->barang_id);
 		}
-		if (!empty($this->bidang_id)){
-			$criteria->addCondition('t.bidang_id ='.$this->bidang_id);
-		}
+		//if (!empty($this->bidang_id)){
+		//	$criteria->addCondition('t.bidang_id ='.$this->bidang_id);
+		//}
 		$criteria->compare('barang_type',$this->barang_type,true);
 		$criteria->compare('barang_kode',$this->barang_kode,true);
 		$criteria->compare('barang_nama',$this->barang_nama,true);

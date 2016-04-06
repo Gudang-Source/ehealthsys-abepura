@@ -139,4 +139,9 @@ class SubkelompokM extends CActiveRecord
         {
             return SubkelompokM::model()->findAll('subkelompok_aktif=true ORDER BY subkelompok_nama');
         }
+        
+        public function getDataSubKelompokItems($kelompok_id)
+        {
+            return $this->findAllByAttributes(array('kelompok_id'=>$kelompok_id),array('order'=>'subkelompok_nama ASC'));
+        }
 }

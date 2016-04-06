@@ -135,4 +135,14 @@ class BidangM extends CActiveRecord
         {
             return GolonganM::model()->findAll('golongan_aktif=true ORDER BY golongan_nama');
         }
+        
+         public function getBidangItems()
+        {
+            return BidangM::model()->findAll('bidang_aktif=true ORDER BY bidang_nama');
+        }
+        
+         public function getDataBidangItems($golongan_id)
+        {
+            return BidangM::model()->findAllByAttributes(array('golongan_id'=>$golongan_id),array('order'=>'bidang_nama ASC'));
+        }
 }
