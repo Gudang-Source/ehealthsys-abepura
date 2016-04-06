@@ -122,6 +122,9 @@ class AnamnesaController extends MyAuthController
                     $modAnamnesa->tglanamnesis = $format->formatDateTimeForDb($_POST['RJAnamnesaT']['tglanamnesis']);
                     $modAnamnesa->petugas_triase_id = isset($_POST['RJAnamnesaT']['petugas_triase_id']) ? $_POST['RJAnamnesaT']['petugas_triase_id'] : null;
                     
+                    if (!empty($modAnamnesa->hpht)) $modAnamnesa->hpht = MyFormatter::formatDateTimeForDb($modAnamnesa->hpht);
+                    if (!empty($modAnamnesa->tgl_persalinan)) $modAnamnesa->tgl_persalinan = MyFormatter::formatDateTimeForDb($modAnamnesa->tgl_persalinan);
+                    
                     $dat = PasienpulangT::model()->findByAttributes(array(
                         // 'carakeluar_id'=>Params::CARAKELUAR_ID_RAWATINAP,
                         'pendaftaran_id'=>$pendaftaran_id
@@ -141,6 +144,8 @@ class AnamnesaController extends MyAuthController
                     $modAnamnesa->create_ruangan = isset($_GET['ruangan_id']) ? $_GET['ruangan_id'] : Yii::app()->user->getState('ruangan_id');
 //					echo print_r($modAnamnesa->attributes);exit;
                     /* ================================================ */
+                    
+                    // var_dump($modAnamnesa->attributes); die;
                     
                     if($modAnamnesa->save()){
                         $transaction->commit();
