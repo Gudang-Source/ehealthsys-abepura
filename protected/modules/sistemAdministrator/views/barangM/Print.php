@@ -35,10 +35,13 @@ $this->widget($table,array(
 			'filter'=>false,
 		),
 		array(
-			'name'=>'bidang_id',
-			'filter'=>  CHtml::listData($model->BidangItems, 'bidang_id', 'bidang_nama'),
-			'value'=>'isset($data->bidang_id)?$data->bidang->bidang_nama:" - "',
-		),
+                        'name'=>'subsubkelompok_id',
+                        'filter'=> CHtml::activeDropDownList($model, 'subsubkelompok_id',CHtml::listData($model->SubSubKelompokItems, 'subsubkelompok_id', 'subsubkelompok_nama'),array('empty'=>'--Pilih--')),
+                        'value'=>function($data) {
+                            $sub = SubsubkelompokM::model()->findByPk($data->subsubkelompok_id);
+                            return $sub->subsubkelompok_nama;
+                        }
+                    ),
 		array(
 			'name'=>'barang_type',
 			'value'=>'$data->barang_type',

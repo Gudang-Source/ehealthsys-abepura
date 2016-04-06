@@ -13,11 +13,13 @@
 	<?php echo $form->errorSummary($model); ?>
 
             <div class="control-group ">
-                    <label class="control-label" for="bidang">Golongan</label>
+                    <!--<label class="control-label" for="golongan">Golongan</label>-->
+                    <?php  echo $form->dropDownListRow($model, 'golongan_id', CHtml::listData($model->GolonganItems, 'golongan_id', 'golongan_nama'),array('empty'=>'--Pilih--')); ?>
                     <div class="controls">
-                        <?php echo $form->hiddenField($model,'golongan_id'); ?>
+                        <?php //echo $form->hiddenField($model,'golongan_id'); ?>
                     <?php 
-                            $this->widget('MyJuiAutoComplete', array(
+                       
+                            /*$this->widget('MyJuiAutoComplete', array(
                                             
                                             'name'=>'golonganNama',
                                             'source'=>'js: function(request, response) {
@@ -49,14 +51,14 @@
                                                     'onkeypress'=>"return $(this).focusNextInputField(event)",                                                    
                                             ),
                                             'tombolDialog'=>array('idDialog'=>'dialogGolongan'),
-                                        )); 
+                                        )); */
                         ?>
                     </div>
                 </div>
             <?php //Echo CHtml::hiddenField('tempKode', $model->bidang_kode); ?>
             <?php echo $form->textFieldRow($model,'bidang_kode',array('class'=>'span1 ', 'onkeyup'=>'setKode(this);','onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50,)); ?>
-            <?php echo $form->textFieldRow($model,'bidang_nama',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
-            <?php echo $form->textFieldRow($model,'bidang_namalainnya',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
+            <?php echo $form->textFieldRow($model,'bidang_nama',array('class'=>'span4', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
+            <?php echo $form->textFieldRow($model,'bidang_namalainnya',array('class'=>'span4', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
             <?php //echo $form->checkBoxRow($model,'bidang_aktif', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
 	<div class="form-actions">
 		                <?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 

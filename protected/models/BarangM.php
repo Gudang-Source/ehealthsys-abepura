@@ -46,10 +46,15 @@
 class BarangM extends CActiveRecord
 {
 	public $barang;
+        public $golongan_id;
 	public $golongan_nama;
 	public $kelompok_nama;
 	public $subkelompok_nama;
-	public $bidang_nama;
+        public $subsubkelompok_nama;
+	public $bidang_nama;                
+        public $kelompok_id;
+        public $bidang_id;
+        public $subkelompok_id;
 	
 	/**
 	 * Returns the static model of the specified AR class.
@@ -77,8 +82,8 @@ class BarangM extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('barang_type, barang_kode, barang_nama, barang_harganetto', 'required'),
-			array('bidang_id, barang_ekonomis_thn, barang_jmldlmkemasan', 'numerical', 'integerOnly'=>true),
+			array('barang_type, barang_kode, barang_nama, barang_harganetto, subsubkelompok_id, subkelompok_id, kelompok_id, bidang_id, golongan_id', 'required'),                       
+			array('barang_ekonomis_thn, barang_jmldlmkemasan', 'numerical', 'integerOnly'=>true),
 			array('barang_harganetto, barang_persendiskon, barang_ppn, barang_hpp, barang_hargajual', 'numerical'),
 			array('barang_type, barang_kode, barang_merk, barang_warna, barang_satuan', 'length', 'max'=>50),
 			array('barang_nama, barang_namalainnya', 'length', 'max'=>100),
@@ -88,7 +93,7 @@ class BarangM extends CActiveRecord
 			array('barang_statusregister, barang_aktif', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('barang_id, bidang_id, barang_type, barang_kode, barang_nama, barang_namalainnya, barang_merk, barang_noseri, barang_ukuran, barang_bahan, barang_thnbeli, barang_warna, barang_statusregister, barang_ekonomis_thn, barang_satuan, barang_jmldlmkemasan, barang_image, barang_harganetto, barang_aktif, barang_persendiskon, barang_ppn, barang_hpp, barang_hargajual', 'safe', 'on'=>'search'),
+			array('subsubkelompok_nama, subkelompok_id, kelompok_id, bidang_id, golongan_id, barang_id, subsubkelompok_id, barang_type, barang_kode, barang_nama, barang_namalainnya, barang_merk, barang_noseri, barang_ukuran, barang_bahan, barang_thnbeli, barang_warna, barang_statusregister, barang_ekonomis_thn, barang_satuan, barang_jmldlmkemasan, barang_image, barang_harganetto, barang_aktif, barang_persendiskon, barang_ppn, barang_hpp, barang_hargajual', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -109,7 +114,7 @@ class BarangM extends CActiveRecord
 			'invgedungTs' => array(self::HAS_MANY, 'InvgedungT', 'barang_id'),
 			'inventarisasiruanganTs' => array(self::HAS_MANY, 'InventarisasiruanganT', 'barang_id'),
 			'invasetlainTs' => array(self::HAS_MANY, 'InvasetlainT', 'barang_id'),
-			'bidang' => array(self::BELONGS_TO, 'BidangM', 'bidang_id'),
+			'subsubkelompok' => array(self::BELONGS_TO, 'SubsubkelompokM', 'subsubkelompok_id'),
 			'batalmutasibrgTs' => array(self::HAS_MANY, 'BatalmutasibrgT', 'barang_id'),
 			'pemakaianbrgdetailTs' => array(self::HAS_MANY, 'PemakaianbrgdetailT', 'barang_id'),
 			'belibrgdetailTs' => array(self::HAS_MANY, 'BelibrgdetailT', 'barang_id'),
@@ -122,7 +127,7 @@ class BarangM extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'barang_id' => 'Barang',
+			'barang_id' => 'Barang',                    
 			'bidang_id' => 'Bidang',
 			'barang_type' => 'Tipe Barang',
 			'barang_kode' => 'Kode Barang',
@@ -145,6 +150,11 @@ class BarangM extends CActiveRecord
 			'barang_ppn' => 'PPN',
 			'barang_hpp' => 'HPP',
 			'barang_hargajual' => 'Harga Jual',
+                        'golongan_id' => 'Golongan',
+                        'kelompok_id' => 'Kelompok',
+                        'subkelompok_id' => 'Sub Kelompok',    
+                        'subsubkelompok_id' => 'Sub Sub Kelompok',
+                        'subsubkelompok_nama' => 'Sub Sub Kelompok',
 		);
 	}
 
@@ -160,7 +170,7 @@ class BarangM extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('barang_id',$this->barang_id);
-		$criteria->compare('bidang_id',$this->bidang_id);
+		$criteria->compare('subsubkelompok_id',$this->subsubkelompok_id);
 		$criteria->compare('barang_type',$this->barang_type,true);
 		$criteria->compare('barang_kode',$this->barang_kode,true);
 		$criteria->compare('barang_nama',$this->barang_nama,true);
@@ -176,12 +186,13 @@ class BarangM extends CActiveRecord
 		$criteria->compare('barang_satuan',$this->barang_satuan,true);
 		$criteria->compare('barang_jmldlmkemasan',$this->barang_jmldlmkemasan);
 		$criteria->compare('barang_image',$this->barang_image,true);
-		$criteria->compare('barang_harganetto',$this->barang_harganetto);
-		$criteria->compare('barang_aktif',$this->barang_aktif);
+		$criteria->compare('barang_harganetto',$this->barang_harganetto);		
 		$criteria->compare('barang_persendiskon',$this->barang_persendiskon);
 		$criteria->compare('barang_ppn',$this->barang_ppn);
 		$criteria->compare('barang_hpp',$this->barang_hpp);
 		$criteria->compare('barang_hargajual',$this->barang_hargajual);
+                $criteria->compare('subsubkelompok_nama',$this->subsubkelompok_nama);
+                $criteria->compare('barang_aktif',isset($this->barang_aktif)?$this->barang_aktif:true);                
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -204,4 +215,70 @@ class BarangM extends CActiveRecord
 	{
 		return SubkelompokM::model()->findAll('subkelompok_aktif=true ORDER BY subkelompok_nama');
 	}
+        
+        public function getSubSubKelompokItems()
+	{
+		return SubsubkelompokM::model()->findAll('subsubkelompok_aktif=true ORDER BY subsubkelompok_nama');
+	}
+        
+        public function getSubKelompokId($subsubkelompok_id)
+        {
+            $subkelompokid = SubsubkelompokM::model()->findAllByAttributes(array('subsubkelompok_id'=> $subsubkelompok_id));
+            
+            if ($subkelompokid == null):
+                $data = '';
+            else:
+                foreach($subkelompokid as $id):
+                    $data = $id->subkelompok_id;
+                endforeach;    
+            endif;
+            
+            return $data;
+                
+        }
+        
+        public function getKelompokId($subkelompok_id)
+        {
+            $kelompokid = SubkelompokM::model()->findAllByAttributes(array('subkelompok_id'=> $subkelompok_id));
+            
+            if ($kelompokid == null):
+                $data = '';
+            else:
+                foreach($kelompokid as $id):
+                    $data = $id->kelompok_id;
+                endforeach;    
+            endif;
+            
+            return $data;
+        }
+        
+        public function getBidangId($kelompok_id)
+        {
+            $bidangid = KelompokM::model()->findAllByAttributes(array('kelompok_id'=> $kelompok_id));
+            
+            if ($bidangid == null):
+                $data = '';
+            else:
+                foreach($bidangid as $id):
+                    $data = $id->bidang_id;
+                endforeach;    
+            endif;
+            
+            return $data;
+        }
+        
+        public function getGolonganId($bidang_id)
+        {
+            $golonganid = BidangM::model()->findAllByAttributes(array('bidang_id'=> $bidang_id));
+            
+             if ($golonganid == null):
+                $data = '';
+            else:
+                foreach($golonganid as $id):
+                    $data = $id->golongan_id;
+                endforeach;    
+            endif;
+            
+            return $data;
+        }
 }

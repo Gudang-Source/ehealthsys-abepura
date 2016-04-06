@@ -1055,5 +1055,165 @@ class ActionDynamicController extends Controller
         }
         Yii::app()->end();
     }
+    
+    public function actionGetBidang($encode=false,$model_nama='',$attr='')
+        {
+            if(Yii::app()->request->isAjaxRequest) {
+                $modBidang = new BidangM;
+                if($model_nama !=='' && $attr == ''){
+                    $golongan_id = $_POST["$model_nama"]['golongan_id'];
+                }
+                 elseif ($model_nama == '' && $attr !== '') {
+                    $golongan_id = $_POST["$attr"];
+                }
+                elseif ($model_nama !== '' && $attr !== '') {
+                    $golongan_id = $_POST["$model_nama"]["$attr"];
+                }
+                //var_dump($golongan_id);die;
+                $bidang = null;
+                if($golongan_id){
+                    //var_dump($golongan_id);die;
+                    $bidang = $modBidang->getDataBidangItems($golongan_id);
+                   
+//                    $kelurahan = KelurahanM::model()->findAll('kecamatan_id='.$kecamatan_id.'');
+                    $bidang = CHtml::listData($bidang,'bidang_id','bidang_nama');
+                }
+
+                if($encode){
+                    echo CJSON::encode($bidang);
+                } else {
+                    if(empty($bidang)){
+                        echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                    }else{
+                        echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                        foreach($bidang as $value=>$name)
+                        {
+                            echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                        }
+                    }
+                }
+            }
+            Yii::app()->end();
+        }
+        
+        public function actionGetKelompok($encode=false,$model_nama='',$attr='')
+        {
+            if(Yii::app()->request->isAjaxRequest) {
+                $modKelompok = new KelompokM;
+                if($model_nama !=='' && $attr == ''){
+                    $bidang_id = $_POST["$model_nama"]['bidang_id'];
+                }
+                 elseif ($model_nama == '' && $attr !== '') {
+                    $bidang_id = $_POST["$attr"];
+                }
+                elseif ($model_nama !== '' && $attr !== '') {
+                    $bidang_id = $_POST["$model_nama"]["$attr"];
+                }
+                //var_dump($golongan_id);die;
+                $kelompok = null;
+                if($bidang_id){
+                    //var_dump($golongan_id);die;
+                    $kelompok = $modKelompok->getDataKelompokItems($bidang_id);
+                   
+//                    $kelurahan = KelurahanM::model()->findAll('kecamatan_id='.$kecamatan_id.'');
+                    $kelompok = CHtml::listData($kelompok,'kelompok_id','kelompok_nama');
+                }
+
+                if($encode){
+                    echo CJSON::encode($kelompok);
+                } else {
+                    if(empty($kelompok)){
+                        echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                    }else{
+                        echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                        foreach($kelompok as $value=>$name)
+                        {
+                            echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                        }
+                    }
+                }
+            }
+            Yii::app()->end();
+        }
+        
+        public function actionGetSubKelompok($encode=false,$model_nama='',$attr='')
+        {
+            if(Yii::app()->request->isAjaxRequest) {
+                $modSubKelompok = new SubkelompokM;
+                if($model_nama !=='' && $attr == ''){
+                    $kelompok_id = $_POST["$model_nama"]['kelompok_id'];
+                }
+                 elseif ($model_nama == '' && $attr !== '') {
+                    $kelompok_id = $_POST["$attr"];
+                }
+                elseif ($model_nama !== '' && $attr !== '') {
+                    $kelompok_id = $_POST["$model_nama"]["$attr"];
+                }
+                //var_dump($golongan_id);die;
+                $subkelompok = null;
+                if($kelompok_id){
+                    //var_dump($golongan_id);die;
+                    $subkelompok = $modSubKelompok->getDataSubKelompokItems($kelompok_id);
+                   
+//                    $kelurahan = KelurahanM::model()->findAll('kecamatan_id='.$kecamatan_id.'');
+                    $subkelompok = CHtml::listData($subkelompok,'subkelompok_id','subkelompok_nama');
+                }
+
+                if($encode){
+                    echo CJSON::encode($subkelompok);
+                } else {
+                    if(empty($subkelompok)){
+                        echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                    }else{
+                        echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                        foreach($subkelompok as $value=>$name)
+                        {
+                            echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                        }
+                    }
+                }
+            }
+            Yii::app()->end();
+        }
+        
+        public function actionGetSubSubKelompok($encode=false,$model_nama='',$attr='')
+        {
+            if(Yii::app()->request->isAjaxRequest) {
+                $modSubSubKelompok = new SubsubkelompokM;
+                if($model_nama !=='' && $attr == ''){
+                    $subkelompok_id = $_POST["$model_nama"]['subkelompok_id'];
+                }
+                 elseif ($model_nama == '' && $attr !== '') {
+                    $subkelompok_id = $_POST["$attr"];
+                }
+                elseif ($model_nama !== '' && $attr !== '') {
+                    $subkelompok_id = $_POST["$model_nama"]["$attr"];
+                }
+                //var_dump($golongan_id);die;
+                $subsubkelompok = null;
+                if($subkelompok_id){
+                    //var_dump($golongan_id);die;
+                    $subsubkelompok = $modSubSubKelompok->getDataSubSubKelompokItems($subkelompok_id);
+                   
+//                    $kelurahan = KelurahanM::model()->findAll('kecamatan_id='.$kecamatan_id.'');
+                    $subsubkelompok = CHtml::listData($subsubkelompok,'subsubkelompok_id','subsubkelompok_nama');
+                }
+
+                if($encode){
+                    echo CJSON::encode($subsubkelompok);
+                } else {
+                    if(empty($subsubkelompok)){
+                        echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                    }else{
+                        echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                        foreach($subsubkelompok as $value=>$name)
+                        {
+                            echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                        }
+                    }
+                }
+            }
+            Yii::app()->end();
+        }
 }
 ?>

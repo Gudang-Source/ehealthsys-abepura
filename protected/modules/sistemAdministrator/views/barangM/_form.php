@@ -14,8 +14,46 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 <?php echo $form->errorSummary($model); ?>
 <table width='100%'>
     <tr>
-        <td>
-            <?php echo $form->dropDownListRow($model, 'bidang_id', CHtml::listData($model->BidangItems, 'bidang_id', 'bidang_nama'), array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event)", 'empty' => '-- Pilih --', 'onchange' => 'setKodeBarang();')); ?>
+        <td>            
+            <?php //golongan
+                  echo $form->dropDownListRow($model,'golongan_id', CHtml::listData($model->GolonganItems, 'golongan_id', 'golongan_nama'), 
+                        array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
+                                'ajax'=>array('type'=>'POST',
+                                            'url'=>$this->createUrl('/ActionDynamic/GetBidang',array('encode'=>false,'model_nama'=>get_class($model))),
+                                            'update'=>"#".CHtml::activeId($model, 'bidang_id'),
+                                ),
+                                'onchange'=>"setClearBidang();setClearKelompok();setClearSubKelompok();setClearSubSubKelompok();",));?>
+            
+            <?php //bidang //CHtml::listData($model->BidangItems, 'bidang_id', 'bidang_nama')
+                  echo $form->dropDownListRow($model,'bidang_id', array(), 
+                        array('empty'=>'-- Pilih --','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)", 
+                                'ajax'=>array('type'=>'POST',
+                                            'url'=>$this->createUrl('/ActionDynamic/GetKelompok',array('encode'=>false,'model_nama'=>get_class($model))),
+                                            'update'=>"#".CHtml::activeId($model, 'kelompok_id'),
+                                ),
+                                'onchange'=>"setClearKelompok();setClearSubKelompok();setClearSubSubKelompok();",));?>
+            
+             <?php //kelompok //CHtml::listData($model->KelompokItems, 'kelompok_id', 'kelompok_nama')
+                    echo $form->dropDownListRow($model,'kelompok_id', array(), 
+                        array('empty'=>'-- Pilih --','class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
+                                'ajax'=>array('type'=>'POST',
+                                            'url'=>$this->createUrl('/ActionDynamic/GetSubKelompok',array('encode'=>false,'model_nama'=>get_class($model))),
+                                            'update'=>"#".CHtml::activeId($model, 'subkelompok_id'),
+                                ),
+                                'onchange'=>"setClearSubKelompok();setClearSubSubKelompok();",));?>
+            
+            <?php //subkelompok //CHtml::listData($model->SubKelompokItems, 'subkelompok_id', 'subkelompok_nama')
+                    echo $form->dropDownListRow($model,'subkelompok_id', array(), 
+                        array('empty'=>'-- Pilih --','class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
+                                'ajax'=>array('type'=>'POST',
+                                            'url'=>$this->createUrl('/ActionDynamic/GetSubSubKelompok',array('encode'=>false,'model_nama'=>get_class($model))),
+                                            'update'=>"#".CHtml::activeId($model, 'subsubkelompok_id'),
+                                ),
+                                'onchange'=>"setClearSubSubKelompok();",));?>
+            
+            <?php //subsubkelompok //CHtml::listData($model->SubSubKelompokItems, 'subsubkelompok_id', 'subsubkelompok_nama')
+                    echo $form->dropDownListRow($model,'subsubkelompok_id',array(),array('empty'=>'-- Pilih --', 'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)"));                    
+                    ?>
             <!--            <div class="control-group ">
                                 <label class="control-label" for="bidang">Bidang</label>
                                 <div class="controls">-->
@@ -56,12 +94,11 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
               ));
              */ ?>
 
-            <?php
-            echo $form->dropDownListRow($model, 'barang_type', LookupM::getItems('barangumumtype'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)", 'class' => 'span2'
-            ));
+            <?php           
+            echo $form->dropDownListRow($model, 'barang_type', LookupM::getItems('barangumumtype'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)", 'class' => 'span2'));
             ?>   
-            <?php Echo CHtml::hiddenField('tempKode', $model->barang_kode); ?>
-            <?php echo $form->textFieldRow($model, 'barang_kode', array('class' => 'span2 ',  'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50,)); //'onkeyup' => 'setKode(this);',?>
+            <?php Echo CHtml::hiddenField('tempKode', $model->barang_kode); ?>            
+            <?php echo $form->textFieldRow($model, 'barang_kode', array('class' => 'span2 ',  'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50,)); //'onkeyup' => 'setKode(this);',?>            
             <?php echo $form->textFieldRow($model, 'barang_nama', array('class' => 'span2', 'onkeyup' => "namaLain(this)", 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
             <?php echo $form->textFieldRow($model, 'barang_namalainnya', array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>   
             <?php echo $form->textFieldRow($model, 'barang_merk', array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>    
@@ -124,7 +161,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 
 <?php
 //========= Dialog buat cari data Bidang =========================
-$this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
+/*$this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
     'id' => 'dialogBidang',
     'options' => array(
         'title' => 'Bidang',
@@ -136,7 +173,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
     ),
 ));
 
-$modBidang = new SABidangM('search');
+$modBidang = new GUBidangM('search');
 $modBidang->unsetAttributes();
 if (isset($_GET['GUBidangM']))
     $modBidang->attributes = $_GET['GUBidangM'];
@@ -148,6 +185,19 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
     'template' => "{summary}\n{items}\n{pager}",
     'itemsCssClass' => 'table table-striped table-bordered table-condensed',
     'columns' => array(
+        array(
+            'header' => 'Pilih',
+            'type' => 'raw',
+            'value' => 'CHtml::Link("<i class=\"icon-form-check\"></i>",
+                                "#",
+                                array(
+                                    "class"=>"btn-small", 
+                                    "id" => "selectBidang",
+                                    "onClick" => "
+                                    $(\"#' . CHtml::activeId($model, 'bidang_id') . '\").val(\'$data->bidang_id\');
+                                    $(\"#bidangNama\").val(\'$data->bidangNama\');
+                                    $(\'#dialogBidang\').dialog(\'close\');return false;"))'
+        ),
         array(
             'header' => 'Golongan',
             'filter' => CHtml::listData($model->GolonganItems, 'golongan_id', 'golongan_nama'),
@@ -167,25 +217,12 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
             'name' => 'bidang_id',
             'filter' => CHtml::listData($model->BidangItems, 'bidang_id', 'bidang_nama'),
             'value' => '$data->bidang_nama',
-        ),
-        array(
-            'header' => 'Pilih',
-            'type' => 'raw',
-            'value' => 'CHtml::Link("<i class=\"icon-form-check\"></i>",
-                                "#",
-                                array(
-                                    "class"=>"btn-small", 
-                                    "id" => "selectBidang",
-                                    "onClick" => "
-                                    $(\"#' . CHtml::activeId($model, 'bidang_id') . '\").val(\'$data->bidang_id\');
-                                    $(\"#bidangNama\").val(\'$data->bidangNama\');
-                                    $(\'#dialogBidang\').dialog(\'close\');return false;"))'
-        ),
+        ),        
     ),
     'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
 ));
 
-$this->endWidget();
+$this->endWidget();*/
 ?>
 
 <?php Yii::app()->clientScript->registerScript('head', '
@@ -224,5 +261,25 @@ Yii::app()->clientScript->registerScript('numberOnly', $js, CClientScript::POS_R
     function namaLain(nama)
     {
         document.getElementById('SABarangM_barang_namalainnya').value = nama.value.toUpperCase();
+    }
+    
+    function setClearBidang()
+    {
+        $("#<?php echo CHtml::activeId($model,"bidang_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
+    }
+    
+    function setClearKelompok()
+    {
+        $("#<?php echo CHtml::activeId($model,"kelompok_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
+    }
+    
+    function setClearSubKelompok()
+    {
+        $("#<?php echo CHtml::activeId($model,"subkelompok_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
+    }
+    
+    function setClearSubSubKelompok()
+    {
+        $("#<?php echo CHtml::activeId($model,"subsubkelompok_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
     }
 </script>

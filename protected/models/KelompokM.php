@@ -74,6 +74,7 @@ class KelompokM extends CActiveRecord
 			'kelompok_nama' => 'Nama Kelompok',
 			'kelompok_namalainnya' => 'Nama Lainnya',
 			'kelompok_aktif' => 'Aktif',
+                        'golongan_id' => 'Golongan',
 		);
 	}
 
@@ -126,6 +127,12 @@ class KelompokM extends CActiveRecord
         {
             return BidangM::model()->findAll('bidang_aktif=true ORDER BY bidang_nama');
         }
+        
+        public function getDataKelompokItems($bidang_id)
+        {
+            return $this->findAllByAttributes(array('bidang_id'=>$bidang_id),array('order'=>'kelompok_nama ASC'));
+        }
+        
         public function getGolonganItems()
         {
             return GolonganM::model()->findAll('golongan_aktif=true ORDER BY golongan_nama');

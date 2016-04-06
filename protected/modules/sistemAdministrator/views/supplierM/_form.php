@@ -50,7 +50,7 @@
                     <?php echo $form->textFieldRow($model,'supplier_email',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
                     <?php echo $form->textFieldRow($model,'supplier_cp',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
                     <?php echo $form->textFieldRow($model,'supplier_norekening',array('class'=>'span2 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
-                    <?php echo $form->textFieldRow($model,'supplier_jenis',array('class'=>'span2 ', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100,'readOnly'=>true)); ?>
+                    <?php echo $form->dropDownListRow($model,'supplier_jenis',  LookupM::model()->getItems('jenissupplier'),array('class'=>'span2 ', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
 				</td>
             </tr>
             <tr>
