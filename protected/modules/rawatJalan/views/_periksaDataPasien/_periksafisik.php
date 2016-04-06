@@ -94,7 +94,7 @@ foreach ($modPemeriksaanFisik as $i => $loop){
 			</tr>
 			<tr>
 				<td width="15%">Tinggi badan / Berat badan</td>
-				<td width="30%">: <?php echo (isset($loop->tinggibadan_cm)?$loop->tinggibadan_cm:" - ").' Cm / '.(isset($modPemeriksaanFisik->beratbadan_kg)?$modPemeriksaanFisik->beratbadan_kg:" - ").' Kg'; ?></td>
+				<td width="30%">: <?php echo (isset($loop->tinggibadan_cm)?$loop->tinggibadan_cm:" - ").' Cm / '.(isset($loop->beratbadan_kg)?$loop->beratbadan_kg:" - ").' Kg'; ?></td>
 			</tr>
 			<tr>
 				<td width="15%">Index Masa Tubuh</td>

@@ -103,7 +103,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
         'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
 	'columns'=>array(
-                 array(
+                  array(
                     'header'=>'Pilih',
                     'type'=>'raw',
                     'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>",
@@ -117,8 +117,15 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                     $(\'#dialogBidang\').dialog(\'close\');return false;"))'
                 ),
                 array(
+                        'header'=>'Golongan',
+                        'name' => 'golongan_id',
+                        'filter'=> CHtml::dropDownList('SABidangM[golongan_id]',$modBidang->golongan_id,CHtml::listData($model->GolonganItems, 'golongan_id', 'golongan_nama'),array('empty'=>'-- Pilih --')),
+                        'value'=>'$data->golongan->golongan_nama',
+                ),
+                array(
                         'header'=>'Bidang',
-                        'filter'=>  CHtml::listData($model->BidangItems, 'bidang_id', 'bidang_nama'),
+                        'name' => 'bidang_nama',
+                        //'filter'=>  CHtml::dropDownList('SABidangM[golongan_id]',$modBidang->bidang_id,CHtml::listData($model->BidangItems, 'bidang_id', 'bidang_nama'),array('empty'=>'-- Pilih --')),
                         'value'=>'$data->bidang_nama',
                 ),
                /* array(

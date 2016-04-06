@@ -13,7 +13,46 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 <table width='100%'>
     <tr>
         <td>
-            <?php echo $form->dropDownListRow($model, 'bidang_id', CHtml::listData($model->BidangItems, 'bidang_id', 'bidang_nama'), array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event)", 'empty' => '-- Pilih --')); ?>
+             <?php //golongan
+                  echo $form->dropDownListRow($model,'golongan_id', CHtml::listData($model->GolonganItems, 'golongan_id', 'golongan_nama'), 
+                        array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
+                                'ajax'=>array('type'=>'POST',
+                                            'url'=>$this->createUrl('/ActionDynamic/GetBidang',array('encode'=>false,'model_nama'=>get_class($model))),
+                                            'update'=>"#".CHtml::activeId($model, 'bidang_id'),
+                                ),
+                                'onchange'=>"setClearBidang();setClearKelompok();setClearSubKelompok();setClearSubSubKelompok();",));?>
+            
+            <?php //bidang //
+                  echo $form->dropDownListRow($model,'bidang_id', CHtml::listData($model->BidangItems, 'bidang_id', 'bidang_nama'), 
+                        array('empty'=>'-- Pilih --','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)", 
+                                'ajax'=>array('type'=>'POST',
+                                            'url'=>$this->createUrl('/ActionDynamic/GetKelompok',array('encode'=>false,'model_nama'=>get_class($model))),
+                                            'update'=>"#".CHtml::activeId($model, 'kelompok_id'),
+                                ),
+                                'onchange'=>"setClearKelompok();setClearSubKelompok();setClearSubSubKelompok();",));?>
+            
+             <?php //kelompok //
+                    echo $form->dropDownListRow($model,'kelompok_id', CHtml::listData($model->KelompokItems, 'kelompok_id', 'kelompok_nama'), 
+                        array('empty'=>'-- Pilih --','class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
+                                'ajax'=>array('type'=>'POST',
+                                            'url'=>$this->createUrl('/ActionDynamic/GetSubKelompok',array('encode'=>false,'model_nama'=>get_class($model))),
+                                            'update'=>"#".CHtml::activeId($model, 'subkelompok_id'),
+                                ),
+                                'onchange'=>"setClearSubKelompok();setClearSubSubKelompok();",));?>
+            
+            <?php //subkelompok //
+                    echo $form->dropDownListRow($model,'subkelompok_id', CHtml::listData($model->SubKelompokItems, 'subkelompok_id', 'subkelompok_nama'), 
+                        array('empty'=>'-- Pilih --','class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
+                                'ajax'=>array('type'=>'POST',
+                                            'url'=>$this->createUrl('/ActionDynamic/GetSubSubKelompok',array('encode'=>false,'model_nama'=>get_class($model))),
+                                            'update'=>"#".CHtml::activeId($model, 'subsubkelompok_id'),
+                                ),
+                                'onchange'=>"setClearSubSubKelompok();",));?>
+            
+            <?php //subsubkelompok //
+                    echo $form->dropDownListRow($model,'subsubkelompok_id',CHtml::listData($model->SubSubKelompokItems, 'subsubkelompok_id', 'subsubkelompok_nama'),array('empty'=>'-- Pilih --', 'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)"));                    
+                    ?>
+            <?php //echo $form->dropDownListRow($model, 'bidang_id', CHtml::listData($model->BidangItems, 'bidang_id', 'bidang_nama'), array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event)", 'empty' => '-- Pilih --')); ?>
             <!--            <div class="control-group ">
                             <label class="control-label" for="bidang">Bidang</label>
                             <div class="controls">-->
@@ -60,7 +99,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
             ));
             ?>   
             <?php Echo CHtml::hiddenField('tempKode', $model->barang_kode); ?>
-            <?php echo $form->textFieldRow($model, 'barang_kode', array('class' => 'span2 ', 'onkeyup' => 'setKode(this);', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50,)); ?>
+            <?php echo $form->textFieldRow($model, 'barang_kode', array('class' => 'span2 ', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50,)); // 'onkeyup' => 'setKode(this);',?>
             <?php echo $form->textFieldRow($model, 'barang_nama', array('class' => 'span3', 'onkeyup' => "namaLain(this)", 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
             <?php echo $form->textFieldRow($model, 'barang_namalainnya', array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>   
             <?php echo $form->textFieldRow($model, 'barang_merk', array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>    
@@ -236,5 +275,25 @@ Yii::app()->clientScript->registerScript('numberOnly', $js, CClientScript::POS_R
     function namaLain(nama)
     {
         document.getElementById('SABarangM_barang_namalainnya').value = nama.value.toUpperCase();
+    }
+    
+    function setClearBidang()
+    {
+        $("#<?php echo CHtml::activeId($model,"bidang_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
+    }
+    
+    function setClearKelompok()
+    {
+        $("#<?php echo CHtml::activeId($model,"kelompok_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
+    }
+    
+    function setClearSubKelompok()
+    {
+        $("#<?php echo CHtml::activeId($model,"subkelompok_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
+    }
+    
+    function setClearSubSubKelompok()
+    {
+        $("#<?php echo CHtml::activeId($model,"subsubkelompok_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
     }
 </script>

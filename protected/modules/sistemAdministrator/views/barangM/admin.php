@@ -16,7 +16,7 @@
     Yii::app()->clientScript->registerScript('search', "
     $('.search-button').click(function(){
             $('.search-form').toggle();
-        $('#SABarangM_bidang_id').focus();
+        $('#SABarangM_subsubkelompok_id').focus();
             return false;
     });
     $('.search-form form').submit(function(){
@@ -33,11 +33,12 @@
 		$this->widget('bootstrap.widgets.BootAlert'); 
 		
 	?>
-    <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),'#',array('class'=>'search-button btn')); ?>
+    <?php 
+    
+    echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),'#',array('class'=>'search-button btn')); ?>
     <div class="cari-lanjut2 search-form" style="display:none">
         <?php $this->renderPartial($this->path_view.'_search',array(
-                'model'=>$model,
-        )); ?>
+                'model'=>$model)); ?>
     </div><!-- search-form -->
 
     <!--<div class="block-tabel">-->
@@ -54,16 +55,19 @@
                         'name'=>'barang_id',
                         'value'=>'$data->barang_id',
                         'filter'=>false,
-                    ),
+                    ), 
                     array(
-                        'name'=>'bidang_id',
-                        'filter'=> CHtml::dropDownList('SABarangM[bidang_id]',$model->bidang_id,CHtml::listData($model->BidangItems, 'bidang_id', 'bidang_nama'),array('empty'=>'--Pilih--')),
-                        'value'=>'isset($data->bidang_id)?$data->bidang->bidang_nama:" - "',
+                        'name'=>'subsubkelompok_id',
+                        'filter'=> CHtml::activeDropDownList($model, 'subsubkelompok_id',CHtml::listData($model->SubSubKelompokItems, 'subsubkelompok_id', 'subsubkelompok_nama'),array('empty'=>'--Pilih--')),
+                        'value'=>function($data) {
+                            $sub = SubsubkelompokM::model()->findByPk($data->subsubkelompok_id);
+                            return $sub->subsubkelompok_nama;
+                        }
                     ),
                     array(
                         'name'=>'barang_type',
                         'value'=>'$data->barang_type',
-                        'filter'=> CHtml::activeTextField($model, 'barang_type'),
+                       // 'filter'=> CHtml::activeTextField($model, 'barang_type'),
                     ),
                     'barang_kode',
                     'barang_nama',

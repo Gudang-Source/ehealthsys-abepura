@@ -1,7 +1,7 @@
 
 
 <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
-	'id'=>'sasubsubkelompok-m-form',
+	'id'=>'sasubkelompok-m-form',
 	'enableAjaxValidation'=>false,
         'type'=>'horizontal',
         'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)'),
@@ -114,7 +114,7 @@
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     'id'=>'dialogKelompok',
     'options'=>array(
-        'title'=>'Bidang',
+        'title'=>'Kelompok',
         'autoOpen'=>false,
         'modal'=>true,
         'width'=>750,
@@ -126,7 +126,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 $modKelompok= new SAKelompokM('search');
 $modKelompok->unsetAttributes();
 if(isset($_GET['SAKelompokM']))
-    $modGolongan->attributes = $_GET['SAKelompokM'];
+    $modKelompok->attributes = $_GET['SAKelompokM'];
 
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'sainstalasi-m-grid',
@@ -150,13 +150,15 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 ),
                 array(
                         'header'=>'Bidang',
-                        'filter'=>  CHtml::listData($model->BidangItems, 'bidang_id', 'bidang_nama'),
+                        'name' => 'bidang_id',
+                        'filter'=> CHtml::dropDownList('SAKelompokM[bidang_id]',$modKelompok->bidang_id,CHtml::listData($model->BidangItems, 'bidang_id', 'bidang_nama'),array('empty'=>'--Pilih--')),
                         //'value'=>'$this->grid->getOwner()->renderPartial(\'sistemAdministrator.views.subkelompokM.listGolongan\', array(\'idKelompok\'=>$data->kelompok_id))',
                         'value'=>'$data->bidang_nama',
                 ),
                 array(
                         'header'=>'Kelompok ',
-                        'filter'=>  CHtml::listData($model->KelompokItems, 'kelompok_id', 'kelompok_nama'),
+                        'name' => 'kelompok_nama',
+                      //  'filter'=>  CHtml::listData($model->KelompokItems, 'kelompok_id', 'kelompok_nama'),
                         'value'=>'$data->kelompok_nama',
                 ),
 //                array(

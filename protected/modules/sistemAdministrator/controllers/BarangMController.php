@@ -102,6 +102,15 @@ class BarangMController extends MyAuthController
 	{
 		$model=$this->loadModel($id);
 		$temLogo = $model->barang_image;
+                
+                $model->subkelompok_id = $model->getSubKelompokId($model->subsubkelompok_id);               
+                $model->kelompok_id = $model->getKelompokId($model->subkelompok_id);
+                $model->bidang_id = $model->getBidangId($model->kelompok_id);                
+                $model->golongan_id = $model->getGolonganId($model->bidang_id);
+                
+                
+                
+                
 		if(!empty($model->bidang_id)){
 			$model->bidang_nama = BidangM::model()->findByPk($model->bidang_id)->bidang_nama;
 		}

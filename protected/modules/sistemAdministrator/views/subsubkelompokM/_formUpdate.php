@@ -1,29 +1,28 @@
 
+
 <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
-	'id'=>'sabidang-m-form',
+	'id'=>'sasubsubkelompok-m-form',
 	'enableAjaxValidation'=>false,
         'type'=>'horizontal',
         'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)'),
-        'focus'=>'#subkelompokNama',
+        'focus'=>'#',
 )); ?>
 
 	<p class="help-block"><?php echo Yii::t('mds','Fields with <span class="required">*</span> are required.') ?></p>
 
 	<?php echo $form->errorSummary($model); ?>
-
-       <div class="control-group ">
-                    <!--<label class="control-label" for="bidang">Golongan</label>-->
-                    <?php  echo $form->dropDownListRow($model, 'golongan_id', CHtml::listData($model->GolonganItems, 'golongan_id', 'golongan_nama'),array('empty'=>'--Pilih--')); ?>
+            <div class="control-group ">
+                    <label class="control-label" for="bidang">Sub Kelompok</label>
                     <div class="controls">
-                        <?php //echo $form->hiddenField($model,'golongan_id'); ?>
+                        <?php echo $form->hiddenField($model,'subkelompok_id'); ?>
                     <?php 
-                           /* $this->widget('MyJuiAutoComplete', array(
+                            $this->widget('MyJuiAutoComplete', array(
                                             
-                                            'name'=>'golonganNama',
-                                            'value'=>$model->golongan->golongan_nama,
+                                            'name'=>'subkelompokNama',
+                                            'value' => $model->subkelompok->subkelompok_nama,
                                             'source'=>'js: function(request, response) {
                                                            $.ajax({
-                                                               url: "'.Yii::app()->createUrl('ActionAutoComplete/getGolongan').'",
+                                                               url: "'.Yii::app()->createUrl('ActionAutoComplete/getSubKelompok').'",
                                                                dataType: "json",
                                                                data: {
                                                                    term: request.term,
@@ -41,39 +40,39 @@
                                                         return false;
                                                     }',
                                                    'select'=>'js:function( event, ui ) { 
-                                                        $("#'.CHtml::activeId($model, 'golongan_id').'").val(ui.item.golongan_id);
-                                                        $("#golonganNama").val(ui.item.golongan_nama);
+                                                        $("#'.CHtml::activeId($model, 'subkelompok_id').'").val(ui.item.subkelompok_id);
+                                                        $("#subkelompokNama").val(ui.item.subkelompok_nama);
                                                         return false;
                                                     }',
                                             ),
                                             'htmlOptions'=>array(
                                                     'onkeypress'=>"return $(this).focusNextInputField(event)",
                                             ),
-                                            'tombolDialog'=>array('idDialog'=>'dialogGolongan'),
-                                        )); */
+                                            'tombolDialog'=>array('idDialog'=>'dialogSubKelompok'),
+                                        )); 
                         ?>
                     </div>
                 </div>
-            <?php //Echo CHtml::hiddenField('tempKode', $model->bidang_kode); ?>
-            <?php echo $form->textFieldRow($model,'bidang_kode',array('class'=>'span1 ', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50,)); ?>
-            <?php echo $form->textFieldRow($model,'bidang_nama',array('class'=>'span4', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
-            <?php echo $form->textFieldRow($model,'bidang_namalainnya',array('class'=>'span4', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
-            <div>
-                <?php echo $form->checkBoxRow($model,'bidang_aktif', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-            </div>
-        <div class="form-actions">
+            
+            <?php //Echo CHtml::hiddenField('tempKode', $model->subkelompok_kode); ?>
+
+            <?php echo $form->textFieldRow($model,'subsubkelompok_kode',array('class'=>'span1 ','onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50,)); ?>
+            <?php echo $form->textFieldRow($model,'subsubkelompok_nama',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
+            <?php echo $form->textFieldRow($model,'subsubkelompok_namalainnya',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
+            <?php echo $form->checkBoxRow($model,'subsubkelompok_aktif', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+	<div class="form-actions">
 		                <?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 
                                                                      Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),
-                                                array('class'=>'btn btn-primary', 'type'=>'submit','onKeypress'=>'return formSubmit(this,event)')); ?>
-             <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+                                                array('class'=>'btn btn-primary', 'type'=>'submit', 'onKeypress'=>'return formSubmit(this,event)')); ?>
+                <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
                         '',
                         array('class'=>'btn btn-danger',
                               'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;')); ?>
                 <?php //$this->widget('UserTips',array('type'=>'create'));?>
     <?php
-echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Bidang', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp";
-$content = $this->renderPartial($this->path_tips.'tipsaddedit',array(),true);
-$this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
+        echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Sub Sub Kelompok', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp";
+        $content = $this->renderPartial($this->path_tips.'tipsaddedit3a',array(),true);
+    $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
 ?>
 	</div>
 
@@ -114,9 +113,9 @@ $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
 <?php
 //========= Dialog buat cari data Bidang =========================
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
-    'id'=>'dialogGolongan',
+    'id'=>'dialogSubKelompok',
     'options'=>array(
-        'title'=>'Golongan',
+        'title'=>'Sub Kelompok',
         'autoOpen'=>false,
         'modal'=>true,
         'width'=>750,
@@ -125,19 +124,19 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     ),
 ));
 
-$modgolongan= new SAGolonganM('search');
-$modgolongan->unsetAttributes();
-if(isset($_GET['SAGolonganM']))
-    $modgolongan->attributes = $_GET['SAGolonganM'];
+$modKelompok= new SASubkelompokM('search');
+$modKelompok->unsetAttributes();
+if(isset($_GET['SASubkelompokM']))
+    $modGolongan->attributes = $_GET['SASubkelompokM'];
 
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'sainstalasi-m-grid',
-	'dataProvider'=>$modgolongan->search(),
-	'filter'=>$modgolongan,
+	'dataProvider'=>$modKelompok->search(),
+	'filter'=>$modKelompok,
         'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
 	'columns'=>array(
-            array(
+                 array(
                     'header'=>'Pilih',
                     'type'=>'raw',
                     'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>",
@@ -146,29 +145,47 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                     "class"=>"btn-small", 
                                     "id" => "selectKelompok",
                                     "onClick" => "
-                                    $(\"#'.CHtml::activeId($model, 'golongan_id').'\").val($data->golongan_id);
-                                    $(\"#golonganNama\").val(\'$data->golongan_nama\');
-                                    $(\'#dialogGolongan\').dialog(\'close\');return false;"))'
+                                    $(\"#'.CHtml::activeId($model, 'subkelompok_id').'\").val(\'$data->subkelompok_id\');
+                                    $(\"#subkelompokNama\").val(\'$data->subkelompok_nama\');
+                                    $(\'#dialogSubKelompok\').dialog(\'close\');return false;"))'
                 ),
- array(
-                      'header'=>'Golongan',
-                     'filter'=>  CHtml::listData($model->GolonganItems, 'golongan_id', 'golongan_nama'),
-                      'type'=>'raw',
-                      
-                      'value'=>'$data->golongan_nama',
-               ),
-              /*  array(
+                array(
+                        'header'=>'Sub Kelompok',
+                        //'filter'=>  CHtml::listData($model->BidangItems, 'bidang_id', 'bidang_nama'),
+                        //'value'=>'$this->grid->getOwner()->renderPartial(\'sistemAdministrator.views.subkelompokM.listGolongan\', array(\'idKelompok\'=>$data->kelompok_id))',
+                        'value'=>'$data->subkelompok_nama',
+                ),
+               /* array(
+                        'header'=>'Bidang',
+                        'filter'=>  CHtml::listData($model->BidangItems, 'bidang_id', 'bidang_nama'),
+                        //'value'=>'$this->grid->getOwner()->renderPartial(\'sistemAdministrator.views.subkelompokM.listGolongan\', array(\'idKelompok\'=>$data->kelompok_id))',
+                        'value'=>'$data->bidang_nama',
+                ),
+                array(
                         'header'=>'Kelompok ',
                         'filter'=>  CHtml::listData($model->KelompokItems, 'kelompok_id', 'kelompok_nama'),
-                        'value'=>'$data->kelompok->kelompok_nama',
+                        'value'=>'$data->kelompok_nama',
                 ),*/
-
+//                array(
+//                        'header'=>'Sub Kelompok',
+////                        'filter'=>  CHtml::listData($model->SubKelompokItems, 'subkelompok_id', 'subkelompok_nama'),
+//                        'type'=>'raw',
+//                        
+//                        'value'=>'$this->grid->getOwner()->renderPartial(\'listSubKelompok\', array(\'idKelompok\'=>$data->kelompok_id))',
+//                ),
+//                array(
+//                        'header'=>'bidang_id',
+//                        'filter'=>  CHtml::listData($model->BidangItems, 'bidang_id', 'bidang_nama'),
+//                        'type'=>'raw',
+//                        'value'=>'$this->grid->getOwner->renderPartial(\'listBidang\',array(\'idKelompok\'=>\'$data->kelompok_id\'))',
+//                ),
 		
                 
-                
+               
 	),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 )); 
 
 $this->endWidget();
 ?>
+
