@@ -39,4 +39,8 @@ class MasterBarangGUController extends MasterBarangController
 	public function getUrlSatuanBarang(){
 		return $this->module->id.'/lookupMGU/admin';
 	}	
+        
+        public function getUrlSubSubKelompok(){
+		return $this->module->id.'/SubsubkelompokMGU/admin';
+	}
 }

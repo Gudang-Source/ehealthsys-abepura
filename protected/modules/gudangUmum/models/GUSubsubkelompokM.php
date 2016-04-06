@@ -4,9 +4,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-class SAKelompokM extends KelompokM
+class GUSubsubkelompokM extends SubsubkelompokM
 {
-    public $bidang_nama;
+    public $kelompok_nama;
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -16,9 +16,13 @@ class SAKelompokM extends KelompokM
     {
             return parent::model($className);
     }
-    
-    public function getGolonganNama(){
-        return $this->bidang->bidang_nama;
+    public function getKelompokNama(){
+        return $this->kelompok->kelompok_nama;
+    }
+
+    public function getKelompokItems()
+    {
+        return KelompokM::model()->findAll('kelompok_aktif = true ORDER BY kelompok_nama');
     }
 }
 ?>

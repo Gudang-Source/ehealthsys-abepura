@@ -127,6 +127,10 @@ class SubkelompokM extends CActiveRecord
         {
             return GolonganM::model()->findAll('golongan_aktif=true ORDER BY golongan_nama');
         }
+        public function getBidangItems()
+        {
+            return BidangM::model()->findAll('bidang_aktif=true ORDER BY bidang_nama');
+        }
         public function getKelompokItems()
         {
             return KelompokM::model()->findAll('kelompok_aktif=true ORDER BY kelompok_nama');

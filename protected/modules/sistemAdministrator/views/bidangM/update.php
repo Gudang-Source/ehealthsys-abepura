@@ -3,7 +3,7 @@
     <?php
     $this->breadcrumbs=array(
             'Sabidang Ms'=>array('index'),
-            $model->bidang_id=>array('view','id'=>$model->bidang_id),
+            $model->bidang_id=>array('view','id'=>$model->golongan_id),
             'Update',
     );
 

@@ -50,9 +50,9 @@
                             'filter'=>false,
                     ),
                     array(
-                            'name'=>'subkelompok_id',
-                            'filter'=> CHtml::dropDownList('SABidangM[subkelompok_id]',$model->subkelompok_id,CHtml::listData($model->SubKelompokItems, 'subkelompok_id', 'subkelompok_nama'),array('empty'=>'--Pilih--')),
-                            'value'=>'$data->subkelompok->subkelompok_nama',
+                            'name'=>'golongan_id',
+                            'filter'=> CHtml::dropDownList('SABidangM[golongan_id]',$model->golongan_id,CHtml::listData($model->GolonganItems, 'golongan_id', 'golongan_nama'),array('empty'=>'--Pilih--')),
+                            'value'=>'$data->golongan->golongan_nama',
                     ),
                     'bidang_kode',
                     'bidang_nama',

@@ -52,4 +52,8 @@ class MasterBarangController extends MyAuthController
 	public function getUrlSatuanBarang(){
 		return $this->module->id.'/lookupM/admin';
 	}	
+        
+        public function getSubSubkelompok(){
+		return $this->module->id.'/SubsubkelompokM/admin';
+	}
 }
