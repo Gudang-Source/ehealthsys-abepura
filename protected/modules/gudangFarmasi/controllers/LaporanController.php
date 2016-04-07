@@ -6,7 +6,8 @@ class LaporanController extends MyAuthController
     {
             $this->render('index');
     }
-    
+    public $path_view_tips = "gudangFarmasi.views.tips.";
+    public $path_view_gudang = "gudangFarmasi.views.laporan.";
     public function actionLaporanMutasiObatAlkes(){
         $model = new GFMutasioaruanganT;
         $model->ruanganasal_id = Yii::app()->user->getState('ruangan_id');
