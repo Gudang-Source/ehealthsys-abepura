@@ -8,7 +8,8 @@ class KomponengajiMController extends MyAuthController {
 	 */
 	public $layout = '//layouts/column1';
 	public $defaultAction = 'admin';
-	public $path_view = 'sistemAdministrator.views.komponengajiM.';	
+	public $path_view = 'sistemAdministrator.views.komponengajiM.';
+        public $path_view_tab = 'sistemAdministrator.views.komponengajiM.';
 	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed

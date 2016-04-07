@@ -128,4 +128,4 @@
 
 <?php $this->endWidget(); ?>
 </div>
-<?php $this->renderPartial('_jsFunctions', array('model' => $model)); ?>
+<?php $this->renderPartial($this->path_view_gudang.'_jsFunctions', array('model' => $model)); ?>

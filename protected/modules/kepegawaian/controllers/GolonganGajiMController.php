@@ -7,8 +7,6 @@ class GolonganGajiMController extends MyAuthController
 	 */
 	public $layout='//layouts/column1';
         public $defaultAction = 'admin';
-	public $path_view = 'sistemAdministrator.views.golonganGajiM.';	
-        public $path_view_tab = "sistemAdministrator.views.golonganGajiM.";
 
 	/**
 	 * Displays a particular model.
@@ -16,7 +14,7 @@ class GolonganGajiMController extends MyAuthController
 	 */
 	public function actionView($id)
 	{
-		$this->render($this->path_view. 'view',array(
+		$this->render('view',array(
 			'model'=>$this->loadModel($id),
 		));
 	}
@@ -28,14 +26,14 @@ class GolonganGajiMController extends MyAuthController
 	public function actionCreate()
 	{
         //if(!Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}                                  
-		$model=new SAGolonganGajiM;
+		$model=new KPGolonganGajiM;
 
 		// Uncomment the following line if AJAX validation is needed
 		
 
-		if(isset($_POST['SAGolonganGajiM']))
+		if(isset($_POST['KPGolonganGajiM']))
 		{
-			$model->attributes=$_POST['SAGolonganGajiM'];
+			$model->attributes=$_POST['KPGolonganGajiM'];
             $model->golongangaji_aktif=true;
 			if($model->save()){
                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
@@ -43,7 +41,7 @@ class GolonganGajiMController extends MyAuthController
             }
 		}
 
-		$this->render($this->path_view. 'create',array(
+		$this->render('create',array(
 			'model'=>$model,
 		));
 	}
@@ -61,16 +59,16 @@ class GolonganGajiMController extends MyAuthController
 		// Uncomment the following line if AJAX validation is needed
 		
 
-		if(isset($_POST['SAGolonganGajiM']))
+		if(isset($_POST['KPGolonganGajiM']))
 		{
-			$model->attributes=$_POST['SAGolonganGajiM'];
+			$model->attributes=$_POST['KPGolonganGajiM'];
 			if($model->save()){
                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
 				$this->redirect(array('admin','id'=>$model->golongangaji_id));
             }
 		}
 
-		$this->render($this->path_view. 'update',array(
+		$this->render('update',array(
 			'model'=>$model,
 		));
 	}
@@ -80,8 +78,8 @@ class GolonganGajiMController extends MyAuthController
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('SAGolonganGajiM');
-		$this->render($this->path_view. 'index',array(
+		$dataProvider=new CActiveDataProvider('KPGolonganGajiM');
+		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
 	}
@@ -92,12 +90,12 @@ class GolonganGajiMController extends MyAuthController
 	public function actionAdmin()
 	{
                                                          
-		$model=new SAGolonganGajiM('search');
+		$model=new KPGolonganGajiM('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['SAGolonganGajiM']))
-			$model->attributes=$_GET['SAGolonganGajiM'];
+		if(isset($_GET['KPGolonganGajiM']))
+			$model->attributes=$_GET['KPGolonganGajiM'];
 
-		$this->render($this->path_view. 'admin',array(
+		$this->render('admin',array(
 			'model'=>$model,
 		));
 	}
@@ -109,7 +107,7 @@ class GolonganGajiMController extends MyAuthController
 	 */
 	public function loadModel($id)
 	{
-		$model=SAGolonganGajiM::model()->findByPk($id);
+		$model=KPGolonganGajiM::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -171,7 +169,7 @@ class GolonganGajiMController extends MyAuthController
         $id = $_POST['id'];   
         if(isset($_POST['id']))
         {
-           $update = SAGolonganGajiM::model()->updateByPk($id,array('golongangaji_aktif'=>false));
+           $update = KPGolonganGajiM::model()->updateByPk($id,array('golongangaji_aktif'=>false));
            if($update)
             {
                 if (Yii::app()->request->isAjaxRequest)
@@ -196,17 +194,17 @@ class GolonganGajiMController extends MyAuthController
         
     public function actionPrint()
     {
-        $model= new SAGolonganGajiM;
-        $model->attributes=$_REQUEST['SAGolonganGajiM'];
+        $model= new KPGolonganGajiM;
+        $model->attributes=$_REQUEST['KPGolonganGajiM'];
         $judulLaporan='Data Golongan Gaji';
         $caraPrint=$_REQUEST['caraPrint'];
         if($caraPrint=='PRINT') {
             $this->layout='//layouts/printWindows';
-            $this->render($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+            $this->render('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
         }
         else if($caraPrint=='EXCEL') {
             $this->layout='//layouts/printExcel';
-            $this->render($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+            $this->render('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
         }
         else if($_REQUEST['caraPrint']=='PDF') {
             $ukuranKertasPDF = Yii::app()->user->getState('ukuran_kertas');                  //Ukuran Kertas Pdf
@@ -216,7 +214,7 @@ class GolonganGajiMController extends MyAuthController
             $stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
             $mpdf->WriteHTML($stylesheet,1);  
             $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
-            $mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
+            $mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
             $mpdf->Output();
         }                       
     }

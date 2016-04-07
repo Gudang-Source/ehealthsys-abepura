@@ -4,14 +4,14 @@
 	'enableAjaxValidation'=>false,
         'type'=>'horizontal',
         'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)'),
-        'focus'=>'#SAGolonganGajiM_golonganpegawai_id',
+        'focus'=>'#KPGolonganGajiM_golonganpegawai_id',
 )); ?>
 
 	<p class="help-block"><?php echo Yii::t('mds','Fields with <span class="required">*</span> are required.') ?></p>
 
 	<?php echo $form->errorSummary($model); ?>
 
-    <?php echo $form->dropDownListRow($model,'golonganpegawai_id', CHtml::listData(SAGolonganPegawaiM::model()->findAll('golonganpegawai_aktif = true'), 'golonganpegawai_id', 'golonganpegawai_nama'), array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", "empty"=>'-- Pilih --')); ?>
+    <?php echo $form->dropDownListRow($model,'golonganpegawai_id', CHtml::listData(KPGolonganPegawaiM::model()->findAll('golonganpegawai_aktif = true'), 'golonganpegawai_id', 'golonganpegawai_nama'), array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", "empty"=>'-- Pilih --')); ?>
     <?php echo $form->textFieldRow($model,'masakerja',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>3)); ?>
     <?php echo $form->textFieldRow($model,'jmlgaji',array('class'=>'span3 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>20)); ?>
     <?php echo $form->textFieldRow($model,'jenisgolongan',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
@@ -20,13 +20,13 @@
                                     Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),
                                     array('class'=>'btn btn-primary', 'type'=>'submit', 'onKeypress'=>'return formSubmit(this,event)')); ?>
                         <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
-                                    $this->createUrl('create'), 
+                                    Yii::app()->createUrl($this->module->id.'/golonganGajiM/admin'), 
                                     array('class'=>'btn btn-danger',
                                             'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
                        <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Golongan Gaji', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
-                                                                    $this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
+                                                                    $this->createUrl('golonganGajiM/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
                          <?php
-                            $content = $this->renderPartial('sistemAdministrator.views.tips.tipsaddedit',array(),true);
+                            $content = $this->renderPartial('kepegawaian.views.tips.tipsaddedit',array(),true);
                             $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
                         ?>
         </div>
