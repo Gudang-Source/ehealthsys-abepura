@@ -43,7 +43,8 @@ class BarangMController extends MyAuthController
                       $transaction = Yii::app()->db->beginTransaction();
                       $model=new SABarangM;
                       $model->attributes=$_POST['SABarangM'];
-                      $model->barang_statusregister=true;
+                      $model->barang_statusregister=true;                                           
+                          
                       if ($model->validate()) {
                         try {
                             $random = rand(0000000, 9999999);

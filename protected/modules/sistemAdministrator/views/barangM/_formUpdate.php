@@ -13,6 +13,9 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 <table width='100%'>
     <tr>
         <td>
+                 <?php           
+            echo $form->dropDownListRow($model, 'barang_type', LookupM::getItems('barangumumtype'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)", 'class' => 'span2'));
+            ?>  
              <?php //golongan
                   echo $form->dropDownListRow($model,'golongan_id', CHtml::listData($model->GolonganItems, 'golongan_id', 'golongan_nama'), 
                         array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
@@ -94,10 +97,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
              */ ?>
             </div>
             </div>
-            <?php
-            echo $form->dropDownListRow($model, 'barang_type', LookupM::getItems('barangumumtype'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)", 'class' => 'span2'
-            ));
-            ?>   
+           
             <?php Echo CHtml::hiddenField('tempKode', $model->barang_kode); ?>
             <?php echo $form->textFieldRow($model, 'barang_kode', array('class' => 'span2 ', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50,)); // 'onkeyup' => 'setKode(this);',?>
             <?php echo $form->textFieldRow($model, 'barang_nama', array('class' => 'span3', 'onkeyup' => "namaLain(this)", 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>

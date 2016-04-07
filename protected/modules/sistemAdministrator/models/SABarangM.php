@@ -145,6 +145,8 @@ class SABarangM extends BarangM
 			'criteria'=>$criteria,
 		));
 	}
+        
+       
 	
 }
 ?>
