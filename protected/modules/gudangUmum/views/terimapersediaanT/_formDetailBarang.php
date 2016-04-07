@@ -76,10 +76,11 @@ $modBarang = new BarangV('search');
 $modBarang->unsetAttributes();
 
 //$modPegawai->ruangan_id = 0;
-if (isset($_GET['BarangV']))
+if (isset($_GET['BarangV'])){
     $modBarang->attributes = $_GET['BarangV'];
-
-$modBarang->barang_aktif = true;
+    $modBarang->subsubkelompok_id = $_GET['BarangV']['subsubkelompok_id'];
+    $modBarang->barang_aktif = true;
+}
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'barang-m-grid',
     'dataProvider'=>$modBarang->search(),
@@ -118,6 +119,14 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
             )), 'golongan_id', 'golongan_nama'),array('empty'=>'--Pilih--'))
         ),
         array(
+            'name'=>'bidang_id',
+            'value'=>'$data->bidang_nama',
+            'filter'=>  CHtml::dropDownList('BarangV[bidang_id]',$modBarang->bidang_id,CHtml::listData(BidangM::model()->findAll(array(
+                'condition'=>'bidang_aktif = true',
+                'order'=>'bidang_nama',
+            )), 'bidang_id', 'bidang_nama'),array('empty'=>'--Pilih--'))
+        ),
+        array(
             'name'=>'kelompok_id',
             'value'=>'$data->kelompok_nama',
             'filter'=>   CHtml::dropDownList('BarangV[kelompok_id]',$modBarang->kelompok_id,CHtml::listData(KelompokM::model()->findAll(array(
@@ -134,13 +143,14 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
             )), 'subkelompok_id', 'subkelompok_nama'),array('empty'=>'--Pilih--'))
         ),
         array(
-            'name'=>'bidang_id',
-            'value'=>'$data->bidang_nama',
-            'filter'=>  CHtml::dropDownList('BarangV[bidang_id]',$modBarang->bidang_id,CHtml::listData(BidangM::model()->findAll(array(
-                'condition'=>'bidang_aktif = true',
-                'order'=>'bidang_nama',
-            )), 'bidang_id', 'bidang_nama'),array('empty'=>'--Pilih--'))
+            'name'=>'subsubkelompok_id',
+            'value'=>'$data->subkelompok_nama',
+            'filter'=>  CHtml::dropDownList('BarangV[subsubkelompok_id]',$modBarang->subsubkelompok_id,CHtml::listData(SubkelompokM::model()->findAll(array(
+                'condition'=>'subkelompok_aktif = true',
+                'order'=>'subkelompok_nama',
+            )), 'subkelompok_id', 'subkelompok_nama'),array('empty'=>'--Pilih--'))
         ),
+        
 //        'bidang_id',
 //        'barang_type',
 //        'barang_kode',

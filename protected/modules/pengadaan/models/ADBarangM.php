@@ -7,7 +7,7 @@
 class ADBarangM extends BarangM
 {
      public $golongan_id;
-     public $bidang_nama;
+     public $subsubkelompok_nama;
 
     /**
      * Returns the static model of the specified AR class.
@@ -19,8 +19,8 @@ class ADBarangM extends BarangM
             return parent::model($className);
     }
     
-    public function getBidangNama(){
-        return $this->bidang->bidang_nama;
+    public function getSubSubKelompokNama(){
+        return $this->subsubkelompok->subsubkelompok_nama;
     }
     
     public function searchDialog()
@@ -34,8 +34,8 @@ class ADBarangM extends BarangM
 		if(!empty($this->barang_id)){
 			$criteria->addCondition("t.barang_id = ".$this->barang_id);			
 		}
-		if(!empty($this->bidang_id)){
-			$criteria->addCondition("bidang_id = ".$this->bidang_id);			
+		if(!empty($this->subsubkelompok_id)){
+			$criteria->addCondition("subsubkelompok_id = ".$this->subsubkelompok_id);			
 		}
 		$criteria->compare('LOWER(barang_type)',strtolower($this->barang_type),true);
 		$criteria->compare('LOWER(barang_kode)',strtolower($this->barang_kode),true);
@@ -54,6 +54,7 @@ class ADBarangM extends BarangM
 		$criteria->compare('LOWER(barang_image)',strtolower($this->barang_image),true);
 		$criteria->compare('barang_aktif',isset($this->barang_aktif)?$this->barang_aktif:true);
 //		$criteria->addCondition('inventarisasiruangan_t.inventarisasi_qty_skrg > 0 ');
+                $criteria->order= 'barang_kode';
 		$criteria->limit = 10;
 		
 		return new CActiveDataProvider($this, array(
@@ -75,7 +76,7 @@ class ADBarangM extends BarangM
 		$criteria=new CDbCriteria;
 		
 		$criteria->compare('barang_id',$this->barang_id);
-		$criteria->compare('bidang_id',$this->bidang_id);
+		$criteria->compare('subsubkelompok_id',$this->subsubkelompokid);
 		$criteria->compare('LOWER(barang_type)',strtolower($this->barang_type),true);
 		$criteria->compare('LOWER(barang_kode)',$this->barang_kode,true);
 		$criteria->compare('LOWER(barang_nama)',$this->barang_nama,true);
@@ -112,7 +113,7 @@ class ADBarangM extends BarangM
 
 		$criteria=new CDbCriteria;
 		$criteria->compare('barang_id',$this->barang_id);
-		$criteria->compare('bidang_id',$this->bidang_id);
+		$criteria->compare('subsubkelompok_id',$this->subsubkelompok_id);
 		$criteria->compare('LOWER(barang_type)',strtolower($this->barang_type),true);
 		$criteria->compare('LOWER(barang_kode)',strtolower($this->barang_kode),true);
 		$criteria->compare('LOWER(barang_nama)',strtolower($this->barang_nama),true);

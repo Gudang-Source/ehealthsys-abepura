@@ -5,13 +5,19 @@
     <table class="table table-condensed table-bordered table-striped" id="tableDetailBarang">
         <thead>
             <tr>
-                <th>Golongan</th>
-                <th>Kelompok</th>
-                <th>Sub Kelompok</th>
+                <!--<th>Golongan</th>
                 <th>Bidang</th>
-                <th>Barang</th>
+                <th>Kelompok</th>
+                <th>Sub Kelompok</th>                
+                <th>Sub Sub Kelompok</th>                -->
+                <th>Tipe Barang</th>
+                <th>Kode Barang</th>
+                <th>Nama Barang</th>
+                <th>Merk</th>
                 <th>Jumlah Permintaan</th>
                 <th>Satuan</th>
+                <th>Ukuran</th>
+                <th>Tahun Ekonomis</th>
                 <!--<th>Ukuran<br/>Bahan</th>-->
                 <?php if ($model->isNewRecord){ ?>
                 <th>Batal</th>
