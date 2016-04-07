@@ -3,16 +3,22 @@
 <table class="table table-striped table-condensed" id="tableDetailBarang">
     <thead>
         <tr>
-            <th>Golongan</th>
+           <!-- <th>Golongan</th>
+            <th>Bidang</th>
             <th>Kelompok</th>
             <th>Sub Kelompok</th>
-            <th>Bidang</th>
-            <th>Barang</th>
+            <th>Sub Sub Kelompok</th>                        -->
+            <th>Tipe Barang</th>
+            <th>Kode Barang</th>
+            <th>Nama Barang</th>
+            <th>Merk</th>            
             <th>Harga Beli</th>
             <th>Harga Satuan</th>
             <th>Jumlah Beli</th>
             <th>Satuan</th>
             <th>Jumlah Dalam Kemasan</th>
+            <th>Ukuran</th>
+            <th>Tahun Ekonomis</th>
 			<?php if ($model->isNewRecord) { ?>
             <th>Batal</th>
 			<?php } ?>
@@ -24,15 +30,19 @@
         foreach ($modDetails as $i=>$detail){?>
         <?php $modBarang = BarangM::model()->findByPk($detail->barang_id); ?>
             <tr>   
-                <td><?php 
-                    echo CHtml::activeHiddenField($detail, '['.$i.']barang_id',array('class'=>'barang')); 
-                    echo !empty($modBarang->bidang_id)?$modBarang->bidang->subkelompok->kelompok->golongan->golongan_nama:null; 
+                <!--<td><?php 
+                   // echo CHtml::activeHiddenField($detail, '['.$i.']barang_id',array('class'=>'barang')); 
+                         // echo !empty($modBarang->subsubkelompok_id)?$modBarang->subsubkelompok->subkelompok->kelompok->bidang->golongan->golongan_nama:null; 
                     ?>
                 </td>
-                <td><?php echo !empty($modBarang->bidang_id)? $modBarang->bidang->subkelompok->kelompok->kelompok_nama:null; ?></td>
-				<td><?php echo !empty($modBarang->bidang_id)?$modBarang->bidang->subkelompok->subkelompok_nama:null; ?></td>
-				<td><?php echo !empty($modBarang->bidang_id)?$modBarang->bidang->bidang_nama:null; ?></td>
+                <td><?php //echo !empty($modBarang->subsubkelompok_id)?$modBarang->subsubkelompok_id->subkelompok->kelompok->bidang->bidang_nama:null; ?></td>
+                <td><?php //echo !empty($modBarang->subsubkelompok_id)?$modBarang->subsubkelompok_id->subkelompok->kelompok->kelompok_nama:null; ?></td>
+                <td><?php// echo !empty($modBarang->subsubkelompok_id)?$modBarang->subsubkelompok_id->subkelompok->subkelompok_nama:null; ?></td>
+                <td><?php //echo !empty($modBarang->subsubkelompok_id)?$modBarang->subsubkelompok_id->subsubkelompok_id_nama:null; ?></td>-->
+                <td><?php echo $modBarang->barang_type; ?></td>
+                <td><?php echo $modBarang->barang_kode; ?></td>
                 <td><?php echo $modBarang->barang_nama; ?></td>
+                <td><?php echo $modBarang->barang_merk; ?></td>
                 <td>
                 <?php 
                     echo CHtml::activeTextField($detail, '['.$i.']hargabeli', array('class'=>'span2 numbersOnly mutasi', 'onblur'=>'cekStok(this);', 'style'=>'text-align: right;'));

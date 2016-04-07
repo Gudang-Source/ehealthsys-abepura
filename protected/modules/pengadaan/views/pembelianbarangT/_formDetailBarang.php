@@ -85,7 +85,8 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
 $modBarang = new ADBarangM('searchDialog');
 $modBarang->unsetAttributes();
 if (isset($_GET['ADBarangM']))
-    $modBarang->attributes = $_GET['ADBarangM'];
+    $modBarang->attributes = $_GET['ADBarangM'];    
+    
 
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'barang-m-grid',
@@ -109,26 +110,21 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                         return false;"))',
         ),
         array(
-			'name'=>'barang_id',
-			'value'=>'$data->barang_id',
-			'filter'=>false,
-		),
-        'bidang.subkelompok.kelompok.golongan.golongan_nama',
-        'bidang.subkelompok.kelompok.kelompok_nama',
-        'bidang.subkelompok.subkelompok_nama',
-        'bidang.bidang_nama',
-//        'bidang_id',
-//        'barang_type',
-//        'barang_kode',
+            'header' => 'Tipe Barang',
+            'name' => 'barang_type',
+            'filter' => CHtml::dropDownList('ADBarangM[barang_type]',$modBarang->barang_type,LookupM::getItems('barangumumtype'),array('empty'=>'-- Pilih --')),    
+            'value' => '$data->barang_type',
+        ),
+        'barang_kode',
         'barang_nama',
-//        'barang_satuan',
+        'barang_merk',        
         array(
             'name'=>'barang_satuan',
             'filter'=> CHtml::dropDownList('ADBarangM[barang_satuan]',$modBarang->barang_satuan,LookupM::getItems('satuanbarang'),array('empty'=>'--Pilih--')),
             'value'=>'$data->barang_satuan',
         ),
         'barang_ukuran',
-        'barang_bahan',
+        'barang_ekonomis_thn',
 //        'barang_namalainnya',
     ),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',

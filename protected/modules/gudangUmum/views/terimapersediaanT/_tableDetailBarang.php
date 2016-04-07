@@ -4,9 +4,10 @@
     <thead>
         <tr>
             <th>Golongan</th>
+            <th>Bidang</th>
             <th>Kelompok</th>
             <th>Sub Kelompok</th>
-            <th>Bidang</th>
+            <th>Sub Sub Kelompok</th>
             <th>Barang</th>
             <th>Harga Beli</th>
             <th>Harga Satuan</th>
@@ -25,16 +26,17 @@
         if (isset($modDetails)){
             
         foreach ($modDetails as $i=>$detail){?>
-        <?php $modBarang = BarangM::model()->findByPk($detail->barang_id); ?>
+        <?php $modBarang = BarangM::model()->findByPk($detail->subsubkelompok_id); ?>
             <tr>   
                 <td><?php
                     echo CHtml::activeHiddenField($detail, '['.$i.']barang_id',array('class'=>'barang')); 
-                    echo !empty($modBarang->bidang_id)?$modBarang->bidang->subkelompok->kelompok->golongan->golongan_nama:null; 
+                    echo !empty($modBarang->subsubkelompok)?$modBarang->subsubkelompok->subkelompok->kelompok->bidang->golongan->golongan_nama:null; 
                     ?>
                 </td>
-                <td><?php echo !empty($modBarang->bidang_id)? $modBarang->bidang->subkelompok->kelompok->kelompok_nama:null; ?></td>
-				<td><?php echo !empty($modBarang->bidang_id)?$modBarang->bidang->subkelompok->subkelompok_nama:null; ?></td>
-				<td><?php echo !empty($modBarang->bidang_id)?$modBarang->bidang->bidang_nama:null; ?></td>
+                <td><?php echo !empty($modBarang->subsubkelompok)? $modBarang->subsubkelompok->subkelompok->kelompok->bidang->bidang_nama:null; ?></td>
+                <td><?php echo !empty($modBarang->subsubkelompok)? $modBarang->subsubkelompok->subkelompok->kelompok->kelompok_nama:null; ?></td>
+                <td><?php echo !empty($modBarang->subsubkelompok)?$modBarang->subsubkelompok->subkelompok->subkelompok_nama:null; ?></td>
+                <td><?php echo !empty($modBarang->subsubkelompok)?$modBarang->subsubkelompok->subsubkelompok_nama:null; ?></td>
                 <td><?php echo $modBarang->barang_nama; ?></td>
                 
                 <td>

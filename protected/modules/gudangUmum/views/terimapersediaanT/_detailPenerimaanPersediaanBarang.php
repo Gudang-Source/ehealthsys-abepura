@@ -1,12 +1,13 @@
 <tr>   
     <td><?php 
         echo CHtml::activeHiddenField($modDetail, '[]barang_id', array('class'=>'barang')); 
-        echo $modBarang->bidang->subkelompok->kelompok->golongan->golongan_nama; 
+        echo $modBarang->subsubkelompok->subkelompok->kelompok->bidang->golongan->golongan_nama; 
         ?>
     </td>
-    <td><?php echo $modBarang->bidang->subkelompok->kelompok->kelompok_nama; ?></td>
-    <td><?php echo $modBarang->bidang->subkelompok->subkelompok_nama; ?></td>
-    <td><?php echo $modBarang->bidang->bidang_nama; ?></td>
+    <td><?php echo $modBarang->subsubkelompok->subkelompok->kelompok->bidang->bidang_nama; ?></td>
+    <td><?php echo $modBarang->subsubkelompok->subkelompok->kelompok->kelompok_nama; ?></td>
+    <td><?php echo $modBarang->subsubkelompok->subkelompok->subkelompok_nama; ?></td>
+    <td><?php echo $modBarang->subsubkelompok->subsubkelompok_nama; ?></td>
     <td><?php echo $modBarang->barang_nama; ?></td>
     <td><?php echo CHtml::activeTextField($modDetail, '[]hargabeli', array('class'=>'span2 numbersOnly beli', 'style'=>'text-align: right')); ?></td>
     <td><?php echo CHtml::activeTextField($modDetail, '[]hargasatuan', array('class'=>'span2 numbersOnly satuan', 'onblur'=>'setTotalHarga();',  'style'=>'text-align: right')); ?></td>
