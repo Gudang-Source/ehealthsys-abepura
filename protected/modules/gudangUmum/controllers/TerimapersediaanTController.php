@@ -226,7 +226,7 @@ class TerimapersediaanTController extends MyAuthController
             $jumlah = $_POST['jumlah'];
             $satuan = $_POST['satuan'];
             
-            $modBarang = BarangM::model()->with('bidang')->findByPk($idBarang);
+            $modBarang = BarangM::model()->with('subsubkelompok')->findByPk($idBarang);
             $modDetail = new TerimapersdetailT();
             $modDetail->barang_id = $idBarang;
             $modDetail->satuanbeli = $satuan;

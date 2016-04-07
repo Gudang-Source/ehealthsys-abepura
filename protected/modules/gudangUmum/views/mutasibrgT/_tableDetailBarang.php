@@ -3,17 +3,21 @@
 <table class="table table-striped table-condensed" id="tableDetailBarang">
     <thead>
         <tr>
-            <th>Golongan</th>
+            <!--th>Golongan</th>
             <th>Kelompok</th>
             <th>Sub Kelompok</th>
-            <th>Bidang</th>
-            <th>Barang</th>
+            <th>Bidang</th>-->
+            <th>Tipe Barang</th>
+            <th>Kode Barang</th>
+            <th>Nama Barang</th>
+            <th>Merk</th>
             <?php if (isset($modPesan)){ ?>
             <th>Jumlah Pesan</th>
             <?php } ?>
             <th>Jumlah Mutasi</th>
             <th>Satuan</th>
-            <th>Ukuran<br/>Bahan</th>
+            <th>Ukuran</th>
+            <th>Tahun Eknomis</th>
             <?php if ($model->isNewRecord){ ?>
             <th>Batal</th>
             <?php } ?>

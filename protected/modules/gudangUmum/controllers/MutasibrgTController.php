@@ -245,7 +245,7 @@ class MutasibrgTController extends MyAuthController {
                     Yii::app()->end();
                 }
             }
-            $modBarang = BarangM::model()->with('bidang')->findByPk($idBarang);
+            $modBarang = BarangM::model()->with('subsubkelompok')->findByPk($idBarang);
             $modDetail = new MutasibrgdetailT();
             $modDetail->barang_id = $idBarang;
             $modDetail->satuanbrg = $satuan;

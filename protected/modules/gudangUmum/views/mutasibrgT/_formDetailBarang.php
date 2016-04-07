@@ -113,23 +113,22 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                         $(\'#dialogBarang\').dialog(\'close\');
                                         return false;"))',
         ),   
-        array(
-			'name'=>'barang_id',
-			'value'=>'$data->barang_id',
-			'filter'=>false,
-		),
-        'bidang.subkelompok.kelompok.golongan.golongan_nama',
-        'bidang.subkelompok.kelompok.kelompok_nama',
-        'bidang.subkelompok.subkelompok_nama',
-        'bidang.bidang_nama',
+       array(
+            'header' => 'Tipe Barang',
+            'name' => 'barang_type',
+            'filter' => CHtml::dropDownList('ADBarangM[barang_type]',$modBarang->barang_type,LookupM::getItems('barangumumtype'),array('empty'=>'-- Pilih --')),    
+            'value' => '$data->barang_type',
+        ),
+        'barang_kode',
         'barang_nama',
+        'barang_merk',        
         array(
             'name'=>'barang_satuan',
-            'filter'=> CHtml::dropDownList('GUBarangM[barang_satuan]',$modBarang->barang_satuan,LookupM::getItems('satuanbarang'), array('empty'=>'--Pilih--')),
+            'filter'=> CHtml::dropDownList('ADBarangM[barang_satuan]',$modBarang->barang_satuan,LookupM::getItems('satuanbarang'),array('empty'=>'--Pilih--')),
             'value'=>'$data->barang_satuan',
         ),
         'barang_ukuran',
-        'barang_bahan',
+        'barang_ekonomis_thn',
         
     ),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
