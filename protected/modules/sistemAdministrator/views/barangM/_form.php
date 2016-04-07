@@ -1,3 +1,20 @@
+<style>
+    .notrequired
+    {
+        color:#001F3E;        
+    }
+    
+    .inputnotrequired
+    {
+        color:#555555;
+        border: 1px solid #ccc;
+    }
+    
+    .labelnotrequired
+    {
+        color:#001F3E;        
+    }
+</style>
 <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/form.js'); ?>
 <?php
 $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
@@ -15,6 +32,9 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 <table width='100%'>
     <tr>
         <td>            
+             <?php           
+            echo $form->dropDownListRow($model, 'barang_type', LookupM::getItems('barangumumtype'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)", 'class' => 'span2', 'onchange'=>'cekTipeBarang();'));
+            ?>  
             <?php //golongan
                   echo $form->dropDownListRow($model,'golongan_id', CHtml::listData($model->GolonganItems, 'golongan_id', 'golongan_nama'), 
                         array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
@@ -94,14 +114,12 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
               ));
              */ ?>
 
-            <?php           
-            echo $form->dropDownListRow($model, 'barang_type', LookupM::getItems('barangumumtype'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)", 'class' => 'span2'));
-            ?>   
+            
             <?php Echo CHtml::hiddenField('tempKode', $model->barang_kode); ?>            
             <?php echo $form->textFieldRow($model, 'barang_kode', array('class' => 'span2 ',  'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50,)); //'onkeyup' => 'setKode(this);',?>            
             <?php echo $form->textFieldRow($model, 'barang_nama', array('class' => 'span2', 'onkeyup' => "namaLain(this)", 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
             <?php echo $form->textFieldRow($model, 'barang_namalainnya', array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>   
-            <?php echo $form->textFieldRow($model, 'barang_merk', array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>    
+            <?php echo $form->textFieldRow($model, 'barang_merk', array('class' => 'reqForm  span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>    
             <?php echo $form->textFieldRow($model, 'barang_noseri', array('class' => 'span2 ', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 20)); ?>    
         </td>
         <td>
@@ -141,8 +159,9 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 </table>
 <div class="form-actions">
     <?php
-    echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds', '{icon} Create', array('{icon}' => '<i class="icon-ok icon-white"></i>')) :
+    echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds', '{icon} Create',array('{icon}' => '<i class="icon-ok icon-white"></i>')) :
                     Yii::t('mds', '{icon} Save', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'onKeypress' => 'return formSubmit(this,event)'));
+   // echo CHtml::htmlButton(Yii::t('mds', '{icon} Create', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit'));
     ?>
     <?php
     echo CHtml::link(Yii::t('mds', '{icon} Ulang', array('{icon}' => '<i class="icon-refresh icon-white"></i>')), Yii::app()->createUrl($this->module->id . '/barangM/admin'), array('class' => 'btn btn-danger',
@@ -257,7 +276,80 @@ JS;
 Yii::app()->clientScript->registerScript('numberOnly', $js, CClientScript::POS_READY);
 ?>
 
-<script type="text/javascript">
+<script type="text/javascript">                
+    function cekTipeBarang()
+    {
+        var tipebarang = $("#SABarangM_barang_type").val();
+        
+        if (tipebarang === "Habis Pakai")
+        {   //disabled                                    
+            $(".alert-block").remove();
+            $(".help-inline").remove();
+            $("label[for=SABarangM_golongan_id]").find($("span[class=required]")).remove();
+            $("label[for=SABarangM_bidang_id]").find($("span[class=required]")).remove();
+            $("label[for=SABarangM_kelompok_id]").find($("span[class=required]")).remove();
+            $("label[for=SABarangM_subkelompok_id]").find($("span[class=required]")).remove();
+            $("label[for=SABarangM_subsubkelompok_id]").find($("span[class=required]")).remove();
+            
+            $("#SABarangM_golongan_id option[value='']").attr('selected','selected');
+            $(".control-group").removeClass('error').addClass('notrequired');
+            $("#<?php echo CHtml::activeId($model,"golongan_id");?>").removeClass('error').addClass('inputnotrequired');            
+            $("#<?php echo CHtml::activeId($model,"bidang_id");?>").removeClass('error').addClass('inputnotrequired');
+            $("#<?php echo CHtml::activeId($model,"kelompok_id");?>").removeClass('error').addClass('inputnotrequired');
+            $("#<?php echo CHtml::activeId($model,"subkelompok_id");?>").removeClass('error').addClass('inputnotrequired');
+            $("#<?php echo CHtml::activeId($model,"subsubkelompok_id");?>").removeClass('error').addClass('inputnotrequired');
+            
+            
+            
+            $("label[for=SABarangM_golongan_id]").removeClass('error required').addClass('notrequired');
+            $("label[for=SABarangM_bidang_id]").removeClass('error required').addClass('notrequired');
+            $("label[for=SABarangM_kelompok_id]").removeClass('error required').addClass('notrequired');
+            $("label[for=SABarangM_subkelompok_id]").removeClass('error required').addClass('notrequired');
+            $("label[for=SABarangM_subsubkelompok_id]").removeClass('error required').addClass('notrequired');
+    
+            
+            
+            $("#<?php echo CHtml::activeId($model,"bidang_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
+            $("#<?php echo CHtml::activeId($model,"kelompok_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
+            $("#<?php echo CHtml::activeId($model,"subkelompok_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
+            $("#<?php echo CHtml::activeId($model,"subsubkelompok_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
+            
+            $("#<?php echo CHtml::activeId($model,"golongan_id");?>").prop("disabled", true );            
+            $("#<?php echo CHtml::activeId($model,"bidang_id");?>").prop("disabled", true );            
+            $("#<?php echo CHtml::activeId($model,"kelompok_id");?>").prop("disabled", true );            
+            $("#<?php echo CHtml::activeId($model,"subkelompok_id");?>").prop("disabled", true );            
+            $("#<?php echo CHtml::activeId($model,"subsubkelompok_id");?>").prop("disabled", true );                                                                        
+        }
+        else        
+       {                                       
+            
+            $("#<?php echo CHtml::activeId($model,"golongan_id");?>").prop("disabled", false );            
+            $("#<?php echo CHtml::activeId($model,"bidang_id");?>").prop("disabled", false );            
+            $("#<?php echo CHtml::activeId($model,"kelompok_id");?>").prop("disabled", false );            
+            $("#<?php echo CHtml::activeId($model,"subkelompok_id");?>").prop("disabled", false );            
+            $("#<?php echo CHtml::activeId($model,"subsubkelompok_id");?>").prop("disabled", false );                                                             
+            
+            $("label[for=SABarangM_golongan_id]").find($("span[class=required]")).remove();
+            $("label[for=SABarangM_bidang_id]").find($("span[class=required]")).remove();
+            $("label[for=SABarangM_kelompok_id]").find($("span[class=required]")).remove();
+            $("label[for=SABarangM_subkelompok_id]").find($("span[class=required]")).remove();
+            $("label[for=SABarangM_subsubkelompok_id]").find($("span[class=required]")).remove();
+                        
+            $("label[for=SABarangM_golongan_id]").append("<span class=required> *</span>")
+            $("label[for=SABarangM_bidang_id]").append("<span class=required> *</span>");
+            $("label[for=SABarangM_kelompok_id]").append("<span class=required> *</span>");
+            $("label[for=SABarangM_subkelompok_id]").append("<span class=required> *</span>");
+            $("label[for=SABarangM_subsubkelompok_id]").append("<span class=required> *</span>");
+                        
+            $("label[for=SABarangM_golongan_id]").addClass("required");
+            $("label[for=SABarangM_bidang_id]").addClass("required");
+            $("label[for=SABarangM_kelompok_id]").addClass("required");
+            $("label[for=SABarangM_subkelompok_id]").addClass("required");
+            $("label[for=SABarangM_subsubkelompok_id]").addClass("required");
+        }
+        
+    }
+        
     function namaLain(nama)
     {
         document.getElementById('SABarangM_barang_namalainnya').value = nama.value.toUpperCase();

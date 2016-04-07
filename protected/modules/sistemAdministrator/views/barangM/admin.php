@@ -61,7 +61,7 @@
                         'filter'=> CHtml::activeDropDownList($model, 'subsubkelompok_id',CHtml::listData($model->SubSubKelompokItems, 'subsubkelompok_id', 'subsubkelompok_nama'),array('empty'=>'--Pilih--')),
                         'value'=>function($data) {
                             $sub = SubsubkelompokM::model()->findByPk($data->subsubkelompok_id);
-                            return $sub->subsubkelompok_nama;
+                            return isset($sub->subsubkelompok_nama)?$sub->subsubkelompok_nama:null;
                         }
                     ),
                     array(
