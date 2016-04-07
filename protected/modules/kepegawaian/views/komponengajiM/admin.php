@@ -27,18 +27,18 @@
             return false;
     });
     ");
-    $this->renderPartial($this->path_view_tab.'_tabMenu',array());
+    $this->renderPartial('_tabMenu',array());
     $this->widget('bootstrap.widgets.BootAlert'); ?>
     <div class="biru">
         <div class="white">
             <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-white icon-accordion"></i>')),'#',array('class'=>'search-button btn')); ?>
-            <div class="cari-lanjut search-form" style="display:none">
-                <?php $this->renderPartial($this->path_view. '_search',array(
+            <div class="cari-lanjut3 search-form" style="display:none">
+                <?php $this->renderPartial('_search',array(
                         'model'=>$model,
                 )); ?>
             </div><!-- search-form -->
-            <div class="block-tabel">
-                <h6>Tabel <b>Komponen Gaji</b></h6>
+            <!--<div class="block-tabel">-->
+                <!--<h6>Tabel <b>Komponen Gaji</b></h6>-->
                 <?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'id'=>'komponengaji-m-grid',
                     'dataProvider'=>$model->search(),
@@ -107,7 +107,7 @@
                         })
                     }',
                 )); ?>
-            </div>
+            <!--</div>-->
         </div>
     </div>
     <?php 
@@ -115,7 +115,7 @@
     echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
     echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
     echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
-    $content = $this->renderPartial('sistemAdministrator.views/tips/master',array(),true); 
+    $content = $this->renderPartial('../tips/master',array(),true); 
     $this->widget('UserTips',array('type'=>'admin','content'=>$content));
     $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
     $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
