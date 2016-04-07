@@ -7,14 +7,14 @@ $this->widget('bootstrap.widgets.BootMenu', array(
         array('label'=>'Kelompok', 'url'=>$this->createUrl('/kepegawaian/KelompokpegawaiM/admin'), ),
         array('label'=>'Jabatan', 'url'=>$this->createUrl('/kepegawaian/jabatanM/admin'),),
         array('label'=>'Status kepemilikan rumah', 'url'=>$this->createUrl('/kepegawaian/statuskepemilikanrumahM/admin'),),
-        array('label'=>'Nilai','url'=>$this->createUrl('/kepegawaian/nilaiM/admin'),'active'=>true ),
-        array('label'=>'Komponen Gaji','url'=>$this->createUrl('/kepegawaian/komponengajiMKP/admin')),
+        array('label'=>'Nilai','url'=>$this->createUrl('/kepegawaian/nilaiM/admin') ),
+        array('label'=>'Komponen Gaji','url'=>$this->createUrl('/kepegawaian/komponengajiMKP/admin'),'active'=>true),
         array('label'=>'Golongan', 'url'=>$this->createUrl('/kepegawaian/golonganPegawaiM/admin')),
         array('label'=>'Golongan Gaji', 'url'=>$this->createUrl('/kepegawaian/golonganGajiMKP/admin')),
         array('label'=>'PTKP', 'url'=>$this->createUrl('/kepegawaian/PtkpMKP/admin')),
         array('label'=>'Minat Pekerjaan', 'url'=>$this->createUrl('/kepegawaian/LookupM/admin')),
-//        array('label'=>'Esselon', 'url'=>$this->createUrl('/kepegawaian/esselonM/admin'),),
 //        array('label'=>'Golongan', 'url'=>$this->createUrl('/kepegawaian/golonganPegawaiM/admin')),
+//        array('label'=>'Esselon', 'url'=>$this->createUrl('/kepegawaian/esselonM/admin'),),
     ),
 )); 
 ?>

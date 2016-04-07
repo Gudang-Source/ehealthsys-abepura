@@ -24,7 +24,7 @@
             return false;
     });
     ");
-    $this->renderPartial($this->path_view. '_tabMenu',array());
+    $this->renderPartial($this->path_view_tab. '_tabMenu',array());
     $this->widget('bootstrap.widgets.BootAlert'); ?>
     <div class="biru">
         <div class="white">

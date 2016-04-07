@@ -49,7 +49,7 @@
                         array('class'=>'btn btn-danger',
                               'onclick'=>'if(confirm("'.Yii::t('mds','Do You want to cancel?').'")) location.reload(); return false;')); ?>
     <?php
-    echo CHtml::link(Yii::t('mds', '{icon} Pengaturan PTKP', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp";
+    echo CHtml::link(Yii::t('mds', '{icon} Pengaturan PTKP', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp";
     $this->widget('UserTips',array('type'=>'create'));
     ?>
 
