@@ -239,7 +239,7 @@ class PemakaianbarangTController extends MyAuthController
             $jumlah = $_POST['jumlah'];
             $satuan = $_POST['satuan'];
             
-            $modBarang = BarangM::model()->with('bidang')->findByPk($barang_id);
+            $modBarang = BarangM::model()->with('subsubkelompok')->findByPk($barang_id);
             $modDetail = new GUPemakaianbrgdetailT();
             $modDetail->barang_id = $barang_id;
             $modDetail->satuanpakai = $satuan;

@@ -37,6 +37,9 @@
 class BarangV extends CActiveRecord
 {
     public $invtanah_namabrg;
+    public $subsubkelompok_id;
+    public $subsubkelompok_nama;
+    public $subsubkelompok_kode;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -72,7 +75,7 @@ class BarangV extends CActiveRecord
 			array('barang_statusregister, barang_aktif', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('golongan_id, golongan_kode, golongan_nama, kelompok_id, kelompok_kode, kelompok_nama, subkelompok_id, subkelompok_kode, subkelompok_nama, bidang_id, bidang_kode, bidang_nama, barang_id, barang_type, barang_kode, barang_nama, barang_namalainnya, barang_merk, barang_noseri, barang_ukuran, barang_bahan, barang_thnbeli, barang_warna, barang_statusregister, barang_ekonomis_thn, barang_satuan, barang_jmldlmkemasan, barang_image, barang_aktif', 'safe', 'on'=>'search'),
+			array('subsubkelompok_id,subsubkelompok_nama,subsubkelompok_kode, golongan_id, golongan_kode, golongan_nama, kelompok_id, kelompok_kode, kelompok_nama, subkelompok_id, subkelompok_kode, subkelompok_nama, bidang_id, bidang_kode, bidang_nama, barang_id, barang_type, barang_kode, barang_nama, barang_namalainnya, barang_merk, barang_noseri, barang_ukuran, barang_bahan, barang_thnbeli, barang_warna, barang_statusregister, barang_ekonomis_thn, barang_satuan, barang_jmldlmkemasan, barang_image, barang_aktif', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -102,6 +105,9 @@ class BarangV extends CActiveRecord
 			'subkelompok_id' => 'ID Subkelompok',
 			'subkelompok_kode' => 'Kode Subkelompok',
 			'subkelompok_nama' => 'Sub Kelompok',
+                        'subsubkelompok_id' => 'ID Subsubkelompok',
+			'subsubkelompok_kode' => 'Kode Subsubkelompok',
+			'subsubkelompok_nama' => 'Sub Sub Kelompok',
 			'bidang_id' => 'ID Bidang',
 			'bidang_kode' => 'Kode Bidang',
 			'bidang_nama' => 'Bidang',
