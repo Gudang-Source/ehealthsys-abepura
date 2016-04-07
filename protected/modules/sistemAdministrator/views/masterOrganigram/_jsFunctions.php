@@ -1,9 +1,17 @@
 <?php
+
 $gets = "";
 if(isset($_GET)){
+        //var_dump($_GET);
 	foreach($_GET AS $name => $get){
-		if($name != "r")
-			$gets .= "&".$name."=".$get;
+		if($name != "r") {
+                    if(is_array($get)) {
+                        foreach ($get as $subname => $sub) {
+                            $gets .= "&".$name."[".$subname."]=".$sub;
+                        }
+                    } else $gets .= "&".$name."=".$get;
+                }
+			
 	}
 }
 ?>
