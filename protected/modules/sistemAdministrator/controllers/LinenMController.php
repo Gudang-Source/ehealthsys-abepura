@@ -145,6 +145,7 @@ class LinenMController extends MyAuthController
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['SALinenM'])){
 			$model->attributes = $_GET['SALinenM'];
+                        $model->barang_nama = $_GET['SALinenM']['barang_nama'];
 		}
 		$this->render($this->path_view.'admin',array(
 				'model'=>$model,
