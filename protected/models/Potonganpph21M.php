@@ -65,7 +65,7 @@ class Potonganpph21M extends CActiveRecord
 			'potonganpph21_id' => 'Id Potongan Pph 21',
 			'penghasilandari' => 'Penghasilan Dari',
 			'sampaidgn_thn' => 'Sampa Dengan Tahun',
-			'persentarifpenghsl' => 'Persen Tarif Penghasilan',
+			'persentarifpenghsl' => '% Tarif Penghasilan',
 		);
 	}
 
