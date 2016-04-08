@@ -79,7 +79,7 @@ class LinenMController extends MyAuthController
                         $model->barang_id = $_POST['barang_id'];
 			if($model->save()){
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('view','id'=>$model->linen_id));
+				$this->redirect(array('admin'));
 			}
 		}
 
