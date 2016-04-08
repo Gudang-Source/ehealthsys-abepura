@@ -34,7 +34,7 @@ class Potonganpph21MController extends MyAuthController
 			$model->attributes = $_POST['Potonganpph21M'];
 			if($model->save()){
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('view','id'=>$model->potonganpph21_id));
+				$this->redirect(array('admin'));
 			}
 		}
 
@@ -59,7 +59,7 @@ class Potonganpph21MController extends MyAuthController
 			$model->attributes = $_POST['Potonganpph21M'];
 			if($model->save()){
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('view','id'=>$model->potonganpph21_id));
+				$this->redirect(array('admin'));
 			}
 		}
 
