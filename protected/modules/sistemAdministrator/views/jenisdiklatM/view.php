@@ -12,8 +12,9 @@ $this->breadcrumbs=array(
 		<?php $this->widget('ext.bootstrap.widgets.BootDetailView',array(
 				'data'=>$model,
 				'attributes'=>array(
-				'jenisdiklat_id',
-				'jenisdiklat_nama'
+                                    'jenisdiklat_id',
+                                    'jenisdiklat_nama',
+                                    'jenisdiklat_deskripsi',
 				),
 		)); ?>
 		</div>

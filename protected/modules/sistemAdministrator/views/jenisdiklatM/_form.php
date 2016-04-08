@@ -15,6 +15,7 @@
 		<div class = "span6">
 			<?php echo $form->textFieldRow($model,'jenisdiklat_nama',array('class'=>'span3', 'onkeyup'=>"namaLain(this); return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
 			<?php echo $form->textFieldRow($model,'jenisdiklat_namalainnya',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50,'readonly'=>true)); ?>
+                        <?php echo $form->textAreaRow($model,'jenisdiklat_deskripsi',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'rows'=>4)); ?>
 			<?php echo $form->checkBoxRow($model,'jenisdiklat_aktif', array('onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
 		</div>
 		<div class = "span6">
