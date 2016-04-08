@@ -7,7 +7,7 @@ $this->breadcrumbs=array(
 
 ?>
 <div class="white-container">
-	<legend class="rim2">Ubah JeniscutiM</legend>
+	<legend class="rim2">Ubah Jenis Cuti</legend>
 
 	<?php $this->widget('bootstrap.widgets.BootAlert'); ?>
 
