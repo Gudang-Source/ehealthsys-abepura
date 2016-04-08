@@ -83,7 +83,7 @@ class BarangM extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('barang_type, barang_kode, barang_nama, barang_harganetto, golongan_id, bidang_id, kelompok_id, subkelompok_id, subsubkelompok_id', 'required'),                       
+			array('barang_type, barang_kode, barang_nama, barang_harganetto', 'required'),                       
                        // array('golongan_id, bidang_id, kelompok_id, subkelompok_id, subsubkelompok_id', 'required', 'on'=>'cekTipeBarang'),
 			array('barang_ekonomis_thn, barang_jmldlmkemasan', 'numerical', 'integerOnly'=>true),
 			array('barang_harganetto, barang_persendiskon, barang_ppn, barang_hpp, barang_hargajual', 'numerical'),
@@ -92,10 +92,10 @@ class BarangM extends CActiveRecord
 			array('barang_noseri, barang_ukuran, barang_bahan', 'length', 'max'=>20),
 			array('barang_thnbeli', 'length', 'max'=>5),
 			array('barang_image', 'length', 'max'=>200),
-			array('barang_statusregister, barang_aktif', 'safe'),
+			array('nomorregister, barang_statusregister, barang_aktif, subsubkelompok_id', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('nomorregister, subsubkelompok_nama, subkelompok_id, kelompok_id, bidang_id, golongan_id, barang_id, subsubkelompok_id, barang_type, barang_kode, barang_nama, barang_namalainnya, barang_merk, barang_noseri, barang_ukuran, barang_bahan, barang_thnbeli, barang_warna, barang_statusregister, barang_ekonomis_thn, barang_satuan, barang_jmldlmkemasan, barang_image, barang_harganetto, barang_aktif, barang_persendiskon, barang_ppn, barang_hpp, barang_hargajual', 'safe', 'on'=>'search'),
+			array('subsubkelompok_id, nomorregister, subsubkelompok_nama, subkelompok_id, kelompok_id, bidang_id, golongan_id, barang_id, barang_type, barang_kode, barang_nama, barang_namalainnya, barang_merk, barang_noseri, barang_ukuran, barang_bahan, barang_thnbeli, barang_warna, barang_statusregister, barang_ekonomis_thn, barang_satuan, barang_jmldlmkemasan, barang_image, barang_harganetto, barang_aktif, barang_persendiskon, barang_ppn, barang_hpp, barang_hargajual', 'safe', 'on'=>'search'),
 		);
 	}
         
@@ -287,6 +287,20 @@ class BarangM extends CActiveRecord
             return $data;
         }
         
+        public function getNomorReg($subsubkelompok_id)
+        {
+            $subsubkelid = SubsubkelompokM::model()->findAllByAttributes(array('subsubkelompok_id'=> $subsubkelompok_id));
+            
+             if ($subsubkelid == null):
+                $data = '';
+            else:
+                foreach($subsubkelid as $id):
+                    $data = $id->subsubkelompok_kode;
+                endforeach;    
+            endif;
+            
+            return $data;
+        }
        // public function beforeValidate()
        // {
          //   if ($this->barang_type != 'Habis Pakai'):

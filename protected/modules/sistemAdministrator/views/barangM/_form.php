@@ -74,16 +74,17 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
             <?php //subsubkelompok //CHtml::listData($model->SubSubKelompokItems, 'subsubkelompok_id', 'subsubkelompok_nama')
                     echo $form->dropDownListRow($model,'subsubkelompok_id', array(), 
                         array('empty'=>'-- Pilih --','class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
-                              //  'ajax'=>array('type'=>'POST',
-                                   //         'url'=>$this->createUrl('/ActionAjax/GetKodeBarangSubSubKel',array('encode'=>false,'model_nama'=>get_class($model))),
-                                    //        //'update'=>"#".CHtml::activeId($model, 'barang_kode'),
-                                    //        'dataType' => 'json',
-                                    //        'success' => 'function(data){
-                                    //            $("#SABarangM_barang_kode").val(data.kodebarang);
-                                                
-                                        //   }',
-//$("#barangkode").val(data.kodebarang);
-                           //     ),//'onchange'=>"setClearSubSubKelompok();",
+                                'ajax'=>array('type'=>'POST',
+                                            'url'=>$this->createUrl('/ActionAjax/GetKodeBarangSubSubKel',array('encode'=>false,'model_nama'=>get_class($model))),
+                                            //'update'=>"#".CHtml::activeId($model, 'barang_kode'),
+                                            'dataType' => 'json',
+                                            'success' => 'function(data){
+                                                var nomorregis = $("#SABarangM_nomorregister").val();
+                                                $("#barangkode").val(data.kodebarang);                                                    
+                                                $("#SABarangM_barang_kode").val(data.kodebarang);                                                                                                
+                                            }',
+
+                                ),//'onchange'=>"nomorReg();",
                                 ));?>
             <!--            <div class="control-group ">
                                 <label class="control-label" for="bidang">Bidang</label>
@@ -126,10 +127,10 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
              */ ?>
 
             
-            <?php Echo CHtml::hiddenField('tempKode', $model->barang_kode); ?>            
-            <?php echo $form->textFieldRow($model, 'nomorregister', array('class' => 'span2 ',  'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 10, 'onkeyup' => 'nomorReg(this);')); //'onkeyup' => 'setKode(this);',?> 
-            <?php echo CHtml::textField('barangkode'); ?>
-            <?php echo $form->textFieldRow($model, 'barang_kode', array('class' => 'span2 ',  'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50,)); //'onkeyup' => 'setKode(this);',?>            
+            <?php Echo CHtml::hiddenField('tempKode', $model->barang_kode); ?>                        
+            <?php echo CHtml::hiddenField('barangkode'); ?>
+            <?php echo $form->textFieldRow($model, 'barang_kode', array('class' => 'span3 ',  'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); //'onkeyup' => 'setKode(this);',?>            
+            <?php echo $form->textFieldRow($model, 'nomorregister', array('class' => 'span2 ',  'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 10)); //'onkeyup' => 'setKode(this);',?>             
             <?php echo $form->textFieldRow($model, 'barang_nama', array('class' => 'span2', 'onkeyup' => "namaLain(this)", 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
             <?php echo $form->textFieldRow($model, 'barang_namalainnya', array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>   
             <?php echo $form->textFieldRow($model, 'barang_merk', array('class' => 'reqForm  span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>    
@@ -292,11 +293,12 @@ Yii::app()->clientScript->registerScript('numberOnly', $js, CClientScript::POS_R
 <script type="text/javascript">                
     function cekTipeBarang()
     {
-        /* var tipebarang = $("#SABarangM_barang_type").val();
+        var tipebarang = $("#SABarangM_barang_type").val();
         
         if (tipebarang === "Habis Pakai")
         {   //disabled                 
-            $("#<?php //echo CHtml::activeId($model,"barang_kode");?>").val('');            
+            $("#<?php echo CHtml::activeId($model,"barang_kode");?>").val('');            
+            $("#barangkode").val('');
             $("#barangkode").val('');
             $(".alert-block").remove();
             $(".help-inline").remove();
@@ -309,12 +311,12 @@ Yii::app()->clientScript->registerScript('numberOnly', $js, CClientScript::POS_R
             
             $("#SABarangM_golongan_id option[value='']").attr('selected','selected');
             $(".control-group").removeClass('error').addClass('notrequired');
-            $("#<?php //echo CHtml::activeId($model,"golongan_id");?>").removeClass('error').addClass('inputnotrequired');            
-            $("#<?php //echo CHtml::activeId($model,"bidang_id");?>").removeClass('error').addClass('inputnotrequired');
-            $("#<?php //echo CHtml::activeId($model,"kelompok_id");?>").removeClass('error').addClass('inputnotrequired');
-            $("#<?php //echo CHtml::activeId($model,"subkelompok_id");?>").removeClass('error').addClass('inputnotrequired');
-            $("#<?php //echo CHtml::activeId($model,"subsubkelompok_id");?>").removeClass('error').addClass('inputnotrequired');
-            $("#<?php// echo CHtml::activeId($model,"nomorregister");?>").removeClass('error').addClass('inputnotrequired');
+            $("#<?php echo CHtml::activeId($model,"golongan_id");?>").removeClass('error').addClass('inputnotrequired');            
+            $("#<?php echo CHtml::activeId($model,"bidang_id");?>").removeClass('error').addClass('inputnotrequired');
+            $("#<?php echo CHtml::activeId($model,"kelompok_id");?>").removeClass('error').addClass('inputnotrequired');
+            $("#<?php echo CHtml::activeId($model,"subkelompok_id");?>").removeClass('error').addClass('inputnotrequired');
+            $("#<?php echo CHtml::activeId($model,"subsubkelompok_id");?>").removeClass('error').addClass('inputnotrequired');
+            $("#<?php echo CHtml::activeId($model,"nomorregister");?>").removeClass('error').addClass('inputnotrequired');
             
             
             
@@ -327,48 +329,48 @@ Yii::app()->clientScript->registerScript('numberOnly', $js, CClientScript::POS_R
     
             
             
-            $("#<?php //echo CHtml::activeId($model,"bidang_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
-            $("#<?php //echo CHtml::activeId($model,"kelompok_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
-            $("#<?php //echo CHtml::activeId($model,"subkelompok_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
-            $("#<?php //echo CHtml::activeId($model,"subsubkelompok_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
+            $("#<?php echo CHtml::activeId($model,"bidang_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
+            $("#<?php echo CHtml::activeId($model,"kelompok_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
+            $("#<?php echo CHtml::activeId($model,"subkelompok_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
+            $("#<?php echo CHtml::activeId($model,"subsubkelompok_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
             
-            $("#<?php //echo CHtml::activeId($model,"barang_kode");?>").prop("disabled", false );
-            $("#<?php //echo CHtml::activeId($model,"golongan_id");?>").prop("disabled", true );            
-            $("#<?php //echo CHtml::activeId($model,"bidang_id");?>").prop("disabled", true );            
-            $("#<?php //echo CHtml::activeId($model,"kelompok_id");?>").prop("disabled", true );            
-            $("#<?php //echo CHtml::activeId($model,"subkelompok_id");?>").prop("disabled", true );            
-            $("#<?php //echo CHtml::activeId($model,"subsubkelompok_id");?>").prop("disabled", true );                                                                        
+            $("#<?php echo CHtml::activeId($model,"barang_kode");?>").prop("readonly", false );            
+            $("#<?php echo CHtml::activeId($model,"golongan_id");?>").prop("disabled", true );            
+            $("#<?php echo CHtml::activeId($model,"bidang_id");?>").prop("disabled", true );            
+            $("#<?php echo CHtml::activeId($model,"kelompok_id");?>").prop("disabled", true );            
+            $("#<?php echo CHtml::activeId($model,"subkelompok_id");?>").prop("disabled", true );            
+            $("#<?php echo CHtml::activeId($model,"subsubkelompok_id");?>").prop("disabled", true );                                                                        
         }
         else        
        {                                       
-            $("#<?php //echo CHtml::activeId($model,"barang_kode");?>").prop("disabled", true );
-            $("#<?php //echo CHtml::activeId($model,"golongan_id");?>").prop("disabled", false );            
-            $("#<?php //echo CHtml::activeId($model,"bidang_id");?>").prop("disabled", false );            
-            $("#<?php //echo CHtml::activeId($model,"kelompok_id");?>").prop("disabled", false );            
-            $("#<?php //echo CHtml::activeId($model,"subkelompok_id");?>").prop("disabled", false );            
-            $("#<?php// echo CHtml::activeId($model,"subsubkelompok_id");?>").prop("disabled", false );                                                             
+            $("#<?php echo CHtml::activeId($model,"barang_kode");?>").prop("readonly", true );
+            $("#<?php echo CHtml::activeId($model,"golongan_id");?>").prop("disabled", false );            
+            $("#<?php echo CHtml::activeId($model,"bidang_id");?>").prop("disabled", false );            
+            $("#<?php echo CHtml::activeId($model,"kelompok_id");?>").prop("disabled", false );            
+            $("#<?php echo CHtml::activeId($model,"subkelompok_id");?>").prop("disabled", false );            
+            $("#<?php echo CHtml::activeId($model,"subsubkelompok_id");?>").prop("disabled", false );                                                             
             
             $("label[for=SABarangM_golongan_id]").find($("span[class=required]")).remove();
             $("label[for=SABarangM_bidang_id]").find($("span[class=required]")).remove();
             $("label[for=SABarangM_kelompok_id]").find($("span[class=required]")).remove();
             $("label[for=SABarangM_subkelompok_id]").find($("span[class=required]")).remove();
             $("label[for=SABarangM_subsubkelompok_id]").find($("span[class=required]")).remove();
-           // $("label[for=SABarangM_nomorregister]").find($("span[class=required]")).remove();
+            $("label[for=SABarangM_nomorregister]").find($("span[class=required]")).remove();
                         
             $("label[for=SABarangM_golongan_id]").append("<span class=required> *</span>")
             $("label[for=SABarangM_bidang_id]").append("<span class=required> *</span>");
             $("label[for=SABarangM_kelompok_id]").append("<span class=required> *</span>");
             $("label[for=SABarangM_subkelompok_id]").append("<span class=required> *</span>");
             $("label[for=SABarangM_subsubkelompok_id]").append("<span class=required> *</span>");
-          //  $("label[for=SABarangM_nomorregister]").append("<span class=required> *</span>");
+            $("label[for=SABarangM_nomorregister]").append("<span class=required> *</span>");
                         
             $("label[for=SABarangM_golongan_id]").addClass("required");
             $("label[for=SABarangM_bidang_id]").addClass("required");
             $("label[for=SABarangM_kelompok_id]").addClass("required");
             $("label[for=SABarangM_subkelompok_id]").addClass("required");
             $("label[for=SABarangM_subsubkelompok_id]").addClass("required");
-           // $("label[for=SABarangM_nomorregister]").addClass("required");
-        }*/
+            $("label[for=SABarangM_nomorregister]").addClass("required");
+        }
         
     }
         
@@ -380,37 +382,47 @@ Yii::app()->clientScript->registerScript('numberOnly', $js, CClientScript::POS_R
     function setClearBidang()
     {
         $("#<?php echo CHtml::activeId($model,"bidang_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
-        //$("#<?php //echo CHtml::activeId($model,"barang_kode");?>").val('');
-        //$("#barangkode").val('');
+        $("#<?php echo CHtml::activeId($model,"barang_kode");?>").val('');
+        $("#barangkode").val('');
     }
     
     function setClearKelompok()
     {
         $("#<?php echo CHtml::activeId($model,"kelompok_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
-        //$("#<?php //echo CHtml::activeId($model,"barang_kode");?>").val('');
-       // $("#barangkode").val('');
+        $("#<?php echo CHtml::activeId($model,"barang_kode");?>").val('');
+        $("#barangkode").val('');
     }
     
     function setClearSubKelompok()
     {
         $("#<?php echo CHtml::activeId($model,"subkelompok_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
-        //$("#<?php //echo CHtml::activeId($model,"barang_kode");?>").val('');
-        //$("#barangkode").val('');
+        $("#<?php echo CHtml::activeId($model,"barang_kode");?>").val('');
+        $("#barangkode").val('');
     }
     
     function setClearSubSubKelompok()
     {
         $("#<?php echo CHtml::activeId($model,"subsubkelompok_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
-        //$("#<?php //echo CHtml::activeId($model,"barang_kode");?>").val('');
-       // $("#barangkode").val('');
+        $("#<?php echo CHtml::activeId($model,"barang_kode");?>").val('');
+        $("#barangkode").val('');
     }       
     
     function nomorReg()
     {
-        //var nomorR = $("#<?php// echo CHtml::activeId($model,"nomorregister");?>").val();
-        //var kodebarang = $("#<?php //echo CHtml::activeId($model,"nomorregister");?>").val();
+        var nomorR = $("#<?php echo CHtml::activeId($model,"nomorregister");?>").val();
+        var kodebarang = $("#barangkode").val();
         //var kodebarang = $("#<?php //echo CHtml::activeId($model,"barang_kode");?>").val();
-       // $("#<?php //echo CHtml::activeId($model,"barang_kode");?>").val(nomorR);
+        $("#<?php echo CHtml::activeId($model,"barang_kode");?>").val(kodebarang+'.'+nomorR);
+    }
+    
+    function kodeBarang()
+    {
+        var nomorR = $("#<?php echo CHtml::activeId($model,"nomorregister");?>").val();         
+        var kodebarang = $("#<?php echo CHtml::activeId($model,"barang_kode");?>").val();         
+         
+        $("#barangkode").val(kodebarang);       
+        var pecah = $("#barangkode").val().replace(nomoR, '');
+        $("#<?php echo CHtml::activeId($model,"barang_kode");?>").val(pecah+'.'+nomorR);
     }
     
 </script>
