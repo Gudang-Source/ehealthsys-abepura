@@ -9,12 +9,12 @@
  * @property string $jeniscuti_namalainnya
  * @property boolean $jeniscuti_aktif
  */
-class jeniscutiM extends CActiveRecord
+class JeniscutiM extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return jeniscutiM the static model class
+	 * @return JeniscutiM the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -63,10 +63,10 @@ class jeniscutiM extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'jeniscuti_id' => 'Jeniscuti',
-			'jeniscuti_nama' => 'Jeniscuti Nama',
-			'jeniscuti_namalainnya' => 'Jeniscuti Namalainnya',
-			'jeniscuti_aktif' => 'Jeniscuti Aktif',
+			'jeniscuti_id' => 'Jenis Cuti',
+			'jeniscuti_nama' => 'Nama Jenis Cuti',
+			'jeniscuti_namalainnya' => 'Nama Lain Jenis Cuti',
+			'jeniscuti_aktif' => 'Aktif',
 		);
 	}
 
