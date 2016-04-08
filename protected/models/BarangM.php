@@ -55,6 +55,7 @@ class BarangM extends CActiveRecord
         public $kelompok_id;
         public $bidang_id;
         public $subkelompok_id;
+        public $nomorregister;
 	
 	/**
 	 * Returns the static model of the specified AR class.
@@ -82,8 +83,8 @@ class BarangM extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('barang_type, barang_kode, barang_nama, barang_harganetto', 'required'),                       
-                        array('golongan_id, bidang_id, kelompok_id, subkelompok_id, subsubkelompok_id', 'required', 'on'=>'cekTipeBarang'),
+			array('barang_type, barang_kode, barang_nama, barang_harganetto, golongan_id, bidang_id, kelompok_id, subkelompok_id, subsubkelompok_id', 'required'),                       
+                       // array('golongan_id, bidang_id, kelompok_id, subkelompok_id, subsubkelompok_id', 'required', 'on'=>'cekTipeBarang'),
 			array('barang_ekonomis_thn, barang_jmldlmkemasan', 'numerical', 'integerOnly'=>true),
 			array('barang_harganetto, barang_persendiskon, barang_ppn, barang_hpp, barang_hargajual', 'numerical'),
 			array('barang_type, barang_kode, barang_merk, barang_warna, barang_satuan', 'length', 'max'=>50),
@@ -94,7 +95,7 @@ class BarangM extends CActiveRecord
 			array('barang_statusregister, barang_aktif', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('subsubkelompok_nama, subkelompok_id, kelompok_id, bidang_id, golongan_id, barang_id, subsubkelompok_id, barang_type, barang_kode, barang_nama, barang_namalainnya, barang_merk, barang_noseri, barang_ukuran, barang_bahan, barang_thnbeli, barang_warna, barang_statusregister, barang_ekonomis_thn, barang_satuan, barang_jmldlmkemasan, barang_image, barang_harganetto, barang_aktif, barang_persendiskon, barang_ppn, barang_hpp, barang_hargajual', 'safe', 'on'=>'search'),
+			array('nomorregister, subsubkelompok_nama, subkelompok_id, kelompok_id, bidang_id, golongan_id, barang_id, subsubkelompok_id, barang_type, barang_kode, barang_nama, barang_namalainnya, barang_merk, barang_noseri, barang_ukuran, barang_bahan, barang_thnbeli, barang_warna, barang_statusregister, barang_ekonomis_thn, barang_satuan, barang_jmldlmkemasan, barang_image, barang_harganetto, barang_aktif, barang_persendiskon, barang_ppn, barang_hpp, barang_hargajual', 'safe', 'on'=>'search'),
 		);
 	}
         
@@ -158,6 +159,7 @@ class BarangM extends CActiveRecord
                         'subkelompok_id' => 'Sub Kelompok',    
                         'subsubkelompok_id' => 'Sub Sub Kelompok',
                         'subsubkelompok_nama' => 'Sub Sub Kelompok',
+                        'nomorregister' => 'Nomor Register',
 		);
 	}
 
@@ -297,14 +299,14 @@ class BarangM extends CActiveRecord
             return $data;
         }
         
-        public function beforeValidate()
-        {
-            if ($this->barang_type != 'Habis Pakai'):
-                 $this->setScenario('cekTipeBarang');
-            endif;
+       // public function beforeValidate()
+       // {
+         //   if ($this->barang_type != 'Habis Pakai'):
+              //   $this->setScenario('cekTipeBarang');
+          //  endif;
             
-            return parent::beforeValidate();
-        }
+          //  return parent::beforeValidate();
+       // }
         
          
 }
