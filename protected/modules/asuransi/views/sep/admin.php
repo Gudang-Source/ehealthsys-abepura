@@ -61,8 +61,7 @@ $('.search-form form').submit(function(){
                         array(
                             'header' => 'Ruangan',                            
                             'value' => '$data->getRuanganNama($data->politujuan)'                            
-                       ),
-			//'ruangan.ruangan_nama',
+                       ),			
 			'kelasrawat.kelaspelayanan_nama',
 			array(
 				'header'=>'Tanggal Pulang',

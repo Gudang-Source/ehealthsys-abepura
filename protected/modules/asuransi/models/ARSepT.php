@@ -107,6 +107,7 @@ class ARSepT extends SepT
         
         public function getRuanganNama($politujuan)
         {
+            
             if (is_numeric($politujuan)):
                 $nama = RuanganM::model()->findAllByAttributes(array('ruangan_id'=>$politujuan));
 
