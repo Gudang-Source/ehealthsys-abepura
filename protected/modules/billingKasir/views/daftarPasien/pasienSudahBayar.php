@@ -34,16 +34,16 @@
                 'itemsCssClass'=>'table table-striped table-condensed',
                 'columns'=>array(
                      array(
-                        'header'=>'Tanggal Bukti Bayar/<br>No Bukti Bayar',
+                        'header'=>'Tanggal Bukti Bayar/<br>No. Bukti Bayar',
                         'name'=>'tglbuktibayar',
                         'type'=>'raw',
                         'value'=>'MyFormatter::formatDateTimeForUser($data->tglbuktibayar)."/<br>".$data->nobuktibayar',
                     ),
                      array(
-                        'header'=>'Tanggal Pendaftara/<br>No Pendaftara',
+                        'header'=>'Tanggal Pendaftaran/<br>No. Pendaftaran',
                         'name'=>'tgl_pendaftaran',
                         'type'=>'raw',
-                        'value'=>'isset($data->tgl_pendaftaran)? MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran) : null',
+                        'value'=>'isset($data->tgl_pendaftaran)?MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."/<br>".$data->no_pendaftaran:null',
                     ),                   
                     array(
                         'name'=>'ruangan_id',
@@ -251,7 +251,7 @@
                      array(
                         'header'=>'Pegawai Kasir',                        
                         'type'=>'raw',
-                        'value'=>'$data->petugasadministrasi_nama',
+                        'value'=>'$data->getNamaUsername($data->petugasadministrasi_id)',
                         'htmlOptions'=>array('style'=>'text-align:left; width:40px'),
                     ),
                     array(
