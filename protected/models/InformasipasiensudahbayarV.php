@@ -81,7 +81,7 @@
  * @property string $tgladmisi
  */
 class InformasipasiensudahbayarV extends CActiveRecord
-{
+{      
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -165,7 +165,7 @@ class InformasipasiensudahbayarV extends CActiveRecord
 			'totalbayartindakan' => 'Totalbayartindakan',
 			'tandabuktibayar_id' => 'Tandabuktibayar',
 			'returbayarpelayanan_id' => 'Returbayarpelayanan',
-			'closingkasir_id' => 'Closingkasir',
+			'closingkasir_id' => 'Status Closing',
 			'ruangan_nama' => 'Ruangan Nama',
 			'ruangan_id' => 'Ruangan',
 			'ruangankasir_id' => 'Ruangankasir',
@@ -203,7 +203,7 @@ class InformasipasiensudahbayarV extends CActiveRecord
 			'ispasienluar' => 'Ispasienluar',
 			'nama_ibu' => 'Nama Ibu',
 			'nama_ayah' => 'Nama Ayah',
-			'petugasadministrasi_id' => 'Petugasadministrasi',
+			'petugasadministrasi_id' => 'Pegawai Kasir',
 			'petugasadministrasi_gelardepan' => 'Petugasadministrasi Gelardepan',
 			'petugasadministrasi_nama' => 'Nama Petugas Administrasi',
 			'petugasadministrasi_gelarbelakang' => 'Petugasadministrasi Gelarbelakang',
@@ -218,6 +218,7 @@ class InformasipasiensudahbayarV extends CActiveRecord
 			'instalasi_id' => 'Instalasi',
 			'tgl_pendaftaran' => 'Tgl. Pendaftaran',
 			'tgladmisi' => 'Tgladmisi',
+                     
 		);
 	}
 
@@ -343,4 +344,67 @@ class InformasipasiensudahbayarV extends CActiveRecord
                     'pagination'=>false,
             ));
         }
+        
+        public function getKasirRuanganItems()
+        {
+            $criteria = new CDbCriteria();    
+            $criteria->with = array('pegawai');
+            $criteria->compare('t.ruangan_id', array(Params::RUANGAN_ID_KASIR, 65, 67, 68, 69, 70));           
+            return RuanganpegawaiM::model()->findAll($criteria);
+        }
+        
+         public function getCekBayar($tandabuktibayar_id)
+        {
+           $cek  = TandabuktibayarT::model()->findAll("tandabuktibayar_id = '$tandabuktibayar_id' AND closingkasir_id IS NOT NULL ");         
+           
+           if (empty($cek)):
+               return false;
+           else:
+               return true;
+           endif;                      
+                       
+        }
+        
+        public function getCekPrint($pendaftaran_id)
+        {   
+            $pendaftaran = RincianCetakan::model()->findAll("pendaftaran_id = '$pendaftaran_id' AND jenis_cetakan = 'KWITANSI' AND create_loginpemakai_id IS NOT NULL ");                      
+            
+            if (empty($pendaftaran)):
+                $data = 1;
+            else:
+                foreach($pendaftaran as $pendaftaran):
+                    $data = $pendaftaran->jumlah;
+                endforeach;
+            endif;
+            
+            return $data;
+        }
+        
+         public function getRincianCetak($pendaftaran_id)
+        {   
+            $pendaftaran = RincianCetakan::model()->findAll("pendaftaran_id = '$pendaftaran_id' AND jenis_cetakan = 'KWITANSI' AND create_loginpemakai_id IS NOT NULL ");            
+           
+            $data = array();
+            if (empty($pendaftaran)):               
+                    $data['nama'] = '';
+                    $data['tanggal'] = '';
+                    $data['ruangan'] = '';                    
+            else:                    
+                foreach($pendaftaran as $cek):
+                    if ($cek->update_loginpemakai_id === null):                    
+                        $data['nama'] = '<b>'.LoginpemakaiK::model()->pegawaiLoginPemakaiById($cek->create_loginpemakai_id).'</b>';
+                        $data['tanggal'] = '<b>'.MyFormatter::formatDateTimeForUser($cek->create_time).'</b>';
+                        $data['ruangan'] = '<b>'.RuanganM::model()->ruanganNamaById($cek->create_ruangan).'</b>';                       
+                    else:
+                        $data['nama'] = '<b>'.LoginpemakaiK::model()->pegawaiLoginPemakaiById($cek->update_loginpemakai_id).'</b>';
+                        $data['tanggal'] = '<b>'.MyFormatter::formatDateTimeForUser($cek->update_time).'</b>';
+                        $data['ruangan'] = '<b>'.RuanganM::model()->ruanganNamaById($cek->update_ruangan).'</b>';                        
+                    endif;                                
+                endforeach;                
+            endif;
+            
+            return $data;
+        }
+        
+                                
 }

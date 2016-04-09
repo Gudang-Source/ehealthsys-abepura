@@ -4,7 +4,7 @@
         <td>
             <div class="control-group ">
                 <?php //$model->tgl_awal = Yii::app()->dateFormatter->formatDateTime(CDateTimeParser::parse($model->tgl_awal, 'yyyy-MM-dd hh:mm:ss'),'medium','medium'); ?>
-                <?php echo CHtml::label('Tanggal Pembayaran','tglPendaftaran', array('class'=>'control-label inline')) ?>
+                <?php echo CHtml::label('Tanggal Bukti Bayar','tglPendaftaran', array('class'=>'control-label inline')) ?>
                 <div class="controls">
                     <?php   
                             $this->widget('MyDateTimePicker',array(
@@ -46,27 +46,28 @@
         <td>
             <?php echo $form->textFieldRow($model,'nama_pasien',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
             <div class="control-group">
-                <?php echo CHtml::label('Alias', 'nama_bin', array('class'=>'control-label')); ?>
+                <!--<?php //echo CHtml::label('Alias', 'nama_bin', array('class'=>'control-label')); ?>
                 <div class="controls">
-                <?php echo $form->textField($model,'nama_bin',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+                <?php //echo $form->textField($model,'nama_bin',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>-->
                 </div>
             </div>
             <?php echo $form->textFieldRow($model,'petugasadministrasi_nama',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
-            <?php echo $form->textFieldRow($model,'dokterpendaftaran_nama',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+            <?php echo $form->dropDownListRow($model,'petugasadministrasi_id',  CHtml::listData($model->getKasirRuanganItems(),'pegawai_id','pegawai.nama_pegawai'),array('empty'=>'-- Pilih --','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+            <?php //echo $form->textFieldRow($model,'dokterpendaftaran_nama',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
         </td>
         <td>
-            <?php echo $form->textFieldRow($model,'dokteradmisi_nama',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
-            <div class="control-group ">
-                <label for="tglbkm" class="control-label">
-                    <?php echo CHtml::activecheckBox($model, 'ceklis', array('uncheckValue'=>0,'rel'=>'tooltip' ,'data-original-title'=>'Cek untuk pencarian berdasarkan tanggal bkm')); ?>
-                    Tanggal Bkm
-                </label>
-                 <div class="control-group ">
+            <?php //echo $form->textFieldRow($model,'dokteradmisi_nama',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+           <!-- <div class="control-group ">
+                <label for="tglbkm" class="control-label">-->
+                    <?php //echo CHtml::activecheckBox($model, 'ceklis', array('uncheckValue'=>0,'rel'=>'tooltip' ,'data-original-title'=>'Cek untuk pencarian berdasarkan tanggal bkm')); ?>
+                   <!-- Tanggal Bkm-->
+                <!--/label>
+                 <div class="control-group ">-->
                 <?php //$model->tgl_awal = Yii::app()->dateFormatter->formatDateTime(CDateTimeParser::parse($model->tgl_awal, 'yyyy-MM-dd hh:mm:ss'),'medium','medium'); ?>
                 <?php // echo CHtml::label('','tglbkm', array('class'=>'control-label inline')) ?>
-                <div class="controls">
+               <!-- <div class="controls">-->
                     <?php   
-                            $this->widget('MyDateTimePicker',array(
+                         /*   $this->widget('MyDateTimePicker',array(
                                             'model'=>$model,
                                             'attribute'=>'tgl_bkm_awal',
                                             'mode'=>'date',
@@ -76,16 +77,16 @@
                                             ),
                                             'htmlOptions'=>array('class'=>'dtPicker3', 'onkeypress'=>"return $(this).focusNextInputField(event)"
                                             ),
-                    )); ?>
+                    )); */?>
 
-                </div>
+               <!-- </div>
             </div>
-            <div class="control-group ">
+            <div class="control-group ">-->
                 <?php //$model->tgl_akhir = Yii::app()->dateFormatter->formatDateTime(CDateTimeParser::parse($model->tgl_akhir, 'yyyy-MM-dd hh:mm:ss'),'medium','medium'); ?>
-                <?php echo CHtml::label('Sampai Dengan','sampaiDenganbkm', array('class'=>'control-label inline')) ?>
-                <div class="controls">
+                <?php //echo CHtml::label('Sampai Dengan','sampaiDenganbkm', array('class'=>'control-label inline')) ?>
+                <!--<div class="controls">-->
                     <?php   
-                            $this->widget('MyDateTimePicker',array(
+                            /*$this->widget('MyDateTimePicker',array(
                                             'model'=>$model,
                                             'attribute'=>'tgl_bkm_akhir',
                                             'mode'=>'date',
@@ -95,11 +96,12 @@
                                             ),
                                             'htmlOptions'=>array('class'=>'dtPicker3', 'onkeypress'=>"return $(this).focusNextInputField(event)"
                                             ),
-                    )); ?>
-                </div>
-            </div>
+                    ));*/ ?>
+                <!--</div>
+            </div>-->
             <div class="control-group">
                 <?php echo $form->dropDownListRow($model,'ruangan_id', CHtml::listData($model->getRuanganItems(), 'ruangan_id', 'ruangan_nama'),array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?> 
+                <?php echo $form->dropDownListRow($model,'closingkasir_id', array(2=>'BELUM',1=>'SUDAH'),array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?> 
             </div>
         </td>
     </tr>
