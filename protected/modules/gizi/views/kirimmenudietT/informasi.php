@@ -22,13 +22,13 @@
         //    'filter'=>$model,
 			'template'=>"{summary}\n{items}\n{pager}",
 			'itemsCssClass'=>'table table-striped table-condensed',
-			'columns'=>array(       
+			'columns'=>array(        
 				array(
 					'header'=>'No. Kirim Menu',
 					'type'=>'raw',
 					'value'=>'isset($data->nokirimmenu) ? $data->nokirimmenu : ""',
 					'headerHtmlOptions'=>array('style'=>'vertical-align: middle;text-align:center;')
-				),
+				), 
 				array(
 					'header'=>'Jenis Pesan Menu',
 					'type'=>'raw',
@@ -40,13 +40,16 @@
 					'type'=>'raw',
 					'value'=>'isset($data->tglkirimmenu) ? MyFormatter::formatDateTimeForUser($data->tglkirimmenu) : ""',
 					'headerHtmlOptions'=>array('style'=>'vertical-align: middle;text-align:center;')
-				),
+				), 
 				array(
 					'header'=>'Nama Pasien',
 					'type'=>'raw',
-					'value'=>'isset($data->kirimmenupasien->kirimmenupasien_id) ? $data->kirimmenupasien->pasien->nama_pasien : isset($data->kirimmenupegawai->kirimmenupegawai_id) ? $data->kirimmenupegawai->pegawai->NamaLengkap : ""',
+					'value'=>function($data) {
+                                                return "kick";
+                                                //return isset($data->kirimmenupasien) ? $data->kirimmenupasien->pasien->nama_pasien : isset($data->kirimmenupegawai) ? $data->kirimmenupegawai->pegawai->NamaLengkap : "";
+                                        },
 					'headerHtmlOptions'=>array('style'=>'vertical-align: middle;text-align:center;')
-				),
+				), 
 				array(
 					'header'=>'Instalasi / Ruangan',
 					'type'=>'raw',
@@ -76,7 +79,7 @@
 					'type'=>'raw',
 					'value'=>'$data->keterangan_kirim',
 					'headerHtmlOptions'=>array('style'=>'vertical-align: middle;text-align:center;')
-				),
+				), 
 				array(
 					'header'=>'Rincian',
 					'type'=>'raw',

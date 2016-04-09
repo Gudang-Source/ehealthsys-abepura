@@ -7,7 +7,7 @@ $this->widget('bootstrap.widgets.BootMenu', array(
         array('label'=>'Status Kehadiran', 'url'=>$this->createUrl('/kepegawaian/statuskehadiranM/admin'),),
         array('label'=>'Status Scan', 'url'=>$this->createUrl('/kepegawaian/statusscanM/admin'), ),
        array('label'=>'Jam Kerja', 'url'=>$this->createUrl('/kepegawaian/jamKerja/admin'),'active'=>true),
-        array('label'=>'Shift', 'url'=>$this->createUrl('/kepegawaian/shiftM/admin'),),
+        // array('label'=>'Shift', 'url'=>$this->createUrl('/kepegawaian/shiftM/admin'),),
     ),
 )); 
 ?>

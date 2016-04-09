@@ -45,7 +45,7 @@ $('.search-form form').submit(function(){
 				'htmlOptions'=>array('style'=>'text-align:right;'),
 			),
 			'jenisdiklat_nama',
-			'jenisdiklat_namalainnya',
+			'jenisdiklat_deskripsi',
 			array(
 				'name'=>'jenisdiklat_aktif',
 				'type'=>'raw',

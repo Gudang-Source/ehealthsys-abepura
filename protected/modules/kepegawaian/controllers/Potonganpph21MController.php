@@ -1,7 +1,7 @@
 
 <?php
 
-class LinenMController extends MyAuthController
+class Potonganpph21MController extends MyAuthController
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -9,7 +9,6 @@ class LinenMController extends MyAuthController
 	 */
 	public $layout = '//layouts/column1';
 	public $defaultAction = 'admin';
-	public $path_view = 'sistemAdministrator.views.linenM.';
 
 	/**
 	 * Menampilkan detail data.
@@ -18,7 +17,7 @@ class LinenMController extends MyAuthController
 	public function actionView($id)
 	{
 		$model = $this->loadModel($id);
-		$this->render($this->path_view.'view',array(
+		$this->render('view',array(
 				'model'=>$model,
 		));
 	}
@@ -28,36 +27,18 @@ class LinenMController extends MyAuthController
 	 */
 	public function actionCreate()
 	{
-		$format = new MyFormatter;
-		$model = new SALinenM;
-		$model->tglregisterlinen = $format->formatDateTimeForUser(date("Y-m-d"), strtotime($model->tglregisterlinen));
-		$model->noregisterlinen = MyGenerator::noRegisterLinen();
-		if(isset($_POST['SALinenM']))
+		$model = new Potonganpph21M;
+
+		if(isset($_POST['Potonganpph21M']))
 		{
-			$model->attributes = $_POST['SALinenM'];
-			$model->barang_id = $_POST['barang_id'];
-			$model->ruangan_id = Yii::app()->user->ruangan_id;
-			$model->tglregisterlinen = $format->formatDateTimeForDb($_POST['SALinenM']['tglregisterlinen']);
-			$model->create_time = date('Y-m-d H:i:s');
-			$model->create_loginpemakai_id =Yii::app()->user->id;
-			$model->create_ruangan = Yii::app()->user->getState('ruangan_id');
-			
-			
-			$model->gambarlinen = CUploadedFile::getInstance($model, 'gambarlinen');
-            $random = rand(0000000, 9999999);
-            $gambar = $random.$model->gambarlinen;
-				
-				if (isset($model->gambarlinen)){
-                $model->gambarlinen->saveAs(Params::pathLinenDirectory().$gambar);
-		        $model->gambarlinen = $gambar;
-		        }
+			$model->attributes = $_POST['Potonganpph21M'];
 			if($model->save()){
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->linen_id));
+				$this->redirect(array('admin'));
 			}
 		}
 
-		$this->render($this->path_view.'create',array(
+		$this->render('create',array(
 			'model'=>$model,
 		));
 	}
@@ -73,17 +54,16 @@ class LinenMController extends MyAuthController
 		// Uncomment the following line if AJAX validation is needed
 		
 
-		if(isset($_POST['SALinenM']))
+		if(isset($_POST['Potonganpph21M']))
 		{
-			$model->attributes = $_POST['SALinenM'];
-                        $model->barang_id = $_POST['barang_id'];
+			$model->attributes = $_POST['Potonganpph21M'];
 			if($model->save()){
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
 				$this->redirect(array('admin'));
 			}
 		}
 
-		$this->render($this->path_view.'update',array(
+		$this->render('update',array(
 				'model'=>$model,
 		));
 	}
@@ -130,8 +110,8 @@ class LinenMController extends MyAuthController
 	 */
 	public function actionIndex()
 	{
-		$dataProvider = new CActiveDataProvider('SALinenM');
-		$this->render($this->path_view.'index',array(
+		$dataProvider = new CActiveDataProvider('Potonganpph21M');
+		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
 	}
@@ -141,13 +121,12 @@ class LinenMController extends MyAuthController
 	 */
 	public function actionAdmin()
 	{
-		$model = new SALinenM('search');
+		$model = new Potonganpph21M('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['SALinenM'])){
-			$model->attributes = $_GET['SALinenM'];
-                        $model->barang_nama = $_GET['SALinenM']['barang_nama'];
+		if(isset($_GET['Potonganpph21M'])){
+			$model->attributes = $_GET['Potonganpph21M'];
 		}
-		$this->render($this->path_view.'admin',array(
+		$this->render('admin',array(
 				'model'=>$model,
 		));
 	}
@@ -158,7 +137,7 @@ class LinenMController extends MyAuthController
 	 */
 	public function loadModel($id)
 	{
-		$model = SALinenM::model()->findByPk($id);
+		$model = Potonganpph21M::model()->findByPk($id);
 		if($model===null)
 				throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -170,7 +149,7 @@ class LinenMController extends MyAuthController
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='salinen-m-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='potonganpph21-m-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
@@ -181,17 +160,17 @@ class LinenMController extends MyAuthController
 	 */
 	public function actionPrint()
 	{
-		$model = new SALinenM;
-		$model->attributes = $_REQUEST['SALinenM'];
-		$judulLaporan='Data SALinenM';
+		$model = new Potonganpph21M;
+		$model->attributes = $_REQUEST['Potonganpph21M'];
+		$judulLaporan='Data Potonganpph21M';
 		$caraPrint = $_REQUEST['caraPrint'];
 		if($caraPrint=='PRINT') {
 			$this->layout = '//layouts/printWindows';
-			$this->render($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+			$this->render('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
 		}
 		else if($caraPrint=='EXCEL') {
 			$this->layout = '//layouts/printExcel';
-			$this->render($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+			$this->render('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
 		}
 		else if($_REQUEST['caraPrint']=='PDF') {
 			$ukuranKertasPDF = Yii::app()->user->getState('ukuran_kertas'); //Ukuran Kertas Pdf
@@ -201,34 +180,8 @@ class LinenMController extends MyAuthController
 			$stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
 			$mpdf->WriteHTML($stylesheet,1);  
 			$mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
-			$mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
+			$mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
 			$mpdf->Output();
 		}
 	}
-	
-	/*
-	 * untuk mencari barang melalui autocomplete
-	 */
-	public function actionAutocompleteBarang()
-	{
-		if(Yii::app()->request->isAjaxRequest) {
-			$criteria = new CDbCriteria();
-			$criteria->compare('LOWER(t.barang_nama)', strtolower($_GET['term']), true);
-			$criteria->order = 't.barang_id';
-			$models = SABarangM::model()->findAll($criteria);
-			foreach($models as $i=>$model)
-			{
-				$attributes = $model->attributeNames();
-				foreach($attributes as $j=>$attribute) {
-					$returnVal[$i]["$attribute"] = $model->$attribute;
-				}
-				$returnVal[$i]['label'] = $model->barang_nama;
-				$returnVal[$i]['value'] = $model->barang_id;
-			}
-
-			echo CJSON::encode($returnVal);
-		}
-		Yii::app()->end();
-	}
-	
 }
