@@ -64,7 +64,7 @@ class PegawaicutiT extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'jeniscuti'=>array(self::BELONGS_TO,'jeniscutiM','jeniscuti_id'),
+			'jeniscuti'=>array(self::BELONGS_TO,'JeniscutiM','jeniscuti_id'),
 		);
 	}
 
@@ -147,7 +147,7 @@ class PegawaicutiT extends CActiveRecord
         }
         
         public function getJeniscutiItems() {
-            return jeniscutiM::model()->findAll('jeniscuti_aktif=TRUE ORDER BY jeniscuti_nama');
+            return JeniscutiM::model()->findAll('jeniscuti_aktif=TRUE ORDER BY jeniscuti_nama');
         }
         
         public function getPegawaiItems() {

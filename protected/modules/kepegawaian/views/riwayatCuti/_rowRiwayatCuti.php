@@ -86,7 +86,7 @@ $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
 			<div class="control-group ">
 				<?php echo $form->labelEx($model,'Jenis Cuti', array('class'=>'control-label')) ?>
 				<div class="controls">
-					<?php echo $form->dropDownList($model,'jeniscuti_id',CHtml::listData(jeniscutiM::model()->findAllByAttributes(array('jeniscuti_aktif'=>true),array('order'=>'jeniscuti_nama')),'jeniscuti_id','jeniscuti_nama'),array('empty'=>'-- Pilih --','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+					<?php echo $form->dropDownList($model,'jeniscuti_id',CHtml::listData(JeniscutiM::model()->findAllByAttributes(array('jeniscuti_aktif'=>true),array('order'=>'jeniscuti_nama')),'jeniscuti_id','jeniscuti_nama'),array('empty'=>'-- Pilih --','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
 				</div>
 			</div>
 			<div class="control-group ">

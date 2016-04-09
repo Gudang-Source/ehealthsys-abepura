@@ -35,7 +35,7 @@ class JenisdiklatMController extends MyAuthController
 			$model->attributes=$_POST['SAJenisdiklatM'];
 			if($model->save()){
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('view','id'=>$model->jenisdiklat_id));
+				$this->redirect(array('admin'));
 			}
 		}
 
@@ -59,7 +59,7 @@ class JenisdiklatMController extends MyAuthController
 			$model->attributes=$_POST['SAJenisdiklatM'];
 			if($model->save()){
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('view','id'=>$model->jenisdiklat_id));
+				$this->redirect(array('admin'));
 			}
 		}
 
