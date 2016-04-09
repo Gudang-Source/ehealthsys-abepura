@@ -8,6 +8,8 @@ class BKInformasipasiensudahbayarV extends InformasipasiensudahbayarV
     public $tgl_bkm_akhir;
     public $ceklis;
     public $pendaftaran;
+  
+   
     
 
     public static function model($className=__CLASS__)
@@ -44,6 +46,7 @@ class BKInformasipasiensudahbayarV extends InformasipasiensudahbayarV
 		$criteria->compare('totaldiscount',$this->totaldiscount);
 		$criteria->compare('totalpembebasan',$this->totalpembebasan);
 		$criteria->compare('totalbayartindakan',$this->totalbayartindakan);
+                $criteria->compare('petugasadministrasi_id',$this->petugasadministrasi_id);
 		if(!empty($this->tandabuktibayar_id)){
 			$criteria->addCondition('tandabuktibayar_id = '.$this->tandabuktibayar_id);
 		}
@@ -51,8 +54,16 @@ class BKInformasipasiensudahbayarV extends InformasipasiensudahbayarV
 			$criteria->addCondition('returbayarpelayanan_id = '.$this->returbayarpelayanan_id);
 		}
 		if(!empty($this->closingkasir_id)){
-			$criteria->addCondition('closingkasir_id = '.$this->closingkasir_id);
+                    if ($this->closingkasir_id == 1):
+                        $criteria->addCondition('closingkasir_id is not null ');                                        
+                    elseif ($this->closingkasir_id == 2):
+                        $criteria->addCondition('closingkasir_id is null ');
+                    endif;
 		}
+              //  else
+              //  {
+                  //  $criteria->addCondition('closingkasir_id = '.$this->closingkasir_id);
+              //  }
 		$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 		if(!empty($this->ruangan_id)){
 			$criteria->addCondition('ruangan_id = '.$this->ruangan_id);
@@ -66,7 +77,7 @@ class BKInformasipasiensudahbayarV extends InformasipasiensudahbayarV
     }
     public function getRuanganItems()
         {
-          return RuanganM::model()->findAllByAttributes(array(),array('order'=>'ruangan_nama'));
+          return RuanganM::model()->findAllByAttributes(array('ruangan_aktif'=>'TRUE','instalasi_id'=>array(Params::INSTALASI_ID_RJ, Params::INSTALASI_ID_RI, Params::INSTALASI_ID_RD, Params::INSTALASI_ID_LAB, Params::INSTALASI_ID_RAD, Params::INSTALASI_ID_REHAB)),array('order'=>'ruangan_nama'));
             
         }
 	
@@ -113,5 +124,23 @@ class BKInformasipasiensudahbayarV extends InformasipasiensudahbayarV
 				echo json_encode($data);
 				Yii::app()->end();
 			}
-		}
+		}                       
+        
+        public function getNamaSapaan($no_rekam_medik)
+        {
+            $sapaan = PasienM::model()->findAllByAttributes(array('no_rekam_medik'=>$no_rekam_medik));
+            
+            $data = "";
+            if($sapaan == null):
+                $data = "";
+            else:
+                foreach($sapaan as $sapaan):
+                    $data =  $sapaan->namadepan;
+                endforeach;
+            endif;
+                        
+            return $data;
+        }
+        
+        
 }
