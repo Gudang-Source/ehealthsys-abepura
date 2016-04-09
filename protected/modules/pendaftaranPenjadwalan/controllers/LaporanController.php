@@ -6426,9 +6426,9 @@ class LaporanController extends MyAuthController {
                 echo CJSON::encode($ruangan);
            } else {
                 if(empty($instalasi_id)){
-                    $ruangan = RuanganM::model()->findAll('instalasi_id=9999');
+                    $ruangan = RuanganM::model()->findAll('instalasi_id=9999 AND ruangan_aktif = true ORDER BY ruangan_nama ASC');
                 } else {
-                    $ruangan = RuanganM::model()->findAll('instalasi_id='.$instalasi_id.'');
+                    $ruangan = RuanganM::model()->findAll('instalasi_id='.$instalasi_id.' AND ruangan_aktif = true ORDER BY ruangan_nama ASC');
                 }
                 $ruangan = CHtml::listData($ruangan,'ruangan_id','ruangan_nama');
                 echo CHtml::hiddenField(''.$namaModel.'[ruangan_id]');
@@ -6492,9 +6492,9 @@ class LaporanController extends MyAuthController {
             $this->render($target, array('model' => $model, 'periode'=>$periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint));
         } else if ($_REQUEST['caraPrint'] == 'PDF') {
             $ukuranKertasPDF = Yii::app()->user->getState('ukuran_kertas');                  //Ukuran Kertas Pdf
-            $posisi = Yii::app()->user->getState('posisi_kertas');                           //Posisi L->Landscape,P->Portait
+            $posisi = Yii::app()->user->getState('posisi_kertas');                           //Posisi L->Landscape,P->Portait            
             $mpdf = new MyPDF('', $ukuranKertasPDF);
-            $mpdf->useOddEven = 2;
+            $mpdf->useOddEven = 2;            
             $stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
             $mpdf->WriteHTML($stylesheet, 1);
             $mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);
