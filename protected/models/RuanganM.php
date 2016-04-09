@@ -212,5 +212,15 @@ class RuanganM extends CActiveRecord
                 $items[$model->ruangan_id]=$model->ruangan_nama;            
             }
             return $items;
-        }      
+        }   
+        
+        public function ruanganNamaById($id){
+            $cek = $this->findByPk($id);
+            
+            if (empty($cek)):
+                return null;
+            else:
+                return $cek->ruangan_nama;
+            endif;
+        }
 }

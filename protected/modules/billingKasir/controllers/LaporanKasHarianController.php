@@ -272,7 +272,7 @@ public function actionPrintLaporanKasHarian() {
             $mpdf->WriteHTML($stylesheet, 1);
             $mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);
             $mpdf->WriteHTML($this->renderPartial($target, array('modDetail'=>$modDetail,'rincianUang'=>$rincianUang,'model' => $model, 'periode'=>$periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint, 'modRincian'=>$modRincian), true));
-            $mpdf->Output();
+            $mpdf->Output($judulLaporan.'-'.date('Y_m_d').'.pdf','I');
         }
     }
     

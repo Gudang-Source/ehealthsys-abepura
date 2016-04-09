@@ -2655,6 +2655,24 @@ class ActionAjaxController extends Controller
                 
         }
         
+        public function actionDataRincian()
+        {
+            if(Yii::app()->request->isAjaxRequest) 
+            {
+                $rincian = InformasipasiensudahbayarV::model()->getRincianCetak($_POST['pendaftaranid']);                
+                $data = array();
+                
+                
+                    $data['nama'] = $rincian['nama'];
+                    $data['tanggal'] = $rincian['tanggal'];
+                    $data['ruangan'] = $rincian['ruangan'];
+       
+                
+                 echo CJSON::encode($data);
+            }
+            Yii::app()->end();
+        }
+        
        
 }
 ?>

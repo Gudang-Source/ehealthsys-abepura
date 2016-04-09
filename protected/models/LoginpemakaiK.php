@@ -286,6 +286,16 @@ class LoginpemakaiK extends CActiveRecord
         public static function pegawaiLoginPemakai(){
             return self::model()->findByPk(Yii::app()->user->id)->pegawai;
         }
+         
+        public function pegawaiLoginPemakaiById($id){
+            $cek = $this->findByPk($id)->pegawai;
+           
+            if (empty($cek)):
+                return true;
+            else:
+                return $cek->nama_pegawai;
+            endif;
+        }
         
         public function getRuangan(){
             if(isset($this->ruanganaktifitas))
