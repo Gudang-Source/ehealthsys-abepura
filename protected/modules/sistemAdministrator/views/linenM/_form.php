@@ -117,15 +117,18 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
     ),
 ));
 
-$modBarang = new SABarangM('search');
+$modBarang = new BarangM('search');
 $modBarang->unsetAttributes();
-if (isset($_GET['SABarangM'])){
-    $modBarang->attributes = $_GET['SABarangM'];
+if (isset($_GET['BarangM'])){
+    $modBarang->attributes = $_GET['BarangM'];
+    $modBarang->kelompok_id = $_GET['BarangM']['kelompok_id'];
+    $modBarang->subkelompok_id = $_GET['BarangM']['subkelompok_id'];
+    $modBarang->subsubkelompok_id = $_GET['BarangM']['subsubkelompok_id'];
 }
 
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'barang-t-grid',
-    'dataProvider'=>$modBarang->search(),
+    'dataProvider'=>$modBarang->searchBarang(),
     'filter'=>$modBarang,
 	'template'=>"{summary}\n{items}\n{pager}",
 	'itemsCssClass'=>'table table-striped table-bordered table-condensed',
@@ -146,10 +149,49 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 			'value'=>'$data->barang_id',
 			'filter'=>false,
 		),
-        'bidang.subkelompok.kelompok.golongan.golongan_nama',
-        'bidang.subkelompok.kelompok.kelompok_nama',
-        'bidang.subkelompok.subkelompok_nama',
-        'bidang.bidang_nama',
+        array(
+            'name'=>'kelompok_id',
+            'type'=>'raw',
+            'value'=>function($data) {
+                $kel = SubsubkelompokM::model()->findByPk($data->subsubkelompok_id);
+                return empty($kel->subsubkelompok_id)?"-":$kel->subkelompok->kelompok->kelompok_nama;
+            },
+            'filter'=>  CHtml::activeDropDownList($modBarang, 'kelompok_id', 
+                CHtml::listData(KelompokM::model()->findAll(array(
+                    'condition'=>'kelompok_aktif = true', 
+                    'order'=>'kelompok_nama'
+            )), 'kelompok_id', 'kelompok_nama'), array('empty'=>'-- Pilih --')),
+        ),
+        array(
+            'name'=>'subkelompok_id',
+            'type'=>'raw',
+            'value'=>function($data) {
+                $kel = SubsubkelompokM::model()->findByPk($data->subsubkelompok_id);
+                return empty($kel->subsubkelompok_id)?"-":$kel->subkelompok->subkelompok_nama;
+            },
+            'filter'=>  CHtml::activeDropDownList($modBarang, 'subkelompok_id', 
+                CHtml::listData(SubkelompokM::model()->findAll(array(
+                    'condition'=>'subkelompok_aktif = true', 
+                    'order'=>'subkelompok_nama'
+            )), 'subkelompok_id', 'subkelompok_nama'), array('empty'=>'-- Pilih --')),
+        ),
+        array(
+            'name'=>'subsubkelompok_id',
+            'type'=>'raw',
+            'value'=>function($data) {
+                $kel = SubsubkelompokM::model()->findByPk($data->subsubkelompok_id);
+                return empty($kel->subsubkelompok_id)?"-":$kel->subsubkelompok_nama;
+            },
+            'filter'=>  CHtml::activeDropDownList($modBarang, 'subsubkelompok_id', 
+                CHtml::listData(SubsubkelompokM::model()->findAll(array(
+                    'condition'=>'subsubkelompok_aktif = true', 
+                    'order'=>'subsubkelompok_nama'
+            )), 'subsubkelompok_id', 'subsubkelompok_nama'), array('empty'=>'-- Pilih --')),
+        ),
+        //'golongan_nama',
+        //'kelompok_nama',
+        //'subkelompok_nama',
+        //'subsubkelompok_nama',
         'barang_nama',
         array(
             'name'=>'barang_satuan',
