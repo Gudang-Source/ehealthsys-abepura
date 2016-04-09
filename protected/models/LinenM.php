@@ -31,6 +31,8 @@
  */
 class LinenM extends CActiveRecord
 {
+        public $barang_nama;
+        public $bahanlinen_nama;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -191,7 +193,9 @@ class LinenM extends CActiveRecord
             // should not be searched.
 
             $criteria=$this->criteriaSearch();
-            $criteria->limit=10;
+            $criteria->join = " left join barang_m b on t.barang_id = b.barang_id";
+            $criteria->compare('lower(b.barang_nama)', strtolower($this->barang_nama), true);
+            //$criteria->limit=10;
 
             return new CActiveDataProvider($this, array(
                     'criteria'=>$criteria,

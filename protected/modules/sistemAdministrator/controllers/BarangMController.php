@@ -43,8 +43,11 @@ class BarangMController extends MyAuthController
                       $transaction = Yii::app()->db->beginTransaction();
                       $model=new SABarangM;
                       $model->attributes=$_POST['SABarangM'];
-                      $model->barang_statusregister=true;                                           
-                          
+                      $model->barang_statusregister=true;     
+                      if($model->nomorregister != ''):
+                        $model->barang_kode = $model->barang_kode.'.'.$model->nomorregister;
+                     endif;
+                      
                       if ($model->validate()) {
                         try {
                             $random = rand(0000000, 9999999);
@@ -53,7 +56,7 @@ class BarangMController extends MyAuthController
                             if (!empty($model->barang_image)) {//Klo User Memasukan Logo
 //                                $model->path_logorumahsakit = $random . $model->barang_image;
                                 //                   $model->path_logorumahsakit =Params::pathProfilRSDirectory().$random.$model->barang_image;
-                                $model->barang_image = $random . $model->barang_image;
+                                $model->barang_image = $random . $model->barang_image;                                                                
 
                                 Yii::import("ext.EPhpThumb.EPhpThumb");
 
@@ -104,14 +107,29 @@ class BarangMController extends MyAuthController
 		$model=$this->loadModel($id);
 		$temLogo = $model->barang_image;
                 
-                $model->subkelompok_id = $model->getSubKelompokId($model->subsubkelompok_id);               
-                $model->kelompok_id = $model->getKelompokId($model->subkelompok_id);
-                $model->bidang_id = $model->getBidangId($model->kelompok_id);                
-                $model->golongan_id = $model->getGolonganId($model->bidang_id);
+                                                             
+                if ($model->subsubkelompok_id !== null):
+                    $model->subkelompok_id = $model->getSubKelompokId($model->subsubkelompok_id);               
+                    $model->kelompok_id = $model->getKelompokId($model->subkelompok_id);
+                    $model->bidang_id = $model->getBidangId($model->kelompok_id);                
+                    $model->golongan_id = $model->getGolonganId($model->bidang_id);   
                 
+                    $model->nomorregister = str_replace($model->getNomorReg($model->subsubkelompok_id).'.','',$model->barang_kode);
+                    $model->barang_kode = str_replace('.'.$model->nomorregister,'',$model->barang_kode);
+                else:
+                    $kodebarang = $model->barang_kode;
+                    $pecah = explode('.', $kodebarang);   
+                    
+                    if ($pecah[0] === $kodebarang):
+                        $model->nomorregister = '';                                            
+                    else:
+                        $model->nomorregister = str_replace($pecah[0].'.','',$kodebarang);                                            
+                    endif;
+                    $model->barang_kode = $pecah[0];                     
+                    
+                endif;
                 
-                
-                
+                                                
 		if(!empty($model->bidang_id)){
 			$model->bidang_nama = BidangM::model()->findByPk($model->bidang_id)->bidang_nama;
 		}
@@ -122,6 +140,9 @@ class BarangMController extends MyAuthController
                     $transaction = Yii::app()->db->beginTransaction();
                       $model=$this->loadModel($id);
                       $model->attributes=$_POST['SABarangM'];
+                         if($model->nomorregister != ''):
+                            $model->barang_kode = $model->barang_kode.'.'.$model->nomorregister;
+                         endif;
                       if ($model->validate()) {
                         try {
                             $random = rand(0000000, 9999999);
@@ -318,7 +339,7 @@ class BarangMController extends MyAuthController
         public function actionPrint()
         {
             $model= new SABarangM;
-			$model->unsetAttributes();  // clear any default values
+            $model->unsetAttributes();  // clear any default values
             if(isset($_GET['SABarangM'])){
 				$model->attributes=$_GET['SABarangM'];
             }

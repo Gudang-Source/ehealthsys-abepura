@@ -58,7 +58,10 @@ $('.search-form form').submit(function(){
 			),
 			'norujukan',
 			'diagnosaawal',
-			'ruangan.ruangan_nama',
+                        array(
+                            'header' => 'Ruangan',                            
+                            'value' => '$data->getRuanganNama($data->politujuan)'                            
+                       ),			
 			'kelasrawat.kelaspelayanan_nama',
 			array(
 				'header'=>'Tanggal Pulang',

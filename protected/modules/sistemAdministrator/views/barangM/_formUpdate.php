@@ -14,7 +14,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
     <tr>
         <td>
                  <?php           
-            echo $form->dropDownListRow($model, 'barang_type', LookupM::getItems('barangumumtype'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)", 'class' => 'span2'));
+            echo $form->dropDownListRow($model, 'barang_type', LookupM::getItems('barangumumtype'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)", 'class' => 'span2', 'onchange'=>'cekTipeBarang();'));
             ?>  
              <?php //golongan
                   echo $form->dropDownListRow($model,'golongan_id', CHtml::listData($model->GolonganItems, 'golongan_id', 'golongan_nama'), 
@@ -52,9 +52,21 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                                 ),
                                 'onchange'=>"setClearSubSubKelompok();",));?>
             
-            <?php //subsubkelompok //
-                    echo $form->dropDownListRow($model,'subsubkelompok_id',CHtml::listData($model->SubSubKelompokItems, 'subsubkelompok_id', 'subsubkelompok_nama'),array('empty'=>'-- Pilih --', 'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)"));                    
-                    ?>
+             <?php //subsubkelompok //
+                    echo $form->dropDownListRow($model,'subsubkelompok_id', CHtml::listData($model->SubSubKelompokItems, 'subsubkelompok_id', 'subsubkelompok_nama'), 
+                        array('empty'=>'-- Pilih --','class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
+                                'ajax'=>array('type'=>'POST',
+                                            'url'=>$this->createUrl('/ActionAjax/GetKodeBarangSubSubKel',array('encode'=>false,'model_nama'=>get_class($model))),
+                                            //'update'=>"#".CHtml::activeId($model, 'barang_kode'),
+                                            'dataType' => 'json',
+                                            'success' => 'function(data){
+                                                var nomorregis = $("#SABarangM_nomorregister").val();
+                                                $("#barangkode").val(data.kodebarang);                                                    
+                                                $("#SABarangM_barang_kode").val(data.kodebarang);                                                                                                
+                                            }',
+
+                                ),//'onchange'=>"nomorReg();",
+                                ));?>
             <?php //echo $form->dropDownListRow($model, 'bidang_id', CHtml::listData($model->BidangItems, 'bidang_id', 'bidang_nama'), array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event)", 'empty' => '-- Pilih --')); ?>
             <!--            <div class="control-group ">
                             <label class="control-label" for="bidang">Bidang</label>
@@ -99,7 +111,9 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
             </div>
            
             <?php Echo CHtml::hiddenField('tempKode', $model->barang_kode); ?>
-            <?php echo $form->textFieldRow($model, 'barang_kode', array('class' => 'span2 ', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50,)); // 'onkeyup' => 'setKode(this);',?>
+            <?php echo CHtml::hiddenField('barangkode'); ?>
+            <?php echo $form->textFieldRow($model, 'barang_kode', array('class' => 'span3 ',  'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50, 'readonly'=>true)); //'onkeyup' => 'setKode(this);',?>            
+            <?php echo $form->textFieldRow($model, 'nomorregister', array('class' => 'span2 ',  'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 10)); //'onkeyup' => 'setKode(this);',?>             
             <?php echo $form->textFieldRow($model, 'barang_nama', array('class' => 'span3', 'onkeyup' => "namaLain(this)", 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
             <?php echo $form->textFieldRow($model, 'barang_namalainnya', array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>   
             <?php echo $form->textFieldRow($model, 'barang_merk', array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>    
@@ -271,7 +285,105 @@ JS;
 Yii::app()->clientScript->registerScript('numberOnly', $js, CClientScript::POS_READY);
 ?>
 
-<script type="text/javascript">
+<script type="text/javascript"> 
+    
+    $(document).ready(function() {
+        var tipebarang = $("#SABarangM_barang_type").val();
+        
+        if (tipebarang === "Habis Pakai")
+        { 
+            $("#<?php echo CHtml::activeId($model,"barang_kode");?>").prop("readonly", false );            
+            $("#<?php echo CHtml::activeId($model,"golongan_id");?>").prop("disabled", true );            
+            $("#<?php echo CHtml::activeId($model,"bidang_id");?>").prop("disabled", true );            
+            $("#<?php echo CHtml::activeId($model,"kelompok_id");?>").prop("disabled", true );            
+            $("#<?php echo CHtml::activeId($model,"subkelompok_id");?>").prop("disabled", true );            
+            $("#<?php echo CHtml::activeId($model,"subsubkelompok_id");?>").prop("disabled", true );   
+        }
+    });
+    
+    function cekTipeBarang()
+    {
+        var tipebarang = $("#SABarangM_barang_type").val();
+        
+        if (tipebarang === "Habis Pakai")
+        {   //disabled                 
+            $("#<?php echo CHtml::activeId($model,"barang_kode");?>").val('');            
+            $("#barangkode").val('');
+            $("#barangkode").val('');
+            $(".alert-block").remove();
+            $(".help-inline").remove();
+            $("label[for=SABarangM_golongan_id]").find($("span[class=required]")).remove();
+            $("label[for=SABarangM_bidang_id]").find($("span[class=required]")).remove();
+            $("label[for=SABarangM_kelompok_id]").find($("span[class=required]")).remove();
+            $("label[for=SABarangM_subkelompok_id]").find($("span[class=required]")).remove();
+            $("label[for=SABarangM_subsubkelompok_id]").find($("span[class=required]")).remove();
+            $("label[for=SABarangM_nomorregister]").find($("span[class=required]")).remove();
+            
+            $("#SABarangM_golongan_id option[value='']").attr('selected','selected');
+            $(".control-group").removeClass('error').addClass('notrequired');
+            $("#<?php echo CHtml::activeId($model,"golongan_id");?>").removeClass('error').addClass('inputnotrequired');            
+            $("#<?php echo CHtml::activeId($model,"bidang_id");?>").removeClass('error').addClass('inputnotrequired');
+            $("#<?php echo CHtml::activeId($model,"kelompok_id");?>").removeClass('error').addClass('inputnotrequired');
+            $("#<?php echo CHtml::activeId($model,"subkelompok_id");?>").removeClass('error').addClass('inputnotrequired');
+            $("#<?php echo CHtml::activeId($model,"subsubkelompok_id");?>").removeClass('error').addClass('inputnotrequired');
+            $("#<?php echo CHtml::activeId($model,"nomorregister");?>").removeClass('error').addClass('inputnotrequired');
+            
+            
+            
+            $("label[for=SABarangM_golongan_id]").removeClass('error required').addClass('notrequired');
+            $("label[for=SABarangM_bidang_id]").removeClass('error required').addClass('notrequired');
+            $("label[for=SABarangM_kelompok_id]").removeClass('error required').addClass('notrequired');
+            $("label[for=SABarangM_subkelompok_id]").removeClass('error required').addClass('notrequired');
+            $("label[for=SABarangM_subsubkelompok_id]").removeClass('error required').addClass('notrequired');
+            $("label[for=SABarangM_nomorregister]").removeClass('error required').addClass('notrequired');
+    
+            
+            
+            $("#<?php echo CHtml::activeId($model,"bidang_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
+            $("#<?php echo CHtml::activeId($model,"kelompok_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
+            $("#<?php echo CHtml::activeId($model,"subkelompok_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
+            $("#<?php echo CHtml::activeId($model,"subsubkelompok_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
+            
+            $("#<?php echo CHtml::activeId($model,"barang_kode");?>").prop("readonly", false );            
+            $("#<?php echo CHtml::activeId($model,"golongan_id");?>").prop("disabled", true );            
+            $("#<?php echo CHtml::activeId($model,"bidang_id");?>").prop("disabled", true );            
+            $("#<?php echo CHtml::activeId($model,"kelompok_id");?>").prop("disabled", true );            
+            $("#<?php echo CHtml::activeId($model,"subkelompok_id");?>").prop("disabled", true );            
+            $("#<?php echo CHtml::activeId($model,"subsubkelompok_id");?>").prop("disabled", true );                                                                        
+        }
+        else        
+       {                                       
+            $("#<?php echo CHtml::activeId($model,"barang_kode");?>").prop("readonly", true );
+            $("#<?php echo CHtml::activeId($model,"golongan_id");?>").prop("disabled", false );            
+            $("#<?php echo CHtml::activeId($model,"bidang_id");?>").prop("disabled", false );            
+            $("#<?php echo CHtml::activeId($model,"kelompok_id");?>").prop("disabled", false );            
+            $("#<?php echo CHtml::activeId($model,"subkelompok_id");?>").prop("disabled", false );            
+            $("#<?php echo CHtml::activeId($model,"subsubkelompok_id");?>").prop("disabled", false );                                                             
+            
+            $("label[for=SABarangM_golongan_id]").find($("span[class=required]")).remove();
+            $("label[for=SABarangM_bidang_id]").find($("span[class=required]")).remove();
+            $("label[for=SABarangM_kelompok_id]").find($("span[class=required]")).remove();
+            $("label[for=SABarangM_subkelompok_id]").find($("span[class=required]")).remove();
+            $("label[for=SABarangM_subsubkelompok_id]").find($("span[class=required]")).remove();
+            $("label[for=SABarangM_nomorregister]").find($("span[class=required]")).remove();
+                        
+            $("label[for=SABarangM_golongan_id]").append("<span class=required> *</span>")
+            $("label[for=SABarangM_bidang_id]").append("<span class=required> *</span>");
+            $("label[for=SABarangM_kelompok_id]").append("<span class=required> *</span>");
+            $("label[for=SABarangM_subkelompok_id]").append("<span class=required> *</span>");
+            $("label[for=SABarangM_subsubkelompok_id]").append("<span class=required> *</span>");
+            $("label[for=SABarangM_nomorregister]").append("<span class=required> *</span>");
+                        
+            $("label[for=SABarangM_golongan_id]").addClass("required");
+            $("label[for=SABarangM_bidang_id]").addClass("required");
+            $("label[for=SABarangM_kelompok_id]").addClass("required");
+            $("label[for=SABarangM_subkelompok_id]").addClass("required");
+            $("label[for=SABarangM_subsubkelompok_id]").addClass("required");
+            $("label[for=SABarangM_nomorregister]").addClass("required");
+        }
+        
+    }
+        
     function namaLain(nama)
     {
         document.getElementById('SABarangM_barang_namalainnya').value = nama.value.toUpperCase();
@@ -280,20 +392,47 @@ Yii::app()->clientScript->registerScript('numberOnly', $js, CClientScript::POS_R
     function setClearBidang()
     {
         $("#<?php echo CHtml::activeId($model,"bidang_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
+        $("#<?php echo CHtml::activeId($model,"barang_kode");?>").val('');
+        $("#barangkode").val('');
     }
     
     function setClearKelompok()
     {
         $("#<?php echo CHtml::activeId($model,"kelompok_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
+        $("#<?php echo CHtml::activeId($model,"barang_kode");?>").val('');
+        $("#barangkode").val('');
     }
     
     function setClearSubKelompok()
     {
         $("#<?php echo CHtml::activeId($model,"subkelompok_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
+        $("#<?php echo CHtml::activeId($model,"barang_kode");?>").val('');
+        $("#barangkode").val('');
     }
     
     function setClearSubSubKelompok()
     {
         $("#<?php echo CHtml::activeId($model,"subsubkelompok_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
+        $("#<?php echo CHtml::activeId($model,"barang_kode");?>").val('');
+        $("#barangkode").val('');
+    }       
+    
+    function nomorReg()
+    {
+        var nomorR = $("#<?php echo CHtml::activeId($model,"nomorregister");?>").val();
+        var kodebarang = $("#barangkode").val();
+        //var kodebarang = $("#<?php //echo CHtml::activeId($model,"barang_kode");?>").val();
+        $("#<?php echo CHtml::activeId($model,"barang_kode");?>").val(kodebarang+'.'+nomorR);
     }
+    
+    function kodeBarang()
+    {
+        var nomorR = $("#<?php echo CHtml::activeId($model,"nomorregister");?>").val();         
+        var kodebarang = $("#<?php echo CHtml::activeId($model,"barang_kode");?>").val();         
+         
+        $("#barangkode").val(kodebarang);       
+        var pecah = $("#barangkode").val().replace(nomoR, '');
+        $("#<?php echo CHtml::activeId($model,"barang_kode");?>").val(pecah+'.'+nomorR);
+    }
+    
 </script>

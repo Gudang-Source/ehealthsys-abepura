@@ -39,6 +39,7 @@ class JenisdiklatM extends CActiveRecord
 		return array(
 			array('jenisdiklat_aktif', 'required'),
 			array('jenisdiklat_nama, jenisdiklat_namalainnya', 'length', 'max'=>50),
+                        array('jenisdiklat_deskripsi', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('jenisdiklat_id, jenisdiklat_nama, jenisdiklat_namalainnya, jenisdiklat_aktif', 'safe', 'on'=>'search'),
@@ -65,7 +66,8 @@ class JenisdiklatM extends CActiveRecord
 			'jenisdiklat_id' => 'Id Jenis Diklat',
 			'jenisdiklat_nama' => 'Nama Jenis Diklat',
 			'jenisdiklat_namalainnya' => 'Nama Lainnya',
-			'jenisdiklat_aktif' => 'Status',
+			'jenisdiklat_aktif' => 'Aktif',
+                        'jenisdiklat_deskripsi' => 'Deskripsi',
 		);
 	}
 

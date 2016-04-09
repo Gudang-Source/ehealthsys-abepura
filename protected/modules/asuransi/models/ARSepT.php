@@ -104,4 +104,31 @@ class ARSepT extends SepT
 		else
 			return array();
 	}
+        
+        public function getRuanganNama($politujuan)
+        {
+            
+            if (is_numeric($politujuan)):
+                $nama = RuanganM::model()->findAllByAttributes(array('ruangan_id'=>$politujuan));
+
+                if (empty($nama)):
+                    $data = '';
+                else:
+                    foreach($nama as $nama):
+                        $data = $nama->ruangan_nama;
+                    endforeach;
+                endif;                
+            else:    
+                $nama = RuanganM::model()->findAllByAttributes(array('ruangan_singkatan'=>$politujuan));
+
+                if (empty($nama)):
+                    $data = '';
+                else:
+                    foreach($nama as $nama):
+                        $data = $nama->ruangan_nama;
+                    endforeach;
+                endif;
+            endif;
+            return $data;
+        }
 }

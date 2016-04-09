@@ -55,11 +55,11 @@ class LALinenM extends LinenM {
 		}
 		if(!empty($this->create_ruangan)){
 			$criteria->addCondition('create_ruangan = '.$this->create_ruangan);
-		}
+		} 
 		$criteria->compare('linen_aktif',$this->linen_aktif);
 		$criteria->compare('LOWER(satuanlinen)',strtolower($this->satuanlinen),true);
 		$criteria->addCondition("linen_id in(select linen_id from penyimpananlinen_t)");
-		$criteria->limit=10;
+		// $criteria->limit=10;
 
 	   return new CActiveDataProvider($this, array(
 			   'criteria'=>$criteria,
