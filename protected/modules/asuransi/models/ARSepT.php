@@ -106,7 +106,7 @@ class ARSepT extends SepT
 	}
         
         public function getRuanganNama($politujuan)
-        {
+        {//Yii::app()->user->getState('ruangan_nama')
             
             if (is_numeric($politujuan)):
                 $nama = RuanganM::model()->findAllByAttributes(array('ruangan_id'=>$politujuan));
@@ -129,6 +129,21 @@ class ARSepT extends SepT
                     endforeach;
                 endif;
             endif;
+            return $data;
+        }
+        
+        public function getKelasPBPJS($kelasrawat)
+        {
+            if ($kelasrawat == 1):
+                $data = 'Kelas 1';
+            elseif ($kelasrawat == 2):  
+                $data = 'Kelas 2';
+            elseif ($kelasrawat == 3):
+                $data = 'Kelas 3';
+            else:
+                $data = '';
+            endif;
+            
             return $data;
         }
 }
