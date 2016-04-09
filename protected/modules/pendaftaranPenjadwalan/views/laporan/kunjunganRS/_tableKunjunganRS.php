@@ -6,8 +6,9 @@
         $data = $model->searchPrint();
         $template = "{items}";
         $sort = false;
-        if ($caraPrint == "EXCEL")
-            $table = 'ext.bootstrap.widgets.BootExcelGridView';
+        if ($caraPrint == "EXCEL"){
+         $table = 'ext.bootstrap.widgets.BootExcelGridView';        
+        }
     } else{
         $data = $model->searchTable();
          $template = "{summary}\n{items}\n{pager}";
@@ -22,7 +23,7 @@
 	'template'=>$template,
 	'enableSorting'=>$sort,
 	'itemsCssClass'=>'table table-striped table-condensed',
-    'mergeColumns' => array('instalasi_nama', 'ruangan_nama'),
+    //'mergeColumns' => array('instalasi_nama', 'ruangan_nama'),
     'columns'=>array(
         'instalasi_nama',
         'ruangan_nama',
