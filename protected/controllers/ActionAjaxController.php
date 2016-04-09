@@ -2608,7 +2608,54 @@ class ActionAjaxController extends Controller
                  Yii::app()->end();
             }
         }
-    
+        
+        /** untuk menampilkan kode barang pada field secara dynamic **/
+        public function actionGetKodeBarangSubSubKel($encode=false,$model_nama='',$attr='')
+        {            
+            if(Yii::app()->request->isAjaxRequest) {
+                $modKodeBarang = new SubsubkelompokM;
+                if($model_nama !=='' && $attr == ''){
+                    $subsubkelompok_id = $_POST["$model_nama"]['subsubkelompok_id'];
+                }
+                 elseif ($model_nama == '' && $attr !== '') {
+                    $subsubkelompok_id = $_POST["$attr"];
+                }
+                elseif ($model_nama !== '' && $attr !== '') {
+                    $subsubkelompok_id = $_POST["$model_nama"]["$attr"];
+                }
+                //var_dump($golongan_id);die;
+                $kodebarang = null;
+                if($subsubkelompok_id){
+                    //var_dump($golongan_id);die;
+                    $kodebarang = $modKodeBarang->getDataKodeSSKItems($subsubkelompok_id);
+                   
+//                    $kelurahan = KelurahanM::model()->findAll('kecamatan_id='.$kecamatan_id.'');
+                    $kodebarang = CHtml::listData($kodebarang,'subsubkelompok_id','subsubkelompok_kode');
+                }
+
+                if($encode){
+                    echo CJSON::encode($kodebarang);
+                } else {
+                    if(empty($kodebarang)){
+                       // echo CHtml::tag('input', array('value'=>''),CHtml::encode(''),true);
+                        $data['kodebarang'] = '';
+                    }else{
+                        //echo CHtml::tag('input', array('value'=>''),CHtml::encode(''),true);
+                        foreach($kodebarang as $value=>$name)
+                        {
+                             $data['kodebarang'] = $name;
+                            //echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                        }
+                    }
+                    
+                    echo CJSON::encode($data);
+                }
+            }
+            Yii::app()->end();
+                
+        }
+        
+       
 }
 ?>
 

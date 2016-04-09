@@ -149,4 +149,9 @@ class SubsubkelompokM extends CActiveRecord
         {
             return $this->findAllByAttributes(array('subkelompok_id'=>$subkelompok_id),array('order'=>'subsubkelompok_nama ASC'));
         }
+        
+         public function getDataKodeSSKItems($subsubkelompok_id)
+        {
+            return $this->findAllByAttributes(array('subsubkelompok_id'=>$subsubkelompok_id),array('order'=>'subsubkelompok_nama ASC'));
+        }
 }

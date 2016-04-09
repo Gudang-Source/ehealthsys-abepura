@@ -55,7 +55,7 @@
             
             <?php //Echo CHtml::hiddenField('tempKode', $model->subkelompok_kode); ?>
 
-            <?php echo $form->textFieldRow($model,'subsubkelompok_kode',array('class'=>'span1 ','onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50,)); ?>
+            <?php echo $form->textFieldRow($model,'subsubkelompok_kode',array('class'=>'span2 ','onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50,)); ?>
             <?php echo $form->textFieldRow($model,'subsubkelompok_nama',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
             <?php echo $form->textFieldRow($model,'subsubkelompok_namalainnya',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
             <?php //echo $form->checkBoxRow($model,'subkelompok_aktif', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
