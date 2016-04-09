@@ -44,7 +44,7 @@ $('.search-form form').submit(function(){
 			'type'=>'raw',
 			'htmlOptions'=>array('style'=>'text-align:right;'),
 			),
-			/*array(
+			array(
 				'header'=>'Tanggal SEP',
 				'type'=>'raw',
 				'value'=>'isset($data->tglsep) ? MyFormatter::formatDateTimeForUser($data->tglsep) : ""',
@@ -57,7 +57,7 @@ $('.search-form form').submit(function(){
 				'value'=>'isset($data->tglrujukan) ? MyFormatter::formatDateTimeForUser($data->tglrujukan) : ""',
 			),
 			'norujukan',
-			'diagnosaawal',*/
+			'diagnosaawal',
                         array(
                             'header' => 'Ruangan',                            
                             'value' => '$data->getRuanganNama($data->politujuan)'                            
