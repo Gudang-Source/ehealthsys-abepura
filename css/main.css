@@ -890,7 +890,8 @@ fieldset.box2>fieldset{margin-top: -30px !important;}
 .boxtindakan h6{
     color: #ffffff;
     padding: 5px;
-    background: #637564;;
+    background: white;
+    font-weight: bold;
     margin: -4px;
     margin-bottom: 5px;
     -moz-border-top-left-radius: 3px;
@@ -899,6 +900,10 @@ fieldset.box2>fieldset{margin-top: -30px !important;}
     -moz-border-top-right-radius: 3px;
     -webkit-border-top-right-radius: 3px;
     border-top-right-radius: 3px;
+}
+
+.boxtindakan h6 label {
+    font-weight: bold;
 }
 
 iframe {
