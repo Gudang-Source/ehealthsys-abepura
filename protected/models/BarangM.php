@@ -83,7 +83,7 @@ class BarangM extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('barang_type, barang_kode, barang_nama, barang_harganetto, golongan_id, bidang_id, kelompok_id, subkelompok_id, subsubkelompok_id', 'required'),                       
+			array('barang_type, barang_kode, barang_nama, barang_harganetto', 'required'),                       
                        // array('golongan_id, bidang_id, kelompok_id, subkelompok_id, subsubkelompok_id', 'required', 'on'=>'cekTipeBarang'),
 			array('barang_ekonomis_thn, barang_jmldlmkemasan', 'numerical', 'integerOnly'=>true),
 			array('barang_harganetto, barang_persendiskon, barang_ppn, barang_hpp, barang_hargajual', 'numerical'),
@@ -92,10 +92,10 @@ class BarangM extends CActiveRecord
 			array('barang_noseri, barang_ukuran, barang_bahan', 'length', 'max'=>20),
 			array('barang_thnbeli', 'length', 'max'=>5),
 			array('barang_image', 'length', 'max'=>200),
-			array('barang_statusregister, barang_aktif', 'safe'),
+			array('nomorregister, barang_statusregister, barang_aktif, subsubkelompok_id', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('nomorregister, subsubkelompok_nama, subkelompok_id, kelompok_id, bidang_id, golongan_id, barang_id, subsubkelompok_id, barang_type, barang_kode, barang_nama, barang_namalainnya, barang_merk, barang_noseri, barang_ukuran, barang_bahan, barang_thnbeli, barang_warna, barang_statusregister, barang_ekonomis_thn, barang_satuan, barang_jmldlmkemasan, barang_image, barang_harganetto, barang_aktif, barang_persendiskon, barang_ppn, barang_hpp, barang_hargajual', 'safe', 'on'=>'search'),
+			array('subsubkelompok_id, nomorregister, subsubkelompok_nama, subkelompok_id, kelompok_id, bidang_id, golongan_id, barang_id, barang_type, barang_kode, barang_nama, barang_namalainnya, barang_merk, barang_noseri, barang_ukuran, barang_bahan, barang_thnbeli, barang_warna, barang_statusregister, barang_ekonomis_thn, barang_satuan, barang_jmldlmkemasan, barang_image, barang_harganetto, barang_aktif, barang_persendiskon, barang_ppn, barang_hpp, barang_hargajual', 'safe', 'on'=>'search'),
 		);
 	}
         
@@ -174,35 +174,47 @@ class BarangM extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('barang_id',$this->barang_id);
-		$criteria->compare('subsubkelompok_id',$this->subsubkelompok_id);
-		$criteria->compare('barang_type',$this->barang_type,true);
-		$criteria->compare('barang_kode',$this->barang_kode,true);
-		$criteria->compare('barang_nama',$this->barang_nama,true);
-		$criteria->compare('barang_namalainnya',$this->barang_namalainnya,true);
-		$criteria->compare('barang_merk',$this->barang_merk,true);
-		$criteria->compare('barang_noseri',$this->barang_noseri,true);
-		$criteria->compare('barang_ukuran',$this->barang_ukuran,true);
-		$criteria->compare('barang_bahan',$this->barang_bahan,true);
-		$criteria->compare('barang_thnbeli',$this->barang_thnbeli,true);
-		$criteria->compare('barang_warna',$this->barang_warna,true);
-		$criteria->compare('barang_statusregister',$this->barang_statusregister);
-		$criteria->compare('barang_ekonomis_thn',$this->barang_ekonomis_thn);
-		$criteria->compare('barang_satuan',$this->barang_satuan,true);
-		$criteria->compare('barang_jmldlmkemasan',$this->barang_jmldlmkemasan);
-		$criteria->compare('barang_image',$this->barang_image,true);
-		$criteria->compare('barang_harganetto',$this->barang_harganetto);		
-		$criteria->compare('barang_persendiskon',$this->barang_persendiskon);
-		$criteria->compare('barang_ppn',$this->barang_ppn);
-		$criteria->compare('barang_hpp',$this->barang_hpp);
-		$criteria->compare('barang_hargajual',$this->barang_hargajual);
-                $criteria->compare('subsubkelompok_nama',$this->subsubkelompok_nama);
-                $criteria->compare('barang_aktif',isset($this->barang_aktif)?$this->barang_aktif:true);                
+		$criteria->compare('t.barang_id',$this->barang_id);
+		$criteria->compare('t.subsubkelompok_id',$this->subsubkelompok_id);
+		$criteria->compare('t.barang_type',$this->barang_type,true);
+		$criteria->compare('t.barang_kode',$this->barang_kode,true);
+		$criteria->compare('t.barang_nama',$this->barang_nama,true);
+		$criteria->compare('t.barang_namalainnya',$this->barang_namalainnya,true);
+		$criteria->compare('t.barang_merk',$this->barang_merk,true);
+		$criteria->compare('t.barang_noseri',$this->barang_noseri,true);
+		$criteria->compare('t.barang_ukuran',$this->barang_ukuran,true);
+		$criteria->compare('t.barang_bahan',$this->barang_bahan,true);
+		$criteria->compare('t.barang_thnbeli',$this->barang_thnbeli,true);
+		$criteria->compare('t.barang_warna',$this->barang_warna,true);
+		$criteria->compare('t.barang_statusregister',$this->barang_statusregister);
+		$criteria->compare('t.barang_ekonomis_thn',$this->barang_ekonomis_thn);
+		$criteria->compare('t.barang_satuan',$this->barang_satuan,true);
+		$criteria->compare('t.barang_jmldlmkemasan',$this->barang_jmldlmkemasan);
+		$criteria->compare('t.barang_image',$this->barang_image,true);
+		$criteria->compare('t.barang_harganetto',$this->barang_harganetto);		
+		$criteria->compare('t.barang_persendiskon',$this->barang_persendiskon);
+		$criteria->compare('t.barang_ppn',$this->barang_ppn);
+		$criteria->compare('t.barang_hpp',$this->barang_hpp);
+		$criteria->compare('t.barang_hargajual',$this->barang_hargajual);
+                $criteria->compare('t.subsubkelompok_nama',$this->subsubkelompok_nama);
+                $criteria->compare('t.barang_aktif',isset($this->barang_aktif)?$this->barang_aktif:true);                
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public function searchBarang() {
+            $p = $this->search();
+            $p->criteria->join = 
+                    'left join subsubkelompok_m ssk on ssk.subsubkelompok_id = t.subsubkelompok_id '
+                    . 'left join subkelompok_m sk on sk.subkelompok_id = ssk.subkelompok_id '
+                    . 'left join kelompok_m k on k.kelompok_id = sk.kelompok_id';
+            $p->criteria->compare('ssk.subsubkelompok_id', $this->subsubkelompok_id);
+            $p->criteria->compare('sk.subkelompok_id', $this->subkelompok_id);
+            $p->criteria->compare('k.kelompok_id', $this->kelompok_id);
+            return $p;
+        }
 	
 	public function getBidangItems()
 	{
@@ -287,6 +299,20 @@ class BarangM extends CActiveRecord
             return $data;
         }
         
+        public function getNomorReg($subsubkelompok_id)
+        {
+            $subsubkelid = SubsubkelompokM::model()->findAllByAttributes(array('subsubkelompok_id'=> $subsubkelompok_id));
+            
+             if ($subsubkelid == null):
+                $data = '';
+            else:
+                foreach($subsubkelid as $id):
+                    $data = $id->subsubkelompok_kode;
+                endforeach;    
+            endif;
+            
+            return $data;
+        }
        // public function beforeValidate()
        // {
          //   if ($this->barang_type != 'Habis Pakai'):

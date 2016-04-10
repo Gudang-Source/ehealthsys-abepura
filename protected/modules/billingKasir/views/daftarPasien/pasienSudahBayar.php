@@ -34,77 +34,147 @@
                 'itemsCssClass'=>'table table-striped table-condensed',
                 'columns'=>array(
                      array(
-                        'header'=>'Tanggal Pembayaran',
-                        'name'=>'tgl_pendaftaran',
-                        'type'=>'raw',
-                        'value'=>'isset($data->tgl_pendaftaran)? MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran) : null',
-                    ),
-                    array(
-                        'header'=>'Tanggal Bukti Bayar',
+                        'header'=>'Tanggal Bukti Bayar/<br>No. Bukti Bayar',
                         'name'=>'tglbuktibayar',
                         'type'=>'raw',
-                        'value'=>'MyFormatter::formatDateTimeForUser($data->tglbuktibayar)."<br>".$data->nobuktibayar',
+                        'value'=>'MyFormatter::formatDateTimeForUser($data->tglbuktibayar)."/<br>".$data->nobuktibayar',
                     ),
+                     array(
+                        'header'=>'Tanggal Pendaftaran/<br>No. Pendaftaran',
+                        'name'=>'tgl_pendaftaran',
+                        'type'=>'raw',
+                        'value'=>'isset($data->tgl_pendaftaran)?MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."/<br>".$data->no_pendaftaran:null',
+                    ),                   
                     array(
                         'name'=>'ruangan_id',
                         'type'=>'raw',
                         'value'=>'isset($data->ruangan_nama) ? $data->ruangan_nama : null',
                     ),
                     array(
-                        'header'=>'No. Pendaftaran / No. Rekam Medik',
-						'value'=>'(isset($data->no_pendaftaran)?$data->no_pendaftaran:null). " / " .(isset($data->no_rekam_medik) ? $data->no_rekam_medik :null)',
-					),
+                        'header'=>'No. Rekam Medik',
+                        'value'=>'(isset($data->no_rekam_medik) ? $data->no_rekam_medik :null)',
+                         ),
                     array(
                         'name'=>'nama_pasien',
                         'type'=>'raw',
-                        'value'=>'$data->nama_pasien',
+                        'value'=>'$data->getNamaSapaan($data->no_rekam_medik)." ".$data->nama_pasien',
                     ),
                     array(
-                        'header'=>'Cara Bayar | Penjamin',
+                        'header'=>'Cara Bayar/<br>Penjamin',
                         'name'=>'carabayar_nama',
                         'type'=>'raw',
-                        'value'=>'(isset($data->carabayar_nama)?$data->carabayar_nama:null)."<br>".(isset($data->penjamin_nama) ? $data->penjamin_nama :null)',
+                        'value'=>'(isset($data->carabayar_nama)?$data->carabayar_nama:null)."/<br>".(isset($data->penjamin_nama) ? $data->penjamin_nama :null)',
                     ),
                     array(
                         'name'=>'total_tagihan',
                         'type'=>'raw',
-                        'value'=>'"Rp. ".number_format($data->totalbiayapelayanan,0,"",".")',
+                        'value'=>'"Rp".number_format($data->totalbiayapelayanan,0,"",".")',
+                        'htmlOptions' => array('style'=>'text-align:right;')
                     ),
                     array(
                         'header'=>'Subsidi Asuransi',
                         'name'=>'subsidi_asuransi',
                         'type'=>'raw',
-                        'value'=>'number_format($data->totalsubsidiasuransi,0,"",".")',
+                        'value'=>'"Rp".number_format($data->totalsubsidiasuransi,0,"",".")',
+                        'htmlOptions' => array('style'=>'text-align:right;')
                     ),
                     array(
-                        'header'=>'Subsidi RS / Klinik',
+                        'header'=>'Subsidi RS',
                         'name'=>'subsidi_rs',
                         'type'=>'raw',
-                        'value'=>'number_format($data->totalsubsidirs,0,"",".")',
+                        'value'=>'"Rp".number_format($data->totalsubsidirs,0,"",".")',
+                        'htmlOptions' => array('style'=>'text-align:right;')
                     ),
                     array(
-                        'header'=>'Biaya',
-                        'name'=>'iur_biaya',
-                        'type'=>'raw',
-                        'value'=>'"Rp. ".number_format($data->totaliurbiaya,0,"",".")',
-                    ),
-                    array(
-                        'header'=>'Disc',
-                        'name'=>'discount',
-                        'type'=>'raw',
-                        'value'=>'number_format($data->totaldiscount,0,"",".")',
-                    ),
-                    array(
-                        'header'=>'Pembebasan',
+                        'header'=>'Total Pembebasan',
                         'name'=>'pembebasan',
                         'type'=>'raw',
-                        'value'=>'number_format($data->totalpembebasan,0,"",".")',
+                        'value'=>'"Rp".number_format($data->totalpembebasan,0,"",".")',
+                        'htmlOptions' => array('style'=>'text-align:right;')
                     ),
+                    array(
+                        'header'=>'Total Discount',
+                        'name'=>'discount',
+                        'type'=>'raw',
+                        'value'=>'"Rp".number_format($data->totaldiscount,0,"",".")',
+                        'htmlOptions' => array('style'=>'text-align:right;')
+                    ), 
+                    array(
+                        'header'=>'Iur Biaya',
+                        'name'=>'iur_biaya',
+                        'type'=>'raw',
+                        'value'=>'"Rp".number_format($data->totaliurbiaya,0,"",".")',
+                        'htmlOptions' => array('style'=>'text-align:right;')
+                    ),                                       
                     array(
                         'header'=>'Jumlah Pembayaran',
                         'name'=>'jumlah_pembayaran',
                         'type'=>'raw',
-                        'value'=>'"Rp. ".number_format($data->totalbayartindakan,0,"",".")',
+                        'value'=>'"Rp".number_format($data->totalbayartindakan,0,"",".")',
+                        'htmlOptions' => array('style'=>'text-align:right;')
+                    ),
+                    array(
+                        'header'=>'Rincian Sudah Bayar/<br> RS',
+                        'type'=>'raw',
+                        'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:left;'),
+                        'value'=>'CHtml::Link("<i class=\"icon-form-rincianbayar\"></i>",Yii::app()->controller->createUrl("/billingKasir/pembayaranTagihanPasien/printRincianSudahBayar",array("pembayaranpelayanan_id"=>$data->pembayaranpelayanan_id, "frame"=>true)),
+                                    array("class"=>"", 
+                                          "target"=>"iframeRincianTagihan",
+                                          "onclick"=>"$(\"#dialogRincianTagihan\").dialog(\"open\");",
+                                          "rel"=>"tooltip",
+                                          "title"=>"Klik untuk melihat Rincian Tagihan",
+                                    ))."/<br>".CHtml::Link("<i class=\"icon-form-rincianrs\"></i>",Yii::app()->controller->createUrl("/billingKasir/pembayaranTagihanPasien/printRincianRSSudahBayar",array("pembayaranpelayanan_id"=>$data->pembayaranpelayanan_id, "frame"=>true)),
+                                    array("class"=>"", 
+                                          "target"=>"iframeRincianTagihan",
+                                          "onclick"=>"$(\"#dialogRincianTagihan\").dialog(\"open\");",
+                                          "rel"=>"tooltip",
+                                          "title"=>"Klik untuk melihat Rincian Tagihan",
+                                    ))',          'htmlOptions'=>array('style'=>'text-align: left; width:40px')
+                    ),  
+                    array(
+                        'header'=>'Kwitansi Pasien',
+                        'type'=>'raw',
+                        'value'=> function($data){
+                                $cek = $data->getCekPrint($data->pendaftaran_id);
+                                
+                                if ($cek >= 1):
+                                    //kwitansi lebih dari 1
+                                    echo CHtml::link("<i class='icon-form-print'></i>",Yii::app()->controller->createUrl('kwitansi/view',array('idPembayaranPelayanan'=>$data->pembayaranpelayanan_id,'frame'=>true)),
+                                            array(
+                                                'class'=>'', 
+                                                'target'=>'iframeKwitansi',
+                                                'onclick'=>'notifKwitansi(1,'.$data->pendaftaran_id.')',
+                                                'rel'=>'tooltip',
+                                                'title'=>'Klik untuk cetak Kwitansi'));
+                                else:                                    
+                                    //kwitansi belum pernah cetak
+                                    echo CHtml::link("<i class='icon-form-print'></i>",Yii::app()->controller->createUrl('kwitansi/view',array('idPembayaranPelayanan'=>$data->pembayaranpelayanan_id,'frame'=>true)),
+                                            array(
+                                                'class'=>'', 
+                                                'target'=>'iframeKwitansi',
+                                                'onclick'=>'notifKwitansi(0,'.$data->pendaftaran_id.')',
+                                                'rel'=>'tooltip',
+                                                'title'=>'Klik untuk cetak Kwitansi'));
+                                endif;
+                        }
+                    ),//"onclick"=>"$(\"#dialogKwitansi\").dialog(\"open\");",
+/*'CHtml::Link("<i class=\"icon-form-print\"></i>",Yii::app()->controller->createUrl("kwitansi/view",array("idPembayaranPelayanan"=>$data->pembayaranpelayanan_id,"frame"=>true)),
+                                    array("class"=>"", 
+                                          "target"=>"iframeKwitansi",
+                                          "onclick"=>"notifKwitansi($data->getCekPrint($data->pendaftaran_id))",
+                                          "rel"=>"tooltip",
+                                          "title"=>"Klik untuk cetak Kwitansi",
+                                    ))',           'htmlOptions'=>array('style'=>'text-align: left; width:40px')*/                            
+                    array(
+                        'header'=>'Retur Tagihan',
+                        'type'=>'raw',
+                        'value'=>'CHtml::Link("<i class=\"icon-form-retur\"></i>",Yii::app()->controller->createUrl("returTagihanPasien/index",array("idPembayaran"=>$data->pembayaranpelayanan_id,"frame"=>true)),
+                                    array("class"=>"", 
+                                          "target"=>"iframePembayaran",
+                                          "onclick"=>"$(\"#dialogRetur\").dialog(\"open\");",
+                                          "rel"=>"tooltip",
+                                          "title"=>"Klik untuk meretur tagihan pasien",
+                                    ))',           'htmlOptions'=>array('style'=>'text-align: left; width:40px')
                     ),
         //            array(
         //                'header'=>'Rincian Sudah Bayar',
@@ -118,7 +188,7 @@
         //                                  "title"=>"Klik untuk melihat Rincian Tagihan",
         //                            ))',          'htmlOptions'=>array('style'=>'text-align: left; width:40px')
         //            ),           
-                    array(
+                   /* array(
                         'header'=>'Rincian Sudah Bayar',
                         'type'=>'raw',
                         'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:left;'),
@@ -129,7 +199,7 @@
                                           "rel"=>"tooltip",
                                           "title"=>"Klik untuk melihat Rincian Tagihan",
                                     ))',          'htmlOptions'=>array('style'=>'text-align: left; width:40px')
-                    ),           
+                    ),      
                     array(
                         'header'=>'Rincian Untuk RS',
                         'type'=>'raw',
@@ -141,30 +211,10 @@
                                           "rel"=>"tooltip",
                                           "title"=>"Klik untuk melihat Rincian Tagihan",
                                     ))',          'htmlOptions'=>array('style'=>'text-align: left; width:40px')
-                    ),           
-                    array(
-                        'header'=>'Retur Tagihan Pasien',
-                        'type'=>'raw',
-                        'value'=>'CHtml::Link("<i class=\"icon-form-retur\"></i>",Yii::app()->controller->createUrl("returTagihanPasien/index",array("idPembayaran"=>$data->pembayaranpelayanan_id,"frame"=>true)),
-                                    array("class"=>"", 
-                                          "target"=>"iframePembayaran",
-                                          "onclick"=>"$(\"#dialogRetur\").dialog(\"open\");",
-                                          "rel"=>"tooltip",
-                                          "title"=>"Klik untuk meretur tagihan pasien",
-                                    ))',           'htmlOptions'=>array('style'=>'text-align: left; width:40px')
-                    ),
-                    array(
-                        'header'=>'Kuitansi Pasien',
-                        'type'=>'raw',
-                        'value'=>'CHtml::Link("<i class=\"icon-form-print\"></i>",Yii::app()->controller->createUrl("kwitansi/view",array("idPembayaranPelayanan"=>$data->pembayaranpelayanan_id,"frame"=>true)),
-                                    array("class"=>"", 
-                                          "target"=>"iframeKwitansi",
-                                          "onclick"=>"$(\"#dialogKwitansi\").dialog(\"open\");",
-                                          "rel"=>"tooltip",
-                                          "title"=>"Klik untuk cetak Kwitansi",
-                                    ))',           'htmlOptions'=>array('style'=>'text-align: left; width:40px')
-                    ),
-                    array(
+                    ),   */        
+                    
+                    
+                   /* array(
                         'header'=>'BKM',
                         'type'=>'raw',
                         'value'=>'CHtml::Link("<i class=\"icon-form-bkm\"></i>",Yii::app()->controller->createUrl("detailKasMasuk",array("idPembayaran"=>$data->pembayaranpelayanan_id,"frame"=>true)),
@@ -177,7 +227,7 @@
                                     'htmlOptions'=>array(
                                         'style'=>'text-align: left;'
                                     )
-                    ),
+                    ),*/
 //                    array(
 //                        'header'=>'Batal Pembayaran',
 //                        'type'=>'raw',
@@ -192,11 +242,34 @@
 //                                        'style'=>'text-align: left;'
 //                                    )
 //                    ),
-                    array(
-                        'header'=>'Batal Pembayaran',
+                     array(                        
+                        'header'=>'Status Closing',
                         'type'=>'raw',
-						'value'=>'CHtml::link("<i class=\'icon-form-silang\'></i>", "javascript:batalBayar($data->tandabuktibayar_id,$data->pembayaranpelayanan_id)",array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk Membatalkan Pembayaran"))',
-						'htmlOptions'=>array('style'=>'text-align:left; width:40px'),
+                        'value'=>'(isset($data->closingkasir_id) ? "SUDAH" :"BELUM")',
+                        'htmlOptions'=>array('style'=>'text-align:left; width:40px'),
+                    ),
+                     array(
+                        'header'=>'Pegawai Kasir',                        
+                        'type'=>'raw',
+                        'value'=>'$data->getNamaUsername($data->petugasadministrasi_id)',
+                        'htmlOptions'=>array('style'=>'text-align:left; width:40px'),
+                    ),
+                    array(
+                        //'header'=>'Batal Pembayaran',
+                        'header'=>'Pembatalan',
+                        'type'=>'raw',
+                       // 'value'=>'isset($data->closingkasir_id)?"Sudah Bayar":CHtml::link("<i class=\'icon-form-silang\'></i>", "javascript:batalBayar($data->tandabuktibayar_id,$data->pembayaranpelayanan_id)",array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk Membatalkan Pembayaran"))',
+                      //  'value'=>'isset($model->getCekBayar($data->tandabuktibayar_id))?"Sudah Bayar":CHtml::link("<i class=\'icon-form-silang\'></i>", "javascript:batalBayar($data->tandabuktibayar_id,$data->pembayaranpelayanan_id)",array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk Membatalkan Pembayaran"))',
+                      //  'value' => function($model, $data){
+                         //   $cek = $model->getCekBayar();
+                         //   if ($cek ==NULL)
+                         //   {
+                         //       $data = '';
+                         //   }
+                         //   return $cek;
+                       // },
+                        'value' => '($data->getCekBayar($data->tandabuktibayar_id))?"SUDAH BAYAR":CHtml::link("<i class=\'icon-form-silang\'></i>", "javascript:batalBayar($data->tandabuktibayar_id,$data->pembayaranpelayanan_id)",array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk Membatalkan Pembayaran"))',
+                        'htmlOptions'=>array('style'=>'text-align:center;'),
                     ),
                 ),
                 'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
@@ -328,6 +401,62 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
 <?php $this->endWidget();?>
 
 <script type="text/javascript">
+function notifKwitansi(cekPrint, pendaftaranid)
+{
+    if (cekPrint >= 1 )
+    {
+         $.ajax({
+				 type:'POST',
+				 'url':'<?php echo $this->createUrl('/ActionAjax/DataRincian')?>',
+				 'data':{pendaftaranid:pendaftaranid},
+				 dataType: "json",
+				 success:function(data){
+                                    if(data.hasil == "BERHASIL")
+                                    {
+                                        myConfirm(" Kwitansi Sebelumnya Sudah Dicetak Oleh:\n\
+                                            <?php 
+                                         /*       $rincian = getRincianCetak($pendaftaran_id);                                            
+                                                echo "<table>";
+                                                echo "<tr>";
+                                                echo "<td>Nama</td>";echo "<td>:</td>";echo "<td>data dimari</td>";
+                                                echo "</tr>";
+                                                echo "<tr>";
+                                                echo "<td>Tanggal Dicetak</td>";echo "<td>:</td>";echo "<td>data dimari</td>";
+                                                echo "</tr>";
+                                                echo "<tr>";
+                                                echo "<td>Ruangan</td>";echo "<td>:</td>";echo "<td>data dimari</td>";
+                                                echo "</tr>";
+                                                echo "</table>"*/
+                                            ?> Apakah Anda ingin mencetak lagi?"," Perhatian!", function(r){
+                                            if(r){
+                                              $("#dialogKwitansi").dialog("open"); 
+                                            }
+                                        });                    
+                                    }
+                                    else
+                                    {
+                                            myConfirm(" Kwitansi Sebelumnya Sudah Dicetak Oleh:\n\
+                                                        Nama : "+data.nama+"\n\
+                                                        Tanggal Cetak : "+data.tanggal+"\n\
+                                                        Ruangan : "+data.ruangan+"\n\
+                                                        \n\
+                                                        Apakah Anda ingin mencetak lagi?"," Perhatian!", function(r){
+                                            if(r){
+                                              $("#dialogKwitansi").dialog("open"); 
+                                            }
+                                        }); 
+                                    }
+				 },				 
+			 });
+        
+    }
+    else
+    {        
+        $("#dialogKwitansi").dialog("open"); 
+    }
+            
+    
+}
 
 function batalBayar(tandabuktibayar_id,pembayaranpelayanan_id)
 {

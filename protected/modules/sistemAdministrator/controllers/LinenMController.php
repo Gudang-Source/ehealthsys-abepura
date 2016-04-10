@@ -79,7 +79,7 @@ class LinenMController extends MyAuthController
                         $model->barang_id = $_POST['barang_id'];
 			if($model->save()){
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('view','id'=>$model->linen_id));
+				$this->redirect(array('admin'));
 			}
 		}
 
@@ -145,6 +145,7 @@ class LinenMController extends MyAuthController
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['SALinenM'])){
 			$model->attributes = $_GET['SALinenM'];
+                        $model->barang_nama = $_GET['SALinenM']['barang_nama'];
 		}
 		$this->render($this->path_view.'admin',array(
 				'model'=>$model,

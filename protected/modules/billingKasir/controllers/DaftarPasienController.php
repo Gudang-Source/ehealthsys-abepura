@@ -157,8 +157,9 @@ class DaftarPasienController extends MyAuthController
                     $model->tgl_bkm_akhir= date('d M Y');
                     //$model->ceklis=false;
                     if(isset($_GET['BKInformasipasiensudahbayarV'])){
-                            $model->attributes = $_GET['BKInformasipasiensudahbayarV'];
-                            $model->ceklis = $_GET['BKInformasipasiensudahbayarV']['ceklis'];
+                            $model->attributes = $_GET['BKInformasipasiensudahbayarV'];                            
+                            //var_dump($model);die;                            
+                            //$model->ceklis = $_GET['BKInformasipasiensudahbayarV']['ceklis'];
                             if(!empty($_GET['BKInformasipasiensudahbayarV']['tgl_awal']))
                             {
                                 $model->tgl_awal = $format->formatDateTimeForDb($_GET['BKInformasipasiensudahbayarV']['tgl_awal']);
@@ -169,11 +170,8 @@ class DaftarPasienController extends MyAuthController
                             }
                             
                              if(!empty($_GET['BKInformasipasiensudahbayarV']['tgl_bkm_awal']))
-                            {
-                
-								 
-								 
-								 $model->tgl_bkm_awal = $format->formatDateTimeForDb($_GET['BKInformasipasiensudahbayarV']['tgl_bkm_awal']);
+                            { 
+                                $model->tgl_bkm_awal = $format->formatDateTimeForDb($_GET['BKInformasipasiensudahbayarV']['tgl_bkm_awal']);
                             }
                             if(!empty($_GET['BKInformasipasiensudahbayarV']['tgl_bkm_akhir']))
                             {

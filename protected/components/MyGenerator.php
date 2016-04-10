@@ -2038,5 +2038,15 @@ class MyGenerator
         $kode_baru = $prefix.(isset($kode['nomaksimal']) ? (str_pad($kode['nomaksimal']+1, strlen($default), 0,STR_PAD_LEFT)) : $default);
         return $kode_baru;
     }
+    
+    public static function kodeSubSubKelompokBarang($subsubkelompok_id)
+    {		
+        $sql = "SELECT  subsubkelompok_kode 
+				FROM subsubkelompok_m
+				WHERE subsubkelompok_id = '$subsubkelompok_id' ";
+        $kode = Yii::app()->db->createCommand($sql)->queryRow();                
+        $kode_baru = $kode['subsubkelompok_kode'];
+        return $kode_baru;
+    }
 }
 ?>
