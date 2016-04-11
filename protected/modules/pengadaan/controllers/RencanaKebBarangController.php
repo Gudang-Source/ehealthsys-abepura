@@ -59,7 +59,7 @@ class RencanaKebBarangController extends MyAuthController
             }
         }
         
-        $this->render('index',array(
+        $this->render($this->path_view.'index',array(
             'format'=>$format,
             'modRencanaKebBarang'=>$modRencanaKebBarang,
             'modDetails'=>$modDetails,
@@ -111,7 +111,7 @@ class RencanaKebBarangController extends MyAuthController
 			
             echo CJSON::encode(array(
                 'status'=>'create_form', 
-                'form'=>$this->renderPartial('_rowBarangRencanaKebutuhan', array(
+                'form'=>$this->renderPartial($this->path_view.'_rowBarangRencanaKebutuhan', array(
                         'modRencanaKebBarang'=>$modRencanaKebBarang,
                         'modRencanaDetailKebBarang'=>$modRencanaDetailKebBarang,
                     ), 
