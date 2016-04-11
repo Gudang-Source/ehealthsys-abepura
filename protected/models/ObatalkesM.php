@@ -262,6 +262,7 @@ class ObatalkesM extends CActiveRecord
 			'maksimalstok' => 'Maksimal Stok',
 			'urutan_ven'=>'Urutan VEN',
 			'signa'=>'Signa Obat',
+                        'jenisobatalkes_nama'=>'Jenis Obat Alkes'
 		);
 	}
 

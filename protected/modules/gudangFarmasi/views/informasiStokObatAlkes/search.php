@@ -10,13 +10,13 @@
     <legend class="rim">Pencarian Obat Alkes</legend>
     <div class="row-fluid">
         <div class="span4">
-            <?php echo $form->dropDownListRow($model,'instalasi_id', $instalasiAsals, 
+            <?php /* echo $form->dropDownListRow($model,'instalasi_id', $instalasiAsals, 
                     array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
                             'ajax'=>array('type'=>'POST',
                                         'url'=>$this->createUrl('SetDropdownRuangan',array('encode'=>false,'model_nama'=>get_class($model))),
                                         'update'=>"#".CHtml::activeId($model, 'ruangan_id'),
-                            )));?>
-            <?php echo $form->dropDownListRow($model,'ruangan_id',$ruanganAsals,array('class'=>'span3','empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+                            ))); */ ?>
+            <?php // echo $form->dropDownListRow($model,'ruangan_id',$ruanganAsals,array('class'=>'span3','empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
         </div>
         <div class="span4">
             <?php echo $form->textFieldRow($model,'obatalkes_golongan',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
@@ -24,7 +24,7 @@
         </div>
         <div class="span4">
             <?php echo $form->textFieldRow($model,'obatalkes_nama',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-            <?php echo $form->textFieldRow($model,'satuankecil_nama',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+            <?php // echo $form->textFieldRow($model,'satuankecil_nama',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
         </div>
     </div>
     <div class="form-actions">
