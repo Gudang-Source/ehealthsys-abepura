@@ -1,5 +1,6 @@
 <?php
 Yii::import('sistemAdministrator.controllers.MasterObatController');
+Yii::import('sistemAdministrator.models.*');
 
 class MasterObatGFController extends MasterObatController
 {

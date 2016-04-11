@@ -125,7 +125,7 @@ if (isset($_GET['frame'])){
                     </td>
                     <td width="35%" align="center">
                         <div>Dibuat Oleh :</div>
-                        <div style="margin-top:60px;"><?php echo isset($modRencanaKebBarang->pegawai_id) ? $modRencanaKebBarang->pegawai->NamaLengkap : "" ?></div>
+                        <div style="margin-top:60px;"><?php echo !empty($modRencanaKebBarang->pegawai_id) ? $modRencanaKebBarang->pegawai->NamaLengkap : "" ?></div>
                         <div>(Petugas Gudang Umum)</div>
                     </td>
                 </tr>

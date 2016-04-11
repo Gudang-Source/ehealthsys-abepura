@@ -22,7 +22,8 @@ class RencanaKebutuhanController extends MyAuthController{
         if(isset($_POST['ADRencanaKebFarmasiT'])){
             $transaction = Yii::app()->db->beginTransaction();
             try {
-				
+                    $pegawai = Yii::app()->user->getState('pegawai_id');
+                    if (empty($pegawai)) $pegawai = '0';
                     $modRencanaKebFarmasi->attributes=$_POST['ADRencanaKebFarmasiT'];
 					$modRencanaKebFarmasi->tglperencanaan=$format->formatDateTimeForDb($_POST['ADRencanaKebFarmasiT']['tglperencanaan']);
 					if(isset($_GET['ubah'])){
@@ -31,7 +32,7 @@ class RencanaKebutuhanController extends MyAuthController{
 					}else{
 						$modRencanaKebFarmasi->noperencnaan = MyGenerator::noPerencanaan();
 						$modRencanaKebFarmasi->ruangan_id = Yii::app()->user->getState('ruangan_id');
-						$modRencanaKebFarmasi->pegawai_id = Yii::app()->user->getState('pegawai_id');
+						$modRencanaKebFarmasi->pegawai_id = $pegawai;
 						$modRencanaKebFarmasi->tglperencanaan=$format->formatDateTimeForDb($_POST['ADRencanaKebFarmasiT']['tglperencanaan']);
 						$modRencanaKebFarmasi->create_time = date('Y-m-d H:i:s');
 						$modRencanaKebFarmasi->create_loginpemakai_id = Yii::app()->user->id;
@@ -63,7 +64,7 @@ class RencanaKebutuhanController extends MyAuthController{
             }
         }
         
-        $this->render('index',array(
+        $this->render($this->path_view.'index',array(
             'format'=>$format,
             'modRencanaKebFarmasi'=>$modRencanaKebFarmasi,
             'modDetails'=>$modDetails,
@@ -134,7 +135,7 @@ class RencanaKebutuhanController extends MyAuthController{
             
             echo CJSON::encode(array(
                 'status'=>'create_form', 
-                'form'=>$this->renderPartial('_rowObatRencanaKebutuhan', array(
+                'form'=>$this->renderPartial($this->path_view.'_rowObatRencanaKebutuhan', array(
                         'modRencanaKebFarmasi'=>$modRencanaKebFarmasi,
                         'modRencanaDetailKeb'=>$modRencanaDetailKeb,
                     ), 
@@ -307,7 +308,7 @@ class RencanaKebutuhanController extends MyAuthController{
 					$criteria_penerimaan->addCondition('t.permintaanpembelian_id is NOT NULL');
 					$criteria_penerimaan->addCondition('penerimaandetail_t.obatalkes_id = '.$obat->obatalkes_id);
 					
-					$mod_penerimaan = ADPenerimaanBarangT::model()->findAll($criteria_penerimaan);
+					$mod_penerimaan = PenerimaanbarangT::model()->findAll($criteria_penerimaan);
 					
 					if(count($mod_penerimaan) > 0){
 						foreach($mod_penerimaan as $d=>$terima){
@@ -431,7 +432,7 @@ class RencanaKebutuhanController extends MyAuthController{
 								$modRencanaDetailKeb->jenis_material = isset($modLookup) ? $modLookup->lookup_name : "-";
 								
 								if($modRencanaDetailKeb->stokakhir <= $modRencanaDetailKeb->maksimalstok || $modRencanaDetailKeb->jmlpermintaan >= 0 ){
-									$form .= $this->renderPartial('_rowObatRencanaKebutuhan', array('modRencanaKebFarmasi'=>$modRencanaKebFarmasi,'modRencanaDetailKeb'=>$modRencanaDetailKeb), true);
+									$form .= $this->renderPartial($this->path_view.'_rowObatRencanaKebutuhan', array('modRencanaKebFarmasi'=>$modRencanaKebFarmasi,'modRencanaDetailKeb'=>$modRencanaDetailKeb), true);
 								}
 						}
 					}
@@ -469,7 +470,7 @@ class RencanaKebutuhanController extends MyAuthController{
 								$modRencanaDetailKeb->jenis_material = isset($modLookup) ? $modLookup->lookup_name : "-";
 								
 								if($modRencanaDetailKeb->stokakhir <= $modRencanaDetailKeb->maksimalstok || $modRencanaDetailKeb->jmlpermintaan >= 0 ){
-									$form .= $this->renderPartial('_rowObatRencanaKebutuhan', array('modRencanaKebFarmasi'=>$modRencanaKebFarmasi,'modRencanaDetailKeb'=>$modRencanaDetailKeb), true);
+									$form .= $this->renderPartial($this->path_view.'_rowObatRencanaKebutuhan', array('modRencanaKebFarmasi'=>$modRencanaKebFarmasi,'modRencanaDetailKeb'=>$modRencanaDetailKeb), true);
 								}
 						}
 					}
@@ -507,7 +508,7 @@ class RencanaKebutuhanController extends MyAuthController{
 								$modRencanaDetailKeb->jenis_material = isset($modLookup) ? $modLookup->lookup_name : "-";
 								
 								if($modRencanaDetailKeb->stokakhir <= $modRencanaDetailKeb->maksimalstok || $modRencanaDetailKeb->jmlpermintaan >= 0 ){
-									$form .= $this->renderPartial('_rowObatRencanaKebutuhan', array('modRencanaKebFarmasi'=>$modRencanaKebFarmasi,'modRencanaDetailKeb'=>$modRencanaDetailKeb), true);
+									$form .= $this->renderPartial($this->path_view.'_rowObatRencanaKebutuhan', array('modRencanaKebFarmasi'=>$modRencanaKebFarmasi,'modRencanaDetailKeb'=>$modRencanaDetailKeb), true);
 								}
 						}
 					}
@@ -545,7 +546,7 @@ class RencanaKebutuhanController extends MyAuthController{
 								$modRencanaDetailKeb->jenis_material = isset($modLookup) ? $modLookup->lookup_name : "-";
 							
 								if($modRencanaDetailKeb->stokakhir <= $modRencanaDetailKeb->maksimalstok || $modRencanaDetailKeb->jmlpermintaan >= 0 ){
-									$form .= $this->renderPartial('_rowObatRencanaKebutuhan', array('modRencanaKebFarmasi'=>$modRencanaKebFarmasi,'modRencanaDetailKeb'=>$modRencanaDetailKeb), true);
+									$form .= $this->renderPartial($this->path_view.'_rowObatRencanaKebutuhan', array('modRencanaKebFarmasi'=>$modRencanaKebFarmasi,'modRencanaDetailKeb'=>$modRencanaDetailKeb), true);
 								}
 						}
 					}
@@ -583,7 +584,7 @@ class RencanaKebutuhanController extends MyAuthController{
 								$modRencanaDetailKeb->jenis_material = isset($modLookup) ? $modLookup->lookup_name : "-";
 								
 								if($modRencanaDetailKeb->stokakhir <= $modRencanaDetailKeb->maksimalstok || $modRencanaDetailKeb->jmlpermintaan >= 0 ){
-									$form .= $this->renderPartial('_rowObatRencanaKebutuhan', array('modRencanaKebFarmasi'=>$modRencanaKebFarmasi,'modRencanaDetailKeb'=>$modRencanaDetailKeb), true);
+									$form .= $this->renderPartial($this->path_view.'_rowObatRencanaKebutuhan', array('modRencanaKebFarmasi'=>$modRencanaKebFarmasi,'modRencanaDetailKeb'=>$modRencanaDetailKeb), true);
 								}
 						}
 					}
@@ -621,7 +622,7 @@ class RencanaKebutuhanController extends MyAuthController{
 								$modRencanaDetailKeb->jenis_material = isset($modLookup) ? $modLookup->lookup_name : "-";
 								
 								if($modRencanaDetailKeb->stokakhir <= $modRencanaDetailKeb->maksimalstok || $modRencanaDetailKeb->jmlpermintaan >= 0 ){
-									$form .= $this->renderPartial('_rowObatRencanaKebutuhan', array('modRencanaKebFarmasi'=>$modRencanaKebFarmasi,'modRencanaDetailKeb'=>$modRencanaDetailKeb), true);
+									$form .= $this->renderPartial($this->path_view.'_rowObatRencanaKebutuhan', array('modRencanaKebFarmasi'=>$modRencanaKebFarmasi,'modRencanaDetailKeb'=>$modRencanaDetailKeb), true);
 								}
 						}
 					}
@@ -659,7 +660,7 @@ class RencanaKebutuhanController extends MyAuthController{
 								$modRencanaDetailKeb->jenis_material = isset($modLookup) ? $modLookup->lookup_name : "-";
 								
 								if($modRencanaDetailKeb->stokakhir <= $modRencanaDetailKeb->maksimalstok || $modRencanaDetailKeb->jmlpermintaan >= 0 ){
-									$form .= $this->renderPartial('_rowObatRencanaKebutuhan', array('modRencanaKebFarmasi'=>$modRencanaKebFarmasi,'modRencanaDetailKeb'=>$modRencanaDetailKeb), true);
+									$form .= $this->renderPartial($this->path_view.'_rowObatRencanaKebutuhan', array('modRencanaKebFarmasi'=>$modRencanaKebFarmasi,'modRencanaDetailKeb'=>$modRencanaDetailKeb), true);
 								}
 						}
 					}
@@ -697,7 +698,7 @@ class RencanaKebutuhanController extends MyAuthController{
 								$modRencanaDetailKeb->jenis_material = isset($modLookup) ? $modLookup->lookup_name : "-";
 								
 								if($modRencanaDetailKeb->stokakhir <= $modRencanaDetailKeb->maksimalstok || $modRencanaDetailKeb->jmlpermintaan >= 0 ){
-									$form .= $this->renderPartial('_rowObatRencanaKebutuhan', array('modRencanaKebFarmasi'=>$modRencanaKebFarmasi,'modRencanaDetailKeb'=>$modRencanaDetailKeb), true);
+									$form .= $this->renderPartial($this->path_view.'_rowObatRencanaKebutuhan', array('modRencanaKebFarmasi'=>$modRencanaKebFarmasi,'modRencanaDetailKeb'=>$modRencanaDetailKeb), true);
 								}
 						}
 					}
@@ -735,7 +736,7 @@ class RencanaKebutuhanController extends MyAuthController{
 								$modRencanaDetailKeb->jenis_material = isset($modLookup) ? $modLookup->lookup_name : "-";
 								
 								if($modRencanaDetailKeb->stokakhir <= $modRencanaDetailKeb->maksimalstok || $modRencanaDetailKeb->jmlpermintaan >= 0 ){
-									$form .= $this->renderPartial('_rowObatRencanaKebutuhan', array('modRencanaKebFarmasi'=>$modRencanaKebFarmasi,'modRencanaDetailKeb'=>$modRencanaDetailKeb), true);
+									$form .= $this->renderPartial($this->path_view.'_rowObatRencanaKebutuhan', array('modRencanaKebFarmasi'=>$modRencanaKebFarmasi,'modRencanaDetailKeb'=>$modRencanaDetailKeb), true);
 								}
 						}
 					}
