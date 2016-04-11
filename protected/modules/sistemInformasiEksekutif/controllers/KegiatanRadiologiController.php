@@ -59,6 +59,7 @@ class KegiatanRadiologiController extends MyAuthController {
 		SELECT 
 		jenispemeriksaanrad_id as id, jenispemeriksaanrad_nama as nama
 		FROM jenispemeriksaanrad_m
+                WHERE jenispemeriksaanrad_aktif = TRUE
 		ORDER BY id ASC
 		";
 
