@@ -51,7 +51,7 @@
                 <?php //echo $form->textField($model,'nama_bin',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>-->
                 </div>
             </div>
-            <?php echo $form->textFieldRow($model,'petugasadministrasi_nama',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+            <?php //echo $form->textFieldRow($model,'petugasadministrasi_nama',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
             <?php echo $form->dropDownListRow($model,'petugasadministrasi_id',  CHtml::listData($model->getKasirRuanganItems(),'pegawai_id','pegawai.nama_pegawai'),array('empty'=>'-- Pilih --','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
             <?php //echo $form->textFieldRow($model,'dokterpendaftaran_nama',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
         </td>
