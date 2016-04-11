@@ -11,6 +11,8 @@ if ($model->jns_periode == "bulan") {
 	$awal = $model->tgl_awal;
 	$akhir = $model->tgl_akhir;
 }
+//var_dump($dataBarLineChart);
+//var_dump($model->tgl_awal);
 ?>
 <script>
 	//========== BAR ========

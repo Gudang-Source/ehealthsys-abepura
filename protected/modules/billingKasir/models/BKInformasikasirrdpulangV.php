@@ -127,7 +127,7 @@ class BKInformasikasirrdpulangV extends InformasikasirrdpulangV
 		$criteria->compare('LOWER(nama_pegawai)',strtolower($this->nama_pegawai),true);
 		$criteria->compare('LOWER(jeniskasuspenyakit_nama)',strtolower($this->jeniskasuspenyakit_nama),true);
    		$criteria->order = 'tgl_pendaftaran DESC';
-                
+                $criteria->addCondition("statusperiksa <> 'BATAL PERIKSA' ");
                 if ($this->statusBayar == "BELUM LUNAS") {
                     $criteria->addCondition("(${tb}) > 0 or (${ob}) > 0 or (${tt}) = 0");
                 } else if ($this->statusBayar == "LUNAS") {

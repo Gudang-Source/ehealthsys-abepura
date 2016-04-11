@@ -70,7 +70,8 @@ class BKInformasipasiensudahbayarV extends InformasipasiensudahbayarV
 		}
 		$criteria->addCondition('ruangankasir_id = '.Yii::app()->user->getState('ruangan_id'));
 		$criteria->compare('LOWER(ruangankasir_nama)',strtolower($this->ruangankasir_nama),true);
-		
+		$criteria->order = "tglbuktibayar DESC"; 
+                
 		return new CActiveDataProvider($this, array(
 				'criteria'=>$criteria,
 		));

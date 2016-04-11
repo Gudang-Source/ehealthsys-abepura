@@ -98,13 +98,16 @@ class KegiatanLaboratoriumController extends MyAuthController {
         $dataChart = $result;
 
         $dataBarLineChart = array();
+        $i = 1;
         foreach ($dataChart as $data) {
-            $id = $data['id'];
+            //$id = $data['id'];
+            $id = $i;
             if (isset($dataBarLineChart[$id])) {
                 $dataBarLineChart[$id][] = $data;
             } else {
                 $dataBarLineChart[$id] = array($data);
             }
+            $i++;
         }
 
         $sql = "

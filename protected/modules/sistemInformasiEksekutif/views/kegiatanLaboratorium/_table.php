@@ -112,19 +112,23 @@ foreach ($temp_total as $key => $value) {
                 </thead>
                 <tbody>
                     <?php
+                
                     foreach ($row as $key => $value) {
                         ?>
                         <tr>
                             <td>
                                 <?php 
-								if(!empty($key)){
-									$modJenis = JenispemeriksaanlabM::model()->findByAttributes(array('jenispemeriksaanlab_nama'=>$key));
-									echo CHtml::Link($key,'#', array('onClick' => "setDataSet($modJenis->jenispemeriksaanlab_id)"));
-								}
-								else{
-									echo $key;
-								}
-								?>
+                                if(!empty($key)){
+                                        $modJenis = JenispemeriksaanlabM::model()->findAllByAttributes(array('jenispemeriksaanlab_nama'=>$key));
+                                        
+                                        foreach($modJenis as $jenis):
+                                            echo CHtml::Link($key,'#', array('onClick' => 'setDataSet($jenis["jenispemeriksaanlab_id]")'));
+                                        endforeach;
+                                }
+                                else{
+                                        echo $key;
+                                }
+                                ?>
                             </td>
                             <?php
                             for ($x = 0; $x < $jml_kolom; $x++) {
