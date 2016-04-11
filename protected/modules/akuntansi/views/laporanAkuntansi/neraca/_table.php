@@ -44,8 +44,8 @@
 			$periodeposting_id = isset($_GET['AKLaporanneracaV']['periodeposting_id']) ? $_GET['AKLaporanneracaV']['periodeposting_id'] : isset($modelLaporan->periodeposting_id) ? $modelLaporan->periodeposting_id : null;
 			$ruangan_id = isset($_GET['AKLaporanneracaV']['ruangan_id']) ? $_GET['AKLaporanneracaV']['ruangan_id'] : isset($modelLaporan->ruangan_id) ? $modelLaporan->ruangan_id : null;
 			$spasi = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-			$pendapatan_aktiva = AKLaporanneracaV::model()->getSaldoNeraca($periodeposting_id,$ruangan_id,'ACTIVA');
-			$pendapatan_passiva = AKLaporanneracaV::model()->getSaldoNeraca($periodeposting_id,$ruangan_id,'PASSIVA');
+			$pendapatan_aktiva = 0; //AKLaporanneracaV::model()->getSaldoNeraca($periodeposting_id,$ruangan_id,'ACTIVA');
+			$pendapatan_passiva = 0; //AKLaporanneracaV::model()->getSaldoNeraca($periodeposting_id,$ruangan_id,'PASSIVA');
 //			if (count($model)>0){				
         ?>
 

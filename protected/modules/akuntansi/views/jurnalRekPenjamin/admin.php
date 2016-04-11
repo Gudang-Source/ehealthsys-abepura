@@ -26,7 +26,11 @@
     });
     ");
 
-    $this->widget('bootstrap.widgets.BootAlert'); ?>
+    $this->widget('bootstrap.widgets.BootAlert'); 
+    $this->renderPartial('_tabMenuPenjamin',array());
+    ?>
+    <div class="biru">
+        <div class="white">
     <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-accordion icon-white"></i>')),'#',array('class'=>'search-button btn')); ?>
     <div class="cari-lanjut2 search-form" style="display:none">
         <?php $this->renderPartial('_search',array(
@@ -99,6 +103,8 @@
             ),
             'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
         )); ?>
+        </div>
+    </div>
     <!--</div>-->
     <?php 
     echo CHtml::link(Yii::t('mds', '{icon} Tambah Jurnal Rekening Penjamin', array('{icon}'=>'<i class="icon-plus icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp";
