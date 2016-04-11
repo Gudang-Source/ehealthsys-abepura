@@ -1851,7 +1851,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
     }
 
-    public function actionprintUmurKunjunganRJ() {
+    public function actionPrintUmurKunjunganRJ() {
         $model = new PPInfoKunjunganRJV('searchUmur');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -1893,7 +1893,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
     }
 
-     public function actionprintJkKunjunganRJ() {
+     public function actionPrintJkKunjunganRJ() {
         $model = new PPInfoKunjunganRJV('searchJk');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -1935,7 +1935,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
     }
 
-      public function actionprintStatusKunjunganRJ() {
+      public function actionPrintStatusKunjunganRJ() {
         $model = new PPInfoKunjunganRJV('searchStatus');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -1977,7 +1977,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
     }
     
-    public function actionprintAgamaKunjunganRJ() {
+    public function actionPrintAgamaKunjunganRJ() {
         $model = new PPInfoKunjunganRJV('searchAgama');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -2018,7 +2018,7 @@ class LaporanController extends MyAuthController {
         
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
     } 
-       public function actionprintPekerjaanKunjunganRJ() {
+       public function actionPrintPekerjaanKunjunganRJ() {
         $model = new PPInfoKunjunganRJV('searchPekerjaan');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -2060,7 +2060,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
     }
 
-       public function actionprintStatusPerkawinanKunjunganRJ() {
+       public function actionPrintStatusPerkawinanKunjunganRJ() {
         $model = new PPInfoKunjunganRJV('searchStatusPerkawinan');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -2102,7 +2102,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
         }
 
-       public function actionprintAlamatKunjunganRJ() {
+       public function actionPrintAlamatKunjunganRJ() {
         $model = new PPInfoKunjunganRJV('searchAlamat');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -2144,7 +2144,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
         }
 
-       public function actionprintKecamatanKunjunganRJ() {
+       public function actionPrintKecamatanKunjunganRJ() {
         $model = new PPInfoKunjunganRJV('printKecamatan');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -2186,7 +2186,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
         }
 
-       public function actionprintKabKotaKunjunganRJ() {
+       public function actionPrintKabKotaKunjunganRJ() {
         $model = new PPInfoKunjunganRJV('printKabKota');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -2228,7 +2228,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
         }
 
-       public function actionprintCaraMasukKunjunganRJ() {
+       public function actionPrintCaraMasukKunjunganRJ() {
         $model = new PPInfoKunjunganRJV('searchCaraMasuk');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -2270,7 +2270,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
         }
 
-       public function actionprintRujukanKunjunganRJ() {
+       public function actionPrintRujukanKunjunganRJ() {
         $model = new PPInfoKunjunganRJV('searchRujukan');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -2312,7 +2312,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
         }
 
-       public function actionprintPemeriksaKunjunganRJ() {
+       public function actionPrintPemeriksaKunjunganRJ() {
         $model = new PPInfoKunjunganRJV('searchPemeriksaan');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -2354,7 +2354,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
         }
 
-       public function actionprintKetPulangKunjunganRJ() {
+       public function actionPrintKetPulangKunjunganRJ() {
         $model = new PPInfoKunjunganRJV('searchKetPulang');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -2396,7 +2396,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
         }
 
-       public function actionprintPenjaminKunjunganRJ() {
+       public function actionPrintPenjaminKunjunganRJ() {
         $model = new PPInfoKunjunganRJV('searchPenjamin');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -2438,7 +2438,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
         }
 
-       public function actionprintDokterPemeriksaKunjunganRJ() {
+       public function actionPrintDokterPemeriksaKunjunganRJ() {
         $model = new PPInfoKunjunganRJV('searchDokterPemeriksa');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -2480,7 +2480,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
         }
 
-       public function actionprintUnitPelayananKunjunganRJ() {
+       public function actionPrintUnitPelayananKunjunganRJ() {
         $model = new PPRuanganM('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -3003,7 +3003,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
     }
 
-   public function actionprintUmurKunjunganRD() {
+   public function actionPrintUmurKunjunganRD() {
         $model = new PPInfoKunjunganRDV('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -3043,7 +3043,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
     }
 
-    public function actionprintJkKunjunganRD() {
+    public function actionPrintJkKunjunganRD() {
         $model = new PPInfoKunjunganRDV('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -3083,7 +3083,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
     }
 
-     public function actionprintStatusKunjunganRD() {
+     public function actionPrintStatusKunjunganRD() {
         $model = new PPInfoKunjunganRDV('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -3123,7 +3123,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
     }
 
-     public function actionprintAgamaKunjunganRD() {
+     public function actionPrintAgamaKunjunganRD() {
         $model = new PPInfoKunjunganRDV('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -3164,7 +3164,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
     }
 
-     public function actionprintPekerjaanKunjunganRD() {
+     public function actionPrintPekerjaanKunjunganRD() {
         $model = new PPInfoKunjunganRDV('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -3204,7 +3204,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
     }
 
-     public function actionprintStatusPerkawinanKunjunganRD() {
+     public function actionPrintStatusPerkawinanKunjunganRD() {
         $model = new PPInfoKunjunganRDV('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -3244,7 +3244,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
     }
 
-     public function actionprintAlamatKunjunganRD() {
+     public function actionPrintAlamatKunjunganRD() {
         $model = new PPInfoKunjunganRDV('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -3284,7 +3284,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
     }
 
-     public function actionprintKecamatanKunjunganRD() {
+     public function actionPrintKecamatanKunjunganRD() {
         $model = new PPInfoKunjunganRDV('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -3324,7 +3324,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
     }
 
-     public function actionprintKabKotaKunjunganRD() {
+     public function actionPrintKabKotaKunjunganRD() {
         $model = new PPInfoKunjunganRDV('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -3364,7 +3364,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
     }
 
-     public function actionprintCaraMasukKunjunganRD() {
+     public function actionPrintCaraMasukKunjunganRD() {
         $model = new PPInfoKunjunganRDV('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -3404,7 +3404,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
     }
 
-     public function actionprintRujukanKunjunganRD() {
+     public function actionPrintRujukanKunjunganRD() {
         $model = new PPInfoKunjunganRDV('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -3444,7 +3444,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
     }
 
-     public function actionprintPemeriksaanKunjunganRD() {
+     public function actionPrintPemeriksaanKunjunganRD() {
         $model = new PPInfoKunjunganRDV('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -3484,7 +3484,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
     }
 
-    public function actionprintKetPulangKunjunganRD() {
+    public function actionPrintKetPulangKunjunganRD() {
         $model = new PPInfoKunjunganRDV('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -3524,7 +3524,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
     }
 
-    public function actionprintPenjaminKunjunganRD() {
+    public function actionPrintPenjaminKunjunganRD() {
         $model = new PPInfoKunjunganRDV('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -3564,7 +3564,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
     }                                                  
 
-    public function actionprintDokterPemeriksaKunjunganRD() {
+    public function actionPrintDokterPemeriksaKunjunganRD() {
         $model = new PPInfoKunjunganRDV('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -4385,7 +4385,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);      
     }
 
-   public function actionprintUmurKunjunganRI() {
+   public function actionPrintUmurKunjunganRI() {
         $model = new PPInfoKunjunganRIV('searchUmur');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -4427,7 +4427,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
     }
 
-     public function actionprintJkKunjunganRI() {
+     public function actionPrintJkKunjunganRI() {
         $model = new PPInfoKunjunganRIV('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -4469,7 +4469,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
     }
 
-     public function actionprintStatusKunjunganRI() {
+     public function actionPrintStatusKunjunganRI() {
         $model = new PPInfoKunjunganRIV('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -4511,7 +4511,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
     }
 
-      public function actionprintAgamaKunjunganRI() {
+      public function actionPrintAgamaKunjunganRI() {
         $model = new PPInfoKunjunganRIV('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -4553,7 +4553,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
     } 
 
-	public function actionprintPekerjaanKunjunganRI() {
+	public function actionPrintPekerjaanKunjunganRI() {
         $model = new PPInfoKunjunganRIV('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -4595,7 +4595,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
     }
 
-       public function actionprintStatusPerkawinanKunjunganRI() {
+       public function actionPrintStatusPerkawinanKunjunganRI() {
         $model = new PPInfoKunjunganRIV('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -4637,7 +4637,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
         }
 
-       public function actionprintAlamatKunjunganRI() {
+       public function actionPrintAlamatKunjunganRI() {
         $model = new PPInfoKunjunganRIV('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -4679,7 +4679,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
         }
 
-       public function actionprintKecamatanKunjunganRI() {
+       public function actionPrintKecamatanKunjunganRI() {
         $model = new PPInfoKunjunganRIV('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -4721,7 +4721,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
         }
 
-       public function actionprintKabKotaKunjunganRI() {
+       public function actionPrintKabKotaKunjunganRI() {
         $model = new PPInfoKunjunganRIV('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -4763,7 +4763,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
         }
 
-       public function actionprintCaraMasukKunjunganRI() {
+       public function actionPrintCaraMasukKunjunganRI() {
         $model = new PPInfoKunjunganRIV('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -4805,7 +4805,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
         }
 
-       public function actionprintRujukanKunjunganRI() {
+       public function actionPrintRujukanKunjunganRI() {
         $model = new PPInfoKunjunganRIV('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -4847,7 +4847,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
         }
 
-       public function actionprintRMKunjunganRI() {
+       public function actionPrintRMKunjunganRI() {
         $model = new PPInfoKunjunganRIV('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -4889,7 +4889,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
         }
 
-       public function actionprintKamarRuanganKunjunganRI() {
+       public function actionPrintKamarRuanganKunjunganRI() {
         $model = new PPInfoKunjunganRIV('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -4931,7 +4931,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
         }
 
-       public function actionprintAlasanPulangKunjunganRI() {
+       public function actionPrintAlasanPulangKunjunganRI() {
         $model = new PPInfoKunjunganRIV('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -4973,7 +4973,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
         }                        
 
-       public function actionprintPemeriksaKunjunganRI() {
+       public function actionPrintPemeriksaKunjunganRI() {
         $model = new PPInfoKunjunganRIV('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -5015,7 +5015,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
         }
 
-       public function actionprintKetPulangKunjunganRI() {
+       public function actionPrintKetPulangKunjunganRI() {
         $model = new PPInfoKunjunganRIV('searchKetPulang');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -5057,7 +5057,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
         }
 
-       public function actionprintPenjaminKunjunganRI() {
+       public function actionPrintPenjaminKunjunganRI() {
         $model = new PPInfoKunjunganRIV('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -5099,7 +5099,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
         }
 
-       public function actionprintDokterPemeriksaKunjunganRI() {
+       public function actionPrintDokterPemeriksaKunjunganRI() {
         $model = new PPInfoKunjunganRIV('search');
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -5141,7 +5141,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
         }
 
-       public function actionprintUnitPelayananKunjunganRI() {
+       public function actionPrintUnitPelayananKunjunganRI() {
         $model = new PPRuanganM('search');
         $format = new MyFormatter();
         $model->unsetAttributes();

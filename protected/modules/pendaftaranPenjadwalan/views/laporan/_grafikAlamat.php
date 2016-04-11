@@ -1,4 +1,3 @@
-
 <?php
     $this->Widget('ext.jQPlot.jQPlotWidget', array(
         'dataProvider' => $model->searchGrafikAlamat(),

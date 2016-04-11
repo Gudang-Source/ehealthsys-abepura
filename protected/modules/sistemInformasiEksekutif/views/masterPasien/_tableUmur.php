@@ -18,15 +18,16 @@
     $this->widget($table, array(
         'id' => 'table-grid',
         'dataProvider' => $data,
-        'template' => $template,
+       // 'template' => $template,
         'enableSorting' => $sort,
         'itemsCssClass' => 'table table-striped table-condensed',
+        'summaryText' => '',
         'columns' => array(
             array(
                 'header' => 'Umur',
                 'type' => 'raw',
-                'value' => '$data->jenis',
-                'footer' => 'Total',
+                'value' => '$data->jenis',               
+                'footer' => '<b>Total</b>',
             ),
             array(
                 'header' => 'Laki - laki',

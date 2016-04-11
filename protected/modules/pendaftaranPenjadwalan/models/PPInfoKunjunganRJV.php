@@ -172,7 +172,7 @@ class PPInfoKunjunganRJV extends InfokunjunganrjV
                     }
                 }            
             }
-
+           
             return $criteria;
         }
         

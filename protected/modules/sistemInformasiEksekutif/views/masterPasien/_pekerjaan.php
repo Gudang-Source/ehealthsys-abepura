@@ -3,7 +3,7 @@
         <div class="span6">
             <?php $this->renderPartial('_pieKerja', array('dataPieChartKerja' => $dataPieChartKerja)); ?>
         </div>
-        <div class="span6">
+        <div class="span6" style = "width:45%">
             <?php $this->renderPartial('_tableKerja', array('model'=>$model,'dataTableKerja' => $dataTableKerja)); ?>
         </div>
     </div>
