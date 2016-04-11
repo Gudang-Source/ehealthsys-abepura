@@ -24,27 +24,37 @@ class RencanaKebBarangController extends MyAuthController
             $modDetails = ADRenkebbarangdetT::model()->findAllByAttributes(array('renkebbarang_id'=>$modRencanaKebBarang->renkebbarang_id));
         }
         if(isset($_POST['ADRenkebbarangT'])){
+            var_dump($_POST);
             $transaction = Yii::app()->db->beginTransaction();
             try {
                     $modRencanaKebBarang->attributes=$_POST['ADRenkebbarangT'];
 					
+                                                $pegawai = Yii::app()->user->getState('pegawai_id');
+                                                if (empty($pegawai)) $pegawai = '0';
 						$modRencanaKebBarang->renkebbarang_no = MyGenerator::noPerencanaanKebutuhanBarang();
 						$modRencanaKebBarang->ruangan_id = Yii::app()->user->getState('ruangan_id');
-						$modRencanaKebBarang->pegawai_id = Yii::app()->user->getState('pegawai_id');
+						$modRencanaKebBarang->pegawai_id = $pegawai;
 						$modRencanaKebBarang->renkebbarang_tgl=$format->formatDateTimeForDb($_POST['ADRenkebbarangT']['renkebbarang_tgl']);
 						$modRencanaKebBarang->ro_barang_bulan = $_POST['ADRenkebbarangT']['ro_barang_bulan'];
 					
 						$modRencanaKebBarang->create_time = date('Y-m-d H:i:s');
 						$modRencanaKebBarang->create_loginpemekai_id = Yii::app()->user->id;
 						$modRencanaKebBarang->create_ruangan = Yii::app()->user->ruangan_id;
-
+                                                // var_dump($modRencanaKebBarang->validate());
+                                                // var_dump($modRencanaKebBarang->errors);
+                                                // var_dump($modRencanaKebBarang->attributes);
 					if($modRencanaKebBarang->save()){
+                                                $this->rencanakebutuhantersimpan = true;
 						if(count($_POST['ADRenkebbarangdetT']) > 0){
 						   foreach($_POST['ADRenkebbarangdetT'] AS $i => $post){
 							   $modDetails[$i] = $this->simpanRencanaKebutuhan($modRencanaKebBarang,$post);
 						   }
-						}
+						} else {
+                                                    $this->rencanakebutuhantersimpan = false;
+                                                }
                     }
+                    //var_dump($this->rencanakebutuhantersimpan);
+                    //die;
                 if($this->rencanakebutuhantersimpan){
                     $transaction->commit();
                     $modRencanaKebBarang->isNewRecord = FALSE;

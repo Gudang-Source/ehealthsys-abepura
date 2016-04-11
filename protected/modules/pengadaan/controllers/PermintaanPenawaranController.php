@@ -154,7 +154,7 @@ class PermintaanPenawaranController extends MyAuthController
 //        CDateTimeParser::parse($modPermintaanPenawaran->tglpenawaran, 'yyyy-MM-dd hh:mm:ss')); 
 
 
-        $this->render('index',array('modRencanaKebFarmasi'=>$modRencanaKebFarmasi,
+        $this->render($this->path_view.'index',array('modRencanaKebFarmasi'=>$modRencanaKebFarmasi,
                                     'modPermintaanPenawaran'=>$modPermintaanPenawaran,
                                     'modDetails'=>$modDetails,
                                     'format'=>$format,
@@ -264,7 +264,7 @@ class PermintaanPenawaranController extends MyAuthController
 
             echo CJSON::encode(array(
                 'status'=>'create_form', 
-                'form'=>$this->renderPartial('_rowObatAlkesPasien', array(
+                'form'=>$this->renderPartial($this->path_view.'_rowObatAlkesPasien', array(
                         'modPenawaranDetail'=>$modPenawaranDetail,
                         'modPermintaanPenawaran'=>$modPermintaanPenawaran,
                 ), 
