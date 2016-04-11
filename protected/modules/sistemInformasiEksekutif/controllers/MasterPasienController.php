@@ -52,7 +52,18 @@ class MasterPasienController extends MyAuthController {
 		FROM pasienujk_r
                 WHERE DATE(tanggal) BETWEEN '" . $model->tgl_awal . "' AND '" . $model->tgl_akhir . "'
 		GROUP BY jenis
-		ORDER BY jenis DESC
+		ORDER BY CASE                                 
+                                WHEN golonganumur = '56-60' THEN 1
+                                WHEN golonganumur = '41-45' THEN 2
+                                WHEN golonganumur = '36-40' THEN 3
+                                WHEN golonganumur = '31-35' THEN 4
+                                WHEN golonganumur = '26-30' THEN 5
+                                WHEN golonganumur = '21-25' THEN 6
+                                WHEN golonganumur = '16-20' THEN 7
+                                WHEN golonganumur = '11-15' THEN 8
+                                WHEN golonganumur = '6-10' THEN 9
+                                WHEN golonganumur = '0-5' THEN 10                              
+                       END
 				";
 
 
@@ -66,17 +77,50 @@ class MasterPasienController extends MyAuthController {
             case 'bulan' : $criteria->select = array('golonganumur as jenis, SUM(COALESCE(lakilaki,0)) as jumlah_l,  SUM(COALESCE(perempuan,0)) as jumlah_p, SUM(COALESCE(lakilaki,0)) + SUM(COALESCE(perempuan,0)) as total');
                 $criteria->addBetweenCondition('DATE(tanggal)', $model->tgl_awal, $model->tgl_akhir);
                 $criteria->group = 'jenis';
-                $criteria->order = 'jenis DESC';
+                $criteria->order = "CASE                                 
+                                WHEN golonganumur = '56-60' THEN 1
+                                WHEN golonganumur = '41-45' THEN 2
+                                WHEN golonganumur = '36-40' THEN 3
+                                WHEN golonganumur = '31-35' THEN 4
+                                WHEN golonganumur = '26-30' THEN 5
+                                WHEN golonganumur = '21-25' THEN 6
+                                WHEN golonganumur = '16-20' THEN 7
+                                WHEN golonganumur = '11-15' THEN 8
+                                WHEN golonganumur = '6-10' THEN 9
+                                WHEN golonganumur = '0-5' THEN 10                              
+                       END";
                 break;
             case 'tahun' : $criteria->select = array('golonganumur as jenis, SUM(COALESCE(lakilaki,0)) as jumlah_l,  SUM(COALESCE(perempuan,0)) as jumlah_p, SUM(COALESCE(lakilaki,0)) + SUM(COALESCE(perempuan,0)) as total');
                 $criteria->addBetweenCondition('DATE(tanggal)', $model->tgl_awal, $model->tgl_akhir);
                 $criteria->group = 'jenis';
-                $criteria->order = 'jenis DESC';
+                $criteria->order = "CASE                                 
+                                WHEN golonganumur = '56-60' THEN 1
+                                WHEN golonganumur = '41-45' THEN 2
+                                WHEN golonganumur = '36-40' THEN 3
+                                WHEN golonganumur = '31-35' THEN 4
+                                WHEN golonganumur = '26-30' THEN 5
+                                WHEN golonganumur = '21-25' THEN 6
+                                WHEN golonganumur = '16-20' THEN 7
+                                WHEN golonganumur = '11-15' THEN 8
+                                WHEN golonganumur = '6-10' THEN 9
+                                WHEN golonganumur = '0-5' THEN 10                              
+                       END";
                 break;
             default : $criteria->select = array('golonganumur as jenis, SUM(COALESCE(lakilaki,0)) as jumlah_l,  SUM(COALESCE(perempuan,0)) as jumlah_p, SUM(COALESCE(lakilaki,0)) + SUM(COALESCE(perempuan,0)) as total');
                 $criteria->addBetweenCondition('DATE(tanggal)', $model->tgl_awal, $model->tgl_akhir);
                 $criteria->group = 'jenis';
-                $criteria->order = 'jenis DESC';
+                $criteria->order = "CASE                                 
+                                WHEN golonganumur = '56-60' THEN 1
+                                WHEN golonganumur = '41-45' THEN 2
+                                WHEN golonganumur = '36-40' THEN 3
+                                WHEN golonganumur = '31-35' THEN 4
+                                WHEN golonganumur = '26-30' THEN 5
+                                WHEN golonganumur = '21-25' THEN 6
+                                WHEN golonganumur = '16-20' THEN 7
+                                WHEN golonganumur = '11-15' THEN 8
+                                WHEN golonganumur = '6-10' THEN 9
+                                WHEN golonganumur = '0-5' THEN 10                              
+                       END";
         }
 
         $dataTableUmur = new CActiveDataProvider($model, array(
@@ -89,8 +133,18 @@ class MasterPasienController extends MyAuthController {
 		FROM pasienujk_r
                 WHERE DATE(tanggal) BETWEEN '" . $model->tgl_awal . "' AND '" . $model->tgl_akhir . "'
 		GROUP BY jenis
-		ORDER BY jenis DESC
-				";
+		ORDER BY CASE                                 
+                                WHEN golonganumur = '56-60' THEN 1
+                                WHEN golonganumur = '41-45' THEN 2
+                                WHEN golonganumur = '36-40' THEN 3
+                                WHEN golonganumur = '31-35' THEN 4
+                                WHEN golonganumur = '26-30' THEN 5
+                                WHEN golonganumur = '21-25' THEN 6
+                                WHEN golonganumur = '16-20' THEN 7
+                                WHEN golonganumur = '11-15' THEN 8
+                                WHEN golonganumur = '6-10' THEN 9
+                                WHEN golonganumur = '0-5' THEN 10                              
+                       END;				";
 
 
         $resultPieChartUmur = Yii::app()->db->createCommand($sql)->queryAll();
@@ -128,7 +182,18 @@ class MasterPasienController extends MyAuthController {
 		FROM pasienujk_r
 		WHERE DATE(tanggal) BETWEEN '" . $model->tgl_awal . "' AND '" . $model->tgl_akhir . "'
 		GROUP BY jenis,periode
-		ORDER BY periode
+		ORDER BY CASE                                 
+                                WHEN golonganumur = '56-60' THEN 1
+                                WHEN golonganumur = '41-45' THEN 2
+                                WHEN golonganumur = '36-40' THEN 3
+                                WHEN golonganumur = '31-35' THEN 4
+                                WHEN golonganumur = '26-30' THEN 5
+                                WHEN golonganumur = '21-25' THEN 6
+                                WHEN golonganumur = '16-20' THEN 7
+                                WHEN golonganumur = '11-15' THEN 8
+                                WHEN golonganumur = '6-10' THEN 9
+                                WHEN golonganumur = '0-5' THEN 10                              
+                       END
 									";
                 break;
             case 'tahun' : $sql = "
@@ -137,7 +202,18 @@ class MasterPasienController extends MyAuthController {
 		FROM pasienujk_r
 		WHERE DATE(tanggal) BETWEEN '" . $model->tgl_awal . "' AND '" . $model->tgl_akhir . "'
 		GROUP BY jenis,periode
-		ORDER BY periode
+		ORDER BY CASE                                 
+                                WHEN golonganumur = '56-60' THEN 1
+                                WHEN golonganumur = '41-45' THEN 2
+                                WHEN golonganumur = '36-40' THEN 3
+                                WHEN golonganumur = '31-35' THEN 4
+                                WHEN golonganumur = '26-30' THEN 5
+                                WHEN golonganumur = '21-25' THEN 6
+                                WHEN golonganumur = '16-20' THEN 7
+                                WHEN golonganumur = '11-15' THEN 8
+                                WHEN golonganumur = '6-10' THEN 9
+                                WHEN golonganumur = '0-5' THEN 10                              
+                       END
 
 									";
                 break;
@@ -147,7 +223,18 @@ class MasterPasienController extends MyAuthController {
 		FROM pasienujk_r
 		WHERE DATE(tanggal) BETWEEN '" . $model->tgl_awal . "' AND '" . $model->tgl_akhir . "'
 		GROUP BY jenis,periode
-		ORDER BY periode
+		ORDER BY CASE                                 
+                                WHEN golonganumur = '56-60' THEN 1
+                                WHEN golonganumur = '41-45' THEN 2
+                                WHEN golonganumur = '36-40' THEN 3
+                                WHEN golonganumur = '31-35' THEN 4
+                                WHEN golonganumur = '26-30' THEN 5
+                                WHEN golonganumur = '21-25' THEN 6
+                                WHEN golonganumur = '16-20' THEN 7
+                                WHEN golonganumur = '11-15' THEN 8
+                                WHEN golonganumur = '6-10' THEN 9
+                                WHEN golonganumur = '0-5' THEN 10                              
+                       END
 
 									";
         }

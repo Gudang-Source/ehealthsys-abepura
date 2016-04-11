@@ -25,7 +25,7 @@
             array(
                 'header' => 'Umur',
                 'type' => 'raw',
-                'value' => '$data->jenis',
+                'value' => '$data->jenis',               
                 'footer' => 'Total',
             ),
             array(
