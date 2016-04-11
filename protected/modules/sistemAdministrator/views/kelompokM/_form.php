@@ -22,7 +22,7 @@
                     ?>
                     <?php //echo $form->dropDownListRow($model, 'bidang_id' ,array('empty'=>'-- Pilih --') ,array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
                     <div class="controls">
-                        <?php //echo $form->hiddenField($model,'bidang_id'); ?>
+                        <?php echo $form->hiddenField($model,'bidang_id'); ?>
                     <?php 
                             $this->widget('MyJuiAutoComplete', array(                                            
                                             'name'=>'bidangNama',
