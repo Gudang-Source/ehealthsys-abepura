@@ -5,6 +5,7 @@ $this->widget('bootstrap.widgets.BootMenu', array(
     'items'=>array(
         array('label'=>'Jurnal Rekening Penerimaan', 'url'=>$this->createUrl('/akuntansi/JurnalRekPenerimaan/Admin'),'active'=>true),
         array('label'=>'Jurnal Rekening Pengeluaran', 'url'=>$this->createUrl('/akuntansi/JurnalRekPengeluaran/Admin'), ),
+        array('label'=>'Jurnal Rekening Penjamin', 'url'=>$this->createUrl('/akuntansi/JurnalRekPenjamin/Admin'), ),
             ),
 )); 
 ?>
