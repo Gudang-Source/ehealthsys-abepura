@@ -11,6 +11,8 @@ if ($model->jns_periode == "bulan") {
 	$awal = $model->tgl_awal;
 	$akhir = $model->tgl_akhir;
 }
+//var_dump($dataBarLineChart);
+//var_dump($model->tgl_awal);
 ?>
 <script>
 	//========== BAR ========
@@ -124,8 +126,23 @@ if ($model->jns_periode == "bulan") {
 	</div>
 
 	<div class="panel-body">
-		<div id="chartdiv" style="width: 100%; height: 400px;"></div>
-	</div>
+        <div class="form-group" style="float: left;
+             text-align: left;
+             font-weight: normal;">
+            <label for="pelayanan">Kegiatan Laboratorium:</label>
+            <select class="form-control" id="pelayanan" onchange="setDataSet(this.options[this.selectedIndex].value);" style="display: inline-block;
+                    width: auto;">
+                    <?php
+                    foreach ($dataPemeriksaanLab as $data) {
+                        $id = $data['id'];
+                        $nama = $data['nama'];
+                        ?>
+                    <option value="<?php echo $id; ?>"><?php echo $nama; ?></option>
+                <?php } ?>
+            </select>
+        </div>
+        <div id="chartdiv" style="width: 100%; height: 400px;"></div>
+    </div>
 </div>
 
 

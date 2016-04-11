@@ -177,10 +177,10 @@ $this->endWidget();
     ),
 ));
    
-$modBahanMakanan = new GZBahanmakananM('search');
+$modBahanMakanan = new GZBahanMakananM('search');
 $modBahanMakanan->unsetAttributes();
-if(isset($_GET['GZBahanmakananM'])) {
-    $modBahanMakanan->attributes = $_GET['GZBahanmakananM'];
+if(isset($_GET['GZBahanMakananM'])) {
+    $modBahanMakanan->attributes = $_GET['GZBahanMakananM'];
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'bahanmakanan-grid',
@@ -207,7 +207,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                        array(
                             'header'=>'Golongan Bahan',
                             'name' => 'golbahanmakanan_id',
-                            'filter'=> CHtml::dropDownList('GZBahanmakananM[golbahanmakanan_id]',$modBahanMakanan->golbahanmakanan_id,CHtml::listData($modBahanMakanan->getGolBahanMakananItems(),'golbahanmakanan_id','golbahanmakanan_nama'), array('empty'=>'--Pilih--')),
+                            'filter'=> CHtml::dropDownList('GZBahanMakananM[golbahanmakanan_id]',$modBahanMakanan->golbahanmakanan_id,CHtml::listData($modBahanMakanan->getGolBahanMakananItems(),'golbahanmakanan_id','golbahanmakanan_nama'), array('empty'=>'--Pilih--')),
                             'value'=>'$data->golbahanmakanan->golbahanmakanan_nama',
                         ),
                         array(

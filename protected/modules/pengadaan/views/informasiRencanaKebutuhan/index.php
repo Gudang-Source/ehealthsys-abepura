@@ -78,7 +78,7 @@ $('#divSearch-form form').submit(function(){
                         'header'=>'Permintaan Pembelian',
                         'type'=>'raw',
                         'value'=>'((isset($data->tglmenyetujui))&&(isset($data->tglmengetahui)) ?
-									CHtml::Link("<i class=\"icon-form-mintabeli\"></i>","'.$this->createUrl("PermintaanPembelian/Index").'&rencana_id=$data->rencanakebfarmasi_id",
+									CHtml::Link("<i class=\"icon-form-mintabeli\"></i>","'.$this->createUrl($this->path_permintaan."/Index").'&rencana_id=$data->rencanakebfarmasi_id",
 										array("class"=>"", "rel"=>"tooltip","title"=>"Klik Mendaftarkan Ke Permintaan Pembelian",)) :
 									"<a rel=\'tooltip\' title=\'Tombol akan aktif jika rencana sudah disetujui dan diketahui\'><icon class=\'icon-form-mintabeli\' style=\'opacity: 0.3\'></icon></a> "
 									)
@@ -89,7 +89,7 @@ $('#divSearch-form form').submit(function(){
                         'header'=>'Permintaan Penawaran',
                         'type'=>'raw',
                         'value'=>'((isset($data->tglmenyetujui))&&(isset($data->tglmengetahui)) ?
-									CHtml::Link("<i class=\"icon-form-mintatawar\"></i>","'.$this->createUrl("PermintaanPenawaran/Index").'&rencana_id=$data->rencanakebfarmasi_id",
+									CHtml::Link("<i class=\"icon-form-mintatawar\"></i>","'.$this->createUrl($this->path_penawaran."/Index").'&rencana_id=$data->rencanakebfarmasi_id",
 										array("class"=>"", "rel"=>"tooltip","title"=>"Klik Mendaftarkan Ke Permintaan Penawaran",)) :
 									"<a rel=\'tooltip\' title=\'Tombol akan aktif jika rencana sudah disetujui dan diketahui\'><icon class=\'icon-form-mintatawar\' style=\'opacity: 0.3\'></icon></a> "
 									)	
@@ -118,7 +118,7 @@ $('#divSearch-form form').submit(function(){
             'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
         )); ?>
     </div>
-    <?php echo $this->renderPartial('search',array('model'=>$model,'format'=>$format)); ?>
+    <?php echo $this->renderPartial($this->path_view.'search',array('model'=>$model,'format'=>$format)); ?>
 </div>
 <?php 
 // ===========================Dialog Details=========================================

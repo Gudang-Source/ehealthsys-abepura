@@ -196,7 +196,7 @@ class PermintaanPembelianController extends MyAuthController
             }
         }
         
-        $this->render('index',array(
+        $this->render($this->path_view.'index',array(
             'format'=>$format,
             'modPermintaanPembelian'=>$modPermintaanPembelian,
             'modDetails'=>$modDetails,
@@ -270,7 +270,7 @@ class PermintaanPembelianController extends MyAuthController
             
             echo CJSON::encode(array(
                 'status'=>'create_form', 
-                'form'=>$this->renderPartial('_rowObatPermintaanPembelian', array(
+                'form'=>$this->renderPartial($this->path_view.'_rowObatPermintaanPembelian', array(
                         'modPermintaanPembelian'=>$modPermintaanPembelian,
                         'modPermintaanPembelianDetail'=>$modPermintaanPembelianDetail,
                     ), 

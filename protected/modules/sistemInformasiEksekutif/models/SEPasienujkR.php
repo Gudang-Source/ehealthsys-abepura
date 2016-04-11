@@ -94,6 +94,7 @@ class SEPasienujkR extends PasienujkR {
         if (!empty($this->perempuan)) {
             $criteria->addCondition('perempuan = ' . $this->perempuan);
         }
+        
 
         return $criteria;
     }

@@ -124,6 +124,21 @@ if ($model->jns_periode == "bulan") {
     </div>
 
     <div class="panel-body">
+        <div class="form-group" style="float: left;
+             text-align: left;
+             font-weight: normal;">
+            <label for="pelayanan">Kegiatan Radiologi:</label>
+            <select class="form-control" id="pelayanan" onchange="setDataSet(this.options[this.selectedIndex].value);" style="display: inline-block;
+                    width: auto;">
+                    <?php
+                    foreach ($dataPemeriksaanRad as $data) {
+                        $id = $data['id'];
+                        $nama = $data['nama'];
+                        ?>
+                    <option value="<?php echo $id; ?>"><?php echo $nama; ?></option>
+                <?php } ?>
+            </select>
+        </div>
         <div id="chartdiv" style="width: 100%; height: 400px;"></div>
     </div>
 </div>

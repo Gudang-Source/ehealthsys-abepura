@@ -349,7 +349,7 @@ class InformasipasiensudahbayarV extends CActiveRecord
         {
             $criteria = new CDbCriteria();    
             $criteria->with = array('pegawai');
-            $criteria->compare('t.ruangan_id', array(Params::RUANGAN_ID_KASIR, 65, 67, 68, 69, 70));           
+            $criteria->compare('t.ruangan_id', array(Params::RUANGAN_ID_KASIR));           
             $criteria->order = "pegawai.nama_pegawai ASC";           
             return RuanganpegawaiM::model()->findAll($criteria);
         }

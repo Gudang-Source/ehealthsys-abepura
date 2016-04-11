@@ -1,5 +1,5 @@
 <?php
-Yii::import('pengadaan.controller.RencanaKebutuhanController');
+Yii::import('pengadaan.controllers.RencanaKebutuhanController');
 
 class RencanaKebutuhanGUController extends RencanaKebutuhanController {
     //put your code here

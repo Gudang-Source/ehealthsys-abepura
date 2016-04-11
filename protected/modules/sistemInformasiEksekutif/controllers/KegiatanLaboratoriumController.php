@@ -59,7 +59,8 @@ class KegiatanLaboratoriumController extends MyAuthController {
 		SELECT 
 		jenispemeriksaanlab_id as id, jenispemeriksaanlab_nama as nama
 		FROM jenispemeriksaanlab_m
-		ORDER BY id ASC
+                WHERE jenispemeriksaanlab_aktif = true
+		ORDER BY jenispemeriksaanlab_nama ASC
 		";
 
 
@@ -98,13 +99,16 @@ class KegiatanLaboratoriumController extends MyAuthController {
         $dataChart = $result;
 
         $dataBarLineChart = array();
+        $i = 1;
         foreach ($dataChart as $data) {
             $id = $data['id'];
+         //   $id = $i;
             if (isset($dataBarLineChart[$id])) {
                 $dataBarLineChart[$id][] = $data;
             } else {
                 $dataBarLineChart[$id] = array($data);
             }
+           // $i++;
         }
 
         $sql = "
