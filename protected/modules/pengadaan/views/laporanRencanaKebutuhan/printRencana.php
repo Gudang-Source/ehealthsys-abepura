@@ -9,10 +9,10 @@ if($caraPrint=='EXCEL')
 echo $this->renderPartial('application.views.headerReport.headerLaporanTransaksi',array('judulLaporan'=>$judulLaporan, 'periode'=>'Periode : '.$periode, 'colspan'=>10));
 
 if ($caraPrint != 'GRAFIK')
-$this->renderPartial('_tableRencana', array('model'=>$model, 'caraPrint'=>$caraPrint)); 
+$this->renderPartial($this->path_view.'_tableRencana', array('model'=>$model, 'caraPrint'=>$caraPrint)); 
 
 if ($caraPrint == 'GRAFIK')
-echo $this->renderPartial('_grafik', array('model'=>$model, 'data'=>$data, 'caraPrint'=>$caraPrint, 'searchdata'=>$model->search()), true); 
+echo $this->renderPartial($this->path_view.'_grafik', array('model'=>$model, 'data'=>$data, 'caraPrint'=>$caraPrint, 'searchdata'=>$model->search()), true); 
 
 
 ?>

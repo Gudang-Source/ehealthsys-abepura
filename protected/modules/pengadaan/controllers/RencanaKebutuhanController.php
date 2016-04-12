@@ -78,6 +78,7 @@ class RencanaKebutuhanController extends MyAuthController{
      * @return \ADRencDetailkebT
      */
     public function simpanRencanaKebutuhan($modRencanaKebFarmasi ,$post){
+        // var_dump($post);
         $format = new MyFormatter();
         $modRencanaDetailKeb = new ADRencDetailkebT;
         $modRencanaDetailKeb->attributes = $post;
@@ -89,11 +90,13 @@ class RencanaKebutuhanController extends MyAuthController{
         
         if($post['satuanobat'] == PARAMS::SATUAN_KECIL){
             $modRencanaDetailKeb->satuanbesar_id = NULL;
+            $modRencanaDetailKeb->hargatotalrenc = $modRencanaDetailKeb->jmlpermintaan * $modRencanaDetailKeb->harganettorenc;
         }else{
             $modRencanaDetailKeb->satuankecil_id = NULL;
+            $modRencanaDetailKeb->hargatotalrenc = $modRencanaDetailKeb->jmlpermintaan * $modRencanaDetailKeb->harganettorenc * $modRencanaDetailKeb->kemasanbesar;
         }
         
-        $modRencanaDetailKeb->hargatotalrenc = $modRencanaDetailKeb->jmlpermintaan * $modRencanaDetailKeb->harganettorenc;
+        //var_dump($modRencanaDetailKeb->attributes); die;
         
         if($modRencanaDetailKeb->validate()) { 
             $modRencanaDetailKeb->save();
