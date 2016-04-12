@@ -59,7 +59,7 @@
 		<div class="control-group ">
 			<div class="controls">
 				<?php echo $form->textAreaRow($model,'pemeliharaanaset_ket',array('rows'=>4, 'cols'=>200, 'class'=>'span4', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-			   <?//php echo $form->dropDownList($model,'instalasi_id', CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true order by instalasi_nama'), 'instalasi_id', 'instalasi_nama'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20,'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+			   <?php // echo $form->dropDownList($model,'instalasi_id', CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true order by instalasi_nama'), 'instalasi_id', 'instalasi_nama'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20,'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
 			</div>
 		</div>
 	</div>

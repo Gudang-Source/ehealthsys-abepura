@@ -7,7 +7,7 @@ class MABidangM extends BidangM
 	{
 		return parent::model($className);
 	}
-	public static function getBidangItems(){
+	public static function getBidangItems2(){
 		$criteria = new CDbCriteria();
 		$criteria->addCondition('bidang_aktif = TRUE');
 		$criteria->order = "bidang_nama";

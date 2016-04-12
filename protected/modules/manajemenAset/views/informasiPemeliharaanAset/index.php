@@ -47,24 +47,25 @@ $('.search-form form').submit(function(){
 					'value'=>'$data->pemeliharaanaset_ket',
 				),				
 				array(
+                                        'header'=>'Tgl. Pemeliharaan',	
 					'name'=>'pemeliharaanaset_tgl',
 					'type'=>'raw',
 					'value'=>'MyFormatter::formatDateTimeForUser($data->pemeliharaanaset_tgl)',
 				),
 				array(
-					'header'=>'Nama Pegawai Menegetahui',					
+					'header'=>'Menegetahui',					
 					'name'=>'pegawaimengetahui_nama',
 					'type'=>'raw',
 					'value'=>'$data->pegawaimengetahui_nama',
 				),
 				array(
-					'header'=>'Nama Petugas 1',
+					'header'=>'Petugas 1',
 					'name'=>'pegtugas1_nama',
 					'type'=>'raw',
 					'value'=>'$data->pegtugas1_nama',
 				),
 				array(
-					'header'=>'Nama Petugas 2',					
+					'header'=>'Petugas 2',					
 					'name'=>'pegtugas2_nama',
 					'type'=>'raw',
 					'value'=>'$data->pegtugas2_nama',

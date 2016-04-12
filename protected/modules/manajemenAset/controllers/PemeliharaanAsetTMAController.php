@@ -18,7 +18,7 @@ class PemeliharaanAsetTMAController extends MyAuthController {
     	$modPenyimpananPemeliharaanDetail = array();
 		$modPenyimpananPemeliharaanAset = array();
 	    $asalaset = CHtml::listData(MAAsalasetM::getAsalAsetItems(),'asalaset_id','asalaset_nama');
-		$kategoriaset = CHtml::listData(MABidangM::getBidangItems(),'bidang_id','bidang_nama');
+		$kategoriaset = CHtml::listData(MABidangM::model()->getBidangItems(),'bidang_id','bidang_nama');
 
     	if(!empty($pemeliharaanaset_id)){
 			$criteria = new CDbCriteria();
