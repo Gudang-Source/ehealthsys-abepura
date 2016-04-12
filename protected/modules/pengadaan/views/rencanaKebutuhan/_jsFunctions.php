@@ -17,7 +17,10 @@ function tambahObatAlkes()
                     $("#table-obatalkespasien").find('input[name*="[ii]"][class*="integer"]').maskMoney(
                         {"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0}
                     );
-                    renameInputRowObatAlkes($("#table-obatalkespasien"));                    
+                    renameInputRowObatAlkes($("#table-obatalkespasien"));  
+                    $('#table-obatalkespasien tbody tr').each(function() {
+                        pilihSatuan($(this).find('select[name$="[satuanobat]"]'));
+                    });
                     hitungTotal();
                 },
                 error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
@@ -33,7 +36,13 @@ function hitungTotal(){
     $('#table-obatalkespasien tbody tr').each(function(){
         var jmlpermintaan  = parseInt($(this).find('input[name$="[jmlpermintaan]"]').val());
         var harganetto  = parseInt($(this).find('input[name$="[harganettorenc]"]').val());
+        var kemasanbesar = parseInt($(this).find('input[name$="[kemasanbesar]"]').val());
+        var satuan = $(this).find('select[name$="[satuanobat]"]').val();
+        
         subtotal = harganetto * jmlpermintaan;
+        if (satuan === "SATUANBESAR") {
+            subtotal *= kemasanbesar;
+        }
         
         if(subtotal <= 0){
             subtotal = 0;
@@ -91,10 +100,13 @@ function pilihSatuan(obj){
     if(satuanobat == '<?php echo PARAMS::SATUAN_KECIL; ?>'){
         $(obj).parents('tr').find('.satuankecil').show();
         $(obj).parents('tr').find('.satuanbesar').hide();
+        
     }else{
         $(obj).parents('tr').find('.satuanbesar').show();
         $(obj).parents('tr').find('.satuankecil').hide();
     }
+    
+    hitungTotal();
 }
 
 /**

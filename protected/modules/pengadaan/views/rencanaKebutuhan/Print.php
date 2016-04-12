@@ -31,6 +31,13 @@ echo CHtml::css('.control-label{
      width:20cm;
      height:12cm;
     }
+    .table {
+        border: 1px solid black;
+        box-shadow: none;
+    }
+    .table td {
+        border: 1px solid black;
+    }
 ');
 ?>  
 <?php
@@ -56,7 +63,7 @@ $tglrencana = substr($modRencanaKebFarmasi->tglperencanaan,0,-8);
         </tr>
         
     </table><br/>
-    <table width="100%" style='margin-left:auto; margin-right:auto;'>
+    <table width="100%" style='margin-left:auto; margin-right:auto;' class="table">
         <thead class="border">
             <th style="text-align: center;">No.</th>
             <th style="text-align: center;">Asal Barang</th>
@@ -76,30 +83,37 @@ $tglrencana = substr($modRencanaKebFarmasi->tglperencanaan,0,-8);
         $total = 0;
         $subtotal = 0;
         foreach ($modRencanaDetailKeb as $i=>$modObat){ 
-			$modLookup = ADLookupM::model()->findByAttributes(array('lookup_value'=>$modObat->obatalkes->ven));
+            $oa = ObatalkesM::model()->findByPk($modObat->obatalkes_id);
+            $sat = !empty($modObat->satuankecil_id)?$modObat->satuankecil->satuankecil_nama:$modObat->satuanbesar->satuanbesar_nama;
+            $kecil = $oa->satuankecil->satuankecil_nama;
+            $modLookup = ADLookupM::model()->findByAttributes(array('lookup_value'=>$modObat->obatalkes->ven));
         ?>
             <tr>
                 <td style="text-align: center;"><?php echo ($i+1)."."; ?></td>
                 <td><?php echo $modObat->sumberdana->sumberdana_nama; ?></td>
                 <td align="center"><?php echo (!empty($modObat->obatalkes->obatalkes_kategori) ? $modObat->obatalkes->obatalkes_kategori."/ " : "") ."". $modObat->obatalkes->obatalkes_nama; ?></td>
-                <td style="text-align: center;"><?php echo $modObat->kemasanbesar; ?></td>
-                <td style="text-align: center;"><?php echo $modObat->jmlpermintaan; ?></td>
+                <td style="text-align: center;"><?php echo $modObat->kemasanbesar." ".$kecil; ?></td>
+                <td style="text-align: center;"><?php echo $modObat->jmlpermintaan." ".$sat; ?></td>
                 <td style="text-align: right;"><?php echo $format->formatUang($modObat->harganettorenc); ?></td>
-                <td style="text-align: center;"><?php echo $modObat->buffer_stok; ?></td>
-                <td style="text-align: center;"><?php echo $modObat->stokakhir; ?></td>
-                <td style="text-align: center;"><?php echo $modObat->minimalstok; ?></td>
+                <td style="text-align: center;"><?php echo $modObat->buffer_stok." ".$kecil; ?></td>
+                <td style="text-align: center;"><?php echo $modObat->stokakhir." ".$kecil; ?></td>
+                <td style="text-align: center;"><?php echo $modObat->minimalstok." ".$kecil; ?></td>
                 <td style="text-align: center;"><?php echo $modObat->persen_abc; ?> %</td>
                 <td style="text-align: center;"><?php echo isset($modLookup->lookup_name) ? $modLookup->lookup_name : "-"; ?></td>
                 <td style="text-align: center;"><?php echo $modObat->kategori_abc; ?></td>
                 <td style="text-align: right;"><?php 
-                    $subtotal = ($modObat->harganettorenc * $modObat->jmlpermintaan);
+                    if (!empty($modObat->satuankecil_id)) {
+                        $subtotal = ($modObat->harganettorenc * $modObat->jmlpermintaan);
+                    } else {
+                        $subtotal = ($modObat->harganettorenc * $modObat->jmlpermintaan * $modObat->kemasanbesar);
+                    }
                     $total += $subtotal;
                     echo $format->formatUang($subtotal); ?>
                 </td>
             </tr>
         <?php } ?>
         <tr>
-            <td colspan="8" align="center"><strong>Total</strong></td>
+            <td colspan="12" align="center"><strong>Total</strong></td>
             <td style="text-align: right;"><?php echo $format->formatUang($total); ?></td>
         </tr>
     </table>
