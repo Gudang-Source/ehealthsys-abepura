@@ -85,8 +85,8 @@ class ReevaluasiasetT extends CActiveRecord
 	{
 		return array(
 			'reevaluasiaset_id' => 'Reevaluasiaset',
-			'reevaluasiaset_tgl' => 'Reevaluasiaset Tgl',
-			'reevaluasiaset_no' => 'Reevaluasiaset No',
+			'reevaluasiaset_tgl' => 'Tgl. Re-evaluasi Aset',
+			'reevaluasiaset_no' => 'No. Re-evaluasi Aset',
 			'reevaluasiaset_totalselisih' => 'Reevaluasiaset Totalselisih',
 			'create_time' => 'Create Time',
 			'update_time' => 'Update Time',
