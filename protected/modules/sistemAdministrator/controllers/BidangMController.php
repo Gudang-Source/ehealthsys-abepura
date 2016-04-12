@@ -130,33 +130,38 @@ class BidangMController extends MyAuthController
 	}
         
         public function actionDelete()
-				{              
-					//if(!Yii::app()->user->checkAccess(Params::DEFAULT_DELETE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
-					if(Yii::app()->request->isPostRequest)
-					{
-		                    $id = $_POST['id'];
-		                    $barang = BarangM::model()->findByAttributes(array('bidang_id'=>$id));
-		                    if ($barang){
-		                                            throw new CHttpException(400,'Maaf data ini tidak bisa dihapus dikarenakan digunakan pada table lain.');
-		                    }else{
-		                        $this->loadModel($id)->delete();
-		                        if (Yii::app()->request->isAjaxRequest)
-		                            {
-		                                echo CJSON::encode(array(
-		                                    'status'=>'proses_form', 
-		                                    'div'=>"<div class='flash-success'>Data berhasil dihapus.</div>",
-		                                    ));
-		                                exit;               
-		                            }
-		                    }
-				                    
-						// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-						if(!isset($_GET['ajax']))
-							$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-					}
-					else
-						throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
-				}
+        {              
+                //if(!Yii::app()->user->checkAccess(Params::DEFAULT_DELETE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
+                if(Yii::app()->request->isPostRequest)
+                {
+            $id = $_POST['id'];
+            $barang = KelompokM::model()->findByAttributes(array('bidang_id'=>$id));
+            if ($barang){
+                              echo CJSON::encode(array(
+                            'status'=>'gagal_form', 
+                            'div'=>"<div class='flash-alert'>Maaf data ini tidak bisa dihapus dikarenakan digunakan pada table lain..</div>",
+                            ));
+                            exit;
+                                    throw new CHttpException(400,'Maaf data ini tidak bisa dihapus dikarenakan digunakan pada table lain.');
+            }else{
+                $this->loadModel($id)->delete();
+                if (Yii::app()->request->isAjaxRequest)
+                    {
+                        echo CJSON::encode(array(
+                            'status'=>'proses_form', 
+                            'div'=>"<div class='flash-success'>Data berhasil dihapus.</div>",
+                            ));
+                        exit;               
+                    }
+            }
+
+                        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+                        if(!isset($_GET['ajax']))
+                                $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+                }
+                else
+                        throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+        }
         
                  /**
                  *Mengubah status aktif

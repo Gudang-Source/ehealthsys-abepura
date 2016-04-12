@@ -135,8 +135,13 @@ class SubkelompokMController extends MyAuthController
             if(Yii::app()->request->isPostRequest)
             {
             $id = $_POST['id'];
-            $bidang = BidangM::model()->findByAttributes(array('subkelompok_id'=>$id));
+            $bidang = SubsubkelompokM::model()->findByAttributes(array('subkelompok_id'=>$id));
             if ($bidang){
+                            echo CJSON::encode(array(
+                            'status'=>'gagal_form', 
+                            'div'=>"<div class='flash-alert'>Maaf data ini tidak bisa dihapus dikarenakan digunakan pada table lain..</div>",
+                            ));
+                            exit;
                                     throw new CHttpException(400,'Maaf data ini tidak bisa dihapus dikarenakan digunakan pada table lain.');
             }else{
                 $this->loadModel($id)->delete();

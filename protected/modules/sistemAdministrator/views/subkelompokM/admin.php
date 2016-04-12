@@ -152,6 +152,8 @@ Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);
                      function(data){
                         if(data.status == 'proses_form'){
                                 $.fn.yiiGridView.update('sasubkelompok-m-grid');
+                            }else if(data.status == 'gagal_form'){
+                                myAlert('Maaf data ini tidak bisa dihapus dikarenakan digunakan pada table lain.')
                             }else{
                                 myAlert('Data Gagal di Hapus')
                             }
