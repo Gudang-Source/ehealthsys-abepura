@@ -12,10 +12,11 @@
                             'mode'=>'datetime',
                             'options'=> array(
                                 'showOn' => false,
+                                'format' => Params::DATE_FORMAT,
 //                                'maxDate' => 'd',
                                 'yearRange'=> "-150:+0",
                             ),
-                            'htmlOptions'=>array('placeholder'=>'00/00/0000 00:00:00','class'=>'dtPicker2 datetimemask','onkeyup'=>"return $(this).focusNextInputField(event)"
+                            'htmlOptions'=>array('class'=>'dtPicker3 realtime','onkeyup'=>"return $(this).focusNextInputField(event)"
                             ),
                     )); ?>
                 </div>

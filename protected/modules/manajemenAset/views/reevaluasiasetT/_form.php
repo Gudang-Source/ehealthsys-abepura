@@ -133,7 +133,7 @@ $this->widget('bootstrap.widgets.BootAlert');
 									'dateFormat' => Params::DATE_FORMAT,
 									'maxDate' => 'd',
 								),
-								'htmlOptions' => array('readonly' => true, 'class' => 'dtPicker3', 'onkeypress' => "return $(this).focusNextInputField(event)",),
+								'htmlOptions' => array('readonly' => true, 'class' => 'dtPicker3 realtime', 'onkeypress' => "return $(this).focusNextInputField(event)",),
 							));
 							$model->reevaluasiaset_tgl = !empty($model->reevaluasiaset_tgl) ? MyFormatter::formatDateTimeForDb($model->reevaluasiaset_tgl) : date('Y-m-d H:i:s');
 						?>

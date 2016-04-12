@@ -978,6 +978,11 @@ function setFormAsuransi(carabayar_id){
     var carabayar_id_badak = <?php echo Params::CARABAYAR_ID_BADAK;?>;
     var carabayar_id_departemen = <?php echo Params::CARABAYAR_ID_DEP_BADAK;?>;
     var carabayar_id_pekerja = <?php echo Params::CARABAYAR_ID_PEKERJA;?>;
+    var carabayar_id_jamkespa = <?php echo Params::CARABAYAR_ID_JAMKESPA;?>;
+    
+    console.log(carabayar_id);
+    console.log(carabayar_id_jamkespa);
+    
     if(carabayar_id == carabayar_id_umum){
 		sembunyiFormAsuBadak();
 		sembunyiFormAsuDepartemen();
@@ -985,9 +990,10 @@ function setFormAsuransi(carabayar_id){
 		
         sembunyiFormAsuransi();
         sembunyiFormBpjs();
+        sembunyiFormAsuransi();
 
         $('#form-bpjs').hide(); 
-        $('#form-asuransi').show(); 
+        $('#form-asuransi').hide(); 
         $('#form-rujukan').show();
 		$('#form-asubadak').hide();
 		$('#form-asudepartemen').hide();
@@ -1051,12 +1057,25 @@ function setFormAsuransi(carabayar_id){
         $('#form-asuransi').hide();
         $('#form-bpjs').hide(); 
         $('#form-rujukan').hide(); 
-    }else{
+    } else if (carabayar_id == carabayar_id_jamkespa) {
+        sembunyiFormAsuBadak();
+        sembunyiFormAsuDepartemen();
+        sembunyiFormAsuPekerja();
+        tampilFormAsuransi();
+        sembunyiFormBpjs();
+        $('#form-bpjs').hide(); 
+        $('#form-asuransi').show(); 
+        $('#form-rujukan').show();
+        $('#form-asubadak').hide();
+        $('#form-asudepartemen').hide();
+        $('#form-asupekerja').hide();
+        cekTanggalKonfirmasi();
+    } else{
 		sembunyiFormAsuBadak();
 		sembunyiFormAsuDepartemen();
 		sembunyiFormAsuPekerja();
-		
-                tampilFormAsuransi();
+		sembunyiFormAsuransi();
+                //tampilFormAsuransi();
                 sembunyiFormBpjs();
                 $('#form-bpjs').hide(); 
                 $('#form-asuransi').show(); 
