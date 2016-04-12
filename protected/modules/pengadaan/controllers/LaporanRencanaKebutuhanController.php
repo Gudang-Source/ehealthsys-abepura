@@ -1,6 +1,6 @@
 <?php
 class LaporanRencanaKebutuhanController extends MyAuthController{
-	
+	public $path_view = 'pengadaan.views.laporanRencanaKebutuhan.';
 	
 	public function actionLaporanRencanaKebutuhan() {
        $model = new ADRencanaKebFarmasiT;
@@ -33,7 +33,7 @@ class LaporanRencanaKebutuhanController extends MyAuthController{
             $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
         
-        $this->render('rencanaKebutuhan',array(
+        $this->render($this->path_view.'rencanaKebutuhan',array(
             'model'=>$model,'format'=>$format
         ));
     }
@@ -73,7 +73,7 @@ class LaporanRencanaKebutuhanController extends MyAuthController{
             $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
         $caraPrint = (isset($_REQUEST['caraPrint']) ? $_REQUEST['caraPrint'] : null);
-        $target = 'printRencana';
+        $target = $this->path_view.'printRencana';
 
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
     }   
@@ -115,7 +115,7 @@ class LaporanRencanaKebutuhanController extends MyAuthController{
             $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
         $searchdata = $model->searchGrafik();
-        $this->render('_grafik', array(
+        $this->render($this->path_view.'_grafik', array(
             'format'=>$format,
             'model' => $model,
             'data' => $data,

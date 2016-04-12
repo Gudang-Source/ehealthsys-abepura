@@ -1,3 +1,8 @@
+<style>
+    .uang {
+        text-align: right !important;
+    }
+</style>
 <?php 
 echo $this->renderPartial('application.views.headerReport.headerAnggaran',array('judulLaporan'=>$judulLaporan, 'deskripsi'=>$deskripsi, 'colspan'=>10));
  
@@ -31,19 +36,27 @@ echo "No. Rencana : <b>".$model->noperencnaan."</b>";
 		$total = 0;
         $subtotal = 0;
 		foreach($modDetails as $i => $modDetail){
+                    $oa = ObatalkesM::model()->findByPk($modDetail->obatalkes_id);
+                    $sat = !empty($modDetail->satuankecil_id)?$modDetail->satuankecil->satuankecil_nama:$modDetail->satuanbesar->satuanbesar_nama;
+                    $kecil = $oa->satuankecil->satuankecil_nama;
 		?>
 		<tr>
 				<td><?php echo $i+1; echo ". "; ?></td>
 				<td><?php echo $modDetail->sumberdana->sumberdana_nama; ?></td>
 				<td><?php echo (!empty($modDetail->obatalkes->obatalkes_kategori) ? $modDetail->obatalkes->obatalkes_kategori."/ " : "") ."". $modDetail->obatalkes->obatalkes_nama; ?></td>
-				<td><?php echo $modDetail->kemasanbesar; ?></td>
-				<td><?php echo $modDetail->jmlpermintaan; ?></td>
-				<td><?php echo $format->formatUang($modDetail->harganettorenc); ?></td>
-				<td><?php echo $modDetail->stokakhir; ?></td>
-				<td><?php echo $modDetail->minimalstok; ?></td>
-				<td>
+                                <td class="uang"><?php echo $modDetail->kemasanbesar." ".$kecil; ?></td>
+				<td class="uang"><?php echo $modDetail->jmlpermintaan." ".$sat; ?></td>
+				<td class="uang"><?php echo $format->formatUang($modDetail->harganettorenc); ?></td>
+				<td class="uang"><?php echo $modDetail->stokakhir." ".$kecil; ?></td>
+				<td class="uang"><?php echo $modDetail->minimalstok." ".$kecil; ?></td>
+				<td class="uang">
 					<?php 
-                    $subtotal = ($modDetail->harganettorenc * $modDetail->jmlpermintaan);
+                    if (!empty($modDetail->satuankecil_id)) {
+                        $subtotal = $modDetail->harganettorenc * $modDetail->jmlpermintaan;
+                    } else {
+                        $subtotal = $modDetail->harganettorenc * $modDetail->jmlpermintaan * $modDetail->kemasanbesar;
+                    }
+                    // $subtotal = ($modDetail->harganettorenc * $modDetail->jmlpermintaan);
                     $total += $subtotal;
                     echo $format->formatUang($subtotal); ?>
 				</td>
@@ -52,8 +65,8 @@ echo "No. Rencana : <b>".$model->noperencnaan."</b>";
 		<tfoot>
 			<tr>
 				<td colspan="8" style="text-align:right;">Total Anggaran</td>
-				<td><b>
-					<?php echo $format->formatUang($total) ?>
+				<td class="uang"><b>
+					<?php echo $format->formatNumberForPrint($total) ?>
 					</b>
 				</td>
 			</tr>
