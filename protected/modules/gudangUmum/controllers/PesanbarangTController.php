@@ -52,11 +52,11 @@ class PesanbarangTController extends MyAuthController
             if (Yii::app()->request->isAjaxRequest){
                 $idBarang = $_POST['idBarang'];
                 $jumlah = $_POST['jumlah'];
-                $satuan = $_POST['satuan'];
+                $satuan = $_POST['satuan'];                
 
                 $modBarang = BarangM::model()->with('subsubkelompok')->findByPk($idBarang);
                 $modDetail = new PesanbarangdetailT();
-                $modDetail->barang_id = $idBarang;
+                $modDetail->barang_id = $idBarang;                
                 $modDetail->satuanbarang = $satuan;
                 $modDetail->qty_pesan = $jumlah;
 
@@ -97,6 +97,7 @@ class PesanbarangTController extends MyAuthController
 
 		if(isset($_POST['GUPesanbarangT']))
 		{
+                       // var_dump($_POST);
 			$model->attributes=$_POST['GUPesanbarangT'];
                         if (count($_POST['PesanbarangdetailT']) > 0){
                             $modDetails = $this->validasiTabularInput($_POST['PesanbarangdetailT'], $model);
@@ -107,6 +108,7 @@ class PesanbarangTController extends MyAuthController
                                     $model->nopemesanan = MyGenerator::noPemesananBarang();
                                     if($model->save()){
                                         $modDetails = $this->validasiTabularInput($_POST['PesanbarangdetailT'], $model);
+                                        
                                         foreach ($modDetails as $i=>$data){
                                             if ($data->qty_pesan > 0){
                                                 if ($data->save()){
@@ -136,7 +138,7 @@ class PesanbarangTController extends MyAuthController
                                     
                                     // NOTIF
                                     $this->simpanNotifPesanBarang($model);
-                                    
+                                  //  die;
                                     if ($success == true){
                                         $transaction->commit();
                                         Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
@@ -144,12 +146,12 @@ class PesanbarangTController extends MyAuthController
                                     }
                                     else{
                                         $transaction->rollback();
-                                        Yii::app()->user->setFlash('error',"Data gagal disimpan ");
+                                        Yii::app()->user->setFlash('error',"Data gagal disimpan  ");
                                     }
                                 }
                                 catch (Exception $ex){
                                      $transaction->rollback();
-                                     Yii::app()->user->setFlash('error',"Data gagal disimpan ".MyExceptionMessage::getMessage($ex,true));
+                                     Yii::app()->user->setFlash('error',"Data gagal disimpan  ".MyExceptionMessage::getMessage($ex,true));
                                 }
                             }
                         }
