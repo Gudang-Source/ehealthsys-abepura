@@ -50,6 +50,8 @@ class TariftindakanperdaruanganV extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return TariftindakanperdaruanganV the static model class
 	 */
+    
+         public $menudiet_nama, $menudiet_namalain, $ukuranrumahtangga;
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -148,6 +150,9 @@ class TariftindakanperdaruanganV extends CActiveRecord
                         'komponenunit_nama' => 'Komponen Unit',
 			'kegiatanoperasi_id' => 'Nama Kegiatan Operasi',
 			'operasi_id' => 'Nama Operasi',
+                        'menudiet_nama' => 'Nama Menu Diet',
+                        'menudiet_namalain' => 'Nama Lain Menu Diet',
+                        'ukuranrumahtangga' => 'Ukuran Rumah Tangga',
 		);
 	}
 

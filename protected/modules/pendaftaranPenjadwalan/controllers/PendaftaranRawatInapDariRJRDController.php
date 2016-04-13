@@ -127,12 +127,13 @@ class PendaftaranRawatInapDariRJRDController extends PendaftaranRawatInapControl
                             if(!empty($_POST['PPAsuransipasienM']['asuransipasien_id'])){
                                 $modAsuransiPasien = PPAsuransipasienM::model()->findByPk($_POST['PPAsuransipasienM']['asuransipasien_id']);
                             }
-                        }
+                        } 
+                        //var_dump($modAsuransiPasien->attributes); die;
 						$modAsuransiPasien = $this->simpanAsuransiPasien($modAsuransiPasien, $_POST['PPPendaftaranT'], $modPasien, $_POST['PPAsuransipasienM']);
                     }else{
                         $this->asuransipasientersimpan = true;
                     }
-                    //var_dump($_POST); die;
+                    // var_dump($_POST); die;
                     if(isset($_POST['PPAsuransipasienbpjsM'])){
                         if(isset($_POST['PPAsuransipasienbpjsM']['asuransipasien_id'])){
                             if(!empty($_POST['PPAsuransipasienbpjsM']['asuransipasien_id'])){

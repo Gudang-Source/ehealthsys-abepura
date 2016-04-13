@@ -93,6 +93,8 @@ class InfokunjunganriV extends CActiveRecord
         public $pendidikan_id;
         public $suku_id;
         public $tahun, $bulan;
+         public $kamarruangan_nobed;
+    public $kamarruangan_nokamar;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -133,7 +135,7 @@ class InfokunjunganriV extends CActiveRecord
 			array('tanggal_lahir, alamat_pasien, tgl_rekam_medik, tgl_pendaftaran, status_konfirmasi, tgl_konfirmasi, alihstatus, byphone, kunjunganrumah, create_time, create_loginpemakai_id, create_ruangan, tanggal_rujukan, diagnosa_rujukan, pegawai_id', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('pilihanx, tgl_awal, tgl_akhir, pasien_id, tahun, bulan, pendidikan_id, suku_id,  jenisidentitas, status_konfirmasi, tgl_konfirmasi, no_identitas_pasien, namadepan, nama_pasien, nama_bin, jeniskelamin, tempat_lahir, tanggal_lahir, alamat_pasien, rt, rw, agama, golongandarah, photopasien, alamatemail, statusrekammedis, statusperkawinan, no_rekam_medik, tgl_rekam_medik, propinsi_id, propinsi_nama, kabupaten_id, kabupaten_nama, kelurahan_id, kelurahan_nama, kecamatan_id, kecamatan_nama, pendaftaran_id, pekerjaan_id, pekerjaan_nama, no_pendaftaran, tgl_pendaftaran, no_urutantri, transportasi, keadaanmasuk, statusperiksa, statuspasien, kunjungan, alihstatus, byphone, kunjunganrumah, statusmasuk, umur, no_asuransi, namapemilik_asuransi, nopokokperusahaan, create_time, create_loginpemakai_id, create_ruangan, gelardepan, nama_pegawai, gelarbelakang_nama, carabayar_id, carabayar_nama, penjamin_id, penjamin_nama, caramasuk_id, caramasuk_nama, shift_id, golonganumur_id, golonganumur_nama, no_rujukan, nama_perujuk, tanggal_rujukan, diagnosa_rujukan, asalrujukan_id, asalrujukan_nama, penanggungjawab_id, pengantar, hubungankeluarga, nama_pj, ruangan_id, ruangan_nama, instalasi_id, instalasi_nama, jeniskasuspenyakit_id, jeniskasuspenyakit_nama, kelaspelayanan_id, kelaspelayanan_nama, pegawai_id', 'safe', 'on'=>'search'),
+			array('kamarruangan_nokamar, kamarruangan_nobed, pilihanx, tgl_awal, tgl_akhir, pasien_id, tahun, bulan, pendidikan_id, suku_id,  jenisidentitas, status_konfirmasi, tgl_konfirmasi, no_identitas_pasien, namadepan, nama_pasien, nama_bin, jeniskelamin, tempat_lahir, tanggal_lahir, alamat_pasien, rt, rw, agama, golongandarah, photopasien, alamatemail, statusrekammedis, statusperkawinan, no_rekam_medik, tgl_rekam_medik, propinsi_id, propinsi_nama, kabupaten_id, kabupaten_nama, kelurahan_id, kelurahan_nama, kecamatan_id, kecamatan_nama, pendaftaran_id, pekerjaan_id, pekerjaan_nama, no_pendaftaran, tgl_pendaftaran, no_urutantri, transportasi, keadaanmasuk, statusperiksa, statuspasien, kunjungan, alihstatus, byphone, kunjunganrumah, statusmasuk, umur, no_asuransi, namapemilik_asuransi, nopokokperusahaan, create_time, create_loginpemakai_id, create_ruangan, gelardepan, nama_pegawai, gelarbelakang_nama, carabayar_id, carabayar_nama, penjamin_id, penjamin_nama, caramasuk_id, caramasuk_nama, shift_id, golonganumur_id, golonganumur_nama, no_rujukan, nama_perujuk, tanggal_rujukan, diagnosa_rujukan, asalrujukan_id, asalrujukan_nama, penanggungjawab_id, pengantar, hubungankeluarga, nama_pj, ruangan_id, ruangan_nama, instalasi_id, instalasi_nama, jeniskasuspenyakit_id, jeniskasuspenyakit_nama, kelaspelayanan_id, kelaspelayanan_nama, pegawai_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -231,6 +233,7 @@ class InfokunjunganriV extends CActiveRecord
 			'ruangan_nama' => 'Ruangan',
 			'kamarruangan_id' => 'Kamar',
 			'kamarruangan_nokamar' => 'No. Kamar',
+                        'kamarruangan_nobed' => 'No. Bed',
 			'instalasi_id' => 'Instalasi',
 			'instalasi_nama' => 'Instalasi',
 			'jeniskasuspenyakit_id' => 'Jeniskasuspenyakit',

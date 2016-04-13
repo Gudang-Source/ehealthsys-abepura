@@ -468,6 +468,8 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     else $cr->compare('instalasi_id', array(2,3));
     $cr->addCondition('ruangan_aktif = true');
     $cr->order = 'ruangan_nama';
+    $arr = Params::statusPeriksa();
+    unset($arr['SUDAH PULANG']);
 
     $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'id'=>'datakunjungan-grid',
@@ -597,7 +599,10 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                     ),
                     //'carabayar_nama',
                     //'penjamin_nama',
-                    'statusperiksa',
+                    array(
+                        'name'=>'statusperiksa',
+                        'filter'=>  CHtml::activeDropDownList($modDialogKunjungan, 'statusperiksa', $arr, array('empty'=>'-- Pilih --')),
+                    )
                     
             ),
             'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
