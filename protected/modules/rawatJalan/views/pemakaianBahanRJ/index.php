@@ -96,6 +96,7 @@
                             echo '&nbsp;&nbsp;';
                         }else{
                             echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"print(".$modKunjungan->pendaftaran_id.");return false"));
+                            echo '&nbsp;&nbsp;';
                         }
 
 
