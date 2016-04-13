@@ -1,4 +1,7 @@
 <script type="text/javascript">
+    
+  
+    
 /**
  * set pasien rawat jalan atau rawat darurat
  * @param {type} pasien_id
@@ -52,7 +55,11 @@ function setPasienRJRD(pendaftaran_id, no_pendaftaran, pasien_id, no_rekam_medik
                 $("#<?php echo CHtml::activeId($modPasien,"pekerjaan_id");?>").val(data.pekerjaan_id);
                 $("#<?php echo CHtml::activeId($modPasien,"agama");?>").val(data.agama);
                 $("#<?php echo CHtml::activeId($modPasien,"warga_negara");?>").val(data.warga_negara);
-				
+                $("#<?php echo CHtml::activeId($model,"jeniskasuspenyakit_id");?>").val(data.jeniskasuspenyakit_id);
+                $("#<?php echo CHtml::activeId($modPasienAdmisi,"carabayar_id");?>").val(data.carabayar_id).change();
+		
+                kk_id = data.jeniskasuspenyakit_id;
+                                
                 if(data.pegawai_id !== "" && data.pegawai_id !== null){
 					$("#<?php echo CHtml::activeId($modPasien,'pegawai_id');?>").val(data.pegawai_id);
 					$("#<?php echo CHtml::activeId($modPegawai,'nomorindukpegawai');?>").val(data.nomorindukpegawai);
@@ -152,6 +159,16 @@ function setAsuransiPasienLama(pasien_id){
                                                         $("#<?php echo CHtml::activeId($modRujukanBpjs,'tanggal_rujukan') ?>").val(data2.tglruj);   
                                                         setDiagnosaBpjs(data2.diag.kode, data2.diag.nama);
                                                     }, "json");
+                                                } else {
+                                                    $("#<?php echo CHtml::activeId($modAsuransiPasien,'nopeserta') ?>").val(datanopeserta);
+                                                    $("#<?php echo CHtml::activeId($modAsuransiPasien,'asuransipasien_id') ?>").val(dataasuransipasien_id);
+                                                    $("#<?php echo CHtml::activeId($modAsuransiPasien,'nokartuasuransi') ?>").val(datanokartuasuransi);
+                                                    $("#<?php echo CHtml::activeId($modAsuransiPasien,'namapemilikasuransi') ?>").val(datanamapemilikasuransi);
+                                                    $("#<?php echo CHtml::activeId($modAsuransiPasien,'nomorpokokperusahaan') ?>").val(datanomorpokokperusahaan);
+                                                    $("#<?php echo CHtml::activeId($modAsuransiPasien,'kelastanggunganasuransi_id') ?>").val(datakelastanggunganasuransi_id);
+                                                    $("#<?php echo CHtml::activeId($modAsuransiPasien,'namaperusahaan') ?>").val(datanamaperusahaan);
+                                                    $("#<?php echo CHtml::activeId($modAsuransiPasien,'status_konfirmasi') ?>").val(datastatus_konfirmasi);
+                                                    $("#<?php echo CHtml::activeId($modAsuransiPasien,'tgl_konfirmasi') ?>").val(datatgl_konfirmasi);
                                                 }
                                                 
                                                 /*

@@ -1,6 +1,9 @@
 <?php $konfig = KonfigsystemK::model()->find(); ?>
 
 <script type="text/javascript">
+    
+var kk_id = "";     
+    
 /**
  * set pasien lama
  * @param {type} pasien_id
@@ -618,6 +621,7 @@ function setDropdownJeniskasuspenyakit(ruangan_id)
        dataType: "json",
        success:function(data){
            $("#<?php echo CHtml::activeId($model,"jeniskasuspenyakit_id");?>").html(data.listKasuspenyakit);
+           $("#<?php echo CHtml::activeId($model,"jeniskasuspenyakit_id");?>").val(kk_id);
            cekPilihSatu($("#<?php echo CHtml::activeId($model,"jeniskasuspenyakit_id");?>"));
        },
         error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
