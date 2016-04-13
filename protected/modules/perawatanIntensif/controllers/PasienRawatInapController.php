@@ -21,7 +21,7 @@ class PasienRawatInapController extends MyAuthController
         $this->pageTitle = Yii::app()->name." - Pasien Rawat Intensif";
         $format = new MyFormatter();
         $model = new RIInfopasienmasukkamarV;
-        $model->tgl_awal  = date('Y-m-d');
+        $model->tgl_awal  = date('Y-m-d', time() - (3600 * 24 * 60));
         $model->tgl_akhir = date('Y-m-d');
         $model->ceklis = true;
 
