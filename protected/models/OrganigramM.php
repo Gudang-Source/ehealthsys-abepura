@@ -53,7 +53,7 @@ class OrganigramM extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-            array('organigram_kode, organigram_unitkerja, organigram_formasi, create_loginpemakai_id, create_ruangan', 'required'),
+            array('organigram_kode, organigram_unitkerja, organigram_formasi, create_loginpemakai_id, create_ruangan, pegawai_id', 'required'),
             array('organigram_formasi, organigramasal_id, create_loginpemakai_id, update_loginpemakai_id, create_ruangan, organigram_urutan, pegawai_id, jabatan_id', 'numerical', 'integerOnly'=>true),
             array('organigram_kode', 'length', 'max'=>20),
             array('organigram_unitkerja, organigram_pelaksanakerja', 'length', 'max'=>50),

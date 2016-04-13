@@ -37,7 +37,7 @@
         <tbody>
             <?php foreach($modKunjungan as $modKunjungan) { ?>
             <tr>
-                <td><?php echo $modKunjungan->no_pendaftaran; ?><br/><?php echo $modKunjungan->tgl_pendaftaran; ?></td>
+                <td><?php echo $modKunjungan->no_pendaftaran; ?><br/><?php echo MyFormatter::formatDateTimeForUser($modKunjungan->tgl_pendaftaran); ?></td>
                 <td colspan="2">
                     <?php
                     echo CHtml::link("<i class='icon-form-persalinan'></i> ",  Yii::app()->controller->createUrl("daftarPasien/detailPersalinan",
