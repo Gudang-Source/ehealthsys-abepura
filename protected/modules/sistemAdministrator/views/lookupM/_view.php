@@ -32,9 +32,8 @@
 	<br />
                 <b><?php echo CHtml::encode('Lookup','Lookup'); ?>:</b>
 	<?php echo $this->renderPartial('_Lookup',array('lookup_id'=>$data->lookup_id),true)?>
-=======
+
 	<?php $lookup_id =(CHtml::encode($data->lookup_aktif == TRUE)) ? Yii::t('mds','Yes') :  Yii::t('mds','No'); echo $lookup_aktif;?>
->>>>>>> fafc57a49c209e4d3de42710cb68d0ea8b65c241
 	<br />
 
 
