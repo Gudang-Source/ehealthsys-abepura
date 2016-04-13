@@ -36,6 +36,7 @@ function setKarcisPenunjang(form_index)
             success:function(data){
                 $("#form-karcis-"+form_index+" #content-karcis-html").html(data.listKarcis[form_index]);
                 $("#form-karcis-"+form_index).removeClass("animation-loading");
+                $("#form-karcis-"+form_index+" #content-karcis-html table > tbody a").click();
             },
              error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
         });
