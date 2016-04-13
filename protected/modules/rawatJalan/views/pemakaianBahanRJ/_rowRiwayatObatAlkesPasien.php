@@ -1,4 +1,4 @@
-<tr>
+<tr id="row_<?php echo $modObatAlkesPasien->obatalkespasien_id; ?>">
     <td>
         <?php echo CHtml::textField('no_urut',0,array('readonly'=>true,'class'=>'span1 integer', 'style'=>'width:20px;')); ?>
         <?php echo CHtml::hiddenField('riwayatOaPasien[ii][obatalkespasien_id]',$modObatAlkesPasien->obatalkespasien_id,array('readonly'=>true,'class'=>'span1 integer')); ?>
