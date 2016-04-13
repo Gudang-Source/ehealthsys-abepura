@@ -1,7 +1,10 @@
 <?php
 
 class GZInfokunjunganriV extends InfokunjunganriV {
-
+    
+    public $kamarruangan_nobed;
+    public $kamarruangan_nokamar;
+    
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }
@@ -19,6 +22,7 @@ class GZInfokunjunganriV extends InfokunjunganriV {
         $criteria->compare('LOWER(tempat_lahir)', strtolower($this->tempat_lahir), true);
         $criteria->compare('LOWER(tanggal_lahir)', strtolower($this->tanggal_lahir), true);
         $criteria->compare('LOWER(alamat_pasien)', strtolower($this->alamat_pasien), true);
+        $criteria->compare('LOWER(umur)', strtolower($this->umur), true);
 		if(!empty($this->pendaftaran_id)){
 			$criteria->addCondition('pendaftaran_id ='.$this->pendaftaran_id);
 		}
@@ -51,6 +55,7 @@ class GZInfokunjunganriV extends InfokunjunganriV {
 		if(!empty($this->ruangan_id)){
 			$criteria->addCondition('ruangan_id ='.$this->ruangan_id);
 		}
+        $criteria->compare('LOWER(kamarruangan_nobed)', strtolower($this->kamarruangan_nobed), true);        
         $criteria->compare('LOWER(ruangan_nama)', strtolower($this->ruangan_nama), true);
 		if(!empty($this->propinsi_id)){
 			$criteria->addCondition('propinsi_id ='.$this->propinsi_id);
@@ -68,7 +73,7 @@ class GZInfokunjunganriV extends InfokunjunganriV {
 		if(!empty($this->instalasi_id)){
 			$criteria->addCondition('instalasi_id ='.$this->instalasi_id);
 		}
-        $criteria->order = 'tgl_pendaftaran DESC';
+      //  $criteria->order = 'tgl_pendaftaran DESC';
         //$criteria->limit = 10;
 
         return new CActiveDataProvider($this, array(

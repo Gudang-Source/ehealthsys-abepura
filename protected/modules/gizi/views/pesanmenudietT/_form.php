@@ -246,12 +246,20 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
 $modKunjungan = new GZInfokunjunganriV('searchDialog');
 $modKunjungan->unsetAttributes();
 if (isset($_GET['GZInfokunjunganriV'])){
-    $modKunjungan->attributes = $_GET['GZInfokunjunganriV'];
+    $modKunjungan->attributes = $_GET['GZInfokunjunganriV'];       
+    if (isset($_GET['GZInfokunjunganriV']['kamarruangan_nokamar'])){
+        $modKunjungan->kamarruangan_nokamar = $_GET['GZInfokunjunganriV']['kamarruangan_nokamar'];
+    } 
+    if (isset($_GET['GZInfokunjunganriV']['kamarruangan_nobed'])){
+        $modKunjungan->kamarruangan_nobed = $_GET['GZInfokunjunganriV']['kamarruangan_nobed'];
+    } 
+     
 }
 
 $this->widget('ext.bootstrap.widgets.BootGridView', array(
     'id'=>'gzinfokunjunganri-v-grid', 
     'dataProvider' => $modKunjungan->searchDialog(),
+    'filter' => $modKunjungan,
     'template' => "{summary}\n{items}\n{pager}",
     'itemsCssClass' => 'table table-striped table-bordered table-condensed',
     'columns' => array(
@@ -279,12 +287,12 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
         'umur',
         array(
             'name'=>'jeniskelamin',
-            'filter'=>  LookupM::getItems('jeniskelamin'),
+            'filter'=> CHtml::dropDownList('GZInfokunjunganriV[jeniskelamin]',$modKunjungan->jeniskelamin,LookupM::getItems('jeniskelamin'),array('empty'=>'-- Pilih --')),
             'value'=>'$data->jeniskelamin'
         ),
         array(
             'name'=>'ruangan_nama',
-            'filter'=>  CHtml::listData(RuanganM::model()->findAll('ruangan_aktif = true'), 'ruangan_id', 'ruangan_nama'),
+            'filter'=> CHtml::dropDownList('GZInfokunjunganriV[ruangan_nama]',$modKunjungan->ruangan_nama,CHtml::listData(RuanganM::model()->findAll('ruangan_aktif = true ORDER BY ruangan_nama ASC'), 'ruangan_nama', 'ruangan_nama'),array('empty'=>'--Pilih--')),
             'value'=>'$data->ruangan_nama'
         ),
         'kamarruangan_nokamar',
