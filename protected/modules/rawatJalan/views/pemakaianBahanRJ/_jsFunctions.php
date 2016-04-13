@@ -227,8 +227,8 @@ function hapusOaPasien(obatalkespasien_id)
                 dataType: "json",
                 success:function(data){
                     if(data.sukses){
-                        var delete_row = $("#riwayat-obatalkespasien-t").find('input[name$="[obatalkespasien_id]"][value="'+obatalkespasien_id+'"]').parents('tr');
-                        delete_row.detach();
+                        var delete_row = $("#row_" + obatalkespasien_id);
+                        delete_row.remove();
                         renameInputRowObatAlkes($("#riwayat-obatalkespasien-t"));
                     }
                     myAlert(data.pesan);
