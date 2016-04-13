@@ -51,16 +51,16 @@
                                     'header'=>'ID',
                                     'value'=>'$data->bahanmakanan_id',
                                 ),
-                            array(
-                                    'name'=>'golbahanmakanan_id',
-                                    'filter'=> CHtml::dropDownList('BahanmakananM[golbahanmakanan_id]', $model->golbahanmakanan_id,CHtml::listData($model->getGolBahanMakananItems(), 'golbahanmakanan_id','golbahanmakanan_nama'), array('empty'=>'--Pilih--')),
-                                    'value'=>'$data->golbahanmakanan->golbahanmakanan_nama',
-                                ),
-                    array(
+                         array(
                                     'name'=>'sumberdanabhn',
                                     'filter'=> CHtml::dropDownList('BahanmakananM[sumberdanabhn]', $model->sumberdanabhn,CHtml::listData($model->SumberDanaItems, 'lookup_name', 'lookup_value'), array('empty'=>'--Pilih--')),
                                     'value'=>'$data->sumberdanabhn',
                                 ),
+                            array(
+                                    'name'=>'golbahanmakanan_id',
+                                    'filter'=> CHtml::dropDownList('BahanmakananM[golbahanmakanan_id]', $model->golbahanmakanan_id,CHtml::listData($model->getGolBahanMakananItems(), 'golbahanmakanan_id','golbahanmakanan_nama'), array('empty'=>'--Pilih--')),
+                                    'value'=>'$data->golbahanmakanan->golbahanmakanan_nama',
+                                ),                   
                     array(
                                     'name'=>'jenisbahanmakanan',
                                     'filter'=> CHtml::dropDownList('BahanmakananM[jenisbahanmakanan]', $model->jenisbahanmakanan,CHtml::listData($model->JenisBahanMakananItems, 'lookup_name', 'lookup_value'), array('empty'=>'--Pilih--')),
