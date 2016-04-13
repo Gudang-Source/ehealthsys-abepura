@@ -8,6 +8,7 @@ class LoginpemakaiKController extends MyAuthController
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
 	public $layout='//layouts/column1';
+        public $path_view = "rawatJalan.views.loginpemakaiK.";
 
 	/**
 	 * Displays a particular model.
@@ -392,7 +393,7 @@ class LoginpemakaiKController extends MyAuthController
                             }
                         }
                     }
-                        $this->render('gantiPassword',array(
+                        $this->render($this->path_view.'gantiPassword',array(
                             'model'=>$model,'prevUrl'=>$prevUrl,
                     ));
                     
