@@ -111,7 +111,7 @@ $this->breadcrumbs=array(
 				</tr>
 				<tr>
 					<th>Kelas Pelayanan</th>
-					<td id="nmKelas"></td>
+					<td id="nmKelas_layan"></td>
 				</tr>
 				<tr>
 					<th>No. Rujukan</th>
@@ -218,34 +218,34 @@ function tampilDetailSEP()
             $("#data-peserta").removeClass("animation-loading");
             var obj = JSON.parse(data);
             if(obj.response!=null){
-				var peserta = obj.response;				
-				$("#noKartu").text(peserta.noKartu);
-				$("#nama").text(peserta.nama);
-				$("#tglLahir").text(peserta.tglLahir);
-				$("#nik").text(peserta.nik);
-				$("#sex").text(peserta.sex);
-				$("#kdProvider").text(peserta.provUmum.kdProvider);
-				$("#nmProvider").text(peserta.provUmum.nmProvider);
-				$("#kdCabang").text(peserta.provUmum.kdCabang);
-				$("#nmCabang").text(peserta.provUmum.nmCabang);
-				$("#kdKelas").text(peserta.kelasTanggungan.kdKelas);
-				$("#nmKelas").text(peserta.kelasTanggungan.nmKelas);
-				$("#kdJenisPeserta").text(peserta.jenisPeserta.kdJenisPeserta);
-				$("#nmJenisPeserta").text(peserta.jenisPeserta.nmJenisPeserta);
-				$("#statusPeserta").text(peserta.statusPeserta);
-				$("#tglCetakKartu").text(peserta.tglCetakKartu);
-				$("#tglTAT").text(peserta.tglTAT);
-				$("#tglTMT").text(peserta.tglTMT);
-				$("#noMr").text(peserta.noMr);
-				$("#umur").text(peserta.umur);
+				var peserta = obj.response;	
+				$("#noKartu").text(peserta.peserta.noKartu);
+				$("#nama").text(peserta.peserta.nama);
+				$("#tglLahir").text(peserta.peserta.tglLahir);
+				$("#nik").text(peserta.peserta.nik);
+				$("#sex").text(peserta.peserta.sex);
+				$("#kdProvider").text(peserta.provPelayanan.kdProvider);
+				$("#nmProvider").text(peserta.provPelayanan.nmProvider);
+				$("#kdCabang").text(peserta.provPelayanan.kdCabang);
+				$("#nmCabang").text(peserta.provPelayanan.nmCabang);
+				$("#kdKelas").text(peserta.peserta.kelasTanggungan.kdKelas);
+				$("#nmKelas").text(peserta.peserta.kelasTanggungan.nmKelas);
+				$("#kdJenisPeserta").text(peserta.peserta.jenisPeserta.kdJenisPeserta);
+				$("#nmJenisPeserta").text(peserta.peserta.jenisPeserta.nmJenisPeserta);
+				$("#statusPeserta").text(peserta.peserta.statusPeserta);
+				$("#tglCetakKartu").text(peserta.peserta.tglCetakKartu);
+				$("#tglTAT").text(peserta.peserta.tglTAT);
+				$("#tglTMT").text(peserta.peserta.tglTMT);
+				$("#noMr").text(peserta.peserta.noMr);
+				$("#umur").text(peserta.peserta.umur);
 //				RND-9239 $("#umurSaatPelayanan").text(peserta.umur.umurSaatPelayanan);
 //				Data SEP
 				$("#noSep").text(peserta.noSep);
 				$("#nmDiag").text(peserta.diagAwal.kdDiag+' - '+peserta.diagAwal.nmDiag);
 				$("#jnsPelayanan").text(peserta.jnsPelayanan);
-				$("#nmKelas").text(peserta.klsRawat.kdKelas+' - '+peserta.klsRawat.nmKelas);
+                                $("#nmKelas_layan").text(peserta.klsRawat.kdKelas+' - '+peserta.klsRawat.nmKelas);
 				$("#noRujukan").text(peserta.noRujukan);
-				$("#pisa").text(peserta.pisa);
+				$("#pisa").text(peserta.peserta.pisa);
 				$("#nmStatSep").text(peserta.statSep.kdStatSep+' - '+peserta.statSep.nmStatSep);
 				$("#namaCOB").text(peserta.statusCOB.kodeCOB+' - '+peserta.statusCOB.namaCOB);
 				$("#tglPulang").text(peserta.tglPulang);
