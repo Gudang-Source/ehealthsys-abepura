@@ -305,7 +305,6 @@ class SepController extends MyAuthController
 //                }
 
 		   $bpjs = new Bpjs();
-
 		   switch ($param) {
 			   case '1':
 				   $query = $_GET['query'];
