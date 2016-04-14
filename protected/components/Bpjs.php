@@ -254,7 +254,7 @@
 
 		function detail_sep($query){
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
-			$completeUrl = $this->url.'/sep/'.$query;
+			$completeUrl = $this->url.'/Sep/sep/'.$query;
 			return $this->request($completeUrl, $hashsignature, $uid, $timestmp);
 		}
 
@@ -266,7 +266,8 @@
 		
 		function search_diagosa($query){
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
-			$completeUrl = $this->url.'/diagnosa/cbg/diagnosa'.$query;
+			$completeUrl = $this->url.'/diagnosa/cbg/diagnosa/'.$query;
+                        // var_dump($completeUrl); die;
 			return $this->request($completeUrl, $hashsignature, $uid, $timestmp);
 		}
 		

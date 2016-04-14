@@ -67,13 +67,13 @@ function cariPesertaBpjsNoKartu()
 				$("#nmKelas").text(peserta.kelasTanggungan.nmKelas);
 				$("#kdJenisPeserta").text(peserta.jenisPeserta.kdJenisPeserta);
 				$("#nmJenisPeserta").text(peserta.jenisPeserta.nmJenisPeserta);
-				//RND-9239 $("#keterangan").text(peserta.statusPeserta.keterangan);
+                                $("#keterangan").text(peserta.statusPeserta.keterangan);
 				$("#tglCetakKartu").text(peserta.tglCetakKartu);
 				$("#tglTAT").text(peserta.tglTAT);
 				$("#tglTMT").text(peserta.tglTMT);
 				$("#noMr").text(peserta.noMr);
-				//RND-9239 $("#umurSekarang").text(peserta.umur.umurSekarang);
-				//RND-9239 $("#umurSaatPelayanan").text(peserta.umur.umurSaatPelayanan);
+				$("#umurSekarang").text(peserta.umur.umurSekarang);
+				$("#umurSaatPelayanan").text(peserta.umur.umurSaatPelayanan);
 				$("#pencarian-peserta-bpjs-form .btn-primary-blue").removeAttr('disabled',true);
 				$("#pencarian-peserta-bpjs-form .btn-riwayat").removeAttr('disabled',true);				
 				// OVERWRITES old selecor
