@@ -785,8 +785,8 @@ class LaporanController extends MyAuthController {
         if (isset($_GET['BKLaporanCaraBayar'])) {
             $model->attributes = $_GET['BKLaporanCaraBayar'];
             $format = new MyFormatter();
-            $model->tgl_awal = $format->formatDateTimeForDb($_GET['BKLaporanCaraBayar']['tgl_awal']);
-            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['BKLaporanCaraBayar']['tgl_akhir']);
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['BKLaporanCaraBayar']['tgl_awal'].' 00:00:00');
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['BKLaporanCaraBayar']['tgl_akhir'].' 23:59:59');
         }
         
         if(!isset($_REQUEST['caraPrint']))
