@@ -9,6 +9,7 @@ class PegawaiMController extends MyAuthController
 	 */
 	public $layout='//layouts/column1';
 	public $defaultAction = 'admin';
+        public $path_view = "rawatJalan.views.pegawaiM.";
 
 	/**
 	 * Displays a particular model.
@@ -23,7 +24,7 @@ class PegawaiMController extends MyAuthController
 		if(empty($id))
 			$id = $pegawai->pegawai_id;
                                     
-		$this->render('view',array(
+		$this->render($this->path_view.'view',array(
 			'model'=>$this->loadModel($id),
 		));
 	}
@@ -37,8 +38,8 @@ class PegawaiMController extends MyAuthController
 		if(empty($idPegawai))
 			$idPegawai = $pegawai->pegawai_id;
                                     
-		$this->render('profilKlinik',array(
-			'model'=>$this->loadModel($idPegawai),
+		$this->render($this->path_view.'profilKlinik',array(
+			// 'model'=>$this->loadModel($idPegawai),
 		));
 	}
 
