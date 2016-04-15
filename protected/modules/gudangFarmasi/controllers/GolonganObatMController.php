@@ -1,6 +1,6 @@
 <?php
 
-class KategoriObatMController extends MyAuthController
+class GolonganObatMController extends MyAuthController
 {
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -28,7 +28,7 @@ class KategoriObatMController extends MyAuthController
     {
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}                                             
 		$model=new LookupM;
-                $model->lookup_type = ObatAlkesKategori::namaType();
+                $model->lookup_type = 'obatalkes_golongan';
 		// Uncomment the following line if AJAX validation is needed
 		
 
@@ -73,7 +73,7 @@ class KategoriObatMController extends MyAuthController
     {
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}                                                        
 		$model= LookupM::model()->findByPk($id);
-                $model->lookup_type = ObatAlkesKategori::namaType();
+                $model->lookup_type = "obatalkes_golongan";
 
 		// Uncomment the following line if AJAX validation is needed
 		
@@ -87,22 +87,22 @@ class KategoriObatMController extends MyAuthController
                         }
                         
 //                          $valid=true;
-//                        foreach($_POST['ObatAlkesKategori'] as $i=>$item)
+//                        foreach($_POST['ObatAlkesGolongan'] as $i=>$item)
 //                        {
 //                            if(is_integer($i)) {
 //                                $model=new LookupM;
-//                                if(isset($_POST['ObatAlkesKategori'][$i]))
-//                                    if ($_POST['ObatAlkesKategori'][$i]['lookup_id'] == 0){
-//                                        $_POST['ObatAlkesKategori'][$i]['lookup_id'] = null;
+//                                if(isset($_POST['ObatAlkesGolongan'][$i]))
+//                                    if ($_POST['ObatAlkesGolongan'][$i]['lookup_id'] == 0){
+//                                        $_POST['ObatAlkesGolongan'][$i]['lookup_id'] = null;
 //                                    }
-//                                    $model->attributes=$_POST['ObatAlkesKategori'][$i];
-//                                    if ((!empty($_POST['ObatAlkesKategori'][$i]['lookup_id']))||(($_POST['ObatAlkesKategori'][$i]['lookup_id']) != 0)){
-//                                        LookupM::model()->deleteByPk($_POST['ObatAlkesKategori'][$i]['lookup_id']);
-//                                        $model->lookup_id = $_POST['ObatAlkesKategori'][$i]['lookup_id'];
+//                                    $model->attributes=$_POST['ObatAlkesGolongan'][$i];
+//                                    if ((!empty($_POST['ObatAlkesGolongan'][$i]['lookup_id']))||(($_POST['ObatAlkesGolongan'][$i]['lookup_id']) != 0)){
+//                                        LookupM::model()->deleteByPk($_POST['ObatAlkesGolongan'][$i]['lookup_id']);
+//                                        $model->lookup_id = $_POST['ObatAlkesGolongan'][$i]['lookup_id'];
 //                                    }
 //                                    
 //                                    //$model->lookup_id = $_POST['LookupM']['lookup_id'];
-//                                    $model->lookup_type = $_POST['ObatAlkesKategori']['lookup_type'];
+//                                    $model->lookup_type = $_POST['ObatAlkesGolongan']['lookup_type'];
 //                                    $model->lookup_aktif = true;
 //                                    $valid=$model->validate() && $valid;
 //                                    echo $i;
@@ -129,6 +129,7 @@ class KategoriObatMController extends MyAuthController
      */
     public function actionDelete($id)
     {
+        // $model->lookup_type = ObatAlkesGolongan::namaType();
         if(Yii::app()->request->isPostRequest)
         {
             // we only allow deletion via POST request
@@ -159,11 +160,10 @@ class KategoriObatMController extends MyAuthController
      */
     public function actionAdmin()
     {
-        
-        $model=new ObatAlkesKategori('search');
+        $model=new ObatAlkesGolongan('search');
         $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['ObatAlkesKategori']))
-            $model->attributes=$_GET['ObatAlkesKategori'];
+        if(isset($_GET['ObatAlkesGolongan']))
+            $model->attributes=$_GET['ObatAlkesGolongan'];
 
         $this->render('admin',array(
             'model'=>$model,
@@ -209,8 +209,8 @@ class KategoriObatMController extends MyAuthController
         
         public function actionPrint()
         {
-            $model= new ObatAlkesKategori;
-            $model->attributes=$_REQUEST['ObatAlkesKategori'];
+            $model= new ObatAlkesGolongan;
+            $model->attributes=$_REQUEST['ObatAlkesGolongan'];
             $judulLaporan='Data Lookup';
             $caraPrint=$_REQUEST['caraPrint'];
             if($caraPrint=='PRINT') {

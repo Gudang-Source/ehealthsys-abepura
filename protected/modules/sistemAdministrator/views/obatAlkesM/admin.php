@@ -55,17 +55,6 @@
             'itemsCssClass'=>'table table-striped table-bordered table-condensed',
             'columns'=>array(
                     array(
-                            'header'=>'Kode Obat',
-                            'name'=>'obatalkes_kode',
-                            'value'=>'$data->obatalkes_kode',
-                            'filter'=>CHtml::activeTextField($model, 'obatalkes_kode'),
-                    ),
-                    array(
-                            'header'=>'Nama Obat',
-                            'name'=>'obatalkes_nama',
-                            'value'=>'$data->obatalkes_nama',
-                    ),
-                    array(
                             'header'=>'Asal Barang',
                             'name'=>'sumberdanaNama',
     //                        'filter'=>  CHtml::listData(SumberdanaM::model()->findAll(), 'sumberdana_id', 'sumberdana_nama'),
@@ -77,6 +66,25 @@
                             'filter'=> CHtml::dropDownList('SAObatalkesM[jenisobatalkes_id]',$model->jenisobatalkes_id,CHtml::listData($model->JenisObatAlkesItems, 'jenisobatalkes_id', 'jenisobatalkes_nama'),array('empty'=>'--Pilih--')),
                             'value'=>'(isset($data->jenisobatalkes->jenisobatalkes_nama) ? $data->jenisobatalkes->jenisobatalkes_nama : "")',
                     ),
+                    array(
+                            'header'=>'Golongan',
+                            'name'=>'obatalkes_golongan',
+                    ),
+                    array(
+                            'header'=>'Kategori',
+                            'name'=>'obatalkes_kategori',
+                    ),
+                    array(
+                            'header'=>'Kode Obat',
+                            'name'=>'obatalkes_kode',
+                            'value'=>'$data->obatalkes_kode',
+                            'filter'=>CHtml::activeTextField($model, 'obatalkes_kode'),
+                    ),
+                    array(
+                            'header'=>'Nama Obat',
+                            'name'=>'obatalkes_nama',
+                            'value'=>'$data->obatalkes_nama',
+                    ), /*
                     array(
                             'header'=>'Satuan Besar',
                             'name'=>'satuanbesar_id',
@@ -100,14 +108,15 @@
     //                        'name'=>'obatalkes_kategori',
                             'type'=>'raw',
                             'value'=>'$data->kemasanbesar ."/ <br/>". $data->minimalstok',
-                    ),
+                    ), */
                     array(
                         'header'=>'Harga Netto',
                         'name'=>'harganetto',
                         'type'=>'raw',
+                        'htmlOptions'=>array('style'=>'text-align: right'),
     //                    'value'=>'"Rp. ".number_format($data->harganetto)',
                         'value'=>'CHtml::link("<i class=\'icon-form-ubah\'></i>", Yii::app()->controller->createUrl("'.Yii::app()->controller->id.'/updateHarga", array("idObat"=>$data->obatalkes_id, "status"=>"harganetto")), array("title"=>"Ubah harga netto", "target"=>"iframeUpdateHarga", "onclick"=>"$(\"#doalogUpdateHarga\").dialog(\"open\")", "rel"=>"tooltip"))."&nbsp;&nbsp;".number_format($data->harganetto,0,",",".")',
-                    ),
+                    ), /*
                     array(
                       'header'=>'Harga Jual',
                       'name'=>'hargajual',
@@ -126,12 +135,12 @@
     //                  'name'=>'hjanonresep',
     //                  'type'=>'raw',
     //                    'value'=>'CHtml::link("<i class=\'icon-form-ubah\'></i>", Yii::app()->controller->createUrl("'.Yii::app()->controller->id.'/updateHarga", array("idObat"=>$data->obatalkes_id, "status"=>"hargajual")), array("title"=>"Ubah HJA Non-Resep", "target"=>"iframeUpdateHarga", "onclick"=>"$(\"#doalogUpdateHarga\").dialog(\"open\")", "rel"=>"tooltip"))."&nbsp;&nbsp;".number_format($data->hjanonresep,0,",",".")',
-    //                ),
+    //                ), */
                      array(
                         'header'=>'<center>Status</center>',
                         'value'=>'($data->obatalkes_aktif == 1 ) ? "Aktif" : "Tidak Aktif"',
                         'htmlOptions'=>array('style'=>'text-align:center;'),
-                    ),
+                    ), /*
                      array(
                             // 'header'=>'Satuan Kecil',
                             'name'=>'ven',
@@ -145,6 +154,8 @@
     //                    'checked'=>'$data->obatalkes_aktif',
     //                    'selectableRows'=>0,
     //                ),
+                     * 
+                     */
                     array(
                             'header'=>Yii::t('zii','View'),
                             'class'=>'bootstrap.widgets.BootButtonColumn',

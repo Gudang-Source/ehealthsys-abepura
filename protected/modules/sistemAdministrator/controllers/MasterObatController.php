@@ -71,4 +71,20 @@ class MasterObatController extends MyAuthController
 	public function getUrlLokasiGudang(){
 		return $this->module->id.'/lokasiGudangM/admin';
 	}
+        
+        /**
+	 * url untuk tab menu
+	 * @return type
+	 */
+	public function getUrlKategori(){
+		return $this->module->id.'/obatalkesKategori/admin';
+	}
+        
+        /**
+	 * url untuk tab menu
+	 * @return type
+	 */
+	public function getUrlGolongan(){
+		return $this->module->id.'/obatalkesGolongan/admin';
+	}
 }
