@@ -47,7 +47,7 @@
 				if($tampilheader){
 					echo '<tr bgcolor="#DDD">'
 						.'<td>'.CHtml::checkBox('returperresep_'.$i,1,array('penjualanresep_id'=>$obatalkes->penjualanresep_id,'onchange'=>'setPilihResepOaChecked(this);hitungTotalOa();','class'=>'pilihperresep','onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
-						.'<td colspan="8"><b>'.$obatalkes->penjualanresep->noresep.' - '.$obatalkes->penjualanresep->tglresep.' - '.$obatalkes->penjualanresep->carabayar->carabayar_nama.' - '.$obatalkes->penjualanresep->penjamin->penjamin_nama.'</b></td>'
+						.'<td colspan="8"><b>'.$obatalkes->penjualanresep->noresep.' - '.  MyFormatter::formatDateTimeForUser($obatalkes->penjualanresep->tglresep).' - '.$obatalkes->penjualanresep->carabayar->carabayar_nama.' - '.$obatalkes->penjualanresep->penjamin->penjamin_nama.'</b></td>'
 						.'</tr>';
 				}
 				//detail
@@ -58,7 +58,8 @@
                         .CHtml::activeHiddenField($modDetails, '['.$i.']satuankecil_id',array('readonly'=>true, 'class'=>'span1'))  
                         .'</td>'
                         .'<td>'.($i+1).'</td>'
-                        .'<td>'.$modDetails->obatpasien->obatalkes->obatalkes_kode.' - '.$modDetails->obatpasien->obatalkes->obatalkes_nama.'</td>'
+                        .'<td>'//.$modDetails->obatpasien->obatalkes->obatalkes_kode.' - '
+                        .$modDetails->obatpasien->obatalkes->obatalkes_nama.'</td>'
                         .'<td>'.CHtml::activeTextField($modDetails, '['.$i.']hargasatuan',array('readonly'=>true,'class'=>'inputFormTabel lebar3 float', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
                         .'<td>'.CHtml::activeTextField($obatalkes, '['.$i.']qty_oa',array('readonly'=>true,'class'=>'inputFormTabel lebar1 float', 'style'=>'width:60px','onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
                         .'<td>'.CHtml::activeTextField($modDetails, '['.$i.']qty_retur',array('onblur'=>'cekQtyRetur(this);hitungTotalOa();','class'=>'inputFormTabel lebar1 float', 'style'=>'width:60px', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
