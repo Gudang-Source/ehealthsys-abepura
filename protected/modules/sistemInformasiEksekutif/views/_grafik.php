@@ -35,7 +35,7 @@ $this->Widget('ext.jQPlot.jQPlotWidget', array(
         'axesDefaults' => array(
             'tickRenderer' => 'js:$.jqplot.CanvasAxisTickRenderer',
             'tickOptions' => array(
-                'angle' => -30,
+                'angle' => 90,
                 'fontSize' => '10pt'
             ),
         ),
