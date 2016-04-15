@@ -12,7 +12,7 @@
 				array(
 				'name'=>'jenispeserta_id',
 				'type'=>'raw',
-				'value'=>$model->jenispeserta->jenispeserta_nama
+				'value'=> isset($model->jenispeserta_id)?$model->jenispeserta->jenispeserta_nama:'-'
 				),
 				array(
 				'name'=>'penjamin_id',
