@@ -12,7 +12,10 @@ if ($model->jns_periode == "bulan") {
     $akhir = $model->tgl_akhir;
 }
 ?>
-
+<?php
+//var_dump($dataBarLineChart);
+//var_dump($graphs);
+?>
 <script>
     //========== BAR ========
 
@@ -118,7 +121,7 @@ if ($model->jns_periode == "bulan") {
     </div>
 
     <div class="panel-body">
-        <div id="chartdiv" style="width: 100%; height: 400px;"></div>
+        <div id="chartdiv" style="width: 100%; height: 600px;"></div>
     </div>
 </div>
 

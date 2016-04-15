@@ -49,9 +49,17 @@ if ($model->jns_periode == "bulan") {
             <a data-rel="collapse" href="#"><i class="entypo-down-open"></i></a>
         </div>
     </div>
-
+    <?php 
+        $h = count($dataPieChart);
+        $px = 0;
+        if ($h > 6 ):
+            $px = 400 + (25 * $h);
+        else:
+            $px = 400;
+        endif;
+    ?>
     <div class="panel-body">
-        <div id="pie" style="width: 100%; height: 400px;"></div>
+        <div id="pie" style="width: 100%; height: <?php echo $px; ?>px;"></div>
     </div>
 </div>
 
