@@ -206,7 +206,7 @@ class InformasikartustokobatalkesV extends CActiveRecord
 			'stokopname_id' => 'Stok Opname',
 			'tglstokopname' => 'Tglstokopname',
 			'nostokopname' => 'Nostokopname',
-			'jenisobatalkes_id' => 'Jenisobatalkes',
+			'jenisobatalkes_id' => 'Jenis',
 			'jenisobatalkes_kode' => 'Jenisobatalkes Kode',
 			'jenisobatalkes_nama' => 'Jenisobatalkes Nama',
 			'jenisobatalkes_farmasi' => 'Jenisobatalkes Farmasi',
