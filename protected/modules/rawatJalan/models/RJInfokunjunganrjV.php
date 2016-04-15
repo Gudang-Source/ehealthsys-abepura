@@ -640,6 +640,7 @@ class RJInfokunjunganrjV extends InfokunjunganrjV {
         $criteria->compare('LOWER(nama_pasien)', strtolower($this->nama_pasien), true);
         $criteria->compare('LOWER(statusperiksa)', strtolower($this->statusperiksa), true);
         $criteria->compare('LOWER(ruangan_nama)', strtolower($this->ruangan_nama), true);
+        $criteria->compare('LOWER(instalasi_nama)', strtolower($this->instalasi_nama), true);
         $criteria->compare('LOWER(nama_pegawai)', strtolower($this->nama_pegawai), true);
         $criteria->compare('LOWER(jeniskasuspenyakit_nama)', strtolower($this->jeniskasuspenyakit_nama), true);
         $criteria->compare('LOWER(statusperiksa)', strtolower($this->statusperiksa), true);

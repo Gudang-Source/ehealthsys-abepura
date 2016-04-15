@@ -34,7 +34,6 @@
     <fieldset class="box">
         <legend class="rim">Data Gambar</legend>
         <?php
-
             $this->widget('GalleryManager', array(
                 'gallery' => $model,
                 'controllerRoute' => '/rawatJalan/PengambilanGambarPasien', //route to gallery controller
@@ -98,7 +97,7 @@
 </div>
 <script type="text/javascript">
 <?php
-    $random=rand(0000000000000000, 9999999999999999);
+    $random=rand(0000000000000000, 9999999999999999);    
 ?>
 /**
  * ambil gambar pada webcam

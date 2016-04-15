@@ -1,5 +1,5 @@
 <div class = "span4">
-    <div class="control-group">
+    <div class="control-group">        
         <?php echo CHtml::label("No. Pendaftaran <span class='required'>*</span>", 'no_pendaftaran', array('class'=>'control-label required')); ?>
         <div class="controls">
             <?php echo CHtml::hiddenField('pendaftaran_id',$modKunjungan->pendaftaran_id,array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
@@ -248,7 +248,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                                             $(\"#dialogKunjungan\").dialog(\"close\");
                                         "))',
                     ),
-                    'no_pendaftaran',
+                   // 'no_pendaftaran',
                     'no_pendaftaran',
                     array(
                         'name'=>'tgl_pendaftaran',
@@ -266,10 +266,10 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                     'instalasi_nama',
                     'ruangan_nama',
                     array(
-                        'name'=>'carabayar_id',
+                        'name'=>'carabayar_nama',
                         'type'=>'raw',
                         'value'=>'$data->carabayar_nama',
-                        'filter'=> CHtml::dropDownList('RJInfokunjunganrjV[carabayar_nama]',$modDialogKunjungan->carabayar_nama,CHtml::listData(CarabayarM::model()->findAll("carabayar_aktif = TRUE ORDER BY carabayar_nama ASC"),'carabayar_id','carabayar_nama'),array('empty'=>'--Pilih--')),
+                        'filter'=> CHtml::dropDownList('RJInfokunjunganrjV[carabayar_nama]',$modDialogKunjungan->carabayar_nama,CHtml::listData(CarabayarM::model()->findAll("carabayar_aktif = TRUE ORDER BY carabayar_nama ASC"),'carabayar_nama','carabayar_nama'),array('empty'=>'--Pilih--')),
                     ),
 
 
