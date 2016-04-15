@@ -112,7 +112,7 @@ class ObatAlkesFarmasiController extends MyAuthController {
                 $graph['type'] = "column";
                 $graph['title'] = $dataBarLineChart[$i]['jenis'];
                 $graph['valueField'] = "jumlah" . $dataBarLineChart[$i]['id'];
-                $graph['balloonText'] = "[[title]]:[[value]]";
+                $graph['balloonText'] = "[[title]]: [[value]]";
                 $graph['lineAlpha'] = 0;
                 $graph['fillAlphas'] = 1;
                 array_push($graphs, $graph);
@@ -146,6 +146,8 @@ class ObatAlkesFarmasiController extends MyAuthController {
 		FROM informasifarmasi_r
 		WHERE DATE(tanggal) BETWEEN '" . $model->tgl_awal . "' AND '" . $model->tgl_akhir . "'
 		GROUP BY jenis
+                ORDER BY jumlah DESC
+                LIMIT 10
 				";
 
 
@@ -186,7 +188,7 @@ class ObatAlkesFarmasiController extends MyAuthController {
 		WHERE DATE(tanggal) BETWEEN '" . $model->tgl_awal . "' AND '" . $model->tgl_akhir . "'
 		GROUP BY id, periode, jenis
 		ORDER BY periode ASC, jumlah DESC
-		LIMIT 50
+		LIMIT 10
 									";
                 break;
             case 'tahun' : $sql = "
@@ -196,7 +198,7 @@ class ObatAlkesFarmasiController extends MyAuthController {
 		WHERE DATE(tanggal) BETWEEN '" . $model->tgl_awal . "' AND '" . $model->tgl_akhir . "'
 		GROUP BY id, periode,jenis
 		ORDER BY periode ASC, jumlah DESC
-		LIMIT 50
+		LIMIT 10
 
 									";
                 break;
@@ -207,7 +209,7 @@ class ObatAlkesFarmasiController extends MyAuthController {
 		WHERE DATE(tanggal) BETWEEN '" . $model->tgl_awal . "' AND '" . $model->tgl_akhir . "'
 		GROUP BY id, periode,jenis
 		ORDER BY periode ASC, jumlah DESC
-		LIMIT 50
+		LIMIT 10
 
 									";
         }
