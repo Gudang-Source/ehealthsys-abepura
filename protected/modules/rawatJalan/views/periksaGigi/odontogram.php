@@ -1,6 +1,12 @@
 <?php
-$pendaftaran = PendaftaranT::model()->findByPk($_GET['pendaftaran_id']);
-$pasien = PasienM::model()->findByPk($pendaftaran->pasien_id);
+if (isset($pendaftaran->pasien_id)):
+    $pendaftaran = PendaftaranT::model()->findByPk($_GET['pendaftaran_id']);
+    $pasien = PasienM::model()->findByPk($pendaftaran->pasien_id);
+else:
+    echo "<h2>Silahkan Pilih Pasien Terlebih dahulu</h2>";
+    return false;
+endif;
+
 ?>
 <table width="100%">
     <tr>
@@ -32,4 +38,4 @@ $pasien = PasienM::model()->findByPk($pendaftaran->pasien_id);
     </tr>
 </table>
 <br/>
-<?php // echo CHtml::htmlButton(Yii::t('mds', '{icon} Cetak',array('{icon}'=>'<i class="icon-print icon-white"></i>')), array('class'=>'btn btn-primary','onclick'=>'print();')); ?>
+<?php  //echo CHtml::htmlButton(Yii::t('mds', '{icon} Cetak',array('{icon}'=>'<i class="icon-print icon-white"></i>')), array('class'=>'btn btn-primary','onclick'=>'print();')); ?>

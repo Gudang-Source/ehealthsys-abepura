@@ -14,8 +14,11 @@ class PeriksaGigiController extends Controller
 			);
 	}
         
-	public function actionIndex($id = null)
+	public function actionIndex($id = null, $status = '')
 	{       
+                if ($status == 1):
+                   Yii::app()->user->setFlash('success',"Data berhasil disimpan"); 
+                endif;
 
 		$kunjunganPasien = new RJInfokunjunganrjV('searchKunjunganPasien');
 		$kunjunganPasien->unsetAttributes();
@@ -70,7 +73,7 @@ class PeriksaGigiController extends Controller
 					$transaction->commit();
 					// $modOdontogramDetail->isNewRecord = false;
 					Yii::app()->user->setFlash('success',"Data berhasil disimpan");
-					$this->redirect(array('index','id'=>$modOdontogramDetail->odontogramdetail_id));
+					$this->redirect(array('index','id'=>$modOdontogramDetail->odontogramdetail_id,'status'=>1));
 
 				} else {
 					$transaction->rollback();
@@ -167,7 +170,11 @@ class PeriksaGigiController extends Controller
             $this->layout = '//layouts/iframe';
             if(!empty($pasien_id) && !empty($pendaftaran_id)){
                 $gigiPasien = OdontogrampasienR::model()->findByAttributes(array('pasien_id'=>$pasien_id));
-                $gigi = OdontogrampasienR::model()->polaGigi($gigiPasien->odontogrampasien_id);
+                if (empty($gigiPasien)):
+                    $gigi = array();
+                else:
+                    $gigi = OdontogrampasienR::model()->polaGigi($gigiPasien->odontogrampasien_id);
+                endif;                
                 $pasien = PasienM::model()->findByPk($pasien_id);
                 $pendaftaran = PendaftaranT::model()->findByPk($pendaftaran_id);
             } else {
