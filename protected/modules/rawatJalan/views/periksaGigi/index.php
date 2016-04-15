@@ -215,7 +215,7 @@
                                         'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r) {if(r) window.location = "'.$this->createUrl('index').'";} ); return false;'));  ?>
         <?php echo CHtml::htmlButton(Yii::t('mds', '{icon} Cetak',array('{icon}'=>'<i class="icon-print icon-white"></i>')), array('class'=>'btn btn-primary','onclick'=>'cetakOdontogram()')); ?>
         <?php
-        $content = $this->renderPartial('rawatJalan.views.tips.transaksi',array(),true);
+        $content = $this->renderPartial('rawatJalan.views.tips.transaksiPeriksaGigi',array(),true);
         $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
         ?>
     </div>
