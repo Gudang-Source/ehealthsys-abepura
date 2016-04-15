@@ -309,4 +309,16 @@ class TariftindakanperdaruanganV extends CActiveRecord
             $criteria->limit = 50;
             return $this->model()->findAll($criteria);
         }
+        
+        public function getKelompokTindakanItems()
+        {
+            return KelompoktindakanM::model()->findAll("kelompoktindakan_aktif = TRUE ORDER BY kelompoktindakan_nama ASC");
+        }
+        
+        public function getKomponenUnitItems()
+        {
+            return KomponenunitM::model()->findAll("komponenunit_aktif = TRUE ORDER BY komponenunit_nama ASC");
+        }
+        
+       
 }
