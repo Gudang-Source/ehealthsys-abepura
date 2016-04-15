@@ -6,16 +6,17 @@
             $this->widget('ext.bootstrap.widgets.BootGridView',
                 array(
                     'id'=>'AKRekeningakuntansi-v',
-                    'dataProvider'=>$model->searchByFilter(),
+                    'dataProvider'=>$model->search(),
                     'template'=>"{summary}\n{items}\n{pager}",
                     'itemsCssClass'=>'table table-striped table-bordered table-condensed',
                     'columns'=>array(
+                        /*
                         array(
                           'header'=>'No',
                           'type'=>'raw',
                           'value'=>'$row+1',
                           'htmlOptions'=>array('style'=>'width:20px')
-                        ),
+                        ), /*
                         array(
                            'name'=>'kdrekening1',
                            'type'=>'raw',
@@ -39,13 +40,13 @@
                            'type'=>'raw',
                            'value'=>'($data->kdrekening4 == null ? "-" : $data->kdrekening4)',
                            'htmlOptions'=>array('style'=>'text-align: center; width:50px')
-                        ),
+                        ), */
                         array(
-                           'name'=>'kdrekening5',
+                           'header'=>'Kode Akun',
+                           'name'=>'kode',
                            'type'=>'raw',
-                            'value'=>'($data->kdrekening5 == null ? "-" : $data->kdrekening5)',
-                           'htmlOptions'=>array('style'=>'text-align: center; width:80px')
-                        ),
+                           'htmlOptions'=>array('style'=>'width:80px')
+                        ), /*
                         array(
                            'name'=>'nmrekening1',
                            'type'=>'raw',
@@ -68,31 +69,55 @@
                            'name'=>'nmrekening4',
                            'type'=>'raw',
                            'value'=>'isset($data->nmrekening4) ? CHtml::Link($data->nmrekening4, Yii::app()->controller->createUrl("KodeRekening/editObyekRekening",array("id"=>$data->rekening4_id)),array("style"=>"color:blue","target"=>"frameEditObyekRek", "onclick"=>"$(\"#dialogEditObyekRek\").dialog(\"open\");","rel"=>"tooltip", "title"=>"Klik Untuk Edit<br>Obyek Rekening",)) : "-"',
+                        ), */
+                        array(
+                           'header'=>'Nama Akun',
+                           'name'=>'nama',
+                           'type'=>'raw',
+                           'value'=>function($data) {
+                                $nama = $data->nama;
+                                $pad = 0;
+                                $res = "";
+                                switch ($data->akun) {
+                                    case 1: 
+                                        $res = CHtml::Link($data->nama, Yii::app()->controller->createUrl("KodeRekening/editStrukturRekening",array("id"=>$data->id)),array("style"=>"color:blue","target"=>"frameEditStruktur", "onclick"=>'$("#dialogEditStruktur").dialog("open");',"rel"=>"tooltip", "title"=>"Klik Untuk Edit<br>Struktur Akun",));
+                                        break;
+                                    case 2: 
+                                        $res = "&emsp;".CHtml::Link($data->nama, Yii::app()->controller->createUrl("KodeRekening/editKelompokRekening",array("id"=>$data->id)),array("style"=>"color:blue","target"=>"frameEditKelompokRek", "onclick"=>'$("#dialogEditKelompokRek").dialog("open");',"rel"=>"tooltip", "title"=>"Klik Untuk<br>Edit Kelompok Rekening",));
+                                        break;
+                                    case 3: 
+                                        $res = "&emsp;"."&emsp;".CHtml::Link($data->nama, Yii::app()->controller->createUrl("KodeRekening/editJenisRekening",array("id"=>$data->id)),array("style"=>"color:blue","target"=>"frameEditKelompokRek", "onclick"=>'$("#dialogEditKelompokRek").dialog("open");',"rel"=>"tooltip", "title"=>"Klik Untuk Edit<br>Jenis Rekening",));
+                                        break;
+                                    case 4: 
+                                        $res = "&emsp;"."&emsp;"."&emsp;".CHtml::Link($data->nama, Yii::app()->controller->createUrl("KodeRekening/editObyekRekening",array("id"=>$data->id)),array("style"=>"color:blue","target"=>"frameEditObyekRek", "onclick"=>'$("#dialogEditObyekRek").dialog("open");',"rel"=>"tooltip", "title"=>"Klik Untuk Edit<br>Obyek Rekening",));
+                                        break;
+                                    case 5:
+                                        $res = "&emsp;"."&emsp;"."&emsp;"."&emsp;".CHtml::Link($data->nama, Yii::app()->controller->createUrl("KodeRekening/editRincianObyekRek",array("id"=>$data->id)),array("style"=>"color:blue","target"=>"frameEditRincianObyekRek", "onclick"=>'$("#dialogEditRincianObyekRek").dialog("open");',"rel"=>"tooltip", "title"=>"Klik Untuk Edit<br>Rincian Obyek Rekening",));
+                                        break;
+                                }
+                                return $res;
+                           },//'isset($data->nmrekening5) ? CHtml::Link($data->nmrekening5, Yii::app()->controller->createUrl("KodeRekening/editRincianObyekRek",array("id"=>$data->rekening5_id)),array("style"=>"color:blue","target"=>"frameEditRincianObyekRek", "onclick"=>"$(\"#dialogEditRincianObyekRek\").dialog(\"open\");","rel"=>"tooltip", "title"=>"Klik Untuk Edit<br>Rincian Obyek Rekening",)) : "-"',
                         ),
                         array(
-                           'name'=>'nmrekening5',
+                           'header'=>'Saldo Normal',
+                           'name'=>'saldo_normal',
                            'type'=>'raw',
-                           'value'=>'isset($data->nmrekening5) ? CHtml::Link($data->nmrekening5, Yii::app()->controller->createUrl("KodeRekening/editRincianObyekRek",array("id"=>$data->rekening5_id)),array("style"=>"color:blue","target"=>"frameEditRincianObyekRek", "onclick"=>"$(\"#dialogEditRincianObyekRek\").dialog(\"open\");","rel"=>"tooltip", "title"=>"Klik Untuk Edit<br>Rincian Obyek Rekening",)) : "-"',
-                        ),
-                        array(
-                           'name'=>'rekening5_nb',
-                           'type'=>'raw',
-                            'value'=>'($data->rekening5_nb == null ? "-" : ($data->rekening5_nb == "D" ? "Debit" : "Kredit"))',
-                        ),
+                           'value'=>'($data->saldo_normal == null ? "-" : ($data->saldo_normal == "D" ? "Debit" : "Kredit"))',
+                        ), /*
                         array(
                            'name'=>'kelompokrek',
                            'type'=>'raw',
                             'value'=>'($data->kelompokrek == null ? "-" : $data->kelompokrek)',
-                        ),
+                        ), */
                         array(
-                           'name'=>'keterangan',
+                           'name'=>'Keterangan',
                            'type'=>'raw',
                             'value'=>'($data->keterangan == null ? "-" : $data->keterangan)',
                         ),
                         array(
                            'header'=>'Status',
                            'type'=>'raw',
-                           'value'=>'($data->rekening5_aktif == null ? "-" : ($data->rekening5_aktif == true ? "Aktif" : "Non Aktif"))',
+                           'value'=>'($data->aktif == null ? "-" : ($data->aktif == true ? "Aktif" : "Non Aktif"))',
                            'htmlOptions'=>array('style'=>'text-align: center; width:80px')
                         ),
                     ),

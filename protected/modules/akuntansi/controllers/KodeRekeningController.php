@@ -8,7 +8,7 @@ class KodeRekeningController extends MyAuthController {
 		$rekeningTiga = new AKRekening3M;
 		$rekeningEmpat = new AKRekening4M;
 		$rekeningLima = new AKRekening5M;
-		$rekeningakuntansiV = new AKRekeningakuntansiV;
+		$rekeningakuntansiV = new MasterakunrekeningV;
 
 		$this->render('index', array(
 			'rekeningSatu' => $rekeningSatu,
@@ -413,10 +413,10 @@ class KodeRekeningController extends MyAuthController {
 	}
 
 	public function actionPrint() {
-		$model = new AKRekeningakuntansiV;
+		$model = new MasterakunrekeningV;
 
-		if (isset($_REQUEST['AKRekeningakuntansiV'])) {
-			$model->attributes = $_REQUEST['AKRekeningakuntansiV'];
+		if (isset($_REQUEST['MasterakunrekeningV'])) {
+			$model->attributes = $_REQUEST['MasterakunrekeningV'];
 		}
 		$judulLaporan = 'Data Kode Rekening';
 		$caraPrint = $_REQUEST['caraPrint'];
