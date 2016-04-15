@@ -26,7 +26,10 @@ $provider->sort->defaultOrder = "obatalkes_nama";
                 'columns'=>array(
                         // 'instalasi_nama',
                         // 'ruangan_nama',
-                        'jenisobatalkes_nama',
+                        array(
+                            'name'=>'jenisobatalkes_nama',
+                            'value'=>'!empty($data->jenisobatalkes_id)?$data->jenisobatalkes->jenisobatalkes_nama:"-"',
+                        ),
                         'obatalkes_golongan',
                         'obatalkes_kategori',
 			//			'nobatch',
