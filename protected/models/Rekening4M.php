@@ -44,7 +44,7 @@ class Rekening4M extends CActiveRecord
 		return array(
 			array('kdrekening4, nmrekening4, nmrekeninglain4', 'required'),
 			array('rekening3_id', 'numerical', 'integerOnly'=>true),
-			array('kdrekening4', 'length', 'max'=>5),
+			array('kdrekening4', 'length', 'max'=>10),
 			array('nmrekening4, nmrekeninglain4', 'length', 'max'=>400),
 			array('rekening4_aktif', 'safe'),
 			// The following rule is used by search().

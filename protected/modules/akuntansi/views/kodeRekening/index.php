@@ -8,7 +8,7 @@
     http://jquery.bassistance.de/treeview/demo/
 -->
 <div class='white-container'>
-    <legend class='rim2'>Master <b>Kode Rekening</b></legend>
+    <legend class='rim2'>Master <b>Kode Akun</b></legend>
     <table width="100%">
         <tr>
             <td width="45%">
@@ -105,15 +105,15 @@
                                 $value_id = $val->rekening1_id;
                                 if(count($result_dua) > 0)
                                 {
-                                    $parent_satu .= "<li id='". $value_id ."'><span class='folder'>". $val->nmrekening1 ."<span style='float:right'><a max_kode='". $val_dua->kdrekening2 ."' id_rek='". $value_id ."' kode_rek='". $value_kode ."' href='#' onclick='tambahKelompokRekening(this);return false;' rel='tooltip' data-original-title='Klik untuk menambah Kelompok Rekening'><i class='icon-plus-sign'></i></a></span><span style='float:right'><a value='". $val->rekening1_id ."' href='#' onclick='editStrukturRekening(this);return false;' rel='tooltip' data-original-title='Klik untuk edit Struktur Rekening'><i class='icon-pencil-brown'></i></a></span></span><ul>". $parent_dua ."</ul></li>";
+                                    $parent_satu .= "<li id='". $value_id ."'><span class='folder'>". $val->nmrekening1 ."<span style='float:right'><a max_kode='". $val_dua->kdrekening2 ."' id_rek='". $value_id ."' kode_rek='". $value_kode ."' href='#' onclick='tambahKelompokRekening(this);return false;' rel='tooltip' data-original-title='Klik untuk menambah Kelompok Rekening'><i class='icon-plus-sign'></i></a></span><span style='float:right'><a value='". $val->rekening1_id ."' href='#' onclick='editStrukturRekening(this);return false;' rel='tooltip' data-original-title='Klik untuk edit Struktur Akun'><i class='icon-pencil-brown'></i></a></span></span><ul>". $parent_dua ."</ul></li>";
                                 }else{
-                                    $parent_satu .= "<li id='". $value_id ."' class='expandable'><span class='folder'>". $val->nmrekening1 ."<span style='float:right'><a max_kode='0' id_rek='". $value_id ."' kode_rek='". $value_kode ."' href='#' onclick='tambahKelompokRekening(this);return false;' rel='tooltip' data-original-title='Klik untuk menambah Kelompok Rekening'><i class='icon-plus-sign'></i></a></span><span style='float:right'><a value='". $val->rekening1_id ."' href='#' onclick='editStrukturRekening(this);return false;' rel='tooltip' data-original-title='Klik untuk edit Struktur Rekening'><i class='icon-pencil-brown'></i></a></span></span></li>";
+                                    $parent_satu .= "<li id='". $value_id ."' class='expandable'><span class='folder'>". $val->nmrekening1 ."<span style='float:right'><a max_kode='0' id_rek='". $value_id ."' kode_rek='". $value_kode ."' href='#' onclick='tambahKelompokRekening(this);return false;' rel='tooltip' data-original-title='Klik untuk menambah Kelompok Rekening'><i class='icon-plus-sign'></i></a></span><span style='float:right'><a value='". $val->rekening1_id ."' href='#' onclick='editStrukturRekening(this);return false;' rel='tooltip' data-original-title='Klik untuk edit Struktur Akun'><i class='icon-pencil-brown'></i></a></span></span></li>";
                                 }
                             }
                         ?>
                         <span class="folder">
-                            Struktur Rekening
-                            <span style="float:right"><a max_kode = "<?php echo isset($val->kdrekening1) ? $val->kdrekening1 : null; ?>" href="#" onclick="tambahStrukturRekening(this);return false;" rel="tooltip" data-original-title="Klik untuk menambah Struktur Rekening"><i class="icon-plus-sign"></i></a></span>
+                            Struktur Akun
+                            <span style="float:right"><a max_kode = "<?php echo isset($val->kdrekening1) ? $val->kdrekening1 : null; ?>" href="#" onclick="tambahStrukturRekening(this);return false;" rel="tooltip" data-original-title="Klik untuk menambah Struktur Akun"><i class="icon-plus-sign"></i></a></span>
                         </span>
                         <?php
                             if(count($result) > 0)
@@ -198,7 +198,8 @@ function tambahStrukturRekening(obj)
 		        if(max_kode.length > 1){
             max_kode = max_kode;
         }else{
-            max_kode = "0" + max_kode;
+            max_kode = //"0" + 
+                    max_kode;
         }
         $('#fieldsetRekeningSatu').find("input[name$='[kdrekening1]']").val(max_kode);
     }
@@ -211,7 +212,7 @@ function editStrukturRekening(obj)
         $('#content_form').append(frmRekeningSatu.replace());
         id_form['satu'] = 'yes';
         var value = $(obj).attr('value');
-        $('#fieldsetRekeningSatu').find('legend[class="rim"]').text("Edit Struktur Rekening");
+        $('#fieldsetRekeningSatu').find('legend[class="rim"]').text("Edit Struktur Akun");
         $.post("<?php echo Yii::app()->createUrl(Yii::app()->controller->module->id . '/' . Yii::app()->controller->id . '/getInformasiStruktur');?>", {id:value},
             function(data){
                 $.each(data, function(key, value){
@@ -247,7 +248,8 @@ function tambahKelompokRekening(obj)
         if(max_kode.length > 1){
             max_kode = max_kode;
         }else{
-            max_kode = "0" + max_kode;
+            max_kode = //"0" + 
+                    max_kode;
         }
         var kode_rek = $(obj).attr('kode_rek');
         var id_rek = $(obj).attr('id_rek');
@@ -302,7 +304,8 @@ function tambahJenisRekening(obj)
         if(max_kode.length > 1){
             max_kode = max_kode;
         }else{
-            max_kode = "0" + max_kode;
+            max_kode = //"0" + 
+                    max_kode;
         }        
         
         var kode_rek = $(obj).attr('kode_rek').split("_");
@@ -358,7 +361,8 @@ function tambahObyekRekening(obj)
         if(max_kode.length > 1){
             max_kode = max_kode;
         }else{
-            max_kode = "0" + max_kode;
+            max_kode = // "0" + 
+                    max_kode;
         }
         
         var kode_rek = $(obj).attr('kode_rek').split("_");
@@ -414,7 +418,8 @@ function tambahObyekDetailRekening(obj)
         if(max_kode.length > 1){
             max_kode = max_kode;
         }else{
-            max_kode = "0" + max_kode;
+            max_kode = //"0" + 
+                    max_kode;
         }        
         
         var kode_rek = $(obj).attr('kode_rek').split("_");

@@ -19,7 +19,7 @@
     <div class="control-group ">
         <label class="control-label required" for="AKRekening4M_kdrekening4">Kode Rekening&nbsp;<span class="required">*</span></label>
         <div class="controls">
-			<?php echo $form->textField($model, 'kdrekening4', array('class' => 'span1 reqForm', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 6, 'readonly' => false)); ?>
+			<?php echo $form->textField($model, 'kdrekening4', array('class' => 'span2 reqForm', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 10, 'readonly' => false)); ?>
         </div>
     </div>
 	<?php echo $form->textFieldRow($model, 'nmrekening4', array('class' => 'span3 reqForm', 'onkeyup' => 'autoInput();', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 300, 'readonly' => false)); ?>
