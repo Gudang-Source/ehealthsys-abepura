@@ -92,7 +92,7 @@
 
 </script>
 <div class="white-container">
-    <div id="stackedKlp" style="width: 100%; height: 400px;"></div>
+    <div id="stackedKlp" style="width: 100%; height: 450px;"></div>
 </div>
 
 
