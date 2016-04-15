@@ -62,7 +62,7 @@
                         Yii::app()->createUrl($this->module->id.'/kategoriObatM/admin'), 
                         array('class'=>'btn btn-danger',
                               'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
-                <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Kategori Obat', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
+                <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Golongan Obat', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
                                 $this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
 	<?php
 $content = $this->renderPartial('../tips/tips',array(),true);

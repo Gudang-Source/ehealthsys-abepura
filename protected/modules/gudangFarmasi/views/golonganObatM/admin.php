@@ -1,5 +1,5 @@
 <fieldset class="box">
-    <legend class="rim">Pengaturan Kategori Obat</legend>
+    <legend class="rim">Pengaturan Golongan Obat</legend>
 <?php
 $this->breadcrumbs=array(
 	'Lookup Ms'=>array('index'),
@@ -36,7 +36,7 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
 <?php //echo CHtml::dropDownList('agama', '', LookupM::getItems('agama')); ?>
 <?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'lookup-m-grid',
-	'dataProvider'=>$model->searchKategoriObat(),
+	'dataProvider'=>$model->searchGolonganObat(),
 	'filter'=>$model,
         'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
@@ -102,7 +102,7 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
 )); ?>
 
 <?php 
-        echo CHtml::link(Yii::t('mds', '{icon} Tambah Kategori Obat', array('{icon}'=>'<i class="icon-plus icon-white"></i>')), $this->createUrl('create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp";
+        echo CHtml::link(Yii::t('mds', '{icon} Tambah Golongan Obat', array('{icon}'=>'<i class="icon-plus icon-white"></i>')), $this->createUrl('create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp";
         echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
         echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
         echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
