@@ -69,10 +69,12 @@
                     array(
                             'header'=>'Golongan',
                             'name'=>'obatalkes_golongan',
+                            'filter'=>Chtml::activeDropDownList($model, 'obatalkes_golongan', ObatAlkesGolongan::items(), array('empty'=>'-- Pilih --')),
                     ),
                     array(
                             'header'=>'Kategori',
                             'name'=>'obatalkes_kategori',
+                            'filter'=>Chtml::activeDropDownList($model, 'obatalkes_kategori', ObatAlkesKategori::items(), array('empty'=>'-- Pilih --')),
                     ),
                     array(
                             'header'=>'Kode Obat',
