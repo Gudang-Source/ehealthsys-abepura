@@ -166,7 +166,7 @@
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     'id'=>'dialogKunjungan',
     'options'=>array(
-        'title'=>'Pencarian Data Kunjungan Pasien',
+        'title'=>'Pencarian Data Rawat Jalan',
         'autoOpen'=>false,
         'modal'=>true,
         'width'=>980,
@@ -181,6 +181,8 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         $modDialogKunjungan->no_pendaftaran = (isset($_GET['FAInformasipenjualanresepV']['no_pendaftaran']) ? $_GET['FAInformasipenjualanresepV']['no_pendaftaran'] : "");
         $modDialogKunjungan->no_rekam_medik = (isset($_GET['FAInformasipenjualanresepV']['no_rekam_medik']) ? $_GET['FAInformasipenjualanresepV']['no_rekam_medik'] : "");
         $modDialogKunjungan->nama_pasien = (isset($_GET['FAInformasipenjualanresepV']['nama_pasien']) ? $_GET['FAInformasipenjualanresepV']['nama_pasien'] : "");
+        $modDialogKunjungan->ruanganasal_nama = (isset($_GET['FAInformasipenjualanresepV']['ruanganasal_nama']) ? $_GET['FAInformasipenjualanresepV']['ruanganasal_nama'] : "");
+        $modDialogKunjungan->carabayar_nama = (isset($_GET['FAInformasipenjualanresepV']['carabayar_nama']) ? $_GET['FAInformasipenjualanresepV']['carabayar_nama'] : "");
     }
 
     $this->widget('ext.bootstrap.widgets.BootGridView',array(
@@ -218,22 +220,35 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                         'name'=>'jeniskelamin',
                         'type'=>'raw',
                         'filter'=>LookupM::model()->getItems('jeniskelamin'),
-                    ),
+                    ), /*
                     array(
                         'name'=>'instalasi_id',
                         'value'=>'$data->instalasi_nama',
                         'type'=>'raw',
 //                        'filter'=>CHtml::listData(BKPendaftaranT::model()->getInstalasis(),'instalasi_id','instalasi_nama'), //dipilih dari instalasi form kunjungan
                         'filter'=>CHtml::activeHiddenField($modDialogKunjungan,'instalasi_id'),
-                    ),
+                    ), */
                     array(
-                        'name'=>'ruangan_nama',
+                        'name'=>'ruanganasal_nama',
                         'type'=>'raw',
+                        'filter'=>CHtml::activeDropDownList($modDialogKunjungan, 'ruanganasal_nama', 
+                                CHtml::listData(RuanganM::model()->findAllByAttributes(array(
+                                    'instalasi_id'=>Params::INSTALASI_ID_RJ,
+                                    'ruangan_aktif'=>true,
+                                ), array(
+                                    'order'=>'ruangan_nama',
+                                )), 'ruangan_nama', 'ruangan_nama'), array('empty'=>'-- Pilih --'))
                     ),
                     array(
                         'name'=>'carabayar_nama',
                         'type'=>'raw',
                         'value'=>'$data->carabayar_nama',
+                        'filter'=>CHtml::activeDropDownList($modDialogKunjungan, 'carabayar_nama', 
+                                CHtml::listData(CarabayarM::model()->findAllByAttributes(array(
+                                    'carabayar_aktif'=>true,
+                                ), array(
+                                    'order'=>'carabayar_nama',
+                                )), 'carabayar_nama', 'carabayar_nama'), array('empty'=>'-- Pilih --'))
                     ),
 
 
