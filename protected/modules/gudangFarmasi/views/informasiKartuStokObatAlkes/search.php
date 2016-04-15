@@ -10,13 +10,6 @@
     <legend class="rim"><i class="icon-white icon-search"></i> Pencarian Kartu Stok Obat Alkes</legend>
     <div class="row-fluid">
         <div class="span4">
-            <?php echo $form->dropDownListRow($model,'instalasi_id', $instalasiAsals, 
-                    array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
-                            'ajax'=>array('type'=>'POST',
-                                        'url'=>$this->createUrl('SetDropdownRuangan',array('encode'=>false,'model_nama'=>get_class($model))),
-                                        'update'=>"#".CHtml::activeId($model, 'ruangan_id'),
-                            )));?>
-            <?php echo $form->dropDownListRow($model,'ruangan_id',$ruanganAsals,array('class'=>'span3','empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
             <div class="control-group ">
                 <?php echo CHtml::label('Tanggal Transaksi','tgl_awal', array('class'=>'control-label')) ?>
                     <div class="controls">
@@ -54,23 +47,32 @@
                             $model->tgl_akhir = $format->formatDateTimeForDb($model->tgl_akhir);
                         ?>
                     </div>
-            </div> 
+            </div>
+            
+        </div>
+        <div class="span4">
+            <?php echo $form->dropDownListRow($model,'instalasi_id', $instalasiAsals, 
+                    array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
+                            'ajax'=>array('type'=>'POST',
+                                        'url'=>$this->createUrl('SetDropdownRuangan',array('encode'=>false,'model_nama'=>get_class($model))),
+                                        'update'=>"#".CHtml::activeId($model, 'ruangan_id'),
+                            )));?>
+            <?php echo $form->dropDownListRow($model,'ruangan_id',$ruanganAsals,array('class'=>'span3','empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
             <div class="control-group ">
 				<?php echo CHtml::label('Nama Transaksi','Nama Transaksi', array('class'=>'control-label')) ?>
 				<div class="controls">
 					<?php echo $form->dropDownList($model,'transaksi',$model->getNamaTransaksiKartuStok(),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
 				</div>
-			</div>
+            </div>
+            <?php echo $form->dropDownListRow($model,'obatalkes_golongan',  ObatAlkesGolongan::items() ,array('empty'=>'-- Pilih --','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+            <?php echo $form->dropDownListRow($model,'obatalkes_kategori', ObatAlkesKategori::items() ,array('empty'=>'-- Pilih --','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
         </div>
         <div class="span4">
-            <?php echo $form->textFieldRow($model,'obatalkes_golongan',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
             <?php echo $form->textFieldRow($model,'obatalkes_kode',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
             <?php echo $form->textFieldRow($model,'obatalkes_nama',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
             <?php echo $form->textFieldRow($model,'satuankecil_nama',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-        </div>
-        <div class="span4">
-			<?php echo $form->dropDownListRow($model,'transaksi',$model->getNamaTransaksiKartuStok(),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
-			<?php echo $form->textFieldRow($model,'obatalkes_golongan',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+			<?php // echo $form->dropDownListRow($model,'transaksi',$model->getNamaTransaksiKartuStok(),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+			<?php // echo $form->textFieldRow($model,'obatalkes_golongan',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
 			<?php echo $form->textFieldRow($model,'nobatch',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
 			<div class="control-group ">
 				<?php echo $form->labelEx($model,'tglkadaluarsa', array('class'=>'control-label')) ?>

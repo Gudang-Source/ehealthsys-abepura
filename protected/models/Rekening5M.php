@@ -52,7 +52,7 @@ class Rekening5M extends CActiveRecord {
 		return array(
 			array('rekening4_id, kdrekening5, nmrekening5, nmrekeninglain5, rekening5_nb, nourutrek, create_time, create_loginpemakai_id, create_ruangan', 'required'),
 			array('rekening4_id, tiperekening_id,nourutrek', 'numerical', 'integerOnly' => true),
-			array('kdrekening5', 'length', 'max' => 5),
+			array('kdrekening5', 'length', 'max' => 20),
 			array('nmrekening5, nmrekeninglain5', 'length', 'max' => 500),
 			array('rekening5_nb', 'length', 'max' => 1),
 			array('kelompokrek', 'length', 'max' => 20),

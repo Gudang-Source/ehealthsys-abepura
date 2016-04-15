@@ -60,4 +60,20 @@ class MasterObatGFController extends MasterObatController
 	public function getUrlLokasiGudang(){
 		return $this->module->id.'/lokasiGudangMGF/admin';
 	}
+        
+        /**
+	 * url untuk tab menu
+	 * @return type
+	 */
+	public function getUrlKategori(){
+		return $this->module->id.'/kategoriObatM/admin';
+	}
+        
+        /**
+	 * url untuk tab menu
+	 * @return type
+	 */
+	public function getUrlGolongan(){
+		return $this->module->id.'/golonganObatM/admin';
+	}
 }

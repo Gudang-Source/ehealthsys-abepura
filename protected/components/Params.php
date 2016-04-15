@@ -320,8 +320,9 @@ Class Params
 	const LOOKUPTYPE_SEDIAANOBATRACIKAN = 'sediaanobatracikan'; //tipe dari tabel lookup_m untuk sediaan obat racikan
 	const LOOKUPTYPE_SIGNA_OA = 'signa_oa'; //tipe dari tabel lookup_m untuk signa obat
 	const LOOKUPTYPE_JENIS_KELAMIN = 'jeniskelamin'; //tipe dari tabel lookup_m untuk jenis kelamin
-
-
+        const LOOKUPTYPE_OBATALKES_KATEGORI = 'obatalkes_kategori';
+        const LOOKUPTYPE_OBATALKES_GOLONGAN = 'obatalkes_golongan';
+        
 	const JENISPESANMENU_PASIEN = 'Pasien'; //disesuaikan dengan lookup_m.lookup_type = jenispesanmenu
 	const JENISPESANMENU_PEGAWAI = 'Pegawai'; //disesuaikan dengan lookup_m.lookup_type = jenispesanmenu
 

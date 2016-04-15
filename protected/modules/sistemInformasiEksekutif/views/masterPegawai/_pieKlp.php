@@ -67,7 +67,7 @@
 
 </script>
 <div class="white-container">
-    <div id="pieKlp" style="width: 100%; height: 400px;"></div>
+    <div id="pieKlp" style="width: 100%; height: 450px;"></div>
 </div>
 
 

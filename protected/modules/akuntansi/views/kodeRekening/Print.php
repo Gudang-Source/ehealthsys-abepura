@@ -1,4 +1,15 @@
-
+<style>
+    .table {
+        border: 1px solid black;
+        box-shadow: none;
+    }
+    .table th {
+        border: 1px solid black;
+    }
+    .table td {
+        border-right: 1px solid black;
+    }
+</style>
 <?php 
 if($caraPrint=='EXCEL')
 {
@@ -11,13 +22,13 @@ echo $this->renderPartial('application.views.headerReport.headerDefault',array('
 $table = 'ext.bootstrap.widgets.BootGridView';
     $sort = true;
     if (isset($caraPrint)){
-        $data = $model->searchByFilterPrint();
+        $data = $model->searchPrint();
         $template = "{items}";
         $sort = false;
         if ($caraPrint == "EXCEL")
             $table = 'ext.bootstrap.widgets.BootExcelGridView';
     } else{
-        $data = $model->searchByFilter();
+        $data = $model->search();
          $template = "{summary}\n{items}\n{pager}";
     }
   ?>  
@@ -28,15 +39,16 @@ $this->widget('ext.bootstrap.widgets.BootGridView',
         'id'=>'AKRekeningakuntansi-v',
         'dataProvider'=>$data,
         'template'=>$template,
-        'itemsCssClass'=>'table table-striped table-bordered table-condensed',
+        'itemsCssClass'=>'table',
         'columns'=>array(
+            /*
             array(
               'header'=>'No',
               'type'=>'raw',
               'value'=>'$row+1',
               'htmlOptions'=>array('style'=>'width:20px'),
               'headerHtmlOptions'=>array('style'=>'text-align:center;'),
-            ),
+            ), /*
             array(
                'header'=>'Kode Struktur',
                'type'=>'raw',
@@ -64,22 +76,21 @@ $this->widget('ext.bootstrap.widgets.BootGridView',
                'value'=>'($data->kdrekening4 == null ? "-" : $data->kdrekening4)',
                'htmlOptions'=>array('style'=>'text-align: center; width:50px'),
                'headerHtmlOptions'=>array('style'=>'text-align:center;'),
-            ),
+            ), */
             array(
-               'header'=>'Kode Rincian Obyek',
+               'header'=>'Kode Akun',
                'type'=>'raw',
-                'value'=>'($data->kdrekening5 == null ? "-" : $data->kdrekening5)',
-               'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
+               'value'=>'($data->kode == null ? "-" : $data->kode)',
+               'htmlOptions'=>array('style'=>'width:80px'),
                'headerHtmlOptions'=>array('style'=>'text-align:center;'),
-
-            ),
+            ), /*
             array(
                'header'=>'Nama Struktur',
                'type'=>'raw',
                'value'=>'isset($data->nmrekening1) ? $data->nmrekening1: "-"',
                'htmlOptions'=>array('style'=>'width:80px'),
                'headerHtmlOptions'=>array('style'=>'text-align:center;'),
-            ),
+            ), 
             array(
                'header'=>'Nama Kelompok',
                'type'=>'raw',
@@ -100,24 +111,38 @@ $this->widget('ext.bootstrap.widgets.BootGridView',
                'value'=>'isset($data->nmrekening4) ? $data->nmrekening4 : "-"',
                'headerHtmlOptions'=>array('style'=>'text-align:center;'),
             ),
+             * 
+             */
             array(
-               'header'=>'Nama Rincian Obyek',
+               'header'=>'Nama Akun',
                'type'=>'raw',
-               'value'=>'isset($data->nmrekening5) ? $data->nmrekening5: "-"',
+               'value'=>function($data) {
+                    $tab = "";
+                    switch($data->akun) {
+                        case 2: $tab = "&emsp;"; break;
+                        case 3: $tab = "&emsp;&emsp;"; break;
+                        case 4: $tab = "&emsp;&emsp;&emsp;"; break;
+                        case 5: $tab = "&emsp;&emsp;&emsp;&emsp;"; break;
+                        default: $tab = "";
+                    }
+                    return $tab.$data->nama;
+               }, //'isset($data->nama) ? $data->nama: "-"',
                'headerHtmlOptions'=>array('style'=>'text-align:center;'),
             ),
             array(
-               'header'=>'Rincian Obyek NB',
+               'header'=>'Saldo Normal',
                'type'=>'raw',
-               'value'=>'($data->rekening5_nb == null ? "-" : ($data->rekening5_nb == "D" ? "Debit" : "Kredit"))',
+               'value'=>'($data->saldo_normal == null ? "-" : ($data->saldo_normal == "D" ? "Debit" : "Kredit"))',
                'headerHtmlOptions'=>array('style'=>'text-align:center;'),
-            ),
+            ), /*
             array(
                'header'=>'Kelompok Rekening',
                'type'=>'raw',
                'value'=>'($data->kelompokrek == null ? "-" : $data->kelompokrek)',
                'headerHtmlOptions'=>array('style'=>'text-align:center;'),
             ),
+             * 
+             */
             array(
                'header'=>'keterangan',
                'type'=>'raw',
@@ -127,7 +152,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',
             array(
                'header'=>'Status',
                'type'=>'raw',
-               'value'=>'($data->rekening5_aktif == null ? "-" : ($data->rekening5_aktif == true ? "Aktif" : "Non Aktif"))',
+               'value'=>'($data->aktif == null ? "-" : ($data->aktif == true ? "Aktif" : "Non Aktif"))',
                'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
                'headerHtmlOptions'=>array('style'=>'text-align:center;'),
             ),

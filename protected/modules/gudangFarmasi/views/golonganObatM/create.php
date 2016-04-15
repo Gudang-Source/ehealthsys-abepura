@@ -1,5 +1,5 @@
 <fieldset class="box">
-    <legend class="rim">Tambah Kategori Obat</legend>
+    <legend class="rim">Tambah Golongan Obat</legend>
 <?php
 $this->breadcrumbs=array(
 	'Lookup Ms'=>array('index'),

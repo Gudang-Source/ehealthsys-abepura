@@ -121,7 +121,7 @@ $('.search-form form').submit(function(){
                              */
                             'htmlOptions'=>array(
                                 'style'=>'text-align: left',
-                                'class'=>'inap'
+                                //'class'=>'inap'
                             )
                         ),
                         array(
