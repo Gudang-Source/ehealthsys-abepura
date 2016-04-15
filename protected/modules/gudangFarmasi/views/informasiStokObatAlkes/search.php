@@ -17,13 +17,23 @@
                                         'update'=>"#".CHtml::activeId($model, 'ruangan_id'),
                             ))); */ ?>
             <?php // echo $form->dropDownListRow($model,'ruangan_id',$ruanganAsals,array('class'=>'span3','empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+            
+            <?php echo $form->dropDownListRow($model,'jenisobatalkes_id',  
+                    CHtml::listData(JenisobatalkesM::model()->findAll(array(
+                        'condition'=>'jenisobatalkes_aktif = true',
+                        'order'=>'jenisobatalkes_nama',
+                    )), 'jenisobatalkes_id', 'jenisobatalkes_nama'), 
+                    array('empty'=>'-- Pilih --', 'class'=>'span3'));?>
+            <?php echo $form->dropDownListRow($model,'obatalkes_kategori',  ObatAlkesKategori::items(),array('empty'=>'-- Pilih --','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+            <?php echo $form->dropDownListRow($model,'obatalkes_golongan',  ObatAlkesGolongan::items(),array('empty'=>'-- Pilih --','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
         </div>
         <div class="span4">
-            <?php echo $form->textFieldRow($model,'obatalkes_golongan',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+            
             <?php echo $form->textFieldRow($model,'obatalkes_kode',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+            <?php echo $form->textFieldRow($model,'obatalkes_nama',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
         </div>
         <div class="span4">
-            <?php echo $form->textFieldRow($model,'obatalkes_nama',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+            
             <?php // echo $form->textFieldRow($model,'satuankecil_nama',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
         </div>
     </div>
