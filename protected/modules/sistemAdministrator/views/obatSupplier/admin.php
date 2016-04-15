@@ -54,25 +54,25 @@
                         'name'=>'supplier_kode',
                         'filter'=>  CHtml::activeTextField($model,'supplier_kode'),
                         'value'=>'(isset($data->supplier->supplier_kode) ? $data->supplier->supplier_kode : "")',
-                    ),
+                    ), 
                     array(
                         'header'=>'Nama Supplier',
                         'type'=>'raw',
                         'name'=>'supplier_nama',
                         'value'=>'(isset($data->supplier->supplier_id) ? $data->supplier->supplier_nama : "")',
-                    ),
+                    ), /*
                     array(
                         'header'=>'Alamat Supplier',
                         'type'=>'raw',
                         'name'=>'supplier_alamat',
                         'value'=>'(isset($data->supplier->supplier_alamat) ? $data->supplier->supplier_alamat : "")',
-                    ),
+                    ), */
                     array(
                         'header'=>'Nama Obat Alkes',
                         'type'=>'raw',
                         'name'=>'obatalkes_nama',
                         'value'=>'(isset($data->obatalkes->obatalkes_nama) ? $data->obatalkes->obatalkes_nama : "Tidak Diset")',
-                    ),
+                    ), /*
                     array(
                         'header'=>'Satuan Kecil',
                         'type'=>'raw',
@@ -84,31 +84,35 @@
                         'type'=>'raw',
                         'name'=>'satuanbesar_id',
                         'value'=>'(isset($data->satuanbesar->satuanbesar_nama) ? $data->satuanbesar->satuanbesar_nama : "Tidak Diset")',
-                    ),
+                    ), */
                     array(
                         'header'=>'Harga Beli <br/> Satuan Besar',
                         'type'=>'raw',
                         'name'=>'hargabelibesar',
-                        'value'=>'(isset($data->hargabelibesar) ? $data->hargabelibesar : "Tidak Diset" )',
+                        'htmlOptions'=>array('style'=>'text-align: right'),
+                        'value'=>'(isset($data->hargabelibesar) ? $data->hargabelibesar."/".(isset($data->satuanbesar->satuanbesar_nama) ? $data->satuanbesar->satuanbesar_nama : "Tidak Diset") : "Tidak Diset" )',
                     ),
                     array(
                         'header'=>'Harga Beli <br/> Satuan Kecil',
                         'type'=>'raw',
                         'name'=>'hargabelikecil',
-                        'value'=>'(isset($data->hargabelikecil) ? $data->hargabelikecil : "Tidak Diset")', 
-                    ),
+                        'htmlOptions'=>array('style'=>'text-align: right'),
+                        'value'=>'(isset($data->hargabelikecil) ? $data->hargabelikecil."/".(isset($data->satuankecil->satuankecil_nama) ? $data->satuankecil->satuankecil_nama : "Tidak Diset") : "Tidak Diset")', 
+                    ), /*
                     array(
                         'header'=>'Diskon(%)',
                         'type'=>'raw',
                         'name'=>'diskon_persen',
+                        'htmlOptions'=>array('style'=>'text-align: right'),
                         'value'=>'(isset($data->diskon_persen) ? $data->diskon_persen : "Tidak Diset")',
                     ),
                     array(
                         'header'=>'Ppn(%)',
                         'type'=>'raw',
                         'name'=>'ppn_persen',
+                        'htmlOptions'=>array('style'=>'text-align: right'),
                         'value'=>'(isset($data->ppn_persen) ? $data->ppn_persen : "Tidak Diset")',
-                    ),
+                    ), */
 
     //                array(
     //                     'name'=>'obatalkes_nama',
