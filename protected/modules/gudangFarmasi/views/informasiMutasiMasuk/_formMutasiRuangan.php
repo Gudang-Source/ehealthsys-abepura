@@ -1,4 +1,5 @@
 <div class="row-fluid">
+    <?php $modMutasiRuangan->tglmutasioa = MyFormatter::formatDateTimeForUser($modMutasiRuangan->tglmutasioa); ?>
     <div class="control-group ">
         <?php echo CHtml::activeLabel($modMutasiRuangan, 'nomutasioa', array('class'=>'control-label')) ?>
         <div class="controls">

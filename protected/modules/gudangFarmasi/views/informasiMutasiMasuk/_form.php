@@ -18,12 +18,12 @@
                         'attribute'=>'tglterima',
                         'mode'=>'datetime',
                         'options'=> array(
-    //                                            'dateFormat'=>Params::DATE_FORMAT,
+                            'dateFormat'=>Params::DATE_FORMAT,
                             'showOn' => false,
                             'maxDate' => 'd',
                             'yearRange'=> "-150:+0",
                         ),
-                        'htmlOptions'=>array('placeholder'=>'00/00/0000 00:00:00','class'=>'dtPicker2 datetimemask','onkeyup'=>"return $(this).focusNextInputField(event)"
+                        'htmlOptions'=>array('class'=>'dtPicker2 realtime','onkeyup'=>"return $(this).focusNextInputField(event)"
                         ),
                 )); ?>
             </div>
@@ -142,8 +142,9 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     ),
 ));
 
-$modPegawaiMengetahui = new GFPegawaiV('search');
+$modPegawaiMengetahui = new GFPegawairuanganV('search');
 $modPegawaiMengetahui->unsetAttributes();
+$modPegawaiMengetahui->ruangan_id = Yii::app()->user->getState('ruangan_id');
 if(isset($_GET['GFPegawaiV'])) {
     $modPegawaiMengetahui->attributes = $_GET['GFPegawaiV'];
 }

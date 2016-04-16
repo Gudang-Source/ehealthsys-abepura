@@ -3,6 +3,7 @@ class GFInformasimutasioaruanganV extends InformasimutasioaruanganV
 {
 	public $tgl_awal;
         public $tgl_akhir;
+        public $status_terima;
         /**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -36,6 +37,12 @@ class GFInformasimutasioaruanganV extends InformasimutasioaruanganV
 				if(!empty($this->ruanganasalmutasi_id)){
 					$criteria->addCondition('ruanganasalmutasi_id = '.$this->ruanganasalmutasi_id);
 				}
+                if ($this->status_terima == 1) {
+                    $criteria->addCondition('terimamutasi_id is null');
+                } else if ($this->status_terima == 2) {
+                    $criteria->addCondition('terimamutasi_id is not null');
+                }
+                $criteria->compare('pegawaipenerima_id', $this->pegawaipenerima_id);
                 $criteria->compare('LOWER(statuspesan)',strtolower($this->statuspesan),true);
                 
 		return new CActiveDataProvider($this, array(
@@ -80,6 +87,11 @@ class GFInformasimutasioaruanganV extends InformasimutasioaruanganV
         public function getPegawaiMengetahuiLengkap()
         {
             return (isset($this->pegawaimengetahuimutasi_gelardepan) ? $this->pegawaimengetahuimutasi_gelardepan : "").' '.$this->pegawaimengetahuimutasi_nama.(isset($this->pegawaimengetahuimutasi_gelarbelakang) ? ', '.$this->pegawaimengetahuimutasi_gelarbelakang : "");
+        }
+        
+        public function getPegawaiPenerimaLengkap()
+        {
+            return (isset($this->pegawaipenerima_gelardepan) ? $this->pegawaipenerima_gelardepan : "").' '.$this->pegawaipenerima_nama.(isset($this->pegawaipenerima_gelarbelakang) ? ', '.$this->pegawaipenerima_gelarbelakang : "");
         }
 		
 	/**
