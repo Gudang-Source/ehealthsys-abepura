@@ -1,9 +1,11 @@
+<!--kategori tindakan = jneis traif-->
+<!--isset($modTarif['kategoritindakan_nama']) ? $modTarif['kategoritindakan_nama'] : "-"-->
 <?php
 echo "<table>";
 echo "<tr>
-        <td>Kategori Tindakan</td>
+        <td>Jenis Tarif</td>
         <td>:</td>
-        <td>".(isset($modTarif['kategoritindakan_nama']) ? $modTarif['kategoritindakan_nama'] : "-")."</td>
+        <td>".(isset($modTarif['jenistarif_nama']) ? $modTarif['jenistarif_nama'] : "-")."</td>
 
          </tr>";
 echo "<tr>

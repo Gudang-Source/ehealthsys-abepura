@@ -205,7 +205,7 @@ class PembebasanTarifController extends MyAuthController
         /**
          * untuk load data pasien
          */
-        public function actiondataPasien()
+        public function actionDataPasien()
         {
             $pasien_id=$_POST['pasien_id'];
             $pendaftaran_id=$_POST['pendaftaran_id'];
@@ -223,7 +223,7 @@ class PembebasanTarifController extends MyAuthController
         /**
          * untuk load data pasien setelah di pilih no rekam medik
          */
-        public function actionloadDataPasien()
+        public function actionLoadDataPasien()
         {
             if(Yii::app()->request->isAjaxRequest){
                 $data = RJInfokunjunganrjV::model()->findByAttributes(array('no_rekam_medik'=>$_POST['no_rekam_medik']));

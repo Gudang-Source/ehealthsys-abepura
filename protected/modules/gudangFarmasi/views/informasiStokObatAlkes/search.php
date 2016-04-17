@@ -44,7 +44,7 @@
                                 array('class'=>'btn btn-danger',
 //                                      'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));
                                       'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));echo '&nbsp;'; ?><?php
-           $content = $this->renderPartial('gudangFarmasi.views.tips.informasiStokObatAlkes',array(),true);
+           $content = $this->renderPartial('gudangFarmasi.views.tips.informasiStokObatAlkesRJ',array(),true);
            $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
         ?>
     </div>

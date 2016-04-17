@@ -224,14 +224,17 @@ class FAInformasipenjualanresepV extends InformasipenjualanaresepV
 		 */
 		public function searchDialogKunjungan(){
 			$criteria = new CDbCriteria();
-			$criteria->group = "pendaftaran_t.pendaftaran_id, pendaftaran_t.tgl_pendaftaran, pendaftaran_t.no_pendaftaran, t.pasien_id, t.no_rekam_medik, t.nama_pasien, t.jeniskelamin";
+			$criteria->group = "pendaftaran_t.pendaftaran_id, pendaftaran_t.tgl_pendaftaran, pendaftaran_t.no_pendaftaran, t.pasien_id, t.no_rekam_medik, t.nama_pasien, t.jeniskelamin, t.ruanganasal_nama, t.carabayar_nama";
 			$criteria->select = $criteria->group;
 			$criteria->join = "JOIN pendaftaran_t ON pendaftaran_t.pendaftaran_id = t.pendaftaran_id";
             $criteria->compare('LOWER(pendaftaran_t.no_pendaftaran)', strtolower($this->no_pendaftaran), true);
             $criteria->compare('LOWER(t.no_rekam_medik)', strtolower($this->no_rekam_medik), true);
             $criteria->compare('LOWER(t.nama_pasien)', strtolower($this->nama_pasien), true);
-            $criteria->order = 'pendaftaran_t.no_pendaftaran, t.no_rekam_medik, t.nama_pasien';
-            $criteria->limit = 5;
+            $criteria->compare('LOWER(t.ruanganasal_nama)', strtolower($this->ruanganasal_nama), true);
+            $criteria->compare('LOWER(t.carabayar_nama)', strtolower($this->carabayar_nama), true);
+            $criteria->compare('LOWER(t.instalasiasal_nama)', 'rawat jalan');
+            $criteria->order = 'pendaftaran_t.no_pendaftaran desc';
+            //$criteria->limit = 5;
 			return new CActiveDataProvider($this, array(
 				'criteria'=>$criteria,
 			));

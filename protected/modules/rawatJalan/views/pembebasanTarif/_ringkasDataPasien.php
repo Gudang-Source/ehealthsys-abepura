@@ -7,7 +7,7 @@
             <td><?php echo CHtml::textField('RJPendaftaranT[tgl_pendaftaran]', $modPendaftaran->tgl_pendaftaran, array('readonly'=>true)); ?></td>
             
             <td>
-            <label class="no_rek" style="padding-left:40px;">No. Rekam Medik</label>
+            <label  style="padding-left:40px;">No. Rekam Medik  <font class="no_rek">*</font></label>
             </td>
             <td>
                 <?php 
@@ -38,7 +38,7 @@
                                                 return false;
                                             }',
                                     ),
-                                    'htmlOptions'=>array('onkeypress'=>"return $(this).focusNextInputField(event)", 'class'=>'span3'),
+                                    'htmlOptions'=>array('onkeypress'=>"return $(this).focusNextInputField(event)", 'class'=>'span3 required'),
                                     'tombolDialog'=>array('idDialog'=>'dialogRekamedik','idTombol'=>'tombolDialogRekamedik'),
                                 )); 
                 ?>

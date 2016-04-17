@@ -6,6 +6,7 @@ class PPTarifTindakanPerdaRuanganV  extends TariftindakanperdaruanganV
 	 * @param string $className active record class name.
 	 * @return TariftindakanperdaruanganV the static model class
 	 */
+    public $komponenunit_nama;
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -32,6 +33,8 @@ class PPTarifTindakanPerdaRuanganV  extends TariftindakanperdaruanganV
 		if(!empty($this->jenistarif_id)){
 			$criteria->addCondition('jenistarif_id = '.$this->jenistarif_id);
 		}
+                $criteria->compare('LOWER(kelompoktindakan_nama)',strtolower($this->kelompoktindakan_nama),true);
+                $criteria->compare('LOWER(komponenunit_nama)',strtolower($this->komponenunit_nama),true);
 		$criteria->limit = 10;
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -64,6 +64,12 @@
 					<?php echo $form->dropDownList($model,'transaksi',$model->getNamaTransaksiKartuStok(),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
 				</div>
             </div>
+            <?php echo $form->dropDownListRow($model,'jenisobatalkes_id',  
+                    CHtml::listData(JenisobatalkesM::model()->findAll(array(
+                        'condition'=>'jenisobatalkes_aktif = true',
+                        'order'=>'jenisobatalkes_nama',
+                    )), "jenisobatalkes_id", "jenisobatalkes_nama")
+                    ,array('empty'=>'-- Pilih --','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
             <?php echo $form->dropDownListRow($model,'obatalkes_golongan',  ObatAlkesGolongan::items() ,array('empty'=>'-- Pilih --','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
             <?php echo $form->dropDownListRow($model,'obatalkes_kategori', ObatAlkesKategori::items() ,array('empty'=>'-- Pilih --','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
         </div>
