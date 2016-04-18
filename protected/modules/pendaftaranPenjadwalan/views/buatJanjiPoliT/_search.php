@@ -66,7 +66,7 @@
                                 array('class'=>'btn btn-danger',
                                     'onclick'=>'return refreshForm(this);'));  ?>
     <?php  
-        $content = $this->renderPartial('pendaftaranPenjadwalan.views.tips.informasi',array(),true);
+        $content = $this->renderPartial('pendaftaranPenjadwalan.views.tips.informasiBuatJanjiPoli',array(),true);
         $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); ?>	
 	
 </div>
