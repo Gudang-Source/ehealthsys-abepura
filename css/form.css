@@ -713,11 +713,11 @@ div.wide.form .buttons, div.wide.form .hint, div.wide.form .errorMessage
     text-align: right;
     width: 80px;
 }
-.inputFormTabel.integer,.inputFormTabel.float{
+.inputFormTabel.integer, .inputFormTabel.integer2, .inputFormTabel.float, .inputFormTabel.float2 {
     text-align: right;
     width: 80px;
 }
-.inputFormTabel.integer.lebar1{
+.inputFormTabel.integer.lebar1, .inputFormTabel.integer2.lebar1 {
     text-align: right;
     width: 20px;
 }
@@ -759,7 +759,7 @@ font-style:bold;
     background-color: yellow;
 }
 
-.table.middle-center thead th{
+.table.middle-center thead th {
     text-align: center;
     vertical-align:middle;
 }
@@ -868,8 +868,8 @@ font-style:bold;
 
 /** custom */
 input.ui-autocomplete-input{width:170px;float:left;-webkit-border-top-right-radius: 0px !important;-moz-border-top-right-radius: 0px !important;border-top-right-radius: 0px !important;-webkit-border-bottom-right-radius: 0px !important;-moz-border-bottom-right-radius: 0px !important;border-bottom-right-radius: 0px !important;}
-input.integer{text-align:right;}
-input.float{text-align:right;}
+input.integer, input.integer2 {text-align:right;}
+input.float, input.float2 {text-align:right;}
 input.float3{text-align:right;}
 .hasDatepicker {
     -webkit-border-top-right-radius: 0px !important;

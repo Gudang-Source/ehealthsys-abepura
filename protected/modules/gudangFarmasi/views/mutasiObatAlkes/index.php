@@ -73,7 +73,7 @@
                                                                                 echo "<div style=\"color:#FF0000;font-weight:bold;\">".$pesan."</div>";
                                                                 };?>
                                 </td>
-                                <td><?php echo CHtml::textField('total',0,array('class'=>'span2 integer','style'=>'width:90px;','readonly'=>true))?></td>
+                                <td><?php echo CHtml::textField('total',0,array('class'=>'span2 integer2','style'=>'width:90px;','readonly'=>true))?></td>
                                 <td></td>
                             </tr>
                         </tfoot>

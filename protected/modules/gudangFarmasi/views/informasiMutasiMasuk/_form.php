@@ -18,12 +18,12 @@
                         'attribute'=>'tglterima',
                         'mode'=>'datetime',
                         'options'=> array(
-    //                                            'dateFormat'=>Params::DATE_FORMAT,
+                            'dateFormat'=>Params::DATE_FORMAT,
                             'showOn' => false,
                             'maxDate' => 'd',
                             'yearRange'=> "-150:+0",
                         ),
-                        'htmlOptions'=>array('placeholder'=>'00/00/0000 00:00:00','class'=>'dtPicker2 datetimemask','onkeyup'=>"return $(this).focusNextInputField(event)"
+                        'htmlOptions'=>array('class'=>'dtPicker2 realtime','onkeyup'=>"return $(this).focusNextInputField(event)"
                         ),
                 )); ?>
             </div>
@@ -31,8 +31,8 @@
         <?php echo $form->textAreaRow($model,'keterangan_terima',array('rows'=>3, 'cols'=>50, 'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
     </div>
     <div class = "span4">
-        <?php echo $form->textFieldRow($model,'totalharganetto',array('class'=>'span2 integer', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
-        <?php echo $form->textFieldRow($model,'totalhargajual',array('class'=>'span2 integer', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php echo $form->textFieldRow($model,'totalharganetto',array('class'=>'span2 integer2', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php echo $form->textFieldRow($model,'totalhargajual',array('class'=>'span2 integer2', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
         
         <div class="control-group ">
             <?php echo $form->labelEx($model, 'pegawaipenerima_id', array('class'=>'control-label')); ?>
@@ -142,10 +142,11 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     ),
 ));
 
-$modPegawaiMengetahui = new GFPegawaiV('search');
+$modPegawaiMengetahui = new GFPegawairuanganV('search');
 $modPegawaiMengetahui->unsetAttributes();
-if(isset($_GET['GFPegawaiV'])) {
-    $modPegawaiMengetahui->attributes = $_GET['GFPegawaiV'];
+$modPegawaiMengetahui->ruangan_id = Yii::app()->user->getState('ruangan_id');
+if(isset($_GET['GFPegawairuanganV'])) {
+    $modPegawaiMengetahui->attributes = $_GET['GFPegawairuanganV'];
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'pegawaimengetahui-grid',
@@ -214,10 +215,11 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     ),
 ));
 
-$modPegawaiPenerima = new GFPegawaiV('search');
+$modPegawaiPenerima = new GFPegawairuanganV('search');
 $modPegawaiPenerima->unsetAttributes();
-if(isset($_GET['GFPegawaiV'])) {
-    $modPegawaiPenerima->attributes = $_GET['GFPegawaiV'];
+$modPegawaiPenerima->ruangan_id = Yii::app()->user->getState('ruangan_id');
+if(isset($_GET['GFPegawairuanganV'])) {
+    $modPegawaiPenerima->attributes = $_GET['GFPegawairuanganV'];
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'pegawaipenerima-grid',

@@ -2,7 +2,7 @@
     <tr>
         <td>Tgl. Penjualan</td>
         <td>:</td>
-        <td><?php echo $modReseptur->tglpenjualan;?></td>
+        <td><?php echo MyFormatter::formatDateTimeForUser($modReseptur->tglpenjualan);?></td>
         <td></td>
         <td>No. Rekam Medik</td>
         <td>:</td>
@@ -11,7 +11,7 @@
     <tr>
         <td>Tgl. Resep</td>
         <td>:</td>
-        <td><?php echo $modReseptur->tglresep;?></td>
+        <td><?php echo MyFormatter::formatDateTimeForUser($modReseptur->tglresep);?></td>
         <td></td>
         <td>Nama Pasien</td>
         <td>:</td>
@@ -35,8 +35,8 @@
     
         <th>No.Urut</th>
         <th>Sumber Dana</th>
-        <th>Kategori/&nbsp;&nbsp;&nbsp;&nbsp;<br/>Nama Obat</th>
-        <th>Satuan Kecil</th>
+        <th><span hidden>Kategori/&nbsp;&nbsp;&nbsp;&nbsp;<br/></span>  Nama Obat</th>
+        <th hidden>Satuan Kecil</th>
         <th>Jumlah</th>
         <th>Harga Satuan</th>
         <th>Discount</th>
@@ -59,12 +59,13 @@
     echo "<tr>
             <td>".$no."</td>
             <td>".$tampilData->obatalkes->sumberdana->sumberdana_nama."</td>  
-            <td>".$tampilData->obatalkes->obatalkes_kategori."<br>".$tampilData->obatalkes->obatalkes_nama."</td>   
-            <td>".$tampilData->obatalkes->satuankecil->satuankecil_nama."</td>   
-            <td>".$tampilData['qty_oa']."</td>
-            <td>".number_format($tampilData['hargasatuan_oa'],0,"",".")."</td> 
-            <td>".$discount."</td> 
-            <td>".number_format($subTotal-$discount,0,"",".")."</td>
+            <td>".//$tampilData->obatalkes->obatalkes_kategori."<br>".
+            $tampilData->obatalkes->obatalkes_nama."</td>   
+            <td hidden>".$tampilData->obatalkes->satuankecil->satuankecil_nama."</td>   
+            <td style='text-align: right;'>".$tampilData['qty_oa']." ".$tampilData->obatalkes->satuankecil->satuankecil_nama."</td>
+            <td style='text-align: right;'>".number_format($tampilData['hargasatuan_oa'],0,"",".")."</td> 
+            <td style='text-align: right;'>".$discount."</td> 
+            <td style='text-align: right;'>".number_format($subTotal-$discount,0,"",".")."</td>
             <td>".$status."</td>
             
                       
@@ -77,33 +78,33 @@
         
         endforeach;  
     echo "<tr>
-            <td colspan='7' style='text-align:right;'> Biaya Administrasi</td>
+            <td colspan='6' style='text-align:right;'> Biaya Administrasi</td>
            
-            <td>".number_format($modReseptur->biayaadministrasi,0,"",".")."</td>
+            <td style='text-align: right;'>".number_format($modReseptur->biayaadministrasi,0,"",".")."</td>
             <td></td>
          </tr>";   
     echo "<tr>
-            <td colspan='7' style='text-align:right;'> Biaya Service</td>
+            <td colspan='6' style='text-align:right;'> Biaya Service</td>
            
-            <td>".number_format($modReseptur->totaltarifservice,0,"",".")."</td>
+            <td style='text-align: right;'>".number_format($modReseptur->totaltarifservice,0,"",".")."</td>
             <td></td>
          </tr>";   
     echo "<tr>
-            <td colspan='7' style='text-align:right;'> Biaya Konseling</td>
+            <td colspan='6' style='text-align:right;'> Biaya Konseling</td>
            
-            <td>".number_format($modReseptur->biayakonseling,0,"",".")."</td>
+            <td style='text-align: right;'>".number_format($modReseptur->biayakonseling,0,"",".")."</td>
             <td></td>
          </tr>";  
     echo "<tr>
-            <td colspan='7' style='text-align:right;'> Jasa Dokter Resep</td>
+            <td colspan='6' style='text-align:right;'> Jasa Dokter Resep</td>
            
-            <td>".number_format($modReseptur->jasadokterresep,0,"",".")."</td>
+            <td style='text-align: right;'>".number_format($modReseptur->jasadokterresep,0,"",".")."</td>
             <td></td>
          </tr>";  
     echo "<tr>
-            <td colspan='7' style='text-align:right;'> Discount</td>
+            <td colspan='6' style='text-align:right;'> Discount</td>
            
-            <td>".number_format($modReseptur->discount,0,"",".")."</td>
+            <td style='text-align: right;'>".number_format($modReseptur->discount,0,"",".")."</td>
             <td></td>
          </tr>";  
      //     echo "<tr>
@@ -114,9 +115,9 @@
 //         </tr>"; 
     $total = $subtotals+$modReseptur->biayaadministrasi+$modReseptur->totaltarifservice+$modReseptur->biayakonseling;//+$modReseptur->jasadokterresep << SDH TERMASUK DLM HARGA OBAT
      echo "<tr>
-            <td colspan='7' style='text-align:right;'> Total</td>
+            <td colspan='6' style='text-align:right;'> Total</td>
            
-            <td>".number_format($total,0,"",".")."</td>
+            <td style='text-align: right;'>".number_format($total,0,"",".")."</td>
             <td></td>
          </tr>";  
     ?>

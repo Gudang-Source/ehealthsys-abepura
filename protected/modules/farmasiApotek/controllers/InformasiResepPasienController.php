@@ -14,7 +14,10 @@ class InformasiResepPasienController extends InformasiPenjualanResepController
         $modInfoPenjualan->tgl_akhir = date('Y-m-d');
         if(isset($_GET['FAInformasipenjualanresepV'])){                
             $modInfoPenjualan->attributes = $_GET['FAInformasipenjualanresepV'];
-            $modInfoPenjualan->ruanganasalobat = $_GET['FAInformasipenjualanresepV']['ruanganasalobat'];
+            $modInfoPenjualan->pegawai_id = $_GET['FAInformasipenjualanresepV']['pegawai_id'];
+            $modInfoPenjualan->carabayar_id = $_GET['FAInformasipenjualanresepV']['carabayar_id'];
+            $modInfoPenjualan->statusperiksa = $_GET['FAInformasipenjualanresepV']['statusperiksa'];
+            $modInfoPenjualan->ruanganpendaftaran_id = $_GET['FAInformasipenjualanresepV']['ruanganpendaftaran_id'];
             $modInfoPenjualan->tgl_awal = $format->formatDateTimeForDb($_GET['FAInformasipenjualanresepV']['tgl_awal']);
             $modInfoPenjualan->tgl_akhir = $format->formatDateTimeForDb($_GET['FAInformasipenjualanresepV']['tgl_akhir']);
         }

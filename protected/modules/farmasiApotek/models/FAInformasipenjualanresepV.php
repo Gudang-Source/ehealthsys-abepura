@@ -13,6 +13,8 @@ class FAInformasipenjualanresepV extends InformasipenjualanaresepV
         public $namaDokter;
         public $tgl_pendaftaran;
         public $no_pendaftaran;
+        public $ruanganpendaftaran_id;
+        public $statusperiksa;
 		
 	/**
 	 * Returns the static model of the specified AR class.
@@ -70,6 +72,7 @@ class FAInformasipenjualanresepV extends InformasipenjualanaresepV
 		if(!empty($this->pendaftaran_id)){
 			$criteria->addCondition("t.pendaftaran_id = ".$this->pendaftaran_id);						
 		}
+                $criteria->compare('t.ruanganasal_nama', $this->ruanganasal_nama);
 		$criteria->addCondition('t.ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
 //                $criteria->addCondition('penjualanresep_t.returresep_id IS NULL'); // DI NONAKTIFKAN KARENA ADA KASUS RETUR SEBAGIAN OBAT 
                 
@@ -87,7 +90,7 @@ class FAInformasipenjualanresepV extends InformasipenjualanaresepV
 
 		$criteria=new CDbCriteria;
                 //HARUSNYA JANGAN ADA JOIN DI MODEL YANG MEMANGGIL VIEW TABLE (DB), JIKA ADA YG PERLU DI TAMBAHKAN HUBUNGI ANALIS
-                $criteria->group = 't.racikanantrian_singkatan, t.noantrian, t.panggilantrian, t.antrianlewat, t.pendaftaran_id, penjualanresep_t.jenispenjualan, penjualanresep_t.returresep_id, t.jenispenjualan, t.no_rekam_medik, t.namadepan, t.nama_pasien, t.nama_bin, t.tanggal_lahir, t.noresep, t.totharganetto,
+                $criteria->group = 't.carabayar_id, t.carabayar_nama, t.penjamin_id, t.penjamin_nama, t.gelardepan, t.gelarbelakang_nama, t.racikanantrian_singkatan, t.noantrian, t.panggilantrian, t.antrianlewat, t.pendaftaran_id, penjualanresep_t.jenispenjualan, penjualanresep_t.returresep_id, t.jenispenjualan, t.no_rekam_medik, t.namadepan, t.nama_pasien, t.nama_bin, t.tanggal_lahir, t.noresep, t.totharganetto,
                                     t.totalhargajual, t.instalasiasal_nama, t.ruanganasal_nama, t.penjualanresep_id, t.reseptur_id, t.pegawai_id, t.nama_pegawai, t.tglpenjualan, t.pasien_id,pendaftaran_t.umur, t.jeniskelamin, t.alamat_pasien, t.tglresep, t.create_ruangan';
                 $criteria->select = $criteria->group.", sum(t.totharganetto) as totalharganetto, sum(t.totalhargajual) as totalhargajual";
                 $criteria->order = 't.tglpenjualan, t.noantrian ASC';
@@ -103,8 +106,11 @@ class FAInformasipenjualanresepV extends InformasipenjualanaresepV
 		$criteria->compare('LOWER(t.noresep)',strtolower($this->noresep),true);
 		$criteria->compare('t.totharganetto',$this->totharganetto);
 		$criteria->compare('t.totalhargajual',$this->totalhargajual);
+                $criteria->compare('t.carabayar_id', $this->carabayar_id);
+                $criteria->compare('t.pegawai_id',$this->pegawai_id);
+                $criteria->compare('pendaftaran_t.statusperiksa',$this->statusperiksa);
 		$criteria->compare('LOWER(t.instalasiasal_nama)',strtolower($this->instalasiasal_nama),true);
-		$criteria->compare('LOWER(t.ruanganasal_nama)',strtolower($this->ruanganasal_nama),true);
+		$criteria->compare('pendaftaran_t.ruangan_id',$this->ruanganpendaftaran_id);
 		if(!empty($this->reseptur_id)){
 			$criteria->addCondition("t.reseptur_id = ".$this->reseptur_id);						
 		}

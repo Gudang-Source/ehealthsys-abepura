@@ -30,10 +30,10 @@
                 $subtotal = ($obatalkes->qty_oa*$obatalkes->hargasatuan_oa);
                 $total_oa += round($subtotal,2);
 				$total_retur = $total_oa;
-                $obatalkes->qty_oa = $format->formatNumberForUser($obatalkes->qty_oa,3);
-                $modDetails->qty_retur = $format->formatNumberForUser($modDetails->qty_retur,3);
-                $modDetails->hargasatuan = $format->formatNumberForUser($modDetails->hargasatuan,2);
-                $subtotal = $format->formatNumberForUser($subtotal,2);
+                $obatalkes->qty_oa = $format->formatNumberForPrint($obatalkes->qty_oa,3);
+                $modDetails->qty_retur = $format->formatNumberForPrint($modDetails->qty_retur,3);
+                $modDetails->hargasatuan = $format->formatNumberForPrint($modDetails->hargasatuan,2);
+                $subtotal = $format->formatNumberForPrint($subtotal,2);
 				//header group
 				if($i == 0){
 					$tampilheader = true;
@@ -60,12 +60,12 @@
                         .'<td>'.($i+1).'</td>'
                         .'<td>'//.$modDetails->obatpasien->obatalkes->obatalkes_kode.' - '
                         .$modDetails->obatpasien->obatalkes->obatalkes_nama.'</td>'
-                        .'<td>'.CHtml::activeTextField($modDetails, '['.$i.']hargasatuan',array('readonly'=>true,'class'=>'inputFormTabel lebar3 float', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
-                        .'<td>'.CHtml::activeTextField($obatalkes, '['.$i.']qty_oa',array('readonly'=>true,'class'=>'inputFormTabel lebar1 float', 'style'=>'width:60px','onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
-                        .'<td>'.CHtml::activeTextField($modDetails, '['.$i.']qty_retur',array('onblur'=>'cekQtyRetur(this);hitungTotalOa();','class'=>'inputFormTabel lebar1 float', 'style'=>'width:60px', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
+                        .'<td>'.CHtml::activeTextField($modDetails, '['.$i.']hargasatuan',array('readonly'=>true,'class'=>'inputFormTabel lebar3 float2', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
+                        .'<td>'.CHtml::activeTextField($obatalkes, '['.$i.']qty_oa',array('readonly'=>true,'class'=>'inputFormTabel lebar1 float2', 'style'=>'width:60px','onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
+                        .'<td>'.CHtml::activeTextField($modDetails, '['.$i.']qty_retur',array('onblur'=>'cekQtyRetur(this);hitungTotalOa();','class'=>'inputFormTabel lebar1 float2', 'style'=>'width:60px', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
                         .'<td>'.$modDetails->obatpasien->satuankecil->satuankecil_nama.'</td>'
                         .'<td>'.CHtml::activeTextField($modDetails, '['.$i.']kondisibrg',array('class'=>'span2', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
-                        .'<td>'.CHtml::textField('subtotal',$subtotal,array('style'=>'width:100px','readonly'=>true,'class'=>'inputFormTabel lebar3 float', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
+                        .'<td>'.CHtml::textField('subtotal',$subtotal,array('style'=>'width:100px','readonly'=>true,'class'=>'inputFormTabel lebar3 float2', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
                     .'</tr>';
             }
         }
@@ -74,21 +74,21 @@
     <tfoot>
         <?php
         //formatting total
-        $tot_biayalain = $format->formatNumberForUser($tot_biayalain,2);
-        $total_oa = $format->formatNumberForUser($total_oa,2);
-        $model->totalretur = $format->formatNumberForUser($total_retur,2);
+        $tot_biayalain = $format->formatNumberForPrint($tot_biayalain,2);
+        $total_oa = $format->formatNumberForPrint($total_oa,2);
+        $model->totalretur = $format->formatNumberForPrint($total_retur,2);
         ?>
         <tr>
 			<td colspan="8" style="text-align: right; font-weight: bold;"> Total Penjualan</td>
-			<td><?php echo CHtml::textField('total_oa',$total_oa,array('readonly'=>true,'class'=>'inputFormTabel lebar3 float','style'=>'width:100px','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
+			<td><?php echo CHtml::textField('total_oa',$total_oa,array('readonly'=>true,'class'=>'inputFormTabel lebar3 float2','style'=>'width:100px','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
 		</tr>
 <!--        <tr>
 			<td colspan="8" style="text-align: right; font-weight: bold;"> Biaya Administrasi + Tarif Service + Konseling + Jasa Dokter</td>
-			<td><?php // echo CHtml::textField('tot_biayalain',$tot_biayalain,array('readonly'=>true,'class'=>'inputFormTabel lebar3 float','style'=>'width:100px','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
+			<td><?php // echo CHtml::textField('tot_biayalain',$tot_biayalain,array('readonly'=>true,'class'=>'inputFormTabel lebar3 float2','style'=>'width:100px','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
 		</tr>-->
 		<tr>
 			<td colspan="8" style="text-align: right; font-weight: bold;"> Total Retur</td>
-			<td><?php echo CHtml::activeTextField($model,'totalretur',array('readonly'=>true,'class'=>'inputFormTabel lebar3 float','style'=>'width:100px','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
+			<td><?php echo CHtml::activeTextField($model,'totalretur',array('readonly'=>true,'class'=>'inputFormTabel lebar3 float2','style'=>'width:100px','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
 		</tr>
     </tfoot>
 </table>
