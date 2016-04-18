@@ -1,6 +1,6 @@
 <tr>
     <td>
-        <?php echo CHtml::textField('no_urut',0,array('readonly'=>true,'class'=>'span1 integer', 'style'=>'width:20px;')); ?>
+        <?php echo CHtml::textField('no_urut',0,array('readonly'=>true,'class'=>'span1 integer2', 'style'=>'width:20px;')); ?>
         <?php echo CHtml::activeHiddenField($modMutasiDetail,'[ii]pesanoadetail_id',array('readonly'=>true,'class'=>'span1')); ?>
         <?php echo CHtml::activeHiddenField($modMutasiDetail,'[ii]stokobatalkes_id',array('readonly'=>true,'class'=>'span1')); ?>
         <?php echo CHtml::activeHiddenField($modMutasiDetail,'[ii]obatalkes_id',array('readonly'=>true,'class'=>'span1')); ?>
@@ -27,26 +27,26 @@
         <?php echo CHtml::textField('[ii]satuankecil_nama', (isset($modMutasiDetail->satuankecil_id) ? $modMutasiDetail->satuankecil->satuankecil_nama : ""),array('style'=>'width:80px;')); ?>
     </td>
     <td hidden>
-        <?php echo CHtml::activeTextField($modMutasiDetail,'[ii]jmlstok',array('readonly'=>true,'class'=>'span2 integer','style'=>'width:45px;','onblur'=>'hitungTotal();','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php echo CHtml::activeTextField($modMutasiDetail,'[ii]jmlstok',array('readonly'=>true,'class'=>'span2 integer2','style'=>'width:45px;','onblur'=>'hitungTotal();','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
     </td>
     <td>
-        <?php echo CHtml::activeTextField($modMutasiDetail,'[ii]jmlpesan',array('readonly'=>true,'class'=>'span2 integer','style'=>'width:45px;','onblur'=>'hitungTotal();','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php echo CHtml::activeTextField($modMutasiDetail,'[ii]jmlpesan',array('readonly'=>true,'class'=>'span2 integer2','style'=>'width:45px;','onblur'=>'hitungTotal();','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
         <?php echo isset($modMutasiDetail->satuankecil_id) ? $modMutasiDetail->satuankecil->satuankecil_nama : ""; ?>
     </td>
     <td>
-        <?php echo CHtml::activeTextField($modMutasiDetail,'[ii]jmlmutasi',array('readonly'=>true,'class'=>'span2 integer','style'=>'width:45px;','onblur'=>'hitungTotal();','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php echo CHtml::activeTextField($modMutasiDetail,'[ii]jmlmutasi',array('readonly'=>true,'class'=>'span2 integer2','style'=>'width:45px;','onblur'=>'hitungTotal();','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
         <?php echo isset($modMutasiDetail->satuankecil_id) ? $modMutasiDetail->satuankecil->satuankecil_nama : ""; ?>
     </td>
     
     <td>
-        <?php echo CHtml::activeTextField($modMutasiDetail,'[ii]harganetto',array('readonly'=>true,'class'=>'span2 integer','style'=>'width:80px;')); ?>
-        <?php echo CHtml::activeHiddenField($modMutasiDetail,'[ii]persendiscount',array('readonly'=>true,'class'=>'span2 integer','style'=>'width:80px;')); ?>
+        <?php echo CHtml::activeTextField($modMutasiDetail,'[ii]harganetto',array('readonly'=>true,'class'=>'span2 integer2','style'=>'width:80px;')); ?>
+        <?php echo CHtml::activeHiddenField($modMutasiDetail,'[ii]persendiscount',array('readonly'=>true,'class'=>'span2 integer2','style'=>'width:80px;')); ?>
     </td>
     <td>
-        <?php echo CHtml::activeTextField($modMutasiDetail,'[ii]hargajualsatuan',array('readonly'=>true,'class'=>'span2 integer','style'=>'width:80px;')); ?>
+        <?php echo CHtml::activeTextField($modMutasiDetail,'[ii]hargajualsatuan',array('readonly'=>true,'class'=>'span2 integer2','style'=>'width:80px;')); ?>
     </td>
     <td>
-        <?php echo CHtml::activeTextField($modMutasiDetail,'[ii]totalharga',array('readonly'=>true,'class'=>'span2 integer','style'=>'width:90px;')); ?>
+        <?php echo CHtml::activeTextField($modMutasiDetail,'[ii]totalharga',array('readonly'=>true,'class'=>'span2 integer2','style'=>'width:90px;')); ?>
     </td>
     <td>
         <a onclick="batalMutasiDetail(this);return false;" rel="tooltip" href="javascript:void(0);" title="Klik untuk membatalkan mutasi obat alkes ini"><i class="icon-remove"></i></a>

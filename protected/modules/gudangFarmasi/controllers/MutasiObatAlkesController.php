@@ -430,8 +430,8 @@ class MutasiObatAlkesController extends MyAuthController
             //    foreach($modStokOAs AS $i => $stok){
                     $modMutasiDetail->stokobatalkes_id = null; //$stok->stokobatalkes_id;
                     $modMutasiDetail->jmlmutasi = $jumlah; //$stok->qtystok_terpakai;
-                    $modMutasiDetail->harganetto = $oa->harganetto; //$stok->HPP;
-                    $modMutasiDetail->hargajualsatuan = $oa->hargajual; //$stok->HargaJualSatuan;
+                    $modMutasiDetail->harganetto = floor($oa->harganetto); //$stok->HPP;
+                    $modMutasiDetail->hargajualsatuan = floor($oa->hargajual); //$stok->HargaJualSatuan;
                     $modMutasiDetail->sumberdana_id = $oa->sumberdana_id; //(isset($stok->penerimaandetail->sumberdana_id) ? $stok->penerimaandetail->sumberdana_id : $stok->obatalkes->sumberdana_id);
                     $modMutasiDetail->obatalkes_id = $oa->obatalkes_id; //$stok->obatalkes_id;
                     $modMutasiDetail->satuankecil_id = $oa->satuankecil_id; //$stok->satuankecil_id;
