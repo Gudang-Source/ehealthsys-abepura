@@ -29,29 +29,29 @@
                     </td>
                     <td><?php echo $mod->obatalkes->obatalkes_kode." - ".$mod->obatalkes->obatalkes_nama; ?>
                     </td>
-                    <td><?php echo CHtml::textField('FAReturresepdetT['.$i.'][hargasatuan]', number_format($mod->hargasatuan_oa), array('class'=>'span1 integer harga', 'style'=>'text-align:right;', 'readonly'=>true));?></td>
-                    <td><?php echo CHtml::textField('qty_oa', $mod->qty_oa, array('class'=>'span1 integer', 'style'=>'text-align:right;', 'readonly'=>true));?></td>
-                    <td><?php echo CHtml::textField('FAReturresepdetT['.$i.'][qty_retur]', $mod->qty_oa, array('class'=>'span1 integer qty', 'style'=>'text-align:right;', 'onkeyup'=>'validasiQty(this); hitungTabel();', 'onKeypress'=>'return formSubmit(this,event)'));?></td>
+                    <td><?php echo CHtml::textField('FAReturresepdetT['.$i.'][hargasatuan]', MyFormatter::formatNumberForPrint($mod->hargasatuan_oa), array('class'=>'span1 integer2 harga', 'style'=>'text-align:right;', 'readonly'=>true));?></td>
+                    <td><?php echo CHtml::textField('qty_oa', $mod->qty_oa, array('class'=>'span1 integer2', 'style'=>'text-align:right;', 'readonly'=>true));?></td>
+                    <td><?php echo CHtml::textField('FAReturresepdetT['.$i.'][qty_retur]', $mod->qty_oa, array('class'=>'span1 integer2 qty', 'style'=>'text-align:right;', 'onkeyup'=>'validasiQty(this); hitungTabel();', 'onKeypress'=>'return formSubmit(this,event)'));?></td>
                     <td><?php echo $mod->satuankecil->satuankecil_nama;?></td>
                     <td><?php echo CHtml::textField('FAReturresepdetT['.$i.'][kondisibrg]', '', array('class'=>'span2', 'onKeypress'=>'return formSubmit(this,event)'));?></td>
                     <td>
                         <?php
-                            $subTotal = number_format($mod->qty_oa,0,'','') * number_format($mod->hargasatuan_oa,0,'','');
+                            $subTotal = $mod->qty_oa * $mod->hargasatuan_oa;
                             $totalSubTotal += $subTotal;
-                            echo CHtml::textField('subtotal', number_format($subTotal), array('class'=>'span1 integer subtotal', 'style'=>'text-align:right;', 'readonly'=>true));
+                            echo CHtml::textField('subtotal', MyFormatter::formatNumberForPrint($subTotal), array('class'=>'span1 integer2 subtotal', 'style'=>'text-align:right;', 'readonly'=>true));
                         ?>
                     </td>
                 </tr>
         <?php } ?> 
         <tr>
             <td colspan="8" style="text-align: right;"><b>Total</b></td>
-            <td><?php echo CHtml::textField('total', number_format($totalSubTotal), array('class'=>'span1 integer total', 'style'=>'text-align:right;', 'readonly'=>true));?></td>
+            <td><?php echo CHtml::textField('total', MyFormatter::formatNumberForPrint($totalSubTotal), array('class'=>'span1 integer2 total', 'style'=>'text-align:right;', 'readonly'=>true));?></td>
         </tr>
         <tr>
             <td colspan="8" style="text-align: right;"><b>Biaya Administrasi + Tarif Service + Konseling + Jasa Dokter</b></td>
             <td><?php 
                 $biayaAdmin = $modPenjualanResep->totaltarifservice + $modPenjualanResep->biayaadministrasi + $modPenjualanResep->biayakonseling ;//+ $modPenjualanResep->jasadokterresep <<< SDH TERMASUK DLM HARGA OBAT
-                echo CHtml::textField('biayaAdministrasi', number_format($biayaAdmin), array('class'=>'span1 integer totalAdmin', 'style'=>'text-align:right;', 'readonly'=>true));
+                echo CHtml::textField('biayaAdministrasi', MyFormatter::formatNumberForPrint($biayaAdmin), array('class'=>'span1 integer2 totalAdmin', 'style'=>'text-align:right;', 'readonly'=>true));
                 ?>
             </td>
         </tr>
@@ -59,7 +59,7 @@
             <td colspan="8" style="text-align: right;"><b>Total Retur</b></td>
             <td><?php 
                 $totalRetur = $totalSubTotal + $biayaAdmin;
-                echo CHtml::textField('FAReturresepT[totalretur]', number_format($totalRetur), array('class'=>'span1 integer totalRetur', 'style'=>'text-align:right;', 'readonly'=>true));
+                echo CHtml::textField('FAReturresepT[totalretur]', MyFormatter::formatNumberForPrint($totalRetur), array('class'=>'span1 integer2 totalRetur', 'style'=>'text-align:right;', 'readonly'=>true));
                 ?>
             </td>
         </tr>
@@ -71,17 +71,17 @@
                 <td><?php echo CHtml::checkBox('FAReturresepdetT['.$i.'][isRetur]', true, array('readonly'=>true)) ?></td>
                 <td><?php echo ($i+1);?></td>
                 <td><?php echo $mod->obatpasien->obatalkes->obatalkes_kode." - ".$mod->obatpasien->obatalkes->obatalkes_nama; ?></td>
-                <td><?php echo number_format($mod->hargasatuan,0,'','.');?></td>
-                <td style="text-align: right;"><?php echo number_format($mod->obatpasien->qty_oa + $mod->qty_retur); //Ditambah karena kuantiti di obatalkespasie berkurang saat proses retur?></td>
-                <td style="text-align: right;"><?php echo number_format($mod->qty_retur); ?></td>
-                <td style="text-align: right;"><?php echo number_format($mod->obatpasien->qty_oa); ?></td>
+                <td><?php echo MyFormatter::formatNumberForPrint($mod->hargasatuan);?></td>
+                <td style="text-align: right;"><?php echo MyFormatter::formatNumberForPrint($mod->obatpasien->qty_oa + $mod->qty_retur); //Ditambah karena kuantiti di obatalkespasie berkurang saat proses retur?></td>
+                <td style="text-align: right;"><?php echo MyFormatter::formatNumberForPrint($mod->qty_retur); ?></td>
+                <td style="text-align: right;"><?php echo MyFormatter::formatNumberForPrint($mod->obatpasien->qty_oa); ?></td>
                 <td><?php echo $mod->obatpasien->satuankecil->satuankecil_nama;?></td>
                 <td><?php echo $mod->kondisibrg;?></td>
                 <td>
                     <?php
-                        $subTotal = number_format($mod->qty_retur,0,'','') * number_format($mod->hargasatuan,0,'','');
+                        $subTotal = MyFormatter::formatNumberForPrint($mod->qty_retur,0,'','') * MyFormatter::formatNumberForPrint($mod->hargasatuan,0,'','');
                         $totalSubTotal += $subTotal;
-                        echo number_format($subTotal,0,'','.');
+                        echo MyFormatter::formatNumberForPrint($subTotal,0,'','.');
                     ?>
                 </td>
             </tr>
@@ -91,12 +91,12 @@
             <tr>
                 <td colspan="9" style="text-align: right;"><b>Biaya Administrasi, dll</b></td>
                 <td><?php 
-                    echo number_format($modRetur->totalretur - $totalSubTotal); 
+                    echo MyFormatter::formatNumberForPrint($modRetur->totalretur - $totalSubTotal); 
                 ?></td>
             </tr>
             <tr>
                 <td colspan="9" style="text-align: right;"><b>Total Retur</b></td>
-                <td><?php echo number_format($modRetur->totalretur,0,'','.'); ?></td>
+                <td><?php echo MyFormatter::formatNumberForPrint($modRetur->totalretur,0,'','.'); ?></td>
             </tr>
         <?php }
         else{

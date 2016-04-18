@@ -1,3 +1,6 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
 <script type="text/javascript">
 /**
 * set form kunjungan
@@ -140,10 +143,10 @@ function setRincianObatalkes(){
             $("#form-returresepdet").html(data.form);
             $("#form-returresepdet").removeClass("animation-loading");
             $("#form-returresepdet .integer").maskMoney(
-                {"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0}
+                {"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0}
             );
             $("#form-returresepdet .float").maskMoney(
-                {"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":2}
+                {"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":2}
             );
             $("#form-returresepdet").find('input:checkbox[name$="is_proporsioa"]').tooltip({"placement":"<?php echo Params::TOOLTIP_PLACEMENT; ?>"});
             hitungTotalOa();

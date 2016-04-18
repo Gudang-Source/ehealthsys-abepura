@@ -62,7 +62,12 @@
             <td>
                 <?php echo $form->dropDownListRow($model,'ruanganasalmutasi_id',$ruanganAsals,array('class'=>'span3','empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
                 <?php echo $form->dropDownListRow($model,'statuspesan', LookupM::getItems('statuspesan'),array('class'=>'span3','empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-
+                <?php echo $form->dropDownListRow($model,'status_terima', array(1=>'BELUM DITERIMA', 2=>'SUDAH DITERIMA'),array('class'=>'span3','empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+                <?php echo $form->dropDownListRow($model,'pegawaipenerima_id', CHtml::listData(PegawairuanganV::model()->findAllByAttributes(array(
+                            'ruangan_id'=>Yii::app()->user->getState('ruangan_id')
+                        ), array(
+                            'order'=>'nama_pegawai'
+                        )), 'pegawai_id', 'nama_pegawai'),array('class'=>'span3','empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
             </td>
         </tr>
     </table>

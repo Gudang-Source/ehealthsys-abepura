@@ -20,6 +20,7 @@ class InformasiMutasiMasukController extends MyAuthController
             $model->attributes=$_GET['GFInformasimutasioaruanganV'];
             $model->tgl_awal  = $format->formatDateTimeForDb($_GET['GFInformasimutasioaruanganV']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['GFInformasimutasioaruanganV']['tgl_akhir']);
+            $model->status_terima = $_GET['GFInformasimutasioaruanganV']['status_terima'];
         }
         $this->render($this->path_view.'index',array(
             'format'=>$format,
