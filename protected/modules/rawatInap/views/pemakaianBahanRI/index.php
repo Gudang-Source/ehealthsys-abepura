@@ -22,7 +22,7 @@
             <?php $this->renderPartial($this->path_view.'_formInfoKunjungan', array('form'=>$form,'modKunjungan'=>$modKunjungan)); ?>
         </div>
     </fieldset>
-    <div class="span12">
+    <div class="fluid">
         <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
                 'id'=>'riwayat-obatalkespasien-t',
                 'content'=>array(
@@ -34,7 +34,7 @@
                                     <th>No.</th>
                                     <th>Tgl. Pelayanan</th>
                                     <th>Obat / Alat Kesehatan</th>
-                                    <th>Satuan Kecil</th>
+                                    <th hidden>Satuan Kecil</th>
                                     <th>Jumlah</th>
                                     <th>Hapus</th>
                                 </thead>
@@ -59,8 +59,8 @@
                     <tr>
                         <th>No.</th>
                         <th>Obat / Alat Kesehatan</th>
-                        <th>Satuan Kecil</th>
-                        <th>Stok</th>
+                        <th hidden>Satuan Kecil</th>
+                        <th hidden>Stok</th>
                         <th>Jumlah</th>
                         <th>Batal</th>
                     </tr>
@@ -106,3 +106,4 @@
 <?php $this->endWidget(); ?>
 
 <?php $this->renderPartial($this->path_view.'_jsFunctions', array('modKunjungan'=>$modKunjungan,'modObatAlkesPasien'=>$modObatAlkesPasien)); ?>
+</div>

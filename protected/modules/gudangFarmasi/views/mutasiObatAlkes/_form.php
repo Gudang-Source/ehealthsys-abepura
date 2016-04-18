@@ -63,8 +63,8 @@
                 ?>
             </div>
         </div>
-        <?php echo $form->textFieldRow($model,'totalharganettomutasi',array('readonly'=>true,'class'=>'span2 integer', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
-        <?php echo $form->textFieldRow($model,'totalhargajual',array('readonly'=>true,'class'=>'span2 integer', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php echo $form->textFieldRow($model,'totalharganettomutasi',array('readonly'=>true,'class'=>'span2 integer2', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php echo $form->textFieldRow($model,'totalhargajual',array('readonly'=>true,'class'=>'span2 integer2', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
     </div>
     <div class = "span4">
         <?php echo $form->textAreaRow($model,'keteranganmutasi',array('rows'=>3, 'cols'=>50, 'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>

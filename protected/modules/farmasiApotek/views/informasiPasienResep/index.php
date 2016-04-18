@@ -100,15 +100,24 @@
                 array(
                     'header'=>'Penjualan Resep',
                     'type'=>'raw', 
-                    'value'=>'(isset($data->penjualanresep_id) ? $data->getNoPenjualanResep($data->reseptur_id)
+                    'value'=>function($data) {
+                        return (isset($data->penjualanresep_id) ? CHtml::link("<i class='icon-form-rincianjual'></i>", Yii::app()->createUrl('farmasiApotek/informasiPenjualanResep/detailPenjualan', array(
+                            'id'=>$data->penjualanresep_id, 'pasien_id'=>$data->pasien_id
+                        )), array(
+                            'target'=>'iframeDetailPenjualan',
+                            'rel'=>'tooltip',
+                            'title'=>'Klik untuk melihat detail penjualan resep',
+                            'onclick'=>'$("#dialogDetailPenjualan").dialog("open")'
+                        )).$data->getNoPenjualanResep($data->reseptur_id)
 					
-					: CHtml::Link("<i class=\"icon-form-jualresep\"></i>",Yii::app()->controller->createUrl("PenjualanDariReseptur/Index",array("reseptur_id"=>$data->reseptur_id)),
+					: CHtml::Link("<i class='icon-form-jualresep'></i>",Yii::app()->controller->createUrl("PenjualanDariReseptur/Index",array("reseptur_id"=>$data->reseptur_id)),
                                 array("class"=>"", 
                                       "target"=>"_BLANK",
                                       "rel"=>"tooltip",
                                       "title"=>"Klik untuk menjual resep",
-                                )))',
-                    'htmlOptions'=>array('style'=>'text-align: left;'),
+                                )));
+                    },
+                    'htmlOptions'=>array('style'=>'text-align: center;'),
                 ),
                             array(
                     'header'=>'Copy Resep',
@@ -296,6 +305,28 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
 <?php
 $this->endWidget();
 //========= end propinsi dialog =============================
+?>
+
+<?php 
+// Dialog buat Detail Penjualan =========================
+$this->beginWidget('zii.widgets.jui.CJuiDialog', array( 
+    'id'=>'dialogDetailPenjualan',
+    'options'=>array(
+        'title'=>'Penjualan Resep',
+        'autoOpen'=>false,
+        'modal'=>true,
+        'zIndex'=>1002,
+        'minWidth'=>980,
+        'minHeight'=>610,
+        'resizable'=>false,
+    ),
+));
+?>
+<iframe src="" name="iframeDetailPenjualan" width="100%" height="550" >
+</iframe>
+<?php
+$this->endWidget();
+//========= end Detail Penjualan dialog =============================
 ?>
 
 <?php 

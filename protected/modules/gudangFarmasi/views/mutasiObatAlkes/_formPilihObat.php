@@ -55,7 +55,7 @@
     <div class="control-group ">
         <?php echo CHtml::label('jumlah', 'qty_input', array('class'=>'control-label')); ?>
         <div class="controls">
-            <?php echo CHtml::textField('qty_input', '1', array('readonly'=>false,'onblur'=>'$("#qty").val(this.value);','onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span1 integer')) ?>
+            <?php echo CHtml::textField('qty_input', '1', array('readonly'=>false,'onblur'=>'$("#qty").val(this.value);','onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span1 integer2')) ?>
             <?php echo CHtml::htmlButton('<i class="icon-plus icon-white"></i>',
                     array('onclick'=>'tambahObatAlkes();return false;',
                           'class'=>'btn btn-primary',

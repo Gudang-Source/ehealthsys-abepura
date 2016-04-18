@@ -29,24 +29,24 @@
             'itemsCssClass'=>'table table-striped table-condensed',
             'columns'=>array(
                 array(
-                    'header'=>'Tanggal Penjualan /<br/> Tanggal Resep',
+                    'header'=>'Tanggal Penjualan',
                     'type'=>'raw',
-                    'value'=>'$data->tglpenjualan." / <br>".$data->tglresep',
+                    'value'=>'$data->tglpenjualan',
                 ),
                 array(
-                    'header'=>'No. Resep',
+                    'header'=>'Tanggal Resep /<br/> Tanggal Resep',
                     'type'=>'raw',
-                    'value'=>'$data->noresep',
+                    'value'=>'$data->tglresep."/<br>".$data->noresep',
                 ),
                 array(
-                    'header'=>'Ruangan Asal Obat',
+                    'header'=>'No. Rekam Medik',
                     'type'=>'raw',
-                    'value'=>'$data->namaRuangan',
+                    'value'=>'$data->no_rekam_medik',
                 ),
                 array(
                     'header'=>'Nama Pasien',
                     'type'=>'raw',
-                    'value'=>'"$data->no_rekam_medik"."<br/>"."$data->nama_pasien"',
+                    'value'=>'$data->namadepan.$data->nama_pasien',
                 ),
                 array(
                     'header'=>'Umur / <br> Jenis Kelamin',
@@ -59,9 +59,34 @@
                     'value'=>'$data->alamat_pasien',
                 ),
                 array(
+                    'header'=>'Cara Bayar',
+                    'type'=>'raw',
+                    'value'=>'$data->carabayar_nama',
+                ),
+                array(
+                    'header'=>'Penjamin',
+                    'type'=>'raw',
+                    'value'=>'$data->penjamin_nama',
+                ),
+                array(
+                    'header'=>'Ruangan',
+                    'type'=>'raw',
+                    'value'=>function($data) use (&$p) {
+                        $p = PendaftaranT::model()->findByPk($data->pendaftaran_id);
+                        return !empty($p)?$p->ruangan->ruangan_nama:"-";
+                    },//'$data->ruanganasal_nama',  
+                ),
+                array(
                     'header'=>'Dokter',
                     'type'=>'raw',
                     'value'=>'($data->jenispenjualan == "PENJUALAN BEBAS" OR $data->nama_pegawai == "Eli Hismiati") ? "-" : $data->NamaDokter',
+                ),
+                array(
+                    'header'=>'Status Periksa',
+                    'type'=>'raw',
+                    'value'=>function($data) use (&$p) {
+                        return !empty($p)?$p->statusperiksa:"-";
+                    },
                 ),
                 array(
                     'header'=>'Detail Penjualan',
@@ -73,7 +98,7 @@
                                       "rel"=>"tooltip",
                                       "title"=>"Klik untuk lihat detail penjualan",
                                 ))',
-                    'htmlOptions'=>array('style'=>'text-align: left; width:40px'),
+                    'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
                 ),
 //                array(
 //                    'header'=>'Retur Penjualan',
@@ -99,20 +124,20 @@
 							  "title"=>"Klik untuk mencetak Retur Penjualan",
 						)) : 
 						(!empty($data->nomorResepSudahBayar) ? 
-						"Sudah Lunas": 
-						CHtml::Link("<i class=\"icon-form-silang\"></i>","javascript:void(0);",
-						   array("class"=>"", 
-								 "onclick"=>"cekHakBatal(".$data->penjualanresep_id.");return false;",
-								 "rel"=>"tooltip",
-								 "title"=>"Klik untuk Batal Penjualan Resep",
-						   ))."&nbsp;&nbsp;".CHtml::Link("<i class=\"icon-form-retur\"></i>",Yii::app()->controller->createUrl("informasiPenjualanResep/returPenjualan",array("penjualanresep_id"=>$data->penjualanresep_id)),
+						"Sudah Lunas".CHtml::Link("<i class=\"icon-form-retur\"></i>",Yii::app()->controller->createUrl("informasiPenjualanResep/returPenjualan",array("penjualanresep_id"=>$data->penjualanresep_id)),
 						   array("class"=>"", 
 								 "target"=>"iframeReturPenjualan",
 								 "onclick"=>"$(\"#dialogReturPenjualan\").dialog(\"open\");",
 								 "rel"=>"tooltip",
 								 "title"=>"Klik untuk Retur Penjualan",
-					)))',
-					'htmlOptions'=>array('style'=>'text-align: left; width:80px'),
+					)): 
+						CHtml::Link("<i class=\"icon-form-silang\"></i>","javascript:void(0);",
+						   array("class"=>"", 
+								 "onclick"=>"cekHakBatal(".$data->penjualanresep_id.");return false;",
+								 "rel"=>"tooltip",
+								 "title"=>"Klik untuk Batal Penjualan Resep",
+						   )))',
+					'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
 				),
             ),
             'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
@@ -165,22 +190,60 @@
                     </div>                
                 </td>
                 <td>
-                    <?php echo $form->textFieldRow($modInfoPenjualan,'no_rekam_medik',array('placeholder'=>'Ketik No. Rekam Medik','class'=>'span3 numbersOnly','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-                    <?php echo $form->textFieldRow($modInfoPenjualan,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-                </td>
-                <td>
-                    <div class="control-group">
-                        <?php echo CHtml::label('Ruangan Asal Obat','ruanganasalobat',array('class'=>'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->dropDownList($modInfoPenjualan,'ruanganasalobat', CHtml::listData(RuanganM::model()->findAllByAttributes(array('instalasi_id'=>Yii::app()->user->getState('instalasi_id'), 'ruangan_aktif'=>true), array('order'=>'ruangan_nama ASC')),'ruangan_id', 'ruangan_nama'),array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-                        </div>
-                    </div> 
                     <div class="control-group">
                         <?php echo CHtml::label('No. Resep','no_resep',array('class'=>'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modInfoPenjualan,'noresep',array('placeholder'=>'Ketik No. Resep','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
                         </div>
                     </div>
+                    <?php echo $form->textFieldRow($modInfoPenjualan,'no_rekam_medik',array('placeholder'=>'Ketik No. Rekam Medik','class'=>'span3 numbersOnly','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+                    <?php echo $form->textFieldRow($modInfoPenjualan,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+                </td>
+                <td>
+                    <?php 
+                    $carabayar = CarabayarM::model()->findAll(array(
+                        'condition'=>'carabayar_aktif = true',
+                        'order'=>'carabayar_nama ASC',
+                    ));
+                    foreach ($carabayar as $idx=>$item) {
+                        $penjamins = PenjaminpasienM::model()->findByAttributes(array(
+                            'carabayar_id'=>$item->carabayar_id,
+                            'penjamin_aktif'=>true,
+                       ));
+                       if (empty($penjamins)) unset($carabayar[$idx]);
+                    }
+                    $penjamin = PenjaminpasienM::model()->findAll(array(
+                        'condition'=>'penjamin_aktif = true',
+                        'order'=>'penjamin_nama',
+                    ));
+                    echo $form->dropDownListRow($modInfoPenjualan,'carabayar_id', CHtml::listData($carabayar, 'carabayar_id', 'carabayar_nama'), array(
+                        'empty'=>'-- Pilih --',
+                        'class'=>'span3', 
+                        'ajax' => array('type'=>'POST',
+                            'url'=> $this->createUrl('/actionDynamic/getPenjaminPasien',array('encode'=>false,'namaModel'=>get_class($modInfoPenjualan))), 
+                            'success'=>'function(data){$("#'.CHtml::activeId($modInfoPenjualan, "penjamin_id").'").html(data); }',
+                        ),
+                     ));
+                    echo $form->dropDownListRow($modInfoPenjualan,'penjamin_id', CHtml::listData($penjamin, 'penjamin_id', 'penjamin_nama'), array('empty'=>'-- Pilih --', 'class'=>'span3'));
+                    ?>
+                    <div class="control-group">
+                        <?php echo CHtml::label('Ruangan','ruanganpendaftaran_id',array('class'=>'control-label')); ?>
+                        <div class="controls">
+                            <?php echo $form->dropDownList($modInfoPenjualan,'ruanganpendaftaran_id', CHtml::listData(RuanganM::model()->findAllByAttributes(array('ruangan_aktif'=>true, 'instalasi_id'=>array(Params::INSTALASI_ID_RJ, Params::INSTALASI_ID_RD, Params::INSTALASI_ID_RI)), array('order'=>'instalasi_id, ruangan_nama ASC')),'ruangan_id', 'ruangan_nama'),array('class'=>'span3','empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+                        </div>
+                    </div> 
+                    <?php echo $form->dropDownListRow($modInfoPenjualan, 'pegawai_id', CHtml::listData(
+                            DokterV::model()->findAll(array(
+                                'order'=>'nama_pegawai'
+                            )),'pegawai_id','namaLengkap'), array(
+                                'empty'=>'-- Pilih--', 'class'=>'span3',
+                            )); ?>
+                    <div class="control-group">
+                        <?php echo CHtml::label('Status Periksa','statusperiksa',array('class'=>'control-label')); ?>
+                        <div class="controls">
+                            <?php echo $form->dropDownList($modInfoPenjualan,'statusperiksa', Params::statusPeriksa(), array('class'=>'span3','empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+                        </div>
+                    </div> 
                 </td>
             </tr>
         </table>

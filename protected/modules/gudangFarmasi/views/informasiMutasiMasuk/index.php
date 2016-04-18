@@ -20,17 +20,24 @@ $('#divSearch-form form').submit(function(){
                 'itemsCssClass'=>'table table-striped table-condensed',
                 'columns'=>array(
                         array(
+                            'header'=>'Tgl. Mutasi/<br/>No. Mutasi',
                             'name'=>'tglmutasioa',
                             'type'=>'raw',
-                            'value'=>'MyFormatter::formatDateTimeForUser($data->tglmutasioa)',
+                            'value'=>'MyFormatter::formatDateTimeForUser($data->tglmutasioa)."/<br/>".$data->nomutasioa',
                         ),
-                        'nomutasioa',
+                        array(
+                            'header'=>'Tgl. Terima/<br/>No. Terima',
+                            'name'=>'tglmutasioa',
+                            'type'=>'raw',
+                            'value'=>'MyFormatter::formatDateTimeForUser($data->tglterima)."/<br/>".$data->noterimamutasi',
+                        ),
+                        //  'nomutasioa',
                         'ruanganasalmutasi_nama',
                         'statuspesan',
                         array(
-                            'name'=>'pegawaimutasi_id',
+                            'name'=>'pegawaipenerima_id',
                             'type'=>'raw',
-                            'value'=>'$data->PegawaiMutasiLengkap',
+                            'value'=>'$data->PegawaiPenerimaLengkap',
                         ),
                         array(
                             'name'=>'pegawaimengetahuimutasi_id',
