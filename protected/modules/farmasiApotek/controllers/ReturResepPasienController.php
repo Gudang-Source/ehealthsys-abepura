@@ -123,6 +123,7 @@ class ReturResepPasienController extends MyAuthController
 				$modKunjungan->attributes = $_POST;
 				$model = new FAReturresepT;
 				$model->attributes = $_POST['FAReturresepT'];
+                                $model->totalpenjualan = $_POST['total_oa'];
             }
             echo CJSON::encode(array(
                 'content'=>$this->renderPartial($this->path_view.'verifikasi',array(
@@ -201,11 +202,12 @@ class ReturResepPasienController extends MyAuthController
             $criteria->compare('LOWER(pendaftaran_t.no_pendaftaran)',strtolower(trim($no_pendaftaran)));
             $criteria->compare('LOWER(t.no_rekam_medik)',strtolower(trim($no_rekam_medik)));
 			$model = FAInformasipenjualanresepV::model()->find($criteria);
+                        $pasien = PasienM::model()->findByPk($model->pasien_id);
             $attributes = $model->attributeNames();
             foreach($attributes as $j=>$attribute) {
                 $returnVal["$attribute"] = $model->$attribute;
             }
-            $returnVal["tanggal_lahir"] = $format->formatDateTimeForUser($model->tanggal_lahir);
+            $returnVal["tanggal_lahir"] = $format->formatDateTimeForUser($pasien->tanggal_lahir);
             $returnVal["tgl_pendaftaran"] = $format->formatDateTimeForUser($model->tgl_pendaftaran);
 			$returnVal["no_pendaftaran"] = $model->no_pendaftaran;
             echo CJSON::encode($returnVal);
