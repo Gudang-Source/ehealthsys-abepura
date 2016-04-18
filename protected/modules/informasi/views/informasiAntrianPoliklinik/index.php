@@ -57,10 +57,12 @@
         <?php echo $form->errorSummary($modInfoAntrianPoli); ?>
         <div class="span5">
             <div class="control-group">
-                <?php echo $form->labelEx($modInfoAntrianPoli,'ruangan_id <span class="required">*</span>', array('class'=>'control-label')); ?>
+                <?php //echo $form->labelEx($modInfoAntrianPoli,'pegawai_id <span class="required">*</span>', array('class'=>'control-label')); ?>
+                <?php echo CHtml::label('Ruangan','ruangan_id', array('class'=>'control-label')); ?>
                 <div class="controls">      
                 <?php
                       echo $form->dropDownList($modInfoAntrianPoli,'ruangan_id', CHtml::listData($modInfoAntrianPoli->getRuangan(), 'ruangan_id', 'ruangan_nama'), array('class'=>'span3',
+                                                                                    'empty' => '-- Pilih --',
                                                                                     'onkeypress'=>"return $(this).focusNextInputField(event)",
                                                                                     'ajax'=>array(
                                                                                         'type'=>'POST',
