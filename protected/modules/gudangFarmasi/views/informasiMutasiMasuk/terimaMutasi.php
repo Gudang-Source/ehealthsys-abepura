@@ -64,7 +64,7 @@ if(isset($_GET['sukses'])){
             <tfoot>
                 <tr>
                     <td colspan="8" style="text-align:right;">Total</td>
-                    <td><?php echo CHtml::textField('total',0,array('readonly'=>true,'class'=>'span2 integer','style'=>'width:80px;'))?></td>
+                    <td><?php echo CHtml::textField('total',0,array('readonly'=>true,'class'=>'span2 integer2','style'=>'width:80px;'))?></td>
                     <td></td>
                 </tr>
             </tfoot>
