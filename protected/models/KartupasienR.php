@@ -19,6 +19,8 @@ class KartupasienR extends CActiveRecord
 {
         public $tgl_awal;
         public $tgl_akhir;
+        public $rt;
+        public $rw;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -47,7 +49,7 @@ class KartupasienR extends CActiveRecord
 		return array(
 			array('pasien_id, pendaftaran_id', 'numerical', 'integerOnly'=>true),
 			array('keteranganprint', 'length', 'max'=>200),
-			array('tglprintkartu, pasien_id, statusprintkartu', 'safe', 'on'=>'search'),
+			array('rt, rw, tglprintkartu, pasien_id, statusprintkartu', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -77,6 +79,8 @@ class KartupasienR extends CActiveRecord
 			'update_time' => 'Tanggal Update',
 			'create_loginpemakai_id' => 'Tanggal Login Id',
 			'update_loginpemakai_id' => 'Tanggal Update Login Id',
+                        'rt' => 'RT',
+                        'rw' => 'RW'
 		);
 	}
 

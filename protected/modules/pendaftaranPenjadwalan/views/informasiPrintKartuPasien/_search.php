@@ -86,7 +86,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
     <?php echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="icon-search icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit')); ?>
     <?php echo CHtml::link(Yii::t('mds', '{icon} Reset', array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), $this->createUrl('informasiPrintKartuPasien/index'), array('class'=>'btn btn-danger')); ?>
     <?php 
-        $content = $this->renderPartial('pendaftaranPenjadwalan.views.tips.informasi',array(),true);
+        $content = $this->renderPartial('pendaftaranPenjadwalan.views.tips.informasiPrintKartuPasien',array(),true);
         $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
     ?>	
 </div>
