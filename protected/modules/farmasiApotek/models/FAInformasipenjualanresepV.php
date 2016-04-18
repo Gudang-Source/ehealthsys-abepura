@@ -13,7 +13,7 @@ class FAInformasipenjualanresepV extends InformasipenjualanaresepV
         public $namaDokter;
         public $tgl_pendaftaran;
         public $no_pendaftaran;
-        
+        public $ruanganpendaftaran_id;
         public $statusperiksa;
 		
 	/**
@@ -110,7 +110,7 @@ class FAInformasipenjualanresepV extends InformasipenjualanaresepV
                 $criteria->compare('t.pegawai_id',$this->pegawai_id);
                 $criteria->compare('pendaftaran_t.statusperiksa',$this->statusperiksa);
 		$criteria->compare('LOWER(t.instalasiasal_nama)',strtolower($this->instalasiasal_nama),true);
-		$criteria->compare('LOWER(t.ruanganasal_nama)',strtolower($this->ruanganasal_nama),true);
+		$criteria->compare('pendaftaran_t.ruangan_id',$this->ruanganpendaftaran_id);
 		if(!empty($this->reseptur_id)){
 			$criteria->addCondition("t.reseptur_id = ".$this->reseptur_id);						
 		}
