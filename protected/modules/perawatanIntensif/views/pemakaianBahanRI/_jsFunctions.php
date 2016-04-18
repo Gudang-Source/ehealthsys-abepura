@@ -144,7 +144,7 @@ function tambahObatAlkesPasien(obj)
     }else{
         myAlert("Silahkan pilih obat / alkes terlebih dahulu!");
     }
-    setObatAlkesPasienReset();
+    // setObatAlkesPasienReset();
     $("#obatalkes_nama").focus();   
 }
 //function tambahObatAlkesPasien(){
@@ -274,8 +274,8 @@ function hapusOaPasien(obatalkespasien_id)
                 dataType: "json",
                 success:function(data){
                     if(data.sukses){
-                        var delete_row = $("#riwayat-obatalkespasien-t").find('input[name$="[obatalkespasien_id]"][value="'+obatalkespasien_id+'"]').parents('tr');
-                        delete_row.detach();
+                        var delete_row = $("#riwayat-obatalkespasien-t").find('#row_' + obatalkespasien_id);
+                        delete_row.remove();
                         renameInputRowObatAlkes($("#riwayat-obatalkespasien-t"));
                     }
                     myAlert(data.pesan);
@@ -298,10 +298,11 @@ function hitungSubTotal(obj)
     var harganetto_oa = parseInt($(obj).parents('tr').find('input[name$="[harganetto_oa]"]').val());
     subtotal = qty * harganetto_oa;
     $(obj).parents('tr').find('input[name$="[iurbiaya]"]').val(formatInteger(subtotal));
+    /*
     if(qty > qty_stok){
         $(obj).val(qty_stok);
         myAlert("Jumlah tidak boleh lebih besar dari stok!");
-    }
+    }*/
     formatNumberSemua();
 }
 
