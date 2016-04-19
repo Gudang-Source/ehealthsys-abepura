@@ -47,7 +47,7 @@
         </td>
         <td>
             <?php echo $form->textFieldRow($model,'nopesanmenu',array('class'=>'span3', 'maxlength'=>20, 'autofocus'=>true, 'placeholder'=>'Ketik no. pesan menu')); ?>
-            <?php echo $form->dropDownListRow($model,'ruangan_id', CHtml::listData(RuanganM::model()->findAll('ruangan_aktif = true'), 'ruangan_id', 'ruangan_nama'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20)); ?>
+            <?php echo $form->dropDownListRow($model,'ruangan_id', CHtml::listData(RuanganM::model()->findAll('ruangan_aktif = true ORDER BY ruangan_nama ASC'), 'ruangan_id', 'ruangan_nama'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20)); ?>
         </td>
         <td>
             <?php echo $form->dropDownListRow($model,'jenispesanmenu', LookupM::getItems('jenispesanmenu'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20)); ?>
@@ -59,7 +59,7 @@
 	<?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit')); ?>
 	<?php echo CHtml::htmlButton(Yii::t('mds','{icon} Reset',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')),array('class'=>'btn btn-danger', 'type'=>'reset')); ?>
 	<?php 
-		$content = $this->renderPartial('gizi.views.tips.informasi',array(),true);
+		$content = $this->renderPartial('gizi.views.tips.informasiPesanMenuDiet',array(),true);
 		$this->widget('UserTips',array('type'=>'transaksi','content'=>$content));  ?>	
 </div>
 <?php $this->endWidget(); ?>

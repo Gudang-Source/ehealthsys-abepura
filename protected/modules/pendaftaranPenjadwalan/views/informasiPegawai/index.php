@@ -26,7 +26,7 @@ $('.search-form form').submit(function(){
                          array(
                            'name'=>'nama_pegawai',
                            'type'=>'raw',
-                           'value'=>'CHtml::link("<i class=icon-form-lihat></i>", Yii::app()->createUrl("sistemAdministrator/pegawaiM/view",array("id"=>"$data->pegawai_id")), array("rel"=>"tooltip","title"=>"Klik Untuk Melihat Data Pegawai Lebih Lanjut"))." ".CHtml::link($data->nama_pegawai, Yii::app()->createUrl("sistemAdministrator/pegawaiM/view",array("id"=>"$data->pegawai_id")))',  
+                           'value'=>'CHtml::link("<i class=icon-form-lihat></i>", Yii::app()->createUrl("pendaftaranPenjadwalan/InformasiPegawai/viewPegawai",array("id"=>"$data->pegawai_id")), array("rel"=>"tooltip","title"=>"Klik Untuk Melihat Data Pegawai Lebih Lanjut"))." ".CHtml::link($data->nama_pegawai, Yii::app()->createUrl("pendaftaranPenjadwalan/InformasiPegawai/viewPegawai",array("id"=>"$data->pegawai_id")))',  
                            'htmlOptions'=>array('style'=>'text-align: left')
                         ),
                         'tempatlahir_pegawai',
@@ -80,7 +80,7 @@ $('.search-form form').submit(function(){
             <?php echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="icon-search icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit')); ?>
             <?php echo CHtml::link(Yii::t('mds', '{icon} Reset', array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), $this->createUrl('informasiPegawai/index'), array('class'=>'btn btn-danger')); ?>
             <?php 
-            $content = $this->renderPartial('../tips/informasi',array(),true);
+            $content = $this->renderPartial('../tips/informasiPegawai',array(),true);
             $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); ?>	
         </div>
     </fieldset>

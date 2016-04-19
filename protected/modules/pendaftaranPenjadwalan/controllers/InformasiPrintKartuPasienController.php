@@ -92,8 +92,8 @@ class InformasiPrintKartuPasienController extends MyAuthController
             $model->nama_pasien = $_GET['PPInformasiprintkartupasienR']['nama_pasien'];
             $model->alamat_pasien = $_GET['PPInformasiprintkartupasienR']['alamat_pasien'];
             // $model->no_pendaftaran = $_GET['PPInformasiprintkartupasienR']['no_pendaftaran'];
-            $model->rt = $_GET['PPInformasiprintkartupasienR']['rt'];
-            $model->rw = $_GET['PPInformasiprintkartupasienR']['rw'];
+           // $model->rt = $_GET['PPInformasiprintkartupasienR']['rt'];
+           // $model->rw = $_GET['PPInformasiprintkartupasienR']['rw'];
             
             $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPInformasiprintkartupasienR']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPInformasiprintkartupasienR']['tgl_akhir']);
