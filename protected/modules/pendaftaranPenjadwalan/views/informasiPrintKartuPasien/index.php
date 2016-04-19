@@ -51,6 +51,7 @@ $('.search-form form').submit(function(){
                             'type'=>'raw',
                             'value'=>'$data->pasien->alamat_pasien',
                         ),
+                     
                         /*
                         array(
                             'name'=>'Print Kartu Pasien',

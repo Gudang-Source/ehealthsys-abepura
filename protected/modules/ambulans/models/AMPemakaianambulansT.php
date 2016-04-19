@@ -55,7 +55,7 @@ class AMPemakaianambulansT extends PemakaianambulansT
 			'supir_id' => 'Supir',
 			'pelaksana_id' => 'Pelaksana',
 			'paramedis1_id' => 'Paramedis 1',
-			'paramedis2_id' => 'Para Medis 2',
+			'paramedis2_id' => 'Paramedis 2',
 			'kmawal' => 'Km Awal',
 			'kmakhir' => 'Km Akhir',
 			'jmlbbmliter' => 'Jumlah BBM Liter',

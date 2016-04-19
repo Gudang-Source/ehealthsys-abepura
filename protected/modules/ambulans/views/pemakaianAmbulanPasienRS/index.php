@@ -68,7 +68,7 @@
                         <input type="hidden" value="<?php echo $tarif['daftartindakanId'][$i]; ?>" name="tarif[daftartindakanId][]" class="span1 number" /></td>
                     <td><input type="text" value="<?php echo $tarif['tarifKM'][$i]; ?>" name="tarif[tarifKM][]" class="span1 integer" /></td>
                     <td><input type="text" value="<?php echo $tarif['tarifAmbulans'][$i]; ?>" name="tarif[tarifAmbulans][]" class="span2 integer" /></td>
-                    <td><i class="icon-remove" onclick="batalTarif(this);return false;"></i></td>
+                    <td><i class="icon-form-silang" onclick="batalTarif(this);return false;"></i></td>
                 </tr>
                 <?php } ?>
                 <?php endfor;?>
@@ -161,7 +161,7 @@
                     echo CHtml::link(Yii::t('mds', '{icon} Print Pemakaiaan BMHP', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"printPemakaianOa(".$_GET['pemakaian_id'].");return false"));
                 }
             ?>
-            <?php $content = $this->renderPartial('../tips/transaksi_pemakaian',array(),true);
+            <?php $content = $this->renderPartial('../tips/transaksiPemakaianAmbulansPRS',array(),true);
                   $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); ?>
         </div>
     </div>

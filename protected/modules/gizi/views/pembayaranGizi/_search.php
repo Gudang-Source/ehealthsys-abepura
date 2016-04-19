@@ -62,7 +62,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
     <?php echo CHtml::htmlButton(Yii::t('mds', '{icon} Cancel', array('{icon}' => '<i class="icon-refresh icon-white"></i>')), array('class' => 'btn btn-danger', 'onclick' => 'konfirmasi()', 'onKeypress' => 'return formSubmit(this,event)'));
     ?>          
     <?php
-    $content = $this->renderPartial('gizi.views.tips.informasi', array(), true);
+    $content = $this->renderPartial('gizi.views.tips.informasiPembayaranGizi', array(), true);
     $this->widget('UserTips', array('type' => 'transaksi', 'content' => $content));
     ?>
 </div>

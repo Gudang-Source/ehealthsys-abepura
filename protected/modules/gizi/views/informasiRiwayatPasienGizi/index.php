@@ -139,7 +139,7 @@
             ?>
             <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Reset',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')),array('class'=>'btn btn-danger', 'type'=>'reset')); ?>
             <?php 
-              $content = $this->renderPartial('../tips/informasi',array(),true);
+              $content = $this->renderPartial('../tips/informasiRiwayatPasien',array(),true);
               $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));  ?>
         </div>
     </fieldset>  

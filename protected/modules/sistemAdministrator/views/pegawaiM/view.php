@@ -263,7 +263,11 @@
     $this->widget('bootstrap.widgets.BootAlert'); ?>
     <?php echo CHtml::link(Yii::t('mds','{icon} Ubah',array('{icon}'=>'<i class="icon-pencil icon-white"></i>')),$this->createUrl('update',array('id'=>$model->pegawai_id,'modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
     <?php 
-    echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Pegawai', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp";
+    if (isset($pendaftaran)):
+        echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Informasi Pegawai', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/index',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp";
+    else:
+        echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Pegawai', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp";
+    endif;    
     $this->widget('UserTips',array('type'=>'view'));
     ?>
 </div>
