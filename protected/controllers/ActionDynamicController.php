@@ -502,6 +502,41 @@ class ActionDynamicController extends Controller
         Yii::app()->end();
     }
     
+    /**
+     * Digunakan untuk filter ruangan
+     * @param type $encode
+     * @param type $namaModel
+     * @param type $attr
+     */
+    public function actionGetKamarRuangan($encode=false,$namaModel='',$attr='') {
+        if(Yii::app()->request->isAjaxRequest) {
+            $ruangan_id = (isset($_POST['ruangan_id']) ? $_POST['ruangan_id'] : null);
+            if (empty($ruangan_id) && isset($_POST[$namaModel]['ruangan_id']))
+                $ruangan_id = $_POST[$namaModel]['ruangan_id'];
+
+            $kamar = array();
+            if(!empty($ruangan_id)) {
+                $kamar = KamarruanganM::model()->findAllByAttributes(array('ruangan_id'=>$ruangan_id, 'kamarruangan_aktif'=>true));
+                $kamar = CHtml::listData($kamar,'kamarruangan_id','KamarDanTempatTidur');
+            }
+            
+            if($encode){
+                echo CJSON::encode($kamar);
+            } else {
+                if(empty($kamar)){
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode("-- Pilih --"),true);
+                }else{
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode("-- Pilih --"),true);
+                    foreach($kamar as $value=>$name)
+                    {
+                        echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                    }
+                }
+            }
+        }
+        Yii::app()->end();
+    }
+    
     public function actionGetAnastesi($encode=false,$namaModel='',$attr='')
     {
         if(Yii::app()->request->isAjaxRequest) {

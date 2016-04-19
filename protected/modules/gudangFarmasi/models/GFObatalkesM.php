@@ -12,6 +12,8 @@ class GFObatalkesM extends ObatalkesM
 	public $instalasi_nama;
 	public $ruangan_nama;
 	public $jenisobatalkes_kode;
+        
+        public $ruangan_id;
     
     public static function model($className = __CLASS__) 
     {
@@ -170,7 +172,7 @@ class GFObatalkesM extends ObatalkesM
         return $this->satuankecil->satuankecil_nama;
     }
 	
-	public function getStokObatRuanganPemesan(){ // menampilkan stok obat berdasarkan ruangan pemesan
+	public function getStokObatRuanganPemesan($ruangan_id = null){ // menampilkan stok obat berdasarkan ruangan pemesan
 		if(isset($_GET['pesanobatalkes_id'])){
 			$modInfoOa = GFInformasipesanobatalkesV::model()->findByAttributes(array('pesanobatalkes_id'=>$_GET['pesanobatalkes_id']));
 			if(!empty($modInfoOa)){
@@ -179,7 +181,8 @@ class GFObatalkesM extends ObatalkesM
 				return 0;
 			}
 		}else{
-			return StokobatalkesT::getJumlahStok($this->obatalkes_id,Yii::app()->user->getState('ruangan_id'));
+                        if (empty($ruangan_id)) $ruangan_id = Yii::app()->user->getState('ruangan_id');
+			return StokobatalkesT::getJumlahStok($this->obatalkes_id,$ruangan_id);
 		}
 	}
     

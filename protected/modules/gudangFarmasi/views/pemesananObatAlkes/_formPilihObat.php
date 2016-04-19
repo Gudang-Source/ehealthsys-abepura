@@ -82,7 +82,8 @@ if(isset($_GET['GFObatalkesM'])){
     //$modObatAlkes->jenisobatalkes_nama = isset($_GET['GFObatalkesM']['jenisobatalkes_nama'])?$_GET['GFObatalkesM']['jenisobatalkes_nama']:null;
     //$modObatAlkes->satuankecil_nama = isset($_GET['GFObatalkesM']['satuankecil_nama'])?$_GET['GFObatalkesM']['satuankecil_nama']:null;
     if(isset($_GET['GFObatalkesM']['ruangan_id'])){
-		$_GET['GFPesanobatalkesT']['ruangan_id'] = $_GET['GFObatalkesM']['ruangan_id'];
+        $modObatAlkes->ruangan_id = $_GET['GFObatalkesM']['ruangan_id'];
+		//$_GET['GFPesanobatalkesT']['ruangan_id'] = $_GET['GFObatalkesM']['ruangan_id'];
                 
     }
 }
@@ -110,7 +111,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'name'=>'jenisobatalkes_id',
                     'type'=>'raw',
                     'value'=>'(!empty($data->jenisobatalkes_id) ? $data->jenisobatalkes->jenisobatalkes_nama : "")',
-                    'filter'=>  Chtml::activeDropDownList($modObatAlkes, 'jenisobatalkes_id', CHtml::listData(JenisobatalkesM::model()->findAll("jenisobatalkes_aktif = TRUE ORDER BY jenisobatalkes_nama ASC"), 'jenisobatalkes_id','jenisobatalkes_nama'), array('empty'=>'-- Pilih --')),
+                    'filter'=>  CHtml::activeHiddenField($modObatAlkes, 'ruangan_id', array('class'=>'dialog_ruangan_id')).CHtml::activeDropDownList($modObatAlkes, 'jenisobatalkes_id', CHtml::listData(JenisobatalkesM::model()->findAll("jenisobatalkes_aktif = TRUE ORDER BY jenisobatalkes_nama ASC"), 'jenisobatalkes_id','jenisobatalkes_nama'), array('empty'=>'-- Pilih --')),
                 ),
                 array(
                     'name'=>'obatalkes_golongan',
@@ -148,7 +149,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 array(
                     'header'=>'Jumlah Stok',
                     'type'=>'raw',
-                    'value'=>'$data->StokObatRuanganPemesan." ".(empty($data->satuankecil_id)?"":$data->satuankecil->satuankecil_nama)',
+                    'value'=>'$data->getStokObatRuanganPemesan('.$modObatAlkes->ruangan_id.')." ".(empty($data->satuankecil_id)?"":$data->satuankecil->satuankecil_nama)',
                     'htmlOptions'=>array('style' => 'text-align: right;')
                 ),  
 	),

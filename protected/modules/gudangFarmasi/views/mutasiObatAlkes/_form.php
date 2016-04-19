@@ -86,14 +86,16 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     ),
 ));
 
-$modPegawaiMengetahui = new GFPegawaiV('searchDialog');
+$modPegawaiMengetahui = new GFPegawaiV('searchDialogMengetahui');
 $modPegawaiMengetahui->unsetAttributes();
+$modPegawaiMengetahui->ruangan_id = Yii::app()->user->getState('ruangan_id');
+
 if(isset($_GET['GFPegawaiV'])) {
     $modPegawaiMengetahui->attributes = $_GET['GFPegawaiV'];
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'pegawaimengetahui-grid',
-	'dataProvider'=>$modPegawaiMengetahui->searchDialog(),
+	'dataProvider'=>$modPegawaiMengetahui->searchDialogMengetahui(),
 	'filter'=>$modPegawaiMengetahui,
         //'template'=>"{items}\n{pager}",
         'template'=>"{summary}\n{items}\n{pager}",
@@ -116,22 +118,22 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'header'=>'NIP',
                     'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'nomorindukpegawai'),
                     'value'=>'$data->nomorindukpegawai',
-                ),
+                ), /*
                 array(
                     'header'=>'Gelar Depan',
                     'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'gelardepan'),
                     'value'=>'$data->gelardepan',
-                ),
+                ), */
                 array(
                     'header'=>'Nama Pegawai',
                     'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'nama_pegawai'),
-                    'value'=>'$data->nama_pegawai',
-                ),
+                    'value'=>'$data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama',
+                ), /*
                 array(
                     'header'=>'Gelar Belakang',
                     'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'gelarbelakang_nama'),
                     'value'=>'$data->gelarbelakang_nama',
-                ),
+                ), */
                 array(
                     'header'=>'Alamat Pegawai',
                     'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'alamat_pegawai'),

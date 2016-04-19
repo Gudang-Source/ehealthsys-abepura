@@ -39,7 +39,7 @@
                 <thead>
                     <tr>
                         <th>No.</th>
-                        <th>Asal Barang</th>
+                        <th>Jenis</th>
                         <th>Nama Obat</th>
                         <th hidden>Satuan Kecil </th>
                         <th>Jumlah</th>

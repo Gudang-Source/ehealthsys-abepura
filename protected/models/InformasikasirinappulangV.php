@@ -95,6 +95,8 @@ class InformasikasirinappulangV extends CActiveRecord
 {
         public $tgl_awal;
         public $tgl_akhir;
+        public $pegawai_id;
+        public $kamarruangan_id;
         
 	/**
 	 * Returns the static model of the specified AR class.
@@ -218,8 +220,8 @@ class InformasikasirinappulangV extends CActiveRecord
 			'instalasi_nama' => 'Instalasi Nama',
 			'jeniskasuspenyakit_id' => 'Jeniskasuspenyakit',
 			'jeniskasuspenyakit_nama' => 'Jeniskasuspenyakit Nama',
-			'kelaspelayanan_id' => 'Kelaspelayanan',
-			'kelaspelayanan_nama' => 'Kelaspelayanan Nama',
+			'kelaspelayanan_id' => 'Kelas Pelayanan',
+			'kelaspelayanan_nama' => 'Kelas Pelayanan',
 			'pasienadmisi_id' => 'Pasienadmisi',
 			'tgladmisi' => 'Tgladmisi',
 			'tglpulang' => 'Tglpulang',
@@ -245,6 +247,7 @@ class InformasikasirinappulangV extends CActiveRecord
 			'ruangan_nama' => 'Ruangan Nama',
                         'tgl_awal'=>'Tanggal Pulang Awal',
                         'tgl_akhir'=>'Sampai',
+                        'pegawai_id' => 'Dokter PJ'
 		);
 	}
 

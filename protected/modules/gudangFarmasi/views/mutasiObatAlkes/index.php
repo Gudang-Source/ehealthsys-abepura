@@ -44,7 +44,7 @@
                             <th>No.</th>
                             <th>Asal Barang</th>
                             <th>Kategori / Nama Obat</th>
-                            <th>Tanggal Terima Gudang </th>
+                            <th hidden>Tanggal Terima Gudang </th>
                             <th>Tanggal Kadaluarsa </th>
                             <!--th>Satuan Kecil </th>
                             <th>Jumlah Stok</th-->
@@ -66,7 +66,7 @@
                         ?>
                         <tfoot>
                             <tr>
-                                <td colspan="9">
+                                <td colspan="8">
                                                                 <?php if(count($modDetails) > 0){
                                                                                 echo "Total";
                                                                 }else{

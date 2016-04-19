@@ -1,5 +1,5 @@
 <div class="span4">
-    <div class="control-group">
+    <div class="control-group" hidden>
             <?php echo CHtml::label('Berdasarkan No. Batch / Tgl. Kadaluarsa','',array('class'=>'control-label')); ?>
             <div class="controls checkbox-inline">
                     <?php echo $form->checkBox($model,'is_nobatch_tglkadaluarsa',array('onclick'=>'refreshDialogObat();')); ?>
@@ -8,7 +8,7 @@
 </div>
 <div class="span4">
     <div class="control-group ">
-        <?php echo CHtml::label('Nama Obat & Kesehatan', 'obatalkes_nama', array('class'=>'control-label')); ?>
+        <?php echo CHtml::label('Nama Obat Alkes', 'obatalkes_nama', array('class'=>'control-label')); ?>
         <div class="controls">
             <?php echo CHtml::hiddenField('obatalkes_id'); ?>
         <?php 
@@ -53,7 +53,7 @@
 </div>
 <div class="span4">
     <div class="control-group ">
-        <?php echo CHtml::label('jumlah', 'qty_input', array('class'=>'control-label')); ?>
+        <?php echo CHtml::label('Qty', 'qty_input', array('class'=>'control-label')); ?>
         <div class="controls">
             <?php echo CHtml::textField('qty_input', '1', array('readonly'=>false,'onblur'=>'$("#qty").val(this.value);','onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span1 integer2')) ?>
             <?php echo CHtml::htmlButton('<i class="icon-plus icon-white"></i>',
@@ -62,7 +62,7 @@
                           'onkeyup'=>"tambahObatAlkes();",
                           'rel'=>"tooltip",
                           'id'=>"btn_input",
-                          'title'=>"Klik untuk menambahkan resep",)); ?>
+                          'title'=>"Klik untuk menambahkan mutasi",)); ?>
         </div>
     </div>
 </div>
@@ -71,7 +71,7 @@
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     'id'=>'dialogObatAlkes',
     'options'=>array(
-        'title'=>'Obat & Alat Kesehatan',
+        'title'=>'Daftar Stok Ruangan '.Yii::app()->user->getState('ruangan_nama'),
         'autoOpen'=>false,
         'modal'=>true,
         'width'=>980,

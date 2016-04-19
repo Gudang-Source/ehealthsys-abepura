@@ -82,6 +82,7 @@ class InformasikasirrawatjalanV extends CActiveRecord
 {
         public $tgl_awal;
         public $tgl_akhir;
+        public $pegawai_id;
         
 	/**
 	 * Returns the static model of the specified AR class.
@@ -217,7 +218,8 @@ class InformasikasirrawatjalanV extends CActiveRecord
 			'pembayaranpelayanan_id' => 'Pembayaranpelayanan',
 			'namaperusahaan' => 'Namaperusahaan',
 			'tglselesaiperiksa' => 'Tglselesaiperiksa',
-                        'alamat_pj'=>'Alamat Penanggung'
+                        'alamat_pj'=>'Alamat Penanggung',
+                        'pegawai_id'=>"Dokter",
 		);
 	}
 
