@@ -32,17 +32,18 @@
             <?php echo $form->labelEx($model,'tglmintadikirim', array('class'=>'control-label')) ?>
                 <div class="controls">
                     <?php   
-                        $model->tglmintadikirim = (!empty($model->tglmintadikirim) ? date("d/m/Y H:i:s",strtotime($model->tglmintadikirim)) : null);
+                        $model->tglmintadikirim = (!empty($model->tglmintadikirim) ? MyFormatter::formatDateTimeForUser($model->tglmintadikirim) : null);
                         $this->widget('MyDateTimePicker',array(
                             'model'=>$model,
                             'attribute'=>'tglmintadikirim',
                             'mode'=>'datetime',
                             'options'=> array(
                                 'showOn' => false,
+                                'dateFormat' => Params::DATE_FORMAT,
 //                                'maxDate' => 'd',
                                 'yearRange'=> "-150:+0",
                             ),
-                            'htmlOptions'=>array('class'=>'dtPicker2 realtime','onkeyup'=>"return $(this).focusNextInputField(event)"
+                            'htmlOptions'=>array('class'=>'dtPicker3','onkeyup'=>"return $(this).focusNextInputField(event)"
                             ),
                     )); ?>
                 </div>
@@ -184,25 +185,25 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'header'=>'NIP',
                     'name' => 'nomorindukpegawai',
                     'value'=>'$data->nomorindukpegawai',
-                ),
+                ), /*
                 array(
                     'header'=>'Gelar Depan',
                     'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'gelardepan'),
                     'name' => 'gelardepan',
                     'value'=>'$data->gelardepan',
-                ),
+                ), */
                 array(
                     'header'=>'Nama Pegawai',
                     'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'nama_pegawai'),
                     'name' => 'nama_pegawai',
-                    'value'=>'$data->nama_pegawai',
-                ),
+                    'value'=>'$data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama',
+                ), /*
                 array(
                     'header'=>'Gelar Belakang',
                     'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'gelarbelakang_nama'),
                     'name' => 'gelarbelakang_nama',
                     'value'=>'$data->gelarbelakang_nama',
-                ),
+                ), */
                 array(
                     'header'=>'Alamat Pegawai',
                     'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'alamat_pegawai'),
@@ -233,6 +234,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 
 $modPegawaiPemesanan = new GFPegawaiV('searchDialog');
 $modPegawaiPemesanan->unsetAttributes();
+$modPegawaiPemesanan->ruangan_id = Yii::app()->user->getState("ruangan_id");
 if(isset($_GET['GFPegawaiV'])) {
     $modPegawaiPemesanan->attributes = $_GET['GFPegawaiV'];
 }
@@ -261,25 +263,25 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'header'=>'NIP',
                     'name' => 'nomorindukpegawai',
                     'value'=>'$data->nomorindukpegawai',
-                ),
+                ), /*
                 array(
                     'header'=>'Gelar Depan',
                     'filter'=>  CHtml::activeTextField($modPegawaiPemesanan, 'gelardepan'),
                     'name' => 'gelardepan',
                     'value'=>'$data->gelardepan',
-                ),
+                ), */
                 array(
                     'header'=>'Nama Pegawai',
                     'filter'=>  CHtml::activeTextField($modPegawaiPemesanan, 'nama_pegawai'),
                     'name' => 'nama_pegawai',
-                    'value'=>'$data->nama_pegawai',
-                ),
+                    'value'=>'$data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama',
+                ), /*
                 array(
                     'header'=>'Gelar Belakang',
                     'filter'=>  CHtml::activeTextField($modPegawaiPemesanan, 'gelarbelakang_nama'),
                     'name' => 'gelarbelakang_nama',
                     'value'=>'$data->gelarbelakang_nama',
-                ),
+                ), */
                 array(
                     'header'=>'Alamat Pegawai',
                     'filter'=>  CHtml::activeTextField($modPegawaiPemesanan, 'alamat_pegawai'),

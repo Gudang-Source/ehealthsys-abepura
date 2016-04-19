@@ -135,6 +135,7 @@ function formatNumberSemua(){
 }
 
 function refreshDialogOA(){
+        
 	$("#obatalkes_nama").addClass("animation-loading-1");
         var ru = $("#GFPesanobatalkesT_ruangan_id option:selected").html();
 	setTimeout(function(){
@@ -146,6 +147,7 @@ function refreshDialogOA(){
 
 $('#tombolDialogObatAlkes').click(function(){
 	var ruangan_id = $('#<?php echo CHtml::activeId($model,"ruangan_id") ?>').val();
+        $(".dialog_ruangan_id").val(ruangan_id);
 	$.fn.yiiGridView.update('obatalkes-m-grid', {
 		data: {
 			"GFObatalkesM[ruangan_id]":ruangan_id,

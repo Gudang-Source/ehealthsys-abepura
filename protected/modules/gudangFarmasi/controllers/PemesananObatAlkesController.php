@@ -10,8 +10,13 @@ class PemesananObatAlkesController extends MyAuthController{
     	$modPesanObatalkes = new GFPesanobatalkesT;
     	$modPesanObatalkes->tglpemesanan = date('Y-m-d H:i:s');
     	$modPesanObatalkes->tglmintadikirim = date('Y-m-d H:i:s');
-        $modPesanObatalkes->instalasitujuan_id = Params::INSTALASI_ID_FARMASI;
-        $modPesanObatalkes->ruangan_id = Params::RUANGAN_ID_GUDANG_FARMASI;
+        if (Yii::app()->user->getState('ruangan_id') == Params::RUANGAN_ID_GUDANG_FARMASI) {
+            $modPesanObatalkes->instalasitujuan_id = Params::INSTALASI_ID_LOGISTIK;
+            $modPesanObatalkes->ruangan_id = Params::RUANGAN_ID_GUDANG_UMUM;
+        } else {
+            $modPesanObatalkes->instalasitujuan_id = Params::INSTALASI_ID_FARMASI;
+            $modPesanObatalkes->ruangan_id = Params::RUANGAN_ID_GUDANG_FARMASI;
+        }
     	$modPesanObatalkes->pegawaipemesan_id = Yii::app()->user->getState('pegawai_id');
         $modPesanObatalkes->statuspesan = Params::STATUSPESAN_BIASA;
         if (!empty($modPesanObatalkes->pegawaipemesan_id)) $modPesanObatalkes->pegawaipemesan_nama = $modPesanObatalkes->pegawaipemesan->namaLengkap;
@@ -29,7 +34,6 @@ class PemesananObatAlkesController extends MyAuthController{
         if(isset($_POST['GFPesanobatalkesT'])){
             $transaction = Yii::app()->db->beginTransaction();
             try {
-
                     $modPesanObatalkes->attributes=$_POST['GFPesanobatalkesT'];
                     $modPesanObatalkes->nopemesanan = MyGenerator::noPemesanan(Yii::app()->user->getState('instalasi_id'));
                     $modPesanObatalkes->tglpemesanan=$format->formatDateTimeForDb($_POST['GFPesanobatalkesT']['tglpemesanan']);
