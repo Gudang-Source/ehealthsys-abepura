@@ -18,12 +18,6 @@
 
                         ),
                         array(
-                            'header'=>'Nama Instalasi',
-                            'name'=>'instalasi_nama',
-                            'type'=>'raw',
-                            'value'=>'$data->instalasi_nama',
-                        ),
-                        array(
                             'header'=>'No. Pendaftaran',
                             'name'=>'no_pendaftaran',
                             'type'=>'raw',
@@ -40,30 +34,7 @@
                             'type'=>'raw',
                             'value'=>'$data->nama_pasien',
                         ),
-                        array(
-                            'name'=>'nama_bin',
-                            'type'=>'raw',
-                            'value'=>'$data->nama_bin',
-                        ),
-                        array(
-                            'header'=>'Cara Bayar',
-                            'name'=>'carabayar_nama',
-                            'type'=>'raw',
-                            'value'=>'$data->carabayar_nama',
-                        ),
-                        array(
-                            'header'=>'Nama Penjamin',
-                            'name'=>'penjamin_nama',
-                            'type'=>'raw',
-                            'value'=>'$data->penjamin_nama',
-                        ),
-                        array(
-                            'header'=>'Nama Jenis Kasus Penyakit',
-                            'name'=>'jeniskasuspenyakit_nama',
-                            'type'=>'raw',
-                            'value'=>'$data->jeniskasuspenyakit_nama',
-                        ),
-                        array(
+                        array(  
                             'name'=>'umur',
                             'type'=>'raw',
                             'value'=>'$data->umur',
@@ -73,6 +44,52 @@
                             'type'=>'raw',
                             'value'=>'$data->alamat_pasien',
                         ),
+                        array(
+                            'header'=>'Penanggung',
+                            'name'=>'nama_pj',
+                            'type'=>'raw',
+                            'value'=>'isset($data->nama_pj) ? CHtml::Link($data->nama_pj,Yii::app()->controller->createUrl("DaftarPasien/informasiPenanggung",array("id"=>$data->no_pendaftaran,"frame"=>true)),array("class"=>"", "target"=>"iframeInformasiPenanggung", "onclick"=>"$(\"#dialogInformasiPenanggung\").dialog(\"open\");","rel"=>"tooltip", "title"=>"Klik untuk melihat Informasi Penanggung Jawab",)) : "-"',
+                            'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+                        ),
+                        array(
+                            'header'=>'Jenis Kasus Penyakit',
+                            'name'=>'jeniskasuspenyakit_nama',
+                            'type'=>'raw',
+                            'value'=>'$data->jeniskasuspenyakit_nama',
+                        ), /*
+                        array(
+                            'header'=>'Nama Instalasi',
+                            'name'=>'instalasi_nama',
+                            'type'=>'raw',
+                            'value'=>'$data->instalasi_nama',
+                        ), */
+                        array(
+                            'header'=>'Cara Bayar',
+                            'name'=>'carabayar_nama',
+                            'type'=>'raw',
+                            'value'=>'$data->carabayar_nama',
+                        ),
+                        array(
+                            'header'=>'Penjamin',
+                            'name'=>'penjamin_nama',
+                            'type'=>'raw',
+                            'value'=>'$data->penjamin_nama',
+                        ),
+                        array(
+                            'header'=>'Dokter',
+                            //'name'=>'pegawai_nama',
+                            'type'=>'raw',
+                            'value'=>function($data) {
+                                $p = PendaftaranT::model()->findByPk($data->pendaftaran_id);
+                                return $p->pegawai->namaLengkap;
+                            },
+                            'headerHtmlOptions'=>array('style'=>'vertical-align:middle;')
+                        ), /*
+                        array(
+                            'name'=>'nama_bin',
+                            'type'=>'raw',
+                            'value'=>'$data->nama_bin',
+                        ), */
                         array(
                                 'header'=>'Rincian Tagihan Farmasi',
                                 'type'=>'raw',

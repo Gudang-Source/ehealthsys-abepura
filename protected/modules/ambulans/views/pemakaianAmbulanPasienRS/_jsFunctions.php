@@ -361,7 +361,7 @@ function inputTarifAmbulans(jmlKM,tarifKM,tarif,propinsi,kabupaten,kecamatan,kel
 				'    <input type="hidden" value="'+daftatindakanId+'" name="tarif[daftartindakanId][]" class="span1 integer"></td>'+
 				'<td><input type="text" value="'+tarifKM+'" name="tarif[tarifKM][]" onblur="hitungTarif(this);" class="span1 integer"></td>'+
 				'<td><input type="text" value="'+tarif+'" name="tarif[tarifAmbulans][]" onblur="hitungTarif(this);" readonly="readonly" class="span2 integer"></td>'+
-				'<td><i class="icon-remove" onclick="batalTarif(this);return false;"></i></td>'
+				'<td><i class="icon-form-silang" onclick="batalTarif(this);return false;"></i></td>'
 			'</tr>';	
 	if(jmlTr >= 1){
 		myConfirm("Apakah anda akan input ulang tarif ambulans ini?","Perhatian!",

@@ -27,7 +27,8 @@
                                 'maxDate' => 'd',
                             ),
                             'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3'),
-                        ));
+                        ));                        
+            
                         $model->tgl_awal = $format->formatDateTimeForDb($model->tgl_awal);
                         ?> </div></div>
 						<div class="control-group ">
@@ -70,7 +71,7 @@
                             array('class'=>'btn btn-danger',
                                   'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>								
 <?php  
-$content = $this->renderPartial('../tips/informasi_ambulans',array(),true);
+$content = $this->renderPartial('../tips/informasiPasienRawatJalan',array(),true);
 $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
 ?>
 	</div>

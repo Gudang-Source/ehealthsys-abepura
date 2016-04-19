@@ -1,11 +1,20 @@
+<?php 
+$oa = ObatalkesM::model()->findByPk($modDetail->obatalkes_id);
+$jenis = JenisobatalkesM::model()->findByPk($oa->jenisobatalkes_id);
+
+?>
+
 <tr>
     <td>
         <?php echo CHtml::textField('no_urut',0,array('readonly'=>true,'class'=>'span1 integer', 'style'=>'width:20px;')); ?>
         <?php echo CHtml::activeHiddenField($modDetail,'[ii]obatalkes_id',array('readonly'=>true,'class'=>'span1')); ?>
         <?php echo CHtml::activeHiddenField($modDetail,'[ii]sumberdana_id',array('readonly'=>true,'class'=>'span1')); ?>
     </td>
-    <td>
+    <td hidden>
         <span name="[ii][sumberdana_nama]"><?php echo (!empty($modDetail->sumberdana_id) ? $modDetail->sumberdana->sumberdana_nama : "") ?></span>
+    </td>
+    <td>
+        <span name="[ii][jenisobatalkes_id]"><?php echo (!empty($jenis) ? $jenis->jenisobatalkes_nama : "") ?></span>
     </td>
     <td>
         <span name="[ii][obatalkes_nama]"><?php echo (!empty($modDetail->obatalkes_id) ? $modDetail->obatalkes->obatalkes_nama : "") ?></span>

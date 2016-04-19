@@ -22,6 +22,6 @@
         <?php // echo CHtml::textField('riwayatOaPasien[ii][iurbiaya]',$modObatAlkesPasien->iurbiaya,array('readonly'=>true,'class'=>'span2 integer','style'=>'width:90px;')); ?>
     </td>-->
     <td>
-        <a onclick="hapusOaPasien('<?php echo $modObatAlkesPasien->obatalkespasien_id; ?>');return false;" rel="tooltip" href="javascript:void(0);" title="Klik untuk menghapus Obat / Alat Kesehatan"><i class="icon-trash"></i></a>
+        <a onclick="hapusOaPasien('<?php echo $modObatAlkesPasien->obatalkespasien_id; ?>');return false;" rel="tooltip" href="javascript:void(0);" title="Klik untuk menghapus Obat / Alat Kesehatan"><i class="icon-form-sampah"></i></a>
     </td>
 </tr>

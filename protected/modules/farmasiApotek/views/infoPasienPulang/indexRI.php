@@ -30,8 +30,8 @@
         'stacked'=>false, // whether this is a stacked menu
         'items'=>array(
             array('label'=>'Pasien Rawat Jalan', 'url'=>$this->createUrl('/farmasiApotek/infoPasienPulang/indexRJ',array())),
-            array('label'=>'Pasien Rawat Inap', 'url'=>'','linkOptions'=>array(),'active'=>true),
             array('label'=>'Pasien Rawat Darurat', 'url'=>$this->createUrl('/farmasiApotek/infoPasienPulang/indexRD',array())),
+            array('label'=>'Pasien Rawat Inap', 'url'=>'','linkOptions'=>array(),'active'=>true),
         ),
     ));
            echo $this->renderPartial('_formCariRI', array('model'=>$modRI,'form'=>$form,'format'=>$format,),true); 

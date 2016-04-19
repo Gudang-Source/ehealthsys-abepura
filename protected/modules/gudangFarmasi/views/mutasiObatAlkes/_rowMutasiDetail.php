@@ -12,7 +12,7 @@
     <td>
         <span name="[ii][obatalkes_nama]"><?php echo (!empty($modMutasiDetail->obatalkes_id) ? $modMutasiDetail->obatalkes->obatalkes_kategori ."<br/>".$modMutasiDetail->obatalkes->obatalkes_nama : "") ?></span>
     </td>
-    <td>
+    <td hidden>
         <?php echo CHtml::activeTextField($modMutasiDetail, '[ii]tglterima',array('readonly'=>true,'style'=>'width:110px;')); ?>
     </td>
     <td>

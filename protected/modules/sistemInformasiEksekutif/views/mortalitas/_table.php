@@ -74,7 +74,7 @@ foreach ($temp_total as $key => $value) {
 ?>
 <div class="panel panel-primary">
     <div class="panel-heading">
-        <div class="panel-title">Tabel Mortalitas - Periode <?php echo $awal ?> sd <?php echo $akhir ?></div>
+        <div class="panel-title">Tabel 10 Mortalitas Terbanyak - Periode <?php echo $awal ?> sd <?php echo $akhir ?></div>
         <div class="panel-options">
             <a data-rel="collapse" href="#"><i class="entypo-down-open"></i></a>
         </div>
