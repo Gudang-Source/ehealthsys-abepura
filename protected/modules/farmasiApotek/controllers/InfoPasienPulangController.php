@@ -107,6 +107,10 @@ class InfoPasienPulangController extends MyAuthController
                     {
                         $modRJ->tgl_akhir = $format->formatDateTimeForDb($_GET['FAInformasikasirrawatjalanV']['tgl_akhir']);
                     }
+                    if(!empty($_GET['FAInformasikasirrawatjalanV']['pegawai_id']))
+                    {
+                        $modRJ->pegawai_id = $_GET['FAInformasikasirrawatjalanV']['pegawai_id'];
+                    }
                 }
                            
                 $this->render('indexRJ',array(
@@ -131,10 +135,22 @@ class InfoPasienPulangController extends MyAuthController
                     {
                         $modRI->tgl_akhir = $format->formatDateTimeForDb($_GET['FAInformasikasirinappulangV']['tgl_akhir']);
                     }
+                    if(!empty($_GET['FAInformasikasirinappulangV']['pegawai_id']))
+                    {
+                        $modRI->pegawai_id = $_GET['FAInformasikasirinappulangV']['pegawai_id'];
+                    }
+                    if(!empty($_GET['FAInformasikasirinappulangV']['ruangan_id']))
+                    {
+                        $modRI->ruangan_id = $_GET['FAInformasikasirinappulangV']['ruangan_id'];
+                    }
+                    if(!empty($_GET['FAInformasikasirinappulangV']['kamarruangan_id']))
+                    {
+                        $modRI->kamarruangan_id = $_GET['FAInformasikasirinappulangV']['kamarruangan_id'];
+                    }
                 }
                           
                 $this->render('indexRI',array(
-                                 'modRI'=>$modRI,'format'=>$format,
+                    'modRI'=>$modRI,'format'=>$format,
                 ));
         }
 
@@ -154,6 +170,10 @@ class InfoPasienPulangController extends MyAuthController
                     if(!empty($_GET['FAInformasikasirrdpulangV']['tgl_awal']))
                     {
                         $modRD->tgl_akhir = $format->formatDateTimeForDb($_GET['FAInformasikasirrdpulangV']['tgl_akhir']);
+                    }
+                    if(!empty($_GET['FAInformasikasirrdpulangV']['pegawai_id']))
+                    {
+                        $modRD->pegawai_id = $_GET['FAInformasikasirrdpulangV']['pegawai_id'];
                     }
                 }
                             

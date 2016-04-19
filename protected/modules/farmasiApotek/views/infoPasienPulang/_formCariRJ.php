@@ -8,13 +8,14 @@
         //                'filter'=>$model,
                 'template'=>"{summary}\n{items}\n{pager}",
                 'itemsCssClass'=>'table table-striped table-condensed',
+                /*
                 'mergeHeaders'=>array(
                     array(
                         'name'=>'<center>Penjamin</center>',
                         'start'=>5,
                         'end'=>6,
                     ),
-                ),
+                ),*/
                 'columns'=>array(
                     array(
                         'header'=>'Tanggal Pendaftaran',
@@ -41,16 +42,43 @@
                         'header'=>'Nama Pasien',
                         'name'=>'nama_pasien',
                         'type'=>'raw',
-                        'value'=>'$data->nama_pasien',
+                        'value'=>'$data->namadepan.$data->nama_pasien',
+                        'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+                    ), 
+                    array(
+                        'name'=>'umur',
+                        'type'=>'raw',
+                        'value'=>'$data->umur',
                         'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                     ),
+                    array(
+                        'header'=>'Alamat',
+                        'name'=>'alamat_pasien',
+                        'type'=>'raw',
+                        'value'=>'$data->alamat_pasien',
+                        'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+                    ),
+                    array(
+                        'header'=>'Penanggung',
+                        'name'=>'nama_pj',
+                        'type'=>'raw',
+                        'value'=>'isset($data->nama_pj) ? CHtml::Link($data->nama_pj,Yii::app()->controller->createUrl("DaftarPasien/informasiPenanggung",array("id"=>$data->no_pendaftaran,"frame"=>true)),array("class"=>"", "target"=>"iframeInformasiPenanggung", "onclick"=>"$(\"#dialogInformasiPenanggung\").dialog(\"open\");","rel"=>"tooltip", "title"=>"Klik untuk melihat Informasi Penanggung Jawab",)) : "-"',
+                        'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+                    ),
+                    array(
+                        'header'=>'Jenis Kasus Penyakit',
+                        'name'=>'jeniskasuspenyakit_nama',
+                        'type'=>'raw',
+                        'value'=>'$data->jeniskasuspenyakit_nama',
+                        'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+                    ), /*
                     array(
                         'header'=>'Alias',
                         'name'=>'nama_bin',
                         'type'=>'raw',
                         'value'=>'$data->nama_bin',
                         'headerHtmlOptions'=>array('style'=>'vertical-align:middle;')
-                    ),
+                    ), */
                     array(
                         'header'=>'Cara Bayar',
                         'name'=>'carabayar_nama',
@@ -66,31 +94,21 @@
                         'headerHtmlOptions'=>array('style'=>'vertical-align:middle;')
                     ),
                     array(
-                        'header'=>'Penanggung',
-                        'name'=>'nama_pj',
+                        'header'=>'Ruangan',
+                        'name'=>'ruangan_nama',
                         'type'=>'raw',
-                        'value'=>'isset($data->nama_pj) ? CHtml::Link($data->nama_pj,Yii::app()->controller->createUrl("DaftarPasien/informasiPenanggung",array("id"=>$data->no_pendaftaran,"frame"=>true)),array("class"=>"", "target"=>"iframeInformasiPenanggung", "onclick"=>"$(\"#dialogInformasiPenanggung\").dialog(\"open\");","rel"=>"tooltip", "title"=>"Klik untuk melihat Informasi Penanggung Jawab",)) : "-"',
-                        'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+                        'value'=>'$data->ruangan_nama',
+                        'headerHtmlOptions'=>array('style'=>'vertical-align:middle;')
                     ),
                     array(
-                        'header'=>'Jenis Kasus Penyakit',
-                        'name'=>'jeniskasuspenyakit_nama',
+                        'header'=>'Dokter',
+                        //'name'=>'pegawai_nama',
                         'type'=>'raw',
-                        'value'=>'$data->jeniskasuspenyakit_nama',
-                        'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
-                    ),
-                    array(
-                        'name'=>'umur',
-                        'type'=>'raw',
-                        'value'=>'$data->umur',
-                        'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
-                    ),
-                    array(
-                        'header'=>'Alamat',
-                        'name'=>'alamat_pasien',
-                        'type'=>'raw',
-                        'value'=>'$data->alamat_pasien',
-                        'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+                        'value'=>function($data) {
+                            $p = PendaftaranT::model()->findByPk($data->pendaftaran_id);
+                            return $p->pegawai->namaLengkap;
+                        },
+                        'headerHtmlOptions'=>array('style'=>'vertical-align:middle;')
                     ),
                     array(
                                 'header'=>'Rincian Tagihan Farmasi',

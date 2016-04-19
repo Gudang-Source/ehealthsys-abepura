@@ -29,8 +29,8 @@
         'stacked'=>false, // whether this is a stacked menu
         'items'=>array(
             array('label'=>'Pasien Rawat Jalan', 'url'=>'','linkOptions'=>array(),'active'=>true),
-            array('label'=>'Pasien Rawat Inap', 'url'=>$this->createUrl('/farmasiApotek/infoPasienPulang/indexRI',array())),
             array('label'=>'Pasien Rawat Darurat', 'url'=>$this->createUrl('/farmasiApotek/infoPasienPulang/indexRD',array())),
+            array('label'=>'Pasien Rawat Inap', 'url'=>$this->createUrl('/farmasiApotek/infoPasienPulang/indexRI',array())),
         ),
     ));
            echo $this->renderPartial('_formCariRJ', array('model'=>$modRJ,'form'=>$form,'format'=>$format,),true); 

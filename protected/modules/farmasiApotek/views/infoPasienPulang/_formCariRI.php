@@ -11,23 +11,23 @@
                         'itemsCssClass'=>'table table-striped table-condensed',
                 'columns'=>array(
                     array(
-                        'header'=>'Tanggal Admisi / <br/>Tanggal Pulang Awal',
+                        'header'=>'Tanggal Admisi',
                         'name'=>'tgl_pulang',
                         'type'=>'raw',
-                        'value'=>'$data->combineTglPendaftaran'
+                        'value'=>'MyFormatter::formatDateTimeForUser($data->tgladmisi)'
                     ),
+                    array(
+                        'header'=>'Tgl. Pendaftaran/<br/>No. Pendaftaran',
+                        'name'=>'no_pendaftaran',
+                        'type'=>'raw',
+                        'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."/<br/>".$data->no_pendaftaran',
+                    ), /*
                     array(
                         'header'=>'Nama Instalasi',
                         'name'=>'instalasi_nama',
                         'type'=>'raw',
                         'value'=>'$data->instalasi_nama',
-                    ),
-                    array(
-                        'header'=>'No. Pendaftaran',
-                        'name'=>'no_pendaftaran',
-                        'type'=>'raw',
-                        'value'=>'$data->no_pendaftaran',
-                    ),
+                    ), */
                     array(
                         'header'=>'No. Rekam Medik',
                         'name'=>'no_rekam_medik',
@@ -41,11 +41,16 @@
                         'value'=>'$data->nama_pasien',
                     ),
                     array(
+                        'name'=>'umur',
+                        'type'=>'raw',
+                        'value'=>'$data->umur',
+                    ), /*
+                    array(
                         'header'=>'Alias',
                         'name'=>'nama_bin',
                         'type'=>'raw',
                         'value'=>'$data->nama_bin',
-                    ),
+                    ), */
                     array(
                         'header'=>'Cara Bayar',
                         'name'=>'carabayar_nama',
@@ -53,26 +58,40 @@
                         'value'=>'$data->carabayar_nama',
                     ),
                     array(
-                        'header'=>'Nama Penjamin',
+                        'header'=>'Penjamin',
                         'name'=>'penjamin_nama',
                         'type'=>'raw',
                         'value'=>'$data->penjamin_nama',
                     ),
                     array(
-                        'header'=>'Nama Jenis Kasus Penyakit',
+                        'header'=>'Jenis Kasus Penyakit',
                         'name'=>'jeniskasuspenyakit_nama',
                         'type'=>'raw',
                         'value'=>'$data->jeniskasuspenyakit_nama',
                     ),
                     array(
-                        'name'=>'umur',
+                        'name'=>'kelaspelayanan_nama',
                         'type'=>'raw',
-                        'value'=>'$data->umur',
+                        'value'=>'$data->kelaspelayanan_nama',
                     ),
                     array(
-                        'name'=>'alamat_pasien',
+                        'header'=>'Ruangan/<br/>Kamar',
                         'type'=>'raw',
-                        'value'=>'$data->alamat_pasien',
+                        'value'=>function($data) use (&$admisi) {
+                            $admisi = PasienadmisiT::model()->findByPk($data->pasienadmisi_id);
+                            return $admisi->ruangan->ruangan_nama."/<br/>"
+                                    .(!empty($admisi->kamarruangan_id)?($admisi->kamarruangan->kamarruangan_nokamar
+                                    .":Bed ".$admisi->kamarruangan->kamarruangan_nobed):"-");
+                        },
+                    ),
+                    array(
+                        'header'=>'Dokter',
+                        //'name'=>'pegawai_nama',
+                        'type'=>'raw',
+                        'value'=>function($data) use (&$admisi) {
+                            return $admisi->pegawai->namaLengkap;
+                        },
+                        'headerHtmlOptions'=>array('style'=>'vertical-align:middle;')
                     ),
                     array(
                                 'header'=>'Rincian Tagihan Farmasi',
