@@ -89,6 +89,12 @@
                     <?php endif; ?> 
                 
                     <?php if($this->action->id == 'indexRI'): ?>
+                    <?php echo $form->dropDownListRow($model, 'kelaspelayanan_id', 
+                            CHtml::listData(KelaspelayananM::model()->findAllByAttributes(array(
+                                'kelaspelayanan_aktif'=>true,
+                            ), array(
+                                'order'=>'kelaspelayanan_nama',
+                            )), 'kelaspelayanan_id', 'kelaspelayanan_nama'), array('empty'=>'-- Pilih --', 'class'=>'span3')); ?>
                     <div class="control-group">
                         <?php echo CHtml::label('Ruangan','ruangan_id',array('class'=>'control-label')); ?>
                         <div class="controls">
