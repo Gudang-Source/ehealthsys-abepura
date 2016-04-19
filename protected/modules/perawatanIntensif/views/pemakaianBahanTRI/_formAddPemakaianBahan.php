@@ -23,7 +23,7 @@
         <?php echo CHtml::hiddenField("pemakaianBahan[ii][hargasatuan_oa]", $modObatAlkesPasien->hargasatuan_oa,array('readonly'=>true,'class'=>'inputFormTabel lebar3 integer')); ?>
         <?php echo CHtml::hiddenField("pemakaianBahan[ii][harganetto_oa]", $modObatAlkesPasien->harganetto_oa,array('readonly'=>true,'class'=>'inputFormTabel lebar3 integer')); ?>
         <?php echo CHtml::hiddenField("pemakaianBahan[ii][sumberdana_id]", $modObatAlkesPasien->sumberdana_id,array('readonly'=>true,'class'=>'inputFormTabel lebar1')); ?>
-        <?php echo CHtml::textField("pemakaianBahan[ii][qty_oa]", isset($modObatAlkesPasien->qty_oa) ? $modObatAlkesPasien->qty_oa : '1',array('onkeyup'=>'hitungSubTotal(this)','readonly'=>false,'class'=>'inputFormTabel lebar1 integer qty')); ?>
+        <?php echo CHtml::textField("pemakaianBahan[ii][qty_oa]", isset($modObatAlkesPasien->qty_oa) ? $modObatAlkesPasien->qty_oa : '1',array('onkeyup'=>'hitungSubTotal(this)','readonly'=>false,'class'=>'inputFormTabel span1 integer qty')); ?>
 		<?php echo CHtml::hiddenField("pemakaianBahan[ii][qty_stok]",isset($modObatAlkesPasien->qty_stok) ? $modObatAlkesPasien->qty_stok : '1',array('readonly'=>true,'class'=>'span1 integer', 'onkeyup'=>"return $(this).focusNextInputField(event)",)); ?>
         <?php echo CHtml::hiddenField("pemakaianBahan[ii][satuankecil_id]", $modObatAlkesPasien->satuankecil_id,array('readonly'=>true,'class'=>'inputFormTabel lebar1')); ?>
         <?php

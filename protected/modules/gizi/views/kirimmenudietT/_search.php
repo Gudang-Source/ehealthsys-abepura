@@ -48,10 +48,10 @@
         </td>
         <td>
             <?php echo $form->textFieldRow($model,'nokirimmenu',array('class'=>'span3', 'maxlength'=>20, 'autofocus'=>true, 'placeholder'=>'Ketik no. kirim menu')); ?>
-            <?php echo $form->dropDownListRow($model,'instalasi_id', CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true'), 'instalasi_id', 'instalasi_nama'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20)); ?>
+            <?php echo $form->dropDownListRow($model,'instalasi_id', CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true ORDER BY instalasi_nama ASC'), 'instalasi_id', 'instalasi_nama'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20)); ?>
         </td>
         <td>
-            <?php echo $form->dropDownListRow($model,'ruangan_id', CHtml::listData(RuanganM::model()->findAll('ruangan_aktif = true'), 'ruangan_id', 'ruangan_nama'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20)); ?>
+            <?php echo $form->dropDownListRow($model,'ruangan_id', CHtml::listData(RuanganM::model()->findAll('ruangan_aktif = true ORDER BY ruangan_nama ASC'), 'ruangan_id', 'ruangan_nama'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20)); ?>
             <?php //echo $form->dropDownListRow($model,'sumberdanabhn', LookupM::getItems('sumberdanabahan'),array('empty'=>'-- Pilih --')); ?>
             <?php echo $form->dropDownListRow($model,'jenispesanmenu', LookupM::getItems('jenispesanmenu'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20)); ?>
         </td>
@@ -62,7 +62,7 @@
                 <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit')); ?>
 					 <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Reset',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')),array('class'=>'btn btn-danger', 'type'=>'reset')); ?>
 	<?php 
-$content = $this->renderPartial('../tips/informasi',array(),true);
+$content = $this->renderPartial('../tips/informasiPengirimanMenuDiet',array(),true);
 $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));  ?>	
 	</div>
 

@@ -44,7 +44,7 @@
                             'name'=>'Komponen Tarif',
                             'type'=>'raw',
                             'htmlOptions'=>array('style'=>'text-align:center;'),
-                            'value'=>'CHtml::link("<i class=\'icon-form-komtarif\'></i> ",Yii::app()->controller->createUrl("'.Yii::app()->controller->id.'/detailsTarif",array("kelaspelayanan_id"=>$data->kelaspelayanan_id,"daftartindakan_id"=>$data->daftartindakan_id, "kategoritindakan_id"=>$data->kategoritindakan_id)) ,array("title"=>"Klik Untuk Melihat Detail Tarif","target"=>"iframe", "onclick"=>"$(\"#dialogDetailsTarif\").dialog(\"open\");", "rel"=>"tooltip"))',
+                            'value'=>'CHtml::link("<i class=\'icon-form-komtarif\'></i> ",Yii::app()->controller->createUrl("'.Yii::app()->controller->id.'/detailsTarif",array("kelaspelayanan_id"=>$data->kelaspelayanan_id,"daftartindakan_id"=>$data->daftartindakan_id, "kategoritindakan_id"=>$data->kategoritindakan_id, "jenistarif_id"=>$data->jenistarif_id)) ,array("title"=>"Klik Untuk Melihat Detail Tarif","target"=>"iframe", "onclick"=>"$(\"#dialogDetailsTarif\").dialog(\"open\");", "rel"=>"tooltip"))',
                     ),
             ),
             'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
@@ -64,7 +64,7 @@
                 <?php
                         echo $form->dropDownListRow($modTarifTindakanRuanganV,'instalasi_id',
                                 CHtml::listData($modTarifTindakanRuanganV->getInstalasiItems(), 'instalasi_id', 'instalasi_nama'),
-                                array(
+                                array(  'empty' => '-- Pilih --',
                                         'class'=>'span3', 
                                         'onkeypress'=>"return $(this).focusNextInputField(event)",
                                         'ajax'=>array(
@@ -78,13 +78,13 @@
                 <?php
                         echo $form->dropDownListRow($modTarifTindakanRuanganV,'ruangan_id',
                                 CHtml::listData($modTarifTindakanRuanganV->getRuanganItems($modTarifTindakanRuanganV->instalasi_id), 'ruangan_id', 'ruangan_nama'),
-                                array(
+                                array(  'empty' => '-- Pilih --',
                                         'class'=>'span3', 
                                         'onkeypress'=>"return $(this).focusNextInputField(event)"
                                 )
                         );
                 ?>
-                <?php echo $form->dropDownListRow($modTarifTindakanRuanganV, 'jenistarif_id', CHtml::listData(JenistarifM::model()->findAllByAttributes(array('jenistarif_aktif'=>true)), 'jenistarif_id', 'jenistarif_nama'), array('class'=>'span3')); ?>
+                <?php echo $form->dropDownListRow($modTarifTindakanRuanganV, 'jenistarif_id', CHtml::listData(JenistarifM::model()->findAllByAttributes(array('jenistarif_aktif'=>true)), 'jenistarif_id', 'jenistarif_nama'), array('class'=>'span3','empty' => '-- Pilih --')); ?>
                 <?php 
                 echo $form->dropDownListRow($modTarifTindakanRuanganV,'kategoritindakan_id',
                                                     CHtml::listData($modTarifTindakanRuanganV->getKategoritindakanItems(),
@@ -103,7 +103,7 @@
                     <div class="control-group">
                             <div class="control-label">Cara Bayar</div>
                             <div class="controls">
-                                    <?php echo $form->dropDownList($modTarifTindakanRuanganV,'carabayar_id', CHtml::listData(CarabayarM::model()->findAll(), 'carabayar_id', 'carabayar_nama') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",
+                                    <?php echo $form->dropDownList($modTarifTindakanRuanganV,'carabayar_id', CHtml::listData(CarabayarM::model()->findAll("carabayar_aktif = TRUE ORDER BY carabayar_nama ASC"), 'carabayar_id', 'carabayar_nama') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",
                                                     'ajax' => array('type'=>'POST',
                                                             'url'=> $this->createUrl('SetDropdownPenjaminPasien',array('encode'=>false,'namaModel'=>'INTarifTindakanPerdaRuanganV')), 
                                                             'update'=>'#INTarifTindakanPerdaRuanganV_penjamin_id'  //selector to update
@@ -112,7 +112,7 @@
                             </div>
                     </div>
                     <?php echo CHtml::label('Penjamin',' Penjamin', array('class'=>'control-label')) ?>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <?php echo $form->dropDownList($modTarifTindakanRuanganV,'penjamin_id', CHtml::listData(PenjaminpasienM::model()->findAll(), 'penjamin_id', 'penjamin_nama') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",)); ?>
+                    <?php echo $form->dropDownList($modTarifTindakanRuanganV,'penjamin_id', CHtml::listData(PenjaminpasienM::model()->findAll("penjamin_aktif = TRUE ORDER BY penjamin_nama ASC"), 'penjamin_id', 'penjamin_nama') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",)); ?>
             </div>
         </div>
         <div class="form-actions">

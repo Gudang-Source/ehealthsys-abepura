@@ -2,7 +2,7 @@
 
 class PPInformasiprintkartupasienR extends KartupasienR {
 
-    public $tgl_awal, $tgl_akhir, $nama_pasien, $no_rekam_medik, $no_pendaftaran, $alamat_pasien, $rt, $rw;
+    public $tgl_awal, $tgl_akhir, $nama_pasien, $no_rekam_medik, $no_pendaftaran, $alamat_pasien;
 
     public static function model($className = __CLASS__) {
         return parent::model($className);

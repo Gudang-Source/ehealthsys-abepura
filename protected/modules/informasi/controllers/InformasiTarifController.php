@@ -5,10 +5,10 @@ class InformasiTarifController extends MyAuthController
 	public function actionIndex()
 	{
             $modTarifTindakanRuanganV = new INTarifTindakanPerdaRuanganV('search');
-			$modTarifTindakanRuanganV->instalasi_id = Params::INSTALASI_ID_RJ;
-			$modTarifTindakanRuanganV->jenistarif_id = Params::JENISTARIF_ID_PELAYANAN;
-			$modTarifTindakanRuanganV->carabayar_id = Params::CARABAYAR_ID_MEMBAYAR;
-			$modTarifTindakanRuanganV->penjamin_id = Params::PENJAMIN_ID_UMUM;
+			$modTarifTindakanRuanganV->instalasi_id = '';//Params::INSTALASI_ID_RJ;
+			$modTarifTindakanRuanganV->jenistarif_id = '';// Params::JENISTARIF_ID_PELAYANAN;
+			$modTarifTindakanRuanganV->carabayar_id = '';//Params::CARABAYAR_ID_MEMBAYAR;
+			$modTarifTindakanRuanganV->penjamin_id = '';//Params::PENJAMIN_ID_UMUM;
             if(isset($_GET['INTarifTindakanPerdaRuanganV'])){
                 $modTarifTindakanRuanganV->attributes=$_GET['INTarifTindakanPerdaRuanganV'];
 				$modTarifTindakanRuanganV->carabayar_id=$_GET['INTarifTindakanPerdaRuanganV']['carabayar_id'];
@@ -79,27 +79,30 @@ class InformasiTarifController extends MyAuthController
         }
         
         
-        public function actionDetailsTarif($kelaspelayanan_id,$daftartindakan_id, $kategoritindakan_id){
+        public function actionDetailsTarif($kelaspelayanan_id,$daftartindakan_id, $kategoritindakan_id, $jenistarif_id){
             
             $this->layout='//layouts/iframe';
             $kelaspelayanan_id = (isset($kelaspelayanan_id) ? $kelaspelayanan_id : null);
             $daftartindakan_id = (isset($daftartindakan_id) ? $daftartindakan_id : null);
             $kategoritindakan_id = (isset($kategoritindakan_id) ? $kategoritindakan_id : null);
+            $jenistarif_id = (isset($jenistarif_id) ? $jenistarif_id : null);
             
             $modTarifTindakanform = new INTarifTindakanPerdaRuanganV();
             if($kelaspelayanan_id!=''){
             $modTarifTindakan= INTariftindakanM::model()->with('komponentarif')->findAll('kelaspelayanan_id='.$kelaspelayanan_id.' AND 
                                                                daftartindakan_id='.$daftartindakan_id.'
+                                                               AND t.jenistarif_id = '.$jenistarif_id.'    
                                                                AND t.komponentarif_id!='.Params::KOMPONENTARIF_ID_TOTAL.'');
             }else{ 
                 $modTarifTindakan=INTariftindakanM::model()->with('komponentarif')->findAll('daftartindakan_id='.$daftartindakan_id.'
-                                                               AND t.komponentarif_id!='.Params::KOMPONENTARIF_ID_TOTAL.'
-                                                               AND kelaspelayanan_id isNull');
+                                                                AND t.jenistarif_id = '.$jenistarif_id.'
+                                                                AND t.komponentarif_id!='.Params::KOMPONENTARIF_ID_TOTAL.'
+                                                                AND kelaspelayanan_id isNull');
             }
             if(empty($kategoritindakan_id)){
-                $modTarif = TariftindakanperdaruanganV::model()->find('daftartindakan_id = '.$daftartindakan_id.' and kelaspelayanan_id = '.$kelaspelayanan_id.'');
+                $modTarif = TariftindakanperdaruanganV::model()->find('daftartindakan_id = '.$daftartindakan_id.' and kelaspelayanan_id = '.$kelaspelayanan_id.' AND t.jenistarif_id = '.$jenistarif_id.' ');
             }else{
-                $modTarif = TariftindakanperdaruanganV::model()->find('daftartindakan_id = '.$daftartindakan_id.' and kelaspelayanan_id = '.$kelaspelayanan_id.' and kategoritindakan_id = '.$kategoritindakan_id);
+                $modTarif = TariftindakanperdaruanganV::model()->find('daftartindakan_id = '.$daftartindakan_id.' and kelaspelayanan_id = '.$kelaspelayanan_id.' and kategoritindakan_id = '.$kategoritindakan_id.' AND t.jenistarif_id = '.$jenistarif_id.' ');
             }
             $jumlahTarifTindakan=COUNT($modTarifTindakan);
             
