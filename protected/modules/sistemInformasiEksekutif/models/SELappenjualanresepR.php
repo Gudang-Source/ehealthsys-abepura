@@ -15,7 +15,7 @@
 class SELappenjualanresepR extends LappenjualanresepR {
 
     public $jns_periode;
-    public $periode, $jumlah_resep, $jumlah_luar, $jumlah_bebas, $jumlah_dokter, $jumlah_karyawan;
+    public $periode, $jumlah_resep, $jumlah_resepluar, $jumlah_bebas, $jumlah_dokter, $jumlah_karyawan;
     public $tgl_awal, $tgl_akhir, $bln_awal, $bln_akhir, $thn_awal, $thn_akhir;
     public $data, $data_2;
 

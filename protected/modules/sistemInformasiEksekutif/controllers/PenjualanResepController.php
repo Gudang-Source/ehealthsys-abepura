@@ -58,53 +58,61 @@ class PenjualanResepController extends MyAuthController {
         //=== chart ===
         switch ($model->jns_periode) {
             case 'bulan' : $sql = "
-										SELECT 
-										date_trunc('month', tanggal) as periode, sum(penjualanresep) as jumlah_resep, sum(penjualanresepluar) as jumlah_resepluar, sum(penjualanbebas) jumlah_bebas, sum(penjualandokter) as jumlah_dokter, sum(penjualankaryawan) as jumlah_karyawan
-										FROM lappenjualanresep_r
-										WHERE DATE(tanggal) BETWEEN '" . $model->tgl_awal . "' AND '" . $model->tgl_akhir . "'
-										GROUP BY periode
-										ORDER BY periode ASC
-									";
+                    SELECT 
+                    date_trunc('month', tanggal) as periode, sum(penjualanresep) as jumlah_resep, sum(penjualanresepluar) as jumlah_resepluar, sum(penjualanbebas) as jumlah_bebas, sum(penjualandokter) as jumlah_dokter, sum(penjualankaryawan) as jumlah_karyawan
+                    FROM lappenjualanresep_r
+                    WHERE DATE(tanggal) BETWEEN '" . $model->tgl_awal . "' AND '" . $model->tgl_akhir . "'
+                    GROUP BY periode
+                    ORDER BY periode ASC
+            ";
                 break;
-            case 'tahun' : $sql = "
-										SELECT 
-										date_trunc('year', tanggal) as periode, sum(penjualanresep) as jumlah_resep, sum(penjualanresepluar) as jumlah_resepluar, sum(penjualanbebas) jumlah_bebas, sum(penjualandokter) as jumlah_dokter, sum(penjualankaryawan) as jumlah_karyawan
-										FROM lappenjualanresep_r
-										WHERE DATE(tanggal) BETWEEN '" . $model->tgl_awal . "' AND '" . $model->tgl_akhir . "'
-										GROUP BY periode
-										ORDER BY periode ASC
+        case 'tahun' : $sql = "
+                    SELECT 
+                    date_trunc('year', tanggal) as periode, sum(penjualanresep) as jumlah_resep, sum(penjualanresepluar) as jumlah_resepluar, sum(penjualanbebas) as jumlah_bebas, sum(penjualandokter) as jumlah_dokter, sum(penjualankaryawan) as jumlah_karyawan
+                    FROM lappenjualanresep_r
+                    WHERE DATE(tanggal) BETWEEN '" . $model->tgl_awal . "' AND '" . $model->tgl_akhir . "'
+                    GROUP BY periode
+                    ORDER BY periode ASC
 
-									";
+                ";
                 break;
             default : $sql = "
-										SELECT 
-										date_trunc('day', tanggal) as periode, sum(penjualanresep) as jumlah_resep, sum(penjualanresepluar) as jumlah_resepluar, sum(penjualanbebas) jumlah_bebas, sum(penjualandokter) as jumlah_dokter, sum(penjualankaryawan) as jumlah_karyawan
-										FROM lappenjualanresep_r
-										WHERE DATE(tanggal) BETWEEN '" . $model->tgl_awal . "' AND '" . $model->tgl_akhir . "'
-										GROUP BY periode
-										ORDER BY periode ASC
+                    SELECT 
+                    date_trunc('day', tanggal) as periode, sum(penjualanresep) as jumlah_resep, sum(penjualanresepluar) as jumlah_resepluar, sum(penjualanbebas) as jumlah_bebas, sum(penjualandokter) as jumlah_dokter, sum(penjualankaryawan) as jumlah_karyawan
+                    FROM lappenjualanresep_r
+                    WHERE DATE(tanggal) BETWEEN '" . $model->tgl_awal . "' AND '" . $model->tgl_akhir . "'
+                    GROUP BY periode
+                    ORDER BY periode ASC
 
-									";
+            ";
         }
 
         $result = Yii::app()->db->createCommand($sql)->queryAll();
         $dataBarLineChart = $result;
 
         $sql = "
-				SELECT 
-				sum(penjualanresep) as jumlah_resep, sum(penjualanresepluar) as jumlah_resepluar, sum(penjualanbebas) jumlah_bebas, sum(penjualandokter) as jumlah_dokter, sum(penjualankaryawan) as jumlah_karyawan
-				FROM lappenjualanresep_r
-				WHERE DATE(tanggal) BETWEEN '" . $model->tgl_awal . "' AND '" . $model->tgl_akhir . "'
-				";
+                    SELECT 
+                    sum(penjualanresep) as jumlah_resep, sum(penjualanresepluar) as jumlah_resepluar, sum(penjualanbebas) as jumlah_bebas, sum(penjualandokter) as jumlah_dokter, sum(penjualankaryawan) as jumlah_karyawan
+                    FROM lappenjualanresep_r
+                    WHERE DATE(tanggal) BETWEEN '" . $model->tgl_awal . "' AND '" . $model->tgl_akhir . "'                   
+                    ";
 
 
         $result = Yii::app()->db->createCommand($sql)->queryRow();
         $dataPie = $result;
-
+        $color = array(
+            "1"=> "#FF6600",
+            "2"=> "#FCD202",
+            "3"=> "#B0DE09",
+            "4"=> "#0D8ECF",
+            "5"=> "#2A0CD0",
+            );
+        $i = 1;
+       
         foreach ($dataPie as $key => $value) {
             if ($key == "jumlah_resep") {
                 $key = "Resep";
-            } elseif ($key == "jumlah_luar") {
+            } elseif ($key == "jumlah_resepluar") {
                 $key = "Resep Luar";
             } elseif ($key == "jumlah_bebas") {
                 $key = "Bebas";
@@ -115,25 +123,27 @@ class PenjualanResepController extends MyAuthController {
             }
             $temp['jenis'] = $key;
             $temp['jumlah'] = $value;
+            $temp['color'] = $color[$i];
 
             array_push($dataPieChart, $temp);
+            $i++;
         }
         //=== end chart ===
         //=== start table ===
         $criteria = new CDbCriteria;
 
         switch ($model->jns_periode) {
-            case 'bulan' : $criteria->select = array('date_trunc(' . "'month'" . ', tanggal) as periode, sum(penjualanresep) as jumlah_resep,sum(penjualanresepluar) as jumlah_resepluar, sum(penjualanbebas) jumlah_bebas, sum(penjualandokter) as jumlah_dokter, sum(penjualankaryawan) as jumlah_karyawan');
+            case 'bulan' : $criteria->select = array('date_trunc(' . "'month'" . ', tanggal) as periode, sum(penjualanresep) as jumlah_resep,sum(penjualanresepluar) as jumlah_resepluar, sum(penjualanbebas) as jumlah_bebas, sum(penjualandokter) as jumlah_dokter, sum(penjualankaryawan) as jumlah_karyawan');
                 $criteria->addBetweenCondition('DATE(tanggal)', $model->tgl_awal, $model->tgl_akhir);
                 $criteria->group = 'periode';
                 $criteria->order = 'periode ASC';
                 break;
-            case 'tahun' : $criteria->select = array('date_trunc(' . "'year'" . ', tanggal) as periode, sum(penjualanresep) as jumlah_resep,sum(penjualanresepluar) as jumlah_resepluar, sum(penjualanbebas) jumlah_bebas, sum(penjualandokter) as jumlah_dokter, sum(penjualankaryawan) as jumlah_karyawan');
+            case 'tahun' : $criteria->select = array('date_trunc(' . "'year'" . ', tanggal) as periode, sum(penjualanresep) as jumlah_resep,sum(penjualanresepluar) as jumlah_resepluar, sum(penjualanbebas) as jumlah_bebas, sum(penjualandokter) as jumlah_dokter, sum(penjualankaryawan) as jumlah_karyawan');
                 $criteria->addBetweenCondition('DATE(tanggal)', $model->tgl_awal, $model->tgl_akhir);
                 $criteria->group = 'periode';
                 $criteria->order = 'periode ASC';
                 break;
-            default : $criteria->select = array('date_trunc(' . "'day'" . ', tanggal) as periode, sum(penjualanresep) as jumlah_resep,sum(penjualanresepluar) as jumlah_resepluar, sum(penjualanbebas) jumlah_bebas, sum(penjualandokter) as jumlah_dokter, sum(penjualankaryawan) as jumlah_karyawan');
+            default : $criteria->select = array('date_trunc(' . "'day'" . ', tanggal) as periode, sum(penjualanresep) as jumlah_resep,sum(penjualanresepluar) as jumlah_resepluar, sum(penjualanbebas) as jumlah_bebas, sum(penjualandokter) as jumlah_dokter, sum(penjualankaryawan) as jumlah_karyawan');
                 $criteria->addBetweenCondition('DATE(tanggal)', $model->tgl_awal, $model->tgl_akhir);
                 $criteria->group = 'periode';
                 $criteria->order = 'periode ASC';
@@ -142,7 +152,7 @@ class PenjualanResepController extends MyAuthController {
         $dataTable = new CActiveDataProvider($model, array(
             'criteria' => $criteria
         ));
-
+         
         //=== end table ===
 
         $model->tgl_awal = $format->formatDateTimeForUser(date('Y-m-d', (strtotime($model->tgl_awal))));

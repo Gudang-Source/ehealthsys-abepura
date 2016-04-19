@@ -82,7 +82,7 @@
         var graph2 = new AmCharts.AmGraph();
         graph2.valueAxis = valueAxis1; // we have to indicate which value axis should be used
         graph2.title = "Resep Luar";
-        graph2.valueField = "jumlah_luar";
+        graph2.valueField = "jumlah_resepluar";
         graph2.bullet = "square";
         graph2.hideBulletsCount = 30;
         graph2.bulletBorderThickness = 1;

@@ -59,7 +59,8 @@ class MortalitasController extends MyAuthController {
 		SELECT 
 		diagnosa_id as id, diagnosa_nama as nama
 		FROM diagnosa_m
-		ORDER BY id ASC
+                WHERE diagnosa_aktif = TRUE
+		ORDER BY nama ASC
 		";
 
 
@@ -113,7 +114,7 @@ class MortalitasController extends MyAuthController {
 		FROM mortalitas_r
 		WHERE DATE(tanggal) BETWEEN '" . $model->tgl_awal . "' AND '" . $model->tgl_akhir . "'
 		GROUP BY jenis
-		ORDER BY jumlah DESC
+		ORDER BY jumlah DESC, jenis ASC
 		LIMIT 10
 				";
 
@@ -145,8 +146,8 @@ class MortalitasController extends MyAuthController {
 		FROM mortalitas_r
 		WHERE DATE(tanggal) BETWEEN '" . $model->tgl_awal . "' AND '" . $model->tgl_akhir . "'
 		GROUP BY periode, id, jenis
-		ORDER BY periode, id ASC
-									";
+		ORDER BY jumlah DESC, jenis ASC
+		LIMIT 10							";
                 break;
             case 'tahun' : $sql = "
 		SELECT 
@@ -154,8 +155,8 @@ class MortalitasController extends MyAuthController {
 		FROM mortalitas_r
 		WHERE DATE(tanggal) BETWEEN '" . $model->tgl_awal . "' AND '" . $model->tgl_akhir . "'
 		GROUP BY periode, id, jenis
-		ORDER BY periode, id ASC
-									";
+		ORDER BY jumlah DESC, jenis ASC
+		LIMIT 10							";
                 break;
             default : $sql = "
 		SELECT 
@@ -163,8 +164,8 @@ class MortalitasController extends MyAuthController {
 		FROM mortalitas_r
 		WHERE DATE(tanggal) BETWEEN '" . $model->tgl_awal . "' AND '" . $model->tgl_akhir . "'
 		GROUP BY periode, id, jenis
-		ORDER BY periode, id ASC
-									";
+		ORDER BY jumlah DESC, jenis ASC
+		LIMIT 10							";
         }
         $result = Yii::app()->db->createCommand($sql)->queryAll();
         $dataChart = $result;

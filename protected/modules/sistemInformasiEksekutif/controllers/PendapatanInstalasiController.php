@@ -165,8 +165,8 @@ class PendapatanInstalasiController extends MyAuthController {
             case 'tahun' : $sql = "
 		SELECT 
 		date_trunc('year', tanggal) as periode, rekening_id as id, rekening_nama as jenis, coalesce(sum(jumlah), 0)  as jumlah
-		FROM rekening_id IN(1,2,3) AND pendapataninstalasi_r
-		WHERE DATE(tanggal) BETWEEN '" . $model->tgl_awal . "' AND '" . $model->tgl_akhir . "'
+		FROM pendapataninstalasi_r
+		WHERE rekening_id IN(1,2,3) AND DATE(tanggal) BETWEEN '" . $model->tgl_awal . "' AND '" . $model->tgl_akhir . "'
 		GROUP BY id,jenis,periode
 		ORDER BY periode ASC
 

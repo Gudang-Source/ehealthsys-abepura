@@ -55,10 +55,10 @@
 				),
 				array(
 					'header' => 'Resep Luar',
-					'name' => 'jumlah_luar',
+					'name' => 'jumlah_resepluar',
 					'type' => 'raw',
-					'value' => 'number_format($data->jumlah_luar)',
-					'footer' => 'sum(jumlah_luar)',
+					'value' => 'number_format($data->jumlah_resepluar)',
+					'footer' => 'sum(jumlah_resepluar)',
 				),
 				array(
 					'header' => 'Bebas',
