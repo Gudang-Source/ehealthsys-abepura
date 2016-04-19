@@ -1,5 +1,8 @@
 <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/amcharts/amcharts.js', CClientScript::POS_BEGIN); ?>
 <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/amcharts/pie.js', CClientScript::POS_BEGIN); ?>
+<?php
+    
+;?>
 <script>
 	//========== PIE =========
 	var chart_pie;
@@ -13,7 +16,8 @@
 		chart_pie.dataProvider = chartDataPie;
 		chart_pie.titleField = "jenis";
 		chart_pie.valueField = "jumlah";
-		
+		chart_pie.colorField = "color";
+             //   chart_pie.labelColorField = "color";
 		// LEGEND
 		legend = new AmCharts.AmLegend();
 		legend.align = "center";

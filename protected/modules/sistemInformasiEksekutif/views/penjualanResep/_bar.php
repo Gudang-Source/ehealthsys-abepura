@@ -1,5 +1,8 @@
 <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/amcharts/amcharts.js', CClientScript::POS_BEGIN); ?>
 <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/amcharts/serial.js', CClientScript::POS_BEGIN); ?>
+<?php
+    
+?>
 <script>
     //========== BAR ========
 
@@ -17,7 +20,7 @@
         chart_bar.startDuration = 1;
         chart_bar.plotAreaBorderColor = "#DADADA";
         chart_bar.plotAreaBorderAlpha = 1;
-        chart_bar.dataDateFormat = "YYYY-MM-DD";
+        chart_bar.dataDateFormat = "YYYY-MM-DD";        
 
         // this single line makes the chart a bar chart
 //                chart_bar.rotate = true;
@@ -67,7 +70,7 @@
         // Value
         var valueAxis = new AmCharts.ValueAxis();
         valueAxis.stackType = "regular";
-        valueAxis.axisAlpha = 0;
+        valueAxis.axisAlpha = 0.1;
         valueAxis.gridAlpha = 0.1;
         valueAxis.position = "left";
         chart_bar.addValueAxis(valueAxis);
@@ -87,7 +90,7 @@
         var graph2 = new AmCharts.AmGraph();
         graph2.type = "column";
         graph2.title = "Resep Luar";
-        graph2.valueField = "jumlah_luar";
+        graph2.valueField = "jumlah_resepluar";
         graph2.balloonText = "[[title]]:[[value]]";
         graph2.lineAlpha = 0;
         graph2.fillAlphas = 1;
