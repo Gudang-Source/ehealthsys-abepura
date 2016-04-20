@@ -1,5 +1,5 @@
 <div class="white-container">
-    <legend class="rim2">Informasi <b>Pemesanan Ambulans</b></legend>
+    <legend class="rim2">Informasi <b>Pemesansan Ambulans</b></legend>
     <?php
         Yii::app()->clientScript->registerScript('search', "
         $('.search-form form').submit(function(){
