@@ -10,7 +10,7 @@ class SubmenuJenisKainController extends MyAuthController
 	public $layout = '//layouts/column1';
 	public $defaultAction = 'admin';
 	public $path_view = 'sistemAdministrator.views.submenuJenisKain.';
-
+        public $path_tips = 'sistemAdministrator.views.tips.';
 	/**
 	 * Menampilkan detail data.
 	 * @param integer $id the ID of the model to be displayed
@@ -52,12 +52,12 @@ class SubmenuJenisKainController extends MyAuthController
 	{
 		$model = $this->loadModel($id);
 
-		// Uncomment the following line if AJAX validation is needed
-		
-
-		if(isset($_POST['SABahanlinenM']))
+		// Uncomment the following line if AJAX validation is needed	
+                //var_dump($_POST);
+		if(isset($_POST['BahanlinenM']))//SABahanlinenM
 		{
-			$model->attributes = $_POST['SABahanlinenM'];
+                    
+			$model->attributes = $_POST['BahanlinenM'];//SABahanlinenM
 			if($model->save()){
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
 				$this->redirect(array('admin','sukses'=>1));
@@ -76,7 +76,7 @@ class SubmenuJenisKainController extends MyAuthController
 	public function actionDelete($id)
 	{
 		if(Yii::app()->request->isPostRequest)
-		{
+		{     
 			// we only allow deletion via POST request
 			$this->loadModel($id)->delete();
 
@@ -94,14 +94,15 @@ class SubmenuJenisKainController extends MyAuthController
 	{
 		if(Yii::app()->request->isAjaxRequest)
 		{
+                        
 			$data['sukses'] = 0;
 			$model = $this->loadModel($id);
 			// set non-active this
 			// example: 
-			// $model->modelaktif = false;
-			// if($model->save()){
-			//	$data['sukses'] = 1;
-			// }
+			 $model->bahanlinen_aktif = false;
+			 if($model->save()){
+				$data['sukses'] = 1;
+			 }
 			echo CJSON::encode($data); 
 		}
 	}
@@ -182,7 +183,7 @@ class SubmenuJenisKainController extends MyAuthController
 			$mpdf->WriteHTML($stylesheet,1);  
 			$mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
 			$mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-			$mpdf->Output();
+			$mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
 		}
 	}
 }
