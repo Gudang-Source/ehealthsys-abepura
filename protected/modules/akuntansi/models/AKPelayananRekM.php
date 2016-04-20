@@ -110,9 +110,9 @@ class AKPelayananRekM extends PelayananrekM {
 		if (!empty($this->rekening5_id)) {
 			$criteria->addCondition('rekening5_id = ' . $this->rekening5_id);
 		}
-//		if (!empty($this->ruangan_id)) {
-//			$criteria->addCondition('ruangan_id = ' . $this->ruangan_id);
-//		}
+		if (!empty($this->ruangan_id)) {
+			$criteria->addCondition('ruangan_id = ' . $this->ruangan_id);
+		}
 
 		if (!empty($this->daftartindakan_id)) {
 			$criteria->addCondition('daftartindakan_id = ' . $this->daftartindakan_id);
@@ -120,7 +120,7 @@ class AKPelayananRekM extends PelayananrekM {
 
 		$criteria->compare('LOWER(jnspelayanan)', strtolower($this->jnspelayanan), true);
 		if (!empty($this->komponentarif_id)) {
-			$criteria->addCondition('komponentarif_id = ' . $this->komponentarif_id);
+			$criteria->addCondition('t.komponentarif_id = ' . $this->komponentarif_id);
 		}
 
 		return $criteria;
@@ -134,7 +134,7 @@ class AKPelayananRekM extends PelayananrekM {
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 		$criteria = $this->criteriaSearch();
-		$criteria->limit = 10;
+		// $criteria->limit = 10;
 
 		return new CActiveDataProvider($this, array(
 			'criteria' => $criteria,

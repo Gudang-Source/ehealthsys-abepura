@@ -15,9 +15,10 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 <div class="row-fluid">
 
 	<div class = "span6">
-		<?php echo $form->dropDownListRow($model, 'rekperiode_id', CHtml::listData(RekperiodM::model()->findAll(array('order'=>'deskripsi ASC')), 'rekperiod_id', 'deskripsi'), array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event)", 'empty' => '-- Pilih --')); ?>
+                <?php echo $form->dropDownListRow($model, 'konfiganggaran_id', CHtml::listData(KonfiganggaranK::model()->findAll(array('condition'=>'isclosing_anggaran = false','order'=>'deskripsiperiode ASC')), 'konfiganggaran_id', 'deskripsiperiode'), array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event)", 'empty' => '-- Pilih --')); ?>
+		<?php echo $form->dropDownListRow($model, 'rekperiode_id', CHtml::listData(RekperiodM::model()->findAll(array('condition'=>'isclosing = false','order'=>'deskripsi ASC')), 'rekperiod_id', 'deskripsi'), array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event)", 'empty' => '-- Pilih --')); ?>
 		<?php echo $form->textFieldRow($model, 'periodeposting_nama', array('class' => 'span3', 'onkeyup' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>			
-		<div class="control-group ">
+                <div class="control-group ">
 			<?php echo $form->labelEx($model, 'tglperiodeposting_awal', array('class' => 'control-label')) ?>
 			<div class="controls">
 				<?php
@@ -63,9 +64,6 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 				?>
 			</div>
 		</div>
-	</div>
-	<div class = "span6">
-		<?php echo $form->dropDownListRow($model, 'konfiganggaran_id', CHtml::listData(KonfiganggaranK::model()->findAll(array('order'=>'deskripsiperiode ASC')), 'konfiganggaran_id', 'deskripsiperiode'), array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event)", 'empty' => '-- Pilih --')); ?>
 		<?php echo $form->textAreaRow($model, 'deskripsiperiodeposting', array('class' => 'span3', 'onkeyup' => "return $(this).focusNextInputField(event);",'maxlength'=>200)); ?>
 		<?php
 		if (!empty($model->periodeposting_id)) {

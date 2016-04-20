@@ -16,7 +16,7 @@ if(isset($_GET['sukses'])){
 ?>
 <?php $this->widget('bootstrap.widgets.BootAlert'); ?>
     <fieldset id="form-rekening" class="box">
-        <legend class="rim"><span class='judul'>Periode Rekening </span></legend>
+        <legend class="rim"><span class='judul'>Periode Akuntansi </span></legend>
         <div>
             <?php $this->renderPartial('_periodeRekeningBaru', array('format'=>$format,'modRekPeriod'=>$modRekPeriod)); ?>
         </div>
@@ -45,7 +45,7 @@ if(isset($_GET['sukses'])){
         </table>
     </div>
     <fieldset class="box">
-        <legend class="rim"><span class='judul'>Periode Rekening </span></legend>
+        <legend class="rim"><span class='judul'>Periode Akuntansi </span></legend>
 		<div class="row-fluid">
 			<?php echo $form->hiddenField($modRekPeriod, 'is_rekeningbaru', array('readonly'=>true,'class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
 			<?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(

@@ -1453,7 +1453,7 @@ function getRujukanNoRujukan(isi)
         success: function(data){
             $("#content-bpjs").removeClass("animation-loading");
             var obj = JSON.parse(data);
-            if(obj.response!=null){
+            if(obj.response.item!=null){
               var rujukan = obj.response.item;
               var noKunjungan = rujukan.noKunjungan;
               var tglKunjungan = rujukan.tglKunjungan;
@@ -1470,7 +1470,7 @@ function getRujukanNoRujukan(isi)
               $("#<?php echo CHtml::activeId($modRujukanBpjs,'tanggal_rujukan') ?>").val(tglKunjungan);
               setDiagnosa(diagnosa.kdDiag,diagnosa.nmDiag);
             }else{
-              myAlert(obj.metaData.message);
+              myAlert(obj.metadata.message);
             }
         },
         error: function(data){

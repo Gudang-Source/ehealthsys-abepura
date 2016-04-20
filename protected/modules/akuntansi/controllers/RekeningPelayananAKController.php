@@ -15,18 +15,21 @@ class RekeningPelayananAKController extends RekeningPelayananController
         $model = new AKPelayananRekM();
         $modTindakanRuangan = new AKPelayananRekM('search');
         $modTindakanRuangan->unsetAttributes();
-        $modTindakanRuangan->ruangan_id = 0; //default tidak muncul data
+        $modTindakanRuangan->ruangan_id = null; //default tidak muncul data
+        /*
         if (Yii::app()->session['modul_id'] != Params::MODUL_ID_SISADMIN) {
-            $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
-            $model->ruangan_nama = Yii::app()->user->getState('ruangan_nama');
+            //$model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+            //$model->ruangan_nama = Yii::app()->user->getState('ruangan_nama');
             $modTindakanRuangan->ruangan_id = Yii::app()->user->getState('ruangan_id');
         }
+         * 
+         */
         if (isset($_GET['AKPelayananRekM'])) {
             $modTindakanRuangan->attributes = $_GET['AKPelayananRekM'];
             $modTindakanRuangan->ruangan_id = $_GET['AKPelayananRekM']['ruangan_id'];
-            $modTindakanRuangan->kelompoktindakan_nama = $_GET['AKPelayananRekM']['kelompoktindakan_nama'];
-            $modTindakanRuangan->kategoritindakan_nama = $_GET['AKPelayananRekM']['kategoritindakan_nama'];
-            $modTindakanRuangan->daftartindakan_kode = $_GET['AKPelayananRekM']['daftartindakan_kode'];
+            //$modTindakanRuangan->kelompoktindakan_nama = $_GET['AKPelayananRekM']['kelompoktindakan_nama'];
+            //$modTindakanRuangan->kategoritindakan_nama = $_GET['AKPelayananRekM']['kategoritindakan_nama'];
+            //$modTindakanRuangan->daftartindakan_kode = $_GET['AKPelayananRekM']['daftartindakan_kode'];
             $modTindakanRuangan->daftartindakan_nama = $_GET['AKPelayananRekM']['daftartindakan_nama'];
         }
 
@@ -212,9 +215,9 @@ class RekeningPelayananAKController extends RekeningPelayananController
         }
         if (isset($_GET['AKPelayananRekM'])) {
             $model->attributes = $_GET['AKPelayananRekM'];
-            $model->kelompoktindakan_nama = $_GET['AKPelayananRekM']['kelompoktindakan_nama'];
-            $model->kategoritindakan_nama = $_GET['AKPelayananRekM']['kategoritindakan_nama'];
-            $model->daftartindakan_kode = $_GET['AKPelayananRekM']['daftartindakan_kode'];
+            //$model->kelompoktindakan_nama = $_GET['AKPelayananRekM']['kelompoktindakan_nama'];
+            //$model->kategoritindakan_nama = $_GET['AKPelayananRekM']['kategoritindakan_nama'];
+            //$model->daftartindakan_kode = $_GET['AKPelayananRekM']['daftartindakan_kode'];
             $model->daftartindakan_nama = $_GET['AKPelayananRekM']['daftartindakan_nama'];
         }
 

@@ -124,7 +124,7 @@
 		function search_rujukan_no_rujukan($query)
 		{
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
-			$completeUrl = $this->url.'/rujukan/'.$query;
+			$completeUrl = $this->url.'/Rujukan/rujukan/'.$query;
 			return $this->request($completeUrl, $hashsignature, $uid, $timestmp);	
 		}
 

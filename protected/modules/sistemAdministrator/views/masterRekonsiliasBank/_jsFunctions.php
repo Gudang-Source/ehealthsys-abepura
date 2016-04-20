@@ -31,7 +31,7 @@ function resetIframe(obj) {
 	obj.style.height = 128 + 'px';
 }
 function resizeIframe(obj) {
-	obj.style.height = (obj.contentWindow.document.body.scrollHeight+25) + 'px';
+	obj.style.height = "800px"; //(obj.contentWindow.document.body.scrollHeight+25) + 'px';
 }
 </script>
 <?php
