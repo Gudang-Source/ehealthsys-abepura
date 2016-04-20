@@ -7,7 +7,7 @@
   </tr>
   <tr>
     <td style="vertical-align: middle;">2. </td>
-    <td>Icon <i class="icon-form-ubabh"></i> untuk mengubah data.</td>
+    <td>Icon <i class="icon-form-ubah"></i> untuk mengubah data.</td>
   </tr>
   <tr>
     <td style="vertical-align: middle;">3. </td>

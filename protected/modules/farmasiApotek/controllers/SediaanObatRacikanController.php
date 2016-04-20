@@ -152,7 +152,7 @@ class SediaanObatRacikanController extends MyAuthController
 		*Mengubah status aktif
 		* @param type $id 
 	*/
-	public function actionremoveTemporary()
+	public function actionRemoveTemporary()
 	{
 		$id = $_POST['id'];   
 		if(isset($_POST['id']))

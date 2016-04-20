@@ -26,7 +26,7 @@ class SALokasipenyimpananM extends LokasipenyimpananM
 	
 	public function getInstalasiItems()
 		{
-			 return InstalasiM::model()->findAll('instalasi_aktif=TRUE ORDER BY instalasi_nama');
+			 return InstalasiM::model()->findAll('instalasi_aktif=TRUE ORDER BY instalasi_nama ASC');
 		}
 	public function searchLokasi()
 	{
@@ -49,7 +49,7 @@ class SALokasipenyimpananM extends LokasipenyimpananM
 		if(!isset($this->lokasipenyimpanan_aktif)){
 			$criteria->addCondition('lokasipenyimpanan_aktif is true');
 		}
-		$criteria->limit=10;
+		$criteria->limit= 10;
             return new CActiveDataProvider($this, array(
                     'criteria'=>$criteria,
             ));
