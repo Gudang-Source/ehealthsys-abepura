@@ -20,13 +20,13 @@ class FAInformasikasirinappulangV extends InformasikasirinappulangV
             $criteria->join = "left join pasienadmisi_t admisi on admisi.pasienadmisi_id = t.pasienadmisi_id";
             
             
-            if($this->ceklis==0){
-                    $criteria->addBetweenCondition('DATE(t.tglpulang)',$this->tgl_awal,$this->tgl_akhir);	
-            }else{
-                    $criteria->addBetweenCondition('DATE(t.tgladmisi)',$this->tgl_awalAdmisi,$this->tgl_akhirAdmisi);	
-            }
-
-            $criteria->addCondition('t.pembayaranpelayanan_id IS NULL');
+            //if($this->ceklis==0){
+            //        $criteria->addBetweenCondition('DATE(t.tglpulang)',$this->tgl_awal,$this->tgl_akhir);	
+            //}else{
+                    $criteria->addBetweenCondition('DATE(t.tgladmisi)',$this->tgl_awal,$this->tgl_akhir);	
+            //}
+            
+            // $criteria->addCondition('t.pembayaranpelayanan_id IS NULL');
             $criteria->compare('LOWER(t.namadepan)',strtolower($this->namadepan),true);
             $criteria->compare('LOWER(t.nama_pasien)',strtolower($this->nama_pasien),true);
             $criteria->compare('LOWER(t.nama_bin)',strtolower($this->nama_bin),true);
@@ -74,7 +74,7 @@ class FAInformasikasirinappulangV extends InformasikasirinappulangV
             $criteria->compare('admisi.kamarruangan_id', $this->kamarruangan_id);
             $criteria->order = 't.tgladmisi DESC';
             //$criteria->compare('LOWER(statusperiksa)',strtolower(Params::STATUSPERIKSA_SUDAH_DIPERIKSA));
-
+            
             return new CActiveDataProvider($this, array(
                     'criteria'=>$criteria,
             ));

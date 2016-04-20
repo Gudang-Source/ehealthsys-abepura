@@ -15,6 +15,13 @@ function refreshTabel(){
 		data: $("#tindakanruangan-m-grid input").serialize(),
 	});
 }
+
+function refreshTabel2() {
+        $.fn.yiiGridView.update('rekeningpelayanan-m-grid', {
+		data: $("#rekeningpelayanan-m-grid").serialize(),
+	});
+}
+
 /** 
  * menambah baris ke tabel tindakan
  * @returns {undefined}
@@ -28,7 +35,7 @@ function tambahTindakan()
 			data: $("#tindakanruangan-m-form").serialize(),
 			dataType: "json",
 			success:function(data){
-				refreshTabel();
+				refreshTabel2();
 				myAlert(data.pesan);
 			},
 			error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}

@@ -89,7 +89,7 @@ class PeriodepostingM extends CActiveRecord
 	{
 		return array(
 			'periodeposting_id' => 'Periode Posting',
-			'konfiganggaran_id' => 'Konfig. Anggaran',
+			'konfiganggaran_id' => 'Periode Anggaran',
 			'periodeposting_nama' => 'Nama Periode',
 			'tglperiodeposting_awal' => 'Tgl. Awal Periode Posting',
 			'tglperiodeposting_akhir' => 'Tgl. Akhir Periode Posting',
@@ -100,7 +100,7 @@ class PeriodepostingM extends CActiveRecord
 			'update_loginpemakai_id' => 'Update Login Pemakai',
 			'create_ruangan' => 'Create Ruangan',
 			'periodeposting_aktif' => 'Aktif',
-			'rekperiode_id' => 'Rekening Periode',
+			'rekperiode_id' => 'Periode Akuntansi',
 		);
 	}
 
