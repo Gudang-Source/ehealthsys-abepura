@@ -36,7 +36,10 @@
         echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds', '{icon} Create', array('{icon}' => '<i class="icon-ok icon-white"></i>')) :
                         Yii::t('mds', '{icon} Save', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'onKeypress' => 'return formSubmit(this,event)'));
         ?>
-			 <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Reset',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')),array('class'=>'btn btn-danger', 'type'=>'reset')); ?>
+           <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+                            $this->createUrl($this->id.'/indexPegawai&modul_id='.Yii::app()->session['modul_id']), 
+                            array('class'=>'btn btn-danger',
+                                  'onclick'=>'return refreshForm(this);')); ?>
 	<?php 
 $content = $this->renderPartial('../tips/transaksi',array(),true);
 $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));  ?>	

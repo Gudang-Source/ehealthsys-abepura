@@ -39,7 +39,7 @@
 <div class="span4">
 	<?php echo $form->textFieldRow($model,'warnalinen',array('class'=>'span3','maxlength'=>50)); ?>
 
-	<?php echo $form->checkBoxRow($model,'isberwarna'); ?>
+	<?php echo $form->checkBoxRow($model,'isberwarna', array('checked'=>'isberwarna')); ?>
 </div>
 </div>
 <div class="row-fluid">

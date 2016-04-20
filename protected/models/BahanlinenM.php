@@ -90,7 +90,7 @@ class BahanlinenM extends CActiveRecord
 		$criteria->compare('LOWER(bahanlinen_nama)',strtolower($this->bahanlinen_nama),true);
 		$criteria->compare('LOWER(bahanlinen_namalain)',strtolower($this->bahanlinen_namalain),true);
 		$criteria->compare('LOWER(suhurekomendasi)',strtolower($this->suhurekomendasi),true);
-		$criteria->compare('bahanlinen_aktif',$this->bahanlinen_aktif);
+		$criteria->compare('bahanlinen_aktif', isset($this->bahanlinen_aktif)?$this->bahanlinen_aktif:true);
 
 		return $criteria;
 	}

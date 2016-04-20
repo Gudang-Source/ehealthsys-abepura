@@ -107,7 +107,7 @@ class JenislinenM extends CActiveRecord
 			$criteria->addCondition('qtyitem = '.$this->qtyitem);
 		}
 		$criteria->compare('LOWER(warnalinen)',strtolower($this->warnalinen),true);
-		$criteria->compare('isberwarna',$this->isberwarna);
+		$criteria->compare('isberwarna',isset($this->isberwarna)?$this->isberwarna:true);
 
 		return $criteria;
 	}

@@ -90,7 +90,7 @@ class BahanperawatanM extends CActiveRecord
 		$criteria->compare('LOWER(bahanperawatan_jenis)',strtolower($this->bahanperawatan_jenis),true);
 		$criteria->compare('LOWER(bahanperawatan_nama)',strtolower($this->bahanperawatan_nama),true);
 		$criteria->compare('LOWER(bahanperawatan_namalain)',strtolower($this->bahanperawatan_namalain),true);
-		$criteria->compare('bahanperawatan_aktif',$this->bahanperawatan_aktif);
+		$criteria->compare('bahanperawatan_aktif',isset($this->bahanperawatan_aktif)?$this->bahanperawatan_aktif:true);
 
 		return $criteria;
 	}

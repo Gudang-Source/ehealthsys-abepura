@@ -12,7 +12,7 @@
         </td>
         <td>
             <?php echo $form->textFieldRow($model,'suhurekomendasi',array('class'=>'span3','maxlength'=>10)); ?>
-            <?php echo $form->checkBoxRow($model,'bahanlinen_aktif'); ?>
+            <?php echo $form->checkBoxRow($model,'bahanlinen_aktif', array('checked'=>'bahanlinen_aktif')); ?>
         </td>
     </tr>
 </table>

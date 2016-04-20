@@ -29,7 +29,10 @@ $this->widget($table,array(
 		'bahanperawatan_jenis',
 		'bahanperawatan_nama',
 		'bahanperawatan_namalain',
-		'bahanperawatan_aktif',
+		array(
+                        'header' => 'Status',
+                        'value' => '($data->bahanperawatan_aktif)?"Aktif":"Tidak Aktif"'
+                    ),
  
 	),
 )); 
