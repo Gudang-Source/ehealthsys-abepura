@@ -55,7 +55,10 @@
 				array('class'=>'btn btn-danger',
 					  'onclick'=>'return refreshForm(this);')); ?>
 		<?php echo CHtml::link(Yii::t('mds','{icon} Pengaturan Submenu Jenis Linen',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
-		<?php $this->widget('UserTips',array('content'=>''));?>
+		<?php
+                            $content = $this->renderPartial('sistemAdministrator.views.tips.tipsaddedit4b',array(),true);
+                            $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
+                        ?>
 		</div>
 	</div>
 <?php $this->endWidget(); ?>
