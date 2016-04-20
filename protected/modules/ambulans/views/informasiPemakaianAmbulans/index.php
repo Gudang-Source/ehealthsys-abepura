@@ -65,7 +65,7 @@
                     'type'=>'raw',
                     'value'=>'CHtml::Link("<i class=\"icon-form-lihat\"></i>",Yii::app()->controller->createUrl("'.Yii::app()->controller->id.'/view",array("pemakaianambulans_id"=>$data->pemakaianambulans_id)),
                                            array("target"=>"iframepemakaian", "onclick"=>"$(\"#detail-pemakaian\").dialog(\"open\");",
-                                                 "class"=>"btn-small"))',
+                                                 "class"=>"btn-small","rel"=>"tooltip","title"=>"Klik untuk Melihat Detail Pemakaian"))',
                     'htmlOptions'=>array('style'=>'text-align:left;'),
                 ),
                 array(
@@ -73,7 +73,7 @@
                     'type'=>'raw',
                     'value'=>'CHtml::Link("<i class=\"icon-form-silang\"></i>","javascript:void(0)",
                                            array("onclick"=>"batalPakai(\'$data->pemakaianambulans_id\',\'$data->pesanambulans_t\')",
-                                                 "class"=>"btn-small"))',
+                                                 "class"=>"btn-small","rel"=>"tooltip","title"=>"Klik untuk Membatalkan Pemakaian"))',
                     'htmlOptions'=>array('style'=>'text-align:left;'),
                 )
             ),
