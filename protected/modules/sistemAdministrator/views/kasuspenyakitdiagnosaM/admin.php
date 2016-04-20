@@ -1,3 +1,4 @@
+
 <div class="white-container">
     <legend class="rim2">Pengaturan Kasus <b>Penyakit Diagnosa</b></legend>
     <?php
@@ -42,15 +43,16 @@
             'dataProvider'=>$model->searchTabel(),
      	    'filter'=>$model,
             'mergeColumns'=>'jeniskasuspenyakit.jeniskasuspenyakit_nama',
+            'mergeCellCss' => 'text-align: left; vertical-align: middle',
             'template'=>"{summary}\n{items}\n{pager}",
-            'itemsCssClass'=>'table table-striped table-condensed',
+            'itemsCssClass'=>'table table-striped table-condensed',            
         //                'mergeColumns'=>'jeniskasuspenyakit.jeniskasuspenyakit_nama',
             'columns'=>array(
                         array(
                             'name'=>'jeniskasuspenyakit.jeniskasuspenyakit_nama',
                             'header'=>'Jenis Kasus Penyakit',
                             'value'=>'$data->jeniskasuspenyakit->jeniskasuspenyakit_nama',
-                            'filter' => CHtml::DropDownList('SAKasuspenyakitdiagnosaM[jeniskasuspenyakit_id]', $model->jeniskasuspenyakit_id, CHtml::listData($model->getJeniskasuspenyakitItems(),'jeniskasuspenyakit_id','jeniskasuspenyakit_nama'),array('empty'=>'-- Pilih --'))
+                            'filter' => CHtml::DropDownList('SAKasuspenyakitdiagnosaM[jeniskasuspenyakit_id]', $model->jeniskasuspenyakit_id, CHtml::listData($model->getJeniskasuspenyakitItems(),'jeniskasuspenyakit_id','jeniskasuspenyakit_nama'),array('empty'=>'-- Pilih --')),                            
                         ),
                         //'jeniskasuspenyakit.jeniskasuspenyakit_nama',
                         array(

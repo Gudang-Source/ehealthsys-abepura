@@ -159,7 +159,7 @@
 
         </div>
         <div class="span4">
-            <?php echo $form->dropDownListRow($model,'warganegara_pegawai',LookupM::getItems('warganegara'),array( 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>25)); ?>
+            <?php echo $form->dropDownListRow($model,'warganegara_pegawai',LookupM::getItems('warganegara'),array( 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>25, 'empty'=>'-- Pilih --')); ?>
 
             <?php echo $form->dropDownListRow($model,'suku_id',  CHtml::listData($model->getSukuItems(), 'suku_id', 'suku_nama'), 
                         array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>

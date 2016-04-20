@@ -7,16 +7,20 @@
   </tr>
    <tr>
     <td style = "vertical-align:middle">2. </td>
-    <td>Icon <i class="icon-form-pakaiambulans"></i> berfungsi untuk melanjutkan pemakaian ambulans.</td>
+    <td>Icon <i class="icon-form-lihat"></i> berfungsi untuk melihat detail.</td>
   </tr>
   <tr>
     <td style = "vertical-align:middle">3. </td>
+    <td>Icon <i class="icon-form-silang"></i> berfungsi untuk membatalkan pemakaian.</td>
+  </tr>
+  <tr>
+    <td style = "vertical-align:middle">4. </td>
     <td>Gunakan tombol ini  <a class="btn btn-primary" name="yt0"><i class="icon-search icon-white"></i>
 Cari
 </a> berfungsi untuk mencari data.</td>
   </tr>
   <tr>
-    <td style = "vertical-align:middle">4. </td>
+    <td style = "vertical-align:middle">5. </td>
     <td>Gunakan tombol ini <a class="btn btn-danger">
 <i class="icon-refresh icon-white"></i>
 Ulang
