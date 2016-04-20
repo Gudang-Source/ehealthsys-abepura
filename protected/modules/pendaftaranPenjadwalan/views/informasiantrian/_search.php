@@ -84,7 +84,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                                     array('class'=>'btn btn-danger',
                                         'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r) {if(r) window.location = "'.$this->createUrl('index').'";} ); return false;'));  ?>
         <?php 
-        $content = $this->renderPartial('pendaftaranPenjadwalan.views.tips.informasi',array(),true);
+        $content = $this->renderPartial('pendaftaranPenjadwalan.views.tips.informasiAntrianPasien',array(),true);
         $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); ?>          
     </div>
 </fieldset>
