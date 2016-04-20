@@ -8,7 +8,9 @@ if(isset($_GET)){
     } 
 }
 ?>
-<?php $baseUrl = Yii::app()->createUrl("/");?>
+<?php $baseUrl = Yii::app()->createUrl("/");
+// var_dump($baseUrl); die;
+?>
 <script type="text/javascript">
 /**
  * set form kunjungan
@@ -84,7 +86,8 @@ function setTab(obj){
     var tab = $(obj).attr("tab");
     var frameObj = document.getElementById("frame");
     resetIframe(frameObj);
-    $(frameObj).attr("src","<?php echo $baseUrl;?>?r="+tab+"<?php echo $gets;?>");
+    console.log("<?php echo $baseUrl;?>?r="+tab);
+    $(frameObj).attr("src","<?php echo $baseUrl;?>?r="+tab);
     $(frameObj).parent().addClass("animation-loading");
     $(frameObj).load(function(){
         $(frameObj).parent().removeClass("animation-loading");
