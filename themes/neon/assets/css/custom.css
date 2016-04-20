@@ -7,3 +7,43 @@
 body {
 	
 }
+/*1px solid #B0EAA5 buat border grafik whitesmoke
+
+//buat header
+background: #7FB35D;
+border-bottom: 4px solid #6B994D;
+*/
+.btn-primary{
+    color:#fff;
+    background-color:#f78d1d;
+    border-color:#f78d1d;/*f78d1d orange 609D2D ijo*/
+    border-radius:5px;
+}
+
+.btn-primary:hover{
+    color:#fff;
+    background-color:#f47c20;
+    border-color:#f47c20;/*f78d1d orange 609D2D ijo*/
+    border-radius:5px;
+}
+
+.btn-danger{
+    color:#fff;
+    background-color:#609D2D;
+    border-color:#609D2D;/*f78d1d orange 609D2D ijo*/
+    border-radius:5px;
+}
+
+.btn-danger:hover{
+    color:#fff;
+    background-color:rgba(121, 188, 66, 1);
+    border-color:rgba(121, 188, 66, 1);/*f78d1d orange 609D2D ijo*/
+    border-radius:5px;
+}
+
+.table > thead > tr > th, .table > thead > tr > td {
+    background: #7FB35D;
+    color: #FFF;
+    border-bottom-width: 1px;
+    color: #ffffff;
+}
