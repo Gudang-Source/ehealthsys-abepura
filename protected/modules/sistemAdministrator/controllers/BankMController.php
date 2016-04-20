@@ -216,7 +216,7 @@ class BankMController extends MyAuthController {
 
 		if (isset($_POST['SAJnsPenerimaanRekM'])) {
 			$model->attributes = $_POST['SAJnsPenerimaanRekM'];
-			$view = 'UbahRekeningKredit';
+			$view = 'UbahRekeningDebit';
 
 			$update = SABankRekM::model()->updateByPk($id, array('rekening5_id' => $_POST['SABankRekM']['rekening5_id']));
 			if ($update) {
@@ -229,7 +229,7 @@ class BankMController extends MyAuthController {
 			}
 		}
 
-		$this->render($this->path_view . ((isset($view)) ? $view : '_ubahRekeningKredit'), array(
+		$this->render($this->path_view . ((isset($view)) ? $view : '_ubahRekeningDebit'), array(
 			'model' => $model,
 			'modBank' => $modBank
 		));
@@ -266,6 +266,24 @@ class BankMController extends MyAuthController {
 	}
 	
 	public function actionGetRekeningEditKreditBank() {
+		if (Yii::app()->request->isAjaxRequest) {
+
+			$rekening5_id = $_POST['rekening5_id'];
+			$bank_id = $_POST['bank_id'];
+			$bankrek_id = $_POST['bankrek_id'];
+
+			$update = SABankRekM::model()->updateByPk($bankrek_id, array('rekening5_id' => $rekening5_id));
+			if ($update) {
+				$data['pesan'] = '<div class="flash-success">Ubah Data Rekening <b></b> Berhasil  Disimpan </div>';
+			} else {
+				$data['pesan'] = '<div class="flash-error">Ubah Data Rekening <b></b> Gagal  Disimpan </div>';
+			}
+			echo json_encode($data);
+			Yii::app()->end();
+		}
+	}
+        
+        public function actionGetRekeningEditDebitBank() {
 		if (Yii::app()->request->isAjaxRequest) {
 
 			$rekening5_id = $_POST['rekening5_id'];

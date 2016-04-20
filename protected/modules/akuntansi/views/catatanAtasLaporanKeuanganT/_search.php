@@ -1,7 +1,7 @@
 <div class="row-fluid">
 	<div class="span4">
 		<div class="control-group ">
-		<?php echo CHtml::label('Periode Rekening','rekperiod_id', array('class'=>'control-label')) ?>
+		<?php echo CHtml::label('Periode Akuntansi','rekperiod_id', array('class'=>'control-label')) ?>
 			<div class="controls">
 			<?php echo $form->dropDownList($model,'rekperiod_id',CHtml::listData(RekperiodM::model()->findAllByAttributes(array('isclosing'=>false)),'rekperiod_id','deskripsi'),array('class'=>'span3','onkeypress'=>'return $(this).focusNextInputField(event)')); ?>
 			</div>

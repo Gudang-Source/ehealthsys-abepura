@@ -1,7 +1,7 @@
 <div class="row-fluid">
 	<div class="span4">
 		<div class="control-group ">
-			<?php echo CHtml::label('Deskripsi','', array('class' => 'control-label')); ?>
+			<?php echo CHtml::label('Periode Akuntansi','', array('class' => 'control-label')); ?>
 			<div class="controls">
 				<?php echo CHtml::hiddenField('rekperiod_id','',array('readonly'=>true)); ?>
 				<?php

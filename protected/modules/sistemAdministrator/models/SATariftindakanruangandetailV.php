@@ -133,7 +133,11 @@ class SATariftindakanruangandetailV extends TariftindakanruangandetailV {
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
         $criteria = $this->criteriaSearch();
-        $criteria->limit = 10;
+        $criteria->group = "daftartindakan_id, daftartindakan_nama, ruangan_id, komponentarif_id, ruangan_nama, "
+                . "komponentarif_nama, kelompoktindakan_nama, kategoritindakan_nama, daftartindakan_kode, "
+                . "daftartindakan_nama";
+        $criteria->select = $criteria->group;
+        //$criteria->limit = 10;
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
         ));
