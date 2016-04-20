@@ -47,7 +47,7 @@ $('.search-form form').submit(function(){
 		array(
 			'name'=>'lokasipenyimpanan_id',
 			'value'=>'$data->lokasipenyimpanan->lokasipenyimpanan_nama',
-			'filter'=>  CHtml::listData($model->LokasipenyimpananItems, 'lokasipenyimpanan_id', 'lokasipenyimpanan_nama'),
+			'filter'=>   CHtml::dropDownList('SARakpenyimpananM[lokasipenyimpanan_id]',$model->lokasipenyimpanan_id,CHtml::listData($model->LokasipenyimpananItems, 'lokasipenyimpanan_id', 'lokasipenyimpanan_nama'),array('empty'=> '-- Pilih --')),
 			),
 		'rakpenyimpanan_label',
 		'rakpenyimpanan_kode',

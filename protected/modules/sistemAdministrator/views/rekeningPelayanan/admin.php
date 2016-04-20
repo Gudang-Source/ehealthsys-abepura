@@ -1,5 +1,5 @@
 <div class="white-container">
-    <legend class="rim2">Pengaturan <b>Rekening Pelayanan</b></legend>
+    <legend class="rim2">Pengaturan <b>Akun Pelayanan</b></legend>
     <?php
     $this->breadcrumbs = array(
         'Saruangan Ms' => array('index'),
@@ -29,7 +29,13 @@
         'itemsCssClass' => 'table table-striped table-condensed',
         'columns' => array(
             array(
-                'header' => 'Rek. 5',
+                'header' => 'Kode Akun',
+                'name' => 'nmrekening5',
+                'value' => 'isset($data->rekening5_id)?$data->rekening5->kdrekening5:" - "',
+//				'filter'=>true,
+            ),
+            array(
+                'header' => 'Nama Akun',
                 'name' => 'nmrekening5',
                 'value' => 'isset($data->rekening5->nmrekening5)?$data->rekening5->nmrekening5:" - "',
 //				'filter'=>true,
@@ -38,16 +44,30 @@
                 'header' => 'Ruangan',
                 'name' => 'ruangan_nama',
                 'value' => 'isset($data->ruangan->ruangan_nama)?$data->ruangan->ruangan_nama:" - "',
+                'filter'=> CHtml::activeDropDownList($model, 'ruangan_id',
+                CHtml::listData(RuanganM::model()->findAll(array(
+                    'condition'=>'ruangan_aktif = true',
+                    'order' =>'instalasi_id, ruangan_nama',
+                )), 'ruangan_id', 'ruangan_nama'), array(
+                    'empty'=>'-- Pilih --',
+                )),
             ),
             array(
                 'header' => 'Nama Tindakan',
                 'name' => 'daftartindakan_nama',
                 'value' => 'isset($data->daftartindakan->daftartindakan_nama)?$data->daftartindakan->daftartindakan_nama:" - "',
             ),
-			array(
+            array(
                 'header' => 'Komponen Tarif',
                 'name' => 'komponentarif_nama',
                 'value' => 'isset($data->komponentarif->komponentarif_nama)?$data->komponentarif->komponentarif_nama:" - "',
+                'filter' => CHtml::activeDropDownList($model, 'komponentarif_nama', CHtml::listData(
+               KomponentarifM::model()->findAll(array(
+                   'condition'=>'komponentarif_aktif = true',
+                   'order'=>'komponentarif_nama',
+               )),'komponentarif_nama','komponentarif_nama'), array(
+                   'empty'=>'-- Pilih --',
+               )),
             ),
             array(
                 'header' => Yii::t('zii', 'View'),
@@ -77,7 +97,7 @@
     ?>
 
     <?php
-    echo CHtml::link(Yii::t('mds', '{icon} Tambah Rekening Pelayanan', array('{icon}' => '<i class="icon-plus icon-white"></i>')), $this->createUrl('create', array('modul_id' => Yii::app()->session['modul_id'])), array('class' => 'btn btn-success')) . "&nbsp&nbsp";
+    echo CHtml::link(Yii::t('mds', '{icon} Tambah Akun Pelayanan', array('{icon}' => '<i class="icon-plus icon-white"></i>')), $this->createUrl('create', array('modul_id' => Yii::app()->session['modul_id'])), array('class' => 'btn btn-success')) . "&nbsp&nbsp";
     //echo (Yii::app()->user->checkAccess(Params::DEFAULT_ADMIN)) ? CHtml::htmlButton(Yii::t('mds', '{icon} PDF', array('{icon}' => '<i class="icon-book icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'print(\'PDF\')')) . "&nbsp&nbsp" : '';
     //echo (Yii::app()->user->checkAccess(Params::DEFAULT_ADMIN)) ? CHtml::htmlButton(Yii::t('mds', '{icon} Excel', array('{icon}' => '<i class="icon-pdf icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'print(\'EXCEL\')')) . "&nbsp&nbsp" : '';
     //echo(Yii::app()->user->checkAccess(Params::DEFAULT_ADMIN)) ? CHtml::htmlButton(Yii::t('mds', '{icon} Print', array('{icon}' => '<i class="icon-print icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'print(\'PRINT\')')) . "&nbsp&nbsp" : '';    

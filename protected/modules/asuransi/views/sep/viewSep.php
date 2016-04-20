@@ -189,8 +189,12 @@ $this->breadcrumbs=array(
 	</div>
 	<div class="row-fluid">
 		<div class="form-actions">
+                <?php $pendaftaran = PendaftaranT::model()->findByAttributes(array(
+                    'sep_id' => $model->sep_id,
+                )); ?>
 		<?php echo CHtml::link(Yii::t('mds','{icon} Pengaturan SEP',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
-		<?php $this->widget('UserTips',array('content'=>''));?>
+		<?php echo CHtml::link(Yii::t('mds','{icon} Print SEP',array('{icon}'=>'<i class="icon-print icon-white"></i>')),Yii::app()->createUrl('pendaftaranPenjadwalan/pendaftaranRawatJalan/printSep',array('pendaftaran_id'=>!empty($pendaftaran)?($pendaftaran->pendaftaran_id):null,'sep_id'=>$model->sep_id,'modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
+                <?php $this->widget('UserTips',array('content'=>''));?>
 		</div>
 	</div>
 </div>

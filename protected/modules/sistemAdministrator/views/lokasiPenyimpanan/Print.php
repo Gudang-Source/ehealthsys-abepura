@@ -17,7 +17,7 @@ echo $this->renderPartial('application.views.headerReport.headerDefault',array('
 $this->widget($table,array(
 	'id'=>'sajenis-kelas-m-grid',
 	'enableSorting'=>false,
-	'dataProvider'=>$model->searchLokasi(),
+	'dataProvider'=>$model->searchPrint(),
 	'template'=>$template,
 	'itemsCssClass'=>'table table-striped table-bordered table-condensed',
 	'columns'=>array(

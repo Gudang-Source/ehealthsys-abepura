@@ -185,6 +185,8 @@ class PengambilanGambarPasienController extends MyAuthController
             }else{
                 $model->pathphoto = $webcam;
             }
+            $model->validate();
+            // var_dump($model->errors); die;
             if($model->validate()){
                 if($model->save()){
                     if(empty($webcam)){
@@ -323,6 +325,7 @@ class PengambilanGambarPasienController extends MyAuthController
     public function actionGroup($pendaftaran_id = null,$pendaftaran_id = null)
     {       
         $this->layout ='//layouts/iframe';
+        
         $format = new MyFormatter();
         $modKunjungan = new RJInfokunjunganrjV();
         $model = new RJPhotopemeriksaanT();

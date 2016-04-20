@@ -152,7 +152,7 @@ class SediaanObatRacikanController extends MyAuthController
 		*Mengubah status aktif
 		* @param type $id 
 	*/
-	public function actionremoveTemporary()
+	public function actionRemoveTemporary()
 	{
 		$id = $_POST['id'];   
 		if(isset($_POST['id']))
@@ -204,7 +204,7 @@ class SediaanObatRacikanController extends MyAuthController
 			$mpdf->WriteHTML($stylesheet,1);  
 			$mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
 			$mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-			$mpdf->Output();
+			$mpdf->Output($judulLaporan.'-'.date('Y-m-d').'.pdf','I');
 		}                       
 	}
 }

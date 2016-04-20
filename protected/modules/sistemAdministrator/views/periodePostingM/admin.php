@@ -47,12 +47,12 @@ $('#saperiodeposting-m-search').submit(function(){
 			array(
 				'name'=>'konfiganggaran_id',
 				'value'=>'$data->konfiganggaran->deskripsiperiode',
-				'filter'=> CHtml::dropDownList('SAPeriodepostingM[konfiganggaran_id]',$model->konfiganggaran_id,CHtml::listData(KonfiganggaranK::model()->findAll(array('order'=>'deskripsiperiode')), 'konfiganggaran_id', 'deskripsiperiode'),array('empty'=>'--Pilih--')),
+				'filter'=> CHtml::dropDownList('SAPeriodepostingM[konfiganggaran_id]',$model->konfiganggaran_id,CHtml::listData(KonfiganggaranK::model()->findAll(array('condition'=>'isclosing_anggaran = false','order'=>'deskripsiperiode')), 'konfiganggaran_id', 'deskripsiperiode'),array('empty'=>'--Pilih--')),
 			),
 			array(
 				'name'=>'rekperiode_id',
 				'value'=>'$data->rekperiode->deskripsi',
-				'filter'=>  CHtml::dropDownList('SAPeriodepostingM[rekperiode_id]',$model->rekperiode_id,CHtml::listData(RekperiodM::model()->findAll(array('order'=>'deskripsi')), 'rekperiod_id', 'deskripsi'),array('empty'=>'--Pilih--')),
+				'filter'=>  CHtml::dropDownList('SAPeriodepostingM[rekperiode_id]',$model->rekperiode_id,CHtml::listData(RekperiodM::model()->findAll(array('condition'=>'isclosing = false', 'order'=>'deskripsi')), 'rekperiod_id', 'deskripsi'),array('empty'=>'--Pilih--')),
 			),
 			'periodeposting_nama',
 			array(

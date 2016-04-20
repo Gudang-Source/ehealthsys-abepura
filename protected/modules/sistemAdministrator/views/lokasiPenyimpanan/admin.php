@@ -47,7 +47,7 @@ $('.search-form form').submit(function(){
 		array(
 			'name'=>'instalasi_id',
 			'value'=>'$data->instalasi->instalasi_nama',
-			'filter'=>  CHtml::listData($model->InstalasiItems, 'instalasi_id', 'instalasi_nama'),
+			'filter'=> CHtml::dropDownList('SALokasipenyimpananM[instalasi_id]',$model->instalasi_id,CHtml::listData($model->InstalasiItems, 'instalasi_id', 'instalasi_nama'),array('empty'=>'-- Pilih --')),
 			),
 		'lokasipenyimpanan_kode',
 		'lokasipenyimpanan_nama',

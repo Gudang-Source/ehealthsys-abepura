@@ -71,7 +71,7 @@ class InstalasiM extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'instalasi_id' => 'ID',
+			'instalasi_id' => 'Instalasi',
 			'instalasi_nama' => 'Nama Instalasi',
 			'instalasi_namalainnya' => 'Nama Lainnya',
 			'instalasi_singkatan' => 'Singkatan',

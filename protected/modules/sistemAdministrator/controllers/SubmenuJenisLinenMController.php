@@ -10,6 +10,7 @@ class SubmenuJenisLinenMController extends MyAuthController
 	public $layout = '//layouts/column1';
 	public $defaultAction = 'admin';
 	public $path_view = 'sistemAdministrator.views.submenuJenisLinenM.';
+        public $path_tips = 'sistemAdministrator.views.tips.';
 
 	/**
 	 * Menampilkan detail data.
@@ -34,7 +35,9 @@ class SubmenuJenisLinenMController extends MyAuthController
 		if(isset($_POST['SAJenislinenM']))
 		{
 			$model->attributes = $_POST['SAJenislinenM'];
-			$model ->tgldiedarkan = $format->formatDateTimeForDb($_POST['SAJenislinenM']['tgldiedarkan']);
+                        if (isset($model ->tgldiedarkan)):
+                            $model ->tgldiedarkan = $format->formatDateTimeForDb($_POST['SAJenislinenM']['tgldiedarkan']);
+                        endif;
 			if($model->save()){
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
 				$this->redirect(array('admin','sukses'=>1));
@@ -99,11 +102,12 @@ class SubmenuJenisLinenMController extends MyAuthController
 			$data['sukses'] = 0;
 			$model = $this->loadModel($id);
 			// set non-active this
-			// example: 
-			// $model->modelaktif = false;
-			// if($model->save()){
-			//	$data['sukses'] = 1;
-			// }
+			// example:                         
+			$model->isberwarna = 0;
+                         
+			if($model->save()){
+				$data['sukses'] = 1;
+			}
 			echo CJSON::encode($data); 
 		}
 	}
@@ -186,7 +190,7 @@ class SubmenuJenisLinenMController extends MyAuthController
 			$mpdf->WriteHTML($stylesheet,1);  
 			$mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
 			$mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-			$mpdf->Output();
+			$mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
 		}
 	}
 }
