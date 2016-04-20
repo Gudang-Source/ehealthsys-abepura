@@ -75,7 +75,10 @@
 				array('class'=>'btn btn-danger',
 					  'onclick'=>'return refreshForm(this);')); ?>
 		<?php echo CHtml::link(Yii::t('mds','{icon} Pengaturan Lokasi Penyimpanan',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
-		<?php $this->widget('UserTips',array('content'=>''));?>
+		 <?php
+                            $content = $this->renderPartial('sistemAdministrator.views.tips.tipsaddedit3a',array(),true);
+                            $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
+                        ?>
 		</div>
 	</div>
 <?php $this->endWidget(); ?>
@@ -110,7 +113,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 			array(
 				'header'=>'Pilih',
 				'type'=>'raw',
-				'value'=>'CHtml::Link("<i class=\"icon-check\"></i>",
+				'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>",
 							"#",
 							array(
 								"class"=>"btn-small", 
@@ -121,8 +124,13 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 								
 								$(\'#dialogInstalasi\').dialog(\'close\');return false;"))'
 			),
-			'instalasi_id',
-			'instalasi_nama',
+			//'instalasi_id',
+			//'instalasi_nama',
+                        array(
+			'name'=>'instalasi_id',
+			'value'=>'$data->instalasi_nama',
+			'filter'=> CHtml::dropDownList('SAInstalasiM[instalasi_id]',$modInstalasi->instalasi_id,CHtml::listData(SAInstalasiM::getInstalasiItems(), 'instalasi_id', 'instalasi_nama'),array('empty'=>'-- Pilih --')),
+			),
 			'instalasi_singkatan',
 			'instalasi_lokasi',
 			'instalasi_namalainnya',
