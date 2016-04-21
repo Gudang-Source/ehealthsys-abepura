@@ -841,24 +841,32 @@ class RJInfokunjunganrjV extends InfokunjunganrjV {
 		}else if(empty($status) || !empty($pengirimanrm_id)){
 			$status = 'SUDAH DIKIRIM';
 		}
-		
+		// return $pengirimanrm_id;
 		if(!empty($pengirimanrm_id)){
 			$modPengiriman = PengirimanrmT::model()->findByAttributes(array('pendaftaran_id'=>$pendaftaran_id),array('order'=>'pengirimanrm_id desc'));
 			$ruanganpenerima_id = $modPengiriman->ruanganpenerima_id;
 			if(count($modPengiriman) > 0){
-				if(!empty($modPengiriman->ruangan_id) && $modPengiriman->ruangan_id == Yii::app()->user->getState('ruangan_id')){
+				if(!empty($modPengiriman->ruangan_id) && $modPengiriman->ruanganpenerima_id == Yii::app()->user->getState('ruangan_id')){
 					$statusruangan = " DARI ".strtoupper($modPengiriman->ruanganpengirim->ruangan_nama);
 					$status = 'SUDAH DIKIRIM'.$statusruangan;
 					$status_dokumen = '<button id="red" class="btn btn-primary" name="yt1" onclick="penerimaanDokumen(this,'.$pengirimanrm_id.',\''.$status_dok.'\','.$pendaftaran_id.')">'.$status.'</button>';
 					$tombol = "";
 				}else if(!empty($modPengiriman->ruangan_id) && $modPengiriman->ruangan_id != Yii::app()->user->getState('ruangan_id')){
-					$statusruangan = " KE- ".strtoupper($modPengiriman->ruangantujuan->ruangan_nama);
-					$status = 'SUDAH DIKIRIM'.$statusruangan;
-					if(empty($ruanganpenerimaan_id)){
-						$ruanganpenerima_id = 99;
-					}
-					$status_dokumen = '<button id="red" class="btn btn-primary" name="yt1" onclick="setPenerimaan(this,'.$pengirimanrm_id.','.$ruanganpenerima_id.',\''.$status_dok.'\','.$pendaftaran_id.')">'.$status.'</button>';
-				}
+                                        if (!empty($modPengiriman->tglterimadokrm)) {
+                                            $statusruangan = " DARI ".strtoupper($modPengiriman->ruangantujuan->ruangan_nama);
+                                            $status = 'SUDAH DITERIMA '.$statusruangan;
+                                            $func = 'return false;';
+                                        } else {
+                                            $statusruangan = " KE- ".strtoupper($modPengiriman->ruangantujuan->ruangan_nama);
+                                            $status = 'SUDAH DIKIRIM'.$statusruangan;
+                                            $func = 'setPenerimaan(this,'.$pengirimanrm_id.','.$ruanganpenerima_id.',\''.$status_dok.'\','.$pendaftaran_id.')';
+                                        }
+					$status_dokumen = '<button id="red" class="btn btn-primary" name="yt1" onclick="'.$func.'">'.$status.'</button>';
+				} //else if (!empty($modPengiriman->ruangan_id) && $modPengiriman->ruangan_id == Yii::app()->user->getState('ruangan_id') && !empty($modPengiriman->tglterimadokrm)) {
+                                 //       $statusruangan = " DARI ".strtoupper($modPengiriman->ruangantujuan->ruangan_nama);
+				//	$status = 'SUDAH DITERIMA'.$statusruangan;
+                                //        $status_dokumen = '<button id="red" class="btn btn-primary" name="yt1" onclick="return false;">'.$status.'</button>';
+                                //}
 			}
 		}
 		

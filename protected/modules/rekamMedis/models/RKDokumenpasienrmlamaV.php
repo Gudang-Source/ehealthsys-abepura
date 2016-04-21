@@ -114,7 +114,7 @@ class RKDokumenpasienrmlamaV extends DokumenpasienrmlamaV {
 		} else {
 			$criteria->compare('LOWER(t.no_rekam_medik)',strtolower($this->no_rekam_medik),true);
 		}
-
+                
 		$criteria->compare('LOWER(t.nama_pasien)',strtolower($this->nama_pasien),true);
 		if (!empty($this->tgl_rekam_medik_akhir)){
 			$criteria->addBetweenCondition('date(t.tgl_rekam_medik)', $this->tgl_rekam_medik, $this->tgl_rekam_medik_akhir);
@@ -131,7 +131,7 @@ class RKDokumenpasienrmlamaV extends DokumenpasienrmlamaV {
 		if(!empty($this->ruangan_id)){
 			$criteria->addCondition("t.ruangan_id = ".$this->ruangan_id);			
 		}
-
+                
 		return new CActiveDataProvider($this, array(
 				'criteria'=>$criteria,
 		));

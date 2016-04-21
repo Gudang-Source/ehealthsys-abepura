@@ -97,6 +97,9 @@ $('#rmdokrekammedisrm-t-search').submit(function(){
 					'header'=>'Posisi Terakhir',
 					'value'=>'isset($data->TampilkanPosisiTerakhir) ? $data->TampilkanPosisiTerakhir : ""',
 					'type'=>'raw',
+                                        'htmlOptions'=>array(
+                                            'style'=>'text-align: center;',
+                                        ),
 				),
             ),
             'afterAjaxUpdate'=>'function(id, data){
@@ -108,6 +111,7 @@ $('#rmdokrekammedisrm-t-search').submit(function(){
     </div>
     <?php $this->renderPartial('_searchinformasi',array('model'=>$model)); ?>
 </div>
+
 <script type="text/javascript">
 
 function ubahLokasirak(dokrm)
@@ -156,6 +160,25 @@ function ubahSubrak(dokrm)
         'cache':false
     });
     return false; 
+}
+
+function terimaRM(id) {
+    myConfirm("Anda yakin untuk menerima dokumen ini ?", "Perhatian!" ,function(r) {
+        if (r === true) {
+            $.post("<?php echo $this->createUrl("informasi"); ?>", {
+                json: true,
+                f: "terimaRM",
+                param : {
+                    id:id
+                }
+            }, function(data) {
+                if (data.update == true) {
+                    $.fn.yiiGridView.update('informasidokrekammedis-m-grid');
+                }
+                myAlert(data.msg);
+            }, "json");
+        }
+    });
 }
 
 function ubahWarna(dokrm){
