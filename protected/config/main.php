@@ -8,7 +8,7 @@
 require_once dirname(__FILE__).'/../components/Params.php';
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'RSUD Abepura',
+	'name'=>'eHealthsys',
 	'language'=>'id',
 	'timeZone'=>'Asia/Jayapura', //Read: http://php.net/manual/en/timezones.php
 	// preloading 'log' component

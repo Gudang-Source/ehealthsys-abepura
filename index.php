@@ -7,8 +7,8 @@ $yii=dirname(__FILE__).'/yii1_10/framework/yiilite.php'; //UNTUK PRODUKSI
 //$yii=dirname(__FILE__).'/yii1_10/framework/yii.php'; //UNTUK DEVELOPMENT
 $config=dirname(__FILE__).'/protected/config/main.php';
 // remove the following lines when in production mode
-//defined('YII_DEBUG') or define('YII_DEBUG',false); //UNTUK PRODUKSI
-defined('YII_DEBUG') or define('YII_DEBUG',true); //UNTUK DEVELOPMENT
+defined('YII_DEBUG') or define('YII_DEBUG',false); //UNTUK PRODUKSI
+//defined('YII_DEBUG') or define('YII_DEBUG',true); //UNTUK DEVELOPMENT
 // specify how many levels of call stack should be shown in each log message
 defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL',3);
 require_once($yii);
