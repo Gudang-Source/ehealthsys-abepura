@@ -28,8 +28,15 @@ class BKLaporanKeseluruhan extends LaporankunjunganrsV {
     protected function functionCriteria(){
         $criteria = new CDbCriteria;
         $criteria->addBetweenCondition('tgl_pendaftaran', $this->tgl_awal, $this->tgl_akhir);
-		if(!empty($this->ruangan_id)){
-			$criteria->addCondition('ruangan_id = '.$this->ruangan_id);
+		if(!empty($this->ruangan_id)){                   
+                    $count = count($this->ruangan_id);
+                    $ruangan_id = '';
+                    for ($i=0;$i<$count;$i++)
+                    {
+                        $ruangan_id = $this->ruangan_id[$i].',';
+                    }
+                    $ruangan_id = trim($ruangan_id, ',');
+                    $criteria->addCondition('ruangan_id IN ('.$ruangan_id.')');
 		}
         return $criteria;
     }
