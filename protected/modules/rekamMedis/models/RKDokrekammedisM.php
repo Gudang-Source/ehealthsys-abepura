@@ -89,11 +89,22 @@ class RKDokrekammedisM extends DokrekammedisM {
 		}
 		$criteria->order = 'pengirimanrm_id DESC';
 		$criteria->limit = 1;
+                $link = "";
 		$model = RKPengirimanrmT::model()->find($criteria);
 
+                
+                
 		if(count($model) > 0){
+                        // return $model->pengirimanrm_id;
+                        if ($model->ruangan_id == Yii::app()->user->getState('ruangan_id')) {
+                            $link = CHtml::link("<i class=\"icon-form-detail\"></i>", "#", array(
+                                'rel'=>'tooltip',
+                                'title'=>'Klik untuk menerima Dokumen Rekam Medis',
+                                'onclick'=>'terimaRM('.$model->pengirimanrm_id.'); return false;',
+                            ));
+                        }
 			if(empty($model->tglterimadokrm)){
-				$posisi = $model->ruanganpengirim->instalasi->instalasi_nama." / ".$model->ruanganpengirim->ruangan_nama;
+				$posisi = $model->ruanganpengirim->instalasi->instalasi_nama." / ".$model->ruanganpengirim->ruangan_nama."<br/>".$link;
 			}else{
 				$posisi = $model->ruanganpenerima->instalasi->instalasi_nama." / ".$model->ruanganpenerima->ruangan_nama;
 			}
