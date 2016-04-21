@@ -308,6 +308,14 @@ class DokrekammedisController extends MyAuthController
         }
 	public function actionInformasi()
 	{
+                if (isset($_POST['json'])) {
+                    if (isset($_POST['param'])) {
+                        call_user_func(array($this, $_POST['f']), $_POST['param']);
+                    } else {
+                        call_user_func(array($this, $_POST['f']));
+                    }
+                }
+            
 		$model=new RKDokrekammedisM('searchInformasi');
 		$model->unsetAttributes();
 		$model->tgl_awal = date('Y-m-d');
@@ -476,5 +484,30 @@ class DokrekammedisController extends MyAuthController
                 $mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
                 $mpdf->Output();
             }                       
+        }
+        
+        public function terimaRM($param) {
+            $modPenerimaanRm = PengirimanrmT::model()->findByPk($param['id']);
+            $model = PendaftaranT::model()->findByPk($modPenerimaanRm->pendaftaran_id);
+            $modPenerimaanRm->tglterimadokrm = date('Y-m-d H:i:s');
+            $modPenerimaanRm->petugaspenerima_id = Yii::app()->user->id;
+            $modPenerimaanRm->ruanganpenerima_id = Yii::app()->user->getState('ruangan_id');
+            if($modPenerimaanRm->save()){
+                    $model->statusdokrm = 'SUDAH DITERIMA DI '.strtoupper(Yii::app()->user->getState("ruangan_nama"));
+                    $model->pengirimanrm_id = $modPenerimaanRm->pengirimanrm_id;
+                    $model->save();
+                    $update = true;
+                    $msg = "Data Dokumen Pasien berhasi diterima.";
+            }else{
+                    $update = false;
+                    $msg = "Data Dokumen Pasien gagal diterima.";
+            }
+            
+            echo CJSON::encode(array(
+                'update'=>$update,
+                'msg'=>$msg,
+            ));
+            
+            Yii::app()->end();
         }
 }
