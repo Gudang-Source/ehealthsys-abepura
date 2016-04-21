@@ -261,6 +261,7 @@ class KembalirmTController extends MyAuthController
 	public function actionPenyimpanan(){
 			$modDokRekamMedis=new RKDokrekammedisM;
 			if (isset($_POST['Dokumen'])){
+                                // vaR_dump($_POST); die;
 				$transaction = Yii::app()->db->beginTransaction();
 				$jumlah = count($_POST['Dokumen']['dokrekammedis_id']);
 

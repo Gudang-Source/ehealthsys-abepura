@@ -92,10 +92,18 @@
                 ),
                 //'pasien_id',
                 'pasien.no_rekam_medik',
-                'pendaftaran.tgl_pendaftaran',
+                array(
+                    'name'=>'pendaftaran.tgl_pendaftaran',
+                    'value'=>'MyFormatter::formatDateTimeForUser($data->pendaftaran->tgl_pendaftaran)'
+                ),
+                
                 'pendaftaran.no_pendaftaran',
                 'pasien.nama_pasien',
-                'pasien.tanggal_lahir',
+                array(
+                    'name'=>'pasien.tanggal_lahir',
+                    'value'=>'MyFormatter::formatDateTimeForUser($data->pasien->tanggal_lahir)'
+                ),
+                
                 'pasien.jeniskelamin',
                 //'alamat_pasien',
                 //'instalasi_nama',
