@@ -97,7 +97,16 @@ class BKLaporanpendapatanpenunjangV extends LaporanpendapatanpenunjangV
             $criteria->compare('no_rekam_medik',$this->no_rekam_medik);
             $criteria->compare('LOWER(nama_pasien)',strtolower($this->nama_pasien),true);
 			if(!empty($this->penjamin_id)){
-				$criteria->addCondition('penjamin_id = '.$this->penjamin_id);
+                            
+                                $count = count($this->penjamin_id);
+                                $penjamin_id = '';
+                                for ($i=0;$i<$count;$i++)
+                                {
+                                    $penjamin_id = $this->penjamin_id[$i].',';
+                                }
+                                $penjamin_id = trim($penjamin_id, ',');
+                                $criteria->addCondition('penjamin_id IN ('.$penjamin_id.')');
+				
 			}
             if(isset($this->asal)){
                 if($this->asal == 'rs')
