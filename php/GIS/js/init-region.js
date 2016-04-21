@@ -2,7 +2,7 @@ var map = L.map('map', {
 			zoomControl:true, maxZoom:19,
 		}).fitBounds([[-7.83072299312,107.145438622],[-6.89656604012,108.611546062]]);
 var hash = new L.Hash(map);
-var additional_attrib = 'PT. Inova Medika Solusindo ';
+var additional_attrib = 'PT. Piranti Inovasi Indonesia ';
 var feature_group = new L.featureGroup([]);
 var raster_group = new L.LayerGroup([]);
 var basemap_0 = L.tileLayer('http://{s}.www.toolserver.org/tiles/bw-mapnik/{z}/{x}/{y}.png', { 
