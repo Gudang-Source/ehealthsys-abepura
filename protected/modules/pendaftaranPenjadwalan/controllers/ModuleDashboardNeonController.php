@@ -131,7 +131,13 @@ class ModuleDashboardNeonController extends MyAuthController
 //				GROUP BY carabayar_nama
 //				ORDER BY carabayar_nama ASC";
 
-		// LNG-1//penjamin_id IN (".Params::PENJAMIN_ID_PISA.",".Params::PENJAMIN_ID_PROKESPEN.")
+		/*  created By  : Iqbal Laksana
+                    tanggal     : 21 April 2016
+                    keterangan  : comment query union dan mengubah penjamin_id menjadi penjamin_aktif
+                 original query > penjamin_id IN (".Params::PENJAMIN_ID_PISA.",".Params::PENJAMIN_ID_PROKESPEN.")
+                 
+                 awal edit
+                 */
 		$sql = "
 				SELECT 
 				laporankunjunganrs_v.penjamin_nama, count(laporankunjunganrs_v.pendaftaran_id) as jumlah
@@ -152,6 +158,9 @@ class ModuleDashboardNeonController extends MyAuthController
                                  * 
                                  * 
                                  */
+                /*
+                 * akhir edit
+                 */
 		$result = Yii::app()->db->createCommand($sql)->queryAll();
         $dataPieChart = $result;
 		
