@@ -2137,10 +2137,22 @@ class DaftarPasienController extends MyAuthController
 			$status = '';
 			$div = '';
 			$model = PendaftaranT::model()->findByPk($pendaftaran_id);
-			if(!empty($pengirimanrm_id)){
-				$model->pengirimanrm_id = null;
-				$modPenerimaanRm = PengirimanrmT::model()->findByPk($pengirimanrm_id);      
-				if($model->save()){
+                        $pengiriman = PengirimanrmT::model()->findAllByAttributes(array(
+                            'ruanganpengirim_id'=>Yii::app()->user->getState('ruangan_id'),
+                            'pendaftaran_id'=>$pendaftaran_id,
+                        ), array (
+                            'order' => 'nourut_keluar desc',
+                            'limit' => 2,
+                        ));
+                        
+                        //var_dump($pengiriman[0]->pengirimanrm_id); die;
+                        
+			if(!empty($pengirimanrm_id)) {
+				$model->pengirimanrm_id = $pengirimanrm_id;
+				$modPenerimaanRm = PengirimanrmT::model()->findByPk($pengiriman[0]->pengirimanrm_id); //($pengirimanrm_id);  
+                                // var_dump($modPenerimaanRm->attributes);
+                                // var_dump($model->attributes); die;
+				if($model->save()) {
 					$modPenerimaanRm->delete();
 					$delete = true;
 				}else{
