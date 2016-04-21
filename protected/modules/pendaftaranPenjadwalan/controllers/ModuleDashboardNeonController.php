@@ -131,23 +131,27 @@ class ModuleDashboardNeonController extends MyAuthController
 //				GROUP BY carabayar_nama
 //				ORDER BY carabayar_nama ASC";
 
-		// LNG-1
+		// LNG-1//penjamin_id IN (".Params::PENJAMIN_ID_PISA.",".Params::PENJAMIN_ID_PROKESPEN.")
 		$sql = "
 				SELECT 
-				penjamin_nama, count(pendaftaran_id) as jumlah
-				FROM laporankunjunganrs_v
-				WHERE DATE(tgl_pendaftaran) BETWEEN '".date("Y-m")."-01' AND '".date("Y-m-d")."'
-				AND penjamin_id IN (".Params::PENJAMIN_ID_PISA.",".Params::PENJAMIN_ID_PROKESPEN.") 
-				AND instalasi_id IN (".Params::INSTALASI_ID_RJ.",".Params::INSTALASI_ID_RD.",".Params::INSTALASI_ID_RI.")
-				GROUP BY penjamin_id, penjamin_nama
-				UNION
+				laporankunjunganrs_v.penjamin_nama, count(laporankunjunganrs_v.pendaftaran_id) as jumlah
+				FROM laporankunjunganrs_v  JOIN penjaminpasien_m ON laporankunjunganrs_v.penjamin_id = penjaminpasien_m.penjamin_id 
+				WHERE DATE(laporankunjunganrs_v.tgl_pendaftaran) BETWEEN '".date("Y-m")."-01' AND '".date("Y-m-d")."'
+				AND penjaminpasien_m.penjamin_aktif = true 
+				AND laporankunjunganrs_v.instalasi_id IN (".Params::INSTALASI_ID_RJ.",".Params::INSTALASI_ID_RD.",".Params::INSTALASI_ID_RI.")
+				GROUP BY laporankunjunganrs_v.penjamin_id, laporankunjunganrs_v.penjamin_nama
+				";/*
+                                 * UNION
 				SELECT 
-				'Lainnya'::CHARACTER VARYING(50) AS penjamin_nama, count(pendaftaran_id) as jumlah
-				FROM laporankunjunganrs_v
-				WHERE DATE(tgl_pendaftaran) BETWEEN '".date("Y-m")."-01' AND '".date("Y-m-d")."'
-				AND penjamin_id NOT IN (".Params::PENJAMIN_ID_PISA.",".Params::PENJAMIN_ID_PROKESPEN.") 
-				AND instalasi_id IN (".Params::INSTALASI_ID_RJ.",".Params::INSTALASI_ID_RD.",".Params::INSTALASI_ID_RI.")
-				";
+				'Lainnya'::CHARACTER VARYING(50) AS penjamin_nama, count(laporankunjunganrs_v.pendaftaran_id) as jumlah
+				FROM laporankunjunganrs_v JOIN penjaminpasien_m ON laporankunjunganrs_v.penjamin_id = penjaminpasien_m.penjamin_id 
+				WHERE DATE(laporankunjunganrs_v.tgl_pendaftaran) BETWEEN '".date("Y-m")."-01' AND '".date("Y-m-d")."'
+				AND penjaminpasien_m.penjamin_aktif = true 
+				AND laporankunjunganrs_v.instalasi_id IN (".Params::INSTALASI_ID_RJ.",".Params::INSTALASI_ID_RD.",".Params::INSTALASI_ID_RI.")
+				"
+                                 * 
+                                 * 
+                                 */
 		$result = Yii::app()->db->createCommand($sql)->queryAll();
         $dataPieChart = $result;
 		
