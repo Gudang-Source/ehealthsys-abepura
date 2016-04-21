@@ -20,9 +20,12 @@
 		</div>
 	</div>
 </div>
+<?php
+    //var_dump($dataPieChart);
+?>
 <script type="text/javascript">
 $(document).ready(function($) 
-{
+{   
 	var values = [
 		<?php
 		foreach($dataPieChart AS $i => $pie){ ?>
