@@ -33,7 +33,7 @@
 				array(
 						'label'=>'NIP',
 						'type'=>'raw',
-						'value'=>$modelpegawai->nomorindukpegawai,
+						'value'=> isset($modelpegawai->nomorindukpegawai)?$modelpegawai->nomorindukpegawai:'-',
 				),
 				array(
 						'label'=>'Pegawai',
