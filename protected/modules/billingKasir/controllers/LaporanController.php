@@ -595,6 +595,7 @@ class LaporanController extends MyAuthController {
             $format = new MyFormatter();
             $model->tgl_awal = $format->formatDateTimeForDb($_GET['BKLaporanKeseluruhan']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['BKLaporanKeseluruhan']['tgl_akhir']);
+             
         }
 
         $this->render('keseluruhan/adminKeseluruhan', array(

@@ -58,7 +58,8 @@
                     ), 
                     array(
                         'name'=>'subsubkelompok_id',
-                        'filter'=> CHtml::activeDropDownList($model, 'subsubkelompok_id',CHtml::listData($model->SubSubKelompokItems, 'subsubkelompok_id', 'subsubkelompok_nama'),array('empty'=>'--Pilih--')),
+                        //'filter'=> CHtml::activeDropDownList($model, 'subsubkelompok_id',CHtml::listData($model->SubSubKelompokItems, 'subsubkelompok_id', 'subsubkelompok_nama'),array('empty'=>'--Pilih--')),
+                        'filter' => false,
                         'value'=>function($data) {
                             $sub = SubsubkelompokM::model()->findByPk($data->subsubkelompok_id);
                             return isset($sub->subsubkelompok_nama)?$sub->subsubkelompok_nama:null;
@@ -67,7 +68,7 @@
                     array(
                         'name'=>'barang_type',
                         'value'=>'$data->barang_type',
-                       // 'filter'=> CHtml::activeTextField($model, 'barang_type'),
+                        'filter'=> CHtml::activeDropDownList($model, 'barang_type',LookupM::getItems('barangumumtype'),array('empty'=>'--Pilih--')),
                     ),
                     'barang_kode',
                     'barang_nama',
