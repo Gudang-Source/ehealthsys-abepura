@@ -78,7 +78,7 @@ $modBarang->unsetAttributes();
 //$modPegawai->ruangan_id = 0;
 if (isset($_GET['BarangV'])){
     $modBarang->attributes = $_GET['BarangV'];
-    $modBarang->subsubkelompok_id = $_GET['BarangV']['subsubkelompok_id'];
+  //  $modBarang->subsubkelompok_id = $_GET['BarangV']['subsubkelompok_id'];
     $modBarang->barang_aktif = true;
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
@@ -110,7 +110,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                         $(\'#dialogBarang\').dialog(\'close\');
                                         return false;"))',
         ),
-        array(
+        /*array(
             'name'=>'golongan_id',
             'value'=>'$data->golongan_nama',
             'filter'=> CHtml::dropDownList('BarangV[golongan_id]',$modBarang->golongan_id,CHtml::listData(GolonganM::model()->findAll(array(
@@ -149,11 +149,20 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 'condition'=>'subkelompok_aktif = true',
                 'order'=>'subkelompok_nama',
             )), 'subkelompok_id', 'subkelompok_nama'),array('empty'=>'--Pilih--'))
-        ),
+        ),*/
         
-//        'bidang_id',
-//        'barang_type',
-//        'barang_kode',
+//        'bidang_id',          
+        array(
+            'header' => 'Tipe Barang',
+            'name' => 'barang_type',
+            'value' => '$data->barang_type',            
+            'filter' => CHtml::dropDownList('BarangV[barang_type]', $modBarang->barang_type, LookupM::getItems('barangumumtype'), array('empty' => '-- Pilih --'))
+          ),
+        array(
+            'header' => 'Kode Barang',
+            'name' => 'barang_kode',
+            'value' => '$data->barang_kode',            
+          ),
         'barang_nama',
 //        'barang_satuan',
         array(
