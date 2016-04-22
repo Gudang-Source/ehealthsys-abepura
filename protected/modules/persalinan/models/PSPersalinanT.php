@@ -18,7 +18,7 @@ class PSPersalinanT extends PersalinanT {
         {
             $ruangan_id = Yii::app()->user->getState('ruangan_id');
             if(!empty($ruangan_id))
-                return PegawaiM::model()->findAllByAttributes(array('kelompokpegawai_id'=>3));
+                return PegawaiM::model()->findAllByAttributes(array('kelompokpegawai_id'=>2));
             else
                 return array();
         }
@@ -27,7 +27,7 @@ class PSPersalinanT extends PersalinanT {
         {
             $ruangan_id = Yii::app()->user->getState('ruangan_id');
             if(!empty($ruangan_id))
-                return PegawaiM::model()->findAllByAttributes(array('kelompokpegawai_id'=>4));
+                return PegawaiM::model()->findAllByAttributes(array('kelompokpegawai_id'=>2));
             else
                 return array();
         }

@@ -97,10 +97,21 @@
                                'value'=>function($data) {
                                     if (!empty($data->pasienpulang_id)) {
                                         return $data->carakeluar;
-                                    } else if (!empty($data->kamarruangan_nokamar)) {
-                                        return CHtml::link("<i class='icon-form-pindahkamar'></i> ",Yii::app()->controller->createUrl(Yii::app()->controller->id.'/PindahKamarPasienRI',array("pendaftaran_id"=>$data->pendaftaran_id)) ,array("title"=>"Klik Untuk Pindah Kamar","target"=>"iframePindahKamar", "onclick"=>"$('#dialogPindahKamar').dialog('open');", "rel"=>"tooltip"));
-                                    } else {
-                                        return CHtml::link("<i class='icon-form-pindahkamar'></i> ","#",array("title"=>"Klik Untuk Pindah Kamar","target"=>"iframePindahKamar", "onclick"=>"myAlert('Pasien belum masuk kamar.'); return false;", "rel"=>"tooltip"));
+                                    } else { 
+                                        $kirimrm = PengirimanrmT::model()->findByAttributes(array(
+                                            'pendaftaran_id'=>$data->pendaftaran_id,
+                                        ), array(
+                                            'condition'=>"tglterimadokrm is null and ruangan_id = ".Yii::app()->user->getState('ruangan_id'),
+                                        ));
+                                        if (!empty($kirimrm)) {
+                                            return CHtml::link("<i class='icon-form-pindahkamar'></i> ","#",array("title"=>"Klik Untuk Pindah Kamar","target"=>"iframePindahKamar", "onclick"=>"myAlert('Dokumen Rekam Medis belum Diterima'); return false;", "rel"=>"tooltip"));
+                                        } else {
+                                            if (!empty($data->kamarruangan_nokamar)) {
+                                                return CHtml::link("<i class='icon-form-pindahkamar'></i> ",Yii::app()->controller->createUrl(Yii::app()->controller->id.'/PindahKamarPasienRI',array("pendaftaran_id"=>$data->pendaftaran_id)) ,array("title"=>"Klik Untuk Pindah Kamar","target"=>"iframePindahKamar", "onclick"=>"$('#dialogPindahKamar').dialog('open');", "rel"=>"tooltip"));
+                                            } else {
+                                                return CHtml::link("<i class='icon-form-pindahkamar'></i> ","#",array("title"=>"Klik Untuk Pindah Kamar","target"=>"iframePindahKamar", "onclick"=>"myAlert('Pasien belum masuk kamar.'); return false;", "rel"=>"tooltip"));
+                                            }
+                                        }
                                     }
                                },
                                'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
@@ -221,10 +232,31 @@
                                     'header'=>'Status Dokumen',
                                     'type'=>'raw',
                                     'value'=>function($data) {
-                                        $kirimrm = PengirimanrmT::model()->findByAttributes(array(
+                                        $ruangan_id = Yii::app()->user->getState('ruangan_id');
+                                        $kirimrm = PengirimanrmT::model()->findAllByAttributes(array(
                                             'pendaftaran_id'=>$data->pendaftaran_id,
-                                            'ruangan_id'=>Yii::app()->user->getstate('ruangan_id'),
+                                        ), array(
+                                            'condition'=>"(ruangan_id = ${ruangan_id} or ruanganpengirim_id = ${ruangan_id})",
+                                            'order'=>'pengirimanrm_id desc',
+                                            'limit'=>1,
                                         ));
+                                            
+                                        if (count($kirimrm) == 0) {
+                                            return '<button id="red" class="btn btn-green" name="yt1">BELUM DI TERIMA</button>';
+                                        } else if (count($kirimrm) == 1) {
+                                            if (empty($kirimrm[0]->tglterimadokrm)) {
+                                                $r = RuanganM::model()->findByPk($kirimrm[0]->ruanganpengirim_id);
+                                                return '<button id="red" class="btn btn-primary" name="yt1" onclick="verifikasiKirimanRM('.$data->pendaftaran_id.','.$kirimrm[0]->pengirimanrm_id.')">SUDAH DIKIRIM DARI '.strtoupper($r->ruangan_nama).'</button>';
+                                            } else {
+                                                return CHtml::link("<i></i> SUDAH DITERIMA", "#",
+							array("class"=>"btn btn-primary",
+							"target"=>"frameStatusDokumen",
+							"rel"=>"tooltip",
+							"title"=>"Klik untuk mengirim dokumen ke ruangan lain",
+							"onclick"=>"return false"));
+                                                //return '<button id="red" class="btn btn-primary" name="yt1" onclick="kirimRM('.$data->pendaftaran_id.')">SUDAH DI TERIMA</button>';
+                                            }
+                                        }
                                         
                                         if (empty($kirimrm)) return '<button id="red" class="btn btn-primary" name="yt1">BELUM DI TERIMA</button>';
                                         else if (empty($kirimrm->tglterimadokrm)) return '<button id="red" class="btn btn-primary" name="yt1" onclick="verifikasiKirimanRM('.$data->pendaftaran_id.','.$kirimrm->pengirimanrm_id.')">BELUM DI VERIFIKASI</button>';
@@ -259,6 +291,29 @@
             ?>
         </div>
     </div>
+    
+    <?php 
+    // Dialog untuk kirim dokumen RM =========================
+    $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
+        'id' => 'dialogStatusDokumen',
+        'options' => array(
+            'title' => 'Pengiriman Dokumen Ke-Ruangan Lain',
+            'autoOpen' => false,
+            'modal' => true,
+            'zIndex'=>1002,
+            'width' => 1000,
+            'height' => 400,
+            'resizable' => true,
+                    'close'=>"js:function(){ $.fn.yiiGridView.update('daftarpasien-v-grid', {
+                            data: $('#caripasien-form').serialize()
+                        }); }",
+        ),
+    ));
+    ?>
+    <iframe name='frameStatusDokumen' width="100%" height="100%"></iframe>
+    <?php $this->endWidget(); 
+    // end ============== ?>
+    
     <?php $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
         'id' => 'dialogRincian',
         'options' => array(
@@ -751,7 +806,7 @@ function verifikasiPulangPasien(pendaftaran_id){
 
 
 function verifikasiKirimanRM(id, kirimrm) {
-    myConfirm('Yakin Anda Menerima Dokumen Pasien? ', 'Perhatian!', function(r){
+    myConfirm('Yakin untuk Menerima Dokumen Rekam Medis Pasien? ', 'Perhatian!', function(r){
         if(r){
             $.post('<?php echo $this->createUrl('terimaDokumen');?>', {
                 pendaftaran_id:id, pengirimanrm_id:kirimrm
