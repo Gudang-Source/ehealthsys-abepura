@@ -102,7 +102,7 @@ class BKLaporanpendapatanpenunjangV extends LaporanpendapatanpenunjangV
                                 $penjamin_id = '';
                                 for ($i=0;$i<$count;$i++)
                                 {
-                                    $penjamin_id = $this->penjamin_id[$i].',';
+                                    $penjamin_id .= $this->penjamin_id[$i].',';
                                 }
                                 $penjamin_id = trim($penjamin_id, ',');
                                 $criteria->addCondition('penjamin_id IN ('.$penjamin_id.')');
