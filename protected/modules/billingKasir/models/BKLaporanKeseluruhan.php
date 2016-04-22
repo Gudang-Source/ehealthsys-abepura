@@ -33,10 +33,11 @@ class BKLaporanKeseluruhan extends LaporankunjunganrsV {
                     $ruangan_id = '';
                     for ($i=0;$i<$count;$i++)
                     {
-                        $ruangan_id = $this->ruangan_id[$i].',';
+                        $ruangan_id .= "'".$this->ruangan_id[$i]."',";
                     }
-                    $ruangan_id = trim($ruangan_id, ',');
-                    $criteria->addCondition('ruangan_id IN ('.$ruangan_id.')');
+                   $ruangan_id = trim($ruangan_id, ',');
+                    
+                    $criteria->addCondition("ruangan_id IN ($ruangan_id)");
 		}
         return $criteria;
     }

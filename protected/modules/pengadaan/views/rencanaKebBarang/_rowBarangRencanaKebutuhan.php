@@ -35,7 +35,7 @@
         <?php echo CHtml::activeTextField($modRencanaDetailKebBarang,'[ii]subtotal',array('readonly'=>true,'class'=>'span2 integer','style'=>'width:90px;')); ?>
     </td>
 	<td>
-        <a onclick="batalBarang(this);return false;" rel="tooltip" href="javascript:void(0);" title="Klik untuk membatalkan rencana"><i class="icon-remove"></i></a>
+        <a onclick="batalBarang(this);return false;" rel="tooltip" href="javascript:void(0);" title="Klik untuk membatalkan rencana"><i class="icon-form-silang"></i></a>
     </td>
 </tr>
 <?php //$this->renderPartial($this->path_view.'_jsFunctions', array('modRencanaKebFarmasi'=>$modRencanaKebFarmasi,'modRencanaDetailKeb'=>$modRencanaDetailKebBarang)); ?>

@@ -131,7 +131,7 @@ class BarangM extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'barang_id' => 'Barang',                    
+			'barang_id' => 'ID',                    
 			'bidang_id' => 'Bidang',
 			'barang_type' => 'Tipe Barang',
 			'barang_kode' => 'Kode Barang',
