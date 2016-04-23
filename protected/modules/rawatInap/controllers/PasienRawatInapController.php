@@ -71,6 +71,67 @@ public function actionTerimaDokumen() {
         exit;   
     }
 }
+
+public function actionKirimDokumen($pengirimanrm_id,$pendaftaran_id){
+        $this->layout='//layouts/iframe';
+        $format = new MyFormatter();
+        $modPendaftaran = PendaftaranT::model()->findByPk($pendaftaran_id);
+        $modPasien = PasienM::model()->findByPk($modPendaftaran->pasien_id);
+        $status = false;
+        if(!empty($pengirimanrm_id)){
+                $modPengirimanRm = PengirimanrmT::model()->findByPk($pengirimanrm_id);
+        }else{
+                $modPengirimanRm = new PengirimanrmT();
+        }			
+
+        $modUbahStatus = new PengirimanrmT;
+        $modUbahStatus->tglpengirimanrm = date('d/m/Y H:i:s');
+
+        if(isset($_POST['PengirimanrmT']))
+        {
+                $transaction = Yii::app()->db->beginTransaction();
+                try 
+                {
+                        $modUbahStatus->attributes = $_POST['PengirimanrmT'];
+                        $modUbahStatus->pendaftaran_id = $modPendaftaran->pendaftaran_id;
+                        $modUbahStatus->pasien_id = $modPendaftaran->pasien_id;
+                        $modUbahStatus->dokrekammedis_id = isset($modPengirimanRm) ? $modPengirimanRm->dokrekammedis_id : null;
+                        $modUbahStatus->nourut_keluar = MyGenerator::noUrutKeluarRM();
+                        $modUbahStatus->tglpengirimanrm = $format->formatDateTimeForDb($_POST['PengirimanrmT']['tglpengirimanrm']);
+                        $modUbahStatus->kelengkapandokumen = TRUE;
+                        $modUbahStatus->petugaspengirim_id = $_POST['PengirimanrmT']['petugaspengirim_id'];
+                        $modUbahStatus->create_time = date('Y-m-d H:i:s');
+                        $modUbahStatus->create_loginpemakai_id = Yii::app()->user->id;
+                        $modUbahStatus->create_ruangan = Yii::app()->user->getState('ruangan_id');
+                        $modUbahStatus->ruanganpengirim_id = Yii::app()->user->getState('ruangan_id');
+
+                        if($modUbahStatus->save())
+                        {
+                                $modPendaftaran->statusdokrm = 'SUDAH DIKIRIM';
+                                $modPendaftaran->save();
+
+                                $transaction->commit();
+                                $status = true;
+                                Yii::app()->user->setFlash('success', "Data pengiriman dokumen pasien berhasil disimpan !");
+                        }else{
+                                $status = false;
+                                Yii::app()->user->setFlash('error', '<strong>Gagal</strong> Data pengiriman dokumen pasien gagal disimpan');
+                        }
+                }catch(Exception $exc) {
+                        $transaction->rollback();
+                        $status = false;
+                        Yii::app()->user->setFlash('error', '<strong>Gagal</strong> Data Gagal disimpan'.MyExceptionMessage::getMessage($exc));
+                }                  
+        }
+
+        $this->render('_formStatusDokumen', array(
+                'modPendaftaran'=>$modPendaftaran,
+                'modPasien'=>$modPasien,
+                'modPengirimanRm'=>$modPengirimanRm,
+                'modUbahStatus'=>$modUbahStatus,
+                'status'=>$status
+        ));            
+}
   
   public function actionPrint($id = null)
          {
@@ -1412,7 +1473,7 @@ public function actionTerimaDokumen() {
             ));
             
             $ok = true;
-            
+            // var_dump($ok);
             foreach ($dt as $item) {
                 $tindakan = TindakanpelayananT::model()->findAllByAttributes(array(
                     'pendaftaran_id'=>$modPasienAdmisi->pendaftaran_id,
@@ -1423,15 +1484,17 @@ public function actionTerimaDokumen() {
                 ));
                 
                 foreach ($tindakan as $dat) {
-                    $ok = $ok && TindakankomponenT::model()->deleteAllByAttributes(array(
+                    $komponen = TindakankomponenT::model()->findAllByAttributes(array(
                         'tindakanpelayanan_id'=>$dat->tindakanpelayanan_id,
                     ));
+                    if (count($komponen) != 0) {
+                        $ok = $ok && TindakankomponenT::model()->deleteAllByAttributes(array(
+                            'tindakanpelayanan_id'=>$dat->tindakanpelayanan_id,
+                        ));
+                    }
                     $ok = $ok && TindakanpelayananT::model()->deleteByPk($dat->tindakanpelayanan_id);
                 }
             }
-            
-            //var_dump($ok);
-            
             return $ok;
         }
         
@@ -1629,7 +1692,7 @@ public function actionTerimaDokumen() {
                 //var_dump($ok); die;
                 return $ok;
             }
-            echo 'Kick';
+            // echo 'Kick';
             die;
         }
         
