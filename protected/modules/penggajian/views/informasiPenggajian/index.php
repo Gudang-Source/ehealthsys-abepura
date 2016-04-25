@@ -64,7 +64,7 @@
                     array(
                         'header'=>'Pembayaran',
                         'type'=>'raw',
-                        'value'=>'(empty($data->pengeluaranumum_id) ? CHtml::link("<i class=\'icon-form-bayar\'></i>",Yii::app()->createUrl(\'penggajian/Penggajian/index&idPenggajian=\'.$data->penggajianpeg_id),array("target"=>"_BLANK","rel"=>"tooltip","title"=>"Klik untuk melakukan Pembayaran Gaji")): CHtml::link("<i class=\'icon-list-alt\'></i>","javascript:cekpembayaran()",array("rel"=>"tooltip","title"=>"Klik untuk melakukan Pembayaran Gaji")))',
+                        'value'=>'(empty($data->pengeluaranumum_id) ? CHtml::link("<i class=\'icon-form-bayar\'></i>",Yii::app()->createUrl(\'penggajian/Penggajian/index&idPenggajian=\'.$data->penggajianpeg_id),array("target"=>"_BLANK","rel"=>"tooltip","title"=>"Klik untuk melakukan Pembayaran Gaji")): "Sudah Dibayar")',
                         'htmlOptions'=>array('style'=>'text-align: left; width:60px'),
                     ),
 
