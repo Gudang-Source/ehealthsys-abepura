@@ -32,9 +32,18 @@ class PPPasienMasukPenunjangT extends PasienmasukpenunjangT{
     public $is_pilihpenunjang = 0;
     public $is_adakarcis = 0;
     public $tgl_awal,$tgl_akhir;
+    public $asalrujukan_id, $rujukandari_id;
+    
     public static function model($className=__CLASS__)
     {
             return parent::model($className);
+    }
+    
+    public function attributeLabels() {
+        return array_merge(parent::attributeLabels(), array(
+            'asalrujukan_id' => 'Asal Rujukan',
+            'rujukandari_id' => 'Rujukan Dari',
+        ));
     }
     
     public function searchPasienPenunjang()
@@ -85,8 +94,12 @@ class PPPasienMasukPenunjangT extends PasienmasukpenunjangT{
             $criteria->compare('pendaftaran.penjamin_id', $this->penjamin_id);
             $criteria->compare('pendaftaran.statusperiksa', $this->statusperiksa_pendaftaran);
             $criteria->addBetweenCondition('DATE(tglmasukpenunjang)', $this->tgl_awal, $this->tgl_akhir);
+            
+            $criteria->compare('rujukan.asalrujukan_id', $this->asalrujukan_id);
+            $criteria->compare('rujukan.rujukandari_id', $this->rujukandari_id);
+            
             $criteria->order = 'tglmasukpenunjang DESC';
-            $criteria->with=array('pasien', 'pendaftaran');
+            $criteria->with=array('pasien', 'pendaftaran', 'pendaftaran.rujukan');
 
             return new CActiveDataProvider($this, array(
                     'criteria'=>$criteria,

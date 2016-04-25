@@ -15,6 +15,7 @@ class InfoKunjunganRIController extends MyAuthController
                 if(isset($_REQUEST['PPInfoKunjunganRIV']))
                 {
                     $modPPInfoKunjunganRIV->attributes=$_REQUEST['PPInfoKunjunganRIV'];
+                    $modPPInfoKunjunganRIV->rujukandari_id=$_REQUEST['PPInfoKunjunganRIV']['rujukandari_id'];
                     $modPPInfoKunjunganRIV->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PPInfoKunjunganRIV']['tgl_awal']);
                     $modPPInfoKunjunganRIV->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PPInfoKunjunganRIV']['tgl_akhir']);
                 }                
