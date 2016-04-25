@@ -95,9 +95,13 @@ $('.search-form form').submit(function(){
                     'value'=>'($data->status_konfirmasi == "" ) ? "-" : $data->status_konfirmasi',
                 ),
                 array(
-                   'header'=>'Perujuk',
-                   'type'=>'raw',
-                   'value'=>'$data->nama_perujuk',
+                    'header'=>'Perujuk',
+                    'type'=>'raw',
+                    'value'=>function($data) {
+                        $p = PendaftaranT::model()->findByPk($data->pendaftaran_id);
+                        $r = RujukanT::model()->findByPk($p->rujukan_id);
+                        return $data->asalrujukan_nama."/<br/>".(empty($r)?"-":$r->rujukandari->namaperujuk);
+                    },
                 ),
                 //  array(
                 //    'header'=>'P3 / Asuransi',
@@ -346,6 +350,18 @@ $('.search-form form').submit(function(){
                         <?php echo $form->dropDownList($modPPInfoKunjunganRJV,'penjamin_id', CHtml::listData($modPPInfoKunjunganRJV->getPenjaminItems(), 'penjamin_id', 'penjamin_nama') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",)); ?>
                     </div>
                 </div>
+                <?php echo $form->dropDownListRow($modPPInfoKunjunganRJV,'asalrujukan_id', CHtml::listData(
+                AsalrujukanM::model()->findAll(array(
+                    'condition'=>'asalrujukan_aktif = true',
+                    'order'=>'asalrujukan_nama'
+                )), 'asalrujukan_id', 'asalrujukan_nama'), array(
+                    'empty'=>'-- Pilih --',
+                    'ajax'=>array('type'=>'POST',
+                        'url'=>Yii::app()->createUrl('pendaftaranPenjadwalan/pendaftaranRawatJalan/GetRujukanDari',array('encode'=>false,'namaModel'=>get_class($modPPInfoKunjunganRJV))),
+                        'update'=>'#'.CHtml::activeId($modPPInfoKunjunganRJV, 'rujukandari_id'),
+                    )
+                )); ?>
+                <?php echo $form->dropDownListRow($modPPInfoKunjunganRJV,'rujukandari_id', array(), array('empty'=>'-- Pilih --')); ?>
                 <?php /* echo $form->dropDownListRow($modPPInfoKunjunganRJV,'propinsi_id', CHtml::listData($modPPInfoKunjunganRJV->getPropinsiItems(), 'propinsi_id', 'propinsi_nama'), 
                                       array('empty'=>'-- Pilih --',
                                             'ajax'=>array('type'=>'POST',

@@ -96,7 +96,11 @@ $('.search-form form').submit(function(){
                         array(
                             'header'=>'Perujuk',
                             'type'=>'raw',
-                            'value'=>'$data->nama_perujuk',
+                            'value'=>function($data) {
+                                $p = PendaftaranT::model()->findByPk($data->pendaftaran_id);
+                                $r = RujukanT::model()->findByPk($p->rujukan_id);
+                                return $data->asalrujukan_nama."/<br/>".(empty($r)?"-":$r->rujukandari->namaperujuk);
+                            },
                         ),
                         array(
                             'header'=>'Ruangan/<br/>Kelas Pelayanan',
@@ -328,9 +332,27 @@ $('.search-form form').submit(function(){
                             'update'=>'#PPInfoKunjunganRIV_penjamin_id'  //selector to update
                         ),
                     )); ?>
-                    <?php echo CHtml::label('Penjamin',' Penjamin', array('class'=>'control-label')) ?>&nbsp;&nbsp;
-                    <?php echo $form->dropDownList($modPPInfoKunjunganRIV,'penjamin_id', CHtml::listData($modPPInfoKunjunganRIV->getPenjaminItems(), 'penjamin_id', 'penjamin_nama') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",)); ?>
-                    <?php /* echo $form->dropDownListRow($modPPInfoKunjunganRIV,'propinsi_id', CHtml::listData($modPPInfoKunjunganRIV->getPropinsiItems(), 'propinsi_id', 'propinsi_nama'), 
+                    <div class="control-group">
+                        <?php echo CHtml::label('Penjamin',' Penjamin', array('class'=>'control-label')) ?>&nbsp;&nbsp;
+                        <div class="controls">
+                            <?php echo $form->dropDownList($modPPInfoKunjunganRIV,'penjamin_id', CHtml::listData($modPPInfoKunjunganRIV->getPenjaminItems(), 'penjamin_id', 'penjamin_nama') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",)); ?>
+                        </div>
+                    </div>
+                    <?php echo $form->dropDownListRow($modPPInfoKunjunganRIV,'asalrujukan_id', CHtml::listData(
+                        AsalrujukanM::model()->findAll(array(
+                            'condition'=>'asalrujukan_aktif = true',
+                            'order'=>'asalrujukan_nama'
+                        )), 'asalrujukan_id', 'asalrujukan_nama'), array(
+                            'empty'=>'-- Pilih --',
+                            'ajax'=>array('type'=>'POST',
+                                'url'=>Yii::app()->createUrl('pendaftaranPenjadwalan/pendaftaranRawatJalan/GetRujukanDari',array('encode'=>false,'namaModel'=>get_class($modPPInfoKunjunganRIV))),
+                                'update'=>'#'.CHtml::activeId($modPPInfoKunjunganRIV, 'rujukandari_id'),
+                            )
+                        )); ?>
+                        <?php echo $form->dropDownListRow($modPPInfoKunjunganRIV,'rujukandari_id', array(), array('empty'=>'-- Pilih --')); ?>
+
+                        
+                        <?php /* echo $form->dropDownListRow($modPPInfoKunjunganRIV,'propinsi_id', CHtml::listData($modPPInfoKunjunganRIV->getPropinsiItems(), 'propinsi_id', 'propinsi_nama'), 
                         array('empty'=>'-- Pilih --',
                               'ajax'=>array('type'=>'POST',
                                             'url'=>$this->createUrl('SetDropdownKabupaten',array('encode'=>false,'model_nama'=>get_class($modPPInfoKunjunganRIV))),

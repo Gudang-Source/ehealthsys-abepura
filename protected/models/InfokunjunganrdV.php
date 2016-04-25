@@ -93,6 +93,8 @@ class InfokunjunganrdV extends CActiveRecord
         public $statusBayar;
         public $pendidikan_id, $suku_id;
         public $bulan, $tahun;
+        public $rujukandari_id;
+        
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -222,10 +224,10 @@ class InfokunjunganrdV extends CActiveRecord
 			'golonganumur_id' => 'Golonganumur',
 			'golonganumur_nama' => 'Golongan Umur',
 			'no_rujukan' => 'No. Rujukan',
-			'nama_perujuk' => 'Nama Perujuk',
+			'nama_perujuk' => 'Perujuk',
 			'tanggal_rujukan' => 'Tanggal Rujukan',
 			'diagnosa_rujukan' => 'Diagnosa Rujukan',
-			'asalrujukan_id' => 'Asalrujukan',
+			'asalrujukan_id' => 'Asal Rujukan',
 			'asalrujukan_nama' => 'Asal Rujukan',
 			'penanggungjawab_id' => 'Penanggungjawab',
 			'pengantar' => 'Pengantar',
@@ -244,6 +246,7 @@ class InfokunjunganrdV extends CActiveRecord
                         'tgl_akhir'=>'Sampai Dengan',
                         'NamaNamaBIN'=>'Nama Pasien',
                         'statusperiksa'=>'Status Periksa',
+                        'rujukandari_id'=>'Rujukan',
 		);
 	}
 
