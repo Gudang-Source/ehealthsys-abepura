@@ -11,7 +11,7 @@
     ));
 
     Yii::app()->clientScript->registerScript('cariPasien', "
-    $('#caripasien-form').submit(function(){
+    $('#cariasuransipasien-form').submit(function(){
             $.fn.yiiGridView.update('pencarianasuransipasien-grid', {
                     data: $(this).serialize()
             });
@@ -29,61 +29,61 @@
             'itemsCssClass'=>'table table-striped table-condensed',
             'columns'=>array(
                         array(
-                                                    'header'=>'No Peserta',
-                            'name'=>'nopeserta',
-                            'type'=>'raw',
-                            'value'=>'$data->nopeserta'
-                        ),
-                        array(
-                                                    'header'=>'Pemilik Asuransi',
-                            'name'=>'namapemilikasuransi',
-                            'type'=>'raw',
-                            'value'=>'$data->namapemilikasuransi'
-                        ),
-                        array(
-                                                    'header'=>'Kelas Tanggungan',
-                            'name'=>'kelastanggunganasuransi_nama',
-                            'type'=>'raw',
-                            'value'=>'$data->kelastanggunganasuransi_nama'
-                        ),
-                        array(
-                                                    'header'=>'Perusahaan',
+                            'header'=>'Perusahaan',
                             'name'=>'namaperusahaan',
                             'type'=>'raw',
                             'value'=>'(($data->namaperusahaan)?$data->namaperusahaan:"-")'
                         ),
                         array(
-                                                    'header'=>'No Rekam Medik',
+                            'header'=>'Kelas Tanggungan',
+                            'name'=>'kelastanggunganasuransi_nama',
+                            'type'=>'raw',
+                            'value'=>'$data->kelastanggunganasuransi_nama'
+                        ),
+                        array(
+                            'header'=>'No Peserta',
+                            'name'=>'nopeserta',
+                            'type'=>'raw',
+                            'value'=>'$data->nopeserta'
+                        ),
+                        array(
+                            'header'=>'Pemilik Asuransi',
+                            'name'=>'namapemilikasuransi',
+                            'type'=>'raw',
+                            'value'=>'$data->namapemilikasuransi'
+                        ),
+                        array(
+                            'header'=>'No Rekam Medik',
                             'name'=>'no_rekam_medik',
                             'type'=>'raw',
                             'value'=>'$data->no_rekam_medik'
                         ),
                         array(
-                                                    'header'=>'Pasien',
+                            'header'=>'Pasien',
                             'name'=>'nama_pasien',
                             'type'=>'raw',
                             'value'=>'$data->NamaLengkap'
                         ),
                         array(
-                                                    'header'=>'Jenis Kelamin',
-                            'name'=>'jeniskelamin',
-                            'type'=>'raw',
-                            'value'=>'$data->jeniskelamin'
-                        ),
-                        array(
-                                                    'header'=>'Tanggal Lahir',
+                            'header'=>'Tanggal Lahir',
                             'name'=>'tanggal_lahir',
                             'type'=>'raw',
                             'value'=>'MyFormatter::formatDateTimeForUser($data->tanggal_lahir)'
                         ),
                         array(
-                                                    'header'=>'Pegawai Penjamin',
+                            'header'=>'Jenis Kelamin',
+                            'name'=>'jeniskelamin',
+                            'type'=>'raw',
+                            'value'=>'$data->jeniskelamin'
+                        ), /*
+                        array(
+                            'header'=>'Pegawai Penjamin',
                             'name'=>'pegawaipenanggung_nama',
                             'type'=>'raw',
                             'value'=>'$data->NamaLengkapPegawai'
-                        ),
+                        ), */
                         array(
-                                                    'header'=>'Hubungan Keluarga',
+                            'header'=>'Hubungan Keluarga',
                             'name'=>'hubkeluarga',
                             'type'=>'raw',
                             'value'=>'(($data->hubkeluarga)?$data->hubkeluarga:"-")'
@@ -118,6 +118,22 @@
         <div class="row-fluid">
            <div class="span4">
                 <div class="control-group">
+                    <?php echo $form->labelEx($modAsuransi,'Perusahaan', array('class'=>'control-label')) ?>
+                    <div class="controls"> 
+                        <?php echo $form->dropDownList($modAsuransi,'penjamin_id',
+                                CHtml::listData(PenjaminpasienM::model()->findAll('penjamin_aktif = true order by penjamin_nama'), 'penjamin_id', 'penjamin_nama'),
+                                array('empty'=>'-- Pilih --','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50,'placeholder'=>'Ketik Nama Perusahaan')); ?>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <?php echo $form->labelEx($modAsuransi,'Kelas Tanggungan Asuransi', array('class'=>'control-label')) ?>
+                    <div class="controls"> 
+                        <?php echo $form->dropDownList($modAsuransi,'kelastanggunganasuransi_id', CHtml::listData($modAsuransi->getKelasTanggungan(), 'kelaspelayanan_id', 'kelaspelayanan_nama'), 
+                                                                        array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'span3'
+                                                                        )); ?>
+                    </div>
+                </div>
+                <div class="control-group">
                     <?php echo $form->labelEx($modAsuransi,'No Peserta', array('class'=>'control-label')) ?>
                     <div class="controls"> 
                         <?php echo $form->textField($modAsuransi,'nopeserta',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50,'placeholder'=>'Ketik No. Peserta')); ?>
@@ -129,22 +145,8 @@
                         <?php echo $form->textField($modAsuransi,'namapemilikasuransi',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50,'placeholder'=>'Ketik Nama Pemilik Asuransi')); ?>
                     </div>
                 </div>
-                <div class="control-group">
-                    <?php echo $form->labelEx($modAsuransi,'Kelas Tanggungan Asuransi', array('class'=>'control-label')) ?>
-                    <div class="controls"> 
-                        <?php echo $form->dropDownList($modAsuransi,'kelastanggunganasuransi_id', CHtml::listData($modAsuransi->getKelasTanggungan(), 'kelaspelayanan_id', 'kelaspelayanan_nama'), 
-                                                                        array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",'style'=>'width:176px'
-                                                                        )); ?>
-                    </div>
-                </div>
             </div>
             <div class="span4">
-                <div class="control-group">
-                    <?php echo $form->labelEx($modAsuransi,'Perusahaan', array('class'=>'control-label')) ?>
-                    <div class="controls"> 
-                        <?php echo $form->textField($modAsuransi,'namaperusahaan',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50,'placeholder'=>'Ketik Nama Perusahaan')); ?>
-                    </div>
-                </div>
                 <div class="control-group">
                     <?php echo $form->labelEx($modAsuransi, 'No Rekam Medik', array('class' => 'control-label')) ?>
                     <div class="controls"> 
@@ -152,23 +154,23 @@
                     </div>
                 </div>
                 <div class="control-group">
-                    <?php echo $form->labelEx($modAsuransi, 'Pasien', array('class' => 'control-label')) ?>
+                    <?php echo $form->labelEx($modAsuransi, 'Nama Pasien', array('class' => 'control-label')) ?>
                     <div class="controls"> 
                         <?php echo $form->textField($modAsuransi, 'nama_pasien', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 50, 'placeholder' => 'Ketik Nama Pasien')); ?>
-                    </div>
-                </div>
-            </div>
-            <div class="span4">
-                <div class="control-group">
-                    <?php echo $form->labelEx($modAsuransi, 'Pegawai Penanggung Jawab', array('class' => 'control-label')) ?>
-                    <div class="controls"> 
-                        <?php echo $form->textField($modAsuransi, 'pegawaipenanggung_nama', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 50, 'placeholder' => 'Ketik Nama Pegawai Penjamin')); ?>
                     </div>
                 </div>
                 <div class="control-group">
                     <?php echo $form->labelEx($modAsuransi, 'Status Asuransi Pasien', array('class' => 'control-label')) ?>
                     <div class="controls"> 
                         <?php echo $form->dropDownList($modAsuransi, 'asuransipasien_aktif', array('1' => 'Aktif', '0' => 'Non-aktif'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)", 'style'=>'width:176px')); ?>
+                    </div>
+                </div>
+            </div>
+            <div class="span4">
+                <div class="control-group" hidden>
+                    <?php echo $form->labelEx($modAsuransi, 'Pegawai Penanggung Jawab', array('class' => 'control-label')) ?>
+                    <div class="controls"> 
+                        <?php echo $form->textField($modAsuransi, 'pegawaipenanggung_nama', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 50, 'placeholder' => 'Ketik Nama Pegawai Penjamin')); ?>
                     </div>
                 </div>
             </div>

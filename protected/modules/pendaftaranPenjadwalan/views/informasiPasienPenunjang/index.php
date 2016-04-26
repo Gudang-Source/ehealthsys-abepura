@@ -78,6 +78,15 @@ $('#formCari').submit(function(){
                             'value'=>'$data->pendaftaran->carabayar->carabayar_nama."/<br/>".$data->pendaftaran->penjamin->penjamin_nama',
                         ),
                         array(
+                            'header'=>'Perujuk',
+                            'type'=>'raw',
+                            'value'=>function($data) {
+                                $p = PendaftaranT::model()->findByPk($data->pendaftaran_id);
+                                $r = RujukanT::model()->findByPk($p->rujukan_id);
+                                return (empty($r)?"-":$r->asalrujukan->asalrujukan_nama)."/<br/>".(empty($r)?"-":$r->rujukandari->namaperujuk);
+                            }
+                        ),
+                        array(
                             'header'=>'Status Periksa',
                             'type'=>'raw',
                             'value'=>'$data->pendaftaran->statusperiksa',
@@ -187,6 +196,19 @@ $('#formCari').submit(function(){
                      ));
                     echo $form->dropDownListRow($model,'penjamin_id', CHtml::listData($penjamin, 'penjamin_id', 'penjamin_nama'), array('empty'=>'-- Pilih --', 'class'=>'span3'));
                     ?>
+                    <?php echo $form->dropDownListRow($model,'asalrujukan_id', CHtml::listData(
+                    AsalrujukanM::model()->findAll(array(
+                        'condition'=>'asalrujukan_aktif = true',
+                        'order'=>'asalrujukan_nama'
+                    )), 'asalrujukan_id', 'asalrujukan_nama'), array(
+                        'empty'=>'-- Pilih --',
+                        'class'=>'span3',
+                        'ajax'=>array('type'=>'POST',
+                            'url'=>Yii::app()->createUrl('pendaftaranPenjadwalan/pendaftaranRawatJalan/GetRujukanDari',array('encode'=>false,'namaModel'=>get_class($model))),
+                            'update'=>'#'.CHtml::activeId($model, 'rujukandari_id'),
+                        )
+                    )); ?>
+                    <?php echo $form->dropDownListRow($model,'rujukandari_id', array(), array('empty'=>'-- Pilih --', 'class'=>'span3')); ?>
                 </div>
                  
                 <div class="span4">

@@ -105,7 +105,22 @@
       </div>
 </div>
 <?php //echo $form->textFieldRow($modAsuransiPasien,'nokartuasuransi',array('placeholder'=>'Nomor Kartu Asuransi','class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
-<?php echo $form->textFieldRow($modAsuransiPasien,'namapemilikasuransi',array('placeholder'=>'Nama Lengkap Pemilik Asuransi','class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+<div class="control-group">
+    <?php echo $form->labelEx($modAsuransiPasien,'namapemilikasuransi', array('class'=>'control-label')) ?>
+    <div class="controls">
+        <?php echo $form->textField($modAsuransiPasien,'namapemilikasuransi',array('placeholder'=>'Nama Lengkap Pemilik Asuransi','class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+        <?php echo CHtml::checkBox('pemilikasuransisesuai', false, array(
+            'rel'=>'tooltip',
+            'title'=>'Cek untuk disesuaikan dengan Nama Pasien',
+            'onchange'=>'if ($(this).is(":checked")) {'
+            . '$("#'.CHtml::activeId($modAsuransiPasien,'namapemilikasuransi').'").val($("#'.CHtml::activeId($modPasien,'nama_pasien').'").val());'
+            . '} else {'
+            . '$("#'.CHtml::activeId($modAsuransiPasien,'namapemilikasuransi').'").val(pemilik_bpjs);'
+            . '}',
+        )); ?>
+    </div>
+</div>
+    
 <div class="control-group ">
     <?php echo $form->labelEx($modAsuransiPasien,'jenispeserta_id', array('class'=>'control-label')) ?>
     <div class="controls">

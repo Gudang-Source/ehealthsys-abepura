@@ -2,7 +2,8 @@
 
 <script type="text/javascript">
     
-var kk_id = "";     
+var kk_id = "";   
+var pemilik_bpjs = "";
     
 /**
  * set pasien lama
@@ -1418,6 +1419,7 @@ function getAsuransiNoKartu(isi)
 				$("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'jenispeserta_id') ?>").val(peserta.jenisPeserta.kdJenisPeserta);
 //              $("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'kelastanggunganasuransi_id') ?>").val(peserta.kelasTanggungan.kdKelas); // <<tidak sama dengan kelaspelayanan_id
 				// OVERWRITES old selecor
+                                pemilik_bpjs = peserta.nama;
 				jQuery.expr[':'].contains = function(a, i, m) {
 				  return jQuery(a).text().toUpperCase()
 					  .indexOf(m[3].toUpperCase()) >= 0;
