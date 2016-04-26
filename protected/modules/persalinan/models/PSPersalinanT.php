@@ -17,19 +17,34 @@ class PSPersalinanT extends PersalinanT {
     public function getBidanItems($ruangan_id='')
         {
             $ruangan_id = Yii::app()->user->getState('ruangan_id');
-            if(!empty($ruangan_id))
-                return PegawaiM::model()->findAllByAttributes(array('kelompokpegawai_id'=>2));
-            else
+            if(!empty($ruangan_id)):
+                $pegawai = new CDbCriteria();
+                $pegawai->with = array('pegawai');
+                $pegawai->addCondition("pegawai.pegawai_aktif = TRUE ");
+                $pegawai->addCondition("t.ruangan_id = ".$ruangan_id); 
+                //$pegawai->addCondition('pegawai.kelompokpegawai_id IN (20,2) ');
+                $pegawai->order = 'pegawai.nama_pegawai ASC';
+                return RuanganpegawaiM::model()->findAll($pegawai);
+            else:
                 return array();
+            endif;
         }
         
     public function getParamedisItems($ruangan_id='')
         {
             $ruangan_id = Yii::app()->user->getState('ruangan_id');
-            if(!empty($ruangan_id))
-                return PegawaiM::model()->findAllByAttributes(array('kelompokpegawai_id'=>2));
-            else
+            if(!empty($ruangan_id)):
+                 $pegawai = new CDbCriteria();
+                $pegawai->with = array('pegawai');
+                $pegawai->addCondition("pegawai.pegawai_aktif = TRUE ");
+                $pegawai->addCondition("t.ruangan_id = ".$ruangan_id); 
+                //$pegawai->addCondition('pegawai.kelompokpegawai_id IN (20,2) ');
+                $pegawai->order = 'pegawai.nama_pegawai ASC';
+                return RuanganpegawaiM::model()->findAll($pegawai);
+                //return PegawaiM::model()->findAll("ruangan_id = '$ruangan_id' AND kelompokpegawai_id IN (20,2) AND pegawai_aktif = TRUE ORDER BY nama_pegawai ASC");
+            else:
                 return array();
+            endif;
         }
 
     public function search10Terakhir()

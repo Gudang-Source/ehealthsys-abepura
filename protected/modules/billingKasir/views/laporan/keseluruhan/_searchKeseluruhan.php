@@ -23,7 +23,7 @@
             display:inline-block;
         }
         .nav-tabs>li>a{display:block; cursor:pointer;}
-    </style>
+    </style>  
     <table width="100%">
         <tr>
             <td width="50%">

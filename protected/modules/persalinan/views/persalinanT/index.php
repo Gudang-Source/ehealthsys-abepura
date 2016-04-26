@@ -182,10 +182,10 @@ if($sukses > 0)
                     </div>
                     <?php echo $form->textFieldRow($model, 'jmlabortus', array('class' => 'span3 numbersOnly', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
                     <?php echo $form->textAreaRow($model, 'catatan_dokter', array('onkeypress' => "return $(this).focusNextInputField(event);")); ?>
-                    <?php echo $form->dropDownListRow($model, 'bidan_id',  CHtml::listData($model->BidanItems, 'pegawai_id', 'nama_pegawai'), array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
-                    <?php echo $form->dropDownListRow($model, 'bidan2_id',  CHtml::listData($model->BidanItems, 'pegawai_id', 'nama_pegawai'), array('empty' =>'-- Pilih --','class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
-                    <?php echo $form->dropDownListRow($model, 'bidan3_id',  CHtml::listData($model->BidanItems, 'pegawai_id', 'nama_pegawai'), array('empty' =>'-- Pilih --','class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
-                    <?php echo $form->dropDownListRow($model, 'paramedis_id',  CHtml::listData($model->ParamedisItems, 'pegawai_id', 'nama_pegawai'), array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+                    <?php echo $form->dropDownListRow($model, 'bidan_id',  CHtml::listData($model->BidanItems, 'pegawai.pegawai_id', 'pegawai.nama_pegawai'), array('empty' =>'-- Pilih --','class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+                    <?php echo $form->dropDownListRow($model, 'bidan2_id',  CHtml::listData($model->BidanItems, 'pegawai.pegawai_id', 'pegawai.nama_pegawai'), array('empty' =>'-- Pilih --','class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+                    <?php echo $form->dropDownListRow($model, 'bidan3_id',  CHtml::listData($model->BidanItems, 'pegawai.pegawai_id', 'pegawai.nama_pegawai'), array('empty' =>'-- Pilih --','class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+                    <?php echo $form->dropDownListRow($model, 'paramedis_id',  CHtml::listData($model->ParamedisItems, 'pegawai.pegawai_id', 'pegawai.nama_pegawai'), array('empty' =>'-- Pilih --','class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
                 </td>
             </tr>
         </table>

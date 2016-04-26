@@ -19,7 +19,7 @@ class InfoKunjunganRJController extends MyAuthController
 				$modPPInfoKunjunganRJV->attributes=$_REQUEST['PPInfoKunjunganRJV'];
 				$modPPInfoKunjunganRJV->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PPInfoKunjunganRJV']['tgl_awal']);
 				$modPPInfoKunjunganRJV->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PPInfoKunjunganRJV']['tgl_akhir']);
-
+                                $modPPInfoKunjunganRJV->rujukandari_id = $_GET['PPInfoKunjunganRJV']['rujukandari_id'];
 				$modPPInfoKunjunganRJV->tgl_awal = $modPPInfoKunjunganRJV->tgl_awal." 00:00:00";
 				$modPPInfoKunjunganRJV->tgl_akhir = $modPPInfoKunjunganRJV->tgl_akhir." 23:59:59";
 			}
