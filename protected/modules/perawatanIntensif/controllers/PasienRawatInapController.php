@@ -1010,26 +1010,29 @@ public function actionTerimaDokumen() {
                     ), array(
                         'order'=>'pengirimanrm_id desc',
                     ));
-                    $doknew = new PengirimanrmT();
-                    //$doknew->attributes = $dokrm->attributes;
-                    $doknew->pengirimanrm_id = null;
-                    $doknew->pasien_id = $dokrm->pasien_id;
-                    $doknew->pendaftaran_id = $dokrm->pendaftaran_id;
-                    $doknew->ruanganpengirim_id = $dokrm->ruangan_id;
-                    $doknew->dokrekammedis_id = $dokrm->dokrekammedis_id;
-                    $doknew->ruangan_id = $modPindahKamar->ruangan_id;
-                    $doknew->nourut_keluar = MyGenerator::noUrutKeluarRM();
-                    $doknew->tglpengirimanrm = $modPindahKamar->tglpindahkamar;
-                    $doknew->kelengkapandokumen = true;
                     
-                    $lp = LoginpemakaiK::model()->findByPk(Yii::app()->user->id);
-                    if (!empty($lp->pegawai_id)) {
-                        $pegawai = PegawaiM::model()->findByPk($lp->pegawai_id);
-                        $doknew->petugaspengirim = $pegawai->nama_pegawai;
+                    if (!empty($dokrm)) {
+                        $doknew = new PengirimanrmT();
+                        //$doknew->attributes = $dokrm->attributes;
+                        $doknew->pengirimanrm_id = null;
+                        $doknew->pasien_id = $dokrm->pasien_id;
+                        $doknew->pendaftaran_id = $dokrm->pendaftaran_id;
+                        $doknew->ruanganpengirim_id = $dokrm->ruangan_id;
+                        $doknew->dokrekammedis_id = $dokrm->dokrekammedis_id;
+                        $doknew->ruangan_id = $modPindahKamar->ruangan_id;
+                        $doknew->nourut_keluar = MyGenerator::noUrutKeluarRM();
+                        $doknew->tglpengirimanrm = $modPindahKamar->tglpindahkamar;
+                        $doknew->kelengkapandokumen = true;
+
+                        $lp = LoginpemakaiK::model()->findByPk(Yii::app()->user->id);
+                        if (!empty($lp->pegawai_id)) {
+                            $pegawai = PegawaiM::model()->findByPk($lp->pegawai_id);
+                            $doknew->petugaspengirim = $pegawai->nama_pegawai;
+                        }
+
+
+                        $doknew->validate();
                     }
-                    
-                    
-                    $doknew->validate();
                     
                     try {
                         /* simpan_pindah_kamar */
@@ -1075,7 +1078,9 @@ public function actionTerimaDokumen() {
 								if($mod_masuk_kamar->save())
 								{
 									$is_simpan = true;
-                                                                        $doknew->save();
+                                                                        if (!empty($dokrm)) {
+                                                                            $doknew->save();
+                                                                        }
                                                                         //var_dump($doknew->save()); die;
 									//update masukkamar_id (baru) pada pindahkamar_t
 									$modPindahKamar->updateByPk($modPindahKamar->pindahkamar_id, array('masukkamar_id'=>$mod_masuk_kamar->masukkamar_id)); 
