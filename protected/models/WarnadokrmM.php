@@ -64,11 +64,11 @@ class WarnadokrmM extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'warnadokrm_id' => 'Warnadokrm',
-			'warnadokrm_namawarna' => 'Warnadokrm Namawarna',
-			'warnadokrm_kodewarna' => 'Warnadokrm Kodewarna',
-			'warnadokrm_fungsi' => 'Warnadokrm Fungsi',
-			'warnadokrm_aktif' => 'Warnadokrm Aktif',
+			'warnadokrm_id' => 'Warna Dokumen',
+			'warnadokrm_namawarna' => 'Nama Warna',
+			'warnadokrm_kodewarna' => 'Kode Warna',
+			'warnadokrm_fungsi' => 'Fungsi',
+			'warnadokrm_aktif' => 'Aktif',
 		);
 	}
 
