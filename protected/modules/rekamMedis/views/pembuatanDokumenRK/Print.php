@@ -110,5 +110,10 @@ echo $this->renderPartial('application.views.headerReport.headerDefault',array('
                                 <?php echo CHtml::encode(isset($model->nomorprimer) ? $model->nomorprimer : "-"); ?>
                         </td>
                 </tr>
-	</table>
+        </table>
+</div>
+<div style="font-style: italic; margin-top: 50px">
+    <?php 
+    $pegawai = PegawaiM::model()->findByPk(Yii::app()->user->getState('pegawai_id'));
+    echo "Print date : ".MyFormatter::formatDateTimeForUser(date("Y-m-d H:i:s")).". Printed by : ".(!empty($pegawai)?$pegawai->nama_pegawai:"-"); ?>
 </div>
