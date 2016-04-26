@@ -214,7 +214,7 @@
         <?php echo $form->labelEx($modPasien,'nama_pasien', array('class'=>'control-label')) ?>
         <div class="controls">
             <?php echo $form->dropDownList($modPasien,'namadepan', LookupM::getItems('namadepan'),  
-                        array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 'class'=>'span1','style'=>'float:left; width:80px')); ?>   
+                        array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'class'=>'span1','style'=>'float:left; width:80px')); ?>   
             <?php 
                 $this->widget('MyJuiAutoComplete', array(
                                 'model'=>$modPasien,
@@ -244,7 +244,7 @@
                                             return false;
                                         }',
                                 ),
-                                'htmlOptions'=>array('placeholder'=>'Nama Lengkap Pasien','rel'=>'tooltip','title'=>'Ketik Nama untuk masukan data / mencari pasien','onkeyup'=>"return $(this).focusNextInputField(event)", 'class'=>'span3 '.$nama_kapital, 'onblur'=>'cekJamkespa();'),
+                                'htmlOptions'=>array('placeholder'=>'Nama Lengkap Pasien','rel'=>'tooltip','title'=>'Ketik Nama untuk masukan data / mencari pasien','onkeyup'=>"return $(this).focusNextInputField(event)", 'class'=>'span3 '.$nama_kapital, 'onblur'=>'cekJamkespa(); $("#pemilikasuransisesuai").change();'),
                             )); 
             ?>
             <?php echo $form->error($modPasien,'namadepan'); ?>
