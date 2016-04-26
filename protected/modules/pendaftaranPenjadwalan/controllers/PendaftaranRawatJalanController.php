@@ -1137,11 +1137,15 @@ class PendaftaranRawatJalanController extends MyAuthController
                 $pasien_id = isset($_POST['pasien_id']) ? $_POST['pasien_id'] : null;
                 $no_rekam_medik = isset($_POST['no_rekam_medik']) ? $_POST['no_rekam_medik'] : null;
                 $returnVal = array();
-                $pendaftaran = PendaftaranT::model()->findByAttributes(array(
-                    'pasien_id'=>$pasien_id,
-                ), array(
-                    'condition'=>'tgl_pendaftaran::date = now()::date and pasienbatalperiksa_id is null'
-                ));
+                if (!empty($pasien_id)) {
+                    $pendaftaran = PendaftaranT::model()->findByAttributes(array(
+                        'pasien_id'=>$pasien_id,
+                    ), array(
+                        'condition'=>'tgl_pendaftaran::date = now()::date and pasienbatalperiksa_id is null'
+                    ));
+                } else {
+                    $pendaftaran = null;
+                }
                 
                 $returnVal['lebih'] = false;
                 $returnVal['adaDaftar'] = false;
