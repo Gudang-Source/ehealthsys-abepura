@@ -822,6 +822,7 @@ class PendaftaranRawatJalanController extends MyAuthController
             } else if ($carabayar == Params::CARABAYAR_ID_BPJS) {
                 $modAsuransiPasien->status_konfirmasi = 1;
                 $modAsuransiPasien->tgl_konfirmasi = date('Y-m-d H:i:s');
+                $modAsuransiPasien->namaperusahaan = 'BPJS';
             }
             if(empty($postAsuransiPasien['nokartuasuransi'])){
                 $modAsuransiPasien->nokartuasuransi = $modAsuransiPasien->nopeserta;

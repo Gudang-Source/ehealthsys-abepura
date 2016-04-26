@@ -11,7 +11,7 @@
     ));
 
     Yii::app()->clientScript->registerScript('cariPasien', "
-    $('#caripasien-form').submit(function(){
+    $('#cariasuransipasien-form').submit(function(){
             $.fn.yiiGridView.update('pencarianasuransipasien-grid', {
                     data: $(this).serialize()
             });
@@ -120,7 +120,7 @@
                 <div class="control-group">
                     <?php echo $form->labelEx($modAsuransi,'Perusahaan', array('class'=>'control-label')) ?>
                     <div class="controls"> 
-                        <?php echo $form->dropDownList($modAsuransi,'namaperusahaan',
+                        <?php echo $form->dropDownList($modAsuransi,'penjamin_id',
                                 CHtml::listData(PenjaminpasienM::model()->findAll('penjamin_aktif = true order by penjamin_nama'), 'penjamin_id', 'penjamin_nama'),
                                 array('empty'=>'-- Pilih --','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50,'placeholder'=>'Ketik Nama Perusahaan')); ?>
                     </div>
