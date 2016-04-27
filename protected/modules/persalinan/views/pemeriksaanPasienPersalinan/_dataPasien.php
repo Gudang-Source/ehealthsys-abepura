@@ -1,6 +1,8 @@
 <?php $this->widget('bootstrap.widgets.BootAlert'); ?>
 <?php
 if(!empty($modPasien)){
+    $modPendaftaran->tgl_pendaftaran = MyFormatter::formatDateTimeForUser($modPendaftaran->tgl_pendaftaran);
+    $modPasien->nama_pasien = $modPasien->namadepan.$modPasien->nama_pasien;
 ?>
 <fieldset class='box'>
     <legend class="rim">Data Pasien</legend>
@@ -43,15 +45,17 @@ if(!empty($modPasien)){
                 <?php echo CHtml::activeHiddenField($modPendaftaran, 'carabayar_id', array('readonly'=>true)); ?>
             </td>
             
-            <td><?php echo CHtml::activeLabel($modPasien, 'nama_bin',array('class'=>'control-label')); ?></td>
-            <td><?php echo CHtml::activeTextField($modPasien, 'nama_bin', array('readonly'=>true)); ?></td>
+            <td hidden><?php echo CHtml::activeLabel($modPasien, 'nama_bin',array('class'=>'control-label')); ?></td>
+            <td hidden><?php echo CHtml::activeTextField($modPasien, 'nama_bin', array('readonly'=>true)); ?></td>
+        
+            <td><?php echo CHtml::activeLabel($modPendaftaran->kelaspelayanan, 'kelaspelayanan_nama', array('class'=>'control-label')); ?></td>
+            <td><?php echo CHtml::activeTextField($modPendaftaran->kelaspelayanan, 'kelaspelayanan_nama', array('readonly'=>true)); ?></td>
         </tr>
         <tr>
             <td><?php echo CHtml::activeLabel($modPendaftaran->pegawai, 'dokter_pemeriksa', array('class'=>'control-label')); ?></td>
-            <td><?php echo CHtml::activeTextField($modPendaftaran->pegawai, 'nama_pegawai', array('readonly'=>true)); ?></td>
+            <td><?php echo CHtml::activeTextField($modPendaftaran->pegawai, 'namaLengkap', array('readonly'=>true)); ?></td>
 
-            <td><?php echo CHtml::activeLabel($modPendaftaran->kelaspelayanan, 'kelaspelayanan_nama', array('class'=>'control-label')); ?></td>
-            <td><?php echo CHtml::activeTextField($modPendaftaran->kelaspelayanan, 'kelaspelayanan_nama', array('readonly'=>true)); ?></td>
+            
         </tr>
 
     </table>
