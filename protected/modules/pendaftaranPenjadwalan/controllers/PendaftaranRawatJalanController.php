@@ -822,6 +822,7 @@ class PendaftaranRawatJalanController extends MyAuthController
             } else if ($carabayar == Params::CARABAYAR_ID_BPJS) {
                 $modAsuransiPasien->status_konfirmasi = 1;
                 $modAsuransiPasien->tgl_konfirmasi = date('Y-m-d H:i:s');
+                $modAsuransiPasien->namaperusahaan = 'BPJS';
             }
             if(empty($postAsuransiPasien['nokartuasuransi'])){
                 $modAsuransiPasien->nokartuasuransi = $modAsuransiPasien->nopeserta;
@@ -1137,11 +1138,15 @@ class PendaftaranRawatJalanController extends MyAuthController
                 $pasien_id = isset($_POST['pasien_id']) ? $_POST['pasien_id'] : null;
                 $no_rekam_medik = isset($_POST['no_rekam_medik']) ? $_POST['no_rekam_medik'] : null;
                 $returnVal = array();
-                $pendaftaran = PendaftaranT::model()->findByAttributes(array(
-                    'pasien_id'=>$pasien_id,
-                ), array(
-                    'condition'=>'tgl_pendaftaran::date = now()::date and pasienbatalperiksa_id is null'
-                ));
+                if (!empty($pasien_id)) {
+                    $pendaftaran = PendaftaranT::model()->findByAttributes(array(
+                        'pasien_id'=>$pasien_id,
+                    ), array(
+                        'condition'=>'tgl_pendaftaran::date = now()::date and pasienbatalperiksa_id is null'
+                    ));
+                } else {
+                    $pendaftaran = null;
+                }
                 
                 $returnVal['lebih'] = false;
                 $returnVal['adaDaftar'] = false;

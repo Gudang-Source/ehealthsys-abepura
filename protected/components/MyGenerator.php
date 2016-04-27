@@ -21,8 +21,32 @@ class MyGenerator
 		$sql = "SELECT CAST(MAX(SUBSTR(nomasukkamar,".(strlen($prefix)+1).",".(strlen($default)).")) AS integer) nomaksimal 
 				FROM masukkamar_t 
 				WHERE nomasukkamar LIKE ('".$prefix."%')";
+        // var_dump($sql);
         $masukKamar = Yii::app()->db->createCommand($sql)->queryRow();
         $no_masuk_kamar_baru = $prefix.(isset($masukKamar['nomaksimal']) ? (str_pad($masukKamar['nomaksimal']+1, (strlen($default)), 0,STR_PAD_LEFT)) : $default);
+        // var_dump($no_masuk_kamar_baru);
+        return $no_masuk_kamar_baru;
+    }
+    
+    /**
+     * Generate nomasukkamar untuk masukkamar_t
+     * @return string 
+     */
+    public static function noPindahKamar($ruangan_id)
+    {
+		$default = '001';
+        $ruangan = RuanganM::model()->findByPk($ruangan_id);
+        $nama_ruangan = null;
+        if ($ruangan)
+            $nama_ruangan=strtoupper(trim($ruangan->ruangan_singkatan));
+        $prefix = $nama_ruangan.date('ymd');
+		$sql = "SELECT CAST(MAX(SUBSTR(nopindahkamar,".(strlen($prefix)+1).",".(strlen($default)).")) AS integer) nomaksimal 
+				FROM pindahkamar_t 
+				WHERE nopindahkamar LIKE ('".$prefix."%')";
+        // var_dump($sql);
+        $masukKamar = Yii::app()->db->createCommand($sql)->queryRow();
+        $no_masuk_kamar_baru = $prefix.(isset($masukKamar['nomaksimal']) ? (str_pad($masukKamar['nomaksimal']+1, (strlen($default)), 0,STR_PAD_LEFT)) : $default);
+        // var_dump($no_masuk_kamar_baru);
         return $no_masuk_kamar_baru;
     }
     

@@ -43,7 +43,7 @@
 		decimal: {
 			precision : 0,		// default precision on numbers is 0
 			grouping : 3,		// digit grouping (not implemented yet)
-			thousand : ".",
+			thousand : "",
 			decimal : ",",
 			precision : 1		// decimal places
 		}

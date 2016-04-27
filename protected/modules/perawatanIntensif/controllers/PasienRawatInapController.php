@@ -986,11 +986,12 @@ public function actionTerimaDokumen() {
                     $modPindahKamar->pendaftaran_id = $modPasienRIV->pendaftaran_id;
                     $modPindahKamar->pasienadmisi_id = $modPasienRIV->pasienadmisi_id;
                     $modPindahKamar->shift_id = Yii::app()->user->getState('shift_id'); 
-                    $modPindahKamar->nopindahkamar = MyGenerator::noMasukKamar($modPindahKamar->ruangan_id);
+                    $modPindahKamar->nopindahkamar = MyGenerator::noPindahKamar($modPindahKamar->ruangan_id);
                     $modPindahKamar->carabayar_id = $modPasienAdmisi->carabayar_id;
                     $modPindahKamar->penjamin_id = $modPasienAdmisi->penjamin_id;
                     $modPindahKamar->pegawai_id = $modPasienAdmisi->pegawai_id;
-
+                    
+                    //die;
 
                     /* PROSES SIMPAN DAN UPDATE */
                     $transaction = Yii::app()->db->beginTransaction();
@@ -1000,8 +1001,42 @@ public function actionTerimaDokumen() {
                         'status'=>'success',
                         'text'=>'Data Berhasil Disimpan'
                     );
+                    
+                    
+                    /* PROSES PINDAH DOKUMEN RM */
+                    $dokrm = PengirimanrmT::model()->findByAttributes(array(
+                        'pendaftaran_id'=>$modPasienRIV->pendaftaran_id,
+                        'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
+                    ), array(
+                        'order'=>'pengirimanrm_id desc',
+                    ));
+                    
+                    if (!empty($dokrm)) {
+                        $doknew = new PengirimanrmT();
+                        //$doknew->attributes = $dokrm->attributes;
+                        $doknew->pengirimanrm_id = null;
+                        $doknew->pasien_id = $dokrm->pasien_id;
+                        $doknew->pendaftaran_id = $dokrm->pendaftaran_id;
+                        $doknew->ruanganpengirim_id = $dokrm->ruangan_id;
+                        $doknew->dokrekammedis_id = $dokrm->dokrekammedis_id;
+                        $doknew->ruangan_id = $modPindahKamar->ruangan_id;
+                        $doknew->nourut_keluar = MyGenerator::noUrutKeluarRM();
+                        $doknew->tglpengirimanrm = $modPindahKamar->tglpindahkamar;
+                        $doknew->kelengkapandokumen = true;
+
+                        $lp = LoginpemakaiK::model()->findByPk(Yii::app()->user->id);
+                        if (!empty($lp->pegawai_id)) {
+                            $pegawai = PegawaiM::model()->findByPk($lp->pegawai_id);
+                            $doknew->petugaspengirim = $pegawai->nama_pegawai;
+                        }
+
+
+                        $doknew->validate();
+                    }
+                    
                     try {
                         /* simpan_pindah_kamar */
+                        // var_dump($modPindahKamar->attributes); die;
                         $modPindahKamar->masukkamar_id = null; //ini di isi masukkamar baru nanti
                         if($modPindahKamar->save()){
                             $modMasukKamar->pindahkamar_id = $modPindahKamar->pindahkamar_id;
@@ -1043,6 +1078,10 @@ public function actionTerimaDokumen() {
 								if($mod_masuk_kamar->save())
 								{
 									$is_simpan = true;
+                                                                        if (!empty($dokrm)) {
+                                                                            $doknew->save();
+                                                                        }
+                                                                        //var_dump($doknew->save()); die;
 									//update masukkamar_id (baru) pada pindahkamar_t
 									$modPindahKamar->updateByPk($modPindahKamar->pindahkamar_id, array('masukkamar_id'=>$mod_masuk_kamar->masukkamar_id)); 
 									if(!empty($modPindahKamar->kamarruangan_id)){
@@ -1051,6 +1090,7 @@ public function actionTerimaDokumen() {
 											$modPindahKamar->kamarruangan_id, array('kamarruangan_status'=>false,'keterangan_kamar'=>'IN USE')
 										);
 									}
+                                                                        
 								}else{
 									$is_simpan = false;
 									$pesan = array(
@@ -1083,6 +1123,7 @@ public function actionTerimaDokumen() {
                             $tersimpan = 'Ya';
 
                             // SMS GATEWAY
+                            /*
                             $modPasien = $modPasienAdmisi->pasien;
                             $modRuangan = $modPasienAdmisi->ruangan;
                             $modKamarRuangan = $modPasienAdmisi->kamarruangan;
@@ -1124,6 +1165,8 @@ public function actionTerimaDokumen() {
                                     }
                                 }
                             }
+                             * 
+                             */
                             // END SMS GATEWAY
 
                             $transaction->commit();
@@ -2115,7 +2158,8 @@ public function actionTerimaDokumen() {
                         array(
                             'ruangan_id'=>$ruangan_id,
                             'kelaspelayanan_id'=>$kelaspelayanan_id,
-                            'kamarruangan_status'=>(isset($_POST['is_status']) ? $_POST['is_status'] : true)
+                            'kamarruangan_status'=>(isset($_POST['is_status']) ? $_POST['is_status'] : true),
+                            'kamarruangan_aktif'=>true,
                         )
                     );
                     $kamarKosong = CHtml::listData($kamarKosong,'kamarruangan_id','KamarDanTempatTidur');
