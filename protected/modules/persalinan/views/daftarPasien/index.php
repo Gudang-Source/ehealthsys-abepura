@@ -32,14 +32,15 @@
                     'itemsCssClass'=>'table table-striped table-condensed',
             'columns'=>array(
                                     array(
-                                       'name'=>'tgl_pendaftaran',
+                                            'header'=>'Tgl. Pendaftaran/<br/>No. Pendaftaran',
+                                            'name'=>'tgl_pendaftaran',
                                             'type'=>'raw',
-                                            'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)'
+                                            'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."/<br/>".$data->no_pendaftaran',
                                     ),
                                     array(
-                                            'header'=>'No.Pendaftaran / No.Rekam Medik',
+                                            'header'=>'No.Rekam Medik',
                                             'type'=>'raw',
-                                            'value'=>'$data->noPendaftaranRekammedik',
+                                            'value'=>'$data->no_rekam_medik ',
                                     ),
                                     array(
                                             'header'=>'Nama Pasien / Alias',
@@ -160,19 +161,35 @@
                     'itemsCssClass'=>'table table-striped table-condensed',
                     'columns'=>array(
                             array(
-                                    'header'=>'Tanggal Pendaftaran',
+                                    'header'=>'Tgl. Pendaftaran/<br/>No. Pendaftaran',
                                     'name'=>'tgl_pendaftaran',
                                     'type'=>'raw',
-                                    'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)'
+                                    'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."/<br/>".$data->no_pendaftaran',
                             ),
                             array(
-                                    'header'=>'No. Pendaftaran / No. Rekam Medik',
+                                    'header'=>'No.Rekam Medik',
                                     'type'=>'raw',
-                                    'value'=>'$data->noPendaftaranRekammedik',
+                                    'value'=>'$data->no_rekam_medik ',
                             ),
                             array(
                                     'header'=>'Nama Pasien',
                                     'value'=>'$data->namadepan.$data->nama_pasien'
+                            ),
+                            'umur',
+                            array(
+                                    'header'=>'Alamat Pasien',
+                                    'type'=>'raw',
+                                    'value'=>'$data->alamat_pasien',
+                            ),
+                            array(
+                                    'header'=>'Jenis Kasus Penyakit',
+                                    'type'=>'raw',
+                                    'value'=>'$data->jeniskasuspenyakit_nama',
+                            ),
+                            array(
+                                    'header'=>'Rujukan',
+                                    'type'=>'raw',
+                                    'value'=>'(!empty($data->asalrujukan_nama))? $data->asalrujukan_nama : "-"',
                             ),
                             array(
                                     'header'=>'Cara Bayar / Penjamin',
@@ -180,7 +197,27 @@
                                     'value'=>function($data) {
                                         return $data->carabayar_nama."/<br/>".$data->penjamin_nama;
                                     }, //'$data->caraBayarPenjamin2',
-                            ), /*
+                            ), 
+                            array(
+                                    'header'=>'Kelas Pelayanan',
+                                    'name'=>'kelaspelayanan_nama',
+                            ),
+                            array(
+                                    'header'=>'Kamar Ruangan/<br/>No. Bed',
+                                    'type'=>'raw',
+                                    'value'=>function($data) {
+                                        $ad = PasienadmisiT::model()->findByAttributes(array(
+                                            'pendaftaran_id'=>$data->pendaftaran_id,
+                                        ));
+                                        if (!empty($ad)) {
+                                            $kamar = KamarruanganM::model()->findByPk($ad->kamarruangan_id);
+                                            if (!empty($kamar)) {
+                                                return $kamar->kamarruangan_nokamar."/<br/>Bed ".$kamar->kamarruangan_nobed;
+                                            } return "-";
+                                        } return "-";
+                                    }
+                            ),
+                                            /*
                             array(
                                     'header'=>'Cara Masuk / Transportasi',
                                     'type'=>'raw',
@@ -190,22 +227,7 @@
                             array(
                                     'header'=>'Dokter',
                                     'type'=>'raw',
-                                    'value'=>'$data->nama_pegawai',
-                            ),
-                            array(
-                                    'header'=>'Rujukan',
-                                    'type'=>'raw',
-                                    'value'=>'(!empty($data->asalrujukan_nama))? $data->asalrujukan_nama : "-"',
-                            ),
-                            array(
-                                    'header'=>'Nama Jenis Kasus Penyakit',
-                                    'type'=>'raw',
-                                    'value'=>'$data->jeniskasuspenyakit_nama',
-                            ),
-                            array(
-                                    'header'=>'Alamat Pasien',
-                                    'type'=>'raw',
-                                    'value'=>'$data->alamat_pasien',
+                                    'value'=>'$data->gelardepan." ".$data->nama_pegawai.", ".$data->gelarbelakang_nama',
                             ),
                             array(
                                     'header'=>'Status Periksa',
@@ -456,6 +478,56 @@
                     <?php echo $form->textFieldRow($model,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
                 </td>
                 <td width='35%'>
+                    <?php 
+                    $carabayar = CarabayarM::model()->findAll(array(
+                        'condition'=>'carabayar_aktif = true',
+                        'order'=>'carabayar_nama ASC',
+                    ));
+                    foreach ($carabayar as $idx=>$item) {
+                        $penjamins = PenjaminpasienM::model()->findByAttributes(array(
+                            'carabayar_id'=>$item->carabayar_id,
+                            'penjamin_aktif'=>true,
+                       ));
+                       if (empty($penjamins)) unset($carabayar[$idx]);
+                    }
+                    $penjamin = PenjaminpasienM::model()->findAll(array(
+                        'condition'=>'penjamin_aktif = true',
+                        'order'=>'penjamin_nama',
+                    ));
+                    echo $form->dropDownListRow($model,'carabayar_id', CHtml::listData($carabayar, 'carabayar_id', 'carabayar_nama'), array(
+                        'empty'=>'-- Pilih --',
+                        'class'=>'span3', 
+                        'ajax' => array('type'=>'POST',
+                            'url'=> $this->createUrl('/actionDynamic/getPenjaminPasien',array('encode'=>false,'namaModel'=>get_class($model))), 
+                            'success'=>'function(data){$("#'.CHtml::activeId($model, "penjamin_id").'").html(data); }',
+                        ),
+                     ));
+                    echo $form->dropDownListRow($model,'penjamin_id', CHtml::listData($penjamin, 'penjamin_id', 'penjamin_nama'), array('empty'=>'-- Pilih --', 'class'=>'span3'));
+                    ?>
+                    <?php 
+                    $dok = CHtml::listData(DokterV::model()->findAllByAttributes(array(
+                        'pegawai_aktif'=>true,
+                        'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
+                    ), array(
+                        'order'=>'nama_pegawai'
+                    )), 'pegawai_id', 'namaLengkap');
+                    
+                    $kel = CHtml::listData(KelaspelayananM::model()->findAllByAttributes(array(
+                        'kelaspelayanan_aktif'=>true,
+                    ), array(
+                        'order'=>'kelaspelayanan_nama'
+                    )), 'kelaspelayanan_id', 'kelaspelayanan_nama');
+                    
+                    $kamar = CHtml::listData(KamarruanganM::model()->findAllByAttributes(array(
+                        'ruangan_id'=>Yii::app()->user->getState('ruangan_id')
+                    )), 'kamarruangan_id', 'kamarDanTempatTidurPolos');                    
+                    echo $form->dropDownListRow($model, 'pegawai_id', $dok, array('empty'=>'-- Pilih --', 'class'=>'span3')); 
+                    echo $form->dropDownListRow($model, 'kelaspelayanan_id', $kel, array(
+                        'empty'=>'-- Pilih --', 
+                        'class'=>'span3',
+                    ));
+                    echo $form->dropDownListRow($model, 'kamarruangan_id', array(), array('empty'=>'-- Pilih --', 'class'=>'span3'));
+                    ?>
                 </td>
             </tr>
 	</table>
