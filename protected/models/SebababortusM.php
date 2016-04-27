@@ -41,10 +41,10 @@ class SebababortusM extends CActiveRecord
 			array('kelsebababortus_id, sebababortus_nama', 'required'),
 			array('kelsebababortus_id', 'numerical', 'integerOnly'=>true),
 			array('sebababortus_nama, sebababortus_namalain', 'length', 'max'=>100),
-			array('sebababortus_aktif', 'safe'),
+			array('sebababortus_aktif, sebababortus_deskripsi', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('sebababortus_id, kelsebababortus_id, sebababortus_nama, sebababortus_namalain, sebababortus_aktif', 'safe', 'on'=>'search'),
+			array('sebababortus_id, kelsebababortus_id, sebababortus_nama, sebababortus_namalain, sebababortus_aktif, sebababortus_deskripsi', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -70,6 +70,7 @@ class SebababortusM extends CActiveRecord
 			'kelsebababortus_id' => 'Kelompok Sebab Abortus',
 			'sebababortus_nama' => 'Sebab Abortus',
 			'sebababortus_namalain' => 'Nama Lain',
+                        'sebababortus_deskripsi' => 'Deskripsi',
 			'sebababortus_aktif' => 'Aktif',
 		);
 	}

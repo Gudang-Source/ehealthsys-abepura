@@ -249,7 +249,7 @@ $( document ).ready(function(){
     );
     /**class : float = format float / double (2 angka dibelakang koma)*/
     $(".float2").maskMoney(
-        {"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":2}
+        {"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":"","precision":2}
     );
     resetElement();
 });

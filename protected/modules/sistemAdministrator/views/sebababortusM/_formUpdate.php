@@ -26,6 +26,11 @@
     </tr>
     <tr>
         <td>
+            <?php echo $form->textAreaRow($model,'sebababortus_deskripsi'); ?>
+        </td>
+    </tr>
+    <tr>
+        <td>
             <?php echo $form->checkBoxRow($model,'sebababortus_aktif', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
         </td>
     </tr>

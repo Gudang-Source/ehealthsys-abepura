@@ -116,6 +116,7 @@
  */
 class InfokunjunganpersalinanV extends CActiveRecord
 {
+        public $kamarruangan_id;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -239,8 +240,8 @@ class InfokunjunganpersalinanV extends CActiveRecord
 			'create_time' => 'Create Time',
 			'create_loginpemakai_id' => 'Create Loginpemakai',
 			'create_ruangan' => 'Create Ruangan',
-			'carabayar_id' => 'Carabayar',
-			'carabayar_nama' => 'Carabayar Nama',
+			'carabayar_id' => 'Cara Bayar',
+			'carabayar_nama' => 'Cara Bayar',
 			'penjamin_id' => 'Penjamin',
 			'penjamin_nama' => 'Penjamin Nama',
 			'caramasuk_id' => 'Caramasuk',
@@ -267,14 +268,14 @@ class InfokunjunganpersalinanV extends CActiveRecord
 			'ruangan_singkatan' => 'Ruangan Singkatan',
 			'jeniskasuspenyakit_id' => 'Jeniskasuspenyakit',
 			'jeniskasuspenyakit_nama' => 'Jeniskasuspenyakit Nama',
-			'kelaspelayanan_id' => 'Kelaspelayanan',
-			'kelaspelayanan_nama' => 'Kelaspelayanan Nama',
+			'kelaspelayanan_id' => 'Kelas Pelayanan',
+			'kelaspelayanan_nama' => 'Kelas Pelayanan Nama',
 			'gelardepan' => 'Gelardepan',
-			'nama_pegawai' => 'Nama Pegawai',
+			'nama_pegawai' => 'Dokter',
 			'gelarbelakang_nama' => 'Gelarbelakang Nama',
 			'status_konfirmasi' => 'Status Konfirmasi',
 			'tgl_konfirmasi' => 'Tgl. Konfirmasi',
-			'pegawai_id' => 'Pegawai',
+			'pegawai_id' => 'Dokter',
 			'tglrenkontrol' => 'Tglrenkontrol',
 			'pembayaranpelayanan_id' => 'Pembayaranpelayanan',
 			'panggilantrian' => 'Panggilantrian',
@@ -289,6 +290,7 @@ class InfokunjunganpersalinanV extends CActiveRecord
 			'loket_nourut' => 'Loket Nourut',
 			'loket_formatnomor' => 'Loket Formatnomor',
 			'loket_maksantrian' => 'Loket Maksantrian',
+                        'kamarruangan_id' => 'Kamar Ruangan',
 		);
 	}
 
