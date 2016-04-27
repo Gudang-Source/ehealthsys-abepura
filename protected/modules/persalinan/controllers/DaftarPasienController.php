@@ -17,6 +17,7 @@ class DaftarPasienController extends MyAuthController
         $model->tgl_akhir = date('Y-m-d');
         if(isset ($_REQUEST['PSInfokunjunganpersalinanV'])){
             $model->attributes=$_REQUEST['PSInfokunjunganpersalinanV'];
+            $model->kamarruangan_id = $_REQUEST['PSInfokunjunganpersalinanV']['kamarruangan_id'];
             $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PSInfokunjunganpersalinanV']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PSInfokunjunganpersalinanV']['tgl_akhir']);
             // $model->ceklis = $_REQUEST['PSInfokunjunganpersalinanV']['ceklis'];

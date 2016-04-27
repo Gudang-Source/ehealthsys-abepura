@@ -39,10 +39,10 @@ class KelsebababortusM extends CActiveRecord
 		return array(
 			array('kelsebababortus_nama', 'required'),
 			array('kelsebababortus_nama, kelsebababortus_namalain', 'length', 'max'=>100),
-			array('kelsebababortus_aktif', 'safe'),
+			array('kelsebababortus_aktif, kelsebababortus_deskripsi', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('kelsebababortus_id, kelsebababortus_nama, kelsebababortus_namalain, kelsebababortus_aktif', 'safe', 'on'=>'search'),
+			array('kelsebababortus_id, kelsebababortus_nama, kelsebababortus_deskripsi, kelsebababortus_namalain, kelsebababortus_aktif', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -67,6 +67,7 @@ class KelsebababortusM extends CActiveRecord
 			'kelsebababortus_nama' => 'Kelompok Sebab Abortus',
 			'kelsebababortus_namalain' => 'Nama lain',
 			'kelsebababortus_aktif' => 'Aktif',
+                        'kelsebababortus_deskripsi' => 'Deskripsi',
 		);
 	}
 

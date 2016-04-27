@@ -13,6 +13,7 @@
 
             <?php echo $form->textFieldRow($model,'kelsebababortus_nama',array('class'=>'span3', 'onkeyup'=>"namaLain(this)", 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
             <?php echo $form->textFieldRow($model,'kelsebababortus_namalain',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
+            <?php echo $form->textAreaRow($model, 'kelsebababortus_deskripsi'); ?>
             <div>
                 <?php echo $form->checkBoxRow($model,'kelsebababortus_aktif', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
             </div>
