@@ -40,15 +40,20 @@ if($sukses > 0)
         <table width="100%" class="table-condensed">
             <tr>
                 <td>
-                    <?php echo $form->dropDownListRow($model, 'kegiatanpersalinan_id', CHtml::listData(PSKegiatanpersalinanM::model()->findAll(), 'kegiatanpersalinan_id', 'kegiatanpersalinan_nama'), array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+                    <?php echo $form->dropDownListRow($model, 'pegawai_id', CHtml::listData($model->DokterItems, 'pegawai_id', 'namaLengkap'), array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+                    <?php echo $form->dropDownListRow($model, 'bidan_id',  CHtml::listData($model->BidanItems, 'pegawai.pegawai_id', 'pegawai.nama_pegawai'), array('empty' =>'-- Pilih --','class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+                    <?php echo $form->dropDownListRow($model, 'bidan2_id',  CHtml::listData($model->BidanItems, 'pegawai.pegawai_id', 'pegawai.nama_pegawai'), array('empty' =>'-- Pilih --','class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+                    <?php echo $form->dropDownListRow($model, 'bidan3_id',  CHtml::listData($model->BidanItems, 'pegawai.pegawai_id', 'pegawai.nama_pegawai'), array('empty' =>'-- Pilih --','class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+                    <?php echo $form->dropDownListRow($model, 'paramedis_id',  CHtml::listData($model->ParamedisItems, 'pegawai.pegawai_id', 'pegawai.nama_pegawai'), array('empty' =>'-- Pilih --','class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+                    <?php echo $form->textAreaRow($model, 'catatan_dokter', array('onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+                    
                     <?php //echo $form->textFieldRow($model,'pasien_id',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                     <?php //echo $form->textFieldRow($model,'pendaftaran_id',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-                    <?php echo $form->dropDownListRow($model, 'kelsebababortus_id', CHtml::listData(PSKelsebababortusM::model()->findAll(), 'kelsebababortus_id', 'kelsebababortus_nama'), array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
-                    <?php //echo $form->textFieldRow($model,'ruangan_id',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-                    <?php echo $form->dropDownListRow($model, 'sebababortus_id', CHtml::listData(PSSebababortusM::model()->findAll(), 'sebababortus_id', 'sebababortus_nama'), array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
-                    <?php echo $form->dropDownListRow($model, 'pegawai_id', CHtml::listData($model->DokterItems, 'pegawai_id', 'nama_pegawai'), array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
-                    <?php echo $form->dropDownListRow($model, 'jeniskegiatanpersalinan', LookupM::model()->getItems('jeniskegiatanpersalinan'), array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
+                    
+                    
                     <?php //echo $form->textFieldRow($model,'tglmulaipersalinan',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                </td>
+                <td>
                     <div class="control-group ">
                         <?php echo $form->labelEx($model, 'tglmulaipersalinan', array('class' => 'control-label')) ?>
                         <div class="controls">
@@ -100,10 +105,6 @@ if($sukses > 0)
                             <?php echo $form->error($model, 'lamapersalinan_jam'); ?>
                         </div>
                     </div>
-                </td>
-                <td>
-                    <?php echo $form->dropDownListRow($model, 'carapersalinan', LookupM::getItems('carapersalinan'), array('class' => 'span3 ', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
-                    <?php echo $form->dropDownListRow($model, 'posisijanin', LookupM::getItems('posisijanin'), array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
                     <div class="control-group">
                         <label class="control-label"><?php echo $form->Label($model, 'tglmelahirkan'); ?></label>
                         <div class="controls">
@@ -121,15 +122,15 @@ if($sukses > 0)
                                 ));
                             ?>
                         </div>
-                        <div class="checkbox inline">
-                            <?php echo $form->checkBox($model, 'islahirdirs', array('onkeypress' => "return $(this).focusNextInputField(event)")); ?>
-                            <?php echo CHtml::activeLabel($model, 'islahirdirs'); ?>
+                    </div>
+                    <div class="control-group">
+                        <?php echo $form->labelEx($model, 'islahirdirs', array('class'=>'control-label')); ?>
+                        <div class="controls">
+                            <?php echo $form->radioButton($model, 'islahirdirs', array('value'=>1, 'uncheckValue'=>null)); ?> Ya &emsp;
+                            <?php echo $form->radioButton($model, 'islahirdirs', array('value'=>0, 'uncheckValue'=>null)); ?> Tidak
                         </div>
                     </div>
-                    <?php //echo $form->textFieldRow($model, 'tglmelahirkan', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
-
-                    <?php echo $form->dropDownListRow($model, 'keadaanlahir',LookupM::getItems('keadaanlahir'), array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'onchange'=> 'setKematian();', 'maxlength' => 100)); ?>
-                    <?php //echo $form->textFieldRow($model, 'masagestasi_minggu', array('class' => 'span3 numbersOnly', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+                    <?php echo $form->dropDownListRow($model, 'keadaanlahir',LookupM::getItems('keadaanlahir'), array('empty'=>'-- Pilih --','class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'onchange'=> 'setKematian();', 'maxlength' => 100)); ?>
                     <div class="control-group ">
                         <?php echo $form->labelEx($model, 'masagestasi_minggu', array('class' => 'control-label')) ?>
                         <div class="controls">
@@ -158,11 +159,26 @@ if($sukses > 0)
                             <?php echo $form->error($model, 'jmlkelahiranmati'); ?>
                         </div>
                     </div>
+                    
+                    
+                    <?php //echo $form->textFieldRow($model, 'tglmelahirkan', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+
+                    <?php //echo $form->textFieldRow($model, 'masagestasi_minggu', array('class' => 'span3 numbersOnly', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+                    
                 </td>
                 <td>
-                    <?php echo $form->dropDownListRow($model, 'sebabkematian', LookupM::getItems('sebabkematian'), array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
+                    <?php echo $form->dropDownListRow($model, 'jeniskegiatanpersalinan', LookupM::model()->getItems('jeniskegiatanpersalinan'), array('empty'=>'-- Pilih --', 'class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
+                    <?php echo $form->dropDownListRow($model, 'kegiatanpersalinan_id', CHtml::listData(PSKegiatanpersalinanM::model()->findAll(), 'kegiatanpersalinan_id', 'kegiatanpersalinan_nama'), array('empty'=>'-- Pilih --', 'class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+                    <?php echo $form->dropDownListRow($model, 'carapersalinan', LookupM::getItems('carapersalinan'), array('class' => 'span3 ', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
+                    <?php echo $form->dropDownListRow($model, 'posisijanin', LookupM::getItems('posisijanin'), array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
+                    <?php echo $form->dropDownListRow($model, 'kelsebababortus_id', CHtml::listData(PSKelsebababortusM::model()->findAll(), 'kelsebababortus_id', 'kelsebababortus_nama'), array('empty'=>'-- Pilih --', 'class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+                    <?php //echo $form->textFieldRow($model,'ruangan_id',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                    <?php echo $form->dropDownListRow($model, 'sebababortus_id', CHtml::listData(PSSebababortusM::model()->findAll(), 'sebababortus_id', 'sebababortus_nama'), array('empty'=>'-- Pilih --', 'class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+                    <?php echo $form->dropDownListRow($model, 'sebabkematian', LookupM::getItems('sebabkematian'), array('empty'=>'-- Pilih --', 'class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
                     <div class="control-group ">
-                        <?php echo $form->labelEx($model, 'tglabortus', array('class' => 'control-label')) ?>
+                        <?php 
+                        $model->tglabortus = null;
+                        echo $form->labelEx($model, 'tglabortus', array('class' => 'control-label')) ?>
                         <div class="controls">
                             <?php
                             $this->widget('MyDateTimePicker', array(
@@ -181,11 +197,7 @@ if($sukses > 0)
                         </div>
                     </div>
                     <?php echo $form->textFieldRow($model, 'jmlabortus', array('class' => 'span3 numbersOnly', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
-                    <?php echo $form->textAreaRow($model, 'catatan_dokter', array('onkeypress' => "return $(this).focusNextInputField(event);")); ?>
-                    <?php echo $form->dropDownListRow($model, 'bidan_id',  CHtml::listData($model->BidanItems, 'pegawai.pegawai_id', 'pegawai.nama_pegawai'), array('empty' =>'-- Pilih --','class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
-                    <?php echo $form->dropDownListRow($model, 'bidan2_id',  CHtml::listData($model->BidanItems, 'pegawai.pegawai_id', 'pegawai.nama_pegawai'), array('empty' =>'-- Pilih --','class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
-                    <?php echo $form->dropDownListRow($model, 'bidan3_id',  CHtml::listData($model->BidanItems, 'pegawai.pegawai_id', 'pegawai.nama_pegawai'), array('empty' =>'-- Pilih --','class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
-                    <?php echo $form->dropDownListRow($model, 'paramedis_id',  CHtml::listData($model->ParamedisItems, 'pegawai.pegawai_id', 'pegawai.nama_pegawai'), array('empty' =>'-- Pilih --','class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+                    
                 </td>
             </tr>
         </table>

@@ -49,7 +49,7 @@
 				'header'=>'Komponen Unit',
 				'name'=>'komponenunit_nama',
 				'value'=>'isset($data->daftartindakan->komponenunit->komponenunit_nama)?$data->daftartindakan->komponenunit->komponenunit_nama:" - "',
-                                //'filter' => CHtml::dropDownList("SATindakanruanganM[kategoritindakan_nama]",$model->kategoritindakan_nama,CHtml::listData(KategoritindakanM::model()->findAll("kategoritindakan_aktif = TRUE ORDER BY kategoritindakan_nama ASC"), 'kategoritindakan_nama', 'kategoritindakan_nama'),array('empty'=>'--Pilih--')),
+                                'filter' => CHtml::dropDownList("SATindakanruanganM[komponenunit_nama]",$model->komponenunit_nama,CHtml::listData(KomponenunitM::model()->findAll("komponenunit_aktif = TRUE ORDER BY komponenunit_nama ASC"), 'komponenunit_nama', 'komponenunit_nama'),array('empty'=>'--Pilih--')),
 				  ),
 			array(
 				'header'=>'Kategori Tindakan',

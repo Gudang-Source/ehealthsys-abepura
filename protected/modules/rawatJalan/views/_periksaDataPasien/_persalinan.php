@@ -19,27 +19,24 @@ if (isset($caraPrint)){
     td, th{
         font-size: 8pt !important;
         height: 24px;
-        padding-left:10px;
-    }
-    body{
-        width: 14.7cm;
+        padding-left:5px;
     }
     .content td{
-        height: 48px;
+        height: 24px;
     }
 </style>
-<table width="60%" border="1">
+<table width="100%">
     <tr>
-        <td style="width:15%">Nama Pasien / No. RM</td>
-        <td style="width:15%">: <?php echo $modPasien->nama_pasien; ?> / <?php echo $modPasien->no_rekam_medik; ?></td>
-        <td style="width:15%">No. Pendaftaran</td>
-        <td style="width:15%">: <?php echo $modPendaftaran->no_pendaftaran; ?></td>
+        <td nowrap>Nama Pasien / No. RM</td>
+        <td>:</td><td width="100%"> <?php echo $modPasien->nama_pasien; ?> / <?php echo $modPasien->no_rekam_medik; ?></td>
+        <td nowrap>No. Pendaftaran</td>
+        <td>:</td><td> <?php echo $modPendaftaran->no_pendaftaran; ?></td>
     </tr>
     <tr>
-        <td style="width:15%">Umur</td>
-        <td style="width:15%">: <?php echo $modPendaftaran->umur; ?></td>
-        <td style="width:15%">Alamat</td>
-        <td style="width:15%">: <?php echo $modPasien->alamat_pasien;?> <?php echo $modPasien->rt;?> <?php echo $modPasien->rw; ?></td>
+        <td>Umur</td>
+        <td>:</td><td> <?php echo $modPendaftaran->umur; ?></td>
+        <td>Alamat</td>
+        <td>:</td><td nowrap> <?php echo $modPasien->alamat_pasien;?> <?php echo $modPasien->rt;?> <?php echo $modPasien->rw; ?></td>
     </tr>
 </table>
 <table width="100%" border="1" class="content">
@@ -48,75 +45,70 @@ if (COUNT($modPersalinan)>0){
 foreach ($modPersalinan as $i => $persalinan){
 ?>
     <tr>
-        <td>&nbsp;</td>
-        <td align="center" valign="middle" colspan="6" style="font-weight:bold">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            PERSALINAN</td>
+        <td align="center" valign="middle" colspan="9" style="font-weight:bold; text-align: center">PERSALINAN</td>
     </tr>
     <tr>
-	<td style="width:20%">Tanggal Mulai Persalinan</td>
-        <td style="width:30%">: <?php echo (isset($persalinan->tglmulaipersalinan) ? $persalinan->tglmulaipersalinan :"-"); ?></td>
-        <td style="width:20%">Tanggal Selesai Persalinan</td>
-        <td style="width:30%">: <?php echo (isset($persalinan->tglselesaipersalinan) ? $persalinan->tglselesaipersalinan :"-"); ?></td>
-        <td style="width:20%">Lama Persalinan</td>
-        <td style="width:30%">: <?php echo (isset($persalinan->lamapersalinan_jam) ? $persalinan->lamapersalinan_jam :"-"); ?> Jam</td>
+	<td nowrap>Tanggal Mulai Persalinan</td>
+        <td>:</td><td width="33%"> <?php echo (isset($persalinan->tglmulaipersalinan) ? MyFormatter::formatDateTimeForUser($persalinan->tglmulaipersalinan) :"-"); ?></td>
+        <td nowrap>Tanggal Selesai Persalinan</td>
+        <td>:</td><td width="33%"> <?php echo (isset($persalinan->tglselesaipersalinan) ? MyFormatter::formatDateTimeForUser($persalinan->tglselesaipersalinan) :"-"); ?></td>
+        <td>Lama Persalinan</td>
+        <td>:</td><td width="33%"> <?php echo (isset($persalinan->lamapersalinan_jam) ? $persalinan->lamapersalinan_jam :"-"); ?> Jam</td>
     </tr>
     <tr>
-        <td style="width:20%">Kegiatan Persalinan</td>
-        <td style="width:25%">: <?php echo  (isset($persalinan->kegiatanpersalinan_id) ? $persalinan->kegiatanpersalinan->kegiatanpersalinan_nama :"-"); ?></td>
-        <td style="width:20%">Kelompok Sebab Abortus</td>
-        <td style="width:30%">: <?php echo (isset($persalinan->kelsebababortus_id) ? $persalinan->kelsebababortus->kelsebababortus_nama :"-"); ?></td>
-        <td style="width:20%">Sebab Abortus</td>
-        <td style="width:30%">: <?php echo (isset($persalinan->sebababortus_id) ? $persalinan->sebababortus->sebababortus_nama :"-"); ?></td>
+        <td>Kegiatan Persalinan</td>
+        <td>:</td><td> <?php echo  (isset($persalinan->kegiatanpersalinan_id) ? $persalinan->kegiatanpersalinan->kegiatanpersalinan_nama :"-"); ?></td>
+        <td>Kelompok Sebab Abortus</td>
+        <td>:</td><td> <?php echo (isset($persalinan->kelsebababortus_id) ? $persalinan->kelsebababortus->kelsebababortus_nama :"-"); ?></td>
+        <td>Sebab Abortus</td>
+        <td>:</td><td> <?php echo (isset($persalinan->sebababortus_id) ? $persalinan->sebababortus->sebababortus_nama :"-"); ?></td>
     </tr>
     <tr>
-        <td style="width:20%">Dokter Persalinan</td>
-        <td style="width:25%">: <?php echo  (isset($persalinan->pegawai_id) ? $persalinan->pegawai->pegawai_nama :"-"); ?></td>
-        <td style="width:20%">Jenis Kegiatan Persalinan</td>
-        <td style="width:30%">: <?php echo (isset($persalinan->jeniskegiatanpersalinan) ? $persalinan->jeniskegiatanpersalinan :"-"); ?></td>
-        <td style="width:20%">Cara Persalinan</td>
-        <td style="width:30%">: <?php echo (isset($persalinan->carapersalinan) ? $persalinan->carapersalinan :"-"); ?></td>
+        <td>Dokter Persalinan</td>
+        <td>:</td><td> <?php echo  (isset($persalinan->pegawai_id) ? $persalinan->pegawai->pegawai_nama :"-"); ?></td>
+        <td>Jenis Kegiatan Persalinan</td>
+        <td>:</td><td> <?php echo (isset($persalinan->jeniskegiatanpersalinan) ? $persalinan->jeniskegiatanpersalinan :"-"); ?></td>
+        <td>Cara Persalinan</td>
+        <td>:</td><td> <?php echo (isset($persalinan->carapersalinan) ? $persalinan->carapersalinan :"-"); ?></td>
     </tr>
     <tr>
-        <td style="width:20%">Posisi Janin</td>
-        <td style="width:25%">: <?php echo  (isset($persalinan->posisijanin) ? $persalinan->posisijanin :"-"); ?></td>
-        <td style="width:20%">Keadaan Lahir</td>
-        <td style="width:30%">: <?php echo (isset($persalinan->keadaanlahir) ? $persalinan->keadaanlahir :"-"); ?></td>
-        <td style="width:20%">Masa Gestasi</td>
-        <td style="width:30%">: <?php echo (isset($persalinan->masagestasi_minggu) ? $persalinan->masagestasi_minggu :"-"); ?> Minggu</td>
+        <td>Posisi Janin</td>
+        <td>:</td><td> <?php echo  (isset($persalinan->posisijanin) ? $persalinan->posisijanin :"-"); ?></td>
+        <td>Keadaan Lahir</td>
+        <td>:</td><td> <?php echo (isset($persalinan->keadaanlahir) ? $persalinan->keadaanlahir :"-"); ?></td>
+        <td>Masa Gestasi</td>
+        <td>:</td><td> <?php echo (isset($persalinan->masagestasi_minggu) ? $persalinan->masagestasi_minggu :"-"); ?> Minggu</td>
     </tr>
     <tr>
-        <td style="width:20%">Paritas</td>
-        <td style="width:25%">: <?php echo  (isset($persalinan->paritaske) ? $persalinan->paritaske :"-"); ?></td>
-        <td style="width:20%">Jumlah Kelahiran Hidup</td>
-        <td style="width:30%">: <?php echo (isset($persalinan->jmlkelahiranhidup) ? $persalinan->jmlkelahiranhidup :"-"); ?> Orang</td>
-        <td style="width:20%">Jumlah Kelahiran Mati</td>
-        <td style="width:30%">: <?php echo (isset($persalinan->jmlkelahiranmati) ? $persalinan->jmlkelahiranmati :"-"); ?> Orang</td>
+        <td>Paritas</td>
+        <td>:</td><td> <?php echo  (isset($persalinan->paritaske) ? $persalinan->paritaske :"-"); ?></td>
+        <td>Jumlah Kelahiran Hidup</td>
+        <td>:</td><td> <?php echo (isset($persalinan->jmlkelahiranhidup) ? $persalinan->jmlkelahiranhidup :"-"); ?> Orang</td>
+        <td nowrap>Jumlah Kelahiran Mati</td>
+        <td>:</td><td> <?php echo (isset($persalinan->jmlkelahiranmati) ? $persalinan->jmlkelahiranmati :"-"); ?> Orang</td>
     </tr>
     <tr>
-        <td style="width:20%">Sebab Kematian</td>
-        <td style="width:25%">: <?php echo  (isset($persalinan->sebabkematian) ? $persalinan->sebabkematian :"-"); ?></td>
-        <td style="width:20%">Tanggal Abortus</td>
-        <td style="width:30%">: <?php echo (isset($persalinan->tglabortus) ? $persalinan->tglabortus :"-"); ?></td>
-        <td style="width:20%">Jumlah Abortus</td>
-        <td style="width:30%">: <?php echo (isset($persalinan->jmlabortus) ? $persalinan->jmlabortus :"-"); ?></td>
+        <td>Sebab Kematian</td>
+        <td>:</td><td> <?php echo  (isset($persalinan->sebabkematian) ? $persalinan->sebabkematian :"-"); ?></td>
+        <td>Tanggal Abortus</td>
+        <td>:</td><td> <?php echo (isset($persalinan->tglabortus) ? $persalinan->tglabortus :"-"); ?></td>
+        <td>Jumlah Abortus</td>
+        <td>:</td><td> <?php echo (isset($persalinan->jmlabortus) ? $persalinan->jmlabortus :"-"); ?></td>
     </tr>
     <tr>
-        <td style="width:20%">Catatan Dokter</td>
-        <td style="width:25%">: <?php echo  (isset($persalinan->catatan_dokter) ? $persalinan->catatan_dokter :"-"); ?></td>
-        <td style="width:20%">Bidan</td>
-        <td style="width:30%">: <?php echo (isset($persalinan->bidan_id) ? $persalinan->bidan->pegawai_nama :"-"); ?></td>
-        <td style="width:20%">Paramedis</td>
-        <td style="width:30%">: <?php echo (isset($persalinan->paramedis_id) ? $persalinan->paramedis->pegawai_nama :"-"); ?></td>
+        <td>Catatan Dokter</td>
+        <td>:</td><td> <?php echo  (isset($persalinan->catatan_dokter) ? $persalinan->catatan_dokter :"-"); ?></td>
+        <td>Bidan</td>
+        <td>:</td><td> <?php echo (isset($persalinan->bidan_id) ? $persalinan->bidan->pegawai_nama :"-"); ?></td>
+        <td>Paramedis</td>
+        <td>:</td><td> <?php echo (isset($persalinan->paramedis_id) ? $persalinan->paramedis->pegawai_nama :"-"); ?></td>
     </tr>
-    <tr><td colspan="6"><hr></td></tr>
+    <tr><td colspan="9"><hr></td></tr>
 <?php }
 }else{
 ?>
     <tr>
-        <td colspan="6">* Tidak ada riwayat persalinan</td>
+        <td colspan="9">* Tidak ada riwayat persalinan</td>
     </tr> 
 <?php } ?>
 </table> 
