@@ -14,6 +14,7 @@
             <?php echo $form->dropDownListRow($model,'kelsebababortus_id',  CHtml::listData($model->KelSebabAbortusItems, 'kelsebababortus_id', 'kelsebababortus_nama'),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
             <?php echo $form->textFieldRow($model,'sebababortus_nama',array('class'=>'span3', 'onkeyup'=>"namaLain(this)", 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
             <?php echo $form->textFieldRow($model,'sebababortus_namalain',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
+            <?php echo $form->textAreaRow($model, 'sebababortus_deskripsi'); ?>
             <?php //echo $form->checkBoxRow($model,'sebababortus_aktif', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
 	<div class="form-actions">
 		                <?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 

@@ -40,7 +40,6 @@ class MenuDietMController extends MyAuthController
                     }
                     if(isset($_POST['zatgizi_id']))
                     {
-                        
                         for($i=0;$i<count($_POST['zatgizi_id']);$i++)
                         {
                             $models=new ZatMenuDietM;
@@ -48,7 +47,7 @@ class MenuDietMController extends MyAuthController
                             $models->zatgizi_id = $_POST['zatgizi_id'][$i];
                             $models->menudiet_id = $model->menudiet_id;
                             if (!empty($idZatgizi)){
-                               $models->kandunganmenudiet = $_POST['kandunganmenudiet'][$idZatgizi]; 
+                               $models->kandunganmenudiet = str_replace(",",".",$_POST['kandunganmenudiet'][$idZatgizi]); 
                             }
                             if($models->validate()){
                                 $models->save();
@@ -100,7 +99,7 @@ class MenuDietMController extends MyAuthController
                             $models->zatgizi_id = $_POST['zatgizi_id'][$i];
                             $models->menudiet_id = $model->menudiet_id;
                             if (!empty($idZatgizi)){
-                               $models->kandunganmenudiet = $_POST['kandunganmenudiet'][$idZatgizi]; 
+                               $models->kandunganmenudiet = str_replace(",",".",$_POST['kandunganmenudiet'][$idZatgizi]); 
                             }
                             if($models->validate()){
                                 $models->save();

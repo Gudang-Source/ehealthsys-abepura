@@ -1,5 +1,5 @@
-
-<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form.js'); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
 <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
 	'id'=>'gzmenudiet-m-form',
 	'enableAjaxValidation'=>false,
@@ -99,7 +99,7 @@
                                   $tr .= "<tr><td>";
                                   $tr .= CHtml::checkBox('zatgizi_id[]', false, array('value'=>$data->getAttribute('zatgizi_id')));
                                   $tr .= '</td><td width="100%">'.$data->getAttribute('zatgizi_nama');
-                                  $tr .= '</td><td nowrap>'.CHtml::textField("kandunganmenudiet[$data->zatgizi_id]", '0', array('size'=>6,'class'=>'default numbers-only span1', 'style'=>'text-align: right'));
+                                  $tr .= '</td><td nowrap>'.CHtml::textField("kandunganmenudiet[$data->zatgizi_id]", '0,00', array('size'=>6,'class'=>'default float2 span2', 'style'=>'text-align: right'));
                                   $tr .= ' '.$data->zatgizi_satuan;
                                   $tr .= "</td></tr>";
                               }
