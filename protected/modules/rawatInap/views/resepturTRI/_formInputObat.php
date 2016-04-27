@@ -424,12 +424,12 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 		array(
 				'name'=>'hargajual',
 				'value'=>'number_format($data->hargajual)',
-			), /*
+			),
         array(
             'header'=>'Stok',
             'type'=>'raw',
             'value'=>'StokobatalkesT::getJumlahStok($data->obatalkes_id,"'.$modObatDialog->ruangan_id.'")',
-        ), */
+        ),
 
         
     ),
