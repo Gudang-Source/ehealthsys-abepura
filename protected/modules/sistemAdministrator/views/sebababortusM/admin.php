@@ -57,7 +57,7 @@
                             'value'=>'$data->kelsebababortus->kelsebababortus_nama',
                     ),
                     'sebababortus_nama',
-                    'sebababortus_namalain',
+                    // 'sebababortus_namalain',
                     array(
                         'header'=>'<center>Status</center>',
                         'value'=>'($data->sebababortus_aktif == 1 ) ? "Aktif" : "Tidak Aktif"',

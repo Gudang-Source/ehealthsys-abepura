@@ -52,7 +52,7 @@
                             'filter'=>false,
                     ),
                     'kelsebababortus_nama',
-                    'kelsebababortus_namalain',
+                    // 'kelsebababortus_namalain',
                     array(
                         'header'=>'<center>Status</center>',
                         'value'=>'($data->kelsebababortus_aktif == 1 ) ? "Aktif" : "Tidak Aktif"',

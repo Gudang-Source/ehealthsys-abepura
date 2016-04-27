@@ -2158,7 +2158,8 @@ public function actionTerimaDokumen() {
                         array(
                             'ruangan_id'=>$ruangan_id,
                             'kelaspelayanan_id'=>$kelaspelayanan_id,
-                            'kamarruangan_status'=>(isset($_POST['is_status']) ? $_POST['is_status'] : true)
+                            //'kamarruangan_status'=>(isset($_POST['is_status']) ? $_POST['is_status'] : true),
+                            'kamarruangan_aktif'=>true,
                         )
                     );
                     $kamarKosong = CHtml::listData($kamarKosong,'kamarruangan_id','KamarDanTempatTidur');

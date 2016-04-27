@@ -171,19 +171,21 @@
                                     'value'=>'$data->noPendaftaranRekammedik',
                             ),
                             array(
-                                    'header'=>'Nama Pasien / Panggilan',
-                                    'value'=>'$data->namaNamaBin'
+                                    'header'=>'Nama Pasien',
+                                    'value'=>'$data->namadepan.$data->nama_pasien'
                             ),
                             array(
                                     'header'=>'Cara Bayar / Penjamin',
                                     'type'=>'raw',
-                                    'value'=>'$data->caraBayarPenjamin2',
-                            ),
+                                    'value'=>function($data) {
+                                        return $data->carabayar_nama."/<br/>".$data->penjamin_nama;
+                                    }, //'$data->caraBayarPenjamin2',
+                            ), /*
                             array(
                                     'header'=>'Cara Masuk / Transportasi',
                                     'type'=>'raw',
                                     'value'=>'$data->caraMasukTransportasi',
-                            ),
+                            ), */
 
                             array(
                                     'header'=>'Dokter',
