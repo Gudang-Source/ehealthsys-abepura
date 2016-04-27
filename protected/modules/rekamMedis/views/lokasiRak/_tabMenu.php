@@ -18,6 +18,7 @@ $this->widget('bootstrap.widgets.BootMenu', array(
         array('label'=>'Lokasi Rak', 'url'=>'javascript:void(0);', 'itemOptions'=>array('id'=>'tab-default', 'onclick'=>'setTab(this);', 'tab'=>'/rekamMedis/lokasiRak/admin&tab=frame&modul_id='.Yii::app()->session['modul_id'])), 
         array('label'=>'Sub Rak', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>'/rekamMedis/subRak/admin&modul_id='.Yii::app()->session['modul_id'])),
     	array('label'=>'Warna Nomor', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>'/rekamMedis/warnaNomor/admin&modul_id='.Yii::app()->session['modul_id'])),
+        array('label'=>'Warna Dokumen', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>'/rekamMedis/warnadokrmM/admin&modul_id='.Yii::app()->session['modul_id'])),
     ),
 ));
 ?>

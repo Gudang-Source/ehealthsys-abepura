@@ -73,8 +73,8 @@
                                     'template'=>'{view}',
                                     'buttons'=>array(
                                         'view' => array(
-                                                      'options'=>array('rel' => 'tooltip' , 'title'=> 'Lihat warna nomor'),
-                                                    ),
+                                            'options'=>array('rel' => 'tooltip' , 'title'=> 'Lihat warna nomor'),
+                                        ),
                                      ),
                             ),
                             array(
@@ -83,9 +83,9 @@
                                     'template'=>'{update}',
                                     'buttons'=>array(
                                         'update' => array (
-                                                      'visible'=>'Yii::app()->controller->checkAccess(array("action"=>Params::DEFAULT_UPDATE))',
-                                                      'options'=>array('rel' => 'tooltip' , 'title'=> 'Ubah warna nomor'),
-                                                    ),
+                                              'visible'=>'Yii::app()->controller->checkAccess(array("action"=>Params::DEFAULT_UPDATE))',
+                                              'options'=>array('rel' => 'tooltip' , 'title'=> 'Ubah warna nomor'),
+                                        ),
                                      ),
                             ),
                    array(
