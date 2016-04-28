@@ -59,7 +59,8 @@ class TanggunganpenjaminMController extends MyAuthController
                                 Yii::app()->user->setFlash('success', "Data Berhasil Disimpan ");
 								$controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
 								$module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
-                                $this->redirect(Yii::app()->createUrl($module.'/'.$controller.'/admin'));
+                                //$this->redirect(Yii::app()->createUrl($module.'/'.$controller.'/admin'));
+                                $this->redirect(array('admin','id'=>1));
                             }
                             else{
                                 $transaction->rollback();
@@ -136,8 +137,9 @@ class TanggunganpenjaminMController extends MyAuthController
                                     Yii::app()->user->setFlash('success', "Data Berhasil Disimpan ");
 									$controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
 									$module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
-									$this->redirect(Yii::app()->createUrl($module.'/'.$controller.'/admin'));
+									//$this->redirect(Yii::app()->createUrl($module.'/'.$controller.'/admin'));
                                    // $this->redirect(Yii::app()->createUrl($this->module->id.'/TanggunganpenjaminM/admin'));
+                                   $this->redirect(array('admin','id'=>1));
                                 }
                                 else{
                                     $transaction->rollback();
@@ -222,17 +224,26 @@ class TanggunganpenjaminMController extends MyAuthController
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
 	 * @param integer $id the ID of the model to be deleted
 	 */
-	public function actionDelete($id)
+	public function actionDelete($id=null)
 	{
-		if(Yii::app()->request->isPostRequest)
-		{
-			// we only allow deletion via POST request
-			SATanggunganpenjaminM::model()->deleteByPk($id);
+                
+		 if(Yii::app()->request->isPostRequest)
+                {
+                        $id = $_POST['id'];
+                        SATanggunganpenjaminM::model()->findByPk($id)->delete();
+                        if (Yii::app()->request->isAjaxRequest)
+                            {
+                                echo CJSON::encode(array(
+                                    'status'=>'proses_form', 
+                                    'div'=>"<div class='flash-success'>Data berhasil dihapus.</div>",
+                                    ));
+                                exit;               
+                            }
 
-			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-			if(!isset($_GET['ajax']))
-				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-		}
+                        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+                        if(!isset($_GET['ajax']))
+                                $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+                }
 		else
 			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
 	}
@@ -251,8 +262,11 @@ class TanggunganpenjaminMController extends MyAuthController
 	/**
 	 * Manages all models.
 	 */
-	public function actionAdmin()
+	public function actionAdmin($id = '')
 	{
+            if ($id == 1):
+                Yii::app()->user->setFlash('success', "Data Berhasil Disimpan ");
+            endif;
 		$model=new SATanggunganpenjaminM('search');
                 $model->unsetAttributes();  // clear any default values
 //                $modCaraBayar = new SACaraBayarM('search');
@@ -305,12 +319,35 @@ class TanggunganpenjaminMController extends MyAuthController
          *Mengubah status aktif
          * @param type $id 
          */
-        public function actionRemoveTemporary($id)
+        public function actionRemoveTemporary($id=null)
 	{
-                SATanggunganpenjaminM::model()->updateAll(array('tanggunganpenjamin_aktif'=>false),'carabayar_id='.$id.'');
+               // SATanggunganpenjaminM::model()->updateAll(array('tanggunganpenjamin_aktif'=>false),'carabayar_id='.$id.'');
+            $id = $_POST['id'];   
+            if(isset($_POST['id']))
+            {
+               $update = SATanggunganpenjaminM::model()->updateByPk($id,array('tanggunganpenjamin_aktif'=>false));
+               if($update)
+                    {
+                            if (Yii::app()->request->isAjaxRequest)
+                            {
+                                    echo CJSON::encode(array(
+                                            'status'=>'proses_form', 
+                                            ));
+                                    exit;               
+                            }
+                     }
+            } else {
+                            if (Yii::app()->request->isAjaxRequest)
+                            {
+                                    echo CJSON::encode(array(
+                                            'status'=>'proses_form', 
+                                            ));
+                                    exit;               
+                            }
+            }
                 
-                
-                $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+              
+                //$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 	}
         
         public function actionPrint()
@@ -342,7 +379,7 @@ class TanggunganpenjaminMController extends MyAuthController
                     $mpdf->WriteHTML($stylesheet,1);  
                     $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
                     $mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-                    $mpdf->Output();
+                    $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
                 }                       
          }
 }        

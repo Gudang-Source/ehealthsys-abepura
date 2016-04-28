@@ -31,8 +31,11 @@ $this->widget($table,array(
 		'loket_fungsi',
 		'loket_singkatan',
 		'loket_nourut',
-		/*
-		'loket_formatnomor',
+		array(
+                    'header' => 'Status',
+                    'value' => '($data->loket_aktif)?"Aktif":"Tidak Aktif"'
+                ),
+		/*'loket_formatnomor',
 		'loket_maksantrian',
 		'loket_aktif',
 		'carabayar_id',

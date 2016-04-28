@@ -27,7 +27,10 @@
             <?php //$this->widget('UserTips',array('type'=>'create'));?>
         <?php
 echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Pemilik Barang', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp";
-$this->widget('UserTips',array('content'=>'')); 
+
+                $content = $this->renderPartial($this->path_tips.'tipsaddedit',array(),true);
+                $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
+            
 ?>
         </div>
 

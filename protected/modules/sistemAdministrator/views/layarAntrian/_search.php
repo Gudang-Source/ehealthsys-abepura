@@ -20,17 +20,17 @@
         
 	<?php // echo $form->textFieldRow($model,'layarantrian_latarbelakang',array('class'=>'span3','maxlength'=>300)); ?>
 
-	<?php echo $form->textFieldRow($model,'layarantrian_maksitem',array('class'=>'span3')); ?>
+	<?php // echo $form->textFieldRow($model,'layarantrian_maksitem',array('class'=>'span3')); ?>
 
         </td>
         <td>
-	<?php echo $form->textFieldRow($model,'layarantrian_itemhigh',array('class'=>'span3')); ?>
+	<?php // echo $form->textFieldRow($model,'layarantrian_itemhigh',array('class'=>'span3')); ?>
             
-	<?php echo $form->textFieldRow($model,'layarantrian_itemwidth',array('class'=>'span3')); ?>
+	<?php //echo $form->textFieldRow($model,'layarantrian_itemwidth',array('class'=>'span3')); ?>
 
-	<?php echo $form->textFieldRow($model,'layarantrian_intrefresh',array('class'=>'span3')); ?>
+	<?php //echo $form->textFieldRow($model,'layarantrian_intrefresh',array('class'=>'span3')); ?>
 
-	<?php echo $form->checkBoxRow($model,'layarantrian_aktif'); ?>
+	<?php echo $form->checkBoxRow($model,'layarantrian_aktif', array('checked'=>'layarantrian_aktif')); ?>
         </td>
     </tr>
 </table>

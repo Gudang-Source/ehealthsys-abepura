@@ -54,7 +54,7 @@ class PenjaminPasienMController extends MyAuthController
 					}
 				}
 			}
-			$this->redirect(array('admin'));
+			$this->redirect(array('admin','id'=>1));
 		}   
 
 		$this->render($this->path_view.'create',array(
@@ -76,7 +76,7 @@ class PenjaminPasienMController extends MyAuthController
 			$model->attributes=$_POST['SAPenjaminPasienM'];
 			if($model->save()){
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->penjamin_id));
+				$this->redirect(array('admin','id'=>1));
 			}
 		}
 	
@@ -99,8 +99,11 @@ class PenjaminPasienMController extends MyAuthController
 	/**
 	 * Manages all models.
 	 */
-	public function actionAdmin()
+	public function actionAdmin($id = '')
 	{
+            if ($id == 1):
+                Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+            endif;
 		$model=new SAPenjaminPasienM('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['SAPenjaminPasienM'])){
@@ -227,7 +230,7 @@ class PenjaminPasienMController extends MyAuthController
 		   $mpdf->WriteHTML($stylesheet,1);  
 		   $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
 		   $mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-		   $mpdf->Output();
+		   $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
 	   }                       
 	}
 }

@@ -6,7 +6,7 @@ class RencanaKeperawatanMController extends MyAuthController
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	public $layout='//layouts/iframe';
+	public $layout='//layouts/column1';
 	public $defaultAction = 'admin';
 	public $path_view = 'sistemAdministrator.views.rencanaKeperawatanM.';
 	public $path_views = 'sistemAdministrator.views.';
@@ -25,7 +25,7 @@ class RencanaKeperawatanMController extends MyAuthController
 
         public function init() {
             parent::init();
-            if ($this->hasTab) $this->layout = '//layouts/iframe';
+            if ($this->hasTab){ $this->layout = '//layouts/iframe';}
         }
         
 	/**
@@ -204,8 +204,13 @@ class RencanaKeperawatanMController extends MyAuthController
 	/**
 	 * Manages all models.
 	 */
-	public function actionAdmin()
+	public function actionAdmin($id='')
 	{
+             if (!$this->hasTab){
+                    if ($id == 1):
+                        Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                    endif;
+                }
                 
 		$model=new SARencanakeperawatanM('searchData');
 		$model->unsetAttributes();  // clear any default values

@@ -178,14 +178,14 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 
 $modPegawaiMengetahui = new MAPegawaiM('searchDialog');
 $modPegawaiMengetahui->unsetAttributes();
-if(isset($_GET['pegmengetahui_nama'])) {
-    $modPegawaiMengetahui->attributes = $_GET['pegmengetahui_nama'];
+if(isset($_GET['MAPegawaiM'])) {
+    $modPegawaiMengetahui->attributes = $_GET['MAPegawaiM'];
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'pegawaimengetahui-grid',
     'dataProvider'=>$modPegawaiMengetahui->searchDialog(),
     'filter'=>$modPegawaiMengetahui,
-	'template'=>"{items}\n{pager}",
+	'template'=>"{summary}\n{items}\n{pager}",
 	'itemsCssClass'=>'table table-striped table-bordered table-condensed',
     'columns'=>array(
 		array(
@@ -204,26 +204,31 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 		array(
 			'header'=>'NIP',
 			'value'=>'$data->nomorindukpegawai',
+                        'name' => 'nomorindukpegawai',
 		),
 		array(
 			'header'=>'Gelar Depan',
 			'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'gelardepan'),
 			'value'=>'$data->gelardepan',
+                        'name' => 'gelardepan',
 		),
 		array(
 			'header'=>'Nama Pegawai',
 			'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'nama_pegawai'),
 			'value'=>'$data->nama_pegawai',
+                        'name' => 'nama_pegawai',
 		),
 		array(
 			'header'=>'Gelar Belakang',
 			'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'gelarbelakang_nama'),
 			'value'=>'$data->gelarbelakang_nama',
+                        'name' => 'gelarbelakang_nama',
 		),
 		array(
 			'header'=>'Alamat Pegawai',
 			'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'alamat_pegawai'),
 			'value'=>'$data->alamat_pegawai',
+                        'name' => 'alamat_pegawai',
 		),
 	),
 	'afterAjaxUpdate' => 'function(id, data){
@@ -259,7 +264,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'petugas-grid',
     'dataProvider'=>$modPetugas->searchDialog(),
     'filter'=>$modPetugas,
-	'template'=>"{items}\n{pager}",
+	'template'=>"{summary}\n{items}\n{pager}",
 	'itemsCssClass'=>'table table-striped table-bordered table-condensed',
     'columns'=>array(
 		array(
@@ -333,7 +338,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'petugas2-grid',
     'dataProvider'=>$modPetugas2->searchDialog(),
     'filter'=>$modPetugas2,
-	'template'=>"{items}\n{pager}",
+	'template'=>"{summary}\n{items}\n{pager}",
 	'itemsCssClass'=>'table table-striped table-bordered table-condensed',
     'columns'=>array(
 		array(
