@@ -106,6 +106,31 @@ class LookupM extends CActiveRecord
 		));
 	}
         
+        public function searchStrict() {
+            
+                $criteria=new CDbCriteria;
+
+		$criteria->compare('lookup_id',$this->lookup_id);
+		//$criteria->compare('lookup_type',$this->lookup_type,true);
+		$criteria->compare('lookup_name',$this->lookup_name,true);
+		$criteria->compare('lookup_value',$this->lookup_value,true);
+		$criteria->compare('lookup_urutan',$this->lookup_urutan);
+		$criteria->compare('lookup_kode',$this->lookup_kode,true);
+		$criteria->compare('lookup_aktif',$this->lookup_aktif);
+
+                $criteria->addCondition("lookup_type = '".$this->lookup_type."'");
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+        }
+        
+        public function searchStrictPrint() {
+                $provider = $this->searchStrict();
+                $provider->pagination = false;
+                $provider->criteria->limit = -1;
+                return $provider;
+        }
+        
         /**
          * manampilkan list lookup
          * @param type $lookup_type

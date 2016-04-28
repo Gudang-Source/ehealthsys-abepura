@@ -214,7 +214,7 @@
                                 if (empty($detail->menudiet_id)) {
                                     echo "<td><center>-</center></td>";
                                 } else {
-                                    echo "<td'>" . CHtml::hiddenField('KirimmenupasienT[' . $i . '][jeniswaktu_id][' . $row->jeniswaktu_id . ']', $row->jeniswaktu_id, array('class' => 'jeniswaktu_id'))
+                                    echo "<td>" . CHtml::hiddenField('KirimmenupasienT[' . $i . '][jeniswaktu_id][' . $row->jeniswaktu_id . ']', $row->jeniswaktu_id, array('class' => 'jeniswaktu_id'))
                                     . CHtml::hiddenField('KirimmenupasienT[' . $i . '][pesanmenudetail_id][' . $row->jeniswaktu_id . ']', $detail->pesanmenudetail_id)
                                     . CHtml::hiddenField('KirimmenupasienT[' . $i . '][menudiet_id][' . $row->jeniswaktu_id . ']', $detail->menudiet_id)
                                     . CHtml::textField('KirimmenupasienT[' . $i . '][menudiet_nama][' . $row->jeniswaktu_id . ']', $detail->menudiet->menudiet_nama, array('class' => 'span2 menudiet_nama', 'readonly' => false))

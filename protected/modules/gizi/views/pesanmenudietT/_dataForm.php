@@ -7,7 +7,7 @@
             <div class="control-group ">
                 <?php echo CHtml::label('Kelas Pelayanan', 'kelaspelayanan_id', array('class' => 'control-label')); ?>
                 <div class="controls">
-                    <?php echo $form->dropDownList($model,'kelaspelayanan_id',CHtml::listData($model->getKelasPelayananItems(), 'kelaspelayanan_id', 'kelaspelayanan_nama'),array('class'=>'span3','empty'=>'--Pilih--')); ?>
+                    <?php echo $form->dropDownList($model,'kelaspelayanan_id',CHtml::listData($model->getKelasPelayananItems(), 'kelaspelayanan_id', 'kelaspelayanan_nama'),array('class'=>'span3','empty'=>'--Pilih--', 'onchange'=>'setKelasKunjungan($(this).val())')); ?>
                 </div>
             </div>
 <!--            <div class="control-group ">
@@ -53,9 +53,23 @@
             <div class="control-group ">
                 <?php echo $form->labelEx($model, 'jenisdiet_id', array('class' => 'control-label')); ?>
                 <div class="controls">
-                    <?php echo $form->hiddenField($model, 'jenisdiet_id'); ?>
+                    <?php echo $form->dropDownList($model, 'jenisdiet_id', CHtml::listData(
+                                        JenisdietM::model()->findAllByAttributes(array(
+                                            'jenisdiet_aktif'=>true
+                                        ), array(
+                                            'order' => 'jenisdiet_nama desc',
+                                        )), 'jenisdiet_id', 'jenisdiet_nama'), array(
+                                            'class' => 'span3',
+                                            'empty' => '-- Pilih --',
+                                            'onchange'=> "$('#".Chtml::activeId($model,'jenisdiet_id')."').val($(this).val());
+                                                $('#jenisdiet').val($(this).val());
+                                                $('#GZMenuDietM_jenisdiet_id').val($(this).val());
+                                                refreshDialogMenuDiet();
+                                                $('#dialogJenisDiet').dialog('close'); return false;",
+                                        )); ?>
+                    <?php //echo $form->hiddenField($model, 'jenisdiet_id'); ?>
                     <!--                <div class="input-append" style='display:inline'>-->
-                    <?php
+                    <?php /*
                     $this->widget('MyJuiAutoComplete', array(
                         'name' => 'jenisdiet',
                         'source' => 'js: function(request, response) {
@@ -88,7 +102,7 @@
                             'onkeypress' => "return $(this).focusNextInputField(event)",
                         ),
                         'tombolDialog' => array('idDialog' => 'dialogJenisDiet'),
-                    ));
+                    )); */
                     ?>
                 </div>
             </div>
@@ -142,4 +156,9 @@
     ?>
 
 });
+
+function setKelasKunjungan(id) {
+    $("#GZInfokunjunganriV_kelaspelayanan_id").val(id);
+    $.fn.yiiGridView.update("gzinfokunjunganri-v-grid", {data: $("#dialogPasien :input").serialize()});
+}
 </script>
