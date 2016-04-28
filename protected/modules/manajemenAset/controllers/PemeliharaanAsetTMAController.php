@@ -17,7 +17,7 @@ class PemeliharaanAsetTMAController extends MyAuthController {
     	$modPemeliharaanAset->pemeliharaanaset_no = '-Otomatis-';
     	$modPenyimpananPemeliharaanDetail = array();
 		$modPenyimpananPemeliharaanAset = array();
-                $asalaset = CHtml::listData(MAAsalasetM::getAsalAsetItems(),'asalaset_id','asalaset_nama');
+	    $asalaset = CHtml::listData(MAAsalasetM::getAsalAsetItems(),'asalaset_id','asalaset_nama');
 		$kategoriaset = CHtml::listData(MABidangM::model()->getBidangItems(),'bidang_id','bidang_nama');
 
     	if(!empty($pemeliharaanaset_id)){

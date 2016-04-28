@@ -112,7 +112,7 @@ class LayarantrianM extends CActiveRecord
 		$criteria->compare('layarantrian_itemhigh',$this->layarantrian_itemhigh);
 		$criteria->compare('layarantrian_itemwidth',$this->layarantrian_itemwidth);
 		$criteria->compare('layarantrian_intrefresh',$this->layarantrian_intrefresh);
-		$criteria->compare('layarantrian_aktif',$this->layarantrian_aktif);
+		$criteria->compare('layarantrian_aktif',isset($this->layarantrian_aktif)?$this->layarantrian_aktif:true);
 
 		return $criteria;
 	}

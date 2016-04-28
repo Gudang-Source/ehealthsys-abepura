@@ -103,8 +103,8 @@ class LoketM extends CActiveRecord
 		$criteria->compare('LOWER(loket_singkatan)',strtolower($this->loket_singkatan),true);
 		$criteria->compare('loket_nourut',$this->loket_nourut);
 		$criteria->compare('LOWER(loket_formatnomor)',strtolower($this->loket_formatnomor),true);
-		$criteria->compare('loket_aktif',$this->loket_aktif);
-                $criteria->addCondition('loket_aktif is true');
+		$criteria->compare('loket_aktif',isset($this->loket_aktif)?$this->loket_aktif:true);
+                //$criteria->addCondition('loket_aktif is true');
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

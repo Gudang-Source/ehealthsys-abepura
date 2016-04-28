@@ -31,6 +31,10 @@ $this->widget($table,array(
 		'layarantrian_judul',
 		'layarantrian_runningtext',
 		'layarantrian_latarbelakang',
+                array(
+                    'header' => 'Status',
+                     'value' => '($data->layarantrian_aktif)?"Aktif":"Tidak Aktif"'
+                ),
 		/*
 		'layarantrian_maksitem',
 		'layarantrian_itemhigh',
