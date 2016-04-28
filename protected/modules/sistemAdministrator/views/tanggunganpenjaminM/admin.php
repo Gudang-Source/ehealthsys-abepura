@@ -48,18 +48,22 @@
 
             array(
                 'name'=>'carabayar_id',
-                'filter'=>CHtml::listData(CarabayarM::model()->findAllByAttributes(array('carabayar_aktif'=>true)), 'carabayar_id', 'carabayar_nama'),
+                'filter'=> CHtml::dropDownList('SATanggunganpenjaminM[carabayar_id]',$model->carabayar_id,CHtml::listData(CarabayarM::model()->findAllByAttributes(array('carabayar_aktif'=>true), array('order'=>'carabayar_nama ASC')), 'carabayar_id', 'carabayar_nama'),array('empty'=>'-- Pilih --')),
                 'value'=>'$data->carabayar->carabayar_nama',
             ),
             array(
                 'name'=>'kelaspelayanan_id',
-                'filter'=>CHtml::listData(KelaspelayananM::model()->findAllByAttributes(array('kelaspelayanan_aktif'=>true)), 'kelaspelayanan_id', 'kelaspelayanan_nama'),
+                'filter'=> CHtml::dropDownList('SATanggunganpenjaminM[carabayar_id]',$model->carabayar_id,CHtml::listData(KelaspelayananM::model()->findAllByAttributes(array('kelaspelayanan_aktif'=>true), array('order'=>'kelaspelayanan_nama ASC')), 'kelaspelayanan_id', 'kelaspelayanan_nama'),array('empty'=>'-- Pilih --')),
                 'value'=>'$data->kelaspelayanan->kelaspelayanan_nama',
             ),
             array(
                 'name'=>'penjamin_id',
-                'filter'=>CHtml::listData(PenjaminpasienM::model()->findAllByAttributes(array('penjamin_aktif'=>true)), 'penjamin_id', 'penjamin_nama'),
+                'filter'=> CHtml::dropDownList('SATanggunganpenjaminM[carabayar_id]',$model->carabayar_id,CHtml::listData(PenjaminpasienM::model()->findAllByAttributes(array('penjamin_aktif'=>true), array('order'=>'penjamin_nama ASC')), 'penjamin_id', 'penjamin_nama'),array('empty'=>'-- Pilih --')),
                 'value'=>'$data->penjamin->penjamin_nama',
+            ),
+            array(
+                'header' => 'Status',
+                'value' => '($data->tanggunganpenjamin_aktif)?"Aktif":"Tidak Aktif"'
             ),
             array(
                             'header'=>Yii::t('zii','View'),
@@ -81,16 +85,13 @@
                                             ),
                              ),
             ),
+           
             array(
-                            'header'=>Yii::t('zii','Delete'),
-                'class'=>'bootstrap.widgets.BootButtonColumn',
-                            'template'=>'{delete}',
-                            'buttons'=>array(
-                                            'delete'=> array(
-    //                                                'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/removeTemporary",array("id"=>"$data->carabayar_id"))',
-                                            ),
-                            )
-            ),
+                        'header'=>'Hapus',
+                        'type'=>'raw',
+                        'value'=>'($data->tanggunganpenjamin_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->tanggunganpenjamin_id)",array("id"=>"$data->tanggunganpenjamin_id","rel"=>"tooltip","title"=>"Menonaktifkan Tanggungan Penjamin"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->tanggunganpenjamin_id)",array("id"=>"$data->tanggunganpenjamin_id","rel"=>"tooltip","title"=>"Hapus Tanggungan Penjamin")):CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->tanggunganpenjamin_id)",array("id"=>"$data->tanggunganpenjamin_id","rel"=>"tooltip","title"=>"Hapus Tanggungan Penjamin"));',
+                        'htmlOptions'=>array('style'=>'text-align:left; width:80px'),
+                    ),            
         ),
             'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
     ));
@@ -101,12 +102,13 @@
         echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
         echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
         echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
-      $content = $this->renderPartial($this->path_view.'tips/tipsAdmin',array(),true);
-$this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
+        $content = $this->renderPartial($this->path_view.'tips/tipsAdmin',array(),true);
+        $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
         $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
         $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
         $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/print');
-
+        $url= Yii::app()->createAbsoluteUrl($module.'/'.$controller);
+        
 $js = <<< JSCRIPT
 function print(caraPrint)
 {
@@ -116,3 +118,37 @@ JSCRIPT;
 Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);                        
 ?>
 </div>
+<script type="text/javascript">
+    function removeTemporary(id){
+        var url = '<?php echo $url."/removeTemporary"; ?>';
+        myConfirm("Yakin akan menonaktifkan data ini untuk sementara?","Perhatian!",function(r) {
+            if (r){
+                 $.post(url, {id: id},
+                     function(data){
+                        if(data.status == 'proses_form'){
+                                $.fn.yiiGridView.update('satanggunganpenjamin-m-grid');
+                            }else{
+                                myAlert('Data Gagal di Nonaktifkan')
+                            }
+                },"json");
+           }
+	   });
+    }
+    
+    function deleteRecord(id){
+        var id = id;
+        var url = '<?php echo $url."/delete"; ?>';
+        myConfirm("Yakin Akan Menghapus Data ini ?","Perhatian!",function(r) {
+            if (r){
+                 $.post(url, {id: id},
+                     function(data){
+                        if(data.status == 'proses_form'){
+                                $.fn.yiiGridView.update('satanggunganpenjamin-m-grid');
+                            }else{
+                                myAlert('Data Gagal di Hapus')
+                            }
+                },"json");
+           }
+	   });
+    }
+</script>

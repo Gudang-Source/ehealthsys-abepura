@@ -33,7 +33,7 @@
                                                  Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),
                             array('class'=>'btn btn-primary', 'type'=>'submit')); ?>
             <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
-                    Yii::app()->createUrl($this->module->id.'/penjaminPasienM/admin'), 
+                    Yii::app()->createUrl($this->module->id.'/PenjaminPasienMAS/admin'), 
                     array('class'=>'btn btn-danger',
                           'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
             <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Penjamin Pasien', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),Yii::app()->createUrl($this->module->id.'/'.Yii::app()->controller->id.'/Admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>

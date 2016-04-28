@@ -20,12 +20,6 @@ Ulang
 </button> untuk mengulang halaman.</td>
   </tr>
  
-  <tr>
-    <td>4. </td>
-    <td>Tombol <a class="btn btn-success" href="#">
-<i class="icon-file icon-white"></i>
-Pengaturan Tanggungan Penjamin
-</a> untuk kembali ke pengaturan data.</td>
-  </tr>
+  
 </table>
 </p>

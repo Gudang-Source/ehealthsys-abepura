@@ -40,7 +40,7 @@ class SATanggunganpenjaminM extends TanggunganpenjaminM {
 		$criteria->compare('iurbiayaoa',$this->iurbiayaoa);
 		$criteria->compare('persentanggcytopel',$this->persentanggcytopel);
 		$criteria->compare('makstanggpel',$this->makstanggpel);
-		$criteria->compare('tanggunganpenjamin_aktif',$this->tanggunganpenjamin_aktif);
+		$criteria->compare('tanggunganpenjamin_aktif',isset($this->tanggunganpenjamin_aktif)?$this->tanggunganpenjamin_aktif:true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
