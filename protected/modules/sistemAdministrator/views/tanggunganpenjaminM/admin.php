@@ -89,7 +89,7 @@
             array(
                         'header'=>'Hapus',
                         'type'=>'raw',
-                        'value'=>'($data->tanggunganpenjamin_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->tanggunganpenjamin_id)",array("id"=>"$data->tanggunganpenjamin_id","rel"=>"tooltip","title"=>"Menonaktifkan Tanggungan Penjamin"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->tanggunganpenjamin_id)",array("id"=>"$data->tanggunganpenjamin_id","rel"=>"tooltip","title"=>"Hapus Tanggungan Penjamin")):CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->tanggunganpenjamin_id)",array("id"=>"$data->tanggunganpenjamin_id","rel"=>"tooltip","title"=>"Hapus Tanggungan Penjamin"));',
+                        'value'=>'($data->tanggunganpenjamin_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->tanggunganpenjamin_id)",array("id"=>"$data->tanggunganpenjamin_id","rel"=>"tooltip","title"=>"Menonaktifkan Tanggungan Pasien"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->tanggunganpenjamin_id)",array("id"=>"$data->tanggunganpenjamin_id","rel"=>"tooltip","title"=>"Hapus Tanggungan Pasien")):CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->tanggunganpenjamin_id)",array("id"=>"$data->tanggunganpenjamin_id","rel"=>"tooltip","title"=>"Hapus Tanggungan Pasien"));',
                         'htmlOptions'=>array('style'=>'text-align:left; width:80px'),
                     ),            
         ),
