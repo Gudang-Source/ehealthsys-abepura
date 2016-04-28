@@ -107,11 +107,12 @@ class GZTarifTindakanPerdaRuanganV  extends TariftindakanperdaruanganV
 		if(!empty($this->jenisdiet_id)){
 			$criteria->addCondition("jenisdiet_m.jenisdiet_id = ".$this->jenisdiet_id);					
 		}
-		$criteria->addCondition("ruangan_id = ".Yii::app()->user->getState('ruangan_id'));					
+		// $criteria->addCondition("ruangan_id = ".Yii::app()->user->getState('ruangan_id'));					
 		$criteria->join = ' JOIN menudiet_m ON t.daftartindakan_id = menudiet_m.daftartindakan_id
 							JOIN jenisdiet_m ON menudiet_m.jenisdiet_id = jenisdiet_m.jenisdiet_id';
 		
                 // $criteria->limit = 10;
+                // var_dump($criteria); die;
 		return new CActiveDataProvider($model, array(
 			'criteria'=>$criteria,
 			// 'pagination'=>false,
