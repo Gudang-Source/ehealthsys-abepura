@@ -82,15 +82,18 @@ class GZTarifTindakanPerdaRuanganV  extends TariftindakanperdaruanganV
                 
 		$criteria->select = 'jenisdiet_m.jenisdiet_id, jenisdiet_m.jenisdiet_nama, '
 				. 'menudiet_m.menudiet_id, menudiet_m.menudiet_nama, menudiet_m.menudiet_namalain, '
-				. 'menudiet_m.jml_porsi, menudiet_m.ukuranrumahtangga';		
+				. 'menudiet_m.jml_porsi, menudiet_m.ukuranrumahtangga';	
+                $criteria->group = $criteria->select;
 		$criteria->compare('LOWER(jenisdiet_m.jenisdiet_nama)',strtolower($this->jenisdiet_nama),true);
 		$criteria->compare('LOWER(menudiet_m.menudiet_nama)',strtolower($this->menudiet_nama),true);
 		$criteria->compare('LOWER(menudiet_m.menudiet_namalain)',strtolower($this->menudiet_namalain),true);
 		$criteria->compare('LOWER(menudiet_m.ukuranrumahtangga)',strtolower($this->ukuranrumahtangga),true);
 		$criteria->compare('menudiet_m.jml_porsi',$this->jml_porsi);
-		if(!empty($this->penjamin_id)){
+		$criteria->addCondition("komponentarif_id = ".Params::KOMPONENTARIF_ID_TOTAL);
+                if(!empty($this->penjamin_id)){
 			$criteria->addCondition("penjamin_id = ".$this->penjamin_id);					
 		}
+                $criteria->compare("t.jenistarif_id", $this->jenistarif_id);
 		if(Yii::app()->user->getState('tindakankelas')){
 			if(!empty($this->kelaspelayanan_id)){
 				$criteria->addCondition("kelaspelayanan_id = ".$this->kelaspelayanan_id);					
