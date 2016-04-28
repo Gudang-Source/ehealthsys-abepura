@@ -10,7 +10,7 @@ class FormasishiftController extends MyAuthController
 	public $layout = '//layouts/iframe';
 	public $defaultAction = 'admin';
 	public $path_view = 'sistemAdministrator.views.formasishift.';
-
+        public $path_tips = 'sistemAdministrator.views.tips.';
 	/**
 	 * Menampilkan detail data.
 	 * @param integer $id the ID of the model to be displayed
