@@ -139,7 +139,7 @@ class ObatalkesM extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('sumberdana_id, satuankecil_id, obatalkes_kode, obatalkes_nama, ppn_persen, harganetto, hargajual, hargamaksimum, hargaminimum, hargaaverage, discount', 'required'),
+			array('sumberdana_id, satuankecil_id,  satuanbesar_id, obatalkes_kode, obatalkes_nama, ppn_persen, harganetto, hargajual, hargamaksimum, hargaminimum, hargaaverage, discount', 'required'),
 			array('jenisobatalkes_id, sumberdana_id, lokasigudang_id, satuankecil_id, satuanbesar_id, subjenis_id, generik_id, kemasanbesar, kekuatan, minimalstok, create_loginpemakai_id, update_loginpemakai_id, create_ruangan, pabrik_id, atc_id, maksimalstok, urutan_ven', 'numerical', 'integerOnly'=>true),
 			array('ppn_persen, harganetto, hargajual, hargamaksimum, hargaminimum, hargaaverage, margin, gp_persen, discount, marginresep, jasadokter, hjaresep, marginnonresep, hjanonresep, hpp', 'numerical'),
 			array('obatalkes_barcode, obatalkes_kode, obatalkes_nama, image_obat', 'length', 'max'=>200),

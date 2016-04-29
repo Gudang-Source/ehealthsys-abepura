@@ -15,7 +15,7 @@ class KasuspenyakitobatMController extends MyAuthController
         
     public function actionAdmin($sukses = '')
     {
-        if ($sukses = 1):
+        if ($sukses == 1):
             Yii::app()->user->setFlash('success','<strong>Berhasil</strong> Data Berhasil disimpan');
         endif;
         
