@@ -89,7 +89,7 @@
 	<div class="form-actions">
                 <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit', 'onKeypress'=>'return formSubmit(this,event)')); ?>
                 <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Reset',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')),array('id'=>'btn_resset','class'=>'btn btn-danger', 'type'=>'reset')); ?>
-                <?php echo CHtml::link(Yii::t('mds','{icon} Pengaturan Data Layar Antrian',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl($this->id.'/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
+                <?php echo CHtml::link(Yii::t('mds','{icon} Pengaturan Layar Antrian',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl($this->id.'/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
                 <?php
                     $content = $this->renderPartial($this->path_view.'tips/tipsCreateUpdate',array(),true);
                     $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));

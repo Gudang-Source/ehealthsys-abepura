@@ -1,5 +1,6 @@
 <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array( 
-    'action'=>Yii::app()->createUrl($this->module->id . '/tanggunganpenjaminM/admin'), 
+    //'action'=>Yii::app()->createUrl($this->module->id . '/tanggunganpenjaminM/admin'), 
+    'action' => Yii::app()->createUrl($this->route),
     'method'=>'get', 
     'id'=>'sacara-bayar-m-search', 
         'type'=>'horizontal', 
@@ -11,7 +12,7 @@
     <?php echo $form->dropDownListRow($modCaraBayar,'kelaspelayanan_id',CHtml::listData(KelaspelayananM::model()->findAllByAttributes(array('kelaspelayanan_aktif'=>true)), 'kelaspelayanan_id', 'kelaspelayanan_nama'),array('empty'=>'-- Pilih --','class'=>'span3','maxlength'=>50)); ?>
     <?php echo $form->dropDownListRow($modCaraBayar,'penjamin_id',CHtml::listData(PenjaminpasienM::model()->findAllByAttributes(array('penjamin_aktif'=>true)), 'penjamin_id', 'penjamin_nama'),array('empty'=>'-- Pilih --','class'=>'span3','maxlength'=>50)); ?>
 
-    <?php //echo $form->checkBoxRow($modCaraBayar,'carabayar_aktif'); ?>
+    <?php echo $form->checkBoxRow($modCaraBayar,'tanggunganpenjamin_aktif', array('checked'=>'tanggunganpenjamin_aktif')); ?>
 
    
 

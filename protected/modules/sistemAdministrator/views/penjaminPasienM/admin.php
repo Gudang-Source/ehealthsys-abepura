@@ -48,7 +48,7 @@
                     ),
                 array(
                             'name'=>'carabayar_id',
-                            'filter'=>  CHtml::listData($model->CaraBayarItems, 'carabayar_id', 'carabayar_nama'),
+                            'filter'=> CHtml::dropDownList('SAPenjaminPasienM[carabayar_id]',$model->carabayar_id,CHtml::listData($model->CaraBayarItems, 'carabayar_id', 'carabayar_nama'),array('empty'=>'-- Pilih --')),
                             'value'=>'$data->carabayar->carabayar_nama',
                     ),
                     'penjamin_nama',
@@ -106,10 +106,10 @@
         )); ?>
     <!--</div>-->
     <?php 
-    echo CHtml::link(Yii::t('mds', '{icon} Tambah Penjamin Pasien', array('{icon}'=>'<i class="icon-plus icon-white"></i>')), $this->createUrl('/sistemAdministrator/PenjaminPasienM/create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp";
-    echo (Yii::app()->user->checkAccess(Params::DEFAULT_ADMIN)) ?CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp" :  '' ;
-    echo (Yii::app()->user->checkAccess(Params::DEFAULT_ADMIN)) ?CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp" :  '' ;
-    echo (Yii::app()->user->checkAccess(Params::DEFAULT_ADMIN)) ?CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp" :  '' ;
+    echo CHtml::link(Yii::t('mds', '{icon} Tambah Penjamin Pasien', array('{icon}'=>'<i class="icon-plus icon-white"></i>')), $this->createUrl('/asuransi/PenjaminPasienMAS/create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp";
+    echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp";
+    echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp";
+    echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp";
     $content = $this->renderPartial($this->tips.'tips/master',array(),true);
     $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
     $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai

@@ -504,7 +504,7 @@ class PesanmenudietTController extends MyAuthController
 					   .CHtml::dropDownList('PesanmenudetailT[][menudiet_id]['.$v->jeniswaktu_id.']', '', Chtml::listData(MenuDietM::model()->findAll(), 'menudiet_id', 'menudiet_nama'), array('empty'=>'-- Pilih --', 'class'=>'span2 menudiet', )).'</td>';
 					}
 				}
-				 $tr .='<td>'.CHtml::activeTextField($modDetail, '[]jml_pesan_porsi', array('value'=>$jumlah, 'class'=>' span1 numbersOnly')).'</td>
+				 $tr .='<td>'.CHtml::activeTextField($modDetail, '[]jml_pesan_porsi', array('value'=>$jumlah, 'class'=>' span1 numbersOnly', 'style'=>'text-align: right;')).'</td>
 						<td>'.CHtml::activeDropDownList($modDetail, '[]satuanjml_urt', LookupM::getItems('ukuranrumahtangga'), array('empty'=>'-- Pilih --', 'class'=>'span2 urt', 'options'=>array("$urt"=>array("selected"=>"selected")))).'</td>
 						</tr>';
 			}

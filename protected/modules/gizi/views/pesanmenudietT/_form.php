@@ -238,7 +238,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
         'title' => 'Daftar Pasien',
         'autoOpen' => false,
         'modal' => true,
-        'width' => 750,
+        'width' => 900,
         'resizable' => false,
     ),
 ));
@@ -274,12 +274,12 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
 					$(\"#pasienadmisi_id\").val($data->pasienadmisi_id);
 					$(\"#kelaspelayanan_id\").val($data->kelaspelayanan_id);
 					$(\"#penjamin_id\").val($data->penjamin_id);
-					$(\"#jenistarif_id\").val(\'$data->JenisTarif\');
 					$(\'#namaPasien\').val(\'$data->nama_pasien\');
 					$(\"#dialogPasien\").dialog(\"close\");
 //                                dialogMenuPasien($data->pendaftaran_id);
 					refreshDialogMenuDiet();
 				"))',
+            'filter'=>CHtml::activeHiddenField($modKunjungan, 'kelaspelayanan_id'),
         ),
         'no_pendaftaran',
         'no_rekam_medik',
@@ -289,6 +289,19 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
             'name'=>'jeniskelamin',
             'filter'=> CHtml::dropDownList('GZInfokunjunganriV[jeniskelamin]',$modKunjungan->jeniskelamin,LookupM::getItems('jeniskelamin'),array('empty'=>'-- Pilih --')),
             'value'=>'$data->jeniskelamin'
+        ),
+        array(
+            'name'=>'carabayar_id',
+            'value'=>'$data->carabayar_nama',
+            'filter'=>  CHtml::activeDropDownList($modKunjungan, 'carabayar_id', CHtml::listData(
+           CarabayarM::model()->findAllByAttributes(array(
+               'carabayar_aktif'=>true
+           )), 'carabayar_id', 'carabayar_nama'), array('empty'=>'-- Pilih --')),
+        ),
+        array(
+            'name'=>'penjamin_id',
+            'value'=>'$data->penjamin_nama',
+            'filter'=>false,
         ),
         array(
             'name'=>'ruangan_nama',
@@ -420,12 +433,12 @@ $jsx = <<< JS
         ruangan = $('#${ruangan_id}').val();
         if(!jQuery.isNumeric(ruangan)){
             $.fn.yiiGridView.update('gzinfokunjunganri-v-grid', {
-                    data: "GZInfokunjunganriV[ruangan_id]=0"
+                    data: $("#dialogPasien :input").serialize() + "&" + "GZInfokunjunganriV[ruangan_id]=0"
             });
         }
         else{
             $.fn.yiiGridView.update('gzinfokunjunganri-v-grid', {
-                    data: "GZInfokunjunganriV[ruangan_id]="+ruangan
+                    data: $("#dialogPasien :input").serialize() + "&" + "GZInfokunjunganriV[ruangan_id]="+ruangan
             });
         }
         if(!jQuery.isNumeric(ruangan)){

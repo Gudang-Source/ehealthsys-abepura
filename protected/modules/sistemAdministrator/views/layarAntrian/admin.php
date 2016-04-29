@@ -54,7 +54,15 @@
                     'layarantrian_nama',
                     'layarantrian_judul',
                     'layarantrian_runningtext',
-                    'layarantrian_latarbelakang',
+                    array(
+                        'header' => 'Latar Belakang',
+                        'value' => '$data->layarantrian_latarbelakang'
+                    ),
+                   // 'layarantrian_latarbelakang',
+                    array(
+                        'header' => 'Status',
+                        'value' => '($data->layarantrian_aktif)?"Aktif":"Tidak Aktif"',
+                    ),
                     /*
                     'layarantrian_maksitem',
                     'layarantrian_itemhigh',
@@ -88,6 +96,7 @@
                                                     'options'=>array('title'=>Yii::t('mds','Remove Temporary')),
                                                     'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/nonActive",array("id"=>$data->layarantrian_id))',
                                                     'click'=>'function(){removeTemporary(this);return false;}',
+                                                    'visible' => '($data->layarantrian_aktif)?true:false'
                                     ),
                                     'delete'=> array(),
                             )
@@ -97,7 +106,7 @@
         )); ?>
     </div>
     <?php 
-    echo CHtml::link(Yii::t('mds','{icon} Tambah Data Layar Antrian',array('{icon}'=>'<i class="icon-plus icon-white"></i>')),$this->createUrl($this->id.'/create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp"; 
+    echo CHtml::link(Yii::t('mds','{icon} Tambah Layar Antrian',array('{icon}'=>'<i class="icon-plus icon-white"></i>')),$this->createUrl($this->id.'/create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp"; 
     echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
     echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
     echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 

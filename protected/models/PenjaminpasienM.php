@@ -125,6 +125,7 @@ class PenjaminpasienM extends CActiveRecord
 		$criteria->compare('LOWER(carabayar.carabayar_nama)',strtolower($this->carabayar_nama),true);
 //                $criteria->compare('LOWER(carabayar.carabayar_nama)',strtolower($this->carabayar_id),true);
 		$criteria->compare('LOWER(t.penjamin_namalainnya)',strtolower($this->penjamin_namalainnya),true);
+                $criteria->compare('penjamin_aktif',isset($this->penjamin_aktif)?$this->penjamin_aktif:true);
 //		$criteria->compare('penjamin_aktif',$this->penjamin_aktif);
                 $criteria->limit=-1;
                 $criteria->order='penjamin_id';

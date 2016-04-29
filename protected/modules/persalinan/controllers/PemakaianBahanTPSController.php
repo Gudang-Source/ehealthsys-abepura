@@ -1,7 +1,7 @@
 <?php
-Yii::import('rawatJalan.controllers.PemakaianBahanController');
+Yii::import('rawatJalan.controllers.PemakaianBahanRJController');
 Yii::import('rawatJalan.models.*');
-class PemakaianBahanTPSController extends PemakaianBahanController
+class PemakaianBahanTPSController extends PemakaianBahanRJController
 {
         
 }

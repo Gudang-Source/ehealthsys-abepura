@@ -60,8 +60,8 @@
         <?php echo CHtml::link(Yii::t('mds','{icon} Ubah',array('{icon}'=>'<i class="icon-pencil icon-white"></i>')),$this->createUrl($this->id.'/update&id='.$model->layarantrian_id,array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
         <?php echo CHtml::link(Yii::t('mds','{icon} Pengaturan Data Layar Antrian',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl($this->id.'/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
         <?php 
-            $content = $this->renderPartial($this->path_view.'tips/tipsView',array(),true);
-            $this->widget('UserTips',array('type'=>'transaksi', 'content'=>$content));
+          //  $content = $this->renderPartial($this->path_view.'tips/tipsView',array(),true);
+            $this->widget('UserTips',array('type'=>'view'));
         ?>
         </div>
     </div>
