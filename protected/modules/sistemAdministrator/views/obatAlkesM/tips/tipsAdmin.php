@@ -13,10 +13,10 @@
     <td style="vertical-align: middle;">3. </td>
     <td>Icon <i class="icon-form-silang"></i> untuk menonaktifkan data.</td>
   </tr>
-  <!--<tr>
+  <tr>
     <td style="vertical-align: middle;">4. </td>
     <td>Icon <i class="icon-form-sampah"></i> untuk menghapus data.</td>
-  </tr>-->
+  </tr>
    <tr>
     <td style="vertical-align: middle;">4. </td>
     <td>Tombol <button class="btn btn-primary" name="yt1" onclick="" type="button">
