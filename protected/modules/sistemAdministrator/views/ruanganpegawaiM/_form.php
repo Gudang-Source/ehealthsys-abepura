@@ -157,7 +157,7 @@
             array(
                 'header'=>'Pilih',
                 'type'=>'raw',
-                'value'=>'CHtml::Link("<i class=\"icon-check\"></i>","#",
+                'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",
                                 array(
                                         "class"=>"btn-small",
                                         "id" => "selectPegawai",

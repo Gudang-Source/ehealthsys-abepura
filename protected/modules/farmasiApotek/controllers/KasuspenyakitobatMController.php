@@ -13,8 +13,12 @@ class KasuspenyakitobatMController extends MyAuthController
             $this->render('index');
     }
         
-    public function actionAdmin()
+    public function actionAdmin($sukses = '')
     {
+        if ($sukses = 1):
+            Yii::app()->user->setFlash('success','<strong>Berhasil</strong> Data Berhasil disimpan');
+        endif;
+        
       $model = new FAKasuspenyakitobatM();
       $model->unsetAttributes();
       if (isset($_GET['FAKasuspenyakitobatM'])){
@@ -52,7 +56,7 @@ class KasuspenyakitobatMController extends MyAuthController
                 if ($jumlah == count($_POST['KasuspenyakitobatM'])) {
                     $transaction->commit();
                     Yii::app()->user->setFlash('success','<strong>Berhasil</strong> Data Berhasil disimpan');
-                    $this->redirect(array('admin'));
+                    $this->redirect(array('admin','sukses'=>1));
                 } else {
                     $transaction->rollback();
                 }
@@ -101,7 +105,7 @@ class KasuspenyakitobatMController extends MyAuthController
                 if ($jumlah == count($_POST['KasuspenyakitobatM'])) {
                     $transaction->commit();
                     Yii::app()->user->setFlash('success','<strong>Berhasil</strong> Data Berhasil disimpan');
-                    $this->redirect(array('admin'));
+                    $this->redirect(array('admin','sukses'=>1));
                 } else {
                     $transaction->rollback();
                 }
@@ -194,7 +198,7 @@ class KasuspenyakitobatMController extends MyAuthController
                             ."</td>";
                 $tr .= "<td>".$modobatalkes->obatalkes_kode."</td>";
                 $tr .= "<td>".$modobatalkes->obatalkes_nama."</td>";
-                $tr .= "<td>".CHtml::link("<i class='icon-remove'></i>", '#', array('onclick'=>'hapusBaris(this);'))."</td>";
+                $tr .= "<td>".CHtml::link("<i class='icon-form-silang'></i>", '#', array('onclick'=>'hapusBaris(this);'))."</td>";
                 $tr .= "</tr>";
 
            $data['tr']=$tr;

@@ -10,8 +10,12 @@ class DiagnosaobatMController extends MyAuthController
 		$this->render('index');
 	}
         
-                public function actionAdmin()
+                public function actionAdmin($sukses='')
                 {
+                    if ($sukses == 1):                        
+                            Yii::app()->user->setFlash('success','<strong>Berhasil</strong> Data Berhasil disimpan');        
+                    endif;
+                    
                     $model = new FADiagnosaobatM('search');
                     $model->unsetAttributes();
                     if (isset($_GET['FADiagnosaobatM'])) {
@@ -48,7 +52,7 @@ class DiagnosaobatMController extends MyAuthController
                             if ($jumlah == count($_POST['FADiagnosaobatM'])) {
                                 $transaction->commit();
                                 Yii::app()->user->setFlash('success','<strong>Berhasil</strong> Data Berhasil disimpan');
-                                $this->redirect(array('admin'));
+                                $this->redirect(array('admin', 'sukses'=>1));
                             } else {
                                 $transaction->rollback();
                             }
@@ -96,7 +100,7 @@ class DiagnosaobatMController extends MyAuthController
                             if ($jumlah == count($_POST['FADiagnosaobatM'])) {
                                 $transaction->commit();
                                 Yii::app()->user->setFlash('success','<strong>Berhasil</strong> Data Berhasil disimpan');
-                                $this->redirect(array('admin'));
+                                $this->redirect(array('admin', 'sukses'=>1));
                             } else {
                                 $transaction->rollback();
                             }
@@ -181,7 +185,7 @@ class DiagnosaobatMController extends MyAuthController
                             ."</td>";
                 $tr .= "<td>".$moddiagnosa->diagnosa_nama."</td>";
                 $tr .= "<td>".$modobatalkes->obatalkes_nama."</td>";
-                $tr .= "<td>".CHtml::link("<i class='icon-remove'></i>", '#', array('onclick'=>'hapusBaris(this);'))."</td>";
+                $tr .= "<td>".CHtml::link("<i class='icon-form-silang'></i>", '#', array('onclick'=>'hapusBaris(this);'))."</td>";
                 $tr .= "</tr>";
 
            $data['tr']=$tr;
