@@ -369,8 +369,10 @@ class PendaftaranBedahSentralRujukanRSController extends MyAuthController
             if (Yii::app()->request->isAjaxRequest){
                 $content = "";
                 parse_str($_POST['data'], $post);
-				$disabled = $_POST['sukses'];
+                
+                $disabled = $_POST['sukses'];
                 $postPemeriksaan = $post['BSTarifoperasiruanganV'];
+                
                 if(!empty($postPemeriksaan['ruangan_id']) && !empty($postPemeriksaan['kelaspelayanan_id']) && !empty($postPemeriksaan['penjamin_id'])){
                     $criteria = new CdbCriteria();
                     $criteria->addCondition('ruangan_id = '.$postPemeriksaan['ruangan_id']);

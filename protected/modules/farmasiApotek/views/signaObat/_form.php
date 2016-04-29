@@ -14,13 +14,13 @@
 	<div class="control-group">
 		<?php echo CHtml::label('Signa Obat <font color="red">*</font>', 'lookup_name',array('class'=>'control-label')); ?>
 		<div class="controls">
-			<?php echo $form->textField($model,'lookup_name',array('class'=>'span3','maxlength'=>100)); ?>
+			<?php echo $form->textField($model,'lookup_name',array('class'=>'span4','maxlength'=>200)); ?>
 		</div>
 	</div>	
 	<div class="control-group">
 		<?php echo CHtml::label('Signa Obat Lainnya <font color="red">*</font>', 'lookup_value',array('class'=>'control-label')); ?>
 		<div class="controls">
-			<?php echo $form->textField($model,'lookup_value',array('class'=>'span3','maxlength'=>100)); ?>
+			<?php echo $form->textField($model,'lookup_value',array('class'=>'span4','maxlength'=>200)); ?>
 		</div>
 	</div>	
 	<?php echo $form->textFieldRow($model,'lookup_urutan',array('class'=>'span1','maxlength'=>9)); ?>

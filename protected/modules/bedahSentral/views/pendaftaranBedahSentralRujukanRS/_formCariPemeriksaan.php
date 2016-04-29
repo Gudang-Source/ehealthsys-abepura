@@ -7,7 +7,8 @@
             <div class="control-group" style="float:left;">
                 <?php echo CHtml::activeLabel($modPemeriksaanBedah, 'kegiatanoperasi_nama',array('class'=>'control-label')); ?>
                 <div class="controls">
-                    <?php echo CHtml::activeTextField($modPemeriksaanBedah, 'kegiatanoperasi_nama',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)","onchange"=>"updateChecklistPemeriksaanBedah();",)); ?>
+                    <?php echo CHtml::dropDownList('BSTarifoperasiruanganV[kegiatanoperasi_nama]','kegiatanoperasi_nama', CHtml::listData(KegiatanOperasiM::model()->findAll("kegiatanoperasi_aktif = TRUE ORDER BY kegiatanoperasi_nama ASC"), 'kegiatanoperasi_nama', 'kegiatanoperasi_nama') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'span3',"onchange"=>"updateChecklistPemeriksaanBedah();")); ?>
+                    <?php //echo CHtml::activeTextField($modPemeriksaanBedah, 'kegiatanoperasi_nama',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)","onchange"=>"updateChecklistPemeriksaanBedah();")); ?>
                 </div>
             </div>
         </div>

@@ -22,7 +22,7 @@
                 array(
                     'label'=>'Jenis Kasus Penyakit',
                     'type'=>'raw',
-                    'value'=>'$data->jeniskasuspenyakit_nama',
+                    'value'=>$model->jeniskasuspenyakit_nama,
                 ),
                 array(
                     'label'=>'Obat Alkes',
@@ -32,5 +32,7 @@
             ),
     )); 
     ?>
+    <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Kasus Penyakit Obat', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
+                                                                    $this->createUrl('kasuspenyakitobatM/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
     <?php $this->widget('UserTips',array('type'=>'view'));?>
 </div>
