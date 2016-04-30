@@ -1,8 +1,10 @@
-<div class="white-container">
-    <legend class="rim2">Pengaturan <b>Minat Pekerjaan</b></legend>
-    <?php $this->renderPartial('_tabMenu',array()); ?>
-    <div class="biru">
-        <div class="white">
+<!--<div class="white-container">
+    <legend class="rim2">Pengaturan <b>Minat Pekerjaan</b></legend>-->
+<fieldset class="box row-fluid">
+    <legend class="rim">Pengaturan Minat Pekerjaan</legend>
+    <?php //$this->renderPartial('_tabMenu',array()); ?>
+    <!--<div class="biru">
+        <div class="white">-->
             <?php
             $this->breadcrumbs=array(
                     'Lookup Ms'=>array('index'),
@@ -103,8 +105,8 @@
                     }',
                 )); ?>
             <!--</div>-->
-        </div>
-    </div>
+        <!--</div>
+    </div>-->
     <?php 
     echo CHtml::link(Yii::t('mds', '{icon} Tambah Minat Pekerjaan', array('{icon}'=>'<i class="icon-plus icon-white"></i>')), $this->createUrl('create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp";
     echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
@@ -129,7 +131,7 @@ function print(caraPrint)
 JSCRIPT;
     Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);                        
     ?>
-</div>
+<!--</div>-->
 <script type="text/javascript">
     function removeTemporary(id){
         var url = '<?php echo $url."/removeTemporary"; ?>';
@@ -165,3 +167,4 @@ JSCRIPT;
     }
     $('.filters #GULookupM_lookup_name').focus();
 </script>
+</fieldset>

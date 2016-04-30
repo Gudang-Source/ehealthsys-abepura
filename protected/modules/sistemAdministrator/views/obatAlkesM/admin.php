@@ -182,7 +182,7 @@
                     array(
                         'header'=>'Hapus',
                         'type'=>'raw',
-                        'value'=>'($data->obatalkes_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->obatalkes_id)",array("id"=>"$data->obatalkes_id","rel"=>"tooltip","title"=>"Menonaktifkan Obat Alkes")):CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->obatalkes_id)",array("id"=>"$data->obatalkes_id","rel"=>"tooltip","title"=>"Hapus Obat Alkes"));',
+                        'value'=>'($data->obatalkes_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->obatalkes_id)",array("id"=>"$data->obatalkes_id","rel"=>"tooltip","title"=>"Menonaktifkan Obat Alkes"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->obatalkes_id)",array("id"=>"$data->obatalkes_id","rel"=>"tooltip","title"=>"Hapus Obat Alkes")):CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->obatalkes_id)",array("id"=>"$data->obatalkes_id","rel"=>"tooltip","title"=>"Hapus Obat Alkes"));',
                         'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
                     ),
             ),

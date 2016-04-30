@@ -192,4 +192,13 @@ class RuanganpegawaiM extends CActiveRecord
         {
             return PegawaiM::model()->findAll(array('order'=>'nama_pegawai'));
         }
+        
+        public function getNamaLengkap()
+        {
+            if ($this->pegawai->kelompokpegawai_id == Params::KELOMPOKPEGAWAI_ID_TENAGA_MEDIK):
+                return $this->pegawai->gelardepan." ".$this->pegawai->nama_pegawai.", ".$this->pegawai->gelarbelakang_nama;
+            else:
+                return $this->pegawai->nama_pegawai;
+            endif;
+        } 
 }

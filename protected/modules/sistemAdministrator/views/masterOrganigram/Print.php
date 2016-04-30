@@ -43,11 +43,23 @@ $this->widget($table,array(
 			'name'=>'pegawai.jabatan.jabatan_nama',
 		),
 		'organigram_pelaksanakerja',
-		'organigram_periode',
-		'organigram_sampaidengan',
+		//'organigram_periode',
+                array(
+                    'header' => 'Periode',
+                    'value' => 'MyFormatter::formatDateTimeForUser($data->organigram_periode)'
+                ),
+		//'organigram_sampaidengan',
+                array(
+                    'header' => 'Sampai Dengan',
+                    'value' => 'MyFormatter::formatDateTimeForUser($data->organigram_sampaidengan)'
+                ),
 		array(
 			'name'=>'organigram_urutan',
 			'filter'=>false,
+		),
+                array(
+			'header'=>'Status',
+			'value'=>'($data->organigram_aktif)?"Aktif":"Tidak Aktif"',
 		),
 	),
 )); 

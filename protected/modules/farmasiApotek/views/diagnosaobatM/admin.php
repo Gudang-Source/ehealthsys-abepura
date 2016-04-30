@@ -50,14 +50,14 @@
                             array(
                                 'name'=>'diagnosa_id',
                                 'header'=>'Diagnosa',
-								'value'=>'$data->diagnosa->diagnosa_nama',
-								'filter'=>CHtml::listData($model->getDiagnosaItems(),'diagnosa_id','diagnosa_nama'),
+                                'value'=>'$data->diagnosa->diagnosa_nama',
+                                'filter'=> CHtml::dropDownList('FADiagnosaobatM[diagnosa_id]',$model->diagnosa_id,CHtml::listData($model->getDiagnosaItems(),'diagnosa_id','diagnosa_nama'),array('empty'=>'-- Pilih --')),
                             ),
                             array(
                                 'name'=>'obatalkes_id',
                                 'header'=>'Obat Alkes',
                                 'value'=>'$data->obatalkes->obatalkes_nama',
-								'filter'=>CHtml::listData($model->getObatalkesItems(),'obatalkes_id','obatalkes_nama'),
+                                'filter'=> CHtml::dropDownList('FADiagnosaobatM[obatalkes_id]',$model->obatalkes_id,CHtml::listData($model->getObatalkesItems(),'obatalkes_id','obatalkes_nama'), array('empty' => '-- Pilih --')),
                                 'htmlOptions'=>array(
                                     'style'=>'border-left:1px solid #CCCCCC',
                                 ),

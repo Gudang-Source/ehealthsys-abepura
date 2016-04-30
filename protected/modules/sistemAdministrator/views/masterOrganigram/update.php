@@ -11,7 +11,7 @@ $this->breadcrumbs=array(
 
 	<?php $this->widget('bootstrap.widgets.BootAlert'); ?>
 
-	<?php echo $this->renderPartial($this->path_view.'_form',array('model'=>$model)); ?>
+	<?php echo $this->renderPartial($this->path_view.'_formUpdate',array('model'=>$model)); ?>
 
 	<?php $this->renderPartial($this->path_view.'_tabMenu',array()); ?>
 	<?php $this->renderPartial($this->path_view.'_jsFunctions',array()); ?>

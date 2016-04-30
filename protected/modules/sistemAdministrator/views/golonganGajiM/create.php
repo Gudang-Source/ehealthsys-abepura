@@ -1,5 +1,7 @@
-<div class="white-container">
-    <legend class="rim2">Tambah <b>Golongan Gaji</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Tambah <b>Golongan Gaji</b></legend>-->
+<fieldset class="box row-fluid">
+    <legend class="rim">Tambah Golongan Gaji</legend>
     <?php
     $this->breadcrumbs=array(
             'Golongan Gaji Ms'=>array('index'),
@@ -14,4 +16,5 @@
 
     $this->widget('bootstrap.widgets.BootAlert'); ?>
     <?php echo $this->renderPartial($this->path_view.'_form', array('model'=>$model)); ?>
-</div>
+<!--</div>-->
+</fieldset>

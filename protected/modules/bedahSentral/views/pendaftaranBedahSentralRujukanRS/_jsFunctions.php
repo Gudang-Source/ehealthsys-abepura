@@ -116,6 +116,7 @@ function hitungTotal(obj)
 function updateChecklistPemeriksaanBedah(){
 	var sukses = '<?= isset($_GET['sukses'])?1:0; ?>';
     $('#content-pemeriksaan-bedah .checklists').addClass("animation-loading");
+    
     $.ajax({
         type:'POST',
         url:'<?php echo $this->createUrl('SetChecklistPemeriksaanBedah'); ?>',

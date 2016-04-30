@@ -1,5 +1,7 @@
-<div class="white-container">
-    <legend class="rim2">Lihat <b>Komponen Gaji</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Lihat <b>Komponen Gaji</b></legend>-->
+<fieldset class="box row-fluid">
+    <legend class="rim">Lihat Komponen Gaji</legend>
     <?php
     $this->breadcrumbs=array(
             'Komponengaji Ms'=>array('index'),
@@ -38,6 +40,7 @@
             ),
     )); ?>
     <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Komponen Gaji', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
-                                                                        $this->createUrl('komponengajiM/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
+                                                                    $this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
     <?php $this->widget('UserTips',array('type'=>'view'));?>
-</div>
+<!--</div>-->
+</fieldset>

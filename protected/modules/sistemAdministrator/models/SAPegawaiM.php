@@ -32,6 +32,7 @@ class SAPegawaiM extends PegawaiM
 		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+                       
 				));
 	}
 
@@ -88,6 +89,11 @@ class SAPegawaiM extends PegawaiM
 		$modPegJab = PegawaijabatanR::model()->findByAttributes (array('pegawai_id'=>$this->pegawai_id), array('order'=>'tglditetapkanjabatan DESC'));
 		$nomorkeputusan = isset($modPegJab->nomorkeputusanjabatan) ? $modPegJab->nomorkeputusanjabatan : "";
 		return $nomorkeputusan; 
-	}	
+	}
+        
+     public function getJabatan()
+    {
+        return (isset($this->jabatan_id) ? $this->jabatan->jabatan_nama : "-");
+    }
 	
 }

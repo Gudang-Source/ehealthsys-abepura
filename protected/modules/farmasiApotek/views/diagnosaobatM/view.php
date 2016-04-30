@@ -25,6 +25,8 @@
                                         'value'=>$this->renderPartial('_obatalkes', array('diagnosa_id'=>$model->diagnosa_id), true),
                                     ),
             ),
-    )); ?>
+    )); ?>    
+     <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Diagnosa Obat', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
+                                                                    $this->createUrl('diagnosaobatM/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
     <?php $this->widget('UserTips',array('type'=>'view'));?>
 </div>

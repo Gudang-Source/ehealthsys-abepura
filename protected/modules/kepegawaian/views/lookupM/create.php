@@ -1,5 +1,7 @@
-<div class="white-container">
-    <legend class="rim2">Tambah <b>Minat Pekerjaan</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Tambah <b>Minat Pekerjaan</b></legend>-->
+<fieldset class="box row-fluid">
+    <legend class="rim">Tambah Minat Pekerjaan</legend>
     <?php
     $this->breadcrumbs=array(
             'Lookup Ms'=>array('index'),
@@ -15,4 +17,5 @@
     $this->widget('bootstrap.widgets.BootAlert'); ?>
 
     <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
-</div>
+<!--</div>-->
+</fieldset>

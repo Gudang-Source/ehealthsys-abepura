@@ -92,24 +92,44 @@ class BSRencanaOperasiT extends RencanaoperasiT
         else
             return $kamarKosong = KamarruanganM::model()->findAllByAttributes(array('ruangan_id'=>Params::RUANGAN_ID_BEDAH,'kamarruangan_status'=>true, 'kamarruangan_aktif'=>true));
     }
-	public function getDokterItems($ruangan_id='')
+    public function getDokterItems($ruangan_id='')
     {
-        if(!empty($ruangan_id))
+        if(!empty($ruangan_id)):
             return DokterV::model()->findAllByAttributes(array('ruangan_id'=>$ruangan_id), array(
                 'order'=>'nama_pegawai',
-            ));
-        else
+            ));//, 'kelompokpegawai_id'=>Params::KELOMPOKPEGAWAI_ID_TENAGA_MEDIK
+        else:
             return array();
+        endif;
     }
-	
+    
+    public function getDokterParamedisItems($ruangan_id='')
+    {
+        if(!empty($ruangan_id)):
+            $dokter = new CDbCriteria;
+            $dokter->with = array('pegawai');
+            $dokter->addCondition("t.ruangan_id = '$ruangan_id' ");
+            //$dokter->addCondition("pegawai.kelompokpegawai_id IN (".Params::KELOMPOKPEGAWAI_ID_TENAGA_MEDIK.", ".Params::KELOMPOKPEGAWAI_ID_TENAGA_KEPERAWATAN.")");            
+            $dokter->order = "kelompokpegawai_id ASC, pegawai.nama_pegawai ASC";
+             
+            return RuanganpegawaiM::model()->findAll($dokter);
+            //return DokterV::model()->findAllByAttributes(array('ruangan_id'=>$ruangan_id), array(
+              //  'order'=>'nama_pegawai',
+            //));
+        else:
+            return array();
+        endif;
+    }
+    
 	public function getParamedisItems($ruangan_id='')
 	{
-		if(!empty($ruangan_id))
+		if(!empty($ruangan_id)):
 			return ParamedisV::model()->findAllByAttributes(array('ruangan_id'=>$ruangan_id), array(
                             'order'=>'nama_pegawai',
-                        ));
-		else
+                        ));//, 'kelompokpegawai_id'=>Params::KELOMPOKPEGAWAI_ID_TENAGA_KEPERAWATAN
+		else:
 			return array();
+                endif;
 	}
 	
 	public function getBidanItems($ruangan_id='')
@@ -121,5 +141,7 @@ class BSRencanaOperasiT extends RencanaoperasiT
 		else
 			return array();
 	}
+        
+        
 }
 ?>

@@ -1,5 +1,7 @@
-<div class="white-container">
-    <legend class="rim2">Ubah <b>Golongan Pegawai</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Ubah <b>Golongan Pegawai</b></legend>-->
+<fieldset class="box row-fluid">
+    <legend class="rim">Ubah Golongan Pegawai</legend>
     <?php
     $this->breadcrumbs=array(
             'Sagolongan Pegawai Ms'=>array('index'),
@@ -20,4 +22,5 @@
 
     <?php echo $this->renderPartial('_formUpdate',array('model'=>$model)); ?>
     <?php //$this->widget('UserTips',array('type'=>'update'));?>
-</div>
+<!--</div>-->
+</fieldset>
