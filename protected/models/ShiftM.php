@@ -108,7 +108,6 @@ class ShiftM extends CActiveRecord
                 // should not be searched.
 
                 $criteria=new CDbCriteria;
-		$criteria=new CDbCriteria;
 		
 		$criteria->compare('shift_id',$this->shift_id);
 		$criteria->compare('LOWER(shift_nama)',strtolower($this->shift_nama),true);
@@ -121,9 +120,6 @@ class ShiftM extends CActiveRecord
 			$criteria->addCondition("shift_jamakhir = '".$this->shift_jamakhir."'");
 		}
 		$criteria->compare('shift_aktif',isset($this->shift_aktif)?$this->shift_aktif:true);
-                //$criteria->addCondition('shift_aktif is true');
-//		$criteria->compare('shift_aktif',$this->shift_aktif);
-                // Klo limit lebih kecil dari nol itu berarti ga ada limit 
                 $criteria->limit=-1; 
 
                 return new CActiveDataProvider($this, array(

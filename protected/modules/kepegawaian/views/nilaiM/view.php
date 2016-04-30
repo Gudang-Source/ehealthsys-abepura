@@ -1,5 +1,7 @@
-<div class="white-container">
-    <legend class="rim2">Lihat <b>Nilai</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Lihat <b>Nilai</b></legend>-->
+<fieldset class="box row-fluid">
+    <legend class="rim">Lihat Nilai</legend>
     <?php
     $this->breadcrumbs=array(
             'Nilai Ms'=>array('index'),
@@ -36,4 +38,5 @@
     <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Nilai', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
                                                                         $this->createUrl('nilaiM/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
     <?php $this->widget('UserTips',array('type'=>'view'));?>
-</div>
+<!--</div>-->
+</fieldset>

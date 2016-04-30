@@ -1,5 +1,7 @@
-<div class="white-container">
-    <legend class="rim2">Pengaturan <b>Kelompok Pegawai</b></legend>
+<fieldset class="box row-fluid">
+    <legend class="rim">Pengaturan Kelompok Pegawai</legend>
+<!--<div class="white-container">
+    <legend class="rim2">Pengaturan <b>Kelompok Pegawai</b></legend>-->
     <?php
     $this->breadcrumbs=array(
             'Sakelompokpegawai Ms'=>array('index'),
@@ -29,10 +31,10 @@
 
     $this->widget('bootstrap.widgets.BootAlert');
     
-    if ($this->hasTab) $this->renderPartial($this->path_view.'_tabMenu',array());
+  //  if ($this->hasTab) $this->renderPartial($this->path_view.'_tabMenu',array());
     ?>
-    <div class="biru">
-        <div class="white">
+    <!--<div class="biru">
+        <div class="white">-->
             <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-accordion icon-white"></i>')),'#',array('class'=>'search-button btn')); ?>
             <div class="cari-lanjut3 search-form" style="display:none">
                 <?php $this->renderPartial($this->path_view.'_search',array(
@@ -102,8 +104,8 @@
                     }',
                 )); ?>
             <!--</div>-->
-        </div>
-    </div>
+        <!--</div>
+    </div>-->
     <?php 
     echo CHtml::link(Yii::t('mds', '{icon} Tambah Kelompok Pegawai', array('{icon}'=>'<i class="icon-plus icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp";
     echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
@@ -128,7 +130,7 @@ function print(caraPrint)
 JSCRIPT;
     Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);                        
     ?>
-</div>
+<!--</div>-->
 <script type="text/javascript">
     function removeTemporary(id){
         var url = '<?php echo $url."/removeTemporary"; ?>';
@@ -166,3 +168,4 @@ JSCRIPT;
         }); 
     }
 </script>
+</fieldset>

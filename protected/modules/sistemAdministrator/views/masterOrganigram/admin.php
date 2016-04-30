@@ -19,7 +19,8 @@ $('.search-form form').submit(function(){
 ?>
 	<!--<div class="block-tabel">-->
 		<!--<h6 class="rim2">Tabel Organigram</h6>-->
-	<?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
+	<?php                      
+            $this->widget('ext.bootstrap.widgets.BootGridView',array(
 		'id'=>'kporganigram-m-grid',
 		'dataProvider'=>$model->searchTable(),
 		'filter'=>$model,
@@ -43,20 +44,39 @@ $('.search-form form').submit(function(){
 			'organigram_unitkerja',
 			'organigram_formasi',
 			array(
-				'name'=>'pegawai.nama_pegawai',
+                                'header' => 'Nama Pegawai',
+				'name'=>'nama_pegawai',
+                                'value' => '$data->pegawai->nama_pegawai',
 				'filter'=>CHtml::activeTextField($model, 'nama_pegawai'),
 			),
 			array(
-				'name'=>'pegawai.jabatan.jabatan_nama',
-				'filter'=>CHtml::activeDropDownList($model, 'jabatan_id',array(),array('empty'=>'')),
+                               // 'name' => 'jabatan_id',
+                                'header' => 'Jabatan',
+                                'name'=>'jabatan_id',
+				'value'=>'isset($data->jabatan_id)?"$data->Jabatan":"-"',
+				'filter'=>CHtml::activeDropDownList($model, 'jabatan_id',  CHtml::listData(JabatanM::model()->findAll("jabatan_aktif = TRUE ORDER BY jabatan_nama ASC"), 'jabatan_id', 'jabatan_nama'),array('empty'=>'-- Pilih --')),
 			),
 			'organigram_pelaksanakerja',
-			'organigram_periode',
-			'organigram_sampaidengan',
+			//'organigram_periode',
+                        array(
+                            'header' => 'Periode',
+                            'name' => 'organigram_periode',
+                            'value' => 'MyFormatter::formatDateTimeForUser($data->organigram_periode)'
+                        ),
+			//'organigram_sampaidengan',
+                     array(
+                            'header' => 'Sampai Dengan',
+                            'name' => 'organigram_sampaidengan',
+                            'value' => 'MyFormatter::formatDateTimeForUser($data->organigram_sampaidengan)'
+                        ),
 			array(
 				'name'=>'organigram_urutan',
 				'filter'=>false,
 			),
+                        array(
+                            'header' => 'Status',
+                            'value' => '($data->organigram_aktif)?"Aktif":"Tidak Aktif"'
+                        ),
 		/*
 		'organigram_periode',
 		'organigram_sampaidengan',
@@ -100,7 +120,7 @@ $('.search-form form').submit(function(){
 							'options'=>array('title'=>Yii::t('mds','Remove Temporary')),
 							'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/nonActive",array("id"=>$data->organigram_id))',
 							'click'=>'function(){nonActive(this);return false;}',
-							'visible'=>'Yii::app()->controller->checkAccess(array("action"=>"nonActive"))',
+							'visible'=>'($data->organigram_aktif)?true:false',
 					),
 					'delete'=> array(
 							'visible'=>'Yii::app()->controller->checkAccess(array("action"=>Params::DEFAULT_DELETE))',

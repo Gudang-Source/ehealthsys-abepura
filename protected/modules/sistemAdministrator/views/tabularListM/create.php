@@ -1,5 +1,5 @@
 <fieldset class="box row-fluid">
-    <legend class="rim">Tambah Tabular List</legend>
+    <legend class="rim2">Tambah Tabular List</legend>
     <?php
     $this->breadcrumbs=array(
             'Ritabular List Ms'=>array('index'),

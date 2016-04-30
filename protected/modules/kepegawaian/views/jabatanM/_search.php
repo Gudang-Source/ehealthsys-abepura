@@ -9,7 +9,7 @@
 
 	<?php echo $form->textFieldRow($model,'jabatan_nama',array('class'=>'span3','maxlength'=>20)); ?>
 
-	<?php //echo $form->textFieldRow($model,'jabatan_lainnya',array('class'=>'span5','maxlength'=>20)); ?>
+	<?php echo $form->textFieldRow($model,'jabatan_lainnya',array('class'=>'span5','maxlength'=>20)); ?>
 
         <div>
             <?php echo $form->checkBoxRow($model,'jabatan_aktif',array('checked'=>'jabatan_aktif')); ?>

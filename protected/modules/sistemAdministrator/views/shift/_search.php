@@ -53,7 +53,7 @@
 	<div class="span4">
 	<?php echo $form->textFieldRow($model,'shift_urutan',array('class'=>'span1 integer')); ?>
 
-	<?php echo $form->checkBoxRow($model,'shift_aktif'); ?>
+	<?php echo $form->checkBoxRow($model,'shift_aktif',array('checked'=>'shift_aktif')); ?>
 	</div>
 </div>
 	

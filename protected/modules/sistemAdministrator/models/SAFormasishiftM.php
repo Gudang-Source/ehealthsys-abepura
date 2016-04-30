@@ -55,7 +55,7 @@ class SAFormasishiftM extends FormasishiftM
 		if(!empty($this->create_ruangan)){
 			$criteria->addCondition('create_ruangan = '.$this->create_ruangan);
 		}
-		$criteria->compare('formasishift_aktif',$this->formasishift_aktif);
+		$criteria->compare('formasishift_aktif',isset($this->formasishift_aktif)?$this->formasishift_aktif:true);
 		
 		return $criteria;
 	}

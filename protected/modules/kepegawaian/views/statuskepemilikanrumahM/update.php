@@ -1,5 +1,7 @@
-<div class="white-container">
-    <legend class="rim2">Ubah Status <b>Kepemilikan Rumah</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Ubah Status <b>Kepemilikan Rumah</b></legend>-->
+<fieldset class="box row-fluid">
+    <legend class="rim">Ubah Status Kepemilikan Rumah</legend>
     <?php
     $this->breadcrumbs=array(
             'Statuskepemilikanrumah Ms'=>array('index'),
@@ -18,4 +20,5 @@
     ?>
 
     <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
-</div>
+<!--</div>-->
+</fieldset>

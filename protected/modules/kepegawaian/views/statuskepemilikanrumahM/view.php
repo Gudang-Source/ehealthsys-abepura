@@ -1,5 +1,7 @@
-<div class="white-container">
-    <legend class="rim2">Lihat Status <b>Kepemilikan Rumah</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Lihat Status <b>Kepemilikan Rumah</b></legend>-->
+<fieldset class="box row-fluid">
+    <legend class="rim">Lihat Status Kepemilikan Rumah</legend>
     <?php
     $this->breadcrumbs=array(
             'Statuskepemilikanrumah Ms'=>array('index'),
@@ -30,4 +32,5 @@
     <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Status Kepemilikan Rumah', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
                                                                         $this->createUrl('statuskepemilikanrumahM/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
     <?php $this->widget('UserTips',array('type'=>'view'));?>
-</div>
+<!--</div>-->
+</fieldset>

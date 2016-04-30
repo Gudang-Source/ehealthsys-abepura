@@ -157,6 +157,12 @@
 				</div>
 			</div>
 			<?php echo $form->textAreaRow($model,'organigram_keterangan',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>500)); ?>
+                        <div class="control-group ">
+                            <?php echo $form->labelEx($model,'organigram_aktif', array('class'=>'control-label')); ?>
+                            <div class="controls">
+                                <?php echo $form->checkBox($model,'organigram_aktif'); ?>
+                            </div>    
+                        </div>
 		</div>
 	</div>
 	<div class="row-fluid">

@@ -1,5 +1,7 @@
-<div class="white-container">
-    <legend class="rim2">Lihat <b>Gelar Belakang</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Lihat <b>Gelar Belakang</b></legend>-->
+<fieldset class="box row-fluid">
+    <legend class="rim">Lihat Gelar Belakang</legend>
     <?php
     $this->breadcrumbs=array(
             'Sagelar Belakang Ms'=>array('index'),
@@ -32,6 +34,7 @@
             ),
     )); ?>
     <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Gelar Belakang', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
-                                                                        $this->createUrl('gelarBelakangM/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
+                                                                        $this->createUrl('gelarBelakangM/admin',array('tab'=>'frame','modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
     <?php $this->widget('UserTips',array('type'=>'view'));?>
-</div>
+<!--</div>-->
+</fieldset>

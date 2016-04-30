@@ -1,6 +1,6 @@
 <span class="required"><i>Bagian dengan tanda * harus diisi.</i></span>
 <p>
-<table width="400" border="0" style="padding :none;">
+<table border="0" style="padding :none;">
   <tr>
     <td>1. </td>
     <td>Icon <i class="icon-form-lihat"></i> untuk melihat data lebih rinci.</td>
@@ -41,7 +41,7 @@ Print
    <tr>
     <td>8. </td>
     <td>Tombol <a class="search-button btn" href="#">
-<i class="icon-search"></i>
+<i class="icon-accordion icon-white"></i>
 Pencarian Lanjut
 </a> untuk pencarian data lebih lanjut.</td>
   </tr>

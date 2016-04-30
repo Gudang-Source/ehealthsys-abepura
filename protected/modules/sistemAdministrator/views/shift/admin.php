@@ -1,3 +1,5 @@
+<fieldset class="box row-fluid">
+    <legend class="rim">Pengaturan Shift</legend>
 <?php
 $this->breadcrumbs=array(
 	'Sashift Ms'=>array('index'),
@@ -19,13 +21,13 @@ $('.search-form form').submit(function(){
 ?>
 	<?php $this->widget('bootstrap.widgets.BootAlert'); ?>
 
-	<?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-search"></i>')),'#',array('class'=>'search-button btn')); ?>
+	<?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-accordion icon-white"></i>')),'#',array('class'=>'search-button btn')); ?>
 	<div class="cari-lanjut search-form" style="display:none">
 	<?php $this->renderPartial($this->path_view.'_search',array(
 		'model'=>$model,
 	)); ?>
 	</div><!-- search-form -->
-	<div class="block-tabel">
+	<!--<div class="block-tabel">-->
 	<?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
 		'id'=>'sashift-m-grid',
 		'dataProvider'=>$model->search(),
@@ -47,6 +49,10 @@ $('.search-form form').submit(function(){
 		'shift_namalainnya',
 		'shift_jamawal',
 		'shift_jamakhir',
+                array(
+                    'header' => 'Status',
+                    'value' => '($data->shift_aktif)?"Aktif":"Tidak Aktif"'
+                ),
 		//'shift_urutan',
 		//'shift_aktif',
 			array(
@@ -77,7 +83,7 @@ $('.search-form form').submit(function(){
 							'options'=>array('title'=>Yii::t('mds','Remove Temporary')),
 							'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/nonActive",array("id"=>$data->shift_id))',
 							'click'=>'function(){nonActive(this);return false;}',
-							'visible'=>'Yii::app()->controller->checkAccess(array("action"=>"nonActive"))',
+							'visible'=>'($data->shift_aktif)?true:false',
 					),
 					'delete'=> array(
 							'visible'=>'Yii::app()->controller->checkAccess(array("action"=>Params::DEFAULT_DELETE))',
@@ -87,7 +93,7 @@ $('.search-form form').submit(function(){
 		),
 		'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 	)); ?>
-</div>
+<!--</div>-->
 <?php 
 	echo CHtml::link(Yii::t('mds','{icon} Tambah Shift',array('{icon}'=>'<i class="icon-plus icon-white"></i>')),$this->createUrl('create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp"; 
 	echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
@@ -130,3 +136,4 @@ Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);
 		return false;
 	}
 </script>
+</fieldset>

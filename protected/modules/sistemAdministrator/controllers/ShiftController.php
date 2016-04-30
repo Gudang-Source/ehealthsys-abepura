@@ -104,10 +104,10 @@ class ShiftController extends MyAuthController
 			$model = $this->loadModel($id);
 			// set non-active this
 			// example: 
-			// $model->modelaktif = false;
-			// if($model->save()){
-			//	$data['sukses'] = 1;
-			// }
+			 $model->shift_aktif = 0;
+			 if($model->save()){
+				$data['sukses'] = 1;
+			 }
 			echo CJSON::encode($data); 
 		}
 	}
@@ -169,7 +169,7 @@ class ShiftController extends MyAuthController
 	{
 		$model = new SAShiftM;
 		$model->attributes = $_REQUEST['SAShiftM'];
-		$judulLaporan='Data SAShiftM';
+		$judulLaporan='Laporan Data Shift';
 		$caraPrint = $_REQUEST['caraPrint'];
 		if($caraPrint=='PRINT') {
 			$this->layout = '//layouts/printWindows';
@@ -188,7 +188,7 @@ class ShiftController extends MyAuthController
 			$mpdf->WriteHTML($stylesheet,1);  
 			$mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
 			$mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-			$mpdf->Output();
+			$mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
 		}
 	}
 }

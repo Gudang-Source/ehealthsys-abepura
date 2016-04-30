@@ -1,5 +1,7 @@
-<div class="white-container">
-    <legend class="rim2">Pengaturan <b>Komponen Gaji</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Pengaturan <b>Komponen Gaji</b></legend>-->
+<fieldset class="box row-fluid">
+    <legend class="rim">Pengaturan Komponen Gaji</legend>
     <?php
     $this->breadcrumbs=array(
             'Komponengaji Ms'=>array('index'),
@@ -27,18 +29,18 @@
             return false;
     });
     ");
-    $this->renderPartial($this->path_view_tab.'_tabMenu',array());
+  //  $this->renderPartial($this->path_view_tab.'_tabMenu',array());
     $this->widget('bootstrap.widgets.BootAlert'); ?>
-    <div class="biru">
-        <div class="white">
+    <!--<div class="biru">
+        <div class="white">-->
             <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-white icon-accordion"></i>')),'#',array('class'=>'search-button btn')); ?>
             <div class="cari-lanjut search-form" style="display:none">
                 <?php $this->renderPartial($this->path_view. '_search',array(
                         'model'=>$model,
                 )); ?>
             </div><!-- search-form -->
-            <div class="block-tabel">
-                <h6>Tabel <b>Komponen Gaji</b></h6>
+           <!-- <div class="block-tabel">-->
+             <!--   <h6>Tabel <b>Komponen Gaji</b></h6>-->
                 <?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'id'=>'komponengaji-m-grid',
                     'dataProvider'=>$model->search(),
@@ -107,9 +109,9 @@
                         })
                     }',
                 )); ?>
-            </div>
-        </div>
-    </div>
+           <!-- </div>-->
+        <!--</div>
+    </div>-->
     <?php 
     echo CHtml::link(Yii::t('mds', '{icon} Tambah Komponen Gaji', array('{icon}'=>'<i class="icon-plus icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp";
     echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
@@ -173,3 +175,4 @@ JSCRIPT;
         }); 
     }
 </script>
+</fieldset>

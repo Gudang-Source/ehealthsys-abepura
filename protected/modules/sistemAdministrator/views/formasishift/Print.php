@@ -49,6 +49,10 @@ $this->widget($table,array(
 			'value'=>'$data->jmlformasi',
 			'type'=>'raw',
 		),
+            array(
+                                'header' => 'Status',
+                                'value' => '($data->formasishift_aktif)?"Aktif":"Tidak Aktif"',
+                            ),
 		/*
 		'create_loginpemakai_id',
 		'update_loginpemakai_id',

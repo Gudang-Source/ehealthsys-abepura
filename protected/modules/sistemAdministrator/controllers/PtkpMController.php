@@ -6,7 +6,7 @@ class PtkpMController extends MyAuthController {
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	public $layout = '//layouts/column1';
+	public $layout = '//layouts/iframe';
 	public $defaultAction = 'admin';
 
 	public $path_view = 'sistemAdministrator.views.ptkpM.';
@@ -83,8 +83,8 @@ class PtkpMController extends MyAuthController {
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
 	 * @param integer $id the ID of the model to be deleted
 	 */
-	public function actionDelete($id) {
-		if (Yii::app()->request->isPostRequest) {
+	public function actionDelete() {
+		/*if (Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
 			//if(!Yii::app()->user->checkAccess(Params::DEFAULT_DELETE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}                                         
 			$this->loadModel($id)->delete();
@@ -93,7 +93,26 @@ class PtkpMController extends MyAuthController {
 			if (!isset($_GET['ajax']))
 				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 		} else
-			throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
+			throw new CHttpExeption(400, 'Invalid request. Please do not repeat this request again.');*/
+            if(Yii::app()->request->isPostRequest)
+		{
+			$id = $_POST['id'];
+            $this->loadModel($id)->delete();
+            if (Yii::app()->request->isAjaxRequest)
+                {
+                    echo CJSON::encode(array(
+                        'status'=>'proses_form', 
+                        'div'=>"<div class='flash-success'>Data berhasil dihapus.</div>",
+                        ));
+                    exit;
+                }
+	                    
+			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+			if(!isset($_GET['ajax']))
+				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+		}
+		else
+			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
 	}
 
 	/**
@@ -148,10 +167,33 @@ class PtkpMController extends MyAuthController {
 	 * Mengubah status aktif
 	 * @param type $id 
 	 */
-	public function actionRemoveTemporary($id) {
+	public function actionRemoveTemporary() {
 		//if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}                                                        
-		SAPtkpM::model()->updateByPk($id, array('berlaku' => false));
-		$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+		//SAPtkpM::model()->updateByPk($id, array('berlaku' => false));
+		//$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+             $id = $_POST['id'];   
+            if(isset($_POST['id']))
+            {
+               $update = SAPtkpM::model()->updateByPk($id,array('berlaku'=>false));
+               if($update)
+                {
+                    if (Yii::app()->request->isAjaxRequest)
+                    {
+                        echo CJSON::encode(array(
+                            'status'=>'proses_form', 
+                            ));
+                        exit;               
+                    }
+                 }
+            } else {
+                    if (Yii::app()->request->isAjaxRequest)
+                    {
+                        echo CJSON::encode(array(
+                            'status'=>'proses_form', 
+                            ));
+                        exit;               
+                    }
+            }
 	}
 
 	public function actionPrint() {
@@ -174,7 +216,7 @@ class PtkpMController extends MyAuthController {
 			$mpdf->WriteHTML($stylesheet, 1);
 			$mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);
 			$mpdf->WriteHTML($this->renderPartial($this->path_view.'Print', array('model' => $model, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
-			$mpdf->Output();
+			$mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
 		}
 	}
 

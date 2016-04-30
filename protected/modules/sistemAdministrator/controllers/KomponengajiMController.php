@@ -6,7 +6,7 @@ class KomponengajiMController extends MyAuthController {
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	public $layout = '//layouts/column1';
+	public $layout = '//layouts/iframe';
 	public $defaultAction = 'admin';
 	public $path_view = 'sistemAdministrator.views.komponengajiM.';
         public $path_view_tab = 'sistemAdministrator.views.komponengajiM.';
@@ -212,7 +212,7 @@ class KomponengajiMController extends MyAuthController {
 			$mpdf->WriteHTML($stylesheet, 1);
 			$mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);
 			$mpdf->WriteHTML($this->renderPartial($this->path_view. 'Print', array('model' => $model, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
-			$mpdf->Output();
+			$mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
 		}
 	}
 
