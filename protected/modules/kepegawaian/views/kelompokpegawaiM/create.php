@@ -1,5 +1,7 @@
-<div class="white-container">
-    <legend class="rim2">Tambah <b>Kelompok Pegawai</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Tambah <b>Kelompok Pegawai</b></legend>-->
+<fieldset class="box row-fluid">
+    <legend class="rim">Tambah Kelompok Pegawai</legend>
     <?php
     $this->breadcrumbs=array(
             'Sakelompokpegawai Ms'=>array('index'),
@@ -17,4 +19,5 @@
     <?php //echo //$this->renderPartial('_tabMenu',array()); ?>
     <?php echo $this->renderPartial($this->path_view.'_form', array('model'=>$model)); ?>
     <?php //$this->widget('UserTips',array('type'=>'create'));?>
-</div>
+<!--</div>-->
+</fieldset>

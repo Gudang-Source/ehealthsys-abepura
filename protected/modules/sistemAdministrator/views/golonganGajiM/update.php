@@ -1,5 +1,7 @@
-<div class="white-container">
-    <legend class="rim2">Ubah <b>Golongan Gaji</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Ubah <b>Golongan Gaji</b></legend>-->
+<fieldset class="box row-fluid">
+    <legend class="rim">Ubah Golongan Gaji</legend>
     <?php
     $this->breadcrumbs=array(
             'Golongan Gaji Ms'=>array('index'),
@@ -17,4 +19,5 @@
 
     <?php echo $this->renderPartial($this->path_view. '_formUpdate',array('model'=>$model)); ?>
     <?php //$this->widget('UserTips',array('type'=>'update'));?>
-</div>
+<!--</div>-->
+</fieldset>

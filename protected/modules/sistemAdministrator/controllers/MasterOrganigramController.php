@@ -10,6 +10,7 @@ class MasterOrganigramController extends MyAuthController
 	public $layout='//layouts/column1';
 	public $defaultAction = 'index';
 	public $path_view = 'sistemAdministrator.views.masterOrganigram.';
+        public $path_tips = 'sistemAdministrator.views.tips.';
 
 	/**
 	 * Menampilkan detail data.
@@ -37,6 +38,7 @@ class MasterOrganigramController extends MyAuthController
 		
 		if(isset($_POST['SAOrganigramM']))
 		{
+                    
 			$model->attributes = $_POST['SAOrganigramM'];
 			$model->organigram_periode = empty($model->organigram_periode) ? null : $format->formatDateTimeForDb($model->organigram_periode);
 			$model->organigram_sampaidengan = empty($model->organigram_sampaidengan) ? null : $format->formatDateTimeForDb($model->organigram_sampaidengan);
@@ -233,7 +235,7 @@ class MasterOrganigramController extends MyAuthController
 			$model->attributes=$_GET['SAOrganigramM'];
 			$model->atasan=$_GET['SAOrganigramM']['atasan'];
 			$model->nama_pegawai=$_GET['SAOrganigramM']['nama_pegawai'];
-			$model->jabatan_nama=$_GET['SAOrganigramM']['jabatan_nama'];
+			
 		}
 		$this->render($this->path_view.'admin',array(
 				'model'=>$model,
@@ -303,7 +305,7 @@ class MasterOrganigramController extends MyAuthController
 	{
 		$model= new SAOrganigramM;
 		$model->attributes=$_REQUEST['SAOrganigramM'];
-		$judulLaporan='Data SAOrganigramM';
+		$judulLaporan='Data Struktur Organigram';
 		$caraPrint=$_REQUEST['caraPrint'];
 		if($caraPrint=='PRINT') {
 			$this->layout='//layouts/printWindows';
@@ -322,7 +324,7 @@ class MasterOrganigramController extends MyAuthController
 			$mpdf->WriteHTML($stylesheet,1);  
 			$mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
 			$mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-			$mpdf->Output();
+			$mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
 		}
 	}
 }

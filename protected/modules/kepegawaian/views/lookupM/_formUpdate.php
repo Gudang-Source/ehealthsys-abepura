@@ -27,11 +27,12 @@
                     Yii::app()->createUrl($this->module->id.'/lookupM/admin'), 
                     array('class'=>'btn btn-danger',
                           'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
-        <?php
-            $content = $this->renderPartial('gudangUmum.views.tips.tipsaddedit',array(),true);
+       
+        <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Minat Pekerjaan', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
+         <?php
+            $content = $this->renderPartial('kepegawaian.views.tips.tipsaddedit',array(),true);
             $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
         ?>
-        <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Minat Pekerjaan', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
     </div>
 
 <?php $this->endWidget(); ?>

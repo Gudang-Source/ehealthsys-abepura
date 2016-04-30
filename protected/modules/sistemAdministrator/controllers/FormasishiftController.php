@@ -168,10 +168,10 @@ class FormasishiftController extends MyAuthController
 			$model = $this->loadModel($id);
 			// set non-active this
 			// example: 
-			// $model->modelaktif = false;
-			// if($model->save()){
-			//	$data['sukses'] = 1;
-			// }
+			 $model->formasishift_aktif = 0;
+			 if($model->save()){
+				$data['sukses'] = 1;
+			 }
 			echo CJSON::encode($data); 
 		}
 	}
@@ -235,7 +235,7 @@ class FormasishiftController extends MyAuthController
 	{
 		$model = new SAFormasishiftM;
 		$model->attributes = $_REQUEST['SAFormasishiftM'];
-		$judulLaporan='Data Formasi Shift';
+		$judulLaporan='Laporan Data Formasi Shift';
 		$caraPrint = $_REQUEST['caraPrint'];
 		if($caraPrint=='PRINT') {
 			$this->layout = '//layouts/printWindows';
@@ -254,7 +254,7 @@ class FormasishiftController extends MyAuthController
 			$mpdf->WriteHTML($stylesheet,1);  
 			$mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
 			$mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-			$mpdf->Output();
+			$mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
 		}
 	}
 }

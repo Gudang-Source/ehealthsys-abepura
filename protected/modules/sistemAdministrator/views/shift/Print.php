@@ -30,7 +30,10 @@ $this->widget($table,array(
 		'shift_namalainnya',
 		'shift_jamawal',
 		'shift_jamakhir',
-		'shift_aktif',
+		array(
+                    'header' => 'Status',
+                    'value' => '($data->shift_aktif)?"Aktif":"Tidak Aktif"'
+                ),
 		/*
 		'shift_kode',
 		'shift_urutan',

@@ -33,7 +33,10 @@ $this->widget($table,array(
             'header'=>'ID',
             'value'=>'$data->ptkp_id',
         ),
-		'tglberlaku',
+		array(
+                        'header' => 'Tanggal Berlaku',
+                        'value' => 'MyFormatter::formatDateTimeForUser($data->tglberlaku)'
+                    ),
 		'jmltanggunan',
 		'wajibpajak_thn',
 		'wajibpajak_bln',

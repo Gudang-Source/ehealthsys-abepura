@@ -1,5 +1,7 @@
-<div class="white-container">
-    <legend class="rim2">Ubah <b>Minat Pekerjaan</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Ubah <b>Minat Pekerjaan</b></legend>-->
+<fieldset class="box row-fluid">
+    <legend class="rim">Ubah Minat Pekerjaan</legend>
     <?php
     $this->breadcrumbs=array(
             'Lookup Ms'=>array('index'),
@@ -19,4 +21,5 @@
 
     <?php echo $this->renderPartial('_formUpdate',array('model'=>$model)); ?>
 
-</div>
+<!--</div>-->
+</fieldset>

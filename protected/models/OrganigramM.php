@@ -101,7 +101,7 @@ class OrganigramM extends CActiveRecord
 			'create_ruangan' => 'Create Ruangan',
 			'organigram_aktif' => 'Status',
 			'organigram_urutan' => 'Urutan',
-            'pegawai_id' => 'Pegawai',
+                        'pegawai_id' => 'Pegawai',
 			'jabatan_id' => 'Jabatan',
 		);
 	}
@@ -129,11 +129,15 @@ class OrganigramM extends CActiveRecord
 		$criteria->compare('LOWER(organigram_keterangan)',strtolower($this->organigram_keterangan),true);
 		$criteria->compare('LOWER(organigram_periode)',strtolower($this->organigram_periode),true);
 		$criteria->compare('LOWER(organigram_sampaidengan)',strtolower($this->organigram_sampaidengan),true);
+                
 		if(!empty($this->organigramasal_id)){
 			$criteria->addCondition('organigramasal_id = '.$this->organigramasal_id);
 		}
-		$criteria->compare('LOWER(create_time)',strtolower($this->create_time),true);
-		$criteria->compare('LOWER(update_time)',strtolower($this->update_time),true);
+                if(!empty($this->jabatan_id)){
+			$criteria->addCondition('jabatan_id = '.$this->jabatan_id);
+		}
+		//$criteria->compare('LOWER(create_time)',strtolower($this->create_time),true);
+		//$criteria->compare('LOWER(update_time)',strtolower($this->update_time),true);
 		if(!empty($this->create_loginpemakai_id)){
 			$criteria->addCondition('create_loginpemakai_id = '.$this->create_loginpemakai_id);
 		}
@@ -143,6 +147,7 @@ class OrganigramM extends CActiveRecord
 		if(!empty($this->create_ruangan)){
 			$criteria->addCondition('create_ruangan = '.$this->create_ruangan);
 		}
+               
 		$criteria->compare('organigram_aktif',$this->organigram_aktif);
 
 		return $criteria;

@@ -28,18 +28,18 @@
             <tr>
             
                 <td>
-                    <?php echo $form->textField($model,'[1]lookup_name',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>200,'placeholder'=>$model->getAttributeLabel('lookup_name'))); ?>
+                    <?php echo $form->textField($model,'[1]lookup_name',array('class'=>'span3 required', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>200,'placeholder'=>$model->getAttributeLabel('lookup_name'))); ?>
                     <span class="required">*</span>
                 </td>
                 <td>
-                    <?php echo $form->textField($model,'[1]lookup_value',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>200, 'placeholder'=> $model->getAttributeLabel('lookup_value'))); ?>
+                    <?php echo $form->textField($model,'[1]lookup_value',array('class'=>'span3 required', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>200, 'placeholder'=> $model->getAttributeLabel('lookup_value'))); ?>
                 </td>
                 <td>
-                    <?php echo $form->textField($model,'[1]lookup_kode',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50, 'placeholder'=> $model->getAttributeLabel('lookup_kode'))); ?>
+                    <?php echo $form->textField($model,'[1]lookup_kode',array('class'=>'span3 required', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50, 'placeholder'=> $model->getAttributeLabel('lookup_kode'))); ?>
                 </td>
                <td>
                     
-            <?php echo $form->textField($model,'[1]lookup_urutan',array('class'=>'span1 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'placeholder'=> $model->getAttributeLabel('lookup_urutan'))); ?>
+            <?php echo $form->textField($model,'[1]lookup_urutan',array('class'=>'span1 numbersOnly required', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'placeholder'=> $model->getAttributeLabel('lookup_urutan'))); ?>
                     
                 </td>
                 
@@ -54,9 +54,9 @@
         </table>
         
         <div class="form-actions">
-            <?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 
+             <?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 
                 Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),
-                array('class'=>'btn btn-primary', 'type'=>'submit', 'id'=>'btn_simpan', 'onKeypress'=>'return formSubmit(this,event)')); ?>
+                array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'CekValiditas()', 'id'=>'btn_simpan', 'onKeypress'=>'CekValiditas()')); ?>
             <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
                         Yii::app()->createUrl($this->module->id.'/lookupM/admin'), 
                         array('class'=>'btn btn-danger',
@@ -112,6 +112,38 @@ function delRow(obj)
         }
     });
 }
+        
+
+    
 JSCRIPT;
 Yii::app()->clientScript->registerScript('multiple input',$js, CClientScript::POS_HEAD);
 ?>
+<script>
+
+function CekValiditas(){
+	if(requiredCheck($("form"))){
+		var lookup_name;
+		var lookup_value;
+		var lookup_urutan;
+		var rowvalid = true;
+		$('#tbl-Lookup tbody').find('tr').each(function(){
+			lookup_name = $(this).find('input[name*="[lookup_name]"]').val();
+			lookup_value = $(this).find('input[name*="[lookup_value]"]').val();
+			lookup_urutan = $(this).find('input[name*="[lookup_urutan]"]').val();
+			if((lookup_name != '')&&(lookup_value != '')&&(lookup_urutan != '')){
+				rowvalid &= true;
+			}else{
+				rowvalid &= false;
+			}
+		});
+		if(rowvalid){
+			 $('#lookup-m-form').submit();
+		}else{
+			myAlert('Bagian dengan tanda <span class="required">*</span> harus diisi.');
+		}
+    }
+    return false;
+}
+
+
+</script>

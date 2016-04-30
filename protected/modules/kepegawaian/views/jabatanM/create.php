@@ -1,5 +1,7 @@
-<div class="white-container">
-    <legend class="rim2">Tambah <b>Jabatan</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Tambah <b>Jabatan</b></legend>-->
+<fieldset class="box row-fluid">
+    <legend class="rim">Tambah Jabatan</legend>
     <?php
     $this->breadcrumbs=array(
             'Sajabatan Ms'=>array('index'),
@@ -17,4 +19,5 @@
     <?php //$this->renderPartial('_tabMenu',array()); ?>
     <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
     <?php //$this->widget('UserTips',array('type'=>'create'));?>
-</div>
+<!--</div>-->
+</fieldset>

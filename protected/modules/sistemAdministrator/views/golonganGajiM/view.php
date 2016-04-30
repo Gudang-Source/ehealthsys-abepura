@@ -1,5 +1,7 @@
-<div class="white-container">
-    <legend class="rim2">Lihat <b>Golongan Gaji</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Lihat <b>Golongan Gaji</b></legend>-->
+<fieldset class="box row-fluid">
+    <legend class="rim">Lihat Golongan Gaji</legend>
     <?php
     $this->breadcrumbs=array(
             'Golongan Gaji Ms'=>array('index'),
@@ -30,6 +32,7 @@
             ),
     )); ?>
     <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Golongan Gaji', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
-                                                                        $this->createUrl('golonganGajiM/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
+                                                                    $this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
     <?php $this->widget('UserTips',array('type'=>'view'));?>
-</div>
+<!--</div>-->
+</fieldset>

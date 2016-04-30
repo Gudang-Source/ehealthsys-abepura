@@ -1,5 +1,7 @@
-<div class="white-container">
-    <legend class="rim2">Tambah <b>PTKP</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Tambah <b>PTKP</b></legend>-->
+<fieldset class="box row-fluid">
+    <legend class="rim">Tambah PTKP</legend>
     <?php
     $this->breadcrumbs=array(
             'Komponengaji Ms'=>array('index'),
@@ -17,4 +19,5 @@
     //$this->renderPartial('_tabMenu',array());
     ?>
     <?php echo $this->renderPartial($this->path_view. '_form', array('model'=>$model)); ?>
-</div>
+<!--</div>-->
+</fieldset>

@@ -1,5 +1,7 @@
-<div class="white-container">
-    <legend class="rim2">Ubah <b>PTKP</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Ubah <b>PTKP</b></legend>-->
+<fieldset class="box row-fluid">
+    <legend class="rim">Ubah PTKP</legend>
     <?php
     $this->breadcrumbs=array(
             'PTKP Ms'=>array('index'),
@@ -17,4 +19,5 @@
     //$this->renderPartial('_tabMenu',array());?>
 
     <?php echo $this->renderPartial($this->path_view. '_formUpdate',array('model'=>$model)); ?>
-</div>
+<!--</div>-->
+</fieldset>

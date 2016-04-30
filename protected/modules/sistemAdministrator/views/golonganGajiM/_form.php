@@ -11,7 +11,7 @@
 
 	<?php echo $form->errorSummary($model); ?>
 
-    <?php echo $form->dropDownListRow($model,'golonganpegawai_id', CHtml::listData(SAGolonganPegawaiM::model()->findAll('golonganpegawai_aktif = true'), 'golonganpegawai_id', 'golonganpegawai_nama'), array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", "empty"=>'-- Pilih --')); ?>
+    <?php echo $form->dropDownListRow($model,'golonganpegawai_id', CHtml::listData(SAGolonganPegawaiM::model()->findAll('golonganpegawai_aktif = true ORDER BY golonganpegawai_nama'), 'golonganpegawai_id', 'golonganpegawai_nama'), array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", "empty"=>'-- Pilih --')); ?>
     <?php echo $form->textFieldRow($model,'masakerja',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>3)); ?>
     <?php echo $form->textFieldRow($model,'jmlgaji',array('class'=>'span3 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>20)); ?>
     <?php echo $form->textFieldRow($model,'jenisgolongan',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>

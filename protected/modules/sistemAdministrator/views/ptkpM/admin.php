@@ -1,5 +1,7 @@
-<div class="white-container">
-    <legend class="rim2">Pengaturan <b>PTKP</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Pengaturan <b>PTKP</b></legend>-->
+<fieldset class="box row-fluid">
+    <legend class="rim">Pengaturan PTKP</legend>
     <?php
     $this->breadcrumbs=array(
             'PTKP Ms'=>array('index'),
@@ -24,18 +26,18 @@
             return false;
     });
     ");
-    $this->renderPartial($this->path_view_tab. '_tabMenu',array());
+   // $this->renderPartial($this->path_view_tab. '_tabMenu',array());
     $this->widget('bootstrap.widgets.BootAlert'); ?>
-    <div class="biru">
-        <div class="white">
+   <!-- <div class="biru">
+        <div class="white">-->
             <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-white icon-accordion"></i>')),'#',array('class'=>'search-button btn')); ?>
             <div class="cari-lanjut search-form" style="display:none">
                 <?php $this->renderPartial($this->path_view. '_search',array(
-                        'model'=>$model,
+                        'model'=>$model,  
                 )); ?>
             </div><!-- search-form -->
-            <div class="block-tabel">
-                <h6>Tabel <b>PTKP</b></h6>
+            <!--<div class="block-tabel">
+                <h6>Tabel <b>PTKP</b></h6>-->
                 <?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'id'=>'ptkp-m-grid',
                     'dataProvider'=>$model->search(),
@@ -48,14 +50,18 @@
                         'value'=>'$data->ptkp_id',
                         'filter'=>false,
                     ),
-                            'tglberlaku',
+                            //'tglberlaku',
+                    array(
+                        'header' => 'Tanggal Berlaku',
+                        'value' => 'MyFormatter::formatDateTimeForUser($data->tglberlaku)'
+                    ),
                             'statusperkawinan',
                             'jmltanggunan',
                             'wajibpajak_thn',
                     'wajibpajak_bln', 
                     array(
-                        'header'=>'Aktif',
-                        'value'=>'($data->berlaku)?"aktif":"non aktif"',
+                        'header'=>'Berlaku',
+                        'value'=>'($data->berlaku)?"Aktif":"Tidak Aktif"',
                         'filter'=>false,
                     ),
                     // array(
@@ -80,7 +86,7 @@
                             ),
                         ),
                             ),
-                            array(
+                  /*          array(
                         'header'=>Yii::t('zii','Delete'),
                                     'class'=>'bootstrap.widgets.BootButtonColumn',
                         'template'=>'{delete}',
@@ -89,8 +95,15 @@
                                 'visible'=>'Yii::app()->controller->checkAccess(array("action"=>Params::DEFAULT_DELETE))',
                             ),
                         )
-                            ),
-                    ),
+                            ),   */
+                 
+                    array(
+                            'header'=>'Hapus',
+                            'type'=>'raw',
+                            'value'=>'($data->berlaku)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->ptkp_id)",array("id"=>"$data->ptkp_id","rel"=>"tooltip","title"=>"Menonaktifkan"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->ptkp_id)",array("id"=>"$data->ptkp_id","rel"=>"tooltip","title"=>"Hapus")):CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->ptkp_id)",array("id"=>"$data->ptkp_id","rel"=>"tooltip","title"=>"Hapus"));',
+                            'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
+                        ),    
+                    ),    
                'afterAjaxUpdate'=>'function(id, data){
                         jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
                         $("table").find("input[type=text]").each(function(){
@@ -101,9 +114,9 @@
                         })
                     }',
                 )); ?>
-            </div>
+           <!-- </div>
         </div>
-    </div>
+    </div>-->
     <?php 
     echo CHtml::link(Yii::t('mds', '{icon} Tambah PTKP', array('{icon}'=>'<i class="icon-plus icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp";
     echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
@@ -114,7 +127,8 @@
     $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
     $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
     $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/print');
-
+    $url=  Yii::app()->createAbsoluteUrl($module.'/'.$controller);
+    
 $js = <<< JSCRIPT
          function cekForm(obj)
 {
@@ -129,8 +143,41 @@ JSCRIPT;
     ?>
 </div>
 <script type="text/javascript">
-
+    function removeTemporary(id){
+        var url = '<?php echo $url."/removeTemporary"; ?>';
+        myConfirm("Yakin akan menonaktifkan data ini untuk sementara?",'Perhatian!',function(r){
+            if (r){
+                 $.post(url, {id: id},
+                     function(data){
+                        if(data.status == 'proses_form'){
+                                $.fn.yiiGridView.update('ptkp-m-grid');
+                            }else{
+                                myAlert('Data Gagal di Nonaktifkan')
+                            }
+                },"json");
+           }
+		});
+    }
+    
+    function deleteRecord(id){
+        var id = id;
+        var url = '<?php echo $url."/delete"; ?>';
+        myConfirm("Yakin Akan Menghapus Data ini ?",'Perhatian!',function(r){
+            if (r){
+                 $.post(url, {id: id},
+                     function(data){
+                        if(data.status == 'proses_form'){
+                                $.fn.yiiGridView.update('ptkp-m-grid');
+                            }else{
+                            myAlert('Data gagal dihapus karena data digunakan di tabel lain.');
+                            }
+                },"json");
+           }
+		});
+    }
+    
     $(document).ready(function(){
         $("input[name='KPPtkpM[tglberlaku]']").focus();
     })
 </script>
+</fieldset>

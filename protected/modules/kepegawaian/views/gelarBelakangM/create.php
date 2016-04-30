@@ -1,5 +1,8 @@
-<div class="white-container">
-    <legend class="rim2">Tambah <b>Gelar Belakang</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Tambah <b>Gelar Belakang</b></legend>-->
+<fieldset class="box row-fluid">
+    <legend class="rim">Tambah Gelar Belakang</legend>
+    
     <?php
     $this->breadcrumbs=array(
             'Sagelar Belakang Ms'=>array('index'),
@@ -16,4 +19,5 @@
     $this->widget('bootstrap.widgets.BootAlert'); ?>
 
     <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
-</div>
+<!--</div>-->
+</fieldset>

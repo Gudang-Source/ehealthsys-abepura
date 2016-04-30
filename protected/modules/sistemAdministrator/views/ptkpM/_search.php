@@ -35,7 +35,7 @@
     </tr>
     <tr>
         <td colspan="2">
-            <?php echo $form->checkBoxRow($model,'berlaku'); ?>
+            <?php echo $form->checkBoxRow($model,'berlaku', array('checked'=>'berlaku')); ?>
         </td>
     </tr>
 </table>

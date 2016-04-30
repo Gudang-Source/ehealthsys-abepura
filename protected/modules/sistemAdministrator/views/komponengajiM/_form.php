@@ -16,11 +16,20 @@
             <?php echo $form->textFieldRow($model,'komponengaji_kode',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
             <?php echo $form->textFieldRow($model,'komponengaji_nama',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
             <?php echo $form->textFieldRow($model,'komponengaji_singkt',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>20)); ?>
-            <div>
-                <?php echo $form->radioButtonRow($model,'penerimaan', array('onkeypress'=>"return $(this).focusNextInputField(event);", 'name'=>"komponen")); ?>
-                <?php echo $form->radioButtonRow($model,'ispotongan', array('onkeypress'=>"return $(this).focusNextInputField(event);", 'name'=>"komponen")); ?>
+        <div class = "control-group" >  
+            <?php echo $form->labelEx($model,'penerimaan', array('class'=>'control-label')); ?>
+            <div class = "control">                
+                <?php echo '&nbsp;&nbsp;'.$form->radioButton($model,'penerimaan', array('onkeypress'=>"return $(this).focusNextInputField(event);", 'name'=>"komponen")); ?>            
             </div>
-            <?php // echo $form->radioButtonRow($model,'komponengaji_aktif', array('onkeypress'=>"return $(this).focusNextInputField(event);", 'name'=>"komponen")); ?>
+        </div>
+        <div class = "control-group" >  
+            <?php echo $form->labelEx($model,'ispotongan', array('class'=>'control-label')); ?>
+            <div class = "control">                
+                <?php echo '&nbsp;&nbsp;'.$form->radioButton($model,'ispotongan', array('onkeypress'=>"return $(this).focusNextInputField(event);", 'name'=>"komponen")); ?>            
+            </div>
+        </div>
+        
+            <?php echo $form->checkBoxRow($model,'komponengaji_aktif', array('onkeypress'=>"return $(this).focusNextInputField(event);", 'name'=>"aktif")); ?>
 	<div class="form-actions">
                 <?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 
                                     Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),
