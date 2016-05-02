@@ -19,6 +19,8 @@
  */
 class PemakaianobatT extends CActiveRecord
 {
+        public $tglAwal;
+        public $tglAkhir;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -64,6 +66,7 @@ class PemakaianobatT extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+                    'pegawai'=>array(self::BELONGS_TO, 'PegawaiM', 'pegawai_id'),
 		);
 	}
 
@@ -76,7 +79,7 @@ class PemakaianobatT extends CActiveRecord
 			'pemakaianobat_id' => 'Pemakaian Obat',
 			'pegawai_id' => 'Pegawai',
 			'ruangan_id' => 'Ruangan',
-			'tglpemakaianobat' => 'Tanggal Pemakaian Obat',
+			'tglpemakaianobat' => 'Tgl. Pemakaian Obat',
 			'nopemakaian_obat' => 'No. Pemakaian Obat',
 			'untukkeperluan_obat' => 'Untuk Keperluan',
 			'ket_pemakaianobat' => 'Keterangan Pemakaian Obat',
@@ -138,7 +141,7 @@ class PemakaianobatT extends CActiveRecord
             // should not be searched.
 
             $criteria=$this->criteriaSearch();
-            $criteria->limit=10;
+            // $criteria->limit=10;
 
             return new CActiveDataProvider($this, array(
                     'criteria'=>$criteria,
@@ -157,6 +160,19 @@ class PemakaianobatT extends CActiveRecord
             return new CActiveDataProvider($this, array(
                     'criteria'=>$criteria,
                     'pagination'=>false,
+            ));
+        }
+        
+        public function searchPemakaian() {
+            $criteria=$this->criteriaSearch();
+            if (!empty($this->tglAwal) && !empty($this->tglAkhir)) {
+                $criteria->addBetweenCondition('tglpemakaianobat::date', $this->tglAwal, $this->tglAkhir);
+            }
+            $criteria->compare('create_ruangan', $this->create_ruangan);
+            // $criteria->limit=10;
+
+            return new CActiveDataProvider($this, array(
+                    'criteria'=>$criteria,
             ));
         }
 }
