@@ -1,5 +1,7 @@
-<div class="white-container">
-    <legend class="rim2">Pengaturan <b>Jam Kerja</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Pengaturan <b>Jam Kerja</b></legend>-->
+<fieldset class="box row-fluid">
+    <legend class="rim">Pengaturan Jam Kerja</legend>
     <?php
     $this->breadcrumbs=array(
             'Kpjamkerja Ms'=>array('index'),
@@ -18,10 +20,10 @@
             return false;
     });
     ");
-    $this->renderPartial('_tabMenu',array());
+    //$this->renderPartial('_tabMenu',array());
     ?>
-    <div class="biru">
-        <div class="white">
+    <!--<div class="biru">
+        <div class="white">-->
             <?php $this->widget('bootstrap.widgets.BootAlert'); ?>
             <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-white icon-accordion"></i>')),'#',array('class'=>'search-button btn')); ?>
             <div class="cari-lanjut3 search-form" style="display:none">
@@ -105,14 +107,15 @@
 					}',
                 )); ?>
             <!--</div>-->
-        </div>
-    </div>
+        <!--</div>
+    </div>-->
     <?php 
     echo CHtml::link(Yii::t('mds','{icon} Tambah Jam Kerja',array('{icon}'=>'<i class="icon-plus icon-white"></i>')),$this->createUrl($this->id.'/create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp"; 
     echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
     echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
     echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
-    $this->widget('UserTips',array('type'=>'admin'));
+     $content = $this->renderPartial('../tips/master',array(),true);
+    $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
 	$controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
     $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
     $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/print');
@@ -169,3 +172,4 @@ JSCRIPT;
         }); 
     }
 </script>
+</fieldset>

@@ -64,7 +64,7 @@ $('.search-form form').submit(function(){
 				'name'=>'harilibur_aktif',
 				'type'=>'raw',
 				'value'=>'(($data->harilibur_aktif) ? "Aktif" : "Tidak Aktif")',
-				'filter'=>array(1=>'Aktif',0=>'Tidak Aktif'),
+				'filter'=>false,
 			),
 			array(
 				'header'=>Yii::t('zii','View'),

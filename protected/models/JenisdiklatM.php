@@ -37,7 +37,7 @@ class JenisdiklatM extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('jenisdiklat_aktif', 'required'),
+			array('jenisdiklat_aktif, jenisdiklat_nama', 'required'),
 			array('jenisdiklat_nama, jenisdiklat_namalainnya', 'length', 'max'=>50),
                         array('jenisdiklat_deskripsi', 'safe'),
 			// The following rule is used by search().

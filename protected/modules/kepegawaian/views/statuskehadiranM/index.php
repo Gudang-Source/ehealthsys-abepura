@@ -1,5 +1,5 @@
 <?php
-$this->breadcrumbs=array(
+/*$this->breadcrumbs=array(
 	'Statuskehadiran Ms',
 );
 
@@ -17,4 +17,13 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
 	'itemView'=>'_view',
 )); ?>
 
-<?php $this->widget('UserTips',array('type'=>'list'));?>
+<?php $this->widget('UserTips',array('type'=>'list')); */?>
+
+<div class="white-container">
+    <legend class="rim2">Master <b>Presensi</b></legend>
+    <?php $this->renderPartial('_tabMenu',array()); ?>
+    <?php $this->renderPartial('_jsFunctions',array()); ?>
+    <div>
+        <iframe class="biru" id="frame" src="" width='100%' frameborder="0" style="overflow-y:scroll" ></iframe>
+    </div>
+</div>
