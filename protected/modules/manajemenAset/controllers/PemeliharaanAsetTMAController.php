@@ -10,8 +10,8 @@ class PemeliharaanAsetTMAController extends MyAuthController {
 	
 	 public function actionIndex($pemeliharaanaset_id = null){
     	$format = new MyFormatter();
-		$modPemeliharaan = new MAPemeliharaanasetT;		
-		$modPemeliharaanDetail = new MAPemeliharaanasetdetailT('search');
+        $modPemeliharaan = new MAPemeliharaanasetT;		
+        $modPemeliharaanDetail = new MAPemeliharaanasetdetailT('search');
     	$modPemeliharaanAset = new MAPemeliharaanasetT;
     	$modPemeliharaanAset->pemeliharaanaset_tgl = date('Y-m-d H:i:s');
     	$modPemeliharaanAset->pemeliharaanaset_no = '-Otomatis-';
@@ -21,18 +21,20 @@ class PemeliharaanAsetTMAController extends MyAuthController {
 		$kategoriaset = CHtml::listData(MABidangM::model()->getBidangItems(),'bidang_id','bidang_nama');
 
     	if(!empty($pemeliharaanaset_id)){
+                        //$barang_type = 'aset';
 			$criteria = new CDbCriteria();
 			$criteria->addCondition('t.pemeliharaanaset_id = '.$pemeliharaanaset_id);
+                        //$criteria->addCondition("LOWER(barang_m.barang_type) = '".strtolower($barang_type)."' ");
 			$criteria->select = 'pemeliharaanaset_t.*,t.*,barang_m.*,invperalatan_t.*,invgedung_t.*';
 			$criteria->join = 
-						'JOIN pemeliharaanaset_t ON pemeliharaanaset_t.pemeliharaanaset_id = t.pemeliharaanaset_id'
+                                          ' JOIN pemeliharaanaset_t ON pemeliharaanaset_t.pemeliharaanaset_id = t.pemeliharaanaset_id'
 					. ' JOIN invasetlain_t ON invasetlain_t.invasetlain_id=t.invasetlain_id'
 					. ' JOIN invgedung_t ON invgedung_t.invgedung_id=t.invgedung_id'
 					. ' JOIN invjalan_t ON invjalan_t.invjalan_id=t.inventarisasi_id'
 					. ' JOIN invperalatan_t ON invperalatan_t.invperalatan_id=t.invperalatan_id'
 					. ' JOIN barang_m ON barang_m.barang_id = t.barang_id'
 					;
-            $modPenyimpananPemeliharaanDetail = MAPemeliharaanasetdetailT::model()->findAll($criteria);
+            $modPenyimpananPemeliharaanDetail = MAPemeliharaanasetdetailT::model()->findAll($criteria);            
         }
 
         if(isset($_POST['MAPemeliharaanasetT'])){
@@ -107,9 +109,10 @@ class PemeliharaanAsetTMAController extends MyAuthController {
     {
         if(Yii::app()->request->isAjaxRequest) { 
             parse_str($_REQUEST['data'],$data_parsing);
-			$form = "";
+            $form = "";
             $pesan = "";
-			$modPemeliharaandetail = '';
+            $modPemeliharaandetail = '';
+            $barang_type = 'Aset';
             $format = new MyFormatter();
 			
 			if(isset($data_parsing['MAPemeliharaanasetdetailT'])){
@@ -121,6 +124,7 @@ class PemeliharaanAsetTMAController extends MyAuthController {
 				
 				$criteria = new CDbCriteria();
 				$criteria->select="t.*";
+                                $criteria->compare('LOWER(t.barang_type)',strtolower($barang_type),true);
 				if(!empty($kategori_aset)){
 					$criteria->addCondition('t.bidang_id = '.$kategori_aset);
 				}
