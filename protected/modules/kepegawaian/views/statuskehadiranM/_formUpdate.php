@@ -21,11 +21,11 @@
                                     Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),
                                     array('class'=>'btn btn-primary', 'type'=>'submit','onKeypress'=>'return formSubmit(this,event)')); ?>
                          <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
-                        '', 
-                        array('class'=>'btn btn-danger',
-                              'onclick'=>'if(confirm("'.Yii::t('mds','Do You want to cancel?').'")) location.reload(); return false;')); ?>
+                                    Yii::app()->createUrl($this->module->id.'/statuskehadiranM/admin'), 
+                                    array('class'=>'btn btn-danger',
+                                          'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
                         <?php
-                        echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Status Kehadiran', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp";
+                        echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Status Kehadiran', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/admin',array('tab'=>'frame','modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp";
 
                             $content = $this->renderPartial('kepegawaian.views.tips.tipsaddedit',array(),true);
                             $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));

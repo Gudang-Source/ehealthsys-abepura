@@ -1,3 +1,5 @@
+<fieldset class="box row-fluid">
+    <legend class="rim">Pengaturan Kompetensi</legend>
 <?php
 $this->breadcrumbs=array(
 	'Kpkompetensi Ms'=>array('index'),
@@ -75,6 +77,7 @@ $('.search-form form').submit(function(){
 							'options'=>array('title'=>Yii::t('mds','Remove Temporary')),
 							'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/nonActive",array("id"=>$data->kompetensi_id))',
 							'click'=>'function(){nonActive(this);return false;}',
+                                                        'visible' => '($data->kompetensi_aktif)?true:false',
 					),
 					'delete'=> array(),
 				)
@@ -96,7 +99,8 @@ $('.search-form form').submit(function(){
 	echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
 	echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
 	echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
-	$this->widget('UserTips',array('content'=>''));
+	$content = $this->renderPartial('../tips/master',array(),true);
+        $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
 	$urlPrint= $this->createUrl('print');
 
 $js = <<< JSCRIPT
@@ -136,3 +140,4 @@ Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);
 		return false;
 	}
 </script>
+</fieldset>

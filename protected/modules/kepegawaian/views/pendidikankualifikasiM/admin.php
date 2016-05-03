@@ -1,3 +1,5 @@
+<fieldset class="box">
+    <legend class="rim">Pengaturan Kualifikasi Pendidikan</legend>
 <?php
 $this->breadcrumbs=array(
 	'Sapendidikankualifikasi Ms'=>array('index'),

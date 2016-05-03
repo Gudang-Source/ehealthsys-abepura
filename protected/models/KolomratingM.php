@@ -93,14 +93,35 @@ class KolomratingM extends CActiveRecord
 
 		$criteria->compare('kolomrating_id',$this->kolomrating_id);
 		$criteria->compare('indikatorperilaku_id',$this->indikatorperilaku_id);
-		$criteria->compare('kolomrating_namalevel',$this->kolomrating_namalevel,true);
+		$criteria->compare('LOWER(kolomrating_namalevel)',  strtolower($this->kolomrating_namalevel),true);
 		$criteria->compare('kolomrating_point',$this->kolomrating_point);
-		$criteria->compare('kolomrating_uraian',$this->kolomrating_uraian,true);
-		$criteria->compare('kolomrating_deskripsi',$this->kolomrating_deskripsi,true);
+		$criteria->compare('LOWER(kolomrating_uraian)',strtolower($this->kolomrating_uraian),true);
+		$criteria->compare('LOWER(kolomrating_deskripsi)',strtolower($this->kolomrating_deskripsi),true);
 		$criteria->compare('kolomrating_aktif',$this->kolomrating_aktif);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+		));
+	}
+        
+        public function searchPrint()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria=new CDbCriteria;
+
+		$criteria->compare('kolomrating_id',$this->kolomrating_id);
+		$criteria->compare('indikatorperilaku_id',$this->indikatorperilaku_id);
+		$criteria->compare('LOWER(kolomrating_namalevel)',  strtolower($this->kolomrating_namalevel),true);
+		$criteria->compare('kolomrating_point',$this->kolomrating_point);
+		$criteria->compare('LOWER(kolomrating_uraian)',strtolower($this->kolomrating_uraian),true);
+		$criteria->compare('LOWER(kolomrating_deskripsi)',strtolower($this->kolomrating_deskripsi),true);
+		$criteria->compare('kolomrating_aktif',$this->kolomrating_aktif);
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+                        'pagination' => false
 		));
 	}
 }

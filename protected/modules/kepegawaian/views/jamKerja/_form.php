@@ -189,7 +189,10 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
             'onclick' => 'return refreshForm(this);'));
         ?>
         <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Jam Kerja', array('{icon}' => '<i class="icon-folder-open icon-white"></i>')), $this->createUrl($this->id . '/admin', array('modul_id' => Yii::app()->session['modul_id'])), array('class' => 'btn btn-success')); ?>
-        <?php $this->widget('UserTips', array('type' => 'create')); ?>
+        <?php
+            $content = $this->renderPartial('kepegawaian.views.tips.tipsaddedit4c',array(),true);
+            $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
+        ?>
     </div>
 </div>
 <?php $this->endWidget(); ?>

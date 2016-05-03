@@ -27,9 +27,13 @@
 		<?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
 				$this->createUrl('create'), 
 				array('class'=>'btn btn-danger',
-					  'onclick'=>'return refreshForm(this);')); ?>
+					  'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
 		<?php echo CHtml::link(Yii::t('mds','{icon} Pengaturan Jenis Diklat',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
-		<?php $this->widget('UserTips',array('content'=>''));?>
+		<?php //$this->widget('UserTips',array('content'=>''));                                     
+                    $content = $this->renderPartial($this->path_tips.'tipsaddedit',array(),true);
+                    $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
+               
+                ?>
 		</div>
 	</div>
 <?php $this->endWidget(); ?>

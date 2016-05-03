@@ -8,8 +8,9 @@ class AlatfingerMController extends MyAuthController
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
 	public $path_view='sistemAdministrator.views.alatfingerM.';
+        public $path_tips='sistemAdministrator.views.tips.';
 	public $layout='//layouts/column1';
-    public $defaultAction ='admin';
+        public $defaultAction ='admin';
 
 	/**
 	 * Displays a particular model.
@@ -40,7 +41,7 @@ class AlatfingerMController extends MyAuthController
 			$model->alat_aktif=true;
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin'));
+				$this->redirect(array('admin','sukses'=>1));
                         }
 		}
 
@@ -67,7 +68,7 @@ class AlatfingerMController extends MyAuthController
 			$model->attributes=$_POST['SAAlatfingerM'];
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin'));
+				$this->redirect(array('admin','sukses'=>1));
                         }
 		}
 
@@ -90,8 +91,11 @@ class AlatfingerMController extends MyAuthController
 	/**
 	 * Manages all models.
 	 */
-	public function actionAdmin()
+	public function actionAdmin($sukses='')
 	{
+                if ($sukses == 1):
+                    Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                endif;
                 
 		$model=new SAAlatfingerM('search');
 		$model->unsetAttributes();  // clear any default values
@@ -218,7 +222,7 @@ class AlatfingerMController extends MyAuthController
                 $mpdf->WriteHTML($stylesheet,1);  
                 $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
                 $mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-                $mpdf->Output();
+                $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
             }                       
         }
 }

@@ -10,6 +10,7 @@ class JenisdiklatMController extends MyAuthController
 	public $layout='//layouts/column1';
 	public $defaultAction = 'admin';
 	public $path_view = 'sistemAdministrator.views.jenisdiklatM.';
+        public $path_tips = 'sistemAdministrator.views.tips.';
 
 	/**
 	 * Menampilkan detail data.
@@ -35,7 +36,7 @@ class JenisdiklatMController extends MyAuthController
 			$model->attributes=$_POST['SAJenisdiklatM'];
 			if($model->save()){
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin'));
+				$this->redirect(array('admin','sukses'=>1));
 			}
 		}
 
@@ -59,7 +60,7 @@ class JenisdiklatMController extends MyAuthController
 			$model->attributes=$_POST['SAJenisdiklatM'];
 			if($model->save()){
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin'));
+				$this->redirect(array('admin','sukses'=>1));
 			}
 		}
 
@@ -143,8 +144,11 @@ class JenisdiklatMController extends MyAuthController
 	/**
 	 * Pengaturan data.
 	 */
-	public function actionAdmin()
+	public function actionAdmin($sukses='')
 	{
+            if ($sukses == 1):
+                Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+            endif;
 		$model=new SAJenisdiklatM('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['SAJenisdiklatM'])){
@@ -205,7 +209,7 @@ class JenisdiklatMController extends MyAuthController
 			$mpdf->WriteHTML($stylesheet,1);  
 			$mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
 			$mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-			$mpdf->Output();
+			$mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
 		}
 	}
 }
