@@ -75,13 +75,13 @@
 <?php
         $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
         $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
-        $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/print&id='.$modPesan->pesanbarang_id);
+        $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/print&id='.$model->pemakaianobat_id);
         $url=  Yii::app()->createAbsoluteUrl($module.'/'.$controller);
 
 $js = <<< JSCRIPT
 function print(caraPrint)
 {
-    window.open("${urlPrint}/"+$('#gupesanbarang-t-search').serialize()+"&caraPrint="+caraPrint,"",'location=_new, width=900px');
+    window.open("${urlPrint}&caraPrint="+caraPrint,"",'location=_new, width=900px');
 }
 JSCRIPT;
 Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);                        

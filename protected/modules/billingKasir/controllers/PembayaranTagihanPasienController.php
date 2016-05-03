@@ -846,7 +846,7 @@ class PembayaranTagihanPasienController extends MyAuthController
             $criteria->order = 'ruangantindakan_id';
             $modRincians = BKRincianbelumbayarrdV::model()->findAll($criteria);
             $modPendaftaran=PendaftaranT::model()->findByPk($pendaftaran_id);
-        }else if($instalasi_id == Params::INSTALASI_ID_RI){
+        }else if($instalasi_id == Params::INSTALASI_ID_RI || $instalasi_id == Params::INSTALASI_ID_ICU){
             $criteria = new CDbCriteria();
             $criteria->addCondition('pendaftaran_id = '.$pendaftaran_id);
             $criteria->addCondition('pasienadmisi_id = '.$pasienadmisi_id);

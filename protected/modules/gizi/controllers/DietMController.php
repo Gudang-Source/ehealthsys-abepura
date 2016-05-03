@@ -33,6 +33,7 @@ class DietMController extends MyAuthController
 
 		if(isset($_POST['DietM']))
 		{
+                    if (isset($_POST['zatgizi_id'])) {
                                 for($i=0;$i<count($_POST['zatgizi_id']);$i++){
                                     $model=new DietM;
                                     $idZatgizi = $_POST['zatgizi_id'][$i];
@@ -56,6 +57,7 @@ class DietMController extends MyAuthController
 									Yii::app()->user->setFlash('error','<strong>Gagal</strong> Data gagal disimpan.');
 								}
 								$this->redirect(array('admin'));
+                    }
 		}
 
 		$this->render('create',array(

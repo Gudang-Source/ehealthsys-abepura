@@ -58,10 +58,12 @@
     <td style="text-align: right;">
         <?php echo MyFormatter::formatNumberForPrint($modPemakaianObatDetail->subtotal); ?>
     </td>
-	<?php if(!isset($_GET['sukses'])){ ?>
+	<?php if(!isset($_GET['sukses'])){ 
+            if (empty($nobatal)) { ?>
 		<td>
 			<a onclick="batalObatAlkesPasienDetail(this);return false;" rel="tooltip" href="javascript:void(0);" title="Klik untuk membatalkan obat alkes ini"><i class="icon-form-silang"></i></a>
 		</td>
+            <?php } ?>
 	<?php } ?>
 </tr>
 <?php endif; ?>
