@@ -401,8 +401,8 @@ BLOCK;
                     </div>
             </fieldset>
         </div>
-    </div>    
-    <div class = "row-fluid">
+        
+        <div class = "span12">
         <div class="form-actions">
                 <?php 
                         echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit','onkeypress'=>'formSubmit(this,event);'));
@@ -418,8 +418,8 @@ BLOCK;
                     $urlPrintKartuPegawai = Yii::app()->createUrl('print/kartuPegawai',array('idPegawai'=>''));
                 ?>  
         </div>
-    </div>    
-
+        </div>
+ </div>          
 
 <?php $this->endWidget(); ?>
 <?php
