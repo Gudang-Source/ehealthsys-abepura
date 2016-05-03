@@ -105,10 +105,10 @@ class KonfigsystemK extends CActiveRecord {
             array('jenissuaraantrian', 'length', 'max' => 50),
             array('hl7broker_host', 'length', 'max' => 200),
             array('hl7broker_port, normlama_min, normlama_maks', 'length', 'max' => 10),
-            array('isantrian, iskarcis, printkartulsng, printkunjunganlsng, nama_huruf_capital, alamat_huruf_capital, running_text_kiosk, dokterruangan, tindakanruangan, tindakankelas, tgltransaksimundur, krngistokgizi, krngistokumum, isotomatispresensi, karcisbarulama, akomodasiotomatis, iskartudgntemplate, isbridging, is_nodejsaktif, is_telnetaktif, issmsgateway, mapdashboard, isbayarkekasirpenunjang, isjurnalotomatis, ispostingotomatis, hl7broker_aktif', 'safe'),
+            array('bpjs_inacbg_path, isantrian, iskarcis, printkartulsng, printkunjunganlsng, nama_huruf_capital, alamat_huruf_capital, running_text_kiosk, dokterruangan, tindakanruangan, tindakankelas, tgltransaksimundur, krngistokgizi, krngistokumum, isotomatispresensi, karcisbarulama, akomodasiotomatis, iskartudgntemplate, isbridging, is_nodejsaktif, is_telnetaktif, issmsgateway, mapdashboard, isbayarkekasirpenunjang, isjurnalotomatis, ispostingotomatis, hl7broker_aktif', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('konfigsystem_id, isantrian, iskarcis, printkartulsng, printkunjunganlsng, nama_huruf_capital, alamat_huruf_capital, mr_lab, mr_rad, mr_ibs, mr_rehabmedis, mr_apotik, mr_jenazah, nopendaftaran_rj, nopendaftaran_ri, nopendaftaran_gd, nopendaftaran_lab, nopendaftaran_rad, nopendaftaran_ibs, nopendaftaran_rehabmedis, nopendaftaran_jenazah, running_text_display, running_text_kiosk, dokterruangan, tindakanruangan, tindakankelas, tgltransaksimundur, krngistokgizi, krngistokumum, persentasirujin, persentasirujout, monitoringrefresh, isotomatispresensi, karcisbarulama, lamakonfbooking, jmldigitrm, akomodasiotomatis, iskartudgntemplate, isbridging, bpjs_host, bpjs_port, nodejs_host, nodejs_port, is_nodejsaktif, telnet_host, telnet_port, is_telnetaktif, bpjs_uid, bpjs_secret, jenissuaraantrian, issmsgateway, mapdashboard, isbayarkekasirpenunjang, isjurnalotomatis, ispostingotomatis, masaberlaku_pelamar_hr, nopendaftaran_apotik, pembulatanhargakasir, jatuhtempoklaim, jatuhtempotagihan, hl7broker_aktif, hl7broker_host, hl7broker_port, delaytombolantrian, normlama_min, normlama_maks', 'safe', 'on' => 'search'),
+            array('bpjs_inacbg_path, konfigsystem_id, isantrian, iskarcis, printkartulsng, printkunjunganlsng, nama_huruf_capital, alamat_huruf_capital, mr_lab, mr_rad, mr_ibs, mr_rehabmedis, mr_apotik, mr_jenazah, nopendaftaran_rj, nopendaftaran_ri, nopendaftaran_gd, nopendaftaran_lab, nopendaftaran_rad, nopendaftaran_ibs, nopendaftaran_rehabmedis, nopendaftaran_jenazah, running_text_display, running_text_kiosk, dokterruangan, tindakanruangan, tindakankelas, tgltransaksimundur, krngistokgizi, krngistokumum, persentasirujin, persentasirujout, monitoringrefresh, isotomatispresensi, karcisbarulama, lamakonfbooking, jmldigitrm, akomodasiotomatis, iskartudgntemplate, isbridging, bpjs_host, bpjs_port, nodejs_host, nodejs_port, is_nodejsaktif, telnet_host, telnet_port, is_telnetaktif, bpjs_uid, bpjs_secret, jenissuaraantrian, issmsgateway, mapdashboard, isbayarkekasirpenunjang, isjurnalotomatis, ispostingotomatis, masaberlaku_pelamar_hr, nopendaftaran_apotik, pembulatanhargakasir, jatuhtempoklaim, jatuhtempotagihan, hl7broker_aktif, hl7broker_host, hl7broker_port, delaytombolantrian, normlama_min, normlama_maks', 'safe', 'on' => 'search'),
         );
     }
 
@@ -194,6 +194,7 @@ class KonfigsystemK extends CActiveRecord {
             'normlama_min' => 'No. RM Lama Dari',
             'normlama_maks' => 'Sampai dengan',
             'issmsgateway' => 'SMS Gateway',
+            'bpjs_inacbg_path' => 'Host INA-CBG',
         );
     }
 

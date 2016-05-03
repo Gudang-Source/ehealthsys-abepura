@@ -36,6 +36,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
             <?php echo $form->textFieldRow($model, 'bpjs_secret', array('class' => 'span3', 'onkeyup' => "return $(this).focusNextInputField(event);", 'maxlength' => 200, 'rel' => 'tooltip', 'title' => $model->getAttributeTooltip('bpjs_secret'))); ?>
             <?php echo $form->textFieldRow($model, 'bpjs_host', array('placeholder' => 'http://192.168.1.1', 'class' => 'span3', 'onkeyup' => "return $(this).focusNextInputField(event);", 'maxlength' => 200, 'rel' => 'tooltip', 'title' => $model->getAttributeTooltip('bpjs_host'))); ?>
             <?php echo $form->textFieldRow($model, 'bpjs_port', array('placeholder' => '3000', 'class' => 'span3 numbers-only', 'onkeyup' => "return $(this).focusNextInputField(event);", 'maxlength' => 200, 'rel' => 'tooltip', 'title' => $model->getAttributeTooltip('bpjs_port'))); ?>
+            <?php echo $form->textFieldRow($model, 'bpjs_inacbg_path', array('class'=>'span3', 'rel'=>'tooltip', 'title'=>'Host INA-CBG untuk Bridging BPJS')); ?>
             <?php echo $form->checkBoxRow($model, 'isbridging', array('onkeyup' => "return $(this).focusNextInputField(event);", 'rel' => 'tooltip', 'title' => $model->getAttributeTooltip('isbridging'),)); ?>
         </div>
         <div class="box">
