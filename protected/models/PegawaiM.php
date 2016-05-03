@@ -153,10 +153,10 @@ class PegawaiM extends CActiveRecord
 			'kelurahan_id' => 'Kelurahan',
 			'kecamatan_id' => 'Kecamatan',
 			'profilrs_id' => 'Profile RS.',
-			'gelarbelakang_id' => 'Gelar belakang',
+			'gelarbelakang_id' => 'Gelar Belakang',
 			'suku_id' => 'Suku',
-			'kelompokpegawai_id' => 'Kelompok pegawai',
-			'pendkualifikasi_id' => 'Pendidikan kualifikasi',
+			'kelompokpegawai_id' => 'Kelompok Pegawai',
+			'pendkualifikasi_id' => 'Pendidikan Kualifikasi',
 			'jabatan_id' => 'Jabatan',
 			'pendidikan_id' => 'Pendidikan',
 			'propinsi_id' => 'Propinsi',
@@ -170,33 +170,33 @@ class PegawaiM extends CActiveRecord
 			'gelardepan' => 'Gelar depan',
 			'nama_pegawai' => 'Nama Pegawai',
 			'nama_keluarga' => 'Nama Keluarga',
-			'tempatlahir_pegawai' => 'Tempat lahir',
-			'tgl_lahirpegawai' => 'Tanggal lahir',
+			'tempatlahir_pegawai' => 'Tempat Lahir',
+			'tgl_lahirpegawai' => 'Tanggal Lahir',
 			'jeniskelamin' => 'Jenis Kelamin',
-			'statusperkawinan' => 'Status perkawinan',
+			'statusperkawinan' => 'Status Perkawinan',
 			'alamat_pegawai' => 'Alamat Pegawai',
 			'agama' => 'Agama',
-			'golongandarah' => 'Golongan darah',
+			'golongandarah' => 'Golongan Darah',
 			'rhesus' => 'Rhesus',
 			'alamatemail' => 'Email',
 			'notelp_pegawai' => 'No. Telepon',
 			'nomobile_pegawai' => 'No. HP',
 			'warganegara_pegawai' => 'Warga Negara',
 			'jeniswaktukerja' => 'Jenis waktu kerja',
-			'kelompokjabatan' => 'Kelompok jabatan',
-			'kategoripegawai' => 'Kategori pegawai',
-			'kategoripegawaiasal' => 'Kategori pegawai asal',
-			'photopegawai' => 'Photo pegawai',
+			'kelompokjabatan' => 'Kelompok Jabatan',
+			'kategoripegawai' => 'Kategori Pegawai',
+			'kategoripegawaiasal' => 'Kategori Pegawai Asal',
+			'photopegawai' => 'Photo Pegawai',
 			'pegawai_aktif' => 'Aktif',
 			'esselon_id' => 'Esselon',
-			'statuskepemilikanrumah_id' => 'Status kepemilikan rumah',
-			'jenisidentitas' => 'Jenis identitas',
-			'noidentitas' => 'No. identitas',
-			'nofingerprint' => 'No. fingerprint',
-			'tinggibadan' => 'Tinggi badan',
-			'beratbadan' => 'Berat badan',
-			'kemampuanbahasa' => 'Kemampuan bahasa',
-			'warnakulit' => 'Warna kulit',
+			'statuskepemilikanrumah_id' => 'Status Kepemilikan Rumah',
+			'jenisidentitas' => 'Jenis Identitas',
+			'noidentitas' => 'No. Identitas',
+			'nofingerprint' => 'No. Fingerprint',
+			'tinggibadan' => 'Tinggi Badan',
+			'beratbadan' => 'Berat Badan',
+			'kemampuanbahasa' => 'Kemampuan Bahasa',
+			'warnakulit' => 'Warna Kulit',
 			'nip_lama' => 'Nip Lama',
 			'norekening' => 'No. Rekening',
 			'banknorekening' => 'Bank No. Rekening',
@@ -213,7 +213,7 @@ class PegawaiM extends CActiveRecord
 			'jenistenagamedis_id'=>'Jenis Tenaga Medis',
 			'tglmasaaktifpeg'=>'Masa Aktif',
 			'tglmasaaktifpeg_sd'=>'Sampai Dengan',
-                        'golonganpegawai_id'=>'Golongan Pegawai',
+                        'golonganpegawai_id'=>'Golongan',
                         'ruangan_id'=>'Ruangan Pegawai',
 		);
 	}
@@ -523,8 +523,8 @@ class PegawaiM extends CActiveRecord
     public function getPendidikanKualifikasiItems()
     {
         return PendidikankualifikasiM::model()->findAll('pendkualifikasi_aktif=TRUE order by pendkualifikasi_nama');
-    }  
-
+    }    
+    
     public function getJabatanItems()
     {
         return JabatanM::model()->findAll('jabatan_aktif=TRUE order by jabatan_nama');

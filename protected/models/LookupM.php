@@ -199,5 +199,25 @@ class LookupM extends CActiveRecord
             $models=self::model()->findAll($criteria);
             return $models;
         }
-
+        
+        public static function getNama($lookup_type=null)
+	{
+            $data = '';
+            $criteria = new CDbCriteria();
+            
+            $lookup_type = isset($lookup_type) ? trim(strtolower($lookup_type)) : null;
+            $criteria->compare('lookup_type',$lookup_type);            
+            $criteria->order = "lookup_name ASC";
+            $criteria->addCondition("lookup_aktif IS TRUE");
+            $models=self::model()->findAll($criteria);
+            if(count($models) > 0){
+                foreach($models as $model)
+                    // $data[$model->lookup_value]= ucwords(strtolower($model->lookup_name));
+                    $data= $model->lookup_name;
+            }else{
+                $data = null;
+            }
+            
+            return $data;
+	}
 }

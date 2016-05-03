@@ -132,14 +132,21 @@ class PegawaiMController extends MyAuthController
         
 	public function actionPencatatanpegawai($pegawai_id = null)
 	{
-		$format = new MyFormatter();
+            $format = new MyFormatter();
         $model = new KPPegawaiM;
         $modRuanganPegawai = new RuanganpegawaiM;
         $model->isNewRecord = TRUE;
 		
 		if(!empty($pegawai_id)){
 			$model = KPPegawaiM::model()->findByPk($pegawai_id);
+                    
+                        $cekPegawaiR = RuanganpegawaiM::model()->findAll('pegawai_id='.$pegawai_id.'');
+                        if (isset($cekPegawaiR)):
+                            $modRuanganPegawai= $cekPegawaiR;
+                        endif;
 		}
+                
+                
         if(isset($_POST['KPPegawaiM'])){			
 			$transaction = Yii::app()->db->beginTransaction();
 			try {
@@ -195,8 +202,8 @@ class PegawaiMController extends MyAuthController
 						 if($model->validate())
 							{
 
-								$model->save();
-								$model->isNewRecord = FALSE;
+								$model->save();                                                                
+								$model->isNewRecord = FALSE;                                                               
 							}
 						 else 
 							{
@@ -212,22 +219,24 @@ class PegawaiMController extends MyAuthController
 					}
 
 					$ruanganPegawai=isset ($_POST['ruangan_id']) ? $_POST['ruangan_id'] : null ;
-					$pegawai_id=$model->pegawai_id;
-
+                                        
+					/*$pegawai_id=$model->pegawai_id;
+                                        
 					if($pegawai_id!=null){
 					  $hapusRuanganPegawai=  RuanganpegawaiM::model()->deleteAll('pegawai_id='.$pegawai_id.''); 
 					}
-
-					if (isset($ruanganPegawai)){
+                                        
+					if (isset($ruanganPegawai)){                                            
 						foreach($ruanganPegawai as $i => $rp)
-						{
+						{                                                    
 							$modRuanganPegawai = new RuanganpegawaiM;
+                                                        var_dump($pegawai_id);
 							$modRuanganPegawai->ruangan_id=$rp[$i];
 							$modRuanganPegawai->pegawai_id=$pegawai_id;
 							$modRuanganPegawai->save();
 						}
 					}
-
+                                        var_dump($ruanganPegawai);die;*/
 					if (!empty($model->gelardepan)){
 					$gelardepan = LookupM::model()->findByPk($model->gelardepan);
 					$model->gelardepan = $gelardepan->lookup_name;
@@ -238,6 +247,31 @@ class PegawaiMController extends MyAuthController
 					$model->tglmasaaktifpeg = !empty($_POST['KPPegawaiM']['tglmasaaktifpeg'])?MyFormatter::formatDateTimeForDb($_POST['KPPegawaiM']['tglmasaaktifpeg']):null;
 					$model->tglmasaaktifpeg_sd = !empty($_POST['KPPegawaiM']['tglmasaaktifpeg_sd'])?MyFormatter::formatDateTimeForDb($_POST['KPPegawaiM']['tglmasaaktifpeg_sd']):null;
 					if($model->save()){
+                                           $pegawai_id=$model->pegawai_id;
+                                        
+                                            if($pegawai_id!=null){
+                                              $hapusRuanganPegawai=  RuanganpegawaiM::model()->deleteAll('pegawai_id='.$pegawai_id.''); 
+                                            }
+
+                                            if (isset($ruanganPegawai)){                                            
+                                                    /*foreach($ruanganPegawai as $i => $rp)
+                                                    {                                                    
+                                                            $modRuanganPegawai = new RuanganpegawaiM;
+                                                       
+                                                            $modRuanganPegawai->ruangan_id=$rp[$i];
+                                                            $modRuanganPegawai->pegawai_id=$pegawai_id;
+                                                            $modRuanganPegawai->save();
+                                                    }*/
+                                                    for($i=0; $i < count($ruanganPegawai); $i++)
+                                                    {
+                                                            $modRuanganPegawai = new RuanganpegawaiM;
+                                                            $modRuanganPegawai->ruangan_id=$_POST['ruangan_id'][$i];
+                                                            $modRuanganPegawai->pegawai_id=$pegawai_id;
+                                                            $modRuanganPegawai->save();
+
+                                                    }
+                                            }
+                                           
 					  $transaction->commit();
 					  $model->isNewRecord = FALSE;
 					  Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
