@@ -1,5 +1,7 @@
 <div class="white-container">
     <legend class="rim2">Profil <b>User</b></legend>
+        <?php
+    $this->widget('bootstrap.widgets.BootAlert'); ?>
         <table style="width: 100%" class="table table-striped table-condensed">
               <tr>
                       <td width="20%"> 
@@ -312,8 +314,7 @@
                 </tr>
 -->                 
         </table>
-    <?php
-    $this->widget('bootstrap.widgets.BootAlert'); ?>
-
+    
+    <?php echo CHtml::link(Yii::t('mds','{icon} Ubah',array('{icon}'=>'<i class="icon-pencil icon-white"></i>')),$this->createUrl('update',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
     <?php $this->widget('UserTips',array('type'=>'view'));?>
 </div>
