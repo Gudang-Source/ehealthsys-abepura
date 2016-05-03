@@ -89,6 +89,32 @@ class PemakaianObatController extends MyAuthController
 			'model'=>$model, 'modDetails'=>$modDetails
 		));
 	}
+        
+        public function actionInformasi() {
+            $model = new PemakaianobatT;
+            $model->unsetAttributes();
+            $model->tglAwal = date('Y-m-d', time() - (3600 * 24 * 10));
+            $model->tglAkhir = date('Y-m-d');
+            $model->create_ruangan = Yii::app()->user->getState('ruangan_id');
+            if (isset($_GET['PemakaianobatT'])) {
+                $model->attributes = $_GET['PemakaianobatT'];
+                $model->tglAwal = MyFormatter::formatDateTimeForDb($_GET['PemakaianobatT']['tglAwal']);
+                $model->tglAkhir = MyFormatter::formatDateTimeForDb($_GET['PemakaianobatT']['tglAkhir']);
+
+            }
+
+            $this->render($this->path_view.'informasi', array('model' => $model));
+        }
+        
+        public function actionDetail($id) {
+		$this->layout='//layouts/iframe';
+		$model = FAPemakaianobatT::model()->findByPk($id);
+		$modDetails = FAPemakaianobatdetailT::model()->findAllByAttributes(array('pemakaianobat_id'=>$id));
+		$this->render($this->path_view.'detail', array(
+			'model'=>$model,
+			'modDetails'=>$modDetails,
+		));
+        }
 	
 	protected function savePemakaianObat($postpemakaian)
 	{
@@ -97,7 +123,7 @@ class PemakaianObatController extends MyAuthController
 		$model->attributes = $postpemakaian;
 		$model->nopemakaian_obat = MyGenerator::noPemakaianObat();
 		$model->create_time = date("Y-m-d H:i:s");
-		$model->pegawai_id = Yii::app()->user->id;
+		$model->pegawai_id = Yii::app()->user->getState('pegawai_id'); //Yii::app()->user->id;
 		$model->ruangan_id = Yii::app()->user->getState('ruangan_id');
 		$model->create_loginpemakai_id = Yii::app()->user->id;
 		$model->create_ruangan = Yii::app()->user->getState('ruangan_id');

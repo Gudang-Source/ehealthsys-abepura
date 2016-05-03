@@ -69,6 +69,12 @@ class ObatalkespasienT extends CActiveRecord
         public $is_pilihoa;
         public $biayalain = 0;
         public $subtotaloa=0;
+        
+        public $tglAwal, $tglAkhir;
+        public $no_pendaftaran, $no_rekam_medik, $nama_pasien;
+        
+        public $jenisobatalkes_id, $obatalkes_kategori, $obatalkes_golongan, $obatalkes_nama;
+        
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -190,6 +196,8 @@ class ObatalkespasienT extends CActiveRecord
                     'oasudahbayar'=>array(self::BELONGS_TO, 'OasudahbayarT', 'oasudahbayar_id'), // handling relasi dengan oasudahbayar
                     'pendaftaran'=>array(self::BELONGS_TO, 'PendaftaranT','pendaftaran_id'),
                     'racikan'=>array(self::BELONGS_TO, 'RacikanM','racikan_id'),
+                    'carabayar'=>array(self::BELONGS_TO, 'CarabayarM', 'carabayar_id'),
+                    'penjamin'=>array(self::BELONGS_TO, 'PenjaminpasienM', 'penjamin_id'),
 		);
 	}
 
@@ -201,7 +209,7 @@ class ObatalkespasienT extends CActiveRecord
 		return array(
 			'obatalkespasien_id' => 'Obatalkespasien',
 			'penjamin_id' => 'Penjamin',
-			'carabayar_id' => 'Carabayar',
+			'carabayar_id' => 'Cara Bayar',
 			'daftartindakan_id' => 'Daftartindakan',
 			'sumberdana_id' => 'Sumberdana',
 			'pasienmasukpenunjang_id' => 'Pasienmasukpenunjang',
@@ -251,6 +259,10 @@ class ObatalkespasienT extends CActiveRecord
 			'create_loginpemakai_id' => 'Create Loginpemakai',
 			'update_loginpemakai_id' => 'Update Loginpemakai',
 			'create_ruangan' => 'Create Ruangan',
+                        'jenisobatalkes_id' => 'Jenis Obat',
+                        'obatalkes_kategori' => 'Kategori Obat',
+                        'obatalkes_golongan' => 'Golongan Obat',
+                        'obatalkes_nama' => 'Nama Obat Alkes',
 		);
 	}
 
@@ -265,64 +277,90 @@ class ObatalkespasienT extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('obatalkespasien_id',$this->obatalkespasien_id);
-		$criteria->compare('penjamin_id',$this->penjamin_id);
-		$criteria->compare('carabayar_id',$this->carabayar_id);
-		$criteria->compare('daftartindakan_id',$this->daftartindakan_id);
-		$criteria->compare('sumberdana_id',$this->sumberdana_id);
-		$criteria->compare('pasienmasukpenunjang_id',$this->pasienmasukpenunjang_id);
-		$criteria->compare('pasienanastesi_id',$this->pasienanastesi_id);
-		$criteria->compare('pasien_id',$this->pasien_id);
-		$criteria->compare('satuankecil_id',$this->satuankecil_id);
-		$criteria->compare('ruangan_id',$this->ruangan_id);
-		$criteria->compare('tindakanpelayanan_id',$this->tindakanpelayanan_id);
-		$criteria->compare('tipepaket_id',$this->tipepaket_id);
-		$criteria->compare('obatalkes_id',$this->obatalkes_id);
-		$criteria->compare('penjualanresep_id',$this->penjualanresep_id);
-		$criteria->compare('pegawai_id',$this->pegawai_id);
-		$criteria->compare('racikan_id',$this->racikan_id);
-		$criteria->compare('pendaftaran_id',$this->pendaftaran_id);
-		$criteria->compare('kelaspelayanan_id',$this->kelaspelayanan_id);
-		$criteria->compare('shift_id',$this->shift_id);
-		$criteria->compare('pasienadmisi_id',$this->pasienadmisi_id);
-		$criteria->compare('LOWER(tglpelayanan)',strtolower($this->tglpelayanan),true);
-		$criteria->compare('LOWER(r)',strtolower($this->r),true);
-		$criteria->compare('rke',$this->rke);
-		$criteria->compare('permintaan_oa',$this->permintaan_oa);
-		$criteria->compare('jmlkemasan_oa',$this->jmlkemasan_oa);
-		$criteria->compare('kekuatan_oa',$this->kekuatan_oa);
-		$criteria->compare('LOWER(satuankekuatan_oa)',strtolower($this->satuankekuatan_oa),true);
-		$criteria->compare('qty_oa',$this->qty_oa);
-		$criteria->compare('hargasatuan_oa',$this->hargasatuan_oa);
-		$criteria->compare('LOWER(signa_oa)',strtolower($this->signa_oa),true);
-		$criteria->compare('harganetto_oa',$this->harganetto_oa);
-		$criteria->compare('hargajual_oa',$this->hargajual_oa);
-		$criteria->compare('LOWER(etiket)',strtolower($this->etiket),true);
-		$criteria->compare('jmlexposerad',$this->jmlexposerad);
-		$criteria->compare('LOWER(kontrasrad)',strtolower($this->kontrasrad),true);
-		$criteria->compare('biayaservice',$this->biayaservice);
-		$criteria->compare('biayakonseling',$this->biayakonseling);
-		$criteria->compare('jasadokterresep',$this->jasadokterresep);
-		$criteria->compare('biayakemasan',$this->biayakemasan);
-		$criteria->compare('biayaadministrasi',$this->biayaadministrasi);
-		$criteria->compare('tarifcyto',$this->tarifcyto);
-		$criteria->compare('discount',$this->discount);
-		$criteria->compare('subsidiasuransi',$this->subsidiasuransi);
-		$criteria->compare('subsidipemerintah',$this->subsidipemerintah);
-		$criteria->compare('subsidirs',$this->subsidirs);
-		$criteria->compare('iurbiaya',$this->iurbiaya);
-		$criteria->compare('LOWER(oa)',strtolower($this->oa),true);
-		$criteria->compare('LOWER(create_time)',strtolower($this->create_time),true);
-		$criteria->compare('LOWER(update_time)',strtolower($this->update_time),true);
-		$criteria->compare('LOWER(create_loginpemakai_id)',strtolower($this->create_loginpemakai_id),true);
-		$criteria->compare('LOWER(update_loginpemakai_id)',strtolower($this->update_loginpemakai_id),true);
-		$criteria->compare('LOWER(create_ruangan)',strtolower($this->create_ruangan),true);
+		$criteria->compare('t.obatalkespasien_id',$this->obatalkespasien_id);
+		$criteria->compare('t.penjamin_id',$this->penjamin_id);
+		$criteria->compare('t.carabayar_id',$this->carabayar_id);
+		$criteria->compare('t.daftartindakan_id',$this->daftartindakan_id);
+		$criteria->compare('t.sumberdana_id',$this->sumberdana_id);
+		$criteria->compare('t.pasienmasukpenunjang_id',$this->pasienmasukpenunjang_id);
+		$criteria->compare('t.pasienanastesi_id',$this->pasienanastesi_id);
+		$criteria->compare('t.pasien_id',$this->pasien_id);
+		$criteria->compare('t.satuankecil_id',$this->satuankecil_id);
+		$criteria->compare('t.ruangan_id',$this->ruangan_id);
+		$criteria->compare('t.tindakanpelayanan_id',$this->tindakanpelayanan_id);
+		$criteria->compare('t.tipepaket_id',$this->tipepaket_id);
+		$criteria->compare('t.obatalkes_id',$this->obatalkes_id);
+		$criteria->compare('t.penjualanresep_id',$this->penjualanresep_id);
+		$criteria->compare('t.pegawai_id',$this->pegawai_id);
+		$criteria->compare('t.racikan_id',$this->racikan_id);
+		$criteria->compare('t.pendaftaran_id',$this->pendaftaran_id);
+		$criteria->compare('t.kelaspelayanan_id',$this->kelaspelayanan_id);
+		$criteria->compare('t.shift_id',$this->shift_id);
+		$criteria->compare('t.pasienadmisi_id',$this->pasienadmisi_id);
+		$criteria->compare('LOWER(t.tglpelayanan)',strtolower($this->tglpelayanan),true);
+		$criteria->compare('LOWER(t.r)',strtolower($this->r),true);
+		$criteria->compare('t.rke',$this->rke);
+		$criteria->compare('t.permintaan_oa',$this->permintaan_oa);
+		$criteria->compare('t.jmlkemasan_oa',$this->jmlkemasan_oa);
+		$criteria->compare('t.kekuatan_oa',$this->kekuatan_oa);
+		$criteria->compare('LOWER(t.satuankekuatan_oa)',strtolower($this->satuankekuatan_oa),true);
+		$criteria->compare('t.qty_oa',$this->qty_oa);
+		$criteria->compare('t.hargasatuan_oa',$this->hargasatuan_oa);
+		$criteria->compare('LOWER(t.signa_oa)',strtolower($this->signa_oa),true);
+		$criteria->compare('t.harganetto_oa',$this->harganetto_oa);
+		$criteria->compare('t.hargajual_oa',$this->hargajual_oa);
+		$criteria->compare('LOWER(t.etiket)',strtolower($this->etiket),true);
+		$criteria->compare('t.jmlexposerad',$this->jmlexposerad);
+		$criteria->compare('LOWER(t.kontrasrad)',strtolower($this->kontrasrad),true);
+		$criteria->compare('t.biayaservice',$this->biayaservice);
+		$criteria->compare('t.biayakonseling',$this->biayakonseling);
+		$criteria->compare('t.jasadokterresep',$this->jasadokterresep);
+		$criteria->compare('t.biayakemasan',$this->biayakemasan);
+		$criteria->compare('t.biayaadministrasi',$this->biayaadministrasi);
+		$criteria->compare('t.tarifcyto',$this->tarifcyto);
+		$criteria->compare('t.discount',$this->discount);
+		$criteria->compare('t.subsidiasuransi',$this->subsidiasuransi);
+		$criteria->compare('t.subsidipemerintah',$this->subsidipemerintah);
+		$criteria->compare('t.subsidirs',$this->subsidirs);
+		$criteria->compare('t.iurbiaya',$this->iurbiaya);
+		$criteria->compare('LOWER(t.oa)',strtolower($this->oa),true);
+		$criteria->compare('(t.create_time)',($this->create_time));
+		$criteria->compare('(t.update_time)',($this->update_time));
+		$criteria->compare('(t.create_loginpemakai_id)',($this->create_loginpemakai_id));
+		$criteria->compare('(t.update_loginpemakai_id)',($this->update_loginpemakai_id));
+		$criteria->compare('(t.create_ruangan)',($this->create_ruangan));
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
         
+        public function searchPemakaianBahan() {
+            $provider = $this->search();
+            $provider->criteria->join = 
+                    "join pendaftaran_t pendaftaran on pendaftaran.pendaftaran_id = t.pendaftaran_id "
+                    . "join pasien_m pasien on pasien.pasien_id = t.pasien_id "
+                    . "join obatalkes_m obatalkes on obatalkes.obatalkes_id = t.obatalkes_id ";
+            if (!empty($this->tglAwal) && !empty($this->tglAkhir)) {
+                $provider->criteria->addBetweenCondition('tglpelayanan', $this->tglAwal, $this->tglAkhir);
+            }
+            $provider->criteria->addCondition('penjualanresep_id is null');
+            $provider->criteria->compare('t.ruangan_id', Yii::app()->user->getState('ruangan_id'));
+            
+            $provider->criteria->compare('lower(pendaftaran.no_pendaftaran)', strtolower($this->no_pendaftaran), true);
+            $provider->criteria->compare('lower(pasien.no_rekam_medik)', strtolower($this->no_rekam_medik), true);
+            $provider->criteria->compare('lower(pasien.nama_pasien)', strtolower($this->nama_pasien), true);
+            
+            $provider->criteria->compare('t.carabayar_id', $this->carabayar_id);
+            $provider->criteria->compare('t.penjamin_id', $this->penjamin_id);
+            
+            $provider->criteria->compare('obatalkes.jenisobatalkes_id', $this->jenisobatalkes_id);
+            $provider->criteria->compare('lower(obatalkes.obatalkes_kategori)', strtolower($this->obatalkes_kategori));
+            $provider->criteria->compare('lower(obatalkes.obatalkes_golongan)', strtolower($this->obatalkes_golongan));
+            $provider->criteria->compare('lower(obatalkes.obatalkes_nama)', strtolower($this->obatalkes_nama), true);
+            
+            return $provider;
+        }
         
         public function searchPrint()
         {

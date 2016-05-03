@@ -535,6 +535,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                         'name'=>'ruangan_id',
                         'header'=>'Ruangan',
                         'type'=>'raw',
+                        'value'=>'$data->ruangan_nama',
                         'filter'=>CHtml::activeDropDownList($modDialogKunjungan, 'ruangan_id', CHtml::listData(RuanganM::model()->findAll($cr), 'ruangan_id', 'ruangan_nama'), array('empty'=>'-- Pilih --')), 
                     ),
 //                    'kabupaten_nama',

@@ -27,8 +27,12 @@ $this->widget($table,array(
 			'value'=>'$data->kompetensi_id',
 		),
 		'kompetensi_nama',
-		'kompetensi_namalain',
-		'kompetensi_aktif',
+		'kompetensi_namalain',		
+                array(
+				'header'=>'Status',
+				'value'=>'($data->kompetensi_aktif == 1) ? "Aktif" : "Tidak Aktif"',
+				'htmlOptions'=>array('style'=>'text-align:left;'),
+			),
  
 	),
 )); 

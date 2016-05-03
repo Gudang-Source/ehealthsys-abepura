@@ -1,5 +1,7 @@
-<div class="white-container">
-    <legend class="rim2">Lihat <b>Jam Kerja</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Lihat <b>Jam Kerja</b></legend>-->
+<fieldset class="box row-fluid">
+    <legend class="rim">Lihat Jam Kerja</legend>
     <?php
     $this->breadcrumbs=array(
             'Kpjamkerja Ms'=>array('index'),
@@ -58,4 +60,5 @@
         <?php $this->widget('UserTips',array('type'=>'view'));?>
         </div>
     </div>
-</div>
+<!--</div>-->
+</fieldset>

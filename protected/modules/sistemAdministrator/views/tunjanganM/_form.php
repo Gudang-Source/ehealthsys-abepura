@@ -13,11 +13,11 @@
 	<div class="row-fluid">
 
 		<div class = "span6">
-			<?php echo $form->dropdownListRow($model, 'pangkat_id', CHtml::listData(PangkatM::model()->findAll('pangkat_aktif = true'),'pangkat_id','pangkat_nama'),array('empty'=>'-- Pilih --','onkeypress'=>'return $(this).focusNextInputField(event)','class'=>'span3')); ?>
-			<?php echo $form->dropdownListRow($model, 'jabatan_id', CHtml::listData(JabatanM::model()->findAll('jabatan_aktif = true'),'jabatan_id','jabatan_nama'),array('empty'=>'-- Pilih --','onkeypress'=>'return $(this).focusNextInputField(event)','class'=>'span3')); ?>
+			<?php echo $form->dropdownListRow($model, 'pangkat_id', CHtml::listData(PangkatM::model()->findAll('pangkat_aktif = true ORDER BY pangkat_nama ASC'),'pangkat_id','pangkat_nama'),array('empty'=>'-- Pilih --','onkeypress'=>'return $(this).focusNextInputField(event)','class'=>'span3')); ?>
+			<?php echo $form->dropdownListRow($model, 'jabatan_id', CHtml::listData(JabatanM::model()->findAll('jabatan_aktif = true ORDER BY jabatan_nama ASC'),'jabatan_id','jabatan_nama'),array('empty'=>'-- Pilih --','onkeypress'=>'return $(this).focusNextInputField(event)','class'=>'span3')); ?>
 		</div>
 		<div class = "span6">
-			<?php echo $form->dropdownListRow($model, 'komponengaji_id', CHtml::listData(KomponengajiM::model()->findAll('komponengaji_aktif = true'),'komponengaji_id','komponengaji_nama'),array('empty'=>'-- Pilih --','onkeypress'=>'return $(this).focusNextInputField(event)','class'=>'span3')); ?>
+			<?php echo $form->dropdownListRow($model, 'komponengaji_id', CHtml::listData(KomponengajiM::model()->findAll('komponengaji_aktif = true ORDER BY komponengaji_nama ASC'),'komponengaji_id','komponengaji_nama'),array('empty'=>'-- Pilih --','onkeypress'=>'return $(this).focusNextInputField(event)','class'=>'span3')); ?>
 			<?php echo $form->textFieldRow($model,'nominaltunjangan',array('class'=>'span3 integer', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
 		</div>
 	</div>
@@ -27,9 +27,12 @@
 		<?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
 				$this->createUrl('create'), 
 				array('class'=>'btn btn-danger',
-					  'onclick'=>'return refreshForm(this);')); ?>
+					  'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
 		<?php echo CHtml::link(Yii::t('mds','{icon} Pengaturan Tunjangan',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
-		<?php $this->widget('UserTips',array('content'=>''));?>
+		<?php 
+                    $content = $this->renderPartial($this->path_tips.'tipsaddedit',array(),true);
+                    $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
+                    ?>
 		</div>
 	</div>
 <?php $this->endWidget(); ?>

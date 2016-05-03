@@ -1,3 +1,5 @@
+<fieldset class="box row-fluid">
+    <legend class="rim">Pengaturan Indikator Perilaku</legend>
 <?php
 $this->breadcrumbs=array(
 	'Kpindikatorperilaku Ms'=>array('index'),
@@ -114,6 +116,7 @@ $('.search-form form').submit(function(){
 							'options'=>array('title'=>Yii::t('mds','Remove Temporary')),
 							'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/nonActive",array("id"=>$data->indikatorperilaku_id))',
 							'click'=>'function(){nonActive(this);return false;}',
+                                                        'visible' => '($data->indikatorperilaku_aktif)?true:false'
 					),
 					'delete'=> array(),
 				)
@@ -201,3 +204,4 @@ Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);
 		return false;
 	}
 </script>
+</fieldset>

@@ -10,6 +10,7 @@ class HariliburMController extends MyAuthController
 	public $layout='//layouts/column1';
 	public $defaultAction = 'admin';
 	public $path_view = 'sistemAdministrator.views.hariliburM.';
+        public $path_tips = 'sistemAdministrator.views.tips.';
 
 	/**
 	 * Menampilkan detail data.
@@ -40,7 +41,7 @@ class HariliburMController extends MyAuthController
 			$model->create_ruangan = Yii::app()->user->ruangan_id;
 			if($model->save()){
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin'));
+				$this->redirect(array('admin','sukses'=>1));
 			}
 		}
 
@@ -68,7 +69,7 @@ class HariliburMController extends MyAuthController
 			$model->tglharilibur = $format->formatDateTimeForDb($model->tglharilibur);
 			if($model->save()){
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('view','id'=>$model->harilibur_id));
+				$this->redirect(array('admin','sukses'=>1));
 			}
 		}
 
@@ -147,8 +148,11 @@ class HariliburMController extends MyAuthController
 	/**
 	 * Pengaturan data.
 	 */
-	public function actionAdmin()
+	public function actionAdmin($sukses='')
 	{
+            if ($sukses == 1):
+                Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+            endif;
 		$format = new MyFormatter;
 		$model=new SAHariliburM('searchHariLibur');
 		$model->unsetAttributes();  // clear any default values
@@ -212,7 +216,7 @@ class HariliburMController extends MyAuthController
 			$mpdf->WriteHTML($stylesheet,1);  
 			$mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
 			$mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-			$mpdf->Output();
+			$mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
 		}
 	}
 }

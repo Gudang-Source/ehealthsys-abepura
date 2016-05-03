@@ -123,9 +123,9 @@ class JenisPenilaianController extends MyAuthController
 	{
 		$model=new KPJenispenilaianM('search');
 		$model->unsetAttributes();  // clear any default values
-		$model->jenispenilaian_aktif=1;
+		//$model->jenispenilaian_aktif=1;
 		if(isset($_GET['KPJenispenilaianM'])){
-			$model->attributes=$_GET['KPJenispenilaianM'];
+			$model->attributes=$_GET['KPJenispenilaianM'];                        
 		}
 		$this->render('admin',array(
 				'model'=>$model,
@@ -182,7 +182,7 @@ class JenisPenilaianController extends MyAuthController
 			$mpdf->WriteHTML($stylesheet,1);  
 			$mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
 			$mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-			$mpdf->Output();
+			$mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
 		}
 	}
 }

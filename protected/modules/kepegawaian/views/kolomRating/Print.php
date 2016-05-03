@@ -30,7 +30,11 @@ $this->widget($table,array(
 		'kolomrating_point',
 		'kolomrating_uraian',
 		'kolomrating_deskripsi',
-		'kolomrating_aktif',
+		array(
+				'header'=>'Status',
+				'value'=>'($data->kolomrating_aktif == 1) ? "Aktif" : "Tidak Aktif"',
+				'htmlOptions'=>array('style'=>'text-align:left;'),
+			),
  
 	),
 )); 

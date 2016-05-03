@@ -24,7 +24,7 @@ $this->widget('bootstrap.widgets.BootMenu', array(
     'type'=>'tabs', // '', 'tabs', 'pills' (or 'list')
     'stacked'=>false, // whether this is a stacked menu
     'items'=>array(
-        array('label'=>'Gelar Belakang', 'url'=>'javascript:void(0);', 'itemOptions'=>array('id'=>'tab-default','onclick'=>'setTab(this);', 'tab'=>'/kepegawaian/gelarBelakangM/admin&tab=frame'), 'active'=>true ),
+        array('label'=>'Gelar Belakang', 'url'=>'javascript:void(0);', 'itemOptions'=>array('id'=>'tab-default','onclick'=>'setTab(this);', 'tab'=>'/kepegawaian/gelarBelakangM/admin&tab=frame')),
     	array('label'=>'Kelompok', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>'/kepegawaian/KelompokpegawaiM/admin')),
         array('label'=>'Jabatan', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>'/kepegawaian/jabatanM/admin')),
         array('label'=>'Status Kepemilikan Rumah', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>'/kepegawaian/statuskepemilikanrumahM/admin')),
