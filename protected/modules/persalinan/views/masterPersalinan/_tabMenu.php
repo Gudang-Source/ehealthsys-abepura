@@ -6,7 +6,7 @@ $arr = array(
     array('label'=>'Posisi Janin', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>$this->module->id.'/posisiJanin/admin')),
     array('label'=>'Keadaan Lahir', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>$this->module->id.'/keadaanLahir/admin')),
     array('label'=>'Paritas', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>$this->module->id.'/paritas/admin')),
-    array('label'=>'Sebab Kematian', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>$this->module->id.'/s/admin')),
+    array('label'=>'Sebab Kematian', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>$this->module->id.'/sebabKematian/admin')),
 );
 
 $this->widget('bootstrap.widgets.BootMenu', array(

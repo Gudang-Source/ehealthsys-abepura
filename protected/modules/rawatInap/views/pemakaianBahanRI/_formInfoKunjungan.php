@@ -239,7 +239,7 @@
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     'id'=>'dialogKunjungan',
     'options'=>array(
-        'title'=>'Pencarian Data Kunjungan Pasien Laboratorium',
+        'title'=>'Pencarian Data Kunjungan Pasien',
         'autoOpen'=>false,
         'modal'=>true,
         'width'=>980,
