@@ -268,10 +268,22 @@
 		}
 		
 		function search_diagosa($query){
+                        $vars = 'icd='.$query.'&reqdata=diagnosa';
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
-			$completeUrl = $this->url.'/diagnosa/cbg/diagnosa/'.$query;
+			$completeUrl = $this->inacbg_url.'/icd.php';
                         // var_dump($completeUrl); die;
-			return $this->request($completeUrl, $hashsignature, $uid, $timestmp);
+			$res = CJSON::decode($this->request($completeUrl, $hashsignature, $uid, $timestmp, 'POST', $vars, 'Application/x‐www‐form‐urlencoded'));
+                        
+                        if (count($res) != 0) {
+                            $icd_code = array();
+                            foreach ($res as $key=>$row) {
+                                $icd_code[$key] = $row['ICD_CODE'];
+                            }
+                            
+                            array_multisort($icd_code, SORT_ASC, $res);
+                        }
+                        
+                        return CJSON::encode($res);
 		}
 		
 		function search_cbg($query){
