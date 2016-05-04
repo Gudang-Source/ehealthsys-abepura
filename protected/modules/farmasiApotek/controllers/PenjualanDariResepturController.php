@@ -531,7 +531,7 @@ class PenjualanDariResepturController extends PenjualanResepRSController
 		$modPasienAdmisi = PasienadmisiT::model()->findByAttributes(array("pendaftaran_id"=>$modPendaftaran->pendaftaran_id, "pasien_id"=>$modPendaftaran->pasien_id));
 		$modPenjualan->pasienadmisi_id = (empty($modPasienAdmisi->pasienadmisi_id)) ? null : $modPasienAdmisi->pasienadmisi_id;
 		$modPenjualan->tglpenjualan = $format->formatDateTimeForDb($_POST['FAPenjualanResepT']['tglpenjualan']);
-		$modPenjualan->tglresep = !empty($modReseptur)?$modReseptur->tglreseptur:date('Y-m-d H:i:s');
+		$modPenjualan->tglresep = !empty($modReseptur)?$format->formatDateTimeForDb($modReseptur->tglreseptur):date('Y-m-d H:i:s');
 		$modPenjualan->ruanganasal_nama = Yii::app()->user->getState('ruangan_nama');
 		$modPenjualan->instalasiasal_nama = Yii::app()->user->getState('instalasi_nama');
 		$modPenjualan->reseptur_id = (!empty($modReseptur->reseptur_id) ? $modReseptur->reseptur_id : null);
