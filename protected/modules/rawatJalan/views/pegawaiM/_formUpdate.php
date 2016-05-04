@@ -242,8 +242,10 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                         </tr>
                     </table>
             </fieldset>
-        </div>* 
-         */ ?>
+        </div>
+         * 
+         */?>
+         
     </div> 
             
     <div class="span4">    

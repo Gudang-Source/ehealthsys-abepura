@@ -245,7 +245,7 @@ class PegawaiMController extends MyAuthController
 						$model->photopegawai = $temLogo;
 					}
 
-					if(!empty($_POST['ruangan_id']))
+					/*if(!empty($_POST['ruangan_id']))
 						$jumlahRuanganPegawai = COUNT($_POST['ruangan_id']);
 					else
 						$jumlahRuanganPegawai = 0;
@@ -257,7 +257,7 @@ class PegawaiMController extends MyAuthController
 							$modRuanganPegawai->ruangan_id=isset($_POST['ruangan_id'][$i]) ? $_POST['ruangan_id'][$i] : null;
 							$modRuanganPegawai->pegawai_id=$pegawai_id;
 							$modRuanganPegawai->save();
-						}
+						}*/
 						// $gelardepan = LookupM::model()->findByPk($model->gelardepan);
 						// $model->gelardepan = $gelardepan->lookup_name;
 						$model->update(); // update data 

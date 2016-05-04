@@ -800,7 +800,7 @@ class SepController extends MyAuthController
 			$model = $this->loadModel($id);
 			$bpjs = new Bpjs();
 			$modPendaftaran = ARPendaftaranT::model()->findByAttributes(array('sep_id'=>$model->sep_id));
-			if(isset($modPendaftara)){
+                        if(isset($modPendaftaran)){
 				$notrans = $modPendaftaran->no_pendaftaran;
 			}else{
 				$notrans = '';

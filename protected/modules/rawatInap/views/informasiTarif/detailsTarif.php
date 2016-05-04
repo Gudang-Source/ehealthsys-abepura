@@ -11,6 +11,12 @@ echo "<tr>
         <td>".$modTarif['daftartindakan_nama']."</td>      
 
          </tr>";
+echo "<tr>
+        <td>Jenis Tarif</td>
+        <td>:</td>
+        <td>".$modTarif['jenistarif_nama']."</td>      
+
+         </tr>";
 
 if($jumlahTarifTindakan>0){//Jika Tarif Sudah Disetting Didata Masternya dan ada
  echo '<div id="detail-tarif" class="grid-view">
@@ -22,17 +28,17 @@ echo "<table class='table table-bordered table-condensed'>";
             </tr></thead><tbody>";
 $tarifTotal = 0;
 foreach($modTarifTindakan AS $tampilTarifTindakan):
-    echo "<tr>
+    echo "<tr >
             <td>".$tampilTarifTindakan->komponentarif['komponentarif_nama']."</td>
-            <td>".$tampilTarifTindakan['harga_tariftindakan']."</td>    
+            <td style = 'text-align:right;'>"."Rp. ".number_format($tampilTarifTindakan['harga_tariftindakan'],0,"",".")."</td>    
           </tr>"; 
 $tarifTotal=$tarifTotal+$tampilTarifTindakan['harga_tariftindakan'];
 endforeach;
 echo "<tr>
         <td colspan=\"2\">
-     <tr>
+     <tr >
         <td>Total</td>
-        <td>".$tarifTotal."
+        <td style = 'text-align:right;'>"."Rp. ".number_format($tarifTotal,0,"",".")."
     </table>";
 }else{
     echo "Tarif Belum Disetting";

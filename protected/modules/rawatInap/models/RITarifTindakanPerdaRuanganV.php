@@ -26,6 +26,15 @@ class RITarifTindakanPerdaRuanganV  extends TariftindakanperdaruanganV
 		if(!empty($this->jenistarif_id)){
 			$criteria->addCondition('jenistarif_id = '.$this->jenistarif_id);
 		}
+                
+                 if(!empty($this->kelompoktindakan_id)){
+			$criteria->addCondition('kelompoktindakan_id = '.$this->kelompoktindakan_id);
+		}
+                if(!empty($this->komponenunit_id)){
+			$criteria->addCondition('komponenunit_id = '.$this->komponenunit_id);
+		}
+                
+                $criteria->compare('LOWER(daftartindakan_nama)',  strtolower($this->daftartindakan_nama));
 		$criteria->limit = 10;
 
 		return new CActiveDataProvider($this, array(
