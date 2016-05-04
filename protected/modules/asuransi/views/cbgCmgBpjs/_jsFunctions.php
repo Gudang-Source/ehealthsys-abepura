@@ -28,16 +28,17 @@ function cariDataDiagnosa(){
 				$("#namaDiagnosa").text(peserta.namaDiagnosa);
 				$("#pencarian-diagnosa-cbg-cmg-form .btn-primary-blue").removeAttr('disabled',true);			
 				// OVERWRITES old selecor
-				jQuery.expr[':'].contains = function(a, i, m) {
-				  return jQuery(a).text().toUpperCase()
-					  .indexOf(m[3].toUpperCase()) >= 0;
-				};
+				
             */
             if (obj.length != null) {
                 $.each(obj, function(idx, val) {
                     $("#table-diagnosa tbody").append('<tr><td>' + val.ICD_CODE + '</td><td>' + val.DESCRIPTION + '</td></tr>');
                 });
                 $("#pencarian-diagnosa-cbg-cmg-form .btn-primary-blue").removeAttr('disabled',true);
+                jQuery.expr[':'].contains = function(a, i, m) {
+                    return jQuery(a).text().toUpperCase()
+                          .indexOf(m[3].toUpperCase()) >= 0;
+                };
             }else{
                 myAlert(obj.metaData.message);
             }
@@ -68,11 +69,13 @@ function cariDataCBG(){
         dataType : 'html',
         data : 'param='+ aksi + '&query=' + isi,
         beforeSend: function(){
-            $("#data-cbg").addClass("animation-loading");
+            $("#table-cbg").addClass("animation-loading");
+            $("#table-cbg tbody tr").remove();
         },
         success: function(data){
-            $("#data-cbg").removeClass("animation-loading");
+            $("#table-cbg").removeClass("animation-loading");
             var obj = JSON.parse(data);
+            /*
             if(obj.response!=null){
 				var peserta = obj.response;
 				$("#kodeProsedur").text(peserta.kodeProsedur);
@@ -82,13 +85,22 @@ function cariDataCBG(){
 				jQuery.expr[':'].contains = function(a, i, m) {
 				  return jQuery(a).text().toUpperCase()
 					  .indexOf(m[3].toUpperCase()) >= 0;
-				};
+				}; */
+            if (obj.length != null) {
+                $.each(obj, function(idx, val) {
+                    $("#table-cbg tbody").append('<tr><td>' + val.ICD_CODE + '</td><td>' + val.DESCRIPTION + '</td></tr>');
+                });
+                $("#pencarian-diagnosa-cbg-cmg-form .btn-primary-blue").removeAttr('disabled',true);
+                jQuery.expr[':'].contains = function(a, i, m) {
+                    return jQuery(a).text().toUpperCase()
+                          .indexOf(m[3].toUpperCase()) >= 0;
+                };
             }else{
               myAlert(obj.metaData.message);
             }
         },
         error: function(data){
-            $("#data-cbg").removeClass("animation-loading");
+            $("#table-cbg").removeClass("animation-loading");
         }
     }
     
