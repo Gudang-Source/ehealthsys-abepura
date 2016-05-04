@@ -6,6 +6,7 @@
 		var $uid    = ""; //ex: 2603
 		var $secret = ""; //ex: 1rs2hs3
 		var $url  	= "";
+                var $inacbg_url = "";
 		
 //		var $server = array(
 //				'local'	 => 'http://10.10.0.2:8080/SepLokalRest',
@@ -19,6 +20,7 @@
 			$this->uid = Yii::app()->user->getState('bpjs_uid');
 			$this->secret = Yii::app()->user->getState('bpjs_secret');
 			$this->url = Yii::app()->user->getState('bpjs_host');
+                        $this->inacbg_url = Yii::app()->user->getState('bpjs_inacbg_path');
 		}
 
 		function output($content)
@@ -44,6 +46,7 @@
 
 		private function request($url, $hashsignature, $uid, $timestmp, $method='', $myvars='', $contentType=null)
 		{
+                        // var_dump($url); die;
 			$session = curl_init($url);
 			$arrheader =  array(
 				'x-cons-id: '.$uid,
@@ -265,10 +268,22 @@
 		}
 		
 		function search_diagosa($query){
+                        $vars = 'icd='.$query.'&reqdata=diagnosa';
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
-			$completeUrl = $this->url.'/diagnosa/cbg/diagnosa/'.$query;
+			$completeUrl = $this->inacbg_url.'/icd.php';
                         // var_dump($completeUrl); die;
-			return $this->request($completeUrl, $hashsignature, $uid, $timestmp);
+			$res = CJSON::decode($this->request($completeUrl, $hashsignature, $uid, $timestmp, 'POST', $vars, 'Application/x‐www‐form‐urlencoded'));
+                        
+                        if (count($res) != 0) {
+                            $icd_code = array();
+                            foreach ($res as $key=>$row) {
+                                $icd_code[$key] = $row['ICD_CODE'];
+                            }
+                            
+                            array_multisort($icd_code, SORT_ASC, $res);
+                        }
+                        
+                        return CJSON::encode($res);
 		}
 		
 		function search_cbg($query){
@@ -278,9 +293,10 @@
 		}
 		
 		function search_cmg($query){
+                        $vars = 'proc='.$query.'&reqdata=cmg';
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
-			$completeUrl = $this->url.'/prosedur/cmg'.$query;
-			return $this->request($completeUrl, $hashsignature, $uid, $timestmp);
+			$completeUrl = $this->inacbg_url.'/ws_cmg.php';
+			return $this->request($completeUrl, $hashsignature, $uid, $timestmp, 'POST', $vars, 'Application/x‐www‐form‐urlencoded');
 		}
 		
 		function create_laporan_sep($query){

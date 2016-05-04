@@ -35,15 +35,23 @@
 	}
 	?>
     <?php echo $form->errorSummary($model); ?>
+   
     <div class="row-fluid">
-        <div class="span4">
+        <div class="span8">
+        <div class="span5" style = "width:50%;margin-right:5px;">
+        <fieldset class = "box">
+            <legend class="rim">Data Pribadi</legend>    
+            <?php /*
             <div class="control-group">
               <?php echo $form->labelEx($model,'unit_perusahaan',array('class'=>'control-label')); ?>
               <div class="controls">
                 <?php echo $form->dropDownList($model,'unit_perusahaan',LookupM::getItems('unit_perusahaan'), 
-                    array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>  
+                    array('onkeyup'=>"return $(this).focusNextInputField(event)", 'readonly'=>true)); //'empty'=>'-- Pilih --', ?>  
               </div>
             </div> 
+             * 
+             */?>
+            <?php echo $form->hiddenField($model,'unit_perusahaan',array('class'=>'required numbers-only','onkeyup'=>"return $(this).focusNextInputField(event)",'placeholder'=>'Nomor Induk Pegawai','maxlength'=>20, 'readonly',true,'value'=> LookupM::getNama('unit_perusahaan'))); ?>
             <?php echo $form->textFieldRow($model,'nomorindukpegawai',array('class'=>'required numbers-only','onkeyup'=>"return $(this).focusNextInputField(event)",'placeholder'=>'Nomor Induk Pegawai','maxlength'=>18)); ?>
 
             <div class="control-group">
@@ -78,13 +86,6 @@
             </div>
             <?php echo $form->textFieldRow($model,'nama_keluarga',array( 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50,'placeholder'=>'Nama Keluarga Pegawai')); ?>
 
-            <?php echo $form->dropDownListRow($model,'jabatan_id',  CHtml::listData($model->getJabatanItems(), 'jabatan_id', 'jabatan_nama'), 
-                        array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
-                              )); ?>
-
-            <?php echo $form->dropDownListRow($model,'pangkat_id',  CHtml::listData($model->getPangkatItems(), 'pangkat_id', 'pangkat_nama'), 
-                        array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
-                              )); ?>
 
             <?php echo $form->textFieldRow($model,'tempatlahir_pegawai',array( 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30,'placeholder'=>'Kota/Kabupaten Kelahiran')); ?>
 
@@ -122,9 +123,15 @@
                     <?php echo $form->error($model, 'tgl_lahirpegawai'); ?>
                 </div>
             </div>
-
-            <?php echo $form->radioButtonListInlineRow($model, 'jeniskelamin', LookupM::getItems('jeniskelamin'), array('onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'inputRequire')); ?>
-
+            
+           
+            <?php 
+                if (empty($model->jeniskelamin)):
+                    $model->jeniskelamin = 'LAKI-LAKI';
+                endif;
+                
+                echo $form->radioButtonListInlineRow($model, 'jeniskelamin', LookupM::getItems('jeniskelamin'), array('onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'inputRequire')); ?>
+                
             <div class="control-group">
                 <?php echo CHtml::label('Tinggi / Berat Badan','tinggiberatbadan',array('class'=>'control-label')); ?>
                 <div class="controls">
@@ -133,16 +140,7 @@
                     <?php echo $form->textField($model,'beratbadan',array('class'=>'span1 integer','style'=>'width:60px;','id'=>'tinggiberatbadan','onkeyup'=>"return $(this).focusNextInputField(event)",'placeholder'=>'Berat Badan')) ?>
                 </div>
             </div>
-
-            <?php echo $form->dropDownListRow($model,'statusperkawinan',LookupM::getItems('statusperkawinan'), 
-                            array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
-                                  'class'=>'inputRequire')); ?>
-
-            <?php echo $form->dropDownListRow($model,'agama',LookupM::getItems('agama'), 
-                                 array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
-                                       'class'=>'inputRequire')); ?>  
-
-            <div class="control-group ">
+             <div class="control-group ">
                 <?php echo $form->labelEx($model,'golongandarah', array('class'=>'control-label')) ?>
                 <div class="controls">
                     <?php echo $form->dropDownList($model,'golongandarah', LookupM::getItems('golongandarah'),  
@@ -156,129 +154,181 @@
                     <?php echo $form->error($model, 'rhesus'); ?>
                 </div>
             </div>
-
-        </div>
-        <div class="span4">
-            <?php echo $form->dropDownListRow($model,'warganegara_pegawai',LookupM::getItems('warganegara'),array( 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>25, 'empty'=>'-- Pilih --')); ?>
-
+            <?php echo $form->dropDownListRow($model,'agama',LookupM::getItems('agama'), 
+                                 array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
+                                       'class'=>'inputRequire')); ?>
             <?php echo $form->dropDownListRow($model,'suku_id',  CHtml::listData($model->getSukuItems(), 'suku_id', 'suku_nama'), 
                         array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-			
-			<div class="control-group ">
-                <?php echo $form->labelEx($model,'pendidikan_id', array('class'=>'control-label')) ?>
-                <div class="controls">
-                    <?php echo $form->dropDownList($model,'pendidikan_id', CHtml::listData($model->getPendidikanItems(), 'pendidikan_id', 'pendidikan_nama'), 
-                                array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
-                                        'ajax'=>array('type'=>'POST',
-                                                    'url'=>$this->createUrl('SetDropdownPendKualifikasi',array('encode'=>false,'model_nama'=>get_class($model))),
-                                                    'update'=>"#".CHtml::activeId($model, 'pendkualifikasi_id'),
-                                        ),
-                                        'onchange'=>"setClearDropdownKelompokPegawai();",));?>
-                    <?php echo $form->error($model, 'pendidikan_id'); ?>
+            <?php echo $form->dropDownListRow($model,'warganegara_pegawai',LookupM::getItems('warganegara'),array( 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>25, 'empty'=>'-- Pilih --')); ?>
+            <?php echo $form->dropDownListRow($model,'statusperkawinan',LookupM::getItems('statusperkawinan'), 
+                            array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
+                                  'class'=>'inputRequire')); ?>  
+            <p>&nbsp;</p>
+            </fieldset>
+        </div>
+        
+        <div class="span5" style = "width:49%;">
+            <fieldset class = "box">
+                <legend class="rim">Alamat / Kontak</legend>                 
+                <?php echo $form->textAreaRow($model,'alamat_pegawai',array('rows'=>6, 'cols'=>50,  'onkeyup'=>"return $(this).focusNextInputField(event);",'placeholder'=>'Alamat Lengkap Pegawai')); ?>
+                <div class="control-group ">
+                    <?php echo $form->labelEx($model,'propinsi_id', array('class'=>'control-label')) ?>
+                    <div class="controls">
+                        <?php echo $form->dropDownList($model,'propinsi_id', CHtml::listData($model->getPropinsiItems(), 'propinsi_id', 'propinsi_nama'), 
+                                    array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
+                                            'ajax'=>array('type'=>'POST',
+                                                        'url'=>$this->createUrl('SetDropdownKabupaten',array('encode'=>false,'model_nama'=>get_class($model))),
+                                                        'update'=>"#".CHtml::activeId($model, 'kabupaten_id'),
+                                            ),
+                                            'onchange'=>"setClearDropdownKelurahan();setClearDropdownKecamatan();",));?>
+                        <?php echo $form->error($model, 'propinsi_id'); ?>
+                    </div>
                 </div>
-            </div>
-			<div class="control-group ">
-                <?php echo $form->labelEx($model,'pendkualifikasi_id', array('class'=>'control-label')) ?>
-                <div class="controls">
-                    <?php echo $form->dropDownList($model,'pendkualifikasi_id', CHtml::listData($model->getPendKualifikasiItems($model->pendidikan_id), 'pendkualifikasi_id', 'pendkualifikasi_nama'), 
-                                array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
-                                        'ajax'=>array('type'=>'POST',
-                                                    'url'=>$this->createUrl('SetDropdownKelompokPegawai',array('encode'=>false,'model_nama'=>get_class($model))),
-                                                    'update'=>"#".CHtml::activeId($model, 'kelompokpegawai_id'),
-                                        )));?>
-                    <?php echo $form->error($model, 'pendkualifikasi_id'); ?>
+                <div class="control-group ">
+                    <?php echo $form->labelEx($model,'kabupaten_id', array('class'=>'control-label')) ?>
+                    <div class="controls">
+                        <?php echo $form->dropDownList($model,'kabupaten_id', CHtml::listData($model->getKabupatenItems($model->propinsi_id), 'kabupaten_id', 'kabupaten_nama'), 
+                                    array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
+                                            'ajax'=>array('type'=>'POST',
+                                                        'url'=>$this->createUrl('SetDropdownKecamatan',array('encode'=>false,'model_nama'=>get_class($model))),
+                                                        'update'=>"#".CHtml::activeId($model, 'kecamatan_id'),
+                                            ),
+                                            'onchange'=>"setClearDropdownKelurahan();",));?>
+                        <?php echo $form->error($model, 'kabupaten_id'); ?>
+                    </div>
                 </div>
-            </div>
-			
-			<?php echo $form->dropDownListRow($model,'kelompokpegawai_id',  CHtml::listData($model->getKelompokPegawaiItems(), 'kelompokpegawai_id', 'kelompokpegawai_nama'), 
-                        array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-			<?php echo $form->dropDownListRow($model,'jenistenagamedis_id',  CHtml::listData($model->getJenisTenagaMedisItems(), 'jenistenagamedis_id', 'tenagamedis_nama'), 
-                        array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-			
-			
-
-            <div class="control-group">
-                <?php echo CHtml::label('No. Telp / Hp','nomorcontact',array('class'=>'control-label')); ?>
-                <div class="controls">
-                    <?php echo $form->textField($model,'notelp_pegawai',array( 'class'=>'span2 numbers-only','onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>15,'style'=>'width:97px;','id'=>'nomorcontact','placeholder'=>'No. Telepon Pegawai')); ?>
-                    <?php echo ' / '; ?>
-                    <?php echo $form->textField($model,'nomobile_pegawai',array('class'=>'span2 numbers-only', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>15,'style'=>'width:97px;','id'=>'nomorcontact','placeholder'=>'No. Ponsel Pegawai')); ?>
+                <div class="control-group ">
+                    <?php echo $form->labelEx($model,'kecamatan_id', array('class'=>'control-label')) ?>
+                    <div class="controls">
+                        <?php echo $form->dropDownList($model,'kecamatan_id', CHtml::listData($model->getKecamatanItems($model->kabupaten_id), 'kecamatan_id', 'kecamatan_nama'), 
+                                    array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
+                                            'ajax'=>array('type'=>'POST',
+                                                        'url'=>$this->createUrl('SetDropdownKelurahan',array('encode'=>false,'model_nama'=>get_class($model))),
+                                                        'update'=>"#".CHtml::activeId($model, 'kelurahan_id'),
+                                            ),
+                                            'onchange'=>"",));?>
+                    </div>
                 </div>
-            </div>
-
-            <?php echo $form->textFieldRow($model,'alamatemail',array( 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100,'placeholder'=>'contoh: info@piinformasi.com')); ?>
-
-            <?php echo $form->dropDownListRow($model,'kategoripegawaiasal',LookupM::getItems('kategoriasalpegawai'), 
+                <div class="control-group ">
+                    <?php echo $form->labelEx($model,'kelurahan_id', array('class'=>'control-label')) ?>
+                    <div class="controls">
+                        <?php echo $form->dropDownList($model,'kelurahan_id',CHtml::listData($model->getKelurahanItems($model->kecamatan_id), 'kelurahan_id', 'kelurahan_nama'),
+                                                          array('empty'=>'-- Pilih --', 'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+                        <?php echo $form->error($model, 'kelurahan_id'); ?>
+                    </div>
+                </div>
+                <?php echo $form->textFieldRow($model,'garis_latitude',array('onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+                <?php echo $form->textFieldRow($model,'garis_longitude',array('onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+                <div class="control-group">
+                    <?php echo CHtml::label('No. Telp / Hp','nomorcontact',array('class'=>'control-label')); ?>
+                    <div class="controls">
+                        <?php echo $form->textField($model,'notelp_pegawai',array( 'class'=>'span2 numbers-only','onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>15,'style'=>'width:97px;','id'=>'nomorcontact','placeholder'=>'No. Telepon Pegawai')); ?>
+                        <?php echo ' / '; ?>
+                        <?php echo $form->textField($model,'nomobile_pegawai',array('class'=>'span2 numbers-only', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>15,'style'=>'width:97px;','id'=>'nomorcontact','placeholder'=>'No. Ponsel Pegawai')); ?>
+                    </div>
+                </div>
+		<?php echo $form->textFieldRow($model,'alamatemail',array( 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100,'placeholder'=>'contoh: info@piinformasi.com')); ?>	                
+            </fieldset>
+            <fieldset class = "box">
+                <legend class="rim">Data Lain - Lain</legend>
+                    <?php echo $form->dropDownListRow($model,'statuskepemilikanrumah_id',CHtml::listData($model->getStatuskepemilikanrumahItems(),'statuskepemilikanrumah_id','statuskepemilikanrumah_nama'),array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+                    <?php echo $form->textFieldRow($model,'kemampuanbahasa',array('onkeyup'=>"return $(this).focusNextInputField(event)",'placeholder'=>'contoh : Bahasa Indonesia, Inggris')); ?>
+                    <?php echo $form->textFieldRow($model,'warnakulit',array('onkeyup'=>"return $(this).focusNextInputField(event)",'placeholder'=>'contoh : Sawo Matang')); ?>
+            </fieldset>    
+        </div>
+            
+        <div class = "span12">
+            <fieldset class = "box">
+                <legend class="rim">Ruangan</legend>    
+                   <table width="100%" class="table-condensed">
+                        <tr>
+                            <td style="width:127px;text-align:right;">
+                                <div class="control-group">
+                                    <?php echo CHtml::label('Ruangan / Unit kerja','ruangan',array('class'=>'control-label'));  ?>
+                                </div>
+                            </td>
+                            <td>
+                                <?php 
+                                       $arrRuanganPegawai = array();
+                                        foreach($modRuanganPegawai as $tampilRuanganPegawai){
+                                           $arrRuanganPegawai[] = isset($tampilRuanganPegawai['ruangan_id']) ? $tampilRuanganPegawai['ruangan_id'] : null;
+                                       }                                  
+                                      $this->widget('application.extensions.emultiselect.EMultiSelect',
+                                                    array('sortable'=>true, 'searchable'=>true)
+                                               );
+                                       echo CHtml::dropDownList(
+                                       'ruangan_id[]',
+                                       $arrRuanganPegawai,
+                                       CHtml::listData(KPRuanganM::model()->findAll(array('order'=>'ruangan_nama', 'condition'=>'ruangan_aktif = true')), 'ruangan_id', 'ruangan_nama'),
+                                       array('multiple'=>'multiple','key'=>'ruangan_id', 'class'=>'multiselect','style'=>'width:500px;height:150px')
+                                               );
+                                ?>
+                            </td>
+                        </tr>
+                    </table>
+            </fieldset>
+        </div>  
+            
+        </div>    
+        <div class="span4">
+            <fieldset class = "box">
+                <legend class="rim">Data Kepegawaian</legend> 
+                <?php echo $form->dropDownListRow($model,'golonganpegawai_id',  CHtml::listData($model->getGolonganPegawaiItems(), 'golonganpegawai_id', 'golonganpegawai_nama'), 
+                           array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
+                                 )); ?>
+                
+                <?php echo $form->dropDownListRow($model,'pangkat_id',  CHtml::listData($model->getPangkatItems(), 'pangkat_id', 'pangkat_nama'), 
+                           array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
+                                 )); ?>
+                
+                <?php echo $form->dropDownListRow($model,'jabatan_id',  CHtml::listData($model->getJabatanItems(), 'jabatan_id', 'jabatan_nama'), 
+                           array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
+                                 )); ?>
+                
+                <?php echo $form->dropDownListRow($model,'kelompokpegawai_id',  CHtml::listData($model->getKelompokPegawaiItems(), 'kelompokpegawai_id', 'kelompokpegawai_nama'), 
+                array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+                
+                <?php echo $form->dropDownListRow($model,'jenistenagamedis_id',  CHtml::listData($model->getJenisTenagaMedisItems(), 'jenistenagamedis_id', 'tenagamedis_nama'), 
+                array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+                
+                <?php echo $form->dropDownListRow($model,'kategoripegawai',LookupM::getItems('kategoripegawai'), 
                         array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-
-            <?php echo $form->dropDownListRow($model,'kategoripegawai',LookupM::getItems('kategoripegawai'), 
+                
+                <?php echo $form->dropDownListRow($model,'kategoripegawaiasal',LookupM::getItems('kategoriasalpegawai'), 
                         array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-
-            <?php echo $form->dropDownListRow($model,'kelompokjabatan',LookupM::getItems('kelompokjabatan'), 
+                
+                <?php echo $form->dropDownListRow($model,'kelompokjabatan',LookupM::getItems('kelompokjabatan'), 
                         array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
 
             <?php echo $form->dropDownListRow($model,'jeniswaktukerja',LookupM::getItems('jeniswaktukerja'), 
                         array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>  
-
-            <?php echo $form->dropDownListRow($model,'statuskepemilikanrumah_id',CHtml::listData($model->getStatuskepemilikanrumahItems(),'statuskepemilikanrumah_id','statuskepemilikanrumah_nama'),array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-
-            <?php echo $form->textFieldRow($model,'kemampuanbahasa',array('onkeyup'=>"return $(this).focusNextInputField(event)",'placeholder'=>'contoh : Bahasa Indonesia, Inggris')); ?>
-
-            <?php echo $form->textFieldRow($model,'warnakulit',array('onkeyup'=>"return $(this).focusNextInputField(event)",'placeholder'=>'contoh : Sawo Matang')); ?>
-        </div>
-        <div class="span4"> 
-            <?php echo $form->textAreaRow($model,'alamat_pegawai',array('rows'=>6, 'cols'=>50,  'onkeyup'=>"return $(this).focusNextInputField(event);",'placeholder'=>'Alamat Lengkap Pegawai')); ?>
-
+            
             <div class="control-group ">
-                <?php echo $form->labelEx($model,'propinsi_id', array('class'=>'control-label')) ?>
-                <div class="controls">
-                    <?php echo $form->dropDownList($model,'propinsi_id', CHtml::listData($model->getPropinsiItems(), 'propinsi_id', 'propinsi_nama'), 
-                                array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
-                                        'ajax'=>array('type'=>'POST',
-                                                    'url'=>$this->createUrl('SetDropdownKabupaten',array('encode'=>false,'model_nama'=>get_class($model))),
-                                                    'update'=>"#".CHtml::activeId($model, 'kabupaten_id'),
-                                        ),
-                                        'onchange'=>"setClearDropdownKelurahan();setClearDropdownKecamatan();",));?>
-                    <?php echo $form->error($model, 'propinsi_id'); ?>
+                    <?php echo $form->labelEx($model,'pendidikan_id', array('class'=>'control-label')) ?>
+                    <div class="controls">
+                        <?php echo $form->dropDownList($model,'pendidikan_id', CHtml::listData($model->getPendidikanItems(), 'pendidikan_id', 'pendidikan_nama'), 
+                                    array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
+                                            'ajax'=>array('type'=>'POST',
+                                                        'url'=>$this->createUrl('SetDropdownPendKualifikasi',array('encode'=>false,'model_nama'=>get_class($model))),
+                                                        'update'=>"#".CHtml::activeId($model, 'pendkualifikasi_id'),
+                                            ),
+                                            'onchange'=>"setClearDropdownKelompokPegawai();",));?>
+                        <?php echo $form->error($model, 'pendidikan_id'); ?>
+                    </div>
                 </div>
-            </div>
-            <div class="control-group ">
-                <?php echo $form->labelEx($model,'kabupaten_id', array('class'=>'control-label')) ?>
-                <div class="controls">
-                    <?php echo $form->dropDownList($model,'kabupaten_id', CHtml::listData($model->getKabupatenItems($model->propinsi_id), 'kabupaten_id', 'kabupaten_nama'), 
-                                array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
-                                        'ajax'=>array('type'=>'POST',
-                                                    'url'=>$this->createUrl('SetDropdownKecamatan',array('encode'=>false,'model_nama'=>get_class($model))),
-                                                    'update'=>"#".CHtml::activeId($model, 'kecamatan_id'),
-                                        ),
-                                        'onchange'=>"setClearDropdownKelurahan();",));?>
-                    <?php echo $form->error($model, 'kabupaten_id'); ?>
+                <div class="control-group ">
+                    <?php echo $form->labelEx($model,'pendkualifikasi_id', array('class'=>'control-label')) ?>
+                    <div class="controls">
+                        <?php echo $form->dropDownList($model,'pendkualifikasi_id', CHtml::listData($model->getPendKualifikasiItems($model->pendidikan_id), 'pendkualifikasi_id', 'pendkualifikasi_nama'), 
+                                    array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
+                                            'ajax'=>array('type'=>'POST',
+                                                        'url'=>$this->createUrl('SetDropdownKelompokPegawai',array('encode'=>false,'model_nama'=>get_class($model))),
+                                                        'update'=>"#".CHtml::activeId($model, 'kelompokpegawai_id'),
+                                            )));?>
+                        <?php echo $form->error($model, 'pendkualifikasi_id'); ?>
+                    </div>
                 </div>
-            </div>
-            <div class="control-group ">
-                <?php echo $form->labelEx($model,'kecamatan_id', array('class'=>'control-label')) ?>
-                <div class="controls">
-                    <?php echo $form->dropDownList($model,'kecamatan_id', CHtml::listData($model->getKecamatanItems($model->kabupaten_id), 'kecamatan_id', 'kecamatan_nama'), 
-                                array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
-                                        'ajax'=>array('type'=>'POST',
-                                                    'url'=>$this->createUrl('SetDropdownKelurahan',array('encode'=>false,'model_nama'=>get_class($model))),
-                                                    'update'=>"#".CHtml::activeId($model, 'kelurahan_id'),
-                                        ),
-                                        'onchange'=>"",));?>
-                </div>
-            </div>
-            <div class="control-group ">
-                <?php echo $form->labelEx($model,'kelurahan_id', array('class'=>'control-label')) ?>
-                <div class="controls">
-                    <?php echo $form->dropDownList($model,'kelurahan_id',CHtml::listData($model->getKelurahanItems($model->kecamatan_id), 'kelurahan_id', 'kelurahan_nama'),
-                                                      array('empty'=>'-- Pilih --', 'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-                    <?php echo $form->error($model, 'kelurahan_id'); ?>
-                </div>
-            </div>
-			<?php echo $form->textFieldRow($model,'garis_latitude',array('onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-			<?php echo $form->textFieldRow($model,'garis_longitude',array('onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-			
-			
+		
             <div class='control-group'>
                 <?php echo $form->labelEx($model,'tglditerima', array('class'=>'control-label')) ?>
                 <div class="controls">
@@ -432,35 +482,10 @@ BLOCK;
                     <?php echo $form->error($model, 'tglmasaaktifpeg_sd'); ?>
                 </div>
             </div>
-			
+            </fieldset>
         </div>
     </div>
-    <div class="row-fluid">
-        <table width="100%" class="table-condensed">
-            <tr>
-                <td style="width:127px;text-align:right;">
-                    <div class="control-group">
-                        <?php echo CHtml::label('Ruangan / Unit kerja','ruangan',array('class'=>'control-label'));  ?>
-
-                    </div>
-                </td>
-                <td>
-                    <div class="controls">
-                        <?php 
-                            $this->widget('application.extensions.emultiselect.EMultiSelect',
-                            array('sortable'=>true, 'searchable'=>true)
-                                       );
-                            echo CHtml::dropDownList(
-                            'ruangan_id[]',
-                            '',
-                            CHtml::listData(KPRuanganM::model()->findAll(array('order'=>'ruangan_nama')), 'ruangan_id', 'ruangan_nama'),
-                            array('multiple'=>'multiple','key'=>'ruangan_id', 'class'=>'multiselect','style'=>'width:500px;height:150px','onkeyup'=>"return $(this).focusNextInputField(event);")
-                                    );
-                        ?>
-                    </div>
-                </td>
-            </tr>
-        </table>
+    <div class="row-fluid">        
         <div class="form-actions">
             <?php 
                 if($model->isNewRecord){

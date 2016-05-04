@@ -15,11 +15,13 @@ function cariDataDiagnosa(){
         dataType : 'html',
         data : 'param='+ aksi + '&query=' + isi,
         beforeSend: function(){
-            $("#data-diagnosa").addClass("animation-loading");
+            $("#table-diagnosa").addClass("animation-loading");
+            $("#table-diagnosa tbody tr").remove();
         },
         success: function(data){
-            $("#data-diagnosa").removeClass("animation-loading");
+            $("#table-diagnosa").removeClass("animation-loading");
             var obj = JSON.parse(data);
+            /*
             if(obj.response!=null){
 				var peserta = obj.response;
 				$("#kodeDiagnosa").text(peserta.kodeDiagnosa);
@@ -30,12 +32,18 @@ function cariDataDiagnosa(){
 				  return jQuery(a).text().toUpperCase()
 					  .indexOf(m[3].toUpperCase()) >= 0;
 				};
+            */
+            if (obj.length != null) {
+                $.each(obj, function(idx, val) {
+                    $("#table-diagnosa tbody").append('<tr><td>' + val.ICD_CODE + '</td><td>' + val.DESCRIPTION + '</td></tr>');
+                });
+                $("#pencarian-diagnosa-cbg-cmg-form .btn-primary-blue").removeAttr('disabled',true);
             }else{
-              myAlert(obj.metaData.message);
+                myAlert(obj.metaData.message);
             }
         },
         error: function(data){
-            $("#data-diagnosa").removeClass("animation-loading");
+            $("#table-diagnosa").removeClass("animation-loading");
         }
     }
     
@@ -90,6 +98,7 @@ function cariDataCBG(){
 }
 
 function cariDataCMG(){
+    $("#kodeCMG, #kodeGrup, #namaCMG").val("");
 	var katakunci = $('#katakunci_cmg').val();
     if (<?php echo (Yii::app()->user->getState('isbridging')==TRUE)?1:0; ?>) {}else{myAlert('Fitur Bridging tidak aktif!'); return false;}
 	
@@ -110,7 +119,8 @@ function cariDataCMG(){
         success: function(data){
             $("#data-cmg").removeClass("animation-loading");
             var obj = JSON.parse(data);
-            if(obj.response!=null){
+            
+            /* if(obj.response!=null){
 				var peserta = obj.response;
 				$("#kodeCMG").text(peserta.kodeCMG);
 				$("#kodeGrup").text(peserta.kodeGrup);
@@ -120,9 +130,20 @@ function cariDataCMG(){
 				jQuery.expr[':'].contains = function(a, i, m) {
 				  return jQuery(a).text().toUpperCase()
 					  .indexOf(m[3].toUpperCase()) >= 0;
-				};
+				}; */
+            console.log(obj);
+            if (obj.length != 0) {
+                $("#kodeCMG").text(obj[0].code);
+		$("#kodeGrup").text(obj[0].group_code);
+		$("#namaCMG").text("");
+		$("#pencarian-diagnosa-cbg-cmg-form .btn-primary-blue").removeAttr('disabled',true);
+                // OVERWRITES old selecor
+                jQuery.expr[':'].contains = function(a, i, m) {
+                  return jQuery(a).text().toUpperCase()
+                          .indexOf(m[3].toUpperCase()) >= 0;
+                };
             }else{
-              myAlert(obj.metaData.message);
+                myAlert(obj.metaData.message);
             }
         },
         error: function(data){
