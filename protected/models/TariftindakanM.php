@@ -159,7 +159,8 @@ class TariftindakanM extends CActiveRecord
                 $criteria=new CDbCriteria;
 //                $criteria->join = 'LEFT JOIN daftartindakan_m on daftartindakan_m.daftartindakan_id = t.daftartindakan_id
 //                                   LEFT JOIN kategoritindakan_m on kategoritindakan_m.kategoritindakan_id = daftartindakan_m.kategoritindakan_id';
-                $criteria->with=array('daftartindakan','kelaspelayanan');
+                //$criteria->with=array('daftartindakan');
+                $criteria->join = 'LEFT JOIN daftartindakan_m daftartindakan on daftartindakan.daftartindakan_id = t.daftartindakan_id';
 		$criteria->compare('t.tariftindakan_id',$this->tariftindakan_id);
 		$criteria->compare('t.jenistarif_id',$this->jenistarif_id);
 		$criteria->compare('t.daftartindakan_id',$this->daftartindakan_id);
@@ -170,7 +171,7 @@ class TariftindakanM extends CActiveRecord
 		$criteria->compare('t.hargadiskon_tind',$this->hargadiskon_tind);
 		$criteria->compare('t.persencyto_tind',$this->persencyto_tind);
                 $criteria->compare('t.kelaspelayanan_id',$this->kelaspelayanan_id);
-                $criteria->compare('LOWER(kelaspelayanan.kelaspelayanan_nama)',strtolower($this->kelaspelayanan_nama),true);
+                // $criteria->compare('LOWER(kelaspelayanan.kelaspelayanan_nama)',strtolower($this->kelaspelayanan_nama),true);
                 $criteria->compare('LOWER(daftartindakan.daftartindakan_nama)',strtolower($this->daftartindakan_nama),true);
                 $criteria->compare('LOWER(daftartindakan.tindakanmedis_nama)',strtolower($this->tindakanmedis_nama),true);
                 $criteria->compare('LOWER(daftartindakan.daftartindakan_kode)',strtolower($this->daftartindakan_kode),true);
@@ -179,6 +180,7 @@ class TariftindakanM extends CActiveRecord
 
                 return new CActiveDataProvider($this, array(
                         'criteria'=>$criteria,
+                    
                         'sort' => array(
                             'attributes' => array(
                                 'daftartindakan_nama' => array(
@@ -188,15 +190,25 @@ class TariftindakanM extends CActiveRecord
                                  'tindakanmedis_nama' => array(
                                     'asc' => 'daftartindakan.tindakanmedis_nama ASC',
                                     'desc' => 'daftartindakan.tindakanmedis_nama DESC',
-                                ),
+                                ), /*
                                  'kelaspelayanan_nama' => array(
                                     'asc' => 'kelaspelayanan.kelaspelayanan_nama ASC',
                                     'desc' => 'kelaspelayanan.kelaspelayanan_nama DESC',
-                                ),
+                                ), */
                                 '*',
                             )
                         )
                 ));
+        }
+        
+        public function searchTarifDiet2() {
+            $provider = $this->searchTarifDiet();
+            
+            $provider->criteria->group = 't.daftartindakan_id';
+            $provider->criteria->select = $provider->criteria->group;
+            $provider->sort = false;
+            
+            return $provider;
         }
         
         /**
