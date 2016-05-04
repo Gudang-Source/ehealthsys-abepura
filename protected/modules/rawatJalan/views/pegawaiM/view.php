@@ -86,7 +86,7 @@
                            <?php echo CHtml::label('<b>'.$model->getAttributeLabel('ruangan').'</b>',$model->getAttributeLabel('ruangan'));?>
                       </td>
                       <td width="30%"> 
-                          <?php $this->renderPartial('_ruanganPegawai',array('pegawai_id'=>$model->pegawai_id))?>
+                          <?php $this->renderPartial($this->path_view.'_ruanganPegawai',array('pegawai_id'=>$model->pegawai_id))?>
                       </td>
                       
                       <td colspan="2"></td>
