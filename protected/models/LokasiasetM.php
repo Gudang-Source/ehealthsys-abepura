@@ -81,12 +81,12 @@ class LokasiasetM extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'lokasi_id' => 'Lokasi',
-			'lokasiaset_kode' => 'Lokasiaset Kode',
-			'lokasiaset_namainstalasi' => 'Lokasiaset Namainstalasi',
-			'lokasiaset_namabagian' => 'Lokasiaset Namabagian',
-			'lokasiaset_namalokasi' => 'Lokasiaset Namalokasi',
-			'lokasiaset_aktif' => 'Lokasiaset Aktif',
+			'lokasi_id' => 'Lokasi Aset',
+			'lokasiaset_kode' => 'Aset Kode',
+			'lokasiaset_namainstalasi' => 'Nama Instalasi',
+			'lokasiaset_namabagian' => 'Nama Bagian',
+			'lokasiaset_namalokasi' => 'Nama Lokasi',
+			'lokasiaset_aktif' => 'Lokasi Aset Aktif',
 			'garis_latitude' => 'Garis Latitude',
 			'garis_longitude' => 'Garis Longitude',
 		);

@@ -1,85 +1,99 @@
+<style>
+    .datapribadi
+    {
+        font-size:12px;
+    }
+</style>
+<?php
+    $format = new MyFormatter;
+?>
 <div class="white-container">
     <legend class="rim2">Profil <b>User</b></legend>
         <?php
     $this->widget('bootstrap.widgets.BootAlert'); ?>
         <table style="width: 100%" class="table table-striped table-condensed">
-              <tr>
-                      <td width="20%"> 
-                           <?php echo CHtml::label($model->getAttributeLabel('nama_pegawai'),$model->getAttributeLabel('nama_rumahsakit'));?>
-                      </td>
-                      <td width="30%">
-                            <?php echo CHtml::label($model->gelardepan.' '.$model->nama_pegawai.' '.(isset($model->gelarbelakang_id)?$model->gelarbelakang->gelarbelakang_nama:""),$model->gelardepan.' '.$model->nama_pegawai.' '.(isset($model->gelarbelakang_id)?$model->gelarbelakang->gelarbelakang_nama:""));?>
-                       </td>
-                       
-                       <td width="20%">
-                           <?php echo CHtml::label('Username','nama_pemakai'); ?>
-                       </td>
-                       <td width="30%">
-                           <?php
-                                $loginpemakai=LoginpemakaiK::model()->find("pegawai_id='$model->pegawai_id'");
-                                echo $loginpemakai->nama_pemakai;
-                           ?>
-                       </td>
+            <tr>
+                <th><font style = "font-size:15px;">Data Pegawai</font></th>
+                <th></th>
+                <th><font style = "font-size:15px;">Data User</font></th>
+                <th></th>
+            </tr>
+            <tr>
+                <td width="20%"> 
+                    <?php echo CHtml::label('<b>'.$model->getAttributeLabel('nama_pegawai').'</b>',$model->getAttributeLabel('nama_rumahsakit'));?>
+                </td>
+                <td width="30%">
+                    <?php echo CHtml::label($model->gelardepan.' '.$model->nama_pegawai.' '.(isset($model->gelarbelakang_id)?$model->gelarbelakang->gelarbelakang_nama:""),$model->gelardepan.' '.$model->nama_pegawai.' '.(isset($model->gelarbelakang_id)?$model->gelarbelakang->gelarbelakang_nama:""));?>
+                </td>                       
+                <td width="20%">
+                    <?php echo CHtml::label('<b>Username</b>','nama_pemakai'); ?>
+                </td>
+                <td width="30%">
+                    <?php
+                         $loginpemakai=LoginpemakaiK::model()->find("pegawai_id='$model->pegawai_id'");
+                         echo $loginpemakai->nama_pemakai;
+                    ?>
+                </td>
               </tr>
               <tr>
                        <td width="20%"> 
-                           <?php echo CHtml::label($model->getAttributeLabel('jeniskelamin'),$model->getAttributeLabel('jeniskelamin'));?>
+                           <?php echo CHtml::label('<b>'.$model->getAttributeLabel('jeniskelamin').'</b>',$model->getAttributeLabel('jeniskelamin'));?>
                       </td>
                       <td width="30%">
                              <?php echo CHtml::label( $model->jeniskelamin, $model->jeniskelamin);?>                     
                       </td>
                       
                       <td width="20%">
-                            <?php echo CHtml::label('Terakhir Login','terakhir login'); ?>
+                            <?php echo CHtml::label('<b>Terakhir Login</b>','terakhir login'); ?>
                       </td>
                       <td width="30%">
-                            <?php echo $loginpemakai->lastlogin; ?>
+                            <?php echo $format->formatDateTimeForUser($loginpemakai->lastlogin); ?>
                       </td>
               </tr>
               <tr>
                        <td width="20%"> 
-                           <?php echo CHtml::label('Tempat Tanggal Lahir','ttl')?>
+                           <?php echo CHtml::label('<b>Tempat Tanggal Lahir</b>','ttl')?>
                       </td>
                       <td width="30%">
-                          <?php echo $model->tempatlahir_pegawai . ' ' .$model->tgl_lahirpegawai ?>
+                          <?php echo $model->tempatlahir_pegawai . ' ' .$format->formatDateTimeForUser($model->tgl_lahirpegawai) ?>
                       </td>
                       
                       <td width="20%">
-                          <?php echo CHtml::label('Tanggal Pembuatan','tanggal pembuatan'); ?>
+                          <?php echo CHtml::label('<b>Tanggal Pembuatan</b>','tanggal pembuatan'); ?>
                       </td>
                       <td width="30%">
-                          <?php $loginpemakai->tglpembuatanlogin; ?>
+                          <?php $format->formatDateTimeForUser($loginpemakai->tglpembuatanlogin); ?>
                       </td>
               </tr>
                 <tr>
                        <td width="20%"> 
-                           <?php echo CHtml::label($model->getAttributeLabel('jabatan_id').' / '.$model->getAttributeLabel('kelompokjabatan'),$model->getAttributeLabel('jabatan_id').'/'.$model->getAttributeLabel('kelompokjabatan'));?>
+                           <?php echo CHtml::label('<b>'.$model->getAttributeLabel('jabatan_id').' / '.$model->getAttributeLabel('kelompokjabatan').'</b>',$model->getAttributeLabel('jabatan_id').'/'.$model->getAttributeLabel('kelompokjabatan'));?>
                       </td>
                       <td width="30%">
                              <?php echo CHtml::label( (isset($model->jabatan_id)?$model->jabatan->jabatan_nama:"").'/'.(isset($model->kelompokjabatan)?$model->kelompokjabatan:""), 
                                      (isset($model->jabatan_id)?$model->jabatan->jabatan_nama:"").'/'.(isset($model->kelompokjabatan)?$model->kelompokjabatan:""));?>
                       </td>
                       <td width="20%">
-                          <?php echo CHtml::label('Tanggal Update','tanggal update'); ?>
+                          <?php echo CHtml::label('<b>Tanggal Update</b>','tanggal update'); ?>
                       </td>
                       
                       <td width="30%">
-                           <?php echo $loginpemakai->tglupdatelogin; ?>                          
+                           <?php echo $format->formatDateTimeForUser($loginpemakai->tglupdatelogin); ?>                          
                       </td>
                 </tr>
                 <tr>
                       <td width="20%"> 
-                           <?php echo CHtml::label($model->getAttributeLabel('ruangan'),$model->getAttributeLabel('ruangan'));?>
+                           <?php echo CHtml::label('<b>'.$model->getAttributeLabel('ruangan').'</b>',$model->getAttributeLabel('ruangan'));?>
                       </td>
                       <td width="30%"> 
-                          <?php $this->renderPartial('_ruanganPegawai',array('pegawai_id'=>$model->pegawai_id))?>
+                          <?php $this->renderPartial($this->path_view.'_ruanganPegawai',array('pegawai_id'=>$model->pegawai_id))?>
                       </td>
                       
                       <td colspan="2"></td>
                 </tr>
                 <tr>
                       <td width="20%" height="60px"> 
-                           <?php echo CHtml::label($model->getAttributeLabel('alamat_pegawai'),$model->getAttributeLabel('alamat_pegawai'));?>
+                           <?php echo CHtml::label('<b>'.$model->getAttributeLabel('alamat_pegawai').'</b>',$model->getAttributeLabel('alamat_pegawai'));?>
                       </td>
                    <td>
                          <?php echo CHtml::label( $model->alamat_pegawai, $model->alamat_pegawai);?>                     
@@ -89,7 +103,7 @@
                 </tr>
                  <tr>
                       <td width="20%"> 
-                           <?php echo CHtml::label($model->getAttributeLabel('agama'),$model->getAttributeLabel('agama'));?>
+                           <?php echo CHtml::label('<b>'.$model->getAttributeLabel('agama').'</b>',$model->getAttributeLabel('agama'));?>
                       </td>
                       <td width="30%">
                              <?php echo CHtml::label($model->agama, $model->agama);?>                   
@@ -99,10 +113,10 @@
                  </tr>
                  <tr>
                       <td width="20%"> 
-                           <?php echo CHtml::label($model->getAttributeLabel('notelp_pegawai'),$model->getAttributeLabel('notelp_pegawai'));?>
+                           <?php echo CHtml::label('<b>'.$model->getAttributeLabel('notelp_pegawai').'</b>','notelp_pegawai').' / '.CHtml::label('<b>'.$model->getAttributeLabel('nomobile_pegawai').'</b>','nomobile_pegawai');?>
                       </td>
                       <td width="30%">
-                             <?php echo CHtml::label($model->notelp_pegawai, $model->notelp_pegawai);?>
+                             <?php echo CHtml::label($model->notelp_pegawai, $model->notelp_pegawai).' / '.CHtml::label($model->nomobile_pegawai, $model->nomobile_pegawai);?>
                       </td>
                       
                       <td colspan="2"></td>

@@ -242,8 +242,10 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                         </tr>
                     </table>
             </fieldset>
-        </div>* 
-         */ ?>
+        </div>
+         * 
+         */?>
+         
     </div> 
             
     <div class="span4">    
@@ -419,7 +421,7 @@ BLOCK;
                             array('class'=>'btn btn-danger',
                                   'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;')); ?>
                     <?php
-                        $content = $this->renderPartial('../tips/transaksi',array(),true);
+                        $content = $this->renderPartial($this->path_tips.'transaksi',array(),true);
                         $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
                         $urlPrintKartuPegawai = Yii::app()->createUrl('print/kartuPegawai',array('idPegawai'=>''));
                     ?>  
