@@ -17,15 +17,16 @@ $this->widget('bootstrap.widgets.BootMenu', array(
     'type'=>'tabs', // '', 'tabs', 'pills' (or 'list')
     'stacked'=>false, // whether this is a stacked menu
     'items'=>array(
-        array('label'=>'Zat Gizi', 'url'=>'javascript:void(0);', 'itemOptions'=>array('id'=>'tab-default','onclick'=>'setTab(this);', 'tab'=>'/gizi/zatgiziM/admin&tab=frame&modul_id='.Yii::app()->session['modul_id'])),
-    	array('label'=>'Tipe Diet', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>'/gizi/tipeDietM/admin&modul_id='.Yii::app()->session['modul_id'])),
+        array('label'=>'Tipe Diet', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>'/gizi/tipeDietM/admin&modul_id='.Yii::app()->session['modul_id'])),
         array('label'=>'Jenis Diet', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>'/gizi/jenisdietM/admin&modul_id='.Yii::app()->session['modul_id'])),
     	array('label'=>'Diet', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>'/gizi/dietM/admin&modul_id='.Yii::app()->session['modul_id'])),    	
-        array('label'=>'Menu Diet', 'url'=>'javascript:void(0);', 'itemOptions'=>array('id'=>'tab-default','onclick'=>'setTab(this);', 'tab'=>'/gizi/menuDietM/admin&tab=frame&modul_id='.Yii::app()->session['modul_id'])),
-    	array('label'=>'Zat Menu Diet', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>'/gizi/zatMenuDietM/admin&modul_id='.Yii::app()->session['modul_id'])),
         array('label'=>'Bahan Diet', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>'/gizi/bahandietM/admin&modul_id='.Yii::app()->session['modul_id'])),
-    	array('label'=>'Jenis Waktu', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>'/gizi/jenisWaktuM/admin&modul_id='.Yii::app()->session['modul_id'])),    	
-        array('label'=>'Bahan Menu Diet', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>'/gizi/bahanMenuDietM/admin&modul_id='.Yii::app()->session['modul_id'])),    	
+        array('label'=>'Menu Diet', 'url'=>'javascript:void(0);', 'itemOptions'=>array('id'=>'tab-default','onclick'=>'setTab(this);', 'tab'=>'/gizi/menuDietM/admin&tab=frame&modul_id='.Yii::app()->session['modul_id'])),
+        array('label'=>'Bahan Menu Diet', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>'/gizi/bahanMenuDietM/admin&modul_id='.Yii::app()->session['modul_id'])),    	                
+    	array('label'=>'Zat Menu Diet', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>'/gizi/zatMenuDietM/admin&modul_id='.Yii::app()->session['modul_id'])),        
+        array('label'=>'Zat Gizi', 'url'=>'javascript:void(0);', 'itemOptions'=>array('id'=>'tab-default','onclick'=>'setTab(this);', 'tab'=>'/gizi/zatgiziM/admin&tab=frame&modul_id='.Yii::app()->session['modul_id'])),    	
+    	array('label'=>'Jenis Waktu', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>'/gizi/jenisWaktuM/admin&modul_id='.Yii::app()->session['modul_id'])),    	        
+        
     ),
     
     

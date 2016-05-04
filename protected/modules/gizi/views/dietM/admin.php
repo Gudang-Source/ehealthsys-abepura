@@ -65,7 +65,9 @@
                             //'diet_kandungan',
                             array(
                                 'name' => 'diet_kandungan',
+                                'value' => '$data->diet_kandungan." ".$data->zatgizi->zatgizi_satuan',
                                 'filter' => CHtml::activeTextField($model, 'diet_kandungan', array('class'=>'numbersOnly')),
+                                'htmlOptions' => array('style'=>'text-align:right;')
                             ),
                                             array(
                                                 'header'=>Yii::t('zii','View'),
