@@ -205,7 +205,7 @@ class InacbgController extends MyAuthController{
 		   $format = new MyFormatter();
 		   $pendaftaran_id = isset($_POST['pendaftaran_id']) ? $_POST['pendaftaran_id'] : null;
 		   $returnVal = array();
-		   $tr = array();
+		   $tr = "";
 		   $criteria = new CDbCriteria();
 		   if(!empty($pendaftaran_id)){$criteria->addCondition("t.pendaftaran_id = ".$pendaftaran_id); }
 		   $criteria->select = 't.*,pasien_m.*';
@@ -225,7 +225,7 @@ class InacbgController extends MyAuthController{
 		   }
 		   // pencarian data morbiditas pasien
 		   $pasienMorbiditas = ARPasienmorbiditasT::model()->findAllByAttributes(array('pendaftaran_id'=>$model->pendaftaran_id));
-		   foreach($pasienMorbiditas as $i=>$diagnosa){
+                   foreach($pasienMorbiditas as $i=>$diagnosa){
 			   $modPasienMorbiditas = new ARPasienmorbiditasT;
 			   $modPasienMorbiditas->pasienmorbiditas_id = $diagnosa->pasienmorbiditas_id;
 			   $modPasienMorbiditas->diagnosa_id = isset($diagnosa->diagnosa_id) ? $diagnosa->diagnosa_id : "";

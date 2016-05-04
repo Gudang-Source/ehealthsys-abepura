@@ -237,10 +237,10 @@
 							</t_map_sep>
 						</data>
 					</request>';
-
+                        //echo CHtml::encode($query); die;
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
-			$completeUrl = $this->url.'/sep/map/trans/';
-			return $this->request($completeUrl, $hashsignature, $uid, $timestmp, 'POST', $query);		
+			$completeUrl = $this->url.'/SEP/sep/map/trans';
+			return $this->request($completeUrl, $hashsignature, $uid, $timestmp, 'POST', $query, 'Application/x‐www‐form‐urlencoded');		
 		}
 
 		function delete_transaksi($query){
