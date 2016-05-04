@@ -19,9 +19,9 @@ class InformasiTarifController extends MyAuthController
 		$daftartindakan_id = (isset($daftartindakan_id) ? $daftartindakan_id : null);
 		$kategoritindakan_id = (isset($kategoritindakan_id) ? $kategoritindakan_id : null);
 		$jenistarif_id = (isset($jenistarif_id) ? $jenistarif_id : null);
-		if(empty($jenistarif_id)){
-			$jenistarif_id = Params::JENISTARIF_ID_PELAYANAN;
-		}
+		//if(empty($jenistarif_id)){
+			//$jenistarif_id = Params::JENISTARIF_ID_PELAYANAN;
+		//}
 
 		$modTarifTindakanform = new RITarifTindakanPerdaRuanganV();
 		if($kelaspelayanan_id!=''){

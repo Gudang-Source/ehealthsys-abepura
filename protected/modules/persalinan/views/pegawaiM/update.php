@@ -1,4 +1,5 @@
-
+<div class="white-container">
+     <legend class="rim2">Ubah <b>Profil</b></legend>
 <?php
 $this->breadcrumbs=array(
 	'Sapegawai Ms'=>array('index'),
@@ -19,3 +20,4 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
 
 <?php echo $this->renderPartial('_formUpdate',array('model'=>$model,'modRuanganPegawai'=>$modRuanganPegawai)); ?>
 <?php //$this->widget('UserTips',array('type'=>'update'));?>
+</div>

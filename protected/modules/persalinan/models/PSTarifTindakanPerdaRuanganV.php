@@ -1,11 +1,12 @@
 <?php
 class PSTarifTindakanPerdaRuanganV  extends TariftindakanperdaruanganV
-{
+{   public $komponenunit_nama;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
 	 * @return TariftindakanperdaruanganV the static model class
 	 */
+         
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -24,7 +25,17 @@ class PSTarifTindakanPerdaRuanganV  extends TariftindakanperdaruanganV
 		if(!empty($this->jenistarif_id)){
 			$criteria->addCondition('jenistarif_id = '.$this->jenistarif_id);
 		}
+                if(!empty($this->kelompoktindakan_id)){
+			$criteria->addCondition('kelompoktindakan_id = '.$this->kelompoktindakan_id);
+		}
+                if(!empty($this->komponenunit_id)){
+			$criteria->addCondition('komponenunit_id = '.$this->komponenunit_id);
+		}
+                
+                $criteria->compare('LOWER(daftartindakan_nama)',  strtolower($this->daftartindakan_nama));
+		
 		$criteria->addCondition('ruangan_id ='.Yii::app()->user->getState('ruangan_id'));
+                
 		$criteria->limit = 10;
 
 		return new CActiveDataProvider($this, array(

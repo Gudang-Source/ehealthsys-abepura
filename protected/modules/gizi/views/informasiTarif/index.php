@@ -26,8 +26,7 @@
                 ), array(
                     'name'=>'persendiskon_tind',
                     'htmlOptions'=>array('style'=>'text-align: right'),
-                ),
-		'persencyto_tind',
+                ),		
 		array(
 			'name'=>'Komponen Tarif',
 			'type'=>'raw',
