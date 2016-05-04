@@ -158,7 +158,7 @@ if(isset($_GET['TariftindakanM'])) {
 }
 $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
 	'id'=>'tarifdiet-m-grid',
-	'dataProvider'=>$modTarifDiet->searchTarifDiet(),
+	'dataProvider'=>$modTarifDiet->searchTarifDiet2(),
 	'filter'=>$modTarifDiet,
         'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
@@ -184,7 +184,7 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
                     'header'=>'Tindakan Medis',
                     'name'=>'tindakanmedis_nama',
                     'value'=>'$data->daftartindakan->tindakanmedis_nama',
-                ),
+                ), /*
                 array(
                     'header'=>'Kelas Pelayanan',
                     'name'=>'kelaspelayanan_nama',
@@ -194,7 +194,7 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
                     'header'=>'Harga Tarif Diet',
                     'name'=>'harga_tariftindakan',
                     'value'=>'MyFormatter::formatNumberForPrint($data->harga_tariftindakan)',
-                ),
+                ), */
 	),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 ));
