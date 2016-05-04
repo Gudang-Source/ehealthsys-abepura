@@ -31,7 +31,7 @@
 	   ));
 	?>	
 	<div class="form-actions">
-		<?php echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary-blue','type'=>'button','disabled'=>true,'onclick'=>'printData(\'PRINT\')')); ?>
+		<?php // echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary-blue','type'=>'button','disabled'=>true,'onclick'=>'printData(\'PRINT\')')); ?>
 	</div>
 </div>
 <?php $this->endWidget(); ?>

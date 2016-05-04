@@ -288,7 +288,7 @@ Class Params
 	const KELOMPOKPEGAWAI_ID_AHLI_GIZI = 16; //kelompokpegawai_m ahli gizi
 	const KELOMPOKPEGAWAI_ID_TENAGA_LAB = 18; //kelompokpegawai_m tenaga lab (analis lab)
 	const KELOMPOKPEGAWAI_ID_TENAGA_RAD = 22; //kelompokpegawai_m tenaga rad (radiografer)
-	const KELOMPOKPEGAWAI_ID_BIDAN = 3; //kelompokpegawai_m bidan
+	const KELOMPOKPEGAWAI_ID_BIDAN = 20; //kelompokpegawai_m bidan
 	
 	const KELOMPOKTINDAKAN_ID_GIZI	= 24; //kelompoktindakan_m gizi
 	const KELOMPOKTINDAKAN_ID_RAD	= 10; //kelompoktindakan_m radiodiagnostik

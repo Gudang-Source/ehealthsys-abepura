@@ -42,7 +42,12 @@ $this->widget($table,array(
                     'filter'=> CHtml::listData($model->getZatgiziItems(), 'zatgizi_id','zatgizi_nama'),
                     'value'=>'$data->zatgizi->zatgizi_nama',
                 ),
-		'diet_kandungan',
+		array(
+                    'name' => 'diet_kandungan',
+                    'value' => '$data->diet_kandungan." ".$data->zatgizi->zatgizi_satuan',
+                    'filter' => CHtml::activeTextField($model, 'diet_kandungan', array('class'=>'numbersOnly')),
+                    'htmlOptions' => array('style'=>'text-align:right;')
+                ),
              ), 
               
 	
