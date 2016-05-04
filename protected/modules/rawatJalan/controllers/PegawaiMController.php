@@ -10,6 +10,7 @@ class PegawaiMController extends MyAuthController
 	public $layout='//layouts/column1';
 	public $defaultAction = 'admin';
         public $path_view = "rawatJalan.views.pegawaiM.";        
+        public $path_tips = "rawatJalan.views.tips.";
 
 	/**
 	 * Displays a particular model.
@@ -272,7 +273,7 @@ class PegawaiMController extends MyAuthController
 			}                 
 		}
                 
-			$this->render('update',array(
+			$this->render($this->path_view.'update',array(
 			'model'=>$model,'modRuanganPegawai'=>$modRuanganPegawai,'format'=>$format
 		));
 	}
