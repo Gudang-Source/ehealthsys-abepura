@@ -104,6 +104,5 @@ class ROTarifpemeriksaanradruanganV extends TarifpemeriksaanradruanganV
 	public function getKategoritindakanItems()
 	{
 		return KategoritindakanM::model()->findAll("kategoritindakan_aktif = TRUE ORDER BY kategoritindakan_nama ASC");
-	} 
-	
+	} 	        
 }

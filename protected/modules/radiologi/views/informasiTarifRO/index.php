@@ -7,39 +7,64 @@
         <?php $format = new MyFormatter();
             $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'id'=>'daftarTindakan-grid',
-            'dataProvider'=>$modTarifRad->searchTarif(),
+            'dataProvider'=>$modTarifRad->searchInformasi(),
             'template'=>"{summary}\n{items}\n{pager}",
             'itemsCssClass'=>'table table-striped table-condensed',
             'columns'=>array(
-                array(
-                    'header'=>'No.',
-                    'value'=>'$row+1',
-                ),
+              //  array(
+              //      'header'=>'No.',
+              //      'value'=>'$row+1',
+              //  ),
+              //  'jenistarif_nama',
+              //  'jenispemeriksaanrad_nama',
+              //  'pemeriksaanrad_nama',
+              //  'kelaspelayanan_nama',
                 'jenistarif_nama',
-                'jenispemeriksaanrad_nama',
-                'pemeriksaanrad_nama',
-                'kelaspelayanan_nama',
-                array(
-                    'header'=>'Tarif Pemeriksaan (Rp.)',
-                    'name'=>'harga_tariftindakan',
-                    'value'=>'number_format($data->harga_tariftindakan,0,",",",")',
+		'kelompoktindakan_nama',
+                'komponenunit_nama',
+		'kategoritindakan_nama',
+		'daftartindakan_nama',
+		'kelaspelayanan_nama',
+                 array(
+			'name'=>'tarifTotal',
+			'value'=>'$this->grid->getOwner()->renderPartial(\'radiologi.views.informasiTarifRO._tarifTotal\',array(\'kelaspelayanan_id\'=>$data->kelaspelayanan_id,\'daftartindakan_id\'=>$data->daftartindakan_id, \'jenistarif_id\'=>$data->jenistarif_id),true)',
+                        'htmlOptions'=>array('style'=>'text-align: right'),
                 ),
+                array(
+                    'name'=>'persencyto_tind',
+                    'htmlOptions'=>array('style'=>'text-align: right'),
+                ), 
+                array(
+                    'name'=>'persendiskon_tind',
+                    'htmlOptions'=>array('style'=>'text-align: right'),
+                ),
+		//'persencyto_tind',
+		array(
+			'name'=>'Komponen Tarif',
+			'type'=>'raw',
+			'value'=>'CHtml::link("<i class=\'icon-form-komtarif\'></i> ",Yii::app()->controller->createUrl("'.Yii::app()->controller->id.'/detailsTarif",array("kelaspelayanan_id"=>$data->kelaspelayanan_id,"daftartindakan_id"=>$data->daftartindakan_id, "kategoritindakan_id"=>$data->kategoritindakan_id, "jenistarif_id"=>$data->jenistarif_id)) ,array("title"=>"Klik Untuk Melihat Detail Tarif","target"=>"iframe", "onclick"=>"$(\"#dialogDetailsTarif\").dialog(\"open\");", "rel"=>"tooltip"))','htmlOptions'=>array('style'=>'text-align: center; width:40px')
+		), 
+               // array(
+                 //   'header'=>'Tarif Pemeriksaan (Rp.)',
+                  //  'name'=>'harga_tariftindakan',
+                  //  'value'=>'number_format($data->harga_tariftindakan,0,",",",")',
+               // ),
     //            array(
     //                'header'=>'Cyto (%)',
     //                'name'=>'persencyto_tind',
     //                'value'=>'$data->persencyto_tind',
     //            ),
-                array(
-                    'header'=>'Periksa',
-                    'type'=>'raw',
+               // array(
+                  //  'header'=>'Periksa',
+                  //  'type'=>'raw',
     //                'value'=>'CHtml::checkBox("pilihPemeriksaan","", array("value"=>"$data->pemeriksaanlab_id"))',
-                    'value'=>'CHtml::link("<i class=\'icon-form-periksa\'></i> ","javascript:void(0);" ,array("title"=>"Klik Untuk Menambahkan Ke Daftar Pemeriksaan Total","onclick"=>"tambahDaftar(this);", "rel"=>"tooltip"))','htmlOptions'=>array('style'=>'text-align: center; width:40px')
-                ),
+                   // 'value'=>'CHtml::link("<i class=\'icon-form-periksa\'></i> ","javascript:void(0);" ,array("title"=>"Klik Untuk Menambahkan Ke Daftar Pemeriksaan Total","onclick"=>"tambahDaftar(this);", "rel"=>"tooltip"))','htmlOptions'=>array('style'=>'text-align: center; width:40px')
+              //  ),
             ),
             'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
         )); ?>
     </div>
-    <div class="block-tabel">
+    <!--<div class="block-tabel">
         <h6>Daftar <b>Pemeriksaan Total</b></h6>
         <table class="table table-striped table-condensed">
             <thead>
@@ -58,9 +83,29 @@
             </tbody>
             <tr><td colspan="8"><center><b>Total Pemeriksaan</b></center></td><td id="totalPemeriksaan"></td><td></td></tr>
         </table>
-    </div>
+    </div>-->
     <fieldset class="box">
         <legend class="rim"><i class="icon-white icon-search"></i> Pencarian</legend>
+        <?php
+        // ===========================Dialog Details Tarif=========================================
+        $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+                'id'=>'dialogDetailsTarif',
+                // additional javascript options for the dialog plugin
+                'options'=>array(
+                'title'=>'Komponen Tarif',
+                'autoOpen'=>false,
+                'width'=>350,
+                'height'=>350,
+                'resizable'=>false,
+                'scroll'=>false    
+                 ),
+        ));
+        ?>
+        <iframe src="" name="iframe" width="100%" height="100%">
+        </iframe>
+        <?php    
+        $this->endWidget('zii.widgets.jui.CJuiDialog');
+        ?>
         <?php
         Yii::app()->clientScript->registerScript('search', "
 
@@ -79,10 +124,10 @@
                 'id'=>'formCari',
                 'type'=>'horizontal',
         )); ?>
-        <div class="row-fluid" id="formCariInput">
-            <div class="span4">
+       <div class="row-fluid" id="formCariInput">
+       <!--      <div class="span4">-->
                 <?php
-                        echo $form->dropDownListRow($modTarifRad,'instalasi_id',
+                       /* echo $form->dropDownListRow($modTarifRad,'instalasi_id',
                                 CHtml::listData($modTarifRad->getInstalasiItems(), 'instalasi_id', 'instalasi_nama'),
                                 array(
                                         'class'=>'span3', 
@@ -93,38 +138,54 @@
                                                 'update'=>'#'.CHtml::activeId($modTarifRad, 'ruangan_id')
                                         )
                                 )
-                        );
+                        );*/
                 ?>
                 <?php
-                        echo $form->dropDownListRow($modTarifRad,'ruangan_id',
+                      /*  echo $form->dropDownListRow($modTarifRad,'ruangan_id',
                                 CHtml::listData($modTarifRad->getRuanganItems($modTarifRad->instalasi_id), 'ruangan_id', 'ruangan_nama'),
                                 array(
                                         'class'=>'span3', 
                                         'onkeypress'=>"return $(this).focusNextInputField(event)"
                                 )
-                        );
+                        );*/
                 ?>
-                <?php echo $form->dropDownListRow($modTarifRad, 'jenistarif_id', CHtml::listData(JenistarifM::model()->findAllByAttributes(array('jenistarif_aktif'=>true), array('order'=>'jenistarif_nama ASC')), 'jenistarif_id', 'jenistarif_nama'), array('class'=>'span3')); ?>
-            </div>
-            <div class="span4">
+                <?php //echo $form->dropDownListRow($modTarifRad, 'jenistarif_id', CHtml::listData(JenistarifM::model()->findAllByAttributes(array('jenistarif_aktif'=>true), array('order'=>'jenistarif_nama ASC')), 'jenistarif_id', 'jenistarif_nama'), array('class'=>'span3')); ?>
+          <!--  </div>
+            <div class="span4">-->
                 <?php 
-                echo $form->dropDownListRow($modTarifRad,'kategoritindakan_id',
+               /* echo $form->dropDownListRow($modTarifRad,'kategoritindakan_id',
                                                     CHtml::listData($modTarifRad->getKategoritindakanItems(),
                                                                     'kategoritindakan_id', 'kategoritindakan_nama'),
-                                                                        array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); 
+                                                                        array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); */
                 ?>
                 <?php 
-                echo $form->dropDownListRow($modTarifRad,'kelaspelayanan_id',
+                /*echo $form->dropDownListRow($modTarifRad,'kelaspelayanan_id',
                                                     CHtml::listData($modTarifRad->getKelasPelayananItems(), 
                                                                     'kelaspelayanan_id', 'kelaspelayanan_nama'),
-                                                                        array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); 
+                                                                        array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); */
                 ?>
                 
-            </div>
-            <div class="span4">
-                <?php echo $form->textFieldRow($modTarifRad, 'pemeriksaanrad_nama',array( 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30, 'autofocus'=>TRUE)); ?>
-            </div>
+         <!--   </div>
+            <div class="span4">-->
+                <?php //echo $form->textFieldRow($modTarifRad, 'pemeriksaanrad_nama',array( 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30, 'autofocus'=>TRUE)); ?>
+            <!--</div>-->
         </div>
+         <table width="100%">
+            <tr>
+                <td>
+                    <?php echo $form->dropDownListRow($modTarifRad, 'jenistarif_id', CHtml::listData(JenistarifM::model()->findAllByAttributes(array('jenistarif_aktif'=>true), array('order'=>'jenistarif_nama ASC')), 'jenistarif_id', 'jenistarif_nama'), array('class'=>'span3', 'empty'=>'-- Pilih --')); ?>
+                    <?php echo $form->dropDownListRow($modTarifRad, 'kelompoktindakan_id', CHtml::listData(KelompoktindakanM::model()->findAllByAttributes(array('kelompoktindakan_aktif'=>true), array('order'=>'kelompoktindakan_nama ASC')), 'kelompoktindakan_id', 'kelompoktindakan_nama'), array('class'=>'span3', 'empty'=>'-- Pilih --')); ?>
+                </td>
+                <td>
+                    <?php echo $form->dropDownListRow($modTarifRad, 'komponenunit_id', CHtml::listData(KomponenunitM::model()->findAllByAttributes(array('komponenunit_aktif'=>true), array('order'=>'komponenunit_nama ASC')), 'komponenunit_id', 'komponenunit_nama'), array('class'=>'span3', 'empty'=>'-- Pilih --')); ?>
+                    <?php echo $form->dropDownListRow($modTarifRad,'kategoritindakan_id',CHtml::listData($modTarifRad->getKategoritindakanItems(), 'kategoritindakan_id', 'kategoritindakan_nama'),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+                </td>
+                <td>
+                    <?php echo $form->dropDownListRow($modTarifRad,'kelaspelayanan_id',CHtml::listData($modTarifRad->getKelasPelayananItems(), 'kelaspelayanan_id', 'kelaspelayanan_nama'),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+                    <?php echo $form->textFieldRow($modTarifRad,'daftartindakan_nama',array('style'=>'width:204px', 'onkeypress'=>"return $(this).focusNextInputField(event);",'placeholder'=>'Ketik Nama Daftar Tindakan')); ?>
+                </td>
+            </tr>
+        </table>
         <div class="form-actions">
              <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),
                                                     array('class'=>'btn btn-primary', 'type'=>'submit')); ?>
