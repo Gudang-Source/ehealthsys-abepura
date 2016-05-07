@@ -276,4 +276,31 @@ class KPPegawaiM extends PegawaiM
                         'pagination'=>false,
                 ));
 	}
+        
+        public function getSukuNama()
+        {
+            return isset($this->suku_id)?$this->suku->suku_nama:'';
+        }
+        
+        public function getAksesRuangan()
+        {
+            $loginpemakai=LoginpemakaiK::model()->find("pegawai_id='$this->pegawai_id'");
+           
+            $login = new CDbCriteria();
+            $login->with = array('ruangan');
+            $login->addCondition('loginpemakai_id ='.$loginpemakai->loginpemakai_id);
+            $login->order = 'ruangan.ruangan_nama ASC';
+            return RuanganpemakaiK::model()->findAll($login);
+        }
+        
+        public function getAksesModul()
+        {
+            $loginpemakai=LoginpemakaiK::model()->find("pegawai_id='$this->pegawai_id'");
+           
+            $login = new CDbCriteria();
+            $login->with = array('modul');
+            $login->addCondition('loginpemakai_id ='.$loginpemakai->loginpemakai_id);
+            $login->order = 'modul.modul_nama ASC';
+           return AksespenggunaK::model()->findAll($login);
+        }
 }
