@@ -73,12 +73,12 @@ class PegawaiMController extends MyAuthController
 				 //   $model->profilrs_id=Params::DEFAULT_PROFIL_RUMAH_SAKIT;
 					$model->photopegawai = CUploadedFile::getInstance($model, 'photopegawai');
 					$gambar = $model->photopegawai;
-					$random = rand(000000, 999999);
+					$random = $model->nomorindukpegawai.'.'.$model->photopegawai->getExtensionName();                                        
 
 					if(!empty($model->photopegawai))//Klo User Memasukan Logo
 					{ 
 
-						  $model->photopegawai =$random.$model->photopegawai;
+						  $model->photopegawai =$random;//.$model->photopegawai
 
 						  Yii::import("ext.EPhpThumb.EPhpThumb");
 
@@ -150,9 +150,9 @@ class PegawaiMController extends MyAuthController
         if(isset($_POST['KPPegawaiM'])){			
 			$transaction = Yii::app()->db->beginTransaction();
 			try {
-					  $model=new KPPegawaiM;
-					  $random=rand(0000000,9999999);
+					  $model=new KPPegawaiM;					  
 					  $model->attributes=$_POST['KPPegawaiM'];
+                                          $random = $model->nomorindukpegawai;
 					  $model->profilrs_id=Params::DEFAULT_PROFIL_RUMAH_SAKIT;
 					  $model->tgl_lahirpegawai = $format->formatDateTimeForDb($_POST['KPPegawaiM']['tgl_lahirpegawai']);
 					  if (isset($model->tglditerima)){
@@ -177,7 +177,7 @@ class PegawaiMController extends MyAuthController
 						  if(!empty($model->photopegawai))//Klo User Memasukan Logo
 						  { 
 
-								$model->photopegawai =$random.$model->photopegawai;
+								$model->photopegawai =$random.'.'.$model->photopegawai->getExtensionName();//.$model->photopegawai
 
 								Yii::import("ext.EPhpThumb.EPhpThumb");
 
@@ -576,9 +576,9 @@ class PegawaiMController extends MyAuthController
 		if(isset($_POST['KPPegawaiM']))
 		{
 			$transaction = Yii::app()->db->beginTransaction();
-			try {
-					  $random=rand(0000000,9999999);
+			try {					  
 					  $model->attributes=$_POST['KPPegawaiM'];
+                                          $random = $model->nomorindukpegawai;
 					  $model->profilrs_id=Params::DEFAULT_PROFIL_RUMAH_SAKIT;
 					  $model->update_time = date('Y-m-d');
 					  $model->update_loginpemakai_id = Yii::app()->user->id;
@@ -601,8 +601,8 @@ class PegawaiMController extends MyAuthController
 						if($_POST['caraAmbilPhoto']=='file')//Jika User Mengambil photo pegawai dengan cara upload file
 						{ 
 							if(!empty($model->photopegawai))//Klo User Memasukan Logo
-							{ 
-								$model->photopegawai =$random.$model->photopegawai;
+							{                                                             
+								$model->photopegawai =$random.'.'.$model->photopegawai->getExtensionName();//.$model->photopegawai
 								Yii::import("ext.EPhpThumb.EPhpThumb");
 								$thumb=new EPhpThumb();
 								$thumb->init(); //this is needed
