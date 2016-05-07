@@ -5,37 +5,45 @@ class InformasiTarifController extends MyAuthController
 	public $path_view = 'laboratorium.views.informasiTarif.';
 	public function actionIndex()
 	{
-		$modTarifLab = new LBTarifpemeriksaanlabruanganV('searchTarif');
+		$modTarifLab = new LBTariftindakanperdaruanganV('searchInformasi');
 		$modTarifLab->jenistarif_id = Params::JENISTARIF_ID_PELAYANAN;
 		$modTarifLab->instalasi_id = Yii::app()->user->getState('instalasi_id');
-		$modTarifLab->carabayar_id = Params::CARABAYAR_ID_MEMBAYAR;
-		$modTarifLab->penjamin_id = Params::PENJAMIN_ID_UMUM;
-		if(isset($_GET['LBTarifpemeriksaanlabruanganV'])){
-			$modTarifLab->attributes=$_GET['LBTarifpemeriksaanlabruanganV'];
-			$modTarifLab->carabayar_id=$_GET['LBTarifpemeriksaanlabruanganV']['carabayar_id'];
-			$modTarifLab->penjamin_id=$_GET['LBTarifpemeriksaanlabruanganV']['penjamin_id'];
+		//$modTarifLab->carabayar_id = Params::CARABAYAR_ID_MEMBAYAR;
+		//$modTarifLab->penjamin_id = Params::PENJAMIN_ID_UMUM;
+		if(isset($_GET['LBTariftindakanperdaruanganV'])){
+			$modTarifLab->attributes=$_GET['LBTariftindakanperdaruanganV'];
+			//$modTarifLab->carabayar_id=$_GET['LBTarifpemeriksaanlabruanganV']['carabayar_id'];
+			//$modTarifLab->penjamin_id=$_GET['LBTarifpemeriksaanlabruanganV']['penjamin_id'];
 		}
 		$this->render($this->path_view.'index',array('modTarifLab'=>$modTarifLab));
 	} 
 	        
-	public function actionDetailsTarif($idKelasPelayanan,$idDaftarTindakan, $idKategoriTindakan){
+	public function actionDetailsTarif($kelaspelayanan_id,$daftartindakan_id,$kategoritindakan_id, $jenistarif_id){
 
 		$this->layout='//layouts/iframe';
-		if($idKelasPelayanan!=''){
-		$modTarifTindakan= LBTariftindakanM::model()->with('komponentarif')->findAll('kelaspelayanan_id='.$idKelasPelayanan.' AND 
-														   daftartindakan_id='.$idDaftarTindakan.'
-														   AND t.komponentarif_id!='.Params::KOMPONENTARIF_ID_TOTAL.'');
+		$kelaspelayanan_id = (isset($kelaspelayanan_id) ? $kelaspelayanan_id : null);
+		$daftartindakan_id = (isset($daftartindakan_id) ? $daftartindakan_id : null);
+		$kategoritindakan_id = (isset($kategoritindakan_id) ? $kategoritindakan_id : null);
+		if($kelaspelayanan_id!=''){
+		$modTarifTindakan= LBTariftindakanM::model()->with('komponentarif')->findAll('kelaspelayanan_id='.$kelaspelayanan_id.' AND 
+														   daftartindakan_id='.$daftartindakan_id.'
+														   AND t.komponentarif_id!='.Params::KOMPONENTARIF_ID_TOTAL
+                                                                                                                . ' AND t.jenistarif_id = '.$jenistarif_id);
 		}else{ 
-			$modTarifTindakan=  LBTariftindakanM::model()->with('komponentarif')->findAll('daftartindakan_id='.$idDaftarTindakan.'
-														   AND t.komponentarif_id!='.Params::KOMPONENTARIF_ID_TOTAL.'
-														   AND kelaspelayanan_id isNull');
+			$modTarifTindakan=LBTariftindakanM::model()->with('komponentarif')->findAll('daftartindakan_id='.$daftartindakan_id.'
+														   AND t.komponentarif_id!='.Params::KOMPONENTARIF_ID_TOTAL.
+														  ' AND kelaspelayanan_id isNull'
+                                                                                                                . ' AND t.jenistarif_id = '.$jenistarif_id);
 		}
-		$modTarif = TariftindakanperdaruanganV::model()->find('daftartindakan_id = '.$idDaftarTindakan.' and kelaspelayanan_id = '.$idKelasPelayanan.' and kategoritindakan_id = '.$idKategoriTindakan);
+		if(empty($kategoritindakan_id)){
+			$modTarif = TariftindakanperdaruanganV::model()->find('daftartindakan_id = '.$daftartindakan_id.' and kelaspelayanan_id = '.$kelaspelayanan_id.' and jenistarif_id = '.$jenistarif_id);
+		}else{
+			$modTarif = TariftindakanperdaruanganV::model()->find('daftartindakan_id = '.$daftartindakan_id.' and kelaspelayanan_id = '.$kelaspelayanan_id.' and kategoritindakan_id = '.$kategoritindakan_id.' and jenistarif_id = '.$jenistarif_id);
+		}
 		$jumlahTarifTindakan=COUNT($modTarifTindakan);
-
 		$this->render($this->path_view.'detailsTarif',array('modTarif'=>$modTarif,
 											'modTarifTindakan'=>$modTarifTindakan,
-											'jumlahTarifTindakan'=>$jumlahTarifTindakan));
+											'jumlahTarifTindakan'=>$jumlahTarifTindakan));	
 	}
 	
 	/**
