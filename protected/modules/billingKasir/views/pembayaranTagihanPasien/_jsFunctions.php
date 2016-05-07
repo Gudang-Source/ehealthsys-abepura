@@ -1,3 +1,6 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
 <script type="text/javascript">
 var carapembayaran = "";
 
@@ -155,8 +158,8 @@ function setRincianTindakan(){
         success:function(data){
             $("#form-rinciantindakan").html(data.form);
             $("#form-rinciantindakan").removeClass("animation-loading");
-            $("#form-rinciantindakan .integer").maskMoney(
-                {"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0}
+            $("#form-rinciantindakan .integer2").maskMoney(
+                {"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0}
             );
             $("#form-rinciantindakan").find('input:checkbox[name$="is_proporsitindakan"]').tooltip({"placement":"<?php echo Params::TOOLTIP_PLACEMENT; ?>"});
             hitungTotalSemua();
@@ -183,8 +186,8 @@ function setRincianObatalkes(){
         success:function(data){
             $("#form-rincianobatalkes").html(data.form);
             $("#form-rincianobatalkes").removeClass("animation-loading");
-            $("#form-rincianobatalkes .integer").maskMoney(
-                {"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0}
+            $("#form-rincianobatalkes .integer2").maskMoney(
+                {"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0}
             );
             $("#form-rincianobatalkes").find('input:checkbox[name$="is_proporsioa"]').tooltip({"placement":"<?php echo Params::TOOLTIP_PLACEMENT; ?>"});
             hitungTotalSemua();
@@ -889,10 +892,10 @@ function setVerifikasi(){
             });
             //untuk verifikasi hilangkan srbac loading
             $(".animation-loading").removeClass("animation-loading");
-            $("form").find('.float').each(function(){
+            $("form").find('.float2').each(function(){
                 $(this).val(formatFloat($(this).val()));
             });
-            $("form").find('.integer').each(function(){
+            $("form").find('.integer2').each(function(){
                 $(this).val(formatInteger($(this).val()));
             });
         }

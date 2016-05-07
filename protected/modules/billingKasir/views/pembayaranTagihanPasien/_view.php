@@ -16,8 +16,14 @@
                         'label'=>'Poliklinik / Ruangan',
                         'value'=>$modKunjungan->ruangan_nama,
                     ),
-                    'kelaspelayanan_nama',
-                    'jeniskasuspenyakit_nama',
+                    array(
+                        'name'=>'kelaspelayanan_nama',
+                        'label'=>'Kelas Pelayanan',
+                    ),
+                    array(
+                        'name'=>'jeniskasuspenyakit_nama',
+                        'label'=>'Jenis Kasus Penyakit',
+                    ),
     //                'carabayar_nama',
                     'penjamin_nama',
                     'no_rekam_medik',

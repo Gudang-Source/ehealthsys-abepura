@@ -15,7 +15,7 @@
 <?php if(!empty($caraPrint)){
     echo "<br><br><br><br>";
 } ?>
-<table width="75%"><tr><td>
+<table width="100%"><tr><td>
 <table width="100%">
     <tr>
         <td width="10%">No. Faktur</td>
@@ -24,7 +24,7 @@
     </tr>
     <tr>
         <td>Tanggal. Faktur</td>
-        <td>: <?php echo date('d M Y H:i:s');?></td>
+        <td>: <?php echo MyFormatter::formatDateTimeForUser(date('Y-m-d H:i:s'));?></td>
         <td width="10%">Nama </td>
         <td>: 
             <?php 
@@ -65,8 +65,8 @@
         <td>: <?php // echo $modPenjualan->pendaftaran->umur;?> -->
     </tr>
     <tr>
-        <td>Tanggal Resep</td>
-        <td>: <?php echo $modPenjualan->tglresep;?></td>
+        <td nowrap>Tanggal Resep</td>
+        <td>: <?php echo MyFormatter::formatDateTimeForUser($modPenjualan->tglresep);?></td>
     </tr>
 </table><br/>
 <table width="100%">
