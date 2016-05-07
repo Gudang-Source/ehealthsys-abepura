@@ -40,16 +40,16 @@
                 $tot_subsidirs += $obatalkes->subsidirs;
                 $tot_iurbiaya += $obatalkes->iurbiaya;
                 $total_oa += $obatalkes->subtotaloa;
-                $obatalkes->qty_oa = $format->formatNumberForUser($obatalkes->qty_oa);
-                $obatalkes->hargasatuan_oa = $format->formatNumberForUser($obatalkes->hargasatuan_oa);
-                $obatalkes->tarifcyto = $format->formatNumberForUser($obatalkes->tarifcyto);
-                $obatalkes->discount = $format->formatNumberForUser($obatalkes->discount);
-                $obatalkes->biayalain = $format->formatNumberForUser($obatalkes->biayalain);
-                $obatalkes->subsidiasuransi = $format->formatNumberForUser($obatalkes->subsidiasuransi);
-                $obatalkes->subsidirs = $format->formatNumberForUser($obatalkes->subsidirs);
-////                  DISAMAKAN DENGAN subtotaloa >>  $obatalkes->iurbiaya = $format->formatNumberForUser($obatalkes->iurbiaya);
-                $obatalkes->iurbiaya = $format->formatNumberForUser($obatalkes->subtotaloa);
-                $obatalkes->subtotaloa = $format->formatNumberForUser($obatalkes->subtotaloa);
+                $obatalkes->qty_oa = $format->formatNumberForPrint($obatalkes->qty_oa);
+                $obatalkes->hargasatuan_oa = $format->formatNumberForPrint($obatalkes->hargasatuan_oa);
+                $obatalkes->tarifcyto = $format->formatNumberForPrint($obatalkes->tarifcyto);
+                $obatalkes->discount = $format->formatNumberForPrint($obatalkes->discount);
+                $obatalkes->biayalain = $format->formatNumberForPrint($obatalkes->biayalain);
+                $obatalkes->subsidiasuransi = $format->formatNumberForPrint($obatalkes->subsidiasuransi);
+                $obatalkes->subsidirs = $format->formatNumberForPrint($obatalkes->subsidirs);
+////                  DISAMAKAN DENGAN subtotaloa >>  $obatalkes->iurbiaya = $format->formatNumberForPrint($obatalkes->iurbiaya);
+                $obatalkes->iurbiaya = $format->formatNumberForPrint($obatalkes->subtotaloa);
+                $obatalkes->subtotaloa = $format->formatNumberForPrint($obatalkes->subtotaloa);
                 echo '<tr>'
                         .'<td>'.CHtml::activeCheckBox($obatalkes, '['.$i.']is_pilihoa',array('onchange'=>'hitungTotalOa();','onkeyup'=>"return $(this).focusNextInputField(event);"))  
                         .CHtml::activeHiddenField($obatalkes, '['.$i.']obatalkespasien_id',array('readonly'=>true, 'class'=>'span1'))  
@@ -57,15 +57,15 @@
                         .'</td>'
                         .'<td>'.CHtml::activeTextField($obatalkes, '['.$i.']tglpelayanan',array('readonly'=>true,'class'=>'inputFormTabel lebar4', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
                         .'<td>'.$obatalkes->obatalkes->obatalkes_kode.'-'.$obatalkes->obatalkes->obatalkes_nama.'</td>'
-                        .'<td>'.CHtml::activeTextField($obatalkes, '['.$i.']qty_oa',array('readonly'=>true,'class'=>'inputFormTabel lebar1 integer', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
-                        .'<td>'.CHtml::activeTextField($obatalkes, '['.$i.']hargasatuan_oa',array('readonly'=>true,'class'=>'inputFormTabel lebar3 integer', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
-                        .'<td>'.CHtml::activeTextField($obatalkes, '['.$i.']tarifcyto',array('readonly'=>true,'class'=>'inputFormTabel lebar3 integer', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
-                        .'<td>'.CHtml::activeTextField($obatalkes, '['.$i.']discount',array('onblur'=>'hitungTotalOa();','class'=>'inputFormTabel lebar3 integer', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
-                        .'<td>'.CHtml::activeTextField($obatalkes, '['.$i.']biayalain',array('onblur'=>'hitungTotalOa();','class'=>'inputFormTabel lebar3 integer', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
-                        .'<td>'.CHtml::activeTextField($obatalkes, '['.$i.']subsidiasuransi',array('onblur'=>'hitungTotalOa();','class'=>'inputFormTabel lebar3 integer', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
-                        .'<td>'.CHtml::activeTextField($obatalkes, '['.$i.']subsidirs',array('onblur'=>'hitungTotalOa();','class'=>'inputFormTabel lebar3 integer', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
-                        .'<td>'.CHtml::activeTextField($obatalkes, '['.$i.']iurbiaya',array('readonly'=>true,'class'=>'inputFormTabel lebar3 integer', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
-                        .'<td>'.CHtml::activeTextField($obatalkes, '['.$i.']subtotaloa',array('readonly'=>true,'class'=>'inputFormTabel lebar3 integer', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
+                        .'<td>'.CHtml::activeTextField($obatalkes, '['.$i.']qty_oa',array('readonly'=>true,'class'=>'inputFormTabel lebar1 integer2', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
+                        .'<td>'.CHtml::activeTextField($obatalkes, '['.$i.']hargasatuan_oa',array('readonly'=>true,'class'=>'inputFormTabel lebar3 integer2', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
+                        .'<td>'.CHtml::activeTextField($obatalkes, '['.$i.']tarifcyto',array('readonly'=>true,'class'=>'inputFormTabel lebar3 integer2', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
+                        .'<td>'.CHtml::activeTextField($obatalkes, '['.$i.']discount',array('onblur'=>'hitungTotalOa();','class'=>'inputFormTabel lebar3 integer2', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
+                        .'<td>'.CHtml::activeTextField($obatalkes, '['.$i.']biayalain',array('onblur'=>'hitungTotalOa();','class'=>'inputFormTabel lebar3 integer2', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
+                        .'<td>'.CHtml::activeTextField($obatalkes, '['.$i.']subsidiasuransi',array('onblur'=>'hitungTotalOa();','class'=>'inputFormTabel lebar3 integer2', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
+                        .'<td>'.CHtml::activeTextField($obatalkes, '['.$i.']subsidirs',array('onblur'=>'hitungTotalOa();','class'=>'inputFormTabel lebar3 integer2', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
+                        .'<td>'.CHtml::activeTextField($obatalkes, '['.$i.']iurbiaya',array('readonly'=>true,'class'=>'inputFormTabel lebar3 integer2', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
+                        .'<td>'.CHtml::activeTextField($obatalkes, '['.$i.']subtotaloa',array('readonly'=>true,'class'=>'inputFormTabel lebar3 integer2', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
                     .'</tr>';
             }
         }
@@ -74,24 +74,24 @@
     <tfoot>
         <?php
         //formatting total
-        $tot_hargajual_oa = $format->formatNumberForUser($tot_hargajual_oa);
-        $tot_tarifcyto = $format->formatNumberForUser($tot_tarifcyto);
-        $tot_discount = $format->formatNumberForUser($tot_discount);
-        $tot_biayalain = $format->formatNumberForUser($tot_biayalain);
-        $tot_subsidiasuransi = $format->formatNumberForUser($tot_subsidiasuransi);
-        $tot_subsidirs = $format->formatNumberForUser($tot_subsidirs);
-        $tot_iurbiaya = $format->formatNumberForUser($total_oa);
-        $total_oa = $format->formatNumberForUser($total_oa);
+        $tot_hargajual_oa = $format->formatNumberForPrint($tot_hargajual_oa);
+        $tot_tarifcyto = $format->formatNumberForPrint($tot_tarifcyto);
+        $tot_discount = $format->formatNumberForPrint($tot_discount);
+        $tot_biayalain = $format->formatNumberForPrint($tot_biayalain);
+        $tot_subsidiasuransi = $format->formatNumberForPrint($tot_subsidiasuransi);
+        $tot_subsidirs = $format->formatNumberForPrint($tot_subsidirs);
+        $tot_iurbiaya = $format->formatNumberForPrint($total_oa);
+        $total_oa = $format->formatNumberForPrint($total_oa);
         ?>
         <td colspan="4" style="text-align: right; font-weight: bold;"><?php echo CHtml::checkBox('is_proporsioa',false,array('onchange'=>'setProporsiOa();','rel'=>'tooltip','title'=>'Centang untuk masukan proporsi dari total obat alkes','onkeyup'=>"return $(this).focusNextInputField(event);")) ?> Total Tagihan Obat & Alkes</td>
-        <td><?php echo CHtml::textField('tot_hargajual_oa',$tot_hargajual_oa,array('readonly'=>true,'class'=>'inputFormTabel lebar3 integer','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
-        <td><?php echo CHtml::textField('tot_tarifcyto',$tot_tarifcyto,array('readonly'=>true,'class'=>'inputFormTabel lebar3 integer','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
-        <td><?php echo CHtml::textField('tot_discount',$tot_discount,array('onblur'=>'proporsiDiskonOa();','readonly'=>true,'class'=>'inputFormTabel lebar3 integer','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
-        <td><?php echo CHtml::textField('tot_biayalain',$tot_biayalain,array('onblur'=>'proporsiBiayaAdminOa();','readonly'=>true,'class'=>'inputFormTabel lebar3 integer','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
-        <td><?php echo CHtml::textField('tot_subsidiasuransi',$tot_subsidiasuransi,array('onblur'=>'proporsiSubsidiAsuransiOa();','readonly'=>true,'class'=>'inputFormTabel lebar3 integer','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
-        <td><?php echo CHtml::textField('tot_subsidirs',$tot_subsidirs,array('onblur'=>'proporsiSubsidiRsOa();','readonly'=>true,'class'=>'inputFormTabel lebar3 integer','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
-        <td><?php echo CHtml::textField('tot_iurbiaya',$tot_iurbiaya,array('readonly'=>true,'class'=>'inputFormTabel lebar3 integer','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
-        <td><?php echo CHtml::textField('total_oa',$total_oa,array('readonly'=>true,'class'=>'inputFormTabel lebar3 integer','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
+        <td><?php echo CHtml::textField('tot_hargajual_oa',$tot_hargajual_oa,array('readonly'=>true,'class'=>'inputFormTabel lebar3 integer2','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
+        <td><?php echo CHtml::textField('tot_tarifcyto',$tot_tarifcyto,array('readonly'=>true,'class'=>'inputFormTabel lebar3 integer2','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
+        <td><?php echo CHtml::textField('tot_discount',$tot_discount,array('onblur'=>'proporsiDiskonOa();','readonly'=>true,'class'=>'inputFormTabel lebar3 integer2','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
+        <td><?php echo CHtml::textField('tot_biayalain',$tot_biayalain,array('onblur'=>'proporsiBiayaAdminOa();','readonly'=>true,'class'=>'inputFormTabel lebar3 integer2','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
+        <td><?php echo CHtml::textField('tot_subsidiasuransi',$tot_subsidiasuransi,array('onblur'=>'proporsiSubsidiAsuransiOa();','readonly'=>true,'class'=>'inputFormTabel lebar3 integer2','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
+        <td><?php echo CHtml::textField('tot_subsidirs',$tot_subsidirs,array('onblur'=>'proporsiSubsidiRsOa();','readonly'=>true,'class'=>'inputFormTabel lebar3 integer2','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
+        <td><?php echo CHtml::textField('tot_iurbiaya',$tot_iurbiaya,array('readonly'=>true,'class'=>'inputFormTabel lebar3 integer2','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
+        <td><?php echo CHtml::textField('total_oa',$total_oa,array('readonly'=>true,'class'=>'inputFormTabel lebar3 integer2','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
     </tfoot>
 </table>
 

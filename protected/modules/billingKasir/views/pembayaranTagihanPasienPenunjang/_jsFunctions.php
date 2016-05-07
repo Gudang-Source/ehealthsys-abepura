@@ -31,8 +31,8 @@
             success:function(data){
                 $("#form-rinciantindakan").html(data.form);
                 $("#form-rinciantindakan").removeClass("animation-loading");
-                $("#form-rinciantindakan .integer").maskMoney(
-                    {"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0}
+                $("#form-rinciantindakan .integer2").maskMoney (
+                    {"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0}
                 );
                 $("#form-rinciantindakan").find('input:checkbox[name$="is_proporsitindakan"]').tooltip({"placement":"<?php echo Params::TOOLTIP_PLACEMENT; ?>"});
                 hitungTotalSemua();
