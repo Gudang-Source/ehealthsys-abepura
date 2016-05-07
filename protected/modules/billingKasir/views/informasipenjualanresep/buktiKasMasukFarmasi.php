@@ -13,7 +13,7 @@
     }
 </style>
 <br><br><br><br>
-    <table width="75%">
+    <table width="100%">
         <tr>
             <td style="text-align:center;" align="center"><b>BUKTI KAS MASUK</b></td>
         </tr>
@@ -30,7 +30,7 @@
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                         <td style="text-align:right;" align="right">Tanggal BKM</td>
-                        <td>: &nbsp;<?php echo $model->tglbuktibayar;?></td>
+                        <td>: &nbsp;<?php echo MyFormatter::formatDateTimeForUser($model->tglbuktibayar);?></td>
                     </tr>
                 </table>
             </td>
@@ -77,7 +77,7 @@
                                 $biayaAdmin += $rincian->biayaadministrasi + $rincian->biayaservice + $rincian->biayakonseling;
                                 $total+=($jumlah+$biayaAdmin);
                                 $rows .= '<tr>';
-                                $rows .= '<td>&nbsp;'.date("d-m-Y H:i:s", strtotime($rincian->tglpenjualan)).'</td>';
+                                $rows .= '<td>&nbsp;'.MyFormatter::formatDateTimeForUser($rincian->tglpenjualan).'</td>';
                                 $rows .= '<td>'.$modPenjualan->NoFaktur.' - '.$rincian->obatalkes_kode.' - '.$rincian->obatalkes_nama.' - '.$rincian->qty_oa.' '.$rincian->satuankecil_nama.'</td>';
                                 $rows .= '<td style="text-align:right;">'.number_format($jumlah,0,"",".").'&nbsp;&nbsp;</td>';
                             }
