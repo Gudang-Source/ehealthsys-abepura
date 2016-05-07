@@ -170,8 +170,8 @@ function setRincianObatalkes(){
         success:function(data){
             $("#form-rincianobatalkes").html(data.form);
             $("#form-rincianobatalkes").removeClass("animation-loading");
-            $("#form-rincianobatalkes .integer").maskMoney(
-                {"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0}
+            $("#form-rincianobatalkes .integer2").maskMoney(
+                {"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0}
             );
             $("#form-rincianobatalkes").find('input:checkbox[name$="is_proporsioa"]').tooltip({"placement":"<?php echo Params::TOOLTIP_PLACEMENT; ?>"});
             hitungTotalSemua();

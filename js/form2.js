@@ -245,7 +245,7 @@ function setNumbersOnly(obj){
 $( document ).ready(function(){
     /**class : integer = format integer*/
     $(".integer2").maskMoney(
-        {"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0}
+        {"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0}
     );
     /**class : float = format float / double (2 angka dibelakang koma)*/
     $(".float2").maskMoney(

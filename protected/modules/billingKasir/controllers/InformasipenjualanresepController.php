@@ -52,7 +52,7 @@ class InformasipenjualanresepController extends MyAuthController
 			if(!empty($tandabuktibayar_id)){
 				$criteria->addCondition("t.tandabuktibayar_id = ".$tandabuktibayar_id);					
 			}
-            $tandabukti = TandabuktibayarT::model()->with('pembayaran')->find($criteria);
+            $tandabukti = TandabuktibayarT::model()->with('pembayaranpelayanan')->find($criteria);
             $judulLaporan='Sale Invoice';
     //        $caraPrint=$_REQUEST['caraPrint'];
             if($caraPrint=='PRINT') {
@@ -77,10 +77,10 @@ class InformasipenjualanresepController extends MyAuthController
 					$criteria->addCondition("t.tandabuktibayar_id = ".$tandabuktibayar_id);					
 				}
                 $modPenjualan = PenjualanresepT::model()->findByPk($penjualanresep_id);
-                $model = TandabuktibayarT::model()->with('pembayaran')->find($criteria);
+                $model = TandabuktibayarT::model()->with('pembayaranpelayanan')->find($criteria);
                 $modObatalkes = ObatalkespasienT::model()->findAllByAttributes(array('penjualanresep_id'=>$penjualanresep_id));
                 $rincianTagihan = BKInformasipenjualanaresepV::model()->findAllByAttributes
-                        (array('pasien_id'=>$model->pembayaran->pasien_id,
+                        (array('pasien_id'=>$model->pembayaranpelayanan->pasien_id,
                         'penjualanresep_id'=>$penjualanresep_id));
                 $modPegawai = PegawaikaryawanV::model()->findByAttributes(array('pegawai_id'=>$modPenjualan->pasienpegawai_id));
                 $modInstalasi = InstalasiM::model()->findByAttributes(array('instalasi_id'=>$modPenjualan->pasieninstalasiunit_id));

@@ -290,6 +290,13 @@ class PembayaranTagihanPasienPenunjangController extends PembayaranTagihanPasien
             $modPenunjangAkhir = $model->getPenunjangAkhir();
             $returnVal["ruangan_id"] = $modPenunjangAkhir->ruangan_id;
             $returnVal["ruangan_nama"] = $modPenunjangAkhir->ruangan_nama;
+            
+            $carabayar = CarabayarM::model()->findByPk($model->carabayar_id);
+            $returnVal["metode_pembayaran"] = strtoupper($carabayar->metode_pembayaran);
+
+            $returnVal["tanggal_lahir"] = $format->formatDateTimeForUser($model->tanggal_lahir);
+            $returnVal["tgl_pendaftaran"] = $format->formatDateTimeForUser($model->tgl_pendaftaran);
+            
             //load uang muka
             $crit_uangmuka = new CDbCriteria();
 			if(!empty($model->pendaftaran_id)){
