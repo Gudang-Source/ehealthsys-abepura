@@ -277,14 +277,10 @@ class PresensiT extends CActiveRecord
             foreach($this->metadata->tableSchema->columns as $columnName => $column){
 
                 if (!strlen($this->$columnName)) continue;
-
-                if ($column->dbType == 'date'){                         
-                        $this->$columnName = Yii::app()->dateFormatter->formatDateTime(
-                                        CDateTimeParser::parse($this->$columnName, 'yyyy-MM-dd'),'medium',null);
-                        }elseif ($column->dbType == 'timestamp without time zone'){
-                                $this->$columnName = Yii::app()->dateFormatter->formatDateTime(
-                                        CDateTimeParser::parse($this->$columnName, 'yyyy-MM-dd hh:mm:ss'));
-                        }
+                /*
+                if (in_array($column->dbType, array('date', 'timestamp without time zone'))) {                         
+                        $this->$columnName = MyFormatter::formatDateTimeForUser($this->$columnName);
+                } */
             }
             return true;
         }

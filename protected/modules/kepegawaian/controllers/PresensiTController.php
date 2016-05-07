@@ -196,6 +196,8 @@ class PresensiTController extends MyAuthController
                         $format = new MyFormatter();
                         $model->tglpresensi = $format->formatDateTimeForDb($model->tglpresensi);
                         $model->tglpresensi_akhir = $format->formatDateTimeForDb($model->tglpresensi_akhir);
+                        $model->kelompokpegawai_id = $_GET['KPPresensiT']['kelompokpegawai_id'];
+                        $model->jabatan_id = $_GET['KPPresensiT']['jabatan_id'];
                 }
 
 		$this->render('informasi',array(
