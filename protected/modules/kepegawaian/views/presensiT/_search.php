@@ -70,6 +70,36 @@
             <?php echo $form->textFieldRow($model,'nomorindukpegawai',array('class'=>'span3','maxlength'=>30)); ?>
             <?php echo $form->textFieldRow($model,'nama_pegawai',array('class'=>'span3','maxlength'=>30)); ?>
         </td>
+        <td>
+            <div class="control-group">
+                <?php echo $form->labelEx($model, 'kelompok_pegawai', array('class' => 'control-label')); ?>
+                <div class="controls">
+                    <?php echo $form->dropDownList($model, 'kelompokpegawai_id', CHtml::listData(
+                        KelompokpegawaiM::model()->findAllByAttributes(array (
+                            'kelompokpegawai_aktif'=>true,
+                        ), array(
+                            'order'=>'kelompokpegawai_nama',
+                        )), 'kelompokpegawai_id', 'kelompokpegawai_nama'
+                    ), array(
+                        'empty'=>'-- Pilih --',
+                    ));?>
+                </div>
+            </div>
+            <div class="control-group">
+                <?php echo $form->labelEx($model, 'jabtan', array('class' => 'control-label')); ?>
+                <div class="controls">
+                    <?php echo $form->dropDownList($model, 'jabatan_id', CHtml::listData(
+                        JabatanM::model()->findAllByAttributes(array (
+                            'jabatan_aktif'=>true,
+                        ), array(
+                            'order'=>'jabatan_nama',
+                        )), 'jabatan_id', 'jabatan_nama'
+                    ), array(
+                        'empty'=>'-- Pilih --',
+                    ));?>
+                </div>
+            </div>
+        </td>
     </tr>
 </table>
 	<?php //echo $form->checkBoxRow($model,'verifikasi'); ?>

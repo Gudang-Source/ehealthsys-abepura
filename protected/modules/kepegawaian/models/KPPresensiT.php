@@ -7,6 +7,8 @@ class KPPresensiT extends PresensiT {
     public $unit_perusahaan;
     public $statusscan_nama;
     public $statuskehadiran_nama;
+    public $kelompokpegawai_id;
+    public $jabatan_id;
     
     public static function model($class = __CLASS__){
         return parent::model($class);
@@ -38,6 +40,24 @@ class KPPresensiT extends PresensiT {
             return new CActiveDataProvider($this, array(
                     'criteria'=>$criteria,
             ));
+    }
+    
+    public function searchInformasiPresensi()
+    {
+        $provider = $this->search();
+        $provider->criteria->with = array();
+        $provider->criteria->join = "left join statusscan_m statusscan on statusscan.statusscan_id = t.statusscan_id "
+                . "left join pegawai_m pegawai on pegawai.pegawai_id = t.pegawai_id "
+                . "left join statuskehadiran_m statuskehadiran on statuskehadiran.statuskehadiran_id = t.statuskehadiran_id";
+        $provider->criteria->group = "t.no_fingerprint, t.pegawai_id, t.statuskehadiran_id, t.tglpresensi::date, pegawai.nama_pegawai";
+        $provider->criteria->select = $provider->criteria->group;
+        
+        $provider->criteria->compare('pegawai.kelompokpegawai_id', $this->kelompokpegawai_id);
+        $provider->criteria->compare('pegawai.jabatan_id', $this->jabatan_id);
+        
+        $provider->criteria->order = 'pegawai.nama_pegawai, t.tglpresensi::date';
+        
+        return $provider;
     }
     
     public function searchPrint()

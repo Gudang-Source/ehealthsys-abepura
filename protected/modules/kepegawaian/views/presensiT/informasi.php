@@ -101,18 +101,69 @@
         <h6>Tabel <b>Presensi</b></h6>
         <?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'id'=>'kppresensi-t-grid',
-            'dataProvider'=>$model->search(),
+            'dataProvider'=>$model->searchInformasiPresensi(),
             'template'=>"{summary}\n{items}\n{pager}",
             'itemsCssClass'=>'table table-striped table-condensed',
             'columns'=>array(
                     'no_fingerprint',
+                    'pegawai.kelompokpegawai.kelompokpegawai_nama',
                     'pegawai.nomorindukpegawai',
                     'pegawai.nama_pegawai',
-                    'statusscan.statusscan_nama',
+                    'pegawai.jabatan.jabatan_nama',
+                    //'statusscan.statusscan_nama',
 
-                    'tglpresensi',
+                    array(
+                        'name'=>'tglpresensi',
+                        'value'=>'MyFormatter::formatDateTimeForUser($data->tglpresensi);'
+                    ),
+                    array(
+                        'header'=>'Masuk',
+                        'value'=>function($data) use (&$cr) {
+                            $cr = new CDbCriteria();
+                            $cr->compare('tglpresensi::date', $data->tglpresensi);
+                            $cr->compare('pegawai_id', $data->pegawai_id);
+                            $cr->addCondition('statusscan_id=:p1');
+                            $cr->params[':p1'] = 1;
+                            $pr = PresensiT::model()->find($cr);
+                            if (empty($pr)) return "-";
+                            return date('H:i:s', strtotime($pr->tglpresensi));
+                        },
+                    ),
+                    array(
+                        'header'=>'Keluar',
+                        'value'=>function($data) use (&$cr) {
+                            $cr->params[':p1'] = 3;
+                            $pr = PresensiT::model()->find($cr);
+                            if (empty($pr)) return "-";
+                            return date('H:i:s', strtotime($pr->tglpresensi));
+                        },
+                    ),
+                    array(
+                        'header'=>'Datang',
+                        'value'=>function($data) use (&$cr) {
+                            $cr->params[':p1'] = 4;
+                            $pr = PresensiT::model()->find($cr);
+                            if (empty($pr)) return "-";
+                            return date('H:i:s', strtotime($pr->tglpresensi));
+                        },
+                    ),
+                    array(
+                        'header'=>'Pulang',
+                        'value'=>function($data) use (&$cr) {
+                            $cr->params[':p1'] = 2;
+                            $pr = PresensiT::model()->find($cr);
+                            if (empty($pr)) return "-";
+                            return date('H:i:s', strtotime($pr->tglpresensi));
+                        },
+                    ),
+                    
                     'statuskehadiran.statuskehadiran_nama',
-                    'verifikasi',
+                                /*
+                    array(
+                        'name'=>'verifikasi',
+                    ),
+                                 * 
+                                 */
             ),
             'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
         )); ?>
