@@ -91,11 +91,11 @@
                     'type'=>'raw',
                     'value'=>'$data->alamat_pasien',
                 ),
-                array(
-                    'header'=>'Pemeriksaan',
-                    'type'=>'raw',
-                    'value'=>'CHtml::link("<i class=\"icon-form-periksa\"></i>",Yii::app()->createUrl("laboratorium/pendaftaranLaboratoriumRujukanRS/index",array("pendaftaran_id"=>$data->pendaftaran_id,"instalasi_id"=>$data->instalasi_id)), array("rel"=>"tooltip","title"=>"Klik untuk Rencana Pemeriksaan"))',  'htmlOptions'=>array('style'=>'text-align:left; width:40px')
-                ),
+                //array(
+                 //   'header'=>'Pemeriksaan',
+                //    'type'=>'raw',
+                 //   'value'=>'CHtml::link("<i class=\"icon-form-periksa\"></i>",Yii::app()->createUrl("laboratorium/pendaftaranLaboratoriumRujukanRS/index",array("pendaftaran_id"=>$data->pendaftaran_id,"instalasi_id"=>$data->instalasi_id)), array("rel"=>"tooltip","title"=>"Klik untuk Rencana Pemeriksaan"))',  'htmlOptions'=>array('style'=>'text-align:left; width:40px')
+              //  ),
             ),
             'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
         )); ?>

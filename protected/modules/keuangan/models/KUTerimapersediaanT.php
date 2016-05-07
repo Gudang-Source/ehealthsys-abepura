@@ -56,7 +56,7 @@ class KUTerimapersediaanT extends TerimapersediaanT
 	}
 
 	public function getSupplierId(){
-		return $this->pembelianbarang->supplier_id;
+		return isset($this->pembelianbarang->supplier_id)?$this->pembelianbarang->supplier_id:"";
 	}
 
 }
