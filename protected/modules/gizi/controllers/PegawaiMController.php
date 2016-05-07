@@ -64,7 +64,7 @@ class PegawaiMController extends MyAuthController
                     $transaction = Yii::app()->db->beginTransaction();
                     try {
                               $model=new PegawaiM;
-                              $random=rand(0000000,9999999);
+                              $random= $model->nomorindukpegawai;
                               $model->attributes=$_POST['PegawaiM'];
                               $model->profilrs_id=Params::DEFAULT_PROFIL_RUMAH_SAKIT;
                               if($_POST['caraAmbilPhoto']=='file')//Jika User Mengambil photo pegawai dengan cara upload file
@@ -76,7 +76,7 @@ class PegawaiMController extends MyAuthController
                                   if(!empty($model->photopegawai))//Klo User Memasukan Logo
                                   { 
 
-                                        $model->photopegawai =$random.$model->photopegawai;
+                                        $model->photopegawai =$random.'.'.$model->photopegawai->getExtensionName();
 
                                         Yii::import("ext.EPhpThumb.EPhpThumb");
 
@@ -164,7 +164,7 @@ class PegawaiMController extends MyAuthController
 		{
 			$transaction = Yii::app()->db->beginTransaction();
 			try {
-					  $random=rand(0000000,9999999);
+					  $random= $model->nomorindukpegawai;
 					  $model->attributes=$_POST['KPPegawaiM'];
 					  $model->profilrs_id=Params::DEFAULT_PROFIL_RUMAH_SAKIT;
 					  $model->update_time = date('Y-m-d');
@@ -189,7 +189,7 @@ class PegawaiMController extends MyAuthController
 						{ 
 							if(!empty($model->photopegawai))//Klo User Memasukan Logo
 							{ 
-								$model->photopegawai =$random.$model->photopegawai;
+								$model->photopegawai =$random.'.'.$model->photopegawai->getExtensionName();//.$model->photopegawai
 								Yii::import("ext.EPhpThumb.EPhpThumb");
 								$thumb=new EPhpThumb();
 								$thumb->init(); //this is needed

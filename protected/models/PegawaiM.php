@@ -139,7 +139,8 @@ class PegawaiM extends CActiveRecord
                     'kecamatan'=>array(self::BELONGS_TO,'KecamatanM','kecamatan_id'),
                     'kelurahan'=>array(self::BELONGS_TO,'KelurahanM','kelurahan_id'),
                     'penilaiankaryawan'=>array(self::BELONGS_TO,'PenilaianpegawaiT','pegawai_id'),
-
+                    'statuskepemilikanrumah'=>array(self::BELONGS_TO,'StatuskepemilikanrumahM','statuskepemilikanrumah_id'),
+                    'golonganpegawai'=>array(self::BELONGS_TO,'GolonganpegawaiM','golonganpegawai_id'),
 		);
 	}
 
