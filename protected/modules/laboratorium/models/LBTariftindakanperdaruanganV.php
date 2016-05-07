@@ -99,7 +99,7 @@ class LBTariftindakanperdaruanganV extends TariftindakanperdaruanganV
 		if (!empty($this->kelaspelayanan_id)){
 			$criteria->addCondition('kelaspelayanan_id ='.$this->kelaspelayanan_id);
 		}
-		$criteria->compare('LOWER(daftartindakan_nama)',  strtolower($this->daftartindakan_nama),true);
+		
 		if (!empty($this->kategoritindakan_id)){
 			$criteria->addCondition('kategoritindakan_id ='.$this->kategoritindakan_id);
 		}
@@ -114,7 +114,8 @@ class LBTariftindakanperdaruanganV extends TariftindakanperdaruanganV
 			$criteria->addCondition('komponenunit_id = '.$this->komponenunit_id);
 		}
                 
-                $criteria->compare('LOWER(daftartindakan_nama)',  strtolower($this->daftartindakan_nama));
+               // $criteria->compare('LOWER(daftartindakan_nama)',  strtolower($this->daftartindakan_nama));
+                $criteria->compare('LOWER(daftartindakan_nama)',  strtolower($this->daftartindakan_nama),true);
 		$criteria->limit = 10;
 
 		return new CActiveDataProvider($this, array(

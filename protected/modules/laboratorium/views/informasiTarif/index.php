@@ -35,10 +35,10 @@
                     'name'=>'persencyto_tind',
                     'htmlOptions'=>array('style'=>'text-align: right'),
                 ), 
-            array(
+                array(
                     'name'=>'persendiskon_tind',
                     'htmlOptions'=>array('style'=>'text-align: right'),
-               ),
+                ),
 		//'persencyto_tind',
 		array(
 			'name'=>'Komponen Tarif',
