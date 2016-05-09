@@ -12,7 +12,7 @@ class PembebasanTarifRIController extends PembebasanTarifController
             if(Yii::app()->request->isAjaxRequest){
                 $data = RIInfokunjunganriV::model()->findByAttributes(array('no_rekam_medik'=>$_POST['no_rekam_medik']));
                 $post = array(
-                    'tgl_pendaftaran'=>$data->tgl_pendaftaran,
+                    'tgl_pendaftaran'=>MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran),
                     'no_pendaftaran'=>$data->no_pendaftaran,
                     'umur'=>$data->umur,
                     'jeniskasuspenyakit_nama'=>$data->jeniskasuspenyakit_nama,
