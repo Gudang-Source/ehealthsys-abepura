@@ -27,7 +27,6 @@ echo "<table class='table table-bordered table-condensed'>";
                 <td>Tarif</td>
             </tr></thead><tbody>";
 $tarifTotal = null;
-var_dump($modTarifTindakan);
 foreach($modTarifTindakan AS $tampilTarifTindakan):
     echo "<tr>
             <td>".$tampilTarifTindakan->komponentarif['komponentarif_nama']."</td>

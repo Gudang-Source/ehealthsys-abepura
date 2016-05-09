@@ -13,38 +13,34 @@ class RMTariftindakanperdaruanganV  extends TariftindakanperdaruanganV
 		return parent::model($className);
 	}
         
-       public function searchInformasi()
+        public function searchInformasi()
 	{
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-
-               // if ((!empty($this->kelaspelayanan_id)) || (!empty($this->daftartindakan_id)) || (!empty($this->kategoritindakan_id))){
-                    if (!empty($this->kelaspelayanan_id)){
-						$criteria->addCondition('kelaspelayanan_id ='.$this->kelaspelayanan_id);
-					}
-                    $criteria->compare('LOWER(daftartindakan_nama)',  strtolower($this->daftartindakan_id),true);
-                    $criteria->compare('jenistarif_id', $this->jenistarif_id);
-                    if (!empty($this->kategoritindakan_id)){
-						$criteria->addCondition('kategoritindakan_id ='.$this->kategoritindakan_id);
-					}
-					$ruangan_id = Yii::app()->user->getState('ruangan_id');
-					if (!empty($ruangan_id)){
-						$criteria->addCondition('ruangan_id ='.$ruangan_id);
-					}
-//                }
-//                else{
-//                    $criteria->compare('ruangan_id', 0);
-//                }
+		if (!empty($this->kelaspelayanan_id)){
+			$criteria->addCondition('kelaspelayanan_id ='.$this->kelaspelayanan_id);
+		}
 		
-                
+		if (!empty($this->kategoritindakan_id)){
+			$criteria->addCondition('kategoritindakan_id ='.$this->kategoritindakan_id);
+		}
+		$criteria->addCondition('ruangan_id ='.Yii::app()->user->getState('ruangan_id'));
+		if(!empty($this->jenistarif_id)){
+			$criteria->addCondition('jenistarif_id = '.$this->jenistarif_id);
+		}
+                if(!empty($this->kelompoktindakan_id)){
+			$criteria->addCondition('kelompoktindakan_id = '.$this->kelompoktindakan_id);
+		}
+                if(!empty($this->komponenunit_id)){
+			$criteria->addCondition('komponenunit_id = '.$this->komponenunit_id);
+		}
+                $criteria->compare('LOWER(daftartindakan_nama)',  strtolower($this->daftartindakan_nama),true);               
+		$criteria->limit = 10;
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-                        'sort'=>array(
-                            'defaultOrder'=>'jenistarif_nama, kelompoktindakan_nama, kategoritindakan_nama, daftartindakan_nama'
-                        )
 		));
 	}
         
