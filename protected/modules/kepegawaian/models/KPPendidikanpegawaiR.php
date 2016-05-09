@@ -7,6 +7,7 @@
 
 class KPPendidikanpegawaiR extends PendidikanpegawaiR {
 public $pendidikan_nama;
+public $satuan;
     public static function model($className = __CLASS__) {
         parent::model($className);
     }

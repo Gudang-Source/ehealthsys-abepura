@@ -8,14 +8,18 @@
 <table width="100%">
     <tr>
         <td>
+            <?php echo $form->textFieldRow($model,'nofingerprint',array('class'=>'span3','maxlength'=>50)); ?>
             <?php echo $form->textFieldRow($model,'nomorindukpegawai',array('class'=>'span3','maxlength'=>30)); ?>
             <?php echo $form->textFieldRow($model,'nama_pegawai',array('class'=>'span3','maxlength'=>30)); ?>
         </td>
         <td>
+            <?php echo $form->dropDownListRow($model, 'jeniskelamin', LookupM::getItems('jeniskelamin'), array('empty'=>'-- Pilih --')); ?>
+            <?php echo $form->dropDownListRow($model, 'agama', LookupM::getItems('agama'), array('empty'=>'-- Pilih --')); ?>
+            <?php echo $form->dropDownListRow($model, 'statusperkawinan', LookupM::getItems('statusperkawinan'), array('empty'=>'-- Pilih --')); ?>
             <?php echo $form->dropDownListRow($model,'jabatan_id',  CHtml::listData($model->getJabatanItems(), 'jabatan_id', 'jabatan_nama'), 
                                               array('empty'=>'-- Pilih --', 'onkeypress'=>"return $(this).focusNextInputField(event)", 
                                                     )); ?>
-            <?php echo $form->textFieldRow($model,'nofingerprint',array('class'=>'span3','maxlength'=>50)); ?>
+            
         </td>
     </tr>
 </table>

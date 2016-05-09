@@ -145,9 +145,13 @@ $modPegawai = new PegawaiM;
 if (isset($_GET['PegawaiM']))
     $modPegawai->attributes = $_GET['PegawaiM'];
 
+$provider = $modPegawai->search();
+$provider->sort->defaultOrder = 'nama_pegawai asc';
+$provider->criteria->order = 'nama_pegawai asc';
+
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'pegawai-m-grid',
-	'dataProvider'=>$modPegawai->search(),
+	'dataProvider'=>$provider,
 	'filter'=>$modPegawai,
     'template'=>"{summary}\n{items}\n{pager}",
     'itemsCssClass'=>'table table-striped table-bordered table-condensed',
@@ -164,16 +168,31 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                 "))',
         ),
         'nomorindukpegawai',
-        'nama_pegawai',
+        array(
+            'name'=>'nama_pegawai',
+            'value'=>'$data->namaLengkap',
+        ),
         'tempatlahir_pegawai',
         'tgl_lahirpegawai',
-        'jeniskelamin',
-        'statusperkawinan',
+        array(
+            'name'=>'jeniskelamin', 
+            'filter'=>CHtml::activeDropDownList($modPegawai, 'jeniskelamin', LookupM::getItems('jeniskelamin'), array('empty'=>'-- Pilih --')),
+        ),
+        array(
+            'name'=>'statusperkawinan', 
+            'filter'=>CHtml::activeDropDownList($modPegawai, 'statusperkawinan', LookupM::getItems('statusperkawinan'), array('empty'=>'-- Pilih --')),
+        ),
         array(
             'header'=>'Jabatan',
             'value'=>'(isset($data->jabatan->jabatan_nama) ? $data->jabatan->jabatan_nama : "-")',
+            'filter'=>CHtml::activeDropDownList($modPegawai, 'jabatan_id', CHtml::listData(
+                    JabatanM::model()->findAll(array(
+                        'condition'=>'jabatan_aktif = true',
+                        'order'=>'jabatan_nama'
+                    )),
+                    'jabatan_id', 'jabatan_nama'), array('empty'=>'-- Pilih --')),
         ),
-        'alamat_pegawai',
+        // 'alamat_pegawai',
     ),
     'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 ));

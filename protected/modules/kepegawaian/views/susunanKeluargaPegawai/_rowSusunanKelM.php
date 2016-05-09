@@ -6,16 +6,16 @@
 		<?php echo $form->textField($model,'['.$i.']nourutkel',array('class'=>'span1 pegawai integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
 	</td>
 	<td>
-		<?php echo $form->dropDownList($model, '['.$i.']hubkeluarga', LookupM::getItems('hubungankeluarga'), array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+		<?php echo $form->dropDownList($model, '['.$i.']hubkeluarga', LookupM::getItems('hubungankeluarga'), array('class'=>'span2', 'onchange'=>'setDefaultJenisKelamin(this); setDefaultPernikahan(this);', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
 		<?php //echo $form->textField($model,'['.$i.']hubkeluarga',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
 	</td>
 	<td>
-		<?php echo $form->textField($model,'['.$i.']susunankel_nama',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?></td>
+		<?php echo $form->textField($model,'['.$i.']susunankel_nama',array('class'=>'span2', 'onchange'=>'$(this).val($(this).val().toUpperCase());', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?></td>
 	<td>
-		<?php echo $form->dropDownList($model, '['.$i.']susunankel_jk', LookupM::getItems('jeniskelamin'), array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+		<?php echo $form->dropDownList($model, '['.$i.']susunankel_jk', LookupM::getItems('jeniskelamin'), array('class'=>'span2 jeniskelamin', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
 	</td>
 	<td>
-		<?php echo $form->textField($model,'['.$i.']susunankel_tempatlahir',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30)); ?>
+		<?php echo $form->textField($model,'['.$i.']susunankel_tempatlahir',array('class'=>'span2', 'onchange'=>'$(this).val($(this).val().toUpperCase());', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30)); ?>
 	</td>
 	<td>                 
 	<?php 
@@ -49,12 +49,12 @@
 									 'maxDate' => 'd',
 									'yearRange'=> "-150:+0",
 								),
-								'htmlOptions'=>array('placeholder'=>'00/00/0000','class'=>'dtPicker2 datemask', 'onkeyup'=>"return $(this).focusNextInputField(event)"
+								'htmlOptions'=>array('placeholder'=>'00/00/0000','class'=>'dtPicker2 datemask pernikahan', 'onkeyup'=>"return $(this).focusNextInputField(event)"
 								),
 		)); ?>
 	</td>
 	<td>
-		<?php echo $form->textField($model,'['.$i.']susunankel_tempatpernikahan',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30)); ?>
+		<?php echo $form->textField($model,'['.$i.']susunankel_tempatpernikahan',array('class'=>'span2 pernikahan', 'onchange'=>'$(this).val($(this).val().toUpperCase());', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30)); ?>
 	</td>
 	<td>
 		<?php echo $form->textField($model,'['.$i.']susunankeluarga_nip',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30)); ?>

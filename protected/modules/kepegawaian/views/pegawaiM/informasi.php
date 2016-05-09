@@ -49,59 +49,64 @@
                             'name'=>'nomorindukpegawai',
                             'value'=>'$data->nomorindukpegawai',
 
-                    ),
+                    ), /*
                     array(
                             'header'=>'Gelar Depan',
                             'name'=>'gelardepan',
                             'value'=>'$data->gelardepan',
 
-                    ),
+                    ), */
                     array(
                             'header'=>'Nama Pegawai',
                             'name'=>'nama_pegawai',
-                            'value'=>'$data->nama_pegawai',
+                            'value'=>'$data->namaLengkap',
 
-                    ),
+                    ), /*
                     array(
                             'header'=>'Nama Keluarga',
                             'name'=>'nama_keluarga',
                             'value'=>'$data->nama_keluarga',
 
-                    ),
+                    ), */
                     array(
                             'header'=>'Tempat, Tanggal Lahir',
-                            'value'=>'$data->tempatlahir_pegawai." , ".MyFormatter::formatDateTimeForUser($data->tgl_lahirpegawai)'
+                            'value'=>'$data->tempatlahir_pegawai.", ".MyFormatter::formatDateTimeForUser($data->tgl_lahirpegawai)'
 
                     ),
                     array(
                             'header'=>'Jenis Kelamin',
                             'name'=>'jeniskelamin',
                             'value'=>'$data->jeniskelamin',
-
+                            'filter'=>CHtml::activeDropDownList($model, 'jeniskelamin', LookupM::getItems('jeniskelamin'), array('empty'=>'-- Pilih --')),
                     ),
                     array(
                             'header'=>'Agama',
                             'name'=>'agama',
                             'value'=>'$data->agama',
-
+                            'filter'=>CHtml::activeDropDownList($model, 'agama', LookupM::getItems('agama'), array('empty'=>'-- Pilih --')),
                     ),
                     array(
                             'header'=>'Status Perkawinan',
                             'name'=>'statusperkawinan',
                             'value'=>'$data->statusperkawinan',
-
-                    ),
+                            'filter'=>CHtml::activeDropDownList($model, 'statusperkawinan', LookupM::getItems('statusperkawinan'), array('empty'=>'-- Pilih --')),
+                    ), /*
                     array(
                             'header'=>'Alamat Pegawai',
                             'name'=>'alamat_pegawai',
                             'value'=>'$data->alamat_pegawai',
 
-                    ),
+                    ), */
                     array(
                             'header'=>'Jabatan',
                             'name'=>'jabatan_id',
                             'value'=>'(isset($data->jabatan->jabatan_nama) ? $data->jabatan->jabatan_nama : "")',
-
+                            'filter'=>CHtml::activeDropDownList($model, 'jabatan_id', CHtml::listData(
+                                    JabatanM::model()->findAll(array(
+                                        'condition'=>'jabatan_aktif = true',
+                                        'order'=>'jabatan_nama'
+                                    )),
+                                    'jabatan_id', 'jabatan_nama'), array('empty'=>'-- Pilih --')),
                     ),
                     array(
 							'header'=>'Lihat Riwayat',
