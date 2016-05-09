@@ -249,6 +249,7 @@ function hitungTotalTindakan(){
     var tot_pembebasan_tindakan = 0;
     var tot_subsidiasuransi_tindakan = 0;
     var tot_subsisidirumahsakit_tindakan = 0;
+    var tot_subsidipemerintah_tindakan = 0;
     var tot_iurbiaya_tindakan = 0;
     var tot_sisatagihan = 0;
     var total_tindakan = 0;
@@ -263,9 +264,10 @@ function hitungTotalTindakan(){
         var pembebasan_tindakan = parseInt($(this).parents('tr').find("input[name$='[pembebasan_tindakan]']").val());
         var subsidiasuransi_tindakan = parseInt($(this).parents('tr').find("input[name$='[subsidiasuransi_tindakan]']").val());
         var subsisidirumahsakit_tindakan = parseInt($(this).parents('tr').find("input[name$='[subsisidirumahsakit_tindakan]']").val());
+        var subsidipemerintah_tindakan = parseInt($(this).parents('tr').find("input[name$='[subsidipemerintah_tindakan]']").val());
         subtotal = (tarif_satuan * qty_tindakan)+tarifcyto_tindakan-discount_tindakan;
-        subiurbiaya = subtotal-pembebasan_tindakan-subsidiasuransi_tindakan-subsisidirumahsakit_tindakan;
-        sisatagihan = ((qty_tindakan * tarif_satuan) - discount_tindakan - subsidiasuransi_tindakan - subsisidirumahsakit_tindakan - pembebasan_tindakan);
+        subiurbiaya = subtotal-pembebasan_tindakan-subsidiasuransi_tindakan-subsisidirumahsakit_tindakan - subsidipemerintah_tindakan;
+        sisatagihan = ((qty_tindakan * tarif_satuan) - discount_tindakan - subsidiasuransi_tindakan - subsisidirumahsakit_tindakan - pembebasan_tindakan - subsidipemerintah_tindakan);
         
         if($(this).is(":checked")){
             $(this).parents('tr').find("input[name$='[subtotal]']").val(subtotal);
@@ -276,6 +278,7 @@ function hitungTotalTindakan(){
             tot_iurbiaya_tindakan += subiurbiaya;
             tot_pembebasan_tindakan += pembebasan_tindakan;
             tot_subsidiasuransi_tindakan += subsidiasuransi_tindakan;
+            tot_subsidipemerintah_tindakan += subsidipemerintah_tindakan;
             tot_subsisidirumahsakit_tindakan += subsisidirumahsakit_tindakan;            
             tot_sisatagihan += sisatagihan;            
             total_tindakan += subtotal;
@@ -290,12 +293,14 @@ function hitungTotalTindakan(){
 		var tot_pembebasan_tindakan = $("#form-rinciantindakan #tot_pembebasan_tindakan").val();
 		var tot_subsidiasuransi_tindakan = $("#form-rinciantindakan #tot_subsidiasuransi_tindakan").val();
 		var tot_subsisidirumahsakit_tindakan = $("#form-rinciantindakan #tot_subsisidirumahsakit_tindakan").val();
+                var tot_subsidipemerintah_tindakan = $("#form-rinciantindakan #tot_subsidipemerintah_tindakan").val();
 		total_tindakan = tot_tarif_tindakan + tot_tarifcyto_tindakan - tot_discount_tindakan;
-		tot_iurbiaya_tindakan = total_tindakan - tot_pembebasan_tindakan - tot_subsidiasuransi_tindakan - tot_subsisidirumahsakit_tindakan;
+		tot_iurbiaya_tindakan = total_tindakan - tot_pembebasan_tindakan - tot_subsidiasuransi_tindakan - tot_subsisidirumahsakit_tindakan - tot_subsidipemerintah_tindakan;
 	}else{
 		$("#form-rinciantindakan #tot_discount_tindakan").val(tot_discount_tindakan);
 		$("#form-rinciantindakan #tot_pembebasan_tindakan").val(tot_pembebasan_tindakan);
 		$("#form-rinciantindakan #tot_subsidiasuransi_tindakan").val(tot_subsidiasuransi_tindakan);
+                $("#form-rinciantindakan #tot_subsidipemerintah_tindakan").val(tot_subsidipemerintah_tindakan);
 		$("#form-rinciantindakan #tot_subsisidirumahsakit_tindakan").val(tot_subsisidirumahsakit_tindakan);
 	}
 	$("#form-rinciantindakan #tot_tarif_tindakan").val(tot_tarif_tindakan);
@@ -317,6 +322,7 @@ function hitungTotalOa(){
     var tot_discount = 0;
     var tot_biayalain = 0;
     var tot_subsidiasuransi = 0;
+    var tot_subsidipemerintah = 0;
     var tot_subsidirs = 0;
     var tot_iurbiaya = 0;
     var total_oa = 0;
@@ -329,19 +335,22 @@ function hitungTotalOa(){
         var discount = parseInt($(this).parents('tr').find("input[name$='[discount]']").val());
         var biayalain = parseInt($(this).parents('tr').find("input[name$='[biayalain]']").val());
         var subsidiasuransi = parseInt($(this).parents('tr').find("input[name$='[subsidiasuransi]']").val());
+        var subsidipemerintah = parseInt($(this).parents('tr').find("input[name$='[subsidipemerintah]']").val());
         var subsidirs = parseInt($(this).parents('tr').find("input[name$='[subsidirs]']").val());
         subtotaloa = (hargasatuan_oa * qty_oa)+tarifcyto-discount+biayalain;
-        subiurbiayaoa = subtotaloa-subsidiasuransi-subsidirs;
+        subiurbiayaoa = subtotaloa-subsidiasuransi-subsidirs-subsidipemerintah;
+        
         
         if($(this).is(":checked")){
             $(this).parents('tr').find("input[name$='[subtotaloa]']").val(subtotaloa);
             $(this).parents('tr').find("input[name$='[iurbiaya]']").val(subiurbiayaoa);
             tot_hargajual_oa += (hargasatuan_oa * qty_oa);
-            tot_iurbiaya += subtotaloa;
+            tot_iurbiaya += subiurbiayaoa;
             tot_tarifcyto += tarifcyto;
             tot_discount += discount;
             tot_biayalain += biayalain;
             tot_subsidiasuransi += subsidiasuransi;
+            tot_subsidipemerintah += subsidipemerintah;
             tot_subsidirs += subsidirs;
             total_oa += subtotaloa;
         }else{
@@ -349,18 +358,20 @@ function hitungTotalOa(){
             $(this).parents('tr').find("input[name$='[iurbiaya]']").val(0);
         }
     });
-	
+	// console.log(tot_iurbiaya);
 	if($("#is_proporsioa").is(":checked")){
 		var tot_discount = $("#form-rincianobatalkes #tot_discount").val();
 		var tot_biayalain = $("#form-rincianobatalkes #tot_biayalain").val();
 		var tot_subsidiasuransi = $("#form-rincianobatalkes #tot_subsidiasuransi").val();
+                var tot_subsidipemerintah = $("#form-rincianobatalkes #tot_subsidipemerintah").val();
 		var tot_subsidirs = $("#form-rincianobatalkes #tot_subsidirs").val();
 		total_oa = tot_hargajual_oa+tot_tarifcyto-tot_discount+tot_biayalain;
-		tot_iurbiaya = total_oa-tot_subsidiasuransi-tot_subsidirs;
+		tot_iurbiaya = parseFloat(total_oa-(parseFloat(tot_subsidiasuransi)+parseFloat(tot_subsidirs)+parseFloat(tot_subsidipemerintah)));
 	}else{
 		$("#form-rincianobatalkes #tot_discount").val(tot_discount);
 		$("#form-rincianobatalkes #tot_biayalain").val(tot_biayalain);
 		$("#form-rincianobatalkes #tot_subsidiasuransi").val(tot_subsidiasuransi);
+                $("#form-rincianobatalkes #tot_subsidipemerintah").val(tot_subsidipemerintah);
 		$("#form-rincianobatalkes #tot_subsidirs").val(tot_subsidirs);
 	}
 	$("#form-rincianobatalkes #tot_hargajual_oa").val(tot_hargajual_oa);
@@ -383,6 +394,7 @@ function hitungTotalSemua(){
     var tot_pembebasan_tindakan = parseInt($("#form-rinciantindakan #tot_pembebasan_tindakan").val());
     var tot_subsidiasuransi_tindakan = parseInt($("#form-rinciantindakan #tot_subsidiasuransi_tindakan").val());
     var tot_subsisidirumahsakit_tindakan = parseInt($("#form-rinciantindakan #tot_subsisidirumahsakit_tindakan").val());
+    var tot_subsidipemerintah_tindakan = parseInt($("#form-rinciantindakan #tot_subsidipemerintah_tindakan").val());
     var tot_iurbiaya_tindakan = parseInt($("#form-rinciantindakan #tot_iurbiaya_tindakan").val());
     var total_tindakan = parseInt($("#form-rinciantindakan #total_tindakan").val());
     
@@ -391,6 +403,7 @@ function hitungTotalSemua(){
     var tot_discount = parseInt($("#form-rincianobatalkes #tot_discount").val());
     var tot_biayalain = parseInt($("#form-rincianobatalkes #tot_biayalain").val());
     var tot_subsidiasuransi = parseInt($("#form-rincianobatalkes #tot_subsidiasuransi").val());
+    var tot_subsidipemerintah = parseInt($("#form-rincianobatalkes #tot_subsidipemerintah").val());
     var tot_subsidirs = parseInt($("#form-rincianobatalkes #tot_subsidirs").val());
     var tot_iurbiaya = parseInt($("#form-rincianobatalkes #tot_iurbiaya").val());
     var total_oa = parseInt($("#form-rincianobatalkes #total_oa").val());
@@ -399,19 +412,22 @@ function hitungTotalSemua(){
     var tot_discount_semua = tot_discount_tindakan+tot_discount;
     var tot_subsidiasuransi_semua = tot_subsidiasuransi_tindakan+tot_subsidiasuransi;
     var tot_subsidirumahsakit_semua = tot_subsisidirumahsakit_tindakan+tot_subsidirs;
+    var tot_subsidipemerintah_semua = tot_subsidipemerintah_tindakan+tot_subsidipemerintah;
     var tot_iurbiaya_semua = tot_iurbiaya_tindakan+tot_iurbiaya;
+    
     var total_semua = total_tindakan+total_oa;
 	if($("#is_proporsisemua").is(":checked")){
 		tot_discount_semua = $("#form-rinciansemua #tot_discount_semua").val();
 		tot_subsidiasuransi_semua = $("#form-rinciansemua #tot_subsidiasuransi_semua").val();
 		tot_subsidirumahsakit_semua = $("#form-rinciansemua #tot_subsidirumahsakit_semua").val();
-		tot_iurbiaya_semua = total_semua - tot_discount_semua - tot_subsidiasuransi_semua - tot_subsidirumahsakit_semua;
+		tot_iurbiaya_semua = total_semua - tot_discount_semua - tot_subsidiasuransi_semua - tot_subsidirumahsakit_semua - tot_subsidipemerintah_semua;
 	}
 	$("#form-rinciansemua #tot_tarif_semua").val(tot_tarif_semua);
 	$("#form-rinciansemua #tot_tarifcyto_semua").val(tot_tarifcyto_semua);
 	$("#form-rinciansemua #tot_discount_semua").val(tot_discount_semua);
 	$("#form-rinciansemua #tot_subsidiasuransi_semua").val(tot_subsidiasuransi_semua);
 	$("#form-rinciansemua #tot_subsidirumahsakit_semua").val(tot_subsidirumahsakit_semua);
+        $("#form-rinciansemua #tot_subsidipemerintah_semua").val(tot_subsidipemerintah_semua);
 	$("#form-rinciansemua #tot_iurbiaya_semua").val(tot_iurbiaya_semua);
 	$("#form-rinciansemua #total_semua").val(total_semua);
     $("#<?php echo CHtml::activeId($model,'totalbiayapelayanan');?>").val(tot_tarif_semua);
@@ -419,6 +435,7 @@ function hitungTotalSemua(){
     $("#<?php echo CHtml::activeId($model,'totalbiayaoa');?>").val(tot_hargajual_oa);
     $("#<?php echo CHtml::activeId($model,'totaldiscount');?>").val(tot_discount_semua);
     $("#<?php echo CHtml::activeId($model,'totalsubsidiasuransi');?>").val(tot_subsidiasuransi_semua);
+    $("#<?php echo CHtml::activeId($model,'totalsubsidipemerintah');?>").val(tot_subsidipemerintah_semua);
     $("#<?php echo CHtml::activeId($model,'totalsubsidirs');?>").val(tot_subsidirumahsakit_semua);
     $("#<?php echo CHtml::activeId($model,'totaliurbiaya');?>").val(tot_iurbiaya_semua);
     $("#<?php echo CHtml::activeId($model,'totalpembebasan');?>").val(tot_pembebasan_tindakan);
@@ -553,11 +570,13 @@ function setProporsiTindakan(){
         $("#tot_pembebasan_tindakan").removeAttr("readonly");
         $("#tot_subsidiasuransi_tindakan").removeAttr("readonly");
         $("#tot_subsisidirumahsakit_tindakan").removeAttr("readonly");
+        $("#tot_subsidipemerintah_tindakan").removeAttr("readonly");
     }else{
         $("#tot_discount_tindakan").attr("readonly", true);
         $("#tot_pembebasan_tindakan").attr("readonly", true);
         $("#tot_subsidiasuransi_tindakan").attr("readonly", true);
         $("#tot_subsisidirumahsakit_tindakan").attr("readonly", true);
+        $("#tot_subsidipemerintah_tindakan").attr("readonly", true);
         hitungTotalTindakan();
     }
 }
@@ -569,11 +588,13 @@ function setProporsiOa(){
         $("#tot_discount").removeAttr("readonly");
         $("#tot_biayalain").removeAttr("readonly");
         $("#tot_subsidiasuransi").removeAttr("readonly");
+        $("#tot_subsidipemerintah").removeAttr("readonly");
         $("#tot_subsidirs").removeAttr("readonly");
     }else{
         $("#tot_discount").attr("readonly", true);
         $("#tot_biayalain").attr("readonly", true);
         $("#tot_subsidiasuransi").attr("readonly", true);
+        $("#tot_subsidipemerintah").attr("readonly", true);
         $("#tot_subsidirs").attr("readonly", true);
         hitungTotalOa();
     }
@@ -590,10 +611,12 @@ function setProporsiSemua(){
         $("#tot_discount_semua").removeAttr("readonly");
         $("#tot_subsidiasuransi_semua").removeAttr("readonly");
         $("#tot_subsidirumahsakit_semua").removeAttr("readonly");
+        $("#tot_subsidipemerintah_semua").removeAttr("readonly");
     }else{
         $("#tot_discount_semua").attr("readonly", true);
         $("#tot_subsidiasuransi_semua").attr("readonly", true);
         $("#tot_subsidirumahsakit_semua").attr("readonly", true);
+        $("#tot_subsidipemerintah_semua").attr("readonly", true);
     }
 }
 
@@ -681,6 +704,29 @@ function proporsiSubsidiRsTindakan(){
     hitungTotalTindakan();
     formatNumberSemua();
 }
+
+/**
+ * menghitung proporsi subsidi pemerintah
+ */
+function proporsiSubsidiPemerintahTindakan(){
+    unformatNumberSemua();
+    var tot_subsisidirumahsakit_tindakan = parseInt($("#tot_subsidipemerintah_tindakan").val());
+    var tot_tarif_tindakan = parseInt($("#tot_tarif_tindakan").val());
+    $("#form-rinciantindakan").find("input:checkbox[name$='[is_pilihtindakan]']").each(function(){
+        if($(this).is(":checked")){
+            var qty = parseInt($(this).parents('tr').find('input[name$="[qty_tindakan]"]').val());
+            var tarifsatuan = parseInt($(this).parents('tr').find('input[name$="[tarif_satuan]"]').val());
+            var tarifcyto = parseInt($(this).parents('tr').find('input[name$="[tarifcyto_tindakan]"]').val());
+            var proporsi = Math.round(((tarifsatuan * qty + tarifcyto)/ tot_tarif_tindakan) * tot_subsisidirumahsakit_tindakan);
+            $(this).parents('tr').find('input[name$="[subsidipemerintah_tindakan]"]').val(proporsi);
+        }else{
+            $(this).parents('tr').find('input[name$="[subsidipemerintah_tindakan]"]').val(0);
+        }
+    });
+    hitungTotalTindakan();
+    formatNumberSemua();
+}
+
 /**
  * menghitung proporsi diskon obat alkes
  */
@@ -765,6 +811,29 @@ function proporsiSubsidiRsOa(){
     hitungTotalOa();
     formatNumberSemua();
 }
+
+/**
+ * menghitung proporsi subsidi pemerintah obat alkes
+ */
+function proporsiSubsidiPemerintahOa(){
+    unformatNumberSemua();
+    var tot_subsidirs = parseInt($("#tot_subsidipemerintah").val());
+    var tot_hargajual_oa = parseInt($("#tot_hargajual_oa").val());
+    $("#form-rincianobatalkes").find("input:checkbox[name$='[is_pilihoa]']").each(function(){
+        if($(this).is(":checked")){
+            var qty = parseInt($(this).parents('tr').find('input[name$="[qty_oa]"]').val());
+            var hargasatuan = parseInt($(this).parents('tr').find('input[name$="[hargasatuan_oa]"]').val());
+            var tarifcyto = parseInt($(this).parents('tr').find('input[name$="[tarifcyto]"]').val());
+            var proporsi = Math.round(((hargasatuan * qty + tarifcyto)/ tot_hargajual_oa) * tot_subsidirs);
+            $(this).parents('tr').find('input[name$="[subsidipemerintah]"]').val(proporsi);
+        }else{
+            $(this).parents('tr').find('input[name$="[subsidipemerintah]"]').val(0);
+        }
+    });
+    hitungTotalOa();
+    formatNumberSemua();
+}
+
 /**
  * menghitung proporsi diskon semua
  */
@@ -862,6 +931,41 @@ function proporsiSubsidiRsSemua(){
             $(this).parents('tr').find('input[name$="[subsidirs]"]').val(proporsi);
         }else{
             $(this).parents('tr').find('input[name$="[subsidirs]"]').val(0);
+        }
+    });
+    hitungTotalOa();
+    formatNumberSemua();
+}
+
+/**
+ * menghitung proporsi subsidi pemerintah semua
+ */
+function proporsiSubsidiPemerintahSemua(){
+    unformatNumberSemua();
+    var tot_subsidipemerintah_semua = parseInt($("#tot_subsidipemerintah_semua").val());
+    var tot_tarif_semua = (parseInt($("#tot_tarif_tindakan").val()) + parseInt($("#tot_hargajual_oa").val()));
+    $("#form-rinciantindakan").find("input:checkbox[name$='[is_pilihtindakan]']").each(function(){
+        if($(this).is(":checked")){
+            var qty = parseInt($(this).parents('tr').find('input[name$="[qty_tindakan]"]').val());
+            var tarifsatuan = parseInt($(this).parents('tr').find('input[name$="[tarif_satuan]"]').val());
+            var tarifcyto = parseInt($(this).parents('tr').find('input[name$="[tarifcyto_tindakan]"]').val());
+            var proporsi = Math.round(((tarifsatuan * qty + tarifcyto) / tot_tarif_semua) * tot_subsidipemerintah_semua);
+            $(this).parents('tr').find('input[name$="[subsidipemerintah_tindakan]"]').val(proporsi);
+        }else{
+            $(this).parents('tr').find('input[name$="[subsidipemerintah_tindakan]"]').val(0);
+        }
+    });
+    hitungTotalTindakan();
+    unformatNumberSemua();
+    $("#form-rincianobatalkes").find("input:checkbox[name$='[is_pilihoa]']").each(function(){
+        if($(this).is(":checked")){
+            var qty = parseInt($(this).parents('tr').find('input[name$="[qty_oa]"]').val());
+            var hargasatuan = parseInt($(this).parents('tr').find('input[name$="[hargasatuan_oa]"]').val());
+            var tarifcyto = parseInt($(this).parents('tr').find('input[name$="[tarifcyto]"]').val());
+            var proporsi = Math.round(((hargasatuan * qty + tarifcyto)/ tot_tarif_semua) * tot_subsidipemerintah_semua);
+            $(this).parents('tr').find('input[name$="[subsidipemerintah]"]').val(proporsi);
+        }else{
+            $(this).parents('tr').find('input[name$="[subsidipemerintah]"]').val(0);
         }
     });
     hitungTotalOa();

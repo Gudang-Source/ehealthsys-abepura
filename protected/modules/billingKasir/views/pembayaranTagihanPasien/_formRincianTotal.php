@@ -6,6 +6,7 @@
         <th>Total Diskon <br>(Rp.)</th>
         <th>Total Subsidi Asuransi <br>(Rp.)</th>
         <th>Total Subsidi Rumah Sakit <br>(Rp.)</th>
+        <th>Total Subsidi Pemerintah    <br>(Rp.)</th>
         <th>Total Tanggungan Pasien <br>(Rp.)</th> <!-- Tanggungan Pasien = Iur Biaya -->
         <th>Total <br>(Rp.)</th>
     </thead>
@@ -18,6 +19,7 @@
         <td><?php echo CHtml::textField('tot_discount_semua',0,array('onblur'=>'proporsiDiskonSemua();','readonly'=>true,'class'=>'inputFormTabel lebar3 integer2','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
         <td><?php echo CHtml::textField('tot_subsidiasuransi_semua',0,array('onblur'=>'proporsiSubsidiAsuransiSemua();','readonly'=>true,'class'=>'inputFormTabel lebar3 integer2','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
         <td><?php echo CHtml::textField('tot_subsidirumahsakit_semua',0,array('onblur'=>'proporsiSubsidiRsSemua();','readonly'=>true,'class'=>'inputFormTabel lebar3 integer2','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
+        <td><?php echo CHtml::textField('tot_subsidipemerintah_semua',0,array('onblur'=>'proporsiSubsidiPemerintahSemua();','readonly'=>true,'class'=>'inputFormTabel lebar3 integer2','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
         <td><?php echo CHtml::textField('tot_iurbiaya_semua',0,array('readonly'=>true,'class'=>'inputFormTabel lebar3 integer2','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
         <td><?php echo CHtml::textField('total_semua',0,array('readonly'=>true,'class'=>'inputFormTabel lebar3 integer2','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
     </tfoot>
