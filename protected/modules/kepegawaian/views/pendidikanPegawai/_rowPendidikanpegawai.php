@@ -28,7 +28,7 @@ $i = (isset($i) ? $i : '' );
 								),
 		)); ?>
 	</td>
-	<td class>
+	<td>
 		<?php echo $form->textField($modPendidikanpegawai,'['.$i.']lamapendidikan_bln',array('onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'span1 num')); ?>
                 <?php echo $form->dropDownList($modPendidikanpegawai,'['.$i.']satuan',array('tahun'=>'tahun','bulan'=>'bulan'),array('onkeypress'=>"return $(this).focusNextInputField(event)",'style'=>'width:55px;')) ?>
 	</td>
