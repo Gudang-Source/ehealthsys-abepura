@@ -2,11 +2,13 @@
 echo "<table>";
 echo "<tr>
         <td>Kategori Pemeriksaan</td>
+        <td>:</td>
         <td>".$modTarif ['kategoritindakan_nama']."</td>
 
          </tr>";
 echo "<tr>
         <td>Nama Pemeriksaan</td>
+        <td>:</td>
         <td>".$modTarif ['daftartindakan_nama']."</td>      
 
          </tr>";
