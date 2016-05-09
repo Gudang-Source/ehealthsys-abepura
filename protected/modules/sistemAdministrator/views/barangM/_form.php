@@ -294,7 +294,7 @@ Yii::app()->clientScript->registerScript('numberOnly', $js, CClientScript::POS_R
     {
         var tipebarang = $("#SABarangM_barang_type").val();
         
-        if (tipebarang === "Habis Pakai")
+        if (tipebarang === "Habis Pakai" || tipebarang === "Persediaan")
         {   //disabled                 
             $("#<?php echo CHtml::activeId($model,"barang_kode");?>").val('');            
             $("#barangkode").val('');
