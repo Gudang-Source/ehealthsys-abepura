@@ -16,7 +16,7 @@ class PegawaiMController extends MyAuthController
 	 */
 	public function actionView($id='', $sukses='')
 	{
-             if ($sukses == 1):
+            if ($sukses == 1):
                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');    
             endif;
             
