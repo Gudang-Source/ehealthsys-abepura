@@ -50,6 +50,7 @@
                 $obatalkes->discount = $format->formatNumberForPrint($obatalkes->discount);
                 $obatalkes->biayalain = $format->formatNumberForPrint($obatalkes->biayalain);
                 $obatalkes->subsidiasuransi = $format->formatNumberForPrint($obatalkes->subsidiasuransi);
+                $obatalkes->subsidipemerintah = $format->formatNumberForPrint($obatalkes->subsidipemerintah);
                 $obatalkes->subsidirs = $format->formatNumberForPrint($obatalkes->subsidirs);
 ////                  DISAMAKAN DENGAN subtotaloa >>  $obatalkes->iurbiaya = $format->formatNumberForPrint($obatalkes->iurbiaya);
                 $obatalkes->iurbiaya = $format->formatNumberForPrint($obatalkes->subtotaloa);
@@ -84,6 +85,7 @@
         $tot_discount = $format->formatNumberForPrint($tot_discount);
         $tot_biayalain = $format->formatNumberForPrint($tot_biayalain);
         $tot_subsidiasuransi = $format->formatNumberForPrint($tot_subsidiasuransi);
+        $tot_subsidipemerintah = $format->formatNumberForPrint($tot_subsidipemerintah);
         $tot_subsidirs = $format->formatNumberForPrint($tot_subsidirs);
         $tot_iurbiaya = $format->formatNumberForPrint($total_oa);
         $total_oa = $format->formatNumberForPrint($total_oa);
