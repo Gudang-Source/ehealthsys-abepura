@@ -22,7 +22,7 @@ class SusunanKeluargaPegawaiController extends MyAuthController
 					$modSusunanKeluarga->attributes = $row;
 					$modSusunanKeluarga->pegawai_id = $pegawai_id;
 					$modSusunanKeluarga->susunankel_tanggallahir= MyFormatter::formatDateTimeForDb($row['susunankel_tanggallahir']);
-                    $modSusunanKeluarga->susunankel_tanggalpernikahan= MyFormatter::formatDateTimeForDb($row['susunankel_tanggalpernikahan']);
+                    if (isset($_POST['KPSusunankelM']['susunankel_tanggalpernikahan'])) $modSusunanKeluarga->susunankel_tanggalpernikahan= MyFormatter::formatDateTimeForDb($row['susunankel_tanggalpernikahan']);
 					
                     if ($modSusunanKeluarga->validate()){
 						if($modSusunanKeluarga->save()){
