@@ -1,9 +1,8 @@
 <?php
 
-class DefaultController extends MyAuthController
+Yii::import("rawatJalan.models.*");
+Yii::import("rawatJalan.controllers.PegawaiMController");
+class PegawaiMREController extends PegawaiMController
 {
-	public function actionIndex()
-	{
-		$this->render('index');
-	}
+        
 }
