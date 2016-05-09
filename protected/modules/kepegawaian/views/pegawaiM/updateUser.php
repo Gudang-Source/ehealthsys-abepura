@@ -18,6 +18,6 @@ $this->menu=$arrMenu;
 
 $this->widget('bootstrap.widgets.BootAlert'); ?>
 
-<?php echo $this->renderPartial('_formUpdate',array('model'=>$model,'modRuanganPegawai'=>$modRuanganPegawai)); ?>
+<?php echo $this->renderPartial('_formUpdateUser',array('model'=>$model,'modRuanganPegawai'=>$modRuanganPegawai)); ?>
 <?php //$this->widget('UserTips',array('type'=>'update'));?>
 </div>

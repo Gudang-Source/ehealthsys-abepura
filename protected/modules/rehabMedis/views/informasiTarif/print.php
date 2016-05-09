@@ -26,6 +26,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
         ),
             'jenistarif_nama',
             'kelompoktindakan_nama',
+            'komponenunit_nama',
             'kategoritindakan_nama',
             'daftartindakan_nama',
             'kelaspelayanan_nama',
