@@ -60,6 +60,7 @@ $this->widget('bootstrap.widgets.BootAlert');
                 <?php
                 if (count($details)>0){
                 foreach ($details as $i=>$detail) :
+                    $disPernikahan = in_array($detail->hubkeluarga, array("SUAMI", "ISTRI"));
                 $i++;
                 ?>
                 <tr>
@@ -73,17 +74,17 @@ $this->widget('bootstrap.widgets.BootAlert');
                         <?php echo $form->textField($detail,'['.$i.']nourutkel',array('class'=>'span1 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                     </td>
                     <td>
-                        <?php echo $form->dropDownList($detail, '['.$i.']hubkeluarga', LookupM::getItems('hubungankeluarga'), array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+                        <?php echo $form->dropDownList($detail, '['.$i.']hubkeluarga', LookupM::getItems('hubungankeluarga'), array('class'=>'span2', 'onchange'=>'setDefaultJenisKelamin(this); setDefaultPernikahan(this);', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
 
                     </td>
                     <td>
-                    <?php echo $form->textField($detail,'['.$i.']susunankel_nama',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?></td>
+                    <?php echo $form->textField($detail,'['.$i.']susunankel_nama',array('class'=>'span2', 'onchange'=>'$(this).val($(this).val().toUpperCase());', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?></td>
                     <td>
-                        <?php echo $form->dropDownList($detail, '['.$i.']susunankel_jk', LookupM::getItems('jeniskelamin'), array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+                        <?php echo $form->dropDownList($detail, '['.$i.']susunankel_jk', LookupM::getItems('jeniskelamin'), array('class'=>'span2 jeniskelamin', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
 
                     </td>
                     <td>
-                        <?php echo $form->textField($detail,'['.$i.']susunankel_tempatlahir',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30)); ?>
+                        <?php echo $form->textField($detail,'['.$i.']susunankel_tempatlahir',array('class'=>'span2', 'onchange'=>'$(this).val($(this).val().toUpperCase());', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30)); ?>
                     </td>
                     <td>
                         <?php
@@ -118,12 +119,12 @@ $this->widget('bootstrap.widgets.BootAlert');
                         // 'maxDate' => 'd',
                         'yearRange'=> "-150:+0",
                         ),
-                        'htmlOptions'=>array('placeholder'=>'00/00/0000','class'=>'dtPicker2 datemask', 'onkeyup'=>"return $(this).focusNextInputField(event)"
+                        'htmlOptions'=>array('placeholder'=>'00/00/0000','class'=>'dtPicker2 datemask pernikahan', 'onkeyup'=>"return $(this).focusNextInputField(event)", "disabled"=>!$disPernikahan,
                         ),
                         )); ?>
                     </td>
                     <td>
-                        <?php echo $form->textField($detail,'['.$i.']susunankel_tempatpernikahan',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30)); ?>
+                        <?php echo $form->textField($detail,'['.$i.']susunankel_tempatpernikahan',array('class'=>'span2 pernikahan', 'onchange'=>'$(this).val($(this).val().toUpperCase());', 'onkeypress'=>"return $(this).focusNextInputField(event);", "disabled"=>!$disPernikahan, 'maxlength'=>30)); ?>
                     </td>
                     <td>
                         <?php echo $form->textField($detail,'['.$i.']susunankeluarga_nip',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30)); ?>
@@ -145,17 +146,17 @@ $this->widget('bootstrap.widgets.BootAlert');
                         <?php echo $form->textField($modSusunanKeluarga,'['.$x.']nourutkel',array('class'=>'span1 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                     </td>
                     <td>
-                        <?php echo $form->dropDownList($modSusunanKeluarga, '['.$x.']hubkeluarga', LookupM::getItems('hubungankeluarga'), array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+                        <?php echo $form->dropDownList($modSusunanKeluarga, '['.$x.']hubkeluarga', LookupM::getItems('hubungankeluarga'), array('class'=>'span2', 'onchange'=>'setDefaultJenisKelamin(this); setDefaultPernikahan(this);', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
 
                     </td>
                     <td>
-                    <?php echo $form->textField($modSusunanKeluarga,'['.$x.']susunankel_nama',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?></td>
+                    <?php echo $form->textField($modSusunanKeluarga,'['.$x.']susunankel_nama',array('class'=>'span2', 'onchange'=>'$(this).val($(this).val().toUpperCase());', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?></td>
                     <td>
-                        <?php echo $form->dropDownList($modSusunanKeluarga, '['.$x.']susunankel_jk', LookupM::getItems('jeniskelamin'), array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+                        <?php echo $form->dropDownList($modSusunanKeluarga, '['.$x.']susunankel_jk', LookupM::getItems('jeniskelamin'), array('class'=>'span2 jeniskelamin', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
 
                     </td>
                     <td>
-                        <?php echo $form->textField($modSusunanKeluarga,'['.$x.']susunankel_tempatlahir',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30)); ?>
+                        <?php echo $form->textField($modSusunanKeluarga,'['.$x.']susunankel_tempatlahir',array('class'=>'span2', 'onchange'=>'$(this).val($(this).val().toUpperCase());', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30)); ?>
                     </td>
                     <td>
                         <?php
@@ -190,12 +191,12 @@ $this->widget('bootstrap.widgets.BootAlert');
                          'maxDate' => 'd',
                         'yearRange'=> "-150:+0",
                         ),
-                        'htmlOptions'=>array('placeholder'=>'00/00/0000','class'=>'dtPicker2 datemask', 'onkeyup'=>"return $(this).focusNextInputField(event)"
+                        'htmlOptions'=>array('placeholder'=>'00/00/0000','class'=>'dtPicker2 datemask pernikahan', 'onkeyup'=>"return $(this).focusNextInputField(event)"
                         ),
                         )); ?>
                     </td>
                     <td>
-                        <?php echo $form->textField($modSusunanKeluarga,'['.$x.']susunankel_tempatpernikahan',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30)); ?>
+                        <?php echo $form->textField($modSusunanKeluarga,'['.$x.']susunankel_tempatpernikahan',array('class'=>'span2 pernikahan', 'onchange'=>'$(this).val($(this).val().toUpperCase());', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30)); ?>
                     </td>
                     <td>
                         <?php echo $form->textField($modSusunanKeluarga,'['.$x.']susunankeluarga_nip',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30)); ?>
@@ -239,6 +240,22 @@ function hapusOrganisasi(obj) {
     $(obj).hide();
     $(obj).parents("tr").remove();
     renameInput();
+}
+
+function setDefaultJenisKelamin(obj) {
+    $(obj).parents("tr").find(".jeniskelamin").val("");
+    if ($.inArray($(obj).val().trim(), ["SUAMI", "AYAH", "KAKEK", "PAMAN"]) !== -1) {
+        $(obj).parents("tr").find(".jeniskelamin").val("LAKI-LAKI");
+    } else if ($.inArray($(obj).val().trim(), ["ISTRI", "IBU", "NENEK", "BIBI"]) !== -1) {
+        $(obj).parents("tr").find(".jeniskelamin").val("PEREMPUAN");
+    }
+}
+
+function setDefaultPernikahan(obj) {
+    $(obj).parents("tr").find(".pernikahan").prop("disabled", true);
+    if ($.inArray($(obj).val().trim(), ["SUAMI", "ISTRI"]) !== -1) {
+        $(obj).parents("tr").find(".pernikahan").prop("disabled", false);
+    }
 }
 
 function renameInput(){

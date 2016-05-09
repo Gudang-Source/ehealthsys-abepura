@@ -7,6 +7,10 @@ class PendidikanPegawaiController extends MyAuthController
     public function actionIndex($pegawai_id = null){
         $model = KPPegawaiM::model()->findByPk($pegawai_id);
         $modPendidikanpegawai = new KPPendidikanpegawaiR;
+        $satuan = array(
+            'bulan' => 1,
+            'tahun' => 12,
+        );
         $transaction = Yii::app()->db->beginTransaction();
 		try{
 			if (isset($_POST['KPPendidikanpegawaiR'])) {
@@ -29,7 +33,8 @@ class PendidikanPegawaiController extends MyAuthController
 					$modPendidikanpegawai->jenispendidikan = $_POST['KPPegawaiM']['jenispendidikan'];
 					$modPendidikanpegawai->create_loginpemakai_id = Yii::app()->user->id;
 					$modPendidikanpegawai->create_ruangan = Yii::app()->user->ruangan_id;
-					if ($modPendidikanpegawai->validate()) {
+					$modPendidikanpegawai->lamapendidikan_bln *= $satuan[$row['satuan']];
+                                        if ($modPendidikanpegawai->validate()) {
 						if ($modPendidikanpegawai->save()) {
 							$jmlhsavependidikan++;
 						}
@@ -69,6 +74,10 @@ class PendidikanPegawaiController extends MyAuthController
             $tr = '';
             foreach ($modPendidikanpegawai as $row)
             {
+                $lama = $row->lamapendidikan_bln;
+                $lama_str = "";
+                if ($lama >= 12) $lama_str .= floor($lama/12)." Tahun ";
+                if ($lama%12 != 0) $lama_str .= ($lama%12)." Bulan";
                 $urlDelete = $this->createUrl('deletePendidikanpegawai',array('pendidikanpegawai_id'=>$row->pendidikanpegawai_id,'pegawai_id'=>$row->pegawai_id));
                 $tr .= '<tr>';
                     $tr .= '<td>'.$i.' </td>';
@@ -76,7 +85,7 @@ class PendidikanPegawaiController extends MyAuthController
                     $tr .= '<td>'.$row->namasek_univ.'</td>';
                     $tr .= '<td>'.$row->almtsek_univ.'</td>';
                     $tr .= '<td>'.$row->tglmasuk.'</td>';
-                    $tr .= '<td>'.$row->lamapendidikan_bln.' bulan</td>';
+                    $tr .= '<td>'.$lama_str.'</td>';
                     $tr .= '<td>'.$row->no_ijazah_sert.'</td>';
                     $tr .= '<td>'.$row->tgl_ijazah_sert.'</td>';
                     $tr .= '<td>'.$row->ttd_ijazah_sert.'</td>';

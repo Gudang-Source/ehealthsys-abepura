@@ -29,7 +29,8 @@ $i = (isset($i) ? $i : '' );
 		)); ?>
 	</td>
 	<td>
-		<?php echo $form->textField($modPendidikanpegawai,'['.$i.']lamapendidikan_bln',array('onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'span1','style'=>'width:20px;')).' bulan'; ?>
+		<?php echo $form->textField($modPendidikanpegawai,'['.$i.']lamapendidikan_bln',array('onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'span1','style'=>'width:20px;')); ?>
+                <?php echo $form->dropDownList($modPendidikanpegawai,'['.$i.']satuan',array('tahun'=>'tahun','bulan'=>'bulan'),array('onkeypress'=>"return $(this).focusNextInputField(event)",'style'=>'width:55px;')) ?>
 	</td>
 	<td>
 		<?php echo $form->textField($modPendidikanpegawai,'['.$i.']no_ijazah_sert',array('onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'span2')); ?>
