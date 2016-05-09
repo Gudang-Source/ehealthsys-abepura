@@ -6,7 +6,7 @@
         <td>Icon <i class="icon-calendar"></i> untuk menentukan tanggal.</td>
     </tr>  
     <tr>  
-        <td>7. </td>
+        <td  style="vertical-align:middle">2. </td>
         <td>Gunakan tombol ini  <button class="btn btn-primary" name="yt0" type="button">
             <i class="icon-ok icon-white"></i>
             Simpan
@@ -15,7 +15,7 @@
         </td>
     </tr> 
     <tr>
-        <td>8. </td>
+        <td  style="vertical-align:middle">3. </td>
         <td>Gunakan tombol ini <a class="btn btn-danger" >
             <i class="icon-refresh icon-white"></i>
             Ulang
