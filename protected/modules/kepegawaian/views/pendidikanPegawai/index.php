@@ -1,3 +1,9 @@
+<style>
+    .num {
+        text-align: right;
+    }
+</style>
+
 <?php
 $sukses = null;
 if (isset($_GET['sukses'])) {
@@ -100,7 +106,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                     ?>
                 </td>
                 <td>
-                    <?php echo $form->textField($modPendidikanpegawai, '[' . $i . ']lamapendidikan_bln', array('onkeypress' => "return $(this).focusNextInputField(event)", 'style' => 'width:30px')); ?>
+                    <?php echo $form->textField($modPendidikanpegawai, '[' . $i . ']lamapendidikan_bln', array('onkeypress' => "return $(this).focusNextInputField(event)", 'class'=>'span1 num')); ?>
                     <?php echo $form->dropDownList($modPendidikanpegawai,'['.$i.']satuan',array('tahun'=>'tahun','bulan'=>'bulan'),array('onkeypress'=>"return $(this).focusNextInputField(event)",'style'=>'width:55px;')) ?>
                 </td>
                 <td>
@@ -159,6 +165,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
         $(obj).hide();
         $(obj).parents("table").children("tbody").append(trPendidikanpegawai.replace());
         renameInputpendidikanpegawai();
+        $(obj).parents("table").find("tr:last-child .num").maskMoney({"thousands":"", "decimal":"", "precision":"", "allowZero":true, "allowNegative":false});
     }
     function tambahPendidikanpegawaidrinput(obj) {
         $("#hapus").show();
@@ -272,6 +279,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 
     $(document).ready(function () {
         Pendidikanpegawaidata();
+        $("#tablePendidikanPegawai tbody").find("tr .num").maskMoney({"thousands":"", "decimal":"", "precision":"", "allowZero":true, "allowNegative":false});
         $("input[class='required']").each(function () {
             if ($(this).val() == "") {
                 myAlert("silahkan isi yang bertanda * !");
