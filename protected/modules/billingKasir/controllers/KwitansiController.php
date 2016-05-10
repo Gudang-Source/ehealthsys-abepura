@@ -50,7 +50,7 @@ class KwitansiController extends MyAuthController
                 $totalOa=0;
                 foreach ($oaSudahBayar as $key => $value)
                 {
-                        $oa[0]['kelompoktindakan'] = $value->obatalkes->jenisobatalkes->jenisobatalkes_nama;
+                        $oa[0]['kelompoktindakan'] = empty($value->obatalkes->jenisobatalkes_id)?"-":$value->obatalkes->jenisobatalkes->jenisobatalkes_nama;
 //                        $oa[0]['harga'] += ($value->obatalkespasien->hargasatuan_oa * $value->obatalkespasien->qty_oa);
                         if (isset($oa[0]['harga'])){
                             $oa[0]['harga'] += ($value->hargasatuan * $value->qty_oa);

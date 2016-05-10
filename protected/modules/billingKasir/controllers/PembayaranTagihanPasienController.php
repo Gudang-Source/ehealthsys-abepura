@@ -285,6 +285,7 @@ class PembayaranTagihanPasienController extends MyAuthController
         $model->create_loginpemakai_id=Yii::app()->user->id;
         $model->create_ruangan=Yii::app()->user->getState('ruangan_id');
         $model->ruangan_id=Yii::app()->user->getState('ruangan_id');
+        // var_dump($model->attributes); die;
         if($model->totalsisatagihan == 0){
             $model->statusbayar = Params::STATUSBAYAR_LUNAS;
         }else{
