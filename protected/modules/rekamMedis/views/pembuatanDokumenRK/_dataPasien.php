@@ -7,7 +7,7 @@
 
     $this->widget('ext.bootstrap.widgets.BootGridView',array(
         'id'=>'pasien-v-grid',
-        'dataProvider'=>$modPasien->searchDialog(),
+        'dataProvider'=>$modPasien->searchDialogRM(),
         'filter'=>$modPasien,
         'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
