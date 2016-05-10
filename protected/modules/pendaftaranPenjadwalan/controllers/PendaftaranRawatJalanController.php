@@ -1144,6 +1144,14 @@ class PendaftaranRawatJalanController extends MyAuthController
                     ), array(
                         'condition'=>'tgl_pendaftaran::date = now()::date and pasienbatalperiksa_id is null'
                     ));
+                    if (empty($pendafaran)) {
+                        $pendaftaran = PendaftaranT::model()->findByAttributes(array(
+                            'pasien_id'=>$pasien_id,
+                        ), array(
+                            'condition'=>'pasienbatalperiksa_id is null',
+                            'order'=>'tgl_pendaftaran desc',
+                        ));
+                    }
                 } else {
                     $pendaftaran = null;
                 }
@@ -1157,6 +1165,17 @@ class PendaftaranRawatJalanController extends MyAuthController
                     $returnVal['listDaftar']['pasien'] = $pendaftaran->pasien;
                     $returnVal['listDaftar']['ruangan'] = $pendaftaran->ruangan;
                     $returnVal['listDaftar']['instalasi'] = $pendaftaran->ruangan->instalasi;
+                    
+                    if (!empty($pendaftaran->pasienpulang_id)) {
+                        if (empty($pendaftaran->pasienadmisi_id)) {
+                            $pp = PasienpulangT::model()->findByPk($pendaftaran->pasienpulang_id);
+                            if ($pp->carakeluar_id = 5) $returnVal['tindakLanjut'] = true;
+                        } else {
+                            $admisi = PasienadmisiT::model()->findByPk($pendaftaran->pasienadmisi_id);
+                            $returnVal['adaInap'] = true;
+                            $returnVal['listDaftar']['ruangan'] = $admisi->ruangan;
+                        }
+                    }
                 }
                 
                 if (isset($_POST['is_manual']) && $_POST['is_manual'] == true) {
