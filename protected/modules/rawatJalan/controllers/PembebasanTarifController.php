@@ -3,6 +3,7 @@
 class PembebasanTarifController extends MyAuthController
 {
         public $successSavePembebasan = true;
+        public $pathView = "rawatJalan.views.pembebasanTarif.";
         
 	public function actionIndex()
 	{
@@ -67,7 +68,7 @@ class PembebasanTarifController extends MyAuthController
                 }
             }
 		
-            $this->render('index', array('model'=>$model,
+            $this->render($this->pathView.'index', array('model'=>$model,
                                          'modPasien'=>$modPasien,
                                          'modPendaftaran'=>$modPendaftaran));
 	}
@@ -195,7 +196,7 @@ class PembebasanTarifController extends MyAuthController
                     }
                 }
                 
-                $form = $this->renderPartial('_formPembebasanTarif', array('data'=>$returnVal), true);
+                $form = $this->renderPartial($this->pathView.'_formPembebasanTarif', array('data'=>$returnVal), true);
                 $returnVal['tabelPembebasanTarif'] = $form;
                 
                 echo CJSON::encode($returnVal);

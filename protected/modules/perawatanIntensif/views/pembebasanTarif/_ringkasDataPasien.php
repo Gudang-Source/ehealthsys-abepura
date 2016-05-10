@@ -99,29 +99,27 @@ $criteria = new CDbCriteria();
 // $criteria->compare('LOWER(no_rekam_medik)', strtolower($_GET['term']), true);
 $criteria->addCondition('ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
 $criteria->order = 'tgl_pendaftaran DESC';
-$models = RIInfokunjunganriV::model()->findAll($criteria);
-//$dataProvider = new CActiveDataProvider('RIInfokunjunganriV',array(
-//    'criteria'=>$criteria,
-//));
+$models = RJInfokunjunganrjV::model()->findAll($criteria);
+$dataProvider = new CActiveDataProvider('InfokunjunganrjV',array(
+    'criteria'=>$criteria,
+));
 
-$modDataPasien = new RIInfokunjunganriV();
-//$modDataPasien->statusperiksa = "SEDANG PERIKSA";
+$modDataPasien = new RJInfokunjunganrjV('searchKunjunganPasien');
+$modDataPasien->statusperiksa = "SEDANG PERIKSA";
 //$modDataPasien->tgl_pendaftaran = date('Y-m-d');
-$modDataPasien->unsetAttributes();
-if(isset($_GET['RIInfokunjunganriV'])){
+//$modDataPasien->unsetAttributes();
+if(isset($_GET['RJInfokunjunganrjV'])){
+    $modDataPasien->attributes = $_GET['RJInfokunjunganrjV'];
     $format = new MyFormatter();
-    $modDataPasien->attributes = $_GET['RIInfokunjunganriV'];
-    $modDataPasien->penjamin_id = $_GET['RIInfokunjunganriV']['penjamin_id'];
-    if(isset($_GET['RIInfokunjunganriV']['tgl_pendaftaran']))
-        $modDataPasien->tgl_pendaftaran = $format->formatDateTimeForDb($_REQUEST['RIInfokunjunganriV']['tgl_pendaftaran']);
-    // $modDataPasien->statusperiksa  = $_REQUEST['InfokunjunganriV']['InfokunjunganriV'];
+    $modDataPasien->tgl_pendaftaran  = $format->formatDateTimeForDb($_REQUEST['RJInfokunjunganrjV']['tgl_pendaftaran']);
+    $modDataPasien->statusperiksa  = $_REQUEST['RJInfokunjunganrjV']['statusperiksa'];
     // $modDataPasien->tgl_awal  = $format->formatDateTimeForDb($_REQUEST['RJInfokunjunganrjV']['tgl_awal']);
     // $modDataPasien->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['RJInfokunjunganrjV']['tgl_akhir']);
 }
 
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'rjrekamedik-alkes-m-grid',
-    'dataProvider'=>$modDataPasien->searchDaftarPasien(),
+    'dataProvider'=>$modDataPasien->searchKunjunganPasien(),
     'filter'=>$modDataPasien,
         'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
@@ -142,14 +140,14 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 //'tgl_pendaftaran',
                 array(
                     'name'=>'tgl_pendaftaran',
-                    'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)',
+                    'value'=>'$data->tgl_pendaftaran',
                     'filter'=>$this->widget('MyDateTimePicker',array(
-                        'model'=>$modDataPasien,
-                        'attribute'=>'tgl_pendaftaran',
-                        'mode'=>'date',
-                        'options'=> array(
-                            'dateFormat'=>Params::DATE_FORMAT
-                        ),
+                    'model'=>$modDataPasien,
+                    'attribute'=>'tgl_pendaftaran',
+                    'mode'=>'date',
+                    'options'=> array(
+                        'dateFormat'=>Params::DATE_FORMAT
+                    ),
                         'htmlOptions'=>array('readonly'=>false, 'class'=>'dtPicker3'),
                     ),true
                     ),
@@ -160,17 +158,14 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                  'alamat_pasien',
                  //'penjamin_nama',
                  array(
-                   'name' => 'penjamin_id',
+                   'name' => 'penjamin_nama',
                    'header' => 'Nama Penjamin',
                    'value' => '$data->penjamin_nama',
-                   'filter'   => CHtml::dropDownList('RIInfokunjunganriV[penjamin_id]',$modDataPasien->penjamin_id,CHtml::listData(PenjaminpasienM::model()->findAll("penjamin_aktif = TRUE ORDER BY penjamin_nama ASC"), 'penjamin_id', 'penjamin_nama'),array('empty'=>'--Pilih--'))
+                   'filter'   => CHtml::dropDownList('RJInfokunjunganrjV[penjamin_nama]',$modDataPasien->penjamin_nama,CHtml::listData(PenjaminpasienM::model()->findAll("penjamin_aktif = TRUE ORDER BY penjamin_nama ASC"), 'penjamin_nama', 'penjamin_nama'),array('empty'=>'--Pilih--'))
                  ),
-                 array(
-                     'name'=>'nama_pegawai',
-                     'value'=>'$data->gelardepan." ".$data->nama_pegawai.", ".$data->gelarbelakang_nama',
-                 ),
+                 'nama_pegawai',
                  'jeniskasuspenyakit_nama',
-                /*
+
                 array(
                     'name'=>'statusperiksa',
                     'type'=>'raw',
@@ -179,8 +174,6 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     // 'filter' =>CHtml::activeDropDownList($modDataPasien,'statusperiksa',
                     //     LookupM::getItems('statusperiksa'),array('options' => array('SEDANG PERIKSA'=>array('selected'=>true)))),
                 ),
-                 * 
-                 */
     ),
         'afterAjaxUpdate'=>'function(id, data){
             jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
@@ -210,7 +203,7 @@ function isiDataPasien(data)
     $('#RJPasienM_nama_pasien').val(data.nama_pasien);
     $('#RJPasienM_nama_bin').val(data.nama_bin);
     
-    $.post('<?php echo Yii::app()->createUrl('rawatInap/PembebasanTarifRI/loadTindakanKomponenPasien');?>', {pendaftaran_id:data.pendaftaran_id}, function(data){
+    $.post('<?php echo Yii::app()->createUrl('rawatJalan/PembebasanTarif/loadTindakanKomponenPasien');?>', {pendaftaran_id:data.pendaftaran_id}, function(data){
         //$('#tblTindakanPasien tbody').html(data.formTindakanKomponen);
         $('#divTarifPasien').html(data.tabelPembebasanTarif);        
         $("#tblTindakanPasien .integer").maskMoney({"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0});
@@ -221,7 +214,7 @@ function isiDataPasien(data)
 
 function isiDataPasien_fungsi(params, pendaftaran_id)
 {
-    $.post("<?php echo Yii::app()->createUrl('rawatInap/PembebasanTarifRI/loadDataPasien');?>", {no_rekam_medik:params },
+    $.post("<?php echo Yii::app()->createUrl('rawatJalan/PembebasanTarif/loadDataPasien');?>", {no_rekam_medik:params },
         function(data){
             $('#RJPendaftaranT_tgl_pendaftaran').val(data.tgl_pendaftaran);
             $('#RJPendaftaranT_no_pendaftaran').val(data.no_pendaftaran);
@@ -238,7 +231,7 @@ function isiDataPasien_fungsi(params, pendaftaran_id)
             $('#RJPasienM_no_rekam_medik').val(params);
         }, "json");
 
-    $.post('<?php echo Yii::app()->createUrl('rawatInap/PembebasanTarifRI/loadTindakanKomponenPasien');?>', {pendaftaran_id:pendaftaran_id}, function(data){
+    $.post('<?php echo Yii::app()->createUrl('rawatJalan/PembebasanTarif/loadTindakanKomponenPasien');?>', {pendaftaran_id:pendaftaran_id}, function(data){
         $('#divTarifPasien').html(data.tabelPembebasanTarif);        
         $("#tblTindakanPasien .integer").maskMoney({"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0});
         $("#tblTindakanPasien .integer").each(function(){this.value = formatNumber(this.value)});
@@ -251,7 +244,7 @@ function setDataPasien(){
 	var pegawai_id = $('#RJPembebasantarifT_pegawai_id').val();
 	
 	if(no_rekam_medik != '' || pendaftaran_id != ''){
-		$.post('<?php echo Yii::app()->createUrl('rawatInap/PembebasanTarifRI/loadTindakanKomponenPasien');?>', {pendaftaran_id:pendaftaran_id, pegawai_id:pegawai_id}, function(data){
+		$.post('<?php echo Yii::app()->createUrl('rawatJalan/PembebasanTarif/loadTindakanKomponenPasien');?>', {pendaftaran_id:pendaftaran_id, pegawai_id:pegawai_id}, function(data){
 			$('#divTarifPasien').html(data.tabelPembebasanTarif);        
 			$("#tblTindakanPasien .integer").maskMoney({"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0});
 			$("#tblTindakanPasien .integer").each(function(){this.value = formatNumber(this.value)});
