@@ -28,10 +28,10 @@
         $total_tindakan = 0;
         $subtotal = 0;
         $subsidiasuransitind = 0;
+        $subsidipemerintahtind = 0;
         if(isset($modTanggungan)){
-            if(isset($modTanggungan->subsidiasuransitind)){
-                $subsidiasuransitind = $modTanggungan->subsidiasuransitind;
-            }
+            $subsidiasuransitind = $modTanggungan->subsidiasuransitind;
+            $subsidipemerintahtind = $modTanggungan->subsidipemerintahtind;
         }
         if(count($dataTindakans) > 0){
             foreach($dataTindakans AS $i =>$tindakan){
@@ -40,6 +40,7 @@
                 $subsidi = $tindakan->subsidiasuransi_tindakan+$tindakan->subsisidirumahsakit_tindakan;
                 $tindakan->subtotal = ($tindakan->qty_tindakan*$tindakan->tarif_satuan)+$tindakan->tarifcyto_tindakan-$tindakan->discount_tindakan-$tindakan->pembebasan_tindakan-$subsidi;
                 $tindakan->subsidiasuransi_tindakan= $tindakan->getSubsidiPenjamin('subsidiasuransitind');
+                $tindakan->subsidipemerintah_tindakan = $tindakan->getSubsidiPenjamin('subsidipemerintahtind');
                 $tindakan->subtotal = $tindakan->subtotal - $tindakan->subsidiasuransi_tindakan;
                 $tot_tarif_tindakan += ($tindakan->qty_tindakan*$tindakan->tarif_satuan);
                 $tot_tarifcyto_tindakan += $tindakan->tarifcyto_tindakan;
