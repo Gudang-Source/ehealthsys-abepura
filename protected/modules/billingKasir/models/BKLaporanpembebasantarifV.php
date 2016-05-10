@@ -54,5 +54,4 @@ class BKLaporanpembebasantarifV extends LaporanpembebasantarifV {
 
         return $criteria;
     }
-
 }
