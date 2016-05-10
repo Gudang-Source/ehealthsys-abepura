@@ -1,7 +1,7 @@
 <div class="white-container">
-    <legend class="rim2">Infomasi <b>Tarif</b></legend>
+    <legend class="rim2">Infomasi Tarif <b>Rawat Intensif</b></legend>
     <div class="block-tabel">
-        <h6>Tabel <b>Infomasi Tarif</b></h6> 		
+        <h6>Tabel Informasi Tarif <b>Rawat Intensif</b></h6> 		
         <?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 'id'=>'daftarTindakan-grid',
                 'dataProvider'=>$modTarifTindakanRuanganV->searchInformasi(),

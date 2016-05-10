@@ -1,27 +1,41 @@
-
-<legend class="rim2">Infomasi Tarif</legend> 		
-<?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
+<div class="white-container">
+    <legend class="rim2">Infomasi <b>Tarif Ambulans</b></legend> 	
+    <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery.tiler.js'); ?>
+    <div class="block-tabel">
+         <h6>Tabel Informasi <b>Tarif Ambulans</b></h6>
+        <?php $this->widget('bootstrap.widgets.BootAlert'); ?>
+    <?php 
+        $format = new MyFormatter();
+        $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'daftarTindakan-grid',
 	'dataProvider'=>$modTarifTindakanRuanganV->searchInformasi(),
         'template'=>"{summary}\n{items}\n{pager}",
-        'itemsCssClass'=>'table table-striped table-bordered table-condensed',
+        'itemsCssClass'=>'table table-striped table-condensed',
 	'columns'=>array(
-                'kelompoktindakan_nama',
-                'kategoritindakan_nama',
-                'daftartindakan_nama',
-                'kelaspelayanan_nama',
+                'jenistarif_nama',
+		'kelompoktindakan_nama',
+                'komponenunit_nama',
+		'kategoritindakan_nama',
+		'daftartindakan_nama',
+		'kelaspelayanan_nama',
 //                'ruangan_id',
 
               array(
                         'name'=>'tarifTotal',
                         'value'=>'$this->grid->getOwner()->renderPartial(\'_tarifTotal\',array(\'kelaspelayanan_id\'=>$data[kelaspelayanan_id],\'daftartindakan_id\'=>$data[daftartindakan_id]),true)',
                 ),
-            'persencyto_tind',
-            'persendiskon_tind',
+             array(
+                    'name'=>'persencyto_tind',
+                    'htmlOptions'=>array('style'=>'text-align: right'),
+            ), 
+            array(
+                'name'=>'persendiskon_tind',
+                'htmlOptions'=>array('style'=>'text-align: right'),
+            ),
             array(
                         'name'=>'Komponen Tarif',
                         'type'=>'raw',
-                        'value'=>'CHtml::link("<i class=\'icon-list-alt\'></i> ",Yii::app()->controller->createUrl("'.Yii::app()->controller->id.'/detailsTarif",array("idKelasPelayanan"=>$data->kelaspelayanan_id,"idDaftarTindakan"=>$data->daftartindakan_id, "idKategoriTindakan"=>$data->kategoritindakan_id)) ,array("title"=>"Klik Untuk Melihat Detail Tarif","target"=>"iframe", "onclick"=>"$(\"#dialogDetailsTarif\").dialog(\"open\");", "rel"=>"tooltip"))',
+                        'value'=>'CHtml::link("<i class=\'icon-list-alt\'></i> ",Yii::app()->controller->createUrl("'.Yii::app()->controller->id.'/detailsTarif",array("idKelasPelayanan"=>$data->kelaspelayanan_id,"idDaftarTindakan"=>$data->daftartindakan_id, "idKategoriTindakan"=>$data->kategoritindakan_id, , "jenistarif_id"=>$data->jenistarif_id)) ,array("title"=>"Klik Untuk Melihat Detail Tarif","target"=>"iframe", "onclick"=>"$(\"#dialogDetailsTarif\").dialog(\"open\");", "rel"=>"tooltip"))',
                 ),
                 
 	),
@@ -84,3 +98,4 @@ $('form#formCari').submit(function(){
         ?>
     </div>
 <?php $this->endWidget(); ?>
+</div>
