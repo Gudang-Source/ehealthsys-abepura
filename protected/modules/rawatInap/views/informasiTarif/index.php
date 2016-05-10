@@ -1,7 +1,7 @@
 <div class="white-container">
-    <legend class="rim2">Infomasi <b>Tarif</b></legend>
+    <legend class="rim2">Infomasi Tarif <b>Rawat Inap</b></legend>
     <div class="block-tabel">
-        <h6>Tabel <b>Infomasi Tarif</b></h6> 		
+        <h6>Tabel Informasi Tarif <b>Rawat Inap</b></h6> 		
         <?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 'id'=>'daftarTindakan-grid',
                 'dataProvider'=>$modTarifTindakanRuanganV->searchInformasi(),
@@ -33,7 +33,7 @@
                                 'name'=>'Komponen Tarif',
                                 'type'=>'raw',
                                 'value'=>'CHtml::link("<i class=\'icon-form-komtarif\'></i> ",Yii::app()->controller->createUrl("'.Yii::app()->controller->id.'/detailsTarif",array("kelaspelayanan_id"=>$data->kelaspelayanan_id,"daftartindakan_id"=>$data->daftartindakan_id, "kategoritindakan_id"=>$data->kategoritindakan_id,"jenistarif_id"=>$data->jenistarif_id)) ,array("title"=>"Klik Untuk Melihat Detail Tarif","target"=>"iframe", "onclick"=>"$(\"#dialogDetailsTarif\").dialog(\"open\");", "rel"=>"tooltip"))',
-                                'htmlOptions'=>array('style'=>'text-align:left;'),
+                                'htmlOptions'=>array('style'=>'text-align:center;'),
                         ),
 
                 ),
