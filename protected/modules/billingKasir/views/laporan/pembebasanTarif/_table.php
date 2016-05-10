@@ -11,7 +11,9 @@ if (isset($caraPrint)){
       $table = 'ext.bootstrap.widgets.BootExcelGridView';
 }
 ?>
-<?php $this->widget($table,array(
+<?php 
+
+    $this->widget($table,array(
     'id'=>'tableLaporan',
     'dataProvider'=>$data,
     'enableSorting'=>$sort,
