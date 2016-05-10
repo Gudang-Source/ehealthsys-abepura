@@ -69,8 +69,8 @@ if (isset($caraPrint)){
                 array(
                     'header'=>'Jumlah Tarif',
                     'type'=>'raw',
-                    'value'=>'$data->tarif_satuan',
-                    'htmlOptions'=>array('style'=>'font-size:10px;'),
+                    'value'=>'"Rp. ".number_format($data->tarif_satuan,0,"",".")',
+                    'htmlOptions'=>array('style'=>'font-size:10px;text-align:right;'),
                 ),
                 array(
                     'header'=>'Nama Tindakan',
@@ -82,13 +82,13 @@ if (isset($caraPrint)){
                     'header'=>'Kompora Tarif',
                     'type'=>'raw',
                     'value'=>'0',
-                    'htmlOptions'=>array('style'=>'font-size:10px;'),
+                    'htmlOptions'=>array('style'=>'font-size:10px;text-align:right;'),
                 ),
                 array(
                     'header'=>'Jumlah Pembebasan',
                     'type'=>'raw',
-                    'value'=>'$data->jmlpembebasan',
-                    'htmlOptions'=>array('style'=>'font-size:10px;'),
+                     'value'=>'"Rp. ".number_format($data->jmlpembebasan,0,"",".")',
+                    'htmlOptions'=>array('style'=>'font-size:10px;text-align:right;'),
                 ), 
 	),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
