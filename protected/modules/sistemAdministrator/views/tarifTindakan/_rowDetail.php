@@ -27,16 +27,16 @@
     <td>
         <span name="[ii][komponentarif_nama]" id="komponentarif_nama"><?php echo isset($model->komponentarif->komponentarif_nama) ? $model->komponentarif->komponentarif_nama : "" ?></span>
     </td>
-    <td>
-        <span name="[ii][harga_tariftindakan]" id="harga_tariftindakan"><?php echo isset($model->harga_tariftindakan) ? number_format($model->harga_tariftindakan) : 0 ?></span>
+    <td style = "text-align: right;">
+        <span name="[ii][harga_tariftindakan]" id="harga_tariftindakan"><?php echo isset($model->harga_tariftindakan) ? number_format($model->harga_tariftindakan,0,'','.') : 0 ?></span>
     </td>
-    <td>
+    <td style = "text-align: right;">
         <span name="[ii][persendiskon_tind]" id="persendiskon_tind"><?php echo isset($model->persendiskon_tind) ? $model->persendiskon_tind : "" ?></span>
     </td>
-    <td>
+    <td style = "text-align: right;">
         <span name="[ii][persencyto_tind]" id="persencyto_tind"><?php echo isset($model->persencyto_tind) ? $model->persencyto_tind: "" ?></span>
     </td>
     <td>
-        <a onclick="hapus(this);return false;" rel="tooltip" href="javascript:void(0);" title="Klik untuk menghapus tarif tindakan"><i class="icon-remove"></i></a>
+        <a onclick="hapus(this);return false;" rel="tooltip" href="javascript:void(0);" title="Klik untuk menghapus tarif tindakan"><i class="icon-form-silang"></i></a>
     </td>
 </tr>

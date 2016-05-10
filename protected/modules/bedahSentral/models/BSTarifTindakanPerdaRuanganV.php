@@ -13,21 +13,27 @@ class BSTarifTindakanPerdaRuanganV  extends TariftindakanperdaruanganV
         
        public function searchInformasi()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
 		$criteria=new CDbCriteria;
-		
-		if(!empty($this->kelaspelayanan_id)){
-			$criteria->addCondition('kelaspelayanan_id = '.$this->kelaspelayanan_id);
+		if (!empty($this->kelaspelayanan_id)){
+			$criteria->addCondition('kelaspelayanan_id ='.$this->kelaspelayanan_id);
+		}		
+		if (!empty($this->kategoritindakan_id)){
+			$criteria->addCondition('kategoritindakan_id ='.$this->kategoritindakan_id);
 		}
-		$criteria->compare('LOWER(daftartindakan_nama)',  strtolower($this->daftartindakan_id),true);
-		if(!empty($this->kategoritindakan_id)){
-			$criteria->addCondition('kategoritindakan_id = '.$this->kategoritindakan_id);
+		$criteria->addCondition('ruangan_id ='.Yii::app()->user->getState('ruangan_id'));
+		if(!empty($this->jenistarif_id)){
+			$criteria->addCondition('jenistarif_id = '.$this->jenistarif_id);
 		}
-		if(!empty($this->ruangan_id)){
-			$criteria->addCondition('ruangan_id = '.$this->ruangan_id);
+                if(!empty($this->kelompoktindakan_id)){
+			$criteria->addCondition('kelompoktindakan_id = '.$this->kelompoktindakan_id);
 		}
+                if(!empty($this->komponenunit_id)){
+			$criteria->addCondition('komponenunit_id = '.$this->komponenunit_id);
+		}
+                
+                $criteria->compare('LOWER(daftartindakan_nama)',  strtolower($this->daftartindakan_nama), TRUE);
+		$criteria->limit = 10;
+
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
