@@ -1,9 +1,9 @@
 <div class="white-container">
-    <legend class="rim2">Infomasi <b>Tarif Laboratorium</b></legend>
+    <legend class="rim2">Infomasi Tarif <b>Laboratorium</b></legend>
     <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery.tiler.js'); ?>
     <?php $this->widget('bootstrap.widgets.BootAlert'); ?>
     <div class="block-tabel">
-        <h6>Tabel <b>Tarif Laboratorium</b></h6>
+        <h6>Tabel Informasi Tarif <b>Laboratorium</b></h6>
         <?php $format = new MyFormatter();
         $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'id'=>'daftarTindakan-grid',

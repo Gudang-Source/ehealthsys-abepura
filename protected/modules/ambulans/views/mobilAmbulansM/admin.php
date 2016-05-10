@@ -1,8 +1,8 @@
 <div class="white-container">
     <legend class="rim2">Pengaturan <b>Mobil Ambulans</b></legend>
-    <?php $this->renderPartial('_tabMenu',array()); ?>
-    <div class="biru">
-        <div class="white">
+    <?php //$this->renderPartial('_tabMenu',array()); ?>
+    <!--<div class="biru">
+        <div class="white">-->
             <?php
             //$daftartindakan_nama = CHtml::activeId($model,'inventarisaset_id');
             $this->breadcrumbs=array(
@@ -149,8 +149,8 @@
                     }',
                 )); ?>
             <!--</div>-->
-        </div>
-    </div>
+        <!--</div>
+    </div>-->
     <?php 		
     $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
     $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai        

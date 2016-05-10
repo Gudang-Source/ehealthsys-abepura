@@ -57,25 +57,25 @@
                     <div class="control-group">
                         <?php echo CHtml::label('Kelas Pelayanan','kelaspelayanan',array('class'=>"control-label required")) ?>
                         <div class="controls">
-                            <?php echo CHtml::textfield('kelaspelayanan_id', $model->kelaspelayanan_nama,array('onkeypress'=>"return $(this).focusNextInputField(event)",'readonly'=>TRUE,)) ?>
+                            <?php echo CHtml::textfield('kelaspelayanan_id', $model->kelaspelayanan_nama,array('onkeypress'=>"return $(this).focusNextInputField(event)",'readonly'=>TRUE)) ?>
                         </div>
                     </div>
                     <div class="control-group">
                         <?php echo CHtml::label('Persen Diskon','persen_diskon',array('class'=>"control-label required")) ?>
                         <div class="controls">
-                            <?php echo CHtml::textfield('persendiskon_tind', $model->persendiskon_tind,array('onkeypress'=>"return $(this).focusNextInputField(event)",'readonly'=>TRUE,)) ?>
+                            <?php echo CHtml::textfield('persendiskon_tind', $model->persendiskon_tind,array('onkeypress'=>"return $(this).focusNextInputField(event)",'readonly'=>TRUE,'style' => 'text-align:right')) ?>
                         </div>
                     </div>
                     <div class="control-group">
                         <?php echo CHtml::label('Harga Diskon','harga_diskon',array('class'=>"control-label required")) ?>
                         <div class="controls">
-                            <?php echo CHtml::textfield('hargadiskon_tind', $model->hargadiskon_tind,array('onkeypress'=>"return $(this).focusNextInputField(event)",'readonly'=>TRUE,)) ?>
+                            <?php echo CHtml::textfield('hargadiskon_tind', $model->hargadiskon_tind,array('onkeypress'=>"return $(this).focusNextInputField(event)",'readonly'=>TRUE,'style' => 'text-align:right')) ?>
                         </div>
                     </div>
                     <div class="control-group">
                         <?php echo CHtml::label('Persen Cyto','persen_cyto',array('class'=>"control-label required")) ?>
                         <div class="controls">
-                            <?php echo CHtml::textfield('persencyto_tind', $model->persencyto_tind,array('onkeypress'=>"return $(this).focusNextInputField(event)",'readonly'=>TRUE,)) ?>
+                            <?php echo CHtml::textfield('persencyto_tind', $model->persencyto_tind,array('onkeypress'=>"return $(this).focusNextInputField(event)",'readonly'=>TRUE,'style' => 'text-align:right')) ?>
                         </div>
                     </div>
                 </td>
@@ -96,10 +96,10 @@
                          * Kondisi untuk menentukan textfield dari komponentarif total harga dan yang komponen tarif biasa
                          */
                         if ($tind->komponentarif_id == Params::KOMPONENTARIF_ID_TOTAL) {
-                            $textField = CHtml::textField('totaltariftindakan',$tind->harga_tariftindakan,array("readonly"=>TRUE));
+                            $textField = CHtml::textField('totaltariftindakan',  number_format($tind->harga_tariftindakan,0,'','.'),array("readonly"=>TRUE,'style' => 'text-align:right'));
                         }else
                         {
-                            $textField = CHtml::textField('hargatariftindakan[]',$tind->harga_tariftindakan,array("readonly"=>TRUE,'onkeypress'=>"return $(this).focusNextInputField(event)"));
+                            $textField = CHtml::textField('hargatariftindakan[]',number_format($tind->harga_tariftindakan,0,'','.'),array("readonly"=>TRUE,'onkeypress'=>"return $(this).focusNextInputField(event)",'style' => 'text-align:right'));
                         }
 
                         echo '<td>'.$textField.'</td>';

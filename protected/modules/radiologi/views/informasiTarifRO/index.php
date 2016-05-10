@@ -1,8 +1,8 @@
 <div class="white-container">
-    <legend class="rim2">Infomasi <b>Tarif Radiologi</b></legend>
+    <legend class="rim2">Infomasi Tarif <b>Radiologi</b></legend>
     <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery.tiler.js'); ?>
     <div class="block-tabel">
-        <h6>Tabel <b>Tarif Radiologi</b></h6>
+        <h6>Tabel Informasi Tarif <b>Radiologi</b></h6>
         <?php $this->widget('bootstrap.widgets.BootAlert'); ?>
         <?php $format = new MyFormatter();
             $this->widget('ext.bootstrap.widgets.BootGridView',array(
