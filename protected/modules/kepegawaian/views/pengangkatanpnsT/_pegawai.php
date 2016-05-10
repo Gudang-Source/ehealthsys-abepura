@@ -127,7 +127,12 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 'nama_pegawai',
                 'tempatlahir_pegawai',
                 'tgl_lahirpegawai',
-                'jeniskelamin',
+                //'jeniskelamin',
+                array(
+                    'header' => 'Jenis Kelamin',
+                    'name' => 'jeniskelamin',
+                    'filter' => CHtml::dropDownList('KPRegistrasifingerprint[jeniskelamin]', $modPegawai->jeniskelamin, LookupM::getItems('jeniskelamin'), array('empty'=>'-- Pilih --')),
+                ),
                 'statusperkawinan',
                 'jabatan.jabatan_nama',
                 'alamat_pegawai',
