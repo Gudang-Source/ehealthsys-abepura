@@ -17,7 +17,7 @@
                 'kelaspelayanan_nama',
                 array(
                     'name'=>'tarifTotal',
-                    'value'=>'$this->grid->getOwner()->renderPartial(\'_tarifTotal\',array(\'kelaspelayanan_id\'=>$data->kelaspelayanan_id,\'daftartindakan_id\'=>$data->daftartindakan_id),true)',
+                    'value'=>'$this->grid->getOwner()->renderPartial(\'_tarifTotal\',array(\'kelaspelayanan_id\'=>$data->kelaspelayanan_id,\'daftartindakan_id\'=>$data->daftartindakan_id, \'jenistarif_id\'=>$data->jenistarif_id),true)',
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                 ),
                  array(

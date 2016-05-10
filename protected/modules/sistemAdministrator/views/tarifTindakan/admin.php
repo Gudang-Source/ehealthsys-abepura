@@ -62,7 +62,7 @@
                              'value'=>'$data->kelaspelayanan_nama',
                     ),
                     array(
-                            'header'=>'Daftar Tindakan',
+                            'header'=>'Kategori Tindakan',
                             'name'=>'kategoritindakan_id',
                             'filter'=>  CHtml::dropDownList('TariftindakanperdaV[kategoritindakan_id]',$model->kategoritindakan_id,CHtml::listData(SATarifTindakanM ::model()->KategoriTindakanItems, 'kategoritindakan_id', 'kategoritindakan_nama'),array('empty'=>'-- Pilih --')),
     //                        'value'=>array($this,'gridKategoriTindakan'),
@@ -85,7 +85,7 @@
                         'header'=>'Tarif Tindakan',
                         'name'=>'harga_tariftindakan',
                         'type'=>'raw',
-                        'value'=>'"Rp. ".number_format($data->harga_tariftindakan,0,"",".")',
+                        'value'=>'"Rp".number_format($data->harga_tariftindakan,0,"",".")',
                         'htmlOptions' => array('style'=>'text-align:right')
                     ),
     //		'harga_tariftindakan',

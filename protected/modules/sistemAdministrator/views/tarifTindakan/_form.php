@@ -185,7 +185,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 array(
                     'header'=>'Pilih',
                     'type'=>'raw',
-                    'value'=>'CHtml::Link("<i class=\"icon-check\"></i>","#",
+                    'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",
                                     array(
                                             "class"=>"btn-small",
                                             "id" => "selectbarang",
@@ -202,11 +202,13 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'header'=>'Kelompok Tindakan',
                     'name'=>'kelompoktindakan_nama',
                     'value'=>'isset($data->kelompoktindakan->kelompoktindakan_nama)?$data->kelompoktindakan->kelompoktindakan_nama:" - "',
+                    'filter' => CHtml::dropDownList('DaftartindakanM[kelompoktindakan_nama]',$modDaftarTindakan->kelompoktindakan_nama, CHtml::listData($modDaftarTindakan->getKelompokTindakanItems(), 'kelompoktindakan_nama', 'kelompoktindakan_nama'), array('empty'=>'-- Pilih --'))
                 ),
                 array(
                     'header'=>'Kategori Tindakan',
                     'name'=>'kategoritindakan_nama',
                     'value'=>'isset($data->kategoritindakan->kategoritindakan_nama)?$data->kategoritindakan->kategoritindakan_nama:" - "',
+                    'filter' => CHtml::dropDownList('DaftartindakanM[kategoritindakan_nama]',$modDaftarTindakan->kategoritindakan_nama, CHtml::listData($modDaftarTindakan->getKategoriTindakanItems(), 'kategoritindakan_nama', 'kategoritindakan_nama'), array('empty'=>'-- Pilih --'))
                 ),
     ),
         'afterAjaxUpdate'=>'function(id, data){
