@@ -6,7 +6,9 @@ class InformasiTarifController extends MyAuthController
 	{
                 //$idInstalasi=Yii::app()->user->getState('instalasi_id');
 //                $idRuangan=Yii::app()->user->getState('ruangan_id');
-                $modTarifTindakanRuanganV = new RMTariftindakanperdaruanganV;
+                $modTarifTindakanRuanganV = new RMTariftindakanperdaruanganV('searchInformasi');
+                $modTarifTindakanRuanganV->jenistarif_id = Params::JENISTARIF_ID_PELAYANAN;
+		//$modTarifTindakanRuanganV->instalasi_id = Yii::app()->user->getState('instalasi_id');
 //                $modTarifTindakanRuanganV->instalasi_id=$idInstalasi;
 //                $modTarifTindakanRuanganV->ruangan_id=$idRuangan;
                 

@@ -1,4 +1,5 @@
-<?php $baseUrl = Yii::app()->createUrl("/");?>
+<?php $baseUrl = Yii::app()->createUrl("/");
+?>
 <script type='text/javascript'>
 function setTab(obj){
     $(obj).parents("ul").find("li").each(function(){
@@ -10,7 +11,7 @@ function setTab(obj){
     var tab = $(obj).attr("tab");
     var frameObj = document.getElementById("frame");
     resetIframe(frameObj);
-    $(frameObj).attr("src","<?php echo $baseUrl;?>?r="+tab+"<?php //echo $gets;?>");
+    $(frameObj).attr("src","<?php echo $baseUrl;?>?r="+tab+"&filterruangan=<?php echo (in_array(Yii::app()->user->getState('instalasi_id'), array(Params::INSTALASI_ID_IBS))?1:''); ?>");
     $(frameObj).parent().addClass("animation-loading");
     $(frameObj).load(function(){
          $(frameObj).parent().removeClass("animation-loading");

@@ -174,10 +174,11 @@ $this->renderPartial('rekapJasaDokter/_search', array(
 	?>
 </div>
 <?php
+$filterruangan = in_array(Yii::app()->user->getState('instalasi_id'), array(Params::INSTALASI_ID_IBS))?1:'';
 $jsx = <<< JSCRIPT
 function print(caraPrint)
 {
-    window.open("${urlPrint}/"+$('#searchLaporan').serialize()+"&caraPrint="+caraPrint,"",'location=_new, width=900px, scrollbars=yes');
+    window.open("${urlPrint}/"+$('#searchLaporan').serialize()+"&caraPrint="+caraPrint+"&filterruangan=${filterruangan}","",'location=_new, width=900px, scrollbars=yes');
 }
 JSCRIPT;
 Yii::app()->clientScript->registerScript('print', $jsx, CClientScript::POS_HEAD);

@@ -20,19 +20,23 @@ class PegawaiMController extends MyAuthController
 		));
 	}
         
-	public function actionViewUser($id='')
+	public function actionViewUser($id='', $sukses='')
 	{
-		$loginpemakai = Yii::app()->user->id;
-		$criteria = new CDbCriteria;
-		$criteria->compare('loginpemakai_id',$loginpemakai);
-		$pegawai = LoginpemakaiK::model()->find($criteria);
-//                                    echo $pegawai->pegawai_id;
-		if(empty($id))
-			$id = $pegawai->pegawai_id;
-                                    
-		$this->render('viewUser',array(
-			'model'=>$this->loadModel($id),
-		));
+            if ($sukses == 1):
+                Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');    
+            endif;
+            
+            $loginpemakai = Yii::app()->user->id;
+            $criteria = new CDbCriteria;
+            $criteria->addCondition('loginpemakai_id = '.$loginpemakai);
+            $pegawai = LoginpemakaiK::model()->find($criteria);
+            if(empty($id)){
+                    $id = $pegawai->pegawai_id;
+            }                    
+            $this->render('viewUser',
+                    array(
+                        'model'=>$this->loadModel($id)
+                    ));
 	}
         
 	public function actionProfilKlinik()
@@ -692,7 +696,137 @@ class PegawaiMController extends MyAuthController
 		));
 	}
 
+        public function actionUpdateUser($id='')
+	{
+                $loginpemakai = Yii::app()->user->id;
+		$criteria = new CDbCriteria;
+		$criteria->addCondition('loginpemakai_id = '.$loginpemakai);
+		$pegawai = LoginpemakaiK::model()->find($criteria);
+		if(empty($id)){
+			$id = $pegawai->pegawai_id;
+                }
+		$model=$this->loadModel($id);
+		$modRuanganPegawai=RuanganpegawaiM::model()->findAll('pegawai_id='.$id.'');
+		$temLogo=$model->photopegawai;
+		$format = new MyFormatter();
+		if(isset($_POST['KPPegawaiM']))
+		{
+			$transaction = Yii::app()->db->beginTransaction();
+			try {
+					  $random= $model->nomorindukpegawai;
+					  $model->attributes=$_POST['KPPegawaiM'];
+					  $model->profilrs_id=Params::DEFAULT_PROFIL_RUMAH_SAKIT;
+					  $model->update_time = date('Y-m-d');
+					  $model->update_loginpemakai_id = Yii::app()->user->id;
+					  if(!empty($_POST['KPPegawaiM']['tgl_lahirpegawai'])){
+							$model->tgl_lahirpegawai = $format->formatDateTimeForDb($model->tgl_lahirpegawai);
+					  }else{
+						  $model->tgl_lahirpegawai = null;
+					  }
 
+					  if(!empty($_POST['KPPegawaiM']['tglditerima'])){
+							$model->tglditerima = $format->formatDateTimeForDb($model->tglditerima);
+					  }else{
+						  $model->tglditerima = null;
+					  }
+
+					$model->pegawai_aktif=true;
+					$model->photopegawai = CUploadedFile::getInstance($model, 'photopegawai');
+					$gambar=$model->photopegawai;
+					if(isset($model->photopegawai)){ 
+						if($_POST['caraAmbilPhoto']=='file')//Jika User Mengambil photo pegawai dengan cara upload file
+						{ 
+							if(!empty($model->photopegawai))//Klo User Memasukan Logo
+							{ 
+								$model->photopegawai =$random.'.'.$model->photopegawai->getExtensionName();//.$model->photopegawai
+								Yii::import("ext.EPhpThumb.EPhpThumb");
+								$thumb=new EPhpThumb();
+								$thumb->init(); //this is needed
+								$fullImgName =$model->photopegawai;   
+								$fullImgSource = Params::pathPegawaiDirectory().$fullImgName;
+								$fullThumbSource = Params::pathPegawaiTumbsDirectory().'kecil_'.$fullImgName;
+//                                    if($model->save())
+								if($model->update())
+								{ 
+									if(!empty($temLogo))
+									{ 
+										if(file_exists(Params::pathPegawaiDirectory().$temLogo))
+										{
+											unlink(Params::pathPegawaiDirectory().$temLogo);
+										}
+										if(file_exists(Params::pathIconModulThumbsDirectory().'kecil_'.$temLogo))
+										{
+											unlink(Params::pathIconModulThumbsDirectory().'kecil_'.$temLogo);
+										}
+									}
+									$gambar->saveAs($fullImgSource);
+									$thumb->create($fullImgSource)
+										->resize(200,200)
+										->save($fullThumbSource);
+								}
+								else
+								{
+									Yii::app()->user->setFlash('error', 'Data <strong>Gagal!</strong>  disimpan.');
+								}
+							}else{
+							   $model->photopegawai = $model->photopegawai;
+							}
+
+						}   
+						else 
+						{
+							////Jika user Memasukan Photo Dari Webcam
+							if(!empty($temLogo))
+							{                        
+								if(!empty($temLogo))
+								{ 
+									if(file_exists(Params::pathPegawaiDirectory().$temLogo))
+									{
+										unlink(Params::pathPegawaiDirectory().$temLogo);
+									}
+									if(file_exists(Params::pathIconModulThumbsDirectory().'kecil_'.$temLogo))
+									{
+										unlink(Params::pathIconModulThumbsDirectory().'kecil_'.$temLogo);
+									}                                        
+								}
+							}
+							$model->update();
+						}
+					}else{
+						$model->photopegawai = $temLogo;
+					}
+
+					/*if(!empty($_POST['ruangan_id']))
+						$jumlahRuanganPegawai = COUNT($_POST['ruangan_id']);
+					else
+						$jumlahRuanganPegawai = 0;
+						$pegawai_id=$model->pegawai_id;
+						$hapusRuanganPegawai=  RuanganpegawaiM::model()->deleteAll('pegawai_id='.$pegawai_id.''); 
+						for($i=0; $i<$jumlahRuanganPegawai; $i++)
+						{
+							$modRuanganPegawai = new RuanganpegawaiM;
+							$modRuanganPegawai->ruangan_id=isset($_POST['ruangan_id'][$i]) ? $_POST['ruangan_id'][$i] : null;
+							$modRuanganPegawai->pegawai_id=$pegawai_id;
+							$modRuanganPegawai->save();
+						}*/
+						// $gelardepan = LookupM::model()->findByPk($model->gelardepan);
+						// $model->gelardepan = $gelardepan->lookup_name;
+						$model->update(); // update data 
+						$transaction->commit();
+				 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan !');    
+				 $this->redirect(array('viewUser','sukses'=>1));  
+			 }
+			catch (Exception $e)
+			{
+				 $transaction->rollback();
+				 Yii::app()->user->setFlash('error',"Data gagal disimpan ".MyExceptionMessage::getMessage($e,true));
+			}                 
+		}
+                
+			$this->render('updateUser',array(
+			'model'=>$model,'modRuanganPegawai'=>$modRuanganPegawai,'format'=>$format
+		));
+	}
 	/**
 	 * Deletes a particular model.
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.

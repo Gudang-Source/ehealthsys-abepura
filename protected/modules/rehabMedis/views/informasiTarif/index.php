@@ -8,15 +8,16 @@
             'template'=>"{summary}\n{items}\n{pager}",
             'itemsCssClass'=>'table table-striped table-condensed',
             'columns'=>array(
-                    array(
+                  /*  array(
                         'header'=>'No.',
                         'value'=>'$row+1',
-                    ),
+                    ),*/
                     'jenistarif_nama',
                     'kelompoktindakan_nama',
+                    'komponenunit_nama',
                     'kategoritindakan_nama',
                     'daftartindakan_nama',
-                    'kelaspelayanan_nama',
+                    'kelaspelayanan_nama',                    
     //                'ruangan_id',
 
                   array(
@@ -53,8 +54,8 @@
                 'options'=>array(
                 'title'=>'Komponen Tarif',
                 'autoOpen'=>false,
-                'width'=>250,
-                'height'=>300,
+                'width'=>350,
+                'height'=>350,
                 'resizable'=>false,
                 'scroll'=>false    
                  ),
@@ -87,17 +88,19 @@
 
         )); ?>
         <?php //echo $form->dropDownListRow($modTarifTindakanRuanganV,'daftartindakan_id',CHtml::listData(TariftindakanperdaruanganV::model()->findAll(), 'daftartindakan_id', 'daftartindakan_nama'),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
-        <table width="100%" id="formCariInput">
+        <table width="100%">
             <tr>
                 <td>
-                    <?php echo $form->dropDownListRow($modTarifTindakanRuanganV,'kategoritindakan_id',CHtml::listData(KategoritindakanM::model()->findAll('kategoritindakan_aktif = true'), 'kategoritindakan_id', 'kategoritindakan_nama'),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
-                    <?php echo $form->dropDownListRow($modTarifTindakanRuanganV,'jenistarif_id',CHtml::listData(JenistarifM::model()->findAll('jenistarif_aktif = true'), 'jenistarif_id', 'jenistarif_nama'),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+                    <?php echo $form->dropDownListRow($modTarifTindakanRuanganV, 'jenistarif_id', CHtml::listData(JenistarifM::model()->findAllByAttributes(array('jenistarif_aktif'=>true), array('order'=>'jenistarif_nama ASC')), 'jenistarif_id', 'jenistarif_nama'), array('class'=>'span3', 'empty'=>'-- Pilih --')); ?>
+                    <?php echo $form->dropDownListRow($modTarifTindakanRuanganV, 'kelompoktindakan_id', CHtml::listData(KelompoktindakanM::model()->findAllByAttributes(array('kelompoktindakan_aktif'=>true), array('order'=>'kelompoktindakan_nama ASC')), 'kelompoktindakan_id', 'kelompoktindakan_nama'), array('class'=>'span3', 'empty'=>'-- Pilih --')); ?>
                 </td>
                 <td>
-                    <?php echo $form->dropDownListRow($modTarifTindakanRuanganV,'kelaspelayanan_id',CHtml::listData(KelaspelayananM::model()->findAll('kelaspelayanan_aktif = true'), 'kelaspelayanan_id', 'kelaspelayanan_nama'),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+                    <?php echo $form->dropDownListRow($modTarifTindakanRuanganV, 'komponenunit_id', CHtml::listData(KomponenunitM::model()->findAllByAttributes(array('komponenunit_aktif'=>true), array('order'=>'komponenunit_nama ASC')), 'komponenunit_id', 'komponenunit_nama'), array('class'=>'span3', 'empty'=>'-- Pilih --')); ?>
+                    <?php echo $form->dropDownListRow($modTarifTindakanRuanganV,'kategoritindakan_id',CHtml::listData($modTarifTindakanRuanganV->getKategoritindakanItems(), 'kategoritindakan_id', 'kategoritindakan_nama'),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
                 </td>
                 <td>
-                    <?php echo $form->textFieldRow($modTarifTindakanRuanganV,'daftartindakan_id',array('placeholder'=>'Ketik Daftar Tindakan', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30)); ?>
+                    <?php echo $form->dropDownListRow($modTarifTindakanRuanganV,'kelaspelayanan_id',CHtml::listData($modTarifTindakanRuanganV->getKelasPelayananItems(), 'kelaspelayanan_id', 'kelaspelayanan_nama'),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+                    <?php echo $form->textFieldRow($modTarifTindakanRuanganV,'daftartindakan_nama',array('style'=>'width:204px', 'onkeypress'=>"return $(this).focusNextInputField(event);",'placeholder'=>'Ketik Nama Daftar Tindakan')); ?>
                 </td>
             </tr>
         </table>
@@ -107,7 +110,7 @@
                 <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),
                                                     array('class'=>'btn btn-blue', 'type'=>'button', 'onclick'=>'printTarif()')); ?>
                 <?php 
-                   $content = $this->renderPartial('../tips/informasi',array(),true);
+                   $content = $this->renderPartial('../tips/informasiTarif',array(),true);
                                 $this->widget('UserTips',array('type'=>'admin','content'=>$content));
                 ?>
         </div>

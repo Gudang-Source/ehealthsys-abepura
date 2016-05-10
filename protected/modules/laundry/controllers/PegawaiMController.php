@@ -9,7 +9,7 @@ class PegawaiMController extends MyAuthController
 	 */
 	public $layout='//layouts/column1';
 	public $defaultAction = 'admin';
-        public $path_view = "rawatJalan.views.pegawaiM.";        
+        public $path_view = "laundry.views.pegawaiM.";        
 
 	/**
 	 * Displays a particular model.

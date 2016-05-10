@@ -2,6 +2,7 @@
 class InformasiPemesananAmbulansController extends MyAuthController
 {
     public $layout='//layouts/column1';
+    public $pathView = "ambulans.views.informasiPemesananAmbulans.";
     public function actionIndex(){
 		$model = new AMInformasipesanambulansV;
 		$format = new MyFormatter;
@@ -13,6 +14,6 @@ class InformasiPemesananAmbulansController extends MyAuthController
 			$model->tgl_awal = $format->formatDateTimeForDb($_GET['AMInformasipesanambulansV']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['AMInformasipesanambulansV']['tgl_akhir']);
 		}
-		$this->render('index',array('model'=>$model,'format'=>$format));
+		$this->render($this->pathView.'index',array('model'=>$model,'format'=>$format));
 	}
 }
