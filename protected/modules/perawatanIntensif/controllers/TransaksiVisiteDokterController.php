@@ -339,7 +339,7 @@ class TransaksiVisiteDokterController extends MyAuthController
                 $criteria->compare('lower(nama_pegawai)', strtolower($nama), true);
             }
 
-
+            
             $criteria->addCondition('ruangan_id = '.$ruangan);
             /*
             if(!empty($kelaspelayananruangan)){
