@@ -339,8 +339,9 @@ class TransaksiVisiteDokterController extends MyAuthController
                 $criteria->compare('lower(nama_pegawai)', strtolower($nama), true);
             }
 
-
+            
             $criteria->addCondition('ruangan_id = '.$ruangan);
+            /*
             if(!empty($kelaspelayananruangan)){
                     $criteria->addInCondition("kelaspelayanan_id",$kelaspelayananruangan); 	
                     if (is_array($kelaspelayananruangan)){
@@ -349,6 +350,8 @@ class TransaksiVisiteDokterController extends MyAuthController
                             $criteria->addCondition("kelaspelayanan_id = ".$kelaspelayananruangan); 	
                     }
             }
+             * 
+             */
             
             $criteria->compare('lower(no_rekam_medik)', strtolower($no_rekam_medik), true);
             $criteria->compare('lower(nama_pasien)', strtolower($nama_pasien), true);
