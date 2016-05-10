@@ -1,4 +1,7 @@
- <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?> 
+
+<?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
 	'id'=>'satarif-tindakan-m-form',
 	'enableAjaxValidation'=>false,
         'type'=>'horizontal',
@@ -75,8 +78,9 @@
             <div class="control-group">
                 <label class="control-label" >Harga Tindakan</label>
                 <div class="controls">
-                    <?php echo CHtml::textfield('harga_tariftindakan','',array('value'=>0,'class'=>'span 2 integer harga_tariftindakan', 'onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
-                    <?php echo CHtml::button( '+', array('class'=>'btn btn-primary','onkeypress'=>"tambahTarifTindakan()",'onclick'=>"tambahTarifTindakan()",'id'=>'row1-plus')); ?>
+                    <?php echo CHtml::textfield('harga_tariftindakan','',array('value'=>0,'class'=>'span 2 integer2 harga_tariftindakan', 'onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
+                    <button class="btn btn-primary" type="button" onkeypress = "tambahTarifTindakan()" onclick = "tambahTarifTindakan()" id='row1-plus'><i class="icon-plus icon-white"></i></button>
+                    
                 </div>
             </div>
         </div>
@@ -84,14 +88,14 @@
             <div class="control-group">
                 <?php echo $form->labelex($model,'Cyto',array('class'=>"control-label required")) ?>
                 <div class="controls">
-                    <?php echo $form->textField($model,'persencyto_tind',array('value'=>0,'class'=>'span1 persencyto_tind', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?> %
+                    <?php echo $form->textField($model,'persencyto_tind',array('value'=>0,'class'=>'span1 persencyto_tind', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align:right;')); ?> %
                 </div>
             </div>
 
             <div class="control-group">
                 <?php echo $form->labelex($model,'Diskon',array('class'=>"control-label required")) ?>
                 <div class="controls">
-                    <?php echo $form->textField($model,'persendiskon_tind',array('value'=>0,'class'=>'span1 persendiskon_tind', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?> %
+                    <?php echo $form->textField($model,'persendiskon_tind',array('value'=>0,'class'=>'span1 persendiskon_tind', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align:right;')); ?> %
                 </div>
             </div>
 
@@ -99,7 +103,7 @@
             <div class="control-group">
                 <?php echo $form->labelex($model,'Diskon',array('class'=>"control-label required")) ?>
                 <div class="controls">
-                    <?php echo $form->textField($model,'hargadiskon_tind',array('value'=>0,'class'=>'span1 hargadiskon_tind', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?> Rupiah
+                    <?php echo $form->textField($model,'hargadiskon_tind',array('value'=>0,'class'=>'span1 hargadiskon_tind', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align:right;')); ?> Rupiah
                 </div>
             </div>
         </div>
@@ -139,10 +143,10 @@
            <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
                     '', 
                     array('class'=>'btn btn-danger',
-                          'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;')).'&nbsp;'; ?>
+                          'onclick'=>'myConfirm("Apakah Anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;')).'&nbsp;'; ?>
 <?php
 echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Tarif Tindakan', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp";
-$content = $this->renderPartial('../tips/tipsaddedit2b',array(),true);
+$content = $this->renderPartial('../tips/tipsaddedit2g',array(),true);
 $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
 ?>
     </div>    
@@ -293,7 +297,7 @@ $this->endWidget();
             $(obj).parents('tr').detach();
             renameInputRow($('#table-tariftindakan'));
         }else{
-            myConfirm("Apakah anda ingin menghapus data ini?","Perhatian!",function(r){
+            myConfirm("Apakah Anda ingin menghapus data ini?","Perhatian!",function(r){
                 if(r){
                     $.ajax({
                         type:'POST',
