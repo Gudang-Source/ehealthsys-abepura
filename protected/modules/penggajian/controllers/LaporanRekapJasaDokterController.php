@@ -5,7 +5,9 @@ class LaporanRekapJasaDokterController extends MyAuthController{
      * actionLaporanRekapJasaDokter
      * modified : 
      */
-	public $path_view = 'penggajian.views.laporanRekapJasaDokter.';
+    public $path_view = 'penggajian.views.laporanRekapJasaDokter.';
+    public $filterRuangan = false;
+    
     public function actionLaporanRekapJasaDokter() {
         $this->pageTitle = Yii::app()->name." - Laporan Rekap Jasa Dokter";
         $model = new GJLaporantindakankomponenV('search');
@@ -29,6 +31,7 @@ class LaporanRekapJasaDokterController extends MyAuthController{
             $model->bln_akhir = $format->formatMonthForDb($_GET['GJLaporantindakankomponenV']['bln_akhir']);
             $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
             $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            if ($this->filterRuangan) $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
             switch($model->jns_periode){
                 case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
                 case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;

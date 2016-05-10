@@ -76,11 +76,11 @@ if (isset($caraPrint)){
                     'header'=>'Kompora Tarif',
                     'type'=>'raw',
                     'value'=>'0',
-                    'htmlOptions'=>array('style'=>'font-size:10px;text-align:right;'),
+                    'htmlOptions'=>array('style'=>'font-size:10px; text-align: right;'),
                 ),
                 array(
                     'header'=>'Jumlah Pembebasan',
-                    'type'=>'raw',                    
+                    'type'=>'raw',
                     'value'=>'MyFormatter::formatNumberForPrint($data->jmlpembebasan)',
                     'htmlOptions'=>array('style'=>'font-size:10px; text-align: right;'),
                 ),                                                                
