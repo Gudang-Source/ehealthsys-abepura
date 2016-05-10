@@ -979,7 +979,7 @@ class LaporanController extends MyAuthController {
         ));
     }
     
-    public function actionLaporanRekapJD() {
+    public function actionLaporanRekapJD($filterruangan=null) {
         $this->pageTitle = Yii::app()->name." - Laporan Rekap Jasa Dokter";
         $model = new BSLaporantindakankomponenV('search');
         $format = new MyFormatter();
@@ -991,6 +991,7 @@ class LaporanController extends MyAuthController {
         $model->bln_akhir = date('Y-m');
         $model->thn_awal = date('Y');
         $model->thn_akhir = date('Y');
+        if ($filterruangan == 1) $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
         
         if (isset($_GET['BSLaporantindakankomponenV'])) {
             $model->attributes = $_GET['BSLaporantindakankomponenV'];
@@ -1018,7 +1019,7 @@ class LaporanController extends MyAuthController {
         ));
     }
     
-    public function actionLaporanDetailRekapJD() {
+    public function actionLaporanDetailRekapJD($filterruangan=null) {
         $this->pageTitle = Yii::app()->name." - Laporan Rekap Jasa Dokter";
         $model = new BSLaporantindakankomponenV('search');
         $format = new MyFormatter();
@@ -1030,6 +1031,8 @@ class LaporanController extends MyAuthController {
         $model->bln_akhir = date('Y-m');
         $model->thn_awal = date('Y');
         $model->thn_akhir = date('Y');
+        
+        if ($filterruangan) $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
         
         if (isset($_GET['BSLaporantindakankomponenV'])) {
             $model->attributes = $_GET['BSLaporantindakankomponenV'];
@@ -1057,7 +1060,7 @@ class LaporanController extends MyAuthController {
         ));
     }
 
-    public function actionPrintLaporanRekapJasaDokter() {
+    public function actionPrintLaporanRekapJasaDokter($filterruangan=null) {
         $model = new BSLaporantindakankomponenV();
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -1069,6 +1072,8 @@ class LaporanController extends MyAuthController {
         $model->thn_awal = date('Y');
         $model->thn_akhir = date('Y');
         $judulLaporan = 'Laporan Rekap Jasa Dokter';
+        
+        if ($filterruangan) $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
 
         //Data Grafik
         $data['title'] = 'Grafik Laporan Rekap Jasa Dokter';
@@ -1097,7 +1102,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target,$tab);
     }
     
-    public function actionPrintLaporanDetailRekapJasaDokter() {
+    public function actionPrintLaporanDetailRekapJasaDokter($filterruangan=null) {
         $model = new BSLaporantindakankomponenV();
         $format = new MyFormatter();
         $model->unsetAttributes();
@@ -1109,6 +1114,8 @@ class LaporanController extends MyAuthController {
         $model->thn_awal = date('Y');
         $model->thn_akhir = date('Y');
         $judulLaporan = 'Laporan Detail Rekap Jasa Dokter';
+        
+        if ($filterruangan) $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
 
         //Data Grafik
         $data['title'] = 'Grafik Laporan Detail Rekap Jasa Dokter';
@@ -1137,7 +1144,7 @@ class LaporanController extends MyAuthController {
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target,$tab);
     }
 
-    public function actionFrameGrafikLaporanRekapJasaDokter() {
+    public function actionFrameGrafikLaporanRekapJasaDokter($filterruangan=null) {
         $this->layout = '//layouts/iframe';
         $model = new BSLaporantindakankomponenV();
         $format = new MyFormatter();
@@ -1149,6 +1156,8 @@ class LaporanController extends MyAuthController {
         $model->bln_akhir = date('Y-m');
         $model->thn_awal = date('Y');
         $model->thn_akhir = date('Y');
+        
+        if ($filterruangan) $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
 
         //Data Grafik
         $data['title'] = 'Grafik Laporan Rekap Jasa Dokter';
