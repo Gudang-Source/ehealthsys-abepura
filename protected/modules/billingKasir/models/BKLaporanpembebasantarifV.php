@@ -49,6 +49,7 @@ class BKLaporanpembebasantarifV extends LaporanpembebasantarifV {
 		if(!empty($this->pegawai_id)){
 			$criteria->addCondition('pegawai_id = '.$this->pegawai_id);
 		}
+                $criteria->compare('ruangan_id', $this->ruangan_id);
         $criteria->addBetweenCondition('tgl_tindakan', $this->tgl_awal, $this->tgl_akhir);
 
         return $criteria;
