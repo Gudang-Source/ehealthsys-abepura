@@ -10,6 +10,7 @@
         <th>Pembebasan <br>(Rp.)</th>
         <th>Subsidi Asuransi <br>(Rp.)</th>
         <th>Subsidi Rumah Sakit <br>(Rp.)</th>
+        <th>Subsidi Pemerintah <br>(Rp.)</th>
         <th>Tanggungan Pasien <br>(Rp.)</th><!-- Tanggungan Pasien = Iur Biaya -->
         <th>Subtotal <br>(Rp.)</th>
     </thead>
@@ -22,6 +23,7 @@
         $tot_pembebasan_tindakan = 0;
         $tot_subsidiasuransi_tindakan = 0;
         $tot_subsisidirumahsakit_tindakan = 0;
+        $tot_subsidipemerintah_tindakan = 0;
         $tot_iurbiaya_tindakan = 0;
         $total_tindakan = 0;
         $subtotal = 0;
@@ -45,6 +47,7 @@
                 $tot_pembebasan_tindakan += $tindakan->pembebasan_tindakan;
                 $tot_subsidiasuransi_tindakan += $tindakan->subsidiasuransi_tindakan;
                 $tot_subsisidirumahsakit_tindakan += $tindakan->subsisidirumahsakit_tindakan;
+                $tot_subsidipemerintah_tindakan += $tindakan->subsidipemerintah_tindakan;
                 $tot_iurbiaya_tindakan += $tindakan->iurbiaya_tindakan;
                 $total_tindakan += $tindakan->subtotal;
                 $tindakan->qty_tindakan = $format->formatNumberForPrint($tindakan->qty_tindakan);
@@ -54,7 +57,7 @@
                 $tindakan->pembebasan_tindakan = $format->formatNumberForPrint($tindakan->pembebasan_tindakan);
                 $tindakan->subsidiasuransi_tindakan = $format->formatNumberForPrint($tindakan->subsidiasuransi_tindakan);
                 $tindakan->subsisidirumahsakit_tindakan = $format->formatNumberForPrint($tindakan->subsisidirumahsakit_tindakan);
-//                  DISAMAKAN DENGAN subtotal >>  $tindakan->iurbiaya_tindakan = $format->formatNumberForPrint($tindakan->iurbiaya_tindakan);
+//                      DISAMAKAN DENGAN subtotal >>  $tindakan->iurbiaya_tindakan = $format->formatNumberForPrint($tindakan->iurbiaya_tindakan);
                 $tindakan->iurbiaya_tindakan = $format->formatNumberForPrint($tindakan->subtotal);
                 $tindakan->subtotal = $format->formatNumberForPrint($tindakan->subtotal);
                 echo '<tr>'
@@ -71,6 +74,7 @@
                         .'<td>'.CHtml::activeTextField($tindakan, '['.$i.']pembebasan_tindakan',array('onblur'=>'hitungTotalTindakan();','class'=>'inputFormTabel lebar3 integer2', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
                         .'<td>'.CHtml::activeTextField($tindakan, '['.$i.']subsidiasuransi_tindakan',array('onblur'=>'hitungTotalTindakan();','class'=>'inputFormTabel lebar3 integer2', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
                         .'<td>'.CHtml::activeTextField($tindakan, '['.$i.']subsisidirumahsakit_tindakan',array('onblur'=>'hitungTotalTindakan();','class'=>'inputFormTabel lebar3 integer2', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
+                        .'<td>'.CHtml::activeTextField($tindakan, '['.$i.']subsidipemerintah_tindakan',array('onblur'=>'hitungTotalTindakan();','class'=>'inputFormTabel lebar3 integer2', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
                         .'<td>'.CHtml::activeTextField($tindakan, '['.$i.']iurbiaya_tindakan',array('readonly'=>true,'class'=>'inputFormTabel lebar3 integer2', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
                         .'<td>'.CHtml::activeTextField($tindakan, '['.$i.']subtotal',array('readonly'=>true,'class'=>'inputFormTabel lebar3 integer2', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
                     .'</tr>';
@@ -86,6 +90,7 @@
         $tot_discount_tindakan = $format->formatNumberForPrint($tot_discount_tindakan);
         $tot_pembebasan_tindakan = $format->formatNumberForPrint($tot_pembebasan_tindakan);
         $tot_subsidiasuransi_tindakan = $format->formatNumberForPrint($tot_subsidiasuransi_tindakan);
+        $tot_subsidipemerintah_tindakan = $format->formatNumberForPrint($tot_subsidipemerintah_tindakan);
         $tot_subsisidirumahsakit_tindakan = $format->formatNumberForPrint($tot_subsisidirumahsakit_tindakan);
         $tot_iurbiaya_tindakan = $format->formatNumberForPrint($total_tindakan);
         $total_tindakan = $format->formatNumberForPrint($total_tindakan);
@@ -97,6 +102,7 @@
         <td><?php echo CHtml::textField('tot_pembebasan_tindakan',$tot_pembebasan_tindakan,array('onblur'=>'proporsiPembebasanTindakan();','readonly'=>true,'class'=>'inputFormTabel lebar3 integer2','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
         <td><?php echo CHtml::textField('tot_subsidiasuransi_tindakan',$tot_subsidiasuransi_tindakan,array('onblur'=>'proporsiSubsidiAsuransiTindakan();','readonly'=>true,'class'=>'inputFormTabel lebar3 integer2','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
         <td><?php echo CHtml::textField('tot_subsisidirumahsakit_tindakan',$tot_subsisidirumahsakit_tindakan,array('onblur'=>'proporsiSubsidiRsTindakan();','readonly'=>true,'class'=>'inputFormTabel lebar3 integer2','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
+        <td><?php echo CHtml::textField('tot_subsidipemerintah_tindakan',$tot_subsidipemerintah_tindakan,array('onblur'=>'proporsiSubsidiPemerintahTindakan();','readonly'=>true,'class'=>'inputFormTabel lebar3 integer2','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
         <td><?php echo CHtml::textField('tot_iurbiaya_tindakan',$tot_iurbiaya_tindakan,array('readonly'=>true,'class'=>'inputFormTabel lebar3 integer2','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
         <td><?php echo CHtml::textField('total_tindakan',$total_tindakan,array('readonly'=>true,'class'=>'inputFormTabel lebar3 integer2','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
     </tfoot>

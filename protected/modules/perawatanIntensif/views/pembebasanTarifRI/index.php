@@ -74,7 +74,7 @@
                                                 'attribute'=>'tglpembebasan',
                                                 'mode'=>'datetime',
                                                 'options'=> array(
-                                                    'dateFormat'=>Params::DATE_FORMAT_MEDIUM,
+                                                    'dateFormat'=>Params::DATE_FORMAT,
                                                     'maxDate' => 'd',
                                                 ),
                                                 'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker2-5'),

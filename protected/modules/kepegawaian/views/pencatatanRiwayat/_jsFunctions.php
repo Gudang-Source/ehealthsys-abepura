@@ -29,7 +29,7 @@ $.ajax({
             $("#photo_pasien").attr('src',url);
         }  
         
-        $("#form-pegawai > legend > .judul").html('Data Pegawai '+data.nomorindukpegawai);
+        $("#form-pegawai > legend > .judul").html('Data Pegawai ' + data.nama_pegawai + ' ');
         $("#form-pegawai > legend > .tombol").attr('style','display:true;');
         $("#form-pegawai > .box").addClass("well").removeClass("box");
         

@@ -50,6 +50,6 @@
         )); ?>
     </div>
     <fieldset class="box">
-        <?php $this->renderPartial('_searchPemesanan',array('model'=>$model,'format'=>$format)) ?>
+        <?php $this->renderPartial($this->pathView.'_searchPemesanan',array('model'=>$model,'format'=>$format)) ?>
     </fieldset>
 </div>

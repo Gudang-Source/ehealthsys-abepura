@@ -75,7 +75,7 @@ class PencatatanRiwayatController extends MyAuthController
 	                'pegawai_id'=>$data->pegawai_id,
 	                'nama_pegawai'=>$data->nama_pegawai,
 	                'tempatlahir_pegawai'=>$data->tempatlahir_pegawai,
-	                'tgl_lahirpegawai' => $data->tgl_lahirpegawai,
+	                'tgl_lahirpegawai' => MyFormatter::formatDateTimeForUser($data->tgl_lahirpegawai),
 	                'jabatan_nama'=> (isset($data->jabatan->jabatan_nama) ? $data->jabatan->jabatan_nama : ''),
 	                'pangkat_nama'=> (isset($data->pangkat->pangkat_nama) ? $data->pangkat->pangkat_nama : ''),
 	                'kategoripegawai'=>$data->kategoripegawai,
