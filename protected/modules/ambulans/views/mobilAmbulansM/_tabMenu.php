@@ -4,7 +4,7 @@ $this->widget('bootstrap.widgets.BootMenu', array(
     'stacked'=>false, // whether this is a stacked menu
     'items'=>array(
         array('label'=>'Mobil Ambulans', 'url'=>$this->createUrl('/ambulans/MobilAmbulansM/admin'), 'active'=>true),
-        array('label'=>'Tarif Ambulans', 'url'=>$this->createUrl('/ambulans/TarifAmbulansM/admin'),),
+       // array('label'=>'Tarif Ambulans', 'url'=>$this->createUrl('/ambulans/TarifAmbulansM/admin'),),
     ),
 )); 
 ?>

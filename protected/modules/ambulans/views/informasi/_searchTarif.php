@@ -1,3 +1,5 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?> 
 <legend class="rim"><i class="icon-white icon-search"></i> Pencarian</legend>
 <div class="search-form">
 <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
@@ -73,8 +75,8 @@
                 ?>
             </td>
             <td>
-                <?php echo $form->textFieldRow($modTarif,'tarifperkm',array('class'=>'span1 numbers-only')); ?>
-                <?php echo $form->textFieldRow($modTarif,'tarifambulans',array('class'=>'span1 numbers-only')); ?>
+                <?php echo $form->textFieldRow($modTarif,'tarifperkm',array('class'=>'span2 integer2')); ?>
+                <?php echo $form->textFieldRow($modTarif,'tarifambulans',array('class'=>'span2 integer2')); ?>
             </td>
         </tr>
     </table>

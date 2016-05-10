@@ -5,7 +5,7 @@ class InformasiTarifController extends MyAuthController
         
 	public function actionIndex()
 	{
-//                $idInstalasi=Yii::app()->user->getState('instalasi_id');
+                $idInstalasi=Yii::app()->user->getState('instalasi_id');
                 $idRuangan=Yii::app()->user->getState('ruangan_id');
                 $modTarifTindakanRuanganV = new AMTarifTindakanPerdaRuanganV;
                 $modTarifTindakanRuanganV->instalasi_id=$idInstalasi;
@@ -18,7 +18,7 @@ class InformasiTarifController extends MyAuthController
 		$this->render('index',array('modTarifTindakanRuanganV'=>$modTarifTindakanRuanganV));
 	}
         
-        public function actionDetailsTarif($idKelasPelayanan,$idDaftarTindakan, $idKategoriTindakan){
+        public function actionDetailsTarif($idKelasPelayanan,$idDaftarTindakan, $idKategoriTindakan, $jenistarif_id){
             
             $this->layout='//layouts/iframe';
             if($idKelasPelayanan!=''){
