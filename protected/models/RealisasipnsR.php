@@ -41,10 +41,10 @@ class RealisasipnsR extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('realisasipns_masakerjatahun, realisasipns_masakerjabulan', 'numerical', 'integerOnly'=>true),
-			array('realisasipns_gajipokok', 'numerical'),
+			//array('realisasipns_masakerjatahun, realisasipns_masakerjabulan', 'numerical', 'integerOnly'=>true),
+			//array('realisasipns_gajipokok', 'numerical'),
 			array('realisasipns_nosk, realisasipns_pejabatyangberwena', 'length', 'max'=>50),
-			array('pengangkatanpns_id, realisasipns_tglsk', 'safe'),
+			array('pengangkatanpns_id, realisasipns_tglsk, realisasipns_gajipokok, realisasipns_masakerjatahun, realisasipns_masakerjabulan', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('realisasipns_id, pengangkatanpns_id, realisasipns_tglsk, realisasipns_nosk, realisasipns_masakerjatahun, realisasipns_masakerjabulan, realisasipns_gajipokok, realisasipns_pejabatyangberwena', 'safe', 'on'=>'search'),

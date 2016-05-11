@@ -9,6 +9,7 @@ class GolonganUmurMController extends MyAuthController
 	 */
 	public $layout='//layouts/column1';
 	public $defaultAction = 'admin';
+        public $path_view = 'sistemAdministrator.views.golonganUmurM.';
 
 	/**
 	 * Displays a particular model.
@@ -16,7 +17,7 @@ class GolonganUmurMController extends MyAuthController
 	 */
 	public function actionView($id)
 	{
-		$this->render('view',array(
+		$this->render($this->path_view.'view',array(
 			'model'=>$this->loadModel($id),
 		));
 	}
@@ -41,7 +42,7 @@ class GolonganUmurMController extends MyAuthController
                         }
 		}
 
-		$this->render('create',array(
+		$this->render($this->path_view.'create',array(
 			'model'=>$model,
 		));
 	}
@@ -67,7 +68,7 @@ class GolonganUmurMController extends MyAuthController
                         }
 		}
 
-		$this->render('update',array(
+		$this->render($this->path_view.'update',array(
 			'model'=>$model,
 		));
 	}
@@ -79,7 +80,7 @@ class GolonganUmurMController extends MyAuthController
 	public function actionIndex()
 	{
 		$dataProvider=new CActiveDataProvider('SAGolonganUmurM');
-		$this->render('index',array(
+		$this->render($this->path_view.'index',array(
 			'dataProvider'=>$dataProvider,
 		));
 	}
@@ -94,7 +95,7 @@ class GolonganUmurMController extends MyAuthController
 		if(isset($_GET['SAGolonganUmurM']))
 			$model->attributes=$_GET['SAGolonganUmurM'];
 
-		$this->render('admin',array(
+		$this->render($this->path_view.'admin',array(
 			'model'=>$model,
 		));
 	}
@@ -196,12 +197,12 @@ class GolonganUmurMController extends MyAuthController
             if($caraPrint=='PRINT')
                 {
                     $this->layout='//layouts/printWindows';
-                    $this->render('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+                    $this->render($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
                 }
             else if($caraPrint=='EXCEL')    
                 {
                     $this->layout='//layouts/printExcel';
-                    $this->render('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+                    $this->render($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
                 }
             else if($_REQUEST['caraPrint']=='PDF')
                 {
@@ -213,7 +214,7 @@ class GolonganUmurMController extends MyAuthController
                     $stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
                     $mpdf->WriteHTML($stylesheet,1);  
                     $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
-                    $mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
+                    $mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
                     $mpdf->Output();
                 }                       
          }

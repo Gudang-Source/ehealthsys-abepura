@@ -20,6 +20,7 @@ class PengangkatanpnsT extends CActiveRecord
         public $cekPersetujuan, $cekRealisasi;
         public $nomorindukpegawai, $gelardepan, $nama_pegawai, $nama_keluarga, $tempatlahir_pegawai, $tgl_lahirpegawai, $jeniskelamin, $statusperkawinan;
         public $alamat_pegawai, $agama;
+        public $usulanpns_gajipokok, $usulanpns_masakerjatahun, $usulanpns_masakerjabulan;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -49,7 +50,7 @@ class PengangkatanpnsT extends CActiveRecord
 			array('pegawai_id, keterangan', 'required'),
 			array('realisasipns_id, usulanpns_id, pegawai_id, perspeng_id', 'numerical', 'integerOnly'=>true),
 			array('jabatan, pangkat, pendidikan, pimpinannama', 'length', 'max'=>100),
-                        array('cekRealisasi, cekPersetujuan, nomorindukpegawai, gelardepan, nama_pegawai, nama_keluarga, tempatlahir_pegawai, tgl_lahirpegawai, jeniskelamin, statusperkawinan, alamat_pegawai, agama, ','safe'),
+                        array('usulanpns_gajipokok, usulanpns_masakerjatahun, usulanpns_masakerjabulan, cekRealisasi, cekPersetujuan, nomorindukpegawai, gelardepan, nama_pegawai, nama_keluarga, tempatlahir_pegawai, tgl_lahirpegawai, jeniskelamin, statusperkawinan, alamat_pegawai, agama, ','safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('pengangkatanpns_id, nomorindukpegawai, gelardepan, nama_pegawai, nama_keluarga, tempatlahir_pegawai, tgl_lahirpegawai, jeniskelamin, statusperkawinan, alamat_pegawai, agama, realisasipns_id, usulanpns_id, pegawai_id, perspeng_id, jabatan, pangkat, pendidikan, keterangan, pimpinannama', 'safe', 'on'=>'search'),
