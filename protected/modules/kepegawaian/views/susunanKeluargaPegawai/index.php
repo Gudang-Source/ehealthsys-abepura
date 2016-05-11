@@ -74,7 +74,7 @@ $this->widget('bootstrap.widgets.BootAlert');
                         <?php echo $form->textField($detail,'['.$i.']nourutkel',array('class'=>'span1 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                     </td>
                     <td>
-                        <?php echo $form->dropDownList($detail, '['.$i.']hubkeluarga', LookupM::getItems('hubungankeluarga'), array('class'=>'span2', 'onchange'=>'setDefaultJenisKelamin(this); setDefaultPernikahan(this);', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+                        <?php echo $form->dropDownList($detail, '['.$i.']hubkeluarga', LookupM::getItems('hubungankeluarga'), array('class'=>'span2 hubkeluarga', 'onchange'=>'setDefaultJenisKelamin(this); setDefaultPernikahan(this);', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
 
                     </td>
                     <td>
@@ -146,7 +146,7 @@ $this->widget('bootstrap.widgets.BootAlert');
                         <?php echo $form->textField($modSusunanKeluarga,'['.$x.']nourutkel',array('class'=>'span1 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                     </td>
                     <td>
-                        <?php echo $form->dropDownList($modSusunanKeluarga, '['.$x.']hubkeluarga', LookupM::getItems('hubungankeluarga'), array('class'=>'span2', 'onchange'=>'setDefaultJenisKelamin(this); setDefaultPernikahan(this);', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+                        <?php echo $form->dropDownList($modSusunanKeluarga, '['.$x.']hubkeluarga', LookupM::getItems('hubungankeluarga'), array('class'=>'span2 hubkeluarga', 'onchange'=>'setDefaultJenisKelamin(this); setDefaultPernikahan(this);', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
 
                     </td>
                     <td>
@@ -342,5 +342,8 @@ function hapus(obj){
 
 $(document).ready(function(){
     Pengorganisasidata();
+    $("#tableSusunanKeluarga tbody > tr").each(function() {
+        setDefaultPernikahan($(this).find(".hubkeluarga"));
+    });
 });
 </script>
