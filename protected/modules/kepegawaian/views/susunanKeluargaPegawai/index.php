@@ -252,9 +252,12 @@ function setDefaultJenisKelamin(obj) {
 }
 
 function setDefaultPernikahan(obj) {
-    $(obj).parents("tr").find(".pernikahan").prop("disabled", true);
     if ($.inArray($(obj).val().trim(), ["SUAMI", "ISTRI"]) !== -1) {
         $(obj).parents("tr").find(".pernikahan").prop("disabled", false);
+        $(obj).parents("tr").find(".dtPicker2").parent().find(".add-on").show();
+    } else {
+        $(obj).parents("tr").find(".pernikahan").val("").prop("disabled", true);
+        $(obj).parents("tr").find(".dtPicker2").parent().find(".add-on").hide();
     }
 }
 
