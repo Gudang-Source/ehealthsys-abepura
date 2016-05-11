@@ -13,38 +13,61 @@ class PengangkatanpnsTController extends MyAuthController
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
-	public function actionIndex()
+	public function actionIndex($id='',$sukses='')
 	{
+            if ($sukses == 1):
+                Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+            endif;
 		$model=new KPPengangkatanpnsT;
                 $modPegawai = new KPPegawaiM;
                 $modUsulan = new UsulanpnsR();
                 $modPers = new PerspengpnsR();
                 $modRealisasi = new RealisasipnsR();
+                
                 if (isset($_GET['id'])){
                     $id = $_GET['id'];
                     $model = KPPengangkatanpnsT::model()->findByPk($id);
+                    $modPegawai = KPPegawaiM::model()->findByPk($model->pegawai_id);
                     if (count($model) == 1){
-                        $crit = new CDbCriteria();
-                        $crit->compare('pengangkatanpns_id', $model->pengangkatanpns_id);
-                        $modPegawai = KPPegawaiM::model()->findByPk($model->pegawai_id);
-                        $modPegawai->jabatan_id = $modPegawai->jabatan->jabatan_nama;
-                        $modPegawai->pangkat_id = $modPegawai->pangkat->pangkat_nama;
-                        $modPegawai->pendidikan_id = $modPegawai->pendidikan->pendidikan_nama;
-                        $modUsulan = UsulanpnsR::model()->find($crit);
-                        $modPers = PerspengpnsR::model()->find($crit);
-                        if (count($modPers) == 1){
+                      //  $crit = new CDbCriteria();
+                       // $critUsulan->compare('pengangkatanpns_id', $model->pengangkatanpns_id);
+                       // $modPegawai = KPPegawaiM::model()->findByPk($model->pegawai_id);
+                       // $model->jabatan = isset($modPegawai->jabatan_id)?$modPegawai->jabatan->jabatan_nama:"";
+                       // $model->pangkat = isset($modPegawai->jabatan_id)?$modPegawai->pangkat->pangkat_nama:"";
+                       // $model->pendidikan = isset($modPegawai->jabatan_id)?$modPegawai->pendidikan->pendidikan_nama:"";
+                        $modUsulan = UsulanpnsR::model()->findByPK($model->usulanpns_id);
+                        $modUsulan->usulanpns_gajipokok = number_format($modUsulan->usulanpns_gajipokok,0,'','.');
+                        $modUsulan->usulanpns_masakerjatahun = number_format($modUsulan->usulanpns_masakerjatahun,0,'','.');
+                        $modUsulan->usulanpns_masakerjabulan = number_format($modUsulan->usulanpns_masakerjabulan,0,'','.');
+                        
+                        if (isset($model->perspeng_id)){
+                            $modPers = PerspengpnsR::model()->findByPk($model->perspeng_id);
+                        
+                            if (count($modPers) == 1){
                             $model->cekPersetujuan = 1;
+                            $modPers->perspeng_gajipokok = number_format($modPers->perspeng_gajipokok,0,'','.');
+                            $modPers->perspeng_masakerjatahun = number_format($modPers->perspeng_masakerjatahun,0,'','.');
+                            $modPers->perspeng_masakerjabulan = number_format($modPers->perspeng_masakerjabulan,0,'','.');
+                            }
                         }
-                        $modRealisasi = RealisasipnsR::model()->find($crit);
-                        if (count($modRealisasi) == 1){
+                        
+                        
+                        if (isset($model->realisasipns_id)){
+                            $modRealisasi = RealisasipnsR::model()->findByPk($model->realisasipns_id);
+                            if (count($modRealisasi) == 1){
                             $model->cekRealisasi = 1;
+                            $modRealisasi->realisasipns_gajipokok = number_format($modRealisasi->realisasipns_gajipokok,0,'','.');
+                            $modRealisasi->realisasipns_masakerjatahun = number_format($modRealisasi->realisasipns_masakerjatahun,0,'','.');
+                            $modRealisasi->realisasipns_masakerjabulan = number_format($modRealisasi->realisasipns_masakerjabulan,0,'','.');
                         }
+                        }
+                        
                     }
                 }
 		// Uncomment the following line if AJAX validation is needed
 		
 
-		if((isset($_POST['KPPengangkatanpnsT'])) && (!isset($_GET['id'])))
+		if((isset($_POST['KPPengangkatanpnsT'])))
 		{
 //                    $modPegawai->attributes = $_POST['KPPegawaiM'];
                         if (isset($_POST['KPPengangkatanpnsT']['cekPersetujuan'])){
@@ -56,49 +79,78 @@ class PengangkatanpnsTController extends MyAuthController
 			$model->attributes = $_POST['KPPengangkatanpnsT'];
                         $modUsulan->attributes = $_POST['UsulanpnsR'];
                         $model->pegawai_id = $_POST['KPPegawaiM']['pegawai_id'];
+                        
                         $model->pimpinannama = $modUsulan->usulanpns_pejabatygberwenang;
                         if (!empty($model->pegawai_id)){
                             $modPegawai = KPPegawaiM::model()->findByPk($model->pegawai_id);
-                            $modPegawai->jabatan_id = $modPegawai->jabatan->jabatan_nama;
+                            $model->jabatan = isset($modPegawai->jabatan_id)?$modPegawai->jabatan->jabatan_nama:'';
+                            $model->pangkat = isset($modPegawai->pangkat_id)?$modPegawai->pangkat->pangkat_nama:'';
+                            $model->pendidikan = isset($modPegawai->pendidikan_id)?$modPegawai->pendidikan->pendidikan_nama:'';
                         }
-
+                        
                         $transaction = Yii::app()->db->beginTransaction();
-                        try{
-                            if($model->save()){
+                        try{                            
+                            
+                           $valid=$model->validate();
+                           $valid=$modUsulan->validate() && $valid;
+                           
+                           if ($model->cekPersetujuan == 1):
+                               $valid = $modPers->validate() && $valid;
+                           endif;
+                                                      
+                           
+                            if($valid){
+                                $model->save();
                                 $modUsulan->pengangkatanpns_id = $model->pengangkatanpns_id;
+                                $modUsulan->usulanpns_gajipokok = str_replace('.','',$modUsulan->usulanpns_gajipokok);//, 
+                                $modUsulan->usulanpns_masakerjatahun = str_replace('.','',$modUsulan->usulanpns_masakerjatahun);
+                                $modUsulan->usulanpns_masakerjabulan = str_replace('.','',$modUsulan->usulanpns_masakerjabulan);
+                                
                                 if ($modUsulan->save()){
+                                    
                                     $model->usulanpns_id = $modUsulan->usulanpns_id;
                                     $model->save();
                                     if (isset($_POST['KPPengangkatanpnsT']['cekPersetujuan'])){
                                         $modPers->pengangkatanpns_id = $model->pengangkatanpns_id;
+                                        $modPers->perspeng_gajipokok = str_replace('.','',$modPers->perspeng_gajipokok);//, 
+                                        $modPers->perspeng_masakerjatahun = str_replace('.','',$modPers->perspeng_masakerjatahun);
+                                        $modPers->perspeng_masakerjabulan = str_replace('.','',$modPers->perspeng_masakerjabulan);
+                                        
                                         if ($modPers->save()){
                                             $model->perspeng_id = $modPers->perspeng_id;
                                             $model->save();
                                             if (isset($_POST['KPPengangkatanpnsT']['cekRealisasi'])){
                                                 $modRealisasi->pengangkatanpns_id = $model->pengangkatanpns_id;
+                                                $modRealisasi->realisasipns_gajipokok = str_replace('.','',$modRealisasi->realisasipns_gajipokok);//, 
+                                                $modRealisasi->realisasipns_masakerjatahun = str_replace('.','',$modRealisasi->realisasipns_masakerjatahun);
+                                                $modRealisasi->realisasipns_masakerjabulan = str_replace('.','',$modRealisasi->realisasipns_masakerjabulan);
+                                               
                                                 if ($modRealisasi->save()){
                                                     $model->realisasipns_id = $modRealisasi->realisasipns_id;
                                                     $model->save();
                                                     $transaction->commit();
                                                     Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-                                                    $this->redirect(array('create','id'=>$model->pengangkatanpns_id));
+                                                    $this->redirect(array('index','id'=>$model->pengangkatanpns_id,'modul_id'=>Yii::app()->session['modul_id'],'sukses'=>1));
                                                 }
                                             }
                                             else{
                                                 $transaction->commit();
                                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-                                                $this->redirect(array('create','id'=>$model->pengangkatanpns_id));
+                                                $this->redirect(array('index','id'=>$model->pengangkatanpns_id,'modul_id'=>Yii::app()->session['modul_id'],'sukses'=>1));
                                             }
                                         }
                                     }
                                     else{
                                         $transaction->commit();
                                         Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-                                        $this->redirect(array('create','id'=>$model->pengangkatanpns_id));
+                                        $this->redirect(array('index','id'=>$model->pengangkatanpns_id,'modul_id'=>Yii::app()->session['modul_id'],'sukses'=>1));
                                     }
                                     
                                     
                                 }
+                                 $transaction->commit();
+                                Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                                $this->redirect(array('index','id'=>$model->pengangkatanpns_id,'modul_id'=>Yii::app()->session['modul_id'],'sukses'=>1));
                             }
                         }
                         catch(Exception $ex){
@@ -196,9 +248,11 @@ class PengangkatanpnsTController extends MyAuthController
             $judulLaporan='Data Pengangkatan Pegawai Negeri Sipil';
             $modPegawai = PegawaiM::model()->findByPk($model->pegawai_id);
             $modUsulan = UsulanpnsR::model()->findByPk($model->usulanpns_id);
+            $modPersetujuan = null;
             if (!empty($model->perspeng_id)){
                 $modPersetujuan = PerspengpnsR::model()->findByPk($model->perspeng_id);
             }
+            $modRealisasi = null;
             if (!empty($model->realisasipns_id)){
                 $modRealisasi = RealisasipnsR::model()->findByPk($model->realisasipns_id);
             }

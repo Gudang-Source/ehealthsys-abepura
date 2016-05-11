@@ -78,7 +78,7 @@ echo $this->renderPartial('application.views.headerReport.headerDefault', array(
         <td width ="8%">
             </td>
         <td width ="33%" style='vertical-align:top;'>
-            <legend>Diusulkan</legend>
+            <legend style = "color:#000;">Diusulkan</legend>
             <?php $this->widget('ext.bootstrap.widgets.BootDetailView',array(
                 'data'=>$modUsulan,
                 'attributes'=>array(
@@ -93,12 +93,17 @@ echo $this->renderPartial('application.views.headerReport.headerDefault', array(
                     ),
 //                    'usulanpns_masakerjatahun',
 //                    'usulanpns_masakerjabulan',
-                    'usulanpns_gajipokok',
+                    //'usulanpns_gajipokok',
+                    array(
+                        'header' => 'Gaji Pokok',
+                        'value' =>  'Rp'.number_format($modUsulan->usulanpns_gajipokok,0,"","."),
+                        'htmlOptions' => array('style','color:blue;'),
+                    ),
                     'usulanpns_pejabatygberwenang',
                 ),
             )); ?>
             <?php if (isset($modPersetujuan)){ ?>
-            <legend>Disetujui</legend>
+            <legend style = "color:#000;">Disetujui</legend>
             <?php $this->widget('ext.bootstrap.widgets.BootDetailView',array(
                 'data'=>$modPersetujuan,
                 'attributes'=>array(
@@ -113,13 +118,17 @@ echo $this->renderPartial('application.views.headerReport.headerDefault', array(
                     ),
 //                    'perspeng_masakerjatahun',
 //                    'perspeng_masakerjabulan',
-                    'perspeng_gajipokok',
+                    //'perspeng_gajipokok',
+                    array(
+                        'header' => 'Gaji Pokok',
+                        'value' =>  'Rp'.number_format($modPersetujuan->perspeng_gajipokok,0,"","."),
+                    ),
                     'perspeng_pejabatygberwenang',
                 ),
             )); ?>
             <?php } ?>
             <?php if (isset($modRealisasi)){ ?>
-            <legend>Direalisasi</legend>
+            <legend style = "color:#000;">Direalisasi</legend>
             <?php $this->widget('ext.bootstrap.widgets.BootDetailView',array(
                 'data'=>$modRealisasi,
                 'attributes'=>array(
@@ -133,7 +142,11 @@ echo $this->renderPartial('application.views.headerReport.headerDefault', array(
                     ),
 //                    'realisasipns_masakerjatahun',
 //                    'realisasipns_masakerjabulan',
-                    'realisasipns_gajipokok',
+                    //'realisasipns_gajipokok',
+                    array(
+                        'header' => 'Gaji Pokok',
+                        'value' =>  'Rp'.number_format($modRealisasi->realisasipns_gajipokok,0,"","."),
+                    ),
                     'realisasipns_pejabatyangberwena',
 //                    'pengangkatanpns_id',
                     
