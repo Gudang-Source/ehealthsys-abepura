@@ -77,6 +77,7 @@ class ObatAlkesMController extends MyAuthController
 		$model->marginresep = 0;
 		$model->jasadokter = 0;
 		$model->hjaresep = 0;
+                $model->ven = '';
                 
                 if (!empty($this->defaultJenis)) {
                     $model->jenisobatalkes_id = $this->defaultJenis;

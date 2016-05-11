@@ -21,13 +21,13 @@
 <div class="control-group">
     <?php echo CHtml::label('Masa Kerja','namapegawai',array('class'=>'control-label')) ?>
     <div class="controls">
-        <?php echo $form->textField($model, 'realisasipns_masakerjatahun', array('class' => 'span1 numbersOnly', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?> <label>Tahun</label>
-        <?php echo $form->textField($model, 'realisasipns_masakerjatahun', array('class' => 'span1 numbersOnly', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?> <label>Bulan</label>
+        <?php echo $form->textField($model, 'realisasipns_masakerjatahun', array('class' => 'span1 integer2', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?> <label>Tahun</label>
+        <?php echo $form->textField($model, 'realisasipns_masakerjatahun', array('class' => 'span1 integer2', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?> <label>Bulan</label>
     </div>    
 </div>
 <?php //echo $form->textFieldRow($model,'realisasipns_masakerjatahun',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
 <?php //echo $form->textFieldRow($model,'realisasipns_masakerjabulan',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-<?php echo $form->textFieldRow($model,'realisasipns_gajipokok',array('class'=>'span3  numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+<?php echo $form->textFieldRow($model,'realisasipns_gajipokok',array('class'=>'span3  integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
 <?php //echo $form->textFieldRow($model,'realisasipns_pejabatyangberwena',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
 
 <div class="control-group">
@@ -65,7 +65,7 @@
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     'id'=>'dialogPegawai4',
     'options'=>array(
-        'title'=>'Daftar Pegawai',
+        'title'=>'Daftar Pejabat Berwenang',
         'autoOpen'=>false,
         'modal'=>true,
         'width'=>900,
@@ -74,11 +74,15 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     ),
 ));
 
-$modPegawai = new PegawaiM;
+$modPegawai = new KPRegistrasifingerprint('search');
+$modPegawai->unsetAttributes();
+if(isset($_GET['KPRegistrasifingerprint'])) {
+    $modPegawai->attributes = $_GET['KPRegistrasifingerprint'];
+}
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'pegawai2-m-grid',
 	'dataProvider'=>$modPegawai->search(),
-//	'filter'=>$modRencanaKebFarmasi,
+	//'filter'=>$modPegawai,
         'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
 	'columns'=>array(
@@ -98,9 +102,17 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 'nama_pegawai',
                 'tempatlahir_pegawai',
                 'tgl_lahirpegawai',
-                'jeniskelamin',
-                'statusperkawinan',
-                'jabatan.jabatan_nama',
+                array(
+                    'header' => 'Jenis Kelamin',
+                    'name' => 'jeniskelamin',
+                    'filter' => CHtml::dropDownList('PegawaiM[jeniskelamin]', $modPegawai->jeniskelamin, LookupM::getItems('jeniskelamin'), array('empty'=>'-- Pilih --')),
+                ),                
+                array(
+                    'header' => 'Jabatan',
+                    'name' => 'jabatan_id',
+                    'filter' => CHtml::dropDownList('PegawaiM[jabatan_id]', $modPegawai->jabatan_id, CHtml::listData(JabatanM::model()->findAll("jabatan_aktif = TRUE ORDER BY jabatan_nama ASC"),'jabatan_id','jabatan_nama'), array('empty'=>'-- Pilih --')),
+                ),
+                'statusperkawinan',                
                 'alamat_pegawai',
             ),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',

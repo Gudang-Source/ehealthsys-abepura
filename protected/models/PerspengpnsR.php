@@ -42,8 +42,8 @@ class PerspengpnsR extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('perspeng_tglsk, perspeng_nosk, perspeng_masakerjatahun, perspeng_masakerjabulan, perspeng_gajipokok, perspeng_pejabatygberwenang', 'required'),
-			array('perspeng_masakerjatahun, perspeng_masakerjabulan', 'numerical', 'integerOnly'=>true),
-			array('perspeng_gajipokok', 'numerical'),
+			//array('perspeng_masakerjatahun, perspeng_masakerjabulan', 'numerical', 'integerOnly'=>true),
+			//array('perspeng_gajipokok', 'numerical'),
 			array('perspeng_nosk, perspeng_pejabatygberwenang', 'length', 'max'=>50),
 			array('pengangkatanpns_id', 'safe'),
 			// The following rule is used by search().
