@@ -514,4 +514,21 @@ class DokrekammedisController extends MyAuthController
             
             Yii::app()->end();
         }
+        
+        public function ubahWarnaRM($param) {
+            $dokumen = DokrekammedisM::model()->findByPk($param['id']);
+            $warna = WarnadokrmM::model()->findByAttributes(array(
+                'warnadokrm_kodewarna'=>  substr($param['val'], 1),
+            ));
+            DokrekammedisM::model()->updateByPk($dokumen->dokrekammedis_id, array(
+                'warnadokrm_id'=>$warna->warnadokrm_id,
+            ));
+            
+            echo CJSON::encode(array(
+                'update'=>true,
+                'msg'=>"Warna Dokumen Pasien berhasil Diubah.",
+            ));
+            
+            Yii::app()->end();
+        }
 }
