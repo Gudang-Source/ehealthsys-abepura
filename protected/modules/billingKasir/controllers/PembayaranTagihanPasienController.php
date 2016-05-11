@@ -447,14 +447,14 @@ class PembayaranTagihanPasienController extends MyAuthController
             if($dataTarif[Params::KOMPONENTARIF_ID_TOTAL]['harga_tariftindakan']==$modTindakan->subsidiasuransi_tindakan){
                 foreach ($modKomponens as $i => $komponen){
                     $komponen->subsidiasuransikomp =  $dataTarif[$komponen->komponentarif_id]['harga_tariftindakan'];
-                    var_dump($komponen->attributes); die;
+                    // var_dump($komponen->attributes); die;
                     $komponen->update();
                 }
             }else{
                 foreach ($modKomponens as $i => $komponen){
                     $komponen->subsidiasuransikomp = ($modKomponen->tarif_kompsatuan * $modTindakan->subsidiasuransi_tindakan)/($modTindakan->qty_tindakan*$modTindakan->tarif_satuan);
                     $komponen->subsidipemerintahkomp = ($modKomponen->tarif_kompsatuan * $modTindakan->subsidipemerintah_tindakan)/($modTindakan->qty_tindakan*$modTindakan->tarif_satuan);
-                    var_dump($komponen->attributes); die;
+                    // var_dump($komponen->attributes); die;
                     $komponen->update();
                 }
             }
