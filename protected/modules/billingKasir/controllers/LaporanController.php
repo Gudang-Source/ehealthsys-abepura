@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 class LaporanController extends MyAuthController {
 
@@ -272,10 +272,12 @@ class LaporanController extends MyAuthController {
         $model = new BKLaporanpembayaranpelayananV('searchPrint');
         $judulLaporan = 'Laporan Pembayaran Pelayanan';
         
+        $lp = LoginpemakaiK::model()->findByPK(Yii::app()->user->id);
+        
         //Data Grafik
         $data['title'] = 'Grafik Laporan Pembayaran Pelayanan';
         $data['type'] = $_REQUEST['type'];
-        $data['nama_pegawai'] = LoginpemakaiK::model()->findByPK(Yii::app()->user->id)->pegawai->nama_pegawai;
+        $data['nama_pegawai'] = empty($lp->pegawai_id)?"-":$lp->pegawai->nama_pegawai;
         $model->ruangan_id = CHtml::listData(RuangankasirV::model()->findAll(), 'ruangan_id', 'ruangan_id');
         $model->penjamin_id =  CHtml::listData(PenjaminpasienM::model()->findAll('penjamin_aktif = true'), 'penjamin_id', 'penjamin_id');
         if (isset($_REQUEST['BKLaporanpembayaranpelayananV'])) {

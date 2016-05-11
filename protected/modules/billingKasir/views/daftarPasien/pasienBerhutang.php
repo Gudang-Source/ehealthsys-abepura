@@ -76,43 +76,64 @@
                         'header'=>'Subsidi Asuransi',
                         'name'=>'subsidi_asuransi',
                         'type'=>'raw',
-                        'value'=>'$data->totalsubsidiasuransi',
+                        'value'=>'"Rp. ".MyFormatter::formatNumberForPrint($data->totalsubsidiasuransi)',
+                        'htmlOptions'=>array(
+                            'style'=>'text-align: right',
+                        )
                     ),
-//                    array(
-//                        'header'=>'Subsidi Pemerintah',
-//                        'name'=>'subsidi_pemerintah',
-//                        'type'=>'raw',
-//                        'value'=>'$data->totalsubsidipemerintah',
-//                    ),
                     array(
                         'header'=>'Subsidi Rumah Sakit',
                         'name'=>'subsidi_rs',
                         'type'=>'raw',
-                        'value'=>'$data->totalsubsidirs',
+                        'value'=>'"Rp. ".MyFormatter::formatNumberForPrint($data->totalsubsidirs)',
+                        'htmlOptions'=>array(
+                            'style'=>'text-align: right',
+                        )
+                    ),
+                    array(
+                        'header'=>'Subsidi Pemerintah',
+                        'name'=>'subsidi_pemerintah',
+                        'type'=>'raw',
+                        'value'=>'"Rp. ".MyFormatter::formatNumberForPrint($data->totalsubsidipemerintah)',
+                        'htmlOptions'=>array(
+                            'style'=>'text-align: right',
+                        )
                     ),
                     array(
                         'header'=>'Biaya',
                         'name'=>'iur_biaya',
                         'type'=>'raw',
                         'value'=>'MyFormatter::formatUang($data->totaliurbiaya)',
+                        'htmlOptions'=>array(
+                            'style'=>'text-align: right',
+                        )
                     ),
                     array(
                         'header'=>'Discount',
                         'name'=>'discount',
                         'type'=>'raw',
                         'value'=>'$data->totaldiscount',
+                        'htmlOptions'=>array(
+                            'style'=>'text-align: right',
+                        )
                     ),
                     array(
                         'header'=>'Pembebasan',
                         'name'=>'pembebasan',
                         'type'=>'raw',
-                        'value'=>'$data->totalpembebasan',
+                        'value'=>'MyFormatter::formatUang($data->totalpembebasan)',
+                        'htmlOptions'=>array(
+                            'style'=>'text-align: right',
+                        )
                     ),
                     array(
                         'header'=>'Jumlah Pembayaran',
                         'name'=>'jumlah_pembayaran',
                         'type'=>'raw',
                         'value'=>'MyFormatter::formatUang($data->totalbayartindakan)',
+                        'htmlOptions'=>array(
+                            'style'=>'text-align: right',
+                        )
                     ),
                     array(
                         'header'=>'Rincian Hutang',

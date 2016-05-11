@@ -53,7 +53,7 @@ $('#rmdokrekammedisrm-t-search').submit(function(){
 				array(
 					'header'=>'Warna Dokumen RK',
 					'type'=>'raw',
-					'value'=>'$this->grid->getOwner()->renderPartial(\'_warnaDokumen2\', array(\'warnadokrm_id\'=>$data->warnadokrm_id), true)',
+					'value'=>'$this->grid->getOwner()->renderPartial(\'_warnaDokumen2\', array(\'warnadokrm_id\'=>$data->warnadokrm_id, \'dokrekammedis_id\'=>$data->dokrekammedis_id), true)',
 					// 'htmlOptions'=>'CHtml::link(array("onclick"=>"ubahWarna(\'$data->dokrekammedis_id\'))'
 				),
 				array(
@@ -181,8 +181,24 @@ function terimaRM(id) {
     });
 }
 
-function ubahWarna(dokrm){
-    myAlert(dokrm);
+function ubahWarna(dokrekammedis_id, val){
+    myConfirm("Anda yakin untuk mengubah warna dokumen ini ?", "Perhatian!" ,function(r) {
+        if (r === true) {
+            $.post("<?php echo $this->createUrl("informasi"); ?>", {
+                json: true,
+                f: "ubahWarnaRM",
+                param : {
+                    id:dokrekammedis_id,
+                    val: val
+                }
+            }, function(data) {
+                if (data.update == true) {
+                    $.fn.yiiGridView.update('informasidokrekammedis-m-grid');
+                }
+                myAlert(data.msg);
+            }, "json");
+        }
+    });
 }
 
 </script>
