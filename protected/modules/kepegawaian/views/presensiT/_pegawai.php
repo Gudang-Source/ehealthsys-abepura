@@ -6,7 +6,7 @@
                 <?php echo $form->textFieldRow($model,'nomorindukpegawai',array('readonly'=>true,'id'=>'NIP','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
                 <?php echo $form->hiddenField($model,'nofingerprint',array('readonly'=>true,'id'=>'nofingerprint','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
                 <div class="control-group">
-                    <?php echo CHtml::label('Nama pegawai','namapegawai',array('class'=>'control-label')) ?>
+                    <?php echo CHtml::label('Nama Pegawai','namapegawai',array('class'=>'control-label')) ?>
                     <div class="controls">
                             <?php echo $form->hiddenField($model,'pegawai_id',array('readonly'=>true,'id'=>'pegawai_id','onkeyup'=>"return $(this).focusNextInputField(event)")) ?>
                             <?php
@@ -109,7 +109,12 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'type'=>'raw',
                     'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_lahirpegawai)',
                 ),
-                'jeniskelamin',
+                //'jeniskelamin',
+                array(
+                    'header' => 'Jenis Kelamin',
+                    'name' => 'jeniskelamin',
+                    'filter' => CHtml::dropDownList('KPRegistrasifingerprint[jeniskelamin]', $modPegawai->jeniskelamin, LookupM::getItems('jeniskelamin'), array('empty'=>'-- Pilih --')),
+                ),
                 'statusperkawinan',
                 'jabatan.jabatan_nama',
                 'alamat_pegawai',

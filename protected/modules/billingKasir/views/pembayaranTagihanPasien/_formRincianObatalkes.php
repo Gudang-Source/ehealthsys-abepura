@@ -10,6 +10,7 @@
         <th>Biaya Admin <br>(Rp.)</th>
         <th>Subsidi Asuransi <br>(Rp.)</th>
         <th>Subsidi Rumah Sakit <br>(Rp.)</th>
+        <th>Subsidi Pemerintah <br>(Rp.)</th>
         <th>Tanggungan Pasien <br>(Rp.)</th><!-- Tanggungan Pasien = Iur Biaya -->
         <th>Subtotal <br>(Rp.)</th>
     </thead>
@@ -21,6 +22,7 @@
         $tot_discount = 0;
         $tot_biayalain = 0;
         $tot_subsidiasuransi = 0;
+        $tot_subsidipemerintah = 0;
         $tot_subsidirs = 0;
         $tot_iurbiaya = 0;
         $total_oa = 0;
@@ -32,13 +34,16 @@
                 $obatalkes->biayalain = $obatalkes->biayaservice + $obatalkes->biayakonseling + $obatalkes->biayakemasan + $obatalkes->biayaadministrasi;
                 $subsidi = $obatalkes->subsidiasuransi+$obatalkes->subsidirs;
                 $obatalkes->subtotaloa = ($obatalkes->qty_oa*$obatalkes->hargasatuan_oa)+$obatalkes->tarifcyto-$obatalkes->discount+$obatalkes->biayalain-$subsidi;
+                $obatalkes->subsidipemerintah = ($obatalkes->qty_oa*$obatalkes->hargasatuan_oa);
                 $tot_hargajual_oa += ($obatalkes->qty_oa*$obatalkes->hargasatuan_oa);
                 $tot_tarifcyto += $obatalkes->tarifcyto;
                 $tot_discount += $obatalkes->discount;
                 $tot_biayalain += $obatalkes->biayalain;
                 $tot_subsidiasuransi += $obatalkes->subsidiasuransi;
+                $tot_subsidipemerintah += $obatalkes->subsidipemerintah;
                 $tot_subsidirs += $obatalkes->subsidirs;
                 $tot_iurbiaya += $obatalkes->iurbiaya;
+                
                 $total_oa += $obatalkes->subtotaloa;
                 $obatalkes->qty_oa = $format->formatNumberForPrint($obatalkes->qty_oa);
                 $obatalkes->hargasatuan_oa = $format->formatNumberForPrint($obatalkes->hargasatuan_oa);
@@ -46,6 +51,7 @@
                 $obatalkes->discount = $format->formatNumberForPrint($obatalkes->discount);
                 $obatalkes->biayalain = $format->formatNumberForPrint($obatalkes->biayalain);
                 $obatalkes->subsidiasuransi = $format->formatNumberForPrint($obatalkes->subsidiasuransi);
+                // $obatalkes->subsidipemerintah = $format->formatNumberForPrint($obatalkes->subsidipemerintah);
                 $obatalkes->subsidirs = $format->formatNumberForPrint($obatalkes->subsidirs);
 ////                  DISAMAKAN DENGAN subtotaloa >>  $obatalkes->iurbiaya = $format->formatNumberForPrint($obatalkes->iurbiaya);
                 $obatalkes->iurbiaya = $format->formatNumberForPrint($obatalkes->subtotaloa);
@@ -64,6 +70,7 @@
                         .'<td>'.CHtml::activeTextField($obatalkes, '['.$i.']biayalain',array('onblur'=>'hitungTotalOa();','class'=>'inputFormTabel lebar3 integer2', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
                         .'<td>'.CHtml::activeTextField($obatalkes, '['.$i.']subsidiasuransi',array('onblur'=>'hitungTotalOa();','class'=>'inputFormTabel lebar3 integer2', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
                         .'<td>'.CHtml::activeTextField($obatalkes, '['.$i.']subsidirs',array('onblur'=>'hitungTotalOa();','class'=>'inputFormTabel lebar3 integer2', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
+                        .'<td>'.CHtml::activeTextField($obatalkes, '['.$i.']subsidipemerintah',array('onblur'=>'hitungTotalOa();','class'=>'inputFormTabel lebar3 integer2', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
                         .'<td>'.CHtml::activeTextField($obatalkes, '['.$i.']iurbiaya',array('readonly'=>true,'class'=>'inputFormTabel lebar3 integer2', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
                         .'<td>'.CHtml::activeTextField($obatalkes, '['.$i.']subtotaloa',array('readonly'=>true,'class'=>'inputFormTabel lebar3 integer2', 'onkeyup'=>"return $(this).focusNextInputField(event);")).'</td>'
                     .'</tr>';
@@ -79,6 +86,7 @@
         $tot_discount = $format->formatNumberForPrint($tot_discount);
         $tot_biayalain = $format->formatNumberForPrint($tot_biayalain);
         $tot_subsidiasuransi = $format->formatNumberForPrint($tot_subsidiasuransi);
+        $tot_subsidipemerintah = $format->formatNumberForPrint($tot_subsidipemerintah);
         $tot_subsidirs = $format->formatNumberForPrint($tot_subsidirs);
         $tot_iurbiaya = $format->formatNumberForPrint($total_oa);
         $total_oa = $format->formatNumberForPrint($total_oa);
@@ -90,6 +98,7 @@
         <td><?php echo CHtml::textField('tot_biayalain',$tot_biayalain,array('onblur'=>'proporsiBiayaAdminOa();','readonly'=>true,'class'=>'inputFormTabel lebar3 integer2','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
         <td><?php echo CHtml::textField('tot_subsidiasuransi',$tot_subsidiasuransi,array('onblur'=>'proporsiSubsidiAsuransiOa();','readonly'=>true,'class'=>'inputFormTabel lebar3 integer2','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
         <td><?php echo CHtml::textField('tot_subsidirs',$tot_subsidirs,array('onblur'=>'proporsiSubsidiRsOa();','readonly'=>true,'class'=>'inputFormTabel lebar3 integer2','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
+        <td><?php echo CHtml::textField('tot_subsidipemerintah',$tot_subsidiasuransi,array('onblur'=>'proporsiSubsidiPemerintahOa();','readonly'=>true,'class'=>'inputFormTabel lebar3 integer2','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
         <td><?php echo CHtml::textField('tot_iurbiaya',$tot_iurbiaya,array('readonly'=>true,'class'=>'inputFormTabel lebar3 integer2','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
         <td><?php echo CHtml::textField('total_oa',$total_oa,array('readonly'=>true,'class'=>'inputFormTabel lebar3 integer2','onkeyup'=>"return $(this).focusNextInputField(event);")) ?></td>
     </tfoot>

@@ -86,6 +86,13 @@
                         'htmlOptions' => array('style'=>'text-align:right;')
                     ),
                     array(
+                        'header'=>'Subsidi Pemerintah',
+                        'name'=>'subsidi_rs',
+                        'type'=>'raw',
+                        'value'=>'"Rp".number_format($data->totalsubsidipemerintah,0,"",".")',
+                        'htmlOptions' => array('style'=>'text-align:right;')
+                    ),
+                    array(
                         'header'=>'Total Pembebasan',
                         'name'=>'pembebasan',
                         'type'=>'raw',

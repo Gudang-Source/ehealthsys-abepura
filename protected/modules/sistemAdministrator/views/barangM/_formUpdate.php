@@ -290,7 +290,7 @@ Yii::app()->clientScript->registerScript('numberOnly', $js, CClientScript::POS_R
     $(document).ready(function() {
         var tipebarang = $("#SABarangM_barang_type").val();
         
-        if (tipebarang === "Habis Pakai")
+        if (tipebarang === "Habis Pakai" || tipebarang === "Persediaan")
         { 
             $("#<?php echo CHtml::activeId($model,"barang_kode");?>").prop("readonly", false );            
             $("#<?php echo CHtml::activeId($model,"golongan_id");?>").prop("disabled", true );            
@@ -305,7 +305,7 @@ Yii::app()->clientScript->registerScript('numberOnly', $js, CClientScript::POS_R
     {
         var tipebarang = $("#SABarangM_barang_type").val();
         
-        if (tipebarang === "Habis Pakai")
+        if (tipebarang === "Habis Pakai" || tipebarang === "Persediaan")
         {   //disabled                 
             $("#<?php echo CHtml::activeId($model,"barang_kode");?>").val('');            
             $("#barangkode").val('');

@@ -28,16 +28,18 @@ class RIInfokunjunganriV extends InfokunjunganriV {
 
         $criteria = new CDbCriteria;
 
-        $criteria->addBetweenCondition('t.tgl_pendaftaran', $this->tgl_awal, $this->tgl_akhir);
+        if (!empty($this->tgl_awal) && !empty($this->tgl_akhir))
+            $criteria->addBetweenCondition('t.tgl_pendaftaran', $this->tgl_awal, $this->tgl_akhir);
         $criteria->compare('LOWER(t.no_pendaftaran)', strtolower($this->no_pendaftaran), true);
         $criteria->compare('LOWER(t.no_rekam_medik)', strtolower($this->no_rekam_medik), true);
         $criteria->compare('LOWER(t.nama_pasien)', strtolower($this->nama_pasien), true);
         $criteria->compare('LOWER(t.statusperiksa)', strtolower($this->statusperiksa), true);
         $criteria->addCondition('t.ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
+        $criteria->compare("t.penjamin_id", $this->penjamin_id);
         $criteria->with = array('pendaftaran');
         //$criteria->condition = 'pasienpulang.pendaftaran_id = t.pendaftaran_id';
         $criteria->order = 't.tgl_pendaftaran DESC';
-
+        
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
                 ));

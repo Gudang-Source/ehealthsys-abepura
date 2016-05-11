@@ -3,13 +3,18 @@ echo "<table>";
 echo "<tr>
         <td>Kategori Tindakan</td>
         <td>:</td>
-        <td>".(empty($modTarif['kategoritindakan_nama']) ? $modTarif['kategoritindakan_nama'] : "-")."</td>
-
-         </tr>";
+        <td>".(isset($modTarif['kategoritindakan_nama']) ? $modTarif['kategoritindakan_nama'] : "-")."</td>
+      </tr>";
 echo "<tr>
         <td>Nama Tindakan</td>
         <td>:</td>
         <td>".$modTarif['daftartindakan_nama']."</td>      
+
+         </tr>";
+echo "<tr>
+        <td>Jenis Tarif</td>
+        <td>:</td>
+        <td>".$modTarif['jenistarif_nama']."</td>      
 
          </tr>";
 
@@ -21,19 +26,19 @@ echo "<table class='table table-bordered table-condensed'>";
                 <td>Nama Komponen</td>
                 <td>Tarif</td>
             </tr></thead><tbody>";
+$tarifTotal = 0;
 foreach($modTarifTindakan AS $tampilTarifTindakan):
-    echo "<tr>
+    echo "<tr >
             <td>".$tampilTarifTindakan->komponentarif['komponentarif_nama']."</td>
-            <td>Rp. ".number_format($tampilTarifTindakan['harga_tariftindakan'])."</td>    
+            <td style = 'text-align:right;'>"."Rp. ".number_format($tampilTarifTindakan['harga_tariftindakan'],0,"",".")."</td>    
           </tr>"; 
-$tarifTotal = null;
 $tarifTotal=$tarifTotal+$tampilTarifTindakan['harga_tariftindakan'];
 endforeach;
 echo "<tr>
         <td colspan=\"2\">
-     <tr>
+     <tr >
         <td>Total</td>
-        <td>Rp. ".number_format($tarifTotal)."
+        <td style = 'text-align:right;'>"."Rp. ".number_format($tarifTotal,0,"",".")."
     </table>";
 }else{
     echo "Tarif Belum Disetting";

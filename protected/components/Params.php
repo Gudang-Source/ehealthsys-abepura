@@ -90,6 +90,7 @@ Class Params
 	const MODUL_ID_AMBULANS = 18;
 	const MODUL_ID_AKUNTANSI = 26;
 	const MODUL_ID_KEUANGAN = 44;
+        const MODUL_ID_PENGGAJIAN = 61;
 
         const INSTALASI_ID_RM = 1;
 	const INSTALASI_ID_RJ = 2;

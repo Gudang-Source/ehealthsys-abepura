@@ -98,7 +98,7 @@ class TanggunganpenjaminM extends CActiveRecord
 			'iurbiayaoa' => 'Iurbiayaoa',
 			'persentanggcytopel' => 'Persentanggcytopel',
 			'makstanggpel' => 'Makstanggpel',
-			'tanggunganpenjamin_aktif' => 'Tanggunganpenjamin Aktif',
+			'tanggunganpenjamin_aktif' => 'Aktif',
 		);
 	}
 

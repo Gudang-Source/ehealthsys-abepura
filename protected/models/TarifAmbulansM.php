@@ -109,9 +109,9 @@ class TarifAmbulansM extends CActiveRecord
 		$criteria->compare('LOWER(t.kekabupaten_nama)',strtolower($this->kekabupaten_nama),true);
 		$criteria->compare('LOWER(t.kekecamatan_nama)',strtolower($this->kekecamatan_nama),true);
 		$criteria->compare('LOWER(t.kekelurahan_nama)',strtolower($this->kekelurahan_nama),true);
-		$criteria->compare('t.jmlkilometer',$this->jmlkilometer);
-		$criteria->compare('t.tarifperkm',$this->tarifperkm);
-		$criteria->compare('t.tarifambulans',$this->tarifambulans);
+		$criteria->compare('t.jmlkilometer',  $this->jmlkilometer);
+		$criteria->compare('t.tarifperkm', str_replace('.','',$this->tarifperkm));
+		$criteria->compare('t.tarifambulans', str_replace('.','',$this->tarifambulans));
                 $criteria->compare('LOWER(daftartindakan.daftartindakan_nama)',strtolower($this->daftartindakan_nama),true);
 
 		return new CActiveDataProvider($this, array(
