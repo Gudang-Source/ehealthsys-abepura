@@ -175,6 +175,7 @@ $this->widget('application.extensions.moneymask.MMask',array(
             <?php echo $form->dropDownListRow($model,'discountinue',array('1'=>'Ya','0'=>'Tidak'),
                                                     array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",
                                                     'empty'=>'-- Pilih --',)); ?>     
+                                                    
             <?php echo $form->dropDownListRow($model,'ven',  LookupM::getItems('ven'),
                                                     array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event)",
                                                     'empty'=>'-- Pilih --','style'=>'width:70px;')); ?>
@@ -200,14 +201,14 @@ $this->widget('application.extensions.moneymask.MMask',array(
                 <div class="toggle">
 					<div class="row-fluid">
 						<div class="span6">
-							<div class="control-group" style="margin-left:-30px;">
+							<div class="control-group">
 								<?php echo $form->labelEx($model,'minimalstok',array('class'=>'control-label'));?>
 								<div class="controls">
 										<?php echo $form->textField($model,'minimalstok',array('class'=>'span1 integer', 
 												'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
 								</div>
 							</div> 
-							<div class="control-group" style="margin-left:-30px;">
+							<div class="control-group">
 								<?php echo $form->labelEx($model,'lokasigudang_id',array('class'=>'control-label'));?>
 								<div class="controls">
 										<?php echo $form->dropDownList($model,'lokasigudang_id',
@@ -229,7 +230,7 @@ $this->widget('application.extensions.moneymask.MMask',array(
                 <div class="toggle">
                     <div class="row-fluid">
                         <div class="span6">
-                            <div class="control-group" style="margin-left:-30px;">
+                            <div class="control-group">
                                 <?php echo CHtml::label('Harga Beli', 'hargabeli', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo CHtml::textField('hargabeli', '', array('class' => 'control-label integer hargabeli', 'onkeyup' => 'hitung_harganetto()')); ?>
@@ -237,7 +238,7 @@ $this->widget('application.extensions.moneymask.MMask',array(
                                 </div>
                             </div>
 
-                            <div class="control-group" style="margin-left:-30px;">
+                            <div class="control-group">
                                 <?php echo $form->labelEx($model, 'satuanbesar_id', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
@@ -247,7 +248,7 @@ $this->widget('application.extensions.moneymask.MMask',array(
                                 </div>
                             </div> 
 
-                            <div class="control-group" style="margin-left:-30px;">
+                            <div class="control-group" >
                                 <?php echo CHtml::label('Isi Netto', 'kemasanbesar', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($model, 'kemasanbesar', array('class' => 'span1 integer',
@@ -256,18 +257,18 @@ $this->widget('application.extensions.moneymask.MMask',array(
                                 </div>
                             </div> 
 
-                            <div class="control-group" style="margin-left:-30px;">
+                            <div class="control-group" >
                                 <?php echo $form->labelEx($model, 'satuankecil_id', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
                                     echo $form->dropDownList($model, 'satuankecil_id', CHtml::listData($model->SatuanKecilItems, 'satuankecil_id', 'satuankecil_nama'), array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event)", 'onchange' => 'AutoTextNamaOA();',
-                                        'empty' => '-- Pilih --',));
+                                        'empty' => '-- Pilih --', 'style' => 'width:130px;'));
                                     ?>
                                 </div>
                             </div> 
                         </div>
                         <div class="span6">
-                            <div class="control-group" style="margin-left:-30px;">
+                            <div class="control-group" >
                                 <?php echo $form->labelEx($model, 'harganetto', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($model, 'harganetto', array('class' => 'span2 integer harganetto',
@@ -277,7 +278,7 @@ $this->widget('application.extensions.moneymask.MMask',array(
                                 </div>
                             </div> 
 
-                            <div class="control-group" style="margin-left:-30px;">
+                            <div class="control-group" >
                                 <?php echo $form->labelEx($model, 'discount', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($model, 'discount', array('class' => 'span1 float',
@@ -286,7 +287,7 @@ $this->widget('application.extensions.moneymask.MMask',array(
                                 </div>
                             </div> 
 
-                            <div class="control-group" style="margin-left:-30px;">
+                            <div class="control-group" >
                                 <?php echo $form->labelEx($model, 'ppn_persen', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($model, 'ppn_persen', array('class' => 'span1 float',
@@ -294,7 +295,7 @@ $this->widget('application.extensions.moneymask.MMask',array(
                                     ?> %
                                 </div>
                             </div>  
-                            <div class="control-group" style="margin-left:-30px;">
+                            <div class="control-group" >
                                 <?php echo Chtml::label('HPP', 'hpp', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($model, 'hpp', array('class' => 'span1 integer', 'onkeyup' => 'marginResep();',
@@ -311,7 +312,7 @@ $this->widget('application.extensions.moneymask.MMask',array(
                 <div class="toggle">
                     <div class="row-fluid">
                         <div class="span6">
-                            <div class="control-group" style="margin-left:-30px;">
+                            <div class="control-group" >
                                 <?php echo $form->labelEx($model, 'margin', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($model, 'margin', array('class' => 'span1 float',
@@ -319,7 +320,7 @@ $this->widget('application.extensions.moneymask.MMask',array(
                                     ?> %
                                 </div>
                             </div> 
-                            <div class="control-group" style="margin-left:-30px;">
+                            <div class="control-group" >
                                     <?php echo $form->labelEx($model, 'hargajual', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($model, 'hargajual', array('class' => 'span2 integer hargajual',
@@ -328,7 +329,7 @@ $this->widget('application.extensions.moneymask.MMask',array(
                                     <?php echo CHtml::hiddenField('hargajuallama', $model->hargajual); ?>
                                 </div>
                             </div> 
-                            <div class="control-group" style="margin-left:-30px;">
+                            <div class="control-group" >
                                 <?php echo $form->labelEx($model, 'marginnonresep', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($model, 'marginnonresep', array('class' => 'span1 float',
@@ -336,7 +337,7 @@ $this->widget('application.extensions.moneymask.MMask',array(
                                     ?> %
                                 </div>
                             </div> 
-                            <div class="control-group" style="margin-left:-30px;">
+                            <div class="control-group" >
                                 <?php echo $form->labelEx($model, 'hjanonresep', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($model, 'hjanonresep', array('class' => 'span2 integer',
@@ -344,7 +345,7 @@ $this->widget('application.extensions.moneymask.MMask',array(
                                     ?> <font size="1px">Rupiah</font>
                                 </div>
                             </div> 
-                            <div class="control-group" style="margin-left:-30px;">
+                            <div class="control-group">
                                 <?php echo $form->labelEx($model, 'marginresep', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($model, 'marginresep', array('class' => 'span1 float',
@@ -352,7 +353,7 @@ $this->widget('application.extensions.moneymask.MMask',array(
                                     ?> %
                                 </div>
                             </div> 
-                            <div class="control-group" style="margin-left:-30px;">
+                            <div class="control-group">
                                 <?php echo $form->labelEx($model, 'jasadokter', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($model, 'jasadokter', array('class' => 'span2 integer',
@@ -360,7 +361,7 @@ $this->widget('application.extensions.moneymask.MMask',array(
                                     ?> <font size="1px">Rupiah</font>
                                 </div>
                             </div> 
-                            <div class="control-group" style="margin-left:-30px;">
+                            <div class="control-group">
                                 <?php echo $form->labelEx($model, 'hjaresep', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($model, 'hjaresep', array('class' => 'span2 integer',
@@ -370,7 +371,7 @@ $this->widget('application.extensions.moneymask.MMask',array(
                             </div> 
                         </div>
                         <div class="span6">
-                            <div class="control-group" style="margin-left:-30px;">
+                            <div class="control-group" >
                                 <?php echo $form->labelEx($model, 'hargamaksimum', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($model, 'hargamaksimum', array('class' => 'span2 integer',
@@ -378,7 +379,7 @@ $this->widget('application.extensions.moneymask.MMask',array(
                                     ?> <font size="1px">Rupiah</font>
                                 </div>
                             </div> 
-                            <div class="control-group" style="margin-left:-30px;">
+                            <div class="control-group">
                                     <?php echo $form->labelEx($model, 'hargaminimum', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($model, 'hargaminimum', array('class' => 'span2 integer',
@@ -386,7 +387,7 @@ $this->widget('application.extensions.moneymask.MMask',array(
                                     ?> <font size="1px">Rupiah</font>
                                 </div>
                             </div> 
-                            <div class="control-group" style="margin-left:-30px;">
+                            <div class="control-group">
                                 <?php echo $form->labelEx($model, 'hargaaverage', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($model, 'hargaaverage', array('class' => 'span2 integer',
