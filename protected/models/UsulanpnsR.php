@@ -42,8 +42,8 @@ class UsulanpnsR extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('usulanpns_tglsk, usulanpns_nosk, usulanpns_masakerjatahun, usulanpns_masakerjabulan, usulanpns_gajipokok, usulanpns_pejabatygberwenang', 'required'),
-			array('pengangkatanpns_id, usulanpns_masakerjatahun, usulanpns_masakerjabulan', 'numerical', 'integerOnly'=>true),
-			array('usulanpns_gajipokok', 'numerical'),
+			array('pengangkatanpns_id','numerical', 'integerOnly'=>true),
+			//array('usulanpns_gajipokok, usulanpns_masakerjatahun, usulanpns_masakerjabulan', 'numerical'),
 			array('usulanpns_nosk, usulanpns_pejabatygberwenang', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.

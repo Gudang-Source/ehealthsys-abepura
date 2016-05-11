@@ -91,15 +91,17 @@
             <?php echo $form->textField($model,'jmlanak',array('class'=>'span1 integer', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
         </div>
     </div>
+    
+</div>
+<div class='span4'>
     <div class="control-group">
         <?php echo $form->labelEx($model,'alamat_pelamar', array('class'=>'control-label')) ?>    
         <div class="controls">
             <?php echo $form->textArea($model,'alamat_pelamar',array('rows'=>3, 'cols'=>30, 'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
         </div>
     </div>
-</div>
-<div class='span4'>
     <div class="control-group">
+            
         <?php echo $form->labelEx($model,'kodepos', array('class'=>'control-label')) ?>    
         <div class="controls">
             <?php echo $form->textField($model,'kodepos',array('class'=>'span2 numbers-only', 'onkeyup'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
@@ -148,13 +150,36 @@
             <?php echo $form->dropDownList($model,'suku_id',  CHtml::listData($model->Suku, 'suku_id', 'suku_nama'),array('class'=>'span2', 'onkeyup'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih Suku -- ')); ?>
         </div>
     </div>
+    
+</div>
+<div class='span4'>
+      
+    <div class="control-group">
+        <?php echo $form->labelEx($model,'profilrs_id', array('class'=>'control-label')) ?>    
+        <div class="controls">
+            <?php echo $form->dropDownList($model,'profilrs_id',  CHtml::listData($model->ProfilRS, 'profilrs_id', 'nama_rumahsakit'),array('class'=>'span3 isRequired', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>  
+        </div>
+    </div>
     <div class="control-group">
         <?php echo $form->labelEx($model,'gajiygdiharapkan', array('class'=>'control-label')) ?>    
         <div class="controls">
             <?php echo $form->textField($model,'gajiygdiharapkan',array('class'=>'span3 integer', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
         </div>
     </div>
+   
     <div class="control-group">
+        <?php echo $form->labelEx($model,'ingintunjangan', array('class'=>'control-label')) ?>    
+        <div class="controls">
+            <?php echo $form->textArea($model,'ingintunjangan',array('rows'=>3, 'cols'=>30, 'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+        </div>
+    </div>  
+    <div class="control-group">
+        <?php echo $form->labelEx($model,'keterangan_pelamar', array('class'=>'control-label')) ?>    
+        <div class="controls">
+            <?php echo $form->textArea($model,'keterangan_pelamar',array('rows'=>3, 'cols'=>30, 'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+        </div>
+    </div>
+     <div class="control-group">
         <?php echo $form->labelEx($model,'tglmulaibekerja', array('class'=>'control-label')) ?>    
         <div class="controls">
             <?php   
@@ -176,27 +201,6 @@
         </div>
     </div>
     <div class="control-group">
-        <?php echo $form->labelEx($model,'ingintunjangan', array('class'=>'control-label')) ?>    
-        <div class="controls">
-            <?php echo $form->textArea($model,'ingintunjangan',array('rows'=>3, 'cols'=>30, 'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-        </div>
-    </div>  
-</div>
-<div class='span4'>
-      
-    <div class="control-group">
-        <?php echo $form->labelEx($model,'profilrs_id', array('class'=>'control-label')) ?>    
-        <div class="controls">
-            <?php echo $form->dropDownList($model,'profilrs_id',  CHtml::listData($model->ProfilRS, 'profilrs_id', 'nama_rumahsakit'),array('class'=>'span3 isRequired', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>  
-        </div>
-    </div>
-    <div class="control-group">
-        <?php echo $form->labelEx($model,'keterangan_pelamar', array('class'=>'control-label')) ?>    
-        <div class="controls">
-            <?php echo $form->textArea($model,'keterangan_pelamar',array('rows'=>3, 'cols'=>30, 'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-        </div>
-    </div>
-	<div class="control-group">
         <?php echo $form->labelEx($model,'berlaku_s_d',array('class'=>'control-label')); ?>
         <div class="controls">
             <?php   

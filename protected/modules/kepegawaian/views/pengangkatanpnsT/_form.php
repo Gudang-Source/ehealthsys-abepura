@@ -1,4 +1,5 @@
-<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form.js'); ?>
+<?php //Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form.js'); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js'); ?>
 <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
 	'id'=>'kppengangkatanpns-t-form',
 	'enableAjaxValidation'=>false,
@@ -29,6 +30,9 @@ $this->widget('application.extensions.moneymask.MMask',array(
 	<?php echo $this->renderPartial('_pegawai',array('model'=>$modPegawai, 'form'=>$form,  'data'=>$model)); ?>
 
 	<?php echo $form->errorSummary($model); ?>
+    <?php echo $form->errorSummary($modUsulan); ?>
+    <?php echo $form->errorSummary($modPers); ?>
+    <?php echo $form->errorSummary($modRealisasi); ?>
 	
             <?php echo $form->hiddenField($model, 'jabatan', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
             <?php echo $form->hiddenField($model, 'pangkat', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
@@ -71,16 +75,22 @@ $this->widget('application.extensions.moneymask.MMask',array(
     
             
 	<div class="form-actions">
+            
             <?php if ($model->isNewRecord){ ?>
-		                <?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 
+                    <?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 
                                                                      Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),
                                                 array('class'=>'btn btn-primary', 'type'=>'submit', 'onKeypress'=>'return formSubmit(this,event)')); ?>
+                    <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),
+                                                array('class'=>'btn btn-info disabled', 'type'=>'button', 'onKeypress'=>'print("PRINT");', 'onclick'=>'print("PRINT");', 'disabled'=>true)); ?>
             <?php } else { ?>
-            <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),
-                                                array('class'=>'btn btn-primary', 'type'=>'button', 'onKeypress'=>'print("PRINT");', 'onclick'=>'print("PRINT");')); ?>
+                        <?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 
+                                                                     Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),
+                                                array('class'=>'btn btn-primary', 'type'=>'submit', 'onKeypress'=>'return formSubmit(this,event)', 'disabled'=>true)); ?>
+                    <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),
+                                                array('class'=>'btn btn-info', 'type'=>'button', 'onKeypress'=>'print("PRINT");', 'onclick'=>'print("PRINT");')); ?>
             <?php } ?>
                 <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
-                        $this->createUrl('create'), 
+                        $this->createUrl('index',array('modul_id'=>Yii::app()->session['modul_id'])), 
                         array('class'=>'btn btn-danger',
                               'onclick'=>'return refreshForm(this);'));  ?>
             <?php 
