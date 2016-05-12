@@ -24,10 +24,10 @@ class LaboratoriumController extends MyAuthController
             $modKirimKeUnitLain = new RJPasienKirimKeUnitLainT;
             $modKirimKeUnitLain->tgl_kirimpasien = date('Y-m-d H:i:s');
             $modKirimKeUnitLain->pegawai_id = $modPendaftaran->pegawai_id;
-			$modKirimKeUnitLain->kelaspelayanan_id = Params::KELASPELAYANAN_ID_TANPA_KELAS; 
-			if ($modPendaftaran->carabayar_id == Params::CARABAYAR_ID_MEMBAYAR && $modPendaftaran->penjamin_id == Params::PENJAMIN_ID_UMUM) $modKirimKeUnitLain->isbayarkekasirpenunjang = Yii::app()->user->getState('isbayarkekasirpenunjang');
-                        else $modKirimKeUnitLain->isbayarkekasirpenunjang = false;
-                        $modJenisPeriksaLab = RJJenisPemeriksaanLabM::model()->findAllByAttributes(array('jenispemeriksaanlab_aktif'=>true),array('order'=>'jenispemeriksaanlab_urutan')); 
+            $modKirimKeUnitLain->kelaspelayanan_id = Params::KELASPELAYANAN_ID_TANPA_KELAS; 
+            if ($modPendaftaran->carabayar_id == Params::CARABAYAR_ID_MEMBAYAR && $modPendaftaran->penjamin_id == Params::PENJAMIN_ID_UMUM) $modKirimKeUnitLain->isbayarkekasirpenunjang = Yii::app()->user->getState('isbayarkekasirpenunjang');
+            else $modKirimKeUnitLain->isbayarkekasirpenunjang = false;
+            $modJenisPeriksaLab = RJJenisPemeriksaanLabM::model()->findAllByAttributes(array('jenispemeriksaanlab_aktif'=>true),array('order'=>'jenispemeriksaanlab_urutan')); 
             $modPeriksaLab = RJPemeriksaanLabM::model()->findAllByAttributes(array('pemeriksaanlab_aktif'=>true),array('order'=>'jenispemeriksaanlab_id, pemeriksaanlab_urutan'));
             
             $modJenisTarif = JenistarifpenjaminM::model()->find('penjamin_id ='.$modPendaftaran->penjamin_id);
@@ -45,11 +45,22 @@ class LaboratoriumController extends MyAuthController
             }
             $modSmsgateway = SmsgatewayM::model()->findAll($criteria);
 
+            $konsul = KonsulpoliT::model()->findByAttributes(array(
+                'pendaftaran_id'=>$modPendaftaran->pendaftaran_id,
+                'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
+            ), array(
+                'order'=>'tglkonsulpoli desc',
+            ));
+            
+            if (!empty($konsul)) {
+                $modKirimKeUnitLain->pegawai_id = $konsul->pegawai_id;
+            }
+            
             if(isset($idPasienKirimKeUnitLain)){
                 $modKirimKeUnitLain = RJPasienKirimKeUnitLainT::model()->findByPk($idPasienKirimKeUnitLain);
                 $modPasien = $modKirimKeUnitLain->pasien;
             }
-
+            
             
             if(isset($_POST['RJPasienKirimKeUnitLainT'])) {
                 $transaction = Yii::app()->db->beginTransaction();

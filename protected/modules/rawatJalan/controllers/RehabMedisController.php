@@ -38,6 +38,17 @@ class RehabMedisController extends MyAuthController
                 $modPasien = $modKirimKeUnitLain->pasien;
             }
 
+            $konsul = KonsulpoliT::model()->findByAttributes(array(
+                'pendaftaran_id'=>$modPendaftaran->pendaftaran_id,
+                'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
+            ), array(
+                'order'=>'tglkonsulpoli desc',
+            ));
+            
+            if (!empty($konsul)) {
+                $modKirimKeUnitLain->pegawai_id = $konsul->pegawai_id;
+            }
+            
             if(isset($_POST['RJPasienKirimKeUnitLainT'])) {
                 $transaction = Yii::app()->db->beginTransaction();
                 try {

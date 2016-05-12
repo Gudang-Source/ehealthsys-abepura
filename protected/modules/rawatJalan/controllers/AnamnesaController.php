@@ -20,7 +20,16 @@ class AnamnesaController extends MyAuthController
             $modPasien = RJPasienM::model()->findByPk($modPendaftaran->pasien_id);
             
             $dataPendaftaran = RJPendaftaranT::model()->findAllByAttributes(array('pasien_id'=>$modPasien->pasien_id), array('order'=>'tgl_pendaftaran DESC'));
-	    
+	    $konsul = KonsulpoliT::model()->findByAttributes(array(
+                'pendaftaran_id'=>$modPendaftaran->pendaftaran_id,
+                'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
+            ), array(
+                'order'=>'tglkonsulpoli desc',
+            ));
+            
+            
+            
+            
             $i = 1;
             if (count($dataPendaftaran) > 1){
                 foreach ($dataPendaftaran as $row){
@@ -75,8 +84,14 @@ class AnamnesaController extends MyAuthController
                 //$isPasien = RJPendaftaranT::model()->findByPk($pendaftaran_id)->statuspasien;
 //                $sql = "SELECT c(diagnosa_id) FROM pasienimunisasi_t WHERE pendaftaran_id = $pendaftaran_id";
 //                $stoks = Yii::app()->db->createCommand($sql)->queryAll();
-                
+                if (!empty($konsul)) {
+                    $modPendaftaran->pegawai_id = $konsul->pegawai_id;
+                    $modPendaftaran->ruangan_id = $konsul->ruangan_id;
+                    $modAnamnesa->pegawai_id = $konsul->pegawai_id;
+                }
             }
+            
+            
             
             if ($modPendaftaran->statuspasien == "PENGUNJUNG LAMA"){
                 $modDiagnosaTerdahulu = RJPasienMorbiditasT::model()->with('diagnosa')->findAllByAttributes(array('pasien_id'=>$modPasien->pasien_id, 'pendaftaran_id'=>$lastPendaftaran));

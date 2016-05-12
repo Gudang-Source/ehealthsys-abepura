@@ -12,6 +12,17 @@ class DiagnosaController extends MyAuthController
             $modPendaftaran = RJPendaftaranT::model()->with('jeniskasuspenyakit')->findByPk($pendaftaran_id);
             $modPasien = RJPasienM::model()->findByPk($modPendaftaran->pasien_id);
             
+            $konsul = KonsulpoliT::model()->findByAttributes(array(
+                'pendaftaran_id'=>$modPendaftaran->pendaftaran_id,
+                'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
+            ), array(
+                'order'=>'tglkonsulpoli desc',
+            ));
+            
+            if (!empty($konsul)) {
+                $modPendaftaran->pegawai_id = $konsul->pegawai_id;
+            }
+            
             $modDiagnosa = new DiagnosaV('searchDiagnosis');
             $modDiagnosa->unsetAttributes();  // clear any default values
             if(isset($_GET['DiagnosaV']))
@@ -231,6 +242,18 @@ class DiagnosaController extends MyAuthController
         {
             $IdPendaftaran = $_POST['IdPendaftaran'];
             $modPendaftaran = RJPendaftaranT::model()->with('jeniskasuspenyakit')->findByAttributes(array('pendaftaran_id'=>$IdPendaftaran));
+            
+            $konsul = KonsulpoliT::model()->findByAttributes(array(
+                'pendaftaran_id'=>$modPendaftaran->pendaftaran_id,
+                'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
+            ), array(
+                'order'=>'tglkonsulpoli desc',
+            ));
+            
+            if (!empty($konsul)) {
+                $modPendaftaran->pegawai_id = $konsul->pegawai_id;
+                $modPendaftaran->ruangan_id = $konsul->ruangan_id;
+            }
             
             $modPasien = RJPasienM::model()->findByPk($modPendaftaran->pasien_id);
             $morbiditas = new RJPasienMorbiditasT;

@@ -10,6 +10,19 @@ class ResepturController extends MyAuthController
 	{
 			$ruangan_id = isset($_GET['ruangan_id']) ? $_GET['ruangan_id'] : Yii::app()->user->getState('ruangan_id');
             $modPendaftaran=RJPendaftaranT::model()->findByPk($pendaftaran_id);
+            
+            $konsul = KonsulpoliT::model()->findByAttributes(array(
+                'pendaftaran_id'=>$modPendaftaran->pendaftaran_id,
+                'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
+            ), array(
+                'order'=>'tglkonsulpoli desc',
+            ));
+            
+            if (!empty($konsul)) {
+                $modPendaftaran->pegawai_id = $konsul->pegawai_id;
+            }
+            
+            
             $modPasien = RJPasienM::model()->findByPk($modPendaftaran->pasien_id);
             $modObatAlkesPasien =array();
             $modResepturDetail =array();
