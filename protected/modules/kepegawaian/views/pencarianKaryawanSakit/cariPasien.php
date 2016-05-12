@@ -126,6 +126,8 @@ $format = new MyFormatter();
                     <?php echo $form->labelEx($model,'tgl_rm_awal', array('class'=>'control-label inline')) ?>
                     <div class="controls">
                         <?php   
+                                $model->tgl_rm_awal = MyFormatter::formatDateTimeForUser($model->tgl_rm_awal);
+                                $model->tgl_rm_akhir = MyFormatter::formatDateTimeForUser($model->tgl_rm_akhir);
                                 $this->widget('MyDateTimePicker',array(
                                                 'model'=>$model,
                                                 'attribute'=>'tgl_rm_awal',

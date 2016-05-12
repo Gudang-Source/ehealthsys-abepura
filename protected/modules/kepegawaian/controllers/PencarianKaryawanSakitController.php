@@ -68,8 +68,8 @@ class PencarianKaryawanSakitController extends MyAuthController
                 $modKec =  KecamatanM::model()->findAll(array('order'=>'kecamatan_nama'));
                 $modKel =  KelurahanM::model()->findAll(array('order'=>'kelurahan_nama'));
                 $model = new InformasipasienpegawaiV;
-                $model->tgl_rm_awal=date('d M Y');
-                $model->tgl_rm_akhir =date('d M Y');
+                $model->tgl_rm_awal = date('Y-m-d');
+                $model->tgl_rm_akhir = date('Y-m-d');
                 $modPendaftaran = new PendaftaranT();
                 //$modPendaftaran->pasien_id = 0;
                 /*
