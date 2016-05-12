@@ -274,8 +274,21 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                         'type'=>'raw',
                         'filter'=>LookupM::model()->getItems('jeniskelamin'),
                     ),
-                    'carabayar_nama',
-                    'penjamin_nama',
+                    array(
+                        'header'=>'Cara Bayar',
+                        'name'=>'carabayar_nama',
+                        'filter'=>  CHtml::activeDropDownList($modDialogKunjungan, 'carabayar_nama', CHtml::listData(
+                       CarabayarM::model()->findAll(array(
+                           'condition' => 'carabayar_aktif = true',
+                           'order' => 'carabayar_nama',
+                       )), 'carabayar_nama', 'carabayar_nama'
+                       ), array('empty'=>'-- Pilih --')),
+                    ),
+                    array(
+                        'header'=>'Penjamin',
+                        'name'=>'penjamin_nama',
+                        'filter'=>false,
+                    ),
             ),
             'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
     ));
