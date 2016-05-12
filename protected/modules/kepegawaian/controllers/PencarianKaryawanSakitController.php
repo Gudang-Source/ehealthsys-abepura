@@ -67,9 +67,9 @@ class PencarianKaryawanSakitController extends MyAuthController
                 $modKab =  KabupatenM::model()->findAll(array('order'=>'kabupaten_nama'));
                 $modKec =  KecamatanM::model()->findAll(array('order'=>'kecamatan_nama'));
                 $modKel =  KelurahanM::model()->findAll(array('order'=>'kelurahan_nama'));
-                $model = new KPPasienM;
-                $model->tgl_rm_awal=date('d M Y').' 00:00:00';
-                $model->tgl_rm_akhir =date('d M Y H:i:s');
+                $model = new InformasipasienpegawaiV;
+                $model->tgl_rm_awal=date('d M Y');
+                $model->tgl_rm_akhir =date('d M Y');
                 $modPendaftaran = new PendaftaranT();
                 //$modPendaftaran->pasien_id = 0;
                 /*
@@ -82,17 +82,17 @@ class PencarianKaryawanSakitController extends MyAuthController
                     Yii::app()->end();
                 }
                 
-                if(isset($_GET['KPPasienM'])){
-                    $model->attributes = $_GET['KPPasienM'];
-                    $model->tgl_rm_awal  = $format->formatDateTimeMediumForDB($_REQUEST['KPPasienM']['tgl_rm_awal']);
-                    $model->tgl_rm_akhir = $format->formatDateTimeMediumForDB($_REQUEST['KPPasienM']['tgl_rm_akhir']);
-                    $model->ceklis = $_REQUEST['KPPasienM']['ceklis'];
+                if(isset($_GET['InformasipasienpegawaiV'])){
+                    $model->attributes = $_GET['InformasipasienpegawaiV'];
+                    $model->tgl_rm_awal  = $format->formatDateTimeForDB($_REQUEST['InformasipasienpegawaiV']['tgl_rm_awal']);
+                    $model->tgl_rm_akhir = $format->formatDateTimeForDB($_REQUEST['InformasipasienpegawaiV']['tgl_rm_akhir']);
+                    //$model->ceklis = $_REQUEST['InformasipasienpegawaiV']['ceklis'];
                 }
-                if(isset($_REQUEST['KPPasienM'])){
-                    $model->attributes = $_REQUEST['KPPasienM'];
-                    $model->tgl_rm_awal  = $format->formatDateTimeMediumForDB($_REQUEST['KPPasienM']['tgl_rm_awal']);
-                    $model->tgl_rm_akhir = $format->formatDateTimeMediumForDB($_REQUEST['KPPasienM']['tgl_rm_akhir']);
-                    $model->ceklis = $_REQUEST['KPPasienM']['ceklis'];
+                if(isset($_REQUEST['InformasipasienpegawaiV'])){
+                    $model->attributes = $_REQUEST['InformasipasienpegawaiV'];
+                    $model->tgl_rm_awal  = $format->formatDateTimeForDB($_REQUEST['InformasipasienpegawaiV']['tgl_rm_awal']);
+                    $model->tgl_rm_akhir = $format->formatDateTimeForDB($_REQUEST['InformasipasienpegawaiV']['tgl_rm_akhir']);
+                    //$model->ceklis = $_REQUEST['InformasipasienpegawaiV']['ceklis'];
 
                 }
 //                                        $model->tgl_rm_awal = Yii::app()->dateFormatter->formatDateTime(

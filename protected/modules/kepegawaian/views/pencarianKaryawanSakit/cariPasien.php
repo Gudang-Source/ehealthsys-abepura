@@ -1,4 +1,5 @@
-<legend class="rim2">Informasi Pencarian Karyawan Sakit</legend>
+<fieldset class="white-container">
+    <legend class="rim2">Pencarian <b>Pegawai Sakit</b></legend>
 
 <?php
 //$arrMenu = array();
@@ -27,6 +28,10 @@ $('#caripasien-form').submit(function(){
 
 $format = new MyFormatter();
 ?>
+<div class="block-tabel">
+    <h6>
+        Tabel <b>Pegawai Sakit</b>
+    </h6>
 <?php
     $this->widget('ext.bootstrap.widgets.HeaderGroupGridView', array(
 	'id'=>'pencarianpasien-grid',
@@ -49,22 +54,22 @@ $format = new MyFormatter();
                         'value'=>function($data) { return date('d M Y H:i:s', strtotime($data->tgl_pendaftaran)); },
 								'headerHtmlOptions'=>array('style'=>'text-align:center'),                   
                     ),
-                    /*array(
+                    array(
                         'name'=>'tgl_rekam_medik',
                         'type'=>'raw',
                         'value'=>function($data) { return date('d M Y', strtotime($data->tgl_rekam_medik)); },
-                    ),*/
+                    ),
                     array(
                         'name'=>'no_rekam_medik',
                         'type'=>'raw',
                         'value'=>'$data->no_rekam_medik',
                         'headerHtmlOptions'=>array('style'=>'text-align:center'),
-                    ), /*
+                    ), 
             array(
                         'name'=>'nomorindukpegawai',
                         'type'=>'raw',
                         'value'=>'$data->nomorindukpegawai',
-                    ), */
+                    ), 
                     array(
                         'header'=>'Nama Karyawan',
                         'name'=>'nama_pasien',
@@ -81,31 +86,26 @@ $format = new MyFormatter();
                         'name'=>'alamat_pasien',
                         'value'=>'$data->alamat_pasien',
                         'headerHtmlOptions'=>array('style'=>'text-align:center'),
-                    ), /* 
+                    ),
                     array(
           		'header'=>'Ruangan',
                         'name'=>'ruangan_nama',
                         'type'=>'raw',
                         'value'=>'$data->ruangan_nama',
                         'headerHtmlOptions'=>array('style'=>'text-align:center'),
-                    ), */
+                    ), 
                     array(
                         'header'=>'Jabatan',
                         'name'=>'jabatan_nama',
                         'type'=>'raw',
-                        'value'=>function($data) {
-                            $pegawai = $data->pegawai;
-                            if (empty($pegawai)) return "-";
-                            if (empty($pegawai->jabatan_id)) return "-";
-                            return $pegawai->jabatan->jabatan_nama;
-                        }, //'$data->jabatan_nama',
+                        'value'=>'$data->jabatan_nama',
                         'headerHtmlOptions'=>array('style'=>'text-align:center'),
-                    ), /*
+                    ), 
                     array(
                     		'header'=>'Status Periksa',
                     		'value'=>'$data->statusperiksa',
                     		'headerHtmlOptions'=>array('style'=>'text-align:center'),
-                    ), *//*
+                    ), /*
                     array(
                         'name'=>'Rt/Rw',
                         'value'=>'$data->rt." / ".$data->rw',
@@ -116,28 +116,23 @@ $format = new MyFormatter();
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
     ));
 ?>
-<hr></hr>
-<fieldset>
-    <legend class="rim"><i class="icon-search"></i> Pencarian berdasarkan : </legend>
+</div>
+<fieldset class="box search-form">
+    <legend class="rim"><i class="icon-white icon-search"></i> Pencarian </legend>
     <table class="table">
         <tr>
             <td>
                 <div class="control-group ">
-
-                   <div class="control-label inline"
-                        <?php echo CHtml::activecheckBox($model, 'ceklis', array('uncheckValue'=>0,'rel'=>'tooltip' ,
-                                'data-original-title'=>'Cek untuk pencarian berdasarkan tanggal','onclick'=>'cekAll();')); ?>
-                        Tgl Pendaftaran Awal
-                    </div>
+                    <?php echo $form->labelEx($model,'tgl_rm_awal', array('class'=>'control-label inline')) ?>
                     <div class="controls">
                         <?php   
                                 $this->widget('MyDateTimePicker',array(
                                                 'model'=>$model,
                                                 'attribute'=>'tgl_rm_awal',
-                                                'mode'=>'datetime',
+                                                'mode'=>'date',
                                                 'options'=> array(
                                                     'dateFormat'=>Params::DATE_FORMAT,
-                                                    'maxDate' => 'd',
+                                                    //'maxDate' => 'd',
                                                     //
                                                 ),
                                                 'htmlOptions'=>array('class'=>'dtPicker3', 'onkeypress'=>"return $(this).focusNextInputField(event)"
@@ -153,10 +148,10 @@ $format = new MyFormatter();
                                 $this->widget('MyDateTimePicker',array(
                                                 'model'=>$model,
                                                 'attribute'=>'tgl_rm_akhir',
-                                                'mode'=>'datetime',
+                                                'mode'=>'date',
                                                 'options'=> array(
                                                     'dateFormat'=>Params::DATE_FORMAT,
-                                                    'minDate' => 'd',
+                                                    //'maxDate' => 'd',
                                                 ),
                                                 'htmlOptions'=>array('class'=>'dtPicker3', 'onkeypress'=>"return $(this).focusNextInputField(event)"
                                                 ),
@@ -339,3 +334,4 @@ $this->endWidget();
         }
     }
 </script>
+</fieldset>
