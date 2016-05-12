@@ -20,7 +20,7 @@ class AnamnesaController extends MyAuthController
             $modPasien = RJPasienM::model()->findByPk($modPendaftaran->pasien_id);
             
             $dataPendaftaran = RJPendaftaranT::model()->findAllByAttributes(array('pasien_id'=>$modPasien->pasien_id), array('order'=>'tgl_pendaftaran DESC'));
-	    $konsul = KonsulpoliT::model()->findByAttributes(array(
+	    $konsul = ($modPendaftaran->ruangan_id == Yii::app()->user->getState('ruangan_id'))?null:KonsulpoliT::model()->findByAttributes(array(
                 'pendaftaran_id'=>$modPendaftaran->pendaftaran_id,
                 'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
             ), array(

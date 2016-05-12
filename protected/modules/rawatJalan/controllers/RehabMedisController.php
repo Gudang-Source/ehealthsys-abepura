@@ -38,7 +38,7 @@ class RehabMedisController extends MyAuthController
                 $modPasien = $modKirimKeUnitLain->pasien;
             }
 
-            $konsul = KonsulpoliT::model()->findByAttributes(array(
+            $konsul = ($modPendaftaran->ruangan_id == Yii::app()->user->getState('ruangan_id'))?null:KonsulpoliT::model()->findByAttributes(array(
                 'pendaftaran_id'=>$modPendaftaran->pendaftaran_id,
                 'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
             ), array(
