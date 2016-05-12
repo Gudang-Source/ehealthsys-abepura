@@ -1,3 +1,15 @@
+<style>
+    .table {
+        border: 1px solid black;
+        box-shadow: none;
+        border-collapse: collapse;
+    }
+    .table th, .table td, .table footer {
+        border: 1px solid black !important;
+        color: black;
+    }
+</style>
+
 <?php
 if (isset($data['caraPrint'])){
     $pagination = false;
@@ -51,86 +63,117 @@ if (isset($data['caraPrint'])){
                     'id'=>'semua_pencarianpasien_grid',
                     'dataProvider'=>$dataProvider,
                     'template'=>"{items}",
-                    'itemsCssClass'=>'table table-striped table-bordered table-condensed',
+                    'itemsCssClass'=>'table',
+                    'enableSorting'=>false,
                     'columns'=>array(
                         array(
                             'header'=>'No',
                             'name'=>'tglbuktibayar',
                             'type'=>'raw',
                             'value'=>'$row+1',
-                            'footerHtmlOptions'=>array('colspan'=>13, 'style'=>'text-align:right;font-style:italic;'),
+                            'footerHtmlOptions'=>array('colspan'=>14, 'style'=>'text-align:right;font-style:italic;'),
                             'footer'=>'Jumlah Total',                            
                         ),
                         array(
-                            'header'=>'Tanggal Bukti Bayar / No. Bukti Bayar',
-                            'name'=>'tglbuktibayar',
-                            'type'=>'raw',
-                            'value'=>'(isset($data->tandabuktibayar->tandabuktibayar_id)?date("d/m/Y H:i:s",strtotime($data->tandabuktibayar->tglbuktibayar)):"-")."<br>".(isset($data->tandabuktibayar->tandabuktibayar_id)?$data->tandabuktibayar->nobuktibayar:"")',
-                        ),
-                        array(
-                            'name'=>'instalasi',
-                            'type'=>'raw',
-                            'value'=>'(isset($data->pendaftaran->pendaftaran_id)?$data->pendaftaran->instalasi->instalasi_nama:"-")',
-                        ),
-                        array(
-                            'header'=>'No. Pendaftaran / No. Rekam Medik',
-                            'value'=>'(isset($data->pendaftaran->pendaftaran_id)?$data->pendaftaran->no_pendaftaran:"-")." / ".(isset($data->pasien->pasien_id)?$data->pasien->no_rekam_medik:"-")',
-                        ),
-                        array(
-                            'name'=>'nama_pasien',
-                            'type'=>'raw',
-                            'value'=>'$data->pasien->nama_pasien." / ".$data->pasien->nama_bin',
-                        ),
-                        array(
-                            'name'=>'alamat_pasien',
-                            'type'=>'raw',
-                            'value'=>'$data->pasien->alamat_pasien',
-                        ),
-                        array(
-                            'header'=>'Cara Bayar | Penjamin',
-                            'name'=>'carabayar_nama',
-                            'type'=>'raw',
-                            'value'=>'(isset($data->pendaftaran->pendaftaran_id)?$data->pendaftaran->carabayar->carabayar_nama:"")."<br>".(isset($data->pendaftaran->pendafataran_id)?$data->pendaftaran->penjamin->penjamin_nama:"")',
-                        ),
-                        array(
-                            'name'=>'total_tagihan',
-                            'type'=>'raw',
-                            'value'=>'"Rp. ".number_format($data->totalbiayapelayanan,0,"",".")',
-                        ),
-                        array(
-                            'header'=>'Subsidi Asuransi',
-                            'name'=>'subsidi_asuransi',
-                            'type'=>'raw',
-                            'value'=>'number_format($data->totalsubsidiasuransi,0,"",".")',
-                        ),
-                        array(
-                            'header'=>'Subsidi RS / Klinik',
-                            'name'=>'subsidi_rs',
-                            'type'=>'raw',
-                            'value'=>'number_format($data->totalsubsidirs,0,"",".")',
-                        ),
-                        array(
-                            'header'=>'Biaya',
-                            'name'=>'iur_biaya',
-                            'type'=>'raw',
-                            'value'=>'"Rp. ".number_format($data->totaliurbiaya,0,"",".")',
-                        ),
-                        array(
-                            'header'=>'Disc',
-                            'name'=>'discount',
-                            'type'=>'raw',
-                            'value'=>'number_format($data->totaldiscount,0,"",".")',
-                        ),
-                        array(
-                            'header'=>'Pembebasan',
-                            'type'=>'raw',
-                            'value'=>'number_format($data->totalpembebasan,0,"",".")',
-                        ),
+                                'header'=>'Tanggal Bukti Bayar <br/> No. Bukti Bayar',
+                                'name'=>'tglbuktibayar',
+                                'type'=>'raw',
+                                'value'=>'(isset($data->tandabuktibayar->tglbuktibayar) ? date("d/m/Y H:i:s",strtotime($data->tandabuktibayar->tglbuktibayar)) : "")."<br>".(isset($data->tandabuktibayar->nobuktibayar) ? $data->tandabuktibayar->nobuktibayar : "")',
+                            ),
+                            array(
+                                'name'=>'instalasi',
+                                'type'=>'raw',
+                                'value'=>'(isset($data->pendaftaran->instalasi_id)?$data->pendaftaran->instalasi->instalasi_nama:"")',
+                            ),
+                            array(
+                                'header'=>'No. Pendaftaran / No. Rekam Medik',
+                                'value'=>'(isset($data->pendaftaran_id)?$data->pendaftaran->no_pendaftaran:"")." / ".(isset($data->pasien_id)?$data->pasien->no_rekam_medik:"")',
+                            ),
+                            array(
+                                'name'=>'nama_pasien',
+                                'type'=>'raw',
+                                'value'=>'(isset($data->pasien_id)?$data->pasien->nama_pasien:"")." / ".$data->nama_bin',
+                            ),
+                            array(
+                                'name'=>'alamat_pasien',
+                                'type'=>'raw',
+                                'value'=>'(isset($data->pasien_id)?$data->pasien->alamat_pasien:"")',
+                            ),
+                            array(
+                                'header'=>'Cara Bayar | Penjamin',
+                                'name'=>'carabayar_nama',
+                                'type'=>'raw',
+                                'value'=>'(isset($data->pendaftaran->carabayar_id)?$data->pendaftaran->carabayar->carabayar_nama:"")."<br>".(isset($data->pendaftaran->penjamin_id)?$data->pendaftaran->penjamin->penjamin_nama:"")',
+                            ),
+                            array(
+                                'name'=>'total_tagihan',
+                                'type'=>'raw',
+                                'value'=>'"Rp. ".number_format($data->totalbiayapelayanan,0,"",".")',
+                                'htmlOptions'=>array(
+                                    'style'=>'text-align: right',
+                                ),
+                            ),
+                            array(
+                                'header'=>'Subsidi Asuransi',
+                                'name'=>'subsidi_asuransi',
+                                'type'=>'raw',
+                                'value'=>'"Rp. ".number_format($data->totalsubsidiasuransi,0,"",".")',
+                                'htmlOptions'=>array(
+                                    'style'=>'text-align: right',
+                                ),
+                            ),
+                            array(
+                                 'header'=>'Subsidi Pemerintah',
+                                 'name'=>'subsidi_pemerintah',
+                                 'type'=>'raw',
+                                 'value'=>'"Rp. ".MyFormatter::formatNumberForPrint($data->totalsubsidipemerintah)',
+                                'htmlOptions'=>array(
+                                    'style'=>'text-align: right',
+                                ),
+                            ),
+                            array(
+                                'header'=>'Subsidi RS',
+                                'name'=>'subsidi_rs',
+                                'type'=>'raw',
+                                'value'=>'"Rp. ".number_format($data->totalsubsidirs,0,"",".")',
+                                'htmlOptions'=>array(
+                                    'style'=>'text-align: right',
+                                ),
+                            ),
+                            array(
+                                'header'=>'Biaya',
+                                'name'=>'iur_biaya',
+                                'type'=>'raw',
+                                'value'=>'"Rp. ".number_format($data->totaliurbiaya,0,"",".")',
+                                'htmlOptions'=>array(
+                                    'style'=>'text-align: right',
+                                ),
+                            ),
+                            array(
+                                'header'=>'Disc',
+                                'name'=>'discount',
+                                'type'=>'raw',
+                                'value'=>'number_format($data->totaldiscount,0,"",".")',
+                                'htmlOptions'=>array(
+                                    'style'=>'text-align: right',
+                                ),
+                            ),
+                            array(
+                                'header'=>'Pembebasan',
+                                'type'=>'raw',
+                                'value'=>'"Rp. ".number_format($data->totalpembebasan,0,"",".")',
+                                'htmlOptions'=>array(
+                                    'style'=>'text-align: right',
+                                ),
+                            ),
                         array(
                             'header'=>'Jumlah Pembayaran',
                             'name'=>'totalbayartindakan',
                             'type'=>'raw',
                             'value'=>'"Rp. ".number_format($data->totalbayartindakan,0,"",".")',
+                            'htmlOptions'=>array(
+                                    'style'=>'text-align: right',
+                                ),
                             'footerHtmlOptions'=>array('style'=>'text-align:right;'),
                             'footer'=>'sum(totalbayartindakan)',                            
                         ),

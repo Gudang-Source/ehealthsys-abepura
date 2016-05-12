@@ -411,7 +411,7 @@ class PembayaranTagihanPasienController extends MyAuthController
                     $modTindakansudahbayar->jmlbiaya_tindakan=($post['qty_tindakan'] * $post['tarif_satuan']) +  $post['tarifcyto_tindakan'];
                     $modTindakansudahbayar->jmlpembebasan=$post['pembebasan_tindakan'];
                     $modTindakansudahbayar->jmlsubsidi_asuransi=$post['subsidiasuransi_tindakan'];
-                    $modTindakansudahbayar->jmlsubsidi_pemerintah=0; //tidak digunakan lagi
+                    $modTindakansudahbayar->jmlsubsidi_pemerintah=$post['subsidipemerintah_tindakan']; //tidak digunakan lagi
                     $modTindakansudahbayar->jmlsubsidi_rs=$post['subsisidirumahsakit_tindakan']; 
                     $modTindakansudahbayar->jmliurbiaya=$post['iurbiaya_tindakan']; 
                     $modTindakansudahbayar->jmlbayar_tindakan=$post['subtotal'];
@@ -447,11 +447,14 @@ class PembayaranTagihanPasienController extends MyAuthController
             if($dataTarif[Params::KOMPONENTARIF_ID_TOTAL]['harga_tariftindakan']==$modTindakan->subsidiasuransi_tindakan){
                 foreach ($modKomponens as $i => $komponen){
                     $komponen->subsidiasuransikomp =  $dataTarif[$komponen->komponentarif_id]['harga_tariftindakan'];
+                    // var_dump($komponen->attributes); die;
                     $komponen->update();
                 }
             }else{
                 foreach ($modKomponens as $i => $komponen){
                     $komponen->subsidiasuransikomp = ($modKomponen->tarif_kompsatuan * $modTindakan->subsidiasuransi_tindakan)/($modTindakan->qty_tindakan*$modTindakan->tarif_satuan);
+                    $komponen->subsidipemerintahkomp = ($modKomponen->tarif_kompsatuan * $modTindakan->subsidipemerintah_tindakan)/($modTindakan->qty_tindakan*$modTindakan->tarif_satuan);
+                    // var_dump($komponen->attributes); die;
                     $komponen->update();
                 }
             }
@@ -509,13 +512,19 @@ class PembayaranTagihanPasienController extends MyAuthController
                     $modOasudahbayar->qty_oa=$post['qty_oa'];
                     $modOasudahbayar->hargasatuan=$post['hargasatuan_oa'];
                     $modOasudahbayar->jmlsubsidi_asuransi=$post['subsidiasuransi'];
-                    $modOasudahbayar->jmlsubsidi_pemerintah=0; //tidak digunakan lagi
+                    $modOasudahbayar->jmlsubsidi_pemerintah=$post['subsidipemerintah']; //tidak digunakan lagi
                     $modOasudahbayar->jmlsubsidi_rs=$post['subsidirs']; 
                     $modOasudahbayar->jmliurbiaya=$post['iurbiaya']; 
                     $modOasudahbayar->jmlbayar_oa=$post['subtotaloa'];
                     $modOasudahbayar->jmlsisabayar_oa=0;
                     if($modOasudahbayar->save()){
-                        if(ObatalkespasienT::model()->updateByPk($post['obatalkespasien_id'],array('oasudahbayar_id'=>$modOasudahbayar->oasudahbayar_id))){
+                        if(ObatalkespasienT::model()->updateByPk($post['obatalkespasien_id'],array(
+                            'oasudahbayar_id'=>$modOasudahbayar->oasudahbayar_id,
+                            'subsidiasuransi'=>$post['subsidiasuransi'],
+                            'subsidipemerintah'=>$post['subsidipemerintah'],
+                            'subsidirs'=>$post['subsidirs'],
+                            'iurbiaya'=>$post['iurbiaya'],
+                        ))){
                             $this->oasudahbayar_tersimpan = $this->oasudahbayar_tersimpan && true;
                         }else{
                             $this->oasudahbayar_tersimpan = false;

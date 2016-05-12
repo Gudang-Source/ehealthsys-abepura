@@ -72,13 +72,13 @@ if (isset($caraPrint)){
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                     'value'=>'MyFormatter::formatUang($data->totalsubsidiasuransi)',
                 ),
-                // array(
-                //     'header'=>'Subsidi Pemerintah',
-                //     'name'=>'totalsubsidipemerintah',
-                //     'type'=>'raw',
-                //     'value'=>'"Rp. ".number_format($data->totalsubsidipemerintah)',
-                //     'htmlOptions'=>array('style'=>'text-align:right;'),
-                // ),
+                array(
+                    'header'=>'Subsidi Pemerintah',
+                    'name'=>'totalsubsidipemerintah',
+                    'type'=>'raw',
+                    'value'=>'"Rp. ".number_format($data->totalsubsidipemerintah)',
+                    'htmlOptions'=>array('style'=>'text-align:right;'),
+                ),
                 array(
                     'header'=>'Subsidi RS',
                     'name'=>'totalsubsidirs',
