@@ -135,7 +135,7 @@ $this->widget('application.extensions.moneymask.MMask',array(
                                         )); ?>
                 </div>
             </div>
-            <?php echo $form->dropDownListRow($model,'obatalkes_golongan',  LookupM::getItems('obatalkes_golongan'),
+            <?php echo $form->dropDownListRow($model,'obatalkes_golongan',  LookupM::getItemsUrutan('obatalkes_golongan'),
                                                     array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",
                                                     'empty'=>'-- Pilih --','style'=>'width:150px;')); ?>
             <?php echo $form->dropDownListRow($model,'obatalkes_kategori',LookupM::getItems('obatalkes_kategori'),
