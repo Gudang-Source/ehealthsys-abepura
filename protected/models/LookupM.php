@@ -159,6 +159,30 @@ class LookupM extends CActiveRecord
             
             return $data;
 	}
+        
+        public static function getItemsUrutan($lookup_type=null)
+	{
+            $data = array();
+            $criteria = new CDbCriteria();
+            if(is_array($lookup_type))
+                $criteria->addInCondition ('lookup_type', $lookup_type);
+            else{
+                $lookup_type = isset($lookup_type) ? trim(strtolower($lookup_type)) : null;
+                $criteria->compare('lookup_type',$lookup_type);
+            }
+            $criteria->order = "lookup_urutan ASC";
+            $criteria->addCondition("lookup_aktif IS TRUE");
+            $models=self::model()->findAll($criteria);
+            if(count($models) > 0){
+                foreach($models as $model)
+                    // $data[$model->lookup_value]= ucwords(strtolower($model->lookup_name));
+                    $data[$model->lookup_value]= ($model->lookup_name);
+            }else{
+                $data[""] = null;
+            }
+            
+            return $data;
+	}
         /**
          * manampilkan list kode lookup
          * @param type $lookup_type

@@ -58,6 +58,8 @@
                                         array(
                                             'target'=>'iframeDetail',
                                             'onclick'=>'$("#dialogDetail").dialog("open");',
+                                            "rel"=>"tooltip",
+                                            "title"=>"Klik untuk melihat detail pemakaian obat",
                                         ));
                             },
                             'htmlOptions'=>array('style'=>'text-align: center'),
@@ -91,8 +93,7 @@
                                         ),
                                         'htmlOptions'=>array('class'=>'dtPicker3 shadee', 'onkeypress'=>"return $(this).focusNextInputField(event)"
                                         ),
-                                )); ?>
-                            <?php $model->tglAwal = MyFormatter::formatDateTimeForDb($model->tglAwal); ?>
+                                )); ?>                            
                         </div>
                     </div>
                     <div class="control-group">
@@ -144,7 +145,7 @@
             </tr>
         </table>
         <div class="form-actions">
-            <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-success btn-primary', 'type'=>'submit','onKeypress'=>'return formSubmit(this,event)')); ?>
+            <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary btn-primary', 'type'=>'submit','onKeypress'=>'return formSubmit(this,event)')); ?>
             <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Reset',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')),array('class'=>'btn btn-danger', 'type'=>'reset','onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r) {if(r) window.location = window.location.href;} ); return false;')); ?>
             <?php
             $content = $this->renderPartial($this->path_view.'tips/informasi',array(),true);

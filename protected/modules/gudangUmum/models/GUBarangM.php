@@ -36,7 +36,8 @@ class GUBarangM extends BarangM
 		}
 		if(!empty($this->bidang_id)){
 			$criteria->addCondition("subsubkelompok_id = ".$this->subsubkelompok_id);			
-		}
+		}    
+               
 		$criteria->compare('LOWER(barang_type)',strtolower($this->barang_type),true);
 		$criteria->compare('LOWER(barang_kode)',strtolower($this->barang_kode),true);
 		$criteria->compare('LOWER(barang_nama)',strtolower($this->barang_nama),true);
@@ -53,6 +54,7 @@ class GUBarangM extends BarangM
 		$criteria->compare('barang_jmldlmkemasan',$this->barang_jmldlmkemasan);
 		$criteria->compare('LOWER(barang_image)',strtolower($this->barang_image),true);
 		$criteria->compare('barang_aktif',isset($this->barang_aktif)?$this->barang_aktif:true);
+                $criteria->addCondition("barang_type != 'Aset' ");
                 $criteria->order = "barang_kode ASC";
 //		$criteria->addCondition('inventarisasiruangan_t.inventarisasi_qty_skrg > 0 ');
 		//$criteria->limit = 10;

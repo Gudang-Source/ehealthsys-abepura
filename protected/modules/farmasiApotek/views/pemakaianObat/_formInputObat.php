@@ -56,7 +56,7 @@
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
     'id' => 'dialogObat',
     'options' => array(
-        'title' => 'Stok Obat Alkes '.Yii::app()->user->getState('ruangan_id'),
+        'title' => 'Stok Obat Alkes '.Yii::app()->user->getState('ruangan_nama'),
         'autoOpen' => false,
         'modal' => true,
         'minWidth' => 900,
@@ -65,18 +65,18 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
     ),
 ));
 
-$modObatDialog = new FAObatalkesM('searchObatFarmasi');
+$modObatDialog = new InfostokobatalkesruanganV('search');
 $modObatDialog->unsetAttributes();
 $format = new MyFormatter();
-if (isset($_GET['FAObatalkesM'])) {
-    $modObatDialog->attributes = $_GET['FAObatalkesM'];
+if (isset($_GET['InfostokobatalkesruanganV'])) {
+    $modObatDialog->attributes = $_GET['InfostokobatalkesruanganV'];
     if (isset($_GET['FAObatalkesM']['therapiobat_id'])) {
         $modObatDialog->therapiobat_id = $_GET['FAObatalkesM']['therapiobat_id'];
     }
 }
 $this->widget('ext.bootstrap.widgets.BootGridView', array(
     'id' => 'obatAlkesDialog-m-grid',
-    'dataProvider' => $modObatDialog->searchObatFarmasi(),
+    'dataProvider' => $modObatDialog->searchObat(),
     'filter' => $modObatDialog,
     //'template' => "{items}\n{pager}",
     'template'=>"{summary}\n{items}\n{pager}",
@@ -96,29 +96,41 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
                 ",
                ))'
         ),
-        'obatalkes_kode',
-        'obatalkes_nama',
         array(
-            'header' => 'Tanggal Kadaluarsa',
-            'name' => 'tglkadaluarsa',
-            'filter' => '',
-        ), /*
-        array(
-            'name' => 'satuankecil.satuankecil_nama',
-            'header' => 'Satuan Kecil',
-        ),
-        array(
-            'name' => 'satuanbesar.satuanbesar_nama',
-            'header' => 'Satuan Besar',
-        ), */
-        array(
-            'header' => 'Stok',
-            'type' => 'raw',
-            'value' => 'StokobatalkesT::getJumlahStok($data->obatalkes_id, Yii::app()->user->getState("ruangan_id"))." ".$data->satuankecil->satuankecil_nama',
-            'htmlOptions'=>array(
-                'style'=>'text-align: right',
-            )
-        ),
+                    'name'=>'jenisobatalkes_id',
+                    'type'=>'raw',
+                    'value'=>'(!empty($data->jenisobatalkes_id) ? $data->jenisobatalkes->jenisobatalkes_nama : "")',
+                    'filter'=>  CHtml::activeDropDownList($modObatDialog, 'jenisobatalkes_id', CHtml::listData(
+                   JenisobatalkesM::model()->findAll(array(
+                       'condition'=>'jenisobatalkes_aktif = true',
+                       'order'=>'jenisobatalkes_nama',
+                   )), 'jenisobatalkes_id', 'jenisobatalkes_nama'), array('empty'=>'-- Pilih --')),
+                ),
+                array(
+                    'name'=>'obatalkes_kategori',
+                    'filter'=>  CHtml::activeDropDownList($modObatDialog, 'obatalkes_kategori', LookupM::getItems('obatalkes_kategori'), array(
+                        'empty'=>'-- Pilih --'
+                    ))
+                ),
+                array(
+                    'name'=>'obatalkes_golongan',
+                    'filter'=>  CHtml::activeDropDownList($modObatDialog, 'obatalkes_golongan', LookupM::getItems('obatalkes_golongan'), array(
+                        'empty'=>'-- Pilih --'
+                    ))
+                ),
+                'obatalkes_nama',                                           
+//                array(
+//                    'name'=>'sumberdana_id',
+//                    'type'=>'raw',
+//                    'value'=>'$data->sumberdana->sumberdana_nama',
+//                    'filter'=>  CHtml::activeTextField($modObatAlkes, 'sumberdana_nama'),
+//                ),
+                array(
+                    'header'=>'Jumlah Stok',
+                    'type'=>'raw',
+                    'htmlOptions'=>array('style'=>'text-align: right;'),
+                    'value'=>'StokobatalkesT::getJumlahStok($data->obatalkes_id, Yii::app()->user->getState("ruangan_id"))." ".$data->satuankecil_nama',
+                ),
     ),
     'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
 ));

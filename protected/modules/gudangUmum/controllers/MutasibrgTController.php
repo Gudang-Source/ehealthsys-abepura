@@ -8,7 +8,7 @@ class MutasibrgTController extends MyAuthController {
      */
     public $layout = '//layouts/column1';
     public $defaultAction = 'admin';
-	public $path_view = 'gudangUmum.views.mutasibrgT.';
+    public $path_view = 'gudangUmum.views.mutasibrgT.';
 
     /**
      * Displays a particular model.
@@ -54,7 +54,7 @@ class MutasibrgTController extends MyAuthController {
         $model->nomutasibrg = MyGenerator::noMutasiBarang();
         $model->totalhargamutasi = 0;
         $modLogin = LoginpemakaiK::model()->findByAttributes(array('loginpemakai_id' => Yii::app()->user->id));
-        $model->pegpengirim_id = $modLogin->pegawai_id;
+        $model->pegpengirim_id = $modLogin->pegawai_id;        
         if (!empty($model->pegpengirim_id)) $model->pegpengirim_nama = $modLogin->pegawai->nama_pegawai;
         if (isset($_GET['idMutasi'])){
             $idMutasi = $_GET['idMutasi'];

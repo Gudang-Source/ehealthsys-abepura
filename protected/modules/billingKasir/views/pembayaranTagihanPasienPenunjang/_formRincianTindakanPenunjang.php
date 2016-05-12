@@ -36,6 +36,7 @@
                 foreach($dataTindakans AS $ii =>$tindakan){
                     $tindakan->is_pilihtindakan = true;
                     $tindakan->tgl_tindakan = $format->formatDateTimeForUser($tindakan->tgl_tindakan);
+                    $tindakan->subsidipemerintah_tindakan = $tindakan->getSubsidiPenjamin('subsidipemerintahtind');
                     $subsidi = $tindakan->subsidiasuransi_tindakan+$tindakan->subsisidirumahsakit_tindakan;
                     $tindakan->subtotal = ($tindakan->qty_tindakan*$tindakan->tarif_satuan)+$tindakan->tarifcyto_tindakan-$tindakan->discount_tindakan-$tindakan->pembebasan_tindakan-$subsidi;
                     $tot_tarif_tindakan += ($tindakan->qty_tindakan*$tindakan->tarif_satuan);
@@ -54,6 +55,7 @@
                     $tindakan->pembebasan_tindakan = $format->formatNumberForPrint($tindakan->pembebasan_tindakan);
                     $tindakan->subsidiasuransi_tindakan = $format->formatNumberForPrint($tindakan->subsidiasuransi_tindakan);
                     $tindakan->subsisidirumahsakit_tindakan = $format->formatNumberForPrint($tindakan->subsisidirumahsakit_tindakan);
+                    $tindakan->subsidipemerintah_tindakan = $format->formatNumberForPrint($tindakan->subsidipemerintah_tindakan);
     //                  DISAMAKAN DENGAN subtotal >>  $tindakan->iurbiaya_tindakan = $format->formatNumberForPrint($tindakan->iurbiaya_tindakan);
                     $tindakan->iurbiaya_tindakan = $format->formatNumberForPrint($tindakan->subtotal);
                     $tindakan->subtotal = $format->formatNumberForPrint($tindakan->subtotal);
