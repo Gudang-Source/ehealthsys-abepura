@@ -104,13 +104,14 @@ $dataProvider = new CActiveDataProvider('InfokunjunganrjV',array(
     'criteria'=>$criteria,
 ));
 
-$modDataPasien = new RJInfokunjunganrjV('searchKunjunganPasien');
+$modDataPasien = new RJInfokunjunganrjV('searchPasienPembebasanTarif');
+
 $modDataPasien->statusperiksa = "SEDANG PERIKSA";
 //$modDataPasien->tgl_pendaftaran = date('Y-m-d');
 //$modDataPasien->unsetAttributes();
 if(isset($_GET['RJInfokunjunganrjV'])){
     $modDataPasien->attributes = $_GET['RJInfokunjunganrjV'];
-    $format = new MyFormatter();
+    $format = new MyFormatter();    
     $modDataPasien->tgl_pendaftaran  = $format->formatDateTimeForDb($_REQUEST['RJInfokunjunganrjV']['tgl_pendaftaran']);
     $modDataPasien->statusperiksa  = $_REQUEST['RJInfokunjunganrjV']['statusperiksa'];
     // $modDataPasien->tgl_awal  = $format->formatDateTimeForDb($_REQUEST['RJInfokunjunganrjV']['tgl_awal']);
@@ -119,7 +120,7 @@ if(isset($_GET['RJInfokunjunganrjV'])){
 
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'rjrekamedik-alkes-m-grid',
-    'dataProvider'=>$modDataPasien->searchKunjunganPasien(),
+    'dataProvider'=>$modDataPasien->searchPasienPembebasanTarif(),
     'filter'=>$modDataPasien,
         'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
@@ -136,7 +137,8 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                     "))',
             ),
 
-            'no_rekam_medik',   
+            'no_rekam_medik',     
+            //'ruangan_id',
                 //'tgl_pendaftaran',
                 array(
                     'name'=>'tgl_pendaftaran',
@@ -170,6 +172,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'name'=>'statusperiksa',
                     'type'=>'raw',
                     'value'=>'$data->statusperiksa',
+                    //'filter' => false,
                     // 'filter' => CHtml::listData(RJInfokunjunganrjV::model()->findAll(),'statusperiksa', 'statusperiksa'),
                     // 'filter' =>CHtml::activeDropDownList($modDataPasien,'statusperiksa',
                     //     LookupM::getItems('statusperiksa'),array('options' => array('SEDANG PERIKSA'=>array('selected'=>true)))),

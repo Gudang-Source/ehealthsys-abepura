@@ -53,10 +53,10 @@
     </td>
     <td style="text-align: right;">
 	<?php echo CHtml::activeHiddenField($modPemakaianObatDetail, '[ii]harganetto_satuanpakai',array('readonly'=>true)); ?>
-        <?php echo MyFormatter::formatNumberForPrint($modPemakaianObatDetail->harga_satuanpakai); ?>
+        <?php echo 'Rp'.MyFormatter::formatNumberForPrint($modPemakaianObatDetail->harga_satuanpakai); ?>
     </td>
     <td style="text-align: right;">
-        <?php echo MyFormatter::formatNumberForPrint($modPemakaianObatDetail->subtotal); ?>
+        <?php echo 'Rp'.MyFormatter::formatNumberForPrint($modPemakaianObatDetail->subtotal); ?>
     </td>
 	<?php if(!isset($_GET['sukses'])){ 
             if (empty($nobatal)) { ?>

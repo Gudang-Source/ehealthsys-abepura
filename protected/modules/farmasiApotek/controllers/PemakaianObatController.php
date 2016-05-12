@@ -93,7 +93,7 @@ class PemakaianObatController extends MyAuthController
         public function actionInformasi() {
             $model = new PemakaianobatT;
             $model->unsetAttributes();
-            $model->tglAwal = date('Y-m-d', time() - (3600 * 24 * 10));
+            $model->tglAwal = date('Y-m-d');//, time() - (3600 * 24 * 10
             $model->tglAkhir = date('Y-m-d');
             $model->create_ruangan = Yii::app()->user->getState('ruangan_id');
             if (isset($_GET['PemakaianobatT'])) {

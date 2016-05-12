@@ -63,7 +63,7 @@ if (isset($caraPrint)){
                 array(
                     'header'=>'Jumlah Tarif',
                     'type'=>'raw',
-                    'value'=>'MyFormatter::formatNumberForPrint($data->tarif_satuan)',
+                    'value'=>'"Rp".MyFormatter::formatNumberForPrint($data->tarif_satuan)',
                     'htmlOptions'=>array('style'=>'font-size:10px; text-align: right;'),
                 ),
                 array(
@@ -81,7 +81,7 @@ if (isset($caraPrint)){
                 array(
                     'header'=>'Jumlah Pembebasan',
                     'type'=>'raw',
-                    'value'=>'MyFormatter::formatNumberForPrint($data->jmlpembebasan)',
+                    'value'=>'"Rp".MyFormatter::formatNumberForPrint($data->jmlpembebasan)',
                     'htmlOptions'=>array('style'=>'font-size:10px; text-align: right;'),
                 ),                                                                
 

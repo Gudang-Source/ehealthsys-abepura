@@ -137,14 +137,14 @@
                     ),
                     array(
                         'header'=>'Harga<br/>Satuan',
-                        'value'=>'MyFormatter::formatNumberForPrint($data->hargasatuan_oa)',
+                        'value'=>'"Rp".MyFormatter::formatNumberForPrint($data->hargasatuan_oa)',
                         'htmlOptions'=>array(
                             'style'=>'text-align: right',
                         )
                     ),
                     array(
                         'header'=>'Harga<br/>Jual',
-                        'value'=>'MyFormatter::formatNumberForPrint($data->hargajual_oa)',
+                        'value'=>'"Rp".MyFormatter::formatNumberForPrint($data->hargajual_oa)',
                         'htmlOptions'=>array(
                             'style'=>'text-align: right',
                         )
@@ -197,12 +197,12 @@
                         <?php //$model->tglAwal = Yii::app()->dateFormatter->formatDateTime(CDateTimeParser::parse($model->tglAwal, 'yyyy-MM-dd hh:mm:ss','medium',null)); ?>
                         <?php echo CHtml::label('Tanggal Pelayanan','tglAwal', array('class'=>'control-label')) ?>
                         <div class="controls">
-                            <?php $model->tglAwal = MyFormatter::formatDateTimeForUser($model->tglAwal); ?>
+                            <?php $model->tglAwal = MyFormatter::formatDateTimeForUser(date('Y-m-d')); ?>
                             <?php
                                 $this->widget('MyDateTimePicker',array(
                                         'model'=>$model,
                                         'attribute'=>'tglAwal',
-                                        'mode'=>'datetime',
+                                        'mode'=>'date',
                                         'options'=> array(
                                             'dateFormat'=>Params::DATE_FORMAT,
                                             'maxDate' => 'd',
@@ -211,7 +211,7 @@
                                         'htmlOptions'=>array('class'=>'dtPicker3 shadee', 'onkeypress'=>"return $(this).focusNextInputField(event)"
                                         ),
                                 )); ?>
-                            <?php $model->tglAwal = MyFormatter::formatDateTimeForDb($model->tglAwal); ?>
+                            <?php $model->tglAkhir = MyFormatter::formatDateTimeForDb(date('Y-m-d')); ?>
                         </div>
                     </div>
                     <div class="control-group">
@@ -223,7 +223,7 @@
                                     $this->widget('MyDateTimePicker',array(
                                                     'model'=>$model,
                                                     'attribute'=>'tglAkhir',
-                                                    'mode'=>'datetime',
+                                                    'mode'=>'date',
                                                     'options'=> array(
                                                         'dateFormat'=>Params::DATE_FORMAT,
                                                         'maxDate' => 'd',
@@ -350,10 +350,10 @@
             </tr>
         </table>
         <div class="form-actions">
-            <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-success btn-primary', 'type'=>'submit','onKeypress'=>'return formSubmit(this,event)')); ?>
+            <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary btn-primary', 'type'=>'submit','onKeypress'=>'return formSubmit(this,event)')); ?>
             <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Reset',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')),array('class'=>'btn btn-danger', 'type'=>'reset','onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r) {if(r) window.location = window.location.href;} ); return false;')); ?>
             <?php
-            $content = $this->renderPartial('laboratorium.views.pemakaianBahan.tips/tipsPemakaianBahan',array(),true);
+            $content = $this->renderPartial('laboratorium.views.pemakaianBahan.tips/tipsInformasiPemakaianBahan',array(),true);
             $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
             ?>
         </div>
