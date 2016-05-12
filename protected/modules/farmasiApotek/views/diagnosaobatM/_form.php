@@ -196,9 +196,10 @@
     $modDiagnosa->unsetAttributes();
     if (isset($_GET['DiagnosaM'])) {
         $modDiagnosa->attributes = $_GET['DiagnosaM'];
+        $modDiagnosa->diagnosa_namalainnya = $_GET['DiagnosaM']['diagnosa_namalainnya'];
     }
     $this->widget('ext.bootstrap.widgets.BootGridView',array(
-        'id'=>'diagnosa-grid',
+        'id'=>'adiagnosa-grid',
         'dataProvider'=>$modDiagnosa->search(),
         'filter'=>$modDiagnosa,
         'template'=>"{summary}\n{items}\n{pager}",
@@ -218,20 +219,26 @@
             ),
             array(
                 'header'=>'Kode Diagnosa',
+                'name' => 'diagnosa_kode',
                 'value'=>'$data->diagnosa_kode',
             ),
             array(
                 'header'=>'Diagnosa',
+                'name' => 'diagnosa_nama',
                 'value'=>'$data->diagnosa_nama',
             ),
             array(
                 'header'=>'Nama Lainnya',
+                'name' => 'diagnosa_namalainnya',
                 'value'=>'$data->diagnosa_namalainnya',
             ),
             array(
                 'header'=>'imunisasi',
+                'name' => 'diagnosa_imunisasi',
                 'type'=>'raw',
                 'value'=>'($data->diagnosa_imunisasi==1)? Yii::t("mds","Yes") : Yii::t("mds","No")',
+                'filter' => CHtml::dropDownList('DiagnosaM[diagnosa_imunisasi]', $modDiagnosa->diagnosa_imunisasi, array('0'=>'Tidak','1'=>'Ya'),array('empty'=>'-- Pilih --'))
+                
             ),
         ),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
@@ -256,11 +263,11 @@ $this->endWidget();
     
     $modObatalkes = new ObatalkesM;
     $modObatalkes->unsetAttributes();
-    if (isset($_GET['DiagnosaM'])) {
-        $modObatalkes->attributes = $_GET['DiagnosaM'];
+    if (isset($_GET['ObatalkesM'])) {
+        $modObatalkes->attributes = $_GET['ObatalkesM'];      
     }
     $this->widget('ext.bootstrap.widgets.BootGridView',array(
-        'id'=>'diagnosa-grid',
+        'id'=>'obatalkes-grid',
         'dataProvider'=>$modObatalkes->searchObatFarmasi(),
         'filter'=>$modObatalkes,
         'template'=>"{summary}\n{items}\n{pager}",
@@ -281,23 +288,31 @@ $this->endWidget();
             ),
             array(
                 'header'=>'Kode Obat',
+                'name' => 'obatalkes_kode',
                 'value'=>'$data->obatalkes_kode',
             ),
             array(
                 'header'=>'Nama Obat',
+                'name' => 'obatalkes_nama',
                 'value'=>'$data->obatalkes_nama',
             ),
             array(
                 'header'=>'Jenis',
-                'value'=>'(isset($data->jenisobatalkes->jenisobatalkes_nama) ? $data->jenisobatalkes->jenisobatalkes_nama : "-")',
+                'name' => 'jenisobatalkes_id',
+                'value'=>'(isset($data->jenisobatalkes_id) ? $data->jenisobatalkes->jenisobatalkes_nama : "-")',
+                'filter' => CHtml::dropDownList('ObatalkesM[jenisobatalkes_id]', $modObatalkes->jenisobatalkes_id, CHtml::listData(JenisobatalkesM::model()->findAll("jenisobatalkes_aktif = TRUE ORDER BY jenisobatalkes_nama ASC"), 'jenisobatalkes_id', 'jenisobatalkes_nama'), array('empty'=>'-- Pilih --'))
             ),
             array(
                 'header'=>'Kategori',
+                'name' => 'obatalkes_kategori',
                 'value'=>'$data->obatalkes_kategori',
+                'filter' => CHtml::dropDownList('ObatalkesM[obatalkes_kategori]', $modObatalkes->obatalkes_kategori, LookupM::getItems('obatalkes_kategori'), array('empty'=>'-- Pilih --'))
             ),
             array(
                 'header'=>'Golongan',
+                'name' => 'obatalkes_golongan',
                 'value'=>'$data->obatalkes_golongan',
+                'filter' => CHtml::dropDownList('ObatalkesM[obatalkes_golongan]', $modObatalkes->obatalkes_golongan, LookupM::getItems('obatalkes_golongan'), array('empty'=>'-- Pilih --'))
             ),
         ),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
