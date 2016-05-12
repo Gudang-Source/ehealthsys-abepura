@@ -49,14 +49,13 @@ class PemakaianBahanController extends PemakaianBmhpController
     public function actionInformasi() {
         $model = new LBObatalkespasienT;
         $model->unsetAttributes();
-        $model->tglAwal = date('Y-m-d H:i:s', time() - (3600 * 24 * 10));
-        $model->tglAkhir = date('Y-m-d H:i:s');
+        $model->tglAwal = date('Y-m-d').' 00:00:00';
+        $model->tglAkhir = date('Y-m-d').' 23:59:59';
         $model->create_ruangan = Yii::app()->user->getState('ruangan_id');
         if (isset($_GET['LBObatalkespasienT'])) {
             $model->attributes = $_GET['LBObatalkespasienT'];
-            $model->tglAwal = MyFormatter::formatDateTimeForDb($_GET['LBObatalkespasienT']['tglAwal']);
-            $model->tglAkhir = MyFormatter::formatDateTimeForDb($_GET['LBObatalkespasienT']['tglAkhir']);
-            
+            $model->tglAwal = MyFormatter::formatDateTimeForDb($_GET['LBObatalkespasienT']['tglAwal']).' 00:00:00';
+            $model->tglAkhir = MyFormatter::formatDateTimeForDb($_GET['LBObatalkespasienT']['tglAkhir'].' 23:59:59');            
             $model->no_pendaftaran = $_GET['LBObatalkespasienT']['no_pendaftaran'];
             $model->no_rekam_medik = $_GET['LBObatalkespasienT']['no_rekam_medik'];
             $model->nama_pasien = $_GET['LBObatalkespasienT']['nama_pasien'];

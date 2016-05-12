@@ -196,6 +196,8 @@ class DokterpegawaiV extends CActiveRecord
 		));
 	}
         
+       
+        
         public function searchPrint()
         {
                 // Warning: Please modify the following code to remove attributes that

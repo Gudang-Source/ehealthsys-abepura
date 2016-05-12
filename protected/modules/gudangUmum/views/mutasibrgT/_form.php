@@ -56,23 +56,24 @@ if (isset($_GET['idMutasi']) && !empty($_GET['idMutasi'])) {
                             <?php echo $form->labelEx($model, 'pegpengirim_id', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->hiddenField($model, 'pegpengirim_id'); ?>
+                            <?php echo $form->textField($model, 'pegpengirim_nama', array('readonly'=>true)); ?>
                             <!--                <div class="input-append" style='display:inline'>-->
                             <?php
-                            $this->widget('MyJuiAutoComplete', array(
+                           /* $this->widget('MyJuiAutoComplete', array(
                                 'model' => $model,
                                 'attribute' => 'pegpengirim_nama',
                                 'source' => 'js: function(request, response) {
-                                                                                               $.ajax({
-                                                                                                       url: "' . Yii::app()->createUrl('ActionAutoComplete/getPegawai') . '",
-                                                                                                       dataType: "json",
-                                                                                                       data: {
-                                                                                                               term: request.term,
-                                                                                                       },
-                                                                                                       success: function (data) {
-                                                                                                                       response(data);
-                                                                                                       }
-                                                                                               })
-                                                                                            }',
+                                            $.ajax({
+                                                    url: "' . Yii::app()->createUrl('ActionAutoComplete/getPegawai') . '",
+                                                    dataType: "json",
+                                                    data: {
+                                                            term: request.term,
+                                                    },
+                                                    success: function (data) {
+                                                                    response(data);
+                                                    }
+                                            })
+                                         }',
                                 'options' => array(
                                     'showAnim' => 'fold',
                                     'minLength' => 2,
@@ -87,10 +88,12 @@ if (isset($_GET['idMutasi']) && !empty($_GET['idMutasi'])) {
                                 ),
                                 'htmlOptions' => array(
                                     'onkeypress' => "return $(this).focusNextInputField(event)",
-                                    'placeholder' => 'Ketikan Nama Pegawai Pengirim'
+                                    'placeholder' => 'Ketikan Nama Pegawai Pengirim', 
+                                    'readony'=>true,
+                                    'disable'=>true,
                                 ),
                                 'tombolDialog' => array('idDialog' => 'dialogPegawai'),
-                            ));
+                            ));*/
                             ?>
                         <?php echo $form->error($model, 'pegpengirim_id'); ?>
                         </div>
@@ -144,7 +147,7 @@ if (isset($_GET['idMutasi']) && !empty($_GET['idMutasi'])) {
                             <?php echo $form->labelEx($model, 'ruangantujuan_id', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php
-                            echo $form->dropDownList($model, 'instalasi_id', CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true'), 'instalasi_id', 'instalasi_nama'), array('empty' => '-- Pilih --', 'class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50,
+                            echo $form->dropDownList($model, 'instalasi_id', CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true ORDER BY instalasi_nama ASC'), 'instalasi_id', 'instalasi_nama'), array('empty' => '-- Pilih --', 'class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50,
                                 'ajax' => array('type' => 'POST',
                                     'url' => $this->createUrl('SetDropdownRuangan', array('encode' => false, 'model_nama' => get_class($model))),
                                     'update' => '#' . CHtml::activeId($model, 'ruangantujuan_id') . ''),));
@@ -208,7 +211,7 @@ if (isset($_GET['idMutasi']) && !empty($_GET['idMutasi'])) {
     $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
         'id' => 'dialogPegawaiMengetahui',
         'options' => array(
-            'title' => 'Daftar Pegawai',
+            'title' => 'Daftar Pegawai Mengetahui',
             'autoOpen' => false,
             'modal' => true,
             'width' => 750,
@@ -217,11 +220,10 @@ if (isset($_GET['idMutasi']) && !empty($_GET['idMutasi'])) {
         ),
     ));
 
-    $modPegawai = new GUPegawaiM('search');
-    $modPegawai->unsetAttributes();
-//$modPegawai->ruangan_id = 0;
-    if (isset($_GET['GUPegawaiM']))
-        $modPegawai->attributes = $_GET['GUPegawaiM'];
+    $modPegawai = new GUPegawaiRuanganV('search');
+    $modPegawai->unsetAttributes();    
+    if (isset($_GET['GUPegawaiRuanganV']))
+        $modPegawai->attributes = $_GET['GUPegawaiRuanganV'];        
 
     $this->widget('ext.bootstrap.widgets.BootGridView', array(
         'id' => 'pegawai-m-grid',
@@ -242,13 +244,17 @@ if (isset($_GET['idMutasi']) && !empty($_GET['idMutasi'])) {
                                         $(\'#dialogPegawaiMengetahui\').dialog(\'close\');
                                         return false;"))',
             ),
-            'nama_pegawai',
+            'nama_pegawai',          
             'nomorindukpegawai',
             'alamat_pegawai',
-            'agama',
+            array(
+                'name' => 'agama',
+                'filter' => CHtml::dropDownList('GUPegawaiRuanganV[agama]',$modPegawai->agama,LookupM::getItems('agama'), array('empty'=>'--Pilih--')),
+                'value' => '$data->agama',
+            ),
             array(
                 'name' => 'jeniskelamin',
-                'filter' => CHtml::dropDownList('GUPegawaiM[jeniskelamin]',$modPegawai->jeniskelamin,LookupM::getItems('jeniskelamin'), array('empty'=>'--Pilih--')),
+                'filter' => CHtml::dropDownList('GUPegawaiRuanganV[jeniskelamin]',$modPegawai->jeniskelamin,LookupM::getItems('jeniskelamin'), array('empty'=>'--Pilih--')),
                 'value' => '$data->jeniskelamin',
             ),
            
