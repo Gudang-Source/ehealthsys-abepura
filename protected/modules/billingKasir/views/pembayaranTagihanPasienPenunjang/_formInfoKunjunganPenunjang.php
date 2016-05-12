@@ -231,17 +231,17 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'resizable'=>false,
     ),
 ));
-    $modDialogKunjungan = new BKPasienmasukpenunjangV('searchDialogKunjungan');
+    $modDialogKunjungan = new BKRinciantagihanpasienpenunjangV();
     $modDialogKunjungan->unsetAttributes();
     $modDialogKunjungan->instalasi_id = $modKunjungan->instalasi_id;
-    if(isset($_GET['BKPasienmasukpenunjangV'])) {
-        $modDialogKunjungan->attributes = $_GET['BKPasienmasukpenunjangV'];
-        $modDialogKunjungan->instalasi_id = $_GET['BKPasienmasukpenunjangV']['instalasi_id'];
+    if(isset($_GET['BKRinciantagihanpasienpenunjangV'])) {
+        $modDialogKunjungan->attributes = $_GET['BKRinciantagihanpasienpenunjangV'];
+        $modDialogKunjungan->instalasi_id = $_GET['BKRinciantagihanpasienpenunjangV']['instalasi_id'];
     }
 
     $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'id'=>'datakunjungan-grid',
-            'dataProvider'=>$modDialogKunjungan->searchDialogKunjungan(),
+            'dataProvider'=>$modDialogKunjungan->searchRincianTagihan(),
             'filter'=>$modDialogKunjungan,
             'template'=>"{summary}\n{items}\n{pager}",
             'itemsCssClass'=>'table table-striped table-bordered table-condensed',
