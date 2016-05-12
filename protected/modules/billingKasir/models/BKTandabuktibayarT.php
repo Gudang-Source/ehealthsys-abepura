@@ -65,7 +65,19 @@ class BKTandabuktibayarT extends TandabuktibayarT {
                 $criteria->join .= "left join loginpemakai_k p on p.loginpemakai_id = t.create_loginpemakai_id";
                 
 		if (!empty($this->shift_id)) {
-			$criteria->addCondition("t.shift_id = " . $this->shift_id);
+                        //$criteria->compare('shift_id', $this->shift_id);
+                        
+                        $shift = ShiftM::model()->findByPk($this->shift_id);
+                        $base = strtotime('00:00:00');
+                        $jawal = strtotime($shift->shift_jamawal) - $base;
+                        $jakhir = strtotime($shift->shift_jamakhir) - $base;
+                        if ($jawal > $jakhir) {
+                            
+                            $criteria->addCondition("t.tglbuktibayar::time > '${jawal}'::interval "
+                            . "or t.tglbuktibayar::time < '${jakhir}s'::interval");
+                        } else {
+                            $criteria->addCondition("t.tglbuktibayar::time between '${jawal}s'::interval and '${jakhir}s'::interval");
+                        }
 		}
 		if (!empty($this->ruangan_id)) {
 			$criteria->addCondition("t.ruangan_id = " . $this->ruangan_id);

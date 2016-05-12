@@ -7,7 +7,7 @@
         var instalasi_id = $("#instalasi_id").val();
         $.fn.yiiGridView.update('datakunjungan-grid', {
             data: {
-                "BKPasienmasukpenunjangV[instalasi_id]":instalasi_id,
+                "BKRinciantagihanpasienpenunjangV[instalasi_id]":instalasi_id,
             }
         });
     }
@@ -35,6 +35,7 @@
                     {"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0}
                 );
                 $("#form-rinciantindakan").find('input:checkbox[name$="is_proporsitindakan"]').tooltip({"placement":"<?php echo Params::TOOLTIP_PLACEMENT; ?>"});
+                hitungTotalTindakan();
                 hitungTotalSemua();
             },
              error: function (jqXHR, textStatus, errorThrown) { $("#form-rinciantindakan").removeClass("animation-loading");console.log(errorThrown);}
@@ -55,6 +56,7 @@
         var tot_pembebasan_tindakan = parseInt($("#form-rinciantindakan #tot_pembebasan_tindakan").val());
         var tot_subsidiasuransi_tindakan = parseInt($("#form-rinciantindakan #tot_subsidiasuransi_tindakan").val());
         var tot_subsisidirumahsakit_tindakan = parseInt($("#form-rinciantindakan #tot_subsisidirumahsakit_tindakan").val());
+        var tot_subsidipemerintah_tindakan = parseInt($("#form-rinciantindakan #tot_subsidipemerintah_tindakan").val());
         var tot_iurbiaya_tindakan = parseInt($("#form-rinciantindakan #tot_iurbiaya_tindakan").val());
         var total_tindakan = parseInt($("#form-rinciantindakan #total_tindakan").val());
 
@@ -63,6 +65,7 @@
         $("#form-rinciansemua #tot_discount_semua").val(tot_discount_tindakan);
         $("#form-rinciansemua #tot_subsidiasuransi_semua").val(tot_subsidiasuransi_tindakan);
         $("#form-rinciansemua #tot_subsidirumahsakit_semua").val(tot_subsisidirumahsakit_tindakan);
+        $("#form-rinciansemua #tot_subsidipemerintah_semua").val(tot_subsidipemerintah_tindakan);
         $("#form-rinciansemua #tot_iurbiaya_semua").val(tot_iurbiaya_tindakan);
         $("#form-rinciansemua #total_semua").val(total_tindakan);
 
@@ -71,6 +74,7 @@
         $("#<?php echo CHtml::activeId($model,'totalbiayaoa');?>").val(0);
         $("#<?php echo CHtml::activeId($model,'totaldiscount');?>").val(tot_discount_tindakan);
         $("#<?php echo CHtml::activeId($model,'totalsubsidiasuransi');?>").val(tot_subsidiasuransi_tindakan);
+        $("#<?php echo CHtml::activeId($model,'totalsubsidipemerintah');?>").val(tot_subsidipemerintah_tindakan);
         $("#<?php echo CHtml::activeId($model,'totalsubsidirs');?>").val(tot_subsisidirumahsakit_tindakan);
         $("#<?php echo CHtml::activeId($model,'totaliurbiaya');?>").val(tot_iurbiaya_tindakan);
         $("#<?php echo CHtml::activeId($model,'totalpembebasan');?>").val(tot_pembebasan_tindakan);
