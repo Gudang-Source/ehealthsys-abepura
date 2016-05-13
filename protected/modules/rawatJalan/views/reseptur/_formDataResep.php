@@ -41,7 +41,7 @@
 	</div>
 </div>
  <div class="span6">
-	<?php echo $form->dropDownListRow($modReseptur,'pegawai_id',CHtml::listData($modReseptur->getDokterItems($modPendaftaran->ruangan_id), 'pegawai_id', 'NamaLengkap'),array('onkeypress'=>"return $(this).focusNextInputField(event)"));?>
+	<?php echo $form->dropDownListRow($modReseptur,'pegawai_id',CHtml::listData($modReseptur->getDokterItems(), 'pegawai_id', 'NamaLengkap'),array('onkeypress'=>"return $(this).focusNextInputField(event)"));?>
 	<?php echo $form->dropDownListRow($modReseptur,'ruangan_id',CHtml::listData($modReseptur->ApotekRawatJalan, 'ruangan_id', 'ruangan_nama'),array('onkeypress'=>"return $(this).focusNextInputField(event)",'options'=>array('Params::RUANGAN_ID_APOTEK_1'=>'selected'),'onchange'=>'setOaByRuangTujuan(this)'));?>
 	<div class="control-group ">
 		<label class="control-label" for="iter">Iter</label>

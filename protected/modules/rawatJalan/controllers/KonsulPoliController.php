@@ -73,7 +73,15 @@ class KonsulPoliController extends MyAuthController
                         );
 
                         $jenistarif = JenistarifpenjaminM::model()->find('penjamin_id ='.$modPendaftaran->penjamin_id)->jenistarif_id;
-                        $modTarif = RJTariftindakanM::model()->findByAttributes(array('daftartindakan_id'=>Params::DAFTARTINDAKAN_ID_KONSUL, 'komponentarif_id'=>Params::KOMPONENTARIF_ID_TOTAL, 'kelaspelayanan_id'=>$modPendaftaran->kelaspelayanan_id,'jenistarif_id'=>$jenistarif));
+                        
+                        $criteria = new CDbCriteria();            
+                        $criteria->addCondition('t.komponentarif_id ='.Params::KOMPONENTARIF_ID_TOTAL);
+                        $criteria->addCondition('d.daftartindakan_konsul = true and d.daftartindakan_karcis = true');
+                        $criteria->join = "join daftartindakan_m d on t.daftartindakan_id = d.daftartindakan_id";
+                        $criteria->addCondition("kelaspelayanan_id = ".$modPendaftaran->kelaspelayanan_id);						
+                        $criteria->addCondition("jenistarif_id = ".$jenistarif);						
+			
+                        $modTarif = RJTariftindakanM::model()->find($criteria);
 						if(count($modTarif) > 0){
 							$modTindakanPelayanan =  New RJTindakanPelayananT;
 							$modTindakanPelayanan->konsulpoli_id = $modKonsul->konsulpoli_id;
@@ -98,12 +106,12 @@ class KonsulPoliController extends MyAuthController
 							$modTindakanPelayanan->create_time =  date( 'Y-m-d H:i:s');
 							$modTindakanPelayanan->satuantindakan = "Hari";
 
-							$modTindakanPelayanan->daftartindakan_id = Params::DAFTARTINDAKAN_ID_KONSUL;
+							$modTindakanPelayanan->daftartindakan_id = $modTarif->daftartindakan_id;
 							$modTindakanPelayanan->tgl_tindakan = date( 'Y-m-d H:i:s');
 
 							$modTindakanPelayanan->tarif_satuan = (isset($modTarif->harga_tariftindakan) ? $modTarif->harga_tariftindakan : 0);
 							$modTindakanPelayanan->tarif_tindakan = $modTindakanPelayanan->qty_tindakan * $modTindakanPelayanan->tarif_satuan;
-
+                                                        
 							if($modTindakanPelayanan->validate()){
 								if($modTindakanPelayanan->save()){
 									$valid = true;
@@ -229,14 +237,19 @@ class KonsulPoliController extends MyAuthController
             $jenistarif = JenistarifpenjaminM::model()->find('penjamin_id ='.$penjamin_id)->jenistarif_id;
             
             $criteria = new CDbCriteria();            
-            $criteria->addCondition('komponentarif_id ='.Params::KOMPONENTARIF_ID_TOTAL);
-            $criteria->addCondition('daftartindakan_id = '.Params::DAFTARTINDAKAN_ID_KONSUL);
+            $criteria->addCondition('t.komponentarif_id ='.Params::KOMPONENTARIF_ID_TOTAL);
+            $criteria->addCondition('d.daftartindakan_konsul = true and d.daftartindakan_karcis = true');
+            $criteria->join = "join daftartindakan_m d on t.daftartindakan_id = d.daftartindakan_id";
+            
+            
+            
 			if(!empty($kelaspelayanan_id)){
 				$criteria->addCondition("kelaspelayanan_id = ".$kelaspelayanan_id);						
 			}
 			if(!empty($jenistarif)){
 				$criteria->addCondition("jenistarif_id = ".$jenistarif);						
 			}
+            // var_dump($criteria); die;
             $model = TariftindakanM::model()->findAll($criteria);
             
             $data['result'] = $this->renderPartial($this->path_view.'_listTarifKonsul', array('model'=>$model,'ruangan_nama'=>$ruangan_nama), true);

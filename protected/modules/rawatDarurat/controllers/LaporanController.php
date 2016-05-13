@@ -1,5 +1,5 @@
 <?php
-
+Yii::import("billingKasir.models.*");
 class LaporanController extends MyAuthController {
 
     public function actionLaporanSensusHarian() {
@@ -994,6 +994,76 @@ class LaporanController extends MyAuthController {
             'data' => $data,
         ));
     }
+    
+     /*
+     * ======================== PEMBEBASAN TARIF ===============================
+     */
+    
+    public function actionLaporanPembebasanTarif() {
+        $model = new BKLaporanpembebasantarifV('search');
+        $model->tgl_awal = date('d M Y 00:00:00');
+        $model->tgl_akhir = date('d M Y 23:59:59');
+        $model->ruangan_id = Yii::app()->user->getState('ruangan_id'); //CHtml::listData(RuangankasirV::model()->findAll(), 'ruangan_id', 'ruangan_id');
+        
+        $filter = null;
+        if (isset($_GET['BKLaporanpembebasantarifV'])) {
+            $model->attributes = $_GET['BKLaporanpembebasantarifV'];
+            $format = new MyFormatter();
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['BKLaporanpembebasantarifV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['BKLaporanpembebasantarifV']['tgl_akhir']);
+        }
+
+        $this->render('pembebasanTarif/index', array(
+            'model' => $model, 'filter' => $filter
+        ));
+    }
+
+    public function actionPrintLaporanPembebasanTarif() {
+        $model = new BKLaporanpembebasantarifV('search');
+        $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+        $judulLaporan = 'Laporan Pembebasan Tarif';
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Pembebasan Tarif';
+        $data['type'] = $_REQUEST['type'];
+        $data['nama_pegawai'] = LoginpemakaiK::model()->findByPK(Yii::app()->user->id)->pegawai->nama_pegawai;
+        if (isset($_REQUEST['BKLaporanpembebasantarifV'])) {
+            $model->attributes = $_REQUEST['BKLaporanpembebasantarifV'];
+            $format = new MyFormatter();
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['BKLaporanpembebasantarifV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['BKLaporanpembebasantarifV']['tgl_akhir']);
+        }
+
+        $caraPrint = $_REQUEST['caraPrint'];
+        $target = 'pembebasanTarif/_print';
+        
+        $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
+    }
+
+
+    public function actionFrameGrafikLaporanPembebasanTarif() {
+        $this->layout = '//layouts/iframe';
+        $model = new BKLaporanpembebasantarifV('search');
+        $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Pembebasan Tarif';
+        $data['type'] = $_GET['type'];
+        if (isset($_GET['BKLaporanpembebasantarifV'])) {
+            $model->attributes = $_GET['BKLaporanpembebasantarifV'];
+            $format = new MyFormatter();
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['BKLaporanpembebasantarifV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['BKLaporanpembebasantarifV']['tgl_akhir']);
+        }
+
+        $this->render('_grafik', array(
+            'model' => $model,
+            'data' => $data,
+        ));
+    }
+    
+    /*
+     * ======================== END PEMBEBASAN TARIF ===========================
+     */
 
     protected function printFunction($model,$data, $caraPrint, $judulLaporan, $target){ // $modDetail untuk apa?
         $format = new MyFormatter();

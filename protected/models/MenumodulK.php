@@ -186,6 +186,9 @@ class MenumodulK extends CActiveRecord
         {
 			$loginpemakai_id = (isset(Yii::app()->user->id) ? Yii::app()->user->id : 0);
 			$criteria = new CDbCriteria;
+                        
+                        /*
+                         * // Tampilkan menu sesuai dengan user login
 			if($loginpemakai_id != Params::LOGINPEMAKAI_ID_ADMIN ){
 				$sql = "select tugaspengguna_k.controller_nama from tugaspengguna_k 
 						join peranpengguna_k on peranpengguna_k.peranpengguna_id = tugaspengguna_k.peranpengguna_id 
@@ -199,6 +202,8 @@ class MenumodulK extends CActiveRecord
 					}
 				}
 			}
+                         * 
+                         */
             $criteria->addCondition('t.menu_aktif = true');
             $criteria->order = 'kelompokmenu.kelmenu_urutan, kelompokmenu.kelmenu_id, menu_urutan';
             if(!empty($compare)){

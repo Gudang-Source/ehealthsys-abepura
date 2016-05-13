@@ -20,6 +20,17 @@ class KonsulGiziController extends MyAuthController
             $modKirimKeUnitLain->pegawai_id = $modPendaftaran->pegawai_id;
             $modKirimKeUnitLain->ruangan_id = Params::RUANGAN_ID_GIZI;
             
+            $konsul = ($modPendaftaran->ruangan_id == Yii::app()->user->getState('ruangan_id'))?null:KonsulpoliT::model()->findByAttributes(array(
+                'pendaftaran_id'=>$modPendaftaran->pendaftaran_id,
+                'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
+            ), array(
+                'order'=>'tglkonsulpoli desc',
+            ));
+            
+            if (!empty($konsul)) {
+                $modKirimKeUnitLain->pegawai_id = $konsul->pegawai_id;
+            }
+            
             $modJenisTarif = JenistarifpenjaminM::model()->find('penjamin_id ='.$modPendaftaran->penjamin_id);
 
             $nama_modul = Yii::app()->controller->module->id;

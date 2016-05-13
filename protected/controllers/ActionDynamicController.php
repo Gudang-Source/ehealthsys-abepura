@@ -514,6 +514,9 @@ class ActionDynamicController extends Controller
             if (empty($ruangan_id) && isset($_POST[$namaModel]['ruangan_id']))
                 $ruangan_id = $_POST[$namaModel]['ruangan_id'];
 
+            if (empty($ruangan_id) && isset($_POST[$namaModel]['ruanganakhir_id']))
+                $ruangan_id = $_POST[$namaModel]['ruanganakhir_id'];
+
             $kamar = array();
             if(!empty($ruangan_id)) {
                 $kamar = KamarruanganM::model()->findAllByAttributes(array('ruangan_id'=>$ruangan_id, 'kamarruangan_aktif'=>true));

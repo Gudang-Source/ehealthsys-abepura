@@ -169,10 +169,10 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm',
                 <td>
                     <?php echo $form->textFieldRow($modPenerimaan,'nopenerimaan',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
                     <div class="control-group ">
-                        <?php echo CHtml::label('Jenis Pengeluaran','jenisPengeluaran', array('class'=>'control-label inline')) ?>
+                        <?php echo CHtml::label('Jenis Penerimaan','jenisPenerimaan', array('class'=>'control-label inline')) ?>
                         <div class="controls">
                             <?php   
-                                  echo  $form->dropDownList($modPenerimaan,'jenispenerimaan_id',CHtml::listData(JenispenerimaanM::model()->findAll(),
+                                  echo  $form->dropDownList($modPenerimaan,'jenispenerimaan_id',CHtml::listData(JenispenerimaanM::model()->findAll("jenispenerimaan_aktif = TRUE ORDER BY jenispenerimaan_nama ASC"),
                                                     'jenispenerimaan_id','jenispenerimaan_nama'),array('class'=>'span2','style'=>"width:140px;",'empty'=>'--Pilih--'));
                             ?>
                         </div>

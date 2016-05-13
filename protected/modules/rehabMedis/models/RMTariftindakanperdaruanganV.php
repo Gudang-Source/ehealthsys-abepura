@@ -46,6 +46,7 @@ class RMTariftindakanperdaruanganV  extends TariftindakanperdaruanganV
         
         public function searchInformasiPrint() {
             $provider = $this->searchInformasi();
+            $provider->criteria->order = "jenistarif_nama ASC, kategoritindakan_nama ASC, kelaspelayanan_nama ASC, daftartindakan_nama ASC";
             $provider->criteria->limit = -1;
             $provider->pagination = false;
             

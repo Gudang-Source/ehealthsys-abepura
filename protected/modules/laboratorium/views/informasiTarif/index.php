@@ -229,6 +229,8 @@
                                                     array('class'=>'btn btn-primary', 'type'=>'submit')); ?>
              <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Reset',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')),
                                                     array('class'=>'btn btn-danger', 'type'=>'reset')); ?>
+             <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),
+                                                    array('class'=>'btn btn-blue', 'type'=>'button', 'onclick'=>'printTarif()')); ?>
             <?php 
                    $content = $this->renderPartial('rawatJalan.views.tips.informasiTarif',array(),true);
                         $this->widget('UserTips',array('type'=>'admin','content'=>$content));
@@ -237,6 +239,13 @@
         <?php $this->endWidget(); ?>
     </fieldset>
 </div>
+<?php $urlPrint = $this->createUrl('print'); ?>
+<script>
+    function printTarif() {
+        //console.log("<?php echo $urlPrint; ?>&" + $("#formCari").serialize());
+        window.open("<?php echo $urlPrint; ?>&" + $("#formCariInput :input").serialize() +"caraPrint=PRINT","",'location=_new, width=900px');
+    }
+</script>
 <script>
     $("#totalPemeriksaan").append('0');
     function resetPencarian(){
