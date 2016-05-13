@@ -33,20 +33,20 @@
             'itemsCssClass'=>'table table-striped table-condensed',
             'columns'=>array(
                           array(
+                              'header'=>'Tanggal Penjualan',
+                              'value'=>'MyFormatter::formatDateTimeForUser($data->tglpenjualan)',
+                          ),
+                          array(
                               'header'=>'No. Resep / Struk',
                               'value'=>'$data->noresep',
                               'type'=>'raw',
                           ),
+                          'jenispenjualan',
                           array(
                               'header'=>'Total Harga Jual',
                               'value'=>'"Rp. ".number_format($data->totalhargajual,0,"",".")',
                               'type'=>'raw',
                           ),
-                          array(
-                              'header'=>'Tanggal Penjualan',
-                              'value'=>'$data->tglpenjualan',
-                          ),
-                          'jenispenjualan',
                             array(
                               'header'=>'No. BKM / No. Faktur',
                               'type'=>'raw',
