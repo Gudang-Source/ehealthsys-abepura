@@ -100,7 +100,6 @@
             ));
             
             $pegawai = DokterV::model()->findAllByAttributes(array(
-                'instalasi_id'=>Params::INSTALASI_ID_RJ,
                 'pegawai_aktif'=>true,
             ), array(
                 'order'=>'nama_pegawai',

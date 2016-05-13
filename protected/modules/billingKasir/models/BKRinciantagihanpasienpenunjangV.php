@@ -49,6 +49,7 @@ class BKRinciantagihanpasienpenunjangV extends RinciantagihanpasienpenunjangV
 			}
             $criteria->compare('LOWER(t.carabayar_nama)',strtolower($this->carabayar_nama),true);
             $criteria->compare('t.tarif_tindakan',$this->tarif_tindakan);
+            $criteria->compare('p.pegawai_id', $this->pegawai_id);
 			if(!empty($this->jeniskasuspenyakit_id)){
 				$criteria->addCondition("t.jeniskasuspenyakit_id = ".$this->jeniskasuspenyakit_id);					
 			}
@@ -71,7 +72,8 @@ class BKRinciantagihanpasienpenunjangV extends RinciantagihanpasienpenunjangV
             $criteria->compare('r.instalasi_id', $this->instalasi_id);
             $criteria->compare('LOWER(t.jeniskasuspenyakit_nama)',strtolower($this->jeniskasuspenyakit_nama),true);
             
-            $criteria->join = "join ruangan_m r on r.ruangan_id = t.ruangan_id";
+            $criteria->join = "join ruangan_m r on r.ruangan_id = t.ruangan_id "
+                    . "left join pendaftaran_t p on p.pendaftaran_id = t.pendaftaran_id";
             
             if ($this->statusBayar == 'LUNAS'){
                 $criteria->addCondition($str_bayar.' = false');
