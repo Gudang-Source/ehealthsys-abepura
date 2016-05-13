@@ -283,7 +283,7 @@ if (isset($caraPrint)){
             </tr>
             <tr>
                 <td colspan="10" class="uang"><b>Tanggungan Pasien :</b></td>
-                <td class="uang"><b><?php echo MyFormatter::formatNumberForPrint($total_tagihan + $subsidiasuransi + $subsidirs + $subsidipemerintah); ?></b></td>
+                <td class="uang"><b><?php echo MyFormatter::formatNumberForPrint($total_tagihan ($subsidiasuransi + $subsidirs + $subsidipemerintah)); ?></b></td>
             </tr>
         </tfoot>
         </table>
