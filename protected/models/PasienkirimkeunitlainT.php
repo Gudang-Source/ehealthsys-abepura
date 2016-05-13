@@ -235,10 +235,13 @@ class PasienkirimkeunitlainT extends CActiveRecord
 				$criteria = new CDbCriteria();
 				$criteria->addInCondition('t.kelompokpegawai_id', array(Params::KELOMPOKPEGAWAI_ID_TENAGA_MEDIK, Params::KELOMPOKPEGAWAI_ID_PARAMEDIS_KEPERAWATAN));
 				$criteria->addCondition("t.pegawai_aktif = TRUE");
+                                $criteria->join = "join ruanganpegawai_m r on r.pegawai_id = t.pegawai_id";
                                 if (!empty($ruangan_id)) {
-                                    $criteria->join = "join ruanganpegawai_m r on r.pegawai_id = t.pegawai_id";
                                     $criteria->compare('r.ruangan_id', $ruangan_id);
+                                } else {
+                                    $criteria->compare('r.ruangan_id', Yii::app()->user->getState('ruangan_id'));
                                 }
+                                
 				$criteria->order = 't.nama_pegawai';
                 return PegawaiM::model()->findAll($criteria);
 //            }

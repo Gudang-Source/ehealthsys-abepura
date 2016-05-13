@@ -42,6 +42,17 @@ class RadiologiController extends MyAuthController
                 $modKirimKeUnitLain = RJPasienKirimKeUnitLainT::model()->findByPk($idPasienKirimKeUnitLain);
                 $modPasien = $modKirimKeUnitLain->pasien;
             }
+            
+            $konsul = ($modPendaftaran->ruangan_id == Yii::app()->user->getState('ruangan_id'))?null:KonsulpoliT::model()->findByAttributes(array(
+                'pendaftaran_id'=>$modPendaftaran->pendaftaran_id,
+                'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
+            ), array(
+                'order'=>'tglkonsulpoli desc',
+            ));
+            
+            if (!empty($konsul)) {
+                $modKirimKeUnitLain->pegawai_id = $konsul->pegawai_id;
+            }
 
             if(isset($_POST['RJPasienKirimKeUnitLainT'])) {
                 $transaction = Yii::app()->db->beginTransaction();
@@ -76,9 +87,6 @@ class RadiologiController extends MyAuthController
                     
                     $isi = $modPasien->no_rekam_medik.' - '.$modPasien->nama_pasien;
                     $mr = RuanganM::model()->findByPk($modKirimKeUnitLain->ruangan_id);
-                    
-                    // var_dump($mr->attributes); die;
-                    
                     
                     $ok = CustomFunction::broadcastNotif($judul, $isi, array(
                         array('instalasi_id'=>$mr->instalasi_id, 'ruangan_id'=>$mr->ruangan_id, 'modul_id'=>$mr->modul_id),
@@ -165,8 +173,8 @@ class RadiologiController extends MyAuthController
             $modKirimKeUnitLain->create_loginpemakai_id = Yii::app()->user->id;
             $modKirimKeUnitLain->update_loginpemakai_id = Yii::app()->user->id;
             $modKirimKeUnitLain->create_ruangan = isset($_GET['ruangan_id']) ? $_GET['ruangan_id'] : Yii::app()->user->getState('ruangan_id');
-			$modKirimKeUnitLain->tgl_kirimpasien = MyFormatter::formatDateTimeForDb($modKirimKeUnitLain->tgl_kirimpasien);
-			$modKirimKeUnitLain->isbayarkekasirpenunjang = isset($_POST['RJPasienKirimKeUnitLainT']['isbayarkekasirpenunjang']) ? $_POST['RJPasienKirimKeUnitLainT']['isbayarkekasirpenunjang'] : 0;
+            $modKirimKeUnitLain->tgl_kirimpasien = MyFormatter::formatDateTimeForDb($modKirimKeUnitLain->tgl_kirimpasien);
+            $modKirimKeUnitLain->isbayarkekasirpenunjang = isset($_POST['RJPasienKirimKeUnitLainT']['isbayarkekasirpenunjang']) ? $_POST['RJPasienKirimKeUnitLainT']['isbayarkekasirpenunjang'] : 0;
             
             $modKirimKeUnitLain->nourut = MyGenerator::noUrutPasienKirimKeUnitLain($modKirimKeUnitLain->ruangan_id);
             if($modKirimKeUnitLain->validate()){

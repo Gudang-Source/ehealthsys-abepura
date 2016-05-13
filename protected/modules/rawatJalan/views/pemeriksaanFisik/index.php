@@ -69,7 +69,7 @@ $this->widget('bootstrap.widgets.BootAlert');
                             <?php echo $form->error($modPemeriksaanFisik, 'keadaanumum'); ?>
                     </div>
             </div>
-            <?php echo $form->dropDownListRow($modPemeriksaanFisik,'pegawai_id',CHtml::listData($modPemeriksaanFisik->getDokterItems($modPendaftaran->ruangan_id), 'pegawai_id', 'NamaLengkap'),array('onkeypress'=>"return $(this).focusNextInputField(event);",));?>
+            <?php echo $form->dropDownListRow($modPemeriksaanFisik,'pegawai_id',CHtml::listData($modPemeriksaanFisik->getDokterItems(), 'pegawai_id', 'NamaLengkap'),array('onkeypress'=>"return $(this).focusNextInputField(event);",));?>
 			<div class="control-group ">
                 <?php 
                 //var_dump($modPemeriksaanFisik->attributes); die;

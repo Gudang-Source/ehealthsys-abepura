@@ -17,7 +17,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
     'type' => 'horizontal',
     'htmlOptions' => array('onKeyPress' => 'return disableKeyPress(event)'),
     'focus' => '#RJAnamnesaT_keluhanutama_annoninput .maininput',
-        ));
+));
 ?>
 <div class="white-container">
     <legend class="rim2">Pemeriksaan <b>Anamnesa</b></legend>
@@ -27,7 +27,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 	<div class="span6">
             <?php echo CHtml::hiddenField('url', $this->createUrl('', array('pendaftaran_id' => $modPendaftaran->pendaftaran_id)), array('readonly' => TRUE)); ?>
             <?php echo CHtml::hiddenField('berubah', '', array('readonly' => TRUE)); ?>
-            <?php echo $form->dropDownListRow($modAnamnesa, 'pegawai_id', CHtml::listData($modAnamnesa->getDokterItems($modPendaftaran->ruangan_id), 'pegawai_id', 'NamaLengkap'), array('onkeypress' => "return $(this).focusNextInputField(event);",)); ?>
+            <?php echo $form->dropDownListRow($modAnamnesa, 'pegawai_id', CHtml::listData($modAnamnesa->getDokterItems(), 'pegawai_id', 'NamaLengkap'), array('onkeypress' => "return $(this).focusNextInputField(event);",)); ?>
             <?php // echo $form->dropDownListRow($modAnamnesa, 'paramedis_nama', CHtml::listData(ParamedisV::model()->findAll("ruangan_id = ".Yii::app()->user->getState('ruangan_id')), 'nama_pegawai', 'NamaLengkap'), array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>                        
             <div class="control-group ">
                 <?php 
