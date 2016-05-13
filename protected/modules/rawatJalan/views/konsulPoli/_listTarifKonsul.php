@@ -14,7 +14,7 @@
         <tr>
             <td><?php echo $ruangan_nama ?></td>
             <td><?php echo $konsul->daftartindakan->daftartindakan_nama ?></td>
-            <td><?php echo $konsul->harga_tariftindakan ?></td>
+            <td><?php echo MyFormatter::formatNumberForPrint($konsul->harga_tariftindakan); ?></td>
         </tr>
     <?php } ?>
     <?php }else{ ?>

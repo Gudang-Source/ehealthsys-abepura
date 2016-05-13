@@ -45,6 +45,7 @@ class InfostokobatalkesruanganV extends CActiveRecord
                 public $tgl_awal;
                 public $tgl_akhir;
                 public $qty;
+                public $qtystok;
                 public $qty_in;
                 public $qty_out;
                 public $qty_current;
@@ -176,10 +177,18 @@ class InfostokobatalkesruanganV extends CActiveRecord
 		$criteria->compare('LOWER(tglstok_out)',strtolower($this->tglstok_out),true);
 		$criteria->compare('qtystok_in',$this->qtystok_in);
 		$criteria->compare('qtystok_out',$this->qtystok_out);
-		$criteria->compare('qtystok_current',$this->qtystok_current);
-		$criteria->compare('harganetto_oa',$this->harganetto_oa);
-		$criteria->compare('hargajual_oa',$this->hargajual_oa);
-		$criteria->compare('discount',$this->discount);
+                if (isset($this->qtystok_current)){
+                    $criteria->compare('qtystok_current',$this->qtystok_current);
+                }
+                if (isset($this->harganetto_oa)){
+                    $criteria->compare('harganetto_oa',$this->harganetto_oa);
+                }
+                if (isset($this->hargajual_oa)){
+                    $criteria->compare('hargajual_oa',$this->hargajual_oa);
+                }
+                if (isset($this->hargajual_oa)){
+                    $criteria->compare('discount',$this->discount);
+                }
 		//$criteria->addBetweenCondition('tglkadaluarsa',$this->tgl_awal,$this->tgl_akhir);
 		$criteria->compare('LOWER(create_time)',strtolower($this->create_time),true);
 		$criteria->compare('LOWER(update_time)',strtolower($this->update_time),true);
@@ -188,6 +197,22 @@ class InfostokobatalkesruanganV extends CActiveRecord
 		$criteria->compare('LOWER(create_ruangan)',strtolower($this->create_ruangan),true);
 		$criteria->compare('penerimaandetail_id',$this->penerimaandetail_id);
 
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+	}
+        
+        public function searchObat()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+		$criteria=new CDbCriteria;                
+                $criteria->select = "obatalkes_nama, obatalkes_id";
+		$criteria->compare('ruangan_id',Yii::app()->user->ruangan_id);		
+                $criteria->compare('LOWER(obatalkes_golongan)',$this->obatalkes_golongan, TRUE);		
+                $criteria->compare('LOWER(obatalkes_kategori)',$this->obatalkes_golongan, TRUE);
+                $criteria->compare('jenisobatalkes_id',$this->jenisobatalkes_id);
+                $criteria->group = "obatalkes_nama, obatalkes_id";
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));

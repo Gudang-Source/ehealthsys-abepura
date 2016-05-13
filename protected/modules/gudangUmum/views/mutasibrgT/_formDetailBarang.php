@@ -81,7 +81,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
         'title' => 'Daftar Barang',
         'autoOpen' => false,
         'modal' => true,
-        'width' => 750,
+        'width' => 800,
         'height' => 600,
         'resizable' => false,
     ),
@@ -89,10 +89,10 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
 
 $modBarang = new GUBarangM('search');
 $modBarang->unsetAttributes();
-//$modPegawai->ruangan_id = 0;
-if (isset($_GET['GUBarangM']))
-    $modBarang->attributes = $_GET['GUBarangM'];
 
+if (isset($_GET['GUBarangM'])){
+    $modBarang->attributes = $_GET['GUBarangM'];    
+}
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'barang-m-grid',
     'dataProvider'=>$modBarang->searchDialog(),
@@ -116,7 +116,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
        array(
             'header' => 'Tipe Barang',
             'name' => 'barang_type',
-            'filter' => CHtml::dropDownList('ADBarangM[barang_type]',$modBarang->barang_type,LookupM::getItems('barangumumtype'),array('empty'=>'-- Pilih --')),    
+            'filter' => CHtml::dropDownList('GUBarangM[barang_type]',$modBarang->barang_type,  CHtml::listData(LookupM::model()->findAll("lookup_type = 'barangumumtype' AND lookup_aktif = TRUE AND lookup_name != 'Aset' "),'lookup_value','lookup_name'),array('empty'=>'-- Pilih --')),    
             'value' => '$data->barang_type',
         ),
         'barang_kode',
@@ -124,7 +124,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
         'barang_merk',        
         array(
             'name'=>'barang_satuan',
-            'filter'=> CHtml::dropDownList('ADBarangM[barang_satuan]',$modBarang->barang_satuan,LookupM::getItems('satuanbarang'),array('empty'=>'--Pilih--')),
+            'filter'=> CHtml::dropDownList('GUBarangM[barang_satuan]',$modBarang->barang_satuan,LookupM::getItems('satuanbarang'),array('empty'=>'--Pilih--')),
             'value'=>'$data->barang_satuan',
         ),
         'barang_ukuran',

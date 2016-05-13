@@ -49,20 +49,21 @@
                                     'dateFormat'=>Params::DATE_FORMAT,
                                 ),
                                 'htmlOptions'=>array('readonly' => true,
+                                'class'=>'realtime',
                                 'onkeypress'=>"return $(this).focusNextInputField(event)"),
                             )
                         );
                     ?>
                 </div>
             </div>
-            <?php echo $form->textFieldRow($model,'closingsaldoawal',array('class'=>'span3 integer','onkeyup'=>'hitungTotalSetoran()','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
-            <?php echo $form->textFieldRow($model,'terimauangpelayanan',array('readOnly'=>true,'class'=>'span3 integer','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
-            <?php echo $form->textFieldRow($model,'terimauangmuka',array('class'=>'span3 integer','onkeypress'=>"return $(this).focusNextInputField(event)",'onkeyup'=>'hitungPiutang(this)')); ?>            
+            <?php echo $form->textFieldRow($model,'closingsaldoawal',array('class'=>'span3 integer2','onkeyup'=>'hitungTotalSetoran()','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+            <?php echo $form->textFieldRow($model,'terimauangpelayanan',array('readOnly'=>true,'class'=>'span3 integer2','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+            <?php echo $form->textFieldRow($model,'terimauangmuka',array('class'=>'span3 integer2','onkeypress'=>"return $(this).focusNextInputField(event)",'onkeyup'=>'hitungPiutang(this)')); ?>            
             <div class="control-group">
                 <div class='control-label'>Jumlah Penerimaan Umum</div>
                 <div class="controls">
                     <?php
-                        echo(CHtml::textField("jum_penerimaan_umum", $informasi['total_penerimaan_umum'], array('readOnly'=>true,'size'=>20, 'class'=>'span3 integer'))); 
+                        echo(CHtml::textField("jum_penerimaan_umum", $informasi['total_penerimaan_umum'], array('readOnly'=>true,'size'=>20, 'class'=>'span3 integer2'))); 
                         echo CHtml::htmlButton('List',
                             array(
                                 'onclick' => 'listPenerimaanUmum()',
@@ -90,7 +91,7 @@
                 </div>
                 <div class="controls">
                     <?php
-                        echo(CHtml::textField("jum_pengeluaran_umum", $informasi['total_pengeluaran_umum'], array('readOnly'=>true,'size'=>20, 'class'=>'span3 integer'))); 
+                        echo(CHtml::textField("jum_pengeluaran_umum", $informasi['total_pengeluaran_umum'], array('readOnly'=>true,'size'=>20, 'class'=>'span3 integer2'))); 
                         echo CHtml::htmlButton('List',
                             array(
                                 'onclick' => 'listPengeluaranUmum()',
@@ -116,7 +117,7 @@
                 <div class='control-label'>Jumlah Penerimaan Tunai</div>
                 <div class="controls">
                     <?php
-                        echo(CHtml::textField("jum_penerimaan_tunai", 0, array('readOnly'=>true, 'size'=>20, 'class'=>'span3 integer'))); 
+                        echo(CHtml::textField("jum_penerimaan_tunai", 0, array('readOnly'=>true, 'size'=>20, 'class'=>'span3 integer2'))); 
                     ?>
                 </div>
             </div>
@@ -124,15 +125,15 @@
                 <div class='control-label'>Total Tutup Kasir </div>
                 <div class="controls">
                     <?php
-                        echo $form->textField($model,'nilaiclosingtrans',array('readOnly'=>true,'class'=>'span3 integer','onkeypress'=>"return $(this).focusNextInputField(event)"));
+                        echo $form->textField($model,'nilaiclosingtrans',array('readOnly'=>true,'class'=>'span3 integer2','onkeypress'=>"return $(this).focusNextInputField(event)"));
                     ?>
                     <div style="margin-top:5px;font-size:11px;color:red;width:200px;padding:5px;border:1px solid;">Total Tutup Kasir = Total Penerimaan Tunai + Total Administrasi</div>
                 </div>
             </div>
                 <?php
-    //                echo $form->textFieldRow($model,'nilaiclosingtrans',array('readOnly'=>true,'class'=>'span3 integer','onkeypress'=>"return $(this).focusNextInputField(event)"));
+    //                echo $form->textFieldRow($model,'nilaiclosingtrans',array('readOnly'=>true,'class'=>'span3 integer2','onkeypress'=>"return $(this).focusNextInputField(event)"));
                 ?>
-                <?php echo $form->textFieldRow($model,'totalsetoran',array('readonly'=>true,'class'=>'span3 integer','onkeypress'=>"return $(this).focusNextInputField(event)"));?>            
+                <?php echo $form->textFieldRow($model,'totalsetoran',array('readonly'=>true,'class'=>'span3 integer2','onkeypress'=>"return $(this).focusNextInputField(event)"));?>            
                 <div class="controls">
                     <div style="margin-left:125px;margin-top:5px;font-size:11px;color:red;width:200px;padding:5px;border:1px solid;">Total Setoran = Total Tutup Kasir + Saldo Awal</div>
                 </div>
@@ -161,7 +162,7 @@
                         ),   
                     ),
                 )); ?>
-            <?php echo $form->textFieldRow($model,'piutang',array('class'=>'span3 integer','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+            <?php echo $form->textFieldRow($model,'piutang',array('class'=>'span3 integer2','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
             <?php echo $form->textAreaRow($model,'keterangan_closing',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
             <?php echo $form->hiddenField($model,'jmluanglogam', array('value'=>0)); ?>
             <?php echo $form->hiddenField($model,'jmluangkertas', array('value'=>0)); ?>
@@ -177,10 +178,10 @@
                     <div class='control-label'><?php echo $value['lookup_name'];?></div>
                     <div class="controls">
                         <?php
-                            echo(CHtml::textField("jum_recehan[". $value['lookup_value'] ."]", 0, array('onkeypress'=>"return $(this).focusNextInputField(event)", 'onKeyup'=>'hitungRecehan()', 'is_receh'=>($value['lookup_value'] < 500 ? 1 : 0), 'recehan_val'=>$value['lookup_value'],'size'=>20, 'class'=>'span3  integer'))); 
+                            echo(CHtml::textField("jum_recehan[". $value['lookup_value'] ."]", 0, array('onkeypress'=>"return $(this).focusNextInputField(event)", 'onKeyup'=>'hitungRecehan()', 'is_receh'=>($value['lookup_value'] < 500 ? 1 : 0), 'recehan_val'=>$value['lookup_value'],'size'=>20, 'class'=>'span3  integer2'))); 
                             echo(CHtml::hiddenField("val_recehan[". $value['lookup_value'] ."]", $value['lookup_value'], array('size'=>20, 'class'=>'span3 numbersOnly recehan'))); 
-                        ?>
-                    </div>
+                        ?> 
+                   </div>
                 </div>
             <?php
                 }
@@ -189,7 +190,7 @@
                 <div class='control-label'>Total Recehan</div>
                 <div class="controls">
                     <?php
-                        echo(CHtml::textField("total_recehan", 0, array('readonly'=>true,'onkeypress'=>"return $(this).focusNextInputField(event)",'size'=>20, 'class'=>'span3 numericOnly recehan'))); 
+                        echo(CHtml::textField("total_recehan", 0, array('readonly'=>true,'onkeypress'=>"return $(this).focusNextInputField(event)",'size'=>20, 'class'=>'span3 numericOnly recehan', 'style'=>'text-align: right;'))); ;
                     ?>
                 </div>
             </div>            

@@ -45,13 +45,17 @@ class BKLaporanpembebasantarifV extends LaporanpembebasantarifV {
     }
 
     protected function functionCriteria() {
+        $format = new MyFormatter();
+        
         $criteria = new CDbCriteria();
-		if(!empty($this->pegawai_id)){
-			$criteria->addCondition('pegawai_id = '.$this->pegawai_id);
-		}
-                $criteria->compare('ruangan_id', $this->ruangan_id);
-        $criteria->addBetweenCondition('tgl_tindakan', $this->tgl_awal, $this->tgl_akhir);
+        if(!empty($this->pegawai_id)){
+                $criteria->addCondition('pegawai_id = '.$this->pegawai_id);
+        }
+        //$criteria->compare('ruangan_id', $this->ruangan_id);
+        $criteria->compare('create_ruangan', $this->ruangan_id);
+        $criteria->addBetweenCondition('tgl_tindakan', $format->formatDateTimeForDb($this->tgl_awal), $format->formatDateTimeForDb($this->tgl_akhir));
 
         return $criteria;
     }
+      
 }

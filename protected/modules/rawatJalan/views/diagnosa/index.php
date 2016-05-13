@@ -30,7 +30,7 @@ $this->widget('bootstrap.widgets.BootAlert');
             <td width="50%">
                 <?php echo CHtml::hiddenField('url',$this->createUrl('',array('pendaftaran_id'=>$modPendaftaran->pendaftaran_id)),array('readonly'=>TRUE));?>
                 <?php echo CHtml::hiddenField('berubah','',array('readonly'=>TRUE));?>
-                <?php echo $form->dropDownListRow($modMorbiditas[0],'[0]pegawai_id',CHtml::listData($modMorbiditas[0]->getDokterItems($modPendaftaran->ruangan_id), 'pegawai_id', 'NamaLengkap'), array('onkeypress'=>"return $(this).focusNextInputField(event);"));?>
+                <?php echo $form->dropDownListRow($modMorbiditas[0],'[0]pegawai_id',CHtml::listData($modMorbiditas[0]->getDokterItems(), 'pegawai_id', 'NamaLengkap'), array('onkeypress'=>"return $(this).focusNextInputField(event);"));?>
                 <?php //echo $form->dropDownListRow($modMorbiditas[0],'[0]kasusdiagnosa',LookupM::getItems('kasusdiagnosa'),array('empty'=>'-- Pilih --', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>20)); ?>
             </td>
             <td width="50%">

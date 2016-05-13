@@ -29,6 +29,13 @@ class PemeriksaanFisikController extends MyAuthController
 			$modPemeriksaanGambar = RJPemeriksaangambarT::model()->findAllByAttributes(array('pendaftaran_id'=>$pendaftaran_id));
             $cekPemeriksaanFisik=RJPemeriksaanFisikT::model()->findByAttributes(array('pendaftaran_id'=>$pendaftaran_id));
             
+            $konsul = ($modPendaftaran->ruangan_id == Yii::app()->user->getState('ruangan_id'))?null:KonsulpoliT::model()->findByAttributes(array(
+                'pendaftaran_id'=>$modPendaftaran->pendaftaran_id,
+                'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
+            ), array(
+                'order'=>'tglkonsulpoli desc',
+            ));
+            
             if(COUNT($cekPemeriksaanFisik)>0)
 				{  //Jika Pasien Sudah Melakukan Pemeriksaan Fisik  Sebelumnya
 					$modPemeriksaanFisik=$cekPemeriksaanFisik;
@@ -50,7 +57,13 @@ class PemeriksaanFisikController extends MyAuthController
 					$modPemeriksaanFisik->create_time=date('Y-m-d H:i:s');
 					$modPemeriksaanFisik->create_ruangan= isset($_GET['ruangan_id']) ? $_GET['ruangan_id'] : Yii::app()->user->getState('ruangan_id');
 					$modPemeriksaanFisik->create_loginpemakai_id=Yii::app()->user->id;
+                                        if (!empty($konsul)) {
+                                            $modPendaftaran->pegawai_id = $konsul->pegawai_id;
+                                            $modPendaftaran->ruangan_id = $konsul->ruangan_id;
+                                            $modPemeriksaanFisik->pegawai_id = $konsul->pegawai_id;
+                                        }
 				}
+                                
                     if(isset($_POST['RJPemeriksaanFisikT']))
                     {
                         $transaction = Yii::app()->db->beginTransaction();
@@ -123,6 +136,8 @@ class PemeriksaanFisikController extends MyAuthController
                                 Yii::app()->user->setFlash('error',"Data Pemeriksaan Fisik gagal disimpan ".MyExceptionMessage::getMessage($exc,true));
 							}
                     } 
+                    
+                    
                   $modPemeriksaanFisik->tglperiksafisik = Yii::app()->dateFormatter->formatDateTime(
                                         CDateTimeParser::parse($modPemeriksaanFisik->tglperiksafisik, 'yyyy-MM-dd hh:mm:ss'));       
                   $this->render($this->path_view.'index',array('modPasien'=>$modPasien,

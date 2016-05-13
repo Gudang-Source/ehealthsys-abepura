@@ -12,7 +12,19 @@ class RujukanKeluarController extends MyAuthController
             $modPendaftaran = RJPendaftaranT::model()->with('jeniskasuspenyakit')->findByPk($pendaftaran_id);
             $modPasien = RJPasienM::model()->findByPk($modPendaftaran->pasien_id);
             $smspasien = 1;
-			
+		
+            $konsul = ($modPendaftaran->ruangan_id == Yii::app()->user->getState('ruangan_id'))?null:KonsulpoliT::model()->findByAttributes(array(
+                'pendaftaran_id'=>$modPendaftaran->pendaftaran_id,
+                'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
+            ), array(
+                'order'=>'tglkonsulpoli desc',
+            ));
+            
+            if (!empty($konsul)) {
+                $modPendaftaran->pegawai_id = $konsul->pegawai_id;
+                $modPendaftaran->ruangan_id = $konsul->ruangan_id;
+            }
+            
             $modRujukanKeluar = new RJPasienDirujukKeluarT;
             $modRujukanKeluar->pendaftaran_id = $pendaftaran_id;
             $modRujukanKeluar->pasien_id = $modPendaftaran->pasien_id;

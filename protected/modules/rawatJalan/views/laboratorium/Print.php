@@ -28,7 +28,7 @@ echo $this->renderPartial('application.views.headerReport.headerDefault',array('
 <table width="100%" <?php echo $style; ?> >
     <tr>
         <td width="30%"><label class='control-label'><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('tgl_pendaftaran')); ?></label></td>
-        <td width="60%"><?php echo CHtml::encode($modPendaftaran->tgl_pendaftaran); ?></td>
+        <td width="60%"><?php echo CHtml::encode(MyFormatter::formatDateTimeForUser($modPendaftaran->tgl_pendaftaran)); ?></td>
     </tr>
     <tr>
         <td width="30%"><label class='control-label'><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('no_pendaftaran')); ?> / No. Permintaan</label></td>
@@ -145,6 +145,6 @@ foreach ($modRiwayatKirimKeUnitLain as $i => $riwayat) {
         ?>
         <td width="40%" align="center"><?php echo $namaRuangan.' - '.$User; ?></td>
         <td width="20%" align="center"></td>
-        <td width="40%" align="center">( <?php echo CHtml::encode($modPendaftaran->pegawai->nama_pegawai); ?> )</td>
+        <td width="40%" align="center">( <?php echo CHtml::encode($modPendaftaran->pegawai->namaLengkap); ?> )</td>
     <tr>
 </table>
