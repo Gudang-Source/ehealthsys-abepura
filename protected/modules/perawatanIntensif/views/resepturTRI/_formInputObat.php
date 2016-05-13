@@ -1,3 +1,5 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
 <fieldset class="box" id="form-dataresep">
     <legend class="rim">Data Resep</legend>
     <?php echo CHtml::hiddenField('deposit',$modDeposit,array()); ?>
@@ -248,7 +250,7 @@
 					<div class="control-group ">
 						<label class="control-label" for="permintaan">Permintaan Dosis</label>
 						<div class="controls">
-							<?php echo CHtml::textField('permintaan', '', array('disabled'=>false,'onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'inputFormTabel span1  numbers-only','onblur'=>'hitungJumlahObat()')) ?>
+							<?php echo CHtml::textField('permintaan', '', array('disabled'=>false,'onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'inputFormTabel span1  float2','onblur'=>'hitungJumlahObat()', 'style'=>'text-align:right')) ?>
 							<?php echo CHtml::dropDownList('', '', LookupM::getItems('satuankekuatan'),array('class'=>'inputFormTabel span1','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
 						</div>
 					</div>
