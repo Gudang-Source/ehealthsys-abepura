@@ -68,13 +68,12 @@
                 'condition'=>'penjamin_aktif = true',
                 'order'=>'penjamin_nama',
             ));
-            /*
+            
             $pegawai = DokterV::model()->findAllByAttributes(array(
-                'instalasi_id'=>Params::INSTALASI_ID_RJ,
                 'pegawai_aktif'=>true,
             ), array(
                 'order'=>'nama_pegawai',
-            )); */
+            ));
             foreach ($carabayar as $idx=>$item) {
                 $penjamins = PenjaminpasienM::model()->findByAttributes(array(
                     'carabayar_id'=>$item->carabayar_id,
@@ -83,7 +82,7 @@
                if (empty($penjamins)) unset($carabayar[$idx]);
             }
             
-            // echo $form->dropDownListRow($model,'nama_pegawai', CHtml::listData($pegawai, 'nama_pegawai', 'namaLengkap'), array('empty'=>'-- Pilih --', 'class'=>'span3'));
+            echo $form->dropDownListRow($model,'pegawai_id', CHtml::listData($pegawai, 'pegawai_id', 'namaLengkap'), array('empty'=>'-- Pilih --', 'class'=>'span3'));
             echo $form->dropDownListRow($model,'carabayar_id', CHtml::listData($carabayar, 'carabayar_id', 'carabayar_nama'), array(
                 'empty'=>'-- Pilih --',
                 'class'=>'span3', 
