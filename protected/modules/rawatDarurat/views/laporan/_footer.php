@@ -2,29 +2,21 @@
         echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
         echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; -->
 <div class="form-actions">
-<table border="0" >
-  <tr>
-   <td width="100"> <?php $this->widget('bootstrap.widgets.BootButtonGroup', array(
-        'type'=>'primary', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
-        'buttons'=>array(
-            array('label'=>'Print', 'icon'=>'icon-print icon-white', 'url'=>'#', 'htmlOptions'=>array('onclick'=>'print(\'PRINT\')')),
-            array('label'=>'', 'items'=>array(
-                array('label'=>'PDF', 'icon'=>'icon-book', 'url'=>'', 'itemOptions'=>array('onclick'=>'print(\'PDF\')')),
-                array('label'=>'Excel','icon'=>'icon-pdf', 'url'=>'', 'itemOptions'=>array('onclick'=>'print(\'EXCEL\')')),
-                array('label'=>'Grafik','icon'=>'icon-print', 'url'=>'', 'itemOptions'=>array('onclick'=>'print(\'GRAFIK\')')),
-            )),       
-        ),
-//        'htmlOptions'=>array('class'=>'btn')
-    )); ?>	</td >
-    <td><?php
-$content = $this->renderPartial('rawatDarurat.views.laporan.tips/tips',array(),true);
-   
-$this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
-?></td>
-
-  </tr>
-</table>
-
+	<?php
+	echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
+    echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
+    echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
+    echo CHtml::htmlButton(Yii::t('mds','{icon} Grafik',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'GRAFIK\')'))."&nbsp&nbsp";
+	?>
+	<?php
+            if (isset($tips) == 'Pembebasan'):
+                $content = $this->renderPartial('rawatJalan.views.laporan.tips/PembebasanTarif',array(),true);
+            else:
+                $content = $this->renderPartial('rawatJalan.views.laporan.tips/tips',array(),true);
+            endif;
+		
+		$this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
+	?>
 </div>
 <?php 
 
