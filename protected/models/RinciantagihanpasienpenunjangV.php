@@ -100,6 +100,7 @@
 class RinciantagihanpasienpenunjangV extends CActiveRecord
 {
         public $tgl_awal, $tgl_akhir, $totaltagihan, $statusBayar,$pasienadmisi_id;
+        public $statusperiksa;
         
 	/**
 	 * Returns the static model of the specified AR class.
@@ -245,7 +246,7 @@ class RinciantagihanpasienpenunjangV extends CActiveRecord
 			'pembayaranpelayanan_id' => 'Pembayaran Pelayanan',
 			'kategoritindakan_id' => 'Kategori Tindakan',
 			'kategoritindakan_nama' => 'Nama Kategori Tindakan',
-			'pegawai_id' => 'Pegawai',
+			'pegawai_id' => 'Dokter',
 			'gelardepan' => 'Gelar Depan',
 			'nama_pegawai' => 'Dokter',
 			'gelarbelakang_id' => 'Gelar Belakang',
@@ -257,6 +258,7 @@ class RinciantagihanpasienpenunjangV extends CActiveRecord
 			'ruanganpenunjang_id' => 'Ruangan Penunjang',
 			'tindakansudahbayar_id' => 'Tindakan Sudah Bayar',
                         'totaltagihan'=>'Total Tagihan',
+                        'statusperiksa'=>'Status Periksa',
 		);
 	}
 

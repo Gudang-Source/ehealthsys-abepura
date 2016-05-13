@@ -65,13 +65,20 @@
                         array(
                             'header'=>'Dokter',
                             //'name'=>'nama_pegawai',
-                            'value'=>function($data) {
+                            'value'=>function($data) use (&$p) {
                                 $p = PendaftaranT::model()->findByPk($data->pendaftaran_id);
                                 return $p->pegawai->namaLengkap;
                                 //'$data->gelardepan." ".$data->nama_pegawai.", ".$data->gelarbelakang_nama',
                             }
                         ),
                         'ruangan_nama',
+                        array(
+                            'header'=>'Status Periksa',
+                            'type'=>'raw',
+                            'value'=>function($data) use (&$p) {
+                                return $p->statusperiksa;
+                            }
+                        ),
                         array(
                             'header'=>'Total Tagihan',
                             'type'=>'raw',
