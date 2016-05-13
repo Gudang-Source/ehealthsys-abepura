@@ -43,7 +43,7 @@ class DaftarPasienController extends MyAuthController
                 $modRI = new BKInformasikasirinappulangV;
                 //$modRI->tgl_awal = date('Y-m-d');
                 //$modRI->tgl_akhir = date('Y-m-d');
-                $modRI->tgl_awal_admisi = date('Y-m-d');
+                $modRI->tgl_awal_admisi = date('Y-m-d', time() - (30 * 3600 * 24));
                 $modRI->tgl_akhir_admisi = date('Y-m-d');
                 
                 if(isset($_GET['BKInformasikasirinappulangV'])){

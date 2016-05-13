@@ -65,7 +65,7 @@ if (isset($caraPrint)){
         $ruanganasal_nama   = $dataPendaftar->ruanganasal_nama;
         $ruangan_nama       = $dataPendaftar->ruangan_nama;
         $umur               = substr($dataPendaftar->umur,0,7);
-        $nama_pj            = $dataPendaftar->nama_pj;
+        $nama_pj            = $dataPendaftar->DokterPemeriksa;
         $alamat_pj          = $dataPendaftar->alamat_pj;
 
         $tglresep[$key]     = $dataPendaftar->tglresep;
@@ -123,7 +123,7 @@ if (isset($caraPrint)){
         <td width="30%"> :
             <?php echo CHtml::encode($umur).' / '.CHtml::encode($jeniskelamin); ?>         
         </td>
-        <td width="22%">Nama PJP </td>
+        <td width="22%">Dokter Penanggung Jawab</td>
         <td>:
             <?php
                 echo CHtml::encode($nama_pj);
@@ -135,24 +135,30 @@ if (isset($caraPrint)){
         <td width="30%"> :
             <?php echo CHtml::encode($ruangan_nama); ?>         
         </td>
-        <td width="22%">Alamat PJP </td>
-        <td>:
-            <?php
-                echo CHtml::encode($alamat_pj);
-            ?>        
-        </td>
-    </tr>
-    <tr>
-        <td width="22%">Resep Oleh Dokter</td>
-        <td width="30%"> :
-            <?php echo CHtml::encode($DokterPemeriksa); ?>    
-        </td>
         <td width="22%">Asal Unit Layanan </td>
         <td>:
             <?php
                 echo CHtml::encode($ruanganasal_nama);
             ?>        
         </td>
+        <?php /*
+        <td width="22%">Alamat PJP </td>
+        <td>:
+            <?php
+                echo CHtml::encode($alamat_pj);
+            ?>        
+        </td>
+         * */ ?>
+    </tr>
+    <tr>
+        <?php /*
+        <td width="22%">Resep Oleh Dokter</td>
+        <td width="30%"> :
+            <?php echo CHtml::encode($DokterPemeriksa); ?>    
+        </td>
+         * 
+         */ ?>
+        
     </tr>
 </table>
 

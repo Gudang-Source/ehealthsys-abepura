@@ -89,44 +89,6 @@
             <?php echo $form->textFieldRow($model,'nama_pasien',array('placeholder'=>'Ketik Nama Pasien','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
         </td>
         <td>
-            <?php echo $form->dropDownListRow($model,'statusBayar', LookupM::getItems('statusbayar'), array('empty'=>'-- Pilih --', 'class'=>'span3', 'maxlength'=>20)); ?>
-            <?php /*
-            <div class="control-group">
-                <?php echo CHtml::label('Alias', 'nama_bin', array('class'=>'control-label')); ?>
-                <div class="controls">
-                <?php echo $form->textField($model,'nama_bin',array('placeholder'=>'Ketik Nama Panggilan Pasien','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
-                </div><br/>
-                
-            </div>
-             * 
-             */ ?>
-            <?php echo $form->dropDownListRow($model,'ruanganakhir_id', CHtml::listData($model->getRuanganItems(Params::INSTALASI_ID_RI), 'ruangan_id', 'ruangan_nama'),array(
-                'class'=>'span3',
-                'empty'=>'-- Pilih --', 
-                'onkeyup'=>"return $(this).focusNextInputField(event)",
-                'ajax'=>array(
-                    'type'=>'POST',
-                    'url'=> $this->createUrl('/actionDynamic/getKamarRuangan',array('encode'=>false,'namaModel'=>get_class($model))), 
-                    'success'=>'function(data){$("#'.CHtml::activeId($model, "kamarruangan_id").'").html(data); }',
-                ),
-            )); ?>
-            <div class="control-group">
-                <?php echo $form->label($model, 'Kamar Ruangan', array('class'=>'control-label')); ?>
-                <div class="controls">
-                    <?php echo $form->dropDownList($model,'kamarruangan_id', array(), array('empty'=>'-- Pilih --', 'class'=>'span3')); ?>
-                </div>
-            </div>
-            <?php echo $form->dropDownListRow($model, 'kelaspelayanan_id', CHtml::listData(
-                    KelaspelayananM::model()->findAllByAttributes(array(
-                        'kelaspelayanan_aktif'=>true,
-                    ), array(
-                        'order'=>'kelaspelayanan_nama'
-                    )), 'kelaspelayanan_id', 'kelaspelayanan_nama'
-            ),array(
-                'empty'=>'-- Pilih --',
-                'class'=>'span3',
-            )); ?>
-            <?php //$model->statusperiksa = (!empty($model->statusperiksa)) ? $model->statusperiksa : 'SEDANG PERIKSA';?>
             <?php 
             $carabayar = CarabayarM::model()->findAll(array(
                 'condition'=>'carabayar_aktif = true',
@@ -151,7 +113,6 @@
                if (empty($penjamins)) unset($carabayar[$idx]);
             }
             
-            echo $form->dropDownListRow($model,'nama_pegawai', CHtml::listData($pegawai, 'nama_pegawai', 'namaLengkap'), array('empty'=>'-- Pilih --', 'class'=>'span3'));
             echo $form->dropDownListRow($model,'carabayar_id', CHtml::listData($carabayar, 'carabayar_id', 'carabayar_nama'), array(
                 'empty'=>'-- Pilih --',
                 'class'=>'span3', 
@@ -161,8 +122,38 @@
                 ),
              ));
             echo $form->dropDownListRow($model,'penjamin_id', CHtml::listData($penjamin, 'penjamin_id', 'penjamin_nama'), array('empty'=>'-- Pilih --', 'class'=>'span3', 'maxlength'=>50));
-
+            echo $form->dropDownListRow($model,'nama_pegawai', CHtml::listData($pegawai, 'nama_pegawai', 'namaLengkap'), array('empty'=>'-- Pilih --', 'class'=>'span3'));
             ?>
+            <?php echo $form->dropDownListRow($model,'ruanganakhir_id', CHtml::listData($model->getRuanganItems(Params::INSTALASI_ID_RI), 'ruangan_id', 'ruangan_nama'),array(
+                'class'=>'span3',
+                'empty'=>'-- Pilih --', 
+                'onkeyup'=>"return $(this).focusNextInputField(event)",
+                'ajax'=>array(
+                    'type'=>'POST',
+                    'url'=> $this->createUrl('/actionDynamic/getKamarRuangan',array('encode'=>false,'namaModel'=>get_class($model))), 
+                    'success'=>'function(data){$("#'.CHtml::activeId($model, "kamarruangan_id").'").html(data); }',
+                ),
+            )); ?>
+            
+            <?php echo $form->dropDownListRow($model, 'kelaspelayanan_id', CHtml::listData(
+                    KelaspelayananM::model()->findAllByAttributes(array(
+                        'kelaspelayanan_aktif'=>true,
+                    ), array(
+                        'order'=>'kelaspelayanan_nama'
+                    )), 'kelaspelayanan_id', 'kelaspelayanan_nama'
+            ),array(
+                'empty'=>'-- Pilih --',
+                'class'=>'span3',
+            )); ?>
+            
+            <div class="control-group">
+                <?php echo $form->label($model, 'Kamar Ruangan', array('class'=>'control-label')); ?>
+                <div class="controls">
+                    <?php echo $form->dropDownList($model,'kamarruangan_id', array(), array('empty'=>'-- Pilih --', 'class'=>'span3')); ?>
+                </div>
+            </div>
+            
+            <?php echo $form->dropDownListRow($model,'statusBayar', LookupM::getItems('statusbayar'), array('empty'=>'-- Pilih --', 'class'=>'span3', 'maxlength'=>20)); ?>
         </td>
     </tr>
 </table>
