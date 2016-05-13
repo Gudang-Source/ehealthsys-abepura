@@ -50,6 +50,7 @@ if (isset($caraPrint)){
     $a = 0;
     $subsidiasuransi = 0;
     $subsidirs=0;
+    $subsidipemerintah = 0;
     $totalAlkes = 0;
     $totalObat = 0;
     $totalSeluruh = 0;
@@ -80,8 +81,9 @@ if (isset($caraPrint)){
         $biaya_obat[$key]   = 0;
         $subtotal[$key]     = $harga_obat[$key] + $biaya_obat[$key];
         
-        $subsidiasuransi   += $subsidiasuransi[$key];
-        $subsidirs         += $subsidirs[$key];
+        $subsidiasuransi   += $dataPendaftar->subsidiasuransi;
+        $subsidirs         += $dataPendaftar->subsidirs;
+        $subsidipemerintah   += $dataPendaftar->subsidipemerintah;
 
         $a++;
     }
@@ -188,7 +190,7 @@ if (isset($caraPrint)){
                     <td>".$tanggal."</td>
                     <td>".$noresep[$i]."</td>
                     <td>".$obatnama[$i]."</td>
-                    <td align='center'>".$qty_obat[$i]."</td>
+                    <td align='right'>".$qty_obat[$i]."</td>
                     <td align='right'>".MyFormatter::formatNumberForPrint($hargasatuan_obat[$i])."</td>
                     <td align='right'>".MyFormatter::formatNumberForPrint($discount_obat[$i])."</td>
                     <td align='right'>".MyFormatter::formatNumberForPrint($harga_obat[$i])."</td>
@@ -207,7 +209,7 @@ if (isset($caraPrint)){
     ?>
         <tr><td colspan="11">&nbsp;</td>
         <tr>            
-            <td colspan="6"><?php echo Yii::app()->user->getState("kabupaten_nama").", ".Yii::app()->dateFormatter->formatDateTime(CDateTimeParser::parse(date('Y-m-d H:i:s'), 'yyyy-mm-dd hh:mm:ss')); ?></td>
+            <td colspan="6"><?php echo Yii::app()->user->getState("kecamatan_nama").", ".Yii::app()->dateFormatter->formatDateTime(CDateTimeParser::parse(date('Y-m-d H:i:s'), 'yyyy-mm-dd hh:mm:ss')); ?></td>
             <td colspan="4" align="right"><b>Total Tagihan :</b></td>
             <td align="right"><b><?php echo MyFormatter::formatNumberForPrint($total_tagihan); ?></b></td>
         </tr>
@@ -222,9 +224,13 @@ if (isset($caraPrint)){
             <td align="right"><b><?php echo MyFormatter::formatNumberForPrint($subsidirs); ?></b></td>
         </tr>
         <tr>
+            <td colspan="10" align="right"><b>Tanggungan Pemerintah :</b></td>
+            <td align="right"><b><?php echo MyFormatter::formatNumberForPrint($subsidipemerintah); ?></b></td>
+        </tr>
+        <tr>
             <td colspan="6"><?php echo $data['nama_pegawai']; ?></td>
             <td colspan="4" align="right"><b>Tangungan Pasien :</b></td>
-            <td align="right"><b><?php echo MyFormatter::formatNumberForPrint($total_tagihan + $subsidiasuransi + $subsidirs); ?></b></td>
+            <td align="right"><b><?php echo MyFormatter::formatNumberForPrint($total_tagihan - ($subsidiasuransi + $subsidirs + $subsidipemerintah)); ?></b></td>
         </tr>
     <?php
         }else{
@@ -233,17 +239,21 @@ if (isset($caraPrint)){
             <td colspan="10" align="right"><b>Total Tagihan :</b></td>
             <td align="right"><b><?php echo MyFormatter::formatNumberForPrint($total_tagihan); ?></b></td>
         </tr>
-        <tr>1
+        <tr>
             <td colspan="10" align="right"><b>Tanggungan Asuransi :</b></td>
             <td align="right"><b><?php echo MyFormatter::formatNumberForPrint($subsidiasuransi); ?></b></td>
         </tr>
-        <tr>1
+        <tr>
             <td colspan="10" align="right"><b>Tanggungan Rumah Sakit :</b></td>
             <td align="right"><b><?php echo MyFormatter::formatNumberForPrint($subsidirs); ?></b></td>
         </tr>
-        <tr>1
+        <tr>
+            <td colspan="10" align="right"><b>Tanggungan Pemerintah :</b></td>
+            <td align="right"><b><?php echo MyFormatter::formatNumberForPrint($subsidipemerintah); ?></b></td>
+        </tr>
+        <tr>
             <td colspan="10" align="right"><b>Tanggungan Pasien :</b></td>
-            <td align="right"><b><?php echo MyFormatter::formatNumberForPrint($total_tagihan + $subsidiasuransi + $subsidirs); ?></b></td>
+            <td align="right"><b><?php echo MyFormatter::formatNumberForPrint($total_tagihan - ($subsidiasuransi + $subsidirs + $subsidipemerintah)); ?></b></td>
         </tr>    
     <?php
         }

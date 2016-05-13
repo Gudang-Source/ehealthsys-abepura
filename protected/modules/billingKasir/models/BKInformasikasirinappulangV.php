@@ -62,7 +62,7 @@ class BKInformasikasirinappulangV extends InformasikasirinappulangV
                 ) o on o.pendaftaran_id = t.pendaftaran_id
             ";
                 
-            $criteria->addCondition("((${tb}) <> 0 and (${ob}) <> 0)");
+            $criteria->addCondition("(((${tb}) <> 0 or (${ob}) <> 0))");
             
             
             //$criteria->addCondition('t.pembayaranpelayanan_id IS NULL');
