@@ -80,6 +80,8 @@ class BKRinciantagihanpasienpenunjangV extends RinciantagihanpasienpenunjangV
             }else if ($this->statusBayar == 'BELUM LUNAS'){
                 $criteria->addCondition($str_bayar.' = true');
             }
+            
+            $criteria->compare('p.statusperiksa', $this->statusperiksa);
             $criteria->order = 't.pendaftaran_id';
             return new CActiveDataProvider($this, array(
                     'criteria'=>$criteria,

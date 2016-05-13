@@ -220,7 +220,7 @@ class InformasikasirrdpulangV extends CActiveRecord
 			'kelaspelayanan_id' => 'Kelaspelayanan',
 			'kelaspelayanan_nama' => 'Kelaspelayanan Nama',
 			'gelardepan' => 'Gelardepan',
-			'nama_pegawai' => 'Nama Pegawai',
+			'nama_pegawai' => 'Dokter',
 			'gelarbelakang_nama' => 'Gelarbelakang Nama',
 			'pasienpulang_id' => 'Pasienpulang',
 			'carakeluar' => 'Carakeluar',
