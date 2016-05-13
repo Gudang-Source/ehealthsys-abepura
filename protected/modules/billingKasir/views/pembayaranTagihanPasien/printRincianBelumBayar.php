@@ -108,7 +108,7 @@ $format = new MyFormatter;
             <td align='right' style="font-weight:bold; text-align: right; border: 1px solid black;"><?php echo $format->formatNumberForPrint($subrs); ?></td>
         </tr>
         <tr>
-            <td colspan='5' align='right' style="font-weight:bold; border: 1px solid black;">Subsidi Pemeintah</td>
+            <td colspan='5' align='right' style="font-weight:bold; border: 1px solid black;">Subsidi Pemerintah</td>
             <td align='right' style="font-weight:bold; text-align: right; border: 1px solid black;"><?php echo $format->formatNumberForPrint($subpemerintah); ?></td>
         </tr>
         <tr>
