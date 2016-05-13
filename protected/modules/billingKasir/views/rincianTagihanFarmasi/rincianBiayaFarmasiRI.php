@@ -68,6 +68,7 @@ if (isset($caraPrint)){
     $ruanganasal_nama = null; 
     $subsidiasuransi = 0;
     $subsidirs = 0;
+    $subsidipemerintah = 0;
     $pendaftaran_id = null;
     $pendaftaran_id = null;
 
@@ -100,8 +101,9 @@ if (isset($caraPrint)){
         $biaya_obat[$key]   = 0;
         $subtotal[$key]     = $harga_obat[$key] + $biaya_obat[$key];
         
-        $subsidiasuransi   += $subsidiasuransi[$key];
-        $subsidirs         += $subsidirs[$key];
+        $subsidiasuransi   += $dataPendaftar->subsidiasuransi;
+        $subsidirs         += $dataPendaftar->subsidirs;
+        $subsidipemerintah += $dataPendaftar->subsidipemerintah;
 
         $a++;
     }
@@ -276,8 +278,12 @@ if (isset($caraPrint)){
                 <td class="uang"><b><?php echo MyFormatter::formatNumberForPrint($subsidirs); ?></b></td>
             </tr>
             <tr>
+                <td colspan="10" class="uang"><b>Tanggungan Pemerintah :</b></td>
+                <td class="uang"><b><?php echo MyFormatter::formatNumberForPrint($subsidipemerintah); ?></b></td>
+            </tr>
+            <tr>
                 <td colspan="10" class="uang"><b>Tanggungan Pasien :</b></td>
-                <td class="uang"><b><?php echo MyFormatter::formatNumberForPrint($total_tagihan + $subsidiasuransi + $subsidirs); ?></b></td>
+                <td class="uang"><b><?php echo MyFormatter::formatNumberForPrint($total_tagihan + $subsidiasuransi + $subsidirs + $subsidipemerintah); ?></b></td>
             </tr>
         </tfoot>
         </table>
