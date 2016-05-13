@@ -1,3 +1,5 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
 <fieldset class="box formjenisresep"  id="form-nonracikan">
     <legend class="rim-a">Data Obat (Non Racikan) <?php echo CHtml::htmlButton('<i class="icon-refresh icon-white"></i>', array('class' => 'btn btn-danger btn-mini', 'onclick' => 'terapiobat_reset();', 'onkeyup' => "return $(this).focusNextInputField(event)", 'rel' => 'tooltip', 'title' => 'Klik untuk me-refresh form obat non racik')); ?></legend>
     <div class="row-fluid">
@@ -192,7 +194,7 @@
                                 <div class="control-group ">
                                         <label class="control-label" for="permintaan">Permintaan Dosis</label>
                                         <div class="controls">
-                                                <?php echo CHtml::textField('permintaan', '', array('disabled'=>false,'onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'inputFormTabel span1  numbers-only','onblur'=>'hitungJumlahObat()', 'style'=>'text-align: right;')) ?>
+                                                <?php echo CHtml::textField('permintaan', '', array('disabled'=>false,'onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'inputFormTabel span1  float2','onblur'=>'hitungJumlahObat()', 'style'=>'text-align: right;')) ?>
                                                 <?php echo CHtml::dropDownList('', '', LookupM::getItems('satuankekuatan'),array('class'=>'inputFormTabel span1','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
                                                 <?php echo Chtml::button("Pecahan", array('onclick'=>'$("#dialogPecahanDosis").dialog("open");', 'class'=>'btn btn-primary')); ?>
                                         </div>
@@ -207,7 +209,7 @@
                                 <div class="control-group ">
                                         <label class="control-label" for="qty">Jumlah Obat</label>
                                         <div class="controls">
-                                                <?php echo CHtml::textField('qtyRacik', '', array('readonly'=>false,'onkeyup'=>'$("#qty").val($(this).val());','onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'float',"rel"=>"tooltip","title"=>"Jumlah Obat = Permintaan Dosis X Jumlah Permintaan / Kekuatan",'style'=>'width:50px;')) ?>
+                                                <?php echo CHtml::textField('qtyRacik', '', array('readonly'=>true,'onkeyup'=>'$("#qty").val($(this).val());','onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'float',"rel"=>"tooltip","title"=>"Jumlah Obat = Permintaan Dosis X Jumlah Permintaan / Kekuatan",'style'=>'width:50px;')) ?>
                                         </div>
                                 </div>
                         </fieldset>
