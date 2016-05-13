@@ -16,8 +16,8 @@
                     'kelompoktindakan_nama',
                     'komponenunit_nama',
                     'kategoritindakan_nama',
-                    'daftartindakan_nama',
-                    'kelaspelayanan_nama',                    
+                    'kelaspelayanan_nama',
+                    'daftartindakan_nama',                                        
     //                'ruangan_id',
 
                   array(

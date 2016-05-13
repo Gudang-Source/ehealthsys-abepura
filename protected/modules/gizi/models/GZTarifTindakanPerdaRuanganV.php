@@ -43,6 +43,15 @@ class GZTarifTindakanPerdaRuanganV  extends TariftindakanperdaruanganV
 			'criteria'=>$criteria,
 		));
 	}
+        
+         public function searchTarifPrint() {
+            $provider = $this->searchInformasi();
+            $provider->criteria->order = "jenistarif_nama ASC, kategoritindakan_nama ASC, kelaspelayanan_nama ASC, daftartindakan_nama ASC";
+            $provider->criteria->limit = -1;
+            $provider->pagination = false;
+            
+            return $provider;
+        }
 	/**
 	 * dialog pilih tindakan
 	 * @return \CActiveDataProvider

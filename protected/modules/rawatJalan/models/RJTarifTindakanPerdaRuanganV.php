@@ -59,6 +59,14 @@ class RJTarifTindakanPerdaRuanganV  extends TariftindakanperdaruanganV
             return $provider;
         }
         
+        public function searchTarifMcuPrint() {
+            $provider = $this->searchInformasiMcu();
+            $provider->criteria->limit = -1;
+            $provider->pagination = false;
+            
+            return $provider;
+        }
+        
 
 	
 }

@@ -68,5 +68,14 @@ class PPTarifTindakanPerdaRuanganV  extends TariftindakanperdaruanganV
             $criteria->order = "instalasi_nama ASC";
             return InstalasiM::model()->findAll($criteria);
         }
+        
+        public function searchTarifPrint() {
+            $provider = $this->searchInformasi();
+            $provider->criteria->order = "jenistarif_nama ASC, instalasi_nama ASC, ruangan_nama ASC, kategoritindakan_nama ASC, kelaspelayanan_nama ASC, daftartindakan_nama ASC";
+            $provider->criteria->limit = -1;
+            $provider->pagination = false;
+            
+            return $provider;
+        }
 }
 
