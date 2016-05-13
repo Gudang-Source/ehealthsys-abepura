@@ -903,7 +903,7 @@ class DaftarPasienController extends MyAuthController
                 $modPasienPulang->ruanganakhir_id=Yii::app()->user->getState('ruangan_id');
                 $modPasienPulang->lamarawat=0;
                 $modPasienPulang->satuanlamarawat='lamarawat';
-               
+                
                 $judul = 'Pasien Rujuk ke Rawat Inap';
 
                 $isi = $modPasien->no_rekam_medik.' - '.$modPasien->nama_pasien
@@ -916,7 +916,7 @@ class DaftarPasienController extends MyAuthController
                 )); 
                 
                 if($modPasienPulang->save()){
-                    PendaftaranT::model()->updateByPk($pendaftaran_id, array('pasienpulang_id'=>$modPasienPulang->pasienpulang_id,'statusperiksa'=>Params::STATUSPERIKSA_SEDANG_DIRAWATINAP));
+                    PendaftaranT::model()->updateByPk($pendaftaran_id, array('pasienpulang_id'=>$modPasienPulang->pasienpulang_id,'statusperiksa'=>Params::STATUSPERIKSA_NUNGGU_DAFTAR_SO));
                     $data['pesan']='Berhasil';
                 }else{
                     $data['pesan']='Gagal';
