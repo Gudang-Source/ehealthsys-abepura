@@ -105,6 +105,9 @@ class InformasiMutasiMasukController extends MyAuthController
         $model->tglterima = date('Y-m-d H:i:s');        
         // Uncomment the following line if AJAX validation is needed
        
+        $modLogin = LoginpemakaiK::model()->findByAttributes(array('loginpemakai_id' => Yii::app()->user->id));
+        $model->pegawaipenerima_id = $modLogin->pegawai_id;        
+        if (!empty($model->pegawaipenerima_id)) $model->pegawaipenerima_nama = $modLogin->pegawai->nama_pegawai;
         
         if(!empty($mutasioaruangan_id) && empty($terimamutasi_id)){
             $modMutasiRuangan = GFMutasioaruanganT::model()->findByPk($mutasioaruangan_id);
