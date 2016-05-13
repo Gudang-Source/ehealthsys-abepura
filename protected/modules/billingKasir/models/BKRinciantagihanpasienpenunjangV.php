@@ -21,7 +21,7 @@ class BKRinciantagihanpasienpenunjangV extends RinciantagihanpasienpenunjangV
             
             $str_bayar = '(case when t.tindakansudahbayar_id is null then true else false end)';
             
-            $criteria->group = 't.tgl_pendaftaran,t.no_pendaftaran, t.pendaftaran_id, t.no_rekam_medik, t.nama_pasien, t.nama_bin ,t.pendaftaran_id, t.carabayar_nama, t.penjamin_nama, t.ruangan_nama, t.pembayaranpelayanan_id, t.instalasi_id, t.instalasi_nama, '
+            $criteria->group = 't.tgl_pendaftaran,t.no_pendaftaran, t.pendaftaran_id, t.no_rekam_medik, t.namadepan, t.nama_pasien, t.nama_bin ,t.pendaftaran_id, t.carabayar_nama, t.penjamin_nama, t.ruangan_nama, t.pembayaranpelayanan_id, t.instalasi_id, t.instalasi_nama, '
                     . $str_bayar;
             $criteria->select = $criteria->group.' , sum(case when t.tindakansudahbayar_id is null then t.tarif_tindakan else 0 end) as totaltagihan, '
                     . $str_bayar;
