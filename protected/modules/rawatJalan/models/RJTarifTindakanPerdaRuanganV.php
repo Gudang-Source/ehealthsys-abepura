@@ -49,7 +49,15 @@ class RJTarifTindakanPerdaRuanganV  extends TariftindakanperdaruanganV
 			'criteria'=>$criteria,
 		));
 	}
+                
         
+         public function searchTarifPrint() {
+            $provider = $this->searchInformasi();
+            $provider->criteria->limit = -1;
+            $provider->pagination = false;
+            
+            return $provider;
+        }
         
 
 	

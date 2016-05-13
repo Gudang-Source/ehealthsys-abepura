@@ -12,4 +12,5 @@ class RJTariftindakanperdaruanganV extends TariftindakanperdaruanganV
 	{
 		return parent::model($className);
 	}
+        
 }
