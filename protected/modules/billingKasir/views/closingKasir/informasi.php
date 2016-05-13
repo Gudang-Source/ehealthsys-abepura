@@ -32,8 +32,8 @@
                 'mergeHeaders'=>array(
                     array(
                         'name'=>'<center>Penerimaan</center>',
-                        'start'=>5, 
-                        'end'=>6, 
+                        'start'=>4, 
+                        'end'=>5, 
                     ),
                 ),
                 'columns'=>array(
