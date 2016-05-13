@@ -246,7 +246,7 @@ class RinciantagihanpasienpenunjangV extends CActiveRecord
 			'pembayaranpelayanan_id' => 'Pembayaran Pelayanan',
 			'kategoritindakan_id' => 'Kategori Tindakan',
 			'kategoritindakan_nama' => 'Nama Kategori Tindakan',
-			'pegawai_id' => 'Pegawai',
+			'pegawai_id' => 'Dokter',
 			'gelardepan' => 'Gelar Depan',
 			'nama_pegawai' => 'Dokter',
 			'gelarbelakang_id' => 'Gelar Belakang',
