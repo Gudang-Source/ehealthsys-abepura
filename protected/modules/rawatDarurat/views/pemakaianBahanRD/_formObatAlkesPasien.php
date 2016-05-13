@@ -80,17 +80,17 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'resizable'=>false,
     ),
 ));
-$modObatAlkes = new LBObatalkesM('searchDialog');
+$modObatAlkes = new InfostokobatalkesruanganV('searchObat');
 $modObatAlkes->unsetAttributes();
 if(isset($_GET['LBObatalkesM'])){
     $modObatAlkes->attributes = $_GET['LBObatalkesM'];
-    $modObatAlkes->jenisobatalkes_nama = $_GET['LBObatalkesM']['jenisobatalkes_nama'];
+   // $modObatAlkes->jenisobatalkes_nama = $_GET['LBObatalkesM']['jenisobatalkes_nama'];
     // $modObatAlkes->satuankecil_nama = $_GET['LBObatalkesM']['satuankecil_nama'];
 //    $modObatAlkes->sumberdana_nama = $_GET['LBObatalkesM']['sumberdana_nama'];
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'obatalkes-m-grid',
-	'dataProvider'=>$modObatAlkes->searchDialog(),
+	'dataProvider'=>$modObatAlkes->searchObat(),
 	'filter'=>$modObatAlkes,
         'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
@@ -104,7 +104,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                         $(\'#obatalkes_id\').val($data->obatalkes_id);
                                         $(\'#qty_stok\').val(".StokobatalkesT::getJumlahStok($data->obatalkes_id, Yii::app()->user->getState(\'ruangan_id\')).");
                                         $(\'#satuankecil_id\').val($data->satuankecil_id);
-                                        $(\'#satuankecil_nama\').val(\'$data->SatuanKecilNama\');
+                                        $(\'#satuankecil_nama\').val(\'$data->satuankecil_nama\');
                                         $(\'#hargajual\').val($data->hargajual);
                                         $(\'#harganetto\').val($data->harganetto);
                                         $(\'#obatalkes_nama\').val(\'$data->obatalkes_nama\');
@@ -146,7 +146,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'header'=>'Jumlah Stok',
                     'type'=>'raw',
                     'htmlOptions'=>array('style'=>'text-align: right;'),
-                    'value'=>'StokobatalkesT::getJumlahStok($data->obatalkes_id, Yii::app()->user->getState("ruangan_id"))." ".$data->satuankecil->satuankecil_nama',
+                    'value'=>'StokobatalkesT::getJumlahStok($data->obatalkes_id, Yii::app()->user->getState("ruangan_id"))." ".$data->satuankecil_nama',
                 ),
 
                 
