@@ -44,33 +44,36 @@
         //                        'value'=>'$data->tglclosingkasir." <br>/".$data->getBuktibayar(\'tglbuktibayar\')',
                                 'value'=>'$data->tglclosingkasir',
                             ),
+                            'shift_nama',
                             array(
                                 'name'=>'closingdari',
-                                'header'=>'Closing Dari <br> Sampai Dengan',
+                                'header'=>'Periode Closing',
                                 'type'=>'raw',
-                                'value'=>'$data->closingdari." <br> ".$data->sampaidengan',
+                                'value'=>'$data->closingdari." sd.<br/> ".$data->sampaidengan',
                             ),
-                            'nama_pegawai',
-                            'shift_nama',
                             array(
                                 'name'=>'closingsaldoawal',
                                 'type'=>'raw',
                                 'value'=>'MyFormatter::formatUang($data->closingsaldoawal)',
+                                'htmlOptions'=>array('style'=>'text-align: right'),
                             ),
                             array(
                                 'name'=>'terimauangmuka',
                                 'type'=>'raw',
                                 'value'=>'MyFormatter::formatUang($data->terimauangmuka)',
+                                'htmlOptions'=>array('style'=>'text-align: right'),
                             ),
                             array(
                                 'name'=>'terimauangpelayanan',
                                 'type'=>'raw',
                                 'value'=>'MyFormatter::formatUang($data->terimauangpelayanan)',
+                                'htmlOptions'=>array('style'=>'text-align: right'),
                             ),
                             array(
                                 'name'=>'nilaiclosingtrans',
                                 'type'=>'raw',
                                 'value'=>'MyFormatter::formatUang($data->nilaiclosingtrans)',
+                                'htmlOptions'=>array('style'=>'text-align: right'),
                             ),
                             array(
                                 'header'=>'Setor Ke Bank',
@@ -110,6 +113,7 @@
                                                 ))',          
                                 'htmlOptions'=>array('style'=>'text-align: center; width:40px')
                             ),
+                            'nama_pegawai',
 
                 ),
                 'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
@@ -220,13 +224,13 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
         'title'=>'Rincian Closing Kasir',
         'autoOpen'=>false,
         'modal'=>true,
-        'minWidth'=>480,
-        'minHeight'=>360,
+        'minWidth'=>1000,
+        'minHeight'=>500,
         'resizable'=>true,
     ),
 ));
 ?>
-<iframe src="" name="iframeRincianClosing" width="100%" height="320" >
+<iframe src="" name="iframeRincianClosing" width="100%" height="460" >
 </iframe>
 <?php
 $this->endWidget();
