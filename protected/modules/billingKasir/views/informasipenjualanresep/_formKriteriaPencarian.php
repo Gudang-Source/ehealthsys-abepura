@@ -55,5 +55,10 @@
                 </div>
             </div>
         </td>
+        <td>
+            <?php echo $form->dropDownListRow($model, 'jenispenjualan', LookupM::getItems('jenispenjualan'), array(
+                'empty'=>'-- Pilih --', 'class'=>'span3',
+            )); ?>
+        </td>
     </tr>
 </table>
