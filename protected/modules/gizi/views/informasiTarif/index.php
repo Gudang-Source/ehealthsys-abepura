@@ -63,3 +63,10 @@
     $this->endWidget('zii.widgets.jui.CJuiDialog');
 //===============================Akhir Dialog Details Tarif================================
 ?>
+<?php $urlPrint = $this->createUrl('print'); ?>
+<script>
+    function printTarif() {
+        //console.log("<?php echo $urlPrint; ?>&" + $("#formCari").serialize());
+        window.open("<?php echo $urlPrint; ?>&" + $("#formCariInput :input").serialize() +"caraPrint=PRINT","",'location=_new, width=900px');
+    }
+</script>

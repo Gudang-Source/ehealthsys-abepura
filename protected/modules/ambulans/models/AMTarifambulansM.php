@@ -11,5 +11,7 @@ class AMTarifambulansM extends TarifAmbulansM
 	{
 		return parent::model($className);
 	}
+        
+        
 }
 ?>

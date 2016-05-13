@@ -119,6 +119,15 @@ class TarifAmbulansM extends CActiveRecord
 		));
 	}
         
+        public function searchTarifPrint() {
+            $provider = $this->search();
+            $provider->criteria->order = "tarifambulans_kode ASC, kepropinsi_nama ASC, kekabupaten_nama ASC, kekecamatan_nama ASC, kekelurahan_nama ASC";
+            $provider->criteria->limit = -1;
+            $provider->pagination = false;
+            
+            return $provider;
+        }
+        
         
         public function searchPrint()
         {
