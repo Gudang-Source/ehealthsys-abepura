@@ -40,6 +40,7 @@
         <?php 
 			$modRekKredit = new RekeningakuntansiV('search');
 			$modRekKredit->unsetAttributes();
+                        $modRekKredit->rekening5_nb = "D";
 	//            $account = "D";
 			$account = "";
 			if(isset($_GET['RekeningakuntansiV'])) {
@@ -159,8 +160,7 @@
 						'header'=>'Saldo Normal',
 						'name'=>'rekening5_nb',
 						'value'=>'($data->rekening5_nb == "D") ? "Debit" : "Kredit"',
-                                                'filter'=>  CHtml::activeDropDownList($modRekKredit, 'rekening5_nb', 
-                                                        array("D"=>"Debit","K"=>"Kredit"), array('empty'=>"-- Pilih --")),
+                                                'filter'=>  CHtml::activeHiddenField($modRekKredit, 'rekening5_nb', array('empty'=>"-- Pilih --")),
 					),
 
 					

@@ -57,6 +57,7 @@
         <?php 
             $modRekKredit = new RekeningakuntansiV('search');
             $modRekKredit->unsetAttributes();
+            $modRekKredit->rekening5_nb = "K";
 //            $account = "K";
             $account = "";
             if(isset($_GET['RekeningakuntansiV'])) {
@@ -172,13 +173,11 @@
 						'value'=>'($data->nmrekeninglain5 == "" ?  "-" : $data->nmrekeninglain5)',
 					), */
 					array(
-						'header'=>'Saldo Normal',
-						'name'=>'rekening5_nb',
-						'value'=>'($data->rekening5_nb == "D") ? "Debit" : "Kredit"',
-                                                'filter'=>  CHtml::activeDropDownList($modRekKredit, 'rekening5_nb', 
-                                                        array("D"=>"Debit","K"=>"Kredit"), array('empty'=>"-- Pilih --")),
-					),
-
+                                                'header'=>'Saldo Normal',
+                                                'name'=>'rekening5_nb',
+                                                'value'=>'($data->rekening5_nb == "K") ? "Kredit" : "Debit"',
+                                                'filter'=>  CHtml::activeHiddenField($modRekKredit, 'rekening5_nb', array('empty'=>"-- Pilih --")),
+                                        ),
 					
 				),
 				'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',

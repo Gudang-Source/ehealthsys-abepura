@@ -37,7 +37,7 @@
            array(
               'header'=>'Tanggal Posting / <br/> Tanggal Jurnal',
               'type'=>'raw',
-              'value'=>'date("d/m/Y H:i:s", strtotime($data->tgljurnalpost)) ." /"."<br/>". date("d/m/Y H:i:s", strtotime($data->tglbuktijurnal))',
+              'value'=>'MyFormatter::formatDateTimeForUser($data->tgljurnalpost) ." /"."<br/>". MyFormatter::formatDateTimeForUser($data->tglbuktijurnal)',
            ),
            array(
               'header'=>'Uraian Transaksi',
@@ -59,20 +59,20 @@
            array(
               'header'=>'Debit',
               'name'=>'saldodebit',
-              'value'=>'number_format($data->saldodebit)',
+              'value'=>'MyFormatter::formatNumberForPrint($data->saldodebit)',
               'headerHtmlOptions'=>array('style'=>'text-align:right;'),
               'htmlOptions'=>array('style'=>'width:100px;text-align:right', 'class'=>'currency'),
               'footerHtmlOptions'=>array('style'=>'text-align:right;'),
-              'footer'=>'sum(saldodebit)',
+              'footer'=>$model->getTotal('saldodebit', $data),
            ),
            array(
               'header'=>'Kredit',
               'name'=>'saldokredit',
-              'value'=>'number_format($data->saldokredit)',
+              'value'=>'MyFormatter::formatNumberForPrint($data->saldokredit)',
               'headerHtmlOptions'=>array('style'=>'text-align:right;'),
               'htmlOptions'=>array('style'=>'width:100px;text-align:right', 'class'=>'currency'),
               'footerHtmlOptions'=>array('style'=>'text-align:right;'),
-              'footer'=>'sum(saldokredit)',
+              'footer'=>$model->getTotal('saldokredit', $data),
            ), 
            array(
               'header'=>'Catatan',

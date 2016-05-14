@@ -4,6 +4,7 @@ class AKLaporanJurnalV extends LaporanjurnalV
     public $data;
     public $jumlah;
     public $tick;
+    public $curProvider, $curProvDat;
     
     public static function model($className = __CLASS__) {
         parent::model($className);
@@ -155,6 +156,22 @@ class AKLaporanJurnalV extends LaporanjurnalV
 		));
     }
     
+    public function getTotal($col, $prov = null)
+    {
+        if (empty($this->curProvDat)) {
+            if (empty($prov)) return 0;
+            $this->curProvider = clone $prov;
+            $this->curProvider->pagination = false;
+            $this->curProvider->criteria->limit = -1;
+            $this->curProvDat = $this->curProvider->data;
+        }
+        $total = 0;
+        foreach ($this->curProvDat as $item) {
+            $total += $item[$col];
+        }
+        return MyFormatter::formatNumberForPrint($total);
+    }
+    
     public static function criteriaGrafikJurnal($model, $type='data', $addCols = array()){
         $criteria = new CDbCriteria;
         $criteria->select = 'count(jenisjurnal_id) as jumlah';
@@ -279,15 +296,15 @@ class AKLaporanJurnalV extends LaporanjurnalV
 		
 		$kodRekening = LaporanJurnalV::model()->find($criteria);
 		if ((!empty($kodRekening->kdrekening1)) && (!empty($kodRekening->kdrekening2)) && (!empty($kodRekening->kdrekening3)) && (!empty($kodRekening->kdrekening4)) && (!empty($kodRekening->kdrekening5))){
-			$kodeRekening .=  $kodRekening->kdrekening1."-".$kodRekening->kdrekening2."-".$kodRekening->kdrekening3."-".$kodRekening->kdrekening4."-".$kodRekening->kdrekening5;
+			return $kodRekening->kdrekening5;
 		}elseif ((!empty($kodRekening->kdrekening1)) && (!empty($kodRekening->kdrekening2)) && (!empty($kodRekening->kdrekening3)) && (!empty($kodRekening->kdrekening4))){
-			$kodeRekening .=  $kodRekening->kdrekening1."-".$kodRekening->kdrekening2."-".$kodRekening->kdrekening3."-".$kodRekening->kdrekening4;
+			return $kodRekening->kdrekening4;
 		}elseif ((!empty($kodRekening->kdrekening1)) && (!empty($kodRekening->kdrekening2)) && (!empty($kodRekening->kdrekening3))){
-			$kodeRekening .=  $kodRekening->kdrekening1."-".$kodRekening->kdrekening2."-".$kodRekening->kdrekening3;
+			return $kodRekening->kdrekening3;
 		}elseif ((!empty($kodRekening->kdrekening1)) && (!empty($kodRekening->kdrekening2))){
-			$kodeRekening .=  $kodRekening->kdrekening1."-".$kodRekening->kdrekening2;
+			return $kodRekening->kdrekening2;
 		}elseif (!empty($kodRekening->kdrekening1)){
-			$kodeRekening .=  $kodRekening->kdrekening1;
+			return $kodRekening->kdrekening1;
 		}else{
 			$kodeRekening .= "-";
 		}

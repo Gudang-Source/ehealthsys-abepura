@@ -1,5 +1,5 @@
 <div class='white-container'>
-    <legend class='rim2'>Tambah Jurnal<b>Rekening Supplier</b></legend>
+    <legend class='rim2'>Tambah Jurnal <b>Rekening Supplier</b></legend>
     <?php
     $this->breadcrumbs=array(
             'Jurnal Rekening Supplier Ms'=>array('index'),
