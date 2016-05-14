@@ -195,17 +195,21 @@
                         'header' => 'Nama Akun',
                         'name' => 'nmrekening5',
                         'value' => 'isset($data->rekening5->nmrekening5)?$data->rekening5->nmrekening5:" - "',
-                    ),
+                    ), 
                     array(
                         'header' => 'Jenis Pelayanan',
                         'name' => 'jnspelayanan',   
                         'type' => 'raw',
-                        'value' => 'CHtml::listData(SALookupM::getItemsList(), "lookup_value", "lookup_name")[$data->jnspelayanan]',
+                        'value' => function($data) {
+                            $lookup = CHtml::listData(SALookupM::getItemsList(), "lookup_value", "lookup_name");
+                            if (isset($lookup[$data->jnspelayanan])) return $lookup[$data->jnspelayanan];
+                            return "-";
+                        },
                         'filter' => CHtml::activeDropDownList($modTindakanRuangan, 'jnspelayanan', 
                                 CHtml::listData(SALookupM::getItemsList(), "lookup_value", "lookup_name"), array(
                                     'empty'=>'-- Pilih --'
                                 )),
-                    ),
+                    ), 
                     array(
                         'header' => 'Ruangan',
                         'name' => 'ruangan_id',
@@ -229,7 +233,7 @@
                         'template' => '{delete}',
                         'buttons' => array(
                             'delete' => array(
-                                'url' => 'Yii::app()->createUrl("' . Yii::app()->controller->module->id . '/' . Yii::app()->controller->id . '/Delete",array("ruangan_id"=>"$data->ruangan_id","daftartindakan_id"=>"$data->daftartindakan_id"))',
+                                'url' => 'Yii::app()->createUrl("' . Yii::app()->controller->module->id . '/' . Yii::app()->controller->id . '/Delete",array("id"=>"$data->pelayananrek_id"))',
                             ),
                         ),
                     ),

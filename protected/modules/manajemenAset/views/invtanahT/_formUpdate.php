@@ -34,6 +34,9 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                     <?php echo $form->labelEx($model, 'invtanah_tglguna', array('class' => 'control-label')) ?>
                     <div class="controls">
                         <?php
+                        $model->invtanah_tglguna = MyFormatter::formatDateTimeForUser($model->invtanah_tglguna);
+                        $model->invtanah_tglsertifikat = MyFormatter::formatDateTimeForUser($model->invtanah_tglsertifikat);
+                        
                         $this->widget('MyDateTimePicker', array(
                             'model' => $model,
                             'attribute' => 'invtanah_tglguna',

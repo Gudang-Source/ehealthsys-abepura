@@ -97,7 +97,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
     <?php $content = $this->renderPartial('tips/transaksi', array(), true);
         $this->widget('UserTips', array('type' => 'transaksi', 'content' => $content));
     ?>
-    <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Inventarisasi Peralatan dan Mesin', array('{icon}' => '<i class="icon-folder-open icon-white"></i>')), $this->createUrl('/gudangUmum/invgedungT/Admin', array('modul_id' => Yii::app()->session['modul_id'])), array('class' => 'btn btn-success')); ?>
+    <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Inventarisasi Gedung dan Bangunan', array('{icon}' => '<i class="icon-folder-open icon-white"></i>')), $this->createUrl('/gudangUmum/invgedungT/Admin', array('modul_id' => Yii::app()->session['modul_id'])), array('class' => 'btn btn-success')); ?>
 </div>
 
 <?php $this->endWidget(); ?>
