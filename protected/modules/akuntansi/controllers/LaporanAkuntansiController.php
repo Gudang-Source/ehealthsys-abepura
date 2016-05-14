@@ -463,7 +463,8 @@ class LaporanAkuntansiController extends MyAuthController {
     public function actionLaporanLabaRugi() {
         $model = new AKLaporanlabarugiV('searchLaporan');
         $format = new MyFormatter();
-        $model->periodeposting_id = AKLaporanlabarugiV::model()->getTglPeriode()->periodeposting_id;
+        $lap = AKLaporanlabarugiV::model()->getTglPeriode();
+        if (!empty($lap)) $model->periodeposting_id = $lap->periodeposting_id;
         if (isset($_GET['AKLaporanlabarugiV'])) {
             $model->attributes = $_GET['AKLaporanlabarugiV'];
             $model->periodeposting_id = $_GET['AKLaporanlabarugiV']['periodeposting_id'];
