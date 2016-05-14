@@ -191,7 +191,7 @@ class RekeningPelayananAKController extends RekeningPelayananController
             // we only allow deletion via POST request
             $transaction = Yii::app()->db->beginTransaction();
             try {
-                SATindakanruanganM::model()->deleteAllByAttributes(array('ruangan_id' => $_GET['ruangan_id'], 'daftartindakan_id' => $_GET['daftartindakan_id']));
+                PelayananrekM::model()->deleteByPk($_GET['id']);
                 $transaction->commit();
             } catch (Exception $e) {
                 $transaction->rollback();

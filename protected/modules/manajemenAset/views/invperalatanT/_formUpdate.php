@@ -33,6 +33,7 @@
                             <?php echo $form->labelEx($model,'invperalatan_tglguna', array('class'=>'control-label')) ?>
                             <div class="controls">
                                 <?php   
+                                        $model->invperalatan_tglguna = MyFormatter::formatDateTimeForUser($model->invperalatan_tglguna);
                                         $this->widget('MyDateTimePicker',array(
                                                         'model'=>$model,
                                                         'attribute'=>'invperalatan_tglguna',
@@ -62,7 +63,14 @@
                 <?php echo $form->textFieldRow($model,'invperalatan_kapasitasrata',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10)); ?>
                 <?php echo $form->checkBoxRow($model,'invperalatan_ijinoperasional', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                 <?php echo $form->textFieldRow($model,'invperalatan_serftkkalibrasi',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>20)); ?>
-                <?php echo $form->textFieldRow($model,'invperalatan_umurekonomis',array('class'=>'span1 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                <div class="control-group">
+                    <?php echo $form->labelEx($model,'invperalatan_umurekonomis',array('class'=>'control-label')); ?>
+                    <div class="controls">
+                        <?php echo $form->textField($model,'invperalatan_umurekonomis',array('class'=>'span1 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                        <?php echo CHtml::label('Tahun', 'tahun'); ?>
+                    </div>
+                </div>
+                
                 <?php echo $form->textFieldRow($model,'invperalatan_keadaan',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
             </td>
         </tr>

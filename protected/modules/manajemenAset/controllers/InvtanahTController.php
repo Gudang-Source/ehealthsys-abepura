@@ -73,13 +73,13 @@ class InvtanahTController extends MyAuthController
 	 */
 	public function actionUpdate($id)
 	{
+		$format = new MyFormatter();
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		$model=$this->loadModel($id);
                 $modBarang = $this->loadModelBarang($model->barang_id);
                 $data['pemilikbarang_nama'] = $model->pemilik->pemilikbarang_nama;
                 $dataAsalAset['asalaset_nama'] = $model->asal->asalaset_nama;
                 $dataLokasi['lokasiaset_namalokasi'] = $model->lokasi->lokasiaset_namalokasi;
-
 //                $modBarang->pemilikbarang_nama = $model->pemilik->pemilikbarang_nama;
 
 		// Uncomment the following line if AJAX validation is needed
@@ -88,6 +88,8 @@ class InvtanahTController extends MyAuthController
 		if(isset($_POST['MAInvtanahT']))
 		{
 			$model->attributes=$_POST['MAInvtanahT'];
+                        $model->invtanah_tglguna = !empty($_POST['MAInvtanahT']['invtanah_tglguna'])?$format->formatDateTimeForDb($_POST['MAInvtanahT']['invtanah_tglguna']):null;
+                        $model->invtanah_tglsertifikat = !empty($_POST['MAInvtanahT']['invtanah_tglsertifikat'])?$format->formatDateTimeForDb($_POST['MAInvtanahT']['invtanah_tglsertifikat']):null;
 			if($model->save()){
                                  BarangM::model()->updateByPk($model->barang_id, array('barang_statusregister'=>true));
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
