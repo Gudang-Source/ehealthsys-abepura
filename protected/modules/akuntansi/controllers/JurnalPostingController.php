@@ -24,18 +24,21 @@ class JurnalPostingController extends MyAuthController
 				foreach ($_POST['AKJurnalrekeningT'] as $key => $value) {
 					if(isset($value['cekList'])){
 						$criteria = new CDbCriteria();
-						$criteria->addCondition("DATE(tglperiodeposting_awal) <= '".date("Y-m-d")."' AND DATE(tglperiodeposting_akhir) >= '".date("Y-m-d")."'");
-						
+						// $criteria->addCondition("DATE(tglperiodeposting_awal) <= '".date("Y-m-d")."' AND DATE(tglperiodeposting_akhir) >= '".date("Y-m-d")."'");
+						$criteria->addCondition("now()::date between tglperiodeposting_awal::date and tglperiodeposting_akhir::date");
+                                                $periode = PeriodepostingM::model()->find($criteria);
+                                                
 						$format = new MyFormatter();
 						$data[]= $value['jurnaldetail_id'];
 						$modPosting = new AKJurnalpostingT();
 						$modPosting->tgljurnalpost = date("Y-m-d H:i:s");
-						$modPosting->periodeposting_id = PeriodepostingM::model()->find($criteria)->periodeposting_id;
+						if (!empty($periode)) $modPosting->periodeposting_id = $periode->periodeposting_id;
 						$modPosting->jurnaldetail_id = $value['jurnaldetail_id'];
 						$modPosting->keterangan = $value['urianjurnal'];
 						$modPosting->create_time = date("Y-m-d H:i:s");
 						$modPosting->create_loginpemekai_id = Yii::app()->user->id;
 						$modPosting->create_ruangan = Yii::app()->user->getState('ruangan_id');
+                                                
 						if($modPosting->validate()){
 							$modPosting->save();
 							$this->success = true;
@@ -56,6 +59,7 @@ class JurnalPostingController extends MyAuthController
 						}
 					}
 				}
+                                
 				if($this->success && $update){
 					$transaction->commit();
 					Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
