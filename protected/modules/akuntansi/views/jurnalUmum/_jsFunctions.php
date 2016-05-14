@@ -1,3 +1,6 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js'); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js'); ?>
+
 <script type="text/javascript">
 
     var periodeID = <?php echo json_encode($redirect[0]); ?>;
@@ -24,7 +27,7 @@
 					if(data != null){
 						$("#tabel-detail > tbody").append(data.form);
 						$("#tabel-detail").find('input[name*="[ii]"][class*="integer"]').maskMoney(
-							{"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0}
+							{"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0}
 						);
 						renameInputRow($("#tabel-detail"))
 					}
@@ -125,9 +128,10 @@
 								myAlert("Simpan data berhasil");
 								$("#reseter").click();
 								$("#inputJurnalUmum").find("input[name$='[nobuktijurnal]']").val(data.pesan.nobuktijurnal);
-                                $("#inputJurnalUmum").find("input[name$='[kodejurnal]']").val(data.pesan.kodejurnal);
-                                $("#inputJurnalUmum").find("input[name$='[rekperiod_id]']").val(data.pesan.rekperiod_id);
+                                                                $("#inputJurnalUmum").find("input[name$='[kodejurnal]']").val(data.pesan.kodejurnal);
+                                                                $("#inputJurnalUmum").find("input[name$='[rekperiod_id]']").val(data.pesan.rekperiod_id);
 								$("#tabel-detail > tbody").find('tr').detach();
+                                                                location.reload();
 							}else{
 								myAlert("Simpan data berhasil");
 							}
@@ -180,4 +184,11 @@
 		formatNumberSemua();
 		renameInputRow($("#table-postingjurnal"))
 	});
+        
+        
+        function setSaldoNormal(obj)
+        {
+            //$("#AKRekeningakuntansiV_rekening5_nb").val($(obj).val());
+            //$.fn.yiiGridView.update('list-rekening-m-grid', {data: $("#list-rekening-m-grid :input").serialize()});
+        }
 </script>

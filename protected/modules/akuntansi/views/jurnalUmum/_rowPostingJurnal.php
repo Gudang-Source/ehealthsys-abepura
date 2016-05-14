@@ -11,6 +11,10 @@
 	<td>
 		<?php echo ($modDetail->getNamaRekDebit() == "-" ?  $modDetail->getNamaRekKredit() : $modDetail->getNamaRekDebit())?>
 	</td>
-	<td><?php echo $form->textField($modDetail,'[i]saldodebit',array('class'=>'span2 integer','readonly'=>true)); ?></td>
-	<td><?php echo $form->textField($modDetail,'[i]saldokredit',array('class'=>'span2 integer','readonly'=>true)); ?></td>
+        <?php
+        $modDetail->saldodebit = MyFormatter::formatNumberForPrint($modDetail->saldodebit);
+        $modDetail->saldokredit = MyFormatter::formatNumberForPrint($modDetail->saldokredit);
+        ?>
+	<td><?php echo $form->textField($modDetail,'[i]saldodebit',array('class'=>'span2 integer2','readonly'=>true)); ?></td>
+	<td><?php echo $form->textField($modDetail,'[i]saldokredit',array('class'=>'span2 integer2 ','readonly'=>true)); ?></td>
 </tr>

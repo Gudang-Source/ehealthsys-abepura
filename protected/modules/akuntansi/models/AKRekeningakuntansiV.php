@@ -49,6 +49,8 @@ class AKRekeningakuntansiV extends RekeningakuntansiV {
 //        $criteria->compare('LOWER(nmrincianobyek)',strtolower($this->nmrincianobyek),true);
 //        $criteria->compare('LOWER(nmrincianobyeklain)',strtolower($this->nmrincianobyeklain),true);
 //        $criteria->addCondition('kdrincianobyek IS NOT NULL');
+        
+        $criteria->compare('lower(rekening5_nb)', strtolower($this->rekening5_nb));
         $criteria->order = 'rekening1_id, rekening2_id, rekening3_id, rekening4_id, rekening5_id, nourutrek';
 
         return new CActiveDataProvider($this, array(

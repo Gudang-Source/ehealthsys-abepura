@@ -16,13 +16,23 @@ $('#btn_reset').click(function()
     }, 1000);
 });
 ");
+$prov = $model->searchInformasi();
+$provTot = clone $prov;
+$provTot->pagination = false;
+$dat = array('d'=>0, 'k'=>0);
+
+foreach($provTot->data as $item) {
+    $dat['d'] += $item->saldodebit;
+    $dat['k'] += $item->saldokredit;
+}
+
 ?>
 <div class="white-container">
     <legend class="rim2">Informasi <b>Jurnal</b></legend>
     <?php
     $this->widget('ext.bootstrap.widgets.HeaderGroupGridView', array(
         'id' => 'AK-grid-jurnal-umum',
-        'dataProvider' => $model->searchInformasi(),
+        'dataProvider' => $prov,
         'template' => "{summary}\n{items}\n{pager}",
         'itemsCssClass' => 'table table-striped table-condensed',
         'mergeHeaders' => array(
@@ -64,18 +74,18 @@ $('#btn_reset').click(function()
             array(
                 'header' => '<center>Debit</center>',
                 'name' => 'saldodebit',
-                'value' => 'number_format($data->saldodebit)',
+                'value' => 'MyFormatter::formatNumberForPrint($data->saldodebit)',
                 'htmlOptions' => array('style' => 'width:100px;text-align:right', 'class' => 'currency'),
                 'footerHtmlOptions' => array('style' => 'text-align:right;'),
-                'footer' => 'sum(saldodebit)',
+                'footer' => MyFormatter::formatNumberForPrint($dat['d']),
             ),
             array(
                 'header' => '<center>Kredit</center>',
                 'name' => 'saldokredit',
-                'value' => 'number_format($data->saldokredit)',
+                'value' => 'MyFormatter::formatNumberForPrint($data->saldokredit)',
                 'htmlOptions' => array('style' => 'width:100px;text-align:right', 'class' => 'currency'),
                 'footerHtmlOptions' => array('style' => 'text-align:right;'),
-                'footer' => 'sum(saldokredit)',
+                'footer' => MyFormatter::formatNumberForPrint($dat['k']),
             ),
             array(
                 'header' => 'Posting Jurnal',
