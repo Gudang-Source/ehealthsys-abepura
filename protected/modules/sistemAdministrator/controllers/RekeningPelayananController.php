@@ -187,8 +187,9 @@ class RekeningPelayananController extends MyAuthController {
 			// we only allow deletion via POST request
 			$transaction = Yii::app()->db->beginTransaction();
 			try {
-				SATindakanruanganM::model()->deleteAllByAttributes(array('ruangan_id' => $_GET['ruangan_id'], 'daftartindakan_id' => $_GET['daftartindakan_id']));
-				$transaction->commit();
+                                $ok = PelayananrekM::model()->deleteByPk($_GET['id']);
+				// SATindakanruanganM::model()->deleteAllByAttributes(array('ruangan_id' => $_GET['ruangan_id'], 'daftartindakan_id' => $_GET['daftartindakan_id']));
+				if ($ok) $transaction->commit();
 			} catch (Exception $e) {
 				$transaction->rollback();
 				Yii::app()->user->setFlash('error', "Data Ruangan Dan Jenis Kasus Penyakit Gagal Disimpan");
