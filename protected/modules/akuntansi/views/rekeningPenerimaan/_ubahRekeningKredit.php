@@ -42,6 +42,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 		<?php
 		$modRekKredit = new RekeningakuntansiV('searchKredit');
 		$modRekKredit->unsetAttributes();
+                $modRekKredit->rekening5_nb = "K";
 //            $account = "K";
 		$account = "";
 		if (isset($_GET['RekeningakuntansiV'])) {
@@ -161,8 +162,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 					'header' => 'Saldo Normal',
 					'name' => 'rekening5_nb',
 					'value' => '($data->rekening5_nb == "K") ? "Kredit" : "Debit"',
-                                        'filter'=>  CHtml::activeDropDownList($modRekKredit, 'rekening5_nb', 
-                                                        array("D"=>"Debit","K"=>"Kredit"), array('empty'=>"-- Pilih --")),
+                                        'filter'=>  CHtml::activeHiddenField($modRekKredit, 'rekening5_nb', array('empty'=>"-- Pilih --")),
 				),
 				
 			),
