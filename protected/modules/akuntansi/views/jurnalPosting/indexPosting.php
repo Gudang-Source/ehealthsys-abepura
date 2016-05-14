@@ -32,13 +32,26 @@ $this->widget('bootstrap.widgets.BootAlert');
     'enableAjaxValidation'=>false,
         'type'=>'horizontal',
         'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)'),
-)); ?>
+)); 
+
+
+$prov = $model->searchPostingJurnal();
+$provTot = clone $prov;
+$provTot->pagination = false;
+$dat = array('d'=>0, 'k'=>0);
+
+foreach($provTot->data as $item) {
+    $dat['d'] += $item->saldodebit;
+    $dat['k'] += $item->saldokredit;
+}
+
+?>
     <div class="block-tabel well">
         <h6><i class="icon-white icon-list-alt"></i> Tabel <b>Jurnal Rekening</b></h6>
             <div class="span12">
                     <?php $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
                             'id'=>'tableLaporan',
-                            'dataProvider'=>$model->searchPostingJurnal(),
+                            'dataProvider'=>$prov,
                             'template'=>"{summary}\n{items}",
                             'itemsCssClass'=>'table table-striped table-condensed',
                             'mergeHeaders'=>array(
@@ -84,7 +97,7 @@ $this->widget('bootstrap.widgets.BootAlert');
                                             'value'=>'MyFormatter::formatUang($data->saldodebit)',
                                             'htmlOptions'=>array('style'=>'width:100px;text-align:right'),
                                             'footerHtmlOptions'=>array('style'=>'text-align:right;'),
-                                            'footer'=>'sum(saldodebit)',
+                                            'footer' => "Rp. ".MyFormatter::formatNumberForPrint($dat['d']),
                                     ),
                                     array(
                                             'header'=>'<center>Kredit</center>',
@@ -92,7 +105,7 @@ $this->widget('bootstrap.widgets.BootAlert');
                                             'value'=>'MyFormatter::formatUang($data->saldokredit)',
                                             'htmlOptions'=>array('style'=>'width:100px;text-align:right'),
                                             'footerHtmlOptions'=>array('style'=>'text-align:right;'),
-                                            'footer'=>'sum(saldokredit)',
+                                            'footer' => "Rp. ".MyFormatter::formatNumberForPrint($dat['k']),
                                     ),
                             ),
                                     'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',

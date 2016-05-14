@@ -21,7 +21,9 @@ if (isset($_GET['sukses'])) {
         <legend class="rim">Data Jurnal Rekening</legend>
         <div class="row-fluid">
             <div class="span6">
-                <?php echo $form->textFieldRow($model, 'tglbuktijurnal', array('class' => 'span3', 'readonly' => true)); ?>
+                <?php
+                $model->tglbuktijurnal = MyFormatter::formatDateTimeForUser($model->tglbuktijurnal);
+                echo $form->textFieldRow($model, 'tglbuktijurnal', array('class' => 'span3', 'readonly' => true)); ?>
                 <?php echo $form->textFieldRow($model, 'nobuktijurnal', array('class' => 'span3', 'readonly' => true)); ?>
                 <div class="control-group ">
                     <?php echo $form->labelEx($model, 'Jenis Jurnal', array('class' => 'control-label')) ?>
@@ -72,8 +74,8 @@ if (isset($_GET['sukses'])) {
             <tfoot>
                 <tr>
                     <td colspan="5" style="text-align: right;">Total</td>
-                    <td><?php echo CHtml::textField('total_debit', MyFormatter::formatNumberForUser($total_debit), array('class' => 'span2 integer', 'readonly' => true)); ?></td>
-                    <td><?php echo CHtml::textField('total_kredit', MyFormatter::formatNumberForUser($total_debit), array('class' => 'span2 integer', 'readonly' => true)); ?></td>
+                    <td><?php echo CHtml::textField('total_debit', MyFormatter::formatNumberForPrint($total_debit), array('class' => 'span2 integer2', 'readonly' => true)); ?></td>
+                    <td><?php echo CHtml::textField('total_kredit', MyFormatter::formatNumberForPrint($total_debit), array('class' => 'span2 integer2', 'readonly' => true)); ?></td>
                 </tr>
             </tfoot>
         </table>
@@ -86,17 +88,18 @@ if (isset($_GET['sukses'])) {
                     <?php echo $form->labelEx($modPostingJurnal, 'tgljurnalpost', array('class' => 'control-label')) ?>
                     <div class="controls">
                         <?php
-                        $modPostingJurnal->tgljurnalpost = (!empty($modPostingJurnal->tgljurnalpost) ? date("d/m/Y H:i:s", strtotime($modPostingJurnal->tgljurnalpost)) : null);
+                        $modPostingJurnal->tgljurnalpost = MyFormatter::formatDateTimeForUser(date('Y-m-d H:i:s'));
                         $this->widget('MyDateTimePicker', array(
                             'model' => $modPostingJurnal,
                             'attribute' => 'tgljurnalpost',
                             'mode' => 'datetime',
                             'options' => array(
+                                'dateFormat' => Params::DATE_FORMAT,
                                 'showOn' => false,
                                 'minDate' => 'd',
                                 'yearRange' => "-150:+0",
                             ),
-                            'htmlOptions' => array('placeholder' => '00/00/0000', 'class' => 'dtPicker2 datetimemask', 'onkeyup' => "return $(this).focusNextInputField(event)"
+                            'htmlOptions' => array('class' => 'dtPicker2', 'onkeyup' => "return $(this).focusNextInputField(event)"
                             ),
                         ));
                         ?>

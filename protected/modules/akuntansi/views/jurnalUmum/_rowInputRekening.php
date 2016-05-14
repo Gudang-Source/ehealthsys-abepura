@@ -34,7 +34,7 @@
             );
         ?>
     </td>
-    <td width="3%">
+    <td width="3%" hidden>
         <span name="AKJurnaldetailT[ii][kdrekening1]"><?php echo $modJurnaldetail->kdrekening1; ?></span>
         <?php
             echo CHtml::activeHiddenField(
@@ -48,7 +48,7 @@
             );
         ?>                
     </td>
-    <td width="3%">
+    <td width="3%" hidden>
         <span name="AKJurnaldetailT[ii][kdrekening2]"><?php echo $modJurnaldetail->kdrekening2; ?></span>
         <?php
             echo CHtml::activeHiddenField(
@@ -62,7 +62,7 @@
             );
         ?>
     </td>
-    <td width="3%">
+    <td width="3%" hidden>
         <span name="AKJurnaldetailT[ii][kdrekening3]"><?php echo $modJurnaldetail->kdrekening3; ?></span>
         <?php
             echo CHtml::activeHiddenField(
@@ -76,7 +76,7 @@
             );
         ?>                
     </td>
-    <td width="3%">
+    <td width="3%" hidden>
         <span name="AKJurnaldetailT[ii][kdrekening4]"><?php echo $modJurnaldetail->kdrekening4; ?></span>
         <?php
             echo CHtml::activeHiddenField(
@@ -114,7 +114,7 @@
                 "[ii]saldodebit",
                 array(
                     'value'=>0,
-                    'class'=>'span2 integer',
+                    'class'=>'span2 integer2',
                     'onkeypress'=>"return $(this).focusNextInputField(event)",
                     'onkeyup'=>"hitungTotalUang()",
                     'readonly'=>($status == 'D') ? false : true,
@@ -129,7 +129,7 @@
                 "[ii]saldokredit",
                 array(
                     'value'=>0,
-                    'class'=>'span2 integer',
+                    'class'=>'span2 integer2',
                     'onkeypress'=>"return $(this).focusNextInputField(event)",
                     'onkeyup'=>"hitungTotalUang()",
                     'readonly'=>($status == 'K') ? false : true,
