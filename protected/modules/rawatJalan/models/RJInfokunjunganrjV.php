@@ -920,8 +920,9 @@ class RJInfokunjunganrjV extends InfokunjunganrjV {
     * @return type String Link HTML untuk pemeriksan pasien
     */
    public function getLinkPeriksaPasien() {
+       $pendaftaran = PendaftaranT::model()->findByPk($this->pendaftaran_id);
+       if (!empty($pendaftaran->pasienpulang_id)) return "-";
        if ($this->penjamin_id == Params::PENJAMIN_ID_UMUM) {
-            $pendaftaran = PendaftaranT::model()->findByPk($this->pendaftaran_id);
            
             if (!empty($pendaftaran->karcis_id)) {
                 $tindakan = TindakanpelayananT::model()->findByAttributes(array(
