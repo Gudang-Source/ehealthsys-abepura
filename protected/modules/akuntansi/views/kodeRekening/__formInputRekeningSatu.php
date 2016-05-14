@@ -1,5 +1,5 @@
 <fieldset class='box' id='fieldsetRekeningSatu'>
-    <legend class="rim">Tambah Struktur Rekening</legend>
+    <legend class="rim">Tambah Kelompok Akun</legend>
     <?php
     Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/form.js');
     $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(

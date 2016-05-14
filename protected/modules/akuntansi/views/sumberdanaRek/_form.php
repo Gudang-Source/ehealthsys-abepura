@@ -159,7 +159,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'title'=>'Daftar Rekening Debit',
         'autoOpen'=>false,
         'modal'=>true,
-        'width'=>700,
+        'width'=>800,
         'height'=>400,
         'resizable'=>false,
     ),
@@ -288,12 +288,11 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 			'value'=>'$data->nmrekeninglain5',
 		), */
 		array(
-			'header'=>'Saldo Normal',
-			'name'=>'rekening5_nb',
-			'value'=>'($data->rekening5_nb == "D" ) ? "Debit" : "Kredit"',
-                        'filter'=>  CHtml::activeDropDownList($modRekDebit, 'rekening5_nb', 
-                            array("D"=>"Debit","K"=>"Kredit"), array('empty'=>"-- Pilih --")),
-		),
+                        'header'=>'Saldo Normal',
+                        'name'=>'rekening5_nb',
+                        'value'=>'($data->rekening5_nb == "D") ? "Debit" : "Kredit"',
+                        'filter'=>  CHtml::activeHiddenField($modRekDebit, 'rekening5_nb', array('empty'=>"-- Pilih --")),
+                ),
 
 		
     ),
@@ -312,7 +311,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'title'=>'Daftar Rekening Kredit',
         'autoOpen'=>false,
         'modal'=>true,
-        'width'=>600,
+        'width'=>800,
         'height'=>400,
         'resizable'=>false,
     ),
@@ -436,12 +435,11 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 			'value'=>'$data->nmrekeninglain5',
 		), */
 		array(
-			'header'=>'Saldo Normal',
-			'name'=>'rekening5_nb',
-			'value'=>'($data->rekening5_nb == "K" ) ? "Kredit" : "Debit"',
-                        'filter'=>  CHtml::activeDropDownList($modRekKredit, 'rekening5_nb', 
-                            array("D"=>"Debit","K"=>"Kredit"), array('empty'=>"-- Pilih --")),
-		),
+                        'header'=>'Saldo Normal',
+                        'name'=>'rekening5_nb',
+                        'value'=>'($data->rekening5_nb == "K") ? "Kredit" : "Debit"',
+                        'filter'=>  CHtml::activeHiddenField($modRekKredit, 'rekening5_nb', array('empty'=>"-- Pilih --")),
+                ),
 
 		
     ),

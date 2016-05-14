@@ -72,8 +72,8 @@ class Rekening3M extends CActiveRecord
 			'rekening3_id' => 'Rekening ID 3',
 //			'rekening1_id' => 'Rekening ID 1',
 			'rekening2_id' => 'Rekening ID 2',
-			'kdrekening3' => 'Kode Rekening',
-			'nmrekening3' => 'Nama Rekening',
+			'kdrekening3' => 'Kode Akun',
+			'nmrekening3' => 'Nama Akun',
 			'nmrekeninglain3' => 'Nama Lain',
 			'rekening3_aktif' => 'Status',
 		);

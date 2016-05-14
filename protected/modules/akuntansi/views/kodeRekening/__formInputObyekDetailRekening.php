@@ -1,5 +1,5 @@
 <fieldset class='box' id='fieldsetDetailObyekRekening'>
-    <legend class="rim">Tambah Detail Obyek Rekening</legend>
+    <legend class="rim">Tambah Kode Akun</legend>
 	<?php
 	Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/form.js');
 	$form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
@@ -17,7 +17,7 @@
 	<?php echo $form->hiddenField($model, 'rekening4_id', array('class' => 'span1')); ?>
 	<?php echo $form->hiddenField($model, 'rekening5_id', array('class' => 'span1')); ?>
     <div class="control-group ">
-        <label class="control-label required" for="AKRekening5M_kdrekening5">Kode Rekening&nbsp;<span class="required">*</span></label>
+        <label class="control-label required" for="AKRekening5M_kdrekening5">Kode Akun&nbsp;<span class="required">*</span></label>
         <div class="controls">
 			<?php echo $form->textField($model, 'kdrekening5', array('class' => 'span2 reqForm', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 20, 'readonly' => false)); ?>
         </div>

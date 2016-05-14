@@ -1,5 +1,5 @@
 <div class='white-container'>
-    <legend class='rim2'>Lihat <b>Rekening Periode</b></legend>
+    <legend class='rim2'>Lihat <b>Periode Akuntansi</b></legend>
     <?php
         $this->breadcrumbs=array(
                 'Rekperiod Ms'=>array('index'),
