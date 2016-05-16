@@ -210,6 +210,8 @@ class PendaftaranRawatDaruratController extends PendaftaranRawatJalanController
                                 foreach($_POST['PPTindakanPelayananT'] as $i => $karcis){
                                     if($karcis['is_pilihtindakan']){
                                         $dataTindakans[$i] = $this->simpanKarcis($modTindakan, $model ,$karcis);
+                                        $model->karcis_id = $dataTindakans[$i]->karcis_id;
+                                        $model->save();
                                     }
                                 }
                             }

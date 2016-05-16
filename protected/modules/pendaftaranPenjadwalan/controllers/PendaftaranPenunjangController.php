@@ -253,6 +253,8 @@ class PendaftaranPenunjangController extends PendaftaranRawatJalanController
                                             foreach($_POST['PPKarcisV'][$i] as $ii => $postkarcis){
                                                 if($postkarcis['is_pilihkarcis']){
                                                     $modKarcis[$i][$ii] = $this->simpanTindakanPelayanan($model,$modPasienMasukPenunjang,$postkarcis);
+                                                    $model->karcis_id = $modKarcis[$i][$ii]->karcis_id;
+                                                    $model->save();
                                                 }
                                             }
                                         }
