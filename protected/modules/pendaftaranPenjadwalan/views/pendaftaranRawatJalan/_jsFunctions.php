@@ -32,7 +32,7 @@ function setPasienLama(pasien_id, no_rekam_medik, is_manual){
                 return false;
             }
             
-            <?php if ($this->id == "pendaftaranRawatInap"): ?>
+            <?php // if ($this->id == "pendaftaranRawatInap"): ?>
             
             if (data.adaInap) {
                 myAlert("Pasien " + data.listDaftar.pasien.namadepan + data.listDaftar.pasien.nama_pasien + " (" + data.listDaftar.no_pendaftaran + ")\n\
@@ -59,7 +59,7 @@ function setPasienLama(pasien_id, no_rekam_medik, is_manual){
                 return false;
             }
             
-            <?php endif; ?>
+            <?php //    endif; ?>
             
             if(data.statusrekammedis.trim() == "<?php echo Params::STATUSREKAMMEDIS_AKTIF?>"){
 				$("#cari_nomorindukpegawai").val(data.nomorindukpegawai); // untuk load filed NIP
