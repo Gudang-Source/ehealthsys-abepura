@@ -48,31 +48,29 @@
                         }
                     ),
                     array(
-                        'header'=>'Tgl Pendaftaran',
+                        'header'=>'Tgl Pendaftaran/<br/>No Pendaftaran',
+                        'type'=>'raw',
                         'value'=>function($data) {
-                            return MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran);
+                            if (empty($data->tgl_pendaftaran)) return "BELUM DIDAFTARKAN";
+                            return MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."<br/>".$data->no_pendaftaran;
                         }
                     ),
-                    array(
-                            'header'=>'Nama Instalasi',
-                            'value'=>'$data->instalasi_nama',
-                    ),    
-                    array(
-                        'header'=>'Nama Ruangan',
-                        'value'=>'$data->ruangan_nama',
-                    ),   
-                    array (
-                        'header'=>'No Antrian',
-                        'name'=>'noantrian_loket',
-                    ),
-                    'no_rekam_medik',
-                    'nama_pasien',
-                    'no_pendaftaran',
-                    'alamat_pasien',
                     array(
                         'name'=>'caraBayarPenjamin',
                         'value'=>'$data->caraBayarPenjamin',
                         'filter'=>false,
+                    ),
+                    array(
+                        'header'=>'Nama Instalasi',
+                        'type'=>'raw',
+                        'value'=>'$data->instalasi_nama."<br/>".$data->ruangan_nama',
+                    ),    
+                    'no_rekam_medik',
+                    'nama_pasien',
+                    'alamat_pasien',
+                    array (
+                        'header'=>'No Antrian',
+                        'name'=>'noantrian_loket',
                     ),
                     array(
                         'header'=>'Panggil',

@@ -135,4 +135,9 @@ class LoketM extends CActiveRecord
                         'pagination'=>false,
                 ));
         }
+        
+        public function getNamaLoketLengkap()
+        {
+            return $this->loket_singkatan." - ".$this->loket_nama;
+        }
 }
