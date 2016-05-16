@@ -13,7 +13,8 @@ class AKPeriodepostingM extends PeriodepostingM
 		$criteria->addCondition('DATE(tglperiodeposting_awal) <=\''.$next_year.'\'');
 		$criteria->addCondition('DATE(tglperiodeposting_akhir) >= \''.$next_year.'\'');
 		$criteria->compare('LOWER(deskripsiperiodeposting)',strtolower($this->deskripsiperiodeposting),true);
-		$criteria->order = "deskripsiperiodeposting ASC";
+                $criteria->compare('LOWER(periodeposting_nama)',strtolower($this->periodeposting_nama),true);
+		$criteria->order = "periodeposting_nama ASC";
 		if(!empty($rekperiod_id)){
 			$criteria->addCondition('rekperiode_id = '.$rekperiod_id);
 		}
