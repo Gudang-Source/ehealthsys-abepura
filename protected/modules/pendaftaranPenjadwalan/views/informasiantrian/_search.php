@@ -57,24 +57,51 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                     <?php $model->tgl_akhir = $format->formatDateTimeForDb($model->tgl_akhir); ?>
                 </div>
             </div>
+            
+        </div>
+        <div class="span4">
             <?php echo $form->textFieldRow($model, 'no_pendaftaran', array('class' => 'span3', 'maxlength' => 20,'placeholder'=>'Ketik No. Pendaftaran')); ?>
+            <?php echo $form->textFieldRow($model, 'no_rekam_medik', array('class' => 'span3', 'maxlength' => 10,'placeholder'=>'Ketik No. Rekam Medik')); ?>
+            <?php echo $form->textFieldRow($model, 'nama_pasien', array('class' => 'span3', 'maxlength' => 50,'placeholder'=>'Ketik Nama Pasien')); ?>
         </div>
         <div class="span4">
             <?php echo $form->dropDownListRow($model, 'instalasi_id', CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true and instalasi_id in (2,4) ORDER BY instalasi_nama'), 'instalasi_id', 'instalasi_nama'), array('empty'=>'-- Pilih --', 'class' => 'span3', 'ajax' => array('type' => 'POST',
                                                         'url' => $this->createUrl('GetRuanganForCheckBox', array('encode' => false, 'namaModel' => ''.$model->getNamaModel().'')),
-                                                        'update' => '#ruangan',  //selector to update
+                                                        'update' => '#PPInformasiantrianpasien_ruangan_id',  //selector to update
                                                     ),)); ?>
-            <div class="control-group ">
-                <?php echo $form->dropDownListRow($model, 'loket_id', CHtml::listData(LoketM::model()->findAll(array(
+            <?php echo $form->dropDownListRow($model, 'ruangan_id', array(), array('empty'=>'-- Pilih --', 'class'=>'span3')); ?>
+            <?php echo $form->dropDownListRow($model, 'loket_id', CHtml::listData(LoketM::model()->findAll(array(
                     'condition'=>'loket_aktif = true',
                     'order'=>'loket_singkatan',
-                )), 'loket_id', 'loket_singkatan'), array('class' => 'span3','empty' => '-- Pilih --')); ?>
-            </div>
-            <?php echo $form->textFieldRow($model, 'no_rekam_medik', array('class' => 'span3', 'maxlength' => 10,'placeholder'=>'Ketik No. Rekam Medik')); ?>
-        </div>
-        <div class="span4">
-            <?php echo $form->textFieldRow($model, 'nama_pasien', array('class' => 'span3', 'maxlength' => 50,'placeholder'=>'Ketik Nama Pasien')); ?>
-            <?php echo $form->dropDownListRow($model, 'statusperiksa', LookupM::getItems('statusperiksa'), array('class' => 'span3','empty' => '-- Pilih --')); ?>
+            )), 'loket_id', 'namaLoketLengkap'), array('class' => 'span3','empty' => '-- Pilih --')); ?>
+            <?php echo $form->dropDownListRow($model, 'statusdaftar', array(1=>'BELUM DIDAFTARKAN', 2=>'SUDAH DIDAFTARKAN'), array('class' => 'span3','empty' => '-- Pilih --')); ?>
+            <?php 
+            $carabayar = CarabayarM::model()->findAll(array(
+                'condition'=>'carabayar_aktif = true',
+                'order'=>'carabayar_nama ASC',
+            ));
+            foreach ($carabayar as $idx=>$item) {
+                $penjamins = PenjaminpasienM::model()->findByAttributes(array(
+                    'carabayar_id'=>$item->carabayar_id,
+                    'penjamin_aktif'=>true,
+               ));
+               if (empty($penjamins)) unset($carabayar[$idx]);
+            }
+            $penjamin = PenjaminpasienM::model()->findAll(array(
+                'condition'=>'penjamin_aktif = true',
+                'order'=>'penjamin_nama',
+            ));
+            echo $form->dropDownListRow($model,'carabayar_id', CHtml::listData($carabayar, 'carabayar_id', 'carabayar_nama'), array(
+                'empty'=>'-- Pilih --',
+                'class'=>'span3', 
+                'ajax' => array('type'=>'POST',
+                    'url'=> $this->createUrl('/actionDynamic/getPenjaminPasien',array('encode'=>false,'namaModel'=>get_class($model))), 
+                    'success'=>'function(data){$("#'.CHtml::activeId($model, "penjamin_id").'").html(data); }',
+                ),
+             ));
+            echo $form->dropDownListRow($model,'penjamin_id', CHtml::listData($penjamin, 'penjamin_id', 'penjamin_nama'), array('empty'=>'-- Pilih --', 'class'=>'span3'));
+            ?>
+            
         </div>
     </div>
     <div class="form-actions">
