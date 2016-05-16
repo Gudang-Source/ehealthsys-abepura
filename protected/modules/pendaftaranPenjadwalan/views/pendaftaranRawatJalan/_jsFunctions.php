@@ -384,7 +384,7 @@ function setAsuransiPasienLama(pasien_id){
 									
 									setFormAsuransi(datacarabayar_id);
 									$("#<?php echo CHtml::activeId($model,"carabayar_id");?>").val(datacarabayar_id);
-									$("#<?php echo CHtml::activeId($model,"penjamin_id");?>").html(datalistPenjamin);
+									$("#<?php echo CHtml::activeId($model,"penjamin_id");?>").html(datalistPenjamin).change();
 									$("#<?php echo CHtml::activeId($model,"penjamin_id");?>").val(datapenjamin_id);
 									if(datacarabayar_id == <?php echo Params::CARABAYAR_ID_BPJS ?>){
 										getAsuransiNoKartu(datanopeserta);
