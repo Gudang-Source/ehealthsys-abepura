@@ -56,6 +56,11 @@ function setFormAntrian(record){
     if(record == "reset"){
         noantrian = "";
     }
+    if (loket_id == 1) {
+        $(".rb_rm").eq(0).click();
+    } else if (loket_id == 2) {
+        $(".rb_rm").eq(1).click();
+    }
     $("#dialog-panggilantrian > .dialog-content").addClass('animation-loading');
     $.ajax({
         type:'POST',
