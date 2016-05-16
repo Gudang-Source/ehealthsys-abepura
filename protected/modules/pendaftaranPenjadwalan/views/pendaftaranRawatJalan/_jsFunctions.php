@@ -33,12 +33,32 @@ function setPasienLama(pasien_id, no_rekam_medik, is_manual){
             }
             
             <?php if ($this->id == "pendaftaranRawatInap"): ?>
+            
+            if (data.adaInap) {
+                myAlert("Pasien " + data.listDaftar.pasien.namadepan + data.listDaftar.pasien.nama_pasien + " (" + data.listDaftar.no_pendaftaran + ")\n\
+                Hari ini sedang di rawat inap di " + data.listDaftar.ruangan.ruangan_nama + ".");
+                $("#form-pasien > div").removeClass("animation-loading");
+                $("#<?php echo CHtml::activeId($modPasien,'nama_pasien');?>").val("");
+                setPasienBaru(); 
+                return false;
+            }
+            if (data.tindakLanjut) {
+                    myAlert("Pasien " + data.listDaftar.pasien.namadepan + data.listDaftar.pasien.nama_pasien + " (" + data.listDaftar.no_pendaftaran + ")\n\
+                    Hari ini menunggu tindak lanjut ke rawat inap di " + data.listDaftar.instalasi.instalasi_nama + " -> " + data.listDaftar.ruangan.ruangan_nama + ".");
+                    $("#form-pasien > div").removeClass("animation-loading");
+                    $("#<?php echo CHtml::activeId($modPasien,'nama_pasien');?>").val("");
+                    setPasienBaru(); 
+                    return false;
+                }
             if (data.adaDaftar) {
                 myAlert("Pasien " + data.listDaftar.pasien.namadepan + data.listDaftar.pasien.nama_pasien + " (" + data.listDaftar.no_pendaftaran + ")\n\
                 Hari ini sedang di Instalasi " + data.listDaftar.instalasi.instalasi_nama + " -> " + data.listDaftar.ruangan.ruangan_nama + ".");
                 $("#form-pasien > div").removeClass("animation-loading");
+                $("#<?php echo CHtml::activeId($modPasien,'nama_pasien');?>").val("");
+                setPasienBaru(); 
                 return false;
             }
+            
             <?php endif; ?>
             
             if(data.statusrekammedis.trim() == "<?php echo Params::STATUSREKAMMEDIS_AKTIF?>"){
