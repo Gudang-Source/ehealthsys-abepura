@@ -262,4 +262,64 @@ class SaldoAwalController extends MyAuthController
         }
         Yii::app()->end();
     }
+    
+    public function actionInformasi()
+    {
+        $model = new AKInformasisaldoawalV;
+        $model->unsetAttributes(); 
+
+        if(isset($_GET['AKInformasisaldoawalV'])){
+            $model->attributes=$_GET['AKInformasisaldoawalV'];
+        }
+
+        // ===== Rekening 1 =====
+        // $criteria->addBetweenCondition('tglbuktijurnal', $modelLaporan->tglAwal, $modelLaporan->tglAkhir);
+        $criteria = new CDbCriteria;
+        $criteria->select = 'kdrekening1, rekening1_id, nmrekening1, count(nmrekening1) as jmlrekening, sum(jmlsaldoawald) as debit, sum(jmlsaldoawalk) as kredit';
+        $criteria->compare('LOWER(nmrekening5)',strtolower($model->nmrekening5),true);
+        $criteria->compare('LOWER(kdrekening5)',strtolower($model->kdrekening5),true);
+        $criteria->group = 'kdrekening1, nmrekening1, rekening1_id';
+        $criteria->order = 'rekening1_id';
+        $rekening1 = AKInformasisaldoawalV::model()->findAll($criteria);
+
+        // ===== Rekening 2 =====
+        $criteria = new CDbCriteria;
+        $criteria->select = 'kdrekening2, rekening1_id, rekening2_id, nmrekening2, count(nmrekening2) as jmlrekening, sum(jmlsaldoawald) as debit, sum(jmlsaldoawalk) as kredit';
+        $criteria->compare('LOWER(nmrekening5)',strtolower($model->nmrekening5),true);
+        $criteria->compare('LOWER(kdrekening5)',strtolower($model->kdrekening5),true);
+        $criteria->group = 'kdrekening2, nmrekening2, rekening2_id, rekening1_id';
+        $criteria->order = 'rekening1_id, rekening2_id';
+        $rekening2 = AKInformasisaldoawalV::model()->findAll($criteria);
+
+        // ===== Rekening 3 =====
+        $criteria = new CDbCriteria;
+        $criteria->select = 'kdrekening3, rekening1_id, rekening2_id, rekening3_id, nmrekening3, count(nmrekening3) as jmlrekening, sum(jmlsaldoawald) as debit, sum(jmlsaldoawalk) as kredit';
+        $criteria->compare('LOWER(nmrekening5)',strtolower($model->nmrekening5),true);
+        $criteria->compare('LOWER(kdrekening5)',strtolower($model->kdrekening5),true);
+        $criteria->group = 'kdrekening3, nmrekening3, rekening3_id, rekening2_id, rekening1_id';
+        $criteria->order = 'rekening1_id, rekening2_id, rekening3_id';
+        $rekening3 = AKInformasisaldoawalV::model()->findAll($criteria);
+
+        // ===== Rekening 4 =====
+        $criteria = new CDbCriteria;
+        $criteria->select = 'kdrekening4, rekening1_id, rekening2_id, rekening3_id, rekening4_id, nmrekening4, count(nmrekening4) as jmlrekening, sum(jmlsaldoawald) as debit, sum(jmlsaldoawalk) as kredit';
+        $criteria->compare('LOWER(nmrekening5)',strtolower($model->nmrekening5),true);
+        $criteria->compare('LOWER(kdrekening5)',strtolower($model->kdrekening5),true);
+        $criteria->group = 'kdrekening4, nmrekening4,  rekening4_id, rekening3_id, rekening2_id, rekening1_id';
+        $criteria->order = 'rekening1_id, rekening2_id, rekening3_id, rekening4_id';
+        $rekening4 = AKInformasisaldoawalV::model()->findAll($criteria);
+
+        // ===== Rekening 5 =====
+        $criteria = new CDbCriteria;
+        $criteria->select = 'kdrekening5, rekening1_id, nmrekening1, rekening2_id, nmrekening2, rekening3_id, nmrekening3, rekening4_id, nmrekening4, rekening5_id, nmrekening5, sum(jmlsaldoawald) as debit, sum(jmlsaldoawalk) as kredit';
+        $criteria->compare('LOWER(nmrekening5)',strtolower($model->nmrekening5),true);
+        $criteria->compare('LOWER(kdrekening5)',strtolower($model->kdrekening5),true);
+        $criteria->group = 'kdrekening5, nmrekening5, rekening5_id, nmrekening4, rekening4_id, nmrekening3, rekening3_id, nmrekening2, rekening2_id, nmrekening1, rekening1_id';
+        $criteria->order = 'rekening1_id, rekening2_id, rekening3_id, rekening4_id, rekening5_id';
+        $rekening5 = AKInformasisaldoawalV::model()->findAll($criteria);
+
+        $this->render('informasi',array(
+            'model'=>$model, 'rekening1'=>$rekening1, 'rekening2'=>$rekening2, 'rekening3'=>$rekening3, 'rekening4'=>$rekening4, 'rekening5'=>$rekening5,
+        ));
+    }
 }
