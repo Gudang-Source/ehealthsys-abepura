@@ -18,7 +18,7 @@
         echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
     ?>
     <?php
-        $content = $this->renderPartial('../tips/tipsLaporanFarmasi',array(),true); 
+        $content = $this->renderPartial('../tips/tipsLaporanFarmasiJasaService',array(),true); 
         $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
     ?>
 </div>
