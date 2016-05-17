@@ -80,7 +80,9 @@ function tambahObatAlkes()
                                 }
                             )
                         ).mask("99/99/9999 99:99:99");
+                    
                     hitungTotal();
+                    $("#table-obatalkespasien").find(".satuanobat").change();
                 },
                 error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
             });
@@ -98,6 +100,7 @@ function hitungTotal(){
     var totalppn = 0;
     var totalpph = 0;
     var totalharganetto = 0;
+    var totdiskon = 0;
     $('#table-obatalkespasien tbody tr').each(function(){
         var jmlppn  = parseInt($('#ppn').val());
         var jmlpph  = parseInt($('#pph').val());
@@ -129,12 +132,15 @@ function hitungTotal(){
 //        jmldisc = (subtotal * (persendis/100));
         
         if(persendis > 0){
+            totdiskon += subtotal * (persendis/100);
+            $(this).find('input[name$="[jmldiscount]"]').val(subtotal * (persendis/100));
             subtotal = subtotal - (subtotal * (persendis/100));
         }else{
+            totdiskon += jmldis;
+            $(this).find('input[name$="[persendiscount]"]').val((jmldis/subtotal) * 100);
             subtotal = subtotal - jmldis;
         }       
         
-        console.log(subtotal);
         
         total += subtotal;
         $(this).find('input[name$="[subtotal]"]').val(subtotal);
@@ -157,7 +163,8 @@ function hitungTotal(){
     $('#<?php echo CHtml::activeId($modFakturPembelian,'totharganetto'); ?>').val(totalharganetto);    
     $('#<?php echo CHtml::activeId($modFakturPembelian,'totalhargabruto'); ?>').val(total);       
     $('#<?php echo CHtml::activeId($modFakturPembelian,'totalpajakppn'); ?>').val(totalppn);       
-    $('#<?php echo CHtml::activeId($modFakturPembelian,'totalpajakpph'); ?>').val(totalpph);       
+    $('#<?php echo CHtml::activeId($modFakturPembelian,'totalpajakpph'); ?>').val(totalpph);
+    $('#<?php echo CHtml::activeId($modFakturPembelian,'jmldiscount'); ?>').val(totdiskon);  
     formatNumberSemua();
 }
 
