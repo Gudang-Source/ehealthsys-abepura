@@ -38,7 +38,7 @@ class FakturPembelianController extends MyAuthController
                 $modFakturPembelian->tglfaktur = $format->formatDateTimeForDb($modFakturPembelian->tglfaktur);
                 $modFakturPembelian->tgljatuhtempo = $format->formatDateTimeForDb($modFakturPembelian->tgljatuhtempo);
                 $modFakturPembelian->ruangan_id = Yii::app()->user->getState('ruangan_id');
-                $modFakturPembelian->ruangan_id = Yii::app()->user->id;
+                // $modFakturPembelian->ruangan_id = Yii::app()->user->id;
 
                 if($modFakturPembelian->save()){
                     $updatePenerimaanBarang = GFPenerimaanBarangT::model()->updateByPk($_POST['GFPenerimaanBarangT']['penerimaanbarang_id'],array('fakturpembelian_id'=>$modFakturPembelian->fakturpembelian_id));
@@ -90,7 +90,7 @@ class FakturPembelianController extends MyAuthController
         $modFakturDetail->persenpphfaktur = $postFakturDetail['persenpph'];
         $modFakturDetail->persendiscount = $postFakturDetail['persendiscount'];
         $modFakturDetail->jmldiscount = $postFakturDetail['jmldiscount'];
-        $modFakturDetail->hargasatuan = ($postFakturDetail['harganettoper'] - $postFakturDetail['jmldiscount']);
+        $modFakturDetail->hargasatuan = floor(($postFakturDetail['harganettoper'] - ($modFakturDetail->jmldiscount / $modFakturDetail->jmlterima)));
         $modFakturDetail->kemasanbesar = $postFakturDetail['kemasanbesar'];
         $modFakturDetail->tglkadaluarsa = $format->formatDateTimeForDb($modFakturDetail['tglkadaluarsa']);
         

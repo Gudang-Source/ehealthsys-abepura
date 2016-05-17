@@ -111,7 +111,7 @@ if (!isset($_GET['frame'])){
                 <td align="right"><?php echo $modObat->jmlterima; ?></td>
                 <td align="right"><?php echo $format->formatUang($modObat->harganettoper); ?></td>
                 <td align="right"><?php echo $modObat->persendiscount; ?></td>
-                <td align="right"><?php echo $modObat->jmldiscount; ?></td>
+                <td align="right"><?php echo $format->formatUang($modObat->jmldiscount); ?></td>
                 <td align="right"><?php 
                     $discount = $modObat->jmldiscount;
                     $subtotal = (($modObat->harganettoper * $modObat->jmlpermintaan) - $discount);

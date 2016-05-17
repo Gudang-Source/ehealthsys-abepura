@@ -1,3 +1,6 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
 <script type="text/javascript">
 function tambahObatAlkes()
 {
@@ -16,8 +19,8 @@ function tambahObatAlkes()
                 success:function(data){
                     $('#table-obatalkespasien > tbody').append(data.form);
                     $("#table-obatalkespasien").find('input[name$="[ii][obatalkes_id]"]').val(obatalkes_id);
-                    $("#table-obatalkespasien").find('input[name*="[ii]"][class*="integer"]').maskMoney(
-                        {"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0}
+                    $("#table-obatalkespasien").find('input[name*="[ii]"][class*="integer2"]').maskMoney(
+                        {"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0}
                     );
                     renameInputRowObatAlkes($("#table-obatalkespasien"));                    
                     hitungTotal();
@@ -35,15 +38,23 @@ function tambahObatAlkes()
 function hitungTotal(){
     unformatNumberSemua();
     var total = 0;
+    var totnetto = 0;
     var persenppn = 0;
     var persenpph = 0;
+    var diskon = parseInt($('#<?php echo CHtml::activeId($modFakturPembelian,'persendiscount'); ?>').val());
+    var diskonrp = 0;
+    var bruto = 0;
     $('#table-obatalkespasien tbody tr').each(function(){
         var jmlterima  = parseInt($(this).find('input[name$="[jmlterima]"]').val());
         var harganetto  = parseInt($(this).find('input[name$="[harganettoper]"]').val());
         var persendis  = parseInt($(this).find('input[name$="[persendiscount]"]').val());
         var jmldis  = parseInt($(this).find('input[name$="[jmldiscount]"]').val());
         subtotal = harganetto * jmlterima;
-        jmldisc = (harganetto * (persendis/100));
+        jmldisc = Math.floor(harganetto * jmlterima * (persendis/100));
+        
+        
+        
+        console.log(jmldisc);
         
         if(jmldisc > 0){
             subtotal = subtotal - jmldisc;
@@ -56,10 +67,13 @@ function hitungTotal(){
             subtotal = 0;
         }
         
+        totnetto += subtotal;
+        
         if($('#termasukPPN').is(':checked')){
             var ppn = '<?php echo Yii::app()->user->getState('persenppn'); ?>';
-            persenppn = persenppn + ((harganetto * (ppn/100)) * jmlterima);
-            subtotal = ((harganetto + (harganetto * (ppn/100))) * jmlterima - jmldisc);            
+            persenppn = Math.floor(persenppn + ((subtotal * (ppn/100))));
+            subtotal = Math.floor(((harganetto * jmlterima) - jmldisc) + (subtotal * (ppn/100)));  
+            console.log(subtotal);
         }else{
             var ppn = 0;
             persenppn = 0;
@@ -67,8 +81,8 @@ function hitungTotal(){
         
         if($('#termasukPPH').is(':checked')){
             var pph = '<?php echo Yii::app()->user->getState('persenpph'); ?>';
-            persenpph = persenpph + ((subtotal * (pph/100)));
-            subtotal = (subtotal + (subtotal * (pph/100)));
+            persenpph = Math.floor(persenpph + ((subtotal * (pph/100))));
+            subtotal = Math.floor(subtotal + (subtotal * (pph/100)));
         }else{
             var pph = 0;
             persenpph = 0;
@@ -79,9 +93,22 @@ function hitungTotal(){
         $(this).find('input[name$="[jmldiscount]"]').val(jmldisc);
         $(this).find('input[name$="[persenppn]"]').val(ppn);
         $(this).find('input[name$="[persenpph]"]').val(pph);
-        $('#<?php echo CHtml::activeId($modFakturPembelian,'totalpajakppn'); ?>').val(persenppn);
-        $('#<?php echo CHtml::activeId($modFakturPembelian,'totalpajakpph'); ?>').val(persenpph);
+        
     });
+    if (!$("#diskonSemua").is(":checked")) {
+        diskon = 0;
+        $('#<?php echo CHtml::activeId($modFakturPembelian,'persendiscount'); ?>').val(0);
+    }
+    
+    bruto = totnetto + persenppn + persenpph;
+    diskonrp = Math.floor(totnetto * (diskon/100));
+    bruto -= diskonrp;
+    
+    $('#<?php echo CHtml::activeId($modFakturPembelian,'totharganetto'); ?>').val(totnetto);
+    $('#<?php echo CHtml::activeId($modFakturPembelian,'totalpajakppn'); ?>').val(persenppn);
+    $('#<?php echo CHtml::activeId($modFakturPembelian,'totalpajakpph'); ?>').val(persenpph);
+    $('#<?php echo CHtml::activeId($modFakturPembelian,'jmldiscount'); ?>').val(diskonrp);
+    $('#<?php echo CHtml::activeId($modFakturPembelian,'totalhargabruto'); ?>').val(bruto);
     $('#total').val(total);    
     formatNumberSemua();
 }
@@ -142,22 +169,35 @@ function renameInputRowObatAlkes(obj_table){
 }
 
 /**
- * class integer di unformat 
+ * class integer2 di unformat 
  * @returns {undefined}
  */
+ /*
 function unformatNumberSemua(){
-    $(".integer").each(function(){
+    $(".integer2").each(function(){
         $(this).val(parseInt(unformatNumber($(this).val())));
     });
-}
+} */
 /**
- * class integer di format kembali
+ * class integer2 di format kembali
  * @returns {undefined}
  */
+ /*
 function formatNumberSemua(){
-    $(".integer").each(function(){
+    $(".integer2").each(function(){
         $(this).val(formatInteger($(this).val()));
     });
+}
+*/
+
+function setJmlDiscountNol(obj) 
+{
+    $(obj).parents("tr").find(".jmldisc").val(0);
+}
+
+function setPersenDiscountNol(obj) 
+{
+    $(obj).parents("tr").find(".persendisc").val(0);
 }
 
 function pilihSatuan(obj){
@@ -217,7 +257,7 @@ function tombolSimpan(){
 	if(requiredCheck($("form"))){
         $(".animation-loading").removeClass("animation-loading");
 		$(".currency").each(function(){this.value = unformatNumber(this.value)});
-		$(".integer").each(function(){this.value = unformatNumber(this.value)});
+		$(".integer2").each(function(){this.value = unformatNumber(this.value)});
 		$('#fakturpembelian-form').submit();
     }
     return false;
@@ -236,7 +276,7 @@ function setFakturObatAlkes(penerimaanbarang_id){
 				if(data.pesan == ''){
 					$('#table-obatalkespasien > tbody').append(data.form);
 					$("#table-obatalkespasien").find('input[name$="[ii][penerimaanbarang_id]"]').val(penerimaanbarang_id);
-					$("#table-obatalkespasien").find('input[name*="[ii]"][class*="integer"]').maskMoney(
+					$("#table-obatalkespasien").find('input[name*="[ii]"][class*="integer2"]').maskMoney(
 						{"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0}
 					);
 					renameInputRowObatAlkes($("#table-obatalkespasien"));                    
@@ -282,5 +322,9 @@ $(document).ready(function(){
         hitungTotal();
     }
     
+    $("#diskonSemua").change(function()
+    {
+        $('#<?php echo CHtml::activeId($modFakturPembelian,'persendiscount'); ?>').prop("readonly", !$(this).is(":checked"));
+    });
 });
 </script>
