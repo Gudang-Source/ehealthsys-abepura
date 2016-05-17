@@ -53,9 +53,9 @@ $this->widget('application.extensions.moneymask.MMask',array(
                 </div>
             </div>
             <div class="control-group ">
-                <?php echo CHtml::label('Nama Pendek Obat Alkes <span class="required">*</span>','obatalkes_nama', array('class'=>'control-label required')) ?>
+                <?php echo CHtml::label('Nama Lain Obat Alkes <span class="required">*</span>','obatalkes_nama', array('class'=>'control-label required')) ?>
                 <div class="controls">
-                        <?php echo $form->textField($model,'obatalkes_namalain',array('placeholder'=>'Nama Pendek Obat Alkes','class'=>'span3 all-caps',
+                        <?php echo $form->textField($model,'obatalkes_namalain',array('placeholder'=>'Nama Lain Obat Alkes','class'=>'span3 all-caps',
                                                 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>200,
                                                 'readonly'=>true
                                                 )); ?>
@@ -716,7 +716,7 @@ function AutoTextNamaOA()
 	if((satuankecil == '') || (satuankecil == '-- Pilih --')){
 		var satuankecil = '';
 	}
-	document.getElementById('SAObatalkesM_obatalkes_namalain').value = nama+' '+kekuatan+' '+satuan+' '+satuankecil;
+	document.getElementById('SAObatalkesM_obatalkes_namalain').value = (nama+' '+kekuatan+' '+satuan+' '+satuankecil).toUpperCase();
 }
 
 $(document).ready(function(){

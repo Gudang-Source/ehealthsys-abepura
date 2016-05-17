@@ -37,7 +37,7 @@
             $modPenerimaanBarangDetail->tglkadaluarsa = $format->formatDateTimeForDb($modPenerimaanBarangDetail->tglkadaluarsa); ?>
     </td>
     <td>
-        <?php echo CHtml::activeDropDownList($modPenerimaanBarangDetail, '[ii]satuanobat', LookupM::getItems('satuanobat'),array('onChange'=>'pilihSatuan(this);','style'=>'width:100px;')); ?><br>
+        <?php echo CHtml::activeDropDownList($modPenerimaanBarangDetail, '[ii]satuanobat', LookupM::getItems('satuanobat'),array('onChange'=>'pilihSatuan(this);','style'=>'width:100px;', 'class'=>'satuanobat')); ?><br>
         <div class="satuankecil">
             <?php echo CHtml::activeDropDownList($modPenerimaanBarangDetail, '[ii]satuankecil_id', CHtml::listData(SatuankecilM::model()->findAll(),'satuankecil_id','satuankecil_nama'),array('style'=>'width:80px;')); ?>
         </div>
