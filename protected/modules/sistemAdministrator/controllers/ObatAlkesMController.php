@@ -79,6 +79,7 @@ class ObatAlkesMController extends MyAuthController
 		$model->hjaresep = 0;
                 $model->ven = '';
                 
+                
                 if (!empty($this->defaultJenis)) {
                     $model->jenisobatalkes_id = $this->defaultJenis;
                 }
@@ -203,6 +204,11 @@ class ObatAlkesMController extends MyAuthController
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
+                $model->harganetto = MyFormatter::formatNumberForPrint($model->harganetto);
+                $model->hargamaksimum = MyFormatter::formatNumberForPrint($model->hargamaksimum);
+                $model->hargaminimum = MyFormatter::formatNumberForPrint($model->hargaminimum);
+                $model->hargaaverage = MyFormatter::formatNumberForPrint($model->hargaaverage);
+                
 		$modObatAlkesDetails = ObatalkesdetailM::model()->findByAttributes(array('obatalkes_id'=>$id));
 		$modObatSupplier = SAObatsupplierM::model()->findAll('obatalkes_id='.$id.'');
 		$modTherapiObat = SATherapimapobatM::model()->findAllByAttributes(array('obatalkes_id'=>$id));
