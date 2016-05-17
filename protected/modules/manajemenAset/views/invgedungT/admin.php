@@ -63,7 +63,7 @@
                                     array(
                             'name'=>'asalaset_id',
                             'filter'=>  CHtml::listData($model->AsalAsetItems, 'asalaset_id', 'asalaset_nama'),
-                            'value'=>'(isset($data->asalaset->asalaset_nama) ? $data->asal->asalaset_nama : " - " )',
+                            'value'=>'(isset($data->asalaset->asalaset_nama) ? $data->asalaset->asalaset_nama : " - " )',
                     ),
                                     array(
                             'name'=>'lokasi_id',

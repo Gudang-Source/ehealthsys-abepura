@@ -148,8 +148,9 @@
 			'header'=>'Batal Periksa',
 			'type'=>'raw',
 			'value'=>function($data) {
+                            $pendaftaran = PendaftaranT::model()->findByPk($data->pendaftaran_id);
                             $admisi = PasienadmisiT::model()->findByAttributes(array('pendaftaran_id'=>$data->pendaftaran_id));
-                            if (empty($admisi)) return CHtml::link("<i class='icon-form-silang'></i>", "javascript:batalperiksa($data->pendaftaran_id)",array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk membatalkan pemeriksaan"));
+                            if (empty($admisi) && empty($pendaftaran->pasienpulang_id)) return CHtml::link("<i class='icon-form-silang'></i>", "javascript:batalperiksa($data->pendaftaran_id)",array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk membatalkan pemeriksaan"));
                             return "-";
                         },
 			'htmlOptions'=>array('style'=>'text-align: center; width:40px'),

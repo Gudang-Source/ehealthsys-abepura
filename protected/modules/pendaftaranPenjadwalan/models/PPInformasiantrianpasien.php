@@ -90,15 +90,15 @@ class PPInformasiantrianpasien extends InformasiantrianpasienV {
         $criteria->compare('LOWER(t.create_ruangan)', strtolower($this->create_ruangan), true);
         
 		if(!empty($this->carabayar_id)){
-			$criteria->addCondition("t.carabayar_id' = ".$this->carabayar_id);			
+			$criteria->addCondition("t.carabayar_id = ".$this->carabayar_id);			
 		}
         $criteria->compare('LOWER(t.carabayar_nama)', strtolower($this->carabayar_nama), true);
 		if(!empty($this->penjamin_id)){
-			$criteria->addCondition("t.penjamin_id' = ".$this->penjamin_id);			
+			$criteria->addCondition("t.penjamin_id = ".$this->penjamin_id);			
 		}
         $criteria->compare('LOWER(t.penjamin_nama)', strtolower($this->penjamin_nama), true);
 		if(!empty($this->shift_id)){
-			$criteria->addCondition("t.shift_id' = ".$this->shift_id);			
+			$criteria->addCondition("t.shift_id = ".$this->shift_id);			
 		}
 		if(!empty($this->ruangan_id)){
 			if(is_array($this->ruangan_id)){
@@ -115,6 +115,13 @@ class PPInformasiantrianpasien extends InformasiantrianpasienV {
 		}
         $criteria->compare('LOWER(t.jeniskasuspenyakit_nama)', strtolower($this->jeniskasuspenyakit_nama), true);
 	$criteria->compare('a.loket_id', $this->loket_id);
+        $criteria->compare('t.ruangan_id', $this->ruangan_id);
+        
+        if ($this->statusdaftar == 1) {
+            $criteria->addCondition("t.ruangan_nama is null");
+        } else if ($this->statusdaftar == 2) {
+            $criteria->addCondition("t.ruangan_nama is not null");
+        }
         
         $criteria->join = 'join antrian_t a on a.antrian_id = t.antrian_id';
         

@@ -247,7 +247,7 @@ class SaldoAwalController extends MyAuthController
                 $rekperiod_id = $_POST["$model_nama"]["$attr"];
             }
             $models = null;
-            $models = CHtml::listData(AKPeriodepostingM::model()->getTglPeriode($rekperiod_id),'periodeposting_id','deskripsiperiodeposting');
+            $models = CHtml::listData(AKPeriodepostingM::model()->getTglPeriode($rekperiod_id),'periodeposting_id','periodeposting_nama');
 
             if($encode){
                 echo CJSON::encode($models);

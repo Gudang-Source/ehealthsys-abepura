@@ -75,8 +75,8 @@ class InvgedungTController extends MyAuthController
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		$model=$this->loadModel($id);
                 $modBarang = $this->loadModelBarang($model->barang_id);
-                                $data['pemilikbarang_nama'] = $model->pemilik->pemilikbarang_nama;
-                $dataAsalAset['asalaset_nama'] = (isset($model->asalaset_id) ? $model->asal->asalaset_nama : "");
+                                $data['pemilikbarang_nama'] = $model->pemilikbarang->pemilikbarang_nama;
+                $dataAsalAset['asalaset_nama'] = (isset($model->asalaset_id) ? $model->asalaset->asalaset_nama : "");
                 $dataLokasi['lokasiaset_namalokasi'] = (isset($model->lokasiaset_id) ? $model->lokasi->lokasiaset_namalokasi : "");
 
 		// Uncomment the following line if AJAX validation is needed

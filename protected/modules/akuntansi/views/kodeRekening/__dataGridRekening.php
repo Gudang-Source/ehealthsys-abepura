@@ -80,19 +80,19 @@
                                 $res = "";
                                 switch ($data->akun) {
                                     case 1: 
-                                        $res = CHtml::Link($data->nama, Yii::app()->controller->createUrl("KodeRekening/editStrukturRekening",array("id"=>$data->id)),array("style"=>"color:blue","target"=>"frameEditStruktur", "onclick"=>'$("#dialogEditStruktur").dialog("open");',"rel"=>"tooltip", "title"=>"Klik Untuk Edit<br>Struktur Akun",));
+                                        $res = CHtml::Link($data->nama, Yii::app()->controller->createUrl("KodeRekening/editStrukturRekening",array("id"=>$data->id)),array("style"=>"color:blue","target"=>"frameEditStruktur", "onclick"=>'$("#dialogEditStruktur").dialog("open");',"rel"=>"tooltip", "title"=>"Klik Untuk Edit<br>Kelompok Akun",));
                                         break;
                                     case 2: 
-                                        $res = "&emsp;".CHtml::Link($data->nama, Yii::app()->controller->createUrl("KodeRekening/editKelompokRekening",array("id"=>$data->id)),array("style"=>"color:blue","target"=>"frameEditKelompokRek", "onclick"=>'$("#dialogEditKelompokRek").dialog("open");',"rel"=>"tooltip", "title"=>"Klik Untuk<br>Edit Kelompok Rekening",));
+                                        $res = "&emsp;".CHtml::Link($data->nama, Yii::app()->controller->createUrl("KodeRekening/editKelompokRekening",array("id"=>$data->id)),array("style"=>"color:blue","target"=>"frameEditKelompokRek", "onclick"=>'$("#dialogEditKelompokRek").dialog("open");',"rel"=>"tooltip", "title"=>"Klik Untuk<br>Golongan Akun",));
                                         break;
                                     case 3: 
-                                        $res = "&emsp;"."&emsp;".CHtml::Link($data->nama, Yii::app()->controller->createUrl("KodeRekening/editJenisRekening",array("id"=>$data->id)),array("style"=>"color:blue","target"=>"frameEditKelompokRek", "onclick"=>'$("#dialogEditKelompokRek").dialog("open");',"rel"=>"tooltip", "title"=>"Klik Untuk Edit<br>Jenis Rekening",));
+                                        $res = "&emsp;"."&emsp;".CHtml::Link($data->nama, Yii::app()->controller->createUrl("KodeRekening/editJenisRekening",array("id"=>$data->id)),array("style"=>"color:blue","target"=>"frameEditKelompokRek", "onclick"=>'$("#dialogEditKelompokRek").dialog("open");',"rel"=>"tooltip", "title"=>"Klik Untuk Edit<br>Sub Golongan Akun",));
                                         break;
                                     case 4: 
-                                        $res = "&emsp;"."&emsp;"."&emsp;".CHtml::Link($data->nama, Yii::app()->controller->createUrl("KodeRekening/editObyekRekening",array("id"=>$data->id)),array("style"=>"color:blue","target"=>"frameEditObyekRek", "onclick"=>'$("#dialogEditObyekRek").dialog("open");',"rel"=>"tooltip", "title"=>"Klik Untuk Edit<br>Obyek Rekening",));
+                                        $res = "&emsp;"."&emsp;"."&emsp;".CHtml::Link($data->nama, Yii::app()->controller->createUrl("KodeRekening/editObyekRekening",array("id"=>$data->id)),array("style"=>"color:blue","target"=>"frameEditObyekRek", "onclick"=>'$("#dialogEditObyekRek").dialog("open");',"rel"=>"tooltip", "title"=>"Klik Untuk Edit<br>Jenis Akun",));
                                         break;
                                     case 5:
-                                        $res = "&emsp;"."&emsp;"."&emsp;"."&emsp;".CHtml::Link($data->nama, Yii::app()->controller->createUrl("KodeRekening/editRincianObyekRek",array("id"=>$data->id)),array("style"=>"color:blue","target"=>"frameEditRincianObyekRek", "onclick"=>'$("#dialogEditRincianObyekRek").dialog("open");',"rel"=>"tooltip", "title"=>"Klik Untuk Edit<br>Rincian Obyek Rekening",));
+                                        $res = "&emsp;"."&emsp;"."&emsp;"."&emsp;".CHtml::Link($data->nama, Yii::app()->controller->createUrl("KodeRekening/editRincianObyekRek",array("id"=>$data->id)),array("style"=>"color:blue","target"=>"frameEditRincianObyekRek", "onclick"=>'$("#dialogEditRincianObyekRek").dialog("open");',"rel"=>"tooltip", "title"=>"Klik Untuk Edit<br>Kode Akun",));
                                         break;
                                 }
                                 return $res;
@@ -158,7 +158,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog',
     array(
         'id' => 'dialogEditStruktur',
         'options' => array(
-            'title' => 'Edit Struktur Rekening',
+            'title' => 'Edit Kelompok Akun',
             'autoOpen' => false,
             'modal' => true,
             'width' => 550,
@@ -180,7 +180,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog',
     array(
         'id' => 'dialogEditKelompokRek',
         'options' => array(
-            'title' => 'Edit Kelompok Rekening',
+            'title' => 'Edit Golongan Akun',
             'autoOpen' => false,
             'modal' => true,
             'width' => 550,
@@ -202,7 +202,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog',
     array(
         'id' => 'dialogEditJenisRek',
         'options' => array(
-            'title' => 'Edit Jenis Rekening',
+            'title' => 'Sub Golongan Akun',
             'autoOpen' => false,
             'modal' => true,
             'width' => 550,
@@ -223,7 +223,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog',
     array(
         'id' => 'dialogEditObyekRek',
         'options' => array(
-            'title' => 'Edit Obyek Rekening',
+            'title' => 'Jenis Akun',
             'autoOpen' => false,
             'modal' => true,
             'width' => 550,
@@ -244,7 +244,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog',
     array(
         'id' => 'dialogEditRincianObyekRek',
         'options' => array(
-            'title' => 'Edit Rincian Obyek Rekening',
+            'title' => 'Kode Akun',
             'autoOpen' => false,
             'modal' => true,
             'width' => 550,
