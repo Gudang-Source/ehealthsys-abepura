@@ -166,13 +166,13 @@
                 <div class="control-group">
                     <?php echo CHtml::label('Dokter','nama_dokter',array('class'=>'control-label')); ?>
                     <div class="controls">
-                        <?php echo $form->dropDownList($modInfoPenjualan,'pasienpegawai_id', CHtml::listData(PegawaiV::model()->findAll(),'pegawai_id', 'NamaLengkap'),array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+                        <?php echo $form->dropDownList($modInfoPenjualan,'pasienpegawai_id', CHtml::listData(DokterV::model()->findAll("pegawai_aktif = TRUE ORDER BY nama_pegawai ASC"),'pegawai_id', 'NamaLengkap'),array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)")); //PegawaiV::model()->findAll(),'pegawai_id', 'NamaLengkap'?>
                     </div>
                 </div>
                 <div class="control-group">
                     <?php echo CHtml::label('Dokter Resep','nama_dokter',array('class'=>'control-label')); ?>
                     <div class="controls">
-                        <?php echo $form->dropDownList($modInfoPenjualan,'pegawai_id', CHtml::listData(DokterV::model()->findAll(),'pegawai_id', 'NamaLengkap'),array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+                        <?php echo $form->dropDownList($modInfoPenjualan,'pegawai_id', CHtml::listData(DokterV::model()->findAll("pegawai_aktif = TRUE ORDER BY nama_pegawai ASC"),'pegawai_id', 'NamaLengkap'),array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
                     </div>
                 </div>
             </div>
