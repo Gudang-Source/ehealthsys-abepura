@@ -39,15 +39,28 @@ class FakturPembelianController extends MyAuthController
                 $modFakturPembelian->tgljatuhtempo = $format->formatDateTimeForDb($modFakturPembelian->tgljatuhtempo);
                 $modFakturPembelian->ruangan_id = Yii::app()->user->getState('ruangan_id');
                 // $modFakturPembelian->ruangan_id = Yii::app()->user->id;
-
-                if($modFakturPembelian->save()){
+                
+                if ($modFakturPembelian->validate()) {
+                    $modFakturPembelian->save();
                     $updatePenerimaanBarang = GFPenerimaanBarangT::model()->updateByPk($_POST['GFPenerimaanBarangT']['penerimaanbarang_id'],array('fakturpembelian_id'=>$modFakturPembelian->fakturpembelian_id));
                     if(count($_POST['GFPenerimaanDetailT']) > 0){
                        foreach($_POST['GFPenerimaanDetailT'] AS $i => $postFakturDetail){
                            $modDetails[$i] = $this->simpanFakturDetail($postFakturDetail,$modFakturPembelian);
                        }
                     }
+                } else {
+                    $this->fakturpembeliantersimpan = false;
                 }
+                
+                /*
+                if($modFakturPembelian->validate() && $modFakturPembelian->save()){
+                    $updatePenerimaanBarang = GFPenerimaanBarangT::model()->updateByPk($_POST['GFPenerimaanBarangT']['penerimaanbarang_id'],array('fakturpembelian_id'=>$modFakturPembelian->fakturpembelian_id));
+                    if(count($_POST['GFPenerimaanDetailT']) > 0){
+                       foreach($_POST['GFPenerimaanDetailT'] AS $i => $postFakturDetail){
+                           $modDetails[$i] = $this->simpanFakturDetail($postFakturDetail,$modFakturPembelian);
+                       }
+                    }
+                } */
 				
                 if($this->fakturpembeliantersimpan && $this->fakturpembeliandetailtersimpan){
                     $transaction->commit();
