@@ -85,17 +85,20 @@ if (isset($caraPrint)){
             array(
                 'header'=>'Biaya Administrasi',
                 'type'=>'raw',
-                'value'=>'$data->biayaadministrasi',
+                'value'=>'"Rp".number_format($data->biayaadministrasi,0,"",".")',
+                'htmlOptions'=>array('style'=>'text-align:right;')
             ),
             array(
                 'header'=>'Biaya Konseling',
                 'type'=>'raw',
-                'value'=>'$data->biayakonseling',
+                'value'=>'"Rp".number_format($data->biayakonseling,0,"",".")',
+                'htmlOptions'=>array('style'=>'text-align:right;')
             ),
             array(
                 'header'=>'Total Tarif Service',
                 'type'=>'raw',
-                'value'=>'MyFormatter::formatUang($data->totaltarifservice)',
+                'value'=>'"Rp".number_format($data->totaltarifservice,0,"",".")',
+                'htmlOptions'=>array('style'=>'text-align:right;')
             ),
             
 	),

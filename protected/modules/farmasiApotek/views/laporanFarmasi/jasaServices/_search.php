@@ -87,7 +87,7 @@
                 <div class="control-group">
                     <?php echo CHtml::label('Nama Dokter','pegawai_id', array('class'=>'control-label')); ?> 
                     <div class="controls">
-                        <?php echo $form->dropDownList($model, 'pegawai_id', CHtml::listData(PegawaiM::model()->findAll(array('order'=>'nama_pegawai')), 'pegawai_id', 'nama_pegawai'),array('class'=>'span3', 'empty'=>'-- Pilih Nama Dokter --')); ?>
+                        <?php echo $form->dropDownList($model, 'pegawai_id', CHtml::listData(DokterV::model()->findAll(array('condition'=>'pegawai_aktif = TRUE'),array('order'=>'nama_pegawai')), 'pegawai_id', 'namaLengkap'),array('class'=>'span3', 'empty'=>'-- Pilih --')); ?>
                     </div>
                 </div>
             </td>
@@ -97,9 +97,10 @@
         <?php
         echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'id' => 'btn_simpan'));
         ?>
-        <?php
-        echo CHtml::htmlButton(Yii::t('mds', '{icon} Reset', array('{icon}' => '<i class="icon-refresh icon-white"></i>')), array('class' => 'btn btn-danger', 'type'=>'reset'));
-        ?> 
+         <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+                                    Yii::app()->createUrl($this->module->id.'/LaporanFarmasi/LaporanJasaServices&modul_id='.Yii::app()->session['modul_id']), 
+                                    array('class'=>'btn btn-danger',
+                                            'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
     </div>
     <?php //$this->widget('UserTips', array('type' => 'create')); ?>    
 </div>    

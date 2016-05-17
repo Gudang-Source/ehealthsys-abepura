@@ -35,34 +35,36 @@ class RencanaKeperawatanMController extends MyAuthController
 	public function actionCreate()
 	{
                  //if(!Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}                                             
-		$model=new SARencanakeperawatanM;
+		$model=new SARencanakeperawatanM();
 
 		// Uncomment the following line if AJAX validation is needed
 	
 //var_dump($_POST); die;
+                
 		  if(isset($_POST['SARencanakeperawatanM']))
-                                    {
-                        //var_dump($_POST); die;
-                                        $valid=true;
-                                        $jmlhsave = 0;
-                                        //var_dump($_POST); die;
-                                        //echo COUNT($_POST['SARencanaKeperawatanM']); die;
-                                        foreach ($_POST['SARencanakeperawatanM'] as $data=>$item)
-                                        {
-                                                    $model=new SARencanaKeperawatanM;
-                                                    $model->attributes=$item;
-                                                    //$model->lookup_id = $_POST['LookupM']['lookup_id'];
+                 {
+                      
+    //var_dump($_POST); die;
+                    $valid=true;
+                    $jmlhsave = 0;
+                    //var_dump($_POST); die;
+                    //echo COUNT($_POST['SARencanaKeperawatanM']); die;
+                    foreach ($_POST['SARencanakeperawatanM'] as $data=>$item)
+                    {
+                                $model=new SARencanakeperawatanM;
+                                $model->attributes=$item;
+                                //$model->lookup_id = $_POST['LookupM']['lookup_id'];
 //                                                    $model->diagnosakeperawatan_kode = $_POST['DiagnosakeperawatanM']['diagnosakeperawatan_kode'];
-                                                    $model->diagnosakeperawatan_id = $_POST['diagnosakeperawatan_id'];
-                                                    if ($model->save()) {
-                                                        $jmlhsave++;
-                                                    }
-                                            }
-                                        if ($jmlhsave==COUNT($_POST['SARencanakeperawatanM'])) {
-                                            Yii::app()->user->setFlash('success','<strong>Berhasil</strong> Data berhasil disimpan');
-                                            $this->redirect(array('admin'));
-                                        }
-                                  }
+                                $model->diagnosakeperawatan_id = $_POST['diagnosakeperawatan_id'];
+                                if ($model->save()) {
+                                    $jmlhsave++;
+                                }
+                        }
+                    if ($jmlhsave==COUNT($_POST['SARencanakeperawatanM'])) {
+                        Yii::app()->user->setFlash('success','<strong>Berhasil</strong> Data berhasil disimpan');
+                        $this->redirect(array('admin','sukses'=>1));
+                    }
+                }
 
 		$this->render($this->path_view.'create',array(
 			'model'=>$model,
@@ -88,7 +90,11 @@ class RencanaKeperawatanMController extends MyAuthController
                         // var_dump($_POST);
                         $ok = true;
                         $trans = Yii::app()->db->beginTransaction();
-                        $sub = RencanaKeperawatanM::model()->findByPk($_POST['RencanakeperawatanM'][0]['rencanakeperawatan_id']);
+                        if (count($_POST['RencanakeperawatanM'])==1):
+                            $sub = RencanaKeperawatanM::model()->findByPk($_POST['RencanakeperawatanM'][0]['rencanakeperawatan_id']);                        
+                        else:
+                            $sub = RencanaKeperawatanM::model()->findByPk($_POST['RencanakeperawatanM'][1]['rencanakeperawatan_id']);                        
+                        endif;                        
                         foreach ($_POST['RencanakeperawatanM'] as $item) {
                             $model = new RencanaKeperawatanM;
                             $model->diagnosakeperawatan_id = $sub->diagnosakeperawatan_id;
@@ -114,7 +120,7 @@ class RencanaKeperawatanMController extends MyAuthController
                             Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data tidak valid.');
                         }
                         
-                        $this->redirect(array('admin'));
+                        $this->redirect(array('admin','sukses'=>1));
                     /*
                     //var_dump($_POST); die;
                    // echo '<pre>'; print_r($_POST['RIRencanakeperawatanM']);
@@ -204,10 +210,10 @@ class RencanaKeperawatanMController extends MyAuthController
 	/**
 	 * Manages all models.
 	 */
-	public function actionAdmin($id='')
+	public function actionAdmin($sukses='')
 	{
              if (!$this->hasTab){
-                    if ($id == 1):
+                    if ($sukses == 1):
                         Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
                     endif;
                 }
