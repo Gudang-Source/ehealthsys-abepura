@@ -205,7 +205,8 @@ class PenerimaanBarangController extends MyAuthController
         }
         $modPenerimaanBarangDetail->persenppn = 0;
         $modPenerimaanBarangDetail->persenpph = 0;
-        $modPenerimaanBarangDetail->hargasatuanper = 0;
+        if (!empty($modPenerimaanBarangDetail->satuanbesar_id)) $modPenerimaanBarangDetail->hargasatuanper = $modPenerimaanBarangDetail->harganettoper / $modPenerimaanBarangDetail->kemasanbesar;
+        else $modPenerimaanBarangDetail->hargasatuanper = $modPenerimaanBarangDetail->harganettoper;
         $modPenerimaanBarangDetail->jmlterima = $post['jmlpermintaan'];
         $modPenerimaanBarangDetail->nobatch = $post['nobatch'];
         $modPenerimaanBarangDetail->biaya_lainlain = 0;
