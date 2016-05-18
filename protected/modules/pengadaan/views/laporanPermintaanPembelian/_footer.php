@@ -32,7 +32,7 @@ RND-8637
 //    )); ?>	</td >-->
     <td style="padding-top:20px;">
         <?php
-        $content = $this->renderPartial('../tips/tips',array(),true); 
+        $content = $this->renderPartial('pengadaan.views/tips/tips',array(),true); 
         $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
         ?>
     </td>
