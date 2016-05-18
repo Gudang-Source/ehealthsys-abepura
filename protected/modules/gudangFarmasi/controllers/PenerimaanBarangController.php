@@ -205,7 +205,8 @@ class PenerimaanBarangController extends MyAuthController
         }
         $modPenerimaanBarangDetail->persenppn = 0;
         $modPenerimaanBarangDetail->persenpph = 0;
-        $modPenerimaanBarangDetail->hargasatuanper = 0;
+        if (!empty($modPenerimaanBarangDetail->satuanbesar_id)) $modPenerimaanBarangDetail->hargasatuanper = $modPenerimaanBarangDetail->harganettoper / $modPenerimaanBarangDetail->kemasanbesar;
+        else $modPenerimaanBarangDetail->hargasatuanper = $modPenerimaanBarangDetail->harganettoper;
         $modPenerimaanBarangDetail->jmlterima = $post['jmlpermintaan'];
         $modPenerimaanBarangDetail->nobatch = $post['nobatch'];
         $modPenerimaanBarangDetail->biaya_lainlain = 0;
@@ -320,6 +321,7 @@ class PenerimaanBarangController extends MyAuthController
         $modStok->tglstok_in = $modPenerimaanBarang->tglterima;
         $modStok->tglstok_out = NULL;
         if(!empty($modPenerimaanDetail->satuanbesar_id)){
+            if ($modPenerimaanDetail->kemasanbesar < 1) $modPenerimaanDetail->kemasanbesar = 1;
             $modStok->qtystok_in = $modPenerimaanDetail->jmlterima * $modPenerimaanDetail->kemasanbesar ;
             $modStok->harganetto = ($modPenerimaanDetail->harganettoper / $modPenerimaanDetail->kemasanbesar);
         }else{
@@ -370,7 +372,7 @@ class PenerimaanBarangController extends MyAuthController
 			}else{
 				$loadObatAlkes->hargaaverage = $hargajual;
 			}
-            $loadObatAlkes->hargajual = $hargajual;
+            //$loadObatAlkes->hargajual = $hargajual;
 			
             if($loadObatAlkes->save()){
             		
@@ -542,6 +544,8 @@ class PenerimaanBarangController extends MyAuthController
 		$modStokObat = array();
 		$sukses = false;
 		
+                $modPembelian->ruangan_id = $modPenerimaan->create_ruangan;
+                $modPembelian->supplier_id = $modPenerimaan->supplier_id;
 
 		if (isset($_POST['GFReturPembelianT'])){
 			$transaction = Yii::app()->db->beginTransaction();
@@ -584,7 +588,7 @@ class PenerimaanBarangController extends MyAuthController
 										$update->returdetail_id = $modPembelianDet[$i]->returdetail_id;
 										$update->update();
 									// insert tabel stokobatalkes_t	(obatalkes_id)
-										$this->simpanStokObatAlkesOut($modPembelianDet[$i],$modPembelianDet[$i]->returdetail_id);
+										$this->simpanStokObatAlkesOut($modPembelianDet[$i],$modPembelianDet[$i]->returdetail_id, $update);
 										$this->returpembeliandetailtersimpan = true;
 									}else{
 										$this->returpembeliandetailtersimpan = false;
@@ -620,25 +624,38 @@ class PenerimaanBarangController extends MyAuthController
 		));
 	}
 	
-	protected function simpanStokObatAlkesOut($stokObatAlkes,$returdetail_id){
+	protected function simpanStokObatAlkesOut($stokObatAlkes,$returdetail_id, $penerimaandetail){
         $format = new MyFormatter;
         $modStokOa = StokobatalkesT::model()->findByAttributes(array('obatalkes_id'=>$stokObatAlkes->obatalkes_id));
+        $oa = ObatalkesM::model()->findByPk($stokObatAlkes->obatalkes_id);
+        
+        //var_dump($penerimaandetail->attributes);
+        //var_dump($stokObatAlkes->attributes);
+        
         $modStokOaNew = new StokobatalkesT;
         $modStokOaNew->attributes = $modStokOa->attributes; //duplicate
+        $modStokOaNew->attributes = $oa->attributes;
         $modStokOaNew->unsetIdTransaksi(); //new / autoincrement pk
-		$modStokOaNew->returdetail_id = $returdetail_id;
+        $modStokOaNew->returdetail_id = $returdetail_id;
         $modStokOaNew->qtystok_in = 0;
         $modStokOaNew->qtystok_out = $stokObatAlkes->jmlretur;
-        $modStokOaNew->stokobatalkesasal_id = $modStokOa->stokobatalkes_id;
+        
+        //if (!empty($penerimaandetail->satuanbesar_id)) {
+        //    $modStokOaNew->qtystok_out *= $penerimaandetail->kemasanbesar;
+        //}
+        
+        // $modStokOaNew->stokobatalkesasal_id = $modStokOa->stokobatalkes_id;
         $modStokOaNew->create_time = date('Y-m-d H:i:s');
         $modStokOaNew->update_time = date('Y-m-d H:i:s');
         $modStokOaNew->create_loginpemakai_id = Yii::app()->user->id;
         $modStokOaNew->update_loginpemakai_id = Yii::app()->user->id;
         $modStokOaNew->create_ruangan = Yii::app()->user->ruangan_id;
         
-        if($modStokOaNew->validateStok()){ 
+        //var_dump($modStokOaNew->attributes); die;
+        
+        if($modStokOaNew->validate()){ 
             $modStokOaNew->save();
-            $modStokOaNew->setStokOaAktifBerdasarkanStok();
+            // $modStokOaNew->setStokOaAktifBerdasarkanStok();
         } else {
             $this->stokobatalkestersimpan &= false;
         }

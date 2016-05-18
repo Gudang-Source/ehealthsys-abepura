@@ -77,6 +77,7 @@ class FakturpembelianT extends CActiveRecord
 			array('penerimaanbarang_id, supplier_id, bayarkesupplier_id, syaratbayar_id, ruangan_id, pegawai_id, pegawaimengetahui_id, pegawaimenyetujui_id', 'numerical', 'integerOnly'=>true),
 			array('totharganetto, persendiscount, jmldiscount, biayamaterai, totalpajakpph, totalpajakppn, totalhargabruto', 'numerical'),
 			array('nofaktur, nobatch', 'length', 'max'=>50),
+                        array('nofaktur', 'validasiNoFaktur'),
 			array('keteranganfaktur, create_time, update_time, create_loginpemakai_id, update_loginpemakai_id, create_ruangan', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -185,4 +186,14 @@ class FakturpembelianT extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        function validasiNoFaktur($attribute, $params)
+        {
+            $dat = self::model()->findByAttributes(array(
+                'nofaktur'=>$this->$attribute,
+            ));
+            if (!empty($dat)) {
+                $this->addError($attribute, "Nomor Faktur sudah dicatat sebelumnya.");
+            }
+        }
 }

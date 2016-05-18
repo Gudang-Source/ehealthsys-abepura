@@ -731,7 +731,7 @@ $('#form-karcis > div > .accordion-heading').click(function(){
 //    console.log("Karcis Di Klik!");
     var is_adakarcis = $("#<?php echo CHtml::activeId($model, "is_adakarcis"); ?>");
     if(is_adakarcis.val() > 0){ //hide
-        is_adakarcis.val(0);
+        is_adakarcis.val(1); // dipaksakan ada meskipun accordion disembunyikan
     }else{//show
         is_adakarcis.val(1);
     }
@@ -2072,6 +2072,11 @@ $(".rb_kon").change(function() {
  * posisi script ini harus tetap dibawah
  */
 $( document ).ready(function(){
+    $("#form-karcis .accordion-heading a").click(function()
+    {
+        return false;
+    });
+    
     <?php if(!empty($model->pendaftaran_id)){ ?>
         autoPrint();
         $("input, select, textarea").attr("disabled",true);

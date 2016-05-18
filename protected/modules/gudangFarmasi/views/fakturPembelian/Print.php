@@ -107,10 +107,10 @@ if (!isset($_GET['frame'])){
                 <td style="text-align:center;"><?php echo $modObat->jmlterima; ?></td>
                 <td style="text-align:center;"><?php echo $modObat->jmlterima; ?></td>                
                 <td style="text-align:center;"><?php echo $modObat->persendiscount; ?></td>
-                <td style="text-align:right;"><?php echo $modObat->jmldiscount; ?></td>
+                <td style="text-align:right;"><?php echo $format->formatUang($modObat->jmldiscount); ?></td>
                 <td style="text-align:right;"><?php echo $format->formatUang($modObat->harganettofaktur); ?></td>
-                <td style="text-align:center;"><?php echo $modObat->persenppn; ?></td>
-                <td style="text-align:center;"><?php echo $modObat->persenpph; ?></td>
+                <td style="text-align:center;"><?php echo $modObat->persenppnfaktur; ?></td>
+                <td style="text-align:center;"><?php echo $modObat->persenppnfaktur; ?></td>
                 <td style="text-align:right;"><?php 
                     $subtotal = ($modObat->harganettofaktur * $modObat->jmlterima);
                     $total += $subtotal;
