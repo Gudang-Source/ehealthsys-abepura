@@ -13,9 +13,7 @@ function validasiInput() {
         if ($("#no_rekam_medik_baru").val().trim() == "") {
             myAlert("No. Rekam Medik harus diisi");
         }
-        //return $("#pasien-m-form").submit();
     } else {
-        //console.log("kick2");
         return false;
     }
 }
