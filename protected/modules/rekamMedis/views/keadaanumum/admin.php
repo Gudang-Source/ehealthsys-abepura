@@ -78,6 +78,7 @@
                                     'header'=>Yii::t('zii','Delete'),
                                     'class'=>'bootstrap.widgets.BootButtonColumn',
                                     'template'=>'{delete}',
+                                    'deleteConfirmation' => 'Apakah Anda yakin ingin menghapus item ini ?',
                                     'buttons'=>array(
                                                     'remove' => array (
                                                             'label'=>"<i class='icon-form-silang'></i>",
