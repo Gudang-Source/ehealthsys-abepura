@@ -44,11 +44,11 @@ class SALokasipenyimpananM extends LokasipenyimpananM
 		$criteria->compare('LOWER(lokasipenyimpanan_kode)',strtolower($this->lokasipenyimpanan_kode),true);
 		$criteria->compare('LOWER(lokasipenyimpanan_nama)',strtolower($this->lokasipenyimpanan_nama),true);
 		$criteria->compare('LOWER(lokasipenyimpanan_namalain)',strtolower($this->lokasipenyimpanan_namalain),true);
-		$criteria->compare('lokasipenyimpanan_aktif',$this->lokasipenyimpanan_aktif);
+		$criteria->compare('lokasipenyimpanan_aktif',isset($this->lokasipenyimpanan_aktif)?$this->lokasipenyimpanan_aktif:true);
 		
-		if(!isset($this->lokasipenyimpanan_aktif)){
-			$criteria->addCondition('lokasipenyimpanan_aktif is true');
-		}
+		//if(!isset($this->lokasipenyimpanan_aktif)){
+			//$criteria->addCondition('lokasipenyimpanan_aktif is true');
+		//}
 		$criteria->limit= 10;
             return new CActiveDataProvider($this, array(
                     'criteria'=>$criteria,

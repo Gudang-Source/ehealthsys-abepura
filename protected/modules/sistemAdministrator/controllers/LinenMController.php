@@ -10,6 +10,7 @@ class LinenMController extends MyAuthController
 	public $layout = '//layouts/column1';
 	public $defaultAction = 'admin';
 	public $path_view = 'sistemAdministrator.views.linenM.';
+        public $path_tips = 'sistemAdministrator.views.tips.';
 
 	/**
 	 * Menampilkan detail data.
@@ -34,26 +35,54 @@ class LinenMController extends MyAuthController
 		$model->noregisterlinen = MyGenerator::noRegisterLinen();
 		if(isset($_POST['SALinenM']))
 		{
-			$model->attributes = $_POST['SALinenM'];
-			$model->barang_id = $_POST['barang_id'];
-			$model->ruangan_id = Yii::app()->user->ruangan_id;
-			$model->tglregisterlinen = $format->formatDateTimeForDb($_POST['SALinenM']['tglregisterlinen']);
-			$model->create_time = date('Y-m-d H:i:s');
-			$model->create_loginpemakai_id =Yii::app()->user->id;
-			$model->create_ruangan = Yii::app()->user->getState('ruangan_id');
-			
-			
-			$model->gambarlinen = CUploadedFile::getInstance($model, 'gambarlinen');
-            $random = rand(0000000, 9999999);
-            $gambar = $random.$model->gambarlinen;
+                    $model->attributes = $_POST['SALinenM'];
+                    //$model->barang_id = $_POST['barang_id'];
+                    $model->ruangan_id = Yii::app()->user->ruangan_id;
+                    $model->tglregisterlinen = $format->formatDateTimeForDb($_POST['SALinenM']['tglregisterlinen']);
+                    $model->create_time = date('Y-m-d H:i:s');
+                    $model->create_loginpemakai_id =Yii::app()->user->id;
+                    $model->create_ruangan = Yii::app()->user->getState('ruangan_id');
+
+
+                          $random=rand(0000000,9999999);                       
+                         // if($_POST['caraAmbilPhoto']=='file')//Jika User Mengambil photo pegawai dengan cara upload file
+                         // {                               
+                              $model->gambarlinen = CUploadedFile::getInstance($model, 'gambarlinen');
+                              $gambar=$model->gambarlinen;
+
+                              if(!empty($model->gambarlinen))//Klo User Memasukan Logo
+                              { 
+
+                                    $model->gambarlinen =$random.$model->gambarlinen;
+
+                                    Yii::import("ext.EPhpThumb.EPhpThumb");
+
+                                     $thumb=new EPhpThumb();
+                                     $thumb->init(); //this is needed
+
+                                     $fullImgName =$model->gambarlinen;   
+                                     $fullImgSource = Params::pathLinenDirectory().$fullImgName;
+                                     $fullThumbSource = Params::pathLinenThumbsDirectory().'kecil_'.$fullImgName;
+                                   
+                                    $gambar->saveAs($fullImgSource);
+                                    $thumb->create($fullImgSource)
+                                          ->resize(200,200)
+                                          ->save($fullThumbSource);
+                                      
+                                }
+                         // }   
+                        
+			//$model->gambarlinen = CUploadedFile::getInstance($model, 'gambarlinen');
+                    //    $random = rand(0000000, 9999999);
+                      //  $gambar = $random.$model->gambarlinen;
 				
-				if (isset($model->gambarlinen)){
-                $model->gambarlinen->saveAs(Params::pathLinenDirectory().$gambar);
-		        $model->gambarlinen = $gambar;
-		        }
+			//	if (isset($model->gambarlinen)){
+               // $model->gambarlinen->saveAs(Params::pathLinenDirectory().$gambar);
+		     //  $model->gambarlinen = $gambar;
+		      //  }
 			if($model->save()){
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->linen_id));
+				$this->redirect(array('admin','sukses'=>1));
 			}
 		}
 
@@ -69,17 +98,66 @@ class LinenMController extends MyAuthController
 	public function actionUpdate($id)
 	{
 		$model = $this->loadModel($id);
-
-		// Uncomment the following line if AJAX validation is needed
-		
-
+                $model->barang_nama = isset($model->barang->barang_nama)?$model->barang->barang_nama:'';
+		// Uncomment the following line if AJAX validation is needed		
+                $temLogo=$model->gambarlinen;
 		if(isset($_POST['SALinenM']))
 		{
-			$model->attributes = $_POST['SALinenM'];
-                        $model->barang_id = $_POST['barang_id'];
+                    $model->attributes = $_POST['SALinenM'];
+                    //$model->barang_id = $_POST['barang_id'];
+
+                    $model->gambarlinen = CUploadedFile::getInstance($model, 'gambarlinen');
+                    $gambar=$model->gambarlinen;
+                    $random=rand(0000000,9999999);  
+                    if(isset($model->gambarlinen))
+                    { 
+                               // if($_POST['caraAmbilPhoto']=='file')//Jika User Mengambil photo pegawai dengan cara upload file
+                               // { 
+                                        if(!empty($model->gambarlinen))//Klo User Memasukan Logo
+                                        { 
+                                                $model->gambarlinen =$random.$model->gambarlinen;
+                                                Yii::import("ext.EPhpThumb.EPhpThumb");
+                                                $thumb=new EPhpThumb();
+                                                $thumb->init(); //this is needed
+                                                $fullImgName =$model->gambarlinen;   
+                                                $fullImgSource = Params::pathLinenDirectory().$fullImgName;
+                                                $fullThumbSource = Params::pathLinenThumbsDirectory().'kecil_'.$fullImgName;
+//                                    if($model->save())
+                                                if($model->update())
+                                                { 
+                                                        if(!empty($temLogo))
+                                                        { 
+                                                                if(file_exists(Params::pathLinenDirectory().$temLogo))
+                                                                {
+                                                                        unlink(Params::pathLinenDirectory().$temLogo);
+                                                                }
+                                                                if(file_exists(Params::pathLinenThumbsDirectory().'kecil_'.$temLogo))
+                                                                {
+                                                                        unlink(Params::pathLinenThumbsDirectory().'kecil_'.$temLogo);
+                                                                }
+                                                        }
+                                                        $gambar->saveAs($fullImgSource);
+                                                        $thumb->create($fullImgSource)
+                                                                ->resize(200,200)
+                                                                ->save($fullThumbSource);
+                                                }
+                                                else
+                                                {
+                                                        Yii::app()->user->setFlash('error', 'Data <strong>Gagal!</strong>  disimpan.');
+                                                }
+                                        }else{
+                                           $model->gambarlinen = $temLogo;
+                                        }
+
+                                //}   
+                                
+                        }else{
+                                $model->gambarlinen = $temLogo;
+                        }
+                                        
 			if($model->save()){
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin'));
+				$this->redirect(array('admin','sukses'=>1));
 			}
 		}
 
@@ -96,8 +174,23 @@ class LinenMController extends MyAuthController
 	{
 		if(Yii::app()->request->isPostRequest)
 		{
+                        $hapus = $this->loadModel($id);
+                        $temLogo = $hapus->gambarlinen;
+                        
+                        if (!empty($temLogo)){
+                            if(file_exists(Params::pathLinenDirectory().$temLogo))
+                            {
+                                    unlink(Params::pathLinenDirectory().$temLogo);
+                            }
+                            if(file_exists(Params::pathLinenThumbsDirectory().'kecil_'.$temLogo))
+                            {
+                                    unlink(Params::pathLinenThumbsDirectory().'kecil_'.$temLogo);
+                            }
+                        }
+                        
+                        $hapus->delete();
 			// we only allow deletion via POST request
-			$this->loadModel($id)->delete();
+			//$this->loadModel($id)->delete();
 
 			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 			if(!isset($_GET['ajax']))
@@ -117,10 +210,10 @@ class LinenMController extends MyAuthController
 			$model = $this->loadModel($id);
 			// set non-active this
 			// example: 
-			// $model->modelaktif = false;
-			// if($model->save()){
-			//	$data['sukses'] = 1;
-			// }
+			 $model->linen_aktif = 0;
+			 if($model->save()){
+				$data['sukses'] = 1;
+			 }
 			echo CJSON::encode($data); 
 		}
 	}
@@ -139,8 +232,11 @@ class LinenMController extends MyAuthController
 	/**
 	 * Pengaturan data.
 	 */
-	public function actionAdmin()
+	public function actionAdmin($sukses='')
 	{
+            if ($sukses==1):
+                Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+            endif;
 		$model = new SALinenM('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['SALinenM'])){
@@ -183,7 +279,7 @@ class LinenMController extends MyAuthController
 	{
 		$model = new SALinenM;
 		$model->attributes = $_REQUEST['SALinenM'];
-		$judulLaporan='Data SALinenM';
+		$judulLaporan='Laporan Data Linen';
 		$caraPrint = $_REQUEST['caraPrint'];
 		if($caraPrint=='PRINT') {
 			$this->layout = '//layouts/printWindows';
@@ -202,7 +298,7 @@ class LinenMController extends MyAuthController
 			$mpdf->WriteHTML($stylesheet,1);  
 			$mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
 			$mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-			$mpdf->Output();
+			$mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
 		}
 	}
 	

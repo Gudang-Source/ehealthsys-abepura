@@ -31,6 +31,10 @@ $this->widget($table,array(
 		'rakpenyimpanan_id',
 		'bahanlinen_id',
 		'barang_id',
+            array(
+                                    'header' => 'Status',
+                                    'value' => '($data->linen_aktif)?"Aktif":"Tidak Aktif"',
+                                ),
 		/*
 		'kodelinen',
 		'tglregisterlinen',

@@ -1,3 +1,4 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/fileupload/fileupload.js'); ?>
 <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
 	'id'=>'salinen-m-form',
 	'enableAjaxValidation'=>false,
@@ -16,10 +17,11 @@
 			<div class="control-group ">
 				<?php echo $form->labelEx($model, 'barang_id', array('class' => 'control-label')) ?>
 				<div class="controls">
-					<?php echo CHtml::hiddenField('barang_id'); ?>
+					<?php echo $form->hiddenField($model,'barang_id'); ?>
 					<?php 
 						$this->widget('MyJuiAutoComplete', array(
-							'name'=>'namaBarang',
+							'model'=>$model,
+                                                        'attribute'=>'barang_nama',                                                              
 							'source'=>'js: function(request, response) {
 										   $.ajax({
 											   url: "'.$this->createUrl('AutocompleteBarang').'",
@@ -79,16 +81,29 @@
 		<div class="span4">
 			<?php echo $form->dropDownListRow($model,'satuanlinen',LookupM::getItems('satuanbarang'),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
 			<?php echo $form->textFieldRow($model,'tglregisterlinen',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-			<div class="control-group">
-				<?php echo $form->labelEx($model, 'gambarlinen',array('class'=>'control-label')); ?>
-				<div class="controls">
-					<?php echo CHtml::activeFileField($model, 'gambarlinen') ?>
-				</div>
-			</div>
+			<div id="divCaraAmbilPhotoFile" style="display: block;">
+                          <div class="fileupload fileupload-new" data-provides="fileupload">
+                          <div class="control-group">
+                            <?php echo $form->labelEx($model,'gambarlinen', array('class'=>'control-label','onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
+                              <div class="controls">  
+                                <?php 
+                                    $url_photopegawai = (!empty($model->gambarlinen) ? Params::urlLinenThumbs()."kecil_".$model->gambarlinen : Params::urlLinenThumbs()."no_photo.jpeg");                                    
+                                ?>
+                                <?php echo $form->hiddenField($model,'tempPhoto',array('readonly'=>TRUE,'value'=>'.jpg')); ?>
+                                <?php echo Chtml::activeFileField($model,'gambarlinen',array('maxlength'=>254,'Hint'=>'Isi Jika Akan Menambahkan Logo','class'=>'fileupload-new','value'=>$model->gambarlinen)); ?>
+                              </div>
+                          </div>
+                          <div class="control-group" style="padding-left:29.5%;">
+                              <div class="controls">
+                                  <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; line-height: 20px;"><img src="<?php echo $url_photopegawai; ?>" /></div>
+                              </div>
+                          </div>
+                          </div>
+                    </div>
 			<?php echo $form->textFieldRow($model,'jmlcucilinen',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
 			<?php echo $form->checkBoxRow($model,'linen_aktif', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
 				
-		</div>
+		</div>            
 	</div>
 	<div class="row-fluid">
 	<div class="form-actions">
@@ -98,7 +113,10 @@
 				array('class'=>'btn btn-danger',
 					  'onclick'=>'return refreshForm(this);')); ?>
 		<?php echo CHtml::link(Yii::t('mds','{icon} Pengaturan Linen',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
-		<?php $this->widget('UserTips',array('content'=>''));?>
+                <?php
+                    $content = $this->renderPartial($this->path_tips.'tipsaddedit3a',array(),true);
+                    $this->widget('UserTips',array('type'=>'transaksi', 'content'=>$content));
+                ?>
 		</div>
 	</div>
 <?php $this->endWidget(); ?>
@@ -139,8 +157,8 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'value' => 'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
 				"id" => "selectBarang",
 				"onClick" => "
-					$(\'#barang_id\').val(\'$data->barang_id\');
-					$(\'#namaBarang\').val(\'$data->barang_nama\');
+					$(\"#'.CHtml::activeId($model, 'barang_id').'\").val(\'$data->barang_id\');
+                                        $(\"#'.CHtml::activeId($model, 'barang_nama').'\").val(\'$data->barang_nama\');                                           
 					$(\'#dialogBarang\').dialog(\'close\');
 					return false;"))',
         ),
