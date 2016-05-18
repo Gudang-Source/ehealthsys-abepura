@@ -17,7 +17,7 @@
 
 	<?php echo $form->textFieldRow($model,'rakpenyimpanan_namalain',array('class'=>'span3','maxlength'=>100)); ?>
 
-	<?php //echo $form->checkBoxRow($model,'rakpenyimpanan_aktif'); ?>
+	<?php echo $form->checkBoxRow($model,'rakpenyimpanan_aktif', array('checked'=>'rakpenyimpanan_aktif')); ?>
 
 	<div class="form-actions">
 		<?php echo CHtml::htmlButton(Yii::t('mds','{icon} Cari',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit')); ?>

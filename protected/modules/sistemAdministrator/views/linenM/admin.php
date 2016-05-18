@@ -64,7 +64,7 @@ $('.search-form form').submit(function(){
                                 CHtml::listData(RuanganM::model()->findAllByAttributes(array(
                                     'ruangan_aktif'=>true,
                                 ), array(
-                                    'order'=>'instalasi_id, ruangan_nama',
+                                    'order'=>'ruangan_nama',
                                 )), 'ruangan_id', 'ruangan_nama'), array('empty'=>'-- Pilih --')),
 		), 
 		array(
@@ -97,8 +97,13 @@ $('.search-form form').submit(function(){
 			'header'=>'Barang',
 			'type'=>'raw',
                         'name'=>'barang_nama',
-			'value'=>'$data->barang->barang_nama'
+			'value'=>'isset($data->barang->barang_nama)?$data->barang->barang_nama:"-"'
 		),
+                                array(
+                                    'header' => 'Status',
+                                    'value' => '($data->linen_aktif)?"Aktif":"Tidak Aktif"',
+                                ),
+                                
 		/*
 		'kodelinen',
 		'tglregisterlinen',
@@ -146,7 +151,7 @@ $('.search-form form').submit(function(){
 							'options'=>array('title'=>Yii::t('mds','Remove Temporary')),
 							'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/nonActive",array("id"=>$data->linen_id))',
 							'click'=>'function(){nonActive(this);return false;}',
-							'visible'=>'Yii::app()->controller->checkAccess(array("action"=>"nonActive"))',
+							'visible'=>'($data->linen_aktif)?TRUE:FALSE',
 					),
 					'delete'=> array(
 							'visible'=>'Yii::app()->controller->checkAccess(array("action"=>Params::DEFAULT_DELETE))',
@@ -162,7 +167,8 @@ $('.search-form form').submit(function(){
 	echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
 	echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
 	echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
-	$this->widget('UserTips',array('content'=>''));
+	$content = $this->renderPartial($this->path_tips.'master',array(),true);
+	$this->widget('UserTips',array('type'=>'transaksi', 'content'=>$content));
 	$urlPrint= $this->createUrl('print');
 
 $js = <<< JSCRIPT
