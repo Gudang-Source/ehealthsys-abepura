@@ -1,11 +1,11 @@
 <?php
 
-class LaporanPermintaanPembelianController extends MyAuthController{
+class LaporanPermintaanPenawaranController extends MyAuthController{
 	
-	public $path_view = "pengadaan.views.laporanPermintaanPembelian.";
-	public function actionLaporanPermintaanPembelian()
+	public $path_view = "pengadaan.views.laporanPermintaanPenawaran.";
+	public function actionLaporanPermintaanPenawaran()
 	{
-		$model = new ADPermintaanPembelianT;
+		$model = new ADPermintaanPenawaranT;
 		$format = new MyFormatter();
 		$model->unsetAttributes();
 		$model->jns_periode = "hari";
@@ -16,14 +16,14 @@ class LaporanPermintaanPembelianController extends MyAuthController{
 		$model->thn_awal = date('Y');
 		$model->thn_akhir = date('Y');
 
-		if (isset($_GET['ADPermintaanPembelianT'])) {
+		if (isset($_GET['ADPermintaanPenawaranT'])) {
 			$format = new MyFormatter;
-			$model->attributes = $_GET['ADPermintaanPembelianT'];
-			$model->jns_periode = $_GET['ADPermintaanPembelianT']['jns_periode'];
-			$model->tgl_awal = $format->formatDateTimeForDb($_GET['ADPermintaanPembelianT']['tgl_awal']);
-			$model->tgl_akhir = $format->formatDateTimeForDb($_GET['ADPermintaanPembelianT']['tgl_akhir']);
-			$model->bln_awal = $format->formatMonthForDb($_GET['ADPermintaanPembelianT']['bln_awal']);
-			$model->bln_akhir = $format->formatMonthForDb($_GET['ADPermintaanPembelianT']['bln_akhir']);
+			$model->attributes = $_GET['ADPermintaanPenawaranT'];
+			$model->jns_periode = $_GET['ADPermintaanPenawaranT']['jns_periode'];
+			$model->tgl_awal = $format->formatDateTimeForDb($_GET['ADPermintaanPenawaranT']['tgl_awal']);
+			$model->tgl_akhir = $format->formatDateTimeForDb($_GET['ADPermintaanPenawaranT']['tgl_akhir']);
+			$model->bln_awal = $format->formatMonthForDb($_GET['ADPermintaanPenawaranT']['bln_awal']);
+			$model->bln_akhir = $format->formatMonthForDb($_GET['ADPermintaanPenawaranT']['bln_akhir']);
 			$bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
 			$thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
 			switch($model->jns_periode){
@@ -39,9 +39,9 @@ class LaporanPermintaanPembelianController extends MyAuthController{
 		));
 	}
 
-	public function actionPrintLaporanPermintaanPembelian() {
-		$model = new ADPermintaanPembelianT('search');
-		$judulLaporan = 'Laporan Permintaan Pembelian';
+	public function actionPrintLaporanPermintaanPenawaran() {
+		$model = new ADPermintaanPenawaranT('search');
+		$judulLaporan = 'Laporan Permintaan Penawaran';
 		$format = new MyFormatter();
 		$model->unsetAttributes();
 		$model->jns_periode = "hari";
@@ -53,15 +53,15 @@ class LaporanPermintaanPembelianController extends MyAuthController{
 		$model->thn_akhir = date('Y');
 
 		//Data Grafik
-		$data['title'] = 'Grafik Laporan Permintaan Pembelian';
+		$data['title'] = 'Grafik Laporan Permintaan Penawaran';
 		$data['type'] = (isset($_REQUEST['type']) ? $_REQUEST['type'] : null);
-		if (isset($_REQUEST['ADPermintaanPembelianT'])) {
-			$model->attributes = $_REQUEST['ADPermintaanPembelianT'];
-			$model->jns_periode = $_REQUEST['ADPermintaanPembelianT']['jns_periode'];
-			$model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['ADPermintaanPembelianT']['tgl_awal']);
-			$model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['ADPermintaanPembelianT']['tgl_akhir']);
-			$model->bln_awal = $format->formatMonthForDb($_REQUEST['ADPermintaanPembelianT']['bln_awal']);
-			$model->bln_akhir = $format->formatMonthForDb($_REQUEST['ADPermintaanPembelianT']['bln_akhir']);
+		if (isset($_REQUEST['ADPermintaanPenawaranT'])) {
+			$model->attributes = $_REQUEST['ADPermintaanPenawaranT'];
+			$model->jns_periode = $_REQUEST['ADPermintaanPenawaranT']['jns_periode'];
+			$model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['ADPermintaanPenawaranT']['tgl_awal']);
+			$model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['ADPermintaanPenawaranT']['tgl_akhir']);
+			$model->bln_awal = $format->formatMonthForDb($_REQUEST['ADPermintaanPenawaranT']['bln_awal']);
+			$model->bln_akhir = $format->formatMonthForDb($_REQUEST['ADPermintaanPenawaranT']['bln_akhir']);
 			$bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
 			$thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
 			switch($model->jns_periode){
@@ -78,19 +78,19 @@ class LaporanPermintaanPembelianController extends MyAuthController{
 
 		$this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
 	}
-	public function actionPrintDetailLaporanPermintaanPembelian($id = null, $idPembelian = null) {
-		$model = new ADPermintaanPembelianT();
-		$modDetail = ADPermintaanDetailT::model()->findAllByAttributes(array('permintaanpembelian_id'=>$idPembelian));
-		$judulLaporan = 'Laporan Permintaan Pembelian';
-
+	public function actionPrintDetailLaporanPermintaanPenawaran($id = null, $idPembelian = null) {
+		$model = new ADPermintaanPenawaranT();
+		$modDetail = ADPenawaranDetailT::model()->findAllByAttributes(array('permintaanpenawaran_id'=>$idPembelian));
+		$judulLaporan = 'Laporan Detail Permintaan Penawaran';
+                
 		//Data Grafik
-		$data['title'] = 'Grafik Laporan Permintaan Pembelian';
+		$data['title'] = 'Grafik Laporan Permintaan Penawaran';
 		$data['type'] = (isset($_REQUEST['type']) ? $_REQUEST['type'] : null);
-		if (isset($_REQUEST['ADPermintaanPembelianT'])) {
-			$model->attributes = $_REQUEST['ADPermintaanPembelianT'];
+		if (isset($_REQUEST['ADPermintaanPenawaranT'])) {
+			$model->attributes = $_REQUEST['ADPermintaanPenawaranT'];
 			$format = new MyFormatter();
-			$model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['ADPermintaanPembelianT']['tgl_awal']);
-			$model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['ADPermintaanPembelianT']['tgl_akhir']);
+			$model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['ADPermintaanPenawaranT']['tgl_awal']);
+			$model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['ADPermintaanPenawaranT']['tgl_akhir']);
 		}
 
 		$caraPrint = (isset($_REQUEST['caraPrint']) ? $_REQUEST['caraPrint'] : null);
@@ -103,10 +103,10 @@ class LaporanPermintaanPembelianController extends MyAuthController{
 		$this->render($target, array('model' => $model, 'modDetail'=>$modDetail,'periode'=>$periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint));
 	}
 
-	public function actionFrameGrafikLaporanPermintaanPembelian() {
+	public function actionFrameGrafikLaporanPermintaanPenawaran() {
 		$this->layout = '//layouts/iframe';
 
-		$model = new ADPermintaanPembelianT;
+		$model = new ADPermintaanPenawaranT;
 		$format = new MyFormatter();
 		$model->unsetAttributes();
 		$model->jns_periode = "hari";
@@ -121,14 +121,14 @@ class LaporanPermintaanPembelianController extends MyAuthController{
 		$data['title'] = 'Grafik Laporan Permintaan Pembelian';
 		$data['type'] = $_GET['type'];
 
-		if (isset($_GET['ADPermintaanPembelianT'])) {
+		if (isset($_GET['ADPermintaanPenawaranT'])) {
 			$format = new MyFormatter();
-			$model->attributes = $_GET['ADPermintaanPembelianT'];
-			$model->jns_periode = $_GET['ADPermintaanPembelianT']['jns_periode'];
-			$model->tgl_awal = $format->formatDateTimeForDb($_GET['ADPermintaanPembelianT']['tgl_awal']);
-			$model->tgl_akhir = $format->formatDateTimeForDb($_GET['ADPermintaanPembelianT']['tgl_akhir']);
-			$model->bln_awal = $format->formatMonthForDb($_GET['ADPermintaanPembelianT']['bln_awal']);
-			$model->bln_akhir = $format->formatMonthForDb($_GET['ADPermintaanPembelianT']['bln_akhir']);
+			$model->attributes = $_GET['ADPermintaanPenawaranT'];
+			$model->jns_periode = $_GET['ADPermintaanPenawaranT']['jns_periode'];
+			$model->tgl_awal = $format->formatDateTimeForDb($_GET['ADPermintaanPenawaranT']['tgl_awal']);
+			$model->tgl_akhir = $format->formatDateTimeForDb($_GET['ADPermintaanPenawaranT']['tgl_akhir']);
+			$model->bln_awal = $format->formatMonthForDb($_GET['ADPermintaanPenawaranT']['bln_awal']);
+			$model->bln_akhir = $format->formatMonthForDb($_GET['ADPermintaanPenawaranT']['bln_akhir']);
 			$bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
 			$thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
 			switch($model->jns_periode){
