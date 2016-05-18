@@ -1,5 +1,5 @@
 <?php
-$url = Yii::app()->createUrl('gudangFarmasi/laporan/FrameGrafikLaporanPermintaanPembelian&id=1');
+$url = $this->createUrl('FrameGrafikLaporanPermintaanPenawaran&id=1');
 Yii::app()->clientScript->registerScript('search', "
 $('#search-laporan').submit(function(){
     $('#Grafik').attr('src','').css('height','0px');
@@ -27,7 +27,7 @@ $('#search-laporan').submit(function(){
     <?php        
     $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
     $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
-    $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/printLaporanPermintaanPembelian');
+    $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/printLaporanPermintaanPenawaran');
     $this->renderPartial($this->path_view.'_footer', array('urlPrint'=>$urlPrint, 'url'=>$url));
     ?>
 </div>
