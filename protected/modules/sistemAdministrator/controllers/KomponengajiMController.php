@@ -6,19 +6,26 @@ class KomponengajiMController extends MyAuthController {
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	public $layout = '//layouts/iframe';
+	public $layout = '//layouts/column1';
 	public $defaultAction = 'admin';
 	public $path_view = 'sistemAdministrator.views.komponengajiM.';
         public $path_view_tab = 'sistemAdministrator.views.komponengajiM.';
+        public $hasTab = false;
 	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */
-	public function actionView($id) {
+	public function actionView($id) {            
 		$this->render($this->path_view. 'view', array(
 			'model' => $this->loadModel($id),
 		));
 	}
+        
+         public function init() {
+           //  var_dump($this->hasTab);
+            parent::init();
+            if ($this->hasTab) {$this->layout = '//layouts/iframe';}
+        }
 
 	/**
 	 * Creates a new model.
