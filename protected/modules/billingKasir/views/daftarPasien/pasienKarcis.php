@@ -22,13 +22,17 @@
             return false;
     });
     ");
+    
+    $provider = $model->searchPasienKarcis();
+    $provider->sort->defaultOrder = 'tgl_pendaftaran desc';
+    
     ?>
     <div class="block-tabel">
         <h6>Tabel <b>Pasien Karcis</b></h6>
         <?php
             $this->widget('ext.bootstrap.widgets.BootGridView', array(
                 'id'=>'pencarianpasien-grid',
-                'dataProvider'=>$model->searchPasienKarcis(),
+                'dataProvider'=>$provider,
                 'template'=>"{summary}\n{items}\n{pager}",
                 'itemsCssClass'=>'table table-striped table-condensed',
                 'columns'=>array(
