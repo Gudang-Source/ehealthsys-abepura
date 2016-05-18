@@ -121,7 +121,7 @@ class DokrekammedisM extends CActiveRecord
 			'nomorsekunder' => 'Nomor Sekunder',
 			'nomorprimer' => 'Nomor Primer',
 			'warnanorm_i' => 'Warna Norm I',
-			'warnanorm_ii' => 'Warna Norm Ii',
+			'warnanorm_ii' => 'Warna Norm II',
 			'tgl_in_aktif' => 'Tanggal Inaktif',
 			'tglpemusnahan' => 'Tanggal Pemusnahan',
 			'create_time' => 'Create Time',
