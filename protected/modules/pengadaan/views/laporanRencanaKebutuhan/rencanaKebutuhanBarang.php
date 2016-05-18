@@ -1,7 +1,7 @@
 <div class="white-container">
-    <legend class="rim2">Laporan <b>Rencana Kebutuhan (Barang)</b></legend>
+    <legend class="rim2">Laporan <b>Rencana Kebutuhan (Obat Alkes)</b></legend>
     <?php
-        $url = Yii::app()->createUrl($this->module->id.'/'.$this->id.'/FrameRencanaKebutuhan&id=1');
+        $url = Yii::app()->createUrl($this->module->id.'/'.$this->id.'/FrameRencanaKebutuhanBarang&id=1');
         Yii::app()->clientScript->registerScript('search', "
         $('.search-button').click(function(){
                 $('.search-form').toggle();
@@ -135,7 +135,7 @@
         <?php echo CHtml::label('No. Perencanaan','',array('class'=>'control-label')); ?>
             <div class="controls">
                 <?php   
-                       echo $form->textField($model,'noperencnaan',array('placeholder'=>'Ketik No. Perencanaan','class'=>'span3'));
+                       echo $form->textField($model,'renkebbarang_no',array('placeholder'=>'Ketik No. Perencanaan','class'=>'span3'));
                 ?>
             </div>
         </div>
@@ -153,8 +153,8 @@
     $this->endWidget();
     ?>
     <div class="block-tabel">
-        <h6>Tabel <b>Rencana Kebutuhan (Obat Alkes)</b></h6>
-        <?php $this->renderPartial($this->path_view.'_tableRencana',array('model'=>$model)); ?>
+        <h6>Tabel <b>Rencana Kebutuhan (Barang)</b></h6>
+        <?php $this->renderPartial($this->path_view.'_tableRencanaBarang',array('model'=>$model)); ?>
     </div>
     <div class="block-tabel">
         <?php $this->renderPartial($this->path_view.'_tab'); ?>
@@ -164,7 +164,7 @@
 <?php 
 $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
 $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
-$urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/PrintRencanaKebutuhan');
+$urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/PrintRencanaKebutuhanBarang');
 $this->renderPartial($this->path_view.'_footer', array('urlPrint'=>$urlPrint, 'url'=>$url));
 ?>
 <?php $this->renderPartial($this->path_view.'_jsFunctions', array('model'=>$model));?>
