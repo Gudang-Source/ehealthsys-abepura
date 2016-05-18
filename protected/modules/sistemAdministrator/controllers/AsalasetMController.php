@@ -40,7 +40,7 @@ class AsalasetMController extends MyAuthController
 			$model->attributes=$_POST['SAAsalasetM'];
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->asalaset_id));
+				$this->redirect(array('admin','sukses'=>1));
                         }
 		}
 
@@ -68,7 +68,7 @@ class AsalasetMController extends MyAuthController
 			$model->attributes=$_POST['SAAsalasetM'];
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->asalaset_id));
+				$this->redirect(array('admin','sukses'=>1));
                         }
 		}
 
@@ -91,8 +91,11 @@ class AsalasetMController extends MyAuthController
 	/**
 	 * Manages all models.
 	 */
-	public function actionAdmin()
+	public function actionAdmin($sukses='')
 	{
+            if ($sukses==1):
+                Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+            endif;
                 
 		$model=new SAAsalasetM('search');
 		$model->unsetAttributes();  // clear any default values
@@ -203,7 +206,7 @@ class AsalasetMController extends MyAuthController
         {
             $model= new SAAsalasetM;
             $model->attributes=$_REQUEST['SAAsalasetM'];
-            $judulLaporan='Data SAAsalasetM';
+            $judulLaporan='Laporan Data Asal Aset';
             $caraPrint=$_REQUEST['caraPrint'];
             if($caraPrint=='PRINT') {
                 $this->layout='//layouts/printWindows';

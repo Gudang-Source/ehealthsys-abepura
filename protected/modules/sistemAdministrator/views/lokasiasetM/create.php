@@ -43,14 +43,10 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
         'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
 	'columns'=>array(
-                'instalasi_nama',
-		'instalasi_singkatan',
-                'instalasi_lokasi',
-                
                 array(
                     'header'=>'Pilih',
                     'type'=>'raw',
-                    'value'=>'CHtml::Link("<i class=\"icon-check\"></i>",
+                    'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>",
                                 "#",
                                 array(
                                     "class"=>"btn-small", 
@@ -59,6 +55,11 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                     $(\"#'.CHtml::activeId($model, 'lokasiaset_namainstalasi').'\").val(\'$data->instalasi_nama\');
                                     $(\'#dialogInstalasi\').dialog(\'close\');return false;"))',
                 ),
+                'instalasi_nama',
+		'instalasi_singkatan',
+                'instalasi_lokasi',
+                
+                
 	),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 )); 
@@ -92,14 +93,10 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
         'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
 	'columns'=>array(
-                'ruangan_nama',
-		'ruangan_jenispelayanan',
-                'ruangan_lokasi',
-                
-                array(
+                 array(
                     'header'=>'Pilih',
                     'type'=>'raw',
-                    'value'=>'CHtml::Link("<i class=\"icon-check\"></i>",
+                    'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>",
                                 "#",
                                 array(
                                     "class"=>"btn-small", 
@@ -108,6 +105,11 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                     $(\"#'.CHtml::activeId($model, 'lokasiaset_namabagian').'\").val(\'$data->ruangan_nama\');
                                     $(\'#dialogRuangan\').dialog(\'close\');return false;"))',
                 ),
+                'ruangan_nama',
+		'ruangan_jenispelayanan',
+                'ruangan_lokasi',
+                
+               
 	),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 )); 

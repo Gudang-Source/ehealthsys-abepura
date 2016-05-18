@@ -113,6 +113,7 @@ class RuanganM extends CActiveRecord
 		$criteria->compare('LOWER(ruangan_fasilitas)',strtolower($this->ruangan_fasilitas),true);
 		$criteria->compare('LOWER(ruangan_image)',strtolower($this->ruangan_image),true);
 		$criteria->compare('ruangan_aktif',isset($this->ruangan_aktif)?$this->ruangan_aktif:true);
+                //$criteria->order = "ruangan_nama ASC";
 //                $criteria->addCondition('ruangan_aktif is true');
 
 		return new CActiveDataProvider($this, array(

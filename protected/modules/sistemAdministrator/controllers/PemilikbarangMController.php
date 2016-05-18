@@ -41,7 +41,7 @@ class PemilikbarangMController extends MyAuthController
 			$model->attributes=$_POST['SAPemilikbarangM'];
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->pemilikbarang_id));
+				$this->redirect(array('admin','sukses'=>1));
                         }
 		}
 
@@ -68,7 +68,7 @@ class PemilikbarangMController extends MyAuthController
 			$model->attributes=$_POST['SAPemilikbarangM'];
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->pemilikbarang_id));
+				$this->redirect(array('admin','sukses'=>1));
                         }
 		}
 
@@ -91,8 +91,11 @@ class PemilikbarangMController extends MyAuthController
 	/**
 	 * Manages all models.
 	 */
-	public function actionAdmin()
+	public function actionAdmin($sukses='')
 	{
+            if ($sukses == 1):
+                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+            endif;
                 
 		$model=new SAPemilikbarangM('search');
 		$model->unsetAttributes();  // clear any default values
@@ -201,7 +204,7 @@ class PemilikbarangMController extends MyAuthController
         {
             $model= new SAPemilikbarangM;
             $model->attributes=$_REQUEST['SAPemilikbarangM'];
-            $judulLaporan='Data SAPemilikbarangM';
+            $judulLaporan='Data Pemilik Barang';
             $caraPrint=$_REQUEST['caraPrint'];
             if($caraPrint=='PRINT') {
                 $this->layout='//layouts/printWindows';
