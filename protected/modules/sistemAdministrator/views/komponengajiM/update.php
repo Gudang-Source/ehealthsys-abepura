@@ -1,7 +1,17 @@
-<!--<div class="white-container">
-    <legend class="rim2">Ubah <b>Komponen Gaji</b></legend>-->
-<fieldset class="box row-fluid">
-    <legend class="rim">Ubah Komponen Gaji</legend>
+<?php
+    if ($this->hasTab):
+?>
+    <fieldset class="box row-fluid">
+    <legend class="rim">Ubah Komponen Gaji</legend> 
+<?php
+    else:
+?>
+    <div class="white-container">
+        <legend class="rim2">Ubah <b>Komponen Gaji</b></legend>
+        <!--<div class="biru">-->
+<?php
+    endif;
+?>
     <?php
     $this->breadcrumbs=array(
             'Komponengaji Ms'=>array('index'),
@@ -22,4 +32,15 @@
 
     <?php echo $this->renderPartial($this->path_view.'_formUpdate',array('model'=>$model)); ?>
 <!--</div>-->
-</fieldset>
+<?php
+    if ($this->hasTab):
+?>
+    </fieldset>
+<?php
+    else:
+?>
+    </div>
+        <!--<div class="biru">-->
+<?php
+    endif;
+?>
