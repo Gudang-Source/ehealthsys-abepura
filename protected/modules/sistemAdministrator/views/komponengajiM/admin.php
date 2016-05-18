@@ -1,7 +1,20 @@
 <!--<div class="white-container">
     <legend class="rim2">Pengaturan <b>Komponen Gaji</b></legend>-->
-<fieldset class="box row-fluid">
-    <legend class="rim">Pengaturan Komponen Gaji</legend>
+<?php
+    if ($this->hasTab):
+?>
+    <fieldset class="box row-fluid">
+        <legend class="rim">Pengaturan Komponen Gaji</legend>    
+<?php
+    else:
+?>
+    <div class="white-container">
+        <legend class="rim2">Pengaturan <b>Komponen Gaji</b></legend>
+        <!--<div class="biru">-->
+<?php
+    endif;
+?>
+
     <?php
     $this->breadcrumbs=array(
             'Komponengaji Ms'=>array('index'),
@@ -136,7 +149,18 @@ function print(caraPrint)
 JSCRIPT;
     Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);                        
     ?>
-</div>
+<?php
+    if ($this->hasTab):
+?>
+    </fielset>   
+<?php
+    else:
+?>
+   </div>
+        <!--<div class="biru">-->
+<?php
+    endif;
+?>
 <script type="text/javascript">
 
     function removeTemporary(id){
@@ -175,4 +199,4 @@ JSCRIPT;
         }); 
     }
 </script>
-</fieldset>
+

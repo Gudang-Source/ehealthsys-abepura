@@ -1,5 +1,5 @@
 <div class="white-container">
-    <legend class="rim2">Laporan <b>Rencana Kebutuhan (Obat Alkes)</b></legend>
+    <legend class="rim2">Laporan <b>Rencana Kebutuhan (Barang)</b></legend>
     <?php
         $url = Yii::app()->createUrl($this->module->id.'/'.$this->id.'/FrameRencanaKebutuhan&id=1');
         Yii::app()->clientScript->registerScript('search', "

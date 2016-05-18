@@ -829,6 +829,10 @@ Class Params
 	{
 		return Yii::app()->getBaseUrl('webroot').'/data/images/linen/';
 	}
+        public static function urlLinenThumbs()
+	{
+		return Yii::app()->getBaseUrl('webroot').'/data/images/linen/thumbs/';
+	}
 	public static function pathLinenDirectory()
 	{
 		return Yii::getPathOfAlias('webroot').'/data/images/linen/';

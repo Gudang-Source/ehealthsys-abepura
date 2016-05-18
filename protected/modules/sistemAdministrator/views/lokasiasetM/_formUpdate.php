@@ -12,7 +12,7 @@
 	<?php echo $form->errorSummary($model); ?>
 
              <?php // Echo CHtml::hiddenField('tempKode', $model->lokasiaset_kode); ?>
-            <?php echo $form->textFieldRow($model,'lokasiaset_kode',array('class'=>'span1 ', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50,)); ?>
+            <?php echo $form->textFieldRow($model,'lokasiaset_kode',array('class'=>'span3 ', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50,)); ?>
             <div class="control-group ">
                     <label class="control-label" for="instalasi">Instalasi Lokasi Aset</label>
                     <div class="controls">
@@ -106,7 +106,7 @@
             <?php //$this->widget('UserTips',array('type'=>'create'));?>
         <?php
 echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Lokasi Aset', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp";
-$content = $this->renderPartial('../tips/tipsaddedit',array(),true);
+$content = $this->renderPartial($this->path_view.'tips.tipsCreate',array(),true);
 $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
 ?>
         </div>
@@ -138,14 +138,10 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
         'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
 	'columns'=>array(
-                'instalasi_nama',
-		'instalasi_singkatan',
-                'instalasi_lokasi',
-                
-                array(
+                 array(
                     'header'=>'Pilih',
                     'type'=>'raw',
-                    'value'=>'CHtml::Link("<i class=\"icon-check\"></i>",
+                    'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>",
                                 "#",
                                 array(
                                     "class"=>"btn-small", 
@@ -154,6 +150,11 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                     $(\"#'.CHtml::activeId($model, 'lokasiaset_namainstalasi').'\").val(\'$data->instalasi_nama\');
                                     $(\'#dialogInstalasi\').dialog(\'close\');return false;"))',
                 ),
+                'instalasi_nama',
+		'instalasi_singkatan',
+                'instalasi_lokasi',
+                
+               
 	),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 )); 

@@ -33,6 +33,7 @@ class LinenM extends CActiveRecord
 {
         public $barang_nama;
         public $bahanlinen_nama;
+        public $tempPhoto;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -65,7 +66,7 @@ class LinenM extends CActiveRecord
 			array('namalinen, namalainnya', 'length', 'max'=>200),
 			array('warna', 'length', 'max'=>20),
 			array('tahunbeli', 'length', 'max'=>6),
-			array('gambarlinen, update_time', 'safe'),
+			array('tempphoto, gambarlinen, update_time', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('linen_id, jenislinen_id, ruangan_id, rakpenyimpanan_id, bahanlinen_id, barang_id, kodelinen, tglregisterlinen, noregisterlinen, namalinen, namalainnya, merklinen, beratlinen, warna, tahunbeli, gambarlinen, jmlcucilinen, create_time, update_time, create_loginpemakai_id, update_loginpemakai_id, create_ruangan, linen_aktif, satuanlinen', 'safe', 'on'=>'search'),
@@ -131,7 +132,7 @@ class LinenM extends CActiveRecord
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-
+                $criteria->with = array('barang');
 		if(!empty($this->linen_id)){
 			$criteria->addCondition('linen_id = '.$this->linen_id);
 		}
@@ -176,8 +177,9 @@ class LinenM extends CActiveRecord
 		if(!empty($this->create_ruangan)){
 			$criteria->addCondition('create_ruangan = '.$this->create_ruangan);
 		}
-		$criteria->compare('linen_aktif',$this->linen_aktif);
+		$criteria->compare('linen_aktif',isset($this->linen_aktif)?$this->linen_aktif:true);
 		$criteria->compare('LOWER(satuanlinen)',strtolower($this->satuanlinen),true);
+                $criteria->compare('LOWER(barang_nama)',strtolower($this->barang_nama),true);
 
 		return $criteria;
 	}
@@ -193,9 +195,9 @@ class LinenM extends CActiveRecord
             // should not be searched.
 
             $criteria=$this->criteriaSearch();
-            $criteria->join = " left join barang_m b on t.barang_id = b.barang_id";
-            $criteria->compare('lower(b.barang_nama)', strtolower($this->barang_nama), true);
-            //$criteria->limit=10;
+            //$criteria->join = " left join barang_m b on t.barang_id = b.barang_id";
+           // $criteria->compare('lower(b.barang_nama)', strtolower($this->barang_nama), true);
+            $criteria->limit=10;
 
             return new CActiveDataProvider($this, array(
                     'criteria'=>$criteria,

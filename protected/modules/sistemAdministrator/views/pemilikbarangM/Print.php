@@ -36,12 +36,16 @@ $this->widget($table,array(
 		'pemilikbarang_kode',
 		'pemilikbarang_nama',
 		'pemilikbarang_namalainnya',
-		array(
+		/*array(
                         'header'=>'Aktif',
                         'class'=>'CCheckBoxColumn',     
                         'selectableRows'=>0,
                         'id'=>'rows',
                         'checked'=>'$data->pemilikbarang_aktif',
+                ),*/
+                array(
+                    'header' => 'Status',
+                    'value' => '($data->pemilikbarang_aktif)?"Aktif":"Tidak Aktif"',
                 ),
  
         ),

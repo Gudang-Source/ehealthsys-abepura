@@ -53,6 +53,10 @@ $('.search-form form').submit(function(){
 		'rakpenyimpanan_kode',
 		'rakpenyimpanan_nama',
 		'rakpenyimpanan_namalain',
+                    array(
+                        'header' => 'Status',
+                        'value' => '($data->rakpenyimpanan_aktif)?"Aktif":"Tidak Aktif"',
+                    ),
 		/*
 		'rakpenyimpanan_aktif',
 		*/
@@ -84,7 +88,7 @@ $('.search-form form').submit(function(){
 							'options'=>array('title'=>Yii::t('mds','Remove Temporary')),
 							'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/nonActive",array("id"=>$data->rakpenyimpanan_id))',
 							'click'=>'function(){nonActive(this);return false;}',
-							'visible'=>'Yii::app()->controller->checkAccess(array("action"=>"nonActive"))',
+							'visible'=>'($data->rakpenyimpanan_aktif)?TRUE:FALSE',
 					),
 					'delete'=> array(
 							'visible'=>'Yii::app()->controller->checkAccess(array("action"=>Params::DEFAULT_DELETE))',
