@@ -74,12 +74,12 @@ class TunjanganM extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'tunjangan_id' => 'Tunjangan',
+			'tunjangan_id' => 'ID',
 			'pangkat_id' => 'Pangkat',
 			'jabatan_id' => 'Jabatan',
 			'komponengaji_id' => 'Komponen Gaji',
 			'nominaltunjangan' => 'Nominal Tunjangan',
-			'tunjangan_aktif' => 'Status',
+			'tunjangan_aktif' => 'Aktif',
 		);
 	}
 
@@ -106,8 +106,8 @@ class TunjanganM extends CActiveRecord
 		if(!empty($this->komponengaji_id)){
 			$criteria->addCondition('komponengaji_id = '.$this->komponengaji_id);
 		}
-		$criteria->compare('nominaltunjangan',$this->nominaltunjangan);
-		$criteria->compare('tunjangan_aktif',$this->tunjangan_aktif);
+		$criteria->compare('nominaltunjangan',  str_replace('.','',$this->nominaltunjangan));
+		$criteria->compare('tunjangan_aktif',isset($this->tunjangan_aktif)?$this->tunjangan_aktif:true);
 
 		return $criteria;
 	}

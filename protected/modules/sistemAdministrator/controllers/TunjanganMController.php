@@ -36,7 +36,7 @@ class TunjanganMController extends MyAuthController
 			$model->attributes=$_POST['SATunjanganM'];
 			if($model->save()){
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('view','id'=>$model->tunjangan_id));
+				$this->redirect(array('admin','sukses'=>1));
 			}
 		}
 
@@ -55,13 +55,13 @@ class TunjanganMController extends MyAuthController
 
 		// Uncomment the following line if AJAX validation is needed
 		
-		$model->nominaltunjangan = MyFormatter::formatNumberForUser($model->nominaltunjangan);
+		$model->nominaltunjangan = number_format($model->nominaltunjangan,0,'','.');
 		if(isset($_POST['SATunjanganM']))
 		{
 			$model->attributes=$_POST['SATunjanganM'];
 			if($model->save()){
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('view','id'=>$model->tunjangan_id));
+				$this->redirect(array('admin','sukses'=>1));
 			}
 		}
 
@@ -140,8 +140,11 @@ class TunjanganMController extends MyAuthController
 	/**
 	 * Pengaturan data.
 	 */
-	public function actionAdmin()
+	public function actionAdmin($sukses = '')
 	{
+            if ($sukses == 1):
+                Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+            endif;
 		$model=new SATunjanganM('search');
 		$model->unsetAttributes();  // clear any default values
 		$model->tunjangan_aktif=1;
