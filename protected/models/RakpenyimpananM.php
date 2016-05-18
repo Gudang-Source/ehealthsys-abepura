@@ -101,7 +101,7 @@ class RakpenyimpananM extends CActiveRecord
 		$criteria->compare('LOWER(rakpenyimpanan_kode)',strtolower($this->rakpenyimpanan_kode),true);
 		$criteria->compare('LOWER(rakpenyimpanan_nama)',strtolower($this->rakpenyimpanan_nama),true);
 		$criteria->compare('LOWER(rakpenyimpanan_namalain)',strtolower($this->rakpenyimpanan_namalain),true);
-		//$criteria->compare('rakpenyimpanan_aktif',$this->rakpenyimpanan_aktif);
+		$criteria->compare('rakpenyimpanan_aktif',isset($this->rakpenyimpanan_aktif)?$this->rakpenyimpanan_aktif:true);
 
 		return $criteria;
 	}
