@@ -3,11 +3,11 @@
 Yii::import('farmasiApotek.controllers.PenjualanResepRSController');
 Yii::import('farmasiApotek.views.penjualanResepRS.*');
 
-class PenjualanKaryawanController extends PenjualanResepRSController {
+class PenjualanDokterController extends PenjualanResepRSController {
 
     public $defaultAction = 'index';
     public $path_view = 'farmasiApotek.views.penjualanResepRS.';
-    public $path_view_karyawan = 'farmasiApotek.views.penjualanKaryawan.';
+    public $path_view_karyawan = 'farmasiApotek.views.penjualanDokter.';
     public $obatalkespasientersimpan = true; //looping
     public $stokobatalkestersimpan = true; //looping
 
@@ -30,7 +30,7 @@ class PenjualanKaryawanController extends PenjualanResepRSController {
         $modPenjualan->tglresep = Yii::app()->dateFormatter->formatDateTime(CDateTimeParser::parse($modPenjualan->tglresep, 'yyyy-MM-dd hh:mm:ss', 'medium', null));
         $modPenjualan->noresep = MyGenerator::noResep($instalasi_id);
         ;
-        $modPenjualan->jenispenjualan = 'PENJUALAN KARYAWAN';
+        $modPenjualan->jenispenjualan = 'PENJUALAN DOKTER';
         $modPenjualan->carabayar_id = Params::CARABAYAR_ID_MEMBAYAR;
         $modPenjualan->penjamin_id = Params::PENJAMIN_ID_UMUM;
         $modPenjualan->totharganetto = 0;
@@ -398,7 +398,7 @@ class PenjualanKaryawanController extends PenjualanResepRSController {
                 }
             }
 
-            $returnVal["pasien_id"] = PARAMS::DEFAULT_PASIEN_APOTEK_KARYAWAN;
+            $returnVal["pasien_id"] = PARAMS::DEFAULT_PASIEN_APOTEK_DOKTER;
             $returnVal["photopegawai"] = $photopegawai;
             $returnVal["nama_pegawai_lengkap"] = $model->NamaLengkap;
             echo CJSON::encode($returnVal);
