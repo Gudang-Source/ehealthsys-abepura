@@ -64,6 +64,7 @@ class PenawarandetailT extends CActiveRecord
                     'sumberdana'=>array(self::BELONGS_TO, 'SumberdanaM','sumberdana_id'),
                     'satuankecil'=>array(self::BELONGS_TO, 'SatuankecilM','satuankecil_id'),
                     'obatalkes'=>array(self::BELONGS_TO, 'ObatalkesM','obatalkes_id'),
+                    'permintaanpenawaran'=>array(self::BELONGS_TO, 'PermintaanpenawaranT', 'permintaanpenawaran_id'),
 		);
 	}
 

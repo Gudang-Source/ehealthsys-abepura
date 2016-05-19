@@ -140,7 +140,15 @@ class GFInformasistokobatalkesV extends InformasistokobatalkesV
 				$criteria->compare('LOWER(t.obatalkes_kategori)',strtolower($this->obatalkes_kategori),true);
 				if($this->jenisstokopname == Params::JENISSTOKOPNAME_PENYESUAIAN){
 					$criteria->addCondition('t.ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
-					$model = $this;
+                                        $criteria->group = "t.instalasi_id, t.instalasi_nama, t.ruangan_id, t.ruangan_nama, t.jenisobatalkes_id, t.jenisobatalkes_kode, t.jenisobatalkes_nama, t.jenisobatalkes_farmasi, t.obatalkes_id,"
+                                                . "t.obatalkes_barcode, t.obatalkes_kode, t.obatalkes_nama, t.obatalkes_namalain, t.obatalkes_golongan, t.obatalkes_kategori,"
+                                                . "t.obatalkes_kadarobat, t.asalbarang_id, t.asalbarang_nama, t.satuankecil_id, t.satuankecil_nama, "
+                                                . "o.harganetto, o.hargajual";
+					$criteria->select = $criteria->group.", o.harganetto as hpp, o.hargajual as hargajual, sum(qtystok) as qtystok";
+                                        
+                                        $criteria->join = "join obatalkes_m o on o.obatalkes_id = t.obatalkes_id";
+                                        
+                                        $model = $this;
 				}else{
 					$model = new GFObatalkesM;
                                         $criteria->join = "left join informasistokobatalkes_v i on "

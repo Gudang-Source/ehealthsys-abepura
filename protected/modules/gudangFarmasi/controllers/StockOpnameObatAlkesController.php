@@ -76,7 +76,9 @@ class StockOpnameObatAlkesController extends MyAuthController
 										//if($modDetails[$i]->volume_sistem <= 0){ //jika volume sistem 0 / minus maka nonaktifkan stok yg aktif
 										//	StokobatalkesT::model()->updateAll(array( 'stokoa_aktif' => false ), "stokoa_aktif = TRUE AND obatalkes_id = ".$modDetails[$i]->obatalkes_id." AND ruangan_id = ".Yii::app()->user->getState('ruangan_id'));
 										//}
-										$selisih = ($modDetails[$i]->volume_fisik - $modDetails[$i]->jmlselisihstok) - $modDetails[$i]->volume_sistem;
+                                                                                // $modDetails[$i]->jmlselisihstok = $modDetails[$i]->volume_fisik - $modDetails[$i]->volume_sistem;
+										// $selisih = ($modDetails[$i]->volume_fisik - $modDetails[$i]->jmlselisihstok) - $modDetails[$i]->volume_sistem;
+										$selisih = $modDetails[$i]->jmlselisihstok;
                                         if ($selisih > 0){
                                             $this->simpanStokObatAlkes($modDetails[$i], $selisih);
                                         } else { //jika selisih minus = tambah stok 
@@ -150,8 +152,10 @@ class StockOpnameObatAlkesController extends MyAuthController
         $modDetailOpname->sumberdana_id = $obatAlkes->sumberdana_id;
         $modDetailOpname->tglkadaluarsa = $format->formatDateTimeForDb($obatAlkes->tglkadaluarsa);
         $modDetailOpname->tglperiksafisik = $format->formatDateTimeForDb($modDetailOpname->tglperiksafisik);
-        $modDetailOpname->jmlselisihstok = $modDetailOpname->getJmlSelisihStok($modDetailOpname->stokopname->ruangan_id);
-
+        $modDetailOpname->jmlselisihstok = $modDetailOpname->volume_fisik - $modDetailOpname->volume_sistem; //$modDetailOpname->getJmlSelisihStok($modDetailOpname->stokopname->ruangan_id);
+        
+        // var_dump($modDetailOpname->attributes); die;
+        
        if($modDetailOpname->validate()) {
            $modDetailOpname->save();
        } else {
