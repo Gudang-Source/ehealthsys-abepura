@@ -11,9 +11,9 @@
 
 	<?php echo $form->errorSummary($model); ?>
 
-            <?php echo $form->textFieldRow($model,'jenispengeluaran_kode',array('class'=>'span3', 'onkeypress'=>"return nextFocus(this,event,'KUJenispengeluaranM_jenispengeluaran_kode','')", 'maxlength'=>25)); ?>
-            <?php echo $form->textFieldRow($model,'jenispengeluaran_nama',array('class'=>'span3', 'onkeyup'=>"namaLain(this)", 'onkeypress'=>"return nextFocus(this,event,'KUJenispengeluaranM_jenispengeluaran_nama','')", 'maxlength'=>25)); ?>
-            <?php echo $form->textFieldRow($model,'jenispengeluaran_namalain',array('class'=>'span3', 'onkeypress'=>"return nextFocus(this,event,'KUJenispengeluaranM_jenispengeluaran_namalain','KUJenispengeluaranM_jenispengeluaran_namalain')", 'maxlength'=>25)); ?>
+            <?php echo $form->textFieldRow($model,'jenispengeluaran_kode',array('class'=>'span3', 'onkeypress'=>"return nextFocus(this,event,'KUJenispengeluaranM_jenispengeluaran_kode','')", 'maxlength'=>20)); ?>
+            <?php echo $form->textFieldRow($model,'jenispengeluaran_nama',array('class'=>'span3', 'onkeyup'=>"namaLain(this)", 'onkeypress'=>"return nextFocus(this,event,'KUJenispengeluaranM_jenispengeluaran_nama','')", 'maxlength'=>100)); ?>
+            <?php echo $form->textFieldRow($model,'jenispengeluaran_namalain',array('class'=>'span3', 'onkeypress'=>"return nextFocus(this,event,'KUJenispengeluaranM_jenispengeluaran_namalain','KUJenispengeluaranM_jenispengeluaran_namalain')", 'maxlength'=>100)); ?>
             <?php //echo $form->checkBoxRow($model,'jenispengeluaran_aktif', array('onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
 	<div class="form-actions">
 		                <?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 
@@ -23,10 +23,10 @@
                         Yii::app()->createUrl($this->module->id.'/jenisPengeluaranM/admin'), 
                         array('class'=>'btn btn-danger',
                               'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
-                <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Pengeluaran', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
-                                $this->createUrl('jenisPengeluaranM/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
+                <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Pengeluaran Umum', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
+                                $this->createUrl('jenisPengeluaranM/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')).'&nbsp;';?>
 <?php
-$content = $this->renderPartial('../tips/tipsaddedit',array(),true);
+$content = $this->renderPartial('sistemAdministrator.views.tips.tipsaddedit',array(),true);
 $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
 ?>
         </div>

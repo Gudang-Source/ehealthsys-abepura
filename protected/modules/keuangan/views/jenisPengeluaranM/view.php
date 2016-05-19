@@ -1,5 +1,5 @@
 <div class="white-container">
-    <legend class='rim2'>Lihat <b>Jenis Pengeluaran</b></legend>
+    <legend class='rim2'>Lihat <b>Pengeluaran Umum</b></legend>
     <?php
     $this->breadcrumbs=array(
             'Kujenis pengeluaran Ms'=>array('index'),
@@ -33,7 +33,7 @@
 
             ),
     )); ?>
-    <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Pengeluaran', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
+    <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Pengeluaran Umum', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
                                     $this->createUrl('jenisPengeluaranM/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
     <?php $this->widget('UserTips',array('type'=>'view'));?>
 </div>
