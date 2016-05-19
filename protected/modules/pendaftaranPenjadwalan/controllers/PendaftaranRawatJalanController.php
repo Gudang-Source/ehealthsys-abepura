@@ -855,6 +855,7 @@ class PendaftaranRawatJalanController extends MyAuthController
             if (empty($modSep->tglrujukan)) $modSep->tglrujukan = $modSep->tglsep;
             $modSep->norujukan = $modRujukanBpjs->no_rujukan;
             if(isset($postSep['ppkrujukan'])) $modSep->ppkrujukan = $postSep['ppkrujukan']; 
+            else $modSep->ppkrujukan = Yii::app()->user->getState('ppkpelayanan');
             $modSep->ppkpelayanan = Yii::app()->user->getState('ppkpelayanan');
             $modSep->jnspelayanan = ($model->instalasi_id==Params::INSTALASI_ID_RI || $isRI)?Params::JENISPELAYANAN_RI:Params::JENISPELAYANAN_RJ;
             $modSep->catatansep = $postSep['catatansep'];
