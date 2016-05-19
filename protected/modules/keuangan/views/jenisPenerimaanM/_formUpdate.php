@@ -10,9 +10,9 @@
 
 	<?php echo $form->errorSummary($model); ?>
 
-            <?php echo $form->textFieldRow($model,'jenispenerimaan_kode',array('class'=>'span3', 'onkeypress'=>"return nextFocus(this,event,'KUJenispenerimaanM_jenispenerimaan_kode','')", 'maxlength'=>25)); ?>
-            <?php echo $form->textFieldRow($model,'jenispenerimaan_nama',array('class'=>'span3', 'onkeyup'=>"namaLain(this)", 'onkeypress'=>"return nextFocus(this,event,'KUJenispenerimaanM_jenispenerimaan_nama','')", 'maxlength'=>25)); ?>
-            <?php echo $form->textFieldRow($model,'jenispenerimaan_namalain',array('class'=>'span3', 'onkeypress'=>"return nextFocus(this,event,'KUJenispenerimaanM_jenispenerimaan_namalain','KUJenispenerimaanM_jenispenerimaan_namalain')", 'maxlength'=>25)); ?>
+            <?php echo $form->textFieldRow($model,'jenispenerimaan_kode',array('class'=>'span3', 'onkeypress'=>"return nextFocus(this,event,'KUJenispenerimaanM_jenispenerimaan_kode','')", 'maxlength'=>50)); ?>
+            <?php echo $form->textFieldRow($model,'jenispenerimaan_nama',array('class'=>'span3', 'onkeyup'=>"namaLain(this)", 'onkeypress'=>"return nextFocus(this,event,'KUJenispenerimaanM_jenispenerimaan_nama','')", 'maxlength'=>50)); ?>
+            <?php echo $form->textFieldRow($model,'jenispenerimaan_namalain',array('class'=>'span3', 'onkeypress'=>"return nextFocus(this,event,'KUJenispenerimaanM_jenispenerimaan_namalain','KUJenispenerimaanM_jenispenerimaan_namalain')", 'maxlength'=>50)); ?>
             <div>
                 <?php echo $form->checkBoxRow($model,'jenispenerimaan_aktif', array('onkeypress'=>"return nextFocus(this,event,'btn_simpan','KUJenispenerimaanM_jenispenerimaan_aktif')")); ?>
             </div>
@@ -24,7 +24,7 @@
                         Yii::app()->createUrl($this->module->id.'/jenisPenerimaanM/admin'), 
                         array('class'=>'btn btn-danger',
                               'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
-                <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Penerimaan', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
+                <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Penerimaan Umum', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
                                 $this->createUrl('jenisPenerimaanM/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));
                 echo "&nbsp;"; ?>
                 <?php
