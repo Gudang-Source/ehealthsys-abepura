@@ -37,11 +37,11 @@ class KursrpMController extends MyAuthController
 		if(isset($_POST['KUKursrpM']))
 		{
 			$model->attributes=$_POST['KUKursrpM'];
-                        $model->tglkursrp = $format->formatDateTimeForDb($_POST['KUKursrpM']['tglkursrp']);
+                        $model->tglkursrp = $format->formatDateTimeForDb($_POST['KUKursrpM']['tglkursrp']);                        
                         $model->kursrp_aktif = TRUE;
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->kursrp_id));
+				$this->redirect(array('admin','sukses'=>1));
                         }
 		}
 
@@ -60,7 +60,8 @@ class KursrpMController extends MyAuthController
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		$model=$this->loadModel($id);
                 $format = new MyFormatter();
-
+                $model->nilai = number_format($model->nilai,0,'','.');
+                $model->rupiah = number_format($model->rupiah,0,'','.');
 		// Uncomment the following line if AJAX validation is needed
 		
 
@@ -68,9 +69,12 @@ class KursrpMController extends MyAuthController
 		{
 			$model->attributes=$_POST['KUKursrpM'];
                         $model->tglkursrp = $format->formatDateTimeForDb($_POST['KUKursrpM']['tglkursrp']);
+                        $model->nilai = str_replace('.', '', $model->nilai);
+                        $model->rupiah = str_replace('.', '', $model->rupiah);
+                        
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->kursrp_id));
+				$this->redirect(array('admin','sukses'=>1));
                         }
 		}
 
@@ -93,8 +97,11 @@ class KursrpMController extends MyAuthController
 	/**
 	 * Manages all models.
 	 */
-	public function actionAdmin()
+	public function actionAdmin($sukses = '')
 	{
+            if ($sukses == 1):
+                Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+            endif;
                 
 		$model=new KUKursrpM('search');
 		$model->unsetAttributes();  // clear any default values
@@ -233,7 +240,7 @@ class KursrpMController extends MyAuthController
                 $mpdf->WriteHTML($stylesheet,1);  
                 $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
                 $mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-                $mpdf->Output();
+                $mpdf->Output($judulLaporan.'-'.date('Y-m-d').'.pdf','I');
             }                       
         }
 }

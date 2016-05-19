@@ -26,8 +26,14 @@
                         'kursrp_id',
                         'matauang.matauang',
                         'tglkursrp',
-                        'nilai',
-                        'rupiah',
+                        array(
+                            'label' => 'Nilai',
+                            'value' => number_format($model->nilai,0,'','.')
+                        ),
+                        array(
+                            'label' => 'Rupiah',
+                            'value' => 'Rp'.number_format($model->rupiah,0,'','.')
+                        ),
                         array(            
                         'label'=>'Aktif',
                         'type'=>'raw',
@@ -36,6 +42,6 @@
                 ),
         )); 
     ?>
-
+    <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Kurs Rp.', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
     <?php $this->widget('UserTips',array('type'=>'view'));?>
 </div>

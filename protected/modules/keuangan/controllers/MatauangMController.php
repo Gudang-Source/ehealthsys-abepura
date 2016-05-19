@@ -39,7 +39,7 @@ class MatauangMController extends MyAuthController
                         $model->matauang_aktif = TRUE;
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->matauang_id));
+				$this->redirect(array('admin','sukses'=>1));
                         }
 		}
 
@@ -66,7 +66,7 @@ class MatauangMController extends MyAuthController
 			$model->attributes=$_POST['KUMatauangM'];
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->matauang_id));
+				$this->redirect(array('admin','sukses'=>1));
                         }
 		}
 
@@ -89,8 +89,11 @@ class MatauangMController extends MyAuthController
 	/**
 	 * Manages all models.
 	 */
-	public function actionAdmin()
+	public function actionAdmin($sukses='')
 	{
+            if ($sukses==1):
+                Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+            endif;
                 
 		$model=new KUMatauangM('search');
 		$model->unsetAttributes();  // clear any default values
@@ -236,7 +239,7 @@ class MatauangMController extends MyAuthController
                 $mpdf->WriteHTML($stylesheet,1);  
                 $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
                 $mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-                $mpdf->Output();
+                $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
             }                       
         }
 }
