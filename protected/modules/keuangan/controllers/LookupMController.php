@@ -36,33 +36,27 @@ class LookupMController extends MyAuthController
                 
 		  if(isset($_POST['LookupM']))
                     {
-                        $insert = null;
-                        $modDetails = $this->validasiTabular($_POST['LookupM'],$insert);
-                        $transaction = Yii::app()->db->beginTransaction();
-                        try {
-                            $jumlah = count($modDetails);
-                            $jumlahSave = 0;
-                            if ($jumlah > 0){
-                                foreach ($modDetails as $key => $value) {
-                                    if ($value->save()){
-                                        $jumlahSave++;
-                                    }
+                        $valid=true;
+                        foreach($_POST['LookupM'] as $i=>$item)
+                        {
+                            if(is_integer($i)) {
+                                $model=new LookupM;
+                                if(isset($_POST['LookupM'][$i]))
+
+                                    $model->attributes=$_POST['LookupM'][$i];
+                                    $model->lookup_type = $_POST['LookupM']['lookup_type'];
+                                    $model->lookup_aktif = true;
+                                    $valid=$model->validate() && $valid;
+                                    echo $i;
+                                if($valid) {
+                                    $model->save();
+                                        Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                                } else {
+                                        Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data tidak valid.');
                                 }
                             }
-                            if (($jumlah > 0) && ($jumlahSave > 0) && ($jumlahSave == $jumlah)){
-                                $transaction->commit();
-                                Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-                                
-                            }
-                            else{
-                                $transaction->rollback();
-                                Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data tidak valid.');
-                            }
-                        } catch (Exception $exc) {
-                            $transaction->rollback();
-                            Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data tidak valid.'.MyExceptionMessage::getMessage($exc));
                         }
-                        $this->redirect(array('admin'));
+                        $this->redirect(array('admin','sukses'=>1));
                       }   
 
 		$this->render('create',array(
@@ -144,7 +138,7 @@ class LookupMController extends MyAuthController
                             if(($jumlah>0) && ($jumlahupdate>0) && ($jumlah == $jumlahupdate)){
                                 $transaction->commit();
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-                                $this->redirect(array('admin'));
+                                $this->redirect(array('admin','sukses'=>1));
                             }else{
                                 $transaction->rollback();
                                 Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data tidak valid.');
@@ -228,8 +222,11 @@ class LookupMController extends MyAuthController
     /**
      * Manages all models.
      */
-    public function actionAdmin()
+    public function actionAdmin($sukses='')
     {
+        if ($sukses == 1):
+            Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+        endif;
                 
         $model=new KULookupM('searchJenisTransaksi');
         $model->unsetAttributes();  // clear any default values
@@ -358,7 +355,7 @@ class LookupMController extends MyAuthController
                 $mpdf->WriteHTML($stylesheet,1);  
                 $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
                 $mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-                $mpdf->Output();
+                $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
             }                       
         }
 }

@@ -1,9 +1,10 @@
-<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form.js'); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
 <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
 	'id'=>'kursrp-m-form',
 	'enableAjaxValidation'=>false,
         'type'=>'horizontal',
-        'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)'),
+        'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event);', 'onsubmit'=>'return requiredCheck(this);'),
         'focus'=>'#KUKursrpM_matauang_id',
 )); ?>
 
@@ -46,14 +47,14 @@
                     <div class='control-group'>
                             <?php echo $form->labelEx($model,'nilai', array('class'=>'control-label')) ?>
                             <div class="controls">
-                                    <?php echo $form->textField($model,'nilai',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                                    <?php echo $form->textField($model,'nilai',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                             </div>
                      </div> 
                     
                      <div class='control-group'>
                             <?php echo $form->labelEx($model,'rupiah', array('class'=>'control-label')) ?>
                             <div class="controls">
-                                     <?php echo $form->textField($model,'rupiah',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                                     <?php echo $form->textField($model,'rupiah',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                             </div>
                       </div>
                     
@@ -75,6 +76,7 @@
                                     Yii::app()->createUrl($this->module->id.'/kursrpM/admin'),
                                     array('class'=>'btn btn-danger',
                                           'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
+                         <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Kurs Rp.', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
                         <?php
                             $content = $this->renderPartial('keuangan.views.tips.tipsaddedit4b',array(),true);
                             $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));

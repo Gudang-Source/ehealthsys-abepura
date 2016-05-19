@@ -17,12 +17,12 @@
                     <?php echo $form->textFieldRow($model,'supplier_kode',array('class'=>'span2','onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10)); ?>
                     <?php echo $form->textFieldRow($model,'supplier_nama',array('class'=>'span3', 'onkeyup'=>"namaLain(this)",  'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
 					<?php echo $form->dropDownListRow($model,'pbf_id',
-								CHtml::listData(SAPbfM::model()->findAll(), 'pbf_id', 'pbf_nama'),
+								CHtml::listData(SAPbfM::model()->findAll("pbf_aktif = TRUE ORDER BY pbf_nama ASC"), 'pbf_id', 'pbf_nama'),
 								array('readonly'=>false,'class'=>'span3', 'onkeyup' => "return $(this).focusNextInputField(event)",
 								'empty'=>'-- Pilih --',)); ?>
                     <?php echo $form->textFieldRow($model,'supplier_namalain',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
                     <?php echo $form->textAreaRow($model,'supplier_alamat',array('rows'=>4, 'cols'=>30, 'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-					<?php echo $form->textFieldRow($model,'supplier_kodepos',array('class'=>'span1 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+					<?php echo $form->textFieldRow($model,'supplier_kodepos',array('style'=>'text-align:right;','class'=>'span1 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
 				</td>
 				<td>
 					<div class="control-group ">
@@ -40,16 +40,16 @@
 					</div>
 					<?php echo $form->textFieldRow($model,'latitude',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
 					<?php echo $form->dropDownListRow($model,'supplier_propinsi', CHtml::listData($model->PropinsiItems, 'propinsi_nama', 'propinsi_nama'),array('empty'=>'-- Pilih --', 'onkeypress'=>"return $(this).focusNextInputField(event)",'ajax'=>array('type'=>'POST','url'=>$this->createUrl('GetKabupatendrNamaPropinsi',array('encode'=>false,'namaModel'=>'SASupplierM','attr'=>'supplier_propinsi')),'update'=>'#SASupplierM_supplier_kabupaten'))); ?>
-                    <?php echo $form->dropDownListRow($model,'supplier_kabupaten',array(),array('class'=>'inputRequire', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --',)); ?>  
-					<?php echo $form->textFieldRow($model,'supplier_telp',array('class'=>'span2 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
-					<?php echo $form->textFieldRow($model,'supplier_fax',array('class'=>'span2 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+                                        <?php echo $form->dropDownListRow($model,'supplier_kabupaten',CHtml::listData($model->KabupatenItems, 'kabupaten_nama', 'kabupaten_nama'),array('class'=>'inputRequire', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --',)); ?>  
+					<?php echo $form->textFieldRow($model,'supplier_telp',array('style'=>'text-align:right;','class'=>'span2 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+					<?php echo $form->textFieldRow($model,'supplier_fax',array('style'=>'text-align:right;','class'=>'span2 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
 				</td>
                 <td>
-					<?php echo $form->textFieldRow($model,'supplier_npwp',array('class'=>'span3 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
+					<?php echo $form->textFieldRow($model,'supplier_npwp',array('class'=>'span3 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100,'style'=>'text-align:right;',)); ?>
                     <?php echo $form->textFieldRow($model,'supplier_website',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
                     <?php echo $form->textFieldRow($model,'supplier_email',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
                     <?php echo $form->textFieldRow($model,'supplier_cp',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
-                    <?php echo $form->textFieldRow($model,'supplier_norekening',array('class'=>'span2 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
+                    <?php echo $form->textFieldRow($model,'supplier_norekening',array('class'=>'span2 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100,'style'=>'text-align:right;',)); ?>
                     <?php echo $form->dropDownListRow($model,'supplier_jenis',  LookupM::model()->getItems('jenissupplier'),array('class'=>'span2 ', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
 				</td>
             </tr>

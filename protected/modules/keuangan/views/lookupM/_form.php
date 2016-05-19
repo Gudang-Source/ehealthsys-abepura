@@ -14,7 +14,7 @@
 	<p class="help-block"><?php echo Yii::t('mds','Fields with <span class="required">*</span> are required.') ?></p>
 
 	<?php echo $form->errorSummary($model); ?>
-
+        <?php echo $form->textFieldRow($model,'lookup_type',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);",'maxlength'=>100,'readOnly'=>true)); ?>
             <?php //echo $form->textFieldRow($model,'lookup_type',array('readonly'=>true,'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>100,)); ?>
             <?php //echo $form->textFieldRow($model,'lookup_name',array('class'=>'span3', 'onkeypress'=>"return nextFocus(this,event,'LookupM_lookup_value','LookupM_lookup_type')", 'maxlength'=>200)); ?>
             <?php //echo $form->textFieldRow($model,'lookup_value',array('class'=>'span3', 'onkeypress'=>"return nextFocus(this,event,'LookupM_lookup_kode','LookupM_lookup_name')", 'maxlength'=>200)); ?>
@@ -35,17 +35,17 @@
             <tr>
             
                 <td>
-                    <?php echo $form->textField($model,'[1]lookup_name',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'maxlength'=>200,'placeholder'=>$model->getAttributeLabel('lookup_name'))); ?>
+                    <?php echo $form->textField($model,'[1]lookup_name',array('class'=>'span3 required', 'onkeypress'=>"return $(this).focusNextInputField(event)",'maxlength'=>200,'placeholder'=>$model->getAttributeLabel('lookup_name'))); ?>
                     <span class="required">*</span>
                 </td>
                 <td>
-                    <?php echo $form->textField($model,'[1]lookup_value',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>200, 'placeholder'=> $model->getAttributeLabel('lookup_value'))); ?>
+                    <?php echo $form->textField($model,'[1]lookup_value',array('class'=>'span3 required', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>200, 'placeholder'=> $model->getAttributeLabel('lookup_value'))); ?>
                 </td>
                 <td>
                     <?php echo $form->textField($model,'[1]lookup_kode',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=> $model->getAttributeLabel('lookup_kode'))); ?>
                 </td>
                <td>
-                    <?php echo $form->textField($model,'[1]lookup_urutan',array('class'=>'span3 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'placeholder'=> $model->getAttributeLabel('lookup_urutan'))); ?>
+                    <?php echo $form->textField($model,'[1]lookup_urutan',array('class'=>'span3 numbersOnly required', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'placeholder'=> $model->getAttributeLabel('lookup_urutan'))); ?>
                 </td>
                 
                     <?php //echo $form->checkBoxRow($model,'[1]lookup_aktif', array('onkeypress'=>"return nextFocus(this,event,'btn_simpan','LookupM_lookup_urutan')")); ?>
@@ -68,7 +68,7 @@
                                     'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
                 <?php
                     echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Jenis Transaksi', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp";
-                    $content = $this->renderPartial('../tips/tipsaddedit',array(),true);
+                    $content = $this->renderPartial('sistemAdministrator.views.tips.tipsaddedit',array(),true);
                     $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
                 ?>
         </div>
