@@ -47,22 +47,22 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
             array(
                 'header'=>'HPP (Rp)',
                 'type'=>'raw',
-                'value'=>'CHtml::textField("GFStokopnamedetT[".$data->obatalkes_id."][harganetto]", number_format(isset($data->hpp) ? $data->hpp : $data->harganetto), array("class"=>"span1 netto integer", "onblur"=>"getTotal();","onkeyup"=>"return $(this).focusNextInputField(event);", "style"=>"width:64px;"))',
+                'value'=>'CHtml::textField("GFStokopnamedetT[".$data->obatalkes_id."][harganetto]", MyFormatter::formatNumberForPrint(isset($data->hpp) ? $data->hpp : $data->harganetto), array("class"=>"span1 netto integer2", "onblur"=>"getTotal();","onkeyup"=>"return $(this).focusNextInputField(event);", "style"=>"width:64px;"))',
             ),
             array(
                 'header'=>'Harga Jual (Rp)',
                 'type'=>'raw',
-                'value'=>'CHtml::textField("GFStokopnamedetT[".$data->obatalkes_id."][hargasatuan]", number_format(isset($data->hargajual) ? $data->hargajual : $data->hargasatuan), array("class"=>"span1 harga integer", "onblur"=>"getTotal();","onkeyup"=>"return $(this).focusNextInputField(event);", "style"=>"width:64px;"))',
+                'value'=>'CHtml::textField("GFStokopnamedetT[".$data->obatalkes_id."][hargasatuan]", MyFormatter::formatNumberForPrint(isset($data->hargajual) ? $data->hargajual : $data->hargasatuan), array("class"=>"span1 harga integer2", "onblur"=>"getTotal();","onkeyup"=>"return $(this).focusNextInputField(event);", "style"=>"width:64px;"))',
             ),
             array(
                 'header'=>'Sistem',
                 'type'=>'raw',
-                'value'=> 'CHtml::textField("GFStokopnamedetT[".$data->obatalkes_id."][volume_sistem]", number_format($data->qtystok), array("class"=>"stok span1 integer", "readonly"=>true))',
+                'value'=> 'CHtml::textField("GFStokopnamedetT[".$data->obatalkes_id."][volume_sistem]", number_format($data->qtystok), array("class"=>"stok span1 integer2", "readonly"=>true))',
             ),
             array(
                 'header'=>'<div class="test" style="cursor:pointer;" onclick="openDialogini()"> Fisik <icon class="icon-white icon-list"></icon></div> ',
                 'type'=>'raw',
-                'value'=> 'CHtml::textField("GFStokopnamedetT[".$data->obatalkes_id."][volume_fisik]", (isset($data->volume_fisik) ? number_format($data->volume_fisik) : number_format($data->qtystok))  , array("class"=>"fisik span1 integer", "onblur"=>"getTotal();", "onkeyup"=>"return $(this).focusNextInputField(event);"))',
+                'value'=> 'CHtml::textField("GFStokopnamedetT[".$data->obatalkes_id."][volume_fisik]", (isset($data->volume_fisik) ? number_format($data->volume_fisik) : number_format($data->qtystok))  , array("class"=>"fisik span1 integer2", "onblur"=>"getTotal();", "onkeyup"=>"return $(this).focusNextInputField(event);"))',
             ),
 			array(
                 'header'=>'Waktu Cek Fisik',
@@ -77,7 +77,7 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
     ),
         'afterAjaxUpdate'=>'function(id, data){
             jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
-            $("#obatalkes-m-grid .integer").maskMoney({"defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0,"symbol":null})
+            $("#obatalkes-m-grid .integer2").maskMoney({"defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0,"symbol":null})
             $("#obatalkes-m-grid .datetimemask").mask("99/99/9999 99:99:99");    
             getTotal();
                 }',

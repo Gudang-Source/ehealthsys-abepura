@@ -104,7 +104,7 @@ if (!isset($_GET['frame'])){
             <td style="text-align:center;"><?php echo $format->formatNumberForPrint($obat->volume_sistem); ?></td>
             <td style="text-align:center;"><?php echo $format->formatNumberForPrint($obat->volume_fisik); ?></td>
             <td style="text-align:center;"><?php echo $format->formatDateTimeId($obat->tglperiksafisik); ?></td>
-			<td style="text-align:center;"><?php echo number_format($obat->jmlselisihstok); ?></td>
+			<td style="text-align:center;"><?php echo $obat->jmlselisihstok; ?></td>
             <td><?php echo $obat->kondisibarang ?></td>
         </tr>
         <?php } ?>
