@@ -31,6 +31,10 @@ class TampilAntrianKeFarmasiController extends Controller
         {
             $format = new MyFormatter();
             $data = array();
+            
+            
+            
+            /*
             //antrian racikan
             $modAntrianRacikan = $this->loadModelAntrian(Params::RACIKAN_ID_RACIKAN);
             if(isset($_POST['antrianfarmasi_id'])&&$_POST['antrianfarmasi_id']!=''){
@@ -61,6 +65,8 @@ class TampilAntrianKeFarmasiController extends Controller
             }
             echo CJSON::encode($data);
             Yii::app()->end();
+             * 
+             */
         }
         else
             throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
@@ -133,16 +139,15 @@ class TampilAntrianKeFarmasiController extends Controller
         if(Yii::app()->request->isAjaxRequest)
         {
             $this->layout = "//layouts/iframe";
-            $kodeantrians = $_POST["kodeantrians"];
             $noantrians = $_POST["noantrians"];
             $loket_ids = $_POST["loket_ids"];
             $modLokets = array();
             if(count($loket_ids) >  0){
                 foreach($loket_ids AS $i => $loket_id){
-                    $modLokets[$i] = RacikanM::model()->findByPk($loket_id);
+                    $modLokets[$i] = ANLoketM::model()->findByPk($loket_id);
                 }
             }
-            $data["suarapanggilan"] = $this->renderPartial('suaraPanggilan',array('kodeantrians'=>$kodeantrians, 'noantrians'=>$noantrians, 'modLokets'=>$modLokets),true);
+            $data["suarapanggilan"] = $this->renderPartial('suaraPanggilan',array('noantrians'=>$noantrians, 'modLokets'=>$modLokets),true);
             echo CJSON::encode($data);
         }
         Yii::app()->end();

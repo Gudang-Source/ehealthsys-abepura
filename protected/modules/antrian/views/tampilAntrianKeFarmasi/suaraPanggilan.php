@@ -11,7 +11,7 @@ $jenissuara = isset($jenissuara)?$jenissuara:'PEREMPUAN';
  * @param {type} file
  * @returns {undefined}
  */
-function mainkanPertama(){
+function mainkanPertama(){ /*
     $("#jquery_jplayer_0_antrian").jPlayer({
         ready: function () {
                 $(this).jPlayer("setMedia", {
@@ -39,6 +39,7 @@ function mainkanPertama(){
         wmode: "window",
         autoPlay : true
     });
+        */
 }   
     
     
@@ -101,7 +102,7 @@ function setPlaylist(i,id,file) {
 }
 </script>
 
-<?php
+<?php /*
 if(count($noantrians) > 0){
     foreach($noantrians AS $i => $noantrian){
 ?>
@@ -147,10 +148,93 @@ if(count($noantrians) > 0){
 <?php
     }
 }
+ * 
+ */
 ?>
-
+<?php /*
 <script type="text/javascript">
 $(document).ready(function(){
     mainkanPertama();
 });
 </script>
+
+*/ ?>
+
+<script type="text/javascript">
+
+
+$(document).ready(function() {
+    var soundTru = [];
+    var soundDat = [
+        <?php foreach ($noantrians as $i => $noantrian) { ?>
+        {name: "noantrian"},
+        {name: "<?php echo strtolower(trim($modLokets[$i]->loket_singkatan)); ?>"},
+        <?php   
+        $noantrian_split = explode(" ", strtolower(MyFormatter::formatNumberTerbilang((int)$noantrian)));
+        foreach($noantrian_split as $ii => $nomor){ ?>
+        {name: "<?php echo $nomor; ?>"},
+        <?php } ?>
+        <?php } ?>
+    ];
+    
+    setJenisSuaraAntrian("<?php echo Yii::app()->request->baseUrl;?>/data/sounds/antrian/mp3/<?php echo $jenissuara ?>/");
+    registerSuaraAntrian(soundDat);
+    
+    
+    
+    /*
+
+    $.each(soundDat, function(idx, val) {
+        if ($.inArray(val, soundTru) !== -1) soundTru.push(val);
+    });
+    
+    //console.log();
+
+
+    var soundIdx = 0;
+
+    var drive = ion.sound;
+
+    drive({
+        sounds: soundDat,
+        path: "<?php echo Yii::app()->request->baseUrl;?>/data/sounds/antrian/mp3/<?php echo $jenissuara ?>/",
+        preload: true,
+        volume: 1,
+        multiplay: false,
+        ready_callback: checkPreload,
+        ended_callback: playAntrian,
+    });
+    
+    function checkPreload(obj) {
+        if (obj.name === "noantrian") goAntrian();
+    }
+
+    function goAntrian() {
+        setTimeout(playAntrian, 500);
+    }
+
+    function kicker() {
+        console.log("Kicker");
+    }
+
+    function playAntrian() {
+        if (typeof soundDat[soundIdx] !== "undefined") {
+            drive.play(soundDat[soundIdx].name);
+            soundIdx++;
+        }
+        // console.log("Next");
+    }
+    */
+});
+
+
+
+
+
+
+
+
+
+
+</script>
+
