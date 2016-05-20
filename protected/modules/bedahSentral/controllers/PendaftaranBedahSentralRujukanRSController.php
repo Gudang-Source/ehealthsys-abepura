@@ -245,7 +245,7 @@ class PendaftaranBedahSentralRujukanRSController extends MyAuthController
 		$instalasi_id = $modPasienPenunjang->ruangan->instalasi_id;
 		$kode_instalasi = InstalasiM::model()->findByPk($instalasi_id)->instalasi_singkatan;
 		$modPasienPenunjang->no_masukpenunjang = MyGenerator::noMasukPenunjang($kode_instalasi);
-		$modPasienPenunjang->tglmasukpenunjang = $attrPendaftaran->tgl_pendaftaran;
+		$modPasienPenunjang->tglmasukpenunjang = date("Y-m-d H:i:s");
 		$modPasienPenunjang->no_urutperiksa =  MyGenerator::noAntrianPenunjang($modPasienPenunjang->ruangan_id);
 		$modPasienPenunjang->kunjungan = $attrPendaftaran->kunjungan;
 		$modPasienPenunjang->statusperiksa = $attrPendaftaran->statusperiksa;
