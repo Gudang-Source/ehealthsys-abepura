@@ -47,8 +47,8 @@
                     array(
                             'header'=>'Mata Uang',
                             'name'=>'matauang_id',
-                            'filter'=>CHtml::listData(MatauangM::model()->findAll(),'matauang_id','matauang'),
-						    'value'=>'$data->matauang->matauang',
+                            'filter'=> CHtml::dropDownList('KUKursrpM[matauang_id]',$model->matauang_id,CHtml::listData(MatauangM::model()->findAll("matauang_aktif = TRUE ORDER BY matauang ASC"),'matauang_id','matauang'),array('empty'=>'-- Pilih --')),
+                            'value'=>'isset($data->matauang_id)?$data->matauang->matauang:"-"',
 						    
                     ),
 					array(
@@ -59,19 +59,28 @@
                                         'attribute'=>'tglkursrp',
                                         'mode'=>'date',
                                         'options'=> array(
-										'dateFormat'=>Params::DATE_FORMAT,
-                                                            ),
+                                            'dateFormat'=>Params::DATE_FORMAT,
+                                            ),
                                         'htmlOptions'=>array('readonly'=>false, 'class'=>'dtPicker3','id'=>'tglkursrp','placeholder'=>'17 Sep 2015'),
                                         ),true
                                     ),
                         'htmlOptions'=>array('width'=>'80','style'=>'text-align:center'),
                     ),
-                    'nilai',
+                    array(
+                        'header' => 'Nilai',
+                        'name' => 'nilai',
+                        'value' => 'number_format($data->nilai,0,"",".")',
+                        'htmlOptions' => array('style' => 'text-align:right'),
+                        //'filter'=>CHtml::activeTextField($model,'nilai',array('class'=>'numbers-only','style'=>'text-align:right;')),
+                    ),
 //                    'rupiah',
                     array(
                             'header'=>'Rupiah',
-							'filter'=>  CHtml::activeTextField($model, 'rupiah'),
-                            'value'=>'MyFormatter::formatUang($data->rupiah)',
+                            'name' => 'rupiah',
+                            //'filter'=>  CHtml::activeTextField($model, 'rupiah'),
+                            'value'=>'"Rp".number_format($data->rupiah,0,"",".")',
+                            'htmlOptions' => array('style' => 'text-align:right'),
+                            //'filter'=>CHtml::textField('KUKursrpM[rupiah]',$model->rupiah,array('class'=>'numbers-only','style'=>'text-align:right;')),
                     ),
                     array(
                             'header'=>'Status',
@@ -126,7 +135,8 @@
     echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
     echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
     echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
-    $this->widget('UserTips',array('type'=>'admin'));
+    $content = $this->renderPartial('../tips/master',array(),true);
+    $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
     $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
     $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
     $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/print');
@@ -148,7 +158,7 @@ JSCRIPT;
 	}
     function removeTemporary(id){
         var url = '<?php echo $url."/removeTemporary"; ?>';
-        myConfirm("Yakin akan menonaktifkan data ini untuk sementara?",'Perhatian!',function(r){
+        myConfirm("Apakah Anda ingin menonaktifkan data ini untuk sementara?",'Perhatian!',function(r){
             if (r){
                  $.post(url, {id: id},
                      function(data){
@@ -165,7 +175,7 @@ JSCRIPT;
     function deleteRecord(id){
         var id = id;
         var url = '<?php echo $url."/delete"; ?>';
-        myConfirm("Yakin Akan Menghapus Data ini ?",'Perhatian!',function(r){
+        myConfirm("Apakah Akan yakin ingin menghapus item ini ?",'Perhatian!',function(r){
             if (r){
                  $.post(url, {id: id},
                      function(data){

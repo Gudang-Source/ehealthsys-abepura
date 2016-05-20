@@ -38,7 +38,7 @@ class JenisPengeluaranMController extends MyAuthController
 			$model->attributes=$_POST['KUJenispengeluaranM'];
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->jenispengeluaran_id));
+				$this->redirect(array('admin','sukses'=>1));
                         }
 		}
 
@@ -65,7 +65,7 @@ class JenisPengeluaranMController extends MyAuthController
 			$model->attributes=$_POST['KUJenispengeluaranM'];
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->jenispengeluaran_id));
+				$this->redirect(array('admin','sukses'=>1));
                         }
 		}
 
@@ -88,8 +88,11 @@ class JenisPengeluaranMController extends MyAuthController
 	/**
 	 * Manages all models.
 	 */
-	public function actionAdmin()
+	public function actionAdmin($sukses='')
 	{
+            if ($sukses == 1):
+                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+            endif;
                                                      
 		$model=new KUJenispengeluaranM('search');
 		$model->unsetAttributes();  // clear any default values
@@ -219,7 +222,7 @@ class JenisPengeluaranMController extends MyAuthController
                 $mpdf->WriteHTML($stylesheet,1);  
                 $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
                 $mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-                $mpdf->Output();
+                $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
             }                       
         }
 }

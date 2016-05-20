@@ -16,7 +16,7 @@ Simpan
     <td>Gunakan tombol ini <div class="btn btn-danger">
       <i class="icon-refresh icon-white"></i>
       Ulang
-      </div> berfungsi untuk kembali.</td>
+      </div> berfungsi untuk mengulang kembali inputan.</td>
   </tr>
 </table>
 </td>

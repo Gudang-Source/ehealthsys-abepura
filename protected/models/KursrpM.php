@@ -41,7 +41,7 @@ class KursrpM extends CActiveRecord
 		return array(
 			array('tglkursrp, nilai, rupiah', 'required'),
 			array('matauang_id', 'numerical', 'integerOnly'=>true),
-			array('nilai, rupiah', 'numerical'),
+			//array('nilai, rupiah', 'numerical'),
 			array('kursrp_aktif', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.

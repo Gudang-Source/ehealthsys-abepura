@@ -105,7 +105,7 @@
                 <tr>
                     <td class = "header">Asal Faskes Tk. I</td>
                     <td>:</td>
-                    <td style = "padding-left:20px;"><?php echo $modRujukan->rujukandari->namaperujuk; ?></td>
+                    <td style = "padding-left:20px;"><?php echo empty($modRujukan)?"-":$modRujukan->rujukandari->namaperujuk; ?></td>
                     <td>&nbsp;</td>
                     <td style = "padding-left:20px" rowspan="2">Pasien/<br>Keluarga Pasien</td>
                     <td style = "padding-left:20px">&nbsp;</td>

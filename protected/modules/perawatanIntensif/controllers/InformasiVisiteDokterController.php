@@ -7,6 +7,7 @@ class InformasiVisiteDokterController extends MyAuthController {
         $model = new RIInformasivisitedokterV;
         $model->tgl_awal = date('Y-m-d');
         $model->tgl_akhir = date('Y-m-d');
+        $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
         if (isset($_GET['RIInformasivisitedokterV'])) {
             $model->attributes = $_GET['RIInformasivisitedokterV'];
             $model->tgl_awal = $format->formatDateTimeForDb($_GET['RIInformasivisitedokterV']['tgl_awal']);
