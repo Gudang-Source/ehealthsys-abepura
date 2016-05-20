@@ -25,11 +25,11 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
     'itemsCssClass'=>'table table-striped table-condensed',
     'columns'=>array(
             array(
-                'header'=> 'Pilih '.CHtml::checkBox('is_pilihsemuaobat',true,array('onclick'=>'pilihSemua(this)','title'=>'Klik untuk pilih / tidak <br>semua obat','rel'=>'tooltip')),
+                'header'=> 'Pilih '.CHtml::checkBox('is_pilihsemuaobat',false,array('onclick'=>'pilihSemua(this)','title'=>'Klik untuk pilih / tidak <br>semua obat','rel'=>'tooltip')),
                 'type'=>'raw',
                 'value'=>'
                     CHtml::hiddenField("GFStokopnamedetT[".$data->obatalkes_id."][obatalkes_id]",$data->obatalkes_id).
-                    CHtml::checkBox("GFStokopnamedetT[".$data->obatalkes_id."][cekList]", true, array("onclick"=>"setUrutan()", "class"=>"cekList", "onclick"=>"getTotal();setNol(this);", "onkeyup"=>"return $(this).focusNextInputField(event);"));
+                    CHtml::checkBox("GFStokopnamedetT[".$data->obatalkes_id."][cekList]", false, array("class"=>"cekList", "onclick"=>"getTotal(); setNol(this);", "onkeyup"=>"return $(this).focusNextInputField(event);"));
                     ',
             ),
 			'jenisobatalkes_nama',
@@ -77,6 +77,8 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
     ),
         'afterAjaxUpdate'=>'function(id, data){
             jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
+            console.log("kick");
+            $(".cekList").each(function() {setNol(this); });
             $("#obatalkes-m-grid .integer2").maskMoney({"defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0,"symbol":null})
             $("#obatalkes-m-grid .datetimemask").mask("99/99/9999 99:99:99");    
             getTotal();
