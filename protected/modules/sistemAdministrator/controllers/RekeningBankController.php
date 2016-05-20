@@ -13,7 +13,10 @@ class RekeningBankController extends MyAuthController {
         public $link_bank = 'sistemAdministrator/bankM';
         public $link_rekening = 'sistemAdministrator/rekeningBank';
 
-	public function actionCreate() {
+	public function actionCreate($sukses='') {
+                 if ($sukses == 1):
+                     Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                 endif;
 		//if(!Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		$model = new SABankRekM();
 		$modDetails = array();
@@ -39,7 +42,7 @@ class RekeningBankController extends MyAuthController {
 				if ($success == true) {
 					$transaction->commit();
 					Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-					$this->redirect(array('create', 'id' => '1'));
+					$this->redirect(array('create', 'sukses' => 1));
 				} else {
 					$transaction->rollback();
 					Yii::app()->user->setFlash('error', "Data gagal disimpan ");

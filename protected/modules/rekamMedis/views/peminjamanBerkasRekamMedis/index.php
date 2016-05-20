@@ -107,11 +107,11 @@ $this->endWidget(); ?>
 <?php $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
     'id' => 'dialogRekamMedik',
     'options' => array(
-        'title' => 'Detail Data',
+        'title' => 'Dokumen Rekam Medis',
         'autoOpen' => false,
         'modal' => true,
         'width' => 1000,
-        'height' => 700,
+        'height' => 600,
         'resizable' => false,
     ),
 ));
@@ -128,7 +128,7 @@ if (isset($_GET['RKDokumenpasienrmlamaV'])){
     'dataProvider'=>$modDokumenPasienLama->searchPeminjaman(),
     'filter'=>$modDokumenPasienLama,
 	'template'=>"{summary}\n{items}\n{pager}",
-	'itemsCssClass'=>'table table-striped table-bordered table-condensed',
+	'itemsCssClass'=>'table table-striped table-bordered table-condensed',    
     'columns'=>array(
         array(
             'header'=> 'Pilih',
@@ -152,11 +152,13 @@ if (isset($_GET['RKDokumenpasienrmlamaV'])){
             'name'=>'lokasirak_id',
             'filter'=> CHtml::dropDownList('RKDokumenpasienrmlamaV[lokasirak_id]',$modDokumenPasienLama->lokasirak_id,CHtml::listData(LokasirakM::model()->findAll('lokasirak_aktif = true ORDER BY lokasirak_nama ASC'), 'lokasirak_id', 'lokasirak_nama'),array('empty'=>'-- Pilih --')),
             'value'=>'$data->lokasirak_nama',
+            'htmlOptions' => array('style'=>'width:80px;'),
             ),
         array(
             'name'=>'subrak_id',
             'filter'=>  CHtml::dropDownList('RKDokumenpasienrmlamaV[subrak_id]',$modDokumenPasienLama->subrak_id,CHtml::listData(SubrakM::model()->findAll('subrak_aktif = true ORDER BY subrak_nama ASC'), 'subrak_id', 'subrak_nama'),array('empty'=>'-- Pilih --')),
             'value'=>'$data->subrak_nama',
+            'htmlOptions' => array('style'=>'width:80px;'),
             ),
         array(
             'header'=>'Warna Dokumen',
@@ -164,24 +166,28 @@ if (isset($_GET['RKDokumenpasienrmlamaV'])){
             'value'=>'$this->grid->getOwner()->renderPartial(\''.$this->path_view.'_warnaDokumen\', array(\'warnadokrm_id\'=>$data->warnadokrm_id), true)',
         ),
         'no_rekam_medik',
-        'tgl_pendaftaran',
+        //'tgl_pendaftaran',
+        array(
+            'header' => 'Tanggal Pendaftaran',
+            'value' => 'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)',
+            ),
         'no_pendaftaran',
         'nama_pasien',
-        array(
-            'name'=>'tanggal_lahir',
-            'filter'=>false,
-            'value'=>'$data->tanggal_lahir',
-            ),
+        //array(
+          //  'name'=>'tanggal_lahir',
+          //  'filter'=>false,
+           /// 'value'=>'MyFormatter::formatDateTimeForUser($data->tanggal_lahir)',
+          //  ),
         array(
             'name'=>'jeniskelamin',
             'filter'=> CHtml::dropDownList('RKDokumenpasienrmlamaV[jeniskelamin]',$modDokumenPasienLama->jeniskelamin,LookupM::getItems('jeniskelamin'),array('empty'=>'-- Pilih --')),
             'value'=>'$data->jeniskelamin',
         ),
-        array(
-            'name'=>'alamat_pasien',
-            'filter'=>false,
-            'value'=>'$data->alamat_pasien',
-        ),       
+       // array(
+         //   'name'=>'alamat_pasien',
+         //   'filter'=>false,
+        //    'value'=>'$data->alamat_pasien',
+      //  ),       
         array(
             'name'=>'instalasi_id',
             'filter'=>  CHtml::dropDownList('RKDokumenpasienrmlamaV[instalasi_id]',$modDokumenPasienLama->instalasi_id,CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true ORDER BY instalasi_nama ASC'), 'instalasi_id', 'instalasi_nama'),array('empty'=>'-- Pilih --')),

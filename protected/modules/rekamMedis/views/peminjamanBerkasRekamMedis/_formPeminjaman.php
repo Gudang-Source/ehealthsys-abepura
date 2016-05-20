@@ -4,15 +4,16 @@
 			<?php echo $form->labelEx($model, 'tglpeminjamanrm', array('class' => 'control-label')) ?>
 			<div class="controls">
 				<?php
-				$model->tglpeminjamanrm = isset($model->tglpeminjamanrm) ? date('d/m/Y H:i:s',strtotime($model->tglpeminjamanrm)) : date('d/m/Y H:i:s');
+				$model->tglpeminjamanrm = isset($model->tglpeminjamanrm) ? MyFormatter::formatDateTimeForUser(date('d/m/Y H:i:s',strtotime($model->tglpeminjamanrm))) : MyFormatter::formatDateTimeForUser(date('d/m/Y H:i:s'));
 				$this->widget('MyDateTimePicker', array(
 					'model' => $model,
 					'attribute' => 'tglpeminjamanrm',
 					'mode' => 'datetime',
 					'options' => array(
 						'dateFormat' => Params::DATE_FORMAT,
+                                                'maxDate' => 'd',
 					),
-					'htmlOptions' => array('readonly' => false, 'placeholder'=>'00:00:0000 00:00:00','class' => 'dtPicker3 datetimemask','onkeypress'=>'return $(this).focusNextInputField(event)',),
+					'htmlOptions' => array('readonly' => false, 'placeholder'=>'00:00:0000 00:00:00','class' => 'dtPicker3','onkeypress'=>'return $(this).focusNextInputField(event)',),
 				));
 				?>
 			</div>
@@ -21,7 +22,7 @@
 			<?php echo $form->labelEx($model, 'tglakandikembalikan', array('class' => 'control-label')) ?>
 			<div class="controls">
 				<?php
-				$model->tglakandikembalikan = isset($model->tglakandikembalikan) ? date('d/m/Y H:i:s',strtotime($model->tglakandikembalikan)) : date('d/m/Y H:i:s');
+				$model->tglakandikembalikan = isset($model->tglakandikembalikan) ? MyFormatter::formatDateTimeForUser(date('d/m/Y H:i:s',strtotime($model->tglakandikembalikan))) : MyFormatter::formatDateTimeForUser(date('d/m/Y H:i:s'));
 				$this->widget('MyDateTimePicker', array(
 					'model' => $model,
 					'attribute' => 'tglakandikembalikan',
@@ -29,7 +30,7 @@
 					'options' => array(
 						'dateFormat' => Params::DATE_FORMAT,
 					),
-					'htmlOptions' => array('readonly' => false, 'placeholder'=>'00:00:0000 00:00:00','class' => 'dtPicker3 datetimemask','onkeypress'=>'return $(this).focusNextInputField(event)',),
+					'htmlOptions' => array('readonly' => false, 'placeholder'=>'00:00:0000 00:00:00','class' => 'dtPicker3 ','onkeypress'=>'return $(this).focusNextInputField(event)',),
 				));
 				?>
 			</div>

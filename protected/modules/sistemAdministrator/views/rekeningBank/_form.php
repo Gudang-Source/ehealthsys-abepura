@@ -145,7 +145,7 @@
 						'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
 		
 		<?php
-			$content = $this->renderPartial('akuntansi.views.tips.tipsaddedit3a',array(),true);
+			$content = $this->renderPartial('sistemAdministrator.views.tips.tipsaddedit3a',array(),true);
 			$this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
 		?>
 	</div>
@@ -220,11 +220,27 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 //            ),
 //        ),
 	'columns'=>array(
+                array(
+			'header'=>'Pilih',
+			'type'=>'raw',
+			'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
+				"id" => "selectRekDebit",
+				"onClick" =>"
+					$(\"#SABankRekM_rekening_1_rekening5_id\").val(\"$data->rekening5_id\");
+					$(\"#SABankRekM_rekening_1_rekening4_id\").val(\"$data->rekening4_id\");
+					$(\"#SABankRekM_rekening_1_rekening3_id\").val(\"$data->rekening3_id\");
+					$(\"#SABankRekM_rekening_1_rekening2_id\").val(\"$data->rekening2_id\");
+					$(\"#SABankRekM_rekening_1_rekening1_id\").val(\"$data->rekening1_id\");
+					$(\"#SABankRekM_rekDebit\").val(\"$data->nmrekening5\");                                                
+					$(\"#dialogRekDebit\").dialog(\"close\");    
+					return false;
+			"))',
+		),
 		array(
 			'header'=>'No. Urut',
 			'name'=>'nourutrek',
 			'value'=>'$data->nourutrek',
-		),
+		),               
 		array(
                         'header'=>'Kelompok Akun',
                         'name'=>'rekening1_id',
@@ -250,6 +266,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                         CHtml::listData($r3, 'rekening3_id', 'nmrekening3'), array('empty'=>'-- Pilih --')),
                 ),
                 array(
+
                         'header'=>'Jenis Akun',
                         'name'=>'rekening4_id',
                         'value'=>'$data->nmrekening4',
@@ -366,11 +383,32 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 //            ),
 //        ),
 	'columns'=>array(
+                array(
+			'header'=>'Pilih',
+			'type'=>'raw',
+			'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
+				"id" => "selectRekDebit",
+				"onClick" =>"
+					$(\"#SABankRekM_rekening_2_rekening5_id\").val(\"$data->rekening5_id\");
+					$(\"#SABankRekM_rekening_2_rekening4_id\").val(\"$data->rekening4_id\");
+					$(\"#SABankRekM_rekening_2_rekening3_id\").val(\"$data->rekening3_id\");
+					$(\"#SABankRekM_rekening_2_rekening2_id\").val(\"$data->rekening2_id\");
+					$(\"#SABankRekM_rekening_2_rekening1_id\").val(\"$data->rekening1_id\");
+					$(\"#SABankRekM_rekKredit\").val(\"$data->nmrekening5\");
+					$(\"#dialogRekKredit\").dialog(\"close\");    
+					return false;
+			"))',
+		),
 		array(
 			'header'=>'No. Urut',
 			'name'=>'nourutrek',
 			'value'=>'$data->nourutrek',
 		),
+		//array(
+		//	'header'=>'Rek. 1',
+		//	'name'=>'kdrekening1',
+		//	'value'=>'$data->kdrekening1',
+		//),
 		array(
                         'header' => 'Kelompok Akun',
                         'name' => 'rekening1_id',
@@ -402,6 +440,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                         'filter'=>  CHtml::activeDropDownList($modRekKredit, 'rekening4_id', 
                                 CHtml::listData($r4, 'rekening4_id', 'nmrekening4'), array('empty'=>'-- Pilih --')),
                 ),
+
                 array(
                         'header' => 'Kode Akun',
                         'name' => 'kdrekening5',
@@ -424,22 +463,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                         'filter'=>  CHtml::activeHiddenField($modRekKredit, 'rekening5_nb', array('empty'=>"-- Pilih --")),
                 ),
 
-		array(
-			'header'=>'Pilih',
-			'type'=>'raw',
-			'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
-				"id" => "selectRekDebit",
-				"onClick" =>"
-					$(\"#SABankRekM_rekening_2_rekening5_id\").val(\"$data->rekening5_id\");
-					$(\"#SABankRekM_rekening_2_rekening4_id\").val(\"$data->rekening4_id\");
-					$(\"#SABankRekM_rekening_2_rekening3_id\").val(\"$data->rekening3_id\");
-					$(\"#SABankRekM_rekening_2_rekening2_id\").val(\"$data->rekening2_id\");
-					$(\"#SABankRekM_rekening_2_rekening1_id\").val(\"$data->rekening1_id\");
-					$(\"#SABankRekM_rekKredit\").val(\"$data->nmrekening5\");
-					$(\"#dialogRekKredit\").dialog(\"close\");    
-					return false;
-			"))',
-		),
+		
 	),
 	'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 ));
@@ -466,6 +490,7 @@ $modBank = new BankM('search');
 $modBank->unsetAttributes();
 if(isset($_GET['BankM'])) {
     $modBank->attributes = $_GET['BankM'];
+    $modBank->matauang = $_GET['BankM']['matauang'];
 }
 $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
 	'id'=>'bank-m-grid',
@@ -475,19 +500,7 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
 	'template'=>"{summary}\n{items}\n{pager}",
 	'itemsCssClass'=>'table table-striped table-bordered table-condensed',
 	'columns'=>array(
-		array(
-			'header'=>'No. Urut',
-			'value'=>'$this->grid->dataProvider->Pagination->CurrentPage*$this->grid->dataProvider->pagination->pageSize+$row+1',
-		),
-		array(
-			'header'=>'Nama Bank ',
-			'value'=>'$data->namabank',
-		),
-		array(
-			'header'=>'Mata Uang',
-			'value'=>' isset($data->matauang->matauang) ? $data->matauang->matauang : ""',
-		),
-		array(
+                array(
 			'header'=>'Pilih',
 			'type'=>'raw',
 			'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
@@ -499,6 +512,21 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
 					return false;
 			"))',
 		),
+		array(
+			'header'=>'No. Urut',
+			'value'=>'$this->grid->dataProvider->Pagination->CurrentPage*$this->grid->dataProvider->pagination->pageSize+$row+1',
+		),
+		array(
+			'header'=>'Nama Bank ',
+                        'name' => 'namabank',
+			'value'=>'$data->namabank',
+		),
+		array(
+			'header'=>'Mata Uang',
+                        'name' => 'matauang',
+			'value'=> '$data->getMataUang()',
+		),
+		
 	),
 	'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 ));
