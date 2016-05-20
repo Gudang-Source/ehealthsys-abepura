@@ -10,6 +10,8 @@ class RekeningBankController extends MyAuthController {
 	public $layout = '//layouts/column1';
 	public $defaultAction = 'create';
 	public $path_view = 'sistemAdministrator.views.rekeningBank.';
+        public $link_bank = 'sistemAdministrator/bankM';
+        public $link_rekening = 'sistemAdministrator/rekeningBank';
 
 	public function actionCreate() {
 		//if(!Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
@@ -48,7 +50,7 @@ class RekeningBankController extends MyAuthController {
 			}
 		}
 
-		$this->render('create', array(
+		$this->render($this->path_view.'create', array(
 			'model' => $model, 'modDetails' => $modDetails,
 		));
 	}
