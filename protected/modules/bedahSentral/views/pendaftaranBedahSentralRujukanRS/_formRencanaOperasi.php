@@ -62,6 +62,12 @@
         <?php echo $form->dropDownList($modRencanaOperasi,'bidan_id', CHtml::listData($modRencanaOperasi->getParamedisItems(Params::RUANGAN_ID_BEDAH), 'pegawai_id', 'nama_pegawai') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'span3')); ?>
         </div>
 </div>
+<div class="control-group">
+    <?php echo CHtml::label('Perawat Sirkuler','bidan_id',array('class'=>'control-label')) ?>
+    <div class="controls">
+        <?php echo $form->dropDownList($modRencanaOperasi,'perawatsirkuler_id', CHtml::listData($modRencanaOperasi->getParamedisItems(Params::RUANGAN_ID_BEDAH), 'pegawai_id', 'nama_pegawai') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'span3')); ?>
+        </div>
+</div>
 
 <?php echo $form->dropDownListRow($modRencanaOperasi,'statusoperasi', LookupM::getItems('statusoperasi'),  
 								  array('empty'=>'-- Pilih --', 'onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'span3','disabled'=>true

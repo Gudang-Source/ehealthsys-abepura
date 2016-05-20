@@ -215,7 +215,7 @@ class PengirimanrmTController extends MyAuthController
 		$model=new RKInformasipengirimanrmV('search');
 		$model->unsetAttributes();
 		$model->tgl_awal = date('Y-m-d');
-		$model->tgl_akhir = date('Y-m-d');
+		$model->tgl_akhir = date('Y-m-t');
 		$model->instalasipengirim_id = Yii::app()->user->getState('instalasi_id');
 		$model->ruanganpengirim_id = Yii::app()->user->getState('ruangan_id');
 		$model->instalasitujuan_id = null;

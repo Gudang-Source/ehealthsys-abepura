@@ -2076,14 +2076,11 @@ $( document ).ready(function(){
     {
         return false;
     });
-    <?php 
     
-    if ($this->id == "pendaftaranRawatJalan"): ?>
     $("#form-bpjs .accordion-heading a").click(function()
     {
         return false;
     });
-    <?php endif; ?>
     
     <?php if(!empty($model->pendaftaran_id)){ ?>
         autoPrint();

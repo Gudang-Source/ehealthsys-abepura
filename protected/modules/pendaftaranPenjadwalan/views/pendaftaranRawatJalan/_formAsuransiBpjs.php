@@ -135,7 +135,7 @@
 <?php echo $form->dropDownListRow($modAsuransiPasien,'kelastanggunganasuransi_id', CHtml::listData(PPPendaftaranT::model()->getKelasTanggunganItems(), 'kelaspelayanan_id', 'kelaspelayanan_nama') ,array('disabled'=>true,'empty'=>'-- Pilih --','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
 <?php //echo $form->textFieldRow($modAsuransiPasien,'namaperusahaan',array('placeholder'=>'Nama Perusahaan Asuransi','class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
 
-
+<?php if($this->id != "pendaftaranRawatDarurat"): ?>
 <div class="control-group ">
     <?php echo $form->labelEx($modRujukanBpjs,'asalrujukan_id', array('class'=>'control-label')) ?>
     <div class="controls">
@@ -189,9 +189,14 @@
         <?php echo $form->error($modRujukanBpjs, 'rujukandari_id'); ?>
     </div>
 </div>
+<div class="control-group">
+        <?php echo CHtml::label("PPK Rujukan <span class='required'>*</span> <i class=\"icon-search\" onclick=\"getBpjsPPKRujukan($('#".CHtml::activeId($modSep,"ppkrujukan")."').val());\", style=\"cursor:pointer;\" rel='tooltip' title='klik untuk mengecek PPK Rujukan'></i>", 'ppkrujukan', array('class'=>'control-label'))?>
+        <div class="controls">
+    
+            <?php echo $form->textField($modSep,'ppkrujukan', array('placeholder'=>'','class'=>'span3 all-caps','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+        </div>
+</div>
 <?php echo $form->textFieldRow($modRujukanBpjs,'nama_perujuk', array('placeholder'=>'Nama Lengkap Perujuk','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-
-
 <div class="control-group ">
     <label class="control-label required" for="PPRujukanbpjsT_tanggal_rujukan">
     Tanggal Rujukan
@@ -295,6 +300,7 @@
         <?php //echo $form->error($modAsuransiPasien, 'tgl_konfirmasi'); ?>
     </div>
 </div>
+<?php endif; ?>
 <?php 
     if (Yii::app()->user->getState('isbridging')) { 
 ?>
@@ -330,13 +336,6 @@
     </div>
 </div>
 <?php //echo $form->textFieldRow($modSep,'nosep', array('placeholder'=>'','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-<div class="control-group">
-        <?php echo CHtml::label("PPK Rujukan <span class='required'>*</span> <i class=\"icon-search\" onclick=\"getBpjsPPKRujukan($('#".CHtml::activeId($modSep,"ppkrujukan")."').val());\", style=\"cursor:pointer;\" rel='tooltip' title='klik untuk mengecek PPK Rujukan'></i>", 'ppkrujukan', array('class'=>'control-label'))?>
-        <div class="controls">
-    
-<?php echo $form->textField($modSep,'ppkrujukan', array('placeholder'=>'','class'=>'span3 all-caps','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-        </div>
-</div>
 <?php //echo $form->hiddenField($modSep,'ppkpelayanan', array('placeholder'=>'','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
 <?php //echo $form->dropDownListRow($modSep,'jnspelayanan',LookupM::getItems('jenispelayanan'), array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)",'onchange'=>'setNamaPerujuk();')); ?>
 <?php echo $form->textAreaRow($modSep,'catatansep', array('placeholder'=>'','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>

@@ -10,6 +10,8 @@ class BankMController extends MyAuthController {
 	public $layout = '//layouts/column1';
 	public $defaultAction = 'admin';
 	public $path_view = 'sistemAdministrator.views.bankM.';
+        public $link_bank = 'sistemAdministrator/bankM';
+        public $link_rekening = 'sistemAdministrator/rekeningBank';
 
 	/**
 	 * Displays a particular model.
@@ -27,7 +29,10 @@ class BankMController extends MyAuthController {
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
-	public function actionCreate() {
+	public function actionCreate($sukses='') {
+            if ($sukses == 1):
+                Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+            endif;
 		//if(!Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		$model = new SABankM;
 
@@ -39,7 +44,7 @@ class BankMController extends MyAuthController {
 			$model->bank_aktif = TRUE;
 			if ($model->save()) {
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('create', 'id' => $model->bank_id));
+				$this->redirect(array('create', 'sukses' => 1));
 			}
 		}
 
@@ -53,10 +58,12 @@ class BankMController extends MyAuthController {
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id the ID of the model to be updated
 	 */
-	public function actionUpdate($id) {
+	public function actionUpdate($id, $sukses='') {
 		//if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		$model = $this->loadModel($id);
-
+                 if ($sukses == 1):
+                     Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                 endif;
 		// Uncomment the following line if AJAX validation is needed
 
 
@@ -170,7 +177,7 @@ class BankMController extends MyAuthController {
 			$mpdf->WriteHTML($stylesheet, 1);
 			$mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);
 			$mpdf->WriteHTML($this->renderPartial($this->path_view. 'Print', array('model' => $model, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
-			$mpdf->Output($judulLaporan.'-'.date('Y/m/d').'.pdf','I');
+			$mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
 		}
 	}
 
