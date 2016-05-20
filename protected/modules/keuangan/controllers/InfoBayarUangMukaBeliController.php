@@ -3,7 +3,7 @@ class InfoBayarUangMukaBeliController extends MyAuthController
 {
 	public function actionIndex()
 	{
-		$modBayar = new KUInformasibayaruangmukaV;
+		$modBayar = new KUUangMukaBeliT;
 		$format = new MyFormatter();
 		$modBayar->tgl_awal=date('Y-m-d');
 		$modBayar->tgl_akhir=date('Y-m-d');

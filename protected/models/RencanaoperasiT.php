@@ -62,7 +62,7 @@ class RencanaoperasiT extends CActiveRecord
 			array('pasienmasukpenunjang_id,pendaftaran_id,pasien_id,tglrencanaoperasi,norencanaoperasi,dokterpelaksana1_id','required'),
 			array('operasi_id, pasienmasukpenunjang_id, pendaftaran_id, kamarruangan_id, pasienadmisi_id, pasien_id,pasienanastesi_id', 'numerical', 'integerOnly'=>true),
 			array('norencanaoperasi, statusoperasi', 'length', 'max'=>50),
-			array('mulaioperasi, selesaioperasi, dokterpelaksana2_id, dokteranastesi_id, tgl_awal, tgl_akhir, nama_pasien, nama_bin, no_rekam_medik, no_pendaftaran, dokterdelegasi_id, bidan_id, suster_id, perawat_id, keterangan_rencana, update_time, update_loginpemakai_id, is_operasibersama, is_cyto', 'safe'),
+			array('mulaioperasi, selesaioperasi, dokterpelaksana2_id, dokteranastesi_id, tgl_awal, tgl_akhir, nama_pasien, nama_bin, no_rekam_medik, no_pendaftaran, dokterdelegasi_id, bidan_id, suster_id, perawat_id, keterangan_rencana, update_time, update_loginpemakai_id, is_operasibersama, is_cyto, perawatsirkuler_id', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
                         array('create_time,update_time','default','value'=>date('Y-m-d'),'setOnEmpty'=>false,'on'=>'insert'),
@@ -121,6 +121,7 @@ class RencanaoperasiT extends CActiveRecord
 			'paramedis_id' => 'Perawat',
 			'suster_id' => 'Perawat 2',
 			'bidan_id' => 'Perawat 3',
+                        'perawatsirkuler_id' => 'Perawat 4',
 			'keterangan_rencana' => 'Keterangan Rencana',
 			'create_time' => 'Create Time',
 			'update_time' => 'Update Time',

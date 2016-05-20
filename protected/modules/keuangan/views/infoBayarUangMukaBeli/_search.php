@@ -53,16 +53,16 @@
 		<div class="control-group">
             <?php echo CHtml::label('No. Pembayaran','nobuktibayar', array('class'=>'control-label')) ?>
             <div class="controls">
-				<?php echo $form->textField($modBayar,'nobuktibayar',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>     
+				<?php // echo $form->textField($modBayar,'nobuktibayar',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>     
 			</div>
 		</div>
 	</div>
 	<div class="span4">
 		<div class="control-group">
-                <?php echo CHtml::label('Nama Pasien','nama_pasien', array('class'=>'control-label')) ?>
+                <?php // echo CHtml::label('Nama Pasien','nama_pasien', array('class'=>'control-label')) ?>
                 <div class="controls">
                     <?php   
-                          echo  $form->textField($modBayar,'nama_pasien',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)"));
+                          // echo $form->textField($modBayar,'nama_pasien',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)"));
                     ?>
                 </div>
             </div>
