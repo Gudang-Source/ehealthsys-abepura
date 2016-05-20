@@ -192,6 +192,8 @@ class KodeRekeningController extends MyAuthController {
 								$attributes[$key] = $val;
 							}
 						}
+                                                $attributes['update_loginpemakai_id'] = Yii::app()->user->id;
+						$attributes['update_time'] = date('Y-m-d H:i:s');
 						$is_simpan = $model->updateByPk($data_parsing['AKRekening5M']['rekening5_id'], $attributes);
 						$action = 'update';
 					} else {
@@ -203,7 +205,7 @@ class KodeRekeningController extends MyAuthController {
 						if (!$is_exist) {
 							$data_parsing['AKRekening5M']['create_ruangan'] = Yii::app()->user->getState('ruangan_id');
 							$data_parsing['AKRekening5M']['create_loginpemakai_id'] = Yii::app()->user->id;
-							$data_parsing['AKRekening5M']['create_time'] = date('Y-m-d');
+							$data_parsing['AKRekening5M']['create_time'] = date('Y-m-d H:i:s');
 							$is_simpan = $this->simpanRekening($model, $data_parsing['AKRekening5M']);
 
 							$params = array();
