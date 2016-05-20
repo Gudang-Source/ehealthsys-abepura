@@ -120,6 +120,7 @@ class PendaftaranBedahSentralRujukanRSController extends MyAuthController
 									$dataTindakansa[$ii]->paramedis_id = !empty($_POST['BSRencanaOperasiT']['paramedis_id'])?$_POST['BSRencanaOperasiT']['paramedis_id']:null;
 									$dataTindakansa[$ii]->suster_id = !empty($_POST['BSRencanaOperasiT']['suster_id'])?$_POST['BSRencanaOperasiT']['suster_id']:null;
 									$dataTindakansa[$ii]->bidan_id = !empty($_POST['BSRencanaOperasiT']['bidan_id'])?$_POST['BSRencanaOperasiT']['bidan_id']:null;
+                                                                        $dataTindakansa[$ii]->perawatsirkuler_id = !empty($_POST['BSRencanaOperasiT']['perawatsirkuler_id'])?$_POST['BSRencanaOperasiT']['perawatsirkuler_id']:null;
 									$dataTindakansa[$ii]->keterangan_rencana = $_POST['BSRencanaOperasiT']['keterangan_rencana'];
 									$dataTindakansa[$ii]->operasi_id = $rencana['operasi_id'];
 									$dataTindakansa[$ii]->is_cyto = (($rencana['cyto_tindakan'] == 1 ) ? TRUE : FALSE );
@@ -280,6 +281,7 @@ class PendaftaranBedahSentralRujukanRSController extends MyAuthController
 		$modRencana->paramedis_id = !empty($modRencana->paramedis_id)?$modRencana->paramedis_id:null;
 		$modRencana->suster_id = !empty($modRencana->suster_id)?$modRencana->suster_id:null;
 		$modRencana->bidan_id = !empty($modRencana->bidan_id)?$modRencana->bidan_id:null;
+                $modRencana->perawatsirkuler_id = !empty($modRencana->perawatsirkuler_id)?$modRencana->perawatsirkuler_id:null;
 		$modRencana->keterangan_rencana = $modRencana->keterangan_rencana;
 		
 		$modRencana->dokteranastesi_id = (!empty($modRencana->dokteranastesi_id)) ? $modRencana->dokteranastesi_id : null ;
