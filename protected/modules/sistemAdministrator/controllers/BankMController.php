@@ -10,6 +10,8 @@ class BankMController extends MyAuthController {
 	public $layout = '//layouts/column1';
 	public $defaultAction = 'admin';
 	public $path_view = 'sistemAdministrator.views.bankM.';
+        public $link_bank = 'sistemAdministrator/bankM';
+        public $link_rekening = 'sistemAdministrator/rekeningBank';
 
 	/**
 	 * Displays a particular model.

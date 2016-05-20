@@ -79,7 +79,8 @@ $('#divSearch-form form').submit(function(){
                     array(
                         'header'=>'Retur',
                         'type'=>'raw',
-                        'value'=>'CHtml::Link("<i class=\"icon-form-retur\"></i>","'.$this->createUrl("PenerimaanBarang/returPembelianOA").'&penerimaanbarang_id=$data->penerimaanbarang_id",
+                        'htmlOptions'=>array('style'=>'text-align:center;'),
+                        'value'=>'empty($data->fakturpembelian_id)?"Faktur<br/>Belum Ada":CHtml::Link("<i class=\"icon-form-retur\"></i>","'.$this->createUrl("PenerimaanBarang/returPembelianOA").'&penerimaanbarang_id=$data->penerimaanbarang_id",
                                      array("class"=>"", 
                                            "rel"=>"tooltip",
                                            "title"=>"Klik untuk membuat retur pembelian",
