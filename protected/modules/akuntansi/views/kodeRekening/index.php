@@ -467,12 +467,4 @@ function editObyekDetailRekening(obj)
     }
 }
 
-var el=$('#content_form');
-var elpos=el.offset().top;
-$(window).scroll(function () {
-    var y=$(this).scrollTop();
-    if(y<elpos){el.stop().animate({'top':0},500);}
-    else{el.stop().animate({'top':y-elpos},500);}
-});
-
 </script>
