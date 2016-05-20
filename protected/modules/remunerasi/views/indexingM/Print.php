@@ -28,9 +28,17 @@ $this->widget($table, array(
         'template'=>$template,
         'itemsCssClass'=>'table table-bordered table-striped table-condensed',
 	'columns'=>array(
-		'indexing_id',
-		'kelrem_id',
-		'indexing_urutan',
+		array(
+                    'header' => 'ID',
+                    'value' => '$data->indexing_id'
+                ),
+                array(
+                    'header' => 'Kelompok Remunerasi',
+                    'name' => 'kelrem_id',
+                    'value' => '$data->kelrem->kelrem_nama',
+                    'filter' => CHtml::dropDownList('IndexingM[kelrem_id]', $model->kelrem_id, CHtml::listData(KelremM::model()->findAll("kelrem_aktif = TRUE ORDER BY kelrem_nama ASC"), 'kelrem_id', 'kelrem_nama'),array('empty'=>'-- Pilih --')),
+                ),
+		//'indexing_urutan',
 		'indexing_nama',
 		'indexing_singk',
 		'indexing_nilai',

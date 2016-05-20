@@ -6,7 +6,7 @@ class IndexingMController extends MyAuthController
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	public $layout='//layouts/column1';
+	public $layout='//layouts/iframe';
 	public $defaultAction='admin';
 
 	/**
@@ -34,8 +34,10 @@ class IndexingMController extends MyAuthController
 		if(isset($_POST['IndexingM']))
 		{
 			$model->attributes=$_POST['IndexingM'];
-			if($model->save())
+			if($model->save()){
+                                Yii::app()->user->setFlash('success','<storng>Berhasil</strong> Data berhasil disimpan');
 				$this->redirect(array('admin','id'=>$model->indexing_id));
+                        }
 		}
 
 		$this->render('create',array(
@@ -43,11 +45,37 @@ class IndexingMController extends MyAuthController
 		));
 	}
         
-                public function actionRemoveTemporary($id)
+        public function actionRemoveTemporary()
 	{
-                    //if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
-                    IndexingM::model()->updateByPk($id, array('indexing_aktif'=>false));
-                    $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+            //if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
+           // IndexingM::model()->updateByPk($id, array('indexing_aktif'=>false));
+           // $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+
+            $id = $_GET['id'];   
+            if(isset($_GET['id']))
+            {
+               
+               $update = IndexingM::model()->updateByPk($id,array('indexing_aktif'=>false));                                       
+               
+               if($update)
+                {
+                    if (Yii::app()->request->isAjaxRequest)
+                    {
+                        echo CJSON::encode(array(
+                            'status'=>'proses_form', 
+                            ));
+                        exit;               
+                    }
+                 }
+            } else {
+                    if (Yii::app()->request->isAjaxRequest)
+                    {
+                        echo CJSON::encode(array(
+                            'status'=>'proses_form', 
+                            ));
+                        exit;               
+                    }
+            }
 	}
 
 	/**
@@ -65,8 +93,10 @@ class IndexingMController extends MyAuthController
 		if(isset($_POST['IndexingM']))
 		{
 			$model->attributes=$_POST['IndexingM'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->indexing_id));
+			if($model->save()){
+                            Yii::app()->user->setFlash('success','<storng>Berhasil</strong> Data berhasil disimpan');
+                            $this->redirect(array('admin','id'=>$model->indexing_id));
+                        }
 		}
 
 		$this->render('update',array(
@@ -174,7 +204,7 @@ class IndexingMController extends MyAuthController
                     $mpdf->WriteHTML($stylesheet,1);  
                     $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
                     $mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-                    $mpdf->Output();
+                    $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
                 }                                                  
             }
 }
