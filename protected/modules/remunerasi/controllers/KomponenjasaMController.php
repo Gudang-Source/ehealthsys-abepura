@@ -61,13 +61,14 @@ class KomponenjasaMController extends MyAuthController
                                     if ($model->save()) {
                                         $jml++;
                                         Yii::app()->user->setFlash('success','<strong>Berhasil </strong> Data berhasil disimpan');
+                                        $this->redirect(array('admin','sukses'=>1));
                                     }
                                     
                                 }
                             }
                           if ($jml==COUNT($_POST['REKomponenjasaM'])) {
                               Yii::app()->user->setFlash('success','<strong>Berhasil </strong> Data berhasil disimpan');
-                               $this->redirect(array('create','id'=>$model->komponenjasa_id));
+                               $this->redirect(array('admin','sukses'=>1));
                           } else {
                               Yii::app()->user->setFlash('error','<strong>Gagal</strong> Data gagal disimpan');
                           }
@@ -124,7 +125,7 @@ class KomponenjasaMController extends MyAuthController
 			$model->attributes=$_POST['KomponenjasaM'];
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('view','id'=>$model->komponenjasa_id));
+				$this->redirect(array('admin','sukses'=>1));
                         }
 		}
 
@@ -168,8 +169,11 @@ class KomponenjasaMController extends MyAuthController
 	/**
 	 * Manages all models.
 	 */
-	public function actionAdmin()
+	public function actionAdmin($sukses='')
 	{
+            if ($sukses == 1):
+                Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+            endif;
                 
 		$model=new KomponenjasaM('search');
 		$model->unsetAttributes();  // clear any default values
@@ -211,18 +215,43 @@ class KomponenjasaMController extends MyAuthController
          *Mengubah status aktif
          * @param type $id 
          */
-        public function actionRemoveTemporary($id)
+        public function actionRemoveTemporary()
 	{
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
                 //SAKabupatenM::model()->updateByPk($id, array('kabupaten_aktif'=>false));
                 //$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+            $id = $_GET['id'];   
+            if(isset($_GET['id']))
+            {       
+                
+                $update = KomponenjasaM::model()->updateByPk($id,array('komponenjasa_aktif'=>false));                                       
+           
+               if($update)
+                {
+                    if (Yii::app()->request->isAjaxRequest)
+                    {
+                        echo CJSON::encode(array(
+                            'status'=>'proses_form', 
+                            ));
+                        exit;               
+                    }
+                 }
+            } else {
+                    if (Yii::app()->request->isAjaxRequest)
+                    {
+                        echo CJSON::encode(array(
+                            'status'=>'proses_form', 
+                            ));
+                        exit;               
+                    }
+            }
 	}
         
         public function actionPrint()
         {
             $model= new KomponenjasaM;
             $model->attributes=$_REQUEST['KomponenjasaM'];
-            $judulLaporan='Data KomponenjasaM';
+            $judulLaporan='Data Komponen Jasa';
             $caraPrint=$_REQUEST['caraPrint'];
             if($caraPrint=='PRINT') {
                 $this->layout='//layouts/printWindows';
@@ -241,7 +270,7 @@ class KomponenjasaMController extends MyAuthController
                 $mpdf->WriteHTML($stylesheet,1);  
                 $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
                 $mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-                $mpdf->Output();
+                $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
             }                       
         }
 }

@@ -1,5 +1,5 @@
 <div class="white-container">
-    <legend class="rim2">Pencatatan <b>Komponen Jasa</b></legend>
+    <legend class="rim2">Tambah <b>Komponen Jasa</b></legend>
     <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form.js'); ?>
     <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
             'id'=>'komponenjasa-m-form',
@@ -18,8 +18,18 @@
             <table>
                 <tr>
                      <td>
-                            <?php echo $form->labelEx($model,'jenistarif_id'); ?>
-                            <?php echo $form->dropDownList($model,'jenistarif_id',CHtml::listData($model->getJenistarifItems(),'jenistarif_id','jenistarif_nama'),array('onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --','style'=>'width:120px;')) ?>
+                            <?php //echo $form->labelEx($model,'jenistarif_id'); ?>
+                            <?php //echo $form->dropDownList($model,'jenistarif_id',CHtml::listData($model->getJenistarifItems(),'jenistarif_id','jenistarif_nama'),array('onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --','style'=>'width:120px;')) ?>
+                             <?php //golongan
+                                echo $form->dropDownListRow($model,'jenistarif_id', CHtml::listData($model->getJenistarifItems(), 'jenistarif_id', 'jenistarif_nama'), 
+                                      array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
+                                              'ajax'=>array('type'=>'POST',
+                                                          'url'=>$this->createUrl('/ActionDynamic/GetCaraBayar',array('encode'=>false,'model_nama'=>get_class($model))),
+                                                          'update'=>"#".CHtml::activeId($model, 'carabayar_id'),
+                                              ),
+                                          //    'onchange'=>"setClearBidang();setClearKelompok();setClearSubKelompok();setClearSubSubKelompok();",
+                                          ));?>
+
                      </td>
                      <td>
                             <?php echo $form->labelEx($model,'carabayar_id'); ?>
@@ -112,8 +122,8 @@
                             <?php echo $form->textField($model,'['.$i.']biayaumum',array('onkeypress'=>"return $(this).focusNextInputField(event)",'style'=>'width:40px;',)); ?>
                         </td>
                         <td style="width:80px;">
-                            <?php echo CHtml::link('<i class="icon-form-plus">&nbsp;</i>','',array('title'=>'Tambah data','rel'=>'tooltip','onclick'=>'tambahKomponenjasa(this);return false','id'=>'tambah','style'=>'cursor:pointer;')); ?>
-                            <?php echo CHtml::link('<i class="icon-form-sampah">&nbsp;</i>','#',array('title'=>'Hapus data','rel'=>'tooltip','id'=>'hapus','onclick'=>'hapusKomponenjasa(this);return false','style'=>'cursor:pointer;')); ?>
+                            <?php echo CHtml::link('<i class="icon-plus-sign icon-white">&nbsp;</i>','',array('class'=>'btn btn-primary','title'=>'Tambah data','rel'=>'tooltip','onclick'=>'tambahKomponenjasa(this);return false','id'=>'tambah','style'=>'cursor:pointer;')); ?>
+                            <?php echo CHtml::link('<i class="icon-minus-sign icon-white">&nbsp;</i>','#',array('class'=>'btn btn-danger','title'=>'Hapus data','rel'=>'tooltip','id'=>'hapus','onclick'=>'hapusKomponenjasa(this);return false','style'=>'cursor:pointer;')); ?>
                         </td>
                     </tr>
                    
@@ -131,7 +141,14 @@
                 <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
                         Yii::app()->createUrl($this->module->id.'/komponenjasaM/admin'), 
                         array('class'=>'btn btn-danger',
-                              'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
+                              'onclick'=>'myConfirm("Apakah Anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
+                              
+               <?php   echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Komponen Jasa', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
+        $this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
+            <?php
+                $content = $this->renderPartial('gizi.views.tips.tipsaddedit3e',array(),true);
+                $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
+            ?>
 	</div>
 </div>
 <?php $this->endWidget(); ?>
