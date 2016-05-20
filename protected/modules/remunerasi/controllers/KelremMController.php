@@ -14,7 +14,7 @@ class KelremMController extends MyAuthController
 	 * @param integer $id the ID of the model to be displayed
 	 */
 	public function actionView($id)
-	{
+	{   $this->layout='//layouts/iframe';
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
 		));
@@ -25,7 +25,7 @@ class KelremMController extends MyAuthController
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
 	public function actionCreate()
-	{
+	{   $this->layout='//layouts/iframe';
 		$model=new REKelremM;
 
 		// Uncomment the following line if AJAX validation is needed
@@ -33,11 +33,11 @@ class KelremMController extends MyAuthController
 
 		if(isset($_POST['REKelremM']))
 		{
-			$model->attributes=$_POST['REKelremM'];
-			if($model->save()) {
-	            Yii::app()->user->setFlash('success','<storng>Berhasil</strong> Data berhasil disimpan');
-	            $this->redirect(array('admin'));
-	        }
+                    $model->attributes=$_POST['REKelremM'];
+                    if($model->save()) {
+                        Yii::app()->user->setFlash('success','<storng>Berhasil</strong> Data berhasil disimpan');
+                        $this->redirect(array('admin', 'tab'=>'frame','modul_id'=>Yii::app()->session['modul_id']));
+                    }
 		}
 
 		$this->render('create',array(
@@ -45,11 +45,39 @@ class KelremMController extends MyAuthController
 		));
 	}
         
-                public function actionRemoveTemporary($id)
+        public function actionRemoveTemporary()
 	{
                     //if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
-                    REKelremM::model()->updateByPk($id, array('kelrem_aktif'=>false));
-                    $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+                //    REKelremM::model()->updateByPk($id, array('kelrem_aktif'=>false));
+                  //  $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+             $id = $_GET['id'];   
+            if(isset($_GET['id']))
+            {
+               
+               //if (isset($_GET['add'])):
+                   // $update = SADiagnosaM::model()->updateByPk($id,array('diagnosa_aktif'=>true));
+               // else:    
+                    $update = REKelremM::model()->updateByPk($id,array('kelrem_aktif'=>false));                       
+                //endif;
+               if($update)
+                {
+                    if (Yii::app()->request->isAjaxRequest)
+                    {
+                        echo CJSON::encode(array(
+                            'status'=>'proses_form', 
+                            ));
+                        exit;               
+                    }
+                 }
+            } else {
+                    if (Yii::app()->request->isAjaxRequest)
+                    {
+                        echo CJSON::encode(array(
+                            'status'=>'proses_form', 
+                            ));
+                        exit;               
+                    }
+            }
 	}
 
 	/**
@@ -58,7 +86,7 @@ class KelremMController extends MyAuthController
 	 * @param integer $id the ID of the model to be updated
 	 */
 	public function actionUpdate($id)
-	{
+	{   $this->layout='//layouts/iframe';
 		$model=$this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
@@ -68,7 +96,10 @@ class KelremMController extends MyAuthController
 		{
 			$model->attributes=$_POST['REKelremM'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->kelrem_id));
+                        {
+                            Yii::app()->user->setFlash('success','<storng>Berhasil</strong> Data berhasil disimpan');
+                            $this->redirect(array('admin','tab'=>'frame','modul_id'=>Yii::app()->session['modul_id']));
+                        }        
 		}
 
 		$this->render('update',array(
@@ -110,8 +141,14 @@ class KelremMController extends MyAuthController
 	/**
 	 * Manages all models.
 	 */
-	public function actionAdmin()
+	public function actionAdmin($tab=null)
 	{
+             if ($tab != 'frame'):
+                $this->redirect(array('index','modul_id'=>Yii::app()->session['modul_id']));
+            else:
+                $this->layout='//layouts/iframe';        
+            endif;
+            
 		$model=new REKelremM('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['REKelremM']))
@@ -176,7 +213,7 @@ class KelremMController extends MyAuthController
                     $mpdf->WriteHTML($stylesheet,1);  
                     $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
                     $mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-                    $mpdf->Output();
+                    $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
                 }                                                  
             }
 }

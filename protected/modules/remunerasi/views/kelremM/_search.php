@@ -7,12 +7,13 @@
 <table width="100%">
     <tr>
         <td>
-            <?php echo $form->textFieldRow($model,'kelrem_urutan'); ?>
+            <?php //echo $form->textFieldRow($model,'kelrem_urutan'); ?>
             <?php echo $form->textFieldRow($model,'kelrem_kode',array('size'=>50,'maxlength'=>50)); ?>
-        </td>
-        <td>
             <?php echo $form->textFieldRow($model,'kelrem_nama',array('size'=>60,'maxlength'=>100)); ?>
-            <?php echo $form->textFieldRow($model,'kelrem_rate'); ?>
+            <?php echo $form->textFieldRow($model,'kelrem_singkatan',array('size'=>60,'maxlength'=>20)); ?>
+        </td>
+        <td>            
+            <?php echo $form->textAreaRow($model,'kelrem_desc', array('cols'=> 6, 'rows'=> 6, 'maxlenght'=> 200)); ?>
         </td>
     </tr>
     <tr>

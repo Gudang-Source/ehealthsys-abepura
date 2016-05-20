@@ -1,6 +1,7 @@
 <div class="white-container">
     <legend class="rim2">Pengaturan <b>Instalasi</b></legend>
     <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form.js'); ?>
+    <?php $this->widget('bootstrap.widgets.BootAlert'); ?>
     <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
             'id'=>'sainstalasi-m-form',
             'enableAjaxValidation'=>false,
@@ -17,12 +18,12 @@
             <div class="controls">
                  <?php 
                         $instalasifalse = array();
-                        $modInstalasifalse = InstalasiM::model()->findAll('instalasi_aktif=TRUE');
+                        $modInstalasifalse = InstalasiM::model()->findAll('instalasi_aktif=TRUE ORDER BY instalasi_nama ASC');
                          foreach($modInstalasifalse as $tampilInstalasi){
                             $instalasifalse[] = $tampilInstalasi['instalasi_id'];
                         } 
                        $this->widget('application.extensions.emultiselect.EMultiSelect',array('sortable'=>true, 'searchable'=>true));
-                        echo CHtml::listBox('instalasi_nonaktif[]',$instalasifalse,CHtml::listData(InstalasiM::model()->findAll(),'instalasi_id', 'instalasi_nama'),array('multiple'=>'multiple','key'=>'instalasi_id', 'class'=>'multiselect','style'=>'width:500px;height:150px'));
+                        echo CHtml::listBox('instalasi_nonaktif[]',$instalasifalse,CHtml::listData(InstalasiM::model()->findAll(array('order'=>'instalasi_nama ASC')),'instalasi_id', 'instalasi_nama'),array('multiple'=>'multiple','key'=>'instalasi_id', 'class'=>'multiselect','style'=>'width:500px;height:150px'));
                   ?>
             </div>
         </div>
@@ -34,6 +35,10 @@
                         Yii::app()->createUrl($this->module->id.'/instalasiM/admin'), 
                         array('class'=>'btn btn-danger',
                               'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
+                <?php
+                    $content = $this->renderPartial('sistemAdministrator.views.tips.tipsaddedit',array(),true);
+                    $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
+                ?>
         </div>
 
     <?php $this->endWidget(); ?>

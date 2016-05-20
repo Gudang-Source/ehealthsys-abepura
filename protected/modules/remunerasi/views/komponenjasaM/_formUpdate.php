@@ -15,11 +15,23 @@
 <table>
     <tr>
         <td>
-            <?php echo $form->textFieldRow($model,'komponentarif_id',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-            <?php echo $form->textFieldRow($model,'carabayar_id',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-            <?php echo $form->textFieldRow($model,'kelompoktindakan_id',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-            <?php echo $form->textFieldRow($model,'ruangan_id',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-            <?php echo $form->textFieldRow($model,'jenistarif_id',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+            <?php echo $form->dropDownListRow($model,'komponentarif_id',CHtml::listData($model->getKomponentarifItems(),'komponentarif_id','komponentarif_nama'),array('onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')) ?>
+             <?php //golongan
+                echo $form->dropDownListRow($model,'jenistarif_id', CHtml::listData($model->getJenistarifItems(), 'jenistarif_id', 'jenistarif_nama'), 
+                      array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
+                              'ajax'=>array('type'=>'POST',
+                                          'url'=>$this->createUrl('/ActionDynamic/GetCaraBayar',array('encode'=>false,'model_nama'=>get_class($model))),
+                                          'update'=>"#".CHtml::activeId($model, 'carabayar_id'),
+                              ),
+                          //    'onchange'=>"setClearBidang();setClearKelompok();setClearSubKelompok();setClearSubSubKelompok();",
+                          ));?>
+     
+            <?php echo $form->dropDownListRow($model,'carabayar_id',CHtml::listData($model->getCarabayarItems(),'carabayar_id','carabayar_nama'),array('onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')) ?>
+
+            
+                                   
+            <?php echo $form->dropDownListRow($model,'kelompoktindakan_id',CHtml::listData($model->getKelompoktindakanItems(),'kelompoktindakan_id','kelompoktindakan_nama'),array('onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+            <?php echo $form->dropDownListRow($model,'ruangan_id',CHtml::listData($model->getRuanganItems(),'ruangan_id','ruangan_nama'),array('onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>            
             <?php echo $form->textFieldRow($model,'komponenjasa_kode',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>5)); ?>
             <?php echo $form->textFieldRow($model,'komponenjasa_nama',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
             <?php echo $form->textFieldRow($model,'komponenjasa_singkatan',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10)); ?>
@@ -48,7 +60,13 @@
                 <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
                         Yii::app()->createUrl($this->module->id.'/komponenjasaM/admin'), 
                         array('class'=>'btn btn-danger',
-                              'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
+                              'onclick'=>'myConfirm("Apakah Anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
+                <?php   echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Komponen Jasa', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
+                    $this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
+                     <?php
+                $content = $this->renderPartial('sistemAdministrator.views.tips.tipsaddedit',array(),true);
+                $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
+            ?>
 	</div>
 
 <?php $this->endWidget(); ?>

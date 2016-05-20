@@ -74,7 +74,7 @@ class KelremM extends CActiveRecord
 			'kelrem_id' => 'ID',
 			'kelrem_urutan' => 'Urutan',
 			'kelrem_kode' => 'Kode',
-			'kelrem_nama' => 'Nama Kelompok remunerasi',
+			'kelrem_nama' => 'Kelompok Remunerasi',
 			'kelrem_desc' => 'Deskripsi',
 			'kelrem_singkatan' => 'Singkatan',
 			'kelrem_rate' => 'Rating',
@@ -100,8 +100,8 @@ class KelremM extends CActiveRecord
 		$criteria->compare('LOWER(kelrem_desc)',strtolower($this->kelrem_desc),true);
 		$criteria->compare('LOWER(kelrem_singkatan)',strtolower($this->kelrem_singkatan),true);
 		$criteria->compare('kelrem_rate',$this->kelrem_rate);
-		$criteria->compare('kelrem_aktif',$this->kelrem_aktif);
-                $criteria->addCondition('kelrem_aktif is true');
+		$criteria->compare('kelrem_aktif',isset($this->kelrem_aktif)?$this->kelrem_aktif:true);
+                //$criteria->addCondition('kelrem_aktif is true');
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

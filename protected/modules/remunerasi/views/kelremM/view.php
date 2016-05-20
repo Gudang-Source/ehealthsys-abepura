@@ -1,5 +1,7 @@
-<div class="white-container">
-    <legend class="rim2">Kelompok <b>Remunerasi</b></legend>
+<fieldset class = "box">
+    <legend class = "rim">Lihat Kelompok Remunerasi</legend>
+<!--<div class="white-container">
+    <legend class="rim2">Kelompok <b>Remunerasi</b></legend>-->
     <?php
     $this->breadcrumbs=array(
             'Kelrem Ms'=>array('index'),
@@ -35,5 +37,8 @@
                                 ),
 	),
     )); ?>
+    <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Kelompok Remunerasi', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
+                                                                    $this->createUrl('admin',array('tab'=>'frame','modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
     <?php $this->widget('UserTips',array('type'=>'view'));?>
-</div>
+<!--</div>-->
+</fieldset>

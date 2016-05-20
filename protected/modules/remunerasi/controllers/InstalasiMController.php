@@ -187,6 +187,7 @@ class InstalasiMController extends MyAuthController
                                 InstalasiM::model()->updateByPk($id, array('instalasi_aktif'=>true));
                             }
                         }
+                        Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
                     }
                     $this->render('updateaktifasi',array('model'=>$model));
                 }
