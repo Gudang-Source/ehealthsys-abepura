@@ -20,7 +20,7 @@ class PSTarifTindakanPerdaRuanganV  extends TariftindakanperdaruanganV
 		
 		$criteria=new CDbCriteria;
 		if(!empty($this->kelaspelayanan_id)){ $criteria->addCondition('kelaspelayanan_id ='. $this->kelaspelayanan_id); }
-		$criteria->compare('LOWER(daftartindakan_nama)',  strtolower($this->daftartindakan_nama),true);
+		
 		if(!empty($this->kategoritindakan_id)){ $criteria->addCondition('kategoritindakan_id ='. $this->kategoritindakan_id); }
 		if(!empty($this->jenistarif_id)){
 			$criteria->addCondition('jenistarif_id = '.$this->jenistarif_id);
@@ -32,7 +32,7 @@ class PSTarifTindakanPerdaRuanganV  extends TariftindakanperdaruanganV
 			$criteria->addCondition('komponenunit_id = '.$this->komponenunit_id);
 		}
                 
-                $criteria->compare('LOWER(daftartindakan_nama)',  strtolower($this->daftartindakan_nama));
+                $criteria->compare('LOWER(daftartindakan_nama)',  strtolower($this->daftartindakan_nama),true);
 		
 		$criteria->addCondition('ruangan_id ='.Yii::app()->user->getState('ruangan_id'));
                 
@@ -42,6 +42,15 @@ class PSTarifTindakanPerdaRuanganV  extends TariftindakanperdaruanganV
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public function searchTarifPrint() {
+            $provider = $this->searchInformasi();
+            $provider->criteria->limit = -1;
+            $provider->criteria->order = "jenistarif_nama ASC, kategoritindakan_nama ASC, kelaspelayanan_nama ASC, daftartindakan_nama ASC";
+            $provider->pagination = false;
+            
+            return $provider;
+        }
         
         
 

@@ -13,7 +13,7 @@ class RIPaketpelayananV extends PaketpelayananV
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-
+                
 		if(!empty($this->daftartindakan_id)){
 			$criteria->addCondition("daftartindakan_id = ".$this->daftartindakan_id); 	
 		}
@@ -73,6 +73,7 @@ class RIPaketpelayananV extends PaketpelayananV
 			}
 			if(Yii::app()->user->getState('tindakanruangan')){
 				$criteria->addCondition('ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
+                                $criteria->addCondition('daftartindakan_akomodasi = false');
 				$models = new RITarifTindakanPerdaRuanganV;
 			} else {
 				if(Yii::app()->user->getState('tindakanruangan')){

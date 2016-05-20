@@ -13,7 +13,7 @@
 	<?php echo $form->errorSummary($model); ?>
 
             <?php Echo CHtml::hiddenField('tempKode', $model->lokasiaset_kode); ?>
-            <?php echo $form->textFieldRow($model,'lokasiaset_kode',array('class'=>'span1 numbersOnly', 'onkeyup'=>'setKode(this);','onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50,)); ?>
+            <?php echo $form->textFieldRow($model,'lokasiaset_kode',array('class'=>'span3 numbersOnly', 'onkeyup'=>'setKode(this);','onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50,)); ?>
             <div class="control-group ">
                     <label class="control-label" for="instalasi">Instalasi Lokasi Aset</label>
                     <div class="controls">

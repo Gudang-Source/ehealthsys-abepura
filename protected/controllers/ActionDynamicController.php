@@ -514,6 +514,9 @@ class ActionDynamicController extends Controller
             if (empty($ruangan_id) && isset($_POST[$namaModel]['ruangan_id']))
                 $ruangan_id = $_POST[$namaModel]['ruangan_id'];
 
+            if (empty($ruangan_id) && isset($_POST[$namaModel]['ruanganakhir_id']))
+                $ruangan_id = $_POST[$namaModel]['ruanganakhir_id'];
+
             $kamar = array();
             if(!empty($ruangan_id)) {
                 $kamar = KamarruanganM::model()->findAllByAttributes(array('ruangan_id'=>$ruangan_id, 'kamarruangan_aktif'=>true));
@@ -844,7 +847,7 @@ class ActionDynamicController extends Controller
             }
             $criteria = new CDbCriteria;
             $criteria->compare('kabupaten.kabupaten_nama',$kabupaten_nama);
-            $criteria->order = 'kabupaten_nama';
+            $criteria->order = 'kecamatan_nama ASC';
             $kecamatan = KecamatanM::model()->with('kabupaten')->findAll($criteria);
             $kecamatan = CHtml::listData($kecamatan,'kecamatan_nama','kecamatan_nama');
             
@@ -879,7 +882,7 @@ class ActionDynamicController extends Controller
             }
             $criteria = new CDbCriteria;
             $criteria->compare('kecamatan.kecamatan_nama',$kecamatan_nama);
-            $criteria->order = 'kecamatan_nama';
+            $criteria->order = 'kelurahan_nama';
             $kelurahan = KelurahanM::model()->with('kecamatan')->findAll($criteria);
             $kelurahan = CHtml::listData($kelurahan,'kelurahan_nama','kelurahan_nama');
             

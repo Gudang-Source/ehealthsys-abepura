@@ -14,6 +14,19 @@ class TindakanController extends MyAuthController
 	{
             $ruangan_id = isset($_GET['ruangan_id']) ? $_GET['ruangan_id'] : Yii::app()->user->getState('ruangan_id'); //RND-6244
             $modPendaftaran = RJPendaftaranT::model()->with('jeniskasuspenyakit')->findByPk($pendaftaran_id);
+            
+            $konsul = ($modPendaftaran->ruangan_id == Yii::app()->user->getState('ruangan_id'))?null:KonsulpoliT::model()->findByAttributes(array(
+                'pendaftaran_id'=>$modPendaftaran->pendaftaran_id,
+                'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
+            ), array(
+                'order'=>'tglkonsulpoli desc',
+            ));
+            
+            if (!empty($konsul)) {
+                $modPendaftaran->pegawai_id = $konsul->pegawai_id;
+                $modPendaftaran->ruangan_id = $konsul->ruangan_id;
+            }
+            
             $modPasien = RJPasienM::model()->findByPk($modPendaftaran->pasien_id);
             $modViewTindakans = RJTindakanPelayananT::model()
                                 ->with('daftartindakan','dokter1','dokter2','dokterPendamping','dokterAnastesi',

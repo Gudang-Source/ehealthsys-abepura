@@ -188,7 +188,7 @@ function disableOnSubmit(obj){
  * @returns {undefined}
  */
 function refreshForm(obj){
-	myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = $(obj).attr("href");});
+	myConfirm("Apakah Anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = $(obj).attr("href");});
 	return false;
 }
 

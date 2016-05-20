@@ -62,6 +62,20 @@
                 'value'=>'$data->penjamin->penjamin_nama',
             ),
             array(
+                'name'=>'subsidipemerintahtind',
+                'header'=>'Subsidi Pemerintah Tindakan (%)',
+                'htmlOptions'=>array(
+                    'style'=>'text-align: right',
+                ),
+            ),
+            array(
+                'name'=>'subsidipemerintahoa',
+                'header'=>'Subsidi Pemerintah Obat Alkes (%)',
+                'htmlOptions'=>array(
+                    'style'=>'text-align: right',
+                ),
+            ),
+            array(
                 'header' => 'Status',
                 'value' => '($data->tanggunganpenjamin_aktif)?"Aktif":"Tidak Aktif"'
             ),

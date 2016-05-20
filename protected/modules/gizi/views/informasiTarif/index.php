@@ -1,7 +1,7 @@
 <div class="white-container">
-    <legend class="rim2">Infomasi <b>Tarif Gizi</b></legend>
+    <legend class="rim2">Infomasi Tarif <b>Gizi</b></legend>
     <div class="block-tabel">
-        <h6>Tabel <b>Tarif Gizi</b></h6> 		
+        <h6>Tabel Informasi Tarif <b>Gizi</b></h6> 		
         <?php 
         $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'id'=>'daftarTindakan-grid',
@@ -63,3 +63,10 @@
     $this->endWidget('zii.widgets.jui.CJuiDialog');
 //===============================Akhir Dialog Details Tarif================================
 ?>
+<?php $urlPrint = $this->createUrl('print'); ?>
+<script>
+    function printTarif() {
+        //console.log("<?php echo $urlPrint; ?>&" + $("#formCari").serialize());
+        window.open("<?php echo $urlPrint; ?>&" + $("#formCariInput :input").serialize() +"caraPrint=PRINT","",'location=_new, width=900px');
+    }
+</script>

@@ -6,7 +6,7 @@
 		<?php echo $form->textField($model,'['.$i.']nourutkel',array('class'=>'span1 pegawai integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
 	</td>
 	<td>
-		<?php echo $form->dropDownList($model, '['.$i.']hubkeluarga', LookupM::getItems('hubungankeluarga'), array('class'=>'span2', 'onchange'=>'setDefaultJenisKelamin(this); setDefaultPernikahan(this);', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+		<?php echo $form->dropDownList($model, '['.$i.']hubkeluarga', LookupM::getItems('hubungankeluarga'), array('class'=>'span2 hubkeluarga', 'onchange'=>'setDefaultJenisKelamin(this); setDefaultPernikahan(this);', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
 		<?php //echo $form->textField($model,'['.$i.']hubkeluarga',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
 	</td>
 	<td>

@@ -90,6 +90,7 @@ Class Params
 	const MODUL_ID_AMBULANS = 18;
 	const MODUL_ID_AKUNTANSI = 26;
 	const MODUL_ID_KEUANGAN = 44;
+        const MODUL_ID_PENGGAJIAN = 61;
 
         const INSTALASI_ID_RM = 1;
 	const INSTALASI_ID_RJ = 2;
@@ -228,7 +229,8 @@ Class Params
 	const STATUSPERIKSA_BATAL_PERIKSA = 'BATAL PERIKSA'; //disesuaikan dengan lookup_m.lookup_type = statusperiksa     
 	const STATUSPERIKSA_SUDAH_DIPERIKSA = 'SUDAH DI PERIKSA'; //disesuaikan dengan lookup_m.lookup_type = statusperiksa
 	const STATUSPERIKSA_SUDAH_PULANG = 'SUDAH PULANG'; //disesuaikan dengan lookup_m.lookup_type = statusperiksa
-
+        const STATUSPERIKSA_NUNGGU_DAFTAR_SO = 'MENUNGGU DAFTAR DI LOKET SO';
+        
 	const STATUSPERIKSAHASIL_SUDAH = 'SUDAH'; //disesuaikan dengan lookup_m.lookup_type = statusperiksahasil
 	const STATUSPERIKSAHASIL_BELUM = 'BELUM'; //disesuaikan dengan lookup_m.lookup_type = statusperiksahasil
 	const STATUSPERIKSAHASIL_SEDANG = 'SEDANG'; //disesuaikan dengan lookup_m.lookup_type = statusperiksahasil
@@ -399,7 +401,8 @@ Class Params
                 'ANTRIAN'=>'ANTRIAN',
                 'SEDANG DIRAWAT INAP'=>'SEDANG DIRAWAT INAP',
                 'SEDANG PERIKSA'=>'SEDANG PERIKSA',
-                'SUDAH DI PERIKSA'=>'SUDAH DI PERIKSA',                
+                'SUDAH DI PERIKSA'=>'SUDAH DI PERIKSA',    
+                'MENUNGGU DAFTAR DI LOKET SO'=>'MENUNGGU DAFTAR DI LOKET SO',
                 'SUDAH PULANG'=>'SUDAH PULANG',
             );
         }
@@ -825,6 +828,10 @@ Class Params
 	public static function urlLinen()
 	{
 		return Yii::app()->getBaseUrl('webroot').'/data/images/linen/';
+	}
+        public static function urlLinenThumbs()
+	{
+		return Yii::app()->getBaseUrl('webroot').'/data/images/linen/thumbs/';
 	}
 	public static function pathLinenDirectory()
 	{

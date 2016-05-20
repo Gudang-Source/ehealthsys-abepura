@@ -375,6 +375,7 @@ class TindakanTRIController extends MyAuthController
             $format = new MyFormatter;
             $modPakaiBahan = new RIObatalkespasienT;
             $modPakaiBahan->attributes = $postPemakaianBahan;
+            $modPakaiBahan->qty_oa = $postPemakaianBahan['qty'];
             $modPakaiBahan->tglpelayanan = date("Y-m-d H:i:s");
             $modPakaiBahan->tipepaket_id = Params::TIPEPAKET_ID_NONPAKET;
             $modPakaiBahan->ruangan_id = Yii::app()->user->getState('ruangan_id');
@@ -404,6 +405,7 @@ class TindakanTRIController extends MyAuthController
             
             // foreach ($postPemakaianBahan AS $i => $postDetail) {
             //    if ($stokOa->obatalkes_id==$postDetail['obatalkes_id']) {
+                    $modPakaiBahan->tindakanpelayanan_id = $tindakan->tindakanpelayanan_id;
                     $modPakaiBahan->daftartindakan_id = $postPemakaianBahan['daftartindakan_id'];
                     $modPakaiBahan->sumberdana_id = $postPemakaianBahan['sumberdana_id'];
                     $modPakaiBahan->satuankecil_id = $postPemakaianBahan['satuankecil_id'];

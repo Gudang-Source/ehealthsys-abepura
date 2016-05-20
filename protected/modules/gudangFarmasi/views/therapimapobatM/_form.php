@@ -69,7 +69,7 @@
                 $this->widget('ext.bootstrap.widgets.BootGridView',array(
                         'id'=>'gfobatalkes-m-grid',
                         'dataProvider'=>$modObatAlkes->searchPilih(),
-//				'filter'=>$modObatAlkes,
+			'filter'=>$modObatAlkes,
                         'template'=>"{summary}\n{items}\n{pager}",
                         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
                         'columns'=>array(
@@ -86,12 +86,14 @@
                                                         ($this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1)
                                                         : ($row+1)',
                                         'type'=>'raw',
+                                        'filter'=>false,
                                         'htmlOptions'=>array('style'=>'text-align:right;'),
                                 ),
 
                                 array(
                                         'name'=>'jenisobatalkes_id',
                                         'type'=>'raw',
+                                        'filter'=>false,
                                         'value'=>'isset($data->jenisobatalkes->jenisobatalkes_nama) ? $data->jenisobatalkes->jenisobatalkes_nama : "-"',
                                         'filter'=>(isset($modObatAlkes->jenisobatalkes_id) ? CHtml::listData(JenisobatalkesM::model()->findAll(array('order'=>'jenisobatalkes_nama'),'jenisobatalkes_aktif = true'),'jenisobatalkes_id','jenisobatalkes_nama') : false ),
                                 ),

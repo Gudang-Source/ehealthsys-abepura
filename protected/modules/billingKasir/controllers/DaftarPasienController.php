@@ -41,9 +41,9 @@ class DaftarPasienController extends MyAuthController
 	{
                 $format = new MyFormatter();
                 $modRI = new BKInformasikasirinappulangV;
-                $modRI->tgl_awal = date('Y-m-d');
-                $modRI->tgl_akhir = date('Y-m-d');
-                $modRI->tgl_awal_admisi = date('Y-m-d');
+                //$modRI->tgl_awal = date('Y-m-d');
+                //$modRI->tgl_akhir = date('Y-m-d');
+                $modRI->tgl_awal_admisi = date('Y-m-d', time() - (30 * 3600 * 24));
                 $modRI->tgl_akhir_admisi = date('Y-m-d');
                 
                 if(isset($_GET['BKInformasikasirinappulangV'])){
@@ -52,11 +52,12 @@ class DaftarPasienController extends MyAuthController
                     $modRI->tgl_awal_admisi = $format->formatDateTimeForDb($_GET['BKInformasikasirinappulangV']['tgl_awal_admisi']);
                     $modRI->tgl_akhir_admisi = $format->formatDateTimeForDb($_GET['BKInformasikasirinappulangV']['tgl_akhir_admisi']);
                     $modRI->statusBayar=$_GET['BKInformasikasirinappulangV']['statusBayar'];
-                    $modRI->ceklis = $_GET['BKInformasikasirinappulangV']['ceklis'];
-                    if($modRI->ceklis==1){
-                        $modRI->tgl_akhir = $format->formatDateTimeForDb($_GET['BKInformasikasirinappulangV']['tgl_akhir']);
-                        $modRI->tgl_awal = $format->formatDateTimeForDb($_GET['BKInformasikasirinappulangV']['tgl_awal']);
-                    }
+                    $modRI->kamarruangan_id=$_GET['BKInformasikasirinappulangV']['kamarruangan_id'];
+                    //$modRI->ceklis = $_GET['BKInformasikasirinappulangV']['ceklis'];
+                    //if($modRI->ceklis==1){
+                    //    $modRI->tgl_akhir = $format->formatDateTimeForDb($_GET['BKInformasikasirinappulangV']['tgl_akhir']);
+                    //    $modRI->tgl_awal = $format->formatDateTimeForDb($_GET['BKInformasikasirinappulangV']['tgl_awal']);
+                    //}
                 }
                 if (Yii::app()->request->isAjaxRequest) {
                     echo $this->renderPartial('_tablePasienRI', array('modRI'=>$modRI,'format'=>$format),true);

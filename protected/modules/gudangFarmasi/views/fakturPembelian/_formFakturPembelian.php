@@ -42,7 +42,7 @@
                                     )); ?>
                                 </div>
                      </div>
-            <?php echo $form->textFieldRow($modFakturPembelian,'biayamaterai', array('class'=>'span3 currency', 'onkeyup' => "return $(this).focusNextInputField(event)",)) ?>
+            <?php echo $form->textFieldRow($modFakturPembelian,'biayamaterai', array('class'=>'span3 integer2', 'onkeyup' => "return $(this).focusNextInputField(event)",)) ?>
             <?php echo $form->textAreaRow($modFakturPembelian,'keteranganfaktur', array('placeholder'=>'Ket. Faktur','class'=>'span3', 'onkeyup' => "return $(this).focusNextInputField(event)",)) ?>
             <?php echo $form->dropDownListRow($modFakturPembelian,'syaratbayar_id',
                                            CHtml::listData(GFSyaratBayarM::model()->SyaratbayarItems, 'syaratbayar_id', 'syaratbayar_nama'),
@@ -53,14 +53,14 @@
 <div class="span6">
     <fieldset class="box2">
         <legend class="rim">Informasi Harga</legend>
-        <?php echo $form->textFieldRow($modFakturPembelian,'totharganetto', array('class'=>'span2 isRequired numbers-only','readonly'=>TRUE, 'onkeyup' => "return $(this).focusNextInputField(event)")) ?>
+        <?php echo $form->textFieldRow($modFakturPembelian,'totharganetto', array('class'=>'span2 isRequired integer2','readonly'=>TRUE, 'onkeyup' => "return $(this).focusNextInputField(event)")) ?>
         <div class="control-group ">
             <label class='control-label'>
                 <?php echo CHtml::checkbox('termasukPPN',false,array('onclick'=>'persenPpn(this)','style'=>'width : 10px', 'onkeyup' => "return $(this).focusNextInputField(event)"))?>                
                 Ppn (Total)
                 </label>
             <div class="controls">
-                <?php echo $form->textField($modFakturPembelian,'totalpajakppn', array('class'=>'span2 isRequired currency','readonly'=>TRUE, 'onkeyup' => "return $(this).focusNextInputField(event)")) ?>
+                <?php echo $form->textField($modFakturPembelian,'totalpajakppn', array('class'=>'span2 isRequired integer2','readonly'=>TRUE, 'onkeyup' => "return $(this).focusNextInputField(event)")) ?>
             </div>
          </div>
         <div class="control-group ">
@@ -69,7 +69,7 @@
                 Pph (Total)
                 </label>
             <div class="controls">
-                <?php echo $form->textField($modFakturPembelian,'totalpajakpph', array('class'=>'span2 isRequired currency','readonly'=>TRUE, 'onkeyup' => "return $(this).focusNextInputField(event)")) ?>
+                <?php echo $form->textField($modFakturPembelian,'totalpajakpph', array('class'=>'span2 isRequired integer2','readonly'=>TRUE, 'onkeyup' => "return $(this).focusNextInputField(event)")) ?>
             </div>
          </div>
         <div class="control-group ">
@@ -78,19 +78,19 @@
                 Persen Diskon/ Faktur
                 </label>
             <div class="controls">
-                <?php echo $form->textField($modFakturPembelian,'persendiscount', array('class'=>'span2 isRequired integer','readonly'=>TRUE,'onkeyup' => "return $(this).focusNextInputField(event)")) ?>
+                <?php echo $form->textField($modFakturPembelian,'persendiscount', array('class'=>'span2 isRequired integer2','readonly'=>TRUE,'onkeyup' => "hitungTotal(); return $(this).focusNextInputField(event)")) ?>
             </div>
          </div>
         <div class="control-group ">
             <label class='control-label'>
-                <?php echo CHtml::checkbox('diskonSemuaRp',false,array('style'=>'width : 10px', 'onkeyup' => "return $(this).focusNextInputField(event)"))?>
+                <?php // echo CHtml::checkbox('diskonSemuaRp',false,array('style'=>'width : 10px', 'onkeyup' => "return $(this).focusNextInputField(event)"))?>
                 Diskon Rp / Faktur
                 </label>
             <div class="controls">
-                <?php echo $form->textField($modFakturPembelian,'jmldiscount', array('class'=>'span2 isRequired numbers-only','readonly'=>TRUE, 'onkeyup' => "return $(this).focusNextInputField(event)")) ?>
+                <?php echo $form->textField($modFakturPembelian,'jmldiscount', array('class'=>'span2 isRequired integer2','readonly'=>TRUE, 'onkeyup' => "return $(this).focusNextInputField(event)")) ?>
             </div>
         </div>
-        <?php echo $form->textFieldRow($modFakturPembelian,'totalhargabruto', array('class'=>'span2 isRequired numbers-only','readonly'=>TRUE, 'onkeyup' => "return $(this).focusNextInputField(event)")) ?>
+        <?php echo $form->textFieldRow($modFakturPembelian,'totalhargabruto', array('class'=>'span2 isRequired integer2','readonly'=>TRUE, 'onkeyup' => "return $(this).focusNextInputField(event)")) ?>
     </fieldset>
 </div>
 </div>

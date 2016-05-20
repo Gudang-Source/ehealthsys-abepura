@@ -12,6 +12,9 @@
         <td>
             <?php echo $form->textFieldRow($model,'jenispenerimaan_nama',array('class'=>'span3','maxlength'=>25)); ?>
         </td>
+        <td>
+            <?php echo $form->textFieldRow($model,'jenispenerimaan_namalain',array('class'=>'span3','maxlength'=>25)); ?>
+        </td>
     </tr>
     <tr>
         <td colspan="2">

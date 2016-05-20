@@ -289,8 +289,9 @@
 		?>
 		<?php // echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), '#', array('class'=>'btn btn-info','onclick'=>"printKasir($('#FAPendaftaranT_pendaftaran_id').val());return false",'disabled'=>false)); ?>
 		<?php
-		$content = $this->renderPartial('penggajian.views/tips/transaksi', array(), true);
-//    $this->widget('TipsMasterData',array('type'=>'transaksi','content'=>$content)); 
+		$content = $this->renderPartial('penggajian.views/tips/transaksi_penggajianpegawai', array(), true);
+                $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
+              
 		?>
     </div>
 <?php $this->endWidget(); ?>
@@ -466,6 +467,15 @@ Yii::app()->clientScript->registerScript('print', $js, CClientScript::POS_HEAD);
 			$('#div_tblInputUraian').slideDown();
 		} else {
 			$('#div_tblInputUraian').slideUp();
+		}
+	}
+        
+        function bukaUraianTips(obj)
+	{
+		if ($(obj).is(':checked')) {
+			$('#div_tips').slideDown();
+		} else {
+			$('#div_tips').slideUp();
 		}
 	}
 	/*

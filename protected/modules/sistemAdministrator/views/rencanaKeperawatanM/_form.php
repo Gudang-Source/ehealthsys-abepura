@@ -4,7 +4,7 @@
 	'id'=>'sarencana-keperawatan-m-form',
 	'enableAjaxValidation'=>false,
         'type'=>'horizontal',
-        'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)'),
+        'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)','onSubmit'=>'return cekIsian(); return false;'),
         'focus'=>'#DiagnosakeperawatanM_diagnosakeperawatan_kode',
 )); ?>
 
@@ -171,9 +171,9 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
         
         </table>
             
-        <?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 
-                                             Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),
-                        array('class'=>'btn btn-primary', 'type'=>'submit', 'onKeypress'=>'return formSubmit(this,event)')); ?>
+         <?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 
+                                                 Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),
+                            array('class'=>'btn btn-primary', 'type'=>'submit', 'onKeypress'=>'return formSubmit(this,event)')); ?>
         <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
                 Yii::app()->createUrl($this->module->id.'/rencanaKeperawatanM/admin'), 
                 array('class'=>'btn btn-danger',
@@ -195,10 +195,10 @@ function addRow(obj)
     $('#tbl-RencanaKeperawatan tr:last').after('<tr>'+tr+'</tr>');
     $('#tbl-RencanaKeperawatan tr:last td:last').append('$buttonMinus');
         
-        renameInput('SARencanaKeperawatanM','rencana_kode');
-        renameInput('SARencanaKeperawatanM','rencana_intervensi');
-        renameInput('SARencanaKeperawatanM','rencana_rasionalisasi');
-        renameInput('SARencanaKeperawatanM','iskolaborasiintervensi');
+        renameInput('SARencanakeperawatanM','rencana_kode');
+        renameInput('SARencanakeperawatanM','rencana_intervensi');
+        renameInput('SARencanakeperawatanM','rencana_rasionalisasi');
+        renameInput('SARencanakeperawatanM','iskolaborasiintervensi');
 $('#tbl-RencanaKeperawatan tr:last').find('input').val('');
 
 }
@@ -221,12 +221,23 @@ function delRow(obj)
     else {
         $(obj).parent().parent().remove();
         
-        renameInput('SARencanaKeperawatanM','rencana_kode');
-        renameInput('SARencanaKeperawatanM','rencana_intervensi');
-        renameInput('SARencanaKeperawatanM','rencana_rasionalisasi');
-        renameInput('SARencanaKeperawatanM','iskolaborasiintervensi');
+        renameInput('SARencanakeperawatanM','rencana_kode');
+        renameInput('SARencanakeperawatanM','rencana_intervensi');
+        renameInput('SARencanakeperawatanM','rencana_rasionalisasi');
+        renameInput('SARencanakeperawatanM','iskolaborasiintervensi');
     }
 }
 JSCRIPT;
 Yii::app()->clientScript->registerScript('multiple input',$js, CClientScript::POS_HEAD);
 ?>
+<script>
+    function cekIsian(){
+        var diagnosa_id = $('#DiagnosakeperawatanM_diagnosakeperawatan_kode').val();
+        if(diagnosa_id == ''){
+            myAlert('Pilih terlebih dahulu Diagnosa');
+            return false;
+        }else{
+            return true;
+        }
+    }
+</script>

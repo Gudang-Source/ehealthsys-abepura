@@ -15,17 +15,17 @@ $this->breadcrumbs=array(
 					array(
 						'name'=>'pangkat_id',
 						'type'=>'raw',
-						'value'=>$model->pangkat->pangkat_nama
+						'value'=>($model->pangkat_id)?$model->pangkat->pangkat_nama:'-'
 					),
 					array(
 						'name'=>'jabatan_id',
 						'type'=>'raw',
-						'value'=>$model->jabatan->jabatan_nama
+						'value'=>($model->jabatan_id)?$model->jabatan->jabatan_nama:'-'
 					),
 					array(
 						'name'=>'komponengaji_id',
 						'type'=>'raw',
-						'value'=>$model->komponengaji->komponengaji_nama
+						'value'=>($model->komponengaji_id)?$model->komponengaji->komponengaji_nama:'-'
 					),
 				),
 		)); ?>
@@ -37,7 +37,7 @@ $this->breadcrumbs=array(
 					array(
 						'name'=>'nominaltunjangan',
 						'type'=>'raw',
-						'value'=>  MyFormatter::formatNumberForUser($model->nominaltunjangan),
+						'value'=>  "Rp".number_format($model->nominaltunjangan,0,'','.'),
 					),
 					array(
 						'name'=>'tunjangan_aktif',

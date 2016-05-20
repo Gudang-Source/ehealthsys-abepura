@@ -70,8 +70,8 @@ class Rekening2M extends CActiveRecord
 		return array(
 			'rekening2_id' => 'Rekening ID',
 			'rekening1_id' => 'Rekening 1 ID',
-			'kdrekening2' => 'Kode Rekening',
-			'nmrekening2' => 'Nama Rekening',
+			'kdrekening2' => 'Kode Akun',
+			'nmrekening2' => 'Nama Akun',
 			'nmrekeninglain2' => 'Nama Lain',
 			'rekening2_aktif' => 'Status',
 		);

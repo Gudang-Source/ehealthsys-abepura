@@ -54,19 +54,19 @@ if (isset($modTanggung)) {
         <tr>
             <th rowspan='2'>No.Urut</th>
             <th rowspan='2'>Nama Penjamin</th>
-            <th colspan='3'><center>Tindakan (%)</center></th>
-            <th colspan='3'><center>Obat dan Alkes (%)</center></th>
+            <th colspan='4'><center>Tindakan (%)</center></th>
+            <th colspan='4'><center>Obat dan Alkes (%)</center></th>
             <th rowspan='2'>Cyto Tanggungan Penjamin (%)</th>
             <th rowspan='2'>Maks Tanggungan Penjamin (Rp.)</th>
             <th rowspan='2'>Batal</th>
         </tr>
         <tr>
             <th>Subsidi Asuransi</th>
-            <th class='cols_hide'>Subsidi Pemerintah</th>
+            <th>Subsidi Pemerintah</th>
             <th>Subsidi Rumah Sakit</th>
             <th>Persen Iur Biaya</th>
             <th>Subsidi Asuransi</th>
-            <th class='cols_hide'>Subsidi Pemerintah</th>
+            <th>Subsidi Pemerintah</th>
             <th>Subsidi Rumah Sakit</th>
             <th>Persen Iur Biaya</th>
         </tr>
@@ -88,11 +88,11 @@ if (isset($modTanggung)) {
                                "</td>
                                 <td>".$tampilDetail->penjamin->penjamin_nama."</td>
                                 <td>".CHtml::activeTextField($tampilDetail,'['.$i.']subsidiasuransitind',array('group'=>'group1','class'=>'span1 asuransitind numbersOnly', 'onblur'=>'change(this);', 'onkeypress' => "return $(this).focusNextInputField(event)"))."</td>
-                                <td class='cols_hide'>".CHtml::activeTextField($tampilDetail,'['.$i.']subsidipemerintahtind',array('group'=>'group1','class'=>'span1 numbersOnly pemerintahtind', 'onblur'=>'change(this);', 'onkeypress' => "return $(this).focusNextInputField(event)"))."</td>
+                                <td>".CHtml::activeTextField($tampilDetail,'['.$i.']subsidipemerintahtind',array('group'=>'group1','class'=>'span1 numbersOnly pemerintahtind', 'onblur'=>'change(this);', 'onkeypress' => "return $(this).focusNextInputField(event)"))."</td>
                                 <td>".CHtml::activeTextField($tampilDetail,'['.$i.']subsidirumahsakittind',array('group'=>'group1','class'=>'span1 numbersOnly rumahsakittind', 'onblur'=>'change(this);', 'onkeypress' => "return $(this).focusNextInputField(event)"))."</td>
                                 <td>".CHtml::activeTextField($tampilDetail,'['.$i.']iurbiayatind',array('group'=>'group1','class'=>'span1 numbersOnly iurbiayatind', 'onblur'=>'change(this);', 'onkeypress' => "return $(this).focusNextInputField(event)"))."</td>
                                 <td>".CHtml::activeTextField($tampilDetail,'['.$i.']subsidiasuransioa',array('group'=>'group2','class'=>'span1 numbersOnly asuransioa', 'onblur'=>'change(this);', 'onkeypress' => "return $(this).focusNextInputField(event)"))."</td>
-                                <td class='cols_hide'>".CHtml::activeTextField($tampilDetail,'['.$i.']subsidipemerintahoa',array('group'=>'group2','class'=>'span1 numbersOnly pemerintahoa', 'onblur'=>'change(this);', 'onkeypress' => "return $(this).focusNextInputField(event)"))."</td>
+                                <td>".CHtml::activeTextField($tampilDetail,'['.$i.']subsidipemerintahoa',array('group'=>'group2','class'=>'span1 numbersOnly pemerintahoa', 'onblur'=>'change(this);', 'onkeypress' => "return $(this).focusNextInputField(event)"))."</td>
                                 <td>".CHtml::activeTextField($tampilDetail,'['.$i.']subsidirumahsakitoa',array('group'=>'group2','class'=>'span1 numbersOnly rumahsakitoa', 'onblur'=>'change(this);', 'onkeypress' => "return $(this).focusNextInputField(event)"))."</td>
                                 <td>".CHtml::activeTextField($tampilDetail,'['.$i.']iurbiayaoa',array('group'=>'group2','class'=>'span1 numbersOnly iurbiayaoa', 'onblur'=>'change(this);', 'onkeypress' => "return $(this).focusNextInputField(event)"))."</td>
                                 <td>".CHtml::activeTextField($tampilDetail,'['.$i.']persentanggcytopel',array('group'=>'group3','class'=>'span1 numbersOnly persentanggung', 'onblur'=>'change(this);', 'onkeypress' => "return $(this).focusNextInputField(event)"))."</td>

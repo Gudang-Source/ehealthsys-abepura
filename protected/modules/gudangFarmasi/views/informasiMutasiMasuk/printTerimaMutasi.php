@@ -98,18 +98,18 @@ if (isset($caraprint)){
                 <!--<td><?php //echo $detail->satuankecil->satuankecil_nama; ?></td>-->
                 <td><?php echo $detail->jmlmutasi.' '.$detail->satuankecil->satuankecil_nama; ?></td>
                 <td><?php echo $detail->jmlterima.' '.$detail->satuankecil->satuankecil_nama; ?></td>
-                <td class='uang'><?php echo $format->formatUang($detail->harganettoterima); ?></td>
+                <td class='uang'><?php echo "Rp".number_format($detail->harganettoterima,0,'','.'); ?></td>
                 <!--<td><?php // echo $format->formatUang($detail->hargajualterima); ?></td>-->
                 <td class="uang"><?php 
                     $subtotal = ($detail->harganettoterima * $detail->jmlterima);
                     $total += $subtotal;
-                    echo $format->formatUang($subtotal); ?>
+                    echo "Rp".number_format($subtotal,0,'','.'); ?>
                 </td>
             </tr>
         <?php } ?>
         <tr class='border'>
             <td colspan="7" style="text-align:right"><strong>Total</strong></td>
-            <td class="uang"><?php echo $format->formatUang($total); ?></td>
+            <td class="uang"><?php echo "Rp".number_format($total,0,'','.'); ?></td>
         </tr>
     </table>
 <?php

@@ -482,15 +482,30 @@ class TindakanpelayananT extends CActiveRecord
         	$modAsuransipasien = AsuransipasienM::model()->findByPk($this->pendaftaran->asuransipasien_id);
         	if($modAsuransipasien){
         		$modTanggungan = TanggunganpenjaminM::model()->findByAttributes(array('kelaspelayanan_id'=>$modAsuransipasien->kelastanggunganasuransi_id,'penjamin_id'=>$modAsuransipasien->penjamin_id));
-        		if($modTanggungan){
+        		$modTanggungan2 = CHtml::listData(TanggunganpenjaminM::model()->findAllByAttributes(array('penjamin_id'=>$modAsuransipasien->penjamin_id)), 'kelaspelayanan_id', 'kelaspelayanan_id');
+                        if($modTanggungan){
         			$sql_tarif = "SELECT tariftindakan_m.* 
 							FROM tariftindakan_m 
 							JOIN jenistarifpenjamin_m ON jenistarifpenjamin_m.jenistarif_id = tariftindakan_m.jenistarif_id
-							WHERE daftartindakan_id = ".$this->daftartindakan_id."
-							AND tariftindakan_m.kelaspelayanan_id = ".$modTanggungan->kelaspelayanan_id."
-							AND tariftindakan_m.komponentarif_id = ".Params::KOMPONENTARIF_ID_TOTAL."
+							WHERE daftartindakan_id = ".$this->daftartindakan_id." ";
+                                if ($modTanggungan->carabayar_id == Params::CARABAYAR_ID_JAMKESPA && in_array($this->instalasi_id, array(
+                                    Params::INSTALASI_ID_RJ,
+                                    Params::INSTALASI_ID_RD,
+                                    Params::INSTALASI_ID_LAB,
+                                    Params::INSTALASI_ID_RAD,
+                                    Params::INSTALASI_ID_REHAB,
+                                    Params::INSTALASI_ID_ICU,
+                                ))) {
+                                    $sql_tarif .= ""; //"AND tariftindakan_m.kelaspelayanan_id in (".Params::KELASPELAYANAN_ID_TANPA_KELAS.", ".$modTanggungan->kelaspelayanan_id.") ";
+                                } else {
+                                    // $sql_tarif .= "AND tariftindakan_m.kelaspelayanan_id = ".$modTanggungan->kelaspelayanan_id." ";
+                                    $sql_tarif .= "AND tariftindakan_m.kelaspelayanan_id in (".implode(",", $modTanggungan2).") ";
+                                }
+							
+				$sql_tarif .= "AND tariftindakan_m.komponentarif_id = ".Params::KOMPONENTARIF_ID_TOTAL."
 							AND jenistarifpenjamin_m.penjamin_id = ".$modTanggungan->penjamin_id;
-					$dataTarif = Yii::app()->db->createCommand($sql_tarif)->queryRow();
+
+                                        $dataTarif = Yii::app()->db->createCommand($sql_tarif)->queryRow();
 					if(isset($dataTarif['harga_tariftindakan'])){
 						$subsidi = ($dataTarif['harga_tariftindakan'] * $modTanggungan->$attr /100);
 						if($this->tarif_satuan >= $subsidi){

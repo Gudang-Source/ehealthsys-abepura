@@ -219,7 +219,7 @@ class PenjualanKaryawanController extends PenjualanResepRSController {
         $modPenjualan->pasienadmisi_id = null;
         $modPenjualan->tglpenjualan = $format->formatDateTimeForDb($_POST['FAPenjualanResepT']['tglpenjualan']);
         $modPenjualan->tglresep = date('Y-m-d H:i:s');
-        $modPenjualan->ruanganasal_nama = 'Apotek Pelayanan 1';
+        $modPenjualan->ruanganasal_nama = '-';
         $modPenjualan->ruangan_id = Yii::app()->user->getState('ruangan_id');
         $modPenjualan->pembulatanharga = Yii::app()->user->getState('pembulatanharga');
         $modPenjualan->noresep = isset($_POST['FAPenjualanResepT']['noresep']) ? $_POST['FAPenjualanResepT']['noresep'] : $_POST['FAResepturT']['noresep'];

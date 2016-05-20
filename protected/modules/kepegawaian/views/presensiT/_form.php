@@ -50,8 +50,8 @@ $this->widget('bootstrap.widgets.BootAlert');
             <?php echo $form->labelEx($model,'statuskehadiran_id',array('class'=>'control-label')); ?>
             <div class="controls">
                 <?php
-                    echo $form->dropDownList($model,'statuskehadiran_id', CHtml::listData(StatuskehadiranM::model()->findAll('statuskehadiran_aktif = true order by statuskehadiran_id asc'), 'statuskehadiran_id', 'statuskehadiran_nama'), array('style'=>'width:100px','class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)", "empty"=>'-- Pilih --')); 
-                    echo $form->dropDownList($model,'statusscan_id', CHtml::listData(StatusscanM::model()->findAll('statusscan_aktif = true'), 'statusscan_id', 'statusscan_nama'), array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)",'style'=>'width:100px', "empty"=>'-- Pilih --'));
+                    echo $form->dropDownList($model,'statuskehadiran_id', CHtml::listData(StatuskehadiranM::model()->findAll('statuskehadiran_aktif = true order by statuskehadiran_nama asc'), 'statuskehadiran_id', 'statuskehadiran_nama'), array('style'=>'width:100px','class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)", "empty"=>'-- Pilih --')); 
+                    echo $form->dropDownList($model,'statusscan_id', CHtml::listData(StatusscanM::model()->findAll('statusscan_aktif = true ORDER BY statusscan_nama ASC'), 'statusscan_id', 'statusscan_nama'), array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)",'style'=>'width:100px', "empty"=>'-- Pilih --'));
                 ?>
             </div>
         </div>

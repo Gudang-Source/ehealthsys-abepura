@@ -111,8 +111,8 @@ class ObatalkesM extends CActiveRecord
 	public $lokasigudangNama;
 	public $therapiobatNama;
 	public $formObatAlkesDetail = false;
-	public $tglkadaluarsa_akhir, $tglkadaluarsa_awal,$obatAlkes,$sumberdana_id,$signa,$signa_obatalkes;
-		
+	public $tglkadaluarsa_akhir, $tglkadaluarsa_awal,$obatAlkes,$sumberdana_id,$signa,$signa_obatalkes;		
+     
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -262,6 +262,7 @@ class ObatalkesM extends CActiveRecord
 			'maksimalstok' => 'Maksimal Stok',
 			'urutan_ven'=>'Urutan VEN',
 			'signa'=>'Signa Obat',
+                        'signa_obatalkes'=>'Signa Obat Alkes',
                         'jenisobatalkes_nama'=>'Jenis Obat Alkes'
 		);
 	}
@@ -516,5 +517,14 @@ class ObatalkesM extends CActiveRecord
         
         public function getSatuankecilNama(){
             return $this->satuankecil->satuankecil_nama;
+        }
+        
+        public function searchObatAlkes(){
+            $criteria = new CDbCriteria();
+            $criteria->compare('LOWER(obatalkes_kode)', strtolower($this->obatalkes_kode),true);
+            
+             return new CActiveDataProvider($this, array(
+                    'criteria'=>$criteria,
+            ));
         }
 }

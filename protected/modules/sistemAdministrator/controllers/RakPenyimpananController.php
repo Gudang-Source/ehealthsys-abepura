@@ -99,10 +99,10 @@ class RakPenyimpananController extends MyAuthController
 			$model = $this->loadModel($id);
 			// set non-active this
 			// example: 
-			// $model->modelaktif = false;
-			// if($model->save()){
-			//	$data['sukses'] = 1;
-			// }
+			 $model->rakpenyimpanan_aktif = 0;
+			 if($model->save()){
+				$data['sukses'] = 1;
+			 }
 			echo CJSON::encode($data); 
 		}
 	}

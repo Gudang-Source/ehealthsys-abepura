@@ -73,20 +73,23 @@ class StockOpnameObatAlkesController extends MyAuthController
                                     if ($model->isstokawal){
 										$this->simpanStokObatAlkes($modDetails[$i],$modDetails[$i]->volume_fisik);
                                     }else{ //Penyesuaian
-										if($modDetails[$i]->volume_sistem <= 0){ //jika volume sistem 0 / minus maka nonaktifkan stok yg aktif
-											StokobatalkesT::model()->updateAll(array( 'stokoa_aktif' => false ), "stokoa_aktif = TRUE AND obatalkes_id = ".$modDetails[$i]->obatalkes_id." AND ruangan_id = ".Yii::app()->user->getState('ruangan_id'));
-										}
-										$selisih = ($modDetails[$i]->volume_fisik - $modDetails[$i]->jmlselisihstok) - $modDetails[$i]->volume_sistem;
+										//if($modDetails[$i]->volume_sistem <= 0){ //jika volume sistem 0 / minus maka nonaktifkan stok yg aktif
+										//	StokobatalkesT::model()->updateAll(array( 'stokoa_aktif' => false ), "stokoa_aktif = TRUE AND obatalkes_id = ".$modDetails[$i]->obatalkes_id." AND ruangan_id = ".Yii::app()->user->getState('ruangan_id'));
+										//}
+                                                                                // $modDetails[$i]->jmlselisihstok = $modDetails[$i]->volume_fisik - $modDetails[$i]->volume_sistem;
+										// $selisih = ($modDetails[$i]->volume_fisik - $modDetails[$i]->jmlselisihstok) - $modDetails[$i]->volume_sistem;
+										$selisih = $modDetails[$i]->jmlselisihstok;
                                         if ($selisih > 0){
                                             $this->simpanStokObatAlkes($modDetails[$i], $selisih);
                                         } else { //jika selisih minus = tambah stok 
                                             $selisih = abs($selisih);
-											$modStokOAs = StokobatalkesT::getStokObatAlkesAktif($modDetails[$i]->obatalkes_id, $selisih, Yii::app()->user->getState('ruangan_id'));
-											if(count($modStokOAs) > 0){
-												foreach($modStokOAs AS $i => $stok){
-													$this->simpanStokObatAlkesOut($stok['stokobatalkes_id'], $stok->qtystok_terpakai);
-												}
-											}
+											//$modStokOAs = StokobatalkesT::getStokObatAlkesAktif($modDetails[$i]->obatalkes_id, $selisih, Yii::app()->user->getState('ruangan_id'));
+											//if(count($modStokOAs) > 0){
+											//	foreach($modStokOAs AS $i => $stok){
+													//$this->simpanStokObatAlkesOut($stok['stokobatalkes_id'], $stok->qtystok_terpakai);
+                                                                                                        $this->simpanStokObatAlkesOut2($modDetails[$i], $selisih);
+											//	}
+											//}
                                         }
                                     }
                                 }
@@ -149,8 +152,10 @@ class StockOpnameObatAlkesController extends MyAuthController
         $modDetailOpname->sumberdana_id = $obatAlkes->sumberdana_id;
         $modDetailOpname->tglkadaluarsa = $format->formatDateTimeForDb($obatAlkes->tglkadaluarsa);
         $modDetailOpname->tglperiksafisik = $format->formatDateTimeForDb($modDetailOpname->tglperiksafisik);
-        $modDetailOpname->jmlselisihstok = $modDetailOpname->getJmlSelisihStok($modDetailOpname->stokopname->ruangan_id);
-
+        $modDetailOpname->jmlselisihstok = $modDetailOpname->volume_fisik - $modDetailOpname->volume_sistem; //$modDetailOpname->getJmlSelisihStok($modDetailOpname->stokopname->ruangan_id);
+        
+        // var_dump($modDetailOpname->attributes); die;
+        
        if($modDetailOpname->validate()) {
            $modDetailOpname->save();
        } else {
@@ -184,6 +189,7 @@ class StockOpnameObatAlkesController extends MyAuthController
         $modStok->ruangan_id = Yii::app()->user->getState('ruangan_id');
         $modStok->tglkadaluarsa = !empty($modDetailOpname->tglkadaluarsa) ? $format->formatDateTimeForDb($modDetailOpname->tglkadaluarsa) : null;
         $modStok->obatalkes_id = $modDetailOpname->obatalkes_id;
+        $modStok->stokopnamedet_id = $modDetailOpname->stokopnamedet_id;
         $modStok->nobatch = "";
         $modStok->tglstok_in = date('Y-m-d H:i:s');
         $modStok->tglstok_out = NULL;
@@ -248,6 +254,36 @@ class StockOpnameObatAlkesController extends MyAuthController
         return $modStok;      
     }
 	
+    /**
+     * simpan StokobatalkesT Jumlah Out
+     * @param type $stokobatalkesasal_id
+     * @param type $jumlah = jumlah yang dikeluarkan untuk penyesuaian stok
+     * @return \StokobatalkesT
+     */
+    protected function simpanStokObatAlkesOut2($opnamedet, $jumlah){
+        $format = new MyFormatter;
+        $oa = ObatalkesM::model()->findByPk($opnamedet->obatalkes_id);
+        $modStokOaNew = new StokobatalkesT;
+        $modStokOaNew->attributes = $oa->attributes; //duplicate
+        $modStokOaNew->unsetIdTransaksi(); //new / autoincrement pk
+        $modStokOaNew->qtystok_in = 0;
+        $modStokOaNew->qtystok_out = $jumlah;
+        $modStokOaNew->create_time = date('Y-m-d H:i:s');
+        $modStokOaNew->update_time = date('Y-m-d H:i:s');
+        $modStokOaNew->create_loginpemakai_id = Yii::app()->user->id;
+        $modStokOaNew->update_loginpemakai_id = Yii::app()->user->id;
+        $modStokOaNew->create_ruangan = $modStokOaNew->ruangan_id = Yii::app()->user->getState('ruangan_id');
+        $modStokOaNew->tglterima = $opnamedet->tglperiksafisik;
+        $modStokOaNew->stokopnamedet_id = $opnamedet->stokopnamedet_id;
+        
+        if($modStokOaNew->validate()){ 
+            $modStokOaNew->save();
+        } else {
+            $this->stokobatalkestersimpan &= false;
+        }
+        return $modStokOaNew;      
+    }
+    
     /**
      * simpan StokobatalkesT Jumlah Out
      * @param type $stokobatalkesasal_id

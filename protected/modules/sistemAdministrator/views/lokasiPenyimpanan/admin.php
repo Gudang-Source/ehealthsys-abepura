@@ -52,6 +52,10 @@ $('.search-form form').submit(function(){
 		'lokasipenyimpanan_kode',
 		'lokasipenyimpanan_nama',
 		'lokasipenyimpanan_namalain',
+                        array(
+                            'header' => 'Status',
+                            'value' => '($data->lokasipenyimpanan_aktif)?"Aktif":"Tidak Aktif"'
+                        ),
 			array(
 				'header'=>Yii::t('zii','View'),
 				'class'=>'bootstrap.widgets.BootButtonColumn',
@@ -80,7 +84,7 @@ $('.search-form form').submit(function(){
 							'options'=>array('title'=>Yii::t('mds','Remove Temporary')),
 							'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/nonActive",array("id"=>$data->lokasipenyimpanan_id))',
 							'click'=>'function(){nonActive(this);return false;}',
-							'visible'=>'Yii::app()->controller->checkAccess(array("action"=>"nonActive"))',
+							'visible'=>'($data->lokasipenyimpanan_aktif)?TRUE:FALSE',
 					),
 					'delete'=> array(
 							'visible'=>'Yii::app()->controller->checkAccess(array("action"=>Params::DEFAULT_DELETE))',

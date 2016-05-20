@@ -1,5 +1,5 @@
 <div class="white-container">
-    <legend class='rim2'>Lihat <b>Jenis Penerimaan</b></legend>
+    <legend class='rim2'>Lihat <b>Penerimaan Umum</b></legend>
     <?php
     $this->breadcrumbs=array(
             'Kujenis Penerimaan Ms'=>array('index'),
@@ -28,12 +28,12 @@
                      array(               // related city displayed as a link
                         'name'=>'jenispenerimaan_aktif',
                         'type'=>'raw',
-                        'value'=>(($model->jenispenerimaan_aktif==1)? Yii::t('mds','Yes') : Yii::t('mds','No')),
+                        'value'=>(($model->jenispenerimaan_aktif==1)? 'Aktif' : 'Tidak Aktif'),
                     ),
 
             ),
     )); ?>
-    <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Penerimaan', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
+    <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Penerimaan Umum', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
                                     $this->createUrl('jenisPenerimaanM/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
     <?php $this->widget('UserTips',array('type'=>'view'));?>
 </div>

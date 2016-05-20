@@ -1,3 +1,5 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
 <?php 
     $table = 'ext.bootstrap.widgets.BootGroupGridView';
     $sort = false;
@@ -42,7 +44,7 @@
             <td><?php echo($data->sebagaipembayaran_bkm); ?></td>
             <td class="jmlpembayaran currency_tbl"><?php echo($data->jmlpembayaran); ?></td>
             <td class="jmlAdministrasi currency_tbl"><?php echo($data->biayaadministrasi); ?></td>
-            <td><?php echo($data->biayamaterai); ?></td>
+            <td class="currency_tbl"><?php echo($data->biayamaterai); ?></td>
             <td>
                 <?php echo(CHtml::checkBox("pilih[". $data->nobuktibayar ."]", true, array("onchange"=>"hitungTransaksi()"))); ?>
                 <?php echo(CHtml::hiddenField("is_pelayanan[". $data->nobuktibayar ."]", (is_null($data->pembayaranpelayanan_id) ? 'xxx' : $data->pembayaranpelayanan_id))); ?>
@@ -63,13 +65,15 @@
     </tbody>
 </table>
 <script>
+    $(document).ready(function() {
+        $('.currency_tbl').each(
+            function(){
+                $(this).text(formatNumber($(this).text()));
+                $(this).attr('style', 'text-align:right');
+            }
+        );
+    });
     
-    $('.currency_tbl').each(
-        function(){
-            $(this).text(formatInteger($(this).text()));
-            $(this).attr('style', 'text-align:right');
-        }
-    );
         
     // setTimeout(
     //     function(){

@@ -12,7 +12,7 @@
 
     <?php $this->endWidget(); ?>
     <div class="block-tabel">
-        <h6>Tabel Tarif <b>Rawat Darurat</b></h6>
+        <h6>Tabel Informasi Tarif <b>Rawat Darurat</b></h6>
         <?php echo $this->renderPartial('_tableTarif', array('modTarifTindakanRuanganV'=>$modTarifTindakanRuanganV));  ?> 
     </div>
     <fieldset class="box">
@@ -92,11 +92,20 @@
                                     Yii::app()->createUrl($this->module->id.'/'.Yii::app()->controller->id.'/'.Yii::app()->controller->action->id.''), 
                                     array('class'=>'btn btn-danger',
                                           'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
+                  <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),
+                                                    array('class'=>'btn btn-blue', 'type'=>'button', 'onclick'=>'printTarif()')); ?>
                  <?php 
-                   $content = $this->renderPartial('../tips/informasi',array(),true);
+                   $content = $this->renderPartial('../tips/informasiTarif',array(),true);
                                 $this->widget('UserTips',array('type'=>'admin','content'=>$content));
                 ?>
         </div>
         <?php $this->endWidget(); ?>
     </fieldset>
 </div>
+<?php $urlPrint = $this->createUrl('print'); ?>
+<script>
+    function printTarif() {
+        //console.log("<?php echo $urlPrint; ?>&" + $("#formCari").serialize());
+        window.open("<?php echo $urlPrint; ?>&" + $("#formCariInput :input").serialize() +"&caraPrint=PRINT","",'location=_new, width=900px');
+    }
+</script>

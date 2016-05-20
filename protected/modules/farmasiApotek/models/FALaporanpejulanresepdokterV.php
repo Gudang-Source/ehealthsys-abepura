@@ -12,10 +12,10 @@ class FALaporanpejulanresepdokterV extends LaporanpejulanresepdokterV {
 	public function searchTabelServices(){
 		
 		$criteria=new CDbCriteria;
-
-		$criteria->compare('LOWER(tglpenjualan)',strtolower($this->tglpenjualan),true);
+                $criteria->addBetweenCondition('DATEtglpenjualan)',$this->tgl_awal,$this->tgl_akhir);
+		//$criteria->compare('LOWER(tglpenjualan)',strtolower($this->tglpenjualan),true);
 		$criteria->compare('LOWER(jenispenjualan)',strtolower($this->jenispenjualan),true);
-		$criteria->compare('LOWER(tglresep)',strtolower($this->tglresep),true);
+		//$criteria->compare('LOWER(tglresep)',strtolower($this->tglresep),true);
 		$criteria->compare('LOWER(noresep)',strtolower($this->noresep),true);
 		if(!empty($this->pasien_id)){
 			$criteria->addCondition('pasien_id = '.$this->pasien_id);
@@ -26,7 +26,7 @@ class FALaporanpejulanresepdokterV extends LaporanpejulanresepdokterV {
 		$criteria->compare('LOWER(nama_bin)',strtolower($this->nama_bin),true);
 		$criteria->compare('LOWER(jeniskelamin)',strtolower($this->jeniskelamin),true);
 		$criteria->compare('LOWER(tempat_lahir)',strtolower($this->tempat_lahir),true);
-		$criteria->compare('LOWER(tanggal_lahir)',strtolower($this->tanggal_lahir),true);
+		//$criteria->compare('LOWER(tanggal_lahir)',strtolower($this->tanggal_lahir),true);
 		$criteria->compare('LOWER(alamat_pasien)',strtolower($this->alamat_pasien),true);
 		if(!empty($this->rt)){
 			$criteria->addCondition('rt = '.$this->rt);
@@ -38,7 +38,7 @@ class FALaporanpejulanresepdokterV extends LaporanpejulanresepdokterV {
 			$criteria->addCondition('pendaftaran_id = '.$this->pendaftaran_id);
 		}
 		$criteria->compare('LOWER(no_pendaftaran)',strtolower($this->no_pendaftaran),true);
-		$criteria->compare('LOWER(tgl_pendaftaran)',strtolower($this->tgl_pendaftaran),true);
+		//$criteria->compare('LOWER(tgl_pendaftaran)',strtolower($this->tgl_pendaftaran),true);
 		$criteria->compare('LOWER(umur)',strtolower($this->umur),true);
 		if(!empty($this->carabayar_id)){
 			$criteria->addCondition('carabayar_id = '.$this->carabayar_id);
@@ -121,7 +121,7 @@ class FALaporanpejulanresepdokterV extends LaporanpejulanresepdokterV {
 		if(!empty($this->rke)){
 			$criteria->addCondition('rke = '.$this->rke);
 		}
-		$criteria->addCondition('totaltarifservice>0');
+		//$criteria->addCondition('totaltarifservice>=0');
 		
 		return  new CActiveDataProvider($this, array(
 					'criteria'=>$criteria,
@@ -240,7 +240,7 @@ class FALaporanpejulanresepdokterV extends LaporanpejulanresepdokterV {
 		if(!empty($this->rke)){
 			$criteria->addCondition('rke = '.$this->rke);
 		}
-		$criteria->addCondition('totaltarifservice>0');
+		//$criteria->addCondition('totaltarifservice>0');
 		
 		return  new CActiveDataProvider($this, array(
 					'criteria'=>$criteria,
@@ -250,7 +250,12 @@ class FALaporanpejulanresepdokterV extends LaporanpejulanresepdokterV {
 	
 	public function getNamaBin($pasien_id){
 		$modNama = PasienM::model()->findByPk($pasien_id);
-		return (isset($modNama->nama_bin)? $modNama->nama_pasien."/".$modNama->nama_bin : $modNama->nama_pasien);
+                if (empty($modNama)):
+                    return '';
+                else:    
+                    return (isset($modNama->nama_bin)? $modNama->nama_pasien."/".$modNama->nama_bin : $modNama->nama_pasien);
+                endif;
+		
     }
 }
 

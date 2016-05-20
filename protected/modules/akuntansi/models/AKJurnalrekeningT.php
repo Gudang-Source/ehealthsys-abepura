@@ -60,6 +60,8 @@ class AKJurnalrekeningT extends JurnalrekeningT {
 		$criteria->join= 'JOIN jurnaldetail_t ON jurnaldetail_t.jurnalrekening_id=t.jurnalrekening_id'
 				. ' LEFT JOIN unitkerjaruangan_m ON unitkerjaruangan_m.ruangan_id = t.ruangan_id'
 				. ' LEFT JOIN unitkerja_m ON unitkerja_m.unitkerja_id = unitkerjaruangan_m.unitkerja_id';
+        
+                $criteria->order = 't.tglbuktijurnal, jurnaldetail_t.nourut';
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
             'pagination' => false,
@@ -87,13 +89,13 @@ class AKJurnalrekeningT extends JurnalrekeningT {
 		$result = AKInformasijurnaltransaksiV::model()->find($criteria);
 
 		if(!empty($result['rekening5_id'])){
-			$kode_rekening = $result->kdrekening1."-".$result->kdrekening2."-".$result->kdrekening3."-".$result->kdrekening4.'-'.$result->kdrekening5;
+			return $result->kdrekening5;
 		}else if(!empty($result['rekening4_id'])){
-			$kode_rekening = $result->kdrekening1."-".$result->kdrekening2."-".$result->kdrekening3."-".$result->kdrekening4;
+			return $result->kdrekening4;
 		}else if(!empty($result['rekening3_id'])){
-			$kode_rekening = $result->kdrekening1."-".$result->kdrekening2."-".$result->kdrekening3;
+			return $result->kdrekening3;
 		}else if(!empty($result['rekening2_id'])){
-			$kode_rekening = $result->kdrekening1."-".$result->kdrekening2;
+			return $result->kdrekening2;
 		}
 		
 		return isset($kode_rekening) ? $kode_rekening : "-";

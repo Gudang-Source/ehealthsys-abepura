@@ -205,7 +205,7 @@ class DokrekammedisController extends MyAuthController
 		));
 	}
         
-        public function actionubahLokasirak()
+        public function actionUbahLokasirak()
         {
             $model = new DokrekammedisM;
             if(isset($_POST['DokrekammedisM']))
@@ -269,16 +269,20 @@ class DokrekammedisController extends MyAuthController
             }
         }
         
-        public function actionubahSubrak()
+        public function actionUbahSubrak()
         {
             $model = new DokrekammedisM;
             if(isset($_POST['DokrekammedisM']))
             {
                 $model->attributes = $_POST['DokrekammedisM'];
+                //var_dump($_POST);
+                //var_dump($model->attributes); die;
                 $transaction = Yii::app()->db->beginTransaction();
                 try {
                     $attributes = array('subrak_id'=>$_POST['DokrekammedisM']['subrak_id']);
-                    $save = DokrekammedisM::model()->updateByPk($_POST['DokrekammedisM']['dokrekammedis_id'], $attributes);
+                    $save = DokrekammedisM::model()->updateByPk($_POST['DokrekammedisM']['dokrekammedis_id'], array(
+                        'subrak_id'=>$model->subrak_id,
+                    ));
                     if($save)
                     {
                         $transaction->commit();
@@ -506,6 +510,23 @@ class DokrekammedisController extends MyAuthController
             echo CJSON::encode(array(
                 'update'=>$update,
                 'msg'=>$msg,
+            ));
+            
+            Yii::app()->end();
+        }
+        
+        public function ubahWarnaRM($param) {
+            $dokumen = DokrekammedisM::model()->findByPk($param['id']);
+            $warna = WarnadokrmM::model()->findByAttributes(array(
+                'warnadokrm_kodewarna'=>  substr($param['val'], 1),
+            ));
+            DokrekammedisM::model()->updateByPk($dokumen->dokrekammedis_id, array(
+                'warnadokrm_id'=>$warna->warnadokrm_id,
+            ));
+            
+            echo CJSON::encode(array(
+                'update'=>true,
+                'msg'=>"Warna Dokumen Pasien berhasil Diubah.",
             ));
             
             Yii::app()->end();

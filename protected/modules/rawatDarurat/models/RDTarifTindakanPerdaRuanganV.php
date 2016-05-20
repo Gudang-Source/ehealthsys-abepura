@@ -16,8 +16,7 @@ class RDTarifTindakanPerdaRuanganV  extends TariftindakanperdaruanganV
 		$criteria=new CDbCriteria;
 		if (!empty($this->kelaspelayanan_id)){
 			$criteria->addCondition('kelaspelayanan_id ='.$this->kelaspelayanan_id);
-		}
-		$criteria->compare('LOWER(daftartindakan_nama)',  strtolower($this->daftartindakan_nama),true);
+		}		
 		if (!empty($this->kategoritindakan_id)){
 			$criteria->addCondition('kategoritindakan_id ='.$this->kategoritindakan_id);
 		}
@@ -32,13 +31,22 @@ class RDTarifTindakanPerdaRuanganV  extends TariftindakanperdaruanganV
 			$criteria->addCondition('komponenunit_id = '.$this->komponenunit_id);
 		}
                 
-                $criteria->compare('LOWER(daftartindakan_nama)',  strtolower($this->daftartindakan_nama));
+                $criteria->compare('LOWER(daftartindakan_nama)',  strtolower($this->daftartindakan_nama), TRUE);
 		$criteria->limit = 10;
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public function searchTarifPrint() {
+            $provider = $this->searchInformasi();
+            $provider->criteria->limit = -1;
+            $provider->criteria->order = "jenistarif_nama ASC, kategoritindakan_nama ASC, kelaspelayanan_nama ASC, daftartindakan_nama ASC";
+            $provider->pagination = false;
+            
+            return $provider;
+        }
         
         
 

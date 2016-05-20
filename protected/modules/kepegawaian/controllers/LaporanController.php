@@ -338,7 +338,7 @@
 					echo CHtml::hiddenField(''.$namaModel.'[ruangan_id]');
 					$i = 0;
 					if (count($ruangan) > 0){
-						  echo "<div style='margin-left:-70px;'>".CHtml::checkBox('checkAllRuangan',true, array('onkeypress'=>"return $(this).focusNextInputField(event)",
+						  echo "<div>".CHtml::checkBox('checkAllRuangan',true, array('onkeypress'=>"return $(this).focusNextInputField(event)",
 									'class'=>'checkbox-column','onclick'=>'checkAll()','checked'=>'checked'))."Pilih Semua";
 						  echo "</div><br>";
 						foreach($ruangan as $value=>$name) {

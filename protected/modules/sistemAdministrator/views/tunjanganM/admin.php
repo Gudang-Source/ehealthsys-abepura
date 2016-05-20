@@ -1,3 +1,5 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
 <?php
 $this->breadcrumbs=array(
 	'Kptunjangan Ms'=>array('index'),
@@ -32,7 +34,7 @@ $('.search-form form').submit(function(){
 	<?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
 		'id'=>'kptunjangan-m-grid',
 		'dataProvider'=>$model->search(),
-		//'filter'=>$model, //dikarenakan komponen berupa id dari tabel lain
+		'filter'=>$model, //dikarenakan komponen berupa id dari tabel lain
 		'template'=>"{summary}\n{items}\n{pager}",
 		'itemsCssClass'=>'table table-striped table-bordered table-condensed',
 		'columns'=>array(
@@ -47,29 +49,30 @@ $('.search-form form').submit(function(){
 			array(
 				'name'=>'pangkat_id',
 				'type'=>'raw',
-				'value'=>'$data->pangkat->pangkat_nama',
-				//'filter'=>CHtml::listData(PangkatM::model()->findAll('pangkat_aktif = true'),'pangkat_id','pangkat_nama'),
+				'value'=>'isset($data->pangkat_id)?$data->pangkat->pangkat_nama:"-"',
+				'filter'=> CHtml::dropDownList('SATunjanganM[pangkat_id]',$model->pangkat_id,CHtml::listData(PangkatM::model()->findAll('pangkat_aktif = true ORDER BY pangkat_nama ASC'),'pangkat_id','pangkat_nama'),array('empty'=>'-- Pilih --')),
 			),
 			array(
 				'name'=>'jabatan_id',
 				'type'=>'raw',
-				'value'=>'$data->jabatan->jabatan_nama',
-				//'filter'=>CHtml::listData(JabatanM::model()->findAll('jabatan_aktif = true'),'jabatan_id','jabatan_nama'),
+				'value'=>'isset($data->jabatan_id)?$data->jabatan->jabatan_nama:"-"',
+				'filter'=> CHtml::dropDownList('SATunjanganM[jabatan_id]',$model->jabatan_id,CHtml::listData(JabatanM::model()->findAll('jabatan_aktif = true ORDER BY jabatan_nama ASC'),'jabatan_id','jabatan_nama'),array('empty'=>'-- Pilih --')),
 			),
 			array(
 				'name'=>'komponengaji_id',
 				'type'=>'raw',
-				'value'=>'$data->komponengaji->komponengaji_nama',
-				//'filter'=>CHtml::listData(KomponengajiM::model()->findAll('komponengaji_aktif = true'),'komponengaji_id','komponengaji_nama'),
+				'value'=>'isset($data->komponengaji_id)?$data->komponengaji->komponengaji_nama:"-"',
+				'filter'=> CHtml::dropDownList('SATunjanganM[komponengaji_id]',$model->komponengaji_id,CHtml::listData(KomponengajiM::model()->findAll('komponengaji_aktif = true ORDER BY komponengaji_nama ASC'),'komponengaji_id','komponengaji_nama'),array('empty'=>'-- Pilih --')),
 			),
 			array(
 				'name'=>'nominaltunjangan',
 				'type'=>'raw',
-				'value'=>'MyFormatter::formatNumberForUser($data->nominaltunjangan)',
-				//'filter'=>CHtml::activeTextField($model,'nominaltunjangan'),
+				'value'=>'"Rp".number_format($data->nominaltunjangan,0,"",".")',
+                                'htmlOptions' => array('style'=>'text-align:right;'),
+				'filter'=>CHtml::activeTextField($model,'nominaltunjangan',array('class'=>'numbers-only','style'=>'text-align:right;')),
 			),
 			array(
-				'name'=>'tunjangan_aktif',
+				'header'=>'Status',
 				'type'=>'raw',
 				'value'=>'(($data->tunjangan_aktif) ? "Aktif" : "Tidak Aktif")',
 			),
@@ -120,8 +123,8 @@ $('.search-form form').submit(function(){
 	echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
 	echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
 	echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
-    $content = $this->renderPartial($this->path_view.'tips/master',array(),true);
-    $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
+        $content = $this->renderPartial($this->path_view.'tips/master',array(),true);
+        $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
 	$urlPrint= $this->createUrl('print');
 
 $js = <<< JSCRIPT

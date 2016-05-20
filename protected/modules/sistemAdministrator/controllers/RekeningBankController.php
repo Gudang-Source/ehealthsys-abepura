@@ -10,6 +10,8 @@ class RekeningBankController extends MyAuthController {
 	public $layout = '//layouts/column1';
 	public $defaultAction = 'create';
 	public $path_view = 'sistemAdministrator.views.rekeningBank.';
+        public $link_bank = 'sistemAdministrator/bankM';
+        public $link_rekening = 'sistemAdministrator/rekeningBank';
 
 	public function actionCreate($sukses='') {
                  if ($sukses == 1):

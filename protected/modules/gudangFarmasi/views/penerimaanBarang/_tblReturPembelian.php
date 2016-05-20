@@ -1,3 +1,6 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
 <table id="tblReturPembelian" class="table table-striped table-condensed">
     <thead>
         <tr>
@@ -15,7 +18,12 @@
         <?php 
         $subTotal = 0;
         $totalSubTotal = 0;
-            foreach ($modPenerimaanDet as $i => $mod) {?>
+            foreach ($modPenerimaanDet as $i => $mod) {
+                if (!empty($mod->satuanbesar_id)) {
+                    $mod->jmlterima *= $mod->kemasanbesar;
+                }
+                
+                ?>
                 <tr>
                     <td><?php echo CHtml::checkBox('GFReturDetailT['.$i.'][isRetur]', true, array('class'=>'isRetur','onclick'=>'setNullQty(this);hitungTabel();','onKeypress'=>'return formSubmit(this,event)')) ?></td>
                     <td>
@@ -34,15 +42,15 @@
                         <?php echo CHtml::hiddenField('GFReturDetailT['.$i.'][hargappnretur]', $mod->persenppn);?>
                         <?php echo CHtml::hiddenField('GFReturDetailT['.$i.'][hargapphretur]', $mod->persenpph);?>
                         <?php echo CHtml::hiddenField('GFReturDetailT['.$i.'][jmldiscount]', $mod->jmldiscount);?>
-						<?php echo CHtml::textField('GFReturDetailT['.$i.'][hargasatuanretur]', number_format($mod->hargasatuanper), array('class'=>'span1 harga', 'style'=>'text-align:right;', 'readonly'=>true));?></td>
-					<td><?php echo CHtml::textField('jmlterima', $mod->jmlterima, array('class'=>'span1 integer', 'style'=>'text-align:right;', 'readonly'=>true));?></td>
-                    <td><?php echo CHtml::textField('GFReturDetailT['.$i.'][jmlretur]', $mod->jmlterima, array('class'=>'span1 integer qty', 'style'=>'text-align:right;', 'onkeyup'=>'validasiQty(this); hitungTabel();', 'onKeypress'=>'return formSubmit(this,event)'));?></td>
-                    <td><?php echo !empty($mod->satuankecil_id)?$mod->satuankecil->satuankecil_nama:" - ";?></td>
+						<?php echo CHtml::textField('GFReturDetailT['.$i.'][hargasatuanretur]', MyFormatter::formatNumberForPrint($mod->hargasatuanper), array('class'=>'span2 harga', 'style'=>'text-align:right;', 'readonly'=>true));?></td>
+					<td><?php echo CHtml::textField('jmlterima', $mod->jmlterima, array('class'=>'span1 integer2', 'style'=>'text-align:right;', 'readonly'=>true));?></td>
+                    <td><?php echo CHtml::textField('GFReturDetailT['.$i.'][jmlretur]', $mod->jmlterima, array('class'=>'span1 integer2 qty', 'style'=>'text-align:right;', 'onkeyup'=>'validasiQty(this); hitungTabel();', 'onKeypress'=>'return formSubmit(this,event)'));?></td>
+                    <td><?php echo $mod->obatalkes->satuankecil->satuankecil_nama;?></td>
                     <td>
                         <?php
                             $subTotal = number_format($mod->jmlterima,0,'','') * number_format($mod->hargasatuanper,0,'','');
                             $totalSubTotal += $subTotal;
-                            echo CHtml::textField('subtotal', number_format($subTotal), array('class'=>'span2 integer subtotal', 'style'=>'text-align:right;', 'readonly'=>true));
+                            echo CHtml::textField('subtotal', MyFormatter::formatNumberForPrint($subTotal), array('class'=>'span2 integer2 subtotal', 'style'=>'text-align:right;', 'readonly'=>true));
                         ?>
                     </td>
                 </tr>
@@ -51,7 +59,7 @@
             <td colspan="7" style="text-align: right;"><b>Total Retur</b></td>
             <td><?php 
                 $totalRetur = $totalSubTotal;
-                echo CHtml::textField('GFReturPembelianT[totalretur]', number_format($totalRetur), array('class'=>'span2 integer totalRetur', 'style'=>'text-align:right;', 'readonly'=>true));
+                echo CHtml::textField('GFReturPembelianT[totalretur]', number_format($totalRetur), array('class'=>'span2 integer2 totalRetur', 'style'=>'text-align:right;', 'readonly'=>true));
                 ?>
             </td>
         </tr>

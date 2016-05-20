@@ -81,7 +81,7 @@ class LokasiasetM extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'lokasi_id' => 'Lokasi Aset',
+			'lokasi_id' => 'ID',
 			'lokasiaset_kode' => 'Aset Kode',
 			'lokasiaset_namainstalasi' => 'Nama Instalasi',
 			'lokasiaset_namabagian' => 'Nama Bagian',
@@ -110,7 +110,7 @@ class LokasiasetM extends CActiveRecord
 		$criteria->compare('LOWER(lokasiaset_namainstalasi)',strtolower($this->lokasiaset_namainstalasi),true);
 		$criteria->compare('LOWER(lokasiaset_namabagian)',strtolower($this->lokasiaset_namabagian),true);
 		$criteria->compare('LOWER(lokasiaset_namalokasi)',strtolower($this->lokasiaset_namalokasi),true);
-		$criteria->compare('lokasiaset_aktif',$this->lokasiaset_aktif);
+		$criteria->compare('lokasiaset_aktif',isset($this->lokasiaset_aktif)?$this->lokasiaset_aktif:true);
 		$criteria->compare('garis_latitude',$this->garis_latitude);
 		$criteria->compare('garis_longitude',$this->garis_longitude);
 

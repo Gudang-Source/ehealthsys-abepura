@@ -1,7 +1,7 @@
 <div class="white-container">
-    <legend class="rim2">Infomasi <b>Tarif</b></legend>
+    <legend class="rim2">Infomasi Tarif <b>Rawat Inap</b></legend>
     <div class="block-tabel">
-        <h6>Tabel <b>Infomasi Tarif</b></h6> 		
+        <h6>Tabel Informasi Tarif <b>Rawat Inap</b></h6> 		
         <?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 'id'=>'daftarTindakan-grid',
                 'dataProvider'=>$modTarifTindakanRuanganV->searchInformasi(),
@@ -12,8 +12,8 @@
                         'kelompoktindakan_nama',
                         'komponenunit_nama',
                         'kategoritindakan_nama',
-                        'daftartindakan_nama',
                         'kelaspelayanan_nama',
+                        'daftartindakan_nama',                        
         //                'ruangan_id',
 
                       array(
@@ -33,7 +33,7 @@
                                 'name'=>'Komponen Tarif',
                                 'type'=>'raw',
                                 'value'=>'CHtml::link("<i class=\'icon-form-komtarif\'></i> ",Yii::app()->controller->createUrl("'.Yii::app()->controller->id.'/detailsTarif",array("kelaspelayanan_id"=>$data->kelaspelayanan_id,"daftartindakan_id"=>$data->daftartindakan_id, "kategoritindakan_id"=>$data->kategoritindakan_id,"jenistarif_id"=>$data->jenistarif_id)) ,array("title"=>"Klik Untuk Melihat Detail Tarif","target"=>"iframe", "onclick"=>"$(\"#dialogDetailsTarif\").dialog(\"open\");", "rel"=>"tooltip"))',
-                                'htmlOptions'=>array('style'=>'text-align:left;'),
+                                'htmlOptions'=>array('style'=>'text-align:center;'),
                         ),
 
                 ),
@@ -105,6 +105,8 @@
                                     Yii::app()->createUrl($this->module->id.'/'.Yii::app()->controller->id.'/'.Yii::app()->controller->action->id.''), 
                                     array('class'=>'btn btn-danger',
                                           'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
+            <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),
+                                                    array('class'=>'btn btn-blue', 'type'=>'button', 'onclick'=>'printTarif()')); ?>
                                                                                   <?php 
                    $content = $this->renderPartial('../tips/informasi',array(),true);
                                 $this->widget('UserTips',array('type'=>'admin','content'=>$content));
@@ -113,3 +115,10 @@
     </fieldset>
     <?php $this->endWidget(); ?>
 </div>
+<?php $urlPrint = $this->createUrl('print'); ?>
+<script>
+    function printTarif() {
+        //console.log("<?php echo $urlPrint; ?>&" + $("#formCari").serialize());
+        window.open("<?php echo $urlPrint; ?>&" + $("#formCariInput :input").serialize() +"&caraPrint=PRINT","",'location=_new, width=900px');
+    }
+</script>

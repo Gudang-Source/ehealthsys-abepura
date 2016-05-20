@@ -41,7 +41,7 @@ class LokasiasetMController extends MyAuthController
 			
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->lokasi_id));
+				$this->redirect(array('admin','sukses'=>1));
                         }
 		}
 		$modPropinsi = PropinsiM::model()->findByPk(Yii::app()->user->getState('propinsi_id'));
@@ -73,7 +73,7 @@ class LokasiasetMController extends MyAuthController
 			$model->attributes=$_POST['SALokasiasetM'];
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->lokasi_id));
+				$this->redirect(array('admin','sukses'=>1));
                         }
 		}
 		$modPropinsi = PropinsiM::model()->findByPk(Yii::app()->user->getState('propinsi_id'));
@@ -99,8 +99,11 @@ class LokasiasetMController extends MyAuthController
 	/**
 	 * Manages all models.
 	 */
-	public function actionAdmin()
+	public function actionAdmin($sukses='')
 	{
+            if ($sukses==1):
+                Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+            endif;
                 
 		$model=new SALokasiasetM('search');
 		$model->unsetAttributes();  // clear any default values

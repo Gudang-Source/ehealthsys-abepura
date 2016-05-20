@@ -903,7 +903,7 @@ class DaftarPasienController extends MyAuthController
                 $modPasienPulang->ruanganakhir_id=Yii::app()->user->getState('ruangan_id');
                 $modPasienPulang->lamarawat=0;
                 $modPasienPulang->satuanlamarawat='lamarawat';
-               
+                
                 $judul = 'Pasien Rujuk ke Rawat Inap';
 
                 $isi = $modPasien->no_rekam_medik.' - '.$modPasien->nama_pasien
@@ -916,7 +916,7 @@ class DaftarPasienController extends MyAuthController
                 )); 
                 
                 if($modPasienPulang->save()){
-                    PendaftaranT::model()->updateByPk($pendaftaran_id, array('pasienpulang_id'=>$modPasienPulang->pasienpulang_id,'statusperiksa'=>Params::STATUSPERIKSA_SEDANG_DIRAWATINAP));
+                    PendaftaranT::model()->updateByPk($pendaftaran_id, array('pasienpulang_id'=>$modPasienPulang->pasienpulang_id,'statusperiksa'=>Params::STATUSPERIKSA_NUNGGU_DAFTAR_SO));
                     $data['pesan']='Berhasil';
                 }else{
                     $data['pesan']='Gagal';
@@ -2276,7 +2276,8 @@ class DaftarPasienController extends MyAuthController
 		if(Yii::app()->request->isAjaxRequest) {
 			$pendaftaran_id = $_POST['pendaftaran_id'];
 			$update = PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SUDAH_DIPERIKSA));
-			echo CJSON::encode($update);
+			$this->updateStatusKonsul($pendaftaran_id);
+                        echo CJSON::encode($update);
 		}
 	}
 	
@@ -2296,8 +2297,10 @@ class DaftarPasienController extends MyAuthController
 				$update = PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SEDANG_PERIKSA));
 			}else{
 			if($status == "SEDANG PERIKSA"){
-				$update = PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SUDAH_DIPERIKSA, 'tglselesaiperiksa'=>date('Y-m-d H:i:s')));
-			}else if($status == "SEDANG DIRAWAT INAP"){
+                                $update = true;
+				if (empty($model->pasienadmisi_id)) $update = PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SUDAH_DIPERIKSA, 'tglselesaiperiksa'=>date('Y-m-d H:i:s')));
+                                $this->updateStatusKonsul($pendaftaran_id);
+                        }else if($status == "SEDANG DIRAWAT INAP"){
 				$update = PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SUDAH_PULANG));
 			}
 		  }
@@ -2327,4 +2330,20 @@ class DaftarPasienController extends MyAuthController
     /*
      * end Ubah Status Periksa Pasien Baru -- Yang Pake Button
      */
+        
+    function updateStatusKonsul($pendaftaran_id) 
+    {
+        $p = PendaftaranT::model()->findByPk($pendaftaran_id);
+        $konsul = KonsulpoliT::model()->findAllByAttributes(array(
+            'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
+            'pendaftaran_id'=>$pendaftaran_id,
+        ));
+        foreach ($konsul as $item) {
+            KonsulpoliT::model()->updateByPk($item->konsulpoli_id, array(
+                'statusperiksa'=>Params::STATUSPERIKSA_SUDAH_DIPERIKSA,
+            ));
+        }
+    }
+    
+    
 }

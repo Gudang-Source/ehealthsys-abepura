@@ -1,3 +1,6 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
 <?php
 $this->widget('application.extensions.moneymask.MMask',array(
 	'element'=>'.currency',
@@ -44,15 +47,15 @@ $this->widget('application.extensions.moneymask.MMask',array(
             <div class="control-group ">
                 <?php echo $form->labelEx($model,'obatalkes_nama', array('class'=>'control-label')) ?>
                 <div class="controls">
-                        <?php echo $form->textField($model,'obatalkes_namalain',array('placeholder'=>'Nama Obat Alkes','class'=>'span3',
+                        <?php echo $form->textField($model,'obatalkes_nama',array('placeholder'=>'Nama Obat Alkes','class'=>'span3 all-caps',
                                                 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>200,
                                                 'onkeyup'=>'generateKode(this); AutoTextNamaOA();')); ?>
                 </div>
             </div>
             <div class="control-group ">
-                <?php echo CHtml::label('Nama Pendek Obat Alkes <span class="required">*</span>','obatalkes_nama', array('class'=>'control-label required')) ?>
+                <?php echo CHtml::label('Nama Lain Obat Alkes <span class="required">*</span>','obatalkes_nama', array('class'=>'control-label required')) ?>
                 <div class="controls">
-                        <?php echo $form->textField($model,'obatalkes_nama',array('placeholder'=>'Nama Pendek Obat Alkes','class'=>'span3',
+                        <?php echo $form->textField($model,'obatalkes_namalain',array('placeholder'=>'Nama Lain Obat Alkes','class'=>'span3 all-caps',
                                                 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>200,
                                                 'readonly'=>true
                                                 )); ?>
@@ -135,7 +138,7 @@ $this->widget('application.extensions.moneymask.MMask',array(
                                         )); ?>
                 </div>
             </div>
-            <?php echo $form->dropDownListRow($model,'obatalkes_golongan',  LookupM::getItems('obatalkes_golongan'),
+            <?php echo $form->dropDownListRow($model,'obatalkes_golongan',  LookupM::getItemsUrutan('obatalkes_golongan'),
                                                     array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",
                                                     'empty'=>'-- Pilih --','style'=>'width:150px;')); ?>
             <?php echo $form->dropDownListRow($model,'obatalkes_kategori',LookupM::getItems('obatalkes_kategori'),
@@ -175,6 +178,7 @@ $this->widget('application.extensions.moneymask.MMask',array(
             <?php echo $form->dropDownListRow($model,'discountinue',array('1'=>'Ya','0'=>'Tidak'),
                                                     array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",
                                                     'empty'=>'-- Pilih --',)); ?>     
+                                                    
             <?php echo $form->dropDownListRow($model,'ven',  LookupM::getItems('ven'),
                                                     array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event)",
                                                     'empty'=>'-- Pilih --','style'=>'width:70px;')); ?>
@@ -200,14 +204,14 @@ $this->widget('application.extensions.moneymask.MMask',array(
                 <div class="toggle">
 					<div class="row-fluid">
 						<div class="span6">
-							<div class="control-group" style="margin-left:-30px;">
+							<div class="control-group">
 								<?php echo $form->labelEx($model,'minimalstok',array('class'=>'control-label'));?>
 								<div class="controls">
-										<?php echo $form->textField($model,'minimalstok',array('class'=>'span1 integer', 
+										<?php echo $form->textField($model,'minimalstok',array('class'=>'span1 integer2', 
 												'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
 								</div>
 							</div> 
-							<div class="control-group" style="margin-left:-30px;">
+							<div class="control-group">
 								<?php echo $form->labelEx($model,'lokasigudang_id',array('class'=>'control-label'));?>
 								<div class="controls">
 										<?php echo $form->dropDownList($model,'lokasigudang_id',
@@ -218,7 +222,7 @@ $this->widget('application.extensions.moneymask.MMask',array(
 							</div> 
 						</div> 
 						<div class="span6">
-							<?php echo $form->textFieldRow($model,'maksimalstok',array('class'=>'span2 integer', 
+							<?php echo $form->textFieldRow($model,'maksimalstok',array('class'=>'span2 integer2', 
 												'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
 						</div>
                     </div> 
@@ -229,15 +233,15 @@ $this->widget('application.extensions.moneymask.MMask',array(
                 <div class="toggle">
                     <div class="row-fluid">
                         <div class="span6">
-                            <div class="control-group" style="margin-left:-30px;">
+                            <div class="control-group">
                                 <?php echo CHtml::label('Harga Beli', 'hargabeli', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo CHtml::textField('hargabeli', '', array('class' => 'control-label integer hargabeli', 'onkeyup' => 'hitung_harganetto()')); ?>
+                                    <?php echo CHtml::textField('hargabeli', '', array('class' => 'control-label integer2 hargabeli', 'onkeyup' => 'hitung_harganetto()')); ?>
                                     <?php echo CHtml::hiddenField('hargabelilama', ''); ?>
                                 </div>
                             </div>
 
-                            <div class="control-group" style="margin-left:-30px;">
+                            <div class="control-group">
                                 <?php echo $form->labelEx($model, 'satuanbesar_id', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
@@ -247,57 +251,57 @@ $this->widget('application.extensions.moneymask.MMask',array(
                                 </div>
                             </div> 
 
-                            <div class="control-group" style="margin-left:-30px;">
+                            <div class="control-group" >
                                 <?php echo CHtml::label('Isi Netto', 'kemasanbesar', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->textField($model, 'kemasanbesar', array('class' => 'span1 integer',
+                                    <?php echo $form->textField($model, 'kemasanbesar', array('class' => 'span1 integer2',
                                         'onkeypress' => "return $(this).focusNextInputField(event);", 'onkeyup' => 'hitung_harganetto()'));
                                     ?>
                                 </div>
                             </div> 
 
-                            <div class="control-group" style="margin-left:-30px;">
+                            <div class="control-group" >
                                 <?php echo $form->labelEx($model, 'satuankecil_id', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
                                     echo $form->dropDownList($model, 'satuankecil_id', CHtml::listData($model->SatuanKecilItems, 'satuankecil_id', 'satuankecil_nama'), array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event)", 'onchange' => 'AutoTextNamaOA();',
-                                        'empty' => '-- Pilih --',));
+                                        'empty' => '-- Pilih --', 'style' => 'width:130px;'));
                                     ?>
                                 </div>
                             </div> 
                         </div>
                         <div class="span6">
-                            <div class="control-group" style="margin-left:-30px;">
+                            <div class="control-group" >
                                 <?php echo $form->labelEx($model, 'harganetto', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->textField($model, 'harganetto', array('class' => 'span2 integer harganetto',
+                                    <?php echo $form->textField($model, 'harganetto', array('class' => 'span2 integer2 harganetto',
                                         'onkeypress' => "return $(this).focusNextInputField(event);", 'onkeyup' => 'hitung_hargabeli();'));
                                     ?>
                                     <?php echo CHtml::hiddenField('harganettolama', $model->harganetto); ?>
                                 </div>
                             </div> 
 
-                            <div class="control-group" style="margin-left:-30px;">
+                            <div class="control-group" >
                                 <?php echo $form->labelEx($model, 'discount', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->textField($model, 'discount', array('class' => 'span1 float',
+                                    <?php echo $form->textField($model, 'discount', array('class' => 'span1 float2',
                                         'onkeypress' => "return $(this).focusNextInputField(event);", 'onkeyup' => 'hitungHpp();'));
                                     ?> %
                                 </div>
                             </div> 
 
-                            <div class="control-group" style="margin-left:-30px;">
+                            <div class="control-group" >
                                 <?php echo $form->labelEx($model, 'ppn_persen', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->textField($model, 'ppn_persen', array('class' => 'span1 float',
+                                    <?php echo $form->textField($model, 'ppn_persen', array('class' => 'span1 float2',
                                         'onkeypress' => "return $(this).focusNextInputField(event);", 'onkeyup' => 'hitungHpp();'));
                                     ?> %
                                 </div>
                             </div>  
-                            <div class="control-group" style="margin-left:-30px;">
+                            <div class="control-group" >
                                 <?php echo Chtml::label('HPP', 'hpp', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->textField($model, 'hpp', array('class' => 'span1 integer', 'onkeyup' => 'marginResep();',
+                                    <?php echo $form->textField($model, 'hpp', array('class' => 'span1 integer2', 'onkeyup' => 'marginResep();',
                                         'onkeypress' => "return $(this).focusNextInputField(event);"));
                                     ?> <font size="1px">(Harga Netto - (Discount + Ppn))</font>
                                 </div>
@@ -311,85 +315,85 @@ $this->widget('application.extensions.moneymask.MMask',array(
                 <div class="toggle">
                     <div class="row-fluid">
                         <div class="span6">
-                            <div class="control-group" style="margin-left:-30px;">
+                            <div class="control-group" >
                                 <?php echo $form->labelEx($model, 'margin', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->textField($model, 'margin', array('class' => 'span1 float',
+                                    <?php echo $form->textField($model, 'margin', array('class' => 'span1 float2',
                                         'onkeypress' => "return $(this).focusNextInputField(event);", 'onkeyup' => 'hitung_hargajual()'));
                                     ?> %
                                 </div>
                             </div> 
-                            <div class="control-group" style="margin-left:-30px;">
+                            <div class="control-group" >
                                     <?php echo $form->labelEx($model, 'hargajual', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->textField($model, 'hargajual', array('class' => 'span2 integer hargajual',
+                                    <?php echo $form->textField($model, 'hargajual', array('class' => 'span2 integer2 hargajual',
                                         'onkeypress' => "return $(this).focusNextInputField(event);", 'onkeyup' => 'hitung_margin()'));
                                     ?> <font size="1px">Rupiah</font>
                                     <?php echo CHtml::hiddenField('hargajuallama', $model->hargajual); ?>
                                 </div>
                             </div> 
-                            <div class="control-group" style="margin-left:-30px;">
+                            <div class="control-group" >
                                 <?php echo $form->labelEx($model, 'marginnonresep', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->textField($model, 'marginnonresep', array('class' => 'span1 float',
+                                    <?php echo $form->textField($model, 'marginnonresep', array('class' => 'span1 float2',
                                         'onkeypress' => "return $(this).focusNextInputField(event);", 'onkeyup' => 'hitung_hjanonresep()'));
                                     ?> %
                                 </div>
                             </div> 
-                            <div class="control-group" style="margin-left:-30px;">
+                            <div class="control-group" >
                                 <?php echo $form->labelEx($model, 'hjanonresep', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->textField($model, 'hjanonresep', array('class' => 'span2 integer',
+                                    <?php echo $form->textField($model, 'hjanonresep', array('class' => 'span2 integer2',
                                         'onkeypress' => "return $(this).focusNextInputField(event);", 'onkeyup' => 'hitung_margin_hjanonresep()'));
                                     ?> <font size="1px">Rupiah</font>
                                 </div>
                             </div> 
-                            <div class="control-group" style="margin-left:-30px;">
+                            <div class="control-group">
                                 <?php echo $form->labelEx($model, 'marginresep', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->textField($model, 'marginresep', array('class' => 'span1 float',
+                                    <?php echo $form->textField($model, 'marginresep', array('class' => 'span1 float2',
                                         'onkeypress' => "return $(this).focusNextInputField(event);", 'onkeyup' => 'hitung_hjaresep()'));
                                     ?> %
                                 </div>
                             </div> 
-                            <div class="control-group" style="margin-left:-30px;">
+                            <div class="control-group">
                                 <?php echo $form->labelEx($model, 'jasadokter', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->textField($model, 'jasadokter', array('class' => 'span2 integer',
+                                    <?php echo $form->textField($model, 'jasadokter', array('class' => 'span2 integer2',
                                         'onkeypress' => "return $(this).focusNextInputField(event);", 'onkeyup' => 'hitung_hjaresep()'));
                                     ?> <font size="1px">Rupiah</font>
                                 </div>
                             </div> 
-                            <div class="control-group" style="margin-left:-30px;">
+                            <div class="control-group">
                                 <?php echo $form->labelEx($model, 'hjaresep', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->textField($model, 'hjaresep', array('class' => 'span2 integer',
+                                    <?php echo $form->textField($model, 'hjaresep', array('class' => 'span2 integer2',
                                         'onkeypress' => "return $(this).focusNextInputField(event);", 'onkeyup' => 'hitung_margin_hjaresep()'));
                                     ?> <font size="1px">Rupiah</font>
                                 </div>
                             </div> 
                         </div>
                         <div class="span6">
-                            <div class="control-group" style="margin-left:-30px;">
+                            <div class="control-group" >
                                 <?php echo $form->labelEx($model, 'hargamaksimum', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->textField($model, 'hargamaksimum', array('class' => 'span2 integer',
+                                    <?php echo $form->textField($model, 'hargamaksimum', array('class' => 'span2 integer2',
                                         'onkeypress' => "return $(this).focusNextInputField(event);", 'readonly' => true));
                                     ?> <font size="1px">Rupiah</font>
                                 </div>
                             </div> 
-                            <div class="control-group" style="margin-left:-30px;">
+                            <div class="control-group">
                                     <?php echo $form->labelEx($model, 'hargaminimum', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->textField($model, 'hargaminimum', array('class' => 'span2 integer',
+                                    <?php echo $form->textField($model, 'hargaminimum', array('class' => 'span2 integer2',
                                         'onkeypress' => "return $(this).focusNextInputField(event);", 'readonly' => true));
                                     ?> <font size="1px">Rupiah</font>
                                 </div>
                             </div> 
-                            <div class="control-group" style="margin-left:-30px;">
+                            <div class="control-group">
                                 <?php echo $form->labelEx($model, 'hargaaverage', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->textField($model, 'hargaaverage', array('class' => 'span2 integer',
+                                    <?php echo $form->textField($model, 'hargaaverage', array('class' => 'span2 integer2',
                                         'onkeypress' => "return $(this).focusNextInputField(event);", 'readonly' => true));
                                     ?> <font size="1px">Rupiah</font>
                                 </div>
@@ -552,84 +556,92 @@ Yii::app()->clientScript->registerScript('sfdasdasda',$js,CClientScript::POS_HEA
 <?php $urlGetResepDokter =  $this->createUrl('getPersenDokter'); ?>
 
 
+function parseUnformat(v)
+{
+    return parseFloat(unformatNumber(v));
+}
+
 function hitungHpp()
 {
-	var harganetto = unformatNumber($('#<?php echo CHtml::activeId($model,"harganetto"); ?>').val());
-	var discount = unformatNumber($('#<?php echo CHtml::activeId($model,"discount"); ?>').val());
-	var ppn = unformatNumber($('#<?php echo CHtml::activeId($model,"ppn_persen"); ?>').val());
+	var harganetto = parseUnformat($('#<?php echo CHtml::activeId($model,"harganetto"); ?>').val());
+	var discount = parseUnformat($('#<?php echo CHtml::activeId($model,"discount"); ?>').val());
+	var ppn = parseUnformat($('#<?php echo CHtml::activeId($model,"ppn_persen"); ?>').val());
 	
 	jumlahDiskon = (harganetto - (harganetto * (discount/100)))
 	jumlahPpn = (jumlahDiskon * (ppn / 100));
 	hpp = jumlahDiskon + jumlahPpn;
 	
-	$('#<?php echo CHtml::activeId($model,"hpp"); ?>').val(formatInteger(hpp));
+	$('#<?php echo CHtml::activeId($model,"hpp"); ?>').val(formatNumber(hpp));
+        hitung_hargajual();
+        hitung_hjanonresep();
+        hitung_hjaresep();
 }
 
 function cekInput()
 {
-	$('.integer').each(function(){this.value = unformatNumber(this.value)});
+	$('.integer2').each(function(){this.value = unformatNumber(this.value)});
 	$('.number').each(function(){this.value = unformatNumber(this.value)});
 	return true;
 }
 
 function hitung_hargabeli(){
-	var harganetto  = unformatNumber($('#<?php echo CHtml::activeId($model,"harganetto"); ?>').val());
-	var isinetto = unformatNumber($('#<?php echo CHtml::activeId($model,"kemasanbesar"); ?>').val());
+	var harganetto  = parseUnformat($('#<?php echo CHtml::activeId($model,"harganetto"); ?>').val());
+	var isinetto = parseUnformat($('#<?php echo CHtml::activeId($model,"kemasanbesar"); ?>').val());
 	total_hargabeli = harganetto * isinetto;
 	$('#hargabeli').val(formatNumber(total_hargabeli));
 	hitungHpp();
 }
 
 function hitung_harganetto(){
-	var hargabeli = unformatNumber($('#hargabeli').val());
-	var isinetto  = unformatNumber($('#<?php echo CHtml::activeId($model,"kemasanbesar"); ?>').val());
+	var hargabeli = parseUnformat($('#hargabeli').val());
+	var isinetto  = parseUnformat($('#<?php echo CHtml::activeId($model,"kemasanbesar"); ?>').val());
 	total_harganetto = hargabeli / isinetto;
 	$('#<?php echo CHtml::activeId($model,"harganetto"); ?>').val(formatNumber(total_harganetto));
 	hitungHpp();
 }
 
 function hitung_margin(){
-	hargajual = unformatNumber($('#<?php echo CHtml::activeId($model,"hargajual"); ?>').val());
-	hpp = unformatNumber($('#<?php echo CHtml::activeId($model,"hpp"); ?>').val());
+	hargajual = parseUnformat($('#<?php echo CHtml::activeId($model,"hargajual"); ?>').val());
+	hpp = parseUnformat($('#<?php echo CHtml::activeId($model,"hpp"); ?>').val());
 	margin = ((hargajual - hpp)/hpp)*100;
-	$('#<?php echo CHtml::activeId($model,"margin"); ?>').val(margin);
+	$('#<?php echo CHtml::activeId($model,"margin"); ?>').val(formatFloat(margin));
 }
 
 function hitung_hargajual(){
-	margin = unformatNumber($('#<?php echo CHtml::activeId($model,"margin"); ?>').val());
-	hpp = unformatNumber($('#<?php echo CHtml::activeId($model,"hpp"); ?>').val());
+	margin = parseUnformat($('#<?php echo CHtml::activeId($model,"margin"); ?>').val());
+	hpp = parseUnformat($('#<?php echo CHtml::activeId($model,"hpp"); ?>').val());
 	hargajual = hpp + ((hpp/100)*margin);
-	$('#<?php echo CHtml::activeId($model,"hargajual"); ?>').val(hargajual);
+	$('#<?php echo CHtml::activeId($model,"hargajual"); ?>').val(formatNumber(hargajual));
 }
 
 function hitung_margin_hjanonresep(){
-	hjanonresep = unformatNumber($('#<?php echo CHtml::activeId($model,"hjanonresep"); ?>').val());
-	hpp = unformatNumber($('#<?php echo CHtml::activeId($model,"hpp"); ?>').val());
+	hjanonresep = parseUnformat($('#<?php echo CHtml::activeId($model,"hjanonresep"); ?>').val());
+	hpp = parseUnformat($('#<?php echo CHtml::activeId($model,"hpp"); ?>').val());
 	marginnonresep = ((hjanonresep - hpp)/hpp)*100;
-	$('#<?php echo CHtml::activeId($model,"marginnonresep"); ?>').val(marginnonresep);
+	$('#<?php echo CHtml::activeId($model,"marginnonresep"); ?>').val(formatFloat(marginnonresep));
 }
 
 function hitung_hjanonresep(){
-	marginnonresep = unformatNumber($('#<?php echo CHtml::activeId($model,"marginnonresep"); ?>').val());
-	hpp = unformatNumber($('#<?php echo CHtml::activeId($model,"hpp"); ?>').val());
+	marginnonresep = parseUnformat($('#<?php echo CHtml::activeId($model,"marginnonresep"); ?>').val());
+	hpp = parseUnformat($('#<?php echo CHtml::activeId($model,"hpp"); ?>').val());
 	hjanonresep = hpp + ((hpp/100)*marginnonresep);
-	$('#<?php echo CHtml::activeId($model,"hjanonresep"); ?>').val(hjanonresep);
+	$('#<?php echo CHtml::activeId($model,"hjanonresep"); ?>').val(formatNumber(hjanonresep));
 }
 
 function hitung_margin_hjaresep(){
-	hjaresep = unformatNumber($('#<?php echo CHtml::activeId($model,"hjaresep"); ?>').val());
-	jasadokter = unformatNumber($('#<?php echo CHtml::activeId($model,"jasadokter"); ?>').val());
-	hpp = unformatNumber($('#<?php echo CHtml::activeId($model,"hpp"); ?>').val());
+	hjaresep = parseUnformat($('#<?php echo CHtml::activeId($model,"hjaresep"); ?>').val());
+	jasadokter = parseUnformat($('#<?php echo CHtml::activeId($model,"jasadokter"); ?>').val());
+	hpp = parseUnformat($('#<?php echo CHtml::activeId($model,"hpp"); ?>').val());
 	marginresep = (((hjaresep - hpp - jasadokter)/hpp)*100);
-	$('#<?php echo CHtml::activeId($model,"marginresep"); ?>').val(marginresep);
+	$('#<?php echo CHtml::activeId($model,"marginresep"); ?>').val(formatFloat(marginresep));
 }
 
 function hitung_hjaresep(){
-	marginresep = unformatNumber($('#<?php echo CHtml::activeId($model,"marginresep"); ?>').val());
-	jasadokter = unformatNumber($('#<?php echo CHtml::activeId($model,"jasadokter"); ?>').val());
-	hpp = unformatNumber($('#<?php echo CHtml::activeId($model,"hpp"); ?>').val());
+	marginresep = parseUnformat($('#<?php echo CHtml::activeId($model,"marginresep"); ?>').val());
+	jasadokter = parseUnformat($('#<?php echo CHtml::activeId($model,"jasadokter"); ?>').val());
+	hpp = parseUnformat($('#<?php echo CHtml::activeId($model,"hpp"); ?>').val());
 	hjaresep = hpp + ((hpp/100)*marginresep) + jasadokter;
-	$('#<?php echo CHtml::activeId($model,"hjaresep"); ?>').val(hjaresep);
+	$('#<?php echo CHtml::activeId($model,"hjaresep"); ?>').val(formatNumber(hjaresep));
 }
 /**
 * tombol batal pada dialogbox
@@ -669,10 +681,10 @@ function setVerifikasi(){
 	        });
 	        //untuk verifikasi hilangkan srbac loading
 	        $(".animation-loading").removeClass("animation-loading");
-	        $("form").find('.float').each(function(){
+	        $("form").find('.float2').each(function(){
 	            $(this).val(formatFloat($(this).val()));
 	        });
-	        $("form").find('.integer').each(function(){
+	        $("form").find('.integer2').each(function(){
 	            $(this).val(formatInteger($(this).val()));
 	        });
     	}else{
@@ -687,7 +699,7 @@ function setVerifikasi(){
 
 function AutoTextNamaOA()
 {
-	var nama = $('#<?php echo CHtml::activeId($model,"obatalkes_namalain"); ?>').val();
+	var nama = $('#<?php echo CHtml::activeId($model,"obatalkes_nama"); ?>').val();
 	var kekuatan = $('#<?php echo CHtml::activeId($model,"kekuatan"); ?>').val();
 	var satuan = $('#<?php echo CHtml::activeId($model,"satuankekuatan"); ?>').val();
 	var satuankecil = $('#<?php echo CHtml::activeId($model,"satuankecil_id"); ?> option:selected').html();
@@ -704,7 +716,7 @@ function AutoTextNamaOA()
 	if((satuankecil == '') || (satuankecil == '-- Pilih --')){
 		var satuankecil = '';
 	}
-	document.getElementById('SAObatalkesM_obatalkes_nama').value = nama+' '+kekuatan+' '+satuan+' '+satuankecil;
+	document.getElementById('SAObatalkesM_obatalkes_namalain').value = (nama+' '+kekuatan+' '+satuan+' '+satuankecil).toUpperCase();
 }
 
 $(document).ready(function(){

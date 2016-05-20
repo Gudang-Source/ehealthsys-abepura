@@ -258,14 +258,15 @@ class StokobatalkesT extends CActiveRecord
          */
         public static function getJumlahStok($obatalkes_id, $ruangan_id = null){
             $criteria = new CDbCriteria();
-            $criteria->addCondition('stokoa_aktif IS TRUE');
-            $criteria->addCondition('obatalkes_id = '.$obatalkes_id);
-			if(!empty($ruangan_id)){
-				$criteria->addCondition("ruangan_id = ".$ruangan_id);
-			}
-            $criteria->group = "obatalkes_id, ruangan_id";
             $criteria->select = "sum(qtystok_in - qtystok_out) AS qtystok";
-            $model = StokobatalkesT::model()->find($criteria);
+            //$criteria->addCondition('stokoa_aktif IS TRUE');            
+            if(!empty($ruangan_id)){
+                    $criteria->addCondition("ruangan_id = ".$ruangan_id);
+            }
+            $criteria->addCondition('obatalkes_id = '.$obatalkes_id);
+            $criteria->group = "obatalkes_id, ruangan_id";            
+            $model = InfostokobatalkesruanganV::model()->find($criteria);
+            
             if(isset($model->qtystok)){
                 return $model->qtystok;
             }else{

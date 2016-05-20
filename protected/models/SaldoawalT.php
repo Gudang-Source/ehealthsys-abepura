@@ -103,7 +103,7 @@ class SaldoawalT extends CActiveRecord
 		return array(
 			'saldoawal_id' => 'Saldo Awal ID',
 //			'rekening4_id' => 'Rekening ID 4',
-			'rekperiod_id' => 'Periode Rekening',
+			'rekperiod_id' => 'Periode Akuntansi',
 			'matauang_id' => 'Mata Uang',
 			'rekening5_id' => 'Rekening ID 5',
 			'kursrp_id' => 'Kurs Rp.',

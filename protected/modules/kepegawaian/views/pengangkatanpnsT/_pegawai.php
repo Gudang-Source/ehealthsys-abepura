@@ -1,4 +1,4 @@
-    <div class="row-fluid">
+<div class="row-fluid">
             <div class="span4">
                 <?php echo $form->textFieldRow($model,'nomorindukpegawai',array('readonly'=>true,'id'=>'NIP')); ?>
                 <div class="control-group">
@@ -108,13 +108,13 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                             $('#tempatlahir_pegawai').val('".$data->tempatlahir_pegawai."');
                                             $('#tgl_lahirpegawai').val('".$data->tgl_lahirpegawai."');
                                             $('#jeniskelamin').val('".$data->jeniskelamin."');
-                                            $('#jabatan').val('".(empty($data->jabatan_nama)?"":$data->jabatan->jabatan_nama)."');
-                                            $('#pangkat').val('".(!empty($data->pangkat->pangkat_nama)?$data->pangkat->pangkat_nama : null)."');
+                                            $('#jabatan').val('".(empty($data->jabatan_id)?"":$data->jabatan->jabatan_nama)."');
+                                            $('#pangkat').val('".(!empty($data->pangkat_id)?$data->pangkat->pangkat_nama : null)."');
                                             $('#pendidikan').val('".(empty($data->pendidikan_id)?"":$data->pendidikan->pendidikan_nama)."');
                                             $('#statusperkawinan').val('".$data->statusperkawinan."');
                                             $('#alamat_pegawai').val('".$data->alamat_pegawai."');
-                                            $('#KPPengangkatanpnsT_jabatan').val('".(empty($data->jabatan_nama)?"":$data->jabatan->jabatan_nama)."');
-                                            $('#KPPengangkatanpnsT_pangkat').val('".(!empty($data->pangkat->pangkat_nama)?$data->pangkat->pangkat_nama : "")."');
+                                            $('#KPPengangkatanpnsT_jabatan').val('".(empty($data->jabatan_id)?"":$data->jabatan->jabatan_nama)."');
+                                            $('#KPPengangkatanpnsT_pangkat').val('".(!empty($data->pangkat_id)?$data->pangkat->pangkat_nama : "")."');
                                             $('#KPPengangkatanpnsT_pendidikan').val('".(empty($data->pendidikan_id)?"":$data->pendidikan->pendidikan_nama)."');
                                             
                                             $('#dialogPegawai').dialog('close');    
@@ -127,9 +127,19 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 'nama_pegawai',
                 'tempatlahir_pegawai',
                 'tgl_lahirpegawai',
-                'jeniskelamin',
+                //'jeniskelamin',
+                array(
+                    'header' => 'Jenis Kelamin',
+                    'name' => 'jeniskelamin',
+                    'filter' => CHtml::dropDownList('KPRegistrasifingerprint[jeniskelamin]', $modPegawai->jeniskelamin, LookupM::getItems('jeniskelamin'), array('empty'=>'-- Pilih --')),
+                ),
                 'statusperkawinan',
-                'jabatan.jabatan_nama',
+                array(
+                    'header' => 'Jabatan',
+                    'name' => 'jabatan_id',
+                    'filter' => CHtml::dropDownList('KPRegistrasifingerprint[jabatan_id]', $modPegawai->jabatan_id, CHtml::listData(JabatanM::model()->findAll("jabatan_aktif = TRUE ORDER BY jabatan_nama ASC"),'jabatan_id','jabatan_nama'), array('empty'=>'-- Pilih --')),
+                ), 
+               // 'jabatan.jabatan_nama',
                 'alamat_pegawai',
             ),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',

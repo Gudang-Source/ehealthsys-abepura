@@ -154,8 +154,8 @@
     </div>
 </div>
 <div class="span4">
-    <?php echo $form->textFieldRow($model,'totalharga',array('class'=>'span3 integer', 'readonly'=>true, 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
-    <?php echo $form->textFieldRow($model,'totalnetto',array('class'=>'span3 integer', 'readonly'=>true, 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+    <?php echo $form->textFieldRow($model,'totalharga',array('class'=>'span3 integer2', 'readonly'=>true, 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+    <?php echo $form->textFieldRow($model,'totalnetto',array('class'=>'span3 integer2', 'readonly'=>true, 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
     <?php echo $form->textAreaRow($model,'keterangan_opname',array('rows'=>4, 'cols'=>50, 'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
 </div>
 </div>

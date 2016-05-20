@@ -11,7 +11,9 @@ if (isset($caraPrint)){
       $table = 'ext.bootstrap.widgets.BootExcelGridView';
 }
 ?>
-<?php $this->widget($table,array(
+<?php 
+
+    $this->widget($table,array(
     'id'=>'tableLaporan',
     'dataProvider'=>$data,
     'enableSorting'=>$sort,
@@ -26,20 +28,20 @@ if (isset($caraPrint)){
                     'header'=>'Nama Dokter',
                     // 'name'=>'nobuktibayar',
                     'type'=>'raw',
-                    'value'=>'$data->nama_pegawai',
+                    'value'=>'$data->gelardepan." ".$data->nama_pegawai.", ".$data->gelarbelakang_nama',
                     'htmlOptions'=>array('style'=>'font-size:10px;'),
                 ),
 // //                'nobuktibayar',
                 array(
                     'header'=>'Tanggal <br> Pembebasan',
                     'type'=>'raw',
-                    'value'=>'date("d/m/Y H:i:s",strtotime($data->tglpembebasan))',
+                    'value'=>'MyFormatter::formatDateTimeFOrUser($data->tglpembebasan)',
                     'htmlOptions'=>array('style'=>'font-size:10px;'),
                 ),
                 array(
                     'header'=>'Tanggal <br> Pelayanan',
                     'type'=>'raw',
-                    'value'=>'date("d/m/Y H:i:s",strtotime($data->tgl_tindakan))',
+                    'value'=>'MyFormatter::formatDateTimeFOrUser($data->tgl_tindakan)',
                     'htmlOptions'=>array('style'=>'font-size:10px;'),
                 ),
                 array(
@@ -49,9 +51,9 @@ if (isset($caraPrint)){
                     'htmlOptions'=>array('style'=>'font-size:10px;'),
                 ),
                 array(
-                    'header'=>'Nama Pasien / Alias',
+                    'header'=>'Nama Pasien',
                     'type'=>'raw',
-                    'value'=>'$data->nama_pasien ." / ".$data->nama_bin',
+                    'value'=>'$data->namadepan.$data->nama_pasien',
                     'htmlOptions'=>array('style'=>'font-size:10px;'),
                 ),
                 array(
@@ -63,26 +65,26 @@ if (isset($caraPrint)){
                 array(
                     'header'=>'Jumlah Tarif',
                     'type'=>'raw',
-                    'value'=>'$data->tarif_satuan',
-                    'htmlOptions'=>array('style'=>'font-size:10px;'),
+                    'value'=>'MyFormatter::formatNumberForPrint($data->tarif_satuan)',
+                    'htmlOptions'=>array('style'=>'font-size:10px; text-align: right;'),
                 ),
                 array(
                     'header'=>'Nama Tindakan',
                     'type'=>'raw',
                     'value'=>'$data->daftartindakan_nama',
-                    'htmlOptions'=>array('style'=>'font-size:10px;'),
+                    'htmlOptions'=>array('style'=>'font-size:10px;'),   
                 ),
                 array(
                     'header'=>'Kompora Tarif',
                     'type'=>'raw',
                     'value'=>'0',
-                    'htmlOptions'=>array('style'=>'font-size:10px;'),
+                    'htmlOptions'=>array('style'=>'font-size:10px;text-align:right;'),
                 ),
                 array(
                     'header'=>'Jumlah Pembebasan',
-                    'type'=>'raw',
-                    'value'=>'$data->jmlpembebasan',
-                    'htmlOptions'=>array('style'=>'font-size:10px;'),
+                    'type'=>'raw',                    
+                    'value'=>'MyFormatter::formatNumberForPrint($data->jmlpembebasan)',
+                    'htmlOptions'=>array('style'=>'font-size:10px; text-align: right;'),
                 ),                                                                
 
 	),

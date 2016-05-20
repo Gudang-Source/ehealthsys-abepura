@@ -565,7 +565,7 @@ function cekObat(){
         }
         
         $(".animation-loading").removeClass("animation-loading");
-        $("form").find('.float').each(function(){
+        $("form").find('.float2').each(function(){
             $(this).val(formatFloat($(this).val()));
         });
         $("form").find('.integer').each(function(){
@@ -692,6 +692,7 @@ function formjenisresep(jenisresep){
 }
 
 function hitungJumlahObat(){
+        unformatNumberSemua();
 	$("#qtyRacik").addClass("animation-loading-1");
 	var jmlkemasanobat = $('#jmlKemasanObat').val();
 	var permintaan = $('#permintaan').val();
@@ -707,6 +708,7 @@ function hitungJumlahObat(){
 		$("#qtyRacik").val(jmlobat);
 		$("#qtyRacik").removeClass("animation-loading-1");
 	},500);
+        
 }
 
 function setTombolRacikanBaru(){

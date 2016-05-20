@@ -51,20 +51,20 @@
             'columns'=>array(
                      array(
                             'name'=>'jenistarif_id',
-                            'filter'=>  CHtml::listData(SATarifTindakanM ::model()->getJenisTarifItems(), 'jenistarif_id', 'jenistarif_nama'),
+                            'filter'=> CHtml::dropDownList('TariftindakanperdaV[jenistarif_id]',$model->jenistarif_id,CHtml::listData(SATarifTindakanM ::model()->getJenisTarifItems(), 'jenistarif_id', 'jenistarif_nama'),array('empty'=>'-- Pilih --')),
     //                         'value'=>array($this,'gridJenisTarif'),
                              'value'=>'$data->jenistarif_nama',
                     ),
                      array(
                             'name'=>'kelaspelayanan_id',
-                            'filter'=>  CHtml::listData(SATarifTindakanM ::model()->getKelasPelayananItems(), 'kelaspelayanan_id', 'kelaspelayanan_nama'),
+                            'filter'=> CHtml::dropDownList('TariftindakanperdaV[kelaspelayanan_id]',$model->kelaspelayanan_id,CHtml::listData(SATarifTindakanM ::model()->getKelasPelayananItems(), 'kelaspelayanan_id', 'kelaspelayanan_nama'),array('empty'=> '-- Pilih --')),
     //                         'value'=>array($this,'gridKelasPelayanan'),
                              'value'=>'$data->kelaspelayanan_nama',
                     ),
                     array(
-                            'header'=>'Daftar Tindakan',
+                            'header'=>'Kategori Tindakan',
                             'name'=>'kategoritindakan_id',
-                            'filter'=>  CHtml::listData(SATarifTindakanM ::model()->KategoriTindakanItems, 'kategoritindakan_id', 'kategoritindakan_nama'),
+                            'filter'=>  CHtml::dropDownList('TariftindakanperdaV[kategoritindakan_id]',$model->kategoritindakan_id,CHtml::listData(SATarifTindakanM ::model()->KategoriTindakanItems, 'kategoritindakan_id', 'kategoritindakan_nama'),array('empty'=>'-- Pilih --')),
     //                        'value'=>array($this,'gridKategoriTindakan'),
                             'value'=>'$data->kategoritindakan_nama',
                     ),
@@ -76,7 +76,7 @@
                     ),
                     array(
                             'name'=>'komponentarif_id',
-                            'filter'=>  CHtml::listData(SATarifTindakanM ::model()->KomponenTarifItems, 'komponentarif_id', 'komponentarif_nama'),
+                            'filter'=>  CHtml::dropDownList('TariftindakanperdaV[komponentarif_id]',$model->komponentarif_id,CHtml::listData(SATarifTindakanM ::model()->KomponenTarifItems, 'komponentarif_id', 'komponentarif_nama'),array('empty'=>'-- Pilih --')),
     //                        'value'=>'$data->komponentarif_nama',
     //                        'value'=>array($this,'gridKomponenTarif'),
                             'value'=>'$data->komponentarif_nama',
@@ -85,7 +85,8 @@
                         'header'=>'Tarif Tindakan',
                         'name'=>'harga_tariftindakan',
                         'type'=>'raw',
-                        'value'=>'"Rp. ".number_format($data->harga_tariftindakan)',
+                        'value'=>'"Rp".number_format($data->harga_tariftindakan,0,"",".")',
+                        'htmlOptions' => array('style'=>'text-align:right')
                     ),
     //		'harga_tariftindakan',
                     /*
@@ -146,7 +147,7 @@
     echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
     echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
     echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
-    $content = $this->renderPartial('../tips/master',array(),true);
+    $content = $this->renderPartial('../tips/master2',array(),true);
     $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
     $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
     $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai

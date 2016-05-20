@@ -19,36 +19,39 @@ class BKRinciantagihanpasienpenunjangV extends RinciantagihanpasienpenunjangV
         {
             $criteria=new CDbCriteria;
             
-            $str_bayar = '(case when tindakansudahbayar_id is null then true else false end)';
+            $str_bayar = '(case when t.tindakansudahbayar_id is null then true else false end)';
             
-            $criteria->group = 'tgl_pendaftaran,no_pendaftaran, pendaftaran_id, no_rekam_medik, nama_pasien, nama_bin ,pendaftaran_id, carabayar_nama, penjamin_nama, ruangan_nama, pembayaranpelayanan_id, instalasi_id, instalasi_nama, '
+            $criteria->group = 't.tgl_pendaftaran,t.no_pendaftaran, t.pendaftaran_id, t.no_rekam_medik, t.namadepan, t.nama_pasien, t.nama_bin ,t.pendaftaran_id, t.carabayar_nama, t.penjamin_nama, t.ruangan_nama, t.pembayaranpelayanan_id, t.instalasi_id, t.instalasi_nama, '
                     . $str_bayar;
-            $criteria->select = $criteria->group.' , sum(case when tindakansudahbayar_id is null then tarif_tindakan else 0 end) as totaltagihan, '
+            $criteria->select = $criteria->group.' , sum(case when t.tindakansudahbayar_id is null then t.tarif_tindakan else 0 end) as totaltagihan, '
                     . $str_bayar;
-            $criteria->addBetweenCondition('date(tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
-            $criteria->compare('LOWER(namadepan)',strtolower($this->namadepan),true);
-            $criteria->compare('LOWER(nama_pasien)',strtolower($this->nama_pasien),true);
-            $criteria->compare('LOWER(nama_bin)',strtolower($this->nama_bin),true);
-            $criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
+            if (!empty($this->tgl_awal) && !empty($this->tgl_akhir)) {
+                $criteria->addBetweenCondition('date(t.tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
+            }
+            $criteria->compare('LOWER(t.namadepan)',strtolower($this->namadepan),true);
+            $criteria->compare('LOWER(t.nama_pasien)',strtolower($this->nama_pasien),true);
+            $criteria->compare('LOWER(t.nama_bin)',strtolower($this->nama_bin),true);
+            $criteria->compare('LOWER(t.ruangan_nama)',strtolower($this->ruangan_nama),true);
 			if(!empty($this->pendaftaran_id)){
-				$criteria->addCondition("pendaftaran_id = ".$this->pendaftaran_id);					
+				$criteria->addCondition("t.pendaftaran_id = ".$this->pendaftaran_id);					
 			}
-            $criteria->compare('LOWER(no_pendaftaran)',strtolower($this->no_pendaftaran),true);
-            $criteria->compare('LOWER(no_rekam_medik)',strtolower($this->no_rekam_medik),true);
+            $criteria->compare('LOWER(t.no_pendaftaran)',strtolower($this->no_pendaftaran),true);
+            $criteria->compare('LOWER(t.no_rekam_medik)',strtolower($this->no_rekam_medik),true);
 			if(!empty($this->tindakanpelayanan_id)){
-				$criteria->addCondition("tindakanpelayanan_id = ".$this->tindakanpelayanan_id);					
+				$criteria->addCondition("t.tindakanpelayanan_id = ".$this->tindakanpelayanan_id);					
 			}
 			if(!empty($this->penjamin_id)){
-				$criteria->addCondition("penjamin_id = ".$this->penjamin_id);					
+				$criteria->addCondition("t.penjamin_id = ".$this->penjamin_id);					
 			}
-            $criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
+            $criteria->compare('LOWER(t.penjamin_nama)',strtolower($this->penjamin_nama),true);
 			if(!empty($this->carabayar_id)){
-				$criteria->addCondition("carabayar_id = ".$this->carabayar_id);					
+				$criteria->addCondition("t.carabayar_id = ".$this->carabayar_id);					
 			}
-            $criteria->compare('LOWER(carabayar_nama)',strtolower($this->carabayar_nama),true);
-            $criteria->compare('tarif_tindakan',$this->tarif_tindakan);
+            $criteria->compare('LOWER(t.carabayar_nama)',strtolower($this->carabayar_nama),true);
+            $criteria->compare('t.tarif_tindakan',$this->tarif_tindakan);
+            $criteria->compare('p.pegawai_id', $this->pegawai_id);
 			if(!empty($this->jeniskasuspenyakit_id)){
-				$criteria->addCondition("jeniskasuspenyakit_id = ".$this->jeniskasuspenyakit_id);					
+				$criteria->addCondition("t.jeniskasuspenyakit_id = ".$this->jeniskasuspenyakit_id);					
 			}
                         /*
 			$ruangans = array();
@@ -65,14 +68,21 @@ class BKRinciantagihanpasienpenunjangV extends RinciantagihanpasienpenunjangV
 			
             //$criteria->addInCondition('ruanganpendaftaran_id', $ruangans);
             //$criteria->addInCondition('ruanganpenunjang_id',  $ruangans);
-            $criteria->compare('ruangan_id', $this->ruangan_id);
-            $criteria->compare('LOWER(jeniskasuspenyakit_nama)',strtolower($this->jeniskasuspenyakit_nama),true);
+            $criteria->compare('t.ruangan_id', $this->ruangan_id);
+            $criteria->compare('r.instalasi_id', $this->instalasi_id);
+            $criteria->compare('LOWER(t.jeniskasuspenyakit_nama)',strtolower($this->jeniskasuspenyakit_nama),true);
+            
+            $criteria->join = "join ruangan_m r on r.ruangan_id = t.ruangan_id "
+                    . "left join pendaftaran_t p on p.pendaftaran_id = t.pendaftaran_id";
+            
             if ($this->statusBayar == 'LUNAS'){
                 $criteria->addCondition($str_bayar.' = false');
             }else if ($this->statusBayar == 'BELUM LUNAS'){
                 $criteria->addCondition($str_bayar.' = true');
             }
-            $criteria->order = 'pendaftaran_id';
+            
+            $criteria->compare('p.statusperiksa', $this->statusperiksa);
+            $criteria->order = 't.pendaftaran_id';
             return new CActiveDataProvider($this, array(
                     'criteria'=>$criteria,
             ));
