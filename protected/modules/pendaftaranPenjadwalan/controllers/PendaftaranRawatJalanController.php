@@ -321,6 +321,7 @@ class PendaftaranRawatJalanController extends MyAuthController
                     if($_POST['PPPendaftaranT']['is_bpjs']){
                         $model = $this->simpanPendaftaran($model,$modPasien,$modRujukanBpjs,$modPenanggungJawab, $_POST['PPPendaftaranT'], $_POST['PPPasienM'],$modAsuransiPasienBpjs);
                         $modSep = $this->simpanSep($model,$modPasien,$modRujukanBpjs,$modAsuransiPasienBpjs,$_POST['PPSepT']);
+                        //var_dump($modSep->attributes);
                         $model->sep_id = $modSep->sep_id;
                         $model->update();
                     }else{
@@ -868,6 +869,8 @@ class PendaftaranRawatJalanController extends MyAuthController
             $modSep->create_loginpemakai_id = Yii::app()->user->id;
             $modSep->create_ruangan = Yii::app()->user->getState('ruangan_id');
             
+            // var_dump($modSep->attributes, $modSep->validate(), $modSep->errors); die;
+            
             $lakalantas = 2;
             if (isset($_POST['PPPasienkecelakaanT'])) $lakalantas = 1;
             
@@ -878,6 +881,8 @@ class PendaftaranRawatJalanController extends MyAuthController
                     //var_dump($reqSep); die;
                     if ($reqSep['metadata']['code']==200) {
                         $modSep->nosep = $reqSep['response'];
+                        if (empty($modSep->norujukan)) $modSep->norujukan = "-";
+                        if (empty($modSep->diagnosaawal)) $modSep->diagnosaawal = "-";
                         if($modSep->save()){
                             $this->septersimpan = true;
                             RujukandariM::model()->updateByPk($modRujukanBpjs->rujukandari_id, array(
@@ -897,6 +902,8 @@ class PendaftaranRawatJalanController extends MyAuthController
                     if ($reqSep['metadata']['code']==200) {
                             // var_dump($reqSep); die;
                             $modSep->nosep = $reqSep['response'];
+                            if (empty($modSep->norujukan)) $modSep->norujukan = "-";
+                            if (empty($modSep->diagnosaawal)) $modSep->diagnosaawal = "-";
                             if($modSep->save()){
                                     $this->septersimpan = true;
                                     RujukandariM::model()->updateByPk($modRujukanBpjs->rujukandari_id, array(
