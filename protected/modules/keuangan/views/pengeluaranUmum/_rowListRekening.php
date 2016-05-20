@@ -120,7 +120,6 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 $modRekKredit = new AKRekeningakuntansiV('search');
 $modRekKredit->unsetAttributes();
 //$account = "K";
-$account = "";
 if(isset($_GET['AKRekeningakuntansiV'])) {
     $modRekKredit->attributes = $_GET['AKRekeningakuntansiV'];
 	// untuk mencari nama rekening antara rekening 5 sampai rekening 1 jika salah satu tidak terpenuhi
@@ -196,6 +195,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 		array(
 			'header'=>'Saldo Normal',
 			'value'=>'$data->rekening5_nb',
+                        'filter'=>CHtml::dropDownList($modRekKredit, 'rekening5_nb', array('D'=>'Debit', 'K'=>'Kredit')),
 		),
 
 		array(
@@ -243,7 +243,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 
 $modRekKredit = new AKRekeningakuntansiV('search');
 $modRekKredit->unsetAttributes();
-$account = "D";
+// $account = "D";
 if(isset($_GET['AKRekeningakuntansiV'])) {
     $modRekKredit->attributes = $_GET['AKRekeningakuntansiV'];
 	// untuk mencari nama rekening antara rekening 5 sampai rekening 1 jika salah satu tidak terpenuhi
@@ -319,6 +319,7 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
 		array(
 			'header'=>'Saldo Normal',
 			'value'=>'$data->rekening5_nb',
+                        'filter'=>CHtml::dropDownList($modRekKredit, 'rekening5_nb', array('D'=>'Debit', 'K'=>'Kredit')),
 		),
 
 		array(

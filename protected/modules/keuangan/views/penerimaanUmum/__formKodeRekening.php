@@ -11,13 +11,13 @@
         $key = 99;
         echo('<tr>');
             echo '<td>';
-                $kode = $value->kdrekening1 . '-' . $value->kdrekening2 . '-' . $value->kdrekening3;
+                $kode = ''; //$value->kdrekening1 . '-' . $value->kdrekening2 . '-' . $value->kdrekening3;
                 if(isset($value->kdrekening4))
                 {
-                    $kode .= '-' . $value->kdrekening4;
+                    $kode = $value->kdrekening4;
                     if(isset($value->kdrekening5))
                     {
-                        $kode .= '-' . $value->kdrekening5;
+                        $kode = $value->kdrekening5;
                     }
                 }
                 echo $kode;
