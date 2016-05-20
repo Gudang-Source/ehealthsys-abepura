@@ -166,7 +166,7 @@
 			return $this->request($completeUrl, $hashsignature, $uid, $timestmp);		
 		}
 		
-		function create_sep($nokartu, $tglsep, $tglrujukan, $norujukan, $ppkrujukan, $ppkpelayanan, $jnspelayanan, $catatan, $diagawal, $politujuan, $klsrawat, $user, $nomr, $no_trans)
+		function create_sep($nokartu, $tglsep, $tglrujukan, $norujukan, $ppkrujukan, $ppkpelayanan, $jnspelayanan, $catatan, $diagawal, $politujuan, $klsrawat, $user, $nomr, $no_trans, $lakaLantas)
 		{
 			$query = 
                 '<request>
@@ -183,7 +183,7 @@
                                         <diagAwal>'.$diagawal.'</diagAwal>
                                         <poliTujuan>'.$politujuan.'</poliTujuan>
                                         <klsRawat>'.$klsrawat.'</klsRawat>
-                                        <lakaLantas>2</lakaLantas>
+                                        <lakaLantas>'.$lakaLantas.'</lakaLantas>
                                         <user>'.$user.'</user>
                                         <noMr>'.$nomr.'</noMr>
                                 </t_sep>
