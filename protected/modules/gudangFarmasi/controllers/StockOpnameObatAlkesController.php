@@ -110,7 +110,7 @@ class StockOpnameObatAlkesController extends MyAuthController
                     }
 				}
 			}catch(Exception $ex){
-                            echo "Kick"; die;
+                            // echo "Kick"; die;
                     $transaction->rollback();
                     Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data gagal disimpan.'.MyExceptionMessage::getMessage($ex, true));
                 }
