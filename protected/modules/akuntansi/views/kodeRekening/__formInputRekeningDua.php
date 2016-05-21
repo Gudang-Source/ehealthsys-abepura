@@ -50,6 +50,8 @@
                     if (data.pesan == 'exist') {
                         myAlert('Kode Rekening telah terdaftar');
                         refreshTree();
+                    } else if (data.pesan == 'kode') {
+                        myAlert('Kode rekening harus 4 Karakter');
                     }
 
                     if (data.status == 'ok') {
