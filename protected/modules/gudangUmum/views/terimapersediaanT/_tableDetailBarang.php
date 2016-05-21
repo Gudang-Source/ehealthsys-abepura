@@ -9,12 +9,12 @@
             <th>Sub Kelompok</th>
             <th>Sub Sub Kelompok</th>
             <th>Barang</th>
-            <th>Harga Beli</th>
+            <th>Jumlah Terima</th>
             <th>Harga Satuan</th>
+            <th>Harga Beli</th>
             <?php if (!empty($modBeli->pembelianbarang_id)) { ?>
             <th>Jumlah Beli</th>
             <?php } ?>
-            <th>Jumlah Terima</th>
             <th>Satuan</th>
             <th>Ukuran<br/>Bahan</th>
             <th>kondisi Barang</th>
@@ -41,9 +41,9 @@
                 
                 <td>
                 <?php 
-                    echo CHtml::activeTextField($detail, '['.$i.']hargabeli', array('class'=>'span2 numbersOnly', 'onblur'=>'setTotalHarga();',  'readonly'=>true, 'style'=>'text-align: right;'));
+                    echo CHtml::activeTextField($detail, '['.$i.']jmlterima', array('class'=>'span1 numbersOnly qty', 'onblur'=>'setTotalHarga();'.(isset($modBeli)) ?'cekTerima(this)':'', 'style'=>'text-align: right;'));
                     echo '<br/>';
-                    echo $form->error($detail, '['.$i.']hargabeli');
+                    echo $form->error($detail, '['.$i.']jmlterima');
                 ?>
                 </td>
                 <td>
@@ -51,6 +51,13 @@
                     echo CHtml::activeTextField($detail, '['.$i.']hargasatuan', array('class'=>'span2 numbersOnly satuan', 'onblur'=>'setTotalHarga();', 'readonly'=>true, 'style'=>'text-align: right;'));
                     echo '<br/>';
                     echo $form->error($detail, '['.$i.']hargasatuan');
+                ?>
+                </td>
+                <td>
+                <?php 
+                    echo CHtml::activeTextField($detail, '['.$i.']hargabeli', array('class'=>'span2 numbersOnly', 'onblur'=>'setTotalHarga();',  'readonly'=>true, 'style'=>'text-align: right;'));
+                    echo '<br/>';
+                    echo $form->error($detail, '['.$i.']hargabeli');
                 ?>
                 </td>
                 <?php if (isset($modBeli)) { ?>
@@ -62,13 +69,6 @@
                 ?>
                 </td>
                 <?php } ?>
-                <td>
-                <?php 
-                    echo CHtml::activeTextField($detail, '['.$i.']jmlterima', array('class'=>'span1 numbersOnly qty', 'onblur'=>'setTotalHarga();'.(isset($modBeli)) ?'cekTerima(this)':'', 'style'=>'text-align: right;'));
-                    echo '<br/>';
-                    echo $form->error($detail, '['.$i.']jmlterima');
-                ?>
-                </td>
                 <td><?php echo CHtml::activeDropDownList($detail, '['.$i.']satuanbeli', LookupM::getItems('satuanbarang'), array('empty'=>'-- Pilih --', 'class'=>'span2')); ?></td>
                 <td><?php echo CHtml::activeTextField($detail, '['.$i.']jmldalamkemasan', array( 'class'=>'span1')); ?></td>
                 <td><?php echo CHtml::activeDropDownList($detail, '['.$i.']kondisibarang', LookupM::getItems('inventariskeadaan'), array('class'=>'span2')); ?></td>
