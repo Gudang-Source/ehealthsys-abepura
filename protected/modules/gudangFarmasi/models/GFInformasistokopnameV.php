@@ -95,6 +95,6 @@ class GFInformasistokopnameV extends InformasistokopnameV
         
         public function getPetugas2()
         {
-            return (isset($this->petugas1_gelardepan) ? $this->petugas1_gelardepan : "").' '.$this->petugas1_nama.(isset($this->petugas1_gelarbelakang) ? ', '.$this->petugas1_gelarbelakang : "");
+            return (isset($this->petugas2_gelardepan) ? $this->petugas2_gelardepan : "").' '.$this->petugas2_nama.(isset($this->petugas2_gelarbelakang) ? ', '.$this->petugas2_gelarbelakang : "");
         }
 }
