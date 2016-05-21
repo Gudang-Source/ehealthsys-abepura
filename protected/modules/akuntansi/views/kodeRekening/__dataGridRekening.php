@@ -86,7 +86,7 @@
                                         $res = "&emsp;".CHtml::Link($data->nama, Yii::app()->controller->createUrl("KodeRekening/editKelompokRekening",array("id"=>$data->id)),array("style"=>"color:blue","target"=>"frameEditKelompokRek", "onclick"=>'$("#dialogEditKelompokRek").dialog("open");',"rel"=>"tooltip", "title"=>"Klik Untuk<br>Golongan Akun",));
                                         break;
                                     case 3: 
-                                        $res = "&emsp;"."&emsp;".CHtml::Link($data->nama, Yii::app()->controller->createUrl("KodeRekening/editJenisRekening",array("id"=>$data->id)),array("style"=>"color:blue","target"=>"frameEditKelompokRek", "onclick"=>'$("#dialogEditKelompokRek").dialog("open");',"rel"=>"tooltip", "title"=>"Klik Untuk Edit<br>Sub Golongan Akun",));
+                                        $res = "&emsp;"."&emsp;".CHtml::Link($data->nama, Yii::app()->controller->createUrl("KodeRekening/editJenisRekening",array("id"=>$data->id)),array("style"=>"color:blue","target"=>"frameEditJenisRek", "onclick"=>'$("#dialogEditJenisRek").dialog("open");',"rel"=>"tooltip", "title"=>"Klik Untuk Edit<br>Sub Golongan Akun",));
                                         break;
                                     case 4: 
                                         $res = "&emsp;"."&emsp;"."&emsp;".CHtml::Link($data->nama, Yii::app()->controller->createUrl("KodeRekening/editObyekRekening",array("id"=>$data->id)),array("style"=>"color:blue","target"=>"frameEditObyekRek", "onclick"=>'$("#dialogEditObyekRek").dialog("open");',"rel"=>"tooltip", "title"=>"Klik Untuk Edit<br>Jenis Akun",));
@@ -158,7 +158,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog',
     array(
         'id' => 'dialogEditStruktur',
         'options' => array(
-            'title' => 'Edit Kelompok Akun',
+            'title' => 'Edit Komponen',
             'autoOpen' => false,
             'modal' => true,
             'width' => 550,
@@ -180,7 +180,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog',
     array(
         'id' => 'dialogEditKelompokRek',
         'options' => array(
-            'title' => 'Edit Golongan Akun',
+            'title' => 'Edit Unsur',
             'autoOpen' => false,
             'modal' => true,
             'width' => 550,
@@ -202,7 +202,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog',
     array(
         'id' => 'dialogEditJenisRek',
         'options' => array(
-            'title' => 'Sub Golongan Akun',
+            'title' => 'Edit Kelompok Pos',
             'autoOpen' => false,
             'modal' => true,
             'width' => 550,
@@ -223,7 +223,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog',
     array(
         'id' => 'dialogEditObyekRek',
         'options' => array(
-            'title' => 'Jenis Akun',
+            'title' => 'Edit Pos',
             'autoOpen' => false,
             'modal' => true,
             'width' => 550,
@@ -244,7 +244,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog',
     array(
         'id' => 'dialogEditRincianObyekRek',
         'options' => array(
-            'title' => 'Kode Akun',
+            'title' => 'Edit Akun',
             'autoOpen' => false,
             'modal' => true,
             'width' => 550,
