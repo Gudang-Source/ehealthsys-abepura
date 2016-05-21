@@ -97,7 +97,8 @@ class StockOpnameObatAlkesController extends MyAuthController
                             }
                         }                        
                     }
-
+                    // var_dump($this->stokopnameobattersimpan, $this->stokobatalkestersimpan, $this->updateformulirstokdetailtersimpan);
+                    // die;
                     if($this->stokopnameobattersimpan && $this->stokobatalkestersimpan && $this->updateformulirstokdetailtersimpan){
                         $transaction->commit();
                         Yii::app()->user->setFlash('success',"Data Berhasil Disimpan ");
@@ -109,6 +110,7 @@ class StockOpnameObatAlkesController extends MyAuthController
                     }
 				}
 			}catch(Exception $ex){
+                            echo "Kick"; die;
                     $transaction->rollback();
                     Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data gagal disimpan.'.MyExceptionMessage::getMessage($ex, true));
                 }
@@ -150,7 +152,7 @@ class StockOpnameObatAlkesController extends MyAuthController
         $modDetailOpname->jumlahnetto = $modDetailOpname->harganetto*$modDetailOpname->volume_fisik;
         $modDetailOpname->satuankecil_id = $obatAlkes->satuankecil_id;
         $modDetailOpname->sumberdana_id = $obatAlkes->sumberdana_id;
-        $modDetailOpname->tglkadaluarsa = $format->formatDateTimeForDb($obatAlkes->tglkadaluarsa);
+        $modDetailOpname->tglkadaluarsa = empty($obatAlkes->tglkadaluarsa)?date('Y-m-d', time() + (3600 * 24 * 365.25)):$format->formatDateTimeForDb($obatAlkes->tglkadaluarsa);
         $modDetailOpname->tglperiksafisik = $format->formatDateTimeForDb($modDetailOpname->tglperiksafisik);
         $modDetailOpname->jmlselisihstok = $modDetailOpname->volume_fisik - $modDetailOpname->volume_sistem; //$modDetailOpname->getJmlSelisihStok($modDetailOpname->stokopname->ruangan_id);
         
@@ -211,7 +213,7 @@ class StockOpnameObatAlkesController extends MyAuthController
         $modStok->create_ruangan = Yii::app()->user->ruangan_id;
         $modStok->tglterima = date('Y-m-d H:i:s');
         $modStok->satuankecil_id = (isset($modDetailOpname->satuankecil_id) ? $modDetailOpname->satuankecil_id : $loadObatAlkes->satuankecil_id);
-
+        var_dump($modStok->attributes, $modStok->validate(), $modStok->errors); die;
         if($modStok->validate()) { 
             $modStok->save();
             $loadObatAlkes->tglkadaluarsa = $modStok->tglkadaluarsa;
