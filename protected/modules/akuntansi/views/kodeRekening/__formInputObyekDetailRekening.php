@@ -63,6 +63,7 @@
 					if (data.pesan == 'insert') {
 						$("#reseter").click();
 						$('#fieldsetDetailObyekRekening').find("input[name$='[kdrekening5]']").val(data.id_parent.kdrekening5);
+                                                $('#fieldsetDetailObyekRekening').find("select[name$='[rekening5_nb]']").val(data.id_parent.saldonormal);
 					}
 					//getTreeMenu();
 					$.fn.yiiGridView.update('AKRekeningakuntansi-v', {});

@@ -237,10 +237,12 @@ class KodeRekeningController extends MyAuthController {
 							$max_kode = (int) $row['kdrekening5'];
 							$max_kode = $max_kode + 1;
 							$max_kode = ($max_kode < 10 ? "0" . $max_kode : $max_kode);
+                                                        $saldonormal = $row['rekening5_nb'];
 
 							$id_parent = array(
 								'rekening4_id' => $data_parsing['AKRekening5M']['rekening4_id'],
-								'kdrekening5' => $max_kode
+								'kdrekening5' => $max_kode,
+                                                                'saldonormal' => $saldonormal,
 							);
 						}
 					}
