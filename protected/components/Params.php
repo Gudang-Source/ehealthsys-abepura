@@ -392,8 +392,15 @@ Class Params
 	const JENISKELOMPOK_AL = 'AL'; //disesuaikan dengan lookup_m.lookup_type = 'jnskelompok'
 	const JENISKELOMPOK_GM = 'GM'; //disesuaikan dengan lookup_m.lookup_type = 'jnskelompok'
 	const JENISKELOMPOK_XY = 'XY'; //disesuaikan dengan lookup_m.lookup_type = 'jnskelompok'
+        
+        const REKENING1_LEN = 2;
+        const REKENING2_LEN = 4;
+        const REKENING3_LEN = 6;
+        const REKENING4_LEN = 8;
+        const REKENING5_LEN = 10;
+        
+        
 	//===   END KONSTANTA ===
-
         
         /* Hardcode status periksa */
         public static function statusPeriksa() {
