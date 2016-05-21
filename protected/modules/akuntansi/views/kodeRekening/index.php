@@ -27,6 +27,7 @@
                                     'rekening2_aktif' => true,
                                     'rekening1_id' => $val->rekening1_id,
                                 );
+                                $kel = KelrekeningM::model()->findByPk($val->kelrekening_id);
                                 $criteria->order = 'rekening2_id';
                                 $result_dua = $rekeningDua->findAllByAttributes($params_dua, $criteria);
                                 $parent_dua = '';
@@ -72,9 +73,9 @@
                                             $id_kelompok_lima = $val->rekening1_id . '_' . $val_dua->rekening2_id . '_' . $val_tiga->rekening3_id . '_' . $val_empat->rekening4_id;
                                             if(count($result_lima) > 0)
                                             {
-                                                $parent_empat .= "<li><span class='folder'>". $val_empat->nmrekening4 ."<span style='float:right'><a max_kode='". $val_lima->kdrekening5 ."' id_rek='". $id_kelompok_lima ."' kode_rek='". $kode_kelompok_lima ."' href='#' onclick='tambahObyekDetailRekening(this);return false;' rel='tooltip' data-original-title='Klik untuk menambah Kode Akun'><i class='icon-plus-sign'></i></a></span><span style='float:right'><a value='". $val_empat->rekening4_id ."' href='#' onclick='editObyekRekening(this);return false;' rel='tooltip' data-original-title='Klik untuk edit Jenis Akun'><i class='icon-pencil-brown'></i></a></span></span><ul>". $parent_lima ."</ul></li>";
+                                                $parent_empat .= "<li><span class='folder'>". $val_empat->nmrekening4 ."<span style='float:right'><a max_kode='". $val_lima->kdrekening5 ."' id_rek='". $id_kelompok_lima ."' kode_rek='". $kode_kelompok_lima ."' href='#' onclick='tambahObyekDetailRekening(this, \"".$kel->saldonormal."\");return false;' rel='tooltip' data-original-title='Klik untuk menambah Kode Akun'><i class='icon-plus-sign'></i></a></span><span style='float:right'><a value='". $val_empat->rekening4_id ."' href='#' onclick='editObyekRekening(this);return false;' rel='tooltip' data-original-title='Klik untuk edit Jenis Akun'><i class='icon-pencil-brown'></i></a></span></span><ul>". $parent_lima ."</ul></li>";
                                             }else{
-                                                $parent_empat .= "<li class='expandable'><span class='folder'>". $val_empat->nmrekening4 ."<span style='float:right'><a max_kode='0' id_rek='". $id_kelompok_lima ."' kode_rek='". $kode_kelompok_lima ."' href='#' onclick='tambahObyekDetailRekening(this);return false;' rel='tooltip' data-original-title='Klik untuk menambah Kode Akun'><i class='icon-plus-sign'></i></a></span><span style='float:right'><a value='". $val_empat->rekening4_id ."' href='#' onclick='editObyekRekening(this);return false;' rel='tooltip' data-original-title='Klik untuk edit Jenis Akun'><i class='icon-pencil-brown'></i></a></span></span></li>";                                            
+                                                $parent_empat .= "<li class='expandable'><span class='folder'>". $val_empat->nmrekening4 ."<span style='float:right'><a max_kode='0' id_rek='". $id_kelompok_lima ."' kode_rek='". $kode_kelompok_lima ."' href='#' onclick='tambahObyekDetailRekening(this, '".$kel->saldonormal."');return false;' rel='tooltip' data-original-title='Klik untuk menambah Kode Akun'><i class='icon-plus-sign'></i></a></span><span style='float:right'><a value='". $val_empat->rekening4_id ."' href='#' onclick='editObyekRekening(this);return false;' rel='tooltip' data-original-title='Klik untuk edit Jenis Akun'><i class='icon-pencil-brown'></i></a></span></span></li>";                                            
                                             }
                                         }
     //                                    
@@ -405,7 +406,7 @@ function editObyekRekening(obj)
     }
 }
 
-function tambahObyekDetailRekening(obj)
+function tambahObyekDetailRekening(obj, normal)
 {
     hapusIndexMenu();
     if (id_form['empat'] == undefined){
@@ -431,6 +432,7 @@ function tambahObyekDetailRekening(obj)
         
         $('#fieldsetDetailObyekRekening').find("input[name$='[kdrekening4]']").val(kode_rek[3]);
         $('#fieldsetDetailObyekRekening').find("input[name$='[kdrekening5]']").val(max_kode);
+        $('#fieldsetDetailObyekRekening').find("select[name$='[rekening5_nb]']").val(normal);
     }
 }
 

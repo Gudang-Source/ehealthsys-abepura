@@ -56,6 +56,11 @@ function hitungTotal(){
             subtotal = 0;
         }
         
+        var ppn = 0;
+        var rpppn = 0;
+        var pph = 0;
+        var rppph = 0;
+        
         if ($('#diskonSemua').is(":checked")) {
             persendis = $('#<?php echo CHtml::activeId($modFakturPembelian,'persendiscount'); ?>').val();
             $('#<?php echo CHtml::activeId($modFakturPembelian,'persendiscount'); ?>').val(persendis);
@@ -67,17 +72,18 @@ function hitungTotal(){
         }
         
         if($('#termasukPPN').is(':checked')){
-            var ppn = '<?php echo Yii::app()->user->getState('persenppn'); ?>';
-            var rpppn = harganetto * (ppn/100);
-            subtotal = (harganetto + rpppn) * jmlterima;            
+            ppn = '<?php echo Yii::app()->user->getState('persenppn'); ?>';
+            rpppn = harganetto * (ppn/100);          
         }
         persenppn += (rpppn * jmlterima);
         
         if($('#termasukPPH').is(':checked')){
-            var pph = '<?php echo Yii::app()->user->getState('persenpph'); ?>';
-            var rppph = harganetto * (pph/100);
-            subtotal = (harganetto + rppph) * jmlterima;            
+            pph = '<?php echo Yii::app()->user->getState('persenpph'); ?>';
+            rppph = harganetto * (pph/100);            
         }
+        
+        subtotal = (harganetto + rppph + rpppn) * jmlterima;
+        
         persenpph += (rppph * jmlterima);
         
         if(persendis > 0){
@@ -96,17 +102,17 @@ function hitungTotal(){
         
         totbruto += subtotal;
         
-        $(this).find('input[name$="[subtotal]"]').val(subtotal);
-        $(this).find('input[name$="[jmldiscount]"]').val(jmldis);
-        $(this).find('input[name$="[persenppn]"]').val(ppn);
-        $(this).find('input[name$="[persenpph]"]').val(pph);
+        $(this).find('input[name$="[subtotal]"]').val(Math.floor(subtotal));
+        $(this).find('input[name$="[jmldiscount]"]').val(Math.floor(jmldis));
+        $(this).find('input[name$="[persenppn]"]').val(Math.floor(ppn));
+        $(this).find('input[name$="[persenpph]"]').val(Math.floor(pph));
     });
-    $('#<?php echo CHtml::activeId($modFakturPembelian,'jmldiscount'); ?>').val(totdisc);
-    $('#<?php echo CHtml::activeId($modFakturPembelian,'totharganetto'); ?>').val(totnetto);
-    $('#<?php echo CHtml::activeId($modFakturPembelian,'totalpajakppn'); ?>').val(persenppn);
-    $('#<?php echo CHtml::activeId($modFakturPembelian,'totalpajakpph'); ?>').val(persenpph);
-    $('#<?php echo CHtml::activeId($modFakturPembelian,'totalhargabruto'); ?>').val(totbruto);
-    $('#total').val(total);    
+    $('#<?php echo CHtml::activeId($modFakturPembelian,'jmldiscount'); ?>').val(Math.floor(totdisc));
+    $('#<?php echo CHtml::activeId($modFakturPembelian,'totharganetto'); ?>').val(Math.floor(totnetto));
+    $('#<?php echo CHtml::activeId($modFakturPembelian,'totalpajakppn'); ?>').val(Math.floor(persenppn));
+    $('#<?php echo CHtml::activeId($modFakturPembelian,'totalpajakpph'); ?>').val(Math.floor(persenpph));
+    $('#<?php echo CHtml::activeId($modFakturPembelian,'totalhargabruto'); ?>').val(Math.floor(totbruto));
+    $('#total').val(Math.floor(total));    
     formatNumberSemua();
 }
 

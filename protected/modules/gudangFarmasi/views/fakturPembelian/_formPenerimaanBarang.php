@@ -82,7 +82,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","javascript:void(0);",array("class"=>"btn-small", 
                                     "id" => "selectPenerimaan",
                                     "onClick" => "	$(\"#'.CHtml::activeId($modPenerimaanBarang,'noterima').'\").val(\"$data->noterima\");
-													$(\"#'.CHtml::activeId($modPenerimaanBarang,'tglterima').'\").val(\"$data->tglterima\")
+													$(\"#'.CHtml::activeId($modPenerimaanBarang,'tglterima').'\").val(\"".MyFormatter::formatDateTimeForUser($data->tglterima)."\")
 													$(\"#'.CHtml::activeId($modPenerimaanBarang,'supplier_id').'\").val(\"$data->supplier_id\")
 													$(\"#'.CHtml::activeId($modPenerimaanBarang,'supplier_nama').'\").val(\"$data->supplier_nama\")
 													$(\"#'.CHtml::activeId($modPenerimaanBarang,'penerimaanbarang_id').'\").val(\"$data->penerimaanbarang_id\")
@@ -92,8 +92,13 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 ),
 				'noterima',
                 array(
-					'name' => 'tglterima',
-				  ),
+			'name' => 'tglterima',
+                        'value' => 'MyFormatter::formatDateTimeForUser($data->tglterima)'
+		),
+                array(
+                        'header'=>'Supplier',
+                        'name'=>'supplier_nama',
+                ),
 				'pegawaimengetahui_nama',
 	),
         'afterAjaxUpdate'=>'function(id, data){

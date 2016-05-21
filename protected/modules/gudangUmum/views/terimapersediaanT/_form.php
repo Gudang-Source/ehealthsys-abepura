@@ -1,3 +1,7 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
+
 <div class="white-container">
 	<?php
 		if(isset($_GET['sukses']) && ($_GET['sukses'] == 1)){
@@ -200,19 +204,19 @@
                 <?php echo $form->textAreaRow($model,'keterangan_persediaan',array('rows'=>6, 'cols'=>50, 'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
             </td>
             <td>
-                <?php echo $form->textFieldRow($model,'totalharga',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'readonly'=>true, 'style'=>'text-align: right;')); ?>
+                <?php echo $form->textFieldRow($model,'totalharga',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'readonly'=>true, 'style'=>'text-align: right;')); ?>
                 <div class="control-group ">
                     <?php echo $form->labelEx($model, 'discount', array('class' => 'control-label')) ?>
                     <div class="controls">
-                        <?php echo Chtml::textField('discountpersen', '0', array('class' => 'span1 numbersOnly', 'onblur'=>'setTotalHarga();', 'style'=>'text-align: right;')); ?> % = 
-                        <?php echo $form->textField($model, 'discount', array('readonly' => true, 'class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'style'=>'text-align: right;')); ?>
+                        <?php echo Chtml::textField('discountpersen', '0', array('class' => 'span1 integer2', 'onblur'=>'setTotalHarga();', 'style'=>'text-align: right;')); ?> % = 
+                        <?php echo $form->textField($model, 'discount', array('readonly' => true, 'class' => 'span2 integer2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'style'=>'text-align: right;')); ?>
                         <?php echo $form->error($model, 'discount'); ?>
                     </div>
                 </div>
-                <?php //echo $form->textFieldRow($model,'discount',array('class'=>'span3 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-                <?php echo $form->textFieldRow($model,'biayaadministrasi',array('class'=>'span3 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right;')); ?>
-                <?php echo $form->textFieldRow($model,'pajakpph',array('class'=>'span3 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right;')); ?>
-                <?php echo $form->textFieldRow($model,'pajakppn',array('class'=>'span3 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right;')); ?>
+                <?php //echo $form->textFieldRow($model,'discount',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                <?php echo $form->textFieldRow($model,'biayaadministrasi',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right;')); ?>
+                <?php echo $form->textFieldRow($model,'pajakpph',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right;')); ?>
+                <?php echo $form->textFieldRow($model,'pajakppn',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right;')); ?>
                 <?php echo $form->textFieldRow($model,'nofakturpajak',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100,'placeholder'=>'Ketikan No. Faktur Pajak')); ?>
                 <div class="control-group ">
                     <?php echo $form->labelEx($model,'tgljatuhtempo', array('class'=>'control-label')) ?>
@@ -326,18 +330,6 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 
 $this->endWidget();
 ?>
-<?php
-$this->widget('application.extensions.moneymask.MMask', array(
-    'element' => '.numbersOnly',
-    'config' => array(
-        'defaultZero' => true,
-        'allowZero' => true,
-        'decimal' => ',',
-        'thousands' => '',
-        'precision' => 0,
-    )
-));
-?>
 
 <?php 
 $urlAjax = $this->createUrl('getPenerimaanPersediaanBarang');
@@ -362,8 +354,9 @@ $js = <<< JS
                 $.post('${urlAjax}', {idBarang:idBarang, jumlah:jumlah, satuan:satuan}, function(data){
                     $('#tableDetailBarang tbody').append(data);
                     rename();
-                    $("#tableDetailBarang tbody tr:last .numbersOnly").maskMoney({"defaultZero":true,"allowZero":true,"decimal":",","thousands":"","precision":0,"symbol":null});
+                    $("#tableDetailBarang tbody tr:last .integer2").maskMoney({"defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0,"symbol":null});
                     clear();
+                    setTotalHarga();
                 }, 'json');
             }
         }
@@ -421,21 +414,24 @@ $js = <<< JS
     }
     
     function setTotalHarga(){
+        unformatNumberSemua();
         var discountPersen = $('#discountpersen').val();
         var totalHarga = 0;
         $('.cancel').each(function(){
             qty = $(this).parents('tr').find('.qty').val();
             satuan =  $(this).parents('tr').find('.satuan').val();
+            $(this).parents('tr').find('.beli').val(qty*satuan);
             totalHarga += parseFloat(qty*satuan);
         });
         $('#${totalharga}').val(totalHarga);
         if(jQuery.isNumeric(discountPersen)){
             $('#${discount}').val(totalHarga*discountPersen/100);
         }
+            formatNumberSemua();
     }
 
 JS;
-Yii::app()->clientScript->registerScript('onhead',$js,  CClientScript::POS_HEAD);
+Yii::app()->clientScript->registerScript('onhead',$js,  CClientScript::POS_END);
 ?>
 
 <?php 

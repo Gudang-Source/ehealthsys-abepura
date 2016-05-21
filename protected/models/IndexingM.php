@@ -71,7 +71,7 @@ class IndexingM extends CActiveRecord
 	{
 		return array(
 			'indexing_id' => 'ID',
-			'kelrem_id' => 'Kelompok',
+			'kelrem_id' => 'Kelompok Remunerasi',
 			'indexing_urutan' => 'Urutan',
 			'indexing_nama' => 'Objek',
 			'indexing_singk' => 'Singkatan',
@@ -94,9 +94,9 @@ class IndexingM extends CActiveRecord
 		$criteria->compare('LOWER(indexing_nama)',strtolower($this->indexing_nama),true);
 		$criteria->compare('LOWER(indexing_singk)',strtolower($this->indexing_singk),true);
 		$criteria->compare('indexing_nilai',$this->indexing_nilai);
-		$criteria->compare('indexing_aktif',$this->indexing_aktif);
-                $criteria->addCondition('indexing_aktif is true');
-                
+		$criteria->compare('indexing_aktif',isset($this->indexing_aktif)?$this->indexing_aktif:true);
+                //$criteria->addCondition('indexing_aktif is true');
+                $criteria->limit = 10;
                                 return $criteria;
                 }
                 
@@ -106,10 +106,11 @@ class IndexingM extends CActiveRecord
 		// should not be searched.
 
 
-
+                
+                
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$this->criteria(),
-                                                'pagination'=>false,
+                                                //'pagination'=>false,
 		));
 	}
         
@@ -138,7 +139,7 @@ class IndexingM extends CActiveRecord
         
         public function getKelremItems()
         {
-            return KelremM::model()->findAll('kelrem_aktif=TRUE ORDER BY kelrem_nama');
+            return KelremM::model()->findAll('kelrem_aktif=TRUE ORDER BY kelrem_nama ASC');
         }
         
         public function getTotalindex()

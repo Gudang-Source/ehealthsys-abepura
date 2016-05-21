@@ -61,6 +61,7 @@ class GFObatalkesM extends ObatalkesM
 			$criteria->compare('harganetto',$this->harganetto);
 			$criteria->compare('hargajual',$this->hargajual);
 			$criteria->compare('discount',$this->discount);
+                        
 		}
 		if ($this->tglkadaluarsa == 1){
 			$criteria->addBetweenCondition('date(tglkadaluarsa)',$this->tglkadaluarsa_awal, $this->tglkadaluarsa_akhir);

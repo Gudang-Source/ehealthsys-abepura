@@ -1,4 +1,6 @@
-<?php
+<div class="white-container" style = "overflow-x: scroll;">
+    <legend class="rim2"  >Pengaturan <b>Komponen Jasa</b></legend>
+        <?php
 $this->breadcrumbs=array(
 	'Komponenjasa Ms'=>array('index'),
 	'Manage',
@@ -27,8 +29,8 @@ $('.search-form form').submit(function(){
 
 $this->widget('bootstrap.widgets.BootAlert'); ?>
 
-<?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-search"></i>')),'#',array('class'=>'search-button btn')); ?>
-<div class="search-form" style="display:none">
+<?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),'#',array('class'=>'search-button btn')); ?>
+<div class="search-form cari-lanjut3" style="display:none">
 <?php $this->renderPartial('_search',array(
 	'model'=>$model,
 )); ?>
@@ -43,15 +45,41 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
 	'columns'=>array(
 		////'komponenjasa_id',
 		array(
-                        'name'=>'komponenjasa_id',
+                        'header' => 'ID',
+                        //'name'=>'komponenjasa_id',
                         'value'=>'$data->komponenjasa_id',
                         'filter'=>false,
                 ),
-		'komponentarif_id',
-		'carabayar_id',
-		'kelompoktindakan_id',
-		'ruangan_id',
-		'jenistarif_id',
+                array(
+                    'header' => 'Komponen Tarif',
+                    'name' => 'komponentarif_id',
+                    'value' => 'isset($data->komponentarif_id)?$data->komponentarif->komponentarif_nama:""',
+                    'filter' => CHtml::activeDropDownList($model,'komponentarif_id',CHtml::listData($model->getKomponentarifItems(),'komponentarif_id','komponentarif_nama'),array('empty'=>'-- Pilih --'))
+                ),
+                array(
+                    'header' => 'Jenis Tarif',
+                    'name' => 'jenistarif_id',
+                    'value' => 'isset($data->jenistarif_id)?$data->jenistarif->jenistarif_nama:""',
+                    'filter' => CHtml::activeDropDownList($model,'jenistarif_id', CHtml::listData($model->getJenistarifItems(), 'jenistarif_id', 'jenistarif_nama'),array('empty'=>'-- Pilih --'))
+                ),
+                 array(
+                    'header' => 'Komponen Tarif',
+                    'name' => 'carabayar_id',
+                    'value' => 'isset($data->carabayar_id)?$data->carabayar->carabayar_nama:""',
+                    'filter' => CHtml::activeDropDownList($model,'carabayar_id',CHtml::listData($model->getCarabayarItems(),'carabayar_id','carabayar_nama'),array('empty'=>'-- Pilih --'))
+                ),
+		array(
+                    'header' => 'Komponen Tarif',
+                    'name' => 'kelompoktindakan_id',
+                    'value' => 'isset($data->kelompoktindakan_id)?$data->kelompoktindakan->kelompoktindakan_nama:""',
+                    'filter' => CHtml::activeDropDownList($model,'kelompoktindakan_id',CHtml::listData($model->getKelompoktindakanItems(),'kelompoktindakan_id','kelompoktindakan_nama'),array('empty'=>'-- Pilih --'))
+                ),
+                array(
+                    'header' => 'Komponen Tarif',
+                    'name' => 'ruangan_id',
+                    'value' => 'isset($data->ruangan_id)?$data->ruangan->ruangan_nama:""',
+                    'filter' => CHtml::activeDropDownList($model,'ruangan_id',CHtml::listData($model->getRuanganItems(),'ruangan_id','ruangan_nama'),array('empty'=>'-- Pilih --'))
+                ),						
 		'komponenjasa_kode',
 		'komponenjasa_nama',
 		'komponenjasa_singkatan',
@@ -61,10 +89,10 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
 		'kuebesar',
 		'jasadokter',
 		'jasaparamedis',
-//		'jasaunit',
-//		'jasabalanceins',
-//		'jasaemergency',
-//		'biayaumum',
+		'jasaunit',
+		'jasabalanceins',
+		'jasaemergency',
+		'biayaumum',
 		array(
                         'header'=>Yii::t('zii','View'),
 			'class'=>'bootstrap.widgets.BootButtonColumn',
@@ -86,11 +114,11 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                         'template'=>'{remove} {delete}',
                         'buttons'=>array(
                                         'remove' => array (
-                                                'label'=>"<i class='icon-remove'></i>",
+                                                'label'=>"<i class='icon-form-silang'></i>",
                                                 'options'=>array('title'=>Yii::t('mds','Remove Temporary')),
                                                 'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/removeTemporary",array("id"=>"$data->komponenjasa_id"))',
-                                                //'visible'=>'($data->kabupaten_aktif && Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)) ? TRUE : FALSE',
-                                                'click'=>'function(){return confirm("'.Yii::t("mds","Do You want to remove this item temporary?").'");}',
+                                                'visible'=>'($data->komponenjasa_aktif) ? TRUE : FALSE',
+                                                'click'=>'function(){ removeTemporary(this); return false;}',
                                         ),
                                         'delete'=> array(
                                                 'visible'=>'Yii::app()->controller->checkAccess(array("action"=>Params::DEFAULT_DELETE))',
@@ -102,11 +130,12 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
 )); ?>
 
 <?php 
- 
+        echo CHtml::link(Yii::t('mds', '{icon} Tambah Komponen Jasa', array('{icon}'=>'<i class="icon-plus icon-white"></i>')), $this->createUrl('create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp";
         echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
         echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
         echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
-        $this->widget('UserTips',array('type'=>'admin'));
+        $content = $this->renderPartial('../tips/master',array(),true);
+        $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
         $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
         $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
         $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/print');
@@ -119,3 +148,27 @@ function print(caraPrint)
 JSCRIPT;
 Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);                        
 ?>
+</div>
+<script type="text/javascript">
+    function removeTemporary(obj){
+        var url = $(obj).attr('href');
+        myConfirm("Apakah Anda yakin ingin menonaktifkan data ini untuk sementara?","Perhatian!",function(r) {
+            if (r){
+                 $.ajax({
+                    type:'GET',
+                    url:url,
+                    data: {},
+                    dataType: "json",
+                    success:function(data){
+                        if(data.status == 'proses_form'){
+                            $.fn.yiiGridView.update('komponenjasa-m-grid');
+                        }else{
+                            myAlert('Data Gagal di Nonaktifkan.')
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
+                });
+           }
+       });
+    }       
+</script> 
