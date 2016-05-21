@@ -55,7 +55,9 @@
 				if (data.pesan == 'exist') {
 					myAlert('Kode Rekening telah terdaftar');
                                         refreshTree();
-				}
+				} else if (data.pesan == 'kode') {
+                                        myAlert('Kode rekening harus 10 Karakter');
+                                }
 
 				if (data.status == 'ok') {
 					myAlert('Rekening berhasil disimpan');
