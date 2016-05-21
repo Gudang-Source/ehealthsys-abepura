@@ -412,5 +412,14 @@ $(document).ready(function() {
     $("#cari_loket_id").val(13).change();
 });
 
+var hidables = null;
+function setEDBpjs(val) {
+    if (val == 8) {
+        hidables = $("#form-bpjs .hidables-content").detach();
+    } else {
+        hidables.appendTo("#form-bpjs .hidables");
+    }
+}
+
 </script>
     

@@ -37,7 +37,7 @@
                 $ruangan = RuanganM::model()->findAllByAttributes(array('instalasi_id'=>($this->langsung?Params::INSTALASI_ID_RI:array(Params::INSTALASI_ID_RI, Params::INSTALASI_ID_ICU)), 'ruangan_aktif'=>true),array('order'=>'ruangan_nama ASC'));
                 echo $form->dropDownList($modPasienAdmisi,'ruangan_id', CHtml::listData($ruangan, 'ruangan_id', 'ruangan_nama') ,
                                       array('empty'=>'-- Pilih --',
-                                    'onchange'=>"setDropdownDokter(this.value);setDropDownKelasPelayanan(this.value);setKarcis();setAntrianRuanganAdmisi();setDropdownJeniskasuspenyakit(this.value);",
+                                    'onchange'=>"setDropdownDokter(this.value);setDropDownKelasPelayanan(this.value);setKarcis();setAntrianRuanganAdmisi();setDropdownJeniskasuspenyakit(this.value);setEDBpjs(this.value);",
                                     'onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span3',
                                     'ajax'=>array(
                                           'type'=>'POST',
