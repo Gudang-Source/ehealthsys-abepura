@@ -18,6 +18,7 @@ class KodeRekeningController extends MyAuthController {
 		$rekeningEmpat = new AKRekening4M;
 		$rekeningLima = new AKRekening5M;
 		$rekeningakuntansiV = new MasterakunrekeningV;
+                $rekeningakuntansiV->aktif = true;
 
 		$this->render('index', array(
 			'rekeningSatu' => $rekeningSatu,
@@ -476,6 +477,7 @@ class KodeRekeningController extends MyAuthController {
 
 	public function actionPrint() {
 		$model = new MasterakunrekeningV;
+                $model->aktif = true;
 
 		if (isset($_REQUEST['MasterakunrekeningV'])) {
 			$model->attributes = $_REQUEST['MasterakunrekeningV'];
