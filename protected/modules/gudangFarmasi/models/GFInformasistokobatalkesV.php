@@ -156,6 +156,7 @@ class GFInformasistokobatalkesV extends InformasistokobatalkesV
                                         $criteria->addCondition("i.obatalkes_id is null");
                                         //$criteria->addCondition('i.ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
                                 }
+                                $criteria->order = 't.obatalkes_nama';
 			}
                         
                         // var_dump($criteria); die;

@@ -32,7 +32,17 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
                     CHtml::checkBox("GFStokopnamedetT[".$data->obatalkes_id."][cekList]", false, array("class"=>"cekList", "onclick"=>"getTotal(); setNol(this);", "onkeyup"=>"return $(this).focusNextInputField(event);"));
                     ',
             ),
-			'jenisobatalkes_nama',
+            'jenisobatalkes_nama',
+            array(
+                'header'=>'Golongan',
+                'type'=>'raw',
+                'value'=>'$data->obatalkes_golongan',
+            ),
+            array(
+                'header'=>'Kategori',
+                'type'=>'raw',
+                'value'=>'$data->obatalkes_kategori',
+            ),
             'obatalkes_kode',
             array(
                 'header'=>'Nama Obat',
@@ -40,9 +50,12 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
                 'value'=>'$data->obatalkes_nama',
             ),
             array(
-                'header'=>'Golongan<br/>Kategori',
+                'header'=>'Satuan<br/>Kecil',
                 'type'=>'raw',
-                'value'=>'$data->obatalkes_golongan."<br/>".$data->obatalkes_kategori',
+                'value'=>function($data) {
+                    $o = ObatalkesM::model()->findByPk($data->obatalkes_id);
+                    return $o->satuankecil->satuankecil_nama;
+                }
             ),
             array(
                 'header'=>'HPP (Rp)',
@@ -57,7 +70,10 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
             array(
                 'header'=>'Sistem',
                 'type'=>'raw',
-                'value'=> 'CHtml::textField("GFStokopnamedetT[".$data->obatalkes_id."][volume_sistem]", number_format($data->qtystok), array("class"=>"stok span1 integer2", "readonly"=>true))',
+                'value'=> '$data->qtystok.CHtml::hiddenField("GFStokopnamedetT[".$data->obatalkes_id."][volume_sistem]", number_format($data->qtystok), array("class"=>"stok span1 integer2", "readonly"=>true))',
+                'htmlOptions'=>array(
+                    'style'=>'text-align: right;',
+                ),
             ),
             array(
                 'header'=>'<div class="test" style="cursor:pointer;" onclick="openDialogini()"> Fisik <icon class="icon-white icon-list"></icon></div> ',
