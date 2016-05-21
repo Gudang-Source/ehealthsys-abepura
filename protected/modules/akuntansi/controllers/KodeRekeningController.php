@@ -207,13 +207,13 @@ class KodeRekeningController extends MyAuthController {
 								$attributes[$key] = $val;
 							}
 						}
-                                                $attributes['kderekening5'] = trim($attributes['kderekening5']);
+                                                $attributes['kdrekening5'] = trim($attributes['kdrekening5']);
                                                 $attributes['update_loginpemakai_id'] = Yii::app()->user->id;
 						$attributes['update_time'] = date('Y-m-d H:i:s');
 						$is_simpan = $model->updateByPk($data_parsing['AKRekening5M']['rekening5_id'], $attributes);
 						$action = 'update';
 					} else {
-                                                $data_parsing['AKRekening5M']['kderekening5'] = trim($data_parsing['AKRekening5M']['kderekening5']);
+                                                $data_parsing['AKRekening5M']['kdrekening5'] = trim($data_parsing['AKRekening5M']['kdrekening5']);
 						$attributes = array(
 							'kdrekening5' => $data_parsing['AKRekening5M']['kdrekening5'],
 							'rekening4_id' => $data_parsing['AKRekening5M']['rekening4_id']
