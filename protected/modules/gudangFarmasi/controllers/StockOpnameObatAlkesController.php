@@ -213,7 +213,7 @@ class StockOpnameObatAlkesController extends MyAuthController
         $modStok->create_ruangan = Yii::app()->user->ruangan_id;
         $modStok->tglterima = date('Y-m-d H:i:s');
         $modStok->satuankecil_id = (isset($modDetailOpname->satuankecil_id) ? $modDetailOpname->satuankecil_id : $loadObatAlkes->satuankecil_id);
-        var_dump($modStok->attributes, $modStok->validate(), $modStok->errors); die;
+        // var_dump($modStok->attributes, $modStok->validate(), $modStok->errors); die;
         if($modStok->validate()) { 
             $modStok->save();
             $loadObatAlkes->tglkadaluarsa = $modStok->tglkadaluarsa;
