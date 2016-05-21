@@ -1,5 +1,5 @@
 <fieldset class='box' id='fieldsetDetailObyekRekening'>
-    <legend class="rim">Tambah Kode Akun</legend>
+    <legend class="rim">Tambah Akun</legend>
 	<?php
 	Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/form.js');
 	$form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
@@ -54,15 +54,17 @@
 			function (data) {
 				if (data.pesan == 'exist') {
 					myAlert('Kode Rekening telah terdaftar');
+                                        refreshTree();
 				}
 
 				if (data.status == 'ok') {
 					myAlert('Rekening berhasil disimpan');
+                                        refreshTree();
 					if (data.pesan == 'insert') {
 						$("#reseter").click();
 						$('#fieldsetDetailObyekRekening').find("input[name$='[kdrekening5]']").val(data.id_parent.kdrekening5);
 					}
-					getTreeMenu();
+					//getTreeMenu();
 					$.fn.yiiGridView.update('AKRekeningakuntansi-v', {});
 
 				}
