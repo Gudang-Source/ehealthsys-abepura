@@ -3,6 +3,15 @@
 class KodeRekeningController extends MyAuthController {
 
 	public function actionIndex() {
+                if (isset($_POST['is_ajax'])) {
+                    if (isset($_POST['param'])) {
+                        call_user_func(array($this, $_POST['f']), $_POST['param']);
+                    } else {
+                        call_user_func(array($this, $_POST['f']));
+                    }
+                    Yii::app()->end();
+                }
+            
 		$rekeningSatu = new AKRekening1M;
 		$rekeningDua = new AKRekening2M;
 		$rekeningTiga = new AKRekening3M;
@@ -42,9 +51,11 @@ class KodeRekeningController extends MyAuthController {
 								$attributes[$key] = $val;
 							}
 						}
+                                                $attributes['kdrekening1'] = trim($attributes['kdrekening1']);
 						$is_simpan = $modelRekSatu->updateByPk($data_parsing['AKRekening1M']['rekening1_id'], $attributes);
 						$action = 'update';
 					} else {
+                                                $data_parsing['AKRekening1M']['kdrekening1'] = trim($data_parsing['AKRekening1M']['kdrekening1']);
 						$attributes = array(
 							'kdrekening1' => $data_parsing['AKRekening1M']['kdrekening1']
 						);
@@ -73,9 +84,11 @@ class KodeRekeningController extends MyAuthController {
 								$attributes[$key] = $val;
 							}
 						}
+                                                $attributes['kdrekening2'] = trim($attributes['kdrekening2']);
 						$is_simpan = $model->updateByPk($data_parsing['AKRekening2M']['rekening2_id'], $attributes);
 						$action = 'update';
 					} else {
+                                                $data_parsing['AKRekening2M']['kdrekening2'] = trim($data_parsing['AKRekening2M']['kdrekening2']);
 						$attributes = array(
 							'kdrekening2' => $data_parsing['AKRekening2M']['kdrekening2'],
 							'rekening1_id' => $data_parsing['AKRekening2M']['rekening1_id']
@@ -106,7 +119,6 @@ class KodeRekeningController extends MyAuthController {
 
 				if (isset($data_parsing['AKRekening3M'])) {
 					$model = new AKRekening3M;
-
 					if (strlen($data_parsing['AKRekening3M']['rekening3_id']) > 0) {
 						$attributes = array();
 						foreach ($data_parsing['AKRekening3M'] as $key => $val) {
@@ -114,9 +126,11 @@ class KodeRekeningController extends MyAuthController {
 								$attributes[$key] = $val;
 							}
 						}
+                                                $attributes['kdrekening3'] = trim($attributes['kdrekening3']);
 						$is_simpan = $model->updateByPk($data_parsing['AKRekening3M']['rekening3_id'], $attributes);
-						$action = 'update';
+                                                $action = 'update';
 					} else {
+                                                $data_parsing['AKRekening3M']['kdrekening3'] = trim($data_parsing['AKRekening3M']['kdrekening3']);
 						$attributes = array(
 							'kdrekening3' => $data_parsing['AKRekening3M']['kdrekening3'],
 							'rekening2_id' => $data_parsing['AKRekening3M']['rekening2_id']
@@ -124,7 +138,6 @@ class KodeRekeningController extends MyAuthController {
 						$is_exist = $model->findByAttributes($attributes);
 						if (!$is_exist) {
 							$is_simpan = $this->simpanRekening($model, $data_parsing['AKRekening3M']);
-
 							$params = array();
 							foreach ($attributes as $key => $val) {
 								if ($key != 'kdrekening3') {
@@ -155,9 +168,11 @@ class KodeRekeningController extends MyAuthController {
 								$attributes[$key] = $val;
 							}
 						}
+                                                $attributes['kdrekening4'] = trim($attributes['kdrekening4']);
 						$is_simpan = $model->updateByPk($data_parsing['AKRekening4M']['rekening4_id'], $attributes);
 						$action = 'update';
 					} else {
+                                                $data_parsing['AKRekening4M']['kdrekening4'] = trim($data_parsing['AKRekening4M']['kdrekening4']);
 						$attributes = array(
 							'kdrekening4' => $data_parsing['AKRekening4M']['kdrekening4'],
 							'rekening3_id' => $data_parsing['AKRekening4M']['rekening3_id']
@@ -192,11 +207,13 @@ class KodeRekeningController extends MyAuthController {
 								$attributes[$key] = $val;
 							}
 						}
+                                                $attributes['kderekening5'] = trim($attributes['kderekening5']);
                                                 $attributes['update_loginpemakai_id'] = Yii::app()->user->id;
 						$attributes['update_time'] = date('Y-m-d H:i:s');
 						$is_simpan = $model->updateByPk($data_parsing['AKRekening5M']['rekening5_id'], $attributes);
 						$action = 'update';
 					} else {
+                                                $data_parsing['AKRekening5M']['kderekening5'] = trim($data_parsing['AKRekening5M']['kderekening5']);
 						$attributes = array(
 							'kdrekening5' => $data_parsing['AKRekening5M']['kdrekening5'],
 							'rekening4_id' => $data_parsing['AKRekening5M']['rekening4_id']
@@ -235,6 +252,7 @@ class KodeRekeningController extends MyAuthController {
 					$transaction->rollback();
 				}
 			} catch (Exception $exc) {
+                                echo $exc; die;
 				$transaction->rollback();
 			}
 
@@ -440,6 +458,26 @@ class KodeRekeningController extends MyAuthController {
 			$mpdf->Output($judulLaporan.'-'.date('Y/m/d').'.pdf','I');
 		}
 	}
+        
+        function loadTree()
+        {
+            $rekeningSatu = new AKRekening1M;
+            $rekeningDua = new AKRekening2M;
+            $rekeningTiga = new AKRekening3M;
+            $rekeningEmpat = new AKRekening4M;
+            $rekeningLima = new AKRekening5M;
+            $rekeningakuntansiV = new MasterakunrekeningV;
+            
+            echo $this->renderPartial('__treeAkun', array(
+                'rekeningSatu' => $rekeningSatu,
+                'rekeningDua' => $rekeningDua,
+                'rekeningTiga' => $rekeningTiga,
+                'rekeningEmpat' => $rekeningEmpat,
+                'rekeningLima' => $rekeningLima,
+            ), true);
+            
+            
+        }
 
 	// Uncomment the following methods and override them if needed
 	/*
