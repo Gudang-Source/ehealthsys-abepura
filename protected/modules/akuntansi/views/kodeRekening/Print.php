@@ -148,14 +148,14 @@ $this->widget('ext.bootstrap.widgets.BootGridView',
                'type'=>'raw',
                'value'=>'($data->keterangan == null ? "-" : $data->keterangan)',
                'headerHtmlOptions'=>array('style'=>'text-align:center;'),
-            ),
+            ), /*
             array(
                'header'=>'Status',
                'type'=>'raw',
                'value'=>'($data->aktif == null ? "-" : ($data->aktif == true ? "Aktif" : "Non Aktif"))',
                'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
                'headerHtmlOptions'=>array('style'=>'text-align:center;'),
-            ),
+            ), */
         ),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
     )
