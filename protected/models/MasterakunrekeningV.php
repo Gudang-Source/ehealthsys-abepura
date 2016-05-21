@@ -89,11 +89,13 @@ class MasterakunrekeningV extends CActiveRecord
 		$criteria->compare('akun',$this->akun);
 		$criteria->compare('id',$this->id);
 		$criteria->compare('kode',$this->kode,true);
-		$criteria->compare('nama',$this->nama,true);
-		$criteria->compare('saldo_normal',$this->saldo_normal,true);
+		$criteria->compare('lower(nama)',strtolower($this->nama),true);
+		$criteria->compare('lower(saldo_normal)',strtolower($this->saldo_normal),true);
 		$criteria->compare('aktif',$this->aktif);
 		$criteria->compare('keterangan',$this->keterangan,true);
-
+                
+                $criteria->order = 'kode asc';
+                
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));

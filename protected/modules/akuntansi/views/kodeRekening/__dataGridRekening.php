@@ -7,6 +7,7 @@
                 array(
                     'id'=>'AKRekeningakuntansi-v',
                     'dataProvider'=>$model->search(),
+                    'filter'=>$model,
                     'template'=>"{summary}\n{items}\n{pager}",
                     'itemsCssClass'=>'table table-striped table-bordered table-condensed',
                     'columns'=>array(
@@ -45,7 +46,14 @@
                            'header'=>'Kode Akun',
                            'name'=>'kode',
                            'type'=>'raw',
-                           'htmlOptions'=>array('style'=>'width:80px')
+                           'htmlOptions'=>array('style'=>'width:80px'),
+                           'filter'=>  CHtml::activeDropDownList($model, 'akun', array(
+                               1 => 'Komponen',
+                               2 => 'Unsur',
+                               3 => 'Kelompok Pos',
+                               4 => 'Pos',
+                               5 => 'Akun',
+                           ), array ('empty'=>'-- Pilih --')),
                         ), /*
                         array(
                            'name'=>'nmrekening1',
@@ -108,9 +116,9 @@
                            'name'=>'kelompokrek',
                            'type'=>'raw',
                             'value'=>'($data->kelompokrek == null ? "-" : $data->kelompokrek)',
-                        ), */
+                        ), */ 
                         array(
-                           'name'=>'Keterangan',
+                           'name'=>'keterangan',
                            'type'=>'raw',
                             'value'=>'($data->keterangan == null ? "-" : $data->keterangan)',
                         ), /*
@@ -148,7 +156,7 @@
 $js = <<< JSCRIPT
 function print(caraPrint)
 {
-    window.open("${urlPrint}/"+$('#penjaminpasien-m-search').serialize()+"&caraPrint="+caraPrint,"",'location=_new, width=900px');
+    window.open("${urlPrint}/"+$('#AKRekeningakuntansi-v :input').serialize()+"&caraPrint="+caraPrint,"",'location=_new, width=900px');
 }
 JSCRIPT;
 Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);    
