@@ -148,12 +148,15 @@ class GFInformasistokobatalkesV extends InformasistokobatalkesV
                                         
                                         $criteria->join = "join obatalkes_m o on o.obatalkes_id = t.obatalkes_id";
                                         
+                                        $criteria->addCondition('o.obatalkes_aktif = true');
+                                        
                                         $model = $this;
 				}else{
 					$model = new GFObatalkesM;
                                         $criteria->join = "left join informasistokobatalkes_v i on "
                                                 . "i.obatalkes_id = t.obatalkes_id and i.ruangan_id = ".Yii::app()->user->getState('ruangan_id');
                                         $criteria->addCondition("i.obatalkes_id is null");
+                                        $criteria->addCondition('t.obatalkes_aktif = true');
                                         //$criteria->addCondition('i.ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
                                 }
                                 $criteria->order = 't.obatalkes_nama';
