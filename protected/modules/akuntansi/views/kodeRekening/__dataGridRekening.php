@@ -113,13 +113,13 @@
                            'name'=>'Keterangan',
                            'type'=>'raw',
                             'value'=>'($data->keterangan == null ? "-" : $data->keterangan)',
-                        ),
+                        ), /*
                         array(
                            'header'=>'Status',
                            'type'=>'raw',
                            'value'=>'($data->aktif == null ? "-" : ($data->aktif == true ? "Aktif" : "Non Aktif"))',
                            'htmlOptions'=>array('style'=>'text-align: center; width:80px')
-                        ),
+                        ), */
                     ),
                     'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
                 )
