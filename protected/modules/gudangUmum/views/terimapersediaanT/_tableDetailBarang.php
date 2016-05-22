@@ -26,7 +26,7 @@
         if (isset($modDetails)){
             
         foreach ($modDetails as $i=>$detail){?>
-        <?php $modBarang = BarangM::model()->findByPk($detail->subsubkelompok_id); ?>
+        <?php $modBarang = BarangM::model()->findByPk($detail->barang_id); ?>
             <tr>   
                 <td><?php
                     echo CHtml::activeHiddenField($detail, '['.$i.']barang_id',array('class'=>'barang')); 
