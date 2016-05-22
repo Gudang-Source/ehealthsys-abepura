@@ -71,7 +71,7 @@ class Rekening1M extends CActiveRecord
 			'kdrekening1' => 'Kode Akun',
 			'nmrekening1' => 'Nama Akun',
 			'nmrekeninglain1' => 'Nama Lain',
-			'kelrekening_id' => 'Kelompok Rekening',
+			'kelrekening_id' => 'Kelompok Akun',
 			'rekening1_aktif' => 'Status',
 		);
 	}

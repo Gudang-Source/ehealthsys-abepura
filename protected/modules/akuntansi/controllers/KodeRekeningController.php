@@ -18,6 +18,12 @@ class KodeRekeningController extends MyAuthController {
 		$rekeningEmpat = new AKRekening4M;
 		$rekeningLima = new AKRekening5M;
 		$rekeningakuntansiV = new MasterakunrekeningV;
+                $rekeningakuntansiV->aktif = true;
+                $rekeningakuntansiV->akun = 5;
+                
+                if (isset($_REQUEST['MasterakunrekeningV'])) {
+			$rekeningakuntansiV->attributes = $_REQUEST['MasterakunrekeningV'];
+		}
 
 		$this->render('index', array(
 			'rekeningSatu' => $rekeningSatu,
@@ -52,26 +58,34 @@ class KodeRekeningController extends MyAuthController {
 							}
 						}
                                                 $attributes['kdrekening1'] = trim($attributes['kdrekening1']);
-						$is_simpan = $modelRekSatu->updateByPk($data_parsing['AKRekening1M']['rekening1_id'], $attributes);
-						$action = 'update';
+                                                if (strlen($attributes['kdrekening1']) == Params::REKENING1_LEN) {
+                                                        $is_simpan = $modelRekSatu->updateByPk($data_parsing['AKRekening1M']['rekening1_id'], $attributes);
+                                                        $action = 'update';
+                                                } else {
+                                                        $action = 'kode';
+                                                }
 					} else {
                                                 $data_parsing['AKRekening1M']['kdrekening1'] = trim($data_parsing['AKRekening1M']['kdrekening1']);
 						$attributes = array(
-							'kdrekening1' => $data_parsing['AKRekening1M']['kdrekening1']
-						);
-						$is_exist = $modelRekSatu->findByAttributes($attributes);
-						if (!$is_exist) {
-							$is_simpan = $this->simpanRekening($modelRekSatu, $data_parsing['AKRekening1M']);
-							$row = Yii::app()->db->createCommand("SELECT * FROM rekening1_m ORDER BY rekening1_id DESC")->queryRow();
-							$max_kode = (int) $row['kdrekening1'];
-							$max_kode = $max_kode + 1;
-							$max_kode = ($max_kode < 10 ? "0" . $max_kode : $max_kode);
-							$max_kode = isset($max_kode) ? $max_kode : 0;
+                                                        'kdrekening1' => $data_parsing['AKRekening1M']['kdrekening1']
+                                                );
+                                                if (strlen($attributes['kdrekening1']) == Params::REKENING1_LEN) {
+                                                        $is_exist = $modelRekSatu->findByAttributes($attributes);
+                                                        if (!$is_exist) {
+                                                                $is_simpan = $this->simpanRekening($modelRekSatu, $data_parsing['AKRekening1M']);
+                                                                $row = Yii::app()->db->createCommand("SELECT * FROM rekening1_m ORDER BY rekening1_id DESC")->queryRow();
+                                                                $max_kode = (int) $row['kdrekening1'];
+                                                                $max_kode = $max_kode + 1;
+                                                                $max_kode = ($max_kode < 10 ? "0" . $max_kode : $max_kode);
+                                                                $max_kode = isset($max_kode) ? $max_kode : 0;
 
-							$id_parent = array(
-								'kdrekening1' => $max_kode
-							);
-						}
+                                                                $id_parent = array(
+                                                                        'kdrekening1' => $max_kode
+                                                                );
+                                                        }
+                                                } else {
+                                                        $action = 'kode';
+                                                }
 					}
 				}
 
@@ -85,35 +99,43 @@ class KodeRekeningController extends MyAuthController {
 							}
 						}
                                                 $attributes['kdrekening2'] = trim($attributes['kdrekening2']);
-						$is_simpan = $model->updateByPk($data_parsing['AKRekening2M']['rekening2_id'], $attributes);
-						$action = 'update';
+                                                if (strlen($attributes['kdrekening2']) == Params::REKENING2_LEN) {
+                                                        $is_simpan = $model->updateByPk($data_parsing['AKRekening2M']['rekening2_id'], $attributes);
+                                                        $action = 'update';
+                                                } else {
+                                                        $action = 'kode';
+                                                }
 					} else {
                                                 $data_parsing['AKRekening2M']['kdrekening2'] = trim($data_parsing['AKRekening2M']['kdrekening2']);
 						$attributes = array(
 							'kdrekening2' => $data_parsing['AKRekening2M']['kdrekening2'],
 							'rekening1_id' => $data_parsing['AKRekening2M']['rekening1_id']
 						);
-						$is_exist = $model->findByAttributes($attributes);
-						if (!$is_exist) {
-							$is_simpan = $this->simpanRekening($model, $data_parsing['AKRekening2M']);
+                                                if (strlen($attributes['kdrekening2']) == Params::REKENING2_LEN) {
+                                                        $is_exist = $model->findByAttributes($attributes);
+                                                        if (!$is_exist) {
+                                                                $is_simpan = $this->simpanRekening($model, $data_parsing['AKRekening2M']);
 
-							$params = array();
-							foreach ($attributes as $key => $val) {
-								if ($key != 'kdrekening2') {
-									$params[] = $key . " = " . $val;
-								}
-							}
-							$sql = "SELECT * FROM rekening2_m " . (count($params) > 0 ? "WHERE " . implode($params, " AND ") : "" ) . " ORDER BY rekening2_id DESC";
-							$row = Yii::app()->db->createCommand($sql)->queryRow();
-							$max_kode = (int) $row['kdrekening2'];
-							$max_kode = $max_kode + 1;
-							$max_kode = ($max_kode < 10 ? "0" . $max_kode : $max_kode);
+                                                                $params = array();
+                                                                foreach ($attributes as $key => $val) {
+                                                                        if ($key != 'kdrekening2') {
+                                                                                $params[] = $key . " = " . $val;
+                                                                        }
+                                                                }
+                                                                $sql = "SELECT * FROM rekening2_m " . (count($params) > 0 ? "WHERE " . implode($params, " AND ") : "" ) . " ORDER BY rekening2_id DESC";
+                                                                $row = Yii::app()->db->createCommand($sql)->queryRow();
+                                                                $max_kode = (int) $row['kdrekening2'];
+                                                                $max_kode = $max_kode + 1;
+                                                                $max_kode = ($max_kode < 10 ? "0" . $max_kode : $max_kode);
 
-							$id_parent = array(
-								'rekening1_id' => $data_parsing['AKRekening2M']['rekening1_id'],
-								'kdrekening2' => $max_kode
-							);
-						}
+                                                                $id_parent = array(
+                                                                        'rekening1_id' => $data_parsing['AKRekening2M']['rekening1_id'],
+                                                                        'kdrekening2' => $max_kode
+                                                                );
+                                                        }
+                                                } else {
+                                                        $action = 'kode';
+                                                }
 					}
 				}
 
@@ -127,35 +149,43 @@ class KodeRekeningController extends MyAuthController {
 							}
 						}
                                                 $attributes['kdrekening3'] = trim($attributes['kdrekening3']);
-						$is_simpan = $model->updateByPk($data_parsing['AKRekening3M']['rekening3_id'], $attributes);
-                                                $action = 'update';
+                                                if (strlen($attributes['kdrekening3']) == Params::REKENING3_LEN) {
+                                                        $is_simpan = $model->updateByPk($data_parsing['AKRekening3M']['rekening3_id'], $attributes);
+                                                        $action = 'update';
+                                                } else {
+                                                        $action = 'kode';
+                                                }
 					} else {
                                                 $data_parsing['AKRekening3M']['kdrekening3'] = trim($data_parsing['AKRekening3M']['kdrekening3']);
 						$attributes = array(
 							'kdrekening3' => $data_parsing['AKRekening3M']['kdrekening3'],
 							'rekening2_id' => $data_parsing['AKRekening3M']['rekening2_id']
 						);
-						$is_exist = $model->findByAttributes($attributes);
-						if (!$is_exist) {
-							$is_simpan = $this->simpanRekening($model, $data_parsing['AKRekening3M']);
-							$params = array();
-							foreach ($attributes as $key => $val) {
-								if ($key != 'kdrekening3') {
-									$params[] = $key . " = " . $val;
-								}
-							}
-							$sql = "SELECT * FROM rekening3_m " . (count($params) > 0 ? "WHERE " . implode($params, " AND ") : "" ) . " ORDER BY rekening3_id DESC";
-							$row = Yii::app()->db->createCommand($sql)->queryRow();
+                                                if (strlen($attributes['kdrekening3']) == Params::REKENING3_LEN) {
+                                                        $is_exist = $model->findByAttributes($attributes);
+                                                        if (!$is_exist) {
+                                                                $is_simpan = $this->simpanRekening($model, $data_parsing['AKRekening3M']);
+                                                                $params = array();
+                                                                foreach ($attributes as $key => $val) {
+                                                                        if ($key != 'kdrekening3') {
+                                                                                $params[] = $key . " = " . $val;
+                                                                        }
+                                                                }
+                                                                $sql = "SELECT * FROM rekening3_m " . (count($params) > 0 ? "WHERE " . implode($params, " AND ") : "" ) . " ORDER BY rekening3_id DESC";
+                                                                $row = Yii::app()->db->createCommand($sql)->queryRow();
 
-							$max_kode = (int) $row['kdrekening3'];
-							$max_kode = $max_kode + 1;
-							$max_kode = ($max_kode < 10 ? "0" . $max_kode : $max_kode);
+                                                                $max_kode = (int) $row['kdrekening3'];
+                                                                $max_kode = $max_kode + 1;
+                                                                $max_kode = ($max_kode < 10 ? "0" . $max_kode : $max_kode);
 
-							$id_parent = array(
-								'rekening2_id' => $data_parsing['AKRekening3M']['rekening2_id'],
-								'kdrekening3' => $max_kode
-							);
-						}
+                                                                $id_parent = array(
+                                                                        'rekening2_id' => $data_parsing['AKRekening3M']['rekening2_id'],
+                                                                        'kdrekening3' => $max_kode
+                                                                );
+                                                        }
+                                                } else {
+                                                        $action = 'kode';
+                                                }
 					}
 				}
 
@@ -169,33 +199,41 @@ class KodeRekeningController extends MyAuthController {
 							}
 						}
                                                 $attributes['kdrekening4'] = trim($attributes['kdrekening4']);
-						$is_simpan = $model->updateByPk($data_parsing['AKRekening4M']['rekening4_id'], $attributes);
-						$action = 'update';
+                                                if (strlen($attributes['kdrekening4']) == Params::REKENING4_LEN) {
+                                                        $is_simpan = $model->updateByPk($data_parsing['AKRekening4M']['rekening4_id'], $attributes);
+                                                        $action = 'update';
+                                                } else {
+                                                        $action = 'kode';
+                                                }
 					} else {
                                                 $data_parsing['AKRekening4M']['kdrekening4'] = trim($data_parsing['AKRekening4M']['kdrekening4']);
 						$attributes = array(
 							'kdrekening4' => $data_parsing['AKRekening4M']['kdrekening4'],
 							'rekening3_id' => $data_parsing['AKRekening4M']['rekening3_id']
 						);
-						$is_exist = $model->findByAttributes($attributes);
-						if (!$is_exist) {
-							$is_simpan = $this->simpanRekening($model, $data_parsing['AKRekening4M']);
-							$params = array();
-							foreach ($attributes as $key => $val) {
-								if ($key != 'kdrekening4') {
-									$params[] = $key . " = " . $val;
-								}
-							}
-							$sql = "SELECT * FROM rekening4_m " . (count($params) > 0 ? "WHERE " . implode($params, " AND ") : "" ) . " ORDER BY rekening4_id DESC";
-							$row = Yii::app()->db->createCommand($sql)->queryRow();
-							$max_kode = (int) $row['kdrekening4'];
-							$max_kode = $max_kode + 1;
-							$max_kode = ($max_kode < 10 ? "0" . $max_kode : $max_kode);
-							$id_parent = array(
-								'rekening3_id' => $data_parsing['AKRekening4M']['rekening3_id'],
-								'kdrekening4' => $max_kode
-							);
-						}
+                                                if (strlen($attributes['kdrekening4']) == Params::REKENING4_LEN) {
+                                                        $is_exist = $model->findByAttributes($attributes);
+                                                        if (!$is_exist) {
+                                                                $is_simpan = $this->simpanRekening($model, $data_parsing['AKRekening4M']);
+                                                                $params = array();
+                                                                foreach ($attributes as $key => $val) {
+                                                                        if ($key != 'kdrekening4') {
+                                                                                $params[] = $key . " = " . $val;
+                                                                        }
+                                                                }
+                                                                $sql = "SELECT * FROM rekening4_m " . (count($params) > 0 ? "WHERE " . implode($params, " AND ") : "" ) . " ORDER BY rekening4_id DESC";
+                                                                $row = Yii::app()->db->createCommand($sql)->queryRow();
+                                                                $max_kode = (int) $row['kdrekening4'];
+                                                                $max_kode = $max_kode + 1;
+                                                                $max_kode = ($max_kode < 10 ? "0" . $max_kode : $max_kode);
+                                                                $id_parent = array(
+                                                                        'rekening3_id' => $data_parsing['AKRekening4M']['rekening3_id'],
+                                                                        'kdrekening4' => $max_kode
+                                                                );
+                                                        }
+                                                } else {
+                                                        $action = 'kode';
+                                                }
 					}
 				}
 				if (isset($data_parsing['AKRekening5M'])) {
@@ -206,43 +244,53 @@ class KodeRekeningController extends MyAuthController {
 							if ($key != 'rekening5_id') {
 								$attributes[$key] = $val;
 							}
-						}
-                                                $attributes['kderekening5'] = trim($attributes['kderekening5']);
-                                                $attributes['update_loginpemakai_id'] = Yii::app()->user->id;
-						$attributes['update_time'] = date('Y-m-d H:i:s');
-						$is_simpan = $model->updateByPk($data_parsing['AKRekening5M']['rekening5_id'], $attributes);
-						$action = 'update';
+						}  
+                                                $attributes['kdrekening5'] = trim($attributes['kdrekening5']);
+                                                if (strlen($attributes['kdrekening5']) == Params::REKENING5_LEN) {
+                                                        $attributes['update_loginpemakai_id'] = Yii::app()->user->id;
+                                                        $attributes['update_time'] = date('Y-m-d H:i:s');
+                                                        $is_simpan = $model->updateByPk($data_parsing['AKRekening5M']['rekening5_id'], $attributes);
+                                                        $action = 'update';
+                                                } else {
+                                                        $action = 'kode';
+                                                }
 					} else {
-                                                $data_parsing['AKRekening5M']['kderekening5'] = trim($data_parsing['AKRekening5M']['kderekening5']);
+                                                $data_parsing['AKRekening5M']['kdrekening5'] = trim($data_parsing['AKRekening5M']['kdrekening5']);
 						$attributes = array(
 							'kdrekening5' => $data_parsing['AKRekening5M']['kdrekening5'],
 							'rekening4_id' => $data_parsing['AKRekening5M']['rekening4_id']
 						);
-						$is_exist = $model->findByAttributes($attributes);
-						if (!$is_exist) {
-							$data_parsing['AKRekening5M']['create_ruangan'] = Yii::app()->user->getState('ruangan_id');
-							$data_parsing['AKRekening5M']['create_loginpemakai_id'] = Yii::app()->user->id;
-							$data_parsing['AKRekening5M']['create_time'] = date('Y-m-d H:i:s');
-							$is_simpan = $this->simpanRekening($model, $data_parsing['AKRekening5M']);
+                                                if (strlen($attributes['kdrekening5']) == Params::REKENING5_LEN) {
+                                                        $is_exist = $model->findByAttributes($attributes);
+                                                        if (!$is_exist) {
+                                                                $data_parsing['AKRekening5M']['create_ruangan'] = Yii::app()->user->getState('ruangan_id');
+                                                                $data_parsing['AKRekening5M']['create_loginpemakai_id'] = Yii::app()->user->id;
+                                                                $data_parsing['AKRekening5M']['create_time'] = date('Y-m-d H:i:s');
+                                                                $is_simpan = $this->simpanRekening($model, $data_parsing['AKRekening5M']);
 
-							$params = array();
-							foreach ($attributes as $key => $val) {
-								if ($key != 'kdrekening5') {
-									$params[] = $key . " = " . $val;
-								}
-							}
-							$sql = "SELECT * FROM rekening5_m " . (count($params) > 0 ? "WHERE " . implode($params, " AND ") : "" ) . " ORDER BY rekening5_id DESC";
+                                                                $params = array();
+                                                                foreach ($attributes as $key => $val) {
+                                                                        if ($key != 'kdrekening5') {
+                                                                                $params[] = $key . " = " . $val;
+                                                                        }
+                                                                }
+                                                                $sql = "SELECT * FROM rekening5_m " . (count($params) > 0 ? "WHERE " . implode($params, " AND ") : "" ) . " ORDER BY rekening5_id DESC";
 
-							$row = Yii::app()->db->createCommand($sql)->queryRow();
-							$max_kode = (int) $row['kdrekening5'];
-							$max_kode = $max_kode + 1;
-							$max_kode = ($max_kode < 10 ? "0" . $max_kode : $max_kode);
+                                                                $row = Yii::app()->db->createCommand($sql)->queryRow();
+                                                                $max_kode = (int) $row['kdrekening5'];
+                                                                $max_kode = $max_kode + 1;
+                                                                $max_kode = ($max_kode < 10 ? "0" . $max_kode : $max_kode);
+                                                                $saldonormal = $row['rekening5_nb'];
 
-							$id_parent = array(
-								'rekening4_id' => $data_parsing['AKRekening5M']['rekening4_id'],
-								'kdrekening5' => $max_kode
-							);
-						}
+                                                                $id_parent = array(
+                                                                        'rekening4_id' => $data_parsing['AKRekening5M']['rekening4_id'],
+                                                                        'kdrekening5' => $max_kode,
+                                                                        'saldonormal' => $saldonormal,
+                                                                );
+                                                        }
+                                                } else {
+                                                        $action = 'kode';
+                                                }
 					}
 				}
 
@@ -434,6 +482,8 @@ class KodeRekeningController extends MyAuthController {
 
 	public function actionPrint() {
 		$model = new MasterakunrekeningV;
+                $model->aktif = true;
+                $model->akun = 5;
 
 		if (isset($_REQUEST['MasterakunrekeningV'])) {
 			$model->attributes = $_REQUEST['MasterakunrekeningV'];
