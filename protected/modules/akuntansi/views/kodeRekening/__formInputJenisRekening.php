@@ -1,5 +1,5 @@
 <fieldset class='box' id='fieldsetJenisRekening'>
-    <legend class="rim">Tambah Sub Golongan Akun</legend>
+    <legend class="rim">Tambah Kelompok Pos</legend>
     <?php
     Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/form.js');
     $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
@@ -49,15 +49,20 @@
                 function (data) {
                     if (data.pesan == 'exist') {
                         myAlert('Kode Rekening telah terdaftar');
+                        refreshTree();
+                    } else if (data.pesan == 'kode') {
+                        myAlert('Kode rekening harus 6 Karakter');
                     }
 
                     if (data.status == 'ok') {
                         myAlert('Rekening berhasil disimpan');
+                        refreshTree();
                         if (data.pesan == 'insert') {
                             $("#reseter").click();
                             $('#fieldsetJenisRekening').find("input[name$='[kdrekening3]']").val(data.id_parent.kdrekening3);
                         }
-                        getTreeMenu();
+                        //getTreeMenu();
+                        $.fn.yiiGridView.update('AKRekeningakuntansi-v', {});
                     }
                 }, "json"
                         );
