@@ -98,7 +98,7 @@
                     }
 
 
-                    $content = $this->renderPartial($this->path_view.'tips/tipsPemakaianBahan',array(),true);
+                    $content = $this->renderPartial('laboratorium.views.pemakaianBahan.tips.tipsPemakaianBahan',array(),true);
                     $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));  
                 ?> 
         </div>
