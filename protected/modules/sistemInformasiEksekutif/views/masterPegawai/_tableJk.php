@@ -27,7 +27,7 @@
 
     <?php
     $this->widget($table, array(
-        'id' => 'table-grid',
+        'id' => 'tablejk-grid',
         'dataProvider' => $data,
         'template' => $template,
         'enableSorting' => $sort,

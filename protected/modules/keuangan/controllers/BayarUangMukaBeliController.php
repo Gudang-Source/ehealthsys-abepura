@@ -25,6 +25,8 @@ class BayarUangMukaBeliController extends MyAuthController
                 try {
                     $modBuktiKeluar = $this->saveBuktiKeluar($_POST['KUTandabuktikeluarT']);
                     $modUangMuka = $this->saveBayarUangMukaBeli($modBuktiKeluar, $idSupplier);
+                    $modBuktiKeluar->uangmukabeli_id = $modUangMuka->uangmukabeli_id;
+                    $modBuktiKeluar->save();
                     if($this->successSave){
                         $transaction->commit();
                         Yii::app()->user->setFlash('success',"Data berhasil disimpan");

@@ -87,7 +87,7 @@ class JenispengeluaranM extends CActiveRecord
 		$criteria->compare('LOWER(jenispengeluaran_nama)',strtolower($this->jenispengeluaran_nama),true);
 		$criteria->compare('LOWER(jenispengeluaran_kode)',strtolower($this->jenispengeluaran_kode),true);
 		$criteria->compare('LOWER(jenispengeluaran_namalain)',strtolower($this->jenispengeluaran_namalain),true);
-		$criteria->compare('jenispengeluaran_aktif',$this->jenispengeluaran_aktif);
+		$criteria->compare('jenispengeluaran_aktif',isset($this->jenispengeluaran_aktif)?$this->jenispengeluaran_aktif:true);
 //                $criteria->addCondition('jenispengeluaran_aktif is true');
 
 		return new CActiveDataProvider($this, array(

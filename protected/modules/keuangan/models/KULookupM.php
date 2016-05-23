@@ -65,8 +65,8 @@ class KULookupM extends LookupM {
 //		$criteria->compare('lookup_type',$this->lookup_type,true);
 		$jenis = 'jenistransaksi';
 		$criteria->addCondition("lookup_type= "."'".$jenis."'");
-		$criteria->compare('lookup_name',$this->lookup_name,true);
-		$criteria->compare('lookup_value',$this->lookup_value,true);
+		$criteria->compare('LOWER(lookup_name)',  strtolower($this->lookup_name),true);
+		$criteria->compare('LOWER(lookup_value)', strtolower($this->lookup_value),true);
 		$criteria->compare('lookup_urutan',$this->lookup_urutan);
 		$criteria->compare('lookup_kode',$this->lookup_kode,true);
 		//$criteria->compare('lookup_aktif',$this->lookup_aktif);

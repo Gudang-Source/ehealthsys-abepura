@@ -7,14 +7,21 @@
 <table>
     <tr>
         <td>
-            <?php echo $form->textFieldRow($model,'lookup_type',array('class'=>'span3','maxlength'=>50)); ?>
+            <?php echo $form->textFieldRow($model,'lookup_name',array('class'=>'span3','maxlength'=>100)); ?>
         </td>
         <td>
-            <?php echo $form->textFieldRow($model,'lookup_name',array('class'=>'span3','maxlength'=>50)); ?>
+            <?php echo $form->textFieldRow($model,'lookup_value',array('class'=>'span3','maxlength'=>200)); ?>
         </td>
+        <td>
+            <?php echo $form->textFieldRow($model,'lookup_kode',array('class'=>'span3','maxlength'=>200)); ?>
+        </td>
+        
     </tr>
     <tr>
-        <td colspan="2">
+        <td>
+            <?php echo $form->textFieldRow($model,'lookup_urutan',array('class'=>'span3','maxlength'=>7)); ?>
+        </td>
+        <td>
             <?php echo $form->checkBoxRow($model,'lookup_aktif',array('checked'=>'lookup_aktif')); ?>
         </td>
     </tr>

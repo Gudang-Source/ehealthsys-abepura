@@ -21,7 +21,7 @@ class BKRinciantagihanpasienpenunjangV extends RinciantagihanpasienpenunjangV
             
             $str_bayar = '(case when t.tindakansudahbayar_id is null then true else false end)';
             
-            $criteria->group = 't.tgl_pendaftaran,t.no_pendaftaran, t.pendaftaran_id, t.no_rekam_medik, t.nama_pasien, t.nama_bin ,t.pendaftaran_id, t.carabayar_nama, t.penjamin_nama, t.ruangan_nama, t.pembayaranpelayanan_id, t.instalasi_id, t.instalasi_nama, '
+            $criteria->group = 't.tgl_pendaftaran,t.no_pendaftaran, t.pendaftaran_id, t.no_rekam_medik, t.namadepan, t.nama_pasien, t.nama_bin ,t.pendaftaran_id, t.carabayar_nama, t.penjamin_nama, t.ruangan_nama, t.pembayaranpelayanan_id, t.instalasi_id, t.instalasi_nama, '
                     . $str_bayar;
             $criteria->select = $criteria->group.' , sum(case when t.tindakansudahbayar_id is null then t.tarif_tindakan else 0 end) as totaltagihan, '
                     . $str_bayar;
@@ -49,6 +49,7 @@ class BKRinciantagihanpasienpenunjangV extends RinciantagihanpasienpenunjangV
 			}
             $criteria->compare('LOWER(t.carabayar_nama)',strtolower($this->carabayar_nama),true);
             $criteria->compare('t.tarif_tindakan',$this->tarif_tindakan);
+            $criteria->compare('p.pegawai_id', $this->pegawai_id);
 			if(!empty($this->jeniskasuspenyakit_id)){
 				$criteria->addCondition("t.jeniskasuspenyakit_id = ".$this->jeniskasuspenyakit_id);					
 			}
@@ -71,13 +72,16 @@ class BKRinciantagihanpasienpenunjangV extends RinciantagihanpasienpenunjangV
             $criteria->compare('r.instalasi_id', $this->instalasi_id);
             $criteria->compare('LOWER(t.jeniskasuspenyakit_nama)',strtolower($this->jeniskasuspenyakit_nama),true);
             
-            $criteria->join = "join ruangan_m r on r.ruangan_id = t.ruangan_id";
+            $criteria->join = "join ruangan_m r on r.ruangan_id = t.ruangan_id "
+                    . "left join pendaftaran_t p on p.pendaftaran_id = t.pendaftaran_id";
             
             if ($this->statusBayar == 'LUNAS'){
                 $criteria->addCondition($str_bayar.' = false');
             }else if ($this->statusBayar == 'BELUM LUNAS'){
                 $criteria->addCondition($str_bayar.' = true');
             }
+            
+            $criteria->compare('p.statusperiksa', $this->statusperiksa);
             $criteria->order = 't.pendaftaran_id';
             return new CActiveDataProvider($this, array(
                     'criteria'=>$criteria,

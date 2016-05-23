@@ -25,8 +25,8 @@ class KUKursrpM extends KursrpM
 //		   $criteria->addCondition("matauang = ".$this->matauang);
 //		}
 		$criteria->compare('date(tglkursrp)',$this->tglkursrp);
-		$criteria->compare('nilai',$this->nilai);
-		$criteria->compare('rupiah',$this->rupiah);
+		$criteria->compare('nilai', str_replace('.','',$this->nilai));
+		$criteria->compare('rupiah',str_replace('.','',$this->rupiah));
 		$criteria->compare('kursrp_aktif',isset($this->kursrp_aktif)?$this->kursrp_aktif:true);
 
 		return new CActiveDataProvider($this, array(

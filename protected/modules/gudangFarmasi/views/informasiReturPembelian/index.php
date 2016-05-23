@@ -84,7 +84,7 @@ $('#divSearch-form form').submit(function(){
             'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
         )); ?>
     </div>
-    <?php echo $this->renderPartial('search',array('model'=>$model,'format'=>$format)); ?>
+    <?php echo $this->renderPartial($this->path_view.'search',array('model'=>$model,'format'=>$format)); ?>
 </div>
 <script type="text/javascript">
      function deleteRecord(id){

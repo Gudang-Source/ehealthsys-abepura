@@ -1,3 +1,5 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
 <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
 	'id'=>'kptunjangan-m-form',
 	'enableAjaxValidation'=>false,
@@ -18,7 +20,7 @@
 		</div>
 		<div class = "span6">
 			<?php echo $form->dropdownListRow($model, 'komponengaji_id', CHtml::listData(KomponengajiM::model()->findAll('komponengaji_aktif = true ORDER BY komponengaji_nama ASC'),'komponengaji_id','komponengaji_nama'),array('empty'=>'-- Pilih --','onkeypress'=>'return $(this).focusNextInputField(event)','class'=>'span3')); ?>
-			<?php echo $form->textFieldRow($model,'nominaltunjangan',array('class'=>'span3 integer', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+			<?php echo $form->textFieldRow($model,'nominaltunjangan',array('class'=>'span3 integer2', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
 		</div>
 	</div>
 	<div class="row-fluid">

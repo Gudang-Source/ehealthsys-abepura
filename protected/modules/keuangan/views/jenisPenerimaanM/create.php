@@ -1,5 +1,5 @@
 <div class="white-container">
-    <legend class='rim2'>Tambah <b>Jenis Penerimaan</b></legend>
+    <legend class='rim2'>Tambah <b>Penerimaan Umum</b></legend>
     <?php
     $this->breadcrumbs=array(
             'Kujenis Penerimaan Ms'=>array('index'),

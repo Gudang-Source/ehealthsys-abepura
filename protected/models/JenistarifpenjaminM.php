@@ -120,4 +120,17 @@ class JenistarifpenjaminM extends CActiveRecord
                 'pagination'=>false,
         ));
     }
+    
+     public function getDataCaraBayarItems($jenistarif_id)
+    {
+         $criteria = new CDbCriteria();         
+         $criteria->join =  ' JOIN penjaminpasien_m p ON p.carabayar_id = t.carabayar_id '
+                        .   ' JOIN jenistarifpenjamin_m j ON j.penjamin_id = p.penjamin_id ';
+         $criteria->addCondition('j.jenistarif_id = '.$jenistarif_id);
+         $criteria->order = 't.carabayar_nama';
+                  
+         return CarabayarM::model()->findAll($criteria);
+         
+         
+    }
 }

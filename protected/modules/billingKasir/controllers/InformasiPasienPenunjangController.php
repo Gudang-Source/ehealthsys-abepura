@@ -16,7 +16,8 @@ class InformasiPasienPenunjangController extends MyAuthController
                 
             if(isset($_GET['BKRinciantagihanpasienpenunjangV'])){
                 $model->attributes=$_GET['BKRinciantagihanpasienpenunjangV'];
-                $model->statusBayar=$_GET['BKRinciantagihanpasienpenunjangV']['statusBayar'];            
+                $model->statusBayar=$_GET['BKRinciantagihanpasienpenunjangV']['statusBayar'];   
+                $model->statusperiksa=$_GET['BKRinciantagihanpasienpenunjangV']['statusperiksa']; 
                 $model->tgl_awal = $format->formatDateTimeForDb($_GET['BKRinciantagihanpasienpenunjangV']['tgl_awal']);
                 $model->tgl_akhir = $format->formatDateTimeForDb($_GET['BKRinciantagihanpasienpenunjangV']['tgl_akhir']);
             }   

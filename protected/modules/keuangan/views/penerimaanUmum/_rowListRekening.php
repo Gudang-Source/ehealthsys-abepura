@@ -123,18 +123,31 @@ $account = "";
 if(isset($_GET['KURekeningakuntansiV'])) {
     $modRekKredit->attributes = $_GET['KURekeningakuntansiV'];
 	// untuk mencari nama rekening antara rekening 5 sampai rekening 1 jika salah satu tidak terpenuhi
-    $modRekKredit->nmrekening5 = $_GET['KURekeningakuntansiV']['nmrekening5'];
-    $modRekKredit->nmrekening4 = $_GET['KURekeningakuntansiV']['nmrekening5'];
-    $modRekKredit->nmrekening3 = $_GET['KURekeningakuntansiV']['nmrekening5'];
-    $modRekKredit->nmrekening2 = $_GET['KURekeningakuntansiV']['nmrekening5'];
-    $modRekKredit->nmrekening1 = $_GET['KURekeningakuntansiV']['nmrekening5'];
-	
-    $modRekKredit->nmrekeninglain5 = $_GET['KURekeningakuntansiV']['nmrekeninglain5'];
-    $modRekKredit->nmrekeninglain4 = $_GET['KURekeningakuntansiV']['nmrekeninglain5'];
-    $modRekKredit->nmrekeninglain3 = $_GET['KURekeningakuntansiV']['nmrekeninglain5'];
-    $modRekKredit->nmrekeninglain2 = $_GET['KURekeningakuntansiV']['nmrekeninglain5'];
-    $modRekKredit->nmrekeninglain1 = $_GET['KURekeningakuntansiV']['nmrekeninglain5'];
 }
+
+$c2 = new CDbCriteria();
+$c3 = new CDbCriteria();
+$c4 = new CDbCriteria();
+
+
+$c2->compare('rekening1_id', $modRekKredit->rekening1_id);
+$c2->addCondition('rekening2_aktif = true');
+$c2->order = 'kdrekening2';
+
+$r2 = Rekening2M::model()->findAll($c2);
+
+$c3->compare('rekening2_id', $modRekKredit->rekening2_id);
+$c3->addCondition('rekening3_aktif = true');
+$c3->order = 'kdrekening3';
+
+$r3 = Rekening3M::model()->findAll($c3);
+
+$c4->compare('rekening3_id', $modRekKredit->rekening3_id);
+$c4->addCondition('rekening4_aktif = true');
+$c4->order = 'kdrekening4';
+
+$r4 = Rekening4M::model()->findAll($c4);
+
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'rekkredit-m-grid',
         //'ajaxUrl'=>Yii::app()->createUrl('actionAjax/CariDataPasien'),
@@ -157,44 +170,50 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 			 'value'=>'$data->nourutrek',
 		 ),
 		 array(
-			 'name'=>'kdrekening1',
-			 'header'=>'Rek. 1',
-			 'value'=>'$data->kdrekening1',
-		 ),
-		 array(
-			 'name'=>'kdrekening2',
-			 'header'=>'Rek. 2',
-			 'value'=>'$data->kdrekening2',
-		 ),
-		 array(
-			 'name'=>'kdrekening3',
-			 'header'=>'Rek. 3',
-			 'value'=>'$data->kdrekening3',
-		 ),
-		 array(
-			 'name'=>'kdrekening4',
-			 'header'=>'Rek. 4',
-			 'value'=>'$data->kdrekening4',
-		 ),
-		 array(
-			 'name'=>'kdrekening5',
-			 'header'=>'Rek. 5',
-			 'value'=>'$data->kdrekening5',
-		 ),
-		 array(
-			 'name'=>'nmrekening5',
-			 'header'=>'Nama Rekening',
-			 'value'=>'$data->getNamaRekening()',
-		 ),
-		 array(
-			 'name'=>'nmrekeninglain5',
-			 'header'=>'Nama Lain',
-			 'value'=>'$data->getNamaRekening()',
-
-		 ),
+                        'header'=>'Kelompok Akun',
+                        'name'=>'rekening1_id',
+                        'value'=>'$data->nmrekening1',
+                        'filter'=>  CHtml::activeDropDownList($modRekKredit, 'rekening1_id', 
+                        CHtml::listData(Rekening1M::model()->findAll(array(
+                            'condition'=>'rekening1_aktif = true',
+                            'order'=>'kdrekening1 asc',
+                        )), 'rekening1_id', 'nmrekening1'), array('empty'=>'-- Pilih --')),
+                ),
+                array(
+                        'header'=>'Golongan Akun',
+                        'name'=>'rekening2_id',
+                        'value'=>'$data->nmrekening2',
+                        'filter'=>  CHtml::activeDropDownList($modRekKredit, 'rekening2_id', 
+                        CHtml::listData($r2, 'rekening2_id', 'nmrekening2'), array('empty'=>'-- Pilih --')),
+                ),
+                array(
+                        'header'=>'Sub Golongan Akun',
+                        'name'=>'rekening3_id',
+                        'value'=>'$data->nmrekening3',
+                        'filter'=>  CHtml::activeDropDownList($modRekKredit, 'rekening3_id', 
+                        CHtml::listData($r3, 'rekening3_id', 'nmrekening3'), array('empty'=>'-- Pilih --')),
+                ),
+                array(
+                        'header'=>'Jenis Akun',
+                        'name'=>'rekening4_id',
+                        'value'=>'$data->nmrekening4',
+                        'filter'=>  CHtml::activeDropDownList($modRekKredit, 'rekening4_id', 
+                        CHtml::listData($r4, 'rekening4_id', 'nmrekening4'), array('empty'=>'-- Pilih --')),
+                ),
+                array(
+                        'header' => 'Kode Akun',
+                        'name' => 'kdrekening5',
+                        'value' => '$data->kdrekening5',
+                ),
+                array(
+                    'header'=>'Nama Akun',
+                    'name'=>'nmrekening5',
+                    'value'=>'$data->nmrekening5',
+                ),
 		 array(
 			 'header'=>'Saldo Normal',
 			 'value'=>'$data->rekening5_nb',
+                         'filter'=>CHtml::activeDropDownList($modRekKredit, 'rekening5_nb', array('D'=>'Debit', 'K'=>'Kredit'), array('empty'=>'-- Pilih --')),
 		 ),
 
 		 array(
@@ -247,18 +266,31 @@ $account = "";
 if(isset($_GET['KURekeningakuntansiV'])) {
     $modRekKredit->attributes = $_GET['KURekeningakuntansiV'];
 	// untuk mencari nama rekening antara rekening 5 sampai rekening 1 jika salah satu tidak terpenuhi
-    $modRekKredit->nmrekening5 = $_GET['KURekeningakuntansiV']['nmrekening5'];
-    $modRekKredit->nmrekening4 = $_GET['KURekeningakuntansiV']['nmrekening5'];
-    $modRekKredit->nmrekening3 = $_GET['KURekeningakuntansiV']['nmrekening5'];
-    $modRekKredit->nmrekening2 = $_GET['KURekeningakuntansiV']['nmrekening5'];
-    $modRekKredit->nmrekening1 = $_GET['KURekeningakuntansiV']['nmrekening5'];
-	
-    $modRekKredit->nmrekeninglain5 = $_GET['KURekeningakuntansiV']['nmrekeninglain5'];
-    $modRekKredit->nmrekeninglain4 = $_GET['KURekeningakuntansiV']['nmrekeninglain5'];
-    $modRekKredit->nmrekeninglain3 = $_GET['KURekeningakuntansiV']['nmrekeninglain5'];
-    $modRekKredit->nmrekeninglain2 = $_GET['KURekeningakuntansiV']['nmrekeninglain5'];
-    $modRekKredit->nmrekeninglain1 = $_GET['KURekeningakuntansiV']['nmrekeninglain5'];
 }
+
+$c2 = new CDbCriteria();
+$c3 = new CDbCriteria();
+$c4 = new CDbCriteria();
+
+
+$c2->compare('rekening1_id', $modRekKredit->rekening1_id);
+$c2->addCondition('rekening2_aktif = true');
+$c2->order = 'kdrekening2';
+
+$r2 = Rekening2M::model()->findAll($c2);
+
+$c3->compare('rekening2_id', $modRekKredit->rekening2_id);
+$c3->addCondition('rekening3_aktif = true');
+$c3->order = 'kdrekening3';
+
+$r3 = Rekening3M::model()->findAll($c3);
+
+$c4->compare('rekening3_id', $modRekKredit->rekening3_id);
+$c4->addCondition('rekening4_aktif = true');
+$c4->order = 'kdrekening4';
+
+$r4 = Rekening4M::model()->findAll($c4);
+
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'rekdedit-m-grid',
 	'dataProvider'=>$modRekKredit->searchAccounts($account),
@@ -272,44 +304,50 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 			 'value'=>'$data->nourutrek',
 		 ),
 		 array(
-			 'name'=>'kdrekening1',
-			 'header'=>'Rek. 1',
-			 'value'=>'$data->kdrekening1',
-		 ),
-		 array(
-			 'name'=>'kdrekening2',
-			 'header'=>'Rek. 2',
-			 'value'=>'$data->kdrekening2',
-		 ),
-		 array(
-			 'name'=>'kdrekening3',
-			 'header'=>'Rek. 3',
-			 'value'=>'$data->kdrekening3',
-		 ),
-		 array(
-			 'name'=>'kdrekening4',
-			 'header'=>'Rek. 4',
-			 'value'=>'$data->kdrekening4',
-		 ),
-		 array(
-			 'name'=>'kdrekening5',
-			 'header'=>'Rek. 5',
-			 'value'=>'$data->kdrekening5',
-		 ),
-		 array(
-			 'name'=>'nmrekening5',
-			 'header'=>'Nama Rekening',
-			 'value'=>'$data->getNamaRekening()',
-		 ),
-		 array(
-			 'name'=>'nmrekeninglain5',
-			 'header'=>'Nama Lain',
-			 'value'=>'$data->getNamaRekening()',
-
-		 ),
+                        'header'=>'Kelompok Akun',
+                        'name'=>'rekening1_id',
+                        'value'=>'$data->nmrekening1',
+                        'filter'=>  CHtml::activeDropDownList($modRekKredit, 'rekening1_id', 
+                        CHtml::listData(Rekening1M::model()->findAll(array(
+                            'condition'=>'rekening1_aktif = true',
+                            'order'=>'kdrekening1 asc',
+                        )), 'rekening1_id', 'nmrekening1'), array('empty'=>'-- Pilih --')),
+                ),
+                array(
+                        'header'=>'Golongan Akun',
+                        'name'=>'rekening2_id',
+                        'value'=>'$data->nmrekening2',
+                        'filter'=>  CHtml::activeDropDownList($modRekKredit, 'rekening2_id', 
+                        CHtml::listData($r2, 'rekening2_id', 'nmrekening2'), array('empty'=>'-- Pilih --')),
+                ),
+                array(
+                        'header'=>'Sub Golongan Akun',
+                        'name'=>'rekening3_id',
+                        'value'=>'$data->nmrekening3',
+                        'filter'=>  CHtml::activeDropDownList($modRekKredit, 'rekening3_id', 
+                        CHtml::listData($r3, 'rekening3_id', 'nmrekening3'), array('empty'=>'-- Pilih --')),
+                ),
+                array(
+                        'header'=>'Jenis Akun',
+                        'name'=>'rekening4_id',
+                        'value'=>'$data->nmrekening4',
+                        'filter'=>  CHtml::activeDropDownList($modRekKredit, 'rekening4_id', 
+                        CHtml::listData($r4, 'rekening4_id', 'nmrekening4'), array('empty'=>'-- Pilih --')),
+                ),
+                array(
+                        'header' => 'Kode Akun',
+                        'name' => 'kdrekening5',
+                        'value' => '$data->kdrekening5',
+                ),
+                array(
+                    'header'=>'Nama Akun',
+                    'name'=>'nmrekening5',
+                    'value'=>'$data->nmrekening5',
+                ),
 		 array(
 			 'header'=>'Saldo Normal',
 			 'value'=>'$data->rekening5_nb',
+                         'filter'=>CHtml::activeDropDownList($modRekKredit, 'rekening5_nb', array('D'=>'Debit', 'K'=>'Kredit'), array('empty'=>'-- Pilih --')),
 		 ),
 
 		array(

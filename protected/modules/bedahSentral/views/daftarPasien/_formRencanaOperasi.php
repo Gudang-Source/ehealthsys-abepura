@@ -112,6 +112,13 @@ $this->widget('application.extensions.moneymask.MMask',array(
                             'onkeypress'=>"return $(this).focusNextInputField(event)"
                         )
                     );
+                    echo $form->dropDownListRow($modRencanaOperasiAttrib,'perawatsirkuler_id', 
+                        CHtml::listData($modPenunjang->getParamedisItems(Params::RUANGAN_ID_BEDAH), 'pegawai_id', 'nama_pegawai'),
+                        array(
+                            'empty'=>'-- Pilih --',
+                            'onkeypress'=>"return $(this).focusNextInputField(event)"
+                        )
+                    );
                     echo $form->textAreaRow($modRencanaOperasiAttrib,'keterangan_rencana',
                         array(
                             'class'=>'span3'

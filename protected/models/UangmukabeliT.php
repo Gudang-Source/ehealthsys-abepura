@@ -58,7 +58,9 @@ class UangmukabeliT extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+                    'supplier'=>array(self::BELONGS_TO, 'SupplierM', 'supplier_id'),
                     'penerimaanbarang'=>array(self::BELONGS_TO, 'PenerimaanbarangT','penerimaanbarang_id'),
+                    'tandabuktikeluar'=>array(self::HAS_ONE, 'TandabuktikeluarT', 'tandabuktikeluar_id'),
 		);
 	}
 

@@ -56,7 +56,7 @@
             
             <?php 
             $instalasi = InstalasiM::model()->findAll(array(
-                'condition'=>'instalasi_aktif = true and (instalasi_id in (2,3,4,20) or (revenuecenter = true and instalasirujukaninternal = true))',
+                'condition'=>'instalasi_aktif = true and (instalasi_id in (2,3,4) or (revenuecenter = true and instalasirujukaninternal = true and instalasi_id not in (7)))',
                 'order'=>'instalasi_nama',
             ));
             $ruangan = array();

@@ -1253,5 +1253,50 @@ class ActionDynamicController extends Controller
             }
             Yii::app()->end();
         }
+        
+        public function actionGetCaraBayar($encode=false,$model_nama='',$attr='')
+        {
+            if(Yii::app()->request->isAjaxRequest) {
+                $modCaraBayar = new JenistarifpenjaminM;
+                if($model_nama !=='' && $attr == ''){
+                    $jenistarif_id = $_POST["$model_nama"]['jenistarif_id'];
+                }
+                 elseif ($model_nama == '' && $attr !== '') {
+                    $jenistarif_id = $_POST["$attr"];
+                }
+                elseif ($model_nama !== '' && $attr !== '') {
+                    $jenistarif_id = $_POST["$model_nama"]["$attr"];
+                }
+                //var_dump($golongan_id);die;
+                $carabayar = null;
+                if($jenistarif_id){
+                    //var_dump($golongan_id);die;
+                    $carabayar = $modCaraBayar->getDataCaraBayarItems($jenistarif_id);
+                   
+//                    $kelurahan = KelurahanM::model()->findAll('kecamatan_id='.$kecamatan_id.'');
+//                    var_d
+                
+                    $carabayar = CHtml::listData($carabayar,'carabayar_id','carabayar_nama');
+                }
+
+                if($encode){
+                    echo CJSON::encode($carabayar);
+                } else {
+                    if(empty($carabayar)){
+                        echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                    }else{
+                        if (count($carabayar) > 1):
+                            echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                        endif;
+                        
+                        foreach($carabayar as $value=>$name)
+                        {
+                            echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                        }
+                    }
+                }
+            }
+            Yii::app()->end();
+        }
 }
 ?>

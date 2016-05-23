@@ -477,7 +477,13 @@ class MutasiObatAlkesController extends MyAuthController
             if($encode){
                 echo CJSON::encode($models);
             } else {
-                echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                if (count($models)>1){
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                }
+                elseif (count($models)==0)                
+                {
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                }
                 if(count($models) > 0){
                     foreach($models as $value=>$name){
                         echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);

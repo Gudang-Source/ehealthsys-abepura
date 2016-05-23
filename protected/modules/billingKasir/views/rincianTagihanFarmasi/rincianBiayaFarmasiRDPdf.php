@@ -50,10 +50,11 @@ if (isset($caraPrint)){
     $a = 0;
     $subsidiasuransi = 0;
     $subsidirs = 0;
+    $subsidipemerintah = 0;
     foreach ($modRincian as $key => $dataPendaftar) {
         $no_rekam_medik     = $dataPendaftar->no_rekam_medik;
         $no_pendaftaran     = $dataPendaftar->no_pendaftaran;
-        $nama_pasien        = $dataPendaftar->namapasienpendaftar;
+        $nama_pasien        = $dataPendaftar->namadepan.$dataPendaftar->nama_pasien;
         $jeniskelamin       = $dataPendaftar->jeniskelamin;
         $DokterPemeriksa    = $dataPendaftar->DokterPemeriksa;
         $carabayarPenjamin  = $dataPendaftar->CarabayarPenjamin;
@@ -76,8 +77,9 @@ if (isset($caraPrint)){
         $biaya_obat[$key]        = $dataPendaftar->biayaservice + $dataPendaftar->biayakemasan + $dataPendaftar->biayaadministrasi;
         $subtotal[$key]     = $harga_obat[$key] + $biaya_obat[$key];
         
-        $subsidiasuransi   += $subsidiasuransi[$key];
-        $subsidirs         += $subsidirs[$key];
+        $subsidiasuransi   += $dataPendaftar->subsidiasuransi;
+        $subsidipemerintah += $dataPendaftar->subsidipemerintah;
+        $subsidirs         += $dataPendaftar->subsidirs;
 
         $a++;
     }
@@ -101,7 +103,7 @@ if (isset($caraPrint)){
     <tr>
         <td width="22%">Nama Pasien</td>
         <td width="30%"> :
-            <?php echo CHtml::encode((isset($nama_pendaftaran) ? $nama_pendaftaran : $modPasien->nama_pasien)); ?>
+            <?php echo CHtml::encode((isset($nama_pendaftaran) ? $nama_pendaftaran : $modPasien->namadepan.$modPasien->nama_pasien)); ?>
         </td>
         <td width="22%">Alamat Pasien </td>
         <td>:
@@ -129,9 +131,9 @@ if (isset($caraPrint)){
         </td>
     </tr>
     <tr>
-        <td width="22%">Resep Oleh Dokter</td>
+        <td width="22%">Dokter Pemeriksa</td>
         <td width="30%"> :
-            <?php echo CHtml::encode((isset($dokter_pemeriksa) ? $dokter_pemeriksa : $modPendaftaran->pegawai->pegawai_nama )); ?>                        
+            <?php echo CHtml::encode($modPendaftaran->pegawai->namaLengkap); ?>                        
         </td>
         <td width="22%">Asal Unit Layanan </td>
         <td>:
@@ -168,8 +170,9 @@ if (isset($caraPrint)){
             $totalAlkes = 0;
             $totalObat = 0;
             $totalSeluruh = 0;
-            $subsidiasuransi = 0;
-            $subsidirs = 0;
+            //$subsidiasuransi = 0;
+            //$subsidipemerintah = 0;
+            //$subsidirs = 0;
             
             $totalSeluruh += ($totalObat + $totalAlkes);
             $format = new MyFormatter();
@@ -191,7 +194,7 @@ if (isset($caraPrint)){
                     <td align='right'>".MyFormatter::formatNumberForPrint($harga_obat[$i])."</td>
                     <td align='right'>".MyFormatter::formatNumberForPrint($biaya_obat[$i])."</td>
                     <td align='right'>".MyFormatter::formatNumberForPrint($subtotal[$i])."</td>
-
+                     
                 </tr>";
 
                 $total_tagihan += $subtotal[$i];
@@ -219,9 +222,13 @@ if (isset($caraPrint)){
             <td align="right"><b><?php echo MyFormatter::formatNumberForPrint($subsidirs); ?></b></td>
         </tr>
         <tr>
+            <td colspan="10" align="right"><b>Tanggungan Pemerintah :</b></td>
+            <td align="right"><b><?php echo MyFormatter::formatNumberForPrint($subsidipemerintah); ?></b></td>
+        </tr>
+        <tr>
             <td colspan="6"><?php echo $data['nama_pegawai']; ?></td>
             <td colspan="4" align="right"><b>Tangungan Pasien :</b></td>
-            <td align="right"><b><?php echo MyFormatter::formatNumberForPrint($total_tagihan + $subsidiasuransi + $subsidirs); ?></b></td>
+            <td align="right"><b><?php echo MyFormatter::formatNumberForPrint($total_tagihan - ($subsidiasuransi + $subsidirs + $subsidipemerintah)); ?></b></td>
         </tr>
     <?php
         }else{
@@ -230,17 +237,21 @@ if (isset($caraPrint)){
             <td colspan="10" align="right"><b>Total Tagihan :</b></td>
             <td align="right"><b><?php echo MyFormatter::formatNumberForPrint($total_tagihan); ?></b></td>
         </tr>
-        <tr>1
+        <tr>
             <td colspan="10" align="right"><b>Tanggungan Asuransi :</b></td>
             <td align="right"><b><?php echo MyFormatter::formatNumberForPrint($subsidiasuransi); ?></b></td>
         </tr>
-        <tr>1
+        <tr>
             <td colspan="10" align="right"><b>Tanggungan Rumah Sakit :</b></td>
             <td align="right"><b><?php echo MyFormatter::formatNumberForPrint($subsidirs); ?></b></td>
         </tr>
-        <tr>1
+        <tr>
+            <td colspan="10" align="right"><b>Tanggungan Pemerintah :</b></td>
+            <td align="right"><b><?php echo MyFormatter::formatNumberForPrint($subsidipemerintah); ?></b></td>
+        </tr>
+        <tr>
             <td colspan="10" align="right"><b>Tanggungan Pasien :</b></td>
-            <td align="right"><b><?php echo MyFormatter::formatNumberForPrint($total_tagihan + $subsidiasuransi + $subsidirs); ?></b></td>
+            <td align="right"><b><?php echo MyFormatter::formatNumberForPrint($total_tagihan - ($subsidiasuransi + $subsidirs + $subsidipemerintah)); ?></b></td>
         </tr>    
     <?php
         }

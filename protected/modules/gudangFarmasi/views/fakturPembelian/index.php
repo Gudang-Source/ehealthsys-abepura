@@ -71,7 +71,7 @@
                 <tfoot>
                     <tr>
                         <td colspan="11">Total</td>
-                        <td><?php echo CHtml::textField('total','',array('class'=>'span2 integer','style'=>'width:90px;'))?></td>
+                        <td><?php echo CHtml::textField('total','',array('class'=>'span2 integer2','style'=>'width:90px;'))?></td>
                     </tr>
                 </tfoot>
             </tbody>

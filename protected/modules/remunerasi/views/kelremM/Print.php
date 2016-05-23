@@ -28,12 +28,16 @@ $this->widget($table, array(
         'template'=>$template,
         'itemsCssClass'=>'table table-bordered table-striped table-condensed',
 	'columns'=>array(
-		'kelrem_id',
-		'kelrem_urutan',
+		array(
+                    'header' => 'ID',
+                    'value' => '$data->kelrem_id'
+                ),
+		//'kelrem_urutan',
 		'kelrem_kode',
 		'kelrem_nama',
+                'kelrem_singkatan',
 		'kelrem_desc',
-		'kelrem_singkatan',
+		
 		/*
 		'kelrem_rate',
 		'kelrem_aktif',

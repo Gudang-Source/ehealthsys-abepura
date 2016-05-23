@@ -33,7 +33,10 @@ $this->widget($table,array(
 		'lokasipenyimpanan_kode',
 		'lokasipenyimpanan_nama',
 		'lokasipenyimpanan_namalain',
- 
+                array(
+                    'header' => 'Status',
+                    'value' => '($data->lokasipenyimpanan_aktif)?"Aktif":"Tidak Aktif"'
+                ),
 	),
 )); 
 ?>

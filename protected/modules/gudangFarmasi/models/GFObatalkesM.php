@@ -61,6 +61,7 @@ class GFObatalkesM extends ObatalkesM
 			$criteria->compare('harganetto',$this->harganetto);
 			$criteria->compare('hargajual',$this->hargajual);
 			$criteria->compare('discount',$this->discount);
+                        
 		}
 		if ($this->tglkadaluarsa == 1){
 			$criteria->addBetweenCondition('date(tglkadaluarsa)',$this->tglkadaluarsa_awal, $this->tglkadaluarsa_akhir);
@@ -299,6 +300,26 @@ class GFObatalkesM extends ObatalkesM
 	{
 		return GFAtcM::model()->findAll('atc_aktif=true ORDER BY atc_nama');
 	}
+        
+        /**
+	 * menampilkan stok ruangan
+	 * @return type
+	 */
+	public function getStokObatRuangan(){ // menampilkan stok obat per ruangan login
+		return StokobatalkesT::getJumlahStok($this->obatalkes_id,Yii::app()->user->getState('ruangan_id'));
+	}
+	
+	//==  untuk form stok obatalkes
+	public function getHargajual_avg(){
+		return $this->hargaaverage;
+	}
+	public function getHarganettoapotek_avg(){
+		return $this->harganetto;
+	}
+	public function getQtystok(){
+		return $this->getStokObatRuangan();
+	}
+	//==  end untuk form stok obatalkes
         
 }
 

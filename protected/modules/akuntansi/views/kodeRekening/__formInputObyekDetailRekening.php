@@ -1,5 +1,5 @@
 <fieldset class='box' id='fieldsetDetailObyekRekening'>
-    <legend class="rim">Tambah Detail Obyek Rekening</legend>
+    <legend class="rim">Tambah Akun</legend>
 	<?php
 	Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/form.js');
 	$form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
@@ -17,7 +17,7 @@
 	<?php echo $form->hiddenField($model, 'rekening4_id', array('class' => 'span1')); ?>
 	<?php echo $form->hiddenField($model, 'rekening5_id', array('class' => 'span1')); ?>
     <div class="control-group ">
-        <label class="control-label required" for="AKRekening5M_kdrekening5">Kode Rekening&nbsp;<span class="required">*</span></label>
+        <label class="control-label required" for="AKRekening5M_kdrekening5">Kode Akun&nbsp;<span class="required">*</span></label>
         <div class="controls">
 			<?php echo $form->textField($model, 'kdrekening5', array('class' => 'span2 reqForm', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 20, 'readonly' => false)); ?>
         </div>
@@ -54,15 +54,20 @@
 			function (data) {
 				if (data.pesan == 'exist') {
 					myAlert('Kode Rekening telah terdaftar');
-				}
+                                        refreshTree();
+				} else if (data.pesan == 'kode') {
+                                        myAlert('Kode rekening harus 10 Karakter');
+                                }
 
 				if (data.status == 'ok') {
 					myAlert('Rekening berhasil disimpan');
+                                        refreshTree();
 					if (data.pesan == 'insert') {
 						$("#reseter").click();
 						$('#fieldsetDetailObyekRekening').find("input[name$='[kdrekening5]']").val(data.id_parent.kdrekening5);
+                                                $('#fieldsetDetailObyekRekening').find("select[name$='[rekening5_nb]']").val(data.id_parent.saldonormal);
 					}
-					getTreeMenu();
+					//getTreeMenu();
 					$.fn.yiiGridView.update('AKRekeningakuntansi-v', {});
 
 				}

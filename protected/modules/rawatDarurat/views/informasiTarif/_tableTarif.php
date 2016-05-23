@@ -8,9 +8,9 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 'jenistarif_nama',
                 'kelompoktindakan_nama',
                 'komponenunit_nama',
-                'kategoritindakan_nama',
-                'daftartindakan_nama',
+                'kategoritindakan_nama',                
                 'kelaspelayanan_nama',
+                'daftartindakan_nama',
               array(
                         'name'=>'tarifTotal',
                         'value'=>'$this->grid->getOwner()->renderPartial(\'_tarifTotal\',array(\'kelaspelayanan_id\'=>$data->kelaspelayanan_id,\'daftartindakan_id\'=>$data->daftartindakan_id),true)',

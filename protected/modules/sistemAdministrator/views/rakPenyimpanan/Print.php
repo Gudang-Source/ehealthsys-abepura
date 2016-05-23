@@ -34,6 +34,10 @@ $this->widget($table,array(
 		'rakpenyimpanan_kode',
 		'rakpenyimpanan_nama',
 		'rakpenyimpanan_namalain',
+                 array(
+                        'header' => 'Status',
+                        'value' => '($data->rakpenyimpanan_aktif)?"Aktif":"Tidak Aktif"',
+                    ),
 		/*
 		'rakpenyimpanan_aktif',
 		*/

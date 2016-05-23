@@ -229,7 +229,8 @@ Class Params
 	const STATUSPERIKSA_BATAL_PERIKSA = 'BATAL PERIKSA'; //disesuaikan dengan lookup_m.lookup_type = statusperiksa     
 	const STATUSPERIKSA_SUDAH_DIPERIKSA = 'SUDAH DI PERIKSA'; //disesuaikan dengan lookup_m.lookup_type = statusperiksa
 	const STATUSPERIKSA_SUDAH_PULANG = 'SUDAH PULANG'; //disesuaikan dengan lookup_m.lookup_type = statusperiksa
-
+        const STATUSPERIKSA_NUNGGU_DAFTAR_SO = 'MENUNGGU DAFTAR DI LOKET SO';
+        
 	const STATUSPERIKSAHASIL_SUDAH = 'SUDAH'; //disesuaikan dengan lookup_m.lookup_type = statusperiksahasil
 	const STATUSPERIKSAHASIL_BELUM = 'BELUM'; //disesuaikan dengan lookup_m.lookup_type = statusperiksahasil
 	const STATUSPERIKSAHASIL_SEDANG = 'SEDANG'; //disesuaikan dengan lookup_m.lookup_type = statusperiksahasil
@@ -391,8 +392,15 @@ Class Params
 	const JENISKELOMPOK_AL = 'AL'; //disesuaikan dengan lookup_m.lookup_type = 'jnskelompok'
 	const JENISKELOMPOK_GM = 'GM'; //disesuaikan dengan lookup_m.lookup_type = 'jnskelompok'
 	const JENISKELOMPOK_XY = 'XY'; //disesuaikan dengan lookup_m.lookup_type = 'jnskelompok'
+        
+        const REKENING1_LEN = 2;
+        const REKENING2_LEN = 4;
+        const REKENING3_LEN = 6;
+        const REKENING4_LEN = 8;
+        const REKENING5_LEN = 10;
+        
+        
 	//===   END KONSTANTA ===
-
         
         /* Hardcode status periksa */
         public static function statusPeriksa() {
@@ -400,7 +408,8 @@ Class Params
                 'ANTRIAN'=>'ANTRIAN',
                 'SEDANG DIRAWAT INAP'=>'SEDANG DIRAWAT INAP',
                 'SEDANG PERIKSA'=>'SEDANG PERIKSA',
-                'SUDAH DI PERIKSA'=>'SUDAH DI PERIKSA',                
+                'SUDAH DI PERIKSA'=>'SUDAH DI PERIKSA',    
+                'MENUNGGU DAFTAR DI LOKET SO'=>'MENUNGGU DAFTAR DI LOKET SO',
                 'SUDAH PULANG'=>'SUDAH PULANG',
             );
         }
@@ -826,6 +835,10 @@ Class Params
 	public static function urlLinen()
 	{
 		return Yii::app()->getBaseUrl('webroot').'/data/images/linen/';
+	}
+        public static function urlLinenThumbs()
+	{
+		return Yii::app()->getBaseUrl('webroot').'/data/images/linen/thumbs/';
 	}
 	public static function pathLinenDirectory()
 	{

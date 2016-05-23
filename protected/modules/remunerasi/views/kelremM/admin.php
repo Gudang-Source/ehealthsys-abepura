@@ -1,5 +1,7 @@
-<div class="white-container">
-    <legend class="rim2">Pengaturan <b>Kelompok Remunerasi</b></legend>
+<fieldset class = "box">
+    <legend class = "rim">Pengaturan Kelompok Remunerasi</legend>
+<!--<div class="white-container">
+    <legend class="rim2">Pengaturan <b>Kelompok Remunerasi</b></legend>-->
     <?php
     $this->breadcrumbs=array(
             'Sakelrem Ms'=>array('index'),
@@ -28,10 +30,10 @@
     ?>
     <?php
         $this->widget('bootstrap.widgets.BootAlert');
-        $this->renderPartial('_tabMenu',array());
+        //$this->renderPartial('_tabMenu',array());
     ?>
-    <div class="biru">
-        <div class="white">
+    <!--<div class="biru">
+        <div class="white">-->
             <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-accordion icon-white"></i>')),'#',array('class'=>'search-button btn')); ?>
             <div class="search-form cari-lanjut3" style="display:none">
                 <?php $this->renderPartial('_search',array(
@@ -45,12 +47,17 @@
                             'itemsCssClass'=>'table table-striped table-condensed',
                     'filter'=>$model,
                     'columns'=>array(
-                            'kelrem_id',
-                            'kelrem_urutan',
+                            //'kelrem_id',
+                            array(
+                                'header' => 'ID',
+                                'value' => '$data->kelrem_id'
+                            ),
+                           // 'kelrem_urutan',
                             'kelrem_kode',
                             'kelrem_nama',
+                            'kelrem_singkatan',                            
                             'kelrem_desc',
-                            'kelrem_singkatan',
+                            
                             /*
                             'kelrem_rate',
                             'kelrem_aktif',
@@ -81,16 +88,18 @@
                                 'header'=>Yii::t('zii','Delete'),
                                 'class'=>'bootstrap.widgets.BootButtonColumn',
                                 'template'=>'{remove} {delete}',
+                                'deleteConfirmation' => 'Apakah Anda yakin ingin menghapus data ini ?',
                                 'buttons'=>array(
                                     'remove' => array (
                                             'label'=>"<i class='icon-form-silang'></i>",
                                             'options'=>array('title'=>Yii::t('mds','Remove Temporary')),
                                             'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/removeTemporary",array("id"=>"$data->kelrem_id"))',
-                                            'visible'=>'($data->kelrem_aktif && Yii::app()->user->checkAccess("Update")) ? TRUE : FALSE',
-                                            'click'=>'function(){return confirm("'.Yii::t("mds","Do You want to remove this item temporary?").'");}',
-                                    ),
+                                            //'visible'=>'($data->kelrem_aktif && Yii::app()->user->checkAccess("Update")) ? TRUE : FALSE',
+                                            'visible'=>'($data->kelrem_aktif)?TRUE:FALSE',
+                                            'click'=>'function(){ removeTemporary(this); return false;}',
+                                    ),                                    
                                     'delete'=> array(
-                                            'visible'=>'Yii::app()->user->checkAccess("Delete")',
+                                           // 'visible'=>'Yii::app()->user->checkAccess("Delete")',
                                     ),
                                 )
                             ),
@@ -107,6 +116,7 @@
                 )); ?>
             <!--</div>-->
             <?php
+                echo CHtml::link(Yii::t('mds', '{icon} Tambah Kelompok Remunerasi', array('{icon}'=>'<i class="icon-plus icon-white"></i>')), $this->createUrl('create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp";
                 echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
                 echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
                 echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
@@ -116,9 +126,9 @@
                 $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
                 $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/print');
             ?>
-        </div>
+       <!-- </div>
     </div>
-</div>
+</div>-->
 <?php
 $js = <<< JSCRIPT
         function cekForm(obj)
@@ -132,3 +142,27 @@ function print(caraPrint)
 JSCRIPT;
 Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);                        
 ?>
+<script type="text/javascript">
+    function removeTemporary(obj){
+        var url = $(obj).attr('href');
+        myConfirm("Apakah Anda yakin ingin menonaktifkan data ini untuk sementara?","Perhatian!",function(r) {
+            if (r){
+                 $.ajax({
+                    type:'GET',
+                    url:url,
+                    data: {},
+                    dataType: "json",
+                    success:function(data){
+                        if(data.status == 'proses_form'){
+                            $.fn.yiiGridView.update('kelrem-m-grid');
+                        }else{
+                            myAlert('Data Gagal di Nonaktifkan.')
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
+                });
+           }
+       });
+    }       
+</script>    
+</fieldset>

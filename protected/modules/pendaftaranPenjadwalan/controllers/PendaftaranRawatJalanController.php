@@ -321,6 +321,7 @@ class PendaftaranRawatJalanController extends MyAuthController
                     if($_POST['PPPendaftaranT']['is_bpjs']){
                         $model = $this->simpanPendaftaran($model,$modPasien,$modRujukanBpjs,$modPenanggungJawab, $_POST['PPPendaftaranT'], $_POST['PPPasienM'],$modAsuransiPasienBpjs);
                         $modSep = $this->simpanSep($model,$modPasien,$modRujukanBpjs,$modAsuransiPasienBpjs,$_POST['PPSepT']);
+                        //var_dump($modSep->attributes);
                         $model->sep_id = $modSep->sep_id;
                         $model->update();
                     }else{
@@ -852,8 +853,10 @@ class PendaftaranRawatJalanController extends MyAuthController
             $modSep->tglsep = date('Y-m-d H:i:s');
             $modSep->nokartuasuransi = $modAsuransiPasienBpjs->nopeserta;
             $modSep->tglrujukan = $modRujukanBpjs->tanggal_rujukan;
+            if (empty($modSep->tglrujukan)) $modSep->tglrujukan = $modSep->tglsep;
             $modSep->norujukan = $modRujukanBpjs->no_rujukan;
-            $modSep->ppkrujukan = $postSep['ppkrujukan']; 
+            if(isset($postSep['ppkrujukan'])) $modSep->ppkrujukan = $postSep['ppkrujukan']; 
+            else $modSep->ppkrujukan = Yii::app()->user->getState('ppkpelayanan');
             $modSep->ppkpelayanan = Yii::app()->user->getState('ppkpelayanan');
             $modSep->jnspelayanan = ($model->instalasi_id==Params::INSTALASI_ID_RI || $isRI)?Params::JENISPELAYANAN_RI:Params::JENISPELAYANAN_RJ;
             $modSep->catatansep = $postSep['catatansep'];
@@ -866,13 +869,20 @@ class PendaftaranRawatJalanController extends MyAuthController
             $modSep->create_loginpemakai_id = Yii::app()->user->id;
             $modSep->create_ruangan = Yii::app()->user->getState('ruangan_id');
             
+            // var_dump($modSep->attributes, $modSep->validate(), $modSep->errors); die;
+            
+            $lakalantas = 2;
+            if (isset($_POST['PPPasienkecelakaanT'])) $lakalantas = 1;
+            
             // var_dump($modSep->attributes); die;
             if(isset($_POST['isSepManual'])){
                 if($_POST['isSepManual']==false){
-                    $reqSep = json_decode($bpjs->create_sep($modSep->nokartuasuransi, $modSep->tglsep, $modSep->tglrujukan, $modSep->norujukan, $modSep->ppkrujukan, $modSep->ppkpelayanan, $modSep->jnspelayanan, $modSep->catatansep, $modSep->diagnosaawal, $modSep->politujuan, $modSep->klsrawat, Yii::app()->user->id, $modPasien->no_rekam_medik, $model->pendaftaran_id),true);
+                    $reqSep = json_decode($bpjs->create_sep($modSep->nokartuasuransi, $modSep->tglsep, $modSep->tglrujukan, $modSep->norujukan, $modSep->ppkrujukan, $modSep->ppkpelayanan, $modSep->jnspelayanan, $modSep->catatansep, $modSep->diagnosaawal, $modSep->politujuan, $modSep->klsrawat, Yii::app()->user->id, $modPasien->no_rekam_medik, $model->pendaftaran_id, $lakalantas),true);
                     //var_dump($reqSep); die;
                     if ($reqSep['metadata']['code']==200) {
                         $modSep->nosep = $reqSep['response'];
+                        if (empty($modSep->norujukan)) $modSep->norujukan = "-";
+                        if (empty($modSep->diagnosaawal)) $modSep->diagnosaawal = "-";
                         if($modSep->save()){
                             $this->septersimpan = true;
                             RujukandariM::model()->updateByPk($modRujukanBpjs->rujukandari_id, array(
@@ -887,19 +897,21 @@ class PendaftaranRawatJalanController extends MyAuthController
                     }
                 }
             }else{
-				$reqSep = json_decode($bpjs->create_sep($modSep->nokartuasuransi, $modSep->tglsep, $modSep->tglrujukan, $modSep->norujukan, $modSep->ppkrujukan, $modSep->ppkpelayanan, $modSep->jnspelayanan, $modSep->catatansep, $modSep->diagnosaawal, $modSep->politujuan, $modSep->klsrawat, Yii::app()->user->id, $modPasien->no_rekam_medik, $model->pendaftaran_id),true);
-				//var_dump($reqSep); die;
-                                if ($reqSep['metadata']['code']==200) {
-                                        // var_dump($reqSep); die;
-					$modSep->nosep = $reqSep['response'];
-					if($modSep->save()){
-						$this->septersimpan = true;
-                                                RujukandariM::model()->updateByPk($modRujukanBpjs->rujukandari_id, array(
-                                                    'ppkrujukan'=>$modSep->ppkrujukan,
-                                                ));
-					}
-				} 
-			}
+                    $reqSep = json_decode($bpjs->create_sep($modSep->nokartuasuransi, $modSep->tglsep, $modSep->tglrujukan, $modSep->norujukan, $modSep->ppkrujukan, $modSep->ppkpelayanan, $modSep->jnspelayanan, $modSep->catatansep, $modSep->diagnosaawal, $modSep->politujuan, $modSep->klsrawat, Yii::app()->user->id, $modPasien->no_rekam_medik, $model->pendaftaran_id, $lakalantas),true);
+                    // var_dump($reqSep); die;
+                    if ($reqSep['metadata']['code']==200) {
+                            // var_dump($reqSep); die;
+                            $modSep->nosep = $reqSep['response'];
+                            if (empty($modSep->norujukan)) $modSep->norujukan = "-";
+                            if (empty($modSep->diagnosaawal)) $modSep->diagnosaawal = "-";
+                            if($modSep->save()){
+                                    $this->septersimpan = true;
+                                    RujukandariM::model()->updateByPk($modRujukanBpjs->rujukandari_id, array(
+                                        'ppkrujukan'=>$modSep->ppkrujukan,
+                                    ));
+                            }
+                    } 
+            }
             return $modSep;
         }
         
@@ -1144,6 +1156,14 @@ class PendaftaranRawatJalanController extends MyAuthController
                     ), array(
                         'condition'=>'tgl_pendaftaran::date = now()::date and pasienbatalperiksa_id is null'
                     ));
+                    if (empty($pendafaran)) {
+                        $pendaftaran = PendaftaranT::model()->findByAttributes(array(
+                            'pasien_id'=>$pasien_id,
+                        ), array(
+                            'condition'=>'pasienbatalperiksa_id is null',
+                            'order'=>'tgl_pendaftaran desc',
+                        ));
+                    }
                 } else {
                     $pendaftaran = null;
                 }
@@ -1151,13 +1171,51 @@ class PendaftaranRawatJalanController extends MyAuthController
                 $returnVal['lebih'] = false;
                 $returnVal['adaDaftar'] = false;
                 
+                $pp = null;
+                if (!empty($pendaftaran)) {
+                    $returnVal['listDaftar'] = $pendaftaran->attributes;
+                    $returnVal['listDaftar']['pasien'] = $pendaftaran->pasien;
+                    $returnVal['listDaftar']['ruangan'] = $pendaftaran->ruangan;
+                    $returnVal['listDaftar']['instalasi'] = $pendaftaran->ruangan->instalasi;
+                    
+                    $admisi = PasienadmisiT::model()->findByPk($pendaftaran->pasienadmisi_id);
+                    $pp = PasienadmisiT::model()->findByPk($pendaftaran->pasienadmisi_id);
+                    
+                    switch ($pendaftaran->instalasi_id) {
+                    case Params::INSTALASI_ID_RJ:
+                        $this->periksaValidasiPasienRJ($pendaftaran, $admisi, $pp, $returnVal); break;
+                    case Params::INSTALASI_ID_RD:
+                        $this->periksaValidasiPasienRD($pendaftaran, $admisi, $pp, $returnVal); break;
+                    case Params::INSTALASI_ID_RI:
+                        $this->periksaValidasiPasienRI($pendaftaran, $admisi, $pp, $returnVal); break;
+                    default:
+                        $this->periksaValidasiPasienPenunjang($pendaftaran, $admisi, $pp, $returnVal); break;
+                    }
+                }
+                
+                
+                
+                
+                /*
                 if (!empty($pendaftaran)) {
                     $returnVal['adaDaftar'] = true;
                     $returnVal['listDaftar'] = $pendaftaran->attributes;
                     $returnVal['listDaftar']['pasien'] = $pendaftaran->pasien;
                     $returnVal['listDaftar']['ruangan'] = $pendaftaran->ruangan;
                     $returnVal['listDaftar']['instalasi'] = $pendaftaran->ruangan->instalasi;
+                    
+                    if (!empty($pendaftaran->pasienpulang_id)) {
+                        $pp = PasienpulangT::model()->findByPk($pendaftaran->pasienpulang_id);
+                        if ($pp->carakeluar_id == 5) $returnVal['tindakLanjut'] = true;
+                        if (!empty($pendaftaran->pasienadmisi_id)) {
+                            $admisi = PasienadmisiT::model()->findByPk($pendaftaran->pasienadmisi_id);
+                            $returnVal['adaInap'] = true;
+                            $returnVal['listDaftar']['ruangan'] = $admisi->ruangan;
+                        }
+                    }
                 }
+                 * 
+                 */
                 
                 if (isset($_POST['is_manual']) && $_POST['is_manual'] == true) {
                     $rm_last = PasienM::model()->find(array(
@@ -1197,6 +1255,89 @@ class PendaftaranRawatJalanController extends MyAuthController
             Yii::app()->end();
         }
 		
+        
+        function periksaValidasiPasienRJ($pendaftaran, $admisi, $pp, &$returnVal)
+        {
+            if (!empty($pendaftaran->pasienpulang_id)) {
+                $pp = PasienpulangT::model()->findByPk($pendaftaran->pasienpulang_id);
+                if ($pp->carakeluar_id == Params::CARAKELUAR_ID_RAWATINAP) {
+                    $returnVal['adaDaftar'] = true;
+                    $returnVal['listDaftar'] = $pendaftaran->attributes;
+                    $returnVal['listDaftar']['pasien'] = $pendaftaran->pasien->attributes;
+                    $returnVal['listDaftar']['ruangan'] = $pendaftaran->ruangan->attributes;
+                    $returnVal['listDaftar']['instalasi'] = $pendaftaran->ruangan->instalasi->attributes;
+                    if (!empty($pendaftaran->pasienadmisi_id)) {
+                        $admisi = PasienadmisiT::model()->findByPk($pendaftaran->pasienadmisi_id);
+                        $returnVal['adaInap'] = true;
+                        $returnVal['listDaftar']['ruangan'] = $admisi->ruangan->attributes;
+                    } else {
+                        $returnVal['tindakLanjut'] = true;
+                    }
+                }
+            } else {
+                if (date('Y-m-d', time()) == date('Y-m-d', strtotime($pendaftaran->tgl_pendaftaran))) {
+                    $returnVal['adaDaftar'] = true;
+                    $returnVal['listDaftar'] = $pendaftaran->attributes;
+                    $returnVal['listDaftar']['pasien'] = $pendaftaran->pasien->attributes;
+                    $returnVal['listDaftar']['ruangan'] = $pendaftaran->ruangan->attributes;
+                    $returnVal['listDaftar']['instalasi'] = $pendaftaran->ruangan->instalasi->attributes;
+                }
+            }
+        }
+        
+        function periksaValidasiPasienRD($pendaftaran, $admisi, $pp, &$returnVal)
+        {
+            if (!empty($pendaftaran->pasienpulang_id)) {
+                $pp = PasienpulangT::model()->findByPk($pendaftaran->pasienpulang_id);
+                if ($pp->carakeluar_id == Params::CARAKELUAR_ID_RAWATINAP) {
+                    $returnVal['adaDaftar'] = true;
+                    $returnVal['listDaftar'] = $pendaftaran->attributes;
+                    $returnVal['listDaftar']['pasien'] = $pendaftaran->pasien->attributes;
+                    $returnVal['listDaftar']['ruangan'] = $pendaftaran->ruangan->attributes;
+                    $returnVal['listDaftar']['instalasi'] = $pendaftaran->ruangan->instalasi->attributes;
+                    if (!empty($pendaftaran->pasienadmisi_id)) {
+                        $admisi = PasienadmisiT::model()->findByPk($pendaftaran->pasienadmisi_id);
+                        $returnVal['adaInap'] = true;
+                        $returnVal['listDaftar']['ruangan'] = $admisi->ruangan->attributes;
+                    } else {
+                        $returnVal['tindakLanjut'] = true;
+                    }
+                }
+            } else {
+                $returnVal['adaDaftar'] = true;
+                $returnVal['listDaftar'] = $pendaftaran->attributes;
+                $returnVal['listDaftar']['pasien'] = $pendaftaran->pasien->attributes;
+                $returnVal['listDaftar']['ruangan'] = $pendaftaran->ruangan->attributes;
+                $returnVal['listDaftar']['instalasi'] = $pendaftaran->ruangan->instalasi->attributes;
+            }
+        }
+        
+        function periksaValidasiPasienRI($pendaftaran, $admisi, $pp, &$returnVal)
+        {
+            if (empty($pendaftaran->pasienpulang_id)) {
+                $returnVal['adaDaftar'] = true;
+                $returnVal['listDaftar'] = $pendaftaran->attributes;
+                $returnVal['listDaftar']['pasien'] = $pendaftaran->pasien->attributes;
+                $returnVal['listDaftar']['ruangan'] = $pendaftaran->ruangan->attributes;
+                $returnVal['listDaftar']['instalasi'] = $pendaftaran->ruangan->instalasi->attributes;
+                $admisi = PasienadmisiT::model()->findByPk($pendaftaran->pasienadmisi_id);
+                $returnVal['adaInap'] = true;
+                $returnVal['listDaftar']['ruangan'] = $admisi->ruangan->attributes;
+            }
+        }
+        
+        function periksaValidasiPasienPenunjang($pendaftaran, $admisi, $pp, &$returnVal)
+        {
+            if (date('Y-m-d', time()) == date('Y-m-d', strtotime($pendaftaran->tgl_pendaftaran))) {
+                $returnVal['adaDaftar'] = true;
+                $returnVal['listDaftar'] = $pendaftaran->attributes;
+                $returnVal['listDaftar']['pasien'] = $pendaftaran->pasien->attributes;
+                $returnVal['listDaftar']['ruangan'] = $pendaftaran->ruangan->attributes;
+                $returnVal['listDaftar']['instalasi'] = $pendaftaran->ruangan->instalasi->attributes;
+            }
+        }
+        
+        
 		/**
          * Mengurai data pasien berdasarkan pasien_id
          * @throws CHttpException

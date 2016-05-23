@@ -139,7 +139,7 @@ echo CHtml::css('.control-label{
                         <?php
                             if(strlen($modPendaftaran->tgl_pendaftaran) > 0)
                             {
-                                echo CHtml::encode($modPendaftaran->tgl_pendaftaran);
+                                echo CHtml::encode(MyFormatter::formatDateTimeForUser($modPendaftaran->tgl_pendaftaran));
                             }else{
                                 echo '-';
                             }
@@ -165,7 +165,7 @@ echo CHtml::css('.control-label{
                         <?php
                                 if(isset($modRincianTagihan->pendaftaran_id))
                                 {
-                                    echo CHtml::encode($modRincianTagihan->tgl_tindakan);
+                                    echo CHtml::encode(MyFormatter::formatDateTimeForUser(MyFormatter::formatDateTimeForDb($modRincianTagihan->tgl_tindakan)));
                                 }else{
                                     echo '-';
                                 }                          
@@ -285,10 +285,10 @@ echo CHtml::css('.control-label{
                         <td colspan="4"><div class='pull-right'>Subsidi Asuransi</div></td>
                         <td style="text-align:right;"><?php echo MyFormatter::formatNumberForPrint($subsidiAsuransi); ?></td>
                     </tr>
-<!--                    <tr>
+                    <tr>
                         <td colspan="4"><div class='pull-right'>Subsidi Pemerintah</div></td>
-                        <td style="text-align:right;"><?// echo MyFormatter::formatNumberForPrint($subsidiPemerintah); ?></td>
-                    </tr>-->
+                        <td style="text-align:right;"><?php echo MyFormatter::formatNumberForPrint($subsidiPemerintah); ?></td>
+                    </tr>
                     <tr>
                         <td colspan="4"><div class='pull-right'>Subsidi Rumah Sakit</div></td>
                         <td style="text-align:right;"><?php echo MyFormatter::formatNumberForPrint($subsidiRumahSakit); ?></td>

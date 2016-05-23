@@ -1,5 +1,7 @@
-<div class="white-container">
-    <legend class="rim2">Pengaturan <b>Kelompok Remunerasi</b></legend>
+<fieldset class = "box">
+    <legend class = "rim">Pengaturan Indexing</legend>
+<!--<div class="white-container">
+    <legend class="rim2">Pengaturan <b>Kelompok Remunerasi</b></legend>-->
     <?php
     $this->breadcrumbs=array(
             'Saindexing Ms'=>array('index'),
@@ -28,10 +30,10 @@
     ?>
     <?php
         $this->widget('bootstrap.widgets.BootAlert');
-        $this->renderPartial('_tabMenu',array());
+       // $this->renderPartial('_tabMenu',array());
     ?>
-    <div class="biru">
-        <div class="white">
+   <!-- <div class="biru">
+        <div class="white">-->
             <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-accordion icon-white"></i>')),'#',array('class'=>'search-button btn')); ?>
             <div class="cari-lanjut3 search-form" style="display:none">
                 <?php $this->renderPartial('_search',array(
@@ -39,18 +41,30 @@
                 )); ?>
             </div><!-- search-form -->
             <!--<div class='block-tabel'>-->
-                <?php $this->widget('ext.bootstrap.widgets.BootGridView', array(
+                <?php 
+                
+                
+                $this->widget('ext.bootstrap.widgets.BootGridView', array(
                     'id'=>'indexing-m-grid',
                     'dataProvider'=>$model->search(),
                             'itemsCssClass'=>'table table-striped table-condensed',
                     'filter'=>$model,
-                    'columns'=>array(
-                            'indexing_id',
-                            'kelrem.kelrem_nama',
+                    'columns'=>array(                            
+                            array(
+                                'header' => 'ID',
+                                'value' => '$data->indexing_id'
+                            ),
+                            array(
+                                'header' => 'Kelompok Remunerasi',
+                                'name' => 'kelrem_id',
+                                'value' => '$data->kelrem->kelrem_nama',
+                                'filter' => CHtml::dropDownList('IndexingM[kelrem_id]', $model->kelrem_id, CHtml::listData(KelremM::model()->findAll("kelrem_aktif = TRUE ORDER BY kelrem_nama ASC"), 'kelrem_id', 'kelrem_nama'),array('empty'=>'-- Pilih --')),
+                            ),
+                            //'kelrem.kelrem_nama',
                             'indexing_nama',
                             'indexing_singk',
                             'indexing_nilai',
-                            'indexing_urutan',
+                            //'indexing_urutan',
                             /*
                             'indexing_aktif',
                             */
@@ -80,16 +94,17 @@
                                 'header'=>Yii::t('zii','Delete'),
                                 'class'=>'bootstrap.widgets.BootButtonColumn',
                                 'template'=>'{remove} {delete}',
+                                'deleteConfirmation' => 'Apakah Anda yakin ingin mengubah data ini ?',
                                 'buttons'=>array(
                                     'remove' => array (
                                             'label'=>"<i class='icon-form-silang'></i>",
                                             'options'=>array('title'=>Yii::t('mds','Remove Temporary')),
                                             'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/removeTemporary",array("id"=>"$data->indexing_id"))',
-                                            'visible'=>'($data->indexing_aktif && Yii::app()->user->checkAccess("Update")) ? TRUE : FALSE',
+                                            'visible'=>'($data->indexing_aktif)?TRUE:FALSE',
                                             'click'=>'function(){ removeTemporary(this); return false;}',
                                     ),
                                     'delete'=> array(
-                                            'visible'=>'Yii::app()->user->checkAccess("Delete")',
+                                          //  'visible'=>'Yii::app()->user->checkAccess("Delete")',
                                     ),
                                 )
                             ),
@@ -106,6 +121,7 @@
                 )); ?>
             <!--</div>-->
             <?php 
+                echo CHtml::link(Yii::t('mds', '{icon} Tambah Indexing', array('{icon}'=>'<i class="icon-plus icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp";
                 echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
                 echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
                 echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
@@ -115,9 +131,9 @@
                 $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
                 $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/print');
             ?>
-        </div>
+        <!--</div>
     </div>
-</div>
+</div>-->
 <?php    
 $js = <<< JSCRIPT
          function cekForm(obj)
@@ -134,7 +150,7 @@ Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);
 <script type="text/javascript">
     function removeTemporary(obj){
         var url = $(obj).attr('href');
-        myConfirm("Yakin akan menonaktifkan data ini untuk sementara?","Perhatian!",function(r) {
+        myConfirm("Apakah Anda yakin ingin menonaktifkan data ini untuk sementara?","Perhatian!",function(r) {
             if (r){
                  $.ajax({
                     type:'GET',
@@ -154,3 +170,4 @@ Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);
        });
     }
 </script>
+</fieldset>

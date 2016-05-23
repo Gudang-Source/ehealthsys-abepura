@@ -2,7 +2,7 @@
 
 class LaporanPermintaanPembelianController extends MyAuthController{
 	
-	
+	public $path_view = "pengadaan.views.laporanPermintaanPembelian.";
 	public function actionLaporanPermintaanPembelian()
 	{
 		$model = new ADPermintaanPembelianT;
@@ -34,7 +34,7 @@ class LaporanPermintaanPembelianController extends MyAuthController{
 			$model->tgl_awal = $model->tgl_awal." 00:00:00";
 			$model->tgl_akhir = $model->tgl_akhir." 23:59:59";
 		}
-		$this->render('index',array(
+		$this->render($this->path_view.'index',array(
 			'model'=>$model,'format'=>$format
 		));
 	}
@@ -74,7 +74,7 @@ class LaporanPermintaanPembelianController extends MyAuthController{
 		}
 
 		$caraPrint = (isset($_REQUEST['caraPrint']) ? $_REQUEST['caraPrint'] : null);
-		$target = 'Print';
+		$target = $this->path_view.'Print';
 
 		$this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
 	}
@@ -94,7 +94,7 @@ class LaporanPermintaanPembelianController extends MyAuthController{
 		}
 
 		$caraPrint = (isset($_REQUEST['caraPrint']) ? $_REQUEST['caraPrint'] : null);
-		$target = 'detailPrint';
+		$target = $this->path_view.'detailPrint';
 
 		$format = new MyFormatter();
 		$periode = $this->parserTanggal($model->tgl_awal).' s/d '.$this->parserTanggal($model->tgl_akhir);
@@ -140,7 +140,7 @@ class LaporanPermintaanPembelianController extends MyAuthController{
 			$model->tgl_akhir = $model->tgl_akhir." 23:59:59";
 		}
 
-		$this->render('_grafik', array(
+		$this->render($this->path_view.'_grafik', array(
 			'model' => $model,
 			'data'=>$data,
 		));

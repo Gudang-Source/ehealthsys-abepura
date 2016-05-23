@@ -72,8 +72,8 @@ class Rekening4M extends CActiveRecord
 		return array(
 			'rekening4_id' => 'Rekening ID 4',
 			'rekening3_id' => 'Rekening ID 3',
-			'kdrekening4' => 'Kode Rekening',
-			'nmrekening4' => 'Nama Rekening',
+			'kdrekening4' => 'Kode Akun',
+			'nmrekening4' => 'Nama Akun',
 			'nmrekeninglain4' => 'Nama Lain',
 			'rekening4_aktif' => 'Status',
 		);

@@ -59,9 +59,17 @@ $format = new MyFormatter;
         <?php
         $no=1;
         $totalbiaya = 0;
+        $subasuransi = 0;
+        $subrs = 0;
+        $subpemerintah = 0;
+        
 		if (count($modRincians) > 0 ){
 			foreach($modRincians AS $i => $rincian):
 				$totalbiaya += ($rincian->qty_tindakan*$rincian->tarif_satuan);
+                                $subasuransi += $rincian->subsidiasuransi_tindakan;
+                                $subrs += $rincian->subsisidirumahsakit_tindakan;
+                                $subpemerintah += $rincian->subsidipemerintah_tindakan;
+                        
 				$tampilruangan = true;
 					if((($rincian->tm)=='AP') or (($rincian->tm)=='OA')){
 						$jenisPelayanan = $rincian->daftartindakan_nama;
@@ -80,15 +88,35 @@ $format = new MyFormatter;
 			$no++;
 			endforeach;
 		?>
-		<?php } ?>
+		<?php } 
+                
+                $res = $totalbiaya - ($subasuransi + $subrs + $subpemerintah);
+                
+                ?>
     </tbody>
     <tfoot>
         <tr>
-            <td colspan='5' align='right' style="font-weight:bold;">Jumlah Biaya</td>
-            <td align='right' style="font-weight:bold; text-align: right;s"><?php echo $format->formatNumberForPrint($totalbiaya); ?></td>
+            <td colspan='5' align='right' style="font-weight:bold; border: 1px solid black;">Jumlah Biaya</td>
+            <td align='right' style="font-weight:bold; text-align: right; border: 1px solid black;"><?php echo $format->formatNumberForPrint($totalbiaya); ?></td>
         </tr>
         <tr>
-            <td colspan='5' align='center' style="font-style:italic;">(<?php echo $format->formatNumberTerbilang($totalbiaya); ?> rupiah)</td>
+            <td colspan='5' align='right' style="font-weight:bold; border: 1px solid black;">Subsidi Asuransi</td>
+            <td align='right' style="font-weight:bold; text-align: right; border: 1px solid black;"><?php echo $format->formatNumberForPrint($subasuransi); ?></td>
+        </tr>
+        <tr>
+            <td colspan='5' align='right' style="font-weight:bold; border: 1px solid black;">Subsidi Rumah Sakit</td>
+            <td align='right' style="font-weight:bold; text-align: right; border: 1px solid black;"><?php echo $format->formatNumberForPrint($subrs); ?></td>
+        </tr>
+        <tr>
+            <td colspan='5' align='right' style="font-weight:bold; border: 1px solid black;">Subsidi Pemerintah</td>
+            <td align='right' style="font-weight:bold; text-align: right; border: 1px solid black;"><?php echo $format->formatNumberForPrint($subpemerintah); ?></td>
+        </tr>
+        <tr>
+            <td colspan='5' align='right' style="font-weight:bold; border: 1px solid black;">Tanggungan Pasien</td>
+            <td align='right' style="font-weight:bold; text-align: right; border: 1px solid black;"><?php echo $format->formatNumberForPrint($res); ?></td>
+        </tr>
+        <tr>
+            <td colspan='6' align='center' style="font-style:italic; border: 1px solid black;">(<?php echo $format->formatNumberTerbilang($res); ?> rupiah)</td>
         </tr>
         <tr><td></td></tr>
         <tr><td colspan="2">

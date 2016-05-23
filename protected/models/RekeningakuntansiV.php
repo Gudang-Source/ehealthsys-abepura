@@ -51,6 +51,7 @@
 class RekeningakuntansiV extends CActiveRecord {
 
     public $rekDebit, $rekKredit, $namaRekening, $saldokredit, $saldodebit, $saldonormal;
+    public $kelrekening_id;
 
     /**
      * Returns the static model of the specified AR class.

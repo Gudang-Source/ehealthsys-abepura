@@ -1,5 +1,5 @@
 <fieldset class='box' id='fieldsetRekeningDua'>
-    <legend class="rim">Tambah Kelompok Rekening</legend>
+    <legend class="rim">Tambah Unsur</legend>
     <?php
     Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/form.js');
     $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
@@ -17,7 +17,7 @@
     <?php echo $form->hiddenField($rekeningDua, 'rekening1_id', array('class' => 'span3')); ?>
     <?php echo $form->hiddenField($rekeningDua, 'rekening2_id', array('class' => 'span3')); ?>
     <div class="control-group ">
-        <label class="control-label required" for="AKRekening2M_kdrekening2">Kode Rekening&nbsp;<span class="required">*</span></label>
+        <label class="control-label required" for="AKRekening2M_kdrekening2">Kode Akun&nbsp;<span class="required">*</span></label>
         <div class="controls">
             <?php echo $form->textField($rekeningDua, 'kdrekening2', array('class' => 'span1 reqForm', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 6, 'readonly' => false)); ?>
         </div>
@@ -49,20 +49,24 @@
                 function (data) {
                     if (data.pesan == 'exist') {
                         myAlert('Kode Rekening telah terdaftar');
+                        refreshTree();
+                    } else if (data.pesan == 'kode') {
+                        myAlert('Kode rekening harus 4 Karakter');
                     }
 
                     if (data.status == 'ok') {
                         myAlert('Rekening berhasil disimpan');
+                        refreshTree();
                         if (data.pesan == 'insert') {
                             $("#reseter").click();
                             $('#fieldsetRekeningDua').find("input[name$='[kdrekening2]']").val(data.id_parent.kdrekening2);
                         }
 
-                        if (typeof getTreeMenu == 'function')
-                        {
-                            getTreeMenu();
+                        //if (typeof getTreeMenu == 'function')
+                        //{
+                        //    getTreeMenu();
                             $.fn.yiiGridView.update('AKRekeningakuntansi-v', {});
-                        }
+                        //}
 
                     }
                 }, "json"

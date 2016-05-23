@@ -11,14 +11,15 @@
 <table width="100%">
     <tr>
         <td>
-            <?php echo $form->textFieldRow($model,'kelrem_urutan',array('size'=>3,'maxlength'=>3,'class'=>'span1')); ?>
+            <?php echo $form->textFieldRow($model,'kelrem_urutan',array('size'=>3,'maxlength'=>3,'class'=>'numbers-only span1')); ?>
             <?php echo $form->textFieldRow($model,'kelrem_kode',array('size'=>50,'maxlength'=>50)); ?>
             <?php echo $form->textFieldRow($model,'kelrem_nama',array('size'=>60,'maxlength'=>100)); ?>
+            <?php echo $form->textAreaRow($model,'kelrem_desc',array('cols'=>6, 'rows'=>6,'maxlength'=>200)); ?>
+            <?php echo $form->textFieldRow($model,'kelrem_singkatan',array('size'=>20,'maxlength'=>20)); ?>
+            <?php echo $form->textFieldRow($model,'kelrem_rate',array('class'=>'numbers-only')); ?>
         </td>
         <td>
-            <?php echo $form->textAreaRow($model,'kelrem_desc',array('size'=>60,'maxlength'=>200)); ?>
-            <?php echo $form->textFieldRow($model,'kelrem_singkatan',array('size'=>20,'maxlength'=>20)); ?>
-            <?php echo $form->textFieldRow($model,'kelrem_rate'); ?>
+            
         </td>
     </tr>
     <tr>
@@ -40,6 +41,8 @@
         Yii::app()->createUrl($this->module->id.'/pegawaiM/admin'), 
         array('class'=>'btn btn-danger',
               'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
+    <?php   echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Kelompok Remunerasi', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
+            $this->createUrl('admin',array('tab'=>'frame','modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
     <?php
         $content = $this->renderPartial('../tips/tips',array(),true);
         $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 

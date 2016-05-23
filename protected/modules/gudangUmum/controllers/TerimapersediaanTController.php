@@ -231,8 +231,8 @@ class TerimapersediaanTController extends MyAuthController
             $modDetail->barang_id = $idBarang;
             $modDetail->satuanbeli = $satuan;
             $modDetail->jmlterima = $jumlah;
-            $modDetail->hargabeli=0;
-            $modDetail->hargasatuan = 0;
+            $modDetail->hargabeli=$modBarang->barang_harganetto * $jumlah;
+            $modDetail->hargasatuan = $modBarang->barang_harganetto;
             $modDetail->jmldalamkemasan = $modBarang->barang_jmldlmkemasan;
             
             $tr = $this->renderPartial('_detailPenerimaanPersediaanBarang', array('modBarang'=>$modBarang, 'modDetail'=>$modDetail), true);

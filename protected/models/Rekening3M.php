@@ -43,7 +43,7 @@ class Rekening3M extends CActiveRecord
 		return array(
 			array('rekening2_id, kdrekening3, nmrekening3, nmrekeninglain3', 'required'),
 			array('rekening2_id', 'numerical', 'integerOnly'=>true),
-			array('kdrekening3', 'length', 'max'=>5),
+			array('kdrekening3', 'length', 'max'=>6),
 			array('nmrekening3, nmrekeninglain3', 'length', 'max'=>300),
 			array('rekening3_aktif', 'safe'),
 			// The following rule is used by search().
@@ -72,8 +72,8 @@ class Rekening3M extends CActiveRecord
 			'rekening3_id' => 'Rekening ID 3',
 //			'rekening1_id' => 'Rekening ID 1',
 			'rekening2_id' => 'Rekening ID 2',
-			'kdrekening3' => 'Kode Rekening',
-			'nmrekening3' => 'Nama Rekening',
+			'kdrekening3' => 'Kode Akun',
+			'nmrekening3' => 'Nama Akun',
 			'nmrekeninglain3' => 'Nama Lain',
 			'rekening3_aktif' => 'Status',
 		);

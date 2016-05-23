@@ -28,7 +28,7 @@ $provider->sort->defaultOrder = "obatalkes_nama";
                         // 'ruangan_nama',
                         array(
                             'name'=>'jenisobatalkes_nama',
-                            'value'=>'!empty($data->jenisobatalkes_id)?$data->jenisobatalkes->jenisobatalkes_nama:"-"',
+                            'value'=>'!empty($data->jenisobatalkes_id)?(($data->jenisobatalkes_nama==null)?$data->jenisobatalkes->jenisobatalkes_nama:$data->jenisobatalkes_nama):"-"',
                         ),
                         'obatalkes_golongan',
                         'obatalkes_kategori',
@@ -46,15 +46,25 @@ $provider->sort->defaultOrder = "obatalkes_nama";
                             'header'=>'Diterima',
                             'type'=>'raw',
                             'value'=>function($data) use (&$stok) {
-                                $stok = StokobatalkesT::model()->findAllByAttributes(array(
-                                    'obatalkes_id'=>$data->obatalkes_id,
-                                    'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
-                                ));
+                                //$stok = StokobatalkesT::model()->findAllByAttributes(array(
+                                  //  'obatalkes_id'=>$data->obatalkes_id,
+                                    //'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
+                                //));
+                                $criteria = new CDbCriteria();
+                                $criteria->compare('obatalkes_id',$data->obatalkes_id);
+                                if (Yii::app()->user->getState('ruangan_id') != Params::RUANGAN_ID_GUDANG_FARMASI)
+                                {
+                                    $criteria->addCondition("ruangan_id = ".Yii::app()->user->getState('ruangan_id'));
+                                }
+                                $stok = StokobatalkesT::model()->findAll($criteria);
                                 $total = 0;
                                 foreach ($stok as $item) {
                                     $total += $item->qtystok_in;
                                 }
-                                return $total." ".$data->satuankecil->satuankecil_nama;
+                                $satuan = ($data->satuankecil_nama==null)?$data->satuankecil->satuankecil_nama:$data->satuankecil_nama;
+                                
+                                return $total." ".$satuan;
+                                
                             },
                             'htmlOptions'=>array(
                                 'style'=>'text-align: right;'
@@ -64,11 +74,13 @@ $provider->sort->defaultOrder = "obatalkes_nama";
                             'header'=>'Dipakai',
                             'type'=>'raw',
                             'value'=>function($data) use (&$stok) {
+                               
                                 $total = 0;
                                 foreach ($stok as $item) {
                                     $total += $item->qtystok_out;
                                 }
-                                return $total." ".$data->satuankecil->satuankecil_nama;
+                                $satuan = ($data->satuankecil_nama==null)?$data->satuankecil->satuankecil_nama:$data->satuankecil_nama;
+                                return $total." ".$satuan;
                             },
                             'htmlOptions'=>array(
                                 'style'=>'text-align: right;'

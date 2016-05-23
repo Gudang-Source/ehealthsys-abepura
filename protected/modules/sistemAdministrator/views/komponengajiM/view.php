@@ -1,7 +1,17 @@
-<!--<div class="white-container">
-    <legend class="rim2">Lihat <b>Komponen Gaji</b></legend>-->
-<fieldset class="box row-fluid">
-    <legend class="rim">Lihat Komponen Gaji</legend>
+<?php
+    if ($this->hasTab):
+?>
+    <fieldset class="box row-fluid">
+    <legend class="rim">Lihat Komponen Gaji</legend> 
+<?php
+    else:
+?>
+    <div class="white-container">
+        <legend class="rim2">Lihat <b>Komponen Gaji</b></legend>
+        <!--<div class="biru">-->
+<?php
+    endif;
+?>
     <?php
     $this->breadcrumbs=array(
             'Komponengaji Ms'=>array('index'),
@@ -43,4 +53,14 @@
                                                                     $this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
     <?php $this->widget('UserTips',array('type'=>'view'));?>
 <!--</div>-->
-</fieldset>
+<?php
+    if ($this->hasTab):
+?>
+    </fieldset> 
+<?php
+    else:
+?>
+    </div>
+<?php
+    endif;
+?>

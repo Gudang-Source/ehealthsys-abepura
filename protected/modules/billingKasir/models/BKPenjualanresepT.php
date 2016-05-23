@@ -43,6 +43,7 @@ class BKPenjualanresepT extends PenjualanresepT
             $criteria->with = array('obatalkespasien');
             $criteria->addBetweenCondition('DATE(tglpenjualan)', $this->tgl_awal, $this->tgl_akhir);
             $criteria->compare('noresep',$this->noresep);
+            $criteria->compare('jenispenjualan', $this->jenispenjualan, true);
             $criteria->compare('jenispenjualan','PENJUALAN RESEP', false, 'AND not');
             $criteria->addCondition('t.noresep is not null');
             

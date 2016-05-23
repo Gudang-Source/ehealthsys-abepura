@@ -174,7 +174,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 
 $modRekDebit = new RekeningakuntansiV('search');
 $modRekDebit->unsetAttributes();
-//$account = "D";
+$modRekDebit->rekening5_nb = "D";
 $account = "";
 if(isset($_GET['RekeningakuntansiV'])) {
     $modRekDebit->attributes = $_GET['RekeningakuntansiV'];
@@ -291,8 +291,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 			'header'=>'Saldo Normal',
 			'name'=>'rekening5_nb',
 			'value'=>'($data->rekening5_nb == "D") ? "Debit" : "Kredit"',
-                        'filter'=>  CHtml::activeDropDownList($modRekDebit, 'rekening5_nb', 
-                                array("D"=>"Debit","K"=>"Kredit"), array('empty'=>"-- Pilih --")),
+                        'filter'=>  CHtml::activeHiddenField($modRekDebit, 'rekening5_nb', array('empty'=>"-- Pilih --")),
 		),
 		
 	),
@@ -319,6 +318,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 
 $modRekKredit = new RekeningakuntansiV('search');
 $modRekKredit->unsetAttributes();
+$modRekKredit->rekening5_nb = "K";
 //$account = "K";
 
 $account = "";
@@ -437,8 +437,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 			'header'=>'Saldo Normal',
 			'name'=>'rekening5_nb',
 			'value'=>'($data->rekening5_nb == "K") ? "Kredit" : "Debit"',
-                        'filter'=>  CHtml::activeDropDownList($modRekKredit, 'rekening5_nb', 
-                                array("D"=>"Debit","K"=>"Kredit"), array('empty'=>"-- Pilih --")),
+                        'filter'=>  CHtml::activeHiddenField($modRekKredit, 'rekening5_nb', array('empty'=>"-- Pilih --")),
 		),
 		
 	),

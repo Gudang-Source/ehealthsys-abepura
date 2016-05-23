@@ -25,14 +25,24 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
     'itemsCssClass'=>'table table-striped table-condensed',
     'columns'=>array(
             array(
-                'header'=> 'Pilih '.CHtml::checkBox('is_pilihsemuaobat',true,array('onclick'=>'pilihSemua(this)','title'=>'Klik untuk pilih / tidak <br>semua obat','rel'=>'tooltip')),
+                'header'=> 'Pilih '.CHtml::checkBox('is_pilihsemuaobat',false,array('onclick'=>'pilihSemua(this)','title'=>'Klik untuk pilih / tidak <br>semua obat','rel'=>'tooltip')),
                 'type'=>'raw',
                 'value'=>'
                     CHtml::hiddenField("GFStokopnamedetT[".$data->obatalkes_id."][obatalkes_id]",$data->obatalkes_id).
-                    CHtml::checkBox("GFStokopnamedetT[".$data->obatalkes_id."][cekList]", true, array("onclick"=>"setUrutan()", "class"=>"cekList", "onclick"=>"getTotal();setNol(this);", "onkeyup"=>"return $(this).focusNextInputField(event);"));
+                    CHtml::checkBox("GFStokopnamedetT[".$data->obatalkes_id."][cekList]", false, array("class"=>"cekList", "onclick"=>"getTotal(); setNol(this);", "onkeyup"=>"return $(this).focusNextInputField(event);"));
                     ',
             ),
-			'jenisobatalkes_nama',
+            'jenisobatalkes_nama',
+            array(
+                'header'=>'Golongan',
+                'type'=>'raw',
+                'value'=>'$data->obatalkes_golongan',
+            ),
+            array(
+                'header'=>'Kategori',
+                'type'=>'raw',
+                'value'=>'$data->obatalkes_kategori',
+            ),
             'obatalkes_kode',
             array(
                 'header'=>'Nama Obat',
@@ -40,29 +50,35 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
                 'value'=>'$data->obatalkes_nama',
             ),
             array(
-                'header'=>'Golongan<br/>Kategori',
+                'header'=>'Satuan<br/>Kecil',
                 'type'=>'raw',
-                'value'=>'$data->obatalkes_golongan."<br/>".$data->obatalkes_kategori',
+                'value'=>function($data) {
+                    $o = ObatalkesM::model()->findByPk($data->obatalkes_id);
+                    return $o->satuankecil->satuankecil_nama;
+                }
             ),
             array(
                 'header'=>'HPP (Rp)',
                 'type'=>'raw',
-                'value'=>'CHtml::textField("GFStokopnamedetT[".$data->obatalkes_id."][harganetto]", number_format(isset($data->hpp) ? $data->hpp : $data->harganetto), array("class"=>"span1 netto integer", "onblur"=>"getTotal();","onkeyup"=>"return $(this).focusNextInputField(event);", "style"=>"width:64px;"))',
+                'value'=>'CHtml::textField("GFStokopnamedetT[".$data->obatalkes_id."][harganetto]", MyFormatter::formatNumberForPrint(isset($data->hpp) ? $data->hpp : $data->harganetto), array("class"=>"span1 netto integer2", "onblur"=>"getTotal();","onkeyup"=>"return $(this).focusNextInputField(event);", "style"=>"width:64px;"))',
             ),
             array(
                 'header'=>'Harga Jual (Rp)',
                 'type'=>'raw',
-                'value'=>'CHtml::textField("GFStokopnamedetT[".$data->obatalkes_id."][hargasatuan]", number_format(isset($data->hargajual) ? $data->hargajual : $data->hargasatuan), array("class"=>"span1 harga integer", "onblur"=>"getTotal();","onkeyup"=>"return $(this).focusNextInputField(event);", "style"=>"width:64px;"))',
+                'value'=>'CHtml::textField("GFStokopnamedetT[".$data->obatalkes_id."][hargasatuan]", MyFormatter::formatNumberForPrint(isset($data->hargajual) ? $data->hargajual : $data->hargasatuan), array("class"=>"span1 harga integer2", "onblur"=>"getTotal();","onkeyup"=>"return $(this).focusNextInputField(event);", "style"=>"width:64px;"))',
             ),
             array(
                 'header'=>'Sistem',
                 'type'=>'raw',
-                'value'=> 'CHtml::textField("GFStokopnamedetT[".$data->obatalkes_id."][volume_sistem]", number_format($data->qtystok), array("class"=>"stok span1 integer", "readonly"=>true))',
+                'value'=> '$data->qtystok.CHtml::hiddenField("GFStokopnamedetT[".$data->obatalkes_id."][volume_sistem]", number_format($data->qtystok), array("class"=>"stok span1 integer2", "readonly"=>true))',
+                'htmlOptions'=>array(
+                    'style'=>'text-align: right;',
+                ),
             ),
             array(
                 'header'=>'<div class="test" style="cursor:pointer;" onclick="openDialogini()"> Fisik <icon class="icon-white icon-list"></icon></div> ',
                 'type'=>'raw',
-                'value'=> 'CHtml::textField("GFStokopnamedetT[".$data->obatalkes_id."][volume_fisik]", (isset($data->volume_fisik) ? number_format($data->volume_fisik) : number_format($data->qtystok))  , array("class"=>"fisik span1 integer", "onblur"=>"getTotal();", "onkeyup"=>"return $(this).focusNextInputField(event);"))',
+                'value'=> 'CHtml::textField("GFStokopnamedetT[".$data->obatalkes_id."][volume_fisik]", (isset($data->volume_fisik) ? number_format($data->volume_fisik) : number_format($data->qtystok))  , array("class"=>"fisik span1 numbersOnly", "style"=>"text-align: right;","onblur"=>"getTotal();", "onkeyup"=>"return $(this).focusNextInputField(event);"))',
             ),
 			array(
                 'header'=>'Waktu Cek Fisik',
@@ -77,7 +93,10 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
     ),
         'afterAjaxUpdate'=>'function(id, data){
             jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
-            $("#obatalkes-m-grid .integer").maskMoney({"defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0,"symbol":null})
+            console.log("kick");
+            $(".cekList").each(function() {setNol(this); });
+            $("#obatalkes-m-grid .integer2").maskMoney({"defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0,"symbol":null})
+            $("#obatalkes-m-grid .numbersOnly").maskMoney({"defaultZero":true,"allowZero":true,"decimal":",","thousands":"","precision":0,"symbol":null})
             $("#obatalkes-m-grid .datetimemask").mask("99/99/9999 99:99:99");    
             getTotal();
                 }',

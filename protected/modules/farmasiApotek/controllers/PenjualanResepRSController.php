@@ -540,6 +540,9 @@ class PenjualanResepRSController extends MyAuthController
         $modStokOaNew->attributes = $oa->attributes;
         $modStokOaNew->attributes = $modObatAlkesPasien->attributes; //duplicate
         //$modStokOaNew->unsetIdTransaksi();
+        if (empty($oa->tglkadaluarsa)) {
+            $modStokOaNew->tglkadaluarsa = date('Y-m-d', (time() + (2 * 265.5 * 24 * 3600)));
+        }
         $modStokOaNew->qtystok_in = 0;
         $modStokOaNew->qtystok_out = ceil($modObatAlkesPasien->qty_oa); // LNG Ceil (Pembulatan keatas request pak tito)
         $modStokOaNew->obatalkespasien_id = $modObatAlkesPasien->obatalkespasien_id;

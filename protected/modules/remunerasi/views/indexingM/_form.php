@@ -15,7 +15,7 @@
     <tr>
         <td>
             <?php echo $form->dropDownListRow($model,'kelrem_id',CHtml::listData($model->getKelremItems(),'kelrem_id','kelrem_nama'),array('empty'=>'-- Pilih --')); ?>
-            <?php echo $form->textFieldRow($model,'indexing_urutan'); ?>
+            <?php echo $form->textFieldRow($model,'indexing_urutan', array('class'=>'numbers-only', 'maxlength'=> 7)); ?>
             <?php echo $form->textFieldRow($model,'indexing_nama',array('size'=>60,'maxlength'=>100)); ?>
         </td>
         <td>
@@ -38,8 +38,10 @@
         Yii::app()->createUrl($this->module->id.'/gelarBelakangM/admin'), 
         array('class'=>'btn btn-danger',
               'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
+    <?php   echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Indexing', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
+            $this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
     <?php
-        $content = $this->renderPartial('../tips/tips',array(),true);
+        $content = $this->renderPartial('sistemAdministrator.views.tips.tipsaddedit',array(),true);
         $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
     ?>
 </div>

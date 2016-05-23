@@ -37,6 +37,9 @@
 					<?php echo $form->labelEx($model, 'tglbuktijurnal', array('class' => 'control-label')) ?>
                     <div class="controls">
 						<?php
+                                                $model->tglbuktijurnal = MyFormatter::formatDateTimeForUser($model->tglbuktijurnal);
+                                                $model->tglreferensi = MyFormatter::formatDateTimeForUser($model->tglreferensi);
+                                                
 						$this->widget('MyDateTimePicker', array(
 							'model' => $model,
 							'attribute' => 'tglbuktijurnal',
@@ -46,7 +49,7 @@
 								'maxDate' => 'd',
 							),
 							'htmlOptions' => array(
-								'style' => 'width:166px', 'class' => 'reqForm', 'onkeypress' => "return $(this).focusNextInputField(event)"
+								'style' => 'width:166px', 'class' => 'reqForm', 'onkeypress' => "return $(this).focusNextInputField(event)",
 							),
 						));
 						?>
@@ -57,6 +60,7 @@
 					<?php echo $form->labelEx($model, 'tglreferensi', array('class' => 'control-label')) ?>
                     <div class="controls">
 						<?php
+                                                
 						$this->widget('MyDateTimePicker', array(
 							'model' => $model,
 							'attribute' => 'tglreferensi',
@@ -66,7 +70,7 @@
 								'maxDate' => 'd',
 							),
 							'htmlOptions' => array(
-								'style' => 'width:166px', 'class' => 'reqForm', 'onkeypress' => "return $(this).focusNextInputField(event)"
+								'style' => 'width:166px', 'class' => 'reqForm', 'onkeypress' => "return $(this).focusNextInputField(event)",
 							),
 						));
 						?>
@@ -101,14 +105,13 @@
             <label class="control-label">Pilih Rekening</label>
             <div class="controls">
 				<?php
-				echo CHtml::dropDownList(
-						'isJenisRekenig', "", LookupM::getItems('jenis_rekening'), array(
+				echo CHtml::dropDownList('isJenisRekenig', "", LookupM::getItems('jenis_rekening'), array(
 					'empty' => '-- Pilih --',
 					'onkeypress' => "return $(this).focusNextInputField(event)",
 					'style' => 'float:left;margin-right:5px;',
+                                        'onchange' => 'setSaldoNormal(this)',
 					'class' => 'span2',
-						)
-				);
+                                ));
 				?>
 				<?php
 				$this->widget('MyJuiAutoComplete', array(
@@ -209,6 +212,7 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView', array(
 		array(
 			'header' => 'No. Urut',
 			'value' => '$this->grid->dataProvider->Pagination->CurrentPage*$this->grid->dataProvider->pagination->pageSize+$row+1',
+                        'filter' => CHtml::activeHiddenField($rekeningakuntansiV, 'rekening5_nb'),
 		),
 		array(
 			'header' => 'Kode Rekening',

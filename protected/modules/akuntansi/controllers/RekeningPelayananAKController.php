@@ -27,6 +27,7 @@ class RekeningPelayananAKController extends RekeningPelayananController
         if (isset($_GET['AKPelayananRekM'])) {
             $modTindakanRuangan->attributes = $_GET['AKPelayananRekM'];
             $modTindakanRuangan->ruangan_id = $_GET['AKPelayananRekM']['ruangan_id'];
+            $modTindakanRuangan->kdrekening5 = $_GET['AKPelayananRekM']['kdrekening5'];
             //$modTindakanRuangan->kelompoktindakan_nama = $_GET['AKPelayananRekM']['kelompoktindakan_nama'];
             //$modTindakanRuangan->kategoritindakan_nama = $_GET['AKPelayananRekM']['kategoritindakan_nama'];
             //$modTindakanRuangan->daftartindakan_kode = $_GET['AKPelayananRekM']['daftartindakan_kode'];
@@ -191,7 +192,7 @@ class RekeningPelayananAKController extends RekeningPelayananController
             // we only allow deletion via POST request
             $transaction = Yii::app()->db->beginTransaction();
             try {
-                SATindakanruanganM::model()->deleteAllByAttributes(array('ruangan_id' => $_GET['ruangan_id'], 'daftartindakan_id' => $_GET['daftartindakan_id']));
+                PelayananrekM::model()->deleteByPk($_GET['id']);
                 $transaction->commit();
             } catch (Exception $e) {
                 $transaction->rollback();
@@ -211,10 +212,12 @@ class RekeningPelayananAKController extends RekeningPelayananController
         $model = new AKPelayananRekM('search');
         $model->unsetAttributes();  // clear any default values
         if (Yii::app()->session['modul_id'] != Params::MODUL_ID_SISADMIN) {
-            $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+            // ->ruangan_id = Yii::app()->user->getState('ruangan_id');
         }
         if (isset($_GET['AKPelayananRekM'])) {
             $model->attributes = $_GET['AKPelayananRekM'];
+            $model->kdrekening5 = $_GET['AKPelayananRekM']['kdrekening5'];
+            $model->nmrekening5 = $_GET['AKPelayananRekM']['nmrekening5'];
             //$model->kelompoktindakan_nama = $_GET['AKPelayananRekM']['kelompoktindakan_nama'];
             //$model->kategoritindakan_nama = $_GET['AKPelayananRekM']['kategoritindakan_nama'];
             //$model->daftartindakan_kode = $_GET['AKPelayananRekM']['daftartindakan_kode'];

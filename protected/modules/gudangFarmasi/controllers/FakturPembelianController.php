@@ -38,16 +38,29 @@ class FakturPembelianController extends MyAuthController
                 $modFakturPembelian->tglfaktur = $format->formatDateTimeForDb($modFakturPembelian->tglfaktur);
                 $modFakturPembelian->tgljatuhtempo = $format->formatDateTimeForDb($modFakturPembelian->tgljatuhtempo);
                 $modFakturPembelian->ruangan_id = Yii::app()->user->getState('ruangan_id');
-                $modFakturPembelian->ruangan_id = Yii::app()->user->id;
-
-                if($modFakturPembelian->save()){
+                // $modFakturPembelian->ruangan_id = Yii::app()->user->id;
+                
+                if ($modFakturPembelian->validate()) {
+                    $modFakturPembelian->save();
                     $updatePenerimaanBarang = GFPenerimaanBarangT::model()->updateByPk($_POST['GFPenerimaanBarangT']['penerimaanbarang_id'],array('fakturpembelian_id'=>$modFakturPembelian->fakturpembelian_id));
                     if(count($_POST['GFPenerimaanDetailT']) > 0){
                        foreach($_POST['GFPenerimaanDetailT'] AS $i => $postFakturDetail){
                            $modDetails[$i] = $this->simpanFakturDetail($postFakturDetail,$modFakturPembelian);
                        }
                     }
+                } else {
+                    $this->fakturpembeliantersimpan = false;
                 }
+                
+                /*
+                if($modFakturPembelian->validate() && $modFakturPembelian->save()){
+                    $updatePenerimaanBarang = GFPenerimaanBarangT::model()->updateByPk($_POST['GFPenerimaanBarangT']['penerimaanbarang_id'],array('fakturpembelian_id'=>$modFakturPembelian->fakturpembelian_id));
+                    if(count($_POST['GFPenerimaanDetailT']) > 0){
+                       foreach($_POST['GFPenerimaanDetailT'] AS $i => $postFakturDetail){
+                           $modDetails[$i] = $this->simpanFakturDetail($postFakturDetail,$modFakturPembelian);
+                       }
+                    }
+                } */
 				
                 if($this->fakturpembeliantersimpan && $this->fakturpembeliandetailtersimpan){
                     $transaction->commit();
@@ -90,7 +103,7 @@ class FakturPembelianController extends MyAuthController
         $modFakturDetail->persenpphfaktur = $postFakturDetail['persenpph'];
         $modFakturDetail->persendiscount = $postFakturDetail['persendiscount'];
         $modFakturDetail->jmldiscount = $postFakturDetail['jmldiscount'];
-        $modFakturDetail->hargasatuan = ($postFakturDetail['harganettoper'] - $postFakturDetail['jmldiscount']);
+        $modFakturDetail->hargasatuan = floor(($postFakturDetail['harganettoper'] - ($modFakturDetail->jmldiscount / $modFakturDetail->jmlterima)));
         $modFakturDetail->kemasanbesar = $postFakturDetail['kemasanbesar'];
         $modFakturDetail->tglkadaluarsa = $format->formatDateTimeForDb($modFakturDetail['tglkadaluarsa']);
         

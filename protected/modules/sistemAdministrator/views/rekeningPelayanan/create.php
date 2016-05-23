@@ -189,23 +189,28 @@
                     array(
                         'header' => 'Kode Akun',
                         'type' => 'raw',
+                        'name' => 'kdrekening5',
                         'value' => 'isset($data->rekening5_id)?$data->rekening5->kdrekening5:" - "',
                     ),
                     array(
                         'header' => 'Nama Akun',
                         'name' => 'nmrekening5',
                         'value' => 'isset($data->rekening5->nmrekening5)?$data->rekening5->nmrekening5:" - "',
-                    ),
+                    ), 
                     array(
                         'header' => 'Jenis Pelayanan',
                         'name' => 'jnspelayanan',   
                         'type' => 'raw',
-                        'value' => 'CHtml::listData(SALookupM::getItemsList(), "lookup_value", "lookup_name")[$data->jnspelayanan]',
+                        'value' => function($data) {
+                            $lookup = CHtml::listData(SALookupM::getItemsList(), "lookup_value", "lookup_name");
+                            if (isset($lookup[$data->jnspelayanan])) return $lookup[$data->jnspelayanan];
+                            return "-";
+                        },
                         'filter' => CHtml::activeDropDownList($modTindakanRuangan, 'jnspelayanan', 
                                 CHtml::listData(SALookupM::getItemsList(), "lookup_value", "lookup_name"), array(
                                     'empty'=>'-- Pilih --'
                                 )),
-                    ),
+                    ), 
                     array(
                         'header' => 'Ruangan',
                         'name' => 'ruangan_id',
@@ -229,7 +234,7 @@
                         'template' => '{delete}',
                         'buttons' => array(
                             'delete' => array(
-                                'url' => 'Yii::app()->createUrl("' . Yii::app()->controller->module->id . '/' . Yii::app()->controller->id . '/Delete",array("ruangan_id"=>"$data->ruangan_id","daftartindakan_id"=>"$data->daftartindakan_id"))',
+                                'url' => 'Yii::app()->createUrl("' . Yii::app()->controller->module->id . '/' . Yii::app()->controller->id . '/Delete",array("id"=>"$data->pelayananrek_id"))',
                             ),
                         ),
                     ),
@@ -257,8 +262,8 @@
             'title' => 'Daftar Tindakan',
             'autoOpen' => false,
             'modal' => true,
-            'width' => 800,
-            'height' => 500,
+            'width' => 1000,
+            'height' => 700,
             'resizable' => false,
         ),
     ));
@@ -267,6 +272,7 @@
     $modDaftarTindakan->unsetAttributes();
     if (isset($_GET['SATariftindakanruangandetailV'])) {
         $modDaftarTindakan->attributes = $_GET['SATariftindakanruangandetailV'];
+        $modDaftarTindakan->komponenunit_id = $_GET['SATariftindakanruangandetailV']['komponenunit_id'];
     } else {
         //$modDaftarTindakan->ruangan_id = Yii::app()->user->getState('ruangan_id');
     }
@@ -295,25 +301,29 @@
                                     return false;"))'
             ),
             array(
-                'header' => 'Ruangan',
-                'name' => 'ruangan_nama',
-                'filter' => CHtml::activeDropDownList($modDaftarTindakan, 'ruangan_id', CHtml::listData(SARuanganM::getItemsList(), 'ruangan_id', 'ruangan_nama'), array('empty' => '--Pilih--')),
-            ),
-            array(
-                'header' => 'Komponen Tarif',
-                'name' => 'komponentarif_nama',
-                'filter' => CHtml::activeDropDownList($modDaftarTindakan, 'komponentarif_id', CHtml::listData(SAKomponentarifM::getItemsList(), 'komponentarif_id', 'komponentarif_nama'), array('empty' => '--Pilih--')),
-            ),
-            array(
                 'header' => 'Kelompok Tindakan',
                 'name' => 'kelompoktindakan_nama',
                 'value' => 'isset($data->kelompoktindakan_nama)?$data->kelompoktindakan_nama:" - "',
                 'filter' => CHtml::activeDropDownList($modDaftarTindakan, 'kelompoktindakan_id', CHtml::listData(SAKelompokTindakanM::getItems(), 'kelompoktindakan_id', 'kelompoktindakan_nama'), array('empty' => '--Pilih--')),
             ),
             array(
+                'name'=>'komponenunit_id',
+                'header'=>'Komponen Unit',
+                'value'=>function($data) {
+                    $ku = KomponenunitM::model()->findByPk($data->komponenunit_id);
+                    return $ku->komponenunit_nama;
+                },
+                'filter'=> CHtml::activeDropDownList($modDaftarTindakan, 'komponenunit_id', CHtml::listData(SAKomponenUnitM::getItems(), 'komponenunit_id', 'komponenunit_nama'), array('empty'=>'-- Pilih --')),
+            ),
+            array(
                 'header' => 'Kategori Tindakan',
                 'name' => 'kategoritindakan_nama',
                 'filter' => CHtml::activeDropDownList($modDaftarTindakan, 'kategoritindakan_id', CHtml::listData(SAKategoriTindakanM::getItems(), 'kategoritindakan_id', 'kategoritindakan_nama'), array('empty' => '--Pilih--')),
+            ),
+            array(
+                'header' => 'Ruangan',
+                'name' => 'ruangan_nama',
+                'filter' => CHtml::activeDropDownList($modDaftarTindakan, 'ruangan_id', CHtml::listData(SARuanganM::getItemsList(), 'ruangan_id', 'ruangan_nama'), array('empty' => '--Pilih--')),
             ),
             array(
                 'header' => 'Kode Tindakan',
@@ -324,6 +334,11 @@
                 'header' => 'Nama Tindakan',
                 'name' => 'daftartindakan_nama',
                 'value' => 'isset($data->daftartindakan_nama)?$data->daftartindakan_nama:" - "',
+            ),
+            array(
+                'header' => 'Komponen Tarif',
+                'name' => 'komponentarif_nama',
+                'filter' => CHtml::activeDropDownList($modDaftarTindakan, 'komponentarif_id', CHtml::listData(SAKomponentarifM::getItemsList(), 'komponentarif_id', 'komponentarif_nama'), array('empty' => '--Pilih--')),
             ),
         ),
         'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
@@ -340,16 +355,18 @@
             'title' => 'Akun Debit',
             'autoOpen' => false,
             'modal' => true,
-            'width' => 800,
-            'height' => 500,
+            'width' => 1000,
+            'height' => 700,
             'resizable' => false,
         ),
     ));
 
     $modRekeningDebit = new SARekeningakuntansiV('searchDebit');
     $modRekeningDebit->unsetAttributes();
+    $modRekeningDebit->rekening5_aktif = true;
     if (isset($_GET['SARekeningakuntansiV'])) {
         $modRekeningDebit->attributes = $_GET['SARekeningakuntansiV'];
+        $modRekeningDebit->kelrekening_id = $_GET['SARekeningakuntansiV']['kelrekening_id'];
     }
 
     $c2 = new CDbCriteria();
@@ -396,13 +413,29 @@
                                     $(\'#dialogRekDebit\').dialog(\'close\');
                                     return false;"))'
             ),
-            array(
-					'header'=>'No. Urut',
-					'name'=>'nourutrek',
-					'value'=>'$data->nourutrek',
-				),
-				array(
+                                
+                                array(
+                                        'header' => 'Kode Akun',
+                                        'name' => 'kdrekening5',
+                                        'value' => '$data->kdrekening5',
+                                ),
+                                array(
                                         'header'=>'Kelompok Akun',
+                                        'type'=>'raw',
+                                        'value'=>function($data) {
+                                            $rek1 = Rekening1M::model()->findByPk($data->rekening1_id);
+                                            $rek2 = KelrekeningM::model()->findByPk($rek1->kelrekening_id);
+                                            return $rek2->namakelrekening;
+                                        },
+                                        'filter'=>CHtml::activeDropDownList($modRekeningDebit, 'kelrekening_id', CHtml::listData(
+                                       KelrekeningM::model()->findAll(array(
+                                           'condition'=>'kelrekening_aktif = true',
+                                           'order'=>'koderekeningkel',
+                                       )), 'kelrekening_id', 'namakelrekening'
+                                        )),
+                                ),
+				array(
+                                        'header'=>'Komponen',
                                         'name'=>'rekening1_id',
                                         'value'=>'$data->nmrekening1',
                                         'filter'=>  CHtml::activeDropDownList($modRekeningDebit, 'rekening1_id', 
@@ -412,33 +445,28 @@
                                         )), 'rekening1_id', 'nmrekening1'), array('empty'=>'-- Pilih --')),
                                 ),
                                 array(
-                                        'header'=>'Golongan Akun',
+                                        'header'=>'Unsur',
                                         'name'=>'rekening2_id',
                                         'value'=>'$data->nmrekening2',
                                         'filter'=>  CHtml::activeDropDownList($modRekeningDebit, 'rekening2_id', 
                                         CHtml::listData($r2, 'rekening2_id', 'nmrekening2'), array('empty'=>'-- Pilih --')),
                                 ),
                                 array(
-                                        'header'=>'Sub Golongan Akun',
+                                        'header'=>'Kelompok Pos',
                                         'name'=>'rekening3_id',
                                         'value'=>'$data->nmrekening3',
                                         'filter'=>  CHtml::activeDropDownList($modRekeningDebit, 'rekening3_id', 
                                         CHtml::listData($r3, 'rekening3_id', 'nmrekening3'), array('empty'=>'-- Pilih --')),
                                 ),
                                 array(
-                                        'header'=>'Jenis Akun',
+                                        'header'=>'Pos',
                                         'name'=>'rekening4_id',
                                         'value'=>'$data->nmrekening4',
                                         'filter'=>  CHtml::activeDropDownList($modRekeningDebit, 'rekening4_id', 
                                         CHtml::listData($r4, 'rekening4_id', 'nmrekening4'), array('empty'=>'-- Pilih --')),
                                 ),
                                 array(
-                                        'header' => 'Kode Akun',
-                                        'name' => 'kdrekening5',
-                                        'value' => '$data->kdrekening5',
-                                ),
-                                array(
-                                        'header' => 'Nama Akun',
+                                        'header' => 'Akun',
                                         'name' => 'nmrekening5',
                                         'value' => '$data->nmrekening5',
                                 ), /*
@@ -469,16 +497,18 @@
             'title' => 'Akun Kredit',
             'autoOpen' => false,
             'modal' => true,
-            'width' => 800,
-            'height' => 500,
+            'width' => 1000,
+            'height' => 700,
             'resizable' => false,
         ),
     ));
 
     $modRekeningKredit = new SARekeningakuntansiV('searchKredit');
     $modRekeningKredit->unsetAttributes();
+    $modRekeningKredit->rekening5_aktif = true;
     if (isset($_GET['SARekeningakuntansiV'])) {
         $modRekeningKredit->attributes = $_GET['SARekeningakuntansiV'];
+        $modRekeningKredit->kelrekening_id = $_GET['SARekeningakuntansiV']['kelrekening_id'];
     }
     
     $c2 = new CDbCriteria();
@@ -525,56 +555,61 @@
                                     return false;"))'
                                 ),
                                 array(
-					'header'=>'No. Urut',
-					'name'=>'nourutrek',
-					'value'=>'$data->nourutrek',
-				),
-				array(
-                                        'header' => 'Kelompok Akun',
-                                        'name' => 'rekening1_id',
-                                        'value' => '$data->nmrekening1',
-                                        'filter'=>  CHtml::activeDropDownList($modRekeningKredit, 'rekening1_id', 
-                                                CHtml::listData(Rekening1M::model()->findAll(array(
-                                                    'condition'=>'rekening1_aktif = true',
-                                                    'order'=>'kdrekening1 asc',
-                                                )), 'rekening1_id', 'nmrekening1'), array('empty'=>'-- Pilih --')),
-                                ),
-                                array(
-                                        'header' => 'Golongan Akun',
-                                        'name' => 'rekening2_id',
-                                        'value' => '$data->nmrekening2',
-                                        'filter'=>  CHtml::activeDropDownList($modRekeningKredit, 'rekening2_id', 
-                                        CHtml::listData($r2, 'rekening2_id', 'nmrekening2'), array('empty'=>'-- Pilih --')),
-                                ),
-                                array(
-                                        'header' => 'Sub Golongan Akun',
-                                        'name' => 'rekening3_id',
-                                        'value' => '$data->nmrekening3',
-                                        'filter'=>  CHtml::activeDropDownList($modRekeningKredit, 'rekening3_id', 
-                                        CHtml::listData($r3, 'rekening3_id', 'nmrekening3'), array('empty'=>'-- Pilih --')),
-                                ),
-                                array(
-                                        'header' => 'Jenis Akun',
-                                        'name' => 'rekening4_id',
-                                        'value' => '$data->nmrekening4',
-                                        'filter'=>  CHtml::activeDropDownList($modRekeningKredit, 'rekening4_id', 
-                                                CHtml::listData($r4, 'rekening4_id', 'nmrekening4'), array('empty'=>'-- Pilih --')),
-                                ),
-                                array(
                                         'header' => 'Kode Akun',
                                         'name' => 'kdrekening5',
                                         'value' => '$data->kdrekening5',
                                 ),
                                 array(
-                                        'header' => 'Nama Akun',
+                                        'header'=>'Kelompok Akun',
+                                        'type'=>'raw',
+                                        'value'=>function($data) {
+                                            $rek1 = Rekening1M::model()->findByPk($data->rekening1_id);
+                                            $rek2 = KelrekeningM::model()->findByPk($rek1->kelrekening_id);
+                                            return $rek2->namakelrekening;
+                                        },
+                                        'filter'=>CHtml::activeDropDownList($modRekeningDebit, 'kelrekening_id', CHtml::listData(
+                                       KelrekeningM::model()->findAll(array(
+                                           'condition'=>'kelrekening_aktif = true',
+                                           'order'=>'koderekeningkel',
+                                       )), 'kelrekening_id', 'namakelrekening'
+                                        )),
+                                ),
+				array(
+                                        'header'=>'Komponen',
+                                        'name'=>'rekening1_id',
+                                        'value'=>'$data->nmrekening1',
+                                        'filter'=>  CHtml::activeDropDownList($modRekeningDebit, 'rekening1_id', 
+                                        CHtml::listData(Rekening1M::model()->findAll(array(
+                                            'condition'=>'rekening1_aktif = true',
+                                            'order'=>'kdrekening1 asc',
+                                        )), 'rekening1_id', 'nmrekening1'), array('empty'=>'-- Pilih --')),
+                                ),
+                                array(
+                                        'header'=>'Unsur',
+                                        'name'=>'rekening2_id',
+                                        'value'=>'$data->nmrekening2',
+                                        'filter'=>  CHtml::activeDropDownList($modRekeningDebit, 'rekening2_id', 
+                                        CHtml::listData($r2, 'rekening2_id', 'nmrekening2'), array('empty'=>'-- Pilih --')),
+                                ),
+                                array(
+                                        'header'=>'Kelompok Pos',
+                                        'name'=>'rekening3_id',
+                                        'value'=>'$data->nmrekening3',
+                                        'filter'=>  CHtml::activeDropDownList($modRekeningDebit, 'rekening3_id', 
+                                        CHtml::listData($r3, 'rekening3_id', 'nmrekening3'), array('empty'=>'-- Pilih --')),
+                                ),
+                                array(
+                                        'header'=>'Pos',
+                                        'name'=>'rekening4_id',
+                                        'value'=>'$data->nmrekening4',
+                                        'filter'=>  CHtml::activeDropDownList($modRekeningDebit, 'rekening4_id', 
+                                        CHtml::listData($r4, 'rekening4_id', 'nmrekening4'), array('empty'=>'-- Pilih --')),
+                                ),
+                                array(
+                                        'header' => 'Akun',
                                         'name' => 'nmrekening5',
                                         'value' => '$data->nmrekening5',
                                 ),
-				array(
-					'header'=>'Nama Lain',
-					'name'=>'nmrekeninglain5',
-					'value'=>'($data->nmrekeninglain5 == "" ? $data->nmrekeninglain4 : ($data->nmrekeninglain4 == "" ? $data->nmrekeninglain3 : ($data->nmrekeninglain3 == "" ? $data->nmrekeninglain2 : ($data->nmrekeninglain2 == "" ? $data->nmrekeninglain1 : ($data->nmrekeninglain1 == "" ? "-" : $data->nmrekeninglain5)))))',
-				),
 				array(
 					'header'=>'Saldo Normal',
 					'value'=>'($data->rekening5_nb == "D") ? "Debit" : "Kredit"',

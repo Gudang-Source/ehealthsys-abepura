@@ -50,6 +50,16 @@ class InformasiController extends MyAuthController
             $this->render('tarif',array('modTarif'=>$modTarif));
 	}
         
+        public function actionPrintTarif() {
+            $this->layout = '//layouts/iframe';
+            $modTarifRad = new AMTarifambulansM('searchInformasi');
+         
+            if(isset($_GET['AMTarifambulansM'])){
+                    $modTarifRad->attributes=$_GET['AMTarifambulansM'];                   
+            }
+            $this->render('printTarif',array('modTarifRad'=>$modTarifRad));
+        }
+        
         public function actionDaftarPasienRI()
         {
             $this->pageTitle = Yii::app()->name." - Pasien Rawat Inap";
@@ -162,4 +172,6 @@ class InformasiController extends MyAuthController
 				exit;               
 			}
 		}
+                
+        
 }

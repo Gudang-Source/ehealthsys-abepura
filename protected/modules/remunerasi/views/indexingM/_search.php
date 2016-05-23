@@ -7,17 +7,20 @@
 <table width="100%">
     <tr>
         <td>
-            <?php echo $form->textFieldRow($model,'kelrem_id'); ?>
+            <?php echo $form->dropDownListRow($model,'kelrem_id',  CHtml::listData($model->getKelremItems(), 'kelrem_id', 'kelrem_nama'), array('empty' => '-- Pilih --')); ?>
         </td>
         <td>
             <?php echo $form->textFieldRow($model,'indexing_nama',array('size'=>60,'maxlength'=>100)); ?>
         </td>
         <td>
-            <?php echo $form->textFieldRow($model,'indexing_nilai'); ?>
+            <?php echo $form->textFieldRow($model,'indexing_singk'); ?>            
         </td>
     </tr>
     <tr>
-        <td colspan="2">
+        <td>
+            <?php echo $form->textFieldRow($model,'indexing_nilai'); ?>
+        </td>
+        <td>
             <?php echo $form->checkBoxRow($model,'indexing_aktif',array('checked'=>true)); ?>
         </td>
     </tr>

@@ -7,6 +7,7 @@
                 array(
                     'id'=>'AKRekeningakuntansi-v',
                     'dataProvider'=>$model->search(),
+                    'filter'=>$model,
                     'template'=>"{summary}\n{items}\n{pager}",
                     'itemsCssClass'=>'table table-striped table-bordered table-condensed',
                     'columns'=>array(
@@ -45,7 +46,14 @@
                            'header'=>'Kode Akun',
                            'name'=>'kode',
                            'type'=>'raw',
-                           'htmlOptions'=>array('style'=>'width:80px')
+                           'htmlOptions'=>array('style'=>'width:80px'),
+                           'filter'=>  CHtml::activeDropDownList($model, 'akun', array(
+                               1 => 'Komponen',
+                               2 => 'Unsur',
+                               3 => 'Kelompok Pos',
+                               4 => 'Pos',
+                               5 => 'Akun',
+                           ), array ('empty'=>'-- Pilih --')),
                         ), /*
                         array(
                            'name'=>'nmrekening1',
@@ -80,19 +88,19 @@
                                 $res = "";
                                 switch ($data->akun) {
                                     case 1: 
-                                        $res = CHtml::Link($data->nama, Yii::app()->controller->createUrl("KodeRekening/editStrukturRekening",array("id"=>$data->id)),array("style"=>"color:blue","target"=>"frameEditStruktur", "onclick"=>'$("#dialogEditStruktur").dialog("open");',"rel"=>"tooltip", "title"=>"Klik Untuk Edit<br>Struktur Akun",));
+                                        $res = CHtml::Link($data->nama, Yii::app()->controller->createUrl("KodeRekening/editStrukturRekening",array("id"=>$data->id)),array("style"=>"color:blue","target"=>"frameEditStruktur", "onclick"=>'$("#dialogEditStruktur").dialog("open");',"rel"=>"tooltip", "title"=>"Klik Untuk Edit<br>Kelompok Akun",));
                                         break;
                                     case 2: 
-                                        $res = "&emsp;".CHtml::Link($data->nama, Yii::app()->controller->createUrl("KodeRekening/editKelompokRekening",array("id"=>$data->id)),array("style"=>"color:blue","target"=>"frameEditKelompokRek", "onclick"=>'$("#dialogEditKelompokRek").dialog("open");',"rel"=>"tooltip", "title"=>"Klik Untuk<br>Edit Kelompok Rekening",));
+                                        $res = "&emsp;".CHtml::Link($data->nama, Yii::app()->controller->createUrl("KodeRekening/editKelompokRekening",array("id"=>$data->id)),array("style"=>"color:blue","target"=>"frameEditKelompokRek", "onclick"=>'$("#dialogEditKelompokRek").dialog("open");',"rel"=>"tooltip", "title"=>"Klik Untuk<br>Golongan Akun",));
                                         break;
                                     case 3: 
-                                        $res = "&emsp;"."&emsp;".CHtml::Link($data->nama, Yii::app()->controller->createUrl("KodeRekening/editJenisRekening",array("id"=>$data->id)),array("style"=>"color:blue","target"=>"frameEditKelompokRek", "onclick"=>'$("#dialogEditKelompokRek").dialog("open");',"rel"=>"tooltip", "title"=>"Klik Untuk Edit<br>Jenis Rekening",));
+                                        $res = "&emsp;"."&emsp;".CHtml::Link($data->nama, Yii::app()->controller->createUrl("KodeRekening/editJenisRekening",array("id"=>$data->id)),array("style"=>"color:blue","target"=>"frameEditJenisRek", "onclick"=>'$("#dialogEditJenisRek").dialog("open");',"rel"=>"tooltip", "title"=>"Klik Untuk Edit<br>Sub Golongan Akun",));
                                         break;
                                     case 4: 
-                                        $res = "&emsp;"."&emsp;"."&emsp;".CHtml::Link($data->nama, Yii::app()->controller->createUrl("KodeRekening/editObyekRekening",array("id"=>$data->id)),array("style"=>"color:blue","target"=>"frameEditObyekRek", "onclick"=>'$("#dialogEditObyekRek").dialog("open");',"rel"=>"tooltip", "title"=>"Klik Untuk Edit<br>Obyek Rekening",));
+                                        $res = "&emsp;"."&emsp;"."&emsp;".CHtml::Link($data->nama, Yii::app()->controller->createUrl("KodeRekening/editObyekRekening",array("id"=>$data->id)),array("style"=>"color:blue","target"=>"frameEditObyekRek", "onclick"=>'$("#dialogEditObyekRek").dialog("open");',"rel"=>"tooltip", "title"=>"Klik Untuk Edit<br>Jenis Akun",));
                                         break;
                                     case 5:
-                                        $res = "&emsp;"."&emsp;"."&emsp;"."&emsp;".CHtml::Link($data->nama, Yii::app()->controller->createUrl("KodeRekening/editRincianObyekRek",array("id"=>$data->id)),array("style"=>"color:blue","target"=>"frameEditRincianObyekRek", "onclick"=>'$("#dialogEditRincianObyekRek").dialog("open");',"rel"=>"tooltip", "title"=>"Klik Untuk Edit<br>Rincian Obyek Rekening",));
+                                        $res = "&emsp;"."&emsp;"."&emsp;"."&emsp;".CHtml::Link($data->nama, Yii::app()->controller->createUrl("KodeRekening/editRincianObyekRek",array("id"=>$data->id)),array("style"=>"color:blue","target"=>"frameEditRincianObyekRek", "onclick"=>'$("#dialogEditRincianObyekRek").dialog("open");',"rel"=>"tooltip", "title"=>"Klik Untuk Edit<br>Kode Akun",));
                                         break;
                                 }
                                 return $res;
@@ -108,18 +116,18 @@
                            'name'=>'kelompokrek',
                            'type'=>'raw',
                             'value'=>'($data->kelompokrek == null ? "-" : $data->kelompokrek)',
-                        ), */
+                        ), */ 
                         array(
-                           'name'=>'Keterangan',
+                           'name'=>'keterangan',
                            'type'=>'raw',
                             'value'=>'($data->keterangan == null ? "-" : $data->keterangan)',
-                        ),
+                        ), /*
                         array(
                            'header'=>'Status',
                            'type'=>'raw',
                            'value'=>'($data->aktif == null ? "-" : ($data->aktif == true ? "Aktif" : "Non Aktif"))',
                            'htmlOptions'=>array('style'=>'text-align: center; width:80px')
-                        ),
+                        ), */
                     ),
                     'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
                 )
@@ -148,7 +156,7 @@
 $js = <<< JSCRIPT
 function print(caraPrint)
 {
-    window.open("${urlPrint}/"+$('#penjaminpasien-m-search').serialize()+"&caraPrint="+caraPrint,"",'location=_new, width=900px');
+    window.open("${urlPrint}/"+$('#AKRekeningakuntansi-v :input').serialize()+"&caraPrint="+caraPrint,"",'location=_new, width=900px');
 }
 JSCRIPT;
 Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);    
@@ -158,7 +166,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog',
     array(
         'id' => 'dialogEditStruktur',
         'options' => array(
-            'title' => 'Edit Struktur Rekening',
+            'title' => 'Edit Komponen',
             'autoOpen' => false,
             'modal' => true,
             'width' => 550,
@@ -180,7 +188,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog',
     array(
         'id' => 'dialogEditKelompokRek',
         'options' => array(
-            'title' => 'Edit Kelompok Rekening',
+            'title' => 'Edit Unsur',
             'autoOpen' => false,
             'modal' => true,
             'width' => 550,
@@ -202,7 +210,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog',
     array(
         'id' => 'dialogEditJenisRek',
         'options' => array(
-            'title' => 'Edit Jenis Rekening',
+            'title' => 'Edit Kelompok Pos',
             'autoOpen' => false,
             'modal' => true,
             'width' => 550,
@@ -223,7 +231,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog',
     array(
         'id' => 'dialogEditObyekRek',
         'options' => array(
-            'title' => 'Edit Obyek Rekening',
+            'title' => 'Edit Pos',
             'autoOpen' => false,
             'modal' => true,
             'width' => 550,
@@ -244,7 +252,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog',
     array(
         'id' => 'dialogEditRincianObyekRek',
         'options' => array(
-            'title' => 'Edit Rincian Obyek Rekening',
+            'title' => 'Edit Akun',
             'autoOpen' => false,
             'modal' => true,
             'width' => 550,

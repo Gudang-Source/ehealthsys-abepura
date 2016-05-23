@@ -32,25 +32,26 @@ $this->widget($table,array(
 		array(
 			'name'=>'pangkat_id',
 			'type'=>'raw',
-			'value'=>'$data->pangkat->pangkat_nama',
+			'value'=>'isset($data->pangkat_id)?$data->pangkat->pangkat_nama:"-"',
 		),
 		array(
 			'name'=>'jabatan_id',
 			'type'=>'raw',
-			'value'=>'$data->jabatan->jabatan_nama',
+			'value'=>'isset($data->jabatan_id)?$data->jabatan->jabatan_nama:"-"',
 		),
 		array(
 			'name'=>'komponengaji_id',
 			'type'=>'raw',
-			'value'=>'$data->komponengaji->komponengaji_nama',
+			'value'=>'isset($data->komponengaji_id)?$data->komponengaji->komponengaji_nama:"-"',
 		),
 		array(
 			'name'=>'nominaltunjangan',
 			'type'=>'raw',
-			'value'=>'MyFormatter::formatNumberForUser($data->nominaltunjangan)',
+			'value'=>'"Rp".number_format($data->nominaltunjangan,0,"",".")',
+                        'htmlOptions' => array('style' => 'text-align:right')
 		),
 		array(
-			'name'=>'tunjangan_aktif',
+			'header'=>'Status',
 			'type'=>'raw',
 			'value'=>'(($data->tunjangan_aktif) ? "Aktif" : "Tidak Aktif")',
 		),

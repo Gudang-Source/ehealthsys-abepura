@@ -15,6 +15,7 @@
 		<div class = "span4">
 			<?php echo $form->textFieldRow($model,'koderekeningkel',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
 			<?php echo $form->textFieldRow($model,'namakelrekening',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
+                        <?php echo $form->dropDownListRow($model,'saldonormal', LookupM::getItems('jenis_rekening'), array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
 			<?php echo $form->checkBoxRow($model,'kelrekening_aktif', array('onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
 		</div>
 		<div class = "span4">

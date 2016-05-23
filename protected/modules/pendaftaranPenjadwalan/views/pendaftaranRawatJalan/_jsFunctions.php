@@ -32,14 +32,34 @@ function setPasienLama(pasien_id, no_rekam_medik, is_manual){
                 return false;
             }
             
-            <?php if ($this->id == "pendaftaranRawatInap"): ?>
+            <?php // if ($this->id == "pendaftaranRawatInap"): ?>
+            
+            if (data.adaInap) {
+                myAlert("Pasien " + data.listDaftar.pasien.namadepan + data.listDaftar.pasien.nama_pasien + " (" + data.listDaftar.no_pendaftaran + ")\n\
+                Hari ini sedang di rawat inap di " + data.listDaftar.ruangan.ruangan_nama + ".");
+                $("#form-pasien > div").removeClass("animation-loading");
+                $("#<?php echo CHtml::activeId($modPasien,'nama_pasien');?>").val("");
+                setPasienBaru(); 
+                return false;
+            }
+            if (data.tindakLanjut) {
+                    myAlert("Pasien " + data.listDaftar.pasien.namadepan + data.listDaftar.pasien.nama_pasien + " (" + data.listDaftar.no_pendaftaran + ")\n\
+                    Hari ini menunggu tindak lanjut ke rawat inap di " + data.listDaftar.instalasi.instalasi_nama + " -> " + data.listDaftar.ruangan.ruangan_nama + ".");
+                    $("#form-pasien > div").removeClass("animation-loading");
+                    $("#<?php echo CHtml::activeId($modPasien,'nama_pasien');?>").val("");
+                    setPasienBaru(); 
+                    return false;
+                }
             if (data.adaDaftar) {
                 myAlert("Pasien " + data.listDaftar.pasien.namadepan + data.listDaftar.pasien.nama_pasien + " (" + data.listDaftar.no_pendaftaran + ")\n\
                 Hari ini sedang di Instalasi " + data.listDaftar.instalasi.instalasi_nama + " -> " + data.listDaftar.ruangan.ruangan_nama + ".");
                 $("#form-pasien > div").removeClass("animation-loading");
+                $("#<?php echo CHtml::activeId($modPasien,'nama_pasien');?>").val("");
+                setPasienBaru(); 
                 return false;
             }
-            <?php endif; ?>
+            
+            <?php //    endif; ?>
             
             if(data.statusrekammedis.trim() == "<?php echo Params::STATUSREKAMMEDIS_AKTIF?>"){
 				$("#cari_nomorindukpegawai").val(data.nomorindukpegawai); // untuk load filed NIP
@@ -364,7 +384,7 @@ function setAsuransiPasienLama(pasien_id){
 									
 									setFormAsuransi(datacarabayar_id);
 									$("#<?php echo CHtml::activeId($model,"carabayar_id");?>").val(datacarabayar_id);
-									$("#<?php echo CHtml::activeId($model,"penjamin_id");?>").html(datalistPenjamin);
+									$("#<?php echo CHtml::activeId($model,"penjamin_id");?>").html(datalistPenjamin).change();
 									$("#<?php echo CHtml::activeId($model,"penjamin_id");?>").val(datapenjamin_id);
 									if(datacarabayar_id == <?php echo Params::CARABAYAR_ID_BPJS ?>){
 										getAsuransiNoKartu(datanopeserta);
@@ -711,7 +731,7 @@ $('#form-karcis > div > .accordion-heading').click(function(){
 //    console.log("Karcis Di Klik!");
     var is_adakarcis = $("#<?php echo CHtml::activeId($model, "is_adakarcis"); ?>");
     if(is_adakarcis.val() > 0){ //hide
-        is_adakarcis.val(0);
+        is_adakarcis.val(1); // dipaksakan ada meskipun accordion disembunyikan
     }else{//show
         is_adakarcis.val(1);
     }
@@ -2052,6 +2072,16 @@ $(".rb_kon").change(function() {
  * posisi script ini harus tetap dibawah
  */
 $( document ).ready(function(){
+    $("#form-karcis .accordion-heading a").click(function()
+    {
+        return false;
+    });
+    
+    $("#form-bpjs .accordion-heading a").click(function()
+    {
+        return false;
+    });
+    
     <?php if(!empty($model->pendaftaran_id)){ ?>
         autoPrint();
         $("input, select, textarea").attr("disabled",true);

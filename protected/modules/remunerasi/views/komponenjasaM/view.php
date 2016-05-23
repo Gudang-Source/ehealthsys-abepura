@@ -1,3 +1,5 @@
+<div class="white-container">
+    <legend class="rim2">Lihat <b>Komponen Jasa</b></legend>
 <?php
 $this->breadcrumbs=array(
 	'Komponenjasa Ms'=>array('index'),
@@ -12,7 +14,7 @@ $arrMenu = array();
                 array_push($arrMenu,array('label'=>Yii::t('mds','Delete').' KomponenjasaM','icon'=>'trash','url'=>'#','linkOptions'=>array('submit'=>array('delete','id'=>$model->komponenjasa_id),'confirm'=>Yii::t('mds','Are you sure you want to delete this item?')))) ;
                 (Yii::app()->user->checkAccess(Params::DEFAULT_ADMIN)) ?array_push($arrMenu,array('label'=>Yii::t('mds','Manage').' KomponenjasaM', 'icon'=>'folder-open', 'url'=>array('admin'))) :  '' ;
 
-$this->menu=$arrMenu;
+//$this->menu=$arrMenu;
 
 $this->widget('bootstrap.widgets.BootAlert'); ?>
 
@@ -20,11 +22,26 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
 	'data'=>$model,
 	'attributes'=>array(
 		'komponenjasa_id',
-		'komponentarif_id',
-		'carabayar_id',
-		'kelompoktindakan_id',
-		'ruangan_id',
-		'jenistarif_id',
+                array(
+                    'label' => 'Komponen Tarif',
+                    'value' => $model->komponentarif->komponentarif_nama,
+                ),		
+                array(
+                    'label' => 'Jenis Tarif',
+                    'value' => $model->jenistarif->jenistarif_nama,
+                ),
+                array(
+                    'label' => 'Cara Bayar',
+                    'value' => $model->carabayar->carabayar_nama,
+                ),
+		array(
+                    'label' => 'Kelompok Tindakan',
+                    'value' => $model->kelompoktindakan->kelompoktindakan_nama,
+                ),
+		array(
+                    'label' => 'Ruangan',
+                    'value' => $model->ruangan->ruangan_nama,
+                ),		
 		'komponenjasa_kode',
 		'komponenjasa_nama',
 		'komponenjasa_singkatan',
@@ -41,5 +58,7 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
 		'komponenjasa_aktif',
 	),
 )); ?>
-
+<?php   echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Komponen Jasa', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
+        $this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')).'&nbsp;';?>
 <?php $this->widget('UserTips',array('type'=>'view'));?>
+</div>

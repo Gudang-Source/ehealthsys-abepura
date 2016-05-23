@@ -3,7 +3,7 @@
 		<tr>
 			<th rowspan="2">No.</th>
 			<th rowspan="2">Uraian Rekening	<span class="required">*</span></th>
-			<th colspan="5" rowspan="2">Kode Rekening</th>
+			<th colspan="1" rowspan="2">Kode Rekening</th>
 			<th rowspan="2">Nama Rekening</th>
 			<th colspan="2" style="text-align:center;">Saldo</th>
 			<th rowspan="2">Catatan</th>
@@ -17,14 +17,14 @@
 	<tbody></tbody>
 	<tfoot>
 		<tr class="trfooter">
-			<td colspan="8"><b>Total</b></td>
+			<td colspan="4"><b>Total</b></td>
 			<td>
 				<?php
 					echo CHtml::textField(
 						"totalSaldoDebit",
 						0,
 						array(
-							'readonly'=>true,'class'=>'span2 integer'
+							'readonly'=>true,'class'=>'span2 integer2'
 						)
 					);
 				?>
@@ -35,7 +35,7 @@
 						"totalSaldoKredit",
 						0,
 						array(
-							'readonly'=>true,'class'=>'span2 integer'
+							'readonly'=>true,'class'=>'span2 integer2'
 						)
 					);
 				?>
