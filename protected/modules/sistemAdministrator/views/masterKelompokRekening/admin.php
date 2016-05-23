@@ -46,6 +46,7 @@ $('.search-form form').submit(function(){
 			),
 			'koderekeningkel',
 			'namakelrekening',
+                        'saldonormal',
 			array(
 				'header'=>Yii::t('zii','View'),
 				'class'=>'bootstrap.widgets.BootButtonColumn',
