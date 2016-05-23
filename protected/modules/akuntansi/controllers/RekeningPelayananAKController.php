@@ -27,6 +27,7 @@ class RekeningPelayananAKController extends RekeningPelayananController
         if (isset($_GET['AKPelayananRekM'])) {
             $modTindakanRuangan->attributes = $_GET['AKPelayananRekM'];
             $modTindakanRuangan->ruangan_id = $_GET['AKPelayananRekM']['ruangan_id'];
+            $modTindakanRuangan->kdrekening5 = $_GET['AKPelayananRekM']['kdrekening5'];
             //$modTindakanRuangan->kelompoktindakan_nama = $_GET['AKPelayananRekM']['kelompoktindakan_nama'];
             //$modTindakanRuangan->kategoritindakan_nama = $_GET['AKPelayananRekM']['kategoritindakan_nama'];
             //$modTindakanRuangan->daftartindakan_kode = $_GET['AKPelayananRekM']['daftartindakan_kode'];

@@ -189,6 +189,7 @@
                     array(
                         'header' => 'Kode Akun',
                         'type' => 'raw',
+                        'name' => 'kdrekening5',
                         'value' => 'isset($data->rekening5_id)?$data->rekening5->kdrekening5:" - "',
                     ),
                     array(
