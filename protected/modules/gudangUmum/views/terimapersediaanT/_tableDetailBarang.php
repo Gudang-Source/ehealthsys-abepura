@@ -16,7 +16,7 @@
             <th>Jumlah Beli</th>
             <?php } ?>
             <th>Satuan</th>
-            <th>Ukuran<br/>Bahan</th>
+            <th>Jumlah<br/>Kemasan</th>
             <th>kondisi Barang</th>
             <th>Batal</th>
         </tr>
