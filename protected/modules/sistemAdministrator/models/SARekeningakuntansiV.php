@@ -158,58 +158,61 @@ class SARekeningakuntansiV extends RekeningakuntansiV {
         $criteria = new CDbCriteria;
 
         if (!empty($this->rekening1_id)) {
-            $criteria->addCondition('rekening1_id = ' . $this->rekening1_id);
+            $criteria->addCondition('t.rekening1_id = ' . $this->rekening1_id);
         }
-        $criteria->compare('LOWER(kdrekening1)', strtolower($this->kdrekening1), true);
-        $criteria->compare('LOWER(nmrekening1)', strtolower($this->nmrekening1), true);
-        $criteria->compare('LOWER(nmrekeninglain1)', strtolower($this->nmrekeninglain1), true);
-        $criteria->compare('rekening1_aktif', $this->rekening1_aktif);
+        $criteria->compare('LOWER(t.kdrekening1)', strtolower($this->kdrekening1), true);
+        $criteria->compare('LOWER(t.nmrekening1)', strtolower($this->nmrekening1), true);
+        $criteria->compare('LOWER(t.nmrekeninglain1)', strtolower($this->nmrekeninglain1), true);
+        $criteria->compare('t.rekening1_aktif', $this->rekening1_aktif);
         if (!empty($this->rekening2_id)) {
-            $criteria->addCondition('rekening2_id = ' . $this->rekening2_id);
+            $criteria->addCondition('t.rekening2_id = ' . $this->rekening2_id);
         }
-        $criteria->compare('LOWER(kdrekening2)', strtolower($this->kdrekening2), true);
-        $criteria->compare('LOWER(nmrekening2)', strtolower($this->nmrekening2), true);
-        $criteria->compare('LOWER(nmrekeninglain2)', strtolower($this->nmrekeninglain2), true);
-        $criteria->compare('rekening2_aktif', $this->rekening2_aktif);
+        $criteria->compare('LOWER(t.kdrekening2)', strtolower($this->kdrekening2), true);
+        $criteria->compare('LOWER(t.nmrekening2)', strtolower($this->nmrekening2), true);
+        $criteria->compare('LOWER(t.nmrekeninglain2)', strtolower($this->nmrekeninglain2), true);
+        $criteria->compare('t.rekening2_aktif', $this->rekening2_aktif);
         if (!empty($this->rekening3_id)) {
-            $criteria->addCondition('rekening3_id = ' . $this->rekening3_id);
+            $criteria->addCondition('t.rekening3_id = ' . $this->rekening3_id);
         }
-        $criteria->compare('LOWER(kdrekening3)', strtolower($this->kdrekening3), true);
-        $criteria->compare('LOWER(nmrekening3)', strtolower($this->nmrekening3), true);
-        $criteria->compare('LOWER(nmrekeninglain3)', strtolower($this->nmrekeninglain3), true);
-        $criteria->compare('rekening3_aktif', $this->rekening3_aktif);
+        $criteria->compare('LOWER(t.kdrekening3)', strtolower($this->kdrekening3), true);
+        $criteria->compare('LOWER(t.nmrekening3)', strtolower($this->nmrekening3), true);
+        $criteria->compare('LOWER(t.nmrekeninglain3)', strtolower($this->nmrekeninglain3), true);
+        $criteria->compare('t.rekening3_aktif', $this->rekening3_aktif);
         if (!empty($this->rekening4_id)) {
-            $criteria->addCondition('rekening4_id = ' . $this->rekening4_id);
+            $criteria->addCondition('t.rekening4_id = ' . $this->rekening4_id);
         }
-        $criteria->compare('LOWER(kdrekening4)', strtolower($this->kdrekening4), true);
-        $criteria->compare('LOWER(nmrekening4)', strtolower($this->nmrekening4), true);
-        $criteria->compare('LOWER(nmrekeninglain4)', strtolower($this->nmrekeninglain4), true);
-        $criteria->compare('rekening4_aktif', $this->rekening4_aktif);
+        $criteria->compare('LOWER(t.kdrekening4)', strtolower($this->kdrekening4), true);
+        $criteria->compare('LOWER(t.nmrekening4)', strtolower($this->nmrekening4), true);
+        $criteria->compare('LOWER(t.nmrekeninglain4)', strtolower($this->nmrekeninglain4), true);
+        $criteria->compare('t.rekening4_aktif', $this->rekening4_aktif);
         if (!empty($this->rekening5_id)) {
-            $criteria->addCondition('rekening5_id = ' . $this->rekening5_id);
+            $criteria->addCondition('t.rekening5_id = ' . $this->rekening5_id);
         }
-        $criteria->compare('LOWER(kdrekening5)', strtolower($this->kdrekening5), true);
-        $criteria->compare('LOWER(nmrekening5)', strtolower($this->nmrekening5), true);
-        $criteria->compare('LOWER(nmrekeninglain5)', strtolower($this->nmrekeninglain5), true);
-        $criteria->compare('LOWER(rekening5_nb)', strtolower($this->rekening5_nb), true);
-        $criteria->compare('LOWER(keterangan)', strtolower($this->keterangan), true);
+        $criteria->compare('LOWER(t.kdrekening5)', strtolower($this->kdrekening5), true);
+        $criteria->compare('LOWER(t.nmrekening5)', strtolower($this->nmrekening5), true);
+        $criteria->compare('LOWER(t.nmrekeninglain5)', strtolower($this->nmrekeninglain5), true);
+        $criteria->compare('LOWER(t.rekening5_nb)', strtolower($this->rekening5_nb), true);
+        $criteria->compare('LOWER(t.keterangan)', strtolower($this->keterangan), true);
         if (!empty($this->nourutrek)) {
-            $criteria->addCondition('nourutrek = ' . $this->nourutrek);
+            $criteria->addCondition('t.nourutrek = ' . $this->nourutrek);
         }
-        $criteria->compare('rekening5_aktif', $this->rekening5_aktif);
-        $criteria->compare('LOWER(kelompokrek)', strtolower($this->kelompokrek), true);
-        $criteria->compare('sak', $this->sak);
-        $criteria->compare('LOWER(create_time)', strtolower($this->create_time), true);
-        $criteria->compare('LOWER(update_time)', strtolower($this->update_time), true);
-        $criteria->compare('LOWER(create_loginpemakai_id)', strtolower($this->create_loginpemakai_id), true);
-        $criteria->compare('LOWER(update_loginpemakai_id)', strtolower($this->update_loginpemakai_id), true);
-        $criteria->compare('LOWER(create_ruangan)', strtolower($this->create_ruangan), true);
+        $criteria->compare('t.rekening5_aktif', $this->rekening5_aktif);
+        $criteria->compare('LOWER(t.kelompokrek)', strtolower($this->kelompokrek), true);
+        $criteria->compare('t.sak', $this->sak);
+        $criteria->compare('LOWER(t.create_time)', strtolower($this->create_time), true);
+        $criteria->compare('LOWER(t.update_time)', strtolower($this->update_time), true);
+        $criteria->compare('LOWER(t.create_loginpemakai_id)', strtolower($this->create_loginpemakai_id), true);
+        $criteria->compare('LOWER(t.update_loginpemakai_id)', strtolower($this->update_loginpemakai_id), true);
+        $criteria->compare('LOWER(t.create_ruangan)', strtolower($this->create_ruangan), true);
         if (!empty($this->kelrekening_id)) {
-            $criteria->addCondition('kelrekening_id = ' . $this->kelrekening_id);
+            $criteria->addCondition('t.kelrekening_id = ' . $this->kelrekening_id);
         }
-        $criteria->compare('LOWER(koderekeningkel)', strtolower($this->koderekeningkel), true);
-        $criteria->compare('LOWER(namakelrekening)', strtolower($this->namakelrekening), true);
-        $criteria->compare('kelrekening_aktif', $this->kelrekening_aktif);
+        $criteria->compare('LOWER(t.koderekeningkel)', strtolower($this->koderekeningkel), true);
+        $criteria->compare('LOWER(t.namakelrekening)', strtolower($this->namakelrekening), true);
+        $criteria->compare('t.kelrekening_aktif', $this->kelrekening_aktif);
+        
+        $criteria->join = 'join rekening1_m r1 on r1.rekening1_id = t.rekening1_id';
+        $criteria->compare('r1.kelrekening_id', $this->kelrekening_id);
 
         return $criteria;
     }
@@ -237,10 +240,13 @@ class SARekeningakuntansiV extends RekeningakuntansiV {
         $criteria = $this->criteriaSearch();
         $criteria->addCondition("rekening5_nb = 'D'");
 
-        $criteria->limit = 10;
+        // $criteria->limit = 10;
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
+            'sort'=>array(
+                'defaultOrder'=>'kdrekening5',
+            ),
         ));
     }
     
@@ -251,10 +257,13 @@ class SARekeningakuntansiV extends RekeningakuntansiV {
         $criteria = $this->criteriaSearch();
         $criteria->addCondition("rekening5_nb = 'K'");
 
-        $criteria->limit = 10;
+        // $criteria->limit = 10;
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
+            'sort'=>array(
+                'defaultOrder'=>'kdrekening5',
+            ),
         ));
     }
 

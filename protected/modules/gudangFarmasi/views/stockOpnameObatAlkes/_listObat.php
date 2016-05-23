@@ -78,7 +78,7 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
             array(
                 'header'=>'<div class="test" style="cursor:pointer;" onclick="openDialogini()"> Fisik <icon class="icon-white icon-list"></icon></div> ',
                 'type'=>'raw',
-                'value'=> 'CHtml::textField("GFStokopnamedetT[".$data->obatalkes_id."][volume_fisik]", (isset($data->volume_fisik) ? number_format($data->volume_fisik) : number_format($data->qtystok))  , array("class"=>"fisik span1 integer2", "onblur"=>"getTotal();", "onkeyup"=>"return $(this).focusNextInputField(event);"))',
+                'value'=> 'CHtml::textField("GFStokopnamedetT[".$data->obatalkes_id."][volume_fisik]", (isset($data->volume_fisik) ? number_format($data->volume_fisik) : number_format($data->qtystok))  , array("class"=>"fisik span1 numbersOnly", "style"=>"text-align: right;","onblur"=>"getTotal();", "onkeyup"=>"return $(this).focusNextInputField(event);"))',
             ),
 			array(
                 'header'=>'Waktu Cek Fisik',
@@ -96,6 +96,7 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
             console.log("kick");
             $(".cekList").each(function() {setNol(this); });
             $("#obatalkes-m-grid .integer2").maskMoney({"defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0,"symbol":null})
+            $("#obatalkes-m-grid .numbersOnly").maskMoney({"defaultZero":true,"allowZero":true,"decimal":",","thousands":"","precision":0,"symbol":null})
             $("#obatalkes-m-grid .datetimemask").mask("99/99/9999 99:99:99");    
             getTotal();
                 }',
