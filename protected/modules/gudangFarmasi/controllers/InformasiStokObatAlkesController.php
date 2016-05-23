@@ -8,12 +8,19 @@ class InformasiStokObatAlkesController extends MyAuthController
     public function actionIndex()
     {
         //$model=new GFInformasistokobatalkesV('search');
-        $model = new GFObatalkesM;
+      //
+        $model = new GFObatalkesM;             
         $model->unsetAttributes();
-        $format = new MyFormatter();
+        
         // $instalasiAsals = CHtml::listData(GFInstalasiM::getInstalasiStokOas(),'instalasi_id','instalasi_nama');
         // $ruanganAsals = CHtml::listData(GFRuanganM::getRuanganStokOas(Params::INSTALASI_ID_FARMASI),'ruangan_id','ruangan_nama');
-        // $model->ruangan_id=Yii::app()->user->getState('ruangan_id');
+        if (Yii::app()->user->getState('ruangan_id') != Params::RUANGAN_ID_GUDANG_FARMASI){
+            $model=new GFInfostokobatalkesruanganV('search');           
+            $model->unsetAttributes();
+            $model->ruangan_id=Yii::app()->user->getState('ruangan_id');
+        }
+        $format = new MyFormatter();
+                
         if(isset($_GET['GFObatalkesM'])){
             $model->attributes=$_GET['GFObatalkesM'];
             //if(empty($model->ruangan_id)){ $model->ruangan_id=Yii::app()->user->getState('ruangan_id'); }
