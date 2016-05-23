@@ -52,7 +52,8 @@ function setPasienLama(pasien_id, no_rekam_medik, is_manual){
                 }
             if (data.adaDaftar) {
                 myAlert("Pasien " + data.listDaftar.pasien.namadepan + data.listDaftar.pasien.nama_pasien + " (" + data.listDaftar.no_pendaftaran + ")\n\
-                Hari ini sedang di Instalasi " + data.listDaftar.instalasi.instalasi_nama + " -> " + data.listDaftar.ruangan.ruangan_nama + ".");
+                Hari ini sedang di Instalasi " + data.listDaftar.instalasi.instalasi_nama + " -> " + data.listDaftar.ruangan.ruangan_nama + " dengan status pemeriksan '"
+                + data.listDaftar.statusperiksa + "'.");
                 $("#form-pasien > div").removeClass("animation-loading");
                 $("#<?php echo CHtml::activeId($modPasien,'nama_pasien');?>").val("");
                 setPasienBaru(); 
