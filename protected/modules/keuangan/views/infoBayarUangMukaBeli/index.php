@@ -35,7 +35,44 @@
                     array(
                             'header'=>'No',
                             'value'=>'$this->grid->dataProvider->Pagination->CurrentPage*$this->grid->dataProvider->pagination->pageSize+$row+1',
+                    ), 
+                    array(
+                            'header'=>'Supplier',
+                            'name'=>'supplier_id',
+                            'type'=>'raw',
+                            'value'=>'$data->supplier->supplier_nama',
                     ),
+                    array(
+                            'header'=>'No. Kas Keluar',
+                            'type'=>'raw',
+                            'value'=>function($data) {
+                                    $tb = TandabuktikeluarT::model()->findByAttributes(array(
+                                        'uangmukabeli_id'=>$data->uangmukabeli_id
+                                    ));
+                                    if (empty($tb)) return "-";
+                                    return $tb->nokaskeluar;
+                            }//'empty($data->tandabuktikeluar)?"-":$data->tandabuktikeluar->nokaskeluar',
+                    ),
+                    array(
+                            'header'=>'No. Penerimaan',
+                            'type'=>'raw',
+                            'value'=>'empty($data->penerimaanbarang_id)?"-":$data->penerimaanbarang->noterima',
+                    ),
+                    array(
+                            'header'=>'No. Permintaan',
+                            'type'=>'raw',
+                            'value'=>'empty($data->permintaanpembelian_id)?"-":$data->permintaanpembelian_id',
+                    ),
+                    array(
+                            'header'=>'Jumlah Uang',
+                            'name'=>'jumlahuang',
+                            'value'=>'MyFormatter::formatNumberForPrint($data->jumlahuang)',
+                            'htmlOptions'=>array(
+                                'style'=>'text-align: right',
+                            ),
+                    ),
+                
+                /*
                     array(
                             'header'=>'Tgl. Pembayaran',
                             'type'=>'raw',
@@ -71,7 +108,7 @@
                             'header'=>'Sisa Uang Muka',
                             'type'=>'raw',
                             'value'=>'$data->sisauangmuka',
-                    ),
+                    ), */
             ),
             'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
         )); ?>

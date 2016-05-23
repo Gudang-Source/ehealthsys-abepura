@@ -5,6 +5,7 @@ class GFInfostokobatalkesruanganV extends InfostokobatalkesruanganV{
     public $tgl_awal,$tgl_akhir;
     public $jns_periode,$bln_awal,$bln_akhir,$thn_awal,$thn_akhir;
     public $harganetto_oa;
+    public $jenisobatalkes_kode;
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }
@@ -309,7 +310,45 @@ class GFInfostokobatalkesruanganV extends InfostokobatalkesruanganV{
         }
         
         // End Modify //
-        
+        public function searchDataObat()
+        {
+            // Warning: Please modify the following code to remove attributes that
+            // should not be searched.
+
+            $criteria=new CDbCriteria;
+                $criteria->select = "obatalkes_id,obatalkes_nama,obatalkes_golongan,obatalkes_kategori,jenisobatalkes_nama,obatalkes_kode,satuankecil_nama";
+		if(!empty($this->instalasi_id)){
+			$criteria->addCondition('instalasi_id = '.$this->instalasi_id);
+		}
+		$criteria->compare('LOWER(instalasi_nama)',strtolower($this->instalasi_nama),true);
+		if(!empty($this->ruangan_id)){
+			$criteria->addCondition('ruangan_id = '.$this->ruangan_id);
+		}
+		$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
+		if(!empty($this->jenisobatalkes_id)){
+			$criteria->addCondition('jenisobatalkes_id = '.$this->jenisobatalkes_id);
+		}		
+		$criteria->compare('LOWER(jenisobatalkes_nama)',strtolower($this->jenisobatalkes_nama),true);		
+		if(!empty($this->obatalkes_id)){
+			$criteria->addCondition('obatalkes_id = '.$this->obatalkes_id);
+		}		
+		$criteria->compare('LOWER(obatalkes_kode)',strtolower($this->obatalkes_kode),true);
+		$criteria->compare('LOWER(obatalkes_nama)',strtolower($this->obatalkes_nama),true);		
+		$criteria->compare('LOWER(obatalkes_golongan)',strtolower($this->obatalkes_golongan),true);
+		$criteria->compare('LOWER(obatalkes_kategori)',strtolower($this->obatalkes_kategori),true);
+		$criteria->compare('LOWER(obatalkes_kadarobat)',strtolower($this->obatalkes_kadarobat),true);
+		if(!empty($this->satuankecil_id)){
+			$criteria->addCondition('satuankecil_id = '.$this->satuankecil_id);
+		}
+		$criteria->compare('LOWER(satuankecil_nama)',strtolower($this->satuankecil_nama),true);		
+		
+		$criteria->compare('qtystok',$this->qtystok);
+                $criteria->group = 'obatalkes_id, obatalkes_nama,obatalkes_golongan,obatalkes_kategori, jenisobatalkes_nama,obatalkes_kode,satuankecil_nama';
+
+            return new CActiveDataProvider($this, array(
+                    'criteria'=>$criteria,
+            ));
+        }
         
 }
 

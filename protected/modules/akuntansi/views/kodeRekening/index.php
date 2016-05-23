@@ -11,120 +11,14 @@
     <legend class='rim2'>Master <b>Kode Akun</b></legend>
     <table width="100%">
         <tr>
-            <td width="45%">
-                <ul id="browser" class="filetree treeview">
-                    <li id="tree_rekening_satu">
-                        <?php
-
-                            $criteria=new CDbCriteria;
-                            $params = array('rekening1_aktif' => true);
-                            $criteria->order = 'rekening1_id';
-                            $result = $rekeningSatu->findAllByAttributes($params, $criteria);
-                            $parent_satu = '';
-                            foreach($result as $val)
-                            {
-                                $params_dua = array(
-                                    'rekening2_aktif' => true,
-                                    'rekening1_id' => $val->rekening1_id,
-                                );
-                                $criteria->order = 'rekening2_id';
-                                $result_dua = $rekeningDua->findAllByAttributes($params_dua, $criteria);
-                                $parent_dua = '';
-                                foreach($result_dua as $val_dua)
-                                {
-                                    $params_tiga = array(
-                                        'rekening3_aktif' => true,
-//                                        'rekening1_id' => $val_dua->rekening1_id,
-                                        'rekening2_id' => $val_dua->rekening2_id,
-                                    );
-                                    $criteria->order = 'rekening3_id';
-                                    $result_tiga = $rekeningTiga->findAllByAttributes($params_tiga, $criteria);
-                                    $parent_tiga = '';
-                                    foreach($result_tiga as $val_tiga)
-                                    {
-                                        $params_empat = array(
-                                            'rekening4_aktif' => true,
-//                                            'rekening1_id' => $val_tiga->rekening1_id,
-//                                            'rekening2_id' => $val_tiga->rekening2_id,
-                                            'rekening3_id' => $val_tiga->rekening3_id,
-                                        );
-                                        $criteria->order = 'rekening4_id';
-                                        $result_empat = $rekeningEmpat->findAllByAttributes($params_empat, $criteria);
-                                        $parent_empat = '';
-                                        foreach($result_empat as $val_empat)
-                                        {
-                                            $params_lima = array(
-                                                'rekening5_aktif' => true,
-//                                                'rekening1_id' => $val_empat->rekening1_id,
-//                                                'rekening2_id' => $val_empat->rekening2_id,
-//                                                'rekening3_id' => $val_empat->rekening3_id,
-                                                'rekening4_id' => $val_empat->rekening4_id,
-                                            );
-                                            $criteria->order = 'rekening5_id';
-                                            $result_lima = $rekeningLima->findAllByAttributes($params_lima, $criteria);
-                                            $parent_lima = '';
-                                            foreach($result_lima as $val_lima)
-                                            {
-                                                $parent_lima .= "<li><span class='file'>". $val_lima->nmrekening5 ."<span style='float:right'><a value='". $val_lima->rekening5_id ."' href='#' onclick='editObyekDetailRekening(this);return false;' rel='tooltip' data-original-title='Klik untuk edit Kode Akun'><i class='icon-pencil-brown'></i></a></span></span></li>";
-                                            }
-
-                                            $kode_kelompok_lima = $val->kdrekening1 . '_' . $val_dua->kdrekening2 . '_' . $val_tiga->kdrekening3 . '_' . $val_empat->kdrekening4;
-                                            $id_kelompok_lima = $val->rekening1_id . '_' . $val_dua->rekening2_id . '_' . $val_tiga->rekening3_id . '_' . $val_empat->rekening4_id;
-                                            if(count($result_lima) > 0)
-                                            {
-                                                $parent_empat .= "<li><span class='folder'>". $val_empat->nmrekening4 ."<span style='float:right'><a max_kode='". $val_lima->kdrekening5 ."' id_rek='". $id_kelompok_lima ."' kode_rek='". $kode_kelompok_lima ."' href='#' onclick='tambahObyekDetailRekening(this);return false;' rel='tooltip' data-original-title='Klik untuk menambah Kode Akun'><i class='icon-plus-sign'></i></a></span><span style='float:right'><a value='". $val_empat->rekening4_id ."' href='#' onclick='editObyekRekening(this);return false;' rel='tooltip' data-original-title='Klik untuk edit Jenis Akun'><i class='icon-pencil-brown'></i></a></span></span><ul>". $parent_lima ."</ul></li>";
-                                            }else{
-                                                $parent_empat .= "<li class='expandable'><span class='folder'>". $val_empat->nmrekening4 ."<span style='float:right'><a max_kode='0' id_rek='". $id_kelompok_lima ."' kode_rek='". $kode_kelompok_lima ."' href='#' onclick='tambahObyekDetailRekening(this);return false;' rel='tooltip' data-original-title='Klik untuk menambah Kode Akun'><i class='icon-plus-sign'></i></a></span><span style='float:right'><a value='". $val_empat->rekening4_id ."' href='#' onclick='editObyekRekening(this);return false;' rel='tooltip' data-original-title='Klik untuk edit Jenis Akun'><i class='icon-pencil-brown'></i></a></span></span></li>";                                            
-                                            }
-                                        }
-    //                                    
-                                        $kode_kelompok_empat = $val->kdrekening1 . '_' . $val_dua->kdrekening2 . '_' . $val_tiga->kdrekening3;
-                                        $id_kelompok_empat = $val->rekening1_id . '_' . $val_dua->rekening2_id . '_' . $val_tiga->rekening3_id;
-                                        if(count($result_empat) > 0)
-                                        {
-                                            $parent_tiga .= "<li><span class='folder'>". $val_tiga->nmrekening3 ."<span style='float:right'><a max_kode='". $val_empat->kdrekening4 ."' id_rek='". $id_kelompok_empat ."' kode_rek='". $kode_kelompok_empat ."' href='#' onclick='tambahObyekRekening(this);return false;' rel='tooltip' data-original-title='Klik untuk menambah Jenis Akun'><i class='icon-plus-sign'></i></a></span><span style='float:right'><a value='". $val_tiga->rekening3_id ."' href='#' onclick='editJenisRekening(this);return false;' rel='tooltip' data-original-title='Klik untuk edit Sub Golongan Akun'><i class='icon-pencil-brown'></i></a></span></span><ul>". $parent_empat ."</ul></li>";
-                                        }else{
-                                            $parent_tiga .= "<li class='expandable'><span class='folder'>". $val_tiga->nmrekening3 ."<span style='float:right'><a max_kode='0' id_rek='". $id_kelompok_empat ."' kode_rek='". $kode_kelompok_empat ."' href='#' onclick='tambahObyekRekening(this);return false;' rel='tooltip' data-original-title='Klik untuk menambah Jenis Akun'><i class='icon-plus-sign'></i></a></span><span style='float:right'><a value='". $val_tiga->rekening3_id ."' href='#' onclick='editJenisRekening(this);return false;' rel='tooltip' data-original-title='Klik untuk edit Sub Golongan Akun'><i class='icon-pencil-brown'></i></a></span></span></li>";
-                                        }
-
-
-                                    }
-
-                                    $kode_kelompok = $val->kdrekening1 . '_' . $val_dua->kdrekening2;
-                                    $id_kelompok = $val_dua->rekening1_id . '_' . $val_dua->rekening2_id;
-                                    if(count($result_tiga) > 0)
-                                    {
-                                        $parent_dua .= "<li id='". $id_kelompok ."'><span class='folder'>". $val_dua->nmrekening2 ."<span style='float:right'><a max_kode='". $val_tiga->kdrekening3 ."' id_rek='". $id_kelompok ."' kode_rek='". $kode_kelompok ."' href='#' onclick='tambahJenisRekening(this);return false;' rel='tooltip' data-original-title='Klik untuk menambah Sub Golongan Akun'><i class='icon-plus-sign'></i></a></span><span style='float:right'><a value='". $val_dua->rekening2_id ."' href='#' onclick='editKelompokRekening(this);return false;' rel='tooltip' data-original-title='Klik untuk edit Golongan Akun'><i class='icon-pencil-brown'></i></a></span></span><ul>". $parent_tiga ."</ul></li>";
-                                    }else{
-                                        $parent_dua .= "<li id='". $id_kelompok ."' class='expandable'><span class='folder'>". $val_dua->nmrekening2 ."<span style='float:right'><a max_kode='0' id_rek='". $id_kelompok ."' kode_rek='". $kode_kelompok ."' href='#' onclick='tambahJenisRekening(this);return false;' rel='tooltip' data-original-title='Klik untuk menambah Sub Golongan Akun'><i class='icon-plus-sign'></i></a></span><span style='float:right'><a value='". $val_dua->rekening2_id ."' href='#' onclick='editKelompokRekening(this);return false;' rel='tooltip' data-original-title='Klik untuk edit Golongan Akun'><i class='icon-pencil-brown'></i></a></span></span></li>";
-                                    }
-
-                                }
-
-                                $value_kode = $val->kdrekening1;
-                                $value_id = $val->rekening1_id;
-                                if(count($result_dua) > 0)
-                                {
-                                    $parent_satu .= "<li id='". $value_id ."'><span class='folder'>". $val->nmrekening1 ."<span style='float:right'><a max_kode='". $val_dua->kdrekening2 ."' id_rek='". $value_id ."' kode_rek='". $value_kode ."' href='#' onclick='tambahKelompokRekening(this);return false;' rel='tooltip' data-original-title='Klik untuk menambah Golongan Akun'><i class='icon-plus-sign'></i></a></span><span style='float:right'><a value='". $val->rekening1_id ."' href='#' onclick='editStrukturRekening(this);return false;' rel='tooltip' data-original-title='Klik untuk edit Kelompok Akun'><i class='icon-pencil-brown'></i></a></span></span><ul>". $parent_dua ."</ul></li>";
-                                }else{
-                                    $parent_satu .= "<li id='". $value_id ."' class='expandable'><span class='folder'>". $val->nmrekening1 ."<span style='float:right'><a max_kode='0' id_rek='". $value_id ."' kode_rek='". $value_kode ."' href='#' onclick='tambahKelompokRekening(this);return false;' rel='tooltip' data-original-title='Klik untuk menambah Golongan Akun'><i class='icon-plus-sign'></i></a></span><span style='float:right'><a value='". $val->rekening1_id ."' href='#' onclick='editStrukturRekening(this);return false;' rel='tooltip' data-original-title='Klik untuk edit Kelompok Akun'><i class='icon-pencil-brown'></i></a></span></span></li>";
-                                }
-                            }
-                        ?>
-                        <span class="folder">
-                            Struktur Akun
-                            <span style="float:right"><a max_kode = "<?php echo isset($val->kdrekening1) ? $val->kdrekening1 : null; ?>" href="#" onclick="tambahStrukturRekening(this);return false;" rel="tooltip" data-original-title="Klik untuk menambah Kelompok Akun"><i class="icon-plus-sign"></i></a></span>
-                        </span>
-                        <?php
-                            if(count($result) > 0)
-                            {
-                                echo '<ul>';
-                                echo $parent_satu;
-                                echo '</ul>';
-                            }                    
-                        ?>
-                    </li>
-                </ul>
+            <td width="45%" id="ka-viewtree">
+                <?php echo $this->renderPartial('__treeAkun', array(
+                    'rekeningSatu' => $rekeningSatu,
+                    'rekeningDua' => $rekeningDua,
+                    'rekeningTiga' => $rekeningTiga,
+                    'rekeningEmpat' => $rekeningEmpat,
+                    'rekeningLima' => $rekeningLima,
+                ), true); ?>
             </td>
             <td>
                 <div id="content_form">
@@ -212,7 +106,7 @@ function editStrukturRekening(obj)
         $('#content_form').append(frmRekeningSatu.replace());
         id_form['satu'] = 'yes';
         var value = $(obj).attr('value');
-        $('#fieldsetRekeningSatu').find('legend[class="rim"]').text("Edit Kelompok Akun");
+        $('#fieldsetRekeningSatu').find('legend[class="rim"]').text("Edit Komponen");
         $.post("<?php echo Yii::app()->createUrl(Yii::app()->controller->module->id . '/' . Yii::app()->controller->id . '/getInformasiStruktur');?>", {id:value},
             function(data){
                 $.each(data, function(key, value){
@@ -267,7 +161,7 @@ function editKelompokRekening(obj)
         $('#content_form').append(frmRekeningDua.replace());
         id_form['satu'] = 'yes';
         var value = $(obj).attr('value');
-        $('#fieldsetRekeningDua').find('legend[class="rim"]').text("Edit Golongan Akun");
+        $('#fieldsetRekeningDua').find('legend[class="rim"]').text("Edit Unsur");
         $.post("<?php echo Yii::app()->createUrl(Yii::app()->controller->module->id . '/' . Yii::app()->controller->id . '/getInformasiKelompok');?>", {id:value},
             function(data){
                 $.each(data, function(key, value){
@@ -325,7 +219,7 @@ function editJenisRekening(obj)
         $('#content_form').append(frmJenisRekening.replace());
         id_form['tiga'] = 'yes';
         var value = $(obj).attr('value');
-        $('#fieldsetJenisRekening').find('legend[class="rim"]').text("Edit Sub Golongan Akun");
+        $('#fieldsetJenisRekening').find('legend[class="rim"]').text("Edit Kelompok Pos");
         $.post("<?php echo Yii::app()->createUrl(Yii::app()->controller->module->id . '/' . Yii::app()->controller->id . '/getInformasiJenis');?>", {id:value},
             function(data){
                 $.each(data, function(key, value){
@@ -382,7 +276,7 @@ function editObyekRekening(obj)
         $('#content_form').append(frmObyekRekening.replace());
         id_form['empat'] = 'yes';
         var value = $(obj).attr('value');
-        $('#fieldsetObyekRekening').find('legend[class="rim"]').text("Edit Jenis Akun");
+        $('#fieldsetObyekRekening').find('legend[class="rim"]').text("Edit Pos");
         $.post("<?php echo Yii::app()->createUrl(Yii::app()->controller->module->id . '/' . Yii::app()->controller->id . '/getInformasiObyek');?>", {id:value},
             function(data){
                 $.each(data, function(key, value){
@@ -405,7 +299,7 @@ function editObyekRekening(obj)
     }
 }
 
-function tambahObyekDetailRekening(obj)
+function tambahObyekDetailRekening(obj, normal)
 {
     hapusIndexMenu();
     if (id_form['empat'] == undefined){
@@ -431,6 +325,7 @@ function tambahObyekDetailRekening(obj)
         
         $('#fieldsetDetailObyekRekening').find("input[name$='[kdrekening4]']").val(kode_rek[3]);
         $('#fieldsetDetailObyekRekening').find("input[name$='[kdrekening5]']").val(max_kode);
+        $('#fieldsetDetailObyekRekening').find("select[name$='[rekening5_nb]']").val(normal);
     }
 }
 
@@ -441,7 +336,7 @@ function editObyekDetailRekening(obj)
         $('#content_form').append(frmObyekDetailRekening.replace());
         id_form['lima'] = 'yes';
         var value = $(obj).attr('value');
-        $('#fieldsetDetailObyekRekening').find('legend[class="rim"]').text("Edit Kode Akun");
+        $('#fieldsetDetailObyekRekening').find('legend[class="rim"]').text("Edit Akun");
         $.post("<?php echo Yii::app()->createUrl(Yii::app()->controller->module->id . '/' . Yii::app()->controller->id . '/getInformasiDetailObyek');?>", {id:value},
             function(data){
                 $.each(data, function(key, value){
@@ -463,6 +358,17 @@ function editObyekDetailRekening(obj)
             }, "json"
         );        
     }
+}
+
+function refreshTree() {
+    $("#ka-viewtree").empty();
+    $.post("<?php echo $this->createUrl('index'); ?>", {
+        is_ajax:true,
+        f:"loadTree",
+    }, function(data) {
+        $("#ka-viewtree").html(data);
+        setTreeMenu();
+    });
 }
 
 </script>

@@ -154,8 +154,8 @@
     </div>
 </div>
 <div class="span4">
-    <?php echo $form->textFieldRow($model,'totalharga',array('class'=>'span3 integer', 'readonly'=>true, 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
-    <?php echo $form->textFieldRow($model,'totalnetto',array('class'=>'span3 integer', 'readonly'=>true, 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+    <?php echo $form->textFieldRow($model,'totalharga',array('class'=>'span3 integer2', 'readonly'=>true, 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+    <?php echo $form->textFieldRow($model,'totalnetto',array('class'=>'span3 integer2', 'readonly'=>true, 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
     <?php echo $form->textAreaRow($model,'keterangan_opname',array('rows'=>4, 'cols'=>50, 'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
 </div>
 </div>
@@ -172,15 +172,16 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
     ),
 ));
 
-$modPegawai = new GFPegawaiV('search');
+$modPegawai = new GFPegawairuanganV('search');
 $modPegawai->unsetAttributes();
-if(isset($_GET['GFPegawaiV'])){
-    $modPegawai->attributes = $_GET['GFPegawaiV'];
+$modPegawai->ruangan_id = Yii::app()->user->getState('ruangan_id');
+if(isset($_GET['GFPegawairuanganV'])){
+    $modPegawai->attributes = $_GET['GFPegawairuanganV'];
 }
 
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'pegawai-m-grid',
-    'dataProvider'=>$modPegawai->searchDialog(),
+    'dataProvider'=>$modPegawai->search(),
     'filter'=>$modPegawai,
     //'template'=>"{items}\n{pager}",
     'template'=>"{summary}\n{items}\n{pager}",

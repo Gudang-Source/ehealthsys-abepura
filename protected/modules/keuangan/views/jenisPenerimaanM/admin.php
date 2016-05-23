@@ -87,7 +87,7 @@
         )); ?>
     <!--</div>-->
     <?php 
-    echo CHtml::link(Yii::t('mds', '{icon} Tambah Penerimaan', array('{icon}'=>'<i class="icon-plus icon-white"></i>')), $this->createUrl('JenisPenerimaanM/create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp";
+    echo CHtml::link(Yii::t('mds', '{icon} Tambah Penerimaan Umum', array('{icon}'=>'<i class="icon-plus icon-white"></i>')), $this->createUrl('JenisPenerimaanM/create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp";
     echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp";
     echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp";
     echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp";
@@ -114,7 +114,7 @@ JSCRIPT;
 <script type="text/javascript">
     function removeTemporary(id){
         var url = '<?php echo $url."/removeTemporary"; ?>';
-        myConfirm("Yakin akan menonaktifkan data ini untuk sementara?",'Perhatian!',function(r){
+        myConfirm("Apakah Anda yakin ingin menonaktifkan data ini untuk sementara?",'Perhatian!',function(r){
             if (r){
                  $.post(url, {id: id},
                      function(data){
@@ -131,7 +131,7 @@ JSCRIPT;
     function deleteRecord(id){
         var id = id;
         var url = '<?php echo $url."/delete"; ?>';
-        myConfirm("Yakin Akan Menghapus Data ini ?",'Perhatian!',function(r){
+        myConfirm("Apakah Anda yakin ingin Menghapus data ini ?",'Perhatian!',function(r){
             if (r){
 				$.post(url, {id: id},
 					function(data){

@@ -30,15 +30,41 @@ $this->widget($table,array(
 	'columns'=>array(
 		////'komponenjasa_id',
 		array(
-                        'header'=>'ID',
+                        'header' => 'ID',
+                        //'name'=>'komponenjasa_id',
                         'value'=>'$data->komponenjasa_id',
+                        'filter'=>false,
                 ),
-		'komponentarif_id',
-		'carabayar_id',
-		'kelompoktindakan_id',
-		'ruangan_id',
-		'jenistarif_id',
-		/*
+                array(
+                    'header' => 'Komponen Tarif',
+                    'name' => 'komponentarif_id',
+                    'value' => 'isset($data->komponentarif_id)?$data->komponentarif->komponentarif_nama:""',
+                   // 'filter' => CHtml::activeDropDownList($model,'komponentarif_id',CHtml::listData($model->getKomponentarifItems(),'komponentarif_id','komponentarif_nama'),array('empty'=>'-- Pilih --'))
+                ),
+                array(
+                    'header' => 'Jenis Tarif',
+                    'name' => 'jenistarif_id',
+                    'value' => 'isset($data->jenistarif_id)?$data->jenistarif->jenistarif_nama:""',
+                   // 'filter' => CHtml::activeDropDownList($model,'jenistarif_id', CHtml::listData($model->getJenistarifItems(), 'jenistarif_id', 'jenistarif_nama'),array('empty'=>'-- Pilih --'))
+                ),
+                 array(
+                    'header' => 'Komponen Tarif',
+                    'name' => 'carabayar_id',
+                    'value' => 'isset($data->carabayar_id)?$data->carabayar->carabayar_nama:""',
+                   // 'filter' => CHtml::activeDropDownList($model,'carabayar_id',CHtml::listData($model->getCarabayarItems(),'carabayar_id','carabayar_nama'),array('empty'=>'-- Pilih --'))
+                ),
+		array(
+                    'header' => 'Komponen Tarif',
+                    'name' => 'kelompoktindakan_id',
+                    'value' => 'isset($data->kelompoktindakan_id)?$data->kelompoktindakan->kelompoktindakan_nama:""',
+                   // 'filter' => CHtml::activeDropDownList($model,'kelompoktindakan_id',CHtml::listData($model->getKelompoktindakanItems(),'kelompoktindakan_id','kelompoktindakan_nama'),array('empty'=>'-- Pilih --'))
+                ),
+                array(
+                    'header' => 'Komponen Tarif',
+                    'name' => 'ruangan_id',
+                    'value' => 'isset($data->ruangan_id)?$data->ruangan->ruangan_nama:""',
+                   // 'filter' => CHtml::activeDropDownList($model,'ruangan_id',CHtml::listData($model->getRuanganItems(),'ruangan_id','ruangan_nama'),array('empty'=>'-- Pilih --'))
+                ),						
 		'komponenjasa_kode',
 		'komponenjasa_nama',
 		'komponenjasa_singkatan',
@@ -52,8 +78,6 @@ $this->widget($table,array(
 		'jasabalanceins',
 		'jasaemergency',
 		'biayaumum',
-		'komponenjasa_aktif',
-		*/
  
         ),
     )); 

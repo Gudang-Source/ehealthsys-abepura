@@ -50,7 +50,7 @@
         <?php echo $form->textField($model,'['.$i.']biayaumum',array('onkeypress'=>"return $(this).focusNextInputField(event)",'style'=>'width:40px;',)); ?>
     </td>
     <td style="width:50px;">
-        <?php echo CHtml::link('<i class="icon-plus">&nbsp;</i>','',array('title'=>'Tambah data','rel'=>'tooltip','onclick'=>'tambahKomponenjasa(this);return false','id'=>'tambah','style'=>'cursor:pointer;')); ?>
-        <?php echo CHtml::link('<i class="icon-minus">&nbsp;</i>','#',array('title'=>'Hapus data','rel'=>'tooltip','id'=>'hapus','onclick'=>'hapusKomponenjasa(this);return false','style'=>'cursor:pointer;')); ?>
+        <?php echo CHtml::link('<i class="icon-plus-sign icon-white">&nbsp;</i>','',array('class'=>'btn btn-primary','title'=>'Tambah data','rel'=>'tooltip','onclick'=>'tambahKomponenjasa(this);return false','id'=>'tambah','style'=>'cursor:pointer;')); ?>
+        <?php echo CHtml::link('<i class="icon-minus-sign icon-white">&nbsp;</i>','#',array('class'=>'btn btn-danger','title'=>'Hapus data','rel'=>'tooltip','id'=>'hapus','onclick'=>'hapusKomponenjasa(this);return false','style'=>'cursor:pointer;')); ?>
     </td>
 </tr>

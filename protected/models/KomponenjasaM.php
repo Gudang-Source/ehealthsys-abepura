@@ -76,6 +76,11 @@ class KomponenjasaM extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+                    'komponentarif' => array(self::BELONGS_TO, 'KomponentarifM', 'komponentarif_id'),
+                    'carabayar' => array(self::BELONGS_TO, 'CarabayarM', 'carabayar_id'),
+                    'jenistarif' => array(self::BELONGS_TO, 'JenistarifM', 'jenistarif_id'),
+                    'kelompoktindakan' => array(self::BELONGS_TO, 'KelompoktindakanM', 'kelompoktindakan_id'),
+                    'ruangan' => array(self::BELONGS_TO, 'RuanganM', 'ruangan_id'),
 		);
 	}
 
@@ -85,15 +90,15 @@ class KomponenjasaM extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'komponenjasa_id' => 'ID Jasa',
+			'komponenjasa_id' => 'ID',
 			'komponentarif_id' => 'Komponen Tarif',
 			'carabayar_id' => 'Cara Bayar',
 			'kelompoktindakan_id' => 'Kelompok Tindakan',
 			'ruangan_id' => 'Ruangan',
 			'jenistarif_id' => 'Jenis Tarif',
 			'komponenjasa_kode' => 'Komponen Jasa Kode',
-			'komponenjasa_nama' => 'Komponen Jasa  Nama',
-			'komponenjasa_singkatan' => 'Komponen Jasa  Singkatan',
+			'komponenjasa_nama' => 'Komponen Jasa Nama',
+			'komponenjasa_singkatan' => 'Komponen Jasa Singkatan',
 			'besaranjasa' => 'Besaran Jasa',
 			'potongan' => 'Potongan',
 			'jasadireksi' => 'Jasa Direksi',
@@ -138,8 +143,8 @@ class KomponenjasaM extends CActiveRecord
 		$criteria->compare('LOWER(jasabalanceins)',strtolower($this->jasabalanceins),true);
 		$criteria->compare('LOWER(jasaemergency)',strtolower($this->jasaemergency),true);
 		$criteria->compare('LOWER(biayaumum)',strtolower($this->biayaumum),true);
-		$criteria->compare('komponenjasa_aktif',$this->komponenjasa_aktif);
-                $criteria->addCondition('komponenjasa_aktif is true');
+		$criteria->compare('komponenjasa_aktif',isset($this->komponenjasa_aktif)?$this->komponenjasa_aktif:true);
+               // $criteria->addCondition('komponenjasa_aktif is true');
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -98,10 +98,10 @@ $format = new MyFormatter;
 <table id="tableObatAlkes" class="table table-striped table-bordered table-condensed c">
     <thead>
         <th>No.Urut</th>
-        <th>Golongan</th>
+        <th>Bidang</th>
         <th>Kelompok</th>
         <th>Sub Kelompok</th>
-        <th>Bidang</th>
+        <th>Sub Sub Kelompok</th>
         <th>Barang</th>
         <th>Harga Beli</th>
         <th>Harga Satuan</th>
@@ -125,10 +125,10 @@ $format = new MyFormatter;
         ?>
             <tr>   
                 <td><?php echo $no; ?></td>
-                <td><?php echo $modBarang->bidang->subkelompok->kelompok->golongan->golongan_nama; ?></td>
-                <td><?php echo $modBarang->bidang->subkelompok->kelompok->kelompok_nama; ?></td>
-                <td><?php echo $modBarang->bidang->subkelompok->subkelompok_nama; ?></td>
-                <td><?php echo $modBarang->bidang->bidang_nama; ?></td>
+                <td><?php echo $modBarang->subsubkelompok->subkelompok->kelompok->bidang->bidang_nama; ?></td>
+                <td><?php echo $modBarang->subsubkelompok->subkelompok->kelompok->kelompok_nama; ?></td>
+                <td><?php echo $modBarang->subsubkelompok->subkelompok->subkelompok_nama; ?></td>
+                <td><?php echo $modBarang->subsubkelompok->subsubkelompok_nama; ?></td>
                 <td><?php echo $modBarang->barang_nama; ?></td>
                 <td style = "text-align:right;"><?php echo $format->formatNumberForPrint($detail->hargabeli); ?></td>
                 <td style = "text-align:right;"><?php echo $format->formatNumberForPrint($detail->hargasatuan); ?></td>

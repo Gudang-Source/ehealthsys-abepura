@@ -1,4 +1,5 @@
-
+<div class="white-container">
+    <legend class="rim2">Ubah <b>Komponen Jasa</b></legend>
 <?php
 $this->breadcrumbs=array(
 	'Komponenjasa Ms'=>array('index'),
@@ -18,4 +19,5 @@ $this->breadcrumbs=array(
 $this->widget('bootstrap.widgets.BootAlert'); ?>
 
 <?php echo $this->renderPartial('_formUpdate',array('model'=>$model)); ?>
-<?php $this->widget('UserTips',array('type'=>'update'));?>
+<?php //$this->widget('UserTips',array('type'=>'update'));?>
+</div>

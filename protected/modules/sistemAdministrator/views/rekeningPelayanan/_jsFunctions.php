@@ -48,6 +48,11 @@ function ulangTindakan(){
 	$("#<?php echo CHtml::activeId($model, 'ruangan_id')?>").html("<option value=''>-- Pilih --</option>");
 	$("#<?php echo CHtml::activeId($model, 'daftartindakan_id')?>").val("");
 	$("#<?php echo CHtml::activeId($model, 'daftartindakan_nama')?>").val("");
+        $("#<?php echo CHtml::activeId($model, 'nmrekening5_d')?>").val("");
+	$("#<?php echo CHtml::activeId($model, 'rekening5_id_d')?>").val("");
+        $("#<?php echo CHtml::activeId($model, 'nmrekening5_k')?>").val("");
+	$("#<?php echo CHtml::activeId($model, 'rekening5_id_k')?>").val("");
+        $("#<?php echo CHtml::activeId($model, 'jnspelayanan')?>").val("");
 }
 
 </script>

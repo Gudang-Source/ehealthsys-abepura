@@ -19,7 +19,7 @@
 
     <?php
     $this->widget($table, array(
-        'id' => 'table-grid',
+        'id' => 'tableumur-grid',
         'dataProvider' => $data,
         'template' => $template,
         'enableSorting' => $sort,

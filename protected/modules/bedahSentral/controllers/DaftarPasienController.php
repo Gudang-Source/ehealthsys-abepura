@@ -71,6 +71,7 @@ class DaftarPasienController extends MyAuthController
             $modAnastesi = $this->loadAnastesi($modRencanaOperasiAttrib->pasienanastesi_id);
             $modAnastesi->pakeAnastesi = (!empty($modRencanaOperasiAttrib->dokteranastesi_id)? true : false);
             $modAnastesi->dokteranastesi_id = (!empty($modRencanaOperasiAttrib->dokteranastesi_id)? $modRencanaOperasiAttrib->dokteranastesi_id : '');
+            $modAnastesi->perawatanastesi_id = $modRencanaOperasiAttrib->suster_id;
             $modRO = $modRencanaOperasiAttrib;
             }
             $modTindakanPelayanan = new BSTindakanPelayananT;
@@ -172,6 +173,7 @@ class DaftarPasienController extends MyAuthController
                                 $modTindakanPelayanan->dokterpemeriksa2_id = $_POST['BSRencanaOperasiT']['dokterpelaksana2_id'];
                                 $modTindakanPelayanan->perawat_id = $_POST['BSRencanaOperasiT']['paramedis_id'];
                                 $modTindakanPelayanan->bidan_id = $_POST['BSRencanaOperasiT']['bidan_id'];
+                                $modTindakanPelayanan->perawat2_id = $_POST['BSRencanaOperasiT']['perawatsirkuler_id'];
                                 $modTindakanPelayanan->suster_id = $_POST['BSRencanaOperasiT']['suster_id'];
 //                                $modTindakanPelayanan->tarifcyto_tindakan = 0;
                                 $modTindakanPelayanan->tarif_satuan = str_replace(",", "", $dataGrid[$i]['tarif_satuan']);
@@ -179,6 +181,8 @@ class DaftarPasienController extends MyAuthController
 								$modTindakanPelayanan->tarif_tindakan = $dataGrid[$i]['tarif_tindakan'];
 								$modTindakanPelayanan->tarifcyto_tindakan = $modTindakanPelayanan->qty_tindakan * $modTindakanPelayanan->tarif_satuan * $dataGrid[$i]['persencyto_tind'] / 100;
 								$modTindakanPelayanan->cyto_tindakan = (($dataGrid[$i]['cyto_tindakan'] == TRUE)? 1 : 0);
+                                
+                                // var_dump($modTindakanPelayanan->attributes); die;
                                 if($modTindakanPelayanan->validate())
                                 {
                                     if(isset($_POST['pakeAnastesi'])) 

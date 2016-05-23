@@ -1,5 +1,7 @@
-<div class="white-container">
-    <legend class="rim2"><b>Indexing</b></legend>
+<fieldset class = "box">
+    <legend class = "rim">Lihat Indexing</legend>
+<!--<div class="white-container">
+    <legend class="rim2"><b>Indexing</b></legend>-->
     <?php
     $this->breadcrumbs=array(
             'Indexing Ms'=>array('index'),
@@ -32,5 +34,8 @@
                                 ),
 	),
     )); ?>
+    <?php   echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Indexing', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
+            $this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
     <?php $this->widget('UserTips',array('type'=>'view'));?>
-</div>
+<!--</div>-->
+</fieldset>

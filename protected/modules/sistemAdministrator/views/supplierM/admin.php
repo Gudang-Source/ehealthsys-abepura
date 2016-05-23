@@ -132,7 +132,7 @@ JSCRIPT;
 <script type="text/javascript">
     function removeTemporary(id){
         var url = '<?php echo $url."/removeTemporary"; ?>';
-        myConfirm('Yakin akan menonaktifkan data ini untuk sementara?','Perhatian!',
+        myConfirm('Apakah Anda yakin ingin menonaktifkan data ini untuk sementara?','Perhatian!',
         function(r){
             if(r){
                  $.post(url, {id: id},
@@ -150,7 +150,7 @@ JSCRIPT;
 	
     function activeTemporary(id){
         var url = '<?php echo $url."/activeTemporary"; ?>';
-        myConfirm('Yakin akan mengaktifkan data ini untuk sementara?','Perhatian!',
+        myConfirm('Apakah Anda yakin ingin mengaktifkan data ini untuk sementara?','Perhatian!',
         function(r){
             if(r){
                  $.post(url, {id: id},
@@ -169,7 +169,7 @@ JSCRIPT;
     function deleteRecord(id){
         var id = id;
         var url = '<?php echo $url."/delete"; ?>';
-        myConfirm('Yakin Akan Menghapus Data ini?','Perhatian!',
+        myConfirm('Apakah Anda yakin ingin menghapus data ini?','Perhatian!',
         function(r){
             if(r){
                 $.post(url, {id: id},

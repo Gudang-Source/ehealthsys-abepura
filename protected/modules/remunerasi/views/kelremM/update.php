@@ -1,5 +1,7 @@
-<div class="white-container">
-    <legend class="rim2">Ubah <b>Kelompok Remunerasi</b></legend>
+<fieldset class = "box">
+    <legend class = "rim">Ubah Kelompok Remunerasi</legend>
+<!--<div class="white-container">
+    <legend class="rim2">Ubah <b>Kelompok Remunerasi</b></legend>-->
     <?php
     $this->breadcrumbs=array(
             'Kelrem Ms'=>array('index'),
@@ -14,10 +16,11 @@
 
     $this->menu=$arrMenu;
     ?>
-    <?php echo $this->renderPartial('_tabMenu',array()); ?>
-    <div class="biru">
-        <div class="white">
+    <?php //echo $this->renderPartial('_tabMenu',array()); ?>
+    <!--<div class="biru">
+        <div class="white">-->
             <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
-        </div>
+        <!--</div>
     </div>
-</div>
+</div>-->
+</fieldset>

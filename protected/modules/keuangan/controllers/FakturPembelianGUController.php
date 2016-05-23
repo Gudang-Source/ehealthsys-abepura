@@ -34,7 +34,7 @@ class FakturPembelianGUController extends MyAuthController {
 		$instalasi_id = Yii::app()->user->getState('instalasi_id');
 		$modLogin = LoginpemakaiK::model()->findByAttributes(array('loginpemakai_id' => Yii::app()->user->id));
 		$model->peg_penerima_id = $modLogin->pegawai_id;
-		$model->peg_penerima_nama = $modLogin->pegawai->nama_pegawai;
+		if (!empty($peg_penerima_id)) $model->peg_penerima_nama = $modLogin->pegawai->nama_pegawai;
 		$model->ruanganpenerima_id = Yii::app()->user->getState('ruangan_id');
 		$model->instalasi_id = $model->ruangan->instalasi_id;
 		$model->tglterima = date('Y-m-d H:i:s');

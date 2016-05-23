@@ -135,166 +135,176 @@
 <?php echo $form->dropDownListRow($modAsuransiPasien,'kelastanggunganasuransi_id', CHtml::listData(PPPendaftaranT::model()->getKelasTanggunganItems(), 'kelaspelayanan_id', 'kelaspelayanan_nama') ,array('disabled'=>true,'empty'=>'-- Pilih --','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
 <?php //echo $form->textFieldRow($modAsuransiPasien,'namaperusahaan',array('placeholder'=>'Nama Perusahaan Asuransi','class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
 
-
-<div class="control-group ">
-    <?php echo $form->labelEx($modRujukanBpjs,'asalrujukan_id', array('class'=>'control-label')) ?>
-    <div class="controls">
-    <?php echo $form->dropDownList($modRujukanBpjs,'asalrujukan_id', CHtml::listData($modRujukanBpjs->getAsalRujukanItems(), 'asalrujukan_id', 'asalrujukan_nama'), 
-                                      array('class'=>'span3 rujukandari_id','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)",
-                                            'ajax'=>array('type'=>'POST',
-                                                          'url'=>$this->createUrl('GetRujukanDari',array('encode'=>false,'namaModel'=>'PPRujukanbpjsT')),
-                                                          'update'=>'#'.CHtml::activeId($modRujukanBpjs, 'rujukandari_id'),),
-                                            'onchange'=>"clearRujukanBpjs();",)); ?>
-        <?php /* echo CHtml::htmlButton('<i class="icon-plus-sign icon-white"></i>', 
-                                        array('class'=>'btn btn-primary','onclick'=>"{addAsalRujukan(); $('#dialogAddAsalRujukan').dialog('open');}",
-                                              'id'=>'btnAddAsalRujukan','onkeyup'=>"return $(this).focusNextInputField(event)",
-                                              'rel'=>'tooltip','title'=>'Klik untuk menambah '.$modRujukanBpjs->getAttributeLabel('asalrujukan_id'))) */ ?>
-        <?php echo $form->error($modRujukanBpjs, 'asalrujukan_id'); ?>
-    </div>
-</div>
-<div class="control-group">
-          <?php echo CHtml::label("Cari ".$modRujukanBpjs->getAttributeLabel('no_rujukan')." <span class='required'>*</span> <i class=\"icon-search\" onclick=\"getRujukanNoRujukan($('#".CHtml::activeId($modRujukanBpjs,"no_rujukan")."').val());\", style=\"cursor:pointer;\" rel=\"tooltip\" title=\"klik untuk mengecek rujukan\"></i>", 'no_rujukan', array('class'=>'control-label'))?>
-        <div class="controls">
-            <?php 
-                $this->widget('MyJuiAutoComplete', array(
-                                'model'=>$modRujukanBpjs,
-                                'attribute'=>'no_rujukan',
-                                 'options'=>array(
-                                        'focus'=> 'js:function( event, ui ) {
-                                             $(this).val("");
-                                             return false;
-                                         }',
-                                ),
-                                'htmlOptions'=>array('placeholder'=>'Ketik Nomor Rujukan',
-
-                                    'onkeyup'=>"return $(this).focusNextInputField(event)",
-                                    'onblur'=>"",
-                                    'class'=>'numbers-only'),
-                            )); 
-            ?>
-            <?php echo $form->error($modRujukanBpjs,'no_rujukan'); ?>                        
+<?php if($this->id != "pendaftaranRawatDarurat"): ?>
+<div class="hidables">
+    <div class="hidables-content">
+        <div class="control-group ">
+            <?php echo $form->labelEx($modRujukanBpjs,'asalrujukan_id', array('class'=>'control-label')) ?>
+            <div class="controls">
+            <?php echo $form->dropDownList($modRujukanBpjs,'asalrujukan_id', CHtml::listData($modRujukanBpjs->getAsalRujukanItems(), 'asalrujukan_id', 'asalrujukan_nama'), 
+                                              array('class'=>'span3 rujukandari_id','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)",
+                                                    'ajax'=>array('type'=>'POST',
+                                                                  'url'=>$this->createUrl('GetRujukanDari',array('encode'=>false,'namaModel'=>'PPRujukanbpjsT')),
+                                                                  'update'=>'#'.CHtml::activeId($modRujukanBpjs, 'rujukandari_id'),),
+                                                    'onchange'=>"clearRujukanBpjs();",)); ?>
+                <?php /* echo CHtml::htmlButton('<i class="icon-plus-sign icon-white"></i>', 
+                                                array('class'=>'btn btn-primary','onclick'=>"{addAsalRujukan(); $('#dialogAddAsalRujukan').dialog('open');}",
+                                                      'id'=>'btnAddAsalRujukan','onkeyup'=>"return $(this).focusNextInputField(event)",
+                                                      'rel'=>'tooltip','title'=>'Klik untuk menambah '.$modRujukanBpjs->getAttributeLabel('asalrujukan_id'))) */ ?>
+                <?php echo $form->error($modRujukanBpjs, 'asalrujukan_id'); ?>
+            </div>
         </div>
-</div>
-
-<?php //echo $form->textFieldRow($modRujukanBpjs,'no_rujukan', array('placeholder'=>'Nomor Rujukan','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-<div class="control-group ">
-    <?php echo $form->labelEx($modRujukanBpjs,'rujukandari_id', array('class'=>'control-label')); ?>
-    <div class="controls">
-        <?php echo $form->dropDownList($modRujukanBpjs,'rujukandari_id',CHtml::listData($modRujukanBpjs->getRujukanDariItems($modRujukanBpjs->asalrujukan_id), 'rujukandari_id', 'namaperujuk'),
-                                          array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)",'onchange'=>'setNamaPerujukBpjs(); getPPK(this)')); ?>
-        <?php echo CHtml::htmlButton('<i class="icon-plus-sign icon-white"></i>', 
-                                        array('class'=>'btn btn-primary','onclick'=>"{addRujukanDari(); $('#dialogAddRujukanDari').dialog('open');}",
-                                              'id'=>'btnAddRujukanDari','onkeyup'=>"return $(this).focusNextInputField(event)",
-                                              'rel'=>'tooltip','title'=>'Klik untuk menambah '.$modRujukanBpjs->getAttributeLabel('nama_perujuk'))) ?>
-        <?php echo $form->error($modRujukanBpjs, 'rujukandari_id'); ?>
-    </div>
-</div>
-<?php echo $form->textFieldRow($modRujukanBpjs,'nama_perujuk', array('placeholder'=>'Nama Lengkap Perujuk','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-
-
-<div class="control-group ">
-    <label class="control-label required" for="PPRujukanbpjsT_tanggal_rujukan">
-    Tanggal Rujukan
-    <span class="required">*</span>
-    </label>
-    <div class="controls">
-        <?php   
-                 $modRujukanBpjs->tanggal_rujukan = (!empty($modRujukanBpjs->tanggal_rujukan) ? date("d/m/Y H:i:s",strtotime($modRujukanBpjs->tanggal_rujukan)) : null);
-                $this->widget('MyDateTimePicker',array(
-                                'model'=>$modRujukanBpjs,
-                                'attribute'=>'tanggal_rujukan',
-                                'mode'=>'datetime',
-                                'options'=> array(
-//                                    'dateFormat'=>Params::DATE_FORMAT,
-                                    'showOn' => false,
-                                    'maxDate' => 'd',
-                                ),
-                                'htmlOptions'=>array('class'=>'dtPicker3 datetimemask','onkeyup'=>"return $(this).focusNextInputField(event)",),
-        )); ?>
-        
-        <?php echo $form->error($modRujukanBpjs, 'tanggal_rujukan'); ?>
-    </div>
-</div>
-<div class="control-group ">
-                <label for="PPRujukanbpjsT_kddiagnosa_rujukan" class="control-label">Kode Diagnosa Rujukan <font color="red">*</font><i class="icon-search" onclick="$('#dialogDiagnosa').dialog('open')", style="cursor:pointer;" rel='tooltip' title='klik untuk mencari diagnosa rujukan'></i> </label> 
+        <div class="control-group">
+                  <?php echo CHtml::label("Cari ".$modRujukanBpjs->getAttributeLabel('no_rujukan')." <span class='required'>*</span> <i class=\"icon-search\" onclick=\"getRujukanNoRujukan($('#".CHtml::activeId($modRujukanBpjs,"no_rujukan")."').val());\", style=\"cursor:pointer;\" rel=\"tooltip\" title=\"klik untuk mengecek rujukan\"></i>", 'no_rujukan', array('class'=>'control-label'))?>
                 <div class="controls">
-                    <?php
-                        $this->widget('application.extensions.FCBKcomplete.FCBKcomplete',array(
-                            'model'=>$modRujukanBpjs,
-                            'attribute'=>'kddiagnosa_rujukan',
-                            'data'=> explode(',', $modRujukanBpjs->kddiagnosa_rujukan),   
-                            'debugMode'=>true,
-                            'options'=>array(
-                                //'bricket'=>false,
-                                // 'json_url'=>$this->createUrl('AutocompleteDiagnosaRujukan'),
-                                'addontab'=> true, 
-                                'maxitems'=> 10,
-                                'input_min_size'=> 0,
-                                'cache'=> true,
-                                'newel'=> true,
-                                'addoncomma'=>true,
-                                'select_all_text'=> "", 
-                                'autoFocus'=>true,
-                            ),
-                            'htmlOptions'=>array('id'=>'diagnosaRujukanKodeBpjs'),
-                        ));
-                    ?>
-                    <?php echo $form->error($modRujukanBpjs, 'kddiagnosa_rujukan'); ?>
-            </div>
-</div>
-<div class="control-group ">
-                <label for="PPRujukanbpjsT_diagnosa_rujukan" class="control-label">Diagnosa Rujukan <font color="red">*</font></label> 
-                <div class="controls">
-                    <?php
-                        $this->widget('application.extensions.FCBKcomplete.FCBKcomplete',array(
-                            'model'=>$modRujukanBpjs,
-                            'attribute'=>'diagnosa_rujukan',
-                            'data'=> explode(',', $modRujukanBpjs->diagnosa_rujukan),   
-                            'debugMode'=>true,
-                            'options'=>array(
-                                //'bricket'=>false,
-                                // 'json_url'=>$this->createUrl('AutocompleteDiagnosaRujukan'),
-                                'addontab'=> true, 
-                                'maxitems'=> 10,
-                                'input_min_size'=> 0,
-                                'cache'=> true,
-                                'newel'=> true,
-                                'addoncomma'=>true,
-                                'select_all_text'=> "", 
-                                'autoFocus'=>true,
-                            ),
-                            'htmlOptions'=>array('id'=>'diagnosaRujukanBpjs'),
-                        ));
-                    ?>
-                    <?php echo $form->error($modRujukanBpjs, 'diagnosa_rujukan'); ?>
-            </div>
-</div>
+                    <?php 
+                        $this->widget('MyJuiAutoComplete', array(
+                                        'model'=>$modRujukanBpjs,
+                                        'attribute'=>'no_rujukan',
+                                         'options'=>array(
+                                                'focus'=> 'js:function( event, ui ) {
+                                                     $(this).val("");
+                                                     return false;
+                                                 }',
+                                        ),
+                                        'htmlOptions'=>array('placeholder'=>'Ketik Nomor Rujukan',
 
-<div class="control-group ">
-    <div class="controls">
-         <?php //echo $form->checkBox($modAsuransiPasien,'status_konfirmasi', array('onkeyup'=>"return $(this).focusNextInputField(event)",'checked'=>false)); ?><!-- <label> Telah Dikonfirmasi</label> -->
-        <?php //echo $form->error($modAsuransiPasien, 'status_konfirmasi'); ?>
+                                            'onkeyup'=>"return $(this).focusNextInputField(event)",
+                                            'onblur'=>"",
+                                            'class'=>'numbers-only'),
+                                    )); 
+                    ?>
+                    <?php echo $form->error($modRujukanBpjs,'no_rujukan'); ?>                        
+                </div>
+        </div>
+
+        <?php //echo $form->textFieldRow($modRujukanBpjs,'no_rujukan', array('placeholder'=>'Nomor Rujukan','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+        <div class="control-group ">
+            <?php echo $form->labelEx($modRujukanBpjs,'rujukandari_id', array('class'=>'control-label')); ?>
+            <div class="controls">
+                <?php echo $form->dropDownList($modRujukanBpjs,'rujukandari_id',CHtml::listData($modRujukanBpjs->getRujukanDariItems($modRujukanBpjs->asalrujukan_id), 'rujukandari_id', 'namaperujuk'),
+                                                  array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)",'onchange'=>'setNamaPerujukBpjs(); getPPK(this)')); ?>
+                <?php echo CHtml::htmlButton('<i class="icon-plus-sign icon-white"></i>', 
+                                                array('class'=>'btn btn-primary','onclick'=>"{addRujukanDari(); $('#dialogAddRujukanDari').dialog('open');}",
+                                                      'id'=>'btnAddRujukanDari','onkeyup'=>"return $(this).focusNextInputField(event)",
+                                                      'rel'=>'tooltip','title'=>'Klik untuk menambah '.$modRujukanBpjs->getAttributeLabel('nama_perujuk'))) ?>
+                <?php echo $form->error($modRujukanBpjs, 'rujukandari_id'); ?>
+            </div>
+        </div>
+        <div class="control-group">
+                <?php echo CHtml::label("PPK Rujukan <span class='required'>*</span> <i class=\"icon-search\" onclick=\"getBpjsPPKRujukan($('#".CHtml::activeId($modSep,"ppkrujukan")."').val());\", style=\"cursor:pointer;\" rel='tooltip' title='klik untuk mengecek PPK Rujukan'></i>", 'ppkrujukan', array('class'=>'control-label'))?>
+                <div class="controls">
+
+                    <?php echo $form->textField($modSep,'ppkrujukan', array('placeholder'=>'','class'=>'span3 all-caps','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+                </div>
+        </div>
+        <?php echo $form->textFieldRow($modRujukanBpjs,'nama_perujuk', array('placeholder'=>'Nama Lengkap Perujuk','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+        <div class="control-group ">
+            <label class="control-label required" for="PPRujukanbpjsT_tanggal_rujukan">
+            Tanggal Rujukan
+            <span class="required">*</span>
+            </label>
+            <div class="controls">
+                <?php   
+                         $modRujukanBpjs->tanggal_rujukan = (!empty($modRujukanBpjs->tanggal_rujukan) ? date("d/m/Y H:i:s",strtotime($modRujukanBpjs->tanggal_rujukan)) : null);
+                        $this->widget('MyDateTimePicker',array(
+                                        'model'=>$modRujukanBpjs,
+                                        'attribute'=>'tanggal_rujukan',
+                                        'mode'=>'datetime',
+                                        'options'=> array(
+        //                                    'dateFormat'=>Params::DATE_FORMAT,
+                                            'showOn' => false,
+                                            'maxDate' => 'd',
+                                        ),
+                                        'htmlOptions'=>array('class'=>'dtPicker3 datetimemask','onkeyup'=>"return $(this).focusNextInputField(event)",),
+                )); ?>
+
+                <?php echo $form->error($modRujukanBpjs, 'tanggal_rujukan'); ?>
+            </div>
+        </div>
+        <div class="control-group ">
+                        <label for="PPRujukanbpjsT_kddiagnosa_rujukan" class="control-label">Kode Diagnosa Rujukan <font color="red">*</font><i class="icon-search" onclick="$('#dialogDiagnosa').dialog('open')", style="cursor:pointer;" rel='tooltip' title='klik untuk mencari diagnosa rujukan'></i> </label> 
+                        <div class="controls">
+                            <?php
+                                $this->widget('application.extensions.FCBKcomplete.FCBKcomplete',array(
+                                    'model'=>$modRujukanBpjs,
+                                    'attribute'=>'kddiagnosa_rujukan',
+                                    'data'=> explode(',', $modRujukanBpjs->kddiagnosa_rujukan),   
+                                    'debugMode'=>true,
+                                    'options'=>array(
+                                        //'bricket'=>false,
+                                        // 'json_url'=>$this->createUrl('AutocompleteDiagnosaRujukan'),
+                                        'addontab'=> true, 
+                                        'maxitems'=> 10,
+                                        'input_min_size'=> 0,
+                                        'cache'=> true,
+                                        'newel'=> true,
+                                        'addoncomma'=>true,
+                                        'select_all_text'=> "", 
+                                        'autoFocus'=>true,
+                                    ),
+                                    'htmlOptions'=>array('id'=>'diagnosaRujukanKodeBpjs'),
+                                ));
+                            ?>
+                            <?php echo $form->error($modRujukanBpjs, 'kddiagnosa_rujukan'); ?>
+                    </div>
+        </div>
+        <div class="control-group ">
+                        <label for="PPRujukanbpjsT_diagnosa_rujukan" class="control-label">Diagnosa Rujukan <font color="red">*</font></label> 
+                        <div class="controls">
+                            <?php
+                                $this->widget('application.extensions.FCBKcomplete.FCBKcomplete',array(
+                                    'model'=>$modRujukanBpjs,
+                                    'attribute'=>'diagnosa_rujukan',
+                                    'data'=> explode(',', $modRujukanBpjs->diagnosa_rujukan),   
+                                    'debugMode'=>true,
+                                    'options'=>array(
+                                        //'bricket'=>false,
+                                        // 'json_url'=>$this->createUrl('AutocompleteDiagnosaRujukan'),
+                                        'addontab'=> true, 
+                                        'maxitems'=> 10,
+                                        'input_min_size'=> 0,
+                                        'cache'=> true,
+                                        'newel'=> true,
+                                        'addoncomma'=>true,
+                                        'select_all_text'=> "", 
+                                        'autoFocus'=>true,
+                                    ),
+                                    'htmlOptions'=>array('id'=>'diagnosaRujukanBpjs'),
+                                ));
+                            ?>
+                            <?php echo $form->error($modRujukanBpjs, 'diagnosa_rujukan'); ?>
+                    </div>
+        </div>
+
+        <div class="control-group ">
+            <div class="controls">
+                 <?php //echo $form->checkBox($modAsuransiPasien,'status_konfirmasi', array('onkeyup'=>"return $(this).focusNextInputField(event)",'checked'=>false)); ?><!-- <label> Telah Dikonfirmasi</label> -->
+                <?php //echo $form->error($modAsuransiPasien, 'status_konfirmasi'); ?>
+            </div>
+        </div>
+        <div class="control-group ">
+            <?php //echo $form->labelEx($modAsuransiPasien,'tgl_konfirmasi', array('class'=>'control-label')) ?>
+            <div class="controls">
+                <?php   
+        //             $modAsuransiPasien->tgl_konfirmasi = (!empty($modAsuransiPasien->tgl_konfirmasi) ? date("d/m/Y H:i:s",strtotime($modAsuransiPasien->tgl_konfirmasi)) : null);
+        //             $this->widget('MyDateTimePicker',array(
+        //                             'model'=>$modAsuransiPasien,
+        //                             'attribute'=>'tgl_konfirmasi',
+        //                             'mode'=>'datetime',
+        //                             'options'=> array(
+        // //                                    'dateFormat'=>Params::DATE_FORMAT,
+        //                                 'showOn' => false,
+        //                                 'maxDate' => 'd',
+        //                             ),
+        //                             'htmlOptions'=>array('class'=>'dtPicker3 datetimemask','onkeyup'=>"return $(this).focusNextInputField(event)",),
+        //         )); ?>
+                <?php //echo $form->error($modAsuransiPasien, 'tgl_konfirmasi'); ?>
+            </div>
+        </div>
     </div>
 </div>
-<div class="control-group ">
-    <?php //echo $form->labelEx($modAsuransiPasien,'tgl_konfirmasi', array('class'=>'control-label')) ?>
-    <div class="controls">
-        <?php   
-//             $modAsuransiPasien->tgl_konfirmasi = (!empty($modAsuransiPasien->tgl_konfirmasi) ? date("d/m/Y H:i:s",strtotime($modAsuransiPasien->tgl_konfirmasi)) : null);
-//             $this->widget('MyDateTimePicker',array(
-//                             'model'=>$modAsuransiPasien,
-//                             'attribute'=>'tgl_konfirmasi',
-//                             'mode'=>'datetime',
-//                             'options'=> array(
-// //                                    'dateFormat'=>Params::DATE_FORMAT,
-//                                 'showOn' => false,
-//                                 'maxDate' => 'd',
-//                             ),
-//                             'htmlOptions'=>array('class'=>'dtPicker3 datetimemask','onkeyup'=>"return $(this).focusNextInputField(event)",),
-//         )); ?>
-        <?php //echo $form->error($modAsuransiPasien, 'tgl_konfirmasi'); ?>
-    </div>
-</div>
+<?php endif; ?>
 <?php 
     if (Yii::app()->user->getState('isbridging')) { 
 ?>
@@ -330,13 +340,6 @@
     </div>
 </div>
 <?php //echo $form->textFieldRow($modSep,'nosep', array('placeholder'=>'','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-<div class="control-group">
-        <?php echo CHtml::label("PPK Rujukan <span class='required'>*</span> <i class=\"icon-search\" onclick=\"getBpjsPPKRujukan($('#".CHtml::activeId($modSep,"ppkrujukan")."').val());\", style=\"cursor:pointer;\" rel='tooltip' title='klik untuk mengecek PPK Rujukan'></i>", 'ppkrujukan', array('class'=>'control-label'))?>
-        <div class="controls">
-    
-<?php echo $form->textField($modSep,'ppkrujukan', array('placeholder'=>'','class'=>'span3 all-caps','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-        </div>
-</div>
 <?php //echo $form->hiddenField($modSep,'ppkpelayanan', array('placeholder'=>'','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
 <?php //echo $form->dropDownListRow($modSep,'jnspelayanan',LookupM::getItems('jenispelayanan'), array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)",'onchange'=>'setNamaPerujuk();')); ?>
 <?php echo $form->textAreaRow($modSep,'catatansep', array('placeholder'=>'','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>

@@ -2077,6 +2077,11 @@ $( document ).ready(function(){
         return false;
     });
     
+    $("#form-bpjs .accordion-heading a").click(function()
+    {
+        return false;
+    });
+    
     <?php if(!empty($model->pendaftaran_id)){ ?>
         autoPrint();
         $("input, select, textarea").attr("disabled",true);

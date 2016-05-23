@@ -2,6 +2,8 @@
 
 class InformasiReturPembelianController extends MyAuthController{
 	
+    
+        public $path_view = "gudangFarmasi.views.informasiReturPembelian.";
 	public function actionIndex(){
 		$model = new GFInformasireturpembelianV;
 		$format = new MyFormatter();
@@ -15,7 +17,7 @@ class InformasiReturPembelianController extends MyAuthController{
                 $model->tglterimafaktur = $format->formatDateTimeForDb($_GET['GFInformasireturpembelianV']['tglterimafaktur']);
 				$model->tglfaktur = $format->formatDateTimeForDb($_GET['GFInformasireturpembelianV']['tglfaktur']);
             }
-		$this->render('index',array(
+		$this->render($this->path_view.'index',array(
 			'model'=>$model,
 			'format'=>$format
 		));

@@ -75,6 +75,22 @@ input[readonly]{
                             'type'=>'raw',
                             'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)',
                         ),
+                        array(
+                            'header'=>'Daftar Rawat <br/> Jalan',
+                            'type'=>'raw',
+                            'value'=>'CHtml::link("<i class=\'icon-form-rj\'></i> ", 
+                                "index.php?r=pendaftaranPenjadwalan/PendaftaranRawatJalan/index&pasien_id=$data->pasien_id",array("id"=>"$data->pasien_id",
+                                    "title"=>"Klik Untuk Mendaftarkan ke Rawat Jalan","rel"=>"tooltip"))',
+                            'htmlOptions'=>array('style'=>'text-align:left;'),
+                        ),
+                        array(
+                            'header'=>'Daftar Rawat <br/> Darurat',
+                            'type'=>'raw',
+                            'value'=>'CHtml::link("<i class=\'icon-form-rd\'></i> ", 
+                                "index.php?r=pendaftaranPenjadwalan/PendaftaranRawatDarurat/index&pasien_id=$data->pasien_id",array("id"=>"$data->pasien_id",
+                                    "title"=>"Klik Untuk Mendaftarkan ke Rawat Darurat","rel"=>"tooltip"))',
+                            'htmlOptions'=>array('style'=>'text-align:left;'),
+                        ),
                     ),
                     'afterAjaxUpdate'=>'function(id, data){
                             jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});

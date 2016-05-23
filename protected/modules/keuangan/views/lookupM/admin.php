@@ -52,6 +52,7 @@
                             'name'=>'lookup_type',
                             //'filter'=> CHtml::listData(LookupM::getAllLookupType(), 'lookup_type', 'lookup_type'),
 							'value'=>'$data->lookup_type',
+                            'filter' => false,
                     ),
                     'lookup_name',
                     'lookup_value',
@@ -90,6 +91,7 @@
                             'header'=>Yii::t('zii','Delete'),
     			'class'=>'bootstrap.widgets.BootButtonColumn',
                             'template'=>'{remove} {delete}',
+                             'deleteConfirmation' => 'Apakah Anda yakin ingin menghapus data ini ?',       
                             'buttons'=>array(
                                     'remove' => array (
                                                    'label'=>"<i class='icon-form-silang'></i>",
@@ -178,7 +180,7 @@ JSCRIPT;
     }
 	
 	function nonActive(obj){
-		myConfirm("Yakin akan menonaktifkan data ini untuk sementara?","Perhatian!",
+		myConfirm("Apakah Anda yakin ingin menonaktifkan data ini untuk sementara?","Perhatian!",
 			function(r){
 				if(r){ 
 					$.ajax({

@@ -179,7 +179,7 @@ class SupplierMController extends MyAuthController
             $propinsi_id = $propinsi->propinsi_id;
             if (COUNT($propinsi)<1) {$propinsi_id=$propinsi_nama;}
             $kabupaten = KabupatenM::model()->findAll("propinsi_id='$propinsi_id' ORDER BY kabupaten_nama asc");
-            $kabupaten = CHtml::listData($kabupaten,'kabupaten_id','kabupaten_nama');
+            $kabupaten = CHtml::listData($kabupaten,'kabupaten_nama','kabupaten_nama');
             
             if($encode){
                 echo CJSON::encode($kabupaten);
