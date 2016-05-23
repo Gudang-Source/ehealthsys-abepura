@@ -68,6 +68,7 @@
     //                        'value'=>array($this,'gridKategoriTindakan'),
                             'value'=>'$data->kategoritindakan_nama',
                     ),
+                    'name'=>'daftartindakan_kode',
                     array(
                             'name'=>'daftartindakan_nama',
                             //'filter'=>  CHtml::listData(SATarifTindakanM ::model()->DaftarTindakanItems, 'daftartindakan_id', 'daftartindakan_nama'),
