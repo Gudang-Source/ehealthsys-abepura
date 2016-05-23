@@ -106,7 +106,7 @@
 		}
 	?>
 	<?php
-		$content = $this->renderPartial('farmasiApotek.views.pemakaianObat.tips.informasi',array(),true);
+		$content = $this->renderPartial('farmasiApotek.views.pemakaianObat.tips.transsaksiPemakaianObat',array(),true);
 		$this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
 	?>
 </div>

@@ -243,7 +243,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'autoOpen'=>false,
         'modal'=>true,
         'width'=>980,
-        'height'=>480,
+        'height'=>520,
         'resizable'=>false,
     ),
 ));
@@ -272,7 +272,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                                         "))',
                     ),
                     'no_pendaftaran',
-                    'no_pendaftaran',
+                   // 'no_pendaftaran',
                     array(
                         'name'=>'tgladmisi',
                         'type'=>'raw',
@@ -284,15 +284,15 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                     array(
                         'name'=>'jeniskelamin',
                         'type'=>'raw',
-                        'filter'=>LookupM::model()->getItems('jeniskelamin'),
+                        'filter'=> CHtml::dropDownList('RIInfopasienmasukkamarV[jeniskelamin]', $modDialogKunjungan->jeniskelamin, LookupM::model()->getItems('jeniskelamin'),array('empty'=>'-- Pilih --')),
                     ),
-                    'instalasi_nama',
-                    'ruangan_nama',
+                    //'instalasi_nama',
+                  //  'ruangan_nama',
                     array(
                         'name'=>'carabayar_id',
                         'type'=>'raw',
                         'value'=>'$data->carabayar_nama',
-                        'filter'=>CHtml::listData(CarabayarM::model()->findAll("carabayar_aktif IS TRUE"),'carabayar_id','carabayar_nama'),
+                        'filter'=> CHtml::dropDownList('RIInfopasienmasukkamarV[carabayar_id]', $modDialogKunjungan->carabayar_id, CHtml::listData(CarabayarM::model()->findAll("carabayar_aktif IS TRUE"),'carabayar_id','carabayar_nama'),array('empty'=>'-- Pilih --')),
                     ),
 
 
