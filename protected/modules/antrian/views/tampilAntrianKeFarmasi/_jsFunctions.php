@@ -11,6 +11,10 @@ function setAntrians(antrianfarmasi_id){
         dataType: "json",
         success:function(data){
             
+            $(".ruangan span").html(data.ruangan);
+            $(".pasien-deskripsi span").html(data.pasien);
+            $(".no-antrian").html(data.loket.loket_singkatan + "-" + data.antrian.noantrian);
+            setSuaraPanggilan(data.loket.loket_singkatan,data.antrian.noantrian,data.loket.loket_id);
             /*
             var i = 0;
             var kodeantrians = [];
@@ -93,8 +97,6 @@ $( document ).ready(function(){
     socket = io.connect(chatServer+':'+chatPort);
     socket.emit('subscribe', 'antrian');
     socket.on('antrian', function(data){
-        console.log(data.antrian_id);
-        console.log(data.panggil);
         if (data.panggil == 5) setAntrians(data.antrian_id);
     });
     <?php }else{ ?>

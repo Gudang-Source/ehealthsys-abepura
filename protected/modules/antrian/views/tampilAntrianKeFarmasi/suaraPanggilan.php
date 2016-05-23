@@ -166,15 +166,15 @@ $(document).ready(function(){
 $(document).ready(function() {
     var soundTru = [];
     var soundDat = [
-        <?php foreach ($noantrians as $i => $noantrian) { ?>
+        <?php // foreach ($noantrians as $i => $noantrian) { ?>
         {name: "noantrian"},
-        {name: "<?php echo strtolower(trim($modLokets[$i]->loket_singkatan)); ?>"},
+        {name: "<?php echo strtolower($kodeantrian); ?>"},
         <?php   
         $noantrian_split = explode(" ", strtolower(MyFormatter::formatNumberTerbilang((int)$noantrian)));
         foreach($noantrian_split as $ii => $nomor){ ?>
         {name: "<?php echo $nomor; ?>"},
         <?php } ?>
-        <?php } ?>
+        <?php //} ?>
     ];
     
     setJenisSuaraAntrian("<?php echo Yii::app()->request->baseUrl;?>/data/sounds/antrian/mp3/<?php echo $jenissuara ?>/");

@@ -32,7 +32,34 @@ class TampilAntrianKeFarmasiController extends Controller
             $format = new MyFormatter();
             $data = array();
             
+            if (isset($_POST['antrianfarmasi_id'])) {
+                $pendaftaran_id = $_POST['antrianfarmasi_id'];
+                $pendaftaran = PendaftaranT::model()->findByPk($pendaftaran_id);
+                $antrian = AntrianT::model()->findByAttributes(array(
+                    'pendaftaran_id'=>$pendaftaran_id
+                ));
+                $loket = LoketM::model()->findByPk($antrian->loket_id);
+                
+                $pasienDat = $pendaftaran->pasien;
+                $pasien = $pasienDat->namadepan.$pasienDat->nama_pasien;
+                if (!empty($pendaftaran->pasienadmisi_id)) {
+                    $admisi = PasienadmisiT::model()->findByPk($pendaftaran->pasienadmisi_id);
+                    $ruangan = $admisi->ruangan->ruangan_nama;
+                } else {
+                    $ruangan = $pendaftaran->ruangan->ruangan_nama;
+                }
+                
+                $res = array();
+                $res['pendaftaran'] = $pendaftaran->attributes;
+                $res['ruangan'] = $ruangan;
+                $res['pasien'] = $pasien;
+                $res['antrian'] = $antrian->attributes;
+                $res['loket'] = $loket->attributes;
+                
+                echo CJSON::encode($res);
+            }
             
+            Yii::app()->end();
             
             /*
             //antrian racikan
@@ -136,6 +163,7 @@ class TampilAntrianKeFarmasiController extends Controller
      * akses dengan ajax
      */
     public function actionSuaraPanggilan(){
+        /*
         if(Yii::app()->request->isAjaxRequest)
         {
             $this->layout = "//layouts/iframe";
@@ -150,6 +178,38 @@ class TampilAntrianKeFarmasiController extends Controller
             $data["suarapanggilan"] = $this->renderPartial('suaraPanggilan',array('noantrians'=>$noantrians, 'modLokets'=>$modLokets),true);
             echo CJSON::encode($data);
         }
+         * 
+         */
+        $this->layout = "//layouts/antrian";
+        $kodeantrian = $_POST["kodeantrians"];
+        $noantrian = $_POST["noantrians"];
+        // $ruangan_id = $_GET["ruangan_id"];
+        // $modRuangan = RuanganM::model()->findByPk($ruangan_id);
+        $res = array();
+        $res['suarapanggilan'] = $this->renderPartial('suaraPanggilan',array(
+            'kodeantrian'=>$kodeantrian,
+            'noantrian'=>$noantrian, 
+            // 'modRuangan'=>$modRuangan
+        ), true);
+        
+        echo CJSON::encode($res);
+        
         Yii::app()->end();
     }
+    
+    /**
+     * suara panggilan SINGLE no antrian (array)
+     * akses dengan iframe
+     */
+    /*
+    public function actionSuaraPanggilanSingle(){
+        $this->layout = "//layouts/antrian";
+        $kodeantrian = $_GET["kodeantrian"];
+        $noantrian = $_GET["noantrian"];
+        $ruangan_id = $_GET["ruangan_id"];
+        $modRuangan = RuanganM::model()->findByPk($ruangan_id);
+        $this->render('suaraPanggilanSingle',array('kodeantrian'=>$kodeantrian,'noantrian'=>$noantrian, 'modRuangan'=>$modRuangan));
+    }
+     * 
+     */
 }
