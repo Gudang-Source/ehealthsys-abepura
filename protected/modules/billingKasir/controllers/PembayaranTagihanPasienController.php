@@ -115,6 +115,11 @@ class PembayaranTagihanPasienController extends MyAuthController
                     }else{ 
                         $modUpdatePendaftaran = PendaftaranT::model()->updateByPk($model->pendaftaran_id,array('pembayaranpelayanan_id'=>$model->pembayaranpelayanan_id));
                     }
+                    
+                    $pendaftaran = PendaftaranT::model()->findByPk($model->pendaftaran_id);
+                    if (empty($pendaftaran->pasienadmisi_id) && $pendaftaran->instalasi_id == Params::INSTALASI_ID_RD) {
+                        $modUpdatePendaftaran = PendaftaranT::model()->updateByPk($model->pendaftaran_id,array('pembayaranpelayanan_id'=>$model->pembayaranpelayanan_id, 'statusperiksa'=>Params::STATUSPERIKSA_SUDAH_DIPERIKSA));
+                    }
                 }
                 
                 $this->broadcastNotifBayarKarcisUmum($modKunjungan, $model);
