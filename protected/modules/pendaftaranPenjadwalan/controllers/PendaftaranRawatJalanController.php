@@ -1275,7 +1275,18 @@ class PendaftaranRawatJalanController extends MyAuthController
                     }
                 }
             } else {
-                if (date('Y-m-d', time()) == date('Y-m-d', strtotime($pendaftaran->tgl_pendaftaran))) {
+                $tindakan = TindakanpelayananT::model()->findByAttributes(array(
+                    'pendaftaran_id'=>$pendaftaran->pendaftaran_id,
+                ), array(
+                    'condition'=>'tindakansudahbayar_id is null',
+                ));
+                $oa = ObatalkespasienT::model()->findByAttributes(array(
+                    'pendaftaran_id'=>$pendaftaran->pendaftaran_id,
+                ), array(
+                    'condition'=>'oasudahbayar_id is null',
+                ));
+                // if (date('Y-m-d', time()) == date('Y-m-d', strtotime($pendaftaran->tgl_pendaftaran))) {
+                if (!empty($oa) || !empty($tindakan) || !in_array($pendaftaran->statusperiksa, array(Params::STATUSPERIKSA_SUDAH_DIPERIKSA, Params::STATUSPERIKSA_SUDAH_PULANG))) {
                     $returnVal['adaDaftar'] = true;
                     $returnVal['listDaftar'] = $pendaftaran->attributes;
                     $returnVal['listDaftar']['pasien'] = $pendaftaran->pasien->attributes;
@@ -1304,11 +1315,24 @@ class PendaftaranRawatJalanController extends MyAuthController
                     }
                 }
             } else {
-                $returnVal['adaDaftar'] = true;
-                $returnVal['listDaftar'] = $pendaftaran->attributes;
-                $returnVal['listDaftar']['pasien'] = $pendaftaran->pasien->attributes;
-                $returnVal['listDaftar']['ruangan'] = $pendaftaran->ruangan->attributes;
-                $returnVal['listDaftar']['instalasi'] = $pendaftaran->ruangan->instalasi->attributes;
+                $tindakan = TindakanpelayananT::model()->findByAttributes(array(
+                    'pendaftaran_id'=>$pendaftaran->pendaftaran_id,
+                ), array(
+                    'condition'=>'tindakansudahbayar_id is null',
+                ));
+                $oa = ObatalkespasienT::model()->findByAttributes(array(
+                    'pendaftaran_id'=>$pendaftaran->pendaftaran_id,
+                ), array(
+                    'condition'=>'oasudahbayar_id is null',
+                ));
+                
+                if (!empty($oa) || !empty($tindakan) || !in_array($pendaftaran->statusperiksa, array(Params::STATUSPERIKSA_SUDAH_DIPERIKSA, Params::STATUSPERIKSA_SUDAH_PULANG))) {
+                    $returnVal['adaDaftar'] = true;
+                    $returnVal['listDaftar'] = $pendaftaran->attributes;
+                    $returnVal['listDaftar']['pasien'] = $pendaftaran->pasien->attributes;
+                    $returnVal['listDaftar']['ruangan'] = $pendaftaran->ruangan->attributes;
+                    $returnVal['listDaftar']['instalasi'] = $pendaftaran->ruangan->instalasi->attributes;
+                }
             }
         }
         
