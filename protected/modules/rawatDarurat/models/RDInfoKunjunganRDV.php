@@ -157,6 +157,7 @@ class RDInfoKunjunganRDV extends InfokunjunganrdV
 			$criteria->addCondition("rujukan_id = ".$this->rujukan_id);				
 		}
 		$criteria->addCondition('ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
+                $criteria->addCondition("statusperiksa NOT IN ('SUDAH PULANG', 'BATAL PERIKSA') ");
 		// $criteria->limit = 10;
 
 		return new CActiveDataProvider($this, array(
