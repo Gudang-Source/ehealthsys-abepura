@@ -635,9 +635,12 @@ public function actionKirimDokumen($pengirimanrm_id,$pendaftaran_id){
             if(isset($_POST['RIPendaftaranT']['tglrenkontrol']) && $_POST['RIPendaftaranT']['tglrenkontrol'] != null ){
                 $format = new MyFormatter();
                 $tglrenkontrol = $format->formatDateTimeForDb($_POST['RIPendaftaranT']['tglrenkontrol']);
+                $kontrolruangan = $_POST['RIPendaftaranT']['ruangankontrol_id'];
             }else{
                 $tglrenkontrol = null;
+                $kontrolruangan = null;
             }
+            
             $daftar = PendaftaranT::model()->updateByPk(
                 $modelPulang->pendaftaran_id,
                 array(
@@ -645,6 +648,7 @@ public function actionKirimDokumen($pengirimanrm_id,$pendaftaran_id){
                     'pasienpulang_id'=>$modelPulang->pasienpulang_id,
                     'tglrenkontrol'=>$tglrenkontrol,
                     'statusperiksa'=>Params::STATUSPERIKSA_SUDAH_PULANG,
+                    'ruangankontrol_id'=>$kontrolruangan,
                 )
             );
 //            $modPendaftaran->tglselesaiperiksa = date( 'Y-m-d H:i:s');
@@ -2175,6 +2179,39 @@ public function actionKirimDokumen($pengirimanrm_id,$pendaftaran_id){
                 'modPulang'=>$modPulang,
                 'modMasukKamar'=>$modMasukKamar,
                 'modPasien'=>$modPasien
+        ));
+    }
+    
+    public function actionPrintPasienKontrol($pasienpulang_id,$caraPrint = null)
+    {
+        $format = new MyFormatter;    
+        $modPulang = RIPasienPulangT::model()->findByPk($pasienpulang_id);     
+        $modMasukKamar = RIMasukKamarT::model()->findByAttributes(array('pasienadmisi_id'=>$modPulang->pasienadmisi_id));
+        $modPendaftaran = RIPendaftaranT::model()->findByAttributes(array('pasienadmisi_id'=>$modPulang->pasienadmisi_id));
+        $modPasien = RIPasienM::model()->findByPk($modPendaftaran->pasien_id);
+        $modAdmisi = RIPasienAdmisiT::model()->findByPk($modPendaftaran->pasienadmisi_id);
+        
+        
+        $judul_print = 'Pasien Kontrol';
+        $caraPrint = isset($_REQUEST['caraPrint']) ? $_REQUEST['caraPrint'] : null;
+        if (isset($_GET['frame'])){
+            $this->layout='//layouts/iframe';
+        }
+        if($caraPrint=='PRINT') {
+            $this->layout='//layouts/printWindows';
+        }
+        else if($caraPrint=='EXCEL') {
+            $this->layout='//layouts/printExcel';
+        }
+        
+        $this->render('printKontrol', array(
+                'format'=>$format,
+                'judul_print'=>$judul_print,
+                'modPulang'=>$modPulang,
+                'modMasukKamar'=>$modMasukKamar,
+                'modPasien'=>$modPasien,
+                'modAdmisi'=>$modAdmisi,
+                'modPendaftaran'=>$modPendaftaran,
         ));
     }
 	
