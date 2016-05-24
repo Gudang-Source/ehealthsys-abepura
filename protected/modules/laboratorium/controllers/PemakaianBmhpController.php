@@ -29,6 +29,10 @@ class PemakaianBmhpController extends MyAuthController
                         foreach($_POST['LBObatalkespasienT'] AS $i => $postDetail){
                             $modDetails[$i] = new LBObatalkespasienT;
                             $modDetails[$i]->attributes = $postDetail;
+                            
+                            $modDetails[$i] = $this->simpanObatAlkesPasien2($modPasienMasukPenunjang, $modDetails[$i]);
+                            $this->simpanStokObatAlkesOut2($modDetails[$i]);
+                            /*
                             $modStok = StokobatalkesT::model()->findByPk($postDetail['stokobatalkes_id']);
                             $modDetails[$i]->stokobatalkes_id = $modStok->stokobatalkes_id;
                             $obatalkes_id = $postDetail['obatalkes_id'];
@@ -37,11 +41,11 @@ class PemakaianBmhpController extends MyAuthController
                             }else{
                                 $detailGroups[$obatalkes_id]['obatalkes_id'] = $postDetail['obatalkes_id'];
                                 $detailGroups[$obatalkes_id]['qty_oa'] = $postDetail['qty_oa'];
-                            }
+                            } */
                         }
                         //END GROUP
                     }
-
+                    /*
                     $obathabis = "";
                     //PROSES PENGURAIAN OBAT DAN JUMLAH MENJADI STOKOBATALKES_T (METODE ANTRIAN)
                     foreach($detailGroups AS $i => $detail){
@@ -57,12 +61,15 @@ class PemakaianBmhpController extends MyAuthController
 
                         }
                     }
+                     * 
+                     */
 
 //                    if(count($_POST['LBObatalkespasienT']) > 0){
 //                        foreach($_POST['LBObatalkespasienT'] AS $i => $postOa){
 //                            $dataOas[$i] = $this->simpanObatAlkesPasien($modPasienMasukPenunjang,$postOa);
 //                        }
 //                    }
+                    // var_dump($this->obatalkespasientersimpan, $this->stokobatalkestersimpan); die;
                     if($this->obatalkespasientersimpan&&$this->stokobatalkestersimpan){
                         $transaction->commit();
                         $this->redirect(array('index','pasienmasukpenunjang_id'=>$modPasienMasukPenunjang->pasienmasukpenunjang_id,'sukses'=>1));
@@ -84,6 +91,60 @@ class PemakaianBmhpController extends MyAuthController
             'modObatAlkesPasien'=>$modObatAlkesPasien,
             'dataOas'=>$dataOas,
         ));
+    }
+    
+     /**
+     * simpan LBObatalkespasienT
+     * @param type $modPasienMasukPenunjang
+     * @param type $post
+     * @return \LBObatalkespasienT
+     */
+    public function simpanObatAlkesPasien2($modPasienMasukPenunjang, $postObatAlkesPasien){   
+        $oa = ObatalkesM::model()->findByPk($postObatAlkesPasien->obatalkes_id);
+        $modObatAlkesPasien = new LBObatalkespasienT;
+        $modObatAlkesPasien->attributes = $postObatAlkesPasien->attributes;
+        $modObatAlkesPasien->tglpelayanan = date("Y-m-d H:i:s");
+        $modObatAlkesPasien->tipepaket_id = Params::TIPEPAKET_ID_NONPAKET;
+        $modObatAlkesPasien->ruangan_id = Yii::app()->user->getState('ruangan_id');
+        $modObatAlkesPasien->pendaftaran_id = $modPasienMasukPenunjang->pendaftaran_id;
+        $modObatAlkesPasien->pasienmasukpenunjang_id = $modPasienMasukPenunjang->pasienmasukpenunjang_id;
+        $modObatAlkesPasien->pasienadmisi_id = $modPasienMasukPenunjang->pasienadmisi_id;
+        $modObatAlkesPasien->carabayar_id = $modPasienMasukPenunjang->pendaftaran->carabayar_id;
+        $modObatAlkesPasien->penjamin_id = $modPasienMasukPenunjang->pendaftaran->penjamin_id;
+        $modObatAlkesPasien->pegawai_id = $modPasienMasukPenunjang->pegawai_id;
+        $modObatAlkesPasien->shift_id = Yii::app()->user->getState('shift_id');
+        $modObatAlkesPasien->pasien_id = $modPasienMasukPenunjang->pasien_id;
+        $modObatAlkesPasien->kelaspelayanan_id = $modPasienMasukPenunjang->kelaspelayanan_id;
+        $modObatAlkesPasien->tglpelayanan = date ('Y-m-d H:i:s');
+        $modObatAlkesPasien->create_loginpemakai_id = Yii::app()->user->id;
+        $modObatAlkesPasien->create_ruangan = Yii::app()->user->getState('ruangan_id');
+        $modObatAlkesPasien->create_time = date ('Y-m-d H:i:s');
+        //$modObatAlkesPasien->qty_oa = $stokOa->qtystok_terpakai;
+        //$modObatAlkesPasien->qty_stok = $stokOa->qtystok;
+        $modObatAlkesPasien->harganetto_oa = $oa->harganetto; //$stokOa->HPP;
+        $modObatAlkesPasien->hargasatuan_oa = $oa->hargajual; //$stokOa->HargaJualSatuan;
+        $modObatAlkesPasien->hargajual_oa = $modObatAlkesPasien->hargasatuan_oa * $modObatAlkesPasien->qty_oa;
+        $modObatAlkesPasien->iurbiaya = $modObatAlkesPasien->hargajual_oa;
+        // $modObatAlkesPasien->oa = Params::OBATALKESPASIEN_BMHP;
+        
+        /*
+         foreach ($postObatAlkesPasien AS $i => $postDetail) {
+            if ($stokOa->obatalkes_id==$postDetail['obatalkes_id']) {
+                $modObatAlkesPasien->sumberdana_id = $postDetail['sumberdana_id'];                
+                $modObatAlkesPasien->satuankecil_id = $postDetail['satuankecil_id'];                
+                $modObatAlkesPasien->qty_stok = $postDetail['qty_stok'];
+                $modObatAlkesPasien->iurbiaya = $postDetail['iurbiaya'];
+            }
+        }
+         * 
+         */
+
+        if($modObatAlkesPasien->save()){
+            $this->obatalkespasientersimpan &= true;
+        }else{
+            $this->obatalkespasientersimpan &= false;
+        }
+        return $modObatAlkesPasien;
     }
 
 
