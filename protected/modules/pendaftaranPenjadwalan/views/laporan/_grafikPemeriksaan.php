@@ -1,11 +1,10 @@
-
 <?php
     $this->Widget('ext.jQPlot.jQPlotWidget', array(
         'dataProvider' => $model->searchGrafikPemeriksaan(),
         'id'=>'tes',
         'type' => $data['type'],
         'options' => array(
-            'title' => $data['title'],
+            'title' => $data['title'],            
             'seriesDefaults'=>array(
                     'renderer'=>'js:$.jqplot.BarRenderer',
                     'dataLabels'=>'value',

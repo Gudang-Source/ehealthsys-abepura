@@ -133,7 +133,7 @@ class SELaporan10besarpenyakitV extends Laporan10besarpenyakitV{
         $criteria = $this->searchCriteria();
         $criteria->select = 'count(diagnosa_id) as jumlah, diagnosa_nama as data';
         $criteria->group = 'diagnosa_nama';
-        $criteria->order = $criteria->group;
+        $criteria->order = 'jumlah DESC';//$criteria->group;
 
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
@@ -145,7 +145,9 @@ class SELaporan10besarpenyakitV extends Laporan10besarpenyakitV{
     */
     public function searchSpeedo() {
         $criteria = $this->searchCriteria();
-        $criteria->select = 'count(diagnosa_id) as data';
+        $criteria->select = 'count(diagnosa_id) as jumlah, diagnosa_nama as data';
+        $criteria->group = 'diagnosa_nama';
+        $criteria->order = 'jumlah DESC';//$criteria->group;
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
                 ));

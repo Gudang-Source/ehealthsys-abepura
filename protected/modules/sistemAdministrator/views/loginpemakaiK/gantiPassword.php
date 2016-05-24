@@ -1,4 +1,28 @@
+<style>
+    .password_strength {
+        margin-left: 10px;
+        padding: 5px;
+        border-radius: 3px;
+    }
+    .password_strength_1 {
+	background-color: #fcb6b1;
+    }
+    .password_strength_2 {
+        background-color: #fccab1;
+    }
+    .password_strength_3 {
+        background-color: #fcfbb1;
+    }
+    .password_strength_4 {
+        background-color: #dafcb1;
+    }
+    .password_strength_5 {
+        background-color: #bcfcb1;
+    }
+</style>
 
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/passchecker/js/jquery.password_strength.js'); ?>
+<?php Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl.'/js/passchecker/css/style.js'); ?>
 <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
 	'id'=>'loginpemakai-k-form',
 	'enableAjaxValidation'=>false,
@@ -64,4 +88,8 @@ function cekPassBaru(obj){
 		myAlert('ulang kata kunci harus sama dengan kata kunci baru');
 	}
 }
+
+$(document).ready(function() {
+        $('#LoginpemakaiK_new_password').password_strength();
+});
 </script>
