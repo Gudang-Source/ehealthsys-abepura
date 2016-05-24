@@ -98,6 +98,7 @@ class Outbox extends CActiveRecord
 			'SendingTimeOut' => 'Sending Time Out',
 			'DeliveryReport' => 'Delivery Report',
 			'CreatorID' => 'Pembuat Pesan',
+                        'destinationnumber' => 'No. Tujuan',
 		);
 	}
 

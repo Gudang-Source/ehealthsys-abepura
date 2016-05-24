@@ -83,6 +83,16 @@ class KirimPesanController extends MyAuthController
 
 	public function actionPegawai()
 	{
+            
+            if (isset($_POST['is_ajax'])) {
+                if (isset($_POST['param'])) {
+                    call_user_func(array($this, $_POST['f']), $_POST['param']);
+                } else {
+                    call_user_func(array($this, $_POST['f']));
+                }
+                Yii::app()->end();
+            }
+            
 		$this->layout='//layouts/iframeNeon';
         $model = new Outbox;
         $model->CreatorID = Yii::app()->user->name;
@@ -91,6 +101,7 @@ class KirimPesanController extends MyAuthController
         if(isset($_GET['PegawaiM'])) {
             $modPegawai->unsetAttributes();
             $modPegawai->attributes = $_GET['PegawaiM'];
+            $modPegawai->ruangan_id = $_GET['PegawaiM']['ruangan_id'];
         }
         
         if(isset($_POST['Outbox'])) {
@@ -147,6 +158,30 @@ class KirimPesanController extends MyAuthController
                                     'modPegawai'=>$modPegawai));
 	}
 
+        protected function kumpulDataPegawai($param) {
+            $ser = $param['serial'];
+            $pegawai = new PegawaiM;
+            
+            $pegawai->ruangan_id = $ser[1]['value'];
+            $pegawai->nomorindukpegawai = $ser[2]['value'];
+            $pegawai->nama_pegawai = $ser[3]['value'];
+            $pegawai->nomobile_pegawai = $ser[4]['value'];
+            
+            $provider = $pegawai->searchNoMobile();
+            $provider->pagination = false;
+            
+            $res = array();
+            
+            foreach ($provider->data as $item) {
+                array_push($res, array(
+                    'mobile' => (string)$item->nomobile_pegawai,
+                    'nama' => $item->nama_pegawai,
+                ));
+            }
+            
+            echo CJSON::encode($res);
+        }
+        
 	public function actionUmum()
 	{
 		$this->layout='//layouts/iframeNeon';

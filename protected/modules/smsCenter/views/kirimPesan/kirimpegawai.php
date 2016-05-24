@@ -2,13 +2,39 @@
 <table width="100%" cellpadding="5px">
     <tr>
         <td width="65%">
-            <?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
+            <?php 
+            $ruangan = RuanganM::model()->findAllByAttributes(array(
+                'ruangan_aktif'=>true,
+            ), array(
+                'order'=>'instalasi_id, ruangan_nama',
+            ));
+            
+            
+            $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 'id'=>'pasien-m-grid',
                 'dataProvider'=>$modPegawai->searchNoMobile(),
                 'filter'=>$modPegawai,
                     'template'=>"{summary}\n{items}{pager}",
                     'itemsCssClass'=>'table table-striped table-bordered table-condensed',
                 'columns'=>array(
+                    array(
+                        'header'=>'Ruangan',
+                        'type'=>'raw',
+                        'value'=>function($data) {
+                            $pr = PegawairuanganV::model()->findAllByAttributes(array(
+                                'pegawai_id'=>$data->pegawai_id,
+                            ));
+                            $str = "<ul>";
+                            foreach ($pr as $item) {
+                                $str .= "<li>".$item->ruangan_nama."</li>";
+                            }
+                            $str .= "<ul>";
+                            return $str;
+                        },
+                        'filter'=>CHtml::activeDropDownList($modPegawai, 'ruangan_id', CHtml::listData($ruangan, 'ruangan_id', 'ruangan_nama'), array(
+                            'empty'=>'-- Pilih --',
+                        )),
+                    ),
                     'nomorindukpegawai',
                     'nama_pegawai',
                     'nomobile_pegawai',
@@ -17,6 +43,7 @@
                         'type'=>'raw',
                         'htmlOptions'=>array('style'=>'text-align:center;'),
                         'value'=>'CHtml::link("<i class=\"icon-form-check\"></i>", "javascript:void(0);", array("onclick"=>"tambahNoTelp(\"$data->nomobile_pegawai\",\"$data->nama_pegawai\");return false;","rel"=>"tooltip","title"=>"Pilih"))',
+                        'filter'=>CHtml::link('<i class="icon-form-check"></i>', "javascript:void(0);", array("onclick"=>"pilihSemuaPegawai(); return false;", "rel"=>"tooltip", "title"=>"Klik untuk memilih semua pegawai")),
                     ),
                 ),
                 'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
@@ -71,7 +98,7 @@ function tambahNoTelp(noHp,nama)
     } else {
         $('.destination').each(function(){
             if(this.value == noHp) {
-                  alert (nama+' Sudah ada dalam daftar yang akan dikirimi pesan');  
+                  myAlert(nama+' Sudah ada dalam daftar yang akan dikirimi pesan');  
                   cek = true;
                   $('.destination').stop();
             }
@@ -90,5 +117,22 @@ function hapusNomor(obj)
         $(obj).parent().parent().remove();
     
     return false;
+}
+
+function pilihSemuaPegawai()
+{
+    $("#penerima").empty();
+    $.post('<?php $this->createUrl('pegawai'); ?>', {
+        is_ajax: true,
+        f: "kumpulDataPegawai",
+        param: {
+            serial: $("#pasien-m-grid :input").serializeArray(),
+        }
+    }, function(data)
+    {
+        $.each(data, function(idx, val) {
+            tambahNoTelp(val.mobile, val.nama);
+        });
+    }, "json");
 }
 </script>
