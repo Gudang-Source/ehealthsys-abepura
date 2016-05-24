@@ -37,15 +37,21 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                         </tr>
                     </table>
                         <div class="row">
+                            <div style="border: 1px solid black; border-radius: 3px; padding: 5px; margin-right: 10px; background-color: #fc0">
+                            Password Sementara akan dikirim ke Nomor HP Pengguna via SMS. Disarankan ubah password setelah melakukan login.
+                            </div>
+                        </div>
+                        <div class="row">
                                 <div class="rowlabel">
-                                        <?php echo $form->labelEx($model,'Nama Pemakai',array('class'=>'label-login')); ?>
+                                        <?php echo $form->labelEx($model,'no_hp',array('class'=>'label-login')); ?>
                                 </div>
                                 <div class="rowfield">
-                                        <?php echo $form->textField($model,'username',array('onBlur'=>'cekUsername(this)', 'onkeyup'=>"return $(this).focusNextInputField(event);",'autofocus'=>true)); ?>
+                                        <?php echo $form->textField($model,'no_hp',array('onkeyup'=>"return $(this).focusNextInputField(event);",'autofocus'=>true)); ?>
                                                         <?php echo CHtml::hiddenField('user_id') ?>
-                                        <?php echo $form->error($model,'username'); ?>
+                                        <?php echo $form->error($model,'no_hp'); ?>
                                 </div>
                         </div>
+                        <?php /*
 
                         <div class="row">
                                 <div class="rowlabel">
@@ -87,7 +93,10 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                                                 <?php echo $form->error($model,'ruangan'); ?>
                                 </div>
                         </div>
+                         * 
+                         */ ?>
                         <div class="row">
+                                <?php /*
                                 <div class="rowlabel">
                                         <?php echo $form->labelEx($model, 'modul',array('class'=>'label-login')); ?>
                                 </div>
@@ -96,16 +105,11 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                                         <?php echo $form->dropDownList($model, 'modul', array(),array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event);"));  ?>
                                         <?php echo $form->error($model,'modul'); ?>
                                 </div>
-                        <div class="rowbutton">
-                                <?php echo CHtml::htmlButton(Yii::t('Login','{icon} Login',array('{icon}'=>' <i class="icon-user icon-white"></i>')),array('class'=>'btn2 btn-login', 'type'=>'submit','onkeyup'=>"formSubmit(this,event)", "name"=>"login", "value"=>"login")); ?>
-                                <?php echo CHtml::htmlButton(Yii::t('Forgot Password','{icon} Lupa Password',array('{icon}'=>' <i class="icon-remove icon-white"></i>')),array(
-                                    'class'=>'btn2 btn-login', 
-                                    'type'=>'submit',
-                                    'onkeyup'=>"formSubmit(this,event)", 
-                                    "name"=>"forgot", "value"=>"forgot", 
-                                    "onclick"=>"return confirm('Yakin karena anda lupa password ?')",
-                                    "style"=>"margin-top: 20px;"
-                                )); ?>
+                                 * 
+                                 */ ?>
+                                <div class="rowbutton">
+                                <?php echo CHtml::htmlButton(Yii::t('Submit','{icon} Kirim',array('{icon}'=>' <i class="icon-user icon-white"></i>')),array('class'=>'btn2 btn-login', 'type'=>'submit','onkeyup'=>"formSubmit(this,event)")); ?>
+                                <?php // echo CHtml::link(Yii::t('Login','{icon} Lupa Password',array('{icon}'=>' <i class="icon-remove icon-white"></i>')),$this->createUrl('lupaPassword'),array('class'=>'btn2 btn-login', 'type'=>'button','onkeyup'=>"formSubmit(this,event)")); ?>
                                 </div>
                         </div>
 
