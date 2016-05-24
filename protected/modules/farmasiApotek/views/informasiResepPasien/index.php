@@ -42,7 +42,7 @@
                                     Yii::t("mds","{icon}",array("{icon}"=>"<i class='icon-volume-up icon-white'></i>")),
                                     array(
                                         "class"=>"btn btn-primary",
-                                        "onclick"=>"panggilAntrian('".$data->pendaftaran_id."');" ,
+                                        "onclick"=>"panggilAntrian('".$data->penjualanresep_id."');" ,
                                         "rel"=>"tooltip",
                                         "title"=>"Klik untuk memanggil pasien ini"
                                     )
@@ -371,7 +371,7 @@
  * memanggil antrian ke poliklinik
  * @param {type} pendaftaran_id
  * @returns {undefined} */
-function panggilAntrian(pendaftaran_id){
+function panggilAntrian(penjualanresep_id){
     /*
     $.ajax({
         type:'POST',
@@ -389,7 +389,7 @@ function panggilAntrian(pendaftaran_id){
             } */ 
             <?php if(Yii::app()->user->getState('is_nodejsaktif')){ ?>
             myAlert("Sedang dipanggil...");
-            socket.emit('send',{conversationID:'antrian',panggil:5,antrian_id:pendaftaran_id});
+            socket.emit('send',{conversationID:'antrian',panggil:5,antrian_id:penjualanresep_id});
             <?php } ?>
                 /*
             $.fn.yiiGridView.update('daftarpasien-v-grid');

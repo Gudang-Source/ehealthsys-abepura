@@ -156,7 +156,7 @@
     <div>
         <div id="ruangan_<?php echo $i; ?>" class="antrian" style="width:100%;height:150px;">
             <div class="ruangan" id="ruangan_<?php echo $i; ?>">
-                <span>< Ruangan Asal ></span>
+                <span>< Ruangan Apotek ></span>
             </div>
             <?php /*
             <div class="dokter" id="dokter_<?php echo $i; ?>">
@@ -168,7 +168,7 @@
                 0-000
             </div>
             <div class="pasien-deskripsi" id="pasien-deskripsi_<?php echo $i; ?>">
-                <span>< Nama Pasien ></span>
+                <span>< Nama Pasien > - < No Resep ></span>
             </div>
             <br>
             <iframe id="suarapanggilan" src="" style="display:none;">

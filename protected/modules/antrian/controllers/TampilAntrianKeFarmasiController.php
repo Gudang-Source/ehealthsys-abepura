@@ -33,7 +33,10 @@ class TampilAntrianKeFarmasiController extends Controller
             $data = array();
             
             if (isset($_POST['antrianfarmasi_id'])) {
-                $pendaftaran_id = $_POST['antrianfarmasi_id'];
+                $penjualanresep_id = $_POST['antrianfarmasi_id'];
+                
+                $penjualan = PenjualanresepT::model()->findByPk($penjualanresep_id);
+                $pendaftaran_id = $penjualan->pendaftaran_id;
                 $pendaftaran = PendaftaranT::model()->findByPk($pendaftaran_id);
                 $antrian = AntrianT::model()->findByAttributes(array(
                     'pendaftaran_id'=>$pendaftaran_id
@@ -51,10 +54,11 @@ class TampilAntrianKeFarmasiController extends Controller
                 
                 $res = array();
                 $res['pendaftaran'] = $pendaftaran->attributes;
-                $res['ruangan'] = $ruangan;
+                $res['ruangan'] = $penjualan->ruangan->attributes;
                 $res['pasien'] = $pasien;
                 $res['antrian'] = $antrian->attributes;
                 $res['loket'] = $loket->attributes;
+                $res['penjualan'] = $penjualan->attributes;
                 
                 echo CJSON::encode($res);
             }

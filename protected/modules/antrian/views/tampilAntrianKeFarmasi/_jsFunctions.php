@@ -11,8 +11,8 @@ function setAntrians(antrianfarmasi_id){
         dataType: "json",
         success:function(data){
             
-            $(".ruangan span").html(data.ruangan);
-            $(".pasien-deskripsi span").html(data.pasien);
+            $(".ruangan span").html(data.ruangan.ruangan_nama);
+            $(".pasien-deskripsi span").html(data.pasien + " - " + data.penjualan.noresep);
             $(".no-antrian").html(data.loket.loket_singkatan + "-" + data.antrian.noantrian);
             setSuaraPanggilan(data.loket.loket_singkatan,data.antrian.noantrian,data.loket.loket_id);
             /*
