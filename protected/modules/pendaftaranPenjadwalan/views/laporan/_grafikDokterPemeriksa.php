@@ -1,4 +1,17 @@
-
+<?php
+if ($data['type'] == 'pie'):
+?>    
+<style>
+    table.jqplot-table-legend{
+    display: block;
+    height: 350px;
+    overflow-y: scroll;
+    z-index:100;
+}
+</style>
+<?php
+endif;
+?>
 <?php    
     $this->Widget('ext.jQPlot.jQPlotWidget', array(
         'dataProvider' => $model->searchGrafikDokterPemeriksa(),
@@ -43,7 +56,8 @@
                     'labelRenderer'=>'js:$.jqplot.CanvasAxisLabelRenderer',
                 )
             ),
-          ),
+            
+          ),         
        )
     );
     ?>
