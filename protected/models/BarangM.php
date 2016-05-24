@@ -178,12 +178,12 @@ class BarangM extends CActiveRecord
 		$criteria->compare('t.subsubkelompok_id',$this->subsubkelompok_id);
 		$criteria->compare('t.barang_type',$this->barang_type,true);
 		$criteria->compare('t.barang_kode',$this->barang_kode,true);
-		$criteria->compare('t.barang_nama',$this->barang_nama,true);
+		$criteria->compare('LOWER(t.barang_nama)',strtolower($this->barang_nama),true);
 		$criteria->compare('t.barang_namalainnya',$this->barang_namalainnya,true);
 		$criteria->compare('t.barang_merk',$this->barang_merk,true);
 		$criteria->compare('t.barang_noseri',$this->barang_noseri,true);
-		$criteria->compare('t.barang_ukuran',$this->barang_ukuran,true);
-		$criteria->compare('t.barang_bahan',$this->barang_bahan,true);
+		$criteria->compare('LOWER(t.barang_ukuran)',  strtolower($this->barang_ukuran),true);
+		$criteria->compare('LOWER(t.barang_bahan)',  strtolower($this->barang_bahan),true);
 		$criteria->compare('t.barang_thnbeli',$this->barang_thnbeli,true);
 		$criteria->compare('t.barang_warna',$this->barang_warna,true);
 		$criteria->compare('t.barang_statusregister',$this->barang_statusregister);

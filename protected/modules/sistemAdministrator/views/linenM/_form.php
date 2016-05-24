@@ -213,7 +213,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
         'barang_nama',
         array(
             'name'=>'barang_satuan',
-            'filter'=>LookupM::getItems('satuanbarang'),
+            'filter'=> CHtml::dropDownList('BarangM[barang_satuan]',$modBarang->barang_satuan,LookupM::getItems('satuanbarang'),array('empty'=>'-- Pilih --')),
             'value'=>'$data->barang_satuan',
         ),
         'barang_ukuran',
