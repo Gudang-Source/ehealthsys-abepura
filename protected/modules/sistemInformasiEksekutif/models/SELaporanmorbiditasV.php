@@ -72,8 +72,8 @@ class SELaporanmorbiditasV extends LaporanmorbiditasV
             $criteria->select = 'count(diagnosa_kode) as jumlah, date(tglmorbiditas) as data';
             $criteria->group = 'data';
         }
-        $criteria->order = $criteria->group;
-        $criteria->limit = -1;
+        $criteria->order = 'jumlah DESC';
+        $criteria->limit = 10;
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
                     'pagination' => false,
@@ -85,8 +85,8 @@ class SELaporanmorbiditasV extends LaporanmorbiditasV
         $criteria = $this->searchCriteria();
         $criteria->select = 'count(diagnosa_kode) as jumlah, diagnosa_nama as data';
         $criteria->group = 'diagnosa_nama';
-        $criteria->order = $criteria->group;
-        $criteria->limit = -1;
+        $criteria->order = 'jumlah DESC';
+        $criteria->limit = 10;
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
                     'pagination' => false,

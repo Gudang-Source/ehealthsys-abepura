@@ -16,7 +16,7 @@
                                     'value'=>$modPasien->no_rekam_medik,
                                     'source'=>'js: function(request, response) {
                                        $.ajax({
-                                           url: "'.Yii::app()->createUrl('rawatJalan/ActionAutoComplete/daftarPasienTindakanRuangan').'",
+                                           url: "'.Yii::app()->createUrl('rawatDarurat/PembebasanTarifRD/daftarPasienTindakanRuangan').'",
                                            dataType: "json",
                                            data: {
                                                term: request.term,
@@ -34,7 +34,7 @@
                                                 return false;
                                             }',
                                            'select'=>'js:function( event, ui ) {
-                                                isiDataPasien(ui.item);
+                                                isiDataPasien_fungsi(ui.item.value, ui.item.pendaftaran_id)
                                                 return false;
                                             }',
                                     ),

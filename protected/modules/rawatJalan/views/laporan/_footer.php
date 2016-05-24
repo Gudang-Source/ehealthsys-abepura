@@ -10,7 +10,7 @@
     echo CHtml::htmlButton(Yii::t('mds','{icon} Grafik',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'GRAFIK\')'))."&nbsp&nbsp";
 	?>
 	<?php
-            if (isset($tips) == 'Pembebasan'):
+            if (isset($tips) == 'pembebasan'):
                 $content = $this->renderPartial('rawatJalan.views.laporan.tips/PembebasanTarif',array(),true);
             else:
                 $content = $this->renderPartial('rawatJalan.views.laporan.tips/tips',array(),true);

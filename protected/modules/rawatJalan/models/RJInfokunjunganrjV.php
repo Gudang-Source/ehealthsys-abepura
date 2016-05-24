@@ -680,6 +680,7 @@ class RJInfokunjunganrjV extends InfokunjunganrjV {
         $criteria->compare('LOWER(jeniskelamin)', strtolower($this->jeniskelamin), true);
         $criteria->compare('LOWER(carabayar_nama)', strtolower($this->carabayar_nama), true);
         $criteria->addCondition('ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
+        $criteria->addCondition("statusperiksa NOT IN ('SUDAH PULANG', 'BATAL PERIKSA') ");
         $criteria->order = 'tgl_pendaftaran ASC';
         // $criteria->limit = 10;
         return new CActiveDataProvider($this, array(

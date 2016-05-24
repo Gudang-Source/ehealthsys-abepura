@@ -5,7 +5,8 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach($data as $tindPelId=>$tindakan){
+        <?php         
+        foreach($data as $tindPelId=>$tindakan){
             echo '<tr><td><b>'.$tindakan['daftartindakan_nama'].'</b></td>';
             echo '<td><table>';
             foreach($tindakan as $tindKompId=>$tindKomp){                

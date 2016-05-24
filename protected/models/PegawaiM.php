@@ -424,9 +424,16 @@ class PegawaiM extends CActiveRecord
 		$criteria=new CDbCriteria;
 
                 $criteria->addCondition('TRIM(nomobile_pegawai) != \'\'');
+                $criteria->addCondition('char_length(TRIM(nomobile_pegawai)) > 8');
 		$criteria->compare('LOWER(nomobile_pegawai)',strtolower($this->nomobile_pegawai),true);
 		$criteria->compare('LOWER(nama_pegawai)',strtolower($this->nama_pegawai),true);
 		$criteria->compare('LOWER(nomorindukpegawai)',strtolower($this->nomorindukpegawai),true);
+                
+                if (!empty($this->ruangan_id)) {
+                    $criteria->join = 'join ruanganpegawai_m p on p.pegawai_id = t.pegawai_id';
+                    $criteria->compare('p.ruangan_id', $this->ruangan_id);
+                }
+                
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

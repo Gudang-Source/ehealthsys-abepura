@@ -179,7 +179,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                                         "))',
                     ),
                     array(
-                        'header' => 'Agama',
+                        'header' => 'Gelar Depan',
                         'name' => 'gelardepan',
                         'value' => '$data->gelardepan',
                         'filter' => CHtml::dropDownList('DokterV[gelardepan]', $pegawai->gelardepan, LookupM::getItems('gelardepan'),array('empty'=>'-- Pilih --'))

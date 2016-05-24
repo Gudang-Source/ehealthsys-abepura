@@ -77,7 +77,8 @@
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     'id'=>'dialogObatAlkes',
     'options'=>array(
-        'title'=>'Obat & Alat Kesehatan',
+        //'title'=>'Obat & Alat Kesehatan',
+        'title'=>'Stok Obat Alkes '.Yii::app()->user->getState('ruangan_nama'),
         'autoOpen'=>false,
         'modal'=>true,
         'width'=>980,
@@ -85,17 +86,17 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'resizable'=>false,
     ),
 ));
-$modObatAlkes = new LBObatalkesM('searchDialog');
+$modObatAlkes = new InfostokobatalkesruanganV('searchObat');
 $modObatAlkes->unsetAttributes();
-if(isset($_GET['LBObatalkesM'])){
-    $modObatAlkes->attributes = $_GET['LBObatalkesM'];
-    $modObatAlkes->jenisobatalkes_nama = $_GET['LBObatalkesM']['jenisobatalkes_nama'];
-    $modObatAlkes->satuankecil_nama = $_GET['LBObatalkesM']['satuankecil_nama'];
+if(isset($_GET['InfostokobatalkesruanganV'])){
+    $modObatAlkes->attributes = $_GET['InfostokobatalkesruanganV'];
+    //$modObatAlkes->jenisobatalkes_nama = $_GET['InfostokobatalkesruanganV']['jenisobatalkes_nama'];
+   // $modObatAlkes->satuankecil_nama = $_GET['InfostokobatalkesruanganV']['satuankecil_nama'];
 //    $modObatAlkes->sumberdana_nama = $_GET['LBObatalkesM']['sumberdana_nama'];
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'obatalkes-m-grid',
-	'dataProvider'=>$modObatAlkes->searchDialog(),
+	'dataProvider'=>$modObatAlkes->searchObat(),
 	'filter'=>$modObatAlkes,
         'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
@@ -109,7 +110,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                         $(\'#obatalkes_id\').val($data->obatalkes_id);
                                         $(\'#qty_stok\').val(".StokobatalkesT::getJumlahStok($data->obatalkes_id, Yii::app()->user->getState(\'ruangan_id\')).");
                                         $(\'#satuankecil_id\').val($data->satuankecil_id);
-                                        $(\'#satuankecil_nama\').val(\'$data->SatuanKecilNama\');
+                                        $(\'#satuankecil_nama\').val(\'$data->satuankecil_nama\');
                                         $(\'#hargajual\').val($data->hargajual);
                                         $(\'#harganetto\').val($data->harganetto);
                                         $(\'#obatalkes_nama\').val(\'$data->obatalkes_nama\');
@@ -122,17 +123,33 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'name'=>'jenisobatalkes_id',
                     'type'=>'raw',
                     'value'=>'(!empty($data->jenisobatalkes_id) ? $data->jenisobatalkes->jenisobatalkes_nama : "")',
-                    'filter'=>  CHtml::activeTextField($modObatAlkes, 'jenisobatalkes_nama'),
+                    'filter'=>  CHtml::activeDropDownList($modObatAlkes, 'jenisobatalkes_id', CHtml::listData(
+                   JenisobatalkesM::model()->findAll(array(
+                       'condition'=>'jenisobatalkes_aktif = true',
+                       'order'=>'jenisobatalkes_nama',
+                   )), 'jenisobatalkes_id', 'jenisobatalkes_nama'), array('empty'=>'-- Pilih --')),
+                ),
+                array(
+                    'name'=>'obatalkes_kategori',
+                    'filter'=>  CHtml::activeDropDownList($modObatAlkes, 'obatalkes_kategori', LookupM::getItems('obatalkes_kategori'), array(
+                        'empty'=>'-- Pilih --'
+                    ))
+                ),
+                array(
+                    'name'=>'obatalkes_golongan',
+                    'filter'=>  CHtml::activeDropDownList($modObatAlkes, 'obatalkes_golongan', LookupM::getItems('obatalkes_golongan'), array(
+                        'empty'=>'-- Pilih --'
+                    ))
                 ),
                 'obatalkes_nama',
-                'obatalkes_kategori',
-                'obatalkes_golongan',
-                array(
-                    'name'=>'satuankecil_id',
-                    'type'=>'raw',
-                    'value'=>'$data->satuankecil->satuankecil_nama',
-                    'filter'=>  CHtml::activeTextField($modObatAlkes, 'satuankecil_nama'),
-                ),
+              //  'obatalkes_kategori',
+               // 'obatalkes_golongan',
+               // array(
+                //    'name'=>'satuankecil_id',
+                //    'type'=>'raw',
+               //     'value'=>'$data->satuankecil->satuankecil_nama',
+                //    'filter'=>  CHtml::activeTextField($modObatAlkes, 'satuankecil_nama'),
+               // ),
 //                array(
 //                    'name'=>'sumberdana_id',
 //                    'type'=>'raw',
