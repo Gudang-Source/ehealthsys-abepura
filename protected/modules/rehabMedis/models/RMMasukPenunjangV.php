@@ -291,4 +291,41 @@ class RMMasukPenunjangV extends PasienmasukpenunjangV
                 return "-";
             }
         }
+        
+        public function searchDialogKunjungan()
+    {
+            // Warning: Please modify the following code to remove attributes that
+            // should not be searched.
+            $criteria=new CDbCriteria;
+            $criteria->compare('LOWER(t.no_pendaftaran)',strtolower($this->no_pendaftaran),true);
+            $criteria->compare('LOWER(t.no_masukpenunjang)',strtolower($this->no_masukpenunjang),true);
+            $criteria->compare('LOWER(t.no_rekam_medik)',strtolower($this->no_rekam_medik),true);
+            $criteria->compare('LOWER(t.nama_pasien)',strtolower($this->nama_pasien),true);
+            $criteria->compare('LOWER(t.instalasiasal_nama)',strtolower($this->instalasiasal_nama),true);
+            $criteria->compare('LOWER(t.ruanganasal_nama)',strtolower($this->ruanganasal_nama),true);
+			if(!empty($this->carabayar_id)){
+				$criteria->addCondition('t.carabayar_id = '.$this->carabayar_id);
+			}
+			if(!empty($this->penjamin_id)){
+				$criteria->addCondition('t.penjamin_id = '.$this->penjamin_id);
+			}
+            $criteria->compare('LOWER(t.penjamin_nama)',strtolower($this->penjamin_nama),true);
+			if(!empty($this->ruangan_id)){
+				$criteria->addCondition('t.ruangan_id = '.$this->ruangan_id);
+			}
+            $criteria->compare('LOWER(t.nama_pegawai)',  strtolower($this->nama_pegawai),true);
+             $criteria->compare('LOWER(t.jeniskelamin)',strtolower($this->jeniskelamin),true);
+            $criteria->compare('LOWER(t.nama_pegawai)',strtolower($this->nama_pegawai),true);
+            $criteria->compare('LOWER(t.pekerjaan_nama)',strtolower($this->pekerjaan_nama),true);
+            $criteria->compare('LOWER(t.jeniskasuspenyakit_nama)',strtolower($this->jeniskasuspenyakit_nama),true);
+            $criteria->order = 't.tglmasukpenunjang DESC';
+            $criteria->join = 'join pendaftaran_t p on p.pendaftaran_id = t.pendaftaran_id';
+            
+            $criteria->addCondition('p.pasienbatalperiksa_id is null');
+            $criteria->limit = 10;
+            return new CActiveDataProvider($this, array(
+                    'criteria'=>$criteria,
+                  //  'pagination'=>false,
+            ));
+    }
 }
