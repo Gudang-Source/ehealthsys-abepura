@@ -101,7 +101,7 @@ class DaftartindakanM extends CActiveRecord
 			'daftartindakan_nama' => 'Nama Tindakan',
 			'tindakanmedis_nama' => 'Nama Tindakan Medis ',
 			'daftartindakan_namalainnya' => 'Nama Lainnya',
-			'daftartindakan_katakunci' => 'Katakunci',
+			'daftartindakan_katakunci' => 'Kata Kunci',
 			'daftartindakan_karcis' => 'Karcis',
 			'daftartindakan_visite' => 'Visite',
 			'daftartindakan_konsul' => 'Konsul',

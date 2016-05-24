@@ -218,8 +218,7 @@ if (isset($_GET['idMutasi']) && !empty($_GET['idMutasi'])) {
             'height' => 600,
             'resizable' => false,
         ),
-    ));
-
+    ));    
     $modPegawai = new GUPegawaiRuanganV('search');
     $modPegawai->unsetAttributes();    
     if (isset($_GET['GUPegawaiRuanganV']))

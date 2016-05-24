@@ -144,6 +144,7 @@ class DokrekammedisController extends MyAuthController
 								$modelPengiriman->pendaftaran_id = $_POST['Dokumen']['pendaftaran_id'][$i];
 								$modelPengiriman->ruangan_id = $_POST['Dokumen']['ruangan_id'][$i];
 								$modelPengiriman->ruanganpengirim_id = Yii::app()->user->getState('ruangan_id');
+                                                                $modelPengiriman->ruanganpenerima_id = $_POST['Dokumen']['ruangan_id'][$i];
 								$modelPengiriman->kelengkapandokumen = $_POST['Dokumen']['kelengkapandokumen'][$i];
 								$modelPengiriman->create_ruangan = Yii::app()->user->getState('ruangan_id');
 								$modelPengiriman->create_time = date('Y-m-d H:i:s');

@@ -10,6 +10,12 @@ function setAntrians(antrianfarmasi_id){
         data: {antrianfarmasi_id:antrianfarmasi_id},
         dataType: "json",
         success:function(data){
+            
+            $(".ruangan span").html(data.ruangan.ruangan_nama);
+            $(".pasien-deskripsi span").html(data.pasien + " - " + data.penjualan.noresep);
+            $(".no-antrian").html(data.loket.loket_singkatan + "-" + data.antrian.noantrian);
+            setSuaraPanggilan(data.loket.loket_singkatan,data.antrian.noantrian,data.loket.loket_id);
+            /*
             var i = 0;
             var kodeantrians = [];
             var noantrians = [];
@@ -40,6 +46,7 @@ function setAntrians(antrianfarmasi_id){
             }
             $("#daftarantrian_1 .daftar-isi").html(data.racikan.daftarantrian);
             $("#daftarantrian_2 .daftar-isi").html(data.nonracikan.daftarantrian);
+                */
         },
         error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
     });
@@ -90,7 +97,7 @@ $( document ).ready(function(){
     socket = io.connect(chatServer+':'+chatPort);
     socket.emit('subscribe', 'antrian');
     socket.on('antrian', function(data){
-        setAntrians(data.antrian_id);
+        if (data.panggil == 5) setAntrians(data.antrian_id);
     });
     <?php }else{ ?>
 		setInterval(function(){setAntrians('');},4000);

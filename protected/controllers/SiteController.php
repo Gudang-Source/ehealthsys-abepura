@@ -95,6 +95,27 @@ class SiteController extends Controller
 			Yii::app()->end();
 		}
 
+                
+                if (isset($_POST["forgot"])) {
+                    if(isset($_POST['LoginForm'])) {
+                        $model->attributes=$_POST['LoginForm'];
+                        $lp = LoginpemakaiK::model()->findByAttributes(array(
+                            'nama_pemakai' => $model->username,
+                        ));
+                        if (!empty($lp->pegawai_id)) {
+                            $pegawai = PegawaiM::model()->findByPk($lp->pegawai_id);
+                            $m = new LupaPasswordForm();
+                            $m->no_hp = $pegawai->nomobile_pegawai;
+                            $m->loginpemakai_id = $lp->loginpemakai_id;
+                            $this->setPassword($m);
+                            Yii::app()->user->setFlash('success', 'Segera <strong>login</strong> jika pesan sudah diterima di HP Anda.');
+                            $this->redirect(array('site/login'));
+                        }
+                    }
+                }
+                
+                
+                
 		// collect user input data
 		if(isset($_POST['LoginForm']))
 		{
@@ -133,12 +154,60 @@ class SiteController extends Controller
          * ===========================================================
          * Lupa password
          * ===========================================================
-         */
-        public function actionLupaPassword() {
+         */ /*
+        public function actionLupaPassword()
+        {
             $this->layout = '//layouts/login';
             
             $model = new LupaPasswordForm;
+            
+            if (isset($_POST['LupaPasswordForm'])) {
+                $model->attributes = $_POST['LupaPasswordForm'];
+                if ($model->validate()) {
+                    $this->setPassword($model);
+                    Yii::app()->user->setFlash('success', 'Segera <strong>login</strong> jika pesan sudah diterima di HP Anda.');
+                    $this->redirect(array('site/login'));
+                }
+            }
+            //die;
+            
+            
             $this->render('lupaPassword',array('model'=>$model));
+        } */
+        
+        public function setPassword($model)
+        {
+            $char = str_split("abcdefghijklmnopqrstuvwxyz1234567890");
+            $str = "";
+            for ($i = 0; $i < 8; $i++) {
+                $str .= $char[rand(0,count($char) - 1)];
+            }
+            
+            $this->kirimSMS($model, $str);
+            
+            LoginpemakaiK::model()->updateByPk($model->loginpemakai_id, array(
+                'katakunci_pemakai'=>LoginpemakaiK::model()->encrypt($str),
+                'loginpemakai_update'=>null,
+            ));
+            
+            // var_dump($str, md5($str), $model->attributes); die;
+        }
+        
+        public function kirimSMS($model, $str)
+        {
+            $lp = LoginpemakaiK::model()->findByPk($model->loginpemakai_id);
+            $no_hp = $model->no_hp;
+            $dat = "Password untuk user '".$lp->nama_pemakai."' adalah '$str'. "
+                    . "Segera login untuk mengubah password.";
+            
+            $model = new Outbox;
+            $model->CreatorID = Yii::app()->user->name;
+            
+            $model->UDH = "";
+            $model->DestinationNumber = $no_hp;
+            $model->TextDecoded = $dat;
+            
+            $model->save();
         }
         
         /**

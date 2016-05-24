@@ -29,6 +29,7 @@ class AKPelayananRekM extends PelayananrekM {
 
 	public $instalasi_id, $instalasi_nama, $ruangan_nama, $kelompoktindakan_nama, $kategoritindakan_nama, $daftartindakan_kode, $daftartindakan_nama, $rekening5_id_d, $nmrekening5_d, $rekening5_id_k, $nmrekening5_k;
 	public $nmrekening5, $komponentarif_nama;
+        public $kdrekening5, $komponentarif_id;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -98,10 +99,8 @@ class AKPelayananRekM extends PelayananrekM {
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
-		$criteria = new CDbCriteria;
-                $criteria->with = array('ruangan');
-                $criteria->with = array('rekening5');                
-                $criteria->with = array('daftartindakan', 'komponentarif'); 
+		$criteria = new CDbCriteria;            
+                $criteria->with = array('ruangan', 'rekening5', 'daftartindakan', 'komponentarif'); 
                 
 		if (!empty($this->pelayananrek_id)) {
 			$criteria->addCondition('pelayananrek_id = ' . $this->pelayananrek_id);
@@ -111,7 +110,7 @@ class AKPelayananRekM extends PelayananrekM {
 			$criteria->addCondition('rekening5_id = ' . $this->rekening5_id);
 		}
 		if (!empty($this->ruangan_id)) {
-			$criteria->addCondition('ruangan_id = ' . $this->ruangan_id);
+			$criteria->addCondition('t.ruangan_id = ' . $this->ruangan_id);
 		}
 
 		if (!empty($this->daftartindakan_id)) {
@@ -134,15 +133,23 @@ class AKPelayananRekM extends PelayananrekM {
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 		$criteria = $this->criteriaSearch();
+                $criteria->compare('lower(rekening5.kdrekening5)', trim(strtolower($this->kdrekening5)), true);
+                $criteria->compare('lower(rekening5.nmrekening5)', trim(strtolower($this->nmrekening5)), true);
+                $criteria->compare('lower(daftartindakan.daftartindakan_nama)', trim(strtolower($this->daftartindakan_nama)), true);
 		// $criteria->limit = 10;
 
 		return new CActiveDataProvider($this, array(
 			'criteria' => $criteria,
                         'sort' => array(
+                            'defaultOrder' => 'rekening5.kdrekening5, daftartindakan.daftartindakan_nama, komponentarif.komponentarif_nama',
                             'attributes' => array(
                                 'ruangan_nama' => array(
                                     'asc' => 'ruangan.ruangan_nama ASC',
                                     'desc' => 'ruangan.ruangan_nama DESC',
+                                ),
+                                'kdrekening5' => array(
+                                    'asc' => 'rekening5.kdrekening5 ASC',
+                                    'desc' => 'rekening5.kdrekening5 DESC',
                                 ),
                                 'nmrekening5' => array(
                                     'asc' => 'rekening5.nmrekening5 ASC',
@@ -152,7 +159,7 @@ class AKPelayananRekM extends PelayananrekM {
                                     'asc' => 'daftartindakan.daftartindakan_nama ASC',
                                     'desc' => 'daftartindakan.daftartindakan_nama DESC',
                                 ),
-                                'komponentarif_nama' => array(
+                                'komponentarif_id' => array(
                                     'asc' => 'komponentarif.komponentarif_nama ASC',
                                     'desc' => 'komponentarif.komponentarif_nama DESC',
                                 ),

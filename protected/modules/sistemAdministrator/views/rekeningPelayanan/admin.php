@@ -30,7 +30,7 @@
         'columns' => array(
             array(
                 'header' => 'Kode Akun',
-                'name' => 'nmrekening5',
+                'name' => 'kdrekening5',
                 'value' => 'isset($data->rekening5_id)?$data->rekening5->kdrekening5:" - "',
 //				'filter'=>true,
             ),
@@ -59,13 +59,13 @@
             ),
             array(
                 'header' => 'Komponen Tarif',
-                'name' => 'komponentarif_nama',
+                'name' => 'komponentarif_id',
                 'value' => 'isset($data->komponentarif->komponentarif_nama)?$data->komponentarif->komponentarif_nama:" - "',
-                'filter' => CHtml::activeDropDownList($model, 'komponentarif_nama', CHtml::listData(
+                'filter' => CHtml::activeDropDownList($model, 'komponentarif_id', CHtml::listData(
                KomponentarifM::model()->findAll(array(
                    'condition'=>'komponentarif_aktif = true',
                    'order'=>'komponentarif_nama',
-               )),'komponentarif_nama','komponentarif_nama'), array(
+               )),'komponentarif_id','komponentarif_nama'), array(
                    'empty'=>'-- Pilih --',
                )),
             ),
