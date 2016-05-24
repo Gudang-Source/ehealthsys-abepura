@@ -63,8 +63,9 @@
                     ),
                     array(
                             'header'=>'Mata Uang',
-                            'name'=>'matauang',
+                            'name'=>'matauang_id',
                             'value'=>'isset($data->bank->matauang->matauang) ? $data->bank->matauang->matauang : "-"',
+                            'filter'=> CHtml::dropDownList('SABankRekM[matauang_id]', $model->matauang_id, CHtml::listData(MatauangM::model()->findAll("matauang_aktif = TRUE ORDER BY matauang"), 'matauang_id', 'matauang'), array('empty'=>'-- Pilih --'))
                     ),
                     array(
                             'header'=>'Propinsi',
@@ -100,7 +101,7 @@
                     ),
                     array(
                             'header'=>'Aktif',
-                            'value'=>'($data->bank->bank_aktif == TRUE) ? "AKTIF" : "TIDAK AKTIF"',
+                            'value'=>'($data->bank->bank_aktif == TRUE) ? "Aktif" : "Tidak Akitf"',
                     ),
                     array(
                             'header'=>Yii::t('zii','View'),
@@ -124,8 +125,8 @@
                                             'label'=>"<i class='icon-form-silang'></i>",
                                             'options'=>array('title'=>Yii::t('mds','Remove Temporary')),
                                             'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/removeTemporary",array("id"=>"$data->bank_id"))',
-                                            'visible'=>'($data->bank_aktif && Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)) ? TRUE : FALSE',
-                                            'click'=>'function(){return confirm("'.Yii::t("mds","Do You want to remove this item temporary?").'");}',
+                                            'visible'=>'($data->bank->bank_aktif)?FALSE:FALSE',
+                                           // 'click'=>'function(){return confirm("'.Yii::t("mds","Do You want to remove this item temporary?").'");}',
                                     ),
                                     'delete' => array (
 											'label'=>"<i class='icon-delete'></i>",
