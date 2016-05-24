@@ -1,3 +1,16 @@
+<script>
+    var ekt = document.body;
+    if (ekt.requestFullscreen) {
+      ekt.requestFullscreen();
+    } else if (ekt.msRequestFullscreen) {
+      ekt.msRequestFullscreen();
+    } else if (ekt.mozRequestFullScreen) {
+      ekt.mozRequestFullScreen();
+    } else if (ekt.webkitRequestFullscreen) {
+      ekt.webkitRequestFullscreen();
+    }
+</script>
+
 <style>
     body{
         background-image:url("images/antrian/bg_antrian.jpg");
