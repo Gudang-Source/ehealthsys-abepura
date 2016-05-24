@@ -54,8 +54,8 @@ class TariftindakanM extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('harga_tariftindakan, persendiskon_tind, hargadiskon_tind, persencyto_tind,kelaspelayanan_id, jenistarif_id', 'required'),
-			array('jenistarif_id, daftartindakan_id, komponentarif_id, perdatarif_id, persendiskon_tind, persencyto_tind,create_loginpemakai_id, update_loginpemakai_id, create_ruangan', 'numerical', 'integerOnly'=>true),
-			array('harga_tariftindakan, hargadiskon_tind', 'numerical'),
+			array('jenistarif_id, daftartindakan_id, komponentarif_id, perdatarif_id, persencyto_tind,create_loginpemakai_id, update_loginpemakai_id, create_ruangan', 'numerical', 'integerOnly'=>true),
+			array('harga_tariftindakan, hargadiskon_tind, persendiskon_tind', 'numerical'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('tariftindakan_id, jenistarif_id, kelaspelayanan_nama, daftartindakan_nama, daftartindakan_kode, tindakanmedis_nama, daftartindakan_id, komponentarif_id, perdatarif_id, harga_tariftindakan, persendiskon_tind, hargadiskon_tind, persencyto_tind,kelaspelayanan_id, create_time, update_time, create_loginpemakai_id, update_loginpemakai_id, create_ruangan', 'safe', 'on'=>'search'),

@@ -35,7 +35,7 @@
                                         <th>No.</th>
                                         <th>Tgl. Pelayanan</th>
                                         <th>Obat / Alat Kesehatan</th>
-                                        <th>Satuan Kecil</th>
+                                        <!--th>Satuan Kecil</th-->
                                         <th>Jumlah</th>
                                         <th>Hapus</th>
                                     </thead>
@@ -61,8 +61,8 @@
                     <tr>
                         <th>No.</th>
                         <th>Obat / Alat Kesehatan</th>
-                        <th>Satuan Kecil</th>
-                        <th>Stok</th>
+                        <!--th>Satuan Kecil</th-->
+                        <!--th>Stok</th-->
                         <th>Jumlah</th>
                         <th>Batal</th>
                     </tr>
