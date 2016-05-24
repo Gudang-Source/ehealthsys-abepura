@@ -81,7 +81,19 @@
                     array(
                             'header'=>Yii::t('zii','Delete'),
                             'class'=>'bootstrap.widgets.BootButtonColumn',
-                            'template'=>'{delete}',
+                            'template'=>'{remove}{delete}',
+                            'buttons'=>array(
+                                'remove' => array (
+                                                'label'=>"<i class='icon-form-silang'></i>",
+                                                'options'=>array('title'=>Yii::t('mds','Remove Temporary')),
+                                                'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/nonActive",array("id"=>$data->lookup_id))',
+                                                'click'=>'function(){nonActive(this);return false;}',
+                                                'visible'=>'($data->lookup_aktif)?TRUE:FALSE',
+                                ),
+                                'delete'=> array(
+                                                'visible'=>'Yii::app()->controller->checkAccess(array("action"=>Params::DEFAULT_DELETE))',
+                                ),
+                            ),
                     ),
             ),
             'afterAjaxUpdate'=>'function(id, data){
@@ -123,4 +135,29 @@ JSCRIPT;
 $(document).ready(function(){
         $("input[name='SALookupM[lookup_name]']").focus();
 });
+</script>
+<script type="text/javascript">	
+	function nonActive(obj){
+		myConfirm("Yakin akan menonaktifkan data ini untuk sementara?","Perhatian!",
+			function(r){
+				if(r){ 
+					$.ajax({
+						type:'GET',
+						url:obj.href,
+						data: {},//
+						dataType: "json",
+						success:function(data){
+							$.fn.yiiGridView.update('lookup-m-grid');
+							if(data.sukses > 0){
+							}else{
+								myAlert('Data gagal dinonaktifkan!');
+							}
+						},
+						error: function (jqXHR, textStatus, errorThrown) { myAlert('Data gagal dinonaktifkan!'); console.log(errorThrown);}
+					});
+				}
+			}
+		);
+		return false;
+	}
 </script>
