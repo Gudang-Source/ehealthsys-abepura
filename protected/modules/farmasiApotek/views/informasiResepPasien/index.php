@@ -29,6 +29,27 @@
             'itemsCssClass'=>'table table-striped table-condensed',
             'columns'=>array(
                 array(
+                    'header'=>'No. Antrian',
+                    'type'=>'raw',
+                    'value'=>function($data) {
+                        $a = PendaftaranT::model()->findByPk($data->pendaftaran_id);
+                        $p = null;
+                        if (empty($a->antrian_id)) return "-";
+                        $a = AntrianT::model()->findByPk($a->antrian_id);
+                        $l = LoketM::model()->findByPk($a->loket_id);
+                        return $l->loket_singkatan."-".$a->noantrian.
+                            CHtml::htmlButton(
+                                    Yii::t("mds","{icon}",array("{icon}"=>"<i class='icon-volume-up icon-white'></i>")),
+                                    array(
+                                        "class"=>"btn btn-primary",
+                                        "onclick"=>"panggilAntrian('".$data->penjualanresep_id."');" ,
+                                        "rel"=>"tooltip",
+                                        "title"=>"Klik untuk memanggil pasien ini"
+                                    )
+                            );
+                    }
+                ),
+                array(
                     'header'=>'Tanggal Penjualan',
                     'type'=>'raw',
                     'value'=>'$data->tglpenjualan',
@@ -345,3 +366,35 @@
     <?php $this->endWidget();?>
 	<?php $this->renderPartial($this->path_view.'_jsFunctionsIndex'); ?>
 </div>
+<script>
+/**
+ * memanggil antrian ke poliklinik
+ * @param {type} pendaftaran_id
+ * @returns {undefined} */
+function panggilAntrian(penjualanresep_id){
+    /*
+    $.ajax({
+        type:'POST',
+        url:'<?php echo $this->createUrl('Panggil'); ?>',
+        data: {pendaftaran_id:pendaftaran_id},
+        dataType: "json",
+        success:function(data){
+            if(data.pesan !== ""){
+                myAlert(data.pesan);
+            }
+            if(data.smspasien==0){
+                var params = [];
+                params = {instalasi_id:<?php echo Yii::app()->user->getState("instalasi_id"); ?>, modul_id:<?php echo Yii::app()->session['modul_id']; ?>, judulnotifikasi:'GAGAL KIRIM SMS PASIEN', isinotifikasi:'Pasien '+data.nama_pasien+' tidak memiliki nomor mobile'}; // 16 
+                insert_notifikasi(params);
+            } */ 
+            <?php if(Yii::app()->user->getState('is_nodejsaktif')){ ?>
+            myAlert("Sedang dipanggil...");
+            socket.emit('send',{conversationID:'antrian',panggil:5,antrian_id:penjualanresep_id});
+            <?php } ?>
+                /*
+            $.fn.yiiGridView.update('daftarpasien-v-grid');
+        }, 
+        error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
+    }); */
+}
+</script>
