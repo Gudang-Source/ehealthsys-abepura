@@ -1,4 +1,11 @@
+
 <?php
+if ($id == 'batang'):
+    $width = 'width:50%;';
+else:
+    $width = 'width:100%;';
+endif;
+
 if($id == "garis"){
     $data['title'] = "Grafik ".$data['title']."<br>Periode : ".$data['tgl_awal']." s.d ".$data['tgl_akhir'];
 }
@@ -56,7 +63,7 @@ $this->Widget('ext.jQPlot.jQPlotWidget', array(
         ),
     ),
     'htmlOptions'=>array(
-            'style'=>' width:100%',
+            'style'=>$width,
     )
         )
 );
