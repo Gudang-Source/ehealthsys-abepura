@@ -126,7 +126,7 @@ class PersalinanT extends CActiveRecord
 			'carapersalinan' => 'Cara persalinan',
 			'posisijanin' => 'Posisi Janin',
 			'islahirdirs' => 'Lahir Di RS',
-			'tglmelahirkan' => 'Tanggal melahirkan',
+			'tglmelahirkan' => 'Tanggal Melahirkan',
 			'keadaanlahir' => 'Keadaan Lahir',
 			'masagestasi_minggu' => 'Masa Gestasi',
 			'paritaske' => 'Paritas',
