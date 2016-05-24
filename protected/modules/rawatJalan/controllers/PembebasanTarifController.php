@@ -168,6 +168,7 @@ class PembebasanTarifController extends MyAuthController
 				$pegawai_id = isset($_POST['pegawai_id']) ? $_POST['pegawai_id'] :null;
                 
                 $tindakans = TindakanpelayananT::model()->with('daftartindakan')->findAllByAttributes(array('pendaftaran_id'=>$pendaftaran_id,));
+                if (count($tindakans) > 0){
                 foreach($tindakans as $i=>$tindakan){
                     $returnVal[$tindakan->tindakanpelayanan_id]['daftartindakan_id'] = $tindakan->daftartindakan_id;
                     $returnVal[$tindakan->tindakanpelayanan_id]['daftartindakan_nama'] = $tindakan->daftartindakan->daftartindakan_nama;
@@ -194,6 +195,11 @@ class PembebasanTarifController extends MyAuthController
                         $returnVal[$tindakan->tindakanpelayanan_id][$tindKomponenId]['subsidirumahsakitkomp'] = $komponen->subsidirumahsakitkomp;
                         $returnVal[$tindakan->tindakanpelayanan_id][$tindKomponenId]['iurbiayakomp'] = $komponen->iurbiayakomp;
                     }
+                }
+                }
+                else
+                {
+                    $returnVal = array();
                 }
                 
                 $form = $this->renderPartial($this->pathView.'_formPembebasanTarif', array('data'=>$returnVal), true);
@@ -245,5 +251,28 @@ class PembebasanTarifController extends MyAuthController
                 echo CJSON::encode($post);
                 Yii::app()->end();
             }
+        }
+        
+        public function actionDaftarPasienTindakanRuangan()
+        {
+            if(Yii::app()->request->isAjaxRequest) {
+                    $criteria = new CDbCriteria();
+                    $criteria->compare('LOWER(no_rekam_medik)', strtolower($_GET['term']), true);
+                    $criteria->addCondition('ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
+                    $criteria->order = 'tgl_pendaftaran DESC';
+                    $models = RJInfokunjunganrjV::model()->findAll($criteria);
+                    foreach($models as $i=>$model)
+                    {
+                        $attributes = $model->attributeNames();
+                        foreach($attributes as $j=>$attribute) {
+                            $returnVal[$i]['label'] = $model->no_rekam_medik.' - '.$model->nama_pasien;
+                            $returnVal[$i]['value'] = $model->no_rekam_medik;
+                            $returnVal[$i]["$attribute"] = $model->$attribute;
+                        }
+                    }
+
+                    echo CJSON::encode($returnVal);
+            }
+            Yii::app()->end();
         }
 }

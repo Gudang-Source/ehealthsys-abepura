@@ -107,7 +107,7 @@
                     array('class'=>'btn btn-danger',
                           'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;')); */ ?>
         <?php
-$content = $this->renderPartial('../tips/transaksi',array(),true);
+$content = $this->renderPartial('rawatJalan.views.laporan.tips/PembebasanTarif',array(),true);
 $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
 ?>
     </div>
