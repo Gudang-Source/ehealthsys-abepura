@@ -49,7 +49,7 @@ class PPInfoKunjunganRJV extends InfokunjunganrjV
                         . "left join rujukan_t r on r.rujukan_id = p.rujukan_id";
                 
                 $criteria->addBetweenCondition('DATE(t.tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
-		$criteria->compare('LOWER(t.tgl_pendaftaran)',strtolower($this->tgl_pendaftaran),true);
+		//$criteria->compare('LOWER(t.tgl_pendaftaran)',strtolower($this->tgl_pendaftaran),true);
 		$criteria->compare('LOWER(t.no_pendaftaran)',strtolower($this->no_pendaftaran),true);
 		$criteria->compare('LOWER(t.statusperiksa)',strtolower($this->statusperiksa),true);
 		$criteria->compare('LOWER(t.statusmasuk)',strtolower($this->statusmasuk),true);
@@ -170,14 +170,16 @@ class PPInfoKunjunganRJV extends InfokunjunganrjV
                 $criteria->group .= 'propinsi_nama';
             }
 
-            if (count($addCols) > 0){
-                if (is_array($addCols)){
-                    foreach ($addCols as $i => $v){
-                        $criteria->group .= ','.$v;
-                        $criteria->select .= ','.$v.' as '.$i;
-                    }
-                }            
-            }
+           // if (count($addCols) > 0){
+               // if (is_array($addCols)){
+                 //   foreach ($addCols as $i => $v){
+                   //     $criteria->group .= ','.$v;
+                    //    $criteria->select .= ','.$v.' as '.$i;
+                   // }
+              //  }            
+         //   }
+            //$criteria->group = 'penjamin_nama, ruangan_nama';
+            
            
             return $criteria;
         }
@@ -185,8 +187,8 @@ class PPInfoKunjunganRJV extends InfokunjunganrjV
         public function searchGrafik(){
                
 			$criteria = $this->criteriaGrafik($this, 'data', array('tick'=>'ruangan_nama'));
-
-			$criteria->order = 'ruangan_nama';
+                        
+			//$criteria->order = 'ruangan_nama';
 
 			$criteria->addBetweenCondition('DATE(tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
 			if(!empty($this->propinsi_id)){
@@ -622,8 +624,7 @@ class PPInfoKunjunganRJV extends InfokunjunganrjV
 			$criteria=new CDbCriteria;
 
 			$criteria->select = 'count(pendaftaran_id) as jumlah, nama_pegawai as data';
-			$criteria->group = 'nama_pegawai';
-			$criteria->order = 'nama_pegawai';
+			
 
 			$criteria->addBetweenCondition('DATE(tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
 			
@@ -657,8 +658,12 @@ class PPInfoKunjunganRJV extends InfokunjunganrjV
 			$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
 			$criteria->compare('LOWER(status_konfirmasi)',strtolower($this->status_konfirmasi),true);
 	//		                
-			return new CActiveDataProvider($this, array(
+			$criteria->group = 'nama_pegawai';
+			$criteria->order = 'nama_pegawai ASC';
+                        
+                        return new CActiveDataProvider($this, array(
 				'criteria'=>$criteria,
+                                'pagination' => false
 			));
         }
         public function searchGrafikPenjamin(){
@@ -885,8 +890,8 @@ class PPInfoKunjunganRJV extends InfokunjunganrjV
 			$criteria=new CDbCriteria;
 
 			$criteria->select = 'count(pendaftaran_id) as jumlah, ruangan_nama as data';
-			$criteria->group = 'ruangan_nama';
-			$criteria->order = 'ruangan_nama';
+			
+			
 
 			$criteria->addBetweenCondition('DATE(tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
 			
@@ -918,10 +923,14 @@ class PPInfoKunjunganRJV extends InfokunjunganrjV
 				$criteria->addCondition("penjamin_id = ".$this->penjamin_id);			
 			}
 			$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
-			$criteria->compare('LOWER(status_konfirmasi)',strtolower($this->status_konfirmasi),true);
-	//		                
+			$criteria->compare('LOWER(status_konfirmasi)',strtolower($this->status_konfirmasi),true);	                               
+                        
+                        $criteria->group = 'ruangan_nama';
+                        $criteria->order = 'ruangan_nama ASC';                       
+                        
 			return new CActiveDataProvider($this, array(
 				'criteria'=>$criteria,
+                                'pagination' => false,
 			));
         }
         
