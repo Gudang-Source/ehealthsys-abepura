@@ -29,8 +29,15 @@
 	echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp";   
 	echo CHtml::htmlButton(Yii::t('mds','{icon} GRAFIK',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'GRAFIK\')'))."&nbsp&nbsp";     
 	
-    $content = $this->renderPartial('tips/tips',array(),true); 
-    $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
+ 
+            if (isset($tips) == 'pembebasan'):
+                $content = $this->renderPartial('rawatJalan.views.laporan.tips/PembebasanTarif',array(),true);
+            else:
+                $content = $this->renderPartial('rawatJalan.views.laporan.tips/tips',array(),true);
+            endif;
+		
+		$this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
+	
 ?>
    
 

@@ -194,9 +194,9 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                     <div class="control-group">
                         <?php echo CHtml::label('No. Telp / Hp','nomorcontact',array('class'=>'control-label')); ?>
                         <div class="controls">
-                            <?php echo $form->textField($model,'notelp_pegawai',array( 'class'=>'span2 integer','onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>15,'style'=>'width:97px;','id'=>'nomorcontact','placeholder'=>'No. Telepon Pegawai')); ?>
+                            <?php echo $form->textField($model,'notelp_pegawai',array( 'class'=>'span2  numbers-only','onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>15,'style'=>'width:97px;text-align:right;','id'=>'nomorcontact','placeholder'=>'No. Telepon Pegawai')); ?>
                             <?php echo ' / '; ?>
-                            <?php echo $form->textField($model,'nomobile_pegawai',array('class'=>'span2 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>15,'style'=>'width:97px;','id'=>'nomorcontact','placeholder'=>'No. Ponsel Pegawai')); ?>
+                            <?php echo $form->textField($model,'nomobile_pegawai',array('class'=>'span2 numbers-only', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>15,'style'=>'width:97px;text-align:right;','id'=>'nomorcontact','placeholder'=>'No. Ponsel Pegawai')); ?>
                         </div>
                     </div>
                 
