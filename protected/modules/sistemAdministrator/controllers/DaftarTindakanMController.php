@@ -69,74 +69,57 @@ class DaftarTindakanMController extends MyAuthController
 		// Uncomment the following line if AJAX validation is needed
 		
 
+                $td = DaftartindakanM::model()->find(array(
+                    'order'=>'daftartindakan_id desc',
+                ));
+                $model->daftartindakan_kode = "TM-".str_pad($td->daftartindakan_id + 1, 4, 0, STR_PAD_LEFT);
+        
+        
 		if(isset($_POST['SADaftarTindakanM']))
 		{
                         $model->attributes=$_POST['SADaftarTindakanM'];
                         $model->daftartindakan_aktif=TRUE;
-//                    echo "a";exit;
-                    $transaction = Yii::app()->db->beginTransaction();
-                    try{
-//                        echo "b";exit; 
-//                        echo "<pre>";
-//                        echo print_r($_POST['SATarifTindakanM']);exit;
-                        //$modDetailKomponen = $this->validasiTabular($_POST['SATarifTindakanM'],$model);
-                        $ok = true;
                         
-                        $jumlahDetailKomponen = COUNT($modDetailKomponen);
-//                        echo $jumlahDetailKomponen;exit;
-                        $jumlahDetail = 0;
-                        if($model->validate()){
-                            $ok &= $model->save();
-                            //$modDetailKomponen = $this->validasiTabular($_POST['SATarifTindakanM'],$model);
-//                            echo "c";exit;
-                            /*
-                            if(isset($_POST['cekTarifTindakan'])){
-                                if($jumlahDetailKomponen > 0){
-//                                        echo "d";exit;
-                                    foreach($modDetailKomponen as $key=>$modDetail){
-//                                            echo "e"; exit;
-//                                            $modDetail->daftartindakan_id = $model->daftartindakan_id; 
-                                       $modDetail->save();
-//                                                echo "f";exit;
-                                            $jumlahDetail++;
-//                                            }
-//                                            echo print_r($modDetail->attributes());
-//                                            echo print_r($jumlahDetail);exit;
-//                                            echo print_r($jumlahDetailKomponen);exit;
-                                    }
-//                                       exit;
+                        $transaction = Yii::app()->db->beginTransaction();
+                        try{
+                                $ok = true;
+                                if($model->validate()){
+                                        $ok = $ok && $model->save();
+                                }else{
+                                        $ok = false;
                                 }
-                            }
-                             * 
-                             */
-                        }else{
-                            $ok = false;
-//                            echo "g";exit;
-//                          
-                            //$transaction->rollback();
-                            //Yii::app()->user->setFlash('error',"Data gagal disimpan");
+
+                                // simpan tindakan ruangan
+                                if (isset($_POST['ruangan_id'])) {
+                                    foreach ($_POST['ruangan_id'] as $item) {
+                                        $tr = new TindakanruanganM;
+                                        $tr->daftartindakan_id = $model->daftartindakan_id;
+                                        $tr->ruangan_id = $item;
+                                        $ok = $ok && $tr->save();
+                                    }
+                                }
+                                
+                                // simpan tarif
+                                if (isset($_POST['SATarifTindakanM'])) {
+                                    $ok = $ok && $this->simpanTarifTindakan($model, $_POST['SATarifTindakanM']);
+                                }
+                                
+                                //var_dump($ok);
+                                // die;
+                                if ($ok){
+                                        $transaction->commit();
+                                        Yii::app()->user->setFlash('success','<strong>Berhasil</strong>Data Berhasil disimpan');
+                                        $this->redirect(array('admin','id'=>$model->daftartindakan_id));
+                                }
+                                else{
+                                        $transaction->rollback();
+                                        Yii::app()->user->setFlash('error', "Data gagal disimpan " . MyExceptionMessage::getMessage($ex, true));
+                                }
                         }
-                        
-                        if ($ok){
-//                            echo "h";exit;
-                            $transaction->commit();
-                            Yii::app()->user->setFlash('success','<strong>Berhasil</strong>Data Berhasil disimpan');
-                            $this->redirect(array('admin','id'=>$model->daftartindakan_id));
+                        catch(Exception $ex){
+                                $transaction->rollback();
+                                Yii::app()->user->setFlash('error', "Data gagal disimpan " . MyExceptionMessage::getMessage($ex, true));
                         }
-                        else{
-//                            echo "i";exit;
-                            $transaction->rollback();
-                          Yii::app()->user->setFlash('error', "Data gagal disimpan " . MyExceptionMessage::getMessage($ex, true));
-                        }
-                    }
-                    catch(Exception $ex){
-//                        echo "j";exit;
-                        $transaction->rollback();
-                       Yii::app()->user->setFlash('error', "Data gagal disimpan " . MyExceptionMessage::getMessage($ex, true));
-                    }
-//                                        Yii::app()->user->setFlash('success','<strong>Berhasil</strong>Data Berhasil disimpan');
-			
-			
 		}
                 
                 /* untuk pencarian dialog */
@@ -172,6 +155,93 @@ class DaftarTindakanMController extends MyAuthController
                         'modDetail'=>$modDetail,
 		));
 	}
+        
+        protected function simpanTarifTindakan($model, $post)
+        {
+            $ok = true;
+            // var_dump($model->attributes, $post);
+            
+            $det = array();
+            
+            foreach ($post as $idx=>$item) {
+                if (is_numeric($idx)) {
+                    $kel = $item['kelaspelayanan_id'];
+                    if (empty($det[$kel])) $det[$kel] = array('total'=>0, 'data'=>array());
+                    array_push($det[$kel]['data'], array(
+                        'komponentarif_id'=>$item['komponentarif_id'],
+                        'harga_tariftindakan'=>$item['harga_tariftindakan'],
+                    ));
+                    $det[$kel]['total'] += $item['harga_tariftindakan'];
+                }
+            }
+            
+            // var_dump($det);
+            
+            foreach ($det as $kelas => $item) {
+                foreach ($item['data'] as $detail) {
+                    $d = new TariftindakanM;
+                    $d->attributes = $post;
+                    
+                    if ($d->persendiskon_tind == 0) {
+                        $d->persendiskon_tind = round(($d->hargadiskon_tind/$item['total']) * 100, 2);
+                        $d->hargadiskon_tind = round(($d->hargadiskon_tind/$item['total']) * $detail['harga_tariftindakan']);
+                    } else {
+                        $d->hargadiskon_tind = ($d->persendiskon_tind * $detail['harga_tariftindakan']) / 100;
+                    }
+                    
+                    $d->daftartindakan_id = $model->daftartindakan_id;
+                    $d->kelaspelayanan_id = $kelas;
+                    $d->komponentarif_id = $detail['komponentarif_id'];
+                    $d->harga_tariftindakan = $detail['harga_tariftindakan'];
+                    
+                    $d->create_time = date('Y-m-d H:i:s');
+                    $d->create_loginpemakai_id = Yii::app()->user->id;
+                    $d->create_ruangan = Yii::app()->user->getState('ruangan_id');
+                    
+                    // var_dump($d->validate(), $d->errors); die;
+                    
+                    if ($d->validate()) {
+                        $ok = $ok && $d->save();
+                    } else $ok = false;
+                    
+                    // var_dump($d->attributes);
+                }
+                
+                // total
+                $d = new TariftindakanM;
+                $d->attributes = $post;
+                
+                if ($d->persendiskon_tind == 0) {
+                    $d->persendiskon_tind = round(($d->hargadiskon_tind/$item['total']) * 100, 2);
+                } else {
+                    $d->hargadiskon_tind = ($d->persendiskon_tind * $item['total']) / 100;
+                }
+                
+                $d->daftartindakan_id = $model->daftartindakan_id;
+                $d->kelaspelayanan_id = $kelas;
+                $d->komponentarif_id = Params::KOMPONENTARIF_ID_TOTAL;
+                $d->harga_tariftindakan = $item['total'];
+                
+                $d->create_time = date('Y-m-d H:i:s');
+                $d->create_loginpemakai_id = Yii::app()->user->id;
+                $d->create_ruangan = Yii::app()->user->getState('ruangan_id');
+                
+                
+                if ($d->validate()) {
+                    $ok = $ok && $d->save();
+                } else $ok = false;
+                
+                //var_dump($d->attributes);
+                
+                //die;
+            }
+            
+            return $ok;
+            
+            
+            //die;
+        }
+        
 
         protected function validasiTabular($datas,$modDaftar){
             $modDetails = array();
