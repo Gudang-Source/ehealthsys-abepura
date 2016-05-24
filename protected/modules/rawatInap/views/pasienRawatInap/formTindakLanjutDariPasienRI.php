@@ -286,6 +286,19 @@ $this->widget('MyDateTimePicker', array(
 
                         </div>
                     </div>
+                    <?php 
+                    $ruangan = RuanganM::model()->findAllByAttributes(array(
+                        'instalasi_id'=>Params::INSTALASI_ID_RJ,
+                        'ruangan_aktif'=>true,
+                    ), array(
+                        'order'=>'ruangan_nama',
+                    ));
+                    
+                    echo $form->dropDownListRow($modPendaftaran, 'ruangankontrol_id', CHtml::listData($ruangan, 'ruangan_id', 'ruangan_nama'), array(
+                        'empty'=>'-- Pilih --', 'disabled'=>true,
+                    ));
+                    ?>
+                    
                 </fieldset> 
             </td>
         </tr>
@@ -306,6 +319,9 @@ $this->widget('MyDateTimePicker', array(
         ?>
 <?php
 echo CHtml::htmlButton(Yii::t('mds', '{icon} Print', array('{icon}' => '<i class="icon-print icon-white"></i>')), array('class' => 'btn btn-primary-blue', 'disabled' => $disablePrint, 'type' => 'button', 'onclick' => 'print(\'PRINT\')'));
+$punyaPoliKontrol = !empty($modelPulang->pendaftaran->ruangankontrol_id);
+echo CHtml::htmlButton(Yii::t('mds', '{icon} Print Kontrol', array('{icon}' => '<i class="icon-print icon-white"></i>')), array('class' => 'btn btn-primary-blue', 'disabled' => !$punyaPoliKontrol, 'type' => 'button', 'onclick' => 'printKontrol(\'PRINT\')'));
+
 ?>
 <?php
 echo CHtml::link(Yii::t('mds', '{icon} Reset', array('{icon}' => '<i class="icon-refresh icon-white"></i>')), $this->createUrl($this->module->id . '/TindakLanjutDrTransaksi'), array('class' => 'btn btn-danger',
@@ -443,13 +459,15 @@ if ($tersimpan == 'Ya') {
         }
         $('#isKontrol').change(function () {
             if ($(this).is(':checked')) {
-                $('#RIPendaftaranT_tglrenkontrol').removeAttr('disabled');
+                $('#RIPendaftaranT_tglrenkontrol, #RIPendaftaranT_ruangankontrol_id').removeAttr('disabled');
                 $('#RIPendaftaranT_tglrenkontrol').val('<?php echo Yii::app()->dateFormatter->formatDateTime(
         CDateTimeParser::parse(date('Y-m-d H:i:s'), 'yyyy-MM-dd HH:ii:ss'));
 ?>');
+                $("#RIPendaftaranT_ruangankontrol_id").val('');
             } else {
-                $('#RIPendaftaranT_tglrenkontrol').attr('disabled', 'true');
+                $('#RIPendaftaranT_tglrenkontrol, #RIPendaftaranT_ruangankontrol_id').attr('disabled', 'true');
                 $('#RIPendaftaranT_tglrenkontrol').val('');
+                $("#RIPendaftaranT_ruangankontrol_id").val('');
 
             }
         });
@@ -461,6 +479,12 @@ if ($tersimpan == 'Ya') {
         {
             var pasienpulang_id = '<?php echo isset($modelPulang->pasienpulang_id) ? $modelPulang->pasienpulang_id : null ?>';
             window.open('<?php echo $this->createUrl('printPasienPulang'); ?>&pasienpulang_id=' + pasienpulang_id + '&caraPrint=' + caraPrint, 'printwin', 'left=100,top=100,width=1000,height=640');
+        }
+        
+        function printKontrol(caraPrint)
+        {
+            var pasienpulang_id = '<?php echo isset($modelPulang->pasienpulang_id) ? $modelPulang->pasienpulang_id : null ?>';
+            window.open('<?php echo $this->createUrl('printPasienKontrol'); ?>&pasienpulang_id=' + pasienpulang_id + '&caraPrint=' + caraPrint, 'printwin', 'left=100,top=100,width=1000,height=640');
         }
     </script>
 
