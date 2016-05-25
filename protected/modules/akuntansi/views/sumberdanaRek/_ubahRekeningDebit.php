@@ -206,6 +206,7 @@
 <?php
 $urlEditDebit = $this->createUrl('GetRekeningEditDebitKreditSumberdana');//MAsukan Dengan memilih Rekening
 $urlAdmin = Yii::app()->createUrl('akuntansi/sumberdanaRek/Admin');
+$mds = Yii::t('mds','Anda yakin akan ubah data rekening ?');
 $jscript = <<< JS
 
 function saveDebit()
@@ -220,16 +221,21 @@ function saveDebit()
     sumberdanarek_id = $('#sumberdanarek_id').val();
 
 //    myAlert(sumberdanarek_id + sumberdana_id+ rekening5_nb + rekening5_id + rekening4_id + rekening3_id + rekening2_id + rekening1_id);
-
-    $.post("${urlEditDebit}", {rekening1_id:rekening1_id, rekening2_id:rekening2_id, rekening3_id:rekening3_id, rekening4_id:rekening4_id, rekening5_id:rekening5_id, sumberdana_id:sumberdana_id, rekening5_nb:rekening5_nb,sumberdanarek_id:sumberdanarek_id},
-        function(data){
-            $('.divForForm').html(data.pesan);
-            setTimeout(function(){
-                $("#iframeEditRekeningDebitKredit").attr("src",$(this).attr("href"));
-                window.parent.$("#dialogUbahRekeningDebitKredit").dialog("close");
-                return true;
-            },500);
-    }, "json");
+     
+    myConfirm("${mds}",'Perhatian!',function(r){
+        if(r)
+        {
+            $.post("${urlEditDebit}", {rekening1_id:rekening1_id, rekening2_id:rekening2_id, rekening3_id:rekening3_id, rekening4_id:rekening4_id, rekening5_id:rekening5_id, sumberdana_id:sumberdana_id, rekening5_nb:rekening5_nb,sumberdanarek_id:sumberdanarek_id},
+                function(data){
+                    $('.divForForm').html(data.pesan);
+                    setTimeout(function(){
+                        $("#iframeEditRekeningDebitKredit").attr("src",$(this).attr("href"));
+                        window.parent.$("#dialogUbahRekeningDebitKredit").dialog("close");
+                        return true;
+                    },500);
+            }, "json");
+        }
+    });
 
     $.post("${urlAdmin}", {rekening5_id:rekening5_id, sumberdana_id:sumberdana_id}, function(data) {
         $("admin.php#divMessages").html(data.pesan);

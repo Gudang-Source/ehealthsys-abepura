@@ -212,7 +212,7 @@
 </script>
 <?php
 $urlEditKredit = Yii::app()->createUrl('akuntansi/jurnalRekPenjamin/getRekeningEditKreditPenjamin');//MAsukan Dengan memilih Rekening
-$mds = Yii::t('mds','Anda yakin akan ubah data rekening kredit ?');
+$mds = Yii::t('mds','Anda yakin akan ubah data rekening ?');
 $urlRefresh = Yii::app()->createUrl('akuntansi/jurnalRekPenjamin/admin');
 $jscript = <<< JS
 

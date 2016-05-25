@@ -212,7 +212,7 @@
 </script>
 <?php
 $urlEditDebit = Yii::app()->createUrl('akuntansi/jurnalRekPenjamin/getRekeningEditDebitPenjamin');//MAsukan Dengan memilih Rekening
-$mds = Yii::t('mds','Anda yakin akan ubah data rekening kredit ?');
+$mds = Yii::t('mds','Anda yakin akan ubah data rekening ?');
 $jscript = <<< JS
 
 function saveDebit()
