@@ -73,7 +73,7 @@
             <div class="control-group">
                 <?php echo $form->labelEx($model,'nama_pegawai',array('class'=>'control-label required')); ?>
                 <div class="controls">
-                    <?php echo $form->textField($model,'nama_pegawai',array( 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50,'class'=>'inputRequire','style'=>'width:208px;','placeholder'=>'Nama Lengkap Pegawai')); ?>
+                    <?php echo $form->textField($model,'nama_pegawai',array( 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50,'class'=>'inputRequire all-caps','style'=>'width:208px;','placeholder'=>'Nama Lengkap Pegawai')); ?>
                 </div>
             </div>
             <div class="control-group">
@@ -292,7 +292,7 @@
                 array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
                 
                 <?php echo $form->dropDownListRow($model,'kategoripegawai',LookupM::getItems('kategoripegawai'), 
-                        array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+                        array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 'onchange'=>'cekValidasiNIP(); return false;')); ?>
                 
                 <?php echo $form->dropDownListRow($model,'kategoripegawaiasal',LookupM::getItems('kategoriasalpegawai'), 
                         array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
@@ -562,6 +562,21 @@ Yii::app()->clientScript->registerScript('caraAmbilPhoto212',$js,CClientScript::
 ?>
 <?php //$this->widget('UserTips',array('type'=>'create'));?>
 <script type="text/javascript">	
+    
+    /**
+     * Jika kategori pegawai adalah tidak tetap, maka validasi NIP lepas.
+     * Begitu juga sebaliknya.
+     * @returns {undefined}
+     */
+function cekValidasiNIP()
+{
+    if ($("#KPPegawaiM_kategoripegawai").val().trim().toLowerCase() == "tetap") {
+        $("#KPPegawaiM_nomorindukpegawai").addClass("required");
+    } else {
+        $("#KPPegawaiM_nomorindukpegawai").removeClass("required");
+    }
+}
+    
 /** bersihkan dropdown kecamatan */
 function setClearDropdownKecamatan()
 {
@@ -585,6 +600,6 @@ function setClearDropdownKelompokPegawai()
 $( document ).ready(function(){
 setClearDropdownKelurahan();
 setClearDropdownKecamatan();
-
+cekValidasiNIP();
 });
 </script>

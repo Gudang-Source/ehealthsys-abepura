@@ -90,6 +90,25 @@ class LookupController extends MyAuthController
             'modDetail'=>$modDetail
 		));
     }
+    
+    /**
+     * Memanggil dan menonaktifkan status 
+     */
+    public function actionNonActive($id)
+    {
+            if(Yii::app()->request->isAjaxRequest)
+            {
+                    $data['sukses'] = 0;
+                    $model = $this->loadModel($id);
+                    // set non-active this
+                    // example: 
+                     $model->lookup_aktif = 0;
+                     if($model->save()){
+                            $data['sukses'] = 1;
+                     }
+                    echo CJSON::encode($data); 
+            }
+    }
 
     /**
      * Deletes a particular model.
@@ -207,7 +226,8 @@ class LookupController extends MyAuthController
 						array('lookup_name'=>$model->lookup_name,
 							'lookup_value'=>$model->lookup_value,
 							'lookup_kode'=>$model->lookup_kode,
-							'lookup_urutan'=>$model->lookup_urutan));
+							'lookup_urutan'=>$model->lookup_urutan,
+                                                        'lookup_aktif'=>$model->lookup_aktif));
             }
         }
     }
