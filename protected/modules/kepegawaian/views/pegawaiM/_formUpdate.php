@@ -201,10 +201,8 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
             <fieldset class = "box">
                 <legend class="rim">Data Lain - Lain</legend> 
                     <?php echo $form->dropDownListRow($model,'statuskepemilikanrumah_id',CHtml::listData($model->getStatuskepemilikanrumahItems(),'statuskepemilikanrumah_id','statuskepemilikanrumah_nama'),array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-
-                    <?php echo $form->textFieldRow($model,'kemampuanbahasa',array('onkeyup'=>"return $(this).focusNextInputField(event)",'placeholder'=>'contoh : Bahasa Indonesia, Inggris')); ?>
-
-                    <?php echo $form->textFieldRow($model,'warnakulit',array('onkeyup'=>"return $(this).focusNextInputField(event)",'placeholder'=>'contoh : Sawo Matang')); ?>                                                                                
+                    <?php echo $form->dropDownListRow($model,'kemampuanbahasa',LookupM::getItems('kemampuanbahasa'),array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+                    <?php echo $form->dropDownListRow($model,'warnakulit',LookupM::getItems('warnakulit'), array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)",'placeholder'=>'contoh : Sawo Matang')); ?>
             </fieldset>                                                         
         </div>
         
@@ -318,7 +316,7 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                     <?php echo $form->error($model, 'tglditerima'); ?>
                 </div>
             </div>        
-
+            <?php echo $form->textFieldRow($model,'surattandaregistrasi',array('onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
             <div class="control-group">
                 <?php echo $form->labelEx($model,'caraAmbilPhoto', array('class'=>'control-label')) ?>
                 <div class="controls">  
