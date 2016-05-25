@@ -201,4 +201,6 @@ class RuanganpegawaiM extends CActiveRecord
                 return $this->pegawai->nama_pegawai;
             endif;
         } 
+        
+        
 }
