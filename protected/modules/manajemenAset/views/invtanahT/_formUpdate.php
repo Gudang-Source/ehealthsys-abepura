@@ -1,3 +1,6 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
 <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/form.js'); ?>
 <?php
 $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
@@ -23,13 +26,21 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                 <?php echo $form->hiddenField($model, 'barang_nama', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
                 <?php echo $form->dropDownListRow($model, 'asalaset_id', CHtml::listData(AsalasetM::model()->findAll(), 'asalaset_id', 'asalaset_nama'), array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event)", 'empty' => '-- Pilih --')); ?>
                 <?php echo $form->dropDownListRow($model, 'lokasi_id', CHtml::listData(LokasiasetM::model()->findAll(), 'lokasi_id', 'lokasiaset_namalokasi'), array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event)", 'empty' => '-- Pilih --')); ?>
-                <?php echo $form->textFieldRow($model, 'invtanah_kode', array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
-                <?php echo $form->textFieldRow($model, 'invtanah_noregister', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
-                <?php echo $form->textFieldRow($model, 'invtanah_namabrg', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
-                <?php echo $form->textFieldRow($model, 'invtanah_luas', array('class' => 'span2 ', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 30)); ?>    
+                <?php echo $form->textFieldRow($model, 'invtanah_kode', array('class' => 'span2 all-caps', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
+                <?php echo $form->textFieldRow($model, 'invtanah_noregister', array('class' => 'span3 all-caps', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
+                <?php echo $form->textFieldRow($model, 'invtanah_namabrg', array('class' => 'span3 all-caps', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
+                <div class="control-group">
+                    <?php echo $form->label($model, 'invtanah_luas', array('class'=>'control-label')); ?>
+                    <div class="controls">
+                        <?php 
+                            echo $form->textField($model,'invtanah_luas',array('class'=>'span2 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30, 'style'=>'text-align: right;')); 
+                            echo CHtml::label(" m<sup>2</sup>", "m2");
+                        ?>
+                    </div>
+                </div>   
             </td>
             <td>
-                <?php echo $form->textFieldRow($model, 'invtanah_thnpengadaan', array('class' => 'span1 numbersOnly', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 5)); ?>
+                <?php echo $form->textFieldRow($model, 'invtanah_thnpengadaan', array('class' => 'span1 numbersOnly', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 5, 'style'=>'text-align: right')); ?>
                 <div class="control-group ">
                     <?php echo $form->labelEx($model, 'invtanah_tglguna', array('class' => 'control-label')) ?>
                     <div class="controls">
@@ -54,7 +65,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                     </div>
                 </div>
                 <?php echo $form->textFieldRow($model, 'invtanah_status', array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
-                <?php echo $form->textAreaRow($model, 'invtanah_alamat', array('rows' => 5, 'cols' => 50, 'class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+                <?php echo $form->textAreaRow($model, 'invtanah_alamat', array('rows' => 5, 'cols' => 50, 'class' => 'span3 all-caps', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
             </td>
             <td>
                 <div class="control-group ">
@@ -77,10 +88,18 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                         <?php echo $form->error($model, 'invtanah_tglsertifikat'); ?>
                     </div>
                 </div>
-                <?php echo $form->textFieldRow($model, 'invtanah_nosertifikat', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
+                <?php echo $form->textFieldRow($model, 'invtanah_nosertifikat', array('class' => 'span3 all-caps', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
                 <?php echo $form->textFieldRow($model, 'invtanah_penggunaan', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
-                <?php echo $form->textFieldRow($model, 'invtanah_harga', array('class' => 'span2 numbersOnly', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
-                <?php echo $form->textFieldRow($model, 'invtanah_ket', array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
+                <div class="control-group">
+                    <?php echo $form->label($model, 'invtanah_harga', array('class'=>'control-label')); ?>
+                    <div class="controls">
+                        <?php 
+                            echo $form->textField($model,'invtanah_harga',array('class'=>'span2 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30, 'style'=>'text-align: right;')); 
+                            echo CHtml::label(" /m<sup>2</sup>", "m2");
+                        ?>
+                    </div>
+                </div>
+                <?php echo $form->textAreaRow($model,'invtanah_ket',array('rows'=>5, 'cols'=>50, 'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
             </td>
         </tr>
             <?php //echo $form->textFieldRow($model,'create_time',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>

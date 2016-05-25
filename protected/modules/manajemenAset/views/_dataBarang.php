@@ -195,6 +195,7 @@ if(isset($_GET['MABarangM'])) {
 
 $csk = new CDbCriteria();
 $csk->compare('kelompok_id', $barang->kelompok_id);
+$csk->order = "subkelompok_nama asc";
 $csk->addCondition('subkelompok_aktif = true');
 
 $sk = SubkelompokM::model()->findAll($csk);
@@ -210,6 +211,8 @@ if (empty($barang->subkelompok_id)) {
 } else {
     $cssk->compare('subkelompok_id', $barang->subkelompok_id);
 }
+
+$cssk->order = "subsubkelompok_nama asc";
 $ssk = SubsubkelompokM::model()->findAll($cssk);
 $sskrl = CHtml::listData($ssk, 'subsubkelompok_id', 'subsubkelompok_id');
 if (!empty($barang->subsubkelompok_id) && !in_array($barang->subsubkelompok_id, $sskrl)) {
