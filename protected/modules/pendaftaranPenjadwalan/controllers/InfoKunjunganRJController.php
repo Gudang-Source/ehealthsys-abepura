@@ -252,9 +252,9 @@ class InfoKunjunganRJController extends MyAuthController
                                 
                             }else{
                                 $this->asuransipasientersimpan = true;
-                                $modPendaftaran->status_konfirmasi = $modAsuransiPasien->status_konfirmasi;
-                                $modPendaftaran->tgl_konfirmasi = $modAsuransiPasien->tgl_konfirmasi;
-                                $modPendaftaran->asuransipasien_id = $modAsuransiPasien->asuransipasien_id;
+                                // $modPendaftaran->status_konfirmasi = $modAsuransiPasien->status_konfirmasi;
+                                // $modPendaftaran->tgl_konfirmasi = $modAsuransiPasien->tgl_konfirmasi;
+                                // $modPendaftaran->asuransipasien_id = $modAsuransiPasien->asuransipasien_id;
                             }
                             if(isset($_POST['PPAsuransipasienbpjsM'])){
                                 if(isset($_POST['PPAsuransipasienbpjsM']['asuransipasien_id'])){
