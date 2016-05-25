@@ -17,6 +17,43 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 </style>
 <div class="row-fluid">
     <div class="span4">
+        <div class="control-group ">
+                <label for="namaPasien" class="control-label">
+                        Tanggal Rencana Kontrol
+                </label>
+                <div class="controls">
+                        <?php $model->tgl_awalrenkon = $format->formatDateTimeForUser($model->tgl_awalrenkon); ?>
+                        <?php   $format = new MyFormatter;
+                                        $this->widget('MyDateTimePicker',array(
+                                                                        'model'=>$model,
+                                                                        'attribute'=>'tgl_awalrenkon',
+                                                                        'mode'=>'date',
+                                                                        'options'=> array(
+                                                                                'dateFormat'=>Params::DATE_FORMAT,
+                                                                                'maxDate' => 'd',
+                                                                        ),
+                                                                        'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3'),
+                        ));?> 
+                </div>
+        </div>
+        <div class="control-group ">
+                <label for="namaPasien" class="control-label">
+                   Sampai dengan
+                  </label>
+                <div class="controls">
+                        <?php $model->tgl_akhirrenkon = $format->formatDateTimeForUser($model->tgl_akhirrenkon); ?>
+                                  <?php   $this->widget('MyDateTimePicker',array(
+                                                                        'model'=>$model,
+                                                                        'attribute'=>'tgl_akhirrenkon',
+                                                                        'mode'=>'date',
+                                                                        'options'=> array(
+                                                                                'dateFormat'=>Params::DATE_FORMAT,
+                                                                                'maxDate' => 'd',
+                                                                        ),
+                                                                        'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3'),
+                        )); ?>
+                </div>
+        </div>
         <?php //echo  $form->textFieldRow($model,'tgl_pendaftaran'); ?>
                             <div class="control-group ">
                                     <label for="namaPasien" class="control-label">
@@ -62,56 +99,21 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                                             <?php $model->tgl_akhir = $format->formatDateTimeForDb($model->tgl_akhir); ?>
                                     </div>
                             </div>
-                <?php echo $form->textFieldRow($model, 'no_rekam_medik', array('placeholder'=>'Ketik No. Rekam Medik','class' => 'span3', 'maxlength' => 10)); ?>
+                                       
+    </div>
+    <div class="span4">
+        <?php echo $form->textFieldRow($model, 'no_rekam_medik', array('placeholder'=>'Ketik No. Rekam Medik','class' => 'span3', 'maxlength' => 10)); ?>
                 <div class="control-group ">
                     <?php echo CHtml::activeLabel($model, 'no_pendaftaran', array('class' => 'control-label')) ?>
                     <div class="controls">
                        <?php echo $form->textField($model, 'no_pendaftaran', array('placeholder'=>'Ketik No. Pendaftaran','class' => 'span3', 'maxlength' => 50)); ?>                                    
                     </div>
-                </div>                        
-    </div>
-    <div class="span4">
-        <div class="control-group ">
-                <label for="namaPasien" class="control-label">
-                        Tanggal Rencana Kontrol
-                </label>
-                <div class="controls">
-                        <?php $model->tgl_awalrenkon = $format->formatDateTimeForUser($model->tgl_awalrenkon); ?>
-                        <?php   $format = new MyFormatter;
-                                        $this->widget('MyDateTimePicker',array(
-                                                                        'model'=>$model,
-                                                                        'attribute'=>'tgl_awalrenkon',
-                                                                        'mode'=>'date',
-                                                                        'options'=> array(
-                                                                                'dateFormat'=>Params::DATE_FORMAT,
-                                                                                'maxDate' => 'd',
-                                                                        ),
-                                                                        'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3'),
-                        ));?> 
-                </div>
-        </div>
-        <div class="control-group ">
-                <label for="namaPasien" class="control-label">
-                   Sampai dengan
-                  </label>
-                <div class="controls">
-                        <?php $model->tgl_akhirrenkon = $format->formatDateTimeForUser($model->tgl_akhirrenkon); ?>
-                                  <?php   $this->widget('MyDateTimePicker',array(
-                                                                        'model'=>$model,
-                                                                        'attribute'=>'tgl_akhirrenkon',
-                                                                        'mode'=>'date',
-                                                                        'options'=> array(
-                                                                                'dateFormat'=>Params::DATE_FORMAT,
-                                                                                'maxDate' => 'd',
-                                                                        ),
-                                                                        'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3'),
-                        )); ?>
-                </div>
-        </div>
+                </div> 
         <?php echo $form->textFieldRow($model, 'nama_pasien', array('placeholder'=>'Ketik Nama Pasien','class' => 'span3', 'maxlength' => 50)); ?>
+        <?php echo $form->textFieldRow($model,'alamat_pasien',array('placeholder'=>'Ketik Alamat Pasien','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
     </div>
     <div class="span4">
-        <?php echo $form->textFieldRow($model,'alamat_pasien',array('placeholder'=>'Ketik Alamat Pasien','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+        
         <div class="control-group ">
             <?php echo CHtml::activeLabel($model, 'instalasi_id', array('class'=>'control-label')); ?>
             <div class="controls">

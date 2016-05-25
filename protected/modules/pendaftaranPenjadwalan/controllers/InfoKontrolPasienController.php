@@ -90,14 +90,19 @@ class InfoKontrolPasienController extends MyAuthController
         if(Yii::app()->request->isAjaxRequest) {
   
             $idInstalasi = $_POST["$namaModel"]['instalasi_id'];
-            $ruangan = RuanganM::model()->findAllByAttributes(array('instalasi_id'=>$idInstalasi, 'ruangan_aktif'=>true), array('order'=>'ruangan_nama'));
-            
-            $ruangan=CHtml::listData($ruangan,'ruangan_id','ruangan_nama');
-            
-            if(empty($ruangan)){
+              if(!empty($idInstalasi)){
+                $ruangan = RuanganM::model()->findAllByAttributes(array('instalasi_id'=>$idInstalasi, 'ruangan_aktif'=>true), array('order'=>'ruangan_nama'));              
+                $ruangan=CHtml::listData($ruangan,'ruangan_id','ruangan_nama');
+            }
+            if(empty($idInstalasi)){
                 echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
             }else{
-                echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                if (count($ruangan) > 1){
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                }elseif(count($ruangan) == 0){
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                }
+                
                 foreach($ruangan as $value=>$name)
                 {
                     echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
