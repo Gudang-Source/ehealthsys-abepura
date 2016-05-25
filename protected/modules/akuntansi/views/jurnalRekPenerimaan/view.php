@@ -20,18 +20,18 @@
                     array(
                         'label'=>'Jenis Penerimaan',
                         'type'=>'raw',
-                        'value'=>$model->jenispenerimaan->jenispenerimaan_nama,
+                        'value'=>$model->jenispenerimaan_nama,
                     ),
                     array(
                         'label'=>'Nama Lain',
                         'type'=>'raw',
-                        'value'=>$model->jenispenerimaan->jenispenerimaan_namalain,
+                        'value'=>$model->jenispenerimaan_namalain,
                     ),
 
                     array(
                         'label'=>'Kode',
                         'type'=>'raw',
-                        'value'=>$model->jenispenerimaan->jenispenerimaan_kode,
+                        'value'=>$model->jenispenerimaan_kode,
                     ),
                      array(
                          'label'=>'Rekening Debit',
@@ -46,7 +46,7 @@
                     array(            
                         'label'=>'Aktif',
                         'type'=>'raw',
-                        'value'=>(($model->jenispenerimaan->jenispenerimaan_aktif==1)? ''.Yii::t('mds','Yes').'' : ''.Yii::t('mds','No').''),
+                        'value'=>(($model->jenispenerimaan_aktif==1)? ''.Yii::t('mds','Yes').'' : ''.Yii::t('mds','No').''),
                     ),
             ),
     )); ?>

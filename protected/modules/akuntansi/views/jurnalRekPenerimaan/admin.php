@@ -128,7 +128,7 @@
                                     'buttons'=>array(
                                             'view' => array (
                                                             'label'=>"<i class='icon-update'></i>",
-                                                            'options'=>array('title'=>Yii::t('mds','View')),
+                                                            'options'=>array('title'=>Yii::t('mds','Update')),
                                                             'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/update",array("id"=>"$data->jenispenerimaan_id"))',                                               
                                             ),
                                     ),

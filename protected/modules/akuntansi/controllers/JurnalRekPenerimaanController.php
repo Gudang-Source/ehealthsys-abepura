@@ -73,7 +73,7 @@ class JurnalRekPenerimaanController extends MyAuthController {
 				$this->redirect(array('admin'));
 			} else {
                                 $trans->rollback();
-                                Yii::app()->user->setFlash('success', '<strong>Gagal!</strong> Data gagal disimpan.');
+                                Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data gagal disimpan.');
                                 $this->redirect(array('create'));
                         }
 		}
@@ -133,8 +133,8 @@ class JurnalRekPenerimaanController extends MyAuthController {
 				$this->redirect(array('admin'));
 			} else {
                                 $trans->rollback();
-                                Yii::app()->user->setFlash('success', '<strong>Gagal!</strong> Data gagal disimpan.');
-                                $this->redirect(array('create'));
+                                Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data gagal disimpan.');
+                                $this->redirect(array('admin'));
                         }
                         
                         /*
