@@ -32,48 +32,54 @@ input[readonly]{
                     'columns'=>array(
             //			'tglrenkontrol',
                         array(
-                            'header'=>'Tgl. Rencana Kontrol',
+                            'header'=>'Tgl Rencana Kontrol',
                             'type'=>'raw',
                             'value'=>'MyFormatter::formatDateTimeForUser($data->tglrenkontrol)',
                         ),
                         array(
-                            'header'=>'No. Pendaftaran <br> No. Rekam Kedik',
+                            'header'=>'Tgl Pendaftaran/<br>No Pendaftaran',
+            //                'name'=>'Tgl. Pendaftaran',
+                            'type'=>'raw',
+                            'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."/<br>".$data->no_pendaftaran',
+                        ),
+                        array(
+                            'header'=>'No Rekam Medik',
             //                'name'=>'No. Pendaftaran <br> No. Rekam Kedik',
                             'type'=>'raw',
-                            'value'=>'$data->no_pendaftaran. "<br>" .$data->pasien->no_rekam_medik',
+                            'value'=>'$data->pasien->no_rekam_medik',
                         ),
                         array(
+                            'header' => 'Nama Pasien',
                             'name'=>'nama_pasien',
                             'type'=>'raw',
-                            'value'=>'$data->pasien->nama_pasien',
+                            'value'=>'isset($data->pasien->namadepan)?$data->pasien->namadepan." ".$data->pasien->nama_pasien:" ".$data->pasien->nama_pasien',
                         ),
                         array(
-                            'header'=>'Alamat Pasien <br> RT / RW',
-            //                'name'=>'Alamat Pasien <br> RT / RW',
+                            'header'=>'Alamat',
+                           // 'name'=>'pasien.alamat_pasien',
                             'type'=>'raw',
-                            'value'=>'$data->pasien->alamat_pasien."<br>RT. ".$data->pasien->rt." / ".$data->pasien->rw ',
+                            'value'=>'$data->pasien->alamat_pasien',
                         ),
                         array(
-                            'header'=>'No. Telepon <br> No. HP',
+                            'header'=>'No Telepon/<br>No HP',
             //                'name'=>'No. Telp <br> No. HP',
                             'type'=>'raw',
-                            'value'=>'$data->pasien->no_telepon_pasien."<br>". $data->pasien->no_mobile_pasien',
+                            'value'=>'$data->pasien->no_telepon_pasien."/<br>".$data->pasien->no_mobile_pasien',
                         ),
-                        array(
+                       /* array(
                             'name'=>'Alamat Email',
                             'type'=>'raw',
                             'value'=>'$data->pasien->alamatemail',
+                        ),*/
+                        array(
+                            'name'=>'Instalasi',
+                            'type'=>'raw',
+                            'value'=>'$data->instalasi->instalasi_nama',
                         ),
                         array(
-                            'name'=>'Instalasi / <br/>Ruangan',
+                            'name'=>'Ruangan',
                             'type'=>'raw',
-                            'value'=>'$data->instalasi->instalasi_nama. " / <br>" .$data->ruangan->ruangan_nama',
-                        ),
-                        array(
-                            'header'=>'Tgl. Pendaftaran',
-            //                'name'=>'Tgl. Pendaftaran',
-                            'type'=>'raw',
-                            'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)',
+                            'value'=>'$data->ruangan->ruangan_nama',
                         ),
                         array(
                             'header'=>'Daftar Rawat <br/> Jalan',
@@ -83,14 +89,14 @@ input[readonly]{
                                     "title"=>"Klik Untuk Mendaftarkan ke Rawat Jalan","rel"=>"tooltip"))',
                             'htmlOptions'=>array('style'=>'text-align:left;'),
                         ),
-                        array(
+                     /*   array(
                             'header'=>'Daftar Rawat <br/> Darurat',
                             'type'=>'raw',
                             'value'=>'CHtml::link("<i class=\'icon-form-rd\'></i> ", 
                                 "index.php?r=pendaftaranPenjadwalan/PendaftaranRawatDarurat/index&pasien_id=$data->pasien_id",array("id"=>"$data->pasien_id",
                                     "title"=>"Klik Untuk Mendaftarkan ke Rawat Darurat","rel"=>"tooltip"))',
                             'htmlOptions'=>array('style'=>'text-align:left;'),
-                        ),
+                        ),*/
                     ),
                     'afterAjaxUpdate'=>'function(id, data){
                             jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
