@@ -1,6 +1,6 @@
 
 <?php
-$modJenispenerimaanRek = AKJnsPenerimaanRekM::model()->findAllByAttributes(array('jenispenerimaan_id'=>$jenispenerimaan_id));
+$modJenispenerimaanRek = AKJnsPenerimaanRekM::model()->findAllByAttributes(array('jenispenerimaan_id'=>$jenispenerimaan_id, 'debitkredit'=>$saldonormal));
 
 if(COUNT($modJenispenerimaanRek)>0)
     {   

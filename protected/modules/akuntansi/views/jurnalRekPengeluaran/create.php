@@ -14,10 +14,10 @@
 
     $this->widget('bootstrap.widgets.BootAlert'); ?>
 
-    <?php echo $this->renderPartial('_tabMenu',array()); ?>
-    <div class="biru">
-        <div class="white">
+    <?php // echo $this->renderPartial('_tabMenu',array()); ?>
+    <!--div class="biru">
+        <div class="white"-->
             <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
-        </div>
-    </div>
+        <!--/div>
+    </div-->
 </div>

@@ -27,6 +27,9 @@
                 <th>Value</th>
                 <th>Kode</th>
                 <th>Urutan</th>
+                <?php if ($this->action->id == "update") :?>
+                <th>Aktif</th>
+                <?php endif; ?>
                 <th></th>
             </thead>
             <tbody>

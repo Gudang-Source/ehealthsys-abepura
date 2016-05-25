@@ -16,7 +16,7 @@ class JurnalRekPengeluaranController extends MyAuthController
 	 */
 	public function actionView($id)
 	{
-        $model=AKJnsPengeluaranRekM::model()->findByAttributes(array('jenispengeluaran_id'=>$id));
+        $model= AKJenispengeluaranM::model()->findByAttributes(array('jenispengeluaran_id'=>$id));
                 
 		$this->render('view',array(
 			'model'=>$model,
@@ -37,10 +37,38 @@ class JurnalRekPengeluaranController extends MyAuthController
 
 		if(isset($_POST['AKJenispengeluaranM']))
 		{
+                        $trans = Yii::app()->db->beginTransaction();
+			$ok = true;
 			$model->attributes=$_POST['AKJenispengeluaranM'];
-			if($model->save()){
+                        
+                        if ($model->validate()) $ok = $ok && $model->save();
+                        else $ok = false;
+                        
+                        if (isset($_POST['AKJnsPengeluaranRekM'])) {
+                            foreach ($_POST['AKJnsPengeluaranRekM']['rekening'] as $item) {
+                                $det = new AKJnsPengeluaranRekM;
+                                $det->attributes = $item;
+                                $det->jenispengeluaran_id = $model->jenispengeluaran_id;
+                                $det->debitkredit = $item['rekening5_nb'];
+                                
+                                if ($det->debitkredit == "D") $model->rekeningdebit_id = $det->rekening5_id;
+                                else $model->rekeningkredit_id = $det->rekening5_id;
+                                
+                                
+                                if ($det->validate()) $ok = $ok && $det->save();
+                                else $ok = false;
+                            }
+                            $model->save();
+                        }
+                        
+			if ($ok) {
+                                $trans->commit();
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('create','id'=>1));
+				$this->redirect(array('admin'));
+			} else {
+                                $trans->rollback();
+                                Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data gagal disimpan.');
+                                $this->redirect(array('create'));
                         }
 		}
 
@@ -64,11 +92,51 @@ class JurnalRekPengeluaranController extends MyAuthController
 
 		if(isset($_POST['AKJenispengeluaranM']))
 		{
+                        $trans = Yii::app()->db->beginTransaction();
+			$ok = true;
 			$model->attributes=$_POST['AKJenispengeluaranM'];
+                        
+                        if ($model->validate()) $ok = $ok && $model->save();
+                        else $ok = false;
+                        
+                        AKJnsPengeluaranRekM::model()->deleteAllByAttributes(array(
+                            'jenispengeluaran_id'=>$model->jenispengeluaran_id,
+                        ));
+                        
+                        if (isset($_POST['AKJnsPengeluaranRekM'])) {
+                            foreach ($_POST['AKJnsPengeluaranRekM']['rekening'] as $item) {
+                                $det = new AKJnsPengeluaranRekM;
+                                $det->attributes = $item;
+                                $det->jenispengeluaran_id = $model->jenispengeluaran_id;
+                                $det->debitkredit = $item['rekening5_nb'];
+                                
+                                if ($det->debitkredit == "D") $model->rekeningdebit_id = $det->rekening5_id;
+                                else $model->rekeningkredit_id = $det->rekening5_id;
+                                
+                                
+                                if ($det->validate()) $ok = $ok && $det->save();
+                                else $ok = false;
+                            }
+                            $model->save();
+                        }
+                        
+                        if ($ok) {
+                                $trans->commit();
+				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+				$this->redirect(array('admin'));
+			} else {
+                                $trans->rollback();
+                                Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data gagal disimpan.');
+                                $this->redirect(array('admin'));
+                        }
+                        
+                        /*
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
 				$this->redirect(array('admin','id'=>1));
                         }
+                         * 
+                         */
 		}
 
 		$this->render('update',array(
@@ -117,8 +185,10 @@ class JurnalRekPengeluaranController extends MyAuthController
 		{
 			// we only allow deletion via POST request
                         //if(!Yii::app()->user->checkAccess(Params::DEFAULT_DELETE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
-			$model = AKJnsPengeluaranRekM::model()->deleteAllByAttributes(array('jenispengeluaran_id'=>$id));
-
+			
+                        $model = AKJnsPengeluaranRekM::model()->deleteAllByAttributes(array('jenispengeluaran_id'=>$id));
+                        AKJenispengeluaranM::model()->deleteByPk($id);
+                        
 			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 			if(!isset($_GET['ajax']))
 				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
@@ -147,10 +217,10 @@ class JurnalRekPengeluaranController extends MyAuthController
                    Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.'); 
                 endif;
                 
-		$model=new AKJnsPengeluaranRekM('search');
+		$model=new JenispengeluaranM('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['AKJnsPengeluaranRekM'])){
-			$model->attributes=$_GET['AKJnsPengeluaranRekM'];
+		if(isset($_GET['JenispengeluaranM'])){
+			$model->attributes=$_GET['JenispengeluaranM'];
 		}
 
 		$this->render('admin',array(

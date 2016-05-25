@@ -109,7 +109,7 @@ class JenispenerimaanM extends CActiveRecord
 		$criteria->compare('LOWER(jenispenerimaan_nama)',strtolower($this->jenispenerimaan_nama),true);
 		$criteria->compare('LOWER(jenispenerimaan_namalain)',strtolower($this->jenispenerimaan_namalain),true);
 		$criteria->compare('jenispenerimaan_aktif',$this->jenispenerimaan_aktif);
-                $criteria->addCondition("jenispenerimaan_id not in(select jenispenerimaan_id from jnspenerimaanrek_m)");
+                // $criteria->addCondition("jenispenerimaan_id not in(select jenispenerimaan_id from jnspenerimaanrek_m)");
                 $criteria->addCondition('jenispenerimaan_aktif is true');
 
 		return new CActiveDataProvider($this, array(

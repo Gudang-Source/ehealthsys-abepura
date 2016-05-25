@@ -81,15 +81,21 @@
         <div class="row-fluid">
             <div class="form-actions">
                     <?php 
+                    if($modKunjungan->isNewRecord){
                         echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit', 'onclick'=>'formSubmit(this,event);', 'onkeypress'=>'formSubmit(this,event);'));
                         echo "&nbsp;";
-
+                    }
+                    else
+                    {
+                        echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),array('class'=>'btn btn-primary disabled', 'type'=>'submit', 'onclick'=>'formSubmit(this,event);', 'onkeypress'=>'formSubmit(this,event);'));
+                        echo "&nbsp;";
+                    }
                         if(!isset($_GET['frame'])){
                             echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
                                 $this->createUrl($this->id.'/index'), 
                                 array('class'=>'btn btn-danger',
     //                                  'onclick'=>'if(!confirm("Apakah anda ingin mengulang ini ?")) return false;'));
-                                        'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r) {if(r) window.location = "'.$this->createUrl('index').'";} ); return false;'));
+                                        'onclick'=>'myConfirm("Apakah Anda yakin ingin mengulang ?","Perhatian!",function(r) {if(r) window.location = "'.$this->createUrl('index').'";} ); return false;'));
                             echo "&nbsp;";
                         }
                         if($modKunjungan->isNewRecord){

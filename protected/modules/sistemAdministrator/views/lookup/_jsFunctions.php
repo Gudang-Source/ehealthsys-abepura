@@ -5,14 +5,14 @@
 		$.ajax({
 			type:'POST',
 			url:'<?php echo $this->createUrl('GetLookup'); ?>',
-			data: {lookup_type : lookup_type},//
+			data: {lookup_type : lookup_type, is_update: 1},//
 			dataType: "json",
 			success:function(data){
 				$('#table-lookup > tbody').append(data.form);
 				jQuery('<?php  echo Params::TOOLTIP_SELECTOR; ?>').tooltip({"placement":"<?php echo Params::TOOLTIP_PLACEMENT; ?>"});
 				renameInputRow($("#table-lookup"));
 				$(".integer").maskMoney(
-			        {"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0}
+			        {"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":"","precision":0}
 			    );
 				$("#table-lookup").removeClass("animation-loading");
 			},
@@ -99,7 +99,7 @@
 		$('#table-lookup').append(row);
 		renameInputRow($("#table-lookup"));
 		$("#table-lookup tr:last .integer").maskMoney(
-	        {"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0}
+	        {"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":"","precision":0}
 	    );
 	}
 

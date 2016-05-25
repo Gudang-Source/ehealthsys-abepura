@@ -20,18 +20,18 @@
                     array(
                         'label'=>'Jenis Pengeluaran',
                         'type'=>'raw',
-                        'value'=>$model->jenispengeluaran->jenispengeluaran_nama,
+                        'value'=>$model->jenispengeluaran_nama,
                     ),
                     array(
                         'label'=>'Nama Lain',
                         'type'=>'raw',
-                        'value'=>$model->jenispengeluaran->jenispengeluaran_namalain,
+                        'value'=>$model->jenispengeluaran_namalain,
                     ),
 
                     array(
                         'label'=>'Kode',
                         'type'=>'raw',
-                        'value'=>$model->jenispengeluaran->jenispengeluaran_kode,
+                        'value'=>$model->jenispengeluaran_kode,
                     ),
                     array(
                          'label'=>'Rekening Debit',
@@ -46,7 +46,7 @@
                     array(            
                         'label'=>'Status',
                         'type'=>'raw',
-                        'value'=>(($model->jenispengeluaran->jenispengeluaran_aktif==1)? ''.Yii::t('mds','Yes').'' : ''.Yii::t('mds','No').''),
+                        'value'=>(($model->jenispengeluaran_aktif==1)? ''.Yii::t('mds','Yes').'' : ''.Yii::t('mds','No').''),
                     ),
             ),
     )); ?>

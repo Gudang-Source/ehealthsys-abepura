@@ -53,33 +53,61 @@
                             array(
                                     'header'=>'Kode',
                                     'name'=>'jenispenerimaan_kode',
-                                    'value'=>'$data->jenispenerimaan->jenispenerimaan_kode',
+                                    'value'=>'$data->jenispenerimaan_kode',
                             ),
                             array(
                                     'header'=>'Jenis Penerimaan',
                                     'name'=>'jenispenerimaan_nama',
-                                    'value'=>'$data->jenispenerimaan->jenispenerimaan_nama',
-                            ),
+                                    'value'=>'$data->jenispenerimaan_nama',
+                            ), /*
                             array(
                                     'header'=>'Nama Lain',
                                     'name'=>'jenispenerimaan_namalain',
-                                    'value'=>'$data->jenispenerimaan->jenispenerimaan_namalain',
-                            ),
+                                    'value'=>'$data->jenispenerimaan_namalain',
+                            ), */
                             array(
                                     'header'=>'Rekening Debit',
-                                    'name'=>'rekening_debit',
+                                    //'name'=>'rekeningdebit_id',
                                     'type'=>'raw',
-                                    'value'=>'$this->grid->owner->renderPartial("_rekPenerimaanD",array("saldonormal"=>"D","jenispenerimaan_id"=>$data->jenispenerimaan_id),true)',
+                                    'value'=>function($data)
+                                    {
+                                        $r = JnspenerimaanrekM::model()->findByAttributes(array(
+                                            'jenispenerimaan_id' => $data->jenispenerimaan_id,
+                                            'debitkredit'=>'D'
+                                        ));
+                                        
+                                        if (empty($r)) return "-";
+                                        
+                                        $r5 = Rekening5M::model()->findByPk($r->rekening5_id);
+                                        
+                                        if (empty($r5)) return "-";
+                                        return $r5->nmrekening5;
+                                    }
+                                    //'value'=>'$this->grid->owner->renderPartial("_rekPenerimaanD",array("saldonormal"=>"D","jenispenerimaan_id"=>$data->jenispenerimaan_id),true)',
                             ),
                             array(
                                     'header'=>'Rekening Kredit',
-                                    'name'=>'rekeningKredit',
+                                    //'name'=>'rekeningkredit_id',
                                     'type'=>'raw',
-                                    'value'=>'$this->grid->owner->renderPartial("_rekPenerimaanK",array("saldonormal"=>"K","jenispenerimaan_id"=>$data->jenispenerimaan_id),true)',
+                                    'value'=>function($data)
+                                    {
+                                        $r = JnspenerimaanrekM::model()->findByAttributes(array(
+                                            'jenispenerimaan_id' => $data->jenispenerimaan_id,
+                                            'debitkredit'=>'K'
+                                        ));
+                                        
+                                        if (empty($r)) return "-";
+                                        
+                                        $r5 = Rekening5M::model()->findByPk($r->rekening5_id);
+                                        
+                                        if (empty($r5)) return "-";
+                                        return $r5->nmrekening5;
+                                    }
+                                    //'value'=>'$this->grid->owner->renderPartial("_rekPenerimaanK",array("saldonormal"=>"K","jenispenerimaan_id"=>$data->jenispenerimaan_id),true)',
                             ),
                             array(
                                     'header'=>'Status',
-                                    'value'=>'($data->jenispenerimaan->jenispenerimaan_aktif = 1 ) ? "Aktif" : "Tidak Aktif" ',
+                                    'value'=>'($data->jenispenerimaan_aktif = 1 ) ? "Aktif" : "Tidak Aktif" ',
                             ),
                             array(
                                     'header'=>Yii::t('zii','View'),
@@ -90,6 +118,18 @@
                                                             'label'=>"<i class='icon-view'></i>",
                                                             'options'=>array('title'=>Yii::t('mds','View')),
                                                             'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/view",array("id"=>"$data->jenispenerimaan_id"))',                                               
+                                            ),
+                                    ),
+                            ),
+                            array(
+                                    'header'=>Yii::t('zii','Update'),
+                                    'class'=>'bootstrap.widgets.BootButtonColumn',
+                                    'template'=>'{update}',
+                                    'buttons'=>array(
+                                            'view' => array (
+                                                            'label'=>"<i class='icon-update'></i>",
+                                                            'options'=>array('title'=>Yii::t('mds','Update')),
+                                                            'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/update",array("id"=>"$data->jenispenerimaan_id"))',                                               
                                             ),
                                     ),
                             ),
