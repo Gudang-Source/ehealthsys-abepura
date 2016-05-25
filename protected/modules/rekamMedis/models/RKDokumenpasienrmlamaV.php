@@ -117,8 +117,12 @@ class RKDokumenpasienrmlamaV extends DokumenpasienrmlamaV {
                 
 		$criteria->compare('LOWER(t.nama_pasien)',strtolower($this->nama_pasien),true);
 		if (!empty($this->tgl_rekam_medik_akhir)){
-			$criteria->addBetweenCondition('date(t.tgl_rekam_medik)', $this->tgl_rekam_medik, $this->tgl_rekam_medik_akhir);
-		}
+			$criteria->join = "join pendaftaran_t p on p.pasien_id = t.pasien_id";
+                        $criteria->order = "p.tgl_pendaftaran desc";
+                        $criteria->addBetweenCondition('date(t.tgl_pendaftaran)', $this->tgl_rekam_medik, $this->tgl_rekam_medik_akhir);
+		
+                        
+                }
 		else{
 			$criteria->compare('DATE(t.tgl_rekam_medik)',$this->tgl_rekam_medik);    
 		}
