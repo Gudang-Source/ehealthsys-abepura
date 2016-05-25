@@ -148,8 +148,8 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
         'title'=>'Ubah Data Rekening',
         'autoOpen'=>false,
         'modal'=>true,
-        'minWidth'=>800,
-        'minHeight'=>400,
+        'minWidth'=>1000,
+        'minHeight'=>700,
         'resizable'=>false,
         'close'=>'js:function(){
             $.fn.yiiGridView.update(\'carabayarrek-m-grid\',{})
@@ -157,6 +157,6 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
     ),
 ));
 ?>
-<iframe src="" name="iframeEditRekeningDebitKredit" width="100%" height="300" >
+<iframe src="" name="iframeEditRekeningDebitKredit" width="100%" height="650" >
 </iframe>
 <?php $this->endWidget(); ?>

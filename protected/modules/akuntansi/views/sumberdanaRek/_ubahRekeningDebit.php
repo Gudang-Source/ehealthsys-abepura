@@ -49,7 +49,8 @@
             
 			$modRekDebit = new RekeningakuntansiV('search');
             $modRekDebit->unsetAttributes();
-			$modRekDebit->rekening5_nb = $account;
+            $modRekDebit->rekening5_nb = $account;
+            $modRekDebit->rekening5_aktif = true;
 //            $account = "";
             if(isset($_GET['RekeningakuntansiV'])) {
                 $modRekDebit->attributes = $_GET['RekeningakuntansiV'];
@@ -113,12 +114,27 @@
 						"))',
 					),
 					array(
-						'header'=>'No. Urut',
-						'name'=>'nourutrek',
-						'value'=>'$data->nourutrek',
-					),
-					array(
+                                                'header' => 'Kode Akun',
+                                                'name' => 'kdrekening5',
+                                                'value' => '$data->kdrekening5',
+                                        ),
+                                        array(
                                                 'header'=>'Kelompok Akun',
+                                                'type'=>'raw',
+                                                'value'=>function($data) {
+                                                    $rek1 = Rekening1M::model()->findByPk($data->rekening1_id);
+                                                    $rek2 = KelrekeningM::model()->findByPk($rek1->kelrekening_id);
+                                                    return $rek2->namakelrekening;
+                                                },
+                                                'filter'=>CHtml::activeDropDownList($modRekDebit, 'kelrekening_id', CHtml::listData(
+                                               KelrekeningM::model()->findAll(array(
+                                                   'condition'=>'kelrekening_aktif = true',
+                                                   'order'=>'koderekeningkel',
+                                               )), 'kelrekening_id', 'namakelrekening'
+                                                ), array('empty'=>'-- Pilih --')),
+                                        ),
+                                        array(
+                                                'header'=>'Komponen',
                                                 'name'=>'rekening1_id',
                                                 'value'=>'$data->nmrekening1',
                                                 'filter'=>  CHtml::activeDropDownList($modRekDebit, 'rekening1_id', 
@@ -128,36 +144,31 @@
                                                 )), 'rekening1_id', 'nmrekening1'), array('empty'=>'-- Pilih --')),
                                         ),
                                         array(
-                                                'header'=>'Golongan Akun',
+                                                'header'=>'Unsur',
                                                 'name'=>'rekening2_id',
                                                 'value'=>'$data->nmrekening2',
                                                 'filter'=>  CHtml::activeDropDownList($modRekDebit, 'rekening2_id', 
                                                 CHtml::listData($r2, 'rekening2_id', 'nmrekening2'), array('empty'=>'-- Pilih --')),
                                         ),
                                         array(
-                                                'header'=>'Sub Golongan Akun',
+                                                'header'=>'Kelompok Pos',
                                                 'name'=>'rekening3_id',
                                                 'value'=>'$data->nmrekening3',
                                                 'filter'=>  CHtml::activeDropDownList($modRekDebit, 'rekening3_id', 
                                                 CHtml::listData($r3, 'rekening3_id', 'nmrekening3'), array('empty'=>'-- Pilih --')),
                                         ),
                                         array(
-                                                'header'=>'Jenis Akun',
+                                                'header'=>'Pos',
                                                 'name'=>'rekening4_id',
                                                 'value'=>'$data->nmrekening4',
                                                 'filter'=>  CHtml::activeDropDownList($modRekDebit, 'rekening4_id', 
                                                 CHtml::listData($r4, 'rekening4_id', 'nmrekening4'), array('empty'=>'-- Pilih --')),
                                         ),
                                         array(
-                                                'header' => 'Kode Akun',
-                                                'name' => 'kdrekening5',
-                                                'value' => '$data->kdrekening5',
-                                        ),
-					array(
-						'header'=>'Nama Akun',
-						'name'=>'nmrekening5',
-						'value'=>'$data->nmrekening5',
-					), /*
+                                                'header' => 'Akun',
+                                                'name' => 'nmrekening5',
+                                                'value' => '$data->nmrekening5',
+                                        ), /*
 					array(
 						'header'=>'Nama Lain',
 						'name'=>'nmrekeninglain5',
