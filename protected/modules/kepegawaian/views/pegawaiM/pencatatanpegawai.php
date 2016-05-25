@@ -232,8 +232,8 @@
             <fieldset class = "box">
                 <legend class="rim">Data Lain - Lain</legend>
                     <?php echo $form->dropDownListRow($model,'statuskepemilikanrumah_id',CHtml::listData($model->getStatuskepemilikanrumahItems(),'statuskepemilikanrumah_id','statuskepemilikanrumah_nama'),array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-                    <?php echo $form->textFieldRow($model,'kemampuanbahasa',array('onkeyup'=>"return $(this).focusNextInputField(event)",'placeholder'=>'contoh : Bahasa Indonesia, Inggris')); ?>
-                    <?php echo $form->textFieldRow($model,'warnakulit',array('onkeyup'=>"return $(this).focusNextInputField(event)",'placeholder'=>'contoh : Sawo Matang')); ?>
+                    <?php echo $form->dropDownListRow($model,'kemampuanbahasa',LookupM::getItems('kemampuanbahasa'),array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+                    <?php echo $form->dropDownListRow($model,'warnakulit',LookupM::getItems('warnakulit'), array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)",'placeholder'=>'contoh : Sawo Matang')); ?>
             </fieldset>    
         </div>
             
@@ -363,14 +363,15 @@
                     <?php echo $form->error($model, 'tglditerima'); ?>
                 </div>
             </div>
-
+            <div
+             <?php echo $form->textFieldRow($model,'surattandaregistrasi',array('onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
             <div class="control-group">
                 <?php echo $form->labelEx($model,'caraAmbilPhoto', array('class'=>'control-label')) ?>
                 <div class="controls">  
                     <?php echo CHtml::radioButton('caraAmbilPhoto',false,array('value'=>'webCam','onclick'=>'caraAmbilPhotoJS(this)','onkeyup'=>"return $(this).focusNextInputField(event)"));?><span style='font-size:11px';>Web Cam</span>
                     <?php echo CHtml::radioButton('caraAmbilPhoto',true,array('value'=>'file','onclick'=>'caraAmbilPhotoJS(this)','onkeyup'=>"return $(this).focusNextInputField(event)"));?><span style='font-size:11px';>File</span>                               
                 </div>
-            </div>
+            </div>  
             <div id="divCaraAmbilPhotoWebCam"  style="display:none;">
                 <div class="controls">
                     <div class="buttonWebcam2">

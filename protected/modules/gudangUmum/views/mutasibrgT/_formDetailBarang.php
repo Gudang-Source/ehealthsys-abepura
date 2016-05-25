@@ -116,7 +116,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
        array(
             'header' => 'Tipe Barang',
             'name' => 'barang_type',
-            'filter' => CHtml::dropDownList('GUBarangM[barang_type]',$modBarang->barang_type,  CHtml::listData(LookupM::model()->findAll("lookup_type = 'barangumumtype' AND lookup_aktif = TRUE AND lookup_name != 'Aset' "),'lookup_value','lookup_name'),array('empty'=>'-- Pilih --')),    
+            'filter' => CHtml::dropDownList('GUBarangM[barang_type]',$modBarang->barang_type,  CHtml::listData(LookupM::model()->findAll("lookup_type = 'barangumumtype' AND lookup_aktif = TRUE "),'lookup_value','lookup_name'),array('empty'=>'-- Pilih --')),    //AND lookup_name != 'Aset' 
             'value' => '$data->barang_type',
         ),
         'barang_kode',
