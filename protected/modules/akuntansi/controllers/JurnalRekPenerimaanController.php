@@ -38,11 +38,44 @@ class JurnalRekPenerimaanController extends MyAuthController {
 
 
 		if (isset($_POST['AKJenispenerimaanM'])) {
-			$model->attributes = $_POST['AKJenispenerimaanM'];
-			if ($model->save()) {
+                        // var_dump($_POST);
+                        $trans = Yii::app()->db->beginTransaction();
+			$ok = true;
+                        $model->attributes = $_POST['AKJenispenerimaanM'];
+                        
+                        if ($model->validate()) $ok = $ok && $model->save();
+                        else $ok = false;
+                        
+                        if (isset($_POST['AKJnsPenerimaanRekM'])) {
+                            foreach ($_POST['AKJnsPenerimaanRekM']['rekening'] as $item) {
+                                $det = new AKJnsPenerimaanRekM;
+                                $det->attributes = $item;
+                                $det->jenispenerimaan_id = $model->jenispenerimaan_id;
+                                $det->debitkredit = $item['rekening5_nb'];
+                                
+                                if ($det->debitkredit == "D") $model->rekeningdebit_id = $det->rekening5_id;
+                                else $model->rekeningkredit_id = $det->rekening5_id;
+                                
+                                
+                                if ($det->validate()) $ok = $ok && $det->save();
+                                else $ok = false;
+                            }
+                            $model->save();
+                        }
+                        
+                        
+                        
+                        // var_dump($ok); die;
+                        
+			if ($ok) {
+                                $trans->commit();
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('create', 'id' => 1));
-			}
+				$this->redirect(array('admin'));
+			} else {
+                                $trans->rollback();
+                                Yii::app()->user->setFlash('success', '<strong>Gagal!</strong> Data gagal disimpan.');
+                                $this->redirect(array('create'));
+                        }
 		}
 
 		$this->render('create', array(
@@ -63,11 +96,52 @@ class JurnalRekPenerimaanController extends MyAuthController {
 
 
 		if (isset($_POST['AKJenispenerimaanM'])) {
+                        //var_dump($_POST);
+                        $trans = Yii::app()->db->beginTransaction();
+			$ok = true;
 			$model->attributes = $_POST['AKJenispenerimaanM'];
-			if ($model->save()) {
+			
+                        if ($model->validate()) $ok = $ok && $model->save();
+                        else $ok = false;
+                        
+                        AKJnsPenerimaanRekM::model()->deleteAllByAttributes(array(
+                            'jenispenerimaan_id'=>$model->jenispenerimaan_id,
+                        ));
+                        
+                        if (isset($_POST['AKJnsPenerimaanRekM'])) {
+                            foreach ($_POST['AKJnsPenerimaanRekM']['rekening'] as $item) {
+                                $det = new AKJnsPenerimaanRekM;
+                                $det->attributes = $item;
+                                $det->jenispenerimaan_id = $model->jenispenerimaan_id;
+                                $det->debitkredit = $item['rekening5_nb'];
+                                
+                                if ($det->debitkredit == "D") $model->rekeningdebit_id = $det->rekening5_id;
+                                else $model->rekeningkredit_id = $det->rekening5_id;
+                                
+                                
+                                if ($det->validate()) $ok = $ok && $det->save();
+                                else $ok = false;
+                            }
+                            $model->save();
+                        }
+                        
+                        //var_dump($ok); die;
+                        
+                        if ($ok) {
+                                $trans->commit();
+				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+				$this->redirect(array('admin'));
+			} else {
+                                $trans->rollback();
+                                Yii::app()->user->setFlash('success', '<strong>Gagal!</strong> Data gagal disimpan.');
+                                $this->redirect(array('create'));
+                        }
+                        
+                        /*
+                        if ($model->save()) {
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
 				$this->redirect(array('admin', 'id' => 1));
-			}
+			} */
 		}
 
 		$this->render('update', array(
@@ -114,6 +188,7 @@ class JurnalRekPenerimaanController extends MyAuthController {
 			// we only allow deletion via POST request
 			//if(!Yii::app()->user->checkAccess(Params::DEFAULT_DELETE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 			$model = AKJnsPenerimaanRekM::model()->deleteAllByAttributes(array('jenispenerimaan_id' => $id));
+                        AKJenispenerimaanM::model()->deleteByPk($id);
 
 			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 			if (!isset($_GET['ajax']))
@@ -140,13 +215,11 @@ class JurnalRekPenerimaanController extends MyAuthController {
                     Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
                 endif;
                 
-		$model = new AKJnsPenerimaanRekM('searchJenisPenerimaan');
+		$model = new AKJenispenerimaanM('searchJenisPenerimaan');
 		$model->unsetAttributes();
-		if (isset($_GET['AKJnsPenerimaanRekM'])) {
-			$model->attributes = $_GET['AKJnsPenerimaanRekM'];
-			$model->jenispenerimaan_nama = $_GET['AKJnsPenerimaanRekM']['jenispenerimaan_nama'];
-			$model->rekDebit = $_GET['AKJnsPenerimaanRekM']['rekDebit'];
-			$model->rekKredit = $_GET['AKJnsPenerimaanRekM']['rekKredit'];
+		if (isset($_GET['AKJenispenerimaanM'])) {
+			$model->attributes = $_GET['AKJenispenerimaanM'];
+			$model->jenispenerimaan_nama = $_GET['AKJenispenerimaanM']['jenispenerimaan_nama'];
 		}
 		$this->render('admin', array(
 			'model' => $model,
