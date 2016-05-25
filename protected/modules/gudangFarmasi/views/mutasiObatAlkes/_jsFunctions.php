@@ -187,14 +187,16 @@ $(document).ready(function(){
         $("input, textarea, checkbox, select").attr("readonly",true);
         $(".add-on").remove();
         $(".dtPicker3").remove();
-        $(".icon-remove").remove();
+        $(".icon-remove").remove();        
     }
-    renameInputRowObatAlkes($("#table-mutasidetail")); 
-    hitungTotal();
+    renameInputRowObatAlkes($("#table-mutasidetail"));     
+    hitungTotal();    
 
     <?php 
         if(isset($model->mutasioaruangan_id)){
     ?>
+        $("#GFMutasioaruanganT_totalharganettomutasi").val("<?php echo number_format($model->totalharganettomutasi,0,'','.');  ?>");     
+        $("#GFMutasioaruanganT_totalhargajual").val("<?php echo number_format($model->totalhargajual,0,'','.');  ?>");
         var params = [];
         params = {instalasi_id:<?php echo Yii::app()->user->getState("instalasi_id"); ?>, modul_id:<?php echo $model->instalasitujuan_id ?>, judulnotifikasi:'Mutasi Obat Alkes', isinotifikasi:'Mutasi obat alkes dari <?php echo $model->ruanganasal->ruangan_nama ?> ke <?php echo $model->ruangantujuan->ruangan_nama ?>'}; // 16 
         insert_notifikasi(params);
