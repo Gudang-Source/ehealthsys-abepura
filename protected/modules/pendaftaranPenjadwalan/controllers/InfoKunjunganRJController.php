@@ -257,12 +257,18 @@ class InfoKunjunganRJController extends MyAuthController
                                 // $modPendaftaran->asuransipasien_id = $modAsuransiPasien->asuransipasien_id;
                             }
                             if(isset($_POST['PPAsuransipasienbpjsM'])){
+                                //var_dump($_POST['PPAsuransipasienbpjsM']); die;
                                 if(isset($_POST['PPAsuransipasienbpjsM']['asuransipasien_id'])){
-                                    if($_POST['PPAsuransipasienbpjsM']['asuransipasien_id']==""){
+                                    if($_POST['PPAsuransipasienbpjsM']['asuransipasien_id']!=""){
                                         $modAsuransiPasienBpjs = PPAsuransipasienM::model()->findByPk($_POST['PPAsuransipasienbpjsM']['asuransipasien_id']);
                                     }
                                 }
 				$modAsuransiPasienBpjs = $this->simpanAsuransiPasien($modAsuransiPasienBpjs, $modPendaftaran, $modPasien, $_POST['PPAsuransipasienbpjsM']);
+                                $modPendaftaran->status_konfirmasi = $modAsuransiPasienBpjs->status_konfirmasi;
+                                $modPendaftaran->tgl_konfirmasi = $modAsuransiPasienBpjs->tgl_konfirmasi;
+                                $modPendaftaran->asuransipasien_id = $modAsuransiPasienBpjs->asuransipasien_id;
+                                
+                                $modPendaftaran->save();
                                 
                                 }else{
                                 $this->asuransipasientersimpan = true;
@@ -897,15 +903,29 @@ class InfoKunjunganRJController extends MyAuthController
             $modAsuransiPasien->create_time = date("Y-m-d H:i:s");
             $modAsuransiPasien->tgl_konfirmasi = $format->formatDateTimeForDb($modAsuransiPasien->tgl_konfirmasi);
             
-            if (empty($modAsuransiPasien->nopeserta)) $modAsuransiPasien->nopeserta = $modAsuransiPasien->nokartuasuransi;
+            if ($postPendaftaran->carabayar_id == Params::CARABAYAR_ID_JAMKESPA) {
             
-            //var_dump($modAsuransiPasien->attributes);
+                if (empty($modAsuransiPasien->nopeserta)) $modAsuransiPasien->nopeserta = $modAsuransiPasien->nokartuasuransi;
+            
+            } else if ($postPendaftaran->carabayar_id == Params::CARABAYAR_ID_BPJS) {
+                $kelas = KelaspelayananM::model()->findByAttributes(array(
+                    'kelasbpjs_id'=>$modAsuransiPasien->kelastanggunganasuransi_id
+                ));
+                $modAsuransiPasien->status_konfirmasi = "SUDAH DIKONFIRMASI";
+                $modAsuransiPasien->tgl_konfirmasi = date('Y-m-d H:i:s');
+                $modAsuransiPasien->kelastanggunganasuransi_id = $kelas->kelaspelayanan_id;
+            }
+            
+            
+            
+            //var_dump($postPendaftaran->attributes, $modAsuransiPasien->attributes, $modAsuransiPasien->validate(), $modAsuransiPasien->errors);
+            //die;
             
             //$modAsuransiPasien->validate();
             
             //var_dump($modAsuransiPasien->errors);
             
-            //die;
+            // die;
             
             if($modAsuransiPasien->save()){
                 $this->asuransipasientersimpan = true;
@@ -913,30 +933,40 @@ class InfoKunjunganRJController extends MyAuthController
             return $modAsuransiPasien;
         }
 
-        public function simpanSep($model,$modPasien,$modRujukanBpjs,$modAsuransiPasienBpjs,$postSep){
+        public function simpanSep($model,$modPasien,$modRujukanBpjs,$modAsuransiPasienBpjs,$postSep, $isRI = false){
             $reqSep = null;
             $modSep = new PPSepT;
             $bpjs = new Bpjs();
+            
+            $kelas = KelaspelayananM::model()->findByPk($modAsuransiPasienBpjs->kelastanggunganasuransi_id);
 
             $modSep->tglsep = date('Y-m-d H:i:s');
             $modSep->nokartuasuransi = $modAsuransiPasienBpjs->nopeserta;
             $modSep->tglrujukan = $modRujukanBpjs->tanggal_rujukan;
+            if (empty($modSep->tglrujukan)) $modSep->tglrujukan = $modSep->tglsep;
             $modSep->norujukan = $modRujukanBpjs->no_rujukan;
-            $modSep->ppkrujukan = $postSep['ppkrujukan']; 
+            if(isset($postSep['ppkrujukan'])) $modSep->ppkrujukan = $postSep['ppkrujukan']; 
+            else $modSep->ppkrujukan = Yii::app()->user->getState('ppkpelayanan');
             $modSep->ppkpelayanan = Yii::app()->user->getState('ppkpelayanan');
-            $modSep->jnspelayanan = ($model->instalasi_id==Params::INSTALASI_ID_RI)?Params::JENISPELAYANAN_RI:Params::JENISPELAYANAN_RJ;
+            $modSep->jnspelayanan = ($model->instalasi_id==Params::INSTALASI_ID_RI || $isRI)?Params::JENISPELAYANAN_RI:Params::JENISPELAYANAN_RJ;
             $modSep->catatansep = $postSep['catatansep'];
-            $data_diagnosa = explode(', ', $modRujukanBpjs->diagnosa_rujukan);
+            $data_diagnosa = explode(', ', $modRujukanBpjs->kddiagnosa_rujukan);
             $modSep->diagnosaawal = isset($data_diagnosa[0])?$data_diagnosa[0]:'';
-            $modSep->politujuan = $model->ruangan_id;
-            $modSep->klsrawat = $modAsuransiPasienBpjs->kelastanggunganasuransi_id;
+            $modSep->politujuan = $model->ruangan->ruangan_singkatan;
+            $modSep->klsrawat = $kelas->kelasbpjs_id;
             $modSep->tglpulang = date('Y-m-d H:i:s');
             $modSep->create_time = date('Y-m-d H:i:s');
             $modSep->create_loginpemakai_id = Yii::app()->user->id;
             $modSep->create_ruangan = Yii::app()->user->getState('ruangan_id');
             
-            $reqSep = json_decode($bpjs->create_sep($modSep->nokartuasuransi, $modSep->tglsep, $modSep->tglrujukan, $modSep->norujukan, $modSep->ppkrujukan, $modSep->ppkpelayanan, $modSep->jnspelayanan, $modSep->catatansep, $modSep->diagnosaawal, $modSep->politujuan, $modSep->klsrawat, Yii::app()->user->id, $modPasien->no_rekam_medik, $model->pendaftaran_id),true);
+            //var_dump($modSep->attributes, $modSep->validate(), $modSep->errors); die;
+            
+            $lakalantas = 2;
+            
+            $reqSep = json_decode($bpjs->create_sep($modSep->nokartuasuransi, $modSep->tglsep, $modSep->tglrujukan, $modSep->norujukan, $modSep->ppkrujukan, $modSep->ppkpelayanan, $modSep->jnspelayanan, $modSep->catatansep, $modSep->diagnosaawal, $modSep->politujuan, $modSep->klsrawat, Yii::app()->user->id, $modPasien->no_rekam_medik, $model->pendaftaran_id, $lakalantas),true);
            
+            // var_dump($reqSep); die;
+            
             if ($reqSep['metadata']['code']==200) {
                 $modSep->nosep = $reqSep['response'];
                 if($modSep->save()){
