@@ -14,6 +14,10 @@ class ProgramkerjaMController extends MyAuthController
         $kegiatanProgram = new SAKegiatanprogramM;
         $subKegiatanProgram = new SASubkegiatanprogramM;
 		$rekeningAnggaran = new SARekeninganggaranV;
+                $rekeningAnggaran->subkegiatanprogram_aktif = true;
+                $rekeningAnggaran->programkerja_aktif = true;
+                $rekeningAnggaran->subprogramkerja_aktif = true;
+                $rekeningAnggaran->kegiatanprogram_aktif = true;
         
         $this->render($this->path_view.'index', array(
                 'programKerja' => $programKerja,
