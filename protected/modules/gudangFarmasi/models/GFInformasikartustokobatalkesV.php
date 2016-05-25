@@ -112,6 +112,7 @@ class GFInformasikartustokobatalkesV extends InformasikartustokobatalkesV
 			if(!empty($this->satuankecil_id)){
 				$criteria->addCondition('satuankecil_id = '.$this->satuankecil_id);
 			}
+            $criteria->compare('LOWER(satuankecil_nama)',strtolower($this->satuankecil_nama),true);
             $criteria->compare('LOWER(nobatch)',strtolower($this->nobatch),true);
             $criteria->compare('stokoa_aktif',$this->stokoa_aktif);
 			if(!empty($this->tglkadaluarsa)){
