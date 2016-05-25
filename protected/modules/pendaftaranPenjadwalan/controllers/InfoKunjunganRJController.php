@@ -211,6 +211,7 @@ class InfoKunjunganRJController extends MyAuthController
 
                 // echo "<pre>"; print_r($model->attributes);exit();
                 $transaction = Yii::app()->db->beginTransaction();
+                $ok = true;
                 try {
 
                     $modPendaftaran = PPPendaftaranT::model()->findByPk(
@@ -223,10 +224,13 @@ class InfoKunjunganRJController extends MyAuthController
 
                     $modPendaftaran->carabayar_id = $model->carabayar_id;
                     $modPendaftaran->penjamin_id = $model->penjamin_id;
+                    $modPendaftaran->status_konfirmasi = "-";
+                    $modPendaftaran->asuransipasien_id = null;
                     if($model->save() ){
+                            $modPendaftaran->save();
+                            $ok = $ok && $this->updateKarcis($modPendaftaran);
+                            
                         
-                        
-
                             if(isset($_POST['PPRujukanbpjsT'])){
                                 $modRujukanBpjs = $this->simpanRujukanBpjs($modRujukanBpjs, $_POST['PPRujukanbpjsT']);
                             }else{
@@ -239,8 +243,18 @@ class InfoKunjunganRJController extends MyAuthController
                                     }
                                 }
 				$modAsuransiPasien = $this->simpanAsuransiPasien($modAsuransiPasien, $modPendaftaran, $modPasien, $_POST['PPAsuransipasienM']);
+                                $modPendaftaran->status_konfirmasi = $modAsuransiPasien->status_konfirmasi;
+                                $modPendaftaran->tgl_konfirmasi = $modAsuransiPasien->tgl_konfirmasi;
+                                $modPendaftaran->asuransipasien_id = $modAsuransiPasien->asuransipasien_id;
+                                
+                                //var_dump($modPendaftaran->attributes); die;
+                                $modPendaftaran->save();
+                                
                             }else{
                                 $this->asuransipasientersimpan = true;
+                                $modPendaftaran->status_konfirmasi = $modAsuransiPasien->status_konfirmasi;
+                                $modPendaftaran->tgl_konfirmasi = $modAsuransiPasien->tgl_konfirmasi;
+                                $modPendaftaran->asuransipasien_id = $modAsuransiPasien->asuransipasien_id;
                             }
                             if(isset($_POST['PPAsuransipasienbpjsM'])){
                                 if(isset($_POST['PPAsuransipasienbpjsM']['asuransipasien_id'])){
@@ -249,10 +263,13 @@ class InfoKunjunganRJController extends MyAuthController
                                     }
                                 }
 				$modAsuransiPasienBpjs = $this->simpanAsuransiPasien($modAsuransiPasienBpjs, $modPendaftaran, $modPasien, $_POST['PPAsuransipasienbpjsM']);
-                            }else{
+                                
+                                }else{
                                 $this->asuransipasientersimpan = true;
                             }
-
+                            
+                            
+                            
                             if(!empty($modRujukanBpjs->rujukan_id) && !empty($modAsuransiPasienBpjs->asuransipasien_id)){
                                 PPPendaftaranT::model()->updateByPk($pendaftaran_id,array('carabayar_id'=>$modPendaftaran->carabayar_id,'penjamin_id'=>$modPendaftaran->penjamin_id,'rujukan_id'=>$modRujukanBpjs->rujukan_id,'asuransipasien_id'=>$modAsuransiPasienBpjs->asuransipasien_id));
                             }else if(!empty($modAsuransiPasien->asuransipasien_id)){
@@ -263,12 +280,21 @@ class InfoKunjunganRJController extends MyAuthController
 
                             if (isset($_POST['PPSepT'])) {
                                 $modSep = $this->simpanSep($modPendaftaran,$modPasien,$modRujukanBpjs,$modAsuransiPasienBpjs,$_POST['PPSepT']);								
-							}
-                        $transaction->commit();
-                        if(isset($modSep->nosep)){
-                            $this->redirect(array('ubahCaraBayar','id'=>$model->pendaftaran_id,'idSep'=>$modSep->sep_id,'sukses'=>1));
-                        }else{
-                            $this->redirect(array('ubahCaraBayar','id'=>$model->pendaftaran_id,'sukses'=>1));
+                            }
+                                                        
+                            
+                        // var_dump($ok); die;
+                        //die;
+                        if ($ok) {
+                            $transaction->commit();
+                            if(isset($modSep->nosep)){
+                                $this->redirect(array('ubahCaraBayar','id'=>$model->pendaftaran_id,'idSep'=>$modSep->sep_id,'sukses'=>1));
+                            }else{
+                                $this->redirect(array('ubahCaraBayar','id'=>$model->pendaftaran_id,'sukses'=>1));
+                            }
+                        } else {
+                            $transaction->rollback();
+                            Yii::app()->user->setFlash('error',"Data pasien gagal disimpan !");
                         }
 
                     } else {                
@@ -292,6 +318,85 @@ class InfoKunjunganRJController extends MyAuthController
                 )
             );       
         }        
+        
+        
+        private function updateKarcis($modPendaftaran) {
+            
+            $ok = true;
+            
+            $isBaru = $modPendaftaran->statuspasien == 'PENGUNJUNG BARU';
+            
+            $karcis = KarcisV::model()->findByAttributes(array(
+                'penjamin_id'=>$modPendaftaran->penjamin_id,
+                'kelaspelayanan_id'=>$modPendaftaran->kelaspelayanan_id,
+                'ruangan_id'=>$modPendaftaran->ruangan_id,
+                'pasienbaru_karcis'=>$isBaru
+            ));
+            
+            
+            $kdat = TindakanpelayananT::model()->findByAttributes(array(
+                'pendaftaran_id'=>$modPendaftaran->pendaftaran_id,
+                'karcis_id'=>$modPendaftaran->karcis_id,
+            ));
+            
+            // cek tindakan yang sudah bayar, hapus kalo belum dibayar
+            // jika pasien yang sudah bayar berpenjamin BPJS/KPS maka tidak bisa mengubah cara bayar
+            if (!empty($kdat)) {
+                if (!empty($kdat->tindakansudahbayar_id)) {
+                    if (!in_array($kdat->carabayar_id, array(Params::CARABAYAR_ID_BPJS, Params::CARABAYAR_ID_JAMKESPA))) {
+                        $kdat->carabayar_id = $modPendaftaran->carabayar_id;
+                        $kdat->penjamin_id = $modPendaftaran->penjamin_id;
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+                
+                $ok = $ok && TindakanpelayananT::model()->deleteByPk($kdat->tindakanpelayanan_id);
+            }
+            
+            if (!empty($karcis)) {
+            
+                $knew = new TindakanpelayananT;
+                if (!empty($kdat)) $knew->attributes = $kdat->attributes;
+                else {
+                    
+                    $knew->qty_tindakan = 1;
+                    $knew->satuantindakan = Params::SATUAN_TINDAKAN_PENDAFTARAN;
+                    $knew->discount_tindakan = 0;
+                    $knew->subsidiasuransi_tindakan = 0;
+                    $knew->subsidipemerintah_tindakan = 0;
+                    $knew->subsisidirumahsakit_tindakan = 0;
+                }
+                $knew->cyto_tindakan = (!empty($knew->cyto_tindakan) ? $knew->cyto_tindakan : 0);
+                $knew->tarifcyto_tindakan = ($knew->cyto_tindakan ? ($knew->tarifcyto_tindakan > 0 ? $knew->tarifcyto_tindakan : 0) : 0);
+                $knew->tgl_tindakan = date("Y-m-d H:i:s");
+                $knew->tindakanpelayanan_id = null;
+                $knew->daftartindakan_id = $karcis->daftartindakan_id;
+                $knew->karcis_id = $karcis->karcis_id;
+                $knew->tarif_satuan = $knew->tarif_tindakan = $karcis->harga_tariftindakan;
+                $knew->tipepaket_id = $this->tipePaketKarcis($modPendaftaran,$knew);
+                $knew->iurbiaya_tindakan = $knew->tarif_tindakan;
+                $knew->create_time =  $knew->update_time = date("Y-m-d H:i:s");
+                $knew->create_loginpemakai_id = $knew->update_loginpemakai_id = Yii::app()->user->id;
+                
+                if ($knew->validate()) {
+                    $ok = $ok && $knew->save();
+                    $modPendaftaran->karcis_id = $karcis->karcis_id;
+                    $ok = $ok && $modPendaftaran->save();
+                } else {
+                    //var_dump($knew->errors);
+                    $ok = false;
+                }
+                
+                //var_dump($ok);
+            }
+            
+            //var_dump($ok);
+            // var_dump($ok, $modPendaftaran->attributes, $isBaru, $karcis->attributes, $kdat->attributes, $knew->attributes);
+            //die;
+            return $ok;
+        }
         
         //==================================Awal batal Periksa============================================================================        
         public function actionUbahPeriksa()
