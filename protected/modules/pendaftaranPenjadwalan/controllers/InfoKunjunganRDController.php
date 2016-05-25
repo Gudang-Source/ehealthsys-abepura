@@ -871,6 +871,7 @@ class InfoKunjunganRDController extends MyAuthController
 
 			if (Yii::app()->request->isAjaxRequest)
 			{
+                            
 				echo CJSON::encode(array(
 					'status'=>'create_form', 
 					'div'=>$this->renderPartial('_formUbahJenisKelamin', array('model'=>$model), true)));

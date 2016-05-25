@@ -31,15 +31,16 @@
 <div class="control-group ">
     <?php echo CHtml::label('Kelompok Penyakit', 'jp', array('class'=>'control-label')) ?>
     <div class="controls">
-        <?php echo CHtml::textField('jp','jp',array('readonly'=>true)); ?>
+        <?php echo CHtml::textField('jp','jp',array('class'=>'span5','readonly'=>true)); ?>
     </div>
 </div>
 <?php
+echo CHtml::hiddenField('jeniskasuspenyakit_id','asd',array('id'=>'jkpid'));
     echo $form->dropDownListRow($model,'jeniskasuspenyakit_id',
             CHtml::listData(
                 $model->getJenisKasusPenyakitItems($model->ruangan_id), 'jeniskasuspenyakit_id', 'jeniskasuspenyakit_nama'
             ),
-            array('empty'=>'-- Pilih --', 'onkeypress'=>"return $(this).focusNextInputField(event)")
+            array('class'=>'span5','empty'=>'-- Pilih --', 'onkeypress'=>"return $(this).focusNextInputField(event)")
         );
 ?>
 
@@ -61,7 +62,8 @@
                 $('#PPPendaftaranT_pendaftaran_id').val(data.pendaftaran_id);
                 $('#np').val(data.nama_pasien);
                 $('#PPPendaftaranT_ruangan_id').val(data.ruangan_id);
-                $('#jp').val(data.jeniskasuspenyakit_nama);
+                $('#jp').val(data.jeniskasuspenyakit_nama);                             
+                $('#jkpid').val(data.jeniskasuspenyakit_id); 
                 loadJenisPenyakit(data.ruangan_id);
             },
         "json");
@@ -72,6 +74,7 @@
         $.post("<?php echo $this->createUrl('getKasusPenyakit')?>", { id_ruangan: id_ruangan },
             function(data){
                 $('#PPPendaftaranT_jeniskasuspenyakit_id').empty().append(data.listPenyakit);
+                $('#PPPendaftaranT_jeniskasuspenyakit_id').val($('#jkpid').val());
             },
         "json");        
     }

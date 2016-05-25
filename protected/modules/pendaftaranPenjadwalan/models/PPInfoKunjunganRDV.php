@@ -101,6 +101,8 @@ class PPInfoKunjunganRDV extends InfokunjunganrdV
 		$criteria->compare('LOWER(t.penjamin_nama)',strtolower($this->penjamin_nama),true);
 		$criteria->compare('LOWER(t.nama_pegawai)',strtolower($this->nama_pegawai),true);
 		$criteria->compare('LOWER(t.jeniskasuspenyakit_nama)',strtolower($this->jeniskasuspenyakit_nama),true);
+                $criteria->compare('LOWER(t.status_konfirmasi)',strtolower($this->status_konfirmasi),true);
+                $criteria->compare('t.create_loginpemakai_id',$this->create_loginpemakai_id);
 		if(!empty($this->rujukan_id)){
 			$criteria->addCondition("t.rujukan_id = ".$this->rujukan_id); 			
 		}
@@ -219,7 +221,7 @@ class PPInfoKunjunganRDV extends InfokunjunganrdV
 			$criteria->addCondition("penjamin_id = ".$this->penjamin_id); 			
 		}
 		$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
-	//		$criteria->compare('LOWER(status_konfirmasi)',strtolower($this->status_konfirmasi),true);
+		//$criteria->compare('LOWER(status_konfirmasi)',strtolower($this->status_konfirmasi),true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -1057,5 +1059,27 @@ class PPInfoKunjunganRDV extends InfokunjunganrdV
             $criteria->addCondition("pendaftaran_id = ".$this->pendaftaran_id);
             $modDiagnosa = PasienmorbiditasT::model()->find($criteria);
             return $modDiagnosa;
+        }
+        
+        public function getPegawaiRuanganItems()
+        {
+            $criteria = new CDbCriteria();    
+            $criteria->join = " JOIN pegawai_m p ON p.pegawai_id = t.pegawai_id "
+                    . " JOIN ruanganpegawai_m rp ON rp.pegawai_id = p.pegawai_id "
+                    . " WHERE ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' "
+                    . " ORDER BY nama_pemakai ASC"; 
+            
+            return LoginpemakaiK::model()->findAll($criteria);
+        }
+        
+        public function getUser()
+        {
+            $user = LoginpemakaiK::model()->findAllByAttributes(array('pegawai_id'=>$this->pegawai_id));
+            $data = '';
+            foreach($user as $user ):
+                $data = $user->nama_pemakai;
+            endforeach;      
+            
+            return $data;
         }
 }

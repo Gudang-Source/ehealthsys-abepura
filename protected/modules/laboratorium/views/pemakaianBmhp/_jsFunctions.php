@@ -116,7 +116,7 @@ function tambahObatAlkesPasien(obj)
                 var tambahkandetail = true;
                 var obatalkesyangsama = $("#table-obatalkespasien input[name$='[obatalkes_id]'][value='"+obatalkes_id+"']");
                 if(obatalkesyangsama.val()){ //jika ada obat sudah ada di table
-                    myConfirm('Apakah anda akan input ulang obat ini?', 'Perhatian!', function(r)
+                    myConfirm('Apakah Anda yakin ingin menginput ulang obat ini?', 'Perhatian!', function(r)
                     {
                         if(r){
                             $("#table-obatalkespasien input[name$='[obatalkes_id]'][value='"+obatalkes_id+"']").each(function(){
@@ -252,7 +252,7 @@ function renameInputRowObatAlkes(obj_table){
  */ 
 function batalOaPasien(obj)
 {
-    myConfirm('Apakah anda akan membatalkan obat / alat kesehatan ini?', 'Perhatian!', function(r)
+    myConfirm('Apakah Anda yakin ingin membatalkan obat / alat kesehatan ini?', 'Perhatian!', function(r)
     {
         if(r){
             $(obj).parents('tr').remove();
@@ -266,7 +266,7 @@ function batalOaPasien(obj)
  */ 
 function hapusOaPasien(obatalkespasien_id)
 {
-    myConfirm('Apakah anda akan menghapus obat / alat kesehatan ini?', 'Perhatian!', function(r)
+    myConfirm('Apakah Anda yakin ingin menghapus obat / alat kesehatan ini?', 'Perhatian!', function(r)
     {
         if(r){
             $.ajax({

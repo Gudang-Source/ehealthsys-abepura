@@ -39,8 +39,8 @@ class ObatAlkesKategori extends LookupM
     {
             self::$_items[$type]=array();
             $models=self::model()->findAll(array(
-                    'condition'=>'lookup_type=:type',
-                    'params'=>array(':type'=>$type),
+                    'condition'=>'lookup_type=:type AND lookup_aktif=:aktif',
+                    'params'=>array(':type'=>$type,':aktif'=>true),
                     'order'=>'lookup_urutan',
             ));
             foreach($models as $model)

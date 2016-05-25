@@ -25,7 +25,7 @@ function tambahObat(obj)
                 var tambahkandetail = true;
                 var obatalkesyangsama = $("#table-obatalkespasien input[name$='[obatalkes_id]'][value='"+obatalkes_id+"']");
                 if(obatalkesyangsama.val()){ //jika ada obat sudah ada di table
-                    myConfirm("Apakah anda akan input ulang obat ini?","Perhatian!",
+                    myConfirm("Apakah Anda yakin ingin menginput ulang obat ini?","Perhatian!",
                     function(r){
                         if(r){
                             $("#table-obatalkespasien input[name$='[obatalkes_id]'][value='"+obatalkes_id+"']").each(function(){
@@ -101,7 +101,7 @@ function tambahObatRacik(obj)
                 var tambahkandetail = true;
                 var obatalkesyangsama = $("#table-obatalkespasien input[name$='[obatalkes_id]'][value='"+obatalkes_id+"']");
                 if(obatalkesyangsama.val()){ //jika ada obat sudah ada di table
-                    myConfirm("Apakah anda akan input ulang obat ini?","Perhatian!",
+                    myConfirm("Apakah Anda yakin ingin menginput ulang obat ini?","Perhatian!",
                     function(r){
                         if(r){
                             $("#table-obatalkespasien input[name$='[obatalkes_id]'][value='"+obatalkes_id+"']").each(function(){
@@ -223,7 +223,7 @@ function tambahObatReseptur(obatalkes_id,rke,rkelast,jumlah,signa,permintaan,kem
             var tambahkandetail = true;
             var obatalkesyangsama = $("#table-obatalkespasien input[name$='[obatalkes_id]'][value='"+obatalkes_id+"']");
             if(obatalkesyangsama.val()){ //jika ada obat sudah ada di table
-                myConfirm("Apakah anda akan input ulang obat ini?","Perhatian!",
+                myConfirm("Apakah Anda yakin ingin menginput ulang obat ini?","Perhatian!",
                 function(r){
                     if(r){
                         $("#table-obatalkespasien input[name$='[obatalkes_id]'][value='"+obatalkes_id+"']").each(function(){
@@ -328,7 +328,7 @@ function refreshDialogInfoPasien(){
  * @param {type} caraPrint
  * @returns {undefined} */
 function batalObatAlkesPasienDetail(obj){
-    myConfirm("Apakah anda akan membatalkan penjualan obat alkes ini?","Perhatian!",
+    myConfirm("Apakah Anda yakin ingin membatalkan penjualan obat alkes ini?","Perhatian!",
     function(r){
         if(r){
             var obatalkes_id = $(obj).parents('tr').find('input[name$="[obatalkes_id]"]').val();
@@ -458,7 +458,7 @@ function cekObat(){
 function ubahTakaranResep(obj){
 	var takaran = $(obj).val();
 	var takarantext = $(obj).find("[value='"+takaran+"']").text();
-	myConfirm('Proses perhitungan takaran resep hanya bisa dilakukan satu kali. Apakah anda ingin mengubah takaran semua obat menjadi '+takarantext+' dari resep?', 'Perhatian!', function(r){
+	myConfirm('Proses perhitungan takaran resep hanya bisa dilakukan satu kali. Apakah Anda yakin ingin mengubah takaran semua obat menjadi '+takarantext+' dari resep?', 'Perhatian!', function(r){
 		if(r){
 			proporsiTakaranResep(takaran);
 			$(obj).attr('readonly',true);
