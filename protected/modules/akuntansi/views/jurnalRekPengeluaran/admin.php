@@ -55,29 +55,57 @@
                             array(
                                 'header'=>'Kode',
                                 'name'=>'jenispengeluaran_kode',
-                                'value'=>'$data->jenispengeluaran->jenispengeluaran_kode',
+                                'value'=>'$data->jenispengeluaran_kode',
                             ),
                             array(
                                 'header'=>'Jenis Pengeluaran',
                                 'name'=>'jenispengeluaran_nama',
-                                'value'=>'$data->jenispengeluaran->jenispengeluaran_nama',
-                            ),
+                                'value'=>'$data->jenispengeluaran_nama',
+                            ), /*
                             array(
                                 'header'=>'Nama Lain',
                                 'name'=>'jenispengeluaran_namalain',
                                 'value'=>'$data->jenispengeluaran->jenispengeluaran_namalain',
+                            ), */
+                           array(
+                                    'header'=>'Rekening Debit',
+                                    //'name'=>'rekeningdebit_id',
+                                    'type'=>'raw',
+                                    'value'=>function($data)
+                                    {
+                                        $r = JnspengeluaranrekM::model()->findByAttributes(array(
+                                            'jenispengeluaran_id' => $data->jenispengeluaran_id,
+                                            'debitkredit'=>'D'
+                                        ));
+                                        
+                                        if (empty($r)) return "-";
+                                        
+                                        $r5 = Rekening5M::model()->findByPk($r->rekening5_id);
+                                        
+                                        if (empty($r5)) return "-";
+                                        return $r5->nmrekening5;
+                                    }
+                                    //'value'=>'$this->grid->owner->renderPartial("_rekPenerimaanD",array("saldonormal"=>"D","jenispenerimaan_id"=>$data->jenispenerimaan_id),true)',
                             ),
                             array(
-                                'header'=>'Rekening Debit',
-                                'name'=>'rekening_debit',
-                                'type'=>'raw',
-                                'value'=>'$this->grid->owner->renderPartial("_rekPengeluaranD",array("rekening5_nb"=>"D","jenispengeluaran_id"=>$data->jenispengeluaran_id),true)',
-                            ),
-                            array(
-                                'header'=>'Rekening Kredit',
-                                'name'=>'rekeningKredit',
-                                'type'=>'raw',
-                                'value'=>'$this->grid->owner->renderPartial("_rekPengeluaranK",array("rekening5_nb"=>"K","jenispengeluaran_id"=>$data->jenispengeluaran_id),true)',
+                                    'header'=>'Rekening Kredit',
+                                    //'name'=>'rekeningkredit_id',
+                                    'type'=>'raw',
+                                    'value'=>function($data)
+                                    {
+                                        $r = JnspengeluaranrekM::model()->findByAttributes(array(
+                                            'jenispengeluaran_id' => $data->jenispengeluaran_id,
+                                            'debitkredit'=>'K'
+                                        ));
+                                        
+                                        if (empty($r)) return "-";
+                                        
+                                        $r5 = Rekening5M::model()->findByPk($r->rekening5_id);
+                                        
+                                        if (empty($r5)) return "-";
+                                        return $r5->nmrekening5;
+                                    }
+                                    //'value'=>'$this->grid->owner->renderPartial("_rekPenerimaanK",array("saldonormal"=>"K","jenispenerimaan_id"=>$data->jenispenerimaan_id),true)',
                             ),
                             array(
                                 'header'=>'Status',
@@ -93,6 +121,18 @@
                                                     'options'=>array('title'=>Yii::t('mds','View')),
                                                     'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/view",array("id"=>"$data->jenispengeluaran_id"))',
 
+                                            ),
+                                    ),
+                            ),
+                            array(
+                                    'header'=>Yii::t('zii','Update'),
+                                    'class'=>'bootstrap.widgets.BootButtonColumn',
+                                    'template'=>'{update}',
+                                    'buttons'=>array(
+                                            'view' => array (
+                                                            'label'=>"<i class='icon-update'></i>",
+                                                            'options'=>array('title'=>Yii::t('mds','Update')),
+                                                            'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/update",array("id"=>"$data->jenispengeluaran_id"))',                                               
                                             ),
                                     ),
                             ),

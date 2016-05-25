@@ -116,51 +116,61 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 						"))',
 				),
 				array(
-					'header' => 'No. Urut',
-					'name' => 'nourutrek',
-					'value' => '$data->nourutrek',
-				),
-				array(
-                                        'header' => 'Kelompok Akun',
-                                        'name' => 'rekening1_id',
-                                        'value' => '$data->nmrekening1',
-                                        'filter'=>  CHtml::activeDropDownList($modRekKredit, 'rekening1_id', 
-                                                CHtml::listData(Rekening1M::model()->findAll(array(
-                                                    'condition'=>'rekening1_aktif = true',
-                                                    'order'=>'kdrekening1 asc',
-                                                )), 'rekening1_id', 'nmrekening1'), array('empty'=>'-- Pilih --')),
-                                ),
-                                array(
-                                        'header' => 'Golongan Akun',
-                                        'name' => 'rekening2_id',
-                                        'value' => '$data->nmrekening2',
-                                        'filter'=>  CHtml::activeDropDownList($modRekKredit, 'rekening2_id', 
-                                        CHtml::listData($r2, 'rekening2_id', 'nmrekening2'), array('empty'=>'-- Pilih --')),
-                                ),
-                                array(
-                                        'header' => 'Sub Golongan Akun',
-                                        'name' => 'rekening3_id',
-                                        'value' => '$data->nmrekening3',
-                                        'filter'=>  CHtml::activeDropDownList($modRekKredit, 'rekening3_id', 
-                                        CHtml::listData($r3, 'rekening3_id', 'nmrekening3'), array('empty'=>'-- Pilih --')),
-                                ),
-                                array(
-                                        'header' => 'Jenis Akun',
-                                        'name' => 'rekening4_id',
-                                        'value' => '$data->nmrekening4',
-                                        'filter'=>  CHtml::activeDropDownList($modRekKredit, 'rekening4_id', 
-                                                CHtml::listData($r4, 'rekening4_id', 'nmrekening4'), array('empty'=>'-- Pilih --')),
-                                ),
-                                array(
                                         'header' => 'Kode Akun',
                                         'name' => 'kdrekening5',
                                         'value' => '$data->kdrekening5',
                                 ),
-				array(
-					'header' => 'Nama Akun',
-					'name' => 'nmrekening5',
-					'value' => '$data->nmrekening5',
-				), /*
+                                array(
+                                        'header'=>'Kelompok Akun',
+                                        'type'=>'raw',
+                                        'value'=>function($data) {
+                                            $rek1 = Rekening1M::model()->findByPk($data->rekening1_id);
+                                            $rek2 = KelrekeningM::model()->findByPk($rek1->kelrekening_id);
+                                            return $rek2->namakelrekening;
+                                        },
+                                        'filter'=>CHtml::activeDropDownList($modRekKredit, 'kelrekening_id', CHtml::listData(
+                                       KelrekeningM::model()->findAll(array(
+                                           'condition'=>'kelrekening_aktif = true',
+                                           'order'=>'koderekeningkel',
+                                       )), 'kelrekening_id', 'namakelrekening'
+                                        ), array('empty'=>'-- Pilih --')),
+                                ),
+                                array(
+                                        'header'=>'Komponen',
+                                        'name'=>'rekening1_id',
+                                        'value'=>'$data->nmrekening1',
+                                        'filter'=>  CHtml::activeDropDownList($modRekKredit, 'rekening1_id', 
+                                        CHtml::listData(Rekening1M::model()->findAll(array(
+                                            'condition'=>'rekening1_aktif = true',
+                                            'order'=>'kdrekening1 asc',
+                                        )), 'rekening1_id', 'nmrekening1'), array('empty'=>'-- Pilih --')),
+                                ),
+                                array(
+                                        'header'=>'Unsur',
+                                        'name'=>'rekening2_id',
+                                        'value'=>'$data->nmrekening2',
+                                        'filter'=>  CHtml::activeDropDownList($modRekKredit, 'rekening2_id', 
+                                        CHtml::listData($r2, 'rekening2_id', 'nmrekening2'), array('empty'=>'-- Pilih --')),
+                                ),
+                                array(
+                                        'header'=>'Kelompok Pos',
+                                        'name'=>'rekening3_id',
+                                        'value'=>'$data->nmrekening3',
+                                        'filter'=>  CHtml::activeDropDownList($modRekKredit, 'rekening3_id', 
+                                        CHtml::listData($r3, 'rekening3_id', 'nmrekening3'), array('empty'=>'-- Pilih --')),
+                                ),
+                                array(
+                                        'header'=>'Pos',
+                                        'name'=>'rekening4_id',
+                                        'value'=>'$data->nmrekening4',
+                                        'filter'=>  CHtml::activeDropDownList($modRekKredit, 'rekening4_id', 
+                                        CHtml::listData($r4, 'rekening4_id', 'nmrekening4'), array('empty'=>'-- Pilih --')),
+                                ),
+                                array(
+                                        'header' => 'Akun',
+                                        'name' => 'nmrekening5',
+                                        'value' => '$data->nmrekening5',
+                                ), /*
 				array(
 					'header' => 'Nama Lain',
 					'name' => 'nmrekeninglain5',
@@ -196,6 +206,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 </script>
 <?php
 $urlEditKredit = $this->createUrl('GetRekeningEditDebitKreditSumberdana'); //MAsukan Dengan memilih Rekening
+$mds = Yii::t('mds','Anda yakin akan ubah data rekening ?');
 $jscript = <<< JS
 
 function saveKredit()
@@ -211,15 +222,20 @@ function saveKredit()
 
 //    myAlert(sumberdanarek_id + sumberdana_id+ rekening5_nb + rekening5_id + rekening4_id + rekening3_id + rekening2_id + rekening1_id);
 
-    $.post("${urlEditKredit}", {rekening1_id:rekening1_id, rekening2_id:rekening2_id, rekening3_id:rekening3_id, rekening4_id:rekening4_id, rekening5_id:rekening5_id, sumberdana_id:sumberdana_id, rekening5_nb:rekening5_nb,sumberdanarek_id:sumberdanarek_id},
-        function(data){
-            $('.divForForm').html(data.pesan);
-            setTimeout(function(){
-                $("#iframeEditRekeningDebitKredit").attr("src",$(this).attr("href"));
-                window.parent.$("#dialogUbahRekeningDebitKredit").dialog("close");
-                return true;
-            },500);
-    }, "json");
+    myConfirm("${mds}",'Perhatian!',function(r){
+        if(r)
+        {
+            $.post("${urlEditKredit}", {rekening1_id:rekening1_id, rekening2_id:rekening2_id, rekening3_id:rekening3_id, rekening4_id:rekening4_id, rekening5_id:rekening5_id, sumberdana_id:sumberdana_id, rekening5_nb:rekening5_nb,sumberdanarek_id:sumberdanarek_id},
+                function(data){
+                    $('.divForForm').html(data.pesan);
+                    setTimeout(function(){
+                        $("#iframeEditRekeningDebitKredit").attr("src",$(this).attr("href"));
+                        window.parent.$("#dialogUbahRekeningDebitKredit").dialog("close");
+                        return true;
+                    },500);
+            }, "json");
+        }
+    });
 }
     
 JS;

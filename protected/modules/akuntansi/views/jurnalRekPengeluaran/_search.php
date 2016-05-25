@@ -29,21 +29,26 @@
                                <?php echo $form->textField($model,'jenispengeluaran_namalain',array('class'=>'span3','maxlength'=>50)); ?>
                           </div>
                 </div>
-                
+                <?php /*
                 <div class='control-group'>
                             <?php echo CHtml::label('Rekening Debit','rekeningDebit', array('class'=>'control-label')); ?>
                      <div class="controls">
                             <?php echo $form->textField($model,'rekening_debit',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                      </div>
                 </div>
+                 * 
+                 */ ?>
             </td>
             <td>
+                <?php /*
                 <div class='control-group'>
                             <?php echo CHtml::label('Rekening Kredit','rekeningDebit', array('class'=>'control-label')); ?>
                      <div class="controls">
                             <?php echo $form->textField($model,'rekeningKredit',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                      </div>
                 </div>
+                 * 
+                 */ ?>
             </td>
         </tr>
     </table>
