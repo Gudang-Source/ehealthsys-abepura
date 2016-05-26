@@ -88,12 +88,19 @@ class InvperalatanTController extends MyAuthController
 		if(isset($_POST['MAInvperalatanT']))
 		{
 			$model->attributes=$_POST['MAInvperalatanT'];
+                        $model->invperalatan_tglguna = !empty($_POST['MAInvperalatanT']['invperalatan_tglguna'])?$_POST['MAInvperalatanT']['invperalatan_tglguna']:null;
+                        $model->tglpenghapusan = !empty($_POST['MAInvperalatanT']['tglpenghapusan'])?  MyFormatter::formatDateTimeForDb($_POST['MAInvperalatanT']['tglpenghapusan']):null;
+                        $model->invperalatan_tglguna = !empty($_POST['MAInvperalatanT']['invperalatan_tglguna'])?  MyFormatter::formatDateTimeForDb($_POST['MAInvperalatanT']['invperalatan_tglguna']):null;
+                        
+                        // var_dump($model->attributes); die;
 			if($model->save()){
                             BarangM::model()->updateByPk($model->barang_id, array('barang_statusregister'=>true));
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
 				//$this->redirect(array('admin','id'=>$model->invperalatan_id));
                         }
 		}
+                
+                $model->invperalatan_harga = MyFormatter::formatNumberForPrint($model->invperalatan_harga);
 
 		$this->render('update',array(
 			'model'=>$model,'modBarang'=>$modBarang, 'data'=>$data ,'dataAsalAset'=>$dataAsalAset ,'dataLokasi'=>$dataLokasi

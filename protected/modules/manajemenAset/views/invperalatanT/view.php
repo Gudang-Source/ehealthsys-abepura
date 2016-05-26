@@ -38,25 +38,46 @@
 		'invperalatan_ukuran',
 		'invperalatan_bahan',
 		'invperalatan_thnpembelian',
-		'invperalatan_tglguna',
+		array(
+                    'label'=>'Tanggal Penggunaan',
+                    'type'=>'raw',
+                    'value'=>MyFormatter::formatDateTimeForUser($model->invperalatan_tglguna),
+                ),
 		'invperalatan_nopabrik',
 		'invperalatan_norangka',
 		'invperalatan_nomesin',
 		'invperalatan_nopolisi',
 		'invperalatan_nobpkb',
-		'invperalatan_harga',
+                array(
+                    'label'=>'Harga',
+                    'type'=>'raw',
+                    'value'=>MyFormatter::formatNumberForPrint($model->invperalatan_harga),
+                ),
+		//  invperalatan_harga',
 		'invperalatan_akumsusut',
 		'invperalatan_ket',
 		'invperalatan_kapasitasrata',
-		'invperalatan_ijinoperasional',
+		// 'invperalatan_ijinoperasional',
+                array(
+                    'label'=>'Izin Operasional',
+                    'type'=>'raw',
+                    'value'=>$model->invperalatan_ijinoperasional?"Ya":"Tidak",
+                ),
 		'invperalatan_serftkkalibrasi',
-		'invperalatan_umurekonomis',
+                array(
+                    'label'=>'Umur Ekonomis',
+                    'type'=>'raw',
+                    'value'=>$model->invperalatan_umurekonomis." Tahun",
+                ),
 		'invperalatan_keadaan',
+            /*
 		'create_time',
 		'update_time',
 		'create_loginpemakai_id',
 		'update_loginpemakai_id',
 		'create_ruangan',
+             * 
+             */
 	),
     )); ?>
     <?php $this->widget('UserTips',array('type'=>'view'));?>

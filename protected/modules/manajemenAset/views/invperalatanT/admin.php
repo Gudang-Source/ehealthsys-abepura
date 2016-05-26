@@ -65,7 +65,7 @@
                     ),
                     'invperalatan_kode',
 
-                    //'invperalatan_noregister',
+                    'invperalatan_noregister',
                     'invperalatan_namabrg',
                     //'invperalatan_merk',
                     //'invperalatan_ukuran',
