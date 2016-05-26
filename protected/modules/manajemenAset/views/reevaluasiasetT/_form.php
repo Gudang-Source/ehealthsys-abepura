@@ -45,7 +45,7 @@ $this->widget('bootstrap.widgets.BootAlert');
                         if (isset($_GET['MAReevaluasiasetT']['jenis_aset'])) $search->jenis_aset = $_GET['MAReevaluasiasetT']['jenis_aset'];
 		}
                 
-                
+                if (!isset($_GET['ajax']) || !in_array($_GET['ajax'], array('asetDialog-m-grid', 'obatAlkesDialog-m-grid'))) {
 		
 		$this->widget('ext.bootstrap.widgets.BootGridView',array(
             'id'=>'aset-t-grid',
@@ -110,7 +110,8 @@ $this->widget('bootstrap.widgets.BootAlert');
                     . 'jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
                     . '$("#aset-t-grid").find(".integer2:text").maskMoney({"symbol":"Rp. ", "defaultZero":true, "allowZero":true, "decimal":",", "thousands":".", "precision":0})'
                     . '}',
-        ));			
+        ));		
+                }
 		?>			
 		</div>
 	</div>
