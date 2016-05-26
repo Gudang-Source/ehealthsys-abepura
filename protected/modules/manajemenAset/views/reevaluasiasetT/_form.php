@@ -364,12 +364,6 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
                ))'
         ),
 	     array(
-            'header' => 'Inventarisasi Aset Lain',
-            'name' => 'invasetlain_noregister',
-			 'value'=>'empty($data->invasetlain_noregister) ? "Kosong" : "$data->invasetlain_noregister / $data->invasetlain_namabrg" ',
-			 'filter' => '',
-        ),
-	     array(
             'header' => 'Inventarisasi Tanah',
             'name' => 'invtanah_noregister',
 			 'value'=>'empty($data->invtanah_noregister) ? "Kosong" : "$data->invtanah_noregister / $data->invtanah_namabrg" ',
@@ -391,6 +385,12 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
             'header' => 'Inventarisasi Jalan',
             'name' => 'invjalan_noregister',
 			 'value'=>'empty($data->invjalan_noregister) ? "Kosong" : "$data->invjalan_noregister / $data->invjalan_namabrg" ',
+			 'filter' => '',
+        ),
+	     array(
+            'header' => 'Inventarisasi Aset Lain',
+            'name' => 'invasetlain_noregister',
+			 'value'=>'empty($data->invasetlain_noregister) ? "Kosong" : "$data->invasetlain_noregister / $data->invasetlain_namabrg" ',
 			 'filter' => '',
         ),		
     ),
