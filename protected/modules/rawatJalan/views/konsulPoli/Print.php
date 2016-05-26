@@ -25,38 +25,30 @@ echo $this->renderPartial('application.views.headerReport.headerDefault',array('
     }
 ?>
 
-<table width="100%" <?php echo $style; ?> >
+<table width="100%" <?php echo $style; ?>
     <tr>
-        <td width="30%"><label class='control-label'><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('tgl_pendaftaran')); ?></label></td>
-        <td width="60%"><?php echo CHtml::encode($modPendaftaran->tgl_pendaftaran); ?></td>
+        <td>Tgl. Pendaftaran</td><td>:</td><td><?php echo CHtml::encode(MyFormatter::formatDateTimeForUser($modPendaftaran->tgl_pendaftaran)); ?></td>
     </tr>
     <tr>
-        <td width="30%"><label class='control-label'><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('no_pendaftaran')); ?> / No. Permintaan</label></td>
-        <td width="60%"><?php echo CHtml::encode($modPendaftaran->no_pendaftaran); ?> / <?php echo $_GET['idKonsulPoli']; ?></td>
+        <td>No. Pendaftaran</td><td>:</td><td><?php echo CHtml::encode($modPendaftaran->no_pendaftaran); ?></td>
     </tr>
     <tr>
-        <td width="30%"><label class='control-label'>No. Rekam Medik</label></td>
-        <td width="60%"><?php echo CHtml::encode($modPendaftaran->pasien->no_rekam_medik); ?></td>
+        <td>No. Rekam Medik</td><td>:</td><td><?php echo CHtml::encode($modPendaftaran->pasien->no_rekam_medik); ?></td>
     </tr>
     <tr>
-        <td width="30%"><label class='control-label'><?php echo CHtml::encode($modPendaftaran->pasien->getAttributeLabel('nama_pasien')); ?></label></td>
-        <td width="60%"><?php echo CHtml::encode($modPendaftaran->pasien->nama_pasien); ?></td>
+        <td>Nama Pasien</td><td>:</td><td><?php echo CHtml::encode($modPendaftaran->pasien->nama_pasien); ?></td>
     </tr>
     <tr>
-        <td width="30%"><label class='control-label'>Tgl. Lahir / Umur</label></td>
-        <td width="60%"><?php echo CHtml::encode(MyFormatter::formatDateTimeId($modPendaftaran->pasien->tanggal_lahir)); ?> / <?php echo CHtml::encode($modPendaftaran->umur); ?></td>
+        <td>Tgl. Lahir/Umur</td><td>:</td><td><?php echo CHtml::encode(MyFormatter::formatDateTimeForUser($modPendaftaran->pasien->tanggal_lahir)); ?> / <?php echo CHtml::encode($modPendaftaran->umur); ?></td>
     </tr>
     <tr>
-        <td width="30%"><label class='control-label'><?php echo CHtml::encode($modPendaftaran->pasien->getAttributeLabel('jeniskelamin')); ?></label></td>
-        <td width="60%"><?php echo CHtml::encode($modPendaftaran->pasien->jeniskelamin); ?></td>
+        <td>Jenis Kelamin</td><td>:</td><td><?php echo CHtml::encode($modPendaftaran->pasien->jeniskelamin); ?></td>
     </tr>
     <tr>
-        <td width="30%"><label class='control-label'>Kasus Penyakit</label></td>
-        <td width="60%"><?php echo CHtml::encode($modPendaftaran->jeniskasuspenyakit->jeniskasuspenyakit_nama);?></td>
+        <td>Kasus Penyakit</td><td>:</td><td><?php echo CHtml::encode($modPendaftaran->jeniskasuspenyakit->jeniskasuspenyakit_nama);?></td>
     </tr>
     <tr>
-        <td width="30%"><label class='control-label'>Kelas Pelayanan</label></td>
-        <td width="60%"><?php echo CHtml::encode($modPendaftaran->kelaspelayanan->kelaspelayanan_nama); ?></td>
+        <td>Kelas Pelayanan</td><td>:</td><td><?php echo CHtml::encode($modPendaftaran->kelaspelayanan->kelaspelayanan_nama); ?></td>
     </tr>
 </table>
 <br>
@@ -64,28 +56,26 @@ echo $this->renderPartial('application.views.headerReport.headerDefault',array('
     <thead>
         <tr>
             <th>Tanggal Konsul</th>
-            <th>No. Pendaftaran</th>
+            <?php /* <th>No. Pendaftaran</th> */ ?>
             <th>Poliklinik Asal</th>
             <th>Poliklinik Tujuan</th>
+            <th>Catatan Dokter</th>
         </tr>
     </thead>
     <tbody>
     <?php foreach ($modRiwayatKonsul as $i => $konsul) { ?>
         <tr>
             <td><?php echo $konsul->tglkonsulpoli ?></td>
-            <td><?php echo $konsul->pendaftaran->no_pendaftaran ?></td>
+            <?php /* <td><?php echo $konsul->pendaftaran->no_pendaftaran ?></td> */ ?>
             <td><?php echo $konsul->poliasal->ruangan_nama ?></td>
             <td><?php echo $konsul->politujuan->ruangan_nama ?></td>
+            <td><?php echo $konsul->catatan_dokter_konsul; ?></td>
         </tr>
     <?php } ?>
     </tbody>
     
 </table>
 <table width="100%">
-    <tr>
-        <td colspan="2" width="40%" align="left" valign="">Catatan Dokter : <?php echo (isset($riwayat->catatandokterpengirim) ? CHtml::encode($riwayat->catatandokterpengirim) : " - "); ?></td>
-        <td width="60%" align="center"></td>
-    </tr>
     <tr>
         <td width="40%" align="center"></td>
         <td width="20%" align="center"></td>
@@ -109,6 +99,6 @@ echo $this->renderPartial('application.views.headerReport.headerDefault',array('
         ?>
         <td width="40%" align="center"><?php echo $namaRuangan.' - '.$User; ?></td>
         <td width="20%" align="center"></td>
-        <td width="40%" align="center">( <?php echo CHtml::encode($modPendaftaran->pegawai->nama_pegawai); ?> )</td>
+        <td width="40%" align="center">( <?php echo CHtml::encode($modPendaftaran->pegawai->namaLengkap); ?> )</td>
     <tr>
 </table>
