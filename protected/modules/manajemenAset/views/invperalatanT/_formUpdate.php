@@ -74,7 +74,7 @@
                     </div>
                 </div>
                 
-                <?php echo $form->textFieldRow($model,'invperalatan_keadaan',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+                <?php echo $form->dropDownListRow($model,'invperalatan_keadaan',LookupM::getItems('inventariskeadaan'),array('empty'=>'-- Pilih --','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
             </td>
         </tr>
     </table>

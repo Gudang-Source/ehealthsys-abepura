@@ -81,7 +81,7 @@ class InvjalanTController extends MyAuthController
 			if($model->save()){
                             BarangM::model()->updateByPk($model->barang_id, array('barang_statusregister'=>true));
                             Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-                            $this->redirect(array('admin'));
+                            // $this->redirect(array('admin'));
                         }
 		}
                 
