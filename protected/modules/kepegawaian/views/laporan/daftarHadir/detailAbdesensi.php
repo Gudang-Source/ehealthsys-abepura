@@ -21,17 +21,10 @@ Yii::app()->clientScript->registerScript('search', "
 ?>
     
 <table>
+    <?php /*
     <tr>
-        <td>
-            <?php echo $form->textFieldRow($modPegawai,'nama_pegawai',array('readonly'=>true, 'class'=>'span3')); ?>
-            <?php echo $form->textFieldRow($modPegawai,'nofingerprint',array('readonly'=>true,'class'=>'span3')); ?>
-            <?php echo $form->textAreaRow($modPegawai,'alamat_pegawai',array('readonly'=>true,'class'=>'span3')); ?>
-            <?php echo $form->textFieldRow($modPegawai,'unit_perusahaan',array('readonly'=>true,'class'=>'span3')); ?>
-        </td>
-        <td>
-            <?php echo $form->textFieldRow($modPegawai,'kelompokpegawai_id',array('readonly'=>true,'value'=>$modPegawai->kelompokpegawai->kelompokpegawai_nama, 'class'=>'span3')); ?>
-            <?php echo $form->textFieldRow($modPegawai,'jabatan_id',array('readonly'=>true,'value'=>($modPegawai->jabatan_id === null)?'':$modPegawai->jabatan->jabatan_nama, 'class'=>'span3')); ?>
-            
+         <td>                        
+           
             <div class="control-group ">
                 <?php echo $form->labelEx($model, 'tglpresensi', array('class' => 'control-label')); ?>
                 <div class="controls">
@@ -78,11 +71,41 @@ Yii::app()->clientScript->registerScript('search', "
             
         </td>
     </tr>
+    <tr>
+        <td style="text-align: center;">
+            <div class="form-actions">
+                <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit')); ?>
+                <?php echo CHtml::link(Yii::t('mds','{icon} Cancel',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), "#", array('class'=>'btn btn-danger','onclick'=>'if(!confirm("'.Yii::t('mds','Do You want to cancel?').'")){return false;}else{window.location.reload();}')); ?>
+            </div>
+        </td>
+    </tr> */ ?>
+    <tr>
+        <?php echo $form->hiddenField($model,'tglpresensi',array('readonly'=>true,'class'=>'span3')); ?>
+        <?php echo $form->hiddenField($model,'tglpresensi_akhir',array('readonly'=>true,'class'=>'span3')); ?>
+    </tr>
+    <tr>
+        <td>
+            <?php echo $form->textFieldRow($modPegawai,'nofingerprint',array('readonly'=>true,'class'=>'span3')); ?>
+            <?php echo $form->textFieldRow($modPegawai,'kelompokpegawai_id',array('readonly'=>true,'value'=>$modPegawai->kelompokpegawai->kelompokpegawai_nama, 'class'=>'span3')); ?>
+            <?php echo $form->textFieldRow($modPegawai,'jabatan_id',array('readonly'=>true,'value'=>($modPegawai->jabatan_id === null)?'':$modPegawai->jabatan->jabatan_nama, 'class'=>'span3')); ?>
+            <?php echo $form->textFieldRow($modPegawai,'nomorindukpegawai',array('readonly'=>true, 'class'=>'span3')); ?>            
+            <?php echo $form->textFieldRow($modPegawai,'nama_pegawai',array('readonly'=>true, 'class'=>'span3')); ?>            
+            <?php //echo $form->textAreaRow($modPegawai,'alamat_pegawai',array('readonly'=>true,'class'=>'span3')); ?>
+            <?php //echo $form->textFieldRow($modPegawai,'unit_perusahaan',array('readonly'=>true,'class'=>'span3')); ?>
+        </td>
+       <td>
+           <?php echo $form->textFieldRow($modPegawai,'hadir',array('readonly'=>true,'class'=>'span3')); ?>
+           <?php echo $form->textFieldRow($modPegawai,'izin',array('readonly'=>true,'class'=>'span3')); ?>
+           <?php echo $form->textFieldRow($modPegawai,'sakit',array('readonly'=>true,'class'=>'span3')); ?>
+           <?php echo $form->textFieldRow($modPegawai,'dinas',array('readonly'=>true,'class'=>'span3')); ?>
+           <?php echo $form->textFieldRow($modPegawai,'alpha',array('readonly'=>true,'class'=>'span3')); ?>
+           <?php echo $form->textFieldRow($modPegawai,'rerata_jam_masuk',array('readonly'=>true,'class'=>'span3')); ?>
+           <?php echo $form->textFieldRow($modPegawai,'rerata_jam_keluar',array('readonly'=>true,'class'=>'span3')); ?>
+           
+       </td>
+    </tr>
 </table>
-<div class="form-actions">
-    <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit')); ?>
-    <?php echo CHtml::link(Yii::t('mds','{icon} Cancel',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), "#", array('class'=>'btn btn-danger','onclick'=>'if(!confirm("'.Yii::t('mds','Do You want to cancel?').'")){return false;}else{window.location.reload();}')); ?>
-</div>
+
 <?php $this->endWidget(); ?>
 </fieldset>
 <br>
@@ -104,18 +127,13 @@ Yii::app()->clientScript->registerScript('search', "
 //                    'value'=>'$this->grid->owner->renderPartial("daftarHadir/_statusscan",array("pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>1, "datepresensi"=>$data->tglpresensi),true)',
 //                ),
                 array(
-                   'header'=>'Tanggal',
+                   'header'=>'Tanggal Presensi',
                    'type'=>'raw',
-                   'value'=>'date("d/m/Y", strtotime($data->datepresensi))',
+                   'value'=>'MyFormatter::formatDateTimeForUser($data->datepresensi)',
                 ),
                 array(
                     'header'=>'<center>Masuk</center>',
                     'value'=>'$this->grid->owner->renderPartial("daftarHadir/_statusscan",array("pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>1, "datepresensi"=>$data->datepresensi),true)',
-                    'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
-                ),
-                array(
-                    'header'=>'<center>Pulang</center>',
-                    'value'=>'$this->grid->owner->renderPartial("daftarHadir/_statusscan",array("pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>2, "datepresensi"=>$data->datepresensi),true)',
                     'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
                 ),
                 array(
@@ -128,6 +146,26 @@ Yii::app()->clientScript->registerScript('search', "
                     'value'=>'$this->grid->owner->renderPartial("daftarHadir/_statusscan",array("pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>4, "datepresensi"=>$data->datepresensi),true)',
                     'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
                 ),
+                array(
+                    'header'=>'<center>Pulang</center>',
+                    'value'=>'$this->grid->owner->renderPartial("daftarHadir/_statusscan",array("pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>2, "datepresensi"=>$data->datepresensi),true)',
+                    'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
+                ),                                
+                 array(
+                    'header'=>'<center>Terlambat</center>',
+                    'value'=>'$this->grid->owner->renderPartial("presensiT/_terlambat",array("pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>2, "datepresensi"=>$data->datepresensi),true)',
+                    'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
+                ), 
+                 array(
+                    'header'=>'<center>Pulang</center>',
+                    'value'=>'$this->grid->owner->renderPartial("presensiT/_pulangAwal",array("pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>2, "datepresensi"=>$data->datepresensi),true)',
+                    'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
+                ), 
+                 array(
+                    'header'=>'<center>Status</center>',
+                    'value'=>'$this->grid->owner->renderPartial("presensiT/_statuskehadiran",array("pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>2, "datepresensi"=>$data->datepresensi),true)',
+                    'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
+                ), 
             ),
             'afterAjaxUpdate'=>'
                 function(id, data){

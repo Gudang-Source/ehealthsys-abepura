@@ -93,10 +93,10 @@ class KPPresensiT extends PresensiT {
     {
         $criteria=new CDbCriteria;
         $criteria->select = 'date(t.tglpresensi) as datepresensi, t.pegawai_id, t.no_fingerprint';
-        $criteria->order = 't.pegawai_id, date(t.tglpresensi)';
+        $criteria->order = 'date(t.tglpresensi)';
         $criteria->group = 'date(t.tglpresensi), t.pegawai_id, t.no_fingerprint';
         $criteria->addBetweenCondition('DATE(tglpresensi)', $this->tglpresensi, $this->tglpresensi_akhir);
-        $criteria->compare('pegawai_id',$this->pegawai_id);
+        $criteria->compare('pegawai_id',$this->pegawai_id);       
         return new CActiveDataProvider($this,
             array(
                 'criteria'=>$criteria
@@ -172,6 +172,16 @@ class KPPresensiT extends PresensiT {
             'criteria'=>$this->criteriaPresensi(),
             'pagination'=>false,
         ));
+    }
+    
+    public function getTerlambat()
+    {
+        //$this->jamkerjamasuk
+    }
+    
+    public function getPulangAwal()
+    {
+        
     }
         
                 public function getStatusItems()

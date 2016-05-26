@@ -399,6 +399,18 @@ Class Params
         const REKENING4_LEN = 8;
         const REKENING5_LEN = 10;
         
+        const STATUSKEHADIRAN_HADIR = 1;
+        const STATUSKEHADIRAN_SAKIT = 2;
+        const STATUSKEHADIRAN_IZIN = 3;
+        const STATUSKEHADIRAN_DINAS = 4;
+        const STATUSKEHADIRAN_ALPHA = 5;
+        
+        const STATUSSCAN_MASUK = 1;
+        const STATUSSCAN_PULANG = 2;
+        const STATUSSCAN_DATANG = 3;
+        const STATUSSCAN_KELUAR = 4;
+        const STATUSSCAN_TIDAKTAHU = 5;
+        
         
 	//===   END KONSTANTA ===
         
