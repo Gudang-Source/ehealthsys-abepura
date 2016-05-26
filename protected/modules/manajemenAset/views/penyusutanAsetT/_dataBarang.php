@@ -51,7 +51,7 @@
 	</div>
         <div class="span4">
             <?php echo $form->textFieldRow($model,'noRegister',array('class'=>'span3','onkeypress'=>'return $(this).focusNextInputField(event)','readonly'=>true)); ?>
-            <?php echo $form->textFieldRow($model,'hargaperolehan',array('class'=>'span3 integer','onkeypress'=>'return $(this).focusNextInputField(event)','readonly'=>true)); ?>
+            <?php echo $form->textFieldRow($model,'hargaperolehan',array('class'=>'span3 integer2','onkeypress'=>'return $(this).focusNextInputField(event)','readonly'=>true)); ?>
         </div>
 	<div class="span4">
 		<div class="control-group ">
@@ -63,7 +63,7 @@
 		<div class="control-group ">
 			<?php echo $form->labelEx($model, 'umurekonomis', array('class' => 'control-label')) ?>
 			<div class="controls">
-				<?php echo $form->textField($model,'umurekonomis',array('class'=>'span3 integer','onkeypress'=>'return $(this).focusNextInputField(event)','readonly'=>true)); ?>
+				<?php echo $form->textField($model,'umurekonomis',array('class'=>'span3 integer2','onkeypress'=>'return $(this).focusNextInputField(event)','readonly'=>true)); ?>
 				<?php echo CHtml::activeLabel($model, 'tahun') ?>
 			</div>
 		</div>
@@ -104,8 +104,8 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 				"onClick" => "
 					$(\'#barang_id\').val(\'$data->barang_id\');
 					$(\'#namaBarang\').val(\'$data->barang_nama\');
-//					$(\'#'.CHtml::activeId($model,'hargaperolehan').'\').val(\'$data->barang_harganetto\');
-					$(\'#'.CHtml::activeId($model,'hargaperolehan').'\').val(\'5000\');
+					$(\'#'.CHtml::activeId($model,'hargaperolehan').'\').val(\'".MyFormatter::formatNumberForPrint($data->barang_harganetto)."\');
+//					$(\'#'.CHtml::activeId($model,'hargaperolehan').'\').val(\'5000\');
 					setAutoLoad($data->barang_id);
 					$(\'#dialogBarangSusut\').dialog(\'close\');
 					return false;"))',

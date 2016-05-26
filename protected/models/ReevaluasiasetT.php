@@ -75,6 +75,7 @@ class ReevaluasiasetT extends CActiveRecord
 			'updateLoginpemakai' => array(self::BELONGS_TO, 'LoginpemakaiK', 'update_loginpemakai_id'),
 			'createRuangan' => array(self::BELONGS_TO, 'RuanganM', 'create_ruangan'),
 			'pegawaimengetahui' => array(self::BELONGS_TO, 'PegawaiM', 'pegawaimengetahui_id'),
+                        'pegawaimenyetujui' => array(self::BELONGS_TO, 'PegawaiM', 'pegawaimenyetujui_id'),
 		);
 	}
 

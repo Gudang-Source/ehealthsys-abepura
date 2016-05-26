@@ -18,6 +18,9 @@ class ReevaluasiasetTController extends MyAuthController
 		
 		if(isset($_POST['MAReevaluasiasetT']))
 		{
+                        $trans = Yii::app()->db->beginTransaction();
+                        $ok = true;
+                        
 			$model->attributes = $_POST['MAReevaluasiasetT'];
 			$model->create_loginpemakai_id = Yii::app()->user->id;
 			$model->update_loginpemakai_id = Yii::app()->user->id;
@@ -28,7 +31,12 @@ class ReevaluasiasetTController extends MyAuthController
 			$model->pegawaimenyetujui_id =$_POST['pegawai_id_'];
 			$model->reevaluasiaset_tgl =  $format->formatDateTimeForDb($_POST['MAReevaluasiasetT']['reevaluasiaset_tgl']);
 			$model->create_ruangan = Yii::app()->user->getState('ruangan_id');
-			$model->save();
+                        
+                        // var_dump($model->validate(), $model->errors); die;
+                        
+                        if ($model->validate()) {
+                            $ok = $ok && $model->save();
+                        } else $ok = false;
 			
 			foreach ($_POST as $key=>$data){
 				
@@ -43,11 +51,22 @@ class ReevaluasiasetTController extends MyAuthController
 				$models->reevaluasiaset_hargaperolehan = $_POST['hrgperolehan'];
 				$models->reevaluasiaset_selisihreevaluasi = $_POST['selisih'];
 				$models->reevaluasiaset_id = $model->reevaluasiaset_id;
-				if($models->save()){
-					Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-					$this->redirect(array('index','id'=>$model->reevaluasiaset_id,'sukses'=>1));
-				}
-			}		
+				if($models->validate()){
+					$ok = $ok && $models->save();
+				} else $ok = false;
+			}
+                        
+                        // var_dump($ok); die;
+                        
+                        if ($ok) {
+                            $trans->commit();
+                            Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                            $this->redirect(array('index','id'=>$model->reevaluasiaset_id,'sukses'=>1));
+                        } else {
+                            $trans->rollback();
+                            Yii::app()->user->setFlash('error', '<strong>Error!</strong> Data gagal disimpan.');
+                            $this->redirect(array('index'));
+                        }
 		}
 
 		$this->render('index',array(
