@@ -106,10 +106,10 @@
                 <td>
                     <?php echo $form->textFieldRow($model,'no_fingerprint',array('class'=>'span3','maxlength'=>30)); ?>
                     <?php
-                        echo $form->dropDownListRow(
+                        /*echo $form->dropDownListRow(
                             $model,'unit_perusahaan',LookupM::model()->GetItems('unit_perusahaan'),
                             array('class'=>'span3', 'empty'=>'-- Pilih --')
-                        );
+                        );*/
                     ?>
                 </td>
             </tr>
