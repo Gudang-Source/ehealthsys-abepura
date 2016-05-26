@@ -112,14 +112,24 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
         ),
 		'barang_nama',
 		'barang_kode',
-		'barang_ekonomis_thn',
-		'barang_harganetto',
-		
+                array(
+                    'name'=>'barang_ekonomis_thn',
+                    'htmlOptions'=>array(
+                        'style'=>'text-align: right',
+                    ),
+                ),
+                array(
+                    'name'=>'barang_harganetto',
+                    'value'=>'MyFormatter::formatNumberForPrint($data->barang_harganetto)',
+                    'htmlOptions'=>array(
+                        'style'=>'text-align: right',
+                    ),
+                ),
 		'invasetlain_namabrg',
 		'invasetlain_kode',
 		'invasetlain_noregister',
 		array(
-			'header'=>'Inv. Aset Lain Tanggal Guna',
+			'header'=>'Tgl Penggunaan (Aset Lain)',
 			'type'=>'raw',
 			'value'=>'MyFormatter::formatDateTimeForUser($data->invasetlain_tglguna)'
 		),
@@ -128,7 +138,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 		'invgedung_kode',
 		'invgedung_noregister',
 		array(
-			'header'=>'Inv. Gedung Tanggal Guna',
+			'header'=>'Tgl Penggunaan (Gedung)',
 			'type'=>'raw',
 			'value'=>'MyFormatter::formatDateTimeForUser($data->invgedung_tglguna)'
 		),
@@ -137,17 +147,21 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 		'invperalatan_kode',
 		'invperalatan_noregister',
 		array(
-			'header'=>'Inv. Peralatan Tanggal Guna',
+			'header'=>'Tgl Penggunaan (Peralatan)',
 			'type'=>'raw',
 			'value'=>'MyFormatter::formatDateTimeForUser($data->invperalatan_tglguna)'
 		),
-		'invperalatan_umurekonomis',
-		
+                array(
+                    'name'=>'invperalatan_umurekonomis',
+                    'htmlOptions'=>array(
+                        'style'=>'text-align: right',
+                    ),
+                ),
+		'invjalan_namabrg',
 		'invjalan_kode',
 		'invjalan_noregister',
-		'invjalan_namabrg',
 		array(
-			'header'=>'Inv. Jalan Tanggal Guna',
+			'header'=>'Tgl Penggunaan (Jaringan)',
 			'type'=>'raw',
 			'value'=>'MyFormatter::formatDateTimeForUser($data->invjalan_tglguna)'
 		),
@@ -156,11 +170,16 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 		'invtanah_kode',
 		'invtanah_noregister',
 		array(
-			'header'=>'Inv. Tanah Tanggal Guna',
+			'header'=>'Tgl Penggunaan (Tanah)',
 			'type'=>'raw',
 			'value'=>'MyFormatter::formatDateTimeForUser($data->invtanah_tglguna)'
 		),
-		'invtanah_umurekonomis',
+                array(
+                    'name'=>'invtanah_umurekonomis',
+                    'htmlOptions'=>array(
+                        'style'=>'text-align: right',
+                    ),
+                ),
 		
     ),
 	'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',

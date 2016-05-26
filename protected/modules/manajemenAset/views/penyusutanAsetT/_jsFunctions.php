@@ -118,4 +118,9 @@ function maskMoneyInput(tr)
     );
 }
 
+function removeDataRekening(obj)
+{
+    $(obj).parents("tr").remove();
+}
+
 </script>

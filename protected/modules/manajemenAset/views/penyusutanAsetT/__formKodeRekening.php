@@ -11,16 +11,7 @@
         $key = 99;
         echo('<tr>');
             echo '<td>';
-                $kode = $value->kdrekening1 . '-' . $value->kdrekening2 . '-' . $value->kdrekening3;
-                if(isset($value->kdrekening4))
-                {
-                    $kode .= '-' . $value->kdrekening4;
-                    if(isset($value->kdrekening5))
-                    {
-                        $kode .= '-' . $value->kdrekening5;
-                    }
-                }
-                echo $kode;
+                echo $value->kdrekening5;
                 echo CHtml::hiddenField("RekeningakuntansiV[$key][rekening1_id]", $value->rekening1_id,array());
                 echo CHtml::hiddenField("RekeningakuntansiV[$key][rekening2_id]", $value->rekening2_id,array());
                 echo CHtml::hiddenField("RekeningakuntansiV[$key][rekening3_id]", $value->rekening3_id,array());
