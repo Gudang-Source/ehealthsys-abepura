@@ -85,8 +85,8 @@ class PPPasienMasukPenunjangT extends PasienmasukpenunjangT{
             $criteria->compare('LOWER(ruanganasal_id)',strtolower($this->ruanganasal_id),true);
             $criteria->compare('LOWER(create_time)',strtolower($this->create_time),true);
             $criteria->compare('LOWER(update_time)',strtolower($this->update_time),true);
-            $criteria->compare('LOWER(create_loginpemakai_id)',strtolower($this->create_loginpemakai_id),true);
-            $criteria->compare('LOWER(update_loginpemakai_id)',strtolower($this->update_loginpemakai_id),true);
+            $criteria->compare('pendaftaran.create_loginpemakai_id',$this->create_loginpemakai_id);
+            $criteria->compare('pendaftaran.update_loginpemakai_id',$this->update_loginpemakai_id);
             $criteria->compare('LOWER(create_ruangan)',strtolower($this->create_ruangan),true);
             $criteria->compare('LOWER(pasien.nama_pasien)',strtolower($this->nama_pasien),true);
             $criteria->compare('LOWER(pasien.no_rekam_medik)',strtolower($this->no_rekam_medik),true);
