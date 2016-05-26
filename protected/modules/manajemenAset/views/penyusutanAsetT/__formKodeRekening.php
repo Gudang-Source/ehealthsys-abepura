@@ -45,7 +45,7 @@
                 echo CHtml::textField("RekeningakuntansiV[$key][saldodebit]", 
                     0,
                     array(
-                        'class'=>'inputFormTabel integer',
+                        'class'=>'inputFormTabel integer2',
                         'disabled'=>($status == 'debit' ? "" : "disabled"),
                     )
                 );
@@ -54,7 +54,7 @@
                 echo CHtml::textField("RekeningakuntansiV[$key][saldokredit]",
                     0,
                     array(
-                        'class'=>'inputFormTabel integer',
+                        'class'=>'inputFormTabel integer2',
                         'disabled'=>($status == 'kredit' ? "" : "disabled"),
                     )
                 );

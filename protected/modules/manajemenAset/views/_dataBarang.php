@@ -408,7 +408,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 //                        'filter'=>false,
 //                ),
        // 'barang_type',
-//        'barang_kode',
+      'barang_kode',
       'barang_nama',
 //        'barang_namalainnya',
 //        'barang_merk',

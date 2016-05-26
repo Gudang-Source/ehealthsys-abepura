@@ -13,6 +13,7 @@ class PenyusutanAsetTController extends MyAuthController
 		$model->unsetAttributes();  // clear any default values
 		$model->tgl_penyusutan = $format->formatDateTimeForUser(date("Y-m-d"), strtotime($model->tgl_penyusutan));
 		if(isset($_POST['MAPenyusutanasetT'])){
+                        // var_dump($_POST);
 			$transaction = Yii::app()->db->beginTransaction();
 			try {
 				// insert ke penyusutanaset_t & penyusutanasetdetail_t
@@ -34,6 +35,12 @@ class PenyusutanAsetTController extends MyAuthController
 					}else{
 						$model->invasetlain_id = $_POST['inv_id'];
 					}
+                                        
+                                        $model->residu = MyFormatter::formatNumberForDb($model->residu);
+                                        $model->hargaperolehan = MyFormatter::formatNumberForDb($model->hargaperolehan);
+                                        
+                                        // var_dump($model->attributes, $model->validate(), $model->errors);
+                                        
 						if ($model->save()){
 							$this->penyusutan = true;
 							if(isset($_POST['MAPenyusutanasetdetailT'])){
@@ -51,6 +58,7 @@ class PenyusutanAsetTController extends MyAuthController
 								}
 							}
 						}
+                                                // var_dump($this->penyusutan);
 				// end insert penyusutanaset_t & penyusutanasetdetail_t
 				 					
 				// header jurnal
@@ -98,7 +106,7 @@ class PenyusutanAsetTController extends MyAuthController
 							}
 						}
 					}
-		
+                                        // var_dump($this->penyusutan, $this->penyusutanDetail, $this->penjurnalan, $this->penjurnalanDetail); die;
 					if($this->penyusutan && $this->penyusutanDetail && $this->penjurnalan && $this->penjurnalanDetail){
 						$transaction->commit();
 						$this->redirect(array('index','penyusutanaset_id'=>$model->penyusutanaset_id,'sukses'=>1));
@@ -221,7 +229,7 @@ class PenyusutanAsetTController extends MyAuthController
 			$tgl_guna = $format->formatDateTimeForDb($_POST['tglguna']);
 			$umur_ekonomis = $_POST['umurEkonomis']; 
 			$total_bulan = $umur_ekonomis * 12;
-			$saldo_penyusutan = ($hargaPerolehan - $nilai_residu) / $umur_ekonomis;
+			$saldo_penyusutan = ($hargaPerolehan - $nilai_residu) / $total_bulan;
 			$total_penyusutan = $total_bulan * $saldo_penyusutan;
             echo CJSON::encode(array(
                 'form'=>$this->renderPartial('_detailPenyusutanAset', array(

@@ -31,6 +31,7 @@ class PresensiT extends CActiveRecord
         public $data;
         public $jumlah;
         public $user_id;
+        public $jam;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -98,7 +99,7 @@ class PresensiT extends CActiveRecord
 			'pegawai_id' => 'Pegawai',
 			'statusscan_id' => 'Status Scan',
 			'tglpresensi' => 'Tanggal Presensi',
-			'no_fingerprint' => 'No. Finger Print',
+			'no_fingerprint' => 'No Finger Print',
 			'verifikasi' => 'Verifikasi',
 			'keterangan' => 'Keterangan',
 			'jamkerjamasuk' => 'Jam Kerja Masuk',
