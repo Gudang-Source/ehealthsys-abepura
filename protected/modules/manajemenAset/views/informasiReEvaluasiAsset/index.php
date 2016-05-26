@@ -50,6 +50,7 @@ $('.search-form form').submit(function(){
 					'header'=>'Total Selisih Re-evaluasi',
 					'type'=>'raw',
 					'value'=>'MyFormatter::formatUang($data->reevaluasiaset_totalselisih)',
+                                        'htmlOptions'=>array('style'=>'text-align:right;'),
 				),
 				array(
 					'header'=>'Rincian',

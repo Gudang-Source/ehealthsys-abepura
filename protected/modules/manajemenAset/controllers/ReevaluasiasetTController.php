@@ -38,8 +38,37 @@ class ReevaluasiasetTController extends MyAuthController
                             $ok = $ok && $model->save();
                         } else $ok = false;
 			
+                        $selisih = 0;
+                        
+                        // var_dump($_POST);
+                        
+                        if (isset($_POST['det'])) {
+                            foreach ($_POST['det'] as $item) {
+                                $models = new ReevaluasiasetdetailT;
+                                
+                                $models->barang_id = $item['barang_id'];
+				$models->invtanah_id = $item['invtanah'];
+				$models->invgedung_id = $item['invgedung'];
+				$models->invperalatan_id = $item['invperalatan'];
+				$models->invjalan_id = $item['invjalan'];
+				$models->invasetlain_id = $item['invasetlain'];
+				$models->reevaluasiaset_umurekonomis = $item['ue'];
+				$models->reevaluasiaset_nilaibuku = $item['nb'];
+				$models->reevaluasiaset_hargaperolehan = $item['hrgperolehan'];
+				$models->reevaluasiaset_selisihreevaluasi = $item['selisih'];
+				$models->reevaluasiaset_id = $model->reevaluasiaset_id;
+                                
+                                // var_dump($models->attributes);
+                                
+                                if($models->validate()){
+					$ok = $ok && $models->save();
+                                        $selisih += $models->reevaluasiaset_selisihreevaluasi;
+				} else $ok = false;
+                            }
+                        }
+                        
+                        /*
 			foreach ($_POST as $key=>$data){
-				
 				$models->barang_id = $_POST['barang_id'];
 				$models->invtanah_id = $_POST['invtanah'];
 				$models->invgedung_id = $_POST['invgedung'];
@@ -51,12 +80,19 @@ class ReevaluasiasetTController extends MyAuthController
 				$models->reevaluasiaset_hargaperolehan = $_POST['hrgperolehan'];
 				$models->reevaluasiaset_selisihreevaluasi = $_POST['selisih'];
 				$models->reevaluasiaset_id = $model->reevaluasiaset_id;
+                                
 				if($models->validate()){
 					$ok = $ok && $models->save();
+                                        $selisih += $models->reevaluasiaset_selisihreevaluasi;
 				} else $ok = false;
 			}
+                         * 
+                         */
                         
-                        // var_dump($ok); die;
+                        $model->reevaluasiaset_totalselisih = $selisih;
+                        $model->save();
+                        
+                        // var_dump($model->attributes, $ok); die;
                         
                         if ($ok) {
                             $trans->commit();

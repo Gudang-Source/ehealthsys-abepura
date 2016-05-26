@@ -39,9 +39,9 @@ class MAReevaluasiasetT extends ReevaluasiasetT
 		public function searchNoreg()
 		{
 			$criteria=new CDbCriteria;
-			$criteria->condition='invasetlain_noregister is not null or invtanah_noregister is not null or invperalatan_noregister is not null or invgedung_noregister is not null or
-						invjalan_noregister is not null';		
-			//$criteria->limit=10;
+			$criteria->addCondition('(invasetlain_noregister is not null or invtanah_noregister is not null or invperalatan_noregister is not null or invgedung_noregister is not null or
+						invjalan_noregister is not null)');		
+			$criteria->limit=10;
 			return new CActiveDataProvider('MABarangV', array(
 							'criteria'=>$criteria,
 							//'pagination'=>true,
@@ -62,6 +62,7 @@ class MAReevaluasiasetT extends ReevaluasiasetT
 						,penyusutanasetdetail_t.penyusutanaset_saldo as saldo,penyusutanaset_t.hargaperolehan as hrg_peroleh,penyusutanaset_t.umurekonomis as umur_ekonomis,
 						concat(t.invasetlain_noregister,t.invtanah_noregister,t.invperalatan_noregister,t.invgedung_noregister,t.invjalan_noregister) as noreg";
 			
+                        
                         $cond = "";
                         if (isset($_GET['barang_kode']) && !empty($_GET['barang_kode'])) $cond .= "t.barang_kode = '".$_GET['barang_kode']."' and ";
                         else if (isset($_GET['noreg']) && !empty($_GET['noreg'])) $cond .= "'".$_GET['noreg']."' in (t.invasetlain_noregister, t.invtanah_noregister, t.invperalatan_noregister, t.invgedung_noregister, t.invjalan_noregister) and ";
@@ -70,6 +71,8 @@ class MAReevaluasiasetT extends ReevaluasiasetT
 						penyusutanaset_t.invjalan_id is not null)";
                         
                         $criteria->condition=$cond;
+                        
+                        $criteria->compare('t.barang_type', $this->jenis_aset);
                         
                         //var_dump($criteria); die;
 			// $criteria->limit=10;

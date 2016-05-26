@@ -41,8 +41,11 @@ $this->widget('bootstrap.widgets.BootAlert');
 		$search = new MAReevaluasiasetT('searchReevaluasiAset');
 		$search->unsetAttributes();
 		if (isset($_GET['MAReevaluasiasetT'])) {
-			$search->attributes = $_GET['MAReevaluasiasetT'];	
+			$search->attributes = $_GET['MAReevaluasiasetT'];
+                        if (isset($_GET['MAReevaluasiasetT']['jenis_aset'])) $search->jenis_aset = $_GET['MAReevaluasiasetT']['jenis_aset'];
 		}
+                
+                if (!isset($_GET['ajax']) || !in_array($_GET['ajax'], array('asetDialog-m-grid', 'obatAlkesDialog-m-grid'))) {
 		
 		$this->widget('ext.bootstrap.widgets.BootGridView',array(
             'id'=>'aset-t-grid',
@@ -54,19 +57,19 @@ $this->widget('bootstrap.widgets.BootAlert');
 				array(
 					'header' => 'Pilih',
 					'type' => 'raw',
-					'value'=>'CHtml::checkBox("pilih[$data->barang_id]",null,array("value"=>$data->barang_id,"id"=>"pilih"))',					
+					'value'=>'CHtml::checkBox("pilih[$row]",null,array("value"=>1,"id"=>"pilih"))',					
 				),
 				array(
 				   'header' => 'No. Registrasi',
 				   'name' => 'noreg',
 				   'type'=>'raw',
 				   'value'=>'$data->noreg
-					   .CHtml::hiddenField("invasetlain",$data->invasetlain_id)
-					   .CHtml::hiddenField("invtanah",$data->invtanah_id)
-					   .CHtml::hiddenField("invperalatan",$data->invperalatan_id)
-					   .CHtml::hiddenField("invgedung",$data->invgedung_id)
-					   .CHtml::hiddenField("barang_id",$data->barang_id)
-					   .CHtml::hiddenField("invjalan",$data->invjalan_id)',
+					   .CHtml::hiddenField("det[$row][invasetlain]",$data->invasetlain_id)
+					   .CHtml::hiddenField("det[$row][invtanah]",$data->invtanah_id)
+					   .CHtml::hiddenField("det[$row][invperalatan]",$data->invperalatan_id)
+					   .CHtml::hiddenField("det[$row][invgedung]",$data->invgedung_id)
+					   .CHtml::hiddenField("det[$row][barang_id]",$data->barang_id)
+					   .CHtml::hiddenField("det[$row][invjalan]",$data->invjalan_id)',
 					), 
 				array(
 				   'header' => 'Nama Aset',
@@ -76,23 +79,23 @@ $this->widget('bootstrap.widgets.BootAlert');
 				   'header' => 'Umur Ekonomis',
 				   //'name' => 'umur_ekonomis',
 					'type'=>'raw',
-				   'value'=>'$data->umur_ekonomis.CHtml::hiddenField("ue",$data->umur_ekonomis,array("class"=>"integer2","style"=>"width:100px;"))'
+				   'value'=>'$data->umur_ekonomis.CHtml::hiddenField("det[$row][ue]",$data->umur_ekonomis,array("class"=>"integer2 ue","style"=>"width:100px;"))'
 			   ),
 				array(
 				   'header' => 'Nilai Buku',
                                     'type'=>'raw',
                                     'htmlOptions'=>array('style'=>'text-align: right'),
-                                    'value'=>'MyFormatter::formatNumberForPrint($data->hrg_peroleh - $data->penyusutan).CHtml::hiddenField("nb",$data->hrg_peroleh - $data->penyusutan,array("class"=>"integer2","style"=>"width:100px;"))'
+                                    'value'=>'MyFormatter::formatNumberForPrint($data->hrg_peroleh - $data->penyusutan).CHtml::hiddenField("det[$row][nb]",$data->hrg_peroleh - $data->penyusutan,array("class"=>"integer2 nb","style"=>"width:100px;"))'
 				),
 				array(
 				   'header' => 'Harga Pasar',
 				   'name' => 'harga_pasar',
 				   'type'=>'raw',
                                    'htmlOptions'=>array('style'=>'text-align: right'),
-				   'value'=>'CHtml::textField("hargapasar","",array("class"=>"integer2","style"=>"width:100px;",
+				   'value'=>'CHtml::textField("det[$row][hargapasar]","",array("class"=>"integer2 hargapasar","style"=>"width:100px;",
 					   "onkeypress"=>"return $(this).focusNextInputField(event)","onkeyup"=>"harga()"))
-					   .CHtml::hiddenField("penyusutan",$data->penyusutan,array("class"=>"integer2","style"=>"width:100px;"))
-					   .CHtml::hiddenField("hrgperolehan",$data->hrg_peroleh,array("class"=>"integer2","style"=>"width:100px; text-align: right;"))'
+					   .CHtml::hiddenField("det[$row][penyusutan]",$data->penyusutan,array("class"=>"integer2","style"=>"width:100px;"))
+					   .CHtml::hiddenField("det[$row][hrgperolehan]",$data->hrg_peroleh,array("class"=>"integer2","style"=>"width:100px; text-align: right;"))'
 					
 			   ),
 				array(
@@ -100,24 +103,33 @@ $this->widget('bootstrap.widgets.BootAlert');
 				   //'name' => 'selisih',
 				   'type'=>'raw',
                                    'htmlOptions'=>array('style'=>'text-align: right'),
-				   'value'=>'CHtml::textField("selisih","",array("class"=>"integer2","style"=>"width:100px; text-align: right;"))'					
+				   'value'=>'CHtml::textField("det[$row][selisih]","",array("class"=>"integer2 selisih","style"=>"width:100px; text-align: right;"))'					
 			   ),				
             ),
             'afterAjaxUpdate'=>'function(id, data){'
                     . 'jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
                     . '$("#aset-t-grid").find(".integer2:text").maskMoney({"symbol":"Rp. ", "defaultZero":true, "allowZero":true, "decimal":",", "thousands":".", "precision":0})'
                     . '}',
-        ));			
+        ));		
+                }
 		?>			
 		</div>
 	</div>
 <script type="text/javascript">
 	function harga(){
+            $(".hargapasar").each(function() {
+                var hg = parseFloat(unformatNumber($(this).val()));
+                var nb = parseFloat(unformatNumber($(this).parents("tr").find(".nb").val()));
+                var selisih = hg - nb;
+                $(this).parents("tr").find(".selisih").val(formatNumber(selisih));
+            });
+            /*
 		var hg = parseFloat(unformatNumber(document.getElementById("hargapasar").value));
 		var nb = parseFloat(unformatNumber(document.getElementById("nb").value));
                 console.log(hg, nb);
 		var selisih = hg-nb;
-		document.getElementById("selisih").value = formatNumber(selisih);		
+		document.getElementById("selisih").value = formatNumber(selisih);	
+                */
 	}
 	function print(id)
 	{
@@ -302,12 +314,12 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
             'header' => 'Kode Aset',
             'name' => 'barang_kode',
             //'filter' => ,
-        ),
+        ), /*
        array(
             'header' => 'Jenis Aset',
             'name' => 'barang_type',
             'filter' => CHtml::activeDropDownList($modAsetDialog, 'barang_type', LookupM::getItems('barangumumtype'), array('empty'=>'-- Pilih --')),
-        ),
+        ), */
        array(
             'header' => 'Nama Aset',
             'name' => 'barang_nama',
@@ -364,12 +376,6 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
                ))'
         ),
 	     array(
-            'header' => 'Inventarisasi Aset Lain',
-            'name' => 'invasetlain_noregister',
-			 'value'=>'empty($data->invasetlain_noregister) ? "Kosong" : "$data->invasetlain_noregister / $data->invasetlain_namabrg" ',
-			 'filter' => '',
-        ),
-	     array(
             'header' => 'Inventarisasi Tanah',
             'name' => 'invtanah_noregister',
 			 'value'=>'empty($data->invtanah_noregister) ? "Kosong" : "$data->invtanah_noregister / $data->invtanah_namabrg" ',
@@ -391,6 +397,12 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
             'header' => 'Inventarisasi Jalan',
             'name' => 'invjalan_noregister',
 			 'value'=>'empty($data->invjalan_noregister) ? "Kosong" : "$data->invjalan_noregister / $data->invjalan_namabrg" ',
+			 'filter' => '',
+        ),
+	     array(
+            'header' => 'Inventarisasi Aset Lain',
+            'name' => 'invasetlain_noregister',
+			 'value'=>'empty($data->invasetlain_noregister) ? "Kosong" : "$data->invasetlain_noregister / $data->invasetlain_namabrg" ',
 			 'filter' => '',
         ),		
     ),

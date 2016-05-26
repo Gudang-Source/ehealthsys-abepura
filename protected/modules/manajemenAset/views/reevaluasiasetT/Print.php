@@ -73,7 +73,8 @@ $query = Yii::app()->db->createCommand($sql)->queryAll();
 		</tr>
 </table>
 
-<table width="80%" style="margin-top:20px;">
+<?php if (isset($_GET['caraPrint'])): ?>
+<table width="100%" style="margin-top:20px;">
     <tr>
         <td width="50%" align="center">
 			Pegawai Mengetahui,
@@ -86,3 +87,20 @@ $query = Yii::app()->db->createCommand($sql)->queryAll();
         </td>
     </tr>
 </table>
+<?php else: ?>
+<?php
+        echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
+        $this->widget('UserTips',array('type'=>'admin'));
+        $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
+        $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/reevaluasiasetT/print');
+        
+$pendaftaran_id = $_GET['id'];
+$js = <<< JSCRIPT
+function print(caraPrint)
+{
+    window.open("${urlPrint}/&id=${pendaftaran_id}&caraPrint="+caraPrint,"",'location=_new, width=1100px');
+}
+JSCRIPT;
+Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);       
+?>
+<?php endif; ?>

@@ -87,21 +87,28 @@ class PenyusutanAsetTController extends MyAuthController
 										$modJurnalDet->rekperiod_id = $modJurnalRekening->rekperiod_id;
 										$modJurnalDet->jurnalrekening_id = $modJurnalRekening->jurnalrekening_id;
 										$modJurnalDet->uraiantransaksi = isset($jurnalDetail['nama_rekening']) ? $jurnalDetail['nama_rekening'] : "";
-										$modJurnalDet->saldodebit = isset($jurnalDetail['saldodebit']) ? $jurnalDetail['saldodebit'] : 0;
-										$modJurnalDet->saldokredit = isset($jurnalDetail['saldokredit']) ? $jurnalDetail['saldokredit'] : 0;
+										$modJurnalDet->saldodebit = isset($jurnalDetail['saldodebit']) ? MyFormatter::formatNumberForDb($jurnalDetail['saldodebit']) : 0;
+										$modJurnalDet->saldokredit = isset($jurnalDetail['saldokredit']) ? MyFormatter::formatNumberForDb($jurnalDetail['saldokredit']) : 0;
 										$modJurnalDet->nourut = $i+1;
-										$modJurnalDet->rekening1_id = isset($jurnalDetail['struktur_id']) ? $jurnalDetail['struktur_id'] : null;
-										$modJurnalDet->rekening2_id = isset($jurnalDetail['kelompok_id']) ? $jurnalDetail['kelompok_id'] : null;
-										$modJurnalDet->rekening3_id = isset($jurnalDetail['jenis_id']) ? $jurnalDetail['jenis_id'] : null;
-										$modJurnalDet->rekening4_id = isset($jurnalDetail['obyek_id']) ? $jurnalDetail['obyek_id'] : null;
+										//$modJurnalDet->rekening1_id = isset($jurnalDetail['struktur_id']) ? $jurnalDetail['struktur_id'] : null;
+										//$modJurnalDet->rekening2_id = isset($jurnalDetail['kelompok_id']) ? $jurnalDetail['kelompok_id'] : null;
+										//$modJurnalDet->rekening3_id = isset($jurnalDetail['jenis_id']) ? $jurnalDetail['jenis_id'] : null;
+										//$modJurnalDet->rekening4_id = isset($jurnalDetail['obyek_id']) ? $jurnalDetail['obyek_id'] : null;
 										$modJurnalDet->rekening5_id = isset($jurnalDetail['rincianobyek_id']) ? $jurnalDetail['rincianobyek_id'] : null;
 										$modJurnalDet->catatan = "";
+                                                                                
+                                                                                // var_dump($modJurnalDet->attributes, $modJurnalDet->validate(), $modJurnalDet->errors);
+                                                                                
+                                                                                if($modJurnalDet->save()){
+                                                                                    $this->penjurnalanDetail &= true;
+                                                                                }else{
+                                                                                    $this->penjurnalanDetail &= false;
+                                                                                }
 									}
-									if($modJurnalDet->save()){
-										$this->penjurnalanDetail &= true;
-									}else{
-										$this->penjurnalanDetail &= false;
-									}
+                                                                        
+                                                                        
+                                                                        
+									
 								}
 							}
 						}
@@ -265,19 +272,19 @@ class PenyusutanAsetTController extends MyAuthController
 			
 			$criteria = new CDbCriteria;
 			if(!empty($rekening5_id)){
-				$criteria->addCondition("rincianobyek_id = ".$rekening5_id);			
+				$criteria->addCondition("rekening5_id = ".$rekening5_id);			
 			}
 			if(!empty($rekening4_id)){
-				$criteria->addCondition("obyek_id = ".$rekening4_id);			
+				$criteria->addCondition("rekening4_id = ".$rekening4_id);			
 			}
 			if(!empty($rekening3_id)){
-				$criteria->addCondition("jenis_id = ".$rekening3_id);			
+				$criteria->addCondition("rekening3_id = ".$rekening3_id);			
 			}
 			if(!empty($rekening2_id)){
-				$criteria->addCondition("kelompok_id = ".$rekening2_id);			
+				$criteria->addCondition("rekening2_id = ".$rekening2_id);			
 			}
 			if(!empty($rekening1_id)){
-				$criteria->addCondition("struktur_id = ".$rekening1_id);			
+				$criteria->addCondition("rekening1_id = ".$rekening1_id);			
 			}
 
 			$model = MARekeningakuntansiV::model()->findAll($criteria);
