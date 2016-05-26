@@ -89,7 +89,7 @@
                       'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
         <?php $content = $this->renderPartial('tips/transaksi',array(),true);
              $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); ?>
-        <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Inventarisasi Peralatan dan Mesin', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('/gudangUmum/invperalatanT/Admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
+        <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Inventarisasi Peralatan dan Mesin', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
     </div>
 
 <?php $this->endWidget(); ?>
