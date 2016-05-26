@@ -150,6 +150,7 @@ class PegawaiM extends CActiveRecord
                     'penilaiankaryawan'=>array(self::BELONGS_TO,'PenilaianpegawaiT','pegawai_id'),
                     'statuskepemilikanrumah'=>array(self::BELONGS_TO,'StatuskepemilikanrumahM','statuskepemilikanrumah_id'),
                     'golonganpegawai'=>array(self::BELONGS_TO,'GolonganpegawaiM','golonganpegawai_id'),
+                    'loginpemakai'=>array(self::BELONGS_TO,'LoginpemakaiK','loginpemakai_id'),
 		);
 	}
 
@@ -654,13 +655,14 @@ class PegawaiM extends CActiveRecord
     {
         $format = new MyFormatter();
         $criteria = new CDbCriteria();
-        $criteria->select = "count(statuskehadiran_id) as jumlah ";
+        $criteria->select = "tglpresensi::date ";
         $criteria->addBetweenCondition('tglpresensi', $format->formatDateTimeForDb($tglpresensi), $format->formatDateTimeForDb($tglpresensi_akhir));    
         $criteria->addCondition("pegawai_id = '$pegawai_id' ");
-        $criteria->addCondition("statuskehadiran_id = '$status_id' ");        
-        $total = PresensiT::model()->find($criteria);
-       
-        return  $total->jumlah;
+        $criteria->addCondition("statuskehadiran_id = '$status_id' ");                
+        $criteria->group = "tglpresensi::date, statuskehadiran_id";
+        $total = PresensiT::model()->findAll($criteria);
+        
+        return  count($total);
     }
    
 /*
