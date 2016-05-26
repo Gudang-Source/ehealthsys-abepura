@@ -1,3 +1,6 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
 <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/form.js'); ?>
 <?php
 $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
@@ -17,19 +20,25 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
     <table width="100%">
         <tr>
             <td>
-                <?php echo $form->dropDownListRow($model, 'pemilikbarang_id', CHtml::listData(PemilikbarangM::model()->findAll(), 'pemilikbarang_id', 'pemilikbarang_nama'), array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event)", 'empty' => '-- Pilih --')); ?>
-                <?php echo $form->hiddenField($model, 'barang_id'); ?>
-                <?php echo $form->hiddenField($model, 'barang_nama', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
-                <?php echo $form->dropDownListRow($model, 'asalaset_id', CHtml::listData(AsalasetM::model()->findAll(), 'asalaset_id', 'asalaset_nama'), array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event)", 'empty' => '-- Pilih --')); ?>
-                <?php echo $form->dropDownListRow($model, 'lokasi_id', CHtml::listData(LokasiasetM::model()->findAll(), 'lokasi_id', 'lokasiaset_namalokasi'), array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event)", 'empty' => '-- Pilih --')); ?>
-                <?php echo $form->textFieldRow($model, 'invgedung_kode', array('class' => 'span1', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
-                <?php echo $form->textFieldRow($model, 'invgedung_noregister', array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
-                <?php echo $form->textFieldRow($model, 'invgedung_namabrg', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
+                <?php echo $form->dropDownListRow($model,'pemilikbarang_id',CHtml::listData(PemilikbarangM::model()->findAll(array('order'=>'pemilikbarang_kode')), 'pemilikbarang_id', 'pemilikbarang_nama'),array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+                <?php echo $form->hiddenField($model,'barang_id'); ?>
+                <?php echo $form->hiddenField($model,'barang_nama',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                <?php echo $form->dropDownListRow($model,'asalaset_id',CHtml::listData(AsalasetM::model()->findAll(), 'asalaset_id', 'asalaset_nama'),array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+                <?php echo $form->dropDownListRow($model,'lokasi_id',CHtml::listData(LokasiasetM::model()->findAll(array('order' => 'lokasiaset_namalokasi')), 'lokasi_id', 'lokasiaset_namalokasi'),array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+                <?php echo $form->textFieldRow($model, 'invgedung_kode', array('class' => 'span2 all-caps', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
+                <?php echo $form->textFieldRow($model, 'invgedung_noregister', array('class' => 'span2 all-caps', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
+                <?php echo $form->textFieldRow($model, 'invgedung_namabrg', array('class' => 'span3 all-caps', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
             </td>
             <td>
                 <?php echo $form->textFieldRow($model, 'invgedung_kontruksi', array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 20)); ?>
-                <?php echo $form->textFieldRow($model, 'invgedung_luaslantai', array('class' => 'span1 numbersOnly', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
-                <?php echo $form->textAreaRow($model, 'invgedung_alamat', array('rows' => 4, 'cols' => 50, 'class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+                <div class="control-group">
+                    <?php echo $form->label($model, 'invgedung_luaslantai', array('class'=>'control-label')); ?>
+                    <div class="controls">
+                        <?php echo $form->textField($model,'invgedung_luaslantai',array('class'=>'span1 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right')); ?>
+                        <?php echo CHtml::label(' m<sup>2</sup>', 'm2'); ?>
+                    </div>
+                </div>
+                <?php echo $form->textAreaRow($model, 'invgedung_alamat', array('rows' => 4, 'cols' => 50, 'class' => 'span3 all-caps', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
                 <div class="control-group ">
                         <?php echo $form->labelEx($model, 'invgedung_tgldokumen', array('class' => 'control-label')) ?>
                     <div class="controls">
@@ -72,10 +81,18 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                         <?php echo $form->error($model, 'invgedung_tglguna'); ?>
                     </div>
                 </div>
-                <?php echo $form->textFieldRow($model, 'invgedung_nodokumen', array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 20)); ?>
-                <?php echo $form->textFieldRow($model, 'invgedung_harga', array('class' => 'span1 numbersOnly', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
-                <?php echo $form->textFieldRow($model, 'invgedung_akumsusut', array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+                <?php echo $form->textFieldRow($model, 'invgedung_nodokumen', array('class' => 'span2 all-caps', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 20)); ?>
+                <?php echo $form->textFieldRow($model, 'invgedung_harga', array('class' => 'span2 integer2', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+                <?php echo $form->textFieldRow($model, 'invgedung_akumsusut', array('class' => 'span2 numbersOnly', 'onkeypress' => "return $(this).focusNextInputField(event);", 'style'=>'text-align: right')); ?>
+                <div class="control-group">
+                    <?php echo $form->labelEx($model,'umurekonomis',array('class'=>'control-label')); ?>
+                    <div class="controls">
+                        <?php echo $form->textField($model,'umurekonomis',array('class'=>'span1 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right')); ?>
+                        <?php echo CHtml::label('Tahun', 'tahun'); ?>
+                    </div>
+                </div>
                 <?php echo $form->textFieldRow($model, 'invgedung_ket', array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
+                
             </td>
         </tr>
             <?php //echo $form->textFieldRow($model,'create_time',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
