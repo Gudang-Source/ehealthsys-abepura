@@ -72,19 +72,25 @@
                     array(
                         'header'=>'Tahun/<br/>Tanggal',
                         'type'=>'raw',
-                        'value'=>'$data->tahunNama',
+                        'value'=>'$data->invtanah_thnpengadaan."/<br/>".MyFormatter::formatDateTimeForUser($data->invtanah_tglguna)',
                     ),
                     array(
                         'header'=>'No. Sertifikat/<br/>Tanggal',
                         'type'=>'raw',
-                        'value'=>'$data->sertifikat',
+                        'value'=>'$data->invtanah_nosertifikat."<br/>".MyFormatter::formatDateTimeForUser($data->invtanah_tglsertifikat)',
                     ),
 
                     'invtanah_kode',
 
                     //'invtanah_noregister',
                     'invtanah_namabrg',
-                    'invtanah_luas',
+                    array(
+                        'name'=>'invtanah_luas',
+                        'type'=>'raw',
+                        'value'=>'$data->invtanah_luas." m<sup>2</sup>"',
+                        'htmlOptions'=>array('style'=>'text-align: right'),
+                    ),
+                    
 
                     //'invtanah_thnpengadaan',
                     //'invtanah_tglguna',
@@ -93,7 +99,12 @@
                     //'invtanah_tglsertifikat',
                     //'invtanah_nosertifikat',
                     'invtanah_penggunaan',
-                    'invtanah_harga',
+                    array(
+                        'name'=>'invtanah_harga',
+                        'type'=>'raw',
+                        'value'=>'MyFormatter::formatNumberForPrint($data->invtanah_harga)',
+                        'htmlOptions'=>array('style'=>'text-align: right'),
+                    ),
                     //'invtanah_ket',
                     //'create_time',
                     //'update_time',
