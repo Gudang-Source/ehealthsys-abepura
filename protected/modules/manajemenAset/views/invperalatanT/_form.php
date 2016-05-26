@@ -77,7 +77,7 @@
                                 <?php echo CHtml::label('Tahun', 'tahun'); ?>
                             </div>
                         </div>
-                        <?php echo $form->textFieldRow($model,'invperalatan_keadaan',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+                        <?php echo $form->dropDownListRow($model,'invperalatan_keadaan',LookupM::getItems('inventariskeadaan'),array('empty'=>'-- Pilih --','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
                     </td>
                 </tr>
                 <?php //echo $form->textFieldRow($model,'create_time',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
@@ -91,7 +91,7 @@
     <div class="form-actions">
         <?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 
             Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),
-            array('class'=>'btn btn-primary', 'type'=>'submit', 'onKeypress'=>'return formSubmit(this,event)')); ?>
+            array('class'=>'btn btn-primary', 'type'=>'submit', 'onKeypress'=>'return formSubmit(this,event)', 'disabled'=>!$model->isNewRecord)); ?>
         <?php echo CHtml::link(Yii::t('mds','{icon} Reset',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
             $this->createUrl($this->module->id.'/Create'), 
             array('class'=>'btn btn-danger',

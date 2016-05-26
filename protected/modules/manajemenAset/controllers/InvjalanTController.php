@@ -9,6 +9,8 @@ class InvjalanTController extends MyAuthController
 	 */
 	public $layout='//layouts/column1';
         public $defaultAction = 'admin';
+        
+        public $golongan_id = 4;
 
 	/**
 	 * Displays a particular model.
@@ -81,7 +83,7 @@ class InvjalanTController extends MyAuthController
 			if($model->save()){
                             BarangM::model()->updateByPk($model->barang_id, array('barang_statusregister'=>true));
                             Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-                            $this->redirect(array('admin'));
+                            // $this->redirect(array('admin'));
                         }
 		}
                 
