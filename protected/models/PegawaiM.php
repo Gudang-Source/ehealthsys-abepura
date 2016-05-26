@@ -69,6 +69,15 @@ class PegawaiM extends CActiveRecord
         public $gelarbelakang_nama;
         public $dokter_pemeriksa;
         public $ruangan_id;
+        public $tglpresensi;
+        public $tglpresensi_akhir;
+        public $hadir;
+        public $izin;
+        public $sakit;
+        public $dinas;
+        public $alpha;
+        public $rerata_jam_keluar;
+        public $rerata_jam_masuk;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -216,6 +225,15 @@ class PegawaiM extends CActiveRecord
 			'tglmasaaktifpeg_sd'=>'Sampai Dengan',
                         'golonganpegawai_id'=>'Golongan',
                         'ruangan_id'=>'Ruangan Pegawai',
+                        'tglpresensi' => 'Tanggal Awal',
+                        'tglpresensi_akhir' => 'Sampai Dengan',
+                        'hadir' => 'Hadir',
+                        'izin' => 'Izin',
+                        'sakit' => 'Sakit',
+                        'dinas' => 'Dinas',
+                        'alpha' => 'Alpha',
+                        'rerata_jam_masuk' => 'Rerata Jam Masuk',
+                        'rerata_jam_keluar' => 'Rerata Jam Pulang',
 		);
 	}
 
@@ -409,7 +427,7 @@ class PegawaiM extends CActiveRecord
 		$criteria->compare('LOWER(warnakulit)',strtolower($this->warnakulit),true);
 		$criteria->compare('LOWER(deskripsi)',strtolower($this->deskripsi),true);
                 $criteria->addCondition("nofingerprint IS NOT NULL");
-                $criteria->order = 'pegawai_id ASC';
+                $criteria->order = 'nama_pegawai ASC';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -629,6 +647,19 @@ class PegawaiM extends CActiveRecord
     public function getGolonganPegawaiItems()
     {
         return GolonganpegawaiM::model()->findAll('golonganpegawai_aktif=TRUE ORDER BY golonganpegawai_nama');
+    }
+    
+    public function getTotalStatusKehadiran($status_id, $pegawai_id, $tglpresensi, $tglpresensi_akhir)
+    {
+        $format = new MyFormatter();
+        $criteria = new CDbCriteria();
+        $criteria->select = "count(statuskehadiran_id) as jumlah ";
+        $criteria->addBetweenCondition('tglpresensi', $format->formatDateTimeForDb($tglpresensi), $format->formatDateTimeForDb($tglpresensi_akhir));    
+        $criteria->addCondition("pegawai_id = '$pegawai_id' ");
+        $criteria->addCondition("statuskehadiran_id = '$status_id' ");        
+        $total = PresensiT::model()->find($criteria);
+       
+        return  $total->jumlah;
     }
    
 /*

@@ -1,3 +1,4 @@
+
 <?php
 $this->breadcrumbs=array(
 	'Kppresensi Ts'=>array('index'),
@@ -28,23 +29,27 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
 //        'mergeColumns' => array('pegawai.nomorindukpegawai', 'pegawai.nama_pegawai',),
         'mergeHeaders'=>array(
                     array(
-                        'name'=>'<center>Jam Presensi</center>',
+                        'name'=>'<center>Jadwal Presensi</center>',
                         'start'=>'5',
-                        'end'=>'8',
+                        'end'=>'9',
                     ),
                 ),
 	'columns'=>array(
-		 array(
+		/* array(
                     'header'=>'No.',
                     'type'=>'raw',
                     'value' => '$row+1'
-                ),
-               'pegawai.nomorindukpegawai',
-               'pegawai.nofingerprint',
-               'pegawai.nama_pegawai',
-               'pegawai.unit_perusahaan',
+                ),*/
                 array(
-                    'header'=>'Tanggal presensi',
+                    'header' => 'No FP',
+                    'name' => 'no_fingerprint'
+                ),
+               'pegawai.kelompokpegawai.kelompokpegawai_nama',
+                'pegawai.jabatan.jabatan_nama',
+                'pegawai.nomorindukpegawai',
+                'pegawai.nama_pegawai',  
+                array(
+                    'header'=>'Tanggal Presensi',
                     'value'=>'date("d/m/Y",strtotime($data->datepresensi))',//H:i:s
                 ),
                 /*
@@ -60,19 +65,29 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
 //                ),
                 array(
                     'header'=>'<center>Masuk</center>',
-                    'value'=>'$this->grid->owner->renderPartial("presensiT/_statusscan",array("pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>1, "datepresensi"=>$data->datepresensi),true)',
-                ),
-                array(
-                    'header'=>'<center>Pulang</center>',
-                    'value'=>'$this->grid->owner->renderPartial("presensiT/_statusscan",array("pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>2, "datepresensi"=>$data->datepresensi),true)',
+                    'value'=>'$this->grid->owner->renderPartial("presensiT/_statusscan",array("pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>Params::STATUSSCAN_MASUK, "datepresensi"=>$data->datepresensi),true)',
                 ),
                 array(
                     'header'=>'<center>Keluar</center>',
-                    'value'=>'$this->grid->owner->renderPartial("presensiT/_statusscan",array("pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>3, "datepresensi"=>$data->datepresensi),true)',
+                    'value'=>'$this->grid->owner->renderPartial("presensiT/_statusscan",array("pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>Params::STATUSSCAN_KELUAR, "datepresensi"=>$data->datepresensi),true)',
                 ),
                 array(
+                    'header'=>'<center>Pulang</center>',
+                    'value'=>'$this->grid->owner->renderPartial("presensiT/_statusscan",array("pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>Params::STATUSSCAN_PULANG, "datepresensi"=>$data->datepresensi),true)',
+                ),                
+                array(
                     'header'=>'<center>Datang</center>',
-                    'value'=>'$this->grid->owner->renderPartial("presensiT/_statusscan",array("pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>4, "datepresensi"=>$data->datepresensi),true)',
+                    'value'=>'$this->grid->owner->renderPartial("presensiT/_statusscan",array("pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>Params::STATUSSCAN_DATANG, "datepresensi"=>$data->datepresensi),true)',
+                ),
+                array(
+                    'header' => 'Terlambat (Menit)',
+                     'value'=>'$this->grid->owner->renderPartial("presensiT/_terlambat",array("pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>Params::STATUSSCAN_MASUK, "datepresensi"=>$data->datepresensi),true)',
+                      'htmlOptions' => array('style'=>'text-align:center;')   
+                ),
+                array(
+                    'header' => 'Pulang Awal (Menit)',
+                    'value'=>'$this->grid->owner->renderPartial("presensiT/_pulangAwal",array("pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>Params::STATUSSCAN_PULANG, "datepresensi"=>$data->datepresensi),true)',
+                     'htmlOptions' => array('style'=>'text-align:center;')   
                 ),
                 array(
                     'header'=>'<center>Status</center>',
