@@ -9,6 +9,8 @@ class InvasetlainTController extends MyAuthController
 	 */
 	public $layout='//layouts/column1';
         public $defaultAction = 'admin';
+        
+        public $golongan_id = 5;
 
 	/**
 	 * Displays a particular model.

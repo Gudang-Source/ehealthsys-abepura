@@ -80,7 +80,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
             <td>
                 <?php echo $form->textFieldRow($model, 'invjalan_nodokumen', array('class' => 'span3 all-caps', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 30)); ?>
                 <?php echo $form->textFieldRow($model, 'invjalan_statustanah', array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
-                <?php echo $form->textFieldRow($model, 'invjalan_keadaaan', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
+                <?php echo $form->dropDownListRow($model, 'invjalan_keadaaan', LookupM::getItems('inventariskeadaan'), array('empty'=>'-- Pilih --','class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
                 <?php echo $form->textFieldRow($model, 'invjalan_harga', array('class' => 'span2 integer2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'style'=>'text-align: right')); ?>
                 <?php echo $form->textFieldRow($model, 'invjalan_akumsusut', array('class' => 'span2 numbersOnly', 'onkeypress' => "return $(this).focusNextInputField(event);", 'style'=>'text-align: right')); ?>
                 <?php echo $form->textFieldRow($model, 'invjalan_ket', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>

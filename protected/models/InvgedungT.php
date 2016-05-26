@@ -99,7 +99,7 @@ class InvgedungT extends CActiveRecord
 			'pemilikbarang_id' => 'Pemilik Barang',
 			'barang_id' => 'Barang',
 			'lokasi_id' => 'Lokasi',
-			'asalaset_id' => 'Asalaset',
+			'asalaset_id' => 'Asal Aset',
 			'invgedung_kode' => 'Kode Gedung',
 			'invgedung_noregister' => 'No. register',
 			'invgedung_namabrg' => 'Nama Barang',

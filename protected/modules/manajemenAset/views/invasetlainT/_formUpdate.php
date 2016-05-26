@@ -81,6 +81,7 @@
                         array('class'=>'btn btn-danger',
                               'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
             <?php $this->widget('UserTips',array('type'=>'update'));?>
+            <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Inventarisasi Aset Tetap Lainnya', array('{icon}' => '<i class="icon-folder-open icon-white"></i>')), $this->createUrl('admin', array('modul_id' => Yii::app()->session['modul_id'])), array('class' => 'btn btn-success')); ?>
 	</div>
 
 <?php $this->endWidget(); ?>
