@@ -36,12 +36,20 @@ class InvjalanTController extends MyAuthController
 		if(isset($_POST['MAInvjalanT']))
 		{
 			$model->attributes=$_POST['MAInvjalanT'];
+                        if (!empty($model->invjalan_tgldokumen)) $model->invjalan_tgldokumen = MyFormatter::formatDateTimeForDb($model->invjalan_tgldokumen);
+                        if (!empty($model->invjalan_tglguna)) $model->invjalan_tglguna = MyFormatter::formatDateTimeForDb($model->invjalan_tglguna);
+                        
+                        // var_dump($model->attributes); die;
 			if($model->save()){
                             BarangM::model()->updateByPk($model->barang_id, array('barang_statusregister'=>true));
-                                Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                            Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
 				//$this->redirect(array('admin','id'=>$model->invjalan_id));
                         }
 		}
+                
+                if (!empty($model->invjalan_tgldokumen)) $model->invjalan_tgldokumen = MyFormatter::formatDateTimeForUser($model->invjalan_tgldokumen);
+                if (!empty($model->invjalan_tglguna)) $model->invjalan_tglguna = MyFormatter::formatDateTimeForUser($model->invjalan_tglguna);
+                if (!empty($model->invjalan_harga)) $model->invjalan_harga = MyFormatter::formatNumberForPrint($model->invjalan_harga);
 
 		$this->render('create',array(
 			'model'=>$model,'modBarang'=>$modBarang,
@@ -68,12 +76,18 @@ class InvjalanTController extends MyAuthController
 		if(isset($_POST['MAInvjalanT']))
 		{
 			$model->attributes=$_POST['MAInvjalanT'];
+                        if (!empty($model->invjalan_tgldokumen)) $model->invjalan_tgldokumen = MyFormatter::formatDateTimeForDb($model->invjalan_tgldokumen);
+                        if (!empty($model->invjalan_tglguna)) $model->invjalan_tglguna = MyFormatter::formatDateTimeForDb($model->invjalan_tglguna);
 			if($model->save()){
                             BarangM::model()->updateByPk($model->barang_id, array('barang_statusregister'=>true));
-                                Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				//$this->redirect(array('admin','id'=>$model->invjalan_id));
+                            Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                            $this->redirect(array('admin'));
                         }
 		}
+                
+                if (!empty($model->invjalan_tgldokumen)) $model->invjalan_tgldokumen = MyFormatter::formatDateTimeForUser($model->invjalan_tgldokumen);
+                if (!empty($model->invjalan_tglguna)) $model->invjalan_tglguna = MyFormatter::formatDateTimeForUser($model->invjalan_tglguna);
+                if (!empty($model->invjalan_harga)) $model->invjalan_harga = MyFormatter::formatNumberForPrint($model->invjalan_harga);
 
 		$this->render('update',array(
 			'model'=>$model,'modBarang'=>$modBarang, 'data'=>$data ,'dataAsalAset'=>$dataAsalAset ,'dataLokasi'=>$dataLokasi

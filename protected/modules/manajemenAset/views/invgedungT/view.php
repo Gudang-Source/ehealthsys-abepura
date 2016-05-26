@@ -34,19 +34,32 @@
 		'invgedung_noregister',
 		'invgedung_namabrg',
 		'invgedung_kontruksi',
-		'invgedung_luaslantai',
+                array(
+                    'label'=>'Gambar Barang',
+                    'type'=>'raw',
+                    'value'=>$model->invgedung_luaslantai." m<sup>2</sup>",
+                ),
+		// 'invgedung_luaslantai',
 		'invgedung_alamat',
 		'invgedung_tgldokumen',
 		'invgedung_tglguna',
 		'invgedung_nodokumen',
-		'invgedung_harga',
+                array(
+                    'label'=>'Harga Gedung',
+                    'type'=>'raw',
+                    'value'=>  MyFormatter::formatNumberForPrint($model->invgedung_harga),
+                ),
+		//'invgedung_harga',
 		'invgedung_akumsusut',
 		'invgedung_ket',
+                /*
 		'create_time',
 		'update_time',
 		'create_loginpemakai_id',
 		'update_loginpemakai_id',
 		'create_ruangan',
+                 * 
+                 */
 	),
     )); ?>
 

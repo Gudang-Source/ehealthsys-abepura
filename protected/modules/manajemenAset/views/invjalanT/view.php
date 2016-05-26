@@ -44,7 +44,12 @@
 		'invjalan_nodokumen',
 		'invjalan_statustanah',
 		'invjalan_keadaaan',
-		'invjalan_harga',
+                array(
+                    'label'=>'Harga',
+                    'type'=>'raw',
+                    'value'=>  MyFormatter::formatNumberForPrint($model->invjalan_harga),
+                ),
+		// 'invjalan_harga',
 		'invjalan_akumsusut',
 		'invjalan_ket',
 		'craete_time',
