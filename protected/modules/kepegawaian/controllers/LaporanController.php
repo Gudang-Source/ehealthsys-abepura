@@ -196,7 +196,7 @@
 //				else{
 //					$model->ruangan_id = Yii::app()->user->getState('ruangan_id');
 //				}
-                $model->unit_perusahaan = $_GET['KPPresensiT']['unit_perusahaan'];
+               // $model->unit_perusahaan = $_GET['KPPresensiT']['unit_perusahaan'];
             }else{
                 $model->tglpresensi = date('d M Y');
                 $model->tglpresensi_akhir = date('d M Y');

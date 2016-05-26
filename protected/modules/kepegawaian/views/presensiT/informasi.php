@@ -197,7 +197,7 @@
                             $pulang = strtotime(date('Y-m-d H:i:s',strtotime($pr->tglpresensi)));
                             $jam = floor(round(abs($tepat - $pulang) / 60,2));
                             
-                            if ($pulang < $tepat){
+                            if ($pulang > $tepat){
                                 return "0 Menit";
                             }else{
                                 return $jam.' Menit';

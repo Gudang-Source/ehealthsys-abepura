@@ -12,7 +12,7 @@
         foreach ($pr as $pr):
             $tepat = strtotime(date('Y-m-d',strtotime($pr->tglpresensi))." 15:00:00");
             $pulang = strtotime(date('Y-m-d H:i:s',strtotime($pr->tglpresensi)));
-            if ($pulang < $tepat){
+            if ($pulang > $tepat){
                 $pulang = $tepat;
             }
             $menit = floor(round(abs($pulang - $tepat) / 60,2));
