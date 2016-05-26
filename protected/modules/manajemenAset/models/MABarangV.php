@@ -2,6 +2,7 @@
 class MABarangV extends BarangV {
 	public $noreg,$umur_ekonomis,$penyusutan,$hrg_peroleh;
 	public $waktu_pengecekan,$kondisi_aset,$ket,$checklist;
+        public $totalpenyusutan;
 	public static function model($className=__CLASS__)
     {
 		return parent::model($className);

@@ -1,3 +1,6 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
 <?php
 $this->widget('bootstrap.widgets.BootAlert');
 ?>
@@ -45,7 +48,7 @@ $this->widget('bootstrap.widgets.BootAlert');
             'id'=>'aset-t-grid',
             'dataProvider'=>$search->searchReevaluasiAset(),
             //'filter'=>$search,
-			'template'=>"{items}\n{pager}",
+			'template'=>"{summary}\n{items}\n{pager}",
             'itemsCssClass'=>'table table-striped table-condensed',
             'columns'=>array(
 				array(
@@ -54,7 +57,7 @@ $this->widget('bootstrap.widgets.BootAlert');
 					'value'=>'CHtml::checkBox("pilih[$data->barang_id]",null,array("value"=>$data->barang_id,"id"=>"pilih"))',					
 				),
 				array(
-				   //'header' => 'No. Register',
+				   'header' => 'No. Registrasi',
 				   'name' => 'noreg',
 				   'type'=>'raw',
 				   'value'=>'$data->noreg
@@ -73,41 +76,48 @@ $this->widget('bootstrap.widgets.BootAlert');
 				   'header' => 'Umur Ekonomis',
 				   //'name' => 'umur_ekonomis',
 					'type'=>'raw',
-				   'value'=>'$data->umur_ekonomis.CHtml::hiddenField("ue",$data->umur_ekonomis,array("class"=>"integer","style"=>"width:100px;"))'
+				   'value'=>'$data->umur_ekonomis.CHtml::hiddenField("ue",$data->umur_ekonomis,array("class"=>"integer2","style"=>"width:100px;"))'
 			   ),
 				array(
 				   'header' => 'Nilai Buku',
-					'type'=>'raw',
-					'value'=>'number_format($data->hrg_peroleh - $data->penyusutan).CHtml::hiddenField("nb",$data->hrg_peroleh - $data->penyusutan,array("class"=>"integer","style"=>"width:100px;"))'
+                                    'type'=>'raw',
+                                    'htmlOptions'=>array('style'=>'text-align: right'),
+                                    'value'=>'MyFormatter::formatNumberForPrint($data->hrg_peroleh - $data->penyusutan).CHtml::hiddenField("nb",$data->hrg_peroleh - $data->penyusutan,array("class"=>"integer2","style"=>"width:100px;"))'
 				),
 				array(
 				   'header' => 'Harga Pasar',
 				   'name' => 'harga_pasar',
 				   'type'=>'raw',
-				   'value'=>'CHtml::textField("hargapasar","",array("class"=>"integer","style"=>"width:100px;",
+                                   'htmlOptions'=>array('style'=>'text-align: right'),
+				   'value'=>'CHtml::textField("hargapasar","",array("class"=>"integer2","style"=>"width:100px;",
 					   "onkeypress"=>"return $(this).focusNextInputField(event)","onkeyup"=>"harga()"))
-					   .CHtml::hiddenField("penyusutan",$data->penyusutan,array("class"=>"integer","style"=>"width:100px;"))
-					   .CHtml::hiddenField("hrgperolehan",$data->hrg_peroleh,array("class"=>"integer","style"=>"width:100px;"))'
+					   .CHtml::hiddenField("penyusutan",$data->penyusutan,array("class"=>"integer2","style"=>"width:100px;"))
+					   .CHtml::hiddenField("hrgperolehan",$data->hrg_peroleh,array("class"=>"integer2","style"=>"width:100px; text-align: right;"))'
 					
 			   ),
 				array(
 				   'header' => 'Selisih Re-evaluasi',
 				   //'name' => 'selisih',
 				   'type'=>'raw',
-				   'value'=>'CHtml::textField("selisih","",array("class"=>"integer","style"=>"width:100px;"))'					
+                                   'htmlOptions'=>array('style'=>'text-align: right'),
+				   'value'=>'CHtml::textField("selisih","",array("class"=>"integer2","style"=>"width:100px; text-align: right;"))'					
 			   ),				
             ),
-            'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+            'afterAjaxUpdate'=>'function(id, data){'
+                    . 'jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
+                    . '$("#aset-t-grid").find(".integer2:text").maskMoney({"symbol":"Rp. ", "defaultZero":true, "allowZero":true, "decimal":",", "thousands":".", "precision":0})'
+                    . '}',
         ));			
 		?>			
 		</div>
 	</div>
 <script type="text/javascript">
 	function harga(){
-		var hg = document.getElementById("hargapasar").value;
-		var nb = document.getElementById("nb").value;
-		var selisih = hg.replace(/,/gi,"")-nb;
-		document.getElementById("selisih").value = selisih;		
+		var hg = parseFloat(unformatNumber(document.getElementById("hargapasar").value));
+		var nb = parseFloat(unformatNumber(document.getElementById("nb").value));
+                console.log(hg, nb);
+		var selisih = hg-nb;
+		document.getElementById("selisih").value = formatNumber(selisih);		
 	}
 	function print(id)
 	{
@@ -140,7 +150,7 @@ $this->widget('bootstrap.widgets.BootAlert');
 						<?php echo $form->error($model, 'reevaluasiaset_tgl'); ?>
 					</div>
 				</div>
-					<?php echo $form->textFieldRow($model,'reevaluasiaset_no',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>25)); ?>
+					<?php echo $form->textFieldRow($model,'reevaluasiaset_no',array('class'=>'span3 all-caps', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>25)); ?>
 			</div>
 			<div class="span4">
 				
@@ -259,14 +269,18 @@ $modAsetDialog = new MAReevaluasiasetT('searchAset');
 $modAsetDialog->unsetAttributes();
 if (isset($_REQUEST['MAReevaluasiasetT'])) {
     $modAsetDialog->attributes = $_REQUEST['MAReevaluasiasetT'];
+    if (isset($_REQUEST['MAReevaluasiasetT']['barang_kode'])) $modAsetDialog->barang_kode = $_REQUEST['MAReevaluasiasetT']['barang_kode'];
+    if (isset($_REQUEST['MAReevaluasiasetT']['barang_nama'])) $modAsetDialog->barang_nama = $_REQUEST['MAReevaluasiasetT']['barang_nama'];
+    if (isset($_REQUEST['MAReevaluasiasetT']['barang_type'])) $modAsetDialog->barang_type = $_REQUEST['MAReevaluasiasetT']['barang_type'];
+    if (isset($_REQUEST['MAReevaluasiasetT']['barang_namalainnya'])) $modAsetDialog->barang_namalainnya = $_REQUEST['MAReevaluasiasetT']['barang_namalainnya'];
 }
 
 $this->widget('ext.bootstrap.widgets.BootGridView', array(
     'id' => 'asetDialog-m-grid',
     'dataProvider' => $modAsetDialog->searchAset(),
     'filter' => $modAsetDialog,
-    'template' => "{items}\n{pager}",
-//    'template'=>"{summary}\n{items}\n{pager}",
+    //'template' => "{items}\n{pager}",
+    'template'=>"{summary}\n{items}\n{pager}",
     'itemsCssClass' => 'table table-striped table-bordered table-condensed',
     'columns' => array(
         array(
@@ -287,22 +301,22 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
 	     array(
             'header' => 'Kode Aset',
             'name' => 'barang_kode',
-            'filter' => '',
+            //'filter' => ,
         ),
        array(
             'header' => 'Jenis Aset',
             'name' => 'barang_type',
-            'filter' => '',
+            'filter' => CHtml::activeDropDownList($modAsetDialog, 'barang_type', LookupM::getItems('barangumumtype'), array('empty'=>'-- Pilih --')),
         ),
        array(
             'header' => 'Nama Aset',
             'name' => 'barang_nama',
-            'filter' => '',
+            //'filter' => '',
         ),
        array(
             'header' => 'Nama Aset Lainya',
             'name' => 'barang_namalainnya',
-            'filter' => '',
+            //'filter' => '',
         ),		
     ),
     'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
@@ -333,7 +347,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
     'id' => 'obatAlkesDialog-m-grid',
     'dataProvider' => $modNoregDialog->searchNoreg(),
     'filter' => $modNoregDialog,
-    'template' => "{items}\n{pager}",
+    'template' => "{summary}\n{items}\n{pager}",
     'itemsCssClass' => 'table table-striped table-bordered table-condensed',
     'columns' => array(
         array(
@@ -408,7 +422,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
     'id' => 'pegawaiDialog-m-grid',
     'dataProvider' => $pegawai->search(),
     'filter' => $pegawai,
-    'template' => "{items}\n{pager}",
+    'template' => "{summary}\n{items}\n{pager}",
     'itemsCssClass' => 'table table-striped table-bordered table-condensed',
     'columns' => array(
         array(
@@ -458,7 +472,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
     'id' => 'pegawai_Dialog-m-grid',
     'dataProvider' => $pegawai_->search(),
     'filter' => $pegawai_,
-    'template' => "{items}\n{pager}",
+    'template' => "{summary}\n{items}\n{pager}",
     'itemsCssClass' => 'table table-striped table-bordered table-condensed',
     'columns' => array(
         array(
