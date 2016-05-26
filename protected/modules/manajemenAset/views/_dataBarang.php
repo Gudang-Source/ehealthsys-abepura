@@ -178,8 +178,8 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'title'=>'Data Barang',
         'autoOpen'=>false,
         'modal'=>true,
-        'width'=>500,
-        'height'=>400,
+        'width'=>1000,
+        'height'=>700,
         'resizable'=>false,
     ),
 ));
@@ -192,6 +192,33 @@ if(isset($_GET['MABarangM'])) {
     $barang->subkelompok_id = $_GET['MABarangM']['subkelompok_id'];
     $barang->subsubkelompok_id = $_GET['MABarangM']['subsubkelompok_id'];
 }
+
+$csk = new CDbCriteria();
+$csk->compare('kelompok_id', $barang->kelompok_id);
+$csk->order = "subkelompok_nama asc";
+$csk->addCondition('subkelompok_aktif = true');
+
+$sk = SubkelompokM::model()->findAll($csk);
+$skrl = CHtml::listData($sk, 'subkelompok_id', 'subkelompok_id');
+
+if (!empty($barang->subkelompok_id) && !in_array($barang->subkelompok_id, $skrl)) {
+    $barang->subkelompok_id = $barang->subsubkelompok_id = null;
+}
+
+$cssk = new CDbCriteria();
+if (empty($barang->subkelompok_id)) {
+    $cssk->compare('subkelompok_id', $skrl);
+} else {
+    $cssk->compare('subkelompok_id', $barang->subkelompok_id);
+}
+
+$cssk->order = "subsubkelompok_nama asc";
+$ssk = SubsubkelompokM::model()->findAll($cssk);
+$sskrl = CHtml::listData($ssk, 'subsubkelompok_id', 'subsubkelompok_id');
+if (!empty($barang->subsubkelompok_id) && !in_array($barang->subsubkelompok_id, $sskrl)) {
+    $barang->subsubkelompok_id = null;
+}
+
 
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'barang-v-grid',
@@ -247,6 +274,9 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 
                             "))
                         ',
+            'htmlOptions'=>array(
+                'style'=>'width: 50px',
+            )
         ),
         /*
         array(
@@ -273,8 +303,11 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'condition'=>'kelompok_aktif = true',
                     'order'=>'kelompok_nama'
                 )), 'kelompok_id', 'kelompok_nama'), array(
-                    'empty' => '-- Pilih --',
+                    'empty' => '-- Pilih --', 'style'=>'max-width: 150px',
             )),
+            'htmlOptions'=>array(
+                'style'=>'width: 150px',
+            )
             
         ),
        // 'bidang.subkelompok.kelompok.kelompok_nama',
@@ -288,33 +321,32 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'header'=>'Sub Kelompok',
             'name'=>'subkelompok_id',
             'value'=>function($data) use (&$subk) {
-                //$subk = SubsubkelompokM::model()->findByPk($data->subsubkelompok_id);
                 if (empty($subk)) return "-";
                 return $subk->subkelompok->subkelompok_nama;
             },
-            'filter'=>  CHtml::activeDropDownList($barang, 'subkelompok_id', CHtml::listData(
-                SubkelompokM::model()->findAll(array(
-                    'condition'=>'subkelompok_aktif = true',
-                    'order'=>'subkelompok_nama'
-                )), 'subkelompok_id', 'subkelompok_nama'), array(
-                    'empty' => '-- Pilih --',
-                )),
+            'filter'=>  CHtml::activeDropDownList($barang, 'subkelompok_id', 
+                    CHtml::listData($sk, 'subkelompok_id', 'subkelompok_nama'), 
+                    array(
+                        'empty' => '-- Pilih --', 'style'=>'max-width: 150px',
+                    )),
+            'htmlOptions'=>array(
+                'style'=>'width: 150px',
+            )
         ),
           array(
             'header'=>'Sub Sub Kelompok',
             'name'=>'subsubkelompok_id',
             'value'=>function($data) use (&$subk) {
-                //$subk = SubsubkelompokM::model()->findByPk($data->subsubkelompok_id);
                 if (empty($subk)) return "-";
                 return $subk->subsubkelompok_nama;
             }, 
-            'filter'=>  CHtml::activeDropDownList($barang, 'subsubkelompok_id', CHtml::listData(
-                SubsubkelompokM::model()->findAll(array(
-                    'condition'=>'subsubkelompok_aktif = true',
-                    'order'=>'subsubkelompok_nama'
-                )), 'subsubkelompok_id', 'subsubkelompok_nama'), array(
-                    'empty' => '-- Pilih --',
+            'filter'=>  CHtml::activeDropDownList($barang, 'subsubkelompok_id', 
+                    CHtml::listData($ssk, 'subsubkelompok_id', 'subsubkelompok_nama'), array(
+                    'empty' => '-- Pilih --', 'style'=>'max-width: 150px',
                 )),
+            'htmlOptions'=>array(
+                'style'=>'width: 150px',
+            )
             
         ),
         //'bidang_id',
