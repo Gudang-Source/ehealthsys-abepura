@@ -193,8 +193,26 @@ if(isset($_GET['MABarangM'])) {
     $barang->subsubkelompok_id = $_GET['MABarangM']['subsubkelompok_id'];
 }
 
+$ck = new CDbCriteria();
+$ck->compare('bidang_id', $barang->bidang_id);
+$ck->order = "kelompok_nama asc";
+$ck->addCondition("kelompok_aktif = true");
+
+$k = KelompokM::model()->findAll($ck);
+$krl = CHtml::listData($k, 'kelompok_id', 'kelompok_id');
+
+if (!empty($barang->kelompok_id) && !in_array($barang->kelompok_id, $krl)) {
+    $barang->kelompok_id = $barang->subkelompok_id = $barang->subsubkelompok_id = null;
+}
+
 $csk = new CDbCriteria();
-$csk->compare('kelompok_id', $barang->kelompok_id);
+
+if (empty($barang->kelompok_id)) {
+    $csk->compare('kelompok_id', $krl);
+} else {
+    $csk->compare('kelompok_id', $barang->kelompok_id);
+}
+
 $csk->order = "subkelompok_nama asc";
 $csk->addCondition('subkelompok_aktif = true');
 
@@ -278,6 +296,23 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 'style'=>'width: 50px',
             )
         ),
+        array(
+            'header'=>'Bidang',
+            'type'=>'raw',
+            'name'=>'bidang_id',
+            'value'=>function($data) use (&$subk) {
+                $subk = SubsubkelompokM::model()->findByPk($data->subsubkelompok_id);
+                if (empty($subk)) return "-";
+                return $subk->subkelompok->kelompok->bidang->bidang_nama;
+            },
+            'filter'=>  CHtml::activeDropDownList($barang, 'bidang_id', CHtml::listData(
+                BidangM::model()->findAll(array(
+                    'condition'=>'bidang_aktif = true',
+                    'order'=>'bidang_nama'
+                )), 'bidang_id', 'bidang_nama'), array(
+                    'empty' => '-- Pilih --', 'style'=>'max-width: 150px',
+            )),
+        ),
         /*
         array(
             'header'=>'Nama Golongan',
@@ -294,15 +329,10 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'header'=>'Kelompok',
             'name'=>'kelompok_id',
             'value'=>function($data) use (&$subk) {
-                $subk = SubsubkelompokM::model()->findByPk($data->subsubkelompok_id);
                 if (empty($subk)) return "-";
                 return $subk->subkelompok->kelompok->kelompok_nama;
             },
-            'filter'=>  CHtml::activeDropDownList($barang, 'kelompok_id', CHtml::listData(
-                KelompokM::model()->findAll(array(
-                    'condition'=>'kelompok_aktif = true',
-                    'order'=>'kelompok_nama'
-                )), 'kelompok_id', 'kelompok_nama'), array(
+            'filter'=>  CHtml::activeDropDownList($barang, 'kelompok_id', CHtml::listData($k, 'kelompok_id', 'kelompok_nama'), array(
                     'empty' => '-- Pilih --', 'style'=>'max-width: 150px',
             )),
             'htmlOptions'=>array(
