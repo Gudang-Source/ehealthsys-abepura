@@ -1,3 +1,6 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
 <div class="white-container">
     <legend class="rim2">Transaksi Retur <b>Tagihan Pasien</b></legend>
     <?php
@@ -49,13 +52,20 @@
 
                         </div>
                     </div>
+                    <?php
+                    $modRetur->totaloaretur = MyFormatter::formatNumberForPrint($modRetur->totaloaretur);
+                    $modRetur->totaltindakanretur = MyFormatter::formatNumberForPrint($modRetur->totaltindakanretur);
+                    $modRetur->totalbiayaretur = MyFormatter::formatNumberForPrint($modRetur->totalbiayaretur);
+                    
+                    ?>
+                    
                     <?php echo $form->textFieldRow($modRetur,'noreturbayar',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
-                    <?php echo $form->textFieldRow($modRetur,'totaloaretur',array('class'=>'span3 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-                    <?php echo $form->textFieldRow($modRetur,'totaltindakanretur',array('class'=>'span3 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-                    <?php echo $form->textFieldRow($modRetur,'totalbiayaretur',array('class'=>'span3 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                    <?php echo $form->textFieldRow($modRetur,'totaloaretur',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                    <?php echo $form->textFieldRow($modRetur,'totaltindakanretur',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                    <?php echo $form->textFieldRow($modRetur,'totalbiayaretur',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                 </td>
                 <td>
-                    <?php echo $form->textFieldRow($modRetur,'biayaadministrasi',array('class'=>'span3 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                    <?php echo $form->textFieldRow($modRetur,'biayaadministrasi',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                     <?php echo $form->textAreaRow($modRetur,'keteranganretur',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                     <?php echo CHtml::activeHiddenField($modRetur,'user_nm_otorisasi',array('readonly'=>true,'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                     <?php echo CHtml::activeHiddenField($modRetur,'user_id_otorisasi',array('readonly'=>true,'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>

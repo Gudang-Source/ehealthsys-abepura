@@ -9,6 +9,8 @@ class InvasetlainTController extends MyAuthController
 	 */
 	public $layout='//layouts/column1';
         public $defaultAction = 'admin';
+        
+        public $golongan_id = 5;
 
 	/**
 	 * Displays a particular model.
@@ -37,7 +39,10 @@ class InvasetlainTController extends MyAuthController
 		if(isset($_POST['MAInvasetlainT']))
 		{
 			$model->attributes=$_POST['MAInvasetlainT'];
-			if($model->save()){
+                        if (!empty($model->invasetlain_tglguna)) $model->invasetlain_tglguna = MyFormatter::formatDateTimeForDb($model->invasetlain_tglguna);
+			
+                        // var_dump($model->attributes); die;
+                        if($model->save()){
                             BarangM::model()->updateByPk($model->barang_id, array('barang_statusregister'=>true));
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
 				//$this->redirect(array('admin','id'=>$model->invasetlain_id));
@@ -68,13 +73,17 @@ class InvasetlainTController extends MyAuthController
 		if(isset($_POST['MAInvasetlainT']))
 		{
 			$model->attributes=$_POST['MAInvasetlainT'];
+                        if (!empty($model->invasetlain_tglguna)) $model->invasetlain_tglguna = MyFormatter::formatDateTimeForDb($model->invasetlain_tglguna);
 			if($model->save()){
                             BarangM::model()->updateByPk($model->barang_id, array('barang_statusregister'=>true));
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
 				//$this->redirect(array('admin','id'=>$model->invasetlain_id));
                         }
 		}
-
+                
+                $model->invasetlain_harga = MyFormatter::formatNumberForPrint($model->invasetlain_harga);
+                if (!empty($model->invasetlain_tglguna)) $model->invasetlain_tglguna = MyFormatter::formatDateTimeForUser($model->invasetlain_tglguna);
+                
 		$this->render('update',array(
 			'model'=>$model,'modBarang'=>$modBarang, 'data'=>$data ,'dataAsalAset'=>$dataAsalAset ,'dataLokasi'=>$dataLokasi
 		));

@@ -9,7 +9,9 @@ class InvgedungTController extends MyAuthController
 	 */
 	public $layout='//layouts/column1';
         public $defaultAction = 'admin';
-
+        
+        public $golongan_id = 3;
+        
 	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
@@ -42,8 +44,8 @@ class InvgedungTController extends MyAuthController
 				$model->update_time = null;
 				$model->create_loginpemakai_id = Yii::app()->user->id;
 				$model->create_ruangan = Yii::app()->user->getState('ruangan_id');
-				$model->invgedung_tgldokumen = !empty($_POST['MAInvgedungT']['invgedung_tgldokumen'])?$_POST['MAInvgedungT']['invgedung_tgldokumen']:null;
-				$model->invgedung_tglguna = !empty($_POST['MAInvgedungT']['invgedung_tglguna'])?$_POST['MAInvgedungT']['invgedung_tglguna']:null;
+				$model->invgedung_tgldokumen = !empty($_POST['MAInvgedungT']['invgedung_tgldokumen'])?MyFormatter::formatDateTimeForDb($_POST['MAInvgedungT']['invgedung_tgldokumen']):null;
+				$model->invgedung_tglguna = !empty($_POST['MAInvgedungT']['invgedung_tglguna'])?MyFormatter::formatDateTimeForDb($_POST['MAInvgedungT']['invgedung_tglguna']):null;
 				
 				if($model->validate()){
 					$model->save();
@@ -75,7 +77,7 @@ class InvgedungTController extends MyAuthController
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		$model=$this->loadModel($id);
                 $modBarang = $this->loadModelBarang($model->barang_id);
-                                $data['pemilikbarang_nama'] = $model->pemilikbarang->pemilikbarang_nama;
+                $data['pemilikbarang_nama'] = $model->pemilikbarang->pemilikbarang_nama;
                 $dataAsalAset['asalaset_nama'] = (isset($model->asalaset_id) ? $model->asalaset->asalaset_nama : "");
                 $dataLokasi['lokasiaset_namalokasi'] = (isset($model->lokasiaset_id) ? $model->lokasi->lokasiaset_namalokasi : "");
 
@@ -85,12 +87,17 @@ class InvgedungTController extends MyAuthController
 		if(isset($_POST['MAInvgedungT']))
 		{
 			$model->attributes=$_POST['MAInvgedungT'];
+                        $model->invgedung_tgldokumen = !empty($_POST['MAInvgedungT']['invgedung_tgldokumen'])?MyFormatter::formatDateTimeForDb($_POST['MAInvgedungT']['invgedung_tgldokumen']):null;
+			$model->invgedung_tglguna = !empty($_POST['MAInvgedungT']['invgedung_tglguna'])?MyFormatter::formatDateTimeForDb($_POST['MAInvgedungT']['invgedung_tglguna']):null;
+                        
 			if($model->save()){
                             BarangM::model()->updateByPk($model->barang_id, array('barang_statusregister'=>true));
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
 				//$this->redirect(array('admin','id'=>$model->invgedung_id));
                         }
 		}
+                
+                $model->invgedung_harga = MyFormatter::formatNumberForPrint($model->invgedung_harga);
 
 		$this->render('update',array(
 			'model'=>$model,'modBarang'=>$modBarang, 'data'=>$data ,'dataAsalAset'=>$dataAsalAset ,'dataLokasi'=>$dataLokasi

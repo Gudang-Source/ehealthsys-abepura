@@ -7,7 +7,7 @@
 <div class="row-fluid">
 	<div class="span4">
 		<div class="control-group ">
-			<?php echo $form->labelEx($modPengiriman, 'tglrekammedis', array('class' => 'control-label')) ?>
+			<?php echo $form->labelEx($modPengiriman, 'tgl pendaftaran', array('class' => 'control-label')) ?>
 			<div class="controls">
 				<?php
 				$modPengiriman->tgl_rekam_medik = MyFormatter::formatDateTimeForUser($modPengiriman->tgl_rekam_medik);					

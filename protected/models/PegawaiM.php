@@ -120,7 +120,7 @@ class PegawaiM extends CActiveRecord
 			array('alamatemail, kemampuanbahasa', 'length', 'max'=>100),
 			array('warganegara_pegawai', 'length', 'max'=>25),
 			array('photopegawai', 'length', 'max'=>200),
-			array('tgl_lahirpegawai, unit_perusahaan, suratizinpraktek, tglpenilaian, alamat_pegawai, pegawai_aktif, noidentitas, nofingerprint,warnakulit, nip_lama, tglditerima, tglberhenti,deskripsi, golonganpegawai_id', 'safe'),
+			array('tgl_lahirpegawai, unit_perusahaan, suratizinpraktek, tglpenilaian, alamat_pegawai, pegawai_aktif, noidentitas, nofingerprint,warnakulit, nip_lama, tglditerima, tglberhenti,deskripsi, golonganpegawai_id, surattandaregistrasi', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('deskripsi, pegawai_id, unit_perusahaan, suratizinpraktek kelurahan_id, tglpenilaian, kecamatan_id, profilrs_id, gelarbelakang_id,gelarbelakang_nama, suku_id, kelompokpegawai_id,kelompokpegawai_nama, pendkualifikasi_id, jabatan_id, pendidikan_id, propinsi_id, pangkat_id, kabupaten_id, nomorindukpegawai, no_kartupegawainegerisipil, no_karis_karsu, no_taspen, no_askes, gelardepan, nama_pegawai, nama_keluarga, tempatlahir_pegawai, tgl_lahirpegawai, jeniskelamin, statusperkawinan, alamat_pegawai, agama, golongandarah, rhesus, alamatemail, notelp_pegawai, nomobile_pegawai, warganegara_pegawai, jeniswaktukerja, kelompokjabatan, kategoripegawai, kategoripegawaiasal, photopegawai, pegawai_aktif, esselon_id, statuskepemilikanrumah_id, jenisidentitas, noidentitas, nofingerprint, tinggibadan, beratbadan, kemampuanbahasa, warnakulit, nip_lama, norekening, banknorekening, npwp, tglditerima, tglberhenti,gelarbelakang_nama, golonganpegawai_id', 'safe', 'on'=>'search'),
@@ -234,6 +234,7 @@ class PegawaiM extends CActiveRecord
                         'alpha' => 'Alpha',
                         'rerata_jam_masuk' => 'Rerata Jam Masuk',
                         'rerata_jam_keluar' => 'Rerata Jam Pulang',
+                        'surattandaregistrasi'=>'Surat Tanda Registrasi',
 		);
 	}
 

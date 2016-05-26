@@ -9,7 +9,8 @@ class InvtanahTController extends MyAuthController
 	 */
 	public $layout='//layouts/column1';
         public $defaultAction = 'admin';
-
+        public $golongan_id = 1;
+        
 	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
@@ -46,12 +47,18 @@ class InvtanahTController extends MyAuthController
 				$model->invtanah_tglguna = !empty($_POST['MAInvtanahT']['invtanah_tglguna'])?$format->formatDateTimeForDb($_POST['MAInvtanahT']['invtanah_tglguna']):null;
 				$model->invtanah_tglsertifikat = !empty($_POST['MAInvtanahT']['invtanah_tglsertifikat'])?$format->formatDateTimeForDb($_POST['MAInvtanahT']['invtanah_tglsertifikat']):null;
 				
+                                if (!empty($model->invtanah_harga) && !empty($model->invtanah_luas)) $model->invtanah_harga *= $model->invtanah_luas;
+                                
+                                // var_dump($model->attributes); die;
+                                
 				if($model->validate()){
 					$model->save();
 					$transaction->commit();
 					BarangM::model()->updateByPk($model->barang_id, array('barang_statusregister'=>true));
 					Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				}else{
+				
+                                        if (!empty($model->invtanah_harga) && !empty($model->invtanah_luas)) $model->invtanah_harga /= $model->invtanah_luas;
+                                }else{
 					$transaction->rollback();
 					Yii::app()->user->setFlash('error',"Data gagal disimpan !");
 				}
@@ -77,6 +84,8 @@ class InvtanahTController extends MyAuthController
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		$model=$this->loadModel($id);
                 $modBarang = $this->loadModelBarang($model->barang_id);
+                if (!empty($model->invtanah_harga) && !empty($model->invtanah_luas)) $model->invtanah_harga /= $model->invtanah_luas;
+                
                 $data['pemilikbarang_nama'] = $model->pemilik->pemilikbarang_nama;
                 $dataAsalAset['asalaset_nama'] = $model->asal->asalaset_nama;
                 $dataLokasi['lokasiaset_namalokasi'] = $model->lokasi->lokasiaset_namalokasi;
@@ -90,12 +99,18 @@ class InvtanahTController extends MyAuthController
 			$model->attributes=$_POST['MAInvtanahT'];
                         $model->invtanah_tglguna = !empty($_POST['MAInvtanahT']['invtanah_tglguna'])?$format->formatDateTimeForDb($_POST['MAInvtanahT']['invtanah_tglguna']):null;
                         $model->invtanah_tglsertifikat = !empty($_POST['MAInvtanahT']['invtanah_tglsertifikat'])?$format->formatDateTimeForDb($_POST['MAInvtanahT']['invtanah_tglsertifikat']):null;
-			if($model->save()){
+			
+                        if (!empty($model->invtanah_harga) && !empty($model->invtanah_luas)) $model->invtanah_harga *= $model->invtanah_luas;
+                        
+                        if($model->save()){
                                  BarangM::model()->updateByPk($model->barang_id, array('barang_statusregister'=>true));
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
 				//$this->redirect(array('admin','id'=>$model->invtanah_id));
+                                if (!empty($model->invtanah_harga) && !empty($model->invtanah_luas)) $model->invtanah_harga /= $model->invtanah_luas;
                         }
 		}
+                
+                $model->invtanah_harga = MyFormatter::formatNumberForPrint($model->invtanah_harga);
 
 		$this->render('update',array(
 			'model'=>$model,'modBarang'=>$modBarang, 'data'=>$data ,'dataAsalAset'=>$dataAsalAset ,'dataLokasi'=>$dataLokasi

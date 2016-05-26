@@ -34,21 +34,43 @@
                     'invtanah_kode',
                     'invtanah_noregister',
                     'invtanah_namabrg',
-                    'invtanah_luas',
+                    array(
+                        'label'=>'Luas Tanah',
+                        'type'=>'raw',
+                        'value'=>$model->invtanah_luas." m<sup>2</sup>"
+                    ),
+                    //'invtanah_luas',
                     'invtanah_thnpengadaan',
-                    'invtanah_tglguna',
+                    array(
+                        'label'=>'Tanggal Penggunaan',
+                        'type'=>'raw',
+                        'value'=>  MyFormatter::formatDateTimeForUser($model->invtanah_tglguna),
+                    ),
+                    //'invtanah_tglguna',
                     'invtanah_alamat',
                     'invtanah_status',
-                    'invtanah_tglsertifikat',
+                    array(
+                        'label'=>'Tanggal Sertifikat',
+                        'type'=>'raw',
+                        'value'=>  MyFormatter::formatDateTimeForUser($model->invtanah_tglsertifikat),
+                    ),
                     'invtanah_nosertifikat',
                     'invtanah_penggunaan',
-                    'invtanah_harga',
-                    'invtanah_ket',
+                    array(
+                        'label'=>'Harga Tanah',
+                        'type'=>'raw',
+                        'value'=>  MyFormatter::formatNumberForPrint($model->invtanah_harga)
+                        ." (".MyFormatter::formatNumberForPrint($model->invtanah_harga/$model->invtanah_luas)." /m<sup>2</sup>)",
+                    ),
+                    // 'invtanah_harga',
+                    'invtanah_ket', /*
                     'create_time',
                     'update_time',
                     'create_loginpemakai_id',
                     'update_loginpemakai_id',
                     'create_ruangan',
+                     * 
+                     */
             ),
     )); ?>
 
