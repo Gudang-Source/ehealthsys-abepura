@@ -186,12 +186,25 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 
 $barang= new MABarangM('search');
 $barang->unsetAttributes();
+
+if (isset($this->golongan_id) && !empty($this->golongan_id)) {
+    $barang->golongan_id = $this->golongan_id;
+}
+
 if(isset($_GET['MABarangM'])) {
     $barang->attributes = $_GET['MABarangM'];
     $barang->kelompok_id = $_GET['MABarangM']['kelompok_id'];
     $barang->subkelompok_id = $_GET['MABarangM']['subkelompok_id'];
     $barang->subsubkelompok_id = $_GET['MABarangM']['subsubkelompok_id'];
 }
+
+
+$cb = new CDbCriteria();
+$cb->compare('golongan_id', $barang->golongan_id);
+$cb->order = "bidang_nama asc";
+$cb->addCondition("bidang_aktif = true");
+
+$b = BidangM::model()->findAll($cb);
 
 $ck = new CDbCriteria();
 $ck->compare('bidang_id', $barang->bidang_id);
@@ -305,11 +318,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 if (empty($subk)) return "-";
                 return $subk->subkelompok->kelompok->bidang->bidang_nama;
             },
-            'filter'=>  CHtml::activeDropDownList($barang, 'bidang_id', CHtml::listData(
-                BidangM::model()->findAll(array(
-                    'condition'=>'bidang_aktif = true',
-                    'order'=>'bidang_nama'
-                )), 'bidang_id', 'bidang_nama'), array(
+            'filter'=>  CHtml::activeDropDownList($barang, 'bidang_id', CHtml::listData($b, 'bidang_id', 'bidang_nama'), array(
                     'empty' => '-- Pilih --', 'style'=>'max-width: 150px',
             )),
         ),

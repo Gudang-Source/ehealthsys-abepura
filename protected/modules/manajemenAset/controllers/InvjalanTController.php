@@ -9,6 +9,8 @@ class InvjalanTController extends MyAuthController
 	 */
 	public $layout='//layouts/column1';
         public $defaultAction = 'admin';
+        
+        public $golongan_id = 4;
 
 	/**
 	 * Displays a particular model.

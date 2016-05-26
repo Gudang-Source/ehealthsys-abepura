@@ -9,6 +9,8 @@ class InvperalatanTController extends MyAuthController
 	 */
 	public $layout='//layouts/column1';
         public $defaultAction = 'admin';
+        
+        public $golongan_id = 2;
 
 	/**
 	 * Displays a particular model.
