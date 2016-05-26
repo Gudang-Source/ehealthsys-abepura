@@ -35,6 +35,30 @@ class SAPegawaiM extends PegawaiM
                        
 				));
 	}
+        
+         public function searchPegawaiNoUser()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria=new CDbCriteria;                
+		$criteria->compare('jabatan_id',$this->jabatan_id);
+		$criteria->compare('LOWER(nomorindukpegawai)',strtolower($this->nomorindukpegawai),true);
+		$criteria->compare('LOWER(gelardepan)',strtolower($this->gelardepan),true);
+		$criteria->compare('LOWER(nama_pegawai)',strtolower($this->nama_pegawai),true);
+		$criteria->compare('LOWER(jeniskelamin)',strtolower($this->jeniskelamin),true);
+                $criteria->compare('LOWER(alamat_pegawai)',strtolower($this->alamat_pegawai),true);
+                $criteria->compare('LOWER(tempatlahir_pegawai)',strtolower($this->tempatlahir_pegawai),true);               
+                $criteria->addCondition("loginpemakai_id is null ");          
+		$criteria->compare('pegawai_aktif',true);
+		
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+                       
+				));
+	}
+        
+    
 
     public function getKabupatenItems($propinsi_id=null){
         if (!empty($propinsi_id)) {

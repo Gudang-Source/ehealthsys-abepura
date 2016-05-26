@@ -188,7 +188,7 @@ $modPegawai =new SAPegawaiM();
 $modPegawai->attributes = isset($_GET['SAPegawaiM'])?$_GET['SAPegawaiM']:null;
 $this->widget('ext.bootstrap.widgets.BootGridView',array( 
     'id'=>'sapegawai-m-grid', 
-    'dataProvider'=>$modPegawai->search(), 
+    'dataProvider'=>$modPegawai->searchPegawaiNoUser(), 
     'filter'=>$modPegawai, 
     'template'=>"{summary}\n{items}\n{pager}", 
     'itemsCssClass'=>'table table-striped table-bordered table-condensed', 
@@ -198,7 +198,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'type'=>'raw',
             'value'=>'',
 
-            'value'=>'CHtml::link("<i class=\"icon-check\"></i>","#", array("id" => "selectPegawai",
+            'value'=>'CHtml::link("<i class=\"icon-form-check\"></i>","#", array("id" => "selectPegawai",
                                           "onClick"=>"
                                             $(\"#idPegawai\").val(\"$data->pegawai_id\");
                                             $(\"#'.CHtml::activeId($model,'pegawai_id').'\").val(\"$data->pegawai_id\");
@@ -207,15 +207,25 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                             "
                                      ))',
         ), 
-         'nomorindukpegawai',
-         'gelardepan',
-         'nama_pegawai', 
-         'jeniskelamin',                    
+         'nomorindukpegawai',         
+            array(
+             'header' => 'Gelar Depan',
+             'name' => 'gelardepan',
+             'value' => '$data->gelardepan',
+             'filter' => CHtml::dropDownList('SAPegawaiM[gelardepan]', $modPegawai->gelardepan,  LookupM::getItems('gelardepan'),array('empty'=>'-- Pilih --'))
+         ),
+         'nama_pegawai',           
+         array(
+             'header' => 'Jenis Kelamin',
+             'name' => 'jeniskelamin',
+             'value' => '$data->jeniskelamin',
+             'filter' => CHtml::dropDownList('SAPegawaiM[jeniskelamin]', $modPegawai->jeniskelamin,  LookupM::getItems('jeniskelamin'),array('empty'=>'-- Pilih --'))
+         ),
          'tempatlahir_pegawai',
          array(
              'header' => 'Tanggal Lahir',
              'value' => '$data->tgl_lahirpegawai',
-
+             'filter' => false,
          ),
          'alamat_pegawai',
          ),
