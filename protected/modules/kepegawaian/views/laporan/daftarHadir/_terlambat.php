@@ -7,13 +7,21 @@
     $cr->compare('pegawai_id', $pegawai_id);
     $cr->addCondition('statusscan_id=:p1');
     $cr->params[':p1'] = $statusscan_id;    
-    $pr = PresensiT::model()->findAll($cr);    
+    $pr = PresensiT::model()->findAll($cr);   
+    
+    $shift = KPPresensiT::model()->getShiftId($pegawai_id);
+       
     if (empty($pr)){echo "-";
     }else{         
         $total = 0;
         
-        foreach ($pr as $pr):
-            $tepat = strtotime(date('Y-m-d',strtotime($pr->tglpresensi))." 08:15:00");
+        foreach ($pr as $pr):    
+            if (count($shift)>0){
+                $tepat = strtotime(date('Y-m-d',strtotime($pr->tglpresensi)).$shift->shift_jamawal);
+            }else{
+                 $tepat = strtotime(date('Y-m-d',strtotime($pr->tglpresensi))." 08:15:00");
+            } 
+           
             $masuk = strtotime(date('Y-m-d H:i:s',strtotime($pr->tglpresensi)));
             if ($masuk < $tepat){
                 $masuk = $tepat;

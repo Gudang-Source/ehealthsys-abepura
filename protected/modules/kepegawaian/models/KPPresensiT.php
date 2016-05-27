@@ -10,10 +10,14 @@ class KPPresensiT extends PresensiT {
     public $kelompokpegawai_id;
     public $jabatan_id;
     
+    
     public static function model($class = __CLASS__){
         return parent::model($class);
-    }
         
+    }    
+    
+    
+   
     public function search()
     {
             // Warning: Please modify the following code to remove attributes that
@@ -92,9 +96,9 @@ class KPPresensiT extends PresensiT {
     public function detailPresensi()
     {
         $criteria=new CDbCriteria;
-        $criteria->select = 'date(t.tglpresensi) as datepresensi, t.pegawai_id, t.no_fingerprint';
+        $criteria->select = 'date(t.tglpresensi) as datepresensi, t.pegawai_id, t.no_fingerprint, t.statuskehadiran_id';
         $criteria->order = 'date(t.tglpresensi)';
-        $criteria->group = 'date(t.tglpresensi), t.pegawai_id, t.no_fingerprint';
+        $criteria->group = 'date(t.tglpresensi), t.pegawai_id, t.no_fingerprint, t.statuskehadiran_id';
         $criteria->addBetweenCondition('DATE(tglpresensi)', $this->tglpresensi, $this->tglpresensi_akhir);
         $criteria->compare('pegawai_id',$this->pegawai_id);       
         return new CActiveDataProvider($this,
@@ -107,9 +111,9 @@ class KPPresensiT extends PresensiT {
     public function printDetailPresensi()
     {
         $criteria=new CDbCriteria;
-        $criteria->select = 'date(t.tglpresensi) as datepresensi, t.pegawai_id, t.no_fingerprint';
+        $criteria->select = 'date(t.tglpresensi) as datepresensi, t.pegawai_id, t.no_fingerprint, t.statuskehadiran_id';
         $criteria->order = 't.pegawai_id, date(t.tglpresensi)';
-        $criteria->group = 'date(t.tglpresensi), t.pegawai_id, t.no_fingerprint';
+        $criteria->group = 'date(t.tglpresensi), t.pegawai_id, t.no_fingerprint, t.statuskehadiran_id';
         $criteria->compare('pegawai_id',$this->pegawai_id);
         $criteria->addBetweenCondition('DATE(tglpresensi)', $this->tglpresensi, $this->tglpresensi_akhir);
         return new CActiveDataProvider($this,
@@ -125,9 +129,9 @@ class KPPresensiT extends PresensiT {
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
         $criteria=new CDbCriteria;
-        $criteria->select = 'date(t.tglpresensi) as datepresensi, t.pegawai_id, t.no_fingerprint';
+        $criteria->select = 'date(t.tglpresensi) as datepresensi, t.pegawai_id, t.no_fingerprint, t.statuskehadiran_id';
         $criteria->order = 't.pegawai_id, date(t.tglpresensi)';
-        $criteria->group = 'date(t.tglpresensi), t.pegawai_id, t.no_fingerprint';
+        $criteria->group = 'date(t.tglpresensi), t.pegawai_id, t.no_fingerprint, t.statuskehadiran_id';
         $criteria->join = 'INNER JOIN pegawai_m ON pegawai_m.pegawai_id=t.pegawai_id';
         $criteria->addBetweenCondition('DATE(tglpresensi)',$this->tglpresensi, $this->tglpresensi_akhir);
         $criteria->compare('LOWER(pegawai_m.nama_pegawai)',strtolower($this->nama_pegawai),true);
@@ -174,14 +178,21 @@ class KPPresensiT extends PresensiT {
         ));
     }
     
-    public function getTerlambat()
-    {
+    public function getTerlambat($tglpresensi, $jamkerjamasuk)
+    {        
+        $tepat = strtotime($tglpresensi);
+        $masuk = strtotime(date('Y-m-d',  strtotime($tglpresensi)).' '.$jamkerjamasuk);
+        
+        return round(($tepat - $masuk) / 60);
         //$this->jamkerjamasuk
     }
     
-    public function getPulangAwal()
+    public function getPulangAwal($tglpresensi, $jamkerjamasuk)
     {
+        $tepat = strtotime($tglpresensi);
+        $pulang = strtotime(date('Y-m-d',  strtotime($tglpresensi)).' '.$jamkerjamasuk);
         
+        return round(($pulang - $tepat) / 60);
     }
         
                 public function getStatusItems()
@@ -190,5 +201,11 @@ class KPPresensiT extends PresensiT {
                 }
     public function getNamaModel(){
         return __CLASS__;
+    }
+    
+    public function getShiftId($pegawai_id){
+        $shift_id = KPPegawaiM::model()->findByPk($pegawai_id)->shift_id;
+        
+        return KPShiftM::model()->findByPk($shift_id);
     }
 }

@@ -115,7 +115,10 @@
                     'pegawai.nomorindukpegawai',
                     'pegawai.nama_pegawai',                    
                     //'statusscan.statusscan_nama',
-
+                    array(
+                        'header' => 'Shift',
+                        'name' => 'pegawai.shift.shift_nama',
+                    ),
                     array(
                         'name'=>'tglpresensi',
                         'value'=>'MyFormatter::formatDateTimeForUser($data->tglpresensi);'
@@ -126,6 +129,7 @@
                             $cr = new CDbCriteria();
                             $cr->compare('tglpresensi::date', $data->tglpresensi);
                             $cr->compare('pegawai_id', $data->pegawai_id);
+                            $cr->compare('statuskehadiran_id', $data->statuskehadiran_id);
                             $cr->addCondition('statusscan_id=:p1');
                             $cr->params[':p1'] = Params::STATUSSCAN_MASUK;
                             $pr = PresensiT::model()->find($cr);
@@ -173,14 +177,25 @@
                             $jammasuk = strtotime(date('H:i:s', strtotime($pr->tglpresensi)));
                                                        
                             //return $pr1->jam;
-                            $tepat = strtotime(date('Y-m-d',strtotime($pr->tglpresensi))." 08:15:00");
+                            $shift = $data->getShiftId($data->pegawai_id);
+                            if (count($shift)>0){
+                                $tepat = strtotime(date('Y-m-d',strtotime($pr->tglpresensi)).$shift->shift_jamawal);
+                            }else{
+                                $tepat = strtotime(date('Y-m-d',strtotime($pr->tglpresensi))." 08:15:00");
+                            }                            
                             $masuk = strtotime(date('Y-m-d H:i:s',strtotime($pr->tglpresensi)));
                             $jam = floor(round(abs($masuk - $tepat) / 60,2));
                             
-                            if ($masuk < $tepat){
-                                return "0 Menit";
-                            }else{
-                                return $jam.' Menit';
+                            if ($data->statuskehadiran_id == Params::STATUSKEHADIRAN_HADIR)
+                            {    
+                                if ($masuk < $tepat){
+                                    return "0 Menit";
+                                }else{
+                                    return $jam.' Menit';
+                                }
+                            }
+                            else{
+                                return '-';
                             }
                                                             
                         },
@@ -193,16 +208,26 @@
                             $pr = PresensiT::model()->find($cr);
                             if (empty($pr)) return "-";
                             
-                            $tepat = strtotime(date('Y-m-d',strtotime($pr->tglpresensi))." 15:00:00");
+                            $shift = $data->getShiftId($data->pegawai_id);
+                            if (count($shift)>0){
+                                $tepat = strtotime(date('Y-m-d',strtotime($pr->tglpresensi)).$shift->shift_jamakhir);
+                            }else{
+                                $tepat = strtotime(date('Y-m-d',strtotime($pr->tglpresensi))." 15:00:00");
+                            } 
+                            
                             $pulang = strtotime(date('Y-m-d H:i:s',strtotime($pr->tglpresensi)));
                             $jam = floor(round(abs($tepat - $pulang) / 60,2));
                             
-                            if ($pulang > $tepat){
-                                return "0 Menit";
+                            if ($data->statuskehadiran_id == Params::STATUSKEHADIRAN_HADIR)
+                            {
+                                if ($pulang > $tepat){
+                                    return "0 Menit";
+                                }else{
+                                    return $jam.' Menit';
+                                }
                             }else{
-                                return $jam.' Menit';
+                                return '-';
                             }
-                            
                         },
                         'htmlOptions' => array('style'=>'text-align:center;')
                     ),
