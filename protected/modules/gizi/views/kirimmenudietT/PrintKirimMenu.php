@@ -163,7 +163,7 @@ echo $this->renderPartial('application.views.headerReport.headerDefault', array(
 <table width='100%'>
 	<tr>
 		<td width="50%"></td>
-		<td align="center" width="50%"><?php echo Yii::app()->user->getState('kabupaten_nama').", ".$format->formatDateTimeId(date('Y-m-d H:i:s')); ?></td>
+		<td align="center" width="50%"><?php echo Yii::app()->user->getState('kecamatan_nama').", ".$format->formatDateTimeId(date('Y-m-d H:i:s')); ?></td>
 	</tr>
 	<tr>
 		<td align="center" width="50%">&nbsp;&nbsp;&nbsp;&nbsp;</td>
