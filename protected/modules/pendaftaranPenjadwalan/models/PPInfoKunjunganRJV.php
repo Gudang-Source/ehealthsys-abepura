@@ -102,7 +102,8 @@ class PPInfoKunjunganRJV extends InfokunjunganrjV
 //		$criteria->compare('LOWER(pendidikan_nama)',strtolower($this->pendidikan_nama),true);
 //		$criteria->compare('LOWER(suku_nama)',strtolower($this->suku_nama),true);
 		$criteria->compare('LOWER(t.jeniskasuspenyakit_nama)',strtolower($this->jeniskasuspenyakit_nama),true);
-		$criteria->order = 't.tgl_pendaftaran DESC';
+		$criteria->compare('t.create_loginpemakai_id', $this->create_loginpemakai_id);
+                $criteria->order = 't.tgl_pendaftaran DESC';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
