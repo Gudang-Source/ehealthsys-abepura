@@ -98,6 +98,25 @@ class SAPasienM extends PasienM
 			'criteria'=>$criteria,
 		));
     }
+    
+    public function searchPasienNoUser()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria=new CDbCriteria;                
+		$criteria->compare('no_rekam_medik',$this->no_rekam_medik);				
+		$criteria->compare('LOWER(nama_pasien)',strtolower($this->nama_pasien),true);
+		$criteria->compare('LOWER(jeniskelamin)',strtolower($this->jeniskelamin),true);
+                $criteria->compare('LOWER(alamat_pasien)',strtolower($this->alamat_pasien),true);                
+                $criteria->addCondition("loginpemakai_id is null ");          
+		//$criteria->compare('pasien_aktif',true);
+		
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+                       
+				));
+	}
 	
         public function searchDialogRM() {
             $provider = $this->searchDialog();

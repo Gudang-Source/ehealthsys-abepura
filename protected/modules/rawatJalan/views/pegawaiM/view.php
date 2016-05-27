@@ -463,6 +463,14 @@
                                     <?php echo $format->formatDateTimeForUser($model->tglditerima);?>
                                 </td>   
                             </tr>
+                             <tr>
+                                <td width="20%"> 
+                                    <?php echo CHtml::label('<b>'.$model->getAttributeLabel('surattandaregistrasi').'</b>',$model->getAttributeLabel('unit_perusahaan'));?>
+                                </td>
+                                <td width="30%">
+                                    <?php echo $model->surattandaregistrasi;?>
+                                </td>   
+                            </tr>    
                     </table>
             </fieldset>   
         </div>
