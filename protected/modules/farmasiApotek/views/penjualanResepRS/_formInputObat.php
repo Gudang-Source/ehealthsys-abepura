@@ -209,7 +209,7 @@
                                 <div class="control-group ">
                                         <label class="control-label" for="qty">Jumlah Obat</label>
                                         <div class="controls">
-                                                <?php echo CHtml::textField('qtyRacik', '', array('readonly'=>true,'onkeyup'=>'$("#qty").val($(this).val());','onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'float',"rel"=>"tooltip","title"=>"Jumlah Obat = Permintaan Dosis X Jumlah Permintaan / Kekuatan",'style'=>'width:50px;')) ?>
+                                                <?php echo CHtml::textField('qtyRacik', '', array('readonly'=>true,'onkeyup'=>'$("#qty").val($(this).val());','onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'float2',"rel"=>"tooltip","title"=>"Jumlah Obat = Permintaan Dosis X Jumlah Permintaan / Kekuatan",'style'=>'width:50px;')) ?>
                                         </div>
                                 </div>
                         </fieldset>
@@ -229,7 +229,7 @@
                         </div>
 
 
-        <!--<div style='border:1px solid #cccccc; border-radius:2px;padding:10px; width: 42%;float:right;margin-top:-70px;'>-->
+        <!--<div style='border:1px solid #cccccc; border-radius:2px;padding:10px; width: 42%;float2:right;margin-top:-70px;'>-->
         <!--<font style='font-size:9pt'>Keterangan : </font><br>-->
         <!--<font style='font-size:8pt'>Jumlah = Permintaan*Jumlah Kemasan/Kekuatan</font>-->
 </fieldset>
@@ -344,11 +344,31 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
                 ",
                ))'
         ),
+        array(
+            'header'=>'Jenis Obat Alkes',
+            'name'=>'jenisobatalkes_id',
+            'type'=>'raw',
+            'value'=>'(!empty($data->jenisobatalkes_id) ? $data->jenisobatalkes_nama : "")',
+            'filter'=>  CHtml::activeDropDownList($modObatDialog, 'jenisobatalkes_id', CHtml::listData(JenisobatalkesM::model()->findAll(array(
+                'condition'=>'jenisobatalkes_aktif = true',
+                'order'=>'jenisobatalkes_nama'
+            )), 'jenisobatalkes_id', 'jenisobatalkes_nama'), array('empty'=>'-- Pilih --')),
+        ),
+
+        array(
+            'name'=>'obatalkes_kategori',
+            'filter'=> CHtml::activeDropDownList($modObatDialog, 'obatalkes_kategori', LookupM::getItems('obatalkes_kategori'), array('empty'=>'-- Pilih --'))
+        ),
+        array(
+            'name'=>'obatalkes_golongan',
+            'filter'=> CHtml::activeDropDownList($modObatDialog, 'obatalkes_golongan', LookupM::getItems('obatalkes_golongan'), array('empty'=>'-- Pilih --'))
+        ),
         'obatalkes_kode',
         'obatalkes_nama',
         array(
-            'header' => 'Tanggal Kadaluarsa',
+            'header' => 'Tgl. Kadaluarsa',
             'name' => 'tglkadaluarsa',
+            'value' => 'MyFormatter::formatDateTimeForUser($data->tglkadaluarsa)',
             'filter' => '',
         ),
         array(

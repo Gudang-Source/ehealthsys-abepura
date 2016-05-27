@@ -86,7 +86,7 @@ function setInfoDokter(pegawai_id, nama_pegawai){
                 $("#photo-preview").attr('src',url);
             } 
             
-            $("#form-info > legend > .judul").html('Data Dokter '+data.nama_pegawai_lengkap);
+            $("#form-info > legend > .judul").html('Data Dokter '+data.nama_pegawai_lengkap + " ");
             $("#form-info > legend > .tombol").attr('style','display:true;');
             $("#form-info > .box").addClass("well").removeClass("box");
             
@@ -145,10 +145,10 @@ function cekObat(){
         }
         
         $(".animation-loading").removeClass("animation-loading");
-        $("form").find('.float').each(function(){
+        $("form").find('.float2').each(function(){
             $(this).val(formatFloat($(this).val()));
         });
-        $("form").find('.integer').each(function(){
+        $("form").find('.integer2').each(function(){
             $(this).val(formatInteger($(this).val()));
         });
     }

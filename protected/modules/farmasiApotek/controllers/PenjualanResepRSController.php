@@ -125,6 +125,7 @@ class PenjualanResepRSController extends MyAuthController
                         $modDetails[$i]->tglpelayanan = date("Y-m-d H:i:s");
                         $modDetails[$i]->r = "R/";
                         $modDetails[$i]->satuankecil_id = $oa->satuankecil_id;
+                        $modDetails[$i]->permintaan_oa = MyFormatter::formatNumberForDb($modDetails[$i]->permintaan_oa);
                         //$modDetails[$i]->qty_oa = $postDetail['qty_dilayani'];
 			//$modDetails[$i]->hargajual_oa = $postDetail['hargajual_reseptur'];
 			//$modDetails[$i]->harganetto_oa = $postDetail['harganetto_reseptur'];
@@ -143,6 +144,8 @@ class PenjualanResepRSController extends MyAuthController
                         //var_dump($modDetails[$i]->validate());
                         //var_dump($modDetails[$i]->getErrors());
                         //die;
+                        
+                        // var_dump($modDetails[$i]->validate(), $modDetails[$i]->errors, $modDetails[$i]->attributes);
                         
                         if ($modDetails[$i]->validate()) {
                             $this->obatalkespasientersimpan &= $modDetails[$i]->save();
@@ -184,8 +187,8 @@ class PenjualanResepRSController extends MyAuthController
                     }
                 }
                 */
-                //var_dump($this->stokobatalkestersimpan);
-                //die;
+                // var_dump($this->obatalkespasientersimpan, $this->stokobatalkestersimpan);
+                // die;
                 try {
                     if($this->obatalkespasientersimpan&&$this->stokobatalkestersimpan){
                          // SMS GATEWAY
@@ -222,7 +225,7 @@ class PenjualanResepRSController extends MyAuthController
                         $transaction->rollback();
                         Yii::app()->user->setFlash('error',"Data detail penjualan resep gagal disimpan !");
                         if(!$this->stokobatalkestersimpan){
-                            Yii::app()->user->setFlash('error',"Data ddetail penjualan resep gagal disimpan ! Stok obat berikut tidak mencukupi !:"); //.$obathabis);
+                            Yii::app()->user->setFlash('error',"Data detail penjualan resep gagal disimpan ! Stok obat berikut tidak mencukupi !:"); //.$obathabis);
                         }
                     }
                 } catch (Exception $e) {
@@ -629,8 +632,8 @@ class PenjualanResepRSController extends MyAuthController
     {
         if(Yii::app()->request->isAjaxRequest) { 
             $obatalkes_id = $_POST['obatalkes_id'];
-            $jumlah = $_POST['jumlah'];
-			$therapiobat_id = isset($_POST['therapiobat_id'])?$_POST['therapiobat_id']:null;
+            $jumlah = str_replace(",",".",trim($_POST['jumlah']));
+            $therapiobat_id = isset($_POST['therapiobat_id'])?$_POST['therapiobat_id']:null;
             $form = "";
             $pesan = "";
             $format = new MyFormatter();
