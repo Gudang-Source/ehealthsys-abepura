@@ -1,3 +1,5 @@
+<div class="white-container">
+    <legend class="rim2">Ganti <b>Kata Kunci</b></legend>
 <style>
     .password_strength {
         margin-left: 10px;
@@ -36,6 +38,9 @@
             <?php 
                         echo $form->errorSummary($model); 
             ?>
+        <?php
+                echo $form->textFieldRow($model,'nama_pemakai',array('readonly'=>true));
+    ?>
             <div class="control-group">
                 <?php echo $form->labelEx($model,'old_password',array('class'=>'control-label required')); ?>
                 <div class="controls">
@@ -60,6 +65,7 @@
             </div>
 
 <?php $this->endWidget(); ?>
+        </div>
 <?php
 $js = <<< JSCRIPT
    kosongkanPassword();
