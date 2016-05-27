@@ -111,6 +111,7 @@ class PenjualanResepUmumController extends PenjualanResepRSController{
                         $modDetails[$i]->tglpelayanan = date("Y-m-d H:i:s");
                         $modDetails[$i]->r = "R/";
                         $modDetails[$i]->satuankecil_id = $oa->satuankecil_id;
+                        $modDetails[$i]->permintaan_oa = MyFormatter::formatNumberForDb($modDetails[$i]->permintaan_oa);
                         //$modDetails[$i]->qty_oa = $postDetail['qty_dilayani'];
 			//$modDetails[$i]->hargajual_oa = $postDetail['hargajual_reseptur'];
 			//$modDetails[$i]->harganetto_oa = $postDetail['harganetto_reseptur'];
@@ -250,31 +251,34 @@ class PenjualanResepUmumController extends PenjualanResepRSController{
                 if(isset($loadPasien)){
                     $modPasien = $loadPasien;
                     $modPasien->attributes = $_POST['FAPasienM'];
+                    $modPasien->tanggal_lahir = MyFormatter::formatDateTimeForDb($modPasien->tanggal_lahir);
                     $modPasien->update_time = date("Y-m-d H:i:s");
                     $modPasien->update_loginpemakai_id = Yii::app()->user->id;
                     $modPasien->update();
                 }
             }
+        } else {
+            $modPasien->attributes = $post;
+            $modPasien->tgl_rekam_medik = date('Y-m-d H:i:s');
+            $modPasien->tanggal_lahir = $format->dateTimeForDb($modPasien->tanggal_lahir);
+            $modPasien->no_rekam_medik = MyGenerator::noRekamMedik(Yii::app()->user->getState('mr_apotik'),'TRUE');
+            $modPasien->statusrekammedis = Params::STATUSREKAMMEDIS_AKTIF; 
+            $modPasien->kelompokumur_id = CustomFunction::getKelompokUmur($modPasien->tanggal_lahir);
+            $modPasien->ispasienluar = true;
+            $modPasien->profilrs_id = Yii::app()->user->getState('profilrs_id');
+            $modPasien->propinsi_id = Yii::app()->user->getState('propinsi_id');
+            $modPasien->kabupaten_id = Yii::app()->user->getState('kabupaten_id');
+            $modPasien->kecamatan_id = Yii::app()->user->getState('kecamatan_id');
+            $modPasien->agama = Params::DEFAULT_AGAMA;
+            $modPasien->warga_negara = Params::DEFAULT_WARGANEGARA;
+            $modPasien->create_ruangan = Yii::app()->user->getState('ruangan_id');
+            $modPasien->create_time = date("Y-m-d H:i:s");
+            $modPasien->create_loginpemakai_id = Yii::app()->user->id;
+
+
+            $modPasien->save();
         }
-        $modPasien->attributes = $post;
-        $modPasien->tgl_rekam_medik = date('Y-m-d H:i:s');
-        $modPasien->tanggal_lahir = $format->dateTimeForDb($modPasien->tanggal_lahir);
-        $modPasien->no_rekam_medik = MyGenerator::noRekamMedik(Yii::app()->user->getState('mr_apotik'),'TRUE');
-        $modPasien->statusrekammedis = Params::STATUSREKAMMEDIS_AKTIF; 
-        $modPasien->kelompokumur_id = CustomFunction::getKelompokUmur($modPasien->tanggal_lahir);
-        $modPasien->ispasienluar = true;
-        $modPasien->profilrs_id = Yii::app()->user->getState('profilrs_id');
-        $modPasien->propinsi_id = Yii::app()->user->getState('propinsi_id');
-        $modPasien->kabupaten_id = Yii::app()->user->getState('kabupaten_id');
-        $modPasien->kecamatan_id = Yii::app()->user->getState('kecamatan_id');
-        $modPasien->agama = Params::DEFAULT_AGAMA;
-        $modPasien->warga_negara = Params::DEFAULT_WARGANEGARA;
-        $modPasien->create_ruangan = Yii::app()->user->getState('ruangan_id');
-        $modPasien->create_time = date("Y-m-d H:i:s");
-        $modPasien->create_loginpemakai_id = Yii::app()->user->id;
         
-        
-        $modPasien->save();
         return $modPasien;
     }
     
