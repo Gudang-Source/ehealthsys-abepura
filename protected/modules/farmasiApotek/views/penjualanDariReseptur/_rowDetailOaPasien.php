@@ -42,10 +42,10 @@ $satuan = !empty($modObatAlkesPasien->obatalkes->satuankecil_id) ? $modObatAlkes
 			<span name="[ii][satuankecil_nama]"><?php echo (!empty($modObatAlkesPasien->obatalkes->satuankecil_id) ? $modObatAlkesPasien->obatalkes->satuankecil->satuankecil_nama : "") ?></span>
 		</td-->
 		<td>
-			<?php echo CHtml::activeTextField($modObatAlkesPasien, '[ii]hargajual_oa',array('readonly'=>true,'style'=>'width:60px;', 'class'=>'integer')); ?>
+			<?php echo CHtml::activeTextField($modObatAlkesPasien, '[ii]hargajual_oa',array('readonly'=>true,'style'=>'width:60px;', 'class'=>'integer2')); ?>
 		</td>
 		<td>
-			<?php echo CHtml::activeTextField($modObatAlkesPasien, '[ii]subtotal',array('readonly'=>true,'style'=>'width:60px;', 'class'=>'integer','value'=>$modObatAlkesPasien->qty_oa*$modObatAlkesPasien->hargajual_oa)); ?>
+			<?php echo CHtml::activeTextField($modObatAlkesPasien, '[ii]subtotal',array('readonly'=>true,'style'=>'width:60px;', 'class'=>'integer2','value'=>$modObatAlkesPasien->qty_oa*$modObatAlkesPasien->hargajual_oa)); ?>
 		</td>
 		
 		<td>
