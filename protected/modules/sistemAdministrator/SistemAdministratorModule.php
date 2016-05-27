@@ -2,7 +2,7 @@
 
 class SistemAdministratorModule extends CWebModule
 {
-        public $defaultController = 'dashboard';
+        public $defaultController = 'moduleDashboardSA';
 //    RND-6125
         public $kelompokMenu = array();
         public $menu = array();
@@ -43,10 +43,10 @@ class SistemAdministratorModule extends CWebModule
 //      RND-6125
 			
 			if(isset(Yii::app()->session['modul_id'])){
-				if(Yii::app()->session['modul_id'] != 1){ //jika bukan modul sis admin
+				//if(Yii::app()->session['modul_id'] != 1){ //jika bukan modul sis admin
 					$this->kelompokMenu = KelompokmenuK::model()->findAllAktif();
-					$this->menu = MenumodulK::model()->findAllAktif(array('modulk.modul_id'=>Yii::app()->session['modul_id'],'t.kelmenu_id'=>Yii::app()->session['kelMenu']));
-				}
+					$this->menu = MenumodulK::model()->findAllAktif(array('modulk.modul_id'=>Yii::app()->session['modul_id']));
+				//}
 			}
 
 			return true;
