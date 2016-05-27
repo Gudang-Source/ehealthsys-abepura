@@ -123,6 +123,10 @@ class PenjualanResepUmumController extends PenjualanResepRSController{
                         $modDetails[$i]->kelaspelayanan_id = $modPenjualan->kelaspelayanan_id;
                         $modDetails[$i]->pasienadmisi_id = $modPenjualan->pasienadmisi_id;
                         
+                        if (empty($modDetails[$i]->pegawai_id) || $modDetails[$i]->pegawai_id == 0) {
+                            $modDetails[$i]->pegawai_id = Yii::app()->user->getState('pegawai_id');
+                        }
+                        
                         //var_dump($postDetail);
                         //var_dump($modPenjualan->attributes);
                         //var_dump($modDetails[$i]->attributes);
