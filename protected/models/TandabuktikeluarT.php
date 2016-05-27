@@ -90,6 +90,14 @@ class TandabuktikeluarT extends CActiveRecord
 			array('alamatpenerima, keterangan_pengeluaran, update_time, update_loginpemakai_id', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
+                    
+                        array('create_time','default','value'=>date('Y-m-d H:i:s'),'setOnEmpty'=>false,'on'=>'insert'),
+                        array('update_time','default','value'=>date('Y-m-d H:i:s'),'setOnEmpty'=>false,'on'=>'update,insert'),
+                        array('create_loginpemakai_id','default','value'=>Yii::app()->user->id,'on'=>'insert'),
+                        array('update_loginpemakai_id','default','value'=>Yii::app()->user->id,'on'=>'update,insert'),
+                        array('create_ruangan','default','value'=>Yii::app()->user->getState('ruangan_id'),'on'=>'insert'),
+                    
+                    
 			array('tandabuktikeluar_id, returbayarpelayanan_id, pembatalanuangmuka_id, shift_id, pengeluaranumum_id, batalbayarsupplier_id, uangmukabeli_id, batalkeluarumum_id, bayarkesupplier_id, ruangan_id, tahun, tglkaskeluar, nokaskeluar, carabayarkeluar, melalubank, denganrekening, atasnamarekening, namapenerima, alamatpenerima, untukpembayaran, jmlkaskeluar, biayaadministrasi, keterangan_pengeluaran, create_time, update_time, create_loginpemakai_id, update_loginpemakai_id, create_ruangan', 'safe', 'on'=>'search'),
 		);
 	}
