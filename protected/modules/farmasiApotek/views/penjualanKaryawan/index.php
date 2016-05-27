@@ -19,7 +19,7 @@
     <?php
     if(isset($_GET['sukses'])){
         if($_GET['sukses'] == 1){
-            Yii::app()->user->setFlash("success","Tansaksi Penjualan Pegawai berhasil disimpan!");
+            Yii::app()->user->setFlash("success","Transaksi Penjualan Pegawai berhasil disimpan!");
         }
     }
     ?>
