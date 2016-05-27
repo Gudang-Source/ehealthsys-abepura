@@ -1,3 +1,6 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
 <script type="text/javascript">
 /**
  * set form info pasien
@@ -25,7 +28,7 @@ function setInfoPegawai(pegawai_id,nama_pegawai){
                 var url = "<?php echo Params::urlPegawaiDirectory() . 'no_photo.jpeg'; ?>";
                 $("#photo-preview").attr('src',url);
             }              
-            $("#form-info > legend > .judul").html('Data Pegawai '+data.nama_pegawai_lengkap);
+            $("#form-info > legend > .judul").html('Data Pegawai '+data.nama_pegawai_lengkap + " ");
             $("#form-info > legend > .tombol").attr('style','display:true;');
             $("#form-info > .box").addClass("well").removeClass("box");
             
@@ -145,10 +148,10 @@ function cekObat(){
         }
         
         $(".animation-loading").removeClass("animation-loading");
-        $("form").find('.float').each(function(){
+        $("form").find('.float2').each(function(){
             $(this).val(formatFloat($(this).val()));
         });
-        $("form").find('.integer').each(function(){
+        $("form").find('.integer2').each(function(){
             $(this).val(formatInteger($(this).val()));
         });
     }

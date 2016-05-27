@@ -99,6 +99,11 @@ class PenjualanDokterController extends PenjualanResepRSController {
                     foreach ($_POST['FAObatalkesPasienT'] AS $i => $postDetail) {
                         $modDetails[$i] = new FAObatalkesPasienT;
                         $modDetails[$i]->attributes = $postDetail;
+                        
+                        if (empty($modDetails[$i]->pegawai_id) || $modDetails[$i]->pegawai_id == 0) {
+                            $modDetails[$i]->pegawai_id = Yii::app()->user->getState('pegawai_id');
+                        }
+                        
                         $modDetails[$i] = $this->simpanObatAlkesPasien2($modPasien, $modPenjualan, $postDetail);
                         $this->simpanStokObatAlkesOut2($modDetails[$i]);
                         /*
@@ -269,6 +274,7 @@ class PenjualanDokterController extends PenjualanResepRSController {
         $modObatAlkes->create_loginpemakai_id = Yii::app()->user->id;
         $modObatAlkes->create_ruangan = Yii::app()->user->getState('ruangan_id');
         $modObatAlkes->penjualanresep_id = $modPenjualan->penjualanresep_id;
+        $modObatAlkes->permintaan_oa = MyFormatter::formatNumberForDb($modObatAlkes->permintaan_oa);
         //$modObatAlkes->qty_oa = $stokOa->qtystok_terpakai;
         //$modObatAlkes->jmlstok = $stokOa->qtystok;
         //$modObatAlkes->harganetto_oa = $stokOa->HPP;
@@ -279,7 +285,7 @@ class PenjualanDokterController extends PenjualanResepRSController {
                 $modObatAlkes->sumberdana_id = $postObatAlkesPasien['sumberdana_id'];
                 $modObatAlkes->r = $postObatAlkesPasien['r'];
                 $modObatAlkes->rke = $postObatAlkesPasien['rke'];
-                $modObatAlkes->permintaan_oa = $postObatAlkesPasien['permintaan_oa'];
+                //$modObatAlkes->permintaan_oa = $postObatAlkesPasien['permintaan_oa'];
                 $modObatAlkes->kekuatan_oa = $postObatAlkesPasien['kekuatan_oa'];
                 $modObatAlkes->jmlkemasan_oa = $postObatAlkesPasien['jmlkemasan_oa'];
 //                $modObatAlkes->biayaservice = $postDetail['biayaservice'];

@@ -111,8 +111,8 @@ if(isset($_GET['sukses'])){
 				<td colspan="2"></td>
 				<td style="text-align: right;"><strong>Total</strong></td>
 				<td><strong>
-					<?php // echo CHtml::textField('grandtotal','',array('readonly'=>true,'class'=>'span2 integer', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
-					<?php echo $form->textField($modPenjualan, 'totalhargajual',array('class'=>'integer','style'=>'width:60px;', 'readonly'=>'true', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+					<?php // echo CHtml::textField('grandtotal','',array('readonly'=>true,'class'=>'span2 integer2', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+					<?php echo $form->textField($modPenjualan, 'totalhargajual',array('class'=>'integer2','style'=>'width:60px;', 'readonly'=>'true', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
 				</strong></td>
 				<td  colspan="4"></td>
 				<td style="text-align: center;">
@@ -128,17 +128,17 @@ if(isset($_GET['sukses'])){
 	<div class="row-fluid">
 		<div class="span4"></div>
 		<div class="span4">
-			<?php echo $form->hiddenField($modPenjualan, 'totharganetto',array('class'=>'integer', 'readonly'=>'true')); ?>
-			<?php echo $form->hiddenField($modPenjualan, 'totaltarifservice',array('class'=>'integer', 'readonly'=>'true')); ?>
-			<?php echo $form->hiddenField($modPenjualan, 'biayaadministrasi',array('class'=>'integer', 'readonly'=>'true')); ?>
-			<?php echo $form->hiddenField($modPenjualan, 'biayakonseling',array('class'=>'integer', 'readonly'=>'true')); ?>
-			<?php echo $form->hiddenField($modPenjualan, 'pembulatanharga',array('class'=>'integer', 'readonly'=>'true')); ?>
-			<?php echo $form->hiddenField($modPenjualan, 'jasadokterresep',array('class'=>'integer', 'readonly'=>'true')); ?>
-			<?php echo $form->hiddenField($modPenjualan, 'discount',array('class'=>'integer', 'readonly'=>'true')); ?>
-			<?php echo $form->hiddenField($modPenjualan, 'subsidiasuransi',array('class'=>'integer', 'readonly'=>'true')); ?>
-			<?php echo $form->hiddenField($modPenjualan, 'subsidipemerintah',array('class'=>'integer', 'readonly'=>'true')); ?>
-			<?php echo $form->hiddenField($modPenjualan, 'subsidirs',array('class'=>'integer', 'readonly'=>'true')); ?>
-			<?php echo $form->hiddenField($modPenjualan, 'iurbiaya',array('class'=>'integer', 'readonly'=>'true')); ?>
+			<?php echo $form->hiddenField($modPenjualan, 'totharganetto',array('class'=>'integer2', 'readonly'=>'true')); ?>
+			<?php echo $form->hiddenField($modPenjualan, 'totaltarifservice',array('class'=>'integer2', 'readonly'=>'true')); ?>
+			<?php echo $form->hiddenField($modPenjualan, 'biayaadministrasi',array('class'=>'integer2', 'readonly'=>'true')); ?>
+			<?php echo $form->hiddenField($modPenjualan, 'biayakonseling',array('class'=>'integer2', 'readonly'=>'true')); ?>
+			<?php echo $form->hiddenField($modPenjualan, 'pembulatanharga',array('class'=>'integer2', 'readonly'=>'true')); ?>
+			<?php echo $form->hiddenField($modPenjualan, 'jasadokterresep',array('class'=>'integer2', 'readonly'=>'true')); ?>
+			<?php echo $form->hiddenField($modPenjualan, 'discount',array('class'=>'integer2', 'readonly'=>'true')); ?>
+			<?php echo $form->hiddenField($modPenjualan, 'subsidiasuransi',array('class'=>'integer2', 'readonly'=>'true')); ?>
+			<?php echo $form->hiddenField($modPenjualan, 'subsidipemerintah',array('class'=>'integer2', 'readonly'=>'true')); ?>
+			<?php echo $form->hiddenField($modPenjualan, 'subsidirs',array('class'=>'integer2', 'readonly'=>'true')); ?>
+			<?php echo $form->hiddenField($modPenjualan, 'iurbiaya',array('class'=>'integer2', 'readonly'=>'true')); ?>
 		</div>
 	</div>
 </div>

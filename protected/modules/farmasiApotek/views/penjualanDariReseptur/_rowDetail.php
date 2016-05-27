@@ -47,13 +47,13 @@ $satuan = !empty($modResepturDetail->obatalkes->satuankecil_id) ? $modResepturDe
 			<span name="[ii][satuankecil_nama]"><?php echo (!empty($modResepturDetail->obatalkes->satuankecil_id) ? $modResepturDetail->obatalkes->satuankecil->satuankecil_nama : "") ?></span>
 		</td>
 		<td>
-			<?php echo CHtml::activeTextField($modResepturDetail, '[ii]jmlstok',array('readonly'=>true,'style'=>'width:50px;','class'=>'integer')); ?>
+			<?php echo CHtml::activeTextField($modResepturDetail, '[ii]jmlstok',array('readonly'=>true,'style'=>'width:50px;','class'=>'integer2')); ?>
 		</td-->
 		<td>
-			<?php echo CHtml::activeTextField($modResepturDetail, '[ii]hargajual_reseptur',array('readonly'=>true,'style'=>'width:60px;', 'class'=>'integer')); ?>
+			<?php echo CHtml::activeTextField($modResepturDetail, '[ii]hargajual_reseptur',array('readonly'=>true,'style'=>'width:60px;', 'class'=>'integer2')); ?>
 		</td>
 		<td>
-			<?php echo CHtml::activeTextField($modResepturDetail, '[ii]subtotal',array('readonly'=>true,'style'=>'width:60px;', 'class'=>'integer','value'=>$modResepturDetail->qty_reseptur*$modResepturDetail->hargajual_reseptur)); ?>
+			<?php echo CHtml::activeTextField($modResepturDetail, '[ii]subtotal',array('readonly'=>true,'style'=>'width:60px;', 'class'=>'integer2','value'=>$modResepturDetail->qty_reseptur*$modResepturDetail->hargajual_reseptur)); ?>
 		</td>
 		
 		<td>
