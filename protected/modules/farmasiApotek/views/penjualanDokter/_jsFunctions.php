@@ -86,7 +86,7 @@ function setInfoDokter(pegawai_id, nama_pegawai){
                 $("#photo-preview").attr('src',url);
             } 
             
-            $("#form-info > legend > .judul").html('Data Dokter '+data.nama_pegawai_lengkap);
+            $("#form-info > legend > .judul").html('Data Dokter '+data.nama_pegawai_lengkap + " ");
             $("#form-info > legend > .tombol").attr('style','display:true;');
             $("#form-info > .box").addClass("well").removeClass("box");
             
