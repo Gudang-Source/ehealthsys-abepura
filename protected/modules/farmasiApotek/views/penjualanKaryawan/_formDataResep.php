@@ -64,7 +64,7 @@
             </div>
         </div>
         <?php
-        echo $form->hiddenField($modPenjualan, 'discount', array('class' => 'inputFormTabel lebar3 integer', 'readonly' => true, 'onkeyup' => 'hitungDiskonSemua();', 'onkeypress' => "return $(this).focusNextInputField(event)"));
+        echo $form->hiddenField($modPenjualan, 'discount', array('class' => 'inputFormTabel lebar3 integer2', 'readonly' => true, 'onkeyup' => 'hitungDiskonSemua();', 'onkeypress' => "return $(this).focusNextInputField(event)"));
         ?>
     </div>
     <div class="span6">
@@ -90,7 +90,7 @@
         <div class="control-group ">
             <?php echo $form->labelEx($modPenjualan, 'lamapelayanan', array('class' => 'control-label')) ?>
             <div class="controls">
-                <?php echo $form->textField($modPenjualan, 'lamapelayanan', array('class' => 'inputFormTabel lebar3 integer', 'readonly' => true, 'onkeypress' => "return $(this).focusNextInputField(event)")); ?> Detik
+                <?php echo $form->textField($modPenjualan, 'lamapelayanan', array('class' => 'inputFormTabel lebar3 integer2', 'readonly' => true, 'onkeypress' => "return $(this).focusNextInputField(event)")); ?> Detik
             </div> 
         </div>
         <?php
