@@ -499,7 +499,7 @@ class LoginpemakaiKController extends Controller
                  * fungsi untuk mengganti password login pemakai
                  * @param type $id integer
                  */
-                public function actionGantiPassword($id){
+               /* public function actionGantiPassword($id){
                     $model = $this->loadModel($id);
                     $prevUrl = Yii::app()->request->getUrlReferrer();
                     $format = new MyFormatter();
@@ -511,6 +511,49 @@ class LoginpemakaiKController extends Controller
                         $model->tglupdatelogin = date('Y-m-d');
                         $model->loginpemakai_update = 1;
                         $model->tglpembuatanlogin = empty($model->tglpembuatanlogin) ? null : $format->formatDateTimeForDb($model->tglpembuatanlogin);
+                        if ($model->validate())
+                        {
+                            if ($model->new_password !== '' && $model->old_password !=='')
+                            {
+                                  if($model->katakunci_pemakai == $model->encrypt($model->old_password)){
+                                     $model->katakunci_pemakai = $model->encrypt($model->new_password);
+                                  }else{
+                                      Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Password yang anda inputkan tidak sesuai dengan database.');
+                                      $this->redirect(array('GantiPassword','id'=>$model->loginpemakai_id));
+                                  }
+                             }
+                            if($model->update())
+                            {
+                                Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Password berhasil disimpan.');
+                                $this->redirect($_POST['prevUrl']);  
+                            }
+                            else
+                            {
+                                Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data Gagal Disimpan.');
+                                 $this->redirect(array('GantiPassword','id'=>$model->loginpemakai_id));
+                            }
+                        }
+                    }
+                        $this->render('gantiPassword',array(
+                            'model'=>$model,'prevUrl'=>$prevUrl,
+                    ));
+                    
+                    
+                }*/
+                public function actionGantiPassword($id=''){
+                    if(empty ($id))
+                        $id = Yii::app()->user->id;
+                    
+                    //echo $_SESSION['username'];
+                    //echo Yii::app()->user->name;
+                    //echo Yii::app()->session['instalasi_id'];
+                    //echo Yii::app()->user->getState('instalasi_id');
+                    $model = $this->loadModel($id);
+                    $prevUrl = Yii::app()->request->getUrlReferrer();
+                    if(isset ($_POST['LoginpemakaiK'])){
+                        $model->attributes=$_POST['LoginpemakaiK'];
+                        $model->old_password = $_POST['LoginpemakaiK']['old_password'];
+                        $model->setScenario('changePassword');
                         if ($model->validate())
                         {
                             if ($model->new_password !== '' && $model->old_password !=='')
