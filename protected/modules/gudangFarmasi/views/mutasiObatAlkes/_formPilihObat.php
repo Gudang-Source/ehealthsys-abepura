@@ -80,19 +80,23 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     ),
 ));
 $format = new MyFormatter();
-$modObatAlkes = new GFObatalkesM('searchDialogMutasi');
+$modObatAlkes = new GFInfostokobatalkesruanganV('searchDialogMutasi');
 $modObatAlkes->unsetAttributes();
-if(isset($_GET['GFObatalkesM'])){
-    $modObatAlkes->attributes = $_GET['GFObatalkesM'];
-    $modObatAlkes->is_nobatch_tglkadaluarsa = isset($_GET['GFObatalkesM']['is_nobatch_tglkadaluarsa']) ? $_GET['GFObatalkesM']['is_nobatch_tglkadaluarsa'] : null;
-    $modObatAlkes->jenisobatalkes_nama = isset($_GET['GFObatalkesM']['jenisobatalkes_nama']) ? $_GET['GFObatalkesM']['jenisobatalkes_nama'] : null;
-    $modObatAlkes->satuankecil_nama = isset($_GET['GFObatalkesM']['satuankecil_nama']) ? $_GET['GFObatalkesM']['satuankecil_nama'] : null;
-    $modObatAlkes->tglkadaluarsa = isset($_GET['GFObatalkesM']['tglkadaluarsa']) ? $format->formatDateTimeForDb($_GET['GFObatalkesM']['tglkadaluarsa']) : null;
+$modObatAlkes->ruangan_id = Yii::app()->user->getState('ruangan_id');
+if(isset($_GET['GFInfostokobatalkesruanganV'])){
+    $modObatAlkes->attributes = $_GET['GFInfostokobatalkesruanganV'];
+    $modObatAlkes->obatalkes_kode = isset($_GET['GFInfostokobatalkesruanganV']['obatalkes_kode']) ? $_GET['GFInfostokobatalkesruanganV']['obatalkes_kode'] : null;
+    $modObatAlkes->jenisobatalkes_nama = isset($_GET['GFInfostokobatalkesruanganV']['jenisobatalkes_nama']) ? $_GET['GFInfostokobatalkesruanganV']['jenisobatalkes_nama'] : null;
+    $modObatAlkes->satuankecil_nama = isset($_GET['GFInfostokobatalkesruanganV']['satuankecil_nama']) ? $_GET['GFInfostokobatalkesruanganV']['satuankecil_nama'] : null;
+    $modObatAlkes->tglkadaluarsa = isset($_GET['GFInfostokobatalkesruanganV']['tglkadaluarsa']) ? $format->formatDateTimeForDb($_GET['GFInfostokobatalkesruanganV']['tglkadaluarsa']) : null;
 }
+
+$provider = $modObatAlkes->searchDataObat();
+$provider->sort->defaultOrder = 'obatalkes_nama asc';
 
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'obatalkes-m-grid',
-	'dataProvider'=>$modObatAlkes->searchDialogMutasi(),
+	'dataProvider'=>$modObatAlkes->searchDataObat(),
 	'filter'=>$modObatAlkes,
 	'template'=>"{summary}\n{items}\n{pager}",
 	'itemsCssClass'=>'table table-striped table-bordered table-condensed',
@@ -128,11 +132,13 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'name'=>'obatalkes_golongan',
                     'filter'=> CHtml::activeDropDownList($modObatAlkes, 'obatalkes_golongan', LookupM::getItems('obatalkes_golongan'), array('empty'=>'-- Pilih --'))
                 ),
+                'obatalkes_kode',
                 'obatalkes_nama',
                 //'obatalkes_kategori',
                 //'obatalkes_golongan',
-                'nobatch',
-				array(
+                // 'nobatch',
+		array(
+                    'header'=>'Tgl Kadaluarsa',
                     'name'=>'tglkadaluarsa',
                     'type'=>'raw',
                     'value'=>'(!empty($data->tglkadaluarsa) ? MyFormatter::formatDateTimeForUser($data->tglkadaluarsa) : "")',
@@ -162,8 +168,33 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 //                ),
                 array(
                     'header'=>'Jumlah Stok',
-                    'type'=>'raw',
-                    'value'=>'$data->getStokObatRuanganPemesan()." ".$data->satuankecil->satuankecil_nama',
+                    'value'=>function($data) {
+                        //$stok = StokobatalkesT::model()->findAllByAttributes(array(
+                          //  'obatalkes_id'=>$data->obatalkes_id,
+                            //'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
+                        //));
+    
+                        $r = Yii::app()->user->getState('ruangan_id');
+    
+                        $criteria = new CDbCriteria();
+                        $criteria->compare('obatalkes_id',$data->obatalkes_id);
+                        if (Yii::app()->user->getState('ruangan_id') != Params::RUANGAN_ID_GUDANG_FARMASI)
+                        {
+                            $criteria->addCondition("ruangan_id = ".Yii::app()->user->getState('ruangan_id'));
+                        }
+                        $stok = StokobatalkesT::model()->findAll($criteria);
+                        $total = 0;
+                        foreach ($stok as $item) {
+                            $total += $item->qtystok_in - $item->qtystok_out;
+                        }
+                        $satuan = ($data->satuankecil_nama==null)?$data->satuankecil->satuankecil_nama:$data->satuankecil_nama;
+
+                        return $total." ".$satuan;
+
+                    },
+                    'htmlOptions'=>array(
+                        'style'=>'text-align: right;'
+                    )
                 ),
 
                 
