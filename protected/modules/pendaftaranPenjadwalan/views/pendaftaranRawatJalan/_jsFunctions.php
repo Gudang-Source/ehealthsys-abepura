@@ -1273,6 +1273,7 @@ function cekJamkespa() {
         $("#<?php echo CHtml::activeId($modAsuransiPasien, "nokartuasuransi"); ?>").val($("#<?php echo CHtml::activeId($modPasien, "no_rekam_medik"); ?>").val());
         $("#<?php echo CHtml::activeId($modAsuransiPasien, "namapemilikasuransi"); ?>").val($("#<?php echo CHtml::activeId($modPasien, "nama_pasien"); ?>").val());
         $("#<?php echo CHtml::activeId($modAsuransiPasien, "kelastanggunganasuransi_id"); ?>").val(<?php echo Params::KELASPELAYANAN_ID_KELAS_III; ?>);
+        $(".rb_kon").eq(0).change();
     } else {
         //$(".jks_spec").parents(".control-group").show();
         //$(".jks_spec").removeClass("not-required").addClass("required").parents(".control-group").show();
@@ -2079,6 +2080,11 @@ $( document ).ready(function(){
     });
     
     $("#form-bpjs .accordion-heading a").click(function()
+    {
+        return false;
+    });
+    
+    $("#form-asuransi .accordion-heading a").click(function()
     {
         return false;
     });
