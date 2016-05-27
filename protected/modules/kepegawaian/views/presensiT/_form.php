@@ -29,7 +29,7 @@ $this->widget('bootstrap.widgets.BootAlert');
             <?php echo $form->labelEx($model, 'tglpresensi', array('class' => 'control-label')); ?>
             <div class="controls">
             <?php   
-                $model->tglpresensi = (!empty($model->tglpresensi) ? date("d/m/Y",strtotime($model->tglpresensi)) : null);
+               // $model->tglpresensi = (!empty($model->tglpresensi) ? date("d/m/Y",strtotime($model->tglpresensi)) : null);
                 $this->widget('MyDateTimePicker',array(
                                         'model'=>$model,
                                         'attribute'=>'tglpresensi',
@@ -40,7 +40,7 @@ $this->widget('bootstrap.widgets.BootAlert');
                                             'maxDate' => 'd',
                                             'yearRange'=> "-150:+0",
                                         ),
-                                        'htmlOptions'=>array('placeholder'=>'00/00/0000','class'=>'dtPicker2 datemask', 'onkeyup'=>"return $(this).focusNextInputField(event)"
+                                        'htmlOptions'=>array('class'=>'dtPicker2', 'onkeyup'=>"return $(this).focusNextInputField(event)"
                                         ),
                 )); ?>
                 <?php echo $form->error($model, 'tglpresensi'); ?>
@@ -51,7 +51,7 @@ $this->widget('bootstrap.widgets.BootAlert');
             <div class="controls">
                 <?php
                     echo $form->dropDownList($model,'statuskehadiran_id', CHtml::listData(StatuskehadiranM::model()->findAll('statuskehadiran_aktif = true order by statuskehadiran_nama asc'), 'statuskehadiran_id', 'statuskehadiran_nama'), array('style'=>'width:100px','class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)", "empty"=>'-- Pilih --')); 
-                    echo $form->dropDownList($model,'statusscan_id', CHtml::listData(StatusscanM::model()->findAll('statusscan_aktif = true ORDER BY statusscan_nama ASC'), 'statusscan_id', 'statusscan_nama'), array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)",'style'=>'width:100px', "empty"=>'-- Pilih --'));
+                    echo $form->dropDownList($model,'statusscan_id', CHtml::listData(StatusscanM::model()->findAll('statusscan_aktif = true ORDER BY statusscan_nama ASC'), 'statusscan_id', 'statusscan_nama'), array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)",'style'=>'width:100px', "empty"=>'-- Pilih --','onchange'=>'cekJam();'));
                 ?>
             </div>
         </div>
@@ -129,6 +129,62 @@ $this->widget('bootstrap.widgets.BootAlert');
 
 <?php $this->endWidget(); ?>
 <script>
+function cekJam()
+{
+    var scan = $("#KPPresensiT_statusscan_id").val();
+    var datang = <?php echo Params::STATUSSCAN_DATANG; ?>;
+    var masuk = <?php echo Params::STATUSSCAN_MASUK; ?>;
+    var pulang = <?php echo Params::STATUSSCAN_PULANG; ?>;
+    var keluar = <?php echo Params::STATUSSCAN_KELUAR; ?>;
+    
+    if (scan ==  datang || scan == masuk)
+    {   //disabled                 
+        $("label[for=KPPresensiT_jamkerjamasuk]").find($("span[class=required]")).remove();
+        $("label[for=KPPresensiT_jamkerjamasuk]").append("<span class=required> *</span>");
+        $("label[for=KPPresensiT_jamkerjamasuk]").addClass("required");
+        
+        $("label[for=KPPresensiT_jamkerjapulang]").find($("span[class=required]")).remove();                   
+        $("label[for=KPPresensiT_jamkerjapulang]").removeClass('error required').addClass('notrequired');
+        
+        $("#KPPresensiT_jamkerjapulang").val('');         
+        
+        $(".control-group").removeClass('error').addClass('notrequired');
+        $("label[for=SABarangM_golongan_id]").removeClass('error required').addClass('notrequired');
+        $("#KPPresensiT_jamkerjapulang").removeClass('error').addClass('inputnotrequired');            
+    }
+    else if (scan ==  keluar || scan == pulang)      
+    {     
+        $("label[for=KPPresensiT_jamkerjapulang]").find($("span[class=required]")).remove();
+        $("label[for=KPPresensiT_jamkerjapulang]").append("<span class=required> *</span>");
+        $("label[for=KPPresensiT_jamkerjapulang]").addClass("required");
+        
+        $("label[for=KPPresensiT_jamkerjamasuk]").find($("span[class=required]")).remove();                   
+        $("label[for=KPPresensiT_jamkerjamasuk]").removeClass('error required').addClass('notrequired');
+        
+        $("#KPPresensiT_jamkerjamasuk").val('');
+        
+        $(".control-group").removeClass('error').addClass('notrequired');
+        $("label[for=KPPresensiT_jamkerjamasuk]").removeClass('error required').addClass('notrequired');
+        $("#KPPresensiT_jamkerjamasuk").removeClass('error').addClass('inputnotrequired'); 
+    }else{
+        $("label[for=KPPresensiT_jamkerjamasuk]").find($("span[class=required]")).remove();                   
+        $("label[for=KPPresensiT_jamkerjamasuk]").removeClass('error required').addClass('notrequired');
+        
+        $("label[for=KPPresensiT_jamkerjapulang]").find($("span[class=required]")).remove();                   
+        $("label[for=KPPresensiT_jamkerjapulang]").removeClass('error required').addClass('notrequired');
+        
+        $(".control-group").removeClass('error').addClass('notrequired');
+        $("label[for=KPPresensiT_jamkerjamasuk]").removeClass('error required').addClass('notrequired');
+        $("#KPPresensiT_jamkerjamasuk").removeClass('error').addClass('inputnotrequired'); 
+        $(".control-group").removeClass('error').addClass('notrequired');
+        $("label[for=SABarangM_golongan_id]").removeClass('error required').addClass('notrequired');
+        $("#KPPresensiT_jamkerjapulang").removeClass('error').addClass('inputnotrequired');  
+    }
+        
+    
+}
+    
+    
 function konfirmasi(){
   location.reload();     
 }

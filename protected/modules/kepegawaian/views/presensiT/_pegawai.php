@@ -8,7 +8,7 @@
                 <div class="control-group">
                     <?php echo CHtml::label('Nama Pegawai','namapegawai',array('class'=>'control-label')) ?>
                     <div class="controls">
-                            <?php echo $form->hiddenField($model,'pegawai_id',array('readonly'=>true,'id'=>'pegawai_id','onkeyup'=>"return $(this).focusNextInputField(event)")) ?>
+                            <?php echo $form->hiddenField($model,'pegawai_id',array('readonly'=>true,'id'=>'pegawai_id','onkeyup'=>"return $(this).focusNextInputField(event)")) ?>                        
                             <?php
                             
                                 $modul = ModulK::model()->findByAttributes(
@@ -16,7 +16,8 @@
                                 );
                                 $modul_id = (isset($modul['modul_id']) ? $modul['modul_id'] : '' );
                                 $this->widget('MyJuiAutoComplete',array(
-                                        'name'=>'namapegawai',
+                                        'attribute'=>'nama_pegawai',                                        
+                                        'model'=>$model,
                                         'sourceUrl'=> Yii::app()->createUrl('ActionAutoComplete/Pegawairiwayat'),
                                         'options'=>array(
                                            'showAnim'=>'fold',
@@ -35,7 +36,7 @@
                                             }',
 
                                         ),
-                                        'htmlOptions'=>array('onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span2 '),
+                                        'htmlOptions'=>array('onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span3 '),
                                         'tombolDialog'=>array('idDialog'=>'dialogPegawai','idTombol'=>'tombolPasienDialog'),
                             )); ?>
                     </div>
@@ -188,7 +189,7 @@ function getDataPegawai(params)
             $("#NIP").val(data.nomorindukpegawai);
             $("#nofingerprint").val(data.nofingerprint);
             $("#pegawai_id").val(data.pegawai_id);
-            $("#namapegawai").val(data.nama_pegawai);
+            $("#KPRegistrasifingerprint_nama_pegawai").val(data.nama_pegawai);
             $("#tempatlahir_pegawai").val(data.tempatlahir_pegawai);
             $("#tgl_lahirpegawai").val(data.tgl_lahirpegawai);
             $("#jabatan").val(data.jabatan_nama);

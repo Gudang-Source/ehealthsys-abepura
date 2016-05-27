@@ -9,15 +9,16 @@ class InformasiStokObatAlkesController extends MyAuthController
     {
         //$model=new GFInformasistokobatalkesV('search');
       //
+        /*
         $model = new GFObatalkesM;             
         $model->unsetAttributes();
         if(isset($_GET['GFObatalkesM'])){
             $model->attributes=$_GET['GFObatalkesM'];
             //if(empty($model->ruangan_id)){ $model->ruangan_id=Yii::app()->user->getState('ruangan_id'); }
-        }
+        } */
         // $instalasiAsals = CHtml::listData(GFInstalasiM::getInstalasiStokOas(),'instalasi_id','instalasi_nama');
         // $ruanganAsals = CHtml::listData(GFRuanganM::getRuanganStokOas(Params::INSTALASI_ID_FARMASI),'ruangan_id','ruangan_nama');
-        if (Yii::app()->user->getState('ruangan_id') != Params::RUANGAN_ID_GUDANG_FARMASI){
+        //if (Yii::app()->user->getState('ruangan_id') != Params::RUANGAN_ID_GUDANG_FARMASI){
             $model=new GFInfostokobatalkesruanganV('search');           
             $model->unsetAttributes();
             $model->ruangan_id=Yii::app()->user->getState('ruangan_id');
@@ -25,7 +26,7 @@ class InformasiStokObatAlkesController extends MyAuthController
             $model->attributes=$_GET['GFInfostokobatalkesruanganV'];
             //if(empty($model->ruangan_id)){ $model->ruangan_id=Yii::app()->user->getState('ruangan_id'); }
             }
-        }
+        //}
         $format = new MyFormatter();
                 
         
