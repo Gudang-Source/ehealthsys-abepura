@@ -186,8 +186,8 @@
                 $model->attributes = $_GET['KPPresensiT'];
                 $tglpresensi = $format->formatDateTimeForDb($_GET['KPPresensiT']['tglpresensi']);
                 $tglpresensi_akhir = $format->formatDateTimeForDb($_GET['KPPresensiT']['tglpresensi_akhir']);
-                $tglpresensi = date('Y-m-d ', strtotime($_GET['KPPresensiT']['tglpresensi']));
-                $tglpresensi_akhir = date('Y-m-d ', strtotime($_GET['KPPresensiT']['tglpresensi_akhir']));
+                //$tglpresensi = date('Y-m-d ', strtotime($_GET['KPPresensiT']['tglpresensi']));
+               // $tglpresensi_akhir = date('Y-m-d ', strtotime($_GET['KPPresensiT']['tglpresensi_akhir']));
                 $model->tglpresensi = $tglpresensi;
                 $model->tglpresensi_akhir = $tglpresensi_akhir;
 				if(!empty($_GET['KPPresensiT']['ruangan_id'])){

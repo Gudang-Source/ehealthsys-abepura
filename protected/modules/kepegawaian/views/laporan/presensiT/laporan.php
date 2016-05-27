@@ -50,7 +50,7 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                 'pegawai.nama_pegawai',  
                 array(
                     'header'=>'Tanggal Presensi',
-                    'value'=>'date("d/m/Y",strtotime($data->datepresensi))',//H:i:s
+                    'value'=>'MyFormatter::formatDateTimeForUser($data->datepresensi)',
                 ),
                 /*
                 array(

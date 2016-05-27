@@ -12,7 +12,7 @@
     );
 ?>
 <fieldset>
-    <div align="center"><b>Detail Presensi Pegawai</b></div>
+    <div align="center"><b>DETAIL PRESENSI PEGAWAI</b></div>
     <table width="100%">
         <tr>
             <td width="50%" style="vertical-align:top;">
@@ -147,7 +147,7 @@
                          
                 ), 
                  array(
-                    'header'=>'<center>Pulang</center>',
+                    'header'=>'<center>Pulang Awal</center>',
                     'value'=>'$this->grid->owner->renderPartial("presensiT/_pulangAwal",array("pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>2, "datepresensi"=>$data->datepresensi),true)',
                     'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
                      'footer' => $this->renderPartial("daftarHadir/_terlambat",array("pegawai_id"=>$model->pegawai_id ,"statusscan_id"=>  Params::STATUSSCAN_PULANG,'tgl_awal'=>$model->tglpresensi.' 00:00:00','tgl_akhir'=>$model->tglpresensi_akhir.' 23:59:59'),true),
@@ -155,7 +155,7 @@
                 ), 
                  array(
                     'header'=>'<center>Status</center>',
-                    'value'=>'$this->grid->owner->renderPartial("presensiT/_statuskehadiran",array("pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>2, "datepresensi"=>$data->datepresensi),true)',
+                    'value'=>'$this->grid->owner->renderPartial("presensiT/_statuskehadiran",array("presensi_id"=>$data->presensi_id,"pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>$data->statusscan_id, "datepresensi"=>$data->datepresensi),true)',
                     'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
                 ), 
             ),

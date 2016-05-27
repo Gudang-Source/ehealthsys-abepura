@@ -7,7 +7,8 @@
     $cr->compare('pegawai_id', $pegawai_id);
     $cr->addCondition('statusscan_id=:p1');
     $cr->params[':p1'] = $statusscan_id;    
-    $pr = PresensiT::model()->findAll($cr);    
+    $pr = PresensiT::model()->findAll($cr);   
+    
     if (empty($pr)){echo "-";
     }else{         
         $total = 0;

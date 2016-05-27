@@ -157,7 +157,7 @@ Yii::app()->clientScript->registerScript('search', "
                     'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
                 ), 
                  array(
-                    'header'=>'<center>Pulang</center>',
+                    'header'=>'<center>Pulang Awal</center>',
                     'value'=>'$this->grid->owner->renderPartial("presensiT/_pulangAwal",array("pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>2, "datepresensi"=>$data->datepresensi),true)',
                     'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
                 ), 
