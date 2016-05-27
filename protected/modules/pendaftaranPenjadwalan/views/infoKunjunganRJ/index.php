@@ -400,14 +400,27 @@ $('.search-form form').submit(function(){
                 <div class="control-group">
                     <?php echo CHtml::label('Petugas Loket', 'create_loginpemakai_id', array('class'=>'control-label')); ?>
                     <div class="controls">
-                        <?php echo $form->dropDownList($modPPInfoKunjunganRJV, 'create_loginpemakai_id', 
-                        CHtml::listData(PegawairuanganV::model()->findAllByAttributes(array(
-                            'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
-                            'pegawai_aktif'=>true,
-                        ), array(
-                            'order'=>'nama_pegawai asc'
-                        )), 'pegawai_id', 'namaLengkap'), array('empty'=>'-- Pilih --')); ?>
-                    </div>
+                            <?php 
+                            
+                            $cp = new CDbCriteria;
+                            $cp->join = 'join pegawairuangan_v p on p.pegawai_id = t.pegawai_id';
+                            $cp->compare('p.ruangan_id', Yii::app()->user->getState('ruangan_id'));
+                            $cp->order = 't.nama_pemakai';
+                            
+                            $p = LoginpemakaiK::model()->findAll($cp);
+                            
+                            $arr = array();
+                            
+                            foreach ($p as $item) {
+                                if (!empty($item->pegawai_id)) {
+                                    $arr[$item->loginpemakai_id] = $item->pegawai->nama_pegawai;
+                                }
+                            }
+                            
+                            // var_dump($arr); die;
+                            
+                            echo $form->dropDownList($modPPInfoKunjunganRJV, 'create_loginpemakai_id', $arr, array('empty'=>'-- Pilih --')); ?>
+                        </div>
                 </div>
                 
                 <?php /* echo $form->dropDownListRow($modPPInfoKunjunganRJV,'kabupaten_id',array(),

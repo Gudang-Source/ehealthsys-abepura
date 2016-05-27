@@ -150,8 +150,8 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'title'=>'Pencarian Data Pasien',
         'autoOpen'=>false,
         'modal'=>true,
-        'width'=>900,
-        'height'=>540,
+        'width'=>1000,
+        'height'=>700,
         'resizable'=>false,
     ),
 ));
@@ -165,11 +165,13 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         $modDialogPasien->instalasi_nama = isset($_GET['BKPasienM']['instalasi_nama'])?$_GET['BKPasienM']['instalasi_nama']:'';
         $modDialogPasien->carabayar_nama = isset($_GET['BKPasienM']['carabayar_nama'])?$_GET['BKPasienM']['carabayar_nama']:'';
         $modDialogPasien->ruangan_nama = isset($_GET['BKPasienM']['ruangan_nama'])?$_GET['BKPasienM']['ruangan_nama']:'';
+        $modDialogPasien->nopembayaran = isset($_GET['BKPasienM']['nopembayaran'])?$_GET['BKPasienM']['nopembayaran']:'';
+        $modDialogPasien->nobuktibayar = isset($_GET['BKPasienM']['nobuktibayar'])?$_GET['BKPasienM']['nobuktibayar']:'';
     }
 
     $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'id'=>'pendaftaran-t-grid',
-            'dataProvider'=>$modDialogPasien->searchPasienRumahsakitV(),
+            'dataProvider'=>$modDialogPasien->searchPasienSudahBayar(),
             'filter'=>$modDialogPasien,
             'template'=>"{summary}\n{items}\n{pager}",
             'itemsCssClass'=>'table table-striped table-bordered table-condensed',
@@ -181,7 +183,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                                         "id" => "selectPendaftaran",
                                         "onClick" => "
                                             $(\"#dialogPasien\").dialog(\"close\");
-                                            $(\"#BKPendaftaranT_tgl_pendaftaran\").val(\"$data->tgl_pendaftaran\");
+                                            $(\"#BKPendaftaranT_tgl_pendaftaran\").val(\"".MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)."\");
                                             $(\"#BKPendaftaranT_no_pendaftaran\").val(\"$data->no_pendaftaran\");
                                             $(\"#BKPendaftaranT_umur\").val(\"$data->umur\");
                                             $(\"#BKPendaftaranT_jeniskasuspenyakit_nama\").val(\"$data->jeniskasuspenyakit_nama\");
@@ -201,10 +203,31 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                                             $(\"#BKPasienM_nama_bin\").val(\"$data->nama_bin\");
                                             $(\"#BKPendaftaranT_carabayar_nama\").val(\"$data->carabayar_nama\");
                                             $(\"#BKPendaftaranT_penjamin_nama\").val(\"$data->penjamin_nama\");
-                                            loadPembayaran($data->pendaftaran_id);
+                                            loadPembayaran($data->pembayaran_id);
 
                                         "))',
                     ),
+                    array(
+                        'header'=>'Tgl. Pembayaran',
+                        'name'=>'tglpembayaran',
+                        'value'=>'MyFormatter::formatDateTimeForUser($data->tglpembayaran)',
+                        'filter'=>false,
+                    ),
+                    array(
+                        'header'=>'No. Pembayaran',
+                        'name'=>'nopembayaran',
+                    ),
+                    array(
+                        'header'=>'No. Kwitansi',
+                        'name'=>'nobuktibayar',
+                    ),
+                    array(
+                        'name'=>'tgl_pendaftaran',
+                        'filter'=>false,
+                        'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)',
+                        //CHtml::activeTextField($modDialogPasien, 'tgl_pendaftaran_cari', array('placeholder'=>'contoh: 15 Jan 2013')),
+                    ),
+                    'no_pendaftaran',
                     array(
                         'name'=>'no_rekam_medik',
                         'type'=>'raw',
@@ -213,27 +236,25 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                     array(
                         'name'=>'nama_pasien',
                         'type'=>'raw',
-                        'value'=>'$data->nama_pasien',
+                        'value'=>'$data->namadepan." ".$data->nama_pasien',
                     ),
-                    'jeniskelamin',
-                    'no_pendaftaran',
                     array(
-                        'name'=>'tgl_pendaftaran',
-                        'filter'=> 
-                        CHtml::activeTextField($modDialogPasien, 'tgl_pendaftaran_cari', array('placeholder'=>'contoh: 15 Jan 2013')),
-                    ),
+                        'name'=>'jeniskelamin',
+                        'filter'=>  CHtml::activeDropDownList($modDialogPasien, 'jeniskelamin', LookupM::getItems('jeniskelamin'), array('empty'=>'-- Pilih --')),
+                    ), /*
                     array(
                         'name'=>'instalasi_nama',
                         'type'=>'raw',
-                    ),
+                    ), */
                     array(
                         'name'=>'ruangan_nama',
                         'type'=>'raw',
-                    ),
+                    ), 
                     array(
                         'name'=>'carabayar_nama',
                         'type'=>'raw',
                         'value'=>'$data->carabayar_nama',
+                        'filter'=>CHtml::activeDropDownList($modDialogPasien, 'carabayar_nama', CHtml::listData(CarabayarM::model()->findAllByAttributes(array('carabayar_aktif'=>true)), 'carabayar_nama', 'carabayar_nama'),array('empty'=>'-- Pilih --')),
                     ),
 
 
@@ -268,27 +289,20 @@ function isiDataPasien(data)
     //$('#BKTandabuktibayarUangMukaT_jmlpembayaran').select();    
 }
 
-function loadPembayaran(pendaftaran_id)
+function loadPembayaran(idPembayaran)
 {
-    $.post('<?php echo Yii::app()->createUrl('billingKasir/ActionAjax/loadPembayaranUangMuka');?>', {pendaftaran_id:pendaftaran_id}, function(data){
-        $('#TandabuktibayarT_jmlpembayaran').val(data.jmlpembayaran);
-        $('#totTagihan').val(formatInteger(data.tottagihan));
-        $('#totPembebasan').val(formatInteger(data.totpembebasan));
+    $.get('<?php echo $this->createUrl('index');?>', {idPembayaran:idPembayaran, ajax_retur: 1}, function(data){
+        $("#BKReturbayarpelayananT_totaloaretur, #oa_limit").val(formatNumber(data.retur.totaloaretur));
+        $("#BKReturbayarpelayananT_totaltindakanretur, #tindakan_limit").val(formatNumber(data.retur.totaltindakanretur));
+        $("#BKReturbayarpelayananT_tandabuktibayar_id").val(data.retur.tandabuktibayar_id);
+        $("#BKTandabuktikeluarT_namapenerima").val(data.pasien.no_rekam_medik + " - " + data.pasien.namadepan + data.pasien.nama_pasien);
+        $("#BKTandabuktikeluarT_alamatpenerima").val(data.pasien.alamat_pasien);
+        $("#BKPasienM_tanggal_lahir").val(data.pasien.tanggal_lahir);
+        $("#BKPasienM_alamat_pasien").val(data.pasien.alamat_pasien);
+        $("#BKPendaftaranT_penjamin_id").val(data.pendaftaran.penjamin_id);
+        $("#BKPendaftaranT_carabayar_id").val(data.pendaftaran.carabayar_id);
         
-        var norekammedik = $('#BKPasienM_no_rekam_medik').val();
-        var no_pendaftaran = $('#BKPendaftaranT_no_pendaftaran').val();
-        var nama_pembayar = norekammedik + '-' + no_pendaftaran + '-' + data.namapasien;
-        $('#BKTandabuktibayarUangMukaT_jmlpembayaran').val(formatInteger(0));
-        $('#BKTandabuktibayarUangMukaT_uangditerima').val(formatInteger(0));
-        $('#BKTandabuktibayarUangMukaT_jmlpembulatan').val(formatInteger(data.jmlpembulatan));
-        $('#BKTandabuktibayarUangMukaT_uangkembalian').val(formatInteger(data.uangkembalian));
-        $('#BKTandabuktibayarUangMukaT_biayamaterai').val(formatInteger(data.biayamaterai));
-        $('#BKTandabuktibayarUangMukaT_biayaadministrasi').val(formatInteger(data.biayaadministrasi));
-        $('#BKTandabuktibayarUangMukaT_darinama_bkm').val(data.namapasien);
-        $('#BKTandabuktibayarUangMukaT_darinama_bkm').val(nama_pembayar);
-        $('#BKTandabuktibayarUangMukaT_alamat_bkm').val(data.alamatpasien);
-        $('#BKPasienM_photopasien').val(data.photopasien);
-        $('#BKTandabuktibayarUangMukaT_jmlpembayaran').focus();
+        hitungTotalRetur();
         
         if(data.photopasien != ""){ //set photo
             $("#<?php echo CHtml::activeId($modPasien,"photopasien");?>").val(data.photopasien);            

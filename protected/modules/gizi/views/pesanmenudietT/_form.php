@@ -238,7 +238,8 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
         'title' => 'Daftar Pasien',
         'autoOpen' => false,
         'modal' => true,
-        'width' => 900,
+        'width' => 1000,
+        'height' => 700,
         'resizable' => false,
     ),
 ));
@@ -304,8 +305,8 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
             'filter'=>false,
         ),
         array(
-            'name'=>'ruangan_nama',
-            'filter'=> CHtml::dropDownList('GZInfokunjunganriV[ruangan_nama]',$modKunjungan->ruangan_nama,CHtml::listData(RuanganM::model()->findAll('ruangan_aktif = true ORDER BY ruangan_nama ASC'), 'ruangan_nama', 'ruangan_nama'),array('empty'=>'--Pilih--')),
+            'name'=>'ruangan_id',
+            'filter'=> CHtml::dropDownList('GZInfokunjunganriV[ruangan_id]',$modKunjungan->ruangan_id,CHtml::listData(RuanganM::model()->findAll('ruangan_aktif = true ORDER BY ruangan_nama ASC'), 'ruangan_id', 'ruangan_nama'),array('empty'=>'--Pilih--')),
             'value'=>'$data->ruangan_nama'
         ),
         'kamarruangan_nokamar',

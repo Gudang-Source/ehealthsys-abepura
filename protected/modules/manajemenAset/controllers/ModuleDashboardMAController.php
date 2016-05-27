@@ -80,18 +80,21 @@ class ModuleDashboardMAController extends ModuleDashboardNeonController {
 		$dataAreaChart = CustomFunction::joinTwo2DArrays($dataAreaChart, $result_4, 'create_time');
 
 		//=== chart ===
-		$sql = "SELECT DATE(reevaluasiaset_tgl) as reevaluasiaset_tgl, count(reevaluasiaset_id) as jumlah_1
+		$sql = "SELECT DATE(reevaluasiaset_tgl) as reevaluasiaset_tgl, count(reevaluasiaset_id) as jumlah_1, DATE(reevaluasiaset_tgl) as create_time
 				FROM reevaluasiaset_t
 				WHERE DATE(reevaluasiaset_tgl) BETWEEN '" . date("Y-m") . "-01' AND '" . date("Y-m-d") . "'
 				GROUP BY DATE(reevaluasiaset_tgl)
 				ORDER BY reevaluasiaset_tgl ASC";
 		$result_1 = Yii::app()->db->createCommand($sql)->queryAll();
-		$sql = "SELECT DATE(tgl_penyusutan) as tgl_penyusutan, count(penyusutanaset_id) as jumlah_2
+		$sql = "SELECT DATE(tgl_penyusutan) as tgl_penyusutan, count(penyusutanaset_id) as jumlah_2, DATE(tgl_penyusutan) as create_time
 				FROM penyusutanaset_t
 				WHERE DATE(tgl_penyusutan) BETWEEN '" . date("Y-m") . "-01' AND '" . date("Y-m-d") . "'
 				GROUP BY DATE(tgl_penyusutan)
 				ORDER BY tgl_penyusutan ASC";
 		$result_2 = Yii::app()->db->createCommand($sql)->queryAll();
+                
+                // var_dump($result_1, $result_2); die;
+                
 		$dataLineChart = CustomFunction::joinTwo2DArrays($result_1, $result_2, 'create_time');
 
 

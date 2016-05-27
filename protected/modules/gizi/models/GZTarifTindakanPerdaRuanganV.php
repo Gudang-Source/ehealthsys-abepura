@@ -124,7 +124,7 @@ class GZTarifTindakanPerdaRuanganV  extends TariftindakanperdaruanganV
 			}
 			$model = new GZTarifTindakanPerdaRuanganV;
 		} else {
-			$model = new TariftindakanperdaV;
+		$model = new TariftindakanperdaV;
 		}
 		if(!empty($this->jenisdiet_id)){
 			$criteria->addCondition("jenisdiet_m.jenisdiet_id = ".$this->jenisdiet_id);					

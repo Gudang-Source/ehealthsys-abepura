@@ -651,6 +651,11 @@ public function actionKirimDokumen($pengirimanrm_id,$pendaftaran_id){
                     'ruangankontrol_id'=>$kontrolruangan,
                 )
             );
+            
+            if (!empty($kontrolruangan)) {
+                $this->simpanSKKontrol($modPendaftaran, $kontrolruangan);
+            }
+            
 //            $modPendaftaran->tglselesaiperiksa = date( 'Y-m-d H:i:s');
 //            $modPendaftaran->pasienpulang_id = $modelPulang->pasienpulang_id;
             if($daftar){
@@ -674,6 +679,24 @@ public function actionKirimDokumen($pengirimanrm_id,$pendaftaran_id){
             }
             
             return $modPasienAdmisi;
+        }
+        
+        protected function simpanSKKontrol($modPendaftaran, $kontrolruangan) {
+            $admisi = PasienadmisiT::model()->findByPk($modPendaftaran->pasienadmisi_id);
+            
+            $sk = new SuratketeranganR();
+            $sk->pendaftaran_id = $modPendaftaran->pendaftaran_id;
+            $sk->jenissurat_id = Params::SURAT_KETERANGAN_KONTROL;
+            $sk->pasien_id = $modPendaftaran->pasien_id;
+            $sk->ruangan_id = $kontrolruangan;
+            $sk->profilrs_id = Yii::app()->user->getState('profilrs_id');
+            $sk->tglsurat = date('Y-m-d');
+            $sk->judulsurat = "SURAT RENCANA KONTROL PASIEN";
+            $sk->nourutsurat = 1;
+            $sk->nomorsurat = MyGenerator::noSurat(Params::SURAT_KETERANGAN_KONTROL);
+            $sk->mengetahui_surat = $admisi->pegawai->namaLengkap;
+            
+            $sk->save();
         }
     
         protected function savePasienPulang($modMasukKamar,$modPasienPulang,$attrPasienPulang,$pasienadmisi_id='')
@@ -2190,7 +2213,10 @@ public function actionKirimDokumen($pengirimanrm_id,$pendaftaran_id){
         $modPendaftaran = RIPendaftaranT::model()->findByAttributes(array('pasienadmisi_id'=>$modPulang->pasienadmisi_id));
         $modPasien = RIPasienM::model()->findByPk($modPendaftaran->pasien_id);
         $modAdmisi = RIPasienAdmisiT::model()->findByPk($modPendaftaran->pasienadmisi_id);
-        
+        $sk = SuratketeranganR::model()->findByAttributes(array(
+            'pendaftaran_id'=>$modPendaftaran->pendaftaran_id,
+            'jenissurat_id'=>Params::SURAT_KETERANGAN_KONTROL,
+        ));
         
         $judul_print = 'Pasien Kontrol';
         $caraPrint = isset($_REQUEST['caraPrint']) ? $_REQUEST['caraPrint'] : null;
@@ -2212,6 +2238,7 @@ public function actionKirimDokumen($pengirimanrm_id,$pendaftaran_id){
                 'modPasien'=>$modPasien,
                 'modAdmisi'=>$modAdmisi,
                 'modPendaftaran'=>$modPendaftaran,
+                'sk'=>$sk,
         ));
     }
 	

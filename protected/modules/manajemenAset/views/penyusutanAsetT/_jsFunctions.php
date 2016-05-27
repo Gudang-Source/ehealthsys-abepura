@@ -1,3 +1,6 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
 <script type="text/javascript">
 function setAutoLoad(barang_id){
 	setClear();
@@ -39,6 +42,8 @@ function loadDetailPenyusutan(){
 	var hargaPerolehan = $('#<?php echo CHtml::activeId($model,"hargaperolehan"); ?>').val();
 	var nilairesidu = $('#<?php echo CHtml::activeId($model,"residu"); ?>').val();
 	var residu = unformatNumber(nilairesidu);
+        
+        hargaPerolehan = unformatNumber(hargaPerolehan);
 	
 	if (tglguna == ""){
 		myAlert('Tanggal perolehan barang tidak boleh kosong');
@@ -96,21 +101,26 @@ function renameRowRekening()
 
 function unMaskMoneyInput(tr)
 {
-    $(tr).find('input.integer:text').unmaskMoney();
+    $(tr).find('input.integer2:text').unmaskMoney();
 }
 
 function maskMoneyInput(tr)
 {
-    $(tr).find('input.integer:text').maskMoney(
+    $(tr).find('input.integer2:text').maskMoney(
         {
             "symbol":"Rp. ",
             "defaultZero":true,
             "allowZero":true,
-            "decimal":".",
-            "thousands":",",
+            "decimal":",",
+            "thousands":".",
             "precision":0
         }
     );
+}
+
+function removeDataRekening(obj)
+{
+    $(obj).parents("tr").remove();
 }
 
 </script>

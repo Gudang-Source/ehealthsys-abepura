@@ -411,6 +411,8 @@ Class Params
         const STATUSSCAN_KELUAR = 3;
         const STATUSSCAN_TIDAKTAHU = 5;
         
+        const SURAT_KETERANGAN_KONTROL = 2;
+        
         
 	//===   END KONSTANTA ===
         
