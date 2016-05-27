@@ -86,6 +86,7 @@ class PesanmenudietTController extends MyAuthController
                                         $modPasien = $modDetail->pasien;
                                         $modRuangan = $model->ruangan;
                                         $sms = new Sms();
+                                        /*
                                         foreach ($modSmsgateway as $i => $smsgateway) {
                                             $isiPesan = $smsgateway->templatesms;
 
@@ -115,6 +116,8 @@ class PesanmenudietTController extends MyAuthController
                                             }
                                             
                                         }
+                                         * 
+                                         */
                                         // END SMS GATEWAY
 									}
 									else{
@@ -577,15 +580,31 @@ class PesanmenudietTController extends MyAuthController
 	public function actionMenuDiet()
 	{
 		if(Yii::app()->request->isAjaxRequest) {
+                        $penjamin_id;
+                        if (isset($_GET['penjamin_id'])) {
+                            $penjamin_id = $_GET['penjamin_id'];
+                        }
+                        
+                        $jt = JenistarifpenjaminM::model()->findByAttributes(array(
+                            'penjamin_id'=>$penjamin_id
+                        ));
+                    
 			$criteria = new CDbCriteria();
 			$criteria->compare('LOWER(t.menudiet_nama)', strtolower($_GET['term']), true);
 			if(!empty($_GET['kelaspelayanan_id'])){
 				$criteria->compare('tariftindakan_m.kelaspelayanan_id', $_GET['kelaspelayanan_id']);
 			}
+                        if (!empty($_GET['jenisdiet_id'])) {
+                                $criteria->compare('t.jenisdiet_id', $_GET['jenisdiet_id']);
+                        }
+                        if (!empty($penjamin_id)) {
+                                $criteria->compare('tariftindakan_m.jenistarif_id', $jt->jenistarif_id);
+                        }
 			$criteria->order = 't.menudiet_nama';
 			$criteria->join = 'JOIN tariftindakan_m on tariftindakan_m.daftartindakan_id = t.daftartindakan_id
 							   JOIN kelaspelayanan_m on kelaspelayanan_m.kelaspelayanan_id = tariftindakan_m.kelaspelayanan_id'; 
-			$criteria->limit = 5;
+			$criteria->addCondition('tariftindakan_m.komponentarif_id = 6');
+                        $criteria->limit = 5;
 			$models = MenuDietM::model()->findAll($criteria);
 			$returnVal = array();
 			foreach($models as $i=>$model)
