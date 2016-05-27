@@ -150,8 +150,8 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'title'=>'Pencarian Data Pasien',
         'autoOpen'=>false,
         'modal'=>true,
-        'width'=>900,
-        'height'=>540,
+        'width'=>1000,
+        'height'=>700,
         'resizable'=>false,
     ),
 ));
@@ -166,6 +166,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         $modDialogPasien->carabayar_nama = isset($_GET['BKPasienM']['carabayar_nama'])?$_GET['BKPasienM']['carabayar_nama']:'';
         $modDialogPasien->ruangan_nama = isset($_GET['BKPasienM']['ruangan_nama'])?$_GET['BKPasienM']['ruangan_nama']:'';
         $modDialogPasien->nopembayaran = isset($_GET['BKPasienM']['nopembayaran'])?$_GET['BKPasienM']['nopembayaran']:'';
+        $modDialogPasien->nobuktibayar = isset($_GET['BKPasienM']['nobuktibayar'])?$_GET['BKPasienM']['nobuktibayar']:'';
     }
 
     $this->widget('ext.bootstrap.widgets.BootGridView',array(
@@ -207,14 +208,18 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                                         "))',
                     ),
                     array(
-                        'header'=>'Tgl Pembayaran',
+                        'header'=>'Tgl. Pembayaran',
                         'name'=>'tglpembayaran',
                         'value'=>'MyFormatter::formatDateTimeForUser($data->tglpembayaran)',
                         'filter'=>false,
                     ),
                     array(
-                        'header'=>'No Pembayaran',
+                        'header'=>'No. Pembayaran',
                         'name'=>'nopembayaran',
+                    ),
+                    array(
+                        'header'=>'No. Kwitansi',
+                        'name'=>'nobuktibayar',
                     ),
                     array(
                         'name'=>'tgl_pendaftaran',

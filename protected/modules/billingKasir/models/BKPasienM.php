@@ -125,14 +125,18 @@ class BKPasienM extends PasienM
         }
         
         
-        public $tglpembayaran, $nopembayaran, $pembayaran_id;
+        public $tglpembayaran, $nopembayaran, $pembayaran_id, $nobuktibayar;
         public function searchPasienSudahBayar() {
             $provider = $this->searchPasienRumahsakitV(false);
             $criteria = $provider->criteria;
-            $criteria->join = ' join pembayaranpelayanan_t p on t.pendaftaran_id = p.pendaftaran_id';
-            $criteria->select = 't.*, p.tglpembayaran, p.nopembayaran, p.pembayaranpelayanan_id as pembayaran_id';
+            $criteria->join = ' join pembayaranpelayanan_t p on t.pendaftaran_id = p.pendaftaran_id '
+                    . 'join tandabuktibayar_t k on k.pembayaranpelayanan_id = p.pembayaranpelayanan_id';
+            $criteria->select = 't.*, p.tglpembayaran, p.nopembayaran, p.pembayaranpelayanan_id as pembayaran_id,'
+                    . 'k.nobuktibayar';
             
             $criteria->compare('lower(p.nopembayaran)', strtolower($this->nopembayaran), true);
+            $criteria->compare('lower(k.nobuktibayar)', strtolower($this->nobuktibayar), true);
+            
             
             $criteria->order = null;
             
