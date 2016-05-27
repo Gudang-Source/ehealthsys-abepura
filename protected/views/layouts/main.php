@@ -102,8 +102,8 @@
             $namaRuangan = Yii::app()->user->getState('ruangan_nama');
             $idModul = ((!empty($this->module->id)) ? $this->module->id : null);
             $idUser = ((!empty(Yii::app()->user->id)) ? Yii::app()->user->id : null);
-//            $modulMenu = ((!empty($this->module->menu) && $this->module->id != 'sistemAdministrator') ? $this->module->menu : null);
-            $modulMenu = $this->module->menu;
+            $modulMenu = (!empty($this->module->menu) ? $this->module->menu : null);
+//            $modulMenu = $this->module->menu;
 			$tglLogin = Yii::app()->user->getState('lastLoginTime');
 			if(!empty($tglLogin)){
 				$tglLogin = MyFormatter::formatDateTimeForUser($tglLogin); 
