@@ -78,6 +78,8 @@ class PegawaiM extends CActiveRecord
         public $alpha;
         public $rerata_jam_keluar;
         public $rerata_jam_masuk;
+        public $namapegawai;
+        public $shift_id;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -151,6 +153,7 @@ class PegawaiM extends CActiveRecord
                     'statuskepemilikanrumah'=>array(self::BELONGS_TO,'StatuskepemilikanrumahM','statuskepemilikanrumah_id'),
                     'golonganpegawai'=>array(self::BELONGS_TO,'GolonganpegawaiM','golonganpegawai_id'),
                     'loginpemakai'=>array(self::BELONGS_TO,'LoginpemakaiK','loginpemakai_id'),
+                    'shift'=>array(self::BELONGS_TO,'ShiftM','shift_id'),
 		);
 	}
 
@@ -235,7 +238,8 @@ class PegawaiM extends CActiveRecord
                         'alpha' => 'Alpha',
                         'rerata_jam_masuk' => 'Rerata Jam Masuk',
                         'rerata_jam_keluar' => 'Rerata Jam Pulang',
-                        'surattandaregistrasi'=>'Surat Tanda Registrasi',
+                        'surattandaregistrasi'=>'Surat Tanda Registrasi', 
+                        'shift_id' => 'Shift'
 		);
 	}
 

@@ -6,8 +6,8 @@
         {
             $model = new PegawaiM();
            
-            $model->tglpresensi = date('Y-m-01');
-            $model->tglpresensi_akhir = date('Y-m-d');
+            $model->tglpresensi = date('01 M Y');
+            $model->tglpresensi_akhir = date('d M Y');
             if(isset($_GET['PegawaiM']))
             {
                 $model->attributes = $_GET['PegawaiM'];
@@ -215,7 +215,7 @@
             $model->attributes = $_GET['KPPresensiT'];
             $model->tglpresensi = date('Y-m-d ', strtotime($_GET['KPPresensiT']['tglpresensi']));
             $model->tglpresensi_akhir = date('Y-m-d ', strtotime($_GET['KPPresensiT']['tglpresensi_akhir']));
-            $model->unit_perusahaan = $_GET['KPPresensiT']['unit_perusahaan'];
+          //  $model->unit_perusahaan = $_GET['KPPresensiT']['unit_perusahaan'];
             
             $judulLaporan = 'Laporan Presensi';
             $caraPrint = $_REQUEST['caraPrint'];

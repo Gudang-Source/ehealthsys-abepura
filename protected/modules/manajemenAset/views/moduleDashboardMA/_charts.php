@@ -102,7 +102,7 @@ $(document).ready(function($)
 			<?php 
 			if(count($dataLineChart) > 0){
 				foreach ($dataLineChart as $i => $chart) { ?>
-					{ x: "<?php echo date("d",strtotime($chart['tgl_pendaftaran'])); ?>", 
+					{ x: "<?php echo date("d",strtotime($chart['reevaluasiaset_tgl'])); ?>", 
 						y_1: <?php echo isset($chart['jumlah_1']) ? $chart['jumlah_1'] : 0; ?>, 
 						y_2: <?php echo isset($chart['jumlah_2']) ? $chart['jumlah_2'] : 0; ?>, 
 						y_3: <?php echo isset($chart['jumlah_3']) ? $chart['jumlah_3'] : 0; ?>,

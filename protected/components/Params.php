@@ -407,8 +407,8 @@ Class Params
         
         const STATUSSCAN_MASUK = 1;
         const STATUSSCAN_PULANG = 2;
-        const STATUSSCAN_DATANG = 3;
-        const STATUSSCAN_KELUAR = 4;
+        const STATUSSCAN_DATANG = 4;
+        const STATUSSCAN_KELUAR = 3;
         const STATUSSCAN_TIDAKTAHU = 5;
         
         

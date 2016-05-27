@@ -15,6 +15,7 @@
             'type'=>'horizontal',
             'focus'=>'#'.CHtml::activeId($model,'nama_pegawai'),
         )); ?>
+ 
         <table width="100%">
             <tr>
                 <td>

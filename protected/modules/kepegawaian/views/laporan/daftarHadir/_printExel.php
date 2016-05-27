@@ -42,6 +42,11 @@
                         <td>:</td>
                         <td><?php echo $modPegawai->nama_pegawai; ?></td>
                     </tr>  
+                    <tr>
+                        <td>Shift</td>
+                        <td>:</td>
+                        <td><?php echo ($modPegawai->shift_id)?$modPegawai->shift->shift_nama:'-'; ?></td>
+                    </tr>
                 </table>
             </td>
             <td>
@@ -120,42 +125,42 @@
                 ),
                 array(
                     'header'=>'<center>Masuk</center>',
-                    'value'=>'$this->grid->owner->renderPartial("daftarHadir/_statusscan",array("pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>1, "datepresensi"=>$data->datepresensi),true)',
+                    'value'=>'$this->grid->owner->renderPartial("daftarHadir/_statusscan",array("statuskehadiran_id"=>$data->statuskehadiran_id,"pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>1, "datepresensi"=>$data->datepresensi),true)',
                     'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
                 ),
                 array(
                     'header'=>'<center>Keluar</center>',
-                    'value'=>'$this->grid->owner->renderPartial("daftarHadir/_statusscan",array("pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>3, "datepresensi"=>$data->datepresensi),true)',
+                    'value'=>'$this->grid->owner->renderPartial("daftarHadir/_statusscan",array("statuskehadiran_id"=>$data->statuskehadiran_id,"pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>3, "datepresensi"=>$data->datepresensi),true)',
                     'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
                 ),
                 array(
                     'header'=>'<center>Datang</center>',
-                    'value'=>'$this->grid->owner->renderPartial("daftarHadir/_statusscan",array("pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>4, "datepresensi"=>$data->datepresensi),true)',
+                    'value'=>'$this->grid->owner->renderPartial("daftarHadir/_statusscan",array("statuskehadiran_id"=>$data->statuskehadiran_id,"pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>4, "datepresensi"=>$data->datepresensi),true)',
                     'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
                 ),
                 array(
                     'header'=>'<center>Pulang</center>',
-                    'value'=>'$this->grid->owner->renderPartial("daftarHadir/_statusscan",array("pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>2, "datepresensi"=>$data->datepresensi),true)',
+                    'value'=>'$this->grid->owner->renderPartial("daftarHadir/_statusscan",array("statuskehadiran_id"=>$data->statuskehadiran_id,"pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>2, "datepresensi"=>$data->datepresensi),true)',
                     'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
                 ),                                
                  array(
                     'header'=>'<center>Terlambat</center>',                     
-                    'value'=>'$this->grid->owner->renderPartial("presensiT/_terlambat",array("pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>2, "datepresensi"=>$data->datepresensi),true)',
+                    'value'=>'$this->grid->owner->renderPartial("presensiT/_terlambat",array("statuskehadiran_id"=>$data->statuskehadiran_id,"pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>2, "datepresensi"=>$data->datepresensi),true)',
                     'htmlOptions'=>array('style'=>'text-align: center; width:80px'),                                             
-                     'footer' => $this->renderPartial("daftarHadir/_terlambat",array("pegawai_id"=>$model->pegawai_id ,"statusscan_id"=>  Params::STATUSSCAN_MASUK,'tgl_awal'=>$model->tglpresensi.' 00:00:00','tgl_akhir'=>$model->tglpresensi_akhir.' 23:59:59'),true),
+                     'footer' => $this->renderPartial("daftarHadir/_terlambat",array("statuskehadiran_id"=>$model->statuskehadiran_id,"pegawai_id"=>$model->pegawai_id ,"statusscan_id"=>  Params::STATUSSCAN_MASUK,'tgl_awal'=>$model->tglpresensi.' 00:00:00','tgl_akhir'=>$model->tglpresensi_akhir.' 23:59:59'),true),
                      'footerHtmlOptions' => array('style'=>'text-align: center;'),
                          
                 ), 
                  array(
                     'header'=>'<center>Pulang Awal</center>',
-                    'value'=>'$this->grid->owner->renderPartial("presensiT/_pulangAwal",array("pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>2, "datepresensi"=>$data->datepresensi),true)',
+                    'value'=>'$this->grid->owner->renderPartial("presensiT/_pulangAwal",array("statuskehadiran_id"=>$data->statuskehadiran_id,"pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>2, "datepresensi"=>$data->datepresensi),true)',
                     'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
-                     'footer' => $this->renderPartial("daftarHadir/_terlambat",array("pegawai_id"=>$model->pegawai_id ,"statusscan_id"=>  Params::STATUSSCAN_PULANG,'tgl_awal'=>$model->tglpresensi.' 00:00:00','tgl_akhir'=>$model->tglpresensi_akhir.' 23:59:59'),true),
+                     'footer' => $this->renderPartial("daftarHadir/_terlambat",array("statuskehadiran_id"=>$model->statuskehadiran_id,"pegawai_id"=>$model->pegawai_id ,"statusscan_id"=>  Params::STATUSSCAN_PULANG,'tgl_awal'=>$model->tglpresensi.' 00:00:00','tgl_akhir'=>$model->tglpresensi_akhir.' 23:59:59'),true),
                      'footerHtmlOptions' => array('style'=>'text-align: center;'),
                 ), 
                  array(
                     'header'=>'<center>Status</center>',
-                    'value'=>'$this->grid->owner->renderPartial("presensiT/_statuskehadiran",array("presensi_id"=>$data->presensi_id,"pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>$data->statusscan_id, "datepresensi"=>$data->datepresensi),true)',
+                    'value'=>'$this->grid->owner->renderPartial("presensiT/_statuskehadiran",array("statuskehadiran_id"=>$data->statuskehadiran_id,"presensi_id"=>$data->presensi_id,"pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>$data->statusscan_id, "datepresensi"=>$data->datepresensi),true)',
                     'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
                 ), 
             ),

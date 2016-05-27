@@ -35,13 +35,13 @@ $('.search-form form').submit(function(){
                  'mergeHeaders'=>array(
                     array(
                         'name'=>'<center>Hari Kerja</center>',
-                        'start'=>'7',
-                        'end'=>'11',
+                        'start'=>'8',
+                        'end'=>'12',
                     ),
                       array(
                         'name'=>'<center>Jam Kerja</center>',
-                        'start'=>'12',
-                        'end'=>'13',
+                        'start'=>'13',
+                        'end'=>'14',
                     ),
                 ),
                 'columns'=>array(
@@ -52,7 +52,11 @@ $('.search-form form').submit(function(){
                     'kelompokpegawai.kelompokpegawai_nama',
                     'jabatan.jabatan_nama',
                     'nomorindukpegawai',
-                    'nama_pegawai',                         
+                    'nama_pegawai',  
+                    array(
+                        'header' => 'Shift',
+                        'name' => 'shift.shift_nama',
+                    ),                    
                      array(
                          'header' => 'Rerata Jam Masuk',                        
                          'value' => function ($data) use ($model){                            
