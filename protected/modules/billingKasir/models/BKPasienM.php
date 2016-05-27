@@ -107,6 +107,7 @@ class BKPasienM extends PasienM
 //            $criteria->compare('LOWER(instalasi_nama)', strtolower($this->namaInstalasi), true);
             $criteria->compare('LOWER(ruangan_nama)', strtolower($this->ruangan_nama), true);
             $criteria->compare('LOWER(carabayar_nama)', strtolower($this->carabayar_nama), true);
+            $criteria->compare('LOWER(jeniskelamin)', strtolower($this->jeniskelamin), true);
             $criteria->limit = 50;
             $criteria->order = 'tgl_pendaftaran DESC';
             //kembalikan format
@@ -121,6 +122,34 @@ class BKPasienM extends PasienM
             return new CActiveDataProvider($model, array(
                         'criteria'=>$criteria,
                 ));
+        }
+        
+        
+        public $tglpembayaran, $nopembayaran, $pembayaran_id, $nobuktibayar;
+        public function searchPasienSudahBayar() {
+            $provider = $this->searchPasienRumahsakitV(false);
+            $criteria = $provider->criteria;
+            $criteria->join = ' join pembayaranpelayanan_t p on t.pendaftaran_id = p.pendaftaran_id '
+                    . 'join tandabuktibayar_t k on k.pembayaranpelayanan_id = p.pembayaranpelayanan_id';
+            $criteria->select = 't.*, p.tglpembayaran, p.nopembayaran, p.pembayaranpelayanan_id as pembayaran_id,'
+                    . 'k.nobuktibayar';
+            
+            $criteria->compare('lower(p.nopembayaran)', strtolower($this->nopembayaran), true);
+            $criteria->compare('lower(k.nobuktibayar)', strtolower($this->nobuktibayar), true);
+            
+            
+            $criteria->order = null;
+            
+            $provider->criteria = $criteria;
+            $provider->sort->defaultOrder = 'p.tglpembayaran desc';
+            $provider->sort->attributes = array(
+                'tglpembayaran' => array(
+                    'asc'=>'p.tglpembayaran',
+                    'desc'=>'p.tglpembayaran desc',
+                ),
+                '*',
+            );
+            return $provider;
         }
         
 }
