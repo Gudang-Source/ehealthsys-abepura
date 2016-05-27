@@ -364,7 +364,7 @@
                 </div>
             </div>
             <div
-             <?php echo $form->textFieldRow($model,'surattandaregistrasi',array('onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+             <?php echo $form->textFieldRow($model,'surattandaregistrasi',array('onkeyup'=>"return $(this).focusNextInputField(event)",'maxlength'=>100)); ?>
             <div class="control-group">
                 <?php echo $form->labelEx($model,'caraAmbilPhoto', array('class'=>'control-label')) ?>
                 <div class="controls">  
