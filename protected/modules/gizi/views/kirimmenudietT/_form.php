@@ -76,8 +76,8 @@
             'title' => 'Daftar Pasien',
             'autoOpen' => false,
             'modal' => true,
-            'width' => 750,
-            'height' => 600,
+            'width' => 1000,
+            'height' => 700,
             'resizable' => false,
         ),
     ));
@@ -107,7 +107,7 @@
                     $(\"#kelaspelayanan_id\").val($data->kelaspelayanan_id);
                     $(\'#namaPasien\').val(\'$data->nama_pasien\');
                     $(\"#dialogPasien\").dialog(\"close\");
-//                                dialogMenuPasien($data->pendaftaran_id);
+//                                dialogMenuPasien($data->pendaftaran_id, $data->carabayar_id);
                 "))',
 //            array(
 //                'header'=>'Pilih',
@@ -125,9 +125,23 @@
                 'value'=>'$data->jeniskelamin'
             ),
             array(
-                'header'=>'kelas Pelayanan',
+                'header'=>'Kelas Pelayanan',
                 'name'=>'kelaspelayanan_nama',
                 'value'=>'$data->kelaspelayanan_nama'
+            ),
+            array(
+                'header'=>'Cara Bayar',
+                'name'=>'carabayar_id',
+                'value'=>'$data->carabayar_nama',
+                'filter'=>  CHtml::activeDropDownList($modKunjungan, 'carabayar_id', CHtml::listData(
+                CarabayarM::model()->findAllByAttributes(array(
+                    'carabayar_aktif'=>true
+                )), 'carabayar_id', 'carabayar_nama'), array('empty'=>'-- Pilih --')),
+            ),
+            array(
+                'name'=>'penjamin_id',
+                'value'=>'$data->penjamin_nama',
+                'filter'=>false,
             ),
             array(
                 'header'=>'Ruangan',

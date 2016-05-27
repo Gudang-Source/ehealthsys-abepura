@@ -501,6 +501,7 @@ class KirimmenudietTController extends MyAuthController
             if (count($_POST['KirimmenupasienT']) > 0){
             foreach($_POST['KirimmenupasienT'] as $i=>$v) {
                 if ($v['checkList'] == 1){
+                    // var_dump($v);
                     $pid = $v['pendaftaran_id'];
                     if (empty($arr[$v['pendaftaran_id']])) $arr[$v['pendaftaran_id']] = array(
                         'pendaftaran_id'=>$v['pendaftaran_id'],
@@ -510,6 +511,14 @@ class KirimmenudietTController extends MyAuthController
                         'jeniskasuspenyakit_id'=>$v['jeniskasuspenyakit_id'],
                         'ruangan_id'=>$v['ruangan_id'],
                     );
+                    
+                    if (is_array($arr[$v['pendaftaran_id']]['penjamin_id'])) {
+                        $arr[$v['pendaftaran_id']]['penjamin_id'] = $arr[$v['pendaftaran_id']]['penjamin_id'][1];
+                    }
+                    
+                    if (is_array($arr[$v['pendaftaran_id']]['jeniskasuspenyakit_id'])) {
+                        $arr[$v['pendaftaran_id']]['jeniskasuspenyakit_id'] = $arr[$v['pendaftaran_id']]['jeniskasuspenyakit_id'][1];
+                    }
                     
                     if (!empty($v['pasienadmisi_id'])) {
                         $arr[$pid]['pasienadmisi_id'] = $v['pasienadmisi_id'];
@@ -610,20 +619,27 @@ class KirimmenudietTController extends MyAuthController
             
             foreach ($arr as $id=>$item) {
                 
+                $modTindakans = null;
+                
                 if (!empty($item['pasienadmisi_id'])) {
                     $a = PasienadmisiT::model()->findByPk($item['pasienadmisi_id']);
                     $item['kelaspelayanan_id'] = $a->kelaspelayanan_id;
                 }
                 
-                $t = TindakanpelayananT::model()->findByAttributes(array(
-                    'pendaftaran_id'=>$item['pendaftaran_id'],
-                    'pasienadmisi_id'=>$item['pasienadmisi_id'],
-                    'pasien_id'=>$item['pasien_id'],
-                    'penjamin_id'=>$item['penjamin_id'],
-                    'carabayar_id'=>$item['carabayar_id'],
-                    'daftartindakan_id'=>$item['daftartindakan_id'],
-                    'kelaspelayanan_id'=>$item['kelaspelayanan_id'],
-                ));
+                $criteria = new CDbCriteria();
+                $criteria->compare('tgl_tindakan::date', date('Y-m-d'));
+                $criteria->compare('pendaftaran_id', $item['pendaftaran_id']);
+                $criteria->compare('pasienadmisi_id', $item['pasienadmisi_id']);
+                $criteria->compare('pasien_id', $item['pasien_id']);
+                $criteria->compare('penjamin_id', $item['penjamin_id']);
+                $criteria->compare('carabayar_id', $item['carabayar_id']);
+                $criteria->compare('daftartindakan_id', $item['daftartindakan_id']);
+                $criteria->compare('kelaspelayanan_id', $item['kelaspelayanan_id']);
+                
+                // var_dump($item);
+                
+                $t = TindakanpelayananT::model()->find($criteria);
+                // var_dump($t->attributes);
                 
                 if (empty($t)) {
                     $modTindakans = new TindakanpelayananT;
@@ -687,7 +703,7 @@ class KirimmenudietTController extends MyAuthController
             }
         }
             //var_dump($arr, $this->successSaveTindakan);
-            // die;
+            //die;
         
             return $modTindakans;
         }

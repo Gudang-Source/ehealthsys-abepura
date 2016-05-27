@@ -238,7 +238,8 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
         'title' => 'Daftar Pasien',
         'autoOpen' => false,
         'modal' => true,
-        'width' => 900,
+        'width' => 1000,
+        'height' => 700,
         'resizable' => false,
     ),
 ));
