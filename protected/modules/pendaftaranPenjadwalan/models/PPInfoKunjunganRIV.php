@@ -79,8 +79,11 @@ class PPInfoKunjunganRIV extends InfokunjunganriV
 		$criteria->compare('LOWER(t.tempat_lahir)',strtolower($this->tempat_lahir),true);
 		$criteria->compare('LOWER(t.tanggal_lahir)',strtolower($this->tanggal_lahir),true);
 		$criteria->compare('LOWER(t.alamat_pasien)',strtolower($this->alamat_pasien),true);
+                $criteria->compare('LOWER(t.statusperiksa)',strtolower($this->statusperiksa),true);
 		
                 $criteria->compare('t.pegawai_id', $this->pegawai_id);
+                $criteria->compare('t.kamarruangan_id', $this->kamarruangan_id);
+                $criteria->compare('t.create_loginpemakai_id', $this->create_loginpemakai_id);
                 
                 $criteria->compare('t.asalrujukan_id', $this->asalrujukan_id);
                 $criteria->compare('r.rujukandari_id', $this->rujukandari_id);
