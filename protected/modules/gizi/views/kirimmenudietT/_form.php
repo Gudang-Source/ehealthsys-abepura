@@ -76,8 +76,8 @@
             'title' => 'Daftar Pasien',
             'autoOpen' => false,
             'modal' => true,
-            'width' => 750,
-            'height' => 600,
+            'width' => 1000,
+            'height' => 700,
             'resizable' => false,
         ),
     ));
