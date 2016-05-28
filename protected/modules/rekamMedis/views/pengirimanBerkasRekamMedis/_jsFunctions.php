@@ -1,9 +1,16 @@
 <script type="text/javascript">
 	function getRuangan(){
         var value = $('#<?php echo CHtml::activeId($modPengiriman, 'instalasi_id'); ?>').val();
+        var pilih = '';
         if (jQuery.isNumeric(value)){
             $.post('<?php echo $this->createUrl('getRuanganPasien'); ?>', {instalasi_id:value}, function(data){
-                $('#<?php echo CHtml::activeId($modPengiriman, 'ruangan_id'); ?>').html('<option value="">-- Pilih --</option>'+data.dropDown);
+                if (data.total > 1){
+                    pilih = '<option value="">-- Pilih --</option>';
+                }else if(data.total == 0)
+                {
+                    pilih = '<option value="">-- Pilih --</option>';
+                }
+                $('#<?php echo CHtml::activeId($modPengiriman, 'ruangan_id'); ?>').html(pilih+data.dropDown);
             }, 'json');
         }
         else{
