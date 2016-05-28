@@ -23,8 +23,12 @@ class PegawaiMController extends MyAuthController
 		));
 	}
         
-	public function actionViewUser($id='', $sukses='')
+	public function actionViewUser($id='', $sukses='',$frame='')
 	{
+            if ($frame == 'frame'):
+                $this->layout='//layouts/iframe';
+            endif;
+            
             if ($sukses == 1):
                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');    
             endif;
@@ -266,8 +270,12 @@ class PegawaiMController extends MyAuthController
       'model'=>$model,'modRuanganPegawai'=>$modRuanganPegawai,'format'=>$format
     ));
   }
-        public function actionUpdateUser($id='')
+        public function actionUpdateUser($id='',$frame='')
 	{
+                if ($frame == 'frame'):
+                    $this->layout='//layouts/iframe';                    
+                endif;
+            
                 $loginpemakai = Yii::app()->user->id;
 		$criteria = new CDbCriteria;
 		$criteria->addCondition('loginpemakai_id = '.$loginpemakai);
@@ -385,7 +393,7 @@ class PegawaiMController extends MyAuthController
 						$model->update(); // update data 
 						$transaction->commit();
 				 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan !');    
-				 $this->redirect(array('viewUser','sukses'=>1));  
+				 $this->redirect(array('viewUser','sukses'=>1,'frame'=>$frame));  
 			 }
 			catch (Exception $e)
 			{

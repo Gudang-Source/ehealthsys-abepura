@@ -24,10 +24,10 @@
         <?php
     $this->widget('bootstrap.widgets.BootAlert'); ?>
                                                        
-<div class="row-fluid">    
+<div class="row-fluid" style = "width:100%">    
 <fieldset class = "box" style = "border:none;">                   
     <div class="span12">
-        <div class="span11">                               
+        <div class="span11" style = "width:100%">                               
             <table class = "a table-condensed" style = "background:none;box-shadow:none;"> 
                     <tr valign = "middle">
                         <td rowspan = "5" width="20%" >
@@ -475,7 +475,13 @@
             </fieldset>   
         </div>
     </div>
-  <?php echo CHtml::link(Yii::t('mds','{icon} Ubah',array('{icon}'=>'<i class="icon-pencil icon-white"></i>')),$this->createUrl('updateUser',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
+  <?php 
+        $frame = '';
+        if (isset($_GET['frame'])){
+            $frame = 'frame';
+        }
+        echo CHtml::link(Yii::t('mds','{icon} Ubah',array('{icon}'=>'<i class="icon-pencil icon-white"></i>')),$this->createUrl('updateUser',array('modul_id'=> Yii::app()->session['modul_id'], 'frame'=>$frame)), array('class'=>'btn btn-success')); 
+   ?>
     <?php $this->widget('UserTips',array('type'=>'view'));?>
 </div>                                                       
 

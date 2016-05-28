@@ -552,7 +552,7 @@ function simpan_kertas()
 function viewUser()
 {
     $('#profiluserdialog').dialog('open');
-    $('#frameprofiluser').attr('src', '<?php echo Yii::app()->createUrl('sistemAdministrator/PegawaiM/ViewUser'); ?>' );
+    $('#frameprofiluser').attr('src', '<?php echo Yii::app()->createUrl('sistemAdministrator/PegawaiM/ViewUser',array('frame'=>'frame')); ?>' );
 }
     
 function viewPengumuman(id)

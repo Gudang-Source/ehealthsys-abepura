@@ -457,8 +457,8 @@ class PembayaranTagihanPasienController extends MyAuthController
                 }
             }else{
                 foreach ($modKomponens as $i => $komponen){
-                    $komponen->subsidiasuransikomp = ($modKomponen->tarif_kompsatuan * $modTindakan->subsidiasuransi_tindakan)/($modTindakan->qty_tindakan*$modTindakan->tarif_satuan);
-                    $komponen->subsidipemerintahkomp = ($modKomponen->tarif_kompsatuan * $modTindakan->subsidipemerintah_tindakan)/($modTindakan->qty_tindakan*$modTindakan->tarif_satuan);
+                    $komponen->subsidiasuransikomp = ($komponen->tarif_kompsatuan * $modTindakan->subsidiasuransi_tindakan)/($modTindakan->qty_tindakan*$modTindakan->tarif_satuan);
+                    $komponen->subsidipemerintahkomp = ($komponen->tarif_kompsatuan * $modTindakan->subsidipemerintah_tindakan)/($modTindakan->qty_tindakan*$modTindakan->tarif_satuan);
                     // var_dump($komponen->attributes); die;
                     $komponen->update();
                 }
@@ -812,7 +812,13 @@ class PembayaranTagihanPasienController extends MyAuthController
         if (isset($_GET['frame'])){
             $this->layout='//layouts/iframe';
         }
-        $modRincians = null;
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('pendaftaran_id = '.$pendaftaran_id);
+        $criteria->order = 'instalasi_id, ruangan_id, tgl_tindakan';
+        
+        $modRincians = RinciantagihanpasienV::model()->findAll($criteria);
+        $modPendaftaran=PendaftaranT::model()->findByPk($pendaftaran_id);
+        /*
         if($instalasi_id == Params::INSTALASI_ID_RJ){
             $criteria = new CDbCriteria();
             $criteria->addCondition('pendaftaran_id = '.$pendaftaran_id);
@@ -834,6 +840,8 @@ class PembayaranTagihanPasienController extends MyAuthController
             $modRincians = BKRincianbelumbayarrawatinapV::model()->findAll($criteria);
             $modPendaftaran=PendaftaranT::model()->findByPk($pendaftaran_id);
         }
+         * 
+         */
         
         $modInstalasi = InstalasiM::model()->findByPk($instalasi_id);
         $this->render($this->path_view.'printRincianBelumBayar', array('modRincians'=>$modRincians,'modPendaftaran'=>$modPendaftaran, 'modInstalasi'=>$modInstalasi));
