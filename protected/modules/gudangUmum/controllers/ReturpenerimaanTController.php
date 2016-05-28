@@ -25,22 +25,28 @@ class ReturpenerimaanTController extends MyAuthController
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
-	public function actionIndex($id)
+	public function actionIndex($id = null)
 	{
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		$model=new GUReturpenerimaanT;
+                $modTerima = new TerimapersediaanT;
+                $modDetails = array();
+                $modLogin = LoginpemakaiK::model()->findByAttributes(array('loginpemakai_id' => Yii::app()->user->id));
+                $model->peg_retur_id = $modLogin->pegawai_id;
+                $model->tglreturterima = date('Y-m-d H:i:s');
+                $model->noreturterima = MyGenerator::noReturTerima();
+                if (!empty($model->peg_retur_id)) $model->peg_retur_nama = $modLogin->pegawai->nama_pegawai;
                 if (isset($id)){
-                    $modLogin = LoginpemakaiK::model()->findByAttributes(array('loginpemakai_id' => Yii::app()->user->id));
-                    $model->peg_retur_id = $modLogin->pegawai_id;
-                    $model->peg_retur_nama = $modLogin->pegawai->nama_pegawai;
+                    
                     // Uncomment the following line if AJAX validation is needed
+                    
+                    $modDetails = array();
                     
                     $modTerima = TerimapersediaanT::model()->find('terimapersediaan_id  = '.$id.' and returpenerimaan_id is null');
                     $modDetailTerima = TerimapersdetailT::model()->findAll('terimapersediaan_id = '.$id.' and retpendetail_id is null');
                     if ((count($modTerima) == 1) && (count($modDetailTerima) > 0)){
-                        $model->tglreturterima = date('Y-m-d H:i:s');
+                        
                         $model->terimapersediaan_id = $modTerima->terimapersediaan_id;
-                        $model->noreturterima = MyGenerator::noReturTerima();
                         foreach ($modDetailTerima as $i=>$row){
                             $modDetails[$i]= new RetpendetailT();
                             $modDetails[$i]->terimapersdetail_id = $row->terimapersdetail_id;
@@ -51,60 +57,67 @@ class ReturpenerimaanTController extends MyAuthController
                             $modDetails[$i]->jmlterima = $row->jmlterima;
                         }
                     }
-
-                    if(isset($_POST['GUReturpenerimaanT']))
-                    {
-                            $model->attributes=$_POST['GUReturpenerimaanT'];
-                            if (count($_POST['RetpendetailT']) > 0){
-                            $modDetails = $this->validasiTabular($model, $_POST['RetpendetailT'], $modDetailTerima);
-                                if ($model->validate()){
-                                    $transaction = Yii::app()->db->beginTransaction();
-                                    try{
-                                        $success = true;
-                                        if($model->save()){
-                                            TerimapersediaanT::model()->updateByPk($model->terimapersediaan_id, array('returpenerimaan_id'=>$model->returpenerimaan_id));
-                                            $modDetails = $this->validasiTabular($model, $_POST['RetpendetailT'], $modDetailTerima);
-                                            foreach ($modDetails as $i=>$data){
-                                                if ($data->jmlretur > 0){
-                                                    if ($data->save()){
-                                                        InventarisasiruanganT::kurangiStokBerdasarkanInventaris($data->jmlretur, $data->terimapersdetail->inventaris->inventarisasi_id);
-                                                        TerimapersdetailT::model()->updateByPk($data->terimapersdetail_id, array('retpendetail_id'=>$data->retpendetail_id));
-                                                    }
-                                                    else{
-                                                        $success = false;
-                                                    }                                               
+                }
+                    
+                if(isset($_POST['GUReturpenerimaanT']))
+                {
+                        // var_dump($_POST); die;
+                        $model->attributes=$_POST['GUReturpenerimaanT'];
+                        $model->totalretur = str_replace(".","",$model->totalretur);
+                        // var_dump($model->attributes, $model->validate(), $model->errors); die;
+                        if (count($_POST['RetpendetailT']) > 0){
+                        $modDetailTerima = TerimapersdetailT::model()->findAll('terimapersediaan_id = '.$model->terimapersediaan_id.' and retpendetail_id is null');
+                        $modDetails = $this->validasiTabular($model, $_POST['RetpendetailT'], $modDetailTerima);
+                            if ($model->validate()){
+                                $transaction = Yii::app()->db->beginTransaction();
+                                try{
+                                    $success = true;
+                                    if($model->save()){
+                                        TerimapersediaanT::model()->updateByPk($model->terimapersediaan_id, array('returpenerimaan_id'=>$model->returpenerimaan_id));
+                                        $modDetails = $this->validasiTabular($model, $_POST['RetpendetailT'], $modDetailTerima);
+                                        foreach ($modDetails as $i=>$data){
+                                            $data->hargasatuan = str_replace(".", "", $data->hargasatuan);
+                                            // var_dump($data->attributes, $data->validate(), $data->errors); die;
+                                            if ($data->jmlretur > 0){
+                                                if ($data->save()){
+                                                    InventarisasiruanganT::kurangiStokBerdasarkanInventaris($data->jmlretur, $data->terimapersdetail->inventaris->inventarisasi_id);
+                                                    TerimapersdetailT::model()->updateByPk($data->terimapersdetail_id, array('retpendetail_id'=>$data->retpendetail_id));
                                                 }
+                                                else{
+                                                    $success = false;
+                                                }                                               
                                             }
                                         }
-                                        else{
-                                            $success = false;
-                                        }
-                                        if ($success == true){
-                                            $transaction->commit();
-                                            Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-                                            $url = Yii::app()->createUrl('gudangUmum/TerimapersediaanT/informasi');
-                                            $this->redirect($url);
-                                        }
-                                        else{
-                                            $transaction->rollback();
-                                            Yii::app()->user->setFlash('error',"Data gagal disimpan ");
-                                        }
                                     }
-                                    catch (Exception $ex){
-                                         $transaction->rollback();
-                                         Yii::app()->user->setFlash('error',"Data gagal disimpan ".MyExceptionMessage::getMessage($ex,true));
+                                    else{
+                                        $success = false;
+                                    }
+                                    
+                                    if ($success == true){
+                                        $transaction->commit();
+                                        Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                                        $url = Yii::app()->createUrl('gudangUmum/TerimapersediaanT/informasi');
+                                        $this->redirect($url);
+                                    }
+                                    else{
+                                        $transaction->rollback();
+                                        Yii::app()->user->setFlash('error',"Data gagal disimpan ");
                                     }
                                 }
-                            }else{
-                                $model->validate();
-                                Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data detail barang harus diisi.');
+                                catch (Exception $ex){
+                                     $transaction->rollback();
+                                     Yii::app()->user->setFlash('error',"Data gagal disimpan ".MyExceptionMessage::getMessage($ex,true));
+                                }
                             }
-                    }
-
-                    $this->render('index',array(
-                            'model'=>$model, 'modDetails'=>$modDetails, 'modTerima'=>$modTerima,
-                    ));
+                        }else{
+                            $model->validate();
+                            Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data detail barang harus diisi.');
+                        }
                 }
+                
+                $this->render('index',array(
+                            'model'=>$model, 'modDetails'=>$modDetails, 'modTerima'=>$modTerima, 'id'=>$id,
+                ));
 	}
         
         protected function validasiTabular($model, $datas, $modDetailTerima){
@@ -257,5 +270,67 @@ class ReturpenerimaanTController extends MyAuthController
                 $mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
                 $mpdf->Output();
             }                       
+        }
+        
+        
+        public function actionLoadPenerimaanID()
+        {
+            if(Yii::app()->request->isPostRequest) {
+                $id = $_POST['id'];
+                $modDetails = array();
+                
+                $modDetails = array();
+                $res = array();
+                
+                $modTerima = TerimapersediaanT::model()->find('terimapersediaan_id  = '.$id.' and returpenerimaan_id is null');
+                $modDetailTerima = TerimapersdetailT::model()->findAll('terimapersediaan_id = '.$id.' and retpendetail_id is null');
+                if ((count($modTerima) == 1) && (count($modDetailTerima) > 0)){
+
+                    //$model->terimapersediaan_id = $modTerima->terimapersediaan_id;
+                    foreach ($modDetailTerima as $i=>$row){
+                        $modDetails[$i]= new RetpendetailT();
+                        $modDetails[$i]->terimapersdetail_id = $row->terimapersdetail_id;
+                        $modDetails[$i]->jmlretur = $row->jmlterima;
+                        $modDetails[$i]->hargasatuan = $row->hargasatuan;
+                        $modDetails[$i]->satuanbeli = $row->satuanbeli;
+                        $modDetails[$i]->kondisibarang = $row->kondisibarang;
+                        $modDetails[$i]->jmlterima = $row->jmlterima;
+                    }
+                }
+                
+                $modTerima->sumberdana_id = $modTerima->sumberdana->sumberdana_nama;
+                
+                $res['data'] = $modTerima->attributes;
+                $res['tab'] = $this->renderPartial('_rowBarang', array('modDetails' => $modDetails), true);
+                
+                echo CJSON::encode($res);
+                
+                Yii::app()->end();
+            }
+        }
+        
+        public function actionLoadPenerimaan($term)
+        {
+            if(Yii::app()->request->isAjaxRequest) {
+                $returnVal = array();
+                $nopenerimaan = $_GET['term'];
+                
+                $criteria = new CDbCriteria();
+                $criteria->compare('lower(nopenerimaan)', strtolower($nopenerimaan), true);
+                $criteria->addCondition('returpenerimaan_id is null');
+                $criteria->order = 'tglterima desc';
+                
+                
+                $dat = TerimapersediaanT::model()->findAll($criteria);
+                
+                foreach ($dat as $i=>$item) {
+                    $returnVal[$i]['label'] = $item->nopenerimaan." - ".MyFormatter::formatDateTimeForUser($item->tglterima);
+                    $returnVal[$i]['value'] = $item->terimapersediaan_id;
+                }
+                
+                echo CJSON::encode($returnVal);
+                
+                Yii::app()->end();
+            }
         }
 }
