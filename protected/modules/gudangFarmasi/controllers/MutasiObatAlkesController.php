@@ -42,7 +42,14 @@ class MutasiObatAlkesController extends MyAuthController
         if(!empty($pesanobatalkes_id) && empty($mutasioaruangan_id)){
             $modelPesanObat = GFPesanobatalkesT::model()->findByPk($pesanobatalkes_id);
             if (count($modelPesanObat) == 1){
+                $r = RuanganM::model()->findByPk($modelPesanObat->ruanganpemesan_id);
                 $model->ruangantujuan_id = $modelPesanObat->ruanganpemesan_id;
+                $model->instalasitujuan_id = $r->instalasi_id;
+                
+                $instalasiTujuans = CHtml::listData(GFInstalasiM::getInstalasiTujuanMutasis(),'instalasi_id','instalasi_nama');
+                $ruanganTujuans = CHtml::listData(GFRuanganM::getRuanganTujuanMutasis($model->instalasitujuan_id),'ruangan_id','ruangan_nama');
+                
+                
                 $modDetailPesan = GFPesanoadetailT::model()->findAllByAttributes(array('pesanobatalkes_id'=>$pesanobatalkes_id));
                 $ruangan_id = Yii::app()->user->getState('ruangan_id');
                 $totalharganetto = 0;

@@ -34,7 +34,7 @@
         <?php echo isset($modMutasiDetail->satuankecil_id) ? $modMutasiDetail->satuankecil->satuankecil_nama : ""; ?>
     </td>
     <td>
-        <?php echo CHtml::activeTextField($modMutasiDetail,'[ii]jmlmutasi',array('readonly'=>true,'class'=>'span2 integer2','style'=>'width:45px;','onblur'=>'hitungTotal();','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php echo CHtml::activeTextField($modMutasiDetail,'[ii]jmlmutasi',array('readonly'=>false,'class'=>'span2 integer2','style'=>'width:45px;','onblur'=>'hitungTotal();','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
         <?php echo isset($modMutasiDetail->satuankecil_id) ? $modMutasiDetail->satuankecil->satuankecil_nama : ""; ?>
     </td>
     
