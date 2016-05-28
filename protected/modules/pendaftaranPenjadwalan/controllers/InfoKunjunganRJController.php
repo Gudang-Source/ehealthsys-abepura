@@ -346,18 +346,12 @@ class InfoKunjunganRJController extends MyAuthController
             ));
             
             // cek tindakan yang sudah bayar, hapus kalo belum dibayar
-            // jika pasien yang sudah bayar berpenjamin BPJS/KPS maka tidak bisa mengubah cara bayar
+            // jika daftar tindakannya sama dengan yang dikarcis, maka update dibatalkan
             if (!empty($kdat)) {
+                if ($kdat->daftartindakan_id == $karcis->daftartindakan_id) return true;
                 if (!empty($kdat->tindakansudahbayar_id)) {
-                    if (!in_array($kdat->carabayar_id, array(Params::CARABAYAR_ID_BPJS, Params::CARABAYAR_ID_JAMKESPA))) {
-                        $kdat->carabayar_id = $modPendaftaran->carabayar_id;
-                        $kdat->penjamin_id = $modPendaftaran->penjamin_id;
-                        return true;
-                    } else {
-                        return false;
-                    }
+                    return false;
                 }
-                
                 $ok = $ok && TindakanpelayananT::model()->deleteByPk($kdat->tindakanpelayanan_id);
             }
             

@@ -14,37 +14,203 @@
     .identitas{
         line-height: 12px;
     }
+    
+    .rincian th, .rincian td {
+        border: 1px solid black;
+        background-color: white;
+        color: black;
+        padding: 5px;
+    }
+    
+    .rincian tfoot td {
+        font-weight: bold;
+    }
 </style>
 <?php
 $format = new MyFormatter;
- echo $this->renderPartial('application.views.headerReport.headerRincian');
+echo $this->renderPartial('application.views.headerReport.headerRincian');
+ 
+$pasien = $modPendaftaran->pasien;
+$admisi = PasienadmisiT::model()->findByPk($modPendaftaran->pasienadmisi_id);
 ?>
-<table class="identitas">
+<table class="identitas" width="100%">
     <tr>
-        <td>
-            Instalasi
-        </td>
-        <td>: <b><?php echo $modInstalasi->instalasi_nama; ?></b></td>
+        <td nowrap>No. Rekam Medik</td><td>:</td><td width="100%"><?php echo $pasien->no_rekam_medik; ?></td>
+        <td>Tgl. Pendaftaran</td><td>:</td><td nowrap><?php echo MyFormatter::formatDateTimeForUser($modPendaftaran->tgl_pendaftaran); ?></td>
     </tr>
     <tr>
-        <td>No. Pendaftaan</td>
-        <td>: <?php echo $modPendaftaran->no_pendaftaran; ?></td></tr>
-    <tr>
-        <td nowrap>No. Rekam Medik</td>
-        <td>: <?php echo $modPendaftaran->pasien->no_rekam_medik; ?></td>
+        <td>Nama Pasien</td><td>:</td><td nowrap><?php echo $pasien->namadepan.$pasien->nama_pasien; ?></td>
+        <td>No. Pendaftaran</td><td>:</td><td nowrap><?php echo $modPendaftaran->no_pendaftaran; ?></td>
     </tr>
     <tr>
-        <td>Nama</td>
-        <td>: <?php echo $modPendaftaran->pasien->namadepan." ".$modPendaftaran->pasien->nama_pasien;?></td></tr>
-    <tr>
-        <td>Alamat</td>
-        <td>: <?php echo $modPendaftaran->pasien->alamat_pasien;?></td>
+        <td>Umur / Tgl. Lahir</td><td>:</td><td nowrap><?php echo $modPendaftaran->umur." / ".MyFormatter::formatDateTimeForUser($pasien->tanggal_lahir); ?></td>
+        <td>Ruangan</td><td>:</td><td nowrap><?php echo empty($modPendaftaran->pasienadmisi_id)?$modPendaftaran->ruangan->ruangan_nama:$admisi->ruangan->ruangan_nama; ?></td>
     </tr>
     <tr>
-        <td>Tanggal </td><td>: <?php echo substr($format->formatDateTimeId($modPendaftaran->tgl_pendaftaran),0,-9);?></td>
-<!--  dicomment karena RND-5888      <td>No. KPK : <?php echo (isset($modPendaftaran->no_asuransi)?$modPendaftaran->no_asuransi:"-"); ?></td>-->
+        <td>Alamat</td><td>:</td><td nowrap><?php echo $pasien->no_rekam_medik; ?></td>
+        
+        <?php if (!empty($modPendaftaran->pasienadmisi_id)): ?> 
+        <td nowrap>Kamar / No. Bed</td><td>:</td><td nowrap><?php echo empty($admisi->kamarruangan_id)?"-":($admisi->kamarruangan->kamarruangan_nokamar." / ".$admisi->kamarruangan->kamarruangan_nobed); ?></td>
+        <?php endif; ?>
+    </tr>
+    <tr>
+        <td>Dokter</td><td>:</td><td nowrap><?php echo $modPendaftaran->pegawai->namaLengkap; ?></td>
+        <?php if (!empty($modPendaftaran->pasienadmisi_id)): ?> 
+        <td>Dokter PJP</td><td>:</td><td nowrap><?php echo $admisi->pegawai->namaLengkap; ?></td>
+        <?php endif; ?>
+    </tr>
+</table><br/>
+
+<?php
+
+$grp = array();
+
+$suba = 0;
+$subp = 0;
+$subr = 0;
+$subtotal = 0;
+
+foreach ($modRincians as $item) {
+    $dokter = PegawaiM::model()->findByPk($item->pegawai_id);
+    $dokter = empty($dokter)?"-":$dokter->namaLengkap;
+    
+    if (empty($grp[$item->ruangan_id])) {
+        $grp[$item->ruangan_id] = array(
+            'nama'=>$item->ruangan_nama,
+            'content'=>array(),
+        );
+    }
+    
+    
+    $suba += $item->subsidiasuransi_tindakan;
+    $subp += $item->subsidipemerintah_tindakan;
+    $subr += $item->subsisidirumahsakit_tindakan;
+    
+    $subtotal += ($item->qty_tindakan * $item->tarif_satuan) - ($item->subsidiasuransi_tindakan + $item->subsidipemerintah_tindakan + $item->subsisidirumahsakit_tindakan);
+    
+    array_push($grp[$item->ruangan_id]['content'], array(
+        'uraian'=>$item->daftartindakan_nama,
+        'dokter'=>$dokter,
+        'tgl'=>  MyFormatter::formatDateTimeForUser($item->tgl_tindakan),
+        'jml'=> $item->qty_tindakan,
+        'harga'=> MyFormatter::formatNumberForPrint($item->tarif_satuan),
+        'suba'=>MyFormatter::formatNumberForPrint($item->subsidiasuransi_tindakan),
+        'subp'=>MyFormatter::formatNumberForPrint($item->subsidipemerintah_tindakan),
+        'subr'=>MyFormatter::formatNumberForPrint($item->subsisidirumahsakit_tindakan),
+        'subtotal'=>MyFormatter::formatNumberForPrint(($item->qty_tindakan * $item->tarif_satuan) - ($item->subsidiasuransi_tindakan + $item->subsidipemerintah_tindakan + $item->subsisidirumahsakit_tindakan)),
+    ));
+}
+
+?>
+
+<table width="100%" class="rincian">
+    <thead style='border:1px solid;'>
+        <th style='text-align: center;'>No.</th>
+        <th style='text-align: center;'>Uraian</th>
+        <th style='text-align: center;'>Dokter</th>
+        <th style='text-align: center;'>Tgl Transaksi</th>
+        <th style='text-align: center;'>Jml</th>
+        <th style='text-align: center;'>Harga</th>
+        <th style='text-align: center;'>Subsidi Asuransi</th>
+        <th style='text-align: center;'>Subsidi Pemerintah</th>
+        <th style='text-align: center;'>Subsidi RS</th>
+        <th style='text-align: center;'>Subtotal</th>
+    </thead>
+    <tbody>
+        <?php foreach ($grp as $item) : ?>
+        <tr>
+            <td colspan="10"><strong><?php echo $item['nama']; ?></strong></td>
+        </tr>
+            <?php 
+            $cnt = 0;
+            foreach ($item['content'] as $item2) : 
+                $cnt++;
+            ?>
+            <tr>
+                <td><?php echo $cnt; ?></td>
+                <td><?php echo $item2['uraian']; ?></td>
+                <td><?php echo $item2['dokter']; ?></td>
+                <td><?php echo $item2['tgl']; ?></td>
+                <td style="text-align: right;"><?php echo $item2['jml']; ?></td>
+                <td style="text-align: right;"><?php echo $item2['harga']; ?></td>
+                <td style="text-align: right;"><?php echo $item2['suba']; ?></td>
+                <td style="text-align: right;"><?php echo $item2['subp']; ?></td>
+                <td style="text-align: right;"><?php echo $item2['subr']; ?></td>
+                <td style="text-align: right;"><?php echo $item2['subtotal']; ?></td>
+            </tr>
+            <?php endforeach; ?>
+        <?php endforeach; ?>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="6">Total Keseluruhan</td>
+            <td style="text-align: right;"><?php echo MyFormatter::formatNumberForPrint($suba); ?></td>
+            <td style="text-align: right;"><?php echo MyFormatter::formatNumberForPrint($subp); ?></td>
+            <td style="text-align: right;"><?php echo MyFormatter::formatNumberForPrint($subr); ?></td>
+            <td style="text-align: right;"><?php echo MyFormatter::formatNumberForPrint($subtotal); ?></td>
+        </tr>
+    </tfoot>
+    
+</table>
+
+<br/><br/><br/>
+
+<table>
+    <tr align="right">
+         <td colspan="5"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td class="tandatangan">Petugas</td>
+    </tr><tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+    <tr align="right">
+         <td colspan="5"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td class="tandatangan"></td>
+    </tr><tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+    <?php $pegawai = LoginpemakaiK::pegawaiLoginPemakai(); ?>      
+    <tr align="right">
+         <td colspan="5"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td class="tandatangan" style="height: 50px;">
+                <b><?php echo empty($pegawai)?"-":$pegawai->nama_pegawai; ?></b>                
+         </td>         
+    </tr>
+    <tr align="right">
+         <td colspan="5"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td class="tandatangan" style = "border-top: 2px solid #000;">                              
+                <b>NIP. <?php echo empty($pegawai)?"-":$pegawai->nomorindukpegawai; ?></b>
+         </td>         
     </tr>
 </table>
+<?php /*
 <table width="100%">
     <thead style='border:1px solid;'>
         <th style='text-align: center;'>No.</th>
@@ -124,61 +290,9 @@ $format = new MyFormatter;
         </tr>    
     </tfoot>
 </table>
-<table>
-    <tr align="right">
-         <td colspan="5"></td>
-         <td colspan="2"></td>
-         <td colspan="2"></td>
-         <td colspan="2"></td>
-         <td colspan="2"></td>
-         <td colspan="2"></td>
-         <td colspan="2"></td>
-         <td colspan="2"></td>
-         <td colspan="2"></td>
-         <td class="tandatangan">Petugas</td>
-    </tr><tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-    <tr align="right">
-         <td colspan="5"></td>
-         <td colspan="2"></td>
-         <td colspan="2"></td>
-         <td colspan="2"></td>
-         <td colspan="2"></td>
-         <td colspan="2"></td>
-         <td colspan="2"></td>
-         <td colspan="2"></td>
-         <td colspan="2"></td>
-         <td class="tandatangan"></td>
-    </tr><tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-    <?php $pegawai = LoginpemakaiK::pegawaiLoginPemakai(); ?>      
-    <tr align="right">
-         <td colspan="5"></td>
-         <td colspan="2"></td>
-         <td colspan="2"></td>
-         <td colspan="2"></td>
-         <td colspan="2"></td>
-         <td colspan="2"></td>
-         <td colspan="2"></td>
-         <td colspan="2"></td>
-         <td colspan="2"></td>
-         <td class="tandatangan" style="height: 50px;">
-                <b><?php echo empty($pegawai)?"-":$pegawai->nama_pegawai; ?></b>                
-         </td>         
-    </tr>
-    <tr align="right">
-         <td colspan="5"></td>
-         <td colspan="2"></td>
-         <td colspan="2"></td>
-         <td colspan="2"></td>
-         <td colspan="2"></td>
-         <td colspan="2"></td>
-         <td colspan="2"></td>
-         <td colspan="2"></td>
-         <td colspan="2"></td>
-         <td class="tandatangan" style = "border-top: 2px solid #000;">                              
-                <b>NIP. <?php echo empty($pegawai)?"-":$pegawai->nomorindukpegawai; ?></b>
-         </td>         
-    </tr>
-</table>
+
+ * 
+ */ ?>
 <?php
 if (isset($_GET['frame'])){
     echo CHtml::link(Yii::t('mds', '{icon} Print Rincian', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"print();"));
