@@ -1,6 +1,9 @@
 <?php
 
 class GUTerimapersediaanT extends TerimapersediaanT{
+    
+    public $sumberdana;
+    
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }
@@ -12,7 +15,9 @@ class GUTerimapersediaanT extends TerimapersediaanT{
 
 		$criteria=new CDbCriteria;
 
-		$criteria->addBetweenCondition('date(tglterima)', $this->tgl_awal, $this->tgl_akhir);
+                if (!empty($this->tgl_awal) && !empty($this->tgl_akhir)) {
+                        $criteria->addBetweenCondition('date(tglterima)', $this->tgl_awal, $this->tgl_akhir);
+                }
 		if(!empty($this->terimapersediaan_id)){
 			$criteria->addCondition("terimapersediaan_id = ".$this->terimapersediaan_id);			
 		}
