@@ -26,11 +26,30 @@ $this->widget($table,array(
 			'header'=>'ID',
 			'value'=>'$data->jenispemeriksaanlab_id',
 		),
-		'jenispemeriksaanlab_kode',
-		'jenispemeriksaanlab_urutan',
-		'jenispemeriksaanlab_nama',
-		'jenispemeriksaanlab_namalainnya',
-		'jenispemeriksaanlab_kelompok',
+                array(
+                    'header' => 'Kode',
+                    'value' => '$data->jenispemeriksaanlab_kode'
+                ),
+		array(
+                    'header' => 'Urutan',
+                    'value' => '$data->jenispemeriksaanlab_urutan'
+                ),
+                array(
+                        'header' => 'Nama',
+                        'value' => '$data->jenispemeriksaanlab_nama'
+                    ),
+                array(
+                        'header' => 'Nama Lain',
+                        'value' => '$data->jenispemeriksaanlab_namalainnya'
+                    ),
+                array(
+                        'header' => 'kelompok',
+                        'value' => '$data->jenispemeriksaanlab_kelompok'
+                    ),		
+                array(
+                    'header' => 'Status',
+                    'value' => '($data->jenispemeriksaanlab_aktif==1)?"Aktif":"Tidak Aktif"'
+                ),
 		/*
 		'jenispemeriksaanlab_aktif',
 		*/
