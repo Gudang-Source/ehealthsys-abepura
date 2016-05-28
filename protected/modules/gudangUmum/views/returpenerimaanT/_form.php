@@ -1,3 +1,6 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
 <div class="white-container">
     <legend class='rim2'>Retur Penerimaan <b>Persediaan Barang</b></legend>
     <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form.js'); ?>
@@ -13,14 +16,14 @@
 
     <?php echo $form->errorSummary($model); ?>
     <?php if (isset($modTerima)) {
-        $this->renderPartial('_dataTerima', array('modTerima'=>$modTerima));
+        $this->renderPartial('_dataTerima', array('modTerima'=>$modTerima, 'id'=>$id));
     }?>
     <hr />
     <table width="100%">
         <tr>
             <td>
-                <?php //echo $form->textFieldRow($model,'terimapersediaan_id',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-                <?php echo $form->textFieldRow($model,'noreturterima',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+                <?php echo $form->hiddenField($model,'terimapersediaan_id',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                <?php echo $form->textFieldRow($model,'noreturterima',array('class'=>'span3', 'readonly'=>true, 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
                 <?php //echo $form->textFieldRow($model,'tglreturterima',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                 <div class="control-group ">
                     <?php echo $form->labelEx($model, 'tglreturterima', array('class' => 'control-label')) ?>
@@ -44,7 +47,7 @@
                 <?php echo $form->textAreaRow($model,'keterangan_retur',array('rows'=>6, 'cols'=>50, 'class'=>'span5', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
             </td>
             <td>
-                <?php echo $form->textFieldRow($model,'totalretur',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                <?php echo $form->textFieldRow($model,'totalretur',array('style'=>'text-align: right; ','readonly'=>true,'class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                 <?php //echo $form->textFieldRow($model,'peg_retur_id',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                 <?php //echo $form->textFieldRow($model,'peg_mengetahui_id',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                 <div class="control-group ">
@@ -194,13 +197,19 @@ $js = <<< JS
     }
     
     function cekRetur(obj){
-        var terima = $(obj).parents('tr').find('.terima').val();
-        var retur = $(obj).val();
+        var terima = parseFloat($(obj).parents('tr').find('.terima').val());
+        var retur = parseFloat($(obj).val());
+            
+        console.log(terima, retur);
+            
         if (retur > terima){
             myAlert('Jumlah Retur tidak boleh lebih dari '+terima);
             $(obj).val(terima);
+            hitungRetur();
             return false;
         }
+            
+        hitungRetur();
     }
     
     function openDialog(obj){
@@ -258,9 +267,10 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
     ),
 ));
 
-$modPegawai = new GUPegawaiM('search');
+$modPegawai = new GUPegawaiRuanganV('search');
 $modPegawai->unsetAttributes();
 //$modPegawai->ruangan_id = 0;
+$modPegawai->ruangan_id = Yii::app()->user->getState('ruangan_id');
 if (isset($_GET['GUPegawaiM']))
     $modPegawai->attributes = $_GET['GUPegawaiM'];
 
@@ -312,3 +322,25 @@ $this->widget('application.extensions.moneymask.MMask', array(
     )
 ));
 ?>
+
+
+<script>
+
+function hitungRetur() {
+    var total = 0;
+    $('#tableDetailBarang tbody tr').each(function()
+    {
+        var satuan = parseFloat(unformatNumber($(this).find(".satuan").val()));
+        var retur = parseFloat($(this).find(".retur").val());
+        
+        total += (satuan * retur);
+    });
+    
+    $("#GUReturpenerimaanT_totalretur").val(formatNumber(total));
+}  
+
+$(document).ready(function() {
+    hitungRetur();
+});
+
+</script>
