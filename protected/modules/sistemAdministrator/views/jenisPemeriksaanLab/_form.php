@@ -21,7 +21,12 @@
 			<?php echo $form->textFieldRow($model,'jenispemeriksaanlab_namalainnya',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30)); ?>
 		</div>
 		<div class = "span4">
-			<?php echo $form->textFieldRow($model,'jenispemeriksaanlab_kelompok',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
+                        <div class = "control-group">
+                            <?php echo CHtml::label('Kelompok <font style="color:red">*</font>','jenispemeriksaanlab_kelompok',array('class'=>'control-label')); ?>
+                            <div class = "controls">
+                                <?php echo $form->dropDownList($model,'jenispemeriksaanlab_kelompok', LookupM::getItems(Params::LOOKUPTYPE_JENISPEMERIKSAANLAB_KELOMPOK),array('empty' => '-- Pilih --','class'=>'required span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
+                            </div>
+                        </div>    			
 			<?php echo $form->checkBoxRow($model,'jenispemeriksaanlab_aktif', array('onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
 		</div>
 	</div>
