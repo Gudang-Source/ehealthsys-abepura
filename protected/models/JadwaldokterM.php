@@ -96,7 +96,7 @@ class JadwaldokterM extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'jadwaldokter_id' => 'ID Jadwal Dokter',
+			'jadwaldokter_id' => 'ID',
 			'instalasi_id' => 'Instalasi',
 			'ruangan_id' => 'Ruangan',
 			'pegawai_id' => 'Dokter',
