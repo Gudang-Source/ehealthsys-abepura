@@ -88,6 +88,7 @@ if(isset($_GET['GUTerimapersediaanT'])){
 }
 
 $provider = $terima->searchInformasi();
+$provider->criteria->addCondition('returpenerimaan_id is null');
 $provider->sort->defaultOrder = 'tglterima desc';
 
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
@@ -117,6 +118,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 'name'=>'tglterima',
                 'type'=>'raw',
                 'value'=>'MyFormatter::formatDateTimeForUser($data->tglterima)',
+                'filter'=>false,
             ),
             array(
                 'header'=>'Sumber Dana',
