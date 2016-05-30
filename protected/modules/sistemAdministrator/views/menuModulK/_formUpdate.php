@@ -138,7 +138,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
         array(
             'header'=>'Pilih',
             'type'=>'raw',
-            'value'=>'CHtml::Link("<i class=\"icon-check\"></i>","#",array("rel"=>"tooltip","title"=>"Pilih Obat/Alkes","class"=>"btn_small",
+            'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("rel"=>"tooltip","title"=>"Pilih Obat/Alkes","class"=>"btn_small",
                 "id"=>"selectObat",
                 "onClick"=>"
                             $(\"#'.CHtml::activeId($model,'menu_icon').'\").val(\"$data->lookup_name\");

@@ -29,6 +29,7 @@ $currentUrl = Yii::app()->createUrl($module . '/' . $controller . '/' . $action)
                 ),
                 array(
                   'header'=>'Pegawai Mengetahui',
+                  'name' => 'pegpemesan_id',
                   'value'=>'isset($data->pegawaimengetahui->nama_pegawai)?$data->pegawaimengetahui->nama_pegawai:""',
                 ),
 //		'pegmengetahui_id',
