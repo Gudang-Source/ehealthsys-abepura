@@ -136,7 +136,7 @@
             </legend>
             <div id="rujukan">
                     <?php echo $form->checkBoxList($model, 'asalrujukan_id', CHtml::listData(AsalrujukanM::model()->findAll(
-                            'asalrujukan_aktif = true'),'asalrujukan_id','asalrujukan_nama')); ?>
+                            'asalrujukan_aktif = true ORDER BY asalrujukan_nama ASC'),'asalrujukan_id','asalrujukan_nama')); ?>
             </div>
         </fieldset>
         <fieldset class='box2'>
@@ -146,7 +146,7 @@
             </legend>
             <div id="instalasi">
                     <?php echo $form->checkBoxList($model, 'ruanganasal_id', CHtml::listData(RuanganM::model()->findAll(
-                            'ruangan_aktif = true'),'ruangan_id','ruangan_nama')); ?>
+                            'ruangan_aktif = true ORDER BY ruangan_nama ASC'),'ruangan_id','ruangan_nama')); ?>
             </div>
         </fieldset>
         <fieldset class='box2'>

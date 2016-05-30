@@ -137,7 +137,7 @@
             <div class="controls">
                 <div id="obatAlkes">
                     <?php
-                        echo $form->CheckBoxList($model,'jenisobatalkes_id',CHtml::listData(JenisobatalkesM::model()->findAll('jenisobatalkes_aktif = true'),'jenisobatalkes_id','jenisobatalkes_nama'));
+                        echo $form->CheckBoxList($model,'jenisobatalkes_id',CHtml::listData(JenisobatalkesM::model()->findAll('jenisobatalkes_aktif = true ORDER BY jenisobatalkes_nama ASC'),'jenisobatalkes_id','jenisobatalkes_nama'));
                     ?>
                 </div>
             </div>

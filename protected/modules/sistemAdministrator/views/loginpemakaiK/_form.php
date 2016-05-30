@@ -227,7 +227,11 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
              'value' => '$data->tgl_lahirpegawai',
              'filter' => false,
          ),
-         'alamat_pegawai',
+         array(
+             'header' => 'Jabatan',
+             'value' => 'isset($data->jabatan_id)?$data->jabatan->jabatan_nama:"-"',
+             'filter' => CHtml::dropDownList('SAPegawaiM[jabatan_id]', $modPegawai->jabatan_id, CHtml::listData(JabatanM::model()->findAll("jabatan_aktif = true ORDER BY jabatan_nama ASC"), 'jabatan_id', 'jabatan_nama'),array('empty'=>'-- Pilih --'))
+         ),
          ),
          'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
          )); 
