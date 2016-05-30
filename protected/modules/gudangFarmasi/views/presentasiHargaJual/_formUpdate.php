@@ -44,7 +44,7 @@
         <?php echo $form->textFieldRow($model,'ri_persjualppn',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
         <?php echo $form->textFieldRow($model,'rd_persjualppn',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
         <?php echo $form->textFieldRow($model,'rj_persjualppn',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-        <?php echo $form->textFieldRow($model,'persensubsidirspegawai',array('class'=>'span3 float2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php // echo $form->textFieldRow($model,'persensubsidirspegawai',array('class'=>'span3 float2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
 	</div>
     <div class = "span4">
         <?php echo $form->textFieldRow($model,'pembulatanharga',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
