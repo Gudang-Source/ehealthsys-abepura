@@ -29,11 +29,23 @@
         $subtotaloa = 0;
         if(count($dataOas) > 0){
             foreach($dataOas AS $i =>$obatalkes){
+                $tanggungan = TanggunganpenjualanM::model()->findByAttributes(array(
+                    'lookup_name'=>$data->jenispenjualan,
+                ));
+                
+                
                 $obatalkes->is_pilihoa = true;
                 $obatalkes->tglpelayanan = $format->formatDateTimeForUser($obatalkes->tglpelayanan);
                 $obatalkes->biayalain = $obatalkes->biayaservice + $obatalkes->biayakonseling + $obatalkes->biayakemasan + $obatalkes->biayaadministrasi;
-                $subsidi = $obatalkes->subsidiasuransi+$obatalkes->subsidirs;
-                $obatalkes->subtotaloa = ($obatalkes->qty_oa*$obatalkes->hargasatuan_oa)+$obatalkes->tarifcyto-$obatalkes->discount+$obatalkes->biayalain-$subsidi;
+                
+                if (!empty($tanggungan)) {
+                    $obatalkes->subsidiasuransi = round(($obatalkes->qty_oa*$obatalkes->hargasatuan_oa) * ($tanggungan->subsidiasuransi/100));
+                    $obatalkes->subsidipemerintah = round(($obatalkes->qty_oa*$obatalkes->hargasatuan_oa) * ($tanggungan->subsidipemerintah/100));
+                    $obatalkes->subsidirs = round(($obatalkes->qty_oa*$obatalkes->hargasatuan_oa) * ($tanggungan->subsidirs/100));
+                }
+                
+                $subsidi = $obatalkes->subsidiasuransi+$obatalkes->subsidirs+$obatalkes->subsidipemerintah;
+                $obatalkes->subtotaloa = ($obatalkes->qty_oa*$obatalkes->hargasatuan_oa)+$obatalkes->tarifcyto-$obatalkes->discount+$obatalkes->biayalain;
                 $tot_hargajual_oa += ($obatalkes->qty_oa*$obatalkes->hargasatuan_oa);
                 $tot_tarifcyto += $obatalkes->tarifcyto;
                 $tot_discount += $obatalkes->discount;
@@ -41,7 +53,7 @@
                 $tot_subsidiasuransi += $obatalkes->subsidiasuransi;
                 $tot_subsidipemerintah += $obatalkes->subsidipemerintah;
                 $tot_subsidirs += $obatalkes->subsidirs;
-                $tot_iurbiaya += $obatalkes->iurbiaya;
+                $tot_iurbiaya += $obatalkes->iurbiaya-$subsidi;
                 $total_oa += $obatalkes->subtotaloa;
                 $obatalkes->qty_oa = $format->formatNumberForPrint($obatalkes->qty_oa);
                 $obatalkes->hargasatuan_oa = $format->formatNumberForPrint($obatalkes->hargasatuan_oa);
@@ -52,7 +64,7 @@
                 $obatalkes->subsidipemerintah = $format->formatNumberForPrint($obatalkes->subsidipemerintah);
                 $obatalkes->subsidirs = $format->formatNumberForPrint($obatalkes->subsidirs);
 ////                  DISAMAKAN DENGAN subtotaloa >>  $obatalkes->iurbiaya = $format->formatNumberForPrint($obatalkes->iurbiaya);
-                $obatalkes->iurbiaya = $format->formatNumberForPrint($obatalkes->subtotaloa);
+                $obatalkes->iurbiaya = $format->formatNumberForPrint($obatalkes->subtotaloa-$subsidi);
                 $obatalkes->subtotaloa = $format->formatNumberForPrint($obatalkes->subtotaloa);
                 echo '<tr>'
                         .'<td>'.CHtml::activeCheckBox($obatalkes, '['.$i.']is_pilihoa',array('onchange'=>'hitungTotalOa();','onkeyup'=>"return $(this).focusNextInputField(event);"))  
@@ -86,7 +98,7 @@
         $tot_subsidiasuransi = $format->formatNumberForPrint($tot_subsidiasuransi);
         $tot_subsidipemerintah = $format->formatNumberForPrint($tot_subsidipemerintah);
         $tot_subsidirs = $format->formatNumberForPrint($tot_subsidirs);
-        $tot_iurbiaya = $format->formatNumberForPrint($total_oa);
+        $tot_iurbiaya = $format->formatNumberForPrint($tot_iurbiaya);
         $total_oa = $format->formatNumberForPrint($total_oa);
         ?>
         <td colspan="4" style="text-align: right; font-weight: bold;"><?php echo CHtml::checkBox('is_proporsioa',false,array('onchange'=>'setProporsiOa();','rel'=>'tooltip','title'=>'Centang untuk masukan proporsi dari total obat alkes','onkeyup'=>"return $(this).focusNextInputField(event);")) ?> Total Tagihan Obat & Alkes</td>
