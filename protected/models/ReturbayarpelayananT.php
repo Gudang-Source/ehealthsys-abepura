@@ -27,6 +27,10 @@
 class ReturbayarpelayananT extends CActiveRecord
 {
         public $tgl_awal, $tgl_akhir, $noreturresep, $pegawai, $pegawairetur;
+        public $no_pendaftaran, $no_rekam_medik, $nama_pasien;
+        public $carabayar_id, $penjamin_id; 
+        public $nobuktibayar;
+        
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -109,6 +113,12 @@ class ReturbayarpelayananT extends CActiveRecord
 			'update_loginpemakai_id' => 'Update Loginpemakai',
 			'create_ruangan' => 'Create Ruangan',
                         'returresep_id'=>'Retur Resep',
+                        'carabayar_id' =>'Cara Bayar',
+                        'penjamin_id' => 'Penjamin',
+                        'nobuktibayar' => 'No. Pembayaran',
+                        'tgl_pendaftaran' => 'Tgl. Pendaftaran',
+                        'no_pendaftaran' => 'No. Pendaftaran',
+                        'no_rekam_medik' => 'No. Rekam Medik',
 		);
 	}
 
