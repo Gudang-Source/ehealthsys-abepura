@@ -3,7 +3,7 @@
             <?php echo $form->labelEx($modPenjualan,'jenispenjualan', array('readonly'=>true,'class'=>'control-label')) ?>
             <div class="controls">
                     <?php 
-                    echo $form->dropDownList($modPenjualan,'jenispenjualan', LookupM::getItems('penjualankaryawan'),  
+                    echo $form->dropDownList($modPenjualan,'jenispenjualan', LookupM::getItems('jenispenjualan'),  
                                     array('empty'=>'-- Pilih --','readonly'=>true, 'onkeypress'=>"return $(this).focusNextInputField(event)", 'class'=>'span3', 'onchange'=>'jenisPenjualan()'
                     )); ?>   
             </div>

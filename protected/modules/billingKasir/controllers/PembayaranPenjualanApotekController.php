@@ -43,7 +43,7 @@ class PembayaranPenjualanApotekController extends PembayaranTagihanPasienControl
         
         // Uncomment the following line if AJAX validation is needed
        
-		if(isset($_GET['penjualanresep_id'])){
+	if(isset($_GET['penjualanresep_id'])){
             $modPenjualan = BKInformasipenjualanaresepV::model()->findByAttributes(array('penjualanresep_id'=>$_GET['penjualanresep_id']));
             $model->noresep = $modPenjualan->noresep;
         }
@@ -180,11 +180,29 @@ class PembayaranPenjualanApotekController extends PembayaranTagihanPasienControl
                 $pendaftaran_id = (isset($_POST['pendaftaran_id']) ? $_POST['pendaftaran_id'] : null);
                 $model = new BKInformasipenjualanaresepV;
                 $model->jenispenjualan = $jenispenjualan;
-                $criteria = $model->criteriaGroupByPenjualan();
-				if(!empty($pendaftaran_id)){
-					$criteria->addCondition("pendaftaran_id = ".$pendaftaran_id);					
-				}
+                
+                $penjualanresep_id = $_POST['penjualanresep_id'];
+                
+                if (in_array($_POST['pasien_id'], array(3,4,5))) {
+                    $criteria->addCondition("penjualanresep_id = ".$penjualanresep_id);
+                } else {
+                    $criteria = $model->criteriaGroupByPenjualan();
+                                    if(!empty($pendaftaran_id)){
+                                            $criteria->addCondition("pendaftaran_id = ".$pendaftaran_id);					
+                                    }
+                                    
+                }
                 $modPenjualan = $model->find($criteria);
+                // var_dump($modPenjualan->attributes); die;
+                
+                if (!empty($modPenjualan->pasienpegawai_id)) {
+                    $p = PegawaiM::model()->findBypk($modPenjualan->pasienpegawai_id);
+                    $modPenjualan->nama_pasien = $p->namaLengkap;
+                    $modPenjualan->tanggal_lahir = MyFormatter::formatDateTimeForUser($p->tgl_lahirpegawai);
+                    $modPenjualan->jeniskelamin = $p->jeniskelamin;
+                }
+                
+                
                 $model = new BKPembayaranpelayananT;
                 $modTandabukti = new BKTandabuktibayarT;
                 $modPemakaianuangmuka = new BKPemakaianuangmukaT;
@@ -279,7 +297,7 @@ class PembayaranPenjualanApotekController extends PembayaranTagihanPasienControl
             }
             $returnVal["tanggal_lahir"] = $format->formatDateTimeForUser($model->tanggal_lahir);
             $returnVal["tglpenjualan"] = $format->formatDateTimeForUser($model->tglpenjualan);
-            $returnVal["umur"] = $modPendaftaran->umur;
+            if (!empty($modPendaftaran)) $returnVal["umur"] = $modPendaftaran->umur;
             $modPenunjangAkhir = $model->getPenunjangAkhir();
             $returnVal["ruangan_id"] = $modPenunjangAkhir->ruangan_id;
             $returnVal["ruangan_nama"] = $modPenunjangAkhir->ruangan_nama;
@@ -288,6 +306,8 @@ class PembayaranPenjualanApotekController extends PembayaranTagihanPasienControl
                 $gelardepan = (isset($modPegawai->gelardepan) ? $modPegawai->gelardepan : "");
                 $gelarbelakang = (isset($modPegawai->gelarbelakang_id) ? $modPegawai->gelarbelakang->gelarbelakang_nama : "");
                 $returnVal["nama_pasien"] = $gelardepan." ".$modPegawai->nama_pegawai." ".$gelarbelakang;
+                $returnVal["tanggal_lahir"] = $format->formatDateTimeForUser($modPegawai->tgl_lahirpegawai);
+                $returnVal["jeniskelamin"] = $modPegawai->jeniskelamin;
             }
             if(isset($jenispenjualan) && $jenispenjualan =='PENJUALAN UNIT'){
                 $returnVal["nama_pasien"] = $model->instalasiasal_nama;
@@ -329,13 +349,15 @@ class PembayaranPenjualanApotekController extends PembayaranTagihanPasienControl
             $penjamin_id = (isset($_POST['penjamin_id']) ? $_POST['penjamin_id'] : null);
             $form='';
             $dataOas = array();
+            $res = null;
             if(!empty($penjualanresep_id)){
                 $criteria = new CdbCriteria();
                 $criteria->addCondition("penjualanresep_id = ".$penjualanresep_id);
                 $criteria->addCondition("oasudahbayar_id IS NULL");
                 $dataOas= BKObatalkesPasienT::model()->findAll($criteria);
+                $res = BKPenjualanresepT::model()->findByPk($penjualanresep_id);
             }
-            $form = $this->renderPartial('_formRincianPenjualanApotek',array('dataOas'=>$dataOas),true);
+            $form = $this->renderPartial('_formRincianPenjualanApotek',array('dataOas'=>$dataOas, 'data'=>$res),true);
             $data['form']=$form;
             echo json_encode($data);
             Yii::app()->end();

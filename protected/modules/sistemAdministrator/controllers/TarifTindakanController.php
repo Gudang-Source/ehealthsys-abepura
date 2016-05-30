@@ -3,7 +3,7 @@
 
 class TarifTindakanController extends MyAuthController
 {
-	public $layout='//layouts/column1';
+	public $layout='//layouts/iframe';
 	public $defaultAction = 'admin';
 	public $_lastDaftarTindakanId = null;
 	public $_lastDaftarTindakanId2 = null;
