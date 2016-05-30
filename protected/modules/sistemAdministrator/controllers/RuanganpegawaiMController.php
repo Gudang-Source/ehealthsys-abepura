@@ -13,7 +13,7 @@ class RuanganpegawaiMController extends MyAuthController
         
                 public function actionAdmin()
                 {
-                    $model = new SARuanganpegawaiM('search');
+                    $model = new SARuanganpegawaiM('search');                    
                     $model->unsetAttributes();
                     if (isset($_GET['SARuanganpegawaiM'])){
                         $model->attributes = $_GET['SARuanganpegawaiM'];
