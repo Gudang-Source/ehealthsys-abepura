@@ -30,7 +30,7 @@ class PenjualanKaryawanController extends PenjualanResepRSController {
         $modPenjualan->tglresep = Yii::app()->dateFormatter->formatDateTime(CDateTimeParser::parse($modPenjualan->tglresep, 'yyyy-MM-dd hh:mm:ss', 'medium', null));
         $modPenjualan->noresep = MyGenerator::noResep($instalasi_id);
         ;
-        $modPenjualan->jenispenjualan = 'PENJUALAN KARYAWAN';
+        $modPenjualan->jenispenjualan = 'PENJUALAN PEGAWAI';
         $modPenjualan->carabayar_id = Params::CARABAYAR_ID_MEMBAYAR;
         $modPenjualan->penjamin_id = Params::PENJAMIN_ID_UMUM;
         $modPenjualan->totharganetto = 0;

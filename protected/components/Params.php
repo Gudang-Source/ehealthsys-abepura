@@ -332,7 +332,7 @@ Class Params
 	const JENISPENJUALAN_RESEP_LUAR = "PENJUALAN RESEP LUAR"; //disesuaikan dengan lookup_m.lookup_type = jenispenjualan
 	const JENISPENJUALAN_BEBAS = "PENJUALAN BEBAS"; //disesuaikan dengan lookup_m.lookup_type = jenispenjualan
 	const JENISPENJUALAN_DOKTER = "PENJUALAN DOKTER"; //disesuaikan dengan lookup_m.lookup_type = jenispenjualan
-	const JENISPENJUALAN_KARYAWAN = "PENJUALAN KARYAWAN"; //disesuaikan dengan lookup_m.lookup_type = jenispenjualan
+	const JENISPENJUALAN_KARYAWAN = "PENJUALAN PEGAWAI"; //disesuaikan dengan lookup_m.lookup_type = jenispenjualan
 
 	const JENISPELAYANAN_RJ = 2; //di ambil dari lookup_m.lookup_type = jenispelayanan
 	const JENISPELAYANAN_RI = 1; //di ambil dari lookup_m.lookup_type = jenispelayanan

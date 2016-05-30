@@ -46,7 +46,7 @@ class TerimapersediaanTController extends MyAuthController
 		$model->pajakppn =0;
 		$modDetails = array();
 		$modPesan = array();
-		$modBeli = new PembelianbarangT;
+		 $modBeli = new PembelianbarangT;
 		$modDetailBeli = array();
                 
                 if (isset($_GET['id'])){
@@ -74,7 +74,10 @@ class TerimapersediaanTController extends MyAuthController
 		if(isset($_POST['GUTerimapersediaanT']))
 		{
 			$format= new MyFormatter;
-			$model->attributes=$_POST['GUTerimapersediaanT'];
+			
+                        
+                        
+                        $model->attributes=$_POST['GUTerimapersediaanT'];
 			$model->nopenerimaan = MyGenerator::noPenerimaanPersediaan($instalasi_id);
 			$model->tglterima=$format->formatDateTimeForDb($_POST['GUTerimapersediaanT']['tglterima']);
 			$model->tglsuratjalan=$format->formatDateTimeForDb($_POST['GUTerimapersediaanT']['tglsuratjalan']);
@@ -83,6 +86,8 @@ class TerimapersediaanTController extends MyAuthController
 			$model->create_time=date("Y-m-d");
 			$model->create_loginpemakai_id = Yii::app()->user->id;
 			$model->create_ruangan = Yii::app()->user->getState('ruangan_id');
+                        $model->supplier_id = $_POST['PembelianbarangT']['supplier_id'];
+                        
 			if (!empty($id)) $model->pembelianbarang_id = $id;
 			if (count($_POST['TerimapersdetailT']) > 0){
                             if ($model->validate()){

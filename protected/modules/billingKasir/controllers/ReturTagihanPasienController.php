@@ -283,4 +283,28 @@ class ReturTagihanPasienController extends MyAuthController
             Yii::app()->end();
         }
     }
+    
+    
+    function actionInformasi()
+    {
+        $model = new BKReturbayarpelayananT();
+        $model->tgl_awal = date('Y-m-d H:i:s', time() - (7 * 24 * 3600));
+        $model->tgl_akhir = date('Y-m-d H:i:s');
+        
+        if (isset($_GET['BKReturbayarpelayananT'])) {
+            $model->attributes = $_GET['BKReturbayarpelayananT'];
+            $model->tgl_awal = MyFormatter::formatDateTimeForDb($_GET['BKReturbayarpelayananT']['tgl_awal']);
+            $model->tgl_akhir = MyFormatter::formatDateTimeForDb($_GET['BKReturbayarpelayananT']['tgl_akhir']);
+            $model->nobuktibayar = $_GET['BKReturbayarpelayananT']['nobuktibayar'];
+            $model->no_pendaftaran = $_GET['BKReturbayarpelayananT']['no_pendaftaran'];
+            $model->no_rekam_medik = $_GET['BKReturbayarpelayananT']['no_rekam_medik'];
+            $model->nama_pasien = $_GET['BKReturbayarpelayananT']['nama_pasien'];
+            $model->carabayar_id = $_GET['BKReturbayarpelayananT']['carabayar_id'];
+            $model->penjamin_id = $_GET['BKReturbayarpelayananT']['penjamin_id'];
+        }
+        
+        $this->render('informasi', array(
+            'model'=>$model,
+        ));
+    }
 }
