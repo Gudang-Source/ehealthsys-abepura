@@ -243,8 +243,8 @@ if (isset($_GET['idMutasi']) && !empty($_GET['idMutasi'])) {
                                         $(\'#dialogPegawaiMengetahui\').dialog(\'close\');
                                         return false;"))',
             ),
-            'nama_pegawai',          
-            'nomorindukpegawai',
+               'nomorindukpegawai',
+            'nama_pegawai',                   
             'alamat_pegawai',
             array(
                 'name' => 'agama',

@@ -18,10 +18,14 @@ class InfoPemakaianBarangController extends MyAuthController
 		$format = new MyFormatter; 
 		$model	= new GUInformasipemakaianbarangV('search');
 		$model->unsetAttributes();  // clear any default values
+                $disabled = false;
+                if (Yii::app()->user->getState('ruangan_id') != Params::RUANGAN_ID_GUDANG_UMUM){
+                    $disabled=true;
+                }
 		$model->instalasi_id = Yii::app()->user->getState('instalasi_id');
 		$model->ruangan_id = Yii::app()->user->getState('ruangan_id');
-        $model->tgl_awal = date('Y-m-d');
-        $model->tgl_akhir = date('Y-m-d');
+                $model->tgl_awal = date('Y-m-d');
+                $model->tgl_akhir = date('Y-m-d');
 		if(isset($_GET['GUInformasipemakaianbarangV'])){
 			$model->attributes=$_GET['GUInformasipemakaianbarangV'];
             $model->tgl_awal = $format->formatDateTimeForDb($model->tgl_awal);
@@ -31,7 +35,7 @@ class InfoPemakaianBarangController extends MyAuthController
             }
 		}
 		$this->render($this->path_view.'index',array(
-				'model'=>$model, 'format'=>$format
+				'model'=>$model, 'format'=>$format ,'disabled' => $disabled
 		));
 	}
 	

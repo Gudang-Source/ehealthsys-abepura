@@ -105,7 +105,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
        array(
             'header' => 'Tipe Barang',
             'name' => 'barang_type',
-            'filter' => CHtml::dropDownList('ADBarangM[barang_type]',$modBarang->barang_type,LookupM::getItems('barangumumtype'),array('empty'=>'-- Pilih --')),    
+            'filter' => CHtml::dropDownList('GUBarangM[barang_type]',$modBarang->barang_type,LookupM::getItems('barangumumtype'),array('empty'=>'-- Pilih --')),    
             'value' => '$data->barang_type',
         ),
         'barang_kode',
@@ -113,7 +113,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
         'barang_merk',        
         array(
             'name'=>'barang_satuan',
-            'filter'=> CHtml::dropDownList('ADBarangM[barang_satuan]',$modBarang->barang_satuan,LookupM::getItems('satuanbarang'),array('empty'=>'--Pilih--')),
+            'filter'=> CHtml::dropDownList('GUBarangM[barang_satuan]',$modBarang->barang_satuan,LookupM::getItems('satuanbarang'),array('empty'=>'--Pilih--')),
             'value'=>'$data->barang_satuan',
         ),
         'barang_ukuran',
