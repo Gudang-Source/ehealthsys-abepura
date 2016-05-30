@@ -66,7 +66,7 @@
                     <div class="control-group ">
                         <?php echo CHtml::activeLabel($model,'pegpengirim_id',array('class'=>'control-label')); ?>
                         <div class="controls">
-                            <?php echo $form->dropDownList($model,'pegpengirim_id', CHtml::listData(PegawaiM::model()->findAll('pegawai_aktif = true ORDER BY nama_pegawai ASC'), 'pegawai_id', 'nama_pegawai'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20)); ?>
+                            <?php echo $form->dropDownList($model,'pegpengirim_id', CHtml::listData($model->getPegawaiRuangan(), 'pegawai_id', 'nama_pegawai'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20)); ?>
                         </div>
                     </div>
                     <?php //echo $form->dropDownListRow($model,'sumberdanabhn', LookupM::getItems('sumberdanabahan'),array('empty'=>'-- Pilih --')); ?>

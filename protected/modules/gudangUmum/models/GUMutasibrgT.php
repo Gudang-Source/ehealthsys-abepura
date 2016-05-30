@@ -82,5 +82,15 @@ class GUMutasibrgT extends MutasibrgT {
                     'criteria' => $criteria,
                 ));
     }
+    
+     public function getPegawaiRuangan()
+        {
+            $cr = new CDbCriteria();
+            $cr->addCondition(" ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
+            $cr->addCondition(" pegawai_aktif= TRUE ");
+            $cr->order = "nama_pegawai ASC";
+            
+            return PegawairuanganV::model()->findAll($cr);
+        }
 
 }

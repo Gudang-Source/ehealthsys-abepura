@@ -55,13 +55,13 @@
                             array(
 								'name'=>'kelmenu_id',
 								'value'=>'$data->kelompokmenu->kelmenu_nama',
-								'filter'=> CHtml::listData($model->getKelompokMenuItems(), 'kelmenu_id', 'kelmenu_nama'),
+								'filter'=> CHtml::dropDownList('SAMenuModulK[kelmenu_id]',$model->kelmenu_id,CHtml::listData($model->getKelompokMenuItems(), 'kelmenu_id', 'kelmenu_nama'),array('empty'=>'-- Pilih --')),
                             ),
                             //'kelompokmenu.kelmenu_nama',
                             array(
 								'name'=>'modul_id',
 								'value'=>'$data->modulk->modul_nama',
-								'filter'=> CHtml::listData($model->getModulItems(), 'modul_id', 'modul_nama'),
+								'filter'=> CHtml::dropDownList('SAMenuModulK[modul_id]',$model->modul_id,CHtml::listData($model->getModulItems(), 'modul_id', 'modul_nama'),array('empty'=>'-- Pilih --')),
                             ),
                             //'modul_id',
                             //'modulk.modul_nama',
