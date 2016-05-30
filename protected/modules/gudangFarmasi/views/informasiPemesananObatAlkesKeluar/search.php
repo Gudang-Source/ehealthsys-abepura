@@ -55,7 +55,7 @@
                         array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
                                 'ajax'=>array('type'=>'POST',
                                             'url'=>$this->createUrl('SetDropdownRuangan',array('encode'=>false,'model_nama'=>get_class($model))),
-                                            'update'=>"#".CHtml::activeId($model, 'ruanganpemesan_id'),
+                                            'update'=>"#".CHtml::activeId($model, 'ruangantujuan_id'),
                                 )));?>
                 
                 <?php echo $form->dropDownListRow($model,'ruangantujuan_id',$ruanganPemesanans,array('class'=>'span3','empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
