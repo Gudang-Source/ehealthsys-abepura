@@ -65,6 +65,67 @@
         
 	</div>
 </div>
+<fieldset class="box">
+    <legend class="rim">Tanggungan Jenis Penjualan Obat Alkes</legend>
+    <table width="100%" class="table" id="tabTanggungan">
+        <thead>
+            <tr>
+                <th>Jenis Penjualan Obat Alkes</th>
+                <th>Subsidi Asuransi</th>
+                <th>Subsidi Pemerintah</th>
+                <th>Subsidi Rumah Sakit</th>
+                <th>Tambah</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php 
+            $tg = TanggunganpenjualanM::model()->findAll();
+            if (count($tg) == 0) :
+            ?>
+            <tr>
+                <td><?php echo CHtml::dropDownList('tanggungan[jenis][]', null, LookupM::getItems('jenispenjualan'), array('empty'=>'-- Pilih --', 'class'=>'span2 jenis')); ?></td>
+                <td><?php echo CHtml::textField('tanggungan[asuransi][]', "0,00", array('class'=>'span2 float2 asuransi')); ?></td>
+                <td><?php echo CHtml::textField('tanggungan[pemerintah][]', "0,00", array('class'=>'span2 float2 pemerintah')); ?></td>
+                <td><?php echo CHtml::textField('tanggungan[rs][]', "0,00", array('class'=>'span2 float2 rs')); ?></td>
+                <td><?php 
+                echo CHtml::htmlButton('<i class="icon-plus icon-white"></i>', array(
+                    'class'=>'btn btn-primary adds',
+                    'onclick'=>'tambahItemTanggungan(this)',
+                ))." ".CHtml::htmlButton('<i class="icon-minus icon-white"></i>', array(
+                    'class'=>'btn btn-danger removes',
+                    'onclick'=>'hapusItem(this)',
+                    'style'=>'display: none;',
+                )); 
+                ?>
+                </td>
+            </tr>
+            <?php else : ?>
+                <?php 
+                $cnt = 0;
+                foreach ($tg as $item): ?>
+                
+            <tr>
+                <td><?php echo CHtml::dropDownList('tanggungan[jenis][]', $item->lookup_name, LookupM::getItems('jenispenjualan'), array('empty'=>'-- Pilih --', 'class'=>'span2 jenis')); ?></td>
+                <td><?php echo CHtml::textField('tanggungan[asuransi][]', str_replace(".", ",", $item->subsidiasuransi), array('class'=>'span2 float2 asuransi')); ?></td>
+                <td><?php echo CHtml::textField('tanggungan[pemerintah][]', str_replace(".", ",", $item->subsidipemerintah), array('class'=>'span2 float2 pemerintah')); ?></td>
+                <td><?php echo CHtml::textField('tanggungan[rs][]', str_replace(".", ",", $item->subsidirs), array('class'=>'span2 float2 rs')); ?></td>
+                <td><?php 
+                echo CHtml::htmlButton('<i class="icon-plus icon-white"></i>', array(
+                    'class'=>'btn btn-primary adds',
+                    'onclick'=>'tambahItemTanggungan(this)',
+                ))." ".CHtml::htmlButton('<i class="icon-minus icon-white"></i>', array(
+                    'class'=>'btn btn-danger removes',
+                    'onclick'=>'hapusItem(this)',
+                    'style'=>($cnt == 0?'display: none;':null),
+                )); ?>
+                </td>
+            </tr>
+                    
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </tbody>
+    </table>
+</fieldset>
 	<div class="form-actions">
 		                <?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 
                                     Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),
@@ -94,3 +155,20 @@ $(document).ready(function () {
         });
 });
 ", CClientScript::POS_HEAD); ?>
+
+<script>
+
+function tambahItemTanggungan() {
+    $("#tabTanggungan tbody tr:first-child").clone().appendTo($("#tabTanggungan tbody"));
+    $("#tabTanggungan tbody tr:last-child .float2").val('0,00').maskMoney(
+    {"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":"","precision":2}
+    );
+    $("#tabTanggungan tbody tr:last-child select").val(null);
+    $("#tabTanggungan tbody tr:last-child .removes").show();
+}
+
+function hapusItem(obj) {
+    $(obj).parents("tr").remove();
+}
+
+</script>

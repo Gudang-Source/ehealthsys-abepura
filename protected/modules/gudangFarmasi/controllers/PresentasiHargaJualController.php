@@ -73,11 +73,17 @@ class PresentasiHargaJualController extends MyAuthController
 
 		if(isset($_POST['GFKonfigfarmasiK']))
 		{
+                        // var_dump($_POST);
+                        $trans = Yii::app()->db->beginTransaction();
 			$model->attributes=$_POST['GFKonfigfarmasiK'];
                         $model->persensubsidirspegawai = str_replace(",", ".", $model->persensubsidirspegawai);
-			if($model->save()){
+			if($model->save() && $this->simpanTanggunanPenjualanOA($_POST['tanggungan'])){
+                                $trans->commit();
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
 //				$this->redirect(array('admin','id'=>$model->konfigfarmasi_id));
+                        } else {
+                                $trans->rollback();
+                                Yii::app()->user->setFlash('error', 'Data gagal disimpan.');
                         }
 		}
                 
@@ -88,6 +94,28 @@ class PresentasiHargaJualController extends MyAuthController
 		));
 	}
 
+        function simpanTanggunanPenjualanOA($tanggungan)
+        {
+            $ok = true;
+            // var_dump($tanggungan); 
+            TanggunganpenjualanM::model()->deleteAll();
+            foreach ($tanggungan['jenis'] as $idx=>$item) {
+                if (!empty($item)) {
+                    $tp = new TanggunganpenjualanM();
+                    $tp->lookup_name = $item;
+                    $tp->subsidiasuransi = str_replace(",", ".", $tanggungan['asuransi'][$idx]);
+                    $tp->subsidipemerintah = str_replace(",", ".", $tanggungan['pemerintah'][$idx]);
+                    $tp->subsidirs = str_replace(",", ".", $tanggungan['rs'][$idx]);
+                    
+                    if ($tp->validate()) {
+                        $ok = $ok && $tp->save();
+                    } else $ok = false;
+                }
+            }
+            
+            return $ok;
+        }
+        
 	/**
 	 * Deletes a particular model.
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
