@@ -1,4 +1,6 @@
-<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form.js'); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
 <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
 	'id'=>'sakonfigfarmasi-k-form',
 	'enableAjaxValidation'=>false,
@@ -33,26 +35,27 @@
                         ?>
             </div>
         </div>
-        <?php echo $form->textFieldRow($model,'persenppn',array('class'=>'span3 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-        <?php echo $form->textFieldRow($model,'persenpph',array('class'=>'span3 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php echo $form->textFieldRow($model,'persenppn',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php echo $form->textFieldRow($model,'persenpph',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
         <?php echo $form->checkBoxRow($model,'bayarlangsung', array('onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
         <?php echo $form->textFieldRow($model,'formulajasadokter',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
         <?php echo $form->textFieldRow($model,'formulajasaparamedis',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
         <?php echo $form->dropDownListRow($model,'hargaygdigunakan', LookupM::getItems('hargaygdigunakan'),array('class'=>'span3', 'empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
-        <?php echo $form->textFieldRow($model,'ri_persjualppn',array('class'=>'span3 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-        <?php echo $form->textFieldRow($model,'rd_persjualppn',array('class'=>'span3 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-        <?php echo $form->textFieldRow($model,'rj_persjualppn',array('class'=>'span3 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php echo $form->textFieldRow($model,'ri_persjualppn',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php echo $form->textFieldRow($model,'rd_persjualppn',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php echo $form->textFieldRow($model,'rj_persjualppn',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php echo $form->textFieldRow($model,'persensubsidirspegawai',array('class'=>'span3 float2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
 	</div>
     <div class = "span4">
-        <?php echo $form->textFieldRow($model,'pembulatanharga',array('class'=>'span3 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-		<?php // RND-7953 echo $form->textFieldRow($model,'pembulatanretail',array('class'=>'span3 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-        <?php echo $form->textFieldRow($model,'administrasi',array('class'=>'span3 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-        <?php echo $form->textFieldRow($model,'persjualbebas',array('class'=>'span3 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-        <?php // RND-7953 echo $form->textFieldRow($model,'admracikan',array('class'=>'span3 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php echo $form->textFieldRow($model,'pembulatanharga',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+		<?php // RND-7953 echo $form->textFieldRow($model,'pembulatanretail',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php echo $form->textFieldRow($model,'administrasi',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php echo $form->textFieldRow($model,'persjualbebas',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php // RND-7953 echo $form->textFieldRow($model,'admracikan',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
         <?php echo $form->checkBoxRow($model,'hargajualglobal', array('onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
-        <?php echo $form->textFieldRow($model,'persdiskpasien',array('class'=>'span3 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php echo $form->textFieldRow($model,'persdiskpasien',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
         <?php echo $form->checkBoxRow($model,'otomatismargin', array('onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
-        <?php echo $form->textFieldRow($model,'persenmargin',array('class'=>'span3 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php echo $form->textFieldRow($model,'persenmargin',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
         <?php // echo $form->dropDownListRow($model,'metodeantrian', LookupM::getItems('metodeantrian'),array('class'=>'span3', 'empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
 		<?php echo $form->checkBoxRow($model,'konfigfarmasi_aktif', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
 	</div>

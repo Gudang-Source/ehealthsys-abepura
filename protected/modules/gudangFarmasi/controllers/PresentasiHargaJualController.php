@@ -74,11 +74,14 @@ class PresentasiHargaJualController extends MyAuthController
 		if(isset($_POST['GFKonfigfarmasiK']))
 		{
 			$model->attributes=$_POST['GFKonfigfarmasiK'];
+                        $model->persensubsidirspegawai = str_replace(",", ".", $model->persensubsidirspegawai);
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
 //				$this->redirect(array('admin','id'=>$model->konfigfarmasi_id));
                         }
 		}
+                
+                $model->persensubsidirspegawai = str_replace(".", ",", $model->persensubsidirspegawai);
 
 		$this->render('update',array(
 			'model'=>$model,

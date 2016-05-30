@@ -67,7 +67,7 @@ class KonfigfarmasiK extends CActiveRecord
 			array('formulajasadokter, formulajasaparamedis', 'length', 'max'=>100),
 			array('hargaygdigunakan', 'length', 'max'=>50),
 			array('metodeantrian', 'length', 'max'=>200),
-			array('bayarlangsung, pesandistruk, pesandifaktur, konfigfarmasi_aktif, hargajualglobal, otomatismargin', 'safe'),
+			array('bayarlangsung, pesandistruk, pesandifaktur, konfigfarmasi_aktif, hargajualglobal, otomatismargin, persensubsidirspegawai', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('konfigfarmasi_id, tglberlaku, persenppn, persenpph, bayarlangsung, pesandistruk, pesandifaktur, formulajasadokter, formulajasaparamedis, hargaygdigunakan, pembulatanharga, ri_persjualppn, rd_persjualppn, rj_persjualppn, konfigfarmasi_aktif, administrasi, persjualbebas, hargajualglobal, persdiskpasien, otomatismargin, persenmargin, metodeantrian, persenppnjual, nilai_vital, nilai_esensial, nilai_nonesensial, nilai_a_persen, nilai_b_persen, nilai_c_persen', 'safe', 'on'=>'search'),
@@ -122,6 +122,7 @@ class KonfigfarmasiK extends CActiveRecord
 			'nilai_a_persen' => 'Golongan VEN A (%)',
 			'nilai_b_persen' => 'Golongan VEN B (%)',
 			'nilai_c_persen' => 'Golongan VEN C (%)',
+                        'persensubsidirspegawai' => '% Asuransi RS Penjualan Pegawai'
 		);
 	}
 
