@@ -51,9 +51,9 @@
     //                        'value'=>'$data->instalasi->instalasi_nama',
     //                ),
                     array(
-                            'header'=>'Nama Ruangan',
+                            'header'=>'Ruangan',
                             'name'=>'ruangan_id',
-                            'filter'=> CHtml::dropDownList('PPJadwaldokterM[ruangan_id]',$model->ruangan_id, CHtml::listData(PPPendaftaranT::model()->getRuanganItems(), 'ruangan_id', 'ruangan_nama'),array('empty'=>'--Pilih--')),
+                            'filter'=> CHtml::dropDownList('PPJadwaldokterM[ruangan_id]',$model->ruangan_id, CHtml::listData(PPPendaftaranT::model()->getRuanganJadwalDokter(), 'ruangan_id', 'ruangan_nama'),array('empty'=>'--Pilih--')),
                             'value'=>'$data->ruangan->ruangan_nama',
                     ),
 					array(
@@ -62,7 +62,7 @@
                         'value'=>'(isset($data->pegawai->nama_pegawai) ? $data->pegawai->namaLengkap : "")',
                     ),
                     array(
-                        'header'=>'Tgl. Jadwal',
+                        'header'=>'Tanggal',
                         'name'=>'jadwaldokter_tgl',
                         'value'=>'MyFormatter::formatDateTimeForUser($data->jadwaldokter_tgl)',
                         'filter'=>false,
