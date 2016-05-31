@@ -296,6 +296,11 @@ class PembayaranTagihanPasienController extends MyAuthController
         }else{
             $model->statusbayar = Params::STATUSBAYAR_BELUM_LUNAS;
         }
+        
+        $model->totalbayartindakan = (round($model->totalbiayapelayanan/10) * 10) - $model->totalsisatagihan;
+        
+        // var_dump($model->attributes); die;
+        
         if($model->save()){
             $this->pembayaranpelayanan_tersimpan = true;
         }
