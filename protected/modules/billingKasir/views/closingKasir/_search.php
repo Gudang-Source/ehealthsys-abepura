@@ -125,4 +125,9 @@
             
         }, 'json');
     }
+    
+    $(document).ready(function()
+    {
+        setFilterTanggalShift($("#BKTandabuktibayarT_shift_id"));
+    });
 </script>
