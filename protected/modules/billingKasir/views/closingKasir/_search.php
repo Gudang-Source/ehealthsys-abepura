@@ -74,7 +74,10 @@
                     ?>
                     <?php
                         echo $form->dropDownListRow($mBuktBayar, 'shift_id',
-                            CHtml::listData(ShiftM::model()->findAll('shift_aktif = true'), 'shift_id', 'shift_nama'),
+                            CHtml::listData(ShiftM::model()->findAll(array(
+                                'condition'=>'shift_aktif = true',
+                                'order'=>'shift_urutan',
+                            )),'shift_id', 'shift_nama'),
                             array(
                                 'inline'=>true,
                                 'empty'=>'-- Pilih --',
