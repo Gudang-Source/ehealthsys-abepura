@@ -74,7 +74,7 @@
                     ?>
                     <?php
                         echo $form->dropDownListRow($mBuktBayar, 'shift_id',
-                            CHtml::listData(ShiftM::model()->findAll(), 'shift_id', 'shift_nama'),
+                            CHtml::listData(ShiftM::model()->findAll('shift_aktif = true'), 'shift_id', 'shift_nama'),
                             array(
                                 'inline'=>true,
                                 'empty'=>'-- Pilih --',
