@@ -316,5 +316,32 @@ class ClosingKasirController extends MyAuthController
         ));
         
     }
+    
+    function actionSetTglShift()
+    {
+        $res = array(
+            'awal'=>'',
+            'akhir'=>'',
+        );
+        if (isset($_POST['id'])) {
+            $shift = ShiftM::model()->findByPk($_POST['id']);
+            
+            
+            $base = strtotime("00:00:00");
+            $awal = strtotime($shift->shift_jamawal);
+            $akhir = strtotime($shift->shift_jamakhir);
+            
+            $now = time();
+            
+            if ($awal > $akhir) {
+                $now += (24 * 3600);
+            }
+            $res['awal'] = MyFormatter::formatDateTimeForUser(date('Y-m-d '.$shift->shift_jamawal));
+            $res['akhir'] = MyFormatter::formatDateTimeForUser(date('Y-m-d '.$shift->shift_jamakhir, $now));
+            
+        }
+        echo CJSON::encode($res);
+        Yii::app()->end();
+    }
 }
 
