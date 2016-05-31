@@ -73,6 +73,7 @@ foreach ($modRincians as $item) {
         'subp'=>MyFormatter::formatNumberForPrint($item->subsidipemerintah_tindakan),
         'subr'=>MyFormatter::formatNumberForPrint($item->subsisidirumahsakit_tindakan),
         'subtotal'=>MyFormatter::formatNumberForPrint(($item->qty_tindakan * $item->tarif_satuan) - ($item->subsidiasuransi_tindakan + $item->subsidipemerintah_tindakan + $item->subsisidirumahsakit_tindakan)),
+        'subtotalkotor'=>MyFormatter::formatNumberForPrint($item->qty_tindakan * $item->tarif_satuan),
     ));
 }
 
@@ -138,12 +139,13 @@ foreach ($modRincians as $item) {
         <th style='text-align: center;'>Subsidi Asuransi</th>
         <th style='text-align: center;'>Subsidi Pemerintah</th>
         <th style='text-align: center;'>Subsidi RS</th>
-        <th style='text-align: center;'>Subtotal</th>
+        <th style='text-align: center;'>Iur Biaya</th>
+        <th style='text-align: center;'>Sub Total</th>
     </thead>
     <tbody>
         <?php foreach ($grp as $item) : ?>
         <tr>
-            <td colspan="10"><strong><?php echo $item['nama']; ?></strong></td>
+            <td colspan="11"><strong><?php echo $item['nama']; ?></strong></td>
         </tr>
             <?php 
             $cnt = 0;
@@ -161,6 +163,7 @@ foreach ($modRincians as $item) {
                 <td style="text-align: right;"><?php echo $item2['subp']; ?></td>
                 <td style="text-align: right;"><?php echo $item2['subr']; ?></td>
                 <td style="text-align: right;"><?php echo $item2['subtotal']; ?></td>
+                <td style="text-align: right;"><?php echo $item2['subtotalkotor']; ?></td>
             </tr>
             <?php endforeach; ?>
         <?php endforeach; ?>
@@ -172,6 +175,7 @@ foreach ($modRincians as $item) {
             <td style="text-align: right;"><?php echo MyFormatter::formatNumberForPrint($subp); ?></td>
             <td style="text-align: right;"><?php echo MyFormatter::formatNumberForPrint($subr); ?></td>
             <td style="text-align: right;"><?php echo MyFormatter::formatNumberForPrint($subtotal); ?></td>
+            <td style="text-align: right;"><?php echo MyFormatter::formatNumberForPrint($subtotalkotor); ?></td>
         </tr>
     </tfoot>
     

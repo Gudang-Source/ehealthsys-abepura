@@ -505,16 +505,16 @@ function setNamaDepan(){
         }
 
 
-        if($('#PPPasienM_jeniskelamin_1').is(':checked')){
-        $('#PPPasienM_namadepan').val('Nn. ');
-            if(statusperkawinan !== 'DUDA'){
-             var namadepan = $('#PPPasienM_namadepan').val('Nn. ');
+        if($('#PPPasienM_jeniskelamin_1').is(':checked')) {
+            $('#PPPasienM_namadepan').val('Nn. ');
+            if(statusperkawinan !== 'DUDA') {
+                var namadepan = $('#PPPasienM_namadepan').val('Nn. ');
                 if(statusperkawinan === 'KAWIN' || statusperkawinan == 'JANDA' || statusperkawinan == 'NIKAH SIRIH' || statusperkawinan == 'POLIGAMI'){
                     var namadepan = $('#PPPasienM_namadepan').val('Ny. ');
-                }else{
+                } else {
                     var namadepan = $('#PPPasienM_namadepan').val('Nn. ');
                 }
-            }else{
+            } else {
                 alert('Pilih status pernikahan yang sesuai');
                 $('#PPPasienM_statusperkawinan').val('KAWIN');
                 var namadepan = $('#PPPasienM_namadepan').val('Ny. ');
@@ -1317,7 +1317,16 @@ function pilihKarcis(obj){
  * @returns {undefined}
  */
 function setVerifikasi(){
+    
+        
     if(requiredCheck($("form"))){
+        if ($(".rb_rm").eq(1).is(":checked")) {
+            if ($("#no_rekam_medik_baru").val().trim() == '') {
+                myAlert("No. Rekam Medik harus diisi");
+                return false;
+            }
+        }
+        
         $('#dialog-verifikasi').dialog("open");
         $.ajax({
            type:'POST',
