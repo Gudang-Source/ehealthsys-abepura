@@ -78,7 +78,8 @@
                             array(
                                 'inline'=>true,
                                 'empty'=>'-- Pilih --',
-                                'onkeypress'=>"return $(this).focusNextInputField(event)"
+                                'onkeypress'=>"return $(this).focusNextInputField(event)",
+                                'onchange'=>'setFilterTanggalShift(this)',
                             )
                         );
                     ?>
@@ -95,7 +96,7 @@
                             array(
                                 'inline'=>true,
                                 'empty'=>'-- Pilih --',
-                                'onkeypress'=>"return $(this).focusNextInputField(event)"
+                                'onkeypress'=>"return $(this).focusNextInputField(event)",
                             )
                         );
                     ?>
@@ -112,7 +113,16 @@
     ?>
 </div>
 <script>
-    function onReset(){
+    function onReset() {
         window.open("<?php echo Yii::app()->createUrl($this->route); ?>","_self");
+    }
+    
+    function setFilterTanggalShift(obj) {
+        $.post('<?php echo $this->createUrl('setTglShift'); ?>', {id: $(obj).val()}, function(data)
+        {
+            $("#BKTandabuktibayarT_tgl_awal").val(data.awal);
+            $("#BKTandabuktibayarT_tgl_akhir").val(data.akhir);
+            
+        }, 'json');
     }
 </script>

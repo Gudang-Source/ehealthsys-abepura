@@ -4,6 +4,7 @@
     $table = 'ext.bootstrap.widgets.BootGroupGridView';
     $sort = false;
     $dataProvider = $mBuktBayar->searchTable();
+    $dataProvider->sort->defaultOrder = 't.tglbuktibayar';
     $template = "{summary}\n{items}\n{pager}";
 ?>
 <table id="tblBayarTind" class="table table-striped table-condensed">
