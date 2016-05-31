@@ -326,18 +326,22 @@ class ClosingKasirController extends MyAuthController
         if (isset($_POST['id'])) {
             $shift = ShiftM::model()->findByPk($_POST['id']);
             
-            
             $base = strtotime("00:00:00");
             $awal = strtotime($shift->shift_jamawal);
             $akhir = strtotime($shift->shift_jamakhir);
             
-            $now = time();
+            $now2 = time();
+            $now1 = time();
             
             if ($awal > $akhir) {
-                $now += (24 * 3600);
+                if ($now1 >= $base && $now1 <= $akhir) {
+                    $now2 -= (24 * 3600);
+                } else {
+                    $now1 += (24 * 3600);
+                }
             }
-            $res['awal'] = MyFormatter::formatDateTimeForUser(date('Y-m-d '.$shift->shift_jamawal));
-            $res['akhir'] = MyFormatter::formatDateTimeForUser(date('Y-m-d '.$shift->shift_jamakhir, $now));
+            $res['awal'] = MyFormatter::formatDateTimeForUser(date('Y-m-d '.$shift->shift_jamawal), $now2);
+            $res['akhir'] = MyFormatter::formatDateTimeForUser(date('Y-m-d '.$shift->shift_jamakhir, $now1));
             
         }
         echo CJSON::encode($res);
