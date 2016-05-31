@@ -40,6 +40,7 @@ $grp = array();
 $suba = 0;
 $subp = 0;
 $subr = 0;
+$subtotalkotor = 0;
 $subtotal = 0;
 
 foreach ($modRincians as $item) {
@@ -59,6 +60,7 @@ foreach ($modRincians as $item) {
     $subp += $item->subsidipemerintah_tindakan;
     $subr += $item->subsisidirumahsakit_tindakan;
     
+    $subtotalkotor += $item->qty_tindakan * $item->tarif_satuan;
     $subtotal += ($item->qty_tindakan * $item->tarif_satuan) - ($item->subsidiasuransi_tindakan + $item->subsidipemerintah_tindakan + $item->subsisidirumahsakit_tindakan);
     
     array_push($grp[$item->ruangan_id]['content'], array(
@@ -89,10 +91,10 @@ foreach ($modRincians as $item) {
         <?php if (!empty($asuransi)): ?><td nowrap>Kelas Tanggungan</td><td>:</td><td><?php echo $asuransi->kelastanggunganasuransi->kelaspelayanan_nama; ?></td><?php endif; ?>
     </tr>
     <tr>
-        <td>Banyaknya</td><td>:</td><td><?php echo MyFormatter::formatNumberForPrint($subtotal); ?></td>
+        <td>Banyaknya</td><td>:</td><td><?php echo MyFormatter::formatNumberForPrint($subtotalkotor); ?></td>
     </tr>
     <tr>
-        <td>Terbilang</td><td>:</td><td><?php echo $subtotal==0?"NOL RUPIAH":strtoupper(MyFormatter::formatNumberTerbilang($subtotal)); ?></td>
+        <td>Terbilang</td><td>:</td><td><?php echo $subtotalkotor==0?"NOL RUPIAH":strtoupper(MyFormatter::formatNumberTerbilang($subtotalkotor))." RUPIAH"; ?></td>
     </tr>
     <tr>
         <td colspan="6" style="border-bottom: 1px solid black">&nbsp;</td>
