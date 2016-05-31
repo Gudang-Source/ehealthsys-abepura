@@ -34,7 +34,8 @@
                 $obatalkes->biayalain = $obatalkes->biayaservice + $obatalkes->biayakonseling + $obatalkes->biayakemasan + $obatalkes->biayaadministrasi;
                 $subsidi = $obatalkes->subsidiasuransi+$obatalkes->subsidirs;
                 $obatalkes->subtotaloa = ($obatalkes->qty_oa*$obatalkes->hargasatuan_oa)+$obatalkes->tarifcyto-$obatalkes->discount+$obatalkes->biayalain-$subsidi;
-                $obatalkes->subsidipemerintah = ($obatalkes->qty_oa*$obatalkes->hargasatuan_oa);
+                $obatalkes->subsidirs = $obatalkes->getSubsidiPenjamin('subsidirumahsakitoa');//($obatalkes->qty_oa*$obatalkes->hargasatuan_oa);
+                $obatalkes->subsidipemerintah = $obatalkes->getSubsidiPenjamin('subsidipemerintahoa');//($obatalkes->qty_oa*$obatalkes->hargasatuan_oa);
                 $tot_hargajual_oa += ($obatalkes->qty_oa*$obatalkes->hargasatuan_oa);
                 $tot_tarifcyto += $obatalkes->tarifcyto;
                 $tot_discount += $obatalkes->discount;
