@@ -20,12 +20,12 @@
     <div class="control-group ">
         <label class="control-label required" for="SASubprogramkerjaM_subprogramkerja_kode">Kode&nbsp;<span class="required">*</span></label>
         <div class="controls">
-            <?php echo $form->textField($subProgramKerja, 'programkerja_kode', array('class' => 'span1', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 6, 'readonly' => true)); ?>
-            <?php echo $form->textField($subProgramKerja, 'subprogramkerja_kode', array('class' => 'span1 reqForm', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 6, 'readonly' => false)); ?>
+            <?php echo $form->textField($subProgramKerja, 'programkerja_kode', array('class' => 'span1', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 5, 'readonly' => true)); ?>
+            <?php echo $form->textField($subProgramKerja, 'subprogramkerja_kode', array('class' => 'span1 reqForm', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 5, 'readonly' => false)); ?>
         </div>
     </div>
-    <?php echo $form->textFieldRow($subProgramKerja, 'subprogramkerja_nama', array('class' => 'span3 reqForm', 'onkeyup' => 'autoInput();', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 32, 'readonly' => false)); ?>
-    <?php echo $form->textFieldRow($subProgramKerja, 'subprogramkerja_namalain', array('class' => 'span3 reqForm', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 32, 'readonly' => false)); ?>
+    <?php echo $form->textFieldRow($subProgramKerja, 'subprogramkerja_nama', array('class' => 'span3 reqForm', 'onkeyup' => 'autoInput();', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 255, 'readonly' => false)); ?>
+    <?php echo $form->textFieldRow($subProgramKerja, 'subprogramkerja_namalain', array('class' => 'span3 reqForm', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 255, 'readonly' => false)); ?>
     <?php echo $form->textAreaRow($subProgramKerja, 'subprogramkerja_ket', array('class' => 'span4 ', 'onkeypress' => "return $(this).focusNextInputField(event)", 'readonly' => false)); ?>
 	<?php //if(isset($aktif) && ($aktif == true)){
 		echo $form->radioButtonListInlineRow($subProgramKerja, 'subprogramkerja_aktif', array('Tidak', 'Aktif'), array('onkeypress'=>"return $(this).focusNextInputField(event)"));
