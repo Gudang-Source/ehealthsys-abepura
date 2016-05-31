@@ -1448,14 +1448,14 @@ function getAsuransiNoKartu(isi)
 				$("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'nokartuasuransi') ?>").val(peserta.noKartu);
 				$("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'namapemilikasuransi') ?>").val(peserta.nama);
 				$("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'jenispeserta_id') ?>").val(peserta.jenisPeserta.kdJenisPeserta);
-//              $("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'kelastanggunganasuransi_id') ?>").val(peserta.kelasTanggungan.kdKelas); // <<tidak sama dengan kelaspelayanan_id
+                                $("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'kelastanggunganasuransi_id') ?>").val(peserta.kelasTanggungan.kdKelasSim); // <<tidak sama dengan kelaspelayanan_id
 				// OVERWRITES old selecor
                                 pemilik_bpjs = peserta.nama;
 				jQuery.expr[':'].contains = function(a, i, m) {
 				  return jQuery(a).text().toUpperCase()
 					  .indexOf(m[3].toUpperCase()) >= 0;
 				};
-				$("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'kelastanggunganasuransi_id') ?>").find("option:contains('"+peserta.kelasTanggungan.nmKelas+"')").attr("selected",true);
+				// $("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'kelastanggunganasuransi_id') ?>").find(peserta.kelasTanggungan.nmKelas).attr("selected",true);
             }else{
               myAlert(obj.metaData.message);
             }
