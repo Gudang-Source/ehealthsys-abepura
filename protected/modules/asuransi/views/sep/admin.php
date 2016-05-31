@@ -96,8 +96,15 @@ $('.search-form form').submit(function(){
 			array(
 				'header'=>'Lihat Laporan',
 				'type'=>'raw',
-				'value'=>'CHtml::link("<icon class=\'icon-form-detail\' ></icon> ", Yii::app()->createUrl("/asuransi/Sep/lihatLaporanSEP", array("sep_id"=>$data->sep_id,"frame"=>true)), array("target"=>"frameSEP","rel"=>"tooltip", "title"=>"lihat laporan SEP", "onclick"=>"$(\'#dialogSEP\').dialog(\'open\');"))','htmlOptions'=>array('style'=>'text-align: center; width:40px ')                  
+				'value'=>'CHtml::link("<icon class=\'icon-form-detail\' ></icon> ", Yii::app()->createUrl("/asuransi/Sep/lihatLaporanSEP", array("sep_id"=>$data->sep_id,"frame"=>true)), array("target"=>"frameSEP","rel"=>"tooltip", "title"=>"lihat laporan SEP", "onclick"=>"$(\'#dialogSEP\').dialog(\'open\');"))',
+                                'htmlOptions'=>array('style'=>'text-align: center; width:40px ')                  
 			), 
+                        array (
+                                'header'=>'Lihat',
+                                'type'=>'raw',
+                                'value'=>'CHtml::link("<i class=\'icon-form-lihat\' ></i> ", Yii::app()->createUrl("/asuransi/Sep/view", array("id"=>$data->sep_id,"frame"=>true)), array("target"=>"frameDetailSEP","rel"=>"tooltip", "title"=>"lihat laporan SEP", "onclick"=>"$(\'#dialogDetailSEP\').dialog(\'open\');"))',
+                        ),
+                        /*
 			array(
 				'header'=>Yii::t('zii','View'),
 				'class'=>'bootstrap.widgets.BootButtonColumn',
@@ -106,6 +113,8 @@ $('.search-form form').submit(function(){
 					'view' => array(),
 				 ),
 			),
+                         * 
+                         */
 //			array(
 //				'header'=>Yii::t('zii','Update'),
 //				'class'=>'bootstrap.widgets.BootButtonColumn',
@@ -279,10 +288,25 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
             'autoOpen' => false,
             'modal' => true,
             'width' => 900,
-            'height' => 550,
+            'height' => 650,
             'resizable' => false,
         ),
     ));
     ?>
     <iframe name='frameSEP' width="100%" height="100%"></iframe>
+    <?php $this->endWidget(); ?>
+
+<?php $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
+        'id' => 'dialogDetailSEP',
+        'options' => array(
+            'title' => 'Detail SEP',
+            'autoOpen' => false,
+            'modal' => true,
+            'width' => 1000,
+            'height' => 650,
+            'resizable' => false,
+        ),
+    ));
+    ?>
+    <iframe name='frameDetailSEP' width="100%" height="100%"></iframe>
     <?php $this->endWidget(); ?>

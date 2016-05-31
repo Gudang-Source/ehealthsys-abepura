@@ -46,7 +46,6 @@
 
 		private function request($url, $hashsignature, $uid, $timestmp, $method='', $myvars='', $contentType=null)
 		{
-                        // var_dump($url); die;
 			$session = curl_init($url);
 			$arrheader =  array(
 				'x-cons-id: '.$uid,
@@ -114,7 +113,14 @@
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
 			$completeUrl = $this->url.'/peserta/peserta/'.$query;
                         //echo $completeUrl; die;
-			return $this->request($completeUrl, $hashsignature, $uid, $timestmp);
+                        $dat = CJSON::decode($this->request($completeUrl, $hashsignature, $uid, $timestmp));
+                        if ($dat['metadata']['code'] == 200) {
+                            $k = KelaspelayananM::model()->findByAttributes(array(
+                                'kelasbpjs_id'=>$dat['response']['peserta']['kelasTanggungan']['kdKelas'],
+                            ));
+                            $dat['response']['peserta']['kelasTanggungan']['kdKelasSim'] = $k->kelaspelayanan_id;
+                        }
+			return CJSON::encode($dat); //$this->request($completeUrl, $hashsignature, $uid, $timestmp);
 		}
 
 		function search_nik($query)
@@ -318,7 +324,7 @@
 		
 		function create_grouper($query){
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
-			$completeUrl = $this->url.'/gruper/grouper/'.$query;
+			$completeUrl = $this->inacbg_url.'/ca_grouper.php?'.$query;
 			return $this->request($completeUrl, $hashsignature, $uid, $timestmp);
 		}
 		
