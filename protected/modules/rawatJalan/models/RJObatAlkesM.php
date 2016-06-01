@@ -86,6 +86,9 @@ class RJObatAlkesM extends ObatalkesM
 				
                 return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+                        'sort'=>array(
+                            'defaultOrder'=>'obatalkes_nama',
+                        )
 		));
 	}
 	

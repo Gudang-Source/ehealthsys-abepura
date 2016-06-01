@@ -46,7 +46,7 @@
 	<div class="control-group ">
 		<label class="control-label" for="iter">Iter</label>
 		<div class="controls">
-			<?php echo CHtml::textField('iter', '0', array('readonly'=>false,'onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'inputFormTabel span1  numbers-only')) ?>
+			<?php echo CHtml::textField('iter', '0', array('readonly'=>false,'onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'inputFormTabel span1 integer2', 'maxlength'=>1)) ?>
 		</div>
 	</div>
 </div>

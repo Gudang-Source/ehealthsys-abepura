@@ -27,10 +27,10 @@
 			<?php echo CHtml::activeTextField($modResepturDetail, '[ii]jmlstok',array('readonly'=>true,'style'=>'width:50px;')); ?>
 		</td>
 		<td>
-			<?php echo CHtml::activeTextField($modResepturDetail, '[ii]hargasatuan_reseptur',array('readonly'=>true,'style'=>'width:110px;', 'class'=>'integer')); //,'onblur'=>'hitungSubTotal(this)'?>
+			<?php echo CHtml::activeTextField($modResepturDetail, '[ii]hargasatuan_reseptur',array('readonly'=>true,'style'=>'width:110px;', 'class'=>'integer2')); //,'onblur'=>'hitungSubTotal(this)'?>
 		</td>
 		<td>
-			<?php echo CHtml::activeTextField($modResepturDetail, '[ii]hargajual_reseptur',array('readonly'=>true,'style'=>'width:110px;', 'class'=>'integer')); ?>
+			<?php echo CHtml::activeTextField($modResepturDetail, '[ii]hargajual_reseptur',array('readonly'=>true,'style'=>'width:110px;', 'class'=>'integer2')); ?>
 		</td>
 		<td>
 			<?php echo CHtml::activeDropDownList($modResepturDetail, '[ii]signa_reseptur', LookupM::getItems('signa_oa'),array('class'=>'inputFormTabel span3','style'=>'width:100px;','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
@@ -50,7 +50,7 @@
 	<tr>
 		<?php //print_r($modResepturDetail);exit(); ?>
 		<td>
-			<?php echo CHtml::hiddenField('no_urut',0,array('readonly'=>true,'class'=>'span1 integer', 'style'=>'width:20px;')); ?>
+			<?php echo CHtml::hiddenField('no_urut',0,array('readonly'=>true,'class'=>'span1 integer2', 'style'=>'width:20px;')); ?>
 			<?php echo CHtml::activeHiddenField($modResepturDetail, '[ii]r',array('readonly'=>true,'style'=>'width:20px;')); ?>
 			<span id="isi-r" name="[ii][isi_r]">R/</span>
 		</td>
@@ -89,10 +89,10 @@
 			<?php echo CHtml::activeHiddenField($modResepturDetail, '[ii]satuankecil_id',array('readonly'=>true,'style'=>'width:110px;')); ?>
 			<?php echo CHtml::activeHiddenField($modResepturDetail, '[ii]satuankekuatan',array('readonly'=>true,'style'=>'width:110px;')); ?>
 			<?php echo CHtml::activeHiddenField($modResepturDetail, '[ii]racikan_id',array('readonly'=>true,'style'=>'width:110px;')); ?>
-			<?php echo CHtml::activeTextField($modResepturDetail, '[ii]hargasatuan_reseptur',array('readonly'=>true,'style'=>'width:110px;', 'class'=>'integer')); //,'onblur'=>'hitungSubTotal(this)'?>
+			<?php echo CHtml::activeTextField($modResepturDetail, '[ii]hargasatuan_reseptur',array('readonly'=>true,'style'=>'width:110px;', 'class'=>'integer2')); //,'onblur'=>'hitungSubTotal(this)'?>
 		</td>
 		<td>
-			<?php echo CHtml::activeTextField($modResepturDetail, '[ii]hargajual_reseptur',array('readonly'=>true,'style'=>'width:110px;', 'class'=>'integer')); ?>
+			<?php echo CHtml::activeTextField($modResepturDetail, '[ii]hargajual_reseptur',array('readonly'=>true,'style'=>'width:110px;', 'class'=>'integer2')); ?>
 		</td>
 		<td>
 			<?php echo CHtml::activeTextField($modResepturDetail, '[ii]signa_reseptur',array('readonly'=>true,'style'=>'width:50px;')); ?>
