@@ -27,7 +27,7 @@ class InformasiStokBarangController extends MyAuthController
 				'model'=>$model,
 		));
 	}
-        
+        /*
         public function actionIndexKartu()
         {
                 $model = new InventarisasiruanganT();
@@ -41,7 +41,7 @@ class InformasiStokBarangController extends MyAuthController
 				'model'=>$model,
 		));
         }
-	
+	*/
 	/**
      * Mengatur dropdown ruangan
      * @param type $encode jika = true maka return array jika false maka set Dropdown 
