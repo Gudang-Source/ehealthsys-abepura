@@ -162,7 +162,7 @@ class InformasikamarinapVController extends MyAuthController
                         $dataRuangan ='';
 						
                         if (count($ruangan) == 1){
-                            $dataRuangan .='<table width=\'100px\'>';
+                            $dataRuangan .='<table width=\'200px\'>';
                             $dataRuangan .='<tr><td rowspan=2><img src=\''.Yii::app()->baseUrl.'/images/'.$ruangan->ruangan_image.'\' class=\'image_ruangan\'></td><td>Fasilitas</td><td>'.((!empty($ruangan->ruangan_fasilitas)) ? $ruangan->ruangan_fasilitas : " - ").'</td></tr>';
                             $dataRuangan .='<tr><td>Lokasi</td><td>'.((!empty($ruangan->ruangan_lokasi)) ? $ruangan->ruangan_lokasi : " - ").'</td></tr>';
                             $dataRuangan .='<tr><td>Jumlah Bed</td><td>{$jmlbed}</td></tr>';
@@ -192,7 +192,7 @@ class InformasikamarinapVController extends MyAuthController
                               '{$jmlterisi}' => $jml_terisi,
                               '{$jmlbooked}' => $jml_booked,
                             );
-                            $result .='<div class="pintu"></div><h3 class="popover-title"><img src=\''. Yii::app()->baseUrl.'/images/blue-home-icon.png\' style=\'height:30px;\'/>'.$v['name'].' - '.$w['kelaspelayanan'].' - '.$w['jml'].'<a href="" class="pull-right poping" data-content="'.strtr($dataRuangan,$vars).'" onclick="return false;"><img src=\''. Yii::app()->baseUrl.'/images/fasilitas.png\' style=\'height:30px;\'/>Detail</a></h3>
+                            $result .='<div class="pintu"></div><h3 class="popover-title"><img src=\''. Yii::app()->baseUrl.'/images/blue-home-icon.png\' style=\'height:30px;\'/>'.$v['name'].' - '.$w['kelaspelayanan'].' - '.$w['jml'].'<a style = "padding-left:100px;"  href="" class="pull-right poping" data-content="'.strtr($dataRuangan,$vars).'" onclick="return false;"><img src=\''. Yii::app()->baseUrl.'/images/fasilitas.png\' style=\'height:30px;\'/>Detail</a></h3>
                                 <ul>';
                             foreach ($w['kamar'] as $x=>$y){            
                                 $result .='<li class="bed">
@@ -219,9 +219,9 @@ class InformasikamarinapVController extends MyAuthController
 //                                            $dataPasien .='<p><label class=\'control-label\'>Jenis Kelamin :</label> '.$kamar->admisi->pasien->jeniskelamin.'</p>';
                                         }
                                         if ($booked == 0){
-                                            $result .='<p><a href="" class="btn '.(($b['status']) ? 'btn-danger' : 'btn-primary').'" rel="popover" data-content="'.(($b['status']) ? 'Pasien Kosong' : $dataPasien).'" onclick="return false"><img src=\''. Yii::app()->baseUrl.'/images/'.(($b['status']) ?  'RanjangRumahSakit2' : 'RanjangRumahSakit').'.png\'/>No. Bed : '.$b['no'].'</a></p>';
+                                            $result .='<p><a href="" class="btn '.(($b['status']) ? 'btn-danger' : 'btn-primary').'" rel="popover" data-content="'.(($b['status']) ? 'Pasien Kosong' : $dataPasien).'" onclick="return false"><img src=\''. Yii::app()->baseUrl.'/images/'.(($b['status']) ?  'RanjangRumahSakit2' : 'RanjangRumahSakit').'.png\'/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No. Bed : '.$b['no'].'</a></p>';
                                         } else {
-                                            $result .='<p><a href="" class="btn '.(($b['status']) ? 'btn-danger' : 'btn-primary').'" rel="popover" data-content="'.(($b['status']) ? 'Sudah dibooking' : $dataPasien).'" onclick="return false"><img src=\''. Yii::app()->baseUrl.'/images/'.'RanjangRumahSakit3'.'.png\'/>No. Bed : '.$b['no'].'</a></p>';
+                                            $result .='<p><a href="" class="btn '.(($b['status']) ? 'btn-danger' : 'btn-primary').'" rel="popover" data-content="'.(($b['status']) ? 'Sudah dibooking' : $dataPasien).'" onclick="return false"><img src=\''. Yii::app()->baseUrl.'/images/'.'RanjangRumahSakit3'.'.png\'/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No. Bed : '.$b['no'].'</a></p>';
                                         }
                                     }
                                     for($d=1;$d<=($w['jml'] - (count($y['bed'])));$d++){
