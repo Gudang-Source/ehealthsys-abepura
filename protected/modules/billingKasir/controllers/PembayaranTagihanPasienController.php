@@ -297,7 +297,7 @@ class PembayaranTagihanPasienController extends MyAuthController
             $model->statusbayar = Params::STATUSBAYAR_BELUM_LUNAS;
         }
         
-        $model->totalbayartindakan = (round($model->totalbiayapelayanan/10) * 10) - $model->totalsisatagihan;
+        $model->totalbayartindakan = (ceil($model->totalbiayapelayanan/100) * 100) - $model->totalsisatagihan;
         
         // var_dump($model->attributes); die;
         
