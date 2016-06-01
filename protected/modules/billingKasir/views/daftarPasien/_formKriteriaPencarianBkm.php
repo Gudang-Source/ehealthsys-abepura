@@ -100,6 +100,41 @@
                 <!--</div>
             </div>-->
             <div class="control-group">
+                <?php
+                $carabayar = CarabayarM::model()->findAll(array(
+                    'condition'=>'carabayar_aktif = true',
+                    'order'=>'carabayar_nourut',
+                ));
+                $penjamin = PenjaminpasienM::model()->findAll(array(
+                    'condition'=>'penjamin_aktif = true',
+                    'order'=>'penjamin_nama',
+                ));
+                $pegawai = DokterV::model()->findAllByAttributes(array(
+                    'instalasi_id'=>Params::INSTALASI_ID_RJ,
+                    'pegawai_aktif'=>true,
+                ), array(
+                    'order'=>'nama_pegawai',
+                ));
+                foreach ($carabayar as $idx=>$item) {
+                    $penjamins = PenjaminpasienM::model()->findByAttributes(array(
+                        'carabayar_id'=>$item->carabayar_id,
+                        'penjamin_aktif'=>true,
+                   ));
+                   if (empty($penjamins)) unset($carabayar[$idx]);
+                }
+
+
+                echo $form->dropDownListRow($model,'carabayar_nama', CHtml::listData($carabayar, 'carabayar_nama', 'carabayar_nama'), array(
+                    'empty'=>'-- Pilih --',
+                    'class'=>'span3', 
+                    'ajax' => array('type'=>'POST',
+                        'url'=> $this->createUrl('/actionDynamic/getPenjaminPasien',array('encode'=>false,'namaModel'=>get_class($model))), 
+                        'success'=>'function(data){$("#'.CHtml::activeId($model, "penjamin_id").'").html(data); }',
+                    ),
+                 ));
+                echo $form->dropDownListRow($model,'penjamin_nama', CHtml::listData($penjamin, 'penjamin_nama', 'penjamin_nama'), array('empty'=>'-- Pilih --', 'class'=>'span3', 'maxlength'=>50));
+                
+                ?>
                 <?php echo $form->dropDownListRow($model,'ruangan_id', CHtml::listData($model->getRuanganItems(), 'ruangan_id', 'ruangan_nama'),array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?> 
                 <?php echo $form->dropDownListRow($model,'closingkasir_id', array(2=>'BELUM',1=>'SUDAH'),array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?> 
             </div>

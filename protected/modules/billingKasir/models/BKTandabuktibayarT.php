@@ -71,6 +71,7 @@ class BKTandabuktibayarT extends TandabuktibayarT {
                         $base = strtotime('00:00:00');
                         $jawal = strtotime($shift->shift_jamawal) - $base;
                         $jakhir = strtotime($shift->shift_jamakhir) - $base;
+                        /*
                         if ($jawal > $jakhir) {
                             
                             $criteria->addCondition("t.tglbuktibayar::time > '${jawal}'::interval "
@@ -78,6 +79,8 @@ class BKTandabuktibayarT extends TandabuktibayarT {
                         } else {
                             $criteria->addCondition("t.tglbuktibayar::time between '${jawal}s'::interval and '${jakhir}s'::interval");
                         }
+                         * 
+                         */
 		}
 		if (!empty($this->ruangan_id)) {
 			$criteria->addCondition("t.ruangan_id = " . $this->ruangan_id);
@@ -86,8 +89,11 @@ class BKTandabuktibayarT extends TandabuktibayarT {
 			$criteria->addCondition("p.pegawai_id = " . $this->create_loginpemakai_id);
 		}
                 
-		$criteria->addBetweenCondition('DATE(t.tglbuktibayar)', $this->tgl_awal, $this->tgl_akhir);
+		$criteria->addBetweenCondition('t.tglbuktibayar', $this->tgl_awal, $this->tgl_akhir);
 		$criteria->addCondition('t.closingkasir_id IS NULL AND t.pembatalanuangmuka_id IS NULL');
+                
+                // var_dump($criteria); die;
+                
 		return new CActiveDataProvider($this, array(
 			'criteria' => $criteria,
 			'pagination' => false,

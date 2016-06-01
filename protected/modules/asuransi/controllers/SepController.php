@@ -21,6 +21,7 @@ class SepController extends MyAuthController
 	 */
 	public function actionView($id)
 	{
+                $this->layout = '//layouts/iframe';
 		$model = $this->loadModel($id);
 		$bpjs = new Bpjs();
 		

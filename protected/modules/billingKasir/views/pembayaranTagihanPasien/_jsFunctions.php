@@ -454,6 +454,13 @@ function hitungTotalSemua(){
 function hitungJmlpembulatan(){
     unformatNumberSemua();
     var totaliurbiaya = parseInt($("#<?php echo CHtml::activeId($model,'totaliurbiaya');?>").val());
+    
+    var asuransi = parseInt($("#<?php echo CHtml::activeId($model,'totalsubsidiasuransi');?>").val());
+    var pem = parseInt($("#<?php echo CHtml::activeId($model,'totalsubsidipemerintah');?>").val());
+    var rs = parseInt($("#<?php echo CHtml::activeId($model,'totalsubsidirs');?>").val());
+    
+    totaliurbiaya += asuransi + pem + rs;
+    
     var totaldiscount = parseInt($("#<?php echo CHtml::activeId($model,'totaldiscount');?>").val());
     var biayaadministrasi = parseInt($("#<?php echo CHtml::activeId($modTandabukti,'biayaadministrasi');?>").val());
     var biayamaterai = parseInt($("#<?php echo CHtml::activeId($modTandabukti,'biayamaterai');?>").val());
@@ -475,11 +482,22 @@ function hitungJmlpembulatan(){
 function hitungJmlpembayaran(){
     unformatNumberSemua();
     var totaliurbiaya = parseInt($("#<?php echo CHtml::activeId($model,'totaliurbiaya');?>").val());
+    
+    var asuransi = parseInt($("#<?php echo CHtml::activeId($model,'totalsubsidiasuransi');?>").val());
+    var pem = parseInt($("#<?php echo CHtml::activeId($model,'totalsubsidipemerintah');?>").val());
+    var rs = parseInt($("#<?php echo CHtml::activeId($model,'totalsubsidirs');?>").val());
+    
+    totaliurbiaya += asuransi + pem + rs;
+    
+    
     var biayaadministrasi = parseInt($("#<?php echo CHtml::activeId($modTandabukti,'biayaadministrasi');?>").val());
     var biayamaterai = parseInt($("#<?php echo CHtml::activeId($modTandabukti,'biayamaterai');?>").val());
     var jmlpembulatan = parseInt($("#<?php echo CHtml::activeId($modTandabukti,'jmlpembulatan');?>").val());
     var jmlpembayaran = totaliurbiaya + biayaadministrasi + biayamaterai + jmlpembulatan;
     $("#<?php echo CHtml::activeId($modTandabukti,'jmlpembayaran');?>").val(jmlpembayaran);
+    
+    jmlpembayaran -= asuransi + pem + rs + jmlpembulatan;
+    
     $("#<?php echo CHtml::activeId($modTandabukti,'uangditerima');?>").val(jmlpembayaran);
     formatNumberSemua();
     
@@ -491,6 +509,12 @@ function hitungJmlpembayaran(){
  */
 function hitungUangKembalian(){
     unformatNumberSemua();
+    
+    var asuransi = parseInt($("#<?php echo CHtml::activeId($model,'totalsubsidiasuransi');?>").val());
+    var pem = parseInt($("#<?php echo CHtml::activeId($model,'totalsubsidipemerintah');?>").val());
+    var rs = parseInt($("#<?php echo CHtml::activeId($model,'totalsubsidirs');?>").val());
+    var jmlpembulatan = parseInt($("#<?php echo CHtml::activeId($modTandabukti,'jmlpembulatan');?>").val());
+    
     var totaluangmuka = parseInt($("#<?php echo CHtml::activeId($modPemakaianuangmuka,'totaluangmuka');?>").val());
     var pemakaianuangmuka = parseInt($("#<?php echo CHtml::activeId($modPemakaianuangmuka,'pemakaianuangmuka');?>").val());
     var uangditerima = parseInt($("#<?php echo CHtml::activeId($modTandabukti,'uangditerima');?>").val());
@@ -498,7 +522,7 @@ function hitungUangKembalian(){
     var totalbiayapelayanan = parseInt($("#<?php echo CHtml::activeId($model,'totalbiayapelayanan');?>").val());
     var totalsubsidiasuransi = parseInt($("#<?php echo CHtml::activeId($model,'totalsubsidiasuransi');?>").val());
     var totalsubsidirs = parseInt($("#<?php echo CHtml::activeId($model,'totalsubsidirs');?>").val());
-    var uangmasuk = uangditerima + pemakaianuangmuka;
+    var uangmasuk = uangditerima + pemakaianuangmuka + asuransi + pem + rs + jmlpembulatan;
     var uangkembalian = uangmasuk-jmlpembayaran;
     var totalsisatagihan = 0;
     var sisauangmuka = 0;
