@@ -3,50 +3,29 @@ if(isset($_GET['caraPrint'])){
 	echo $this->renderPartial('application.views.headerReport.headerDefault',array('judulLaporan'=>$judulLaporan, 'colspan'=>10)); 
 }
 ?>
-<table width="100%" >
+<table width="100%" style="margin-left:auto; margin-right:auto;">
     <tr>
-        <td >
-            <label class='control-label'><?php echo CHtml::encode($modPendaftaran->pasien->getAttributeLabel('nama_pasien')); ?>:</label>
-            <?php echo CHtml::encode($modPendaftaran->pasien->namadepan.$modPendaftaran->pasien->nama_pasien); ?>
-        </td>
-        <td>
-            <label class='control-label'><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('tgl_pendaftaran')); ?>:</label>
-            <?php echo CHtml::encode(MyFormatter::formatDateTimeForUser($modPendaftaran->tgl_pendaftaran)); ?>
-        </td>
-    </tr><br/>
+        <td>No. Rekam Medik</td><td>:</td><td><?php echo CHtml::encode($modPendaftaran->pasien->no_rekam_medik); ?></td>
+        <td>No. Pendaftaran</td><td>:</td><td><?php echo CHtml::encode($modPendaftaran->no_pendaftaran); ?></td>
+    </tr>
     <tr>
-        <td>
-                <label class='control-label'><?php echo CHtml::encode($modPendaftaran->pasien->getAttributeLabel('jeniskelamin')); ?>:</label>
-                <?php echo CHtml::encode($modPendaftaran->pasien->jeniskelamin); ?>
-        </td>
-        <td>
-             <label class='control-label'><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('no_pendaftaran')); ?>:</label>
-                <?php echo CHtml::encode($modPendaftaran->no_pendaftaran); ?>
-        </td>
-    </tr><br/>
+        <td>Nama Pasien</td><td>:</td><td><?php echo CHtml::encode($modPendaftaran->pasien->namadepan.$modPendaftaran->pasien->nama_pasien); ?></td>
+        <td nowrap>Tgl. Pendaftaran</td><td>:</td><td><?php echo CHtml::encode(MyFormatter::formatDateTimeForUser($modPendaftaran->tgl_pendaftaran)); ?></td>
+    </tr>
     <tr>
-        <td>
-                <label class='control-label'><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('umur')); ?>:</label>
-                <?php echo CHtml::encode($modPendaftaran->umur); ?>
-        </td>
-        <!--td>
-             <label class='control-label'><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('Kelas Pelayanan')); ?>:</label>
-            <?php echo CHtml::encode($modPendaftaran->kelaspelayanan->kelaspelayanan_nama); ?>
-        </td-->
-        <td>
-            <label class='control-label'><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('Nama Dokter')); ?>:</label>
-            <?php echo CHtml::encode($modPendaftaran->pegawai->namaLengkap); ?>
-        </td>
-    </tr><br/>
+        <td>Jenis Kelamin</td><td>:</td><td><?php echo CHtml::encode($modPendaftaran->pasien->jeniskelamin); ?></td>
+        <td>No. Reseptur</td><td>:</td><td><?php echo CHtml::encode($modReseptur->noresep); ?></td>
+    </tr>
     <tr>
-        <td>
-                <label class='control-label'><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('Cara Bayar / Penjamin ')); ?>:</label>
-                <?php echo CHtml::encode($modPendaftaran->carabayar->carabayar_nama); ?> / <?php echo CHtml::encode($modPendaftaran->penjamin->penjamin_nama); ?>
-            
-        </td>
+        <td>Umur</td><td>:</td><td><?php echo CHtml::encode($modPendaftaran->umur); ?></td>
+        <td>Tgl. Reseptur</td><td>:</td><td><?php echo CHtml::encode(MyFormatter::formatDateTimeForUser($modReseptur->tglreseptur)); ?></td>
+    </tr>
+    <tr>
+        <td nowrap>Cara Bayar / Penjamin</td><td>:</td><td><?php echo CHtml::encode($modPendaftaran->carabayar->carabayar_nama); ?> / <?php echo CHtml::encode($modPendaftaran->penjamin->penjamin_nama); ?></td>
+        <td>Dokter</td><td>:</td><td><?php echo CHtml::encode($modPendaftaran->pegawai->namaLengkap); ?></td>
     </tr>
        
-    </table>
+</table>
 <br/>
 <table id="tblDaftarResep" class="table table-bordered table-condensed" border="2">
     <thead>
@@ -67,9 +46,9 @@ if(isset($_GET['caraPrint'])){
     <tr>
         <td><?php echo $detail->obatalkes->obatalkes_nama ?></td>
         <!--td><?php // echo $detail->satuankecil->satuankecil_nama ?></td-->
-        <td style="text-align: right"><?php echo number_format($detail->hargasatuan_reseptur) ?></td>
+        <td style="text-align: right"><?php echo MyFormatter::formatNumberForPrint($detail->hargasatuan_reseptur) ?></td>
         <td style="text-align: right"><?php echo $detail->qty_reseptur." ".$detail->satuankecil->satuankecil_nama ?></td>
-        <td style="text-align: right"><?php echo number_format($detail->qty_reseptur * $detail->hargasatuan_reseptur) ?></td>
+        <td style="text-align: right"><?php echo MyFormatter::formatNumberForPrint($detail->qty_reseptur * $detail->hargasatuan_reseptur) ?></td>
     </tr>
 	<?php $idReseptur = $detail->reseptur_id;  ?>
     <?php } ?>

@@ -203,6 +203,20 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                     <?php echo $form->dropDownListRow($model,'statuskepemilikanrumah_id',CHtml::listData($model->getStatuskepemilikanrumahItems(),'statuskepemilikanrumah_id','statuskepemilikanrumah_nama'),array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
                     <?php echo $form->dropDownListRow($model,'kemampuanbahasa',LookupM::getItems('kemampuanbahasa'),array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
                     <?php echo $form->dropDownListRow($model,'warnakulit',LookupM::getItems('warnakulit'), array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)",'placeholder'=>'contoh : Sawo Matang')); ?>
+                <div class="control-group">
+                    <?php echo $form->labelEx($model, 'tinggibadan', array('class'=>'control-label')); ?>
+                    <div class="controls">
+                        <?php echo $form->textField($model,'tinggibadan',array('onkeyup'=>"return $(this).focusNextInputField(event)",'maxlength'=>100, 'class'=>'numbers-only span1', 'style'=>'text-align: right')); ?>
+                        <?php echo CHtml::label('cm', 'cm'); ?>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <?php echo $form->labelEx($model, 'beratbadan', array('class'=>'control-label')); ?>
+                    <div class="controls">
+                        <?php echo $form->textField($model,'beratbadan',array('onkeyup'=>"return $(this).focusNextInputField(event)",'maxlength'=>100, 'class'=>'numbers-only span1', 'style'=>'text-align: right')); ?>
+                        <?php echo CHtml::label('kg', 'kg'); ?>
+                    </div>
+                </div>
             </fieldset>                                                         
         </div>
         
@@ -317,6 +331,12 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                 </div>
             </div>        
             <?php echo $form->textFieldRow($model,'surattandaregistrasi',array('onkeyup'=>"return $(this).focusNextInputField(event)",'maxlength'=>100)); ?>
+            <?php echo $form->textFieldRow($model,'suratizinpraktek',array('onkeyup'=>"return $(this).focusNextInputField(event)",'maxlength'=>100)); ?>
+            <?php echo $form->textFieldRow($model,'npwp',array('class'=>'numbers-only','onkeyup'=>"return $(this).focusNextInputField(event)",'maxlength'=>100)); ?>
+            <?php echo $form->textFieldRow($model,'gajipokok',array('class'=>'integer2','onkeyup'=>"return $(this).focusNextInputField(event)",'maxlength'=>100)); ?>
+            <?php echo $form->textFieldRow($model,'no_rekening',array('class'=>'numbers-only', 'onkeyup'=>"return $(this).focusNextInputField(event)",'maxlength'=>100)); ?>
+            <?php echo $form->textFieldRow($model,'bank_no_rekening',array('onkeyup'=>"return $(this).focusNextInputField(event)",'maxlength'=>100)); ?>
+        
             <div class="control-group">
                 <?php echo $form->labelEx($model,'caraAmbilPhoto', array('class'=>'control-label')) ?>
                 <div class="controls">  
