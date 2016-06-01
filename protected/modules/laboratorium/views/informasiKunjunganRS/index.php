@@ -20,72 +20,58 @@
             'itemsCssClass'=>'table table-striped table-condensed',
             'columns'=>array(
                 array(
-                    'header'=>'Tgl. Pendaftaran',
-                    'name'=>'tgl_pendaftaran',
+                    'header'=>'Tgl Pendaftaran',                    
                     'type'=>'raw',
+                    'name' => 'tgl_pendaftaran',
                     'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)'
                 ),
                 array(
-                    'header'=>'Instalasi',
-                    'name'=>'instalasi_nama',
+                    'header'=>'No Pendaftaran',                    
                     'type'=>'raw',
-                    'value'=>'$data->instalasi_nama',
+                    'name' => 'no_pendaftaran',
+                    'value'=>'$data->no_pendaftaran'
                 ),
-                array(
-                    'header'=>'Ruangan/Klinik',
-                    'name'=>'ruangan_nama',
-                    'type'=>'raw',
-                    'value'=>'$data->ruangan_nama',
-                ),
-                array(
-                    'header'=>'No. Pendaftaran',
-                    'name'=>'no_pendaftaran',
-                    'type'=>'raw',
-                    'value'=>'$data->no_pendaftaran',
-                ),
-                array(
-                    'header'=>'No. Rekam Medik',
+                 array(
+                    'header'=>'No Rekam Medik',
                     'name'=>'no_rekam_medik',
                     'type'=>'raw',
                     'value'=>'$data->no_rekam_medik',
-                ),
+                ),                             
                 array(
-                    'header'=>'Nama Pasien / Alias',
+                    'header'=>'Nama Pasien',// Alias
                     'type'=>'raw',
-                    'value'=>'$data->NamaNamaAlias',
-                ),
-                array(
-                    'header'=>'Cara Bayar',
-                    'name'=>'carabayar_nama',
-                    'type'=>'raw',
-                    'value'=>'$data->carabayar_nama',
-                ),
-                array(
-                    'header'=>'Penjamin',
-                    'name'=>'penjamin_nama',
-                    'type'=>'raw',
-                    'value'=>'$data->penjamin_nama',
-                ),
-                 array(
-                    'header'=>'Kasus Penyakit / <br/> Kelas Pelayanan',
-                    'type'=>'raw',
-                    'value'=>'"$data->jeniskasuspenyakit_nama"."<br/>"."$data->kelaspelayanan_nama"',
-                ),
-                array(
-                    'name'=>'umur',
-                    'type'=>'raw',
-                    'value'=>'$data->umur',
+                    'value'=>'$data->sapaanPasien',//$data->NamaNamaAlias
                 ),
                 array(
                     'header'=>'Jenis Kelamin',
                     'type'=>'raw',
                     'value'=>'$data->jeniskelamin',
                 ),
+                 array(
+                    'name'=>'umur',
+                    'type'=>'raw',
+                    'value'=>'$data->umur',
+                ),                               
+                 array(
+                    'header'=>'Kasus Penyakit / <br/> Kelas Pelayanan',
+                    'type'=>'raw',
+                    'value'=>'"$data->jeniskasuspenyakit_nama"." /<br/>"."$data->kelaspelayanan_nama"',
+                ),
+                array(
+                    'header'=>'Cara Bayar / <br> Penjamin',                    
+                    'type'=>'raw',
+                    'value'=>'$data->carabayar_nama." /<br>".$data->penjamin_nama',
+                ), 
                 array(
                     'header'=>'Dokter<br/>Penanggung Jawab',
                     'type'=>'raw',
-                    'value'=>'$data->nama_pegawai',
+                    'value'=>'$data->NamaLengkap',
                 ),
+                 array(
+                    'header'=>'Instalasi /<br> Ruangan',                    
+                    'type'=>'raw',
+                    'value'=>'$data->instalasi_nama." /<br>".$data->ruangan_nama',
+                ),                 
                 array(
                     'name'=>'alamat_pasien',
                     'type'=>'raw',
@@ -100,5 +86,5 @@
             'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
         )); ?>
     </div>
-    <?php echo $this->renderPartial('_search', array('model'=>$model)); ?>
+    <?php echo $this->renderPartial($this->path_view.'_search', array('model'=>$model)); ?>
 </div>

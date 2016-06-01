@@ -73,14 +73,17 @@ class ActionDynamicController extends Controller
     {
         if(Yii::app()->request->isAjaxRequest) {
             $instalasi_id = $_POST["$namaModel"]['instalasi_id'];
-            $ruangan = RuanganM::model()->findAll('instalasi_id='.$instalasi_id.' and ruangan_aktif = true');
-            
+            $ruangan = RuanganM::model()->findAll('instalasi_id='.$instalasi_id.' and ruangan_aktif = true ORDER BY ruangan_nama ASC');            
             $ruangan=CHtml::listData($ruangan,'ruangan_id','ruangan_nama');
             
             if(empty($ruangan)){
                 echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
             }else{
-                echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                if (count($ruangan) > 1){
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                }elseif (count($ruangan) == 0){                
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                }
                 foreach($ruangan as $value=>$name)
                 {
                     echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
