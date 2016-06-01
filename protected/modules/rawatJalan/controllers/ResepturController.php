@@ -382,28 +382,37 @@ class ResepturController extends MyAuthController
 			$data['sukses'] = 0;
 			$transaction = Yii::app()->db->beginTransaction();
 			try {
-		$detailResep = ResepturdetailT::model()->findAllByAttributes(array('reseptur_id'=>$_POST['reseptur_id']));
-		$resep = ResepturT::model()->findByPk($_POST['reseptur_id']);
-		$deleteDetailResep = ResepturdetailT::model()->deleteAllByAttributes(array('reseptur_id'=>$_POST['reseptur_id']));
-					if($deleteDetailResep){
-			if($resep->delete()){
-				$data['pesan'] = "Riwayat Resep Termasuk Detail Resep Berhasil Dihapus!";
-				$data['sukses'] = 1;
-				$transaction->commit();
-			}else{
-				$transaction->rollback();
-				$data['pesan'] = "Gagal Menghapus Reseptur";
+                            $detailResep = ResepturdetailT::model()->findAllByAttributes(array('reseptur_id'=>$_POST['reseptur_id']));
+                            $resep = ResepturT::model()->findByPk($_POST['reseptur_id']);
+                            
+                            if (!empty($resep->penjualanresep_id)) {
+                                $data['pesan'] = "Reseptur ".$resep->noresep." sudah terjual.";
 				$data['sukses'] = 0;
-			}
-					}else{
-						$transaction->rollback();
-						$data['pesan'] = "Gagal Menghapus Detail Reseptur";
-						$data['sukses'] = 0;
-					}
+                                $transaction->rollback();
+                                goto prints;
+                            }
+                            
+                            $deleteDetailResep = ResepturdetailT::model()->deleteAllByAttributes(array('reseptur_id'=>$_POST['reseptur_id']));
+                            if($deleteDetailResep){
+                                    if($resep->delete()){
+                                            $data['pesan'] = "Riwayat Resep Termasuk Detail Resep Berhasil Dihapus!";
+                                            $data['sukses'] = 1;
+                                            $transaction->commit();
+                                    }else{
+                                            $transaction->rollback();
+                                            $data['pesan'] = "Gagal Menghapus Reseptur";
+                                            $data['sukses'] = 0;
+                                    }
+                            }else{
+                                    $transaction->rollback();
+                                    $data['pesan'] = "Gagal Menghapus Detail Reseptur";
+                                    $data['sukses'] = 0;
+                            }
 			}catch (Exception $exc) {
 				$transaction->rollback();
 				$data['pesan'] = "Transaksi Gagal :".MyExceptionMessage::getMessage($exc,true);
 			}
+                        prints:
 			echo CJSON::encode($data);
 		}
 		Yii::app()->end();
