@@ -27,6 +27,20 @@ class InformasiStokBarangController extends MyAuthController
 				'model'=>$model,
 		));
 	}
+        
+        public function actionIndexKartu()
+        {
+                $model = new InventarisasiruanganT();
+                $model->unsetAttributes();  // clear any default values
+		// $model->instalasi_id = Yii::app()->user->getState('instalasi_id');
+		$model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+		if(isset($_GET['InventarisasiruanganT'])){
+			$model->attributes=$_GET['InventarisasiruanganT'];
+		}
+		$this->render($this->path_view.'indexKartu',array(
+				'model'=>$model,
+		));
+        }
 	
 	/**
      * Mengatur dropdown ruangan
