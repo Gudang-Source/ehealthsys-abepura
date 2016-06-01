@@ -2,7 +2,9 @@
 
 class InformasiKunjunganRSController extends MyAuthController
 {
-        
+    public $path_view = "laboratorium.views.informasiKunjunganRS.";
+    public $path_tips = "laboratorium.views.informasiKunjunganRS.tips.";
+    
     public function actionIndex()
     {
         $format = new MyFormatter();
@@ -16,6 +18,6 @@ class InformasiKunjunganRSController extends MyAuthController
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['LBInfokunjunganrjrdriV']['tgl_akhir']);
 
         }
-        $this->render('index',array('model'=>$model,'format'=>$format));
+        $this->render($this->path_view.'index',array('model'=>$model,'format'=>$format));
     }
 }

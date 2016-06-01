@@ -96,9 +96,15 @@ if(isset($_GET['sukses'])){
         </thead>
         <tbody>
             <?php
+            $modPendaftaran = $modReseptur->pendaftaran;
+            $isP = $modPendaftaran->carabayar_id == Params::CARABAYAR_ID_MEMBAYAR && empty($modPendaftaran->pasienpulang_id) && $modPendaftaran->instalasi_id == Params::INSTALASI_ID_RJ;
             if(count($modDetailReseptur) > 0){
-                foreach($modDetailReseptur AS $ii=> $modDetail){
+                foreach($modDetailReseptur AS $ii=> $modDetail) {
                     $modDetail->jmlstok = StokobatalkesT::getJumlahStok($modDetail->obatalkes_id, Yii::app()->user->getState('ruangan_id'));
+                    if ($isP) {
+                        $modDetail->hargasatuan_reseptur = $modDetail->hargajual_reseptur = 0;
+                    }
+                    // var_dump($modDetail->attributes); die;
                     echo $this->renderPartial('_rowDetail',array('modResepturDetail'=> $modDetail,'modObatAlkesPasien'=>$modObatAlkesPasien));
                 }
             }

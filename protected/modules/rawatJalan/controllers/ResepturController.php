@@ -317,11 +317,15 @@ class ResepturController extends MyAuthController
 		Yii::app()->end();
 	}
 	
-	public function actionPrint()
+	public function actionPrint($idReseptur = null)
         {
 			$pendaftaran_id = $_GET['id'];
 			$criteria=new CDbCriteria;
-			$criteria->addCondition("create_time=(select max(create_time) from reseptur_t)");
+                        if (empty($idReseptur)) {
+                            $criteria->addCondition("create_time=(select max(create_time) from reseptur_t)");
+                        } else {
+                            $criteria->compare('reseptur_id', $idReseptur);
+                        }
 			$maxtime = RJResepturT::model()->find($criteria);
 			$modDetailResep = ResepturdetailT::model()->findAllByAttributes(array('reseptur_id'=>$maxtime->reseptur_id));
 			$modPendaftaran = RJPendaftaranT::model()->with('jeniskasuspenyakit')->findByPk($pendaftaran_id);
@@ -331,12 +335,12 @@ class ResepturController extends MyAuthController
 				$modDetailResep = ResepturdetailT::model()->findAllByAttributes(array('reseptur_id'=>$_GET['idReseptur']));
 				if($caraPrint=='PRINT') {
 					$this->layout='//layouts/printWindows';
-					$this->render($this->path_view.'_viewDetailResep',array('modPendaftaran'=>$modPendaftaran,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint,'modDetailResep'=>$modDetailResep));
+					$this->render($this->path_view.'Print',array('modPendaftaran'=>$modPendaftaran,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint,'modDetailResep'=>$modDetailResep, 'modReseptur'=>$maxtime));
 				}
 			}else{
 			if($caraPrint=='PRINT') {
 				$this->layout='//layouts/printWindows';
-				$this->render($this->path_view.'Print',array('modPendaftaran'=>$modPendaftaran,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint,"modDetailResep"=>$modDetailResep));
+				$this->render($this->path_view.'Print',array('modPendaftaran'=>$modPendaftaran,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint,"modDetailResep"=>$modDetailResep, 'modReseptur'=>$maxtime));
 			}
 		}
         }
@@ -362,9 +366,10 @@ class ResepturController extends MyAuthController
 		$idReseptur = $_POST['idReseptur'];
 		$pendaftaran_id = $_POST['pendaftaran_id'];
 	$modPendaftaran=RJPendaftaranT::model()->findByPk($pendaftaran_id);
+                $modReseptur = RJResepturT::model()->findByPk($idReseptur);
 		$modDetailResep = ResepturdetailT::model()->findAllByAttributes(array('reseptur_id'=>$idReseptur));
 
-		$data['result'] = $this->renderPartial($this->path_view.'_viewDetailResep', array('modDetailResep'=>$modDetailResep,'modPendaftaran'=>$modPendaftaran), true);
+		$data['result'] = $this->renderPartial($this->path_view.'_viewDetailResep', array('modDetailResep'=>$modDetailResep,'modPendaftaran'=>$modPendaftaran, 'modReseptur'=>$modReseptur), true);
 
 		echo json_encode($data);
 		 Yii::app()->end();
@@ -377,28 +382,37 @@ class ResepturController extends MyAuthController
 			$data['sukses'] = 0;
 			$transaction = Yii::app()->db->beginTransaction();
 			try {
-		$detailResep = ResepturdetailT::model()->findAllByAttributes(array('reseptur_id'=>$_POST['reseptur_id']));
-		$resep = ResepturT::model()->findByPk($_POST['reseptur_id']);
-		$deleteDetailResep = ResepturdetailT::model()->deleteAllByAttributes(array('reseptur_id'=>$_POST['reseptur_id']));
-					if($deleteDetailResep){
-			if($resep->delete()){
-				$data['pesan'] = "Riwayat Resep Termasuk Detail Resep Berhasil Dihapus!";
-				$data['sukses'] = 1;
-				$transaction->commit();
-			}else{
-				$transaction->rollback();
-				$data['pesan'] = "Gagal Menghapus Reseptur";
+                            $detailResep = ResepturdetailT::model()->findAllByAttributes(array('reseptur_id'=>$_POST['reseptur_id']));
+                            $resep = ResepturT::model()->findByPk($_POST['reseptur_id']);
+                            
+                            if (!empty($resep->penjualanresep_id)) {
+                                $data['pesan'] = "Reseptur ".$resep->noresep." sudah terjual.";
 				$data['sukses'] = 0;
-			}
-					}else{
-						$transaction->rollback();
-						$data['pesan'] = "Gagal Menghapus Detail Reseptur";
-						$data['sukses'] = 0;
-					}
+                                $transaction->rollback();
+                                goto prints;
+                            }
+                            
+                            $deleteDetailResep = ResepturdetailT::model()->deleteAllByAttributes(array('reseptur_id'=>$_POST['reseptur_id']));
+                            if($deleteDetailResep){
+                                    if($resep->delete()){
+                                            $data['pesan'] = "Riwayat Resep Termasuk Detail Resep Berhasil Dihapus!";
+                                            $data['sukses'] = 1;
+                                            $transaction->commit();
+                                    }else{
+                                            $transaction->rollback();
+                                            $data['pesan'] = "Gagal Menghapus Reseptur";
+                                            $data['sukses'] = 0;
+                                    }
+                            }else{
+                                    $transaction->rollback();
+                                    $data['pesan'] = "Gagal Menghapus Detail Reseptur";
+                                    $data['sukses'] = 0;
+                            }
 			}catch (Exception $exc) {
 				$transaction->rollback();
 				$data['pesan'] = "Transaksi Gagal :".MyExceptionMessage::getMessage($exc,true);
 			}
+                        prints:
 			echo CJSON::encode($data);
 		}
 		Yii::app()->end();

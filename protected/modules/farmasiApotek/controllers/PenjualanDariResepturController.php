@@ -21,7 +21,7 @@ class PenjualanDariResepturController extends PenjualanResepRSController
 			$modDetailReseptur[$ii]->discount = $modOA->discount;
 			$modDetailReseptur[$ii]->iurbiaya = $modDetailReseptur[$ii]->hargasatuan_reseptur * $modDetailReseptur[$ii]->qty_reseptur;
 			$ruangan_id = Yii::app()->user->getState('ruangan_id');
-            $modStokOAs = StokobatalkesT::getStokObatAlkesAktif($modDetailReseptur[$ii]->obatalkes_id, $modDetailReseptur[$ii]->qty_reseptur, $ruangan_id);
+                        $modStokOAs = StokobatalkesT::getStokObatAlkesAktif($modDetailReseptur[$ii]->obatalkes_id, $modDetailReseptur[$ii]->qty_reseptur, $ruangan_id);
 //			foreach($modStokOAs AS $i => $stok){
 //				$modDetailReseptur[$ii]->stokobatalkes_id = $stok->stokobatalkes_id;
 //			}
@@ -93,7 +93,10 @@ class PenjualanDariResepturController extends PenjualanResepRSController
 		$transaction = Yii::app()->db->beginTransaction();
 		if(isset($_POST['FAResepturDetailT'])){
 			$modPenjualan = $this->savePenjualanResepRS($modPendaftaran,$_POST['FAPenjualanResepT'],$modReseptur);
-			if($this->penjualantersimpan){
+			$modPendaftaran = $modReseptur->pendaftaran;
+                        $isP = $modPendaftaran->carabayar_id == Params::CARABAYAR_ID_MEMBAYAR && empty($modPendaftaran->pasienpulang_id) && $modPendaftaran->instalasi_id == Params::INSTALASI_ID_RJ;
+                        
+                        if($this->penjualantersimpan){
 				if(count($_POST['FAResepturDetailT']) > 0){
                     //PROSES GROUP DETAIL BERDASARKAN obatalkes_id & akumulasikan jmlmutasi
                     $detailGroups = array();
@@ -122,7 +125,7 @@ class PenjualanDariResepturController extends PenjualanResepRSController
                         $modDetails[$i]->kelaspelayanan_id = $modPenjualan->kelaspelayanan_id;
                         $modDetails[$i]->pasienadmisi_id = $modPenjualan->pasienadmisi_id;
                         //var_dump($postDetail);
-                        //var_dump($modPenjualan->attributes);
+                        // var_dump($modDetails[$i]->attributes); die;
                         //var_dump($modDetails[$i]->attributes);
                         if ($modDetails[$i]->validate()) {
                             $this->obatalkespasientersimpan &= $modDetails[$i]->save();
@@ -130,7 +133,9 @@ class PenjualanDariResepturController extends PenjualanResepRSController
                             $this->obatalkespasientersimpan &= false;
                         }
                         
-                        $this->simpanStokObatAlkesOut2($modDetails[$i]);
+                        if (!$isP) {
+                            $this->simpanStokObatAlkesOut2($modDetails[$i]);
+                        }
                         
                         //var_dump($modDetails[$i]->errors);
                         
@@ -205,7 +210,6 @@ class PenjualanDariResepturController extends PenjualanResepRSController
                 }
                  * 
                  */
-                                // die;
                                 
                                 $this->broadcastPenjualanKeKasir($modPenjualan);
 				try{
