@@ -317,11 +317,15 @@ class ResepturController extends MyAuthController
 		Yii::app()->end();
 	}
 	
-	public function actionPrint()
+	public function actionPrint($idReseptur = null)
         {
 			$pendaftaran_id = $_GET['id'];
 			$criteria=new CDbCriteria;
-			$criteria->addCondition("create_time=(select max(create_time) from reseptur_t)");
+                        if (empty($idReseptur)) {
+                            $criteria->addCondition("create_time=(select max(create_time) from reseptur_t)");
+                        } else {
+                            $criteria->compare('reseptur_id', $idReseptur);
+                        }
 			$maxtime = RJResepturT::model()->find($criteria);
 			$modDetailResep = ResepturdetailT::model()->findAllByAttributes(array('reseptur_id'=>$maxtime->reseptur_id));
 			$modPendaftaran = RJPendaftaranT::model()->with('jeniskasuspenyakit')->findByPk($pendaftaran_id);
@@ -331,12 +335,12 @@ class ResepturController extends MyAuthController
 				$modDetailResep = ResepturdetailT::model()->findAllByAttributes(array('reseptur_id'=>$_GET['idReseptur']));
 				if($caraPrint=='PRINT') {
 					$this->layout='//layouts/printWindows';
-					$this->render($this->path_view.'_viewDetailResep',array('modPendaftaran'=>$modPendaftaran,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint,'modDetailResep'=>$modDetailResep));
+					$this->render($this->path_view.'Print',array('modPendaftaran'=>$modPendaftaran,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint,'modDetailResep'=>$modDetailResep, 'modReseptur'=>$maxtime));
 				}
 			}else{
 			if($caraPrint=='PRINT') {
 				$this->layout='//layouts/printWindows';
-				$this->render($this->path_view.'Print',array('modPendaftaran'=>$modPendaftaran,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint,"modDetailResep"=>$modDetailResep));
+				$this->render($this->path_view.'Print',array('modPendaftaran'=>$modPendaftaran,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint,"modDetailResep"=>$modDetailResep, 'modReseptur'=>$maxtime));
 			}
 		}
         }
@@ -362,9 +366,10 @@ class ResepturController extends MyAuthController
 		$idReseptur = $_POST['idReseptur'];
 		$pendaftaran_id = $_POST['pendaftaran_id'];
 	$modPendaftaran=RJPendaftaranT::model()->findByPk($pendaftaran_id);
+                $modReseptur = RJResepturT::model()->findByPk($idReseptur);
 		$modDetailResep = ResepturdetailT::model()->findAllByAttributes(array('reseptur_id'=>$idReseptur));
 
-		$data['result'] = $this->renderPartial($this->path_view.'_viewDetailResep', array('modDetailResep'=>$modDetailResep,'modPendaftaran'=>$modPendaftaran), true);
+		$data['result'] = $this->renderPartial($this->path_view.'_viewDetailResep', array('modDetailResep'=>$modDetailResep,'modPendaftaran'=>$modPendaftaran, 'modReseptur'=>$modReseptur), true);
 
 		echo json_encode($data);
 		 Yii::app()->end();

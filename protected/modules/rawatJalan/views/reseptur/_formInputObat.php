@@ -6,7 +6,7 @@
 			 <legend class="rim">Data Obat (Non Racikan) <?php echo CHtml::htmlButton('<i class="icon-refresh icon-white"></i>',array('class'=>'btn btn-danger btn-mini','onclick'=>'terapiobat_reset();','onkeyup'=>"return $(this).focusNextInputField(event)",'rel'=>'tooltip','title'=>'Klik untuk me-refresh form obat non racik')); ?></legend>
                 <?php echo CHtml::hiddenField('therapiobat_id', '', array('readonly'=>true)) ?>
                 <div class="control-group ">
-                    <?php echo CHtml::label('Kelas Therapi','therapiobat_id', array('class'=>'control-label')) ?>
+                    <?php echo CHtml::label('Kelas Terapi','therapiobat_id', array('class'=>'control-label')) ?>
                     <div class="controls">
                         <div class="input-append" style='display:inline'>
 								<?php 
@@ -240,15 +240,18 @@
 </div>
 
 <?php
+$ru = RuanganM::model()->findByPk($modReseptur->ruangan_id);
+
+
 //========= Dialog buat cari data Alat Kesehatan ala cak lontong (non racik - therapi obat)  =========================
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     'id'=>'dialogTerapiObat',
     'options'=>array(
-        'title'=>'Obat Alkes Berdasarkan Therapi Obat',
+        'title'=>'Kelas Terapi Obat',
         'autoOpen'=>false,
         'modal'=>true,
-        'width'=>480,
-        'height'=>320,
+        'width'=>550,
+        'height'=>600,
         'resizable'=>false,
     ),
 ));
@@ -290,7 +293,7 @@ $this->endWidget();
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array( 
     'id'=>'dialogObat',
     'options'=>array(
-        'title'=>'Daftar Obat Alkes',
+        'title'=>'Daftar Obat Alkes - <span class="rid">'.$ru->ruangan_nama.'</span>',
         'autoOpen'=>false,
         'modal'=>true,
         'minWidth'=>900,
@@ -335,10 +338,27 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 							$(\"#dialogObat\").dialog(\"close\");
                             return false;
                 ",
-               ))',
-			'filter'=>CHtml::activeHiddenField($modObatDialog, 'therapiobat_id'),//RND-7948
+                ))',
+                'filter'=>CHtml::activeHiddenField($modObatDialog, 'therapiobat_id').CHtml::activeHiddenField($modObatDialog, 'ruangan_id'),//RND-7948
         ),
-
+        array(
+            'header'=>'Jenis Obat Alkes',
+            'name'=>'jenisobatalkes_id',
+            'type'=>'raw',
+            'value'=>'(!empty($data->jenisobatalkes_id) ? $data->jenisobatalkes->jenisobatalkes_nama : "")',
+            'filter'=>  CHtml::activeDropDownList($modObatDialog, 'jenisobatalkes_id', CHtml::listData(JenisobatalkesM::model()->findAll(array(
+                'condition'=>'jenisobatalkes_aktif = true',
+                'order'=>'jenisobatalkes_nama'
+            )), 'jenisobatalkes_id', 'jenisobatalkes_nama'), array('empty'=>'-- Pilih --')),
+        ),
+        array(
+            'name'=>'obatalkes_kategori',
+            'filter'=> CHtml::activeDropDownList($modObatDialog, 'obatalkes_kategori', LookupM::getItems('obatalkes_kategori'), array('empty'=>'-- Pilih --'))
+        ),
+        array(
+            'name'=>'obatalkes_golongan',
+            'filter'=> CHtml::activeDropDownList($modObatDialog, 'obatalkes_golongan', LookupM::getItems('obatalkes_golongan'), array('empty'=>'-- Pilih --'))
+        ),
         'obatalkes_kode',
         'obatalkes_nama',
         array(
@@ -346,7 +366,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'name'=>'tglkadaluarsa',
             'filter'=>'',
             'value'=>'MyFormatter::formatDateTimeForUser($data->tglkadaluarsa)'
-        ),        
+        ),         /*
         array(
             'name'=>'satuankecil.satuankecil_nama',
             'header'=>'Satuan Kecil',
@@ -354,7 +374,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
         array(
             'name'=>'satuanbesar.satuanbesar_nama',
             'header'=>'Satuan Besar',
-        ),
+        ), */
 		// dicomment karena RND-5732
 //        array(
 //            'header'=>'HJA Resep',
@@ -371,7 +391,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 //        ),
 		array(
 				'name'=>'hargajual',
-				'value'=>'number_format($data->hargajual)',
+				'value'=>'MyFormatter::formatNumberForPrint($data->hargajual)',
                                 'htmlOptions'=>array(
                                     'style'=>'text-align: right',
                                 ),
@@ -379,7 +399,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
         array(
             'header'=>'Stok',
             'type'=>'raw',
-            'value'=>'StokobatalkesT::getJumlahStok($data->obatalkes_id,"'.$modObatDialog->ruangan_id.'")',
+            'value'=>'StokobatalkesT::getJumlahStok($data->obatalkes_id,"'.$modObatDialog->ruangan_id.'")." ".$data->satuankecil->satuankecil_nama',
             'htmlOptions'=>array(
                                     'style'=>'text-align: right',
                                 ),
@@ -397,7 +417,7 @@ $this->endWidget();
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array( 
     'id'=>'dialogObatRacikan',
     'options'=>array(
-        'title'=>'Daftar Obat Alkes Racikan',
+        'title'=>'Daftar Obat Alkes Racikan - <span class="rid">'.$ru->ruangan_nama.'</span>',
         'autoOpen'=>false,
         'modal'=>true,
         'minWidth'=>900,
@@ -417,7 +437,7 @@ if (isset($_GET['RJObatAlkesM'])){
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'obatAlkesDialogRacikan-m-grid',
-    'dataProvider'=>$modObatDialogRacikan->searchObatFarmasi(),
+    'dataProvider'=>$modObatDialogRacikan->searchObatFarmasiRuangan(),
     'filter'=>$modObatDialogRacikan,
     'template'=>"{items}\n{pager}",
 //    'template'=>"{summary}\n{items}\n{pager}",
@@ -439,46 +459,71 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                             return false;
                 ",
                ))',
+            'filter'=>CHtml::activeHiddenField($modObatDialogRacikan, 'therapiobat_id').CHtml::activeHiddenField($modObatDialogRacikan, 'ruangan_id'),//RND-7948
         ),
-
-            'obatalkes_kode',
-            'obatalkes_nama',
-            array(
-                'header'=>'Tanggal Kadaluarsa',
-                'name'=>'tglkadaluarsa',
-                'filter'=>'',
-            ),        
-            array(
-                'name'=>'satuankecil.satuankecil_nama',
-                'header'=>'Satuan Kecil',
-            ),
-            array(
-                'name'=>'satuanbesar.satuanbesar_nama',
-                'header'=>'Satuan Besar',
-            ),
+array(
+            'header'=>'Jenis Obat Alkes',
+            'name'=>'jenisobatalkes_id',
+            'type'=>'raw',
+            'value'=>'(!empty($data->jenisobatalkes_id) ? $data->jenisobatalkes->jenisobatalkes_nama : "")',
+            'filter'=>  CHtml::activeDropDownList($modObatDialogRacikan, 'jenisobatalkes_id', CHtml::listData(JenisobatalkesM::model()->findAll(array(
+                'condition'=>'jenisobatalkes_aktif = true',
+                'order'=>'jenisobatalkes_nama'
+            )), 'jenisobatalkes_id', 'jenisobatalkes_nama'), array('empty'=>'-- Pilih --')),
+        ),
+        array(
+            'name'=>'obatalkes_kategori',
+            'filter'=> CHtml::activeDropDownList($modObatDialogRacikan, 'obatalkes_kategori', LookupM::getItems('obatalkes_kategori'), array('empty'=>'-- Pilih --'))
+        ),
+        array(
+            'name'=>'obatalkes_golongan',
+            'filter'=> CHtml::activeDropDownList($modObatDialogRacikan, 'obatalkes_golongan', LookupM::getItems('obatalkes_golongan'), array('empty'=>'-- Pilih --'))
+        ),
+        'obatalkes_kode',
+        'obatalkes_nama',
+        array(
+            'header'=>'Tanggal Kadaluarsa',
+            'name'=>'tglkadaluarsa',
+            'filter'=>'',
+            'value'=>'MyFormatter::formatDateTimeForUser($data->tglkadaluarsa)'
+        ),         /*
+        array(
+            'name'=>'satuankecil.satuankecil_nama',
+            'header'=>'Satuan Kecil',
+        ),
+        array(
+            'name'=>'satuanbesar.satuanbesar_nama',
+            'header'=>'Satuan Besar',
+        ), */
 		// dicomment karena RND-5732
-//            array(
-//                'header'=>'HJA Resep',
-//                'type'=>'raw',
-//                'value'=>'number_format($data->hjaresep, 0, ",", ".")',
-//                'filter'=>'',
-//                'htmlOptions'=>array('style'=>'text-align:right;'),
-//            ),
-//            array(
-//                'header'=>'HJA Non Resep',
-//                'value'=>'number_format($data->hjanonresep, 0, ",", ".")',
-//                'filter'=>'',
-//                'htmlOptions'=>array('style'=>'text-align:right;'),
-//            ),
-			array(
+//        array(
+//            'header'=>'HJA Resep',
+//            'type'=>'raw',
+//            'value'=>'number_format($data->hjaresep, 0, ",", ".")',
+//            'filter'=>'',
+//            'htmlOptions'=>array('style'=>'text-align:right;'),
+//        ),
+//        array(
+//            'header'=>'HJA Non Resep',
+//            'value'=>'number_format($data->hjanonresep, 0, ",", ".")',
+//            'filter'=>'',
+//            'htmlOptions'=>array('style'=>'text-align:right;'),
+//        ),
+		array(
 				'name'=>'hargajual',
-				'value'=>'number_format($data->hargajual)',
+				'value'=>'MyFormatter::formatNumberForPrint($data->hargajual)',
+                                'htmlOptions'=>array(
+                                    'style'=>'text-align: right',
+                                ),
 			),
             array(
-                'header'=>'Stok',
-                'type'=>'raw',
-				'value'=>'StokobatalkesT::getJumlahStok($data->obatalkes_id,"'.$modObatDialogRacikan->ruangan_id.'")',
-			),
+            'header'=>'Stok',
+            'type'=>'raw',
+            'value'=>'StokobatalkesT::getJumlahStok($data->obatalkes_id,"'.$modObatDialogRacikan->ruangan_id.'")." ".$data->satuankecil->satuankecil_nama',
+                'htmlOptions'=>array(
+                    'style'=>'text-align: right',
+                ),
+            ),
 
         
     ),
