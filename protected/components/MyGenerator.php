@@ -1046,6 +1046,22 @@ class MyGenerator
      * Generate inventarisasi_kode untuk inventarisasiruangan_t
      * @return string
      */
+    public static function kodeTerimaMutasi()
+    {
+        $default = "001";
+        $prefix = "MTSSTOK".date('ymd'); 
+		$sql = "SELECT CAST(MAX(SUBSTR(inventarisasi_kode,".(strlen($prefix)+1).",".(strlen($default)).")) AS integer) nomaksimal
+				FROM inventarisasiruangan_t 
+				WHERE inventarisasi_kode LIKE ('".$prefix."%')";
+        $nohasil= Yii::app()->db->createCommand($sql)->queryRow();
+        $inventarisasi_kode=$prefix.(isset($nohasil['nomaksimal']) ? (str_pad($nohasil['nomaksimal']+1, strlen($default), 0,STR_PAD_LEFT)) : $default);
+        return $inventarisasi_kode;
+    }
+    
+    /**
+     * Generate inventarisasi_kode untuk inventarisasiruangan_t
+     * @return string
+     */
     public static function kodeStokAwalPersediaan()
     {
         $default = "001";

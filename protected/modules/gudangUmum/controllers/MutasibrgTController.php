@@ -90,9 +90,27 @@ class MutasibrgTController extends MyAuthController {
                                     $data->inventarisasi_id = (isset($modInventaris->inventarisasi_id) ? $modInventaris->inventarisasi_id : null);
                                     $harga = (isset($modInventaris->inventarisasi_hargasatuan) ? $modInventaris->inventarisasi_hargasatuan : 0);
                                     $total += $harga*$data->qty_mutasi;
+                                    
+                                    // var_dump($data->attributes, $data->validate(), $data->errors); die;
+                                    
                                     if ($data->save()) {
                                         if(isset($modInventaris->inventarisasi_id)){
                                             InventarisasiruanganT::model()->updateByPk($modInventaris->inventarisasi_id, array('mutasibrgdetail_id'=>$data->mutasibrgdetail_id));
+                                            // Update / Insert Inventarisasiruangan Ruangan tujuan											
+                                            $cekInvRuangTujuan = InventarisasiruanganT::model()->findByAttributes(array('barang_id'=>$data->barang_id,'ruangan_id'=>$model->ruangantujuan_id,'inventarisasi_kode'=>$modInventaris->inventarisasi_kode));
+                                            if(count($cekInvRuangTujuan)){
+                                                    $qty_in = $cekInvRuangTujuan->inventarisasi_qty_in + $data->qty_mutasi;
+                                                    $qty_skrg = $cekInvRuangTujuan->inventarisasi_qty_skrg + $data->qty_mutasi;
+                                                    InventarisasiruanganT::model()->updateByPk($cekInvRuangTujuan->inventarisasi_id, array(
+                                                            'mutasibrgdetail_id'=>$data->mutasibrgdetail_id,
+                                                            'inventarisasi_qty_in'=>$qty_in,
+                                                            'inventarisasi_qty_skrg'=>$qty_skrg,
+                                                            'inventarisasi_keadaan'=>$data->mutasi_keadaan,
+                                                            'update_time'=>date('Y-m-d H:i:s'),
+                                                            'update_loginpemakai_id'=>Yii::app()->user->id));
+                                            }else{
+                                                    $this->simpanInvRuanganTujuan($data,$model,$modInventaris);
+                                            }
                                         }
                                         if (Yii::app()->user->getState('krngistokumum') == true){
                                             if (InventarisasiruanganT::validasiStok($data->qty_mutasi, $data->barang_id) == true){
@@ -111,16 +129,21 @@ class MutasibrgTController extends MyAuthController {
                                 MutasibrgT::model()->updateByPk($model->mutasibrg_id, array('totalhargamutasi'=>$total));
                             }
                         }
+                        
+                        // var_dump($success); die;
+                        
                         $this->simpanNotifMutasiBarang($model);
                         if ($success == true) {
                             $transaction->commit();                            
                             $this->redirect(array('index', 'idMutasi'=>$model->mutasibrg_id,'sukses'=>1));
 							Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
                         } else {
+                            // echo "Kick"; die;
                             $transaction->rollback();
                             Yii::app()->user->setFlash('error', "Data gagal disimpan ");
                         }
                     } catch (Exception $ex) {
+                        // var_dump($ex); die;
                         $transaction->rollback();
                         Yii::app()->user->setFlash('error', "Data gagal disimpan " . MyExceptionMessage::getMessage($ex, true));
                     }
@@ -485,5 +508,35 @@ class MutasibrgTController extends MyAuthController {
             $valid = $modDetails[$i]->validate() && $valid;
         }
         return $modDetails;
+    }
+    
+    /**
+     * simpan GUInvbarangdetT
+     * @param type $model
+     * @param type $detail
+     * @return \GUInvbarangdetT
+     */
+    public function simpanInvRuanganTujuan($data,$model,$modInventaris) {
+            $format = new MyFormatter();
+            $modInvRuanganTujuan = new GUInventarisasiruanganT;
+            $modInvRuanganTujuan->inventarisasi_kode = MyGenerator::kodeTerimaMutasi();
+            $modInvRuanganTujuan->mutasibrgdetail_id = $data->mutasibrgdetail_id;
+            $modInvRuanganTujuan->barang_id = $data->barang_id;
+            $modInvRuanganTujuan->inventarisasi_qty_in = $data->qty_mutasi;
+            $modInvRuanganTujuan->inventarisasi_keadaan = isset($modInventaris->inventarisasi_keadaan) ? $modInventaris->inventarisasi_keadaan : "";
+            $modInvRuanganTujuan->inventarisasi_hargasatuan = $modInventaris->inventarisasi_hargasatuan;
+            $modInvRuanganTujuan->ruangan_id = $model->ruangantujuan_id;
+            $modInvRuanganTujuan->tgltransaksi = date('Y-m-d H:i:s');
+            $modInvRuanganTujuan->inventarisasi_hargabeli = 0;
+            $modInvRuanganTujuan->inventarisasi_qty_out = 0;
+            $modInvRuanganTujuan->inventarisasi_qty_skrg = $data->qty_mutasi;
+            $modInvRuanganTujuan->create_time = date('Y-m-d H:i:s');
+            $modInvRuanganTujuan->create_loginpemakai_id = Yii::app()->user->id;
+            $modInvRuanganTujuan->create_ruangan = Yii::app()->user->getState('ruangan_id');
+            // var_dump($modInventaris->attributes, $modInvRuanganTujuan->attributes, $modInvRuanganTujuan->validate(), $modInvRuanganTujuan->errors); die;
+            if ($modInvRuanganTujuan->validate()) {
+                    $modInvRuanganTujuan->save();
+            }
+            return $modInvRuanganTujuan;
     }
 }
