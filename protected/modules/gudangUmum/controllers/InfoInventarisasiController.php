@@ -1,0 +1,33 @@
+<?php
+class InfoInventarisasiController extends MyAuthController{
+	
+	public $path_view = 'gudangUmum.views.infoInventarisasi.';
+	
+	public function actionIndex(){
+		$format = new MyFormatter();
+		$model = new GUInfoinventarisasibarangV('searchInformasi');
+		
+		$model->unsetAttributes();  // clear any default values
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+		
+		if(isset($_GET['GUInfoinventarisasibarangV'])){
+			$model->attributes=$_GET['GUInfoinventarisasibarangV'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['GUInfoinventarisasibarangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['GUInfoinventarisasibarangV']['tgl_akhir']);
+		}
+		
+		$this->render($this->path_view.'index',array(
+			'model'=>$model,
+			'format'=>$format
+		));
+	}
+	
+	/**
+	* menampilkan url untuk print karena nama controller tiap modul yg extend berbeda
+	* @return type
+	*/
+	public function getUrlPrint(){
+		return $this->createUrl("InventarisasiBarang/Print");
+	}
+}

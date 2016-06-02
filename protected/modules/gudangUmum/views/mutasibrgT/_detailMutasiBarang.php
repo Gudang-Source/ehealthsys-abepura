@@ -7,7 +7,9 @@
     <td><?php //echo !empty($modBarang->bidang_id)? $modBarang->bidang->subkelompok->kelompok->kelompok_nama:null; ?></td>
 	<td><?php //echo !empty($modBarang->bidang_id)?$modBarang->bidang->subkelompok->subkelompok_nama:null; ?></td>
 	<td><?php //echo !empty($modBarang->bidang_id)?$modBarang->bidang->bidang_nama:null; ?></td>-->
-    <td><?php echo $modBarang->barang_type; ?></td>
+    <td><?php 
+    echo CHtml::activeHiddenField($modDetail, '[]barang_id', array('class'=>'barang'));
+    echo $modBarang->barang_type; ?></td>
     <td><?php echo $modBarang->barang_kode; ?></td>
     <td><?php echo $modBarang->barang_nama; ?></td>
     <td><?php echo $modBarang->barang_merk; ?></td>

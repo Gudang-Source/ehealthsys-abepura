@@ -413,6 +413,8 @@ Class Params
         
         const SURAT_KETERANGAN_KONTROL = 2;
         
+        const DEFAULT_JENISINVENTARISASI = 'Penyesuaian';
+        
         
 	//===   END KONSTANTA ===
         
