@@ -1,30 +1,33 @@
+<style>
+    .table {
+        border-collapse: collapse;
+        border: none;
+        box-shadow: none;
+    }
+    
+    .det th, .det td {
+        background-color: white;
+        color: black;
+        border: 1px solid black;
+    }
+</style>
+
 <?php if (isset($judulLaporan)){
     echo $this->renderPartial('application.views.headerReport.headerDefault',array('judulLaporan'=>$judulLaporan));      
 }
 ?>
 <table class='table'>
     <tr>
-        <td>
-             <b><?php echo CHtml::encode($modMutasi->getAttributeLabel('nomutasibrg')); ?>:</b>
-            <?php echo CHtml::encode($modMutasi->nomutasibrg); ?>
-            <br />
-             <b><?php echo CHtml::encode($modMutasi->getAttributeLabel('tglmutasibrg')); ?>:</b>
-            <?php echo CHtml::encode($modMutasi->tglmutasibrg); ?>
-             <br/>
-             
-        </td>
-        <td>
-             <b><?php echo CHtml::encode($modMutasi->getAttributeLabel('ruangantujuan_id')); ?>:</b>
-            <?php echo CHtml::encode($modMutasi->ruangantujuan->ruangan_nama); ?>
-            <br />
-             <b><?php echo CHtml::encode($modMutasi->getAttributeLabel('create_time')); ?>:</b>
-            <?php echo CHtml::encode($modMutasi->create_time); ?>
-            <br />
-        </td>
-    </tr>   
+        <td>No. Mutasi</td><td>:</td><td><?php echo CHtml::encode($modMutasi->nomutasibrg); ?></td>
+        <td>Tgl. Mutasi</td><td>:</td><td><?php echo CHtml::encode($modMutasi->tglmutasibrg); ?></td>
+    </tr>
+    <tr>
+        <td>Ruangan Rujuan</td><td>:</td><td><?php echo CHtml::encode($modMutasi->ruangantujuan->ruangan_nama); ?></td>
+        <td>Create Time</td><td>:</td><td><?php echo CHtml::encode($modMutasi->create_time); ?></td>
+    </tr> 
 </table>
 
-<table id="tableObatAlkes" class="table table-striped table-bordered table-condensed">
+<table id="tableObatAlkes" class="det" width="100%">
     <thead>
         <th>No.Urut</th>
         <th>Golongan</th>
@@ -33,7 +36,6 @@
         <th>Bidang</th>
         <th>Barang</th>
         <th>Jumlah Mutasi</th>
-        <th>Satuan</th>
         <th>Ukuran<br/>Bahan</th>
     </thead>
     <tbody>
@@ -43,13 +45,12 @@
         <?php $modBarang = BarangM::model()->findByPk($detail->barang_id); ?>
             <tr>   
                 <td><?php echo $no; ?></td>
-                <td><?php echo !empty($modBarang->bidang_id)?$modBarang->bidang->subkelompok->kelompok->golongan->golongan_nama:null;  ?></td>
-                <td><?php echo !empty($modBarang->bidang_id)? $modBarang->bidang->subkelompok->kelompok->kelompok_nama:null; ?></td>
-                <td><?php echo !empty($modBarang->bidang_id)?$modBarang->bidang->subkelompok->subkelompok_nama:null; ?></td>
-                <td><?php echo !empty($modBarang->bidang_id)?$modBarang->bidang->bidang_nama:null; ?></td>
+                <td><?php echo $modBarang->subsubkelompok->subkelompok->kelompok->bidang->golongan->golongan_nama;  ?></td>
+                <td><?php echo $modBarang->subsubkelompok->subkelompok->kelompok->kelompok_nama; ?></td>
+                <td><?php echo $modBarang->subsubkelompok->subkelompok->subkelompok_nama; ?></td>
+                <td><?php echo $modBarang->subsubkelompok->subsubkelompok_nama; ?></td>
                 <td><?php echo $modBarang->barang_nama; ?></td>
-                <td><?php echo $detail->qty_mutasi; ?></td>
-                <td><?php echo $detail->satuanbrg; ?></td>
+                <td><?php echo $detail->qty_mutasi." ".$detail->satuanbrg; ?></td>
                 <td><?php echo $modBarang->barang_ukuran; ?><br/><?php echo $modBarang->barang_bahan; ?></td>
             </tr>   
             <?php 

@@ -27,7 +27,13 @@ $currentUrl = Yii::app()->createUrl($module . '/' . $controller . '/' . $action)
 			'type'=>'raw',
 			'value'=>'(isset($data->pegawaimengetahui)?$data->pegawaimengetahui->nama_pegawai:"")',
 		),
-		'totalhargamutasi',
+                array(
+                        'name'=>'totalhargamutasi',
+                        'value'=>'MyFormatter::formatNumberForPrint($data->totalhargamutasi)',
+                        'htmlOptions'=>array(
+                            'style'=>'text-align: right;',
+                        ),
+                ),
 		'ruangantujuan.ruangan_nama',
 		'keterangan_mutasi',
 		'pesanbarang.nopemesanan',

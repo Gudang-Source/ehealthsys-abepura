@@ -1043,6 +1043,38 @@ class MyGenerator
     }
     
     /**
+     * Generate inventarisasi_kode untuk inventarisasiruangan_t
+     * @return string
+     */
+    public static function kodeTerimaMutasi()
+    {
+        $default = "001";
+        $prefix = "MTSSTOK".date('ymd'); 
+		$sql = "SELECT CAST(MAX(SUBSTR(inventarisasi_kode,".(strlen($prefix)+1).",".(strlen($default)).")) AS integer) nomaksimal
+				FROM inventarisasiruangan_t 
+				WHERE inventarisasi_kode LIKE ('".$prefix."%')";
+        $nohasil= Yii::app()->db->createCommand($sql)->queryRow();
+        $inventarisasi_kode=$prefix.(isset($nohasil['nomaksimal']) ? (str_pad($nohasil['nomaksimal']+1, strlen($default), 0,STR_PAD_LEFT)) : $default);
+        return $inventarisasi_kode;
+    }
+    
+    /**
+     * Generate inventarisasi_kode untuk inventarisasiruangan_t
+     * @return string
+     */
+    public static function kodeStokAwalPersediaan()
+    {
+        $default = "001";
+        $prefix = "STOKAWL".date('ymd'); 
+		$sql = "SELECT CAST(MAX(SUBSTR(inventarisasi_kode,".(strlen($prefix)+1).",".(strlen($default)).")) AS integer) nomaksimal
+				FROM inventarisasiruangan_t 
+				WHERE inventarisasi_kode LIKE ('".$prefix."%')";
+        $nohasil= Yii::app()->db->createCommand($sql)->queryRow();
+        $inventarisasi_kode=$prefix.(isset($nohasil['nomaksimal']) ? (str_pad($nohasil['nomaksimal']+1, strlen($default), 0,STR_PAD_LEFT)) : $default);
+        return $inventarisasi_kode;
+    }
+    
+    /**
      * Generate noformulir untuk formuliropname_r
      * @return string
      */
@@ -2071,6 +2103,38 @@ class MyGenerator
         $kode = Yii::app()->db->createCommand($sql)->queryRow();                
         $kode_baru = $kode['subsubkelompok_kode'];
         return $kode_baru;
+    }
+    
+    /**
+     * Generate invbarang_no untuk invbarang_t
+     * @return string 
+     */
+    public static function noInventarisasiBarang()
+    {
+		$default="0001";
+        $prefix = 'INVBRG'.date('ymd');
+		$sql = "SELECT CAST(MAX(SUBSTR(invbarang_no,".(strlen($prefix)+1).",".(strlen($default)).")) AS integer) nomaksimal 
+				FROM invbarang_t 
+				WHERE invbarang_no LIKE ('".$prefix."%')";
+        $noInvBrg = Yii::app()->db->createCommand($sql)->queryRow();
+        $noInvBrgBaru =$prefix.(isset($noInvBrg['nomaksimal']) ? (str_pad($noInvBrg['nomaksimal']+1, strlen($default), 0,STR_PAD_LEFT)) : $default);
+        return $noInvBrgBaru;
+    }
+    
+    /**
+     * Generate forminvbarang_no untuk formulirinvbarang_r
+     * @return string 
+     */
+    public static function noFormInventarisasiBarang()
+    {
+		$default="0001";
+        $prefix = 'FORMINVBRG'.date('ymd');
+		$sql = "SELECT CAST(MAX(SUBSTR(forminvbarang_no,".(strlen($prefix)+1).",".(strlen($default)).")) AS integer) nomaksimal 
+				FROM formulirinvbarang_r 
+				WHERE forminvbarang_no LIKE ('".$prefix."%')";
+        $noFormInvBrg = Yii::app()->db->createCommand($sql)->queryRow();
+        $noFormInvBrgBaru =$prefix.(isset($noFormInvBrg['nomaksimal']) ? (str_pad($noFormInvBrg['nomaksimal']+1, strlen($default), 0,STR_PAD_LEFT)) : $default);
+        return $noFormInvBrgBaru;
     }
 }
 ?>

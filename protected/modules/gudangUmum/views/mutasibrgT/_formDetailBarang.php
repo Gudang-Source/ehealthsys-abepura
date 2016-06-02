@@ -81,8 +81,8 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
         'title' => 'Daftar Barang',
         'autoOpen' => false,
         'modal' => true,
-        'width' => 800,
-        'height' => 600,
+        'width' => 1000,
+        'height' => 700,
         'resizable' => false,
     ),
 ));
@@ -122,14 +122,37 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
         'barang_kode',
         'barang_nama',
         'barang_merk',        
+        /*
         array(
             'name'=>'barang_satuan',
             'filter'=> CHtml::dropDownList('GUBarangM[barang_satuan]',$modBarang->barang_satuan,LookupM::getItems('satuanbarang'),array('empty'=>'--Pilih--')),
             'value'=>'$data->barang_satuan',
         ),
+         * 
+         */
         'barang_ukuran',
         'barang_ekonomis_thn',
-        
+        array(
+            'header'=>'Stok',
+            'type'=>'raw',
+            'value'=>function($data) {
+                $b = new GUInformasistokbarangV;
+                $b->barang_id = $data->barang_id;
+                $b->ruangan_id = Yii::app()->user->getState('ruangan_id');
+                $prov = $b->search();
+                
+                $tot = 0;
+                foreach ($prov->data as $item) {
+                    $tot += $item->inventarisasi_stok;
+                }
+                
+                return $tot." ".$data->barang_satuan;
+            },
+            'htmlOptions'=>array(
+                'style'=>'text-align: right',
+                'nowrap'=>true,
+            ),
+        )
     ),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 ));
