@@ -55,6 +55,7 @@
                 'htmlOptions' => array(
                     'placeholder' => 'Kode / Nama Tindakan',
                     'onkeypress' => "return $(this).focusNextInputField(event)",
+                    'readonly' => true,
                 ),
                 'tombolDialog' => array('idDialog' => 'dialogTindakan'),
             ));
@@ -96,6 +97,7 @@
                 'htmlOptions' => array(
                     'placeholder' => 'Kode / Nama Akun',
                     'onkeypress' => "return $(this).focusNextInputField(event)",
+                    'readonly' => true,
                 ),
                 'tombolDialog' => array('idDialog' => 'dialogRekDebit'),
             ));
@@ -138,6 +140,7 @@
                 'htmlOptions' => array(
                     'placeholder' => 'Kode / Nama Akun',
                     'onkeypress' => "return $(this).focusNextInputField(event)",
+                    'readonly' => true,
                 ),
                 'tombolDialog' => array('idDialog' => 'dialogRekKredit'),
             ));
