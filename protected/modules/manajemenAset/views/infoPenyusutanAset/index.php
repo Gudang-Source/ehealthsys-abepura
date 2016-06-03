@@ -110,7 +110,7 @@ $('.search-form form').submit(function(){
 		)); ?>
  </div>
 <fieldset class="box search-form">
-	<?php $this->renderPartial('_search',array(
+	<?php $this->renderPartial($this->path_view.'_search',array(
 		'model'=>$model,'format'=>$format
 	)); ?>
 </fieldset><!-- search-form -->
