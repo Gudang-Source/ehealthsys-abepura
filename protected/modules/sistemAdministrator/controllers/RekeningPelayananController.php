@@ -145,11 +145,12 @@ class RekeningPelayananController extends MyAuthController {
 			$returnVal = array();
 			$term = isset($_GET['term']) ? $_GET['term'] : null;
 			$criteria = new CDbCriteria();
+                        
 			$criteria->compare('LOWER(daftartindakan_nama)', strtolower($term), true);
 			$criteria->compare('LOWER(daftartindakan_kode)', strtolower($term), true, 'OR');
 			$criteria->order = 'daftartindakan_nama';
 			$criteria->limit = 5;
-
+                        
 			$models = SADaftarTindakanM::model()->findAll($criteria);
 			foreach ($models as $i => $model) {
 				$attributes = $model->attributeNames();
