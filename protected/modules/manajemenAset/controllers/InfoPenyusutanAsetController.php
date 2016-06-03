@@ -2,20 +2,22 @@
 
 class InfoPenyusutanAsetController extends MyAuthController{
 	public $layout='//layouts/column1';
-	
+	public $path_view = 'manajemenAset.views.infoPenyusutanAset.';
+        
+        
 	public function actionIndex()
 	{
 		$format = new MyFormatter; 
 		$model	= new MAPenyusutanasetV('search');
 		$model->unsetAttributes();  // clear any default values
-        $model->tgl_awal = date('Y-m-d');
-        $model->tgl_akhir = date('Y-m-d');
+                $model->tgl_awal = date('Y-m-d');
+                $model->tgl_akhir = date('Y-m-d');
 		if(isset($_GET['MAPenyusutanasetV'])){
 			$model->attributes=$_GET['MAPenyusutanasetV'];
-            $model->tgl_awal = $format->formatDateTimeForDb($model->tgl_awal);
-            $model->tgl_akhir = $format->formatDateTimeForDb($model->tgl_akhir);
+                        $model->tgl_awal = $format->formatDateTimeForDb($model->tgl_awal);
+                        $model->tgl_akhir = $format->formatDateTimeForDb($model->tgl_akhir);
 		}
-		$this->render('index',array(
+		$this->render($this->path_view.'index',array(
 				'model'=>$model, 'format'=>$format
 		));
 	}
@@ -38,7 +40,7 @@ class InfoPenyusutanAsetController extends MyAuthController{
         $modPenyusutanAset = MAPenyusutanasetT::model()->findByPk($id);
 		if(count($modPenyusutanAset)>0){
 			$modDetailPenyusutan = MAPenyusutanasetdetailT::model()->findAllByAttributes(array('penyusutanaset_id'=>$id));
-			$this->render('detailInformasi', array(
+			$this->render($this->path_view.'detailInformasi', array(
                 'modPenyusutanAset' => $modPenyusutanAset,
                 'modDetailPenyusutan' => $modDetailPenyusutan,
             ));
@@ -66,7 +68,7 @@ class InfoPenyusutanAsetController extends MyAuthController{
             $this->layout='//layouts/printExcel';
         }
         
-        $this->render('Print', array(
+        $this->render($this->path_view.'Print', array(
 			'format'=>$format,
 			'judul_print'=>$judul_print,
 			'modPenyusutanAset'=>$modPenyusutanAset,

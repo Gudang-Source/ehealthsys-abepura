@@ -6,6 +6,7 @@ class PenyusutanAsetTController extends MyAuthController
 	public $penyusutanDetail = true;
 	public $penjurnalan = false;
 	public $penjurnalanDetail = true;
+        public $path_view = "manajemenAset.views.penyusutanAsetT.";
 	
 	public function actionIndex(){
 		$format = new MyFormatter;
@@ -127,7 +128,7 @@ class PenyusutanAsetTController extends MyAuthController
 			}
 		}
 		
-		$this->render('index',array(
+		$this->render($this->path_view.'index',array(
 			'model'=>$model,
 		));	
 	}
@@ -239,7 +240,7 @@ class PenyusutanAsetTController extends MyAuthController
 			$saldo_penyusutan = ($hargaPerolehan - $nilai_residu) / $total_bulan;
 			$total_penyusutan = $total_bulan * $saldo_penyusutan;
             echo CJSON::encode(array(
-                'form'=>$this->renderPartial('_detailPenyusutanAset', array(
+                'form'=>$this->renderPartial($this->path_view.'_detailPenyusutanAset', array(
                         'format'=>$format,
                         'modDetail'=>$modDetail,
                         'tgl_guna'=>$tgl_guna,
@@ -247,7 +248,7 @@ class PenyusutanAsetTController extends MyAuthController
                         'umur_ekonomis'=>$umur_ekonomis,
                         'saldo_penyusutan'=>$saldo_penyusutan,
                     ),true),
-                'foot'=>$this->renderPartial('_tfoot', array(
+                'foot'=>$this->renderPartial($this->path_view.'_tfoot', array(
                         'format'=>$format,
                         'model'=>$model,
                         'total_penyusutan'=>$total_penyusutan,
@@ -291,7 +292,7 @@ class PenyusutanAsetTController extends MyAuthController
 			if($model)
 			{
 				echo CJSON::encode(
-					$this->renderPartial('__formKodeRekening', array('model'=>$model, 'status'=>$status), true)
+					$this->renderPartial($this->path_view.'__formKodeRekening', array('model'=>$model, 'status'=>$status), true)
 				);                
 			}
 			Yii::app()->end();
