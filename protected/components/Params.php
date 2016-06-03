@@ -413,6 +413,7 @@ Class Params
         
         const SURAT_KETERANGAN_KONTROL = 2;
         
+        const SHIFT_PAGI = 1;
         
 	//===   END KONSTANTA ===
         
