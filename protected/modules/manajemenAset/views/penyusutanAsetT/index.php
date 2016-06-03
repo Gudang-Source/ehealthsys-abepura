@@ -18,12 +18,12 @@
 	<fieldset class="box">
 		<legend class="rim">Data Barang</legend>
                 <p class="help-block"><?php echo Yii::t('mds','Fields with <span class="required">*</span> are required.') ?></p>
-		<?php $this->renderPartial('_dataBarang',array('model'=>$model,'form'=>$form));?>
+		<?php $this->renderPartial($this->path_view.'_dataBarang',array('model'=>$model,'form'=>$form));?>
 	</fieldset>
 
 	<fieldset class="box">
 		<legend class="rim">Penyusutan Aset</legend>
-		<?php $this->renderPartial('_penyusutanAset', array('model'=>$model, 'form'=>$form,)); ?>		
+		<?php $this->renderPartial($this->path_view.'_penyusutanAset', array('model'=>$model, 'form'=>$form,)); ?>		
 	</fieldset>
 	
 	<div class="block-tabel">
@@ -47,7 +47,7 @@
 
 	<fieldset class="box">
 		<legend class="rim">Penjurnalan</legend>
-		<?php $this->renderPartial('_penjurnalan', array('model'=>$model, 'form'=>$form,)); ?>		
+		<?php $this->renderPartial($this->path_view.'_penjurnalan', array('model'=>$model, 'form'=>$form,)); ?>		
 	</fieldset>
 
 	<div class="form-actions">
@@ -64,10 +64,10 @@
 									'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r) {if(r) window.location = "'.$this->createUrl('Index').'";} ); return false;'));  ?>
 		<?php // echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info', 'onclick'=>"print('PRINT')",'disabled'=>$disablePrint)); ?>
 		<?php
-			$content = $this->renderPartial('/tips/transaksi',array(),true);
+			$content = $this->renderPartial('manajemenAset.views.tips/transaksi',array(),true);
 			$this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
 		?>
 	</div>
 <?php $this->endWidget(); ?>
-<?php $this->renderPartial('_jsFunctions',array('model'=>$model)); ?>
+<?php $this->renderPartial($this->path_view.'_jsFunctions',array('model'=>$model)); ?>
 </div>
