@@ -313,7 +313,7 @@ class PPPendaftaranT extends PendaftaranT
 			$criteria->addBetweenCondition('DATE(tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
 			
 		}else{
-			$criteria->addBetweenCondition('tglrenkontrol',$this->tgl_awalrenkon,$this->tgl_akhirrenkon);
+			$criteria->addBetweenCondition('tglrenkontrol::date',$this->tgl_awalrenkon,$this->tgl_akhirrenkon);
 		}
 		
 		if(!empty($this->pendaftaran_id)){

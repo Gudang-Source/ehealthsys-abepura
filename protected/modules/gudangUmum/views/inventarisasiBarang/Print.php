@@ -1,0 +1,148 @@
+<?php 
+if($caraPrint=='EXCEL')
+{
+    header('Content-Type: application/vnd.ms-excel');
+    header('Content-Disposition: attachment;filename="'.$judulLaporan.'-'.date("Y/m/d").'.xls"');
+    header('Cache-Control: max-age=0');     
+}
+echo CHtml::css('.control-label{
+        float:left; 
+        text-align: right; 
+        width:50%;
+        color:black;
+        padding-right:10px;
+        font-size:8pt;
+    }
+    body{
+        font-size:8pt;
+    }
+    td .uang{
+        text-align:right;
+    }
+    .border{
+        border:1px solid;
+    }
+');  
+if (!isset($_GET['frame'])){
+    echo $this->renderPartial($this->path_view.'_headerPrint'); 
+}
+?>
+<table width="74%" style="margin:0px;" cellpadding="0" cellspacing="0">
+    <tr>
+        <td align="center" valig="middle" colspan="3">
+            <b><?php echo $judulLaporan ?></b>
+        </td>
+    </tr>
+    <tr>
+        <td>No. Inventarisasi Barang</td>
+        <td>:</td>
+        <td><?php echo $model->invbarang_no; ?></td>
+
+        <td>Total Harga</td>
+        <td>:</td>
+        <td><?php echo $format->formatNumberForPrint($model->invbarang_totalharga); ?></td>
+    </tr>
+    <tr>
+        <td>Tanggal Inventarisasi Barang</td>
+        <td>:</td>
+        <td><?php echo $format->formatDateTimeForUser($model->invbarang_tgl); ?></td>
+
+        <td>Total HPP</td>
+        <td>:</td>
+        <td><?php echo $format->formatNumberForPrint($model->invbarang_totalnetto); ?></td>
+    </tr>
+    <?php if(isset($model->formuliropname_id)){ ?>
+    <tr>
+        <td>No. Formulir Inventarisasi</td>
+        <td>:</td>
+        <td><?php echo $model->formulirinvbarang->forminvbarang_no; ?></td>
+
+        <td>Total Volume</td>
+        <td>:</td>
+        <td><?php echo $format->formatNumberForPrint($model->formulirinvbarang->forminvbarang_totalvolume); ?></td>
+    </tr>
+    <tr>
+        <td>Tanggal Formulir Opname</td>
+        <td>:</td>
+        <td><?php echo $format->formatDateTimeForUser($model->formulirinvbarang->forminvbarang_tgl); ?></td>
+
+        <td>Total Harga</td>
+        <td>:</td>
+        <td><?php echo $format->formatNumberForPrint($model->formulirinvbarang->forminvbarang_totalharga); ?></td>
+    </tr>
+    <?php } ?>
+    </table><br/>
+<table class="table table-bordered table-condensed middle-center">
+    <thead>
+        <tr>
+            <th>No.</th>
+            <th>Kode Barang</th>
+            <th>Nama Barang</th>
+            <th>Merk</th>
+            <th>No. Seri</th>
+            <th>HPP (Rp)</th>
+            <th>Harga Jual (Rp)</th>
+            <th>Fisik</th>
+            <th>Tgl Cek Fisik</th>
+            <th>Kondisi Barang</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+            foreach($modDetails as $i=>$barang){
+        ?>
+        <tr>
+            <td><?php echo ($i+1); ?></td>
+            <td><?php echo $barang->barang->barang_kode; ?></td>
+            <td><?php echo $barang->barang->barang_nama; ?></td>
+            <td><?php echo $barang->barang->barang_merk; ?></td>
+            <td><?php echo $barang->barang->barang_noseri; ?></td>
+            <td style="text-align:right;"><?php echo $format->formatNumberForPrint($barang->harga_netto); ?></td>
+            <td style="text-align:right;"><?php echo $format->formatNumberForPrint($barang->harga_satuan); ?></td>
+            <td style="text-align:center;"><?php echo $format->formatNumberForPrint($barang->volume_fisik); ?></td>
+            <td style="text-align:center;"></td>
+            <td><?php echo $barang->kondisi_barang ?></td>
+        </tr>
+        <?php } ?>
+    </tbody>
+</table>
+<?php
+if (isset($_GET['frame'])){
+    echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info', 'onclick'=>"print('PRINT')"));
+    echo CHtml::link(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),'javascript:void(0);', array('class'=>'btn btn-info', 'onclick'=>"print('EXCEL')")); 
+?>
+    <script type='text/javascript'>
+    /**
+     * print
+     */    
+    function print(caraPrint){
+        invbarang_id = '<?php echo isset($model->invbarang_id) ? $model->invbarang_id : ''; ?>';
+        window.open('<?php echo $this->createUrl('print'); ?>&invbarang_id='+invbarang_id+'&caraPrint='+caraPrint,'printwin','left=100,top=100,width=640,height=480');
+    }
+    </script>
+<?php
+}else{ ?>
+<table width="100%" style="margin-top:20px;">
+<tr>
+    <td width="100%" align="left" align="top">
+        <table width="100%">
+            <tr>
+                <td width="35%" align="center">
+                    <div>Petugas 2</div>
+                    <div style="margin-top:60px;"><?php echo ($model->petugas2_id)?PegawaiM::model()->findByPk($model->petugas2_id)->NamaLengkap:""; ?></div>
+                </td>
+                <td width="35%" align="center">
+                    <div>Petugas 1</div>
+                    <div style="margin-top:60px;"><?php echo ($model->petugas1_id)?PegawaiM::model()->findByPk($model->petugas1_id)->NamaLengkap:""; ?></div>
+                </td>
+                <td width="35%" align="center">
+                    <div><?php echo Yii::app()->user->getState("kabupaten_nama").", ".MyFormatter::formatDateTimeId(date('Y-m-d')); ?></div>
+                    <div>Mengetahui</div>
+                    <div style="margin-top:60px;"><?php echo ($model->mengetahui_id)?PegawaiM::model()->findByPk($model->mengetahui_id)->NamaLengkap:""; ?></div>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+</table>
+<?php } 

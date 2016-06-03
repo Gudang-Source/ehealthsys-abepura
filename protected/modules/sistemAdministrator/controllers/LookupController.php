@@ -70,7 +70,7 @@ class LookupController extends MyAuthController
                 $this->updateLookup($_POST['lookup_type'],$_POST['SALookupM']);
 //                echo "<pre>";
 //				print_r($_POST['SALookupM']);exit;
-				if ($this->lookupTersimpan){
+		if ($this->lookupTersimpan){
                     $transaction->commit();
                     $this->redirect(array('admin','sukses'=>1));
                 }else{
@@ -218,16 +218,23 @@ class LookupController extends MyAuthController
     public function updateLookup($lookup_type, $post){
         foreach ($post as $i => $lookup) {
 			
-			if(!empty($lookup['lookup_id'])){
+            if(!empty($lookup['lookup_id'])){
                 $model= new SALookupM;
                 $model->attributes = $lookup;
                 $model->lookup_type = $lookup_type;
-				SALookupM::model()->updateByPk($lookup['lookup_id'],
-						array('lookup_name'=>$model->lookup_name,
-							'lookup_value'=>$model->lookup_value,
-							'lookup_kode'=>$model->lookup_kode,
-							'lookup_urutan'=>$model->lookup_urutan,
-                                                        'lookup_aktif'=>$model->lookup_aktif));
+                SALookupM::model()->updateByPk($lookup['lookup_id'],array(
+                    'lookup_name'=>$model->lookup_name,
+                    'lookup_value'=>$model->lookup_value,
+                    'lookup_kode'=>$model->lookup_kode,
+                    'lookup_urutan'=>$model->lookup_urutan,
+                    'lookup_aktif'=>$model->lookup_aktif
+                ));
+            } else {
+                $model= new SALookupM;
+                $model->attributes = $lookup;
+                $model->lookup_type = $lookup_type;
+                $model->lookup_aktif = true;
+                $model->save();
             }
         }
     }
