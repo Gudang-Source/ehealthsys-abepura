@@ -1,7 +1,7 @@
 <?php
 Yii::import('gudangUmum.models.*');
 Yii::import('gudangUmum.controllers.PesanbarangTController');
-class PesanbarangTSAController extends PesanbarangTController{
+class PesanbarangTAGController extends PesanbarangTController{
     
 }
 
