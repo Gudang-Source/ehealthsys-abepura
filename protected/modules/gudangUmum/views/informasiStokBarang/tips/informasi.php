@@ -9,11 +9,8 @@
         </li>
         <li>
             Tombol  <div class="btn btn-danger" name="yt0" type="button"><i class="icon-refresh icon-white"></i> Ulang</div>
-            berfungsi untuk memuat ulang halaman.
-        </li>
-        <li>
-            Icon <i class="icon-eye-open"></i></i> untuk melihat rincian data.
-        </li>
+            berfungsi untuk mengulang kembali inputan.
+        </li>        
         
     </div>
     <div class="span6">
