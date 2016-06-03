@@ -1,0 +1,134 @@
+<?php 
+echo CHtml::css('#isiScroll{max-height:500px;overflow-y:scroll;margin-bottom:10px;}#barang-m-grid th{vertical-align:middle;}'); 
+?>
+<div id="form-carikata">
+	<?php echo CHtml::textField('carikata',"",array('onkeyup'=>'return $(this).focusNextInputField(event);','onblur'=>'cariKata();','placeholder'=>'Ketik kata yang akan dicari')) ?>
+	<?php echo CHtml::htmlButton('<i class="icon-search icon-white"></i>',array('class'=>'btn btn-primary','onclick'=>'cariKata();',)) ?>
+	<?php echo CHtml::htmlButton('<i class="icon-refresh icon-white"></i>',array('class'=>'btn btn-danger','onclick'=>'resetCariKata();')) ?>
+</div>
+<label><i>Maksimal data yang ditampilkan = 1000</i></label>
+<div id='isiScroll'>
+<?php 
+
+$this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
+    'id'=>'barang-m-grid',
+    'dataProvider'=>$modBarang->searchBarangInventarisasi(), //RND-6011
+    'mergeHeaders'=>array(
+		array(
+			'name'=>'<center>Inventarisasi</center>',
+			'start'=>7,
+			'end'=>9,
+		),
+
+	),
+	'template'=>"{summary}\n{items}\n{pager}",
+	'itemsCssClass'=>'table table-striped table-condensed',
+	'columns'=>array(
+		array(
+			'header'=> 'Pilih '.CHtml::checkBox('is_pilihsemuabarang',true,array('onclick'=>'pilihSemua(this)','title'=>'Klik untuk pilih / tidak <br>semua obat','rel'=>'tooltip')),
+			'type'=>'raw',
+			'value'=>'
+				CHtml::hiddenField("GUInvbarangdetT[".$data->invbarangdet_id."][invbarangdet_id]",$data->invbarangdet_id).
+				(isset($data->inventarisasi_id) ? CHtml::hiddenField("GUInvbarangdetT[".$data->inventarisasi_id."][inventarisasi_id]",$data->inventarisasi_id) : " ").
+				CHtml::hiddenField("GUInvbarangdetT[".$data->barang_id."][barang_id]",$data->barang_id).
+				CHtml::checkBox("GUInvbarangdetT[".$data->barang_id."][cekList]", false, array("onclick"=>"setUrutan()", "class"=>"cekList", "onclick"=>"getTotal();setNol(this);", "onkeyup"=>"return $(this).focusNextInputField(event);"));
+				',
+		),
+		array(
+			'header'=>'Inventarisasi Kode',
+			'type'=>'raw',
+			'value'=>'isset($data->inventarisasi_kode) ? $data->inventarisasi_kode : '
+			.'(isset($data->inventarisasi->inventarisasi_kode) ? $data->inventarisasi->inventarisasi_kode :'
+			. '"-")',
+		),
+		array(
+			'header'=>'Nama Barang',
+			'type'=>'raw',
+			'value'=>'$data->barang_nama',
+		),
+		array(
+			'header'=>'Merk',
+			'type'=>'raw',
+			'value'=>'$data->barang_merk',
+		),
+		array(
+			'header'=>'No. Seri',
+			'type'=>'raw',
+			'value'=>'$data->barang_noseri',
+		),
+		array(
+			'header'=>'Harga Netto (Rp)',
+			'type'=>'raw',
+			'value'=>'CHtml::textField("GUInvbarangdetT[".$data->barang_id."][inventarisasi_hargasatuan]", '
+			. 'number_format(isset($data->inventarisasi_hargasatuan) ? $data->inventarisasi_hargasatuan : '
+			. '(isset($data->inventarisasi->inventarisasi_hargasatuan) ? $data->inventarisasi->inventarisasi_hargasatuan :'
+			. '$data->barang_harganetto)), '
+			. 'array("class"=>"span1 netto integer", "onblur"=>"getTotal();","onkeyup"=>"return $(this).focusNextInputField(event);", "style"=>"width:64px;"))',
+		),
+		array(
+			'header'=>'Sistem',
+			'type'=>'raw',
+			'value'=> 'CHtml::textField("GUInvbarangdetT[".$data->barang_id."][inventarisasi_qty_skrg]", '
+			. '(isset($data->inventarisasi_qty_skrg) ? number_format($data->inventarisasi_qty_skrg) : '
+			. '(isset($data->inventarisasi->inventarisasi_qty_skrg) ? $data->inventarisasi->inventarisasi_qty_skrg :'
+			. '0)), '
+			. 'array("class"=>"stok span1 integer", "readonly"=>true))',
+		),
+		array(
+			'header'=>'<div class="test" style="cursor:pointer;" onclick="openDialogini()"> Fisik <icon class="icon-white icon-list"></icon></div> ',
+			'type'=>'raw',
+			'value'=> 'CHtml::textField("GUInvbarangdetT[".$data->barang_id."][inventarisasi_qty_fisik]", '
+			. '(isset($data->inventarisasi_qty_skrg) ? number_format($data->inventarisasi_qty_skrg) : '
+			. '(isset($data->volume_fisik) ? number_format($data->volume_fisik) : '
+			. '0)), array("class"=>"fisik span1 integer", "onblur"=>"getTotal();", "onkeyup"=>"return $(this).focusNextInputField(event);"))',
+		),
+		array(
+			'header'=>'Waktu Cek Fisik',
+			'type'=>'raw',
+			'value'=> 'CHtml::textField("GUInvbarangdetT[".$data->barang_id."][tglperiksafisik]", '
+			. '(isset($data->tglperiksafisik) ? (empty($data->tglperiksafisik) ? "" : date("d/m/Y H:i:s",strtotime($data->tglperiksafisik))) : "")  , array("class"=>"span2 datetimemask cekFisik", "style"=>"width:105px;","onkeyup"=>"return $(this).focusNextInputField(event);"))',
+		),
+		array(
+			'header'=>'Kondisi Barang',
+			'type'=>'raw',
+			'value'=> 'CHtml::dropDownList("GUInvbarangdetT[".$data->barang_id."][kondisi_barang]", "", LookupM::getItems("inventariskeadaan"), array("class"=>"span2", "onkeyup"=>"return $(this).focusNextInputField(event);"))',
+		),
+    ),
+        'afterAjaxUpdate'=>'function(id, data){
+            jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
+            $("#barang-m-grid .integer").maskMoney({"defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0,"symbol":null})
+            $("#barang-m-grid .datetimemask").mask("99/99/9999 99:99:99");    
+            getTotal();
+                }',
+)); ?> 
+    </div>
+
+<?php
+// ===========================Dialog Details Tarif=========================================
+$this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+                    'id'=>'dialogDetails',
+                        // additional javascript options for the dialog plugin
+                        'options'=>array(
+                        'title'=>'Volume Fisik',
+                        'autoOpen'=>false,
+                        'width'=>150,
+                        'height'=>155,
+                        'resizable'=>false,
+                        'scroll'=>false,
+                            'modal'=>true
+                         ),
+                    ));
+?>
+<div class="awawa" width="100%" height="100%">
+    <?php echo CHtml::textField('fisiks', 0, array('class'=>'numbers-only span2')); ?><br><br>
+    <?php echo CHtml::button('submit', array('class'=>'btn btn-primary', 'onclick'=>'setVolume();', 'id'=>'submitJumlahVolume')); ?>
+</div>
+<?php    
+$this->endWidget('zii.widgets.jui.CJuiDialog');
+
+Yii::app()->clientScript->registerScript('openDialog','
+    function openDialogini(){
+        $("#dialogDetails").dialog("open");
+    }
+',  CClientScript::POS_HEAD);
+?>

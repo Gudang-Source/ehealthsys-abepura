@@ -31,6 +31,7 @@ class PresensiT extends CActiveRecord
         public $data;
         public $jumlah;
         public $user_id;
+        public $jam;           
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -59,9 +60,8 @@ class PresensiT extends CActiveRecord
 		return array(
 			array('statuskehadiran_id, pegawai_id, tglpresensi, no_fingerprint', 'required'),
 			array('statuskehadiran_id, pegawai_id, statusscan_id, terlambat_mnt, pulangawal_mnt', 'numerical', 'integerOnly'=>true),
-			array('no_fingerprint', 'length', 'max'=>30),
-			array('verifikasi, keterangan, update_time, tgl_awal, tgl_akhir, tglpresensi, update_loginpemakai_id', 'safe'),
-                    
+			array('no_fingerprint', 'length', 'max'=>30),                        
+			array('verifikasi, keterangan, update_time, tgl_awal, tgl_akhir, tglpresensi, update_loginpemakai_id', 'safe'),                        
                         array('create_time','default','value'=>date( 'Y-m-d H:i:s'),'setOnEmpty'=>false,'on'=>'insert'),
                         array('update_time','default','value'=>date( 'Y-m-d H:i:s'),'setOnEmpty'=>false,'on'=>'update,insert'),
                         array('create_loginpemakai_id','default','value'=>Yii::app()->user->id,'on'=>'insert'),
@@ -98,7 +98,7 @@ class PresensiT extends CActiveRecord
 			'pegawai_id' => 'Pegawai',
 			'statusscan_id' => 'Status Scan',
 			'tglpresensi' => 'Tanggal Presensi',
-			'no_fingerprint' => 'No. Finger Print',
+			'no_fingerprint' => 'No Finger Print',
 			'verifikasi' => 'Verifikasi',
 			'keterangan' => 'Keterangan',
 			'jamkerjamasuk' => 'Jam Kerja Masuk',

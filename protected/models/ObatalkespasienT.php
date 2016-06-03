@@ -468,4 +468,23 @@ class ObatalkespasienT extends CActiveRecord
                 return "";
             }
         }
+        
+        public function getSubsidiPenjamin($attr) {
+            if (empty($this->kelaspelayanan_id)) $this->kelaspelayanan_id = 6;
+            
+            
+            $modTanggungan = TanggunganpenjaminM::model()->findByAttributes(array('kelaspelayanan_id'=>$this->kelaspelayanan_id,'carabayar_id'=>$this->carabayar_id));
+            
+            // var_dump($this->attributes); die;
+            // var_dump(!empty($modTanggungan)); die;
+            
+            $res = 0;
+            if (!empty($modTanggungan)) {
+                $res = ($this->hargasatuan_oa * $this->qty_oa) * ($modTanggungan[$attr]/100);
+                //var_dump($modTanggungan[$attr]); die;
+            }
+        		
+            
+            return $res;
+        }
 }

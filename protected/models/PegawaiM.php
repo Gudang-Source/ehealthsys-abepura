@@ -64,11 +64,20 @@ class PegawaiM extends CActiveRecord
 {
         public $tglpenilaian;
         public $pegawai_nama;
-        public $no_rekening;
-        public $bank_no_rekening;
         public $gelarbelakang_nama;
         public $dokter_pemeriksa;
         public $ruangan_id;
+        public $tglpresensi;
+        public $tglpresensi_akhir;
+        public $hadir;
+        public $izin;
+        public $sakit;
+        public $dinas;
+        public $alpha;
+        public $rerata_jam_keluar;
+        public $rerata_jam_masuk;
+        public $namapegawai;
+        public $shift_id;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -103,7 +112,7 @@ class PegawaiM extends CActiveRecord
 			array('nama_pegawai, nama_keluarga, notelp_pegawai, nomobile_pegawai, kategoripegawaiasal, jenisidentitas, deskripsi', 'length', 'max'=>50),
 			array('jeniskelamin, statusperkawinan, agama, rhesus, jeniswaktukerja', 'length', 'max'=>100),
 			array('golongandarah', 'length', 'max'=>2),
-                        array('create_time,update_time','default','value'=>date('Y-m-d'),'setOnEmpty'=>false,'on'=>'insert'),
+                        array('create_time, update_time','default','value'=>date('Y-m-d'),'setOnEmpty'=>false,'on'=>'insert'),
                         array('update_time','default','value'=>date('Y-m-d'),'setOnEmpty'=>false,'on'=>'update'),
                         array('create_loginpemakai_id','default','value'=>Yii::app()->user->id,'on'=>'insert'),
                         array('update_loginpemakai_id','default','value'=>Yii::app()->user->id,'on'=>'update,insert'),
@@ -111,10 +120,10 @@ class PegawaiM extends CActiveRecord
 			array('alamatemail, kemampuanbahasa', 'length', 'max'=>100),
 			array('warganegara_pegawai', 'length', 'max'=>25),
 			array('photopegawai', 'length', 'max'=>200),
-			array('tgl_lahirpegawai, unit_perusahaan, suratizinpraktek, tglpenilaian, alamat_pegawai, pegawai_aktif, noidentitas, nofingerprint,warnakulit, nip_lama, tglditerima, tglberhenti,deskripsi, golonganpegawai_id', 'safe'),
+			array('gajipokok, tgl_lahirpegawai, no_rekening, bank_no_rekening, unit_perusahaan, suratizinpraktek, tglpenilaian, alamat_pegawai, pegawai_aktif, noidentitas, nofingerprint,warnakulit, nip_lama, tglditerima, tglberhenti,deskripsi, golonganpegawai_id, surattandaregistrasi', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('deskripsi, pegawai_id, unit_perusahaan, suratizinpraktek kelurahan_id, tglpenilaian, kecamatan_id, profilrs_id, gelarbelakang_id,gelarbelakang_nama, suku_id, kelompokpegawai_id,kelompokpegawai_nama, pendkualifikasi_id, jabatan_id, pendidikan_id, propinsi_id, pangkat_id, kabupaten_id, nomorindukpegawai, no_kartupegawainegerisipil, no_karis_karsu, no_taspen, no_askes, gelardepan, nama_pegawai, nama_keluarga, tempatlahir_pegawai, tgl_lahirpegawai, jeniskelamin, statusperkawinan, alamat_pegawai, agama, golongandarah, rhesus, alamatemail, notelp_pegawai, nomobile_pegawai, warganegara_pegawai, jeniswaktukerja, kelompokjabatan, kategoripegawai, kategoripegawaiasal, photopegawai, pegawai_aktif, esselon_id, statuskepemilikanrumah_id, jenisidentitas, noidentitas, nofingerprint, tinggibadan, beratbadan, kemampuanbahasa, warnakulit, nip_lama, norekening, banknorekening, npwp, tglditerima, tglberhenti,gelarbelakang_nama, golonganpegawai_id', 'safe', 'on'=>'search'),
+			array('deskripsi, pegawai_id, unit_perusahaan, suratizinpraktek, kelurahan_id, tglpenilaian, kecamatan_id, profilrs_id, gelarbelakang_id,gelarbelakang_nama, suku_id, kelompokpegawai_id,kelompokpegawai_nama, pendkualifikasi_id, jabatan_id, pendidikan_id, propinsi_id, pangkat_id, kabupaten_id, nomorindukpegawai, no_kartupegawainegerisipil, no_karis_karsu, no_taspen, no_askes, gelardepan, nama_pegawai, nama_keluarga, tempatlahir_pegawai, tgl_lahirpegawai, jeniskelamin, statusperkawinan, alamat_pegawai, agama, golongandarah, rhesus, alamatemail, notelp_pegawai, nomobile_pegawai, warganegara_pegawai, jeniswaktukerja, kelompokjabatan, kategoripegawai, kategoripegawaiasal, photopegawai, pegawai_aktif, esselon_id, statuskepemilikanrumah_id, jenisidentitas, noidentitas, nofingerprint, tinggibadan, beratbadan, kemampuanbahasa, warnakulit, nip_lama, norekening, banknorekening, npwp, tglditerima, tglberhenti,gelarbelakang_nama, golonganpegawai_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -141,6 +150,8 @@ class PegawaiM extends CActiveRecord
                     'penilaiankaryawan'=>array(self::BELONGS_TO,'PenilaianpegawaiT','pegawai_id'),
                     'statuskepemilikanrumah'=>array(self::BELONGS_TO,'StatuskepemilikanrumahM','statuskepemilikanrumah_id'),
                     'golonganpegawai'=>array(self::BELONGS_TO,'GolonganpegawaiM','golonganpegawai_id'),
+                    'loginpemakai'=>array(self::BELONGS_TO,'LoginpemakaiK','loginpemakai_id'),
+                    'shift'=>array(self::BELONGS_TO,'ShiftM','shift_id'),
 		);
 	}
 
@@ -201,7 +212,7 @@ class PegawaiM extends CActiveRecord
 			'nip_lama' => 'Nip Lama',
 			'norekening' => 'No. Rekening',
 			'banknorekening' => 'Bank No. Rekening',
-			'npwp' => 'Npwp',
+			'npwp' => 'NPWP',
 			'tglditerima' => 'Tanggal Diterima',
 			'tglberhenti' => 'Tanggal Berhenti',
 			'nipsampai'=>'NIP Sampai',
@@ -216,6 +227,19 @@ class PegawaiM extends CActiveRecord
 			'tglmasaaktifpeg_sd'=>'Sampai Dengan',
                         'golonganpegawai_id'=>'Golongan',
                         'ruangan_id'=>'Ruangan Pegawai',
+                        'tglpresensi' => 'Tanggal Awal',
+                        'tglpresensi_akhir' => 'Sampai Dengan',
+                        'hadir' => 'Hadir',
+                        'izin' => 'Izin',
+                        'sakit' => 'Sakit',
+                        'dinas' => 'Dinas',
+                        'alpha' => 'Alpha',
+                        'rerata_jam_masuk' => 'Rerata Jam Masuk',
+                        'rerata_jam_keluar' => 'Rerata Jam Pulang',
+                        'surattandaregistrasi'=>'Surat Tanda Registrasi', 
+                        'shift_id' => 'Shift',
+                        'gajipokok' => 'Gaji Pokok',
+                        'bank_no_rekening' => 'Bank',
 		);
 	}
 
@@ -409,7 +433,7 @@ class PegawaiM extends CActiveRecord
 		$criteria->compare('LOWER(warnakulit)',strtolower($this->warnakulit),true);
 		$criteria->compare('LOWER(deskripsi)',strtolower($this->deskripsi),true);
                 $criteria->addCondition("nofingerprint IS NOT NULL");
-                $criteria->order = 'pegawai_id ASC';
+                $criteria->order = 'nama_pegawai ASC';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -629,6 +653,20 @@ class PegawaiM extends CActiveRecord
     public function getGolonganPegawaiItems()
     {
         return GolonganpegawaiM::model()->findAll('golonganpegawai_aktif=TRUE ORDER BY golonganpegawai_nama');
+    }
+    
+    public function getTotalStatusKehadiran($status_id, $pegawai_id, $tglpresensi, $tglpresensi_akhir)
+    {
+        $format = new MyFormatter();
+        $criteria = new CDbCriteria();
+        $criteria->select = "tglpresensi::date ";
+        $criteria->addBetweenCondition('tglpresensi', $format->formatDateTimeForDb($tglpresensi), $format->formatDateTimeForDb($tglpresensi_akhir));    
+        $criteria->addCondition("pegawai_id = '$pegawai_id' ");
+        $criteria->addCondition("statuskehadiran_id = '$status_id' ");                
+        $criteria->group = "tglpresensi::date, statuskehadiran_id";
+        $total = PresensiT::model()->findAll($criteria);
+        
+        return  count($total);
     }
    
 /*

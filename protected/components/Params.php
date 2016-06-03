@@ -332,7 +332,7 @@ Class Params
 	const JENISPENJUALAN_RESEP_LUAR = "PENJUALAN RESEP LUAR"; //disesuaikan dengan lookup_m.lookup_type = jenispenjualan
 	const JENISPENJUALAN_BEBAS = "PENJUALAN BEBAS"; //disesuaikan dengan lookup_m.lookup_type = jenispenjualan
 	const JENISPENJUALAN_DOKTER = "PENJUALAN DOKTER"; //disesuaikan dengan lookup_m.lookup_type = jenispenjualan
-	const JENISPENJUALAN_KARYAWAN = "PENJUALAN KARYAWAN"; //disesuaikan dengan lookup_m.lookup_type = jenispenjualan
+	const JENISPENJUALAN_KARYAWAN = "PENJUALAN PEGAWAI"; //disesuaikan dengan lookup_m.lookup_type = jenispenjualan
 
 	const JENISPELAYANAN_RJ = 2; //di ambil dari lookup_m.lookup_type = jenispelayanan
 	const JENISPELAYANAN_RI = 1; //di ambil dari lookup_m.lookup_type = jenispelayanan
@@ -398,6 +398,22 @@ Class Params
         const REKENING3_LEN = 6;
         const REKENING4_LEN = 8;
         const REKENING5_LEN = 10;
+        
+        const STATUSKEHADIRAN_HADIR = 1;
+        const STATUSKEHADIRAN_SAKIT = 2;
+        const STATUSKEHADIRAN_IZIN = 3;
+        const STATUSKEHADIRAN_DINAS = 4;
+        const STATUSKEHADIRAN_ALPHA = 5;
+        
+        const STATUSSCAN_MASUK = 1;
+        const STATUSSCAN_PULANG = 2;
+        const STATUSSCAN_DATANG = 4;
+        const STATUSSCAN_KELUAR = 3;
+        const STATUSSCAN_TIDAKTAHU = 5;
+        
+        const SURAT_KETERANGAN_KONTROL = 2;
+        
+        const DEFAULT_JENISINVENTARISASI = 'Penyesuaian';
         
         
 	//===   END KONSTANTA ===

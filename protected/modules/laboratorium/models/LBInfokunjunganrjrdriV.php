@@ -37,8 +37,8 @@ class LBInfokunjunganrjrdriV extends InfokunjunganrjrdriV
 		$criteria->compare('jenisidentitas',$this->jenisidentitas);
 		$criteria->compare('no_identitas_pasien',$this->no_identitas_pasien);
 		$criteria->compare('namadepan',$this->namadepan);
-		$criteria->compare('nama_pasien',$this->nama_pasien);
-		$criteria->compare('alias',$this->alias);
+		$criteria->compare('LOWER(nama_pasien)',  strtolower($this->nama_pasien),true);
+		$criteria->compare('LOWER(alias)', strtolower($this->alias),true);
 		$criteria->compare('jeniskelamin',$this->jeniskelamin);
 		$criteria->compare('tempat_lahir',$this->tempat_lahir);
 		$criteria->compare('tanggal_lahir',$this->tanggal_lahir);
@@ -80,11 +80,11 @@ class LBInfokunjunganrjrdriV extends InfokunjunganrjrdriV
 		if(!empty($this->carabayar_id)){
 			$criteria->addCondition('carabayar_id = '.$this->carabayar_id);
 		}
-		$criteria->compare('carabayar_nama',$this->carabayar_nama);
+		$criteria->compare('LOWER(carabayar_nama)',  strtolower($this->carabayar_nama),true);
 		if(!empty($this->penjamin_id)){
 			$criteria->addCondition('penjamin_id = '.$this->penjamin_id);
 		}
-		$criteria->compare('penjamin_nama',$this->penjamin_nama);
+		$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama));
 		if(!empty($this->caramasuk_id)){
 			$criteria->addCondition('caramasuk_id = '.$this->caramasuk_id);
 		}
@@ -144,6 +144,14 @@ class LBInfokunjunganrjrdriV extends InfokunjunganrjrdriV
 	}
         
         public function getNamaNamaAlias(){
-            return $this->nama_pasien." / ".$this->alias;
+            return $this->nama_pasien." /<br> ".$this->alias;
+        }
+        
+        public function getSapaanPasien(){
+            return $this->namadepan." ".$this->nama_pasien;
+        }
+        
+        public function getNamaLengkap(){
+            return $this->gelardepan.' '.$this->nama_pegawai.' '.$this->gelarbelakang_nama;
         }
 }

@@ -1,3 +1,7 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
+
 <script type="text/javascript">
 function tambahObatNonRacik(obj)
 {
@@ -10,6 +14,12 @@ function tambahObatNonRacik(obj)
 	var isRacikan = 0;
 	var therapiobat_id = $(obj).parents('.row-fluid').find('#therapiobat_id2').val();
     if(rke==undefined){rke=1;}else{rke++;}
+    
+    if (jumlah <= 0) {
+        myAlert("Jumlah obat harus ada.");
+        return false;
+    }
+    
     if(obatalkes_id != '')
     {
         $.ajax({
@@ -41,8 +51,8 @@ function tambahObatNonRacik(obj)
                             });
 				if(tambahkandetail){
 					$('#table-obatalkespasien > tbody').append(data.form);
-					$("#table-obatalkespasien").find('input[name*="[ii]"][class*="integer"]').maskMoney(
-						{"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0}
+					$("#table-obatalkespasien").find('input[name*="[ii]"][class*="integer2"]').maskMoney(
+						{"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0}
 					);
 					addDataKeGridObat(obj,'nonracik',rke);
 					renameInputRowObatAlkes($("#table-obatalkespasien"));                    
@@ -57,8 +67,8 @@ function tambahObatNonRacik(obj)
 				
 			if(tambahkandetail){
 				$('#table-obatalkespasien > tbody').append(data.form);
-				$("#table-obatalkespasien").find('input[name*="[ii]"][class*="integer"]').maskMoney(
-					{"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0}
+				$("#table-obatalkespasien").find('input[name*="[ii]"][class*="integer2"]').maskMoney(
+					{"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0}
 				);
 				addDataKeGridObat(obj,'nonracik',rke);
 				renameInputRowObatAlkes($("#table-obatalkespasien"));                    
@@ -95,6 +105,11 @@ function tambahObatRacik(obj)
     var statusmargin = 0;
 	var isRacikan = 1;
     
+    if (jumlah <= 0) {
+        myAlert("Jumlah obat harus ada.");
+        return false;
+    }
+    
     if(obatalkes_id != '')
     {
         
@@ -127,8 +142,8 @@ function tambahObatRacik(obj)
 								$('#table-obatalkespasien > tbody > tr:nth-child('+(indexrke+marginrke)+')').after(data.form);
 								$("#table-obatalkespasien input[name$='[obatalkes_id]'][value='"+obatalkes_id+"']").parents('tr').find("#isi-r").hide();
 							}
-							$("#table-obatalkespasien").find('input[name*="[ii]"][class*="integer"]').maskMoney(
-								{"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0}
+							$("#table-obatalkespasien").find('input[name*="[ii]"][class*="integer2"]').maskMoney(
+								{"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0}
 							);
 							addDataKeGridObat(obj,'racik',rke);
 							renameInputRowObatAlkes($("#table-obatalkespasien"));                    
@@ -160,8 +175,8 @@ function tambahObatRacik(obj)
 							$('#table-obatalkespasien > tbody > tr:nth-child('+(indexrke+marginrke)+')').after(data.form);
 							$("#table-obatalkespasien input[name$='[obatalkes_id]'][value='"+obatalkes_id+"']").parents('tr').find("#isi-r").hide();
 						}
-						$("#table-obatalkespasien").find('input[name*="[ii]"][class*="integer"]').maskMoney(
-							{"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0}
+						$("#table-obatalkespasien").find('input[name*="[ii]"][class*="integer2"]').maskMoney(
+							{"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0}
 						);
 						addDataKeGridObat(obj,'racik',rke);
 						renameInputRowObatAlkes($("#table-obatalkespasien"));                    
@@ -280,8 +295,8 @@ function tambahObatReseptur(obatalkes_id,rke,rkelast,jumlah,signa,permintaan,kem
                     $('#table-obatalkespasien > tbody > tr:nth-child('+(indexrke+marginrke)+')').after(data.form);
                     $("#table-obatalkespasien input[name$='[obatalkes_id]'][value='"+obatalkes_id+"']").parents('tr').find("#isi-r").hide();
                 }
-                $("#table-obatalkespasien").find('input[name*="[ii]"][class*="integer"]').maskMoney(
-                    {"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0}
+                $("#table-obatalkespasien").find('input[name*="[ii]"][class*="integer2"]').maskMoney(
+                    {"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0}
                 );
                 addDataKeGridObatReseptur(obatalkes_id,signa,permintaan,kemasan,kekuatan,etiket,rke);
                 renameInputRowObatAlkes($("#table-obatalkespasien"));                    
@@ -412,20 +427,20 @@ function hitungTotal(){
 }
 
 /**
- * class integer di unformat 
+ * class integer2 di unformat 
  * @returns {undefined}
  */
 function unformatNumberSemua(){
-    $(".integer").each(function(){
+    $(".integer2").each(function(){
         $(this).val(parseInt(unformatNumber($(this).val())));
     });
 }
 /**
- * class integer di format kembali
+ * class integer2 di format kembali
  * @returns {undefined}
  */
 function formatNumberSemua(){
-    $(".integer").each(function(){
+    $(".integer2").each(function(){
         $(this).val(formatInteger($(this).val()));
     });
 }
@@ -433,10 +448,10 @@ function formatNumberSemua(){
 /**
 * untuk print penjualan dokter
  */
-function print(caraPrint)
+function print(caraPrint, idReseptur)
 {
     var pendaftaran_id = '<?php echo isset($_GET["pendaftaran_id"]) ? $_GET["pendaftaran_id"] : null ?>';
-    window.open('<?php echo $this->createUrl('print'); ?>&id='+pendaftaran_id+'&caraPrint='+caraPrint,'printwin','left=100,top=100,width=1000,height=640');
+    window.open('<?php echo $this->createUrl('print'); ?>&id='+pendaftaran_id+'&idReseptur='+idReseptur+'&caraPrint='+caraPrint,'printwin','left=100,top=100,width=1000,height=640');
 }
 
 /**
@@ -472,7 +487,7 @@ function cekObat(){
         $("form").find('.float').each(function(){
             $(this).val(formatFloat($(this).val()));
         });
-        $("form").find('.integer').each(function(){
+        $("form").find('.integer2').each(function(){
             $(this).val(formatInteger($(this).val()));
         });
     }
@@ -522,9 +537,14 @@ function proporsiTakaranResep(takaran){
 }
 
 function setOaByRuangTujuan(obj){
+        var ruangan = $(obj).find("option:selected").text();
+
 	$("#form-nonracikan").addClass("animation-loading");
 	$("#form-racikan").addClass("animation-loading");
 	clearInputan();
+        
+        $(".rid").html(ruangan);
+        
 	$('#ruanganapotek_id').val(obj.value);
 	setTimeout(function(){
 		$("#form-nonracikan").removeClass("animation-loading");

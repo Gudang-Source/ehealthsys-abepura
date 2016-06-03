@@ -13,11 +13,9 @@
 	<td style="text-align: center;">
 		<?php echo CHtml::activeTextField($model, '[ii]lookup_urutan',array('class'=>'span3 integer'));?>	
 	</td>
-        <?php if (isset($_POST['is_update'])): ?>
         <td style="text-align: center">
-                <?php echo CHtml::activeCheckBox($model, '[ii]lookup_aktif',array('class'=>'span3')); ?>
+                <?php if (isset($_POST['is_update'])): ?><?php echo CHtml::activeCheckBox($model, '[ii]lookup_aktif',array('class'=>'span3')); ?><?php endif; ?>
         </td>
-        <?php endif; ?>
 	<td style="text-align: center;" class="rowbutton">
 		<?php echo CHtml::link('<i class="icon-plus-sign icon-white"></i>', '#', array('class'=>'btn btn-primary','onclick'=>'tambahLookup()')); ?>
 		<?php echo CHtml::link('<i class="icon-minus-sign icon-white"></i>', '#', array('class'=>'btn btn-primary','onclick'=>'hapusLookup(this)')); ?>

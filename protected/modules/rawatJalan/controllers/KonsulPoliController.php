@@ -194,7 +194,8 @@ class KonsulPoliController extends MyAuthController
             if(Yii::app()->request->isAjaxRequest) {
             $konsulantarpoli_id = $_POST['idKonsulAntarPoli'];
             $modKonsulPoli = RJKonsulPoliT::model()->findByPk($konsulantarpoli_id);
-            $data['result'] = $this->renderPartial($this->path_view.'_viewKonsulPoli', array('modKonsul'=>$modKonsulPoli), true);
+            $modPendaftaran = RJPendaftaranT::model()->findByPk($modKonsulPoli->pendaftaran_id);
+            $data['result'] = $this->renderPartial($this->path_view.'_viewKonsulPoli', array('modKonsul'=>$modKonsulPoli, 'modPendaftaran'=>$modPendaftaran), true);
 
             echo json_encode($data);
              Yii::app()->end();

@@ -83,9 +83,10 @@
                     <?php echo $form->labelEx($model, 'pegpemesan_id', array('class' => 'control-label')); ?>
                     <div class="controls">
                         <?php echo $form->hiddenField($model, 'pegpemesan_id'); ?>
+                        <?php echo $form->textField($model, 'pegpemesan_nama', array('readonly'=>true)); ?>
                         <!--                <div class="input-append" style='display:inline'>-->
                         <?php
-                        $this->widget('MyJuiAutoComplete', array(
+                       /* $this->widget('MyJuiAutoComplete', array(
                             'model' => $model,
                             'attribute' => 'pegpemesan_nama',
                             'source' => 'js: function(request, response) {
@@ -119,7 +120,7 @@
 								'placeholder'=>'Ketikan nama pegawai pemesan',
                             ),
                             'tombolDialog' => array('idDialog' => 'dialogPegawai'),
-                        ));
+                        ));*/
                         ?>
                         <?php echo $form->error($model, 'pegpemesan_id'); ?>
                     </div>
@@ -242,11 +243,11 @@
         ),
     ));
 
-    $modPegawai = new GUPegawaiM('search');
+    $modPegawai = new GUPegawaiRuanganV('search');
     $modPegawai->unsetAttributes();
     //$modPegawai->ruangan_id = 0;
-    if (isset($_GET['GUPegawaiM']))
-        $modPegawai->attributes = $_GET['GUPegawaiM'];
+    if (isset($_GET['GUPegawaiRuanganV']))
+        $modPegawai->attributes = $_GET['GUPegawaiRuanganV'];
 
     $this->widget('ext.bootstrap.widgets.BootGridView', array(
         'id' => 'pegawai-m-grid',
@@ -268,8 +269,8 @@
                                             $(\'#dialogPegawaiMengetahui\').dialog(\'close\');
                                             return false;"))',
             ),
-            'nama_pegawai',
             'nomorindukpegawai',
+            'nama_pegawai',            
             'alamat_pegawai',
             'agama',
             array(
@@ -289,7 +290,7 @@
     $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
         'id' => 'dialogPegawai',
         'options' => array(
-            'title' => 'Daftar Pegawai',
+            'title' => 'Daftar Pegawai Mengetahui',
             'autoOpen' => false,
             'modal' => true,
             'width' => 750,

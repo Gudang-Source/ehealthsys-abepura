@@ -1,3 +1,6 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
 <div class="white-container">
     <legend class="rim2">Transaksi Retur <b>Tagihan Pasien</b></legend>
     <?php
@@ -49,20 +52,29 @@
 
                         </div>
                     </div>
-                    <?php echo $form->textFieldRow($modRetur,'noreturbayar',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
-                    <?php echo $form->textFieldRow($modRetur,'totaloaretur',array('class'=>'span3 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-                    <?php echo $form->textFieldRow($modRetur,'totaltindakanretur',array('class'=>'span3 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-                    <?php echo $form->textFieldRow($modRetur,'totalbiayaretur',array('class'=>'span3 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                    <?php
+                    $modRetur->totaloaretur = MyFormatter::formatNumberForPrint($modRetur->totaloaretur);
+                    $modRetur->totaltindakanretur = MyFormatter::formatNumberForPrint($modRetur->totaltindakanretur);
+                    $modRetur->totalbiayaretur = MyFormatter::formatNumberForPrint($modRetur->totalbiayaretur);
+                    
+                    ?>
+                    <?php echo CHtml::hiddenField('oa_limit', $modRetur->totaloaretur); ?>
+                    <?php echo CHtml::hiddenField('tindakan_limit', $modRetur->totaltindakanretur); ?>
+                    <?php echo $form->textFieldRow($modRetur,'noreturbayar',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50, 'readonly'=>true)); ?>
+                    <?php echo $form->textFieldRow($modRetur,'totaloaretur',array('onblur'=>'cekLimitRetur()','onkeyup'=>'hitungTotalRetur()','class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                    <?php echo $form->textFieldRow($modRetur,'totaltindakanretur',array('onblur'=>'cekLimitRetur()','onkeyup'=>'hitungTotalRetur()','class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                    <?php echo $form->textFieldRow($modRetur,'totalbiayaretur',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);", "readonly"=>true)); ?>
                 </td>
                 <td>
-                    <?php echo $form->textFieldRow($modRetur,'biayaadministrasi',array('class'=>'span3 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                    <?php echo $form->textFieldRow($modRetur,'biayaadministrasi',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                     <?php echo $form->textAreaRow($modRetur,'keteranganretur',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                     <?php echo CHtml::activeHiddenField($modRetur,'user_nm_otorisasi',array('readonly'=>true,'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                     <?php echo CHtml::activeHiddenField($modRetur,'user_id_otorisasi',array('readonly'=>true,'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                     <?php //echo $form->dropDownListRow($modBuktiKeluar,'tahun', CustomFunction::getTahun(null,null),array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>4)); ?>
                     <?php $modBuktiKeluar->tglkaskeluar = Yii::app()->dateFormatter->formatDateTime(CDateTimeParser::parse($modBuktiKeluar->tglkaskeluar, 'yyyy-MM-dd hh:mm:ss','medium',null)); ?>
                     <?php echo $form->textFieldRow($modBuktiKeluar,'nokaskeluar',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
-                    <?php echo $form->dropDownListRow($modBuktiKeluar,'carabayarkeluar', LookupM::getItems('carabayarkeluar'),array('onchange'=>'formCarabayar(this.value)','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+                    <?php 
+                    echo $form->dropDownListRow($modBuktiKeluar,'carabayarkeluar', LookupM::getItems('carabayarkeluar'),array('onchange'=>'formCarabayar(this.value)','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
                 </td>
                 <td>
                     <div id="divCaraBayarTransfer" class="hide">
@@ -172,6 +184,31 @@ $(document).ready(function(){
 })
 
 $('.currency').each(function(){this.value = formatNumber(this.value)});
+
+
+function hitungTotalRetur()
+{
+    oa = parseFloat(unformatNumber($("#BKReturbayarpelayananT_totaloaretur").val()));
+    tindakan = parseFloat(unformatNumber($("#BKReturbayarpelayananT_totaltindakanretur").val()));
+    
+    $("#BKReturbayarpelayananT_totalbiayaretur").val(formatNumber(oa + tindakan));
+}
+
+function cekLimitRetur()
+{
+    oalimit = parseFloat(unformatNumber($("#oa_limit").val()));
+    tindakanlimit = parseFloat(unformatNumber($("#tindakan_limit").val()));
+    oa = parseFloat(unformatNumber($("#BKReturbayarpelayananT_totaloaretur").val()));
+    tindakan = parseFloat(unformatNumber($("#BKReturbayarpelayananT_totaltindakanretur").val()));
+    
+    if (oa > oalimit) oa = oalimit;
+    if (tindakan > tindakanlimit) tindakan = tindakanlimit;
+    
+    $("#BKReturbayarpelayananT_totaloaretur").val(formatNumber(oa));
+    $("#BKReturbayarpelayananT_totaltindakanretur").val(formatNumber(tindakan));
+    
+    hitungTotalRetur();
+}
 
 function printKasir(idTandaBukti)
 {

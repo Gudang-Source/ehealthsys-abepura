@@ -82,17 +82,20 @@ class PengirimanBerkasRekamMedisController extends MyAuthController
 		$modPengiriman = new RKPengirimanrmT;
 			
 		$modPengiriman->attributes = $detail;
+               // var_dump($modPengiriman->ruanganpenerima_id[1]);die;
 		if ($modPengiriman->kelengkapan == 1){
 			$modPengiriman->kelengkapandokumen = true;
 		} else {
 			$modPengiriman->kelengkapandokumen = false;
 		}   
+                $modPengiriman->petugaspengirim = Yii::app()->user->name;
 		$modPengiriman->pasien_id = $modPengiriman->pasien_id;
 		$modPengiriman->pendaftaran_id = $modPengiriman->pendaftaran_id;
 		$modPengiriman->dokrekammedis_id = $modPengiriman->dokrekammedis_id;
 		$modPengiriman->ruangan_id = $modPengiriman->ruangan_id;
 		$modPengiriman->nourut_keluar = MyGenerator::noUrutKeluarRM();
 		$modPengiriman->ruanganpengirim_id = Yii::app()->user->getState('ruangan_id');
+                $modPengiriman->ruanganpenerima_id = $modPengiriman->ruangan_id;
 		$modPengiriman->peminjamanrm_id = $modPengiriman->peminjamanrm_id;
 		$modPengiriman->create_ruangan = Yii::app()->user->getState('ruangan_id');
 		$modPengiriman->tglpengirimanrm = MyFormatter::formatDateTimeForDb($model->tglpengirimanrm);
@@ -202,16 +205,17 @@ class PengirimanBerkasRekamMedisController extends MyAuthController
 		if (Yii::app()->getRequest()->getIsAjaxRequest())
 		{
 			$instalasi_id= isset($_POST['instalasi_id']) ? $_POST['instalasi_id'] : null;
-			$dropDown = array();
+			$dropDown = '';
 			$dataRuangan =RuanganM::model()->findAll('instalasi_id='.$instalasi_id.' AND ruangan_aktif=TRUE ORDER BY ruangan_nama');
-
+                        $total = count($dataRuangan);
 			foreach ($dataRuangan AS $tampilRuangan)
 			{
-				$dropDown .='<option value="'.$tampilRuangan['ruangan_id'].'" selected="selected">'.$tampilRuangan['ruangan_nama'].'</option>';
+				$dropDown .='<option value="'.$tampilRuangan['ruangan_id'].'">'.$tampilRuangan['ruangan_nama'].'</option>';
 
 			}
 
 			$data['dropDown']=$dropDown;    
+                        $data['total']=$total;
 			echo json_encode($data);
 			Yii::app()->end();    
 		}

@@ -102,7 +102,8 @@
             $namaRuangan = Yii::app()->user->getState('ruangan_nama');
             $idModul = ((!empty($this->module->id)) ? $this->module->id : null);
             $idUser = ((!empty(Yii::app()->user->id)) ? Yii::app()->user->id : null);
-            $modulMenu = ((!empty($this->module->menu) && $this->module->id != 'sistemAdministrator') ? $this->module->menu : null);
+            $modulMenu = (!empty($this->module->menu) ? $this->module->menu : null);
+//            $modulMenu = $this->module->menu;
 			$tglLogin = Yii::app()->user->getState('lastLoginTime');
 			if(!empty($tglLogin)){
 				$tglLogin = MyFormatter::formatDateTimeForUser($tglLogin); 
@@ -231,7 +232,7 @@
 								<table class="outer-menulink">
 									<tr>
 										<td>
-											<?php 
+											<?php
 											$this->widget('application.extensions.menu.SMenu',
 												array(
 												"menu"=> MenuModul::getMenuModul($modulMenu),
@@ -551,7 +552,7 @@ function simpan_kertas()
 function viewUser()
 {
     $('#profiluserdialog').dialog('open');
-    $('#frameprofiluser').attr('src', '<?php echo Yii::app()->createUrl('sistemAdministrator/PegawaiM/ViewUser'); ?>' );
+    $('#frameprofiluser').attr('src', '<?php echo Yii::app()->createUrl('sistemAdministrator/PegawaiM/ViewUser',array('frame'=>'frame')); ?>' );
 }
     
 function viewPengumuman(id)

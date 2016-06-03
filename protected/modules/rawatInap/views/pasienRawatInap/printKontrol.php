@@ -42,6 +42,7 @@
 
 
 <div class="judul">SURAT RENCANA KONTROL PASIEN</div>
+<div class="judul"><?php echo $sk->nomorsurat; ?></div>
 Saya yang bertanda tangan dibawah ini, Dokter RSUD ABPURA, dengan ini menerangkan bahwa :<br/>
 <table class="ind">
     <tr>

@@ -169,6 +169,7 @@
             ),
                 array(
                     'header'=>'NIP',
+                    'name' => 'nomorindukpegawai',
                     'value'=>'$data->nomorindukpegawai',
                 ),
                 array(
@@ -184,11 +185,12 @@
                     'value'=>'$data->no_kartupegawainegerisipil',
                 ),
         	array(
-                        'header'=>'Aktif',
-                        'class'=>'CCheckBoxColumn',     
-                        'selectableRows'=>0,
-                        'id'=>'rows',
-                        'checked'=>'$data->pegawai_aktif',
+                        'header'=>'Status',
+                       // 'class'=>'CCheckBoxColumn',     
+                        //'selectableRows'=>0,
+                        //'id'=>'rows',
+                        //'checked'=>'$data->pegawai_aktif',
+                        'value' => 'isset($data->pegawai_aktif)?"Aktif":"Tidak Aktif"'
                 ), 
         ),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',

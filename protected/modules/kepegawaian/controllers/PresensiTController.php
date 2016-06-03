@@ -29,8 +29,9 @@ class PresensiTController extends MyAuthController
 	public function actionCreate($presensi_id = null)
 	{
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
+                $format = new MyFormatter();
 		$model=new KPPresensiT;
-                $model->tglpresensi = date('d M Y H:i:s');
+                $model->tglpresensi = date('d M Y');
                 $modPegawai = new KPRegistrasifingerprint();
 
 		// Uncomment the following line if AJAX validation is needed
@@ -43,17 +44,111 @@ class PresensiTController extends MyAuthController
 		if(isset($_POST['KPPresensiT']))
 		{
                     $model->attributes=$_POST['KPPresensiT'];
-                    //$modPegawai = KPRegistrasifingerprint::model()->findByPk($_POST['KPRegistrasifingerprint']['pegawai_id']);
+                    
+                    $modPegawai = KPRegistrasifingerprint::model()->findByPk($_POST['KPRegistrasifingerprint']['pegawai_id']);                    
+                    $modPegawai->jabatan_id = isset($modPegawai->jabatan_id)?$modPegawai->jabatan->jabatan_nama:'-';
+                    $modPegawai->tgl_lahirpegawai = $format->formatDateTimeForUser($modPegawai->tgl_lahirpegawai);
+                    
+                    
                     $model->pegawai_id = $_POST['KPRegistrasifingerprint']['pegawai_id'];
                     $model->no_fingerprint = $_POST['KPRegistrasifingerprint']['nofingerprint'];
-                    $model->jamkerjamasuk = $_POST['KPPresensiT']['jamkerjamasuk'];
-                    $model->jamkerjapulang = $_POST['KPPresensiT']['jamkerjapulang'];
-                    if($model->save()){
-                            Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-                            $this->redirect(array('create','presensi_id'=>$model->presensi_id,'sukses'=>1));
-                    } else {
-                        Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data gagal disimpan.');
+                    $model->statusscan_id = null;                    
+                    $shift = $model->getShiftId($model->pegawai_id);
+                                                            
+                   
+                    
+                    $tgl = $format->formatDateTimeForDb(date('Y-m-d', strtotime($model->tglpresensi)));
+                                        
+                  
+                    $model->statusscan_id = $_POST['KPPresensiT']['statusscan_id'];                        
+                    if ($model->statusscan_id == Params::STATUSSCAN_MASUK){                            
+                        //$model->jamkerjamasuk = $_POST['KPPresensiT']['jamkerjamasuk'];
+                        $model->tglpresensi = $tgl.' '.$_POST['KPPresensiT']['jamkerjamasuk'];
+                        $model->jamkerjamasuk = (count($shift)>0)?$shift->shift_jamawal:'08:15:00';
+                        $model->terlambat_mnt = $model->getTerlambat($model->tglpresensi, $model->jamkerjamasuk);
+                        $model->pulangawal_mnt = '';
+
+                    }elseif($model->statusscan_id == Params::STATUSSCAN_PULANG){
+                        $model->tglpresensi = $tgl.' '.$_POST['KPPresensiT']['jamkerjapulang'];
+                        $model->jamkerjapulang = (count($shift)>0)?$shift->shift_jamakhir:'15:00:00';
+                        $model->pulangawal_mnt = $model->getPulangAwal($model->tglpresensi, $model->jamkerjapulang);
+                        $model->terlambat_mnt = '';
+                        //$model->jamkerjapulang = $_POST['KPPresensiT']['jamkerjapulang'];                        
+                    }elseif($model->statusscan_id == Params::STATUSSCAN_DATANG){
+                        $model->tglpresensi = $tgl.' '.$_POST['KPPresensiT']['jamkerjamasuk'];                                                                        
+                        $model->terlambat_mnt = '';
+                        $model->pulangawal_mnt = '';
+                    }elseif($model->statusscan_id == Params::STATUSSCAN_KELUAR){
+                        $model->tglpresensi = $tgl.' '.$_POST['KPPresensiT']['jamkerjapulang'];                        
+                        $model->terlambat_mnt = '';
+                        $model->pulangawal_mnt = '';
+                    }else{
+                        $model->tglpresensi =$tgl.' '.date('H:i:s');  
                     }
+                   
+                    
+                    $cr = new CDbCriteria();                                        
+                     if ($model->statuskehadiran_id == Params::STATUSKEHADIRAN_IZIN){                           
+                         $cr->addCondition("pegawai_id = '$model->pegawai_id' ");
+                     }else{
+                         $cr->addCondition("statusscan_id = ".$model->statusscan_id);                    
+                         $cr->addCondition("statuskehadiran_id = '".Params::STATUSKEHADIRAN_HADIR."' AND pegawai_id = '$model->pegawai_id' ");
+                     }                    
+                    $cr->addBetweenCondition('tglpresensi', $tgl.' 00:00:00', $tgl.' 23:59:59');
+                    $cek = PresensiT::model()->find($cr);
+                                                                                
+                    $valid = $model->validate();
+                    
+                    if (count($cek) > 0){
+                        if ($model->statuskehadiran_id == Params::STATUSKEHADIRAN_IZIN)
+                        {
+                            $jam = (count($shift)>0)?$shift->shift_jamakhir:'15:00:00';
+                            $tanggal = $tgl.' '.$jam;
+                            
+                            if ($tanggal <= $model->tglpresensi){
+                                Yii::app()->user->setFlash('error', 'Maaf, pegawai '.$modPegawai->nama_pegawai.' jam kerjanya berakhir pada pukul '.date('H:i:s',strtotime($tanggal)));
+                            }else{                                
+                                if($valid){
+                                        $model->save();
+                                        Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                                        $this->redirect(array('create','presensi_id'=>$model->presensi_id,'sukses'=>1));
+                                } else {
+                                    Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data gagal disimpan.');
+                                }
+                            }
+                        }elseif ($model->statuskehadiran_id == Params::STATUSKEHADIRAN_ALPHA){
+                            if ($cek->statuskehadiran_id == Params::STATUSKEHADIRAN_HADIR){
+                                Yii::app()->user->setFlash('error', 'Maaf, pegawai '.$modPegawai->nama_pegawai.' sudah '.$cek->statusscan->statusscan_nama.' pada jam '.date('H:i:s',strtotime($cek->tglpresensi)));
+                            }else{
+                                $model->save();
+                                Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                                $this->redirect(array('create','presensi_id'=>$model->presensi_id,'sukses'=>1));
+                            }
+                        }else{                                                    
+                            if ($cek->statusscan_id == $model->statusscan_id){                            
+                                Yii::app()->user->setFlash('error', 'Maaf, pegawai '.$modPegawai->nama_pegawai.' pada tanggal '.date('d M Y',strtotime($tgl)).' sudah melakukan absensi '.$model->statusscan->statusscan_nama);
+                            }else{                                                       
+                                if($valid){
+                                        $model->save();
+                                        Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                                        $this->redirect(array('create','presensi_id'=>$model->presensi_id,'sukses'=>1));
+                                } else {
+                                    Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data gagal disimpan.');
+                                }
+                            }
+                        }    
+                        //Yii::app()->user->setFlash('error', 'Sudah Ada.');
+                    }else{                                         
+                        
+                        if($valid){
+                                $model->save();
+                                Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                                $this->redirect(array('create','presensi_id'=>$model->presensi_id,'sukses'=>1));
+                        } else {
+                            Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data gagal disimpan.');
+                        }
+                    }
+                    
 		}
 
 		$this->render('create',array(

@@ -68,7 +68,7 @@ if (isset($caraPrint)){
             </td>
         </tr>
     <tr>
-        <td align="center" valig="middle" colspan="3">
+        <td align="center" valign="middle" colspan="3">
             <table align="center" cellspacing=0 width="100%">
                 <tbody>
                     <tr>

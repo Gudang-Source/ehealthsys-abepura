@@ -105,25 +105,33 @@
             'template'=>"{summary}\n{items}\n{pager}",
             'itemsCssClass'=>'table table-striped table-condensed',
             'columns'=>array(
-                    'no_fingerprint',
+                    //'no_fingerprint',
+                    array(
+                            'header' => 'No FP',    
+                            'name' => 'no_fingerprint'
+                        ),
                     'pegawai.kelompokpegawai.kelompokpegawai_nama',
-                    'pegawai.nomorindukpegawai',
-                    'pegawai.nama_pegawai',
                     'pegawai.jabatan.jabatan_nama',
+                    'pegawai.nomorindukpegawai',
+                    'pegawai.nama_pegawai',                    
                     //'statusscan.statusscan_nama',
-
+                    array(
+                        'header' => 'Shift',
+                        'name' => 'pegawai.shift.shift_nama',
+                    ),
                     array(
                         'name'=>'tglpresensi',
                         'value'=>'MyFormatter::formatDateTimeForUser($data->tglpresensi);'
                     ),
                     array(
                         'header'=>'Masuk',
-                        'value'=>function($data) use (&$cr) {
+                        'value'=>function($data) use (&$cr) {                            
                             $cr = new CDbCriteria();
                             $cr->compare('tglpresensi::date', $data->tglpresensi);
                             $cr->compare('pegawai_id', $data->pegawai_id);
+                            $cr->compare('statuskehadiran_id', $data->statuskehadiran_id);
                             $cr->addCondition('statusscan_id=:p1');
-                            $cr->params[':p1'] = 1;
+                            $cr->params[':p1'] = Params::STATUSSCAN_MASUK;
                             $pr = PresensiT::model()->find($cr);
                             if (empty($pr)) return "-";
                             return date('H:i:s', strtotime($pr->tglpresensi));
@@ -132,7 +140,7 @@
                     array(
                         'header'=>'Keluar',
                         'value'=>function($data) use (&$cr) {
-                            $cr->params[':p1'] = 3;
+                            $cr->params[':p1'] = Params::STATUSSCAN_KELUAR;
                             $pr = PresensiT::model()->find($cr);
                             if (empty($pr)) return "-";
                             return date('H:i:s', strtotime($pr->tglpresensi));
@@ -141,7 +149,7 @@
                     array(
                         'header'=>'Datang',
                         'value'=>function($data) use (&$cr) {
-                            $cr->params[':p1'] = 4;
+                            $cr->params[':p1'] = Params::STATUSSCAN_DATANG;
                             $pr = PresensiT::model()->find($cr);
                             if (empty($pr)) return "-";
                             return date('H:i:s', strtotime($pr->tglpresensi));
@@ -150,14 +158,83 @@
                     array(
                         'header'=>'Pulang',
                         'value'=>function($data) use (&$cr) {
-                            $cr->params[':p1'] = 2;
+                            $cr->params[':p1'] = Params::STATUSSCAN_PULANG;
                             $pr = PresensiT::model()->find($cr);
                             if (empty($pr)) return "-";
                             return date('H:i:s', strtotime($pr->tglpresensi));
                         },
                     ),
-                    
-                    'statuskehadiran.statuskehadiran_nama',
+                    array(
+                        'header' => 'Terlambat (Menit)',
+                         'value'=>function($data) use (&$cr) {
+                            $cr = new CDbCriteria();                            
+                            $cr->compare('tglpresensi::date', $data->tglpresensi);
+                            $cr->compare('pegawai_id', $data->pegawai_id);
+                            $cr->addCondition('statusscan_id=:p1');
+                            $cr->params[':p1'] = Params::STATUSSCAN_MASUK;
+                            $pr = PresensiT::model()->find($cr);
+                            if (empty($pr)) return "-";
+                            $jammasuk = strtotime(date('H:i:s', strtotime($pr->tglpresensi)));
+                                                       
+                            //return $pr1->jam;
+                            $shift = $data->getShiftId($data->pegawai_id);
+                            if (count($shift)>0){
+                                $tepat = strtotime(date('Y-m-d',strtotime($pr->tglpresensi)).$shift->shift_jamawal);
+                            }else{
+                                $tepat = strtotime(date('Y-m-d',strtotime($pr->tglpresensi))." 08:15:00");
+                            }                            
+                            $masuk = strtotime(date('Y-m-d H:i:s',strtotime($pr->tglpresensi)));
+                            $jam = floor(round(abs($masuk - $tepat) / 60,2));
+                            
+                            if ($data->statuskehadiran_id == Params::STATUSKEHADIRAN_HADIR)
+                            {    
+                                if ($masuk < $tepat){
+                                    return "0 Menit";
+                                }else{
+                                    return $jam.' Menit';
+                                }
+                            }
+                            else{
+                                return '-';
+                            }
+                                                            
+                        },
+                        'htmlOptions' => array('style'=>'text-align:center;')
+                    ),
+                    array(
+                        'header' => 'Pulang Awal (Menit)',
+                        'value' => function($data) use (&$cr) {
+                            $cr->params[':p1'] = Params::STATUSSCAN_PULANG;
+                            $pr = PresensiT::model()->find($cr);
+                            if (empty($pr)) return "-";
+                            
+                            $shift = $data->getShiftId($data->pegawai_id);
+                            if (count($shift)>0){
+                                $tepat = strtotime(date('Y-m-d',strtotime($pr->tglpresensi)).$shift->shift_jamakhir);
+                            }else{
+                                $tepat = strtotime(date('Y-m-d',strtotime($pr->tglpresensi))." 15:00:00");
+                            } 
+                            
+                            $pulang = strtotime(date('Y-m-d H:i:s',strtotime($pr->tglpresensi)));
+                            $jam = floor(round(abs($tepat - $pulang) / 60,2));
+                            
+                            if ($data->statuskehadiran_id == Params::STATUSKEHADIRAN_HADIR)
+                            {
+                                if ($pulang > $tepat){
+                                    return "0 Menit";
+                                }else{
+                                    return $jam.' Menit';
+                                }
+                            }else{
+                                return '-';
+                            }
+                        },
+                        'htmlOptions' => array('style'=>'text-align:center;')
+                    ),
+                    array(
+                        'header' => 'Status',
+                        'name' => 'statuskehadiran.statuskehadiran_nama',
+                    ),                                
                                 /*
                     array(
                         'name'=>'verifikasi',

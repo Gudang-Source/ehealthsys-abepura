@@ -5,22 +5,27 @@
         public function actionLaporanPegawai()
         {
             $model = new PegawaiM();
+           
+            $model->tglpresensi = date('01 M Y');
+            $model->tglpresensi_akhir = date('d M Y');
             if(isset($_GET['PegawaiM']))
             {
                 $model->attributes = $_GET['PegawaiM'];
-            }
+                $model->tglpresensi = $_GET['PegawaiM']['tglpresensi'].' 00:00:00';
+                $model->tglpresensi_akhir = $_GET['PegawaiM']['tglpresensi_akhir'].' 23:59:59';                            }
             $this->render('daftarHadir/index',array(
                 'model'=>$model,
             ));            
         }
         
-        public function actionDetailLaporanAbsen($id)
+        public function actionDetailLaporanAbsen($id,$tgl_awal,$tgl_akhir)
         {
+            $format = new MyFormatter();
             $this->layout='//layouts/iframe';
             $model = new KPPresensiT('detailPresensi');
             $model->pegawai_id = $id;
-            $model->tglpresensi = date('Y-m-d 00:00:00');
-            $model->tglpresensi_akhir = date('Y-m-d 23:59:59');
+            $model->tglpresensi = $format->formatDateTimeForDb($tgl_awal);
+            $model->tglpresensi_akhir = $format->formatDateTimeForDb($tgl_akhir);
             
             /*
             $model->tglpresensi = date('Y-m-d', strtotime('2013-05-25'));
@@ -43,6 +48,13 @@
             }
             
             $modPegawai = KPPegawaiM::model()->findByPk($id);
+            $modPegawai->hadir = $modPegawai->getTotalStatusKehadiran(Params::STATUSKEHADIRAN_HADIR, $id, $tgl_awal, $tgl_akhir);
+            $modPegawai->izin = $modPegawai->getTotalStatusKehadiran(Params::STATUSKEHADIRAN_IZIN, $id, $tgl_awal, $tgl_akhir);
+            $modPegawai->sakit = $modPegawai->getTotalStatusKehadiran(Params::STATUSKEHADIRAN_SAKIT, $id, $tgl_awal, $tgl_akhir);
+            $modPegawai->dinas = $modPegawai->getTotalStatusKehadiran(Params::STATUSKEHADIRAN_DINAS, $id, $tgl_awal, $tgl_akhir);
+            $modPegawai->alpha = $modPegawai->getTotalStatusKehadiran(Params::STATUSKEHADIRAN_ALPHA, $id, $tgl_awal, $tgl_akhir);
+            $modPegawai->rerata_jam_masuk = $this->renderPartial("daftarHadir/_rerataJamMasuk",array("pegawai_id"=>$id ,"statusscan_id"=>  Params::STATUSSCAN_MASUK,'tgl_awal'=>$tgl_awal,'tgl_akhir'=>$tgl_akhir),true);
+            $modPegawai->rerata_jam_keluar = $this->renderPartial("daftarHadir/_rerataJamKeluar",array("pegawai_id"=>$id ,"statusscan_id"=>  Params::STATUSSCAN_PULANG,'tgl_awal'=>$tgl_awal,'tgl_akhir'=>$tgl_akhir),true);
             $this->render('daftarHadir/detailAbdesensi',array(
                 'model'=>$model,
                 'modPegawai' => $modPegawai
@@ -53,6 +65,8 @@
         public function actionPrintDetailPresensi(){
             $model= new PegawaiM;
             $model->attributes=$_REQUEST['PegawaiM'];
+            $model->tglpresensi = $_REQUEST['PegawaiM']['tglpresensi'];
+            $model->tglpresensi_akhir = $_REQUEST['PegawaiM']['tglpresensi_akhir'];
             $judulLaporan='Laporan Presensi';
             $caraPrint=$_REQUEST['caraPrint'];
             if($caraPrint=='PRINT') {
@@ -77,11 +91,12 @@
         }
         
         
-        public function actionPrintDetailLaporanPresensi($id)
+        public function actionPrintDetailLaporanPresensi($id,$tglpresensi, $tglpresensi_akhir)
         {
             $model = new KPPresensiT('detailPresensi');
             $model->pegawai_id = $id;
             $modPegawai = KPPegawaiM::model()->findByPk($id);
+            
             /*
             if(isset($_GET['PresensiT']))
             {
@@ -90,6 +105,13 @@
              * 
              */
             $modPegawai = KPPegawaiM::model()->findByPk($id);
+            $modPegawai->hadir = $modPegawai->getTotalStatusKehadiran(Params::STATUSKEHADIRAN_HADIR, $id, $tglpresensi, $tglpresensi_akhir);
+            $modPegawai->izin = $modPegawai->getTotalStatusKehadiran(Params::STATUSKEHADIRAN_IZIN, $id, $tglpresensi, $tglpresensi_akhir);
+            $modPegawai->sakit = $modPegawai->getTotalStatusKehadiran(Params::STATUSKEHADIRAN_SAKIT, $id, $tglpresensi, $tglpresensi_akhir);
+            $modPegawai->dinas = $modPegawai->getTotalStatusKehadiran(Params::STATUSKEHADIRAN_DINAS, $id, $tglpresensi, $tglpresensi_akhir);
+            $modPegawai->alpha = $modPegawai->getTotalStatusKehadiran(Params::STATUSKEHADIRAN_ALPHA, $id, $tglpresensi, $tglpresensi_akhir);
+            $modPegawai->rerata_jam_masuk = $this->renderPartial("daftarHadir/_rerataJamMasuk",array("pegawai_id"=>$id ,"statusscan_id"=>  Params::STATUSSCAN_MASUK,'tgl_awal'=>$tglpresensi,'tgl_akhir'=>$tglpresensi_akhir),true);
+            $modPegawai->rerata_jam_keluar = $this->renderPartial("daftarHadir/_rerataJamKeluar",array("pegawai_id"=>$id ,"statusscan_id"=>  Params::STATUSSCAN_PULANG,'tgl_awal'=>$tglpresensi,'tgl_akhir'=>$tglpresensi_akhir),true);
             
             $judulLaporan = 'Laporan Presensi Per Pegawai';
             $caraPrint = $_REQUEST['caraPrint'];
@@ -164,8 +186,8 @@
                 $model->attributes = $_GET['KPPresensiT'];
                 $tglpresensi = $format->formatDateTimeForDb($_GET['KPPresensiT']['tglpresensi']);
                 $tglpresensi_akhir = $format->formatDateTimeForDb($_GET['KPPresensiT']['tglpresensi_akhir']);
-                $tglpresensi = date('Y-m-d ', strtotime($_GET['KPPresensiT']['tglpresensi']));
-                $tglpresensi_akhir = date('Y-m-d ', strtotime($_GET['KPPresensiT']['tglpresensi_akhir']));
+                //$tglpresensi = date('Y-m-d ', strtotime($_GET['KPPresensiT']['tglpresensi']));
+               // $tglpresensi_akhir = date('Y-m-d ', strtotime($_GET['KPPresensiT']['tglpresensi_akhir']));
                 $model->tglpresensi = $tglpresensi;
                 $model->tglpresensi_akhir = $tglpresensi_akhir;
 				if(!empty($_GET['KPPresensiT']['ruangan_id'])){
@@ -174,7 +196,7 @@
 //				else{
 //					$model->ruangan_id = Yii::app()->user->getState('ruangan_id');
 //				}
-                $model->unit_perusahaan = $_GET['KPPresensiT']['unit_perusahaan'];
+               // $model->unit_perusahaan = $_GET['KPPresensiT']['unit_perusahaan'];
             }else{
                 $model->tglpresensi = date('d M Y');
                 $model->tglpresensi_akhir = date('d M Y');
@@ -193,11 +215,11 @@
             $model->attributes = $_GET['KPPresensiT'];
             $model->tglpresensi = date('Y-m-d ', strtotime($_GET['KPPresensiT']['tglpresensi']));
             $model->tglpresensi_akhir = date('Y-m-d ', strtotime($_GET['KPPresensiT']['tglpresensi_akhir']));
-            $model->unit_perusahaan = $_GET['KPPresensiT']['unit_perusahaan'];
+          //  $model->unit_perusahaan = $_GET['KPPresensiT']['unit_perusahaan'];
             
             $judulLaporan = 'Laporan Presensi';
             $caraPrint = $_REQUEST['caraPrint'];
-            $periode = $this->parserTanggal($model->tglpresensi).' s/d '.$this->parserTanggal($model->tglpresensi_akhir);
+            $periode = $format->formatDateTimeForUser($model->tglpresensi).' s/d '.$format->formatDateTimeForUser($model->tglpresensi_akhir);
             
             if($caraPrint == 'PRINT')
             {

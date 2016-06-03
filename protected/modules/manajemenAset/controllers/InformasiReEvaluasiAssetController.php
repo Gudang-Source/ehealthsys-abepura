@@ -18,5 +18,14 @@ class InformasiReEvaluasiAssetController extends MyAuthController {
 				'model'=>$model, 'format'=>$format
 		));
 	}
+        
+        public function actionDetail($id) {
+            $this->layout = '//layouts/iframe';
+            $model = new BarangV();
+            $this->render('manajemenAset.views.reevaluasiasetT.Print', array(
+                'model'=>$model,
+                'judulLaporan'=>'',
+            ));
+        }
 }
 

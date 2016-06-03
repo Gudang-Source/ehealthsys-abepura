@@ -72,9 +72,9 @@ if(!isset($_GET['sukses'])){
 		<tfoot>
 			<tr>
 
-				<td colspan="4" style="text-align: right;"><b>Total Estimasi Harga</b></td>
-				<td><input type="text" readonly name="totalHargaReseptur" id="totalHargaReseptur" class="inputFormTabel lebar2 integer" /></td>
-				<td colspan="3"></td>
+				<td colspan="5" style="text-align: right;"><b>Total Estimasi Harga</b></td>
+				<td><input type="text" readonly name="totalHargaReseptur" id="totalHargaReseptur" class="integer2" style="width:110px;"/></td>
+				<td colspan="2"></td>
 			</tr>
     </tfoot>
     </table>

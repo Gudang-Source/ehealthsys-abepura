@@ -89,8 +89,7 @@ class LoginpemakaiK extends CActiveRecord
 		return array(
 			'ruanganpegawai'=>array(self::BELONGS_TO,'RuanganpegawaiM','pegawai_id'),
 			'pegawai'=>array(self::BELONGS_TO,'PegawaiM','pegawai_id'),
-			'pasien'=>array(self::BELONGS_TO,'PasienM','pasien_id'),
-
+			'pasien'=>array(self::BELONGS_TO,'PasienM','pasien_id'),                        
 		);
 	}
 

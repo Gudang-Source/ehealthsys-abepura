@@ -15,6 +15,7 @@ class ReturTagihanPasienController extends MyAuthController
         $modBuktiKeluar->tahun = date('Y');
         $modBuktiKeluar->untukpembayaran = 'Retur Tagihan Pasien';
         $modBuktiKeluar->nokaskeluar = MyGenerator::noKasKeluar();
+        $modBuktiKeluar->carabayarkeluar = Params::CARAPEMBAYARAN_TUNAI;
         
         $modRetur = new BKReturbayarpelayananT;
         $modRetur->noreturbayar = MyGenerator::noReturBayarPelayanan();
@@ -61,8 +62,20 @@ class ReturTagihanPasienController extends MyAuthController
             $modRetur->totaltindakanretur = $modPembayaran->totalbiayatindakan;
             $modRetur->totalbiayaretur = $modPembayaran->totalbiayapelayanan;
 
-            $modBuktiKeluar->namapenerima = $modPasien->nama_pasien;
+            $modBuktiKeluar->namapenerima = $modPasien->no_rekam_medik." - ".$modPasien->namadepan.$modPasien->nama_pasien;
             $modBuktiKeluar->alamatpenerima = $modPasien->alamat_pasien;
+            
+            if (isset($_GET['ajax_retur'])) {
+                $data = array(
+                    'pembayaran'=>$modPembayaran->attributes,
+                    'pendaftaran'=>$modPendaftaran->attributes,
+                    'pasien'=>$modPasien->attributes,
+                    'retur'=>$modRetur->attributes,
+                    'buktikeluar'=>$modBuktiKeluar->attributes,
+                );
+                echo CJSON::encode($data);
+                Yii::app()->end();
+            }
             
             $url_batal = Yii::app()->createAbsoluteUrl(
                 Yii::app()->controller->module->id.'/' .Yii::app()->controller->id,
@@ -178,7 +191,12 @@ class ReturTagihanPasienController extends MyAuthController
             $modBuktiKeluar->attributes = $postBuktiKeluar;
             $modBuktiKeluar->ruangan_id = Yii::app()->user->getState('ruangan_id');
             $modBuktiKeluar->returbayarpelayanan_id = $modRetur->returbayarpelayanan_id;
+            $modBuktiKeluar->shift_id = Yii::app()->user->getState('shift_id');
+            
             $modBuktiKeluar->tahun = date('Y');
+            $modBuktiKeluar->validate();
+            
+           //  var_dump($modBuktiKeluar->attributes, $modBuktiKeluar->validate(), $modBuktiKeluar->errors); die;
             
             if($modBuktiKeluar->validate())
             {
@@ -208,7 +226,7 @@ class ReturTagihanPasienController extends MyAuthController
                 );
                 $judulLaporan = '';
                 $return = ReturbayarpelayananT::model()->findByAttributes($attributes);
-                $model_tandabuktibayar = TandabuktibayarT::model()->with('pembayaran')->findByAttributes(array('tandabuktibayar_id'=>$return->tandabuktibayar_id));
+                $model_tandabuktibayar = TandabuktibayarT::model()->with('pembayaranpelayanan')->findByAttributes(array('tandabuktibayar_id'=>$return->tandabuktibayar_id));
                 $judulLaporan = 'Tanda Bukti Return Tagihan';
                 $this->render('kwitansiReturTagihan',
                     array(
@@ -264,5 +282,29 @@ class ReturTagihanPasienController extends MyAuthController
             echo json_encode($data);
             Yii::app()->end();
         }
+    }
+    
+    
+    function actionInformasi()
+    {
+        $model = new BKReturbayarpelayananT();
+        $model->tgl_awal = date('Y-m-d H:i:s', time() - (7 * 24 * 3600));
+        $model->tgl_akhir = date('Y-m-d H:i:s');
+        
+        if (isset($_GET['BKReturbayarpelayananT'])) {
+            $model->attributes = $_GET['BKReturbayarpelayananT'];
+            $model->tgl_awal = MyFormatter::formatDateTimeForDb($_GET['BKReturbayarpelayananT']['tgl_awal']);
+            $model->tgl_akhir = MyFormatter::formatDateTimeForDb($_GET['BKReturbayarpelayananT']['tgl_akhir']);
+            $model->nobuktibayar = $_GET['BKReturbayarpelayananT']['nobuktibayar'];
+            $model->no_pendaftaran = $_GET['BKReturbayarpelayananT']['no_pendaftaran'];
+            $model->no_rekam_medik = $_GET['BKReturbayarpelayananT']['no_rekam_medik'];
+            $model->nama_pasien = $_GET['BKReturbayarpelayananT']['nama_pasien'];
+            $model->carabayar_id = $_GET['BKReturbayarpelayananT']['carabayar_id'];
+            $model->penjamin_id = $_GET['BKReturbayarpelayananT']['penjamin_id'];
+        }
+        
+        $this->render('informasi', array(
+            'model'=>$model,
+        ));
     }
 }

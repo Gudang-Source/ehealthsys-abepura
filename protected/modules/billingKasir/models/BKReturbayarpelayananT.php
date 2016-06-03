@@ -30,8 +30,32 @@ class BKReturbayarpelayananT extends ReturbayarpelayananT
 	 * @param string $className active record class name.
 	 * @return ReturbayarpelayananT the static model class
 	 */
+    
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
+        
+        
+        public function searchInformasi() {
+            $criteria = new CDbCriteria();
+            $criteria->join = 'left join tandabuktibayar_t tb on tb.tandabuktibayar_id = t.tandabuktibayar_id '
+                    . 'left join pembayaranpelayanan_t pp on pp.pembayaranpelayanan_id = tb.pembayaranpelayanan_id '
+                    . 'left join pendaftaran_t p on p.pendaftaran_id = pp.pendaftaran_id '
+                    . 'join pasien_m pa on pa.pasien_id = p.pasien_id';
+            
+            if (!empty($this->tgl_awal) && !empty($this->tgl_akhir)) {
+                $criteria->addBetweenCondition('tglreturpelayanan::date', $this->tgl_awal, $this->tgl_akhir);
+            }
+            $criteria->compare('lower(p.no_pendaftaran)', strtolower($this->no_pendaftaran), true);
+            $criteria->compare('lower(tb.nobuktibayar)', strtolower($this->nobuktibayar), true);
+            $criteria->compare('p.carabayar_id', $this->carabayar_id);
+            $criteria->compare('p.penjamin_id', $this->penjamin_id);
+            $criteria->compare('lower(pa.no_rekam_medik)', strtolower($this->no_rekam_medik), true);
+            $criteria->compare('lower(pa.nama_pasien)', strtolower($this->nama_pasien), true);
+            
+            return new CActiveDataProvider($this, array(
+                'criteria'=>$criteria,
+            ));
+        }
 }

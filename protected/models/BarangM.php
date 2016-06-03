@@ -209,10 +209,14 @@ class BarangM extends CActiveRecord
             $p->criteria->join = 
                     'left join subsubkelompok_m ssk on ssk.subsubkelompok_id = t.subsubkelompok_id '
                     . 'left join subkelompok_m sk on sk.subkelompok_id = ssk.subkelompok_id '
-                    . 'left join kelompok_m k on k.kelompok_id = sk.kelompok_id';
+                    . 'left join kelompok_m k on k.kelompok_id = sk.kelompok_id '
+                    . 'left join bidang_m b on b.bidang_id = k.bidang_id '
+                    . 'left join golongan_m g on g.golongan_id = b.golongan_id';
             $p->criteria->compare('ssk.subsubkelompok_id', $this->subsubkelompok_id);
             $p->criteria->compare('sk.subkelompok_id', $this->subkelompok_id);
             $p->criteria->compare('k.kelompok_id', $this->kelompok_id);
+            $p->criteria->compare('b.bidang_id', $this->bidang_id);
+            $p->criteria->compare('g.golongan_id', $this->golongan_id);
             return $p;
         }
 	

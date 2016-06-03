@@ -34,19 +34,23 @@ $('.search-form form').submit(function(){
             'itemsCssClass'=>'table table-striped table-condensed table-bordered',
             'columns'=>array(
                 array(
-                  'header'=>'Tgl. Pendaftaran',
+                  'header'=>'Tgl. Pendaftaran/<br/>No. Pendaftaran',
                   'type'=>'raw',
-                  'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)',
+                  'value'=>'CHtml::link("<i class=icon-form-print></i> ".$data->no_pendaftaran, "javascript:print(\'$data->pendaftaran_id\');",array("rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik untuk mencetak Status Pasien"))."<br/>".MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)',
+                    'htmlOptions'=>array(
+                        'style'=>'text-align: center',
+                    )
                 ), 
+                /*
                 array(
                     'header'=>'No. Pendaftaran',
                     'name'=>'no_pendaftaran',
                     'type'=>'raw',
                     'value'=>'(!empty($data->no_pendaftaran) ? CHtml::link("<i class=icon-form-print></i> ".$data->no_pendaftaran, "javascript:print(\'$data->pendaftaran_id\');",array("rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik untuk mencetak Status Pasien")) : "-")',
                     'htmlOptions'=>array('style'=>'text-align: center;')
-                ), 
+                ), */ 
                 array(
-                    'header'=>'No. RM',
+                    'header'=>'No. Rekam Medik',
                     'name'=>'no_rm',
                     'type'=>'raw',
                     'value'=>'
@@ -68,15 +72,15 @@ $('.search-form form').submit(function(){
                     'type'=>'raw',
                     'value'=>'$data->namadepan." ".$data->nama_pasien'
                 ),
-                'alamat_pasien',
                 array(
                    'name'=>'Jenis Kelamin',
                    'type'=>'raw',
                    'value'=>'((!empty($data->jeniskelamin)&&($data->statusperiksa!=Params::STATUSPERIKSA_SUDAH_PULANG)) ? CHtml::link("<i class=icon-form-ubah></i> ".$data->jeniskelamin," ",array("onclick"=>"ubahJenisKelamin(\'$data->no_rekam_medik\');$(\'#editJenisKelamin\').dialog(\'open\');return false;", "rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik Untuk Mengubah Data Jenis Kelamin Pasien")): $data->jeniskelamin)',
                    'htmlOptions'=>array('style'=>'text-align: left')
                 ),
+                'alamat_pasien',
                 array(
-                   'name'=>'Kelompok Penyakit',
+                   'name'=>'Jenis Kasus Penyakit',
                    'type'=>'raw',
                    'value'=>'((!empty($data->jeniskasuspenyakit_nama)&& ($data->statusperiksa!=Params::STATUSPERIKSA_SUDAH_PULANG)) ? CHtml::link("<i class=icon-form-ubah></i> ".$data->jeniskasuspenyakit_nama," ",array("onclick"=>"ubahKelompokPenyakit(\'$data->pendaftaran_id\');$(\'#editKelPenyakit\').dialog(\'open\');return false;", "rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik Untuk Mengubah Data Kelompok Penyakit")): $data->jeniskasuspenyakit_nama)',
                    'htmlOptions'=>array(
@@ -90,11 +94,6 @@ $('.search-form form').submit(function(){
                    'value'=>'$data->statusmasuk',
                 ),
                 array(
-                    'header'=>'Status Konfirmasi',
-                    'type'=>'raw',
-                    'value'=>'($data->status_konfirmasi == "" ) ? "-" : $data->status_konfirmasi',
-                ),
-                array(
                     'header'=>'Perujuk',
                     'type'=>'raw',
                     'value'=>function($data) {
@@ -102,6 +101,33 @@ $('.search-form form').submit(function(){
                         $r = RujukanT::model()->findByPk($p->rujukan_id);
                         return $data->asalrujukan_nama."/<br/>".(empty($r)?"-":$r->rujukandari->namaperujuk);
                     },
+                ),
+                array(
+                'name'=>'CaraBayar/Penjamin',
+                'type'=>'raw',
+//                'value'=>'((!empty($data->CaraBayarPenjamin)&&($data->statusperiksa!=Params::STATUSPERIKSA_SUDAH_PULANG)) ? 
+//					CHtml::link("<i class=icon-pencil-brown></i> ".$data->CaraBayarPenjamin," ",
+//					array("onclick"=>"ubahCaraBayar(\'$data->nama_pasien\');
+//						listCaraBayar(\'$data->carabayar_id\');
+//						setIdPendaftaran(\'$data->pendaftaran_id\',\'$data->no_pendaftaran\');
+//						$(\'#carabayardialog\').dialog(\'open\');return false;",
+//						"rel"=>"tooltip", "title"=>"Klik Untuk Mengubah Cara Bayar & Penjamin pasien")) : $data->CaraBayarPenjamin) ',
+                                        'value'=>'((!empty($data->CaraBayarPenjamin)&&($data->statusperiksa!=Params::STATUSPERIKSA_BATAL_PERIKSA)) ? 
+                    CHtml::Link("<i class=icon-form-ubah></i>$data->CaraBayarPenjamin",Yii::app()->createUrl("pendaftaranPenjadwalan/infoKunjunganRJ/ubahCaraBayar",array("id"=>$data->pendaftaran_id,"menu"=>"RJ","frame"=>true)),
+                            array("class"=>"", 
+                                  "onclick"=>"$(\'#carabayardialog\').dialog(\'open\');loadFormCaraBayar(this);return false;",
+                                  "rel"=>"tooltip",
+                                  "title"=>"Klik Untuk Mengubah Cara Bayar & Penjamin pasien",
+                    )): $data->CaraBayarPenjamin)',
+                 'htmlOptions'=>array(
+                     'style'=>'text-align: left',
+                     'class'=>'inap'
+                 )
+                ),
+                array(
+                    'header'=>'Status Konfirmasi',
+                    'type'=>'raw',
+                    'value'=>'($data->status_konfirmasi == "" ) ? "-" : $data->status_konfirmasi',
                 ),
                 //  array(
                 //    'header'=>'P3 / Asuransi',
@@ -126,31 +152,9 @@ $('.search-form form').submit(function(){
 //                   )
 //                ),
                 array(
-                'name'=>'CaraBayar/Penjamin',
-                'type'=>'raw',
-//                'value'=>'((!empty($data->CaraBayarPenjamin)&&($data->statusperiksa!=Params::STATUSPERIKSA_SUDAH_PULANG)) ? 
-//					CHtml::link("<i class=icon-pencil-brown></i> ".$data->CaraBayarPenjamin," ",
-//					array("onclick"=>"ubahCaraBayar(\'$data->nama_pasien\');
-//						listCaraBayar(\'$data->carabayar_id\');
-//						setIdPendaftaran(\'$data->pendaftaran_id\',\'$data->no_pendaftaran\');
-//						$(\'#carabayardialog\').dialog(\'open\');return false;",
-//						"rel"=>"tooltip", "title"=>"Klik Untuk Mengubah Cara Bayar & Penjamin pasien")) : $data->CaraBayarPenjamin) ',
-                                        'value'=>'((!empty($data->CaraBayarPenjamin)&&($data->statusperiksa!=Params::STATUSPERIKSA_BATAL_PERIKSA)) ? 
-                    CHtml::Link("<i class=icon-form-ubah></i>$data->CaraBayarPenjamin",Yii::app()->createUrl("pendaftaranPenjadwalan/infoKunjunganRJ/ubahCaraBayar",array("id"=>$data->pendaftaran_id,"menu"=>"RJ","frame"=>true)),
-                            array("class"=>"", 
-                                  "onclick"=>"$(\'#carabayardialog\').dialog(\'open\');loadFormCaraBayar(this);return false;",
-                                  "rel"=>"tooltip",
-                                  "title"=>"Klik Untuk Mengubah Cara Bayar & Penjamin pasien",
-                    )): $data->CaraBayarPenjamin)',
-                 'htmlOptions'=>array(
-                     'style'=>'text-align: left',
-                     'class'=>'inap'
-                 )
-                ),
-                array(
-                   'name'=>'Nama Dokter',
+                   'name'=>'Poliklinik/<br/>Nama Dokter',
                    'type'=>'raw',
-                   'value'=>'"<div style=\'width:100px;\'>" . ((!empty($data->nama_pegawai)&& ($data->statusperiksa!=Params::STATUSPERIKSA_SUDAH_PULANG)) ? CHtml::link("<i class=icon-form-ubah></i> ". $data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama," ",array("onclick"=>"ubahDokterPeriksa(\'$data->pendaftaran_id\');$(\'#editDokterPeriksa\').dialog(\'open\');return false;", "rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik Untuk Mengubah Data Dokter Periksa")) : $data->nama_pegawai) . "</div>"',
+                   'value'=>'((!empty($data->ruangan_nama)&&($data->statusperiksa==Params::STATUSPERIKSA_ANTRIAN)) ? CHtml::link("<i class=icon-form-ubah></i> ".$data->ruangan_nama,"javascript:gantiPoli(\'$data->pendaftaran_id\',\'$data->ruangan_id\',\'$data->instalasi_id\',\'$data->pasien_id\',\'$data->nama_pasien\',\'$data->jeniskasuspenyakit_id\',\'$data->pegawai_id\',\'$data->kelaspelayanan_id\');",array("rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik Untuk Mengubah Poliklinik")) : $data->ruangan_nama)."<br/>".((!empty($data->nama_pegawai)&& ($data->statusperiksa!=Params::STATUSPERIKSA_SUDAH_PULANG)) ? CHtml::link("<i class=icon-form-ubah></i> ". $data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama," ",array("onclick"=>"ubahDokterPeriksa(\'$data->pendaftaran_id\');$(\'#editDokterPeriksa\').dialog(\'open\');return false;", "rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik Untuk Mengubah Data Dokter Periksa")) : $data->nama_pegawai)',
                    'htmlOptions'=>array(
                        'style'=>'text-align:center;'
                       // 'class'=>'rajal'
@@ -165,15 +169,28 @@ $('.search-form form').submit(function(){
                       // 'class'=>'rajal'
                    )
                 ),
-                 * */
+                 * 
                 array(
                    'header'=>'Poliklinik',
                    'name'=>'ruangan_nama',
                    'type'=>'raw',
-                   'value'=>'((!empty($data->ruangan_nama)&&($data->statusperiksa==Params::STATUSPERIKSA_ANTRIAN)) ? "<div style=\'width:100px;\'>" . CHtml::link("<i class=icon-form-ubah></i> ".$data->ruangan_nama,"javascript:gantiPoli(\'$data->pendaftaran_id\',\'$data->ruangan_id\',\'$data->instalasi_id\',\'$data->pasien_id\',\'$data->nama_pasien\',\'$data->jeniskasuspenyakit_id\',\'$data->pegawai_id\',\'$data->kelaspelayanan_id\');",array("rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik Untuk Mengubah Poliklinik")) . "</div>" : $data->ruangan_nama) ',
+                   'value'=>'',
                    'htmlOptions'=>array('style'=>'text-align: left')
                 ),
-				array(
+                 * 
+                 */
+                
+                array(
+                   'name'=>'statusperiksa',
+                   'type'=>'raw',
+//                     'value'=>'$data->statusperiksa.CHtml::link("<i class=icon-pencil></i>","",array("href"=>"","rel"=>"tooltip","title"=>"Klik Untuk Mengubah Status Periksa","onclick"=>"{buatSessionUbahStatus($data->pendaftaran_id);}return false;"))',
+                   'value'=>'((!empty($data->statusperiksa)&& ($data->statusperiksa==Params::STATUSPERIKSA_ANTRIAN)) ? CHtml::link("<i class=icon-form-silang></i> ".$data->statusperiksa, "javascript:dialogBatalPeriksa(\'$data->pendaftaran_id\',\'$data->statusperiksa\',\'$data->nama_pasien\');",array("rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik Membatalkan Pemeriksaan")) : $data->statusperiksa) ',
+                   'htmlOptions'=>array(
+                           'style'=>'text-align: left',
+                           'class'=>'status'
+                   )
+                ),
+		array(
                    'name'=>'keterangan_pendaftaran',
                    'type'=>'raw',
 				   'value'=>'"<div style=\'width:100px;\'>" . CHtml::link("<i class=icon-form-ubah></i>". $data->keterangan_pendaftaran," ",array("onclick"=>"ubahKeterangan(\'$data->pendaftaran_id\');$(\'#editKeterangan\').dialog(\'open\');return false;", "rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik Untuk Mengubah Keterangan Pendaftaran")) . "</div>"',
@@ -235,16 +252,6 @@ $('.search-form form').submit(function(){
 //                       'class'=>'status'
 //                   )
 //                ),
-                                        array(
-                                           'name'=>'statusperiksa',
-                                           'type'=>'raw',
-        //                     'value'=>'$data->statusperiksa.CHtml::link("<i class=icon-pencil></i>","",array("href"=>"","rel"=>"tooltip","title"=>"Klik Untuk Mengubah Status Periksa","onclick"=>"{buatSessionUbahStatus($data->pendaftaran_id);}return false;"))',
-                                           'value'=>'((!empty($data->statusperiksa)&& ($data->statusperiksa==Params::STATUSPERIKSA_ANTRIAN)) ? CHtml::link("<i class=icon-form-silang></i> ".$data->statusperiksa, "javascript:dialogBatalPeriksa(\'$data->pendaftaran_id\',\'$data->statusperiksa\',\'$data->nama_pasien\');",array("rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik Membatalkan Pemeriksaan")) : $data->statusperiksa) ',
-                                           'htmlOptions'=>array(
-                                                   'style'=>'text-align: left',
-                                                   'class'=>'status'
-                                           )
-                                        ),
 //                array(
 //					'name'=>'statusperiksa',
 //					'type'=>'raw',
@@ -259,7 +266,7 @@ $('.search-form form').submit(function(){
                     'type'=>'raw',
                     'value'=>function($data) {
                         $lp = LoginpemakaiK::model()->findByPk($data->create_loginpemakai_id);
-                        return $lp->nama_pemakai;
+                        return empty($lp->pegawai_id)?$lp->nama_pemakai:$lp->pegawai->nama_pegawai;
                     }
                 )
             ),
@@ -372,8 +379,12 @@ $('.search-form form').submit(function(){
                 ?>
             </td>
             <td>
-                <?php echo $form->dropDownListRow($modPPInfoKunjunganRJV, 'statusperiksa', 
-                        Params::statusPeriksa(), array('empty'=>'-- Pilih --')); ?>
+                <?php echo $form->dropDownListRow($modPPInfoKunjunganRJV, 'ruangan_id', CHtml::listData(RuanganM::model()->findAllByAttributes(array(
+                            'instalasi_id'=>Params::INSTALASI_ID_RJ,
+                            'ruangan_aktif' => true,
+                        ), array(
+                            'order'=>'ruangan_nama asc'
+                        )), 'ruangan_id', 'ruangan_nama'), array('empty'=>'-- Pilih --')); ?>
                 
                 <?php echo $form->dropDownListRow($modPPInfoKunjunganRJV, 'pegawai_id', 
                         CHtml::listData(DokterV::model()->findAllByAttributes(array(
@@ -383,12 +394,34 @@ $('.search-form form').submit(function(){
                             'order'=>'nama_pegawai asc'
                         )), 'pegawai_id', 'namaLengkap'), array('empty'=>'-- Pilih --')); ?>
                 
-                <?php echo $form->dropDownListRow($modPPInfoKunjunganRJV, 'ruangan_id', CHtml::listData(RuanganM::model()->findAllByAttributes(array(
-                            'instalasi_id'=>Params::INSTALASI_ID_RJ,
-                            'ruangan_aktif' => true,
-                        ), array(
-                            'order'=>'ruangan_nama asc'
-                        )), 'ruangan_id', 'ruangan_nama'), array('empty'=>'-- Pilih --')); ?>
+                <?php echo $form->dropDownListRow($modPPInfoKunjunganRJV, 'statusperiksa', 
+                        Params::statusPeriksa(), array('empty'=>'-- Pilih --')); ?>
+                
+                <div class="control-group">
+                    <?php echo CHtml::label('Petugas Loket', 'create_loginpemakai_id', array('class'=>'control-label')); ?>
+                    <div class="controls">
+                            <?php 
+                            
+                            $cp = new CDbCriteria;
+                            $cp->join = 'join pegawairuangan_v p on p.pegawai_id = t.pegawai_id';
+                            $cp->compare('p.ruangan_id', Yii::app()->user->getState('ruangan_id'));
+                            $cp->order = 't.nama_pemakai';
+                            
+                            $p = LoginpemakaiK::model()->findAll($cp);
+                            
+                            $arr = array();
+                            
+                            foreach ($p as $item) {
+                                if (!empty($item->pegawai_id)) {
+                                    $arr[$item->loginpemakai_id] = $item->pegawai->nama_pegawai;
+                                }
+                            }
+                            
+                            // var_dump($arr); die;
+                            
+                            echo $form->dropDownList($modPPInfoKunjunganRJV, 'create_loginpemakai_id', $arr, array('empty'=>'-- Pilih --')); ?>
+                        </div>
+                </div>
                 
                 <?php /* echo $form->dropDownListRow($modPPInfoKunjunganRJV,'kabupaten_id',array(),
                                    array('empty'=>'-- Pilih --',

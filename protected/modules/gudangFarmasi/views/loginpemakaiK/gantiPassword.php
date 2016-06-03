@@ -1,5 +1,29 @@
 <div class="white-container">
     <legend class="rim2">Ganti <b>Kata Kunci</b></legend>
+<style>
+    .password_strength {
+        margin-left: 10px;
+        padding: 5px;
+        border-radius: 3px;
+    }
+    .password_strength_1 {
+	background-color: #fcb6b1;
+    }
+    .password_strength_2 {
+        background-color: #fccab1;
+    }
+    .password_strength_3 {
+        background-color: #fcfbb1;
+    }
+    .password_strength_4 {
+        background-color: #dafcb1;
+    }
+    .password_strength_5 {
+        background-color: #bcfcb1;
+    }
+</style>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/passchecker/js/jquery.password_strength.js'); ?>
+<?php Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl.'/js/passchecker/css/style.js'); ?>
     <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form.js'); ?>
     <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
             'id'=>'loginpemakai-k-form',
@@ -26,8 +50,8 @@
     </div>
         
     <?php  
-                echo $form->passwordFieldRow($model,'new_password',array('class'=>'span3',  'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>200));
-                echo $form->passwordFieldRow($model,'new_password_repeat',array('class'=>'span3',  'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50));
+                echo $form->passwordFieldRow($model,'new_password',array('class'=>'span3',  'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>200,'onblur'=>'cekPassLama(this);'));
+                echo $form->passwordFieldRow($model,'new_password_repeat',array('class'=>'span3',  'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50,'onblur'=>'cekPassBaru(this);'));
                 echo CHtml::hiddenfield('prevUrl',$prevUrl);
     ?>
     <div class="form-actions">
@@ -50,7 +74,28 @@ $js = <<< JSCRIPT
         $('#LoginpemakaiK_old_password').val('');
         $('#LoginpemakaiK_new_password_repeat').val('');
    }
-
+		
 JSCRIPT;
 Yii::app()->clientScript->registerScript('kosongkanPassword', $js, CClientScript::POS_READY);
+?>
+<script type="text/javascript">
+function cekPassLama(obj){
+	var pass_lama = $('#<?php echo CHtml::activeId($model,'old_password'); ?>').val();
+	var pass_baru = $(obj).val();
+	if(pass_baru == pass_lama){
+		myAlert('kata kunci baru tidak boleh sama dengan kata kunci lama');
+	}
+}	
+function cekPassBaru(obj){
+	var pass_baru = $('#<?php echo CHtml::activeId($model,'new_password'); ?>').val();
+	var pass_baru_repeat = $(obj).val();
+	if(pass_baru_repeat != pass_baru){
+		myAlert('ulang kata kunci harus sama dengan kata kunci baru');
+	}
+}
+
+$(document).ready(function() {
+        $('#LoginpemakaiK_new_password').password_strength();
+});
+</script>
 ?>

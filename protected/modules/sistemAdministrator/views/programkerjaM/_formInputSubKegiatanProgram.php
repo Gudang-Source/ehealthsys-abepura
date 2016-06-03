@@ -22,14 +22,14 @@
     <div class="control-group ">
         <label class="control-label required" for="SASubkegiatanprogramM_subkegiatanprogram_kode">Kode&nbsp;<span class="required">*</span></label>
         <div class="controls">
-            <?php echo $form->textField($subKegiatanProgram, 'programkerja_kode', array('class' => 'span1', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 6, 'readonly' => true)); ?>
-            <?php echo $form->textField($subKegiatanProgram, 'subprogramkerja_kode', array('class' => 'span1', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 6, 'readonly' => true)); ?>
-            <?php echo $form->textField($subKegiatanProgram, 'kegiatanprogram_kode', array('class' => 'span1', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 6, 'readonly' => true)); ?>
-            <?php echo $form->textField($subKegiatanProgram, 'subkegiatanprogram_kode', array('class' => 'span1 reqForm', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 6, 'readonly' => false)); ?>
+            <?php echo $form->textField($subKegiatanProgram, 'programkerja_kode', array('class' => 'span1', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 5, 'readonly' => true)); ?>
+            <?php echo $form->textField($subKegiatanProgram, 'subprogramkerja_kode', array('class' => 'span1', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 5, 'readonly' => true)); ?>
+            <?php echo $form->textField($subKegiatanProgram, 'kegiatanprogram_kode', array('class' => 'span1', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 5, 'readonly' => true)); ?>
+            <?php echo $form->textField($subKegiatanProgram, 'subkegiatanprogram_kode', array('class' => 'span1 reqForm', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 5, 'readonly' => false)); ?>
         </div>
     </div>
-    <?php echo $form->textFieldRow($subKegiatanProgram, 'subkegiatanprogram_nama', array('class' => 'span3 reqForm', 'onkeyup' => 'autoInput();', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 32, 'readonly' => false)); ?>
-    <?php echo $form->textFieldRow($subKegiatanProgram, 'subkegiatanprogram_namalain', array('class' => 'span3 reqForm', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 32, 'readonly' => false)); ?>
+    <?php echo $form->textFieldRow($subKegiatanProgram, 'subkegiatanprogram_nama', array('class' => 'span3 reqForm', 'onkeyup' => 'autoInput();', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 255, 'readonly' => false)); ?>
+    <?php echo $form->textFieldRow($subKegiatanProgram, 'subkegiatanprogram_namalain', array('class' => 'span3 reqForm', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 255, 'readonly' => false)); ?>
     <div class="control-group ">
         <label class="control-label required" for="SASubkegiatanprogramM_rekeningdebit_id">Rekening Debit Akutansi&nbsp;<span class="required">*</span></label>
         <div class="controls">

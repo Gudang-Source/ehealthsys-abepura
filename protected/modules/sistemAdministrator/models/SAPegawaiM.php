@@ -35,6 +35,30 @@ class SAPegawaiM extends PegawaiM
                        
 				));
 	}
+        
+         public function searchPegawaiNoUser()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria=new CDbCriteria;                
+		$criteria->compare('jabatan_id',$this->jabatan_id);
+		$criteria->compare('LOWER(nomorindukpegawai)',strtolower($this->nomorindukpegawai),true);
+		$criteria->compare('LOWER(gelardepan)',strtolower($this->gelardepan),true);
+		$criteria->compare('LOWER(nama_pegawai)',strtolower($this->nama_pegawai),true);
+		$criteria->compare('LOWER(jeniskelamin)',strtolower($this->jeniskelamin),true);
+                $criteria->compare('LOWER(alamat_pegawai)',strtolower($this->alamat_pegawai),true);
+                $criteria->compare('LOWER(tempatlahir_pegawai)',strtolower($this->tempatlahir_pegawai),true);               
+                $criteria->addCondition("loginpemakai_id is null ");          
+		$criteria->compare('pegawai_aktif',true);
+		
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+                       
+				));
+	}
+        
+    
 
     public function getKabupatenItems($propinsi_id=null){
         if (!empty($propinsi_id)) {
@@ -71,7 +95,40 @@ class SAPegawaiM extends PegawaiM
         return $provider;
     }
     
+    public function getSukuNama()
+    {
+        return isset($this->suku_id)?$this->suku->suku_nama:'';
+    }
     
+    public function getAksesRuangan()
+        {
+            $loginpemakai=LoginpemakaiK::model()->find("pegawai_id='$this->pegawai_id'");
+           
+            $login = new CDbCriteria();
+            $login->with = array('ruangan');
+            $login->addCondition('loginpemakai_id ='.$loginpemakai->loginpemakai_id);
+            $login->order = 'ruangan.ruangan_nama ASC';
+            return RuanganpemakaiK::model()->findAll($login);
+        }
+        
+        public function getAksesModul()
+        {
+            $loginpemakai=LoginpemakaiK::model()->find("pegawai_id='$this->pegawai_id'");
+           
+            $login = new CDbCriteria();
+            $login->with = array('modul');
+            $login->addCondition('loginpemakai_id ='.$loginpemakai->loginpemakai_id);
+            $login->order = 'modul.modul_nama ASC';
+           return AksespenggunaK::model()->findAll($login);
+        }
+        
+        public function getGelarDepanItems(){
+		   return LookupM::model()->findAllByAttributes(array('lookup_type'=>'gelardepan'), array('order'=>'lookup_name asc'));
+	   }
+           
+           public function getJenisTenagaMedisItems(){
+			return JenistenagamedisM::model()->findAllByAttributes(array('jenistenagamedis_aktif'=>TRUE), array('order'=>'tenagamedis_nama asc'));
+		}
     
     /**
      * Overide function karena ada format tanggal yang salah saat simpan / update

@@ -28,6 +28,7 @@ class InformasiPasienPenunjangController extends MyAuthController
                 $model->nama_pasien = $_GET['PPPasienMasukPenunjangT']['nama_pasien'];
                 $model->carabayar_id = $_GET['PPPasienMasukPenunjangT']['carabayar_id'];
                 $model->penjamin_id = $_GET['PPPasienMasukPenunjangT']['penjamin_id'];
+                $model->create_loginpemakai_id = $_GET['PPPasienMasukPenunjangT']['create_loginpemakai_id'];
                 $model->statusperiksa_pendaftaran = $_GET['PPPasienMasukPenunjangT']['statusperiksa_pendaftaran'];
             }                
             $this->render($this->path_view.'index',array(

@@ -54,6 +54,7 @@ class RekeningPelayananAKController extends RekeningPelayananController
                             $model_d->jnspelayanan = $_POST['AKPelayananRekM']['jnspelayanan'];
                             $model_d->komponentarif_id = $_POST['AKPelayananRekM']['komponentarif_id'];
                             $model_d->rekening5_id = $_POST['AKPelayananRekM']['rekening5_id_d'];
+                            $model_d->debitkredit = "D";
                             
                             $model_k = new AKPelayananRekM;
                             $model_k->ruangan_id = $_POST['AKPelayananRekM']['ruangan_id'];
@@ -61,6 +62,9 @@ class RekeningPelayananAKController extends RekeningPelayananController
                             $model_k->jnspelayanan = $_POST['AKPelayananRekM']['jnspelayanan'];
                             $model_k->komponentarif_id = $_POST['AKPelayananRekM']['komponentarif_id'];
                             $model_k->rekening5_id = $_POST['AKPelayananRekM']['rekening5_id_k'];
+                            $model_k->debitkredit = "K";
+                            
+                            // var_dump($model_k->attributes); die;
                             
                             if ($model_d->save() && $model_k->save()) {
                                 $transaction->commit();

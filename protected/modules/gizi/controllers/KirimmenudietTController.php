@@ -493,9 +493,54 @@ class KirimmenudietTController extends MyAuthController
         protected function saveTindakanPelayanan($modDetail)
         {            
             $valid=true;
+            
+            // var_dump($_POST['KirimmenupasienT']);
+            
+            $arr = array();
+            
             if (count($_POST['KirimmenupasienT']) > 0){
-            foreach($_POST['KirimmenupasienT'] as $i=>$v){
+            foreach($_POST['KirimmenupasienT'] as $i=>$v) {
                 if ($v['checkList'] == 1){
+                    // var_dump($v);
+                    $pid = $v['pendaftaran_id'];
+                    if (empty($arr[$v['pendaftaran_id']])) $arr[$v['pendaftaran_id']] = array(
+                        'pendaftaran_id'=>$v['pendaftaran_id'],
+                        'pasienadmisi_id'=>null,
+                        'pasien_id'=>$v['pasien_id'],
+                        'penjamin_id'=>$v['penjamin_id'],
+                        'jeniskasuspenyakit_id'=>$v['jeniskasuspenyakit_id'],
+                        'ruangan_id'=>$v['ruangan_id'],
+                    );
+                    
+                    if (is_array($arr[$v['pendaftaran_id']]['penjamin_id'])) {
+                        $arr[$v['pendaftaran_id']]['penjamin_id'] = $arr[$v['pendaftaran_id']]['penjamin_id'][1];
+                    }
+                    
+                    if (is_array($arr[$v['pendaftaran_id']]['jeniskasuspenyakit_id'])) {
+                        $arr[$v['pendaftaran_id']]['jeniskasuspenyakit_id'] = $arr[$v['pendaftaran_id']]['jeniskasuspenyakit_id'][1];
+                    }
+                    
+                    if (!empty($v['pasienadmisi_id'])) {
+                        $arr[$pid]['pasienadmisi_id'] = $v['pasienadmisi_id'];
+                    }
+                    
+                    foreach($v['daftartindakan_id'] as $j=>$x) {     
+                        // var_dump($j, $x);
+                        if (empty($arr[$pid]['daftartindakan_id'])) {
+                            $arr[$pid]['daftartindakan_id'] = $x;
+                        }
+                        if (empty($arr[$pid]['carabayar_id'])) {
+                            $arr[$pid]['carabayar_id'] = $v['carabayar_id'][$j];
+                        }
+                        if (empty($arr[$pid]['kelaspelayanan_id'])) {
+                            $arr[$pid]['kelaspelayanan_id'] = $v['kelaspelayanan_id'][$j];
+                        }
+                        if (empty($arr[$pid]['satuanTarif'])) {
+                            $arr[$pid]['satuanTarif'] = $v['satuanTarif'][$j];
+                        }
+                    }
+                    
+                    /*
                     foreach($v['menudiet_id'] as $j=>$x){                      
                         if (!empty($x)){
                             
@@ -568,10 +613,97 @@ class KirimmenudietTController extends MyAuthController
                                 $this->successSaveTindakan = false;
                             }
                         }
+                    } */
+                }
+            }
+            
+            foreach ($arr as $id=>$item) {
+                
+                $modTindakans = null;
+                
+                if (!empty($item['pasienadmisi_id'])) {
+                    $a = PasienadmisiT::model()->findByPk($item['pasienadmisi_id']);
+                    $item['kelaspelayanan_id'] = $a->kelaspelayanan_id;
+                }
+                
+                $criteria = new CDbCriteria();
+                $criteria->compare('tgl_tindakan::date', date('Y-m-d'));
+                $criteria->compare('pendaftaran_id', $item['pendaftaran_id']);
+                $criteria->compare('pasienadmisi_id', $item['pasienadmisi_id']);
+                $criteria->compare('pasien_id', $item['pasien_id']);
+                $criteria->compare('penjamin_id', $item['penjamin_id']);
+                $criteria->compare('carabayar_id', $item['carabayar_id']);
+                $criteria->compare('daftartindakan_id', $item['daftartindakan_id']);
+                $criteria->compare('kelaspelayanan_id', $item['kelaspelayanan_id']);
+                
+                // var_dump($item);
+                
+                $t = TindakanpelayananT::model()->find($criteria);
+                // var_dump($t->attributes);
+                
+                if (empty($t)) {
+                    $modTindakans = new TindakanpelayananT;
+                    $modTindakans->attributes=$item;
+
+                    $modTindakans->penjamin_id = (int) $item['penjamin_id'];
+                    $modTindakans->pasien_id = $item['pasien_id'];
+                    $modTindakans->kelaspelayanan_id = (int) $item['kelaspelayanan_id'];
+                    $modTindakans->tipepaket_id = Params::TIPEPAKET_ID_NONPAKET;
+                    $modTindakans->instalasi_id = Params::INSTALASI_ID_GIZI; //$modPendaftaran->instalasi_id;
+                    $modTindakans->pendaftaran_id = $item['pendaftaran_id'];
+                    $modTindakans->shift_id = Yii::app()->user->getState('shift_id');
+                    $modTindakans->pasienmasukpenunjang_id = null;
+                    $modTindakans->daftartindakan_id = $item['daftartindakan_id'];
+                    $modTindakans->carabayar_id = (int) $item['carabayar_id'];
+                    $modTindakans->jeniskasuspenyakit_id = (int) $item['jeniskasuspenyakit_id'];
+                    $modTindakans->tgl_tindakan = date('Y-m-d H:i:s');
+                    $modTindakans->tarif_satuan = $modTindakans->getTarifSatuan();
+                    $modTindakans->qty_tindakan = 1;
+                    $modTindakans->tarif_tindakan = $modTindakans->tarif_satuan * $modTindakans->qty_tindakan;
+                    $modTindakans->satuantindakan = "HARI";
+                    $modTindakans->cyto_tindakan = isset($item['cyto']) ? $item['cyto'] : 0;
+                    if(!$modTindakans->cyto_tindakan){ //false
+                                                        $modTindakans->tarifcyto_tindakan = 0;
+                                                }else{
+                                                        $modTindakans->tarifcyto_tindakan = $modTindakans->tarif_tindakan + ($modTindakans->tarif_tindakan * 10 / 100);
+                                                }
+                    if (isset($modPendaftaran->kelastanggungan_id)){
+                        $modTindakans->kelastanggungan_id = $modPendaftaran->kelastanggungan_id;
+                    }
+                    if (isset($modPendaftaran->pegawai_id)){
+                        $modTindakans->dokterpemeriksa1_id = $modPendaftaran->pegawai_id;
+                    }
+
+                    $modTindakans->discount_tindakan = 0;
+                    $modTindakans->subsidiasuransi_tindakan = 0;
+                    $modTindakans->subsidipemerintah_tindakan = 0;
+                    $modTindakans->subsisidirumahsakit_tindakan = 0;
+                    $modTindakans->iurbiaya_tindakan = $modTindakans->tarif_tindakan;
+                    $modTindakans->ruangan_id = Yii::app()->user->getState('ruangan_id');
+
+                    // var_dump($modTindakans->attributes);
+                    $valid = $modTindakans->validate() && $valid;
+                    // var_dump($modTindakans->errors); die;
+
+                    if($valid){
+                        if($modTindakans->save()){
+                              $statusSaveKomponen = $modTindakans->saveTindakanKomponen();
+//                                      KirimmenupasienT::model()->updateByPk($modDetail->kirimmenupasien_id,array('tindakanpelayanan_id'=>$modTindakans->tindakanpelayanan_id));
+                        }
+
+                        if($statusSaveKomponen) {
+                            $this->successSaveTindakan = true;
+                        } else {
+                            $this->successSaveTindakan = false;
+                        }
+                    } else {
+                        $this->successSaveTindakan = false;
                     }
                 }
             }
         }
+            //var_dump($arr, $this->successSaveTindakan);
+            //die;
         
             return $modTindakans;
         }

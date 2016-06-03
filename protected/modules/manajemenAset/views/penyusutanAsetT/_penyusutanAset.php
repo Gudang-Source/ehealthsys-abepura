@@ -24,7 +24,7 @@
 		<div class="control-group ">
 		<?php echo CHtml::label('Nilai Residu','residu', array('class'=>'control-label')) ?>
 			<div class="controls">
-				<?php echo $form->textField($model,'residu',array('class'=>'span3 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);",'style'=>'margin-top:-3px;')); ?>&nbsp;
+				<?php echo $form->textField($model,'residu',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);",'style'=>'margin-top:-3px;')); ?>&nbsp;
 				<?php echo CHtml::htmlButton('Hitung', array('class' => 'btn btn-primary', 'type'=>'button', 'onkeypress'=>'loadDetailPenyusutan()', 'onclick'=>'loadDetailPenyusutan()','style'=>'margin-top:-3px;')); ?>
 			</div>
 		</div>

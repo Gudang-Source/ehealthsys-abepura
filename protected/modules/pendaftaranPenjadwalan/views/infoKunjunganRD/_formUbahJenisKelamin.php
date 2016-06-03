@@ -23,7 +23,7 @@
         <?php echo CHtml::textField('jk','jk',array('readonly'=>true)); ?>
     </div>
 </div>
-<?php
+<?php        
     echo $form->radioButtonListInlineRow($model,
         'jeniskelamin',
         LookupM::getItems('jeniskelamin'),
@@ -45,8 +45,17 @@
             function(data){
                 $('#PasienM_no_rekam_medik').val(data.no_rekam_medik);
                 $('#PasienM_nama_pasien').val(data.nama_pasien);
-                $('#PasienM_pasien_id').val(data.pasien_id);
-                $('#jk').val(data.jeniskelamin);
+                $('#PasienM_pasien_id').val(data.pasien_id);                
+                $('#jk').val(data.jeniskelamin);            
+                
+                if (data.jeniskelamin == "PEREMPUAN")
+                {
+                    $('#PasienM_jeniskelamin_1').prop('checked',true);
+                }
+                else
+                {
+                    $('#PasienM_jeniskelamin_0').prop('checked',true);
+                }
         }, "json");
     }
     loadDataPasien();

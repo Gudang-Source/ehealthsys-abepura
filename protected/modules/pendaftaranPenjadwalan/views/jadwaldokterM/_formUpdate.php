@@ -13,7 +13,7 @@
 
 	<?php echo $form->errorSummary($model); ?>
 
-            <?php echo $form->dropDownListRow($model,'ruangan_id', CHtml::listData(PPPendaftaranT::model()->getRuanganItems(), 'ruangan_id', 'ruangan_nama') ,
+            <?php echo $form->dropDownListRow($model,'ruangan_id', CHtml::listData(PPPendaftaranT::model()->getRuanganJadwalDokter(), 'ruangan_id', 'ruangan_nama') ,
                                                       array('empty'=>'-- Pilih --',
                                                             'onchange'=>"listDokterRuangan(this.value)",
                                                             'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>

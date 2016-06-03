@@ -129,7 +129,15 @@
     <div class="control-group">
         <?php echo CHtml::label("Nama Pasien", 'nama_pasien', array('class'=>'control-label')); ?>
         <div class="controls">
-            <?php echo CHtml::hiddenField('namadepan',$modPenjualan->namadepan,array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+            <?php 
+            if (!empty($modPenjualan->pasienpegawai_id)) {
+                $p = PegawaiM::model()->findByPk($modPenjualan->pasienpegawai_id);
+                $modPenjualan->nama_pasien = $p->namaLengkap;
+                $modPenjualan->tanggal_lahir = MyFormatter::formatDateTimeForUser($p->tgl_lahirpegawai);
+                $modPenjualan->jeniskelamin = $p->jeniskelamin;
+            }
+            //var_dump($modPenjualan->attributes); die;
+            echo CHtml::hiddenField('namadepan',$modPenjualan->namadepan,array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
             <?php 
                 $this->widget('MyJuiAutoComplete', array(
                                 'name'=>'nama_pasien',

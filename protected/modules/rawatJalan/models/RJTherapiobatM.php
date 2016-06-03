@@ -32,10 +32,10 @@ class RJTherapiobatM extends TherapiobatM
 		$criteria->compare('LOWER(therapiobat_nama)',strtolower($this->therapiobat_nama),true);
 		$criteria->compare('LOWER(therapiobat_namalain)',strtolower($this->therapiobat_namalain),true);
 		$criteria->compare('therapiobat_aktif',isset($this->therapiobat_aktif)?$this->therapiobat_aktif:true);
-		$criteria->limit = 5;
+		//$criteria->limit = 5;
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-			'pagination' => false,
+			//'pagination' => false,
 		));
 	}
 }

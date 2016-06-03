@@ -1,100 +1,490 @@
-<fieldset style="width:800px; ">
-        <table style="width: 800px" class="table table-bordered">
-              <tr>
-                      <td width="20%"> 
-                           <?php echo CHtml::label($model->getAttributeLabel('nama_pegawai'),$model->getAttributeLabel('nama_rumahsakit'));?>
-                      </td>
-                      <td width="30%">
-                            <?php //echo CHtml::label($model->gelardepan.' '.$model->nama_pegawai.' '.$model->gelarbelakang->gelarbelakang_nama,  $model->gelardepan.' '.$model->nama_pegawai.' '.$model->gelarbelakang->gelarbelakang_nama);?>                  
-                            <?php echo CHtml::label($model->gelardepan.' '.$model->nama_pegawai.' '.(isset($model->gelarbelakang_id)?$model->gelarbelakang->gelarbelakang_nama:""), $model->gelardepan.' '.$model->nama_pegawai.' '.(isset($model->gelarbelakang_id)?$model->gelarbelakang->gelarbelakang_nama:""));?>                  
-                       </td>
-                       
-                       <td width="20%">
-                           <?php echo CHtml::label('Username','nama_pemakai'); ?>
-                       </td>
-                       <td width="30%">
-                           <?php
-                                $loginpemakai=LoginpemakaiK::model()->find("pegawai_id='$model->pegawai_id'");
-                                echo $loginpemakai->nama_pemakai;
-                           ?>
-                       </td>
-              </tr>
-              <tr>
-                       <td width="20%"> 
-                           <?php echo CHtml::label($model->getAttributeLabel('jeniskelamin'),$model->getAttributeLabel('jeniskelamin'));?>
-                      </td>
-                      <td width="30%">
-                             <?php echo CHtml::label( $model->jeniskelamin, $model->jeniskelamin);?>                     
-                      </td>
-                      
-                      <td width="20%">
-                            <?php echo CHtml::label('Terakhir Login','terakhir login'); ?>
-                      </td>
-                      <td width="30%">
-                            <?php echo $loginpemakai->lastlogin; ?>
-                      </td>
-              </tr>
-              <tr>
-                       <td width="20%"> 
-                           <?php echo CHtml::label('Tempat Tanggal Lahir','ttl')?>
-                      </td>
-                      <td width="30%">
-                          <?php echo $model->tempatlahir_pegawai . ' ' .$model->tgl_lahirpegawai ?>
-                      </td>
-                      
-                      <td width="20%">
-                          <?php echo CHtml::label('Tanggal Pembuatan','tanggal pembuatan'); ?>
-                      </td>
-                      <td width="30%">
-                          <?php $loginpemakai->tglpembuatanlogin; ?>
-                      </td>
-              </tr>
-                <tr>
-                       <td width="20%"> 
-                           <?php echo CHtml::label($model->getAttributeLabel('jabatan_id').' / '.$model->getAttributeLabel('kelompokjabatan'),$model->getAttributeLabel('jabatan_id').'/'.$model->getAttributeLabel('kelompokjabatan'));?>
-                      </td>
-                      <td width="30%">
-                             <?php echo CHtml::label( 'jabatan',(isset($model->jabatan) ? $model->jabatan->jabatan_nama .'/' : "").$model->kelompokjabatan);?>                     
-                      </td>
-                      <td width="20%">
-                          <?php echo CHtml::label('Tanggal Update','tanggal update'); ?>
-                      </td>
-                      
-                      <td width="30%">
-                           <?php echo $loginpemakai->tglupdatelogin; ?>                          
-                      </td>
-                </tr>
-                 <tr>
-                      <td width="20%" height="2px"> 
-                           <?php echo CHtml::label($model->getAttributeLabel('agama'),$model->getAttributeLabel('agama'));?>
-                      </td>
-                      <td width="30%">
-                             <?php echo CHtml::label($model->agama, $model->agama);?>                   
-                      </td>
-					  <td width="20%" rowspan="3"> 
-                           <?php echo CHtml::label($model->getAttributeLabel('ruangan'),$model->getAttributeLabel('ruangan'));?>
-                      </td>
-                      <td width="30%" rowspan="3">
-                          <?php $this->renderPartial('_ruanganPegawai',array('pegawai_id'=>$model->pegawai_id))?>
-                      </td>
-                 </tr>
-                 <tr>
-                      <td width="20%" height="2px"> 
-                           <?php echo CHtml::label($model->getAttributeLabel('notelp_pegawai'),$model->getAttributeLabel('notelp_pegawai'));?>
-                      </td>
-                      <td width="30%">
-                             <?php echo CHtml::label($model->notelp_pegawai, $model->notelp_pegawai);?>
-                      </td>
-                 </tr>
-                <tr>
-                      <td width="20%"> 
-                           <?php echo CHtml::label($model->getAttributeLabel('alamat_pegawai'),$model->getAttributeLabel('alamat_pegawai'));?>
-                      </td>
-                   <td>
-                         <?php echo CHtml::label( $model->alamat_pegawai, $model->alamat_pegawai);?>                     
-                   </td>
-                </tr>
-        </table>
-</fieldset>
+<style>
+    .fieldtd
+    {
+        font-size:12px;
+    }
+    
+    .a{
+        background: #ffffff;
+        width: 100%;
+        margin-top: 5px;
+        margin-bottom: 10px;
+        font-size: 11px;
+        box-shadow: 0px 0px 3px #AAA7A7;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+    }
+</style>
 <?php
-$this->widget('bootstrap.widgets.BootAlert'); ?>
+    $format = new MyFormatter;
+?>
+<div class="white-container">
+    <legend class="rim2">Profil <b>User</b></legend>
+        <?php
+    $this->widget('bootstrap.widgets.BootAlert'); ?>
+                                                       
+<div class="row-fluid" style = "width:100%">    
+<fieldset class = "box" style = "border:none;">                   
+    <div class="span12">
+        <div class="span11" style = "width:100%">                               
+            <table class = "a table-condensed" style = "background:none;box-shadow:none;"> 
+                    <tr valign = "middle">
+                        <td rowspan = "5" width="20%" >
+                            <p><br></p>
+                             <?php 
+                            $url_photopegawai = (!empty($model->photopegawai) ? Params::urlPegawaiTumbsDirectory()."kecil_".$model->photopegawai : Params::urlPegawaiDirectory()."no_photo.jpeg");
+                        ?>
+                          <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; line-height: 20px;"><img style = "width:200px;height:200px;" src="<?php echo $url_photopegawai; ?>" /></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan = "4"> 
+                            <fieldset class = "box" style = "border:none;">
+                                <legend class = "rim">Data pribadi</legend>
+                                 <table class = "a table-condensed" style = "background:none;box-shadow:none;"> 
+                                    <tr>
+                                        <td> 
+                                            <?php echo CHtml::label('<b>'.$model->getAttributeLabel('unit_perusahaan').'</b>',$model->getAttributeLabel('unit_perusahaan'), array('class'=>'fieldtd'));?>
+                                        </td>
+                                        <td>
+                                            <?php echo $model->unit_perusahaan;?>
+                                        </td>  
+                                        <td> 
+                                                <?php echo CHtml::label('<b>'.$model->getAttributeLabel('jeniskelamin').'</b>','', array('class'=>'fieldtd'));?>
+                                        </td>
+                                        <td>
+                                            <?php echo $model->jeniskelamin;?>
+                                        </td> 
+                                    </tr>                                                                           
+                                    <tr>
+                                        <td> 
+                                            <?php echo CHtml::label('<b>'.$model->getAttributeLabel('nomorindukpegawai').'</b>',$model->getAttributeLabel('nomorindukpegawai'), array('class'=>'fieldtd'));?>
+                                        </td>
+                                        <td>
+                                            <?php echo $model->nomorindukpegawai;?>
+                                        </td>   
+                                        <td> 
+                                            <?php echo CHtml::label('<b>Tinggi / Berat Badan</b>','', array('class'=>'fieldtd'));?>
+                                        </td>
+                                        <td>
+                                            <?php echo $model->tinggibadan.' / '.$model->beratbadan;?>
+                                        </td>      
+                                    </tr> 
+                                    </tr>  
+                                    <tr>
+                                        <td > 
+                                            <?php echo CHtml::label('<b>No. Identitas</b>',$model->getAttributeLabel('jenisidentitas'), array('class'=>'fieldtd'));?>
+                                        </td>
+                                        <td>
+                                            <?php echo $model->jenisidentitas.' - '.$model->noidentitas;?>
+                                        </td>   
+                                        <td> 
+                                            <?php echo CHtml::label('<b>Golongan Darah / Rhesus</b>','', array('class'=>'fieldtd'));?>
+                                        </td>
+                                        <td>
+                                            <?php echo $model->golongandarah.' / '.$model->rhesus;?>
+                                        </td>    
+                                    </tr>
+                                    <tr>
+                                        <td> 
+                                            <?php echo CHtml::label('<b>'.$model->getAttributeLabel('nama_pegawai').'</b>',$model->getAttributeLabel('nama_rumahsakit'), array('class'=>'fieldtd'));?>
+                                        </td>
+                                        <td>
+                                            <?php echo CHtml::label($model->gelardepan.' '.$model->nama_pegawai.' '.(isset($model->gelarbelakang_id)?$model->gelarbelakang->gelarbelakang_nama:""),$model->gelardepan.' '.$model->nama_pegawai.' '.(isset($model->gelarbelakang_id)?$model->gelarbelakang->gelarbelakang_nama:""));?>
+                                        </td> 
+                                        <td> 
+                                               <?php echo CHtml::label('<b>'.$model->getAttributeLabel('agama').'</b>','', array('class'=>'fieldtd'));?>
+                                        </td>
+                                        <td>
+                                            <?php echo $model->agama;?>
+                                        </td>       
+                                    </tr>   
+                                    <tr>
+                                        <td> 
+                                            <?php echo CHtml::label('<b>'.$model->getAttributeLabel('nama_keluarga').'</b>','', array('class'=>'fieldtd'));?>
+                                        </td>
+                                        <td>
+                                            <?php echo $model->nama_keluarga;?>
+                                        </td>   
+                                        <td> 
+                                            <?php echo CHtml::label('<b>'.$model->getAttributeLabel('suku_id').'</b>','', array('class'=>'fieldtd'));?>
+                                        </td>
+                                        <td>
+                                            <?php echo $model->getSukuNama();?>
+                                        </td>   
+                                    </tr>  
+                                    <tr>
+                                        <td> 
+                                            <?php echo CHtml::label('<b>'.$model->getAttributeLabel('tempatlahir_pegawai').'</b>','', array('class'=>'fieldtd'));?>
+                                        </td>
+                                        <td>
+                                            <?php echo $model->tempatlahir_pegawai;?>
+                                        </td>   
+                                        <td> 
+                                            <?php echo CHtml::label('<b>'.$model->getAttributeLabel('warganegara_pegawai').'</b>','', array('class'=>'fieldtd'));?>
+                                        </td>
+                                        <td >
+                                            <?php echo $model->warganegara_pegawai;?>
+                                        </td>     
+                                    </tr> 
+                                    <tr>
+                                        <td> 
+                                            <?php echo CHtml::label('<b>'.$model->getAttributeLabel('tgl_lahirpegawai').'</b>','', array('class'=>'fieldtd'));?>
+                                        </td>
+                                        <td >
+                                            <?php echo $format->formatDateTimeForUser($model->tgl_lahirpegawai);?>
+                                        </td> 
+                                       <td > 
+                                            <?php echo CHtml::label('<b>'.$model->getAttributeLabel('statusperkawinan').'</b>','', array('class'=>'fieldtd'));?>
+                                        </td>
+                                        <td>
+                                            <?php echo $model->statusperkawinan;?>
+                                        </td>                                    
+                                    </tr>
+                                </table>
+                            </fieldset>
+                        </td>                        
+                    </tr> 
+                   
+            </table>           
+        </div>   
+    </div>
+    <div class="span9">  
+            <div class="span5" style = "width:50%">
+            <fieldset class = "box" style = "border:none;background:none;">
+                    <legend class = "rim">Alamat / Kontak</legend>
+                    <table class = "a table-condensed" style = "background:none;box-shadow:none;"> 
+                            <tr>
+                                <td width="20%"> 
+                                    <?php echo CHtml::label('<b>'.$model->getAttributeLabel('alamat_pegawai').'</b>',$model->getAttributeLabel('unit_perusahaan'));?>
+                                </td>
+                                <td width="30%">
+                                    <?php echo $model->alamat_pegawai;?>
+                                </td>   
+                            </tr>                                                                           
+                            <tr>
+                                    <td width="20%"> 
+                                        <?php echo CHtml::label('<b>'.$model->getAttributeLabel('propinsi_id').'</b>',$model->getAttributeLabel('nomorindukpegawai'));?>
+                                    </td>
+                                    <td width="30%">
+                                        <?php echo isset($model->propinsi_id)?$model->propinsi->propinsi_nama:"";?>
+                                    </td>   
+                            </tr> 
+                             <tr>
+                                    <td width="20%"> 
+                                        <?php echo CHtml::label('<b>'.$model->getAttributeLabel('kabupaten_id').'</b>',$model->getAttributeLabel('nomorindukpegawai'));?>
+                                    </td>
+                                    <td width="30%">
+                                        <?php echo isset($model->kabupaten_id)?$model->kabupaten->kabupaten_nama:"";?>
+                                    </td>   
+                            </tr> 
+                             <tr>
+                                    <td width="20%"> 
+                                        <?php echo CHtml::label('<b>'.$model->getAttributeLabel('kecamatan_id').'</b>',$model->getAttributeLabel('nomorindukpegawai'));?>
+                                    </td>
+                                    <td width="30%">
+                                        <?php echo isset($model->kecamatan_id)?$model->kecamatan->kecamatan_nama:"";?>
+                                    </td>   
+                            </tr> 
+                             <tr>
+                                    <td width="20%"> 
+                                        <?php echo CHtml::label('<b>'.$model->getAttributeLabel('kelurahan_id').'</b>',$model->getAttributeLabel('nomorindukpegawai'));?>
+                                    </td>
+                                    <td width="30%">
+                                        <?php echo isset($model->kelurahan_id)?$model->kelurahan->kelurahan_nama:"";?>
+                                    </td>   
+                            </tr> 
+                            <tr>
+                                <td width="20%"> 
+                                    <?php echo CHtml::label('<b>'.$model->getAttributeLabel('garis_latitude').'</b>',$model->getAttributeLabel('unit_perusahaan'));?>
+                                </td>
+                                <td width="30%">
+                                    <?php echo $model->garis_latitude;?>
+                                </td>   
+                            </tr> 
+                            <tr>
+                                <td width="20%"> 
+                                    <?php echo CHtml::label('<b>'.$model->getAttributeLabel('garis_longitude').'</b>',$model->getAttributeLabel('unit_perusahaan'));?>
+                                </td>
+                                <td width="30%">
+                                    <?php echo $model->garis_longitude;?>
+                                </td>   
+                            </tr> 
+                            <tr>
+                                <td width="20%"> 
+                                    <?php echo CHtml::label('<b>No. Telp / Hp</b>',$model->getAttributeLabel('unit_perusahaan'));?>
+                                </td>
+                                <td width="30%">
+                                    <?php echo $model->notelp_pegawai.' / '.$model->nomobile_pegawai;?>
+                                </td>   
+                            </tr> 
+                            <tr>
+                                <td width="20%"> 
+                                    <?php echo CHtml::label('<b>'.$model->getAttributeLabel('alamatemail').'</b>',$model->getAttributeLabel('unit_perusahaan'));?>
+                                </td>
+                                <td width="30%">
+                                    <?php echo $model->alamatemail;?>
+                                </td>   
+                            </tr> 
+                    </table>
+            </fieldset>
+             </div> 
+             <div class = "span5"  style = "width:48%">
+                <p></p>
+                <fieldset class = "box" style = "border:none;background:none;">
+                    <legend class = "rim">Data Lain - Lain</legend>
+                    <table class = "a table-condensed" style = "background:none;box-shadow:none;"> 
+                            
+                            <tr>
+                                <td width="20%"> 
+                                    <?php echo CHtml::label('<b>'.$model->getAttributeLabel('statuskepemilikanrumah_id').'</b>',$model->getAttributeLabel('unit_perusahaan'));?>
+                                </td>
+                                <td width="30%">
+                                    <?php echo isset($model->statuskepemilikanrumah_id)?$model->statuskepemilikanrumah->statuskepemilikanrumah_nama:"";?>
+                                </td>   
+                            </tr>                                                                                                      
+                            <tr>
+                                <td width="20%"> 
+                                    <?php echo CHtml::label('<b>'.$model->getAttributeLabel('kemampuanbahasa').'</b>',$model->getAttributeLabel('unit_perusahaan'));?>
+                                </td>
+                                <td width="30%">
+                                    <?php echo $model->kemampuanbahasa;?>
+                                </td>   
+                            </tr>   
+                            <tr>
+                                <td width="20%"> 
+                                    <?php echo CHtml::label('<b>'.$model->getAttributeLabel('warnakulit').'</b>',$model->getAttributeLabel('unit_perusahaan'));?>
+                                </td>
+                                <td width="30%">
+                                    <?php echo $model->warnakulit;?>
+                                </td>   
+                            </tr>   
+                    </table>
+                </fieldset>
+            </div> 
+            <div class="span12">
+                <div class="span5" style = "width:40%">
+                <fieldset class = "box" style = "border:none;background:none;">
+                    <legend class = "rim">Data User</legend>
+                    <table class = "a table-condensed" style = "background:none;box-shadow:none;"> 
+                             <tr>                                                    
+                                <td width="20%">
+                                    <?php echo CHtml::label('<b>Nama Pemakai</b>','nama_pemakai'); ?>
+                                </td>
+                                <td width="30%">
+                                    <?php
+                                         $loginpemakai=LoginpemakaiK::model()->find("pegawai_id='$model->pegawai_id'");
+                                         echo $loginpemakai->nama_pemakai;
+                                    ?>
+                                </td>                               
+                            </tr>
+                                <tr>
+                                    <td width="20%">
+                                          <?php echo CHtml::label('<b>Terakhir Login</b>','terakhir login'); ?>
+                                    </td>
+                                    <td width="30%">
+                                          <?php echo $format->formatDateTimeForUser($loginpemakai->lastlogin); ?>
+                                    </td>                                    
+                                </tr>
+                                <tr>
+                                    <td width="20%">
+                                        <?php echo CHtml::label('<b>Tanggal Pembuatan</b>','tanggal pembuatan'); ?>
+                                    </td>
+                                    <td width="30%">
+                                        <?php $format->formatDateTimeForUser($loginpemakai->tglpembuatanlogin); ?>
+                                    </td>
+                                </tr>
+                                <tr>                                    
+                                   <td width="20%">
+                                       <?php echo CHtml::label('<b>Tanggal Update</b>','tanggal update'); ?>
+                                   </td>
+
+                                   <td width="30%">
+                                        <?php echo $format->formatDateTimeForUser($loginpemakai->tglupdatelogin); ?>                          
+                                   </td>
+                                </tr>
+                    </table>                    
+                </fieldset>
+                </div>
+                <div class="span5" style = "width:40%">
+                <fieldset class = "box" style = "border:none;background:none;">
+                    <legend class = "rim">Akses SIMRS</legend>
+                    <table class = "a table-condensed" style = "background:none;box-shadow:none;"> 
+                             <tr>                                                                                    
+                                <td> 
+                                    <?php echo CHtml::label('<b>Akses Ruangan</b>',$model->getAttributeLabel('ruangan'));?>
+                               </td>
+                               <td> 
+                                   <?php //$this->renderPartial('_ruanganPegawai',array('pegawai_id'=>$model->pegawai_id))?>
+                                   <?php         
+                                            $modRuang= $model->getAksesRuangan();
+                                            if(COUNT($modRuang)>0)
+                                                {   
+                                                    echo "<ul>"; 
+                                                    foreach($modRuang as $i=>$tampilDataR)
+                                                    {
+                                                        echo "<li>".$tampilDataR->ruangan->ruangan_nama.'</li>';
+                                                    }
+                                                    echo "</ul>";
+                                                }
+                                            else
+                                                {
+                                                    echo Yii::t('zii','Not set');
+                                                }   
+                                        ?>
+                               </td>
+                            </tr>
+                                <tr>                                   
+                                    <td> 
+                                    <?php echo CHtml::label('<b>Akses Modul</b>',$model->getAttributeLabel('ruangan'));?>
+                                    </td>
+                                    <td> 
+                                        <?php
+                                            $modModul= $model->getAksesModul();
+                                            if(COUNT($modModul)>0)
+                                                {   
+                                                    echo "<ul>"; 
+                                                    foreach($modModul as $i=>$tampilData)
+                                                    {
+                                                        echo "<li>".$tampilData->modul->modul_nama.'</li>';
+                                                    }
+                                                    echo "</ul>";
+                                                }
+                                            else
+                                                {
+                                                    echo Yii::t('zii','Not set');
+                                                }   
+                                        ?>
+                                    </td>
+                                </tr>                               
+                    </table>                    
+                </fieldset>
+                </div>
+             </div> 
+        </div>
+        <div class = "span4" style = "width:32%">
+                <fieldset class = "box" style = "border:none;">
+                    <legend class = "rim">Data Kepegawaian</legend>
+                    <table class = "a table-condensed" style = "background:none;box-shadow:none;"> 
+                            <tr>
+                                <td width="20%"> 
+                                    <?php echo CHtml::label('<b>'.$model->getAttributeLabel('golonganpegawai_id').'</b>',$model->getAttributeLabel('unit_perusahaan'));?>
+                                </td>
+                                <td width="30%">
+                                    <?php echo isset($model->golonganpegawai_id)?$model->golonganpegawai->golonganpegawai_nama:"";?>
+                                </td>   
+                            </tr>                                                                           
+                            <tr>
+                                <td width="20%"> 
+                                    <?php echo CHtml::label('<b>'.$model->getAttributeLabel('jabatan_id').'</b>',$model->getAttributeLabel('unit_perusahaan'));?>
+                                </td>
+                                <td width="30%">
+                                    <?php echo isset($model->jabatan_id)?$model->jabatan->jabatan_nama:"";?>
+                                </td>   
+                            </tr> 
+                            <tr>
+                                <td width="20%"> 
+                                    <?php echo CHtml::label('<b>'.$model->getAttributeLabel('pangkat_id').'</b>',$model->getAttributeLabel('unit_perusahaan'));?>
+                                </td>
+                                <td width="30%">
+                                    <?php echo isset($model->pangkat_id)?$model->pangkat->pangkat_nama:"";?>
+                                </td>   
+                            </tr>
+                            <tr>
+                                <td width="20%"> 
+                                    <?php echo CHtml::label('<b>'.$model->getAttributeLabel('kelompokpegawai_id').'</b>',$model->getAttributeLabel('unit_perusahaan'));?>
+                                </td>
+                                <td width="30%">
+                                    <?php echo isset($model->kelompokpegawai_id)?$model->kelompokpegawai->kelompokpegawai_nama:"";?>
+                                </td>   
+                            </tr>
+                            <tr>
+                                <td width="20%"> 
+                                    <?php echo CHtml::label('<b>'.$model->getAttributeLabel('jenistenagamedis_id').'</b>',$model->getAttributeLabel('unit_perusahaan'));?>
+                                </td>
+                                <td width="30%">
+                                    <?php echo isset($model->jenistenagamedis_id)?$model->jenistenagamedis->jenistenagamedis_nama:"";?>
+                                </td>   
+                            </tr>
+                            <tr>
+                                <td width="20%"> 
+                                    <?php echo CHtml::label('<b>'.$model->getAttributeLabel('kategoripegawai').'</b>',$model->getAttributeLabel('unit_perusahaan'));?>
+                                </td>
+                                <td width="30%">
+                                    <?php echo $model->kategoripegawai;?>
+                                </td>   
+                            </tr>
+                            <tr>
+                                <td width="20%"> 
+                                    <?php echo CHtml::label('<b>'.$model->getAttributeLabel('kategoripegawaiasal').'</b>',$model->getAttributeLabel('unit_perusahaan'));?>
+                                </td>
+                                <td width="30%">
+                                    <?php echo $model->kategoripegawaiasal;?>
+                                </td>   
+                            </tr>
+                            <tr>
+                                <td width="20%"> 
+                                    <?php echo CHtml::label('<b>'.$model->getAttributeLabel('kelompokjabatan').'</b>',$model->getAttributeLabel('unit_perusahaan'));?>
+                                </td>
+                                <td width="30%">
+                                    <?php echo $model->kelompokjabatan;?>
+                                </td>   
+                            </tr>
+                            <tr>
+                                <td width="20%"> 
+                                    <?php echo CHtml::label('<b>'.$model->getAttributeLabel('jeniswaktukerja').'</b>',$model->getAttributeLabel('unit_perusahaan'));?>
+                                </td>
+                                <td width="30%">
+                                    <?php echo $model->jeniswaktukerja;?>
+                                </td>   
+                            </tr>
+                            <tr>
+                                <td width="20%"> 
+                                    <?php echo CHtml::label('<b>'.$model->getAttributeLabel('pendidikan_id').'</b>',$model->getAttributeLabel('unit_perusahaan'));?>
+                                </td>
+                                <td width="30%">
+                                    <?php echo isset($model->pendidikan_id)?$model->pendidikan->pendidikan_nama:"";?>
+                                </td>   
+                            </tr>
+                            <tr>
+                                <td width="20%"> 
+                                    <?php echo CHtml::label('<b>'.$model->getAttributeLabel('pendkualifikasi_id').'</b>',$model->getAttributeLabel('unit_perusahaan'));?>
+                                </td>
+                                <td width="30%">
+                                    <?php echo isset($model->pendkualifikasi_id)?$model->pendkualifikasi->pendkualifikasi_nama:"";?>
+                                </td>   
+                            </tr>
+                            <tr>
+                                <td width="20%"> 
+                                    <?php echo CHtml::label('<b>'.$model->getAttributeLabel('tglditerima').'</b>',$model->getAttributeLabel('unit_perusahaan'));?>
+                                </td>
+                                <td width="30%">
+                                    <?php echo $format->formatDateTimeForUser($model->tglditerima);?>
+                                </td>   
+                            </tr>
+                             <tr>
+                                <td width="20%"> 
+                                    <?php echo CHtml::label('<b>'.$model->getAttributeLabel('surattandaregistrasi').'</b>',$model->getAttributeLabel('unit_perusahaan'));?>
+                                </td>
+                                <td width="30%">
+                                    <?php echo $model->surattandaregistrasi;?>
+                                </td>   
+                            </tr>    
+                    </table>
+            </fieldset>   
+        </div>
+    </div>
+  <?php 
+        $frame = '';
+        if (isset($_GET['frame'])){
+            $frame = 'frame';
+        }
+        echo CHtml::link(Yii::t('mds','{icon} Ubah',array('{icon}'=>'<i class="icon-pencil icon-white"></i>')),$this->createUrl('updateUser',array('modul_id'=> Yii::app()->session['modul_id'], 'frame'=>$frame)), array('class'=>'btn btn-success')); 
+   ?>
+    <?php $this->widget('UserTips',array('type'=>'view'));?>
+</div>                                                       
+
+      
+             
+  

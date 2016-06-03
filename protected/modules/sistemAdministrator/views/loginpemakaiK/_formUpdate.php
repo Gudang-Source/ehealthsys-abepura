@@ -265,7 +265,7 @@ $modPegawai =new SAPegawaiM();
 $modPegawai->attributes = isset($_GET['SAPegawaiM'])?$_GET['SAPegawaiM']:null;
 $this->widget('ext.bootstrap.widgets.BootGridView',array( 
     'id'=>'sapegawai-m-grid', 
-    'dataProvider'=>$modPegawai->search(), 
+    'dataProvider'=>$modPegawai->searchPegawaiNoUser(), 
     'filter'=>$modPegawai, 
     'template'=>"{summary}\n{items}\n{pager}", 
     'itemsCssClass'=>'table table-striped table-bordered table-condensed', 
@@ -275,7 +275,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'type'=>'raw',
             'value'=>'',
 
-            'value'=>'CHtml::link("<i class=\"icon-check\"></i>","#", array("id" => "selectPegawai",
+            'value'=>'CHtml::link("<i class=\"icon-form-check\"></i>","#", array("id" => "selectPegawai",
                                           "onClick"=>"
                                             $(\"#idPegawai\").val(\"$data->pegawai_id\");
                                             $(\"#'.CHtml::activeId($model,'pegawai_id').'\").val(\"$data->pegawai_id\");
@@ -285,16 +285,30 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                      ))',
         ), 
          'nomorindukpegawai',
-         'gelardepan',
+         array(
+             'header' => 'Gelar Depan',
+             'name' => 'gelardepan',
+             'value' => '$data->gelardepan',
+             'filter' => CHtml::dropDownList('SAPegawaiM[gelardepan]', $modPegawai->gelardepan,  LookupM::getItems('gelardepan'),array('empty'=>'-- Pilih --'))
+         ),
          'nama_pegawai', 
-         'jeniskelamin',                    
+         array(
+             'header' => 'Jenis Kelamin',
+             'name' => 'jeniskelamin',
+             'value' => '$data->jeniskelamin',
+             'filter' => CHtml::dropDownList('SAPegawaiM[jeniskelamin]', $modPegawai->jeniskelamin,  LookupM::getItems('jeniskelamin'),array('empty'=>'-- Pilih --'))
+         ),               
          'tempatlahir_pegawai',
          array(
              'header' => 'Tanggal Lahir',
              'value' => '$data->tgl_lahirpegawai',
 
          ),
-         'alamat_pegawai',
+         array(
+             'header' => 'Jabatan',
+             'value' => 'isset($data->jabatan_id)?$data->jabatan->jabatan_nama:"-"',
+             'filter' => CHtml::dropDownList('SAPegawaiM[jabatan_id]', $modPegawai->jabatan_id, CHtml::listData(JabatanM::model()->findAll("jabatan_aktif = true ORDER BY jabatan_nama ASC"), 'jabatan_id', 'jabatan_nama'),array('empty'=>'-- Pilih --'))
+         ),
          ),
          'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
          )); 
@@ -320,7 +334,7 @@ if(isset($_GET['SAPasienM'])){
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array( 
     'id'=>'sapasien-m-grid', 
-    'dataProvider'=>$modPasien->searchDialog(), 
+    'dataProvider'=>$modPasien->searchPasienNoUser(), 
     'filter'=>$modPasien, 
     'template'=>"{summary}\n{items}\n{pager}", 
     'itemsCssClass'=>'table table-striped table-bordered table-condensed', 
@@ -330,7 +344,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'type'=>'raw',
             'value'=>'',
 
-            'value'=>'CHtml::link("<i class=\"icon-check\"></i>","#", array("id" => "selectPegawai",
+            'value'=>'CHtml::link("<i class=\"icon-form-check\"></i>","#", array("id" => "selectPegawai",
                                 "onClick"=>"
                                   $(\"#pasien_id\").val(\"$data->pasien_id\");
                                   $(\"#'.CHtml::activeId($model,'pasien_id').'\").val(\"$data->pasien_id\");
@@ -341,7 +355,12 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
         ), 
          'no_rekam_medik',
          'nama_pasien',
-         'jeniskelamin', 
+         array(
+             'header' => 'Jenis Kelamin',
+             'name' => 'jeniskelamin',
+             'value' => '$data->jeniskelamin',
+             'filter' => CHtml::dropDownList('SAPasienM[jeniskelamin]', $modPegawai->jeniskelamin,  LookupM::getItems('jeniskelamin'),array('empty'=>'-- Pilih --'))
+         ),
         array(
              'header' => 'Tanggal Lahir',
              'value' => '$data->tanggal_lahir',

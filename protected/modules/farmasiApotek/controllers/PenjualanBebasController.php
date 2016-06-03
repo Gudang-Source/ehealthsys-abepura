@@ -127,6 +127,7 @@ class PenjualanBebasController extends PenjualanResepRSController {
                                                 $modDetails[$i]->tglpelayanan = date("Y-m-d H:i:s");
                                                 $modDetails[$i]->r = "R/";
                                                 $modDetails[$i]->satuankecil_id = $oa->satuankecil_id;
+                                                $modDetails[$i]->permintaan_oa = MyFormatter::formatNumberForDb($modDetails[$i]->permintaan_oa);
                                                 //$modDetails[$i]->qty_oa = $postDetail['qty_dilayani'];
                                                 //$modDetails[$i]->hargajual_oa = $postDetail['hargajual_reseptur'];
                                                 //$modDetails[$i]->harganetto_oa = $postDetail['harganetto_reseptur'];
@@ -145,6 +146,11 @@ class PenjualanBebasController extends PenjualanResepRSController {
                                                 //var_dump($modDetails[$i]->getErrors());
                                                 //die;
 
+                                                
+                                                if (empty($modDetails[$i]->pegawai_id) || $modDetails[$i]->pegawai_id == 0) {
+                                                    $modDetails[$i]->pegawai_id = Yii::app()->user->getState('pegawai_id');
+                                                }
+                                                
                                                 if ($modDetails[$i]->validate()) {
                                                     $this->obatalkespasientersimpan &= $modDetails[$i]->save();
                                                 } else {

@@ -505,16 +505,16 @@ function setNamaDepan(){
         }
 
 
-        if($('#PPPasienM_jeniskelamin_1').is(':checked')){
-        $('#PPPasienM_namadepan').val('Nn. ');
-            if(statusperkawinan !== 'DUDA'){
-             var namadepan = $('#PPPasienM_namadepan').val('Nn. ');
+        if($('#PPPasienM_jeniskelamin_1').is(':checked')) {
+            $('#PPPasienM_namadepan').val('Nn. ');
+            if(statusperkawinan !== 'DUDA') {
+                var namadepan = $('#PPPasienM_namadepan').val('Nn. ');
                 if(statusperkawinan === 'KAWIN' || statusperkawinan == 'JANDA' || statusperkawinan == 'NIKAH SIRIH' || statusperkawinan == 'POLIGAMI'){
                     var namadepan = $('#PPPasienM_namadepan').val('Ny. ');
-                }else{
+                } else {
                     var namadepan = $('#PPPasienM_namadepan').val('Nn. ');
                 }
-            }else{
+            } else {
                 alert('Pilih status pernikahan yang sesuai');
                 $('#PPPasienM_statusperkawinan').val('KAWIN');
                 var namadepan = $('#PPPasienM_namadepan').val('Ny. ');
@@ -1273,6 +1273,7 @@ function cekJamkespa() {
         $("#<?php echo CHtml::activeId($modAsuransiPasien, "nokartuasuransi"); ?>").val($("#<?php echo CHtml::activeId($modPasien, "no_rekam_medik"); ?>").val());
         $("#<?php echo CHtml::activeId($modAsuransiPasien, "namapemilikasuransi"); ?>").val($("#<?php echo CHtml::activeId($modPasien, "nama_pasien"); ?>").val());
         $("#<?php echo CHtml::activeId($modAsuransiPasien, "kelastanggunganasuransi_id"); ?>").val(<?php echo Params::KELASPELAYANAN_ID_KELAS_III; ?>);
+        $(".rb_kon").eq(0).change();
     } else {
         //$(".jks_spec").parents(".control-group").show();
         //$(".jks_spec").removeClass("not-required").addClass("required").parents(".control-group").show();
@@ -1316,7 +1317,16 @@ function pilihKarcis(obj){
  * @returns {undefined}
  */
 function setVerifikasi(){
+    
+        
     if(requiredCheck($("form"))){
+        if ($(".rb_rm").eq(1).is(":checked")) {
+            if ($("#no_rekam_medik_baru").val().trim() == '') {
+                myAlert("No. Rekam Medik harus diisi");
+                return false;
+            }
+        }
+        
         $('#dialog-verifikasi').dialog("open");
         $.ajax({
            type:'POST',
@@ -1438,14 +1448,14 @@ function getAsuransiNoKartu(isi)
 				$("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'nokartuasuransi') ?>").val(peserta.noKartu);
 				$("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'namapemilikasuransi') ?>").val(peserta.nama);
 				$("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'jenispeserta_id') ?>").val(peserta.jenisPeserta.kdJenisPeserta);
-//              $("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'kelastanggunganasuransi_id') ?>").val(peserta.kelasTanggungan.kdKelas); // <<tidak sama dengan kelaspelayanan_id
+                                $("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'kelastanggunganasuransi_id') ?>").val(peserta.kelasTanggungan.kdKelasSim); // <<tidak sama dengan kelaspelayanan_id
 				// OVERWRITES old selecor
                                 pemilik_bpjs = peserta.nama;
 				jQuery.expr[':'].contains = function(a, i, m) {
 				  return jQuery(a).text().toUpperCase()
 					  .indexOf(m[3].toUpperCase()) >= 0;
 				};
-				$("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'kelastanggunganasuransi_id') ?>").find("option:contains('"+peserta.kelasTanggungan.nmKelas+"')").attr("selected",true);
+				// $("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'kelastanggunganasuransi_id') ?>").find(peserta.kelasTanggungan.nmKelas).attr("selected",true);
             }else{
               myAlert(obj.metaData.message);
             }
@@ -2079,6 +2089,11 @@ $( document ).ready(function(){
     });
     
     $("#form-bpjs .accordion-heading a").click(function()
+    {
+        return false;
+    });
+    
+    $("#form-asuransi .accordion-heading a").click(function()
     {
         return false;
     });
