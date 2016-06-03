@@ -35,7 +35,7 @@ $this->widget('bootstrap.widgets.BootAlert');
                                         'attribute'=>'tglpresensi',
                                         'mode'=>'date',
                                         'options'=> array(
-    //                                            'dateFormat'=>Params::DATE_FORMAT,
+                                            'dateFormat'=>Params::DATE_FORMAT,
                                             'showOn' => false,
                                             'maxDate' => 'd',
                                             'yearRange'=> "-150:+0",

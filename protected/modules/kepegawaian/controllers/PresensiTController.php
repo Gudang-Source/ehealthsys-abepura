@@ -55,24 +55,39 @@ class PresensiTController extends MyAuthController
                     $model->statusscan_id = null;                    
                     $shift = $model->getShiftId($model->pegawai_id);
                                                             
-                   
-                    
+                                       
                     $tgl = $format->formatDateTimeForDb(date('Y-m-d', strtotime($model->tglpresensi)));
                                         
                   
                     $model->statusscan_id = $_POST['KPPresensiT']['statusscan_id'];                        
-                    if ($model->statusscan_id == Params::STATUSSCAN_MASUK){                            
+                    if ($model->statusscan_id == Params::STATUSSCAN_MASUK){                                                    
                         //$model->jamkerjamasuk = $_POST['KPPresensiT']['jamkerjamasuk'];
                         $model->tglpresensi = $tgl.' '.$_POST['KPPresensiT']['jamkerjamasuk'];
                         $model->jamkerjamasuk = (count($shift)>0)?$shift->shift_jamawal:'08:15:00';
                         $model->terlambat_mnt = $model->getTerlambat($model->tglpresensi, $model->jamkerjamasuk);
-                        $model->pulangawal_mnt = '';
+                        $model->pulangawal_mnt = '';  
+                        
+                        $jammasuk = date('H:is',strtotime($model->tglpresensi));
+                        if (count($shift)>0){
+                            if ( ($shift->shift_id == Params::SHIFT_PAGI)):
+                                if ($jammasuk > '09:00:00'):
+                                    $model->statuskehadiran_id = Params::STATUSKEHADIRAN_ALPHA;
+                                endif;
+                            endif;
+                        }else{
+                            if ($shift==null){
+                                if ($jammasuk > '09:00:00'):
+                                    $model->statuskehadiran_id = Params::STATUSKEHADIRAN_ALPHA;
+                                endif;
+                            }
+                        }
+                        
 
                     }elseif($model->statusscan_id == Params::STATUSSCAN_PULANG){
                         $model->tglpresensi = $tgl.' '.$_POST['KPPresensiT']['jamkerjapulang'];
                         $model->jamkerjapulang = (count($shift)>0)?$shift->shift_jamakhir:'15:00:00';
                         $model->pulangawal_mnt = $model->getPulangAwal($model->tglpresensi, $model->jamkerjapulang);
-                        $model->terlambat_mnt = '';
+                        $model->terlambat_mnt = '';                                                
                         //$model->jamkerjapulang = $_POST['KPPresensiT']['jamkerjapulang'];                        
                     }elseif($model->statusscan_id == Params::STATUSSCAN_DATANG){
                         $model->tglpresensi = $tgl.' '.$_POST['KPPresensiT']['jamkerjamasuk'];                                                                        
@@ -90,7 +105,7 @@ class PresensiTController extends MyAuthController
                     $cr = new CDbCriteria();                                        
                      if ($model->statuskehadiran_id == Params::STATUSKEHADIRAN_IZIN){                           
                          $cr->addCondition("pegawai_id = '$model->pegawai_id' ");
-                     }else{
+                     }else{                         
                          $cr->addCondition("statusscan_id = ".$model->statusscan_id);                    
                          $cr->addCondition("statuskehadiran_id = '".Params::STATUSKEHADIRAN_HADIR."' AND pegawai_id = '$model->pegawai_id' ");
                      }                    
@@ -138,7 +153,38 @@ class PresensiTController extends MyAuthController
                             }
                         }    
                         //Yii::app()->user->setFlash('error', 'Sudah Ada.');
-                    }else{                                         
+                    }else{        
+                        $cr1 = new CDbCriteria();                                                                                              
+                        $cr1->addCondition("statuskehadiran_id = '".Params::STATUSKEHADIRAN_ALPHA."' AND pegawai_id = '$model->pegawai_id' ");                                               
+                        $cr1->addBetweenCondition('tglpresensi', $tgl.' 00:00:00', $tgl.' 23:59:59');
+                        $cek1 = PresensiT::model()->find($cr1);
+                        
+                        if (count($shift)>0){
+                            if ($shift->shift_id == Params::SHIFT_PAGI ):                               
+                                if (count($cek1) > 0){
+                                    $model->statuskehadiran_id = Params::STATUSKEHADIRAN_ALPHA;
+                                }
+                            endif;
+                        }else{
+                           if ($shift == null ):                               
+                            if (count($cek1) > 0){
+                                $model->statuskehadiran_id = Params::STATUSKEHADIRAN_ALPHA;
+                            }
+                            endif;
+                        }   
+                        
+                        if ($model->statusscan_id != Params::STATUSSCAN_MASUK){
+                            $cr2 = new CDbCriteria(); 
+                            $cr->addCondition("statusscan_id = ".Params::STATUSSCAN_MASUK);    
+                            $cr2->addCondition("statuskehadiran_id = '".Params::STATUSKEHADIRAN_ALPHA."' AND pegawai_id = '$model->pegawai_id' ");                                               
+                            $cr2->addBetweenCondition('tglpresensi', $tgl.' 00:00:00', $tgl.' 23:59:59');
+                            $cek2 = PresensiT::model()->find($cr2);
+                            
+                            if (count($cek2)==0):
+                                $model->statuskehadiran_id = Params::STATUSKEHADIRAN_ALPHA;
+                            endif;
+                        }
+                        
                         
                         if($valid){
                                 $model->save();
