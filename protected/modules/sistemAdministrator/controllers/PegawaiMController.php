@@ -273,7 +273,7 @@ class PegawaiMController extends MyAuthController
         public function actionUpdateUser($id='',$frame='')
 	{
                 if ($frame == 'frame'):
-                    $this->layout='//layouts/iframe';                    
+                    $this->layout='//layouts/iframe';                                        
                 endif;
             
                 $loginpemakai = Yii::app()->user->id;
