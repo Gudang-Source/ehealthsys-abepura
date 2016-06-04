@@ -151,13 +151,13 @@ $(function() {
             <div class='logo-login'>
                 <img src='<?php echo Params::urlProfilRSDirectory().$profil->logo_rumahsakit ?>' alt='logo RUMKIT' />
             </div>
-            <div class="profil_rs col-sm-5">
+            <div class="profil_rs col-sm-4">
                 <div class="nama_rs"><?php echo $profil->nama_rumahsakit; ?></div>
                 <?php echo $profil->alamatlokasi_rumahsakit; ?>,
                 Telp : <?php echo $profil->no_telp_profilrs; ?> - 
                 Fax : <?php echo $profil->no_faksimili; ?><br/> 
-                email : <?php echo $profil->email; ?> 
-                website : <?php echo $profil->website; ?>
+                <i class="icon-envelope"></i>  <?php echo CHtml::link($profil->email,'mailto:'.$profil->email,array('target'=>'_BLANK')); ?> 
+                <i class="icon-home"></i>  <?php echo CHtml::link($profil->website,'http://'.$profil->website,array('target'=>'_BLANK')); ?>
             </div>
             <div class='logo-bakti'>
                 <img src='<?php echo Params::urlProfilRSDirectory()."../baktihusada.png" ?>' alt='logo BAKTIHUSADA' />
