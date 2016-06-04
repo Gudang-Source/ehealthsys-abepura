@@ -1,5 +1,5 @@
 <div class="white-container">
-    <legend class="rim2">Laporan Kunjungan <b>Rawat Jalan</b></legend>
+    <legend class="rim2">Laporan Kunjungan <b>Penunjang</b></legend>
     <?php
     $this->breadcrumbs=array(
         'Ppinfo Kunjungan Rjvs'=>array('index'),
