@@ -155,8 +155,8 @@
 		</div>
 	</div>
 	<div class="span4">
-		<?php echo $form->textFieldRow($model,'invbarang_totalharga',array('class'=>'span3 integer')); ?>
-		<?php echo $form->textFieldRow($model,'invbarang_totalnetto',array('class'=>'span3 integer')); ?>
+		<?php echo $form->textFieldRow($model,'invbarang_totalharga',array('class'=>'span3 integer2')); ?>
+		<?php echo $form->textFieldRow($model,'invbarang_totalnetto',array('class'=>'span3 integer2')); ?>
 		<?php echo $form->textAreaRow($model,'invbarang_ket',array('class'=>'span3')); ?>
 	</div>
 </div>
@@ -174,10 +174,11 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     ),
 ));
 
-$modPegawaiMengetahui = new GUPegawaiV('searchDialog');
+$modPegawaiMengetahui = new GUPegawaiRuanganV('searchDialog');
 $modPegawaiMengetahui->unsetAttributes();
-if(isset($_GET['GUPegawaiV'])) {
-    $modPegawaiMengetahui->attributes = $_GET['GUPegawaiV'];
+$modPegawaiMengetahui->ruangan_id = Yii::app()->user->getState('ruangan_id');
+if(isset($_GET['GUPegawaiRuanganV'])) {
+    $modPegawaiMengetahui->attributes = $_GET['GUPegawaiRuanganV'];
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'pegawaimengetahui-grid',
@@ -204,19 +205,9 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 			'value'=>'$data->nomorindukpegawai',
 		),
 		array(
-			'header'=>'Gelar Depan',
-			'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'gelardepan'),
-			'value'=>'$data->gelardepan',
-		),
-		array(
 			'header'=>'Nama Pegawai',
 			'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'nama_pegawai'),
-			'value'=>'$data->nama_pegawai',
-		),
-		array(
-			'header'=>'Gelar Belakang',
-			'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'gelarbelakang_nama'),
-			'value'=>'$data->gelarbelakang_nama',
+			'value'=>'$data->namaLengkap',
 		),
 		array(
 			'header'=>'Alamat Pegawai',
@@ -244,10 +235,11 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     ),
 ));
 
-$modPetugas1 = new GUPegawaiV('searchDialog');
+$modPetugas1 = new GUPegawaiRuanganV('searchDialog');
 $modPetugas1->unsetAttributes();
-if(isset($_GET['GUPegawaiV'])) {
-    $modPetugas1->attributes = $_GET['GUPegawaiV'];
+$modPetugas1->ruangan_id = Yii::app()->user->getState('ruangan_id');
+if(isset($_GET['GUPegawaiRuanganV'])) {
+    $modPetugas1->attributes = $_GET['GUPegawaiRuanganV'];
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'pegawaimengetahui-grid',
@@ -314,10 +306,11 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     ),
 ));
 
-$modPetugas2 = new GUPegawaiV('searchDialog');
+$modPetugas2 = new GUPegawaiRuanganV('searchDialog');
 $modPetugas2->unsetAttributes();
-if(isset($_GET['GUPegawaiV'])) {
-    $modPetugas2->attributes = $_GET['GUPegawaiV'];
+$modPetugas2->ruangan_id = Yii::app()->user->getState('ruangan_id');
+if(isset($_GET['GUPegawaiRuanganV'])) {
+    $modPetugas2->attributes = $_GET['GUPegawaiRuanganV'];
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'pegawaimengetahui-grid',

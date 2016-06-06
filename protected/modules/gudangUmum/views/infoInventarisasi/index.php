@@ -63,7 +63,10 @@ $('.search-form form').submit(function(){
 				array(
 				  'header'=>'Total HPP',
 				  'type'=>'raw',
-				  'value'=>'$data->barang_hpp',
+				  'value'=>'MyFormatter::formatNumberForPrint($data->invbarang_totalnetto)',
+                                  'htmlOptions'=>array(
+                                      'style'=>'text-align: right',
+                                  ),
 				),
 				array(
 					'header'=>'Detail Inventarisasi',

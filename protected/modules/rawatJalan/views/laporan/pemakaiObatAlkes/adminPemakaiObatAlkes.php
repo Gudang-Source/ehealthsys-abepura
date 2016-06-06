@@ -17,7 +17,7 @@
     ");
     ?>
     <?php //echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-search"></i>')),'#',array('class'=>'search-button btn')); ?>
-    <fieldset class="search-form box">
+    <fieldset class="row-fluid box">
         <?php $this->renderPartial($this->path_view.'pemakaiObatAlkes/_searchPemakaiObatAlkes',array('model'=>$model,)); ?>
     </fieldset><!-- search-form -->
     <div class="row-fluid block-tabel">

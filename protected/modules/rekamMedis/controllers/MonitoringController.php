@@ -92,17 +92,17 @@ class MonitoringController extends MyAuthController
 	 */
 	public function actionRawatjalan()
 	{
-                                $model = new RKMonitoringrawatjalanV('search');
-                                $model->unsetAttributes();
-                                $model->tgl_awal = date('Y-m-d');
-                                $model->tgl_akhir = date('Y-m-d');
-                                if (isset($_GET['RKMonitoringrawatjalanV'])) {
-                                    $format = new MyFormatter();
-                                    $model->tgl_awal  = $format->formatDateTimeForDb($_REQUEST['RKMonitoringrawatjalanV']['tgl_awal']);
-                                    $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['RKMonitoringrawatjalanV']['tgl_akhir']);
-                                    $model->attributes = $_GET['RKMonitoringrawatjalanV'];
-                                    $model->pegawai_id = $_GET['RKMonitoringrawatjalanV']['pegawai_id'];
-                                }
+                $model = new RKMonitoringrawatjalanV('search');
+                $model->unsetAttributes();
+                $model->tgl_awal = date('Y-m-d');
+                $model->tgl_akhir = date('Y-m-d');
+                if (isset($_GET['RKMonitoringrawatjalanV'])) {
+                    $format = new MyFormatter();
+                    $model->tgl_awal  = $format->formatDateTimeForDb($_REQUEST['RKMonitoringrawatjalanV']['tgl_awal']);
+                    $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['RKMonitoringrawatjalanV']['tgl_akhir']);
+                    $model->attributes = $_GET['RKMonitoringrawatjalanV'];
+                    $model->pegawai_id = $_GET['RKMonitoringrawatjalanV']['pegawai_id'];
+                }
 		$this->render('indexRawatjalan',array(
 			'model'=>$model,
 		));
@@ -149,6 +149,25 @@ class MonitoringController extends MyAuthController
             $this->render('indexRawatinap',array(
                     'model'=>$model,
             ));
+	}
+        
+        public function actionPenunjang()
+	{
+                $model = new RKMonitoringpenunjangV('search');
+                $model->unsetAttributes();
+                $model->tgl_awal = date('Y-m-d');
+                $model->tgl_akhir = date('Y-m-d');
+                if (isset($_GET['RKMonitoringpenunjangV'])) {
+                    $format = new MyFormatter();
+                    $model->attributes = $_GET['RKMonitoringpenunjangV'];
+                    $model->tgl_awal  = $format->formatDateTimeForDb($_GET['RKMonitoringpenunjangV']['tgl_awal']);
+                    $model->tgl_akhir = $format->formatDateTimeForDb($_GET['RKMonitoringpenunjangV']['tgl_akhir']);                    
+                    $model->pegawai_id = $_GET['RKMonitoringpenunjangV']['pegawai_id'];
+                }
+                
+		$this->render('indexPenunjang',array(
+			'model'=>$model,
+		));
 	}
 	/**
 	 * Manages all models.

@@ -4,6 +4,11 @@ class RJLaporanbiayapelayanan extends LaporanbiayapelayananV {
    
     public $tgl_awal;
     public $tgl_akhir;
+    public $bln_awal;
+    public $bln_akhir;
+    public $thn_awal;
+    public $thn_akhir;
+    public $jns_periode;
     public $tick;
     public $data;
     public $jumlah;
@@ -32,7 +37,12 @@ class RJLaporanbiayapelayanan extends LaporanbiayapelayananV {
         $criteria->addBetweenCondition('date(tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
         $criteria->group = 'kelaspelayanan_nama';
         $criteria->addCondition('ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
-
+         if (is_array($this->penjamin_id)){
+            $criteria->addInCondition('penjamin_id', $this->penjamin_id);
+        }else{
+            $criteria->addCondition('penjamin_id is null');
+        }
+        
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
         ));
@@ -48,7 +58,7 @@ class RJLaporanbiayapelayanan extends LaporanbiayapelayananV {
 
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
-                    'pagination'=>false,
+                    //'pagination'=>false,
                 ));
     }
     
