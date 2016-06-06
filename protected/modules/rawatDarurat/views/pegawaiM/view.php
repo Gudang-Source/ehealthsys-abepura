@@ -57,21 +57,20 @@
                                             <?php echo $model->jeniskelamin;?>
                                         </td> 
                                     </tr>                                                                           
-                                    <tr>
+                                   <tr>
                                         <td> 
                                             <?php echo CHtml::label('<b>'.$model->getAttributeLabel('nomorindukpegawai').'</b>',$model->getAttributeLabel('nomorindukpegawai'), array('class'=>'fieldtd'));?>
                                         </td>
                                         <td>
                                             <?php echo $model->nomorindukpegawai;?>
                                         </td>   
-                                        <td> 
-                                            <?php echo CHtml::label('<b>Tinggi / Berat Badan</b>','', array('class'=>'fieldtd'));?>
+                                         <td> 
+                                            <?php echo CHtml::label('<b>Golongan Darah / Rhesus</b>','', array('class'=>'fieldtd'));?>
                                         </td>
                                         <td>
-                                            <?php echo $model->tinggibadan.' / '.$model->beratbadan;?>
-                                        </td>      
-                                    </tr> 
-                                    </tr>  
+                                            <?php echo $model->golongandarah.' / '.$model->rhesus;?>
+                                        </td> 
+                                    </tr>                                     
                                     <tr>
                                         <td > 
                                             <?php echo CHtml::label('<b>No. Identitas</b>',$model->getAttributeLabel('jenisidentitas'), array('class'=>'fieldtd'));?>
@@ -80,11 +79,11 @@
                                             <?php echo $model->jenisidentitas.' - '.$model->noidentitas;?>
                                         </td>   
                                         <td> 
-                                            <?php echo CHtml::label('<b>Golongan Darah / Rhesus</b>','', array('class'=>'fieldtd'));?>
+                                               <?php echo CHtml::label('<b>'.$model->getAttributeLabel('agama').'</b>','', array('class'=>'fieldtd'));?>
                                         </td>
                                         <td>
-                                            <?php echo $model->golongandarah.' / '.$model->rhesus;?>
-                                        </td>    
+                                            <?php echo $model->agama;?>
+                                        </td>  
                                     </tr>
                                     <tr>
                                         <td> 
@@ -92,13 +91,13 @@
                                         </td>
                                         <td>
                                             <?php echo CHtml::label($model->gelardepan.' '.$model->nama_pegawai.' '.(isset($model->gelarbelakang_id)?$model->gelarbelakang->gelarbelakang_nama:""),$model->gelardepan.' '.$model->nama_pegawai.' '.(isset($model->gelarbelakang_id)?$model->gelarbelakang->gelarbelakang_nama:""));?>
-                                        </td> 
-                                        <td> 
-                                               <?php echo CHtml::label('<b>'.$model->getAttributeLabel('agama').'</b>','', array('class'=>'fieldtd'));?>
+                                        </td>  
+                                         <td> 
+                                            <?php echo CHtml::label('<b>'.$model->getAttributeLabel('suku_id').'</b>','', array('class'=>'fieldtd'));?>
                                         </td>
                                         <td>
-                                            <?php echo $model->agama;?>
-                                        </td>       
+                                            <?php echo $model->getSukuNama();?>
+                                        </td>   
                                     </tr>   
                                     <tr>
                                         <td> 
@@ -106,12 +105,12 @@
                                         </td>
                                         <td>
                                             <?php echo $model->nama_keluarga;?>
-                                        </td>   
-                                        <td> 
-                                            <?php echo CHtml::label('<b>'.$model->getAttributeLabel('suku_id').'</b>','', array('class'=>'fieldtd'));?>
                                         </td>
-                                        <td>
-                                            <?php echo $model->getSukuNama();?>
+                                        <td> 
+                                            <?php echo CHtml::label('<b>'.$model->getAttributeLabel('warganegara_pegawai').'</b>','', array('class'=>'fieldtd'));?>
+                                        </td>
+                                        <td >
+                                            <?php echo $model->warganegara_pegawai;?>
                                         </td>   
                                     </tr>  
                                     <tr>
@@ -120,13 +119,13 @@
                                         </td>
                                         <td>
                                             <?php echo $model->tempatlahir_pegawai;?>
-                                        </td>   
-                                        <td> 
-                                            <?php echo CHtml::label('<b>'.$model->getAttributeLabel('warganegara_pegawai').'</b>','', array('class'=>'fieldtd'));?>
+                                        </td>  
+                                        <td > 
+                                            <?php echo CHtml::label('<b>'.$model->getAttributeLabel('statusperkawinan').'</b>','', array('class'=>'fieldtd'));?>
                                         </td>
-                                        <td >
-                                            <?php echo $model->warganegara_pegawai;?>
-                                        </td>     
+                                        <td>
+                                            <?php echo $model->statusperkawinan;?>
+                                        </td>   
                                     </tr> 
                                     <tr>
                                         <td> 
@@ -134,14 +133,8 @@
                                         </td>
                                         <td >
                                             <?php echo $format->formatDateTimeForUser($model->tgl_lahirpegawai);?>
-                                        </td> 
-                                       <td > 
-                                            <?php echo CHtml::label('<b>'.$model->getAttributeLabel('statusperkawinan').'</b>','', array('class'=>'fieldtd'));?>
-                                        </td>
-                                        <td>
-                                            <?php echo $model->statusperkawinan;?>
-                                        </td>                                    
-                                    </tr>
+                                        </td>                                                                         
+                                    </tr> 
                                 </table>
                             </fieldset>
                         </td>                        
@@ -260,6 +253,22 @@
                                     <?php echo $model->warnakulit;?>
                                 </td>   
                             </tr>   
+                            <tr>
+                                <td> 
+                                    <?php echo CHtml::label('<b>Tinggi</b>','');?>
+                                </td>
+                                <td>
+                                    <?php echo (isset($model->tinggibadan))?$model->tinggibadan.' cm':'';?>
+                                </td>   
+                            </tr>
+                            <tr>
+                                <td> 
+                                    <?php echo CHtml::label('<b>Berat</b>','');?>
+                                </td>
+                                <td>
+                                     <?php echo (isset($model->beratbadan))?$model->beratbadan.' kg':'';?>
+                                </td>   
+                            </tr>
                     </table>
                 </fieldset>
             </div> 
@@ -471,6 +480,46 @@
                                     <?php echo $model->surattandaregistrasi;?>
                                 </td>   
                             </tr> 
+                            <tr>
+                                <td width="20%"> 
+                                    <?php echo CHtml::label('<b>'.$model->getAttributeLabel('suratizinpraktek').'</b>',$model->getAttributeLabel('suratizinpraktek'));?>
+                                </td>
+                                <td width="30%">
+                                    <?php echo $model->suratizinpraktek;?>
+                                </td>   
+                            </tr> 
+                            <tr>
+                                <td width="20%"> 
+                                    <?php echo CHtml::label('<b>'.$model->getAttributeLabel('npwp').'</b>',$model->getAttributeLabel('npwp'));?>
+                                </td>
+                                <td width="30%">
+                                    <?php echo $model->npwp;?>
+                                </td>   
+                            </tr> 
+                            <tr>
+                                <td width="20%"> 
+                                    <?php echo CHtml::label('<b>'.$model->getAttributeLabel('no_rekening').'</b>',$model->getAttributeLabel('no_rekening'));?>
+                                </td>
+                                <td width="30%">
+                                    <?php echo $model->no_rekening;?>
+                                </td>   
+                            </tr> 
+                            <tr>
+                                <td width="20%"> 
+                                    <?php echo CHtml::label('<b>'.$model->getAttributeLabel('bank_no_rekening').'</b>',$model->getAttributeLabel('bank_no_rekening'));?>
+                                </td>
+                                <td width="30%">
+                                    <?php echo $model->bank_no_rekening;?>
+                                </td>   
+                            </tr> 
+                            <tr>
+                                <td width="20%"> 
+                                    <?php echo CHtml::label('<b>'.$model->getAttributeLabel('gajipokok').'</b>',$model->getAttributeLabel('gajipokok'));?>
+                                </td>
+                                <td width="30%">
+                                    <?php echo 'Rp'.number_format($model->gajipokok,0,'','.');?>
+                                </td>   
+                            </tr>
                     </table>
             </fieldset>   
         </div>

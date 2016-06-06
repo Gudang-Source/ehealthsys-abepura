@@ -38,7 +38,7 @@
                                 array('class'=>'btn btn-danger',
                                     'onclick'=>'return refreshForm(this);'));  ?>
 		<?php  
-				$content = $this->renderPartial('gudangUmum.views.tips/informasi',array(),true);
+				$content = $this->renderPartial('gudangUmum.views.informasiStokBarang.tips.informasi',array(),true);
 				$this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
 		?> 
 	</div>
