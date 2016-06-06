@@ -120,7 +120,7 @@ class GUInfoinventarisasibarangV extends InfoinventarisasibarangV
 		
 		$criteria=new CDbCriteria;
 		
-		$criteria->group = 'invbarang_id, invbarang_no, invbarang_tgl,formulirinvbarang_id,forminvbarang_tgl,forminvbarang_no,barang_hpp';
+		$criteria->group = 'invbarang_id, invbarang_totalnetto, invbarang_no, invbarang_tgl,formulirinvbarang_id,forminvbarang_tgl,forminvbarang_no, barang_hpp';
 		$criteria->select = $criteria->group;
 		$criteria->addBetweenCondition('DATE(invbarang_tgl)',$this->tgl_awal,$this->tgl_akhir);
 		
