@@ -1,7 +1,7 @@
 <div class="white-container">
 	<legend class="rim2">Transaksi <b>Inventarisasi Barang</b></legend>
 	<?php 
-        CHtml::$hiddenDebug = true;
+        // CHtml::$hiddenDebug = true;
         
     Yii::app()->clientScript->registerScript('search', "
     $('.search-form form').submit(function(){
