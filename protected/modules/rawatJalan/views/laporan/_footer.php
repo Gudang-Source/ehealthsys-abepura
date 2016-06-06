@@ -13,7 +13,7 @@
             if (isset($tips) == 'pembebasan'):
                 $content = $this->renderPartial('rawatJalan.views.laporan.tips/PembebasanTarif',array(),true);
             else:
-                $content = $this->renderPartial('rawatJalan.views.laporan.tips/tips',array(),true);
+                $content = $this->renderPartial('pendaftaranPenjadwalan.views.laporan.tips.laporanBukuRegister',array(),true);
             endif;
 		
 		$this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 

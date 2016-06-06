@@ -52,12 +52,14 @@
 //            'carabayarPenjamin',
             array(
                 'header'=>'Iur Biaya',
-                'value'=>'"Rp. ".number_format($data->iurbiaya)',
+                'value'=>'"Rp".number_format($data->iurbiaya,0,"",".")',
+                'htmlOptions'=>array('style'=>'text-align:right;')
             ),
 //            'iurbiaya',
             array(
                 'header'=>'Total Biaya Pelayanan',
-                'value'=>'"Rp. ".number_format($data->total)',
+                'value'=>'"Rp".number_format($data->total,0,"",".")',
+                'htmlOptions'=>array('style'=>'text-align:right;')
             ),
 //            'total',
 //            'alamat_pasien',   
