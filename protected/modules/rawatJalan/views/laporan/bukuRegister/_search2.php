@@ -132,9 +132,9 @@
   
     </div> 
 
-<table width="100%" border="0">
-  <tr>
-    <td> 
+            <table width="100%" border="0">
+              <tr>
+                <td> 
                     <div id='searching'>
                     <fieldset>
                         <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
@@ -166,9 +166,11 @@
                                                         $form->dropDownList($model, 'kelurahan_id', array(), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)")).'</td></tr></table>',
                                             'active'=>true,
                                             ), ),
-				)); ?>      </fieldset>
-      </td>
-    <td> <fieldset>
+				)); ?>      
+                    </fieldset>
+                </td>
+                <td> 
+                    <fieldset>
 				<?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
                                     'id'=>'kunjungan',
                                     'slide'=>true,
@@ -192,7 +194,7 @@
 //                                    'htmlOptions'=>array('class'=>'aw',)
                             )); ?>
 							</fieldset>
-							  </fieldset>
+							  
       </td>
   </tr>
 </table>

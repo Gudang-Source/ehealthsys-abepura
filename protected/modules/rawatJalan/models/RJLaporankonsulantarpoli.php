@@ -7,6 +7,11 @@ class RJLaporankonsulantarpoli extends LaporankonsulantarpoliV {
     public $tick;
     public $tgl_awal;
     public $tgl_akhir;
+    public $bln_awal;
+    public $bln_akhir;
+    public $thn_awal;
+    public $thn_akhir;
+    public $jns_periode;
     
     public static function model($className = __CLASS__) {
         return parent::model($className);
@@ -173,7 +178,7 @@ class RJLaporankonsulantarpoli extends LaporankonsulantarpoliV {
 	}
         
         public function getRuanganRawatJalan(){
-            $model = RuanganrawatjalanV::model()->findAll('ruangan_aktif = true');
+            $model = RuanganrawatjalanV::model()->findAll('ruangan_aktif = true ORDER BY ruangan_nama ASC');
             $result = array();
             foreach ($model as $i=>$v){
                 $result[$v->ruangan_id] = $v->ruangan_nama;

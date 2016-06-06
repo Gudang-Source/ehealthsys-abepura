@@ -1,5 +1,5 @@
 <div class="white-container">
-    <legend class="rim2">Laporan <b>Biaya Pelayanaan</b></legend>
+    <legend class="rim2">Laporan <b>Biaya Pelayanan</b></legend>
     <?php
     $url = Yii::app()->createUrl('rawatJalan/laporan/frameGrafikLaporanBiayaPelayanan&id=1');
     Yii::app()->clientScript->registerScript('search', "
@@ -17,11 +17,11 @@
     ");
     ?>
     <?php //echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-search"></i>')),'#',array('class'=>'search-button btn')); ?>
-    <div class="search-form box">
+    <fieldset class="search-form box">
         <?php $this->renderPartial($this->path_view.'biayaPelayanan/_searchBiayaPelayanan',array(
             'model'=>$model,
         )); ?>
-    </div><!-- search-form --> 
+    </fieldset><!-- search-form --> 
     <div class="row-fluid block-tabel">
         <h6>Tabel <b>Biaya Pelayanan</b></h6>
         <?php $this->renderPartial($this->path_view.'biayaPelayanan/_tableBiayaPelayanan', array('model'=>$model)); ?>
