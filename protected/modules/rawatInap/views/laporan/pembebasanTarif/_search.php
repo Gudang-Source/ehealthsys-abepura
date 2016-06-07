@@ -1,3 +1,4 @@
+<legend class = "rim"><i class = "icon-search icon-white"></i> Pencarian</legend>
 <div class="search-form" style="">
     <?php
     $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
@@ -162,6 +163,7 @@
     </div>
     <?php //$this->widget('UserTips', array('type' => 'create')); ?>    
 </div>    
+                    </div>
 <?php
 $this->endWidget();
 $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
