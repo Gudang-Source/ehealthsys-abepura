@@ -266,8 +266,8 @@ class JurnalRekPenjaminController extends MyAuthController
                 
 		if(isset($_GET['AKPenjaminpasienM'])){
 			$model->attributes=$_GET['AKPenjaminpasienM'];
-                        $model->rekening_debit = $_GET['AKPenjaminpasienM']['rekening_debit'];
-                        $model->rekeningKredit = $_GET['AKPenjaminpasienM']['rekeningKredit'];
+                        //$model->rekening_debit = $_GET['AKPenjaminpasienM']['rekening_debit'];
+                        //$model->rekeningKredit = $_GET['AKPenjaminpasienM']['rekeningKredit'];
 		}
 		$this->render('admin',array(
 			'model'=>$model,

@@ -66,12 +66,14 @@
                         'header'=>'Rekening Debit',
                         'name'=>'rekening_debit',
                         'type'=>'raw',
+                        'filter'=>false,
                         'value'=>'$this->grid->owner->renderPartial("_rekPenjaminD",array("saldonormal"=>"D","penjamin_id"=>$data->penjamin_id),true)',
                     ),
                     array(
                         'header'=>'Rekening Kredit',
                         'name'=>'rekeningKredit',
                         'type'=>'raw',
+                        'filter'=>false,
                         'value'=>'$this->grid->owner->renderPartial("_rekPenjaminK",array("saldonormal"=>"K","penjamin_id"=>$data->penjamin_id),true)',
                     ),
                     array(
