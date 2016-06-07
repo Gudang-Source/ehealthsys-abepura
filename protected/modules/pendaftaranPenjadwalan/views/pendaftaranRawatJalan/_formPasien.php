@@ -73,8 +73,8 @@
             <?php // echo $form->hiddenField($modPasien,'pasien_id',array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10)); ?>
         </div>
     </div>
-    <div class="control-group rm_baru" hidden>
-        <?php echo CHtml::label($modPasien->getAttributeLabel('no_rekam_medik')." Lama", 'no_rekam_medik', array('class'=>'control-label'))?>
+    <div class="control-group rm_baru" id="no_rm_lama" hidden>
+        <?php echo CHtml::label($modPasien->getAttributeLabel('no_rekam_medik')." Lama <span class=\"required\">*</span>", 'no_rekam_medik', array("id"=>"lb_rm_lama",'class'=>'control-label required'))?>
         <div class="controls">
             <?php $this->widget('MyJuiAutoComplete', array(
                                 'model'=>$modPasien,
