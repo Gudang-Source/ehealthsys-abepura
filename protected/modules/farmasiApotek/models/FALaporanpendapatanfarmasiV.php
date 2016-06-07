@@ -2,7 +2,7 @@
 
 class FALaporanpendapatanfarmasiV extends LaporanpendapatanfarmasiV
 {
-        public $tgl_awal, $tgl_akhir, $data, $jumlah;
+        public $tgl_awal, $tgl_akhir, $bln_awal, $bln_akhir, $thn_awal, $thn_akhir, $jns_periode,$data, $jumlah;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -232,7 +232,7 @@ class FALaporanpendapatanfarmasiV extends LaporanpendapatanfarmasiV
             $criteria = $this->criteriaSearch();
             $criteria->group = "obatalkes_id, obatalkes_kode, obatalkes_nama, obatalkes_kategori, obatalkes_golongan, jenisobatalkes_id, jenisobatalkes_nama, returresep_id";
             $criteria->select = $criteria->group.", sum(qty_oa) AS qty_oa, sum(hargajual_oa) AS hargajual_oa, sum(discount) AS discount, min(ppn_persen) AS ppn_persen, sum(harganetto_oa * qty_oa) AS harganetto_oa";
-            // $criteria->addCondition('returresep_id IS NOT NULL');
+             $criteria->addCondition('returresep_id IS NOT NULL');
             // $criteria->order = "jenisobatalkes_id, obatalkes_kode, obatalkes_nama";
             if($sum){ 
                 $hasils = $this->model()->findAll($criteria);
@@ -351,7 +351,7 @@ class FALaporanpendapatanfarmasiV extends LaporanpendapatanfarmasiV
          * @param type $kolom
          * @return type
          */
-        public function getTpRetur($kolom = "", $sum = false){
+        public function getTpRetur($kolom = "", $sum = false, $jenisobatalkes_id=null){
             $hasil = 0;
             $format = new MyFormatter;
             if(isset($_GET['FALaporanpendapatanfarmasiV']['tgl_awal']) && isset($_GET['FALaporanpendapatanfarmasiV']['tgl_akhir'])){
@@ -369,10 +369,13 @@ class FALaporanpendapatanfarmasiV extends LaporanpendapatanfarmasiV
                     $hasil += $value->$kolom;
                 }
             }else{
-                $criteria->addCondition('jenisobatalkes_id = '.$this->jenisobatalkes_id);
+                if ($jenisobatalkes_id !== null):
+                    $criteria->addCondition('jenisobatalkes_id = '.$this->jenisobatalkes_id);
+                endif;
+                
 //			RND-5946
 //              $hasil = $this->model()->find($criteria);
-				$hasil = isset($this->model()->find($criteria)->$kolom)?$this->model()->find($criteria)->$kolom:0;
+                $hasil = isset($this->model()->find($criteria)->$kolom)?$this->model()->find($criteria)->$kolom:0;
             }
             return $hasil;
             
@@ -382,7 +385,7 @@ class FALaporanpendapatanfarmasiV extends LaporanpendapatanfarmasiV
          * @param type $kolom
          * @return type
          */
-        public function getTpTotal($kolom = "", $sum = false){
+        public function getTpTotal($kolom = "", $sum = false,$jenisobatalkes_id=null){
             $hasil = 0;
             $format = new MyFormatter;
             if(isset($_GET['FALaporanpendapatanfarmasiV']['tgl_awal']) && isset($_GET['FALaporanpendapatanfarmasiV']['tgl_akhir'])){
@@ -400,7 +403,10 @@ class FALaporanpendapatanfarmasiV extends LaporanpendapatanfarmasiV
                     $hasil += $value->$kolom;
                 }
             }else{
-                $criteria->addCondition('jenisobatalkes_id = '.$this->jenisobatalkes_id);
+                 if ($jenisobatalkes_id !== null):
+                    $criteria->addCondition('jenisobatalkes_id = '.$this->jenisobatalkes_id);
+                endif;
+                
                 $hasil = isset($this->model()->find($criteria)->$kolom)?$this->model()->find($criteria)->$kolom:0;
             }
             return $hasil;
