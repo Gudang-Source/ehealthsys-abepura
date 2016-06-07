@@ -141,13 +141,13 @@
                                     'header' => 'Berdasarkan Wilayah',
                                     'isi' => '<table width="100%"><tr><td>' . CHtml::hiddenField('filter', 'wilayah') . '<label>Propinsi</label></td><td>' . $form->dropDownList($model, 'propinsi_id', CHtml::listData($model->getPropinsiItems(), 'propinsi_id', 'propinsi_nama'), array('empty' => '-- Pilih --',
                                         'ajax' => array('type' => 'POST',
-                                            'url' => Yii::app()->createUrl('ActionDynamic/GetKabupaten', array('encode' => false, 'namaModel' => '' . $model->getNamaModel() . '')),
+                                            'url' => Yii::app()->createUrl('ActionDynamic/GetKabupaten', array('encode' => false, 'model_nama' => '' . $model->getNamaModel() . '')),
                                             'update' => '#' . CHtml::activeId($model, 'kabupaten_id') . ''),
                                         'onkeypress' => "return $(this).focusNextInputField(event)"
                                     )) . '</td></tr><tr><td><label>Kabupaten</label></td><td>' .
                                     $form->dropDownList($model, 'kabupaten_id', array(), array('empty' => '-- Pilih --',
                                         'ajax' => array('type' => 'POST',
-                                            'url' => Yii::app()->createUrl('ActionDynamic/GetKecamatan', array('encode' => false, 'namaModel' => '' . $model->getNamaModel() . '')),
+                                            'url' => Yii::app()->createUrl('ActionDynamic/GetKecamatan', array('encode' => false, 'model_nama' => '' . $model->getNamaModel() . '')),
                                             'update' => '#' . CHtml::activeId($model, 'kecamatan_id') . ''),
                                         'onkeypress' => "return $(this).focusNextInputField(event)"
                                     )) . '</td></tr></table>',
@@ -174,7 +174,7 @@
                             'id' => 'big',
 //                                    'disabled'=>true,
                             'content' => array(
-                                'content1' => array(
+                                'content2' => array(
                                     'header' => 'Berdasarkan Pengunjung/Kunjungan',
                                     'isi' => '<table>
                                                 <tr>

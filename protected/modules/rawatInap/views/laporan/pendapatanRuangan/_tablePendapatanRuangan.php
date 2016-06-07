@@ -63,7 +63,7 @@
                 ),
                 array(
                     'name'=>'tarif_satuan',
-                    'value'=>'"Rp. ".number_format($data->tarif_satuan)',
+                    'value'=>'"Rp".number_format($data->tarif_satuan,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                     'footerHtmlOptions'=>array('style'=>'text-align:right;'),
@@ -71,7 +71,7 @@
                 ),
                 array(
                     'name'=>'tarifcyto_tindakan',
-                    'value'=>'"Rp. ".number_format($data->tarifcyto_tindakan)',
+                    'value'=>'"Rp".number_format($data->tarifcyto_tindakan,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                     'footerHtmlOptions'=>array('style'=>'text-align:right;'),
@@ -79,7 +79,7 @@
                 ),
                 array(
                     'name'=>'tarif_rsakomodasi',
-                    'value'=>'"Rp. ".number_format($data->tarif_rsakomodasi)',
+                    'value'=>'"Rp".number_format($data->tarif_rsakomodasi,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                     'footerHtmlOptions'=>array('style'=>'text-align:right;'),
@@ -87,7 +87,7 @@
                 ),
                 array(
                     'name'=>'tarif_medis',
-                    'value'=>'"Rp. ".number_format($data->tarif_medis)',
+                    'value'=>'"Rp".number_format($data->tarif_medis,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                     'footerHtmlOptions'=>array('style'=>'text-align:right;'),
@@ -95,7 +95,7 @@
                 ),
                 array(
                     'name'=>'tarif_paramedis',
-                    'value'=>'"Rp. ".number_format($data->tarif_paramedis)',
+                    'value'=>'"Rp".number_format($data->tarif_paramedis,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                     'footerHtmlOptions'=>array('style'=>'text-align:right;'),
@@ -103,7 +103,7 @@
                 ),
                 array(
                     'name'=>'tarif_bhp',
-                    'value'=>'"Rp. ".number_format($data->tarif_bhp)',
+                    'value'=>'"Rp".number_format($data->tarif_bhp,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                     'footerHtmlOptions'=>array('style'=>'text-align:right;'),
@@ -112,7 +112,7 @@
                 array(
                     'header'=>'Total',
                     'name'=>'totalTarif',
-                    'value'=>'"Rp. ".number_format($data->totalTarif)',
+                    'value'=>'"Rp".number_format($data->totalTarif,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                     'footerHtmlOptions'=>array('style'=>'text-align:right;'),

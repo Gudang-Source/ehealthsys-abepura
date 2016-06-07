@@ -124,22 +124,38 @@
             </div>
         </div> 
     </div> 
-</table>    
-<div id='searching'>
-    <fieldset class="box2">
-        <legend class="rim">Berdasarkan Jenis Obat
-            <?php
-            echo CHtml::checkBox('checkAllJenis', false, array('onkeypress' => "return $(this).focusNextInputField(event)",
-                'class' => 'checkbox-column', 'onclick' => 'checkAll()', 'checked' => 'checked')) . " Pilih Semua";
-            ?>
-        </legend>
-        <div>
-            <?php
-            echo $form->CheckBoxList($model, 'jenisobatalkes_id', CHtml::listData($model->getJenisobatalkesItems(), 'jenisobatalkes_id', 'jenisobatalkes_nama'));
-            ?>
-        </div>
-    </fieldset>
-</div>
+</table> 
+ <table width="100%" border="0">
+              <tr>
+                <td> 
+                    <div id='searching'>
+                    <fieldset>                 
+                        <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+                            'id'=>'kunjungan',
+                            'slide'=>true,
+                                                                'content'=>array(
+                                'content2'=>array(
+                                    'header'=>'Berdasarkan Jenis Obat',
+                                    'isi'=>'<table><tr>      
+                                                <td>'.CHtml::checkBox('checkAllJenis', false, array('onkeypress' => "return $(this).focusNextInputField(event)",
+                                                        'class' => 'checkbox-column', 'onclick' => 'checkAll()', 'checked' => 'checked')).' Pilih Semua<td></tr></table>
+                                                <table id="tindak_lanjut_tbl">
+						<tr>
+							<td>'.
+								$form->CheckBoxList($model, 'jenisobatalkes_id', CHtml::listData($model->getJenisobatalkesItems(), 'jenisobatalkes_id', 'jenisobatalkes_nama'))
+							.'</td>
+						</tr>
+						</table>',            
+                                        'active'=>true,
+                                    ),
+                            ),
+//                                    'htmlOptions'=>array('class'=>'aw',)
+                    )); ?>
+                    </fieldset>					
+			</td>
+                </tr>
+        </table>
+
 
 <div class="form-actions">
     <?php echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'id' => 'btn_simpan')); ?>
