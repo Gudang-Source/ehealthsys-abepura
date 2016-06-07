@@ -1,190 +1,178 @@
 <?php
 
-/**
- * This is the model class for table "laporantindaklanjut_v".
- *
- * The followings are the available columns in table 'laporantindaklanjut_v':
- * @property integer $pasien_id
- * @property string $jenisidentitas
- * @property string $no_identitas_pasien
- * @property string $namadepan
- * @property string $nama_pasien
- * @property string $nama_bin
- * @property string $jeniskelamin
- * @property string $tempat_lahir
- * @property string $tanggal_lahir
- * @property string $alamat_pasien
- * @property integer $rt
- * @property integer $rw
- * @property string $agama
- * @property string $golongandarah
- * @property string $photopasien
- * @property string $alamatemail
- * @property string $statusrekammedis
- * @property string $statusperkawinan
- * @property string $no_rekam_medik
- * @property string $tgl_rekam_medik
- * @property integer $pendaftaran_id
- * @property string $no_pendaftaran
- * @property string $tgl_pendaftaran
- * @property string $no_urutantri
- * @property string $transportasi
- * @property string $keadaanmasuk
- * @property string $statusperiksa
- * @property string $statuspasien
- * @property string $kunjungan
- * @property boolean $alihstatus
- * @property boolean $byphone
- * @property boolean $kunjunganrumah
- * @property string $statusmasuk
- * @property string $umur
- * @property string $no_asuransi
- * @property string $namapemilik_asuransi
- * @property string $nopokokperusahaan
- * @property string $create_time
- * @property string $create_loginpemakai_id
- * @property string $create_ruangan
- * @property integer $shift_id
- * @property string $no_rujukan
- * @property string $nama_perujuk
- * @property string $tanggal_rujukan
- * @property string $diagnosa_rujukan
- * @property integer $asalrujukan_id
- * @property string $asalrujukan_nama
- * @property integer $ruangan_id
- * @property string $ruangan_nama
- * @property integer $instalasi_id
- * @property string $instalasi_nama
- * @property integer $jeniskasuspenyakit_id
- * @property string $jeniskasuspenyakit_nama
- * @property integer $kelaspelayanan_id
- * @property string $kelaspelayanan_nama
- * @property integer $diagnosa_id
- * @property string $diagnosa_kode
- * @property string $diagnosa_nama
- * @property integer $pasienmorbiditas_id
- * @property integer $pasienpulang_id
- * @property string $carakeluar
- * @property string $kondisipulang
- * @property string $tglpasienpulang
- */
-class RKLaporantindaklanjutV extends LaporantindaklanjutV
+
+class PPLaporanJumlahPemeriksaanDokterV extends LaporanjumlahpemeriksaandokterV
 {
+	public $nama_pegawai,$tglAwal,$tglAkhir,$tick,$data,$jumlah;
+      public static function model($className = __CLASS__) {
+        return parent::model($className);
+     }
+     
+     public function searchTable() {
+        $criteria = new CDbCriteria();
+        $criteria = $this->functionCriteria();
+        $criteria->order = 'instalasi_nama, ruangan_nama';
+
+        return new CActiveDataProvider($this, array(
+                    'criteria' => $criteria,
+                ));
+     }
+     
+     protected function functionCriteria() {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
+
+        $criteria = new CDbCriteria;
+
+        $criteria->addBetweenCondition('tgl_tindakan', $this->tglAwal, $this->tglAkhir);
+           $criteria->compare('LOWER(no_pendaftaran)',strtolower($this->no_pendaftaran),true);
+		$criteria->compare('LOWER(no_rekam_medik)',strtolower($this->no_rekam_medik),true);
+		$criteria->compare('LOWER(nama_pasien)',strtolower($this->nama_pasien),true);
+		$criteria->compare('LOWER(instalasi_nama)',strtolower($this->instalasi_nama),true);
+		$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
+		$criteria->compare('LOWER(daftartindakan_nama)',strtolower($this->daftartindakan_nama),true);
+		$criteria->compare('(dokter_id)',($this->dokter_id));
+		$criteria->compare('LOWER(dokter_nama)',strtolower($this->dokter_nama),true);
+		$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
+		$criteria->compare('tarif_satuan',$this->tarif_satuan);
+		$criteria->compare('qty_tindakan',$this->qty_tindakan);
+		$criteria->compare('tarif_tindakan',$this->tarif_tindakan);
+		//$criteria->compare('LOWER(tgl_tindakan)',strtolower($this->tgl_tindakan),true);
+		$criteria->compare('penjamin_id',$this->penjamin_id);
+		$criteria->compare('LOWER(gelardepan)',strtolower($this->gelardepan),true);
+		$criteria->compare('LOWER(gelarbelakang_nama)',strtolower($this->gelarbelakang_nama),true);
+		$criteria->compare('ruangan_id',$this->ruangan_id);
+		$criteria->compare('instalasi_id',$this->instalasi_id);
+		$criteria->compare('LOWER(statusdokter)',strtolower($this->statusdokter),true);
+
+
+        return $criteria;
+    }
+     
+     public function searchGrafik()
+        {
+                // Warning: Please modify the following code to remove attributes that
+                // should not be searched.
+
+                $criteria=new CDbCriteria;
+                $criteria->select = 'count(nama_pasien) as jumlah, dokter_nama as data';
+                $criteria->group = 'dokter_nama';
+//                $criteria->addBetweenCondition('tgl_pendaftaran', $this->tglAwal, $this->tglAkhir);
+                $criteria->addBetweenCondition('tgl_tindakan', $this->tglAwal, $this->tglAkhir);
+           $criteria->compare('LOWER(no_pendaftaran)',strtolower($this->no_pendaftaran),true);
+		$criteria->compare('LOWER(no_rekam_medik)',strtolower($this->no_rekam_medik),true);
+		$criteria->compare('LOWER(nama_pasien)',strtolower($this->nama_pasien),true);
+		$criteria->compare('LOWER(instalasi_nama)',strtolower($this->instalasi_nama),true);
+		$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
+		$criteria->compare('LOWER(daftartindakan_nama)',strtolower($this->daftartindakan_nama),true);
+		$criteria->compare('LOWER(dokter_id)',strtolower($this->dokter_id),true);
+		$criteria->compare('LOWER(dokter_nama)',strtolower($this->dokter_nama),true);
+		$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
+		$criteria->compare('tarif_satuan',$this->tarif_satuan);
+		$criteria->compare('qty_tindakan',$this->qty_tindakan);
+		$criteria->compare('tarif_tindakan',$this->tarif_tindakan);
+		//$criteria->compare('LOWER(tgl_tindakan)',strtolower($this->tgl_tindakan),true);
+		$criteria->compare('penjamin_id',$this->penjamin_id);
+		$criteria->compare('LOWER(gelardepan)',strtolower($this->gelardepan),true);
+		$criteria->compare('LOWER(gelarbelakang_nama)',strtolower($this->gelarbelakang_nama),true);
+		$criteria->compare('ruangan_id',$this->ruangan_id);
+		$criteria->compare('instalasi_id',$this->instalasi_id);
+		$criteria->compare('LOWER(statusdokter)',strtolower($this->statusdokter),true);
+               
+                // Klo limit lebih kecil dari nol itu berarti ga ada limit 
+               // $criteria->limit=-1; 
+
+                return new CActiveDataProvider($this, array(
+                        'criteria'=>$criteria,
+                ));
+        }
+        
 	/**
-	 * Returns the static model of the specified AR class.
-	 * @param string $className active record class name.
-	 * @return LaporantindaklanjutV the static model class
+	 * Retrieves a list of models based on the current search/filter conditions.
+	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public static function model($className=__CLASS__)
+	public function search()
 	{
-		return parent::model($className);
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria=new CDbCriteria;
+                                     $criteria->addBetweenCondition('tgl_tindakan', $this->tglAwal, $this->tglAkhir);
+		$criteria->compare('LOWER(no_pendaftaran)',strtolower($this->no_pendaftaran),true);
+		$criteria->compare('LOWER(no_rekam_medik)',strtolower($this->no_rekam_medik),true);
+		$criteria->compare('LOWER(nama_pasien)',strtolower($this->nama_pasien),true);
+		$criteria->compare('LOWER(instalasi_nama)',strtolower($this->instalasi_nama),true);
+		$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
+		$criteria->compare('LOWER(daftartindakan_nama)',strtolower($this->daftartindakan_nama),true);
+		$criteria->compare('LOWER(dokter_id)',strtolower($this->dokter_id),true);
+		$criteria->compare('LOWER(dokter_nama)',strtolower($this->dokter_nama),true);
+		$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
+		$criteria->compare('tarif_satuan',$this->tarif_satuan);
+		$criteria->compare('qty_tindakan',$this->qty_tindakan);
+		$criteria->compare('tarif_tindakan',$this->tarif_tindakan);
+		//$criteria->compare('LOWER(tgl_tindakan)',strtolower($this->tgl_tindakan),true);
+		$criteria->compare('penjamin_id',$this->penjamin_id);
+		$criteria->compare('LOWER(gelardepan)',strtolower($this->gelardepan),true);
+		$criteria->compare('LOWER(gelarbelakang_nama)',strtolower($this->gelarbelakang_nama),true);
+		$criteria->compare('ruangan_id',$this->ruangan_id);
+		$criteria->compare('instalasi_id',$this->instalasi_id);
+		$criteria->compare('LOWER(statusdokter)',strtolower($this->statusdokter),true);
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
 	}
+        
+        
+        public function searchPrint()
+        {
+                // Warning: Please modify the following code to remove attributes that
+                // should not be searched.
 
-    public function searchTable() {
-        // Warning: Please modify the following code to remove attributes that
-        // should not be searched.
+                $criteria=new CDbCriteria;
+                 $criteria->addBetweenCondition('tgl_tindakan', $this->tglAwal, $this->tglAkhir);
+		$criteria->compare('LOWER(no_pendaftaran)',strtolower($this->no_pendaftaran),true);
+		$criteria->compare('LOWER(no_rekam_medik)',strtolower($this->no_rekam_medik),true);
+		$criteria->compare('LOWER(nama_pasien)',strtolower($this->nama_pasien),true);
+		$criteria->compare('LOWER(instalasi_nama)',strtolower($this->instalasi_nama),true);
+		$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
+		$criteria->compare('LOWER(daftartindakan_nama)',strtolower($this->daftartindakan_nama),true);
+		$criteria->compare('LOWER(dokter_id)',strtolower($this->dokter_id),true);
+		$criteria->compare('LOWER(dokter_nama)',strtolower($this->dokter_nama),true);
+		$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
+		$criteria->compare('tarif_satuan',$this->tarif_satuan);
+		$criteria->compare('qty_tindakan',$this->qty_tindakan);
+		$criteria->compare('tarif_tindakan',$this->tarif_tindakan);
+		//$criteria->compare('LOWER(tgl_tindakan)',strtolower($this->tgl_tindakan),true);
+		$criteria->compare('penjamin_id',$this->penjamin_id);
+		$criteria->compare('LOWER(gelardepan)',strtolower($this->gelardepan),true);
+		$criteria->compare('LOWER(gelarbelakang_nama)',strtolower($this->gelarbelakang_nama),true);
+		$criteria->compare('ruangan_id',$this->ruangan_id);
+		$criteria->compare('instalasi_id',$this->instalasi_id);
+		$criteria->compare('LOWER(statusdokter)',strtolower($this->statusdokter),true);
+                // Klo limit lebih kecil dari nol itu berarti ga ada limit 
+                $criteria->limit=-1; 
 
-        $criteria = new CDbCriteria;
-
-        if (is_array($this->carakeluar)) {
-            foreach ($this->carakeluar as $v) {
-                if ($v == 'DIPULANGKAN') {
-                    $criteria->addCondition('carakeluar is null', 'OR');
-                } else {
-                    $criteria->compare('LOWER(carakeluar)', strtolower($v), true, 'OR');
-                }
-            }
-        } else {
-            $criteria->addCondition('pasienpulang_id is not null');
-            $criteria->addCondition('carakeluar is null');
-        }
-        $criteria->addBetweenCondition('date(tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
-        $criteria->compare('LOWER(nama_pasien)', strtolower($this->nama_pasien), true);
-        $criteria->compare('LOWER(jeniskelamin)', strtolower($this->jeniskelamin), true);
-        $criteria->compare('LOWER(no_rekam_medik)', strtolower($this->no_rekam_medik), true);
-        $criteria->compare('LOWER(no_pendaftaran)', strtolower($this->no_pendaftaran), true);
-        $criteria->compare('LOWER(umur)', strtolower($this->umur), true);
-        $criteria->compare('LOWER(diagnosa_nama)', strtolower($this->diagnosa_nama), true);
-
-        return new CActiveDataProvider($this, array(
-                    'criteria' => $criteria,
+                return new CActiveDataProvider($this, array(
+                        'criteria'=>$criteria,
+                        'pagination'=>false,
                 ));
-    }
-	
-	public function searchGrafik() {
-        // Warning: Please modify the following code to remove attributes that
-        // should not be searched.
-
-        $criteria = new CDbCriteria;
-
-        if (is_array($this->carakeluar)) {
-            foreach ($this->carakeluar as $v) {
-                if ($v == 'DIPULANGKAN') {
-                    $criteria->addCondition('carakeluar is null', 'OR');
-                } else {
-                    $criteria->compare('LOWER(carakeluar)', strtolower($v), true, 'OR');
-                }
-            }
-        } else {
-            $criteria->addCondition('pasienpulang_id is not null');
-            $criteria->addCondition('carakeluar is null');
         }
+        
 
-        $criteria->select = "count(pendaftaran_id) as jumlah, coalesce(carakeluar,'PULANG') as data";
-        $criteria->group = 'carakeluar';
+        
+      public function getNamaModel() 
+      {
+        return __CLASS__;
+     }
 
-        $criteria->addBetweenCondition('tgl_pendaftaran', $this->tgl_awal, $this->tgl_akhir);
-        $criteria->compare('LOWER(nama_pasien)', strtolower($this->nama_pasien), true);
-        $criteria->compare('LOWER(jeniskelamin)', strtolower($this->jeniskelamin), true);
-        $criteria->compare('LOWER(no_rekam_medik)', strtolower($this->no_rekam_medik), true);
-        $criteria->compare('LOWER(no_pendaftaran)', strtolower($this->no_pendaftaran), true);
-        $criteria->compare('LOWER(umur)', strtolower($this->umur), true);
-        $criteria->compare('LOWER(diagnosa_nama)', strtolower($this->diagnosa_nama), true);
-        $criteria->compare('LOWER(nama_pasien)', strtolower($this->nama_pasien), true);
-        $criteria->compare('LOWER(jeniskelamin)', strtolower($this->jeniskelamin), true);
-        $criteria->compare('LOWER(no_rekam_medik)', strtolower($this->no_rekam_medik), true);
-        $criteria->compare('LOWER(no_pendaftaran)', strtolower($this->no_pendaftaran), true);
-        $criteria->compare('LOWER(umur)', strtolower($this->umur), true);
-        $criteria->compare('LOWER(ruangan_nama)', strtolower($this->ruangan_nama), true);
-        $criteria->compare('LOWER(diagnosa_nama)', strtolower($this->diagnosa_nama), true);
-
-        return new CActiveDataProvider($this, array(
-                    'criteria' => $criteria,
-                ));
-    }
-    
-    public function searchPrint() {
-        // Warning: Please modify the following code to remove attributes that
-        // should not be searched.
-
-        $criteria = new CDbCriteria;
-
-        if (is_array($this->carakeluar)) {
-            foreach ($this->carakeluar as $v) {
-                if ($v == 'DIPULANGKAN') {
-                    $criteria->addCondition('carakeluar is null', 'OR');
-                } else {
-                    $criteria->compare('LOWER(carakeluar)', strtolower($v), true, 'OR');
-                }
-            }
-        } else {
-            $criteria->addCondition('pasienpulang_id is not null');
-            $criteria->addCondition('carakeluar is null');
-        }
-        $criteria->addBetweenCondition('date(tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
-        $criteria->compare('LOWER(nama_pasien)', strtolower($this->nama_pasien), true);
-        $criteria->compare('LOWER(jeniskelamin)', strtolower($this->jeniskelamin), true);
-        $criteria->compare('LOWER(no_rekam_medik)', strtolower($this->no_rekam_medik), true);
-        $criteria->compare('LOWER(no_pendaftaran)', strtolower($this->no_pendaftaran), true);
-        $criteria->compare('LOWER(umur)', strtolower($this->umur), true);
-        $criteria->compare('LOWER(diagnosa_nama)', strtolower($this->diagnosa_nama), true);
-        $criteria->limit = -1;
-
-        return new CActiveDataProvider($this, array(
-                    'criteria' => $criteria,
-                    'pagination' => false,
-                    'sort' => false,
-                ));
+    public static function berdasarkanStatus() 
+    {
+        $status = array(
+            'pengunjung' => 'Berdasarkan Pengunjung',
+            'kunjungan' => 'Berdasarkan Kunjungan',
+        );
+        return $status;
     }
 	
 }
