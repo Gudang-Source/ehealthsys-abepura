@@ -52,8 +52,8 @@ class RILaporanpasienmeninggalriV extends LaporanpasienmeninggalriV {
         $criteria=new CDbCriteria;
         $criteria = $this->functionCriteria();
         
-        $criteria->select = 'count(pendaftaran_id) as jumlah, propinsi_nama as data, caramasuk_nama as tick';
-        $criteria->group = 'propinsi_nama, caramasuk_nama';
+        $criteria->select = 'count(pendaftaran_id) as jumlah, caramasuk_nama as data, caramasuk_nama as tick';
+        $criteria->group = 'caramasuk_nama';
 
         return new CActiveDataProvider($this, array(
                 'criteria'=>$criteria,
@@ -137,6 +137,9 @@ class RILaporanpasienmeninggalriV extends LaporanpasienmeninggalriV {
         $criteria->compare('LOWER(rhesus)',strtolower($this->rhesus),true);
 		if(!empty($this->instalasi_id)){
 			$criteria->addCondition("instalasi_id = ".$this->instalasi_id); 	
+		}
+                if(!empty($this->ruangan_id)){
+			$criteria->addCondition("ruangan_id = ".$this->ruangan_id); 	
 		}
         $criteria->compare('LOWER(instalasi_nama)',strtolower($this->instalasi_nama),true);
 		if(!empty($this->caramasuk_id)){

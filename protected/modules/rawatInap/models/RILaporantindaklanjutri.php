@@ -29,7 +29,7 @@ class RILaporantindaklanjutri extends LaporantindaklanjutriV {
         if (is_array($this->carakeluar)) {
             foreach ($this->carakeluar as $v) {
                 if ($v == 'DIPULANGKAN') {
-                    $criteria->addCondition('carakeluar is null', 'OR');
+                    $criteria->compare('LOWER(carakeluar)', strtolower($v), true, 'OR');
                 } else {
                     $criteria->compare('LOWER(carakeluar)', strtolower($v), true, 'OR');
                 }

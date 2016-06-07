@@ -127,6 +127,24 @@ class CarakeluarM extends CActiveRecord
                     'pagination'=>false,
             ));
         }
+        
+        public function getCaraKeluar()
+	{
+            $data = array();
+            $criteria = new CDbCriteria();            
+            $criteria->addCondition("carakeluar_aktif = TRUE");
+            $criteria->order = 'carakeluar_nama ASC';
+            $models=self::model()->findAll($criteria);
+            if(count($models) > 0){
+                foreach($models as $model)
+                    // $data[$model->lookup_value]= ucwords(strtolower($model->lookup_name));
+                    $data[$model->carakeluar_nama]= ($model->carakeluar_nama);
+            }else{
+                $data[""] = null;
+            }
+            
+            return $data;
+	}
 
         public static function getCarakeluarItems()
         {
