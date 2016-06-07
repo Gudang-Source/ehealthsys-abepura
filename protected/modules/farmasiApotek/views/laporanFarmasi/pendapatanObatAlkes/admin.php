@@ -17,18 +17,18 @@
     });
     ");
     ?>
-    <div class="box search-form">
+    <fieldset class="row-fluid box">
         <?php 
             $this->renderPartial('pendapatanObatAlkes/_search',array(
                 'model'=>$model,
             )); 
         ?>
-    </div><!-- search-form --> 
-    <div class="block-tabel"> 
+    </fieldset><!-- search-form --> 
+    <div class="row-fluid block-tabel"> 
         <h6>Tabel Transaksi <b>Obat Alkes</b></h6>
         <?php $this->renderPartial('pendapatanObatAlkes/_table', array('model'=>$model)); ?>
     </div>
-    <div class="block-tabel">
+    <div class="row-fluid block-tabel">
         <?php $this->renderPartial('_tab'); ?>
         <iframe class="biru" src="" id="Grafik" width="100%" height='0'  onload="javascript:resizeIframe(this);">
         </iframe>        

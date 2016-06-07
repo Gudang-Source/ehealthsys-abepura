@@ -6984,6 +6984,30 @@ class LaporanController extends MyAuthController {
         }
     }
     
+    
+    protected function printFunction2($model, $data, $caraPrint, $judulLaporan, $target){
+        $format = new MyFormatter();
+        $periode = $format->formatDateTimeForUser($model->tglAwal).' sampai dengan '.$format->formatDateTimeForUser($model->tglAkhir);
+
+        if ($caraPrint == 'PRINT' || $caraPrint == 'GRAFIK') {
+            $this->layout = '//layouts/printWindows';
+            $this->render($target, array('model' => $model, 'periode'=>$periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint));
+        } else if ($caraPrint == 'EXCEL') {
+            $this->layout = '//layouts/printExcel';
+            $this->render($target, array('model' => $model, 'periode'=>$periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint));
+        } else if ($_REQUEST['caraPrint'] == 'PDF') {
+            $ukuranKertasPDF = Yii::app()->user->getState('ukuran_kertas');                  //Ukuran Kertas Pdf
+            $posisi = Yii::app()->user->getState('posisi_kertas');                           //Posisi L->Landscape,P->Portait                    
+            $mpdf = new MyPDF('', $ukuranKertasPDF);
+            $mpdf->useOddEven = 2;            
+            $stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
+            $mpdf->WriteHTML($stylesheet, 1);
+            $mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);
+            $mpdf->WriteHTML($this->renderPartial($target, array('model' => $model, 'periode'=>$periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
+            $mpdf->Output($judulLaporan.'-'.date('Y_m_d').'.pdf','I');
+        }
+    }
+    
 //        
 //    protected function parserTanggal($tgl){
 //    $tgl = explode(' ', $tgl);
@@ -7031,6 +7055,66 @@ class LaporanController extends MyAuthController {
             }
         }
         Yii::app()->end();
+    }
+    
+
+    public function actionLaporanJumlahPemeriksaanDokter() {
+        $model = new PPLaporanJumlahPemeriksaanDokterV('search');
+        $model->tglAwal = date('Y-m-d H:i:s');
+        $model->tglAkhir = date('Y-m-d 23:59:59');
+
+        if (isset($_GET['PPLaporanJumlahPemeriksaanDokterV'])) {
+            $model->attributes = $_GET['PPLaporanJumlahPemeriksaanDokterV'];
+            $format = new MyFormatter();
+            $model->tglAwal = $format->formatDateTimeForDB($_GET['PPLaporanJumlahPemeriksaanDokterV']['tglAwal']);
+            $model->tglAkhir = $format->formatDateTimeForDB($_GET['PPLaporanJumlahPemeriksaanDokterV']['tglAkhir']);
+        }
+
+        $this->render($this->pathViewPP.'jumlahPemeriksaanDokter/admin', array(
+            'model' => $model,
+        ));
+    }
+    
+    public function actionPrintLaporanJumlahPemeriksaanDokter() {
+        $model = new PPLaporanJumlahPemeriksaanDokterV('search');
+        $judulLaporan = 'Laporan Kunjungan Dokter';
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Kunjungan Dokter';
+        $data['type'] = $_REQUEST['type'];
+        if (isset($_REQUEST['PPLaporanJumlahPemeriksaanDokterV'])) {
+            $model->attributes = $_REQUEST['PPLaporanJumlahPemeriksaanDokterV'];
+            $format = new MyFormatter();
+            $model->tglAwal = $format->formatDateTimeForDB($_REQUEST['PPLaporanJumlahPemeriksaanDokterV']['tglAwal']);
+            $model->tglAkhir = $format->formatDateTimeForDB($_REQUEST['PPLaporanJumlahPemeriksaanDokterV']['tglAkhir']);
+        }
+        $caraPrint = $_REQUEST['caraPrint'];
+        $target = $this->pathViewPP.'jumlahPemeriksaanDokter/_print';
+
+        $this->printFunction2($model, $data, $caraPrint, $judulLaporan, $target);
+    }
+
+    public function actionFrameGrafikJumlahPemeriksaanDokter() {
+        $this->layout = '//layouts/frameDialog';
+
+        $model = new PPLaporanJumlahPemeriksaanDokterV('search');
+        $model->tglAwal = date('d M Y 00:00:00');
+        $model->tglAkhir = date('d M Y 23:59:59');
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Jumlah Pemeriksaan Dokter';
+        $data['type'] = $_GET['type'];
+
+        if (isset($_GET['PPLaporanJumlahPemeriksaanDokterV'])) {
+            $model->attributes = $_GET['PPLaporanJumlahPemeriksaanDokterV'];
+            $format = new MyFormatter();
+            $model->tglAwal = $format->formatDateTimeForDB($_GET['PPLaporanJumlahPemeriksaanDokterV']['tglAwal']);
+            $model->tglAkhir = $format->formatDateTimeForDB($_GET['PPLaporanJumlahPemeriksaanDokterV']['tglAkhir']);
+        }
+        $this->render($this->pathViewPP.'_grafik', array(
+        'model' => $model,
+        'data' => $data,
+        ));
     }
     
     //Laporan Kunjungan Penunjang
@@ -8396,6 +8480,7 @@ class LaporanController extends MyAuthController {
             'data' => $data,
         ));
     }
+
     public function actionFrameGrafikAgamaPenunjang() {
         $this->layout = '//layouts/iframe';
 

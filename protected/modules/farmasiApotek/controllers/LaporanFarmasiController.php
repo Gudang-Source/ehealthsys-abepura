@@ -140,16 +140,39 @@ class LaporanFarmasiController extends MyAuthController
     
     public function actionLaporanPendapatanObatAlkes()
     {
-        $format = new MyFormatter();
+        
         $model = new FALaporanpendapatanfarmasiV('searchTablePendapatanObatAlkes');
         $model->unsetAttributes();
-        $model->tgl_awal = date('d M Y');
-        $model->tgl_akhir = date('d M Y');
+        $format = new MyFormatter();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+     
         
         if(isset($_GET['FALaporanpendapatanfarmasiV'])){
             $model->attributes = $_GET['FALaporanpendapatanfarmasiV'];
+            $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+            $model->jns_periode = $_GET['FALaporanpendapatanfarmasiV']['jns_periode'];
             $model->tgl_awal = $format->formatDateTimeForDb($_GET['FALaporanpendapatanfarmasiV']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['FALaporanpendapatanfarmasiV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['FALaporanpendapatanfarmasiV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['FALaporanpendapatanfarmasiV']['bln_akhir']);
+            $model->thn_awal = $_GET['FALaporanpendapatanfarmasiV']['thn_awal'];
+            $model->thn_akhir = $_GET['FALaporanpendapatanfarmasiV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
         $this->render('pendapatanObatAlkes/admin',array('model'=>$model));
     }
@@ -157,20 +180,45 @@ class LaporanFarmasiController extends MyAuthController
     public function actionPrintLaporanPendapatanObatAlkes()
     {
         $model = new FALaporanpendapatanfarmasiV();
-        $judulLaporan = 'Laporan Pendapatan Farmasi Apotek<h3> Jenis : ';
-        $data['title'] = 'Grafik Laporan Pendapatan Farmasi Apotek <h3> Jenis : ';
-        foreach($_REQUEST['FALaporanpendapatanfarmasiV']['jenisobatalkes_id'] AS $jenis){
-            $judulLaporan .= JenisobatalkesM::model()->findByPk($jenis)->jenisobatalkes_nama.', ';
-            $data['title'] .= JenisobatalkesM::model()->findByPk($jenis)->jenisobatalkes_nama.', ';
-        }
+        $format = new MyFormatter();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+       // $judulLaporan = 'Laporan Pendapatan Farmasi Apotek<h3> Jenis : ';
+         $judulLaporan = 'Laporan Pendapatan Obat Alkes ';
+        //$data['title'] = 'Grafik Laporan Pendapatan Farmasi Apotek <h3> Jenis : ';
+         $data['title'] = 'Grafik Laporan Pendapatan Obat Alkes : ';
+        //foreach($_REQUEST['FALaporanpendapatanfarmasiV']['jenisobatalkes_id'] AS $jenis){
+          //  $judulLaporan .= JenisobatalkesM::model()->findByPk($jenis)->jenisobatalkes_nama.', ';
+           // $data['title'] .= JenisobatalkesM::model()->findByPk($jenis)->jenisobatalkes_nama.', ';
+        //}
         //Data Grafik       
         $data['type'] = $_REQUEST['type'];
         $data['nama_pegawai']=LoginpemakaiK::model()->findByPk(Yii::app()->user->id)->pegawai->nama_pegawai;
         if (isset($_REQUEST['FALaporanpendapatanfarmasiV'])) {
            $model->attributes = $_REQUEST['FALaporanpendapatanfarmasiV'];
-            $format = new MyFormatter();
+            $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+            $model->jns_periode = $_GET['FALaporanpendapatanfarmasiV']['jns_periode'];
             $model->tgl_awal = $format->formatDateTimeForDb($_GET['FALaporanpendapatanfarmasiV']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['FALaporanpendapatanfarmasiV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['FALaporanpendapatanfarmasiV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['FALaporanpendapatanfarmasiV']['bln_akhir']);
+            $model->thn_awal = $_GET['FALaporanpendapatanfarmasiV']['thn_awal'];
+            $model->thn_akhir = $_GET['FALaporanpendapatanfarmasiV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
         
         $caraPrint = $_REQUEST['caraPrint'];
@@ -187,17 +235,38 @@ class LaporanFarmasiController extends MyAuthController
      public function actionFrameGrafikLaporanPendapatanObatAlkes() {
         $this->layout = '//layouts/iframe';
         $model = new FALaporanpendapatanfarmasiV();
-        $model->tgl_awal = date($this->tgl_awal);
-        $model->tgl_akhir = date($this->tgl_akhir);
+        $format = new MyFormatter();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
 
         //Data Grafik
         $data['title'] = 'Grafik Laporan Kategori Obat dan Alkes';
         $data['type'] = $_GET['type'];
         if (isset($_GET['FALaporanpendapatanfarmasiV'])) {
             $model->attributes = $_GET['FALaporanpendapatanfarmasiV'];
-            $format = new MyFormatter();
+            $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+            $model->jns_periode = $_GET['FALaporanpendapatanfarmasiV']['jns_periode'];
             $model->tgl_awal = $format->formatDateTimeForDb($_GET['FALaporanpendapatanfarmasiV']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['FALaporanpendapatanfarmasiV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['FALaporanpendapatanfarmasiV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['FALaporanpendapatanfarmasiV']['bln_akhir']);
+            $model->thn_awal = $_GET['FALaporanpendapatanfarmasiV']['thn_awal'];
+            $model->thn_akhir = $_GET['FALaporanpendapatanfarmasiV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
                 
         $this->render('_grafik', array(
@@ -906,7 +975,7 @@ class LaporanFarmasiController extends MyAuthController
             $mpdf->WriteHTML($stylesheet, 1);
             $mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);
             $mpdf->WriteHTML($this->renderPartial($target, array('model' => $model, 'periode'=>$periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
-            $mpdf->Output();
+            $mpdf->Output($judulLaporan.'_'.date('d-m-Y').'.pdf','I');
         }
     }
 
@@ -929,7 +998,7 @@ class LaporanFarmasiController extends MyAuthController
             $mpdf->WriteHTML($stylesheet, 1);
             $mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);
             $mpdf->WriteHTML($this->renderPartial($target, array('model' => $model, 'periode'=>$periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
-            $mpdf->Output();
+            $mpdf->Output($judulLaporan.'_'.date('d-m-Y').'.pdf','I');
         }
     }
 

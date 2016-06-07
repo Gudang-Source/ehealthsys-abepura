@@ -58,13 +58,13 @@ $this->widget($table,array(
             array(
                 'header'=>'Bruto',
                 // 'name'=>'hargajual_oa',
-                'value'=>'number_format($data->hargajual_oa,0,"",".")',
+                'value'=>'"Rp".number_format($data->hargajual_oa,0,"",".")',
                 'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:right;'),
                 'htmlOptions'=>array('style'=>'text-align:right;'),
                 'footerHtmlOptions'=>array('style'=>'text-align:right;'),
-                'footer'=>  number_format($model->getTpJual('hargajual_oa',true),0,"",".")
+                'footer'=>  "Rp".number_format($model->getTpJual('hargajual_oa',true),0,"",".")
             ),
-            array(
+          array(
                 'header'=>'Discount',
                 // 'name'=>'discount',
                 'value'=>'number_format($data->discount,0,"",".")',
@@ -73,7 +73,7 @@ $this->widget($table,array(
                 'footerHtmlOptions'=>array('style'=>'text-align:right;'),
                 'footer'=>  number_format($model->getTpJual('discount',true),0,"",".")
             ),
-            array(
+             array(
                 'header'=>'PPn (%)',
                 'value'=>'number_format($data->ppn_persen)',
                 'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:right;'),
@@ -81,19 +81,19 @@ $this->widget($table,array(
                 'footerHtmlOptions'=>array('style'=>'text-align:right;'),
                 'footer'=>'-'
             ),
-            array(
+             array(
                 'header'=>'Netto',
                 // 'name'=>'harganetto_oa',
-                'value'=>'number_format($data->harganetto_oa,0,"",".")',
+                'value'=>'"Rp".number_format($data->harganetto_oa,0,"",".")',
                 'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:right;'),
                 'htmlOptions'=>array('style'=>'text-align:right;'),
                 'footerHtmlOptions'=>array('style'=>'text-align:right;'),
-                'footer'=>  number_format($model->getTpJual('harganetto_oa',true),0,"",".")
-            ),
+                'footer'=>  "Rp".number_format($model->getTpJual('harganetto_oa',true),0,"",".")
+            ),          
             //Retur
             array(
                 'header'=>'Bruto',
-                'value'=>'number_format($data->getTpRetur("hargajual_oa"),0,"",".")',
+                'value'=>'number_format($data->getTpRetur("hargajual_oa",false,$data->jenisobatalkes_id),0,"",".")',
                 'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:right;'),
                 'htmlOptions'=>array('style'=>'text-align:right;'),
                 'footerHtmlOptions'=>array('style'=>'text-align:right;'),
@@ -117,7 +117,7 @@ $this->widget($table,array(
             ),
             array(
                 'header'=>'Netto',
-                'value'=>'number_format($data->getTpRetur("harganetto_oa"),0,"",".")',
+                'value'=>'number_format($data->getTpRetur("harganetto_oa",false,$data->jenisobatalkes_id),0,"",".")',
                 'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:right;'),
                 'htmlOptions'=>array('style'=>'text-align:right;'),
                 'footerHtmlOptions'=>array('style'=>'text-align:right;'),
@@ -126,11 +126,11 @@ $this->widget($table,array(
             // //Total
             array(
                 'header'=>'Bruto',
-                'value'=>'number_format($data->getTpTotal("hargajual_oa"),0,"",".")',
+                'value'=>'"Rp".number_format($data->getTpTotal("hargajual_oa",false,$data->jenisobatalkes_id),0,"",".")',
                 'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:right;'),
                 'htmlOptions'=>array('style'=>'text-align:right;'),
                 'footerHtmlOptions'=>array('style'=>'text-align:right;'),
-                'footer'=>  number_format($model->getTpTotal('hargajual_oa',true),0,"",".")
+                'footer'=>  "Rp".number_format($model->getTpTotal('hargajual_oa',true),0,"",".")
             ),
             array(
                 'header'=>'Discount',
@@ -150,7 +150,7 @@ $this->widget($table,array(
             ),
             array(
                 'header'=>'Netto',
-                'value'=>'number_format($data->getTpTotal("harganetto_oa"),0,"",".")',
+                'value'=>'number_format($data->getTpTotal("harganetto_oa",false,$data->jenisobatalkes_id),0,"",".")',
                 // 'value'=>'$data->getTpTotal("harganetto_oa")',
                 'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:right;'),
                 'htmlOptions'=>array('style'=>'text-align:right;'),
