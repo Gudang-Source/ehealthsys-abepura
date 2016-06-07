@@ -2085,7 +2085,14 @@ $(".rb_kon").change(function() {
  * posisi script ini harus tetap dibawah
  */
 $( document ).ready(function(){
-    checkOto();
+    <?php if (isset($_GET['pasien_id']) && !empty($_GET['pasien_id'])): ?>
+            $(".rb_rm").eq(1).click();
+            $("#no_rekam_medik_baru").val('<?php echo $modPasien->no_rekam_medik; ?>');
+    <?php else: ?>
+            checkOto();
+    <?php endif; ?>
+        
+    
     $("#form-karcis .accordion-heading a").click(function()
     {
         return false;
