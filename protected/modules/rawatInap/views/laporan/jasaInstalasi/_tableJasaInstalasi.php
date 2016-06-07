@@ -62,32 +62,38 @@
                     'name' => 'qty_tindakan',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                     'value'=>'($data->daftartindakan_karcis == false) ? $data->qty_tindakan : \'\'',
+                    'htmlOptions' => array('style'=>'text-align:right;')
                 ),
                 array(
                     'name' => 'tarif_rsakomodasi',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                     'value'=>'($data->daftartindakan_karcis == false) ? $data->tarif_rsakomodasi : \'\'',
+                    'htmlOptions' => array('style'=>'text-align:right;')
                 ),
                 array(
                     'name' => 'tarif_medis',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                     'value'=>'($data->daftartindakan_karcis == false) ? $data->tarif_medis : \'\'',
+                    'htmlOptions' => array('style'=>'text-align:right;')
                 ),
                 array(
                     'name' => 'tarif_paramedis',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                     'value'=>'($data->daftartindakan_karcis == false) ? $data->tarif_paramedis : \'\'',
+                    'htmlOptions' => array('style'=>'text-align:right;')
                 ),
                 array(
                     'name' => 'tarif_bhp',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                     'value'=>'($data->daftartindakan_karcis == false) ? $data->tarif_bhp : \'\'',
+                    'htmlOptions' => array('style'=>'text-align:right;')
                 ),
                 array(
                     'name'=>'subtotal',
                     'type'=>'raw',
                     'headerHtmlOptions'=>array('style'=>'text-align: center;vertical-align:middle;'),
                     'value'=>'($data->daftartindakan_karcis == false) ? $data->qty_tindakan*($data->tarif_rsakomodasi+$data->tarif_medis+$data->tarif_paramedis+$data->tarif_bhp) : \'\'',
+                    'htmlOptions' => array('style'=>'text-align:right;')
                 ),
                 array(
                     'name' => 'karcisnama',
@@ -115,6 +121,7 @@
                     'type'=>'raw',
                     'headerHtmlOptions'=>array('style'=>'text-align: center;vertical-align:middle;'),
                     'value'=>'($data->daftartindakan_karcis == false) ? \'\' : $data->qty_tindakan*($data->tarif_rsakomodasi+$data->tarif_medis)',
+                    'htmlOptions' => array('style'=>'text-align:right;')
                 ),
 	),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',

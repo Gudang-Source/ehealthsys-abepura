@@ -41,7 +41,7 @@
         <!--<h6>Tabel Jurnal <b>Rekening Penjamin</b></h6>-->
         <?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'id'=>'penjaminpasien-m-grid',
-            'dataProvider'=>$model->searchPenjamin(),
+            'dataProvider'=>$model->search(),
             'filter'=>$model,
             'template'=>"{summary}\n{items}\n{pager}",
             'itemsCssClass'=>'table table-striped table-bordered table-condensed',
@@ -54,24 +54,26 @@
                         'header'=>'Cara Bayar',
                         'name'=>'carabayar_nama',
     //                    'filter'=>CHtml::listData(CarabayarM::model()->findAll(),'carabayar_id','carabayar_nama'),
-                        'value'=>'$data->penjamin->carabayar->carabayar_nama',  
+                        'value'=>'$data->carabayar->carabayar_nama',  
                     ),
                     array(
                         'header'=>'Penjamin',
                         'name'=>'penjamin_nama',
     //                    'filter'=>CHtml::listData(PenjaminpasienM::model()->findAll(),'penjamin_id','penjamin_nama'),
-                        'value'=>'$data->penjamin->penjamin_nama',  
+                        'value'=>'$data->penjamin_nama',  
                     ),
                     array(
                         'header'=>'Rekening Debit',
                         'name'=>'rekening_debit',
                         'type'=>'raw',
+                        'filter'=>false,
                         'value'=>'$this->grid->owner->renderPartial("_rekPenjaminD",array("saldonormal"=>"D","penjamin_id"=>$data->penjamin_id),true)',
                     ),
                     array(
                         'header'=>'Rekening Kredit',
                         'name'=>'rekeningKredit',
                         'type'=>'raw',
+                        'filter'=>false,
                         'value'=>'$this->grid->owner->renderPartial("_rekPenjaminK",array("saldonormal"=>"K","penjamin_id"=>$data->penjamin_id),true)',
                     ),
                     array(
@@ -85,6 +87,18 @@
                                             'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/view",array("id"=>"$data->penjamin_id"))',
                                             //'visible'=>'($data->kabupaten_aktif && Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)) ? TRUE : FALSE',
     //                                               
+                                    ),
+                            ),
+                    ),
+                    array(
+                            'header'=>Yii::t('zii','Update'),
+                            'class'=>'bootstrap.widgets.BootButtonColumn',
+                            'template'=>'{update}',
+                            'buttons'=>array(
+                                    'view' => array (
+                                                    'label'=>"<i class='icon-update'></i>",
+                                                    'options'=>array('title'=>Yii::t('mds','Update')),
+                                                    'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/update",array("id"=>"$data->penjamin_id"))',                                               
                                     ),
                             ),
                     ),

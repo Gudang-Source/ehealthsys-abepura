@@ -18,7 +18,12 @@ if (isset($modDetails)) {
 <table>
 	<tr>
 		<td>
-			<div class='control-group'>
+			<?php echo $form->dropDownListRow($modPenjamin,'carabayar_id',  CHtml::listData($model->CarabayarItems, 'carabayar_id', 'carabayar_nama'),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+                        <?php echo $form->textFieldRow($modPenjamin,'penjamin_nama',array('class'=>'span3', 'onkeypress'=>"return nextFocus(this,event,'SAKelaspelayananM_penjamin_namalainnya','')", 'maxlength'=>50,'placeholder'=>$model->getAttributeLabel('penjamin_nama'))); ?>
+                        <?php echo $form->textFieldRow($modPenjamin,'penjamin_namalainnya',array('class'=>'span3', 'onkeypress'=>"return nextFocus(this,event,'SAKelaspelayananM_penjamin_namalainnya','')", 'maxlength'=>50,'placeholder'=>$model->getAttributeLabel('penjamin_namalainnya'))); ?>
+                </td>
+		<td>
+                        <div class='control-group'>
 					<?php echo CHtml::label('Rekening Debit', 'rekening debit', array('class' => 'control-label')) ?>
 				<div class="controls">
 					<?php echo CHtml::hiddenField('AKPenjaminRekM[rekening][1][rekening5_nb]', 'D', array('readonly' => true)); ?>
@@ -60,8 +65,6 @@ if (isset($modDetails)) {
 					?>
 				</div>
 			</div>
-		</td>
-		<td>
 			<div class='control-group'>
 					<?php echo CHtml::label('Rekening Kredit', 'rekening kredit', array('class' => 'control-label')) ?>
 				<div class="controls">
@@ -108,6 +111,7 @@ if (isset($modDetails)) {
 	</tr>
 </table>
 
+<?php /*
 <div style='max-height:400px;max-width:100%;overflow-y: scroll;align:center;margin-bottom:15px;'>
 	<?php
 	$this->widget('ext.bootstrap.widgets.BootGridView', array(
@@ -161,6 +165,8 @@ if (isset($modDetails)) {
 	));
 	?>
 </div>
+ * 
+ */ ?>
 
 <div class="form-actions">
 	<?php

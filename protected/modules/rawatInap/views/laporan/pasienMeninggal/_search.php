@@ -10,12 +10,10 @@
     ));
     ?>
     <style>
-
-        #caramasuk tr td label.checkbox{
-            width: 190px;
+       label.checkbox{
+            width: 250px;
             display:inline-block;
         }
-
     </style>
         <div class="row-fluid">
             <div class="span4">
@@ -125,23 +123,35 @@
             </div> 
         </div> 
         <table width="100%" border="0">
-            <tr>
-                <td>
+              <tr>
+                <td> 
                     <div id='searching'>
-                        <fieldset class="box2">
-                            <legend class="rim">Berdasarkan Cara Masuk </legend>
-                            <?php echo '<table width="100%" id="caramasuk">                                                    
-                                <tr>
-                                    <td>
-                                        ' . $form->checkBoxList($model, 'caramasuk_id', CHtml::listData(CaramasukM::model()->findAll('caramasuk_aktif = true'), 'caramasuk_id', 'caramasuk_nama'), array('onkeypress' => "return $(this).focusNextInputField(event)")) . '
-                                    </td>
-                                </tr>
-                            </table>'; ?>
-                        </fieldset>
-                    </div>
-                </td>
-            </tr>
+                    <fieldset>                 
+                        <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+                            'id'=>'kunjungan',
+                            'slide'=>true,
+                                                                'content'=>array(
+                                'content2'=>array(
+                                    'header'=>'Berdasarkan Tindak Lanjut',
+                                    'isi'=>'<table><tr>      
+                                                <td>'.CHtml::checkBox('cek_all', true, array('value'=>'cek', 'onchange'=>'cek_all_tindakan(this)')).' Pilih Semua<td></tr></table>
+                                                <table id="tindak_lanjut_tbl">
+						<tr>
+							<td>'.
+								$form->checkBoxList($model, 'caramasuk_id', CHtml::listData(CaramasukM::model()->findAll('caramasuk_aktif = true'), 'caramasuk_id', 'caramasuk_nama'), array('onkeypress' => "return $(this).focusNextInputField(event)"))
+							.'</td>
+						</tr>
+						</table>',            
+                                        'active'=>true,
+                                    ),
+                            ),
+//                                    'htmlOptions'=>array('class'=>'aw',)
+                    )); ?>
+                    </fieldset>					
+			</td>
+                </tr>
         </table>
+       
         <div class="form-actions">
             <?php
             echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'id' => 'btn_simpan'));
@@ -164,4 +174,13 @@ $urlPrintLembarPoli = Yii::app()->createUrl('print/lembarPoliRJ', array('pendaft
   $("#kelasPelayanan").find("input").attr("checked", "checked");
 ', CClientScript::POS_READY);
 ?>
+                    <script type="text/javascript">
+    function cek_all_tindakan(obj){
+        if($(obj).is(':checked')){
+            $("#tindak_lanjut_tbl").find("input[type=\'checkbox\']").attr("checked", "checked");
+        }else{
+            $("#tindak_lanjut_tbl").find("input[type=\'checkbox\']").attr("checked", false);
+        }
+    }
+</script>
 <?php $this->renderPartial('_jsFunctions', array('model' => $model)); ?>

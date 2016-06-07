@@ -25,7 +25,7 @@
     'columns'=>array(
         array(
             'header' => 'No',
-            'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
+            'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1',            
         ),
         'diagnosa_kode',
         'diagnosa_nama',
