@@ -10,12 +10,13 @@ penjaminrek_m.penjamin_id = $penjamin_id");
         foreach($modRekPenjamin as $i=>$data)
         {
             if(isset($_GET['caraPrint'])){
-                echo "<pre>";
+                //echo "<pre>";
                 echo !empty($data->rekening5_id)?$data->rekeningdebit->nmrekening5:" - ";
-                echo "</pre>";
-            }else{                
-                echo "<pre>";
-                echo $data->rekeningdebit->nmrekening5.CHtml::Link("<i class=\"icon-form-ubah\"></i>",
+                //echo "</pre>";
+            }else{
+            
+                //echo "<pre>";
+                echo $data->rekeningdebit->nmrekening5; /*.CHtml::Link("<i class=\"icon-form-ubah\"></i>",
                                 Yii::app()->controller->createUrl("jurnalRekPenjamin/ubahRekeningKredit",array("id"=>$data->penjaminrek_id)),
                                 array("class"=>"", 
                                       "target"=>"iframeEditRekeningDebitKredit",
@@ -23,12 +24,12 @@ penjaminrek_m.penjamin_id = $penjamin_id");
                                       "rel"=>"tooltip",
                                       "title"=>"Klik untuk ubah Rekening Debit",
                                 ));
-                echo "</pre>";
+                echo "</pre>"; */
             }
         }
     }
     else
     {
-        echo Yii::t('zii','Not set'); 
+        echo Yii::t('zii','-'); 
     }   
 ?>
