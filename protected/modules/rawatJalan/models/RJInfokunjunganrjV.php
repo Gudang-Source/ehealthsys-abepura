@@ -4,6 +4,11 @@ class RJInfokunjunganrjV extends InfokunjunganrjV {
 
     public $tgl_awal;
     public $tgl_akhir;
+    public $jns_periode;
+    public $bln_awal;
+    public $bln_akhir;
+    public $thn_awal;
+    public $thn_akhir;
     public $data;
     public $jumlah;
     public $tick;

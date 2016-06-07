@@ -6,6 +6,11 @@ class RJBukuregisterpasien extends BukuregisterpasienV {
     public $tick;
     public $tgl_awal;
     public $tgl_akhir;
+    public $jns_periode;
+    public $bln_awal;
+    public $bln_akhir;
+    public $thn_awal;
+    public $thn_akhir;
 
     
     public static function model($className = __CLASS__) {

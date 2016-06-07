@@ -16,15 +16,19 @@
     });
     ");
     ?>
-    <div class="search-form box">
+    <fieldset class="row-fluid box">
         <?php $this->renderPartial($this->path_view.'caraMasuk/_searchCaraMasuk',array(
             'model'=>$model, 'filter'=>$filter
         )); ?>
-    </div><!-- search-form --> 
+    </fieldset>
+    
     <div class="row-fluid block-tabel">    
         <h6>Tabel <b>Cara Masuk</b></h6>
+        <div class="span12">
         <?php $this->renderPartial($this->path_view.'caraMasuk/_tableCaraMasuk', array('model'=>$model)); ?>
+        </div>    
     </div>
+    
     <div class="row-fluid block-tabel">
         <h6><b>Grafik</b></h6>
        <?php $this->renderPartial($this->path_view.'_tab'); ?>

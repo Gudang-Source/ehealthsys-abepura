@@ -7057,6 +7057,7 @@ class LaporanController extends MyAuthController {
         Yii::app()->end();
     }
     
+
     public function actionLaporanJumlahPemeriksaanDokter() {
         $model = new PPLaporanJumlahPemeriksaanDokterV('search');
         $model->tglAwal = date('Y-m-d H:i:s');
@@ -7110,8 +7111,2060 @@ class LaporanController extends MyAuthController {
             $model->tglAwal = $format->formatDateTimeForDB($_GET['PPLaporanJumlahPemeriksaanDokterV']['tglAwal']);
             $model->tglAkhir = $format->formatDateTimeForDB($_GET['PPLaporanJumlahPemeriksaanDokterV']['tglAkhir']);
         }
+        $this->render($this->pathViewPP.'_grafik', array(
+        'model' => $model,
+        'data' => $data,
+        ));
+    }
+    
+    //Laporan Kunjungan Penunjang
+    public function actionLaporanKunjunganPenunjang() {
+        $model = new PPPasienmasukpenunjangV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        if (isset($_GET['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_GET['PPPasienmasukpenunjangV'];            
+            $model->jns_periode = $_GET['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+
+        $this->render($this->pathViewPP.'penunjang/adminPenunjang', array(
+            'model' => $model,'format'=>$format
+        ));
+    }
+    
+    public function actionLaporanKunjunganUmurPenunjang() {
+        $this->pageTitle = Yii::app()->name." - Laporan Kunjungan Penunjang Berdasarkan Umur";
+        $model = new PPPasienmasukpenunjangV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        if (isset($_GET['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_GET['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_GET['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+
+        $this->render($this->pathViewPP.'penunjang/umurPenunjang', array(
+            'model' => $model,'format'=>$format
+        ));
+    }
+    
+    public function actionLaporanKunjunganJkPenunjang() {
+        $this->pageTitle = Yii::app()->name." - Laporan Kunjungan Penunjang Berdasarkan Jenis Kelamin";
+        $model = new PPPasienmasukpenunjangV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        if (isset($_GET['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_GET['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_GET['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+
+        $this->render($this->pathViewPP.'penunjang/jkPenunjang', array(
+            'model' => $model,'format'=>$format
+        ));
+    }
+    
+    public function actionLaporanStatusKunjunganPenunjang() {
+        $this->pageTitle = Yii::app()->name." - Laporan Kunjungan Penunjang Berdasarkan Kedatangan Lama / Baru";
+        $model = new PPPasienmasukpenunjangV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        if (isset($_GET['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_GET['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_GET['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+
+        $this->render($this->pathViewPP.'penunjang/statusPenunjang', array(
+            'model' => $model,'format'=>$format
+        ));
+    }
+    
+    public function actionLaporanAgamaKunjunganPenunjang() {
+        $this->pageTitle = Yii::app()->name." - Laporan Kunjungan Penunjang Berdasarkan Agama";
+        $model = new PPPasienmasukpenunjangV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        if (isset($_GET['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_GET['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_GET['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+
+        $this->render($this->pathViewPP.'penunjang/agamaPenunjang', array(
+            'model' => $model,'format'=>$format
+        ));
+    }
+    
+	
+	
+    public function actionLaporanPekerjaanKunjunganPenunjang() {
+        $this->pageTitle = Yii::app()->name." - Laporan Kunjungan Penunjang Berdasarkan Pekerjaan";
+        $model = new PPInfoKunjunganRJV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        if (isset($_GET['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_GET['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_GET['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+
+        $this->render($this->pathViewPP.'penunjang/pekerjaanPenunjang', array(
+            'model' => $model,'format'=>$format
+        ));
+    }
+    
+    public function actionLaporanStatusPerkawinanKunjunganPenunjang() {
+        $this->pageTitle = Yii::app()->name." - Laporan Kunjungan Penunjang Berdasarkan Status Perkawinan";
+        $model = new PPPasienmasukpenunjangV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        if (isset($_GET['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_GET['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_GET['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+
+        $this->render($this->pathViewPP.'penunjang/statusPerkawinanPenunjang', array(
+            'model' => $model,'format'=>$format
+        ));
+    }
+    
+    public function actionLaporanAlamatKunjunganPenunjang() {
+        $this->pageTitle = Yii::app()->name." - Laporan Kunjungan Penunjang Berdasarkan Alamat";
+        $model = new PPPasienmasukpenunjangV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        if (isset($_GET['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_GET['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_GET['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+
+        $this->render($this->pathViewPP.'penunjang/alamatPenunjang', array(
+            'model' => $model,'format'=>$format
+        ));
+    }
+    
+    public function actionLaporanKecamatanKunjunganPenunjang() {
+        $this->pageTitle = Yii::app()->name." - Laporan Kunjungan Penunjang Berdasarkan Kecamatan";
+        $model = new PPPasienmasukpenunjangV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        if (isset($_GET['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_GET['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_GET['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+
+        $this->render($this->pathViewPP.'penunjang/kecamatanPenunjang', array(
+            'model' => $model,'format'=>$format
+        ));
+    }
+    public function actionLaporanKabKotaKunjunganPenunjang() {
+        $this->pageTitle = Yii::app()->name." - Laporan Kunjungan Penunjang Berdasarkan Kabupaten / Kota";
+        $model = new PPPasienmasukpenunjangV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        if (isset($_GET['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_GET['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_GET['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+
+        $this->render($this->pathViewPP.'penunjang/kabupatenPenunjang', array(
+            'model' => $model,'format'=>$format
+        ));
+    }
+    public function actionLaporanCaraMasukKunjunganPenunjang() {
+        $this->pageTitle = Yii::app()->name." - Laporan Kunjungan Penunjang Berdasarkan Cara Masuk";
+        $model = new PPPasienmasukpenunjangV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        if (isset($_GET['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_GET['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_GET['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+
+        $this->render($this->pathViewPP.'penunjang/caraMasukPenunjang', array(
+            'model' => $model,'format'=>$format
+        ));
+    }
+    public function actionLaporanRujukanKunjunganPenunjang() {
+        $this->pageTitle = Yii::app()->name." - Laporan Kunjungan Penunjang Berdasarkan Rujukan";
+        $model = new PPPasienmasukpenunjangV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        if (isset($_GET['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_GET['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_GET['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+
+        $this->render($this->pathViewPP.'penunjang/rujukanPenunjang', array(
+            'model' => $model,'format'=>$format
+        ));
+    }
+    public function actionLaporanPemeriksaanKunjunganPenunjang() {
+        $this->pageTitle = Yii::app()->name." - Laporan Kunjungan Penunjang Berdasarkan Pemeriksaan";
+        $model = new PPPasienmasukpenunjangV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        if (isset($_GET['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_GET['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_GET['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+
+        $this->render($this->pathViewPP.'penunjang/pemeriksaanPenunjang', array(
+            'model' => $model,'format'=>$format
+        ));
+    }
+    public function actionLaporanKetPulangKunjunganPenunjang() {
+        $this->pageTitle = Yii::app()->name." - Laporan Kunjungan Penunjang Berdasarkan Keterangan Pulang";
+        $model = new PPPasienmasukpenunjangV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        if (isset($_GET['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_GET['PPPasienmasukpenunjangV'];
+            $format = new MyFormatter();
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_akhir']);$model->jns_periode = $_GET['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+
+        $this->render($this->pathViewPP.'penunjang/ketPulangPenunjang', array(
+            'model' => $model,'format'=>$format
+        ));
+    }
+    public function actionLaporanPenjaminKunjunganPenunjang() {
+        $this->pageTitle = Yii::app()->name." - Laporan Kunjungan Penunjang Berdasarkan Penjamin";
+        $model = new PPPasienmasukpenunjangV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        if (isset($_GET['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_GET['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_GET['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+
+        $this->render($this->pathViewPP.'penunjang/penjaminPenunjang', array(
+            'model' => $model,'format'=>$format
+        ));
+    }
+    public function actionLaporanDokterPemeriksaKunjunganPenunjang() {
+        $this->pageTitle = Yii::app()->name." - Laporan Kunjungan Penunjang Berdasarkan Dokter Pemeriksa";
+        $model = new PPPasienmasukpenunjangV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        if (isset($_GET['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_GET['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_GET['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+
+        $this->render($this->pathViewPP.'penunjang/dokterPemeriksaPenunjang', array(
+            'model' => $model,'format'=>$format
+        ));
+    }
+    
+    public function actionLaporanUnitPelayananKunjunganPenunjang() {
+        $model = new PPRuanganM('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        if (isset($_GET['PPRuanganM'])) {
+            $model->attributes = $_GET['PPRuanganM'];
+            $model->jns_periode = $_GET['PPRuanganM']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPRuanganM']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPRuanganM']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['PPRuanganM']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['PPRuanganM']['bln_akhir']);
+            $model->thn_awal = $_GET['PPRuanganM']['thn_awal'];
+            $model->thn_akhir = $_GET['PPRuanganM']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+
+        $this->render($this->pathViewPP.'penunjang/unitPelayananPenunjang', array(
+            'model' => $model,'format'=>$format
+        ));
+    }
+    // -- END VIEW LAPORAN --//
+    
+    // -- PRINT LAPORAN --//
+    public function actionPrintKunjunganPenunjang() {
+        $model = new PPPasienmasukpenunjangV();
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        $judulLaporan = 'Laporan Kunjungan Pasien Rawat Jalan';
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Kunjungan Pasien Penunjang';
+        $data['type'] = (isset($_REQUEST['type']) ? $_REQUEST['type'] : "");
+        
+        if (isset($_REQUEST['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_REQUEST['PPPasienmasukpenunjangV'];            
+            $model->jns_periode = $_REQUEST['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+        $caraPrint = $_REQUEST['caraPrint'];
+        $target = $this->pathViewPP.'_print';
+        
+        $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
+    }
+    public function actionPrintUmurKunjunganPenunjang() {
+        $model = new PPPasienmasukpenunjangV();
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        $model->bulan = date('m');
+        $judulLaporan = 'Laporan Kunjungan Pasien Penunjang Berdasarkan Umur';
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Kunjungan Pasien Penunjang Berdasarkan Umur';
+        $data['type'] = (isset($_REQUEST['type']) ? $_REQUEST['type'] : "");
+        if (isset($_REQUEST['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_REQUEST['PPPasienmasukpenunjangV'];$model->jns_periode = $_GET['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+//            $model->bulan =DATE_PART('MONTH',$_REQUEST['PPInfoKunjunganRJV']['bulan']);
+        }
+        $caraPrint = $_REQUEST['caraPrint'];
+        $target = $this->pathViewPP.'_printUmur';
+        
+        $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
+    }
+    public function actionPrintAgamaKunjunganPenunjang() {
+        $model = new PPPasienmasukpenunjangV();
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        $model->bulan = date('m');
+        $judulLaporan = 'Laporan Kunjungan Pasien Penunjang Berdasarkan Agama';
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Kunjungan Pasien Penunjang Berdasarkan Agama';
+        $data['type'] = (isset($_REQUEST['type']) ? $_REQUEST['type'] : "");
+        if (isset($_REQUEST['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_REQUEST['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_REQUEST['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+//            $model->bulan =DATE_PART('MONTH',$_REQUEST['PPInfoKunjunganRJV']['bulan']);
+        }
+        $caraPrint = $_REQUEST['caraPrint'];
+        $target = $this->pathViewPP.'_printAgama';
+        
+        $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
+    }
+    public function actionPrintAlamatKunjunganPenunjang() {
+        $model = new PPPasienmasukpenunjangV();
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        $model->bulan = date('m');
+        $judulLaporan = 'Laporan Kunjungan Pasien Penunjang Berdasarkan Alamat';
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Kunjungan Pasien Penunjang Berdasarkan Alamat';
+        $data['type'] = (isset($_REQUEST['type']) ? $_REQUEST['type'] : "");
+        if (isset($_REQUEST['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_REQUEST['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_REQUEST['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+//            $model->bulan =DATE_PART('MONTH',$_REQUEST['PPInfoKunjunganRJV']['bulan']);
+        }
+        $caraPrint = $_REQUEST['caraPrint'];
+        $target = $this->pathViewPP.'_printAlamat';
+        
+        $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
+    }
+    public function actionPrintJkKunjunganPenunjang() {
+        $model = new PPPasienmasukpenunjangV();
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        $model->bulan = date('m');
+        $judulLaporan = 'Laporan Kunjungan Pasien Penunjang Berdasarkan Jenis Kelamin';
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Kunjungan Pasien Penunjang Berdasarkan Jenis Kelamin';
+        $data['type'] = (isset($_REQUEST['type']) ? $_REQUEST['type'] : "");
+        if (isset($_REQUEST['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_REQUEST['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_REQUEST['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+//            $model->bulan =DATE_PART('MONTH',$_REQUEST['PPInfoKunjunganRJV']['bulan']);
+        }
+        $caraPrint = $_REQUEST['caraPrint'];
+        $target = $this->pathViewPP.'_printJk';
+        
+        $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
+    }
+    public function actionPrintStatusKunjunganPenunjang() {
+        $model = new PPPasienmasukpenunjangV();
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        $model->bulan = date('m');
+        $judulLaporan = 'Laporan Kunjungan Pasien Penunjang Berdasarkan Kedatangan Lama / Baru';
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Kunjungan Pasien Penunjang Berdasarkan Kedatangan Lama / Baru';
+        $data['type'] = (isset($_REQUEST['type']) ? $_REQUEST['type'] : "");
+        if (isset($_REQUEST['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_REQUEST['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_REQUEST['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+//            $model->bulan =DATE_PART('MONTH',$_REQUEST['PPInfoKunjunganRJV']['bulan']);
+        }
+        $caraPrint = $_REQUEST['caraPrint'];
+        $target = $this->pathViewPP.'_printStatus';
+        
+        $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
+    }
+    public function actionPrintStatusPerkawinanKunjunganPenunjang() {
+        $model = new PPPasienmasukpenunjangV();
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        $model->bulan = date('m');
+        $judulLaporan = 'Laporan Kunjungan Pasien Penunjang Berdasarkan Status Perkawinan';
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Kunjungan Pasien Penunjang Berdasarkan Status Perkawinan';
+        $data['type'] = (isset($_REQUEST['type']) ? $_REQUEST['type'] : "");
+        if (isset($_REQUEST['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_REQUEST['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_REQUEST['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+//            $model->bulan =DATE_PART('MONTH',$_REQUEST['PPInfoKunjunganRJV']['bulan']);
+        }
+        $caraPrint = $_REQUEST['caraPrint'];
+        $target = $this->pathViewPP.'_printStatusPerkawinan';
+        
+        $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
+    }
+    public function actionPrintRujukanKunjunganPenunjang() {
+        $model = new PPPasienmasukpenunjangV();
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        $model->bulan = date('m');
+        $judulLaporan = 'Laporan Kunjungan Pasien Penunjang Berdasarkan Rujukan';
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Kunjungan Pasien Penunjang Berdasarkan Rujukan';
+        $data['type'] = (isset($_REQUEST['type']) ? $_REQUEST['type'] : "");
+        if (isset($_REQUEST['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_REQUEST['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_REQUEST['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+//            $model->bulan =DATE_PART('MONTH',$_REQUEST['PPInfoKunjunganRJV']['bulan']);
+        }
+        $caraPrint = $_REQUEST['caraPrint'];
+        $target = $this->pathViewPP.'_printRujukan';
+        
+        $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
+    }
+	
+    public function actionPrintCaraMasukKunjunganPenunjang() {
+        $model = new PPPasienmasukpenunjangV();
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        $model->bulan = date('m');
+        $judulLaporan = 'Laporan Kunjungan Pasien Penunjang Berdasarkan Cara Masuk';
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Kunjungan Pasien Penunjang Berdasarkan Cara Masuk';
+        $data['type'] = (isset($_REQUEST['type']) ? $_REQUEST['type'] : "");
+        if (isset($_REQUEST['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_REQUEST['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_REQUEST['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+//            $model->bulan =DATE_PART('MONTH',$_REQUEST['PPInfoKunjunganRJV']['bulan']);
+        }
+        $caraPrint = $_REQUEST['caraPrint'];
+        $target = $this->pathViewPP.'_printCaraMasuk';
+        
+        $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
+    }
+    public function actionPrintKetPulangKunjunganPenunjang() {
+        $model = new PPPasienmasukpenunjangV();
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        $model->bulan = date('m');
+        $judulLaporan = 'Laporan Kunjungan Pasien Penunjang Berdasarkan Keterangan Pulang';
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Kunjungan Pasien Penunjang Berdasarkan Keterangan Pulang';
+        $data['type'] = (isset($_REQUEST['type']) ? $_REQUEST['type'] : "");
+        if (isset($_REQUEST['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_REQUEST['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_REQUEST['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+//            $model->bulan =DATE_PART('MONTH',$_REQUEST['PPInfoKunjunganRJV']['bulan']);
+        }
+        $caraPrint = $_REQUEST['caraPrint'];
+        $target = $this->pathViewPP.'_printKetPulang';
+        
+        $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
+    }
+    public function actionPrintKabKotaKunjunganPenunjang() {
+        $model = new PPPasienmasukpenunjangV();
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        $model->bulan = date('m');
+        $judulLaporan = 'Laporan Kunjungan Pasien Penunjang Berdasarkan Kabupaten / Kota';
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Kunjungan Pasien Penunjang Berdasarkan Kabupaten / Kota';
+        $data['type'] = (isset($_REQUEST['type']) ? $_REQUEST['type'] : "");
+        if (isset($_REQUEST['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_REQUEST['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_REQUEST['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+//            $model->bulan =DATE_PART('MONTH',$_REQUEST['PPInfoKunjunganRJV']['bulan']);
+        }
+        $caraPrint = $_REQUEST['caraPrint'];
+        $target = $this->pathViewPP.'_printKabupaten';
+        
+        $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
+    }
+    public function actionPrintKecamatanKunjunganPenunjang() {
+        $model = new PPPasienmasukpenunjangV();
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        $model->bulan = date('m');
+        $judulLaporan = 'Laporan Kunjungan Pasien Penunjang Berdasarkan Kecamatan';
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Kunjungan Pasien Penunjang Berdasarkan Kecamatan';
+        $data['type'] = (isset($_REQUEST['type']) ? $_REQUEST['type'] : "");
+        if (isset($_REQUEST['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_REQUEST['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_REQUEST['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+//            $model->bulan =DATE_PART('MONTH',$_REQUEST['PPInfoKunjunganRJV']['bulan']);
+        }
+        $caraPrint = $_REQUEST['caraPrint'];
+        $target = $this->pathViewPP.'_printKecamatan';
+        
+        $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
+    }
+    public function actionPrintPenjaminKunjunganPenunjang() {
+        $model = new PPPasienmasukpenunjangV();
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        $model->bulan = date('m');
+        $judulLaporan = 'Laporan Kunjungan Pasien Penunjang Berdasarkan Penjamin';
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Kunjungan Pasien Penunjang Berdasarkan Penjamin';
+        $data['type'] = (isset($_REQUEST['type']) ? $_REQUEST['type'] : "");
+        if (isset($_REQUEST['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_REQUEST['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_REQUEST['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+//            $model->bulan =DATE_PART('MONTH',$_REQUEST['PPInfoKunjunganRJV']['bulan']);
+        }
+        $caraPrint = $_REQUEST['caraPrint'];
+        $target = $this->pathViewPP.'_printPenjamin';
+        
+        $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
+    }
+    public function actionPrintPemeriksaanKunjunganPenunjang() {
+        $model = new PPPasienmasukpenunjangV();
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        $model->bulan = date('m');
+        $judulLaporan = 'Laporan Kunjungan Pasien Penunjang Berdasarkan Pemeriksaan';
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Kunjungan Pasien Penunjang Berdasarkan Pemeriksaan';
+        $data['type'] = (isset($_REQUEST['type']) ? $_REQUEST['type'] : "");
+        if (isset($_REQUEST['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_REQUEST['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_REQUEST['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+//            $model->bulan =DATE_PART('MONTH',$_REQUEST['PPInfoKunjunganRJV']['bulan']);
+        }
+        $caraPrint = $_REQUEST['caraPrint'];
+        $target = $this->pathViewPP.'_printPemeriksaan';
+        
+        $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
+    }
+    public function actionPrintDokterPemeriksaKunjunganPenunjang() {
+        $model = new PPPasienmasukpenunjangV();
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        $model->bulan = date('m');
+        $judulLaporan = 'Laporan Kunjungan Pasien Penunjang Berdasarkan Dokter Pemeriksa';
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Kunjungan Pasien Penunjang Berdasarkan Dokter Pemeriksa';
+        $data['type'] = (isset($_REQUEST['type']) ? $_REQUEST['type'] : "");
+        if (isset($_REQUEST['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_REQUEST['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_REQUEST['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+//            $model->bulan =DATE_PART('MONTH',$_REQUEST['PPInfoKunjunganRJV']['bulan']);
+        }
+        $caraPrint = $_REQUEST['caraPrint'];
+        $target = $this->pathViewPP.'_printDokterPemeriksa';
+        
+        $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
+    }
+    
+    public function actionPrintUnitPelayananKunjunganPenunjang() {
+        $model = new PPRuanganM();
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        $model->bulan = date('m');
+        $judulLaporan = 'Laporan Kunjungan Pasien Penunjang Berdasarkan Unit Pelayanan';
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Kunjungan Pasien Penunjang Berdasarkan Unit Pelayanan';
+        $data['type'] = (isset($_REQUEST['type']) ? $_REQUEST['type'] : "");
+        if (isset($_REQUEST['PPRuanganM'])) {
+            $model->attributes = $_REQUEST['PPRuanganM'];
+            $model->jns_periode = $_REQUEST['PPRuanganM']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PPRuanganM']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PPRuanganM']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['PPRuanganM']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['PPRuanganM']['bln_akhir']);
+            $model->thn_awal = $_GET['PPRuanganM']['thn_awal'];
+            $model->thn_akhir = $_GET['PPRuanganM']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+//            $model->bulan =DATE_PART('MONTH',$_REQUEST['PPInfoKunjunganRJV']['bulan']);
+        }
+        $caraPrint = $_REQUEST['caraPrint'];
+        $target = $this->pathViewPP.'_printUnitPelayanan';
+        
+        $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
+    }
+   
+    // -- END PRINT LAPORAN -- //
+    
+    // -- GRAFIK LAPORAN -- //
+    public function actionFrameGrafikPenunjang() {
+        $this->layout = '//layouts/iframe';
+
+        $model = new PPPasienmasukpenunjangV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Kunjungan Pasien Penunjang';
+        $data['type'] = $_GET['type'];
+
+        if (isset($_GET['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_GET['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_GET['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
 
         $this->render($this->pathViewPP.'_grafik', array(
+            'model' => $model,
+            'data' => $data,
+        ));
+    }
+
+    public function actionFrameGrafikAgamaPenunjang() {
+        $this->layout = '//layouts/iframe';
+
+        $model = new PPPasienmasukpenunjangV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Kunjungan Pasien Penunjang Berdasarkan Agama';
+        $data['type'] = $_GET['type'];
+
+        if (isset($_GET['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_GET['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_GET['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+
+        $this->render($this->pathViewPP.'_grafikAgama', array(
+            'model' => $model,
+            'data' => $data,
+        ));
+    }
+    public function actionFrameGrafikAlamatPenunjang() {
+        $this->layout = '//layouts/iframe';
+
+        $model = new PPPasienmasukpenunjangV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Kunjungan Pasien Penunjang Berdasarkan Alamat';
+        $data['type'] = $_GET['type'];
+
+        if (isset($_GET['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_GET['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_GET['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+
+        $this->render($this->pathViewPP.'_grafikAlamat', array(
+            'model' => $model,
+            'data' => $data,
+        ));
+    }
+    public function actionFrameGrafikCaraMasukPenunjang() {
+        $this->layout = '//layouts/iframe';
+
+        $model = new PPPasienmasukpenunjangV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Kunjungan Pasien Penunjang Berdasarkan Cara Masuk';
+        $data['type'] = $_GET['type'];
+
+        if (isset($_GET['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_GET['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_GET['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+
+        $this->render($this->pathViewPP.'_grafikCaraMasuk', array(
+            'model' => $model,
+            'data' => $data,
+        ));
+    }
+    public function actionFrameGrafikDokterPemeriksaPenunjang() {
+        $this->layout = '//layouts/iframe';
+
+        $model = new PPPasienmasukpenunjangV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Kunjungan Pasien Penunjang Berdasarkan Dokter Pemeriksa';
+        $data['type'] = $_GET['type'];
+
+        if (isset($_GET['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_GET['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_GET['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+
+        $this->render($this->pathViewPP.'_grafikDokterPemeriksa', array(
+            'model' => $model,
+            'data' => $data,
+        ));
+    }
+    public function actionFrameGrafikJkPenunjang() {
+        $this->layout = '//layouts/iframe';
+
+        $model = new PPInfoKunjunganRJV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Kunjungan Pasien Penunjang Berdasarkan Jenis Kelamin';
+        $data['type'] = $_GET['type'];
+
+        if (isset($_GET['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_GET['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_GET['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+
+        $this->render($this->pathViewPP.'_grafikJk', array(
+            'model' => $model,
+            'data' => $data,
+        ));
+    }
+    public function actionFrameGrafikKabKotaPenunjang() {
+        $this->layout = '//layouts/iframe';
+
+        $model = new PPPasienmasukpenunjangV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Kunjungan Pasien Penunjang Berdasarkan Kabupaten / Kota';
+        $data['type'] = $_GET['type'];
+
+        if (isset($_GET['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_GET['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_GET['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+
+        $this->render($this->pathViewPP.'_grafikKabupaten', array(
+            'model' => $model,
+            'data' => $data,
+        ));
+    }
+    public function actionFrameGrafikKecamatanPenunjang() {
+        $this->layout = '//layouts/iframe';
+
+        $model = new PPPasienmasukpenunjangV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Kunjungan Pasien Penunjang Berdasarkan Kecamatan';
+        $data['type'] = $_GET['type'];
+
+        if (isset($_GET['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_GET['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_GET['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+
+        $this->render($this->pathViewPP.'_grafikKecamatan', array(
+            'model' => $model,
+            'data' => $data,
+        ));
+    }
+    public function actionFrameGrafikKetPulangPenunjang() {
+        $this->layout = '//layouts/iframe';
+
+        $model = new PPPasienmasukpenunjangV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Kunjungan Pasien Penunjang Berdasarkan Keterangan Pulang';
+        $data['type'] = $_GET['type'];
+
+        if (isset($_GET['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_GET['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_GET['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+
+        $this->render($this->pathViewPP.'_grafikKetPulang', array(
+            'model' => $model,
+            'data' => $data,
+        ));
+    }
+    public function actionFrameGrafikPekerjaanPenunjang() {
+        $this->layout = '//layouts/iframe';
+
+        $model = new PPPasienmasukpenunjangV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Kunjungan Pasien Penunjang Berdasarkan Pekerjaan';
+        $data['type'] = $_GET['type'];
+
+        if (isset($_GET['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_GET['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_GET['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+
+        $this->render($this->pathViewPP.'_grafikPekerjaan', array(
+            'model' => $model,
+            'data' => $data,
+        ));
+    }
+    public function actionFrameGrafikPemeriksaanPenunjang() {
+        $this->layout = '//layouts/iframe';
+
+        $model = new PPPasienmasukpenunjangV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Kunjungan Pasien Penunjang Berdasarkan Pemeriksaan';
+        $data['type'] = $_GET['type'];
+
+        if (isset($_GET['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_GET['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_GET['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+
+        $this->render($this->pathViewPP.'_grafikPemeriksaan', array(
+            'model' => $model,
+            'data' => $data,
+        ));
+    }
+    public function actionFrameGrafikPenjaminPenunjang() {
+        $this->layout = '//layouts/iframe';
+
+        $model = new PPInfoKunjunganRJV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Kunjungan Pasien Penunjang Berdasarkan Penjamin';
+        $data['type'] = $_GET['type'];
+
+        if (isset($_GET['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_GET['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_GET['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+
+        $this->render($this->pathViewPP.'_grafikPenjamin', array(
+            'model' => $model,
+            'data' => $data,
+        ));
+    }
+    public function actionFrameGrafikRujukanPenunjang() {
+        $this->layout = '//layouts/iframe';
+
+        $model = new PPPasienmasukpenunjangV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Kunjungan Pasien Penunjang Berdasarkan Rujukan';
+        $data['type'] = $_GET['type'];
+
+        if (isset($_GET['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_GET['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_GET['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+
+        $this->render($this->pathViewPP.'_grafikRujukan', array(
+            'model' => $model,
+            'data' => $data,
+        ));
+    }
+    public function actionFrameGrafikStatusPerkawinanPenunjang() {
+        $this->layout = '//layouts/iframe';
+
+        $model = new PPPasienmasukpenunjangV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Kunjungan Pasien Penunjang Berdasarkan Status Perkawinan';
+        $data['type'] = $_GET['type'];
+
+        if (isset($_GET['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_GET['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_GET['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+
+        $this->render($this->pathViewPP.'_grafikStatusPerkawinan', array(
+            'model' => $model,
+            'data' => $data,
+        ));
+    }
+    public function actionFrameGrafikStatusPenunjang() {
+        $this->layout = '//layouts/iframe';
+
+        $model = new PPInfoKunjunganRJV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Kunjungan Pasien Penunjang Berdasarkan Kedatangan Lama / Baru';
+        $data['type'] = $_GET['type'];
+
+        if (isset($_GET['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_GET['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_GET['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+
+        $this->render($this->pathViewPP.'_grafikStatus', array(
+            'model' => $model,
+            'data' => $data,
+        ));
+    }
+    public function actionFrameGrafikUmurPenunjang() {
+        $this->layout = '//layouts/iframe';
+
+        $model = new PPPasienmasukpenunjangV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Kunjungan Pasien Penunjang Berdasarkan Umur';
+        $data['type'] = $_GET['type'];
+
+        if (isset($_GET['PPPasienmasukpenunjangV'])) {
+            $model->attributes = $_GET['PPPasienmasukpenunjangV'];
+            $model->jns_periode = $_GET['PPPasienmasukpenunjangV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['PPPasienmasukpenunjangV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['PPPasienmasukpenunjangV']['bln_akhir']);
+            $model->thn_awal = $_GET['PPPasienmasukpenunjangV']['thn_awal'];
+            $model->thn_akhir = $_GET['PPPasienmasukpenunjangV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+
+        $this->render($this->pathViewPP.'_grafikUmur', array(
+            'model' => $model,
+            'data' => $data,
+        ));
+    }
+    public function actionFrameGrafikUnitPelayananPenunjang() {
+        $this->layout = '//layouts/iframe';
+
+        $model = new PPRuanganM('searchGrafikUnitPelayanan');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Kunjungan Pasien Penunjang Berdasarkan Unit Pelayanan';
+        $data['type'] = $_REQUEST['type'];
+
+        if (isset($_REQUEST['PPRuanganM'])) {
+            $model->attributes = $_REQUEST['PPRuanganM'];
+            $model->jns_periode = $_REQUEST['PPRuanganM']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['PPRuanganM']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['PPRuanganM']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_REQUEST['PPRuanganM']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_REQUEST['PPRuanganM']['bln_akhir']);
+            $model->thn_awal = $_REQUEST['PPRuanganM']['thn_awal'];
+            $model->thn_akhir = $_REQUEST['PPRuanganM']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+        }
+
+        $this->render($this->pathViewPP.'_grafikUnitPelayanan', array(
             'model' => $model,
             'data' => $data,
         ));

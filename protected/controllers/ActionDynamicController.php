@@ -64,6 +64,32 @@ class ActionDynamicController extends Controller
         Yii::app()->end();
     }
     
+    public function actionGetDokterRuangan($encode=false,$namaModel='')
+    {
+        if(Yii::app()->request->isAjaxRequest) {
+            $ruangan_id = $_POST["$namaModel"]['ruangan_id'];
+            $dokter = DokterV::model()->findAll('ruangan_id='.$ruangan_id.'');
+            
+            $dokter=CHtml::listData($dokter,'pegawai_id','namaLengkap');
+            
+            if(empty($dokter)){
+                echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+            }else{
+                if (count($dokter)>1){
+                        echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                }elseif (count($dokter)==0){
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                }
+                
+                foreach($dokter as $value=>$name)
+                {
+                    echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                }
+            }
+        }
+        Yii::app()->end();
+    }
+    
     
      /*
  * Mencari Ruangan berdasarkan instalasi_id di tabel Ruangan M

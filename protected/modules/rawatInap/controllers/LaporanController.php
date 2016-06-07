@@ -388,8 +388,8 @@ class LaporanController extends MyAuthController {
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['RIBukuregisterriV']['tgl_akhir']);
             $model->bln_awal = $format->formatMonthForDb($_GET['RIBukuregisterriV']['bln_awal']);
             $model->bln_akhir = $format->formatMonthForDb($_GET['RIBukuregisterriV']['bln_akhir']);
-			$model->thn_awal = $_GET['RIBukuregisterriV']['thn_awal'];
-			$model->thn_akhir = $_GET['RIBukuregisterriV']['thn_akhir'];
+            $model->thn_awal = $_GET['RIBukuregisterriV']['thn_awal'];
+            $model->thn_akhir = $_GET['RIBukuregisterriV']['thn_akhir'];
             $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
             $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
             switch($model->jns_periode){
@@ -408,13 +408,14 @@ class LaporanController extends MyAuthController {
     
     public function actionPrintLaporanBukuRegister() {
         $model = new RIBukuregisterriV('search');
-		$model->jns_periode = "hari";
-		$model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
-		$model->tgl_akhir = date('Y-m-d');
-		$model->bln_awal = date('Y-m', strtotime('first day of january'));
-		$model->bln_akhir = date('Y-m');
-		$model->thn_awal = date('Y');
-		$model->thn_akhir = date('Y');
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        
         $judulLaporan = 'Laporan Buku Register Rawat Inap';
         $format = new MyFormatter();
         // Data untuk Grafik

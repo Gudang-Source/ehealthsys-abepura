@@ -4,6 +4,12 @@ class RJLaporanjasainstalasi extends LaporanjasainstalasiV {
     
     public $tgl_awal;
     public $tgl_akhir;
+    public $bln_awal;
+    public $bln_akhir;
+    public $thn_awal;
+    public $thn_akhir;
+    public $jns_periode;
+    
     public $subtotal;
 
     public static function model($className = __CLASS__) {
@@ -122,16 +128,22 @@ class RJLaporanjasainstalasi extends LaporanjasainstalasiV {
 //        $criteria->group='pendaftaran_id';
         if (is_array($this->tindakansudahbayar_id)){
             $status = array();
-            foreach ($this->tindakansudahbayar_id as $i=>$v){
-                if ($v == 'sudah'){
+            foreach ($this->tindakansudahbayar_id as $i=>$v){                
+                if ($v == 1){
                     $status[] = 'tindakansudahbayar_id is not null';
                 }
                 else{
                     $status[] = 'tindakansudahbayar_id is null';
                 }
             }
-            $criteria->addCondition('('.implode(' or ',$status).')');
+            $criteria->addCondition('('.implode(' OR ',$status).')');
+            //$criteria->addCondition('tindakansudahbayar_id is null');
         }
+        
+        if (!empty($this->ruangan_id)){
+            $criteria->addCondition('ruangan_id = '.$this->ruangan_id);
+        }
+        
         if(!empty($this->shift_id)){
 			$criteria->addCondition("shift_id = ".$this->shift_id);		
 		}

@@ -17,11 +17,11 @@
     ");
     ?>
     <?php //echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-search"></i>')),'#',array('class'=>'search-button btn')); ?>
-    <div class="search-form box">
+    <fieldset class="row-fluid box">
         <?php $this->renderPartial($this->path_view.'konsulPoli/_searchKonsul',array(
             'model'=>$model,
         )); ?>
-    </div><!-- search-form --> 
+    </fieldset><!-- search-form --> 
     <div class="row-fluid block-tabel">
         <h6>Tabel Konsul <b>Antar Poli</b></h6>
         <?php $this->renderPartial($this->path_view.'konsulPoli/_tableKonsul', array('model'=>$model)); ?>
