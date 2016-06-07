@@ -24,38 +24,26 @@ $this->widget('application.extensions.moneymask.MMask',array(
 	<?php echo $form->errorSummary($model); ?>       
 	<table>
 		<tr>
-			<td>
-				<div class="control-group">
-					<?php echo CHtml::label('Cara Bayar','', array('class'=>'control-label')) ?>
-					<div class="controls">
-						<?php 
-							echo $form->dropDownList($model,'carabayar_id', CHtml::listData($model->getCaraBayarItems(), 'carabayar_id', 'carabayar_nama') ,
-									array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",
-										'ajax' => array('type'=>'POST',
-											'url'=> Yii::app()->createUrl('ActionDynamic/GetPenjaminPasien',array('encode'=>false,'namaModel'=>'AKPenjaminpasienM')), 
-											'update'=>'#'.CHtml::activeId($model,'penjamin_id').''  //selector to update
-									),
-								)); 
-						?>
-					</div>
-				</div>
-				<div class="control-group">
-					<?php echo CHtml::label('Penjamin','', array('class'=>'control-label')) ?>
-					<div class="controls">
-						<?php 
-							echo $form->dropDownList($model,'penjamin_id', CHtml::listData($model->getPenjaminItems($model->carabayar_id), 'penjamin_id', 'penjamin_nama') ,
-								array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",)); 
-						?>
-					</div>
+                        <td>
+                                <div class="control-group">
+                                        <?php echo $form->textFieldRow($modPenjamin,'penjamin_nama', array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)", 'readonly'=>true)); 
+                                        ?>
 				</div> 
+                        </td>
+			<td>
+				
 
 				<div class='control-group'>
-					<?php echo $form->labelEx($model,'rekeningdebit_id', array('class'=>'control-label')) ?>
+					<?php echo $form->labelEx($modPenjamin,'rekening_debit', array('class'=>'control-label')) ?>
 					<div class="controls">
-						<?php echo $form->hiddenField($model,'rekeningdebit_id',array('class'=>'span3','maxlength'=>50));  ?>
+						<?php 
+                                                if (!empty($model["D"])) $modPenjamin->rekening_debit = $model["D"]->rekening5_id;
+                                                echo $form->hiddenField($modPenjamin,'rekening_debit',array('class'=>'span3','maxlength'=>50));  ?>
 						<?php
+                                                        //var_dump($model["D"]->rekeningdebit->nmrekening5); die;
+                                                        if (!empty($model["D"]->rekeningdebit)) $modPenjamin->rekDebit = $model["D"]->rekeningdebit->nmrekening5;
 							$this->widget('MyJuiAutoComplete', array(
-								'model' => $model,
+								'model' => $modPenjamin,
 								'attribute' => 'rekDebit',
 								'sourceUrl' => Yii::app()->createUrl('ActionAutoComplete/rekeningAkuntansi'),
 								'options' => array(
@@ -67,7 +55,7 @@ $this->widget('application.extensions.moneymask.MMask',array(
 										}',
 									'select' => 'js:function( event, ui ) {
 													$(this).val(ui.item.nmrekening5);
-													$("#' . CHtml::activeId($model, 'rekeningdebit_id') . '").val(ui.item.rekening5_id);
+													$("#' . CHtml::activeId($model["D"], 'rekening_debit') . '").val(ui.item.rekening5_id);
 														return false;
 												  }'
 								),
@@ -84,12 +72,16 @@ $this->widget('application.extensions.moneymask.MMask',array(
 			   </div>
 
 			   <div class='control-group'>
-					<?php echo $form->labelEx($model,'rekeningkredit_id', array('class'=>'control-label')) ?>
+					<?php echo $form->labelEx($modPenjamin,'rekeningKredit', array('class'=>'control-label')) ?>
 					<div class="controls">
-						<?php echo $form->hiddenField($model,'rekeningkredit_id',array('class'=>'span3','maxlength'=>50));  ?>
+						<?php 
+                                                if (!empty($model["K"])) $modPenjamin->rekeningKredit = $model["K"]->rekening5_id;
+                                                if (!empty($model["K"]->rekeningkredit)) $modPenjamin->rekKredit = $model["K"]->rekeningkredit->nmrekening5;
+                                                echo $form->hiddenField($modPenjamin,'rekeningKredit',array('class'=>'span3','maxlength'=>50));  ?>
 						<?php
+                                                        
 							$this->widget('MyJuiAutoComplete', array(
-								'model' => $model,
+								'model' => $modPenjamin,
 								'attribute' => 'rekKredit',
 								'sourceUrl' => Yii::app()->createUrl('ActionAutoComplete/rekeningAkuntansi'),
 								'options' => array(
@@ -101,7 +93,7 @@ $this->widget('application.extensions.moneymask.MMask',array(
 										}',
 									'select' => 'js:function( event, ui ) {
 													$(this).val(ui.item.nmrekening5);
-													$("#' . CHtml::activeId($model, 'rekeningkredit_id') . '").val(ui.item.rekening5_id);
+													$("#' . CHtml::activeId($modPenjamin, 'rekening_debit') . '").val(ui.item.rekening5_id);
 														return false;
 												  }'
 								),
@@ -121,13 +113,12 @@ $this->widget('application.extensions.moneymask.MMask',array(
 	</table>
 	<div class="form-actions">
 		<?php 
-			echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 
-				 Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),
+			echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),
 					array('class'=>'btn btn-primary', 'type'=>'submit', 'onKeypress'=>'return formSubmit(this,event)')); 
 		?>
 		<?php 
 			echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
-				Yii::app()->createUrl($this->module->id.'/'.jurnalRekPenjamin.'/admin'), 
+				Yii::app()->createUrl($this->module->id.'/jurnalRekPenjamin/admin'), 
 					array('class'=>'btn btn-danger',
 					  'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  
 		?>
@@ -232,7 +223,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 			'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
 				"id" => "selectRekDebit",
 				"onClick" =>"
-					$(\"#AKPenjaminpasienM_rekeningdebit_id\").val(\"$data->rekening5_id\");
+					$(\"#AKPenjaminpasienM_rekening_debit\").val(\"$data->rekening5_id\");
 					$(\"#AKPenjaminpasienM_rekDebit\").val(\"$data->nmrekening5\");                                                
 					$(\"#dialogRekDebit\").dialog(\"close\");    
 					return false;
@@ -336,7 +327,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 			'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
 				"id" => "selectRekDebit",
 				"onClick" =>"
-					$(\"#AKPenjaminpasienM_rekeningkredit_id\").val(\"$data->rekening5_id\");
+					$(\"#AKPenjaminpasienM_rekeningKredit\").val(\"$data->rekening5_id\");
 					$(\"#AKPenjaminpasienM_rekKredit\").val(\"$data->nmrekening5\");
 					$(\"#dialogRekKredit\").dialog(\"close\");    
 					return false;
