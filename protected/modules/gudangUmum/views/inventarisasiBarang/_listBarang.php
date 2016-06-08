@@ -37,14 +37,12 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
 		array(
 			'header'=>'Inventarisasi Kode',
 			'type'=>'raw',
-			'value'=>'isset($data->inventarisasi_kode) ? $data->inventarisasi_kode : '
-			.'(isset($data->inventarisasi->inventarisasi_kode) ? $data->inventarisasi->inventarisasi_kode :'
-			. '"-")',
+			'value'=>'!empty($data->inventarisasi_kode) ? $data->inventarisasi_kode :"-"',
 		),
                 array(
                         'header'=>'Tgl Terima',
                         'type'=>'raw',
-                        'value'=>'isset($data->tgltransaksi)?MyFormatter::formatDateTimeForUser($data->tgltransaksi):"-"',
+                        'value'=>'!empty($data->tgltransaksi)?MyFormatter::formatDateTimeForUser($data->tgltransaksi):"-"',
                 ),
 		array(
 			'header'=>'Nama Barang',

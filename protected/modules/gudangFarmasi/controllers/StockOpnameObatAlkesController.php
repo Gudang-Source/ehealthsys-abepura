@@ -79,6 +79,8 @@ class StockOpnameObatAlkesController extends MyAuthController
                                                                                 // $modDetails[$i]->jmlselisihstok = $modDetails[$i]->volume_fisik - $modDetails[$i]->volume_sistem;
 										// $selisih = ($modDetails[$i]->volume_fisik - $modDetails[$i]->jmlselisihstok) - $modDetails[$i]->volume_sistem;
 										$selisih = $modDetails[$i]->jmlselisihstok;
+                                                                                
+                                                                                $this->setSelisih($modDetails[$i]);
                                         if ($selisih > 0){
                                             $this->simpanStokObatAlkes($modDetails[$i], $selisih);
                                         } else { //jika selisih minus = tambah stok 
@@ -164,6 +166,22 @@ class StockOpnameObatAlkesController extends MyAuthController
            $this->stokopnameobattersimpan  &= false;
        }
        return $modDetailOpname;
+    }
+    
+    function setSelisih($det)
+    {
+        if ($det->volume_sistem < 0) {
+            $sis = $det->volume_sistem;
+            if (abs($sis) == $det->volume_fisik) {
+                $det->jmlselisihstok = 0;
+            } else if (abs($sis) < $det->volume_fisik) {
+                $det->jmlselisihstok = $det->volume_fisik - abs($sis);
+            } else {
+                $det->jmlselisihstok = abs($sis);
+            }
+        }
+        $det->save();
+        // var_dump($det->attributes, $det->save());
     }
     
     public function updateFormsStokOpname($model ,$modStokOpnameDet){
