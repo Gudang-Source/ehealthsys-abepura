@@ -54,6 +54,10 @@
                                                                 return false;
                                                             }',
                     'select' => 'js:function( event, ui ) {
+                                                                if (!cekPegawaiSama(ui.item.pegawai_id)) {
+                                                                    $(this).val("");
+                                                                    return false;
+                                                                }
                                                                 $("#'.Chtml::activeId($model, 'mengetahui_id') . '").val(ui.item.pegawai_id); 
                                                                 return false;
                                                             }',
@@ -96,6 +100,10 @@
                                                                 return false;
                                                             }',
                     'select' => 'js:function( event, ui ) {
+                                                                if (!cekPegawaiSama(ui.item.pegawai_id)) {
+                                                                    $(this).val("");
+                                                                    return false;
+                                                                }
                                                                 $("#'.Chtml::activeId($model, 'petugas1_id') . '").val(ui.item.pegawai_id); 
                                                                 return false;
                                                             }',
@@ -138,6 +146,10 @@
                                                                 return false;
                                                             }',
                     'select' => 'js:function( event, ui ) {
+                                                                if (!cekPegawaiSama(ui.item.pegawai_id)) {
+                                                                    $(this).val("");
+                                                                    return false;
+                                                                }
                                                                 $("#'.Chtml::activeId($model, 'petugas2_id') . '").val(ui.item.pegawai_id); 
                                                                 return false;
                                                             }',
