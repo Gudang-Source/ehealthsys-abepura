@@ -195,8 +195,8 @@ class InfostokobatalkesruanganV extends CActiveRecord
 		$criteria->compare('LOWER(create_loginpemakai_id)',strtolower($this->create_loginpemakai_id),true);
 		$criteria->compare('LOWER(update_loginpemakai_id)',strtolower($this->update_loginpemakai_id),true);
 		$criteria->compare('LOWER(create_ruangan)',strtolower($this->create_ruangan),true);
-		$criteria->compare('penerimaandetail_id',$this->penerimaandetail_id);
-
+		$criteria->compare('penerimaandetail_id',$this->penerimaandetail_id);                
+                
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));

@@ -247,13 +247,14 @@ class GFInfostokobatalkesruanganV extends InfostokobatalkesruanganV{
 //                $criteria->addBetweenCondition('tglstok_in',$this->tgl_awal, $this->tgl_akhir);
                 // Klo limit lebih kecil dari nol itu berarti ga ada limit 
                // $criteria->limit=-1; 
-                if($this->qtystok_in == null)
+               // if($this->qtystok_in == null)
                 $criteria->addCondition('qtystok_in != 0');
             
                 if($this->qtystok_out == null)
                 $criteria->addCondition('qtystok_out != 0');
 
                 return new CActiveDataProvider($this, array(
+                        'criteria'=>$this->criteria(),
                         'criteria'=>$criteria,
                 ));
         }
@@ -290,9 +291,9 @@ class GFInfostokobatalkesruanganV extends InfostokobatalkesruanganV{
             $criteria=new CDbCriteria;
 //            $criteria->with=array('obatalkes');
 //            $criteria->join = 'LEFT JOIN obatalkes_m ON obatalkes_m.obatalkes_id=stokobatalkes_t.obatalkes_id';
-            $criteria->select = 'jenisobatalkes_nama, obatalkes_kode, hargajual, obatalkes_nama, SUM(qtystok_in) AS qty_in, SUM(qtystok_out) AS qty_out, 
+            $criteria->select = 'jenisobatalkes_nama, obatalkes_kode,  obatalkes_nama, SUM(qtystok_in) AS qty_in, SUM(qtystok_out) AS qty_out, 
                                 (SUM(hargajual) * SUM(qtystok_in)) AS totalharga, (SUM(qtystok_in) - SUM(qtystok_out)) AS qty_current';
-            $criteria->group = 'obatalkes_kode, hargajual, obatalkes_nama,jenisobatalkes_nama';
+            $criteria->group = 'obatalkes_kode,  obatalkes_nama,jenisobatalkes_nama';//hargajual,
 			if(!empty($this->jenisobatalkes_id)){
 				$criteria->addCondition('jenisobatalkes_id = '.$this->jenisobatalkes_id);
 			}
@@ -305,7 +306,7 @@ class GFInfostokobatalkesruanganV extends InfostokobatalkesruanganV{
             
             if($this->qtystok_out == null)
                 $criteria->addCondition('qtystok_out != 0');
-
+            
             return $criteria;
         }
         
