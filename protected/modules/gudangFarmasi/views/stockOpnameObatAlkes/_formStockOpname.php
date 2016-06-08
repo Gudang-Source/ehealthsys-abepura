@@ -29,7 +29,7 @@
     <div class="control-group ">
         <?php echo $form->labelEx($model, 'mengetahui_id', array('class' => 'control-label')); ?>
         <div class="controls">
-            <?php echo $form->hiddenField($model, 'mengetahui_id'); ?>
+            <?php echo $form->hiddenField($model, 'mengetahui_id', array('class'=>'pegawai')); ?>
             <?php
             $this->widget('MyJuiAutoComplete', array(
                 'model'=>$model,
@@ -71,7 +71,7 @@
     <div class="control-group ">
         <?php echo $form->labelEx($model, 'petugas1_id', array('class' => 'control-label')); ?>
         <div class="controls">
-            <?php echo $form->hiddenField($model, 'petugas1_id'); ?>
+            <?php echo $form->hiddenField($model, 'petugas1_id', array('class'=>'pegawai')); ?>
             <?php
             $this->widget('MyJuiAutoComplete', array(
                 'model'=>$model,
@@ -113,7 +113,7 @@
     <div class="control-group ">
         <?php echo $form->labelEx($model, 'petugas2_id', array('class' => 'control-label')); ?>
         <div class="controls">
-            <?php echo $form->hiddenField($model, 'petugas2_id'); ?>
+            <?php echo $form->hiddenField($model, 'petugas2_id', array('class'=>'pegawai')); ?>
             <?php
             $this->widget('MyJuiAutoComplete', array(
                 'model'=>$model,
@@ -194,7 +194,8 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                     "id" => "selectBahan",
                                     "onClick" => "
                                     var parent = $(\"#dialogPegawai\").attr(\"parentclick\");
-                                    $(\"#\"+parent+\"\").val($data->pegawai_id);
+                                    if (!cekPegawaiSama(".$data->pegawai_id.")) return false;
+                                    $(\"#\"+parent+\"\").val(".$data->pegawai_id.");
                                     $(\"#\"+parent+\"\").parents(\".controls\").find(\".namaPegawai\").val(\"$data->nama_pegawai\");
                                     $(\'#dialogPegawai\').dialog(\'close\');
                                     return false;"))',
