@@ -169,6 +169,7 @@ class PemesananObatAlkesController extends MyAuthController{
         if(Yii::app()->request->isAjaxRequest) { 
             $obatalkes_id = $_POST['obatalkes_id'];
             $jumlah = $_POST['jumlah'];
+            $tglkadaluarsa = $_POST['tglkadaluarsa'];
             $form = "";
             $pesan = "";
             $format = new MyFormatter();
@@ -178,6 +179,7 @@ class PemesananObatAlkesController extends MyAuthController{
 				$modDetailPesanOA = new GFPesanoadetailT;
 				$modDetailPesanOA->obatalkes_id = $modObatAlkes->obatalkes_id;
 				$modDetailPesanOA->jmlpesan = $jumlah;
+                                $modDetailPesanOA->tglkadaluarsa = $tglkadaluarsa;
 				$modDetailPesanOA->satuankecil_id = $modObatAlkes->satuankecil_id;
 				$modDetailPesanOA->sumberdana_id = $modObatAlkes->sumberdana_id;
 				$form = $this->renderPartial($this->path_view.'_rowDetailPemesanan', array('modDetail'=>$modDetailPesanOA), true);

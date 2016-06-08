@@ -4,6 +4,8 @@ function tambahObatAlkes()
     var obatalkes_id = $('#obatalkes_id').val();
     var obatalkes_kode = $('#obatalkes_kode').val();
     var obatalkes_nama = $('#obatalkes_nama').val();
+    var jenisobatalkes_nama = $('#jenisobatalkes_nama').val();
+    var tglkadaluarsa = $('#tglkadaluarsa').val();
     var jumlah = $('#qty_input').val();
     
     if(obatalkes_id != '')
@@ -12,7 +14,7 @@ function tambahObatAlkes()
         $.ajax({
             type:'POST',
             url:'<?php echo $this->createUrl('setFormDetailPemesanan'); ?>',
-            data: {obatalkes_id:obatalkes_id,jumlah:jumlah},//
+            data: {obatalkes_id:obatalkes_id,jumlah:jumlah,tglkadaluarsa:tglkadaluarsa},//
             dataType: "json",
             success:function(data){
                 if(data.pesan !== ""){
@@ -52,6 +54,8 @@ function tambahObatAlkes()
 		}
                 $('#obatalkes_id').val('');
                 $('#obatalkes_nama').val('');
+                $('#jenisobatalkes_nama').val('');
+                $('#tglkadaluarsa').val('');
             },
             error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
         });
@@ -150,7 +154,7 @@ $('#tombolDialogObatAlkes').click(function(){
         $(".dialog_ruangan_id").val(ruangan_id);
 	$.fn.yiiGridView.update('obatalkes-m-grid', {
 		data: {
-			"GFObatalkesM[ruangan_id]":ruangan_id,
+			"GFInfostokobatalkesruanganV[ruangan_id]":ruangan_id,
 		}
 	});
 });

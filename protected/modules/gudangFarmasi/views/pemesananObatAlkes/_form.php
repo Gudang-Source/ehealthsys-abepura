@@ -54,8 +54,9 @@
             <?php echo $form->labelEx($model, 'pegawaipemesan_id', array('class' => 'control-label')); ?>
             <div class="controls">
                 <?php echo $form->hiddenField($model, 'pegawaipemesan_id'); ?>
+                <?php echo $form->textField($model, 'pegawaipemesan_nama', array('readonly' => true)); ?>
                 <?php
-                $this->widget('MyJuiAutoComplete', array(
+            /*    $this->widget('MyJuiAutoComplete', array(
                     'model'=>$model,
                     'attribute' => 'pegawaipemesan_nama',
                     'source' => 'js: function(request, response) {
@@ -89,7 +90,7 @@
                         'onblur' => 'if(this.value === "") $("#'.Chtml::activeId($model, 'pegawaipemesan_id') . '").val(""); '
                     ),
                     'tombolDialog' => array('idDialog' => 'dialogPegawaiMenyetujui'),
-                ));
+                ));*/
                 ?>
             </div>
         </div>

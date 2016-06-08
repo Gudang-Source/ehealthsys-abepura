@@ -316,7 +316,7 @@ class GFInfostokobatalkesruanganV extends InfostokobatalkesruanganV{
             // should not be searched.
 
             $criteria=new CDbCriteria;
-                $criteria->select = "obatalkes_id,obatalkes_nama,obatalkes_golongan,obatalkes_kategori,jenisobatalkes_nama,obatalkes_kode,satuankecil_nama";
+                $criteria->select = "obatalkes_id,obatalkes_nama,obatalkes_golongan,obatalkes_kategori,jenisobatalkes_id,jenisobatalkes_nama,obatalkes_kode,satuankecil_nama, tglkadaluarsa";
 		if(!empty($this->instalasi_id)){
 			$criteria->addCondition('instalasi_id = '.$this->instalasi_id);
 		}
@@ -343,12 +343,26 @@ class GFInfostokobatalkesruanganV extends InfostokobatalkesruanganV{
 		$criteria->compare('LOWER(satuankecil_nama)',strtolower($this->satuankecil_nama),true);		
 		
 		$criteria->compare('qtystok',$this->qtystok);
-                $criteria->group = 'obatalkes_id, obatalkes_nama,obatalkes_golongan,obatalkes_kategori, jenisobatalkes_nama,obatalkes_kode,satuankecil_nama';
+                $criteria->group = 'obatalkes_id, obatalkes_nama,obatalkes_golongan,obatalkes_kategori, jenisobatalkes_id,jenisobatalkes_nama,obatalkes_kode,satuankecil_nama, tglkadaluarsa';
 
             return new CActiveDataProvider($this, array(
                     'criteria'=>$criteria,
             ));
         }
+        
+        public function getStokObatRuanganPemesan($ruangan_id = null){ // menampilkan stok obat berdasarkan ruangan pemesan
+            if(isset($_GET['pesanobatalkes_id'])){
+                    $modInfoOa = GFInformasipesanobatalkesV::model()->findByAttributes(array('pesanobatalkes_id'=>$_GET['pesanobatalkes_id']));
+                    if(!empty($modInfoOa)){
+                            return StokobatalkesT::getJumlahStok($this->obatalkes_id,$modInfoOa->ruanganpemesan_id);
+                    }else{
+                            return 0;
+                    }
+            }else{
+                    if (empty($ruangan_id)) $ruangan_id = $this->ruangan_id;
+                    return StokobatalkesT::getJumlahStok($this->obatalkes_id,$ruangan_id);
+            }
+	}
         
 }
 
