@@ -153,7 +153,7 @@ $js = <<< JS
                 $.post('${urlAjax}', {idBarang:idBarang, jumlah:jumlah, satuan:satuan}, function(data){
                     $('#tableDetailBarang tbody').append(data);
                     rename();
-                    $("#tableDetailBarang tbody tr:last .numbersOnly").maskMoney({"defaultZero":true,"allowZero":true,"decimal":",","thousands":"","precision":0,"symbol":null});
+                    $("#tableDetailBarang tbody tr:last .integer2").maskMoney({"defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0,"symbol":null});
                     clear();
                 }, 'json');
             }

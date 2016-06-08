@@ -13,7 +13,7 @@
  */
 class PesanoadetailT extends CActiveRecord
 {   
-        public $harganetto,$hargajual, $stok, $subtotal, $discount;
+        public $harganetto,$hargajual, $stok, $subtotal, $discount, $tglkadaluarsa;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -43,7 +43,7 @@ class PesanoadetailT extends CActiveRecord
 			array('obatalkes_id, pesanobatalkes_id, sumberdana_id, jmlpesan', 'required'),
 			array('satuankecil_id, obatalkes_id, pesanobatalkes_id, sumberdana_id', 'numerical', 'integerOnly'=>true),
 			array('jmlpesan', 'numerical'),
-                        array('harganetto,hargajual, stok, subtotal', 'safe'),
+                        array('tglkadaluarsa, harganetto,hargajual, stok, subtotal', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('pesanoadetail_id, satuankecil_id, obatalkes_id, pesanobatalkes_id, sumberdana_id, jmlpesan', 'safe', 'on'=>'search'),
