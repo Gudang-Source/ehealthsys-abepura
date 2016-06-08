@@ -8,6 +8,7 @@
 	<div class="row">
 		<?php $this->renderPartial('_kolom',array('dataKolom'=>$dataKolom)); ?>
 	</div>
+    
 	<div class="row">
 		<div class="col-md-8">
 		<?php 
