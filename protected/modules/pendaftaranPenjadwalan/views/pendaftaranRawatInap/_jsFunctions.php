@@ -417,7 +417,7 @@ function setEDBpjs(val) {
     if (val == 8) {
         hidables = $("#form-bpjs .hidables-content").detach();
     } else {
-        hidables.appendTo("#form-bpjs .hidables");
+        if (hidables != null) hidables.appendTo("#form-bpjs .hidables");
     }
 }
 
