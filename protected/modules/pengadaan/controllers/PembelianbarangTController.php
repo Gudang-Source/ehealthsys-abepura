@@ -63,7 +63,6 @@ class PembelianbarangTController extends MyAuthController
 		{
 			$model->attributes=$_POST['ADPembelianbarangT'];
                         if (count($_POST['BelibrgdetailT']) > 0){
-                            $modDetails = $this->validasiTabular($model, $_POST['BelibrgdetailT']);
                             if ($model->validate()){
                                 $transaction = Yii::app()->db->beginTransaction();
                                 try{
@@ -73,7 +72,7 @@ class PembelianbarangTController extends MyAuthController
                                         foreach ($modDetails as $i=>$data){
                                             if ($data->jmlbeli > 0){
                                                 if ($data->save()){
-
+                                                    $success = true;
                                                 }
                                                 else{
                                                     $success = false;
@@ -84,6 +83,9 @@ class PembelianbarangTController extends MyAuthController
                                     else{
                                         $success = false;
                                     }
+                                    
+                                    // var_dump($success); die;
+                                    
                                     if ($success == true){
                                         $transaction->commit();
                                         Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
@@ -112,11 +114,14 @@ class PembelianbarangTController extends MyAuthController
         
         protected function validasiTabular($model, $data){
             $valid = true;
+            //var_dump($data); die;
+            
             foreach ($data as $i=>$row){
                 $modDetails[$i] = new BelibrgdetailT();
                 $modDetails[$i]->attributes = $row;
                 $modDetails[$i]->pembelianbarang_id = $model->pembelianbarang_id;
                 $valid = $modDetails[$i]->validate() && $valid;
+                //var_dump($modDetails[$i]->attributes);
             }
             
             return $modDetails;
@@ -132,12 +137,13 @@ class PembelianbarangTController extends MyAuthController
             $satuan = $_POST['satuan'];
             
             $modBarang = BarangM::model()->with('subsubkelompok')->findByPk($idBarang);
+            // var_dump($modBarang->attributes); die;
             $modDetail = new BelibrgdetailT();
             $modDetail->barang_id = $idBarang;
             $modDetail->satuanbeli = $satuan;
             $modDetail->jmlbeli = $jumlah;
-            $modDetail->hargabeli=$modBarang->barang_harganetto;
-            $modDetail->hargasatuan = $modBarang->barang_hargajual;
+            $modDetail->hargabeli= MyFormatter::formatNumberForPrint($modBarang->barang_harganetto * $jumlah);
+            $modDetail->hargasatuan = MyFormatter::formatNumberForPrint($modBarang->barang_harganetto);
             $modDetail->jmldlmkemasan = $modBarang->barang_jmldlmkemasan;
             
             $tr = $this->renderPartial($this->path_view.'_detailPembelianBarang', array('modBarang'=>$modBarang, 'modDetail'=>$modDetail), true);
