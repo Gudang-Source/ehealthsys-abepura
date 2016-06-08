@@ -6,7 +6,7 @@
         'Manage',
     );
 
-    $url = Yii::app()->createUrl('pendaftaranPenjadwalan/laporan/frameGrafikUmurPenunjang&id=1');
+    $url = Yii::app()->createUrl('rekamMedis/laporan/frameGrafikUmurPenunjang&id=1');
     Yii::app()->clientScript->registerScript('search', "
     $('.search-button').click(function(){
         $('.search-form').toggle();

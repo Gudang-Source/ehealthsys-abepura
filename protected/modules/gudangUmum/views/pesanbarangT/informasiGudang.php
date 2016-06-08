@@ -34,13 +34,35 @@
             'template'=>"{summary}\n{items}\n{pager}",
             'itemsCssClass'=>'table table-striped table-condensed',
             'columns'=>array(
-                    'nopemesanan',
-                    'tglpesanbarang',
-                    'tglmintadikirim',
-                    'keterangan_pesan',
-                    'pegawaipemesan.nama_pegawai',
-                    'pegawaimengetahui.nama_pegawai',
-                    'ruanganpemesan.ruangan_nama',
+                    array(
+                        'header' => 'Tgl Pemesan',
+                        'value' => '$data->tglpesanbarang',
+                        ),
+                    array(
+                        'header' => 'No Pemesan',
+                        'value' => '$data->nopemesanan',
+                        ),
+                    array(
+                        'header' => 'Ruangan /<br> Pegawai Pemesan',
+                        'value' => '$data->ruanganpemesan->ruangan_nama." \ ".$data->pegawaipemesan->nama_pegawai'
+                    ),                                       
+                    'keterangan_pesan',  
+                    array(
+                        'header' => 'Tgl Kirim',
+                        'value' => '$data->tglmintadikirim',
+                    ),
+                     array(
+                        'header' => 'Pegawai Pengirim',
+                        'value' => function($data){
+                            if (empty($data->mutasibrg_id)){
+                                return '-';
+                            }else{
+                                $p = GUMutasibrgT::model()->findByPk($data->mutasibrg_id); 
+                                
+                                return $p->pegawaipengirim->nama_pegawai;
+                            }
+                        }
+                    ),
                     array(
                             'header'=>'Detail',
                             'type'=>'raw',

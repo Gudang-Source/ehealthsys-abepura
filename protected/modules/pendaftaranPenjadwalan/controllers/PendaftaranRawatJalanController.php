@@ -1164,6 +1164,23 @@ class PendaftaranRawatJalanController extends MyAuthController
                             'order'=>'tgl_pendaftaran desc',
                         ));
                     }
+                } else if (!empty($no_rekam_medik)) {
+                    //var_dump($no_rekam_medik); die; 
+                    $p = PasienM::model()->findByAttributes(array('no_rekam_medik'=>trim($no_rekam_medik)));
+                    //var_dump($p->pasien_id); die;
+                    $pendaftaran = PendaftaranT::model()->findByAttributes(array(
+                        'pasien_id'=>$p->pasien_id,
+                    ), array(
+                        'condition'=>'tgl_pendaftaran::date = now()::date and pasienbatalperiksa_id is null'
+                    ));
+                    if (empty($pendafaran)) {
+                        $pendaftaran = PendaftaranT::model()->findByAttributes(array(
+                            'pasien_id'=>$p->pasien_id,
+                        ), array(
+                            'condition'=>'pasienbatalperiksa_id is null',
+                            'order'=>'tgl_pendaftaran desc',
+                        ));
+                    }
                 } else {
                     $pendaftaran = null;
                 }

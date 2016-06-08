@@ -67,8 +67,8 @@ if (isset($caraPrint)){
             <td><?php echo $hasil->diagnosa->diagnosa_nama; ?></td>
             <td><?php echo $hasil->diagnosa->diagnosa_namalainnya; ?></td>
             <td><?php echo $hasil->diagnosa->diagnosa_katakunci; ?></td>
-            <td><?php echo ($hasil->diagnosatindakan->diagnosaicdix_nama === null)?'-':$hasil->diagnosatindakan->diagnosaicdix_nama; ?></td>
-            <td><?php echo $hasil->sebabdiagnosa->sebabdiagnosa_nama; ?></td>
+            <td><?php echo (isset($hasil->diagnosatindakan->diagnosaicdix_nama))?$hasil->diagnosatindakan->diagnosaicdix_nama:'-'; ?></td>
+            <td><?php echo isset($hasil->sebabdiagnosa->sebabdiagnosa_nama)?$hasil->sebabdiagnosa->sebabdiagnosa_nama:'-'; ?></td>
         </tr>
         <?php } ?>
     </tbody>
