@@ -28,42 +28,36 @@ class JurnalRekPenjaminController extends MyAuthController
 	public function actionCreate()
 	{
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
-		$model=new AKPenjaminRekM();       
+                
+                $model=new AKPenjaminRekM();       
 		$modPenjamin = new AKPenjaminpasienM();
 		$modDetails = array();
 		$model->rekening5_id = isset($_POST['AKPenjaminRekM']['rekening'][1]['rekening5_id']) ? $_POST['AKPenjaminRekM']['rekening'][1]['rekening5_id'] : null;
-		if (isset($_GET['AKPenjaminpasienM'])){
-				$modPenjamin->unsetAttributes();
-				$modPenjamin->attributes=$_GET['AKPenjaminpasienM'];
-				$modPenjamin->penjamin_nama = isset($_GET['AKPenjaminpasienM']['penjamin_nama'])?$_GET['AKPenjaminpasienM']['penjamin_nama']:null;
-				$modPenjamin->carabayar_nama = isset($_GET['AKPenjaminpasienM']['carabayar_nama'])?$_GET['AKPenjaminpasienM']['carabayar_nama']:null;
-		}
+		
 		if (isset($_GET['AKPenjaminRekM'])) {
 			$model->attributes = $_GET['AKPenjaminRekM'];
 		}
 		if(isset($_POST['AKPenjaminRekM']))
 		{
                             $transaction = Yii::app()->db->beginTransaction();
+                            
+                            if (isset($_POST['AKPenjaminpasienM'])){
+				$modPenjamin->unsetAttributes();
+				$modPenjamin->attributes=$_POST['AKPenjaminpasienM'];
+                                $modPenjamin->penjamin_aktif = true;
+                                $modPenjamin->save();
+                            }
+                            
                             try{
                                  $success = true;
-                                 $modDetails = $this->validasiTabular($_POST['AKPenjaminRekM']);
-                                    foreach ($modDetails as $i => $data) {
-    //                                    echo '<pre>';
-    //                                    echo print_r($data->jmlsisapiutang);
-    //                                    echo exit();
-                                        
-                                            if ($data->save()) {
-                                                $success = true;
-                                                
-                                            } else {
-                                                $success = false;
-                                            }
-                                            echo '<pre>';
-                                            echo print_r($data->getErrors());
-                                            echo '</pre>';
-//                                          exit();
-                                    }
-                                
+                                 $modDetails = $this->validasiTabular($_POST['AKPenjaminRekM'], $modPenjamin);
+                                foreach ($modDetails as $i => $data) {
+                                        if ($data->save()) {
+                                            $success = true;
+                                        } else {
+                                            $success = false;
+                                        }
+                                }
                                 if ($success == true) {
                                     $transaction->commit();
                                     Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
@@ -84,38 +78,21 @@ class JurnalRekPenjaminController extends MyAuthController
 		$this->render('create',array(
 			'model'=>$model, 'modDetails'=>$modDetails,
                         'modPenjamin'=>$modPenjamin,
+                        ''
 		));
 	}
         
-        protected function validasiTabular($data){
-            $x = 0;
+        protected function validasiTabular($data, $modPenjamin){
+            //$x = 0;
             foreach ($data['rekening'] as $i => $row) {
-                foreach($data['penjamin'] as $key=>$datas){
-                    $modDetails[$x] = new AKPenjaminRekM;                    
-                    $modDetails[$x]->attributes = $row; 
-                    $modDetails[$x]->penjamin_id = $key;               
-//                    $modDetails[$x]->rekening1_id = $row['rekening1_id'];
-//                    $modDetails[$x]->rekening2_id = $row['rekening2_id'];
-//                    $modDetails[$x]->rekening3_id = $row['rekening3_id'];
-//                    $modDetails[$x]->rekening4_id = $row['rekening4_id'];
-                    $modDetails[$x]->rekening5_id = $row['rekening5_id'];
-//                    $modDetails[$x]->saldonormal = $row['saldonormal'];                    
-                    $modDetails[$x]->validate();
-                    $x++;
-                    
-                    /*
-                    if($datas['pilihPenjamin'] == 1){
-
-                    } 
-                     * 
-                     */  
+                    $modDetails[$i] = new AKPenjaminRekM;                    
+                    $modDetails[$i]->attributes = $row; 
+                    $modDetails[$i]->debitkredit = $row['rekening5_nb'];
+                    $modDetails[$i]->penjamin_id = $modPenjamin->penjamin_id;   
+                    $modDetails[$i]->rekening5_id = $row['rekening5_id'];
             }
-                    
-                
-    //            echo '<pre>';
-    //            echo print_r($modDetails[$i]->getErrors());
-    //            echo '</pre>';
-            }
+            
+            //die;
             return $modDetails;
         }
 	/**
@@ -126,21 +103,57 @@ class JurnalRekPenjaminController extends MyAuthController
 	public function actionUpdate($id)
 	{
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
-		$model=AKPenjaminpasienM::model()->findByPk($id);
-
+                $modPenjamin = AKPenjaminpasienM::model()->findByPk($id);
+                $amodel=AKPenjaminRekM::model()->findAllByAttributes(array('penjamin_id'=>$id), array('order'=>'debitkredit'));
+                $model = array('D'=>null, 'K'=>null);
+                
+                $cnt = 0;
+                $dk = ['D', 'K'];
+                foreach ($amodel as $item) {
+                    if (!empty($item->debitkredit)) {
+                        $model[$item->debitkredit] = $item;
+                    } else {
+                        $model[$dk[$cnt]] = $item;
+                        $cnt++;
+                    }
+                }
+                
+                foreach ($model as $k=>$item) {
+                    if (empty($item)) {
+                        $model[$k] = new AKPenjaminRekM;
+                    }
+                }
+                // var_dump($model); die;
 		// Uncomment the following line if AJAX validation is needed
 		
 
-		if(isset($_POST['AKPenjaminpasienM']))
-		{
-			$model->attributes=$_POST['AKPenjaminpasienM'];
-			if($model->save()){
+		if(isset($_POST['AKPenjaminpasienM'])) {
+                    AKPenjaminRekM::model()->deleteAllByAttributes(array(
+                        'penjamin_id'=>$modPenjamin->penjamin_id,
+                    ));
+                    
+                    $deb = new PenjaminrekM();
+                    $deb->debitkredit = 'D';
+                    $deb->penjamin_id = $id;
+                    $deb->rekening5_id = $_POST['AKPenjaminpasienM']['rekening_debit'];
+                    $deb->save();
+                    
+                    $kre = new PenjaminrekM();
+                    $kre->debitkredit = 'K';
+                    $kre->penjamin_id = $id;
+                    $kre->rekening5_id = $_POST['AKPenjaminpasienM']['rekeningKredit'];
+                    $kre->save();
+                    
+                    //var_dump($modPenjamin->attributes, $_POST); die; /*
+			//$model->attributes=$_POST['AKPenjaminpasienM'];
+			//if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->penjamin_id));
-                        }
+				$this->redirect(array('admin'));
+                        //} */
 		}
 
 		$this->render('update',array(
+                        'modPenjamin'=>$modPenjamin,
 			'model'=>$model,
 		));
 	}
@@ -248,11 +261,13 @@ class JurnalRekPenjaminController extends MyAuthController
                     Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
                 endif;
                 
-		$model=new AKPenjaminRekM('search');
+		$model=new AKPenjaminpasienM('search');
 		$model->unsetAttributes(); 
                 
-		if(isset($_GET['AKPenjaminRekM'])){
-			$model->attributes=$_GET['AKPenjaminRekM'];
+		if(isset($_GET['AKPenjaminpasienM'])){
+			$model->attributes=$_GET['AKPenjaminpasienM'];
+                        //$model->rekening_debit = $_GET['AKPenjaminpasienM']['rekening_debit'];
+                        //$model->rekeningKredit = $_GET['AKPenjaminpasienM']['rekeningKredit'];
 		}
 		$this->render('admin',array(
 			'model'=>$model,

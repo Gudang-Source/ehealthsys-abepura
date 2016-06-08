@@ -7,6 +7,7 @@ class AKPenjaminpasienM extends PenjaminpasienM
 	 * @return BankM the static model class
 	 */
         public $rekDebit, $rekKredit;
+        public $rekening_debit, $rekeningKredit;
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);

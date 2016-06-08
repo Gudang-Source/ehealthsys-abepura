@@ -1985,10 +1985,12 @@ function checkOto() {
     if (otoval == 1) {
         $(".rm_lama").hide();
         $(".rm_baru").hide();
+        $("#lb_rm_lama").removeClass("required").find("span").removeClass("required").hide();
         $("#no_rekam_medik_baru").val("");  
     } else {
         $(".rm_baru").show();
         $(".rm_lama").hide();
+        $("#lb_rm_lama").addClass("required").find("span").addClass("required").show();
         $("#no_rekam_medik_baru").val("");
     }
 }
@@ -2083,6 +2085,14 @@ $(".rb_kon").change(function() {
  * posisi script ini harus tetap dibawah
  */
 $( document ).ready(function(){
+    <?php if (isset($_GET['pasien_id']) && !empty($_GET['pasien_id'])): ?>
+            $(".rb_rm").eq(1).click();
+            $("#no_rekam_medik_baru").val('<?php echo $modPasien->no_rekam_medik; ?>');
+    <?php else: ?>
+            checkOto();
+    <?php endif; ?>
+        
+    
     $("#form-karcis .accordion-heading a").click(function()
     {
         return false;

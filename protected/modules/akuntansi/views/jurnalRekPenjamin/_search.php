@@ -36,6 +36,7 @@
                 </div>
             </div>    
         </td>
+        <?php /*
         <td>
             <div class='control-group'>
                  <?php echo CHtml::label('Rekening Debit','rekeningDebit', array('class'=>'control-label')); ?>
@@ -51,6 +52,8 @@
                  </div>
             </div>
         </td>
+         * 
+         */ ?>
     </tr>
 </table>
 
