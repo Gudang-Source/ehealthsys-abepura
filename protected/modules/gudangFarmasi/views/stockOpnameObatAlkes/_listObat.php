@@ -70,7 +70,7 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
             array(
                 'header'=>'Sistem',
                 'type'=>'raw',
-                'value'=> '$data->qtystok.CHtml::hiddenField("GFStokopnamedetT[".$data->obatalkes_id."][volume_sistem]", number_format($data->qtystok), array("class"=>"stok span1 integer2", "readonly"=>true))',
+                'value'=> '$data->qtystok.CHtml::hiddenField("GFStokopnamedetT[".$data->obatalkes_id."][volume_sistem]", ($data->qtystok), array("class"=>"stok span1 numbersOnly", "readonly"=>true))',
                 'htmlOptions'=>array(
                     'style'=>'text-align: right;',
                 ),
@@ -78,7 +78,7 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
             array(
                 'header'=>'<div class="test" style="cursor:pointer;" onclick="openDialogini()"> Fisik <icon class="icon-white icon-list"></icon></div> ',
                 'type'=>'raw',
-                'value'=> 'CHtml::textField("GFStokopnamedetT[".$data->obatalkes_id."][volume_fisik]", (isset($data->volume_fisik) ? number_format($data->volume_fisik) : number_format($data->qtystok))  , array("class"=>"fisik span1 numbersOnly", "style"=>"text-align: right;","onblur"=>"getTotal();", "onkeyup"=>"return $(this).focusNextInputField(event);"))',
+                'value'=> 'CHtml::textField("GFStokopnamedetT[".$data->obatalkes_id."][volume_fisik]", (isset($data->volume_fisik) ? ($data->volume_fisik) : ($data->qtystok))  , array("class"=>"fisik span1 numbersOnly", "style"=>"text-align: right;","onblur"=>"getTotal();", "onkeyup"=>"return $(this).focusNextInputField(event);"))',
             ),
 			array(
                 'header'=>'Waktu Cek Fisik',
