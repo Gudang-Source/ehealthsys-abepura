@@ -15,9 +15,12 @@ $jenis = JenisobatalkesM::model()->findByPk($oa->jenisobatalkes_id);
     </td>
     <td>
         <span name="[ii][jenisobatalkes_id]"><?php echo (!empty($jenis) ? $jenis->jenisobatalkes_nama : "") ?></span>
-    </td>
+    </td>    
     <td>
         <span name="[ii][obatalkes_nama]"><?php echo (!empty($modDetail->obatalkes_id) ? $modDetail->obatalkes->obatalkes_nama : "") ?></span>
+    </td>
+    <td>
+        <span name="[ii][tglkadaluarsa]"><?php echo (!empty($oa->tglkadaluarsa) ? MyFormatter::formatDateTimeForUser($oa->tglkadaluarsa) : "") ?></span>
     </td>
      <td hidden>
         <?php echo CHtml::activeDropDownList($modDetail, '[ii]satuankecil_id', CHtml::listData(SatuankecilM::model()->findAll(),'satuankecil_id','satuankecil_nama'),array('style'=>'width:80px;')); ?>

@@ -41,6 +41,7 @@
                         <th>No.</th>
                         <th>Jenis</th>
                         <th>Nama Obat</th>
+                        <th>Tgl Kadaluarsa</th>
                         <th hidden>Satuan Kecil </th>
                         <th>Jumlah</th>
                         <th>Batal</th>

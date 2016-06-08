@@ -6,6 +6,8 @@
                 <div class="controls">
                     <?php echo CHtml::hiddenField('obatalkes_id'); ?>
                     <?php echo CHtml::hiddenField('obatalkes_kode'); ?>
+                    <?php echo CHtml::hiddenField('jenisobatalkes_nama'); ?>
+                    <?php echo CHtml::hiddenField('tglkadaluarsa'); ?>
                 <?php 
                     $this->widget('MyJuiAutoComplete', array(
                         'name'=>'obatalkes_nama',
@@ -75,21 +77,21 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'resizable'=>false,
     ),
 ));
-$modObatAlkes = new GFObatalkesM('searchDialog');
+$modObatAlkes = new GFInfostokobatalkesruanganV('searchDataObat');
 $modObatAlkes->unsetAttributes();
-if(isset($_GET['GFObatalkesM'])){
-    $modObatAlkes->attributes = $_GET['GFObatalkesM'];
+//$modObatAlkes = $model->ruangan_id;
+if(isset($_GET['GFInfostokobatalkesruanganV'])){
+    $modObatAlkes->attributes = $_GET['GFInfostokobatalkesruanganV'];
     //$modObatAlkes->jenisobatalkes_nama = isset($_GET['GFObatalkesM']['jenisobatalkes_nama'])?$_GET['GFObatalkesM']['jenisobatalkes_nama']:null;
-    //$modObatAlkes->satuankecil_nama = isset($_GET['GFObatalkesM']['satuankecil_nama'])?$_GET['GFObatalkesM']['satuankecil_nama']:null;
-    if(isset($_GET['GFObatalkesM']['ruangan_id'])){
-        $modObatAlkes->ruangan_id = $_GET['GFObatalkesM']['ruangan_id'];
-		//$_GET['GFPesanobatalkesT']['ruangan_id'] = $_GET['GFObatalkesM']['ruangan_id'];
+    //$modObatAlkes->satuankecil_nama = isset($_GET['GFObatalkesM']['satuankecil_nama'])?$_GET['GFObatalkesM']['satuankecil_nama']:null;    
+   // $modObatAlkes->ruangan_id = $_GET['GFPesanobatalkesT']['ruangan_id'];
+		//$_GET['GFPesanobatalkesT']['ruangan_id'] = $_GET['GFInfostokobatalkesruanganV']['ruangan_id'];
                 
-    }
+    
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'obatalkes-m-grid',
-	'dataProvider'=>$modObatAlkes->searchDialog(),
+	'dataProvider'=>$modObatAlkes->searchDataObat(),
 	'filter'=>$modObatAlkes,
         // 'template'=>"{items}\n{pager}",
         'template'=>"{summary}\n{items}\n{pager}",
@@ -103,6 +105,8 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                     "onClick" => "
                                         $(\'#obatalkes_id\').val($data->obatalkes_id);
                                         $(\'#obatalkes_nama\').val(\'$data->obatalkes_nama\');
+                                        $(\'#jenisobatalkes_nama\').val(\'$data->jenisobatalkes_nama\');
+                                        $(\'#tglkadaluarsa\').val(\'$data->tglkadaluarsa\');
                                         $(\'#dialogObatAlkes\').dialog(\'close\');
                                         return false;"
                                         ))',
@@ -110,7 +114,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 array(
                     'name'=>'jenisobatalkes_id',
                     'type'=>'raw',
-                    'value'=>'(!empty($data->jenisobatalkes_id) ? $data->jenisobatalkes->jenisobatalkes_nama : "")',
+                    'value'=>'$data->jenisobatalkes_nama',
                     'filter'=>  CHtml::activeHiddenField($modObatAlkes, 'ruangan_id', array('class'=>'dialog_ruangan_id')).CHtml::activeDropDownList($modObatAlkes, 'jenisobatalkes_id', CHtml::listData(JenisobatalkesM::model()->findAll("jenisobatalkes_aktif = TRUE ORDER BY jenisobatalkes_nama ASC"), 'jenisobatalkes_id','jenisobatalkes_nama'), array('empty'=>'-- Pilih --')),
                 ),
                 array(
@@ -124,8 +128,12 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'type'=>'raw',
                     'value'=>'$data->obatalkes_kategori',
                     'filter'=> CHtml::activeDropDownList($modObatAlkes, 'obatalkes_kategori', LookupM::getItems('obatalkes_kategori'), array('empty'=>'-- Pilih --')),
-                ),
+                ),               
                 'obatalkes_nama',
+                 array(
+                    'header' => 'Tgl Kadaluarsa',
+                    'value' => 'MyFormatter::formatDateTimeForUser($data->tglkadaluarsa)'
+                ),
                 //'obatalkes_kategori',
                 // yang bawah
                 //'obatalkes_golongan',
