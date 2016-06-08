@@ -1,5 +1,8 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
 <fieldset>
-    <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/form.js'); ?>
+    <?php //Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/form.js'); ?>
     <?php
     $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
         'id' => 'gupembelianbarang-t-form',
@@ -318,6 +321,14 @@ $this->widget('application.extensions.moneymask.MMask', array(
 
 <script type="text/javascript">
 	
+function hitungTotal(obj)
+{
+    var satuan = parseFloat(unformatNumber($(obj).parents("tr").find(".satuan").val()));
+    var jml = parseFloat(unformatNumber($(obj).parents("tr").find(".qty").val()));
+    
+    $(obj).parents("tr").find(".beli").val(formatNumber(satuan * jml));
+}
+        
 function print(caraPrint)
 {
     var id = '<?php echo (!empty($model->pembelianbarang_id)) ? $model->pembelianbarang_id : null; ?>';
