@@ -28,12 +28,12 @@
 				array(
 					'header'=>'Nama Pegawai',
 					'type'=>'raw',
-					'value'=>' isset(($data->pegawai_id) ? $data->pegawai->NamaLengkap : "-")',
+					'value'=>' (isset($data->pegawai_id)?$data->pegawai->NamaLengkap: "-")',
 				),
 				array(
 					'header'=>'Nama Pasien',
 					'type'=>'raw',
-					'value'=>'isset(($data->pasien_id) ? $data->pasien->nama_pasien : "-")',
+					'value'=>'(isset($data->pasien_id)?$data->pasien->nama_pasien:"-")',
 				),
             ),
         )); 
