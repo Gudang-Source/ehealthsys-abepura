@@ -5,7 +5,7 @@
 	'focus'=>'#'. CHtml::activeId($model,'nopemesanan'),
 	'id'=>'gupesanbarang-t-search',
         'type'=>'horizontal',
-		'htmlOptions'=>array('onsubmit' => 'return requiredCheck(this);'),
+		
 )); ?>
 	<table width="100%" class="table-condensed">
             <tr>
@@ -62,7 +62,7 @@
                 </td>
                 <td>
 					<div class="control-group ">
-						<?php echo $form->labelEx($model, 'ruanganpemesan_id', array('class' => 'control-label')); ?>
+						<?php echo CHtml::Label('Ruangan Pemesan', 'ruanganpemesan_id', array('class' => 'control-label')); ?>
 						<div class="controls">
 							<?php
 							echo $form->dropDownList($model, 'instalasi_id', CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true ORDER BY instalasi_nama'), 'instalasi_id', 'instalasi_nama'), array('empty'=>'-- Pilih --','autofocus'=>true, 'class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50,
@@ -78,7 +78,7 @@
                        <?php echo CHtml::activeLabel($model, 'pegpemesan_id', array('class'=>'control-label')); ?>
                       </label>
                     <div class="controls">
-                          <?php echo $form->dropDownList($model,'pegpemesan_id', CHtml::listData(PegawaiM::model()->findAll('pegawai_aktif = true ORDER BY nama_pegawai ASC'), 'pegawai_id', 'nama_pegawai'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20)); ?>
+                          <?php echo $form->dropDownList($model,'pegpemesan_id', CHtml::listData(PegawairuanganV::model()->findAll("pegawai_aktif = true AND ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ORDER BY nama_pegawai ASC"), 'pegawai_id', 'nama_pegawai'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20)); ?>
                         </div>
                     </div>
                     

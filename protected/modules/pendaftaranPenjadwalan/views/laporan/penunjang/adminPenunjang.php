@@ -5,8 +5,10 @@
         'Ppinfo Kunjungan Rjvs'=>array('index'),
         'Manage',
     );
-
-    $url = Yii::app()->createUrl('pendaftaranPenjadwalan/laporan/frameGrafikPenunjang&id=1');
+    
+    
+    
+    $url = Yii::app()->createUrl('rekamMedis/laporan/frameGrafikPenunjang&id=1');
     Yii::app()->clientScript->registerScript('search', "
     $('.search-button').click(function(){
         $('.search-form').toggle();
@@ -63,7 +65,7 @@
         </div>
     </div>
     <div class='block-tabel'> 
-        <?php $this->renderPartial('pendaftaranPenjadwalan.views.laporan._tab'); ?>
+        <?php $this->renderPartial('rekamMedis.views.laporan._tab'); ?>
         <iframe class='biru' src="" id="Grafik" width="100%" height='0'  onload="javascript:resizeIframe(this);">
         </iframe>        
     </div>
