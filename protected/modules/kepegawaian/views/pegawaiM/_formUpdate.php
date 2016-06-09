@@ -336,7 +336,8 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
             <?php echo $form->textFieldRow($model,'gajipokok',array('class'=>'integer2','onkeyup'=>"return $(this).focusNextInputField(event)",'maxlength'=>100)); ?>
             <?php echo $form->textFieldRow($model,'no_rekening',array('class'=>'numbers-only', 'onkeyup'=>"return $(this).focusNextInputField(event)",'maxlength'=>100)); ?>
             <?php echo $form->textFieldRow($model,'bank_no_rekening',array('onkeyup'=>"return $(this).focusNextInputField(event)",'maxlength'=>100)); ?>
-        
+            <?php echo $form->dropDownListRow($model,'shift_id', CHtml::listData(ShiftM::model()->findAll("shift_aktif = true ORDER BY shift_nama ASC"), 'shift_id', 'shift_nama'), 
+                        array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>  
             <div class="control-group">
                 <?php echo $form->labelEx($model,'caraAmbilPhoto', array('class'=>'control-label')) ?>
                 <div class="controls">  
