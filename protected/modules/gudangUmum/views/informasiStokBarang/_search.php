@@ -6,7 +6,7 @@
 )); ?>
 <div class="row-fluid">
 	<div class="span4">
-		<?php echo $form->textFieldRow($model,'barang_type',array('class'=>'span3')); ?>
+		<?php echo $form->dropDownListRow($model,'barang_type',  LookupM::getItems('barangumumtype'),array('class'=>'span3','empty'=>'-- Pilih --')); ?>
 		<?php echo $form->textFieldRow($model,'barang_kode',array('class'=>'span3')); ?>
 		<?php echo $form->textFieldRow($model,'barang_nama',array('class'=>'span3')); ?>
 
