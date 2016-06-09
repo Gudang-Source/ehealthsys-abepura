@@ -49,7 +49,8 @@
             ),
 			array(
                 'header'=>'Biaya Pelayanan',
-                'value'=>'"Rp. ".number_format($data->tarif_tindakan)',
+                'value'=>'"Rp".number_format($data->tarif_tindakan,0,"",".")',
+                'htmlOptions' => array('style'=>'text-align:right;')
             ),
 	),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',

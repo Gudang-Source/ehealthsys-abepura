@@ -110,12 +110,16 @@ class RILaporanjasainstalasi extends LaporanjasainstalasiV {
         $criteria->compare('LOWER(nopokokperusahaan)', strtolower($this->nopokokperusahaan), true);
         $criteria->compare('LOWER(namaperusahaan)', strtolower($this->namaperusahaan), true);
         $criteria->compare('LOWER(tglselesaiperiksa)', strtolower($this->tglselesaiperiksa), true);
-		if(!empty($this->tindakanpelayanan_id)){
-			$criteria->addCondition("tindakanpelayanan_id = ".$this->tindakanpelayanan_id); 	
-		}
-		if(!empty($this->penjamin_id)){
-			$criteria->addCondition("penjamin_id = ".$this->penjamin_id); 	
-		}
+        if(!empty($this->tindakanpelayanan_id)){
+                $criteria->addCondition("tindakanpelayanan_id = ".$this->tindakanpelayanan_id); 	
+        }
+        if(!empty($this->penjamin_id)){
+                if(is_array($this->penjamin_id)){
+                        $criteria->addInCondition("penjamin_id",$this->penjamin_id);		
+                }else{
+                        $criteria->addCondition('penjamin_id = '.$this->penjamin_id);
+                }
+        }
         $criteria->compare('LOWER(penjamin_nama)', strtolower($this->penjamin_nama), true);
 		if(!empty($this->carabayar_id)){
 			$criteria->addCondition("carabayar_id = ".$this->carabayar_id); 	
@@ -125,9 +129,12 @@ class RILaporanjasainstalasi extends LaporanjasainstalasiV {
 			$criteria->addCondition("kelaspelayanan_id = ".$this->kelaspelayanan_id); 	
 		}
         $criteria->compare('LOWER(kelaspelayanan_nama)', strtolower($this->kelaspelayanan_nama), true);
-		if(!empty($this->instalasi_id)){
-			$criteria->addCondition("instalasi_id = ".$this->instalasi_id); 	
-		}
+        if(!empty($this->instalasi_id)){
+                $criteria->addCondition("instalasi_id = ".$this->instalasi_id); 	
+        }
+        if(!empty($this->ruangan_id)){
+                $criteria->addCondition("ruangan_id = ".$this->ruangan_id); 	
+        }
         $criteria->compare('LOWER(instalasi_nama)', strtolower($this->instalasi_nama), true);
         $criteria->compare('LOWER(ruangan_nama)', strtolower($this->ruangan_nama), true);
         $criteria->compare('LOWER(tgl_tindakan)', strtolower($this->tgl_tindakan), true);
@@ -168,7 +175,7 @@ class RILaporanjasainstalasi extends LaporanjasainstalasiV {
         if (is_array($this->tindakansudahbayar_id)){
             $status = array();
             foreach ($this->tindakansudahbayar_id as $i=>$v){
-                if ($v == 'sudah'){
+                if ($v == 1){
                     $status[] = 'tindakansudahbayar_id is not null';
                 }
                 else{

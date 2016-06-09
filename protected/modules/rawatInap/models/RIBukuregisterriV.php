@@ -181,7 +181,7 @@ class RIBukuregisterriV extends BukuregisterriV {
         
         $criteria = $this->criteriaGrafik($this);
               
-        $criteria->addBetweenCondition('tgl_pendaftaran', $this->tgl_awal, $this->tgl_akhir);
+        $criteria->addBetweenCondition('date(tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
 		if(!empty($this->propinsi_id)){
 			$criteria->addCondition("propinsi_id = ".$this->propinsi_id); 	
 		}
@@ -206,7 +206,9 @@ class RIBukuregisterriV extends BukuregisterriV {
 			$criteria->addCondition("penjamin_id = ".$this->penjamin_id); 	
 		}
         $criteria->compare('LOWER(penjamin_nama)', strtolower($this->penjamin_nama), true);
-        $criteria->addCondition('ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
+        if(!empty($this->ruangan_id)){
+			$criteria->addCondition("ruangan_id = ".$this->ruangan_id);		
+		}
 
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,

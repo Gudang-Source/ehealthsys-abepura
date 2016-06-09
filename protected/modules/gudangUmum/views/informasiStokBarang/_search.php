@@ -6,7 +6,7 @@
 )); ?>
 <div class="row-fluid">
 	<div class="span4">
-		<?php echo $form->textFieldRow($model,'barang_type',array('class'=>'span3')); ?>
+		<?php echo $form->dropDownListRow($model,'barang_type',  LookupM::getItems('barangumumtype'),array('class'=>'span3','empty'=>'-- Pilih --')); ?>
 		<?php echo $form->textFieldRow($model,'barang_kode',array('class'=>'span3')); ?>
 		<?php echo $form->textFieldRow($model,'barang_nama',array('class'=>'span3')); ?>
 
@@ -21,12 +21,12 @@
 		<?php echo $form->textFieldRow($model,'barang_thnbeli',array('class'=>'span3')); ?>
 		
 		<?php
-		echo $form->dropDownListRow($model, 'instalasi_id', CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true ORDER BY instalasi_nama ASC'), 'instalasi_id', 'instalasi_nama'), array('empty' => '-- Pilih --', 'class' => 'span3',
+		echo $form->dropDownListRow($model, 'instalasi_id', CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true ORDER BY instalasi_nama ASC'), 'instalasi_id', 'instalasi_nama'), array('disabled'=>$disabled,'empty' => '-- Pilih --', 'class' => 'span3',
 			'ajax' => array('type' => 'POST',
 				'url' => $this->createUrl('SetDropdownRuangan',array('encode'=>false,'model_nama'=>get_class($model))),
 				'update' => '#' . CHtml::activeId($model, 'ruangan_id') . ''),));
 		?>	
-		<?php echo $form->dropDownListRow($model,'ruangan_id',  CHtml::listData(GURuanganM::getRuanganStokBarangs($model->instalasi_id),'ruangan_id','ruangan_nama'),array('class'=>'span3')); ?>
+		<?php echo $form->dropDownListRow($model,'ruangan_id',  CHtml::listData(GURuanganM::getRuanganStokBarangs($model->instalasi_id),'ruangan_id','ruangan_nama'),array('disabled'=>$disabled,'class'=>'span3')); ?>
 		
 	</div>
 </div>
@@ -38,7 +38,7 @@
                                 array('class'=>'btn btn-danger',
                                     'onclick'=>'return refreshForm(this);'));  ?>
 		<?php  
-				$content = $this->renderPartial('gudangUmum.views.tips/informasi',array(),true);
+				$content = $this->renderPartial('gudangUmum.views.informasiStokBarang.tips.informasi',array(),true);
 				$this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
 		?> 
 	</div>

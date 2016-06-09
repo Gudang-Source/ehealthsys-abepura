@@ -111,7 +111,7 @@ $('.search-form form').submit(function(){
                             'header'=>'Harga Beli/</br>Perolehan',
                             'name'=>'inventarisasi_hargabeli_avg',
                             'type'=>'raw',
-                            'value'=>'MyFormatter::formatNumberForPrint($data->inventarisasi_hargabeli_avg)',
+                            'value'=>'"Rp".MyFormatter::formatNumberForPrint($data->inventarisasi_hargabeli_avg)',
                             'htmlOptions'=>array('style'=>'text-align: right;'),
                     ),
                     array(
@@ -169,8 +169,9 @@ $('.search-form form').submit(function(){
     <fieldset class="box">
         <legend class="rim"><i class="icon-search icon-white"></i> Pencarian</legend>
         <div class="search-form">
-            <?php $this->renderPartial('_search',array(
+            <?php $this->renderPartial($this->path_view.'_search',array(
                     'model'=>$model,
+                    'disabled'=>$disabled,
             )); ?>
         </div><!-- search-form -->
     </fieldset>

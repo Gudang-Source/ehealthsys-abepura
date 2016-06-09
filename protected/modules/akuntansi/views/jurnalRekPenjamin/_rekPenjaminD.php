@@ -7,6 +7,7 @@ WHERE
 penjaminrek_m.penjamin_id = $penjamin_id");
     if(COUNT($modRekPenjamin)>0)
     {   
+        
         foreach($modRekPenjamin as $i=>$data)
         {
             if(isset($_GET['caraPrint'])){
@@ -15,8 +16,9 @@ penjaminrek_m.penjamin_id = $penjamin_id");
                 echo "</pre>";
             }else{
                 
-            echo "<pre>";
-            echo $data->rekeningdebit->nmrekening5.CHtml::Link("<i class=\"icon-form-ubah\"></i>",
+            //echo "<pre>";
+            echo $data->rekeningdebit->nmrekening5; /*
+                    .CHtml::Link("<i class=\"icon-form-ubah\"></i>",
                             Yii::app()->controller->createUrl("jurnalRekPenjamin/ubahRekeningDebit",array("id"=>$data->penjaminrek_id)),
                             array("class"=>"", 
                                   "target"=>"iframeEditRekeningDebitKredit",
@@ -24,12 +26,12 @@ penjaminrek_m.penjamin_id = $penjamin_id");
                                   "rel"=>"tooltip",
                                   "title"=>"Klik untuk ubah Rekening Debit",
                             ));
-            echo "</pre>";
+            echo "</pre>"; */
             }
-        }
-    }
+        } 
+    } 
     else
     {
-        echo Yii::t('zii','Not set'); 
+        echo Yii::t('zii','-'); 
     }   
 ?>

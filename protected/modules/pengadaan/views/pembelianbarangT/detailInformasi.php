@@ -70,9 +70,10 @@
     <thead>
         <th>No.Urut</th>
         <th>Golongan</th>
+        <th>Bidang</th>
         <th>Kelompok</th>
         <th>Sub Kelompok</th>
-        <th>Bidang</th>
+        <th>Sub Sub Kelompok</th>
         <th>Barang</th>
         <th>Harga Beli</th>
         <th>Harga Satuan</th>
@@ -87,10 +88,11 @@
         <?php $modBarang = BarangM::model()->findByPk($detail->barang_id); ?>
             <tr bgcolor='white'>   
                 <td bgcolor='white'><?php echo $no; ?></td>
-                <td bgcolor='white'><?php echo !empty($modBarang->bidang_id)?$modBarang->bidang->subkelompok->kelompok->golongan->golongan_nama:null;  ?></td>
-                <td bgcolor='white'><?php echo !empty($modBarang->bidang_id)? $modBarang->bidang->subkelompok->kelompok->kelompok_nama:null; ?></td>
-                <td bgcolor='white'><?php echo !empty($modBarang->bidang_id)?$modBarang->bidang->subkelompok->subkelompok_nama:null; ?></td>
-                <td bgcolor='white'><?php echo !empty($modBarang->bidang_id)?$modBarang->bidang->bidang_nama:null; ?></td>
+                <td bgcolor='white'><?php echo !empty($modBarang->subsubkelompok_id)?$modBarang->subsubkelompok->subkelompok->kelompok->bidang->golongan->golongan_nama:null;  ?></td>
+                <td bgcolor='white'><?php echo !empty($modBarang->subsubkelompok_id)?$modBarang->subsubkelompok->subkelompok->kelompok->bidang->bidang_nama:null;  ?></td>
+                <td bgcolor='white'><?php echo !empty($modBarang->subsubkelompok_id)?$modBarang->subsubkelompok->subkelompok->kelompok->kelompok_nama:null; ?></td>
+                <td bgcolor='white'><?php echo !empty($modBarang->subsubkelompok_id)?$modBarang->subsubkelompok->subkelompok->subkelompok_nama:null; ?></td>
+                <td bgcolor='white'><?php echo !empty($modBarang->subsubkelompok_id)?$modBarang->subsubkelompok->subsubkelompok_nama:null; ?></td>
                 <td bgcolor='white'><?php echo $modBarang->barang_nama; ?></td>
                 <td bgcolor='white' style = "text-align:right;"><?php echo $format->formatNumberForPrint($detail->hargabeli); ?></td>
                 <td bgcolor='white' style = "text-align:right;"><?php echo $format->formatNumberForPrint($detail->hargasatuan); ?></td>

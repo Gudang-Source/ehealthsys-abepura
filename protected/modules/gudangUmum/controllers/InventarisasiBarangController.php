@@ -247,7 +247,7 @@ class InventarisasiBarangController extends MyAuthController {
                 
 		if ($modInventarisasiDetail->validate()) {
 			$modInventarisasiDetail->save();
-			GUInventarisasiruanganT::model()->updateByPk($modInventarisasiRuangan->inventarisasi_id, array('invbarangdet_id' => $modInventarisasiDetail->invbarangdet_id));
+			if ($modInventarisasiRuangan->invbarangdet_id != $modInventarisasiDetail->invbarangdet_id) GUInventarisasiruanganT::model()->updateByPk($modInventarisasiRuangan->inventarisasi_id, array('invbarangdet_id' => $modInventarisasiDetail->invbarangdet_id));
 			$this->inventarisasidetailtersimpan &= true;
 		} else {
 			$this->inventarisasidetailtersimpan &= false;

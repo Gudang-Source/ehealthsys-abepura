@@ -707,5 +707,66 @@ class PasienmasukpenunjangV extends CActiveRecord
 		));
 	}
         
+        public function getCaraBayarItems()
+        {
+            return CarabayarM::model()->findAll('carabayar_aktif=TRUE ORDER BY carabayar_nama ASC') ;
+        }
+        
+        public function getPenjaminItems()
+        {
+            return PenjaminpasienM::model()->findAll('penjamin_aktif=TRUE ORDER BY penjamin_nama ASC');
+        }
+        
+        public function getPropinsiItems()
+        {
+            return PropinsiM::model()->findAll('propinsi_aktif=TRUE ORDER BY propinsi_nama');
+        }
+        
+        public function getNamaNamaBIN()
+        {
+            if (!empty($this->nama_bin)) {
+        		return $this->nama_pasien.' alias '.$this->nama_bin;
+        	} else {
+       			return $this->nama_pasien;
+        	}  
+            
+        }
+               
+        
+        public function getRTRW()
+        {
+            return $this->rt.' / '.$this->rw;
+        }
+        
+        public function getStatus($status,$id){
+            $statusantara = Yii::app()->db->createCommand()->select('(barangjadi_stok) as barangjadi_stok, (barangjadi_id) as barangjadi_id')->from('barangjadi_m')->where("barangjadi_id = $id AND barangjadi_stok between barangjadi_stok and barangjadi_minimal")->queryAll();
+            if($status  == strtolower('ANTRIAN')){
+                $status = '<span style="color:black;" id="yellow">'.$status.'</span>';
+                
+            }else if($status == strtolower('SEDANG PERIKSA')){
+                $status = '<span style="color:black;" id="green">'.$status.'</span>';
+            }else if($status == strtolower('SUDAH PERIKSA')){
+                $status = '<span style="color:black; id="blue">'.$status.'</span>';
+            }else{
+                $status = '<span style="color:black;>'.$status.'</span>';
+            }
+            return $status;
+        }
+        
+         public function getPekerjaanItems()
+        {
+            return PekerjaanM::model()->findAll('pekerjaan_aktif=TRUE ORDER BY pekerjaan_nama');
+        }
+        
+         public function getPendidikanItems()
+        {
+            return PendidikanM::model()->findAll('pendidikan_aktif=TRUE ORDER BY pendidikan_nama');
+        }
+        
+         public function getSukuItems()
+        {
+            return SukuM::model()->findAll('suku_aktif=TRUE ORDER BY suku_nama');
+        }
+        
         
 }

@@ -7,6 +7,11 @@ class RJLaporanpendapatanruangan extends LaporanpendapatanruanganV {
     public $tick;
     public $tgl_awal;
     public $tgl_akhir;
+    public $bln_awal;
+    public $bln_akhir;
+    public $thn_awal;
+    public $thn_akhir;
+    public $jns_periode;
 
     public static function model($className = __CLASS__) {
         return parent::model($className);

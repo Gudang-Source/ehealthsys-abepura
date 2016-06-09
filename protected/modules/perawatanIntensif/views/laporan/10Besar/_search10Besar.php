@@ -37,7 +37,7 @@
                      $this->widget('MyDateTimePicker', array(
                          'model' => $model,
                          'attribute' => 'tgl_awal',
-                         'mode' => 'datetime',
+                         'mode' => 'date',
                          'options' => array(
                              'dateFormat' => Params::DATE_FORMAT,
                              'maxDate'=>'d',
@@ -87,7 +87,7 @@
                      $this->widget('MyDateTimePicker', array(
                          'model' => $model,
                          'attribute' => 'tgl_akhir',
-                         'mode' => 'datetime',
+                         'mode' => 'date',
                          'options' => array(
                              'dateFormat' => Params::DATE_FORMAT,
                              'maxDate'=>'d',

@@ -13,6 +13,7 @@
  */
 class ImplementasiaskepT extends CActiveRecord
 {
+        public $nama_pegawai, $no_rencana, $ruangan_nama;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -57,7 +58,8 @@ class ImplementasiaskepT extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
                     'implementasikeperawatan'=>array(self::BELONGS_TO, 'ImplementasikeperawatanM', 'implementasikeperawatan_id'),
-		);
+                    'pegawai'=>array(self::BELONGS_TO, 'PegawaiM', 'pegawai_id'),
+                );
 	}
 
 	/**

@@ -37,10 +37,13 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
 		array(
 			'header'=>'Inventarisasi Kode',
 			'type'=>'raw',
-			'value'=>'isset($data->inventarisasi_kode) ? $data->inventarisasi_kode : '
-			.'(isset($data->inventarisasi->inventarisasi_kode) ? $data->inventarisasi->inventarisasi_kode :'
-			. '"-")',
+			'value'=>'!empty($data->inventarisasi_kode) ? $data->inventarisasi_kode :"-"',
 		),
+                array(
+                        'header'=>'Tgl Terima',
+                        'type'=>'raw',
+                        'value'=>'!empty($data->tgltransaksi)?MyFormatter::formatDateTimeForUser($data->tgltransaksi):"-"',
+                ),
 		array(
 			'header'=>'Nama Barang',
 			'type'=>'raw',
@@ -60,33 +63,33 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
 			'header'=>'Harga Netto (Rp)',
 			'type'=>'raw',
 			'value'=>'CHtml::textField("GUInvbarangdetT[".$data->barang_id."][inventarisasi_hargasatuan]", '
-			. 'number_format(isset($data->inventarisasi_hargasatuan) ? $data->inventarisasi_hargasatuan : '
+			. 'MyFormatter::formatNumberForPrint(isset($data->inventarisasi_hargasatuan) ? $data->inventarisasi_hargasatuan : '
 			. '(isset($data->inventarisasi->inventarisasi_hargasatuan) ? $data->inventarisasi->inventarisasi_hargasatuan :'
 			. '$data->barang_harganetto)), '
-			. 'array("class"=>"span1 netto integer", "onblur"=>"getTotal();","onkeyup"=>"return $(this).focusNextInputField(event);", "style"=>"width:64px;"))',
+			. 'array("class"=>"span1 netto integer2", "onblur"=>"getTotal();","onkeyup"=>"return $(this).focusNextInputField(event);", "style"=>"width:64px;"))',
 		),
 		array(
 			'header'=>'Sistem',
 			'type'=>'raw',
 			'value'=> 'CHtml::textField("GUInvbarangdetT[".$data->barang_id."][inventarisasi_qty_skrg]", '
-			. '(isset($data->inventarisasi_qty_skrg) ? number_format($data->inventarisasi_qty_skrg) : '
+			. '(isset($data->inventarisasi_qty_skrg) ? MyFormatter::formatNumberForPrint($data->inventarisasi_qty_skrg) : '
 			. '(isset($data->inventarisasi->inventarisasi_qty_skrg) ? $data->inventarisasi->inventarisasi_qty_skrg :'
 			. '0)), '
-			. 'array("class"=>"stok span1 integer", "readonly"=>true))',
+			. 'array("class"=>"stok span1 integer2", "readonly"=>true))',
 		),
 		array(
 			'header'=>'<div class="test" style="cursor:pointer;" onclick="openDialogini()"> Fisik <icon class="icon-white icon-list"></icon></div> ',
 			'type'=>'raw',
 			'value'=> 'CHtml::textField("GUInvbarangdetT[".$data->barang_id."][inventarisasi_qty_fisik]", '
-			. '(isset($data->inventarisasi_qty_skrg) ? number_format($data->inventarisasi_qty_skrg) : '
-			. '(isset($data->volume_fisik) ? number_format($data->volume_fisik) : '
-			. '0)), array("class"=>"fisik span1 integer", "onblur"=>"getTotal();", "onkeyup"=>"return $(this).focusNextInputField(event);"))',
+			. '(isset($data->inventarisasi_qty_skrg) ? MyFormatter::formatNumberForPrint($data->inventarisasi_qty_skrg) : '
+			. '(isset($data->volume_fisik) ? MyFormatter::formatNumberForPrint($data->volume_fisik) : '
+			. '0)), array("class"=>"fisik span1 integer2", "onblur"=>"getTotal();", "onkeyup"=>"return $(this).focusNextInputField(event);"))',
 		),
 		array(
 			'header'=>'Waktu Cek Fisik',
 			'type'=>'raw',
 			'value'=> 'CHtml::textField("GUInvbarangdetT[".$data->barang_id."][tglperiksafisik]", '
-			. '(isset($data->tglperiksafisik) ? (empty($data->tglperiksafisik) ? "" : date("d/m/Y H:i:s",strtotime($data->tglperiksafisik))) : "")  , array("class"=>"span2 datetimemask cekFisik", "style"=>"width:105px;","onkeyup"=>"return $(this).focusNextInputField(event);"))',
+			. '(isset($data->tglperiksafisik) ? (empty($data->tglperiksafisik) ?  date("d/m/Y H:i:s") : date("d/m/Y H:i:s",strtotime($data->tglperiksafisik))) : date("d/m/Y H:i:s"))  , array("class"=>"span2 datetimemask cekFisik", "style"=>"width:105px;","onkeyup"=>"return $(this).focusNextInputField(event);"))',
 		),
 		array(
 			'header'=>'Kondisi Barang',
@@ -96,7 +99,7 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
     ),
         'afterAjaxUpdate'=>'function(id, data){
             jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
-            $("#barang-m-grid .integer").maskMoney({"defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0,"symbol":null})
+            $("#barang-m-grid .integer2").maskMoney({"defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0,"symbol":null})
             $("#barang-m-grid .datetimemask").mask("99/99/9999 99:99:99");    
             getTotal();
                 }',

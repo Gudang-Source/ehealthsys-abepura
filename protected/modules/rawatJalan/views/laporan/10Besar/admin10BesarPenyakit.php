@@ -18,17 +18,20 @@
     ");
     ?>
     <?php //echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-search"></i>')),'#',array('class'=>'search-button btn')); ?>
-    <div class="search-form">
+    <fieldset class="row-fluid box">
+
         <?php $this->renderPartial($this->path_view.'10Besar/_search10Besar',array(
             'model'=>$model,
         )); ?>
-    </div><!-- search-form --> 
+    </fieldset><!-- search-form -->
+    
     <div class="block-tabel row-fluid">
         <h6>Tabel 10 <b>Besar Penyakit</b></h6>
         <div class="span12">
         <?php $this->renderPartial($this->path_view.'10Besar/_table10Besar', array('model'=>$model)); ?>
         </div>
     </div>
+    
     <div class="block-tabel row-fluid">
         <h6><b>Grafik</b></h6>
         <?php $this->renderPartial($this->path_view.'_tab'); ?>
@@ -44,6 +47,7 @@
     $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
     $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
     $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/printLaporan10BesarPenyakit');
-    $this->renderPartial($this->path_view.'_footer', array('urlPrint'=>$urlPrint, 'url'=>$url));
+    $this->renderPartial($this->path_view.'_footer', array('urlPrint'=>$urlPrint, 'url'=>$url, 'tips'=>'10besarpenyakit'));
     ?>
+    </fieldset>
 </div>

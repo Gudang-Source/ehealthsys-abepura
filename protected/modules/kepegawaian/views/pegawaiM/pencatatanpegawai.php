@@ -134,16 +134,7 @@
                     $model->jeniskelamin = 'LAKI-LAKI';
                 endif;
                 
-                echo $form->radioButtonListInlineRow($model, 'jeniskelamin', LookupM::getItems('jeniskelamin'), array('onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'inputRequire')); ?>
-                
-            <div class="control-group">
-                <?php echo CHtml::label('Tinggi / Berat Badan','tinggiberatbadan',array('class'=>'control-label')); ?>
-                <div class="controls">
-                    <?php echo $form->textField($model,'tinggibadan',array('class'=>'span1 integer2','style'=>'width:65px;','id'=>'tinggiberatbadan','onkeyup'=>"return $(this).focusNextInputField(event)",'placeholder'=>'Tinggi Badan')) ?>
-                    <?php echo ' / '; ?>
-                    <?php echo $form->textField($model,'beratbadan',array('class'=>'span1 integer2','style'=>'width:60px;','id'=>'tinggiberatbadan','onkeyup'=>"return $(this).focusNextInputField(event)",'placeholder'=>'Berat Badan')) ?>
-                </div>
-            </div>
+                echo $form->radioButtonListInlineRow($model, 'jeniskelamin', LookupM::getItems('jeniskelamin'), array('onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'inputRequire')); ?>                           
              <div class="control-group ">
                 <?php echo $form->labelEx($model,'golongandarah', array('class'=>'control-label')) ?>
                 <div class="controls">
@@ -384,11 +375,11 @@
             <div
             <?php echo $form->textFieldRow($model,'surattandaregistrasi',array('onkeyup'=>"return $(this).focusNextInputField(event)",'maxlength'=>100)); ?>
             <?php echo $form->textFieldRow($model,'suratizinpraktek',array('onkeyup'=>"return $(this).focusNextInputField(event)",'maxlength'=>100)); ?>
-            <?php echo $form->textFieldRow($model,'npwp',array('class'=>'numbers-only','onkeyup'=>"return $(this).focusNextInputField(event)",'maxlength'=>100)); ?>
-            <?php echo $form->textFieldRow($model,'gajipokok',array('class'=>'integer2','onkeyup'=>"return $(this).focusNextInputField(event)",'maxlength'=>100)); ?>
+            <?php echo $form->textFieldRow($model,'npwp',array('class'=>'numbers-only','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>            
             <?php echo $form->textFieldRow($model,'no_rekening',array('class'=>'numbers-only', 'onkeyup'=>"return $(this).focusNextInputField(event)",'maxlength'=>100)); ?>
-            <?php echo $form->textFieldRow($model,'bank_no_rekening',array('onkeyup'=>"return $(this).focusNextInputField(event)",'maxlength'=>100)); ?>
-            <?php echo $form->dropDownListRow($model,'shift_id', CHtml::listData(ShiftM::model()->findAll("shift_aktif = true ORDER BY shift_nama ASC"), 'shift_id', 'shift_nama'), 
+            <?php echo $form->textFieldRow($model,'bank_no_rekening',array('onkeyup'=>"return $(this).focusNextInputField(event)",'maxlength'=>100)); ?>            
+            <?php echo $form->textFieldRow($model,'gajipokok',array('class'=>'integer2','onkeyup'=>"return $(this).focusNextInputField(event)",'maxlength'=>100, 'style'=>'text-align:right;')); ?>
+                <?php echo $form->dropDownListRow($model,'shift_id', CHtml::listData(ShiftM::model()->findAll("shift_aktif = true ORDER BY shift_nama ASC"), 'shift_id', 'shift_nama'), 
                         array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>  
             <div class="control-group">
                 <?php echo $form->labelEx($model,'caraAmbilPhoto', array('class'=>'control-label')) ?>

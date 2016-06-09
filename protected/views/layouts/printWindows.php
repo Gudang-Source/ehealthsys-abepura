@@ -26,16 +26,18 @@
 //                chkstate();
             }
         </script>
+       
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
 
 <body style="background-color: #ffffff;" onload="print_win()">
 
+ <div id="wrapper"> <!-- not necessary -->
+        
 <div class="container" id="page">
-
-	<?php echo $content; ?>
-    
+	<?php echo $content; ?>    
 </div>
+   
 
 </body>
 </html>

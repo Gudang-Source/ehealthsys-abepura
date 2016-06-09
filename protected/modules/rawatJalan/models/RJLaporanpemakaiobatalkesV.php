@@ -6,8 +6,15 @@
  */
 
 class RJLaporanpemakaiobatalkesV extends LaporanpemakaiobatalkesV  {
-	    public $tgl_awal;
+    
+    public $tgl_awal;
     public $tgl_akhir;
+    public $bln_awal;
+    public $bln_akhir;
+    public $thn_awal;
+    public $thn_akhir;
+    public $jns_periode;
+    
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }
@@ -82,6 +89,7 @@ class RJLaporanpemakaiobatalkesV extends LaporanpemakaiobatalkesV  {
 		if(!empty($this->obatalkes_id)){
 			$criteria->addCondition("obatalkes_id = ".$this->obatalkes_id);		
 		}
+                
 		$criteria->compare('LOWER(jenisobatalkes_nama)',strtolower($this->jenisobatalkes_nama),true);
 		$criteria->compare('LOWER(obatalkes_golongan)',strtolower($this->obatalkes_golongan),true);
 		$criteria->compare('LOWER(obatalkes_kategori)',strtolower($this->obatalkes_kategori),true);
@@ -123,15 +131,17 @@ class RJLaporanpemakaiobatalkesV extends LaporanpemakaiobatalkesV  {
                 // should not be searched.
 
 		$criteria=new CDbCriteria;
-		if(!empty($this->ruangan_id)){
+		if(!empty($this->obatalkes_id)){
 			$criteria->addCondition("obatalkes_id = ".$this->obatalkes_id);		
 		}
+                
 		if (is_array($this->jenisobatalkes_id)){
 			$criteria->addInCondition('jenisobatalkes_id',$this->jenisobatalkes_id);
 		}
 		else{
 			$criteria->compare('jenisobatalkes_id', 0);
 		}
+                
 		$criteria->compare('LOWER(jenisobatalkes_nama)',strtolower($this->jenisobatalkes_nama),true);
 		$criteria->compare('LOWER(obatalkes_golongan)',strtolower($this->obatalkes_golongan),true);
 		$criteria->compare('LOWER(obatalkes_kategori)',strtolower($this->obatalkes_kategori),true);
