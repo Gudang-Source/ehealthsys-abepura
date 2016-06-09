@@ -36,6 +36,7 @@ $('#divSearch-form form').submit(function(){
                         'type'=>'raw',
                         'value'=>'$data->PegawaiMengetahuiLengkap',
                     ),
+                    'keteranganmutasi',
                     array(
                         'header'=>'Status Terima / Batal',
                         'type'=>'raw',

@@ -39,6 +39,10 @@ $('#divSearch-form form').submit(function(){
                             'value'=>'$data->PegawaiMengetahuiLengkap',
                         ),
                         array(
+                            'header'=>'Keterangan Pemesanan',
+                            'name'=>'keterangan_pesan',
+                        ),
+                        array(
                             'header'=>'Mutasi',
                             'type'=>'raw',
         //                    'value'=>'$data->terimamutasi_id',
