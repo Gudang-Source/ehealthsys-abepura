@@ -97,6 +97,7 @@ echo $this->renderPartial('application.views.headerReport.headerDefault',array('
                 <th>Jenis</th>
                 <th>Nama Obat</th>
                <!-- <th>Satuan Kecil </th>-->
+                <th>Tgl. Kadaluarsa</th>
                 <th>Jumlah</th>
             </tr>
         </thead>
@@ -109,6 +110,7 @@ echo $this->renderPartial('application.views.headerReport.headerDefault',array('
                 <td><?php echo (!empty($modDetail->obatalkes->jenisobatalkes_id) ? $modDetail->obatalkes->jenisobatalkes->jenisobatalkes_nama : ""); ?></td>
                 <td><?php echo (!empty($modDetail->obatalkes_id) ? $modDetail->obatalkes->obatalkes_nama : ""); ?></td>
                <!-- <td><?php //echo (!empty($modDetail->satuankecil_id) ? $modDetail->obatalkes->satuankecil->satuankecil_nama : ""); ?></td>-->
+                <td><?php echo !empty($modDetail->obatalkes->tglkadaluarsa)?  MyFormatter::formatDateTimeForUser($modDetail->obatalkes->tglkadaluarsa):"-"; ?></td>
                 <td style = "text-align:right;"><?php echo $modDetail->jmlpesan.' '.(!empty($modDetail->satuankecil_id) ? $modDetail->obatalkes->satuankecil->satuankecil_nama : ""); ?></td>
             </tr>
             <?php    }
