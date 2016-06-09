@@ -95,9 +95,10 @@ class MutasibrgTController extends MyAuthController {
                                     
                                     if ($data->save()) {
                                         if(isset($modInventaris->inventarisasi_id)){
-                                            InventarisasiruanganT::model()->updateByPk($modInventaris->inventarisasi_id, array('mutasibrgdetail_id'=>$data->mutasibrgdetail_id));
+                                            //InventarisasiruanganT::model()->updateByPk($modInventaris->inventarisasi_id, array('mutasibrgdetail_id'=>$data->mutasibrgdetail_id));
                                             // Update / Insert Inventarisasiruangan Ruangan tujuan											
-                                            $cekInvRuangTujuan = InventarisasiruanganT::model()->findByAttributes(array('barang_id'=>$data->barang_id,'ruangan_id'=>$model->ruangantujuan_id,'inventarisasi_kode'=>$modInventaris->inventarisasi_kode));
+                                            //$cekInvRuangTujuan = InventarisasiruanganT::model()->findByAttributes(array('barang_id'=>$data->barang_id,'ruangan_id'=>$model->ruangantujuan_id,'inventarisasi_kode'=>$modInventaris->inventarisasi_kode));
+                                            /*
                                             if(count($cekInvRuangTujuan)){
                                                     $qty_in = $cekInvRuangTujuan->inventarisasi_qty_in + $data->qty_mutasi;
                                                     $qty_skrg = $cekInvRuangTujuan->inventarisasi_qty_skrg + $data->qty_mutasi;
@@ -105,12 +106,12 @@ class MutasibrgTController extends MyAuthController {
                                                             'mutasibrgdetail_id'=>$data->mutasibrgdetail_id,
                                                             'inventarisasi_qty_in'=>$qty_in,
                                                             'inventarisasi_qty_skrg'=>$qty_skrg,
-                                                            'inventarisasi_keadaan'=>$data->mutasi_keadaan,
+                                                            //'inventarisasi_keadaan'=>Params::INVENTA,
                                                             'update_time'=>date('Y-m-d H:i:s'),
                                                             'update_loginpemakai_id'=>Yii::app()->user->id));
-                                            }else{
-                                                    $this->simpanInvRuanganTujuan($data,$model,$modInventaris);
-                                            }
+                                            }else{ */
+                                            $this->simpanInvRuanganTujuan($data,$model,$modInventaris);
+                                            //}
                                         }
                                         if (Yii::app()->user->getState('krngistokumum') == true){
                                             if (InventarisasiruanganT::validasiStok($data->qty_mutasi, $data->barang_id) == true){
@@ -189,6 +190,8 @@ class MutasibrgTController extends MyAuthController {
             $modDetails[$i]->attributes = $data;
             $modDetails[$i]->mutasibrg_id = $model->mutasibrg_id;
 
+            // var_dump($modDetails[$i]->attributes);
+            
             $valid = $modDetails[$i]->validate() && $valid;
         }
 
