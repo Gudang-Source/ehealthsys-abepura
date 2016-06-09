@@ -60,6 +60,20 @@ function renameInputRowObatAlkes(){
     });
 }
 
+function cekPegawaiSama(id) {
+    var isAda = false;
+    $(".pegawai").each(function() {
+        console.log($(this).val(), id);
+        if ($(this).val() == id) {
+            myAlert("Pegawai yang dipilih tidak boleh dipakai 2 kali");
+            isAda = true;
+        }
+    });
+
+    return !isAda;
+}
+
+
 function validasiObat(){
     if(requiredCheck($('#gfstokopname-t-form'))){
         var jml = $('#obatalkes-m-grid tbody tr').find("input[name$='[cekList]']").length;
