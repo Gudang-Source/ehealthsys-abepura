@@ -24,7 +24,7 @@
             'focus'=>'#'.CHtml::activeId($model,'instalasitujuan_id'),
     )); ?>
 
-    <?php echo $this->renderPartial($this->path_view.'_form', array('form'=>$form,'model'=>$model, 'instalasiTujuans'=>$instalasiTujuans, 'ruanganTujuans'=>$ruanganTujuans)); ?>
+    <?php echo $this->renderPartial($this->path_view.'_form', array('form'=>$form,'model'=>$model, 'instalasiTujuans'=>$instalasiTujuans, 'ruanganTujuans'=>$ruanganTujuans, 'modPemesanan'=>$modPemesanan)); ?>
 
     <?php  if(!isset($_GET['sukses'])){ ?>
         <fieldset class="box" id="form-tambahobatalkes">
