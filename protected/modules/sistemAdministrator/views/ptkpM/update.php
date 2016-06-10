@@ -1,7 +1,18 @@
-<!--<div class="white-container">
-    <legend class="rim2">Ubah <b>PTKP</b></legend>-->
+<?php
+    if ($this->hasTab):
+?>
 <fieldset class="box row-fluid">
     <legend class="rim">Ubah PTKP</legend>
+<?php
+    else:
+?>
+    <div class="white-container">
+    <legend class="rim2">Ubah <b>PTKP</b></legend>
+<?php
+    endif;
+?>
+
+
     <?php
     $this->breadcrumbs=array(
             'PTKP Ms'=>array('index'),
@@ -21,3 +32,4 @@
     <?php echo $this->renderPartial($this->path_view. '_formUpdate',array('model'=>$model)); ?>
 <!--</div>-->
 </fieldset>
+</div>

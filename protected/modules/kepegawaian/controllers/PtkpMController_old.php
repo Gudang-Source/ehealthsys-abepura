@@ -41,7 +41,11 @@ class PtkpMController extends MyAuthController
             // echo "<pre>";print_r($model->attributes);exit();
 			if($model->save()){
                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->ptkp_id));
+                if ($this->hasTab){
+                 $this->redirect(array('admin','id'=>$model->ptkp_id));   
+                }else{
+                    $this->redirect(array('admin','sukses'=>1));   
+                }   
             }
 		}
 
@@ -71,7 +75,11 @@ class PtkpMController extends MyAuthController
 			
 			if($model->save()){
                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->ptkp_id));
+                if ($this->hasTab){
+                 $this->redirect(array('admin','id'=>$model->ptkp_id));   
+                }else{
+                    $this->redirect(array('admin','sukses'=>1));   
+                }                
             }
 		}
 
@@ -115,8 +123,11 @@ class PtkpMController extends MyAuthController
 	/**
 	 * Manages all models.
 	 */
-	public function actionAdmin()
+	public function actionAdmin($sukses='')
 	{
+            if ($sukses==1){
+               Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.'); 
+            }
                                                          
 		$model=new KPPtkpM('search');
 		$model->unsetAttributes();  // clear any default values

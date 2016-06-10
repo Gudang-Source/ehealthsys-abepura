@@ -1,7 +1,16 @@
-<!--<div class="white-container">
-    <legend class="rim2">Pengaturan <b>PTKP</b></legend>-->
+<?php
+    if ($this->hasTab):
+?>
 <fieldset class="box row-fluid">
     <legend class="rim">Pengaturan PTKP</legend>
+<?php
+    else:
+?>
+    <div class="white-container">
+    <legend class="rim2">Pengaturan <b>PTKP</b></legend>
+<?php
+    endif;
+?>
     <?php
     $this->breadcrumbs=array(
             'PTKP Ms'=>array('index'),
@@ -55,10 +64,22 @@
                         'header' => 'Tanggal Berlaku',
                         'value' => 'MyFormatter::formatDateTimeForUser($data->tglberlaku)'
                     ),
-                            'statusperkawinan',
+                            'statusperkawinan',                    
                             'jmltanggunan',
-                            'wajibpajak_thn',
-                    'wajibpajak_bln', 
+                           // 'wajibpajak_thn',
+                    array(
+                        'header' => 'Tahun Wajib Pajak',
+                        'name' => 'wajibpajak_thn',
+                        'value' => '"Rp".number_format($data->wajibpajak_thn,0,"",".")',                       
+                        'htmlOptions' => array('style'=>'text-align:right;')
+                    ),    
+                    array(
+                        'header' => 'Bulan Wajib Pajak',
+                        'name' => 'wajibpajak_bln',
+                        'value' => '"Rp".number_format($data->wajibpajak_bln,0,"",".")',                       
+                        'htmlOptions' => array('style'=>'text-align:right;')
+                    ),    
+                   // 'wajibpajak_bln', 
                     array(
                         'header'=>'Berlaku',
                         'value'=>'($data->berlaku)?"Aktif":"Tidak Aktif"',
@@ -181,3 +202,4 @@ JSCRIPT;
     })
 </script>
 </fieldset>
+</div>

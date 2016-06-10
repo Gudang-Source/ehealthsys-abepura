@@ -38,8 +38,18 @@ $this->widget($table,array(
                         'value' => 'MyFormatter::formatDateTimeForUser($data->tglberlaku)'
                     ),
 		'jmltanggunan',
-		'wajibpajak_thn',
-		'wajibpajak_bln',
+		array(
+                        'header' => 'Tahun Wajib Pajak',
+                        'name' => 'wajibpajak_thn',
+                        'value' => '"Rp".number_format($data->wajibpajak_thn,0,"",".")',                       
+                        'htmlOptions' => array('style'=>'text-align:right;')
+                    ),    
+                    array(
+                        'header' => 'Tahun Wajib Pajak',
+                        'name' => 'wajibpajak_bln',
+                        'value' => '"Rp".number_format($data->wajibpajak_bln,0,"",".")',                       
+                        'htmlOptions' => array('style'=>'text-align:right;')
+                    ), 
         'statusperkawinan',
         array(
             'header'=>'berlaku',
