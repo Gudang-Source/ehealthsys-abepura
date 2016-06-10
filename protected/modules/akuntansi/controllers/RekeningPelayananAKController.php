@@ -41,7 +41,11 @@ class RekeningPelayananAKController extends RekeningPelayananController
             if (isset($_POST['AKPelayananRekM'])) {
                 $transaction = Yii::app()->db->beginTransaction();
                 try {
-                    $loadTindakanRuangan = AKPelayananRekM::model()->findByAttributes(array('daftartindakan_id' => $_POST['AKPelayananRekM']['daftartindakan_id'], 'ruangan_id' => $_POST['AKPelayananRekM']['ruangan_id']));
+                    $loadTindakanRuangan = AKPelayananRekM::model()->findByAttributes(array(
+                        'daftartindakan_id' => $_POST['AKPelayananRekM']['daftartindakan_id'], 
+                        'ruangan_id' => $_POST['AKPelayananRekM']['ruangan_id'],
+                        'komponentarif_id' => $_POST['AKPelayananRekM']['komponentarif_id'],
+                     ));
                     if ($loadTindakanRuangan) {
                         $data['sukses'] = 0;
                         $data['pesan'] = "Tindakan " . $loadTindakanRuangan->daftartindakan->daftartindakan_nama . "sudah ada di " . $loadTindakanRuangan->ruangan->ruangan_nama . "!";
