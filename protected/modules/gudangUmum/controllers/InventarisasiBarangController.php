@@ -161,6 +161,11 @@ class InventarisasiBarangController extends MyAuthController {
 			$modBarang->attributes = $_GET['GUInfoinventarisasiruanganV'];
 			$modBarang->invbarang_jenis = $_GET['GUInfoinventarisasiruanganV']['invbarang_jenis'];
 			$modBarang->inventarisasi_kode = $_GET['GUInfoinventarisasiruanganV']['inventarisasi_kode'];
+                        $modBarang->golongan_id = $_GET['GUInfoinventarisasiruanganV']['golongan_id'];
+                        $modBarang->bidang_id = $_GET['GUInfoinventarisasiruanganV']['bidang_id'];
+                        $modBarang->kelompok_id = $_GET['GUInfoinventarisasiruanganV']['kelompok_id'];
+                        $modBarang->subkelompok_id = $_GET['GUInfoinventarisasiruanganV']['subkelompok_id'];
+                        $modBarang->subsubkelompok_id = $_GET['GUInfoinventarisasiruanganV']['subsubkelompok_id'];
 		}
 
 		$this->render($this->path_view . 'index', array(
