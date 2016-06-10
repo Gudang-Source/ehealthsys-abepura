@@ -12,7 +12,7 @@
 
 	<?php echo $form->errorSummary($model); ?>
 
-            <?php echo $form->textFieldRow($model,'jabatan_nama',array('class'=>'span3', 'onkeyup'=>"namaLain(this)", 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>20)); ?>
+            <?php echo $form->textFieldRow($model,'jabatan_nama',array('class'=>'span3', 'onkeyup'=>"namaLain(this)", 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
             <?php echo $form->textFieldRow($model,'jabatan_lainnya',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>20)); ?>
             <?php echo $form->textFieldRow($model,'jabatan_urutan',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>20)); ?>
             <?php //echo $form->checkBoxRow($model,'jabatan_aktif', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
