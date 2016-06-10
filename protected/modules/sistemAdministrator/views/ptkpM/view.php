@@ -1,8 +1,18 @@
-<!--<div class="white-container">
-    <legend class="rim2">Lihat <b>PTKP</b></legend>-->
+<?php
+    if ($this->hasTab):
+?>
 <fieldset class="box row-fluid">
     <legend class="rim">Lihat PTKP</legend>
-    <?php
+<?php
+    else:
+?>
+    <div class="white-container">
+    <legend class="rim2">Lihat <b>PTKP</b></legend>
+<?php
+    endif;
+?>
+
+<?php
     $this->breadcrumbs=array(
             'PTKP Ms'=>array('index'),
             $model->ptkp_id,
@@ -38,3 +48,4 @@
     ?>
 <!--</div>-->
 </fieldset>
+</div>
