@@ -518,6 +518,8 @@
                         'order'=>'kelaspelayanan_nama'
                     )), 'kelaspelayanan_id', 'kelaspelayanan_nama');
                     
+                    
+                    
                     $kamar = CHtml::listData(KamarruanganM::model()->findAllByAttributes(array(
                         'ruangan_id'=>Yii::app()->user->getState('ruangan_id')
                     )), 'kamarruangan_id', 'kamarDanTempatTidurPolos');                    
@@ -526,7 +528,7 @@
                         'empty'=>'-- Pilih --', 
                         'class'=>'span3',
                     ));
-                    echo $form->dropDownListRow($model, 'kamarruangan_id', array(), array('empty'=>'-- Pilih --', 'class'=>'span3'));
+                    echo $form->dropDownListRow($model, 'kamarruangan_id', $kamar, array('empty'=>'-- Pilih --', 'class'=>'span3'));
                     ?>
                 </td>
             </tr>
