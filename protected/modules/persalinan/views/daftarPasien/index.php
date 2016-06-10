@@ -257,13 +257,13 @@
                                                                                     'url'=>'Yii::app()->createUrl("persalinan/kelahiranbayiT/index",array("id"=>"$data->pendaftaran_id"))',                            
                                                                             ),
                                             ),
-                            ), /*
+                            ),
                             array(
                                     'name'=>'Pemeriksaan Pasien',
                                     'type'=>'raw',
                                     'value'=>'CHtml::link("<i class=\'icon-form-periksa\'></i> ", Yii::app()->controller->createUrl("/persalinan/pemeriksaanPasienPersalinan",array("pendaftaran_id"=>$data->pendaftaran_id)),array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk Pemeriksaan Pasien"))',
                                     'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
-                            ),
+                            ), /*
                             array(
                                     'header'=>'Pasien Pulang',
                                     'type'=>'raw',
