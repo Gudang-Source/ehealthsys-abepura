@@ -1327,5 +1327,36 @@ class ActionDynamicController extends Controller
             }
             Yii::app()->end();
         }
+        
+        public function actionListRuangan()
+        {
+                if(Yii::app()->getRequest()->getIsAjaxRequest()) {
+                        if(!empty($_POST['instalasi_id'])){
+                                $instalasi_id = $_POST['instalasi_id'];
+                                $ruangan_id = $_POST['ruangan_id'];
+                                $data = RuanganM::model()->findAllByAttributes(array('instalasi_id'=>$instalasi_id),array('order'=>'ruangan_nama ASC'));
+                                $data = CHtml::listData($data,'ruangan_id','ruangan_nama');
+
+                                if(empty($data)){
+                                        $option = CHtml::tag('option',array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                                }else{
+                                            $option = CHtml::tag('option',array('value'=>''),CHtml::encode('-- Pilih --'),true);
+
+
+                                        foreach($data as $value=>$name) {
+                                                        $option .= CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
+                                        }
+                                }
+                                 $dataList['listRuangan'] = $option;
+                                 $dataList['ruangan_id'] = $ruangan_id;
+                        } else {
+                                $dataList['listRuangan'] = $option = CHtml::tag('option',array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                                $dataList['ruangan_id'] = '';
+                        }
+
+                        echo json_encode($dataList);
+                        Yii::app()->end();
+                }
+        }
 }
 ?>

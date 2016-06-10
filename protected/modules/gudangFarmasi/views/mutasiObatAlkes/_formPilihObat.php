@@ -147,8 +147,9 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 						'attribute'=>'tglkadaluarsa',
 						'mode'=>'date',
 						'options'=> array(
+                                                    'dateFormat'=>Params::DATE_FORMAT,
 						),
-						'htmlOptions'=>array('readonly'=>false, 'class'=>'dtPicker3 datemask','placeholder'=>'00:00:0000', 'id'=>'tglkadaluarsa'),
+						'htmlOptions'=>array('readonly'=>false, 'class'=>'dtPicker3 datemask','placeholder'=>'00/00/0000', 'id'=>'tglkadaluarsa'),
 						),true
 					),
                 ), /*
