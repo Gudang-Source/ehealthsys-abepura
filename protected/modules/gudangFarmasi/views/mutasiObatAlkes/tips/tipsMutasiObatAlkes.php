@@ -1,13 +1,13 @@
 Bagian dengan tanda bintang <span class="required">*</span> harus diisi.
 <ol class="row-fluid">
-    <div class="span6">        
-        <li>
-            Icon <i class="icon-calendar"></i>untuk menentukan tanggal.
-        </li>               
+    <div class="span6">                            
         <li>
             Icon <span class="add-on"><a id="" href="javascript:void(0);"><i class="icon-list"></i><i class="icon-search"></i></a></span> 
             berfungsi untuk mencari dan menampilkan daftar data sesuai yang diketikan serta menampilkan dialog box jika diklik.
         </li>
+        <li>
+            Icon <i class="icon-remove"></i> berfungsi untuk membatalkan data.
+        </li>   
 <!--        <li>
             Tombol  <div class="btn btn-mini btn-primary" name="yt0" type="button"><i class="icon-ok icon-white"></i></div> / <div class="btn btn-mini" name="yt0" type="button"><i class="icon-minus icon-white"></i></div>
             berfungsi untuk memberikan tanda dipilih / tidak dipilih.

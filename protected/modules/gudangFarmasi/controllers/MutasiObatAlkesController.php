@@ -30,17 +30,21 @@ class MutasiObatAlkesController extends MyAuthController
         $pesan = '';
         $instalasiTujuans = CHtml::listData(GFInstalasiM::getInstalasiTujuanMutasis(),'instalasi_id','instalasi_nama');
         $ruanganTujuans = CHtml::listData(GFRuanganM::getRuanganTujuanMutasis($model->instalasitujuan_id),'ruangan_id','ruangan_nama');
+        //$ruanganTujuans = CHtml::listData(GFRuanganM::getRuanganTujuanMutasis($model->instalasitujuan_id),'ruangan_id','ruangan_nama');
         // Uncomment the following line if AJAX validation is needed
        
-        // Error :Array to String
+        // Error :Array to String        
         if(!empty($mutasioaruangan_id)){
             $model = GFMutasioaruanganT::model()->findByPk($mutasioaruangan_id);
             $model->instalasitujuan_id = $model->ruangantujuan->instalasi_id;
             $model->pegawaimengetahui_nama = (isset($model->pegawaimengetahui->NamaLengkap) ? $model->pegawaimengetahui->NamaLengkap : "");
             $ruanganTujuans = CHtml::listData(GFRuanganM::getRuanganTujuanMutasis($model->instalasitujuan_id),'ruangan_id','ruangan_nama');
             $modDetails = $this->loadModelDetails($model->mutasioaruangan_id);
-            $modPemesanan = InformasipesanobatalkesV::model()->findByAttributes(array('mutasioaruangan_id'=>$mutasioaruangan_id));
-            $modPemesanan->tglpemesanan = MyFormatter::formatDateTimeForUser($modPemesanan->tglpemesanan);
+            if (isset($model->pesanobatalkes_id))
+            {
+                $modPemesanan = InformasipesanobatalkesV::model()->findByAttributes(array('mutasioaruangan_id'=>$mutasioaruangan_id));
+                $modPemesanan->tglpemesanan = MyFormatter::formatDateTimeForUser($modPemesanan->tglpemesanan);
+            }
         }
         if(!empty($pesanobatalkes_id) && empty($mutasioaruangan_id)){
             $modelPesanObat = GFPesanobatalkesT::model()->findByPk($pesanobatalkes_id);
@@ -116,6 +120,7 @@ class MutasiObatAlkesController extends MyAuthController
                 $model->pegawaimutasi_id=Yii::app()->user->getState('pegawai_id');
                 $model->ruanganasal_id=Yii::app()->user->getState('ruangan_id');
                 // var_dump($model->attributes); die;
+                
                 if($model->save()){
                     if (!empty($model->pesanobatalkes_id)){
                         PesanobatalkesT::model()->updateByPk($model->pesanobatalkes_id, array('mutasioaruangan_id'=>$model->mutasioaruangan_id));

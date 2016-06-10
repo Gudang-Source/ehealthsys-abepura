@@ -2,7 +2,7 @@
 <div class="row-fluid">
     <div class = "span4">
         <div class="control-group ">
-            <?php echo $form->labelEx($modPemesanan, 'nopemesanan', array('class'=>'control-label')); ?>
+            <?php echo CHtml::label("No Pemesanan ", 'nopemesanan', array('class'=>'control-label')); ?>
             <div class="controls">
                 <?php
                 $this->widget('MyJuiAutoComplete', array(
@@ -86,8 +86,8 @@
                                             'update'=>"#".CHtml::activeId($model, 'ruangantujuan_id'),
                                 )));?>
             </div>
-        </div>
-        <?php echo $form->dropDownListRow($model,'ruangantujuan_id',$ruanganTujuans,array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+        </div>        
+        <?php echo $form->dropDownListRow($model,'ruangantujuan_id',$ruanganTujuans,array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>                
     </div>
     <div class = "span4">
         <div class="control-group ">
@@ -173,7 +173,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 array(
                     'header'=>'Pilih',
                     'type'=>'raw',
-                    'value'=>'CHtml::Link("<i class=\"icon-check\"></i>","",array("class"=>"btn-small",
+                    'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","",array("class"=>"btn-small",
                                     "href"=>"",
                                     "id" => "selectNopemesanan",
                                     "onClick" => "$(\"#'.CHtml::activeId($modPemesanan,'nopemesanan').'\").val(\"$data->nopemesanan\");
@@ -185,7 +185,8 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                                   $(\"#'.CHtml::activeId($model,'pesanobatalkes_id').'\").val(\"$data->pesanobatalkes_id\");
                                                   $(\"#'.CHtml::activeId($model,'instalasitujuan_id').'\").val(\"$data->instalasipemesan_id\");
                                                   $(\"#'.CHtml::activeId($model,'ruangantujuan_id').'\").val(\"$data->ruanganpemesan_id\");
-                                                  submitMutasi();
+                                                  listRuangan(\"$data->instalasipemesan_id\",\"$data->ruanganpemesan_id\");
+                                                  submitMutasi();                                                  
                                                   $(\"#dialogPemesanan\").dialog(\"close\");
                                                   return false;
                                         "))',
@@ -310,7 +311,7 @@ function submitMutasi()
                 $('#table-mutasidetail').append(data.tr);
                 $("#table-mutasidetail tbody tr:last .numbersOnly").maskMoney({"defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0,"symbol":null});
                 renameInputRowObatAlkes($("#table-mutasidetail"));
-                hitungTotal();
+                hitungTotal();                
               //}
             }, "json");
         }
@@ -321,3 +322,20 @@ function submitMutasi()
 JS;
 Yii::app()->clientScript->registerScript('faktur',$jscript, CClientScript::POS_HEAD);
 ?>
+<script>
+function listRuangan(instalasi_id, ruangan_id)
+{
+	$.ajax({
+		type:'POST',
+		url:'<?php echo Yii::app()->createUrl('ActionDynamic/ListRuangan/'); ?>',
+		data: {instalasi_id: instalasi_id, ruangan_id: ruangan_id},//
+		dataType: "json",
+		success:function(data){
+			$('#GFMutasioaruanganT_ruangantujuan_id').html(data.listRuangan);
+                        
+                        $('#GFMutasioaruanganT_ruangantujuan_id').val(data.ruangan_id);
+		},
+		error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
+	});	
+}
+</script>
