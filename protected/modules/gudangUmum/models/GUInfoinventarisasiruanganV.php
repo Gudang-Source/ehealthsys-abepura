@@ -7,6 +7,7 @@ class GUInfoinventarisasiruanganV extends InfoinventarisasiruanganV {
 	 * @param string $className active record class name.
 	 * @return InfoinventarisasibarangV the static model class
 	 */
+    
 	public $checklist, $invbarang_jenis, $tgl_awal, $tgl_akhir, $qtystok, $invbarangdet_id, $barang_harganetto, $inventarisasi;
 
 	public static function model($className = __CLASS__) {
@@ -51,6 +52,16 @@ class GUInfoinventarisasiruanganV extends InfoinventarisasiruanganV {
 			'barang_statusregister' => 'Status Register',
 			'barang_satuan' => 'Satuan',
 			'barang_jmldlmkemasan' => 'Jml dalam kemasan',
+                        'subsubkelompok_id' => 'Sub Sub Kelompok',
+                        'subsubkelompok_nama' => 'Sub Sub Kelompok',
+                        'subkelompok_id' => 'Sub Kelompok',
+                        'subkelompok_nama' => 'Sub Kelompok',
+                        'kelompok_id' => 'Kelompok',
+                        'kelompok_nama' => 'Kelompok',
+                        'bidang_id' => 'Bidang',
+                        'bidang_nama' => 'Bidang',
+                        'golongan_id' => 'Golongan',
+                        'golongan_nama' => 'Golongan',
 		);
 	}
 	
@@ -89,6 +100,13 @@ class GUInfoinventarisasiruanganV extends InfoinventarisasiruanganV {
 			$criteria->compare('LOWER(barang_noseri)', strtolower($this->barang_noseri), true);
 			$criteria->compare('LOWER(barang_merk)', strtolower($this->barang_merk), true);
 			$criteria->compare('LOWER(barang_satuan)', strtolower($this->barang_satuan), true);
+                        
+                        $criteria->compare('golongan_id', $this->golongan_id);
+                        $criteria->compare('bidang_id', $this->bidang_id);
+                        $criteria->compare('kelompok_id', $this->kelompok_id);
+                        $criteria->compare('subkelompok_id', $this->subkelompok_id);
+                        $criteria->compare('subsubkelompok_id', $this->subsubkelompok_id);
+                        
 			if ($this->invbarang_jenis == Params::DEFAULT_JENISINVENTARISASI) {
 				$criteria->compare('LOWER(inventarisasi_kode)', strtolower($this->inventarisasi_kode));
 				$model = $this;

@@ -6,18 +6,18 @@
         <?php echo $form->labelEx($model, 'invbarang_tgl', array('class' => 'control-label')) ?>
         <div class="controls">
             <?php   
-                $model->invbarang_tgl = (!empty($model->invbarang_tgl) ? date("d/m/Y H:i:s",strtotime($model->invbarang_tgl)) : null);
+                $model->invbarang_tgl = (!empty($model->invbarang_tgl) ? MyFormatter::formatDateTimeForUser($model->invbarang_tgl) : null);
                 $this->widget('MyDateTimePicker',array(
                     'model'=>$model,
                     'attribute'=>'invbarang_tgl',
                     'mode'=>'datetime',
                     'options'=> array(
-//						'dateFormat'=>Params::DATE_FORMAT,
+			'dateFormat'=>Params::DATE_FORMAT,
                         'showOn' => false,
                         'maxDate' => 'd',
                         'yearRange'=> "-150:+0",
                     ),
-                    'htmlOptions'=>array('placeholder'=>'00/00/0000 00:00:00','class'=>'dtPicker2 datetimemask','onkeyup'=>"return $(this).focusNextInputField(event)"
+                    'htmlOptions'=>array('class'=>'dtPicker2','onkeyup'=>"return $(this).focusNextInputField(event)"
                     ),
             )); ?>
         </div>
@@ -155,8 +155,8 @@
 		</div>
 	</div>
 	<div class="span4">
-		<?php echo $form->textFieldRow($model,'invbarang_totalharga',array('class'=>'span3 integer2')); ?>
-		<?php echo $form->textFieldRow($model,'invbarang_totalnetto',array('class'=>'span3 integer2')); ?>
+		<?php echo $form->textFieldRow($model,'invbarang_totalharga',array('class'=>'span3 integer2', 'readonly'=>true)); ?>
+		<?php echo $form->textFieldRow($model,'invbarang_totalnetto',array('class'=>'span3 integer2', 'readonly'=>true)); ?>
 		<?php echo $form->textAreaRow($model,'invbarang_ket',array('class'=>'span3')); ?>
 	</div>
 </div>
@@ -202,6 +202,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 		),
 		array(
 			'header'=>'NIP',
+                        'name'=>'nomorindukpegawai',
 			'value'=>'$data->nomorindukpegawai',
 		),
 		array(
@@ -210,8 +211,11 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 			'value'=>'$data->namaLengkap',
 		),
 		array(
-			'header'=>'Alamat Pegawai',
-			'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'alamat_pegawai'),
+			'header'=>'Jabatan',
+			'filter'=>  CHtml::activeDropDownList($modPegawaiMengetahui, 'jabatan_id', CHtml::listData(
+                        JabatanM::model()->findAll('jabatan_aktif = true order by jabatan_nama'), 'jabatan_id', 'jabatan_nama'), array(
+                            'empty'=>'-- Pilih --',
+                        )),
 			'value'=>'$data->alamat_pegawai',
 		),
 	),
@@ -242,7 +246,7 @@ if(isset($_GET['GUPegawaiRuanganV'])) {
     $modPetugas1->attributes = $_GET['GUPegawaiRuanganV'];
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
-    'id'=>'pegawaimengetahui-grid',
+    'id'=>'pegawai1-grid',
     'dataProvider'=>$modPetugas1->searchDialog(),
     'filter'=>$modPetugas1,
 	'template'=>"{items}\n{pager}",
@@ -263,26 +267,20 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 		),
 		array(
 			'header'=>'NIP',
+                        'name'=>'nomorindukpegawai',
 			'value'=>'$data->nomorindukpegawai',
 		),
 		array(
-			'header'=>'Gelar Depan',
-			'filter'=>  CHtml::activeTextField($modPetugas1, 'gelardepan'),
-			'value'=>'$data->gelardepan',
-		),
-		array(
 			'header'=>'Nama Pegawai',
-			'filter'=>  CHtml::activeTextField($modPetugas1, 'nama_pegawai'),
-			'value'=>'$data->nama_pegawai',
+			'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'nama_pegawai'),
+			'value'=>'$data->namaLengkap',
 		),
 		array(
-			'header'=>'Gelar Belakang',
-			'filter'=>  CHtml::activeTextField($modPetugas1, 'gelarbelakang_nama'),
-			'value'=>'$data->gelarbelakang_nama',
-		),
-		array(
-			'header'=>'Alamat Pegawai',
-			'filter'=>  CHtml::activeTextField($modPetugas1, 'alamat_pegawai'),
+			'header'=>'Jabatan',
+			'filter'=>  CHtml::activeDropDownList($modPegawaiMengetahui, 'jabatan_id', CHtml::listData(
+                        JabatanM::model()->findAll('jabatan_aktif = true order by jabatan_nama'), 'jabatan_id', 'jabatan_nama'), array(
+                            'empty'=>'-- Pilih --',
+                        )),
 			'value'=>'$data->alamat_pegawai',
 		),
 	),
@@ -313,7 +311,7 @@ if(isset($_GET['GUPegawaiRuanganV'])) {
     $modPetugas2->attributes = $_GET['GUPegawaiRuanganV'];
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
-    'id'=>'pegawaimengetahui-grid',
+    'id'=>'pegawai2-grid',
     'dataProvider'=>$modPetugas2->searchDialog(),
     'filter'=>$modPetugas2,
 	'template'=>"{items}\n{pager}",
@@ -334,26 +332,20 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 		),
 		array(
 			'header'=>'NIP',
+                        'name'=>'nomorindukpegawai',
 			'value'=>'$data->nomorindukpegawai',
 		),
 		array(
-			'header'=>'Gelar Depan',
-			'filter'=>  CHtml::activeTextField($modPetugas2, 'gelardepan'),
-			'value'=>'$data->gelardepan',
-		),
-		array(
 			'header'=>'Nama Pegawai',
-			'filter'=>  CHtml::activeTextField($modPetugas2, 'nama_pegawai'),
-			'value'=>'$data->nama_pegawai',
+			'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'nama_pegawai'),
+			'value'=>'$data->namaLengkap',
 		),
 		array(
-			'header'=>'Gelar Belakang',
-			'filter'=>  CHtml::activeTextField($modPetugas2, 'gelarbelakang_nama'),
-			'value'=>'$data->gelarbelakang_nama',
-		),
-		array(
-			'header'=>'Alamat Pegawai',
-			'filter'=>  CHtml::activeTextField($modPetugas2, 'alamat_pegawai'),
+			'header'=>'Jabatan',
+			'filter'=>  CHtml::activeDropDownList($modPegawaiMengetahui, 'jabatan_id', CHtml::listData(
+                        JabatanM::model()->findAll('jabatan_aktif = true order by jabatan_nama'), 'jabatan_id', 'jabatan_nama'), array(
+                            'empty'=>'-- Pilih --',
+                        )),
 			'value'=>'$data->alamat_pegawai',
 		),
 	),
