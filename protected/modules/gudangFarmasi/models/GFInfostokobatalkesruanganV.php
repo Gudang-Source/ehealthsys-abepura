@@ -342,6 +342,10 @@ class GFInfostokobatalkesruanganV extends InfostokobatalkesruanganV{
 			$criteria->addCondition('satuankecil_id = '.$this->satuankecil_id);
 		}
 		$criteria->compare('LOWER(satuankecil_nama)',strtolower($this->satuankecil_nama),true);		
+                if(!empty($this->tglkadaluarsa)){
+			 $criteria->addCondition("tglkadaluarsa ='$this->tglkadaluarsa'");
+		}
+               
 		
 		$criteria->compare('qtystok',$this->qtystok);
                 $criteria->group = 'obatalkes_id, obatalkes_nama,obatalkes_golongan,obatalkes_kategori, jenisobatalkes_id,jenisobatalkes_nama,obatalkes_kode,satuankecil_nama, tglkadaluarsa';

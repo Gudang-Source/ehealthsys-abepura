@@ -76,7 +76,7 @@ class InformasiMutasiKeluarController extends MyAuthController
 				$loadMutasi = MutasioaruanganT::model()->findByPk($_POST['mutasioaruangan_id']);
 				if($loadMutasi){
 					if(empty($loadMutasi->terimamutasi_id)){
-						$transaction = Yii::app()->db->beginTransaction();
+						$transaction = Yii::app()->db->beginTransaction();                                                
 						try {
 							$deletedetail = MutasioadetailT::model()->deleteAllByAttributes(array('mutasioaruangan_id'=>$loadMutasi->mutasioaruangan_id));
 							//untuk penghapusan stokobatalkes_t tidak perlu karna relasi sudah CASCADE

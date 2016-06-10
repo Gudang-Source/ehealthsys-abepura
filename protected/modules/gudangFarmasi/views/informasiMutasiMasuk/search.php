@@ -67,7 +67,7 @@
                             'ruangan_id'=>Yii::app()->user->getState('ruangan_id')
                         ), array(
                             'order'=>'nama_pegawai'
-                        )), 'pegawai_id', 'nama_pegawai'),array('class'=>'span3','empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+                        )), 'pegawai_id', 'namaLengkap'),array('class'=>'span3','empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
             </td>
         </tr>
     </table>
