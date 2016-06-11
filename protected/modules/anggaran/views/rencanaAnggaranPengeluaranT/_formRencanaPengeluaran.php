@@ -7,8 +7,12 @@
 		<div class="control-group ">
             <?php echo $form->labelEx($model,'Unit <span class="required">*</span>', array('class'=>'control-label')) ?>
                 <div class="controls">
-				<?php echo $form->textField($model,'namaunitkerja',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'readonly'=>true)); ?>
-				<?php echo $form->hiddenField($model,'unitkerja_id',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'readonly'=>true)); ?>
+				<?php //echo $form->textField($model,'namaunitkerja',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'readonly'=>true)); ?>
+				<?php echo $form->dropDownList($model,'unitkerja_id',CHtml::listData(UnitkerjaM::model()->findAllByAttributes(array(
+                                    'unitkerja_aktif'=>true
+                                ), array(
+                                    'order'=>'kodeunitkerja'
+                                )), 'unitkerja_id', 'namaunitkerja'),array('empty'=>'-- Pilih --','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'readonly'=>true)); ?>
                 </div>
         </div>
 		<div class="control-group ">
