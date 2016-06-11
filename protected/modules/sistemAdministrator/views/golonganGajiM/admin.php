@@ -1,7 +1,18 @@
-<!--<div class="white-container">
-    <legend class="rim2">Pengaturan <b>Golongan Gaji</b></legend>-->
+<?php
+    if ($this->hasTab):
+?>
 <fieldset class="box row-fluid">
     <legend class="rim">Pengaturan Golongan Gaji</legend>
+<?php
+    else:
+?>
+    <div class="white-container">
+    <legend class="rim2">Pengaturan <b>Golongan Gaji</b></legend>
+<?php
+    endif;
+?>
+
+
     <?php
     $this->breadcrumbs=array(
             'GolonganGaji Ms'=>array('index'),
@@ -53,12 +64,18 @@
                         'value'=>'$data->golongangaji_id',
                         'filter'=>false,
                     ),
-                    'golonganpegawai.golonganpegawai_nama',
+                    array(
+                      'header' => 'Golongan',
+                      'name' => 'golonganpegawai_id',
+                      'value' => '$data->golonganpegawai->golonganpegawai_nama',
+                      'filter' => CHtml::dropDownList('SAGolonganGajiM[golonganpegawai_id]', $model->golonganpegawai_id,CHtml::listData(SAGolonganPegawaiM::model()->findAll('golonganpegawai_aktif = true ORDER BY golonganpegawai_nama'), 'golonganpegawai_id', 'golonganpegawai_nama'), array('empty'=>'-- Pilih --'))
+                    ),
                     'masakerja',
             //	'jmlgaji',
                      array(
                         'name'=>'jmlgaji',
-                        'value'=>'MyFormatter::formatNumberForPrint($data->jmlgaji)',
+                        'value'=>'"Rp".MyFormatter::formatNumberForPrint($data->jmlgaji)',
+                         'htmlOptions' => array('style'=>'text-align:right;')
                      ),
                     'jenisgolongan',
                     array(
@@ -164,3 +181,4 @@ JSCRIPT;
     }
 </script>
 </fieldset>
+</div>

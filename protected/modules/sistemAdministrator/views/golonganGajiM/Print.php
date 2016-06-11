@@ -35,7 +35,11 @@ $this->widget($table,array(
         ),
 		'golonganpegawai_id',
 		'masakerja',
-        'jmlgaji',
+         array(
+                        'name'=>'jmlgaji',
+                        'value'=>'"Rp".MyFormatter::formatNumberForPrint($data->jmlgaji)',
+                         'htmlOptions' => array('style'=>'text-align:right;')
+                     ),
         'jenisgolongan',
         array(
             'header'=>'Aktif',
