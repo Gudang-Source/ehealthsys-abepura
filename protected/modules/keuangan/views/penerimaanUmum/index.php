@@ -154,15 +154,20 @@
                 </td>
                 <td width="20%">
                     <div class="control-group ">
-                        <?php echo CHtml::label('Total Tagihan','totTagihan', array('class'=>'control-label inline')) ?>
+                        <?php echo CHtml::label('Total Penerimaan','totTagihan', array('class'=>'control-label inline')) ?>
                         <div class="controls">
                             <?php echo CHtml::textField('totTagihan',$totTagihan,array('readonly'=>true,'class'=>'inputFormTabel currency span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
-                        </div>
+                        </div><!-- total taginan-->
                     </div>
                     <?php echo $form->textFieldRow($modTandaBukti,'jmlpembulatan',array('readonly'=>true,'class'=>'inputFormTabel currency span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                     <?php echo $form->textFieldRow($modTandaBukti,'biayaadministrasi',array('onkeyup'=>'hitungJmlBayar();','class'=>'inputFormTabel currency span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                     <?php echo $form->textFieldRow($modTandaBukti,'biayamaterai',array('onkeyup'=>'hitungJmlBayar();','class'=>'inputFormTabel currency span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-                    <?php echo $form->textFieldRow($modTandaBukti,'jmlpembayaran',array('onkeyup'=>'hitungKembalian();','readonly'=>true,'class'=>'inputFormTabel currency span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                     <div class="control-group ">
+                        <?php echo CHtml::label('Jumlah Penerimaan','jmlpembayaran', array('class'=>'control-label inline')) ?>
+                        <div class="controls">
+                            <?php echo $form->textField($modTandaBukti,'jmlpembayaran',array('onkeyup'=>'hitungKembalian();','readonly'=>true,'class'=>'inputFormTabel currency span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                        </div>
+                    </div>                    
                     <?php echo $form->textFieldRow($modTandaBukti,'uangditerima',array('onkeyup'=>'hitungKembalian();','class'=>'inputFormTabel currency span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                     <?php echo $form->textFieldRow($modTandaBukti,'uangkembalian',array('class'=>'inputFormTabel currency span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
 
