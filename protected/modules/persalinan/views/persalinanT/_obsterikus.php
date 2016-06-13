@@ -382,7 +382,7 @@
                     <div class="controls">
                         <?php
                         echo $form->textField($modPemeriksaan, 'kala4_detaknadi', array('class'=>'span1 numbersOnly','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
-                        ?> <div class='additional-text'>/ Menit</div>
+                        ?> <div class='additional-text'></div>
                         <?php echo $form->error($modPemeriksaan, 'kala4_detaknadi'); ?>
                     </div>
                 </div>
