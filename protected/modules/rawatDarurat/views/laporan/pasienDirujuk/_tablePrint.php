@@ -21,12 +21,18 @@ if (isset($caraPrint)){
             'header' => 'No',
             'value' => '$row+1'
         ),
-        'tgldirujuk',
+        array(
+            'header' => 'Tanggal Di Rujuk',
+            'value' => '$data->tgldirujuk',
+		),
          array(
             'header' => 'No.Pendaftaran/ No.Rekam Medik',
             'value' => '$data->NoPenNoRM',
             ),
-        'NamaBin',
+         array(
+            'header' => 'Nama Pasien',
+            'value' => '$data->NamaBin',
+		),
         array(
             'header' => 'Alamat RT/RW',
             'value' => '$data->alamatRtRw',
@@ -38,14 +44,23 @@ if (isset($caraPrint)){
         array(
             'header' => 'Cara bayar/ Penjamin',
             'value' => '$data->caraBayarPenjamin',
-            ),
-        'rumahsakitrujukan',
+            ),        
+         array(
+            'header' => 'Rumah Sakit Rujukan',
+            'value' => '$data->rumahsakitrujukan',
+            ), 
         array(
             'header' => 'Nama Dokter',
             'value' => '$data->kepadayth',
+            ),        
+        array(
+            'header' => 'Dirujuk Kebagian',
+            'value' => '$data->dirujukkebagian',
             ),
-        'dirujukkebagian',
-        'alasandirujuk',
+        array(
+            'header' => 'Alasan Dirujuk',
+            'value' => '$data->alasandirujuk',
+            ),
       
     ),
 

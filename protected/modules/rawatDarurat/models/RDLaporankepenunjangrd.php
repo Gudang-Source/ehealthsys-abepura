@@ -5,7 +5,7 @@ class RDLaporankepenunjangrd extends LaporankepenunjangrdV {
     public $jumlah;
     public $data;
     public $tick;
-    public $tgl_awal,$tgl_akhir;
+    public $tgl_awal,$tgl_akhir,$bln_awal,$bln_akhir,$thn_awal,$thn_akhir,$jns_periode;
     
     public static function model($className = __CLASS__) {
         return parent::model($className);

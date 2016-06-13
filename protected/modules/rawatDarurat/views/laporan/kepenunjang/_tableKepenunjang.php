@@ -21,19 +21,40 @@ $sort=true;
         'itemsCssClass'=>'table table-striped table-condensed',
 	'columns'=>array(
 //            'instalasi_nama',
-            'tglmasukpenunjang',
-            'no_rekam_medik',
-            'nama_pasien',
-            'no_pendaftaran',
-            'umur',
-            'jeniskelamin',
+            array(
+                'header'=> 'Tgl Masuk Penunjang',
+                'value' => '$data->tglmasukpenunjang'
+            ),            
+            array(
+                'header'=> 'No Rekam Medik',
+                'value' => '$data->no_rekam_medik'
+            ),
+              array(
+                'header'=> 'Nama Pasien',
+                'value' => '$data->namadepan." ".$data->nama_pasien'
+            ),
+             array(
+                'header'=> 'No Pendaftaran',
+                'value' => '$data->no_pendaftaran'
+            ),
+           array(
+                'header'=> 'Umur',
+                'value' => '$data->umur'
+            ),
+            array(
+                'header'=> 'Jenis Kelamin',
+                'value' => '$data->jeniskelamin'
+            ),           
           array(
-              'header'=>'Nama Ruangan Penunjang',
+              'header'=>'Ruangan Penunjang',
               'value'=>'$data->ruanganpenunj_nama',
           ),
 //            'ruanganpenunj_nama',
 //            'catatan_dokter_konsul',
-            'statusperiksa',
+             array(
+              'header'=>'Status Periksa',
+              'value'=>'$data->statusperiksa',
+          ),
 //            array(
 //                   'header'=>'CaraBayar/Penjamin',
 //                   'type'=>'raw',

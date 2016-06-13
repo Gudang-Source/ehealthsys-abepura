@@ -2,7 +2,7 @@
 
 class RDLaporantriasepasienV extends LaporantriasepasienV{
     
-    public $tick, $jumlah, $data,$tgl_awal,$tgl_akhir;
+    public $tick, $jumlah, $data,$tgl_awal,$tgl_akhir,$bln_awal,$bln_akhir,$thn_awal,$thn_akhir, $jns_periode;
     
     public static function model($className = __CLASS__) {
         return parent::model($className);
@@ -13,7 +13,7 @@ class RDLaporantriasepasienV extends LaporantriasepasienV{
         $criteria = new CDbCriteria;
         $criteria = $this->functionCriteria();
         $criteria->select = 'count(pendaftaran_id) as jumlah, triase_nama as data';
-        $criteria->group = 'pendaftaran_id, triase_nama';
+        $criteria->group = 'triase_nama';//pendaftaran_id
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
         ));
