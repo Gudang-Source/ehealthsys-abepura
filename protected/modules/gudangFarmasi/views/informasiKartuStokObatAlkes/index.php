@@ -61,7 +61,7 @@
                     ),
                     array(
                         'header'=>'Nama Transaksi',
-						'name'=>'transaksi',
+			'name'=>'transaksi',
                         'type'=>'raw',
                         'value'=>'$data->NamaTransaksi',
                     ),
