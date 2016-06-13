@@ -31,6 +31,8 @@ class ReportbugsR extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return ReportbugsR the static model class
 	 */
+    
+        public $tgl_awal, $tgl_akhir;
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -63,8 +65,8 @@ class ReportbugsR extends CActiveRecord
 //			array('pesan_bugs, isajax_bugs', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('reportbugs_id, kodebugs, judul_bugs, link_bugs, type_bugs, file_bugs, line_bugs, pesan_bugs, prioritas_bugs, create_login_id, create_pegawai_id, create_instalasi_id, create_ruangan_id, create_modul_id, create_datetime, create_hostname_pc, create_browser_pc, isajax_bugs, create_login_nama', 'safe'),
-			array('reportbugs_id, kodebugs, judul_bugs, link_bugs, type_bugs, file_bugs, line_bugs, pesan_bugs, prioritas_bugs, create_login_id, create_pegawai_id, create_instalasi_id, create_ruangan_id, create_modul_id, create_datetime, create_hostname_pc, create_browser_pc, isajax_bugs, create_login_nama', 'safe', 'on'=>'search'),
+			array('tgl_awal, tgl_akhir, reportbugs_id, kodebugs, judul_bugs, link_bugs, type_bugs, file_bugs, line_bugs, pesan_bugs, prioritas_bugs, create_login_id, create_pegawai_id, create_instalasi_id, create_ruangan_id, create_modul_id, create_datetime, create_hostname_pc, create_browser_pc, isajax_bugs, create_login_nama', 'safe'),
+			array('tgl_awal, tgl_akhir, reportbugs_id, kodebugs, judul_bugs, link_bugs, type_bugs, file_bugs, line_bugs, pesan_bugs, prioritas_bugs, create_login_id, create_pegawai_id, create_instalasi_id, create_ruangan_id, create_modul_id, create_datetime, create_hostname_pc, create_browser_pc, isajax_bugs, create_login_nama', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -118,26 +120,30 @@ class ReportbugsR extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('reportbugs_id',$this->reportbugs_id);
-		$criteria->compare('LOWER(kodebugs)',strtolower($this->kodebugs),true);
+                if ($this->tgl_awal != '' OR $this->tgl_akhir != ''){
+                    $criteria->addBetweenCondition('date(create_datetime)', $this->tgl_awal, $this->tgl_akhir);
+                }
+             
+		//$criteria->compare('reportbugs_id',$this->reportbugs_id);
+		$criteria->compare('kodebugs',$this->kodebugs,true);
 		$criteria->compare('LOWER(judul_bugs)',strtolower($this->judul_bugs),true);
 		$criteria->compare('LOWER(link_bugs)',strtolower($this->link_bugs),true);
 		$criteria->compare('LOWER(type_bugs)',strtolower($this->type_bugs),true);
-		$criteria->compare('LOWER(file_bugs)',strtolower($this->file_bugs),true);
-		$criteria->compare('LOWER(line_bugs)',strtolower($this->line_bugs),true);
-		$criteria->compare('LOWER(pesan_bugs)',strtolower($this->pesan_bugs),true);
-		$criteria->compare('prioritas_bugs',$this->prioritas_bugs);
-		$criteria->compare('create_login_id',$this->create_login_id);
-		$criteria->compare('create_pegawai_id',$this->create_pegawai_id);
-		$criteria->compare('create_instalasi_id',$this->create_instalasi_id);
-		$criteria->compare('create_ruangan_id',$this->create_ruangan_id);
-		$criteria->compare('create_modul_id',$this->create_modul_id);
-		$criteria->compare('LOWER(create_datetime)',strtolower($this->create_datetime),true);
+		//$criteria->compare('LOWER(file_bugs)',strtolower($this->file_bugs),true);
+		//$criteria->compare('LOWER(line_bugs)',strtolower($this->line_bugs),true);
+		//$criteria->compare('LOWER(pesan_bugs)',strtolower($this->pesan_bugs),true);
+		//$criteria->compare('prioritas_bugs',$this->prioritas_bugs);
+		//$criteria->compare('create_login_id',$this->create_login_id);
+		//$criteria->compare('create_pegawai_id',$this->create_pegawai_id);
+		//$criteria->compare('create_instalasi_id',$this->create_instalasi_id);
+		//$criteria->compare('create_ruangan_id',$this->create_ruangan_id);
+		//$criteria->compare('create_modul_id',$this->create_modul_id);
+		//$criteria->compare('LOWER(create_datetime)',strtolower($this->create_datetime),true);
 		$criteria->compare('LOWER(create_hostname_pc)',strtolower($this->create_hostname_pc),true);
-		$criteria->compare('LOWER(create_browser_pc)',strtolower($this->create_browser_pc),true);
+		//$criteria->compare('LOWER(create_browser_pc)',strtolower($this->create_browser_pc),true);
 		$criteria->compare('isajax_bugs',$this->isajax_bugs);
-		$criteria->compare('LOWER(create_login_nama)',strtolower($this->create_login_nama),true);
-
+		//$criteria->compare('LOWER(create_login_nama)',strtolower($this->create_login_nama),true);
+                $criteria->order = "create_datetime DESC";
 		return $criteria;
 	}
         
