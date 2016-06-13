@@ -38,6 +38,10 @@
                         'value'=>'$data->PegawaiMengetahuiLengkap',
                     ),
                     array(
+                        'header'=>'Keterangan Pemesanan',
+                        'name'=>'keterangan_pesan',
+                    ),
+                    array(
                         'header'=>'Mutasi',
                         'type'=>'raw',
                         'htmlOptions'=>array('style'=>'text-align: left;'),

@@ -73,7 +73,11 @@ class GFInformasimutasioaruanganV extends InformasimutasioaruanganV
 					$criteria->addCondition('ruangantujuanmutasi_id = '.$this->ruangantujuanmutasi_id);
 				}
                 $criteria->compare('LOWER(statuspesan)',strtolower($this->statuspesan),true);
-                
+                if ($this->status_terima == 1) {
+                    $criteria->addCondition('terimamutasi_id is null');
+                } else if ($this->status_terima == 2) {
+                    $criteria->addCondition('terimamutasi_id is not null');
+                }
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));

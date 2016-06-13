@@ -51,11 +51,12 @@ $this->widget('bootstrap.widgets.BootAlert');?>
 			<div class="control-group ">
                 <?php echo CHtml::label('Petugas Pengirim', 'petugaspengirim_id', array('class'=>'control-label')); ?>
                 <div class="controls">
-                    <?php echo CHtml::hiddenField('petugaspengirim_id','',array('onkeyup'=>"return $(this).focusNextInputField(event)",)); ?>
+                    <?php //echo CHtml::textField('petugaspengirim_id','',array('onkeyup'=>"return $(this).focusNextInputField(event)",)); ?>
                     <?php echo CHtml::activeHiddenField($modUbahStatus,'petugaspengirim_id','',array('onkeyup'=>"return $(this).focusNextInputField(event)",)); ?>
-                    <?php echo CHtml::activeHiddenField($modUbahStatus,'petugaspengirim','',array('onkeyup'=>"return $(this).focusNextInputField(event)",)); ?>
+                    <?php //echo CHtml::activeHiddenField($modUbahStatus,'petugaspengirim','',array('onkeyup'=>"return $(this).focusNextInputField(event)",)); ?>
+                     <?php echo $form->textField($modUbahStatus,'petugaspengirim','',array('readonly'=>true,'onkeyup'=>"return $(this).focusNextInputField(event)",)); ?>
                 <?php 
-                    $this->widget('MyJuiAutoComplete', array(
+                  /*  $this->widget('MyJuiAutoComplete', array(
                         'name'=>'petugaspengirim_nama',
                         'source'=>'js: function(request, response) {
                                        $.ajax({
@@ -90,7 +91,7 @@ $this->widget('bootstrap.widgets.BootAlert');?>
                             'onblur' => 'if(this.value === "") $("#petugaspengirim_id").val(""); '
                         ),
                         'tombolDialog'=>array('idDialog'=>'dialogPetugas'),
-                    )); 
+                    )); */
                     ?>
                 </div>
             </div>

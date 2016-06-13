@@ -32,7 +32,10 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm',
 );
 ?>
 <div class="white-container">
-    <legend class="rim2">Informasi <b>Penerimaan Kas / Umum</b></legend>
+    <legend class="rim2">Informasi <b>Penerimaan Umum</b></legend>
+    <div class="block-tabel">
+        <h6>Tabel <b>Penerimaan Umum</b></h6>
+    
     <?php $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
 	'id'=>'daftarpenerimaan-m-grid',
 	'dataProvider'=>$modPenerimaan->searchInformasi(),
@@ -54,7 +57,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm',
                 'value'=>'$data->nopenerimaan',
             ),
             array(
-                'header'=>'Kelompok Transaksi',
+                'header'=>'Kelompok <br/> Transaksi',
                 'type'=>'raw',
                 'value'=>'$data->kelompoktransaksi',
             ),
@@ -70,7 +73,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm',
             array(
                 'header'=>'Harga',
                 'name'=>'hargasatuan',
-                'value'=>'number_format($data->hargasatuan)',
+                'value'=>'MyFormatter::formatNumberForPrint($data->hargasatuan)',
                 'htmlOptions'=>array('style'=>'width:100px;text-align:right'),
                 'footerHtmlOptions'=>array('style'=>'text-align:right;'),
                 'footer'=>'sum(hargasatuan)',
@@ -78,7 +81,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm',
             array(
                 'header'=>'Total Harga',
                 'name'=>'totalharga',
-                'value'=>'number_format($data->totalharga)',
+                'value'=>'MyFormatter::formatNumberForPrint($data->totalharga)',
                 'htmlOptions'=>array('style'=>'width:100px;text-align:right'),
                 'footerHtmlOptions'=>array('style'=>'text-align:right;'),
                 'footer'=>'sum(totalharga)',
@@ -122,14 +125,15 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm',
 	),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
     )); ?>
+    </div>
     <fieldset class="box">
-        <legend class="rim"><i class="icon-white icon-search"></i> Pencarian Penerimaan Kas / Umum</legend>
+        <legend class="rim"><i class="icon-white icon-search"></i> Pencarian Penerimaan Umum</legend>
         <table width="100%" class="table-condensed">
             <tr>
                 <td>
                     <div class="control-group ">
                         <?php // $modPenerimaan->tgl_awal = Yii::app()->dateFormatter->formatDateTime(CDateTimeParser::parse($modPenerimaan->tgl_awal, 'yyyy-MM-dd hh:mm:ss'),'medium','medium'); ?>
-                        <?php echo CHtml::label('Tgl. Penerimaan Kas','tglPenerimaanKas', array('class'=>'control-label inline')) ?>
+                        <?php echo CHtml::label('Tgl. Penerimaan Umum','tglPenerimaanKas', array('class'=>'control-label inline')) ?>
                         <div class="controls">
                             <?php   
                                 $this->widget('MyDateTimePicker',array(

@@ -31,7 +31,9 @@
     
 ?>
 <div class="white-container">
-    <legend class="rim2">Informasi <b>Pengeluaran Kas / Umum</b></legend>
+    <legend class="rim2">Informasi <b>Pengeluaran Umum</b></legend>
+    <div class="block-tabel">
+        <h6>Tabel <b>Penerimaan Umum</b></h6>
     <?php
         $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',
             array(
@@ -64,7 +66,7 @@
                     array(
                         'header'=>'Harga',
                         'name'=>'hargasatuan',
-                        'value'=>'number_format($data->hargasatuan)',
+                        'value'=>'MyFormatter::formatNumberForPrint($data->hargasatuan)',
                         'htmlOptions'=>array('style'=>'width:100px;text-align:right'),
                         'footerHtmlOptions'=>array('style'=>'text-align:right;'),
                         'footer'=>'sum(hargasatuan)',
@@ -72,7 +74,7 @@
                     array(
                         'header'=>'Total Harga',
                         'name'=>'totalharga',
-                        'value'=>'number_format($data->totalharga)',
+                        'value'=>'MyFormatter::formatNumberForPrint($data->totalharga)',
                         'htmlOptions'=>array('style'=>'width:100px;text-align:right'),
                         'footerHtmlOptions'=>array('style'=>'text-align:right;'),
                         'footer'=>'sum(totalharga)',
@@ -108,14 +110,15 @@
             )
         );
     ?>
+    </div>
     <fieldset class='box'>
-        <legend class="rim"><i class='icon-white icon-search'></i> Pencarian</legend>
+        <legend class="rim"><i class='icon-white icon-search'></i> Pencarian Pengeluaran Umum</legend>
         <table width='100%' class="table-condensed">
             <tr>
                 <td>
                     <div class="control-group ">
                         <?php // $modPengeluaran->tgl_awal = Yii::app()->dateFormatter->formatDateTime(CDateTimeParser::parse($modPengeluaran->tgl_awal, 'yyyy-MM-dd hh:mm:ss'),'medium','medium'); ?>
-                        <?php echo CHtml::label('Tgl. Pengeluaran Kas','tglPengeluaranKas', array('class'=>'control-label inline')) ?>
+                        <?php echo CHtml::label('Tgl. Pengeluaran Umum','tglPengeluaranKas', array('class'=>'control-label inline')) ?>
                         <div class="controls">
                             <?php   
                                 $this->widget('MyDateTimePicker',
@@ -163,7 +166,7 @@
                     </div>
                 </td>
                 <td>
-                    <?php echo $form->textFieldRow($modPengeluaran,'nopengeluaran',array('class'=>'span2','style'=>'width:140px;','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+                    <?php echo $form->textFieldRow($modPengeluaran,'nopengeluaran',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
                     <div class="control-group ">
                         <?php echo CHtml::label('Jenis Pengeluaran','jenisPengeluaran', array('class'=>'control-label inline')) ?>
                         <div class="controls">

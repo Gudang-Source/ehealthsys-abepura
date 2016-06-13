@@ -18,6 +18,8 @@ class InformasiMutasiKeluarController extends MyAuthController
             $model->attributes=$_GET['GFInformasimutasioaruanganV'];
             $model->tgl_awal  = $format->formatDateTimeForDb($_GET['GFInformasimutasioaruanganV']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['GFInformasimutasioaruanganV']['tgl_akhir']);
+            $model->status_terima = $_GET['GFInformasimutasioaruanganV']['status_terima'];
+            
         }
         $this->render($this->path_view.'index',array(
             'format'=>$format,
@@ -76,7 +78,7 @@ class InformasiMutasiKeluarController extends MyAuthController
 				$loadMutasi = MutasioaruanganT::model()->findByPk($_POST['mutasioaruangan_id']);
 				if($loadMutasi){
 					if(empty($loadMutasi->terimamutasi_id)){
-						$transaction = Yii::app()->db->beginTransaction();
+						$transaction = Yii::app()->db->beginTransaction();                                                
 						try {
 							$deletedetail = MutasioadetailT::model()->deleteAllByAttributes(array('mutasioaruangan_id'=>$loadMutasi->mutasioaruangan_id));
 							//untuk penghapusan stokobatalkes_t tidak perlu karna relasi sudah CASCADE

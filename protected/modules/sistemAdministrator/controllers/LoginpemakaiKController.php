@@ -560,6 +560,7 @@ class LoginpemakaiKController extends Controller
                             {
                                   if($model->katakunci_pemakai == $model->encrypt($model->old_password)){
                                      $model->katakunci_pemakai = $model->encrypt($model->new_password);
+                                     $model->loginpemakai_update = 1;
                                   }else{
                                       Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Password yang anda inputkan tidak sesuai dengan database.');
                                       $this->redirect(array('GantiPassword','id'=>$model->loginpemakai_id));

@@ -6,15 +6,21 @@ class PtkpMController extends MyAuthController {
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	public $layout = '//layouts/iframe';
+	public $layout = '//layouts/column1';
 	public $defaultAction = 'admin';
 
 	public $path_view = 'sistemAdministrator.views.ptkpM.';
         public $path_view_tab = 'sistemAdministrator.views.ptkpM.';
+        public $hasTab = false;
 	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */
+         public function init() {
+            parent::init();
+            if ($this->hasTab) {$this->layout = '//layouts/iframe';}
+        }
+        
 	public function actionView($id) {
 		$this->render($this->path_view . 'view', array(
 			'model' => $this->loadModel($id),
@@ -41,7 +47,12 @@ class PtkpMController extends MyAuthController {
 			// echo "<pre>";print_r($model->attributes);exit();
 			if ($model->save()) {
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin', 'id' => $model->ptkp_id));
+                                if ($this->hasTab){
+                                    $this->redirect(array('admin', 'id' => $model->ptkp_id));
+                                }else{
+                                    $this->redirect(array('admin', 'sukses' => 1));
+                                }
+				
 			}
 		}
 
@@ -68,8 +79,14 @@ class PtkpMController extends MyAuthController {
 			$model->berlaku = true;
 
 			if ($model->save()) {
-				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin', 'id' => $model->ptkp_id));
+				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');				
+                                if ($this->hasTab){
+                                    $this->redirect(array('admin', 'id' => $model->ptkp_id));
+                                }else{
+                                    $this->redirect(array('admin', 'sukses' => 1));
+                                }
+				
+			
 			}
 		}
 
@@ -128,8 +145,11 @@ class PtkpMController extends MyAuthController {
 	/**
 	 * Manages all models.
 	 */
-	public function actionAdmin() {
+	public function actionAdmin($sukses='') {
 
+            if ($sukses==1){
+                Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+            }
 		$model = new SAPtkpM('search');
 		$model->unsetAttributes();  // clear any default values
 		if (isset($_GET['SAPtkpM']))

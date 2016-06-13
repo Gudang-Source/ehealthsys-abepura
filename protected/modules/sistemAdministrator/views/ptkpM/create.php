@@ -1,7 +1,18 @@
-<!--<div class="white-container">
-    <legend class="rim2">Tambah <b>PTKP</b></legend>-->
+<?php
+    if ($this->hasTab):
+?>
 <fieldset class="box row-fluid">
     <legend class="rim">Tambah PTKP</legend>
+<?php
+    else:
+?>
+    <div class="white-container">
+    <legend class="rim2">Tambah <b>PTKP</b></legend>
+<?php
+    endif;
+?>
+
+
     <?php
     $this->breadcrumbs=array(
             'Komponengaji Ms'=>array('index'),
@@ -21,3 +32,4 @@
     <?php echo $this->renderPartial($this->path_view. '_form', array('model'=>$model)); ?>
 <!--</div>-->
 </fieldset>
+</div>

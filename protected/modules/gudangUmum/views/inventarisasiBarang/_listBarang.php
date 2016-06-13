@@ -74,8 +74,8 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
 			'value'=> 'CHtml::textField("GUInvbarangdetT[".$data->barang_id."][inventarisasi_qty_skrg]", '
 			. '(isset($data->inventarisasi_qty_skrg) ? MyFormatter::formatNumberForPrint($data->inventarisasi_qty_skrg) : '
 			. '(isset($data->inventarisasi->inventarisasi_qty_skrg) ? $data->inventarisasi->inventarisasi_qty_skrg :'
-			. '0)), '
-			. 'array("class"=>"stok span1 integer2", "readonly"=>true))',
+			. '0)),'
+			. 'array("class"=>"stok span1 integer2", "readonly"=>true))." ".$data->barang_satuan',
 		),
 		array(
 			'header'=>'<div class="test" style="cursor:pointer;" onclick="openDialogini()"> Fisik <icon class="icon-white icon-list"></icon></div> ',
@@ -83,7 +83,7 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
 			'value'=> 'CHtml::textField("GUInvbarangdetT[".$data->barang_id."][inventarisasi_qty_fisik]", '
 			. '(isset($data->inventarisasi_qty_skrg) ? MyFormatter::formatNumberForPrint($data->inventarisasi_qty_skrg) : '
 			. '(isset($data->volume_fisik) ? MyFormatter::formatNumberForPrint($data->volume_fisik) : '
-			. '0)), array("class"=>"fisik span1 integer2", "onblur"=>"getTotal();", "onkeyup"=>"return $(this).focusNextInputField(event);"))',
+			. '0)), array("class"=>"fisik span1 numbersOnly", "onblur"=>"getTotal();", "onkeyup"=>"return $(this).focusNextInputField(event);", "style"=>"text-align: right;"))." ".$data->barang_satuan',
 		),
 		array(
 			'header'=>'Waktu Cek Fisik',
@@ -99,7 +99,8 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
     ),
         'afterAjaxUpdate'=>'function(id, data){
             jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
-            $("#barang-m-grid .integer2").maskMoney({"defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0,"symbol":null})
+            $("#barang-m-grid .integer2").maskMoney({"defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0,"symbol":null})
+            $("#barang-m-grid .numbersOnly").maskMoney({"defaultZero":true,"allowZero":true,"decimal":",","thousands":"","precision":0,"symbol":null})
             $("#barang-m-grid .datetimemask").mask("99/99/9999 99:99:99");    
             getTotal();
                 }',

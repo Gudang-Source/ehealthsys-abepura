@@ -1,7 +1,19 @@
-<!--<div class="white-container">
-    <legend class="rim2">Ubah <b>Golongan Gaji</b></legend>-->
+<?php
+    if ($this->hasTab):
+?>
 <fieldset class="box row-fluid">
     <legend class="rim">Ubah Golongan Gaji</legend>
+<?php
+    else:
+?>
+    <div class="white-container">
+    <legend class="rim2">Ubah <b>Golongan Gaji</b></legend>
+<?php
+    endif;
+?>
+
+
+
     <?php
     $this->breadcrumbs=array(
             'Golongan Gaji Ms'=>array('index'),

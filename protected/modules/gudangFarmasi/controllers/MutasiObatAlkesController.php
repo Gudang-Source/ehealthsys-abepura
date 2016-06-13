@@ -20,6 +20,7 @@ class MutasiObatAlkesController extends MyAuthController
      */
     public function actionIndex($mutasioaruangan_id = null,$pesanobatalkes_id = null)
     {
+        $modPemesanan = new InformasipesanobatalkesV;
         $model=new GFMutasioaruanganT;
         $format = new MyFormatter;
         $model->instalasitujuan_id = Params::INSTALASI_ID_FARMASI;
@@ -29,15 +30,21 @@ class MutasiObatAlkesController extends MyAuthController
         $pesan = '';
         $instalasiTujuans = CHtml::listData(GFInstalasiM::getInstalasiTujuanMutasis(),'instalasi_id','instalasi_nama');
         $ruanganTujuans = CHtml::listData(GFRuanganM::getRuanganTujuanMutasis($model->instalasitujuan_id),'ruangan_id','ruangan_nama');
+        //$ruanganTujuans = CHtml::listData(GFRuanganM::getRuanganTujuanMutasis($model->instalasitujuan_id),'ruangan_id','ruangan_nama');
         // Uncomment the following line if AJAX validation is needed
        
-        // Error :Array to String
+        // Error :Array to String        
         if(!empty($mutasioaruangan_id)){
             $model = GFMutasioaruanganT::model()->findByPk($mutasioaruangan_id);
             $model->instalasitujuan_id = $model->ruangantujuan->instalasi_id;
             $model->pegawaimengetahui_nama = (isset($model->pegawaimengetahui->NamaLengkap) ? $model->pegawaimengetahui->NamaLengkap : "");
             $ruanganTujuans = CHtml::listData(GFRuanganM::getRuanganTujuanMutasis($model->instalasitujuan_id),'ruangan_id','ruangan_nama');
             $modDetails = $this->loadModelDetails($model->mutasioaruangan_id);
+            if (isset($model->pesanobatalkes_id))
+            {
+                $modPemesanan = InformasipesanobatalkesV::model()->findByAttributes(array('mutasioaruangan_id'=>$mutasioaruangan_id));
+                $modPemesanan->tglpemesanan = MyFormatter::formatDateTimeForUser($modPemesanan->tglpemesanan);
+            }
         }
         if(!empty($pesanobatalkes_id) && empty($mutasioaruangan_id)){
             $modelPesanObat = GFPesanobatalkesT::model()->findByPk($pesanobatalkes_id);
@@ -88,6 +95,15 @@ class MutasiObatAlkesController extends MyAuthController
                 $model->pesanobatalkes_id = $modelPesanObat->pesanobatalkes_id;
                 $model->totalharganettomutasi = $totalharganetto;
                 $model->totalhargajual = $totalhargajual;
+                
+                $Pemesan = InformasipesanobatalkesV::model()->findByAttributes(array('nopemesanan'=>$modelPesanObat->nopemesanan));
+                $modPemesanan->nopemesanan = $Pemesan->nopemesanan;
+                $modPemesanan->tglpemesanan = $Pemesan->tglpemesanan;
+                $modPemesanan->ruanganpemesan_id = $Pemesan->ruanganpemesan_id;
+                $modPemesanan->ruanganpemesan_nama = $Pemesan->ruanganpemesan_nama;
+                $modPemesanan->pegawaipemesan_id = $Pemesan->pegawaipemesan_id;
+                $modPemesanan->pegawaipemesan_nama = $Pemesan->pegawaipemesan_nama;
+                $modPemesanan->tglpemesanan = MyFormatter::formatDateTimeForUser($modPemesanan->tglpemesanan);
             }
         }
         
@@ -103,6 +119,7 @@ class MutasiObatAlkesController extends MyAuthController
                 $model->create_ruangan=Yii::app()->user->getState('ruangan_id');
                 $model->pegawaimutasi_id=Yii::app()->user->getState('pegawai_id');
                 $model->ruanganasal_id=Yii::app()->user->getState('ruangan_id');
+                // var_dump($model->attributes); die;
                 
                 if($model->save()){
                     if (!empty($model->pesanobatalkes_id)){
@@ -182,8 +199,78 @@ class MutasiObatAlkesController extends MyAuthController
             'instalasiTujuans'=>$instalasiTujuans,
             'ruanganTujuans'=>$ruanganTujuans,
             'pesan'=>$pesan,
-            'modelPesanObat'=>$modelPesanObat
+            'modelPesanObat'=>$modelPesanObat,
+            'modPemesanan'=>$modPemesanan,
         ));
+    }
+    
+    public function actionGetPesanObatAlkesDariMutasi()
+    {
+        if(Yii::app()->request->isAjaxRequest) {
+            $idPesanObatAlkes=$_POST['idPesanObatAlkes'];
+            $modMutasiDetail = new GFMutasioadetailT;
+            //$modDetailPesanObatAlkes = PesanoadetailT::model()->with('obatalkes','sumberdana','satuankecil')->findAll('pesanobatalkes_id='.$idPesanObatAlkes.'');
+            $modDetailPesanObatAlkes = GFPesanoadetailT::model()->findAllByAttributes(array('pesanobatalkes_id'=>$idPesanObatAlkes));
+            $modelPesanObat = GFPesanobatalkesT::model()->findByPk($idPesanObatAlkes);
+            $ruangan_id = Yii::app()->user->getState('ruangan_id');
+            $format = new MyFormatter;
+            $stok = null;
+            $totalHargaSub = 0;
+            $totalHargaNetto = 0;
+            //$totalharganetto = 0;
+            //$totalhargajual = 0;
+            $tr = "";
+            $no = 1;
+            $data = array();
+            
+            $modDetailPesanObatAlkes = GFPesanoadetailT::model()->findAllByAttributes(array('pesanobatalkes_id'=>$idPesanObatAlkes));
+                $ruangan_id = Yii::app()->user->getState('ruangan_id');
+                $totalharganetto = 0;
+                $totalhargajual = 0;
+                if (count($modDetailPesanObatAlkes) > 0){
+                    $ii = 0;
+                    foreach ($modDetailPesanObatAlkes as $a => $detail) {
+                        $oa = ObatalkesM::model()->findByPk($detail->obatalkes_id);
+                        //$modStokOAs = StokobatalkesT::getStokObatAlkesAktif($detail->obatalkes_id, $detail->jmlpesan, $ruangan_id);
+                        //if(count($modStokOAs) > 0){
+                            //foreach($modStokOAs AS $i => $stok){
+                                $modDetails[$ii] = new GFMutasioadetailT();
+                                $modDetails[$ii]->stokobatalkes_id = null; //$stok->stokobatalkes_id;
+                                $modDetails[$ii]->jmlmutasi = $detail->jmlpesan; //$stok->qtystok_terpakai;
+				$modDetails[$ii]->jmlpesan = $detail->jmlpesan; //$stok->qtystok_terpakai; 
+                                $modDetails[$ii]->harganetto = $oa->harganetto; //$stok->HPP;
+                                $modDetails[$ii]->hargajualsatuan = $oa->hargajual; //$stok->HargaJualSatuan;
+                                $modDetails[$ii]->sumberdana_id = $oa->sumberdana_id; //(isset($stok->penerimaandetail->sumberdana_id) ? $stok->penerimaandetail->sumberdana_id : $stok->obatalkes->sumberdana_id);
+                                $modDetails[$ii]->obatalkes_id = $oa->obatalkes_id; //$stok->obatalkes_id;
+                                $modDetails[$ii]->satuankecil_id = $oa->satuankecil_id; //$stok->satuankecil_id;
+                                $modDetails[$ii]->satuankecil_nama = $oa->satuankecil->satuankecil_nama; //$stok->satuankecil->satuankecil_nama;
+                                $modDetails[$ii]->tglkadaluarsa = $oa->tglkadaluarsa; //$format->formatDateTimeForUser($stok->tglkadaluarsa);
+                                $modDetails[$ii]->jmlstok = 0; //$stok->qtystok;
+                                $modDetails[$ii]->tglterima = $format->formatDateTimeForUser(date('Y-m-d H:i:s'));
+                                $modDetails[$ii]->pesanoadetail_id = $detail->pesanoadetail_id;
+                                $totalharganetto += $modDetails[$ii]->harganetto;
+                                $totalhargajual += $modDetails[$ii]->hargajualsatuan;	
+								$ii ++;
+                           // }
+                       // }else{
+                       //     $pesan = "Stok obat ".$detail->obatalkes->obatalkes_nama." tidak mencukupi!";
+                       // }
+                    }
+                }
+            
+            
+            foreach ($modDetails AS $tampilDetail){
+                $tr .= $this->renderPartial($this->path_view.'_rowMutasiDetail',array('modMutasiDetail'=>$tampilDetail,'pesan'=>""),true);
+            };
+            $modPesanObatAlkes=  PesanobatalkesT::model()->findByPk($idPesanObatAlkes);
+            $data['tr']=$tr;
+            $data['ruangan_id']=$modPesanObatAlkes->ruanganpemesan_id;
+            //if (!empty($stok)) $data['stok'] = $stok;
+
+
+            echo json_encode($data);
+            Yii::app()->end();
+        }
     }
     
     public function insertNotifMutasi($model) {
@@ -382,6 +469,32 @@ class MutasiObatAlkesController extends MyAuthController
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
+    }
+    
+    public function actionAutocompleteNoPemesanan()
+    {
+        if(Yii::app()->request->isAjaxRequest) {
+            $criteria = new CDbCriteria();
+            $criteria->compare('LOWER(nopemesanan)', strtolower($_GET['term']), true);
+            $criteria->addCondition('mutasioaruangan_id is null');
+            $criteria->compare('ruangantujuan_id', Yii::app()->user->getState('ruangan_id'));
+            $criteria->order = 'nopemesanan';
+            $criteria->limit = 5;
+            $models = InformasipesanobatalkesV::model()->findAll($criteria);
+            foreach($models as $i=>$model)
+            {
+                $attributes = $model->attributeNames();
+                foreach($attributes as $j=>$attribute) {
+                    $returnVal[$i]["$attribute"] = $model->$attribute;
+                }
+                $returnVal[$i]['tglpemesanan'] = MyFormatter::formatDateTimeForUser($returnVal[$i]['tglpemesanan']);
+                $returnVal[$i]['label'] = $model->nopemesanan;
+                $returnVal[$i]['value'] = $model->nopemesanan;
+            }
+
+            echo CJSON::encode($returnVal);
+        }
+        Yii::app()->end();
     }
     
     public function actionAutocompletePegawaiMengetahui()
