@@ -6,6 +6,11 @@ class PersalinanTController extends MyAuthController {
 
         $modPendaftaran=PSPendaftaranT::model()->findByPk($id);
         $modPasien = PSPasienM::model()->findByPk($modPendaftaran->pasien_id);
+        $modPemeriksaan = PemeriksaanfisikT::model()->findByAttributes(array(
+            'pendaftaran_id'=>$id,
+        ), array(
+            'condition'=>'pasienadmisi_id is null'
+        ));
         $modPersalinan = PSPersalinanT::model()->with(array('pendaftaran','pegawai'))->findAllByAttributes(array('pendaftaran_id'=>$modPendaftaran->pendaftaran_id, 'pasien_id'=>$modPasien->pasien_id));
         $format = new MyFormatter;
 
@@ -19,9 +24,19 @@ class PersalinanTController extends MyAuthController {
             $model->tglmulaipersalinan = date('d M Y H:i:s');
             $model->tglabortus = date('d M Y H:i:s');
         }
+        
+        if (empty($modPemeriksaan)) {
+            $modPemeriksaan = new PemeriksaanfisikT;
+        } else {
+            if (!empty($modPemeriksaan->obs_periksadalam)) $modPemeriksaan->obs_periksadalam = MyFormatter::formatDateTimeForUser($modPemeriksaan->obs_periksadalam);
+            if (!empty($modPemeriksaan->plasenta_lahir)) $modPemeriksaan->plasenta_lahir = MyFormatter::formatDateTimeForUser($modPemeriksaan->plasenta_lahir);
+        }
 
 
         if (isset($_POST['PSPersalinanT'])) {
+            
+            // var_dump($_POST); die;
+            $trans = Yii::app()->db->beginTransaction();
             $model->attributes = $_POST['PSPersalinanT'];
             $model->pasien_id = $modPasien->pasien_id;
             $model->pendaftaran_id = $modPendaftaran->pendaftaran_id;
@@ -43,15 +58,37 @@ class PersalinanTController extends MyAuthController {
             
             if ($model->validate()) {
                 if ($model->save()){
-                    Yii::app()->user->setFlash('success',"Data Berhasil disimpan ");
-                    $this->redirect(Yii::app()->createUrl($this->module->id.'/persalinanT/index&id='.$id.'&sukses=1'));
+                    foreach ($_POST['PemeriksaanfisikT'] as $key=>$val) {
+                        $modPemeriksaan[$key] = $val;
+                    }
+                    
+                    if ($modPemeriksaan->isNewRecord) {
+                        $modPemeriksaan->pendaftaran_id = $modPendaftaran->pendaftaran_id;
+                        $modPemeriksaan->pegawai_id = $modPendaftaran->pegawai_id;
+                        $modPemeriksaan->pasien_id = $modPendaftaran->pasien_id;
+                        $modPemeriksaan->tglperiksafisik = date('Y-m-d H:i:s');
+                        $modPemeriksaan->create_loginpemakai_id = Yii::app()->user->id;
+                        $modPemeriksaan->create_time = date('Y-m-d H:i:s');
+                        $modPemeriksaan->create_ruangan = Yii::app()->user->getState('ruangan_id');
+                    }
+                    
+                    // var_dump($modPemeriksaan->attributes, $modPemeriksaan->validate(), $modPemeriksaan->errors); die;
+                    if ($modPemeriksaan->save()) {
+                        $trans->commit();
+                        Yii::app()->user->setFlash('success',"Data Berhasil disimpan ");
+                        $this->redirect(Yii::app()->createUrl($this->module->id.'/persalinanT/index&id='.$id.'&sukses=1'));
+                    }else {
+                        $trans->rollback();
+                        Yii::app()->user->setFlash('error',"Data gagal disimpan ");
+                    }
                 }
             } else {
+                $trans->rollback();
                 Yii::app()->user->setFlash('error',"Data gagal disimpan ");
             }
             
         }
-        $this->render('index', array('format'=>$format,'model' => $model, 'modPendaftaran'=>$modPendaftaran, 'modPasien'=>$modPasien, 'modPersalinan'=>$modPersalinan));
+        $this->render('index', array('format'=>$format,'model' => $model, 'modPendaftaran'=>$modPendaftaran, 'modPasien'=>$modPasien, 'modPersalinan'=>$modPersalinan, 'modPemeriksaan'=>$modPemeriksaan));
     }
     
 }
