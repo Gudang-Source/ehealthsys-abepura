@@ -151,8 +151,14 @@ class MonitoringReportBugsController extends MyAuthController
 	{
 		$model=new SAReportbugsR('search');
 		$model->unsetAttributes();  // clear any default values
+                $model->tgl_awal = date('Y-m-d');
+                $model->tgl_akhir = date('Y-m-d');  
+                $model->create_datetime = $model->tgl_awal.' s/d '.$model->tgl_akhir;
 		if(isset($_GET['SAReportbugsR'])){
-			$model->attributes=$_GET['SAReportbugsR'];
+			$model->attributes=$_GET['SAReportbugsR'];                        
+                        $model->tgl_awal= isset($_GET['SAReportbugsR']['tgl_awal'])?MyFormatter::formatDateTimeForDb($_GET['SAReportbugsR']['tgl_awal']).' 00:00:00':'';
+                        $model->tgl_akhir= isset($_GET['SAReportbugsR']['tgl_akhir'])?MyFormatter::formatDateTimeForDb($_GET['SAReportbugsR']['tgl_akhir']).' 23:59:59':'';                                                
+                        $model->create_datetime = $model->tgl_awal.' s/d '.$model->tgl_akhir;
 		}
 		$this->render('admin',array(
 				'model'=>$model,
@@ -209,7 +215,7 @@ class MonitoringReportBugsController extends MyAuthController
 			$mpdf->WriteHTML($stylesheet,1);  
 			$mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
 			$mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-			$mpdf->Output();
+			$mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
 		}
 	}
 }

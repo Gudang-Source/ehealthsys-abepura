@@ -42,10 +42,10 @@
                                             : ($row+1)',
                             'type'=>'raw',
                             'htmlOptions'=>array('style'=>'text-align:right;'),
-                    ),
+                    ),                  
                     array(
                             'header'=>'Create Datetime',
-                            'type'=>'raw',
+                            'type'=>'raw',                           
                             'value'=>'MyFormatter::formatDateTimeForUser($data->create_datetime)',
                     ),
                     'kodebugs',
