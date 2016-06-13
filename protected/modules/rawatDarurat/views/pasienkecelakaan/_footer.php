@@ -2,9 +2,7 @@
         echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
         echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; -->
 <div class="form-actions">
-<table border="0" >
-  <tr>
-   <td width="100"> <?php $this->widget('bootstrap.widgets.BootButtonGroup', array(
+<?php /*$this->widget('bootstrap.widgets.BootButtonGroup', array(
         'type'=>'primary', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
         'buttons'=>array(
             array('label'=>'Print', 'icon'=>'icon-print icon-white', 'url'=>'#', 'htmlOptions'=>array('onclick'=>'print(\'PRINT\')')),
@@ -15,17 +13,12 @@
             )),       
         ),
 //        'htmlOptions'=>array('class'=>'btn')
-    )); ?>	</td >
-    <td><?php
+    ));*/ ?>	
+   <?php
 // echo CHtml::htmlButton(Yii::t('mds','{icon} Cancel',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')),
 //                                                                        array('class'=>'btn btn-danger','onclick'=>'konfirmasi()','onKeypress'=>'return formSubmit(this,event)'));
-$content = $this->renderPartial('tips/tips',array(),true);?> 
-        <?php
-$this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
-?></td>
 
-  </tr>
-</table>
+?>
 
    
    

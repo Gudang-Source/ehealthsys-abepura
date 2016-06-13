@@ -22,11 +22,11 @@
     ");
     ?>
     <?php //echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-search"></i>')),'#',array('class'=>'search-button btn')); ?>
-    <div class="search-form">
+    <fieldset class="box row-fluid">
         <?php $this->renderPartial('rawatDarurat.views.laporan.10Besar./_search10Besar',array(
             'model'=>$model,
         )); ?>
-    </div><!-- search-form --> 
+    </fieldset><!-- search-form --> 
     <div class="block-tabel"> 
         <h6>Tabel 10 <b>Besar Penyakit</b></h6>
         <?php $this->renderPartial('rawatDarurat.views.laporan.10Besar/_table10Besar', array('model'=>$model)); ?>
