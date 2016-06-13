@@ -33,6 +33,7 @@ class PengirimanrmT extends CActiveRecord
         public $statusrekammedis;
         public $instalasi_id;
         public $no_pendaftaran;
+        public $petugaspengirim_nama;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -63,7 +64,7 @@ class PengirimanrmT extends CActiveRecord
 			array('peminjamanrm_id, kembalirm_id, pasien_id, pendaftaran_id, dokrekammedis_id, ruangan_id, ruanganpengirim_id', 'numerical', 'integerOnly'=>true),
 			array('nourut_keluar', 'length', 'max'=>5),
 			array('petugaspengirim', 'length', 'max'=>100),
-			array('kelengkapandokumen, printpengiriman, update_time, update_loginpemakai_id', 'safe'),
+			array('petugaspengirim_nama, kelengkapandokumen, printpengiriman, update_time, update_loginpemakai_id', 'safe'),
                     
                         array('create_time','default','value'=>date( 'Y-m-d H:i:s', time()),'setOnEmpty'=>false,'on'=>'insert'),
                         array('update_time','default','value'=>date( 'Y-m-d H:i:s', time()),'setOnEmpty'=>false,'on'=>'update,insert'),

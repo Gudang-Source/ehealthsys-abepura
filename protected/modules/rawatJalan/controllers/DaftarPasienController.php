@@ -2071,8 +2071,11 @@ class DaftarPasienController extends MyAuthController
 			$modPengirimanRm = new PengirimanrmT();
 		}			
 
+                $pegawai_id = LoginpemakaiK::model()->findByPk(Yii::app()->user->id)->pegawai_id;                
 		$modUbahStatus = new PengirimanrmT;
-                $modUbahStatus->tglpengirimanrm = date('d/m/Y H:i:s');
+                $modUbahStatus->tglpengirimanrm = date('d/m/Y H:i:s');                
+                $modUbahStatus->petugaspengirim = Yii::app()->user->name;
+                $modUbahStatus->petugaspengirim_id = $pegawai_id;
                 
 		if(isset($_POST['PengirimanrmT']))
 		{
@@ -2080,17 +2083,19 @@ class DaftarPasienController extends MyAuthController
 			try 
 			{
 				$modUbahStatus->attributes = $_POST['PengirimanrmT'];
+                                
 				$modUbahStatus->pendaftaran_id = $modPendaftaran->pendaftaran_id;
 				$modUbahStatus->pasien_id = $modPendaftaran->pasien_id;
 				$modUbahStatus->dokrekammedis_id = isset($modPengirimanRm) ? $modPengirimanRm->dokrekammedis_id : null;
 				$modUbahStatus->nourut_keluar = MyGenerator::noUrutKeluarRM();
 				$modUbahStatus->tglpengirimanrm = $format->formatDateTimeForDb($_POST['PengirimanrmT']['tglpengirimanrm']);
 				$modUbahStatus->kelengkapandokumen = TRUE;
-				$modUbahStatus->petugaspengirim_id = $_POST['PengirimanrmT']['petugaspengirim_id'];
+				$modUbahStatus->petugaspengirim_id = $_POST['PengirimanrmT']['petugaspengirim_id'];                                
 				$modUbahStatus->create_time = date('Y-m-d H:i:s');
 				$modUbahStatus->create_loginpemakai_id = Yii::app()->user->id;
 				$modUbahStatus->create_ruangan = Yii::app()->user->getState('ruangan_id');
 				$modUbahStatus->ruanganpengirim_id = Yii::app()->user->getState('ruangan_id');
+                                $modUbahStatus->ruanganpenerima_id = $_POST['PengirimanrmT']['ruangan_id'];
 				
 				if($modUbahStatus->save())
 				{
