@@ -43,7 +43,7 @@ $provider->sort->defaultOrder = "obatalkes_nama";
                         'obatalkes_kode',
                         'obatalkes_nama',
                         array(
-                            'header'=>'Diterima',
+                            'header'=>'Stok Masuk',
                             'type'=>'raw',
                             'value'=>function($data) use (&$stok) {
                                 //$stok = StokobatalkesT::model()->findAllByAttributes(array(
@@ -71,7 +71,7 @@ $provider->sort->defaultOrder = "obatalkes_nama";
                             )
                         ), 
                         array(
-                            'header'=>'Dipakai',
+                            'header'=>'Stok Keluar',
                             'type'=>'raw',
                             'value'=>function($data) use (&$stok) {
                                
@@ -85,7 +85,24 @@ $provider->sort->defaultOrder = "obatalkes_nama";
                             'htmlOptions'=>array(
                                 'style'=>'text-align: right;'
                             )
-                        )
+                        ),
+                        array(
+                            'header'=>'Stok Akhir',
+                            'type'=>'raw',
+                            'value'=>function($data) use (&$stok) {
+                               
+                                $total = 0;
+                                foreach ($stok as $item) {
+                                    $total += $item->qtystok_in - $item->qtystok_out;
+                                }
+                                $satuan = ($data->satuankecil_nama==null)?$data->satuankecil->satuankecil_nama:$data->satuankecil_nama;
+                                return $total." ".$satuan;
+                            },
+                            'htmlOptions'=>array(
+                                'style'=>'text-align: right;'
+                            )
+                        ),
+                                   
                     /*
                         'satuankecil_nama',
                         array(
