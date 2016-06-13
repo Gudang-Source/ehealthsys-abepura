@@ -77,15 +77,16 @@ if (!isset($_GET['frame'])){
         <tr>
             <th>No.</th>
             <th>Jenis Obat Alkes</th>
-            <th>Kode Obat Alkes</th>
+            <th>Kategori</th>
+            <th>Golongan</th>
+            <th>Kode</th>
             <th>Nama Obat</th>
-            <th>Golongan <Br/> Kategori</th>
             <th>HPP (Rp)</th>
             <th>Harga Jual (Rp)</th>
-            <th>Sistem</th>
-            <th>Fisik</th>
-            <th>Tgl Cek Fisik</th>
-            <th>Selisih</th>
+            <th>Stok Sistem</th>
+            <th>Stok Fisik</th>
+            <th>Selisih</th>    
+            <th>Tgl Periksa</th>
             <th>Kondisi Barang</th>
         </tr>
     </thead>
@@ -96,15 +97,16 @@ if (!isset($_GET['frame'])){
         <tr>
             <td><?php echo ($i+1); ?></td>
             <td><?php echo (isset($obat->obatalkes->jenisobatalkes->jenisobatalkes_nama) ? $obat->obatalkes->jenisobatalkes->jenisobatalkes_nama : ""); ?></td>
+            <td><?php echo $obat->obatalkes->obatalkes_kategori; ?></td>
+            <td><?php echo $obat->obatalkes->obatalkes_golongan; ?></td>
             <td><?php echo $obat->obatalkes->obatalkes_kode; ?></td>
             <td><?php echo $obat->obatalkes->obatalkes_nama; ?></td>
-            <td><?php echo $obat->obatalkes->obatalkes_golongan."</br>".$obat->obatalkes->obatalkes_kategori; ?></td>
             <td style="text-align:right;"><?php echo $format->formatNumberForPrint($obat->harganetto); ?></td>
             <td style="text-align:right;"><?php echo $format->formatNumberForPrint($obat->hargasatuan); ?></td>
-            <td style="text-align:center;"><?php echo $format->formatNumberForPrint($obat->volume_sistem); ?></td>
-            <td style="text-align:center;"><?php echo $format->formatNumberForPrint($obat->volume_fisik); ?></td>
+            <td style="text-align:right;"><?php echo $obat->volume_sistem." ".$obat->obatalkes->satuankecil->satuankecil_nama; ?></td>
+            <td style="text-align:right;"><?php echo $obat->volume_fisik." ".$obat->obatalkes->satuankecil->satuankecil_nama; ?></td>
+            <td style="text-align:right;"><?php echo $obat->jmlselisihstok." ".$obat->obatalkes->satuankecil->satuankecil_nama; ?></td>
             <td style="text-align:center;"><?php echo $format->formatDateTimeId($obat->tglperiksafisik); ?></td>
-			<td style="text-align:center;"><?php echo $obat->jmlselisihstok; ?></td>
             <td><?php echo $obat->kondisibarang ?></td>
         </tr>
         <?php } ?>
