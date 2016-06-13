@@ -2,7 +2,7 @@
 
 class RDLaporanpasienkecelakaanV extends LaporanpasienkecelakaanV
 {
-    public $jumlah, $tick, $data, $tgl_awal, $tgl_akhir;
+    public $jumlah, $tick, $data, $tgl_awal, $tgl_akhir, $bln_awal, $bln_akhir, $thn_awal, $thn_akhir, $jns_periode;
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }
@@ -43,7 +43,7 @@ class RDLaporanpasienkecelakaanV extends LaporanpasienkecelakaanV
         $criteria=new CDbCriteria;
         $criteria = $this->functionCriteria();
         $criteria->select = 'count(pendaftaran_id) as jumlah';
-        if ($_GET['filter'] == 'wilayah') {
+        if (isset($_GET['filter']) == 'wilayah') {
             if (!empty($this->kelurahan_id)) {
                 $criteria->select .= ', kelurahan_nama as data';
                 $criteria->group = 'kelurahan_nama';
@@ -62,8 +62,8 @@ class RDLaporanpasienkecelakaanV extends LaporanpasienkecelakaanV
             }
         }    
         else {
-            $criteria->select .= ', golonganumur_nama as data';
-            $criteria->group .= 'golonganumur_nama';
+            $criteria->select .= ', jeniskecelakaan_nama as data';
+            $criteria->group .= 'jeniskecelakaan_nama';
         }
         
 

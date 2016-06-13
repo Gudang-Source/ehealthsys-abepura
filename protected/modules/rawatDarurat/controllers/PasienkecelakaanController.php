@@ -4,15 +4,36 @@ class PasienkecelakaanController extends MyAuthController {
 
     public function actionPasienKecelakaan() {
         $model = new RDLaporanpasienkecelakaanV('search');
-        $model->tgl_awal = date('d M Y');
-        $model->tgl_akhir = date('d M Y');
+        $format = new MyFormatter();
+        $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');  
 //       $jenis = CHtml::listData(JeniskecelakaanM::model()->findAll('jeniskecelakaan_aktif = true'), 'jeniskecelakaan_id', 'jeniskecelakaan_nama');
 //        $model->jeniskecelakaan_id = RDLaporanpasienkecelakaanV;
         if (isset($_GET['RDLaporanpasienkecelakaanV'])) {
             $model->attributes = $_GET['RDLaporanpasienkecelakaanV'];
-            $format = new MyFormatter();
+            $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+            $model->jns_periode = $_GET['RDLaporanpasienkecelakaanV']['jns_periode'];
             $model->tgl_awal = $format->formatDateTimeForDb($_GET['RDLaporanpasienkecelakaanV']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['RDLaporanpasienkecelakaanV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['RDLaporanpasienkecelakaanV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['RDLaporanpasienkecelakaanV']['bln_akhir']);
+            $model->thn_awal = $_GET['RDLaporanpasienkecelakaanV']['thn_awal'];
+            $model->thn_akhir = $_GET['RDLaporanpasienkecelakaanV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
          if (Yii::app()->request->isAjaxRequest) {
                     echo $this->renderPartial('_table', array('model'=>$model),true);
@@ -25,6 +46,15 @@ class PasienkecelakaanController extends MyAuthController {
 
     public function actionPrintLaporanPasienKecelakaan() {
         $model = new RDLaporanpasienkecelakaanV('search');
+        $format = new MyFormatter();
+        $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');  
         $judulLaporan = 'Laporan Pasien Kecelakaan';
 
         //Data Grafik
@@ -32,9 +62,23 @@ class PasienkecelakaanController extends MyAuthController {
         $data['type'] = $_REQUEST['type'];
         if (isset($_REQUEST['RDLaporanpasienkecelakaanV'])) {
             $model->attributes = $_REQUEST['RDLaporanpasienkecelakaanV'];
-            $format = new MyFormatter();
-            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['RDLaporanpasienkecelakaanV']['tgl_awal']);
-            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['RDLaporanpasienkecelakaanV']['tgl_akhir']);
+            $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+            $model->jns_periode = $_GET['RDLaporanpasienkecelakaanV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['RDLaporanpasienkecelakaanV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['RDLaporanpasienkecelakaanV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['RDLaporanpasienkecelakaanV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['RDLaporanpasienkecelakaanV']['bln_akhir']);
+            $model->thn_awal = $_GET['RDLaporanpasienkecelakaanV']['thn_awal'];
+            $model->thn_akhir = $_GET['RDLaporanpasienkecelakaanV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
                
         $caraPrint = $_REQUEST['caraPrint'];
@@ -46,8 +90,15 @@ class PasienkecelakaanController extends MyAuthController {
     public function actionFrameGrafikPasienKecelakaan() {
         $this->layout = '//layouts/iframe';
         $model = new RDLaporanpasienkecelakaanV('search');
+        $format = new MyFormatter();
+        $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+        $model->jns_periode = "hari";
         $model->tgl_awal = date('Y-m-d');
         $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');  
 
         //Data Grafik
         $data['title'] = 'Grafik Laporan Pasien Kecelakaan';
@@ -55,9 +106,23 @@ class PasienkecelakaanController extends MyAuthController {
         
         if (isset($_GET['RDLaporanpasienkecelakaanV'])) {
             $model->attributes = $_GET['RDLaporanpasienkecelakaanV'];
-            $format = new MyFormatter();
+            $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+            $model->jns_periode = $_GET['RDLaporanpasienkecelakaanV']['jns_periode'];
             $model->tgl_awal = $format->formatDateTimeForDb($_GET['RDLaporanpasienkecelakaanV']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['RDLaporanpasienkecelakaanV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['RDLaporanpasienkecelakaanV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['RDLaporanpasienkecelakaanV']['bln_akhir']);
+            $model->thn_awal = $_GET['RDLaporanpasienkecelakaanV']['thn_awal'];
+            $model->thn_akhir = $_GET['RDLaporanpasienkecelakaanV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
         
         $this->render('_grafik', array(
@@ -71,7 +136,7 @@ class PasienkecelakaanController extends MyAuthController {
         $periode = $format->formatDateTimeForUser($model->tgl_awal).' s/d '.$format->formatDateTimeForUser($model->tgl_akhir);
         
         if ($caraPrint == 'PRINT' || $caraPrint == 'GRAFIK') {
-            $this->layout = '//layouts/printWindows';
+            $this->layout = '//layouts/printWindows2';
             $this->render($target, array('model' => $model, 'periode'=>$periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint));
         } else if ($caraPrint == 'EXCEL') {
             $this->layout = '//layouts/printExcel';
@@ -81,6 +146,12 @@ class PasienkecelakaanController extends MyAuthController {
             $posisi = Yii::app()->user->getState('posisi_kertas');                           //Posisi L->Landscape,P->Portait
             $mpdf = new MyPDF('', $ukuranKertasPDF);
             $mpdf->useOddEven = 2;
+            $footer = '<table width="100%"><tr>'
+                    . '<td style = "text-align:left;font-size:8px;"><i><b>Generated By eHealthsys</b></i></td>'
+                    . '<td style = "text-align:right;font-size:8px;"><i><b>Print Count :</b></i></td>'
+                    . '</tr></table>';
+            $mpdf->SetHtmlFooter($footer,'E');
+            $mpdf->SetHtmlFooter($footer,'O');   
             $stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
             $mpdf->WriteHTML($stylesheet, 1);
             $mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);

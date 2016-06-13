@@ -16,11 +16,11 @@
     });
     ");
     ?>
-    <div class="box search-form">
+    <fieldset class="box row-fluid">
         <?php $this->renderPartial('kunjungan/_search',array(
             'model'=>$model,
         )); ?>
-    </div><!-- search-form -->
+    </fieldset><!-- search-form -->
     <div class="block-tabel">
         <h6>Tabel <b>Kunjungan</b></h6>
         <?php $this->renderPartial('kunjungan/_tableKunjungan', array('model'=>$model)); ?>

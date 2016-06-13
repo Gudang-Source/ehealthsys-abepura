@@ -5,7 +5,7 @@ class RDLaporantindaklanjutrd extends LaporantindaklanjutrdV {
     public $jumlah;
     public $data;
     public $tick;
-    public $tgl_awal,$tgl_akhir;
+    public $tgl_awal,$tgl_akhir,$bln_awal,$bln_akhir,$thn_awal,$thn_akhir,$jns_periode;
 
     public static function model($className = __CLASS__) {
         return parent::model($className);
@@ -26,10 +26,10 @@ class RDLaporantindaklanjutrd extends LaporantindaklanjutrdV {
 
         $criteria = new CDbCriteria;
 
-        if (is_array($this->carakeluar)) {
+         if (is_array($this->carakeluar)) {
             foreach ($this->carakeluar as $v) {
                 if ($v == 'DIPULANGKAN') {
-                    $criteria->addCondition('carakeluar is null', 'OR');
+                    $criteria->compare('LOWER(carakeluar)', strtolower($v), true, 'OR');
                 } else {
                     $criteria->compare('LOWER(carakeluar)', strtolower($v), true, 'OR');
                 }
@@ -61,7 +61,7 @@ class RDLaporantindaklanjutrd extends LaporantindaklanjutrdV {
         if (is_array($this->carakeluar)) {
             foreach ($this->carakeluar as $v) {
                 if ($v == 'DIPULANGKAN') {
-                    $criteria->addCondition('carakeluar is null', 'OR');
+                    $criteria->compare('LOWER(carakeluar)', strtolower($v), true, 'OR');
                 } else {
                     $criteria->compare('LOWER(carakeluar)', strtolower($v), true, 'OR');
                 }
@@ -104,7 +104,7 @@ class RDLaporantindaklanjutrd extends LaporantindaklanjutrdV {
         if (is_array($this->carakeluar)) {
             foreach ($this->carakeluar as $v) {
                 if ($v == 'DIPULANGKAN') {
-                    $criteria->addCondition('carakeluar is null', 'OR');
+                    $criteria->compare('LOWER(carakeluar)', strtolower($v), true, 'OR');
                 } else {
                     $criteria->compare('LOWER(carakeluar)', strtolower($v), true, 'OR');
                 }

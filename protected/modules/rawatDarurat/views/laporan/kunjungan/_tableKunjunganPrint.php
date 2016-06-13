@@ -23,8 +23,10 @@ $sort=true;
                 'header' => 'No',
                 'value' => '$row+1'
             ),
-
-            'no_rekam_medik', 
+            array(
+                'header' => 'No Rekam Medik',
+                'value' => '$data->no_rekam_medik'
+            ),            
             array(
               'header'=>'Nama Pasien Bin',
               'value'=>'$data->NamaNamaBIN',
@@ -35,13 +37,26 @@ $sort=true;
                 'value'=>'$data->jeniskelamin',
             ),
 //            'jeniskelamin',
-            'umur',
-            'alamat_pasien',
-            'statuspasien',
-            'statusmasuk',
-            'kunjungan',
-       
-            'statuspasien',
+             array(
+                'header' => 'Umur',
+                'value' => '$data->umur'
+            ), 
+            array(
+                'header' => 'Alamat',
+                'value' => '$data->alamat_pasien'
+            ), 
+            array(
+                'header' => 'Status Pasien',
+                'value' => '$data->statuspasien'
+            ), 
+            array(
+                'header' => 'Status Masuk',
+                'value' => '$data->statusmasuk'
+            ),
+            array(
+                'header' => 'Kunjungan',
+                'value' => '$data->kunjungan'
+            ),            
 
 //            'diagnosa_nama',
 //            'daftartindakan_nama',
