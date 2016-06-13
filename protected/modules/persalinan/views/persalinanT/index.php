@@ -43,7 +43,7 @@ if($sukses > 0)
     <div class='biru'>
         <div class="white">
     <?php echo $this->renderPartial('_formPersalinan', array('model' => $model, 'form'=>$form), true); ?>
-    <?php echo $this->renderPartial('_obsterikus', array('modPemeriksaan' => $modPemeriksaan, 'form'=>$form), true); ?>
+    <?php echo $this->renderPartial('_obsterikus', array('model'=>$model,'modPemeriksaan' => $modPemeriksaan, 'form'=>$form), true); ?>
         </div>
     </div>
     
