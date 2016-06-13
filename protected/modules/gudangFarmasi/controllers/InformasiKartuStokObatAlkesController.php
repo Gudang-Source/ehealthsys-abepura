@@ -10,15 +10,15 @@ class InformasiKartuStokObatAlkesController extends MyAuthController
         $model=new GFInformasikartustokobatalkesV('search');
         $format = new MyFormatter();
         $disabled = false;
+        $ruanganAsals = CHtml::listData(GFRuanganM::model()->findAll("ruangan_aktif = TRUE ORDER BY ruangan_nama ASC"), 'ruangan_id', 'ruangan_nama');
         $instalasiAsals = CHtml::listData(GFInstalasiM::getInstalasiStokOas(),'instalasi_id','instalasi_nama');
         $ruanganAsals = CHtml::listData(GFRuanganM::getRuanganStokOas(Params::INSTALASI_ID_FARMASI),'ruangan_id','ruangan_nama');
         $model->tgl_awal = date("Y-m-d");
         $model->tgl_akhir = date("Y-m-d");
+        $model->instalasi_id = Yii::app()->user->getState('instalasi_id');
+        $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
 		if(Yii::app()->controller->module->id != 'gudangFarmasi'){
                         $disabled = true;
-                        $ruanganAsals = CHtml::listData(GFRuanganM::model()->findAll("ruangan_aktif = TRUE ORDER BY ruangan_nama ASC"), 'ruangan_id', 'ruangan_nama');
-			$model->ruangan_id = Yii::app()->user->getState('ruangan_id');
-			$model->instalasi_id = Yii::app()->user->getState('instalasi_id');
 		}
         if(isset($_GET['GFInformasikartustokobatalkesV'])){
             $model->attributes=$_GET['GFInformasikartustokobatalkesV'];
