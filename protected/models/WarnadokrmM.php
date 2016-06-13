@@ -126,7 +126,13 @@ class WarnadokrmM extends CActiveRecord
         }
         
         public function getKodeWarnaId($id){
-            $model = $this->findByPK($id)->warnadokrm_kodewarna;
-            return $model;
+            $model = $this->findByPK($id);
+            
+            if (isset($model)){
+                return $model->warnadokrm_kodewarna;
+            }else{
+                return '';
+            }
+            
         }
 }
