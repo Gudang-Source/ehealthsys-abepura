@@ -1,4 +1,4 @@
-<legend class="rim"><i class="icon-white icon-search"></i> Pencarian </legend>
+<legend class="rim"><i class="icon-white icon-search"></i> Pencarian</legend>
 <div class="search-form" style="">
     <?php
     $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
@@ -8,6 +8,8 @@
         'id' => 'searchLaporan',
         'htmlOptions' => array('enctype' => 'multipart/form-data', 'onKeyPress' => 'return disableKeyPress(event)'),
             ));
+    
+    $format = new MyFormatter();
     ?>
     <style>
         table{
@@ -23,6 +25,7 @@
     <div class="row-fluid">
 		<div class="span4">
              <?php $format = new MyFormatter(); ?>
+
              <?php echo CHtml::hiddenField('type', ''); ?>
              <?php echo CHtml::label('Tanggal Pemeriksaan', 'tglpemeriksaan', array('class' => 'control-label')) ?>
              <div class="controls">
@@ -128,6 +131,7 @@
              </div>
          </div> 
      </div> 
+
 		<table>
 			<tr>
 				<td width="30%">
@@ -158,8 +162,6 @@
 						array('class'=>'btn btn-danger',
 							  'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
 		
-	
-
 <?php
 $this->endWidget();
 $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai

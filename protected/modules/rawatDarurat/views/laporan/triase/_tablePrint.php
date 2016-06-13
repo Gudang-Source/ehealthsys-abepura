@@ -47,6 +47,10 @@ if (isset($caraPrint)){
             'header' => 'Nama Diagnosa',
             'value' => '$data->diagnosa_nama'
         ),
+         array(
+            'header' => 'Triase',
+            'value' => '$data->triase_nama'
+        ),
         array(
             'name'=>'kode_warnatriase',
             'type'=>'raw',

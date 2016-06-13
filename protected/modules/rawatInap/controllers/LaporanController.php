@@ -640,9 +640,15 @@ class LaporanController extends MyAuthController {
     }
     
     public function actionLaporan10BesarPenyakit() {
+<<<<<<< HEAD
         $model = new RILaporan10besarpenyakit('search');
         $model->unsetAttributes();
         $format = new MyFormatter();        
+=======
+        $model = new RILaporan10besarpenyakit('search');        
+        $model->unsetAttributes();
+        $format = new MyFormatter();
+>>>>>>> 65acb3c4d3bb0b509c1c718c027c6bca15c58cf6
         $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
         $model->jns_periode = "hari";
         $model->tgl_awal = date('Y-m-d');

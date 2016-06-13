@@ -2,8 +2,8 @@
 
 class RDLaporankunjunganrdV extends LaporankunjunganrdV
 {
-        public $tgl_awal, $tgl_akhir;
-		public $data,$jumlah,$tick;
+        public $tgl_awal, $tgl_akhir, $bln_awal, $bln_akhir, $thn_awal, $thn_akhir, $jns_periode;
+        public $data,$jumlah,$tick;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -159,9 +159,7 @@ class RDLaporankunjunganrdV extends LaporankunjunganrdV
 		$format = new MyFormatter();
 		$criteria = new CDbCriteria;
 
-			if(!empty($this->pasien_id)){
-				$criteria->addCondition("pasien_id = ".$this->pasien_id);				
-			}
+			
 			$criteria->addBetweenCondition('date(tgl_pendaftaran)', $format->formatDateTimeForDb($this->tgl_awal), $format->formatDateTimeForDb($this->tgl_akhir));
 			
 			if(!empty($this->propinsi_id)){
@@ -198,42 +196,119 @@ class RDLaporankunjunganrdV extends LaporankunjunganrdV
 				));
 	}
 
-	public function searchGrafik() {
-		$criteria = new CDbCriteria();
-        $criteria = $this->functionCriteria();
-
+	public static function criteriaGrafik($model, $type='data', $addCols = array()){
+        $criteria = new CDbCriteria;
         $criteria->select = 'count(pendaftaran_id) as jumlah';
+        $filter = isset($_GET['filter'])?$_GET['filter']:null;
+        if ( $filter == 'carabayar') {
+            if (!empty($model->penjamin_id)) {
+                $criteria->select .= ', penjamin_nama as '.$type;
+                $criteria->group .= 'penjamin_nama';
+            } elseif (!empty($model->carabayar_id)) {
+                $criteria->select .= ', penjamin_nama as '.$type;
+                $criteria->group = 'penjamin_nama';
+            } else {
+                $criteria->select .= ', carabayar_nama as '.$type;
+                $criteria->group = 'carabayar_nama';
+            }
+        } elseif ( $filter == 'wilayah') {
+            if (!empty($model->kelurahan_id)) {
+                $criteria->select .= ', kelurahan_nama as '.$type;
+                $criteria->group .= 'kelurahan_nama';
+            } elseif (!empty($model->kecamatan_id)) {
+                $criteria->select .= ', kelurahan_nama as '.$type;
+                $criteria->group .= 'kelurahan_nama';
+            } elseif (!empty($model->kabupaten_id)) {
+                $criteria->select .= ', kecamatan_nama as '.$type;
+                $criteria->group .= 'kecamatan_nama';
+            } elseif (!empty($model->propinsi_id)) {
+                $criteria->select .= ', kabupaten_nama as '.$type;
+                $criteria->group .= 'kabupaten_nama';
+            } else {
+                $criteria->select .= ', propinsi_nama as '.$type;
+                $criteria->group .= 'propinsi_nama';
+            }
+        }
 
-        if (!empty($this->penjamin_id)) {
-            $criteria->select .= ', penjamin_nama as data';
-            $criteria->group .= 'penjamin_nama';
-        }else if (!empty($this->carabayar_id)) {
-            $criteria->select .= ', carabayar_nama as data';
-            $criteria->group .= 'carabayar_nama';
-        }else if (!empty($this->kabupaten_id)) {
-            $criteria->select .= ', kabupaten_nama as tick';
-            $criteria->group .= ',kabupaten_nama';
-        }else if (!empty($this->propinsi_id)) {
-            $criteria->select .= ', propinsi_nama as tick';
-            $criteria->group .= ',propinsi_nama';
-        }else if ($this->pilihanx == 'pengunjung') {
-			$criteria->select .= ', statuspasien as data';
-			$criteria->group .= ' statuspasien';
-		} else if ($this->pilihanx == 'kunjungan') {
-			$criteria->select .= ', kunjungan as data';
-			$criteria->group .= ' kunjungan';
-		}else if ($this->pilihanx == 'rujukan'){
-			$criteria->select .= ', statusmasuk as data';
-			$criteria->group .= ' statusmasuk';
-		}else{
-			$criteria->select .= ', penjamin_nama as data';
-			$criteria->group .= ' penjamin_nama';
-		}
-		
-		return new CActiveDataProvider($this, array(
-					'criteria' => $criteria,
-				));
-	}
+        if (!isset($_GET['filter'])){
+            $criteria->select .= ', propinsi_nama as '.$type;
+            $criteria->group .= 'propinsi_nama';
+        }
+
+        if (count($addCols) > 0){
+            if (is_array($addCols)){
+                foreach ($addCols as $i => $v){
+                    $criteria->group .= ','.$v;
+                    $criteria->select .= ','.$v.' as '.$i;
+                }
+            }            
+        }
+
+        return $criteria;
+    }
+    
+     public function searchGrafik() {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
+         $format = new MyFormatter();
+        $criteria = $this->criteriaGrafik($this, 'tick');
+        if (!empty($criteria->group) &&(!empty($this->pilihanx))){
+            $criteria->group .=',';
+        }
+        if ($this->pilihanx == 'pengunjung') {
+            $criteria->select .= ', statuspasien as data';
+            $criteria->group .= ' statuspasien';
+        } elseif ($this->pilihanx == 'kunjungan') {
+            $criteria->select .= ', kunjungan as data';
+            $criteria->group .= ' kunjungan';
+        }
+        elseif ($this->pilihanx == 'rujukan'){
+            $criteria->select .= ', statusmasuk as data';
+            $criteria->group .= ' statusmasuk';
+        }
+        
+        if (empty($this->pilihanx)){
+            $criteria = $this->criteriaGrafik($this, 'data');
+        }
+
+        if(!empty($this->pasien_id)){
+                $criteria->addCondition("pasien_id = ".$this->pasien_id);				
+        }
+        $criteria->addBetweenCondition('date(tgl_pendaftaran)', $format->formatDateTimeForDb($this->tgl_awal), $format->formatDateTimeForDb($this->tgl_akhir));
+
+        if(!empty($this->propinsi_id)){
+                $criteria->addCondition("propinsi_id = ".$this->propinsi_id);				
+        }
+        $criteria->compare('LOWER(propinsi_nama)', strtolower($this->propinsi_nama), true);
+        if(!empty($this->kabupaten_id)){
+                $criteria->addCondition("kabupaten_id = ".$this->kabupaten_id);				
+        }
+        $criteria->compare('LOWER(kabupaten_nama)', strtolower($this->kabupaten_nama), true);
+        if(!empty($this->kelurahan_id)){
+                $criteria->addCondition("kelurahan_id = ".$this->kelurahan_id);				
+        }
+        $criteria->compare('LOWER(kelurahan_nama)', strtolower($this->kelurahan_nama), true);
+        if(!empty($this->kecamatan_id)){
+                $criteria->addCondition("kecamatan_id = ".$this->kecamatan_id);				
+        }
+        $criteria->compare('LOWER(kecamatan_nama)', strtolower($this->kecamatan_nama), true);
+        if(!empty($this->pendaftaran_id)){
+                $criteria->addCondition("pendaftaran_id = ".$this->pendaftaran_id);				
+        }
+
+        if(!empty($this->carabayar_id)){
+                $criteria->addCondition("carabayar_id = ".$this->carabayar_id);				
+        }
+        $criteria->compare('LOWER(carabayar_nama)', strtolower($this->carabayar_nama), true);
+        if(!empty($this->penjamin_id)){
+                $criteria->addCondition("penjamin_id = ".$this->penjamin_id);				
+        }
+        $criteria->addCondition('ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
+
+        return new CActiveDataProvider($this, array(
+			'criteria' => $criteria,
+		));
+    }
 	
 	protected function functionCriteria() {
         // Warning: Please modify the following code to remove attributes that

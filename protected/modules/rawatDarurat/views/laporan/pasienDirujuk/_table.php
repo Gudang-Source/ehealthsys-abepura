@@ -49,9 +49,15 @@ if (isset($caraPrint)){
         array(
             'header' => 'Nama Dokter',
             'value' => '$data->kepadayth',
+            ),        
+        array(
+            'header' => 'Dirujuk Kebagian',
+            'value' => '$data->dirujukkebagian',
             ),
-        'dirujukkebagian',
-        'alasandirujuk',
+        array(
+            'header' => 'Alasan Dirujuk',
+            'value' => '$data->alasandirujuk',
+            ),
         /*
         'jeniskelamin',
         'tempat_lahir',
