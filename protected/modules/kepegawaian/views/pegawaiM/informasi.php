@@ -132,6 +132,11 @@
 							'value'=>'CHtml::link("<i class=\'icon-form-kelolapegawai\'></i>",Yii::app()->createUrl(\'kepegawaian/pencatatanRiwayat&id=\'.$data->pegawai_id),array("rel"=>"tooltip","title"=>"Klik untuk Kelola Data Pribadi Pegawai"))',
 							'htmlOptions'=>array('style'=>'text-align: center; width:60px'),
 					),
+                                        array(
+                                            'header'=>'<center>Status Kepegawaian</center>',
+                                            'value'=>'($data->pegawai_aktif == 1 ) ? "Aktif" : "Tidak Aktif"',
+                                            'htmlOptions'=>array('style'=>'text-align:center;'),
+                                        ),
     //                Jika pake dialog box
     //                array(
     //                       'header'=>'Ubah Pegawai',
@@ -148,15 +153,34 @@
 							'htmlOptions'=>array('style'=>'text-align: center; width:60px'),
 					),
 					array(
-                            'header'=>'Ubah Pegawai',
-                            'class'=>'bootstrap.widgets.BootButtonColumn',
-                            'template'=>'{update}',
-                            'buttons'=>array(
-                                'update' => array (
-                                              'visible'=>'Yii::app()->controller->checkAccess(array("action"=>Params::DEFAULT_UPDATE))',
+                                            'header'=>'Ubah Pegawai',
+                                            'class'=>'bootstrap.widgets.BootButtonColumn',
+                                            'template'=>'{update}',
+                                            'buttons'=>array(
+                                                'update' => array (
+                                                    'visible'=>'Yii::app()->controller->checkAccess(array("action"=>Params::DEFAULT_UPDATE))',
+                                                ),
                                             ),
-                             ),
-                    ),
+                                        ),
+                                        array(
+                                                'header'=>Yii::t('zii','Non Aktif'),
+                                                'class'=>'bootstrap.widgets.BootButtonColumn',
+                                                'template'=>'{remove}',
+                                                'buttons'=>array(
+                                                                'remove' => array (
+                                                                        'label'=>"<i class='icon-form-silang'></i>",
+                                                                        'options'=>array('title'=>Yii::t('mds','Remove Temporary')),
+                                                                        'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/removeTemporary",array("id"=>"$data->pegawai_id"))',
+                                                                        //'visible'=>'($data->kabupaten_aktif && Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)) ? TRUE : FALSE',
+                                                                        'click'=>'function(){return confirm("'.Yii::t("mds","Do You want to remove this item temporary?").'");}',
+                                                                ), /*
+                                                                'delete'=> array(
+                                                                        'visible'=>'Yii::app()->controller->checkAccess(array("action"=>Params::DEFAULT_DELETE))',
+                                                                ), */
+                                                ), 'htmlOptions'=>array(
+                                                    'style'=>'text-align: center',
+                                                )
+                                        ),
     //		array(
     //                        'header'=>Yii::t('zii','View'),
     //			'class'=>'bootstrap.widgets.BootButtonColumn',
