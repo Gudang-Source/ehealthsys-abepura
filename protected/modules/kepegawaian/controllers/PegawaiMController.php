@@ -598,7 +598,7 @@ class PegawaiMController extends MyAuthController
 						  $model->tglditerima = null;
 					  }
 
-					$model->pegawai_aktif=true;
+					// $model->pegawai_aktif=true;
 					$model->photopegawai = CUploadedFile::getInstance($model, 'photopegawai');
 					$gambar=$model->photopegawai;
 					if(isset($model->photopegawai)){ 
@@ -679,6 +679,9 @@ class PegawaiMController extends MyAuthController
 						}
 						// $gelardepan = LookupM::model()->findByPk($model->gelardepan);
 						// $model->gelardepan = $gelardepan->lookup_name;
+                                                
+                                                // var_dump($model->attributes); die;
+                                                
 						$model->update(); // update data 
 						$transaction->commit();
 				 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan !');    
@@ -977,7 +980,7 @@ class PegawaiMController extends MyAuthController
 	{
 		//if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		KPPegawaiM::model()->updateByPk($id, array('pegawai_aktif'=>false));
-		$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+		$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('informasi'));
 	}
         
 	public function actionPrint()
