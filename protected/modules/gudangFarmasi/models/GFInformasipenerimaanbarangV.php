@@ -68,6 +68,8 @@ class GFInformasipenerimaanbarangV extends InformasipenerimaanbarangV
 		if(!empty($this->gudangpenerima_id)){
 			$criteria->addCondition('gudangpenerima_id = '.$this->gudangpenerima_id);
 		}
+                
+                $criteria->addCondition('fakturpembelian_id is null');
 		$criteria->compare('LOWER(statuspenerimaan)',strtolower($this->statuspenerimaan),true);
 		
 		return new CActiveDataProvider($this, array(
