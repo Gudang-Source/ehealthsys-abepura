@@ -46,8 +46,8 @@ class BKInformasikasirrawatjalanV extends InformasikasirrawatjalanV
 
                 $tb = "case when n.total_belum is null then 0 else n.total_belum end";
                 $tt = "case when n.total_tindakan is null then 0 else n.total_tindakan end";
-                $ob = "case when o.total_oa_belum is null then 0 else o.total_oa_belum end";
-                $ot = "case when o.total_oa is null then 0 else o.total_oa end";
+                $ob = "case when (o.total_oa_belum is null or t.penjamin_id = 1) then 0 else o.total_oa_belum end";
+                $ot = "case when (o.total_oa is null or t.penjamin_id = 1) then 0 else o.total_oa end";
                 
                 $criteria->select = "t.*, "
                         . "${tb} as total_belum,
