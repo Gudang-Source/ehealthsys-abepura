@@ -101,6 +101,8 @@
                     'header'=>'Penjualan Resep',
                     'type'=>'raw', 
                     'value'=>function($data) {
+                        if ($data->ruangan_id == Params::RUANGAN_ID_APOTEK_RJ && $data->penjamin_id == Params::PENJAMIN_ID_UMUM) return "-";
+                        
                         return (isset($data->penjualanresep_id) ? CHtml::link("<i class='icon-form-rincianjual'></i>", Yii::app()->createUrl('farmasiApotek/informasiPenjualanResep/detailPenjualan', array(
                             'id'=>$data->penjualanresep_id, 'pasien_id'=>$data->pasien_id
                         )), array(
