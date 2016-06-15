@@ -13,14 +13,16 @@ class InformasiPasienPenunjangController extends MyAuthController
             $model->tgl_awal = date('Y-m-d');
             $model->tgl_akhir = date('Y-m-d');
             $model->unsetAttributes();  // clear any default values
+            $model->statusBayar = "BELUM LUNAS";
                 
             if(isset($_GET['BKRinciantagihanpasienpenunjangV'])){
                 $model->attributes=$_GET['BKRinciantagihanpasienpenunjangV'];
-                $model->statusBayar=$_GET['BKRinciantagihanpasienpenunjangV']['statusBayar'];   
+                //$model->statusBayar=$_GET['BKRinciantagihanpasienpenunjangV']['statusBayar'];   
                 $model->statusperiksa=$_GET['BKRinciantagihanpasienpenunjangV']['statusperiksa']; 
                 $model->tgl_awal = $format->formatDateTimeForDb($_GET['BKRinciantagihanpasienpenunjangV']['tgl_awal']);
                 $model->tgl_akhir = $format->formatDateTimeForDb($_GET['BKRinciantagihanpasienpenunjangV']['tgl_akhir']);
             }   
+            
 
             $this->render($this->path_view.'index',array(
                     'model'=>$model,'format'=>$format
