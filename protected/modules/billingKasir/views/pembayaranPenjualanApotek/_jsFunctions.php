@@ -1,4 +1,5 @@
 <script type="text/javascript">
+var carapembayaran = "";
 /**
  * set form penjualan
  * @param {type} pasien_id
@@ -54,6 +55,8 @@ function setPenjualan(penjualanresep_id, noresep, no_rekam_medik, pasienadmisi_i
             $("#form-datapenjualan > legend > .judul").html('Data Penjualan '+data.noresep);
             $("#form-datapenjualan > legend > .tombol").attr('style','display:true;');
             $("#form-datapenjualan > .box").addClass("well").removeClass("box");
+            
+            carapembayaran = data.metode_pembayaran;
 
             $("#form-datapenjualan > div").removeClass("animation-loading");
             $("#nama_pasien").focus();
@@ -100,6 +103,8 @@ function setPenjualanReset(){
     $("#<?php echo CHtml::activeId($modTandabukti, 'darinama_bkm') ?>").val("");
     $("#<?php echo CHtml::activeId($modTandabukti, 'alamat_bkm') ?>").val("");
     $("#<?php echo CHtml::activeId($modTandabukti, 'sebagaipembayaran_bkm') ?>").val("");
+    
+    carapembayaran = "";
     
     setRincianObatalkes();
 }
@@ -195,6 +200,7 @@ function hitungTotalSemua(){
     var tot_discount = parseInt($("#form-rincianobatalkes #tot_discount").val());
     var tot_biayalain = parseInt($("#form-rincianobatalkes #tot_biayalain").val());
     var tot_subsidiasuransi = parseInt($("#form-rincianobatalkes #tot_subsidiasuransi").val());
+    var tot_subsidipemerintah = parseInt($("#form-rincianobatalkes #tot_subsidipemerintah").val());
     var tot_subsidirs = parseInt($("#form-rincianobatalkes #tot_subsidirs").val());
     var tot_iurbiaya = parseInt($("#form-rincianobatalkes #tot_iurbiaya").val());
     var total_oa = parseInt($("#form-rincianobatalkes #total_oa").val());
@@ -204,6 +210,7 @@ function hitungTotalSemua(){
     $("#form-rinciansemua #tot_discount_semua").val(tot_discount);
     $("#form-rinciansemua #tot_subsidiasuransi_semua").val(tot_subsidiasuransi);
     $("#form-rinciansemua #tot_subsidirumahsakit_semua").val(tot_subsidirs);
+    $("#form-rinciansemua #tot_subsidipemerintah_semua").val(tot_subsidipemerintah);
     $("#form-rinciansemua #tot_iurbiaya_semua").val(tot_iurbiaya);
     $("#form-rinciansemua #total_semua").val(total_oa);
 
@@ -212,6 +219,7 @@ function hitungTotalSemua(){
     $("#<?php echo CHtml::activeId($model,'totalbiayaoa');?>").val(tot_hargajual_oa);
     $("#<?php echo CHtml::activeId($model,'totaldiscount');?>").val(tot_discount);
     $("#<?php echo CHtml::activeId($model,'totalsubsidiasuransi');?>").val(tot_subsidiasuransi);
+    $("#<?php echo CHtml::activeId($model,'totalsubsidipemerintah');?>").val(tot_subsidipemerintah);
     $("#<?php echo CHtml::activeId($model,'totalsubsidirs');?>").val(tot_subsidirs);
     $("#<?php echo CHtml::activeId($model,'totaliurbiaya');?>").val(tot_iurbiaya);
     $("#<?php echo CHtml::activeId($model,'totalpembebasan');?>").val(0);

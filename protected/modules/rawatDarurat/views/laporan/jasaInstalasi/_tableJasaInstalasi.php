@@ -62,32 +62,38 @@ $sort=true;
                     'name' => 'daftartindakan_nama',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                     'value'=>'($data->daftartindakan_karcis == false) ? $data->daftartindakan_nama : \'\'',
+                    'htmlOptions' => array('style'=>'text-align:right;')
                 ),
                 array(
                     'header'=>'Jumlah Tindakan',
                     'name' => 'qty_tindakan',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                     'value'=>'($data->daftartindakan_karcis == false) ? $data->qty_tindakan : \'\'',
+                    'htmlOptions' => array('style'=>'text-align:right;')
                 ),
                 array(
                     'name' => 'tarif_rsakomodasi',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
-                    'value'=>'($data->daftartindakan_karcis == false) ? "Rp. ".number_format($data->tarif_rsakomodasi) : \'\'',
+                    'value'=>'($data->daftartindakan_karcis == false) ? "Rp".number_format($data->tarif_rsakomodasi,0,"",".") : \'\'',
+                    'htmlOptions' => array('style'=>'text-align:right;')
                 ),
                 array(
                     'name' => 'tarif_medis',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
-                    'value'=>'($data->daftartindakan_karcis == false) ? "Rp. ".number_format($data->tarif_medis) : \'\'',
+                    'value'=>'($data->daftartindakan_karcis == false) ? "Rp".number_format($data->tarif_medis,0,"",".") : \'\'',
+                    'htmlOptions' => array('style'=>'text-align:right;')
                 ),
                 array(
                     'name' => 'tarif_paramedis',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
-                    'value'=>'($data->daftartindakan_karcis == false) ? "Rp. ".number_format($data->tarif_paramedis) : \'\'',
+                    'value'=>'($data->daftartindakan_karcis == false) ? "Rp".number_format($data->tarif_paramedis,0,"",".") : \'\'',
+                    'htmlOptions' => array('style'=>'text-align:right;')
                 ),
                 array(
                     'name' => 'tarif_bhp',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
-                    'value'=>'($data->daftartindakan_karcis == false) ? "Rp. ".number_format($data->tarif_bhp) : \'\'',
+                    'value'=>'($data->daftartindakan_karcis == false) ? "Rp".number_format($data->tarif_bhp,0,"",".") : \'\'',
+                    'htmlOptions' => array('style'=>'text-align:right;')
                 ),
 //                'daftartindakan_nama',
 //                'qty_tindakan',
@@ -103,7 +109,8 @@ $sort=true;
                     'name'=>'subtotal',
                     'type'=>'raw',
                     'headerHtmlOptions'=>array('style'=>'text-align: center;vertical-align:middle;'),
-                    'value'=>'($data->daftartindakan_karcis == false) ? "Rp. ".number_format($data->qty_tindakan*($data->tarif_rsakomodasi+$data->tarif_medis+$data->tarif_paramedis+$data->tarif_bhp)) : \'\'',
+                    'value'=>'($data->daftartindakan_karcis == false) ? "Rp".number_format($data->qty_tindakan*($data->tarif_rsakomodasi+$data->tarif_medis+$data->tarif_paramedis+$data->tarif_bhp),0,"",".") : \'\'',
+                    'htmlOptions' => array('style'=>'text-align:right;')
                 ),
                 array(
                     'name' => 'karcisnama',

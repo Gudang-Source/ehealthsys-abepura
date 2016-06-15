@@ -34,7 +34,7 @@
             ?>
             <?php 
                 echo $form->hiddenField($model,'noresep',array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); 
-                $this->renderPartial($this->path_view.'_formPembayaran', array('form'=>$form,'model'=>$model,'modTandabukti'=>$modTandabukti,'modPemakaianuangmuka'=>$modPemakaianuangmuka)); 
+                echo $this->renderPartial($this->path_view.'_formPembayaran', array('form'=>$form,'model'=>$model,'modTandabukti'=>$modTandabukti,'modPemakaianuangmuka'=>$modPemakaianuangmuka), true); 
             ?>
         </fieldset>
     </div>

@@ -22,11 +22,11 @@
     ");
     ?>
     <?php //echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-search"></i>')),'#',array('class'=>'search-button btn')); ?>
-    <div class="box search-form">
-        <?php $this->renderPartial('pendapatanRuangan/_searchPendapatanRuangan',array(
-            'model'=>$model,
-        )); ?>
-    </div><!-- search-form --> 
+     <fieldset class="box search-form">
+    <?php $this->renderPartial('pendapatanRuangan/_searchPendapatanRuangan',array(
+        'model'=>$model,'format'=>$format,
+    )); ?>
+    </fieldset><!-- search-form --> 
     <div class="block-tabel"> 
         <h6>Tabel <b>Pendapatan Ruangan</b></h6>
         <?php $this->renderPartial('pendapatanRuangan/_tablePendapatanRuangan', array('model'=>$model)); ?>
@@ -37,14 +37,9 @@
         </iframe>        
     </div>
     <?php 
-    //        echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
-    //        echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
-    //        echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
-    //        echo CHtml::htmlButton(Yii::t('mds','{icon} Simpan Grafik',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'$("#Grafik")[0].contentWindow.test();
-    //'))."&nbsp&nbsp"; 
+
     $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
     $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
     $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/printLaporanPendapatanRuangan');
-    $this->renderPartial('_footer', array('urlPrint'=>$urlPrint, 'url'=>$url));
-    ?>
+    $this->renderPartial('_footer', array('urlPrint'=>$urlPrint, 'url'=>$url));?>
 </div>
