@@ -19,6 +19,7 @@ class DaftarPasienController extends MyAuthController
                 $modRD = new BKInformasikasirrdpulangV;
                 $modRD->tgl_awal = date("Y-m-d");
                 $modRD->tgl_akhir = date('Y-m-d');
+                $modRD->statusBayar = "BELUM LUNAS";
                 
                 if(isset($_GET['BKInformasikasirrdpulangV'])){
                     $modRD->attributes = $_GET['BKInformasikasirrdpulangV'];
@@ -30,9 +31,10 @@ class DaftarPasienController extends MyAuthController
                     {
                         $modRD->tgl_akhir = $format->formatDateTimeForDb($_GET['BKInformasikasirrdpulangV']['tgl_akhir']);
                     }
-                    $modRD->statusBayar=$_GET['BKInformasikasirrdpulangV']['statusBayar'];
+                    // $modRD->statusBayar=$_GET['BKInformasikasirrdpulangV']['statusBayar'];
 
                 }
+                
                 
 		$this->render('pasienRD',array('modRD'=>$modRD,'format'=>$format));
 	}
@@ -45,13 +47,14 @@ class DaftarPasienController extends MyAuthController
                 //$modRI->tgl_akhir = date('Y-m-d');
                 $modRI->tgl_awal_admisi = date('Y-m-d', time() - (30 * 3600 * 24));
                 $modRI->tgl_akhir_admisi = date('Y-m-d');
+                $modRI->statusBayar = "BELUM LUNAS";
                 
                 if(isset($_GET['BKInformasikasirinappulangV'])){
                     $modRI->attributes = $_GET['BKInformasikasirinappulangV'];
                     
                     $modRI->tgl_awal_admisi = $format->formatDateTimeForDb($_GET['BKInformasikasirinappulangV']['tgl_awal_admisi']);
                     $modRI->tgl_akhir_admisi = $format->formatDateTimeForDb($_GET['BKInformasikasirinappulangV']['tgl_akhir_admisi']);
-                    $modRI->statusBayar=$_GET['BKInformasikasirinappulangV']['statusBayar'];
+                    // $modRI->statusBayar=$_GET['BKInformasikasirinappulangV']['statusBayar'];
                     $modRI->kamarruangan_id=$_GET['BKInformasikasirinappulangV']['kamarruangan_id'];
                     //$modRI->ceklis = $_GET['BKInformasikasirinappulangV']['ceklis'];
                     //if($modRI->ceklis==1){
@@ -59,6 +62,8 @@ class DaftarPasienController extends MyAuthController
                     //    $modRI->tgl_awal = $format->formatDateTimeForDb($_GET['BKInformasikasirinappulangV']['tgl_awal']);
                     //}
                 }
+                
+                
                 if (Yii::app()->request->isAjaxRequest) {
                     echo $this->renderPartial('_tablePasienRI', array('modRI'=>$modRI,'format'=>$format),true);
                 }else{
@@ -72,10 +77,11 @@ class DaftarPasienController extends MyAuthController
                 $modRJ = new BKInformasikasirrawatjalanV;
                 $modRJ->tgl_awal = date("Y-m-d");
                 $modRJ->tgl_akhir = date('Y-m-d');
+                $modRJ->statusBayar = "BELUM LUNAS";
                 
                 if(isset($_GET['BKInformasikasirrawatjalanV'])){
                     $modRJ->attributes = $_GET['BKInformasikasirrawatjalanV'];
-                    $modRJ->statusBayar=$_GET['BKInformasikasirrawatjalanV']['statusBayar'];
+                    // $modRJ->statusBayar=$_GET['BKInformasikasirrawatjalanV']['statusBayar'];
                     if(!empty($_GET['BKInformasikasirrawatjalanV']['tgl_awal']))
                     {
                         $modRJ->tgl_awal = $format->formatDateTimeForDb($_GET['BKInformasikasirrawatjalanV']['tgl_awal']);
@@ -85,6 +91,7 @@ class DaftarPasienController extends MyAuthController
                         $modRJ->tgl_akhir = $format->formatDateTimeForDb($_GET['BKInformasikasirrawatjalanV']['tgl_akhir']);
                     }
                 }
+                
                 
 		$this->render('pasienRJ',array('modRJ'=>$modRJ,'format'=>$format));
 	}
