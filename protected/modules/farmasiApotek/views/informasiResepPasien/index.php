@@ -248,9 +248,16 @@
                     echo $form->dropDownListRow($modInfoPenjualan,'penjamin_id', CHtml::listData($penjamin, 'penjamin_id', 'penjamin_nama'), array('empty'=>'-- Pilih --', 'class'=>'span3'));
                     ?>
                     <div class="control-group">
-                        <?php echo CHtml::label('Ruangan','ruanganpendaftaran_id',array('class'=>'control-label')); ?>
+                        <?php 
+                        $r = Yii::app()->user->getState('ruangan_id');
+                        if ($r == Params::RUANGAN_ID_APOTEK_RJ) {
+                            $instalasi = array(Params::INSTALASI_ID_RJ);
+                        } else {
+                            $instalasi = array(Params::INSTALASI_ID_RD, Params::INSTALASI_ID_RI);
+                        }
+                        echo CHtml::label('Ruangan','ruanganpendaftaran_id',array('class'=>'control-label')); ?>
                         <div class="controls">
-                            <?php echo $form->dropDownList($modInfoPenjualan,'ruanganpendaftaran_id', CHtml::listData(RuanganM::model()->findAllByAttributes(array('ruangan_aktif'=>true, 'instalasi_id'=>array(Params::INSTALASI_ID_RJ, Params::INSTALASI_ID_RD, Params::INSTALASI_ID_RI)), array('order'=>'instalasi_id, ruangan_nama ASC')),'ruangan_id', 'ruangan_nama'),array('class'=>'span3','empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+                            <?php echo $form->dropDownList($modInfoPenjualan,'ruanganpendaftaran_id', CHtml::listData(RuanganM::model()->findAllByAttributes(array('ruangan_aktif'=>true, 'instalasi_id'=>$instalasi), array('order'=>'instalasi_id, ruangan_nama ASC')),'ruangan_id', 'ruangan_nama'),array('class'=>'span3','empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
                         </div>
                     </div> 
                     <?php echo $form->dropDownListRow($modInfoPenjualan, 'pegawai_id', CHtml::listData(

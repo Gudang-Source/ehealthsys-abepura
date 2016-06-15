@@ -185,9 +185,12 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         $modDialogKunjungan->carabayar_nama = (isset($_GET['FAInformasipenjualanresepV']['carabayar_nama']) ? $_GET['FAInformasipenjualanresepV']['carabayar_nama'] : "");
     }
 
+    $prov = $modDialogKunjungan->searchDialogKunjungan();
+    $prov->criteria->addCondition('t.carabayar_id != '.Params::CARABAYAR_ID_MEMBAYAR);
+    
     $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'id'=>'datakunjungan-grid',
-            'dataProvider'=>$modDialogKunjungan->searchDialogKunjungan(),
+            'dataProvider'=>$prov,
             'filter'=>$modDialogKunjungan,
             'template'=>"{summary}\n{items}\n{pager}",
             'itemsCssClass'=>'table table-striped table-bordered table-condensed',
@@ -214,12 +217,15 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                         'type'=>'raw',
                         'value'=>'$data->no_rekam_medik',
                     ),
-                    'nama_pasien',
+                    array(
+                        'name'=>'nama_pasien',
+                        'value'=>'$data->namadepan.$data->nama_pasien',
+                    ),
 //                    'jeniskelamin',
                     array(
                         'name'=>'jeniskelamin',
                         'type'=>'raw',
-                        'filter'=>LookupM::model()->getItems('jeniskelamin'),
+                        'filter'=>CHtml::activeDropDownList($modDialogKunjungan, 'jeniskelamin', LookupM::model()->getItems('jeniskelamin'), array('empty'=>'-- Pilih --')),
                     ), /*
                     array(
                         'name'=>'instalasi_id',
