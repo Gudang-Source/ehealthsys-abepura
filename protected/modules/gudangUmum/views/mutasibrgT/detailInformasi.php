@@ -65,13 +65,14 @@
 			<table width="100%">
 				<tr>
 					<td width="35%" align="center">
-						<div>Mengetahui</div>
+						<div>Mengetahui,<br>Kepala Gudang Umum</div>
+                                               
 						<div style="margin-top:60px;"><?php echo isset($modMutasi->pegmengetahui_id) ? $modMutasi->pegawaimengetahui->NamaLengkap : "" ?></div>
 					</td>
 					<td width="35%" align="center">
 					</td>
 					<td width="35%" align="center">
-						<div>Pengirim</div>
+						<div>Pengirim<br></div>
 						<div style="margin-top:60px;"><?php echo isset($modMutasi->pegpengirim_id) ? $modMutasi->pegawaipengirim->NamaLengkap : "" ?></div>
 					</td>
 				</tr>

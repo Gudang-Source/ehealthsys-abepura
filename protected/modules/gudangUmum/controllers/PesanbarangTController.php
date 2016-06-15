@@ -424,7 +424,8 @@ class PesanbarangTController extends MyAuthController
 //		$model->unsetAttributes();  // clear any default values
 		$model->tgl_awal = date('d M Y H:i:s');
 		$model->tgl_akhir = date('d M Y H:i:s');
-		if(!empty($_GET['GUPesanbarangT']['instalasi_id'])){
+                
+		if(isset($_GET['GUPesanbarangT'])){
 			$model->attributes=$_GET['GUPesanbarangT'];
 			$format = new MyFormatter();
 			$model->tgl_awal = $format->formatDateTimeForDb($model->tgl_awal);
