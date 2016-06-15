@@ -1,5 +1,5 @@
 <div class="white-container">
-    <legend class="rim2">Laporan Pemakai <b>Obat Alkes</b></legend>
+    <legend class="rim2">Laporan Pemakai <b>Obat Alkes Ruangan</b></legend>
     <?php
 
     $url = Yii::app()->createUrl('rawatDarurat/laporan/FrameGrafikLaporanPemakaiObatAlkes&id=1');
@@ -18,11 +18,11 @@
     ");
     ?>
     <?php //echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-search"></i>')),'#',array('class'=>'search-button btn')); ?>
-    <div class="box search-form">
-        <?php $this->renderPartial('pemakaiObatAlkes/_searchPemakaiObatAlkes',array('model'=>$model,)); ?>
-    </div><!-- search-form -->
+    <fieldset class="box search-form">
+        <?php $this->renderPartial('pemakaiObatAlkes/_searchPemakaiObatAlkes',array('model'=>$model,'format'=>$format)); ?>
+    </fieldset><!-- search-form -->
     <div class="block-tabel">
-        <h6>Tabel Pemakai <b>Obat Alkes</b></h6>
+        <h6>Tabel Pemakai <b>Obat Alkes Ruangan</b></h6>
         <?php $this->renderPartial('pemakaiObatAlkes/_tablePemakaiObatAlkes', array('model'=>$model)); ?>
     </div>
     <div class="block-tabel">

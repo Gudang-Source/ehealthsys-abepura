@@ -22,11 +22,11 @@
     ");
     ?>
     <?php //echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-search"></i>')),'#',array('class'=>'search-button btn')); ?>
-    <div class="box search-form">
+    <fieldset class="box search-form">
         <?php $this->renderPartial('pasienMeninggal/_search',array(
             'model'=>$model, 'modPasien' => $modPasien
         )); ?>
-    </div><!-- search-form --> 
+    </fieldset><!-- search-form --> 
     <div class="block-tabel">
         <h6>Tabel <b>Pasien Meninggal</b></h6>
         <?php $this->renderPartial('pasienMeninggal/_table', array('model'=>$model)); ?>

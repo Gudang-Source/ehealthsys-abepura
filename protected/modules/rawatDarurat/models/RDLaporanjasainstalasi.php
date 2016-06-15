@@ -2,8 +2,9 @@
 
 class RDLaporanjasainstalasi extends LaporanjasainstalasiV {
     
-    public $tgl_awal;
-    public $tgl_akhir;
+    public $tgl_awal, $bln_awal, $thn_awal;
+    public $tgl_akhir, $bln_akhir, $thn_akhir;
+    public $jns_periode;
     public $subtotal;
 
     public static function model($className = __CLASS__) {
@@ -141,6 +142,9 @@ class RDLaporanjasainstalasi extends LaporanjasainstalasiV {
 			$criteria->addCondition("instalasi_id = ".$this->instalasi_id);				
 		}
         $criteria->compare('LOWER(instalasi_nama)', strtolower($this->instalasi_nama), true);
+        if(!empty($this->ruangan_id)){
+			$criteria->addCondition("ruangan_id = ".$this->ruangan_id);				
+		}
         $criteria->compare('LOWER(ruangan_nama)', strtolower($this->ruangan_nama), true);
         $criteria->compare('LOWER(tgl_tindakan)', strtolower($this->tgl_tindakan), true);
 		if(!empty($this->daftartindakan_id)){
@@ -180,7 +184,7 @@ class RDLaporanjasainstalasi extends LaporanjasainstalasiV {
         if (is_array($this->tindakansudahbayar_id)){
             $status = array();
             foreach ($this->tindakansudahbayar_id as $i=>$v){
-                if ($v == 'sudah'){
+                if ($v == 1){
                     $status[] = 'tindakansudahbayar_id is not null';
                 }
                 else{

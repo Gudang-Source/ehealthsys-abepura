@@ -2,7 +2,7 @@
 
 class BKLaporanpembebasantarifV extends LaporanpembebasantarifV {
 
-    public $jumlah, $tick, $data;
+    public $jumlah, $tick, $data, $jns_periode, $tgl_awal, $tgl_akhir, $bln_awal, $bln_akhir, $thn_awal, $thn_akhir;
 
     public static function model($className = __CLASS__) {
         return parent::model($className);
