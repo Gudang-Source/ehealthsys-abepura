@@ -1,3 +1,4 @@
+<legend class = "rim"><i class = "icon-search icon-white"></i> Pencarian</legend>
 <div class="search-form" style="">
     <?php
     $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
@@ -18,47 +19,115 @@
             margin-left:0px;
         }
     </style>
-    <table width="100%">
-        <tr>
-            <td>
-                <fieldset class="box2">
-                    <legend class="rim">Berdasarkan Tanggal Pelayanan</legend>
+    <div class="row-fluid">
+		<div class="span4">
+                    <?php $format = new MyFormatter(); ?>
                     <?php echo CHtml::hiddenField('type', ''); ?>
-                    <?php echo CHtml::label('Tanggal Pelayanan', 'tgl_pelayanan', array('class' => 'control-label', 'style'=>'text-align:center;')) ?>
-                    <div class="controls">  
-                        <?php
-                        $this->widget('MyDateTimePicker', array(
-                            'model' => $model,
-                            'attribute' => 'tgl_awal',
-                            'mode' => 'datetime',
-    //                                          'maxDate'=>'d',
-                            'options' => array(
-                                'dateFormat' => Params::DATE_FORMAT,
-                            ),
-                            'htmlOptions' => array('readonly' => true,'class'=>'dtPicker3',
-                                'onkeypress' => "return $(this).focusNextInputField(event)"),
-                        ));
-                        ?>
+                    <?php echo CHtml::label('Tanggal Pelayanan', 'tgl_pendaftaran', array('class' => 'control-label')) ?>
+                    <div class="controls">
+                        <?php echo $form->dropDownList($model, 'jns_periode', array('hari' => 'Hari', 'bulan' => 'Bulan', 'tahun' => 'Tahun'), array('class' => 'span2', 'onchange' => 'ubahJnsPeriode();')); ?>
                     </div>
-                    <?php echo CHtml::label('Sampai dengan', ' s/d', array('class' => 'control-label', 'style'=>'text-align:center;')) ?>
-                    <div class="controls">  
-                        <?php
-                        $this->widget('MyDateTimePicker', array(
-                            'model' => $model,
-                            'attribute' => 'tgl_akhir',
-                            'mode' => 'datetime',
-//                                         'maxdate'=>'d',
-                            'options' => array(
-                                'dateFormat' => Params::DATE_FORMAT,
-                            ),
-                            'htmlOptions' => array('readonly' => true,'class'=>'dtPicker3',
-                                'onkeypress' => "return $(this).focusNextInputField(event)"),
-                        ));
-                        ?>
+                </div>
+                <div class="span4">
+                    <div class='control-group hari'>
+                        <?php echo CHtml::label('Dari Tanggal', 'dari_tanggal', array('class' => 'control-label')) ?>
+                        <div class="controls">  
+                            <?php $model->tgl_awal = $format->formatDateTimeForUser($model->tgl_awal); ?>                     
+                            <?php
+                            $this->widget('MyDateTimePicker', array(
+                                'model' => $model,
+                                'attribute' => 'tgl_awal',
+                                'mode' => 'date',
+                                'options' => array(
+                                    'dateFormat' => Params::DATE_FORMAT,
+                                    'maxDate' => 'd',
+                                ),
+                                'htmlOptions' => array('readonly' => true, 'class' => "span2",
+                                    'onkeypress' => "return $(this).focusNextInputField(event)"),
+                            ));
+                            ?>
+                            <?php $model->tgl_awal = $format->formatDateTimeForDb($model->tgl_awal); ?>                     
+                        </div> 
+
                     </div>
-                </fieldset>
-            </td>
-            <td>
+                    <div class='control-group bulan'>
+                        <?php echo CHtml::label('Dari Bulan', 'dari_tanggal', array('class' => 'control-label')) ?>
+                        <div class="controls">
+                            <?php $model->bln_awal = $format->formatMonthForUser($model->bln_awal); ?>
+                            <?php
+                            $this->widget('MyMonthPicker', array(
+                                'model' => $model,
+                                'attribute' => 'bln_awal',
+                                'options' => array(
+                                    'dateFormat' => Params::MONTH_FORMAT,
+                                ),
+                                'htmlOptions' => array('readonly' => true,
+                                    'class' => "span2",
+                                    'onkeypress' => "return $(this).focusNextInputField(event)"),
+                            ));
+                            ?>
+                            <?php $model->bln_awal = $format->formatMonthForDb($model->bln_awal); ?>
+                        </div> 
+                    </div>
+                    <div class='control-group tahun'>
+                        <?php echo CHtml::label('Dari Tahun', 'dari_tanggal', array('class' => 'control-label')) ?>
+                        <div class="controls">
+                            <?php
+                            echo $form->dropDownList($model, 'thn_awal', CustomFunction::getTahun(null, null), array('class' => "span2", 'onkeypress' => "return $(this).focusNextInputField(event)"));
+                            ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="span4">
+                    <div class='control-group hari'>
+                        <?php echo CHtml::label('Sampai Dengan', 'sampai_dengan', array('class' => 'control-label')) ?>
+                        <div class="controls">  
+                            <?php $model->tgl_akhir = $format->formatDateTimeForUser($model->tgl_akhir); ?>
+                            <?php
+                            $this->widget('MyDateTimePicker', array(
+                                'model' => $model,
+                                'attribute' => 'tgl_akhir',
+                                'mode' => 'date',
+                                'options' => array(
+                                    'dateFormat' => Params::DATE_FORMAT,
+                                    'maxDate' => 'd',
+                                ),
+                                'htmlOptions' => array('readonly' => true, 'class' => "span2",
+                                    'onkeypress' => "return $(this).focusNextInputField(event)"),
+                            ));
+                            ?>
+                            <?php $model->tgl_akhir = $format->formatDateTimeForDb($model->tgl_akhir); ?>
+                        </div> 
+                    </div>
+                    <div class='control-group bulan'>
+                        <?php echo CHtml::label('Sampai Dengan', 'sampai_dengan', array('class' => 'control-label')) ?>
+                        <div class="controls"> 
+                            <?php $model->bln_akhir = $format->formatMonthForUser($model->bln_akhir); ?>
+                            <?php
+                            $this->widget('MyMonthPicker', array(
+                                'model' => $model,
+                                'attribute' => 'bln_akhir',
+                                'options' => array(
+                                    'dateFormat' => Params::MONTH_FORMAT,
+                                ),
+                                'htmlOptions' => array('readonly' => true, 'class' => "span2",
+                                    'onkeypress' => "return $(this).focusNextInputField(event)"),
+                            ));
+                            ?>
+                            <?php $model->bln_akhir = $format->formatMonthForDb($model->bln_akhir); ?>
+                        </div> 
+                    </div>
+                    <div class='control-group tahun'>
+                        <?php echo CHtml::label('Sampai Dengan', 'sampai_dengan', array('class' => 'control-label')) ?>
+                        <div class="controls">
+                            <?php
+                            echo $form->dropDownList($model, 'thn_akhir', CustomFunction::getTahun(null, null), array('class' => "span2", 'onkeypress' => "return $(this).focusNextInputField(event)"));
+                            ?>
+                        </div>
+                 
+                    </div>
+        </div>
+           
                 <fieldset class="box2">
                     <legend class="rim">Berdasarkan Dokter</legend>
                     <div class="controls">
@@ -85,9 +154,7 @@
                               ?>
                         </div>
                 </fieldset>
-            </td>
-        </tr>
-    </table>
+          
     <div class="form-actions">
         <?php
         echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'id' => 'btn_simpan'));
@@ -96,6 +163,7 @@
     </div>
     <?php //$this->widget('UserTips', array('type' => 'create')); ?>    
 </div>    
+                    </div>
 <?php
 $this->endWidget();
 $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
@@ -153,15 +221,14 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'resizable'=>false,
     ),
 ));
-    $pegawai = new DokterV('search');
-    $pegawai->ruangan_id = Yii::app()->user->ruangan_id;
-    if (isset($_GET['DokterV'])){
-        $pegawai->attributes = $_GET['DokterV'];
+    $pegawai = new DokterpegawaiV('searchByDokter');
+    if (isset($_GET['DokterpegawaiV'])){
+        $pegawai->attributes = $_GET['DokterpegawaiV'];
     }
 
     $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'id'=>'pendaftaran-t-grid',
-            'dataProvider'=>$pegawai->search(),
+            'dataProvider'=>$pegawai->searchByDokter(),
             'filter'=>$pegawai,
             'template'=>"{summary}\n{items}\n{pager}",
             'itemsCssClass'=>'table table-striped table-bordered table-condensed',
@@ -174,38 +241,18 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                                         "onClick" => "
                                             $(\"#dialogDokter\").dialog(\"close\");
                                             $(\"#BKLaporanpembebasantarifV_pegawai_id\").val(\"$data->pegawai_id\");
-                                            $(\"#BKLaporanpembebasantarifV_nama_pegawai\").val(\"$data->gelardepan\"+\" \"+\"$data->nama_pegawai\"+\" \"+\"$data->gelarbelakang_nama\");
+                                            $(\"#BKLaporanpembebasantarifV_nama_pegawai\").val(\"$data->nama_pegawai\");
 
                                         "))',
                     ),
-                    array(
-                        'header' => 'Agama',
-                        'name' => 'gelardepan',
-                        'value' => '$data->gelardepan',
-                        'filter' => CHtml::dropDownList('DokterV[gelardepan]', $pegawai->gelardepan, LookupM::getItems('gelardepan'),array('empty'=>'-- Pilih --'))
-                    ),
+                    'gelardepan',
                     array(
                         'name'=>'nama_pegawai',
                         'header'=>'Nama Dokter',
-                    ),                                
-                     array(
-                        'header' => 'Gelar Belakang',
-                        'name' => 'gelarbelakang_nama',
-                        'value' => '$data->gelarbelakang_nama',
-                        'filter' => CHtml::dropDownList('DokterV[gelarbelakang_nama]', $pegawai->gelarbelakang_nama, CHtml::listData(GelarbelakangM::model()->findAll("gelarbelakang_aktif = true ORDER BY gelarbelakang_nama ASC"), 'gelarbelakang_nama', 'gelarbelakang_nama'),array('empty'=>'-- Pilih --'))
                     ),
-                    array(
-                        'header' => 'Jenis Kelamin',
-                        'name' => 'jeniskelamin',
-                        'value' => '$data->jeniskelamin',
-                        'filter' => CHtml::dropDownList('DokterV[jeniskelamin]', $pegawai->jeniskelamin, LookupM::getItems('jeniskelamin'),array('empty'=>'-- Pilih --'))
-                    ),
-                    array(
-                        'header' => 'Agama',
-                        'name' => 'agama',
-                        'value' => '$data->agama',
-                        'filter' => CHtml::dropDownList('DokterV[agama]', $pegawai->agama, LookupM::getItems('agama'),array('empty'=>'-- Pilih --'))
-                    ),
+                    'gelarbelakang_nama',
+                    'jeniskelamin',
+                    'agama',
             ),
             'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
     ));
@@ -213,3 +260,4 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 $this->endWidget();
 ////======= end pendaftaran dialog =============
 ?>
+<?php $this->renderPartial('_jsFunctions', array('model' => $model)); ?>

@@ -5,7 +5,7 @@ class RDLaporanbiayapelayanan extends LaporanbiayapelayananV {
     public $jumlah;
     public $data;
     public $tick;
-    public $tgl_awal,$tgl_akhir;
+    public $tgl_awal,$tgl_akhir,$bln_awal,$bln_akhir,$thn_awal,$thn_akhir,$jns_periode;
 
     public static function model($className = __CLASS__) {
         return parent::model($className);
@@ -136,6 +136,9 @@ class RDLaporanbiayapelayanan extends LaporanbiayapelayananV {
 			$criteria->addCondition("instalasi_id = ".$this->instalasi_id);				
 		}
         $criteria->compare('LOWER(instalasi_nama)', strtolower($this->instalasi_nama), true);
+        if(!empty($this->ruangan_id)){
+			$criteria->addCondition("ruangan_id = ".$this->ruangan_id);				
+		}
         $criteria->compare('LOWER(ruangan_nama)', strtolower($this->ruangan_nama), true);
         $criteria->compare('LOWER(tgl_tindakan)', strtolower($this->tgl_tindakan), true);
 		if(!empty($this->daftartindakan_id)){
