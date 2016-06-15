@@ -295,6 +295,10 @@ class PembayaranPenjualanApotekController extends PembayaranTagihanPasienControl
             foreach($attributes as $j=>$attribute) {
                 $returnVal["$attribute"] = $model->$attribute;
             }
+            
+            $carabayar = CarabayarM::model()->findByPk($model->carabayar_id);
+            $returnVal["metode_pembayaran"] = strtoupper($carabayar->metode_pembayaran);
+            
             $returnVal["tanggal_lahir"] = $format->formatDateTimeForUser($model->tanggal_lahir);
             $returnVal["tglpenjualan"] = $format->formatDateTimeForUser($model->tglpenjualan);
             if (!empty($modPendaftaran)) $returnVal["umur"] = $modPendaftaran->umur;

@@ -68,7 +68,7 @@ class BKInformasikasirrawatjalanV extends InformasikasirrawatjalanV
                 left join 
                 (select 
                 p.pendaftaran_id, 
-                sum(case when p.oasudahbayar_id is null then 1 else 0 end) as total_oa_belum,
+                sum(case when p.oasudahbayar_id is null and (true <> (p.penjualanresep_id is not null and p.penjamin_id = 1)) then 1 else 0 end) as total_oa_belum,
                 count(p.obatalkespasien_id) as total_oa
 
                 from obatalkespasien_t p

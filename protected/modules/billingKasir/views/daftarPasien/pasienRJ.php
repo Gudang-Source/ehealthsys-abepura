@@ -161,6 +161,9 @@
                                     $total += $item->tarif_satuan * $item->qty_tindakan;
                                 }
                                 foreach ($oa as $item) {
+                                    if (!empty($item->penjualanresep_id) && $item->penjamin_id == Params::PENJAMIN_ID_UMUM)
+                                        continue;
+                                    
                                     $total += $item->qty_oa * $item->hargasatuan_oa;
                                 }
                                 return "Rp".MyFormatter::formatNumberForPrint($total);
@@ -215,8 +218,12 @@
                             array(
                                 'header'=>'Rincian Tagihan Farmasi',
                                 'type'=>'raw',
+                                'htmlOptions'=>array(
+                                    'style'=>'text-align: rcenter',
+                                ),
                                 'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:left;'),
-                                'value'=>'CHtml::Link("<i class=\"icon-form-rtfarmasi\"></i>",Yii::app()->controller->createUrl("RincianTagihanFarmasi/RincianBiayaFarmasi",array("id"=>$data->pendaftaran_id,"frame"=>true)),
+                                'value'=>'($data->penjamin_id == 1)?"-":'.
+                                    'CHtml::Link("<i class=\"icon-form-rtfarmasi\"></i>",Yii::app()->controller->createUrl("RincianTagihanFarmasi/RincianBiayaFarmasi",array("id"=>$data->pendaftaran_id,"frame"=>true)),
                                             array("class"=>"", 
                                                   "target"=>"iframeRincianTagihan",
                                                   "onclick"=>"$(\"#dialogRincianTagihan\").dialog(\"open\");",
@@ -241,11 +248,21 @@
                                     $tindakan = TindakanpelayananT::model()->findByAttributes(array(
                                         'pendaftaran_id'=>$data->pendaftaran_id,
                                     ), array('condition'=>'tindakansudahbayar_id is null'));
-                                    $oa = ObatalkespasienT::model()->findByAttributes(array(
+                                    $oa = ObatalkespasienT::model()->findAllByAttributes(array(
                                         'pendaftaran_id'=>$data->pendaftaran_id,
-                                    ), array('condition'=>'oasudahbayar_id is null'));
-
-                                    $sb = !empty($oa) || !empty($tindakan);
+                                    ), array('condition'=>'oasudahbayar_id is null '));
+                                    
+                                    $of = ObatalkespasienT::model()->findAllByAttributes(array(
+                                        'pendaftaran_id'=>$data->pendaftaran_id,
+                                    ), array('condition'=>'penjualanresep_id is not null and penjamin_id = '.Params::PENJAMIN_ID_UMUM));
+ 
+                                    foreach ($oa as $idx=>$val) {
+                                        if (in_array($val, $of)) {
+                                            unset($oa[$idx]);
+                                        }
+                                    }
+                                    
+                                    $sb = count($oa) > 0 || !empty($tindakan);
 
                                     return $sb?CHtml::Link("<i class=\"icon-form-bayar\"></i>",Yii::app()->controller->createUrl("PembayaranTagihanPasien/index",array("instalasi_id"=>Params::INSTALASI_ID_RJ,"pendaftaran_id"=>$data->pendaftaran_id,"frame"=>true)),
                                             array("class"=>"", 

@@ -275,7 +275,10 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                         'type'=>'raw',
                         'value'=>'$data->no_rekam_medik',
                     ),
-                    'nama_pasien',
+                    array(
+                        'name'=>'nama_pasien',
+                        'value'=>'$data->namadepan.$data->nama_pasien',
+                    ),
                     array(
                         'name'=>'jeniskelamin',
                         'type'=>'raw',
