@@ -431,7 +431,7 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 
 			$criteria->select = 'count(pendaftaran_id) as jumlah, pekerjaan_nama as data';
 			$criteria->group = 'pekerjaan_nama';
-			$criteria->order = 'pekerjaan_nama';
+			$criteria->order = 'jumlah DESC';
 
 			$criteria->addBetweenCondition('DATE(tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);$criteria->addCondition('tgl_pendaftaran BETWEEN \''.$this->tgl_awal.'\' and \''.$this->tgl_akhir.'\'');
 			
@@ -464,7 +464,7 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
 			}
 			$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
 			$criteria->compare('LOWER(status_konfirmasi)',strtolower($this->status_konfirmasi),true);
-	//		                
+                        
 			return new CActiveDataProvider($this, array(
 				'criteria'=>$criteria,
 			));
@@ -473,7 +473,7 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
             
 			$criteria=new CDbCriteria;
 
-			$criteria->select = 'count(pendaftaran_id) as jumlah, statusperkawinan as data';
+			$criteria->select = "count(pendaftaran_id) as jumlah, (CASE statusperkawinan WHEN '' THEN 'TIDAK DIKETAHUI' ELSE statusperkawinan END ) as data";
 			$criteria->group = 'statusperkawinan';
 			$criteria->order = 'statusperkawinan';
 
@@ -829,7 +829,7 @@ class PPPasienmasukpenunjangV extends PasienmasukpenunjangV
                
                 $criteria->select = 'count(pendaftaran_id) as jumlah, alamat_pasien as data';
                 $criteria->group = 'alamat_pasien';
-                $criteria->order = 'alamat_pasien';
+                $criteria->order = 'jumlah DESC';
                 
                 $criteria->addBetweenCondition('DATE(tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
 				if(!empty($this->propinsi_id)){
