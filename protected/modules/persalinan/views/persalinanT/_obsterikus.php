@@ -23,7 +23,7 @@
                         </div>
                     </div>
                     <div class="control-group ">
-                        <?php echo $form->labelEx($modPemeriksaan, 'memeriksaan dalam', array('class' => 'control-label')) ?>
+                        <?php echo $form->labelEx($modPemeriksaan, 'pemeriksaan dalam', array('class' => 'control-label')) ?>
                         <div class="controls">
                             <?php
                             $this->widget('MyDateTimePicker', array(
@@ -75,7 +75,12 @@
                         <?php echo $form->labelEx($modPemeriksaan, 'pemeriksa', array('class' => 'control-label')) ?>
                         <div class="controls">
                             <?php
-                            echo $form->textField($modPemeriksaan, 'obs_pemeriksa', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                            echo $form->dropDownList($modPemeriksaan, 'obs_pemeriksa', 
+                                    CHtml::listData(DokterV::model()->findAllByAttributes(array(
+                                        'pegawai_aktif'=>true,
+                                        'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
+                                    ), array('order'=>'nama_pegawai')), 'namaLengkap', 'namaLengkap'),
+                                    array('empty'=>'-- Pilih --','class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                             ?>
                             <?php echo $form->error($modPemeriksaan, 'obs_pemeriksa'); ?>
                         </div>
@@ -131,7 +136,7 @@
                         <?php echo CHtml::label('DJJ', '', array('class' => 'control-label')) ?>
                         <div class="controls">
                             <?php
-                            echo $form->textField($modPemeriksaan, 'denyutjantung_janin', array('class'=>'span1 numbersOnly','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                            echo $form->dropDownList($modPemeriksaan, 'denyutjantung_janin', LookupM::getItems('denyutjantung'), array('empty'=>'-- Pilih --','class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                             ?>
                             <?php echo $form->error($modPemeriksaan, 'denyutjantung_janin'); ?>
                         </div>
@@ -247,7 +252,7 @@
                     <?php echo $form->labelEx($modPemeriksaan, 'kelengkapan', array('class' => 'control-label')) ?>
                     <div class="controls">
                         <?php
-                        echo $form->dropDownList($modPemeriksaan, 'pusar_kelengkapan', LookupM::getItems('pusar_kelengkapan'), array('empty'=>'-- Pilih --','class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                        echo $form->dropDownList($modPemeriksaan, 'pusar_kelengkapan', LookupM::getItems('plasenta_kelengkapan'), array('empty'=>'-- Pilih --','class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                         ?>
                         <?php echo $form->error($modPemeriksaan, 'pusar_kelengkapan'); ?>
                     </div>
@@ -382,7 +387,7 @@
                     <div class="controls">
                         <?php
                         echo $form->textField($modPemeriksaan, 'kala4_detaknadi', array('class'=>'span1 numbersOnly','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
-                        ?> <div class='additional-text'></div>
+                        ?> <div class='additional-text'>/ Menit</div>
                         <?php echo $form->error($modPemeriksaan, 'kala4_detaknadi'); ?>
                     </div>
                 </div>
@@ -390,8 +395,8 @@
                     <?php echo $form->labelEx($modPemeriksaan, 'pernapasan', array('class' => 'control-label')) ?>
                     <div class="controls">
                         <?php
-                        echo $form->textField($modPemeriksaan, 'kala4_pernapasan', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
-                        ?>
+                        echo $form->textField($modPemeriksaan, 'kala4_pernapasan', array('class'=>'span1 numbersOnly','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                        ?><div class='additional-text'>/ Menit</div>
                         <?php echo $form->error($modPemeriksaan, 'kala4_pernapasan'); ?>
                     </div>
                 </div>
