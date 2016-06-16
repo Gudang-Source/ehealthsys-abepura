@@ -187,18 +187,18 @@
                     <?php echo $form->labelEx($modPemeriksaan, 'spontanitas', array('class' => 'control-label')) ?>
                     <div class="controls">
                         <?php
-                        echo $form->dropDownList($modPemeriksaan, 'plasenta_spontanitas', LookupM::getItems('plasenta_spontanitas'), array('empty'=>'-- Pilih --','class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                        echo $form->dropDownList($modPemeriksaan, 'plasentaspontanitas', LookupM::getItems('plasenta_spontanitas'), array('empty'=>'-- Pilih --','class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                         ?>
-                        <?php echo $form->error($modPemeriksaan, 'plasenta_spontanitas'); ?>
+                        <?php echo $form->error($modPemeriksaan, 'plasentaspontanitas'); ?>
                     </div>
                 </div>
                 <div class="control-group ">
                     <?php echo $form->labelEx($modPemeriksaan, 'kelengkapan', array('class' => 'control-label')) ?>
                     <div class="controls">
                         <?php
-                        echo $form->dropDownList($modPemeriksaan, 'plasenta_kelengkapan', LookupM::getItems('plasenta_kelengkapan'), array('empty'=>'-- Pilih --','class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                        echo $form->dropDownList($modPemeriksaan, 'plasentakelengkapan', LookupM::getItems('plasenta_kelengkapan'), array('empty'=>'-- Pilih --','class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
                         ?>
-                        <?php echo $form->error($modPemeriksaan, 'plasenta_kelengkapan'); ?>
+                        <?php echo $form->error($modPemeriksaan, 'plasentakelengkapan'); ?>
                     </div>
                 </div>
                 <div class="control-group ">
