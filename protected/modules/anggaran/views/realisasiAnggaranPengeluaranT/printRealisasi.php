@@ -6,16 +6,16 @@ echo $this->renderPartial('application.views.headerReport.headerAnggaran',array(
 		<td>No. Pengeluaran </td><td>:</td><td width="75%"><?php echo $model->no_realisasi_peng; ?></td>
 	</tr>
 	<tr>
-		<td>Tanggal Bukti Keluar </td><td>:</td><td><?php echo date("Y-m-d", strtotime($modTandaBukti->tglkaskeluar)); ?></td>
+		<td>Tanggal Bukti Keluar </td><td>:</td><td><?php echo MyFormatter::formatDateTimeForUser($modTandaBukti->tglkaskeluar); ?></td>
 	</tr>
 	<tr>
 		<td>Sumber Anggaran </td><td>:</td><td><?php echo $model->sumberanggaran->sumberanggarannama; ?></td>
 	</tr>
 	<tr>
-		<td>Nilai ALokasi </td><td>:</td><td>Rp. <?php echo $format->formatNumberForUser($model->nilaialokasi_pengeluaran); ?></td>
+		<td>Nilai Alokasi </td><td>:</td><td>Rp. <?php echo $format->formatNumberForPrint($model->nilaialokasi_pengeluaran); ?></td>
 	</tr>
 	<tr>
-		<td>Nilai Realisasi </td><td>:</td><td>Rp. <?php echo $format->formatNumberForUser($model->nilairealisasi_pengeluaran); ?></td>
+		<td>Nilai Realisasi </td><td>:</td><td>Rp. <?php echo $format->formatNumberForPrint($model->nilairealisasi_pengeluaran); ?></td>
 	</tr>
 	<tr>
 		<td>Penerima </td><td>:</td><td><?php echo $modTandaBukti->namapenerima; ?></td>
