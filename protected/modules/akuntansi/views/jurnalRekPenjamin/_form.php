@@ -205,12 +205,12 @@ $account = "D";
 
 $modRekDebit = new RekeningakuntansiV('search');
 $modRekDebit->unsetAttributes();
-$modRekDebit->rekening5_nb = $account;
+// $modRekDebit->rekening5_nb = $account;
 $modRekDebit->rekening5_aktif = true;
 //$account = "D";
 if (isset($_GET['RekeningakuntansiV'])) {
 	$modRekDebit->attributes = $_GET['RekeningakuntansiV'];
-	$modRekDebit->rekening5_nb = $account;
+	// $modRekDebit->rekening5_nb = $account;
 }
 
 $c2 = new CDbCriteria();
@@ -361,12 +361,12 @@ $account = "K";
 
 $modRekKredit = new RekeningakuntansiV('search');
 $modRekKredit->unsetAttributes();
-$modRekKredit->rekening5_nb = $account;
+// $modRekKredit->rekening5_nb = $account;
 $modRekKredit->rekening5_aktif = true;
 //$account = "K";
 if (isset($_GET['RekeningakuntansiV'])) {
 	$modRekKredit->attributes = $_GET['RekeningakuntansiV'];
-	$modRekKredit->rekening5_nb = $account;
+	// $modRekKredit->rekening5_nb = $account;
 }
 
 $c2 = new CDbCriteria();
@@ -490,7 +490,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
                         'header'=>'Saldo Normal',
                         'name'=>'rekening5_nb',
                         'value'=>'($data->rekening5_nb == "K") ? "Kredit" : "Debit"',
-                        'filter'=>  CHtml::activeHiddenField($modRekKredit, 'rekening5_nb', array('empty'=>"-- Pilih --")),
+                        'filter'=>  CHtml::activeDropDownList($modRekKredit, 'rekening5_nb', array('D'=>'Debit', 'K'=>'Kredit'), array('empty'=>"-- Pilih --")),
                 ),
 		
 	),
