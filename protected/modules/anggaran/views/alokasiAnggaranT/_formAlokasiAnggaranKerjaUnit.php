@@ -221,7 +221,7 @@ if(isset($_GET['AGInformasialokasianggaranV'])) {
 
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'programkerja-grid',
-	'dataProvider'=>$modProgramKerja->searchProgramKerja(),
+	'dataProvider'=>$modProgramKerja->searchProgramKerjaAlokasi(),
 	'filter'=>$modProgramKerja,
         'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
