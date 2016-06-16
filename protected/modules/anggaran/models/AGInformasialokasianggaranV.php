@@ -45,14 +45,28 @@ class AGInformasialokasianggaranV extends InformasialokasianggaranV
 		$criteria->compare('LOWER(namaunitkerja)',strtolower($this->namaunitkerja),true);
 		$criteria->compare('LOWER(tglapprrencanggaran)',strtolower($this->tglapprrencanggaran),true);
 //		if(!empty($this->statusalokasi)){
-			$criteria->addCondition('statusalokasi is false or statusalokasi is null');
+		//	$criteria->addCondition('statusalokasi is false or statusalokasi is null');
 //		}
 			
-		$criteria->limit=10;
+		//$criteria->limit=10;
 
 		return new CActiveDataProvider($this, array(
 				'criteria'=>$criteria,
 		));
 	}
+        
+        public function searchProgramKerjaAlokasi() {
+            $provider = $this->searchProgramKerja();
+            $provider->criteria->addCondition('statusalokasi = false or statusalokasi is null');
+        
+            return $provider;
+        }
+        
+        public function searchProgramKerjaRealisasi() {
+            $provider = $this->searchProgramKerja();
+            $provider->criteria->addCondition('statusalokasi = true');
+        
+            return $provider;
+        }
 
 }
