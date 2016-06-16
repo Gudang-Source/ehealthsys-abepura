@@ -262,7 +262,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 
 $modRekDebit = new RekeningakuntansiV('search');
 $modRekDebit->unsetAttributes();
-$modRekDebit->rekening5_nb = "D";
+// $modRekDebit->rekening5_nb = "D";
 $modRekDebit->rekening5_aktif = true;
 $account = "";
 if(isset($_GET['RekeningakuntansiV'])) {
@@ -417,7 +417,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 
 $modRekKredit = new RekeningakuntansiV('search');
 $modRekKredit->unsetAttributes();
-$modRekKredit->rekening5_nb = "K";
+// $modRekKredit->rekening5_nb = "K";
 $modRekKredit->rekening5_aktif = true;
 //$account = "K";
 
