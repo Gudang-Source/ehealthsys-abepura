@@ -36,7 +36,7 @@ echo "No. Rencana : <b>".$model->renkebbarang_no."</b>";
 		<tr>
 				<td><?php echo $i+1; echo ". "; ?></td>
 				<td><?php echo $modDetail->asal_barang; ?></td>
-				<td><?php echo (!empty($modDetail->barang_id)) ? $modDetail->barang_id : ""; ?></td>
+				<td><?php echo (!empty($modDetail->barang_id)) ? $modDetail->barang->barang_nama : ""; ?></td>
 				<td><?php echo $modDetail->satuanbarangdet; ?></td>
 				<td><?php echo $modDetail->jmlpermintaanbarangdet; ?></td>
 				<td><?php echo $format->formatUang($modDetail->harga_barangdet); ?></td>
