@@ -49,7 +49,8 @@ $sort=true;
             ),
             array(
                 'header'=>'Biaya Pelayanan',
-                'value'=>'"Rp. ".number_format($data->tarif_tindakan)',
+                'value'=>'"Rp".number_format($data->tarif_tindakan,0,"",".")',
+                'htmlOptions'=>array('style'=>'text-align:right;'),
             ),
               
 	),

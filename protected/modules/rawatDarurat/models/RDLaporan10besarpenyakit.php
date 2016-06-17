@@ -30,7 +30,7 @@ class RDLaporan10besarpenyakit extends Laporan10besarpenyakitV{
             }
                        
             $criteria->order = 'jumlah DESC';
-            $criteria->addCondition('tglmorbiditas BETWEEN \''.$this->tgl_awal.'\' AND \''.$this->tgl_akhir.'\'');
+            $criteria->addBetweenCondition('tglmorbiditas', $this->tgl_awal, $this->tgl_akhir);
 			if(!empty($this->diagnosa_id)){
 				$criteria->addCondition("diagnosa_id = ".$this->diagnosa_id);				
 			}

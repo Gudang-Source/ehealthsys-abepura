@@ -42,12 +42,13 @@ class BKInformasipenjualanaresepV extends InformasipenjualanaresepV
             $criteria->compare('LOWER(carabayar_nama)', strtolower($this->carabayar_nama), true);
             $criteria->compare('LOWER(penjamin_nama)', strtolower($this->penjamin_nama), true);
             $criteria->compare('LOWER(jenispenjualan)', strtolower($this->jenispenjualan), true);
+            $criteria->addCondition("(true <> (lower(instalasiasal_nama) ilike '%rawat jalan%' and penjamin_id = 1))");
             $criteria->order = 'tglpenjualan DESC';
-            $criteria->limit = 5;
+            //$criteria->limit = 5;
             
             return new CActiveDataProvider($this, array(
                         'criteria'=>$criteria,
-                        'pagination'=>false,
+                        //'pagination'=>false,
                 ));
         }
         /**

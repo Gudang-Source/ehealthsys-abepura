@@ -128,7 +128,9 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
             <?php echo $form->dropDownListRow($model,'statusperkawinan',LookupM::getItems('statusperkawinan'), 
                             array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
                                   'class'=>'inputRequire')); ?>    
-            <p>&nbsp;</p>
+            
+            <?php echo $form->checkBoxRow($model,'pegawai_aktif', array('value'=>1, 'uncheckedValue'=>0)); ?>           
+            
         </fieldset>
         </div>
         <div class="span5" style = "width:48%">

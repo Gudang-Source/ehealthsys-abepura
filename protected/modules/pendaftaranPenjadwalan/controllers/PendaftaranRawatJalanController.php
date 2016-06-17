@@ -610,6 +610,11 @@ class PendaftaranRawatJalanController extends MyAuthController
          */
         public function simpanPendaftaran($model,$modPasien,$modRujukan,$modPenanggungJawab,$post, $postPasien, $modAsuransiPasien){
             $format = new MyFormatter();			
+            $modP = PendaftaranT::model()->findByAttributes(array(
+                'pasien_id'=>$modPasien->pasien_id,
+            ), array(
+                'condition'=>'pasienbatalperiksa_id is null',
+            ));
             $model->attributes = $post;
             $model->pasien_id = $modPasien->pasien_id;
             $model->penanggungjawab_id = $modPenanggungJawab->penanggungjawab_id;
@@ -619,12 +624,27 @@ class PendaftaranRawatJalanController extends MyAuthController
             $model->golonganumur_id = CustomFunction::getGolonganUmur($modPasien->tanggal_lahir);
             $model->umur = CustomFunction::getUmur($modPasien->tanggal_lahir);
             $model->statusperiksa = Params::STATUSPERIKSA_ANTRIAN;
-            $model->statuspasien = (empty($postPasien['pasien_id']) ? Params::STATUSPASIEN_BARU : Params::STATUSPASIEN_LAMA);
+            
+            // $model->kunjungan = CustomFunction::getKunjungan($modPasien, $model->ruangan_id);
+            
+            if (empty($postPasien['pasien_id']) || empty($modP)) {
+                $model->statuspasien = Params::STATUSPASIEN_BARU;
+                $model->kunjungan = Params::STATUSKUNJUNGAN_BARU;
+            } else if ($this->is_rm_manual) {
+                $model->statuspasien = Params::STATUSPASIEN_LAMA;
+                $model->kunjungan = CustomFunction::getKunjungan($modPasien, $model->ruangan_id);
+            } else {
+                $model->statuspasien = Params::STATUSPASIEN_LAMA;
+                $model->kunjungan = CustomFunction::getKunjungan($modPasien, $model->ruangan_id);
+            }
+            /*
+            $model->statuspasien = (empty($postPasien['pasien_id'] || empty($modP)) ? Params::STATUSPASIEN_BARU : Params::STATUSPASIEN_LAMA);
             $model->kunjungan = CustomFunction::getKunjungan($modPasien, $model->ruangan_id);
+            
             if ($this->is_rm_manual) {
                 $model->statuspasien = Params::STATUSPASIEN_LAMA;
                 $model->kunjungan = Params::STATUSKUNJUNGAN_LAMA;
-            }
+            } */
             
             $model->shift_id = Yii::app()->user->getState('shift_id');
             $model->create_ruangan = Yii::app()->user->getState('ruangan_id');
@@ -1798,9 +1818,14 @@ class PendaftaranRawatJalanController extends MyAuthController
 				$is_pasienbaru = 'true';
                 if(!empty($ruangan_id)){
                     if(!empty($pasien_id)){
+                        $modP = PendaftaranT::model()->findByAttributes(array(
+                            'pasien_id'=>$pasien_id,
+                        ), array(
+                            'condition'=>'pasienbatalperiksa_id is null',
+                        ));
                         $modPasien = PasienM::model()->findByPk($pasien_id);
                         if(isset($modPasien)){
-                            $is_pasienbaru = ($modPasien->statusrekammedis == Params::STATUSREKAMMEDIS_AKTIF) ? 'false' : 'true';
+                            $is_pasienbaru = ($modPasien->statusrekammedis == Params::STATUSREKAMMEDIS_AKTIF && !empty($modP)) ? 'false' : 'true';
                         }
                     } else if (trim($no_rekam_medik) != "") {
                         $is_pasienbaru = 'false';

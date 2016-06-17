@@ -22,7 +22,7 @@
     </style>
         
          <div class="row-fluid">
-                       <div class="span4">
+        <div class="span4">
             <?php $format = new MyFormatter(); ?>
             <?php echo CHtml::hiddenField('type', ''); ?>
             <?php echo CHtml::label('Tanggal Kunjungan', 'tgl_pendaftaran', array('class' => 'control-label')) ?>

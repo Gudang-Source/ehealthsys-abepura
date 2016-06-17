@@ -171,7 +171,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 
 $modRekDebit = new RekeningakuntansiV('search');
 $modRekDebit->unsetAttributes();
-$modRekDebit->rekening5_nb = "D";
+// $modRekDebit->rekening5_nb = "D";
 $modRekDebit->rekening5_aktif = true;
 $account = "";
 if(isset($_GET['RekeningakuntansiV'])) {
@@ -205,7 +205,7 @@ $r4 = Rekening4M::model()->findAll($c4);
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'rekdebit-m-grid',
         //'ajaxUrl'=>Yii::app()->createUrl('actionAjax/CariDataPasien'),
-	'dataProvider'=>$modRekDebit->searchAccounts($account),
+	'dataProvider'=>$modRekDebit->searchAccounts(),
 	'filter'=>$modRekDebit,
 	'template'=>"{summary}\n{items}\n{pager}",
 	'itemsCssClass'=>'table table-striped table-bordered table-condensed',
@@ -299,7 +299,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 			'header'=>'Saldo Normal',
 			'name'=>'rekening5_nb',
 			'value'=>'($data->rekening5_nb == "D") ? "Debit" : "Kredit"',
-                        'filter'=>  CHtml::activeHiddenField($modRekDebit, 'rekening5_nb', array('empty'=>"-- Pilih --")),
+                        'filter'=>  CHtml::activeDropDownList($modRekDebit, 'rekening5_nb', array('D'=>'Debit', 'K'=>'Kredit'), array('empty'=>"-- Pilih --")),
 		),
 		
 	),
@@ -326,7 +326,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 
 $modRekKredit = new RekeningakuntansiV('search');
 $modRekKredit->unsetAttributes();
-$modRekKredit->rekening5_nb = "K";
+// $modRekKredit->rekening5_nb = "K";
 $modRekKredit->rekening5_aktif = true;
 //$account = "K";
 
@@ -362,7 +362,7 @@ $r4 = Rekening4M::model()->findAll($c4);
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'rekkredit-m-grid',
         //'ajaxUrl'=>Yii::app()->createUrl('actionAjax/CariDataPasien'),
-	'dataProvider'=>$modRekKredit->searchAccounts($account),
+	'dataProvider'=>$modRekKredit->searchAccounts(),
 	'filter'=>$modRekKredit,
 	'template'=>"{summary}\n{items}\n{pager}",
 	'itemsCssClass'=>'table table-striped table-bordered table-condensed',
@@ -456,7 +456,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 			'header'=>'Saldo Normal',
 			'name'=>'rekening5_nb',
 			'value'=>'($data->rekening5_nb == "K") ? "Kredit" : "Debit"',
-                        'filter'=>  CHtml::activeHiddenField($modRekKredit, 'rekening5_nb', array('empty'=>"-- Pilih --")),
+                        'filter'=>  CHtml::activeDropDownList($modRekKredit, 'rekening5_nb', array('D'=>'Debit', 'K'=>'Kredit'), array('empty'=>"-- Pilih --")),
 		),
 		
 	),

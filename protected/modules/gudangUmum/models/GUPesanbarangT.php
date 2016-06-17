@@ -48,7 +48,10 @@ class GUPesanbarangT extends PesanbarangT {
 	{
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
-
+                
+                
+                
+                
 		$criteria=new CDbCriteria;
 
 		$criteria->addBetweenCondition('date(tglpesanbarang)', $this->tgl_awal, $this->tgl_akhir);
@@ -60,13 +63,27 @@ class GUPesanbarangT extends PesanbarangT {
 		}
 		$criteria->compare('LOWER(nopemesanan)',strtolower($this->nopemesanan),true);
 		$criteria->compare('LOWER(tglmintadikirim)',strtolower($this->tglmintadikirim),true);
-		if(!empty($this->ruanganpemesan_id)){
-			$criteria->addCondition("ruanganpemesan_id = ".$this->ruanganpemesan_id);			
-		}
-		$criteria->compare('LOWER(keterangan_pesan)',strtolower($this->keterangan_pesan),true);
 		if(!empty($this->pegpemesan_id)){
 			$criteria->addCondition("pegpemesan_id = ".$this->pegpemesan_id);			
 		}
+		$criteria->compare('LOWER(keterangan_pesan)',strtolower($this->keterangan_pesan),true);
+                if(!empty($this->instalasi_id)){
+                    $ruangan = RuanganM::model()->findAll(" instalasi_id = '$this->instalasi_id' ");
+                    $data = '';
+                    if (count($ruangan)>0){
+                        foreach ($ruangan as $ruangan):
+                            $data .= "'".$ruangan->ruangan_id."',";
+                        endforeach;
+                        $data = rtrim($data, ',');
+                    }
+                    
+                    if(!empty($this->ruanganpemesan_id)){
+                        $criteria->addCondition("ruanganpemesan_id = ".$this->ruanganpemesan_id);
+                    }else{
+                        $criteria->addCondition("ruanganpemesan_id IN (".$data.") ");				
+                    }
+		}
+		
 		if(!empty($this->pegmengetahui_id)){
 			$criteria->addCondition("pegmengetahui_id = ".$this->pegmengetahui_id);			
 		}

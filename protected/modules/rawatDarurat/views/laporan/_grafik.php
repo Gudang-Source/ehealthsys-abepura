@@ -21,23 +21,34 @@
                         ),
                     'pointLabels'=>array( 'show'=> true ),
                     ),
-            'animate'=>true,
-            'axes'=>array(
-                'xaxis'=>array(
-                    'renderer'=> 'js:$.jqplot.CategoryAxisRenderer',
-                    'width'=>10,
-                    'ticks'=>true,
-                    'tickOptions'=>array(
-                        'mark'=>'inside',
-                        'showLabel'=>true,
+            'animate' => true,
+            'axesDefaults' => array(
+                'tickRenderer' => 'js:$.jqplot.CanvasAxisTickRenderer',
+                'tickOptions' => array(
+                    'angle' => -30,
+                    'fontSize' => '10pt'
+                ),
+            ),
+            'axes' => array(
+                'xaxis' => array(
+                    'renderer' => 'js:$.jqplot.CategoryAxisRenderer',
+                    'width' => 10,
+                    'ticks' => true,
+                    'tickOptions' => array(
+                        'mark' => 'inside',
+                        'showLabel' => true,
                     ),
                 ),
-                'yaxis'=> array(
-                    'labelRenderer'=>'js:$.jqplot.CanvasAxisLabelRenderer',
+                'yaxis' => array(
+                    'labelRenderer' => 'js:$.jqplot.CanvasAxisLabelRenderer',
+                    'min'=>0,
                 )
             ),
-          ),
-       )
+        ),
+        'htmlOptions'=>array(
+                'style'=>' width:100%',
+        )
+            )
     );
     ?>
 <?php if (isset($caraPrint)){
