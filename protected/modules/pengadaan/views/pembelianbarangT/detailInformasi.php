@@ -46,10 +46,10 @@
             <?php echo CHtml::encode($modBeli->nopembelian); ?>
             <br />
              <b><?php echo CHtml::encode($modBeli->getAttributeLabel('tglpembelian')); ?>:</b>
-            <?php echo CHtml::encode($modBeli->tglpembelian); ?>
+            <?php echo CHtml::encode(MyFormatter::formatDateTimeForUser(date('Y-m-d',strtotime($modBeli->tglpembelian)))); ?>
              <br/>
              <b><?php echo CHtml::encode($modBeli->getAttributeLabel('tgldikirim')); ?>:</b>
-            <?php echo CHtml::encode($modBeli->tgldikirim); ?>
+            <?php echo CHtml::encode(MyFormatter::formatDateTimeForUser(date('Y-m-d',strtotime($modBeli->tgldikirim)))); ?>
              <br/>                                    
         </td>
         <td bgcolor='white'>
@@ -94,8 +94,8 @@
                 <td bgcolor='white'><?php echo !empty($modBarang->subsubkelompok_id)?$modBarang->subsubkelompok->subkelompok->subkelompok_nama:null; ?></td>
                 <td bgcolor='white'><?php echo !empty($modBarang->subsubkelompok_id)?$modBarang->subsubkelompok->subsubkelompok_nama:null; ?></td>
                 <td bgcolor='white'><?php echo $modBarang->barang_nama; ?></td>
-                <td bgcolor='white' style = "text-align:right;"><?php echo $format->formatNumberForPrint($detail->hargabeli); ?></td>
-                <td bgcolor='white' style = "text-align:right;"><?php echo $format->formatNumberForPrint($detail->hargasatuan); ?></td>
+                <td bgcolor='white' style = "text-align:right;"><?php echo "Rp".$format->formatNumberForPrint($detail->hargabeli); ?></td>
+                <td bgcolor='white' style = "text-align:right;"><?php echo "Rp".$format->formatNumberForPrint($detail->hargasatuan); ?></td>
                 <td bgcolor='white' style = "text-align:right;"><?php echo $format->formatNumberForPrint($detail->jmlbeli).' '.$detail->satuanbeli; ?></td>
                 <!--<td bgcolor='white'><?php //echo $detail->satuanbeli; ?></td>-->
                 <td bgcolor='white'><?php echo $modBarang->barang_ukuran; ?><br/><?php echo $modBarang->barang_bahan; ?></td>
