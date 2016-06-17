@@ -32,45 +32,34 @@ class SupplierRekController extends MyAuthController
                 
                 $modSupplier = new SupplierM();
 
-                if (isset($_GET['SupplierM'])){
-                        $modSupplier->unsetAttributes();
-                        $modSupplier->attributes=$_GET['SupplierM'];
-                        $modSupplier->supplier_nama = !empty($_GET['SupplierM']['supplier_nama'])?$_GET['SupplierM']['supplier_nama']:null;
-                }
+                
 		if(isset($_POST['AKSupplierRekM']))
 		{
-                        
+                        // var_dump($_POST); die;
 			$transaction = Yii::app()->db->beginTransaction();
 			try{
 				 $success = true;
-				 $modDetails = $this->validasiTabular($_POST['AKSupplierRekM']);
-				 //var_dump(count($modDetails));
-				 //exit;
-					foreach ($modDetails as $i => $data) {
-//                                    echo '<pre>';
-//                                    echo print_r($data->jmlsisapiutang);
-//                                    echo exit();
-						if ($data->supplier_id > 0) {
-							// if ($data->update()) {
-							//     $success = true;
-
-							// } else {
-							//     $success = false;
-							// }
-							// echo '<pre>';
-							// echo print_r($data->getErrors());
-							// echo '</pre>';
-//                                          exit();
-							$data->save();
-						}else{
-							$data->save();
-						}
-					}
-
+                                 
+                                 if (isset($_POST['SupplierM'])){
+                                        $modSupplier->attributes=$_POST['SupplierM'];
+                                        if ($modSupplier->validate()) {
+                                            $modSupplier->save();
+                                        } else {
+                                            $success = false;
+                                        }
+                                       
+                                }
+                                 
+				 $modDetails = $this->validasiTabular($_POST['AKSupplierRekM'], $modSupplier);
+                                foreach ($modDetails as $i => $data) {
+                                        $data->save();
+                                }
+                                //var_dump($success);
+                                //die;
 				if ($success == true) {
 					$transaction->commit();
 					Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-					$this->redirect(array('admin','id'=>1));
+					$this->redirect(array('admin'));
 				} else {
 					$transaction->rollback();
 					Yii::app()->user->setFlash('error', "Data gagal disimpan ");
@@ -83,37 +72,28 @@ class SupplierRekController extends MyAuthController
 			}
 
 		}
+                
+                $modPropinsi = PropinsiM::model()->findByPk(Yii::app()->user->getState('propinsi_id'));
+		$latitude = $modPropinsi->latitude;
+		$longitude = $modPropinsi->longitude;
 
 		$this->render('create',array(
-			'model'=>$model, 'modSupplier'=>$modSupplier,
+			'model'=>$model, 'modSupplier'=>$modSupplier, 'latitude'=>$latitude, 'longitude'=>$longitude
 		));
 	}
         
-        protected function validasiTabular($data){
-        	$x = 0;
+        protected function validasiTabular($data, $modSupplier){
+            $x = 0;
             foreach ($data['rekening'] as $j => $row) {
-	        	foreach ($data['suplier'] as $i => $row2) {  
-	        		$modDetails[$x] = new AKSupplierRekM;
-	                $modDetails[$x]->attributes = $row;                
-	                $modDetails[$x]->supplier_id = $i;
-	                $modDetails[$x]->rekening5_id = $row['rekening5_id'];
-//	                $modDetails[$x]->rekening4_id = $row['rekening4_id'];
-//	                $modDetails[$x]->rekening3_id = $row['rekening3_id'];
-//	                $modDetails[$x]->rekening2_id = $row['rekening2_id'];
-//	                $modDetails[$x]->rekening1_id = $row['rekening1_id'];
-//	                $modDetails[$x]->rekening5_nb = $row['rekening5_nb'];
-	                $modDetails[$x]->validate();
-	                $x++;
-		        }
-    //            echo '<pre>';
-    //            echo print_r($modDetails[$i]->getErrors());
-    //            echo '</pre>';
-                //print_r($data['suplier']);
-    			//exit;
-            }        	
-			//print_r(count($modDetails));
-	        //exit;
-
+                $modDetails[$j] = new AKSupplierRekM;
+                $modDetails[$j]->attributes = $row;                
+                $modDetails[$j]->supplier_id = $modSupplier->supplier_id;
+                $modDetails[$j]->rekening5_id = $row['rekening5_id'];
+                $modDetails[$j]->debitkredit = $row['rekening5_nb'];
+                $modDetails[$j]->validate();
+                // var_dump($modDetails[$j]->attributes, $modDetails[$j]->errors);
+                $x++;
+            }     
             return $modDetails;
         }
 	/**
@@ -123,23 +103,74 @@ class SupplierRekController extends MyAuthController
 	 */
 	public function actionUpdate($id)
 	{
-        //if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
-		$model=AKSupplierRekM::model()->findByPk($id);
-
+                //if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
+                $modSupplier = SupplierM::model()->findByPk($id);
+                $modeld = AKSupplierRekM::model()->findByAttributes(array('supplier_id'=>$id, 'debitkredit'=>'D'));
+                $modelk = AKSupplierRekM::model()->findByAttributes(array('supplier_id'=>$id, 'debitkredit'=>'K'));
+                
+                if (empty($modeld)) $modeld = new AKSupplierRekM ();
+                if (empty($modelk)) $modelk = new AKSupplierRekM ();
+                
+                
+                /*
+                $cnt = 0;
+                $dk = ['D', 'K'];
+                foreach ($amodel as $item) {
+                    if (!empty($item->debitkredit)) {
+                        $model[$item->debitkredit] = $item;
+                    } else {
+                        $model[$dk[$cnt]] = $item;
+                        $cnt++;
+                    }
+                }
+                
+                foreach ($model as $k=>$item) {
+                    if (empty($item)) {
+                        $model[$k] = new AKSupplierRekM;
+                    }
+                }
+                // var_dump($model); die;
 		// Uncomment the following line if AJAX validation is needed
 		
+                 * 
+                 */
 
-		if(isset($_POST['AKSupplierRekM']))
-		{
-			$model->attributes=$_POST['AKSupplierRekM'];
-			if($model->save()){
+		if(isset($_POST['SupplierM'])) {
+                    
+                    
+                    
+                    AKSupplierRekM::model()->deleteAllByAttributes(array(
+                        'supplier_id'=>$modSupplier->supplier_id,
+                    ));
+                    
+                    if (isset($_POST['SupplierM']['rekening_debit']) && !empty($_POST['SupplierM']['rekening_debit'])) {
+                        $deb = new SupplierrekM();
+                        $deb->debitkredit = 'D';
+                        $deb->supplier_id = $id;
+                        $deb->rekening5_id = $_POST['SupplierM']['rekening_debit'];
+                    
+                        $deb->save();
+                    }
+                    
+                    if (isset($_POST['SupplierM']['rekening_kredit']) && !empty($_POST['SupplierM']['rekening_kredit'])) {
+                        $kre = new SupplierrekM();
+                        $kre->debitkredit = 'K';
+                        $kre->supplier_id = $id;
+                        $kre->rekening5_id = $_POST['SupplierM']['rekening_kredit'];
+                        $kre->save();
+                    }
+                    
+                    //var_dump($modPenjamin->attributes, $_POST); die; /*
+			//$model->attributes=$_POST['AKPenjaminpasienM'];
+			//if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>1));
-                        }
+				$this->redirect(array('admin'));
+                        //} */
 		}
 
 		$this->render('update',array(
-			'model'=>$model,
+                        'modSupplier'=>$modSupplier,
+			'modeld'=>$modeld, 'modelk'=>$modelk,
 		));
 	}
 
@@ -254,16 +285,20 @@ class SupplierRekController extends MyAuthController
                 if ($id==1):
                     Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
                 endif;
-		$model=new AKSupplierRekM('search');
+		$model=new SupplierM('search');
 		$model->unsetAttributes(); 
+                $model->supplier_aktif = true;
                 
-		if(isset($_GET['AKSupplierRekM'])){
-			$model->attributes 		= $_GET['AKSupplierRekM'];
+		if(isset($_GET['SupplierM'])){
+			$model->attributes 		= $_GET['SupplierM'];
+                        /*
 			$model->supplier_nama	= $_GET['AKSupplierRekM']['supplier_nama'];
 			$model->rekDebit 		= $_GET['AKSupplierRekM']['rekDebit'];
 			$model->rekKredit 		= $_GET['AKSupplierRekM']['rekKredit'];
 			// var_dump($_GET['AKSupplierRekM']['supplier_nama']);
 			// exit;
+                         * 
+                         */
 		}
 
 		if(isset($_POST['rekening5_id'])){
@@ -374,5 +409,36 @@ class SupplierRekController extends MyAuthController
       Yii::app()->end();
       }
     }
+    
+        public function actionGetKabupatendrNamaPropinsi($encode=false,$namaModel='',$attr='')
+        {
+            if(Yii::app()->request->isAjaxRequest) {
+                if ($namaModel == '' && $attr !== '') {
+                    $propinsi_nama = $_POST["$attr"];
+                }
+                 elseif ($namaModel !== '' && $attr !== '') {
+                    $propinsi_nama = $_POST["$namaModel"]["$attr"];
+                }
+                $propinsi = PropinsiM::model()->findByAttributes(array('propinsi_nama'=>$propinsi_nama));
+                $propinsi_id = $propinsi->propinsi_id;
+                if (COUNT($propinsi)<1) {$propinsi_id=$propinsi_nama;}
+                $kabupaten = KabupatenM::model()->findAll("propinsi_id='$propinsi_id' ORDER BY kabupaten_nama asc");
+                $kabupaten = CHtml::listData($kabupaten,'kabupaten_nama','kabupaten_nama');
+
+                if($encode){
+                    echo CJSON::encode($kabupaten);
+                } else {
+                    if(empty($kabupaten)){
+                        echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                    } else {
+                        echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                        foreach($kabupaten as $value=>$name) {
+                            echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                        }
+                    }
+                }
+            }
+            Yii::app()->end();
+        }
         
 }
