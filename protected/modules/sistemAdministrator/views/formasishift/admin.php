@@ -47,14 +47,30 @@ $('.search-form form').submit(function(){
 			array(
 				'header'=>'Ruangan',
 				'name'=>'ruangan_id',
-				'value'=>'$data->ruangan->ruangan_nama',
+				'value'=> function($data){
+                                    $r = RuanganM::model()->findByPk($data->ruangan_id);
+                                      
+                                    if (count($r)>0){
+                                        return $r->ruangan_nama;
+                                    }else{
+                                        return '-';
+                                    }
+                                },
 				'type'=>'raw',
 				'filter'=>CHtml::activeTextField($model,'ruangan_nama'),
 			),
 			array(
-				'header'=>'Shiift',
+				'header'=>'Shift',
 				'name'=>'shift_id',
-				'value'=>'$data->shift->shift_nama',
+				'value'=> function($data){
+                                    $s = ShiftM::model()->findByPk($data->shift_id);
+                                    
+                                    if (count($s)>0){
+                                        return $s->shift_nama;
+                                    }else{
+                                        return '-';                                    
+                                    }
+                                },
 				'type'=>'raw',
 				'filter'=>CHtml::activeTextField($model,'shift_nama'),
 			),

@@ -1,7 +1,7 @@
 <div class="white-container" id="input-penerimaan-kas">
     <?php $totTagihan = 0; ?>
     <?php
-        $this->widget('application.extensions.moneymask.MMask',array(
+      /*  $this->widget('application.extensions.moneymask.MMask',array(
             'element'=>'.currency',
             'currency'=>'PHP',
             'config'=>array(
@@ -10,10 +10,12 @@
                 'allowZero'=>true,
                 'precision'=>0,
             )
-        ));
+        ));*/
     ?>
     <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting.js'); ?>
     <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form.js'); ?>
+    <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
     <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
         'id'=>'akpenerimaan-umum-t-form',
         'enableAjaxValidation'=>false,
@@ -103,8 +105,8 @@
 					<?php echo $form->dropDownList($modPenUmum,'satuanvol', LookupM::getItems('satuanumum'),array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
 				</div>
 			</div>
-			<?php echo $form->textFieldRow($modPenUmum,'hargasatuan',array('onblur'=>'hitungTotalHarga()','class'=>'inputFormTabel currency reqForm', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-			<?php echo $form->textFieldRow($modPenUmum,'totalharga',array('readonly'=>true,'class'=>'inputFormTabel currency', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+			<?php echo $form->textFieldRow($modPenUmum,'hargasatuan',array('onblur'=>'hitungTotalHarga()','class'=>'inputFormTabel integer2 reqForm', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+			<?php echo $form->textFieldRow($modPenUmum,'totalharga',array('readonly'=>true,'class'=>'inputFormTabel integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
 		</div>
 		<div class="span4">
 			<?php echo $form->textAreaRow($modPenUmum,'keterangan_penerimaan',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
@@ -156,20 +158,20 @@
                     <div class="control-group ">
                         <?php echo CHtml::label('Total Penerimaan','totTagihan', array('class'=>'control-label inline')) ?>
                         <div class="controls">
-                            <?php echo CHtml::textField('totTagihan',$totTagihan,array('readonly'=>true,'class'=>'inputFormTabel currency span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
+                            <?php echo CHtml::textField('totTagihan',$totTagihan,array('readonly'=>true,'class'=>'inputFormTabel integer2 span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
                         </div><!-- total taginan-->
                     </div>
-                    <?php echo $form->textFieldRow($modTandaBukti,'jmlpembulatan',array('readonly'=>true,'class'=>'inputFormTabel currency span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-                    <?php echo $form->textFieldRow($modTandaBukti,'biayaadministrasi',array('onkeyup'=>'hitungJmlBayar();','class'=>'inputFormTabel currency span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-                    <?php echo $form->textFieldRow($modTandaBukti,'biayamaterai',array('onkeyup'=>'hitungJmlBayar();','class'=>'inputFormTabel currency span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                    <?php echo $form->textFieldRow($modTandaBukti,'jmlpembulatan',array('readonly'=>true,'class'=>'inputFormTabel integer2 span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                    <?php echo $form->textFieldRow($modTandaBukti,'biayaadministrasi',array('onkeyup'=>'hitungJmlBayar();','class'=>'inputFormTabel integer2 span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                    <?php echo $form->textFieldRow($modTandaBukti,'biayamaterai',array('onkeyup'=>'hitungJmlBayar();','class'=>'inputFormTabel integer2 span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                      <div class="control-group ">
                         <?php echo CHtml::label('Jumlah Penerimaan','jmlpembayaran', array('class'=>'control-label inline')) ?>
                         <div class="controls">
-                            <?php echo $form->textField($modTandaBukti,'jmlpembayaran',array('onkeyup'=>'hitungKembalian();','readonly'=>true,'class'=>'inputFormTabel currency span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                            <?php echo $form->textField($modTandaBukti,'jmlpembayaran',array('onkeyup'=>'hitungKembalian();','readonly'=>true,'class'=>'inputFormTabel integer2 span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                         </div>
                     </div>                    
-                    <?php echo $form->textFieldRow($modTandaBukti,'uangditerima',array('onkeyup'=>'hitungKembalian();','class'=>'inputFormTabel currency span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-                    <?php echo $form->textFieldRow($modTandaBukti,'uangkembalian',array('class'=>'inputFormTabel currency span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                    <?php echo $form->textFieldRow($modTandaBukti,'uangditerima',array('onkeyup'=>'hitungKembalian();','class'=>'inputFormTabel integer2 span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                    <?php echo $form->textFieldRow($modTandaBukti,'uangkembalian',array('class'=>'inputFormTabel integer2 span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
 
                 </td>
                 <td width="30%">
