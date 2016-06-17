@@ -55,13 +55,14 @@
                     array(
                         'header'=>'Nama Supplier',
                         'name'=>'supplier_nama',
-                        'value'=>'$data->supplier->supplier_nama',  
+                        'value'=>'$data->supplier_nama',  
                     ),
 
                     array(
                         'header'=>'Rekening Debit',
                         'type'=>'raw',
                         'name'=>'rekDebit',
+                        'filter'=>false,
                         'value'=>'$this->grid->owner->renderPartial("_rek_debet",array("rekening5_nb"=>"D","supplier_id"=>$data->supplier_id),true)',
                     ),
 
@@ -69,6 +70,7 @@
                         'header'=>'Rekening Kredit',
                         'type'=>'raw',
                         'name'=>'rekKredit',
+                        'filter'=>false,
                         'value'=>'$this->grid->owner->renderPartial("_rek_kredit",array("rekening5_nb"=>"K","supplier_id"=>$data->supplier_id),true)',
                     ),
 
@@ -85,7 +87,18 @@
                                 ),
                         ),
                     ),
-
+                    array(
+                            'header'=>Yii::t('zii','Update'),
+                            'class'=>'bootstrap.widgets.BootButtonColumn',
+                            'template'=>'{update}',
+                            'buttons'=>array(
+                                    'view' => array (
+                                                    'label'=>"<i class='icon-update'></i>",
+                                                    'options'=>array('title'=>Yii::t('mds','Update')),
+                                                    'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/update",array("id"=>"$data->supplier_id"))',                                               
+                                    ),
+                            ),
+                    ),
                     array(
                 'header'=>Yii::t('zii','Delete'),
                             'class'=>'bootstrap.widgets.BootButtonColumn',

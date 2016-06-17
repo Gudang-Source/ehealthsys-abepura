@@ -1,7 +1,7 @@
 <?php
 $modSupplierRek = AKSupplierRekM::model()->findAllBySql("SELECT * 
 FROM supplierrek_m 
-JOIN rekening5_m as rekeningdebit ON supplierrek_m.rekening5_id = rekeningdebit.rekening5_id AND rekeningdebit.rekening5_nb = '". $saldonormal ."'
+JOIN rekening5_m as rekeningdebit ON supplierrek_m.rekening5_id = rekeningdebit.rekening5_id AND supplierrek_m.debitkredit = '". $saldonormal ."'
 WHERE
 supplierrek_m.supplier_id = $supplier_id");
 if(COUNT($modSupplierRek)>0)

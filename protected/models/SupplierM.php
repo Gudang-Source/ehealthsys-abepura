@@ -25,6 +25,8 @@ class SupplierM extends CActiveRecord
         public $obatalkes_nama;
         public $supplier_jenisgizi = 'Gizi';
         public $obatAlkes;
+        public $rekDebit, $rekKredit;
+        public $rekening_debit, $rekening_kredit;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
