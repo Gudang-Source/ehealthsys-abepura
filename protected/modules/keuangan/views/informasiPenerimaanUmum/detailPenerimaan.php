@@ -43,7 +43,7 @@
                     </tr>
                     <tr>
                         <td>Dalam Jumlah Angka </td>
-                        <td>: &nbsp;<span class="currency"><?php echo MyFormatter::formatUang($modPenerimaan->totalharga);?></span></td>
+                        <td>: &nbsp;<span><?php echo "Rp".number_format($modPenerimaan->totalharga,0,'','.');?></span></td>
                     </tr>
                     <tr>
                         <td>Dalam Jumlah Huruf</td>

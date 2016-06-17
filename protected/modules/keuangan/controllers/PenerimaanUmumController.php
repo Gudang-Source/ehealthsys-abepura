@@ -373,7 +373,7 @@ class PenerimaanUmumController extends MyAuthController
             $stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
             $mpdf->WriteHTML($stylesheet,1);
             $mpdf->WriteHTML($this->renderPartial($this->path_view. 'Print', array('model' => $model, 'modUraian'=>$modUraian,'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
-            $mpdf->Output();
+            $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
          }
     }
 	public function actionGetDataRekeningByJnsPenerimaan()
