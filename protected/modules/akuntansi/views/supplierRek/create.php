@@ -14,5 +14,5 @@
 
     $this->widget('bootstrap.widgets.BootAlert'); ?>
 
-    <?php echo $this->renderPartial('_form', array('model'=>$model,'modSupplier'=>$modSupplier)); ?>
+    <?php echo $this->renderPartial('_form', array('model'=>$model,'modSupplier'=>$modSupplier, 'latitude'=>$latitude, 'longitude'=>$longitude)); ?>
 </div>
