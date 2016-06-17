@@ -30,16 +30,16 @@ echo "<br>Sumber Anggaran : <b>".$model->sumberanggaran->sumberanggarannama."</b
 		foreach($modDetails as $i => $modDetail){
 		?>
 		<tr>
-				<td style="font-weight: normal;"><?php echo $i+1; echo ". "; ?></td>
+				<td style="font-weight: normal; text-align: right;"><?php echo $i+1; echo ". "; ?></td>
 				<td style="font-weight: normal;"><?php echo $modDetail->renanggaran_ke; ?></td>
-				<td style="font-weight: normal;"><?php echo $modDetail->tglrenanggaranpen; ?></td>
-				<td style="font-weight: normal;"><?php echo $format->formatNumberForUser($modDetail->nilaipenerimaan); ?></td>
+				<td style="font-weight: normal; text-align: right;"><?php echo $modDetail->tglrenanggaranpen; ?></td>
+				<td style="font-weight: normal;"><?php echo $format->formatNumberForPrint($modDetail->nilaipenerimaan); ?></td>
 		</tr>
 		<?php } ?>
 			<tr style="border:1px solid;">
 				<td colspan="3" style="text-align:right;font-weight: normal; font-style: italic;">Total Anggaran</td>
 				<td style="font-weight: normal; font-style: italic;">
-					<?php echo $format->formatNumberForUser($model->total_renanggaranpen) ?>
+					<?php echo $format->formatNumberForPrint($model->total_renanggaranpen) ?>
 				</td>
 			</tr>
 	</tbody>

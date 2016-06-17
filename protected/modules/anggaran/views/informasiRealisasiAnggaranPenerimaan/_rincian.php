@@ -22,10 +22,10 @@ echo "<br>Sumber Anggaran : <b>".$models[0]->sumberanggaran->sumberanggarannama.
 		?>
 		<tr>
 				<td><?php echo $i+1; echo ". "; ?></td>
-				<td><?php echo $modDetail->penerimaanke; ?></td>
+				<td style="text-align: right;"><?php echo $modDetail->penerimaanke; ?></td>
 				<td><?php echo $format->formatDateTimeId($modDetail->tglrealisasianggpen); ?></td>
-				<td><?php echo $format->formatUang($modDetail->nilaipenerimaan); ?></td>
-				<td><?php echo $format->formatUang($modDetail->realisasipenerimaan); ?></td>
+				<td style="text-align: right;"><?php echo $format->formatUang($modDetail->nilaipenerimaan); ?></td>
+				<td style="text-align: right;"><?php echo $format->formatUang($modDetail->realisasipenerimaan); ?></td>
 				<?php
 				$total_nilai += $modDetail->nilaipenerimaan;
 				$total_realisasi += $modDetail->realisasipenerimaan;
@@ -35,10 +35,10 @@ echo "<br>Sumber Anggaran : <b>".$models[0]->sumberanggaran->sumberanggarannama.
 		<tfoot>
 			<tr>
 				<td colspan="3" style="text-align:right;"><strong>Total Anggaran</strong></td>
-				<td>
+				<td style="text-align: right;">
 					<strong><?php echo $format->formatUang($total_nilai) ?></strong>
 				</td>
-				<td>
+				<td style="text-align: right;">
 					<strong><?php echo $format->formatUang($total_realisasi) ?></strong>
 				</td>
 			</tr>
