@@ -46,7 +46,7 @@ class InstalasiM extends CActiveRecord
 			array('instalasi_nama, instalasi_singkatan', 'required'),
 			array('instalasi_nama, instalasi_namalainnya, instalasi_lokasi,instalasirujukaninternal,', 'length', 'max'=>50),
 			array('instalasi_singkatan', 'length', 'max'=>2),
-			array('instalasi_aktif', 'safe'),
+			array('instalasi_aktif, revenuecenter', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('instalasi_id, instalasi_nama, instalasi_namalainnya,instalasirujukaninternal,riwayatruangan_id,instalasi_adakamar,instalasi_image,instalasi_singkatan, instalasi_lokasi, instalasi_aktif', 'safe', 'on'=>'search'),
@@ -78,6 +78,7 @@ class InstalasiM extends CActiveRecord
 			'instalasi_lokasi' => 'Lokasi Instalasi',
 			'instalasi_aktif' => 'Aktif',
                         'instalasirujukaninternal'=>'Rujukan Internal',
+                        'revenuecenter' => 'Pusat Pendapatan',
                         'riwayatruangan_id'=>'Riwayat Ruangan ID',
                         'instalasi_adakamar'=>'Ada Kamar ?',
                         'instalasi_image'=>'Photo',
