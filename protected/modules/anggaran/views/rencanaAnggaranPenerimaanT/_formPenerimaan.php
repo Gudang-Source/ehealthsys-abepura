@@ -8,7 +8,7 @@
 			<?php echo $form->labelEx($model,'Periode Anggaran', array('class'=>'control-label')) ?>
 				<div class="controls">
 					<?php echo $form->dropDownList($model, 'konfiganggaran_id', CHtml::listData(AGRencanggaranpengT::model()->getTglPeriode(), 'konfiganggaran_id', 'deskripsiperiode'), array('empty'=>'--Pilih--','class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);",'onchange'=>'validasiDigit();'));// ?>
-					<?php echo CHtml::hiddenField('konfiganggaran_id','',array('class'=>'span2 integer','style'=>'width:90px;','readonly'=>true))?>
+					<?php echo CHtml::hiddenField('konfiganggaran_id','',array('class'=>'span2 integer2','style'=>'width:90px;','readonly'=>true))?>
 				</div>
 		</div>
 		<div class="control-group ">

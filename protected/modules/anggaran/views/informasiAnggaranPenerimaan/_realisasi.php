@@ -55,7 +55,7 @@ if(isset($_GET['sukses'])){
 							<?php echo $form->hiddenField($modPenerimaan,'sumberanggaran_id',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'readonly'=>true)); ?>
 						</div>
 				</div>
-			<?php echo $form->hiddenField($modPenerimaan,'digitnilai',array('class'=>'span3 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'readonly'=>true)) ?>
+			<?php echo $form->hiddenField($modPenerimaan,'digitnilai',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'readonly'=>true)) ?>
 			</div>
 		</div>
     </fieldset>
@@ -69,28 +69,29 @@ if(isset($_GET['sukses'])){
 							<?php // echo $form->dropDownList($model, 'renanggaranpenerimaandet_id', CHtml::listData(AGRenanggaranpenerimaandetT::model()->findAllByAttributes(array('renanggpenerimaan_id'=>$modPenerimaan->renanggpenerimaan_id)), 'renanggaranpenerimaandet_id', 'renanggaran_ke'), array('empty'=>'--Pilih--','class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'onchange'=>'terminke();')); ?>
 							<?php echo $form->dropDownList($model, 'renanggaranpenerimaandet_id', CHtml::listData($modDetail->getTermin($modPenerimaan->renanggpenerimaan_id),'renanggaranpenerimaandet_id', 'renanggaran_ke'), array('empty'=>'--Pilih--','class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'onchange'=>'terminke();')); ?>
 						</div>
-				<?php echo $form->hiddenField($model,'penerimaanke',array('class'=>'span3 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'readonly'=>true)); ?>
+				<?php echo $form->hiddenField($model,'penerimaanke',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'readonly'=>true)); ?>
 				</div>
 				<div style="float:left;">
-				<?php echo $form->textFieldRow($model,'nilaipenerimaan',array('class'=>'span3 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'readonly'=>true)); ?>
+				<?php echo $form->textFieldRow($model,'nilaipenerimaan',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'readonly'=>true)); ?>
 				</div>
+                                <?php /*
 				<div style="float:left;">
 				<span id="digit-label-nilaipenerimaan" style="margin-left:10px;"></span>
-				</div>
+				</div> */ ?>
 			</div>
 			<div class="span4">
-				<?php echo $form->textFieldRow($model,'realisasipenerimaan',array('class'=>'span3 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);",'onkeyup'=>'hitungJumlahBayar()')); ?>
-				<?php echo $form->textFieldRow($modTandaBuktiBayar,'biayamaterai',array('class'=>'span3 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);",'onkeyup'=>'hitungJumlahBayar()')); ?>
+				<?php echo $form->textFieldRow($model,'realisasipenerimaan',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);",'onkeyup'=>'hitungJumlahBayar()')); ?>
+				<?php echo $form->textFieldRow($modTandaBuktiBayar,'biayamaterai',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);",'onkeyup'=>'hitungJumlahBayar()')); ?>
 			</div>
 			<div class="span4">
 				<div class="control-group ">
 					<?php echo $form->labelEx($modPenerimaan,'Total Penerimaan', array('class'=>'control-label')) ?>
 						<div class="controls">
-							<?php echo $form->textField($modPenerimaan,'nilaipenerimaananggaran',array('class'=>'span3 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'readonly'=>true)); ?>
+							<?php echo $form->textField($modPenerimaan,'nilaipenerimaananggaran',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'readonly'=>true)); ?>
 						</div>
 					<span id="digit-label-totalpenerimaan" style="margin-left:10px;"></span>
 				</div>
-				<?php echo $form->textFieldRow($modTandaBuktiBayar,'jmlpembayaran',array('class'=>'span3 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'readonly'=>true)); ?>
+				<?php echo $form->textFieldRow($modTandaBuktiBayar,'jmlpembayaran',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'readonly'=>true)); ?>
 			</div>
 		</div>
     </fieldset>

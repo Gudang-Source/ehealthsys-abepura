@@ -6,7 +6,7 @@ echo $this->renderPartial('application.views.headerReport.headerAnggaran',array(
 		<td>No. Penerimaan </td><td>:</td><td width="75%"><?php echo $model->norealisasianggpen; ?></td>
 	</tr>
 	<tr>
-		<td>Tanggal Bukti Bayar </td><td>:</td><td><?php echo date("Y-m-d", strtotime($modTandaBukti->tglbuktibayar)); ?></td>
+            <td>Tanggal Bukti Bayar </td><td>:</td><td><?php echo MyFormatter::formatDateTimeForUser(date('Y-m-d', strtotime($modTandaBukti->tglbuktibayar))); ?></td>
 	</tr>
 	<tr>
 		<td>Sumber Anggaran </td><td>:</td><td><?php echo $modPenerimaan->sumberanggaran->sumberanggarannama; ?></td>

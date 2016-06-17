@@ -1,3 +1,7 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
+
 <script type="text/javascript">
 function validasiDigit(){
 var konfig_id=$("#<?php echo CHtml::activeId($model,"konfiganggaran_id");?>").val();
@@ -108,10 +112,10 @@ function verifikasi(){
         }
         
         $(".animation-loading").removeClass("animation-loading");
-        $("form").find('.float').each(function(){
+        $("form").find('.floar2').each(function(){
             $(this).val(formatFloat($(this).val()));
         });
-        $("form").find('.integer').each(function(){
+        $("form").find('.integer2').each(function(){
             $(this).val(formatInteger($(this).val()));
         });
     }
