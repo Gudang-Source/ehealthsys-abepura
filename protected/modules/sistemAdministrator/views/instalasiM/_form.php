@@ -19,8 +19,22 @@
             <?php echo $form->textFieldRow($model,'instalasi_lokasi',array('class'=>'span3', 'onkeypress'=>"return nextFocus(this,event,'btn_simpan','SAInstalasiM_instalasi_singkatan')", 'maxlength'=>50)); ?>
             <?php echo $form->textAreaRow($modRiwayatRuanganR,'tentangpenetapan',array('rows'=>6, 'cols'=>50, 'class'=>'span5', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
         </td>
-        <td>
-            <?php echo $form->textFieldRow($model,'instalasirujukaninternal',array('class'=>'span3', 'onkeypress'=>"return nextFocus(this,event,'SAInstalasiM_instalasi_namalainnya','')", 'maxlength'=>50)); ?>
+        <td>                       
+            <div class = "control-group">
+                <?php echo CHtml::label('Pusat Pendapatan','revenuecenter', array('class'=>'control-label')) ?>
+                <div class = "controls">
+                    <?php echo $form->radioButton($model,'revenuecenter',array('value'=>1,'uncheckValue'=>null)).' Ya &nbsp;&nbsp;'; ?>
+                    <?php echo $form->radioButton($model,'revenuecenter',array('value'=>0,'uncheckValue'=>null)).' Tidak'; ?>
+                </div>
+            </div>
+            <?php //echo $form->textFieldRow($model,'instalasirujukaninternal',array('class'=>'span3', 'onkeypress'=>"return nextFocus(this,event,'SAInstalasiM_instalasi_namalainnya','')", 'maxlength'=>50)); ?>
+            <div class = "control-group">
+                <?php echo CHtml::label('Rujukan Internal','instalasirujukaninternal', array('class'=>'control-label')) ?>
+                <div class = "controls">
+                    <?php echo $form->radioButton($model,'instalasirujukaninternal',array('value'=>1,'uncheckValue'=>null)).' Ya &nbsp;&nbsp;'; ?>
+                    <?php echo $form->radioButton($model,'instalasirujukaninternal',array('value'=>0,'uncheckValue'=>null)).' Tidak'; ?>
+                </div>
+            </div>
             <?php echo $form->dropDownListRow($model,'instalasi_adakamar',array(''=>'-Pilih-',1=>'Ya',0=>'Tidak'),array('class'=>'span3', 'onkeypress'=>"return nextFocus(this,event,'SAInstalasiM_instalasi_singkatan','SAInstalasiM_instalasi_nama')", 'maxlength'=>50)); ?>
             <div class="control-group ">
                 <?php echo $form->labelEx($modRiwayatRuanganR,'tglpenetapanruangan', array('class'=>'control-label')) ?>
