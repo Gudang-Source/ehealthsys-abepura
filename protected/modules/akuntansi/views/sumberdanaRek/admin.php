@@ -39,7 +39,7 @@
         <!--<h6>Tabel Jurnal <b>Rekening Sumber Dana</b></h6>-->
         <?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'id'=>'sumberdanarek-m-grid',
-            'dataProvider'=>$model->searchIndex(NULL),
+            'dataProvider'=>$model->search(),
             'filter'=>$model,
             'template'=>"{summary}\n{items}\n{pager}",
             'itemsCssClass'=>'table table-striped table-bordered table-condensed',
@@ -52,21 +52,37 @@
                     array(
                             'header'=>'Nama Sumber Dana',
                             'name'=>'sumberdana_nama',
-                            'value'=>'$data->sumberdana->sumberdana_nama',  
+                            'value'=>'$data->sumberdana_nama',  
                     ),
 
                     array(
                             'header'=>'Rekening Debit',
                             'type'=>'raw',
                             'name'=>'rekDebit',
-                            'value'=>'$this->grid->owner->renderPartial("_rek_debet",array("rekening5_nb"=>"D","sumberdana_id"=>$data->sumberdana_id),true)',
+                            'value'=>function($data) {
+                                $rek = SumberdanarekM::model()->findByAttributes(array(
+                                    'sumberdana_id'=>$data->sumberdana_id,
+                                    'debitkredit'=>'D',
+                                ));
+                                if (empty($rek)) return "-";
+                                return $rek->rekening5->nmrekening5;
+                            }
+                            //'value'=>'$this->grid->owner->renderPartial("_rek_debet",array("rekening5_nb"=>"D","sumberdana_id"=>$data->sumberdana_id),true)',
                     ),
 
                     array(
                             'header'=>'Rekening Kredit',
                             'type'=>'raw',
                             'name'=>'rekKredit',
-                            'value'=>'$this->grid->owner->renderPartial("_rek_kredit",array("rekening5_nb"=>"K","sumberdana_id"=>$data->sumberdana_id),true)',
+                            'value'=>function($data) {
+                                $rek = SumberdanarekM::model()->findByAttributes(array(
+                                    'sumberdana_id'=>$data->sumberdana_id,
+                                    'debitkredit'=>'K',
+                                ));
+                                if (empty($rek)) return "-";
+                                return $rek->rekening5->nmrekening5;
+                            }
+                            // 'value'=>'$this->grid->owner->renderPartial("_rek_kredit",array("rekening5_nb"=>"K","sumberdana_id"=>$data->sumberdana_id),true)',
                     ), 
 
                     array(
@@ -82,6 +98,20 @@
                                     ),
                             ),
                     ),
+                            
+                    array(
+                            'header'=>Yii::t('zii','Update'),
+                            'class'=>'bootstrap.widgets.BootButtonColumn',
+                            'template'=>'{update}',
+                            'buttons'=>array(
+                                    'update' => array (
+                                                    'label'=>"<i class='icon-update'></i>",
+                                                    'options'=>array('title'=>Yii::t('mds','Update')),
+                                                    'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/update",array("id"=>"$data->sumberdana_id"))',                                               
+                                    ),
+                            ),
+                    ),        
+                            
                     array(
                             'header'=>Yii::t('zii','Delete'),
                             'class'=>'bootstrap.widgets.BootButtonColumn',

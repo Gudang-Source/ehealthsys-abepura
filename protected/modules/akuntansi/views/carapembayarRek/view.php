@@ -1,6 +1,6 @@
 <div class='white-container'>
     <legend class='rim2'>Lihat Jurnal <b>Rekening Cara Pembayaran</b></legend>
-    <?php
+    <?php /*
     $this->breadcrumbs=array(
         'Jurnal Rekening Cara Pembayaran'=>array('index'),
         $model->carapembayaran,
@@ -11,7 +11,7 @@
                     (Yii::app()->user->checkAccess(Params::DEFAULT_ADMIN)) ?array_push($arrMenu,array('label'=>Yii::t('mds','Manage').' Jurnal Rekening Cara Pembayaran', 'icon'=>'folder-open', 'url'=>array('admin'))) :  '' ;
 
     $this->menu=$arrMenu;
-
+    */
     $this->widget('bootstrap.widgets.BootAlert'); ?>
 
     <?php $this->widget('ext.bootstrap.widgets.BootDetailView',array(
