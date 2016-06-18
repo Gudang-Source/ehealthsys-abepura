@@ -48,9 +48,9 @@ class MenumodulK extends CActiveRecord
 		return array(
 			array('kelmenu_id, modul_id, menu_nama, menu_url', 'required'),
 			array('kelmenu_id, modul_id, menu_urutan', 'numerical', 'integerOnly'=>true),
-			array('menu_nama, menu_namalainnya, menu_key, menu_fungsi', 'length', 'max'=>100),
+			array('menu_nama, menu_namalainnya, menu_key', 'length', 'max'=>100),
 			array('menu_url', 'length', 'max'=>100),
-			array('menu_aktif, menu_icon,menu_shortcut', 'safe'),
+			array('menu_aktif, menu_icon,menu_shortcut,menu_fungsi', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('menu_id, kelmenu_id, modul_id, menu_nama, menu_namalainnya, menu_key, menu_url, menu_fungsi, menu_urutan, menu_aktif, menu_icon,menu_shortcut', 'safe', 'on'=>'search'),
