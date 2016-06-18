@@ -3,7 +3,7 @@
 		<div class="control-group ">
 			<?php echo $form->labelEx($model, 'nilaipenerimaananggaran', array('class' =>'control-label')); ?>
 			<div class="controls">
-				<?php echo $form->textField($model,'nilaipenerimaananggaran',array('class'=>'span3 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
+				<?php echo $form->textField($model,'nilaipenerimaananggaran',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
 				<span id="digit"></span>
 			</div>
 		</div>
@@ -13,7 +13,7 @@
 		<div class="control-group ">
 			<?php echo $form->labelEx($model, 'berapaxpenerimaan', array('class' =>'control-label')); ?>
 			<div class="controls">
-				<?php echo $form->textField($model,'berapaxpenerimaan',array('class'=>'span1 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
+				<?php echo $form->textField($model,'berapaxpenerimaan',array('class'=>'span1 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
 				<?php echo CHtml::label('kali / tahun',''); ?>
 			</div>
 			<div style="margin-left:250px; margin-top: -5px;">

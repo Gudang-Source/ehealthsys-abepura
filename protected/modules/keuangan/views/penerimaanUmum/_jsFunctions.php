@@ -2,7 +2,7 @@
 
 	var trUraian = new String(<?php echo CJSON::encode($this->renderPartial($this->path_view. '_rowUraian', array('form' => $form, 'modUraian' => $modUraian, 'removeButton' => true), true)); ?>);
 //var trUraian=new String(<?php //echo CJSON::encode($this->renderPartial('_rowUraian',array('form'=>$form,'modUraian'=>array(0=>$modUraian[0]),'removeButton'=>true),true)); ?>);
-	$('.currency').each(function () {
+	$('.integer2').each(function () {//currency
 		this.value = formatNumber(this.value)
 	});
 
@@ -81,7 +81,7 @@
 				}
 			}
 
-			$('.currency').each(
+			$('.integer2').each(//currency
 					function () {
 						this.value = unformatNumber(this.value)
 					}
@@ -134,7 +134,7 @@
 				return false;
 			}
 		}
-		$('.currency').each(function () {
+		$('.integer2').each(function () {//currency
 			this.value = unformatNumber(this.value)
 		});
 
@@ -323,18 +323,18 @@
 
 	function unMaskMoneyInput(tr)
 	{
-		$(tr).find('input.currency:text').unmaskMoney();
+		$(tr).find('input.integer2:text').unmaskMoney();
 	}
 
 	function maskMoneyInput(tr)
 	{
-		$(tr).find('input.currency:text').maskMoney(
+		$(tr).find('input.integer2:text').maskMoney(
 				{
-					"symbol": "Rp. ",
+					"symbol": "Rp",
 					"defaultZero": true,
 					"allowZero": true,
-					"decimal": ".",
-					"thousands": ",",
+					"decimal": ",",
+					"thousands": ".",
 					"precision": 0
 				}
 		);

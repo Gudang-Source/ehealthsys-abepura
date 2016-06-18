@@ -308,9 +308,9 @@ class InformasiRencanaAnggaranPenerimaanController extends MyAuthController
 		$model->pegawaimengetahui_nama = isset($model->renpen_mengetahui_id) ? AGPegawaiV::model()->findByAttributes(array('pegawai_id'=>$model->renpen_mengetahui_id))->nama_pegawai : "";
 		$model->pegawaimenyetujui_nama = isset($model->renpen_menyetujui_id) ? AGPegawaiV::model()->findByAttributes(array('pegawai_id'=>$model->renpen_menyetujui_id))->nama_pegawai : "";
 		$digit = AGKonfiganggaranK::model()->findByPk($model->konfiganggaran_id)->digitnilaianggaran;
-		$digit_str = "1".$digit;
-		$model->digitnilai = "/ ".$digit;
-		$model->total_renanggaranpen = $format->formatNumberForUser($model->total_renanggaranpen/ (int)$digit_str);
+		$digit_str = 1; //"1".$digit;
+		// $model->digitnilai = "/ ".$digit;
+		$model->total_renanggaranpen = $format->formatNumberForPrint($model->total_renanggaranpen/ (int)$digit_str);
 		$modDetail = new AGRenanggaranpenerimaandetT;
 		$modDetails = AGRenanggaranpenerimaandetT::model()->findAllByAttributes(array('renanggpenerimaan_id'=>$renanggpenerimaan_id));
 			
@@ -334,30 +334,34 @@ class InformasiRencanaAnggaranPenerimaanController extends MyAuthController
 						$jumlahRow = $_POST['AGRenanggpenerimaanT']['jmlRow'];
 						$nilaiPenerimaan = $_POST['AGRenanggpenerimaanT']['totalnilaipenerimaan'];
 						foreach($_POST['AGRenanggaranpenerimaandetT'] AS $i => $postRencanaDet){
-							$modKonfig = AGKonfiganggaranK::model()->findByPk($model->konfiganggaran_id);
-							if ($modKonfig->digitnilaianggaran === "0"){
-								$digitNilai = null;
-							}else {
-								$digitNilai = isset($modKonfig->digitnilaianggaran) ? $modKonfig->digitnilaianggaran : null;
-							}
+							//$modKonfig = AGKonfiganggaranK::model()->findByPk($model->konfiganggaran_id);
+							//if ($modKonfig->digitnilaianggaran === "0"){
+							//	$digitNilai = null;
+							//}else {
+							//	$digitNilai = isset($modKonfig->digitnilaianggaran) ? $modKonfig->digitnilaianggaran : null;
+							//}
 									if ($_POST['AGRenanggaranpenerimaandetT'][$i]['renanggaranpenerimaandet_id'] != 0){
-										$updatePenerimaan = AGRenanggpenerimaanT::model()->updateByPk($renanggpenerimaan_id, array('approverenanggpen_id'=>$modApprove->approverenanggpen_id,'berapaxpenerimaan'=>$jumlahRow, 'nilaipenerimaananggaran'=>$nilaiPenerimaan.$digitNilai));								
+										$updatePenerimaan = AGRenanggpenerimaanT::model()->updateByPk($renanggpenerimaan_id, array('approverenanggpen_id'=>$modApprove->approverenanggpen_id,'berapaxpenerimaan'=>$jumlahRow, 'nilaipenerimaananggaran'=>$nilaiPenerimaan));								
 										if ($updatePenerimaan)
-										$this->approveUpdateId &= true;
-										$updateDetail = AGRenanggaranpenerimaandetT::model()->updateByPk($_POST['AGRenanggaranpenerimaandetT'][$i]['renanggaranpenerimaandet_id'],array('tglrenanggaranpen'=>$format->formatDateTimeForDb($_POST['AGRenanggaranpenerimaandetT'][$i]['tglrenanggaranpen']),'nilaipenerimaan'=>$_POST['AGRenanggaranpenerimaandetT'][$i]['nilaipenerimaan'].$digitNilai));
+                                                                                    $this->approveUpdateId &= true;
+										$updateDetail = AGRenanggaranpenerimaandetT::model()->updateByPk($_POST['AGRenanggaranpenerimaandetT'][$i]['renanggaranpenerimaandet_id'],array('tglrenanggaranpen'=>$format->formatDateTimeForDb($_POST['AGRenanggaranpenerimaandetT'][$i]['tglrenanggaranpen']),'nilaipenerimaan'=>$_POST['AGRenanggaranpenerimaandetT'][$i]['nilaipenerimaan']));
 										if ($updateDetail)
-										$this->approveUpdateTglDet &= true;
+                                                                                    $this->approveUpdateTglDet &= true;
 									}else if ($_POST['AGRenanggaranpenerimaandetT'][$i]['renanggaranpenerimaandet_id'] == 0){
-										$updatePenerimaan = AGRenanggpenerimaanT::model()->updateByPk($renanggpenerimaan_id, array('approverenanggpen_id'=>$modApprove->approverenanggpen_id,'berapaxpenerimaan'=>$jumlahRow, 'nilaipenerimaananggaran'=>$nilaiPenerimaan.$digitNilai, 'total_renanggaranpen'=>$nilaiPenerimaan.$digitNilai));								
+										$updatePenerimaan = AGRenanggpenerimaanT::model()->updateByPk($renanggpenerimaan_id, array('approverenanggpen_id'=>$modApprove->approverenanggpen_id,'berapaxpenerimaan'=>$jumlahRow, 'nilaipenerimaananggaran'=>$nilaiPenerimaan, 'total_renanggaranpen'=>$nilaiPenerimaan));								
 										if ($updatePenerimaan)
-										$this->approveUpdateId &= true;
-										$modDet = new AGRenanggaranpenerimaandetT;
+                                                                                    $this->approveUpdateId &= true;
+										
+                                                                                $modDet = new AGRenanggaranpenerimaandetT;
 										$modDet->attributes = $postRencanaDet;
 										$modDet->renanggpenerimaan_id = $model->renanggpenerimaan_id;
 										$modDet->renanggaran_ke = $i+1;
-										$modDet->nilaipenerimaan = $postRencanaDet['nilaipenerimaan'].$digitNilai;
+										$modDet->nilaipenerimaan = $postRencanaDet['nilaipenerimaan'];
 										$modDet->tglrenanggaranpen = $format->formatDateTimeForDb($postRencanaDet['tglrenanggaranpen']);
-										if($modDet->save()) {
+										
+                                                                                // var_dump($modDet->attributes); die;
+                                                                                
+                                                                                if($modDet->save()) {
 											$this->insertDetail &= true;
 										} else {
 											$this->insertDetail &= false;

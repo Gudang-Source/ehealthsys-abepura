@@ -1,3 +1,6 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
 <script type="text/javascript">
 function terminke(){
 var renanggaranpenerimaandet_id=$("#<?php echo CHtml::activeId($model,"renanggaranpenerimaandet_id");?>").val();

@@ -43,7 +43,7 @@ if(isset($_GET['sukses'])){
                 <tfoot>
                     <tr>
                         <td colspan="3" style="text-align:right;">TOTAL Nilai Penerimaan</td>
-                        <td><?php echo $form->textField($model,'total_renanggaranpen',array('class'=>'span2 integer','style'=>'width:90px;','readonly'=>true))?></td>
+                        <td><?php echo $form->textField($model,'total_renanggaranpen',array('class'=>'span2 integer2','style'=>'width:90px;','readonly'=>true))?></td>
                     </tr>
                 </tfoot>
             </tbody>

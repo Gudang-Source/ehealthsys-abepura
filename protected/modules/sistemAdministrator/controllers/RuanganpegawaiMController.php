@@ -8,7 +8,7 @@ class RuanganpegawaiMController extends MyAuthController
     
 	public function actionIndex()
 	{
-		$this->render('index');
+		$this->render($this->path_view.'index');
 	}
         
                 public function actionAdmin()

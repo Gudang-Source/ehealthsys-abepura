@@ -45,12 +45,27 @@
                     'nopembelian',
     //		'terimapersediaan_id',
                     'sumberdana.sumberdana_nama',
-                    'supplier.supplier_nama',
-                    'tglpembelian',
-                    'tgldikirim',
-                    'pemesan.nama_pegawai',
-                    'mengetahui.nama_pegawai',
-                    'menyetujui.nama_pegawai',
+                    'supplier.supplier_nama',                    
+                     array(
+                        'header' => 'Tanggal Pembelian',
+                        'value' => 'Myformatter::formatDateTimeForUser(date("Y-m-d",strtotime($data->tglpembelian)))'
+                    ),  
+                     array(
+                        'header' => 'Tanggal Dikirim',
+                        'value' => 'Myformatter::formatDateTimeForUser(date("Y-m-d",strtotime($data->tgldikirim)))'
+                    ),  
+                    array(
+                        'header' => 'Pegawai Pemesan',
+                        'value' => '$data->pemesan->nama_pegawai'
+                    ),                    
+                    array(
+                        'header' => 'Pegawai Mengetahui',
+                        'value' => '$data->mengetahui->nama_pegawai'
+                    ),                    
+                    array(
+                        'header' => 'Pegawai Menyetujui',
+                        'value' => '$data->menyetujui->nama_pegawai'
+                    ),                                        
                 /*
                     'create_time',
                     'update_time',

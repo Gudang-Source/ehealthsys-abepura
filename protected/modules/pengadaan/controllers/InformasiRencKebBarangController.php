@@ -86,18 +86,18 @@ class InformasiRencKebBarangController extends MyAuthController
 		$this->layout='//layouts/iframe';
 		$format = new MyFormatter();
 		$model = ADInformasirenkebbarangV::model()->findByAttributes(array('renkebbarang_id'=>$renkebbarang_id));
-        $modHead = ADRenkebbarangT::model()->findByPk($renkebbarang_id);		
-        $modDetails = ADRenkebbarangdetT::model()->findAllByAttributes(array('renkebbarang_id'=>$renkebbarang_id));
-        $judulLaporan = 'Rencana Kebutuhan Barang Umum';
-		$deskripsi = 'Tanggal '.MyFormatter::formatDateTimeId($model->renkebbarang_tgl);
-        $this->render($this->path_view.'_rincian', array(
-				'format'=>$format,
-				'model'=>$model,
-				'judulLaporan'=>$judulLaporan,
-				'deskripsi'=>$deskripsi,
-				'modHead'=>$modHead,
-				'modDetails'=>$modDetails
-		));
+                $modHead = ADRenkebbarangT::model()->findByPk($renkebbarang_id);		
+                $modDetails = ADRenkebbarangdetT::model()->findAllByAttributes(array('renkebbarang_id'=>$renkebbarang_id));
+                $judulLaporan = 'Rencana Kebutuhan Barang Umum';
+                        $deskripsi = 'Tanggal '.MyFormatter::formatDateTimeId($model->renkebbarang_tgl);
+                $this->render($this->path_view.'_rincian', array(
+                                        'format'=>$format,
+                                        'model'=>$model,
+                                        'judulLaporan'=>$judulLaporan,
+                                        'deskripsi'=>$deskripsi,
+                                        'modHead'=>$modHead,
+                                        'modDetails'=>$modDetails
+                        ));
 		
 	}
         

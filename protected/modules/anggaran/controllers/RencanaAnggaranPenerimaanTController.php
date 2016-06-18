@@ -112,7 +112,7 @@ class RencanaAnggaranPenerimaanTController extends MyAuthController{
             $berapaxpenerimaan = $_POST['berapaxpenerimaan'];
 			$termin = $berapaxpenerimaan;
 			$hasil = $nilaipenerimaananggaran / $berapaxpenerimaan;
-			$modDetail->hasil = $format->formatNumberForUser($hasil);
+			$modDetail->hasil = $format->formatNumberForPrint($hasil);
 			echo CJSON::encode(array(
                 'form'=>$this->renderPartial('_rowTermin', array(
                         'format'=>$format,

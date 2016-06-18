@@ -2,7 +2,7 @@
 //    $modRekPenjamin = PenjaminrekM::model()->findAllByAttributes(array('penjamin_id'=>$penjamin_id,'saldonormal'=>$saldonormal));
     $modRekPenjamin = PenjaminrekM::model()->findAllBySql("SELECT * 
 FROM penjaminrek_m 
-JOIN rekening5_m as rekeningdebit ON penjaminrek_m.rekening5_id = rekeningdebit.rekening5_id AND rekeningdebit.rekening5_nb = 'D'
+JOIN rekening5_m as rekeningdebit ON penjaminrek_m.rekening5_id = rekeningdebit.rekening5_id AND penjaminrek_m.debitkredit = 'D'
 WHERE
 penjaminrek_m.penjamin_id = $penjamin_id");
     if(COUNT($modRekPenjamin)>0)

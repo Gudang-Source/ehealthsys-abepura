@@ -35,10 +35,10 @@ echo "<br>Sumber Anggaran : <b>".$models[0]->sumberanggaran->sumberanggarannama.
 		?>
 		<tr>
 				<td style="font-weight: normal;"><?php echo $i+1; echo ". "; ?></td>
-				<td style="font-weight: normal;"><?php echo $modDetail->penerimaanke; ?></td>
+				<td style="font-weight: normal; text-align: right;"><?php echo $modDetail->penerimaanke; ?></td>
 				<td style="font-weight: normal;"><?php echo $format->formatDateTimeId($modDetail->tglrealisasianggpen); ?></td>
-				<td style="font-weight: normal;"><?php echo $format->formatUang($modDetail->nilaipenerimaan); ?></td>
-				<td style="font-weight: normal;"><?php echo $format->formatUang($modDetail->realisasipenerimaan); ?></td>
+				<td style="font-weight: normal; text-align: right;"><?php echo $format->formatUang($modDetail->nilaipenerimaan); ?></td>
+				<td style="font-weight: normal; text-align: right;"><?php echo $format->formatUang($modDetail->realisasipenerimaan); ?></td>
 				<?php
 				$total_nilai += $modDetail->nilaipenerimaan;
 				$total_realisasi += $modDetail->realisasipenerimaan;
@@ -47,10 +47,10 @@ echo "<br>Sumber Anggaran : <b>".$models[0]->sumberanggaran->sumberanggarannama.
 		<?php } ?>
 			<tr style="border:1px solid;">
 				<td colspan="3" style="text-align:right;font-weight: normal; font-style: italic;">Total Anggaran</td>
-				<td style="font-weight: normal; font-style: italic;">
+				<td style="font-weight: normal; font-style: italic; text-align: right;">
 					<strong><?php echo $format->formatUang($total_nilai) ?></strong>
 				</td>
-				<td style="font-weight: normal; font-style: italic;">
+				<td style="font-weight: normal;  text-align: right; font-style: italic;">
 					<strong><?php echo $format->formatUang($total_realisasi) ?></strong>
 				</td>
 			</tr>
