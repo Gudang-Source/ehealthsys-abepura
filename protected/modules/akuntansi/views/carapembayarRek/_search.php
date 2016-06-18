@@ -13,11 +13,12 @@
                  <?php echo CHtml::label('Cara Bayar','', array('class'=>'control-label')) ?>
                 <div class="controls">
                     <?php 
-                        echo $form->textField($model,'carapembayaran',array('class'=>'span3'));
+                        echo $form->textField($model,'lookup_name',array('class'=>'span3'));
                     ?>
                 </div>
             </div>
         </td>
+        <?php /*
         <td>
             <div class="control-group">
                 <?php echo CHtml::label('Rekening Debit','', array('class'=>'control-label')) ?>
@@ -40,6 +41,8 @@
                 </div>
             </div>          
         </td>
+         * 
+         */ ?>
     </tr>
 </table>
 
