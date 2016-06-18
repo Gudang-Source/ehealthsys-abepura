@@ -20,7 +20,7 @@
         .nav-tabs>li>a{display:block; cursor:pointer;}
         .nav-tabs > .active a:hover{cursor:pointer;}
     </style>
-        <div class="row-fluid">
+    <div class="row-fluid">
          <div class="span4">
              <?php echo CHtml::hiddenField('type', ''); ?>
              <?php echo CHtml::label('Tanggal Pemeriksaan', 'tglpemeriksaan', array('class' => 'control-label')) ?>

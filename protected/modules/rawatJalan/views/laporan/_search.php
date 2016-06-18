@@ -21,7 +21,7 @@
         .nav-tabs > .active a:hover{cursor:pointer;}
     </style>
         
-         <div class="row-fluid">
+    <div class="row-fluid">
         <div class="span4">
             <?php $format = new MyFormatter(); ?>
             <?php echo CHtml::hiddenField('type', ''); ?>
