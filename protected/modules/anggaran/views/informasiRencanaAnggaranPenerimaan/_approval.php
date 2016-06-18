@@ -1,3 +1,8 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
+
+
 <div class="white-container">
 <legend class="rim2">Transaksi Approval Anggaran Penerimaan</legend>
 <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
@@ -42,8 +47,8 @@ if(isset($_GET['sukses'])){
 		<div class="control-group ">
 			<?php echo $form->labelEx($model,'Total Penerimaan', array('class'=>'control-label')) ?>
 				<div class="controls">
-				<?php echo $form->textField($model,'total_renanggaranpen',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'readonly'=>true)); ?>
-				<span id="digit"></span>
+				<?php echo $form->textField($model,'total_renanggaranpen',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'readonly'=>true)); ?>
+				
 				</div>
 		</div>
 	</div>
@@ -69,7 +74,7 @@ if(isset($_GET['sukses'])){
                 <tfoot>
                     <tr>
                         <td colspan="3" style="text-align:right;">Total Rencana Anggaran Penerimaan</td>
-                        <td><?php echo $form->textField($model,'totalnilaipenerimaan',array('class'=>'span2 integer','style'=>'width:90px;','readonly'=>true))?></td>
+                        <td><?php echo $form->textField($model,'totalnilaipenerimaan',array('class'=>'span2 integer2','style'=>'width:90px;','readonly'=>true))?></td>
                         <td><?php echo $form->hiddenField($model,'jmlRow',array('class'=>'span2','style'=>'width:90px;','readonly'=>true))?></td>
                     </tr>
                 </tfoot>
@@ -139,6 +144,9 @@ function addRowApproval(obj)
 	var trApprove = new String(<?php echo CJSON::encode($this->renderPartial('_rowApprovalkosong',array('modDetail'=>$modDetail,'format'=>$format,'removeButton'=>true),true));?>);
 
 	$("#table-rencanaanggaranpenerimaan > tbody > tr:last .tambahRow").attr('style','display:none;');
+        $("#table-rencanaanggaranpenerimaan > tbody > tr:last .integer2").maskMoney(
+						{"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0}
+	);
     $(obj).parents('table').children('tbody').append(trApprove.replace());
 	renameInput('#table-rencanaanggaranpenerimaan');
     $('#table-rencanaanggaranpenerimaan tbody').each(function(){
@@ -264,7 +272,7 @@ function verifikasiApprove(){
         $("form").find('.float').each(function(){
             $(this).val(formatFloat($(this).val()));
         });
-        $("form").find('.integer').each(function(){
+        $("form").find('.integer2').each(function(){
             $(this).val(formatInteger($(this).val()));
         });
     }

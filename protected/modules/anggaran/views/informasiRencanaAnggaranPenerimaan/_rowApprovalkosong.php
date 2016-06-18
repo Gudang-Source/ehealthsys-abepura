@@ -5,11 +5,11 @@ if(!empty($modDetails)) {
 ?>
 <tr>
     <td>
-        <?php echo CHtml::textField('no_urut','1',array('readonly'=>true,'class'=>'span1 integer', 'style'=>'width:20px;')); ?>
+        <?php echo CHtml::textField('no_urut','1',array('readonly'=>true,'class'=>'span1 integer2', 'style'=>'width:20px;')); ?>
 	</td>
     <td>
-        <?php echo CHtml::textField('renanggaran_ke','1',array('readonly'=>true,'class'=>'span1 integer', 'style'=>'width:20px;')); ?>
-		<?php echo CHtml::activeHiddenField($modDetail,'[0]renanggaranpenerimaandet_id',array('class'=>'span2 integer','style'=>'width:20px;','readonly'=>true)); ?>
+        <?php echo CHtml::textField('renanggaran_ke','1',array('readonly'=>true,'class'=>'span1 integer2', 'style'=>'width:20px;')); ?>
+		<?php echo CHtml::activeHiddenField($modDetail,'[0]renanggaranpenerimaandet_id',array('class'=>'span2 integer2','style'=>'width:20px;','readonly'=>true)); ?>
     </td>
     <td>
         <div class="controls">
@@ -29,7 +29,7 @@ if(!empty($modDetails)) {
 		</div>
     </td>
     <td>
-        <?php echo CHtml::activeTextField($modDetail,'[0]nilaipenerimaan',array('class'=>'span2 integer nilaianggaran','style'=>'width:90px;','onkeyup'=>'hitungTotalApprove();','onkeypress'=> 'return $(this).focusNextInputField(event);')); ?>
+        <?php echo CHtml::activeTextField($modDetail,'[0]nilaipenerimaan',array('class'=>'span2 integer2 nilaianggaran','style'=>'width:90px;','onkeyup'=>'hitungTotalApprove();','onkeypress'=> 'return $(this).focusNextInputField(event);')); ?>
     </td>
     <td>
          <?php 

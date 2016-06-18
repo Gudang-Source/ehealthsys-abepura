@@ -28,16 +28,16 @@ echo "<br>Sumber Anggaran : <b>".$model->sumberanggaran->sumberanggarannama."</b
 		?>
 		<tr>
 				<td><?php echo $i+1; echo ". "; ?></td>
-				<td><?php echo $modDetail->renanggaran_ke; ?></td>
+				<td style="text-align: right"><?php echo $modDetail->renanggaran_ke; ?></td>
 				<td><?php echo $format->formatMonthForUser($modDetail->tglrenanggaranpen); ?></td>
-				<td><?php echo $format->formatNumberForUser($modDetail->nilaipenerimaan); ?></td>
+				<td style="text-align: right"><?php echo $format->formatNumberForPrint($modDetail->nilaipenerimaan); ?></td>
 		</tr>
 		<?php } ?>
 		<tfoot>
 			<tr>
 				<td colspan="3" style="text-align:right;">Total Anggaran</td>
-				<td>
-					<?php echo $format->formatNumberForUser($model->total_renanggaranpen) ?>
+				<td style="text-align: right">
+					<?php echo $format->formatNumberForPrint($model->total_renanggaranpen) ?>
 				</td>
 			</tr>
 		</tfoot>

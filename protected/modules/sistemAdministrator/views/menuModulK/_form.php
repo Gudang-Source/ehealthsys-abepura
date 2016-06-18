@@ -29,7 +29,7 @@
                     <?php echo CHtml::link('<i class="icon-edit icon-white"></i>','#', array('class'=>'btn btn-primary', 'onclick'=>'$("#dialogUrl").dialog("open"); return false;')); ?>
                 </div>   
             </div>
-            <?php echo $form->textAreaRow($model,'menu_fungsi',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>100)); ?>
+            <?php echo $form->textAreaRow($model,'menu_fungsi',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
             <div class="control-group">
                 <?php echo CHtml::activeLabel($model,'menu_icon',array('class'=>'control-label',)); ?>
                 <div class="input-append">

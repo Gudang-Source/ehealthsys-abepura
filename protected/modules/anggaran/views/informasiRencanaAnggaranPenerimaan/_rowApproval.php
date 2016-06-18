@@ -1,17 +1,17 @@
 <?php
 foreach($modDetails AS $i=>$modRencanaDetail){
 $i++;
-$modRencanaDetail->nilaipenerimaan = $modRencanaDetail->nilaipenerimaan / (int)$digit_str;	
-$modRencanaDetail->nilaipenerimaan = $format->formatNumberForUser($modRencanaDetail->nilaipenerimaan);	
-$modRencanaDetail->renanggaran_ke = $format->formatNumberForUser($modRencanaDetail->renanggaran_ke);	
+$modRencanaDetail->nilaipenerimaan = $modRencanaDetail->nilaipenerimaan; // / (int)$digit_str;	
+$modRencanaDetail->nilaipenerimaan = $format->formatNumberForPrint($modRencanaDetail->nilaipenerimaan);	
+$modRencanaDetail->renanggaran_ke = $format->formatNumberForPrint($modRencanaDetail->renanggaran_ke);	
 ?>
 <tr>
     <td>
-        <?php echo CHtml::textField('no_urut',''.$i.'',array('readonly'=>true,'class'=>'span1 integer', 'style'=>'width:20px;')); ?>
+        <?php echo CHtml::textField('no_urut',''.$i.'',array('readonly'=>true,'class'=>'span1 integer2', 'style'=>'width:20px;')); ?>
 	</td>
     <td>
-		<?php echo CHtml::activeTextField($modRencanaDetail,'['.$i.']renanggaran_ke',array('class'=>'span2 integer','style'=>'width:20px;','readonly'=>true)); ?>
-		<?php echo CHtml::activeHiddenField($modRencanaDetail,'['.$i.']renanggaranpenerimaandet_id',array('class'=>'span2 integer','style'=>'width:20px;','readonly'=>true)); ?>
+		<?php echo CHtml::activeTextField($modRencanaDetail,'['.$i.']renanggaran_ke',array('class'=>'span2 integer2','style'=>'width:20px;','readonly'=>true)); ?>
+		<?php echo CHtml::activeHiddenField($modRencanaDetail,'['.$i.']renanggaranpenerimaandet_id',array('class'=>'span2 integer2','style'=>'width:20px;','readonly'=>true)); ?>
     </td>
     <td>
         <div class="controls">
@@ -30,7 +30,7 @@ $modRencanaDetail->renanggaran_ke = $format->formatNumberForUser($modRencanaDeta
 		</div>
     </td>
     <td>
-        <?php echo CHtml::activeTextField($modRencanaDetail,'['.$i.']nilaipenerimaan',array('class'=>'span2 integer nilaianggaran','style'=>'width:90px;','onkeyup'=>'hitungTotalApprove();','onkeypress'=> 'return $(this).focusNextInputField(event);')); ?>
+        <?php echo CHtml::activeTextField($modRencanaDetail,'['.$i.']nilaipenerimaan',array('class'=>'span2 integer2 nilaianggaran','style'=>'width:90px;','onkeyup'=>'hitungTotalApprove();','onkeypress'=> 'return $(this).focusNextInputField(event);')); ?>
     </td>
     <td>
          <?php 
