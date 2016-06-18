@@ -15,7 +15,7 @@
     });
     ");
     $this->widget('bootstrap.widgets.BootAlert');
-
+    
     //
     //$arrMenu = array();
     //                (Yii::app()->user->checkAccess(Params::DEFAULT_ADMIN)) ?array_push($arrMenu,array('label'=>Yii::t('mds','Manage').' Presensi ', 'header'=>true, 'itemOptions'=>array('class'=>'heading-master'))) :  '' ;
@@ -114,10 +114,35 @@
                     'pegawai.jabatan.jabatan_nama',
                     'pegawai.nomorindukpegawai',
                     'pegawai.nama_pegawai',                    
-                    //'statusscan.statusscan_nama',
+                    //'statusscan.statusscan_nama',               
                     array(
-                        'header' => 'Shift',
+                        'header' => 'Shift /<br>Jam Kerja',
                         'name' => 'pegawai.shift.shift_nama',
+                        'value' => function($data){
+                                $jam = '';
+                                $cekJadwal = PenjadwalandetailT::model()->cekPenjadwalan($data->pegawai_id, $data->tglpresensi);
+                                $cekPertukaran = PertukaranjadwaldetT::model()->cekPertukaran($data->pegawai_id, $data->tglpresensi);
+                                $jammasuk = PresensiT::model()->getJam(Params::STATUSSCAN_MASUK, $data->tglpresensi, $data->pegawai_id);
+                                $jampulang = PresensiT::model()->getJam(Params::STATUSSCAN_PULANG, $data->tglpresensi, $data->pegawai_id);
+                                        
+                                if($cekPertukaran == 0)
+                                {
+                                    if ($cekJadwal == 0){
+                                            if (isset($data->pegawai->shift_id)){
+                                            return $data->pegawai->shift->shift_nama.' / '.$data->pegawai->shift->shift_jamawal.' s/d '.$data->pegawai->shift->shift_jamakhir;
+                                        }else{
+                                            return ShiftM::model()->getShift($jammasuk,$jampulang);
+                                        }
+                                    }  else {
+                                        return ShiftM::model()->getJam($cekJadwal);
+                                    }
+                                }
+                                else
+                                {
+                                    return ShiftM::model()->getJam($cekPertukaran);
+                                }
+
+                        }
                     ),
                     array(
                         'name'=>'tglpresensi',

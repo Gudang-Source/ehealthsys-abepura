@@ -133,4 +133,62 @@ class ShiftM extends CActiveRecord
             $this->shift_namalainnya = strtoupper($this->shift_namalainnya);
             return parent::beforeSave();
         }
+        
+        public function getJam($shift_id){
+            $get = $this->findByPk($shift_id);
+            
+            if (count($get)>0){
+                return $get->shift_nama." / ".$get->shift_jamawal.' s/d '.$get->shift_jamakhir;
+            }else{
+                return '-';
+            }
+        }
+        
+        public function getShift($jam_masuk, $jam_keluar)
+        {
+            $jam= '';
+            
+            
+                if ( ($jam_masuk=='') && ($jam_keluar != ''))
+                {
+                    $data = $this->find(array('condition'=>'shift_aktif = TRUE AND shift_jamakhir = :shift_jamakhir ORDER BY shift_jamakhir DESC',
+                        'params'=>array(':shift_jamakhir'=>$jam_keluar,
+                            ),'limit'=>1));
+
+                   
+                    if (count($data)> 0){
+                        $jam = $data->shift_nama.' / '.$data->shift_jamawal.' s/d '.$data->shift_jamakhir;
+                    }else{
+                        $jam = '-';
+                    }
+                }elseif ( ($jam_keluar=='') && ($jam_masuk != '') ){
+                    $data = $this->find(array('condition'=>'shift_aktif = TRUE AND shift_jamawal = :shift_jamawal ORDER BY shift_jamawal DESC',
+                        'params'=>array(':shift_jamawal'=>$jam_masuk,
+                            ),'limit'=>1));
+
+                   
+                    if (count($data)> 0){
+                        $jam = $data->shift_nama.' / '.$data->shift_jamawal.' s/d '.$data->shift_jamakhir;
+                    }else{
+                        $jam = '-';
+                    }
+                }elseif (($jam_keluar=='') && ($jam_masuk=='')){
+                    $jam = '-';
+                }  else {
+                    $data = $this->find(array('condition'=>'shift_aktif = TRUE AND shift_jamakhir = :shift_jamakhir AND shift_jamawal = :shift_jamawal ORDER BY shift_jamawal DESC',
+                        'params'=>array(':shift_jamawal'=>$jam_masuk,':shift_jamakhir'=>$jam_keluar
+                            ),'limit'=>1));
+
+                  
+                    if (count($data)> 0){
+                        $jam = $data->shift_nama.' / '.$data->shift_jamawal.' s/d '.$data->shift_jamakhir;
+                    }else{
+                        $jam = '-';
+                    }
+                }
+            
+            return $jam;
+        }
+        
+       
 }

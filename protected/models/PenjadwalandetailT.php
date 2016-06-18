@@ -147,4 +147,18 @@ class PenjadwalandetailT extends CActiveRecord
                     'pagination'=>false,
             ));
         }
+        
+        public function cekPenjadwalan($pegawai_id, $tanggal)
+        {
+            $format = new MyFormatter();
+            $tgl = $format->formatDateTimeForDb(date('Y-m-d', strtotime($tanggal)));
+            $cek = $this->find("pegawai_id = '$pegawai_id' AND tgljadwalpegawai = '$tanggal' ");
+            
+            if (count($cek)>0){
+                return $cek->shift_id;
+            }else{
+                return 0;
+            }
+                
+        }
 }
