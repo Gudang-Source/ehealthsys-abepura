@@ -59,7 +59,7 @@ class KPPresensiT extends PresensiT {
         $provider->criteria->compare('pegawai.kelompokpegawai_id', $this->kelompokpegawai_id);
         $provider->criteria->compare('pegawai.jabatan_id', $this->jabatan_id);
         
-        $provider->criteria->order = 'pegawai.nama_pegawai, t.tglpresensi::date';
+        $provider->criteria->order = 't.tglpresensi::date, pegawai.nama_pegawai';
         
         return $provider;
     }
