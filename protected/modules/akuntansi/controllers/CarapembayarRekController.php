@@ -27,6 +27,8 @@ class CarapembayarRekController extends MyAuthController {
 	public function actionCreate() {
 		//if(!Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		$model = new AKCarapembayarRekM();
+                
+                $modlookup = new AKLookupM();
 
 		// $modCarabayar = new CarabayarM();
 		// if (isset($_GET['CarabayarM'])){
@@ -35,15 +37,46 @@ class CarapembayarRekController extends MyAuthController {
 		//         $modCarabayar->carabayar_id = $_GET['CarabayarM']['carabayar_id'];
 		// }
 
-		$modCarabayar = new AKLookupM();
 		$modDetails = array();
 
-		if (isset($_GET['AKLookupM'])) {
-			$modCarabayar->unsetAttributes();
-			$modCarabayar->attributes = $_GET['AKLookupM'];
+		if (isset($_POST['AKLookupM'])) {
+                        $trans = Yii::app()->db->beginTransaction();
+                        
+                        $ok = true;
+                    
+			$modlookup->unsetAttributes();
+			$modlookup->attributes = $_POST['AKLookupM'];
+                        $modlookup->lookup_type = 'carapembayaran';
+                        $modlookup->lookup_value = $modlookup->lookup_name;
+                        $modlookup->lookup_aktif = true;
+                        
+                        if ($modlookup->save()) {
+                            $deb = new AKCarapembayarRekM();
+                            $deb->debitkredit = 'D';
+                            $deb->carapembayaran = $modlookup->lookup_name;
+                            $deb->rekening5_id = $_POST['AKLookupM']['rekening_debit'];
+
+                            $deb->save();
+                            
+                            $kre = new AKCarapembayarRekM();
+                            $kre->debitkredit = 'K';
+                            $kre->carapembayaran = $modlookup->lookup_name;
+                            $kre->rekening5_id = $_POST['AKLookupM']['rekening_kredit'];
+
+                            $kre->save();
+                            
+                            $trans->commit();
+                            
+                            Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                            $this->redirect(array('admin'));
+                            
+                        } else {
+                            $trans->rollback();
+                        }
 			//$modCarabayar->carabayar_id = $_GET['CarabayarM']['carabayar_id'];
 		}
-
+                
+                /*
 		if (isset($_POST['AKCarapembayarRekM'])) {
 
 			$transaction = Yii::app()->db->beginTransaction();
@@ -86,9 +119,11 @@ class CarapembayarRekController extends MyAuthController {
 				Yii::app()->user->setFlash('error', "Data gagal disimpan " . MyExceptionMessage::getMessage($ex, true));
 			}
 		}
+                 * 
+                 */
 
 		$this->render('create', array(
-			'model' => $model, 'modCarabayar' => $modCarabayar, 'modDetails' => $modDetails
+			'modlookup' => $modlookup
 		));
 	}
 
@@ -131,21 +166,68 @@ class CarapembayarRekController extends MyAuthController {
 	 */
 	public function actionUpdate($id) {
 		//if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
-		$model = AKCarapembayarRekM::model()->findByPk($id);
-
+		$modlookup = AKLookupM::model()->findByAttributes(array(
+                    'lookup_type'=>'carapembayaran',
+                    'lookup_name'=>$id,
+                ));
+                
+                $modeld = AKCarapembayarRekM::model()->findByAttributes(array(
+                    'carapembayaran'=>$id,
+                    'debitkredit'=>'D',
+                ));
+                $modelk = AKCarapembayarRekM::model()->findByAttributes(array(
+                    'carapembayaran'=>$id,
+                    'debitkredit'=>'K',
+                ));
+                
+                if (empty($modeld)) $modeld = new AKCarapembayarRekM;
+                if (empty($modelk)) $modelk = new AKCarapembayarRekM;
+                
+                if (isset($_POST['AKLookupM'])) {
+                    // var_dump($_POST); die;
+                    
+                    AKCarapembayarRekM::model()->deleteAllByAttributes(array(
+                        'carapembayaran'=>$modlookup->lookup_name,
+                    ));
+                    
+                    if (isset($_POST['AKLookupM']['rekening_debit']) && !empty($_POST['AKLookupM']['rekening_debit'])) {
+                        $deb = new AKCarapembayarRekM();
+                        $deb->debitkredit = 'D';
+                        $deb->carapembayaran = $id;
+                        $deb->rekening5_id = $_POST['AKLookupM']['rekening_debit'];
+                    
+                        $deb->save();
+                    }
+                    
+                    if (isset($_POST['AKLookupM']['rekening_kredit']) && !empty($_POST['AKLookupM']['rekening_kredit'])) {
+                        $kre = new AKCarapembayarRekM();
+                        $kre->debitkredit = 'K';
+                        $kre->carapembayaran = $id;
+                        $kre->rekening5_id = $_POST['AKLookupM']['rekening_kredit'];
+                        
+                        $kre->save();
+                    }
+                    
+                    Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                    $this->redirect(array('admin'));
+                }
+                
+                
 		// Uncomment the following line if AJAX validation is needed
 
-
+                /*
 		if (isset($_POST['AKCarapembayarRekM'])) {
 			$model->attributes = $_POST['AKCarapembayarRekM'];
 			if ($model->save()) {
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
 				$this->redirect(array('admin', 'id' => $model->carabayar_id));
 			}
-		}
+		} */
 
 		$this->render('update', array(
-			'model' => $model,
+			'modlookup' => $modlookup,
+                        'modeld' => $modeld,
+                        'modelk' => $modelk,
 		));
 	}
 
@@ -244,13 +326,14 @@ class CarapembayarRekController extends MyAuthController {
             if ($id == 1):
                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
             endif;
-		$model = new AKCarapembayarRekM('search');
+		$model = new AKLookupM('search');
 		$model->unsetAttributes();
+                $model->lookup_type = "carapembayaran";
 
-		if (isset($_GET['AKCarapembayarRekM'])) {
-			$model->attributes = $_GET['AKCarapembayarRekM'];
-			$model->rekDebit = $_GET['AKCarapembayarRekM']['rekDebit'];
-			$model->rekKredit = $_GET['AKCarapembayarRekM']['rekKredit'];
+		if (isset($_GET['AKLookupM'])) {
+			$model->attributes = $_GET['AKLookupM'];
+			//$model->rekDebit = $_GET['AKCarapembayarRekM']['rekDebit'];
+			//$model->rekKredit = $_GET['AKCarapembayarRekM']['rekKredit'];
 		}
 
 		$this->render('admin', array(

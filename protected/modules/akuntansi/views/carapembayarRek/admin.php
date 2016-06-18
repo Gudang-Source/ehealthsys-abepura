@@ -41,7 +41,7 @@
         <!--<h6>Tabel Jurnal <b>Rekening Cara Pembayaran</b></h6>-->
         <?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'id'=>'carabayarrek-m-grid',
-            'dataProvider'=>$model->search(NULL),
+            'dataProvider'=>$model->searchCaraPembayaran(),
             'filter'=>$model,
                 'template'=>"{summary}\n{items}\n{pager}",
                 'itemsCssClass'=>'table table-striped table-bordered table-condensed',
@@ -53,23 +53,37 @@
 
                         array(
                             'header'=>'Cara Pembayaran',
-                            'name'=>'carapembayaran',
+                            'name'=>'lookup_name',
                             //'filter'=>CHtml::listData(CarabayarM::model()->findAll(),'carabayar_id','carabayar_nama'),
-                            'value'=>'$data->carapembayaran',  
+                            'value'=>'$data->lookup_name',  
                         ), 
 
                         array(
                             'header'=>'Rekening Debit',
                             'type'=>'raw',
-                            'name'=>'rekDebit',
-                            'value'=>'$this->grid->owner->renderPartial("_rek_debet",array("rekening5_nb"=>"D","carapembayaran"=>$data->carapembayaran),true)',
+                            //'name'=>'rekDebit',
+                            'value'=>function($data) {
+                                $de = AKCarapembayarRekM::model()->findByAttributes(array(
+                                    'carapembayaran'=>$data->lookup_name,
+                                    'debitkredit'=>'D'
+                                ));
+                                if (empty($de)) return "-";
+                                return $de->rekening5->nmrekening5;
+                            }, //'$this->grid->owner->renderPartial("_rek_debet",array("rekening5_nb"=>"D","carapembayaran"=>$data->carapembayaran),true)',
                         ),
 
                         array(
                             'header'=>'Rekening Kredit',
                             'type'=>'raw',
-                            'name'=>'rekKredit',
-                            'value'=>'$this->grid->owner->renderPartial("_rek_kredit",array("rekening5_nb"=>"K","carapembayaran"=>$data->carapembayaran),true)',
+                            //'name'=>'rekKredit',
+                            'value'=>function($data) {
+                                $de = AKCarapembayarRekM::model()->findByAttributes(array(
+                                    'carapembayaran'=>$data->lookup_name,
+                                    'debitkredit'=>'K'
+                                ));
+                                if (empty($de)) return "-";
+                                return $de->rekening5->nmrekening5;
+                            }, //'$this->grid->owner->renderPartial("_rek_kredit",array("rekening5_nb"=>"K","carapembayaran"=>$data->carapembayaran),true)',
                         ),
 
 
@@ -81,13 +95,25 @@
                                 'view' => array (
                                     'label'=>"<i class='icon-view'></i>",
                                     'options'=>array('title'=>Yii::t('mds','View')),
-                                    'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/view",array("id"=>"$data->carapembayaran"))',
+                                    'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/view",array("id"=>"$data->lookup_name"))',
                                     //'visible'=>'($data->kabupaten_aktif && Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)) ? TRUE : FALSE',
         //                                               
                                 ),
                             ),
-                ),
-                array(
+                        ),
+                        array(
+                                'header'=>Yii::t('zii','Update'),
+                                'class'=>'bootstrap.widgets.BootButtonColumn',
+                                'template'=>'{update}',
+                                'buttons'=>array(
+                                        'update' => array (
+                                                        'label'=>"<i class='icon-update'></i>",
+                                                        'options'=>array('title'=>Yii::t('mds','Update')),
+                                                        'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/update",array("id"=>$data->lookup_name))',                                               
+                                        ),
+                                ),
+                        ),
+                        array(
                                 'header'=>Yii::t('zii','Delete'),
                                 'class'=>'bootstrap.widgets.BootButtonColumn',
                                 'template'=>'{delete}',
@@ -95,17 +121,17 @@
                                                 'remove' => array (
                                                         'label'=>"<i class='icon-remove'></i>",
                                                         'options'=>array('title'=>Yii::t('mds','Remove Temporary')),
-                                                        'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/removeTemporary",array("id"=>"$data->carabayar_id"))',
+                                                        'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/removeTemporary",array("id"=>"$data->lookup_name"))',
                                                         'visible'=>'($data->carabayar_aktif && Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)) ? TRUE : FALSE',
                                                         'click'=>'function(){return confirm("'.Yii::t("mds","Do You want to remove this item temporary?").'");}',
                                                 ),
                                          'delete' => array (
                                                 'label'=>"<i class='icon-delete'></i>",
                                                 'options'=>array('title'=>Yii::t('mds','Delete')),
-                                                'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/delete",array("id"=>"$data->carapembayaran"))',               
+                                                'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/delete",array("id"=>"$data->lookup_name"))',               
                                         ),
                                 )
-                ),
+                        ),
             ),
                 'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
         )); ?>

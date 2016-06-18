@@ -1,6 +1,8 @@
 <?php
 class AKLookupM extends LookupM
 {
+        
+        public $rekening_debit, $rekening_kredit, $rekDebit, $rekKredit;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
