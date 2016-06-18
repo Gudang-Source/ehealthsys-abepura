@@ -80,7 +80,7 @@
  */
 class LaporansensuspenunjangV extends CActiveRecord
 {
-        public $tgl_awal, $tgl_akhir, $data, $jumlah, $tick, $pilihan;
+        public $tgl_awal, $tgl_akhir,$bln_awal, $bln_akhir,$thn_awal, $thn_akhir, $jns_periode, $data, $jumlah, $tick, $pilihan;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.

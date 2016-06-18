@@ -82,7 +82,7 @@
  */
 class BukuregisterpenunjangV extends CActiveRecord
 {
-        public $tgl_awal, $tgl_akhir, $data, $jumlah, $tick;
+        public $tgl_awal, $tgl_akhir,$bln_awal, $bln_akhir,$thn_awal, $thn_akhir, $data, $jumlah, $tick, $jns_periode;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.

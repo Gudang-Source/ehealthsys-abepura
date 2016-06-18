@@ -22,11 +22,11 @@
     ");
     ?>
     <?php //echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-search"></i>')),'#',array('class'=>'search-button btn')); ?>
-    <div class="search-form">
+    <fieldset class="row-fluid box">
         <?php $this->renderPartial('10Besar/_search',array(
             'model'=>$model,
         )); ?>
-    </div><!-- search-form --> 
+    </fieldset><!-- search-form --> 
     <div class="block-tabel"> 
         <h6>Tabel 10 <b>Besar Penyakit</b></h6>
         <?php $this->renderPartial('10Besar/_table', array('model'=>$model)); ?>
@@ -45,5 +45,5 @@
     $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
     $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
     $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/printLaporan10BesarPenyakit');
-    $this->renderPartial('_footer', array('urlPrint'=>$urlPrint, 'url'=>$url));?>
+    $this->renderPartial('_footer', array('urlPrint'=>$urlPrint, 'url'=>$url, 'tips'=>'10besarpenyakit'));?>
 </div>
