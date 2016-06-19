@@ -14,7 +14,7 @@ class SumberdanaRekController extends MyAuthController
 	 */
 	public function actionView($id)
 	{
-        $model= SumberdanarekM::model()->findByAttributes(array('sumberdana_id'=>$id));
+        $model= SumberdanaM::model()->findByAttributes(array('sumberdana_id'=>$id));
                 
 		$this->render('view',array(
 			'model'=>$model,
@@ -28,7 +28,44 @@ class SumberdanaRekController extends MyAuthController
 	public function actionCreate()
 	{
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
-		$model=new AKSumberdanaRekM();
+		$model = new SumberdanaM;
+                
+                if (isset($_POST['SumberdanaM'])){
+                        $trans = Yii::app()->db->beginTransaction();
+                        $model->unsetAttributes();
+                        $model->attributes=$_POST['SumberdanaM'];
+                        $model->sumberdana_namalainnya = $model->sumberdana_nama;
+                        $model->sumberdana_aktif = true;
+                        
+                        if ($model->save()) {
+                            if (isset($_POST['SumberdanaM']['rekening_debit']) && !empty($_POST['SumberdanaM']['rekening_debit'])) {
+                                $deb = new AKSumberdanaRekM();
+                                $deb->debitkredit = 'D';
+                                $deb->sumberdana_id = $model->sumberdana_id;
+                                $deb->rekening5_id = $_POST['SumberdanaM']['rekening_debit'];
+                                
+                                $deb->save();
+                            }
+
+                            if (isset($_POST['SumberdanaM']['rekening_kredit']) && !empty($_POST['SumberdanaM']['rekening_kredit'])) {
+                                $kre = new AKSumberdanaRekM();
+                                $kre->debitkredit = 'K';
+                                $kre->sumberdana_id = $model->sumberdana_id;
+                                $kre->rekening5_id = $_POST['SumberdanaM']['rekening_kredit'];
+                                $kre->save();
+                            }
+                            //var_dump($deb->attributes, $kre->attributes);
+                            //die;
+                    
+                            $trans->commit();
+                            
+                            Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                            $this->redirect(array('admin'));
+                        }
+		}
+                
+                /*
+                $model=new AKSumberdanaRekM();
                 
 		$modSumberdana = new SumberdanaM();
 		$modDetails = array();
@@ -82,9 +119,11 @@ class SumberdanaRekController extends MyAuthController
 			}
 
 		}
+                 * 
+                 */
 
 		$this->render('create',array(
-			'model'=>$model, 'modSumberdana'=>$modSumberdana,'modDetails'=>$modDetails
+			'model'=>$model
 		));
 	}
         
@@ -118,22 +157,49 @@ class SumberdanaRekController extends MyAuthController
 	public function actionUpdate($id)
 	{
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
-		$model=AKSumberdanaRekM::model()->findByPk($id);
+		$modSumber = SumberdanaM::model()->findByPk($id);
 
+                $modeld = AKSumberdanaRekM::model()->findByAttributes(array('sumberdana_id'=>$id, 'debitkredit'=>'D'));
+                $modelk = AKSumberdanaRekM::model()->findByAttributes(array('sumberdana_id'=>$id, 'debitkredit'=>'K'));
+                
+                if (empty($modeld)) $modeld = new AKSumberdanaRekM ();
+                if (empty($modelk)) $modelk = new AKSumberdanaRekM ();
 		// Uncomment the following line if AJAX validation is needed
 		
 
-		if(isset($_POST['AKSumberdanaRekM']))
-		{
-			$model->attributes=$_POST['AKSumberdanaRekM'];
-			if($model->save()){
+		if(isset($_POST['SumberdanaM'])) {
+                    AKSumberdanaRekM::model()->deleteAllByAttributes(array(
+                        'sumberdana_id'=>$modSumber->sumberdana_id,
+                    ));
+                    
+                    if (isset($_POST['SumberdanaM']['rekening_debit']) && !empty($_POST['SumberdanaM']['rekening_debit'])) {
+                        $deb = new AKSumberdanaRekM();
+                        $deb->debitkredit = 'D';
+                        $deb->sumberdana_id = $id;
+                        $deb->rekening5_id = $_POST['SumberdanaM']['rekening_debit'];
+                    
+                        $deb->save();
+                    }
+                    
+                    if (isset($_POST['SumberdanaM']['rekening_kredit']) && !empty($_POST['SumberdanaM']['rekening_kredit'])) {
+                        $kre = new AKSumberdanaRekM();
+                        $kre->debitkredit = 'K';
+                        $kre->sumberdana_id = $id;
+                        $kre->rekening5_id = $_POST['SumberdanaM']['rekening_kredit'];
+                        $kre->save();
+                    }
+                    
+                    //var_dump($modPenjamin->attributes, $_POST); die; /*
+			//$model->attributes=$_POST['AKPenjaminpasienM'];
+			//if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>1));
-                        }
+				$this->redirect(array('admin'));
+                        //} */
 		}
 
 		$this->render('update',array(
-			'model'=>$model,
+			'modSumber'=>$modSumber,
+			'modeld'=>$modeld, 'modelk'=>$modelk,
 		));
 	}
 
@@ -239,15 +305,16 @@ class SumberdanaRekController extends MyAuthController
 	{
                 if ($id==1):
                     Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-                endif;    
-		$model=new AKSumberdanaRekM('search');
+                endif; 
+                
+		$model=new SumberdanaM('search');
 		$model->unsetAttributes(); 
                 
-		if(isset($_GET['AKSumberdanaRekM'])){
-			$model->attributes=$_GET['AKSumberdanaRekM'];
-			$model->sumberdana_nama = $_GET['AKSumberdanaRekM']['sumberdana_nama'];
-			$model->rekDebit 		= $_GET['AKSumberdanaRekM']['rekDebit'];
-			$model->rekKredit 		= $_GET['AKSumberdanaRekM']['rekKredit'];
+		if(isset($_GET['SumberdanaM'])){
+			$model->attributes=$_GET['SumberdanaM'];
+			$model->sumberdana_nama = $_GET['SumberdanaM']['sumberdana_nama'];
+			//$model->rekDebit 		= $_GET['AKSumberdanaRekM']['rekDebit'];
+			//$model->rekKredit 		= $_GET['AKSumberdanaRekM']['rekKredit'];
 		}
 
 		$this->render('admin',array(
