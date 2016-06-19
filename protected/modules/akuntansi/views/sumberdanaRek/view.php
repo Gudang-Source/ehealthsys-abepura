@@ -1,6 +1,6 @@
 <div class='white-container'>
     <legend class='rim2'>Lihat Jurnal <b>Rekening Sumber Dana</b></legend>
-    <?php
+    <?php /*
     $this->breadcrumbs=array(
         'Jurnal Rekening Sumber Dana'=>array('index'),
         $model->sumberdana_id,
@@ -11,17 +11,19 @@
         (Yii::app()->user->checkAccess(Params::DEFAULT_ADMIN)) ?array_push($arrMenu,array('label'=>Yii::t('mds','Manage').' Jurnal Rekening Sumber Dana', 'icon'=>'folder-open', 'url'=>array('admin'))) :  '' ;
 
     $this->menu=$arrMenu;
-
+*/
     $this->widget('bootstrap.widgets.BootAlert'); ?>
 
-    <?php $this->widget('ext.bootstrap.widgets.BootDetailView',array(
+    <?php 
+    
+    $this->widget('ext.bootstrap.widgets.BootDetailView',array(
         'data'=>$model,
         'attributes'=>array(
 
             array(
                         'label'=>'Sumber Dana',
                         'type'=>'raw',
-                        'value'=>$model->sumberdana->sumberdana_nama,
+                        'value'=>$model->sumberdana_nama,
                     ),
             array(
                         'label'=>'Rekening Debit',

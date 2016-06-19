@@ -11,35 +11,38 @@
     <?php echo $form->errorSummary($model); ?>
 	<table>
 		<tr>
+                        <td>
+                                <div class="control-group">
+                                        <?php echo $form->textFieldRow($model,'sumberdana_nama', array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)", 'readonly'=>false)); 
+                                        ?>
+				</div> 
+                        </td>
 			<td>
+				
+
 				<div class='control-group'>
-					<?php echo $form->labelEx($model,'rekening debit', array('class'=>'control-label')) ?>
+					<?php echo $form->labelEx($model,'rekening_debit', array('class'=>'control-label')) ?>
 					<div class="controls">
-						<?php echo CHtml::hiddenField('AKSumberdanaRekM[rekening][1][rekening5_nb]','D',array('class'=>'span3'));  ?>
-						<?php echo CHtml::hiddenField('AKSumberdanaRekM[rekening][1][rekening5_id]','',array('class'=>'span3'));  ?>
-						<?php echo CHtml::hiddenField('AKSumberdanaRekM[rekening][1][rekening4_id]','',array('class'=>'span3'));  ?>
-						<?php echo CHtml::hiddenField('AKSumberdanaRekM[rekening][1][rekening3_id]','',array('class'=>'span3'));  ?>
-						<?php echo CHtml::hiddenField('AKSumberdanaRekM[rekening][1][rekening2_id]','',array('class'=>'span3'));  ?>
-						<?php echo CHtml::hiddenField('AKSumberdanaRekM[rekening][1][rekening1_id]','',array('class'=>'span3'));  ?>
+						<?php 
+                                                //$model->rekening_debit = $modeld->rekening5_id;
+                                                echo $form->hiddenField($model,'rekening_debit',array('class'=>'span3','maxlength'=>50));  ?>
 						<?php
+                                                        //var_dump($model["D"]->rekeningdebit->nmrekening5); die;
+                                                        if (!empty($modeld->rekening5_id)) $model->rekDebit = $modeld->rekening5->nmrekening5;
 							$this->widget('MyJuiAutoComplete', array(
 								'model' => $model,
 								'attribute' => 'rekDebit',
-								'sourceUrl' => Yii::app()->createUrl('ActionAutoComplete/RekeningAkuntansiDebit'),
+								'sourceUrl' => Yii::app()->createUrl('ActionAutoComplete/rekeningAkuntansi'),
 								'options' => array(
 									'showAnim' => 'fold',
 									'minLength' => 2,
 									'focus' => 'js:function( event, ui ) {
-											$(this).val(ui.item.nmrekening5);
+											$(this).val(ui.item.nmrekening1);
 											return false;
 										}',
 									'select' => 'js:function( event, ui ) {
 													$(this).val(ui.item.nmrekening5);
-													$("#AKSumberdanaRekM_rekening_1_rekening5_id").val(ui.item.rekening5_id);
-													$("#AKSumberdanaRekM_rekening_1_rekening4_id").val(ui.item.rekening4_id);
-													$("#AKSumberdanaRekM_rekening_1_rekening3_id").val(ui.item.rekening3_id);
-													$("#AKSumberdanaRekM_rekening_1_rekening2_id").val(ui.item.rekening2_id);
-													$("#AKSumberdanaRekM_rekening_1_rekening1_id").val(ui.item.rekening1_id);
+													$("#' . CHtml::activeId($model, 'rekening_debit') . '").val(ui.item.rekening5_id);
 														return false;
 												  }'
 								),
@@ -53,37 +56,31 @@
 							));
 						?>
 					</div>
-				</div>
-			</td>
-			<td>
-				<div class='control-group'>
-					<?php echo $form->labelEx($model,'rekening kredit', array('class'=>'control-label')) ?>
+			   </div>
+
+			   <div class='control-group'>
+					<?php echo $form->labelEx($model,'rekeningKredit', array('class'=>'control-label')) ?>
 					<div class="controls">
-						<?php echo CHtml::hiddenField('AKSumberdanaRekM[rekening][2][rekening5_nb]','K',array('class'=>'span3'));  ?>
-						<?php echo CHtml::hiddenField('AKSumberdanaRekM[rekening][2][rekening5_id]','',array('class'=>'span3'));  ?>
-						<?php echo CHtml::hiddenField('AKSumberdanaRekM[rekening][2][rekening4_id]','',array('class'=>'span3'));  ?>
-						<?php echo CHtml::hiddenField('AKSumberdanaRekM[rekening][2][rekening3_id]','',array('class'=>'span3'));  ?>
-						<?php echo CHtml::hiddenField('AKSumberdanaRekM[rekening][2][rekening2_id]','',array('class'=>'span3'));  ?>
-						<?php echo CHtml::hiddenField('AKSumberdanaRekM[rekening][2][rekening1_id]','',array('class'=>'span3'));  ?>
+						<?php 
+                                                //$model->rekening_kredit = $modelk->rekening5_id;
+                                                //if (!empty($modelk->rekening5_id)) $model->rekKredit = $modelk->rekening5->nmrekening5;
+                                                echo $form->hiddenField($model,'rekening_kredit',array('class'=>'span3','maxlength'=>50));  ?>
 						<?php
+                                                        
 							$this->widget('MyJuiAutoComplete', array(
 								'model' => $model,
 								'attribute' => 'rekKredit',
-								'sourceUrl' => Yii::app()->createUrl('ActionAutoComplete/RekeningAkuntansiKredit'),
+								'sourceUrl' => Yii::app()->createUrl('ActionAutoComplete/rekeningAkuntansi'),
 								'options' => array(
 									'showAnim' => 'fold',
 									'minLength' => 2,
 									'focus' => 'js:function( event, ui ) {
-											$(this).val(ui.item.nmrekening5);
+											$(this).val(ui.item.nmrekening1);
 											return false;
 										}',
 									'select' => 'js:function( event, ui ) {
 													$(this).val(ui.item.nmrekening5);
-													$("#AKSumberdanaRekM_rekening_2_rekening5_id").val(ui.item.rekening5_id);
-													$("#AKSumberdanaRekM_rekening_2_rekening4_id").val(ui.item.rekening4_id);
-													$("#AKSumberdanaRekM_rekening_2_rekening3_id").val(ui.item.rekening3_id);
-													$("#AKSumberdanaRekM_rekening_2_rekening2_id").val(ui.item.rekening2_id);
-													$("#AKSumberdanaRekM_rekening_2_rekening1_id").val(ui.item.rekening1_id);
+													$("#' . CHtml::activeId($model, 'rekening_debit') . '").val(ui.item.rekening5_id);
 														return false;
 												  }'
 								),
@@ -97,11 +94,11 @@
 							));
 						?>
 					</div>
-				</div>
+                            </div>
 			</td>
 		</tr>
 	</table>
-    
+    <?php /*
 <div style='max-height:400px;max-width:100%;overflow-y: scroll;align:center;margin-bottom:20px;'>
     <?php 
 		$this->widget('ext.bootstrap.widgets.BootGridView',array(
@@ -135,6 +132,8 @@
         )); 
     ?>
 </div>
+     * 
+     */ ?>
     
 <div class="form-actions">
 	<?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 
@@ -168,12 +167,11 @@ $account = "D";
 
 $modRekDebit = new RekeningakuntansiV('searchAccounts');
 $modRekDebit->unsetAttributes();
-$modRekDebit->rekening5_nb = $account;
+// $modRekDebit->rekening5_nb = $account;
 $modRekDebit->rekening5_aktif = true;
-//$account = "D";
 if(isset($_GET['RekeningakuntansiV'])) {
     $modRekDebit->attributes = $_GET['RekeningakuntansiV'];
-	$modRekDebit->rekening5_nb = $account;
+	// $modRekDebit->rekening5_nb = $account;
 }
 
 $c2 = new CDbCriteria();
@@ -199,45 +197,42 @@ $c4->order = 'kdrekening4';
 
 $r4 = Rekening4M::model()->findAll($c4);
 
-//$this->widget('ext.bootstrap.widgets.HeaderGroupGridViewNonRp',array(
-$this->widget('ext.bootstrap.widgets.BootGridView',array(
-    'id'=>'rekdebit-m-grid',
+$this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
+	'id'=>'rekdebit-m-grid',
         //'ajaxUrl'=>Yii::app()->createUrl('actionAjax/CariDataPasien'),
-    'dataProvider'=>$modRekDebit->searchAccounts($account),
-    'filter'=>$modRekDebit,
+	'dataProvider'=>$modRekDebit->searchAccounts(),
+	'filter'=>$modRekDebit,
         'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
-//        JIKA INI DI AKTIFKAN MAKA FILTER AKAN HILANG
-//        'mergeHeaders'=>array(
-//            array(
-//                'name'=>'<center>Kode Rekening</center>',
-//                'start'=>1, //indeks kolom 3
-//                'end'=>5, //indeks kolom 4
-//            ),
-////            array(
-////                'name'=>'<center>Saldo Normal</center>',
-////                'start'=>8, //indeks kolom 3
-////                'end'=>9, //indeks kolom 4
-////            ),
-//        ),
-    'columns'=>array(
+    /*
+        'mergeHeaders'=>array(
+            array(
+                'name'=>'<center>Kode Rekening</center>',
+                'start'=>1, //indeks kolom 3
+                'end'=>5, //indeks kolom 4
+            ),
+            array(
+                'name'=>'<center>Saldo Normal</center>',
+                'start'=>8, //indeks kolom 3
+                'end'=>9, //indeks kolom 4
+            ),
+        ),
+     * 
+     */
+	'columns'=>array(
                 array(
-			'header'=>'Pilih',
-			'type'=>'raw',
-			'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
-					"id" => "selectRekDebit",
-					"onClick" =>"
-						$(\"#AKSumberdanaRekM_rekening_1_rekening5_id\").val(\"$data->rekening5_id\");
-						$(\"#AKSumberdanaRekM_rekening_1_rekening4_id\").val(\"$data->rekening4_id\");
-						$(\"#AKSumberdanaRekM_rekening_1_rekening3_id\").val(\"$data->rekening3_id\");
-						$(\"#AKSumberdanaRekM_rekening_1_rekening2_id\").val(\"$data->rekening2_id\");
-						$(\"#AKSumberdanaRekM_rekening_1_rekening1_id\").val(\"$data->rekening1_id\");
-						$(\"#AKSumberdanaRekM_rekDebit\").val(\"$data->nmrekening5\");                                                
-						$(\"#dialogRekDebit\").dialog(\"close\");    
-						return false;
-			"))',
-		),
-		array(
+                    'header'=>'Pilih',
+                    'type'=>'raw',
+                    'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
+                                    "id" => "selectRekDebit",
+                                    "onClick" =>"
+                                                $(\"#SumberdanaM_rekening_debit\").val(\"$data->rekening5_id\");
+                                                $(\"#SumberdanaM_rekDebit\").val(\"$data->nmrekening5\");                                                
+                                                $(\"#dialogRekDebit\").dialog(\"close\");    
+                                                return false;
+                            "))',
+                ),
+                array(
                         'header' => 'Kode Akun',
                         'name' => 'kdrekening5',
                         'value' => '$data->kdrekening5',
@@ -292,22 +287,15 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                         'header' => 'Akun',
                         'name' => 'nmrekening5',
                         'value' => '$data->nmrekening5',
-                ), /*
-		array(
-			'header'=>'Nama Lain',
-			'name'=>'nmrekeninglain5',
-			'value'=>'$data->nmrekeninglain5',
-		), */
-		array(
+                ),
+                array(
                         'header'=>'Saldo Normal',
                         'name'=>'rekening5_nb',
                         'value'=>'($data->rekening5_nb == "D") ? "Debit" : "Kredit"',
-                        'filter'=>  CHtml::activeHiddenField($modRekDebit, 'rekening5_nb', array('empty'=>"-- Pilih --")),
+                        'filter'=>  CHtml::activeDropDownList($modRekDebit, 'rekening5_nb', array('D'=>'Debit', 'K'=>'Kredit'), array('empty'=>"-- Pilih --")),
                 ),
-
-		
-    ),
-	'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+	),
+        'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 ));
 
 $this->endWidget();
@@ -322,21 +310,20 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'title'=>'Daftar Rekening Kredit',
         'autoOpen'=>false,
         'modal'=>true,
-        'width'=>800,
-        'height'=>400,
+        'width'=>1000,
+        'height'=>700,
         'resizable'=>false,
     ),
 ));
 $account = "K";
-
 $modRekKredit = new RekeningakuntansiV('searchAccounts');
 $modRekKredit->unsetAttributes();
-$modRekKredit->rekening5_nb = $account;
+// $modRekKredit->rekening5_nb = $account;
 $modRekKredit->rekening5_aktif = true;
-//$account = "K";
+
 if(isset($_GET['RekeningakuntansiV'])) {
     $modRekKredit->attributes = $_GET['RekeningakuntansiV'];
-	$modRekKredit->rekening5_nb = $account;
+	// $modRekKredit->rekening5_nb = $account;
 }
 
 $c2 = new CDbCriteria();
@@ -362,40 +349,34 @@ $c4->order = 'kdrekening4';
 
 $r4 = Rekening4M::model()->findAll($c4);
 
-//$this->widget('ext.bootstrap.widgets.HeaderGroupGridViewNonRp',array(
-$this->widget('ext.bootstrap.widgets.BootGridView',array(
-    'id'=>'rekkredit-m-grid',
+$this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
+	'id'=>'rekdebit-m-grid',
         //'ajaxUrl'=>Yii::app()->createUrl('actionAjax/CariDataPasien'),
-    'dataProvider'=>$modRekKredit->searchAccounts($account),
-    'filter'=>$modRekKredit,
+	'dataProvider'=>$modRekKredit->searchAccounts(),
+	'filter'=>$modRekKredit,
         'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
-//        JIKA INI DI AKTIFKAN MAKA FILTER AKAN HILANG
-//        'mergeHeaders'=>array(
-//            array(
-//                'name'=>'<center>Kode Rekening</center>',
-//                'start'=>1, //indeks kolom 3
-//                'end'=>5, //indeks kolom 4
-//            ),
-//        ),
-    'columns'=>array(
+        'mergeHeaders'=>array(
+            array(
+                'name'=>'<center>Kode Rekening</center>',
+                'start'=>1, //indeks kolom 3
+                'end'=>5, //indeks kolom 4
+            ),
+        ),
+	'columns'=>array(
                 array(
-			'header'=>'Pilih',
-			'type'=>'raw',
-			'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
-					"id" => "selectRekDebit",
-					"onClick" =>"
-						$(\"#AKSumberdanaRekM_rekening_2_rekening5_id\").val(\"$data->rekening5_id\");
-						$(\"#AKSumberdanaRekM_rekening_2_rekening4_id\").val(\"$data->rekening4_id\");
-						$(\"#AKSumberdanaRekM_rekening_2_rekening3_id\").val(\"$data->rekening3_id\");
-						$(\"#AKSumberdanaRekM_rekening_2_rekening2_id\").val(\"$data->rekening2_id\");
-						$(\"#AKSumberdanaRekM_rekening_2_rekening1_id\").val(\"$data->rekening1_id\");
-						$(\"#AKSumberdanaRekM_rekKredit\").val(\"$data->nmrekening5\");
-						$(\"#dialogRekKredit\").dialog(\"close\");    
-						return false;
-			"))',
-		),
-		array(
+                    'header'=>'Pilih',
+                    'type'=>'raw',
+                    'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
+                                    "id" => "selectRekDebit",
+                                    "onClick" =>"
+                                                $(\"#SumberdanaM_rekening_kredit\").val(\"$data->rekening5_id\");
+                                                $(\"#SumberdanaM_rekKredit\").val(\"$data->nmrekening5\");
+                                                $(\"#dialogRekKredit\").dialog(\"close\");    
+                                                return false;
+                            "))',
+                ),
+                array(
                         'header' => 'Kode Akun',
                         'name' => 'kdrekening5',
                         'value' => '$data->kdrekening5',
@@ -408,7 +389,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                             $rek2 = KelrekeningM::model()->findByPk($rek1->kelrekening_id);
                             return $rek2->namakelrekening;
                         },
-                        'filter'=>CHtml::activeDropDownList($modRekDebit, 'kelrekening_id', CHtml::listData(
+                        'filter'=>CHtml::activeDropDownList($modRekKredit, 'kelrekening_id', CHtml::listData(
                        KelrekeningM::model()->findAll(array(
                            'condition'=>'kelrekening_aktif = true',
                            'order'=>'koderekeningkel',
@@ -419,7 +400,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                         'header'=>'Komponen',
                         'name'=>'rekening1_id',
                         'value'=>'$data->nmrekening1',
-                        'filter'=>  CHtml::activeDropDownList($modRekDebit, 'rekening1_id', 
+                        'filter'=>  CHtml::activeDropDownList($modRekKredit, 'rekening1_id', 
                         CHtml::listData(Rekening1M::model()->findAll(array(
                             'condition'=>'rekening1_aktif = true',
                             'order'=>'kdrekening1 asc',
@@ -429,43 +410,36 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                         'header'=>'Unsur',
                         'name'=>'rekening2_id',
                         'value'=>'$data->nmrekening2',
-                        'filter'=>  CHtml::activeDropDownList($modRekDebit, 'rekening2_id', 
+                        'filter'=>  CHtml::activeDropDownList($modRekKredit, 'rekening2_id', 
                         CHtml::listData($r2, 'rekening2_id', 'nmrekening2'), array('empty'=>'-- Pilih --')),
                 ),
                 array(
                         'header'=>'Kelompok Pos',
                         'name'=>'rekening3_id',
                         'value'=>'$data->nmrekening3',
-                        'filter'=>  CHtml::activeDropDownList($modRekDebit, 'rekening3_id', 
+                        'filter'=>  CHtml::activeDropDownList($modRekKredit, 'rekening3_id', 
                         CHtml::listData($r3, 'rekening3_id', 'nmrekening3'), array('empty'=>'-- Pilih --')),
                 ),
                 array(
                         'header'=>'Pos',
                         'name'=>'rekening4_id',
                         'value'=>'$data->nmrekening4',
-                        'filter'=>  CHtml::activeDropDownList($modRekDebit, 'rekening4_id', 
+                        'filter'=>  CHtml::activeDropDownList($modRekKredit, 'rekening4_id', 
                         CHtml::listData($r4, 'rekening4_id', 'nmrekening4'), array('empty'=>'-- Pilih --')),
                 ),
                 array(
                         'header' => 'Akun',
                         'name' => 'nmrekening5',
                         'value' => '$data->nmrekening5',
-                ), /*
-		array(
-			'header'=>'Nama Lain',
-			'name'=>'nmrekeninglain5',
-			'value'=>'$data->nmrekeninglain5',
-		), */
-		array(
+                ),
+                array(
                         'header'=>'Saldo Normal',
                         'name'=>'rekening5_nb',
-                        'value'=>'($data->rekening5_nb == "K") ? "Kredit" : "Debit"',
-                        'filter'=>  CHtml::activeHiddenField($modRekKredit, 'rekening5_nb', array('empty'=>"-- Pilih --")),
+                        'value'=>'($data->rekening5_nb == "D") ? "Debit" : "Kredit"',
+                        'filter'=>  CHtml::activeDropDownList($modRekKredit, 'rekening5_nb', array('D'=>'Debit', 'K'=>'Kredit'), array('empty'=>"-- Pilih --")),
                 ),
-
-		
-    ),
-	'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+	),
+        'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 ));
 
 $this->endWidget();
