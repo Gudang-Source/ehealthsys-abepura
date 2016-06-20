@@ -1,4 +1,17 @@
 <?php
+    if ($this->hasTab):
+?>
+<fieldset class="box row-fluid">
+    <legend class="rim">Pengaturan Pangkat</legend>
+<?php
+    else:
+?>
+    <div class="white-container">
+    <legend class="rim2">Pengaturan <b>Pangkat</b></legend>
+<?php
+    endif;
+?>
+<?php
 $this->breadcrumbs=array(
 	'Sapangkat Ms'=>array('index'),
 	'Manage',
@@ -9,7 +22,7 @@ $arrMenu = array();
                 array_push($arrMenu,array('label'=>Yii::t('mds','List').' Pangkat', 'icon'=>'list', 'url'=>array('index'))) ;
                 (Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)) ?array_push($arrMenu,array('label'=>Yii::t('mds','Create').' Pangkat', 'icon'=>'file', 'url'=>array('create'))) :  '' ;
                 
-$this->menu=$arrMenu;
+//$this->menu=$arrMenu;
 
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
@@ -28,7 +41,7 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
 
 <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-accordion icon-white"></i>')),'#',array('class'=>'search-button btn')); ?>
 <div class="search-form" style="display:none">
-<?php $this->renderPartial('_search',array(
+<?php $this->renderPartial($this->path_view.'_search',array(
 	'model'=>$model,
 )); ?>
 </div><!-- search-form -->
@@ -48,7 +61,7 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                 ),
              array(
                         'name'=>'golonganpegawai_id',
-                        'filter'=>  CHtml::listData($model->GolonganPegawaiItems, 'golonganpegawai_id', 'golonganpegawai_nama'),
+                        'filter'=> CHtml::dropDownList('SAPangkatM[golonganpegawai_id]',$model->golonganpegawai_id,CHtml::listData($model->GolonganPegawaiItems, 'golonganpegawai_id', 'golonganpegawai_nama'),array('empty'=>'-- Pilih --')),
                         'value'=>'$data->golonganpegawai->golonganpegawai_nama',
                 ),
 		'pangkat_nama',
@@ -81,37 +94,44 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                                         ),
                          ),
 		),
-		array(
+		/*array(
                         'header'=>Yii::t('zii','Delete'),
 			'class'=>'bootstrap.widgets.BootButtonColumn',
                         'template'=>'{remove} {delete}',
                         'buttons'=>array(
                                         'remove' => array (
-                                                'label'=>"<i class='icon-remove'></i>",
+                                                'label'=>"<i class='icon-form-silang'></i>",
                                                 'options'=>array('title'=>Yii::t('mds','Remove Temporary')),
-                                                'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/removeTemporary",array("id"=>"$data->pangkat_id"))',
-                                                'visible'=>'($data->pangkat_aktif && Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)) ? TRUE : FALSE',
-                                                'click'=>'function(){return confirm("'.Yii::t("mds","Do You want to remove this item temporary?").'");}',
-                                        ),
+                                                'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/nonActive",array("id"=>$data->linen_id))',
+                                                'click'=>'function(){nonActive(this);return false;}',
+                                                'visible'=>'($data->pangkat_aktif)?TRUE:FALSE',
+					),
                                         'delete'=> array(
                                                 'visible'=>'Yii::app()->controller->checkAccess(array("action"=>Params::DEFAULT_DELETE))',
                                         ),
                         )
-		),
+		),*/
+            array(
+            'header'=>'Hapus',
+            'type'=>'raw',
+            'value'=>'($data->pangkat_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->pangkat_id)",array("id"=>"$data->pangkat_id","rel"=>"tooltip","title"=>"Menonaktifkan"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->pangkat_id)",array("id"=>"$data->pangkat_id","rel"=>"tooltip","title"=>"Hapus")):CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->pangkat_id)",array("id"=>"$data->pangkat_id","rel"=>"tooltip","title"=>"Hapus"));',
+            'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
+        ),
 	),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 )); ?>
 
 <?php 
- 
+         echo CHtml::link(Yii::t('mds', '{icon} Tambah Pangkat', array('{icon}'=>'<i class="icon-plus icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp";
         echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
         echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
         echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
-        $content = $this->renderPartial('../tips/master',array(),true);
+        $content = $this->renderPartial('sistemAdministrator.views.tips.master',array(),true);
 $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
         $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
         $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
         $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/print');
+        $url=  Yii::app()->createAbsoluteUrl($module.'/'.$controller);
 
 $js = <<< JSCRIPT
 function print(caraPrint)
@@ -121,3 +141,40 @@ function print(caraPrint)
 JSCRIPT;
 Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);                        
 ?>
+    </div>
+    </fieldset>
+<script type="text/javascript">
+    function removeTemporary(id){
+        var url = '<?php echo $url."/removeTemporary"; ?>';
+        myConfirm('Apakah Anda yakin ingin menonaktifkan data ini untuk sementara?','Perhatian!',function(r){
+            if (r){
+                 $.post(url, {id: id},
+                     function(data){
+                        if(data.status == 'proses_form'){
+                                $.fn.yiiGridView.update('sapangkat-m-grid');
+                            }else{
+                                myAlert('Data Gagal di Nonaktifkan')
+                            }
+                },"json");
+           }
+        });
+    }
+    
+     function deleteRecord(id){       
+        var url = '<?php echo $url."/delete"; ?>';
+        myConfirm('Apakah Anda yakin ingin menghapus data ini untuk?','Perhatian!',function(r){
+            if (r){
+                 $.post(url, {id: id},
+                     function(data){
+                        if(data.status == 'proses_form'){
+                                $.fn.yiiGridView.update('sapangkat-m-grid');
+                            }else{
+                                myAlert('Data Gagal di Nonaktifkan')
+                            }
+                },"json");
+           }
+        });
+    }
+    
+   
+</script>
