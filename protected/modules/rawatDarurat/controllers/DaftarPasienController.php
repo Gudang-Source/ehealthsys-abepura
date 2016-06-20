@@ -378,6 +378,27 @@ class DaftarPasienController extends MyAuthController {
                 $pendaftaran_id = isset($_POST['pendaftaran_id']) ? $_POST['pendaftaran_id'] : null;
                 $modPendaftaran = PendaftaranT::model()->findByPk($pendaftaran_id);
 
+                $tindakan = TindakanpelayananT::model()->findByAttributes(array(
+                    'pendaftaran_id'=>$pendaftaran_id,
+                ), array(
+                    'condition'=>'tindakansudahbayar_id is not null'
+                ));
+                $oa = ObatalkespasienT::model()->findByAttributes(array(
+                    'pendaftaran_id'=>$pendaftaran_id,
+                ), array(
+                    'condition'=>'oasudahbayar_id is not null'
+                ));
+                
+                $ada = false;
+                
+                if (!empty($tindakan) || !empty($oa)) {
+                    $ada = true;
+                    $pesan = "Pasien sudah melakukan pembayaran. "
+                            . "Mohon pembayaran sebelumnya dibatalkan terlebih dahulu sebelum melakukan pembatalan pemeriksaan.";
+                    $status = false;
+                    goto onco; // loncat ke label 'onco'
+                }
+                
                 /*
                  * cek data pendaftaran pasien masuk penunjang
                  */
@@ -412,6 +433,8 @@ class DaftarPasienController extends MyAuthController {
                 );
                 $pendaftaran = PendaftaranT::model()->updateByPk($pendaftaran_id, $attributes);
 
+                
+                /*
                 if (count($pasienMasukPenunjang) > 0) {
                     if ($pasienMasukPenunjang->pasienkirimkeunitlain_id == null) {
                         $attributes = array(
@@ -431,7 +454,7 @@ class DaftarPasienController extends MyAuthController {
                     }
                     /*
                      * cek data tindakan_pelayanan
-                     */
+                     */ /*
                     $attributes = array(
                         'pasienmasukpenunjang_id' => $pasienMasukPenunjang->pasienmasukpenunjang_id,
                         'tindakansudahbayar_id' => null
@@ -464,16 +487,21 @@ class DaftarPasienController extends MyAuthController {
                         $pesan = "exist";
                     }
                 }
-
+                      * 
+                      */
+                
+                onco:
+                
                 /*
                  * kondisi_commit
                  */
-                if ($status == true) {
+                if ($status == true && $ada == false) {
                     $transaction->commit();
                 } else {
                     $transaction->rollback();
                 }
             } catch (Exception $ex) {
+                var_dump($ex); die;
 //					print_r($ex);
                 $status = false;
                 $pesan = "exist";

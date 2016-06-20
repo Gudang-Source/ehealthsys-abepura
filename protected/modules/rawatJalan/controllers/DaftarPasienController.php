@@ -1682,28 +1682,32 @@ class DaftarPasienController extends MyAuthController
 		 * batal periksa pasien RND-5542
 		 */
 		public function actionBatalPeriksa(){
-      $nama_modul = Yii::app()->controller->module->id;
-      $nama_controller = Yii::app()->controller->id;
-      $nama_action = Yii::app()->controller->action->id;
-      $modul_id = ModulK::model()->findByAttributes(array('url_modul'=>$nama_modul))->modul_id;
-      $smspasien = 1;
-      $smsdokter = 1;
-      $criteria = new CDbCriteria;
-      $criteria->compare('modul_id',$modul_id);
-      $criteria->compare('LOWER(modcontroller)',strtolower($nama_controller),true);
-      $criteria->compare('LOWER(modaction)',strtolower($nama_action),true);
-      if(isset($_POST['tujuansms'])){
-          $criteria->addInCondition('tujuansms',$_POST['tujuansms']);
-      }
-      $modSmsgateway = SmsgatewayM::model()->findAll($criteria);
+                        $nama_modul = Yii::app()->controller->module->id;
+                        $nama_controller = Yii::app()->controller->id;
+                        $nama_action = Yii::app()->controller->action->id;
+                        $modul_id = ModulK::model()->findByAttributes(array('url_modul'=>$nama_modul))->modul_id;
+                        $smspasien = 1;
+                        $smsdokter = 1;
+                        $criteria = new CDbCriteria;
+                        $criteria->compare('modul_id',$modul_id);
+                        $criteria->compare('LOWER(modcontroller)',strtolower($nama_controller),true);
+                        $criteria->compare('LOWER(modaction)',strtolower($nama_action),true);
+                        if(isset($_POST['tujuansms'])){
+                            $criteria->addInCondition('tujuansms',$_POST['tujuansms']);
+                        }
+                        $modSmsgateway = SmsgatewayM::model()->findAll($criteria);
 
 			if(Yii::app()->request->isAjaxRequest)
 			{ 
 				$transaction = Yii::app()->db->beginTransaction();
+                                $pendaftaran_id = isset($_POST['pendaftaran_id']) ? $_POST['pendaftaran_id'] : null;
+                                $ruangan_id = isset($_POST['ruangan_id']) ? $_POST['ruangan_id'] : Yii::app()->user->getState('ruangan_id');
+                                $modPendaftaran = PendaftaranT::model()->findByPk($pendaftaran_id);
+                                $modPegawai = $modPendaftaran->pegawai;
+                                $modPasien = $modPendaftaran->pasien;
+                                
 				try{
-					$pendaftaran_id = isset($_POST['pendaftaran_id']) ? $_POST['pendaftaran_id'] : null;
-					$ruangan_id = isset($_POST['ruangan_id']) ? $_POST['ruangan_id'] : Yii::app()->user->getState('ruangan_id');
-					$modPendaftaran = PendaftaranT::model()->findByPk($pendaftaran_id);
+					
 					
 					/*
 					* cek data pendaftaran pasien masuk penunjang
@@ -1713,6 +1717,27 @@ class DaftarPasienController extends MyAuthController
 						$criteria->addCondition("pendaftaran_id = ".$pendaftaran_id);						
 					}
 
+                                        $tindakan = TindakanpelayananT::model()->findByAttributes(array(
+                                            'pendaftaran_id'=>$pendaftaran_id,
+                                        ), array(
+                                            'condition'=>'tindakansudahbayar_id is not null'
+                                        ));
+                                        $oa = ObatalkespasienT::model()->findByAttributes(array(
+                                            'pendaftaran_id'=>$pendaftaran_id,
+                                        ), array(
+                                            'condition'=>'oasudahbayar_id is not null'
+                                        ));
+
+                                        $ada = false;
+                                        
+                                        if (!empty($tindakan) || !empty($oa)) {
+                                            $ada = true;
+                                            $pesan = "Pasien sudah melakukan pembayaran. "
+                                                    . "Mohon pembayaran sebelumnya dibatalkan terlebih dahulu sebelum melakukan pembatalan pemeriksaan.";
+                                            $status = false;
+                                            goto onco; // loncat ke label 'onco'
+                                        }
+                                        
 					$pasienMasukPenunjang = PasienmasukpenunjangT::model()->find($criteria);
 					
 					$pesan = '';
@@ -1739,7 +1764,7 @@ class DaftarPasienController extends MyAuthController
 						'update_loginpemakai_id' => Yii::app()->user->id
 					);
 					$pendaftaran = PendaftaranT::model()->updateByPk($pendaftaran_id, $attributes);
-							
+					/*
 					if(count($pasienMasukPenunjang) > 0){
 						if($pasienMasukPenunjang->pasienkirimkeunitlain_id == null)
 						{
@@ -1761,86 +1786,87 @@ class DaftarPasienController extends MyAuthController
 						}
 						/*
 						* cek data tindakan_pelayanan
-						*/
-					   $attributes = array(
-						   'pasienmasukpenunjang_id' => $pasienMasukPenunjang->pasienmasukpenunjang_id,
-						   'tindakansudahbayar_id' => null
-					   );
+						*/ /*
+                                                $attributes = array(
+                                                        'pasienmasukpenunjang_id' => $pasienMasukPenunjang->pasienmasukpenunjang_id,
+                                                        'tindakansudahbayar_id' => null
+                                                );
 
-					   $criteria2 = new CDbCriteria();
-					   $criteria2->addCondition('pasienmasukpenunjang_id = '.$pasienMasukPenunjang->pasienmasukpenunjang_id);
-					   $criteria2->addCondition('tindakansudahbayar_id is null');
-					   $tindakan = TindakanpelayananT::model()->findAll($criteria2);
+                                                $criteria2 = new CDbCriteria();
+                                                $criteria2->addCondition('pasienmasukpenunjang_id = '.$pasienMasukPenunjang->pasienmasukpenunjang_id);
+                                                $criteria2->addCondition('tindakansudahbayar_id is null');
+                                                $tindakan = TindakanpelayananT::model()->findAll($criteria2);
 
-					   if(count($tindakan) > 0)
-					   {
+                                                if(count($tindakan) > 0)
+                                                {
 
-						   foreach($tindakan as $val=>$key)
-						   {
-							   $attributes = array(
-								   'tindakanpelayanan_id' => $key->tindakanpelayanan_id
-							   );
-							   $hapus_komponen= TindakankomponenT::model()->deleteAllByAttributes($attributes);
-						   }
+                                                        foreach($tindakan as $val=>$key)
+                                                        {
+                                                                $attributes = array(
+                                                                        'tindakanpelayanan_id' => $key->tindakanpelayanan_id
+                                                                );
+                                                                $hapus_komponen= TindakankomponenT::model()->deleteAllByAttributes($attributes);
+                                                        }
 
-						   $attributes = array(
-							   'pasienmasukpenunjang_id' => $pasienMasukPenunjang->pasienmasukpenunjang_id
-						   );
+                                                        $attributes = array(
+                                                                'pasienmasukpenunjang_id' => $pasienMasukPenunjang->pasienmasukpenunjang_id
+                                                        );
 
-						   $hapus_tindakan = TindakanPelayananT::model()->deleteAllByAttributes($attributes);
-						   if(!$hapus_tindakan)
-						   {
-							   $status = false;
-							   $pesan = "exist";
-						   }
-					   }else{
-						   $pesan = "exist";
-					   }
-					}
+                                                        $hapus_tindakan = TindakanPelayananT::model()->deleteAllByAttributes($attributes);
+                                                        if(!$hapus_tindakan)
+                                                        {
+                                                                $status = false;
+                                                                $pesan = "exist";
+                                                        }
+                                                }else{
+                                                        $pesan = "exist";
+                                                }
+                                            } */
 				   
 				    /*
 					* kondisi_commit
 					*/
-				   if($status == true)
-				   {
-            // SMS GATEWAY
-            $modPegawai = $modPendaftaran->pegawai;
-            $modPasien = $modPendaftaran->pasien;
-            $sms = new Sms();
-            foreach ($modSmsgateway as $i => $smsgateway) {
-                $isiPesan = $smsgateway->templatesms;
+                                        onco:    
 
-                $attributes = $modPasien->getAttributes();
-                foreach($attributes as $attributes => $value){
-                    $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
-                }
-                $attributes = $model->getAttributes();
-                foreach($attributes as $attributes => $value){
-                    $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
-                }
-                $isiPesan = str_replace("{{hari}}",MyFormatter::getDayName($model->tglbatal),$isiPesan);
+                                        if($status == true)
+                                        {
+                                            // SMS GATEWAY
+                                            $modPasien = $modPendaftaran->pasien;
+                                            $sms = new Sms();
+                                            foreach ($modSmsgateway as $i => $smsgateway) {
+                                                $isiPesan = $smsgateway->templatesms;
 
-                if($smsgateway->tujuansms == Params::TUJUANSMS_PASIEN && $smsgateway->statussms){
-                    if(!empty($modPasien->no_mobile_pasien)){
-                        $sms->kirim($modPasien->no_mobile_pasien,$isiPesan);
-                    }else{
-                        $smspasien = 0;
-                    }
-                }elseif($smsgateway->tujuansms == Params::TUJUANSMS_DOKTER && $smsgateway->statussms){
-                    if(!empty($modPegawai->nomobile_pegawai)){
-                        $sms->kirim($modPegawai->nomobile_pegawai,$isiPesan);
-                    }else{
-                        $smsdokter = 0;
-                    }
-                }
-                
-            }
-            // END SMS GATEWAY
-					   $transaction->commit();
-				   }else{
-					   $transaction->rollback();
+                                                $attributes = $modPasien->getAttributes();
+                                                foreach($attributes as $attributes => $value){
+                                                    $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
+                                                }
+                                                $attributes = $model->getAttributes();
+                                                foreach($attributes as $attributes => $value){
+                                                    $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
+                                                }
+                                                $isiPesan = str_replace("{{hari}}",MyFormatter::getDayName($model->tglbatal),$isiPesan);
 
-				   }
+                                                if($smsgateway->tujuansms == Params::TUJUANSMS_PASIEN && $smsgateway->statussms){
+                                                    if(!empty($modPasien->no_mobile_pasien)){
+                                                        $sms->kirim($modPasien->no_mobile_pasien,$isiPesan);
+                                                    }else{
+                                                        $smspasien = 0;
+                                                    }
+                                                }elseif($smsgateway->tujuansms == Params::TUJUANSMS_DOKTER && $smsgateway->statussms){
+                                                    if(!empty($modPegawai->nomobile_pegawai)){
+                                                        $sms->kirim($modPegawai->nomobile_pegawai,$isiPesan);
+                                                    }else{
+                                                        $smsdokter = 0;
+                                                    }
+                                                }
+
+                                            }
+                                            // END SMS GATEWAY
+                                               $transaction->commit();
+                                        }else{
+                                               $transaction->rollback();
+
+                                        }
 					
 				}catch(Exception $ex){
 					$status = false;
@@ -1851,10 +1877,10 @@ class DaftarPasienController extends MyAuthController
 				$data = array(
 					'pesan'=>$pesan,
 					'status'=>$status,
-          'smspasien'=>$smspasien,
-          'smsdokter'=>$smsdokter,
-          'nama_pasien'=>$modPasien->nama_pasien,
-          'nama_pegawai'=>$modPegawai->nama_pegawai,
+                                        'smspasien'=>$smspasien,
+                                        'smsdokter'=>$smsdokter,
+                                        'nama_pasien'=>$modPasien->nama_pasien,
+                                        'nama_pegawai'=>$modPegawai->nama_pegawai,
 				);
 				echo json_encode($data);
 				Yii::app()->end();            
