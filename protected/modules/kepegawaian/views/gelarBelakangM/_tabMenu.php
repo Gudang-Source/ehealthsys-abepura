@@ -24,15 +24,16 @@ $this->widget('bootstrap.widgets.BootMenu', array(
     'type'=>'tabs', // '', 'tabs', 'pills' (or 'list')
     'stacked'=>false, // whether this is a stacked menu
     'items'=>array(
-        array('label'=>'Gelar Belakang', 'url'=>'javascript:void(0);', 'itemOptions'=>array('id'=>'tab-default','onclick'=>'setTab(this);', 'tab'=>'/kepegawaian/gelarBelakangM/admin&tab=frame')),
-    	array('label'=>'Kelompok', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>'/kepegawaian/KelompokpegawaiM/admin')),
-        array('label'=>'Jabatan', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>'/kepegawaian/jabatanM/admin')),
-        array('label'=>'Status Kepemilikan Rumah', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>'/kepegawaian/statuskepemilikanrumahM/admin')),
-        array('label'=>'Nilai', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>'/kepegawaian/nilaiM/admin')),
-        array('label'=>'Komponen Gaji', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>'/kepegawaian/komponengajiMKP/admin')),
+        array('label'=>'Kelompok', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>'/kepegawaian/KelompokpegawaiM/admin')),
         array('label'=>'Golongan', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>'/kepegawaian/golonganPegawaiM/admin')),
+        array('label'=>'Pangkat', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>'/kepegawaian/pangkatMKP/admin')),
+        array('label'=>'Jabatan', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>'/kepegawaian/jabatanM/admin')),
+        array('label'=>'Gelar Belakang', 'url'=>'javascript:void(0);', 'itemOptions'=>array('id'=>'tab-default','onclick'=>'setTab(this);', 'tab'=>'/kepegawaian/gelarBelakangM/admin&tab=frame')),    	        
+        array('label'=>'Komponen Gaji', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>'/kepegawaian/komponengajiMKP/admin')),        
         array('label'=>'Golongan Gaji', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>'/kepegawaian/golonganGajiMKP/admin')),
         array('label'=>'PTKP', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>'/kepegawaian/PtkpMKP/admin')),
+        array('label'=>'Status Kepemilikan Rumah', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>'/kepegawaian/statuskepemilikanrumahM/admin')),
+        array('label'=>'Nilai', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>'/kepegawaian/nilaiM/admin')),                        
         array('label'=>'Minat Pekerjaan', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>'/kepegawaian/LookupM/admin')),        
     		
     ),

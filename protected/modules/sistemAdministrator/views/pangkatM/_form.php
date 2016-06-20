@@ -4,7 +4,7 @@
 	'enableAjaxValidation'=>false,
         'type'=>'horizontal',
         'focus'=>'#SAPangkatM_golonganpegawai_id',
-        'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)'),
+        'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)','onsubmit'=>'return requiredCheck(this);'),
 
 )); ?>
 
@@ -17,14 +17,19 @@
         <table id="tbl-pangkat" class="table table-striped table-bordered table-condensed">
             <tr>
                 <td>
-                    <?php echo $form->textField($model,'[1]pangkat_nama',array('class'=>'inputRequire', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50,'placeholder'=>$model->getAttributeLabel('pangkat_nama'))); ?>
+                    <?php echo $form->textField($model,'[1]pangkat_nama',array('class'=>'required', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50,'placeholder'=>$model->getAttributeLabel('pangkat_nama'))); ?>
                     <span class="required">*</span>
                 </td>
                 <td>
                     <?php echo $form->textField($model,'[1]pangkat_namalainnya',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50, 'placeholder'=> $model->getAttributeLabel('pangkat_namalainnya'))); ?>
+                </td>                
+                <td>
+                    <?php echo $form->textField($model,'[1]pangkat_urutan',array('class'=>'required', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50,'placeholder'=>$model->getAttributeLabel('pangkat_urutan'))); ?>
+                    <span class="required">*</span>
                 </td>
                 <td>
-                    <?php echo CHtml::button( '+', array('class'=>'btn btn-primary','onkeypress'=>"addRow(this);return $(this).focusNextInputField(event);",'onclick'=>'addRow(this);$(this).nextFocus()','id'=>'row1-plus')); ?>
+                    <?php //echo CHtml::button( "<i class = 'icon-sign'></i>", '#', array('class'=>'btn btn-primary','onkeypress'=>"addRow(this);return $(this).focusNextInputField(event);",'onclick'=>'addRow(this);$(this).nextFocus()','id'=>'row1-plus')); ?>
+                    <?php echo CHtml::link('<i class="icon-plus-sign icon-white"></i>', '#', array('class'=>'btn btn-primary','onclick'=>'addRow(this)','id'=>'row1-plus', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                 </td>
             </tr>
         </table>
@@ -32,14 +37,17 @@
             <?php //echo $form->checkBoxRow($model,'kelaspelayanan_aktif', array('onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
 	<div class="form-actions">
 		                <?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 
-                                                                     Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),
-                                                array('class'=>'btn btn-primary', 'type'=>'button','onKeypress'=>'formSubmit(this,event)','onclick'=>'formSubmit(this,event)')); ?>
-                <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
-                        Yii::app()->createUrl($this->module->id.'/'.pangkatM.'/admin'), 
-                        array('class'=>'btn btn-danger',
-                              'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
+        Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),
+        array('class'=>'btn btn-primary', 'type'=>'submit', 'onKeypress'=>'return formSubmit(this,event)')); ?>
+        <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+                                                                    Yii::app()->createUrl($this->module->id.'/pangkatM/admin'), 
+                                                                    array('class'=>'btn btn-danger',
+                                                                    'onclick'=>'myConfirm("Apakah Anda yakin ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
+    <?php
+    echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Pangkat', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp"; 
+    ?>
 		<?php
-$content = $this->renderPartial('../tips/tips',array(),true);
+$content = $this->renderPartial('sistemAdministrator.views.tips.tipsaddedit2b',array(),true);
 $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
 ?>
         </div>
@@ -57,6 +65,7 @@ function addRow(obj)
     $('#tbl-pangkat tr:last td:last').append('$buttonMinus');
     renameInput('SAPangkatM','pangkat_nama');
     renameInput('SAPangkatM','pangkat_namalainnya');
+    renameInput('SAPangkatM','pangkat_urutan');
 }
 
 function renameInput(modelName,attributeName)
@@ -71,12 +80,18 @@ function renameInput(modelName,attributeName)
 
 function delRow(obj)
 {
-    if(!confirm("$confimMessage")) return false;
-    else {
-        $(obj).parent().parent().remove();
-        renameInput('SAPangkatM','pangkat_nama');
-        renameInput('SAPangkatM','pangkat_namalainnya');
-    }
+        myConfirm('Apakah Anda yakin ingin membatalkan data ini','Perhatian!',function(r){
+            if (r){
+                    $(obj).parent().parent().remove();
+                    renameInput('SAPangkatM','pangkat_nama');
+                    renameInput('SAPangkatM','pangkat_namalainnya');
+                    renameInput('SAPangkatM','pangkat_urutan');
+           }else{
+            return false;
+        }
+        });
+        
+   
 }
 
 

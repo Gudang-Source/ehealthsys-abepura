@@ -13,6 +13,7 @@
 class PangkatM extends CActiveRecord
 {
         public $golonganpegawai_nama;
+        public $pangkat_urutan;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -39,10 +40,10 @@ class PangkatM extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('golonganpegawai_id, pangkat_nama', 'required'),
+			array('golonganpegawai_id, pangkat_nama, pangkat_urutan', 'required'),
 			array('golonganpegawai_id', 'numerical', 'integerOnly'=>true),
 			array('pangkat_nama, pangkat_namalainnya', 'length', 'max'=>50),
-			array('pangkat_aktif', 'safe'),
+			array('pangkat_aktif, pangkat_urutan', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('pangkat_id, golonganpegawai_id, pangkat_nama, pangkat_namalainnya, pangkat_aktif', 'safe', 'on'=>'search'),
@@ -74,6 +75,7 @@ class PangkatM extends CActiveRecord
 			'pangkat_nama' => 'Pangkat',
 			'pangkat_namalainnya' => 'Nama Lain',
 			'pangkat_aktif' => 'Aktif',
+                        'pangkat_urutan' => 'Urutan'
 		);
 	}
 
@@ -124,7 +126,7 @@ class PangkatM extends CActiveRecord
         
         public function getGolonganPegawaiItems()
         {
-            return GolonganpegawaiM::model()->findAll(array('order'=>'golonganpegawai_nama'));
+            return GolonganpegawaiM::model()->findAll(array('condition'=>'golonganpegawai_aktif = TRUE ','order'=>'golonganpegawai_nama'));
         }
         
 }

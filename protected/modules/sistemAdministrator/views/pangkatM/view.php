@@ -1,4 +1,17 @@
 <?php
+    if ($this->hasTab):
+?>
+<fieldset class="box row-fluid">
+    <legend class="rim">Lihat Pangkat</legend>
+<?php
+    else:
+?>
+    <div class="white-container">
+    <legend class="rim2">Lihat <b>Pangkat</b></legend>
+<?php
+    endif;
+?>
+<?php
 $this->breadcrumbs=array(
 	'Sapangkat Ms'=>array('index'),
 	$model->pangkat_id,
@@ -12,7 +25,7 @@ $arrMenu = array();
                 array_push($arrMenu,array('label'=>Yii::t('mds','Delete').' Pangkat','icon'=>'trash','url'=>'#','linkOptions'=>array('submit'=>array('delete','id'=>$model->pangkat_id),'confirm'=>Yii::t('mds','Are you sure you want to delete this item?')))) ;
                 (Yii::app()->user->checkAccess(Params::DEFAULT_ADMIN)) ?array_push($arrMenu,array('label'=>Yii::t('mds','Manage').' Pangkat', 'icon'=>'folder-open', 'url'=>array('admin'))) :  '' ;
 
-$this->menu=$arrMenu;
+//$this->menu=$arrMenu;
 
 $this->widget('bootstrap.widgets.BootAlert'); ?>
 
@@ -30,5 +43,9 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                 ),
 	),
 )); ?>
-
+<?php
+    echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Pangkat', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp"; 
+    ?>
 <?php $this->widget('UserTips',array('type'=>'view'));?>
+    </div>
+    </fieldset>
