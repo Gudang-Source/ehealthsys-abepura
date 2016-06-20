@@ -41,6 +41,7 @@
                 $tindakan->subtotal = ($tindakan->qty_tindakan*$tindakan->tarif_satuan)+$tindakan->tarifcyto_tindakan-$tindakan->discount_tindakan-$tindakan->pembebasan_tindakan-$subsidi;
                 $tindakan->subsidiasuransi_tindakan= $tindakan->getSubsidiPenjamin('subsidiasuransitind');
                 $tindakan->subsidipemerintah_tindakan = $tindakan->getSubsidiPenjamin('subsidipemerintahtind');
+                $tindakan->subsisidirumahsakit_tindakan = $this->periksaTanggunganPasien($tindakan);
                 $tindakan->subtotal = $tindakan->subtotal - $tindakan->subsidiasuransi_tindakan;
                 $tot_tarif_tindakan += ($tindakan->qty_tindakan*$tindakan->tarif_satuan);
                 $tot_tarifcyto_tindakan += $tindakan->tarifcyto_tindakan;
