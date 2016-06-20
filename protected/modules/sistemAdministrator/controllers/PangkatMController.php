@@ -9,14 +9,24 @@ class PangkatMController extends MyAuthController
 	 */
 	public $layout='//layouts/column1';
 	public $defaultAction = 'admin';
+        
+        public $path_view = 'sistemAdministrator.views.pangkatM.';
+        public $path_view_tab = 'sistemAdministrator.views.pangkatM.';
+        public $hasTab = false;
 
 	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */
+        
+        public function init() {
+            parent::init();
+            if ($this->hasTab) {$this->layout = '//layouts/iframe';}
+        }
+        
 	public function actionView($id)
 	{
-		$this->render('view',array(
+		$this->render($this->path_view.'view',array(
 			'model'=>$this->loadModel($id),
 		));
 	}
@@ -33,31 +43,35 @@ class PangkatMController extends MyAuthController
 		// Uncomment the following line if AJAX validation is needed
 		
                 if(isset($_POST['SAPangkatM']))
-                    {
-
+                {                       
+                    
                         $valid=true;
                         foreach($_POST['SAPangkatM'] as $i=>$item)
                         {
                             if(is_integer($i)) {
                                 $model=new SAPangkatM;
                                 if(isset($_POST['SAPangkatM'][$i]))
+                                //    var_dump ($_POST);die;
                                     $model->attributes=$_POST['SAPangkatM'][$i];
-                                    $model->golonganpegawai_id = $_POST['SAPangkatM']['golonganpegawai_id'];
+                                    $model->golonganpegawai_id = $_POST['SAPangkatM']['golonganpegawai_id'];                                    
                                     $model->pangkat_aktif = true;
                                     $valid=$model->validate() && $valid;
                                     echo $i;
                                 if($valid) {
                                     $model->save();
-                                        Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                                        Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');                                        
                                 } else {
                                         Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data tidak valid.');
                                 }
                             }
+                        }                        
+                        if ($this->hasTab){
+                            $this->redirect(array('admin', 'id' => $model->pangkat_id));
+                        }else{
+                            $this->redirect(array('admin', 'sukses' => 1));
                         }
-                        $this->redirect(array('admin'));
-               
                     }   
-		$this->render('create',array(
+		$this->render($this->path_view.'create',array(
 			'model'=>$model,
 		));
 	}
@@ -80,11 +94,15 @@ class PangkatMController extends MyAuthController
 			$model->attributes=$_POST['SAPangkatM'];
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->pangkat_id));
+				if ($this->hasTab){
+                                    $this->redirect(array('admin', 'id' => $model->pangkat_id));
+                                }else{
+                                    $this->redirect(array('admin', 'sukses' => 1));
+                                }
                         }
 		}
 
-		$this->render('update',array(
+		$this->render($this->path_view.'update',array(
 			'model'=>$model,
 		));
 	}
@@ -94,20 +112,29 @@ class PangkatMController extends MyAuthController
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
 	 * @param integer $id the ID of the model to be deleted
 	 */
-	public function actionDelete($id)
+	public function actionDelete()
 	{
-		if(Yii::app()->request->isPostRequest)
-		{
-			// we only allow deletion via POST request
-                        //if(!Yii::app()->user->checkAccess(Params::DEFAULT_DELETE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
-			$this->loadModel($id)->delete();
+            if(Yii::app()->request->isPostRequest)
+            {
+                $id = $_POST['id'];
+                $this->loadModel($id)->delete();
+                if (Yii::app()->request->isAjaxRequest)
+                    {
+                        echo CJSON::encode(array(
+                            'status'=>'proses_form', 
+                            'div'=>"<div class='flash-success'>Data berhasil dihapus.</div>",
+                            ));
+                        exit;
+                    }
 
-			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-			if(!isset($_GET['ajax']))
-				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-		}
-		else
-			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+                            // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+                            if(!isset($_GET['ajax']))
+                                    $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+            }
+            else
+                    throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+                
+                		
 	}
 
 	/**
@@ -116,7 +143,7 @@ class PangkatMController extends MyAuthController
 	public function actionIndex()
 	{
 		$dataProvider=new CActiveDataProvider('SAPangkatM');
-		$this->render('index',array(
+		$this->render($this->path_view.'index',array(
 			'dataProvider'=>$dataProvider,
 		));
 	}
@@ -124,15 +151,18 @@ class PangkatMController extends MyAuthController
 	/**
 	 * Manages all models.
 	 */
-	public function actionAdmin()
+	public function actionAdmin($sukses='')
 	{
+            if ($sukses==1){
+                Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+            }
                 
 		$model=new SAPangkatM('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['SAPangkatM']))
 			$model->attributes=$_GET['SAPangkatM'];
 
-		$this->render('admin',array(
+		$this->render($this->path_view.'admin',array(
 			'model'=>$model,
 		));
 	}
@@ -167,11 +197,34 @@ class PangkatMController extends MyAuthController
          *Mengubah status aktif
          * @param type $id 
          */
-        public function actionRemoveTemporary($id)
+        public function actionRemoveTemporary()
 	{
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
-                SAPangkatM::model()->updateByPk($id, array('pangkat_aktif'=>false));
-                $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+                //SAPangkatM::model()->updateByPk($id, array('pangkat_aktif'=>false));
+                //$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+             $id = $_POST['id'];   
+            if(isset($_POST['id']))
+            {
+               $update = PangkatM::model()->updateByPk($id,array('pangkat_aktif'=>false));
+               if($update)
+                {
+                    if (Yii::app()->request->isAjaxRequest)
+                    {
+                        echo CJSON::encode(array(
+                            'status'=>'proses_form', 
+                            ));
+                        exit;               
+                    }
+                 }
+            } else {
+                    if (Yii::app()->request->isAjaxRequest)
+                    {
+                        echo CJSON::encode(array(
+                            'status'=>'proses_form', 
+                            ));
+                        exit;               
+                    }
+            }
 	}
         
         public function actionPrint()
@@ -182,11 +235,11 @@ class PangkatMController extends MyAuthController
             $caraPrint=$_REQUEST['caraPrint'];
             if($caraPrint=='PRINT') {
                 $this->layout='//layouts/printWindows';
-                $this->render('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+                $this->render($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
             }
             else if($caraPrint=='EXCEL') {
                 $this->layout='//layouts/printExcel';
-                $this->render('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+                $this->render($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
             }
             else if($_REQUEST['caraPrint']=='PDF') {
                 $ukuranKertasPDF = Yii::app()->user->getState('ukuran_kertas');                  //Ukuran Kertas Pdf
@@ -196,8 +249,8 @@ class PangkatMController extends MyAuthController
                 $stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
                 $mpdf->WriteHTML($stylesheet,1);  
                 $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
-                $mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-                $mpdf->Output();
+                $mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
+                $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
             }                       
         }
 }
