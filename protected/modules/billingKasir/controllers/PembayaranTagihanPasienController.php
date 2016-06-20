@@ -1147,7 +1147,7 @@ class PembayaranTagihanPasienController extends MyAuthController
         $isAdmisiKosong = empty($tindakan->pendaftaran->pasienadmisi_id);
         $isKarcisKosong = empty($tindakan->karcis_id);
         if ($tindakan->pendaftaran->instalasi_id == Params::INSTALASI_ID_RD && $isAdmisiKosong && $isKarcisKosong) {
-            return $tindakan->qty_tindakan * $tindakan->tarif_satuan;
+            return ($tindakan->qty_tindakan * $tindakan->tarif_satuan) - ($tindakan->subsidiasuransi_tindakan + $tindakan->subsidipemerintah_tindakan);
         }
         return 0;
     }
@@ -1155,7 +1155,7 @@ class PembayaranTagihanPasienController extends MyAuthController
     function periksaTanggunganOAPasien($oa) {
         $isAdmisiKosong = empty($oa->pendaftaran->pasienadmisi_id);
         if ($oa->pendaftaran->instalasi_id == Params::INSTALASI_ID_RD && $isAdmisiKosong) {
-            return $oa->qty_oa * $oa->hargasatuan_oa;
+            return ($oa->qty_oa * $oa->hargasatuan_oa) - ($oa->subsidiasuransi + $oa->subsidipemerintah);
         }
         return 0;
     }
