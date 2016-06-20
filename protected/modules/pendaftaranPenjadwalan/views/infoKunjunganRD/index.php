@@ -218,9 +218,17 @@
                             'header'=>'Status Periksa',
                             'type'=>'raw',
     //                     'value'=>'$data->statusperiksa.CHtml::link("<i class=icon-pencil></i>","",array("href"=>"","rel"=>"tooltip","title"=>"Klik Untuk Mengubah Status Periksa","onclick"=>"{buatSessionUbahStatus($data->pendaftaran_id);}return false;"))',
-                            'value'=>'((!empty($data->statusperiksa)&& ($data->statusperiksa==Params::STATUSPERIKSA_ANTRIAN)) ? CHtml::link("<i class=icon-form-silang></i> ".$data->statusperiksa, "javascript:dialogBatalPeriksa(\'$data->pendaftaran_id\',\'$data->statusperiksa\',\'$data->nama_pasien\');",array("rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik Membatalkan Pemeriksaan")) : $data->statusperiksa) ',
+                            'value'=>function($data) {
+                                $t = TindakanpelayananT::model()->findByAttributes(array(
+                                    'pendaftaran_id'=>$data->pendaftaran_id,
+                                ), array(
+                                    'condition'=>'tindakansudahbayar_id is not null',
+                                ));
+                                if (!empty($t)) return "-";
+                                return ((!empty($data->statusperiksa)&& ($data->statusperiksa==Params::STATUSPERIKSA_ANTRIAN)) ? CHtml::link("<i class=icon-form-silang></i> ".$data->statusperiksa, "javascript:dialogBatalPeriksa('$data->pendaftaran_id','$data->statusperiksa','$data->nama_pasien');",array("rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik Membatalkan Pemeriksaan")) : $data->statusperiksa);
+                            },//'',
                             'htmlOptions'=>array(
-                                    'style'=>'text-align: left',
+                                    'style'=>'text-align: center',
                                     'class'=>'status'
                                     )
                             ),
@@ -459,8 +467,8 @@
                             'options'=>array(
                             'title'=>'Batal Periksa - <span id="titleNamaPasienBatal"></span>',
                             'autoOpen'=>false,
-                            'show'=>'blind',
-                            'hide'=>'explode',
+                            //'show'=>'blind',
+                            //'hide'=>'explode',
                             'zIndex'=>1002,
                             'minWidth'=>500,
                             'minHeight'=>100,

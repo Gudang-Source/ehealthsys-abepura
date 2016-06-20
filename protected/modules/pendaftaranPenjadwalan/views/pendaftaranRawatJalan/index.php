@@ -15,6 +15,7 @@
     <?php $this->widget('bootstrap.widgets.BootAlert'); ?>
     <?php echo $form->errorSummary($model); ?>
     <?php echo $form->errorSummary($modPasien); ?>
+    <?php if (!isset($_GET['id'])) : ?>
     <div class="row-fluid">
         <div class="span6">
             <div class="control-group">
@@ -28,6 +29,7 @@
             </div>
         </div> 
     </div>
+    <?php endif; ?>
     <fieldset class="box" id="form-pasien">
         <legend class="rim"><span class='judul'>Data Pasien Baru </span><span class='tombol' style='display:none;'><?php echo CHtml::htmlButton('<i class="icon-refresh icon-white"></i>',array('class'=>'btn btn-danger btn-mini','onclick'=>'setPasienBaru();','onkeyup'=>"return $(this).focusNextInputField(event)",'rel'=>'tooltip','title'=>'Klik untuk kembali ke Pasien Baru')); ?></span></legend>
         <div class="row-fluid">    
@@ -129,7 +131,7 @@
                 <?php //JIKA TANPA VERIFIKASI >> echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit', 'onkeypress'=>'formSubmit(this,event)')); ?>
                 <?php 
                 if($model->isNewRecord){
-                    echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button', 'onclick'=>'setVerifikasi();', 'onkeypress'=>'setVerifikasi();')); //formSubmit(this,event)
+                    echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button', 'onclick'=>'if (!cekJamPoli()) return false; setVerifikasi();', 'onkeypress'=>'if (!cekJamPoli()) return false; setVerifikasi();')); //formSubmit(this,event)
                 }else{
                     echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button', 'onclick'=>'return false', 'onkeypress'=>'return false', 'disabled'=>true, 'style'=>'cursor:not-allowed;')); 
                 }

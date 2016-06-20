@@ -265,22 +265,25 @@ class InformasikamarController extends MyAuthController {
                 $list1 = array();
                 $jml = 0;
                 foreach ($model as $i=>$row){
-                    if ($row->ruangan_id != $tempRuangan){
+                  // if ($row->ruangan_id != $tempRuangan){
                         $tempJumlah = 0;
                         $list1[$row->ruangan_id]['name'] = $row->ruangan_nama;
                         $list1[$row->ruangan_id]['ruangan_id'] = $row->ruangan_id;                        
-                        $list1[$row->ruangan_id]['kelaspelayanan_id'] = $row->kelaspelayanan_id;
+                        $list1[$row->ruangan_id]['kamar_id'] = $row->kamarruangan_id; 
+                        $list1[$row->ruangan_id]['kelaspelayanan_id'] = $row->kelaspelayanan_id;                   
                         $list1[$row->ruangan_id]['kamar'][$row->kelaspelayanan_id]['name'] = $row->kamarruangan_nokamar;
                         $list1[$row->ruangan_id]['kamar'][$row->kelaspelayanan_id]['kelaspelayanan'] = $row->kelaspelayanan_namalainnya;
-                        $list1[$row->ruangan_id]['kamar'][$row->kelaspelayanan_id]['jml'] = $row->kamarruangan_jmlbed;
+                        $list1[$row->ruangan_id]['kamar'][$row->kelaspelayanan_id]['kelaspelayanan_id'] = $row->kelaspelayanan_id;
+                        $list1[$row->ruangan_id]['kamar'][$row->kelaspelayanan_id]['ruangan_id'] = $row->ruangan_id;
+                        $list1[$row->ruangan_id]['kamar'][$row->kelaspelayanan_id]['jml'] = $row->kamarruangan_jmlbed;                        
                         $list1[$row->ruangan_id]['kamar'][$row->kelaspelayanan_id]['kamar'][$row->kamarruangan_nokamar]['name'] = $row->kamarruangan_nokamar;
                         $list1[$row->ruangan_id]['kamar'][$row->kelaspelayanan_id]['kamar'][$row->kamarruangan_nokamar]['bed'][$i]['no'] = $row->kamarruangan_nobed;
                         $list1[$row->ruangan_id]['kamar'][$row->kelaspelayanan_id]['kamar'][$row->kamarruangan_nokamar]['bed'][$i]['status'] = $row->kamarruangan_status;
                         $list1[$row->ruangan_id]['kamar'][$row->kelaspelayanan_id]['kamar'][$row->kamarruangan_nokamar]['bed'][$i]['id'] = $row->kamarruangan_id;
-                        $tempJumlah = $row->kamarruangan_jmlbed;
-                        $tempRuangan = $row->ruangan_id;
-                    }
-                    else{
+                       // $tempJumlah = $row->kamarruangan_jmlbed;
+                        //$tempRuangan = $row->ruangan_id;
+                   // }
+                    /*else{
                         $list1[$tempRuangan]['kamar'][$row->kelaspelayanan_id]['name'] = $row->kamarruangan_nokamar;
                         $list1[$tempRuangan]['kamar'][$row->kelaspelayanan_id]['kelaspelayanan'] = $row->kelaspelayanan_namalainnya;                        
                         if ($row->kamarruangan_jmlbed >= $tempJumlah){
@@ -288,12 +291,14 @@ class InformasikamarController extends MyAuthController {
                             $tempJumlah = $row->kamarruangan_jmlbed;
                         }
                         $list1[$tempRuangan]['kamar'][$row->kelaspelayanan_id]['jml'] = $jml;
+                        $list1[$tempRuangan]['kamar'][$row->kelaspelayanan_id]['totalBed'] =  $row->kamarruangan_jmlbed;
                         $list1[$tempRuangan]['kamar'][$row->kelaspelayanan_id]['kamar'][$row->kamarruangan_nokamar]['name'] = $row->kamarruangan_nokamar;
                         $list1[$tempRuangan]['kamar'][$row->kelaspelayanan_id]['kamar'][$row->kamarruangan_nokamar]['bed'][$i]['no'] = $row->kamarruangan_nobed;
                         $list1[$tempRuangan]['kamar'][$row->kelaspelayanan_id]['kamar'][$row->kamarruangan_nokamar]['bed'][$i]['status'] = $row->kamarruangan_status;
                         $list1[$tempRuangan]['kamar'][$row->kelaspelayanan_id]['kamar'][$row->kamarruangan_nokamar]['bed'][$i]['id'] = $row->kamarruangan_id;
-                    }
+                    }*/
                 }
+                                
 //                echo "<pre>";
                 foreach ($list1 as $i=>$v){
                     
@@ -411,10 +416,23 @@ class InformasikamarController extends MyAuthController {
                                             $result .='<p><a href="" class="btn '.(($b['status']) ? 'btn-danger' : 'btn-primary').'" rel="popover" data-content="'.(($b['status']) ? 'Sudah dibooking' : $dataPasien).'" onclick="return false"><img src=\''. Yii::app()->baseUrl.'/images/'.'RanjangRumahSakit3'.'.png\'/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No. Bed : '.$b['no'].'</a></p>';
                                         }
                                     }
-                                    for($d=1;$d<=($w['jml'] - (count($y['bed'])));$d++){
-                                        
-                                        $result .='<p><a href="" class="btn btn-info" onclick="return false"><img src=\''. Yii::app()->baseUrl.'/images/delete.png\'/>Kosong</a></p>';
-                                    }
+                                    $jumlahBed = PPInformasikamarinapV::model()->findAll("kamarruangan_nokamar = '".$w['name']."' AND ruangan_id = '".$v['ruangan_id']."' AND kelaspelayanan_id = '".$v['kelaspelayanan_id']."' ");                                    
+                                    $bed = '';
+                                    
+                                    foreach($jumlahBed as $data):
+                                        $bed = $data->kamarruangan_jmlbed;
+                                    endforeach;
+                                    
+                                    
+                                   //  for ($a=1; $a < $bed; $a++):                                       
+                                     //   $result .= count($jumlahBed).$bed.'<br>'.'<p><a href="" class="btn btn-info" onclick="return false"><img src=\''. Yii::app()->baseUrl.'/images/delete.png\'/>Kosong</a></p>';                                                                                                                           
+                                    // endfor;   
+                                   // for($d=1;$d<=($w['jml'] - (count($y['bed'])));$d++){                                                                                    
+                                      //  if (count($jumlahBed) < $bed){
+                                       //  $result .=$w['jml'].'<br>'.'<p><a href="" class="btn btn-info" onclick="return false"><img src=\''. Yii::app()->baseUrl.'/images/delete.png\'/>Kosong</a></p>';                                                                                  
+                                       // }
+                                       // $bed--;
+                                   // }
                                         $result .='</div>
                                     </div>
                                 </li>';

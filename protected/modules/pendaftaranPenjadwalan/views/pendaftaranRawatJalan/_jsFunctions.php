@@ -963,12 +963,25 @@ function setAntrianRuangan(){
         data: {ruangan_id:ruangan_id},
         dataType: "json",
         success:function(data){
+            $('#max-antrian-ruangan').val(null);
+            $('#jam_awal').val(null);
+            $('#jam_tutup').val(null);
+            $('#jam_awal_a').val(null);
+            $('#jam_tutup_a').val(null);
+            $('#nama_ruangan').val(null);
             if(data.maxantrianruangan != null){
                 if(data.no_urutantri > data.maxantrianruangan){
                     myAlert("Pasien Sudah Mencapai Maksimal Antrian Poliklinik "+data.maxantrianruangan+" Pasien"); 
 			$("#<?php echo CHtml::activeId($model,'ruangan_id');?>").val("");
                 }
+                
                 $('#max-antrian-ruangan').val(data.maxantrianruangan);
+                $('#jam_awal').val(data.jammulai);
+                $('#jam_tutup').val(data.jamtutup);
+                $('#jam_awal_a').val(data.jammulai_a);
+                $('#jam_tutup_a').val(data.jamtutup_a);
+                $('#nama_ruangan').val(data.nama_ruangan);
+                
             }else{
                 $('#max-antrian-ruangan').val(0);
             }
@@ -2079,6 +2092,25 @@ function getBpjsPPKRujukan(ppk) {
 $(".rb_kon").change(function() {
     cekTanggalKonfirmasi();
 });
+
+
+function cekJamPoli() {
+    if ($("#jam_awal").val() == "" || $("#jam_tutup").val() == "") return true;
+    
+    jam_awal = new Date($("#jam_awal").val());
+    jam_tutup = new Date($("#jam_tutup").val());
+    cur = new Date();
+    
+    if (cur.getTime() < jam_awal.getTime() || cur.getTime() > jam_tutup.getTime()) {
+        myAlert("Tidak bisa mendaftarkan pasien diluar jadwal.\n" +
+                $("#nama_ruangan").val() + " : " + $("#jam_awal_a").val() + " - " + $("#jam_tutup_a").val());
+        
+        return false;
+    }
+    
+    return true;
+}
+
 
 /**
  * javascript yang di running setelah halaman ready / load sempurna
