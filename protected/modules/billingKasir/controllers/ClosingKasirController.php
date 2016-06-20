@@ -50,7 +50,7 @@ class ClosingKasirController extends MyAuthController
 		}
         $criteria->addCondition('t.closingkasir_id IS NULL');
         $criteria->addBetweenCondition('DATE(t.tglpenerimaan)', $mBuktBayar->tgl_awal, $mBuktBayar->tgl_akhir);
-        $rPenerimaanUmum = PenerimaanumumT::model()->findAll($criteria);
+        $rPenerimaanUmum = array(); //PenerimaanumumT::model()->findAll($criteria);
         $total_penerimaan_umum = 0;
         foreach($rPenerimaanUmum as $val)
         {
@@ -69,7 +69,7 @@ class ClosingKasirController extends MyAuthController
         $criteria_dua->addCondition('t.closingkasir_id IS NULL');
         $criteria_dua->addCondition('t.batalkeluarumum_id IS NULL');
         $criteria_dua->addBetweenCondition('DATE(t.tglpengeluaran)', $mBuktBayar->tgl_awal, $mBuktBayar->tgl_akhir);
-        $rPengeluaranUmum = PengeluaranumumT::model()->findAll($criteria_dua);
+        $rPengeluaranUmum = array(); //PengeluaranumumT::model()->findAll($criteria_dua);
         $total_pengeluaran_umum = 0;
         
         foreach($rPengeluaranUmum as $val)

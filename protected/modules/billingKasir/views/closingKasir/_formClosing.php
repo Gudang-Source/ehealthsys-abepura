@@ -59,11 +59,12 @@
             <?php echo $form->textFieldRow($model,'closingsaldoawal',array('class'=>'span3 integer2','onkeyup'=>'hitungTotalSetoran()','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
             <?php echo $form->textFieldRow($model,'terimauangpelayanan',array('readOnly'=>true,'class'=>'span3 integer2','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
             <?php echo $form->textFieldRow($model,'terimauangmuka',array('class'=>'span3 integer2','onkeypress'=>"return $(this).focusNextInputField(event)",'onkeyup'=>'hitungPiutang(this)')); ?>            
-            <div class="control-group">
+            <div class="control-group" hidden>
                 <div class='control-label'>Jumlah Penerimaan Umum</div>
                 <div class="controls">
-                    <?php
+                    <?php 
                         echo(CHtml::textField("jum_penerimaan_umum", $informasi['total_penerimaan_umum'], array('readOnly'=>true,'size'=>20, 'class'=>'span3 integer2'))); 
+                        /*
                         echo CHtml::htmlButton('List',
                             array(
                                 'onclick' => 'listPenerimaanUmum()',
@@ -82,16 +83,19 @@
                                 'title' => "Check Untuk Tidak Menyimpan Penerimaan Umum"
                             )
                         );
+                         * 
+                         */
                     ?>                    
                 </div>
             </div>
-            <div class="control-group">
+            <div class="control-group" hidden>
                 <div class='control-label'>
                     Jumlah Pengeluaran Umum
                 </div>
                 <div class="controls">
                     <?php
                         echo(CHtml::textField("jum_pengeluaran_umum", $informasi['total_pengeluaran_umum'], array('readOnly'=>true,'size'=>20, 'class'=>'span3 integer2'))); 
+                        /*
                         echo CHtml::htmlButton('List',
                             array(
                                 'onclick' => 'listPengeluaranUmum()',
@@ -110,6 +114,8 @@
                                 'title' => "Check Untuk Tidak Menyimpan Pengeluaran Umum"
                             )
                         );
+                         * 
+                         */
                     ?>
                 </div>
             </div>
@@ -127,7 +133,7 @@
                     <?php
                         echo $form->textField($model,'nilaiclosingtrans',array('readOnly'=>true,'class'=>'span3 integer2','onkeypress'=>"return $(this).focusNextInputField(event)"));
                     ?>
-                    <div style="margin-top:5px;font-size:11px;color:red;width:200px;padding:5px;border:1px solid;">Total Tutup Kasir = Total Penerimaan Tunai + Total Administrasi</div>
+                    <div style="display: none; margin-top:5px;font-size:11px;color:red;width:200px;padding:5px;border:1px solid;">Total Tutup Kasir = Total Penerimaan Tunai + Total Administrasi</div>
                 </div>
             </div>
                 <?php
