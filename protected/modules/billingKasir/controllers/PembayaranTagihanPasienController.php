@@ -1143,6 +1143,21 @@ class PembayaranTagihanPasienController extends MyAuthController
             throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
     }
 
-
+    function periksaTanggunganPasien($tindakan) {
+        $isAdmisiKosong = empty($tindakan->pendaftaran->pasienadmisi_id);
+        $isKarcisKosong = empty($tindakan->karcis_id);
+        if ($tindakan->pendaftaran->instalasi_id == Params::INSTALASI_ID_RD && $isAdmisiKosong && $isKarcisKosong) {
+            return ($tindakan->qty_tindakan * $tindakan->tarif_satuan) - ($tindakan->subsidiasuransi_tindakan + $tindakan->subsidipemerintah_tindakan);
+        }
+        return 0;
+    }
+    
+    function periksaTanggunganOAPasien($oa) {
+        $isAdmisiKosong = empty($oa->pendaftaran->pasienadmisi_id);
+        if ($oa->pendaftaran->instalasi_id == Params::INSTALASI_ID_RD && $isAdmisiKosong) {
+            return ($oa->qty_oa * $oa->hargasatuan_oa) - ($oa->subsidiasuransi + $oa->subsidipemerintah);
+        }
+        return 0;
+    }
     
 }

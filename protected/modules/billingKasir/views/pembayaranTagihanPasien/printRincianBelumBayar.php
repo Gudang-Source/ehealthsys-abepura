@@ -32,8 +32,30 @@ echo $this->renderPartial('application.views.headerReport.headerRincian');
  
 $pasien = $modPendaftaran->pasien;
 $admisi = PasienadmisiT::model()->findByPk($modPendaftaran->pasienadmisi_id);
+$asuransi = AsuransipasienM::model()->findByPk($modPendaftaran->asuransipasien_id);
+$masukkamar = MasukkamarT::model()->findByAttributes(array(
+    'pasienadmisi_id'=>$modPendaftaran->pasienadmisi_id,
+), array(
+    'order'=>'masukkamar_id desc',
+));
+
+// var_dump($masukkamar->attributes); die;
+
+// var_dump($masukkamar->attributes, $modPendaftaran->attributes, $admisi->attributes); die;
+
 ?>
 <table class="identitas" width="100%">
+    <tr>
+        <td>Cara Bayar</td><td>:</td><td><?php echo $modPendaftaran->carabayar->carabayar_nama; ?></td>
+        <td>Kelas Pelayanan</td><td>:</td><td><?php echo !empty($modPendaftaran->pasienadmisi_id)?$admisi->kelaspelayanan->kelaspelayanan_nama:$modPendaftaran->kelaspelayanan->kelaspelayanan_nama; ?></td>
+    </tr>
+    <tr>
+        <td>Penjamin</td><td>:</td><td><?php echo $modPendaftaran->penjamin->penjamin_nama; ?></td>
+        <?php if (!empty($asuransi)): ?><td nowrap>Kelas Tanggungan</td><td>:</td><td><?php echo $asuransi->kelastanggunganasuransi->kelaspelayanan_nama; ?></td><?php endif; ?>
+    </tr>
+    <tr>
+        <td colspan="6" style="border-bottom: 1px solid black">&nbsp;</td>
+    </tr>
     <tr>
         <td nowrap>No. Rekam Medik</td><td>:</td><td width="100%"><?php echo $pasien->no_rekam_medik; ?></td>
         <td>Tgl. Pendaftaran</td><td>:</td><td nowrap><?php echo MyFormatter::formatDateTimeForUser($modPendaftaran->tgl_pendaftaran); ?></td>
@@ -50,7 +72,7 @@ $admisi = PasienadmisiT::model()->findByPk($modPendaftaran->pasienadmisi_id);
         <td>Alamat</td><td>:</td><td nowrap><?php echo $pasien->no_rekam_medik; ?></td>
         
         <?php if (!empty($modPendaftaran->pasienadmisi_id)): ?> 
-        <td nowrap>Kamar / No. Bed</td><td>:</td><td nowrap><?php echo empty($admisi->kamarruangan_id)?"-":($admisi->kamarruangan->kamarruangan_nokamar." / ".$admisi->kamarruangan->kamarruangan_nobed); ?></td>
+        <td nowrap>Kamar / No. Bed</td><td>:</td><td nowrap><?php echo (empty($masukkamar) || empty($masukkamar->kamarruangan_id))?"-":($masukkamar->kamarruangan->kamarruangan_nokamar." / ".$masukkamar->kamarruangan->kamarruangan_nobed); ?></td>
         <?php endif; ?>
     </tr>
     <tr>

@@ -730,6 +730,8 @@ public function actionKirimDokumen($pengirimanrm_id,$pendaftaran_id){
                     'pindahkamar_id'=>null
                 )
             );
+            
+            die;
            if($modelPulangNew->validate()){
                if($modelPulangNew->save()){      
 //                   ini digunakan untuk mengupdate masukkamar ruangan_id=>menjadi null dan kamarruangan_m  status menjadi true
@@ -750,7 +752,7 @@ public function actionKirimDokumen($pengirimanrm_id,$pendaftaran_id){
 						)
 					);
 				}
-                $umasukkamar = MasukkamarT::model()->updateByPk($masukKamar->masukkamar_id, array('kamarruangan_id'=>null));
+                // $umasukkamar = MasukkamarT::model()->updateByPk($masukKamar->masukkamar_id, array('kamarruangan_id'=>null));
                 if($ukamarruangan || $umasukkamar){
                     $this->successPasienPulang = true;
                 }

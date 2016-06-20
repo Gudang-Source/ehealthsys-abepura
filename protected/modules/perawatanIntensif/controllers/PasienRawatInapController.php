@@ -662,7 +662,7 @@ public function actionTerimaDokumen() {
 						)
 					);
 				}
-                $umasukkamar = MasukkamarT::model()->updateByPk($masukKamar->masukkamar_id, array('kamarruangan_id'=>null));
+                // $umasukkamar = MasukkamarT::model()->updateByPk($masukKamar->masukkamar_id, array('kamarruangan_id'=>null));
                 if($ukamarruangan || $umasukkamar){
                     $this->successPasienPulang = true;
                 }
