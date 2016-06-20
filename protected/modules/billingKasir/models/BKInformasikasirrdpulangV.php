@@ -79,60 +79,64 @@ class BKInformasikasirrdpulangV extends InformasikasirrdpulangV
                 from obatalkespasien_t p
                 group by p.pendaftaran_id
                 ) o on o.pendaftaran_id = t.pendaftaran_id
+                
+                left join pendaftaran_t pp on pp.pendaftaran_id = t.pendaftaran_id
                 ";
                 
                 
                 
-		$criteria->addBetweenCondition('date(tgl_pendaftaran)',$this->tgl_awal,$this->tgl_akhir,true);
+		$criteria->addBetweenCondition('date(t.tgl_pendaftaran)',$this->tgl_awal,$this->tgl_akhir,true);
 //                $criteria->addCondition('t.pembayaranpelayanan_id IS NULL');
 		// $criteria->compare('LOWER(tgl_pendaftaran)',strtolower($this->tgl_pendaftaran),true);
-		$criteria->compare('LOWER(no_pendaftaran)',strtolower($this->no_pendaftaran),true);
-		$criteria->compare('LOWER(statusperiksa)',strtolower($this->statusperiksa),true);
-		$criteria->compare('LOWER(statusmasuk)',strtolower($this->statusmasuk),true);
-		$criteria->compare('LOWER(no_rekam_medik)',strtolower($this->no_rekam_medik),true);
-		$criteria->compare('LOWER(nama_pasien)',strtolower($this->nama_pasien),true);
-		$criteria->compare('LOWER(nama_bin)',strtolower($this->nama_bin),true);
-		$criteria->compare('LOWER(alamat_pasien)',strtolower($this->alamat_pasien),true);
+		$criteria->compare('LOWER(t.no_pendaftaran)',strtolower($this->no_pendaftaran),true);
+		$criteria->compare('LOWER(t.statusperiksa)',strtolower($this->statusperiksa),true);
+		$criteria->compare('LOWER(t.statusmasuk)',strtolower($this->statusmasuk),true);
+		$criteria->compare('LOWER(t.no_rekam_medik)',strtolower($this->no_rekam_medik),true);
+		$criteria->compare('LOWER(t.nama_pasien)',strtolower($this->nama_pasien),true);
+		$criteria->compare('LOWER(t.nama_bin)',strtolower($this->nama_bin),true);
+		$criteria->compare('LOWER(t.alamat_pasien)',strtolower($this->alamat_pasien),true);
 		if(!empty($this->propinsi_id)){
-			$criteria->addCondition('propinsi_id = '.$this->propinsi_id);
+			$criteria->addCondition('t.propinsi_id = '.$this->propinsi_id);
 		}
-		$criteria->compare('LOWER(propinsi_nama)',strtolower($this->propinsi_nama),true);
+		$criteria->compare('LOWER(t.propinsi_nama)',strtolower($this->propinsi_nama),true);
 		if(!empty($this->kabupaten_id)){
-			$criteria->addCondition('kabupaten_id = '.$this->kabupaten_id);
+			$criteria->addCondition('t.kabupaten_id = '.$this->kabupaten_id);
 		}
-		$criteria->compare('LOWER(kabupaten_nama)',strtolower($this->kabupaten_nama),true);
+		$criteria->compare('LOWER(t.kabupaten_nama)',strtolower($this->kabupaten_nama),true);
 		if(!empty($this->kecamatan_id)){
-			$criteria->addCondition('kecamatan_id = '.$this->kecamatan_id);
+			$criteria->addCondition('t.kecamatan_id = '.$this->kecamatan_id);
 		}
-		$criteria->compare('LOWER(kecamatan_nama)',strtolower($this->kecamatan_nama),true);
+		$criteria->compare('LOWER(t.kecamatan_nama)',strtolower($this->kecamatan_nama),true);
 		if(!empty($this->kelurahan_id)){
-			$criteria->addCondition('kelurahan_id = '.$this->kelurahan_id);
+			$criteria->addCondition('t.kelurahan_id = '.$this->kelurahan_id);
 		}
-		$criteria->compare('LOWER(kelurahan_nama)',strtolower($this->kelurahan_nama),true);
+		$criteria->compare('LOWER(t.kelurahan_nama)',strtolower($this->kelurahan_nama),true);
 		if(!empty($this->instalasi_id)){
-			$criteria->addCondition('instalasi_id = '.$this->instalasi_id);
+			$criteria->addCondition('t.instalasi_id = '.$this->instalasi_id);
 		}
 		if(!empty($this->ruangan_id)){
-			$criteria->addCondition('ruangan_id = '.$this->ruangan_id);
+			$criteria->addCondition('t.ruangan_id = '.$this->ruangan_id);
 		}
-		$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
+		$criteria->compare('LOWER(t.ruangan_nama)',strtolower($this->ruangan_nama),true);
 		if(!empty($this->carabayar_id)){
-			$criteria->addCondition('carabayar_id = '.$this->carabayar_id);
+			$criteria->addCondition('t.carabayar_id = '.$this->carabayar_id);
 		}
-		$criteria->compare('LOWER(carabayar_nama)',strtolower($this->carabayar_nama),true);
+		$criteria->compare('LOWER(t.carabayar_nama)',strtolower($this->carabayar_nama),true);
 		if(!empty($this->penjamin_id)){
-			$criteria->addCondition('penjamin_id = '.$this->penjamin_id);
+			$criteria->addCondition('t.penjamin_id = '.$this->penjamin_id);
 		}
-		$criteria->compare('LOWER(penjamin_nama)',strtolower($this->penjamin_nama),true);
-		$criteria->compare('LOWER(nama_pegawai)',strtolower($this->nama_pegawai),true);
-		$criteria->compare('LOWER(jeniskasuspenyakit_nama)',strtolower($this->jeniskasuspenyakit_nama),true);
-   		$criteria->order = 'tgl_pendaftaran DESC';
-                $criteria->addCondition("statusperiksa <> 'BATAL PERIKSA' ");
+		$criteria->compare('LOWER(t.penjamin_nama)',strtolower($this->penjamin_nama),true);
+		$criteria->compare('LOWER(t.nama_pegawai)',strtolower($this->nama_pegawai),true);
+		$criteria->compare('LOWER(t.jeniskasuspenyakit_nama)',strtolower($this->jeniskasuspenyakit_nama),true);
+   		$criteria->order = 't.tgl_pendaftaran DESC';
+                $criteria->addCondition("t.statusperiksa <> 'BATAL PERIKSA' ");
                 if ($this->statusBayar == "BELUM LUNAS") {
                     $criteria->addCondition("(${tb}) > 0 or (${ob}) > 0 or (${tt}) = 0");
                 } else if ($this->statusBayar == "LUNAS") {
                     $criteria->addCondition("(${tb}) = 0 and (${ob}) = 0 and (${tt}) > 0");
                 }
+                
+                $criteria->addCondition('pp.pasienadmisi_id is null');
                 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria

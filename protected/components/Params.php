@@ -134,7 +134,7 @@ Class Params
 	const RUANGAN_ID_LAB = 52;         //digunakan jika ruangan lab klinik & anatomi di non-aktifkan
 	const RUANGAN_ID_LAB_KLINIK = 53;  
 	const RUANGAN_ID_LAB_ANATOMI = 54; 
-	const RUANGAN_ID_PERINATOLOGI = 157;   
+	const RUANGAN_ID_PERINATOLOGI = 237;   
 	const RUANGAN_ID_RAD = 56;         
 	const RUANGAN_ID_STERILISASI = 223;     
 	const RUANGAN_ID_LAUNDRY = 226;     
@@ -142,6 +142,13 @@ Class Params
         const RUANGAN_ID_LOKET = 2;
         const RUANGAN_ID_KEBIDANAN = 13;
         const RUANGAN_ID_FORENSIC = 63;
+        const RUANGAN_ID_ANAK = 29;
+        const RUANGAN_ID_PRIA = 27;
+        const RUANGAN_ID_WANITA = 28;
+        const RUANGAN_ID_ICU = 46;        
+        const RUANGAN_ID_LANTAI_2 = 31;
+        const RUANGAN_ID_LANTAI_3 = 30;
+        const RUANGAN_ID_BERSALIN = 8;
 
 	const KELASPELAYANAN_ID_TANPA_KELAS = 6;
         const KELASPELAYANAN_ID_KELAS_III = 4;

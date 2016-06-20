@@ -268,7 +268,7 @@ class InformasikamarController extends MyAuthController {
                     if ($row->ruangan_id != $tempRuangan){
                         $tempJumlah = 0;
                         $list1[$row->ruangan_id]['name'] = $row->ruangan_nama;
-                        $list1[$row->ruangan_id]['ruangan_id'] = $row->ruangan_id;
+                        $list1[$row->ruangan_id]['ruangan_id'] = $row->ruangan_id;                        
                         $list1[$row->ruangan_id]['kelaspelayanan_id'] = $row->kelaspelayanan_id;
                         $list1[$row->ruangan_id]['kamar'][$row->kelaspelayanan_id]['name'] = $row->kamarruangan_nokamar;
                         $list1[$row->ruangan_id]['kamar'][$row->kelaspelayanan_id]['kelaspelayanan'] = $row->kelaspelayanan_namalainnya;
@@ -373,6 +373,7 @@ class InformasikamarController extends MyAuthController {
                                         }
                                       
                                         $dataPasien = '';
+                                        $jeniskelamin = isset($kamar->admisi->pasien->jeniskelamin)?$kamar->admisi->pasien->jeniskelamin:'';
                                         if (count($kamar) == 1){
                                             $dataPasien .='<table>';
                                             $dataPasien .='<tr><td>No. RM </td><td>: '.$kamar->admisi->pasien->no_rekam_medik.'</td></tr>';
@@ -383,7 +384,29 @@ class InformasikamarController extends MyAuthController {
 //                                            $dataPasien .='<p><label class=\'control-label\'>Jenis Kelamin :</label> '.$kamar->admisi->pasien->jeniskelamin.'</p>';
                                         }
                                         if ($booked == 0){
-                                            $result .='<p><a href="" class="btn '.(($b['status']) ? 'btn-danger' : 'btn-primary').'" rel="popover" data-content="'.(($b['status']) ? 'Pasien Kosong' : $dataPasien).'" onclick="return false"><img src=\''. Yii::app()->baseUrl.'/images/'.(($b['status']) ?  'RanjangRumahSakit2' : 'RanjangRumahSakit').'.png\'/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; No. Bed : '.$b['no'].'</a></p>';
+                                            if ($v['ruangan_id'] == Params::RUANGAN_ID_ANAK):
+                                                $result .='<p><a href="" class="btn '.(($b['status']) ? 'btn-danger' : 'btn-primary').'" rel="popover" data-content="'.(($b['status']) ? 'Pasien Kosong' : $dataPasien).'" onclick="return false">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src=\''. Yii::app()->baseUrl.'/images/icon_kamar/'.(($b['status']) ?  'anak-kosong' : 'anak-isi').'.png\'/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br> No. Bed : '.$b['no'].'</a></p>';
+                                            elseif ($v['ruangan_id'] == Params::RUANGAN_ID_PRIA):
+                                                $result .='<p><a href="" class="btn '.(($b['status']) ? 'btn-danger' : 'btn-primary').'" rel="popover" data-content="'.(($b['status']) ? 'Pasien Kosong' : $dataPasien).'" onclick="return false">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src=\''. Yii::app()->baseUrl.'/images/icon_kamar/'.(($b['status']) ?  'pria-kosong' : 'pria-isi').'.png\'/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br> No. Bed : '.$b['no'].'</a></p>';
+                                            elseif ($v['ruangan_id'] == Params::RUANGAN_ID_WANITA):
+                                                $result .='<p><a href="" class="btn '.(($b['status']) ? 'btn-danger' : 'btn-primary').'" rel="popover" data-content="'.(($b['status']) ? 'Pasien Kosong' : $dataPasien).'" onclick="return false">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src=\''. Yii::app()->baseUrl.'/images/icon_kamar/'.(($b['status']) ?  'wanita-kosong' : 'wanita-isi').'.png\'/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br> No. Bed : '.$b['no'].'</a></p>';
+                                            elseif ($v['ruangan_id'] == Params::RUANGAN_ID_ICU):
+                                                $result .='<p><a href="" class="btn '.(($b['status']) ? 'btn-danger' : 'btn-primary').'" rel="popover" data-content="'.(($b['status']) ? 'Pasien Kosong' : $dataPasien).'" onclick="return false">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src=\''. Yii::app()->baseUrl.'/images/icon_kamar/'.(($b['status']) ?  'icu-kosong' : 'icu-isi').'.png\'/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br> No. Bed : '.$b['no'].'</a></p>';
+                                            elseif ($v['ruangan_id'] == Params::RUANGAN_ID_PERINATOLOGI):
+                                                $result .='<p><a href="" class="btn '.(($b['status']) ? 'btn-danger' : 'btn-primary').'" rel="popover" data-content="'.(($b['status']) ? 'Pasien Kosong' : $dataPasien).'" onclick="return false">&nbsp;&nbsp;<img src=\''. Yii::app()->baseUrl.'/images/icon_kamar/'.(($b['status']) ?  'perina-kosong' : 'perina-isi').'.png\'/>&nbsp;&nbsp;&nbsp; <br> No. Bed : '.$b['no'].'</a></p>';
+                                            elseif ($v['ruangan_id'] == Params::RUANGAN_ID_BERSALIN):
+                                                $result .='<p><a href="" class="btn '.(($b['status']) ? 'btn-danger' : 'btn-primary').'" rel="popover" data-content="'.(($b['status']) ? 'Pasien Kosong' : $dataPasien).'" onclick="return false">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src=\''. Yii::app()->baseUrl.'/images/icon_kamar/'.(($b['status']) ?  'wanita-kosong' : 'wanita-isi').'.png\'/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br> No. Bed : '.$b['no'].'</a></p>';
+                                            elseif ($v['ruangan_id'] == Params::RUANGAN_ID_BEDAH):
+                                                $result .='<p><a href="" class="btn '.(($b['status']) ? 'btn-danger' : 'btn-primary').'" rel="popover" data-content="'.(($b['status']) ? 'Pasien Kosong' : $dataPasien).'" onclick="return false">&nbsp;&nbsp;<img src=\''. Yii::app()->baseUrl.'/images/icon_kamar/'.(($b['status']) ?  'bedah-kosong' : 'bedah-isi').'.png\'/>&nbsp;&nbsp;&nbsp; <br> No. Bed : '.$b['no'].'</a></p>';
+                                            else:                                              
+                                                if ($jeniskelamin == 'LAKI-LAKI'):
+                                                    $result .='<p><a href="" class="btn '.(($b['status']) ? 'btn-danger' : 'btn-primary').'" rel="popover" data-content="'.(($b['status']) ? 'Pasien Kosong' : $dataPasien).'" onclick="return false">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src=\''. Yii::app()->baseUrl.'/images/icon_kamar/'.(($b['status']) ?  'pria-kosong' : 'pria-isi').'.png\'/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br> No. Bed : '.$b['no'].'</a></p>';
+                                                elseif ($jeniskelamin == 'PEREMPUAN'):
+                                                    $result .='<p><a href="" class="btn '.(($b['status']) ? 'btn-danger' : 'btn-primary').'" rel="popover" data-content="'.(($b['status']) ? 'Pasien Kosong' : $dataPasien).'" onclick="return false">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src=\''. Yii::app()->baseUrl.'/images/icon_kamar/'.(($b['status']) ?  'pria-kosong' : 'wanita-isi').'.png\'/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br> No. Bed : '.$b['no'].'</a></p>';
+                                                else:
+                                                    $result .='<p><a href="" class="btn '.(($b['status']) ? 'btn-danger' : 'btn-primary').'" rel="popover" data-content="'.(($b['status']) ? 'Pasien Kosong' : $dataPasien).'" onclick="return false">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src=\''. Yii::app()->baseUrl.'/images/icon_kamar/'.(($b['status']) ?  'pria-kosong' : 'wanita-isi').'.png\'/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br> No. Bed : '.$b['no'].'</a></p>';
+                                                endif;                                                
+                                            endif;
                                         } else {
                                             $result .='<p><a href="" class="btn '.(($b['status']) ? 'btn-danger' : 'btn-primary').'" rel="popover" data-content="'.(($b['status']) ? 'Sudah dibooking' : $dataPasien).'" onclick="return false"><img src=\''. Yii::app()->baseUrl.'/images/'.'RanjangRumahSakit3'.'.png\'/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No. Bed : '.$b['no'].'</a></p>';
                                         }

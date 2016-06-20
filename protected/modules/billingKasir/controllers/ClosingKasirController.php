@@ -38,6 +38,7 @@ class ClosingKasirController extends MyAuthController
             $mSetorBank->ygmenyetor_id = $mBuktBayar->create_loginpemakai_id;
             $mSetorBank->create_loginpemakai_id = Yii::app()->user->id;
             
+            
         }
         $criteria = new CDbCriteria;
         $criteria->join .= "left join loginpemakai_k m on m.loginpemakai_id = t.create_loginpemakai_id";
@@ -45,7 +46,7 @@ class ClosingKasirController extends MyAuthController
 			$criteria->addCondition("t.ruangan_id = ".$mBuktBayar->ruangan_id);					
 		}
 		if(!empty($mBuktBayar->create_loginpemakai_id)){
-			$criteria->addCondition("m.pegawai_id = ".$mBuktBayar->create_loginpemakai_id);					
+			$criteria->addCondition("m.loginpemakai_id = ".$mBuktBayar->create_loginpemakai_id);					
 		}
         $criteria->addCondition('t.closingkasir_id IS NULL');
         $criteria->addBetweenCondition('DATE(t.tglpenerimaan)', $mBuktBayar->tgl_awal, $mBuktBayar->tgl_akhir);
@@ -63,7 +64,7 @@ class ClosingKasirController extends MyAuthController
 			$criteria->addCondition("t.create_ruangan = ".$mBuktBayar->ruangan_id);					
 		}
 		if(!empty($mBuktBayar->create_loginpemakai_id)){
-			$criteria->addCondition("m.pegawai_id = ".$mBuktBayar->create_loginpemakai_id);					
+			$criteria->addCondition("m.loginpemakai_id = ".$mBuktBayar->create_loginpemakai_id);					
 		}
         $criteria_dua->addCondition('t.closingkasir_id IS NULL');
         $criteria_dua->addCondition('t.batalkeluarumum_id IS NULL');

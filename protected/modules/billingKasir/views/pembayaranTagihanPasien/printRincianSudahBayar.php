@@ -32,7 +32,9 @@ if (!isset($_GET['frame'])){
 $pasien = $modPendaftaran->pasien;
 $admisi = PasienadmisiT::model()->findByPk($modPendaftaran->pasienadmisi_id);
 $asuransi = AsuransipasienM::model()->findByPk($modPendaftaran->asuransipasien_id);
-
+$masukkamar = InfopasienmasukkamarV::model()->findByAttributes(array(
+    'pendaftaran_id'=>$modPendaftaran->pendaftaran_id,
+));
 
 
 $grp = array();
@@ -116,7 +118,7 @@ foreach ($modRincians as $item) {
         <td>Alamat</td><td>:</td><td nowrap><?php echo $pasien->no_rekam_medik; ?></td>
         
         <?php if (!empty($modPendaftaran->pasienadmisi_id)): ?> 
-        <td nowrap>Kamar / No. Bed</td><td>:</td><td nowrap><?php echo empty($admisi->kamarruangan_id)?"-":($admisi->kamarruangan->kamarruangan_nokamar." / ".$admisi->kamarruangan->kamarruangan_nobed); ?></td>
+        <td nowrap>Kamar / No. Bed</td><td>:</td><td nowrap><?php echo empty($masukkamar->kamarruangan_id)?"-":($masukkamar->kamarruangan_nokamar." / ".$masukkamar->kamarruangan_nobed); ?></td>
         <?php endif; ?>
     </tr>
     <tr>
