@@ -390,10 +390,10 @@ class InformasiKamarController extends MyAuthController
                                             $result .='<p><a href="" class="btn '.(($b['status']) ? 'btn-danger' : 'btn-primary').'" rel="popover" data-content="'.(($b['status']) ? 'Sudah dibooking' : $dataPasien).'" onclick="return false"><img src=\''. Yii::app()->baseUrl.'/images/'.'RanjangRumahSakit3'.'.png\'/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No. Bed : '.$b['no'].'</a></p>';
                                         }
                                     }
-                                    for($d=1;$d<=($w['jml'] - (count($y['bed'])));$d++){
+                                   // for($d=1;$d<=($w['jml'] - (count($y['bed'])));$d++){
                                         
-                                        $result .='<p><a href="" class="btn btn-info" onclick="return false"><img src=\''. Yii::app()->baseUrl.'/images/delete.png\'/>Kosong</a></p>';
-                                    }
+                                      //  $result .='<p><a href="" class="btn btn-info" onclick="return false"><img src=\''. Yii::app()->baseUrl.'/images/delete.png\'/>Kosong</a></p>';
+                                   // }
                                         $result .='</div>
                                     </div>
                                 </li>';
