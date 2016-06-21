@@ -428,6 +428,10 @@ Class Params
         const DEFAULT_JENISINVENTARISASI = 'Penyesuaian';
         
         
+        const ASALRUJUKAN_ID_RS = 4;
+        const RUJUKANDARI_ID_ABE = 1811;
+        
+        
 	//===   END KONSTANTA ===
         
         /* Hardcode status periksa */
