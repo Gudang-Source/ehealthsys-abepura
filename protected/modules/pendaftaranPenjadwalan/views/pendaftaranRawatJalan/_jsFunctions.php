@@ -13,6 +13,8 @@ var pemilik_bpjs = "";
 var otoval = 1; // untuk hitung rekam medik
 var isSetLama = false;
 function setPasienLama(pasien_id, no_rekam_medik, is_manual){
+    if (isSetLama) return false;
+    
     $("#form-pasien > div").addClass("animation-loading");
     setPasienBaru(); 
     isSetLama = true;
@@ -2120,6 +2122,9 @@ $( document ).ready(function(){
     <?php if (isset($_GET['pasien_id']) && !empty($_GET['pasien_id'])): ?>
             $(".rb_rm").eq(1).click();
             $("#no_rekam_medik_baru").val('<?php echo $modPasien->no_rekam_medik; ?>');
+            setTimeout(function() {
+                $("#no_rekam_medik_baru").blur();
+            }, 1500);
     <?php else: ?>
             checkOto();
     <?php endif; ?>
