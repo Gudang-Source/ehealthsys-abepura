@@ -331,8 +331,11 @@ class PelamarTController extends MyAuthController
 		}
 	}
         
-        public function actionKontrakPelamar($idPelamar=null, $idKaryawan=null)
+        public function actionKontrakPelamar($idPelamar=null, $idKaryawan=null, $sukses='')
 		{
+                    if ($sukses ==1){
+                        Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+                    }
 			$format = new MyFormatter;
 			$modPegawai = new KPPegawaiM;
 			
@@ -463,7 +466,7 @@ class PelamarTController extends MyAuthController
 								if($modKontrak->save()){	//                                               
 										$transaction->commit();
 										Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-										$this->redirect(array('kontrakPelamar','idKaryawan'=>$modPegawai->pegawai_id));
+										$this->redirect(array('kontrakPelamar','idKaryawan'=>$modPegawai->pegawai_id,'sukses'=>1));
 								}else{
 									$transaction->rollback();
 									 Yii::app()->user->setFlash('error',"Data gagal disimpan");
@@ -588,7 +591,7 @@ class PelamarTController extends MyAuthController
         {
 			if(Yii::app()->getRequest()->getIsAjaxRequest()) {
 				$nip = $_POST['nip'];
-				$noidentitas = $_POST['noidentitas'];
+				$noidentitas = isset($_POST['noidentitas'])?$_POST['noidentitas']:'';
 				$data['nip'] = null;
 				$data['noidentitas'] = null;
 				if(!empty($nip)){
