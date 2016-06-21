@@ -191,8 +191,8 @@
                                         'options'=> array(
     //                                            'dateFormat'=>Params::DATE_FORMAT,
                                             'showOn' => false,
-                                            'maxDate' => 'd',
-                                            'yearRange'=> "-150:+0",
+                                            'maxDate' => '+3Y',
+                                            'yearRange'=> "-150:0",
                                         ),
                                         'htmlOptions'=>array('placeholder'=>'00/00/0000','class'=>'dtPicker2 datemask','onkeyup'=>"return $(this).focusNextInputField(event)"
                                         ),
@@ -212,8 +212,8 @@
 					'options'=> array(
 //                                            'dateFormat'=>Params::DATE_FORMAT,
 						'showOn' => false,
-						'maxDate' => 'd',
-						'yearRange'=> "-150:+0",
+						'maxDate' => '+3Y',
+						'yearRange'=> "-150:0",
 					),
 					'htmlOptions'=>array('placeholder'=>'00/00/0000 00:00:00','class'=>'dtPicker2 datetimemask','onkeyup'=>"return $(this).focusNextInputField(event)"
 					),
