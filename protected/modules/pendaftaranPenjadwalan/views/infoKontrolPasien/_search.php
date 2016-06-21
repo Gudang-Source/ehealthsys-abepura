@@ -30,7 +30,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                                                                         'mode'=>'date',
                                                                         'options'=> array(
                                                                                 'dateFormat'=>Params::DATE_FORMAT,
-                                                                                'maxDate' => 'd',
+                                                                                //'maxDate' => 'd',
                                                                         ),
                                                                         'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3'),
                         ));?> 
@@ -48,7 +48,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                                                                         'mode'=>'date',
                                                                         'options'=> array(
                                                                                 'dateFormat'=>Params::DATE_FORMAT,
-                                                                                'maxDate' => 'd',
+                                                                                //'maxDate' => 'd',
                                                                         ),
                                                                         'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3'),
                         )); ?>
@@ -113,7 +113,34 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
         <?php echo $form->textFieldRow($model,'alamat_pasien',array('placeholder'=>'Ketik Alamat Pasien','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
     </div>
     <div class="span4">
-        
+        <?php 
+            $carabayar = CarabayarM::model()->findAll(array(
+                'condition'=>'carabayar_aktif = true',
+                'order'=>'carabayar_nourut',
+            ));
+            $penjamin = PenjaminpasienM::model()->findAll(array(
+                'condition'=>'penjamin_aktif = true',
+                'order'=>'penjamin_nama',
+            ));
+            foreach ($carabayar as $idx=>$item) {
+                $penjamins = PenjaminpasienM::model()->findByAttributes(array(
+                    'carabayar_id'=>$item->carabayar_id,
+                    'penjamin_aktif'=>true,
+               ));
+               if (empty($penjamins)) unset($carabayar[$idx]);
+            }
+            
+            
+            echo $form->dropDownListRow($model,'carabayar_id', CHtml::listData($carabayar, 'carabayar_id', 'carabayar_nama'), array(
+                'empty'=>'-- Pilih --',
+                'class'=>'span3', 
+                'ajax' => array('type'=>'POST',
+                    'url'=> $this->createUrl('/actionDynamic/getPenjaminPasien',array('encode'=>false,'namaModel'=>get_class($model))), 
+                    'success'=>'function(data){$("#'.CHtml::activeId($model, "penjamin_id").'").html(data); }',
+                ),
+             ));
+            echo $form->dropDownListRow($model,'penjamin_id', CHtml::listData($penjamin, 'penjamin_id', 'penjamin_nama'), array('empty'=>'-- Pilih --', 'class'=>'span3', 'maxlength'=>50));
+        ?>
         <div class="control-group ">
             <?php echo CHtml::activeLabel($model, 'instalasi_id', array('class'=>'control-label')); ?>
             <div class="controls">
@@ -126,7 +153,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
         <div class="control-group ">
             <?php echo CHtml::activeLabel($model, 'ruangan_id', array('class'=>'control-label')); ?>
             <div class="controls">
-                <?php echo $form->dropDownList($model, 'ruangan_id',CHtml::listData(RuanganM::model()->findAll('ruangan_aktif = true ORDER BY ruangan_nama ASC'), 'ruangan_id', 'ruangan_nama'), array('empty'=>'-- Pilih --'));  ?>
+                <?php echo $form->dropDownList($model, 'ruangan_id',CHtml::listData(RuanganM::model()->findAll('ruangan_aktif = true ORDER BY ruangan_nama ASC'), 'ruangan_id', 'ruangan_nama'), array('empty'=>'-- Pilih --', 'class'=>'span3'));  ?>
             </div>
         </div>
     </div>

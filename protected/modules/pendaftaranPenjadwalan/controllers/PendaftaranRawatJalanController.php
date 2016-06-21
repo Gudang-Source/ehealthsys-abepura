@@ -154,7 +154,7 @@ class PendaftaranRawatJalanController extends MyAuthController
 	/**
 	 * Index transaksi pendaftaran
 	 */
-	public function actionIndex($id = null, $idSep = null, $idAntrian = null)
+	public function actionIndex($id = null, $idSep = null, $idAntrian = null, $sk_id = null)
 	{
             $format = new MyFormatter();
             $model=new PPPendaftaranT;
@@ -265,6 +265,37 @@ class PendaftaranRawatJalanController extends MyAuthController
 			if(!empty($modPasien->pegawai_id)){
 				$modPegawai->attributes = $modPasien->pegawai->attributes;
 			}
+            
+            $ruangan = null;
+            if (!empty($sk_id)) {
+                $sk = SuratketeranganR::model()->findByPk($sk_id);
+                $p = PendaftaranT::model()->findByPk($sk->pendaftaran_id);
+                $ruangan = $p->ruangankontrol_id;
+                
+                if ($p->carabayar_id == Params::CARABAYAR_ID_BPJS) {
+                    $asuransi = PPAsuransipasienbpjsM::model()->findByPk($p->asuransipasien_id);
+                    if (empty($asuransi)) $asuransi = PPAsuransipasienbpjsM::model()->findByAttributes(array(
+                        'pasien_id'=>$p->pasien_id,
+                        'carabayar_id'=>$p->carabayar_id,
+                    ));
+                    if (!empty($asuransi)) {
+                        $rujuk = RujukandariM::model()->findByPk(Params::RUJUKANDARI_ID_ABE);
+                        $modAsuransiPasienBpjs->nopeserta = $asuransi->nopeserta;
+                        $modRujukanBpjs->asalrujukan_id = Params::ASALRUJUKAN_ID_RS;
+                        
+                        if (!empty($rujuk)) {
+                            $modRujukanBpjs->rujukandari_id = $rujuk->rujukandari_id;
+                            $modRujukanBpjs->nama_perujuk = $rujuk->namaperujuk;
+                            $modRujukanBpjs->tanggal_rujukan = date('Y-m-d H:i:s');
+                            $modRujukanBpjs->no_rujukan = date('dmYHi', strtotime($p->tglrenkontrol) + (3600 * 24 * 3));
+                            $modSep->ppkrujukan = $rujuk->ppkrujukan;
+                            
+                            // var_dump($modRujukanBpjs->attributes); die;
+                        }
+                    }
+                }
+            }            
+                        
             if(isset($_POST['PPPendaftaranT']))
             {   
                 $transaction = Yii::app()->db->beginTransaction();
@@ -525,7 +556,8 @@ class PendaftaranRawatJalanController extends MyAuthController
                 'dataTindakans'=>$dataTindakans,
                 'modSep'=>$modSep,
                 'modSmsgateway'=>$modSmsgateway,
-				'modKarcisV'=>$modKarcisV
+				'modKarcisV'=>$modKarcisV,
+                'ruangan'=>$ruangan,
             ));
 	}
 
@@ -1766,9 +1798,15 @@ class PendaftaranRawatJalanController extends MyAuthController
                     $criteria=new CDbCriteria;
 					$criteria->addCondition("ruangan_id = ".$ruangan_id);
                     $modJadwalBukaPoli= JadwalbukapoliM::model()->findAll($criteria);
+                    $ruangan = RuanganM::model()->findByPk($ruangan_id);
                     if (count($modJadwalBukaPoli) > 0){
                         foreach($modJadwalBukaPoli as $key=>$antrian){
-                            $data['maxantrianruangan'] = $antrian->maxantiranpoli;     
+                            $data['maxantrianruangan'] = $antrian->maxantiranpoli;  
+                            $data['jammulai'] = date('Y-m-d')." ".$antrian->jammulai;
+                            $data['jamtutup'] = date('Y-m-d')." ".$antrian->jamtutup;
+                            $data['jammulai_a'] = $antrian->jammulai;
+                            $data['jamtutup_a'] = $antrian->jamtutup;
+                            $data['nama_ruangan'] = $ruangan->ruangan_nama;
                         }
                     }
                 }

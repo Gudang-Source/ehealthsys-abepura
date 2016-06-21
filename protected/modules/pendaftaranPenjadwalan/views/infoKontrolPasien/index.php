@@ -66,11 +66,18 @@ input[readonly]{
                             'type'=>'raw',
                             'value'=>'$data->pasien->no_telepon_pasien."/<br>".$data->pasien->no_mobile_pasien',
                         ),
+                        
                        /* array(
                             'name'=>'Alamat Email',
                             'type'=>'raw',
                             'value'=>'$data->pasien->alamatemail',
                         ),*/
+                        array(
+                            'header'=>'Cara Bayar',
+                            'name'=>'carabayar.carabayar_nama',
+                            'type'=>'raw',
+                            'value'=>'$data->carabayar->carabayar_nama." /<br/>".$data->penjamin->penjamin_nama',
+                        ),
                         array(
                             'name'=>'Instalasi',
                             'type'=>'raw',
@@ -84,9 +91,18 @@ input[readonly]{
                         array(
                             'header'=>'Daftar Rawat <br/> Jalan',
                             'type'=>'raw',
-                            'value'=>'CHtml::link("<i class=\'icon-form-rj\'></i> ", 
-                                "index.php?r=pendaftaranPenjadwalan/PendaftaranRawatJalan/index&pasien_id=$data->pasien_id",array("id"=>"$data->pasien_id",
-                                    "title"=>"Klik Untuk Mendaftarkan ke Rawat Jalan","rel"=>"tooltip"))',
+                            'value'=>function($data) {
+                                $sk = SuratketeranganR::model()->findByAttributes(array(
+                                    'pendaftaran_id'=>$data->pendaftaran_id,
+                                    'jenissurat_id'=>Params::SURAT_KETERANGAN_KONTROL,
+                                ));
+                                return CHtml::link('<i class="icon-form-rj"></i> ', 
+                                        Yii::app()->createUrl('/pendaftaranPenjadwalan/PendaftaranRawatJalan/index', array(
+                                            'pasien_id'=>$data->pasien_id,
+                                            'sk_id'=>$sk->suratketerangan_id,
+                                        )),array("id"=>"$data->pasien_id",
+                                    "title"=>"Klik Untuk Mendaftarkan ke Rawat Jalan","rel"=>"tooltip"));
+                            },
                             'htmlOptions'=>array('style'=>'text-align:left;'),
                         ),
                      /*   array(
