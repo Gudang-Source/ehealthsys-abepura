@@ -52,10 +52,11 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     ),
 ));
 
-$modPegawaiMengetahui = new ADPegawaiV('search');
+$modPegawaiMengetahui = new PegawairuanganV('search');
 $modPegawaiMengetahui->unsetAttributes();
-if(isset($_GET['ADPegawaiV'])) {
-    $modPegawaiMengetahui->attributes = $_GET['ADPegawaiV'];
+$modPegawaiMengetahui->ruangan_id = Yii::app()->user->getState('ruangan_id');
+if(isset($_GET['PegawairuanganV'])) {
+    $modPegawaiMengetahui->attributes = $_GET['PegawairuanganV'];
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'pegawaimengetahui-grid',

@@ -1,3 +1,6 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
 <script type="text/javascript">
 function tambahBarang()
 {
@@ -14,11 +17,14 @@ function tambahBarang()
                 success:function(data){
                     $('#table-barang > tbody').append(data.form);
                     $("#table-barang").find('input[name$="[ii][barang_id]"]').val(idBarang);
-                    $("#table-barang").find('input[name*="[ii]"][class*="integer"]').maskMoney(
-                        {"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0}
+                    $("#table-barang").find('input[name*="[ii]"][class*="integer2"]').maskMoney(
+                        {"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0}
                     );
                     renameInputRowBarang($("#table-barang"));                    
                     hitungTotal();
+                    $("#idBarang, #namaBarang, #satuan").val("");
+                    $("#jumlah").val(1);
+                    
                 },
                 error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
             });
@@ -57,10 +63,10 @@ function cekBarang(){
         }
         
         $(".animation-loading").removeClass("animation-loading");
-        $("form").find('.float').each(function(){
+        $("form").find('.float2').each(function(){
             $(this).val(formatFloat($(this).val()));
         });
-        $("form").find('.integer').each(function(){
+        $("form").find('.integer2').each(function(){
             $(this).val(formatInteger($(this).val()));
         });
     }
@@ -108,22 +114,61 @@ function print(caraPrint)
 }
 
 /**
- * class integer di unformat 
+ * class integer2 di unformat 
  * @returns {undefined}
  */
 function unformatNumberSemua(){
-    $(".integer").each(function(){
+    $(".integer2").each(function(){
         $(this).val(parseInt(unformatNumber($(this).val())));
     });
 }
 /**
- * class integer di format kembali
+ * class integer2 di format kembali
  * @returns {undefined}
  */
 function formatNumberSemua(){
-    $(".integer").each(function(){
+    $(".integer2").each(function(){
         $(this).val(formatInteger($(this).val()));
     });
 }
+
+
+/**
+ * fungsi untuk menghitung recomended order
+ * @returns {undefined}
+ */
+function hitungRO(){
+	$('#table-barang').addClass("animation-loading");
+	var ro_barang_bulan = $('#<?php echo CHtml::activeId($modRencanaKebBarang,'ro_barang_bulan'); ?>').val();
+	if(ro_barang_bulan !== ''){
+		$.ajax({
+			type:'POST',
+			url:'<?php echo $this->createUrl('setHitungRO'); ?>',
+			data: {ro_barang_bulan:ro_barang_bulan},
+			dataType: "json",
+			success:function(data){
+				if(data.pesan !== ""){
+					myAlert(data.pesan);
+					$('#table-barang').removeClass("animation-loading");
+					return false;
+				}
+				$('#table-barang > tbody > tr').detach();
+				$('#table-barang > tbody').append(data.form);
+				$("#table-barang").find('input[name*="[ii]"][class*="integer"]').maskMoney(
+					{"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0}
+				);
+				$('#<?php echo CHtml::activeId($modRencanaKebBarang,'leadtime_lt'); ?>').val(data.lead_time);
+				renameInputRowBarang($("#table-barang"));                    
+				hitungTotal();
+				$('#table-barang').removeClass("animation-loading");
+			},
+			error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
+		});
+	}else{
+		myAlert('Waktu Pemakaian harus diisi terlebih dahulu!');
+		$('#table-barang').removeClass("animation-loading");
+	}
+}
+
 
 </script>
