@@ -1,7 +1,7 @@
 <?php
 class KPPelamarT extends PelamarT
 {
-	public $semuapelamar,$kemampuan_tingkat;
+	public $semuapelamar,$kemampuan_tingkat, $tgl_awal, $tgl_akhir;
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -24,6 +24,8 @@ class KPPelamarT extends PelamarT
 		if($this->semuapelamar == 0){
 			$criteria->addCondition('DATE(berlaku_s_d) >= now()');
 		}
+                
+                $criteria->addBetweenCondition('DATE(tgllowongan)', $this->tgl_awal, $this->tgl_akhir);
 		
 		if(!empty($this->pelamar_id)){
 			$criteria->addCondition('pelamar_id = '.$this->pelamar_id);
@@ -48,7 +50,7 @@ class KPPelamarT extends PelamarT
 		$criteria->compare('LOWER(tempatlahir_pelamar)',strtolower($this->tempatlahir_pelamar),true);
 		$criteria->compare('LOWER(tgl_lahirpelamar)',strtolower($this->tgl_lahirpelamar),true);
 		$criteria->compare('LOWER(jeniskelamin)',strtolower($this->jeniskelamin),true);
-		$criteria->compare('LOWER(statusperkawinan)',strtolower($this->statusperkawinan),true);
+		$criteria->compare('LOWER(statusperkawinan)',strtolower($this->statusperkawinan));
 		if(!empty($this->jmlanak)){
 			$criteria->addCondition('jmlanak = '.$this->jmlanak);
 		}
@@ -77,6 +79,7 @@ class KPPelamarT extends PelamarT
 
 		return new CActiveDataProvider($this, array(
 				'criteria'=>$criteria,
+                                
 		));
 	}
 

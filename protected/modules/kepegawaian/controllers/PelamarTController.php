@@ -291,10 +291,13 @@ class PelamarTController extends MyAuthController
 		
 		$model=new KPPelamarT('searchInfoPelamar');
 		$model->unsetAttributes();  // clear any default values
-                
+                $model->tgl_awal = date('Y-m-d');
+                $model->tgl_akhir = date('Y-m-d');
 		if(isset($_GET['KPPelamarT'])){
 			$model->attributes=$_GET['KPPelamarT'];
 			$model->semuapelamar = $_GET['KPPelamarT']['semuapelamar'];
+                        $model->tgl_awal = $_GET['KPPelamarT']['tgl_awal'];
+                        $model->tgl_akhir = $_GET['KPPelamarT']['tgl_akhir'];
 		}
 
 		$this->render('admin',array(

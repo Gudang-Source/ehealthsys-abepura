@@ -12,10 +12,10 @@
             berfungsi untuk melakukan pengisian ulang.
         </li>
         <li>
-            Icon <i class="icon-user"></i>untuk melihat detail data pegawai.
+            Icon <i class="icon-form-detail"></i> berfungsi untuk melihat detail data pelamar.
         </li>
         <li>
-            Icon <i class="icon-share"></i>untuk menindaklanjuti pelamar.
+            Icon <i class="icon-form-kontrakkarya"></i> berfungsi untuk menindaklanjuti pelamar.
         </li>
     </div>
 </ol>

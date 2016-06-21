@@ -47,46 +47,54 @@
                             'value'=>'$data->pelamar_id',
     //                        'filter'=>false,
                     ),
+                    array(
+                        'header' => 'Tanggal Lowongan',
+                        'value' => 'MyFormatter::formatDateTimeForUser($data->tgllowongan)'
+                    ),
                     'nama_pelamar',
-                    'tempatlahir_pelamar',
                     array(
-                        'name'=>'tgl_lahirpelamar',
-                        'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_lahirpelamar)',
-                    ),
+                        'header' => 'Tempat dan Tanggal Lahir',
+                        'value' => '$data->tempatlahir_pelamar.", ".MyFormatter::formatDateTimeForUser($data->tgl_lahirpelamar)'
+                    ),                   
                     'jeniskelamin',
-                    'agama',
-                    array(
-                        'header'=>'No. Telepon / No. Mobile',
-                        'value'=>'$data->nokontakpelamar',
-                    ),
                     'alamat_pelamar',
                     array(
-                        'name'=>'tgllowongan',
-                        'value'=>'MyFormatter::formatDateTimeForUser($data->tgllowongan)'
+                        'header'=>'No Telepon / No HP',
+                        'value'=>'$data->nokontakpelamar',
                     ),
+                    'alamatemail',
+                    array(
+                        'header'=>'Status Perkawinan/ Jml Anak',
+                        'value'=>'$data->statuskawin',
+                    ),                                                                               
                     array(
                         'header'=>'Pendidikan',
                         'value'=>'$data->pendidikannama',
                     ),
-                    array(
-                        'header'=>'Status Perkawinan/ Jml Anak',
-                        'value'=>'$data->statuskawin',
-                    ),
+                    
     //		array(
     //                        'header'=>Yii::t('zii','View'),
     //			'class'=>'bootstrap.widgets.BootButtonColumn',
     //                        'template'=>'{view}',
     //		),
                     array(
-                            'header'=>'Lihat Detail',
+                            'header'=>'Detail',
                             'type'=>'raw',
                             'value'=>'CHtml::link("<i class=\'icon-form-detail\'></i> ",Yii::app()->controller->createUrl("'.Yii::app()->controller->id.'/View",array("id"=>$data->pelamar_id)) ,array("title"=>"Klik Untuk Lihat Detail Pelamar", "target"=>"_blank"))',
                            'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
                     ),
                     array(
-                            'header'=>'Kontrak Menjadi Pegawai',
+                            'header'=>'Kontrak',
                             'type'=>'raw',
-                            'value'=>'CHtml::link("<i class=\'icon-form-kontrakkarya\'></i> ",Yii::app()->controller->createUrl("'.Yii::app()->controller->id.'/KontrakPelamar",array("idPelamar"=>$data->pelamar_id)) ,array("title"=>"Klik Untuk Kontrak Pelamar"))',
+                            'value'=>function($data){
+                               // $cek = KPKontrakKaryawanR::model()->find("pegawai_id = '$data->pegawai_id' ");
+                                
+                                if (isset($data->tglditerima)){
+                                    return "PEGAWAI SUDAH DIKONTRAK";
+                                }else{
+                                    echo CHtml::link("<i class='icon-form-kontrakkarya'></i> ",Yii::app()->controller->createUrl(Yii::app()->controller->id.'/KontrakPelamar',array("idPelamar"=>$data->pelamar_id)) ,array("title"=>"Klik Untuk Kontrak Pelamar"));
+                                }
+                            },
                            'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
                     ),
 
