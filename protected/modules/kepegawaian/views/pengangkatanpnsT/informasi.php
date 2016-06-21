@@ -1,6 +1,7 @@
-<fieldset>
+
+<div class="white-container">
     <legend class="rim2">Informasi Pengangkatan PNS</legend>
-</fieldset>
+
 
 
 <?php
@@ -9,12 +10,13 @@ $this->breadcrumbs=array(
 	'Manage',
 );
 
+
 Yii::app()->clientScript->registerScript('search', "
-$('.search-button').click(function(){
-	$('.search-form').toggle();
-	return false;
-});
-$('.search-form form').submit(function(){
+//$('.search-button').click(function(){
+//	$('.search-form').toggle();
+//	return false;
+//});
+$('#kppengangkatanpns-t-search').submit(function(){
 	$.fn.yiiGridView.update('kppengangkatanpns-t-grid', {
 		data: $(this).serialize()
 	});
@@ -24,7 +26,8 @@ $('.search-form form').submit(function(){
 
 $this->widget('bootstrap.widgets.BootAlert'); ?>
 
-
+<div class="block-tabel">
+        <h6>Tabel <b>Pengangkatan PNS</b></h6>
 <?php $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
 	'id'=>'kppengangkatanpns-t-grid',
 	'dataProvider'=>$model->search(),
@@ -64,7 +67,7 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                 ),
                 array(
                         'header'=>'Tempat, Tanggal Lahir',
-                        'value'=>'$data->pegawai->tempatlahir_pegawai." , ".$data->pegawai->tgl_lahirpegawai',
+                        'value'=>'$data->pegawai->tempatlahir_pegawai." , ".MyFormatter::formatDateTimeForUser($data->pegawai->tgl_lahirpegawai)',
                         'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
                 ),
                 array(
@@ -89,50 +92,57 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                 array(
                         'header'=>'Tanggal Surat Keputusan',
                         'name'=>'perspeng_id',
-                        'value'=>'$data->perspeng->perspeng_tglsk',
+                        'value'=>'isset($data->perspeng->perspeng_tglsk)?MyFormatter::formatDateTimeForUser($data->perspeng->perspeng_tglsk):"-"',
                         'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
                 ),
                  array(
                         'header'=>'No. SK',
-                        'value'=>'$data->perspeng->perspeng_nosk',
+                        'value'=>'isset($data->perspeng->perspeng_nosk)?$data->perspeng->perspeng_nosk:"-"',
                         'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
                 ),
                 array(
                         'header'=>'Masa Kerja',
-                        'value'=>'$data->perspeng->perspeng_masakerjatahun." Thn".",".$data->perspeng->perspeng_masakerjabulan." Bln"',
+                        'value'=>function($data){
+                            $thn = isset($data->perspeng->perspeng_masakerjatahun)?$data->perspeng->perspeng_masakerjatahun." Thn":"-"; 
+                            $bln = isset($data->perspeng->perspeng_masakerjabulan)?$data->perspeng->perspeng_masakerjabulan." Bln":"-";
+                            
+                            return $thn.' '.$bln;
+                        },
                         'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
-                ),
+                ),           
                 array(
                         'header'=>'Gaji Pokok',
-                        'value'=>'$data->perspeng->perspeng_gajipokok',
+                        'value'=>'isset($data->perspeng->perspeng_gajipokok)?"Rp".number_format($data->perspeng->perspeng_gajipokok,0,"","."):"-"',
+                        'htmlOptions' => array('text-align'=>'right'),
                         'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
                 ),
                 array(
                         'header'=>'Realisasi Tgl. SK',
-                        'value'=>'$data->realisasipns->realisasipns_tglsk',
+                        'value'=>'isset($data->realisasipns->realisasipns_tglsk)?MyFormatter::formatDateTimeForUser($data->realisasipns->realisasipns_tglsk):"-"',
                         'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
                 ),
                 array(
                         'header'=>'Realisasi No. SK',
-                        'value'=>'$data->realisasipns->realisasipns_nosk',
+                        'value'=>'isset($data->realisasipns->realisasipns_nosk)?$data->realisasipns->realisasipns_nosk:"-"',
                         'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
                 ),
                 array(
                         'header'=>'Realisasi Masa Kerja SK',
-                        'value'=>'$data->realisasipns->realisasipns_masakerjatahun',
+                        'value'=>'isset($data->realisasipns->realisasipns_masakerjatahun)?$data->realisasipns->realisasipns_masakerjatahun:"-"',
                         'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
                 ),
                 array(
                         'header'=>'Realisasi Gaji Pokok',
-                        'value'=>'$data->realisasipns->realisasipns_gajipokok',
+                        'value'=>'isset($data->realisasipns->realisasipns_gajipokok)?"Rp".number_format($data->realisasipns->realisasipns_gajipokok,0,"","."):"-"',
+                        'htmlOptions' => array('text-align'=>'right'),
                         'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
                 ),
 	),
-        'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+        'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',        
 )); ?>
-
+</div>
 <?php $this->renderPartial('_search',array('model'=>$model)); ?>
-
+</div>
 <?php 
 // 
 //        echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
