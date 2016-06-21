@@ -731,7 +731,7 @@ public function actionKirimDokumen($pengirimanrm_id,$pendaftaran_id){
                 )
             );
             
-            die;
+            // die;
            if($modelPulangNew->validate()){
                if($modelPulangNew->save()){      
 //                   ini digunakan untuk mengupdate masukkamar ruangan_id=>menjadi null dan kamarruangan_m  status menjadi true
