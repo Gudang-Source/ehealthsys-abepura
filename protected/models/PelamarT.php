@@ -134,7 +134,7 @@ class PelamarT extends CActiveRecord
 			'alamat_pelamar' => 'Alamat Pelamar',
 			'kodepos' => 'Kode Pos',
 			'agama' => 'Agama',
-			'alamatemail' => 'E-mail',
+			'alamatemail' => 'Email',
 			'notelp_pelamar' => 'No. Telepon',
 			'nomobile_pelamar' => 'No. Hp',
 			'warganegara_pelamar' => 'Warga Negara',

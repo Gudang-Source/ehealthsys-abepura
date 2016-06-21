@@ -78,6 +78,9 @@ class PegawaiM extends CActiveRecord
         public $rerata_jam_masuk;
         public $namapegawai;
         public $shift_id;
+        public $profilperusahaan_id;
+        public $statuspegawai;
+        
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -240,6 +243,8 @@ class PegawaiM extends CActiveRecord
                         'shift_id' => 'Shift',
                         'gajipokok' => 'Gaji Pokok',
                         'bank_no_rekening' => 'Bank',
+                        'profilperusahaan_id' => 'Profil Perusahaan',
+                        'statuspegawai' => 'Status Pegawai',
 		);
 	}
 
@@ -667,6 +672,29 @@ class PegawaiM extends CActiveRecord
         $total = PresensiT::model()->findAll($criteria);
         
         return  count($total);
+    }
+    
+    public function getPendKualifikasiItems($pendidikan_id=null){
+            if (!empty($pendidikan_id)){
+                    return PendidikankualifikasiM::model()->findAllByAttributes (array('pendkualifikasi_aktif'=>TRUE, 'pendidikan_id'=>$pendidikan_id),array('order'=>'pendkualifikasi_nama asc'));
+            } else if(!empty($this->pendidikan_id)) {
+                    return PendidikankualifikasiM::model()->findAllByAttributes (array('pendkualifikasi_aktif'=>TRUE, 'pendidikan_id'=>$this->pendidikan_id),array('order'=>'pendkualifikasi_nama asc'));
+            }else{
+                    return array();
+            }
+    }
+    
+   public function getKelPegawaiItems($pendkualifikasi_id=null){
+            if (!empty($pendkualifikasi_id)){
+                    $modPendKualifikasi = PendidikankualifikasiM::model()->findByPK($pendkualifikasi_id);
+                    return KelompokpegawaiM::model()->findAll("kelompokpegawai_id = ".$modPendKualifikasi->kelompokpegawai_id);
+            } else if(!empty($this->pendkualifikasi_id)) {
+                    $modPendKualifikasi = PendidikankualifikasiM::model()->findByPK($this->pendkualifikasi_id);
+                    return KelompokpegawaiM::model()->findAll("kelompokpegawai_id = ".$modPendKualifikasi->kelompokpegawai_id);
+            }else{
+//				return array();
+                    return KelompokpegawaiM::model()->findAll("kelompokpegawai_aktif IS TRUE ");
+            }
     }
    
 /*

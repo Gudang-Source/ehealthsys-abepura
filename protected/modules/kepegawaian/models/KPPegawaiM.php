@@ -110,10 +110,10 @@ class KPPegawaiM extends PegawaiM
 			return SukuM::model()->findAllByAttributes(array('suku_aktif'=>TRUE), array('order'=>'suku_nama asc'));
 		}
 		public function getKategoriPegawai(){
-			return LookupM::model()->findAllByAttributes(array('lookup_type'=>'kategorikaryawan'),array('order'=>'lookup_name asc'));
+			return LookupM::model()->findAllByAttributes(array('lookup_type'=>'kategoripegawai','lookup_aktif'=>TRUE),array('order'=>'lookup_name asc'));
 		}
 		public function getStatusPegawai(){
-			return LookupM::model()->findAllByAttributes(array('lookup_type'=>'statuskaryawan'),array('order'=>'lookup_name asc'));
+			return LookupM::model()->findAllByAttributes(array('lookup_type'=>'statuspegawai','lookup_aktif'=>TRUE),array('order'=>'lookup_name asc'));
 		}
 		
 		public function getPangkatItems(){
