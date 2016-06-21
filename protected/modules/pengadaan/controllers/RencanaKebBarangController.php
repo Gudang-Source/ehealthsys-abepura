@@ -24,7 +24,7 @@ class RencanaKebBarangController extends MyAuthController
             $modDetails = ADRenkebbarangdetT::model()->findAllByAttributes(array('renkebbarang_id'=>$modRencanaKebBarang->renkebbarang_id));
         }
         if(isset($_POST['ADRenkebbarangT'])){
-            var_dump($_POST);
+            // var_dump($_POST); die;
             $transaction = Yii::app()->db->beginTransaction();
             try {
                     $modRencanaKebBarang->attributes=$_POST['ADRenkebbarangT'];
@@ -78,20 +78,22 @@ class RencanaKebBarangController extends MyAuthController
 
     public function simpanRencanaKebutuhan($modRencanaKebBarang ,$post){
         $format = new MyFormatter();
+        // var_dump($post);
+        
         $modRencanaDetailKebBarang = new ADRenkebbarangdetT;
         $modRencanaDetailKebBarang->attributes = $post;
         $modRencanaDetailKebBarang->barang_id = $post['barang_id'];
-		$modRencanaDetailKebBarang->renkebbarang_id = $modRencanaKebBarang->renkebbarang_id; //fake id
+	$modRencanaDetailKebBarang->renkebbarang_id = $modRencanaKebBarang->renkebbarang_id; //fake id
         $modRencanaDetailKebBarang->satuanbarangdet =$post['satuanbarangdet'];
-		$modRencanaDetailKebBarang->jmlpermintaanbarangdet=$post['jmlpermintaanbarangdet'];;
-		$modRencanaDetailKebBarang->harga_barangdet = $post['harga_barang'];
+	$modRencanaDetailKebBarang->jmlpermintaanbarangdet=$post['jmlpermintaanbarangdet'];;
+        $modRencanaDetailKebBarang->harga_barangdet = $post['harga_barang'];
         $modRencanaDetailKebBarang->stokakhir_barangdet = 0; 
-        $modRencanaDetailKebBarang->minstok_barangdet = 0; 
-        $modRencanaDetailKebBarang->makstok_barangdet = 0; 
+        //$modRencanaDetailKebBarang->minstok_barangdet = 0; 
+        //$modRencanaDetailKebBarang->makstok_barangdet = 0; 
         
         
         //$modRencanaDetailKeb->hargatotalrenc = $modRencanaDetailKeb->jmlpermintaan * $modRencanaDetailKeb->harganettorenc;
-        
+        // var_dump($modRencanaDetailKebBarang->attributes); die;
         if($modRencanaDetailKebBarang->validate()) { 
             $modRencanaDetailKebBarang->save();
         } else {
@@ -229,6 +231,83 @@ class RencanaKebBarangController extends MyAuthController
 			'modRencanaKebBarangDetail'=>$modRencanaKebBarangDetail,
 			'caraprint'=>$caraprint
         ));
-    }	
+    }
+    
+    public function actionSetHitungRO() {
+		if (Yii::app()->request->isAjaxRequest) {
+			$form = '';
+			$pesan = '';
+			
+			$ruangan_id = Params::RUANGAN_ID_GUDANG_UMUM;
+			$jumlah = 0;
+			$lt = 0.5;
+			$t = isset($_POST['ro_barang_bulan']) ? $_POST['ro_barang_bulan'] : null;
+			$tgl_sekarang = date('Y-m-d');
+			$tgl_ro = date("Y-m-d", strtotime("-".$t." months"));
+			$modRencanaDetailKebBarang = new ADRenkebbarangdetT;
+			
+			$modBarang = ADBarangM::model()->findAll();
+			if(count($modBarang) > 0){
+				foreach ($modBarang as $i=>$barang){
+					$minimal_stok = isset($barang->barang_min) ? $barang->barang_min : 0;
+					$maksimal_stok = isset($barang->barang_max) ? $barang->barang_max : 0;
+					$criteria = new CDbCriteria();
+					
+					$criteria->select = 'barang_id,sum(inventarisasi_qty_skrg) as inventarisasi_qty_skrg';
+					$criteria->addCondition('barang_id = '.$barang->barang_id);
+					$criteria->addCondition('ruangan_id = '.$ruangan_id);
+					$criteria->group = 'barang_id';
+					$criteria->order = 'inventarisasi_qty_skrg,barang_id ASC';
+					$stok_barang = ADInventarisasiruanganT::model()->find($criteria);
+					
+					if(count($stok_barang) > 0){
+						if($stok_barang->inventarisasi_qty_skrg <= $minimal_stok){
+							$criteria2 = new CDbCriteria();
+					
+							$criteria2->select = 'barang_id,sum(inventarisasi_qty_out) as inventarisasi_qty_out';
+							$criteria2->addBetweenCondition('DATE(tgltransaksi)',$tgl_ro,$tgl_sekarang);
+							$criteria2->addCondition('barang_id = '.$barang->barang_id);
+							$criteria2->addCondition('ruangan_id = '.$ruangan_id);
+							$criteria2->group = 'barang_id';
+							$criteria->order = 'inventarisasi_qty_out,barang_id ASC';
+							$jumlah_barang_keluar = ADInventarisasiruanganT::model()->find($criteria2);
+							
+							if(count($jumlah_barang_keluar) > 0){
+								if($jumlah_barang_keluar->inventarisasi_qty_out >= $maksimal_stok){
+									$selisih_stok = $maksimal_stok - $stok_barang->inventarisasi_qty_skrg;
+									$jumlah = $selisih_stok;
+									$modRencanaDetailKebBarang->harga_barangdet = $barang->barang_harganetto;
+									$modRencanaDetailKebBarang->barang_id = $barang->barang_id;
+									$modRencanaDetailKebBarang->minstok_barangdet = isset($barang->barang_min) ? $barang->barang_min : 0;
+									$modRencanaDetailKebBarang->makstok_barangdet = isset($barang->barang_max) ? $barang->barang_max : 0;
+									$modRencanaDetailKebBarang->stokakhir_barangdet = isset($stok_barang->inventarisasi_qty_skrg) ? $stok_barang->inventarisasi_qty_skrg : 0;
+									$modRencanaDetailKebBarang->jmlpermintaanbarangdet = $jumlah;
+									$modRencanaDetailKebBarang->barang_nama = $barang->barang_nama;
+									$modRencanaDetailKebBarang->satuanbarangdet = $barang->barang_satuan;
+								}else{
+									$jumlah = $jumlah_barang_keluar->inventarisasi_qty_out;
+									$modRencanaDetailKebBarang->harga_barangdet = $barang->barang_harganetto;
+									$modRencanaDetailKebBarang->barang_id = $barang->barang_id;
+									$modRencanaDetailKebBarang->barang_nama = $barang->barang_nama;
+									$modRencanaDetailKebBarang->minstok_barangdet = isset($barang->barang_min) ? $barang->barang_min : 0;
+									$modRencanaDetailKebBarang->makstok_barangdet = isset($barang->barang_max) ? $barang->barang_max : 0;
+									$modRencanaDetailKebBarang->stokakhir_barangdet = isset($stok_barang->inventarisasi_qty_skrg) ? $stok_barang->inventarisasi_qty_skrg : 0;
+									$modRencanaDetailKebBarang->jmlpermintaanbarangdet = $jumlah;
+									$modRencanaDetailKebBarang->barang_nama = $barang->barang_nama;
+									$modRencanaDetailKebBarang->satuanbarangdet = $barang->barang_satuan;
+								}
+							}
+							$form .=$this->renderPartial('_rowBarangRencanaKebutuhan', array('modRencanaDetailKebBarang'=>$modRencanaDetailKebBarang), true);
+						}
+					}				
+				}	
+			}else{
+				$pesan = 'Data Barang tidak ditemukan.';
+			}
+			
+			echo CJSON::encode(array('form' => $form, 'pesan' => $pesan, 'lead_time' => $lt));
+		}
+		Yii::app()->end();
+	}
 	
 }
