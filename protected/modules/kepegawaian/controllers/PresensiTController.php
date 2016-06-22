@@ -75,11 +75,11 @@ class PresensiTController extends MyAuthController
                                 endif;
                             endif;
                         }else{
-                            if ($shift==null){
-                                if ($jammasuk > '09:00:00'):
-                                    $model->statuskehadiran_id = Params::STATUSKEHADIRAN_ALPHA;
-                                endif;
-                            }
+                           // if ($shift==null){
+                            //    if ($jammasuk > '09:00:00'):
+                            //        $model->statuskehadiran_id = Params::STATUSKEHADIRAN_ALPHA;
+                            //    endif;
+                          //  }
                         }
                         
 
@@ -167,9 +167,9 @@ class PresensiTController extends MyAuthController
                             endif;
                         }else{
                            if ($shift == null ):                               
-                            if (count($cek1) > 0){
-                                $model->statuskehadiran_id = Params::STATUSKEHADIRAN_ALPHA;
-                            }
+                            //if (count($cek1) > 0){
+                              //  $model->statuskehadiran_id = Params::STATUSKEHADIRAN_ALPHA;
+                          //  }
                             endif;
                         }   
                         

@@ -53,10 +53,10 @@ $('.search-form form').submit(function(){
                     'jabatan.jabatan_nama',
                     'nomorindukpegawai',
                     'nama_pegawai',  
-                    array(
-                        'header' => 'Shift',
-                        'name' => 'shift.shift_nama',
-                    ),                    
+                   // array(
+                      //  'header' => 'Shift',
+                      //  'name' => 'shift.shift_nama',
+                   // ),                    
                      array(
                          'header' => 'Rerata Jam Masuk',                        
                          'value' => function ($data) use ($model){                            

@@ -90,7 +90,7 @@ Yii::app()->clientScript->registerScript('search', "
             <?php echo $form->textFieldRow($modPegawai,'jabatan_id',array('readonly'=>true,'value'=>($modPegawai->jabatan_id === null)?'':$modPegawai->jabatan->jabatan_nama, 'class'=>'span3')); ?>
             <?php echo $form->textFieldRow($modPegawai,'nomorindukpegawai',array('readonly'=>true, 'class'=>'span3')); ?>            
             <?php echo $form->textFieldRow($modPegawai,'nama_pegawai',array('readonly'=>true, 'class'=>'span3')); ?>            
-            <?php echo $form->textFieldRow($modPegawai,'shift_id',array('readonly'=>true, 'class'=>'span3', 'value'=>isset($modPegawai->shift_id)?$modPegawai->shift->shift_nama:'-')); ?>            
+            <?php //echo $form->textFieldRow($modPegawai,'shift_id',array('readonly'=>true, 'class'=>'span3', 'value'=>isset($modPegawai->shift_id)?$modPegawai->shift->shift_nama:'-')); ?>            
             <?php //echo $form->textAreaRow($modPegawai,'alamat_pegawai',array('readonly'=>true,'class'=>'span3')); ?>
             <?php //echo $form->textFieldRow($modPegawai,'unit_perusahaan',array('readonly'=>true,'class'=>'span3')); ?>
         </td>
