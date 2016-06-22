@@ -49,7 +49,7 @@
             <?php 
             $mods = LookupM::getItems('statusperiksa');
             unset($mods['BATAL PERIKSA']);
-            echo $form->dropDownListRow($model,'statusperiksa', Params::statusPeriksa(), array('empty'=>'-- Pilih --')); ?>
+            echo $form->dropDownListRow($model,'statusperiksa', $mods, array('empty'=>'-- Pilih --')); ?>
             <div class="control-group ">
                     <label for="namaPasien" class="control-label">
                        Dokter Pemeriksa
