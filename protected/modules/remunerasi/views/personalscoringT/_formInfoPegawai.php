@@ -43,7 +43,7 @@
     <?php echo $form->textFieldRow($modPegawai,'jabatan_id',array('readonly'=>true,'id'=>'jabatan','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
     <?php echo $form->textFieldRow($modPegawai,'pangkat_id',array('readonly'=>true,'id'=>'pangkat','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
     <?php echo $form->textFieldRow($modPegawai,'pendidikan_id',array('readonly'=>true,'id'=>'pendidikan','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-    <?php echo $form->textFieldRow($modPegawai,'gajipokok',array('readonly'=>true,'id'=>'gajipokok','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+    <?php echo $form->textFieldRow($modPegawai,'gajipokok',array('readonly'=>true,'id'=>'gajipokok','onkeyup'=>"return $(this).focusNextInputField(event)", 'style'=>'text-align: right;')); ?>
     <?php echo $form->textFieldRow($modPegawai,'kategoripegawai',array('readonly'=>true,'id'=>'kategoripegawai','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
     <?php echo $form->textFieldRow($modPegawai,'kategoripegawaiasal',array('readonly'=>true,'id'=>'kategoripegawaiasal','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
     <?php echo $form->textFieldRow($modPegawai,'kelompokpegawai_id',array('readonly'=>true,'id'=>'kelompokpegawai','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
@@ -84,13 +84,14 @@ if(isset($_GET['REPegawaiM'])) {
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'pegawai-m-grid',
 	'dataProvider'=>$modPegawai->searchDialog(),
+        'filter'=>$modPegawai,
         'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
 	'columns'=>array(
             array(
                 'header'=>'Pilih',
                 'type'=>'raw',
-                'value'=>'CHtml::Link("<i class=\"icon-check\"></i>","",array("class"=>"btn-small", 
+                'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","",array("class"=>"btn-small", 
                         "id" => "selectPegawai",
                         "href"=>"",
                         "onClick" => "
@@ -102,13 +103,25 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'nomorindukpegawai',
             'nama_pegawai',
             'tempatlahir_pegawai',
-            'tgl_lahirpegawai',
-            'jeniskelamin',
-            'statusperkawinan',
+            array(
+                'name'=>'tgl_lahirpegawai',
+                'filter'=>false,
+            ),
+            array(
+                'name'=>'jeniskelamin',
+                'filter'=>CHtml::activeDropDownList($modPegawai, 'jeniskelamin', LookupM::getItems('jeniskelamin'), array('empty'=>'-- Pilih --')),
+            ),
+            array(
+                'name'=>'statusperkawinan',
+                'filter'=>CHtml::activeDropDownList($modPegawai, 'statusperkawinan', LookupM::getItems('statusperkawinan'), array('empty'=>'-- Pilih --')),
+            ),
             array(
                 'header'=>'Jabatan',
                 'type'=>'raw',
                 'value'=>'isset($data->jabatan_id) ? $data->jabatan->jabatan_nama : ""',
+                'filter'=>CHtml::activeDropDownList($modPegawai, 'jabatan_id', 
+                        CHtml::listData(JabatanM::model()->findAll('jabatan_aktif = true order by jabatan_nama'), 'jabatan_id', 'jabatan_nama'), 
+                        array('empty'=>'-- Pilih --')),
             ),
             'alamat_pegawai',
         ),
