@@ -103,6 +103,15 @@ function hitungTotal(){
 
 function verifikasi(){
     if(requiredCheck($("rencanaanggaranpenerimaan-t-form"))){
+        if($("#AGRenanggpenerimaanT_renpen_mengetahui_id").val() == "") {
+            myAlert("Pegawai Mengetahui harus diisi");
+            return false;
+        }
+        if($("#AGRenanggpenerimaanT_renpen_menyetujui_id").val() == "") {
+            myAlert("Pegawai Menyetujui harus diisi");
+            return false;
+        }
+        
         var jmlRencana = $('#table-rencanaanggaranpenerimaan tbody tr').length;
 		if(jmlRencana <= 0){
 			myAlert('Isikan rencana anggaran penerimaan terlebih dahulu.');

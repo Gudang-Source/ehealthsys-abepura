@@ -52,7 +52,7 @@ class RenanggpenerimaanT extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('konfiganggaran_id, sumberanggaran_id, ruangan_id, tglrenanggaranpen, noren_penerimaan, create_time, create_loginpemakai_id, create_ruangan', 'required'),
+			array('konfiganggaran_id, sumberanggaran_id, ruangan_id, tglrenanggaranpen, noren_penerimaan, create_time, create_loginpemakai_id, create_ruangan, renpen_mengetahui_id, renpen_menyetujui_id', 'required'),
 			array('konfiganggaran_id, sumberanggaran_id, approverenanggpen_id, ruangan_id, renpen_mengetahui_id, renpen_menyetujui_id, berapaxpenerimaan, create_loginpemakai_id, update_loginpemakai_id, create_ruangan', 'numerical', 'integerOnly'=>true),
 			array('total_renanggaranpen, nilaipenerimaananggaran', 'numerical'),
 			array('noren_penerimaan', 'length', 'max'=>50),

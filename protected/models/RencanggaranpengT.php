@@ -48,7 +48,7 @@ class RencanggaranpengT extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('konfiganggaran_id, unitkerja_id, rencanggaranpeng_no, rencanggaranpeng_tgl, total_nilairencpeng, create_time, create_loginpemakai_id, create_ruangan', 'required'),
+			array('konfiganggaran_id, unitkerja_id, rencanggaranpeng_no, menyetujui_id, mengetahui_id, rencanggaranpeng_tgl, total_nilairencpeng, create_time, create_loginpemakai_id, create_ruangan', 'required'),
 			array('konfiganggaran_id, unitkerja_id, mengetahui_id, menyetujui_id, create_loginpemakai_id, update_loginpemakai_id, create_ruangan', 'numerical', 'integerOnly'=>true),
 			array('total_nilairencpeng', 'numerical'),
 			array('rencanggaranpeng_no', 'length', 'max'=>30),

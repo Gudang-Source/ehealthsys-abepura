@@ -133,4 +133,9 @@ class UnitkerjaM extends CActiveRecord
                     'pagination'=>false,
             ));
         }
+        
+        public function getUnitRek()
+        {
+            return $this->namaunitkerja." - ".$this->kodeunitkerja;
+        }
 }

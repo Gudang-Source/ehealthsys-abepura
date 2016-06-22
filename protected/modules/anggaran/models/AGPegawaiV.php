@@ -20,6 +20,7 @@ class AGPegawaiV extends PegawaiV {
 		$criteria->compare('LOWER(nama_pegawai)',strtolower($this->nama_pegawai),true);
 		$criteria->compare('LOWER(gelarbelakang_nama)',strtolower($this->gelarbelakang_nama),true);
 		$criteria->compare('LOWER(alamat_pegawai)',strtolower($this->alamat_pegawai),true);
+                $criteria->addCondition('pegawai_aktif = true');
 		$criteria->order = 'nama_pegawai';
 		
 		return new CActiveDataProvider($this, array(

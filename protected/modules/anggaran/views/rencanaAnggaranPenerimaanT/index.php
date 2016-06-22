@@ -182,6 +182,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 
 $modPegawaiMengetahui = new AGPegawaiV('searchPegawaiMengetahui');
 $modPegawaiMengetahui->unsetAttributes();
+$modPegawaiMengetahui->pegawai_aktif = true;
 if(isset($_GET['AGPegawaiV'])) {
     $modPegawaiMengetahui->attributes = $_GET['AGPegawaiV'];
 }
@@ -252,14 +253,15 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     ),
 ));
 
-$modPegawaiMenyetujui = new AGPegawairuanganV('search');
+$modPegawaiMenyetujui = new AGPegawaiV('search');
 $modPegawaiMenyetujui->unsetAttributes();
-if(isset($_GET['AGPegawairuanganV'])) {
-    $modPegawaiMenyetujui->attributes = $_GET['AGPegawairuanganV'];
+$modPegawaiMenyetujui->pegawai_aktif = true;
+if(isset($_GET['AGPegawai'])) {
+    $modPegawaiMenyetujui->attributes = $_GET['AGPegawai'];
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'pegawaimenyetujui-grid',
-	'dataProvider'=>$modPegawaiMenyetujui->searchPegawaiMenyetujui(),
+	'dataProvider'=>$modPegawaiMenyetujui->searchPegawaiMengetahui(),
 	'filter'=>$modPegawaiMenyetujui,
         'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
