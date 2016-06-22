@@ -22,12 +22,15 @@ $this->widget('bootstrap.widgets.BootAlert');
     <table width="100%">
         <tr>
             <td>
+                <?php /*
                 <div class="control-group">
                     <label class="control-label">&nbsp;</label>
                     <div class="controls">
-                        <?php echo CHtml::textField('deposit',$modDeposit,array('onclick'=>'cekInput()')); ?>	
+                        <?php // echo CHtml::textField('deposit',$modDeposit,array('onclick'=>'cekInput()')); ?>	
                     </div>
                 </div>
+                 * 
+                 */ ?>
                 <div class="control-group ">
                     <?php echo $form->labelEx($modKonsul,'tglkonsulpoli', array('class'=>'control-label')) ?>
                     <?php $modKonsul->tglkonsulpoli = Yii::app()->dateFormatter->formatDateTime(CDateTimeParser::parse($modKonsul->tglkonsulpoli, 'yyyy-MM-dd hh:mm:ss','medium',null)); ?>
@@ -186,9 +189,11 @@ function cekInput(){
 	alert ('Ruangan Belum Dipilih!');
 	return false;
 	}
-	var deposit = $('#deposit').val();
+	//var deposit = $('#deposit').val();
 	var totalTarif = unformatNumber($('#totalTarif').val());
-	if (deposit == ""){
+	
+        /*
+        if (deposit == ""){
 		myConfirm("Pasien Belum Melakukan Deposit!","Perhatian!",function(r) {
 		   if(r){	
 			   // notifikasi
@@ -216,9 +221,9 @@ function cekInput(){
 					}, 2000);
 				}
 			});
-	}else{
+	}else{ */
 		$('#rjkonsul-poli-t-form').submit();
-	}
+	// } 
 }
 function hitungTotalTarif()
 {
