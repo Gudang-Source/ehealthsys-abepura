@@ -1,6 +1,7 @@
 <?php
 class REPersonalscoringT extends PersonalscoringT
 {
+        public $tgl_awal, $tgl_akhir;
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -13,8 +14,8 @@ class REPersonalscoringT extends PersonalscoringT
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('DATE(t.tglscoring)',$this->tglscoring);
-		$criteria->addBetweenCondition('DATE(t.periodescoring)',$this->periodescoring,$this->sampaidengan);
+		//$criteria->compare('DATE(t.tglscoring)',$this->tglscoring);
+		// $criteria->addBetweenCondition('DATE(t.periodescoring)',$this->periodescoring,$this->sampaidengan);
 		$criteria->compare('DATE(t.sampaidengan)',$this->sampaidengan);
 		$criteria->compare('t.jabatan',$this->jabatan);
 		$criteria->compare('t.pendidikan',$this->pendidikan);

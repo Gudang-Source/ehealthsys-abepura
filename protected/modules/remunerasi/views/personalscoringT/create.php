@@ -90,9 +90,13 @@
             </div>
         </div>
         <hr />
-        <?php $this->widget('ext.bootstrap.widgets.BootGridView', array(
+        <?php 
+        $prov = $modIndexing->search();
+        $prov->criteria->limit = -1;
+        $prov->pagination = false;
+        $this->widget('ext.bootstrap.widgets.BootGridView', array(
             'id'=>'scoringdetail-t-grid',
-            'dataProvider'=>$modIndexing->search(),
+            'dataProvider'=>$prov,
                     'itemsCssClass'=>'table table-striped table-condensed',
             'columns'=>array(
                 array(
@@ -101,7 +105,15 @@
                 ),
                 array(
                     'header'=>'Kelompok',
-                    'value'=>'isset($data->kelrem_id) ? $data->kelrem->kelrem_nama : ""',
+                    'type'=>'raw',
+                    'value'=>function($data) {
+                        $n = isset($data->kelrem_id) ? $data->kelrem->kelrem_nama : "";
+                        $h = CHtml::hiddenField('kelrem_id',$data->kelrem_id,array('class'=>'span1', 'id'=>'kelrem_id', 'value'=>$data->kelrem_id));
+                        $h .= CHtml::hiddenField('ScoringdetailT[][indexing_id]',$data->indexing_id,array('class'=>'span1', 'id'=>'indexing_id', 'value'=>$data->indexing_id));
+                        $h .= CHtml::hiddenField('ScoringdetailT[][kelrem_id]',$data->kelrem_id,array('class'=>'span1', 'id'=>'kelrem_id', 'value'=>$data->kelrem_id));
+                        $h .= CHtml::hiddenField('indexing_nilai',$data->indexing_nilai,array('class'=>'span1', 'id'=>'indexing_nilai', 'value'=>$data->indexing_nilai));
+                        return $n.$h;
+                    },
                     'footer'=>'<b>Total</b>:',
                 ),
                 array(
@@ -112,42 +124,24 @@
                     'header'=>'Index',
                     'value'=>'$data->indexing_nilai',
                     'footer'=>$modIndexing->getTotalindex(),
+                    'htmlOptions'=>array('style'=>'text-align: right;'),
+                    'footerHtmlOptions'=>array('style'=>'text-align: right;'),
                 ),
                 array(
                     'header'=>'Bobot',
                     'type'=>'raw',
-                    'value'=>'CHtml::textField(\'ScoringdetailT[][ratebobot_personal]\',$data->kelrem->kelrem_rate,array(\'class\'=>\'span1 bobot\', \'id\'=>\'ratebobot_personal\', \'onkeyup\'=>\'scoring(this);\', \'onfocus\'=>\'renameinput(this);\'))',
+                    'value'=>'CHtml::textField("ScoringdetailT[][ratebobot_personal]",$data->kelrem->kelrem_rate,array("class"=>"span1 bobot integer", "id"=>"ratebobot_personal", "onkeyup"=>"scoring(this);","style"=>"text-align: right"))',
                     'footer'=>$modIndexing->getTotalbobot(),
+                    'htmlOptions'=>array('style'=>'text-align: right;'),
+                    'footerHtmlOptions'=>array('style'=>'text-align: right;'),
                 ),
                 array(
                     'header'=>'Score',
                     'type'=>'raw',
-                    'value'=>'CHtml::textField(\'ScoringdetailT[][score_personal]\',\' \',array(\'class\'=>\'span1 score\', \'id\'=>\'score_personal\', \'readonly\'=>true,))',
+                    'value'=>'CHtml::textField("ScoringdetailT[][score_personal]"," ",array("class"=>"span1 score", "id"=>"score_personal", "readonly"=>true, "style"=>"text-align: right"))',
                     'footer'=>$modIndexing->getTotalscore(),
-                ),
-                array(
-                    'type'=>'raw',
-                    'value'=>'CHtml::hiddenField(\'kelrem_id\',$data->kelrem_id,array(\'class\'=>\'span1\', \'id\'=>\'kelrem_id\', \'value\'=>$data->kelrem_id))',
-                    'htmlOptions'=>array('style'=>'display:none;'),
-                    'footer'=>'<b class="hide"></b>',
-                ),
-                array(
-                    'type'=>'raw',
-                    'value'=>'CHtml::hiddenField(\'ScoringdetailT[][indexing_id]\',$data->indexing_id,array(\'class\'=>\'span1\', \'id\'=>\'indexing_id\', \'value\'=>$data->indexing_id))',
-                    'htmlOptions'=>array('style'=>'display:none;'),
-                    'footer'=>'<b class="hide"></b>',
-                ),
-                array(
-                    'type'=>'raw',
-                    'value'=>'CHtml::hiddenField(\'ScoringdetailT[][kelrem_id]\',$data->kelrem_id,array(\'class\'=>\'span1\', \'id\'=>\'kelrem_id\', \'value\'=>$data->kelrem_id))',
-                    'htmlOptions'=>array('style'=>'display:none;'),
-                    'footer'=>'<b class="hide"></b>',
-                ),
-                array(
-                    'type'=>'raw',
-                    'value'=>'CHtml::hiddenField(\'indexing_nilai\',$data->indexing_nilai,array(\'class\'=>\'span1\', \'id\'=>\'indexing_nilai\', \'value\'=>$data->indexing_nilai))',
-                    'htmlOptions'=>array('style'=>'display:none;'),
-                    'footer'=>'<b class="hide"></b>',
+                    'htmlOptions'=>array('style'=>'text-align: right;'),
+                    'footerHtmlOptions'=>array('style'=>'text-align: right;'),
                 ),
             ),
         )); ?>

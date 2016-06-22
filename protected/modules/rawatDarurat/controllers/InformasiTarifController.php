@@ -42,7 +42,7 @@ class InformasiTarifController extends MyAuthController
        if(empty($kategoritindakan_id)){
            $modTarif = TariftindakanperdaruanganV::model()->find('daftartindakan_id = '.$daftartindakan_id.' and kelaspelayanan_id = '.$kelaspelayanan_id.' and jenistarif_id = '.$jenistarif_id.'');
        }else{
-           $modTarif = TariftindakanperdaruanganV::model()->find('daftartindakan_id = '.$daftartindakan_id.' and kelaspelayanan_id = '.$kelaspelayanan_id.' and kategoritindakan_id = '.$kategoritindakan_id.'and jenistarif_id = '.$jenistarif_id.'');
+           $modTarif = TariftindakanperdaruanganV::model()->find('daftartindakan_id = '.$daftartindakan_id.' and kelaspelayanan_id = '.$kelaspelayanan_id.' and kategoritindakan_id = '.$kategoritindakan_id.' and jenistarif_id = '.$jenistarif_id.'');
        }
        $jumlahTarifTindakan=COUNT($modTarifTindakan);
 

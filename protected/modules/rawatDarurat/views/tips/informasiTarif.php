@@ -20,5 +20,12 @@
             </a> untuk mengulang kembali inputan.
         </td>
     </tr>
+    <tr>
+        <td style = "vertical-align:middle;">4. </td>
+        <td>Gunakan tombol ini  <button class="btn btn-info" type="button"><i class="icon-print icon-white"></i>
+            Print
+            </button> berfungsi untuk mencetak data.
+        </td>
+    </tr>
 </table>
 </p>
