@@ -36,12 +36,13 @@
                         <td>Nama Pegawai</td>
                         <td>:</td>
                         <td><?php echo $modPegawai->nama_pegawai; ?></td>
-                    </tr>  
+                    </tr> 
+                    <?php /*
                     <tr>
                         <td>Shift</td>
                         <td>:</td>
                         <td><?php echo ($modPegawai->shift_id)?$modPegawai->shift->shift_nama:'-'; ?></td>
-                    </tr>
+                    </tr>*/ ?>
                 </table>
             </td>
             <td>

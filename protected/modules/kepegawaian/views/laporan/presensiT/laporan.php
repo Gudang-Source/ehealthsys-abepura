@@ -49,9 +49,10 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                 'pegawai.nomorindukpegawai',
                 'pegawai.nama_pegawai',  
                  array(
-                        'header' => 'Shift',
-                        'name' => 'pegawai.shift.shift_nama',
+                        'header' => 'Shift / Jam Kerja',
+                        'value'=>'$this->grid->owner->renderPartial("presensiT/_shift",array("statuskehadiran_id"=>$data->statuskehadiran_id,"pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>Params::STATUSSCAN_MASUK, "datepresensi"=>$data->datepresensi),true)',
                     ),
+            
                 array(
                     'header'=>'Tanggal Presensi',
                     'value'=>'MyFormatter::formatDateTimeForUser($data->datepresensi)',

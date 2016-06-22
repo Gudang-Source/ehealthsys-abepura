@@ -36,9 +36,9 @@ echo $this->renderPartial('application.views.headerReport.headerLaporanTransaksi
                 'pegawai.jabatan.jabatan_nama',
                 'pegawai.nomorindukpegawai',
                 'pegawai.nama_pegawai',  
-                 array(
-                        'header' => 'Shift',
-                        'name' => 'pegawai.shift.shift_nama',
+                  array(
+                        'header' => 'Shift / Jam Kerja',
+                        'value'=>'$this->grid->owner->renderPartial("presensiT/_shift",array("statuskehadiran_id"=>$data->statuskehadiran_id,"pegawai_id"=>$data->pegawai_id ,"statusscan_id"=>Params::STATUSSCAN_MASUK, "datepresensi"=>$data->datepresensi),true)',
                     ),
                 array(
                     'header'=>'Tanggal Presensi',
