@@ -59,10 +59,10 @@
             <?php echo $form->textFieldRow($model,'nomorindukpegawai',array('class'=>'required numbers-only','onkeyup'=>"return $(this).focusNextInputField(event)",'placeholder'=>'Nomor Induk Pegawai','maxlength'=>18)); ?>
 
             <div class="control-group">
-                    <?php echo CHtml::label('No. Identitas','jenisidentitas',array('class'=>'control-label')); ?>
+                    <?php echo CHtml::label('No. Identitas <font style = "color:red;">*</font>','jenisidentitas',array('class'=>'control-label')); ?>
                 <div class="controls">
-                    <?php echo $form->dropDownList($model,'jenisidentitas',LookupM::getItems('jenisidentitas'),array('empty'=>'-- Pilih --','id'=>'jenisidentitas','style'=>'width:70px;','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-                    <?php echo $form->textField($model,'noidentitas',array('class'=>'numbers-only','empty'=>'-- Pilih --','id'=>'noidentitas','style'=>'width:135px;','onkeyup'=>"return $(this).focusNextInputField(event)",'placeholder'=>'No. Identitas Pegawai','maxlength'=>18)); ?>
+                    <?php echo $form->dropDownList($model,'jenisidentitas',LookupM::getItems('jenisidentitas'),array('class'=>'required','empty'=>'-- Pilih --','id'=>'jenisidentitas','style'=>'width:70px;','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+                    <?php echo $form->textField($model,'noidentitas',array('class'=>'required numbers-only','empty'=>'-- Pilih --','id'=>'noidentitas','style'=>'width:135px;','onkeyup'=>"return $(this).focusNextInputField(event)",'placeholder'=>'No. Identitas Pegawai','maxlength'=>18)); ?>
                 </div>
             </div>
     <!--         RND-4482 : Memisahkan Gelardepan,Gelar Belakang dengan Nama Pegawai-->
@@ -120,7 +120,7 @@
 											'dateFormat'=>Params::DATE_FORMAT,
 											'maxDate' => 'd',
 										),
-										'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3','onclick'=>"return $(this).focusNextInputField(event)"),
+										'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3','onclick'=>"return $(this).focusNextInputField(event)",'onchange'=>'setUmur();'),
 						)); 
 						$model->tgl_lahirpegawai = $format->formatDateTimeForDb($model->tgl_lahirpegawai);					
 					?>
@@ -154,7 +154,9 @@
                                        'class'=>'inputRequire')); ?>
             <?php echo $form->dropDownListRow($model,'suku_id',  CHtml::listData($model->getSukuItems(), 'suku_id', 'suku_nama'), 
                         array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-            <?php echo $form->dropDownListRow($model,'warganegara_pegawai',LookupM::getItems('warganegara'),array( 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>25, 'empty'=>'-- Pilih --')); ?>
+            <?php 
+                $model->warganegara_pegawai = 'INDONESIA';
+                echo $form->dropDownListRow($model,'warganegara_pegawai',LookupM::getItems('warganegara'),array( 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>25, 'empty'=>'-- Pilih --')); ?>
             <?php echo $form->dropDownListRow($model,'statusperkawinan',LookupM::getItems('statusperkawinan'), 
                             array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
                                   'class'=>'inputRequire')); ?>  
@@ -212,8 +214,41 @@
                         <?php echo $form->error($model, 'kelurahan_id'); ?>
                     </div>
                 </div>
-                <?php echo $form->textFieldRow($model,'garis_latitude',array('onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-                <?php echo $form->textFieldRow($model,'garis_longitude',array('onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+                
+                <div class="control-group ">
+                    <?php echo $form->labelEx($model,'garis_latitude', array('class'=>'control-label')) ?>
+                    <div class="controls">
+                        <?php echo $form->textField($model,'garis_latitude',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+                        <?php echo CHtml::htmlButton('<i class="icon-search icon-white"></i>',
+                                                    array(
+                                                            'class'=>'btn btn-primary btn-location',
+                                                            'rel'=>'tooltip',
+                                                            'id'=>'yw1',
+                                                            'title'=>'Klik untuk mencari Longitude & Latitude',)); ?>
+                    </div>
+                </div>
+                
+                
+                <?php echo $form->textFieldRow($model,'garis_longitude',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+               
+                 <!--Extension location-picker latitude & longitude-->
+                                    <?php 
+                                    $modPropinsi = PropinsiM::model()->findByPk(Yii::app()->user->getstate('propinsi_id'));
+                                    $latitude  = $modPropinsi->latitude;
+                                    $longitude = $modPropinsi->longitude;
+                
+                                            $this->widget('ext.LocationPicker2.CoordinatePicker', array(
+                                                    'model' => $model,
+                                                    'latitudeAttribute' => 'garis_latitude',
+                                                    'longitudeAttribute' => 'garis_longitude',
+                                                    //optional settings
+                                                    'editZoom' => 12,
+                                                    'pickZoom' => 7,
+                                                    'defaultLatitude' => $latitude,
+                                                    'defaultLongitude' => $longitude,
+                                            ));
+                                    ?>	
+                 
                 <div class="control-group">
                     <?php echo CHtml::label('No. Telp / Hp','nomorcontact',array('class'=>'control-label')); ?>
                     <div class="controls">
@@ -222,7 +257,7 @@
                         <?php echo $form->textField($model,'nomobile_pegawai',array('class'=>'span2 numbers-only', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>15,'style'=>'width:97px;text-align:right;','id'=>'nomorcontact','placeholder'=>'No. Ponsel Pegawai')); ?>
                     </div>
                 </div>
-		<?php echo $form->textFieldRow($model,'alamatemail',array( 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100,'placeholder'=>'contoh: info@piinformasi.com')); ?>	                
+		<?php echo $form->textFieldRow($model,'alamatemail',array( 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100,'placeholder'=>'contoh: info@itpi.co.id')); ?>	                
             </fieldset>
             <fieldset class = "box">
                 <legend class="rim">Data Lain - Lain</legend>
@@ -295,7 +330,7 @@
                                  )); ?>
                 
                 <?php echo $form->dropDownListRow($model,'kelompokpegawai_id',  CHtml::listData($model->getKelompokPegawaiItems(), 'kelompokpegawai_id', 'kelompokpegawai_nama'), 
-                array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+                array('onchange'=>'cekKalompokPegawai();','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
                 
                 <?php echo $form->dropDownListRow($model,'jenistenagamedis_id',  CHtml::listData($model->getJenisTenagaMedisItems(), 'jenistenagamedis_id', 'tenagamedis_nama'), 
                 array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
@@ -339,7 +374,7 @@
                 </div>
 		
             <div class='control-group'>
-                <?php echo $form->labelEx($model,'tglditerima', array('class'=>'control-label')) ?>
+                <?php echo CHtml::label('Tanggal Diterima <font style= "color:red;">*</font>','tglditerima', array('class'=>'required control-label')) ?>
                 <div class="controls">
                     <?php   
 //                    $model->tgl_lahirpegawai = (!empty($model->tgl_lahirpegawai) ? date("d/m/Y",strtotime($model->tglditerima)) : null);
@@ -375,9 +410,14 @@
             <div
             <?php echo $form->textFieldRow($model,'surattandaregistrasi',array('onkeyup'=>"return $(this).focusNextInputField(event)",'maxlength'=>100)); ?>
             <?php echo $form->textFieldRow($model,'suratizinpraktek',array('onkeyup'=>"return $(this).focusNextInputField(event)",'maxlength'=>100)); ?>
-            <?php echo $form->textFieldRow($model,'npwp',array('class'=>'numbers-only','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>            
+                <div class = "control-group">
+                    <?php echo CHtml::label('NPWP <font style="color:red">*</font>','npwp',array('class'=>'control-label')) ?>
+                    <div class = "controls">
+                      <?php echo $form->textField($model,'npwp',array('class'=>'required numbers-only','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>              
+                    </div>
+                </div>            
             <?php echo $form->textFieldRow($model,'no_rekening',array('class'=>'numbers-only', 'onkeyup'=>"return $(this).focusNextInputField(event)",'maxlength'=>100)); ?>
-            <?php echo $form->textFieldRow($model,'bank_no_rekening',array('onkeyup'=>"return $(this).focusNextInputField(event)",'maxlength'=>100)); ?>            
+            <?php echo $form->dropDownListRow($model,'bank_no_rekening', CHtml::listData(BankM::model()->findAll("bank_aktif = TRUE ORDER BY namabank ASC"),'namabank','namabank'),array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)",'maxlength'=>100)); ?>            
             <?php echo $form->textFieldRow($model,'gajipokok',array('class'=>'integer2','onkeyup'=>"return $(this).focusNextInputField(event)",'maxlength'=>100, 'style'=>'text-align:right;')); ?>
                 <?php echo $form->dropDownListRow($model,'shift_id', CHtml::listData(ShiftM::model()->findAll("shift_aktif = true ORDER BY shift_nama ASC"), 'shift_id', 'shift_nama'), 
                         array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>  
@@ -558,6 +598,11 @@ function caraAmbilPhotoJS(obj)
           $('#divCaraAmbilPhotoFile').slideToggle(500);
         }
 } 
+  
+  function registerJSlocation(id,modelName,i){
+$('#'+id).on('click', function(){ 
+	$('#'+id).coordinate_picker({'lat_selector':'#'+modelName+'_'+i+'_latitude','long_selector':'#'+modelName+'_'+i+'_longitude','default_lat':'-7.091932','default_long':'107.672491','edit_zoom':12,'pick_zoom':7})});
+}
 
 function simpanDataPegawai()
 {
@@ -585,12 +630,117 @@ Yii::app()->clientScript->registerScript('caraAmbilPhoto212',$js,CClientScript::
      * Begitu juga sebaliknya.
      * @returns {undefined}
      */
+function setUmur()
+{
+    var tanggal_lahir = $("#KPPegawaiM_tgl_lahirpegawai").val();
+    
+    if(tanggal_lahir == ''){
+        tanggal_lahir = 0;
+	}
+	$.ajax({
+		type:'POST',
+		url:'<?php echo $this->createUrl('/ActionAjax/SetUmur/'); ?>',
+		data: {tanggal_lahir: tanggal_lahir},//
+		dataType: "json",
+		success:function(data){
+			if ( (parseInt(data.umur) < 17)){
+                             myConfirm('Maaf Umur Anda Kurang dari 17 tahun ?','Perhatian!');
+                             $("#KPPegawaiM_tgl_lahirpegawai").val('');
+                        }else{
+                            return true;
+                        }
+		},
+		error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
+	});
+}
+    
 function cekValidasiNIP()
 {
-    if ($("#KPPegawaiM_kategoripegawai").val().trim().toLowerCase() == "tetap") {
+    if ($("#KPPegawaiM_kategoripegawai").val().trim().toLowerCase() == "pns") {
+        //NIP
         $("#KPPegawaiM_nomorindukpegawai").addClass("required");
+        $("label[for=KPPegawaiM_nomorindukpegawai]").append("<span class=required> *</span>");
+        $("#KPPegawaiM_nomorindukpegawai").removeClass('error').addClass('inputnotrequired');   
+        
+        //golongan
+        $("#KPPegawaiM_golonganpegawai_id").addClass("required");
+        $("label[for=KPPegawaiM_golonganpegawai_id]").append("<span class=required> *</span>");
+        $("#KPPegawaiM_golonganpegawai_id").removeClass('error').addClass('inputnotrequired');  
+        
+        //jabatan
+        $("#KPPegawaiM_jabatan_id").addClass("required");
+        $("label[for=KPPegawaiM_jabatan_id]").append("<span class=required> *</span>");
+        $("#KPPegawaiM_jabatan_id").removeClass('error').addClass('inputnotrequired'); 
+        
+        //pangkat
+        $("#KPPegawaiM_pangkat_id").addClass("required");
+        $("label[for=KPPegawaiM_pangkat_id]").append("<span class=required> *</span>");
+        $("#KPPegawaiM_pangkat_id").removeClass('error').addClass('inputnotrequired');
+        
+        //kelompok  jabatan
+        $("#KPPegawaiM_kelompokjabatan").addClass("required");
+        $("label[for=KPPegawaiM_kelompokjabatan]").append("<span class=required> *</span>");
+        $("#KPPegawaiM_kelompokjabatan").removeClass('error').addClass('inputnotrequired');
+        
     } else {
-        $("#KPPegawaiM_nomorindukpegawai").removeClass("required");
+        $(".control-group").removeClass('error').addClass('notrequired');
+        
+        //nip
+        $("#KPPegawaiM_nomorindukpegawai").removeClass("required");                
+        $("#KPPegawaiM_nomorindukpegawai").removeClass('error').addClass('inputnotrequired');            
+        $("label[for=KPPegawaiM_nomorindukpegawai]").find($("span[class=required]")).remove();        
+        $("label[for=KPPegawaiM_nomorindukpegawai]").removeClass('error required').addClass('notrequired');
+        
+        //golongan
+        $("#KPPegawaiM_golonganpegawai_id").removeClass("required");                
+        $("#KPPegawaiM_golonganpegawai_id").removeClass('error').addClass('inputnotrequired');            
+        $("label[for=KPPegawaiM_golonganpegawai_id]").find($("span[class=required]")).remove();        
+        $("label[for=KPPegawaiM_golonganpegawai_id]").removeClass('error required').addClass('notrequired');
+        
+        //jabatan
+        $("#KPPegawaiM_jabatan_id").removeClass("required");                
+        $("#KPPegawaiM_jabatan_id").removeClass('error').addClass('inputnotrequired');            
+        $("label[for=KPPegawaiM_jabatan_id]").find($("span[class=required]")).remove();        
+        $("label[for=KPPegawaiM_jabatan_id]").removeClass('error required').addClass('notrequired');
+        
+        //pangkat
+        $("#KPPegawaiM_pangkat_id").removeClass("required");                
+        $("#KPPegawaiM_pangkat_id").removeClass('error').addClass('inputnotrequired');            
+        $("label[for=KPPegawaiM_pangkat_id]").find($("span[class=required]")).remove();        
+        $("label[for=KPPegawaiM_pangkat_id]").removeClass('error required').addClass('notrequired');
+        
+        //kelompok jabatan
+        $("#KPPegawaiM_kelompokjabatan").removeClass("required");                
+        $("#KPPegawaiM_kelompokjabatan").removeClass('error').addClass('inputnotrequired');            
+        $("label[for=KPPegawaiM_kelompokjabatan]").find($("span[class=required]")).remove();        
+        $("label[for=KPPegawaiM_kelompokjabatan]").removeClass('error required').addClass('notrequired');
+    }
+}
+
+function cekKalompokPegawai()
+{
+    var kelpeg = <?php echo Params::KELOMPOKPEGAWAI_ID_TENAGA_MEDIK; ?>
+    
+    if ($("#KPPegawaiM_kelompokpegawai_id").val() == kelpeg) {
+        $("#KPPegawaiM_suratizinpraktek").addClass("required");                
+        $("label[for=KPPegawaiM_suratizinpraktek]").append("<span class=required> *</span>");
+        $("#KPPegawaiM_suratizinpraktek").removeClass('error').addClass('inputnotrequired');            
+        
+        $("#KPPegawaiM_surattandaregistrasi").addClass("required");
+        $("label[for=KPPegawaiM_surattandaregistrasi]").append("<span class=required> *</span>");
+        $("#KPPegawaiM_surattandaregistrasi").removeClass('error').addClass('inputnotrequired');   
+    } else {     
+        $(".control-group").removeClass('error').addClass('notrequired');
+        
+        $("#KPPegawaiM_suratizinpraktek").removeClass("required");                
+        $("#KPPegawaiM_suratizinpraktek").removeClass('error').addClass('inputnotrequired');            
+        $("label[for=KPPegawaiM_suratizinpraktek]").find($("span[class=required]")).remove();        
+        $("label[for=KPPegawaiM_suratizinpraktek]").removeClass('error required').addClass('notrequired');
+        
+        $("#KPPegawaiM_surattandaregistrasi").removeClass("required");
+        $("#KPPegawaiM_surattandaregistrasi").removeClass('error').addClass('inputnotrequired');
+        $("label[for=KPPegawaiM_surattandaregistrasi]").find($("span[class=required]")).remove();         
+        $("label[for=KPPegawaiM_surattandaregistrasi]").removeClass('error required').addClass('notrequired');
     }
 }
     

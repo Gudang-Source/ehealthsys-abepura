@@ -88,5 +88,41 @@ function setClearDropdownKelurahan()
 {
     $("#<?php echo CHtml::activeId($modPegawai,"kelurahan_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
 }
+
+function setClearDropdownKelompokPegawai()
+{
+    $("#<?php echo CHtml::activeId($modPegawai,"kelompokpegawai_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');    
+    cekValidasiNIP();
+}
+
+function cekValidasiNIP()
+{
+    var pen = <?php echo Params::PENDIDIKAN_S1; ?>;
+        
+        
+    if ($("#KPPegawaiM_kategoripegawai").val() == "PNS") {
+        $("label[for=KPPegawaiM_nomorindukpegawai]").addClass("required");
+        $("#KPPegawaiM_nomorindukpegawai").addClass("required");
+        if ($("#KPPegawaiM_pendidikan_id").val().trim() == pen )
+        {                   
+            $("label[for=KPPegawaiM_gelarbelakang_id]").addClass("required");
+        }else{                      
+            $("label[for=KPPegawaiM_gelarbelakang_id]").removeClass("required");
+        }
+    } else {
+        $("label[for=KPPegawaiM_nomorindukpegawai]").removeClass("required");  
+        $("#KPPegawaiM_nomorindukpegawai").removeClass("required");
+       if ($("#KPPegawaiM_pendidikan_id").val().trim() == pen )
+        {                   
+            $("label[for=KPPegawaiM_gelarbelakang_id]").addClass("required");
+        }else{              
+           $("label[for=KPPegawaiM_gelarbelakang_id]").removeClass("required");
+        }
+    }
+}
+
+$( document ).ready(function(){
+cekValidasiNIP();
+});
 </script>
     

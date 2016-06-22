@@ -1358,5 +1358,75 @@ class ActionDynamicController extends Controller
                         Yii::app()->end();
                 }
         }
+        
+        public function actionGetPendKualifikasi($encode=false,$model_nama='',$attr='')
+	{
+		if(Yii::app()->request->isAjaxRequest) {
+			$modPegawai = new PegawaiM;
+			if($model_nama !=='' && $attr == ''){
+				$pendidikan_id = $_POST["$model_nama"]['pendidikan_id'];
+			}
+			 elseif ($model_nama == '' && $attr !== '') {
+				$pendidikan_id = $_POST["$attr"];
+			}
+			 elseif ($model_nama !== '' && $attr !== '') {
+				$pendidikan_id = $_POST["$model_nama"]["$attr"];
+			}
+			$pendKualifikasi = null;
+			if($pendidikan_id){
+				$pendKualifikasi = $modPegawai->getPendKualifikasiItems($pendidikan_id);
+				$pendKualifikasi = CHtml::listData($pendKualifikasi,'pendkualifikasi_id','pendkualifikasi_nama');
+			}
+			if($encode){
+				echo CJSON::encode($pendKualifikasi);
+			} else {
+				if(empty($pendKualifikasi)){
+					echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+				} else {
+					echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+					foreach($pendKualifikasi as $value=>$name) {
+						echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+					}
+				}
+			}
+		}
+		Yii::app()->end();
+	}
+	
+	public function actionGetKelompokPegawai($encode=false,$model_nama='',$attr='')
+	{
+		if(Yii::app()->request->isAjaxRequest) {
+			$modPegawai = new PegawaiM;
+			if($model_nama !=='' && $attr == ''){
+				$pendKualifikasi = $_POST["$model_nama"]['pendkualifikasi_id'];
+			}
+			 elseif ($model_nama == '' && $attr !== '') {
+				$pendKualifikasi = $_POST["$attr"];
+			}
+			 elseif ($model_nama !== '' && $attr !== '') {
+				$pendKualifikasi = $_POST["$model_nama"]["$attr"];
+			}
+			$kelpegawai = null;
+			if($pendKualifikasi){
+				$kelpegawai = $modPegawai->getKelPegawaiItems($pendKualifikasi);
+				$kelpegawai = CHtml::listData($kelpegawai,'kelompokpegawai_id','kelompokpegawai_nama');
+			}
+			if($encode){
+				echo CJSON::encode($kelpegawai);
+			} else {
+				if(empty($kelpegawai)){
+					echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+				} else {
+					if(count($kelpegawai) > 1){
+						echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+					}
+					foreach($kelpegawai as $value=>$name) {
+						echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+					}
+				}
+			}
+		}
+		Yii::app()->end();
+	}
 }
 ?>

@@ -421,7 +421,8 @@ Class Params
         
         const SURAT_KETERANGAN_KONTROL = 2;
         
-
+        const PENDIDIKAN_S1 = 8;
+        
         const SHIFT_PAGI = 1;
 
         const DEFAULT_JENISINVENTARISASI = 'Penyesuaian';
