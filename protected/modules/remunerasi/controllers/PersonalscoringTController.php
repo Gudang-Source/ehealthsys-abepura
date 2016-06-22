@@ -47,6 +47,7 @@ class PersonalscoringTController extends MyAuthController
             }
             if(isset($_POST['PersonalscoringT']))
             {
+                $model->attributes = $_POST['PegawaiM'];
                 $model->attributes = $_POST['PersonalscoringT'];
                 $modPegawai->attributes = $_POST['PegawaiM'];
                 $modPegawai->pegawai_id = $_POST['PegawaiM']['pegawai_id'];
@@ -57,6 +58,10 @@ class PersonalscoringTController extends MyAuthController
                 $model->tglscoring = $format->formatDateTimeForDb($_POST['PersonalscoringT']['tglscoring']);
                 $model->periodescoring = $format->formatDateTimeForDb($_POST['PersonalscoringT']['periodescoring']);
                 $model->sampaidengan = $format->formatDateTimeForDb($_POST['PersonalscoringT']['sampaidengan']);
+                $model->gajipokok = str_replace(".","", $model->gajipokok);
+                $model->jabatan = $_POST['PegawaiM']['jabatan_id'];
+                $model->pendidikan = $_POST['PegawaiM']['pendidikan_id'];
+                // var_dump($_POST['PegawaiM'], $model->attributes); die;
                 try{
                     if ($model->save()) {
                         $jumlah = 0;
@@ -65,11 +70,13 @@ class PersonalscoringTController extends MyAuthController
                                 $modScoringdetail = new ScoringdetailT;
                                 $modScoringdetail->personalscoring_id = $model->personalscoring_id;
                                 $modScoringdetail->attributes = $value;
+                                //var_dump($modScoringdetail->attributes, $modScoringdetail->validate(), $modScoringdetail->errors);
                                 if ($modScoringdetail->save()){
                                     $jumlah++;
                                 }
                             }
                         }
+                        // var_dump(($jumlah>0) && ($jumlah == count($_POST['ScoringdetailT']))); die;
                         if (($jumlah>0) && ($jumlah == count($_POST['ScoringdetailT']))){
                             $transaction->commit();
                             echo Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
@@ -159,7 +166,7 @@ class PersonalscoringTController extends MyAuthController
 
             if (isset($_GET['REPersonalscoringT'])) {
                 $model->attributes = $_GET['REPersonalscoringT'];
-                
+                /*
                 if ($_GET['REPersonalscoringT']['tglscoring'] > '0') {
                     $model->tglscoring = $format->formatDateTimeForDb($_GET['REPersonalscoringT']['tglscoring']);
                 }
@@ -169,6 +176,8 @@ class PersonalscoringTController extends MyAuthController
                 if ($_GET['REPersonalscoringT']['sampaidengan'] > '0') {
                     $model->sampaidengan = $format->formatDateTimeForDb($_GET['REPersonalscoringT']['sampaidengan']);
                 }
+                 * 
+                 */
                 $model->nama_pegawai = isset($_GET['REPersonalscoringT']['nama_pegawai']) ? $_GET['REPersonalscoringT']['nama_pegawai'] : null;
             }
             $this->render('informasi',array(
@@ -252,7 +261,7 @@ class PersonalscoringTController extends MyAuthController
             $returnVal["jabatan"] = isset($model->jabatan_id) ? $model->jabatan->jabatan_nama : "-";
             $returnVal["pangkat"] = isset($model->pangkat_id) ? $model->pangkat->pangkat_nama : "-";
             $returnVal["pendidikan"] = isset($model->pendidikan_id) ? $model->pendidikan->pendidikan_nama : "-";
-            $returnVal["gajipokok"] = isset($model->gajipokok) ? $model->gajipokok : "0";
+            $returnVal["gajipokok"] = isset($model->gajipokok) ? MyFormatter::formatNumberForPrint($model->gajipokok) : "0";
             $returnVal["kategoripegawai"] = isset($model->kategoripegawai) ? $model->kategoripegawai: "-";
             $returnVal["kategoripegawaiasal"] = isset($model->kategoripegawaiasal) ? $model->kategoripegawaiasal : "-";
             $returnVal["kelompokpegawai"] = isset($model->kelompokpegawai_id) ? $model->kelompokpegawai->kelompokpegawai_nama : "-";
