@@ -1,6 +1,6 @@
 <tr>
     <td>
-        <?php echo CHtml::textField('no_urut',0,array('readonly'=>true,'class'=>'span1 integer', 'style'=>'width:20px;')); ?>
+        <?php echo CHtml::textField('no_urut',0,array('readonly'=>true,'class'=>'span1 integer2', 'style'=>'width:20px;')); ?>
         <?php echo CHtml::activeHiddenField($modRencanaDetail,'[ii]subkegiatanprogram_id',array('readonly'=>true,'class'=>'span1')); ?>
         <?php echo CHtml::activeHiddenField($modRencanaDetail,'[ii]tglrencanapengdet',array('readonly'=>true,'class'=>'span1')); ?>
     </td>
@@ -23,7 +23,7 @@
         <?php echo (!empty($modRencanaDetail->tglrencanapengdet) ? $format->formatMonthForUser($modRencanaDetail->tglrencanapengdet) : "") ?>
     </td>
     <td>
-			<?php echo CHtml::activeTextField($modRencanaDetail,'[ii]nilairencpengeluaran',array('class'=>'span2 integer','style'=>'width:90px;','onkeyup'=>"hitungTotal(); return $(this).focusNextInputField(event);")); ?>
+			<?php echo CHtml::activeTextField($modRencanaDetail,'[ii]nilairencpengeluaran',array('class'=>'span2 integer2','style'=>'width:90px;','onkeyup'=>"hitungTotal(); return $(this).focusNextInputField(event);")); ?>
     </td>
     <td>
         <a onclick="batalRencana(this);return false;" rel="tooltip" href="javascript:void(0);" title="Klik untuk membatalkan rencana"><i class="icon-remove"></i></a>

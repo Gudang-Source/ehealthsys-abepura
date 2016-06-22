@@ -52,18 +52,20 @@
         <!----------------- BEGIN ACTIVA ---------------------------------------------->
         <tr>
 			<td style="height: 30px; vertical-align: middle;"><b><i>AKTIVA</i></b></td>
-			<td style="height: 30px; vertical-align: middle;text-align: right;font-weight: bold;"><?php echo isset($pendapatan_aktiva) ? number_format($pendapatan_aktiva,0) : 0; ?></td>
+			<td style="height: 30px; vertical-align: middle;text-align: right;font-weight: bold;"><?php // echo isset($pendapatan_aktiva) ? MyFormatter::formatNumberForPrint($pendapatan_aktiva,0) : 0; ?></td>
 		</tr>
         <?php		
 			$jml_aktiva = 0;
 			if (count($model)>0){	
 			foreach($model as $a=>$laporan_detail){
-				if($laporan_detail->kelompokneraca == 'ACTIVA'){
+                                //var_dump($laporan_detail->attributes); die;
+                                $kelrek = KelrekeningM::model()->findByPk($laporan_detail->kelrekening_id);
+				if($laporan_detail->saldoakhirberjalan != 0 && $kelrek->saldonormal == 'D'){
 					$jml_aktiva += $laporan_detail->saldoakhirberjalan;
 		?>
 		<tr>
 			<td><strong><?php echo $spasi."".$laporan_detail->getNamaRekening(); ?></strong></td>
-			<td style='text-align:right;'><?php echo number_format($laporan_detail->saldoakhirberjalan); ?></td>
+			<td style='text-align:right;'><?php echo MyFormatter::formatNumberForPrint($laporan_detail->saldoakhirberjalan); ?></td>
 
 		<?php } 
 			}
@@ -73,7 +75,7 @@
         <tr>
             <td style="text-align: right; padding-right: 1em"><i><b>TOTAL AKTIVA &nbsp; &nbsp;</b></i></td>
             <?php
-				echo "<td style='text-align:right;'><b><i>".number_format($jml_aktiva,0)."</b></i></td>";
+				echo "<td style='text-align:right;'><b><i>".MyFormatter::formatNumberForPrint($jml_aktiva,0)."</b></i></td>";
             ?>
         </tr>
         <thead><tr><th style="height: 20px; vertical-align: middle;" colspan="2"></th></tr></thead>
@@ -83,18 +85,20 @@
         <!----------------- BEGIN PASSIVA ---------------------------------------------->
         <tr>
 			<td style="height: 30px; vertical-align: middle;"><b><i>PASSIVA</i></b></td>
-			<td style="height: 30px; vertical-align: middle;text-align: right;font-weight: bold;"><?php echo isset($pendapatan_passiva) ? number_format($pendapatan_passiva,0) : 0; ?></td>
+			<td style="height: 30px; vertical-align: middle;text-align: right;font-weight: bold;"><?php // echo isset($pendapatan_passiva) ? MyFormatter::formatNumberForPrint($pendapatan_passiva,0) : 0; ?></td>
 		</tr>
         <?php		
 			$jml_passiva = 0;
 			if (count($model)>0){	
 			foreach($model as $a=>$laporan_detail){
-				if($laporan_detail->kelompokneraca == 'PASSIVA'){
-					$jml_aktiva += $laporan_detail->saldoakhirberjalan;
+                                $kelrek = KelrekeningM::model()->findByPk($laporan_detail->kelrekening_id);
+                                $laporan_detail->saldoakhirberjalan = 0 - $laporan_detail->saldoakhirberjalan;
+				if($laporan_detail->saldoakhirberjalan != 0 && $kelrek->saldonormal == 'K'){
+					$jml_passiva += $laporan_detail->saldoakhirberjalan;
 		?>
 		<tr>
 			<td><strong><?php echo $spasi."".$laporan_detail->getNamaRekening(); ?></strong></td>
-			<td style='text-align:right;'><?php echo number_format($laporan_detail->saldoakhirberjalan); ?></td>
+			<td style='text-align:right;'><?php echo MyFormatter::formatNumberForPrint($laporan_detail->saldoakhirberjalan); ?></td>
 
 		<?php } 
 			}
@@ -104,7 +108,7 @@
         <tr>
             <td style="text-align: right; padding-right: 1em"><i><b>TOTAL PASSIVA &nbsp; &nbsp;</b></i></td>
             <?php
-				echo "<td style='text-align:right;'><b><i>".number_format($jml_passiva,0)."</b></i></td>";            
+				echo "<td style='text-align:right;'><b><i>".MyFormatter::formatNumberForPrint($jml_passiva,0)."</b></i></td>";            
 			?>
         </tr>
         <thead><tr><th style="height: 20px; vertical-align: middle;" colspan="2"></th></tr></thead>

@@ -12,7 +12,7 @@
                                     'unitkerja_aktif'=>true
                                 ), array(
                                     'order'=>'kodeunitkerja'
-                                )), 'unitkerja_id', 'namaunitkerja'),array('empty'=>'-- Pilih --','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'readonly'=>true)); ?>
+                                )), 'unitkerja_id', 'unitRek'),array('empty'=>'-- Pilih --','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'readonly'=>true)); ?>
                 </div>
         </div>
 		<div class="control-group ">
@@ -197,14 +197,14 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     ),
 ));
 
-$modPegawaiMenyetujui = new AGPegawairuanganV('search');
+$modPegawaiMenyetujui = new AGPegawaiV('search');
 $modPegawaiMenyetujui->unsetAttributes();
 if(isset($_GET['AGPegawairuanganV'])) {
     $modPegawaiMenyetujui->attributes = $_GET['AGPegawairuanganV'];
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'pegawaimenyetujui-grid',
-	'dataProvider'=>$modPegawaiMenyetujui->searchPegawaiMenyetujui(),
+	'dataProvider'=>$modPegawaiMenyetujui->searchPegawaiMengetahui(),
 	'filter'=>$modPegawaiMenyetujui,
         'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
