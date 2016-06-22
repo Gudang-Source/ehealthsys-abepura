@@ -201,6 +201,7 @@ class AGRekeninganggaranV extends RekeninganggaranV {
 		$criteria->compare('LOWER(rekening5kredit_kode)',strtolower($this->rekening5kredit_kode),true);
 		$criteria->compare('LOWER(rekening5kredit_nama)',strtolower($this->rekening5kredit_nama),true);
 		$criteria->order='subkegiatanprogram_nourut';
+                $criteria->compare('subkegiatanprogram_aktif', $this->subkegiatanprogram_aktif);
         
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

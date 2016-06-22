@@ -47,7 +47,7 @@ if(isset($_GET['sukses'])){
                 <tfoot>
                     <tr>
                         <td colspan="7" style="text-align:right;">Total Anggaran</td>
-                        <td><?php echo $form->textField($model,'total_nilairencpeng',array('class'=>'span2 integer','style'=>'width:90px;','readonly'=>true))?></td>
+                        <td><?php echo $form->textField($model,'total_nilairencpeng',array('class'=>'span2 integer2','style'=>'width:90px;','readonly'=>true))?></td>
                         <td></td>
                     </tr>
                 </tfoot>
