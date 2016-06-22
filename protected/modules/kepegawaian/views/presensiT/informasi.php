@@ -119,11 +119,30 @@
                         'header' => 'Shift /<br>Jam Kerja',
                         'name' => 'pegawai.shift.shift_nama',
                         'value' => function($data){
-                                $jam = '';
+                                $jamM = null;
+                                $jamP = null;
+                                $tgl = MyFormatter::formatDateTimeForDb(date('Y-m-d',  strtotime($data->tglpresensi)));
                                 $cekJadwal = PenjadwalandetailT::model()->cekPenjadwalan($data->pegawai_id, $data->tglpresensi);
                                 $cekPertukaran = PertukaranjadwaldetT::model()->cekPertukaran($data->pegawai_id, $data->tglpresensi);
                                 $jammasuk = PresensiT::model()->getJam(Params::STATUSSCAN_MASUK, $data->tglpresensi, $data->pegawai_id);
                                 $jampulang = PresensiT::model()->getJam(Params::STATUSSCAN_PULANG, $data->tglpresensi, $data->pegawai_id);
+                                $masuk = PresensiT::model()->findAll(" statusscan_id = '".Params::STATUSSCAN_MASUK."' AND tglpresensi::text iLike '$tgl%' AND pegawai_id = '$data->pegawai_id' ");
+                                
+                                if (count($masuk)>0)
+                                {
+                                    foreach($masuk as $masuk):
+                                        $jamM = $masuk->tglpresensi;
+                                    endforeach;
+                                }
+                                $pulang = PresensiT::model()->findAll(" statusscan_id = '".Params::STATUSSCAN_PULANG."' AND tglpresensi::text iLike '$tgl%' AND pegawai_id = '$data->pegawai_id' ");
+                                
+                                if (count($pulang) > 0 )
+                                {
+                                    foreach($pulang as $pulang):
+                                        $jamP = $pulang->tglpresensi;
+                                    endforeach;
+                                }
+                                
                                         
                                 if($cekPertukaran == 0)
                                 {
@@ -131,7 +150,7 @@
                                             if (isset($data->pegawai->shift_id)){
                                             return $data->pegawai->shift->shift_nama.' / '.$data->pegawai->shift->shift_jamawal.' s/d '.$data->pegawai->shift->shift_jamakhir;
                                         }else{
-                                            return ShiftM::model()->getShift($jammasuk,$jampulang);
+                                            return ShiftM::model()->getShift($jammasuk,$jampulang, $jamM, $jamP);
                                         }
                                     }  else {
                                         return ShiftM::model()->getJam($cekJadwal);
@@ -203,11 +222,54 @@
                                                        
                             //return $pr1->jam;
                             $shift = $data->getShiftId($data->pegawai_id);
-                            if (count($shift)>0){
-                                $tepat = strtotime(date('Y-m-d',strtotime($pr->tglpresensi)).$shift->shift_jamawal);
-                            }else{
-                                $tepat = strtotime(date('Y-m-d',strtotime($pr->tglpresensi))." 08:15:00");
-                            }                            
+                            $jamM = null;
+                            $jamP = null;
+                            $tgl = MyFormatter::formatDateTimeForDb(date('Y-m-d',  strtotime($data->tglpresensi)));
+                            $cekJadwal = PenjadwalandetailT::model()->cekPenjadwalan($data->pegawai_id, $data->tglpresensi);
+                            $cekPertukaran = PertukaranjadwaldetT::model()->cekPertukaran($data->pegawai_id, $data->tglpresensi);
+                            $jammasuk = PresensiT::model()->getJam(Params::STATUSSCAN_MASUK, $data->tglpresensi, $data->pegawai_id);
+                            $jampulang = PresensiT::model()->getJam(Params::STATUSSCAN_PULANG, $data->tglpresensi, $data->pegawai_id);
+                            $masuk = PresensiT::model()->findAll(" statusscan_id = '".Params::STATUSSCAN_MASUK."' AND tglpresensi::text iLike '$tgl%' AND pegawai_id = '$data->pegawai_id' ");
+
+                            if (count($masuk)>0)
+                            {
+                                foreach($masuk as $masuk):
+                                    $jamM = $masuk->tglpresensi;
+                                endforeach;
+                            }
+                            $pulang = PresensiT::model()->findAll(" statusscan_id = '".Params::STATUSSCAN_PULANG."' AND tglpresensi::text iLike '$tgl%' AND pegawai_id = '$data->pegawai_id' ");
+
+                            if (count($pulang) > 0 )
+                            {
+                                foreach($pulang as $pulang):
+                                    $jamP = $pulang->tglpresensi;
+                                endforeach;
+                            }
+
+
+                            if($cekPertukaran == 0)
+                            {
+                                if ($cekJadwal == 0){
+                                        if (isset($data->pegawai->shift_id)){                                               
+                                            if ($data->pegawai->shift_id == Params::SHIFT_PAGI){
+                                                $tepat = strtotime(date('Y-m-d',strtotime($pr->tglpresensi))." 08:15:00");
+                                            }else{
+                                                $tepat = strtotime(date('Y-m-d',strtotime($pr->tglpresensi)).$shift->shift_jamaawal);
+                                            }                                           
+                                            //$tepat =  strtotime(date('Y-m-d',strtotime($pr->tglpresensi)).' '.$data->pegawai->shift->shift_jamawal);
+                                    }else{
+                                        $tepat =  strtotime(date('Y-m-d',strtotime($pr->tglpresensi)).' '.ShiftM::model()->getShift($jammasuk,$jampulang, $jamM, $jamP, 1));
+                                    }
+                                }  else {
+                                    return ShiftM::model()->getJam($cekJadwal,1);
+                                }
+                            }
+                            else
+                            {
+                                return ShiftM::model()->getJam($cekPertukaran,1);
+                            }
+                            
+                            
                             $masuk = strtotime(date('Y-m-d H:i:s',strtotime($pr->tglpresensi)));
                             $jam = floor(round(abs($masuk - $tepat) / 60,2));
                             
@@ -234,11 +296,54 @@
                             if (empty($pr)) return "-";
                             
                             $shift = $data->getShiftId($data->pegawai_id);
-                            if (count($shift)>0){
-                                $tepat = strtotime(date('Y-m-d',strtotime($pr->tglpresensi)).$shift->shift_jamakhir);
-                            }else{
-                                $tepat = strtotime(date('Y-m-d',strtotime($pr->tglpresensi))." 15:00:00");
-                            } 
+                            $jamM = null;
+                            $jamP = null;
+                            $tgl = MyFormatter::formatDateTimeForDb(date('Y-m-d',  strtotime($data->tglpresensi)));
+                            $cekJadwal = PenjadwalandetailT::model()->cekPenjadwalan($data->pegawai_id, $data->tglpresensi);
+                            $cekPertukaran = PertukaranjadwaldetT::model()->cekPertukaran($data->pegawai_id, $data->tglpresensi);
+                            $jammasuk = PresensiT::model()->getJam(Params::STATUSSCAN_MASUK, $data->tglpresensi, $data->pegawai_id);
+                            $jampulang = PresensiT::model()->getJam(Params::STATUSSCAN_PULANG, $data->tglpresensi, $data->pegawai_id);
+                            $masuk = PresensiT::model()->findAll(" statusscan_id = '".Params::STATUSSCAN_MASUK."' AND tglpresensi::text iLike '$tgl%' AND pegawai_id = '$data->pegawai_id' ");
+
+                            if (count($masuk)>0)
+                            {
+                                foreach($masuk as $masuk):
+                                    $jamM = $masuk->tglpresensi;
+                                endforeach;
+                            }
+                            $pulang = PresensiT::model()->findAll(" statusscan_id = '".Params::STATUSSCAN_PULANG."' AND tglpresensi::text iLike '$tgl%' AND pegawai_id = '$data->pegawai_id' ");
+
+                            if (count($pulang) > 0 )
+                            {
+                                foreach($pulang as $pulang):
+                                    $jamP = $pulang->tglpresensi;
+                                endforeach;
+                            }
+
+
+                            if($cekPertukaran == 0)
+                            {
+                                if ($cekJadwal == 0){
+                                        if (isset($data->pegawai->shift_id)){                                               
+                                            if ($data->pegawai->shift_id == Params::SHIFT_PAGI){
+                                                $tepat = strtotime(date('Y-m-d',strtotime($pr->tglpresensi))." 14:00:00");
+                                            }else{
+                                                $tepat = strtotime(date('Y-m-d',strtotime($pr->tglpresensi)).$shift->shift_jamakhir);
+                                            }                                           
+                                            //$tepat =  strtotime(date('Y-m-d',strtotime($pr->tglpresensi)).' '.$data->pegawai->shift->shift_jamakhir);
+                                    }else{
+                                        $tepat =  strtotime(date('Y-m-d',strtotime($pr->tglpresensi)).' '.ShiftM::model()->getShift($jammasuk,$jampulang, $jamM, $jamP, 2));
+                                    }
+                                }  else {
+                                    return ShiftM::model()->getJam($cekJadwal,2);
+                                }
+                            }
+                            else
+                            {
+                                return ShiftM::model()->getJam($cekPertukaran,2);
+                            }
+                                
+                            
                             
                             $pulang = strtotime(date('Y-m-d H:i:s',strtotime($pr->tglpresensi)));
                             $jam = floor(round(abs($tepat - $pulang) / 60,2));
