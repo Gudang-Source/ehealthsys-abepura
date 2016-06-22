@@ -442,6 +442,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     $kec_id = null;
     $modDialogKunjungan = new PPPasientindaklanjutkeriV('searchDialogUntukPendaftaranRI');
     $modDialogKunjungan->unsetAttributes();
+    $modDialogKunjungan->statusperiksa = Params::STATUSPERIKSA_NUNGGU_DAFTAR_SO;
     $format = new MyFormatter();
     // $modDialogKunjungan->instalasi_id = Params::INSTALASI_ID_RJ;
     if(isset($_GET['PPPasientindaklanjutkeriV'])) {
@@ -600,10 +601,13 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                     ),
                     //'carabayar_nama',
                     //'penjamin_nama',
+                /*
                     array(
                         'name'=>'statusperiksa',
                         'filter'=>  CHtml::activeDropDownList($modDialogKunjungan, 'statusperiksa', $arr, array('empty'=>'-- Pilih --')),
                     )
+                 * 
+                 */
                     
             ),
             'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});

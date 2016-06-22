@@ -13,6 +13,8 @@ var pemilik_bpjs = "";
 var otoval = 1; // untuk hitung rekam medik
 var isSetLama = false;
 function setPasienLama(pasien_id, no_rekam_medik, is_manual){
+    if (isSetLama) return false;
+    
     $("#form-pasien > div").addClass("animation-loading");
     setPasienBaru(); 
     isSetLama = true;
@@ -1455,7 +1457,7 @@ function getAsuransiNoKartu(isi)
         success: function(data){
             $("#content-bpjs").removeClass("animation-loading");
             var obj = JSON.parse(data);
-            if(obj.response!=null){
+            if(obj != null && obj.response!=null){
 				var peserta = obj.response.peserta;
 				$("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'nopeserta') ?>").val(peserta.noKartu);
 				$("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'nokartuasuransi') ?>").val(peserta.noKartu);
@@ -1470,7 +1472,9 @@ function getAsuransiNoKartu(isi)
 				};
 				// $("#<?php echo CHtml::activeId($modAsuransiPasienBpjs,'kelastanggunganasuransi_id') ?>").find(peserta.kelasTanggungan.nmKelas).attr("selected",true);
             }else{
-              myAlert(obj.metaData.message);
+                if (obj != null) {
+                    myAlert(obj.metaData.message);
+                }
             }
         },
         error: function(data){
@@ -2120,10 +2124,15 @@ $( document ).ready(function(){
     <?php if (isset($_GET['pasien_id']) && !empty($_GET['pasien_id'])): ?>
             $(".rb_rm").eq(1).click();
             $("#no_rekam_medik_baru").val('<?php echo $modPasien->no_rekam_medik; ?>');
+            setTimeout(function() {
+                $("#no_rekam_medik_baru").blur();
+            }, 1500);
+            <?php if (isset($ruangan) && !empty($ruangan)): ?>
+            $("#<?php echo CHtml::activeId($model, 'ruangan_id') ;?>").val(<?php echo $ruangan; ?>).change();
+            <?php endif; ?>
     <?php else: ?>
             checkOto();
     <?php endif; ?>
-        
     
     $("#form-karcis .accordion-heading a").click(function()
     {

@@ -224,7 +224,7 @@
                                 ), array(
                                     'condition'=>'tindakansudahbayar_id is not null',
                                 ));
-                                if (!empty($t)) return "-";
+                                if (!empty($t)) return $data->statusperiksa;
                                 return ((!empty($data->statusperiksa)&& ($data->statusperiksa==Params::STATUSPERIKSA_ANTRIAN)) ? CHtml::link("<i class=icon-form-silang></i> ".$data->statusperiksa, "javascript:dialogBatalPeriksa('$data->pendaftaran_id','$data->statusperiksa','$data->nama_pasien');",array("rel"=>"tooltip","rel"=>"tooltip","title"=>"Klik Membatalkan Pemeriksaan")) : $data->statusperiksa);
                             },//'',
                             'htmlOptions'=>array(

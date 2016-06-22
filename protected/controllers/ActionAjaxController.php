@@ -2673,6 +2673,19 @@ class ActionAjaxController extends Controller
             Yii::app()->end();
         }
         
+        public function actionSetUmur()
+        {
+            if(Yii::app()->getRequest()->getIsAjaxRequest()) {
+                $data['umur'] = null;
+                if(isset($_POST['tanggal_lahir']) && !empty($_POST['tanggal_lahir'])){
+                    $umur = explode(' ',CustomFunction::hitungUmur($_POST['tanggal_lahir']));
+                    $data['umur'] = $umur[0];
+                }
+                echo json_encode($data);
+                Yii::app()->end();
+            }
+        }
+        
        
 }
 ?>

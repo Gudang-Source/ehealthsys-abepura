@@ -421,10 +421,15 @@ Class Params
         
         const SURAT_KETERANGAN_KONTROL = 2;
         
-
+        const PENDIDIKAN_S1 = 8;
+        
         const SHIFT_PAGI = 1;
 
         const DEFAULT_JENISINVENTARISASI = 'Penyesuaian';
+        
+        
+        const ASALRUJUKAN_ID_RS = 4;
+        const RUJUKANDARI_ID_ABE = 1811;
         
         
 	//===   END KONSTANTA ===
