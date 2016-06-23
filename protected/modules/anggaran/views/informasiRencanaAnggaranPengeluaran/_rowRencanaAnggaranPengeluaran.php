@@ -4,12 +4,13 @@
 		if (isset($modRencanaDetail->no_urut)){
 			echo CHtml::activeTextField($modRencanaDetail,'['.$i.']no_urut',array('readonly'=>true,'class'=>'span1', 'style'=>'width:20px;')); 
 		}else {
-			echo CHtml::textField('no_urut',0,array('readonly'=>true,'class'=>'span1 integer', 'style'=>'width:20px;')); 
+			echo CHtml::textField('no_urut',0,array('readonly'=>true,'class'=>'span1 integer2', 'style'=>'width:20px;')); 
 		}
+                
 			?>
-        <?php echo CHtml::activeHiddenField($modRencanaDetail,'['.$i.']rencanggaranpengdet_id',array('readonly'=>true,'class'=>'span1')); ?>
-        <?php echo CHtml::activeHiddenField($modRencanaDetail,'['.$i.']subkegiatanprogram_id',array('readonly'=>true,'class'=>'span1')); ?>
-        <?php echo CHtml::activeHiddenField($modRencanaDetail,'['.$i.']tglrencanapengdet',array('readonly'=>true,'class'=>'span1')); ?>
+        <?php echo CHtml::activeHiddenField($modRencanaDetail,'['.$i.']rencanggaranpengdet_id'); ?>
+        <?php echo CHtml::activeHiddenField($modRencanaDetail,'['.$i.']subkegiatanprogram_id'); ?>
+        <?php echo CHtml::activeHiddenField($modRencanaDetail,'['.$i.']tglrencanapengdet'); ?>
     </td>
     <td>
         <?php echo (!empty($modRencanaDetail->programkerja_kode) ? $modRencanaDetail->programkerja_kode : "") ?>
@@ -30,7 +31,8 @@
         <?php echo (!empty($modRencanaDetail->tglrencanapengdet) ? $format->formatMonthForUser($modRencanaDetail->tglrencanapengdet) : "") ?>
     </td>
     <td>
-			<?php echo CHtml::activeTextField($modRencanaDetail,'['.$i.']nilairencpengeluaran',array('class'=>'span2 integer','style'=>'width:90px;','onkeyup'=>"hitungTotal(); return $(this).focusNextInputField(event);")); ?>
+			<?php 
+                        echo CHtml::activeTextField($modRencanaDetail,'['.$i.']nilairencpengeluaran',array('class'=>'span2 integer2','style'=>'width:90px;','onkeyup'=>"hitungTotal(); return $(this).focusNextInputField(event);")); ?>
     </td>
     <td>
         <a onclick="batalRencana(this,<?php echo (isset($modRencanaDetail->rencanggaranpengdet_id) ? $modRencanaDetail->rencanggaranpengdet_id : 0); ?>);return false;" rel="tooltip" href="javascript:void(0);" title="Klik untuk membatalkan rencana"><i class="icon-remove"></i></a>

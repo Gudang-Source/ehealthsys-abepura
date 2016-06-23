@@ -26,9 +26,9 @@
                 'value'=>'$data->NamaNamaBIN',
             ), 
             array(
-                'header'=>'Tanggal Masuk Penunjang <br/> No. Penunjang',
+                'header'=>'Tanggal Masuk Penunjang <br/>/ No. Penunjang',
                 'type'=>'raw',
-                'value'=>'MyFormatter::formatDateTimeForUser($data->TglMasukNoPenunjang))',
+                'value'=>'$data->TglMasukNoPenunjang',
             ),
             array(
                 'header'=>'Jenis Kelamin <br/>Umur',

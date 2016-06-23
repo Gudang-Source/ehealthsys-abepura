@@ -39,14 +39,14 @@ echo "<br>Unit : <b>".$model->unitkerja->namaunitkerja."</b>";
 				<td><?php echo $modPrograms['subkegiatanprogram_kode'][$i]; ?></td>
 				<td><?php echo $modPrograms['subkegiatanprogram_nama'][$i]; ?></td>
 				<td><?php echo $format->formatMonthForUser($detail['tglrencanapengdet'][$i]); ?></td>
-				<td><?php echo $format->formatNumberForUser($detail['nilairencpengeluaran'][$i]); ?></td>
+                                <td style="text-align: right;"><?php echo $format->formatNumberForPrint($detail['nilairencpengeluaran'][$i]); ?></td>
 		</tr>
 		<?php } ?>
 		<tfoot>
 			<tr>
 				<td colspan="7" style="text-align:right;">Total Anggaran</td>
-				<td>
-					<?php echo $format->formatNumberForUser($model->total_nilairencpeng) ?>
+				<td style="text-align: right;">
+					<?php echo $format->formatNumberForPrint($model->total_nilairencpeng) ?>
 				</td>
 			</tr>
 		</tfoot>

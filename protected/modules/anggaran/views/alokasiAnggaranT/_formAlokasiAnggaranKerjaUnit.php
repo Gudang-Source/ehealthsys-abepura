@@ -5,9 +5,9 @@
 			<div class="controls">
 				<?php echo $form->hiddenField($model, 'sumberanggaran_id',array('readonly'=>true)); ?>
 				<?php echo $form->hiddenField($model, 'realisasianggpenerimaan_id',array('readonly'=>true)); ?>
-				<?php echo CHtml::hiddenField('termin_ke','',array('class'=>'span2 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
-				<?php echo CHtml::hiddenField('nilaipenerimaan','',array('class'=>'span2 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
-				<?php echo CHtml::hiddenField('sisaanggaran','',array('class'=>'span2 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
+				<?php echo CHtml::hiddenField('termin_ke','',array('class'=>'span2 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
+				<?php echo CHtml::hiddenField('nilaipenerimaan','',array('class'=>'span2 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
+				<?php echo CHtml::hiddenField('sisaanggaran','',array('class'=>'span2 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
 				<?php
 				$this->widget('MyJuiAutoComplete', array(
 					'model'=>$model,
@@ -93,13 +93,13 @@
 		<div class="control-group ">
 			<?php echo $form->labelEx($model, 'Nilai Alokasi', array('class' =>'control-label')); ?>
 			<div class="controls">
-				<?php echo $form->textField($model,'nilaiygdialokasikan',array('class'=>'span2 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
-				<?php echo CHtml::hiddenField('apprrencanggaran_id','',array('class'=>'span2 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
-				<?php echo CHtml::hiddenField('programkerja_id','',array('class'=>'span2 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
-				<?php echo CHtml::hiddenField('subprogramkerja_id','',array('class'=>'span2 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
-				<?php echo CHtml::hiddenField('kegiatanprogram_id','',array('class'=>'span2 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
-				<?php echo CHtml::hiddenField('subkegiatanprogram_id','',array('class'=>'span2 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
-				<?php echo CHtml::hiddenField('nilaipengeluaran','',array('class'=>'span2 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")) ?>				
+				<?php echo $form->textField($model,'nilaiygdialokasikan',array('class'=>'span2 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
+				<?php echo CHtml::hiddenField('apprrencanggaran_id','',array('class'=>'span2 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
+				<?php echo CHtml::hiddenField('programkerja_id','',array('class'=>'span2 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
+				<?php echo CHtml::hiddenField('subprogramkerja_id','',array('class'=>'span2 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
+				<?php echo CHtml::hiddenField('kegiatanprogram_id','',array('class'=>'span2 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
+				<?php echo CHtml::hiddenField('subkegiatanprogram_id','',array('class'=>'span2 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
+				<?php echo CHtml::hiddenField('nilaipengeluaran','',array('class'=>'span2 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")) ?>				
 			</div>
 			<div style="margin-left:265px; margin-top: -5px;">
 				<?php echo CHtml::htmlButton(Yii::t('mds','{icon}',array('{icon}'=>'<i class="icon-plus icon-white"></i>')),
@@ -116,13 +116,13 @@
 		<div class="control-group ">
 			<?php echo $form->labelEx($model, 'sisaanggaran', array('class' =>'control-label')); ?>
 			<div class="controls">
-				<?php echo $form->textField($model,'sisaanggaran',array('class'=>'span2 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
+				<?php echo $form->textField($model,'sisaanggaran',array('class'=>'span2 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
 			</div>
 		</div>
 		<div class="control-group ">
 			<?php echo $form->labelEx($model, 'Nilai Pengeluaran', array('class' =>'control-label')); ?>
 			<div class="controls">
-				<?php echo $form->textField($model,'nilaipengeluaran',array('class'=>'span2 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
+				<?php echo $form->textField($model,'nilaipengeluaran',array('class'=>'span2 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
 				<span id="digit"></span>
 			</div>
 		</div>
@@ -181,14 +181,23 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 		array(
 			'header'=>'Termin Ke-',
 			'value'=>'$data->penerimaanke',
+                        'htmlOptions'=>array(
+                            'style'=>'text-align: right',
+                        ),
 		),
 		array(
 			'header'=>'Nilai Penerimaan',
-			'value'=>'number_format($data->realisasipenerimaan)',
+			'value'=>'MyFormatter::formatNumberForPrint($data->realisasipenerimaan)',
+                        'htmlOptions'=>array(
+                            'style'=>'text-align: right',
+                        ),
 		),
 		array(
 			'header'=>'Sisa Anggaran',
-			'value'=>'number_format($data->SisaAnggaran)',
+			'value'=>'MyFormatter::formatNumberForPrint($data->SisaAnggaran)',
+                        'htmlOptions'=>array(
+                            'style'=>'text-align: right',
+                        ),
 		),
 	),
 		'afterAjaxUpdate' => 'function(id, data){
@@ -253,7 +262,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 				),
 				array(
 					'header'=>'Nilai Pengeluaran',
-					'value'=>'number_format($data->nilaiygdisetujui)',
+					'value'=>'MyFormatter::formatNumberForPrint($data->nilaiygdisetujui)',
 					'htmlOptions'=>array('style'=>'text-align:right;')
 				),
                  array(

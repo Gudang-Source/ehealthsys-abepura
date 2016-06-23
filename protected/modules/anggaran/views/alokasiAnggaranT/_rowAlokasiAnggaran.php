@@ -1,7 +1,7 @@
 <?php // for ($i = 1; $i <= $termin; $i++) {  ?>
 <tr>
     <td>
-        <?php echo CHtml::textField('no_urut',0,array('readonly'=>true,'class'=>'span1 integer', 'style'=>'width:20px;')); ?>
+        <?php echo CHtml::textField('no_urut',0,array('readonly'=>true,'class'=>'span1 integer2', 'style'=>'width:20px;')); ?>
         <?php echo CHtml::activeHiddenField($modAlokasiAnggaran,'[ii]sumberanggaran_id',array('readonly'=>true,'class'=>'span1')); ?>
         <?php echo CHtml::activeHiddenField($modAlokasiAnggaran,'[ii]subkegiatanprogram_id',array('readonly'=>true,'class'=>'span1')); ?>
         <?php echo CHtml::activeHiddenField($modAlokasiAnggaran,'[ii]realisasianggpenerimaan_id',array('readonly'=>true,'class'=>'span1')); ?>
@@ -26,11 +26,11 @@
         <?php echo (!empty($modProgramKerja->tglapprrencanggaran) ? $format->formatMonthForUser($modProgramKerja->tglapprrencanggaran) : "") ?>
     </td>
     <td>
-		<?php echo CHtml::activeTextField($modAlokasiAnggaran,'[ii]nilairencana',array('class'=>'span2 integer','style'=>'width:90px;','readonly'=>true,'onkeyup'=>'hitungTotal();')); ?>
+		<?php echo CHtml::activeTextField($modAlokasiAnggaran,'[ii]nilairencana',array('class'=>'span2 integer2','style'=>'width:90px;','readonly'=>true,'onkeyup'=>'hitungTotal();')); ?>
     </td>
 	<td><?php echo (!empty($modAlokasiAnggaran->sumberanggarannama) ? $modAlokasiAnggaran->sumberanggarannama : ""); ?></td>
 	<td>
-		<?php echo CHtml::activeTextField($modAlokasiAnggaran, '[ii]nilaiygdialokasikan', array('class'=>'span2 integer','style'=>'width:90px;','readonly'=>false,'onkeyup'=>'hitungTotal();')); ?>
+		<?php echo CHtml::activeTextField($modAlokasiAnggaran, '[ii]nilaiygdialokasikan', array('class'=>'span2 integer2','style'=>'width:90px;','readonly'=>false,'onkeyup'=>'hitungTotal();')); ?>
 	</td>
 	<td>
         <a onclick="batalAlokasi(this);return false;" rel="tooltip" href="javascript:void(0);" title="Klik untuk membatalkan alokasi anggaran"><i class="icon-remove"></i></a>
