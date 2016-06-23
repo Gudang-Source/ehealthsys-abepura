@@ -1,16 +1,24 @@
-<?php if (isset($caraPrint)){
+<?php
+$table = 'ext.bootstrap.widgets.BootGridView';
+$template = "{summary}\n{items}\n{pager}";
+$sort = true;
+if (isset($caraPrint)){
   $data = $model->searchPrint();
+  $template = "{items}";
   $sort = false;
+  if ($caraPrint=='EXCEL') {
+      $table = 'ext.bootstrap.widgets.BootExcelGridView';
+  }
 } else{
   $data = $model->searchTable();
-  $sort = true;
 }
 ?>
-<?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
+
+<?php $this->widget($table,array(
 	'id'=>'tableLaporan',
 	'dataProvider'=>$data,
-        'enableSorting'=>$sort,
-        'template'=>"{summary}\n{items}\n{pager}",
+        'template'=>$template,
+        'enableSorting'=>$sort,        
         'itemsCssClass'=>'table table-striped table-condensed',
 	'columns'=>array(
             array(
@@ -30,7 +38,7 @@
             array(
                 'header'=>'Tanggal Masuk Penunjang <br/> No. Penunjang',
                 'type'=>'raw',
-                'value'=>'MyFormatter::formatDateTimeForUser($data->TglMasukNoPenunjang)',
+                'value'=>'$data->TglMasukNoPenunjang',
             ),
             array(
                 'header'=>'Jenis Kelamin <br/>Umur',
