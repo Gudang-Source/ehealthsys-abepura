@@ -29,7 +29,7 @@ $this->widget('bootstrap.widgets.BootAlert');?>
 			</div>
 			
 			<div class="control-group ">
-				<?php echo $form->labelEx($modUbahStatus, 'Instalasi Tujuan', array('class'=>'control-label')); ?>
+				<?php echo CHtml::label('Instalasi Tujuan <font style ="color:red;">*</font>', 'instalasi_id', array('class'=>'control-label')); ?>
 				 <div class="controls">
 					 <?php
                         echo $form->dropDownList($modUbahStatus, 'instalasi_id', CHtml::listData(InstalasiM::model()->findAll(array('order'=>'instalasi_nama'),'instalasi_aktif = true'), 'instalasi_id', 'instalasi_nama'), array('empty' => '-- Pilih --', 'class' => 'span2 required', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50, 'style'=>'width:200px;',
@@ -41,7 +41,7 @@ $this->widget('bootstrap.widgets.BootAlert');?>
 			 </div>
 			
 			<div class="control-group ">
-				<?php echo $form->labelEx($modUbahStatus, 'Ruangan Tujuan', array('class'=>'control-label')); ?>
+				<?php echo CHtml::label('Ruangan Tujuan <font style ="color:red;">*</font>', 'ruangan_id', array('class'=>'control-label')); ?>
 				 <div class="controls">
 					 <?php echo $form->dropDownList($modUbahStatus, 'ruangan_id', CHtml::listData(RuanganM::model()->findAllByAttributes(array('instalasi_id'=>$modUbahStatus->instalasi_id,'ruangan_aktif'=>true)), 'ruangan_id', 'ruangan_nama'), array('empty' => '-- Pilih --', 'class' => 'span2 required', 'style'=>'width:200px;','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>				 
 					 <?php echo $form->error($modUbahStatus, 'ruangan_id'); ?>
@@ -52,7 +52,7 @@ $this->widget('bootstrap.widgets.BootAlert');?>
                 <?php echo CHtml::label('Petugas Pengirim', 'petugaspengirim_id', array('class'=>'control-label')); ?>
                 <div class="controls">
                     <?php //echo CHtml::textField('petugaspengirim_id','',array('onkeyup'=>"return $(this).focusNextInputField(event)",)); ?>
-                    <?php echo $form->hiddenField($modUbahStatus,'petugaspengirim_id',array('onkeyup'=>"return $(this).focusNextInputField(event)",)); ?>
+                    <?php echo $form->hiddenField($modUbahStatus,'petugaspengirim_id','',array('onkeyup'=>"return $(this).focusNextInputField(event)",)); ?>
                     <?php //echo CHtml::activeHiddenField($modUbahStatus,'petugaspengirim','',array('onkeyup'=>"return $(this).focusNextInputField(event)",)); ?>
                      <?php echo $form->textField($modUbahStatus,'petugaspengirim',array('readonly'=>true,'onkeyup'=>"return $(this).focusNextInputField(event)",)); ?>
                 <?php 
@@ -122,10 +122,10 @@ $this->widget('bootstrap.widgets.BootAlert');?>
         ),
     ));
 
-    $modPegawai = new RJPegawaiM('search');
+    $modPegawai = new RIPegawaiM('search');
     $modPegawai->unsetAttributes();
-    if (isset($_GET['RJPegawaiM']))
-        $modPegawai->attributes = $_GET['RJPegawaiM'];
+    if (isset($_GET['RIPegawaiM']))
+        $modPegawai->attributes = $_GET['RIPegawaiM'];
 
     $this->widget('ext.bootstrap.widgets.BootGridView', array(
         'id' => 'petugaspengirim-m-grid',
