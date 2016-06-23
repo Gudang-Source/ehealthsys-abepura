@@ -82,8 +82,9 @@
  */
 class LaporanpasienpenunjangV extends CActiveRecord
 {
-        public $tgl_awal;
-        public $tgl_akhir;
+        public $tgl_awal, $bln_awal, $thn_awal;
+        public $tgl_akhir, $bln_akhir, $thn_akhir;
+        public $jns_periode;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -443,17 +444,17 @@ class LaporanpasienpenunjangV extends CActiveRecord
         }
         
         public function getNoRMNoPend(){
-            return $this->no_rekam_medik.'<br/>'.$this->no_pendaftaran;
+            return $this->no_rekam_medik.'<br/>/ '.$this->no_pendaftaran;
         }
         
         public function getTglMasukNoPenunjang(){
-            return date("d/m/Y", strtotime($this->tglmasukpenunjang)).'<br/>'.PHP_EOL.$this->no_masukpenunjang;
+            return MyFormatter::formatDateTimeForUser(date("d/m/Y", strtotime($this->tglmasukpenunjang))).'<br/>/ '.PHP_EOL.$this->no_masukpenunjang;
         }
         
         public function getJenisKelaminUmur(){
-            return $this->jeniskelamin.'<br/>'.$this->umur;
+            return $this->jeniskelamin.'<br/>/ '.$this->umur;
         }
         public function getInstalasiRuangan(){
-            return $this->instalasiasal_nama.'<br/>'.$this->ruanganasal_nama;
+            return $this->instalasiasal_nama.'<br/>/ '.$this->ruanganasal_nama;
         }
 }
