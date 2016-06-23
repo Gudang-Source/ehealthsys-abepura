@@ -55,7 +55,6 @@ if(isset($_GET['sukses'])){
                     <tr>
                         <td colspan="7" style="text-align:right;">Total Anggaran</td>
                         <td><?php 
-                        $model->total_nilairencpeng = MyFormatter::formatNumberForPrint($model->total_nilairencpeng);
                         echo $form->textField($model,'total_nilairencpeng',array('class'=>'span2 integer2','style'=>'width:90px;','readonly'=>true))?></td>
                         <td></td>
                     </tr>
