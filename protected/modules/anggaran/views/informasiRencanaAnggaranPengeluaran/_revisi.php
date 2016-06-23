@@ -59,7 +59,7 @@ if(isset($_GET['sukses'])){
 				<?php echo $form->textField($model,'tglapprrencanggaran',array('class'=>'span3', 'readonly'=>true)); ?>
 			</div>
 		</div>
-		<?php echo $form->hiddenField($model,'digitnilai',array('class'=>'span3 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);",'readonly'=>true)) ?>
+		<?php echo $form->hiddenField($model,'digitnilai',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);",'readonly'=>true)) ?>
 	</div>
 </div>
 	
@@ -92,7 +92,7 @@ if(isset($_GET['sukses'])){
                 <tfoot>
                     <tr>
                         <td colspan="7" style="text-align:right;">Total Anggaran</td>
-                        <td><?php echo $form->textField($model,'total_nilairencpeng',array('class'=>'span2 integer','style'=>'width:90px;','readonly'=>true))?></td>
+                        <td><?php echo $form->textField($model,'total_nilairencpeng',array('class'=>'span2 integer2','style'=>'width:90px;','readonly'=>true))?></td>
                         <td></td>
                     </tr>
                 </tfoot>

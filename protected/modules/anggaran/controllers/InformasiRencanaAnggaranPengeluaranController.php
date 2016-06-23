@@ -300,13 +300,13 @@ class InformasiRencanaAnggaranPengeluaranController extends MyAuthController
 		$model->digitnilai = "/ ".$digit;
 		$model->pegawaimengetahui_nama = isset($model->mengetahui_id) ? AGPegawaiV::model()->findByAttributes(array('pegawai_id'=>$model->mengetahui_id))->nama_pegawai : "";
 		$model->pegawaimenyetujui_nama = isset($model->menyetujui_id) ? AGPegawaiV::model()->findByAttributes(array('pegawai_id'=>$model->menyetujui_id))->nama_pegawai : "";
-		$model->total_nilairencpeng = $format->formatNumberForUser($model->total_nilairencpeng/ (int)$digit_str);
+		$model->total_nilairencpeng = $format->formatNumberForPrint($model->total_nilairencpeng/ (int)$digit_str);
 		$model->tglrencana = date("Y-m-d");
 		$modDetails = AGRencanggaranpengdetailT::model()->findAllByAttributes(array('rencanggaranpeng_id'=>$rencanggaranpeng_id));
 			foreach ($modDetails as $i => $detail){
 				$modDetail[$i] = AGRekeninganggaranV::model()->findByAttributes(array('subkegiatanprogram_id'=>$detail->subkegiatanprogram_id));
 				$modDetail[$i]->tglrencanapengdet = $detail->tglrencanapengdet;
-				$modDetail[$i]->nilairencpengeluaran = $format->formatNumberForUser($detail->nilairencpengeluaran / (int)$digit_str);
+				$modDetail[$i]->nilairencpengeluaran = $format->formatNumberForPrint($detail->nilairencpengeluaran / (int)$digit_str);
 				$modDetail[$i]->no_urut = $i+1;
 				$modDetail[$i]->rencanggaranpengdet_id = $detail->rencanggaranpengdet_id;
 			}          
@@ -370,13 +370,13 @@ class InformasiRencanaAnggaranPengeluaranController extends MyAuthController
 		$digit = AGKonfiganggaranK::model()->findByPk($model->konfiganggaran_id)->digitnilaianggaran;
 		$digit_str = "1".$digit;
 		$model->digitnilai = "/ ".$digit;
-		$model->total_nilairencpeng = $format->formatNumberForUser($model->total_nilairencpeng/ (int)$digit_str);
+		$model->total_nilairencpeng = $format->formatNumberForPrint($model->total_nilairencpeng/ (int)$digit_str);
 		
 		$modDetails = AGRencanggaranpengdetailT::model()->findAllByAttributes(array('rencanggaranpeng_id'=>$rencanggaranpeng_id));
 			foreach ($modDetails as $i => $detail){
 				$modDetail[$i] = AGRekeninganggaranV::model()->findByAttributes(array('subkegiatanprogram_id'=>$detail->subkegiatanprogram_id));
 				$modDetail[$i]->tglrencanapengdet = $detail->tglrencanapengdet;
-				$modDetail[$i]->nilairencpengeluaran = $format->formatNumberForUser($detail->nilairencpengeluaran / (int)$digit_str);
+				$modDetail[$i]->nilairencpengeluaran = $format->formatNumberForPrint($detail->nilairencpengeluaran / (int)$digit_str);
 				$modDetail[$i]->no_urut = $i+1;
 				$modDetail[$i]->rencanggaranpengdet_id = $detail->rencanggaranpengdet_id;
 			} 
@@ -396,10 +396,13 @@ class InformasiRencanaAnggaranPengeluaranController extends MyAuthController
 							$modApprove->menyetujui_id = $_POST['AGRencanggaranpengT']['mengetahui_id'];
 							$modApprove->mengetahui_id = $_POST['AGRencanggaranpengT']['menyetujui_id'];
 							$modApprove->tglrencanggpeng = $format->formatDateTimeForDb($_POST['AGRencanggaranpengT']['rencanggaranpeng_tgl']);
-							$modApprove->nilaiygdisetujui = $_POST['AGRekeninganggaranV'][$i]['nilairencpengeluaran'].$digit;
+							$modApprove->nilaiygdisetujui = $_POST['AGRekeninganggaranV'][$i]['nilairencpengeluaran']; //.$digit;
 							$modApprove->create_time = date("Y-m-d H:i:s");
 							$modApprove->create_loginpemakai_id = Yii::app()->user->id;
 							$modApprove->create_ruangan = Yii::app()->user->ruangan_id;
+                                                        
+                                                        //var_dump($modApprove->attributes, $modApprove->validate(), $modApprove->errors); die;
+                                                        
 							$this->approveBaru &= true;
 								if ($modApprove->save()){
 									$updateDetail = AGRencanggaranpengdetailT::model()->updateByPk($_POST['AGRekeninganggaranV'][$i]['rencanggaranpengdet_id'], array('apprrencanggaran_id'=>$modApprove->apprrencanggaran_id));
@@ -408,6 +411,7 @@ class InformasiRencanaAnggaranPengeluaranController extends MyAuthController
 						}
 					}
 				}
+                                                //var_dump($this->approveBaru); die;
 						if($this->approveBaru){
 							$transaction->commit();
 							$this->redirect(array('index','rencanggaranpeng_id'=>$model->rencanggaranpeng_id,'frame'=>1,'sukses'=>1));
@@ -416,8 +420,9 @@ class InformasiRencanaAnggaranPengeluaranController extends MyAuthController
 							Yii::app()->user->setFlash('error',"Update Data Approve gagal disimpan !");
 						}
 			} catch (Exception $ex) {
+                                echo "Kick"; die;
 				$transaction->rollback();
-                Yii::app()->user->setFlash('error',"Data Approve gagal disimpan ! ".MyExceptionMessage::getMessage($e,true));
+                                Yii::app()->user->setFlash('error',"Data Approve gagal disimpan ! ".MyExceptionMessage::getMessage($e,true));
 			}
 		}
 		
@@ -440,13 +445,13 @@ class InformasiRencanaAnggaranPengeluaranController extends MyAuthController
 		$digit = AGKonfiganggaranK::model()->findByPk($model->konfiganggaran_id)->digitnilaianggaran;
 		$digit_str = "1".$digit;
 		$model->digitnilai = "/ ".$digit;
-		$model->total_nilairencpeng = $format->formatNumberForUser($model->total_nilairencpeng/ (int)$digit_str);
+		$model->total_nilairencpeng = $format->formatNumberForPrint($model->total_nilairencpeng/ (int)$digit_str);
 		
 		$modDetails = AGRencanggaranpengdetailT::model()->findAllByAttributes(array('rencanggaranpeng_id'=>$rencanggaranpeng_id));
 			foreach ($modDetails as $i => $detail){
 				$modDetail[$i] = AGRekeninganggaranV::model()->findByAttributes(array('subkegiatanprogram_id'=>$detail->subkegiatanprogram_id));
 				$modDetail[$i]->tglrencanapengdet = $detail->tglrencanapengdet;
-				$modDetail[$i]->nilairencpengeluaran = $format->formatNumberForUser($detail->nilairencpengeluaran / (int)$digit_str);
+				$modDetail[$i]->nilairencpengeluaran = $format->formatNumberForPrint($detail->nilairencpengeluaran / (int)$digit_str);
 				$modDetail[$i]->no_urut = $i+1;
 				$modDetail[$i]->rencanggaranpengdet_id = $detail->rencanggaranpengdet_id;
 				$modDetail[$i]->approve = (isset($detail->apprrencanggaran_id)? true : false);
@@ -521,7 +526,7 @@ class InformasiRencanaAnggaranPengeluaranController extends MyAuthController
 		$digit = AGKonfiganggaranK::model()->findByPk($model->konfiganggaran_id)->digitnilaianggaran;
 		$digit_str = "1".$digit;
 		$model->digitnilai = "/ ".$digit;
-		$model->total_nilairencpeng = $format->formatNumberForUser($model->total_nilairencpeng/ (int)$digit_str);
+		$model->total_nilairencpeng = $format->formatNumberForPrint($model->total_nilairencpeng/ (int)$digit_str);
 		
 		// load tgl approval
 		$criteria = new CDbCriteria();
@@ -548,9 +553,9 @@ class InformasiRencanaAnggaranPengeluaranController extends MyAuthController
 				$modDetail[$i]->subkegiatanprogram_nama = AGRekeninganggaranV::model()->findByAttributes(array('subkegiatanprogram_id'=>$modDetail[$i]->subkegiatanprogram_id))->subkegiatanprogram_nama;
 				$modDetail[$i]->bulanrencana =$modDetail[$i]->tglrencanggpeng;
 				$total += $modDetail[$i]->nilaiygdisetujui;
-				$modDetail[$i]->nilaiygdisetujui = $format->formatNumberForUser($detail->nilairencpengeluaran / (int)$digit_str);
+				$modDetail[$i]->nilaiygdisetujui = $format->formatNumberForPrint($detail->nilairencpengeluaran / (int)$digit_str);
 				$modDetail[$i]->nilaiapprove = $detail->nilairencpengeluaran / (int)$digit_str;
-				$model->total_nilairencpeng = $format->formatNumberForUser($total / (int)$digit_str);
+				$model->total_nilairencpeng = $format->formatNumberForPrint($total / (int)$digit_str);
 			} 
 			
 		if (isset($_POST['AGApprrencanggaranT'])){
@@ -568,7 +573,8 @@ class InformasiRencanaAnggaranPengeluaranController extends MyAuthController
 						$modRevisi->create_time = date("Y-m-d");
 						$modRevisi->create_loginpemakai_id = Yii::app()->user->id;
 						$modRevisi->create_ruangan = Yii::app()->user->ruangan_id;
-						$this->revisi &= true;
+                                                
+                                                $this->revisi &= true;
 								if ($modRevisi->save()){
 									$tglrencanadetail = $format->formatMonthForDb($_POST['AGApprrencanggaranT'][$i]['bulanrencana']);
 									$tglrencana = $tglrencanadetail."-".$date;
@@ -700,7 +706,7 @@ class InformasiRencanaAnggaranPengeluaranController extends MyAuthController
     public function actionLoadFormTambahRencana()
     {
         if(Yii::app()->request->isAjaxRequest) {
-			$i = array();
+			$i = "i";
 			$date = date("d");
             $subkegiatanprogram_id = $_POST['subkegiatanprogram_id'];
             $nilairencpengeluaran = $_POST['nilairencpengeluaran'];
