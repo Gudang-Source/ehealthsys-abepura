@@ -376,7 +376,7 @@ class InformasiRencanaAnggaranPengeluaranController extends MyAuthController
 			foreach ($modDetails as $i => $detail){
 				$modDetail[$i] = AGRekeninganggaranV::model()->findByAttributes(array('subkegiatanprogram_id'=>$detail->subkegiatanprogram_id));
 				$modDetail[$i]->tglrencanapengdet = $detail->tglrencanapengdet;
-				$modDetail[$i]->nilairencpengeluaran = $format->formatNumberForUser($detail->nilairencpengeluaran / (int)$digit_str);
+				$modDetail[$i]->nilairencpengeluaran = $format->formatNumberForPrint($detail->nilairencpengeluaran / (int)$digit_str);
 				$modDetail[$i]->no_urut = $i+1;
 				$modDetail[$i]->rencanggaranpengdet_id = $detail->rencanggaranpengdet_id;
 			} 
@@ -396,10 +396,13 @@ class InformasiRencanaAnggaranPengeluaranController extends MyAuthController
 							$modApprove->menyetujui_id = $_POST['AGRencanggaranpengT']['mengetahui_id'];
 							$modApprove->mengetahui_id = $_POST['AGRencanggaranpengT']['menyetujui_id'];
 							$modApprove->tglrencanggpeng = $format->formatDateTimeForDb($_POST['AGRencanggaranpengT']['rencanggaranpeng_tgl']);
-							$modApprove->nilaiygdisetujui = $_POST['AGRekeninganggaranV'][$i]['nilairencpengeluaran'].$digit;
+							$modApprove->nilaiygdisetujui = $_POST['AGRekeninganggaranV'][$i]['nilairencpengeluaran']; //.$digit;
 							$modApprove->create_time = date("Y-m-d H:i:s");
 							$modApprove->create_loginpemakai_id = Yii::app()->user->id;
 							$modApprove->create_ruangan = Yii::app()->user->ruangan_id;
+                                                        
+                                                        //var_dump($modApprove->attributes, $modApprove->validate(), $modApprove->errors); die;
+                                                        
 							$this->approveBaru &= true;
 								if ($modApprove->save()){
 									$updateDetail = AGRencanggaranpengdetailT::model()->updateByPk($_POST['AGRekeninganggaranV'][$i]['rencanggaranpengdet_id'], array('apprrencanggaran_id'=>$modApprove->apprrencanggaran_id));
@@ -408,6 +411,7 @@ class InformasiRencanaAnggaranPengeluaranController extends MyAuthController
 						}
 					}
 				}
+                                                //var_dump($this->approveBaru); die;
 						if($this->approveBaru){
 							$transaction->commit();
 							$this->redirect(array('index','rencanggaranpeng_id'=>$model->rencanggaranpeng_id,'frame'=>1,'sukses'=>1));
@@ -416,8 +420,9 @@ class InformasiRencanaAnggaranPengeluaranController extends MyAuthController
 							Yii::app()->user->setFlash('error',"Update Data Approve gagal disimpan !");
 						}
 			} catch (Exception $ex) {
+                                echo "Kick"; die;
 				$transaction->rollback();
-                Yii::app()->user->setFlash('error',"Data Approve gagal disimpan ! ".MyExceptionMessage::getMessage($e,true));
+                                Yii::app()->user->setFlash('error',"Data Approve gagal disimpan ! ".MyExceptionMessage::getMessage($e,true));
 			}
 		}
 		

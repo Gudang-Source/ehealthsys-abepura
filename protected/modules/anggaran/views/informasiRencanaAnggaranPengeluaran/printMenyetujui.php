@@ -41,14 +41,14 @@ echo "<br>Unit : <b>".$model->unitkerja->namaunitkerja."</b>";
 				<td style="font-weight: normal;"><?php echo $modPrograms['kegiatanprogram_kode'][$i]; ?></td>
 				<td style="font-weight: normal;"><?php echo $modPrograms['subkegiatanprogram_kode'][$i]; ?></td>
 				<td style="font-weight: normal;"><?php echo $modPrograms['subkegiatanprogram_nama'][$i]; ?></td>
-				<td style="font-weight: normal;"><?php echo $detail['tglrencanapengdet'][$i]; ?></td>
-				<td style="font-weight: normal;"><?php echo $format->formatNumberForUser($detail['nilairencpengeluaran'][$i]); ?></td>
+				<td style="font-weight: normal;"><?php echo $format->formatMonthForUser($detail['tglrencanapengdet'][$i]); ?></td>
+				<td style="font-weight: normal; text-align: right;"><?php echo $format->formatNumberForPrint($detail['nilairencpengeluaran'][$i]); ?></td>
 		</tr>
 		<?php } ?>
 			<tr style="border:1px solid;">
 				<td colspan="7" style="text-align:right;font-weight: normal; font-style: italic;">Total Anggaran</td>
-				<td style="font-weight: normal; font-style: italic;">
-					<?php echo $format->formatNumberForUser($model->total_nilairencpeng) ?>
+				<td style="font-weight: normal; font-style: italic; text-align: right;">
+					<?php echo $format->formatNumberForPrint($model->total_nilairencpeng) ?>
 				</td>
 			</tr>
 	</tbody>
