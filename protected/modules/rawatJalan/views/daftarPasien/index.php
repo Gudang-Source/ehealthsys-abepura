@@ -469,9 +469,9 @@ JS;
             'width' => 1000,
             'height' => 400,
             'resizable' => true,
-                    'close'=>"js:function(){ $.fn.yiiGridView.update('daftarpasien-v-grid', {
-                            data: $('#caripasien-form').serialize()
-                        }); }",
+            'close'=>"js:function(){ $.fn.yiiGridView.update('daftarpasien-v-grid', {
+                    data: $('#caripasien-form').serialize()
+                }); }",
         ),
     ));
     ?>

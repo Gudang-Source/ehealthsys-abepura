@@ -41,11 +41,12 @@ public function actionTerimaDokumen() {
         $pengirimanrm_id = $_POST['pengirimanrm_id'];
       
         $model = PendaftaranT::model()->findByPk($pendaftaran);
-        if(!empty($pengirimanrm_id)) {
+        if(!empty($pengirimanrm_id)) {            
             $modPenerimaanRm = PengirimanrmT::model()->findByPk($pengirimanrm_id);      
             $modPenerimaanRm->tglterimadokrm = date('Y-m-d H:i:s');
             $modPenerimaanRm->petugaspenerima_id = Yii::app()->user->id;
             $modPenerimaanRm->ruanganpenerima_id = Yii::app()->user->getState('ruangan_id');
+            
             if($modPenerimaanRm->save()){
                     $model->statusdokrm = 'SUDAH DITERIMA';
                     $model->save();
@@ -2344,5 +2345,106 @@ public function actionKirimDokumen($pengirimanrm_id,$pendaftaran_id){
 		   Yii::app()->end();
 	   }
    }
+   
+   public function actionStatusDokumenKirim($pengirimanrm_id,$pendaftaran_id){
+		$this->layout='//layouts/iframe';
+		$format = new MyFormatter();
+		$modPendaftaran = PendaftaranT::model()->findByPk($pendaftaran_id);
+		$modPasien = PasienM::model()->findByPk($modPendaftaran->pasien_id);
+		$status = false;
+		if(!empty($pengirimanrm_id)){
+			$modPengirimanRm = PengirimanrmT::model()->findByPk($pengirimanrm_id);
+		}else{
+			$modPengirimanRm = new PengirimanrmT();
+		}			
+
+                $pegawai_id = LoginpemakaiK::model()->findByPk(Yii::app()->user->id)->pegawai_id;                
+		$modUbahStatus = new PengirimanrmT;
+                $modUbahStatus->tglpengirimanrm = date('d/m/Y H:i:s');                
+                $modUbahStatus->petugaspengirim = Yii::app()->user->name;
+                $modUbahStatus->petugaspengirim_id = $pegawai_id;
+                
+		if(isset($_POST['PengirimanrmT']))
+		{
+			$transaction = Yii::app()->db->beginTransaction();
+			try 
+			{
+				$modUbahStatus->attributes = $_POST['PengirimanrmT'];
+                                //var_dump($_POST);die;
+				$modUbahStatus->pendaftaran_id = $modPendaftaran->pendaftaran_id;
+				$modUbahStatus->pasien_id = $modPendaftaran->pasien_id;
+				$modUbahStatus->dokrekammedis_id = isset($modPengirimanRm) ? $modPengirimanRm->dokrekammedis_id : null;
+				$modUbahStatus->nourut_keluar = MyGenerator::noUrutKeluarRM();
+				$modUbahStatus->tglpengirimanrm = $format->formatDateTimeForDb($_POST['PengirimanrmT']['tglpengirimanrm']);
+				$modUbahStatus->kelengkapandokumen = TRUE;
+				$modUbahStatus->petugaspengirim_id = $_POST['PengirimanrmT']['petugaspengirim_id'];                                
+				$modUbahStatus->create_time = date('Y-m-d H:i:s');
+				$modUbahStatus->create_loginpemakai_id = Yii::app()->user->id;
+				$modUbahStatus->create_ruangan = Yii::app()->user->getState('ruangan_id');
+				$modUbahStatus->ruanganpengirim_id = Yii::app()->user->getState('ruangan_id');
+                                $modUbahStatus->ruanganpenerima_id = $_POST['PengirimanrmT']['ruangan_id'];
+				
+				if($modUbahStatus->save())
+				{
+					$modPendaftaran->statusdokrm = 'SUDAH DIKIRIM';
+					$modPendaftaran->save();
+
+					$transaction->commit();
+					$status = true;
+					Yii::app()->user->setFlash('success', "Data pengiriman dokumen pasien berhasil disimpan !");
+				}else{
+					$status = false;
+					Yii::app()->user->setFlash('error', '<strong>Gagal</strong> Data pengiriman dokumen pasien gagal disimpan');
+				}
+			}catch(Exception $exc) {
+				$transaction->rollback();
+				$status = false;
+				Yii::app()->user->setFlash('error', '<strong>Gagal</strong> Data Gagal disimpan'.MyExceptionMessage::getMessage($exc));
+			}                  
+		}
+		
+		$this->render('_formStatusDokumen', array(
+			'modPendaftaran'=>$modPendaftaran,
+			'modPasien'=>$modPasien,
+			'modPengirimanRm'=>$modPengirimanRm,
+			'modUbahStatus'=>$modUbahStatus,
+			'status'=>$status
+		));            
+	}
+        
+        public function actionSetDropdownRuangan($encode=false,$model_nama='',$attr='')
+    {
+        if(Yii::app()->request->isAjaxRequest) {
+            $instalasi_id = null;
+            if($model_nama !=='' && $attr == ''){
+                $instalasi_id = $_POST["$model_nama"]['instalasi_id'];
+            }
+             else if ($model_nama == '' && $attr !== '') {
+                $instalasi_id = $_POST["$attr"];
+            }
+             else if ($model_nama !== '' && $attr !== '') {
+                $instalasi_id = $_POST["$model_nama"]["$attr"];
+            }
+            $models = null;
+            $models = CHtml::listData(RuanganM::getRuanganByInstalasi($instalasi_id),'ruangan_id','ruangan_nama');
+
+            if($encode){
+                echo CJSON::encode($models);
+            } else {
+                if (count($models) > 1){
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                }elseif (count($models) == 0){
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                }
+                
+                if(count($models) > 0){
+                    foreach($models as $value=>$name){
+                        echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                    }
+                }
+            }
+        }
+        Yii::app()->end();
+    }
   
 }
