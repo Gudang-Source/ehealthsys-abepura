@@ -65,15 +65,16 @@
                 <?php //echo $form->textFieldRow($model,'tglmintadikirim',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);"));  ?>
                 <?php //echo $form->dropDownListRow($model,'ruanganpemesan_id', CHtml::listData(RuanganM::model()->findAll('ruangan_aktif = true'), 'ruangan_id', 'ruangan_nama'),array('empty'=>'-- Pilih --', 'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                 <div class="control-group ">
-                    <?php echo $form->labelEx($model, 'ruanganpemesan_id', array('class' => 'control-label')); ?>
+                    <?php echo CHtml::label('Ruangan Tujuan', 'ruangantujuan_id', array('class' => 'control-label')); ?>
                     <div class="controls">
                         <?php
-                        echo $form->dropDownList($model, 'instalasi_id', CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true ORDER BY instalasi_nama ASC'), 'instalasi_id', 'instalasi_nama'), array('autofocus'=>true, 'empty' => '-- Pilih --', 'class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50,
+                        echo $form->dropDownList($model, 'instalasi_id', CHtml::listData(InstalasiM::model()->findAll('instalasi_aktif = true ORDER BY instalasi_nama ASC'), 'instalasi_id', 'instalasi_nama'), array('autofocus'=>true, 'empty' => '-- Pilih --', 'class' => 'span2 required', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50,
                             'ajax' => array('type' => 'POST',
                                 'url' => $this->createUrl('SetDropdownRuangan',array('encode'=>false,'model_nama'=>get_class($model))),
-                                'update' => '#' . CHtml::activeId($model, 'ruanganpemesan_id') . ''),));
+                                'update' => '#' . CHtml::activeId($model, 'ruangantujuan_id') . ''),));
                         ?>
-                        <?php echo $form->dropDownList($model, 'ruanganpemesan_id', CHtml::listData(RuanganM::model()->findAllByAttributes(array('instalasi_id'=>$model->instalasi_id,'ruangan_aktif'=>true), array('order'=>'ruangan_nama ASC')), 'ruangan_id', 'ruangan_nama'), array('empty' => '-- Pilih --', 'class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50, 'onchange' => 'clearAll()')); ?>
+                        <?php echo $form->dropDownList($model, 'ruangantujuan_id', CHtml::listData(RuanganM::model()->findAllByAttributes(array('instalasi_id'=>$model->instalasi_id,'ruangan_aktif'=>true), array('order'=>'ruangan_nama ASC')), 'ruangan_id', 'ruangan_nama'), array('empty' => '-- Pilih --', 'class' => 'required span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50, 'onchange' => 'refreshDialogBarang();')); ?>
+                        <?php echo $form->hiddenField($model, 'ruanganpemesan_id', array('readonly'=>true)); ?>
                         <?php echo $form->error($model, 'ruanganpemesan_id'); ?>
                     </div>
                 </div>
@@ -380,5 +381,32 @@ function print(caraPrint)
             params = {instalasi_id:<?php echo Yii::app()->user->getState("instalasi_id"); ?>, modul_id:<?php echo Params::MODUL_ID_GUDANGUMUM; ?>, judulnotifikasi:'Pesan Barang', isinotifikasi:'Pemesanan barang dari <?php echo Yii::app()->user->getState("ruangan_nama"); ?> ke <?php echo $model->ruanganpemesan->ruangan_nama ?>'}; // 16 
             insert_notifikasi(params);
         <?php } ?>
+            
+             refreshDialogBarang();
     })
+    
+function refreshDialogBarang(){    
+	$("#namaBarang").addClass("animation-loading-1");
+        var ru = $("#GUPesanbarangT_ruangantujuan_id option:selected").html();
+       
+	setTimeout(function(){
+                $("#dialog_ruangan").html(ru);
+		$("#namaBarang").removeClass("animation-loading-1");
+	},500);
+}
+
+
+$('#tombolDialogBarang').click(function(){
+        refreshDialogBarang();
+	var ruangan_id = $('#<?php echo CHtml::activeId($model,"ruangantujuan_id") ?>').val();
+        //alert(ruangan_id);
+        $(".dialog_ruangan_id").val(ruangan_id);
+	$.fn.yiiGridView.update('barang-m-grid', {
+		data: {
+			"GUInformasistokbarangV[ruangan_id]":ruangan_id,
+		}
+	});
+});
+
+
 </script>
