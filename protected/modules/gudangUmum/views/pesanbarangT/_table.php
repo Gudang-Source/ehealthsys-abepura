@@ -58,6 +58,41 @@ $currentUrl = Yii::app()->createUrl($module . '/' . $controller . '/' . $action)
                             ))',
                     'htmlOptions'=>array('style'=>'text-align:left; width:40px'),
                 ),
+                array(
+                            'header'=>'Mutasi Barang',
+                            'type'=>'raw',
+                            'htmlOptions'=>array('style'=>'text-align:left;'),
+                            'value'=> function ($data){//'(empty($data->mutasibrg_id))? CHtml::link("<i class=\'icon-form-mutasi\'></i> ", Yii::app()->controller->createUrl("/gudangUmum/MutasibrgT/index",array("id"=>$data->pesanbarang_id)),array("rel"=>"tooltip","title"=>"Klik untuk Melanjutkan ke Mutasi")) : "Telah Dimutasi"',                                                                
+                                $controller = Yii::app()->controller->id;
+                                if ($data->ruanganpemesan_id == Yii::app()->user->getState('ruangan_id')){
+                                    if (empty($data->mutasibrg_id)){
+                                        if (empty($data->ruangantujuan_id)){
+                                            return "BELUM DIMUTASI";
+                                        }else{
+                                            return "BELUM DIMUTASI DARI ".$data->ruangantujuan->ruangan_nama;
+                                        }                                        
+                                    }else{
+                                        if (empty($data->ruangantujuan_id)){
+                                            return "SUDAH DIMUTASI";
+                                        }else{
+                                            return "SUDAH DIMUTASI DARI ".$data->ruangantujuan->ruangan_nama;
+                                        }
+                                        
+                                    }
+                                }else{
+                                    if ($data->ruangantujuan_id == Yii::app()->user->getState('ruangan_id')){
+                                        if (empty($data->mutasibrg_id)){
+                                            echo CHtml::link("<i class='icon-form-mutasi'></i> ", Yii::app()->controller->createUrl(str_replace('pesanbarang','mutasibrg',$controller).'/Index',array("id"=>$data->pesanbarang_id)),array("rel"=>"tooltip","title"=>"Klik untuk Melanjutkan ke Mutasi"));
+                                        }else{
+                                            return "SUDAH DIMUTASI KE ".$data->ruanganpemesan->ruangan_nama;
+                                        }
+                                        //return (empty($data->mutasibrg_id))?  : "Telah Dimutasi";
+                                    }else{
+                                        return "TIDAK DITUJUKAN KESINI";
+                                    }
+                                }                                
+                            }
+                    ), 
 	),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 )); ?>

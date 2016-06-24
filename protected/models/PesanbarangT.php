@@ -51,12 +51,12 @@ class PesanbarangT extends CActiveRecord
 			array('nopemesanan, tglpesanbarang, ruanganpemesan_id, pegpemesan_id', 'required'),
 			array('mutasibrg_id, ruanganpemesan_id, pegpemesan_id, pegmengetahui_id', 'numerical', 'integerOnly'=>true),
 			array('nopemesanan', 'length', 'max'=>50),
-			array('tglmintadikirim, keterangan_pesan, update_time, update_loginpemakai_id, instalasi_id, pegpemesan_nama, pegmengetahui_nama ', 'safe'),
-            array('create_time', 'default', 'value'=>date('Y-m-d H:i:s', time()), 'setOnEmpty'=>false, 'on'=>'insert'),
-            array('update_time', 'default', 'value'=>date('Y-m-d H:i:s', time()), 'setOnEmpty'=>false, 'on'=>'insert, update'),
-            array('create_loginpemakai_id', 'default','value'=>Yii::app()->user->id, 'setOnEmpty'=>false, 'on'=>'insert'),
-            array('update_loginpemakai_id','default', 'value'=>Yii::app()->user->id, 'setOnEmpty'=>false, 'on'=>'insert, update'),
-            array('create_ruangan','default','value'=>Yii::app()->user->getState('ruangan_id'), 'setOnEmpty'=>false, 'on'=>'insert'),
+			array('ruangantujuan_id, tglmintadikirim, keterangan_pesan, update_time, update_loginpemakai_id, instalasi_id, pegpemesan_nama, pegmengetahui_nama ', 'safe'),
+                        array('create_time', 'default', 'value'=>date('Y-m-d H:i:s', time()), 'setOnEmpty'=>false, 'on'=>'insert'),
+                        array('update_time', 'default', 'value'=>date('Y-m-d H:i:s', time()), 'setOnEmpty'=>false, 'on'=>'insert, update'),
+                        array('create_loginpemakai_id', 'default','value'=>Yii::app()->user->id, 'setOnEmpty'=>false, 'on'=>'insert'),
+                        array('update_loginpemakai_id','default', 'value'=>Yii::app()->user->id, 'setOnEmpty'=>false, 'on'=>'insert, update'),
+                        array('create_ruangan','default','value'=>Yii::app()->user->getState('ruangan_id'), 'setOnEmpty'=>false, 'on'=>'insert'),
                         
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -73,6 +73,7 @@ class PesanbarangT extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
                     'ruanganpemesan'=>array(self::BELONGS_TO, 'RuanganM', 'ruanganpemesan_id'),
+                    'ruangantujuan'=>array(self::BELONGS_TO, 'RuanganM', 'ruangantujuan_id'),
                     'pegawaipemesan'=>array(self::BELONGS_TO, 'PegawaiM', 'pegpemesan_id'),
                     'pegawaimengetahui'=>array(self::BELONGS_TO, 'PegawaiM', 'pegmengetahui_id'),
 		);
@@ -100,6 +101,7 @@ class PesanbarangT extends CActiveRecord
 			'create_ruangan' => 'Create Ruangan',
                         'pegpemesan_nama'=>'Pegawai Pemesan', 
                         'pegmengetahui_nama'=>'Pegawai Mengetahui',
+                        'ruangantujuan_id' => 'Ruangan Tujuan'
 		);
 	}
 
