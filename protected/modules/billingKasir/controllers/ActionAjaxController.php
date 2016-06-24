@@ -805,7 +805,7 @@ class ActionAjaxController extends MyAuthController
         
         PasienadmisiT::model()->updateByPk($pasienadmisi_id,array('pembayaranpelayanan_id'=>$null));
         if($modPendaftaran->instalasi_id == Params::INSTALASI_ID_RJ){ //khusus untuk RJ saja Status periksa = sedang periksa
-            PendaftaranT::model()->updateByPk($modPendaftaran->pendaftaran_id,array('pembayaranpelayanan_id'=>$null, 'statusperiksa'=>Params::STATUSPERIKSA_SEDANG_PERIKSA));
+            PendaftaranT::model()->updateByPk($modPendaftaran->pendaftaran_id,array('pembayaranpelayanan_id'=>$null));
         }else{
             PendaftaranT::model()->updateByPk($modPendaftaran->pendaftaran_id,array('pembayaranpelayanan_id'=>$null));
         }

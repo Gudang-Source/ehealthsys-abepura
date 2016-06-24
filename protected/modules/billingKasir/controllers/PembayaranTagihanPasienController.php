@@ -117,7 +117,10 @@ class PembayaranTagihanPasienController extends MyAuthController
                     }
                     
                     $pendaftaran = PendaftaranT::model()->findByPk($model->pendaftaran_id);
-                    if (empty($pendaftaran->pasienadmisi_id) && $pendaftaran->instalasi_id == Params::INSTALASI_ID_RD) {
+                    $pp = PasienpulangT::model()->findByAttributes(array(
+                        'pendaftaran_id'=>$pendaftaran->pendaftaran_id,
+                    ));
+                    if (empty($pendaftaran->pasienadmisi_id) && empty($pp) && $pendaftaran->instalasi_id == Params::INSTALASI_ID_RD) {
                         $modUpdatePendaftaran = PendaftaranT::model()->updateByPk($model->pendaftaran_id,array('pembayaranpelayanan_id'=>$model->pembayaranpelayanan_id, 'statusperiksa'=>Params::STATUSPERIKSA_SUDAH_DIPERIKSA));
                     }
                 }
