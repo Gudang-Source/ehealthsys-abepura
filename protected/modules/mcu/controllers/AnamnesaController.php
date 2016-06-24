@@ -257,7 +257,15 @@ class AnamnesaController extends MyAuthController
                     $modAnamnesa->keb_konsumsidrug = $_POST['RJAnamnesaT']['keb_konsumsidrug'];
                     
                     
-                    $updateStatusPeriksa=PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SEDANG_PERIKSA));
+                    $dat = PasienpulangT::model()->findByAttributes(array(
+                        // 'carakeluar_id'=>Params::CARAKELUAR_ID_RAWATINAP,
+                        'pendaftaran_id'=>$pendaftaran_id
+                    ));
+                    $adm = PasienadmisiT::model()->findByAttributes(array(
+                        // 'carakeluar_id'=>Params::CARAKELUAR_ID_RAWATINAP,
+                        'pendaftaran_id'=>$pendaftaran_id
+                    ));
+                    if (!(!empty($adm) || !empty($dat))) $updateStatusPeriksa=PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SEDANG_PERIKSA));
 
                     /* ================================================ */
                     /* Proses update status periksa KonsulPoli EHS-179  */

@@ -47,7 +47,7 @@ class KonsulMCURIController extends MyAuthController{
 				$modKonsul->no_antriankonsul = MyGenerator::noAntrianKonsulPoli($modKonsul->ruangan_id);				
                 if($modKonsul->validate()){
                     if($modKonsul->save()){
-                        $updateStatusPeriksa=PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SEDANG_PERIKSA));
+                        // $updateStatusPeriksa=PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SEDANG_PERIKSA));
                         /* ================================================ */
                         /* Proses update status periksa KonsulPoli EHS-179  */
                         /* ================================================ */
