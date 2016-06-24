@@ -67,7 +67,10 @@ $this->widget('bootstrap.widgets.BootAlert');
 							array(
 								'header'=>'Total Pengeluaran',
 								'type'=>'raw',
-								'value'=>'MyFormatter::formatNumberForUser($data->total_nilairencpeng)',
+								'value'=>'MyFormatter::formatNumberForPrint($data->total_nilairencpeng)',
+                                                                'htmlOptions'=>array(
+                                                                    'style'=>'text-align: right',
+                                                                ),
 							),
 							array(
 								'header'=>'Pegawai Mengetahui',
