@@ -104,7 +104,11 @@ class DiagnosaController extends MyAuthController
                         // 'carakeluar_id'=>Params::CARAKELUAR_ID_RAWATINAP,
                         'pendaftaran_id'=>$modPendaftaran->pendaftaran_id
                     ));
-                    if (empty($dat)) $updateStatusPeriksa=PendaftaranT::model()->updateByPk($modPendaftaran->pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SUDAH_DIPERIKSA, 'tglselesaiperiksa'=>date('Y-m-d H:i:s'))); // LNG-959
+                    $adm = PasienadmisiT::model()->findByAttributes(array(
+                        // 'carakeluar_id'=>Params::CARAKELUAR_ID_RAWATINAP,
+                        'pendaftaran_id'=>$modPendaftaran->pendaftaran_id
+                    ));
+                    if (!(!empty($adm) || !empty($dat))) $updateStatusPeriksa=PendaftaranT::model()->updateByPk($modPendaftaran->pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SUDAH_DIPERIKSA, 'tglselesaiperiksa'=>date('Y-m-d H:i:s'))); // LNG-959
                 }
                 //echo 'VALID';
                 $this->successSave = true;

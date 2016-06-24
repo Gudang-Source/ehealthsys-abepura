@@ -75,11 +75,15 @@ class RujukanKeluarController extends MyAuthController
 				$modRujukanKeluar->sampaidengan = $tglsampaidengan;
                 if($modRujukanKeluar->validate()){
                     if($modRujukanKeluar->save()){
-                        $dat = PasienpulangT::model()->findByAttributes(array(
+                        $$dat = PasienpulangT::model()->findByAttributes(array(
                             // 'carakeluar_id'=>Params::CARAKELUAR_ID_RAWATINAP,
-                            'pendaftaran_id'=>$pendaftaran_id,
+                            'pendaftaran_id'=>$pendaftaran_id
                         ));
-                        if (empty($dat)) $updateStatusPeriksa=PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SEDANG_PERIKSA));
+                        $adm = PasienadmisiT::model()->findByAttributes(array(
+                            // 'carakeluar_id'=>Params::CARAKELUAR_ID_RAWATINAP,
+                            'pendaftaran_id'=>$pendaftaran_id
+                        ));
+                        if (!(!empty($adm) || !empty($dat))) $updateStatusPeriksa=PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SEDANG_PERIKSA));
                         /* ================================================ */
                         /* Proses update status periksa KonsulPoli EHS-179  */
                         /* ================================================ */

@@ -2323,17 +2323,18 @@ class DaftarPasienController extends MyAuthController
 	   $modBatalPeriksa = new PasienbatalperiksaR;
 	   $model->tglselesaiperiksa = date('Y-m-d H:i:s');       
 	   if(isset($_POST['status']))
-	   {
+	   {            $update = true;
 			if($status == "ANTRIAN"){
-				$update = PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SEDANG_PERIKSA));
-			}else{
+				if (empty($model->pasienadmisi_id)) $update = PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SEDANG_PERIKSA));
+                                $this->updateStatusKonsul($pendaftaran_id, Params::STATUSPERIKSA_SEDANG_PERIKSA);
+                        }else{
 			if($status == "SEDANG PERIKSA"){
                                 $update = true;
 				if (empty($model->pasienadmisi_id)) $update = PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SUDAH_DIPERIKSA, 'tglselesaiperiksa'=>date('Y-m-d H:i:s')));
-                                $this->updateStatusKonsul($pendaftaran_id);
-                        }else if($status == "SEDANG DIRAWAT INAP"){
+                                $this->updateStatusKonsul($pendaftaran_id, Params::STATUSPERIKSA_SUDAH_DIPERIKSA);
+                        } /*else if($status == "SEDANG DIRAWAT INAP"){
 				$update = PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SUDAH_PULANG));
-			}
+			} */
 		  }
 		  if($update)
 		  {
@@ -2362,7 +2363,7 @@ class DaftarPasienController extends MyAuthController
      * end Ubah Status Periksa Pasien Baru -- Yang Pake Button
      */
         
-    function updateStatusKonsul($pendaftaran_id) 
+    function updateStatusKonsul($pendaftaran_id, $status) 
     {
         $p = PendaftaranT::model()->findByPk($pendaftaran_id);
         $konsul = KonsulpoliT::model()->findAllByAttributes(array(
@@ -2371,7 +2372,7 @@ class DaftarPasienController extends MyAuthController
         ));
         foreach ($konsul as $item) {
             KonsulpoliT::model()->updateByPk($item->konsulpoli_id, array(
-                'statusperiksa'=>Params::STATUSPERIKSA_SUDAH_DIPERIKSA,
+                'statusperiksa'=>$status,
             ));
         }
     }

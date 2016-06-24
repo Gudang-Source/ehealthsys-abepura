@@ -279,9 +279,13 @@ class PemakaianBahanController extends MyAuthController
 	   if($modObatAlkesPasien->save()){
                         $dat = PasienpulangT::model()->findByAttributes(array(
                             // 'carakeluar_id'=>Params::CARAKELUAR_ID_RAWATINAP,
-                            'pendaftaran_id'=>$modPendaftaran->pendaftaran_id,
+                            'pendaftaran_id'=>$modPendaftaran->pendaftaran_id
                         ));
-                        if (empty($dat)) $updateStatusPeriksa=PendaftaranT::model()->updateByPk($modPendaftaran->pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SEDANG_PERIKSA));
+                        $adm = PasienadmisiT::model()->findByAttributes(array(
+                            // 'carakeluar_id'=>Params::CARAKELUAR_ID_RAWATINAP,
+                            'pendaftaran_id'=>$modPendaftaran->pendaftaran_id
+                        ));
+                        if (!(!empty($adm) || !empty($dat))) $updateStatusPeriksa=PendaftaranT::model()->updateByPk($modPendaftaran->pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SEDANG_PERIKSA));
 			/* ================================================ */
 			/* Proses update status periksa KonsulPoli EHS-179  */
 			/* ================================================ */
@@ -344,14 +348,14 @@ class PemakaianBahanController extends MyAuthController
 	   }
 
 	   if($modObatAlkesPasien->save()){
-		   $updateStatusPeriksa=PendaftaranT::model()->updateByPk($modPendaftaran->pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SEDANG_PERIKSA));
+		   // $updateStatusPeriksa=PendaftaranT::model()->updateByPk($modPendaftaran->pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SEDANG_PERIKSA));
 			/* ================================================ */
 			/* Proses update status periksa KonsulPoli EHS-179  */
 			/* ================================================ */
 			$konsulPoli = KonsulpoliT::model()->findByAttributes(array('pendaftaran_id'=>$modPendaftaran->pendaftaran_id, 'ruangan_id'=>isset($_GET['ruangan_id']) ? $_GET['ruangan_id'] : Yii::app()->user->getState('ruangan_id')));
-			if(count($konsulPoli)>0){
-				$updateStatusPeriksa=KonsulpoliT::model()->updateByPk($konsulPoli->konsulpoli_id,array('statusperiksa'=>Params::STATUSPERIKSA_SEDANG_PERIKSA));
-			}
+			// if(count($konsulPoli)>0){
+			// 	$updateStatusPeriksa=KonsulpoliT::model()->updateByPk($konsulPoli->konsulpoli_id,array('statusperiksa'=>Params::STATUSPERIKSA_SEDANG_PERIKSA));
+			// }
 			/* ================================================ */
 
 			PendaftaranT::model()->updateByPk($modPendaftaran->pendaftaran_id,
