@@ -12,6 +12,7 @@
  */
 class RMLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
 
+    public $data, $tick, $jumlah;
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }
@@ -87,7 +88,7 @@ class RMLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
         // should not be searched.
 
         $criteria = new CDbCriteria;
-        $criteria = $this->criteriaGrafik($this, 'tick');
+        $criteria = $this->criteriaGrafik($this, 'data');
 //        if (!empty($criteria->group) &&(!empty($this->pilihanx))){
 //            $criteria->group .=',';
 //        }
@@ -118,10 +119,11 @@ class RMLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
 			$criteria->addCondition('kelurahan_id ='.$this->kelurahan_id);
 		}
         $criteria->compare('LOWER(kelurahan_nama)', strtolower($this->kelurahan_nama), true);
-		$ruangan_id = Yii::app()->user->getState('ruangan_id');
-		if (!empty($ruangan_id)){
-			$criteria->addCondition('ruanganpenunj_id ='.$ruangan_id);
+		
+		if (!empty($this->ruanganpenunj_id)){
+			$criteria->addCondition('ruanganpenunj_id ='.$this->ruanganpenunj_id);
 		}
+                
         //if(!is_array($this->kunjungan)){
         //    $this->kunjungan = 0;
         //}
@@ -152,9 +154,12 @@ class RMLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
 
         $criteria = new CDbCriteria;
 
-        if(!is_array($this->kunjungan)){
-            $this->kunjungan = 0;
+         if (is_array($this->kunjungan)){
+            $criteria->addInCondition('kunjungan', $this->kunjungan);
+        }else{
+            $criteria->addCondition('kunjungan is null');
         }
+        
         $criteria->addBetweenCondition('date(tglmasukpenunjang)', $this->tgl_awal, $this->tgl_akhir);
 		if (!empty($this->pasien_id)){
 			$criteria->addCondition('pasien_id ='.$this->pasien_id);

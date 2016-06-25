@@ -869,7 +869,7 @@ class RJInfokunjunganrjV extends InfokunjunganrjV {
 	/**
 	 * untuk status dokumen rekam medis
 	 */
-	public function getStatusDokumen($pengirimanrm_id,$status,$pendaftaran_id){
+	public function getStatusDokumen($pengirimanrm_id,$status,$pendaftaran_id){            
 		$status_dokumen = '';
 		$statusruangan = '';
 		$tombol = '';

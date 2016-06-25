@@ -231,9 +231,10 @@
                             array(
                                     'header'=>'Status Dokumen',
                                     'type'=>'raw',
-                                    'value'=>function($data) {
+                                    'value'=> function($data) {
                                         $ruangan_id = Yii::app()->user->getState('ruangan_id');
-                                        $kirimrm = PengirimanrmT::model()->findAllByAttributes(array(
+                                        $status_dokumen = RIPendaftaranT::model()->findByPk($data->pendaftaran_id);
+                                     /*  $kirimrm = PengirimanrmT::model()->findAllByAttributes(array(
                                             'pendaftaran_id'=>$data->pendaftaran_id,
                                         ), array(
                                             'condition'=>"(ruangan_id = ${ruangan_id} or ruanganpengirim_id = ${ruangan_id})",
@@ -241,19 +242,19 @@
                                             'limit'=>1,
                                         ));
                                             
-                                        if (count($kirimrm) == 0) {
+                                         if (count($kirimrm) == 0) {
                                             return '<button id="red" class="btn btn-green" name="yt1">BELUM DI TERIMA</button>';
                                         } else if (count($kirimrm) == 1) {
                                             if (empty($kirimrm[0]->tglterimadokrm)) {
                                                 $r = RuanganM::model()->findByPk($kirimrm[0]->ruanganpengirim_id);
                                                 return '<button id="red" class="btn btn-primary" name="yt1" onclick="verifikasiKirimanRM('.$data->pendaftaran_id.','.$kirimrm[0]->pengirimanrm_id.')">SUDAH DIKIRIM DARI '.strtoupper($r->ruangan_nama).'</button>';
                                             } else {
-                                                return CHtml::link("<i></i> SUDAH DITERIMA", "#",
+                                                return CHtml::link("<i></i> SUDAH DITERIMA", Yii::app()->createUrl(Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/statusDokumenKirim', array("pengirimanrm_id"=>$kirimrm->pengirimanrm_id,"pendaftaran_id"=>$data->pendaftaran_id)),
 							array("class"=>"btn btn-primary",
 							"target"=>"frameStatusDokumen",
 							"rel"=>"tooltip",
 							"title"=>"Klik untuk mengirim dokumen ke ruangan lain",
-							"onclick"=>"return false"));
+							"onclick"=>'$("#dialogStatusDokumen").dialog("open");'));
                                                 //return '<button id="red" class="btn btn-primary" name="yt1" onclick="kirimRM('.$data->pendaftaran_id.')">SUDAH DI TERIMA</button>';
                                             }
                                         }
@@ -261,16 +262,15 @@
                                         if (empty($kirimrm)) return '<button id="red" class="btn btn-primary" name="yt1">BELUM DI TERIMA</button>';
                                         else if (empty($kirimrm->tglterimadokrm)) return '<button id="red" class="btn btn-primary" name="yt1" onclick="verifikasiKirimanRM('.$data->pendaftaran_id.','.$kirimrm->pengirimanrm_id.')">BELUM DI VERIFIKASI</button>';
                                         return '<button id="red" class="btn btn-primary" name="yt1" onclick="verifikasiKirimanRM('.$data->pendaftaran_id.', '.$kirimrm->pengirimanrm_id.')">SUDAH DI VERIFIKASI</button>';
-                                    }, 
-                                            /*'($data->statusdokrm == "SUDAH DITERIMA") ? CHtml::link("<i></i> $data->statusdokrm", Yii::app()->createUrl("/'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/statusDokumenKirim", array("pengirimanrm_id"=>$data->pengirimanrm_id,"pendaftaran_id"=>$data->pendaftaran_id)),
+                                    }, */
+                                            return ($status_dokumen->statusdokrm == "SUDAH DITERIMA") ? CHtml::link("<i></i> $status_dokumen->statusdokrm", Yii::app()->createUrl(Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/statusDokumenKirim', array("pengirimanrm_id"=>$status_dokumen->pengirimanrm_id,"pendaftaran_id"=>$data->pendaftaran_id)),
                                                                     array("class"=>"btn btn-primary",
                                                                     "target"=>"frameStatusDokumen",
                                                                     "rel"=>"tooltip",
                                                                     "title"=>"Klik untuk mengirim dokumen ke ruangan lain",
-                                                                    "onclick"=>"$(\'#dialogStatusDokumen\').dialog(\'open\');"))
-                                            : $data->getStatusDokumen($data->pengirimanrm_id,$data->statusdokrm,$data->pendaftaran_id)',
-                                             * 
-                                             */
+                                                                    "onclick"=>'$("#dialogStatusDokumen").dialog("open");')):
+                                                $data->getStatusDokumen($status_dokumen->pengirimanrm_id,$status_dokumen->statusdokrm,$data->pendaftaran_id);
+                                    },
                                     'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
                             ),
                     //                   
@@ -304,9 +304,9 @@
             'width' => 1000,
             'height' => 400,
             'resizable' => true,
-                    'close'=>"js:function(){ $.fn.yiiGridView.update('daftarpasien-v-grid', {
-                            data: $('#caripasien-form').serialize()
-                        }); }",
+            'close'=>"js:function(){ $.fn.yiiGridView.update('daftarPasien-grid', {
+                data: $('#daftarPasien-form').serialize()
+            }); }",
         ),
     ));
     ?>
