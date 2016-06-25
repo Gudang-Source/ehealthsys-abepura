@@ -37,7 +37,11 @@ $this->widget($table, array(
 		'kelrem_nama',
                 'kelrem_singkatan',
 		'kelrem_desc',
-		
+		 array(
+                        'header' => '<center>Rating</center>',
+                        'value' => '$data->kelrem_rate',
+                        'htmlOptions' => array('style'=>'text-align:center;')
+                    ),
 		/*
 		'kelrem_rate',
 		'kelrem_aktif',

@@ -63,6 +63,11 @@
                             'kelrem_aktif',
                             */
                             array(
+                                'header' => '<center>Rating</center>',
+                                'name' => 'kelrem_rate',
+                                'htmlOptions' => array('style'=>'text-align:center;')
+                            ),
+                            array(
                                 'header'=>'<center>Status</center>',
                                 'value'=>'($data->kelrem_aktif == 1 ) ? "Aktif" : "Tidak Aktif"',
                                 'htmlOptions'=>array('style'=>'text-align:center;'),
