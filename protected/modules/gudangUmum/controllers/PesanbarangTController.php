@@ -82,7 +82,17 @@ class PesanbarangTController extends MyAuthController
 		$model->pegpemesan_id = $modLogin->pegawai_id;
 		if (!empty($model->pegpemesan_id)) $model->pegpemesan_nama = $modLogin->pegawai->nama_pegawai;
 		$model->ruanganpemesan_id = Yii::app()->user->getState('ruangan_id');
-		$model->instalasi_id = $model->ruanganpemesan->instalasi->instalasi_id;
+                
+		//$model->instalasi_id = $model->ruanganpemesan->instalasi->instalasi_id;                
+                 if (Yii::app()->user->getState('ruangan_id') == Params::RUANGAN_ID_GUDANG_UMUM) {
+                    $model->instalasi_id = Params::INSTALASI_ID_LOGISTIK;
+                    $model->ruangantujuan_id = Params::RUANGAN_ID_GUDANG_UMUM;
+                    $instalasi_id = Params::INSTALASI_ID_LOGISTIK;//Yii::app()->user->getState('instalasi_id')
+                } else {
+                    $model->instalasi_id = Params::INSTALASI_ID_LOGISTIK;
+                    $model->ruangantujuan_id = Params::RUANGAN_ID_GUDANG_UMUM;
+                    $instalasi_id = Params::INSTALASI_ID_LOGISTIK;//Yii::app()->user->getState('instalasi_id')
+                }
 		if (isset($id)){
 			$modelPesan = GUPesanbarangT::model()->findByPk($id);
 			$model->nopemesanan = MyGenerator::noPemesananBarang();
@@ -401,6 +411,7 @@ class PesanbarangTController extends MyAuthController
                     $model->attributes=$_GET['GUPesanbarangT'];   
                     $model->tgl_awal = $format->formatDateTimeForDb($_GET['GUPesanbarangT']['tgl_awal']);
                     $model->tgl_akhir = $format->formatDateTimeForDb($_GET['GUPesanbarangT']['tgl_akhir']);
+                   // $model->ruanganpemesan_id=Yii::app()->user->getState('ruangan_id');
                 }else{
                     $model->ruanganpemesan_id=Yii::app()->user->getState('ruangan_id');
                 }
