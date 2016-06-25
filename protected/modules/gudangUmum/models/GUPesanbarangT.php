@@ -4,7 +4,7 @@ class GUPesanbarangT extends PesanbarangT {
     
 
     public $tgl_awal,$tgl_akhir;
-    public $instalasi_id;
+    public $instalasi_id, $ruangan_id;
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }
@@ -29,7 +29,7 @@ class GUPesanbarangT extends PesanbarangT {
 		}
 		$criteria->compare('LOWER(nopemesanan)',strtolower($this->nopemesanan),true);
 		if(!empty($this->ruanganpemesan_id)){
-			$criteria->addCondition("ruanganpemesan_id = ".$this->ruanganpemesan_id);			
+			$criteria->addCondition("ruanganpemesan_id = ".Yii::app()->user->getState('ruangan_id'), 'OR');			
 		}
 		$criteria->compare('LOWER(keterangan_pesan)',strtolower($this->keterangan_pesan),true);
 		if(!empty($this->pegpemesan_id)){
@@ -38,6 +38,7 @@ class GUPesanbarangT extends PesanbarangT {
 		if(!empty($this->pegmengetahui_id)){
 			$criteria->addCondition("pegmengetahui_id = ".$this->pegmengetahui_id);			
 		}
+                                
 		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

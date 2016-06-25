@@ -63,8 +63,8 @@
                         <label class="control-label">
                             <?php echo CHtml::activeLabel($model, 'ruanganpemesan_id', array('class'=>'control-label')); ?>
                         </label>
-                        <div class="controls">
-                               <?php echo $form->dropDownList($model,'ruanganpemesan_id', CHtml::listData(RuanganM::model()->findAllByAttributes(array('instalasi_id'=>$model->ruanganpemesan->instalasi_id,'ruangan_aktif'=>true), array('order'=>'ruangan_nama ')), 'ruangan_id', 'ruangan_nama'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20)); ?>
+                        <div class="controls"><!-- RuanganM::model()->findAllByAttributes(array('instalasi_id'=>$model->ruanganpemesan->instalasi_id,'ruangan_aktif'=>true -->
+                               <?php echo $form->dropDownList($model,'ruanganpemesan_id', CHtml::listData(RuanganM::model()->findAll('ruangan_aktif = TRUE ORDER BY ruangan_nama ASC'), 'ruangan_id', 'ruangan_nama'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20, 'disabled'=>true)); ?>
                         </div>
                     </div>
                 </td>

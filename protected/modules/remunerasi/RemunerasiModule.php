@@ -4,7 +4,7 @@ class RemunerasiModule extends CWebModule
 {
                 public $kelompokMenu = array();
                 public $menu = array();
-                public $defaultController = 'kelremM';
+                public $defaultController = 'moduleDashboardRE';
 	public function init()
 	{
 		// this method is called when the module is being created
