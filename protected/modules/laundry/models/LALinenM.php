@@ -11,7 +11,7 @@ class LALinenM extends LinenM {
 	   // should not be searched.
 
 	   $criteria=new CDbCriteria;
-
+            
 		if(!empty($this->linen_id)){
 			$criteria->addCondition('linen_id = '.$this->linen_id);
 		}
@@ -58,9 +58,9 @@ class LALinenM extends LinenM {
 		} 
 		$criteria->compare('linen_aktif',$this->linen_aktif);
 		$criteria->compare('LOWER(satuanlinen)',strtolower($this->satuanlinen),true);
-		$criteria->addCondition("linen_id in(select linen_id from penyimpananlinen_t)");
+		// $criteria->addCondition("linen_id in(select linen_id from penyimpananlinen_t)");
 		// $criteria->limit=10;
-
+             
 	   return new CActiveDataProvider($this, array(
 			   'criteria'=>$criteria,
 	   ));
