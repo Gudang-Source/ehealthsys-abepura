@@ -33,13 +33,13 @@ class SAJenislinenM extends JenislinenM
 	{
 		return array(
 			'jenislinen_id' => 'ID',
-			'jenislinen_no' => 'No.Jenis linen',
-			'jenislinen_nama' => 'Nama',
-			'tgldiedarkan' => 'Tgl diedarkan',
+			'jenislinen_no' => 'No Jenis Linen',
+			'jenislinen_nama' => 'Jenis Linen',
+			'tgldiedarkan' => 'Tanggal Diedarkan',
 			'ukuranitem' => 'Ukuran',
 			'beratitem' => 'Berat',
 			'qtyitem' => 'Qty',
-			'warnalinen' => 'Warna linen',
+			'warnalinen' => 'Warna Linen',
 			'isberwarna' => 'Berwarna',
 		);
 	}
