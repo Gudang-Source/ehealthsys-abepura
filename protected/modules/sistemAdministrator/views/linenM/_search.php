@@ -9,19 +9,18 @@
         <td>
             <?php //echo $form->textFieldRow($model,'linen_id',array('class'=>'span3')); ?>            
             
-            <?php echo $form->dropDownListRow($model, 'jenislinen_id', CHtml::listData(JenislinenM::model()->findAll(array('order'=>'jenislinen_nama', )), 'jenislinen_id', 'jenislinen_nama'), array('empty'=>'-- Pilih --')); ?>
+            
 
             <?php echo $form->dropDownListRow($model, 'ruangan_id', CHtml::listData(RuanganM::model()->findAll(array('order'=>'ruangan_nama'),array('condition'=>'ruangan_aktif = TRUE')), 'ruangan_id', 'ruangan_nama'), array('empty'=>'-- Pilih --')); ?>            
 
-           
+           <?php echo $form->dropDownListRow($model, 'rakpenyimpanan_id', CHtml::listData(RakpenyimpananM::model()->findAll(array('order'=>'rakpenyimpanan_nama'),array('condition'=>'rakpenyimpanan_aktif = TRUE') ), 'rakpenyimpanan_id', 'rakpenyimpanan_nama'), array('empty'=>'-- Pilih --')); ?>                
 
             <?php //echo $form->textFieldRow($model,'kodelinen',array('class'=>'span3','maxlength'=>50)); ?>
 
             <?php //echo $form->textFieldRow($model,'tglregisterlinen',array('class'=>'span3')); ?>
         </td>
-        <td>
-             <?php echo $form->dropDownListRow($model, 'rakpenyimpanan_id', CHtml::listData(RakpenyimpananM::model()->findAll(array('order'=>'rakpenyimpanan_nama'),array('condition'=>'rakpenyimpanan_aktif = TRUE') ), 'rakpenyimpanan_id', 'rakpenyimpanan_nama'), array('empty'=>'-- Pilih --')); ?>                
-
+        <td>             
+            <?php echo $form->dropDownListRow($model, 'jenislinen_id', CHtml::listData(JenislinenM::model()->findAll(array('order'=>'jenislinen_nama', )), 'jenislinen_id', 'jenislinen_nama'), array('empty'=>'-- Pilih --')); ?>
             <?php echo $form->dropDownListRow($model, 'bahanlinen_id', CHtml::listData(BahanlinenM::model()->findAll(array('order'=>'bahanlinen_nama'),array('condition'=>'bahanlinen_aktif = TRUE') ), 'bahanlinen_id', 'bahanlinen_nama'), array('empty'=>'-- Pilih --')); ?>                               
 
             
@@ -40,7 +39,13 @@
             <?php //echo $form->textFieldRow($model,'tahunbeli',array('class'=>'span3','maxlength'=>6)); ?>
         </td>
         <td>
-            <?php echo $form->textFieldRow($model,'barang_nama',array('class'=>'span3')); ?>
+            <div class = "control-group">
+                <?php echo CHtml::label('Nama Linen', 'barang_nama', array('class'=>'control-label')) ?>
+                <div class = "controls">
+                       <?php echo $form->textField($model,'barang_nama',array('class'=>'span3')); ?>
+                </div>
+            </div>
+         
             <?php //echo $form->textFieldRow($model,'jmlcucilinen',array('class'=>'span3')); ?>
 
             <?php //echo $form->textFieldRow($model,'create_time',array('class'=>'span3')); ?>

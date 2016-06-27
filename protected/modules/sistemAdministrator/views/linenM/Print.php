@@ -26,15 +26,65 @@ $this->widget($table,array(
 			'header'=>'ID',
 			'value'=>'$data->linen_id',
 		),
-		'jenislinen_id',
-		'ruangan_id',
-		'rakpenyimpanan_id',
-		'bahanlinen_id',
-		'barang_id',
-            array(
-                                    'header' => 'Status',
-                                    'value' => '($data->linen_aktif)?"Aktif":"Tidak Aktif"',
-                                ),
+                array(
+			'header'=>'Ruangan',
+			'type'=>'raw',
+                        'name'=>'ruangan_id',
+			'value'=>'$data->ruangan->ruangan_nama',
+                        'filter'=>  CHtml::activeDropDownList($model, 'ruangan_id', 
+                                CHtml::listData(RuanganM::model()->findAllByAttributes(array(
+                                    'ruangan_aktif'=>true,
+                                ), array(
+                                    'order'=>'ruangan_nama',
+                                )), 'ruangan_id', 'ruangan_nama'), array('empty'=>'-- Pilih --')),
+		), 
+		array(
+			'header'=>'Rak Penyimpanan',
+			'type'=>'raw',
+			'value'=>function($data) {
+                            $rak = RakpenyimpananM::model()->findByPk($data->rakpenyimpanan_id);
+                            return empty($rak)?"-":$rak->rakpenyimpanan_nama;
+                        },
+                        'filter'=>  CHtml::activeDropDownList($model, 'rakpenyimpanan_id', 
+                                CHtml::listData(RakpenyimpananM::model()->findAllByAttributes(array(
+                                    'rakpenyimpanan_aktif'=>true,
+                                ), array(
+                                    'order'=>'rakpenyimpanan_nama',
+                                )), 'rakpenyimpanan_id', 'rakpenyimpanan_nama'), array('empty'=>'-- Pilih --')),
+		),     
+		array(
+			'header'=>'Jenis',
+                        'name'=>'jenislinen_id',
+			'type'=>'raw',
+			'value'=>'$data->jenis->jenislinen_nama',
+                        'filter'=>  CHtml::activeDropDownList($model, 'jenislinen_id', 
+                                CHtml::listData(JenislinenM::model()->findAll(array(
+                                    'order'=>'jenislinen_nama',
+                                )), 'jenislinen_id', 'jenislinen_nama'), array('empty'=>'-- Pilih --')),
+		), 		
+		array (
+			'header'=>'Bahan',
+			'type'=>'raw',
+                        'name'=>'bahanlinen_id',
+			'value'=>'$data->bahan->bahanlinen_nama',
+                        'filter'=>  CHtml::activeDropDownList($model, 'bahanlinen_id', 
+                                CHtml::listData(BahanlinenM::model()->findAllByAttributes(array(
+                                    'bahanlinen_aktif'=>true,
+                                ), array(
+                                    'order'=>'bahanlinen_nama',
+                                )), 'bahanlinen_id', 'bahanlinen_nama'), array('empty'=>'-- Pilih --')),
+		), 
+		array(
+			'header'=>'Nama Linen',
+			'type'=>'raw',
+                        'name'=>'barang_nama',
+			'value'=>'isset($data->barang->barang_nama)?$data->barang->barang_nama:"-"'
+		),
+                array(
+                    'header' => 'Status',
+                    'value' => '($data->linen_aktif)?"Aktif":"Tidak Aktif"',
+                ),
+
 		/*
 		'kodelinen',
 		'tglregisterlinen',

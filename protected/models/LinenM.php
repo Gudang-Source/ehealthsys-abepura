@@ -100,7 +100,7 @@ class LinenM extends CActiveRecord
 			'ruangan_id' => 'Ruangan',
 			'rakpenyimpanan_id' => 'Rak Penyimpanan',
 			'bahanlinen_id' => 'Bahan',
-			'barang_id' => 'Barang',
+			'barang_id' => 'Linen Nama',
 			'kodelinen' => 'Kode',
 			'tglregisterlinen' => 'Tanggal Register',
 			'noregisterlinen' => 'No. Register',

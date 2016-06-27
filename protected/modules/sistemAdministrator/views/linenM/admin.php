@@ -44,18 +44,7 @@ $('.search-form form').submit(function(){
 				'type'=>'raw',
 				'htmlOptions'=>array('style'=>'text-align:right;'),
 			),
-                    
-		array(
-			'header'=>'Jenis',
-                        'name'=>'jenislinen_id',
-			'type'=>'raw',
-			'value'=>'$data->jenis->jenislinen_nama',
-                        'filter'=>  CHtml::activeDropDownList($model, 'jenislinen_id', 
-                                CHtml::listData(JenislinenM::model()->findAll(array(
-                                    'order'=>'jenislinen_nama',
-                                )), 'jenislinen_id', 'jenislinen_nama'), array('empty'=>'-- Pilih --')),
-		), 
-		array(
+                array(
 			'header'=>'Ruangan',
 			'type'=>'raw',
                         'name'=>'ruangan_id',
@@ -80,7 +69,17 @@ $('.search-form form').submit(function(){
                                 ), array(
                                     'order'=>'rakpenyimpanan_nama',
                                 )), 'rakpenyimpanan_id', 'rakpenyimpanan_nama'), array('empty'=>'-- Pilih --')),
-		), 
+		),     
+		array(
+			'header'=>'Jenis',
+                        'name'=>'jenislinen_id',
+			'type'=>'raw',
+			'value'=>'$data->jenis->jenislinen_nama',
+                        'filter'=>  CHtml::activeDropDownList($model, 'jenislinen_id', 
+                                CHtml::listData(JenislinenM::model()->findAll(array(
+                                    'order'=>'jenislinen_nama',
+                                )), 'jenislinen_id', 'jenislinen_nama'), array('empty'=>'-- Pilih --')),
+		), 		
 		array (
 			'header'=>'Bahan',
 			'type'=>'raw',
@@ -94,7 +93,7 @@ $('.search-form form').submit(function(){
                                 )), 'bahanlinen_id', 'bahanlinen_nama'), array('empty'=>'-- Pilih --')),
 		), 
 		array(
-			'header'=>'Barang',
+			'header'=>'Nama Linen',
 			'type'=>'raw',
                         'name'=>'barang_nama',
 			'value'=>'isset($data->barang->barang_nama)?$data->barang->barang_nama:"-"'
@@ -159,7 +158,15 @@ $('.search-form form').submit(function(){
 				)
 			),
 		),
-		'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+		'afterAjaxUpdate'=>'function(id, data){
+                jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
+                $("table").find("input[type=text]").each(function(){
+                    cekForm(this);
+                })
+                 $("table").find("select").each(function(){
+                    cekForm(this);
+                })
+            }',
 	)); ?>
 <!--</div>-->
 <?php 
@@ -172,6 +179,10 @@ $('.search-form form').submit(function(){
 	$urlPrint= $this->createUrl('print');
 
 $js = <<< JSCRIPT
+function cekForm(obj)
+{
+    $("#salinen-m-search :input[name='"+ obj.name +"']").val(obj.value);
+}
 function print(caraPrint)
 {
     window.open("${urlPrint}/"+$('#salinen-m-search').serialize()+"&caraPrint="+caraPrint,"",'location=_new, width=900px');
