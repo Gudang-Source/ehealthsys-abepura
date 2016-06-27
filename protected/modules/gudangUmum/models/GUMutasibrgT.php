@@ -3,6 +3,7 @@
 class GUMutasibrgT extends MutasibrgT {
 
     public $tgl_awal,$tgl_akhir;
+     public $idPesanbarang;
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }

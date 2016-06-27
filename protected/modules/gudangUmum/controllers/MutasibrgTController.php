@@ -27,7 +27,8 @@ class MutasibrgTController extends MyAuthController {
     public function actionIndex($id = null) {
         $model = new GUMutasibrgT;
         $modDetails = null;
-        $modPesan = null;
+        //$modPesan = null;
+        $modPesan = new GUPesanbarangT;
         if (isset($id)){
             $modPesan = PesanbarangT::model()->find('pesanbarang_id = '.$id.' and mutasibrg_id is null');
             $model->pesanbarang_id = $modPesan->pesanbarang_id;
@@ -541,5 +542,97 @@ class MutasibrgTController extends MyAuthController {
                     $modInvRuanganTujuan->save();
             }
             return $modInvRuanganTujuan;
+    }
+    
+    public function actionGetPesanBarangDariMutasi()
+    {
+        if(Yii::app()->request->isAjaxRequest) {
+            $idPesanbarang=$_POST['idPesanbarang'];
+             $model = new GUMutasibrgT;
+            $modMutasiDetail = new GUMutasibrgdetailT;
+            //$modDetailPesanObatAlkes = PesanoadetailT::model()->with('obatalkes','sumberdana','satuankecil')->findAll('pesanobatalkes_id='.$idPesanObatAlkes.'');
+            $modDetailPesanBarang = GUPesanbarangdetailT::model()->findAllByAttributes(array('pesanbarang_id'=>$idPesanbarang));
+            $modelPesanBarang = GUPesanbarangT::model()->findByPk($idPesanbarang);
+            $nama_pegawai = $modelPesanBarang->pegawaipemesan->namaLengkap;
+            $ruangan_nama = $modelPesanBarang->ruanganpemesan->ruangan_nama;
+            $ruangan_id = Yii::app()->user->getState('ruangan_id');
+            $format = new MyFormatter;
+            $stok = null;
+            $totalHargaSub = 0;
+            $totalHargaNetto = 0;
+            //$totalharganetto = 0;
+            //$totalhargajual = 0;
+            $tr = "";
+            $no = 1;
+            $data = array();
+            
+            $modDetailPesanBarang = GUPesanbarangdetailT::model()->findAllByAttributes(array('pesanbarang_id'=>$idPesanbarang));
+                $ruangan_id = Yii::app()->user->getState('ruangan_id');
+                $totalharganetto = 0;
+                $totalhargajual = 0;
+                if (count($modDetailPesanBarang) > 0){
+                    $ii = 0;
+                    foreach ($modDetailPesanBarang as $a => $detail) {
+                        $brg = BarangM::model()->findByPk($detail->barang_id);
+                        //$modStokOAs = StokobatalkesT::getStokObatAlkesAktif($detail->obatalkes_id, $detail->jmlpesan, $ruangan_id);
+                        //if(count($modStokOAs) > 0){
+                            //foreach($modStokOAs AS $i => $stok){
+                                $modDetails[$ii] = new GUMutasibrgdetailT();
+                               // $modDetails[$ii]->stokobatalkes_id = null; //$stok->stokobatalkes_id;
+                                $modDetails[$ii]->barang_id = $detail->barang_id;
+                               // $modDetails[$ii]->qty_mutasi = $brg->qty_mutasi;
+                                //$modDetails[$ii]->satuanbrg = $brg->satuanbrg;
+                                
+                           // }
+                       // }else{
+                       //     $pesan = "Stok obat ".$detail->obatalkes->obatalkes_nama." tidak mencukupi!";
+                       // }
+                    }
+                }
+            
+            
+            foreach ($modDetails AS $tampilDetail){
+                $tr .= $this->renderPartial($this->path_view.'_tableDetailBarang',array('$modDetails'=>$tampilDetail,'pesan'=>"",'model'=>$model),true);
+            };
+            $modPesanBarang=  PesanbarangT::model()->findByPk($idPesanbarang);
+            $data['tr']=$tr;
+            $data['ruangan_id']=$modPesanBarang->ruanganpemesan_id;
+            $data['ruangan_nama'] = $ruangan_nama;
+            $data['nama_pegawai'] = $nama_pegawai;
+            //if (!empty($stok)) $data['stok'] = $stok;
+
+
+            echo json_encode($data);
+            Yii::app()->end();
+        }
+               
+    }
+    
+    public function actionAutocompleteNoPemesanan()
+    {
+        if(Yii::app()->request->isAjaxRequest) {
+            $criteria = new CDbCriteria();
+            $criteria->compare('LOWER(nopemesanan)', strtolower($_GET['term']), true);
+            $criteria->addCondition('mutasibrg_id is null');
+            $criteria->compare('ruangantujuan_id', Yii::app()->user->getState('ruangan_id'));
+            $criteria->order = 'nopemesanan';
+            $criteria->limit = 5;
+            $models = PesanbarangT::model()->findAll($criteria);
+            foreach($models as $i=>$model)
+            {
+                $attributes = $model->attributeNames();
+                foreach($attributes as $j=>$attribute) {
+                    $returnVal[$i]["$attribute"] = $model->$attribute;
+                }
+                $returnVal[$i]['tglpesanbarang'] = MyFormatter::formatDateTimeForUser($returnVal[$i]['tglpesanbarang']);
+                $returnVal[$i]['label'] = $model->nopemesanan;
+                $returnVal[$i]['value'] = $model->nopemesanan;
+                $returnVal[$i]['pegpemesan_nama'] = $model->pegawaipemesan->namaLengkap;
+                $returnVal[$i]['ruanganpemesan_nama'] = $model->ruanganpemesan->ruangan_nama;
+            }
+
+            echo CJSON::encode($returnVal);
+        }
+        Yii::app()->end();
     }
 }
