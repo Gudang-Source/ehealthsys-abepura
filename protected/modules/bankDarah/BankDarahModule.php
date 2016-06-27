@@ -2,7 +2,7 @@
 
 class BankDarahModule extends CWebModule
 {
-    public $defaultController = 'default';
+    public $defaultController = 'ModuleDashboardBD';
 
     public $kelompokMenu = array();
     public $menu = array();

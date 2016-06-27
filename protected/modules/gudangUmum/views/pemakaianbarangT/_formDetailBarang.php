@@ -77,15 +77,17 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
     ),
 ));
 
-$modBarang = new GUBarangM('searchDialog');
+$modBarang = new GUInformasistokbarangV('searchBarangRuangan');//GUBarangM('searchDialog')
 $modBarang->unsetAttributes();
-if (isset($_GET['GUBarangM'])){
-    $modBarang->attributes = $_GET['GUBarangM'];
+$modBarang->ruangan_id = Yii::app()->user->getState('ruangan_id');
+if (isset($_GET['GUInformasistokbarangV'])){
+    $modBarang->attributes = $_GET['GUInformasistokbarangV'];
+    $modBarang->ruangan_id = Yii::app()->user->getState('ruangan_id');
 }
 
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'barang-m-grid',
-    'dataProvider'=>$modBarang->searchDialog(),
+    'dataProvider'=>$modBarang->searchBarangRuangan(),
     'filter'=>$modBarang,
 	'template'=>"{summary}\n{items}{pager}",
 	'itemsCssClass'=>'table table-striped table-bordered table-condensed',

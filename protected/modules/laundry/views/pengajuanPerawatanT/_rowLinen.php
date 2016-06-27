@@ -7,6 +7,9 @@
         <?php echo (!empty($modLinen->noregisterlinen) ? $modLinen->noregisterlinen : "") ?>
     </td>
     <td>
+        <?php echo $modLinen->namalinen; ?>
+    </td>
+    <td>
         <?php echo (!empty($modLinen->barang_id) ? $modLinen->barang->barang_nama : "") ?>
     </td>
     <td>

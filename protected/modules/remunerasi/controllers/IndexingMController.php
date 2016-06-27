@@ -27,7 +27,7 @@ class IndexingMController extends MyAuthController
 	public function actionCreate()
 	{
 		$model=new IndexingM;
-
+                $model->unsetAttributes();
 		// Uncomment the following line if AJAX validation is needed
 		
 

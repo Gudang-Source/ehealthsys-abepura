@@ -63,7 +63,18 @@
                             //'kelrem.kelrem_nama',
                             'indexing_nama',
                             'indexing_singk',
-                            'indexing_nilai',
+                            array(
+                                'name'=>'indexing_nilai',
+                                'htmlOptions'=>array(
+                                    'style'=>'text-align: right',
+                                )
+                            ),
+                            array(
+                                'name'=>'indexing_step',
+                                'htmlOptions'=>array(
+                                    'style'=>'text-align: right',
+                                )
+                            ),
                             //'indexing_urutan',
                             /*
                             'indexing_aktif',

@@ -1,3 +1,7 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
+
 <script type="text/javascript">
 
 function tambahRencana()
@@ -22,8 +26,8 @@ function tambahRencana()
                 success:function(data){
                     $('#table-rencanaanggaranpengeluaran > tbody').append(data.form);
                     $("#table-rencanaanggaranpengeluaran").find('input[name$="[ii][subkegiatanprogram_id]"]').val(subkegiatanprogram_id);
-                    $("#table-rencanaanggaranpengeluaran").find('input[name*="[ii]"][class*="integer"]').maskMoney(
-                        {"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0}
+                    $("#table-rencanaanggaranpengeluaran").find('input[name*="[ii]"][class*="integer2"]').maskMoney(
+                        {"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0}
                     );
                     renameInputRowRencanaAnggaran($("#table-rencanaanggaranpengeluaran"));                    
                     hitungTotal();
@@ -53,7 +57,7 @@ function verifikasi(){
         $("form").find('.float').each(function(){
             $(this).val(formatFloat($(this).val()));
         });
-        $("form").find('.integer').each(function(){
+        $("form").find('.integer2').each(function(){
             $(this).val(formatInteger($(this).val()));
         });
     }
@@ -79,7 +83,7 @@ function verifikasiRevisi(){
         $("form").find('.float').each(function(){
             $(this).val(formatFloat($(this).val()));
         });
-        $("form").find('.integer').each(function(){
+        $("form").find('.integer2').each(function(){
             $(this).val(formatInteger($(this).val()));
         });
     }
@@ -106,7 +110,7 @@ function verifikasiApprove(){
         $("form").find('.float').each(function(){
             $(this).val(formatFloat($(this).val()));
         });
-        $("form").find('.integer').each(function(){
+        $("form").find('.integer2').each(function(){
             $(this).val(formatInteger($(this).val()));
         });
     }
@@ -140,7 +144,7 @@ function verifikasiUbahApprove(){
         $("form").find('.float').each(function(){
             $(this).val(formatFloat($(this).val()));
         });
-        $("form").find('.integer').each(function(){
+        $("form").find('.integer2').each(function(){
             $(this).val(formatInteger($(this).val()));
         });
     }

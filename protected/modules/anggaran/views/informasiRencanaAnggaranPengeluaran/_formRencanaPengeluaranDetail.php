@@ -47,8 +47,8 @@
 		<div class="control-group ">
 		<?php echo $form->labelEx($model, 'Nilai Pengeluaran <span class="required">*</span> ', array('class' => 'control-label')); ?>
 			<div class="controls">
-			<?php echo CHtml::textField('nilairencpengeluaran','',array('class'=>'span3 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-            <?php echo $form->hiddenField($model,'digitnilai',array('class'=>'span3 integer', 'onkeypress'=>"return $(this).focusNextInputField(event);",'readonly'=>true)) ?>
+			<?php echo CHtml::textField('nilairencpengeluaran','',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+            <?php echo $form->hiddenField($model,'digitnilai',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);",'readonly'=>true)) ?>
 			<span id="digit"></span>
 			</div>
 		</div>
@@ -99,6 +99,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 
 $modProgramKerja = new AGRekeninganggaranV('searchProgramKerja');
 $modProgramKerja->unsetAttributes();
+$modProgramKerja->subkegiatanprogram_aktif = true;
 if(isset($_GET['AGRekeninganggaranV'])) {
     $modProgramKerja->attributes = $_GET['AGRekeninganggaranV'];
 }

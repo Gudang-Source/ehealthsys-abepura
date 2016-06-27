@@ -45,7 +45,7 @@ echo $form->errorSummary($modDetail);
                                 'class' => 'span2',
                                                 'placeholder'=>'Ketikan nama barang',
                             ),
-                            'tombolDialog' => array('idDialog' => 'dialogBarang'),
+                            'tombolDialog' => array('idDialog' => 'dialogBarang', 'idTombol'=>'tombolDialogBarang'),
                         ));
                         ?>
 
@@ -78,7 +78,7 @@ echo $form->errorSummary($modDetail);
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
     'id' => 'dialogBarang',
     'options' => array(
-        'title' => 'Daftar Barang',
+        'title' => 'Daftar Barang <span id="dialog_ruangan"></span> ',
         'autoOpen' => false,
         'modal' => true,
         'width' => 750,
@@ -86,16 +86,16 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
     ),
 ));
 
-$modBarang = new GUBarangM('search');
+$modBarang = new GUInformasistokbarangV('searchBarangRuangan');//GUBarangM('search')
 $modBarang->unsetAttributes();
 //$modPegawai->ruangan_id = 0;
-if (isset($_GET['GUBarangM'])){
-    $modBarang->attributes = $_GET['GUBarangM'];
+if (isset($_GET['GUInformasistokbarangV'])){
+    $modBarang->attributes = $_GET['GUInformasistokbarangV'];
 }   
 
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'barang-m-grid',
-    'dataProvider'=>$modBarang->searchDialog(),
+    'dataProvider'=>$modBarang->searchBarangRuangan(),
     'filter'=>$modBarang,
        // 'template'=>"{items}\n{pager}",
         'template'=>"{summary}\n{items}\n{pager}",
@@ -118,7 +118,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
         array(
             'header' => 'Tipe Barang',
             'name' => 'barang_type',
-            'filter' => CHtml::dropDownList('GUBarangM[barang_type]',$modBarang->barang_type,LookupM::getItems('barangumumtype'),array('empty'=>'-- Pilih --')),    
+            'filter' => CHtml::activeHiddenField($modBarang, 'ruangan_id', array('class'=>'dialog_ruangan_id')).CHtml::dropDownList('GUBarangM[barang_type]',$modBarang->barang_type,LookupM::getItems('barangumumtype'),array('empty'=>'-- Pilih --')),    
             'value' => '$data->barang_type',
         ),
         'barang_kode',
