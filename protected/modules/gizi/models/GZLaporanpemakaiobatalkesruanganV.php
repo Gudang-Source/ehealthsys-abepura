@@ -5,7 +5,7 @@
  * and open the template in the editor.
  */
 
-class RDLaporanpemakaiobatalkesruanganV extends LaporanpemakaiobatalkesruanganV  {
+class GZLaporanpemakaiobatalkesruanganV extends LaporanpemakaiobatalkesruanganV  {
 
 	public $tgl_awal, $bln_awal, $thn_awal;
 	public $tgl_akhir, $bln_akhir, $thn_akhir;

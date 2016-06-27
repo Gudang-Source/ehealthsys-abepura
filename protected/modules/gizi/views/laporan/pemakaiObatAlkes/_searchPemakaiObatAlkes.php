@@ -137,8 +137,8 @@
                                 'content2'=>array(
                                     'header'=>'Berdasarkan Jenis Obat',
                                     'isi'=>'<table><tr>      
-                                                <td>'.CHtml::checkBox('checkAllJenis', false, array('onkeypress' => "return $(this).focusNextInputField(event)",
-                                                        'class' => 'checkbox-column', 'onclick' => 'checkAll()', 'checked' => 'checked')).' Pilih Semua<td></tr></table>
+                                                <td>'.CHtml::checkBox('checkAllJenis', true, array('onkeypress' => "return $(this).focusNextInputField(event)",
+                                                        'class' => 'checkbox-column','onclick' => 'checkAll()', 'checked' => 'checked')).' Pilih Semua<td></tr></table>
                                                 <table id="tindak_lanjut_tbl">
 						<tr>
 							<td>'.

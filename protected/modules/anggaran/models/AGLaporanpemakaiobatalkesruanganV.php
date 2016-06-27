@@ -5,11 +5,12 @@
  * and open the template in the editor.
  */
 
-class RDLaporanpemakaiobatalkesruanganV extends LaporanpemakaiobatalkesruanganV  {
+class AGLaporanpemakaiobatalkesruanganV extends LaporanpemakaiobatalkesruanganV  {
 
 	public $tgl_awal, $bln_awal, $thn_awal;
 	public $tgl_akhir, $bln_akhir, $thn_akhir;
         public $jns_periode, $tick, $data, $jumlah;
+        public $checkAllJenis;
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }

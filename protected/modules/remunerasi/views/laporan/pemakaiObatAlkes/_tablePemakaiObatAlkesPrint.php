@@ -23,9 +23,9 @@ $sort=true;
 	'columns'=>array(
             array(
                 'header' => 'No',
-                'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
+                'value' => '$row+1'
             ),
-            array(
+           array(
                 'header' => 'Tanggal Pemakaian',
                 'value' => 'MyFormatter::formatDateTimeForUser($data->tglpemakaianobat)'
             ),
@@ -63,7 +63,6 @@ $sort=true;
                 'value' => '"Rp".number_format(($data->harga_satuanpakai * $data->qty_satuanpakai),0,"",".")',                
                 'htmlOptions' => array('style'=>'text-align:right;')
             ), 
-          
 	),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 )); ?>
