@@ -3,12 +3,20 @@
 class ProduksiController extends MyAuthController
 {
         public $layout='//layouts/column1';
-	public function actionIndex($id = null)
+	public function actionIndex($id = null, $sukses='')
 	{
+            if ($sukses == 1){
+                Yii::app()->user->setFlash("success", "Data Produksi berhasil disimpan.");
+            }
+            
                 $produksi = new ProduksigasmedisT;
                 $det_produksi = array();
-                $produksi->no_produksi = $this->generateNoProduksi();
-                
+                $produksi->no_produksi = $this->generateNoProduksi();                
+                $nama = LoginpemakaiK::model()->findByPk(Yii::app()->user->id);
+                $produksi->petugasgasmedis_id = isset($nama)?$nama->pegawai_id:null;
+                if (count($nama) > 0){
+                    $produksi->petugasgasmedis_nama = $nama->pegawai->namaLengkap;                    
+                }
                 if (!empty($id)) {
                     $produksi = ProduksigasmedisT::model()->findByPk($id);
                     $produksi->petugasgasmedis_nama = $produksi->petugas->nama_pegawai;
@@ -33,7 +41,7 @@ class ProduksiController extends MyAuthController
                     if ($ok) {
                         $trans->commit();
                         Yii::app()->user->setFlash("success", "Data Produksi berhasil disimpan.");
-                        $this->redirect(array('index', 'id'=>$produksi->produksigasmedis_id));
+                        $this->redirect(array('index', 'id'=>$produksi->produksigasmedis_id, 'sukses'=>1));
                     } else {
                         $trans->rollback();
                         Yii::app()->user->setFlash("error", "Data Produksi gagal disimpan.");
@@ -97,8 +105,8 @@ class ProduksiController extends MyAuthController
             
             if (isset($_GET['GMProduksigasmedisT'])) {
                 $model->attributes = $_GET['GMProduksigasmedisT'];
-                $model->petugas_nama = $_GET['GMProduksigasmedisT']['petugas_nama'];
-                $model->mengetahui_nama = $_GET['GMProduksigasmedisT']['mengetahui_nama'];
+               // $model->petugas_nama = $_GET['GMProduksigasmedisT']['petugas_nama'];
+               // $model->mengetahui_nama = $_GET['GMProduksigasmedisT']['mengetahui_nama'];
                 $model->tgl_awal = MyFormatter::formatDateTimeForDb($_GET['GMProduksigasmedisT']['tgl_awal']);
                 $model->tgl_akhir = MyFormatter::formatDateTimeForDb($_GET['GMProduksigasmedisT']['tgl_akhir']);
             }

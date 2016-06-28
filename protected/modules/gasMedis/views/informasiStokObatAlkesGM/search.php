@@ -24,7 +24,7 @@
         </div>
         <div class="span4">
             <?php echo $form->textFieldRow($model,'obatalkes_nama',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
-            <?php echo $form->textFieldRow($model,'satuankecil_nama',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+            <?php echo $form->dropDownlistRow($model,'satuankecil_nama', CHtml::listData(SatuankecilM::model()->findAll("satuankecil_aktif = TRUE ORDER BY satuankecil_nama ASC "), 'satuankecil_nama', 'satuankecil_nama'),array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
         </div>
     </div>
     <div class="form-actions">

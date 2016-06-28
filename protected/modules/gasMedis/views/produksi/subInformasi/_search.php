@@ -55,13 +55,13 @@
                 <div class="control-group">
                     <?php echo CHtml::label('Petugas Gas Medis','petugas', array('class'=>'control-label')) ?>
                     <div class="controls">
-                        <?php  echo Chtml::activeTextField($model, 'petugas_nama', array('class'=>'span3')); ?>
+                        <?php  echo $form->dropDownList($model, 'petugasgasmedis_id', CHtml::listData(PegawairuanganV::model()->findAll("pegawai_aktif = TRUE AND ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ORDER BY nama_pegawai ASC"), 'pegawai_id', 'namaLengkap') ,array('class'=>'span3','empty'=>'-- Pilih --')); ?>
                     </div>
                 </div>
                 <div class="control-group">
-                    <?php echo CHtml::label('Mengetahui','mengetahui', array('class'=>'control-label')) ?>
+                    <?php echo CHtml::label('Mengetahui','mengetahui_id', array('class'=>'control-label')) ?>
                     <div class="controls">
-                        <?php  echo Chtml::activeTextField($model, 'mengetahui_nama', array('class'=>'span3')); ?>
+                        <?php  echo $form->dropDownList($model, 'mengetahui_id', CHtml::listData(PegawairuanganV::model()->findAll("pegawai_aktif = TRUE AND ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ORDER BY nama_pegawai ASC"), 'pegawai_id', 'namaLengkap') ,array('class'=>'span3','empty'=>'-- Pilih --')); ?>
                     </div>
                 </div>
             </td>

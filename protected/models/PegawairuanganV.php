@@ -87,7 +87,7 @@ class PegawairuanganV extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-                                    'ruangan'=>array(self::BELONGS_TO,'RuanganM','ruangan_id'),
+                                    'ruangan'=>array(self::BELONGS_TO,'RuanganM','ruangan_id'),                                    
                                     'instalasi'=>array(self::BELONGS_TO, 'InstalasiM', 'instalasi_id'),
 		);
 	}
@@ -165,6 +165,26 @@ class PegawairuanganV extends CActiveRecord
 		$criteria->compare('LOWER(t.nomorindukpegawai)',strtolower($this->nomorindukpegawai),true);
 		$criteria->compare('t.pangkat_id',$this->pangkat_id);
 		$criteria->compare('t.kelompokpegawai_id',$this->kelompokpegawai_id);
+		$criteria->compare('t.jabatan_id',$this->jabatan_id);
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+	}
+        
+        public function pegawaiMengetahui()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria=new CDbCriteria;
+
+		$criteria->compare('t.ruangan_id',$this->ruangan_id);
+		$criteria->compare('t.instalasi_id',$this->instalasi_id);		
+		$criteria->compare('t.pegawai_id',$this->pegawai_id);		
+		$criteria->compare('LOWER(t.nama_pegawai)',strtolower($this->nama_pegawai),true);
+                $criteria->compare('LOWER(t.nomorindukpegawai)',strtolower($this->nomorindukpegawai),true);
+		$criteria->compare('LOWER(t.gelarbelakang_nama)',strtolower($this->gelarbelakang_nama),true);		
 		$criteria->compare('t.jabatan_id',$this->jabatan_id);
 
 		return new CActiveDataProvider($this, array(
