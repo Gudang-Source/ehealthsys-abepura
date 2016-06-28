@@ -65,11 +65,11 @@ class BahanlinenM extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'bahanlinen_id' => 'Bahanlinen',
-			'bahanlinen_nama' => 'Bahanlinen Nama',
-			'bahanlinen_namalain' => 'Bahanlinen Namalain',
-			'suhurekomendasi' => 'Suhurekomendasi',
-			'bahanlinen_aktif' => 'Bahanlinen Aktif',
+			'bahanlinen_id' => 'ID',
+			'bahanlinen_nama' => 'Bahan Linen',
+			'bahanlinen_namalain' => 'Nama Lain',
+			'suhurekomendasi' => 'Suhu Rekomendasi',
+			'bahanlinen_aktif' => 'Aktif',
 		);
 	}
 

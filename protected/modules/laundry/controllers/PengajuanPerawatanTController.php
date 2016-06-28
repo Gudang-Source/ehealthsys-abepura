@@ -173,7 +173,7 @@ class PengajuanPerawatanTController extends MyAuthController {
     public function actionLoadFormLine()
     {
         if(Yii::app()->request->isAjaxRequest) { 
-            $noregisterlinen = $_POST['noregisterlinen'];
+            //$noregisterlinen = $_POST['noregisterlinen'];
             $linen_id = $_POST['linen_id'];
             $jenisperawatan = $_POST['jenisperawatan'];
             $keterangan_pengperawatan = $_POST['keterangan_pengperawatan'];

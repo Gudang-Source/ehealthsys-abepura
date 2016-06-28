@@ -4,7 +4,7 @@
 		if (isset($modRencanaDetail->no_urut)){
 			echo CHtml::activeTextField($modRencanaDetail,'['.$i.']no_urut',array('readonly'=>true,'class'=>'span1', 'style'=>'width:20px;')); 
 		}else {
-			echo CHtml::textField('no_urut',0,array('readonly'=>true,'class'=>'span1 integer', 'style'=>'width:20px;')); 
+			echo CHtml::textField('no_urut',0,array('readonly'=>true,'class'=>'span1 integer2', 'style'=>'width:20px;')); 
 		}
 			?>
         <?php echo CHtml::activeHiddenField($modRencanaDetail,'['.$i.']rencanggaranpengdet_id',array('readonly'=>true,'class'=>'span1')); ?>
@@ -43,7 +43,7 @@
 		</div>
     </td>
     <td>
-			<?php echo CHtml::activeTextField($modRencanaDetail,'['.$i.']nilaiygdisetujui',array('class'=>'span2 integer','style'=>'width:90px;','onkeyup'=>"hitungTotalRevisi(); return $(this).focusNextInputField(event);")); ?>
+			<?php echo CHtml::activeTextField($modRencanaDetail,'['.$i.']nilaiygdisetujui',array('class'=>'span2 integer2','style'=>'width:90px;','onkeyup'=>"hitungTotalRevisi(); return $(this).focusNextInputField(event);")); ?>
         <?php echo CHtml::activeHiddenField($modRencanaDetail,'['.$i.']nilaiapprove',array('readonly'=>true,'class'=>'span1')); ?>
     </td>
     <td>

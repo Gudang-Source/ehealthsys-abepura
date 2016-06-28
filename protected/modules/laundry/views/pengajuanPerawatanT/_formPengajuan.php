@@ -129,6 +129,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 
 $modPegawaiMengajukan = new LAPegawaiV('searchPegawaiMengajukan');
 $modPegawaiMengajukan->unsetAttributes();
+$modPegawaiMengajukan->pegawai_aktif = true;
 if(isset($_GET['LAPegawaiV'])) {
     $modPegawaiMengajukan->attributes = $_GET['LAPegawaiV'];
 }
@@ -155,21 +156,12 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 array(
                     'header'=>'NIP',
                     'value'=>'$data->nomorindukpegawai',
-                ),
-                array(
-                    'header'=>'Gelar Depan',
-                    'filter'=>  CHtml::activeTextField($modPegawaiMengajukan, 'gelardepan'),
-                    'value'=>'$data->gelardepan',
+                    'name'=>'nomorindukpegawai',
                 ),
                 array(
                     'header'=>'Nama Pegawai',
                     'filter'=>  CHtml::activeTextField($modPegawaiMengajukan, 'nama_pegawai'),
-                    'value'=>'$data->nama_pegawai',
-                ),
-                array(
-                    'header'=>'Gelar Belakang',
-                    'filter'=>  CHtml::activeTextField($modPegawaiMengajukan, 'gelarbelakang_nama'),
-                    'value'=>'$data->gelarbelakang_nama',
+                    'value'=>'$data->namaLengkap',
                 ),
                 array(
                     'header'=>'Alamat Pegawai',
@@ -201,6 +193,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 
 $modPegawaiMengetahui = new LAPegawaiV('searchPegawaiMengetahui');
 $modPegawaiMengetahui->unsetAttributes();
+$modPegawaiMengetahui->pegawai_aktif = true;
 if(isset($_GET['LAPegawaiV'])) {
     $modPegawaiMengetahui->attributes = $_GET['LAPegawaiV'];
 }
@@ -227,21 +220,12 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 array(
                     'header'=>'NIP',
                     'value'=>'$data->nomorindukpegawai',
-                ),
-                array(
-                    'header'=>'Gelar Depan',
-                    'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'gelardepan'),
-                    'value'=>'$data->gelardepan',
+                    'name'=>'nomorindukpegawai',
                 ),
                 array(
                     'header'=>'Nama Pegawai',
                     'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'nama_pegawai'),
-                    'value'=>'$data->nama_pegawai',
-                ),
-                array(
-                    'header'=>'Gelar Belakang',
-                    'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'gelarbelakang_nama'),
-                    'value'=>'$data->gelarbelakang_nama',
+                    'value'=>'$data->namaLengkap',
                 ),
                 array(
                     'header'=>'Alamat Pegawai',

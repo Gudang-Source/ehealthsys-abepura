@@ -96,4 +96,12 @@
 		window.open("<?php echo $this->createUrl('print'); ?>/"+$('#rkdokumenpasienrmlama-v-search').serialize()+"&caraPrint="+caraPrint,"",'location=_new, width=900px');
 	}
 	setUrutan();
+        
+        function pilihSemua(obj) {
+            if ($(obj).is(":checked")) {
+                $(".cekList").prop("checked", true);
+            } else {
+                $(".cekList").prop("checked", false);
+            }
+        }
 </script>

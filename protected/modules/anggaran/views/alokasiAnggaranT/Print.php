@@ -63,17 +63,17 @@ if (!isset($_GET['frame'])){
                 <td align="center"><?php echo $modProgramKerja->subkegiatanprogram_kode; ?></td>
                 <td align="center"><?php echo $modProgramKerja->subkegiatanprogram_nama; ?></td>
                 <td align="center"><?php echo (!empty($modProgramKerja->tglapprrencanggaran) ? $format->formatMonthForUser($modProgramKerja->tglapprrencanggaran) : ""); ?></td>
-                <td align="right"><?php echo number_format($data->nilairencana); ?></td>
+                <td align="right"><?php echo $format->formatNumberForPrint($data->nilairencana); ?></td>
                 <td align="center"><?php echo $data->sumberanggaran->sumberanggarannama; ?></td>
-				<td align="right"><?php echo number_format($data->nilaiygdialokasikan); ?></td>
+				<td align="right"><?php echo $format->formatNumberForPrint($data->nilaiygdialokasikan); ?></td>
             </tr>
         <?php } ?>
         <tfoot class="border">
             <tr>
                 <td colspan="7" align="right"><strong>Total</strong></td>
-                <td align="right"><?php echo $format->formatUang($total_nilairencana); ?></td>
+                <td align="right"><?php echo $format->formatNumberForPrint($total_nilairencana); ?></td>
 				<td></td>
-				<td align="right"><?php echo $format->formatUang($total_nilaialokasi); ?></td>
+				<td align="right"><?php echo $format->formatNumberForPrint($total_nilaialokasi); ?></td>
             </tr>
         </tfoot>
     </table>

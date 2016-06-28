@@ -123,8 +123,8 @@ class RMBukuregisterpenunjangV extends BukuregisterpenunjangV {
         if (!empty($this->shift_id)){
 			$criteria->addCondition('shift_id ='.$this->shift_id);
 		}
-		if (!empty($this->ruanganasal_id)){
-			$criteria->addCondition('ruanganasal_id ='.$this->ruanganasal_id);
+		if (!empty($this->ruanganpenunj_id)){
+			$criteria->addCondition('ruanganpenunj_id ='.$this->ruanganpenunj_id);
 		}
         $criteria->compare('LOWER(ruanganasal_nama)', strtolower($this->ruanganasal_nama), true);
 		if (!empty($this->jeniskasuspenyakit_id)){
@@ -258,10 +258,10 @@ class RMBukuregisterpenunjangV extends BukuregisterpenunjangV {
         if (!empty($this->shift_id)){
 			$criteria->addCondition('shift_id ='.$this->shift_id);
 		}
-		if (!empty($this->ruanganasal_id)){
-			$criteria->addCondition('ruanganasal_id ='.$this->ruanganasal_id);
+		if (!empty($this->ruanganpenunj_id)){
+			$criteria->addCondition('ruanganpenunj_id ='.$this->ruanganpenunj_id);
 		}
-        $criteria->compare('LOWER(ruanganasal_nama)', strtolower($this->ruanganasal_nama), true);
+        //$criteria->compare('LOWER(ruanganasal_nama)', strtolower($this->ruanganasal_nama), true);
 		if (!empty($this->jeniskasuspenyakit_id)){
 			$criteria->addCondition('jeniskasuspenyakit_id ='.$this->jeniskasuspenyakit_id);
 		}

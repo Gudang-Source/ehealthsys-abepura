@@ -5,7 +5,7 @@
 	'itemsCssClass'=>'table table-striped table-condensed',
 	'columns'=>array(
 		array(
-			'header'=> 'Pilih',
+			'header'=> 'Pilih'.CHtml::checkBox('pilihsemua', 1, array('onchange'=>'pilihSemua(this)')),
 			'type'=>'raw',
 			'value'=>'
 				CHtml::hiddenField(\'Dokumen[ii][dokrekammedis_id]\', $data->dokrekammedis_id).
@@ -27,8 +27,14 @@
 		'no_rekam_medik',
 //		'pendaftaran.tgl_pendaftaran',
 		'no_pendaftaran',
-		'nama_pasien',
-		'tanggal_lahir',
+                array(
+                    'name'=>'nama_pasien',
+                    'value'=>'$data->namadepan.$data->nama_pasien',
+                ),
+                array(
+                    'name'=>'tanggal_lahir',
+                    'value'=>'MyFormatter::formatDateTimeFOrUser($data->tanggal_lahir)',
+                ),
 		'jeniskelamin',
 		'alamat_pasien',
 		'instalasi_nama',

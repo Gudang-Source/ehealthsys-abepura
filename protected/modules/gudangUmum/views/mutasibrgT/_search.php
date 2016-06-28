@@ -5,7 +5,9 @@
 	'id'=>'gumutasibrg-t-search',
 	'type'=>'horizontal',
 	'focus'=>'#'.CHtml::activeId($model,'nomutasibrg'),
-)); ?>
+)); 
+$format = new MyFormatter();
+?>
         <table width="100%" class="table-condensed">
             <tr>
                 <td>

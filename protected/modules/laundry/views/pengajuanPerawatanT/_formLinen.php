@@ -1,5 +1,6 @@
 <div class="row-fluid" id="formLinen">
     <div class="span4">
+        <?php /*
         <div class="control-group ">
             <label class='control-label'>No. Register Linen</label>
             <div class="controls">
@@ -41,6 +42,7 @@
                 ?>
             </div>
         </div>
+        */ ?>
         <div class="control-group">
             <label class='control-label'>Nama Linen</label>
             <div class="controls">
@@ -118,7 +120,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
         'autoOpen' => false,
         'modal' => true,
         'width' => 1000,
-        'height' => 500,
+        'height' => 700,
         'resizable' => false,
     ),
 ));
@@ -133,7 +135,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'barang-m-grid',
     'dataProvider'=>$modLinen->searchDialog(),
     'filter'=>$modLinen,
-	'template'=>"{pager}{summary}\n{items}",
+	'template'=>"{summary}\n{items}{pager}",
 	'itemsCssClass'=>'table table-striped table-bordered table-condensed',
     'columns'=>array(
         array(
@@ -194,7 +196,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
         'autoOpen' => false,
         'modal' => true,
         'width' => 1000,
-        'height' => 500,
+        'height' => 700,
         'resizable' => false,
     ),
 ));
@@ -206,10 +208,10 @@ if (isset($_GET['LALinenM'])){
 }
 
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
-    'id'=>'barang-m-grid',
+    'id'=>'barang2-m-grid',
     'dataProvider'=>$modLinen->searchDialog(),
     'filter'=>$modLinen,
-	'template'=>"{pager}{summary}\n{items}",
+	'template'=>"{summary}\n{items}{pager}",
 	'itemsCssClass'=>'table table-striped table-bordered table-condensed',
     'columns'=>array(
         array(
@@ -237,7 +239,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 		array(
 			'header'=>'Tanggal Register',
 			'type'=>'raw',
-			'value'=>'$data->tglregisterlinen'
+			'value'=>'MyFormatter::formatDateTimeForUser($data->tglregisterlinen)',
 		),
 		array(
 			'header'=>'Barang',
