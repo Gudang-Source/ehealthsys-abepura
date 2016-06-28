@@ -20,17 +20,11 @@
             'itemsCssClass'=>'table table-striped table-condensed',
             'columns'=>array(
                 array(
-                    'header'=>'Tgl Pendaftaran',                    
+                    'header'=>'Tgl Pendaftaran/<br> No Pendaftaran ',                    
                     'type'=>'raw',
                     'name' => 'tgl_pendaftaran',
-                    'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)'
-                ),
-                array(
-                    'header'=>'No Pendaftaran',                    
-                    'type'=>'raw',
-                    'name' => 'no_pendaftaran',
-                    'value'=>'$data->no_pendaftaran'
-                ),
+                    'value'=>'MyFormatter::formatDateTimeForUser($data->tgl_pendaftaran)." /<br>".$data->no_pendaftaran'
+                ),                
                  array(
                     'header'=>'No Rekam Medik',
                     'name'=>'no_rekam_medik',
@@ -43,39 +37,35 @@
                     'value'=>'$data->sapaanPasien',//$data->NamaNamaAlias
                 ),
                 array(
-                    'header'=>'Jenis Kelamin',
+                    'header'=>'Jenis Kelamin/<br>Umur',
                     'type'=>'raw',
-                    'value'=>'$data->jeniskelamin',
+                    'value'=>'$data->jeniskelamin." /<br>".$data->umur',
                 ),
                  array(
-                    'name'=>'umur',
+                    'name'=>'Jenis Kasus Penyakit',
                     'type'=>'raw',
-                    'value'=>'$data->umur',
-                ),                               
-                 array(
-                    'header'=>'Kasus Penyakit / <br/> Kelas Pelayanan',
-                    'type'=>'raw',
-                    'value'=>'"$data->jeniskasuspenyakit_nama"." /<br/>"."$data->kelaspelayanan_nama"',
-                ),
+                    'value'=>'$data->jeniskasuspenyakit_nama',
+                ),                                                
                 array(
-                    'header'=>'Cara Bayar / <br> Penjamin',                    
+                    'header'=>'Cara Bayar/ <br> Penjamin',                    
                     'type'=>'raw',
                     'value'=>'$data->carabayar_nama." /<br>".$data->penjamin_nama',
                 ), 
                 array(
-                    'header'=>'Dokter<br/>Penanggung Jawab',
-                    'type'=>'raw',
-                    'value'=>'$data->NamaLengkap',
-                ),
-                 array(
                     'header'=>'Instalasi /<br> Ruangan',                    
                     'type'=>'raw',
                     'value'=>'$data->instalasi_nama." /<br>".$data->ruangan_nama',
-                ),                 
+                ), 
                 array(
-                    'name'=>'alamat_pasien',
+                    'header'=> (strtolower(Yii::app()->controller->module->id)=='gasmedis')?'Dokter PJP':'Dokter Penanggung Jawab',
                     'type'=>'raw',
-                    'value'=>'$data->alamat_pasien',
+                    'value'=>'$data->NamaLengkap',
+                ),
+                                 
+                array(
+                    'header'=>'Status Periksa',
+                    'type'=>'raw',
+                    'value'=>'$data->statusperiksa',
                 ),
                 //array(
                  //   'header'=>'Pemeriksaan',

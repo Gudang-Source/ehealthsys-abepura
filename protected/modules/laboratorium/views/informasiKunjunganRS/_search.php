@@ -117,6 +117,7 @@ $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
                  ));
                 echo $form->dropDownListRow($model,'ruangan_id', CHtml::listData($ruangan, 'ruangan_id', 'ruangan_nama'), array('empty'=>'-- Pilih --', 'class'=>'span3', 'maxlength'=>50));
 
+                echo $form->dropDownListRow($model,'statusperiksa',  Params::statusPeriksa(),array('empty'=>'-- Pilih --', 'class'=>'span3',))
             ?>
         </div>
     </div>
