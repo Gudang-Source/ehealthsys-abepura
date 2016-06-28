@@ -94,6 +94,7 @@ $this->widget('bootstrap.widgets.BootAlert');
                         'mode'=>'date',
                         'options'=> array(
                         'showOn' => false,
+                        'dateFormat' => Params::DATE_FORMAT,
                         // 'maxDate' => 'd',
                         'yearRange'=> "-150:+0",
                         ),
@@ -116,10 +117,11 @@ $this->widget('bootstrap.widgets.BootAlert');
                         'mode'=>'date',
                         'options'=> array(
                         'showOn' => false,
+                        'dateFormat' => Params::DATE_FORMAT,
                         // 'maxDate' => 'd',
                         'yearRange'=> "-150:+0",
                         ),
-                        'htmlOptions'=>array('placeholder'=>'00/00/0000','class'=>'dtPicker2 datemask pernikahan', 'onkeyup'=>"return $(this).focusNextInputField(event)", "disabled"=>!$disPernikahan,
+                        'htmlOptions'=>array('placeholder'=>'00/00/0000','class'=>'dtPicker2 datemask pernikahan', 'onkeyup'=>"return $(this).focusNextInputField(event)", "disabled"=>$disPernikahan,
                         ),
                         )); ?>
                     </td>
@@ -167,9 +169,10 @@ $this->widget('bootstrap.widgets.BootAlert');
                         'options'=> array(
                         'showOn' => false,
                          'maxDate' => 'd',
+                            'dateFormat' => Params::DATE_FORMAT,
                         'yearRange'=> "-150:+0",
                         ),
-                        'htmlOptions'=>array('placeholder'=>'00/00/0000','class'=>'dtPicker2 datemask', 'onkeyup'=>"return $(this).focusNextInputField(event)"
+                        'htmlOptions'=>array('readonly'=>true,'placeholder'=>'00/00/0000','class'=>'dtPicker3 datemask', 'onkeyup'=>"return $(this).focusNextInputField(event)"
                         ),
                         )); ?>
                     </td>
@@ -189,9 +192,10 @@ $this->widget('bootstrap.widgets.BootAlert');
                         'options'=> array(
                         'showOn' => false,
                          'maxDate' => 'd',
+                            'dateFormat' => Params::DATE_FORMAT,
                         'yearRange'=> "-150:+0",
                         ),
-                        'htmlOptions'=>array('placeholder'=>'00/00/0000','class'=>'dtPicker2 datemask pernikahan', 'onkeyup'=>"return $(this).focusNextInputField(event)"
+                        'htmlOptions'=>array('readonly'=>true,'placeholder'=>'00/00/0000','class'=>'dtPicker2 datemask pernikahan', 'onkeyup'=>"return $(this).focusNextInputField(event)"
                         ),
                         )); ?>
                     </td>
