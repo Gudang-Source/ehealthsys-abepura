@@ -38,7 +38,7 @@
     <div class="control-group ">
             <label class="control-label" for="qty">Jumlah</label>
             <div class="controls">
-                <?php echo CHtml::textField('qty', '1', array('readonly' => false, 'onblur' => 'return false;', 'onkeypress' => "return $(this).focusNextInputField(event)", 'class' => 'inputFormTabel span1 numbers-only')) ?>
+                <?php echo CHtml::textField('qty', '1', array('readonly' => false, 'onblur' => 'return false;', 'onkeypress' => "return $(this).focusNextInputField(event)", 'class' => 'inputFormTabel span1 numbers-only', 'style'=>'text-align:right;')) ?>
             </div>
         </div>
     <div class="control-group ">
@@ -49,7 +49,7 @@
                                   'class'=>'btn btn-primary',
                                   'onkeypress'=>"tambahGasMedis(this);return false;",
                                   'rel'=>"tooltip",
-                                  'title'=>"Klik untuk menambahkan ke tabel resep",)); ?>
+                                  'title'=>"Klik untuk menambahkan ke detail produksi gas medis",)); ?>
         </div>
     </div>
 </fieldset>

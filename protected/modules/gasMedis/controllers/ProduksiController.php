@@ -8,7 +8,11 @@ class ProduksiController extends MyAuthController
                 $produksi = new ProduksigasmedisT;
                 $det_produksi = array();
                 $produksi->no_produksi = $this->generateNoProduksi();
-                
+                $nama = LoginpemakaiK::model()->findByPk(Yii::app()->user->id);
+                if (count($nama) > 0){
+                    $produksi->petugasgasmedis_nama = $nama->pegawai->namaLengkap;
+                    $produksi->petugasgasmedis_id = Yii::app()->user->id;
+                }
                 if (!empty($id)) {
                     $produksi = ProduksigasmedisT::model()->findByPk($id);
                     $produksi->petugasgasmedis_nama = $produksi->petugas->nama_pegawai;
@@ -97,8 +101,8 @@ class ProduksiController extends MyAuthController
             
             if (isset($_GET['GMProduksigasmedisT'])) {
                 $model->attributes = $_GET['GMProduksigasmedisT'];
-                $model->petugas_nama = $_GET['GMProduksigasmedisT']['petugas_nama'];
-                $model->mengetahui_nama = $_GET['GMProduksigasmedisT']['mengetahui_nama'];
+               // $model->petugas_nama = $_GET['GMProduksigasmedisT']['petugas_nama'];
+               // $model->mengetahui_nama = $_GET['GMProduksigasmedisT']['mengetahui_nama'];
                 $model->tgl_awal = MyFormatter::formatDateTimeForDb($_GET['GMProduksigasmedisT']['tgl_awal']);
                 $model->tgl_akhir = MyFormatter::formatDateTimeForDb($_GET['GMProduksigasmedisT']['tgl_akhir']);
             }

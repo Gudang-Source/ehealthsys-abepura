@@ -109,13 +109,15 @@ $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
                 echo $form->dropDownListRow($model,'instalasi_id', CHtml::listData($instalasi, 'instalasi_id', 'instalasi_nama'), array(
                     'empty'=>'-- Pilih --',
                     'class'=>'span3', 
+                    'onchange' => 'setClearDropdownRuangan();',
                     'ajax' => array('type'=>'POST',
-                        'url'=> $this->createUrl('/actionDynamic/getRuanganDariInstalasi',array('encode'=>false,'namaModel'=>get_class($model))), 
+                        'url'=> $this->createUrl('/ActionDynamic/getRuanganDariInstalasi',array('encode'=>false,'namaModel'=>get_class($model))), 
                         'success'=>'function(data){$("#'.CHtml::activeId($model, "ruangan_id").'").html(data); }',
                     ),
                  ));
                 echo $form->dropDownListRow($model,'ruangan_id', CHtml::listData($ruangan, 'ruangan_id', 'ruangan_nama'), array('empty'=>'-- Pilih --', 'class'=>'span3', 'maxlength'=>50));
 
+                echo $form->dropDownListRow($model,'statusperiksa',  Params::statusPeriksa(),array('empty'=>'-- Pilih --', 'class'=>'span3',))
             ?>
         </div>
     </div>
@@ -132,3 +134,12 @@ $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
     
 <?php $this->endWidget();?>
 </fieldset>  
+
+<script type="text/javascript">	
+/** bersihkan dropdown ruangan */
+function setClearDropdownRuangan()
+{
+    $("#<?php echo CHtml::activeId($model,"ruangan_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
+}
+
+</script>
