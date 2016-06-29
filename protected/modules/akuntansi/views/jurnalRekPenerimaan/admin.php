@@ -71,17 +71,20 @@
                                     'type'=>'raw',
                                     'value'=>function($data)
                                     {
-                                        $r = JnspenerimaanrekM::model()->findByAttributes(array(
+                                        $r = JnspenerimaanrekM::model()->findAllByAttributes(array(
                                             'jenispenerimaan_id' => $data->jenispenerimaan_id,
                                             'debitkredit'=>'D'
                                         ));
+                                        $str = "<ul>";
                                         
-                                        if (empty($r)) return "-";
+                                        if (count($r) == 0) return "-";
+                                        foreach ($r as $item) {
+                                            $r5 = Rekening5M::model()->findByPk($item->rekening5_id);
+                                            $str .= "<li>".$r5->nmrekening5."</li>";
+                                        }
                                         
-                                        $r5 = Rekening5M::model()->findByPk($r->rekening5_id);
-                                        
-                                        if (empty($r5)) return "-";
-                                        return $r5->nmrekening5;
+                                        $str .= "</ul>";
+                                        return $str;
                                     }
                                     //'value'=>'$this->grid->owner->renderPartial("_rekPenerimaanD",array("saldonormal"=>"D","jenispenerimaan_id"=>$data->jenispenerimaan_id),true)',
                             ),
@@ -91,17 +94,20 @@
                                     'type'=>'raw',
                                     'value'=>function($data)
                                     {
-                                        $r = JnspenerimaanrekM::model()->findByAttributes(array(
+                                        $r = JnspenerimaanrekM::model()->findAllByAttributes(array(
                                             'jenispenerimaan_id' => $data->jenispenerimaan_id,
                                             'debitkredit'=>'K'
                                         ));
+                                        $str = "<ul>";
                                         
-                                        if (empty($r)) return "-";
+                                        if (count($r) == 0) return "-";
+                                        foreach ($r as $item) {
+                                            $r5 = Rekening5M::model()->findByPk($item->rekening5_id);
+                                            $str .= "<li>".$r5->nmrekening5."</li>";
+                                        }
                                         
-                                        $r5 = Rekening5M::model()->findByPk($r->rekening5_id);
-                                        
-                                        if (empty($r5)) return "-";
-                                        return $r5->nmrekening5;
+                                        $str .= "</ul>";
+                                        return $str;
                                     }
                                     //'value'=>'$this->grid->owner->renderPartial("_rekPenerimaanK",array("saldonormal"=>"K","jenispenerimaan_id"=>$data->jenispenerimaan_id),true)',
                             ),

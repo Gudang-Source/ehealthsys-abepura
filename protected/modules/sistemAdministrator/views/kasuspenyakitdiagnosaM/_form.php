@@ -240,10 +240,10 @@ echo $form->textFieldRow($model, 'ruangan_nama', array('value' => $modruangan->r
         ),
     ));
 
-    $modDiagnosa = new DiagnosaM;
+    $modDiagnosa = new DiagnosaV;
     $modDiagnosa->unsetAttributes();
-    if (isset($_GET['DiagnosaM'])) {
-        $modDiagnosa->attributes = $_GET['DiagnosaM'];
+    if (isset($_GET['DiagnosaV'])) {
+        $modDiagnosa->attributes = $_GET['DiagnosaV'];
     }
     $this->widget('ext.bootstrap.widgets.BootGridView', array(
         'id' => 'diagnosa-grid',
@@ -255,7 +255,7 @@ echo $form->textFieldRow($model, 'ruangan_nama', array('value' => $modruangan->r
             array(
                 'header' => 'Pilih',
                 'type' => 'raw',
-                'value' => 'CHtml::Link("<i class=\"icon-check\"></i>","#",
+                'value' => 'CHtml::Link("<i class=\"icon-form-check\"></i>","#",
                                 array(
                                         "class"=>"btn-small",
                                         "id" => "selectKasuspenyakit",
@@ -266,22 +266,38 @@ echo $form->textFieldRow($model, 'ruangan_nama', array('value' => $modruangan->r
                                 ))',
             ),
             array(
-                'name' => 'diagnosa_kode',
+                'header' => 'Tabular List',
+                'name' => 'tabularlist_chapter',
             ),
             array(
-                'name' => 'diagnosa_nama',
+                'header' => 'DTD',
+                'name' => 'dtd_kode',                
+                'value' => '$data->dtd_kode',
+            ),
+             array(
+                'header' => 'Kode Klasifikasi',
+                'name' => 'klasifikasidiagnosa_kode',                
+                'value' => '$data->klasifikasidiagnosa_kode',
+            ),
+             array(
+                'header' => 'Nama Klasifikasi',
+                'name' => 'klasifikasidiagnosa_nama',                
+                'value' => '$data->klasifikasidiagnosa_nama',
+            ),
+            array(
+                'header' => 'Diagnosa Kode',
+                'name' => 'diagnosa_kode',                
+                'value' => '$data->diagnosa_kode',
+            ),
+            array(
                 'header' => 'Nama Diagnosa',
+                'name' => 'diagnosa_nama',                
                 'value' => '$data->diagnosa_nama',
             ),
             array(
-                'name' => 'diagnosa_namalainnya',
-                'header' => 'Nama Lainnya',
+                'header' => 'Nama Lain',
+                'name' => 'diagnosa_namalainnya',                
                 'value' => '$data->diagnosa_namalainnya',
-            ),
-            array(
-                'header' => 'imunisasi',
-                'type' => 'raw',
-                'value' => '($data->diagnosa_imunisasi==1)? Yii::t("mds","Yes") : Yii::t("mds","No")',
             ),
         ),
         'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',

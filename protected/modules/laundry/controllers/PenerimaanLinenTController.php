@@ -8,18 +8,34 @@ class PenerimaanLinenTController extends MyAuthController {
 	
 	public function actionIndex($id = null){
 		$format = new MyFormatter;
-		//load header
+                $model = new LAPenerimaanlinenT;
+		$modPengajuanDetail = array();
+                //load header
 		$modPengajuan = LAPengperawatanlinenT::model()->findByPk($id);
-		$modRuangan = RuanganM::model()->findByAttributes(array('ruangan_id'=>$modPengajuan->ruangan_id),'ruangan_aktif = true');
-		$model = new LAPenerimaanlinenT;
+                if (!empty($modPengajuan)) {
+                    $modRuangan = RuanganM::model()->findByAttributes(array('ruangan_id'=>$modPengajuan->ruangan_id),'ruangan_aktif = true');
+                    $model->pengperawatanlinen_no = $modPengajuan->pengperawatanlinen_no;
+                    $model->pengperawatanlinen_id = $modPengajuan->pengperawatanlinen_id;
+                    $model->instalasi_nama = $modRuangan->instalasi->instalasi_nama;
+                    $model->ruangan_nama = $modRuangan->ruangan_nama;
+                    $model->ruangan_id = $modRuangan->ruangan_id;
+                    $model->keterangan_penerimaanlinen = $modPengajuan->keterangan_pengperawatanlinen;
+                    $modPengajuanDetail = LAPengperawatanlinendetT::model()->findAllByAttributes(array('pengperawatanlinen_id'=>$modPengajuan->pengperawatanlinen_id));
+                }
+                
+                $p = PegawaiM::model()->findByPk(Yii::app()->user->getState('pegawai_id'));
+                if (!empty($p)) {
+                    $model->pegmenerima_id = $p->pegawai_id;
+                    $model->pegawaimenerima_nama = $p->nama_pegawai;
+                }
+                
 		$model->nopenerimaanlinen = MyGenerator::noPenerimaanLinen();
-		$model->instalasi_nama = $modRuangan->instalasi->instalasi_nama;
-		$model->ruangan_nama = $modRuangan->ruangan_nama;
-		$model->ruangan_id = $modRuangan->ruangan_id;
-		$model->keterangan_penerimaanlinen = $modPengajuan->keterangan_pengperawatanlinen;
-		// load detail
-		$modPengajuanDetail = LAPengperawatanlinendetT::model()->findAllByAttributes(array('pengperawatanlinen_id'=>$modPengajuan->pengperawatanlinen_id));
 		
+		// load detail
+		
+		
+                
+                
 		$modDetails = array();
 		if (isset($_POST['LAPenerimaanlinenT'])){
             $transaction = Yii::app()->db->beginTransaction();
@@ -31,7 +47,7 @@ class PenerimaanLinenTController extends MyAuthController {
 				$modPenerimaan->create_time = date("Y-m-d H:i:s");
 				$modPenerimaan->create_loginpemakai_id = Yii::app()->user->id;
 				$modPenerimaan->create_ruangan = Yii::app()->user->ruangan_id;
-				$modPenerimaan->pengperawatanlinen_id = $id;
+				if (empty($modPenerimaan->pengperawatanlinen_id)) $modPenerimaan->pengperawatanlinen_id = $id;
 						if($modPenerimaan->save()){
 							$this->penerimaanLinen = true;
 								if(count($_POST['LAPengperawatanlinendetT']) > 0){
@@ -167,6 +183,58 @@ class PenerimaanLinenTController extends MyAuthController {
 		}
 		Yii::app()->end();
 	}
+        
+        /*
+	 * untuk mencari pengajuan perawatan linen
+	 */
+	public function actionAutocompletePengLinen()
+	{
+		if(Yii::app()->request->isAjaxRequest) {
+			$criteria = new CDbCriteria();
+			$criteria->compare('LOWER(t.pengperawatanlinen_no)', strtolower($_GET['term']), true);
+			$criteria->join = 'left join penerimaanlinen_t p on p.pengperawatanlinen_id = t.pengperawatanlinen_id';
+                        $criteria->order = 't.tglpengperawatanlinen';
+                        $criteria->addCondition('p.pengperawatanlinen_id is null');
+			$models = LAPengperawatanlinenT::model()->findAll($criteria);
+			foreach($models as $i=>$model)
+			{
+				$attributes = $model->attributeNames();
+				foreach($attributes as $j=>$attribute) {
+					$returnVal[$i]["$attribute"] = $model->$attribute;
+				}
+				$returnVal[$i]['label'] = $model->pengperawatanlinen_no." - ".MyFormatter::formatDateTimeForUser($model->tglpengperawatanlinen);
+				$returnVal[$i]['value'] = $model->pengperawatanlinen_id;
+			}
+
+			echo CJSON::encode($returnVal);
+		}
+		Yii::app()->end();
+	}
+        
+        public function actionLoadFormPengLinen()
+	{
+		if(Yii::app()->request->isAjaxRequest) {
+                    $id = $_POST['id'];
+                    $modPengajuan = LAPengperawatanlinenT::model()->findByPk($id);
+                    if (!empty($modPengajuan)) {
+                        $res = array('main'=>null, 'det'=>'');
+                        $modRuangan = RuanganM::model()->findByAttributes(array('ruangan_id'=>$modPengajuan->ruangan_id),'ruangan_aktif = true');
+                        $res['pengperawatanlinen_no'] = $modPengajuan->pengperawatanlinen_no;
+                        $res['pengperawatanlinen_id'] = $modPengajuan->pengperawatanlinen_id;
+                        $res['instalasi_nama'] = $modRuangan->instalasi->instalasi_nama;
+                        $res['ruangan_nama'] = $modRuangan->ruangan_nama;
+                        $res['ruangan_id'] = $modRuangan->ruangan_id;
+                        $res['keterangan_penerimaanlinen'] = $modPengajuan->keterangan_pengperawatanlinen;
+                        $modPengajuanDetail = LAPengperawatanlinendetT::model()->findAllByAttributes(array('pengperawatanlinen_id'=>$modPengajuan->pengperawatanlinen_id));
+                        
+                        foreach ($modPengajuanDetail as $i=>$detail) {
+                            $res['det'] .= $this->renderPartial('_rowLinen', array('detail'=>$detail, 'i'=>$i), true);
+                        }
+                        echo CJSON::encode($res);
+                    }
+		}
+		Yii::app()->end();
+	} 
 	
 	
 	/**

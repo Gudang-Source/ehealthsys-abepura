@@ -12,7 +12,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 <p class="help-block"><?php echo Yii::t('mds', 'Fields with <span class="required">*</span> are required.') ?></p>
 <?php echo $form->errorSummary($model); ?>
 
-<table>
+<table width="100%">
 	<tr>
 		<td>
 			<div class='control-group'>
@@ -42,10 +42,6 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                                 <div class="controls">
                                         <?php echo CHtml::hiddenField('AKJnsPenerimaanRekM[rekening][1][rekening5_nb]','D', array('readonly'=>true));  ?>
                                         <?php echo CHtml::hiddenField('AKJnsPenerimaanRekM[rekening][1][rekening5_id]','', array('readonly'=>true));  ?>
-                                        <?php echo CHtml::hiddenField('AKJnsPenerimaanRekM[rekening][1][rekening4_id]','', array('readonly'=>true));  ?>
-                                        <?php echo CHtml::hiddenField('AKJnsPenerimaanRekM[rekening][1][rekening3_id]','', array('readonly'=>true));  ?>
-                                        <?php echo CHtml::hiddenField('AKJnsPenerimaanRekM[rekening][1][rekening2_id]','', array('readonly'=>true));  ?>
-                                        <?php echo CHtml::hiddenField('AKJnsPenerimaanRekM[rekening][1][rekening1_id]','', array('readonly'=>true));  ?>
                                         <?php
                                                 $this->widget('MyJuiAutoComplete', array(
                                                         'model' => $model,
@@ -61,10 +57,6 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                                                                 'select' => 'js:function( event, ui ) {
                                                                                                 $(this).val(ui.item.nmrekening5);
                                                                                                 $("#AKJnsPenerimaanRekM_rekening_1_rekening5_id").val(ui.item.rekening5_id);
-                                                                                                $("#AKJnsPenerimaanRekM_rekening_1_rekening4_id").val(ui.item.rekening4_id);
-                                                                                                $("#AKJnsPenerimaanRekM_rekening_1_rekening3_id").val(ui.item.rekening3_id);
-                                                                                                $("#AKJnsPenerimaanRekM_rekening_1_rekening2_id").val(ui.item.rekening2_id);
-                                                                                                $("#AKJnsPenerimaanRekM_rekening_1_rekening1_id").val(ui.item.rekening1_id);
                                                                                                         return false;
                                                                                           }'
                                                         ),
@@ -76,6 +68,12 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                                                         ),
                                                         'tombolDialog' => array('idDialog' => 'dialogRekDebit',),
                                                 ));
+                                                echo CHtml::htmlButton('<i class="icon-plus icon-white"></i> Tambah',
+                                                array('onclick'=>'tambahRekeningDebit();return false;',
+                                                          'class'=>'btn btn-primary',
+                                                          'onkeypress'=>"tambahRekeningDebit();return false;",
+                                                          'rel'=>"tooltip",
+                                                          'title'=>"Klik untuk menambahkan",));
                                         ?>
                                 </div>
                         </div>
@@ -85,11 +83,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                                 <div class="controls">
                                         <?php echo CHtml::hiddenField('AKJnsPenerimaanRekM[rekening][2][rekening5_nb]','K', array('readonly'=>true));  ?>
                                         <?php echo CHtml::hiddenField('AKJnsPenerimaanRekM[rekening][2][rekening5_id]','', array('readonly'=>true));  ?>
-                                        <?php echo CHtml::hiddenField('AKJnsPenerimaanRekM[rekening][2][rekening4_id]','', array('readonly'=>true));  ?>
-                                        <?php echo CHtml::hiddenField('AKJnsPenerimaanRekM[rekening][2][rekening3_id]','', array('readonly'=>true));  ?>
-                                        <?php echo CHtml::hiddenField('AKJnsPenerimaanRekM[rekening][2][rekening2_id]','', array('readonly'=>true));  ?>
-                                        <?php echo CHtml::hiddenField('AKJnsPenerimaanRekM[rekening][2][rekening1_id]','', array('readonly'=>true));  ?>
-                                        <?php
+                                       <?php
                                                 $this->widget('MyJuiAutoComplete', array(
                                                         'model' => $model,
                                                         'attribute' => 'rekKredit',
@@ -104,10 +98,6 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                                                                 'select' => 'js:function( event, ui ) {
                                                                                                 $(this).val(ui.item.nmrincianobyek);
                                                                                                  $("#AKJnsPenerimaanRekM_rekening_2_rekening5_id").val(ui.item.rekening5_id);
-                                                                                                 $("#AKJnsPenerimaanRekM_rekening_2_rekening4_id").val(ui.item.rekening4_id);
-                                                                                                 $("#AKJnsPenerimaanRekM_rekening_2_rekening3_id").val(ui.item.rekening3_id);
-                                                                                                 $("#AKJnsPenerimaanRekM_rekening_2_rekening2_id").val(ui.item.rekening2_id);
-                                                                                                 $("#AKJnsPenerimaanRekM_rekening_2_rekening1_id").val(ui.item.rekening1_id);
                                                                                                         return false;
                                                                                           }'
                                                         ),
@@ -119,11 +109,39 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                                                         ),
                                                         'tombolDialog' => array('idDialog' => 'dialogRekKredit',),
                                                 ));
+                                                echo CHtml::htmlButton('<i class="icon-plus icon-white"></i> Tambah',
+                                                array('onclick'=>'tambahRekeningKredit();return false;',
+                                                          'class'=>'btn btn-primary',
+                                                          'onkeypress'=>"tambahRekeningKredit();return false;",
+                                                          'rel'=>"tooltip",
+                                                          'title'=>"Klik untuk menambahkan",));
                                         ?>
                                 </div>
                         </div>
                 </td>
 	</tr>
+</table>
+<table class="table table-condensed table-bordered" id="tab_rekening_debit">
+    <thead>
+        <tr>
+            <th>Rekening Debit</th>
+            <th width="50px">Batal</th>
+        </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+<table class="table table-condensed table-bordered" id="tab_rekening_kredit">
+    <thead>
+        <tr>
+            <th>Rekening Kredit</th>
+            <th width="50px">Batal</th>
+        </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
 </table>
 
 <div class="form-actions">
@@ -462,4 +480,47 @@ $this->endWidget();
 	{
 		document.getElementById('AKJenispenerimaanM_jenispenerimaan_namalain').value = nama.value.toUpperCase();
 	}
+        
+        var id = "";
+        function tambahRekeningDebit()
+        {
+            id = $("#AKJnsPenerimaanRekM_rekening_1_rekening5_id").val();
+            if (id.trim() == "") {
+                myAlert("Rekening Debit Belum Dipilih");
+                return false;
+            }
+            $.post('<?php echo $this->createUrl('formRekening'); ?>', {
+                id: id, debitkredit: 'D',
+            }, function(data) {
+                $("#AKJnsPenerimaanRekM_rekening_1_rekening5_id").val("");
+                $("#AKJenispenerimaanM_rekDebit").val("");
+                $("#tab_rekening_debit tbody").append(data.dat);
+            }, 'json');
+        }
+
+        function tambahRekeningKredit()
+        {
+            id = $("#AKJnsPenerimaanRekM_rekening_2_rekening5_id").val();
+            nama = $("#AKJenispenerimaanM_rekKredit").val();
+            if (id.trim() == "") {
+                myAlert("Rekening Kredit Belum Dipilih");
+                return false;
+            }
+            $.post('<?php echo $this->createUrl('formRekening'); ?>', {
+                id: id, debitkredit: 'K',
+            }, function(data) {
+                $("#AKJnsPenerimaanRekM_rekening_2_rekening5_id").val("");
+                $("#AKJenispenerimaanM_rekKredit").val("");
+                $("#tab_rekening_kredit tbody").append(data.dat);
+            }, 'json');
+        }
+        
+        function batalRekening(obj) {
+            myConfirm("Apakah anda akan menghapus rekening ini?","Perhatian!",
+            function(r){
+                if(r){
+                    $(obj).parents("tr").remove();
+                }
+            }); 
+        }
 </script>
