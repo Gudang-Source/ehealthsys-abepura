@@ -13,6 +13,13 @@ class PengirimanLinenController extends MyAuthController{
 		$modPengirimanLinenDetail = array();		    	
         $ruanganTujuans = CHtml::listData(LARuanganM::getRuangan(),'ruangan_id','ruangan_nama');
 		
+        $p = PegawaiM::model()->findByPk(Yii::app()->user->getState('pegawai_id'));
+        if (!empty($p)) {
+            $modPengirimanLinen->pegpengirim_id = $p->pegawai_id;
+            $modPengirimanLinen->pegpengirim_nama = $p->nama_pegawai;
+        }
+        
+        
     	if(!empty($pengirimanlinen_id)){
             $modPengirimanLinen= LAPengirimanlinenT::model()->findByPk($pengirimanlinen_id);
             $modPengirimanLinen->pegpengirim_nama = !empty($modPengirimanLinen->pegpengirim->NamaLengkap) ? $modPengirimanLinen->pegpengirim->NamaLengkap : "";
@@ -31,6 +38,8 @@ class PengirimanLinenController extends MyAuthController{
 				$modPengirimanLinen->create_loginpemakai_id = Yii::app()->user->id;
 				$modPengirimanLinen->create_ruangan = Yii::app()->user->ruangan_id;
 				$modPengirimanLinen->issudahditerima = true;
+                                
+                                // var_dump($modPengirimanLinen->attributes); die;
 
 				if($modPengirimanLinen->save()){
 					if (isset($_POST['LAPengirimanlinendetailT'])) {

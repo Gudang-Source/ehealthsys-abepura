@@ -44,6 +44,7 @@ function tambahLinen()
 		}
                 $('#linen_id').val('');
                 $('#namalinen').val('');
+                $('#kodelinen').val('');
             },
             error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
         });
