@@ -18,14 +18,15 @@ if (isset($_GET['idMutasi']) && !empty($_GET['idMutasi'])) {
     ?>
     <?php echo $form->errorSummary($model); ?>
     <?php
-    if (isset($modPesan)) {
-       // $this->renderPartial('gudangUmum.views.mutasibrgT._dataPesan', array('modPesan' => $modPesan));
+    if (isset($_GET['id'])) {
+        $this->renderPartial('gudangUmum.views.mutasibrgT._dataPesan', array('modPesan' => $modPesan));
     }
     ?>
     <fieldset class="box">
         <p class="help-block"><?php echo Yii::t('mds', 'Fields with <span class="required">*</span> are required.') ?></p>
         <legend class="rim">Data Mutasi Barang</legend>
 <!--awal pemesanan-->
+<?php if (!isset($_GET['id'])){ ?>
 <div class="row-fluid">
     <div class = "span4">
         <div class="control-group ">
@@ -83,7 +84,12 @@ if (isset($_GET['idMutasi']) && !empty($_GET['idMutasi'])) {
     </div>
 
     <div class="span4">
-        <?php echo $form->textFieldRow($modPesan, 'tglpesanbarang',array('readonly'=>true, 'class'=>'span3')); ?>
+        <div class = "control-group">
+            <?php echo CHtml::label("Tanggal Pesan Barang", 'tglpesanbarang', array('class'=>'control-label')) ?>
+            <div class = "controls">
+                <?php echo $form->textField($modPesan, 'tglpesanbarang',array('readonly'=>true, 'class'=>'span3')); ?>
+            </div>
+        </div>        
     </div>
     
     <div class = "span4">
@@ -95,6 +101,7 @@ if (isset($_GET['idMutasi']) && !empty($_GET['idMutasi'])) {
 </div>
 
 <hr/>
+<?php } ?>
 <!--akhir pemesanan-->
         <table width="100%">
             <tr>
@@ -102,8 +109,8 @@ if (isset($_GET['idMutasi']) && !empty($_GET['idMutasi'])) {
 
                             <?php //echo $form->textFieldRow($model,'pesanbarang_id',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);"));  ?>
                             <?php //echo $form->textFieldRow($model,'tglmutasibrg',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-                    <div class="control-group ">
-                            <?php echo $form->hiddenField($model,'pesanbarang_id',array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+                    <?php echo $form->hiddenField($model,'pesanbarang_id',array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+                    <div class="control-group ">                            
                             <?php echo $form->labelEx($model, 'tglmutasibrg', array('class' => 'control-label')) ?>
                         <div class="controls">
                             <?php

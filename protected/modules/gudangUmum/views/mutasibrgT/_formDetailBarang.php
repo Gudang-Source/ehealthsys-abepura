@@ -4,7 +4,7 @@ if (isset($modDetails)){
 echo $form->errorSummary($modDetails); 
 }
 ?>
-<?php if (!isset($modPesan)){ ?>
+<?php //if (!isset($_GET['id'])){ ?>
 <div id="formDetailBarang">
     <table>
         <tr>
@@ -160,7 +160,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 
 $this->endWidget();
 ?>
-<?php } ?>
+<?php //} ?>
 <?php 
 $urlAjax = $this->createUrl('getMutasiBarang');
 $urlAjaxStok = $this->createUrl('getStokBarang');
