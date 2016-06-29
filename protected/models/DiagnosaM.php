@@ -16,6 +16,7 @@
  */
 class DiagnosaM extends CActiveRecord
 {       public $diagnosa_namalainnya;
+        public $kode1, $kode2;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -42,11 +43,18 @@ class DiagnosaM extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('diagnosa_nama, diagnosa_kode, diagnosa_nama', 'required'),
+			array('diagnosa_kode, diagnosa_nama', 'required'),
 			array('diagnosa_nourut', 'numerical', 'integerOnly'=>true),
 			array('diagnosa_kode', 'length', 'max'=>10),                        
+                        array('diagnosa_kode', 'unique'),                        
 			// array('diagnosa_nama, diagnosa_namalainnya, diagnosa_katakunci', 'length', 'max'=>50),
-			array('diagnosa_imunisasi, diagnosa_aktif,klasifikasidiagnosa_id', 'safe'),
+			array('kode1, kode2, diagnosa_imunisasi, diagnosa_aktif,klasifikasidiagnosa_id, dtd_id', 'safe'),
+                        array('kode2','cekKode','on'=>'insert, update'),
+                        array('create_time','default','value'=>date('Y-m-d H:i:s'),'setOnEmpty'=>false,'on'=>'insert'),
+                        array('update_time','default','value'=>date('Y-m-d H:i:s'),'setOnEmpty'=>false,'on'=>'update'),
+                        array('create_loginpemakai_id','default','value'=>Yii::app()->user->id,'on'=>'insert'),
+                        array('update_loginpemakai_id','default','value'=>Yii::app()->user->id,'on'=>'update'),
+                        array('create_ruangan','default','value'=>Yii::app()->user->getState('ruangan_id'),'on'=>'insert'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('diagnosa_id, diagnosa_kode, diagnosa_nama, diagnosa_namalainnya, diagnosa_katakunci, diagnosa_nourut, diagnosa_imunisasi, diagnosa_aktif, klasifikasidiagnosa_id, dtd_id', 'safe', 'on'=>'search'),
@@ -80,6 +88,7 @@ class DiagnosaM extends CActiveRecord
 			'diagnosa_imunisasi' => 'Imunisasi',
 			'diagnosa_aktif' => 'Aktif',
 			'klasifikasidiagnosa_id'=>'Klasifikasi Diagnosa',
+                        'dtd_id' => 'DTD'
 		);
 	}
 
@@ -107,6 +116,7 @@ class DiagnosaM extends CActiveRecord
 		if(!empty($this->dtd_id)){
 			$criteria->addCondition("dtd_id = ".$this->dtd_id);				
 		}
+                $criteria->order = "diagnosa_kode ASC";
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 //                         'pagination'=>false,
@@ -150,5 +160,109 @@ class DiagnosaM extends CActiveRecord
         public function getDiagnosaItems()
         {
             return DiagnosaM::model()->findAll(array('order'=>'diagnosa_nama'));
+        }
+        
+        public function cekKode()
+        {
+            
+            $dtd = DtdM::model()->findByPk($this->dtd_id)->dtd_kode;
+            
+            $pecah = explode('-', $dtd);
+                        
+            $angka_awal = (int)substr($pecah[0],1,2);
+            $angka_akhir = (int)substr($pecah[1],1,2);
+            
+            $kode2 = $this->kode2;
+                        
+            $kode = (int)substr($kode2,0,2);            
+            
+            if ($kode2 != '')
+            {
+                if ( ($kode >= $angka_awal) && ($kode <= $angka_akhir)){                    
+                    if (strlen($kode2) == 2){
+                        if ($angka_akhir >= 10){
+                            if ( (is_numeric(substr($kode2,1,1)) && is_numeric(substr($kode2,0,1)) ) ){
+                                return true;
+                            }else{
+                                
+                                 $this->addError('kode2','Maaf, Kode untuk karakter pertama dan kedua harus berupa angka <br>'
+                                         . ' dengan range '.substr($pecah[0],1,2).'-'.substr($pecah[1],1,2));
+                                return false;
+                            }
+                        }else{
+                            if ( (is_numeric(substr($kode2,1,1)) && is_numeric(substr($kode2,0,1)) ) ){
+                                return true;
+                            }else{
+                                
+                                $this->addError('kode2','Maaf, Kode harus 2 digit angka <br>'
+                                         . ' Contoh : <b>00 - 99</b>');
+                                 return false;
+                            }
+                            
+                        }
+                    }elseif (strlen($kode2) == 3){
+                        if ($angka_akhir >= 10){
+                            if ( (is_numeric(substr($kode2,1,1)) && is_numeric(substr($kode2,0,1)) ) ){
+                                if ( (substr($kode2,2,1)=='*') OR (substr($kode2,2,1)=='+') ){
+                                    return true;
+                                }else{
+                                    $this->addError('kode2','Maaf, Kode untuk karakter ketiga hanya bisa <b>*</b> atau <b>+</b> <br>'
+                                            . 'Contoh : <b>'.substr($kode2,0,2).'*</b>');
+                                        return false;
+                                }
+                            }else{
+                                
+                                 $this->addError('kode2','Maaf, Kode untuk karakter pertama dan kedua harus berupa angka <br>'
+                                         . ' dengan range '.substr($pecah[0],1,2).'-'.substr($pecah[1],1,2));
+                                return false;
+                            }
+                        }else{
+                            if ( (is_numeric(substr($kode2,1,1)) && is_numeric(substr($kode2,0,1)) ) ){
+                                if ( (substr($kode2,2,1)=='*') OR (substr($kode2,2,1)=='+') ){
+                                    return true;
+                                }else{
+                                    $this->addError('kode2','Maaf, Kode untuk karakter ketiga hanya bisa <b>*</b> atau <b>+</b> <br>'
+                                            . 'Contoh : <b>'.substr($kode2,0,2).'*</b>');
+                                        return false;
+                                }
+                            }else{
+                                
+                                 $this->addError('kode2','Maaf, Kode untuk karakter pertama dan kedua harus berupa angka <br>'
+                                         . ' dengan range '.substr($pecah[0],1,2).'-'.substr($pecah[1],1,2));
+                                return false;
+                            }
+                            
+                             
+                        }                     
+                    }else{
+                         $this->addError('kode2','Maaf, Kode harus 2 digit angka <br>'
+                                         . ' Contoh : <b>00 - 99</b>');
+                        return false;
+                    }
+                
+                
+                }else{
+                    if (is_numeric(substr($kode2,0,1))){
+                        $this->addError('kode2', 'Maaf, penulisan Kode salah. <br> '
+                        . 'angka harus masuk dalam range '.substr($pecah[0],1,2).'-'.substr($pecah[1],1,2).'<br>'
+                            . 'Contoh : '.substr($pecah[1],1,2));
+                        return false;
+                    }else{
+                         $this->addError('kode2','Maaf, Kode untuk karakter pertama dan kedua harus berupa angka <br>'
+                                 . ' dengan range '.substr($pecah[0],1,2).'-'.substr($pecah[1],1,2));
+                        return false;
+                    }
+                    
+                return false;
+                }
+            }else{
+                return true;
+            }
+            
+          
+            
+           
+            
+               
         }
 }
