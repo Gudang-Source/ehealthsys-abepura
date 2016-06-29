@@ -41,24 +41,10 @@
                 <td>
                         <div class='control-group'>
                                 <?php 
-                                $rekd = AKJnsPenerimaanRekM::model()->findByAttributes(array(
-                                    'jenispenerimaan_id'=>$model->jenispenerimaan_id,
-                                    'debitkredit'=>'D',
-                                ));
-                                $rekk = AKJnsPenerimaanRekM::model()->findByAttributes(array(
-                                    'jenispenerimaan_id'=>$model->jenispenerimaan_id,
-                                    'debitkredit'=>'K',
-                                ));
-                                
-                                $rek5 = empty($rekd)?null:$rekd->rekening5_id;
-                                $rek5dat = empty($rekd)?null:Rekening5M::model()->findByPk($rekd->rekening5_id);
-                                if (empty($rek5dat)) $rek5dat = new Rekening5M;
-                                $model->rekDebit = $rek5dat->nmrekening5;
-                                
                                 echo CHtml::label('Rekening Debit','rekening debit',array('class'=>'control-label')) ?>
                                 <div class="controls">
                                         <?php echo CHtml::hiddenField('AKJnsPenerimaanRekM[rekening][1][rekening5_nb]','D', array('readonly'=>true));  ?>
-                                        <?php echo CHtml::hiddenField('AKJnsPenerimaanRekM[rekening][1][rekening5_id]',$rek5, array('readonly'=>true));  ?>
+                                        <?php echo CHtml::hiddenField('AKJnsPenerimaanRekM[rekening][1][rekening5_id]','', array('readonly'=>true));  ?>
                                         <?php
                                                 $this->widget('MyJuiAutoComplete', array(
                                                         'model' => $model,
@@ -85,6 +71,12 @@
                                                         ),
                                                         'tombolDialog' => array('idDialog' => 'dialogRekDebit',),
                                                 ));
+                                                echo CHtml::htmlButton('<i class="icon-plus icon-white"></i> Tambah',
+                                                array('onclick'=>'tambahRekeningDebit();return false;',
+                                                          'class'=>'btn btn-primary',
+                                                          'onkeypress'=>"tambahRekeningDebit();return false;",
+                                                          'rel'=>"tooltip",
+                                                          'title'=>"Klik untuk menambahkan",));
                                         ?>
                                 </div>
                         </div>
@@ -92,15 +84,8 @@
                         <div class='control-group'>
                                 <?php echo CHtml::label('Rekening Kredit','rekening kredit',array('class'=>'control-label')) ?>
                                 <div class="controls">
-                                        <?php 
-                                        $rek5 = empty($rekk)?null:$rekk->rekening5_id;
-                                        $rek5dat = empty($rekk)?null:Rekening5M::model()->findByPk($rekk->rekening5_id);
-                                        if (empty($rek5dat)) $rek5dat = new Rekening5M;
-                                        $model->rekKredit = $rek5dat->nmrekening5;
-                                        
-                                        ?>
                                         <?php echo CHtml::hiddenField('AKJnsPenerimaanRekM[rekening][2][rekening5_nb]','K', array('readonly'=>true));  ?>
-                                        <?php echo CHtml::hiddenField('AKJnsPenerimaanRekM[rekening][2][rekening5_id]',$rek5, array('readonly'=>true));  ?>
+                                        <?php echo CHtml::hiddenField('AKJnsPenerimaanRekM[rekening][2][rekening5_id]','', array('readonly'=>true));  ?>
                                         <?php
                                                 $this->widget('MyJuiAutoComplete', array(
                                                         'model' => $model,
@@ -127,13 +112,61 @@
                                                         ),
                                                         'tombolDialog' => array('idDialog' => 'dialogRekKredit',),
                                                 ));
+                                                
+                                                echo CHtml::htmlButton('<i class="icon-plus icon-white"></i> Tambah',
+                                                array('onclick'=>'tambahRekeningKredit();return false;',
+                                                          'class'=>'btn btn-primary',
+                                                          'onkeypress'=>"tambahRekeningKredit();return false;",
+                                                          'rel'=>"tooltip",
+                                                          'title'=>"Klik untuk menambahkan",));
                                         ?>
                                 </div>
                         </div>
                 </td>
             </tr>
         </table>
-        
+        <?php 
+        $rd = AKJnsPenerimaanRekM::model()->findAllByAttributes(array(
+            'debitkredit'=>'D',
+            'jenispenerimaan_id'=>$model->jenispenerimaan_id,
+        ));
+        $rk = AKJnsPenerimaanRekM::model()->findAllByAttributes(array(
+            'debitkredit'=>'K',
+            'jenispenerimaan_id'=>$model->jenispenerimaan_id,
+        ));
+        ?>
+        <table class="table table-condensed table-bordered" id="tab_rekening_debit">
+            <thead>
+                <tr>
+                    <th>Rekening Debit</th>
+                    <th width="50px">Batal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php 
+                foreach ($rd as $item)  {
+                    $r = Rekening5M::model()->findByPk($item->rekening5_id);
+                    echo $this->renderPartial('_rowRekeningPenerimaan', array('r'=>$r, 'dk'=>'D'), true);
+                }
+                ?>
+            </tbody>
+        </table>
+        <table class="table table-condensed table-bordered" id="tab_rekening_kredit">
+            <thead>
+                <tr>
+                    <th>Rekening Kredit</th>
+                    <th width="50px">Batal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php 
+                foreach ($rk as $item)  {
+                    $r = Rekening5M::model()->findByPk($item->rekening5_id);
+                    echo $this->renderPartial('_rowRekeningPenerimaan', array('r'=>$r, 'dk'=>'K'), true);
+                }
+                ?>
+            </tbody>
+        </table>
 	<div class="form-actions">
                 <?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 
                             Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),
@@ -557,4 +590,49 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 $this->endWidget();
 //========= end Rek Kredit dialog =============================
 ?>
-  
+
+<script>
+        var id = "";
+        function tambahRekeningDebit()
+        {
+            id = $("#AKJnsPenerimaanRekM_rekening_1_rekening5_id").val();
+            if (id.trim() == "") {
+                myAlert("Rekening Debit Belum Dipilih");
+                return false;
+            }
+            $.post('<?php echo $this->createUrl('formRekening'); ?>', {
+                id: id, debitkredit: 'D',
+            }, function(data) {
+                $("#AKJnsPenerimaanRekM_rekening_1_rekening5_id").val("");
+                $("#AKJenispenerimaanM_rekDebit").val("");
+                $("#tab_rekening_debit tbody").append(data.dat);
+            }, 'json');
+        }
+
+        function tambahRekeningKredit()
+        {
+            id = $("#AKJnsPenerimaanRekM_rekening_2_rekening5_id").val();
+            nama = $("#AKJenispenerimaanM_rekKredit").val();
+            if (id.trim() == "") {
+                myAlert("Rekening Kredit Belum Dipilih");
+                return false;
+            }
+            $.post('<?php echo $this->createUrl('formRekening'); ?>', {
+                id: id, debitkredit: 'K',
+            }, function(data) {
+                $("#AKJnsPenerimaanRekM_rekening_2_rekening5_id").val("");
+                $("#AKJenispenerimaanM_rekKredit").val("");
+                $("#tab_rekening_kredit tbody").append(data.dat);
+            }, 'json');
+        }
+        
+        function batalRekening(obj) {
+            myConfirm("Apakah anda akan menghapus rekening ini?","Perhatian!",
+            function(r){
+                if(r){
+                    $(obj).parents("tr").remove();
+                }
+            }); 
+        }
+    
+</script>
