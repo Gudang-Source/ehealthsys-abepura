@@ -13,28 +13,31 @@ if($caraprint == 'EXCEL')
 }
 echo $this->renderPartial('application.views.headerReport.headerDefault',array('judulLaporan'=>$judul_print, 'colspan'=>''));      
 
+$r = RuanganM::model()->findByPk($modPengirimanLinen->ruangantujuan_id);
+if (empty($r)) $r = new RuanganM;
 ?>
 <fieldset>
-    <table width="74%" style="margin:0px;" cellpadding="0" cellspacing="0">
+    <table width="100%" style="margin:0px;" cellpadding="0" cellspacing="0">
         <tr>
             <td>No. Pengiriman</td>
             <td>:</td>
             <td><?php echo $modPengirimanLinen->nopengirimanlinen; ?></td>
+            <td>Ruangan Tujuan</td>
+            <td>:</td>
+            <td><?php echo $r->ruangan_nama; ?></td>
         </tr>
         <tr>
             <td>Tanggal Pengiriman</td>
             <td>:</td>
             <td><?php echo isset($modPengirimanLinen->tglpengirimanlinen) ? MyFormatter::formatDateTimeForUser($modPengirimanLinen->tglpengirimanlinen) : ""; ?></td>
+            <td>Keterangan</td>
+            <td>:</td>
+            <td><?php echo $modPengirimanLinen->keterangan_pengiriman; ?></td>
         </tr>
         <tr>
             <td>Pegawai Mengirim</td>
             <td>:</td>
             <td><?php echo (isset($modPengirimanLinen->pegpengirim->NamaLengkap) ? $modPengirimanLinen->pegpengirim->NamaLengkap : ""); ?></td>
-        </tr>
-        <tr>
-            <td>Keterangan</td>
-            <td>:</td>
-            <td><?php echo $modPengirimanLinen->keterangan_pengiriman; ?></td>
         </tr>
     </table><br/>
 	<table class="items table table-striped table-bordered table-condensed" id="table-detailpemesanan">
