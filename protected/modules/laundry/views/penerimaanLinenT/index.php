@@ -76,4 +76,19 @@ function print(caraPrint)
     var penerimaanlinen_id = '<?php echo isset($_GET['penerimaanlinen_id']) ? $_GET['penerimaanlinen_id'] : null; ?>';
     window.open('<?php echo $this->createUrl('print'); ?>&penerimaanlinen_id='+penerimaanlinen_id+'&caraPrint='+caraPrint,'printwin','left=100,top=100,width=1000,height=640');
 }
+
+
+function setPengajuanLinen(id)
+{
+    $.post('<?php echo $this->createUrl("LoadFormPengLinen"); ?>', {id: id}, function(data) {
+        $("#LAPenerimaanlinenT_pengperawatanlinen_id").val(data.pengperawatanlinen_id);
+        $("#LAPenerimaanlinenT_pengperawatanlinen_no").val(data.pengperawatanlinen_no);
+        $("#LAPenerimaanlinenT_instalasi_nama").val(data.instalasi_nama);
+        $("#LAPenerimaanlinenT_ruangan_nama").val(data.ruangan_nama);
+        $("#LAPenerimaanlinenT_ruangan_id").val(data.ruangan_id);
+        $("#LAPenerimaanlinenT_keterangan_penerimaanlinen").val(data.keterangan_penerimaanlinen);
+        
+        $("#table-linen tbody").empty().append(data.det);
+    }, "json");
+}
 </script>
