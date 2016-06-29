@@ -29,8 +29,9 @@
         <?php echo $form->labelEx($produksi, 'petugasgasmedis_id', array('class' => 'control-label')); ?>
         <div class="controls">
             <?php echo $form->hiddenField($produksi, 'petugasgasmedis_id'); ?>
+            <?php echo $form->textField($produksi, 'petugasgasmedis_nama', array('readonly'=>true)); ?>
             <?php
-            $this->widget('MyJuiAutoComplete', array(
+            /*$this->widget('MyJuiAutoComplete', array(
                 'model'=>$produksi,
                 'attribute' => 'petugasgasmedis_nama',
                 'source' => 'js: function(request, response) {
@@ -64,7 +65,7 @@
                     'onblur' => 'if(this.value === "") $("#'.Chtml::activeId($produksi, 'petugasgasmedis_id') . '").val(""); '
                 ),
                 'tombolDialog' => array('idDialog' => 'dialogPetugas'),
-            ));
+            ));*/
             ?>
         </div>
         <div class="control-group ">

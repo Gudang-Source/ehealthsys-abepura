@@ -13,13 +13,26 @@ class GMProduksigasmedisT extends ProduksigasmedisT
 	}
         
         public $tgl_awal, $tgl_akhir, $petugas_nama, $mengetahui_nama;
+        
         public function searchInformasi() {
-            $provider = $this->search();
-            $provider->criteria->with = array('petugas', 'mengetahui');
-            $provider->criteria->compare('lower(petugas.nama_pegawai)', strtolower($this->petugas_nama), true);
-            $provider->criteria->compare('lower(mengetahui.nama_pegawai)', strtolower($this->mengetahui_nama), true);
-            $provider->criteria->addBetweenCondition('tgl_produksi::date', $this->tgl_awal, $this->tgl_akhir);
+           $criteria=new CDbCriteria;
+
+            $criteria->addBetweenCondition('tgl_produksi', $this->tgl_awal, $this->tgl_akhir);   
+            if (!empty($this->petugasgasmedis_id)){
+                $criteria->compare('petugasgasmedis_id',$this->petugasgasmedis_id);
+            }
             
-            return $provider;
+            if (!empty($this->mengetahui_id)){
+                $criteria->compare('mengetahui_id',$this->mengetahui_id);
+            }
+            
+           
+
+            return new CActiveDataProvider($this, array(
+                    'criteria'=>$criteria,
+            ));
+           
+            
+            
         }
 }

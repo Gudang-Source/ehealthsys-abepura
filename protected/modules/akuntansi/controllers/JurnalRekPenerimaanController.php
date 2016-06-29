@@ -46,26 +46,20 @@ class JurnalRekPenerimaanController extends MyAuthController {
                         if ($model->validate()) $ok = $ok && $model->save();
                         else $ok = false;
                         
-                        if (isset($_POST['AKJnsPenerimaanRekM'])) {
-                            foreach ($_POST['AKJnsPenerimaanRekM']['rekening'] as $item) {
+                        // var_dump($ok);
+                        
+                        if (isset($_POST['detail'])) {
+                            foreach ($_POST['detail']['rekening5_id'] as $idx=>$item) {
                                 $det = new AKJnsPenerimaanRekM;
-                                $det->attributes = $item;
                                 $det->jenispenerimaan_id = $model->jenispenerimaan_id;
-                                $det->debitkredit = $item['rekening5_nb'];
-                                
-                                if ($det->debitkredit == "D") $model->rekeningdebit_id = $det->rekening5_id;
-                                else $model->rekeningkredit_id = $det->rekening5_id;
-                                
+                                $det->debitkredit = $_POST['detail']['debitkredit'][$idx];
+                                $det->rekening5_id = $item;
                                 
                                 if ($det->validate()) $ok = $ok && $det->save();
                                 else $ok = false;
                             }
                             $model->save();
                         }
-                        
-                        
-                        
-                        // var_dump($ok); die;
                         
 			if ($ok) {
                                 $trans->commit();
@@ -96,7 +90,6 @@ class JurnalRekPenerimaanController extends MyAuthController {
 
 
 		if (isset($_POST['AKJenispenerimaanM'])) {
-                        //var_dump($_POST);
                         $trans = Yii::app()->db->beginTransaction();
 			$ok = true;
 			$model->attributes = $_POST['AKJenispenerimaanM'];
@@ -108,24 +101,18 @@ class JurnalRekPenerimaanController extends MyAuthController {
                             'jenispenerimaan_id'=>$model->jenispenerimaan_id,
                         ));
                         
-                        if (isset($_POST['AKJnsPenerimaanRekM'])) {
-                            foreach ($_POST['AKJnsPenerimaanRekM']['rekening'] as $item) {
+                        if (isset($_POST['detail'])) {
+                            foreach ($_POST['detail']['rekening5_id'] as $idx=>$item) {
                                 $det = new AKJnsPenerimaanRekM;
-                                $det->attributes = $item;
                                 $det->jenispenerimaan_id = $model->jenispenerimaan_id;
-                                $det->debitkredit = $item['rekening5_nb'];
-                                
-                                if ($det->debitkredit == "D") $model->rekeningdebit_id = $det->rekening5_id;
-                                else $model->rekeningkredit_id = $det->rekening5_id;
-                                
+                                $det->debitkredit = $_POST['detail']['debitkredit'][$idx];
+                                $det->rekening5_id = $item;
                                 
                                 if ($det->validate()) $ok = $ok && $det->save();
                                 else $ok = false;
                             }
                             $model->save();
                         }
-                        
-                        //var_dump($ok); die;
                         
                         if ($ok) {
                                 $trans->commit();
@@ -284,5 +271,18 @@ class JurnalRekPenerimaanController extends MyAuthController {
 			$mpdf->Output($judulLaporan.'-'.date('Y/m/d').'.pdf','I');
 		}
 	}
+        
+        
+        public function actionFormRekening() {
+            if (Yii::app()->request->isAjaxRequest) {
+                $r = Rekening5M::model()->findByPk($_POST['id']);
+                $dk = $_POST['debitkredit'];
+                $res = array();
+                $res['dat'] = $this->renderPartial('_rowRekeningPenerimaan', array('r'=>$r, 'dk'=>$dk), true);
+                
+                echo CJSON::encode($res);
+            }
+            Yii::app()->end();
+        }
 
 }
