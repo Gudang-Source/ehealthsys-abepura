@@ -145,7 +145,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'pegawaipengirim-grid',
     'dataProvider'=>$modPegawaiPengirim->searchDialog(),
     'filter'=>$modPegawaiPengirim,
-	'template'=>"{items}\n{pager}",
+	'template'=>"{summary}{items}\n{pager}",
 	'itemsCssClass'=>'table table-striped table-bordered table-condensed',
     'columns'=>array(
 		array(
@@ -164,22 +164,22 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 		array(
 			'header'=>'NIP',
 			'value'=>'$data->nomorindukpegawai',
-		),
+		), /*
 		array(
 			'header'=>'Gelar Depan',
 			'filter'=>  CHtml::activeTextField($modPegawaiPengirim, 'gelardepan'),
 			'value'=>'$data->gelardepan',
-		),
+		), */
 		array(
 			'header'=>'Nama Pegawai',
 			'filter'=>  CHtml::activeTextField($modPegawaiPengirim, 'nama_pegawai'),
-			'value'=>'$data->nama_pegawai',
-		),
+			'value'=>'$data->namaLengkap',
+		), /*
 		array(
 			'header'=>'Gelar Belakang',
 			'filter'=>  CHtml::activeTextField($modPegawaiPengirim, 'gelarbelakang_nama'),
 			'value'=>'$data->gelarbelakang_nama',
-		),
+		), */
 		array(
 			'header'=>'Alamat Pegawai',
 			'filter'=>  CHtml::activeTextField($modPegawaiPengirim, 'alamat_pegawai'),
@@ -216,7 +216,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'pegawaimengetahui-grid',
     'dataProvider'=>$modPegawaiMengetahui->searchDialog(),
     'filter'=>$modPegawaiMengetahui,
-	'template'=>"{items}\n{pager}",
+	'template'=>"{summary}{items}\n{pager}",
 	'itemsCssClass'=>'table table-striped table-bordered table-condensed',
     'columns'=>array(
 		array(
@@ -235,22 +235,22 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 		array(
 			'header'=>'NIP',
 			'value'=>'$data->nomorindukpegawai',
-		),
+		), /*
 		array(
 			'header'=>'Gelar Depan',
 			'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'gelardepan'),
 			'value'=>'$data->gelardepan',
-		),
+		), */
 		array(
 			'header'=>'Nama Pegawai',
 			'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'nama_pegawai'),
-			'value'=>'$data->nama_pegawai',
-		),
+			'value'=>'$data->namaLengkap',
+		), /*
 		array(
 			'header'=>'Gelar Belakang',
 			'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'gelarbelakang_nama'),
 			'value'=>'$data->gelarbelakang_nama',
-		),
+		), */
 		array(
 			'header'=>'Alamat Pegawai',
 			'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'alamat_pegawai'),

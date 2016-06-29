@@ -9,6 +9,7 @@ class InformasiPenerimaanLinenRuanganController extends MyAuthController {
 		$modPengirimanlinen = new LAPengirimanlinenT;
 		$modPengirimanlinen->tgl_awal=date("Y-m-d");
 		$modPengirimanlinen->tgl_akhir=date("Y-m-d");
+                $modPengirimanlinen->ruangantujuan_id = Yii::app()->user->getState('ruangan_id');
 			if(isset($_GET['LAPengirimanlinenT']))
 			{
 				$modPengirimanlinen->attributes=$_GET['LAPengirimanlinenT'];
