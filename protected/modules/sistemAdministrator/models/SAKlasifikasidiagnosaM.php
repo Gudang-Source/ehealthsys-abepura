@@ -55,8 +55,11 @@ class SAKlasifikasidiagnosaM extends KlasifikasidiagnosaM
 		$criteria->compare('LOWER(klasifikasidiagnosa_namalain)',strtolower($this->klasifikasidiagnosa_namalain),true);
 		$criteria->compare('klasifikasidiagnosa_aktif',isset($this->klasifikasidiagnosa_aktif)?$this->klasifikasidiagnosa_aktif:true);
 		$criteria->compare('LOWER(klasifikasidiagnosa_desc)',strtolower($this->klasifikasidiagnosa_desc),true);
+                $criteria->order = "klasifikasidiagnosa_kode ASC";
 
 		return $criteria;
 	}
+        
+        
 
 }
