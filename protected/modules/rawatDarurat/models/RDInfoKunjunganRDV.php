@@ -202,7 +202,7 @@ class RDInfoKunjunganRDV extends InfokunjunganrdV
             }else if($status == "SEDANG PERIKSA"){
                 $status = '<button id="green" class="btn btn-danger" name="yt1" onclick="setStatus(this,\''.$status.'\','.$id.')">'.$status.'</button>';
             }else if($status == "SUDAH PULANG"){
-                $status = '<button id="blue" class="btn btn-danger-yellow" name="yt1" onclick="setStatus(this,\''.$status.'\','.$id.')">'.$status.'</button>';
+                $status = '<button id="blue" class="btn btn-danger-yellow" name="yt1">'.$status.'</button>';
             }else if($status == "SUDAH DI PERIKSA"){
                 $status = '<button id="red" class="btn btn-danger-red" name="yt1" onclick="setStatus(this,\''.$status.'\','.$id.')">'.$status.'</button>';
             }else{
