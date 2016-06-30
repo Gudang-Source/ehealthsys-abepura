@@ -37,8 +37,10 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
         'obatalkes_kode',
         'obatalkes_nama',
         array(
-            'name' => 'satuankecil.satuankecil_nama',
+            'name' => 'satuankecil_id',
             'header' => 'Satuan Kecil',
+            'value' => '$data->satuankecil->satuankecil_nama',
+            'filter' => CHtml::dropDownList('ObatalkesM[satuankecil_id]', $modGasMedis->satuankecil_id, CHtml::listData(SatuankecilM::model()->findAll('satuankecil_aktif=TRUE ORDER BY satuankecil_nama'), 'satuankecil_id', 'satuankecil_nama'), array('empty'=>'-- Pilih --'))
         ),
     ),
     'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',

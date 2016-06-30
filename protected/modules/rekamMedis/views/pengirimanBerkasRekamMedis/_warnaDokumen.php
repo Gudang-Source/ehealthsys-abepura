@@ -13,6 +13,6 @@
 //        )
 //    ); 
 
-echo CHtml::dropDownList('Dokumen[ii][warnadokrm_id]','',CHtml::listData(WarnadokrmM::model()->findAll(),'warnadokrm_id','warnadokrm_namawarna'),array('empty'=>'--Pilih--'));
+echo CHtml::dropDownList('Dokumen[ii][warnadokrm_id]','',CHtml::listData(WarnadokrmM::model()->findAll(),'warnadokrm_id','warnadokrm_namawarna'));
 ?>
 

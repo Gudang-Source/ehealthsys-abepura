@@ -25,7 +25,7 @@ function pilihSemua(obj){
 function validasiCek(){
     if(requiredCheck($("form"))){
         var jumlah_bahan = $('#pencucianlinen-grid > table > tbody > tr').length;
-        if(jumlah_bahan <= 1){
+        if(jumlah_bahan < 1){
                 myAlert('Isikan linen terlebih dahulu.');
             return false;
         }else{

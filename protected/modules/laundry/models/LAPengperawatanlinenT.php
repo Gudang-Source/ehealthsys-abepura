@@ -16,37 +16,50 @@ class LAPengperawatanlinenT extends PengperawatanlinenT {
 
 		$criteria=new CDbCriteria;
 
-		$criteria->addBetweenCondition('DATE(tglpengperawatanlinen)',$this->tgl_awal, $this->tgl_akhir);
-		if(!empty($this->pengperawatanlinen_id)){
-			$criteria->addCondition('pengperawatanlinen_id = '.$this->pengperawatanlinen_id);
+                $criteria->join = 'join ruangan_m r on r.ruangan_id = t.ruangan_id';
+                
+                if (!empty($this->tgl_awal) && !empty($this->tgl_akhir)) {
+                    $criteria->addBetweenCondition('DATE(t.tglpengperawatanlinen)',$this->tgl_awal, $this->tgl_akhir);
+                }
+                if(!empty($this->pengperawatanlinen_id)){
+			$criteria->addCondition('t.pengperawatanlinen_id = '.$this->pengperawatanlinen_id);
 		}
 		if(!empty($this->ruangan_id)){
-			$criteria->addCondition('ruangan_id = '.$this->ruangan_id);
+			$criteria->addCondition('t.ruangan_id = '.$this->ruangan_id);
 		}
-		$criteria->compare('LOWER(pengperawatanlinen_no)',strtolower($this->pengperawatanlinen_no),true);
-		$criteria->compare('LOWER(keterangan_pengperawatanlinen)',strtolower($this->keterangan_pengperawatanlinen),true);
+		$criteria->compare('LOWER(t.pengperawatanlinen_no)',strtolower($this->pengperawatanlinen_no),true);
+		$criteria->compare('LOWER(t.keterangan_pengperawatanlinen)',strtolower($this->keterangan_pengperawatanlinen),true);
 		if(!empty($this->mengajukan_id)){
-			$criteria->addCondition('mengajukan_id = '.$this->mengajukan_id);
+			$criteria->addCondition('t.mengajukan_id = '.$this->mengajukan_id);
 		}
 		if(!empty($this->mengetahui_id)){
-			$criteria->addCondition('mengetahui_id = '.$this->mengetahui_id);
+			$criteria->addCondition('t.mengetahui_id = '.$this->mengetahui_id);
 		}
-		$criteria->compare('LOWER(create_time)',strtolower($this->create_time),true);
-		$criteria->compare('LOWER(update_time)',strtolower($this->update_time),true);
+		$criteria->compare('LOWER(t.create_time)',strtolower($this->create_time),true);
+		$criteria->compare('LOWER(t.update_time)',strtolower($this->update_time),true);
 		if(!empty($this->create_loginpemakai_id)){
-			$criteria->addCondition('create_loginpemakai_id = '.$this->create_loginpemakai_id);
+			$criteria->addCondition('t.create_loginpemakai_id = '.$this->create_loginpemakai_id);
 		}
 		if(!empty($this->update_loginpemakai_id)){
-			$criteria->addCondition('update_loginpemakai_id = '.$this->update_loginpemakai_id);
+			$criteria->addCondition('t.update_loginpemakai_id = '.$this->update_loginpemakai_id);
 		}
 		if(!empty($this->create_ruangan)){
-			$criteria->addCondition('create_ruangan = '.$this->create_ruangan);
+			$criteria->addCondition('t.create_ruangan = '.$this->create_ruangan);
 		}
-		$criteria->limit=10;
+                
+                $criteria->compare('r.instalasi_id', $this->instalasi_id);
+                
 		return new CActiveDataProvider($this, array(
 				'criteria'=>$criteria,
 		));
 	}
+        
+        public function searchInformasiDialog() {
+                $provider = $this->searchInformasi();
+                $provider->criteria->join .= " left join penerimaanlinen_t l on l.pengperawatanlinen_id = t.pengperawatanlinen_id";
+                $provider->criteria->addCondition('l.pengperawatanlinen_id is null');
+                return $provider;
+        }
 	
 	public function getSudahTerima($pengperawatanlinen_id){
 		$modPenerimaan = LAPenerimaanlinenT::model()->findByAttributes(array('pengperawatanlinen_id'=>$pengperawatanlinen_id));

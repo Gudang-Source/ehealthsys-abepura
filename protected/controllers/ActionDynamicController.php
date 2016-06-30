@@ -1349,9 +1349,35 @@ class ActionDynamicController extends Controller
                                 }
                                  $dataList['listRuangan'] = $option;
                                  $dataList['ruangan_id'] = $ruangan_id;
-                        } else {
-                                $dataList['listRuangan'] = $option = CHtml::tag('option',array('value'=>''),CHtml::encode('-- Pilih --'),true);
-                                $dataList['ruangan_id'] = '';
+                                 $dataList['instalasi_id'] = $instalasi_id;
+                        } else {                               
+                                
+                             if(!empty($_POST['ruangan_id'])){
+                             
+                                $ruangan_id = $_POST['ruangan_id'];
+                                $instalasi_id = RuanganM::model()->findByPk($ruangan_id)->instalasi_id;
+                                
+                                $data = RuanganM::model()->findAllByAttributes(array('instalasi_id'=>$instalasi_id),array('order'=>'ruangan_nama ASC'));
+                                $data = CHtml::listData($data,'ruangan_id','ruangan_nama');
+
+                                if(empty($data)){
+                                        $option = CHtml::tag('option',array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                                }else{
+                                            $option = CHtml::tag('option',array('value'=>''),CHtml::encode('-- Pilih --'),true);
+
+
+                                        foreach($data as $value=>$name) {
+                                                        $option .= CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
+                                        }
+                                }
+                                 $dataList['listRuangan'] = $option;
+                                 $dataList['ruangan_id'] = $ruangan_id; 
+                                 $dataList['instalasi_id'] = $instalasi_id;
+                             }else{
+                                 $dataList['listRuangan'] = $option = CHtml::tag('option',array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                                 $dataList['ruangan_id'] = '';
+                                 $dataList['instalasi_id'] = '';
+                             }
                         }
 
                         echo json_encode($dataList);
@@ -1428,5 +1454,46 @@ class ActionDynamicController extends Controller
 		}
 		Yii::app()->end();
 	}
+        
+        public function actionGetKlasifikasiKode($encode=false,$model_nama='',$attr='')
+        {
+            if(Yii::app()->request->isAjaxRequest) {
+                $modKlasifikasi = new KlasifikasidiagnosaM;
+                if($model_nama !=='' && $attr == ''){
+                    $dtd_id = $_POST["$model_nama"]['dtd_id'];
+                }
+                 elseif ($model_nama == '' && $attr !== '') {
+                    $dtd_id = $_POST["$attr"];
+                }
+                 elseif ($model_nama !== '' && $attr !== '') {
+                    $dtd_id = $_POST["$model_nama"]["$attr"];
+                }
+                $klasifikasi = null;
+                if($dtd_id){
+                    $klasifikasi = $modKlasifikasi->getKlasifikasiKodeItems($dtd_id);
+                    $klasifikasi = CHtml::listData($klasifikasi,'klasifikasidiagnosa_id','KlasifikasiKodeNama');
+                                        
+                }
+                if($encode){
+                    echo CJSON::encode($klasifikasi);
+                } else {
+                    if(empty($klasifikasi)){
+                        echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                    } else {
+                        
+                        if (count($klasifikasi)>1){
+                            echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                        }elseif (count($klasifikasi)==0){
+                            echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                        }
+                        
+                        foreach($klasifikasi as $value=>$name) {
+                            echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                        }
+                    }
+                }
+            }
+            Yii::app()->end();
+        }
 }
 ?>

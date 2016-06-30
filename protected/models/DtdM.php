@@ -106,7 +106,7 @@ class DtdM extends CActiveRecord
 		$criteria->compare('dtd_nourut',$this->dtd_nourut);
 		//$criteria->compare('dtd_menular',isset($this->dtd_menular)?$this->dtd_menular:true);
 		$criteria->compare('dtd_aktif',isset($this->dtd_aktif)?$this->dtd_aktif:true);
-
+                $criteria->order = "dtd_kode ASC";
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
@@ -158,8 +158,8 @@ class DtdM extends CActiveRecord
          */
         public function getTabularItems()
         {
-//            return SATabularListM::model()->findAll(array('order'=>'tabularlist_block'),array('tabularlist_aktif'=>TRUE));
-            return Yii::app()->db->createCommand('SELECT tabularlist_id, tabularlist_block FROM tabularlist_m WHERE tabularlist_aktif=TRUE')->queryAll();
+            return SATabularListM::model()->findAll(array('order'=>'tabularlist_block'),array('tabularlist_aktif'=>TRUE));
+           // return Yii::app()->db->createCommand('SELECT tabularlist_id, tabularlist_block FROM tabularlist_m WHERE tabularlist_aktif=TRUE')->queryAll();
         }
         
         public function getDiagnosaformItems()

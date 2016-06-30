@@ -36,7 +36,7 @@ $currentUrl = Yii::app()->createUrl($module . '/' . $controller . '/' . $action)
                 array(
                     'header'=>'Ruangan Pemesan',
                     'value'=>'isset($data->ruanganpemesan->ruangan_nama)?$data->ruanganpemesan->ruangan_nama:""',
-                ),
+                ),                 
 //		'ruanganpemesan.ruangan_nama',
 		/*
 		
@@ -48,14 +48,39 @@ $currentUrl = Yii::app()->createUrl($module . '/' . $controller . '/' . $action)
 		*/
 		array(
                     'header'=>'Rincian',
-                    'type'=>'raw',
-                    'value'=>'CHtml::Link("<i class=\"icon-form-detail\"></i>",Yii::app()->controller->createUrl("'.$controller.'/detailPesanBarang",array("id"=>$data->pesanbarang_id)),
-                            array(
-                                  "target"=>"iframeDetail",
-                                  "onclick"=>"window.parent.$(\'#dialogDetail\').dialog(\'open\');",
-                                  "rel"=>"tooltip",
-                                  "title"=>"Klik untuk Detail Pemesanan Barang",
-                            ))',
+                    'type'=>'raw',                   
+                    'value' =>  function ($data){//'(empty($data->mutasibrg_id))? CHtml::link("<i class=\'icon-form-mutasi\'></i> ", Yii::app()->controller->createUrl("/gudangUmum/MutasibrgT/index",array("id"=>$data->pesanbarang_id)),array("rel"=>"tooltip","title"=>"Klik untuk Melanjutkan ke Mutasi")) : "Telah Dimutasi"',                                                                
+                                $controller = Yii::app()->controller->id;
+                                $link = CHtml::Link("<i class='icon-form-detail'></i>",Yii::app()->controller->createUrl(Yii::app()->controller->id.'/detailPesanBarang',array("id"=>$data->pesanbarang_id)),
+                                    array(
+                                          "target"=>"iframeDetail",
+                                          "onclick"=>"window.parent.$('#dialogDetail').dialog('open');",
+                                          "rel"=>"tooltip",
+                                          "title"=>"Klik untuk Detail Pemesanan Barang",
+                                    ));
+                                if ($data->ruanganpemesan_id == Yii::app()->user->getState('ruangan_id')){
+                                    if (empty($data->mutasibrg_id)){
+                                        if (empty($data->ruangantujuan_id)){
+                                            return $link;
+                                        }else{
+                                            return $link;
+                                        }                                        
+                                    }else{
+                                        if (empty($data->ruangantujuan_id)){
+                                            return $link;
+                                        }else{
+                                            return $link;
+                                        }
+                                        
+                                    }
+                                }else{
+                                   if ($data->ruangantujuan_id == Yii::app()->user->getState('ruangan_id')){
+                                    return $link;
+                                }else{
+                                    return "TIDAK BISA DILIHAT";
+                                }
+                                }                                
+                            },
                     'htmlOptions'=>array('style'=>'text-align:left; width:40px'),
                 ),
                 array(

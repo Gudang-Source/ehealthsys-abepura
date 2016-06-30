@@ -38,6 +38,7 @@
                             <tr>
                                     <th>No. </th>
                                     <th>No. Register Linen</th>
+                                    <th>Nama Linen</th>
                                     <th>Nama Barang</th>
                                     <th>Jenis Perawatan</th>
                                     <th>Keterangan</th>
@@ -66,14 +67,17 @@
 <?php $this->endWidget(); ?>
 <?php $this->renderPartial($this->path_view.'_jsFunctions',array('model'=>$model)); ?>
 <?php 
+/*
 Yii::app()->clientScript->registerScript('onready','
 	$("form").submit(function(){
 		pesan = false;
-        if ($(".cancel").length < 1){
-            myAlert("Data Line Harus Diisi");
-            noregisterlinen.focus();
-            return false;
-        }
+                if ($(".cancel").length < 1){
+                    myAlert("Data Line Harus Diisi");
+                    noregisterlinen.focus();
+                    return false;
+                }
     }
 );
-',CClientScript::POS_READY);?>
+',CClientScript::POS_READY);
+ */ ?>
+ 

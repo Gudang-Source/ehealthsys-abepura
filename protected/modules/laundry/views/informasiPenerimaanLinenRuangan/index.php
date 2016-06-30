@@ -54,7 +54,11 @@
 				array(
 					'header'=>'Terima Linen',
 					'type'=>'raw',
-					'value'=>'CHtml::link("<button class=\'btn btn-success\'><i class=\'icon-ok icon-white\'></i> Proses</button>",  Yii::app()->controller->createUrl("/laundry/PenerimaanLinenRuanganT/index",array("id"=>$data->pengirimanlinen_id)),array("rel"=>"tooltip","title"=>"Klik untuk Penerimaan Linen","disabled"=>true));',    'htmlOptions'=>array('style'=>'text-align: left; width:100px')
+					'value'=>function($data) {
+                                            if ($data->issudahditerima) return "-";
+                                            return CHtml::link("<button class='btn btn-success'><i class='icon-ok icon-white'></i> Proses</button>",  Yii::app()->controller->createUrl("/laundry/PenerimaanLinenRuanganT/index",array("id"=>$data->pengirimanlinen_id)),array("rel"=>"tooltip","title"=>"Klik untuk Penerimaan Linen","disabled"=>true));
+                                        },
+                                        'htmlOptions'=>array('style'=>'text-align: left; width:100px')
 				),
 				array(
 					'header'=>Yii::t('zii','Batal'),

@@ -16,15 +16,15 @@ class SABahanlinenM extends BahanlinenM
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
-	public function attributeLabels()
+	/*public function attributeLabels()
 	{
 		return array(
 			'bahanlinen_id' => 'ID',
-			'bahanlinen_nama' => 'Jenis Kain',
+			'bahanlinen_nama' => 'Baha Kain',
 			'bahanlinen_namalain' => 'Jenis Kain Lainnya',
 			'suhurekomendasi' => 'Maksimal Suhu',
 			'bahanlinen_aktif' => 'Aktif',
 		);
-	}
+	}*/
 
 }

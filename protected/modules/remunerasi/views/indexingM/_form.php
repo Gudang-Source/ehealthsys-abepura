@@ -20,7 +20,9 @@
         </td>
         <td>
             <?php echo $form->textFieldRow($model,'indexing_singk',array('size'=>30,'maxlength'=>30)); ?>
-            <?php echo $form->textFieldRow($model,'indexing_nilai'); ?>
+            <?php echo $form->textFieldRow($model,'indexing_nilai', array('class'=>'integer')); ?>            
+            <?php echo $form->textFieldRow($model,'indexing_step', array('class'=>'integer')); ?>
+
         </td>
     </tr>
     <tr>

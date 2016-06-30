@@ -4,7 +4,8 @@ class GUPesanbarangT extends PesanbarangT {
     
 
     public $tgl_awal,$tgl_akhir;
-    public $instalasi_id, $ruangan_id;
+    public $instalasi_id, $ruangan_id;    
+    
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }
@@ -108,5 +109,23 @@ class GUPesanbarangT extends PesanbarangT {
             
             return PegawairuanganV::model()->findAll($cr);
         }
+        
+        public function searchPesanBarang()
+        {
+            $criteria = new CDbCriteria();
+            $criteria->addCondition("ruangantujuan_id = ".$this->ruangantujuan_id);
+            $criteria->addCondition("mutasibrg_id is null");
+            
+            return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+        }
+        
+        public function tes()
+        {
+            return 1;
+        }
+               
+      
 
 }

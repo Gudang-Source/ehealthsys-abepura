@@ -129,7 +129,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'obatalkes-m-grid',
 	'dataProvider'=>$modLinen->searchDialog(),
 	'filter'=>$modLinen,
-	'template'=>"{items}\n{pager}",
+	'template'=>"{summary}{items}\n{pager}",
 	'itemsCssClass'=>'table table-striped table-bordered table-condensed',
 	'columns'=>array(
 		array(
@@ -142,11 +142,10 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 							$(\'#namalinen\').val(\'$data->namalinen\');
 							$(\'#kodelinen\').val(\'$data->kodelinen\');
 							$(\'#dialogLinen\').dialog(\'close\');
-							tambahLinen();
 							return false;"
 					))',
 		),
-		'linen_id',
+		//'linen_id',
 		'kodelinen',
 		'namalinen',
 	),

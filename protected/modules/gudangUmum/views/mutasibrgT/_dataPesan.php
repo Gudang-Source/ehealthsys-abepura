@@ -27,6 +27,14 @@
                     ?>
                 </div>
             </div>
+            <div class="control-group ">
+                <?php echo CHtml::activeLabel($modPesan, 'pegpemesan_id', array('class'=>'control-label')) ?>
+                <div class="controls">
+                    <?php
+                    echo CHtml::activeTextField($modPesan, 'pegpemesan_id', array('readonly'=>true, 'value'=>$modPesan->pegawaipemesan->namaLengkap))
+                    ?>
+                </div>
+            </div>
         </td>
     </tr>
 </table>

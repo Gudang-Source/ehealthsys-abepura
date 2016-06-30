@@ -11,10 +11,17 @@ class PenerimaanLinenRuanganTController extends MyAuthController {
 		$modPengiriman = LAPengirimanlinenT::model()->findByPk($id);
 		$model = new LAPenlinenruanganT;
 		$model->nopenlinenruangan = MyGenerator::noPenerimaanLinenR();
-		$model->ruanganasal_id = $modPengiriman->ruangantujuan_id;
-		$model->ruanganasal_nama = RuanganM::model()->findByPk($modPengiriman->ruangantujuan_id)->ruangan_nama;
+		$model->ruanganasal_id = $modPengiriman->create_ruangan;
+		$model->ruanganasal_nama = RuanganM::model()->findByPk($modPengiriman->create_ruangan)->ruangan_nama;
 		$model->keterangan_penlinenruangan = $modPengiriman->keterangan_pengiriman;
 		$model->pengirimanlinen_id = $modPengiriman->pengirimanlinen_id;
+                
+                $p = PegawaiM::model()->findByPk(Yii::app()->user->getState('pegawai_id'));
+                if (!empty($p)) {
+                    $model->pegpenerima_id = $p->pegawai_id;
+                    $model->pegawaimenerima_nama = $p->nama_pegawai;
+                }
+                
 		// load detail
 		$modPengirimanDetail = LAPengirimanlinendetailT::model()->findAllByAttributes(array('pengirimanlinen_id'=>$modPengiriman->pengirimanlinen_id));
 		
@@ -29,6 +36,8 @@ class PenerimaanLinenRuanganTController extends MyAuthController {
 				$model->create_loginpemakai_id = Yii::app()->user->id;
 				$model->create_ruangan = Yii::app()->user->ruangan_id;
 						if($model->save()){
+                                                        $modPengiriman->issudahditerima = true;
+                                                        $modPengiriman->save();
 							$this->penerimaanLinenRuangan = true;
 								if(count($_POST['LAPengirimanlinendetailT']) > 0){
 								   foreach($_POST['LAPengirimanlinendetailT'] AS $i => $postPenerimaanLinenRuanganDet){

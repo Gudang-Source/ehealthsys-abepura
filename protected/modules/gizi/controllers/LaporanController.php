@@ -833,13 +833,143 @@ public function actionLaporanJumlahPorsiGizi() {
             'data' => $data,
         ));
     }
+    
+    //pemakaian obat alkes ruangan
+    public function actionLaporanPemakaiObatAlkes()
+    {
+        $model = new GZLaporanpemakaiobatalkesruanganV;
+        $model->unsetAttributes();
+        $format = new MyFormatter();
+        $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');   
+        $jenisObat =CHtml::listData($model->getJenisobatalkesItems(),'jenisobatalkes_id','jenisobatalkes_id');
+        $model->jenisobatalkes_id = $jenisObat;
+        if(isset($_GET['GZLaporanpemakaiobatalkesruanganV']))
+        {
+            $model->attributes = $_GET['GZLaporanpemakaiobatalkesruanganV'];
+            $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+            $model->jns_periode = $_GET['GZLaporanpemakaiobatalkesruanganV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['GZLaporanpemakaiobatalkesruanganV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['GZLaporanpemakaiobatalkesruanganV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['GZLaporanpemakaiobatalkesruanganV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['GZLaporanpemakaiobatalkesruanganV']['bln_akhir']);
+            $model->thn_awal = $_GET['GZLaporanpemakaiobatalkesruanganV']['thn_awal'];
+            $model->thn_akhir = $_GET['GZLaporanpemakaiobatalkesruanganV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            
+        }
+        
+        $this->render('pemakaiObatAlkes/adminPemakaiObatAlkes',array(
+            'model'=>$model,'format'=>$format
+        ));
+       
+    }
+
+    public function actionPrintLaporanPemakaiObatAlkes() {
+        $model = new GZLaporanpemakaiobatalkesruanganV('search');
+        $format = new MyFormatter();
+        $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');   
+        $judulLaporan = 'Laporan Info Pemakai Obat Alkes Rawat Jalan';
+
+        //Data Grafik       
+        $data['title'] = 'Grafik Laporan Pemakai Obat Alkes';
+        $data['type'] = $_REQUEST['type'];
+        if (isset($_REQUEST['GZLaporanpemakaiobatalkesruanganV'])) {
+            $model->attributes = $_REQUEST['GZLaporanpemakaiobatalkesruanganV'];
+            $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+            $model->jns_periode = $_GET['GZLaporanpemakaiobatalkesruanganV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['GZLaporanpemakaiobatalkesruanganV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['GZLaporanpemakaiobatalkesruanganV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['GZLaporanpemakaiobatalkesruanganV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['GZLaporanpemakaiobatalkesruanganV']['bln_akhir']);
+            $model->thn_awal = $_GET['GZLaporanpemakaiobatalkesruanganV']['thn_awal'];
+            $model->thn_akhir = $_GET['GZLaporanpemakaiobatalkesruanganV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal;
+            $model->tgl_akhir = $model->tgl_akhir;
+        }
+        
+        $caraPrint = $_REQUEST['caraPrint'];
+        $target = 'pemakaiObatAlkes/_printPemakaiObatAlkes';
+        
+        $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
+    }
+    
+
+    public function actionFrameGrafikLaporanPemakaiObatAlkes() {
+        $this->layout = '//layouts/iframe';
+        $model = new GZLaporanpemakaiobatalkesruanganV('search');
+        $format = new MyFormatter();
+        $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');   
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Pemakai Obat Alkes';
+        $data['type'] = $_GET['type'];
+        if (isset($_GET['GZLaporanpemakaiobatalkesruanganV'])) {
+            $model->attributes = $_GET['GZLaporanpemakaiobatalkesruanganV'];
+            $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+            $model->jns_periode = $_GET['GZLaporanpemakaiobatalkesruanganV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['GZLaporanpemakaiobatalkesruanganV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['GZLaporanpemakaiobatalkesruanganV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['GZLaporanpemakaiobatalkesruanganV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['GZLaporanpemakaiobatalkesruanganV']['bln_akhir']);
+            $model->thn_awal = $_GET['GZLaporanpemakaiobatalkesruanganV']['thn_awal'];
+            $model->thn_akhir = $_GET['GZLaporanpemakaiobatalkesruanganV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal;
+            $model->tgl_akhir = $model->tgl_akhir;
+        }
+                
+        $this->render('_grafik', array(
+            'model' => $model,
+            'data' => $data,
+        ));
+    }
 
     protected function printFunction($model, $data, $caraPrint, $judulLaporan, $target){
         $format = new MyFormatter();
         $periode = $model->tgl_awal.' s/d '.$model->tgl_akhir;
         
         if ($caraPrint == 'PRINT' || $caraPrint == 'GRAFIK') {
-            $this->layout = '//layouts/printWindows';
+            $this->layout = '//layouts/printWindows2';
             $this->render($target, array('model' => $model, 'periode'=>$periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint));
         } else if ($caraPrint == 'EXCEL') {
             $this->layout = '//layouts/printExcel';
@@ -849,6 +979,12 @@ public function actionLaporanJumlahPorsiGizi() {
             $posisi = Yii::app()->user->getState('posisi_kertas');                           //Posisi L->Landscape,P->Portait
             $mpdf = new MyPDF('', $ukuranKertasPDF);
             $mpdf->useOddEven = 2;
+            $footer = '<table width="100%"><tr>'
+                    . '<td style = "text-align:left;font-size:8px;"><i><b>Generated By eHealthsys</b></i></td>'
+                    . '<td style = "text-align:right;font-size:8px;"><i><b>Print Count :</b></i></td>'
+                    . '</tr></table>';
+            $mpdf->SetHtmlFooter($footer,'E');
+            $mpdf->SetHtmlFooter($footer,'O');              
             $stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
             $mpdf->WriteHTML($stylesheet, 1);
             $mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);
