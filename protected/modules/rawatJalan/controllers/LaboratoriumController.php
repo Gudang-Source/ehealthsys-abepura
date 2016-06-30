@@ -81,15 +81,9 @@ class LaboratoriumController extends MyAuthController
                             $this->savePermintaanPenunjang($_POST['permintaanPenunjangAnatomi'],$modKirimKeUnitLainAnatomi);
                         }
 
-                        $dat = PasienpulangT::model()->findByAttributes(array(
-                            // 'carakeluar_id'=>Params::CARAKELUAR_ID_RAWATINAP,
-                            'pendaftaran_id'=>$pendaftaran_id
-                        ));
-                        $adm = PasienadmisiT::model()->findByAttributes(array(
-                            // 'carakeluar_id'=>Params::CARAKELUAR_ID_RAWATINAP,
-                            'pendaftaran_id'=>$pendaftaran_id
-                        ));
-                        if (!(!empty($adm) || !empty($dat))) $updateStatusPeriksa=PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SEDANG_PERIKSA));
+                        $p = PendaftaranT::model()->findByPk($pendaftaran_id);
+                        $updateStatusPeriksa = $p->setStatusPeriksa(Params::STATUSPERIKSA_SEDANG_PERIKSA);
+                        
                         /* ================================================ */
                         /* Proses update status periksa KonsulPoli EHS-179  */
                         /* ================================================ */

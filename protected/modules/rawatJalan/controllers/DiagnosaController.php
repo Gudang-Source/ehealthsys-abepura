@@ -100,15 +100,9 @@ class DiagnosaController extends MyAuthController
             if($valid){
                 foreach ($morbiditas as $j => $morbiditasPasien) {
                     $morbiditasPasien->save();
-                    $dat = PasienpulangT::model()->findByAttributes(array(
-                        // 'carakeluar_id'=>Params::CARAKELUAR_ID_RAWATINAP,
-                        'pendaftaran_id'=>$modPendaftaran->pendaftaran_id
-                    ));
-                    $adm = PasienadmisiT::model()->findByAttributes(array(
-                        // 'carakeluar_id'=>Params::CARAKELUAR_ID_RAWATINAP,
-                        'pendaftaran_id'=>$modPendaftaran->pendaftaran_id
-                    ));
-                    if (!(!empty($adm) || !empty($dat))) $updateStatusPeriksa=PendaftaranT::model()->updateByPk($modPendaftaran->pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SUDAH_DIPERIKSA, 'tglselesaiperiksa'=>date('Y-m-d H:i:s'))); // LNG-959
+                    $p = PendaftaranT::model()->findByPk($modPendaftaran->pendaftaran_id);
+                    $updateStatusPeriksa = $p->setStatusPeriksa(Params::STATUSPERIKSA_SUDAH_DIPERIKSA);
+                    $updateStatusPeriksa=PendaftaranT::model()->updateByPk($modPendaftaran->pendaftaran_id,array('tglselesaiperiksa'=>date('Y-m-d H:i:s'))); // LNG-959
                 }
                 //echo 'VALID';
                 $this->successSave = true;
@@ -282,11 +276,10 @@ class DiagnosaController extends MyAuthController
             $valid = $morbiditas->validate();
             if($valid){
                 $morbiditas->save();
-                $dat = PasienpulangT::model()->findByAttributes(array(
-                    // 'carakeluar_id'=>Params::CARAKELUAR_ID_RAWATINAP,
-                    'pendaftaran_id'=>$IdPendaftaran
-                ));
-                if (empty($dat)) PendaftaranT::model()->updateByPk($modPendaftaran->pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SUDAH_DIPERIKSA, 'tglselesaiperiksa'=>date('Y-m-d H:i:s')));
+                
+                $p = PendaftaranT::model()->findByPk($modPendaftaran->pendaftaran_id);
+                $p->setStatusPeriksa(Params::STATUSPERIKSA_SUDAH_DIPERIKSA);
+                PendaftaranT::model()->updateByPk($modPendaftaran->pendaftaran_id,array('tglselesaiperiksa'=>date('Y-m-d H:i:s')));
             }
         }
     }
