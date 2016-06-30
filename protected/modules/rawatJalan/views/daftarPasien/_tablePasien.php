@@ -94,7 +94,7 @@
                             ), array(
                                 'condition'=>'pasienbatalpulang_id is null'
                             ));
-                            return (!empty($pulang)) ? 
+                            return (!empty($pulang) || !empty($admisi)) ? 
                                 (
                                 (!empty($admisi)?$ruangan."<br/>".$kamar:"DIRAWAT INAP".CHtml::link("<i class='icon-form-silang'></i>", Yii::app()->controller->createUrl("/".Yii::app()->controller->module->id."/".Yii::app()->controller->id."/BatalRawatInap",array("pendaftaran_id"=>$data->pendaftaran_id)) , array("title"=>"Klik Untuk Batal Proses Tindak Lanjut Pasien","target"=>"iframeBatalRawatInap", "onclick"=>"$('#dialogBatalRawatInap').dialog('open');", "rel"=>"tooltip"))))
                                 :  

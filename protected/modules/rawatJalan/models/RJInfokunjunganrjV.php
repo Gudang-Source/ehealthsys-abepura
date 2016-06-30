@@ -927,7 +927,13 @@ class RJInfokunjunganrjV extends InfokunjunganrjV {
     */
    public function getLinkPeriksaPasien() {
        $pendaftaran = PendaftaranT::model()->findByPk($this->pendaftaran_id);
-       if (!empty($pendaftaran->pasienpulang_id)) return "-";
+       $konsul = KonsulpoliT::model()->findByAttributes(array(
+           'pendaftaran_id'=>$this->pendaftaran_id,
+           'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
+       ));
+       if (!empty($pendaftaran->pasienpulang_id)) {
+           return "-";
+       }
        if ($this->penjamin_id == Params::PENJAMIN_ID_UMUM) {
            
             if (!empty($pendaftaran->karcis_id)) {
@@ -953,6 +959,10 @@ class RJInfokunjunganrjV extends InfokunjunganrjV {
                     return CHtml::link("<i class='icon-form-periksa'></i> ", '#', array("id"=>$this->no_pendaftaran,"rel"=>"tooltip","title"=>"Klik untuk Pemeriksaan Pasien", "onclick"=>"myAlert('Pasien belum membayar karcis.'); return false;"));
                 }
             }
+       }
+       
+       if (!empty($konsul)) {
+           return CHtml::link("<i class='icon-form-periksa'></i> ", Yii::app()->controller->createUrl("/rawatJalan/pemeriksaanPasien",array("pendaftaran_id"=>$this->pendaftaran_id)),array("id"=>$this->no_pendaftaran,"rel"=>"tooltip","title"=>"Klik untuk Pemeriksaan Pasien"));
        }
        
        if (!$this->alihstatus) {
