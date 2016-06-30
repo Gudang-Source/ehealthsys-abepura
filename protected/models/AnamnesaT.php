@@ -264,20 +264,20 @@ class AnamnesaT extends CActiveRecord
         }
 		
 		public function getDokterItems($ruangan_id=null){
-            if (Yii::app()->user->getState('dokterruangan')==true){
-				if(empty($ruangan_id))
-					$ruangan_id = Yii::app()->user->getState('ruangan_id');
-                if(!empty($ruangan_id))
-                    return DokterV::model()->findAllByAttributes(array('pegawai_aktif'=>true,'ruangan_id'=>$ruangan_id),array('order'=>'nama_pegawai'));
-                else
-                    return array();
-            }else{
-                //criteria disamakan dengan dokter_v
-				$criteria = new CDbCriteria();
-				$criteria->addInCondition('kelompokpegawai_id', array(Params::KELOMPOKPEGAWAI_ID_TENAGA_MEDIK, Params::KELOMPOKPEGAWAI_ID_PARAMEDIS_KEPERAWATAN));
-				$criteria->addCondition("pegawai_aktif = TRUE");
-				$criteria->order = 'nama_pegawai ASC';
-                return PegawaiM::model()->findAll($criteria);
-            }
-        }
+                    if (Yii::app()->user->getState('dokterruangan')==true){
+                                        if(empty($ruangan_id))
+                                                $ruangan_id = Yii::app()->user->getState('ruangan_id');
+                        if(!empty($ruangan_id))
+                            return DokterV::model()->findAllByAttributes(array('pegawai_aktif'=>true,'ruangan_id'=>$ruangan_id),array('order'=>'nama_pegawai'));
+                        else
+                            return array();
+                    }else{
+                        //criteria disamakan dengan dokter_v
+                                        $criteria = new CDbCriteria();
+                                        $criteria->addInCondition('kelompokpegawai_id', array(Params::KELOMPOKPEGAWAI_ID_TENAGA_MEDIK, Params::KELOMPOKPEGAWAI_ID_PARAMEDIS_KEPERAWATAN));
+                                        $criteria->addCondition("pegawai_aktif = TRUE");
+                                        $criteria->order = 'nama_pegawai ASC';
+                        return PegawaiM::model()->findAll($criteria);
+                    }
+                 }
 }
