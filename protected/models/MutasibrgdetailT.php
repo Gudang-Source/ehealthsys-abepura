@@ -15,6 +15,9 @@
 class MutasibrgdetailT extends CActiveRecord
 {
         public $qty_pesan;
+        public $barang_type, $barang_kode, $barang_nama, $barang_merk;
+        public $barang_ukuran, $barang_ekonomis_thn, $satuanbarang;
+        
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.

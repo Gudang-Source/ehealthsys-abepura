@@ -18,20 +18,99 @@ if (isset($_GET['idMutasi']) && !empty($_GET['idMutasi'])) {
     ?>
     <?php echo $form->errorSummary($model); ?>
     <?php
-    if (isset($modPesan)) {
+    if (isset($_GET['id'])) {
         $this->renderPartial('gudangUmum.views.mutasibrgT._dataPesan', array('modPesan' => $modPesan));
     }
     ?>
     <fieldset class="box">
         <p class="help-block"><?php echo Yii::t('mds', 'Fields with <span class="required">*</span> are required.') ?></p>
         <legend class="rim">Data Mutasi Barang</legend>
+<!--awal pemesanan-->
+<?php if (!isset($_GET['id'])){ ?>
+<div class="row-fluid">
+    <div class = "span4">
+        <div class="control-group ">
+            <?php echo CHtml::label("No Pemesanan ", 'nopemesanan', array('class'=>'control-label')); ?>
+            <div class="controls">
+                <?php
+                $this->widget('MyJuiAutoComplete', array(
+                    'model'=>$modPesan,
+                    'attribute' => 'nopemesanan',
+                    'source' => 'js: function(request, response) {
+                        $.ajax({
+                            url: "' . $this->createUrl('AutocompleteNoPemesanan') . '",
+                            dataType: "json",
+                            data: {
+                                term: request.term,
+                            },
+                            success: function (data) {
+                                    response(data);
+                            }
+                        })
+                    }',
+                    'options' => array(
+                        'showAnim' => 'fold',
+                        'minLength' => 3,
+                        'focus' => 'js:function( event, ui ) {
+                            $(this).val( ui.item.label);
+                            return false;
+                        }',
+                        'select' => 'js:function( event, ui ) {
+                            $("#'.CHtml::activeId($modPesan, 'nopemesanan') . '").val(ui.item.nopemesanan);
+                            $("#'.CHtml::activeId($modPesan, 'tglpesanbarang') . '").val(ui.item.tglpesanbarang);
+                            $("#'.CHtml::activeId($modPesan, 'ruanganpemesan_id') . '").val(ui.item.ruanganpemesan_id);
+                            $("#'.CHtml::activeId($modPesan, 'ruanganpemesan_nama') . '").val(ui.item.ruanganpemesan_nama);
+                            $("#'.CHtml::activeId($modPesan, 'pegpemesan_id') . '").val(ui.item.pegpemesan_id);
+                            $("#'.CHtml::activeId($modPesan, 'pegpemesan_nama') . '").val(ui.item.pegpemesan_nama);
+                            $("#'.CHtml::activeId($model, 'pesanbarang_id') . '").val(ui.item.pesanbarang_id);
+                            listRuangan(ui.item.instalasi_id, ui.item.ruanganpemesan_id);
+                            submitMutasi();                                    
+                            return false;
+                        }',
+                    ),
+                    'htmlOptions' => array(
+                        'class'=>'nopsn',
+                        'onkeyup' => "return $(this).focusNextInputField(event)",
+                        'onblur' => 'if(this.value === "") $("#'.CHtml::activeId($modPesan, 'nopemesanan') . '").val(""); '
+                    ),
+                    'tombolDialog' => array('idDialog' => 'dialogPemesanan'),
+                ));
+                ?>
+                <?php //echo $form->hiddenField($modPemesanan, 'nopemesanan',array('readonly'=>true)); ?>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="span4">
+        <div class = "control-group">
+            <?php echo CHtml::label("Tanggal Pesan Barang", 'tglpesanbarang', array('class'=>'control-label')) ?>
+            <div class = "controls">
+                <?php echo $form->textField($modPesan, 'tglpesanbarang',array('readonly'=>true, 'class'=>'span3')); ?>
+            </div>
+        </div>        
+    </div>
+    
+    <div class = "span4">
+        <?php echo $form->hiddenField($modPesan, 'ruanganpemesan_id',array('readonly'=>true)); ?>
+        <?php echo $form->textFieldRow($modPesan, 'ruanganpemesan_nama',array('readonly'=>true)); ?>
+        <?php echo $form->hiddenField($modPesan, 'pegpemesan_id',array('readonly'=>true)); ?>
+        <?php echo $form->textFieldRow($modPesan, 'pegpemesan_nama',array('readonly'=>true)); ?>
+    </div>
+</div>
+
+<hr/>
+<?php } ?>
+<!--akhir pemesanan-->
         <table width="100%">
             <tr>
                 <td>
 
                             <?php //echo $form->textFieldRow($model,'pesanbarang_id',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);"));  ?>
                             <?php //echo $form->textFieldRow($model,'tglmutasibrg',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-                    <div class="control-group ">
+                    <?php echo $form->hiddenField($model,'pesanbarang_id',array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+                    <div class="control-group ">                            
                             <?php echo $form->labelEx($model, 'tglmutasibrg', array('class' => 'control-label')) ?>
                         <div class="controls">
                             <?php
@@ -205,7 +284,81 @@ if (isset($_GET['idMutasi']) && !empty($_GET['idMutasi'])) {
     </div>
     <?php $this->endWidget(); ?>
 
+<?php
+//========= Dialog buat cari data pemesanan barang =========================
+$this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
+    'id'=>'dialogPemesanan',
+    'options'=>array(
+        'title'=>'Pencarian Data Pemesanan',
+        'autoOpen'=>false,
+        'modal'=>true,
+        'width'=>900,
+        'height'=>600,
+        'resizable'=>false,
+    ),
+));
 
+$modPesann = new GUPesanbarangT('search');
+$modPesann->unsetAttributes();
+$modPesann->ruangantujuan_id = Yii::app()->user->getState('ruangan_id');
+if(isset($_GET['GUPesanbarangT'])) {
+    $modPesann->attributes = $_GET['GUPesanbarangT'];
+    $modPesann->ruangantujuan_id = Yii::app()->user->getState('ruangan_id');
+    $modPesann->ruanganpemesan_id = $_GET['GUPesanbarangT']['ruanganpemesan_id'];
+    $modPesann->pegawaipemesan_id = $_GET['GUPesanbarangT']['pegpemesan_id'];
+}
+//$provider = $modPesann->searchPesanBarang();
+//$provider->criteria->addCondition('mutasibrg_id is null');
+$this->widget('ext.bootstrap.widgets.BootGridView',array(
+	'id'=>'nopemesanan-grid',
+	'dataProvider'=>$modPesann->searchPesanBarang(),
+	'filter'=>$modPesann,
+        'template'=>"{summary}\n{items}\n{pager}",
+        'itemsCssClass'=>'table table-striped table-bordered table-condensed',
+	'columns'=>array(
+                array(
+                    'header'=>'Pilih',
+                    'type'=>'raw',
+                    'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","",array("class"=>"btn-small",
+                                    "href"=>"",
+                                    "id" => "selectNopemesanan",
+                                    "onClick" => "$(\"#'.CHtml::activeId($modPesan,'nopemesanan').'\").val(\"$data->nopemesanan\");
+                                                  $(\"#'.CHtml::activeId($modPesan,'tglpesanbarang').'\").val(\"".MyFormatter::formatDateTimeForUser($data->tglpesanbarang)."\");
+                                                  $(\"#'.CHtml::activeId($modPesan,'ruanganpemesan_id').'\").val(\"".$data->ruanganpemesan_id."\");                                                  
+                                                  $(\"#'.CHtml::activeId($modPesan,'pegpemesan_id').'\").val(\"$data->pegpemesan_id\");                                                  
+                                                  $(\"#'.CHtml::activeId($model,'pesanbarang_id').'\").val(\"$data->pesanbarang_id\");
+                                                  $(\"#'.CHtml::activeId($model,'instalasi_id').'\").val(\"$data->instalasi_id\");
+                                                  $(\"#'.CHtml::activeId($model,'ruangantujuan_id').'\").val(\"$data->ruanganpemesan_id\");
+                                                  listRuangan(\"$data->instalasi_id\",\"$data->ruanganpemesan_id\");
+                                                  submitMutasi();                                                  
+                                                  $(\"#dialogPemesanan\").dialog(\"close\");
+                                                  return false;
+                                        "))',
+                ),
+                array(
+                  'name'=>'tglpesanbarang',
+                  'value'=>'MyFormatter::formatDateTimeForUser($data->tglpesanbarang)',
+                  'filter'=>false
+                  ),
+                'nopemesanan',
+                array(
+                  'header'=>'Ruangan Pemesan',
+                  'name'=>'ruanganpemesan_id',
+                  'value'=>'$data->ruanganpemesan->ruangan_nama',
+                  'filter'=>CHtml::activeDropDownList($modPesann,'ruanganpemesan_id',CHtml::listData(RuanganM::model()->findAll(array('condition'=>'ruangan_aktif = true','order'=>'ruangan_nama')),'ruangan_id','ruangan_nama'),array('empty'=>'-- Pilih --','class'=>'ruanganPemesan'))
+                ),
+                array(
+                  'name'=>'pegpemesan_id',
+                  'value'=>'$data->pegawaipemesan->namaLengkap',
+                  'filter'=>CHtml::activeDropDownList($modPesann,'pegpemesan_id',CHtml::listData(PegawaiM::model()->findAll(array('condition'=>'pegawai_aktif = true','order'=>'nama_pegawai')),'pegawai_id','namaLengkap'),array('empty'=>'-- Pilih --'))
+                ),
+                'keterangan_pesan'
+            ),
+            'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+        ));
+$this->endWidget();
+//========= end pemesanan barang dialog =============================
+?>
     <?php
 //========= Dialog buat cari Bahan Diet =========================
     $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
@@ -336,11 +489,40 @@ if (isset($_GET['idMutasi']) && !empty($_GET['idMutasi'])) {
     $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
     $urlPrint = Yii::app()->createAbsoluteUrl($module . '/' . $controller . '/print');
     $idMutasi = $model->mutasibrg_id;
+    $urlGetMutasi =  $this->createUrl('getPesanBarangDariMutasi');
     $js = <<< JSCRIPT
-function print(caraPrint)
-{
-    window.open("${urlPrint}/&id=${idMutasi}&caraPrint="+caraPrint,"",'location=_new, width=900px');
-}
+    function submitMutasi()
+    {
+        idPesanbarang = $('#GUMutasibrgT_pesanbarang_id').val();
+            if(idPesanbarang==''){
+                alert('Silahkan Pilih No.Pemesanan Terlebih Dahulu');
+            }else{
+                $("#tableDetailBarang tbody tr").remove();
+                $.post("${urlGetMutasi}", { idPesanbarang: idPesanbarang },
+                function(data){
+                    //if (typeof data.stok == "undefined") {
+                    //  myAlert(data.pesan);
+                   //}
+                    //else{
+                    $('.labelTotal').html('Total');
+                    $('#GUPesanbarangT_ruanganpemesan_nama').val(data.ruangan_nama);
+                    $('#GUPesanbarangT_pegpemesan_nama').val(data.nama_pegawai);
+                    $('#tableDetailBarang').append(data.tr);
+                    $("#tableDetailBarang tbody tr:last .numbersOnly").maskMoney({"defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0,"symbol":null});
+                    renameInputRowBarang($("#tableDetailBarang"));
+                   // hitungTotal();                
+                  //}
+                }, "json");
+            }
+
+            instalasiId = $('#GUMutasibrgT_instalasi_id').val();
+
+    }
+
+    function print(caraPrint)
+    {
+        window.open("${urlPrint}/&id=${idMutasi}&caraPrint="+caraPrint,"",'location=_new, width=900px');
+    }
 JSCRIPT;
     Yii::app()->clientScript->registerScript('print', $js, CClientScript::POS_HEAD);
     ?>
@@ -357,4 +539,49 @@ if (isset($model->mutasibrg_id)) {
 }
 ?>
         });
+        
+        
+    function renameInputRowBarang(obj_table){
+    var row = 0;
+    $(obj_table).find("tbody > tr").each(function(){
+        $(this).find("#no_urut").val(row+1);
+        $(this).find('span').each(function(){ //element <input>
+            var old_name = $(this).attr("name").replace(/]/g,"");
+            var old_name_arr = old_name.split("[");
+            if(old_name_arr.length == 3){
+                $(this).attr("name","["+row+"]["+old_name_arr[2]+"]");
+            }
+        });
+        $(this).find('input,select,textarea').each(function(){ //element <input>
+            var old_name = $(this).attr("name").replace(/]/g,"");
+            var old_name_arr = old_name.split("[");
+            if(old_name_arr.length == 3){
+                $(this).attr("id",old_name_arr[0]+"_"+row+"_"+old_name_arr[2]);
+                $(this).attr("name",old_name_arr[0]+"["+row+"]["+old_name_arr[2]+"]");
+            }
+        });
+        row++;
+    });
+    
+}
+
     </script>
+    <script>
+function listRuangan(instalasi_id, ruangan_id)
+{
+	$.ajax({
+		type:'POST',
+		url:'<?php echo Yii::app()->createUrl('ActionDynamic/ListRuangan/'); ?>',
+		data: {instalasi_id: instalasi_id, ruangan_id: ruangan_id},//
+		dataType: "json",
+		success:function(data){
+			$('#GUMutasibrgT_ruangantujuan_id').html(data.listRuangan);
+                        
+                        $('#GUMutasibrgT_ruangantujuan_id').val(data.ruangan_id);
+                        $('#GUMutasibrgT_instalasi_id').val(data.instalasi_id);
+		},
+		error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
+	});	
+}
+</script>
+    
