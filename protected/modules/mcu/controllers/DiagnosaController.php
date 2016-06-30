@@ -89,7 +89,9 @@ class DiagnosaController extends MyAuthController
             if($valid){
                 foreach ($morbiditas as $j => $morbiditasPasien) {
                     $morbiditasPasien->save();
-                     $updateStatusPeriksa=PendaftaranT::model()->updateByPk($modPendaftaran->pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SUDAH_DIPERIKSA));
+                    
+                    $p = PendaftaranT::model()->findByPk($modPendaftaran->pendaftaran_id);
+                    $updateStatusPeriksa = $p->setStatusPeriksa(Params::STATUSPERIKSA_SUDAH_DIPERIKSA);
                 }
                 //echo 'VALID';
                 $this->successSave = true;

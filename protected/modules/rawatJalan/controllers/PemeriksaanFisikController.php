@@ -97,13 +97,10 @@ class PemeriksaanFisikController extends MyAuthController
                                 // var_dump($modPemeriksaanFisik->attributes); die;
                                 if($modPemeriksaanFisik->validate()){
 									if($modPemeriksaanFisik->save()){
-                                                                                $dat = PasienpulangT::model()->findByAttributes(array(
-                                                                                    // 'carakeluar_id'=>Params::CARAKELUAR_ID_RAWATINAP,
-                                                                                    'pendaftaran_id'=>$pendaftaran_id
-                                                                                ));
-										if (empty($dat)) $updateStatusPeriksa=PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SEDANG_PERIKSA));
-										$ruangan_id = isset($_GET['ruangan_id']) ? $_GET['ruangan_id'] : Yii::app()->user->getState('ruangan_id');
-										$konsulPoli = KonsulpoliT::model()->findByAttributes(array('pendaftaran_id'=>$pendaftaran_id, 'ruangan_id'=>$ruangan_id));
+                                                                                $p = PendaftaranT::model()->findByPk($pendaftaran_id);
+                                                                                $updateStatusPeriksa = $p->setStatusPeriksa(Params::STATUSPERIKSA_SEDANG_PERIKSA);$ruangan_id = isset($_GET['ruangan_id']) ? $_GET['ruangan_id'] : Yii::app()->user->getState('ruangan_id');
+										
+                                                                                $konsulPoli = KonsulpoliT::model()->findByAttributes(array('pendaftaran_id'=>$pendaftaran_id, 'ruangan_id'=>$ruangan_id));
 										if(count($konsulPoli)>0){
 										  $updateStatusPeriksa=KonsulpoliT::model()->updateByPk($konsulPoli->konsulpoli_id,array('statusperiksa'=>Params::STATUSPERIKSA_SEDANG_PERIKSA));
 										}
