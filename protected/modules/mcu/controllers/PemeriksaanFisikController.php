@@ -117,7 +117,9 @@ class PemeriksaanFisikController extends MyAuthController
 
                                 if($modPemeriksaanFisik->validate()){
 									if($modPemeriksaanFisik->save()){
-										$updateStatusPeriksa=PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SEDANG_PERIKSA));
+										$p = PendaftaranT::model()->findByPk($pendaftaran_id);
+                                                                                $updateStatusPeriksa = $p->setStatusPeriksa(Params::STATUSPERIKSA_SEDANG_PERIKSA);
+                
 										/* ================================================ */
 										/* Proses update status periksa KonsulPoli EHS-179  */
 										/* ================================================ */

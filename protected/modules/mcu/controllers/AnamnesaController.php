@@ -256,9 +256,9 @@ class AnamnesaController extends MyAuthController
                     $modAnamnesa->keb_minumkopi = $_POST['RJAnamnesaT']['keb_minumkopi'];
                     $modAnamnesa->keb_konsumsidrug = $_POST['RJAnamnesaT']['keb_konsumsidrug'];
                     
+                    $p = PendaftaranT::model()->findByPk($pendaftaran_id);
+                    $updateStatusPeriksa = $p->setStatusPeriksa(Params::STATUSPERIKSA_SEDANG_PERIKSA);
                     
-                    $updateStatusPeriksa=PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SEDANG_PERIKSA));
-
                     /* ================================================ */
                     /* Proses update status periksa KonsulPoli EHS-179  */
                     /* ================================================ */

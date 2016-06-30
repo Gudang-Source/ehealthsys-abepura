@@ -89,7 +89,10 @@ class RadiologiController extends MyAuthController
             if($modKirimKeUnitLain->validate()){
                 $modKirimKeUnitLain->save();
                 $this->statusSaveKirimkeUnitLain = true;
-                $updateStatusPeriksa=PendaftaranT::model()->updateByPk($modPendaftaran->pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SEDANG_PERIKSA));
+                
+                $p = PendaftaranT::model()->findByPk($modPendaftaran->pendaftaran_id);
+                $updateStatusPeriksa = $p->setStatusPeriksa(Params::STATUSPERIKSA_SEDANG_PERIKSA);
+                
                 /* ================================================ */
                 /* Proses update status periksa KonsulPoli EHS-179  */
                 /* ================================================ */

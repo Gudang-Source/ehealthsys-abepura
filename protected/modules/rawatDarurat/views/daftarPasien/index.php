@@ -82,7 +82,7 @@
                                                     'mode'=>'date',
                                                     'options'=> array(
                                                         'dateFormat'=>Params::DATE_FORMAT,
-                                                        'minDate' => 'd',
+                                                        'maxDate' => 'd',
                                                     ),
                                                     'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3'),
                             )); ?>

@@ -422,4 +422,23 @@ class PendaftaranT extends CActiveRecord
                         'pagination'=>false,
                 ));
         }
+        
+        public function setStatusPeriksa($status) {
+                // var_dump($this->attributes, $status); die;
+                $a = PasienadmisiT::model()->findByAttributes(array(
+                    'pendaftaran_id'=>$this->pendaftaran_id,
+                ));
+                $p = PasienpulangT::model()->findByAttributes(array(
+                    'pendaftaran_id'=>$this->pendaftaran_id,
+                ), array(
+                    'condition'=>'pasienbatalpulang_id is null',
+                ));
+                
+                if (empty($a) && empty($p)) {
+                    $this->statusperiksa = $status;
+                    return $this->save();
+                }
+                
+                return true;
+        }
 }
