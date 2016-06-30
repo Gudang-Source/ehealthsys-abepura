@@ -16,7 +16,7 @@
             'order'=>'dtd_kode asc',
         ));
         echo $form->dropDownListRow($model, 'dtd_id', CHtml::listData($dtd, 'dtd_id', 'dtd_kode')); ?>
-        <?php echo $form->textFieldRow($model,'klasifikasidiagnosa_kode',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10)); ?>
+        <?php echo $form->textFieldRow($model,'klasifikasidiagnosa_kode',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>3)); ?>
         <?php echo $form->textFieldRow($model,'klasifikasidiagnosa_nama',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>500)); ?>
         <div>
             <?php echo $form->checkBoxRow($model,'klasifikasidiagnosa_aktif', array('onkeyup'=>"return $(this).focusNextInputField(event);")); ?>

@@ -42,22 +42,41 @@ class DiagnosaMController extends MyAuthController
                     {
                         $model->attributes=$_POST['SADiagnosaM'];
                         $model->diagnosa_aktif=TRUE;
-                        $model->save();
-                        if(isset($_POST['dtd_id'])){
-                            $jumlahDTD=COUNT($_POST['dtd_id']);
-                            $diagnosa_id=$model->diagnosa_id;
-                            $hapusDTDDiagnosaM=SADTDDiagnosaM::model()->deleteAll('diagnosa_id='.$diagnosa_id.''); 
-                                for($i=0; $i<=$jumlahDTD; $i++)
-                                    {
-                                        $modDTDDiagnosaM=new SADTDDiagnosaM; 
-                                        $modDTDDiagnosaM->diagnosa_id=$diagnosa_id;
-					$modDTDDiagnosaM->dtd_id=$_POST['dtd_id'];
-                                        $modDTDDiagnosaM->save();
-                                    }
+                        $model->diagnosa_kode = $model->kode1;
+                        if (!empty($model->kode2)){
+                            $model->diagnosa_kode = $model->kode1.'.'.$model->kode2;    
                         }
-                        $transaction->commit();
+                        
+                        $valid = $model->validate();
+                        if ($valid){
+                            $model->save();                                                
+                            if(isset($_POST['dtd_id'])){
+                                $jumlahDTD=COUNT($_POST['dtd_id']);
+                                $diagnosa_id=$model->diagnosa_id;
+                                $hapusDTDDiagnosaM=SADTDDiagnosaM::model()->deleteAll('diagnosa_id='.$diagnosa_id.''); 
+                                    for($i=0; $i<=$jumlahDTD; $i++)
+                                        {
+                                            $modDTDDiagnosaM=new SADTDDiagnosaM; 
+                                            $modDTDDiagnosaM->diagnosa_id=$diagnosa_id;
+                                            $modDTDDiagnosaM->dtd_id=$_POST['dtd_id'];
+                                            $modDTDDiagnosaM->save();
+                                        }
+                            }
+                        
+                        $user = LoginpemakaiK::model()->findByPk(Yii::app()->user->id);    
+                        $data = array(
+                            'kode_diagnosa' => $model->diagnosa_kode,
+                            'nama_diagnosa' => $model->diagnosa_nama,
+                            'user' => (count($user)>0)?$user->pegawai->namaLengkap:'-',
+                            'tanggal' => $model->create_time,
+                        );
+                        $this->getNotofikasi('insert', $data) ;
+                        
+                         $transaction->commit();
                         Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');    
-                        $this->redirect(array('admin'));  
+                        $this->redirect(array('admin')); 
+                        }
+                         
                     }
                     catch (Exception $e)
                      {
@@ -82,6 +101,9 @@ class DiagnosaMController extends MyAuthController
 	{
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		$model=$this->loadModel($id);
+                $pecah = explode('.', $model->diagnosa_kode);
+                $model->kode1 = $pecah[0];
+                $model->kode2 = $pecah[1];
 //                $modDTDDiagnosaM=SADTDDiagnosaM::model()->findAll('diagnosa_id='.$id.'');
 		// Uncomment the following line if AJAX validation is needed
 		
@@ -93,22 +115,44 @@ class DiagnosaMController extends MyAuthController
                     {
                         $model->attributes=$_POST['SADiagnosaM'];
                         $model->diagnosa_aktif=TRUE;
-                        $model->save();
-                        if(isset($_POST['dtd_id'])){
-                            $jumlahDTD=COUNT($_POST['dtd_id']);
-                            $diagnosa_id=$model->diagnosa_id;
-                            $hapusDTDDiagnosaM=SADTDDiagnosaM::model()->deleteAll('diagnosa_id='.$diagnosa_id.''); 
-                                for($i=0; $i<=$jumlahDTD; $i++)
-                                    {
-                                        $modDTDDiagnosaM=new SADTDDiagnosaM; 
-                                        $modDTDDiagnosaM->diagnosa_id=$diagnosa_id;
-                                        $modDTDDiagnosaM->dtd_id=$_POST['dtd_id'][$i];
-                                        $modDTDDiagnosaM->save();
-                                    }
+                        $model->diagnosa_kode = $model->kode1;
+                        if (!empty($model->kode2)){
+                            $model->diagnosa_kode = $model->kode1.'.'.$model->kode2;    
                         }
-                        $transaction->commit();
-                        Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');    
-                        $this->redirect(array('admin'));  
+                        
+                        $valid = $model->validate();
+                        
+                        if ($valid){
+                                                    
+                            $model->save();
+                            if(isset($_POST['dtd_id'])){
+                                $jumlahDTD=COUNT($_POST['dtd_id']);
+                                $diagnosa_id=$model->diagnosa_id;
+                                $hapusDTDDiagnosaM=SADTDDiagnosaM::model()->deleteAll('diagnosa_id='.$diagnosa_id.''); 
+                                    for($i=0; $i<=$jumlahDTD; $i++)
+                                        {
+                                            $modDTDDiagnosaM=new SADTDDiagnosaM; 
+                                            $modDTDDiagnosaM->diagnosa_id=$diagnosa_id;
+                                            $modDTDDiagnosaM->dtd_id=$_POST['dtd_id'][$i];
+                                            $modDTDDiagnosaM->save();
+                                        }
+                            }
+                            
+                        /*    $user = LoginpemakaiK::model()->findByPk(Yii::app()->user->id);    
+                            $data = array(
+                                'kode_diagnosa' => $model->diagnosa_kode,
+                                'nama_diagnosa' => $model->diagnosa_nama,
+                                'user' => (count($user)>0)?$user->pegawai->namaLengkap:'-',
+                                'tanggal' => $model->update_time,
+                            );
+                            $this->getNotofikasi('update', $data) ;*/
+
+                            $transaction->commit();
+                            Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');    
+                            $this->redirect(array('admin'));  
+                            }
+                        
+                        
                      }
                     catch (Exception $e)
                      {
@@ -234,6 +278,38 @@ class DiagnosaMController extends MyAuthController
                     }
             }
 	}
+        
+        public function getNotofikasi($tipe, $data)
+        {
+            $judul = ($tipe=='insert')?"<b>Penambahan":"<b>Perubahan";
+            $judul .= ' Diagnosa</b>';
+            
+            $isi =      'Kode Diagnosa  : '.$data['kode_diagnosa'].'<br>'
+                    .   'Nama Diagnosa  : '.$data['nama_diagnosa'].'<br>'
+                    .   'Dibuat Oleh    : '.$data['user'].'<br>'
+                    .   'Tgl            : '.MyFormatter::formatDateTimeForUser(date('Y-m-d',  strtotime($data['tanggal'])));
+            
+            
+            $ok = CustomFunction::broadcastNotif($judul, $isi, array(
+               array('instalasi_id'=>Params::INSTALASI_ID_RJ, 'ruangan_id'=> $this->getRuangan(Params::INSTALASI_ID_RJ, 5), 'modul_id'=>5),
+               array('instalasi_id'=>Params::INSTALASI_ID_RD, 'ruangan_id'=> $this->getRuangan(Params::INSTALASI_ID_RD, 6), 'modul_id'=>6),
+               array('instalasi_id'=>Params::INSTALASI_ID_RI, 'ruangan_id'=> $this->getRuangan(Params::INSTALASI_ID_RI, 7), 'modul_id'=>7),
+               array('instalasi_id'=>Params::INSTALASI_ID_ICU, 'ruangan_id'=> $this->getRuangan(Params::INSTALASI_ID_ICU, 59), 'modul_id'=>59),
+               array('instalasi_id'=>Params::INSTALASI_ID_RM, 'ruangan_id'=> 6, 'modul_id'=>4),//6 ruangan rekam medis
+               array('instalasi_id'=>13, 'ruangan_id'=> 1, 'modul_id'=>1),//SIMRS
+           ));    
+        }
+        
+        public function getRuangan($instalasi_id, $modul_id){
+            $ruangan = RuanganM::model()->findAllByAttributes(array('instalasi_id'=>$instalasi_id,'ruangan_aktif'=>true,'modul_id'=>$modul_id));
+            
+            $data = array();
+            foreach($ruangan as $ruangan):
+                $data[] = $ruangan->ruangan_id;
+            endforeach;                        
+            
+            return $data;
+        }
         
         public function actionPrint()
         {

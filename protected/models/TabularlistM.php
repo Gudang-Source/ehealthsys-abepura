@@ -95,6 +95,7 @@ class TabularlistM extends CActiveRecord
 		$criteria->compare('LOWER(tabularlist_revisi)',strtolower($this->tabularlist_revisi),true);
 		$criteria->compare('LOWER(tabularlist_versi)',strtolower($this->tabularlist_versi),true);
 		$criteria->compare('tabularlist_aktif',isset($this->tabularlist_aktif)?$this->tabularlist_aktif:true);
+                $criteria->order = "tabularlist_id ASC";
 //                $criteria->addCondition('tabularlist_aktif is true');
 
 		return new CActiveDataProvider($this, array(

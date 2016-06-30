@@ -9,11 +9,15 @@
 	<td><?php //echo !empty($modBarang->bidang_id)?$modBarang->bidang->bidang_nama:null; ?></td>-->
     <td><?php 
     echo CHtml::activeHiddenField($modDetail, '[]barang_id', array('class'=>'barang'));
+    //echo CHtml::activeTextField($modBarang, '[]barang_type', array('class'=>'span1','readonly'=>true));
     echo $modBarang->barang_type; ?></td>
     <td><?php echo $modBarang->barang_kode; ?></td>
     <td><?php echo $modBarang->barang_nama; ?></td>
     <td><?php echo $modBarang->barang_merk; ?></td>
-    <td><?php echo CHtml::activeTextField($modDetail, '[]qty_mutasi', array('class'=>'span1 numbersOnly mutasi', 'onblur'=>'cekStok(this);')); ?></td>
+    <?php //if (isset($_GET['id'])){ ?>
+    <td><?php echo CHtml::activeTextField($modDetail, '[]qty_pesan', array('class'=>'span1','readonly'=>true, 'style'=>'text-align:right;')); ?></td>
+    <?php //} ?>
+    <td><?php echo CHtml::activeTextField($modDetail, '[]qty_mutasi', array('class'=>'span1 numbersOnly mutasi', 'onblur'=>'cekStok(this);', 'style'=>'text-align:right;')); ?></td>
     <td><?php echo CHtml::activeDropDownList($modDetail, '[]satuanbrg', LookupM::getItems('satuanbarang'), array('empty'=>'-- Pilih --', 'class'=>'span2')); ?></td>
     <td><?php echo $modBarang->barang_ukuran; ?></td>
     <td><?php echo $modBarang->barang_ekonomis_thn; ?></td>

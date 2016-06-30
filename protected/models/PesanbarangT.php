@@ -21,7 +21,7 @@
  */
 class PesanbarangT extends CActiveRecord
 {
-        public $tgl_awal, $tgl_akhir, $pegpemesan_nama, $pegmengetahui_nama, $instalasi_id;
+        public $tgl_awal, $tgl_akhir, $ruanganpemesan_nama, $pegpemesan_nama, $pegmengetahui_nama, $instalasi_id;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -51,7 +51,7 @@ class PesanbarangT extends CActiveRecord
 			array('nopemesanan, tglpesanbarang, ruanganpemesan_id, pegpemesan_id', 'required'),
 			array('mutasibrg_id, ruanganpemesan_id, pegpemesan_id, pegmengetahui_id', 'numerical', 'integerOnly'=>true),
 			array('nopemesanan', 'length', 'max'=>50),
-			array('ruangantujuan_id, tglmintadikirim, keterangan_pesan, update_time, update_loginpemakai_id, instalasi_id, pegpemesan_nama, pegmengetahui_nama ', 'safe'),
+			array('ruangantujuan_id, tglmintadikirim, keterangan_pesan, update_time, update_loginpemakai_id, instalasi_id, pegpemesan_nama, pegmengetahui_nama, ruanganpemesan_nama ', 'safe'),
                         array('create_time', 'default', 'value'=>date('Y-m-d H:i:s', time()), 'setOnEmpty'=>false, 'on'=>'insert'),
                         array('update_time', 'default', 'value'=>date('Y-m-d H:i:s', time()), 'setOnEmpty'=>false, 'on'=>'insert, update'),
                         array('create_loginpemakai_id', 'default','value'=>Yii::app()->user->id, 'setOnEmpty'=>false, 'on'=>'insert'),
@@ -101,7 +101,8 @@ class PesanbarangT extends CActiveRecord
 			'create_ruangan' => 'Create Ruangan',
                         'pegpemesan_nama'=>'Pegawai Pemesan', 
                         'pegmengetahui_nama'=>'Pegawai Mengetahui',
-                        'ruangantujuan_id' => 'Ruangan Tujuan'
+                        'ruangantujuan_id' => 'Ruangan Tujuan',
+                        'ruanganpemesan_nama' => 'Ruangan Pemesan'
 		);
 	}
 

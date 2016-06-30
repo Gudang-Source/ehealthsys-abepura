@@ -13,11 +13,29 @@
 	<?php echo $form->errorSummary($model); ?>
         <div class="row-fluid">
 			<div class="span4">
-				<?php echo $form->dropDownListRow($model,'klasifikasidiagnosa_id',SAKlasifikasidiagnosaM::model()->getDropdownItems(),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);",'empty'=>'-- Pilih --')); ?>
-				<?php echo $form->textFieldRow($model,'diagnosa_kode',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10)); ?>
-				<?php echo $form->textFieldRow($model,'diagnosa_nama',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>200)); ?>
+				<?php 
+                                echo $form->dropDownListRow($model, 'dtd_id', CHtml::listData(DtdM::model()->findAll("dtd_aktif = TRUE ORDER BY dtd_kode ASC"), 'dtd_id', 'dtd_kode'), array('class'=>'required','empty' => '-- Pilih --',
+                                            'ajax' => array('type' => 'POST',
+                                                'url' => Yii::app()->createUrl('ActionDynamic/GetKlasifikasiKode', array('encode' => false, 'model_nama' => ''.$model->getNamaModel().'')),
+                                                'update' => '#'.CHtml::activeId($model, 'klasifikasidiagnosa_id').''),
+                                            'onkeypress' => "return $(this).focusNextInputField(event)",
+                                            'onchange' => 'clearKode()'
+                                        ));
+                                echo $form->dropDownListRow($model,'klasifikasidiagnosa_id', CHtml::listData(KlasifikasidiagnosaM::model()->findAllByAttributes(array('dtd_id'=>$model->dtd_id),array('order'=>'klasifikasidiagnosa_kode ASC')), 'klasifikasidiagnosa_id', 'KlasifikasiKodeNama'),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);",'class'=>'required','empty'=>'-- Pilih --', 'onchange'=>'getKode();return false;')); 
+                               
+                                
+                                ?>
+                                <div class= "control-group">
+                                    <?php echo CHtml::label("Kode", 'diagnosa_kode',array('class'=>'control-label')) ?>
+                                    <div class = "controls">
+                                        <?php echo $form->textField($model,'kode1',array('class'=>'span1 required', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10, 'readonly'=>true)); ?>
+                                        <?php echo $form->textField($model,'kode2',array('class'=>'span1', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>3)); ?>
+                                    </div>
+                                </div>
+				
 			</div>
 			<div class="span4">
+                                <?php echo $form->textFieldRow($model,'diagnosa_nama',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>200)); ?>
 				<?php echo $form->textFieldRow($model,'diagnosa_namalainnya',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>200)); ?>
 				<?php echo $form->textFieldRow($model,'diagnosa_katakunci',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
 			</div>
@@ -68,3 +86,20 @@
 	</div>
 
 <?php $this->endWidget(); ?>
+
+<script>
+function getKode()
+{
+    var ru = $("#SADiagnosaM_klasifikasidiagnosa_id option:selected").html();    
+    var data = ru.substring(0, 3);
+    
+
+    $("#SADiagnosaM_kode1").val(data);
+}
+
+function clearKode()
+{
+    $("#SADiagnosaM_kode1").val('');
+    $("#SADiagnosaM_kode2").val('');
+}
+</script>

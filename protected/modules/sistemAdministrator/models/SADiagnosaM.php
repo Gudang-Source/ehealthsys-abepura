@@ -20,15 +20,20 @@ class SADiagnosaM extends DiagnosaM
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
 	 * @return DiagnosaM the static model class
-	 */
+	 */        
+    
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 		
 	}
+        
+        public function getNamaModel(){
+            return __CLASS__;
+        }
 
 
-	 /**
+        /**
 	 * searchDiagnosis() berfungsi untuk menampilkan nama-nama diagnosa yang diinginkan	
 	 * @author David Y | 19-05-2014		 
 	 */
@@ -56,6 +61,8 @@ class SADiagnosaM extends DiagnosaM
 //                         'pagination'=>10,
 		));
 	}
+        
+        
 
 
 }

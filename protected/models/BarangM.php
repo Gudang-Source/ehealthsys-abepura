@@ -56,6 +56,7 @@ class BarangM extends CActiveRecord
         public $bidang_id;
         public $subkelompok_id;
         public $nomorregister;
+        public $qty_pesan;
 	
 	/**
 	 * Returns the static model of the specified AR class.
