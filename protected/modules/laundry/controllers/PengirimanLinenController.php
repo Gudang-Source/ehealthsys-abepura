@@ -37,7 +37,8 @@ class PengirimanLinenController extends MyAuthController{
 				$modPengirimanLinen->create_time = date('Y-m-d H:i:s');
 				$modPengirimanLinen->create_loginpemakai_id = Yii::app()->user->id;
 				$modPengirimanLinen->create_ruangan = Yii::app()->user->ruangan_id;
-				$modPengirimanLinen->issudahditerima = true;
+
+				$modPengirimanLinen->issudahditerima = false;
                                 
                                 // var_dump($modPengirimanLinen->attributes); die;
 
