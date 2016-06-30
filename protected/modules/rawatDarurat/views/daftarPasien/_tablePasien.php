@@ -121,8 +121,15 @@
                        'header'=>'Tindak Lanjut',
                        'type'=>'raw',
                         'value'=>function($data) {
+                            $admisi = PasienadmisiT::model()->findByAttributes(array('pendaftaran_id'=>$data->pendaftaran_id));
+                            if (!empty($admisi)) {
+                                $kamar = empty($admisi->kamarruangan_id)?"":($admisi->kamarruangan->kamarruangan_nokamar."<br/>".$admisi->kamarruangan->kamarruangan_nobed);
+                                $ruangan = empty($admisi->ruangan_id)?"":$admisi->ruangan->ruangan_nama;
+
+                                return $ruangan."</br>".$kamar;
+                            }
                             if (($data->pasienpulang_id != 0) OR ($data->carakeluar != "")) {
-                                $admisi = PasienadmisiT::model()->findByAttributes(array('pendaftaran_id'=>$data->pendaftaran_id));
+                                // $admisi = PasienadmisiT::model()->findByAttributes(array('pendaftaran_id'=>$data->pendaftaran_id));
                                 if (!empty($admisi)) {
                                     $kamar = empty($admisi->kamarruangan_id)?"":($admisi->kamarruangan->kamarruangan_nokamar."<br/>".$admisi->kamarruangan->kamarruangan_nobed);
                                     $ruangan = empty($admisi->ruangan_id)?"":$admisi->ruangan->ruangan_nama;
