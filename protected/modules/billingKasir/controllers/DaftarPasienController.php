@@ -622,7 +622,7 @@ class DaftarPasienController extends MyAuthController
 					}
 					
 						if (count($modPendaftaran) > 0){
-							if($modPendaftaran->instalasi_id == Params::INSTALASI_ID_RJ){ //khusus untuk RJ saja Status periksa = sedang periksa
+							if($modPendaftaran->instalasi_id == Params::INSTALASI_ID_RJ && empty($modPendaftaran->pasienamdisi_id) && empty($modPendaftaran->pasienpulang_id)){ //khusus untuk RJ saja Status periksa = sedang periksa
 								PendaftaranT::model()->updateByPk($modPendaftaran->pendaftaran_id,array('pembayaranpelayanan_id'=>null, 'statusperiksa'=>Params::STATUSPERIKSA_SEDANG_PERIKSA));
 							}else{
 								PendaftaranT::model()->updateByPk($modPendaftaran->pendaftaran_id,array('pembayaranpelayanan_id'=>null));

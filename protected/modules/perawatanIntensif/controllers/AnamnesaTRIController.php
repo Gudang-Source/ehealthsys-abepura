@@ -100,7 +100,7 @@ class AnamnesaTRIController extends MyAuthController
                     $modAnamnesa->create_ruangan = Yii::app()->user->getState('ruangan_id');
                     $modAnamnesa->create_loginpemakai_id = Yii::app()->user->id;
 					$modAnamnesa->tglanamnesis = $format->formatDateTimeForDb($modAnamnesa->tglanamnesis);
-                    $updateStatusPeriksa=PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SEDANG_PERIKSA));
+                    // $updateStatusPeriksa=PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SEDANG_PERIKSA));
                     if($modAnamnesa->save()){
                         $transaction->commit();
                         $this->redirect(array('index','pendaftaran_id'=>$pendaftaran_id,'pasienadmisi_id'=>$pasienadmisi_id,'sukses'=>1));       

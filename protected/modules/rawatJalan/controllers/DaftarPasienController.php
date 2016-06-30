@@ -1149,7 +1149,7 @@ class DaftarPasienController extends MyAuthController
                 $modPasienPulang->lamarawat=0;
                 $modPasienPulang->satuanlamarawat='lamarawat';
                 if($modPasienPulang->save()){
-                    PendaftaranT::model()->updateByPk($pendaftaran_id, array('pasienpulang_id'=>$modPasienPulang->pasienpulang_id,'statusperiksa'=>Params::STATUSPERIKSA_SEDANG_DIRAWATINAP,'alihstatus'=>TRUE));
+                    PendaftaranT::model()->updateByPk($pendaftaran_id, array('pasienpulang_id'=>$modPasienPulang->pasienpulang_id,'statusperiksa'=>Params::STATUSPERIKSA_NUNGGU_DAFTAR_SO,'alihstatus'=>TRUE));
                     $this->rujukrisukses = true;
                 }
 
@@ -2306,7 +2306,9 @@ class DaftarPasienController extends MyAuthController
 	{
 		if(Yii::app()->request->isAjaxRequest) {
 			$pendaftaran_id = $_POST['pendaftaran_id'];
-			$update = PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SUDAH_DIPERIKSA));
+                        $p = PendaftaranT::model()->findByPk($pendaftaran_id);
+                        $update = $p->setStatusPeriksa(Params::STATUSPERIKSA_SUDAH_DIPERIKSA);
+			//$update = PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SUDAH_DIPERIKSA));
 			$this->updateStatusKonsul($pendaftaran_id);
                         echo CJSON::encode($update);
 		}
@@ -2323,17 +2325,23 @@ class DaftarPasienController extends MyAuthController
 	   $modBatalPeriksa = new PasienbatalperiksaR;
 	   $model->tglselesaiperiksa = date('Y-m-d H:i:s');       
 	   if(isset($_POST['status']))
-	   {
+	   {            $update = true;
 			if($status == "ANTRIAN"){
-				$update = PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SEDANG_PERIKSA));
-			}else{
+                                $p = PendaftaranT::model()->findByPk($pendaftaran_id);
+                                $update = $p->setStatusPeriksa(Params::STATUSPERIKSA_SEDANG_PERIKSA);
+				// if (empty($model->pasienadmisi_id)) $update = PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SEDANG_PERIKSA));
+                                $this->updateStatusKonsul($pendaftaran_id, Params::STATUSPERIKSA_SEDANG_PERIKSA);
+                        }else{
 			if($status == "SEDANG PERIKSA"){
                                 $update = true;
-				if (empty($model->pasienadmisi_id)) $update = PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SUDAH_DIPERIKSA, 'tglselesaiperiksa'=>date('Y-m-d H:i:s')));
-                                $this->updateStatusKonsul($pendaftaran_id);
-                        }else if($status == "SEDANG DIRAWAT INAP"){
+                                $p = PendaftaranT::model()->findByPk($pendaftaran_id);
+                                $update = $p->setStatusPeriksa(Params::STATUSPERIKSA_SUDAH_DIPERIKSA);
+				if (empty($p->pasienadmisi_id)) $update = PendaftaranT::model()->updateByPk($pendaftaran_id,array('tglselesaiperiksa'=>date('Y-m-d H:i:s')));
+                                
+                                $this->updateStatusKonsul($pendaftaran_id, Params::STATUSPERIKSA_SUDAH_DIPERIKSA);
+                        } /*else if($status == "SEDANG DIRAWAT INAP"){
 				$update = PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SUDAH_PULANG));
-			}
+			} */
 		  }
 		  if($update)
 		  {
@@ -2362,7 +2370,7 @@ class DaftarPasienController extends MyAuthController
      * end Ubah Status Periksa Pasien Baru -- Yang Pake Button
      */
         
-    function updateStatusKonsul($pendaftaran_id) 
+    function updateStatusKonsul($pendaftaran_id, $status) 
     {
         $p = PendaftaranT::model()->findByPk($pendaftaran_id);
         $konsul = KonsulpoliT::model()->findAllByAttributes(array(
@@ -2371,7 +2379,7 @@ class DaftarPasienController extends MyAuthController
         ));
         foreach ($konsul as $item) {
             KonsulpoliT::model()->updateByPk($item->konsulpoli_id, array(
-                'statusperiksa'=>Params::STATUSPERIKSA_SUDAH_DIPERIKSA,
+                'statusperiksa'=>$status,
             ));
         }
     }
