@@ -44,7 +44,9 @@ class KlasifikasidiagnosaM extends CActiveRecord
 		return array(
 			array('klasifikasidiagnosa_kode, klasifikasidiagnosa_nama, klasifikasidiagnosa_aktif', 'required'),
 			array('klasifikasidiagnosa_id', 'numerical', 'integerOnly'=>true),
-			array('klasifikasidiagnosa_kode', 'length', 'max'=>10),
+			array('klasifikasidiagnosa_kode', 'length', 'max'=>3),
+                        array('klasifikasidiagnosa_kode', 'cekKode','on'=>'insert, update'),
+                        array('klasifikasidiagnosa_kode', 'unique'),
 			array('klasifikasidiagnosa_nama', 'length', 'max'=>500),
 			array('klasifikasidiagnosa_namalain, klasifikasidiagnosa_desc, dtd_id', 'safe'),
 			// The following rule is used by search().
@@ -77,6 +79,7 @@ class KlasifikasidiagnosaM extends CActiveRecord
 			'klasifikasidiagnosa_namalain' => 'Nama Lain',
 			'klasifikasidiagnosa_aktif' => 'Klasifikasi Aktif',
 			'klasifikasidiagnosa_desc' => 'Deskripsi Klasifikasi',
+                        'dtd_id' => 'DTD Kode'
 		);
 	}
 
@@ -139,7 +142,63 @@ class KlasifikasidiagnosaM extends CActiveRecord
 		 * menampilkan kode dan nama
 		 * @return type
 		 */
-		public function getKlasifikasiKodeNama(){
-			return $this->klasifikasidiagnosa_kode." - ".$this->klasifikasidiagnosa_nama;
-		}
+        public function getKlasifikasiKodeNama(){
+                return $this->klasifikasidiagnosa_kode." - ".$this->klasifikasidiagnosa_nama;
+        }
+        
+        public function getKlasifikasiKodeItems($dtd_id){
+                return $this->findAllByAttributes(array('dtd_id'=>$dtd_id), array('order'=>'klasifikasidiagnosa_kode'));
+        }
+        
+        public function cekKode()
+        {
+            $dtd = DtdM::model()->findByPk($this->dtd_id)->dtd_kode;
+            
+            $pecah = explode('-', $dtd);
+            
+            $huruf = substr($dtd,0,1);
+            $angka_awal = (int)substr($pecah[0],1,2);
+            $angka_akhir = (int)substr($pecah[1],1,2);
+            
+            $klasifikasi_kode = $this->klasifikasidiagnosa_kode;
+            
+            $huruf1 = substr($klasifikasi_kode,0,1);
+            $kode = (int)substr($klasifikasi_kode,1,2);            
+            
+          
+            if (strlen($klasifikasi_kode) == 3){
+                if ( (is_numeric(substr($klasifikasi_kode,1,1)) && (is_numeric(substr($klasifikasi_kode,2,1)))))
+                {        
+                    if ($huruf == $huruf1 ){
+                        if ( ($kode >= $angka_awal) && ($kode <= $angka_akhir)){
+                            return true;
+                        }else{
+                            $this->addError('klasifikasidiagnosa_kode', 'Maaf, penulisan Klasifikasi Kode salah. <br> '
+                                . '2 karakter setelah karakter pertama harus berupa '
+                                    . 'angka <br>dan harus masuk dalam range '.substr($pecah[0],1,2).'-'.substr($pecah[1],1,2).'<br>'
+                                    . 'Contoh : '.$huruf.substr($pecah[1],1,2));
+                        return false;
+                        }
+                    }else{
+                        $this->addError('klasifikasidiagnosa_kode', 'Maaf, penulisan Klasifikasi Kode salah. <br> '
+                                . 'Penulisanya harus diawali huruf '.$huruf.' <br>dan diikuti 2 angka dengan range '.substr($pecah[0],1,2).'-'.substr($pecah[1],1,2).' <br>'
+                                . 'Contoh : '.$huruf.substr($pecah[1],1,2));
+                        return false;
+                    }
+                }else{
+                    $this->addError('klasifikasidiagnosa_kode', 'Maaf, penulisan Klasifikasi Kode salah. <br> '
+                                . '2 karakter setelah karakter pertama harus berupa '
+                                    . 'angka <br>dan harus masuk dalam range '.substr($pecah[0],1,2).'-'.substr($pecah[1],1,2).'<br>'
+                                    . 'Contoh : '.$huruf.substr($pecah[1],1,2));
+                    return false;
+                }
+            }else{
+               $this->addError('klasifikasidiagnosa_kode', 'Maaf, penulisan Klasifikasi Kode salah. <br> '
+                            . 'Total harus 3 karakter <br>'
+                            . 'Contoh : '.$huruf.substr($pecah[1],1,2));
+                return false;
+            }
+            
+        }
+                
 }

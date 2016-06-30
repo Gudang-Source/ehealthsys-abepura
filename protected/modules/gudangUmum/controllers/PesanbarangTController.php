@@ -404,16 +404,17 @@ class PesanbarangTController extends MyAuthController
 //                
 		$model=new GUPesanbarangT('searchInformasi');
                 $format = new MyFormatter();
-		// $model->unsetAttributes();  // clear any default values
+	       // $model->unsetAttributes();  // clear any default values
                 $model->tgl_awal = date('Y-m-d');
                 $model->tgl_akhir = date('Y-m-d');
+                
 		if(isset($_GET['GUPesanbarangT'])){
                     $model->attributes=$_GET['GUPesanbarangT'];   
                     $model->tgl_awal = $format->formatDateTimeForDb($_GET['GUPesanbarangT']['tgl_awal']);
                     $model->tgl_akhir = $format->formatDateTimeForDb($_GET['GUPesanbarangT']['tgl_akhir']);
                    // $model->ruanganpemesan_id=Yii::app()->user->getState('ruangan_id');
                 }else{
-                    $model->ruanganpemesan_id=Yii::app()->user->getState('ruangan_id');
+                    //$model->ruanganpemesan_id=Yii::app()->user->getState('ruangan_id');
                 }
 
         if (Yii::app()->request->isAjaxRequest) {
