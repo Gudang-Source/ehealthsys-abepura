@@ -30,7 +30,7 @@ class RKDiagnosaM extends DiagnosaM{
 		if(!empty($this->dtd_id)){
 			$criteria->addCondition("dtd_id = ".$this->dtd_id);			
 		}
-		$criteria->with=array('dtdDiagnosa');
+		//$criteria->with=array('dtdDiagnosa');
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -61,7 +61,7 @@ class RKDiagnosaM extends DiagnosaM{
 		if(!empty($this->dtd_id)){
 			$criteria->addCondition("dtd_id = ".$this->dtd_id);			
 		}
-		$criteria->with=array('dtdDiagnosa');
+		//$criteria->with=array('dtdDiagnosa');
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -83,7 +83,7 @@ class RKDiagnosaM extends DiagnosaM{
 		$criteria->compare('LOWER(diagnosa_nama)',strtolower($this->diagnosa_nama),true);
 		$criteria->compare('LOWER(diagnosa_namalainnya)',strtolower($this->diagnosa_namalainnya),true);
 		$criteria->compare('LOWER(diagnosa_katakunci)',strtolower($this->diagnosa_katakunci),true);
-		$criteria->with=array('dtdDiagnosa');
+		//$criteria->with=array('dtdDiagnosa');
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -106,7 +106,7 @@ class RKDiagnosaM extends DiagnosaM{
 		$criteria->compare('LOWER(diagnosa_namalainnya)',strtolower($this->diagnosa_namalainnya),true);
 		$criteria->compare('LOWER(diagnosa_katakunci)',strtolower($this->diagnosa_katakunci),true);
 		$criteria->condition = "diagnosa_imunisasi = true";
-		$criteria->with=array('dtdDiagnosa');
+		//$criteria->with=array('dtdDiagnosa');
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
