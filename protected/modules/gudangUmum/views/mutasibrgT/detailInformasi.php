@@ -33,7 +33,7 @@
         <th>Golongan</th>
         <th>Kelompok</th>
         <th>Sub Kelompok</th>
-        <th>Bidang</th>
+        <th>Sub Sub Kelompok</th>
         <th>Barang</th>
         <th>Jumlah Mutasi</th>
         <th>Ukuran<br/>Bahan</th>
@@ -45,10 +45,10 @@
         <?php $modBarang = BarangM::model()->findByPk($detail->barang_id); ?>
             <tr>   
                 <td><?php echo $no; ?></td>
-                <td><?php echo $modBarang->subsubkelompok->subkelompok->kelompok->bidang->golongan->golongan_nama;  ?></td>
-                <td><?php echo $modBarang->subsubkelompok->subkelompok->kelompok->kelompok_nama; ?></td>
-                <td><?php echo $modBarang->subsubkelompok->subkelompok->subkelompok_nama; ?></td>
-                <td><?php echo $modBarang->subsubkelompok->subsubkelompok_nama; ?></td>
+                <td><?php echo isset($modBarang->subsubkelompok_id)?$modBarang->subsubkelompok->subkelompok->kelompok->bidang->golongan->golongan_nama:'-';  ?></td>
+                <td><?php echo isset($modBarang->subsubkelompok_id)?$modBarang->subsubkelompok->subkelompok->kelompok->kelompok_nama:'-'; ?></td>
+                <td><?php echo isset($modBarang->subsubkelompok_id)?$modBarang->subsubkelompok->subkelompok->subkelompok_nama:'-'; ?></td>
+                <td><?php echo isset($modBarang->subsubkelompok_id)?$modBarang->subsubkelompok->subsubkelompok_nama:'-'; ?></td>
                 <td><?php echo $modBarang->barang_nama; ?></td>
                 <td><?php echo $detail->qty_mutasi." ".$detail->satuanbrg; ?></td>
                 <td><?php echo $modBarang->barang_ukuran; ?><br/><?php echo $modBarang->barang_bahan; ?></td>
