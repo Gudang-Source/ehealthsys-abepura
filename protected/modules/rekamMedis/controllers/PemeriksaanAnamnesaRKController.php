@@ -4,6 +4,8 @@ class PemeriksaanAnamnesaRKController extends MyAuthController
 {
 	public $layout='//layouts/column1';
 	//public $defaultAction = 'index';
+        public $tab = 'anamnesa';
+        public $header = 'Pemeriksaan Anamnesa';
 	public $path_view = 'rekamMedis.views.pemeriksaanAnamnesaRK.';
 	//public $peminjamandokumenrmtersimpan = false;
 	
@@ -11,7 +13,7 @@ class PemeriksaanAnamnesaRKController extends MyAuthController
             
             $modPendaftaran = new RKPendaftaranT;
             $modPasien = new RKPasienM;
-            $this->render('index',array(
+            $this->render($this->path_view.'index',array(
                 'modPendaftaran'=>$modPendaftaran,
                 'modPasien'=>$modPasien,
             ));

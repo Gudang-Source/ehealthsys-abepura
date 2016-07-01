@@ -1,5 +1,5 @@
 <div class="white-container">
-    <legend class="rim2">Pemeriksaan Anamnesa </legend>
+    <legend class="rim2"><?php echo $this->judul; ?> </legend>
     <?php 
     $this->breadcrumbs=array(
             'Sapendidikan Ms'=>array('index'),

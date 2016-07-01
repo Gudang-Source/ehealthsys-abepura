@@ -21,7 +21,11 @@ function setTab(obj){
     var tab = $(obj).attr("tab");
     var frameObj = document.getElementById("frame");
     resetIframe(frameObj);
-    $(frameObj).attr("src","<?php echo $baseUrl;?>?r="+tab+"&pendaftaran_id="+document.getElementById("RKPendaftaranT_pendaftaran_id").value);
+    if (document.getElementById("RKPendaftaranT_pendaftaran_id").value == ''){
+        $(frameObj).attr("src","");
+    }else{        
+        $(frameObj).attr("src","<?php echo $baseUrl;?>?r="+tab+"&pendaftaran_id="+document.getElementById("RKPendaftaranT_pendaftaran_id").value);
+    }
     $(frameObj).parent().addClass("animation-loading");
     $(frameObj).load(function(){
         $(frameObj).parent().removeClass("animation-loading");
