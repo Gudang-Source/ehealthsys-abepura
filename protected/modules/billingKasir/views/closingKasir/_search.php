@@ -131,6 +131,6 @@
     
     $(document).ready(function()
     {
-        setFilterTanggalShift($("#BKTandabuktibayarT_shift_id"));
+        // setFilterTanggalShift($("#BKTandabuktibayarT_shift_id"));
     });
 </script>

@@ -125,7 +125,7 @@
                 <tr>
                     <td>
                         <div class="control-group ">
-                            <?php echo CHtml::label('Tanggal Pembebasan',  CHtml::activeId($model, 'tgl_awal'), array('class'=>'control-label')) ?>
+                            <?php echo CHtml::label('Tanggal Closing',  CHtml::activeId($model, 'tgl_awal'), array('class'=>'control-label')) ?>
                                 <div class="controls">
                                     <?php   
                                     //$model->tgl_awal = Yii::app()->dateFormatter->formatDateTime(CDateTimeParser::parse($model->tgl_awal, 'yyyy-MM-dd hh:mm:ss'),'medium','medium');
@@ -161,7 +161,11 @@
 
                     </td>
                     <td>
-                        <?php echo $form->textFieldRow($model,'nama_pegawai',array('class'=>'span3')); ?>
+                        <?php 
+                        $peg = CHtml::listData(PegawairuanganV::model()->findAllByAttributes(array(
+                            'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
+                        )),'pegawai_id', 'nama_pegawai');
+                        echo $form->dropDownListRow($model,'pegawai_id', $peg, array('empty'=>'-- Pilih --','class'=>'span3')); ?>
                         <?php echo $form->dropDownlistRow($model,'shift_id',Chtml::listData($model->ShiftItems, 'shift_id', 'shift_nama'),array('empty'=>'-- Pilih --','class'=>'span3')); ?>
                     </td>
                 </tr>

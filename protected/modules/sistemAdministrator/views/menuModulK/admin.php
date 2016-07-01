@@ -52,34 +52,36 @@
                                 'filter'=>false,
                             ),
                             //'kelmenu_id',
+                             array(
+								'name'=>'modul_id',
+								'value'=>'$data->modulk->modul_nama',
+								'filter'=> CHtml::dropDownList('SAMenuModulK[modul_id]',$model->modul_id,CHtml::listData($model->getModulItems(), 'modul_id', 'modul_nama'),array('empty'=>'-- Pilih --')),
+                            ),
                             array(
 								'name'=>'kelmenu_id',
 								'value'=>'$data->kelompokmenu->kelmenu_nama',
 								'filter'=> CHtml::dropDownList('SAMenuModulK[kelmenu_id]',$model->kelmenu_id,CHtml::listData($model->getKelompokMenuItems(), 'kelmenu_id', 'kelmenu_nama'),array('empty'=>'-- Pilih --')),
                             ),
                             //'kelompokmenu.kelmenu_nama',
-                            array(
-								'name'=>'modul_id',
-								'value'=>'$data->modulk->modul_nama',
-								'filter'=> CHtml::dropDownList('SAMenuModulK[modul_id]',$model->modul_id,CHtml::listData($model->getModulItems(), 'modul_id', 'modul_nama'),array('empty'=>'-- Pilih --')),
-                            ),
+                           
                             //'modul_id',
                             //'modulk.modul_nama',
                             'menu_nama',
-                            'menu_namalainnya',
-                            'menu_url',
-                            'menu_urutan',
+                            'menu_fungsi',
+                           // 'menu_namalainnya',
+                            //'menu_url',
+                            //'menu_urutan',
                             /*
                             'menu_key',
                             'menu_fungsi',
                             'menu_aktif',
                             */
-							array(
+						/*	array(
 								'header'=>'Icon',
 								'name'=>'menu_icon',
 								'type'=>'raw',
 								'value'=>'isset($data->menu_icon) ? "<i class=\'$data->menu_icon\'></i> $data->menu_icon"   : "-"'
-							),
+							),*/
                             array(
 								'header'=>'<center>Status</center>',
 								'value'=>'($data->menu_aktif == 1 ) ? "Aktif" : "Tidak Aktif"',

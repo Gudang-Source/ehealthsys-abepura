@@ -4,8 +4,8 @@ $this->widget('bootstrap.widgets.BootMenu', array(
     'type'=>'tabs', // '', 'tabs', 'pills' (or 'list')
     'stacked'=>false, // whether this is a stacked menu
     'items'=>array(
-        array('label'=>'Anamnesis', 'url'=>'javascript:void(0);', 'itemOptions'=>array('id'=>'anamnesaTab','onclick'=>'setTab(this);', 'tab'=>$module.'/AnamnesaTRK/index')),
-        //array('label'=>'Periksa Fisik', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>$module.'/pemeriksaanFisik/index')),
+        array('label'=>'Anamnesis', 'url'=>'javascript:void(0);', 'itemOptions'=>array('id'=>'anamnesaTab','onclick'=>'setTab(this);', 'tab'=>$module.'/AnamnesaTRK/index'), 'visible'=>($this->tab == 'anamnesa')?true:false),
+        array('label'=>'Periksa Fisik', 'url'=>'javascript:void(0);', 'itemOptions'=>array('id'=>'anamnesaTab','onclick'=>'setTab(this);', 'tab'=>$module.'/periksaFisikTRK/Index'), 'visible'=>($this->tab == 'fisik')?true:false),
         //array('label'=>'Laboratorium', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>$module.'/laboratorium/index')),
         //array('label'=>'Radiologi', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>$module.'/radiologi/index')),
         //array('label'=>'Rehab Medis', 'url'=>'javascript:void(0);', 'itemOptions'=>array('onclick'=>'setTab(this);', 'tab'=>$module.'/rehabMedis/index')),

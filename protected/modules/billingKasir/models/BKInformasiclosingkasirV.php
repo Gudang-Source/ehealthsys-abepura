@@ -56,8 +56,11 @@ class BKInformasiclosingkasirV extends InformasiclosingkasirV
 //                $criteria->select = "closingkasir_id, tglclosingkasir, closingdari, sampaidengan, pegawai_id, nama_pegawai, shift_id, shift_nama, closingsaldoawal, terimauangmuka, terimauangpelayanan, totalsetoran, nilaiclosingtrans, setorbank_id, create_ruangan, tandabuktibayar_id";
                 $criteria->group = "closingkasir_id, tglclosingkasir, pegawai_id, nama_pegawai, shift_id, shift_nama, closingdari, sampaidengan, closingsaldoawal, terimauangmuka, terimauangpelayanan, setorbank_id, nilaiclosingtrans, nostruksetor, tgldisetor, namabank, norekening, jumlahsetoran";
                 $criteria->select = "closingkasir_id, tglclosingkasir, pegawai_id, nama_pegawai, shift_id, shift_nama, closingdari, sampaidengan, closingsaldoawal, terimauangmuka, terimauangpelayanan, setorbank_id, nilaiclosingtrans, nostruksetor, tgldisetor, namabank, norekening, jumlahsetoran";
-		return new CActiveDataProvider($this, array(
+                return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+                        'sort'=>array(
+                            'defaultOrder'=>'tglclosingkasir desc',
+                        )
 		));
 	}
                 
