@@ -114,7 +114,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
         'title' => 'Detail Data',
         'autoOpen' => false,
         'modal' => true,
-        'width' => 500,
+        'width' => 700,
         'height' => 600,
         'resizable' => false,
     ),
