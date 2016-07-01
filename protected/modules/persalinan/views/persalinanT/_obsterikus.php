@@ -14,12 +14,13 @@
                         </div>
                     </div>
                     <div class="control-group ">
-                        <?php echo $form->labelEx($model, 'letak janin', array('class' => 'control-label')) ?>
+                        <?php echo CHtml::label("Letak Janin", 'letak janin', array('class' => 'control-label')) ?>
                         <div class="controls">
                             <?php
-                            echo $form->dropDownList($model, 'posisijanin', LookupM::getItems('posisijanin'), array('empty'=>'-- Pilih --','class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
-                            ?>
-                            <?php echo $form->error($model, 'posisijanin'); ?>
+                                $modPemeriksaan->posisijanin = $model->posisijanin;
+                              echo $form->dropDownList($modPemeriksaan, 'posisijanin', LookupM::getItems('posisijanin'), array('empty'=>'-- Pilih --','class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
+                              //echo CHtml::dropDownList('posisijanin', 'posisijanin', LookupM::getItems('posisijanin'), array('empty'=>'-- Pilih --','class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100, 'value'=>$model->posisijanin));
+                            ?>                          
                         </div>
                     </div>
                     <div class="control-group ">
