@@ -208,8 +208,12 @@ if (empty($closing->totalpengeluaran)) $closing->totalpengeluaran = 0;
 			<?php
 			if (isset($_GET['penerima'])) echo $_GET['penerima'];
 			else {
-			$pegawai = CHtml::listData(PegawaiV::model()->findAllByAttributes(array('pegawai_aktif'=>true), array('order'=>'nama_pegawai asc')), 'namaLengkap', 'namaLengkap');
-                            echo CHtml::dropDownList('pegawai', ' Nia Kurniawati, SE.', $pegawai);
+                            if (!isset($_GET['caraPrint'])) {
+                                $pegawai = CHtml::listData(PegawaiV::model()->findAllByAttributes(array('pegawai_aktif'=>true), array('order'=>'nama_pegawai asc')), 'namaLengkap', 'namaLengkap');
+                                echo CHtml::dropDownList('pegawai', ' Nia Kurniawati, SE.', $pegawai);
+                            } else {
+                                echo "(_____________________)";
+                            }
 			}
 			?>
 		</td>

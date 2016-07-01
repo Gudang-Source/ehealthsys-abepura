@@ -39,7 +39,8 @@
                 <div class='control-label'>Tanggal Tutup Kasir</div>
                 <div class="controls">  
                     <?php $model->tglclosingkasir = $format->formatDateTimeForUser($model->tglclosingkasir); ?>
-                    <?php
+                    <?php echo $form->textField($model, 'tglclosingkasir', array('readonly'=>true, 'class'=>'realtime span3')); ?>
+                    <?php /*
                         $this->widget('MyDateTimePicker',
                             array(
                                 'model'=>$model,
@@ -52,7 +53,7 @@
                                 'class'=>'realtime',
                                 'onkeypress'=>"return $(this).focusNextInputField(event)"),
                             )
-                        );
+                        ); */
                     ?>
                 </div>
             </div>
@@ -155,7 +156,7 @@
             <!--<div id="setor_bank" style="display:none">-->
                 <?php // $this->renderPartial('_formSetorBank', array('form'=>$form, 'modSetor'=>$mSetorBank)); ?>
             <!--</div>-->
-            <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+            <?php /* $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
                 'id'=>'setor_bank',
                 'content'=>array(
                     'content-setorbank'=>array(
@@ -167,7 +168,7 @@
                         'active'=>false,
                         ),   
                     ),
-                )); ?>
+                )); */ ?>
             <?php echo $form->textFieldRow($model,'piutang',array('class'=>'span3 integer2','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
             <?php echo $form->textAreaRow($model,'keterangan_closing',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
             <?php echo $form->hiddenField($model,'jmluanglogam', array('value'=>0)); ?>
@@ -205,7 +206,7 @@
 </table>
 <div class="form-actions">
 <?php
-    if($model->isNewRecord){
+    if(empty($id)){
         echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),
         array('class'=>'btn btn-primary', 'type'=>'submit', 'onKeypress'=>'return formSubmit(this,event)')); 
         //array('class'=>'btn btn-primary', 'type'=>'submit', 'onclick'=>'setVerifikasi();', 'onkeypress'=>'setVerifikasi();')); 
@@ -217,11 +218,26 @@
     }
     echo CHtml::link(Yii::t('mds', '{icon} Reset', array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), $this->createUrl('ClosingKasir/Index'), array('class'=>'btn btn-danger','onclick'=>'return true;'));
     echo "&nbsp;";
+    echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"print();return false",'disabled'=>empty($id)));
+    echo "&nbsp;";
     $content = $this->renderPartial('tips/transaksi',array(),true);
     $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
 ?>
 </div>
 <?php
+    if (!empty($id)) {
+        $idClosing = $id;
+        $urlPrint=$this->createUrl('rincian');
+        $js = <<< JSCRIPT
+function print(caraPrint)
+{
+    window.open("${urlPrint}&idClosing=${idClosing}&caraPrint="+caraPrint,"",'location=_new, width=1100px');
+}
+JSCRIPT;
+        Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);
+    }
+
+
     $this->endWidget();
 ?>
 
