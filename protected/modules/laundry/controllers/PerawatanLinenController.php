@@ -7,14 +7,16 @@ class PerawatanLinenController extends MyAuthController{
     public $perawatanlinendetailtersimpan = true;
     public $perawatanbahantersimpan = true;
 
-    public function actionIndex($perawatanlinen_id = null){
+    public function actionIndex($perawatanlinen_id = null, $penerimaanlinen_id = null) {
     	$format = new MyFormatter();
-		$modPenerimaanLinen = new LAPenerimaanlinenT;		
-		$modPenerimaanLinenDetail = new LAPenerimaanlinendetailT('searchPenerimaanLinenDetail');
-		$modPenerimaanLinenDetail->tgl_awal = date('Y-m-d H:i:s');
-		$modPenerimaanLinenDetail->tgl_akhir = date('Y-m-d H:i:s');
-		$modPenerimaanLinenDetail->instalasi_id = Yii::app()->user->getState('instalasi_id');
+	$modPenerimaanLinen = new LAPenerimaanlinenT;		
+	$modPenerimaanLinenDetail = new LAPenerimaanlinendetailT('searchPenerimaanLinenDetail');
+	$modPenerimaanLinenDetail->tgl_awal = date('Y-m-d H:i:s');
+	$modPenerimaanLinenDetail->tgl_akhir = date('Y-m-d H:i:s');
+	$modPenerimaanLinenDetail->instalasi_id = Yii::app()->user->getState('instalasi_id');
     	$modPerawatanLinen = new LAPerawatanlinenT;
+        $modPerawatanLinen->pegmengetahui = Yii::app()->user->getState('pegawai_id');
+        $modPerawatanLinen->pegmengetahui_nama = Yii::app()->user->getState('nama_pegawai');
     	$modPerawatanLinen->tglperawatanlinen = date('Y-m-d H:i:s');
     	$modPerawatanLinen->noperawatan = '-Otomatis-';
     	$modPerawatanLinenDetail = array();
@@ -22,6 +24,12 @@ class PerawatanLinenController extends MyAuthController{
         $instalasiTujuans = CHtml::listData(LAInstalasiM::getInstalasiItems(),'instalasi_id','instalasi_nama');
         $ruanganTujuans = CHtml::listData(LARuanganM::getRuanganByInstalasi($modPenerimaanLinenDetail->instalasi_id),'ruangan_id','ruangan_nama');
 
+        if (!empty($penerimaanlinen_id)) {
+            $modPenerimaanLinenDetail->tgl_awal = $modPenerimaanLinenDetail->tgl_akhir = null;
+            $modPenerimaanLinenDetail->instalasi_id = null;
+            $modPenerimaanLinenDetail->penerimaanlinen_id = $penerimaanlinen_id;
+        }
+        
     	if(!empty($perawatanlinen_id)){
             $modPerawatanLinen= LAPerawatanlinenT::model()->findByPk($perawatanlinen_id);
             $modPerawatanLinen->pegperawat_nama = !empty($modPerawatanLinen->pegperawatan->NamaLengkap) ? $modPerawatanLinen->pegperawatan->NamaLengkap : "";
@@ -30,6 +38,7 @@ class PerawatanLinenController extends MyAuthController{
         }
 
         if(isset($_POST['LAPerawatanlinenT'])){
+            // var_dump($_POST);
             $transaction = Yii::app()->db->beginTransaction();
             try {
 
@@ -46,9 +55,11 @@ class PerawatanLinenController extends MyAuthController{
 					if (isset($_POST['LAPerawatanlinendetailT'])) {
 						if(count($_POST['LAPerawatanlinendetailT']) > 0){
 						   foreach($_POST['LAPerawatanlinendetailT'] AS $i => $detail){
-								if($detail['checklist'] == 1){
-									$modPerawatanLinenDetail[$i] = $this->simpanPerawatanDetail($modPerawatanLinen,$detail);
+                                                        foreach ($detail as $j => $detail2) {
+								if($detail2['checklist'] == 1){
+									$modPerawatanLinenDetail[$j] = $this->simpanPerawatanDetail($modPerawatanLinen,$detail2);
 								}
+                                                        }
 						   }
 						}
 					}
@@ -65,6 +76,8 @@ class PerawatanLinenController extends MyAuthController{
 					echo "b";exit;
 					$this->perawatanlinentersimpan = false;
 				}
+                                // var_dump($this->perawatanlinentersimpan && $this->perawatanlinendetailtersimpan && $this->perawatanbahantersimpan);
+                                // die;
                 if($this->perawatanlinentersimpan && $this->perawatanlinendetailtersimpan && $this->perawatanbahantersimpan){
                     $transaction->commit();
                     $modPerawatanLinen->isNewRecord = FALSE;
@@ -96,6 +109,7 @@ class PerawatanLinenController extends MyAuthController{
 			'modPerawatanBahan'=>$modPerawatanBahan,
             'instalasiTujuans'=>$instalasiTujuans,
             'ruanganTujuans'=>$ruanganTujuans,
+            'penerimaanlinen_id'=>$penerimaanlinen_id,
         ));
     }
 	
@@ -236,6 +250,10 @@ class PerawatanLinenController extends MyAuthController{
             $pesan = "";
             $format = new MyFormatter();
             $modBahanPerawatan = LABahanperawatanM::model()->findByPk($bahanperawatan_id);
+            $sat = SatuankecilM::model()->findByPk($satuan);
+            if (!empty($sat)) {
+                $satuan = $sat->satuankecil_nama;
+            }
             $ruangan_id = Yii::app()->user->getState('ruangan_id');
 			$modPerawatanbahan = array();
 			if($modBahanPerawatan){

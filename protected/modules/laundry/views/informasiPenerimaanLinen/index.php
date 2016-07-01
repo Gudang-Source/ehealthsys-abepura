@@ -62,11 +62,14 @@ $('.search-form form').submit(function(){
 					'value'=>'$data->keterangan_penerimaanlinen',
 				),
 //				RND-8968
-//				array(
-//					'header'=>'Proses',
-//					'type'=>'raw',
-//					'value'=>'CHtml::link("<button class=\'btn btn-success\'><i class=\'icon-ok icon-white\'></i> Proses</button>",  Yii::app()->controller->createUrl("/laundry/PenerimaanLinenT/index",array("id"=>$data->pengperawatanlinen_id)),array("rel"=>"tooltip","title"=>"Klik untuk Penerimaan Linen","disabled"=>true));',    'htmlOptions'=>array('style'=>'text-align: center; width:100px')
-//				),
+				array(
+					'header'=>'Proses',
+					'type'=>'raw',
+					'value'=>
+                                            'CHtml::link("<button class=\'btn btn-red\'>Perawatan</button>",  Yii::app()->controller->createUrl("/laundry/perawatanLinen/index",array("penerimaanlinen_id"=>$data->penerimaanlinen_id)),array("rel"=>"tooltip","title"=>"Klik untuk Perawatan Linen","disabled"=>true)).'.
+                                            'CHtml::link("<button class=\'btn btn-success\'>Pencucian</button>",  Yii::app()->controller->createUrl("/laundry/pencucianLinen/index",array("penerimaanlinen_id"=>$data->penerimaanlinen_id)),array("rel"=>"tooltip","title"=>"Klik untuk Pencucian Linen","disabled"=>true))',
+                                        'htmlOptions'=>array('style'=>'text-align: center; width:100px')
+				),
 				array(
 					'header'=>'Lihat Detail',
 					'type'=>'raw',
