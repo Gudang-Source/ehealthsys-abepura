@@ -1008,14 +1008,21 @@ function setVerifikasi(){
             myAlert("Silahkan cari data kunjungan terlabih dahulu !");
         }else{
             $('#dialog-verifikasi').dialog("open");
+            $('#dialog-verifikasi > .dialog-content').empty();
             $.ajax({
-               type:'POST',
-               url:'<?php echo $this->createUrl('verifikasi'); ?>',
-               data: $("form").serialize(),
-               dataType: "json",
-               success:function(data){
+                type:'POST',
+                url:'<?php echo $this->createUrl('verifikasi'); ?>',
+                data: $("form").serialize(),
+                dataType: "json",
+                success:function(data){
+                    if (data.antri == 1) {
+                        myAlert("Belum Ada Transaksi Pemeriksaan Pada Pasien","Perhatian");
+                        $('#dialog-verifikasi').dialog("close");
+                        return false;
+                    }
+                   
                     $('#dialog-verifikasi > .dialog-content').html(data.content);
-               },
+                },
                 error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown); }
             });
             //untuk verifikasi hilangkan srbac loading

@@ -120,11 +120,12 @@ class PembayaranTagihanPasienController extends MyAuthController
                     $pp = PasienpulangT::model()->findByAttributes(array(
                         'pendaftaran_id'=>$pendaftaran->pendaftaran_id,
                     ));
+                    /*
                     if (Params::INSTALASI_ID_RD) {
                         $p = PendaftaranT::model()->findByPk($model->pendaftaran_id);
                         $modUpdatePendaftaran = $p->setStatusPeriksa(Params::STATUSPERIKSA_SUDAH_DIPERIKSA);
                         $modUpdatePendaftaran = PendaftaranT::model()->updateByPk($model->pendaftaran_id,array('pembayaranpelayanan_id'=>$model->pembayaranpelayanan_id));
-                    }
+                    } */
                 }
                 
                 $this->broadcastNotifBayarKarcisUmum($modKunjungan, $model);
@@ -560,10 +561,14 @@ class PembayaranTagihanPasienController extends MyAuthController
     {
         if (Yii::app()->request->isAjaxRequest){
             $this->layout = '//layouts/iframe';
+            
+            $pendaftaran_id = (isset($_POST['pendaftaran_id']) ? $_POST['pendaftaran_id'] : null);
+            $antri = false;
+            $antri = 0;
+            
             if(isset($_POST['BKPembayaranpelayananT'])){
                 $format = new MyFormatter();
                 $criteria=new CdbCriteria();
-                $pendaftaran_id = (isset($_POST['pendaftaran_id']) ? $_POST['pendaftaran_id'] : null);
                 $pasienadmisi_id = (isset($_POST['pasienadmisi_id']) ? $_POST['pasienadmisi_id'] : null);
 				if(!empty($pendaftaran_id)){
 					$criteria->addCondition("pendaftaran_id = ".$pendaftaran_id);					
@@ -587,8 +592,32 @@ class PembayaranTagihanPasienController extends MyAuthController
                 $modTandabukti->is_menggunakankartu = $_POST['BKTandabuktibayarT']['is_menggunakankartu'];
                 $modPemakaianuangmuka->attributes = $_POST['BKPemakaianuangmukaT'];
 
+                /**
+                 * Muncul alert jika pasien memenuhi semua kriteria:
+                 * - Pasien Poli (RAWAT JALAN)
+                 * - Status Periksa ANTRIAN
+                 * - Penjamin UMUM
+                 * - Belum ada tindakan poli
+                 */
+                if (!empty($pendaftaran_id)) {
+                    $p = PendaftaranT::model()->findByAttributes(array(
+                        'pendaftaran_id'=>$pendaftaran_id,
+                        'statusperiksa'=>Params::STATUSPERIKSA_ANTRIAN,
+                        'instalasi_id'=>Params::INSTALASI_ID_RJ,
+                    ), array(
+                        'condition'=>'penjamin_id <> '.Params::PENJAMIN_ID_UMUM,
+                    ));
+                    if (!empty($p)) {
+                        $t = TindakanpelayananT::model()->findByAttributes(array(
+                            'pendaftaran_id'=>$pendaftaran_id,
+                            'ruangan_id'=>$p->ruangan_id,
+                        ));
+                        if (empty($t)) $antri = 1;
+                    }
+                }
             }
             echo CJSON::encode(array(
+                'antri'=>$antri,
                 'content'=>$this->renderPartial($this->path_view.'verifikasi',array(
                     'format'=>$format,
                     'modKunjungan'=>$modKunjungan,
