@@ -3,7 +3,7 @@
 class ClosingKasirController extends MyAuthController
 {
     
-    public function actionIndex()
+    public function actionIndex($id = null)
     {
         $format = new MyFormatter();
         $informasi = array();
@@ -19,6 +19,17 @@ class ClosingKasirController extends MyAuthController
         $mBuktBayar->tgl_akhir = date('d M Y 23:59:59');
         $mBuktBayar->shift_id = Yii::app()->user->getState('shift_id');
         $mBuktBayar->create_loginpemakai_id = Yii::app()->user->getState('pegawai_id');
+        
+        if (!empty($mBuktBayar->shift_id)) {
+            $sft = $this->hitungShift($mBuktBayar->shift_id);
+            $mBuktBayar->tgl_awal = $sft['awal'];
+            $mBuktBayar->tgl_akhir = $sft['akhir'];
+        }
+        
+        if (!empty($id)) {
+            Yii::app()->user->setFlash('success',"Data berhasil disimpan");
+        }
+        
         
         if(isset($_POST['BKTandabuktibayarT']))
         {
@@ -37,8 +48,6 @@ class ClosingKasirController extends MyAuthController
             
             $mSetorBank->ygmenyetor_id = $mBuktBayar->create_loginpemakai_id;
             $mSetorBank->create_loginpemakai_id = Yii::app()->user->id;
-            
-            
         }
         $criteria = new CDbCriteria;
         $criteria->join .= "left join loginpemakai_k m on m.loginpemakai_id = t.create_loginpemakai_id";
@@ -153,7 +162,7 @@ class ClosingKasirController extends MyAuthController
                             if($penerimaan && $pengeluaran && $buktiBayar)
                             {
                                 $transaction->commit();
-                                Yii::app()->user->setFlash('success',"Data berhasil disimpan");
+                                $this->redirect(array('index','id'=>$model->closingkasir_id));
                                 
                             }else{
                                 Yii::app()->user->setFlash('error',"Data gagal disimpan");
@@ -182,7 +191,8 @@ class ClosingKasirController extends MyAuthController
                 'rPecahanUang'=>$rPecahanUang,
                 'informasi'=>$informasi,
                 'mSetorBank'=>$mSetorBank,
-                'format'=>$format
+                'format'=>$format,
+                'id'=>$id,
             )
         );
     }
@@ -325,28 +335,33 @@ class ClosingKasirController extends MyAuthController
             'akhir'=>'',
         );
         if (isset($_POST['id'])) {
-            $shift = ShiftM::model()->findByPk($_POST['id']);
-            
-            $base = strtotime("00:00:00");
-            $awal = strtotime($shift->shift_jamawal);
-            $akhir = strtotime($shift->shift_jamakhir);
-            
-            $now2 = time();
-            $now1 = time();
-            
-            if ($awal > $akhir) {
-                if ($now1 >= $base && $now1 <= $akhir) {
-                    $now2 -= (24 * 3600);
-                } else {
-                    $now1 += (24 * 3600);
-                }
-            }
-            $res['awal'] = MyFormatter::formatDateTimeForUser(date('Y-m-d '.$shift->shift_jamawal), $now2);
-            $res['akhir'] = MyFormatter::formatDateTimeForUser(date('Y-m-d '.$shift->shift_jamakhir, $now1));
-            
+            $res = $this->hitungShift($_POST['id']);
         }
         echo CJSON::encode($res);
         Yii::app()->end();
+    }
+    
+    function hitungShift($id) {
+        $shift = ShiftM::model()->findByPk($id);
+            
+        $base = strtotime("00:00:00");
+        $awal = strtotime($shift->shift_jamawal);
+        $akhir = strtotime($shift->shift_jamakhir);
+
+        $now2 = time();
+        $now1 = time();
+
+        if ($awal > $akhir) {
+            if ($now1 >= $base && $now1 <= $akhir) {
+                $now2 -= (24 * 3600);
+            } else {
+                $now1 += (24 * 3600);
+            }
+        }
+        $res['awal'] = MyFormatter::formatDateTimeForUser(date('Y-m-d '.$shift->shift_jamawal), $now2);
+        $res['akhir'] = MyFormatter::formatDateTimeForUser(date('Y-m-d '.$shift->shift_jamakhir, $now1));
+    
+        return $res;
     }
 }
 
