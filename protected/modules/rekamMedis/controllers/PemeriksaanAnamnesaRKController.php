@@ -5,7 +5,7 @@ class PemeriksaanAnamnesaRKController extends MyAuthController
 	public $layout='//layouts/column1';
 	//public $defaultAction = 'index';
         public $tab = 'anamnesa';
-        public $header = 'Pemeriksaan Anamnesa';
+        public $judul = 'Pemeriksaan Anamnesa';
 	public $path_view = 'rekamMedis.views.pemeriksaanAnamnesaRK.';
 	//public $peminjamandokumenrmtersimpan = false;
 	
