@@ -51,7 +51,8 @@
                         'rPecahanUang'=>$rPecahanUang,
                         'mSetorBank'=>$mSetorBank,
                         'form'=>$form,
-                        'format'=>$format
+                        'format'=>$format,
+                        'id'=>$id,
                     )
                 );
             ?>
