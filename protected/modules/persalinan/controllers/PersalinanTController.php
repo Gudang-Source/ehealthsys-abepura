@@ -16,7 +16,7 @@ class PersalinanTController extends MyAuthController {
 
         if (count($modPersalinan) > 0) {
             $model = PSPersalinanT::model()->with(array('pendaftaran','pegawai'))->findByAttributes(array('pendaftaran_id'=>$modPendaftaran->pendaftaran_id, 'pasien_id'=>$modPasien->pasien_id));
-            $model->tglmulaipersalinan = MyFormatter::formatDateTimeForUser($model->tglmulaipersalinan);
+            $model->tglmulaipersalinan = MyFormatter::formatDateTimeForUser($model->tglmulaipersalinan);            
             if (!empty($model->tglselesaipersalinan)) $model->tglselesaipersalinan = MyFormatter::formatDateTimeForUser($model->tglselesaipersalinan);
             if (!empty($model->tglmelahirkan)) $model->tglmelahirkan = MyFormatter::formatDateTimeForUser($model->tglmelahirkan);
         }else{
@@ -39,6 +39,10 @@ class PersalinanTController extends MyAuthController {
             $trans = Yii::app()->db->beginTransaction();
             $model->attributes = $_POST['PSPersalinanT'];
             $model->pasien_id = $modPasien->pasien_id;
+            //var_dump($model->bidan_id);die;
+            if (empty($model->bidan_id)){
+                $model->bidan_id = null;
+            }
             $model->pendaftaran_id = $modPendaftaran->pendaftaran_id;
             $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
             $model->tglselesaipersalinan = $format->formatDateTimeForDb($_POST['PSPersalinanT']['tglselesaipersalinan']); 
@@ -69,7 +73,12 @@ class PersalinanTController extends MyAuthController {
                         $modPemeriksaan->tglperiksafisik = date('Y-m-d H:i:s');
                         $modPemeriksaan->create_loginpemakai_id = Yii::app()->user->id;
                         $modPemeriksaan->create_time = date('Y-m-d H:i:s');
+                        $modPemeriksaan->plasenta_lahir = (empty($modPemeriksaan->plasenta_lahir)?null:$format->formatDateTimeForDb($modPemeriksaan->plasenta_lahir));
+                        $modPemeriksaan->obs_periksadalam = (empty($modPemeriksaan->obs_periksadalam)?null:$format->formatDateTimeForDb($modPemeriksaan->obs_periksadalam));
                         $modPemeriksaan->create_ruangan = Yii::app()->user->getState('ruangan_id');
+                    }else{
+                        $modPemeriksaan->plasenta_lahir = (empty($modPemeriksaan->plasenta_lahir)?null:$format->formatDateTimeForDb($modPemeriksaan->plasenta_lahir));
+                        $modPemeriksaan->obs_periksadalam = (empty($modPemeriksaan->obs_periksadalam)?null:$format->formatDateTimeForDb($modPemeriksaan->obs_periksadalam));
                     }
                     
                     // var_dump($modPemeriksaan->attributes, $modPemeriksaan->validate(), $modPemeriksaan->errors); die;

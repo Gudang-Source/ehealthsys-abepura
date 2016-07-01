@@ -279,12 +279,55 @@ class DaftarPasienController extends MyAuthController
             $this->layout='//layouts/iframe';
             $modPendaftaran = RJPendaftaranT::model()->with('carabayar','penjamin')->findByPk($id);
             $modPersalinan = PersalinanT::model()->findAllByAttributes(array('pendaftaran_id'=>$id));
+            $modPemeriksaan = PemeriksaanfisikT::model()->findAllByAttributes(array('pendaftaran_id'=>$id));
+            
+            
+            foreach($modPemeriksaan as $cari){
+                $systolic = isset($cari->kala4_systolic)?$cari->kala4_systolic:null;
+                $diastolic = isset($cari->kala4_diastolic)?$cari->kala4_diastolic:null;
+            }
+            
+            $criteria2 = new CDbCriteria();
+            $criteria2->select = 'max(systolic_min) as sys_max';
+            $modSys = SysdiaM::model()->find($criteria2);
+            $criteria3 = new CDbCriteria();
+            $criteria3->select = 'max(diastolic_min) as dias_max';
+            $modDia = SysdiaM::model()->find($criteria3);
+            
+            $criteria = new CDbCriteria();
+            
+            if ( ($systolic == null) && ($diastolic == null))
+            {                
+                $tekanandarah_text = null;
+            }else{
+                if ($systolic > $modSys->sys_max){
+                    $criteria->condition = 'systolic_min <= '.$systolic.' and systolic_max = 0';
+                }else{
+                    $criteria->addCondition($systolic.' >= systolic_min');
+                    $criteria->addCondition($systolic.' <= systolic_max');
+                }
+            
+                if ($diastolic > $modDia->dias_max){
+                    $criteria->condition = 'diastolic_min <= '.$diastolic.' and diastolic_max = 0';
+                }else{
+                    $criteria->addCondition($diastolic.' >= diastolic_min');
+                    $criteria->addCondition($diastolic.' <= diastolic_max');
+                }
+                
+                $modSysDia = SysdiaM::model()->find($criteria);
+                $tekanandarah_text = $modSysDia->sysdia_nama;
+            }
+            
+            
+            
             $format = new MyFormatter;
             $modPersalinanSearch = new PersalinanT('search');
             $modPasien = RJPasienM::model()->findByPK($modPendaftaran->pasien_id);
             $this->render('/_periksaDataPasien/_persalinan', 
                     array('modPendaftaran'=>$modPendaftaran, 
                         'modPersalinan'=>$modPersalinan,
+                        'modPemeriksaan'=>$modPemeriksaan,
+                        'tekananDarahText' => $tekanandarah_text,
                         'modPersalinanSearch'=>$modPersalinanSearch,
                         'modPasien'=>$modPasien));
         }
