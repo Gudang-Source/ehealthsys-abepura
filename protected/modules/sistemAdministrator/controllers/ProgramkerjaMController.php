@@ -86,11 +86,17 @@ class ProgramkerjaMController extends MyAuthController
             $modSubProgramKerjaM = SASubprogramkerjaM::model()->findByPk($modKegiatanProgramM->subprogramkerja_id);
             $modProgramKerjaM = SAProgramkerjaM::model()->findByPk($modSubProgramKerjaM->programkerja_id);
             
+            $rdebit = Rekening5M::model()->findByPk($model->rekeningdebit_id);
+            $rkredit = Rekening5M::model()->findByPk($model->rekeningkredit_id);
+            
             $data = array();
             $data = $model->attributes;
             $data['programkerja_kode'] = $modProgramKerjaM->programkerja_kode;
             $data['subprogramkerja_kode'] = $modSubProgramKerjaM->subprogramkerja_kode;
             $data['kegiatanprogram_kode'] = $modKegiatanProgramM->kegiatanprogram_kode;
+            
+            if (!empty($rdebit)) $data['rekeningdebit_nama'] = $rdebit->nmrekening5;
+            if (!empty($rkredit)) $data['rekeningkredit_nama'] = $rkredit->nmrekening5;
             
             echo json_encode($data);
             Yii::app()->end();

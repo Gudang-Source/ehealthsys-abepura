@@ -668,10 +668,21 @@ class PegawaiM extends CActiveRecord
         $criteria->addBetweenCondition('tglpresensi', $format->formatDateTimeForDb($tglpresensi), $format->formatDateTimeForDb($tglpresensi_akhir));    
         $criteria->addCondition("pegawai_id = '$pegawai_id' ");
         $criteria->addCondition("statuskehadiran_id = '$status_id' ");                
-        $criteria->group = "tglpresensi::date, statuskehadiran_id";
+        $criteria->group = "tglpresensi::date";
         $total = PresensiT::model()->findAll($criteria);
         
-        return  count($total);
+        $criteria1 = new CDbCriteria();
+        $criteria1->select = "tglpresensi::date,statuskehadiran_id ";
+        $criteria1->addBetweenCondition('tglpresensi', $format->formatDateTimeForDb($tglpresensi), $format->formatDateTimeForDb($tglpresensi_akhir));    
+        $criteria1->addCondition("pegawai_id = '$pegawai_id' ");
+        $criteria1->addCondition("statuskehadiran_id = '$status_id' ");                
+        $criteria1->group = "tglpresensi::date, statuskehadiran_id";
+        $total1 = PresensiT::model()->findAll($criteria);
+        
+        $selisih = count($total1) - count($total);
+       
+        $hasil = count($total) - $selisih;
+        return  $hasil;
     }
     
     public function getPendKualifikasiItems($pendidikan_id=null){

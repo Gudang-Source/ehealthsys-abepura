@@ -108,6 +108,7 @@
     <hr />
     <?php
         echo $this->renderPartial($this->path_view.'_dataGridRekening', array('model'=> $rekeningAnggaran));	// menunggu konfirmasi menggunakan tabel view.
+        echo $this->renderPartial($this->path_view."_dialogAkun", array(), true);
     ?>
 </div>
 <script type="text/javascript">
@@ -369,6 +370,7 @@ function editSubKegiatanProgram(obj)
                     $("#form-subkegiatan-program").find("input[type=text][name$='["+ key +"]']").val(value);
                     $("#form-subkegiatan-program").find("input[type=hidden][name$='["+ key +"]']").val(value);
                     $("#form-subkegiatan-program").find("select[name$='["+ key +"]']").val(value);
+                    $("#form-subkegiatan-program").find("textarea[name$='["+ key +"]']").val(value);
                     
                     if(key == 'subkegiatanprogram_aktif')
                     {

@@ -51,9 +51,9 @@ class KPPresensiT extends PresensiT {
         $provider = $this->search();
         $provider->criteria->with = array();
         $provider->criteria->join = "left join statusscan_m statusscan on statusscan.statusscan_id = t.statusscan_id "
-                . "left join pegawai_m pegawai on pegawai.pegawai_id = t.pegawai_id "
-                . "left join statuskehadiran_m statuskehadiran on statuskehadiran.statuskehadiran_id = t.statuskehadiran_id";
-        $provider->criteria->group = "t.no_fingerprint, t.pegawai_id, t.statuskehadiran_id, t.tglpresensi::date, pegawai.nama_pegawai";
+                . "left join pegawai_m pegawai on pegawai.pegawai_id = t.pegawai_id ";
+                //. "left join statuskehadiran_m statuskehadiran on statuskehadiran.statuskehadiran_id = t.statuskehadiran_id";
+        $provider->criteria->group = "t.no_fingerprint, t.pegawai_id, t.tglpresensi::date, pegawai.nama_pegawai";
         $provider->criteria->select = $provider->criteria->group;
         
         $provider->criteria->compare('pegawai.kelompokpegawai_id', $this->kelompokpegawai_id);
@@ -74,7 +74,7 @@ class KPPresensiT extends PresensiT {
             $criteria->compare('t.presensi_id',$this->presensi_id);
             $criteria->compare('t.statusscan_id',$this->statusscan_id);
             $criteria->compare('t.pegawai_id',$this->pegawai_id);
-            $criteria->compare('t.statuskehadiran_id',$this->statuskehadiran_id);
+            //$criteria->compare('t.statuskehadiran_id',$this->statuskehadiran_id);
             $criteria->addBetweenCondition('date(t.tglpresensi)',$this->tglpresensi, $this->tglpresensi_akhir);
             $criteria->compare('t.no_fingerprint',$this->no_fingerprint,true);
             $criteria->compare('t.verifikasi',$this->verifikasi);
@@ -84,7 +84,7 @@ class KPPresensiT extends PresensiT {
             $criteria->compare('LOWER(pegawai.nama_pegawai)',strtolower($this->nama_pegawai),true);
             $criteria->compare('LOWER(pegawai.nomorindukpegawai)',strtolower($this->nomorindukpegawai),true);
             $criteria->compare('LOWER(statusscan.statusscan_nama)',strtolower($this->statusscan_nama),true);
-            $criteria->compare('LOWER(statuskehadiran.statuskehadiran_nama)',strtolower($this->statuskehadiran_nama),true);
+            //$criteria->compare('LOWER(statuskehadiran.statuskehadiran_nama)',strtolower($this->statuskehadiran_nama),true);
 
             return new CActiveDataProvider($this, array(
                     'criteria'=>$criteria,
@@ -96,9 +96,9 @@ class KPPresensiT extends PresensiT {
     public function detailPresensi()
     {
         $criteria=new CDbCriteria;
-        $criteria->select = 'date(t.tglpresensi) as datepresensi, t.pegawai_id, t.no_fingerprint, t.statuskehadiran_id';
+        $criteria->select = 'date(t.tglpresensi) as datepresensi, t.pegawai_id, t.no_fingerprint';
         $criteria->order = 'date(t.tglpresensi)';
-        $criteria->group = 'date(t.tglpresensi), t.pegawai_id, t.no_fingerprint, t.statuskehadiran_id';
+        $criteria->group = 'date(t.tglpresensi), t.pegawai_id, t.no_fingerprint';
         $criteria->addBetweenCondition('DATE(tglpresensi)', $this->tglpresensi, $this->tglpresensi_akhir);
         $criteria->compare('pegawai_id',$this->pegawai_id);       
         return new CActiveDataProvider($this,
@@ -111,9 +111,9 @@ class KPPresensiT extends PresensiT {
     public function printDetailPresensi()
     {
         $criteria=new CDbCriteria;
-        $criteria->select = 'date(t.tglpresensi) as datepresensi, t.pegawai_id, t.no_fingerprint, t.statuskehadiran_id';
+        $criteria->select = 'date(t.tglpresensi) as datepresensi, t.pegawai_id, t.no_fingerprint';
         $criteria->order = 't.pegawai_id, date(t.tglpresensi)';
-        $criteria->group = 'date(t.tglpresensi), t.pegawai_id, t.no_fingerprint, t.statuskehadiran_id';
+        $criteria->group = 'date(t.tglpresensi), t.pegawai_id, t.no_fingerprint';
         $criteria->compare('pegawai_id',$this->pegawai_id);
         $criteria->addBetweenCondition('DATE(tglpresensi)', $this->tglpresensi, $this->tglpresensi_akhir);
         return new CActiveDataProvider($this,
@@ -129,9 +129,9 @@ class KPPresensiT extends PresensiT {
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
         $criteria=new CDbCriteria;
-        $criteria->select = 'date(t.tglpresensi) as datepresensi, t.pegawai_id, t.no_fingerprint, t.statuskehadiran_id';
+        $criteria->select = 'date(t.tglpresensi) as datepresensi, t.pegawai_id, t.no_fingerprint';
         $criteria->order = 't.pegawai_id, date(t.tglpresensi)';
-        $criteria->group = 'date(t.tglpresensi), t.pegawai_id, t.no_fingerprint, t.statuskehadiran_id';
+        $criteria->group = 'date(t.tglpresensi), t.pegawai_id, t.no_fingerprint';
         $criteria->join = 'INNER JOIN pegawai_m ON pegawai_m.pegawai_id=t.pegawai_id';
         $criteria->addBetweenCondition('DATE(tglpresensi)',$this->tglpresensi, $this->tglpresensi_akhir);
         $criteria->compare('LOWER(pegawai_m.nama_pegawai)',strtolower($this->nama_pegawai),true);
