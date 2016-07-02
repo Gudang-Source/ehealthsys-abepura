@@ -1,7 +1,7 @@
 <div class="row-fluid">
 	<div class="span4">
 		<div class="control-group ">
-			<?php echo CHtml::label('Nama Linen', 'namalinen', array('class'=>'control-label')); ?>
+			<?php echo CHtml::label('Nama Bahan', 'namalinen', array('class'=>'control-label')); ?>
 			<div class="controls">
 				<?php echo CHtml::hiddenField('bahanperawatan_id'); ?>
 				<?php echo CHtml::hiddenField('bahanperawatan_jenis'); ?>
@@ -105,11 +105,10 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 							$(\'#bahanperawatan_jenis\').val(\'$data->bahanperawatan_jenis\');
 							$(\'#bahanperawatan_nama\').val(\'$data->bahanperawatan_nama\');
 							$(\'#dialogBahanPerawatan\').dialog(\'close\');
-							tambahBahanPerawatan();
 							return false;"
 					))',
 		),
-		'bahanperawatan_id',
+		//'bahanperawatan_id',
 		'bahanperawatan_jenis',
 		'bahanperawatan_nama',
 	),

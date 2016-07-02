@@ -7,12 +7,14 @@ class PencucianLinenController extends MyAuthController{
     public $pencucianlinentersimpan = true;
 	public $pencucianbahantersimpan = true;
 
-    public function actionIndex($pencucianlinen_id = null){
+    public function actionIndex($pencucianlinen_id = null, $perawatanlinen_id = null, $penerimaanlinen_id = null){
     	$format = new MyFormatter();
 		$modPencucianLinen = new LAPencucianlinenT;
 		$modPencucianLinen->tglpencucianlinen = date('Y-m-d H:i:s');
 		$modPencucianLinen->nopencucianlinen = "-Otomatis-";
 		$modPencucianLinenDetail = array();
+                $modPencucianLinen->pegpenerima_id = Yii::app()->user->getState('pegawai_id');
+                $modPencucianLinen->pegpenerima_nama = Yii::app()->user->getState('nama_pegawai');
     	$modPencucianBahan = array();
 		$modInfoPencucian = new LAPenerimaanpencucianlinenV();
 		$modInfoPencucian->instalasi_id = Yii::app()->user->getState('instalasi_id');
@@ -21,6 +23,18 @@ class PencucianLinenController extends MyAuthController{
         $instalasiTujuans = CHtml::listData(LAInstalasiM::getInstalasiItems(),'instalasi_id','instalasi_nama');
         $ruanganTujuans = CHtml::listData(LARuanganM::getRuanganByInstalasi($modInfoPencucian->instalasi_id),'ruangan_id','ruangan_nama');
 		
+        if (!empty($perawatanlinen_id)) {
+            $modInfoPencucian->tgl_awal = $modInfoPencucian->tgl_akhir = null;
+            $modInfoPencucian->instalasi_id = null;
+            $modInfoPencucian->perawatanlinen_id = $perawatanlinen_id;
+        }
+        
+        if (!empty($penerimaanlinen_id)) {
+            $modInfoPencucian->tgl_awal = $modInfoPencucian->tgl_akhir = null;
+            $modInfoPencucian->instalasi_id = null;
+            $modInfoPencucian->penerimaanlinen_id = $penerimaanlinen_id;
+        }
+        
     	if(!empty($pencucianlinen_id)){
             $modPencucianLinen= LAPencucianlinenT::model()->findByPk($pencucianlinen_id);
             $modPencucianLinen->pegmengetahui_nama = !empty($modPencucianLinen->pegpenerima->NamaLengkap) ? $modPencucianLinen->pegpenerima->NamaLengkap : "";
@@ -29,26 +43,32 @@ class PencucianLinenController extends MyAuthController{
         }
 
         if(isset($_POST['LAPencucianlinenT'])){
+            // var_dump($_POST);
             $transaction = Yii::app()->db->beginTransaction();
             try {
 
                     $modPencucianLinen->attributes=$_POST['LAPencucianlinenT'];
                     $modPencucianLinen->nopencucianlinen = MyGenerator::noPencucianLinen(Yii::app()->user->getState('instalasi_id'));
                     $modPencucianLinen->tglpencucianlinen=$format->formatDateTimeForDb($_POST['LAPencucianlinenT']['tglpencucianlinen']);
-					$modPencucianLinen->petugas_id = Yii::app()->user->id;
+                    $modPencucianLinen->petugas_id = Yii::app()->user->getState('pegawai_id');
                     $modPencucianLinen->create_time = date('Y-m-d H:i:s');
                     $modPencucianLinen->update_time = date('Y-m-d H:i:s');
                     $modPencucianLinen->create_loginpemakai_id = Yii::app()->user->id;
                     $modPencucianLinen->update_loginpemakai_id = Yii::app()->user->id;
                     $modPencucianLinen->create_ruangan = Yii::app()->user->ruangan_id;
+                    // var_dump($modPencucianLinen->attributes);
 					
                     if($modPencucianLinen->save()){
 						$this->pencucianlinentersimpan = true;
                         if (isset($_POST['LAPencuciandetailT'])) {
                             if(count($_POST['LAPencuciandetailT']) > 0){
-                               foreach($_POST['LAPencuciandetailT'] AS $i => $post){
-                                   $modPencucianLinenDetail[$i] = $this->simpanPencucianLinenDetail($modPencucianLinen,$post);
-                               }
+                                foreach($_POST['LAPencuciandetailT'] AS $i => $post){
+                                    foreach ($post as $j=>$post2) {
+                                        if (isset($post2['checklist'])) {
+                                            $modPencucianLinenDetail[$i] = $this->simpanPencucianLinenDetail($modPencucianLinen,$post2);
+                                        }   
+                                    }
+                                }
                             }
                         }else{
                             $this->pencucianlinendetailtersimpan = false;
@@ -64,6 +84,8 @@ class PencucianLinenController extends MyAuthController{
                             $this->pencucianbahantersimpan = false;
                         }
                     }
+                // var_dump($this->pencucianlinentersimpan && $this->pencucianlinendetailtersimpan && $this->pencucianbahantersimpan);
+                // die;
                 if($this->pencucianlinentersimpan && $this->pencucianlinendetailtersimpan && $this->pencucianbahantersimpan){
                     $transaction->commit();
                     $modPencucianLinen->isNewRecord = FALSE;
@@ -95,6 +117,8 @@ class PencucianLinenController extends MyAuthController{
 			'modInfoPencucian'=>$modInfoPencucian,
             'instalasiTujuans'=>$instalasiTujuans,
             'ruanganTujuans'=>$ruanganTujuans,
+            'perawatanlinen_id'=>$perawatanlinen_id,
+            'penerimaanlinen_id'=>$penerimaanlinen_id,
         ));
     }
 	
@@ -111,9 +135,11 @@ class PencucianLinenController extends MyAuthController{
         $modPencucianLinenDetail->pencucianlinen_id = $modPencucianLinen->pencucianlinen_id;
         $modPencucianLinenDetail->statuspencucian = $detail['jenisperawatanlinen'];
 
+        // var_dump($modPencucianLinenDetail->attributes, $modPencucianLinenDetail->validate(), $modPencucianLinenDetail->errors);
+        
         if($modPencucianLinenDetail->validate()) { 
             $modPencucianLinenDetail->save();
-			$this->updatePencucianLinen($modPencucianLinen,$detail);
+			// $this->updatePencucianLinen($modPencucianLinen,$detail);
 			$this->pencucianlinendetailtersimpan &= true;
         } else {
             $this->pencucianlinendetailtersimpan &= false;
@@ -123,7 +149,7 @@ class PencucianLinenController extends MyAuthController{
 	
 	public function updatePencucianLinen($modPencucianLinen,$detail){
 		$modPencucianLinen = LAPencucianlinenT::model()->findByPk($modPencucianLinen->pencucianlinen_id);
-		$modPencucianLinen->penerimaanlinen_id = $detail['penerimaanlinen_id'];
+		// $modPencucianLinen->penerimaanlinen_id = $detail['penerimaanlinen_id'];
 		$modPencucianLinen->save();
 	}
 	/**
@@ -138,6 +164,11 @@ class PencucianLinenController extends MyAuthController{
         $modPencucianBahan->attributes = $bahan;
         $modPencucianBahan->pencucianlinen_id = $modPencucianLinen->pencucianlinen_id;
 
+        $s = SatuankecilM::model()->findByPk($modPencucianBahan->satuanpemakaian);
+        $modPencucianBahan->satuanpemakaian = $s->satuankecil_nama;
+        
+        // var_dump($modPencucianBahan->attributes); die;
+        
         if($modPencucianBahan->validate()) { 
             $modPencucianBahan->save();
 			$this->pencucianbahantersimpan &= true;
@@ -270,7 +301,7 @@ class PencucianLinenController extends MyAuthController{
         }
         $format = new MyFormatter;    
         $modPencucianLinen = LAPencucianlinenT::model()->findByPk($pencucianlinen_id);     
-        $modPencucianLinenDetail = LAPenerimaanpencucianlinenV::model()->findAllByAttributes(array('penerimaanlinen_id'=>$modPencucianLinen->penerimaanlinen_id));
+        $modPencucianLinenDetail = LAPencuciandetailT::model()->findAllByAttributes(array('pencucianlinen_id'=>$modPencucianLinen->pencucianlinen_id));
         $modPencucianBahan = LAPencucianbahanT::model()->findAllByAttributes(array('pencucianlinen_id'=>$pencucianlinen_id));
 		
         $judul_print = 'Pencucian Linen';
