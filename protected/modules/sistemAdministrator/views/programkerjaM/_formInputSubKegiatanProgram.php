@@ -33,15 +33,71 @@
     <div class="control-group ">
         <label class="control-label required" for="SASubkegiatanprogramM_rekeningdebit_id">Rekening Debit Akutansi&nbsp;<span class="required">*</span></label>
         <div class="controls">
-            <?php echo $form->dropDownList($subKegiatanProgram, 'rekeningdebit_id', CHtml::listData($subKegiatanProgram->RekDebit, 'rekening5_id', 'nmrekening5'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)", 'class' => 'reqForm')); ?>
-
+            <?php //echo $form->dropDownList($subKegiatanProgram, 'rekeningdebit_id', CHtml::listData($subKegiatanProgram->RekDebit, 'rekening5_id', 'nmrekening5'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)", 'class' => 'reqForm')); ?>
+            <?php echo $form->hiddenField($subKegiatanProgram, 'rekeningdebit_id');  ?>
+            <?php
+                    $this->widget('MyJuiAutoComplete', array(
+                            'model' => $subKegiatanProgram,
+                            'attribute' => 'rekeningdebit_nama',
+                            'sourceUrl' => Yii::app()->createUrl('ActionAutoComplete/RekeningAkuntansi'),
+                            'options' => array(
+                                    'showAnim' => 'fold',
+                                    'minLength' => 2,
+                                    'focus' => 'js:function( event, ui ) {
+                                                    $(this).val(ui.item.nmrekening5);
+                                                    return false;
+                                            }',
+                                    'select' => 'js:function( event, ui ) {
+                                            $(this).val(ui.item.nmrekening5);
+                                            $("#SASubkegiatanprogramM_rekeningdebit_id").val(ui.item.rekening5_id);
+                                            return false;
+                                    }'
+                            ),
+                            'htmlOptions' => array(
+                                    'onkeypress' => "return $(this).focusNextInputField(event)",
+                                    'placeholder'=>'Ketikan Nama Rekening',
+                                    'class'=>'span3',
+                                    'style'=>'width:150px;',
+                                    'readonly'=>true,
+                            ),
+                            'tombolDialog' => array('idDialog' => 'dialogRekDebit',),
+                    ));
+            ?>
         </div>
     </div>
     <div class="control-group ">
         <label class="control-label required" for="SASubkegiatanprogramM_rekeningkredit_id">Rekening Kredit Akutansi&nbsp;<span class="required">*</span></label>
         <div class="controls">
-            <?php echo $form->dropDownList($subKegiatanProgram, 'rekeningkredit_id', CHtml::listData($subKegiatanProgram->RekKredit, 'rekening5_id', 'nmrekening5'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)", 'class' => 'reqForm')); ?>
-
+            <?php //echo $form->dropDownList($subKegiatanProgram, 'rekeningkredit_id', CHtml::listData($subKegiatanProgram->RekKredit, 'rekening5_id', 'nmrekening5'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)", 'class' => 'reqForm')); ?>
+            <?php echo $form->hiddenField($subKegiatanProgram, 'rekeningkredit_id');  ?>
+            <?php
+                    $this->widget('MyJuiAutoComplete', array(
+                            'model' => $subKegiatanProgram,
+                            'attribute' => 'rekeningkredit_nama',
+                            'sourceUrl' => Yii::app()->createUrl('ActionAutoComplete/RekeningAkuntansi'),
+                            'options' => array(
+                                    'showAnim' => 'fold',
+                                    'minLength' => 2,
+                                    'focus' => 'js:function( event, ui ) {
+                                                    $(this).val(ui.item.nmrekening5);
+                                                    return false;
+                                            }',
+                                    'select' => 'js:function( event, ui ) {
+                                            $(this).val(ui.item.nmrekening5);
+                                            $("#SASubkegiatanprogramM_rekeningkredit_id").val(ui.item.rekening5_id);
+                                            return false;
+                                    }'
+                            ),
+                            'htmlOptions' => array(
+                                    'onkeypress' => "return $(this).focusNextInputField(event)",
+                                    'placeholder'=>'Ketikan Nama Rekening',
+                                    'class'=>'span3',
+                                    'style'=>'width:150px;',
+                                    'readonly'=>true,
+                            ),
+                            'tombolDialog' => array('idDialog' => 'dialogRekKredit',),
+                    ));
+            ?>
         </div>
     </div>
     <?php echo $form->textAreaRow($subKegiatanProgram, 'subkegiatanprogram_ket', array('class' => 'span4', 'onkeypress' => "return $(this).focusNextInputField(event)", 'readonly' => false)); ?>
@@ -85,7 +141,8 @@
                             $('#fieldsetSubKegiatanProgram').find("input[name$='[subprogramkerja_kode]']").val(data.id_parent.subprogramkerja_kode);
                             $('#fieldsetSubKegiatanProgram').find("input[name$='[kegiatanprogram_kode]']").val(data.id_parent.kegiatanprogram_kode);
                             $('#fieldsetSubKegiatanProgram').find("input[name$='[subkegiatanprogram_kode]']").val(data.id_parent.subkegiatanprogram_kode);
-                            
+                            // $('#fieldsetSubKegiatanProgram').find("input[name$='[rekeningdebit_nama]']").val(data.id_parent.subkegiatanprogram_kode);
+                           
                             $( ".control-group" ).removeClass( "error" );                              
                             $('#SASubkegiatanprogramM_subkegiatanprogram_nama').removeClass("error");
                             $('#SASubkegiatanprogramM_subkegiatanprogram_namalain').removeClass("error");

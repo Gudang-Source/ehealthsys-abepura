@@ -9,10 +9,10 @@
                 'header'=> 'Pilih '.CHtml::checkBox('is_pilihsemua',true,array('onclick'=>'pilihSemua(this)','title'=>'Klik untuk pilih / tidak <br>semua penerimaan linen','rel'=>'tooltip')),
                 'type'=>'raw',
                 'value'=>'
-                    CHtml::hiddenField(\'LAPerawatanlinendetailT[\'.$data->penerimaanlinen_id.\'][linen_id]\',$data->linen_id).
-                    CHtml::hiddenField(\'LAPerawatanlinendetailT[\'.$data->penerimaanlinen_id.\'][penerimaanlinen_id]\',$data->penerimaanlinen_id).
-                    CHtml::hiddenField(\'LAPerawatanlinendetailT[\'.$data->penerimaanlinen_id.\'][jenisperawatan]\',$data->jenisperawatanlinen).
-                    CHtml::checkBox(\'LAPerawatanlinendetailT[\'.$data->penerimaanlinen_id.\'][checklist]\', true, array(\'class\'=>\'checklist\', \'onclick\'=>\'setNol(this);\'));
+                    CHtml::hiddenField(\'LAPerawatanlinendetailT[\'.$data->penerimaanlinen_id.\'][\'.$data->penerimaanlinendetail_id.\'][linen_id]\',$data->linen_id).
+                    CHtml::hiddenField(\'LAPerawatanlinendetailT[\'.$data->penerimaanlinen_id.\'][\'.$data->penerimaanlinendetail_id.\'][penerimaanlinen_id]\',$data->penerimaanlinen_id).
+                    CHtml::hiddenField(\'LAPerawatanlinendetailT[\'.$data->penerimaanlinen_id.\'][\'.$data->penerimaanlinendetail_id.\'][jenisperawatan]\',$data->jenisperawatanlinen).
+                    CHtml::checkBox(\'LAPerawatanlinendetailT[\'.$data->penerimaanlinen_id.\'][\'.$data->penerimaanlinendetail_id.\'][checklist]\', true, array(\'class\'=>\'checklist\', \'onclick\'=>\'setNol(this);\'));
                     ',
             ),
             array(
@@ -33,12 +33,12 @@
             array(
                 'header'=>'Keterangan',
                 'type'=>'raw',
-                'value'=>'CHtml::textField(\'LAPerawatanlinendetailT[\'.$data->penerimaanlinen_id.\'][keteranganperawatan]\',$data->keterangan_penerimaanlinen)'
+                'value'=>'CHtml::textField(\'LAPerawatanlinendetailT[\'.$data->penerimaanlinen_id.\'][\'.$data->penerimaanlinendetail_id.\'][keteranganperawatan]\',$data->keterangan_penerimaanlinen)'
             ),
             array(
                 'header'=>'Status Perawatan',
                 'type'=>'raw',
-                'value'=>'CHtml::dropDownList(\'LAPerawatanlinendetailT[\'.$data->penerimaanlinen_id.\'][statusperawatanlinen]\',"",LookupM::getItems("statusperawatan"),array("empty"=>"-- Pilih --","class"=>"span2", "onkeypress"=>"return $(this).focusNextInputField(event);","options" => array("BELUM"=>array("selected"=>true))))'
+                'value'=>'CHtml::dropDownList(\'LAPerawatanlinendetailT[\'.$data->penerimaanlinen_id.\'][\'.$data->penerimaanlinendetail_id.\'][statusperawatanlinen]\',"",LookupM::getItems("statusperawatan"),array("empty"=>"-- Pilih --","class"=>"span2", "onkeypress"=>"return $(this).focusNextInputField(event);","options" => array("BELUM"=>array("selected"=>true))))'
             ),
     ),
         'afterAjaxUpdate'=>'function(id, data){

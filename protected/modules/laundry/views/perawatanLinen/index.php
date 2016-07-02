@@ -17,12 +17,21 @@
 		}
     ?>
 	<?php $this->widget('bootstrap.widgets.BootAlert'); ?>
-	<fieldset class="box" id="form-penerimaan">
+    <?php if (empty($penerimaanlinen_id)): ?>
+    <fieldset class="box" id="form-penerimaan">
         <legend class="rim"><span class='judul'>Pencarian Penerimaan Linen </span></legend>
         <div>
             <?php $this->renderPartial($this->path_view.'_pencarianPenerimaan', array('modPenerimaanLinen' => $modPenerimaanLinen, 'modPenerimaanLinenDetail'=>$modPenerimaanLinenDetail,'instalasiTujuans'=>$instalasiTujuans,'ruanganTujuans'=>$ruanganTujuans)); ?>
         </div>
     </fieldset>
+    <?php else: ?>
+    <fieldset class="box" id="form-penerimaan">
+        <legend class="rim"><span class='judul'> Penerimaan Linen </span></legend>
+        <div>
+            <?php $this->renderPartial($this->path_view.'_penerimaan', array('penerimaanlinen_id'=>$penerimaanlinen_id)); ?>
+        </div>
+    </fieldset>
+    <?php endif; ?>
     
     <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
             'id'=>'perawatanlinen-t-form',
@@ -30,7 +39,8 @@
             'type'=>'horizontal',
             'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event);','onSubmit'=>'return requiredCheck(this);'),
     )); ?>
-
+    
+    
     <div class="block-tabel" id="form-penerimaanlinen">
         <h6>Linen</h6>
 		<?php echo $this->renderPartial($this->path_view.'_rowPenerimaanLinen',array('modPenerimaanLinen'=>$modPenerimaanLinen,'modPenerimaanLinenDetail'=>$modPenerimaanLinenDetail)); ?>
