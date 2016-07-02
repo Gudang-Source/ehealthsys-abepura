@@ -6,16 +6,18 @@
 )); ?>
 <div class="row-fluid">
 	<div class="span4">
+                <?php echo $form->dropDownListRow($model,'modul_id', CHtml::listData($model->getModulItems(), 'modul_id', 'modul_nama'),array('empty'=>'-- Pilih --','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
 		<?php echo $form->dropDownListRow($model,'kelmenu_id', CHtml::listData($model->getKelompokMenuItems(), 'kelmenu_id', 'kelmenu_nama'),array('empty'=>'-- Pilih --','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
-
-		<?php echo $form->dropDownListRow($model,'modul_id', CHtml::listData($model->getModulItems(), 'modul_id', 'modul_nama'),array('empty'=>'-- Pilih --','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+		
 
 	
 	</div>
 	<div class="span4">
 		<?php echo $form->textFieldRow($model,'menu_nama',array('class'=>'span3','maxlength'=>100)); ?>
 
-		<?php echo $form->textFieldRow($model,'menu_url',array('class'=>'span3','maxlength'=>100)); ?>
+		<?php //echo $form->textFieldRow($model,'menu_url',array('class'=>'span3','maxlength'=>100)); ?>
+            
+            <?php echo $form->textAreaRow($model,'menu_fungsi',array('class'=>'span3', 'cols'=>10,'rows'=>5)); ?>
 
 	</div>
 	<div class="span4">

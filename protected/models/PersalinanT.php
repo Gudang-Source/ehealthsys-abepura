@@ -96,6 +96,8 @@ class PersalinanT extends CActiveRecord
                         'pegawai'=>array(self::BELONGS_TO,'PegawaiM','pegawai_id'),                        
                         'paramedis'=>array(self::BELONGS_TO,'PegawaiM','paramedis_id'),                        
                         'bidan'=>array(self::BELONGS_TO,'PegawaiM','bidan_id'),                        
+                        'bidan2'=>array(self::BELONGS_TO,'PegawaiM','bidan2_id'),
+                        'bidan3'=>array(self::BELONGS_TO,'PegawaiM','bidan3_id'),
                         'pendaftaran'=>array(self::BELONGS_TO,'PendaftaranT','pendaftaran_id'),                        
                         'tipePaket'=>array(self::BELONGS_TO,'TipepaketM','tipepaket_id'),
                         'kelsebababortus'=>array(self::BELONGS_TO,'KelsebababortusM','kelsebababortus_id'),
