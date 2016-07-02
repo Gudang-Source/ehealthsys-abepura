@@ -204,12 +204,13 @@ class ShiftM extends CActiveRecord
                         'params'=>array(':shift_jamawal'=>$jam_masuk,':shift_jamakhir'=>$jam_keluar
                             ),'limit'=>1));
 
-                  
-                    if (count($data)> 0){
-                        $jam = $data->shift_nama.' / '.$data->shift_jamawal.' s/d '.$data->shift_jamakhir;
+                    
+                    if (count($data)> 0){                                                
+                        $jam = $data->shift_nama.' / '.$data->shift_jamawal.' s/d '.$data->shift_jamakhir;                        
                     }else{
                         $jam = '-';
                     }
+                    
                 }
             
             if ($get == null){
@@ -220,7 +221,11 @@ class ShiftM extends CActiveRecord
                     $pecah2 = explode(' s/d ', $pecah[1]);
                             
                     if ($get == 1){
-                        return $pecah2[0];
+                        if ( ($jam_masuk == '08:00:00') OR ($jam_masuk == '08:15:00')){
+                            return '08:15:00';
+                        }else{
+                            return $pecah2[0];
+                        }
                     }else{
                         if ($pecah2[1]){
                             return '14:00:00';

@@ -173,7 +173,7 @@
                             $cr = new CDbCriteria();
                             $cr->compare('tglpresensi::date', $data->tglpresensi);
                             $cr->compare('pegawai_id', $data->pegawai_id);
-                            $cr->compare('statuskehadiran_id', $data->statuskehadiran_id);
+                            //$cr->compare('statuskehadiran_id', $data->statuskehadiran_id);
                             $cr->addCondition('statusscan_id=:p1');
                             $cr->params[':p1'] = Params::STATUSSCAN_MASUK;
                             $pr = PresensiT::model()->find($cr);
@@ -230,7 +230,7 @@
                             $jammasuk = PresensiT::model()->getJam(Params::STATUSSCAN_MASUK, $data->tglpresensi, $data->pegawai_id);
                             $jampulang = PresensiT::model()->getJam(Params::STATUSSCAN_PULANG, $data->tglpresensi, $data->pegawai_id);
                             $masuk = PresensiT::model()->findAll(" statusscan_id = '".Params::STATUSSCAN_MASUK."' AND tglpresensi::text iLike '$tgl%' AND pegawai_id = '$data->pegawai_id' ");
-
+                            
                             if (count($masuk)>0)
                             {
                                 foreach($masuk as $masuk):
@@ -257,7 +257,7 @@
                                                 $tepat = strtotime(date('Y-m-d',strtotime($pr->tglpresensi)).$shift->shift_jamaawal);
                                             }                                           
                                             //$tepat =  strtotime(date('Y-m-d',strtotime($pr->tglpresensi)).' '.$data->pegawai->shift->shift_jamawal);
-                                    }else{
+                                    }else{                                        
                                         $tepat =  strtotime(date('Y-m-d',strtotime($pr->tglpresensi)).' '.ShiftM::model()->getShift($jammasuk,$jampulang, $jamM, $jamP, 1));
                                     }
                                 }  else {
@@ -268,22 +268,21 @@
                             {
                                 return ShiftM::model()->getJam($cekPertukaran,1);
                             }
-                            
-                            
+                                                        
                             $masuk = strtotime(date('Y-m-d H:i:s',strtotime($pr->tglpresensi)));
                             $jam = floor(round(abs($masuk - $tepat) / 60,2));
                             
-                            if ($data->statuskehadiran_id == Params::STATUSKEHADIRAN_HADIR)
-                            {    
+                            //if ($data->statuskehadiran_id == Params::STATUSKEHADIRAN_HADIR)
+                            //{    
                                 if ($masuk < $tepat){
                                     return "0 Menit";
                                 }else{
                                     return $jam.' Menit';
                                 }
-                            }
-                            else{
-                                return '-';
-                            }
+                           // }
+                           // else{
+                             //   return '-';
+                           // }
                                                             
                         },
                         'htmlOptions' => array('style'=>'text-align:center;')
@@ -348,22 +347,47 @@
                             $pulang = strtotime(date('Y-m-d H:i:s',strtotime($pr->tglpresensi)));
                             $jam = floor(round(abs($tepat - $pulang) / 60,2));
                             
-                            if ($data->statuskehadiran_id == Params::STATUSKEHADIRAN_HADIR)
-                            {
+                           // if ($data->statuskehadiran_id == Params::STATUSKEHADIRAN_HADIR)
+                           // {
                                 if ($pulang > $tepat){
                                     return "0 Menit";
                                 }else{
                                     return $jam.' Menit';
                                 }
-                            }else{
-                                return '-';
-                            }
+                           // }else{
+                          //      return '-';
+                           // }
                         },
                         'htmlOptions' => array('style'=>'text-align:center;')
                     ),
                     array(
                         'header' => 'Status',
-                        'name' => 'statuskehadiran.statuskehadiran_nama',
+                        //'name' => 'statuskehadiran.statuskehadiran_nama',
+                        'value' => function($data){                            
+                            $cr4 = new CDbCriteria();
+                            $cr4->compare('tglpresensi::date', $data->tglpresensi);
+                            $cr4->compare('pegawai_id', $data->pegawai_id);                            
+                            $cr4->addCondition('statusscan_id=:p1');
+                            $cr4->params[':p1'] = Params::STATUSSCAN_MASUK;
+                            $pr4 = PresensiT::model()->find($cr4);
+                            
+                            $cr5 = new CDbCriteria();
+                            $cr5->compare('tglpresensi::date', $data->tglpresensi);
+                            $cr5->compare('pegawai_id', $data->pegawai_id);                            
+                            $cr5->addCondition('statusscan_id=:p1');
+                            $cr5->params[':p1'] = Params::STATUSSCAN_PULANG;
+                            $pr5 = PresensiT::model()->find($cr5);
+                            
+                            if (count($pr4)>0){
+                                return $pr4->statuskehadiran->statuskehadiran_nama;
+                            }else{
+                                if (count($pr5)){
+                                    return $pr5->statuskehadiran->statuskehadiran_nama;
+                                }else{
+                                    return '-';
+                                }
+                            }
+                        }
                     ),                                
                                 /*
                     array(
