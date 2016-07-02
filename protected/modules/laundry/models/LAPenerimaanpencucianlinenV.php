@@ -23,8 +23,9 @@ class LAPenerimaanpencucianlinenV extends PenerimaanpencucianlinenV
 			$criteria->limit = 0;
 		}
 		
-		$criteria->addBetweenCondition('DATE(tglpenerimaanlinen)', $this->tgl_awal, $this->tgl_akhir,true);
-		
+                if (!empty($this->tgl_awal) && !empty($this->tglakhir)) {
+                    $criteria->addBetweenCondition('DATE(tglpenerimaanlinen)', $this->tgl_awal, $this->tgl_akhir,true);
+                }
 		if(!empty($this->instalasi_id)){
 			$criteria->addCondition('instalasi_id = '.$this->instalasi_id);
 		}
@@ -36,16 +37,26 @@ class LAPenerimaanpencucianlinenV extends PenerimaanpencucianlinenV
 		
 		$criteria->compare('LOWER(nopenerimaanlinen)',strtolower($this->nopenerimaanlinen),true);
 		
-		if(!empty($this->jenisperawatan)){
-			$criteria->compare('LOWER(jenisperawatanlinen)',strtolower($this->jenisperawatan));
-		}else{
-			$criteria->addCondition("jenisperawatanlinen = '".Params::JENISPERAWATAN_DEKONTAMINASI."'");
-		}
-		
-		$criteria->addCondition("statusperawatanlinen = '".Params::STATUSPERAWATAN_SELESAI."'");
-
+                if (empty($this->penerimaanlinen_id) && empty($this->perawatanlinen_id)) {
+                    if (!empty($this->jenisperawatan)){
+                            $criteria->compare('LOWER(jenisperawatanlinen)',strtolower($this->jenisperawatan));
+                    } else {
+                            $criteria->addCondition("jenisperawatanlinen = '".Params::JENISPERAWATAN_DEKONTAMINASI."'");
+                    }
+                    
+                    $criteria->addCondition("statusperawatanlinen = '".Params::STATUSPERAWATAN_SELESAI."'");
+                } else if (!empty($this->penerimaanlinen_id)) {
+                    $criteria->group = $criteria->select = "penerimaanlinen_id, linen_id, penerimaanlinen_id, ruangan_nama, nopenerimaanlinen, kodelinen, namalinen, keteranganpenerimaanlinen_item, jenisperawatanlinen";
+                }
+                
+                $criteria->compare('perawatanlinen_id', $this->perawatanlinen_id);
+                $criteria->compare('penerimaanlinen_id', $this->penerimaanlinen_id);
+                
+                $criteria->limit = -1;
+                
 		return new CActiveDataProvider($this, array(
 				'criteria'=>$criteria,
+                                'pagination'=>false,
 		));
 	}
 }

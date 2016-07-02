@@ -45,6 +45,8 @@ function tambahBahanPerawatan()
 		}
                 $('#bahanperawatan_id').val('');
                 $('#bahanperawatan_nama').val('');
+                $('#satuan').val('');
+                $('#jumlah').val(1);
             },
             error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
         });

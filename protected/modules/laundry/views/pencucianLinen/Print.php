@@ -45,22 +45,25 @@ echo $this->renderPartial('application.views.headerReport.headerDefault',array('
                 <th>No. Penerimaan</th>
                 <th>Kode Linen</th>
                 <th>Nama Linen</th>
-                <th>Keterangan</th>
-                <th>Status Perawatan</th>
+                <!--th>Keterangan</th-->
+                <th>Status Pencucian</th>
             </tr>
         </thead>
         <tbody>
             <?php
             if(count($modPencucianLinenDetail) > 0){
-                foreach($modPencucianLinenDetail AS $i=>$modDetail){ ?>
+                foreach($modPencucianLinenDetail AS $i=>$modDetail){ 
+                    $linen = LinenM::model()->findByPk($modDetail->linen_id);
+                    $penerimaan = PenerimaanlinenT::model()->findByPk($modDetail->penerimaanlinen_id);
+                    ?>
             <tr>
                 <td><?php echo $i+1; ?></td>
-                <td><?php echo (!empty($modDetail->ruangan_id) ? $modDetail->ruangan_nama : ""); ?></td>
-                <td><?php echo (!empty($modDetail->penerimaanlinen_id) ? $modDetail->nopenerimaanlinen : ""); ?></td>
-                <td><?php echo (!empty($modDetail->kodelinen) ? $modDetail->kodelinen : ""); ?></td>
-                <td><?php echo (!empty($modDetail->namalinen) ? $modDetail->namalinen : ""); ?></td>
-                <td><?php echo $modDetail->keteranganperawatan; ?></td>
-                <td><?php echo $modDetail->statusperawatanlinen; ?></td>
+                <td><?php echo $penerimaan->ruangan->ruangan_nama; ?></td>
+                <td><?php echo (!empty($modDetail->penerimaanlinen_id) ? $modDetail->penerimaanlinen->nopenerimaanlinen : ""); ?></td>
+                <td><?php echo $linen->kodelinen; ?></td>
+                <td><?php echo $linen->namalinen; ?></td>
+                <?php /* <td><?php echo $modDetail->keteranganperawatan; ?></td> */ ?>
+                <td><?php echo $modDetail->statuspencucian; ?></td>
             </tr>
             <?php    }
             }
@@ -74,7 +77,6 @@ echo $this->renderPartial('application.views.headerReport.headerDefault',array('
                 <th>No.</th>
                 <th>Nama Bahan</th>
                 <th>Jumlah Bahan</th>
-                <th>Satuan</th>
             </tr>
         </thead>
         <tbody>
@@ -84,8 +86,8 @@ echo $this->renderPartial('application.views.headerReport.headerDefault',array('
             <tr>
                 <td><?php echo $i+1; ?></td>
                 <td><?php echo (!empty($modBahan->bahanperawatan_id) ? $modBahan->bahanperawatan->bahanperawatan_nama : ""); ?></td>
-                <td><?php echo (!empty($modBahan->jmlpemakai) ? $modBahan->jmlpemakai : ""); ?></td>
-                <td><?php echo (!empty($modBahan->satuanpemakaian) ? $modBahan->satuanpemakaian : ""); ?></td>
+                <td style="text-align: right;"><?php echo (!empty($modBahan->jmlpemakaian) ? $modBahan->jmlpemakaian : "").
+                        (!empty($modBahan->satuanpemakaian) ? " ".$modBahan->satuanpemakaian : ""); ?></td>
             </tr>
             <?php    }
             }

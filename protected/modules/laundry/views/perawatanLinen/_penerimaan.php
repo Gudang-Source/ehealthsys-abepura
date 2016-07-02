@@ -20,14 +20,14 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 					</div> 
 			</div>
 		</div>
-            <div class="span4">
-                <div class="control-group ">
-                    <?php echo CHtml::label('Tgl. Penerimaan','',array('class'=>'control-label')) ?>
-                    <div class="controls">
-                            <?php echo $form->textField($modPenerimaanLinenDetail,'tglpenerimaanlinen',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'readonly'=>true)); ?>
-                    </div> 
+                <div class="span4">
+                    <div class="control-group ">
+                        <?php echo CHtml::label('Tgl. Penerimaan','',array('class'=>'control-label')) ?>
+                        <div class="controls">
+                                <?php echo $form->textField($modPenerimaanLinenDetail,'tglpenerimaanlinen',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'readonly'=>true)); ?>
+                        </div> 
+                    </div>
                 </div>
-            </div>
             <?php /*
 		<div class="span4">
 			<div class="control-group">

@@ -17,12 +17,21 @@
 		}
     ?>
 	<?php $this->widget('bootstrap.widgets.BootAlert'); ?>
-	<fieldset class="box" id="form-penerimaan">
+    <?php if (empty($penerimaanlinen_id)): ?>
+    <fieldset class="box" id="form-penerimaan">
             <legend class="rim"><span class='judul'><i class="icon-search icon-white"></i> Pencarian</span></legend>
         <div>
             <?php $this->renderPartial($this->path_view.'_pencarian', array('modInfoPencucian'=>$modInfoPencucian, 'instalasiTujuans'=>$instalasiTujuans,'ruanganTujuans'=>$ruanganTujuans)); ?>
         </div>
     </fieldset>
+    <?php else : ?>
+    <fieldset class="box" id="form-penerimaan">
+            <legend class="rim"><span class='judul'><i class="icon-search icon-white"></i> Pencarian</span></legend>
+        <div>
+            <?php $this->renderPartial($this->path_view.'_penerimaan', array('penerimaanlinen_id'=>$penerimaanlinen_id,'modInfoPencucian'=>$modInfoPencucian, 'instalasiTujuans'=>$instalasiTujuans,'ruanganTujuans'=>$ruanganTujuans)); ?>
+        </div>
+    </fieldset>
+    <?php endif; ?>
     
     <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
             'id'=>'pencucianlinen-t-form',
