@@ -18,8 +18,8 @@ class PencucianLinenController extends MyAuthController{
     	$modPencucianBahan = array();
 		$modInfoPencucian = new LAPenerimaanpencucianlinenV();
 		$modInfoPencucian->instalasi_id = Yii::app()->user->getState('instalasi_id');
-		$modInfoPencucian->tgl_awal = date('Y-m-d H:i:s');
-		$modInfoPencucian->tgl_akhir = date('Y-m-d H:i:s');
+		$modInfoPencucian->tgl_awal = date('Y-m-d');
+		$modInfoPencucian->tgl_akhir = date('Y-m-d');
         $instalasiTujuans = CHtml::listData(LAInstalasiM::getInstalasiItems(),'instalasi_id','instalasi_nama');
         $ruanganTujuans = CHtml::listData(LARuanganM::getRuanganByInstalasi($modInfoPencucian->instalasi_id),'ruangan_id','ruangan_nama');
 		

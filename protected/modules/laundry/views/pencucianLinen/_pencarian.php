@@ -14,17 +14,18 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 				<?php echo $form->labelEx($modInfoPencucian,'Tanggal Penerimaan', array('class'=>'control-label')) ?>
 					<div class="controls">
 						<?php   
-							$modInfoPencucian->tgl_awal = (!empty($modInfoPencucian->tgl_awal) ? date("d/m/Y H:i:s",strtotime($modInfoPencucian->tgl_awal)) : null);
+							$modInfoPencucian->tgl_awal = (!empty($modInfoPencucian->tgl_awal) ? MyFormatter::formatDateTimeForUser($modInfoPencucian->tgl_awal) : null);
 							$this->widget('MyDateTimePicker',array(
 								'model'=>$modInfoPencucian,
 								'attribute'=>'tgl_awal',
-								'mode'=>'datetime',
+								'mode'=>'date',
 								'options'=> array(
 									'showOn' => false,
 	//                                'maxDate' => 'd',
 									'yearRange'=> "-150:+0",
+                                                                        'dateFormat'=>Params::DATE_FORMAT,
 								),
-								'htmlOptions'=>array('placeholder'=>'00/00/0000 00:00:00','class'=>'dtPicker2 datetimemask','onkeyup'=>"return $(this).focusNextInputField(event)"
+								'htmlOptions'=>array('class'=>'dtPicker2','onkeyup'=>"return $(this).focusNextInputField(event)"
 								),
 						)); ?>
 					</div>
@@ -33,17 +34,18 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 				<?php echo $form->labelEx($modInfoPencucian,'Sampai Dengan', array('class'=>'control-label')) ?>
 					<div class="controls">
 						<?php   
-							$modInfoPencucian->tgl_akhir = (!empty($modInfoPencucian->tgl_akhir) ? date("d/m/Y H:i:s",strtotime($modInfoPencucian->tgl_akhir)) : null);
+							$modInfoPencucian->tgl_akhir = (!empty($modInfoPencucian->tgl_akhir) ? MyFormatter::formatDateTimeForUser($modInfoPencucian->tgl_akhir) : null);
 							$this->widget('MyDateTimePicker',array(
 								'model'=>$modInfoPencucian,
 								'attribute'=>'tgl_akhir',
-								'mode'=>'datetime',
+								'mode'=>'date',
 								'options'=> array(
 									'showOn' => false,
 	//                                'maxDate' => 'd',
 									'yearRange'=> "-150:+0",
+                                                                        'dateFormat'=>Params::DATE_FORMAT,
 								),
-								'htmlOptions'=>array('placeholder'=>'00/00/0000 00:00:00','class'=>'dtPicker2 datetimemask','onkeyup'=>"return $(this).focusNextInputField(event)"
+								'htmlOptions'=>array('class'=>'dtPicker2','onkeyup'=>"return $(this).focusNextInputField(event)"
 								),
 						)); ?>
 					</div>
