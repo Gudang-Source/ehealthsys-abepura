@@ -58,8 +58,8 @@ $('#sakompgajirek-m-search').submit(function(){
 				'header'=>'Debit / Kredit',
 				'name'=>'debitkredit',
 				'value'=>'($data->debitkredit == "D")? "Debit" :"Kredit"',
-				'filter' => CHtml::dropDownList(
-						'debitkredit', $model->debitkredit, array('D' => 'Debit',
+				'filter' => CHtml::activeDropDownList(
+						$model, 'debitkredit', array('D' => 'Debit',
 					'K' => 'Kredit',), array('empty' => '--Pilih--'))
 			),
 			array(

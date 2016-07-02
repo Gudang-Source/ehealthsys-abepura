@@ -63,6 +63,11 @@ class KomponenGajiRekMController extends MyAuthController {
 	public function actionUpdate($id) {
 		$format = new MyFormatter;
 		$model = $this->loadModel($id);
+                $kg = KomponengajiM::model()->findByPk($model->komponengaji_id);
+                $rk = Rekening5M::model()->findByPk($model->rekening5_id);
+                
+                $model->komponengaji_nama = $kg->komponengaji_nama;
+                $model->nmrekening5 = $rk->nmrekening5;
 
 		// Uncomment the following line if AJAX validation is needed
 
