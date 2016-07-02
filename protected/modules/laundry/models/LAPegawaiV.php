@@ -8,19 +8,28 @@ class LAPegawaiV extends PegawaiV {
 		$criteria=new CDbCriteria;
 		
 		if(!empty($this->pegawai_id)){
-			$criteria->addCondition('pegawai_id = '.$this->pegawai_id);
+			$criteria->addCondition('t.pegawai_id = '.$this->pegawai_id);
 		}
-		$criteria->compare('LOWER(nomorindukpegawai)',strtolower($this->nomorindukpegawai),true);
-		$criteria->compare('LOWER(gelardepan)',strtolower($this->gelardepan),true);
-		$criteria->compare('LOWER(nama_pegawai)',strtolower($this->nama_pegawai),true);
-		$criteria->compare('LOWER(gelarbelakang_nama)',strtolower($this->gelarbelakang_nama),true);
-		$criteria->compare('LOWER(alamat_pegawai)',strtolower($this->alamat_pegawai),true);
-		$criteria->order = 'nama_pegawai';
+		$criteria->compare('LOWER(t.nomorindukpegawai)',strtolower($this->nomorindukpegawai),true);
+		$criteria->compare('LOWER(t.gelardepan)',strtolower($this->gelardepan),true);
+		$criteria->compare('LOWER(t.nama_pegawai)',strtolower($this->nama_pegawai),true);
+		$criteria->compare('LOWER(t.gelarbelakang_nama)',strtolower($this->gelarbelakang_nama),true);
+		$criteria->compare('LOWER(t.alamat_pegawai)',strtolower($this->alamat_pegawai),true);
+                $criteria->compare('t.jabatan_id', $this->jabatan_id);
+		$criteria->order = 't.nama_pegawai';
 		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public function searchDialogRuangan() {
+                $p = $this->searchDialog();
+                $p->criteria->join = 'join ruanganpegawai_m p on p.pegawai_id = t.pegawai_id';
+                $p->criteria->compare('p.ruangan_id', Yii::app()->user->getState('ruangan_id'));
+                
+                return $p;
+        }
 	
 	public function searchPegawaiMengetahui()
 	{

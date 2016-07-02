@@ -6,7 +6,7 @@
             <?php echo $form->labelEx($modPenyimpananLinen,'tglpenyimpananlinen', array('class'=>'control-label')) ?>
                 <div class="controls">
                     <?php   
-                        $modPenyimpananLinen->tglpenyimpananlinen = (!empty($modPenyimpananLinen->tglpenyimpananlinen) ? date("d/m/Y H:i:s",strtotime($modPenyimpananLinen->tglpenyimpananlinen)) : null);
+                        $modPenyimpananLinen->tglpenyimpananlinen = (!empty($modPenyimpananLinen->tglpenyimpananlinen) ? MyFormatter::formatDateTimeForUser($modPenyimpananLinen->tglpenyimpananlinen) : null);
                         $this->widget('MyDateTimePicker',array(
                             'model'=>$modPenyimpananLinen,
                             'attribute'=>'tglpenyimpananlinen',
@@ -14,9 +14,10 @@
                             'options'=> array(
                                 'showOn' => false,
 //                                'maxDate' => 'd',
+                                'dateFormat'=>Params::DATE_FORMAT,
                                 'yearRange'=> "-150:+0",
                             ),
-                            'htmlOptions'=>array('placeholder'=>'00/00/0000 00:00:00','class'=>'dtPicker2 datetimemask','onkeyup'=>"return $(this).focusNextInputField(event)"
+                            'htmlOptions'=>array('class'=>'dtPicker2','onkeyup'=>"return $(this).focusNextInputField(event)"
                             ),
                     )); ?>
                 </div>
@@ -96,7 +97,7 @@ if(isset($_GET['LAPegawaiV'])) {
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'pegawaimengetahui-grid',
-    'dataProvider'=>$modPegawaiMengetahui->searchDialog(),
+    'dataProvider'=>$modPegawaiMengetahui->searchDialogRuangan(),
     'filter'=>$modPegawaiMengetahui,
 	'template'=>"{items}\n{pager}",
 	'itemsCssClass'=>'table table-striped table-bordered table-condensed',
@@ -119,23 +120,13 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 			'value'=>'$data->nomorindukpegawai',
 		),
 		array(
-			'header'=>'Gelar Depan',
-			'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'gelardepan'),
-			'value'=>'$data->gelardepan',
-		),
-		array(
 			'header'=>'Nama Pegawai',
 			'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'nama_pegawai'),
-			'value'=>'$data->nama_pegawai',
+			'value'=>'$data->namaLengkap',
 		),
 		array(
-			'header'=>'Gelar Belakang',
-			'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'gelarbelakang_nama'),
-			'value'=>'$data->gelarbelakang_nama',
-		),
-		array(
-			'header'=>'Alamat Pegawai',
-			'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'alamat_pegawai'),
+			'header'=>'Jabatan',
+			'filter'=>  CHtml::activeDropDownList($modPegawaiMengetahui, 'jabatan_id',CHtml::listData(JabatanM::model()->findAll('jabatan_aktif = true order by jabatan_nama'), 'jabatan_id', 'jabatan_nama'),array('empty'=>'-- Pilih --')),
 			'value'=>'$data->alamat_pegawai',
 		),
 	),
