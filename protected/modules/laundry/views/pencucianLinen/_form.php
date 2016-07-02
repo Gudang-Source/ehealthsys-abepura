@@ -15,8 +15,9 @@
                                 'showOn' => false,
 //                                'maxDate' => 'd',
                                 'yearRange'=> "-150:+0",
+                                'dateFormat'=>Params::DATE_FORMAT,
                             ),
-                            'htmlOptions'=>array('placeholder'=>'00/00/0000 00:00:00','class'=>'dtPicker2 datetimemask','onkeyup'=>"return $(this).focusNextInputField(event)"
+                            'htmlOptions'=>array('class'=>'dtPicker2','onkeyup'=>"return $(this).focusNextInputField(event)"
                             ),
                     )); ?>
                 </div>
@@ -119,19 +120,9 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 			'value'=>'$data->nomorindukpegawai',
 		),
 		array(
-			'header'=>'Gelar Depan',
-			'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'gelardepan'),
-			'value'=>'$data->gelardepan',
-		),
-		array(
 			'header'=>'Nama Pegawai',
 			'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'nama_pegawai'),
-			'value'=>'$data->nama_pegawai',
-		),
-		array(
-			'header'=>'Gelar Belakang',
-			'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'gelarbelakang_nama'),
-			'value'=>'$data->gelarbelakang_nama',
+			'value'=>'$data->namaLengkap',
 		),
 		array(
 			'header'=>'Alamat Pegawai',
