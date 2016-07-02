@@ -29,7 +29,9 @@ echo $this->renderPartial('application.views.headerReport.headerDefault',array('
         <tr>
             <td>Pegawai Mengetahui</td>
             <td>:</td>
-            <td><?php echo (isset($modPerawatan->pegmengetahui->NamaLengkap) ? $modPerawatan->pegmengetahui->NamaLengkap : ""); ?></td>
+            <td><?php 
+            $pm = PegawaiM::model()->findByPk($modPerawatan->pegmengetahui);
+            if (!empty($pm)) echo $pm->namaLengkap; ?></td>
         </tr>
         <tr>
             <td>Keterangan</td>
@@ -74,7 +76,6 @@ echo $this->renderPartial('application.views.headerReport.headerDefault',array('
                 <th>No.</th>
                 <th>Nama Bahan</th>
                 <th>Jumlah Bahan</th>
-                <th>Satuan</th>
             </tr>
         </thead>
         <tbody>
@@ -84,8 +85,8 @@ echo $this->renderPartial('application.views.headerReport.headerDefault',array('
             <tr>
                 <td><?php echo $i+1; ?></td>
                 <td><?php echo (!empty($modBahan->bahanperawatan_id) ? $modBahan->bahanperawatan->bahanperawatan_nama : ""); ?></td>
-                <td><?php echo (!empty($modBahan->jmlbahanpemakaian) ? $modBahan->jmlbahanpemakaian : ""); ?></td>
-                <td><?php echo (!empty($modBahan->satuanpemakaian) ? $modBahan->satuanpemakaian : ""); ?></td>
+                <td style="text-align: right"><?php echo (!empty($modBahan->jmlbahanpemakaian) ? $modBahan->jmlbahanpemakaian : ""); ?>
+                <?php echo (!empty($modBahan->satuanpemakaian) ? " ".$modBahan->satuanpemakaian : ""); ?></td>
             </tr>
             <?php    }
             }
@@ -96,13 +97,15 @@ echo $this->renderPartial('application.views.headerReport.headerDefault',array('
 <table width="80%" style="margin-top:20px;">
     <tr>
         <td width="50%" align="center">
+            <span hidden>
 			Pegawai Menyetujui,
-            <div style="margin-top:50px;"></div><?php echo (isset($modPerawatan->pegperawatan->NamaLengkap) ? $modPerawatan->pegperawatan->NamaLengkap : ""); ?>
-		</td>
+                        <div style="margin-top:50px;"></div><?php echo (isset($modPerawatan->pegperawatan->NamaLengkap) ? $modPerawatan->pegperawatan->NamaLengkap : ""); ?>
+            </span>
+        </td>
         <td width="50%" align="center">
             <?php echo Yii::app()->user->getState('kabupaten_nama'); ?>, <?php echo $format->formatDateTimeForUser(date('Y-m-d')); ?><br>
             Pegawai Mengetahui,
-            <div style="margin-top:50px;"></div><?php echo (isset($modPerawatan->pegmengetahui->NamaLengkap) ? $modPerawatan->pegmengetahui->NamaLengkap : ""); ?>
+            <div style="margin-top:50px;"></div><?php if (!empty($pm)) echo $pm->namaLengkap; ?>
         </td>
     </tr>
 </table>

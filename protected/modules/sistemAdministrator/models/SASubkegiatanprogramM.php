@@ -2,7 +2,10 @@
 
 class SASubkegiatanprogramM extends SubkegiatanprogramM {
 	public $subprogramkerja_id,$programkerja_id,$programkerja_kode,$subprogramkerja_kode,$kegiatanprogram_kode;
-	public static function model($className=__CLASS__)
+	
+        public $rekeningdebit_nama, $rekeningkredit_nama;
+        
+        public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}

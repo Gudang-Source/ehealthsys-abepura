@@ -105,11 +105,9 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 							$(\'#bahanperawatan_jenis\').val(\'$data->bahanperawatan_jenis\');
 							$(\'#bahanperawatan_nama\').val(\'$data->bahanperawatan_nama\');
 							$(\'#dialogBahanPerawatan\').dialog(\'close\');
-							tambahBahanPerawatan();
 							return false;"
 					))',
 		),
-		'bahanperawatan_id',
 		'bahanperawatan_jenis',
 		'bahanperawatan_nama',
 	),

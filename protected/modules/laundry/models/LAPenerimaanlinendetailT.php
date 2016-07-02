@@ -21,11 +21,15 @@ class LAPenerimaanlinendetailT extends PenerimaanlinendetailT {
 			$criteria->limit = 0;
 		}
 		$criteria->select = 'penerimaanlinen_t.*,t.*,ruangan_m.*,linen_m.*';
-		$criteria->addBetweenCondition('DATE(penerimaanlinen_t.tglpenerimaanlinen)', $this->tgl_awal, $this->tgl_akhir,true);
 		
+                if (!empty($this->tgl_awal) && !empty($this->tgl_akhir)) {
+                    $criteria->addBetweenCondition('DATE(penerimaanlinen_t.tglpenerimaanlinen)', $this->tgl_awal, $this->tgl_akhir,true);
+                }
+                
 		if(!empty($this->nopenerimaanlinen)){
 			$criteria->compare('LOWER(penerimaanlinen_t.nopenerimaanlinen)',strtolower($this->nopenerimaanlinen),true);
 		}
+                
 		if(!empty($this->penerimaanlinendetail_id)){
 			$criteria->addCondition('t.penerimaanlinendetail_id = '.$this->penerimaanlinendetail_id);
 		}
