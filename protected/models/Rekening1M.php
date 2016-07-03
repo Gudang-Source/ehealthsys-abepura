@@ -39,7 +39,7 @@ class Rekening1M extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('kdrekening1, nmrekening1, nmrekeninglain1, kelrekening_id', 'required'),
+			array('kdrekening1, nmrekening1, nmrekeninglain1, kelrekening_id, kelrekening_id', 'required'),
 			array('kdrekening1', 'length', 'max'=>5),
 			array('nmrekening1, nmrekeninglain1', 'length', 'max'=>100),
 //			array('rekening1_nb', 'length', 'max'=>1),
@@ -67,6 +67,7 @@ class Rekening1M extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
+                        'kelrekening_id' => 'Kelompok Rekening',
 			'rekening1_id' => 'Rekening ID',
 			'kdrekening1' => 'Kode Akun',
 			'nmrekening1' => 'Nama Akun',
