@@ -47,13 +47,13 @@ class PencucianlinenT extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('tglpencucianlinen, nopencucianlinen, create_time, create_loginpemakai_id, create_ruangan', 'required'),
-			array('perawatanlinen_id, penerimaanlinen_id, petugas_id, pegpenerima_id, create_loginpemakai_id, update_loginpemakai_id, create_ruangan', 'numerical', 'integerOnly'=>true),
+			array('petugas_id, pegpenerima_id, create_loginpemakai_id, update_loginpemakai_id, create_ruangan', 'numerical', 'integerOnly'=>true),
 			array('nopencucianlinen', 'length', 'max'=>20),
 			array('keterangan_pencucianlinen', 'length', 'max'=>200),
 			array('update_time', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('pencucianlinen_id, perawatanlinen_id, penerimaanlinen_id, tglpencucianlinen, nopencucianlinen, keterangan_pencucianlinen, petugas_id, pegpenerima_id, create_time, update_time, create_loginpemakai_id, update_loginpemakai_id, create_ruangan', 'safe', 'on'=>'search'),
+			array('pencucianlinen_id, tglpencucianlinen, nopencucianlinen, keterangan_pencucianlinen, petugas_id, pegpenerima_id, create_time, update_time, create_loginpemakai_id, update_loginpemakai_id, create_ruangan', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -78,8 +78,6 @@ class PencucianlinenT extends CActiveRecord
 	{
 		return array(
 			'pencucianlinen_id' => 'Pencucian Linen',
-			'perawatanlinen_id' => 'Perawatan Linen',
-			'penerimaanlinen_id' => 'Penerimaan Linen',
 			'tglpencucianlinen' => 'Tanggal Pencucian',
 			'nopencucianlinen' => 'No. Pencucian',
 			'keterangan_pencucianlinen' => 'Keterangan',

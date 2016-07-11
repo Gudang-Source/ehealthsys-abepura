@@ -23,7 +23,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 			</div>
 		</div>
 		
-        <?php echo $form->dropDownListRow($modObat, 'jenisobatalkes_id', CHtml::listData(JenisobatalkesM::model()->findAll('jenisobatalkes_aktif = true'), 'jenisobatalkes_id', 'jenisobatalkes_nama'), array('empty' => '-- Pilih --', 'class' => 'span3','onkeyup' => "return $(this).focusNextInputField(event);")); ?>
+        <?php echo $form->dropDownListRow($modObat, 'jenisobatalkes_id', CHtml::listData(JenisobatalkesM::model()->findAll('jenisobatalkes_aktif = true ORDER BY jenisobatalkes_nama ASC'), 'jenisobatalkes_id', 'jenisobatalkes_nama'), array('empty' => '-- Pilih --', 'class' => 'span3','onkeyup' => "return $(this).focusNextInputField(event);")); ?>
     </div>
     <div class="span4">
         <?php echo $form->textFieldRow($modObat, 'obatalkes_kode', array('placeholder'=>'Ketik Kode Obat Alkes','class' => 'span3', 'maxlength' => 50,'onkeyup' => "return $(this).focusNextInputField(event);")); ?>
