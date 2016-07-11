@@ -34,9 +34,9 @@ echo CHtml::css('#isiScroll{max-height:300px;overflow-y:scroll;margin-bottom:10p
                 'value'=>'$data->obatalkes_nama',
             ),
             array(
-                'header'=>'Golongan<br/>Kategori',
+                'header'=>'Golongan /<br/>Kategori',
                 'type'=>'raw',
-                'value'=>'$data->obatalkes_golongan.\'<br/>\'.$data->obatalkes_kategori',
+                'value'=>'$data->obatalkes_golongan.\'<br/>\'."/ ".$data->obatalkes_kategori',
             ),
             array(
                 'header'=>'Satuan Kecil',
