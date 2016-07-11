@@ -15,6 +15,13 @@ if(isset($_GET['sukses'])){
 <?php $this->widget('bootstrap.widgets.BootAlert'); ?>
 <?php echo $form->errorSummary($modPenerimaan); ?>
 <?php echo $form->errorSummary($model); ?>
+<?php echo $this->renderPartial('_realisasiPenerimaan', array(
+    'modTandaBuktiBayar'=>$modTandaBuktiBayar,
+    'modPenerimaan'=>$modPenerimaan,
+    'format'=>$format,
+    'form'=>$form,
+)); ?>
+<?php /*
     <fieldset id="form-realisasipenerimaan" class="box">
         <legend class="rim"><span class='judul'>Data Penerimaan </span></legend>
 		<div class="row-fluid">
@@ -59,6 +66,8 @@ if(isset($_GET['sukses'])){
 			</div>
 		</div>
     </fieldset>
+ * 
+ */ ?>
 	<fieldset id="form-realisasianggpenerimaan" class="box">
         <legend class="rim"><span class='judul'>Data Realisasi Anggaran Penerimaan </span></legend>
 		<div id="relangpen" class="row-fluid">
@@ -67,7 +76,13 @@ if(isset($_GET['sukses'])){
 					<?php echo $form->labelEx($model,'Termin Ke-', array('class'=>'control-label')) ?>
 						<div class="controls">
 							<?php // echo $form->dropDownList($model, 'renanggaranpenerimaandet_id', CHtml::listData(AGRenanggaranpenerimaandetT::model()->findAllByAttributes(array('renanggpenerimaan_id'=>$modPenerimaan->renanggpenerimaan_id)), 'renanggaranpenerimaandet_id', 'renanggaran_ke'), array('empty'=>'--Pilih--','class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'onchange'=>'terminke();')); ?>
-							<?php echo $form->dropDownList($model, 'renanggaranpenerimaandet_id', CHtml::listData($modDetail->getTermin($modPenerimaan->renanggpenerimaan_id),'renanggaranpenerimaandet_id', 'renanggaran_ke'), array('empty'=>'--Pilih--','class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'onchange'=>'terminke();')); ?>
+							<?php 
+                                                        $termin = array();
+                                                        if (!empty($modPenerimaan->renanggpenerimaan_id)) {
+                                                            $termin = $modDetail->getTermin($modPenerimaan->renanggpenerimaan_id);
+                                                        }
+                                                        
+                                                        echo $form->dropDownList($model, 'renanggaranpenerimaandet_id', CHtml::listData($termin,'renanggaranpenerimaandet_id', 'renanggaran_ke'), array('empty'=>'-- Pilih --','class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'onchange'=>'terminke();')); ?>
 						</div>
 				<?php echo $form->hiddenField($model,'penerimaanke',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'readonly'=>true)); ?>
 				</div>
@@ -238,7 +253,7 @@ if(isset($_GET['sukses'])){
     <div class="form-actions">
 		<?php echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit', 'onKeypress'=>'return formSubmit(this,event)')); ?>
 		<?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
-				$this->createUrl('index'),array('class'=>'btn btn-danger','onclick'=>'if(!confirm("'.Yii::t('mds','Apakah anda akan mengulang input data ?').'")) return false;')); ?>
+				$this->createUrl('realisasi'),array('class'=>'btn btn-danger','onclick'=>'if(!confirm("'.Yii::t('mds','Apakah anda akan mengulang input data ?').'")) return false;')); ?>
 		<?php 
     echo (!isset($_GET['realisasianggpenerimaan_id']) ? 
 		CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-info', 'type'=>'button', 'disabled'=>true))."&nbsp&nbsp" : 

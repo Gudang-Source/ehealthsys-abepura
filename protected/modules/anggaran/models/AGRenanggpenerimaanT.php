@@ -78,6 +78,20 @@ class AGRenanggpenerimaanT extends RenanggpenerimaanT{
 
 		return new CActiveDataProvider($this, array('criteria'=>$criteria));
 	}
+        
+        public function searchInformasiAnggPenBelumRelasasi()
+        {
+                $provider = $this->searchInformasiAnggPen();
+                //$provider->criteria->addCondition('t.renanggpenerimaan_id is null');
+                $provider->criteria->select = 't.nilaipenerimaananggaran, t.konfiganggaran_id, t.sumberanggaran_id, t.renanggpenerimaan_id, '
+                        . 't.noren_penerimaan, t.renpen_mengetahui_id, t.renpen_tglmengetahui, t.renpen_menyetujui_id, t.renpen_tglmenyetujui';
+                $provider->criteria->group = $provider->criteria->select;
+                $provider->criteria->join .= " left join realisasianggpenerimaan_t ra on ra.renanggpenerimaan_id = t.renanggpenerimaan_id "
+                        . "left join renanggaranpenerimaandet_t rp on rp.renanggpenerimaan_id = t.renanggpenerimaan_id";
+                $provider->criteria->addCondition('t.approverenanggpen_id is not null');
+                $provider->criteria->having = 'count(rp.renanggpenerimaan_id) <> count(ra.renanggpenerimaan_id)';
+                return $provider;
+        }
 	
 	public function getIsRealisasi($renanggpenerimaan_id){
 		$status = false;
@@ -96,4 +110,26 @@ class AGRenanggpenerimaanT extends RenanggpenerimaanT{
 			
 			return $status;
 	}
+        
+        public function getJson()
+        {
+            $res = array(
+                'base'=>$this->attributes,
+            );
+            $res['base']['nilaipenerimaananggaran'] = MyFormatter::formatNumberForPrint($this->nilaipenerimaananggaran);
+            $konf = KonfiganggaranK::model()->findByPk($this->konfiganggaran_id);
+            $sumber = SumberanggaranM::model()->findByPk($this->sumberanggaran_id);
+            
+            $termin = AGRenanggaranpenerimaandetT::model()->getTermin($this->renanggpenerimaan_id);
+            $resTermin = '<option value="">-- Pilih --</option>';
+            foreach ($termin as $item) {
+                $resTermin .= '<option value="'.$item->renanggaranpenerimaandet_id.'">'.$item->renanggaran_ke.'</option>';
+            }
+            
+            
+            $res['konfig'] = $konf->attributes;
+            $res['sumber'] = $sumber->attributes;
+            $res['termin'] = $resTermin;
+            return CJSON::encode($res);
+        }
 }

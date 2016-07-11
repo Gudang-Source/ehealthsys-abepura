@@ -1,3 +1,6 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
 <div class="white-container">
     <?php
     $this->breadcrumbs=array(
@@ -83,19 +86,19 @@
                                             $totsisatagihan = 0;
                     ?>
                     <td>
-                        <?php echo CHtml::textField("tottagihan", $totaltransaksi, array('readonly'=>false,'class'=>'inputFormTabel integer lebar3','style'=>'width:70px;',)); ?>
+                        <?php echo CHtml::textField("tottagihan", $totaltransaksi, array('readonly'=>false,'class'=>'inputFormTabel integer2 lebar3','style'=>'width:70px;',)); ?>
                     </td>
                     <td>
-                        <?php echo CHtml::textField("totpiutang", $totpiutang, array('readonly'=>false,'class'=>'inputFormTabel integer lebar3','style'=>'width:70px;',)); ?>
+                        <?php echo CHtml::textField("totpiutang", $totpiutang, array('readonly'=>false,'class'=>'inputFormTabel integer2 lebar3','style'=>'width:70px;',)); ?>
                     </td>
                     <!--<td>-->
-                        <?php // echo CHtml::textField("tottelahbayar", $tottelahbayar, array('readonly'=>false,'class'=>'inputFormTabel integer lebar3','style'=>'width:70px;',)); ?>
+                        <?php // echo CHtml::textField("tottelahbayar", $tottelahbayar, array('readonly'=>false,'class'=>'inputFormTabel integer2 lebar3','style'=>'width:70px;',)); ?>
                     <!--</td>-->
                     <!--<td>-->
-                        <?php // echo CHtml::textField("totbayar", $totbayar, array('readonly'=>false,'class'=>'inputFormTabel integer lebar3','style'=>'width:70px;',)); ?>
+                        <?php // echo CHtml::textField("totbayar", $totbayar, array('readonly'=>false,'class'=>'inputFormTabel integer2 lebar3','style'=>'width:70px;',)); ?>
                     <!--</td>-->
                     <td>
-                        <?php echo CHtml::textField("totsisatagihan", $totsisatagihan, array('readonly'=>false,'class'=>'inputFormTabel integer lebar3','style'=>'width:70px;',)); ?>
+                        <?php echo CHtml::textField("totsisatagihan", $totsisatagihan, array('readonly'=>false,'class'=>'inputFormTabel integer2 lebar3','style'=>'width:70px;',)); ?>
                     </td>
                     <td></td>
                 </tr>
@@ -155,19 +158,19 @@
     <!--                <div class="control-group ">
                         <?php // echo CHtml::label('Total Telah Bayar','totalTelahBayar', array('class'=>'control-label inline')) ?>
                         <div class="controls">
-                            <?php // echo $form->textField($modPengajuanKlaim,'telahbayar',array('onkeyup'=>'hitungTelahBayar();','readonly'=>false,'class'=>'inputFormTabel integer span3', 'style'=>'width:110px;','onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
+                            <?php // echo $form->textField($modPengajuanKlaim,'telahbayar',array('onkeyup'=>'hitungTelahBayar();','readonly'=>false,'class'=>'inputFormTabel integer2 span3', 'style'=>'width:110px;','onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
                         </div>
                     </div>
                     <div class="control-group ">
                         <?php // echo CHtml::label('Total Bayar','totalBayar', array('class'=>'control-label inline')) ?>
                         <div class="controls">
-                            <?php // echo $form->textField($modPengajuanKlaim,'totalbayar',array('onkeyup'=>'hitungTotalBayar();','readonly'=>false,'class'=>'inputFormTabel integer span3', 'style'=>'width:110px;')) ?>
+                            <?php // echo $form->textField($modPengajuanKlaim,'totalbayar',array('onkeyup'=>'hitungTotalBayar();','readonly'=>false,'class'=>'inputFormTabel integer2 span3', 'style'=>'width:110px;')) ?>
                         </div>
                     </div>
                     <div class="control-group ">
                         <?php // echo CHtml::label('Total Sisa Piutang','totalSisaPiutang', array('class'=>'control-label inline')) ?>
                         <div class="controls">
-                            <?php // echo $form->textField($modPengajuanKlaim,'totalsisapiutang',array('onkeyup'=>'hitungTotalSisaTagihan();','readonly'=>false,'class'=>'inputFormTabel integer span3','style'=>'width:110px;', 'onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
+                            <?php // echo $form->textField($modPengajuanKlaim,'totalsisapiutang',array('onkeyup'=>'hitungTotalSisaTagihan();','readonly'=>false,'class'=>'inputFormTabel integer2 span3','style'=>'width:110px;', 'onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
                         </div>
                     </div>-->
                 </td>
@@ -175,7 +178,7 @@
                     <div class="control-group ">
                         <?php echo CHtml::label('Total Piutang','totalPiutang', array('class'=>'control-label inline')) ?>
                         <div class="controls">
-                            <?php echo $form->textField($modPengajuanKlaim,'totalpiutang',array('onkeyup'=>'hitungTotalPiutang();','readonly'=>false,'class'=>'inputFormTabel integer span3', 'style'=>'width:110px;','onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
+                            <?php echo $form->textField($modPengajuanKlaim,'totalpiutang',array('onkeyup'=>'hitungTotalPiutang();','readonly'=>false,'class'=>'inputFormTabel integer2 span3', 'style'=>'width:110px;','onkeypress'=>"return $(this).focusNextInputField(event);")) ?>
                         </div>
                     </div>
                 </td>
@@ -217,7 +220,7 @@ $pembulatanHarga = Yii::app()->user->getState('pembulatanharga');
 ?>
         
 <script type="text/javascript">
-$('.integer').each(function(){this.value = formatInteger(this.value)});
+$('.integer2').each(function(){this.value = formatInteger(this.value)});
 
 function enableInputPembayaran()
 {
@@ -332,11 +335,11 @@ function cekInputTindakan()
         myAlert('Tidak ada Tagihan');
         return false;
     } else {
-        $('.integer').each(function(){this.value = unformatNumber(this.value)});
+        $('.integer2').each(function(){this.value = unformatNumber(this.value)});
         $('.number').each(function(){this.value = unformatNumber(this.value)});
         return true;
     }
-    $('.integer').each(function(){this.value = unformatNumber(this.value)});
+    $('.integer2').each(function(){this.value = unformatNumber(this.value)});
     $('.number').each(function(){this.value = unformatNumber(this.value)});
     return false;
 }
@@ -495,7 +498,7 @@ function print()
         });
         
     
-        $('#BKPembayaranklaimT_totalpiutang').val(formatInteger(jmlpiutang));
+        $('#BKPembayaranklaimT_totalpiutang, #BKPengajuanklaimpiutangT_totalpiutang').val(formatInteger(jmlpiutang));
         $('#BKPembayaranklaimT_telahbayar').val(formatInteger(jmltelahbayar));
         $('#BKPembayaranklaimT_totalbayar').val(formatInteger(jmlbayar));
         $('#BKPembayaranklaimT_totalsisapiutang').val(formatInteger(jmlsisatagihan));
@@ -547,20 +550,25 @@ function print()
     }
     
     function hitungJumlahPiutang(obj){
-         $('#tableList tbody .cek').each(function(){
+        var totalpiutang = 0;
+            
+        $('#tableList tbody .cek').each(function(){
         
-            totTagihan = unformatNumber($('#tottagihan').val());
-            totPiutang = unformatNumber($('#totpiutang').val());
-            totTelahBayar = unformatNumber($('#tottelahbayar').val());
-            totBayar = unformatNumber($('#totbayar').val());
-            totSisaTagihan = unformatNumber($('#totsisatagihan').val());
+            var totTagihan = unformatNumber($('#tottagihan').val());
+            var totPiutang = unformatNumber($('#totpiutang').val());
+            var totPiutang = unformatNumber($('#tottelahbayar').val());
+            var totBayar = unformatNumber($('#totbayar').val());
+            var totSisaTagihan = unformatNumber($('#totsisatagihan').val());
+            
+            console.log(totTagihan, totPiutang, totPiutang, totBayar, totSisaTagihan);
         
-            jmlTagihan = parseFloat(unformatNumber($(this).parents('tr').find('input[name$="[jmltagihan]"]').val()));
-            jmlPiutang = (obj.value);
-            jmlTelahBayar = parseFloat(unformatNumber($(this).parents('tr').find('input[name$="[jmltelahbayar]"]').val()));
-            jmlBayar = parseFloat(unformatNumber($(this).parents('tr').find('input[name$="[jmlbayar]"]').val()));
-            jmlSisaTagihan = parseFloat(unformatNumber($(this).parents('tr').find('input[name$="[jmlsisatagihan]"]').val()));
-    
+            var jmlTagihan = parseFloat(unformatNumber($(this).parents('tr').find('input[name$="[jmltagihan]"]').val()));
+            var jmlPiutang = parseFloat(unformatNumber($(this).parents('tr').find('input[name$="[jmlpiutang]"]').val()))
+            var jmlTelahBayar = parseFloat(unformatNumber($(this).parents('tr').find('input[name$="[jmltelahbayar]"]').val()));
+            var jmlBayar = parseFloat(unformatNumber($(this).parents('tr').find('input[name$="[jmlbayar]"]').val()));
+            var jmlSisaTagihan = parseFloat(unformatNumber($(this).parents('tr').find('input[name$="[jmlsisatagihan]"]').val()));
+            
+            totalJumlahSisaTagihan = 0;
             $('.cek').each(function(){
     
                     jumlahSisaTagihan = 0; 
@@ -570,13 +578,12 @@ function print()
                         jumlahSisaTagihan = ((jmlPiutang - jmlTelahBayar) - jmlBayar);
                     }
 
-                    totalJumlahSisaTagihan = 0;
                     if (jQuery.isNumeric(totalJumlahSisaTagihan)){
                         totalJumlahSisaTagihan += parseFloat(unformatNumber(jmlSisaTagihan));
                     }
             });
 
-            $(obj).parents("tr").find('input[name$="[jmlsisatagihan]"]').val(jumlahSisaTagihan);
+            $(this).parents("tr").find('input[name$="[jmlsisatagihan]"]').val(formatNumber(jumlahSisaTagihan));
             $(this).parents("tr").find('input[name$="[jmlpiutang2]"]').val(jmlPiutang);
             $('#totalsisatagihan').val(formatInteger(totalJumlahSisaTagihan));
         });
@@ -639,6 +646,14 @@ function print()
         }else{
             $.get('${url}', {tgl_awal:tgl_awal, tgl_akhir:tgl_akhir, carabayar_id:carabayar_id, penjamin_id:penjamin_id},function(data){
                 $('#tableList tbody').html(data);
+                $('#tableList tbody tr .integer2').maskMoney({
+                    "symbol":"",
+                    "defaultZero":true,
+                    "allowZero":true,
+                    "decimal":",",
+                    "thousands":".",
+                    "precision":0
+                });
             });
             setTimeout(function(){checkAllPembayaran();}, 1000);
         }
@@ -648,9 +663,9 @@ function print()
         $('.cek').each(function(){
                     jmltagihan = unformatNumber($(this).parents('tr').find('.jmltagihan').val());
                     jmlpiutang = unformatNumber($(this).parents('tr').find('.jmlpiutang').val());
-                    jmlpiutang = unformatNumber($(this).parents('tr').find('.jmltelahbayar').val());
-                    jmlpiutang = unformatNumber($(this).parents('tr').find('.jmlbayar').val());
-                    jmlpiutang = unformatNumber($(this).parents('tr').find('.jmlsisatagihan').val());
+                    jmltelahbayar = unformatNumber($(this).parents('tr').find('.jmltelahbayar').val());
+                    jmlbayar = unformatNumber($(this).parents('tr').find('.jmlbayar').val());
+                    jmlsisatagihan = unformatNumber($(this).parents('tr').find('.jmlsisatagihan').val());
 
                     if(jmltagihan == ''){
                         jmltagihan = 0;
@@ -667,9 +682,8 @@ function print()
                     if(jmlsisatagihan == ''){
                         jmlsisatagihan = 0;
                     }
-                    
-                    
         });
+        hitungJumlahPiutang();
     }
     
     function hitungTelahBayar(){
@@ -686,7 +700,7 @@ function print()
     
     function cekInput()
     {
-        $(".integer").each(function(){this.value = unformatNumber(this.value)});
+        $(".integer2").each(function(){this.value = unformatNumber(this.value)});
         return true;
     }
     
