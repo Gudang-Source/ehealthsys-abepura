@@ -226,7 +226,7 @@ class PengajuanPerawatanTController extends MyAuthController {
 			$mpdf->WriteHTML($stylesheet,1);  
 			$mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
 			$mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('format'=>$format,'judul_print'=>$judul_print,'deskripsi'=>$deskripsi,'modPengPerawataninen'=>$modPengPerawataninen, 'modPengPerawataninenDetail'=>$modPengPerawataninenDetail, 'caraPrint'=>$caraPrint),true));
-			$mpdf->Output();
+			$mpdf->Output($judul_print.'_'.date('Y-m-d').'.pdf','I');
 		}
     } 
         
