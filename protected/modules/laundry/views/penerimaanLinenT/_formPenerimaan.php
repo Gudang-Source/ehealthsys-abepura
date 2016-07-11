@@ -327,11 +327,11 @@ if(isset($_GET['LAPengperawatanlinenT']))
 $crit = new CDbCriteria;
 $crit->compare('instalasi_id', $modPengperawatanlinen->instalasi_id);
 $crit->addCondition('ruangan_aktif = true');
-$crit->order='instalasi_id, ruangan_nama';
+$crit->order='ruangan_nama ASC';
 
 $dataInstalasi = CHtml::listData(InstalasiM::model()->findAllByAttributes(array(
     'instalasi_aktif'=>true,
-), array('order'=>'instalasi_id asc')), 'instalasi_id', 'instalasi_nama');
+), array('order'=>'instalasi_nama asc')), 'instalasi_id', 'instalasi_nama');
 
 $dataRuangan = CHtml::listData(RuanganM::model()->findAll($crit), 'ruangan_id', 'ruangan_nama');
 
