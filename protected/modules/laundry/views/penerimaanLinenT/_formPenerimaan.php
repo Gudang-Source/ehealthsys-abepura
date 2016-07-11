@@ -1,7 +1,7 @@
 <div class="row-fluid">
 	<div class="span4">
                 <div class="control-group ">
-                    <?php echo CHtml::label('No Perawatan <font style = "color:red;">*</font>', 'no_perawatan', array('class'=>'control-label required ')); ?>
+                    <?php echo CHtml::label('No Pengajuan <font style = "color:red;">*</font>', 'no_perawatan', array('class'=>'control-label required ')); ?>
                     <div class="controls">
                         <?php echo CHtml::activeHiddenField($model, 'pengperawatanlinen_id'); ?>
                     <?php 
