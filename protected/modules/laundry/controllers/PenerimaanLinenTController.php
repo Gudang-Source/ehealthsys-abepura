@@ -224,6 +224,7 @@ class PenerimaanLinenTController extends MyAuthController {
                         $res['instalasi_nama'] = $modRuangan->instalasi->instalasi_nama;
                         $res['ruangan_nama'] = $modRuangan->ruangan_nama;
                         $res['ruangan_id'] = $modRuangan->ruangan_id;
+                        $res['sukses'] = 1;
                         $res['keterangan_penerimaanlinen'] = $modPengajuan->keterangan_pengperawatanlinen;
                         $modPengajuanDetail = LAPengperawatanlinendetT::model()->findAllByAttributes(array('pengperawatanlinen_id'=>$modPengajuan->pengperawatanlinen_id));
                         
