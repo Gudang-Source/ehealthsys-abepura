@@ -33,15 +33,18 @@ class PembayaranKlaimPiutangController extends MyAuthController
 			}
             
             if (isset($_POST['BKPembayaranklaimT'])) {
+                // var_dump($_POST);
                 $modPembayaranKlaim->attributes = $_POST['BKPembayaranklaimT'];
-				$modPembayaranKlaim->nopembayaranklaim = MyGenerator::noPembayaranKlaim();
-                $modPembayaranKlaim->carabayar_id = 1;
-                $modPembayaranKlaim->penjamin_id= 117;
+		$modPembayaranKlaim->nopembayaranklaim = MyGenerator::noPembayaranKlaim();
+                $modPembayaranKlaim->carabayar_id = Params::CARABAYAR_ID_MEMBAYAR;
+                $modPembayaranKlaim->penjamin_id= Params::PENJAMIN_ID_UMUM;
                 if (count($_POST['BKPembayarklaimdetailT']) > 0) {
                     $pembayaranpelayanan_id = $this->sortPilih($_POST['BKPembayarklaimdetailT']);
                     $modDetails = $this->validasiTabular($modPembayaranKlaim, $_POST['BKPembayarklaimdetailT']);
-                
+                    $modPembayaranKlaim->carabayar_id = $_POST['BKPembayarklaimdetailT'][1]['carabayar_id'];
+                    $modPembayaranKlaim->penjamin_id = $_POST['BKPembayarklaimdetailT'][1]['penjamin_id'];
                 }
+                // var_dump($modPembayaranKlaim->attributes); die;
                     if ($modPembayaranKlaim->validate()) {
                         $transaction = Yii::app()->db->beginTransaction();
                         try {
