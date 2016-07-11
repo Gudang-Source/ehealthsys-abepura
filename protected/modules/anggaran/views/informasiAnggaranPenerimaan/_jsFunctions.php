@@ -4,7 +4,10 @@
 <script type="text/javascript">
 function terminke(){
 var renanggaranpenerimaandet_id=$("#<?php echo CHtml::activeId($model,"renanggaranpenerimaandet_id");?>").val();
-var renanggpenerimaan_id= '<?php echo $_GET['renanggpenerimaan_id'];?>';
+
+var renanggpenerimaan_id= '<?php echo !isset($_GET['renanggpenerimaan_id'])?'':$_GET['renanggpenerimaan_id'];?>';
+
+
 $("#relangpen").addClass("animation-loading");
         $.ajax({
             type:'POST',
@@ -107,6 +110,19 @@ function setCekBaru(){
 	$(".judulcek").html("Pembayaran Cek");
 	$(".refreshcek").attr("style","display:none;");
 }
+
+function loadPenerimaan(data) {
+    console.log(data);
+    $('#<?php echo CHtml::activeId($modPenerimaan, "renanggpenerimaan_id"); ?>').val(data.base.renanggpenerimaan_id);
+    $('#<?php echo CHtml::activeId($modPenerimaan, "noren_penerimaan"); ?>').val(data.base.noren_penerimaan);
+    $('#<?php echo CHtml::activeId($modPenerimaan, "deskripsiperiode"); ?>').val(data.konfig.deskripsiperiode);
+    $('#<?php echo CHtml::activeId($modPenerimaan, "konfiganggaran_id"); ?>').val(data.base.noren_penerimaan);
+    $('#<?php echo CHtml::activeId($modPenerimaan, "sumberanggarannama"); ?>').val(data.sumber.sumberanggarannama);
+    $('#<?php echo CHtml::activeId($modPenerimaan, "sumberanggaran_id"); ?>').val(data.base.sumberanggaran_id);
+    $('#<?php echo CHtml::activeId($modPenerimaan, "nilaipenerimaananggaran"); ?>').val(data.base.nilaipenerimaananggaran);
+    $('#<?php echo CHtml::activeId($model, "renanggaranpenerimaandet_id"); ?>').html(data.termin);
+    
+}  
 
 /**
  * javascript yang di running setelah halaman ready / load sempurna

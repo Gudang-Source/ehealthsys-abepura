@@ -75,7 +75,7 @@ class InformasiAnggaranPenerimaanController extends MyAuthController
 	/**
 	 * Untuk transaksi realisasi
 	 */
-	public function actionRealisasi($renanggpenerimaan_id, $realisasianggpenerimaan_id = null)
+	public function actionRealisasi($renanggpenerimaan_id = null, $realisasianggpenerimaan_id = null)
 	{
 		$this->layout='//layouts/column1';
 		$format = new MyFormatter();
@@ -83,17 +83,21 @@ class InformasiAnggaranPenerimaanController extends MyAuthController
 		$model = new AGRealisasianggpenerimaanT;
 		$modTandaBuktiBayar = new AGTandabuktibayarT;
 		$modDetail = new AGRenanggaranpenerimaandetT;
-		$modPenerimaan = AGRenanggpenerimaanT::model()->findByPk($renanggpenerimaan_id);  
-		$modPenerimaan->deskripsiperiode = AGKonfiganggaranK::model()->findByPk($modPenerimaan->konfiganggaran_id)->deskripsiperiode;
-		$modPenerimaan->sumberanggarannama = AGSumberanggaranM::model()->findByPk($modPenerimaan->sumberanggaran_id)->sumberanggarannama;
-		//$digit = AGKonfiganggaranK::model()->findByPk($modPenerimaan->konfiganggaran_id)->digitnilaianggaran;
-		$digit_str = 1; //"1".$digit;
-		//$modPenerimaan->digitnilai = "/ ".$digit;
-		$modPenerimaan->nilaipenerimaananggaran = $format->formatNumberForPrint($modPenerimaan->nilaipenerimaananggaran / (int)$digit_str);
-		$model->transfer = 0;
+                $modPenerimaan = new AGRenanggpenerimaanT;
+		if (!empty($renanggpenerimaan_id)) {
+                    $modPenerimaan = AGRenanggpenerimaanT::model()->findByPk($renanggpenerimaan_id);  
+                    $modPenerimaan->deskripsiperiode = AGKonfiganggaranK::model()->findByPk($modPenerimaan->konfiganggaran_id)->deskripsiperiode;
+                    $modPenerimaan->sumberanggarannama = AGSumberanggaranM::model()->findByPk($modPenerimaan->sumberanggaran_id)->sumberanggarannama;
+                    //$digit = AGKonfiganggaranK::model()->findByPk($modPenerimaan->konfiganggaran_id)->digitnilaianggaran;
+                    $digit_str = 1; //"1".$digit;
+                    //$modPenerimaan->digitnilai = "/ ".$digit;
+                    $modPenerimaan->nilaipenerimaananggaran = $format->formatNumberForPrint($modPenerimaan->nilaipenerimaananggaran / (int)$digit_str);
+                }
+                $model->transfer = 0;
 		$model->cek = 0;
 
 		if (isset($_POST['AGTandabuktibayarT'])){
+                        // var_dump($_POST); die;
 			$transaction = Yii::app()->db->beginTransaction();
             try{
 				$modTandaBuktiBayar->attributes = $_POST['AGTandabuktibayarT'];
@@ -116,12 +120,13 @@ class InformasiAnggaranPenerimaanController extends MyAuthController
                                 
 				if ($modTandaBuktiBayar->save()){
 					$this->tandaBayar = true;
+                                                // var_dump($_POST);
 						$model->attributes = $_POST['AGRealisasianggpenerimaanT'];
 						$model->create_time = date("Y-m-d H:i:s");
 						$model->create_loginpemakai_id = Yii::app()->user->id;
 						$model->create_ruangan = Yii::app()->user->ruangan_id;
 						$model->tandabuktibayar_id = $modTandaBuktiBayar->tandabuktibayar_id;
-						$model->renanggpenerimaan_id = $_GET['renanggpenerimaan_id'];
+						$model->renanggpenerimaan_id = $_POST['AGRenanggpenerimaanT']['renanggpenerimaan_id']; //$_GET['renanggpenerimaan_id'];
 						$model->tglrealisasianggpen = $modTandaBuktiBayar->tglbuktibayar;
 						$model->norealisasianggpen = $_POST['AGRenanggpenerimaanT']['noren_penerimaan'];
 						$jumlahTermin = AGRenanggaranpenerimaandetT::model()->findAllByAttributes(array('renanggpenerimaan_id'=>$model->renanggpenerimaan_id));
@@ -129,7 +134,7 @@ class InformasiAnggaranPenerimaanController extends MyAuthController
 						$model->berapaxpenerimaan = $berapaxpenerimaan;
 						$model->penerimaanke = $_POST['AGRealisasianggpenerimaanT']['renanggaranpenerimaandet_id'];
 						$model->carapembayaran =$modTandaBuktiBayar->carapembayaran ;
-						//var_dump($model->attributes);
+						// var_dump($model->attributes); die;
                                                 if ($model->save()){
 							$this->realisasiPenerimaan = true;
 						}
@@ -147,11 +152,11 @@ class InformasiAnggaranPenerimaanController extends MyAuthController
 								}
 								$detail = AGRenanggaranpenerimaandetT::model()->findAll($criteria);
 								$jmlDetail = count($detail);
-							if ($jmlRealisasis == $jmlDetail){
-								$this->redirect(array('index','renanggpenerimaan_id'=>$model->renanggpenerimaan_id,'frame'=>1,'sukses'=>1));
-							}else{
+							//if ($jmlRealisasis == $jmlDetail){
+							//	$this->redirect(array('index','renanggpenerimaan_id'=>$model->renanggpenerimaan_id,'frame'=>1,'sukses'=>1));
+							//}else{
 								$this->redirect(array('realisasi','renanggpenerimaan_id'=>$model->renanggpenerimaan_id,'realisasianggpenerimaan_id'=>$model->realisasianggpenerimaan_id,'frame'=>1,'sukses'=>1));
-							}
+							//}
 					}else{
 						$transaction->rollback();
 						Yii::app()->user->setFlash('error',"Data Realisasi Anggaran Penerimaan gagal disimpan !");
@@ -204,8 +209,8 @@ class InformasiAnggaranPenerimaanController extends MyAuthController
 			//$digit = AGKonfiganggaranK::model()->findByPk($modPenerimaan->konfiganggaran_id)->digitnilaianggaran;
 			$digit_str = 1;//"1".$digit;
 			$modDetail =  AGRenanggaranpenerimaandetT::model()->findByPk($renanggaranpenerimaandet_id);
-			$data['nilaipenerimaan'] = MyFormatter::formatNumberForPrint($modDetail->nilaipenerimaan / (int)$digit_str);
-			$data['renanggaran_ke'] = $modDetail->renanggaran_ke;
+			$data['nilaipenerimaan'] = empty($modDetail)?0:MyFormatter::formatNumberForPrint($modDetail->nilaipenerimaan / (int)$digit_str);
+			$data['renanggaran_ke'] = empty($modDetail)?null:$modDetail->renanggaran_ke;
 			echo json_encode($data);
 			Yii::app()->end();
 		}
@@ -261,4 +266,23 @@ class InformasiAnggaranPenerimaanController extends MyAuthController
         Yii::app()->end();
     }
 	
+    
+    public function actionAutocompletePenerimaan()
+    {
+        if(Yii::app()->request->isAjaxRequest) {
+            $returnVal = array();
+            $model = new AGRenanggpenerimaanT;
+            $model->noren_penerimaan = $_GET['term'];
+            $provider = $model->searchInformasiAnggPenBelumRelasasi();
+            
+            foreach ($provider->data as $item) {
+                $sum = array();
+                $sum['label'] = $item->noren_penerimaan;
+                $sum['data'] = CJSON::decode($item->json);
+                array_push($returnVal, $sum);
+            }
+            
+            echo CJSON::encode($returnVal);
+        }
+    }
 }
