@@ -24,6 +24,11 @@ echo CHtml::css('.control-label{
     td .tengah{
        text-align: center;  
     }
+    
+    .colon {
+        padding-right: 5px;
+        padding-left: 5px;
+    }
 ');
 ?>
 
@@ -32,54 +37,37 @@ echo CHtml::css('.control-label{
         <td>
             <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
-                    <td width="50%">
-                        <label class='control-label'>
-                            No. Pengajuan Klaim:
-                        </label>
-                            <?php echo CHtml::encode(($modPengajuanKlaim->nopengajuanklaimanklaim)); ?> / 
-                    </td>
-                    <Td width="5%"></td>
-                    <td>
-                        <label class='control-label'>
-                            Cara Bayar / Penjamin :
-                        </label>
-                        <?php
-                            echo CHtml::encode(($modPengajuanKlaim->carabayar->carabayar_nama ."/".$modPengajuanKlaim->penjamin->penjamin_nama));
-                        ?>
-                    </td>
+                    <td>No. Pengajuan Klaim</td>
+                    <td class="colon">: </td>
+                    <td width="100%"><?php echo CHtml::encode(($modPengajuanKlaim->nopengajuanklaimanklaim)); ?> / </td>
+                    
+
+                    <td nowrap>Cara Bayar / Penjamin</td>
+                    <td class="colon">: </td>
+                    <td nowrap> <?php echo CHtml::encode(($modPengajuanKlaim->carabayar->carabayar_nama ."/".$modPengajuanKlaim->penjamin->penjamin_nama)); ?> </td>
                 </tr>
+                
                 <tr>
-                    <td>
-                        <label class='control-label'>
-                            Tgl. Pengajuan Klaim:
-                        </label>
-                        <?php echo CHtml::encode(MyFormatter::formatDateTimeForUser($modPengajuanKlaim->tglpengajuanklaimanklaim)); ?>
-                    </td>
-                    <Td></td>
-                    <td>   
-                        <label class='control-label'>
-                            Tgl. Jatuh Tempo:
-                        </label>
-                        <?php
-                            echo CHtml::encode(MyFormatter::formatDateTimeForUser($modPengajuanKlaim->tgljatuhtempo));   
-                        ?>
-                    </td>
+                    <td nowrap>Tgl. Pengajuan Klaim</td>
+                    <td class="colon">: </td>
+                    <td><?php echo CHtml::encode(MyFormatter::formatDateTimeForUser($modPengajuanKlaim->tglpengajuanklaimanklaim)); ?> </td>
+                    
+
+                    <td>Tgl. Jatuh Tempo</td>
+                    <td class="colon">: </td>
+                    <td nowrap> <?php echo CHtml::encode(MyFormatter::formatDateTimeForUser($modPengajuanKlaim->tgljatuhtempo)); ?> </td>
                 </tr>
+                
                 <tr>
-                    <td>
-                        <label class='control-label'>
-                            Total Piutang:
-                        </label>
-                            <?php echo CHtml::encode(MyFormatter::formatNumberForUser($modPengajuanKlaim->totalpiutang)); ?>
-                    </td>
-                    <Td></td>
-                    <td>   
-                        <label class='control-label'>
-                            Total Sisa Piutang:
-                        </label>
-                            <?php echo CHtml::encode(MyFormatter::formatNumberForUser($modPengajuanKlaim->totalsisapiutang)); ?>
-                    </td>
-                </tr>                
+                    <td>Total Piutang</td>
+                    <td class="colon">: </td>
+                    <td><?php echo CHtml::encode(MyFormatter::formatNumberForUser($modPengajuanKlaim->totalpiutang)); ?> </td>
+                    
+
+                    <td>Total Sisa Piutang</td>
+                    <td class="colon">: </td>
+                    <td nowrap> <?php echo CHtml::encode(MyFormatter::formatNumberForUser($modPengajuanKlaim->totalsisapiutang)); ?> </td>
+                </tr>               
             </table>            
         </td>
     </tr>

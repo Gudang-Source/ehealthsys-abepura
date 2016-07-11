@@ -63,9 +63,9 @@
 		<?php $disablePrint = ($disableSave) ? false : true; ?>
 		<?php echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit','disabled'=>$disableSave)); ?>
 		<?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
-				$this->createUrl('index'),array('class'=>'btn btn-danger','onclick'=>'if(!confirm("'.Yii::t('mds','Apakah anda akan mengulang input data ?').'")) return false;')); ?>
+				$this->createUrl('index'),array('class'=>'btn btn-danger','onclick'=>'myConfirm("Apakah Anda yakin ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;')); ?>
 		<?php echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info', 'onclick'=>"print('PRINT')",'disabled'=>$disablePrint)); ?>
-		<?php	$content = $this->renderPartial($this->path_view.'tips/transaksi1',array(),true);
+		<?php	$content = $this->renderPartial('sistemAdministrator.views.tips.tipsaddedit5a',array(),true);
 				$this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); ?>
     </div>
 </div>
@@ -80,15 +80,20 @@ function print(caraPrint)
 
 function setPengajuanLinen(id)
 {
-    $.post('<?php echo $this->createUrl("LoadFormPengLinen"); ?>', {id: id}, function(data) {
-        $("#LAPenerimaanlinenT_pengperawatanlinen_id").val(data.pengperawatanlinen_id);
-        $("#LAPenerimaanlinenT_pengperawatanlinen_no").val(data.pengperawatanlinen_no);
-        $("#LAPenerimaanlinenT_instalasi_nama").val(data.instalasi_nama);
-        $("#LAPenerimaanlinenT_ruangan_nama").val(data.ruangan_nama);
-        $("#LAPenerimaanlinenT_ruangan_id").val(data.ruangan_id);
-        $("#LAPenerimaanlinenT_keterangan_penerimaanlinen").val(data.keterangan_penerimaanlinen);
+    $.post('<?php echo $this->createUrl("LoadFormPengLinen"); ?>', {id: id}, function(data) {        
+        if(data.sukses == 1){
+             $("#LAPenerimaanlinenT_pengperawatanlinen_id").val(data.pengperawatanlinen_id);
+            $("#LAPenerimaanlinenT_pengperawatanlinen_no").val(data.pengperawatanlinen_no);
+            $("#LAPenerimaanlinenT_instalasi_nama").val(data.instalasi_nama);
+            $("#LAPenerimaanlinenT_ruangan_nama").val(data.ruangan_nama);
+            $("#LAPenerimaanlinenT_ruangan_id").val(data.ruangan_id);
+            $("#LAPenerimaanlinenT_keterangan_penerimaanlinen").val(data.keterangan_penerimaanlinen);
+
+            $("#table-linen tbody").empty().append(data.det);             
+        }else{
+                myAlert(data.pesan);
+        }
         
-        $("#table-linen tbody").empty().append(data.det);
     }, "json");
 }
 </script>
