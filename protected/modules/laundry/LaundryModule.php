@@ -2,7 +2,7 @@
 
 class LaundryModule extends CWebModule
 {
-    public $defaultController = 'PenyimpananLinen';
+    public $defaultController = 'ModuleDashboardLD';
 
     public $kelompokMenu = array();
     public $menu = array();
