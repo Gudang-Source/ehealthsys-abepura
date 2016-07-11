@@ -127,20 +127,20 @@ class PengajuanKlaimPiutangController extends MyAuthController
 				$tr .= '<td>' . (isset($row->pendaftaran->penanggungJawab->nama_pj) ? $row->pendaftaran->penanggungJawab->nama_pj : "")."-".(isset($row->pendaftaran->penanggungJawab->pengantar) ? $row->pendaftaran->penanggungJawab->pengantar : "") . '</td>';
 				$tr .= '<td>' . $row->nopembayaran . '</td>';
 				if ($text == true){
-					$tr .= '<td>'.number_format($row->totalbiayapelayanan).'</td>';
-					$tr .= '<td>'.number_format($row->totalsisatagihan).'</td>';
-					$tr .= '<td>'.number_format($row->uangditerima).'</td>';
-					$tr .= '<td>'.number_format($row->totalbayartindakan).'</td>';
-					$tr .= '<td>'.number_format($row->totalsisatagihan).'</td>';
+					$tr .= '<td>'.MyFormatter::formatNumberForPrint($row->totalbiayapelayanan).'</td>';
+					$tr .= '<td>'.MyFormatter::formatNumberForPrint($row->totalsisatagihan).'</td>';
+					$tr .= '<td>'.MyFormatter::formatNumberForPrint($row->uangditerima).'</td>';
+					$tr .= '<td>'.MyFormatter::formatNumberForPrint($row->totalbayartindakan).'</td>';
+					$tr .= '<td>'.MyFormatter::formatNumberForPrint($row->totalsisatagihan).'</td>';
 				}else{
-					$tr .= '<td>' . CHtml::textField('BKPengajuanklaimdetailT['.$i.'][jmltagihan]', number_format($row->totalbiayapelayanan), array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmltagihan integer ', 'readonly' => false,'onkeyup'=>'hitungSemuaTransaksi()')) . '</td>';
-					$tr .= '<td>' . CHtml::textField('BKPengajuanklaimdetailT['.$i.'][jmlbayar]', number_format($row->totalbayartindakan), array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmltagihan integer ', 'readonly' => false,'onkeyup'=>'hitungSemuaTransaksi()')) . '</td>';
-					$tr .= '<td>' . CHtml::textField('BKPengajuanklaimdetailT['.$i.'][jmlpiutang]', (empty($row->pembklaimdetal_id) ? number_format($jumlahPiutang) : number_format($row->detailklaim->jmlpiutang)), array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlpiutang integer ', 'onkeyup' => 'hitungJumlahPiutang(this);')) . 
-									CHtml::hiddenField('BKPengajuanklaimdetailT['.$i.'][jmlpiutang2]', (empty($row->pembklaimdetal_id) ? number_format($row->totalsisatagihan) : number_format($row->detailklaim->jmlpiutang)), array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlpiutang2 integer')) .
+					$tr .= '<td>' . CHtml::textField('BKPengajuanklaimdetailT['.$i.'][jmltagihan]', MyFormatter::formatNumberForPrint($row->totalbiayapelayanan), array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmltagihan integer2 ', 'readonly' => true,'onkeyup'=>'hitungSemuaTransaksi()')) . '</td>';
+					$tr .= '<td>' . CHtml::textField('BKPengajuanklaimdetailT['.$i.'][jmlbayar]', MyFormatter::formatNumberForPrint($row->totalbayartindakan), array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmltagihan integer2 ', 'readonly' => false,'onkeyup'=>'hitungSemuaTransaksi()')) . '</td>';
+					$tr .= '<td>' . CHtml::textField('BKPengajuanklaimdetailT['.$i.'][jmlpiutang]', (empty($row->pembklaimdetal_id) ? MyFormatter::formatNumberForPrint($jumlahPiutang) : MyFormatter::formatNumberForPrint($row->detailklaim->jmlpiutang)), array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlpiutang integer2 ', 'onkeyup' => 'hitungJumlahPiutang(this);')) . 
+									CHtml::hiddenField('BKPengajuanklaimdetailT['.$i.'][jmlpiutang2]', (empty($row->pembklaimdetal_id) ? MyFormatter::formatNumberForPrint($row->totalsisatagihan) : MyFormatter::formatNumberForPrint($row->detailklaim->jmlpiutang)), array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlpiutang2 integer2')) .
 						   '</td>';
 //                        $tr .= '<td>' . CHtml::textField('BKPengajuanklaimdetailT['.$i.'][jmltelahbayar]', (empty($row->pembklaimdetal_id) ? (empty($row->detailklaim->telahbayar) ? "0" : number_format($row->tandabukti->jmlpembayaran)) : number_format($row->detailklaim->jmltelahbayar)), array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmltelahbayar integer ', 'onkeyup' => 'hitungJumlahTelahBayar();')) . '</td>';
 //                        $tr .= '<td>' . CHtml::textField('BKPengajuanklaimdetailT['.$i.'][jmlbayar]', (empty($row->pembklaimdetal_id) ? number_format($row->tandabukti->jmlpembayaran) : number_format($row->detailklaim->jmlpiutang - $row->detailklaim->jmltelahbayar) ), array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlbayar integer ', 'onkeyup' => 'hitungSisaTagihan();')) . '</td>';
-					$tr .= '<td>' . CHtml::textField('BKPengajuanklaimdetailT['.$i.'][jmlsisatagihan]',(empty($row->pembklaimdetal_id) ? (empty($row->detailklaim->jmlsisapiutang) ? "0" : number_format($row->totalbiayapelayanan - $row->tandabukti->jmlpembayaran)) : number_format($row->detailklaim->jmlpiutang - ($row->detailklaim->jmltelahbayar + ($row->detailklaim->jmlpiutang - $row->detailklaim->jmltelahbayar)))) , array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlsisatagihan integer ', 'onkeyup' => 'hitungSemuaTransaksi();')). '</td>';
+					$tr .= '<td>' . CHtml::textField('BKPengajuanklaimdetailT['.$i.'][jmlsisatagihan]',(empty($row->pembklaimdetal_id) ? (empty($row->detailklaim->jmlsisapiutang) ? "0" : MyFormatter::formatNumberForPrint($row->totalbiayapelayanan - $row->tandabukti->jmlpembayaran)) : number_format($row->detailklaim->jmlpiutang - ($row->detailklaim->jmltelahbayar + ($row->detailklaim->jmlpiutang - $row->detailklaim->jmltelahbayar)))) , array('style'=>'width:70px;','class' => 'inputFormTabel span3 jmlsisatagihan integer2 ', 'onkeyup' => 'hitungSemuaTransaksi();', 'readonly'=>true)). '</td>';
 
 					$tr .= '<td>' . CHtml::checkBox('BKPengajuanklaimdetailT['.$i.'][cekList]', true, array('value'=>$row->pembayaranpelayanan_id,'class' => 'cek', 'onClick' => 'setAll();')) .
 									CHtml::hiddenField('BKPengajuanklaimdetailT['.$i.'][pendaftaran_id]', $row->pendaftaran_id, array('style'=>'width:70px;','class' => 'inputFormTabel integer span3 jmlsisatagihan',)).
@@ -196,7 +196,6 @@ class PengajuanKlaimPiutangController extends MyAuthController
     protected function validasiTabular($modPengajuanKlaim, $data) {
         foreach ($data as $i => $row) {
             if($row['cekList'] == 1){
-                
                 $modDetails[$i] = new BKPengajuanklaimdetailT();
                 $modDetails[$i]->attributes = $row;                
                 $modDetails[$i]->pendaftaran_id = $row['pendaftaran_id'];
@@ -204,7 +203,7 @@ class PengajuanKlaimPiutangController extends MyAuthController
                 $modDetails[$i]->pengajuanklaimpiutang_id = $modPengajuanKlaim->pengajuanklaimpiutang_id;
                 $modDetails[$i]->pembayaranpelayanan_id = $row['pembayaranpelayanan_id'];
                 $modDetails[$i]->tandabuktibayar_id = $row['tandabuktibayar_id'];
-                $modDetails[$i]->jmlpiutang = $row['jmlpiutang']-$row['jmlbayar'];
+                $modDetails[$i]->jmlpiutang = $row['jmlpiutang']; //-$row['jmlbayar'];
                 $modDetails[$i]->jumlahbayar = $row['jmlbayar'];
                 $modDetails[$i]->jmltelahbayar = $row['jmlbayar'];
                 $modDetails[$i]->jmlsisapiutang = $row['jmlsisatagihan'];
