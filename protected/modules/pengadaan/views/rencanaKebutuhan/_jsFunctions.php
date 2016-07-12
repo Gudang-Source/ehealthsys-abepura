@@ -1,3 +1,7 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
+
 <script type="text/javascript">
 function tambahObatAlkes()
 {
@@ -14,8 +18,8 @@ function tambahObatAlkes()
                 success:function(data){
                     $('#table-obatalkespasien > tbody').append(data.form);
                     $("#table-obatalkespasien").find('input[name$="[ii][obatalkes_id]"]').val(obatalkes_id);
-                    $("#table-obatalkespasien").find('input[name*="[ii]"][class*="integer"]').maskMoney(
-                        {"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0}
+                    $("#table-obatalkespasien").find('input[name*="[ii]"][class*="integer2"]').maskMoney(
+                        {"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0}
                     );
                     renameInputRowObatAlkes($("#table-obatalkespasien"));  
                     $('#table-obatalkespasien tbody tr').each(function() {
@@ -140,20 +144,20 @@ function print(caraPrint)
 }
 
 /**
- * class integer di unformat 
+ * class integer2 di unformat 
  * @returns {undefined}
  */
 function unformatNumberSemua(){
-    $(".integer").each(function(){
+    $(".integer2").each(function(){
         $(this).val(parseInt(unformatNumber($(this).val())));
     });
 }
 /**
- * class integer di format kembali
+ * class integer2 di format kembali
  * @returns {undefined}
  */
 function formatNumberSemua(){
-    $(".integer").each(function(){
+    $(".integer2").each(function(){
         $(this).val(formatInteger($(this).val()));
     });
 }
@@ -172,7 +176,7 @@ function cekObat(){
         $("form").find('.float').each(function(){
             $(this).val(formatFloat($(this).val()));
         });
-        $("form").find('.integer').each(function(){
+        $("form").find('.integer2').each(function(){
             $(this).val(formatInteger($(this).val()));
         });
     }
@@ -196,12 +200,15 @@ function hitungRO(){
 			success:function(data){
 				$('#table-obatalkespasien > tbody > tr').detach();
 				$('#table-obatalkespasien > tbody').append(data.form);
-				$("#table-obatalkespasien").find('input[name*="[ii]"][class*="integer"]').maskMoney(
-					{"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0}
+				$("#table-obatalkespasien").find('input[name*="[ii]"][class*="integer2"]').maskMoney(
+					{"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0}
 				);
 				$('#<?php echo CHtml::activeId($modRencanaKebFarmasi,'leadtime_lt'); ?>').val(data.lead_time);
 				renameInputRowObatAlkes($("#table-obatalkespasien"));                    
 				hitungTotal();
+                                $('#table-obatalkespasien tbody tr').each(function() {
+                                    pilihSatuan($(this).find('select[name$="[satuanobat]"]'));
+                                });
 				$('#table-obatalkespasien').removeClass("animation-loading");
 			},
 			error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}

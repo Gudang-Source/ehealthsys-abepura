@@ -244,7 +244,8 @@ class PegawairuanganV extends CActiveRecord
         }
         
         public function getNamaLengkap() {
-            return $this->gelardepan." ".$this->nama_pegawai.(!empty($this->gelarbelakang_id)?", ".$this->gelarbelakang_nama:"");
+            $pegawai = PegawaiM::model()->findByPk($this->pegawai_id);
+            return $pegawai->namaLengkap;
         }
         
 }

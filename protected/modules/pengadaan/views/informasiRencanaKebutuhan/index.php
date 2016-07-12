@@ -29,31 +29,44 @@ $('#divSearch-form form').submit(function(){
                         'type'=>'raw',
                         'value'=>'$data->ruangan_nama',
                     ),
-					array(
-						'header'=>'Pegawai Mengetahui',
-						'type'=>'raw',
-						'value'=>'(isset($data->pegawaimengetahui_id)? $data->PegawaimengetahuiLengkap : "-").
-						(isset($data->tglmengetahui) ? "<br>".MyFormatter::formatDateTimeId($data->tglmengetahui) : 
-						(!isset($data->pegawaimengetahui_id)? "" :
-						(!isset($data->tglmenyetujui) ? "" : CHtml::link("<icon class=\'icon-form-check\'></icon> ", Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/Mengetahui", array("rencanakebfarmasi_id"=>$data->rencanakebfarmasi_id,"frame"=>true)), array("target"=>"frameMengetahui","rel"=>"tooltip", "title"=>"Klik untuk approvement mengetahui", "onclick"=>"$(\'#dialogMengetahui\').dialog(\'open\');")))
-						))',
-					),
-					array(
-						'header'=>'Pegawai Menyetujui',
-						'type'=>'raw',
-						'value'=>'(isset($data->pegawaimenyetujui_id)? $data->PegawaimenyetujuiLengkap : "-").
-								(isset($data->tglmenyetujui) ? 
-								"<br>".MyFormatter::formatDateTimeId($data->tglmenyetujui) : 
-									((isset($data->pegawaimenyetujui_id))&&(isset($data->pegawaimengetahui_id)) ? 
-										(($data->statusrencana != "DITOLAK")?
-											CHtml::link("<icon class=\'icon-form-check\'></icon> ", Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/Menyetujui", array("rencanakebfarmasi_id"=>$data->rencanakebfarmasi_id,"frame"=>true)), array("target"=>"frameMenyetujui","rel"=>"tooltip", "title"=>"Klik untuk approvement menyetujui", "onclick"=>"$(\'#dialogMenyetujui\').dialog(\'open\');")) :
-											"<a rel=\'tooltip\' title=\'Rencana ini sudah ditolak\'><icon class=\'icon-form-check\' style=\'opacity: 0.3\'></icon></a> "
-										)
-										: 
-											"<a rel=\'tooltip\' title=\'Tombol akan aktif jika data memiliki nama mengetahui dan menyetujui\'><icon class=\'icon-form-check\' style=\'opacity: 0.3\'></icon></a> "
-									)
-						)',
-					),
+                    array(
+                            'header'=>'Dibuat Oleh',
+                            'type'=>'raw',
+                            'value'=>'$data->pegawai_gelardepan." ".$data->pegawai_nama.", ".$data->pegawai_gelarbelakang',
+                    ),
+                    array(
+                            'header'=>'Keterangan Rencana',
+                            'type'=>'raw',
+                            'value'=>function($data) {
+                                $r = RencanakebfarmasiT::model()->findByPk($data->rencanakebfarmasi_id);
+                                return $r->keterangan_rencana;
+                            }
+                    ),
+                    array(
+                            'header'=>'Pegawai Mengetahui',
+                            'type'=>'raw',
+                            'value'=>'(isset($data->pegawaimengetahui_id)? $data->PegawaimengetahuiLengkap : "-").
+                            (isset($data->tglmengetahui) ? "<br>".MyFormatter::formatDateTimeId($data->tglmengetahui) : 
+                            (!isset($data->pegawaimengetahui_id)? "" :
+                            (!isset($data->tglmenyetujui) ? "" : CHtml::link("<icon class=\'icon-form-check\'></icon> ", Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/Mengetahui", array("rencanakebfarmasi_id"=>$data->rencanakebfarmasi_id,"frame"=>true)), array("target"=>"frameMengetahui","rel"=>"tooltip", "title"=>"Klik untuk approvement mengetahui", "onclick"=>"$(\'#dialogMengetahui\').dialog(\'open\');")))
+                            ))',
+                    ),
+                    array(
+                            'header'=>'Pegawai Menyetujui',
+                            'type'=>'raw',
+                            'value'=>'(isset($data->pegawaimenyetujui_id)? $data->PegawaimenyetujuiLengkap : "-").
+                                            (isset($data->tglmenyetujui) ? 
+                                            "<br>".MyFormatter::formatDateTimeId($data->tglmenyetujui) : 
+                                                    ((isset($data->pegawaimenyetujui_id))&&(isset($data->pegawaimengetahui_id)) ? 
+                                                            (($data->statusrencana != "DITOLAK")?
+                                                                    CHtml::link("<icon class=\'icon-form-check\'></icon> ", Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/Menyetujui", array("rencanakebfarmasi_id"=>$data->rencanakebfarmasi_id,"frame"=>true)), array("target"=>"frameMenyetujui","rel"=>"tooltip", "title"=>"Klik untuk approvement menyetujui", "onclick"=>"$(\'#dialogMenyetujui\').dialog(\'open\');")) :
+                                                                    "<a rel=\'tooltip\' title=\'Rencana ini sudah ditolak\'><icon class=\'icon-form-check\' style=\'opacity: 0.3\'></icon></a> "
+                                                            )
+                                                            : 
+                                                                    "<a rel=\'tooltip\' title=\'Tombol akan aktif jika data memiliki nama mengetahui dan menyetujui\'><icon class=\'icon-form-check\' style=\'opacity: 0.3\'></icon></a> "
+                                                    )
+                            )',
+                    ),
                     array(
                         'name'=>'statusrencana',
                         'type'=>'raw',
@@ -75,17 +88,6 @@ $('#divSearch-form form').submit(function(){
 						'htmlOptions'=>array('style'=>'text-align:center;'),
                     ),
                     array(
-                        'header'=>'Permintaan Pembelian',
-                        'type'=>'raw',
-                        'value'=>'((isset($data->tglmenyetujui))&&(isset($data->tglmengetahui)) ?
-									CHtml::Link("<i class=\"icon-form-mintabeli\"></i>","'.$this->createUrl($this->path_permintaan."/Index").'&rencana_id=$data->rencanakebfarmasi_id",
-										array("class"=>"", "rel"=>"tooltip","title"=>"Klik Mendaftarkan Ke Permintaan Pembelian",)) :
-									"<a rel=\'tooltip\' title=\'Tombol akan aktif jika rencana sudah disetujui dan diketahui\'><icon class=\'icon-form-mintabeli\' style=\'opacity: 0.3\'></icon></a> "
-									)
-						',
-                        'htmlOptions'=>array('style'=>'text-align:center;'),
-                    ),
-                    array(
                         'header'=>'Permintaan Penawaran',
                         'type'=>'raw',
                         'value'=>'((isset($data->tglmenyetujui))&&(isset($data->tglmengetahui)) ?
@@ -93,6 +95,17 @@ $('#divSearch-form form').submit(function(){
 										array("class"=>"", "rel"=>"tooltip","title"=>"Klik Mendaftarkan Ke Permintaan Penawaran",)) :
 									"<a rel=\'tooltip\' title=\'Tombol akan aktif jika rencana sudah disetujui dan diketahui\'><icon class=\'icon-form-mintatawar\' style=\'opacity: 0.3\'></icon></a> "
 									)	
+						',
+                        'htmlOptions'=>array('style'=>'text-align:center;'),
+                    ),
+                    array(
+                        'header'=>'Permintaan Pembelian',
+                        'type'=>'raw',
+                        'value'=>'((isset($data->tglmenyetujui))&&(isset($data->tglmengetahui)) ?
+									CHtml::Link("<i class=\"icon-form-mintabeli\"></i>","'.$this->createUrl($this->path_permintaan."/Index").'&rencana_id=$data->rencanakebfarmasi_id",
+										array("class"=>"", "rel"=>"tooltip","title"=>"Klik Mendaftarkan Ke Permintaan Pembelian",)) :
+									"<a rel=\'tooltip\' title=\'Tombol akan aktif jika rencana sudah disetujui dan diketahui\'><icon class=\'icon-form-mintabeli\' style=\'opacity: 0.3\'></icon></a> "
+									)
 						',
                         'htmlOptions'=>array('style'=>'text-align:center;'),
                     ),

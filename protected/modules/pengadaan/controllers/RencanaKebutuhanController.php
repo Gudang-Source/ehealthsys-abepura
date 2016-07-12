@@ -9,7 +9,10 @@ class RencanaKebutuhanController extends MyAuthController{
         $format = new MyFormatter();
         $modRencanaKebFarmasi = new ADRencanaKebFarmasiT;
         $modRencanaKebFarmasi->tglperencanaan = date('Y-m-d H:i:s');
+        $modRencanaKebFarmasi->pegawai_id = Yii::app()->user->getState('pegawai_id');
+        if (!empty($modRencanaKebFarmasi->pegawai_id)) $modRencanaKebFarmasi->nama_pegawai = $modRencanaKebFarmasi->pegawai->namaLengkap;
         $modDetails = array();
+        $modRencanaKebFarmasi->noperencnaan = MyGenerator::noPerencanaan();
         if(!empty($rencanakebfarmasi_id)){
             $modRencanaKebFarmasi= ADRencanaKebFarmasiT::model()->findByPk($rencanakebfarmasi_id);
             $modRencanaKebFarmasi->pegawaimengetahui_nama = !empty($modRencanaKebFarmasi->pegawaimengetahui->NamaLengkap) ? $modRencanaKebFarmasi->pegawaimengetahui->NamaLengkap : "";
@@ -25,20 +28,23 @@ class RencanaKebutuhanController extends MyAuthController{
                     $pegawai = Yii::app()->user->getState('pegawai_id');
                     if (empty($pegawai)) $pegawai = '0';
                     $modRencanaKebFarmasi->attributes=$_POST['ADRencanaKebFarmasiT'];
+                    $modRencanaKebFarmasi->keterangan_rencana = $_POST['ADRencanaKebFarmasiT']['keterangan_rencana'];
+                    
 					$modRencanaKebFarmasi->tglperencanaan=$format->formatDateTimeForDb($_POST['ADRencanaKebFarmasiT']['tglperencanaan']);
 					if(isset($_GET['ubah'])){
 						$modRencanaKebFarmasi->update_time = date('Y-m-d H:i:s');
 						$modRencanaKebFarmasi->update_loginpemakai_id = Yii::app()->user->id;
 					}else{
-						$modRencanaKebFarmasi->noperencnaan = MyGenerator::noPerencanaan();
+						// $modRencanaKebFarmasi->noperencnaan = MyGenerator::noPerencanaan();
 						$modRencanaKebFarmasi->ruangan_id = Yii::app()->user->getState('ruangan_id');
-						$modRencanaKebFarmasi->pegawai_id = $pegawai;
+						// if (empty()) $modRencanaKebFarmasi->pegawai_id = $pegawai;
 						$modRencanaKebFarmasi->tglperencanaan=$format->formatDateTimeForDb($_POST['ADRencanaKebFarmasiT']['tglperencanaan']);
 						$modRencanaKebFarmasi->create_time = date('Y-m-d H:i:s');
 						$modRencanaKebFarmasi->create_loginpemakai_id = Yii::app()->user->id;
 						$modRencanaKebFarmasi->create_ruangan = Yii::app()->user->ruangan_id;
 					}
                     $modRencanaKebFarmasi->statusrencana = "BELUM DISETUJUI"; // sesuaikan dengan lookup_m where lookup_type = 'statusrencana'
+                    // var_dump($_POST, $modRencanaKebFarmasi->attributes); die;
                     if($modRencanaKebFarmasi->save()){
 						if(isset($_GET['ubah'])){
 							$modRencanaDetailKeb = ADRencDetailkebT::model()->deleteAllByAttributes(array('rencanakebfarmasi_id'=>$modRencanaKebFarmasi->rencanakebfarmasi_id));
@@ -382,7 +388,7 @@ class RencanaKebutuhanController extends MyAuthController{
 					$modRencanaDetailKeb->on_order = $o;
 					$modRencanaDetailKeb->x_ratapemakaian = $x;
 					$modRencanaDetailKeb->stokonhand = $soh;
-					$modRencanaDetailKeb->harganettorenc = $obat->harganetto;
+					$modRencanaDetailKeb->harganettorenc = $obat->harganetto + ($obat->harganetto * ($obat->ppn_persen/100));
 //					$modRencanaDetailKeb->stokakhir = StokobatalkesT::getJumlahStok($obatalkes_id, Yii::app()->user->getState('ruangan_id'));
 					$modRencanaDetailKeb->stokakhir = $stokakhir;
 					$modRencanaDetailKeb->maksimalstok = $obat->maksimalstok;

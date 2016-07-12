@@ -62,7 +62,12 @@
                     </div>
                 </div>
                 
-                <?php echo $form->dropDownListRow($model,'ruangan_id',CHtml::listData(RuanganM::model()->getRuanganByInstalasi(Yii::app()->user->getState('instalasi_id')), 'ruangan_id', 'ruangan_nama'),
+                <?php echo $form->dropDownListRow($model,'ruangan_id',CHtml::listData(RuanganM::model()->findAllByAttributes(array(
+                    'instalasi_id'=>array(44, 9),
+                ), array(
+                    'condition'=>'ruangan_aktif = true',
+                    'order'=>'ruangan_nama',
+                )), 'ruangan_id', 'ruangan_nama'),
                         array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",
                         'empty'=>'-- Pilih --','style'=>'width:130px;')); ?>
                 

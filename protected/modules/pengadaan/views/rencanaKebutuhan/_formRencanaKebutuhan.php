@@ -1,8 +1,6 @@
-<div class = "span5">
+<div class = "span6">
     <?php echo CHtml::hiddenField('rencanakebfarmasi_id',$modRencanaKebFarmasi->rencanakebfarmasi_id,array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
-    <?php if((isset($_GET['sukses']))||(isset($_GET['ubah']))){ ?>
-            <?php echo $form->textFieldRow($modRencanaKebFarmasi,'noperencnaan',array('readonly'=>true,'class'=>'span3 isRequired', 'onkeyup'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
-    <?php } ?>
+    <?php echo $form->textFieldRow($modRencanaKebFarmasi,'noperencnaan',array('readonly'=>true,'class'=>'span3 isRequired', 'onkeyup'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
         <div class="control-group ">
             <?php echo $form->labelEx($modRencanaKebFarmasi,'tglperencanaan', array('class'=>'control-label')) ?>
                 <div class="controls">
@@ -23,8 +21,156 @@
                     )); ?>
                 </div>
         </div>
+    <div class="control-group ">
+        <?php echo CHtml::label('Waktu Pemakaian Obat', '', array('class'=>'control-label')); ?>
+        <div class="controls">
+                <?php echo CHtml::hiddenField('o','',array()); ?>
+                <?php echo CHtml::hiddenField('x','',array()); ?>
+                <?php echo CHtml::hiddenField('sd','',array()); ?>
+                <?php echo CHtml::hiddenField('soh','',array()); ?>
+                <?php echo CHtml::hiddenField('k','',array()); ?>
+                <?php echo CHtml::hiddenField('lt','',array()); ?>
+                <?php echo CHtml::hiddenField('buffer_stok','',array()); ?>
+                <?php echo CHtml::activeHiddenField($modRencanaKebFarmasi, 'leadtime_lt', array('readonly'=>false,'onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span2 numbers-only')) ?>
+                <?php echo CHtml::activeTextField($modRencanaKebFarmasi, 'jmlwaktupemakaian', array('readonly'=>false,'onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span2 numbers-only')) ?> bulan
+                <?php echo CHtml::htmlButton('<i class="icon-refresh icon-white"></i> Hitung RO',
+                                array('onclick'=>'hitungRO();return false;',
+                                          'class'=>'btn btn-primary',
+                                          'onkeyup'=>"hitungRO();",
+                                          'rel'=>"tooltip",
+                                          'title'=>"Klik untuk menghitung Recomended Order (RO)",)); ?>
+        </div>
+    </div>
+    <?php echo $form->textAreaRow($modRencanaKebFarmasi,'keterangan_rencana',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50)); ?>
 </div>
 <div class = "span5">
+    <div class="control-group ">
+            <?php echo $form->labelEx($modRencanaKebFarmasi, 'pegawai_id', array('class' => 'control-label')); ?>
+            <div class="controls">
+                    <?php echo $form->hiddenField($modRencanaKebFarmasi, 'pegawai_id',array('readonly'=>true)); ?>
+                    <?php
+                    $this->widget('MyJuiAutoComplete', array(
+                            'model'=>$modRencanaKebFarmasi,
+                            'attribute' => 'nama_pegawai',
+                            'source' => 'js: function(request, response) {
+                                                               $.ajax({
+                                                                       url: "' . $this->createUrl('AutocompletePegawaiMenyetujui') . '",
+                                                                       dataType: "json",
+                                                                       data: {
+                                                                               term: request.term,
+                                                                       },
+                                                                       success: function (data) {
+                                                                                       response(data);
+                                                                       }
+                                                               })
+                                                            }',
+                            'options' => array(
+                                    'showAnim' => 'fold',
+                                    'minLength' => 3,
+                                    'focus' => 'js:function( event, ui ) {
+                                            $(this).val( ui.item.label);
+                                            return false;
+                                    }',
+                                    'select' => 'js:function( event, ui ) {
+                                            $("#'.Chtml::activeId($modRencanaKebFarmasi, 'pegawai_id') . '").val(ui.item.pegawai_id); 
+                                            return false;
+                                    }',
+                            ),
+                            'htmlOptions' => array(
+                                    'class'=>'pegawai_nama',
+                                    'onkeyup'=>"return $(this).focusNextInputField(event)",
+                                    'onblur' => 'if(this.value === "") $("#'.Chtml::activeId($modRencanaKebFarmasi, 'pegawai_id') . '").val(""); '
+                            ),
+                            'tombolDialog' => array('idDialog' => 'dialogPegawaiGudang'),
+                    ));
+                    ?>
+            </div>
+    </div>
+    <div class="control-group ">
+            <?php echo $form->labelEx($modRencanaKebFarmasi, 'pegawaimengetahui_id', array('class' => 'control-label')); ?>
+            <div class="controls">
+                    <?php echo $form->hiddenField($modRencanaKebFarmasi, 'pegawaimengetahui_id',array('readonly'=>true)); ?>
+                    <?php
+                    $this->widget('MyJuiAutoComplete', array(
+                            'model'=>$modRencanaKebFarmasi,
+                            'attribute' => 'pegawaimengetahui_nama',
+                            'source' => 'js: function(request, response) {
+                                                               $.ajax({
+                                                                       url: "' . $this->createUrl('AutocompletePegawaiMengetahui') . '",
+                                                                       dataType: "json",
+                                                                       data: {
+                                                                               term: request.term,
+                                                                       },
+                                                                       success: function (data) {
+                                                                                       response(data);
+                                                                       }
+                                                               })
+                                                            }',
+                            'options' => array(
+                                    'showAnim' => 'fold',
+                                    'minLength' => 3,
+                                    'focus' => 'js:function( event, ui ) {
+                                            $(this).val( ui.item.label);
+                                            return false;
+                                    }',
+                                    'select' => 'js:function( event, ui ) {
+                                            $("#'.Chtml::activeId($modRencanaKebFarmasi, 'pegawaimengetahui_id') . '").val(ui.item.pegawai_id); 
+                                            return false;
+                                    }',
+                            ),
+                            'htmlOptions' => array(
+                                    'class'=>'pegawaimengetahui_nama',
+                                    'onkeyup'=>"return $(this).focusNextInputField(event)",
+                                    'onblur' => 'if(this.value === "") $("#'.Chtml::activeId($modRencanaKebFarmasi, 'pegawaimengetahui_id') . '").val(""); '
+                            ),
+                            'tombolDialog' => array('idDialog' => 'dialogPegawaiMengetahui'),
+                    ));
+                    ?>
+            </div>
+    </div>
+    <div class="control-group ">
+            <?php echo $form->labelEx($modRencanaKebFarmasi, 'pegawaimenyetujui_id', array('class' => 'control-label')); ?>
+            <div class="controls">
+                    <?php echo $form->hiddenField($modRencanaKebFarmasi, 'pegawaimenyetujui_id',array('readonly'=>true)); ?>
+                    <?php
+                    $this->widget('MyJuiAutoComplete', array(
+                            'model'=>$modRencanaKebFarmasi,
+                            'attribute' => 'pegawaimenyetujui_nama',
+                            'source' => 'js: function(request, response) {
+                                                               $.ajax({
+                                                                       url: "' . $this->createUrl('AutocompletePegawaiMenyetujui') . '",
+                                                                       dataType: "json",
+                                                                       data: {
+                                                                               term: request.term,
+                                                                       },
+                                                                       success: function (data) {
+                                                                                       response(data);
+                                                                       }
+                                                               })
+                                                            }',
+                            'options' => array(
+                                    'showAnim' => 'fold',
+                                    'minLength' => 3,
+                                    'focus' => 'js:function( event, ui ) {
+                                            $(this).val( ui.item.label);
+                                            return false;
+                                    }',
+                                    'select' => 'js:function( event, ui ) {
+                                            $("#'.Chtml::activeId($modRencanaKebFarmasi, 'pegawaimenyetujui_id') . '").val(ui.item.pegawai_id); 
+                                            return false;
+                                    }',
+                            ),
+                            'htmlOptions' => array(
+                                    'class'=>'pegawaimenyetujui_nama',
+                                    'onkeyup'=>"return $(this).focusNextInputField(event)",
+                                    'onblur' => 'if(this.value === "") $("#'.Chtml::activeId($modRencanaKebFarmasi, 'pegawaimenyetujui_id') . '").val(""); '
+                            ),
+                            'tombolDialog' => array('idDialog' => 'dialogPegawaiMenyetujui'),
+                    ));
+                    ?>
+            </div>
+    </div>
+    
 </div>
 <!--<div class = "span5">
     <div class="control-group ">
@@ -34,6 +180,79 @@
             </div>
     </div>
 </div>-->
+
+<?php 
+//========= Dialog buat cari data Pegawai Mengetahui =========================
+$this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
+    'id'=>'dialogPegawaiGudang',
+    'options'=>array(
+        'title'=>'Pencarian Pegawai Gudang',
+        'autoOpen'=>false,
+        'modal'=>true,
+        'width'=>900,
+        'height'=>600,
+		'zIndex'=>1002,
+        'resizable'=>false,
+    ),
+));
+
+$modPegawaiGudang = new PegawairuanganV('search');
+$modPegawaiGudang->unsetAttributes();
+$modPegawaiGudang->ruangan_id = Yii::app()->user->getState('ruangan_id');
+if(isset($_GET['PegawairuanganV'])) {
+    $modPegawaiGudang->attributes = $_GET['PegawairuanganV'];
+}
+$this->widget('ext.bootstrap.widgets.BootGridView',array(
+	'id'=>'pegawaigudang-grid',
+	'dataProvider'=>$modPegawaiGudang->search(),
+	'filter'=>$modPegawaiGudang,
+        'template'=>"{summary}\n{items}\n{pager}",
+        'itemsCssClass'=>'table table-striped table-bordered table-condensed',
+	'columns'=>array(
+                array(
+                    'header'=>'Pilih',
+                    'type'=>'raw',
+                    'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","",array("class"=>"btn-small", 
+                                    "href"=>"",
+                                    "id" => "selectObat",
+                                    "onClick" => "
+                                                  $(\"#'.CHtml::activeId($modRencanaKebFarmasi,'pegawai_id').'\").val(\"$data->pegawai_id\");
+                                                  $(\"#'.CHtml::activeId($modRencanaKebFarmasi,'nama_pegawai').'\").val(\"$data->NamaLengkap\");
+                                                  $(\"#dialogPegawaiGudang\").dialog(\"close\"); 
+                                                  return false;
+                                        "))',
+                ),
+                array(
+                    'header'=>'NIP',
+                    'value'=>'$data->nomorindukpegawai',
+                ), /*
+                array(
+                    'header'=>'Gelar Depan',
+                    'filter'=>  CHtml::activeTextField($modPegawaiGudang, 'gelardepan'),
+                    'value'=>'$data->gelardepan',
+                ), */
+                array(
+                    'header'=>'Nama Pegawai',
+                    'filter'=>  CHtml::activeTextField($modPegawaiGudang, 'nama_pegawai'),
+                    'value'=>'$data->namaLengkap',
+                ), /*
+                array(
+                    'header'=>'Gelar Belakang',
+                    'filter'=>  CHtml::activeTextField($modPegawaiGudang, 'gelarbelakang_nama'),
+                    'value'=>'$data->gelarbelakang_nama',
+                ), */
+                array(
+                    'header'=>'Alamat Pegawai',
+                    'filter'=>  CHtml::activeTextField($modPegawaiGudang, 'alamat_pegawai'),
+                    'value'=>'$data->alamat_pegawai',
+                ),
+            ),
+            'afterAjaxUpdate' => 'function(id, data){
+            jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
+        ));
+$this->endWidget();
+//========= end Pegawai Mengetahui dialog =============================
+?>
 
 <?php 
 //========= Dialog buat cari data Pegawai Mengetahui =========================
@@ -78,22 +297,22 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 array(
                     'header'=>'NIP',
                     'value'=>'$data->nomorindukpegawai',
-                ),
+                ), /*
                 array(
                     'header'=>'Gelar Depan',
                     'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'gelardepan'),
                     'value'=>'$data->gelardepan',
-                ),
+                ), */
                 array(
                     'header'=>'Nama Pegawai',
                     'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'nama_pegawai'),
-                    'value'=>'$data->nama_pegawai',
-                ),
+                    'value'=>'$data->namaLengkap',
+                ), /*
                 array(
                     'header'=>'Gelar Belakang',
                     'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'gelarbelakang_nama'),
                     'value'=>'$data->gelarbelakang_nama',
-                ),
+                ), */
                 array(
                     'header'=>'Alamat Pegawai',
                     'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'alamat_pegawai'),
@@ -150,22 +369,22 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 array(
                     'header'=>'NIP',
                     'value'=>'$data->nomorindukpegawai',
-                ),
+                ), /*
                 array(
                     'header'=>'Gelar Depan',
                     'filter'=>  CHtml::activeTextField($modPegawaiMenyetujui, 'gelardepan'),
                     'value'=>'$data->gelardepan',
-                ),
+                ), */
                 array(
                     'header'=>'Nama Pegawai',
                     'filter'=>  CHtml::activeTextField($modPegawaiMenyetujui, 'nama_pegawai'),
-                    'value'=>'$data->nama_pegawai',
-                ),
+                    'value'=>'$data->namaLengkap',
+                ), /*
                 array(
                     'header'=>'Gelar Belakang',
                     'filter'=>  CHtml::activeTextField($modPegawaiMenyetujui, 'gelarbelakang_nama'),
                     'value'=>'$data->gelarbelakang_nama',
-                ),
+                ), */
                 array(
                     'header'=>'Alamat Pegawai',
                     'filter'=>  CHtml::activeTextField($modPegawaiMenyetujui, 'alamat_pegawai'),

@@ -20,14 +20,15 @@
             <?php $this->renderPartial($this->path_view.'_formRencanaKebutuhan', array('form'=>$form,'format'=>$format,'modRencanaKebFarmasi'=>$modRencanaKebFarmasi)); ?>
         </div>
     </fieldset>
-    
-	<fieldset class="box" id="form-recomendedorder">
+    <?php /*
+    <fieldset class="box" id="form-recomendedorder">
         <legend class="rim"><span class='judul'>Recomended Order (RO) </span></legend>
         <div>
             <?php $this->renderPartial($this->path_view.'_formRecomendedOrder', array('form'=>$form,'format'=>$format,'modRencanaKebFarmasi'=>$modRencanaKebFarmasi)); ?>
         </div>
     </fieldset>
-	
+     * 
+     */ ?>
     <?php  if(!isset($_GET['sukses'])){ ?>
     <fieldset class="box" id="form-tambahobatalkes">
         <legend class='rim'>Tambah Obat dan Alat Kesehatan</legend>
@@ -44,18 +45,19 @@
             <thead>
                 <tr>
                     <th>No.</th>
-                    <th>Asal Barang</th>
-                    <th>Kategori / Nama Obat</th>
-                    <th>Satuan </th>
-                    <th>Jumlah Permintaan</th>
-					<th>Buffer Stok</th>
-                    <th>Harga Netto</th>
-                    <th>Stok Akhir</th>
+                    <th>Jenis</th>
+                    <th>Nama Obat</th>
+                    <th>Tgl. Kadaluarsa</th>
                     <th>Minimal Stok</th>
-					<th>Maksimal Stok</th>
+                    <th>Maksimal Stok</th>
+                    <th>Stok Akhir</th>
+                    <th>Jumlah Kebutuhan</th>
+                    <th>Satuan </th>
+                    <!--th>Buffer Stok</th-->
+                    <th>HPP</th>
                     <th>Sub Total</th>
-					<th>VEN</th>
-					<th>ABC</th>
+                    <th>VEN</th>
+                    <th>ABC</th>
                     <th>Batal</th>
                 </tr>
             </thead>
@@ -70,7 +72,7 @@
                 <tfoot>
                     <tr>
                         <td colspan="10">Total</td>
-                        <td><?php echo CHtml::textField('total','',array('class'=>'span2 integer','style'=>'width:90px;'))?></td>
+                        <td><?php echo CHtml::textField('total','',array('class'=>'span2 integer2','style'=>'width:90px;'))?></td>
                         <td></td>
 						<td></td>
 						<td></td>
@@ -80,101 +82,22 @@
         </table>
     </div>  
     <?php isset($_GET['ubah'])? $modRencanaKebFarmasi->rencanakebfarmasi_id = '' : '' ; ?>
+    <?php /*
 	<fieldset class="box">
         <legend class='rim'>Pegawai Berwenang</legend>
         <div class="row-fluid">
 			<div class="span2">
 			</div>
 			<div class="span4">
-				<div class="control-group ">
-					<?php echo $form->labelEx($modRencanaKebFarmasi, 'pegawaimengetahui_id', array('class' => 'control-label')); ?>
-					<div class="controls">
-						<?php echo $form->hiddenField($modRencanaKebFarmasi, 'pegawaimengetahui_id',array('readonly'=>true)); ?>
-						<?php
-						$this->widget('MyJuiAutoComplete', array(
-							'model'=>$modRencanaKebFarmasi,
-							'attribute' => 'pegawaimengetahui_nama',
-							'source' => 'js: function(request, response) {
-											   $.ajax({
-												   url: "' . $this->createUrl('AutocompletePegawaiMengetahui') . '",
-												   dataType: "json",
-												   data: {
-													   term: request.term,
-												   },
-												   success: function (data) {
-														   response(data);
-												   }
-											   })
-											}',
-							'options' => array(
-								'showAnim' => 'fold',
-								'minLength' => 3,
-								'focus' => 'js:function( event, ui ) {
-									$(this).val( ui.item.label);
-									return false;
-								}',
-								'select' => 'js:function( event, ui ) {
-									$("#'.Chtml::activeId($modRencanaKebFarmasi, 'pegawaimengetahui_id') . '").val(ui.item.pegawai_id); 
-									return false;
-								}',
-							),
-							'htmlOptions' => array(
-								'class'=>'pegawaimengetahui_nama',
-								'onkeyup'=>"return $(this).focusNextInputField(event)",
-								'onblur' => 'if(this.value === "") $("#'.Chtml::activeId($modRencanaKebFarmasi, 'pegawaimengetahui_id') . '").val(""); '
-							),
-							'tombolDialog' => array('idDialog' => 'dialogPegawaiMengetahui'),
-						));
-						?>
-					</div>
-				</div>
+				
 			</div>
 			<div class="span4">
-				<div class="control-group ">
-					<?php echo $form->labelEx($modRencanaKebFarmasi, 'pegawaimenyetujui_id', array('class' => 'control-label')); ?>
-					<div class="controls">
-						<?php echo $form->hiddenField($modRencanaKebFarmasi, 'pegawaimenyetujui_id',array('readonly'=>true)); ?>
-						<?php
-						$this->widget('MyJuiAutoComplete', array(
-							'model'=>$modRencanaKebFarmasi,
-							'attribute' => 'pegawaimenyetujui_nama',
-							'source' => 'js: function(request, response) {
-											   $.ajax({
-												   url: "' . $this->createUrl('AutocompletePegawaiMenyetujui') . '",
-												   dataType: "json",
-												   data: {
-													   term: request.term,
-												   },
-												   success: function (data) {
-														   response(data);
-												   }
-											   })
-											}',
-							'options' => array(
-								'showAnim' => 'fold',
-								'minLength' => 3,
-								'focus' => 'js:function( event, ui ) {
-									$(this).val( ui.item.label);
-									return false;
-								}',
-								'select' => 'js:function( event, ui ) {
-									$("#'.Chtml::activeId($modRencanaKebFarmasi, 'pegawaimenyetujui_id') . '").val(ui.item.pegawai_id); 
-									return false;
-								}',
-							),
-							'htmlOptions' => array(
-								'class'=>'pegawaimenyetujui_nama',
-								'onkeyup'=>"return $(this).focusNextInputField(event)",
-								'onblur' => 'if(this.value === "") $("#'.Chtml::activeId($modRencanaKebFarmasi, 'pegawaimenyetujui_id') . '").val(""); '
-							),
-							'tombolDialog' => array('idDialog' => 'dialogPegawaiMenyetujui'),
-						));
-						?>
-					</div>
-				</div>
+				
 			</div>
 		</div>
 	</fieldset>
+     * 
+     */ ?>
     <div class="row-fluid">
         <div class="form-actions">
             <?php 

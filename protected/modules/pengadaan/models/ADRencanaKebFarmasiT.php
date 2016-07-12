@@ -17,6 +17,7 @@ class ADRencanaKebFarmasiT extends RencanakebfarmasiT
 	public $jumlah;
 	public $pegawaimengetahui_nama;
 	public $pegawaimenyetujui_nama;
+        public $nama_pegawai;
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
