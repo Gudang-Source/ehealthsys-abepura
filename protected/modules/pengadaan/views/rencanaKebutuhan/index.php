@@ -51,7 +51,7 @@
                     <th>Minimal Stok</th>
                     <th>Maksimal Stok</th>
                     <th>Stok Akhir</th>
-                    <th>Jumlah Permintaan</th>
+                    <th>Jumlah Kebutuhan</th>
                     <th>Satuan </th>
                     <!--th>Buffer Stok</th-->
                     <th>HPP</th>

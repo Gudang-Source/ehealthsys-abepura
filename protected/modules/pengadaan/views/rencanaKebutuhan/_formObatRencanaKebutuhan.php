@@ -65,7 +65,7 @@
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     'id'=>'dialogObatAlkes',
     'options'=>array(
-        'title'=>'Obat & Alat Kesehatan',
+        'title'=>'Stok Obat Alkes '.Yii::app()->user->getState('ruangan_nama'),
         'autoOpen'=>false,
         'modal'=>true,
         'width'=>980,
