@@ -72,16 +72,16 @@ $('.search-form form').submit(function(){
                                         'value'=>function($data){
                                             $cekPerawatan = PerawatanlinendetailT::model()->find("penerimaanlinen_id = ".$data->penerimaanlinen_id);
                                             if (count($cekPerawatan)>0){
+                                                echo CHtml::link("<button class='btn btn-red disabled'>Perawatan</button>", "",array("penerimaanlinen_id"=>$data->penerimaanlinen_id),array("rel"=>"tooltip","title"=>"Klik untuk Perawatan Linen"));                                                                                                
+                                            }else{                                                
                                                 echo CHtml::link("<button class='btn btn-red'>Perawatan</button>",  Yii::app()->controller->createUrl("/laundry/perawatanLinen/index",array("penerimaanlinen_id"=>$data->penerimaanlinen_id)),array("rel"=>"tooltip","title"=>"Klik untuk Perawatan Linen","disabled"=>true));
-                                            }else{
-                                                echo CHtml::link("<button class='btn btn-red disabled'>Perawatan</button>", "",array("penerimaanlinen_id"=>$data->penerimaanlinen_id),array("rel"=>"tooltip","title"=>"Klik untuk Perawatan Linen"));                                                
                                             }    
                                              
                                              $cekPencucian = PencuciandetailT::model()->find("penerimaanlinen_id = ".$data->penerimaanlinen_id);
                                             if (count($cekPencucian)>0){
+                                                echo CHtml::link("<button class='btn btn-success disabled'>Pencucian</button>",  "",array("penerimaanlinen_id"=>$data->penerimaanlinen_id),array("rel"=>"tooltip","title"=>"Klik untuk Pencucian Linen"));                                                
+                                            }else{                                                
                                                 echo CHtml::link("<button class='btn btn-success'>Pencucian</button>",  Yii::app()->controller->createUrl("/laundry/pencucianLinen/index",array("penerimaanlinen_id"=>$data->penerimaanlinen_id)),array("rel"=>"tooltip","title"=>"Klik untuk Pencucian Linen","disabled"=>true));
-                                            }else{
-                                                echo CHtml::link("<button class='btn btn-success disabled'>Pencucian</button>",  "",array("penerimaanlinen_id"=>$data->penerimaanlinen_id),array("rel"=>"tooltip","title"=>"Klik untuk Pencucian Linen"));
                                             } 
                                             
                                         },
