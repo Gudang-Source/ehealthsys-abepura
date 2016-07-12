@@ -5,7 +5,7 @@
 	);
 
 	Yii::app()->clientScript->registerScript('search', "
-    $('#divSearch-form form').submit(function(){
+    $('#rencana-t-search').submit(function(){
             $('#fakturpembelian-m-grid').addClass('animation-loading');
             $.fn.yiiGridView.update('fakturpembelian-m-grid', {
                     data: $(this).serialize()
@@ -58,27 +58,32 @@
 				array(
 					'name' => 'totharganetto',
 					'type' => 'raw',
-					'value' => 'number_format($data->totharganetto)',
+					'value' => 'MyFormatter::formatNumberForPrint($data->totharganetto)',
+                                        'htmlOptions'=>array('style'=>'text-align: right'),
 				),
 				array(
 					'name' => 'jmldiscount',
 					'type' => 'raw',
-					'value' => 'number_format($data->jmldiscount)',
+					'value' => 'MyFormatter::formatNumberForPrint($data->jmldiscount)',
+                                        'htmlOptions'=>array('style'=>'text-align: right'),
 				),
 				array(
 					'name' => 'totalpajakpph',
 					'type' => 'raw',
-					'value' => 'number_format($data->totalpajakpph)',
+					'value' => 'MyFormatter::formatNumberForPrint($data->totalpajakpph)',
+                                        'htmlOptions'=>array('style'=>'text-align: right'),
 				),
 				array(
 					'name' => 'totalpajakppn',
 					'type' => 'raw',
-					'value' => 'number_format($data->totalpajakppn)',
+					'value' => 'MyFormatter::formatNumberForPrint($data->totalpajakppn)',
+                                        'htmlOptions'=>array('style'=>'text-align: right'),
 				),
 				array(
 					'name' => 'totalhargabruto',
 					'type' => 'raw',
-					'value' => 'number_format($data->totalhargabruto)',
+					'value' => 'MyFormatter::formatNumberForPrint($data->totalhargabruto)',
+                                        'htmlOptions'=>array('style'=>'text-align: right'),
 				),
 				array(//Details ini langsung terhubung ke details Faktur d peneriaam Items supaya mudah memaintenance karena 1 view dan action 
 					'header' => 'Details',
@@ -90,7 +95,7 @@
 					'header' => 'Bayar ke Supplier',
 					'type' => 'raw',
 					'htmlOptions' => array('style' => 'text-align:left;'),
-					'value' => '((empty($data->bayarkesupplier_id)) ? CHtml::link("<i class=\'icon-form-bayar\'></i> ",Yii::app()->createUrl("billingKasir/pembayaranSupplier/index",array("frame"=>1,"idFakturPembelian"=>$data->fakturpembelian_id)) ,array("title"=>"Klik Untuk Membayar ke Supplier","target"=>"iframeRetur", "onclick"=>"$(\"#dialogRetur\").dialog(\"open\");", "rel"=>"tooltip")) : "Lunas")',
+					'value' => '((empty($data->bayarkesupplier_id)) ? CHtml::link("<i class=\'icon-form-bayar\'></i> ",Yii::app()->createUrl("keuangan/pembayaranSupplierKU/index",array("frame"=>1,"idFakturPembelian"=>$data->fakturpembelian_id)) ,array("title"=>"Klik Untuk Membayar ke Supplier","target"=>"iframeRetur", "onclick"=>"$(\"#dialogRetur\").dialog(\"open\");", "rel"=>"tooltip")) : "Lunas")',
 				),
 			),
 			'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
@@ -191,7 +196,7 @@
         </table>
         <div class="form-actions">
 	<?php echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', array('{icon}' => '<i class="icon-search icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit')); ?>
-	<?php echo CHtml::htmlButton(Yii::t('mds', '{icon} Reset', array('{icon}' => '<i class="icon-refresh icon-white"></i>')), array('class' => 'btn btn-danger', 'type' => 'reset')); ?>
+	<?php echo CHtml::htmlButton(Yii::t('mds', '{icon} Reset', array('{icon}' => '<i class="icon-refresh icon-white"></i>')), array('class' => 'btn btn-danger', 'type' => 'reset'))." "; ?>
 <?php
 $content = $this->renderPartial($this->path_view . 'tips', array(), true);
 $this->widget('UserTips', array('type' => 'transaksi', 'content' => $content));

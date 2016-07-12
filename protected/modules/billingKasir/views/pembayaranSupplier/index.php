@@ -1,5 +1,13 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
+
 <div class="white-container">
     <legend class="rim2">Pembayaran Supplier</legend>
+    <?php if (isset($_GET['id'])) {
+        Yii::app()->user->setFlash("success", "Pembayaran berhasil disimpan.");
+    }
+    ?>
 <?php
 $this->widget('application.extensions.moneymask.MMask',array(
     'element'=>'.currency',
@@ -26,7 +34,7 @@ $this->widget('application.extensions.moneymask.MMask',array(
         'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)',
                              'onsubmit'=>'return cekInputan();'),
 )); ?>
-<?php $this->renderPartial('_dataFakturBeli',array('modFakturBeli'=>$modFakturBeli)); ?>
+<?php $this->renderPartial($this->path_view.'_dataFakturBeli',array('modFakturBeli'=>$modFakturBeli)); ?>
 
 <?php echo $form->errorSummary(array($modelBayar,$modBuktiKeluar,$modUangMuka)); ?>
 
@@ -38,72 +46,16 @@ $this->widget('application.extensions.moneymask.MMask',array(
                     <th>Nama Obat Alkes</th>
                     <th>Jml Terima</th>
                     <th>Harga Netto</th>
+                    <th>Harga Satuan</th>
                     <th>Harga PPN</th>
                     <th>Harga PPH</th>
                     <th>% Discount</th>
                     <th>Jml Discount</th>
-                    <th>Harga Satuan</th>
                     <th>Total Harga</th>
                 </tr>
             </thead>
             <tbody>
-                <?php 
-                $totalppn = 0;
-                $totalpph = 0;
-                $hargappn = 0;
-                $hargappnfaktur = 0;
-                $hargapph = 0;
-                $hargapphfaktur = 0;
-                if(count($modDetailBeli)>0){
-                    foreach ($modDetailBeli as $i => $detail) { 
-                        if($detail->persenppnfaktur <= 0) {
-                            $hargappnfaktur = 0;
-                        }else{
-                            $hargappn = $detail->harganettofaktur * ($detail->persenppnfaktur / 100);
-                            $hargappnfaktur = $detail->harganettofaktur + $hargappn;
-                        }
-                        if($detail->persenpphfaktur <= 0) {
-                            $hargapphfaktur = 0;
-                        }else{
-                            $hargapph = $detail->harganettofaktur * ($detail->persenpphfaktur / 100);
-                            $hargapphfaktur = $detail->harganettofaktur + $hargapph;
-                        }
-
-                        ?>
-                        <tr>
-                            <td>
-                                <?php echo $detail->obatalkes->obatalkes_nama; ?>
-                            </td>
-                            <td>
-                                <?php echo number_format($detail->jmlterima); ?>
-                            </td>
-                            <td>
-                                <?php echo number_format($detail->harganettofaktur); ?>
-                            </td>
-                            <td>
-                                <?php echo number_format($hargappnfaktur); ?>
-                            </td>
-                            <td>
-                                <?php echo number_format($hargapphfaktur); ?>
-                            </td>
-                            <td>
-                                <?php echo number_format($detail->persendiscount); ?>
-                            </td>
-                            <td>
-                                <?php echo number_format($detail->jmldiscount); ?>
-                            </td>
-                            <td>
-                                <?php echo number_format($detail->hargasatuan); ?>
-                            </td>
-                            <td>
-                                <?php echo number_format($detail->jmlterima * $detail->harganettofaktur); ?>
-                            </td>
-                        </tr>
-                    <?php 
-
-                    }
-                }
-                ?>
+                <?php echo $this->renderPartial($this->path_view.'_rowFaktur', array('modDetailBeli'=>$modDetailBeli), true); ?>
             </tbody>
         </table>
     </div>
@@ -113,14 +65,14 @@ $this->widget('application.extensions.moneymask.MMask',array(
         <table width="100%">
             <tr>
                 <td width="50%">
-                        <?php echo $modBuktiKeluar->bayarkesupplier_id;?>
+                        <?php // echo $modBuktiKeluar->bayarkesupplier_id;?>
                 <?php //echo $form->textFieldRow($modelBayar,'uangmukabeli_id',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                 <?php echo $form->hiddenField($modelBayar,'fakturpembelian_id',array('readonly'=>true,'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                 <?php //echo $form->textFieldRow($modelBayar,'tandabuktikeluar_id',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                 <?php //echo $form->textFieldRow($modelBayar,'batalbayarsupplier_id',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                 <?php //echo $form->textFieldRow($modelBayar,'tglbayarkesupplier',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                 <div class="control-group ">
-                    <?php $modelBayar->tglbayarkesupplier = Yii::app()->dateFormatter->formatDateTime(CDateTimeParser::parse($modelBayar->tglbayarkesupplier, 'yyyy-MM-dd hh:mm:ss','medium',null)); ?>
+                    <?php $modelBayar->tglbayarkesupplier = MyFormatter::formatDateTimeForUser($modelBayar->tglbayarkesupplier); ?>
                     <?php echo $form->labelEx($modelBayar,'tglbayarkesupplier', array('class'=>'control-label inline')) ?>
                     <div class="controls">
                         <?php   
@@ -132,22 +84,22 @@ $this->widget('application.extensions.moneymask.MMask',array(
                                                     'dateFormat'=>Params::DATE_FORMAT,
                                                     'maxDate' => 'd',
                                                 ),
-                                                'htmlOptions'=>array('readonly'=>true, 'class'=>'dtPicker2-5', 'onkeypress'=>"return $(this).focusNextInputField(event)"
+                                                'htmlOptions'=>array('readonly'=>true, 'class'=>'dtPicker2-5 realtime', 'onkeypress'=>"return $(this).focusNextInputField(event)"
                                                 ),
                         )); ?>
 
                     </div>
                 </div>
-                <?php echo $form->textFieldRow($modelBayar,'totaltagihan',array('readonly'=>true,'class'=>'inputFormTabel currency span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-                <?php //echo $form->textFieldRow($modUangMuka,'jumlahuang',array('readonly'=>true,'class'=>'inputFormTabel currency span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                <?php echo $form->textFieldRow($modelBayar,'totaltagihan',array('readonly'=>true,'class'=>'inputFormTabel integer2 span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                <?php //echo $form->textFieldRow($modUangMuka,'jumlahuang',array('readonly'=>true,'class'=>'inputFormTabel integer2 span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                     <div class="control-group ">
                         <label class='control-label required'>Uang Muka <span class="required">*</span></label>
                         <div class="controls">
-                            <?php echo $form->textField($modUangMuka,'jumlahuang',array('readonly'=>true,'class'=>'inputFormTabel currency span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                            <?php echo $form->textField($modUangMuka,'jumlahuang',array('readonly'=>true,'class'=>'inputFormTabel integer2 span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
 
                         </div>
                     </div>
-                <?php echo $form->textFieldRow($modelBayar,'jmldibayarkan',array('class'=>'inputFormTabel currency span3', 'onblur'=>'hitungKasKeluar();', 'onkeyup'=>'hitungKasKeluar()', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'onfocus'=>'$(this).select();')); ?>
+                <?php echo $form->textFieldRow($modelBayar,'jmldibayarkan',array('class'=>'inputFormTabel integer2 span3', 'onblur'=>'hitungKasKeluar();', 'onkeyup'=>'hitungKasKeluar()', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'onfocus'=>'$(this).select();')); ?>
 
                     <div class="control-group ">
                         <?php $modBuktiKeluar->tglkaskeluar = Yii::app()->dateFormatter->formatDateTime(CDateTimeParser::parse($modBuktiKeluar->tglkaskeluar, 'yyyy-MM-dd hh:mm:ss','medium',null)); ?>
@@ -162,7 +114,7 @@ $this->widget('application.extensions.moneymask.MMask',array(
                                                         'dateFormat'=>Params::DATE_FORMAT,
                                                         'maxDate' => 'd',
                                                     ),
-                                                    'htmlOptions'=>array('readonly'=>true, 'class'=>'dtPicker2-5', 'onkeypress'=>"return $(this).focusNextInputField(event)"
+                                                    'htmlOptions'=>array('readonly'=>true, 'class'=>'dtPicker2-5 realtime', 'onkeypress'=>"return $(this).focusNextInputField(event)"
                                                     ),
                             )); ?>
 
@@ -171,8 +123,8 @@ $this->widget('application.extensions.moneymask.MMask',array(
                     <?php //echo $form->dropDownListRow($modBuktiKeluar,'tahun', CustomFunction::getTahun(null,null),array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>4)); ?>
                     <?php $modBuktiKeluar->tglkaskeluar = Yii::app()->dateFormatter->formatDateTime(CDateTimeParser::parse($modBuktiKeluar->tglkaskeluar, 'yyyy-MM-dd hh:mm:ss','medium',null)); ?>
                     <?php echo $form->textFieldRow($modBuktiKeluar,'nokaskeluar',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
-                    <?php echo $form->textFieldRow($modBuktiKeluar,'biayaadministrasi',array('onkeyup'=>'hitungKasKeluar();','class'=>'inputFormTabel currency span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'onfocus'=>'$(this).select();')); ?>
-                    <?php echo $form->textFieldRow($modBuktiKeluar,'jmlkaskeluar',array('readonly'=>true,'class'=>'inputFormTabel currency span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                    <?php echo $form->textFieldRow($modBuktiKeluar,'biayaadministrasi',array('onkeyup'=>'hitungKasKeluar();','class'=>'inputFormTabel integer2 span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'onfocus'=>'$(this).select();')); ?>
+                    <?php echo $form->textFieldRow($modBuktiKeluar,'jmlkaskeluar',array('readonly'=>true,'class'=>'inputFormTabel integer2 span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
 
                 </td>
                 <td width="50%">
@@ -198,8 +150,13 @@ $this->widget('application.extensions.moneymask.MMask',array(
                         //echo "&nbsp;&nbsp;";
                         //echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), '#', array('class'=>'btn btn-info','onclick'=>"printKasir($modTandaBukti->tandabuktibayar_id);return false",'disabled'=>false)); 
                     ?>
+                    <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+                        $this->createUrl($this->id.'/index'), 
+                                array('class'=>'btn btn-danger',
+//                                      'onclick'=>'if(!confirm("Apakah anda ingin mengulang ini ?")) return false;'));
+                                      'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = "'.$this->createUrl($this->id.'/index').'";}); return false;')); ?>
                                      <?php
-                                            if(isset($_GET['fakturpembelian_id'])){
+                                            if(isset($_GET['id'])){
                                                     echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"print();return false",'disabled'=>FALSE  ));
                                             }else{
                                                     echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','disabled'=>TRUE  ));
@@ -211,10 +168,13 @@ $this->widget('application.extensions.moneymask.MMask',array(
 </div>
 
 <script type="text/javascript">
-$('.currency').each(function(){this.value = formatInteger(this.value)});
+    $(document).ready(function()
+    {
+        $('.integer2').each(function(){this.value = formatNumber(this.value)});
+    });
 function cekInputan()
 {
-    $('.currency').each(function(){this.value = unformatNumber(this.value)});
+    $('.integer2').each(function(){this.value = unformatNumber(this.value)});
     return true;
 }
 
@@ -224,7 +184,7 @@ function hitungKasKeluar()
     var biayaAdmin = parseFloat(unformatNumber($('#BKTandabuktikeluarT_biayaadministrasi').val()));
     var kasKeluar = jmlBayar + biayaAdmin;
     
-    $('#BKTandabuktikeluarT_jmlkaskeluar').val(formatInteger(kasKeluar));
+    $('#BKTandabuktikeluarT_jmlkaskeluar').val(formatNumber(kasKeluar));
 }
 
 function formCarabayar(carabayar)
@@ -237,12 +197,41 @@ function formCarabayar(carabayar)
 }
 
 function loadFakturPembelian(id) {
-    
+    console.log(id);
+    $.post('<?php echo $this->createUrl('loadFakturFarmasi'); ?>', {
+        id: id
+    }, function(data) {
+        $("#tblBayarOA tbody").html(data.tabFaktur);
+        $("#FAPendaftaranT_tglfaktur").val(data.fakturBeli.tglfaktur);
+        $("#FAPendaftaranT_tgljatuhtempo").val(data.fakturBeli.tgljatuhtempo);
+        $("#FAPendaftaranT_totalhargabruto").val(data.fakturBeli.totalhargabruto);
+        $("#FAPendaftaranT_supplier_id").val((data.supplier == '')?data.supplier:data.supplier.supplier_nama);
+        $("#FAPasienM_keteranganfaktur").val(data.fakturBeli.keteranganfaktur);
+        
+        $("#nopermintaan").val(data.nopermintaan);
+        $("#nopenerimaan").val(data.penerimaan.noterima);
+        
+        $("#BKFakturPembelianT_nofaktur").val(data.fakturBeli.nofaktur);
+        $("#BKBayarkeSupplierT_fakturpembelian_id").val(data.fakturBeli.fakturpembelian_id);
+        $("#BKBayarkeSupplierT_totaltagihan").val(data.modelBayar.totaltagihan);
+        $("#BKUangMukaBeliT_jumlahuang").val(data.uangMuka);
+        $("#BKBayarkeSupplierT_jmldibayarkan").val(data.modelBayar.jmldibayarkan);
+        $("#BKTandabuktikeluarT_nokaskeluar").val(data.buktiKeluar.nokaskeluar);
+        $("#BKTandabuktikeluarT_biayaadministrasi").val(data.buktiKeluar.biayaadministrasi);
+        $("#BKTandabuktikeluarT_jmlkaskeluar").val(data.buktiKeluar.jmlkaskeluar);
+        $("#BKTandabuktikeluarT_namapenerima").val(data.buktiKeluar.namapenerima);
+        $("#BKTandabuktikeluarT_alamatpenerima").val(data.buktiKeluar.alamatpenerima);
+        $("#BKTandabuktikeluarT_untukpembayaran").val(data.buktiKeluar.untukpembayaran);
+        
+        
+        
+        console.log("Kicker");
+    }, 'json');
 }
 
 function print()
 {
-    var fakturpembelian_id = "<?php echo isset($modFakturBeli->fakturpembelian_id)?$modFakturBeli->fakturpembelian_id:null; ?>";
-    window.open("<?php echo $this->createUrl('print') ?>&fakturpembelian_id="+fakturpembelian_id+"&caraPrint=PRINT","",'location=_new, width=1024px');
+    var fakturpembelian_id = "<?php echo isset($modFakturBeli->bayarkesupplier_id)?$modFakturBeli->bayarkesupplier_id:null; ?>";
+    window.open("<?php echo $this->createUrl('print') ?>&id="+fakturpembelian_id+"&caraPrint=PRINT","",'location=_new, width=1024px');
 }
 </script>
