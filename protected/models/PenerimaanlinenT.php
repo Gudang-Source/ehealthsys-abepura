@@ -65,9 +65,10 @@ class PenerimaanlinenT extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-            'ruangan' => array(self::BELONGS_TO, 'RuanganM', 'ruangan_id'),
-            'pegawaiMenerima' => array(self::BELONGS_TO, 'PegawaiM', 'pegmenerima_id'),
-            'pegawaiMengetahui' => array(self::BELONGS_TO, 'PegawaiM', 'pegmengetahui_id'),
+                    'ruangan' => array(self::BELONGS_TO, 'RuanganM', 'ruangan_id'),
+                    'pengPerawatan' => array(self::BELONGS_TO, 'PengperawatanlinenT', 'pengperawatanlinen_id'),
+                    'pegawaiMenerima' => array(self::BELONGS_TO, 'PegawaiM', 'pegmenerima_id'),
+                    'pegawaiMengetahui' => array(self::BELONGS_TO, 'PegawaiM', 'pegmengetahui_id'),                    
 		);
 	}
 

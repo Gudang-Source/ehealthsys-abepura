@@ -25,7 +25,7 @@ $('#daftarPasien-form').submit(function(){
     ?>
      <?php $this->widget('bootstrap.widgets.BootAlert'); ?> 
     <div class="block-tabel">
-        <h6>Tabel <b>Daftar Pasien</b> <?php echo CHtml::htmlButton(Yii::t('mds','{icon}',array('{icon}'=>'<i class="icon-volume-up icon-white"></i>')),array('title'=>'Klik untuk memanggil antrian terakhir','rel'=>'tooltip','class'=>'btn  btn-mini btn-primary', 'onclick'=>'ambilAntrianTerakhir();','style'=>'font-size:10px;')); ?></h6>
+        <h6>Tabel <b>Daftar Pasien</b> <?php //echo CHtml::htmlButton(Yii::t('mds','{icon}',array('{icon}'=>'<i class="icon-volume-up icon-white"></i>')),array('title'=>'Klik untuk memanggil antrian terakhir','rel'=>'tooltip','class'=>'btn  btn-mini btn-primary', 'onclick'=>'ambilAntrianTerakhir();','style'=>'font-size:10px;')); ?></h6>
         <?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'id'=>'daftarpasien-v-grid',
             'dataProvider'=>$modPasienMasukPenunjang->searchRM(),
@@ -84,12 +84,7 @@ $('#daftarPasien-form').submit(function(){
                     'value'=>'$data->umur',
                 ),
                 //'umur',
-                'alamat_pasien',    
-                array(
-                    'header'=>'Kasus Penyakit',
-                    'type'=>'raw',
-                    'value'=>'$data->jeniskasuspenyakit_nama',
-                ),
+                'alamat_pasien', 
                 array(
                     'header'=>'Cara Bayar / Penjamin',
                     'value'=>'$data->caraBayarPenjamin',
@@ -100,6 +95,17 @@ $('#daftarPasien-form').submit(function(){
         //                'value'=>'($data->statusperiksahasil == Params::STATUSPERIKSAHASIL_SEDANG) ? CHtml::link("<i class=\"icon-pencil-blue\"></i>". $data->getNamaLengkapDokter($data->pegawai_id),Yii::app()->controller->createUrl("/'.$module.'/'.$controller.'/ApprovePemeriksaan",array("pendaftaran_id"=>$data->pendaftaran_id,"pasienmasukpenunjang_id"=>$data->pasienmasukpenunjang_id)),array("rel"=>"tooltip","title"=>"Klik untuk menyetujui pemeriksaan", "onclick"=>"return confirm(\"Apakah Anda akan menyetujui pemeriksaan ini?\");")) : $data->getNamaLengkapDokter($data->pegawai_id)',
                         'value'=>'$data->getNamaLengkapDokter($data->pegawai_id)',
                     ),
+                array(
+                    'header'=>'Kasus Penyakit',
+                    'type'=>'raw',
+                    'value'=>'$data->jeniskasuspenyakit_nama',
+                ),
+                
+                                array(
+                    'header'=>'Status Periksa',
+                    'type'=>'raw',
+                    'value'=>'$data->getStatus($data->statusperiksa,$data->pendaftaran_id,$data)',
+                ),
                 //'nama_pegawai',
     //            'kelaspelayanan_nama',
 
@@ -172,6 +178,49 @@ $('#daftarPasien-form').submit(function(){
     ?>
     <iframe name='frameRincian' width="100%" height="100%"></iframe>
     <?php $this->endWidget(); ?>
+     <?php 
+    // Dialog untuk ubah status periksa =========================
+    $this->beginWidget('zii.widgets.jui.CJuiDialog', array( 
+        'id'=>'dialogUbahStatus',
+        'options'=>array(
+            'title'=>'Ubah Status Pasien',
+            'autoOpen'=>false,
+            'modal'=>true,
+            'zIndex'=>1002,
+            'minWidth'=>600,
+            'minHeight'=>500,
+            'resizable'=>false,
+
+        ),
+    ));
+
+    echo '<div class="divForForm"></div>';
+
+
+    $this->endWidget();
+    //========= end ubah status periksa dialog =============================
+    ?>
+     <?php 
+    // Dialog untuk ubah status periksa =========================
+    $this->beginWidget('zii.widgets.jui.CJuiDialog', array( 
+        'id'=>'dialogUbahStatusPasien',
+        'options'=>array(
+            'title'=>'Ubah Status Pasien',
+            'autoOpen'=>false,
+            'modal'=>true,
+            'zIndex'=>1002,
+            'minWidth'=>600,
+            'minHeight'=>500,
+            'resizable'=>false,
+        ),
+    ));
+
+    echo '<div class="divForForm"></div>';
+
+
+    $this->endWidget();
+    //========= end ubah status periksa dialog =============================
+    ?>
 
     <?php
      //CHtml::link($text, $url, $htmlOptions)
@@ -278,6 +327,11 @@ $('#daftarPasien-form').submit(function(){
                     echo $form->dropDownListRow($modPasienMasukPenunjang,'penjamin_id', CHtml::listData($penjamin, 'penjamin_id', 'penjamin_nama'), array('empty'=>'-- Pilih --', 'class'=>'span3', 'maxlength'=>50));
 
                     ?>
+                    
+                     <?php 
+                        $mods = LookupM::getItems('statusperiksa');
+                        unset($mods['BATAL PERIKSA']);
+                        echo $form->dropDownListRow($modPasienMasukPenunjang,'statusperiksa', $mods, array('empty'=>'-- Pilih --','class'=>'span3')); ?>
                 </td>
             </tr>
         </table>
@@ -360,6 +414,27 @@ $('#daftarPasien-form').submit(function(){
         error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
     });
 } 
+
+function setStatus(obj,status,pendaftaran_id){
+    var status = status;
+    var pendaftaran_id = pendaftaran_id;
+    
+    myConfirm(' Yakin Akan Merubah Status Periksa Pasien? ', 'Perhatian!', function(r){
+        if(r){
+            $.post('<?php echo $this->createUrl('UbahStatusPeriksaPasien');?>', {status:status ,pendaftaran_id:pendaftaran_id}, function(data){
+                if(data.status == 'proses_form'){
+					$('#dialogUbahStatusPasien div.divForForm').html(data.div);
+					$.fn.yiiGridView.update('daftarpasien-v-grid');
+					setTimeout("$('#dialogUbahStatus').dialog('close')",1000);
+                }else{
+                    $('#alertDiv').show(); 
+                }
+            }, 'json');
+        }else{
+			preventDefault();
+        }
+    });    
+}
 
 /**
  * memanggil antrian ke poliklinik

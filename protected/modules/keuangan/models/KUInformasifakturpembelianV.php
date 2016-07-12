@@ -20,8 +20,10 @@ class KUInformasifakturpembelianV extends InformasifakturpembelianV
 
 		$criteria=new CDbCriteria;
 
-		$criteria->addBetweenCondition('DATE(tglfaktur)', $this->tgl_awal, $this->tgl_akhir,true);
-		if (isset($_GET['berdasarkanJatuhTempo'])){
+                if (!empty($this->tgl_awal) && !empty($this->tgl_akhir)) {
+                    $criteria->addBetweenCondition('DATE(tglfaktur)', $this->tgl_awal, $this->tgl_akhir,true);
+                }
+                if (isset($_GET['berdasarkanJatuhTempo'])){
 			if($_GET['berdasarkanJatuhTempo'] > 0){
 				$criteria->addBetweenCondition('tgljatuhtempo', $this->tgl_awalJatuhTempo, $this->tgl_akhirJatuhTempo);
 			}

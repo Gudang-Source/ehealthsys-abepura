@@ -304,7 +304,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                     array(
                         'header'=>'Pilih',
                         'type'=>'raw',
-                        'value'=>'CHtml::Link("<i class=\"icon-check\"></i>","javascript:void(0);",array("class"=>"btn-small", 
+                        'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","javascript:void(0);",array("class"=>"btn-small", 
                                         "id" => "selectKunjungan",
                                         "onClick" => "
                                             setKunjungan($data->pasienmasukpenunjang_id);

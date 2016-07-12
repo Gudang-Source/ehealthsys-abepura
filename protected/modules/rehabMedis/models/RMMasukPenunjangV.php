@@ -328,4 +328,19 @@ class RMMasukPenunjangV extends PasienmasukpenunjangV
                   //  'pagination'=>false,
             ));
     }
+    
+    public function getStatus($status,$id){
+	   if($status == "SEDANG PERIKSA"){
+		   $status = '<button id="red" class="btn btn-primary" name="yt1" >'.$status.'</button>';//onclick="setStatus(this,\''.$status.'\','.$id.')"
+
+	   }else if($status == "ANTRIAN"){
+		   $status = '<button id="green" class="btn btn-danger" name="yt1" >'.$status.'</button>';
+	   }else if($status == "SUDAH PULANG"){
+		   $status = '<button id="blue" class="btn btn-danger-yellow" name="yt1" >'.$status.'</button>';
+	   }else{
+		   $status = '<button id="orange" class="btn btn-danger-blue"  name="yt1">'.$status.'</button>';
+	   }
+	   return $status;
+   }
+   
 }

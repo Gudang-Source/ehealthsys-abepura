@@ -68,7 +68,7 @@ class KelurahanM extends CActiveRecord
 	{
 		return array(
 			'kelurahan_id' => 'ID',
-			'kecamatan_id' => 'Nama Kecamatan',
+			'kecamatan_id' => 'Kecamatan',
 			'kelurahan_nama' => 'Nama Kelurahan',
 			'kelurahan_namalainnya' => 'Nama Lain',
 			'kode_pos' => 'Kode Pos',

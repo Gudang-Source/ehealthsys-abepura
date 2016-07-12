@@ -790,4 +790,54 @@ class DaftarPasienController extends MyAuthController
 		else
 			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
 	}
+        
+        public function actionUbahStatusPeriksaPasien()
+	{
+	   $pendaftaran_id = isset($_POST['pendaftaran_id']) ? $_POST['pendaftaran_id'] : null;
+	   $status = isset($_POST['status']) ? $_POST['status'] : null;
+	   $model = PendaftaranT::model()->findByPk($pendaftaran_id);
+	   $modBatalPeriksa = new PasienbatalperiksaR;
+	   $model->tglselesaiperiksa = date('Y-m-d H:i:s');       
+	   if(isset($_POST['status']))
+	   {            $update = true;
+			if($status == "ANTRIAN"){
+                                $p = PendaftaranT::model()->findByPk($pendaftaran_id);
+                                $update = $p->setStatusPeriksa(Params::STATUSPERIKSA_SEDANG_PERIKSA);
+				// if (empty($model->pasienadmisi_id)) $update = PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SEDANG_PERIKSA));
+                                $this->updateStatusKonsul($pendaftaran_id, Params::STATUSPERIKSA_SEDANG_PERIKSA);
+                        }else{
+			if($status == "SEDANG PERIKSA"){
+                                $update = true;
+                                $p = PendaftaranT::model()->findByPk($pendaftaran_id);
+                                $update = $p->setStatusPeriksa(Params::STATUSPERIKSA_SUDAH_DIPERIKSA);
+				if (empty($p->pasienadmisi_id)) $update = PendaftaranT::model()->updateByPk($pendaftaran_id,array('tglselesaiperiksa'=>date('Y-m-d H:i:s')));
+                                
+                                $this->updateStatusKonsul($pendaftaran_id, Params::STATUSPERIKSA_SUDAH_DIPERIKSA);
+                        } /*else if($status == "SEDANG DIRAWAT INAP"){
+				$update = PendaftaranT::model()->updateByPk($pendaftaran_id,array('statusperiksa'=>Params::STATUSPERIKSA_SUDAH_PULANG));
+			} */
+		  }
+		  if($update)
+		  {
+				if (Yii::app()->request->isAjaxRequest)
+				{
+					echo CJSON::encode(array(
+						'status'=>'proses_form', 
+						'div'=>"<div class='flash-success'>Data Pasien <b></b> berhasil disimpan </div>",
+						));
+					exit;               
+				}
+		  }else{
+
+			   if (Yii::app()->request->isAjaxRequest)
+			   {
+				   echo CJSON::encode(array(
+					   'status'=>'proses_form', 
+					   'div'=>"<div class='flash-error'>Data Pasien <b></b> gagal disimpan </div>",
+					   ));
+				   exit;               
+			   }
+		   }
+	   }
+	}
 }

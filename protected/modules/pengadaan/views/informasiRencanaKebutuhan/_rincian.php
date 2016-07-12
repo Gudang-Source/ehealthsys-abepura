@@ -20,13 +20,17 @@ echo "No. Rencana : <b>".$model->noperencnaan."</b>";
 	<thead>
 		<tr>
 			<th>No.</th>
-			<th>Asal Barang</th>
-			<th>Kategori / Nama Obat</th>
-			<th>Jumlah Kemasan (Satuan)</th>
-			<th>Jumlah Permintaan</th>
-			<th>Harga Netto</th>
-			<th>Stok Akhir</th>
+			<th>Jenis</th>
+			<th>Nama Obat</th>
+                        <th>Tgl. Kadaluarsa</th>
 			<th>Minimal Stok</th>
+                        <th>Maksimal Stok</th>
+			<th>Stok Akhir</th>
+			<th>Jumlah Kemasan (Satuan)</th>
+			<th>Jumlah Kebutuhan</th>
+			<th>HPP</th>
+                        <th>VEN</th>
+                        <th>ABC</th>
 			<th>Sub Total</th>
 			
 		</tr>
@@ -39,17 +43,22 @@ echo "No. Rencana : <b>".$model->noperencnaan."</b>";
                     $oa = ObatalkesM::model()->findByPk($modDetail->obatalkes_id);
                     $sat = !empty($modDetail->satuankecil_id)?$modDetail->satuankecil->satuankecil_nama:$modDetail->satuanbesar->satuanbesar_nama;
                     $kecil = $oa->satuankecil->satuankecil_nama;
+                    $modLookup = ADLookupM::model()->findByAttributes(array('lookup_value'=>$modDetail->obatalkes->ven));
 		?>
 		<tr>
 				<td><?php echo $i+1; echo ". "; ?></td>
-				<td><?php echo $modDetail->sumberdana->sumberdana_nama; ?></td>
-				<td><?php echo (!empty($modDetail->obatalkes->obatalkes_kategori) ? $modDetail->obatalkes->obatalkes_kategori."/ " : "") ."". $modDetail->obatalkes->obatalkes_nama; ?></td>
+				<td><?php echo empty($oa->jenisobatalkes_id)?"-":$oa->jenisobatalkes->jenisobatalkes_nama; ?></td>
+				<td><?php echo $oa->obatalkes_nama; ?></td>
+                                <td><?php echo MyFormatter::formatDateTimeForUser($oa->tglkadaluarsa); ?></td>
+				<td class="uang"><?php echo $modDetail->minimalstok." ".$kecil; ?></td>
+				<td class="uang"><?php echo $modDetail->maksimalstok." ".$kecil; ?></td>
+				<td class="uang"><?php echo $modDetail->stokakhir." ".$kecil; ?></td>
                                 <td class="uang"><?php echo $modDetail->kemasanbesar." ".$kecil; ?></td>
 				<td class="uang"><?php echo $modDetail->jmlpermintaan." ".$sat; ?></td>
-				<td class="uang"><?php echo $format->formatUang($modDetail->harganettorenc); ?></td>
-				<td class="uang"><?php echo $modDetail->stokakhir." ".$kecil; ?></td>
-				<td class="uang"><?php echo $modDetail->minimalstok." ".$kecil; ?></td>
-				<td class="uang">
+				<td class="uang"><?php echo $format->formatNumberForPrint($modDetail->harganettorenc); ?></td>
+				<td><?php echo isset($modLookup->lookup_name) ? $modLookup->lookup_name : "-"; ?></td>
+                                <td><?php echo $modDetail->kategori_abc; ?></td>
+                                <td class="uang">
 					<?php 
                     if (!empty($modDetail->satuankecil_id)) {
                         $subtotal = $modDetail->harganettorenc * $modDetail->jmlpermintaan;
@@ -58,13 +67,13 @@ echo "No. Rencana : <b>".$model->noperencnaan."</b>";
                     }
                     // $subtotal = ($modDetail->harganettorenc * $modDetail->jmlpermintaan);
                     $total += $subtotal;
-                    echo $format->formatUang($subtotal); ?>
+                    echo $format->formatNumberForPrint($subtotal); ?>
 				</td>
 		</tr>
 		<?php } ?>
 		<tfoot>
 			<tr>
-				<td colspan="8" style="text-align:right;">Total Anggaran</td>
+				<td colspan="12" style="text-align:right;">Total Anggaran</td>
 				<td class="uang"><b>
 					<?php echo $format->formatNumberForPrint($total) ?>
 					</b>

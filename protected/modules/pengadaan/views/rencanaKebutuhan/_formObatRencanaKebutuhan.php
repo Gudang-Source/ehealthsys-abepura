@@ -48,7 +48,7 @@
             <div class="control-group ">
                 <?php echo CHtml::label('jumlah', 'qty_input', array('class'=>'control-label')); ?>
                 <div class="controls">
-                    <?php echo CHtml::textField('qty_input', '1', array('readonly'=>false,'onblur'=>'$("#qty").val(this.value);','onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span1 integer')) ?>
+                    <?php echo CHtml::textField('qty_input', '1', array('readonly'=>false,'onblur'=>'$("#qty").val(this.value);','onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span1 integer2')) ?>
                     <?php echo CHtml::htmlButton('<i class="icon-plus icon-white"></i>',
                             array('onclick'=>'tambahObatAlkes();return false;',
                                   'class'=>'btn btn-primary',
@@ -65,7 +65,7 @@
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     'id'=>'dialogObatAlkes',
     'options'=>array(
-        'title'=>'Obat & Alat Kesehatan',
+        'title'=>'Stok Obat Alkes '.Yii::app()->user->getState('ruangan_nama'),
         'autoOpen'=>false,
         'modal'=>true,
         'width'=>980,
@@ -76,6 +76,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 
 $modObatAlkes = new ADObatalkesM('searchDialog');
 $modObatAlkes->unsetAttributes();
+$modObatAlkes->obatalkes_aktif = true;
 if(isset($_GET['ADObatalkesM'])){
     $modObatAlkes->attributes = $_GET['ADObatalkesM'];
    // $modObatAlkes->satuankecil_nama = $_GET['ADObatalkesM']['satuankecil_nama'];
@@ -105,39 +106,43 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'name'=>'jenisobatalkes_id',
                     'type'=>'raw',
                     'value'=>'(!empty($data->jenisobatalkes_id) ? $data->jenisobatalkes->jenisobatalkes_nama : "")',
-                   // 'filter'=>  CHtml::activeTextField($modObatAlkes, 'jenisobatalkes_nama'),
-                    'filter' => CHtml::dropDownList('ADObatalkesM[jenisobatalkes_id]', $modObatAlkes->jenisobatalkes_id, CHtml::listData($modObatAlkes->getJenisObatAlkesItems(), 'jenisobatalkes_id', 'jenisobatalkes_nama'), array('empty'=>'-- Pilih --'))
+                    'filter'=>  CHtml::activeDropDownList($modObatAlkes, 'jenisobatalkes_nama', 
+                            CHtml::listData(JenisobatalkesM::model()->findAll('jenisobatalkes_aktif = true order by jenisobatalkes_nama asc'), 'jenisobatalkes_id', 'jenisobatalkes_nama'), 
+                            array('empty'=>'-- Pilih --')),
                 ),
                 array(
-                    'header'=>'Kategori',
-                    'name' => 'obatalkes_kategori',
-                    'value' => '$data->obatalkes_kategori',
-                    'filter' => CHtml::dropDownList('ADObatalkesM[obatalkes_kategori]', $modObatAlkes->obatalkes_kategori, LookupM::getItems('obatalkes_kategori'), array('empty'=>'-- Pilih --'))
-                ),                
-                array(
-                    'header'=>'Golongan',
-                    'name' => 'obatalkes_golongan',
-                    'value' => '$data->obatalkes_golongan',                    
-                    'filter' => CHtml::dropDownList('ADObatalkesM[obatalkes_golongan]', $modObatAlkes->obatalkes_golongan, LookupM::getItems('obatalkes_golongan'), array('empty'=>'-- Pilih --'))
-                ),                  
-                'obatalkes_nama',                
-                array(
-                    'name'=>'satuankecil_id',
-                    'type'=>'raw',
-                    'value'=>'$data->satuankecil->satuankecil_nama',
-                    //'filter'=>  CHtml::activeTextField($modObatAlkes, 'satuankecil_nama'),
-                    'filter' => CHtml::dropDownList('ADObatalkesM[satuankecil_id]', $modObatAlkes->satuankecil_id, CHtml::listData($modObatAlkes->getSatuanKecilItems(), 'satuankecil_id', 'satuankecil_nama'), array('empty'=>'-- Pilih --'))
+                    'name'=>'obatalkes_kategori',
+                    'filter'=>CHtml::activeDropDownList($modObatAlkes, 'obatalkes_kategori', LookupM::getItems('obatalkes_kategori'), array(
+                        'empty'=>'-- Pilih --',
+                    )),
                 ),
                 array(
-                    'name'=>'hargajual',
+                    'name'=>'obatalkes_golongan',
+                    'filter'=>CHtml::activeDropDownList($modObatAlkes, 'obatalkes_golongan', LookupM::getItems('obatalkes_golongan'), array(
+                        'empty'=>'-- Pilih --',
+                    )),
+                ),
+                'obatalkes_nama',
+                array(
+                    'header'=>'Tgl. Kadaluarsa',
+                    'value'=>'MyFormatter::formatDateTimeForUser($data->tglkadaluarsa)',
+                ),
+                array(
+                    'header'=>'HPP',
                     'type'=>'raw',
-                    'value'=>'"Rp.".MyFormatter::formatNumberForPrint($data->hargajual)',
+                    'value'=>'"Rp".MyFormatter::formatNumberForPrint($data->harganetto + ($data->harganetto * ($data->ppn_persen/100)))',
                     'filter'=>false,
+                    'htmlOptions'=>array(
+                        'style'=>'text-align: right',
+                    )
                 ),
                 array(
                     'header'=>'Stok',
                     'type'=>'raw',
-                    'value'=>'$data->StokObatRuangan',
+                    'value'=>'$data->StokObatRuangan." ".$data->satuankecil->satuankecil_nama',
+                    'htmlOptions'=>array(
+                        'style'=>'text-align: right',
+                    )
                 ),
 
                 

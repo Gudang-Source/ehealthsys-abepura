@@ -247,7 +247,7 @@
                             'name' => 'create_loginpemakai_id',
                             'value'=>function($data) {
                                 $lp = LoginpemakaiK::model()->findByPk($data->create_loginpemakai_id);
-                                return $lp->nama_pemakai;
+                                return isset($lp->pegawai_id)?$lp->pegawai->namaLengkap:'-';
                             }
                         )
                    ),
@@ -357,7 +357,7 @@
                      <?php echo $form->dropDownListRow($modInfoKunjunganRDV, 'statusperiksa', 
                         Params::statusPeriksa(), array('empty'=>'-- Pilih --')); ?>
                   
-                    <?php echo $form->dropDownListRow($model,'create_loginpemakai_id',  CHtml::listData($model->getPegawaiRuanganItems(),'loginpemakai_id','nama_pemakai'),array('empty'=>'-- Pilih --','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+                    <?php echo $form->dropDownListRow($model,'create_loginpemakai_id',  CHtml::listData($model->getPegawaiRuanganItems(),'loginpemakai_id','pegawai.nama_pegawai'),array('empty'=>'-- Pilih --','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
                         <?php /* echo $form->dropDownListRow($modInfoKunjunganRDV,'propinsi_id', CHtml::listData($modInfoKunjunganRDV->getPropinsiItems(), 'propinsi_id', 'propinsi_nama'), 
                                          array('empty'=>'-- Pilih --',
                                                'ajax'=>array('type'=>'POST',

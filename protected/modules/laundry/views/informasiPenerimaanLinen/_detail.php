@@ -1,34 +1,45 @@
+<style>
+    .table {
+        border-collapse: collapse;
+        border: 1px solid black;
+        box-shadow: none;
+    }
+    .table th, .table td, .table tbody tr:hover td {
+        background-color: white;
+        border: 1px solid black;
+        color: black;
+    }
+</style>
 <?php 
 echo $this->renderPartial('application.views.headerReport.headerAnggaran',array('judulLaporan'=>$judulLaporan, 'deskripsi'=>$deskripsi, 'colspan'=>10));
 ?>
-<div class="row-fluid">
-	<div class="span6">
-		<div class="control-group ">
-			<?php echo CHtml::label('Tanggal Penerimaan Linen', 'tglpenerimaanlinen', array('class' => 'control-label')); echo " :";?>
-			<?php echo isset($model->tglpenerimaanlinen) ? $format->formatDateTimeId($model->tglpenerimaanlinen) : "-";  ?>
-		</div>
-		<div class="control-group ">
-			<?php echo CHtml::label('No. Penerimaan Linen', 'nopenerimaanlinen', array('class' => 'control-label')); echo " :"; ?>
-				<?php echo isset($model->nopenerimaanlinen) ? $model->nopenerimaanlinen : "-";  ?>
-		</div>
-		<div class="control-group ">
-			<?php echo CHtml::label('Instalasi', 'instalasi_id', array('class' => 'control-label')); echo " :"; ?>
-				<?php echo isset($model->ruangan->instalasi->instalasi_nama) ? $model->ruangan->instalasi->instalasi_nama : "-";  ?>
-		</div>
-	</div>
-	<div class="span6">
-		<div class="control-group ">
-			<?php echo CHtml::label('Ruangan', 'ruangan_id', array('class' => 'control-label')); echo " :"; ?>
-				<?php echo isset($model->ruangan->ruangan_nama) ? $model->ruangan->ruangan_nama : "-";  ?>
-		</div>
-		<div class="control-group ">
-			<?php echo CHtml::label('Keterangan', 'keterangan_penerimaanlinen', array('class' => 'control-label')); echo " :"; ?>
-				<?php echo isset($model->keterangan_penerimaanlinen) ? $model->keterangan_penerimaanlinen : "-";  ?>
-		</div>
-	</div>
-</div>	
-    <table width="100%" style='margin-left:auto; margin-right:auto;'>
-        <thead class="border">
+<table >
+	<tr>
+            <td><?php echo CHtml::label('Tanggal Penerimaan Linen', 'tglpenerimaanlinen', array('class' => 'control-label'));?></td>
+            <td>:</td>
+            <td><?php echo isset($model->tglpenerimaanlinen) ? $format->formatDateTimeId($model->tglpenerimaanlinen) : "-";  ?></td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            <td><?php echo CHtml::label('Ruangan', 'ruangan_id', array('class' => 'control-label')); echo " :"; ?></td>
+            <td>:</td>
+            <td><?php echo isset($model->ruangan->ruangan_nama) ? $model->ruangan->ruangan_nama : "-";  ?></td>
+        </tr>
+	<tr>
+            <td><?php echo CHtml::label('No. Penerimaan Linen', 'nopenerimaanlinen', array('class' => 'control-label')); echo " :"; ?></td>
+            <td>:</td>
+            <td><?php echo isset($model->nopenerimaanlinen) ? $model->nopenerimaanlinen : "-";  ?></td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            <td><?php echo CHtml::label('Instalasi', 'instalasi_id', array('class' => 'control-label')); echo " :"; ?></td>
+            <td>:</td>
+            <td><?php echo isset($model->ruangan->instalasi->instalasi_nama) ? $model->ruangan->instalasi->instalasi_nama : "-";  ?></td>
+        </tr>	
+        <tr>
+            <td><?php echo CHtml::label('Keterangan', 'keterangan_penerimaanlinen', array('class' => 'control-label')); echo " :"; ?></td>
+            <td>:</td>
+            <td><?php echo isset($model->keterangan_penerimaanlinen) ? $model->keterangan_penerimaanlinen : "-";  ?></td>                        
+        </tr>			
+</table>
+    <table class="table table-condensed" width="100%" style='margin-left:auto; margin-right:auto;'>
+        <thead  >
             <th>Nama Linen</th>
             <th>Jenis Perawatan</th>
             <th>Keterangan</th>

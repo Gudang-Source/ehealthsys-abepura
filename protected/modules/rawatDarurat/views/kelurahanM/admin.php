@@ -5,10 +5,10 @@
         'type'=>'tabs', // '', 'tabs', 'pills' (or 'list')
         'stacked'=>false, // whether this is a stacked menu
         'items'=>array(
-            array('label'=>'Propinsi',  'url'=>$this->createUrl('/rawatDarurat/propinsiM')),
-            array('label'=>'Kabupaten', 'url'=>$this->createUrl('/rawatDarurat/kabupatenM')),
-            array('label'=>'Kecamatan', 'url'=>$this->createUrl('/rawatDarurat/kecamatanM')),
-            array('label'=>'Kelurahan', 'url'=>$this->createUrl('/rawatDarurat/kelurahanM'), 'active'=>true),
+            array('label'=>'Propinsi',  'url'=>$this->createUrl('/rawatDarurat/propinsiM&modul_id='.Yii::app()->session['modul_id'])),
+            array('label'=>'Kabupaten', 'url'=>$this->createUrl('/rawatDarurat/kabupatenM&modul_id='.Yii::app()->session['modul_id'])),
+            array('label'=>'Kecamatan', 'url'=>$this->createUrl('/rawatDarurat/kecamatanM&modul_id='.Yii::app()->session['modul_id'])),
+            array('label'=>'Kelurahan', 'url'=>$this->createUrl('/rawatDarurat/kelurahanM&modul_id='.Yii::app()->session['modul_id']), 'active'=>true),
         ),
     )); ?>
     <div class="biru">
@@ -65,7 +65,7 @@
                             ),
                             array(
                                     'name'=>'kecamatan_id',
-                                    'filter'=>  CHtml::listData($model->getKecamatanItems(), 'kecamatan_id', 'kecamatan_nama'),
+                                    'filter'=> CHtml::dropDownList('RDKelurahanM[kecamatan_id]',$model->kecamatan_id,CHtml::listData($model->getKecamatanItems(), 'kecamatan_id', 'kecamatan_nama'),array('empty'=>'-- Pilih --')),
                                     'value'=>'$data->kecamatan->kecamatan_nama',
                             ),
                             'kelurahan_nama',
