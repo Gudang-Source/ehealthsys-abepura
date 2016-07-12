@@ -9,7 +9,8 @@
 //        array('label'=>'Kelurahan', 'url'=>$this->createUrl('/rawatDarurat/kelurahanM')),
 //    ),
 //)); ?>
-
+<fieldset class = "box" >
+    <legend class = "rim">Ubah Kabupaten</legend>
 <?php
 $this->breadcrumbs=array(
 	'Sakabupaten Ms'=>array('index'),
@@ -22,8 +23,9 @@ $arrMenu = array();
              
                 (Yii::app()->user->checkAccess(Params::DEFAULT_ADMIN)) ?array_push($arrMenu,array('label'=>Yii::t('mds','Manage').' Kabupaten', 'icon'=>'folder-open', 'url'=>array('admin'))) :  '' ;
 
-$this->menu=$arrMenu;
+//$this->menu=$arrMenu;
 
 $this->widget('bootstrap.widgets.BootAlert'); ?>
 
 <?php echo $this->renderPartial('_formUpdate',array('model'=>$model)); ?>
+</fieldset>

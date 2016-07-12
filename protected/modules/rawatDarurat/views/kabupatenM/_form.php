@@ -5,7 +5,7 @@
 	'enableAjaxValidation'=>false,
                 'type'=>'horizontal',
                 'focus'=>'#SAKabupatenM_propinsi_id',
-                'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)'),
+                'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)', 'onsubmit'=>'return requiredCheck(this);'),
 )); ?>
 
 	<p class="help-block"><?php echo Yii::t('mds','Fields with <span class="required">*</span> are required.') ?></p>
@@ -17,11 +17,42 @@
         <table id="tbl-kabupaten" class="table table-striped table-bordered table-condensed">
             <tr>
                 <td>
-                    <?php echo $form->textField($model,'[1]kabupaten_nama',array('class'=>'span3', 'onkeyup'=>"namaLain(this)", 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50,'placeholder'=>$model->getAttributeLabel('kabupaten_nama'))); ?>
+                    <?php echo $form->textField($model,'[1]kabupaten_nama',array('class'=>'span3 required', 'onkeyup'=>"namaLain(this)", 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50,'placeholder'=>$model->getAttributeLabel('kabupaten_nama'))); ?>
                     <span class="required">*</span>
                 </td>
                 <td>
                     <?php echo $form->textField($model,'[1]kabupaten_namalainnya',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50, 'placeholder'=> $model->getAttributeLabel('kabupaten_namalainnya'))); ?>
+                </td>                
+                <td>
+
+                        <?php echo $form->textField($model,'[1]latitude',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+                        <?php echo CHtml::htmlButton('<i class="icon-search icon-white"></i>',
+                                                    array(
+                                                            'class'=>'btn btn-primary btn-location',
+                                                            'rel'=>'tooltip',
+                                                            'id'=>'yw1',
+                                                            'onclick' =>'changeSize()',
+                                                            'title'=>'Klik untuk mencari Longitude & Latitude',)); ?>
+
+
+                </td>
+                <td>
+                     <?php echo $form->textFieldRow($model,'[1]longitude',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+               
+                    <!--Extension location-picker latitude & longitude-->
+                   <?php               
+
+                           $this->widget('ext.LocationPicker2.CoordinatePicker', array(
+                                   'model' => $model,
+                                   'latitudeAttribute' => '[1]latitude',
+                                   'longitudeAttribute' => '[1]longitude',
+                                   //optional settings
+                                   'editZoom' => 12,
+                                   'pickZoom' => 7,
+                                   'defaultLatitude' => $model->latitude,
+                                   'defaultLongitude' => $model->longitude,
+                           ));
+                   ?>    
                 </td>
                 <td>
                     <?php echo CHtml::htmlButton( '<i class="icon-plus-sign icon-white"></i>', array('class'=>'btn btn-primary','onkeypress'=>"addRow(this);return $(this).focusNextInputField(event);",'onclick'=>'addRow(this);$(this).nextFocus()','id'=>'row1-plus')); ?>
@@ -38,6 +69,7 @@
                                     Yii::app()->createUrl($this->module->id.'/kabupatenM/admin'), 
                                     array('class'=>'btn btn-danger',
                                     'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
+                        <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Kelurahan', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp"; ?>
                         <?php
                             $content = $this->renderPartial('../tips/tipsaddedit2b',array(),true);
                             $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
@@ -57,6 +89,8 @@ function addRow(obj)
     $('#tbl-kabupaten tr:last td:last').append('$buttonMinus');
     renameInput('RDKabupatenM','kabupaten_nama');
     renameInput('RDKabupatenM','kabupaten_namalainnya');
+    renameInput('RDKabupatenM','latitude');
+    renameInput('RDKabupatenM','longitude');    
 }
 
 function renameInput(modelName,attributeName)
@@ -87,5 +121,18 @@ Yii::app()->clientScript->registerScript('multiple input',$js, CClientScript::PO
     function namaLain(nama)
     {
         document.getElementById('SAKabupatenM_1_kabupaten_namalainnya').value = nama.value.toUpperCase();
+    }
+    
+    function registerJSlocation(id,modelName,i)
+     {
+        $('#'+id).on('click', function(){ 
+                $('#'+id).coordinate_picker({'lat_selector':'#'+modelName+'_'+i+'_latitude','long_selector':'#'+modelName+'_'+i+'_longitude','default_lat':'-7.091932','default_long':'107.672491','edit_zoom':12,'pick_zoom':7})                                
+            });
+                
+    }
+        
+    function changeSize()
+    {            
+        window.parent.document.getElementById('frame').style= 'overflow-y:scroll;height:600px;';            
     }
 </script>
