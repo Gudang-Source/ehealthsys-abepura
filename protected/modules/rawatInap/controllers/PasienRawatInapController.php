@@ -2412,7 +2412,7 @@ public function actionKirimDokumen($pengirimanrm_id,$pendaftaran_id){
 		));            
 	}
         
-        public function actionSetDropdownRuangan($encode=false,$model_nama='',$attr='')
+    public function actionSetDropdownRuangan($encode=false,$model_nama='',$attr='')
     {
         if(Yii::app()->request->isAjaxRequest) {
             $instalasi_id = null;

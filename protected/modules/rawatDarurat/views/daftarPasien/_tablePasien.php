@@ -181,17 +181,34 @@
 //                        'value'=>'CHtml::link("<icon class=\'icon-list-brown\'></icon>", Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/RinciantagihanpasienExtendsV/rincianBelumBayarRD", array("id"=>$data->pendaftaran_id)), array("target"=>"frameRincian", "onclick"=>"$(\'#dialogRincian\').dialog(\'open\');","rel"=>"tooltip", "title"=>"Klik untuk melihat rincian tagihan"))','htmlOptions'=>array('style'=>'text-align: center; width:40px')
                         'value'=>'CHtml::link("<icon class=\'icon-form-detail\'></icon>", Yii::app()->createUrl("/billingKasir/pembayaranTagihanPasien/printRincianBelumBayar", array("instalasi_id"=>$data->instalasi_id,"pendaftaran_id"=>$data->pendaftaran_id,"frame"=>true)), array("target"=>"frameRincian", "onclick"=>"$(\'#dialogRincian\').dialog(\'open\');","rel"=>"tooltip", "title"=>"Klik untuk melihat rincian tagihan"))','htmlOptions'=>array('style'=>'text-align: center; width:40px')
                     ),  
-					array(
-						'header'=>'Batal Periksa',
-						'type'=>'raw',
-						'value'=>function($data) {
-                                                    if (($data->pasienpulang_id != 0) OR ($data->carakeluar != "")) return "-";
-                                                    $admisi = PasienadmisiT::model()->findByAttributes(array('pendaftaran_id'=>$data->pendaftaran_id));
-                                                    if (empty($admisi)) return CHtml::link('<i class="icon-form-silang"></i>', "javascript:batalperiksa($data->pendaftaran_id)",array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk membatalkan pemeriksaan"));
-                                                    else return "-";
-                                                },
-						'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
-					),
+                    array(
+                        'header'=>'Status Dokumen',
+                        'type'=>'raw',
+                        'value'=> function($data) {
+                            $ruangan_id = Yii::app()->user->getState('ruangan_id');
+                            $status_dokumen = RDPendaftaranT::model()->findByPk($data->pendaftaran_id);
+                        
+                            return ($status_dokumen->statusdokrm == "SUDAH DITERIMA") ? CHtml::link("<i></i> $status_dokumen->statusdokrm", Yii::app()->createUrl(Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/statusDokumenKirim', array("pengirimanrm_id"=>$status_dokumen->pengirimanrm_id,"pendaftaran_id"=>$data->pendaftaran_id)),
+                                        array("class"=>"btn btn-primary",
+                                        "target"=>"frameStatusDokumen",
+                                        "rel"=>"tooltip",
+                                        "title"=>"Klik untuk mengirim dokumen ke ruangan lain",
+                                        "onclick"=>'$("#dialogStatusDokumen").dialog("open");')):
+                                $data->getStatusDokumen($status_dokumen->pengirimanrm_id,$status_dokumen->statusdokrm,$data->pendaftaran_id);
+                        },
+                        'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
+                ),
+                    array(
+                            'header'=>'Batal Periksa',
+                            'type'=>'raw',
+                            'value'=>function($data) {
+                                if (($data->pasienpulang_id != 0) OR ($data->carakeluar != "")) return "-";
+                                $admisi = PasienadmisiT::model()->findByAttributes(array('pendaftaran_id'=>$data->pendaftaran_id));
+                                if (empty($admisi)) return CHtml::link('<i class="icon-form-silang"></i>', "javascript:batalperiksa($data->pendaftaran_id)",array("id"=>"$data->no_pendaftaran","rel"=>"tooltip","title"=>"Klik untuk membatalkan pemeriksaan"));
+                                else return "-";
+                            },
+                            'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
+                    ),
             ),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
     ));
@@ -275,5 +292,23 @@ function saveKasusPenyakit(obj,pendaftaran_id){
 	   },
 	   error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
    });	
+}
+
+function verifikasiKirimanRM(id, kirimrm) {
+    myConfirm('Yakin untuk Menerima Dokumen Rekam Medis Pasien? ', 'Perhatian!', function(r){
+        if(r){
+            $.post('<?php echo $this->createUrl('terimaDokumen');?>', {
+                pendaftaran_id:id, pengirimanrm_id:kirimrm
+            }, function(data){
+                if(data.status == 'proses_form'){
+						//$('#dialogStatusDokumen div.divForForm').html(data.div);
+						$.fn.yiiGridView.update('daftarPasien-grid');
+						//setTimeout("$('#dialogStatusDokumen').dialog('close')",1000);
+					}
+            }, 'json');
+        }else{
+             preventDefault();
+        }
+    });
 }
 </script>
