@@ -45,29 +45,46 @@ $('.search-form form').submit(function(){
 					'header'=>'Tanggal Penerimaan',
 					'type'=>'raw',
 					'value'=>'MyFormatter::formatDateTimeForUser($data->tglpenerimaanlinen)',
-				),
+				),                                
 				array(
-					'name'=>'Instalasi',
+					'name'=>'Instalasi / Ruangan <br> Penerima',
 					'type'=>'raw',
-					'value'=>'$data->ruangan->instalasi->instalasi_nama',
-				),
+					'value'=>'$data->ruangan->instalasi->instalasi_nama."<br>/ ".$data->ruangan->ruangan_nama',
+				),				
 				array(
-					'name'=>'Ruangan',
-					'type'=>'raw',
-					'value'=>'$data->ruangan->ruangan_nama',
-				),
-				array(
-					'name'=>'keterangan_pengiriman',
+                                        'header'=>'Keterangan Penerimaan',
+					//'name'=>'keterangan_pengiriman',
 					'type'=>'raw',
 					'value'=>'$data->keterangan_penerimaanlinen',
+				),
+                                array(
+					'header'=>'Pegawai Pengirim',
+					'type'=>'raw',
+					'value'=>'$data->pengPerawatan->pegawaiMengajukan->namaLengkap',
 				),
 //				RND-8968
 				array(
 					'header'=>'Proses',
 					'type'=>'raw',
-					'value'=>
-                                            'CHtml::link("<button class=\'btn btn-red\'>Perawatan</button>",  Yii::app()->controller->createUrl("/laundry/perawatanLinen/index",array("penerimaanlinen_id"=>$data->penerimaanlinen_id)),array("rel"=>"tooltip","title"=>"Klik untuk Perawatan Linen","disabled"=>true)).'.
-                                            'CHtml::link("<button class=\'btn btn-success\'>Pencucian</button>",  Yii::app()->controller->createUrl("/laundry/pencucianLinen/index",array("penerimaanlinen_id"=>$data->penerimaanlinen_id)),array("rel"=>"tooltip","title"=>"Klik untuk Pencucian Linen","disabled"=>true))',
+					//'value'=>
+                                           // 'CHtml::link("<button class=\'btn btn-red\'>Perawatan</button>",  Yii::app()->controller->createUrl("/laundry/perawatanLinen/index",array("penerimaanlinen_id"=>$data->penerimaanlinen_id)),array("rel"=>"tooltip","title"=>"Klik untuk Perawatan Linen","disabled"=>true)).'.
+                                           // 'CHtml::link("<button class=\'btn btn-success\'>Pencucian</button>",  Yii::app()->controller->createUrl("/laundry/pencucianLinen/index",array("penerimaanlinen_id"=>$data->penerimaanlinen_id)),array("rel"=>"tooltip","title"=>"Klik untuk Pencucian Linen","disabled"=>true))',
+                                        'value'=>function($data){
+                                            $cekPerawatan = PerawatanlinendetailT::model()->find("penerimaanlinen_id = ".$data->penerimaanlinen_id);
+                                            if (count($cekPerawatan)>0){
+                                                echo CHtml::link("<button class='btn btn-red'>Perawatan</button>",  Yii::app()->controller->createUrl("/laundry/perawatanLinen/index",array("penerimaanlinen_id"=>$data->penerimaanlinen_id)),array("rel"=>"tooltip","title"=>"Klik untuk Perawatan Linen","disabled"=>true));
+                                            }else{
+                                                echo CHtml::link("<button class='btn btn-red disabled'>Perawatan</button>", "",array("penerimaanlinen_id"=>$data->penerimaanlinen_id),array("rel"=>"tooltip","title"=>"Klik untuk Perawatan Linen"));                                                
+                                            }    
+                                             
+                                             $cekPencucian = PencuciandetailT::model()->find("penerimaanlinen_id = ".$data->penerimaanlinen_id);
+                                            if (count($cekPencucian)>0){
+                                                echo CHtml::link("<button class='btn btn-success'>Pencucian</button>",  Yii::app()->controller->createUrl("/laundry/pencucianLinen/index",array("penerimaanlinen_id"=>$data->penerimaanlinen_id)),array("rel"=>"tooltip","title"=>"Klik untuk Pencucian Linen","disabled"=>true));
+                                            }else{
+                                                echo CHtml::link("<button class='btn btn-success disabled'>Pencucian</button>",  "",array("penerimaanlinen_id"=>$data->penerimaanlinen_id),array("rel"=>"tooltip","title"=>"Klik untuk Pencucian Linen"));
+                                            } 
+                                            
+                                        },
                                         'htmlOptions'=>array('style'=>'text-align: center; width:100px')
 				),
 				array(

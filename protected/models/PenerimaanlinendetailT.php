@@ -56,7 +56,7 @@ class PenerimaanlinendetailT extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-            'linen' => array(self::BELONGS_TO, 'LinenM', 'linen_id'),
+                    'linen' => array(self::BELONGS_TO, 'LinenM', 'linen_id'),                    
 		);
 	}
 
