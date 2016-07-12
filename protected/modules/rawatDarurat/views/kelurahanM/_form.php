@@ -31,7 +31,7 @@
                                                                             'ajax'=>array(
                                                                                 'type'=>'POST',
                                                                                 'url'=>Yii::app()->createUrl('ActionDynamic/GetKecamatan',array('encode'=>false,'namaModel'=>'','attr'=>'kabupaten')),
-                                                                                'update'=>'#SAKelurahanM_kecamatan_id',))); 
+                                                                                'update'=>'#RDKelurahanM_kecamatan_id',))); 
                     ?>
                 </div>
             </div>

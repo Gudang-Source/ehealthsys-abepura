@@ -694,7 +694,7 @@ class RJInfokunjunganrjV extends InfokunjunganrjV {
                 ));
     }
     
-	public function getStatus($status,$id){
+    public function getStatus($status,$id){
 	   if($status == "SEDANG PERIKSA"){
 		   $status = '<button id="red" class="btn btn-primary" name="yt1" onclick="setStatus(this,\''.$status.'\','.$id.')">'.$status.'</button>';
 
