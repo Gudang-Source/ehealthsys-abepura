@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="control-group" style="float:left;">
-            <?php echo CHtml::activeLabel($modPemeriksaanRm, 'tindakanrm_id',array('class'=>'control-label')); ?>
+            <?php echo CHtml::Label('Tindakan Rehab Medis', 'tindakanrm_id',array('class'=>'control-label')); ?>
             <div class="controls">
                 <?php echo CHtml::activeTextField($modPemeriksaanRm, 'tindakanrm_nama',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)","onchange"=>"updateChecklistPemeriksaanRehab();",)); ?>
             </div>

@@ -60,11 +60,16 @@
 			$disableSave = false;
 			$disableSave = (!empty($_GET['sukses'])) ? true : ($sukses > 0) ? true : false;; 
 		?>
-		<?php $disablePrint = ($disableSave) ? false : true; ?>
+		<?php 
+                    $disablePrint = ($disableSave) ? "print('PRINT')" : ""; 
+                    $statusPrint = ($disableSave) ? false : true; 
+                    ?>
 		<?php echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit','disabled'=>$disableSave)); ?>
-		<?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
-				$this->createUrl('index'),array('class'=>'btn btn-danger','onclick'=>'myConfirm("Apakah Anda yakin ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;')); ?>
-		<?php echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info', 'onclick'=>"print('PRINT')",'disabled'=>$disablePrint)); ?>
+		<?php echo CHtml::link(Yii::t('mds','{icon} Reset',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+                            $this->createUrl($this->id.'/index&modul_id='.Yii::app()->session['modul_id']), 
+                            array('class'=>'btn btn-danger',
+                                'onclick'=>'return refreshForm(this);')); ?>
+		<?php echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info', 'onclick'=>$disablePrint, 'disabled'=>$statusPrint)); ?>
 		<?php	$content = $this->renderPartial('sistemAdministrator.views.tips.tipsaddedit5a',array(),true);
 				$this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); ?>
     </div>

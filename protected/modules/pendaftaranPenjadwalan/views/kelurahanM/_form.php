@@ -3,7 +3,7 @@
 	'id'=>'ppkelurahan-m-form',
 	'enableAjaxValidation'=>false,
         'type'=>'horizontal',
-        'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)'),
+        'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)', 'onsubmit'=>'return requiredCheck(this);'),
         'focus'=>'#propinsi',
 )); ?>
 
@@ -50,7 +50,7 @@
 	<table id="tbl-kelurahan" class="table table-striped table-bordered table-condensed">
 		<tr>
 			<td>
-				<?php echo $form->textField($model,'[1]kelurahan_nama',array('class'=>'span3', 'onkeyup'=>"namaLain(this)", 'onkeyup'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50,'placeholder'=>$model->getAttributeLabel('kelurahan_nama'))); ?>
+				<?php echo $form->textField($model,'[1]kelurahan_nama',array('class'=>'span3 required', 'onkeyup'=>"namaLain(this)", 'onkeyup'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50,'placeholder'=>$model->getAttributeLabel('kelurahan_nama'))); ?>
 				<span class="required">*</span>
 			</td>
 			<td>

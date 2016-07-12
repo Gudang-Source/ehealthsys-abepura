@@ -4,7 +4,7 @@
 	'enableAjaxValidation'=>false,
                 'type'=>'horizontal',
                 'focus'=>'#propinsi',
-                'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)'),
+                'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)', 'onsubmit'=>'return requiredCheck(this);'),
 )); ?>
 <p class="help-block"><?php echo Yii::t('mds','Fields with <span class="required">*</span> are required.') ?></p>
 <?php echo $form->errorSummary($model); ?>
@@ -31,7 +31,7 @@
                                                                                 'ajax'=>array(
                                                                                 'type'=>'POST',
                                                                                 'url'=>Yii::app()->createUrl('ActionDynamic/GetKecamatan',array('encode'=>false,'namaModel'=>'','attr'=>'kabupaten')),
-                                                                                'update'=>'#SAKelurahanM_kecamatan_id',))); 
+                                                                                'update'=>'#RDKelurahanM_kecamatan_id',))); 
                     ?>
                 </div>
             </div>
@@ -59,6 +59,7 @@
         Yii::app()->createUrl($this->module->id.'/kelurahanM/admin'), 
         array('class'=>'btn btn-danger',
            'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
+    <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Kelurahan', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp"; ?>
     <?php
         $content = $this->renderPartial('../tips/tipsaddedit',array(),true);
         $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));

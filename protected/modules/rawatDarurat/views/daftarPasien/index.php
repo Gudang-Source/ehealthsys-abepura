@@ -35,6 +35,27 @@
         <iframe name='frameRincian' width="100%" height="100%"></iframe>
         <?php $this->endWidget(); ?>
     </div>
+    <?php 
+    // Dialog untuk kirim dokumen RM =========================
+    $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
+        'id' => 'dialogStatusDokumen',
+        'options' => array(
+            'title' => 'Pengiriman Dokumen Ke-Ruangan Lain',
+            'autoOpen' => false,
+            'modal' => true,
+            'zIndex'=>1002,
+            'width' => 1000,
+            'height' => 400,
+            'resizable' => true,
+            'close'=>"js:function(){ $.fn.yiiGridView.update('daftarPasien-grid', {
+                data: $('#daftarPasien-form').serialize()
+            }); }",
+        ),
+    ));
+    ?>
+    <iframe name='frameStatusDokumen' width="100%" height="100%"></iframe>
+    <?php $this->endWidget(); 
+    // end ============== ?>
     <?php
     $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
             'action'=>Yii::app()->createUrl($this->route),

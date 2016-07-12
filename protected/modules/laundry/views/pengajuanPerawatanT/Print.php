@@ -1,3 +1,4 @@
+
 <?php 
 $table = 'ext.bootstrap.widgets.BootGridView';
 $template = "{summary}\n{items}\n{pager}";

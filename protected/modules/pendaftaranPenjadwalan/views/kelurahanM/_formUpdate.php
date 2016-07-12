@@ -3,7 +3,7 @@
 	'id'=>'ppkelurahan-m-form',
 	'enableAjaxValidation'=>false,
         'type'=>'horizontal',
-        'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)'),
+        'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)', 'onsubmit'=>'return requiredCheck(this);'),
         'focus'=>'#propinsi',
 )); ?>
 

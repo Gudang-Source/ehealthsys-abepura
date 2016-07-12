@@ -5,7 +5,7 @@
 	'enableAjaxValidation'=>false,
                 'type'=>'horizontal',
                 'focus'=>'#propinsi',
-                'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)'),
+                'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)', 'onsubmit'=>'return requiredCheck(this);'),
 )); ?>
 
 	<p class="help-block"><?php echo Yii::t('mds','Fields with <span class="required">*</span> are required.') ?></p>
@@ -31,16 +31,16 @@
                                                                             'ajax'=>array(
                                                                                 'type'=>'POST',
                                                                                 'url'=>Yii::app()->createUrl('ActionDynamic/GetKecamatan',array('encode'=>false,'namaModel'=>'','attr'=>'kabupaten')),
-                                                                                'update'=>'#SAKelurahanM_kecamatan_id',))); 
+                                                                                'update'=>'#RDKelurahanM_kecamatan_id',))); 
                     ?>
                 </div>
             </div>
-            <?php echo $form->dropDownListRow($model,'kecamatan_id',array(),array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",)); ?>
+            <?php echo $form->dropDownListRow($model,'kecamatan_id',array(),array('class'=>'required','empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",)); ?>
              
             <table id="tbl-kelurahan" class="table table-striped table-bordered table-condensed">
                 <tr>
                     <td>
-                        <?php echo $form->textField($model,'[1]kelurahan_nama',array('class'=>'span3', 'onkeyup'=>"namaLain(this)", 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50,'placeholder'=>$model->getAttributeLabel('kelurahan_nama'))); ?>
+                        <?php echo $form->textField($model,'[1]kelurahan_nama',array('class'=>'span3 required', 'onkeyup'=>"namaLain(this)", 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50,'placeholder'=>$model->getAttributeLabel('kelurahan_nama'))); ?>
                         <span class="required">*</span>
                     </td>
                     <td>
@@ -63,6 +63,7 @@
                                     Yii::app()->createUrl($this->module->id.'/kelurahanM/admin'), 
                                     array('class'=>'btn btn-danger',
                                         'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
+                        <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Kelurahan', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp"; ?>
                         <?php
                             $content = $this->renderPartial('../tips/tipsaddedit2b',array(),true);
                             $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
