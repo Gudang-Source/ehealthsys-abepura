@@ -72,7 +72,7 @@ $tglrencana = substr($modRencanaKebFarmasi->tglperencanaan,0,-8);
             <th style="text-align: center;">Maksimal Stok</th>
             <th style="text-align: center;">Stok Akhir</th>
             <th style="text-align: center;">Jumlah Kemasan<br/> (Satuan) </th>
-            <th style="text-align: center;">Jumlah Permintaan</th>
+            <th style="text-align: center;">Jumlah Kebutuhan</th>
             <th width="75" style="text-align: center;">HPP</th>
             <!--th style="text-align: center;">Buffer Stok</th-->
             <!--th style="text-align: center;">Persen ABC</th-->
