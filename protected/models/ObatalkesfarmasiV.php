@@ -197,8 +197,8 @@ class ObatalkesfarmasiV extends CActiveRecord
 		$criteria->compare('obatalkes_id',$this->obatalkes_id);
 		$criteria->compare('lokasigudang_id',$this->lokasigudang_id);
 		$criteria->compare('LOWER(lokasigudang_nama)',strtolower($this->lokasigudang_nama),true);
-		$criteria->compare('therapiobat_id',$this->therapiobat_id);
-		$criteria->compare('LOWER(therapiobat_nama)',strtolower($this->therapiobat_nama),true);
+		//$criteria->compare('therapiobat_id',$this->therapiobat_id);
+		//$criteria->compare('LOWER(therapiobat_nama)',strtolower($this->therapiobat_nama),true);
 		$criteria->compare('generik_id',$this->generik_id);
 		$criteria->compare('LOWER(generik_nama)',strtolower($this->generik_nama),true);
 		$criteria->compare('satuanbesar_id',$this->satuanbesar_id);
@@ -220,7 +220,7 @@ class ObatalkesfarmasiV extends CActiveRecord
 		$criteria->compare('harganetto',$this->harganetto);
 		$criteria->compare('hargajual',$this->hargajual);
 		$criteria->compare('discount',$this->discount);
-		$criteria->compare('LOWER(tglkadaluarsa)',strtolower($this->tglkadaluarsa),true);
+		//$criteria->compare('LOWER(tglkadaluarsa)',strtolower($this->tglkadaluarsa),true);
 		$criteria->compare('minimalstok',$this->minimalstok);
 		$criteria->compare('LOWER(formularium)',strtolower($this->formularium),true);
 		$criteria->compare('discountinue',$this->discountinue);
@@ -399,12 +399,12 @@ class ObatalkesfarmasiV extends CActiveRecord
         
         public function getJenisObatAlkesItems()
         {
-            return GFJenisObatAlkesM::model()->findAll('jenisobatalkes_aktif=TRUE ORDER BY jenisobatalkes_nama');
+            return JenisobatalkesM::model()->findAll('jenisobatalkes_aktif=TRUE ORDER BY jenisobatalkes_nama');
         }
         
          public function getSumberDanaItems()
         {
-            return GFSumberDanaM::model()->findAll('sumberdana_aktif=TRUE ORDER BY sumberdana_nama');
+            return SumberdanaM::model()->findAll('sumberdana_aktif=TRUE ORDER BY sumberdana_nama');            
         }
         
         public function showKomposisi($detailObat)

@@ -79,8 +79,8 @@ $modObatAlkes->unsetAttributes();
 $modObatAlkes->obatalkes_aktif = true;
 if(isset($_GET['ADObatalkesM'])){
     $modObatAlkes->attributes = $_GET['ADObatalkesM'];
-    //$modObatAlkes->satuankecil_nama = $_GET['ADObatalkesM']['satuankecil_nama'];
-    //$modObatAlkes->jenisobatalkes_nama = $_GET['ADObatalkesM']['jenisobatalkes_nama'];
+   // $modObatAlkes->satuankecil_nama = $_GET['ADObatalkesM']['satuankecil_nama'];
+   // $modObatAlkes->jenisobatalkes_nama = $_GET['ADObatalkesM']['jenisobatalkes_nama'];
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'obatalkes-m-grid',
@@ -102,6 +102,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                         ))',
                 ),
                 array(
+                    'header'=>'Jenis',
                     'name'=>'jenisobatalkes_id',
                     'type'=>'raw',
                     'value'=>'(!empty($data->jenisobatalkes_id) ? $data->jenisobatalkes->jenisobatalkes_nama : "")',

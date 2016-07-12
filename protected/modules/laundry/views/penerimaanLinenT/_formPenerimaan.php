@@ -1,7 +1,7 @@
 <div class="row-fluid">
 	<div class="span4">
                 <div class="control-group ">
-                    <?php echo CHtml::label('No Perawatan', 'no_perawatan', array('class'=>'control-label')); ?>
+                    <?php echo CHtml::label('No Perawatan <font style = "color:red;">*</font>', 'no_perawatan', array('class'=>'control-label required ')); ?>
                     <div class="controls">
                         <?php echo CHtml::activeHiddenField($model, 'pengperawatanlinen_id'); ?>
                     <?php 
@@ -34,7 +34,7 @@
                             ),
                             'htmlOptions'=>array(
                                 'onkeyup'=>"return $(this).focusNextInputField(event)",
-                                'class'=>'span3',
+                                'class'=>'span3 required',
                             ),
                             'tombolDialog'=>array('idDialog'=>'dialogPengajuan'),
                         )); 
@@ -93,8 +93,9 @@
 			<?php echo $form->labelEx($model, 'pegmenerima_id', array('class' => 'control-label')); ?>
 			<div class="controls">
 				<?php echo $form->hiddenField($model, 'pegmenerima_id',array('readonly'=>true)); ?>
+                            <?php echo $form->textField($model, 'pegawaimenerima_nama',array('readonly'=>true)); ?>
 				<?php
-				$this->widget('MyJuiAutoComplete', array(
+				/*$this->widget('MyJuiAutoComplete', array(
 					'model'=>$model,
 					'attribute' => 'pegawaimenerima_nama',
 					'source' => 'js: function(request, response) {
@@ -127,7 +128,7 @@
 						'onblur' => 'if(this.value === "") $("#'.Chtml::activeId($model, 'pegmenerima_id') . '").val(""); '
 					),
 					'tombolDialog' => array('idDialog' => 'dialogPegawaiMenerima'),
-				));
+				));*/
 				?>
 			</div>
 		</div>
@@ -252,14 +253,14 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     ),
 ));
 
-$modPegawaiMengetahui = new LAPegawaiV('searchPegawaiMengetahui');
+$modPegawaiMengetahui = new LAPegawaiRuanganV('searchDialog');
 $modPegawaiMengetahui->unsetAttributes();
-if(isset($_GET['LAPegawaiV'])) {
-    $modPegawaiMengetahui->attributes = $_GET['LAPegawaiV'];
+if(isset($_GET['LAPegawaiRuanganV'])) {
+    $modPegawaiMengetahui->attributes = $_GET['LAPegawaiRuanganV'];
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'pegawaimengetahui-grid',
-	'dataProvider'=>$modPegawaiMengetahui->searchPegawaiMengetahui(),
+	'dataProvider'=>$modPegawaiMengetahui->searchDialog(),
 	'filter'=>$modPegawaiMengetahui,
         'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
@@ -279,6 +280,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 ),
                 array(
                     'header'=>'NIP',
+                    'name' => 'nomorindukpegawai',
                     'value'=>'$data->nomorindukpegawai',
                 ),
                 array(

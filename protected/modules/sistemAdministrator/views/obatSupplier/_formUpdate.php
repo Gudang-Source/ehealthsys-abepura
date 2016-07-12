@@ -165,15 +165,36 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                                           $(\"#dialogObatAlkes\").dialog(\"close\");    
                                                 "))',
                         ),
-                'obatalkes_kategori',
-                'obatalkes_golongan',
+                    array(
+                    'header' => 'Sumber Dana',
+                    'name' => 'sumberdana_nama',
+                    'value' => '$data->sumberdana_nama',
+                    'filter' => CHtml::dropDownList('ObatalkesfarmasiV[sumberdana_nama]', $modObatAlkes->sumberdana_nama, CHtml::listData($modObatAlkes->getSumberDanaItems(), 'sumberdana_nama', 'sumberdana_nama'), array('empty' => '-- Pilih --'))                
+                    ),
+                 array(
+                    'header' => 'Jenis',
+                    'name' => 'jenisobatalkes_nama',
+                    'value' => '$data->jenisobatalkes_nama',
+                    'filter' => CHtml::dropDownList('ObatalkesfarmasiV[jenisobatalkes_nama]', $modObatAlkes->jenisobatalkes_nama, CHtml::listData($modObatAlkes->getJenisObatAlkesItems(), 'jenisobatalkes_nama', 'jenisobatalkes_nama'), array('empty' => '-- Pilih --'))                
+                    ),
+                 array(
+                    'header' => 'Kategori',
+                    'name' => 'obatalkes_kategori',
+                    'value' => '$data->obatalkes_kategori',
+                    'filter' => CHtml::dropDownList('ObatalkesfarmasiV[obatalkes_kategori]', $modObatAlkes->obatalkes_kategori, LookupM::getItems('obatalkes_kategori'), array('empty' => '-- Pilih --'))                
+                    ),
+                array(
+                    'header' => 'Golongan',
+                    'name' => 'obatalkes_golongan',
+                    'value' => '$data->obatalkes_golongan',
+                    'filter' => CHtml::dropDownList('ObatalkesfarmasiV[obatalkes_golongan]', $modObatAlkes->obatalkes_golongan, LookupM::getItems('obatalkes_golongan'), array('empty' => '-- Pilih --'))                
+                    ),                
                 'obatalkes_kode',
-                'obatalkes_nama',
-                'sumberdana_nama',
+                'obatalkes_nama',                
                 'obatalkes_kadarobat',
-                'kemasanbesar',
+                //'kemasanbesar',
                 'kekuatan',
-                'tglkadaluarsa',
+               // 'tglkadaluarsa',
 	),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 ));
