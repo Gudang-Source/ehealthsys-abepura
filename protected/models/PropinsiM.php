@@ -105,7 +105,8 @@ class PropinsiM extends CActiveRecord
 		$criteria->compare('LOWER(propinsi_nama)',strtolower($this->propinsi_nama),true);
 		$criteria->compare('LOWER(propinsi_namalainnya)',strtolower($this->propinsi_namalainnya),true);
 //		$criteria->compare('propinsi_aktif',$this->propinsi_aktif);
-
+                $criteria->limit=-1; 
+                
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
                         'pagination'=>false,

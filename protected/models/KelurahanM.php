@@ -43,6 +43,7 @@ class KelurahanM extends CActiveRecord
 			array('kecamatan_id', 'numerical', 'integerOnly'=>true),
 			array('kelurahan_nama, kelurahan_namalainnya', 'length', 'max'=>50),
 			array('kode_pos', 'length', 'max'=>15),
+                        array('longitude, latitude','safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('kelurahan_id, kecamatan_id, kelurahan_nama, kelurahan_namalainnya, kode_pos, kelurahan_aktif', 'safe', 'on'=>'search'),

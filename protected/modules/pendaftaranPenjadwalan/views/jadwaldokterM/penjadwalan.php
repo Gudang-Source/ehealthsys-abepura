@@ -10,7 +10,7 @@
             'enableAjaxValidation'=>false,
             'type'=>'horizontal',
             'focus'=>'#instalasi',
-            'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)','onsubmit'=>'return requiredCheck(this);'),
+            'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)'),
     )); ?>
     <table>
         <tr>
@@ -74,6 +74,7 @@
                     echo CHtml::dropDownList('jadwalDokter[instalasi]', '', CHtml::listData(InstalasirevenuecostV::model()->findAll(array('condition'=>"instalasi_id IN ('".Params::INSTALASI_ID_RJ."','".Params::INSTALASI_ID_RD."','".Params::INSTALASI_ID_REHAB."')" ,'order'=>'instalasi_nama ASC')), 'instalasi_id', 'instalasi_nama'), 
                                             array('empty'=>'-- Pilih --',
                                                   'id'=>'instalasi',
+                                                  'class' => 'required',
                                                   'onchange'=>'$("#inputForm").html("");',
                                                   'ajax'=>array('url'=>$this->createUrl('ajaxListPoli'),
                                                                 'type'=>'POST',
@@ -95,7 +96,7 @@
                                                     array('class'=>'btn btn-blue', 'type'=>'button', 'onClick'=>'generateInput();'));?>                         
                     <?php
                         echo  CHtml::htmlButton(Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),
-                                     array('class'=>'btn btn-primary', 'type'=>'button','onsubmit'=>'return requiredCheck(this);'));
+                                     array('class'=>'btn btn-primary', 'type'=>'submit'));
                     ?>
                             
                                    <?php

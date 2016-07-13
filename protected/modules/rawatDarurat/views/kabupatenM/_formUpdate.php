@@ -27,6 +27,7 @@
                                                             'id'=>'yw1',
                                                             'onclick' =>'changeSize()',
                                                             'title'=>'Klik untuk mencari Longitude & Latitude',)); ?>
+                        
                     </div>
                 </div>
             <?php echo $form->textFieldRow($model,'longitude',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
@@ -60,9 +61,9 @@
                                     Yii::app()->createUrl($this->module->id.'/kabupatenM/admin'), 
                                     array('class'=>'btn btn-danger',
                                           'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
-                                          <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Kelurahan', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp"; ?>
+                                          <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Kabupaten', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp"; ?>
                         <?php
-                            $content = $this->renderPartial('../tips/tipsaddedit',array(),true);
+                            $content = $this->renderPartial('../tips/tipsaddedit5',array(),true);
                             $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
                         ?>
 	</div>
