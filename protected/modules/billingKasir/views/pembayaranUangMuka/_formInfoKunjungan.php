@@ -271,6 +271,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     $modDialogKunjungan = new BKInformasikasirrawatjalanV('searchDialogKunjunganUangMuka');
     $modDialogKunjungan->unsetAttributes();
     $modDialogKunjungan->instalasi_id = Params::INSTALASI_ID_RJ;
+    $modDialogKunjungan->penjamin_id = Params::PENJAMIN_ID_UMUM;
     if(isset($_GET['BKInformasikasirrawatjalanV'])) {
         $modDialogKunjungan->attributes = $_GET['BKInformasikasirrawatjalanV'];
         $modDialogKunjungan->instalasi_id = $_GET['BKInformasikasirrawatjalanV']['instalasi_id'];
@@ -325,14 +326,22 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                         'filter'=>CHtml::activeHiddenField($modDialogKunjungan,'instalasi_id'),
                     ),
                     array(
+                        'header'=>'Ruangan',
                         'name'=>'ruangan_nama',
                         'type'=>'raw',
-                    ),
+                        'filter'=>CHtml::activeDropDownList($modDialogKunjungan, 'ruangan_id', CHtml::listData(
+                                RuanganM::model()->findAllByAttributes(array(
+                                    'instalasi_id'=>$modDialogKunjungan->instalasi_id,
+                                    'ruangan_aktif'=>true,
+                                ), array('order'=>'ruangan_nama')), 'ruangan_id', 'ruangan_nama'), array(
+                                    'empty'=>'-- Pilih --',
+                                )),
+                    ), /*
                     array(
                         'name'=>'carabayar_nama',
                         'type'=>'raw',
                         'value'=>'$data->carabayar_nama',
-                    ),
+                    ), */
 
 
             ),
