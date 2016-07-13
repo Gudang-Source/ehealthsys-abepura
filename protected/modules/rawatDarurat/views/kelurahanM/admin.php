@@ -1,7 +1,9 @@
-<div class="white-container">
-    <legend class="rim2">Master <b>Wilayah - Kelurahan</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Master <b>Wilayah - Kelurahan</b></legend>-->
+<fieldset class = "box">
+    <legend class = "rim">Pegaturan Kelurahan</legend>
     <?php 
-    $this->widget('bootstrap.widgets.BootMenu', array(
+    /*$this->widget('bootstrap.widgets.BootMenu', array(
         'type'=>'tabs', // '', 'tabs', 'pills' (or 'list')
         'stacked'=>false, // whether this is a stacked menu
         'items'=>array(
@@ -10,9 +12,9 @@
             array('label'=>'Kecamatan', 'url'=>$this->createUrl('/rawatDarurat/kecamatanM&modul_id='.Yii::app()->session['modul_id'])),
             array('label'=>'Kelurahan', 'url'=>$this->createUrl('/rawatDarurat/kelurahanM&modul_id='.Yii::app()->session['modul_id']), 'active'=>true),
         ),
-    )); ?>
-    <div class="biru">
-        <div class="white">
+    ));*/ ?>
+    <!--<div class="biru">
+        <div class="white">-->
             <?php
             $this->breadcrumbs=array(
                     'Sakelurahan Ms'=>array('index'),
@@ -123,8 +125,8 @@
                     }',
                 )); ?>
             <!--</div>-->
-        </div>
-    </div>
+       <!-- </div>
+    </div>-->
     <?php 
     echo CHtml::link(Yii::t('mds','{icon} Tambah Kelurahan',array('{icon}'=>'<i class="icon-plus icon-white"></i>')), 
                                 Yii::app()->createUrl($this->module->id.'/'.Yii::app()->controller->id.'/create'), 
@@ -152,7 +154,7 @@ function print(caraPrint)
 JSCRIPT;
     Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);                        
     ?>
-</div>
+</fieldset>
 <script type="text/javascript">
     function removeTemporary(id){
         var url = '<?php echo $url."/removeTemporary"; ?>';

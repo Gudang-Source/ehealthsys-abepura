@@ -9,8 +9,10 @@
 //        array('label'=>'Kelurahan', 'url'=>'', 'active'=>true),
 //    ),
 //)); ?>
-<div class="white-container">
-    <legend class="rim2">Lihat <b>Kelurahan</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Lihat <b>Kelurahan</b></legend>-->
+<fieldset class = "box">
+    <legend class = "rim">Lihat Kelurahan</legend>
     <?php
     $this->breadcrumbs=array(
             'Sakelurahan Ms'=>array('index'),
@@ -36,6 +38,8 @@
                     'kelurahan_id',
                     'kelurahan_nama',
                     'kelurahan_namalainnya',
+                    'longitude',
+                    'latitude',
                     'kode_pos',
                     array(            
                                                 'label'=>'Aktif',
@@ -46,4 +50,4 @@
     )); ?>
     <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Kelurahan', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp"; ?>
     <?php $this->widget('UserTips',array('type'=>'view'));?>
-</div>
+</fieldset>
