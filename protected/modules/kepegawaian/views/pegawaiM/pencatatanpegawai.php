@@ -232,22 +232,22 @@
                 <?php echo $form->textFieldRow($model,'garis_longitude',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
                
                  <!--Extension location-picker latitude & longitude-->
-                                    <?php 
-                                    $modPropinsi = PropinsiM::model()->findByPk(Yii::app()->user->getstate('propinsi_id'));
-                                    $latitude  = $modPropinsi->latitude;
-                                    $longitude = $modPropinsi->longitude;
-                
-                                            $this->widget('ext.LocationPicker2.CoordinatePicker', array(
-                                                    'model' => $model,
-                                                    'latitudeAttribute' => 'garis_latitude',
-                                                    'longitudeAttribute' => 'garis_longitude',
-                                                    //optional settings
-                                                    'editZoom' => 12,
-                                                    'pickZoom' => 7,
-                                                    'defaultLatitude' => $latitude,
-                                                    'defaultLongitude' => $longitude,
-                                            ));
-                                    ?>	
+                <?php 
+                $modPropinsi = PropinsiM::model()->findByPk(Yii::app()->user->getstate('propinsi_id'));
+                $latitude  = $modPropinsi->latitude;
+                $longitude = $modPropinsi->longitude;
+
+                        $this->widget('ext.LocationPicker2.CoordinatePicker', array(
+                                'model' => $model,
+                                'latitudeAttribute' => 'garis_latitude',
+                                'longitudeAttribute' => 'garis_longitude',
+                                //optional settings
+                                'editZoom' => 12,
+                                'pickZoom' => 7,
+                                'defaultLatitude' => $latitude,
+                                'defaultLongitude' => $longitude,
+                        ));
+                ?>	
                  
                 <div class="control-group">
                     <?php echo CHtml::label('No. Telp / Hp','nomorcontact',array('class'=>'control-label')); ?>

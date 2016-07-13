@@ -14,7 +14,7 @@ class PropinsiMController extends MyAuthController
 	 * @param integer $id the ID of the model to be displayed
 	 */
 	public function actionView($id)
-	{
+	{   $this->layout='//layouts/iframe';
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
 		));
@@ -25,7 +25,7 @@ class PropinsiMController extends MyAuthController
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
 	public function actionCreate()
-	{
+	{   $this->layout='//layouts/iframe';        
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		$model=new SAPropinsiM;
 
@@ -39,7 +39,7 @@ class PropinsiMController extends MyAuthController
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
 				//$this->redirect(array('view','id'=>$model->propinsi_id));
-                                $this->redirect(array('admin'));
+                                $this->redirect(array('admin','tab'=>'frame','modul_id'=>Yii::app()->session['modul_id']));
                         }
 		}
 
@@ -54,7 +54,7 @@ class PropinsiMController extends MyAuthController
 	 * @param integer $id the ID of the model to be updated
 	 */
 	public function actionUpdate($id)
-	{
+	{   $this->layout='//layouts/iframe';        
                                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_UPDATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		$model=$this->loadModel($id);
 
@@ -67,7 +67,7 @@ class PropinsiMController extends MyAuthController
                                                 $model->propinsi_aktif = $_POST['SAPropinsiM']['propinsi_aktif'];
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin'));
+				$this->redirect(array('admin','tab'=>'frame','modul_id'=>Yii::app()->session['modul_id']));
                         }
 		}
 
@@ -90,8 +90,13 @@ class PropinsiMController extends MyAuthController
 	/**
 	 * Manages all models.
 	 */
-	public function actionAdmin()
+	public function actionAdmin($tab=null)
 	{
+            if ($tab != 'frame'):
+                $this->redirect(array('index','modul_id'=>Yii::app()->session['modul_id']));
+            else:
+                $this->layout='//layouts/iframe';        
+            endif;
                                 
 		$model=new SAPropinsiM('search');
 		$model->unsetAttributes();  // clear any default values
@@ -226,7 +231,7 @@ class PropinsiMController extends MyAuthController
                         $mpdf->WriteHTML($stylesheet,1);  
                         $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
                         $mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-                        $mpdf->Output();
+                        $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
                     }                       
                 }
 }

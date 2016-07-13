@@ -46,7 +46,7 @@ class KabupatenM extends CActiveRecord
 			array('propinsi_id, kabupaten_nama, kabupaten_namalainnya', 'required'),
 			array('propinsi_id', 'numerical', 'integerOnly'=>true),
 			array('kabupaten_nama, kabupaten_namalainnya', 'length', 'max'=>50),
-			array('kabupaten_aktif', 'safe'),
+			array('kabupaten_aktif, latitude, longitude', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('propinsi_nama, kabupaten_id, propinsi_id, kabupaten_nama, kabupaten_namalainnya, kabupaten_aktif', 'safe', 'on'=>'search'),
@@ -76,6 +76,8 @@ class KabupatenM extends CActiveRecord
 			'kabupaten_nama' => 'Nama Kota/Kabupaten',
 			'kabupaten_namalainnya' => 'Nama Lain Kota/Kabupaten',
 			'kabupaten_aktif' => 'Aktif',
+                        'longitude' => 'Longitude',
+                        'Latitude' => 'latitude'
 		);
 	}
 
