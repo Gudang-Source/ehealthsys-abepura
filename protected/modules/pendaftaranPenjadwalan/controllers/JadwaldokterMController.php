@@ -131,8 +131,11 @@ class JadwaldokterMController extends MyAuthController
 	/**
 	 * Manages all models.
 	 */
-	public function actionAdmin()
+	public function actionAdmin($sukses='')
 	{
+            if ($sukses == 1){
+                Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+            }
                 
 		$model=new PPJadwaldokterM('search');
 		$model->unsetAttributes();  // clear any default values
@@ -269,14 +272,21 @@ class JadwaldokterMController extends MyAuthController
                 echo json_encode($data);
                 Yii::app()->end(); 
             }
+            
             if (isset($_POST['jadwalDokter'])){
                 $jadwal = $_POST['jadwalDokter'];
+            
                 $transaction = Yii::app()->db->beginTransaction();
                 try {
                     $return = true;
                     $jumlah = 0;
-                    $listUpdate = array();
-                    if (count($jadwal['jadwal']) > 0){
+                    $listUpdate = array();           
+                    if (isset($jadwal['jadwal']) == 0){  
+                        
+                        Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data gagal disimpan.');
+                    }else{
+                   
+                    if ((count($jadwal['jadwal'])) > 0){
                         foreach ($jadwal['jadwal'] as $key => $value) {
                             foreach ($value['dokter'] as $i => $row) {
                                 if (isset($row['cek']) && $row['cek'] == 1){
@@ -332,16 +342,20 @@ class JadwaldokterMController extends MyAuthController
                     if ($jumlah > 0 && ($return)){
                         $transaction->commit();
                         Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-                        $this->redirect(array('admin'));
+                        $this->redirect(array('admin','sukses'=>1));
                         //$this->refresh();
                     }
                     else{
                         $transaction->rollback();
                         Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data gagal disimpan.');
                     }
+                        $transaction->rollback();
+                        Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data gagal disimpan.');
+                    }
                 } catch (Exception $exc) {
                     $transaction->rollback();
                     Yii::app()->user->setFlash('error', '<strong>Gagal!</strong> Data gagal disimpan.', MyExceptionMessage::getMessage($exc));
+                
                 }
             }
             $this->render($this->path_view.'penjadwalan', array('model'=>$model));
