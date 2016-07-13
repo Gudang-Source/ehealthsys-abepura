@@ -107,7 +107,7 @@ class RencanakebfarmasiT extends CActiveRecord
 		return array(
 			'rencanakebfarmasi_id' => 'ID',
 			'ruangan_id' => 'Ruangan',
-			'pegawai_id' => 'Pegawai',
+			'pegawai_id' => 'Pegawai Gudang',
 			'otorisasipimpinan_id' => 'Otorisasi Pimpinan',
 			'otorisasikeuangan_id' => 'Otorisasi Keuangan',
 			'tglperencanaan' => 'Tanggal Perencanaan',

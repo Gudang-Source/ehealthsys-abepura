@@ -28,8 +28,7 @@ echo CHtml::css('.control-label{
         border:1px solid;
     }
     .kertas{
-     width:20cm;
-     height:12cm;
+        width: 100%;
     }
     .table {
         border: 1px solid black;
@@ -66,17 +65,19 @@ $tglrencana = substr($modRencanaKebFarmasi->tglperencanaan,0,-8);
     <table width="100%" style='margin-left:auto; margin-right:auto;' class="table">
         <thead class="border">
             <th style="text-align: center;">No.</th>
-            <th style="text-align: center;">Asal Barang</th>
-            <th width="200" style="text-align: center;">Kategori / Nama Obat</th>
-            <th style="text-align: center;">Jumlah Kemasan<br/> (Satuan) </th>
-            <th style="text-align: center;">Jumlah Permintaan</th>
-            <th width="75" style="text-align: center;">Harga Netto</th>
-            <th style="text-align: center;">Buffer Stok</th>
-            <th style="text-align: center;">Stok Akhir</th>
+            <th style="text-align: center;">Jenis</th>
+            <th width="200" style="text-align: center;">Nama Obat</th>
+            <th style="text-align: center;">Tgl Kadaluarsa</th>
             <th style="text-align: center;">Minimal Stok</th>
-            <th style="text-align: center;">Persen ABC</th>
+            <th style="text-align: center;">Maksimal Stok</th>
+            <th style="text-align: center;">Stok Akhir</th>
+            <th style="text-align: center;">Jumlah Kemasan<br/> (Satuan) </th>
+            <th style="text-align: center;">Jumlah Kebutuhan</th>
+            <th width="75" style="text-align: center;">HPP</th>
+            <!--th style="text-align: center;">Buffer Stok</th-->
+            <!--th style="text-align: center;">Persen ABC</th-->
             <th style="text-align: center;">VEN</th>
-            <th style="text-align: center;">Kategori ABC</th>
+            <th style="text-align: center;">ABC</th>
             <th width="75" style="text-align: center;">Sub Total</th>
         </thead>
         <?php 
@@ -90,15 +91,17 @@ $tglrencana = substr($modRencanaKebFarmasi->tglperencanaan,0,-8);
         ?>
             <tr>
                 <td style="text-align: center;"><?php echo ($i+1)."."; ?></td>
-                <td><?php echo $modObat->sumberdana->sumberdana_nama; ?></td>
-                <td align="center"><?php echo (!empty($modObat->obatalkes->obatalkes_kategori) ? $modObat->obatalkes->obatalkes_kategori."/ " : "") ."". $modObat->obatalkes->obatalkes_nama; ?></td>
-                <td style="text-align: center;"><?php echo $modObat->kemasanbesar." ".$kecil; ?></td>
-                <td style="text-align: center;"><?php echo $modObat->jmlpermintaan." ".$sat; ?></td>
-                <td style="text-align: right;"><?php echo $format->formatUang($modObat->harganettorenc); ?></td>
-                <td style="text-align: center;"><?php echo $modObat->buffer_stok." ".$kecil; ?></td>
-                <td style="text-align: center;"><?php echo $modObat->stokakhir." ".$kecil; ?></td>
-                <td style="text-align: center;"><?php echo $modObat->minimalstok." ".$kecil; ?></td>
-                <td style="text-align: center;"><?php echo $modObat->persen_abc; ?> %</td>
+                <td><?php echo empty($oa->jenisobatalkes_id)?"-":$oa->jenisobatalkes->jenisobatalkes_nama; ?></td>
+                <td align="center"><?php echo $modObat->obatalkes->obatalkes_nama; ?></td>
+                <td style="text-align: right;" nowrap><?php echo MyFormatter::formatDateTimeForUser($oa->tglkadaluarsa); ?></td>
+                <td style="text-align: right;" nowrap><?php echo $modObat->minimalstok." ".$kecil; ?></td>
+                <td style="text-align: right;" nowrap><?php echo $modObat->maksimalstok." ".$kecil; ?></td>
+                <td style="text-align: right;" nowrap><?php echo $modObat->stokakhir." ".$kecil; ?></td>
+                <td style="text-align: right;" nowrap><?php echo $modObat->kemasanbesar." ".$kecil; ?></td>
+                <td style="text-align: right;" nowrap><?php echo $modObat->jmlpermintaan." ".$sat; ?></td>
+                <td style="text-align: right;"><?php echo $format->formatNumberForPrint($modObat->harganettorenc); ?></td>
+                <?php /* <td style="text-align: center;"><?php echo $modObat->buffer_stok." ".$kecil; ?></td> 
+                <td style="text-align: center;"><?php echo $modObat->persen_abc; ?> %</td> */ ?>
                 <td style="text-align: center;"><?php echo isset($modLookup->lookup_name) ? $modLookup->lookup_name : "-"; ?></td>
                 <td style="text-align: center;"><?php echo $modObat->kategori_abc; ?></td>
                 <td style="text-align: right;"><?php 
@@ -108,13 +111,13 @@ $tglrencana = substr($modRencanaKebFarmasi->tglperencanaan,0,-8);
                         $subtotal = ($modObat->harganettorenc * $modObat->jmlpermintaan * $modObat->kemasanbesar);
                     }
                     $total += $subtotal;
-                    echo $format->formatUang($subtotal); ?>
+                    echo $format->formatNumberForPrint($subtotal); ?>
                 </td>
             </tr>
         <?php } ?>
         <tr>
             <td colspan="12" align="center"><strong>Total</strong></td>
-            <td style="text-align: right;"><?php echo $format->formatUang($total); ?></td>
+            <td style="text-align: right;"><?php echo $format->formatNumberForPrint($total); ?></td>
         </tr>
     </table>
 <?php

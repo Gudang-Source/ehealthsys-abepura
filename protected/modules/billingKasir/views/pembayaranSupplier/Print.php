@@ -28,17 +28,17 @@ echo CHtml::css('.control-label{
                 <tr>
                     <td width="13%" style="text-align:right;">Tanggal Faktur</td><td width="2%">:</td>
 					<td width="35%">
-						<?php echo CHtml::encode($modFakturBeli->tglfaktur); ?>
+						<?php echo CHtml::encode(MyFormatter::formatDateTimeForUser($modFakturBeli->tglfaktur)); ?>
                     </td>
                     <td width="13%" style="text-align:right;">Tanggal Jatuh Tempo</td><td width="2%">:</td>
 					<td width="35%">
-						<?php echo CHtml::encode($modFakturBeli->tgljatuhtempo); ?>
+						<?php echo CHtml::encode(MyFormatter::formatDateTimeForUser($modFakturBeli->tgljatuhtempo)); ?>
 	                </td>
                 </tr>     
                 <tr>
                     <td width="13%" style="text-align:right;">Total Bruto</td><td width="2%">:</td>
 					<td width="35%">
-						<?php echo CHtml::encode($modFakturBeli->totalhargabruto); ?>
+						<?php echo CHtml::encode(MyFormatter::formatNumberForPrint($modFakturBeli->totalhargabruto)); ?>
                     </td>
                     <td width="13%" style="text-align:right;">No. Faktur</td><td width="2%">:</td>
 					<td width="35%">
@@ -84,65 +84,14 @@ echo CHtml::css('.control-label{
             </tr>
         </thead>
         <tbody>
-            <?php 
-            $totalppn = 0;
-            $totalpph = 0;
-            $hargappn = 0;
-            $hargappnfaktur = 0;
-            $hargapph = 0;
-            $hargapphfaktur = 0;
-            foreach ($modDetailBeli as $i => $detail) { 
-                if($detail->persenppnfaktur <= 0){
-                    $hargappnfaktur = 0;
-                }else{
-                    $hargappn = $detail->harganettofaktur * ($detail->persenppnfaktur / 100);
-                    $hargappnfaktur = $detail->harganettofaktur + hargappn;
-                }
-                if($detail->persenpphfaktur <= 0){
-                    $hargapphfaktur = 0;
-                }else{
-                    $hargapph = $detail->harganettofaktur * ($detail->persenpphfaktur / 100);
-                    $hargapphfaktur = $detail->harganettofaktur + hargapph;
-                }
-                
-            ?>
-            <tr>
-                <td>
-                    <?php echo $detail->obatalkes->obatalkes_nama; ?>
-                </td>
-                <td>
-                    <?php echo number_format($detail->jmlterima); ?>
-                </td>
-                <td>
-                    <?php echo number_format($detail->harganettofaktur); ?>
-                </td>
-                <td>
-                    <?php echo number_format($hargappnfaktur); ?>
-                </td>
-                <td>
-                    <?php echo number_format($hargapphfaktur); ?>
-                </td>
-                <td>
-                    <?php echo number_format($detail->persendiscount); ?>
-                </td>
-                <td>
-                    <?php echo number_format($detail->jmldiscount); ?>
-                </td>
-                <td>
-                    <?php echo number_format($detail->hargasatuan); ?>
-                </td>
-                <td>
-                    <?php echo number_format($detail->jmlterima * $detail->harganettofaktur); ?>
-                </td>
-            </tr>
-            <?php } ?>
+            <?php echo $this->renderPartial('_rowFaktur', array('modDetailBeli'=>$modDetailBeli)); ?>
         </tbody>
 </table><br>
 <table width="100%">
 	<tr>
 		<td width="13%" style="text-align:right;">Tanggal Pembayaran</td><td width="2%">:</td>
 		<td width="35%">
-			<?php echo CHtml::encode($modelBayar->tglbayarkesupplier); ?>
+			<?php echo CHtml::encode(MyFormatter::formatDateTimeForUser($modelBayar->tglbayarkesupplier)); ?>
 		</td>
 		<td width="13%" style="text-align:right;">Cara Bayar</td><td width="2%">:</td>
 		<td width="35%">
@@ -152,7 +101,7 @@ echo CHtml::css('.control-label{
 	<tr>
 		<td width="13%" style="text-align:right;">Total Tagihan</td><td width="2%">:</td>
 		<td width="35%">
-			<?php echo CHtml::encode($modelBayar->totaltagihan); ?>
+			<?php echo CHtml::encode(MyFormatter::formatNumberForPrint($modelBayar->totaltagihan)); ?>
 		</td>
 		<td width="13%" style="text-align:right;">Penerima</td><td width="2%">:</td>
 		<td width="35%">
@@ -162,7 +111,7 @@ echo CHtml::css('.control-label{
 	<tr>
 		<td width="13%" style="text-align:right;">Uang Muka</td><td width="2%">:</td>
 		<td width="35%">
-			<?php echo CHtml::encode(isset($modUangMuka->jumlahuang)?$modUangMuka->jumlahuang : "0"); ?>
+			<?php echo CHtml::encode(isset($modUangMuka->jumlahuang)?MyFormatter::formatNumberForPrint($modUangMuka->jumlahuang) : "0"); ?>
 		</td>
 		<td width="13%" style="text-align:right; vertical-align: top;" rowspan="2">Alamat Penerima</td><td width="2%"  style="vertical-align: top;" rowspan="2">:</td>
 		<td width="35%"rowspan="2" style="vertical-align: top;">
@@ -172,13 +121,13 @@ echo CHtml::css('.control-label{
 	<tr>
 		<td width="13%" style="text-align:right;">Jumlah Dibayarkan</td><td width="2%">:</td>
 		<td width="35%">
-			<?php echo CHtml::encode($modelBayar->jmldibayarkan); ?>
+			<?php echo CHtml::encode(MyFormatter::formatNumberForPrint($modelBayar->jmldibayarkan)); ?>
 		</td>
 	</tr> 
 	<tr>
 		<td width="13%" style="text-align:right;">Tanggal Kas Keluar</td><td width="2%">:</td>
 		<td width="35%">
-			<?php echo CHtml::encode($modBuktiKeluar->tglkaskeluar); ?>
+			<?php echo CHtml::encode(MyFormatter::formatDateTimeForUser($modBuktiKeluar->tglkaskeluar)); ?>
 		</td>
 		<td width="13%" style="text-align:right;">Untuk Pembayaran</td><td width="2%">:</td>
 		<td width="35%">
@@ -194,13 +143,13 @@ echo CHtml::css('.control-label{
 	<tr>
 		<td width="13%" style="text-align:right;">Biaya Administrasi</td><td width="2%">:</td>
 		<td width="35%">
-			<?php echo CHtml::encode($modBuktiKeluar->biayaadministrasi); ?>
+			<?php echo CHtml::encode(MyFormatter::formatNumberForPrint($modBuktiKeluar->biayaadministrasi)); ?>
 		</td>
 	</tr>      
 	<tr>
 		<td width="13%" style="text-align:right;">Jumlah Kas Keluar</td><td width="2%">:</td>
 		<td width="35%">
-			<?php echo CHtml::encode($modBuktiKeluar->jmlkaskeluar); ?>
+			<?php echo CHtml::encode(MyFormatter::formatNumberForPrint($modBuktiKeluar->jmlkaskeluar)); ?>
 		</td>
 	</tr>      
 </table>
