@@ -12,7 +12,8 @@
             {
                 $model->attributes = $_GET['PegawaiM'];
                 $model->tglpresensi = $_GET['PegawaiM']['tglpresensi'].' 00:00:00';
-                $model->tglpresensi_akhir = $_GET['PegawaiM']['tglpresensi_akhir'].' 23:59:59';                            }
+                $model->tglpresensi_akhir = $_GET['PegawaiM']['tglpresensi_akhir'].' 23:59:59';                            
+                $model->ruangan_id = $_GET['PegawaiM']['ruangan_id'];                            }
             $this->render('daftarHadir/index',array(
                 'model'=>$model,
             ));            

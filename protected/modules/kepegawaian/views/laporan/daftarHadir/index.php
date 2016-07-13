@@ -53,6 +53,7 @@ $('.search-form form').submit(function(){
                     'jabatan.jabatan_nama',
                     'nomorindukpegawai',
                     'nama_pegawai',  
+                    //'ruanganpegawai.ruangan.ruangan_nama',
                    // array(
                       //  'header' => 'Shift',
                       //  'name' => 'shift.shift_nama',

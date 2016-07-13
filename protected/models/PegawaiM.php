@@ -79,7 +79,7 @@ class PegawaiM extends CActiveRecord
         public $namapegawai;
         public $shift_id;
         public $profilperusahaan_id;
-        public $statuspegawai;
+        public $statuspegawai;        
         
 	/**
 	 * Returns the static model of the specified AR class.
@@ -155,6 +155,7 @@ class PegawaiM extends CActiveRecord
                     'golonganpegawai'=>array(self::BELONGS_TO,'GolonganpegawaiM','golonganpegawai_id'),
                     'loginpemakai'=>array(self::BELONGS_TO,'LoginpemakaiK','loginpemakai_id'),
                     'shift'=>array(self::BELONGS_TO,'ShiftM','shift_id'),
+                    'ruanganpegawai'=>array(self::HAS_ONE,'RuanganpegawaiM','pegawai_id'),
 		);
 	}
 
@@ -386,6 +387,7 @@ class PegawaiM extends CActiveRecord
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
+                $criteria->with = array('ruanganpegawai');
 		$criteria->compare('pegawai_id',$this->pegawai_id);
 		$criteria->compare('kelurahan_id',$this->kelurahan_id);
 		$criteria->compare('kecamatan_id',$this->kecamatan_id);
@@ -438,6 +440,9 @@ class PegawaiM extends CActiveRecord
 		$criteria->compare('LOWER(warnakulit)',strtolower($this->warnakulit),true);
 		$criteria->compare('LOWER(deskripsi)',strtolower($this->deskripsi),true);
                 $criteria->addCondition("nofingerprint IS NOT NULL");
+                if (!empty($this->ruangan_id)){
+                    $criteria->addCondition("ruanganpegawai.ruangan_id =".$this->ruangan_id);
+                }
                 $criteria->order = 'nama_pegawai ASC';
 
 		return new CActiveDataProvider($this, array(
