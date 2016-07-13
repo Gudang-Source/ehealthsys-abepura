@@ -53,42 +53,42 @@
                     array(
                         'label'=>'Total Biaya Sementara',
                         'type'=>'raw',
-                        'value'=>'<div style="text-align:right;">'.MyFormatter::formatUang($model->totbiayasementara).'</div>',
+                        'value'=>'<div style="text-align:right;">'.MyFormatter::formatNumberForPrint($model->totbiayasementara).'</div>',
                     ),
                     array(
                         'name'=>'jumlahuangmuka',
                         'type'=>'raw',
-                        'value'=>'<div style="text-align:right;">'.MyFormatter::formatUang($model->jumlahuangmuka).'</div>',
+                        'value'=>'<div style="text-align:right;">'.MyFormatter::formatNumberForPrint($model->jumlahuangmuka).'</div>',
                     ),
                     array(
                         'label'=>$modTandabukti->getAttributeLabel('biayaadministrasi'),
                         'type'=>'raw',
-                        'value'=>'<div style="text-align:right;">'.MyFormatter::formatUang($modTandabukti->biayaadministrasi).'</div>',
+                        'value'=>'<div style="text-align:right;">'.MyFormatter::formatNumberForPrint($modTandabukti->biayaadministrasi).'</div>',
                     ),
                     array(
                         'label'=>$modTandabukti->getAttributeLabel('biayamaterai'),
                         'type'=>'raw',
-                        'value'=>'<div style="text-align:right;">'.MyFormatter::formatUang($modTandabukti->biayamaterai).'</div>',
+                        'value'=>'<div style="text-align:right;">'.MyFormatter::formatNumberForPrint($modTandabukti->biayamaterai).'</div>',
                     ),
                     array(
                         'label'=>$modTandabukti->getAttributeLabel('jmlpembulatan'),
                         'type'=>'raw',
-                        'value'=>'<div style="text-align:right;">'.MyFormatter::formatUang($modTandabukti->jmlpembulatan).'</div>',
+                        'value'=>'<div style="text-align:right;">'.MyFormatter::formatNumberForPrint($modTandabukti->jmlpembulatan).'</div>',
                     ),
                     array(
                         'label'=>$modTandabukti->getAttributeLabel('jmlpembayaran'),
                         'type'=>'raw',
-                        'value'=>'<div style="text-align:right;">'.MyFormatter::formatUang($modTandabukti->jmlpembayaran).'</div>',
+                        'value'=>'<div style="text-align:right;">'.MyFormatter::formatNumberForPrint($modTandabukti->jmlpembayaran).'</div>',
                     ),
                     array(
                         'label'=>$modTandabukti->getAttributeLabel('uangditerima'),
                         'type'=>'raw',
-                        'value'=>'<div style="text-align:right;">'.MyFormatter::formatUang($modTandabukti->uangditerima).'</div>',
+                        'value'=>'<div style="text-align:right;">'.MyFormatter::formatNumberForPrint($modTandabukti->uangditerima).'</div>',
                     ),
                     array(
                         'label'=>$modTandabukti->getAttributeLabel('uangkembalian'),
                         'type'=>'raw',
-                        'value'=>'<div style="text-align:right;">'.MyFormatter::formatUang($modTandabukti->uangkembalian).'</div>',
+                        'value'=>'<div style="text-align:right;">'.MyFormatter::formatNumberForPrint($modTandabukti->uangkembalian).'</div>',
                     ),
                     array(
                         'label'=>$modTandabukti->getAttributeLabel('carapembayaran'),

@@ -1,85 +1,320 @@
 <style>
-    .table-rincian td, th{
-        border: solid #000 1px;
+    th, td, div{
+        font-family: Arial;
+        font-size: 10pt;
+    }
+    .tandatangan{
+        vertical-align: bottom;
+        text-align: center;
+    }
+    body{
+        width: 100%;
+        /* height: 11cm; */
+    }
+    .identitas{
+        line-height: 12px;
+    }
+    
+    .rincian th, .rincian td {
+        border: 1px solid black;
+        background-color: white;
+        color: black;
+        padding: 5px;
+    }
+    
+    .rincian tfoot td {
+        font-weight: bold;
     }
 </style>
 <?php
-if(!$modRincians){
-    echo "Data tidak ditemukan"; exit;
-}
 $format = new MyFormatter;
-if (!isset($_GET['frame'])){
-    echo $this->renderPartial($this->path_view.'_headerPrint'); 
-}
+echo $this->renderPartial('application.views.headerReport.headerRincian');
+ 
+$pasien = $modPendaftaran->pasien;
+$admisi = PasienadmisiT::model()->findByPk($modPendaftaran->pasienadmisi_id);
+$asuransi = AsuransipasienM::model()->findByPk($modPendaftaran->asuransipasien_id);
+$masukkamar = MasukkamarT::model()->findByAttributes(array(
+    'pasienadmisi_id'=>$modPendaftaran->pasienadmisi_id,
+), array(
+    'order'=>'masukkamar_id desc',
+));
+
+// var_dump($masukkamar->attributes); die;
+
+// var_dump($masukkamar->attributes, $modPendaftaran->attributes, $admisi->attributes); die;
+
 ?>
-<div style='width:100%; text-align: center; font-weight: bold;'>  RINCIAN TAGIHAN PASIEN </div>
-<table width="100%">
+<table class="identitas" width="100%">
     <tr>
-        <td>No. Urut</td><td>: <?php echo "-"?></td>
-        <td>No. D.M.K</td><td>: <?php echo $modRincians[0]->no_rekam_medik; ?></td>
+        <td>Cara Bayar</td><td>:</td><td><?php echo $modPendaftaran->carabayar->carabayar_nama; ?></td>
+        <td nowrap>Kelas Pelayanan</td><td>:</td><td><?php echo !empty($modPendaftaran->pasienadmisi_id)?$admisi->kelaspelayanan->kelaspelayanan_nama:$modPendaftaran->kelaspelayanan->kelaspelayanan_nama; ?></td>
     </tr>
     <tr>
-        <td>No. Reg</td><td>: <?php echo $modRincians[0]->no_pendaftaran; ?></td>
-        <td>Tanggal Masuk RS</td><td>: <?php echo date("d-m-Y",strtotime($modRincians[0]->tgl_pendaftaran));?></td>
+        <td>Penjamin</td><td>:</td><td><?php echo $modPendaftaran->penjamin->penjamin_nama; ?></td>
+        <?php if (!empty($asuransi)): ?><td nowrap>Kelas Tanggungan</td><td>:</td><td><?php echo $asuransi->kelastanggunganasuransi->kelaspelayanan_nama; ?></td><?php endif; ?>
     </tr>
     <tr>
-        <td>Nama/Umur</td><td>: <?php echo $modRincians[0]->namadepan." ".$modRincians[0]->nama_pasien."/".$modRincians[0]->umur;?></td>
-        <td>Tanggal Keluar</td><td>: <?php echo date("d-m-Y",strtotime($modRincians[count($modRincians)-1]->tgl_tindakan));?></td>
+        <td colspan="6" style="border-bottom: 1px solid black">&nbsp;</td>
     </tr>
     <tr>
-        <td>Alamat</td><td>: <?php echo $modRincians[0]->alamat_pasien;?></td>
-        <td></td><td></td>
+        <td nowrap>No. Rekam Medik</td><td>:</td><td width="100%"><?php echo $pasien->no_rekam_medik; ?></td>
+        <td>Tgl. Pendaftaran</td><td>:</td><td nowrap><?php echo MyFormatter::formatDateTimeForUser($modPendaftaran->tgl_pendaftaran); ?></td>
     </tr>
-</table>
-<table width='100%' cellpadding='2px' class='table-rincian'>
-    <thead>
-        <th>Tanggal</th>
-        <th>Uraian</th>
-        <th>Banyaknya</th>
-        <th>Harga Satuan</th>
-        <th>Jumlah</th>
+    <tr>
+        <td>Nama Pasien</td><td>:</td><td nowrap><?php echo $pasien->namadepan.$pasien->nama_pasien; ?></td>
+        <td>No. Pendaftaran</td><td>:</td><td nowrap><?php echo $modPendaftaran->no_pendaftaran; ?></td>
+    </tr>
+    <tr>
+        <td>Umur / Tgl. Lahir</td><td>:</td><td nowrap><?php echo $modPendaftaran->umur." / ".MyFormatter::formatDateTimeForUser($pasien->tanggal_lahir); ?></td>
+        <td>Ruangan</td><td>:</td><td nowrap><?php echo empty($modPendaftaran->pasienadmisi_id)?$modPendaftaran->ruangan->ruangan_nama:$admisi->ruangan->ruangan_nama; ?></td>
+    </tr>
+    <tr>
+        <td>Alamat</td><td>:</td><td nowrap><?php echo $pasien->no_rekam_medik; ?></td>
+        
+        <?php if (!empty($modPendaftaran->pasienadmisi_id)): ?> 
+        <td nowrap>Kamar / No. Bed</td><td>:</td><td nowrap><?php echo (empty($masukkamar) || empty($masukkamar->kamarruangan_id))?"-":($masukkamar->kamarruangan->kamarruangan_nokamar." / ".$masukkamar->kamarruangan->kamarruangan_nobed); ?></td>
+        <?php endif; ?>
+    </tr>
+    <tr>
+        <td>Dokter</td><td>:</td><td nowrap><?php echo $modPendaftaran->pegawai->namaLengkap; ?></td>
+        <?php if (!empty($modPendaftaran->pasienadmisi_id)): ?> 
+        <td>Dokter PJP</td><td>:</td><td nowrap><?php echo $admisi->pegawai->namaLengkap; ?></td>
+        <?php endif; ?>
+    </tr>
+</table><br/>
+
+<?php
+
+$grp = array();
+
+$suba = 0;
+$subp = 0;
+$subr = 0;
+$subtotal = 0;
+
+foreach ($modRincians as $item) {
+    $dokter = PegawaiM::model()->findByPk($item->pegawai_id);
+    $dokter = empty($dokter)?"-":$dokter->namaLengkap;
+    
+    if (empty($grp[$item->ruangan_id])) {
+        $grp[$item->ruangan_id] = array(
+            'nama'=>$item->ruangan_nama,
+            'content'=>array(),
+        );
+    }
+    
+    
+    $suba += $item->subsidiasuransi_tindakan;
+    $subp += $item->subsidipemerintah_tindakan;
+    $subr += $item->subsisidirumahsakit_tindakan;
+    
+    $subtotal += ($item->qty_tindakan * $item->tarif_satuan) - ($item->subsidiasuransi_tindakan + $item->subsidipemerintah_tindakan + $item->subsisidirumahsakit_tindakan);
+    
+    array_push($grp[$item->ruangan_id]['content'], array(
+        'uraian'=>$item->daftartindakan_nama,
+        'dokter'=>$dokter,
+        'tgl'=>  MyFormatter::formatDateTimeForUser($item->tgl_tindakan),
+        'jml'=> $item->qty_tindakan,
+        'harga'=> MyFormatter::formatNumberForPrint($item->tarif_satuan),
+        'suba'=>MyFormatter::formatNumberForPrint($item->subsidiasuransi_tindakan),
+        'subp'=>MyFormatter::formatNumberForPrint($item->subsidipemerintah_tindakan),
+        'subr'=>MyFormatter::formatNumberForPrint($item->subsisidirumahsakit_tindakan),
+        'subtotal'=>MyFormatter::formatNumberForPrint(($item->qty_tindakan * $item->tarif_satuan) - ($item->subsidiasuransi_tindakan + $item->subsidipemerintah_tindakan + $item->subsisidirumahsakit_tindakan)),
+    ));
+}
+
+?>
+
+<table width="100%" class="rincian">
+    <thead style='border:1px solid;'>
+        <th style='text-align: center;'>No.</th>
+        <th style='text-align: center;'>Uraian</th>
+        <th style='text-align: center;'>Dokter</th>
+        <th style='text-align: center;'>Tgl Transaksi</th>
+        <th style='text-align: center;'>Jml</th>
+        <th style='text-align: center;'>Harga</th>
+        <th style='text-align: center;'>Subsidi Asuransi</th>
+        <th style='text-align: center;'>Subsidi Pemerintah</th>
+        <th style='text-align: center;'>Subsidi RS</th>
+        <th style='text-align: center;'>Subtotal</th>
     </thead>
     <tbody>
-        <?php 
-        $totalbiaya = 0;
-        foreach($modRincians AS $i => $rincian) {
-            $totalbiaya += ($rincian->qty_tindakan*$rincian->tarif_satuan);
-            $tampilruangan = true;
-            if($i > 0){
-                if($modRincians[$i]->ruangantindakan_id == $modRincians[$i-1]->ruangantindakan_id){
-                    $tampilruangan = false;
-                }else{
-                    $tampilruangan = true;
-                }
-            }
-            if($tampilruangan){
-        ?>
-                <tr>
-                    <td></td>
-                    <td colspan='4'><b><?php echo $rincian->ruangantindakan_nama; ?></b></td>
-                </tr>
-        <?php 
-            }
-        ?>
+        <?php foreach ($grp as $item) : ?>
         <tr>
-            <td align='right'><?php echo date("d-m-Y",strtotime($rincian->tgl_tindakan)); ?></td>
-            <td><?php echo $rincian->daftartindakan_nama; ?></td>
-            <td align='right'><?php echo $rincian->qty_tindakan; ?></td>
-            <td align='right'><?php echo $format->formatNumberForPrint($rincian->tarif_satuan); ?></td>
-            <td align='right'><?php echo $format->formatNumberForPrint($rincian->qty_tindakan*$rincian->tarif_satuan); ?></td>
+            <td colspan="10"><strong><?php echo $item['nama']; ?></strong></td>
         </tr>
-        <?php } ?>
+            <?php 
+            $cnt = 0;
+            foreach ($item['content'] as $item2) : 
+                $cnt++;
+            ?>
+            <tr>
+                <td><?php echo $cnt; ?></td>
+                <td><?php echo $item2['uraian']; ?></td>
+                <td><?php echo $item2['dokter']; ?></td>
+                <td><?php echo $item2['tgl']; ?></td>
+                <td style="text-align: right;"><?php echo $item2['jml']; ?></td>
+                <td style="text-align: right;"><?php echo $item2['harga']; ?></td>
+                <td style="text-align: right;"><?php echo $item2['suba']; ?></td>
+                <td style="text-align: right;"><?php echo $item2['subp']; ?></td>
+                <td style="text-align: right;"><?php echo $item2['subr']; ?></td>
+                <td style="text-align: right;"><?php echo $item2['subtotal']; ?></td>
+            </tr>
+            <?php endforeach; ?>
+        <?php endforeach; ?>
     </tbody>
     <tfoot>
         <tr>
-            <td colspan='4' align='right' style="font-weight:bold;">Jumlah Biaya</td>
-            <td align='right' style="font-weight:bold;"><?php echo $format->formatNumberForPrint($totalbiaya); ?></td>
-        </tr>
-        <tr>
-            <td colspan='5' align='center' style="font-style:italic;">(<?php echo $format->formatNumberTerbilang($totalbiaya); ?> rupiah)</td>
+            <td colspan="6">Total Keseluruhan</td>
+            <td style="text-align: right;"><?php echo MyFormatter::formatNumberForPrint($suba); ?></td>
+            <td style="text-align: right;"><?php echo MyFormatter::formatNumberForPrint($subp); ?></td>
+            <td style="text-align: right;"><?php echo MyFormatter::formatNumberForPrint($subr); ?></td>
+            <td style="text-align: right;"><?php echo MyFormatter::formatNumberForPrint($subtotal); ?></td>
         </tr>
     </tfoot>
+    
 </table>
+
+<br/><br/><br/>
+
+<table>
+    <tr align="right">
+         <td colspan="5"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td class="tandatangan">Petugas</td>
+    </tr><tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+    <tr align="right">
+         <td colspan="5"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td class="tandatangan"></td>
+    </tr><tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+    <?php $pegawai = LoginpemakaiK::pegawaiLoginPemakai(); ?>      
+    <tr align="right">
+         <td colspan="5"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td class="tandatangan" style="height: 50px;">
+                <b><?php echo empty($pegawai)?"-":$pegawai->nama_pegawai; ?></b>                
+         </td>         
+    </tr>
+    <tr align="right">
+         <td colspan="5"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td colspan="2"></td>
+         <td class="tandatangan" style = "border-top: 2px solid #000;">                              
+                <b>NIP. <?php echo empty($pegawai)?"-":$pegawai->nomorindukpegawai; ?></b>
+         </td>         
+    </tr>
+</table>
+<?php /*
+<table width="100%">
+    <thead style='border:1px solid;'>
+        <th style='text-align: center;'>No.</th>
+        <th style='text-align: center;'>Tanggal Tindakan</th>
+        <th style='text-align: center;'>Jenis Pelayanan</th>
+        <th style='text-align: center;'>Jumlah</th>
+        <th style='text-align: center;'>Harga Satuan</th>
+        <th style='text-align: center;'>Total</th>
+
+    </thead>
+    <tbody>
+        <?php
+        $no=1;
+        $totalbiaya = 0;
+        $subasuransi = 0;
+        $subrs = 0;
+        $subpemerintah = 0;
+        
+		if (count($modRincians) > 0 ){
+			foreach($modRincians AS $i => $rincian):
+				$totalbiaya += ($rincian->qty_tindakan*$rincian->tarif_satuan);
+                                $subasuransi += $rincian->subsidiasuransi_tindakan;
+                                $subrs += $rincian->subsisidirumahsakit_tindakan;
+                                $subpemerintah += $rincian->subsidipemerintah_tindakan;
+                        
+				$tampilruangan = true;
+					if((($rincian->tm)=='AP') or (($rincian->tm)=='OA')){
+						$jenisPelayanan = $rincian->daftartindakan_nama;
+					}else{
+	//                   dicomment karena issue  RND-6042 $jenisPelayanan = $rincian->kategoritindakan_nama;
+						$jenisPelayanan = $rincian->daftartindakan_nama;
+					}
+				echo "<tr style='border:1px solid;''>
+				<td style='text-align:center;'>".$no."</td>
+				<td style='text-align:left;'>".(MyFormatter::formatDateTimeForUser($rincian->tgl_tindakan))."</td>
+				<td>".$jenisPelayanan."</td>
+				<td style='text-align: center;'>".$rincian->qty_tindakan."</td>
+				<td style='text-align: right;'>".(MyFormatter::formatNumberForPrint($rincian->tarif_satuan))."</td>
+				<td style='text-align: right;'>".(MyFormatter::formatNumberForPrint($rincian->qty_tindakan*$rincian->tarif_satuan))."</td>      
+			 </tr>";  
+			$no++;
+			endforeach;
+		?>
+		<?php } 
+                
+                $res = $totalbiaya - ($subasuransi + $subrs + $subpemerintah);
+                
+                ?>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan='5' align='right' style="font-weight:bold; border: 1px solid black;">Jumlah Biaya</td>
+            <td align='right' style="font-weight:bold; text-align: right; border: 1px solid black;"><?php echo $format->formatNumberForPrint($totalbiaya); ?></td>
+        </tr>
+        <tr>
+            <td colspan='5' align='right' style="font-weight:bold; border: 1px solid black;">Subsidi Asuransi</td>
+            <td align='right' style="font-weight:bold; text-align: right; border: 1px solid black;"><?php echo $format->formatNumberForPrint($subasuransi); ?></td>
+        </tr>
+        <tr>
+            <td colspan='5' align='right' style="font-weight:bold; border: 1px solid black;">Subsidi Rumah Sakit</td>
+            <td align='right' style="font-weight:bold; text-align: right; border: 1px solid black;"><?php echo $format->formatNumberForPrint($subrs); ?></td>
+        </tr>
+        <tr>
+            <td colspan='5' align='right' style="font-weight:bold; border: 1px solid black;">Subsidi Pemerintah</td>
+            <td align='right' style="font-weight:bold; text-align: right; border: 1px solid black;"><?php echo $format->formatNumberForPrint($subpemerintah); ?></td>
+        </tr>
+        <tr>
+            <td colspan='5' align='right' style="font-weight:bold; border: 1px solid black;">Tanggungan Pasien</td>
+            <td align='right' style="font-weight:bold; text-align: right; border: 1px solid black;"><?php echo $format->formatNumberForPrint($res); ?></td>
+        </tr>
+        <tr>
+            <td colspan='6' align='center' style="font-style:italic; border: 1px solid black;">(<?php echo $format->formatNumberTerbilang($res); ?> rupiah)</td>
+        </tr>
+        <tr><td></td></tr>
+        <tr><td colspan="2">
+        <?php echo MyFormatter::formatDateTimeForUser(date("d-m-Y")); ?>&nbsp;&nbsp;<?php echo $modPendaftaran->carabayar->carabayar_nama;?></td>
+        </tr>    
+    </tfoot>
+</table>
+
+ * 
+ */ ?>
 <?php
 if (isset($_GET['frame'])){
     echo CHtml::link(Yii::t('mds', '{icon} Print Rincian', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"print();"));
@@ -92,26 +327,10 @@ if (isset($_GET['frame'])){
         window.open("<?php echo Yii::app()->createUrl("billingKasir/PembayaranTagihanPasien/PrintRincianBelumBayar", array("instalasi_id"=>$_GET['instalasi_id'], "pendaftaran_id"=>$_GET['pendaftaran_id'], "pasienadmisi_id"=>(isset($_GET['pasienadmisi_id']) ? $_GET['pasienadmisi_id'] : null))) ?>","",'location=_new, width=1024px');
     }
     </script>
-<?php
-}else{
-?>    
-    <table width='100%'>
-        <tr>
-            <td></td>
-            <td></td>
-            <td align='center'><?php echo Yii::app()->user->getState('kabupaten_nama').", ".$format->formatDateTimeId(date('Y-m-d')); ?></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td align='center'>Dicetak oleh</td>
-        </tr>
-        <tr height='100px'>
-            <td></td>
-            <td></td>
-            <td align='center'><?php echo Yii::app()->user->getState('gelardepan')." ".Yii::app()->user->getState('nama_pegawai')." ".Yii::app()->user->getState('gelarbelakang_nama'); ?></td>
-        </tr>
-    </table>
+
+    
+           <?php //echo Yii::app()->user->getState('gelardepan')." ".Yii::app()->user->getState('nama_pegawai')." ".Yii::app()->user->getState('gelarbelakang_nama'); ?>
+
 <?php
 }
 ?>

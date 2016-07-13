@@ -189,21 +189,23 @@ class BKInformasikasirrawatjalanV extends InformasikasirrawatjalanV
             $criteria->compare('LOWER(nama_pasien)', strtolower($this->nama_pasien), true);
             $criteria->compare('LOWER(ruangan_nama)', strtolower($this->ruangan_nama), true);
             $criteria->compare('LOWER(jeniskelamin)', strtolower($this->jeniskelamin), true);
+            $criteria->compare('penjamin_id', $this->penjamin_id);
+            $criteria->compare('ruangan_id', $this->ruangan_id);
 			if(!empty($this->carabayar_id)){
 				$criteria->addCondition('carabayar_id = '.$this->carabayar_id);
 			}
             $criteria->order = 'tgl_pendaftaran DESC';
-            $criteria->limit = 5;
+            // $criteria->limit = 5;
             if($this->instalasi_id == Params::INSTALASI_ID_RJ){
-                $model = new BKInfokunjunganrjV;
+                $model = new BKInformasikasirrawatjalanV;
             }else if($this->instalasi_id == Params::INSTALASI_ID_RD){
-                $model = new BKInfokunjunganrdV;
+                $model = new BKInformasikasirrdpulangV;
             }else if($this->instalasi_id == Params::INSTALASI_ID_RI){
-                $model = new BKInfopasienmasukkamarV;
+                $model = new BKInformasikasirinappulangV;
             }
             return new CActiveDataProvider($model, array(
                         'criteria'=>$criteria,
-                        'pagination'=>false,
+                        //' pagination'=>false,
                 ));
         }
         
