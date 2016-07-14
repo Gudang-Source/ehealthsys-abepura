@@ -1,5 +1,6 @@
-
-<?php
+<div class="white-container">
+    <legend class="rim2">Tambah <b>Komponen Tarif</b></legend>
+<?php /*
 $this->breadcrumbs=array(
 	'Sakomponen Tarif Ms'=>array('index'),
 	'Create',
@@ -11,10 +12,11 @@ $arrMenu = array();
 //                (Yii::app()->user->checkAccess(Params::DEFAULT_ADMIN)) ?array_push($arrMenu,array('label'=>Yii::t('mds','Manage').' Komponen Tarif', 'icon'=>'folder-open', 'url'=>array('Admin'))) :  '' ;
 
 $this->menu=$arrMenu;
-
+ */
 $this->widget('bootstrap.widgets.BootAlert'); ?>
 
 
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
 
 <?php //$this->widget('UserTips',array('type'=>'create'));?>
+</div>

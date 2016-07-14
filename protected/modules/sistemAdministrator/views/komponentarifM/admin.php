@@ -54,6 +54,18 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                         'value'=>'$data->komponentarif_id',
                         'filter'=>false,
                 ),
+                array(
+                    'name'=>'kelompokkomponentarif_id',
+                    'header'=>'Kelompok Komponen Tarif',
+                    'type'=>'raw',
+                    'value'=>function($data) {
+                        $k = SAKelompokkomponentarifM::model()->findByPk($data->kelompokkomponentarif_id);
+                        return empty($k)?"-":$k->kelompokkomponentarif_nama;
+                    },
+                    'filter'=>CHtml::activeDropDownList($model, 'kelompokkomponentarif_id', 
+                    CHtml::listData(SAKelompokkomponentarifM::model()->findAll('kelompokkomponentarif_aktif = true order by kelompokkomponentarif_nama'), 'kelompokkomponentarif_id', 'kelompokkomponentarif_nama'),
+                    array('empty'=>'-- Pilh --', 'class'=>'span3')),
+                ),
 		'komponentarif_nama',
 		'komponentarif_namalainnya',
 		'komponentarif_urutan',

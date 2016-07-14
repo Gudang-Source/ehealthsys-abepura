@@ -11,7 +11,9 @@
 	<p class="help-block"><?php echo Yii::t('mds','Fields with <span class="required">*</span> are required.') ?></p>
 
 	<?php echo $form->errorSummary($model); ?>
-
+            <?php echo $form->dropDownListRow($model, 'kelompokkomponentarif_id', 
+                    CHtml::listData(SAKelompokkomponentarifM::model()->findAll('kelompokkomponentarif_aktif = true order by kelompokkomponentarif_nama'), 'kelompokkomponentarif_id', 'kelompokkomponentarif_nama'),
+                    array('empty'=>'-- Pilh --', 'class'=>'span3')); ?>
             <?php echo $form->textFieldRow($model,'komponentarif_nama',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>25)); ?>
             <?php echo $form->textFieldRow($model,'komponentarif_namalainnya',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>25)); ?>
             <?php echo $form->textFieldRow($model,'komponentarif_urutan',array('class'=>'span1', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
