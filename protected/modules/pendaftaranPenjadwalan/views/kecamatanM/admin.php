@@ -3,7 +3,9 @@
   </div>
 </div>
 
-<?php $this->renderPartial('_tab'); ?> -->
+<?php //$this->renderPartial('_tab'); ?> -->
+<fieldset class = "box">
+    <legend class = "rim">Pengaturan Kecamatan</legend>
 <?php
 $this->breadcrumbs=array(
 	'Ppkecamatan Ms'=>array('index'),
@@ -89,7 +91,7 @@ echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class
         array(
             'header'=>'Hapus',
             'type'=>'raw',
-            'value'=>'($data->kecamatan_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->kecamatan_id)",array("id"=>"$data->kecamatan_id","rel"=>"tooltip","title"=>"Menonaktifkan Kecamatan"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->kecamatan_id)",array("id"=>"$data->kecamatan_id","rel"=>"tooltip","title"=>"Hapus Kecamatan")):CHtml::link("<i class=\'icon-trash\'></i> ", "javascript:deleteRecord($data->kecamatan_id)",array("id"=>"$data->kecamatan_id","rel"=>"tooltip","title"=>"Hapus Kecamatan"));',
+            'value'=>'($data->kecamatan_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->kecamatan_id)",array("id"=>"$data->kecamatan_id","rel"=>"tooltip","title"=>"Menonaktifkan Kecamatan"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->kecamatan_id)",array("id"=>"$data->kecamatan_id","rel"=>"tooltip","title"=>"Hapus Kecamatan")):CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->kecamatan_id)",array("id"=>"$data->kecamatan_id","rel"=>"tooltip","title"=>"Hapus Kecamatan"));',
             'htmlOptions'=>array('style'=>'width:80px'),
         ),
 	),
@@ -199,3 +201,4 @@ Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);
        });
     }
 </script>
+</fieldset>

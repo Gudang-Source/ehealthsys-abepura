@@ -39,7 +39,7 @@
              
             <table style = "width:100%;">
             <tr>
-                <th style ="text-align:center;" >Kecamatan</th>
+                <th style ="text-align:center;" >Kelurahan</th>
                 <th style ="text-align:center;">Nama Lain</th>
                 <th style ="text-align:center;">Latitude</th>
                 <th style ="text-align:center;">Longitude</th>
@@ -47,11 +47,11 @@
             </tr>
             <tr>
                 <td>
-                    <?php echo $form->textField($model,'kelurahan_nama',array('onkeyup'=>"namaLain(this)", 'class'=>'span3', 'onkeyup'=>"namaLain(this)", 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50,'placeholder'=>$model->getAttributeLabel('kecamatan_nama'))); ?>
+                    <?php echo $form->textField($model,'kelurahan_nama',array('onkeyup'=>"namaLain(this)", 'class'=>'span3', 'onkeyup'=>"namaLain(this)", 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50,'placeholder'=>$model->getAttributeLabel('kelurahan_nama'))); ?>
                     <span class="required">*</span>
                 </td>
                 <td>
-                    <?php echo $form->textField($model,'kelurahan_namalainnya',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50, 'placeholder'=> $model->getAttributeLabel('kecamatan_namalainnya'))); ?>
+                    <?php echo $form->textField($model,'kelurahan_namalainnya',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50, 'placeholder'=> $model->getAttributeLabel('kelurahan_namalainnya'))); ?>
                 </td>                
                 <td>
 

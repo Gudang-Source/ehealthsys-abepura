@@ -3,7 +3,9 @@
   </div>
 </div>
 
-<?php $this->renderPartial('_tab'); ?> -->
+<?php //$this->renderPartial('_tab'); ?> -->
+<fieldset class = "box">
+    <legend class = "rim">Pengaturan Propinsi</legend>
 <?php
 $this->breadcrumbs=array(
 	'Pppropinsi Ms'=>array('index'),
@@ -83,7 +85,7 @@ echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class
         array(
             'header'=>'Hapus',
             'type'=>'raw',
-            'value'=>'($data->propinsi_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->propinsi_id)",array("id"=>"$data->propinsi_id","rel"=>"tooltip","title"=>"Menonaktifkan Propinsi"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->propinsi_id)",array("id"=>"$data->propinsi_id","rel"=>"tooltip","title"=>"Hapus Propinsi")):CHtml::link("<i class=\'icon-trash\'></i> ", "javascript:deleteRecord($data->propinsi_id)",array("id"=>"$data->propinsi_id","rel"=>"tooltip","title"=>"Hapus Propinsi"));',
+            'value'=>'($data->propinsi_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->propinsi_id)",array("id"=>"$data->propinsi_id","rel"=>"tooltip","title"=>"Menonaktifkan Propinsi"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->propinsi_id)",array("id"=>"$data->propinsi_id","rel"=>"tooltip","title"=>"Hapus Propinsi")):CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->propinsi_id)",array("id"=>"$data->propinsi_id","rel"=>"tooltip","title"=>"Hapus Propinsi"));',
             'htmlOptions'=>array('style'=>'width:80px'),
         ),
 	),
@@ -157,7 +159,7 @@ function print(caraPrint)
 }
 JSCRIPT;
 Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);                        
-?>
+?></fieldset>
 <script type="text/javascript">
     function removeTemporary(id){
         var url = '<?php echo $url."/removeTemporary"; ?>';

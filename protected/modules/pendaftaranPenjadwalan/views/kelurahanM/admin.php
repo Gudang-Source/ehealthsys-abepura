@@ -3,7 +3,9 @@
   </div>
 </div>
 
-<?php $this->renderPartial('_tab'); ?> -->
+<?php //$this->renderPartial('_tab'); ?> -->
+<fieldset class = "box">
+    <legend class = "rim">Pengaturan Kelurahan</legend>
 <?php
 $this->breadcrumbs=array(
 	'Ppkelurahan Ms'=>array('index'),
@@ -91,7 +93,7 @@ echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class
         array(
             'header'=>'Hapus',
             'type'=>'raw',
-            'value'=>'($data->kelurahan_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->kelurahan_id)",array("id"=>"$data->kelurahan_id","rel"=>"tooltip","title"=>"Menonaktifkan Kelurahan"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->kelurahan_id)",array("id"=>"$data->kelurahan_id","rel"=>"tooltip","title"=>"Hapus Kelurahan")):CHtml::link("<i class=\'icon-trash\'></i> ", "javascript:deleteRecord($data->kelurahan_id)",array("id"=>"$data->kelurahan_id","rel"=>"tooltip","title"=>"Hapus Kelurahan"));',
+            'value'=>'($data->kelurahan_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->kelurahan_id)",array("id"=>"$data->kelurahan_id","rel"=>"tooltip","title"=>"Menonaktifkan Kelurahan"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->kelurahan_id)",array("id"=>"$data->kelurahan_id","rel"=>"tooltip","title"=>"Hapus Kelurahan")):CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->kelurahan_id)",array("id"=>"$data->kelurahan_id","rel"=>"tooltip","title"=>"Hapus Kelurahan"));',
             'htmlOptions'=>array('style'=>'width:80px'),
         ),
 	),
@@ -205,3 +207,4 @@ Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);
        });
     }
 </script>
+</fieldset>
