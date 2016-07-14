@@ -108,17 +108,19 @@ class KomponentarifMController extends MyAuthController {
             try {
                 $model->attributes = $_POST['SAKomponentarifM'];
                 $model->save();
-                $jumlahInstalasi = COUNT($_POST['instalasi_id']);
-                $komponentarif_id = $model->komponentarif_id;
+                if (isset($_POST['instalasi_id'])) {
+                    $jumlahInstalasi = COUNT($_POST['instalasi_id']);
+                    $komponentarif_id = $model->komponentarif_id;
 
-                $hapusKomponenTarifInstalasi = SAKomponentarifinstalasiM::model()->deleteAll('komponentarif_id=' . $komponentarif_id . '');
+                    $hapusKomponenTarifInstalasi = SAKomponentarifinstalasiM::model()->deleteAll('komponentarif_id=' . $komponentarif_id . '');
 
-                if ($jumlahInstalasi > 0) {
-                    for ($i = 0; $i <= $jumlahInstalasi; $i++) {
-                        $modKomponenTarifInstalasi = new SAKomponentarifinstalasiM;
-                        $modKomponenTarifInstalasi->komponentarif_id = $komponentarif_id;
-                        $modKomponenTarifInstalasi->instalasi_id = $_POST['instalasi_id'][$i];
-                        $modKomponenTarifInstalasi->save();
+                    if ($jumlahInstalasi > 0) {
+                        for ($i = 0; $i <= $jumlahInstalasi; $i++) {
+                            $modKomponenTarifInstalasi = new SAKomponentarifinstalasiM;
+                            $modKomponenTarifInstalasi->komponentarif_id = $komponentarif_id;
+                            $modKomponenTarifInstalasi->instalasi_id = $_POST['instalasi_id'][$i];
+                            $modKomponenTarifInstalasi->save();
+                        }
                     }
                 }
 
