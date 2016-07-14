@@ -4,7 +4,7 @@
 	'id'=>'ppkecamatan-m-form',
 	'enableAjaxValidation'=>false,
         'type'=>'horizontal',
-        'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)'),
+        'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)', 'onsubmit'=>'return requiredCheck(this);'),
         'focus'=>'#propinsi',
 )); ?>
 
@@ -30,20 +30,63 @@
 			<?php echo $form->error($model, 'kabupaten_id'); ?>
 		</div>
 	</div>
+        <table style = "width:100%;">
+            <tr>
+                <th style ="text-align:center;" >Kecamatan</th>
+                <th style ="text-align:center;">Nama Lain</th>
+                <th style ="text-align:center;">Latitude</th>
+                <th style ="text-align:center;">Longitude</th>
+            </tr>
+            <tr>
+                <td>
+                    <?php echo $form->textField($model,'kecamatan_nama',array('onkeyup'=>"namaLain(this)", 'class'=>'span3', 'onkeyup'=>"namaLain(this)", 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50,'placeholder'=>$model->getAttributeLabel('kecamatan_nama'))); ?>
+                    <span class="required">*</span>
+                </td>
+                <td>
+                    <?php echo $form->textField($model,'kecamatan_namalainnya',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50, 'placeholder'=> $model->getAttributeLabel('kecamatan_namalainnya'))); ?>
+                </td>                
+                <td>
 
+                        <?php echo $form->textField($model,'latitude',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)", 'placeholder'=> $model->getAttributeLabel('latitude'))); ?>
+                        <?php echo CHtml::htmlButton('<i class="icon-search icon-white"></i>',
+                                                    array(
+                                                            'class'=>'btn btn-primary btn-location',
+                                                            'rel'=>'tooltip',
+                                                            'id'=>'yw1',
+                                                            'onclick' =>'changeSize()',
+                                                            'title'=>'Klik untuk mencari Longitude & Latitude',)); 
+                        ?>                        
+
+                </td>
+                <td>
+                     <?php echo $form->textField($model,'longitude',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)", 'placeholder'=> $model->getAttributeLabel('longitude'))); ?>                    
+               
+                    <!--Extension location-picker latitude & longitude-->
+                   <?php               
+
+                           $this->widget('ext.LocationPicker2.CoordinatePicker', array(
+                                   'model' => $model,
+                                   'latitudeAttribute' => 'latitude',
+                                   'longitudeAttribute' => 'longitude',
+                                   //optional settings
+                                   'editZoom' => 12,
+                                   'pickZoom' => 7,
+                                   'defaultLatitude' => $model->latitude,
+                                   'defaultLongitude' => $model->longitude,
+                           ));
+                   ?>    
+                                        
+                </td>
+                <td>
+                    <?php echo CHtml::htmlButton( '<i class="icon-plus-sign icon-white"></i>', array('class'=>'btn btn-primary','onkeypress'=>"addRow(this);return $(this).focusNextInputField(event);",'onclick'=>'addRow(this);','id'=>'row1-plus')); ?>
+                </td>
+            </tr>
+        </table>
+        
 	<table id="tbl-kecamatan" class="table table-striped table-bordered table-condensed">
-		<tr>
-			<td>
-				<?php echo $form->textField($model,'[1]kecamatan_nama',array('class'=>'span3', 'onkeyup'=>"namaLain(this)", 'onkeyup'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50,'placeholder'=>$model->getAttributeLabel('kecamatan_nama'))); ?>
-				<span class="required">*</span>
-			</td>
-			<td>
-				<?php echo $form->textField($model,'[1]kecamatan_namalainnya',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=> $model->getAttributeLabel('kecamatan_namalainnya'))); ?>
-			</td>
-			<td>
-				<?php echo CHtml::button( '+', array('class'=>'btn btn-primary','onkeypress'=>"addRow(this);return $(this).focusNextInputField(event);",'onclick'=>'addRow(this);$(this).nextFocus()','id'=>'row1-plus')); ?>
-			</td>
-		</tr>
+		<?php
+                echo CHtml::hiddenField('Nomor',0, array('id'=>'nomor'));
+             ?>
 	</table>
 	<div class="form-actions">
 		<?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 
@@ -57,7 +100,7 @@
 		<?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Kecamatan', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
 		$this->createUrl('/pendaftaranPenjadwalan/KecamatanM/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
 		<?php
-			$content = $this->renderPartial('../tips/tipsaddedit2b',array(),true);
+			$content = $this->renderPartial('rawatDarurat.views.tips.tipsaddedit2b',array(),true);
 			$this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
 		?>
 	</div>

@@ -13,6 +13,8 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
 		'kabupaten.kabupaten_nama',
 		'kecamatan_nama',
 		'kecamatan_namalainnya',
+                'latitude',
+                'longitude',
 		//'kecamatan_aktif',
                 array(
                     'name'=>'kecamatan_aktif',

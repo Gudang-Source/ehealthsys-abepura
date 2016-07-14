@@ -3,7 +3,7 @@
 	'id'=>'ppkabupaten-m-form',
 	'enableAjaxValidation'=>false,
         'type'=>'horizontal',
-        'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)'),
+        'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)', 'onsubmit'=>'return requiredCheck(this);'),
         'focus'=>'#'.CHtml::activeId($model,'propinsi_id'),
 )); ?>
 
@@ -14,6 +14,36 @@
 			<?php echo $form->dropDownListRow($model,'propinsi_id',CHtml::listData($model->getPropinsiItems(), 'propinsi_id', 'propinsi_nama'),array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
 			<?php echo $form->textFieldRow($model,'kabupaten_nama',array('class'=>'span3', 'onkeyup'=>"namaLain(this)", 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
 			<?php echo $form->textFieldRow($model,'kabupaten_namalainnya',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+                        <div class="control-group ">
+                            <?php echo $form->labelEx($model,'latitude', array('class'=>'control-label')) ?>
+                            <div class="controls">
+                                <?php echo $form->textField($model,'latitude',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+                                <?php echo CHtml::htmlButton('<i class="icon-search icon-white"></i>',
+                                                            array(
+                                                                    'class'=>'btn btn-primary btn-location',
+                                                                    'rel'=>'tooltip',
+                                                                    'id'=>'yw1',
+                                                                    'onclick' =>'changeSize()',
+                                                                    'title'=>'Klik untuk mencari Longitude & Latitude',)); ?>
+
+                            </div>
+                        </div>
+                        <?php echo $form->textFieldRow($model,'longitude',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+               
+                 <!--Extension location-picker latitude & longitude-->
+                        <?php              
+
+                                $this->widget('ext.LocationPicker2.CoordinatePicker', array(
+                                        'model' => $model,
+                                        'latitudeAttribute' => 'latitude',
+                                        'longitudeAttribute' => 'longitude',
+                                        //optional settings
+                                        'editZoom' => 12,
+                                        'pickZoom' => 7,
+                                        'defaultLatitude' => $model->latitude,
+                                        'defaultLongitude' => $model->longitude,
+                                ));
+                        ?>	
 			<?php echo $form->checkBoxRow($model,'kabupaten_aktif', array('onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
 		</div>
 	</div>
@@ -29,9 +59,10 @@
 		<?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Kabupaten', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
 			$this->createUrl('/pendaftaranPenjadwalan/kabupatenM/Admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
                 <?php
-			$content = $this->renderPartial('../tips/tipsaddedit',array(),true);
+			$content = $this->renderPartial('rawatDarurat.views.tips.tipsaddedit5',array(),true);
 			$this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
 		?>
     </div>
 
 <?php $this->endWidget(); ?>
+<?php $this->renderPartial('_jsFunctions',array()); ?>

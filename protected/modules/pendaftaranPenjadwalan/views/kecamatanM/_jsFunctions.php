@@ -3,18 +3,21 @@ var buttonMinus = '<?php echo CHtml::link('<i class="icon-minus-sign icon-white"
 var confirmMessage = '<?php echo Yii::t('mds','Do You want to remove?') ?>';
 function namaLain(nama)
 {
-	document.getElementById('PPKecamatanM_1_kecamatan_namalainnya').value = nama.value.toUpperCase();
+	document.getElementById('PPKecamatanM_kecamatan_namalainnya').value = nama.value.toUpperCase();
 }
 
-function delRow(obj)
-{
-	if(!confirm(''+confirmMessage+'')) return false;
-    else {
-        $(obj).parent().parent().remove();
-        renameInput('PPKecamatanM','kecamatan_nama');
-        renameInput('PPKecamatanM','kecamatan_namalainnya');
+    function delRow(obj)
+    {
+        var no = $('#nomor').val();
+        myConfirm("Yakin Akan Menghapus Data ini ?","Perhatian!",function(r) {
+            if (r){
+                 $(obj).parent().parent().remove();
+            //renameInput('RDKabupatenM','kabupaten_nama');
+            //renameInput('RDKabupatenM','kabupaten_namalainnya');
+                $('#nomor').val(eval(no)-1);
+           }
+       });        
     }
-}
 
 function renameInput(modelName,attributeName)
 {
@@ -26,12 +29,48 @@ function renameInput(modelName,attributeName)
     });
 }
 
-function addRow(obj)
-{
-    var tr = $('#tbl-kecamatan tr:first').html();
-    $('#tbl-kecamatan tr:last').after('<tr>'+tr+'</tr>');
-    $('#tbl-kecamatan tr:last td:last').append(''+buttonMinus+'');
-    renameInput('PPKecamatanM','kecamatan_nama');
-    renameInput('PPKecamatanM','kecamatan_namalainnya');
-}
+    function addRow(obj)
+    {   
+        var buttonMinus = '<?php echo CHtml::link('<i class="icon-minus-sign icon-white"></i>', '#', array('class'=>'btn btn-danger','onclick'=>'delRow(this); return false;')) ?>';                
+        var no = eval($('#nomor').val())+1;        
+        var kabupaten = $('#PPKecamatanM_kecamatan_nama').val();
+        var namalain = $('#PPKecamatanM_kecamatan_namalainnya').val();
+        
+        if ( (kabupaten != '') || (namalain != '') ){
+            var td =    '   <td><input name = "PPKecamatanM['+no+'][kecamatan_nama]"  type = "text" id = "PPKecamatanM_'+no+'_kecamatan_nama" class = "span3 required" onkeypress = "return $(this).focusNextInputField(event);", maxlength = "200"  readonly = TRUE value = "'+$('#PPKecamatanM_kecamatan_nama').val()+'" > <span class = "required">*<span></td>\n\
+                            <td><input name = "PPKecamatanM['+no+'][kecamatan_namalainnya]" type = "text" id = "PPKecamatanM_'+no+'_kecamatan_namalainnya" class = "span3 required" onkeypress = "return $(this).focusNextInputField(event);", maxlength = "200"  readonly = TRUE value = "'+$('#PPKecamatanM_kecamatan_namalainnya').val()+'" > <span class = "required">*<span></td>\n\
+                            <td><input name = "PPKecamatanM['+no+'][latitude]" type = "text" id = "PPKecamatanM_'+no+'_latitude" class = "span3 " onkeypress = "return $(this).focusNextInputField(event);",  readonly = TRUE value = "'+$('#PPKecamatanM_latitude').val()+'" > </td>\n\
+                            <td><input name = "PPKecamatanM['+no+'][longitude]" type = "text" id = "PPKecamatanM_'+no+'_longitude" class = "span3 " onkeypress = "return $(this).focusNextInputField(event);", readonly = TRUE value = "'+$('#PPKecamatanM_longitude').val()+'" > </td>\n\
+                            <td>'+buttonMinus+'</td>';                
+            $('#tbl-kecamatan').append('<tr>'+td+'</tr>');
+        }else{
+            myAlert('Maaf Kecamatan dan Nama  Lain Tidak Boleh Kosong');
+        }
+                
+        $('#nomor').val(no);
+        clearRow();
+    }
+
+    function registerJSlocation(id,modelName,i)
+    {
+        $('#'+id).on('click', function(){ 
+                $('#'+id).coordinate_picker({'lat_selector':'#'+modelName+'_'+i+'_latitude','long_selector':'#'+modelName+'_'+i+'_longitude','default_lat':'-7.091932','default_long':'107.672491','edit_zoom':12,'pick_zoom':7})                                
+            });
+                
+    }
+        
+    function changeSize()
+    {            
+        window.parent.document.getElementById('frame').style= 'overflow-y:scroll;height:600px;';            
+    }
+    
+     function clearRow()
+    {
+        $('#PPKecamatanM_kecamatan_nama').val('');
+        $('#PPKecamatanM_kecamatan_namalainnya').val('');
+        $('#PPKecamatanM_latitude').val('');
+        $('#PPKecamatanM_longitude').val('');
+    }
+    
+    
 </script>

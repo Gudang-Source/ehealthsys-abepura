@@ -1,3 +1,5 @@
+<fieldset class = "box">
+    <legend class = "rim">Lihat Kelurahan</legend>
 <?php
 $this->breadcrumbs=array(
 	'Ppkelurahan Ms'=>array('index'),
@@ -13,6 +15,8 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
 		'kecamatan.kecamatan_nama',
 		'kelurahan_nama',
 		'kelurahan_namalainnya',
+                'latitude',
+                'longitude',
 		'kode_pos',
 		//'kelurahan_aktif',
                 array(
@@ -30,3 +34,4 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
     <?php $this->widget('UserTips',array('type'=>'view'));?>
     </div>
 </div>
+</fieldset>
