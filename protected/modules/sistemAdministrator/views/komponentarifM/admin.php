@@ -64,11 +64,6 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                      'value'=>'$this->grid->getOwner()->renderPartial(\'_komponenTarifInstalasi\',array(\'komponentarif_id\'=>$data->komponentarif_id),true)',
                     'filter'=>(Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)) ? CHtml::link('<i class="icon-file"></i>'.Yii::t('mds','Create'), Yii::app()->createUrl($module.'/'.$controller.'/createKomponenTarifInstalasi') ) : '',
                     ), 
-                array(
-                    'header'=>'<center>Status</center>',
-                    'value'=>'($data->komponentarif_aktif == 1 ) ? "Aktif" : "Tidak Aktif"',
-                    'htmlOptions'=>array('style'=>'text-align:center;'),
-                ),
 //		array(
 //                        'header'=>'Aktif',
 //                        'class'=>'CCheckBoxColumn',
@@ -93,6 +88,11 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                         
                         return $st;
                     }
+                ),
+                array(
+                    'header'=>'<center>Status</center>',
+                    'value'=>'($data->komponentarif_aktif == 1 ) ? "Aktif" : "Tidak Aktif"',
+                    'htmlOptions'=>array('style'=>'text-align:center;'),
                 ),
 		array(
                         'header'=>Yii::t('zii','View'),
