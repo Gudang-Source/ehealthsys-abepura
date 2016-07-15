@@ -41,6 +41,25 @@ $this->widget($table,array(
                      'type'=>'raw',
                      'value'=>'$this->grid->getOwner()->renderPartial(\'_komponenTarifInstalasi\',array(\'komponentarif_id\'=>$data->komponentarif_id),true)',
                  ), 
+                array(
+                    'header'=>'Persentase',
+                    'type'=>'raw',
+                    'value'=>function($data) {
+                        $kel = PersenkelkomponentarifM::model()->findAllByAttributes(array(
+                            'komponentarif_id'=>$data->komponentarif_id,
+                        ));
+                        if (count($kel) == 0) return "-";
+                        
+                        $st = "<ul>";
+                        foreach ($kel as $item) {
+                            $st .= "<li>".$item->kelompokkomponentarif->kelompokkomponentarif_nama
+                                    ." (".$item->persentase."%)</li>";
+                        }
+                        $st .= "</ul>";
+                        
+                        return $st;
+                    }
+                ),
 		array
                 (
                         'name'=>'komponentarif_aktif',

@@ -1,9 +1,11 @@
 
 <?php if (isset($caraPrint)){
   $data = $model->searchPrint();
+  $template = "{items}";
   $sort = false;
 } else{
   $data = $model->searchTable();
+  $template = "{summary}\n{items}\n{pager}";
   $sort = true;
 }
 ?>
@@ -12,7 +14,7 @@
 	'id'=>'tableLaporan',
 	'dataProvider'=>$data,
         'enableSorting'=>$sort,
-        'template'=>"{summary}\n{items}\n{pager}",
+        'template'=>$template,
         'mergeHeaders'=>array(
             array(
                 'name'=>'<center>Tarif</center>',
@@ -56,49 +58,56 @@
                 array(
                     'header'=>'Tarif Satuan',
                     'type'=>'raw',
-                    'value'=>'"Rp. ".number_format($data->tarif_satuan)',
+                    'value'=>'"Rp".number_format($data->tarif_satuan,0,"",".")',
+                    'htmlOptions'=>array('style'=>'text-align:right;'),
 //                    'name'=>'tarif_satuan',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                 ),
                 array(
                     'header'=>'Tarif Cyto Tindakan',
                     'type'=>'raw',
-                    'value'=>'"Rp. ".number_format($data->tarifcyto_tindakan)',
+                    'value'=>'"Rp".number_format($data->tarifcyto_tindakan,0,"",".")',
+                    'htmlOptions'=>array('style'=>'text-align:right;'),
 //                    'name'=>'tarifcyto_tindakan',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                 ),
                 array(
                     'header'=>'Tarif RS Akomodasi',
                     'type'=>'raw',
-                    'value'=>'"Rp. ".number_format($data->tarif_rsakomodasi)',
+                    'value'=>'"Rp".number_format($data->tarif_rsakomodasi,0,"",".")',
+                    'htmlOptions'=>array('style'=>'text-align:right;'),
 //                    'name'=>'tarif_rsakomodasi',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                 ),
                 array(
                     'header'=>'Tarif Medis',
                     'type'=>'raw',
-                    'value'=>'"Rp. ".number_format($data->tarif_medis)',
+                    'value'=>'"Rp".number_format($data->tarif_medis,0,"",".")',
+                    'htmlOptions'=>array('style'=>'text-align:right;'),
 //                    'name'=>'tarif_medis',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                 ),
                 array(
                     'header'=>'Tarif Paramedis',
                     'type'=>'raw',
-                    'value'=>'"Rp. ".number_format($data->tarif_paramedis)',
+                    'value'=>'"Rp".number_format($data->tarif_paramedis,0,"",".")',
+                    'htmlOptions'=>array('style'=>'text-align:right;'),
 //                    'name'=>'tarif_paramedis',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                 ),
                 array(
                     'header'=>'Tarif Bhp',
                     'type'=>'raw',
-                    'value'=>'"Rp. ".number_format($data->tarif_bhp)',
+                    'value'=>'"Rp".number_format($data->tarif_bhp,0,"",".")',
+                    'htmlOptions'=>array('style'=>'text-align:right;'),
 //                    'name'=>'tarif_bhp',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                 ),
                 array(
                     'header'=>'Total',
                     'type'=>'raw',
-                    'value'=>'"Rp. ".number_format($data->totalTarif)',
+                    'value'=>'"Rp".number_format($data->totalTarif,0,"",".")',
+                    'htmlOptions'=>array('style'=>'text-align:right;'),
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:left;'),
                 ),
             

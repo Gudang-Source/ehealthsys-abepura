@@ -16,9 +16,23 @@ class BSLaporanbiayapelayanan extends LaporanbiayapelayananV{
     }
     public function searchGrafik(){
         $criteria = new CDbCriteria;
-        
-        $criteria->select = 'count(*) as jumlah, kelaspelayanan_nama as data, penjamin_nama as tick';
-        $criteria->group = 'kelaspelayanan_nama, penjamin_nama';
+        $format = new MyFormatter();
+        $this->tgl_awal = $format->formatDateTimeForDb($this->tgl_awal);
+        $this->tgl_akhir = $format->formatDateTimeForDb($this->tgl_akhir);
+        $criteria->addBetweenCondition('DATE(tgl_pendaftaran)', $this->tgl_awal, $this->tgl_akhir);
+        $criteria->select = 'count(pendaftaran_id) as jumlah, kelaspelayanan_nama as data, penjamin_nama as tick';
+        $criteria->group = 'kelaspelayanan_nama, penjamin_nama, kelaspelayanan_id';
+         if (is_array($this->penjamin_id)){
+            $criteria->addInCondition('penjamin_id', $this->penjamin_id);
+        }else{
+            //$criteria->addCondition('penjamin_id is null');
+        }
+        if (is_array($this->kelaspelayanan_id)){
+            $criteria->addInCondition('kelaspelayanan_id', $this->kelaspelayanan_id);
+        }else{
+            $criteria->addCondition('kelaspelayanan_id is null');
+        }
+        $criteria->addCondition('ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
         
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,

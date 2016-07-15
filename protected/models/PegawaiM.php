@@ -123,7 +123,7 @@ class PegawaiM extends CActiveRecord
 			array('alamatemail, kemampuanbahasa', 'length', 'max'=>100),
 			array('warganegara_pegawai', 'length', 'max'=>25),
 			array('photopegawai', 'length', 'max'=>200),		
-			array('shift_id, npwp, gajipokok, tgl_lahirpegawai, no_rekening, bank_no_rekening, unit_perusahaan, suratizinpraktek, tglpenilaian, alamat_pegawai, pegawai_aktif, noidentitas, nofingerprint,warnakulit, nip_lama, tglditerima, tglberhenti,deskripsi, golonganpegawai_id, surattandaregistrasi', 'safe'),
+			array('ruangan_id, shift_id, npwp, gajipokok, tgl_lahirpegawai, no_rekening, bank_no_rekening, unit_perusahaan, suratizinpraktek, tglpenilaian, alamat_pegawai, pegawai_aktif, noidentitas, nofingerprint,warnakulit, nip_lama, tglditerima, tglberhenti,deskripsi, golonganpegawai_id, surattandaregistrasi', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('deskripsi, pegawai_id, unit_perusahaan, suratizinpraktek, kelurahan_id, tglpenilaian, kecamatan_id, profilrs_id, gelarbelakang_id,gelarbelakang_nama, suku_id, kelompokpegawai_id,kelompokpegawai_nama, pendkualifikasi_id, jabatan_id, pendidikan_id, propinsi_id, pangkat_id, kabupaten_id, nomorindukpegawai, no_kartupegawainegerisipil, no_karis_karsu, no_taspen, no_askes, gelardepan, nama_pegawai, nama_keluarga, tempatlahir_pegawai, tgl_lahirpegawai, jeniskelamin, statusperkawinan, alamat_pegawai, agama, golongandarah, rhesus, alamatemail, notelp_pegawai, nomobile_pegawai, warganegara_pegawai, jeniswaktukerja, kelompokjabatan, kategoripegawai, kategoripegawaiasal, photopegawai, pegawai_aktif, esselon_id, statuskepemilikanrumah_id, jenisidentitas, noidentitas, nofingerprint, tinggibadan, beratbadan, kemampuanbahasa, warnakulit, nip_lama, norekening, banknorekening, npwp, tglditerima, tglberhenti,gelarbelakang_nama, golonganpegawai_id', 'safe', 'on'=>'search'),
@@ -477,9 +477,9 @@ class PegawaiM extends CActiveRecord
         public function searchPrint()
         {
                 // Warning: Please modify the following code to remove attributes that
-                // should not be searched.
-
+                // should not be searched.                
                 $criteria=new CDbCriteria;
+                $criteria->with = array('ruanganpegawai');
 		$criteria->compare('pegawai_id',$this->pegawai_id);
 		$criteria->compare('kelurahan_id',$this->kelurahan_id);
 		$criteria->compare('kecamatan_id',$this->kecamatan_id);
@@ -525,14 +525,17 @@ class PegawaiM extends CActiveRecord
 		$criteria->compare('LOWER(noidentitas)',strtolower($this->noidentitas),true);
 		$criteria->compare('LOWER(nofingerprint)',strtolower($this->nofingerprint),true);
 		$criteria->compare('tinggibadan',$this->tinggibadan);
+		$criteria->compare('beratbadan',$this->beratbadan);
 		$criteria->compare('unit_perusahaan',$this->unit_perusahaan);
 		$criteria->compare('suratizinpraktek',$this->suratizinpraktek);
-		$criteria->compare('beratbadan',$this->beratbadan);
 		$criteria->compare('LOWER(kemampuanbahasa)',strtolower($this->kemampuanbahasa),true);
 		$criteria->compare('LOWER(warnakulit)',strtolower($this->warnakulit),true);
 		$criteria->compare('LOWER(deskripsi)',strtolower($this->deskripsi),true);
-                // Klo limit lebih kecil dari nol itu berarti ga ada limit 
-                $criteria->limit=-1; 
+                $criteria->addCondition("nofingerprint IS NOT NULL");
+                if (!empty($this->ruangan_id)){
+                    $criteria->addCondition("ruanganpegawai.ruangan_id =".$this->ruangan_id);
+                }
+                $criteria->order = 'nama_pegawai ASC';
 
                 return new CActiveDataProvider($this, array(
                         'criteria'=>$criteria,
