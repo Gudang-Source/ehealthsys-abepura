@@ -54,18 +54,6 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                         'value'=>'$data->komponentarif_id',
                         'filter'=>false,
                 ),
-                array(
-                    'name'=>'kelompokkomponentarif_id',
-                    'header'=>'Kelompok Komponen Tarif',
-                    'type'=>'raw',
-                    'value'=>function($data) {
-                        $k = SAKelompokkomponentarifM::model()->findByPk($data->kelompokkomponentarif_id);
-                        return empty($k)?"-":$k->kelompokkomponentarif_nama;
-                    },
-                    'filter'=>CHtml::activeDropDownList($model, 'kelompokkomponentarif_id', 
-                    CHtml::listData(SAKelompokkomponentarifM::model()->findAll('kelompokkomponentarif_aktif = true order by kelompokkomponentarif_nama'), 'kelompokkomponentarif_id', 'kelompokkomponentarif_nama'),
-                    array('empty'=>'-- Pilh --', 'class'=>'span3')),
-                ),
 		'komponentarif_nama',
 		'komponentarif_namalainnya',
 		'komponentarif_urutan',
@@ -76,17 +64,36 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                      'value'=>'$this->grid->getOwner()->renderPartial(\'_komponenTarifInstalasi\',array(\'komponentarif_id\'=>$data->komponentarif_id),true)',
                     'filter'=>(Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)) ? CHtml::link('<i class="icon-file"></i>'.Yii::t('mds','Create'), Yii::app()->createUrl($module.'/'.$controller.'/createKomponenTarifInstalasi') ) : '',
                     ), 
-                array(
-                    'header'=>'<center>Status</center>',
-                    'value'=>'($data->komponentarif_aktif == 1 ) ? "Aktif" : "Tidak Aktif"',
-                    'htmlOptions'=>array('style'=>'text-align:center;'),
-                ),
 //		array(
 //                        'header'=>'Aktif',
 //                        'class'=>'CCheckBoxColumn',
 //                        'selectableRows'=>0,
 //                        'checked'=>'$data->komponentarif_aktif',
 //                ),
+                array(
+                    'header'=>'Persentase',
+                    'type'=>'raw',
+                    'value'=>function($data) {
+                        $kel = PersenkelkomponentarifM::model()->findAllByAttributes(array(
+                            'komponentarif_id'=>$data->komponentarif_id,
+                        ));
+                        if (count($kel) == 0) return "-";
+                        
+                        $st = "<ul>";
+                        foreach ($kel as $item) {
+                            $st .= "<li>".$item->kelompokkomponentarif->kelompokkomponentarif_nama
+                                    ." (".$item->persentase."%)</li>";
+                        }
+                        $st .= "</ul>";
+                        
+                        return $st;
+                    }
+                ),
+                array(
+                    'header'=>'<center>Status</center>',
+                    'value'=>'($data->komponentarif_aktif == 1 ) ? "Aktif" : "Tidak Aktif"',
+                    'htmlOptions'=>array('style'=>'text-align:center;'),
+                ),
 		array(
                         'header'=>Yii::t('zii','View'),
 			'class'=>'bootstrap.widgets.BootButtonColumn',

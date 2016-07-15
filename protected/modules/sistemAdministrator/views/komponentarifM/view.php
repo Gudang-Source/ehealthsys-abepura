@@ -37,5 +37,29 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
 	),
 )); ?>
 
+<table class="table table-bordered table-condensed" id="detail-kelompok">
+    <thead>
+        <tr>
+            <th>Kelompok Komponen Tarif</th>
+            <th>Persentase (%)</th> 
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        $det = PersenkelkomponentarifM::model()->findAllByAttributes(array(
+            'komponentarif_id'=>$model->komponentarif_id
+        ));
+        foreach ($det as $item) { ?>
+        <tr>
+            <td><?php 
+            $kel = KelompokkomponentarifM::model()->findByPk($item->kelompokkomponentarif_id);
+            echo $kel->kelompokkomponentarif_nama;
+            ?></td>
+            <td style="text-align: right;"><?php echo $item->persentase; ?></td>
+        </tr>
+        <?php } ?>
+    </tbody>
+</table>
+
 <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Komponen Tarif', array('{icon}'=>'<i class="icon-file icon-white"></i>')), $this->createUrl(Yii::app()->controller->id.'/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp";
         $this->widget('UserTips',array('type'=>'view'));?>
