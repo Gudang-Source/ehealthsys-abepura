@@ -43,7 +43,15 @@ class KelompokkomponentarifM extends CActiveRecord
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('kelompokkomponentarif_id, kelompokkomponentarif_nama, kelompokkomponentarif_namalain, kelompokkomponentarif_aktif', 'safe', 'on'=>'search'),
-		);
+		
+                                            
+                        array('create_time','default','value'=>date('Y-m-d H:i:s'),'setOnEmpty'=>false,'on'=>'insert'),
+                        array('update_time','default','value'=>date('Y-m-d H:i:s'),'setOnEmpty'=>false,'on'=>'update,insert'),
+                        array('create_loginpemakai_id','default','value'=>Yii::app()->user->id,'on'=>'insert'),
+                        array('update_loginpemakai_id','default','value'=>Yii::app()->user->id,'on'=>'update,insert'),
+                        array('create_ruangan','default','value'=>Yii::app()->user->getState('ruangan_id'),'on'=>'insert'),
+                        
+                );
 	}
 
 	/**
