@@ -1,18 +1,8 @@
 <?php
 
 class RMLaporanbiayapelayanan extends LaporanbiayapelayananV{
-    public function searchTable() {
-        // Warning: Please modify the following code to remove attributes that
-        // should not be searched.
-
-        $criteria = new CDbCriteria;
-
-        $criteria = $this->functionCriteria();
-
-        return new CActiveDataProvider($this, array(
-                    'criteria' => $criteria,
-                ));
-    }
+    
+    
     
     public function searchGrafik() {
         // Warning: Please modify the following code to remove attributes that
@@ -54,11 +44,28 @@ class RMLaporanbiayapelayanan extends LaporanbiayapelayananV{
 
         $criteria = new CDbCriteria;
         
-        $criteria = $this->functionCriteria();
+        $criteria->addBetweenCondition('tgl_pendaftaran', $this->tgl_awal, $this->tgl_akhir);
+        $criteria->select = 'pendaftaran_id, ruangan_id, tgl_pendaftaran, no_rekam_medik, nama_pasien, nama_bin, jeniskelamin, umur, no_pendaftaran, jeniskasuspenyakit_nama, kelaspelayanan_nama, kelaspelayanan_id, carabayar_nama, penjamin_nama, penjamin_id, carabayar_id, sum(tarif_tindakan) as total, sum(iurbiaya_tindakan) as iurbiaya';
+        $criteria->group = 'pendaftaran_id, ruangan_id, tgl_pendaftaran, no_rekam_medik, nama_pasien, nama_bin, jeniskelamin, umur, no_pendaftaran, jeniskasuspenyakit_nama, kelaspelayanan_nama, kelaspelayanan_id, carabayar_nama, penjamin_nama, penjamin_id, carabayar_id';
+
+        
 
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
                     'pagination'=>false,
+                ));
+    }
+    
+    public function searchTable() {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
+
+        $criteria = new CDbCriteria;
+
+        $criteria = $this->functionCriteria();
+
+        return new CActiveDataProvider($this, array(
+                    'criteria' => $criteria,
                 ));
     }
     
@@ -79,10 +86,10 @@ class RMLaporanbiayapelayanan extends LaporanbiayapelayananV{
         }else{
             $criteria->addCondition('kelaspelayanan_id is null');
         }
-		$ruangan_id = Yii::app()->user->getState('ruangan_id');
-		if (!empty($ruangan_id)){
-			$criteria->addCondition('ruangan_id ='.$ruangan_id);
-		}
+        $ruangan_id = Yii::app()->user->getState('ruangan_id');
+        if (!empty($ruangan_id)){
+                $criteria->addCondition('ruangan_id ='.$ruangan_id);
+        }
 
         
         return $criteria;

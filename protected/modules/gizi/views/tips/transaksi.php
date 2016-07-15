@@ -2,42 +2,42 @@
 <p>
 <table width="100%" border="0" style="padding :none;">
   <tr>
-    <td>1. </td>
-    <td>Icon <i class="icon-calendar"></i><i class="icon-time"></i> untuk menentukan tanggal dan waktu pendaftaran.</td>
+    <td style = "vertical-align: middle;">1. </td>
+    <td>Icon <i class="icon-calendar"></i><i class="icon-time"></i> berfungsi untuk menentukan tanggal dan waktu.</td>
+  </tr>      
+    <tr>
+      <td style = "vertical-align: middle;">2. </td>
+        <td>Gunakan icon ini <span class="add-on">
+            <a id="" href="javascript:void(0);" >
+            <i class="icon-list"></i>
+            <i class="icon-search"></i>
+            </a>
+            </span> berfungsi untuk menampilkan data sesuai yang diketikkan dan menampilkan dialog box, ketika icon di klik.</td>
   </tr>
   <tr>
-    <td>2. </td>
-    <td>Icon <i class="icon-chevron-down"></i> untuk menampilkan form yang tersembunyi.</td>
+      <td style = "vertical-align: middle;">3. </td>
+      <td> Gunakan icon ini 
+          <button class = "btn btn-primary"><i class = "icon-plus icon-white"></i></button> berfungsi 
+          untuk menambahkan data
+      </td>
   </tr>
-    <tr>
-      <td>3. </td>
-        <td>Gunakan icon ini <i class="icon-list-alt"></i> berfungsi untuk menampilkan list.</td>
-  </tr>.
-    <tr>
-      <td>4. </td>
-        <td>Gunakan icon ini <span class="add-on">
-<a id="" href="javascript:void(0);" onclick="$("#dialogObatAlkes").dialog("open");return false;">
-<i class="icon-list-alt"></i>
-<i class="icon-search"></i>
-</a>
-</span> berfungsi untuk mencari dan menampilkan list datanya.</td>
-  </tr>
-  <tr>  <td>5. </td>
-        <td>Gunakan tombol ini <button id="btnAddKelurahan" class="btn btn-primary" type="button" name="yt3" rel="tooltip" onkeypress="" onclick="" data-original-title="Klik untuk menambah Kelurahan">
-<i class="icon-plus-sign icon-white"></i>
-</button> berfungsi untuk menambahkan data</td>
- </tr>
-     <tr>  <td>6. </td>
+  <tr>
+      <td style = "vertical-align: middle;">4. </td>
+      <td> Gunakan icon ini 
+          <i class = "icon-form-silang"></i> berfungsi 
+          untuk membatalkan data
+      </td>
+  </tr>  
+     <tr>  <td style = "vertical-align: middle;">5. </td>
         <td>Gunakan tombol ini  <button class="btn btn-primary" name="yt0" onkeypress="return formSubmit(this,event)" type="submit">
 <i class="icon-ok icon-white"></i>
 Simpan
-</button>
-Cari
+
 </button> berfungsi untuk menyimpan</td>
  </tr> 
  
  <tr>
-    <td>7. </td>
+    <td style = "vertical-align: middle;">6. </td>
     <td>Gunakan tombol ini <a class="btn btn-danger" href="/simrs/index.php?r=rawatInap/pasienRawatInap/formTindakLanjutDariPasienRI">
 <i class="icon-refresh icon-white"></i>
 Ulang

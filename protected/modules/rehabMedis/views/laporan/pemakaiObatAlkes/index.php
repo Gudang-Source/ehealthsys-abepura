@@ -24,7 +24,7 @@
     <?php //echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-search"></i>')),'#',array('class'=>'search-button btn')); ?>
     <fieldset class="box search-form">
         <?php $this->renderPartial('pemakaiObatAlkes/_search',array(
-            'model'=>$model,
+            'model'=>$model,'format'=>$format
         )); ?>
     </fieldset><!-- search-form -->
     <div class="block-tabel">

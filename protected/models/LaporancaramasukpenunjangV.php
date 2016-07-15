@@ -89,7 +89,7 @@
  */
 class LaporancaramasukpenunjangV extends CActiveRecord
 {
-        public $tgl_awal, $tgl_akhir, $jumlah, $data, $tick, $pilihan, $bulan;
+        public $tgl_awal, $tgl_akhir, $bln_awal, $bln_akhir, $thn_awal, $thn_akhir, $jns_periode, $jumlah, $data, $tick, $pilihan, $bulan;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.

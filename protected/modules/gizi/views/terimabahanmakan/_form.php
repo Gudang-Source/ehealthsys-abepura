@@ -264,7 +264,7 @@
 
                                 <td>' . CHtml::activeTextField($modDetail, 'qty_terima[]', array('value' => $baris->qty_pengajuan, 'class' => 'span1 integer qty', 'onkeyup' => 'hitung(this);')) . '</td>
                                 <td>' . CHtml::TextField('subNetto[]', $subNetto, array('value' => $subNetto, 'class' => 'subNetto span2', 'readonly' => true)) . '</td>
-                                <td>' . CHtml::link("<span class='icon-remove'>&nbsp;</span>",'',array('href'=>'','onclick'=>'hapus(this);return false;','style'=>'text-decoration:none;', 'class'=>'cancel')).'</td>
+                                <td>' . CHtml::link("<span class='icon-form-silang'>&nbsp;</span>",'',array('href'=>'','onclick'=>'hapus(this);return false;','style'=>'text-decoration:none;', 'class'=>'cancel')).'</td>
                                 </tr>';
                     }
                 }

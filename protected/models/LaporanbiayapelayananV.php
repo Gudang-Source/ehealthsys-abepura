@@ -83,8 +83,9 @@
  */
 class LaporanbiayapelayananV extends CActiveRecord
 {
-        public $tgl_awal;
-        public $tgl_akhir;
+        public $tgl_awal, $bln_awal, $thn_awal;
+        public $tgl_akhir, $bln_akhir, $thn_akhir;
+        public $jns_periode;
         public $total, $iurbiaya;
         public $jumlah;
         public $data;
