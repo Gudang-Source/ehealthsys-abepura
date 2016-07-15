@@ -74,7 +74,7 @@
                     ),
                     array(
                         'name'=>'totalharganetto',
-                        'value'=>'MyFormatter::formatNumberForPrint($data->totalharganetto)',
+                        'value'=>'"Rp".MyFormatter::formatNumberForPrint($data->totalharganetto)',
                         'htmlOptions'=>array(
                             'style'=>'text-align: right',
                         ),
@@ -82,21 +82,21 @@
                     ),
                     array(
                         'name'=>'biayapengiriman',
-                        'value'=>'MyFormatter::formatNumberForPrint($data->biayapengiriman)',
+                        'value'=>'"Rp".MyFormatter::formatNumberForPrint($data->biayapengiriman)',
                         'htmlOptions'=>array(
                             'style'=>'text-align: right',
                         )
                     ),
                     array(
                         'name'=>'biayatransportasi',
-                        'value'=>'MyFormatter::formatNumberForPrint($data->biayatransportasi)',
+                        'value'=>'"Rp".MyFormatter::formatNumberForPrint($data->biayatransportasi)',
                         'htmlOptions'=>array(
                             'style'=>'text-align: right',
                         )
                     ),
                     array(
                         'name'=>'biayapajak',
-                        'value'=>'MyFormatter::formatNumberForPrint($data->biayapajak)',
+                        'value'=>'"Rp".MyFormatter::formatNumberForPrint($data->biayapajak)',
                         'htmlOptions'=>array(
                             'style'=>'text-align: right',
                         )

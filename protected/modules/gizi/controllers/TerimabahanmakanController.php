@@ -35,8 +35,11 @@ class TerimabahanmakanController extends MyAuthController
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
-	public function actionIndex($idPengajuan = null,$id=null)
+	public function actionIndex($idPengajuan = null,$id=null, $sukses=1)
 	{
+            if ($sukses == 1){
+                Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+            }
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
                 
 		$model=new GZTerimabahanmakan;
@@ -175,11 +178,13 @@ class TerimabahanmakanController extends MyAuthController
                              * 
                              */
                             // END SMS GATEWAY
-
                             $transaction->commit();
+                            $this->redirect(array('index', 'sukses'=>1, 'modul_id'=>Yii::app()->session['modul_id']));
+                            //$transaction->commit();
                             Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-                            // $this->redirect(array('index', 'id' =>$model->terimabahanmakan_id,'smscp1'=>$smscp1,'smscp2'=>$smscp2));
-                            $this->refresh();
+                             //$this->redirect(array('index', 'id' =>$model->terimabahanmakan_id,'smscp1'=>$smscp1,'smscp2'=>$smscp2));
+                            // $this->redirect(array('index', 'sukses'=>1, 'modul_id'=>Yii::app()->session->modul_id));
+                            //$this->refresh();
                         }else{
                             $transaction->rollback();
                             Yii::app()->user->setFlash('error',"Data gagal disimpan ");
@@ -241,7 +246,7 @@ class TerimabahanmakanController extends MyAuthController
                     
                     <td>'.CHtml::activeTextField($modDetail, '[0]qty_terima', array('value'=>$qty, 'class'=>'span1 integer qty', 'onblur'=>'hitung(this);')).'</td>
                     <td>'.CHtml::activeTextField($modDetail, '[0]subNetto', array('value'=>$subNetto, 'class'=>'span2 integer subNetto','readonly'=>true)).'</td>
-                    <td>'.CHtml::link("<span class='icon-remove'>&nbsp;</span>",'',array('href'=>'','onclick'=>'hapus(this);return false;','style'=>'text-decoration:none;', 'class'=>'cancel')).'</td>
+                    <td>'.CHtml::link("<span class='icon-form-silang'>&nbsp;</span>",'',array('href'=>'','onclick'=>'hapus(this);return false;','style'=>'text-decoration:none;', 'class'=>'cancel')).'</td>
                     </tr>';
             echo json_encode($tr);
             Yii::app()->end();

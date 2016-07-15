@@ -1742,15 +1742,21 @@ class ActionAutoCompleteController extends Controller
                 $criteria->compare('LOWER(namabahanmakanan)', strtolower($_GET['term']), true);
                 $criteria->order = 'bahanmakanan_id';
                 $models = BahanmakananM::model()->findAll($criteria);
-                foreach($models as $i=>$model)
-                {
-                    $attributes = $model->attributeNames();
-                    foreach($attributes as $j=>$attribute) {
-                        $returnVal[$i]["$attribute"] = $model->$attribute;
+                
+                if (count($models)>0){
+                    foreach($models as $i=>$model)
+                    {
+                        $attributes = $model->attributeNames();
+                        foreach($attributes as $j=>$attribute) {
+                            $returnVal[$i]["$attribute"] = $model->$attribute;
+                        }
+                        $returnVal[$i]['label'] = $model->jenisbahanmakanan.' - '.$model->namabahanmakanan.' - '.$model->jmlpersediaan;
+                        $returnVal[$i]['value'] = $model->bahanmakanan_id;
                     }
-                    $returnVal[$i]['label'] = $model->jenisbahanmakanan.' - '.$model->namabahanmakanan.' - '.$model->jmlpersediaan;
-                    $returnVal[$i]['value'] = $model->bahanmakanan_id;
+                }else{
+                    $returnVal='';
                 }
+                
 
                 echo CJSON::encode($returnVal);
             }
