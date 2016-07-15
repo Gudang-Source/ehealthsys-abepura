@@ -51,12 +51,14 @@ if (isset($caraPrint)){
             array(
                 'header'=>'Iur Biaya',
                 'type'=>'raw',
-                'value'=>'"Rp. ".number_format($data->iurbiaya)',
+                'value'=>'"Rp".number_format($data->iurbiaya,0,"",".")',
+                'htmlOptions' => array('style'=>'text-align:right;')
             ),
             array(
                 'header'=>'Total Biaya Pelayanan',
                 'type'=>'raw',
-                'value'=>'"Rp. ".number_format($data->total)',
+                'value'=>'"Rp".number_format($data->total,0,"",".")',
+                'htmlOptions' => array('style'=>'text-align:right;')
             ),
 //            'iurbiaya',
 //            'total',

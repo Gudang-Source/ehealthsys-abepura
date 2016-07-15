@@ -42,7 +42,7 @@ class RIInfopasienmasukkamarV extends InfopasienmasukkamarV
                 $criteria->compare('kamarruangan_id', $this->kamarruangan_id);
 		//if($this->ceklis == 1)
 		//{
-			$criteria->addBetweenCondition('tgladmisi::date',$this->tgl_awal,$this->tgl_akhir);
+			//$criteria->addBetweenCondition('tgladmisi::date',$this->tgl_awal,$this->tgl_akhir);
 		//}
 
 		return new CActiveDataProvider($this, array(
