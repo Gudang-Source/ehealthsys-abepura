@@ -67,17 +67,29 @@ class KomponentarifMController extends MyAuthController {
                 $model->save();
                 $jumlahInstalasi = isset($_POST['instalasi_id'])?COUNT($_POST['instalasi_id']):0;
                 $komponentarif_id = $model->komponentarif_id;
-				
-                if ($jumlahInstalasi > 0) {
-                    for ($i = 0; $i <= $jumlahInstalasi-1; $i++) {
-                        $modKomponenTarifInstalasi = new SAKomponentarifinstalasiM;
-                        $modKomponenTarifInstalasi->komponentarif_id = $komponentarif_id;
-                        $modKomponenTarifInstalasi->instalasi_id = $_POST['instalasi_id'][$i];
-                        $modKomponenTarifInstalasi->save();
+			
+                if (isset($_POST['instalasi_id'])) {
+                    if ($jumlahInstalasi > 0) {
+                        for ($i = 0; $i <= $jumlahInstalasi-1; $i++) {
+                            $modKomponenTarifInstalasi = new SAKomponentarifinstalasiM;
+                            $modKomponenTarifInstalasi->komponentarif_id = $komponentarif_id;
+                            $modKomponenTarifInstalasi->instalasi_id = $_POST['instalasi_id'][$i];
+                            $modKomponenTarifInstalasi->save();
+                        }
                     }
                 }
 
-
+                if (isset($_POST['kelompok'])) {
+                    foreach ($_POST['kelompok']['id'] as $idx=>$item) {
+                        $kel = new PersenkelkomponentarifM();
+                        $kel->kelompokkomponentarif_id = $item;
+                        $kel->komponentarif_id = $model->komponentarif_id;
+                        $kel->persentase = $_POST['kelompok']['persentase'][$idx];
+                        
+                        $kel->save();
+                    }
+                }
+                
                 Yii::app()->user->setFlash('success', "Data Komponen Tarif dan Instalasi Berhasil Disimpan");
                 $transaction->commit();
                 $this->redirect(array('admin', 'id' => $model->komponentarif_id));
@@ -207,6 +219,9 @@ class KomponentarifMController extends MyAuthController {
 					if(Yii::app()->request->isPostRequest)
 					{
 						$id = $_POST['id'];
+                                                PersenkelkomponentarifM::model()->deleteAllByAttributes(array(
+                                                    'komponentarif_id'=>$id,
+                                                ));
 						$jmlTarifInst = KomponentarifinstalasiM::model()->findAllByAttributes(array('komponentarif_id'=>$id));
 						if(count($jmlTarifInst)>0){
 							$modKompTarifInst = new KomponentarifinstalasiM();
