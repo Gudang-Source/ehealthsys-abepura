@@ -38,6 +38,19 @@
 
                  </div>
             </div>
+        <table class="table table-bordered table-condensed" id="detail-kelompok">
+            <thead>
+                <tr>
+                    <th>Kelompok Komponen Tarif</th>
+                    <th>Persentase</th>
+                    <th>Hapus</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            </tbody>
+        </table>
+            
 	<div class="form-actions">
 		                <?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 
                                                                      Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),

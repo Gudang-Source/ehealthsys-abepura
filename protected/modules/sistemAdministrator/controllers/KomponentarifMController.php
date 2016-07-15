@@ -123,6 +123,21 @@ class KomponentarifMController extends MyAuthController {
                         }
                     }
                 }
+                
+                PersenkelkomponentarifM::model()->deleteAllByAttributes(array(
+                    'komponentarif_id'=>$model->komponentarif_id,
+                ));
+                
+                if (isset($_POST['kelompok'])) {
+                    foreach ($_POST['kelompok']['id'] as $idx=>$item) {
+                        $kel = new PersenkelkomponentarifM();
+                        $kel->kelompokkomponentarif_id = $item;
+                        $kel->komponentarif_id = $model->komponentarif_id;
+                        $kel->persentase = $_POST['kelompok']['persentase'][$idx];
+                        
+                        $kel->save();
+                    }
+                }
 
 
                 Yii::app()->user->setFlash('success', "Data Komponen Tarif dan Instalasi Berhasil Disimpan");
