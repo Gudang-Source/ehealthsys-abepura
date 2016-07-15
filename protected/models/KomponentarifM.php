@@ -41,10 +41,10 @@ class KomponentarifM extends CActiveRecord
 			array('komponentarif_nama', 'required'),
 			array('komponentarif_urutan', 'numerical', 'integerOnly'=>true),
 			array('komponentarif_nama, komponentarif_namalainnya', 'length', 'max'=>25),
-			array('komponentarif_aktif', 'safe'),
+			array('komponentarif_aktif, kelompokkomponentarif_id', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('komponentarif_id, komponentarif_nama, komponentarif_namalainnya, komponentarif_urutan, komponentarif_aktif', 'safe', 'on'=>'search'),
+			array('komponentarif_id, kelompokkomponentarif_id, komponentarif_nama, komponentarif_namalainnya, komponentarif_urutan, komponentarif_aktif', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -70,6 +70,7 @@ class KomponentarifM extends CActiveRecord
 			'komponentarif_namalainnya' => 'Nama Lain',
 			'komponentarif_urutan' => 'Urutan',
 			'komponentarif_aktif' => 'Aktif',
+                        'kelompokkomponentarif_id' => 'Kelompok Komponen Tarif',    
 		);
 	}
 
@@ -85,6 +86,7 @@ class KomponentarifM extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('komponentarif_id',$this->komponentarif_id);
+		$criteria->compare('kelompokkomponentarif_id',$this->kelompokkomponentarif_id);
 		$criteria->compare('LOWER(komponentarif_nama)',strtolower($this->komponentarif_nama),true);
 		$criteria->compare('LOWER(komponentarif_namalainnya)',strtolower($this->komponentarif_namalainnya),true);
 		$criteria->compare('komponentarif_urutan',$this->komponentarif_urutan);

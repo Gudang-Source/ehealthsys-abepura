@@ -99,7 +99,7 @@ class PencucianLinenController extends MyAuthController{
                 Yii::app()->user->setFlash('error',"Data Pencucian Linen gagal disimpan ! ".MyExceptionMessage::getMessage($e,true));
             }
         }
-
+        // var_dump($_GET);
 		if(isset($_GET['LAPenerimaanpencucianlinenV']))
         {
 			$modInfoPencucian->unsetAttributes();

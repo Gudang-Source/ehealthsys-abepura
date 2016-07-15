@@ -9,8 +9,10 @@
 //        array('label'=>'Kelurahan', 'url'=>$this->createUrl('/rawatDarurat/kelurahanM')),
 //    ),
 //)); ?>
-<div class="white-container">
-    <legend class="rim2">Ubah <b>Kecamatan</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Ubah <b>Kecamatan</b></legend>-->
+<fieldset class = "box">
+    <legend class = "rim">Ubah Kecamatan</legend>
     <?php
     $this->breadcrumbs=array(
             'Sakecamatan Ms'=>array('index'),
@@ -29,4 +31,4 @@
     $this->widget('bootstrap.widgets.BootAlert'); ?>
 
     <?php echo $this->renderPartial('_formUpdate',array('model'=>$model)); ?>
-</div>
+</fieldset>

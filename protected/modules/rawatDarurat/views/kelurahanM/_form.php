@@ -37,22 +37,67 @@
             </div>
             <?php echo $form->dropDownListRow($model,'kecamatan_id',array(),array('class'=>'required','empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",)); ?>
              
+            <table style = "width:100%;">
+            <tr>
+                <th style ="text-align:center;" >Kelurahan</th>
+                <th style ="text-align:center;">Nama Lain</th>
+                <th style ="text-align:center;">Latitude</th>
+                <th style ="text-align:center;">Longitude</th>
+                <th style ="text-align:center;">Kode Pos</th>
+            </tr>
+            <tr>
+                <td>
+                    <?php echo $form->textField($model,'kelurahan_nama',array('onkeyup'=>"namaLain(this)", 'class'=>'span3', 'onkeyup'=>"namaLain(this)", 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50,'placeholder'=>$model->getAttributeLabel('kelurahan_nama'))); ?>
+                    <span class="required">*</span>
+                </td>
+                <td>
+                    <?php echo $form->textField($model,'kelurahan_namalainnya',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50, 'placeholder'=> $model->getAttributeLabel('kelurahan_namalainnya'))); ?>
+                </td>                
+                <td>
+
+                        <?php echo $form->textField($model,'latitude',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)", 'placeholder'=> $model->getAttributeLabel('latitude'))); ?>
+                        <?php echo CHtml::htmlButton('<i class="icon-search icon-white"></i>',
+                                                    array(
+                                                            'class'=>'btn btn-primary btn-location',
+                                                            'rel'=>'tooltip',
+                                                            'id'=>'yw1',
+                                                            'onclick' =>'changeSize()',
+                                                            'title'=>'Klik untuk mencari Longitude & Latitude',)); 
+                        ?>                        
+
+                </td>
+                <td>
+                     <?php echo $form->textField($model,'longitude',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)", 'placeholder'=> $model->getAttributeLabel('longitude'))); ?>                    
+               
+                    <!--Extension location-picker latitude & longitude-->
+                   <?php               
+
+                           $this->widget('ext.LocationPicker2.CoordinatePicker', array(
+                                   'model' => $model,
+                                   'latitudeAttribute' => 'latitude',
+                                   'longitudeAttribute' => 'longitude',
+                                   //optional settings
+                                   'editZoom' => 12,
+                                   'pickZoom' => 7,
+                                   'defaultLatitude' => $model->latitude,
+                                   'defaultLongitude' => $model->longitude,
+                           ));
+                   ?>    
+                                        
+                </td>
+                <td>
+                    <?php echo $form->textField($model,'kode_pos',array('class'=>'span3 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50, 'placeholder'=> $model->getAttributeLabel('kode_pos'))); ?>
+                </td>
+                <td>
+                    <?php echo CHtml::htmlButton( '<i class="icon-plus-sign icon-white"></i>', array('class'=>'btn btn-primary','onkeypress'=>"addRow(this);return $(this).focusNextInputField(event);",'onclick'=>'addRow(this);','id'=>'row1-plus')); ?>
+                </td>
+            </tr>
+        </table>
+        
             <table id="tbl-kelurahan" class="table table-striped table-bordered table-condensed">
-                <tr>
-                    <td>
-                        <?php echo $form->textField($model,'[1]kelurahan_nama',array('class'=>'span3 required', 'onkeyup'=>"namaLain(this)", 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50,'placeholder'=>$model->getAttributeLabel('kelurahan_nama'))); ?>
-                        <span class="required">*</span>
-                    </td>
-                    <td>
-                        <?php echo $form->textField($model,'[1]kelurahan_namalainnya',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=> $model->getAttributeLabel('kelurahan_namalainnya'))); ?>
-                    </td>
-                    <td>
-                        <?php echo $form->textField($model,'[1]kode_pos',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=> $model->getAttributeLabel('kode_pos'))); ?>
-                    </td>
-                    <td>
-                        <?php echo CHtml::htmlButton( '<i class="icon-plus-sign icon-white"></i>', array('class'=>'btn btn-primary','onkeypress'=>"addRow(this);return $(this).focusNextInputField(event);",'onclick'=>'addRow(this);$(this).nextFocus()','id'=>'row1-plus')); ?>
-                    </td>
-                </tr>
+                 <?php
+                echo CHtml::hiddenField('Nomor',0, array('id'=>'nomor'));
+             ?>
             </table>
         
 	<div class="form-actions">
@@ -76,15 +121,7 @@
 $buttonMinus = CHtml::link('<i class="icon-minus-sign icon-white"></i>', '#', array('class'=>'btn btn-danger','onclick'=>'delRow(this); return false;'));
 $confimMessage = Yii::t('mds','Do You want to remove?');
 $js = <<< JSCRIPT
-function addRow(obj)
-{
-    var tr = $('#tbl-kelurahan tr:first').html();
-    $('#tbl-kelurahan tr:last').after('<tr>'+tr+'</tr>');
-    $('#tbl-kelurahan tr:last td:last').append('$buttonMinus');
-    renameInput('RDKelurahanM','kelurahan_nama');
-    renameInput('RDKelurahanM','kelurahan_namalainnya');
-    renameInput('RDKelurahanM','kode_pos');
-}
+
 
 function renameInput(modelName,attributeName)
 {
@@ -96,16 +133,7 @@ function renameInput(modelName,attributeName)
     });
 }
 
-function delRow(obj)
-{
-    if(!confirm("$confimMessage")) return false;
-    else {
-        $(obj).parent().parent().remove();
-        renameInput('RDKelurahanM','kelurahan_nama');
-        renameInput('RDKelurahanM','kelurahan_namalainnya');
-        renameInput('RDKelurahanM','kode_pos');
-    }
-}
+
 JSCRIPT;
 Yii::app()->clientScript->registerScript('multiple input',$js, CClientScript::POS_HEAD);
 ?>
@@ -113,6 +141,66 @@ Yii::app()->clientScript->registerScript('multiple input',$js, CClientScript::PO
 <script type="text/javascript">
     function namaLain(nama)
     {
-        document.getElementById('SAKelurahanM_1_kelurahan_namalainnya').value = nama.value.toUpperCase();
+        document.getElementById('RDKelurahanM_kelurahan_namalainnya').value = nama.value.toUpperCase();
+    }
+    
+    function registerJSlocation(id,modelName,i)
+     {
+        $('#'+id).on('click', function(){ 
+                $('#'+id).coordinate_picker({'lat_selector':'#'+modelName+'_'+i+'_latitude','long_selector':'#'+modelName+'_'+i+'_longitude','default_lat':'-7.091932','default_long':'107.672491','edit_zoom':12,'pick_zoom':7})                                
+            });
+                
+    }
+        
+    function changeSize()
+    {            
+        window.parent.document.getElementById('frame').style= 'overflow-y:scroll;height:600px;';            
+    }
+    
+    function addRow(obj)//input[name$="['+attributeName+']"]').attr('name',modelName+'['+i+']['+attributeName+']
+    {   
+        var buttonMinus = '<?php echo CHtml::link('<i class="icon-minus-sign icon-white"></i>', '#', array('class'=>'btn btn-danger','onclick'=>'delRow(this); return false;')) ?>';                
+        var no = eval($('#nomor').val())+1;        
+        var kelurahan = $('#RDKelurahanM_kelurahan_nama').val();
+        var namalain = $('#RDKelurahanM_kelurahan_namalainnya').val();
+        
+        if ( (kelurahan != '') || (namalain != '') ){
+            var td =    '   <td><input name = "RDKelurahanM['+no+'][kelurahan_nama]"  type = "text" id = "RDKelurahanM_'+no+'_kelurahan_nama" class = "span3 required" onkeypress = "return $(this).focusNextInputField(event);", maxlength = "200"  readonly = TRUE value = "'+$('#RDKelurahanM_kelurahan_nama').val()+'" > <span class = "required">*<span></td>\n\
+                            <td><input name = "RDKelurahanM['+no+'][kelurahan_namalainnya]" type = "text" id = "RDKelurahanM_'+no+'_kelurahan_namalainnya" class = "span3 required" onkeypress = "return $(this).focusNextInputField(event);", maxlength = "200"  readonly = TRUE value = "'+$('#RDKelurahanM_kelurahan_namalainnya').val()+'" > <span class = "required">*<span></td>\n\
+                            <td><input name = "RDKelurahanM['+no+'][latitude]" type = "text" id = "RDKelurahanM_'+no+'_latitude" class = "span3 " onkeypress = "return $(this).focusNextInputField(event);",  readonly = TRUE value = "'+$('#RDKelurahanM_latitude').val()+'" > </td>\n\
+                            <td><input name = "RDKelurahanM['+no+'][longitude]" type = "text" id = "RDKelurahanM_'+no+'_longitude" class = "span3 " onkeypress = "return $(this).focusNextInputField(event);", readonly = TRUE value = "'+$('#RDKelurahanM_longitude').val()+'" > </td>\n\\n\
+                            <td><input name = "RDKelurahanM['+no+'][kode_pos]" type = "text" id = "RDKelurahanM_'+no+'_kode_pos" class = "span3 " onkeypress = "return $(this).focusNextInputField(event);", readonly = TRUE value = "'+$('#RDKelurahanM_kode_pos').val()+'" > </td>\n\
+                            <td>'+buttonMinus+'</td>';                
+            $('#tbl-kelurahan').append('<tr>'+td+'</tr>');
+        }else{
+            myAlert('Maaf Kelurahan dan Nama  Lain Tidak Boleh Kosong');
+        }
+                
+        $('#nomor').val(no);
+        clearRow();
+    }
+    
+    function delRow(obj)
+    {
+        var no = $('#nomor').val();
+        myConfirm("Yakin Akan Menghapus Data ini ?","Perhatian!",function(r) {
+            if (r){
+                 $(obj).parent().parent().remove();
+            //renameInput('RDKabupatenM','kabupaten_nama');
+            //renameInput('RDKabupatenM','kabupaten_namalainnya');
+                $('#nomor').val(eval(no)-1);
+           }
+       });        
+    }
+    
+   
+    
+    function clearRow()
+    {
+        $('#RDKelurahanM_kelurahan_nama').val('');
+        $('#RDKelurahanM_kelurahan_namalainnya').val('');
+        $('#RDKelurahanM_latitude').val('');
+        $('#RDKelurahanM_longitude').val('');
+        $('#RDKelurahanM_kode_pos').val('');
     }
 </script>

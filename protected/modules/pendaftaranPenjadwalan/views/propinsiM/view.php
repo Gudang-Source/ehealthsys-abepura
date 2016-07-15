@@ -1,3 +1,5 @@
+<fieldset class = "box">
+<legend class = "rim">Lihat Propinsi</legend>
 <?php
 $this->breadcrumbs=array(
 	'Pppropinsi Ms'=>array('index'),
@@ -12,6 +14,8 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
 		'propinsi_id',
 		'propinsi_nama',
 		'propinsi_namalainnya',
+                'latitude',
+                'longitude',
 		//'propinsi_aktif',
                 array(
                     'name'=>'propinsi_aktif',
@@ -28,3 +32,4 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
     <?php $this->widget('UserTips',array('type'=>'view'));?>
     </div>
 </div>
+</fieldset>

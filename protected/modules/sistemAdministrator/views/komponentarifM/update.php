@@ -1,5 +1,6 @@
-
-<?php
+<div class="white-container">
+<legend class="rim2">Ubah <b>Komponen Tarif</b></legend>
+<?php /*
 $this->breadcrumbs=array(
 	'Sakomponen Tarif Ms'=>array('index'),
 	$model->komponentarif_id=>array('view','id'=>$model->komponentarif_id),
@@ -14,9 +15,14 @@ $arrMenu = array();
 //                (Yii::app()->user->checkAccess(Params::DEFAULT_ADMIN)) ?array_push($arrMenu,array('label'=>Yii::t('mds','Manage').' Komponen Tarif', 'icon'=>'folder-open', 'url'=>array('admin'))) :  '' ;
 
 $this->menu=$arrMenu;
+ * 
+ */
+
+
 
 $this->widget('bootstrap.widgets.BootAlert'); ?>
 
 <?php echo $this->renderPartial('_formUpdate',array('model'=>$model,'modKomponenTarifInstalasi'=>$modKomponenTarifInstalasi)); ?>
 
 <?php //$this->widget('UserTips',array('type'=>'update'));?>
+</div>

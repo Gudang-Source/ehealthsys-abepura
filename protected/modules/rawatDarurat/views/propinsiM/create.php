@@ -9,8 +9,10 @@
 //        array('label'=>'Kelurahan', 'url'=>$this->createUrl('/rawatDarurat/kelurahanM')),
 //    ),
 //)); ?>
-<div class="white-container">
-    <legend class="rim2">Tambah <b>Propinsi</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Tambah <b>Propinsi</b></legend>-->
+<fieldset class = "box">
+    <legend class = "rim">Tambah Propinsi</legend>
     <?php
     $this->breadcrumbs=array(
             'Sapropinsi Ms'=>array('index'),
@@ -27,4 +29,5 @@
     $this->widget('bootstrap.widgets.BootAlert'); ?>
     <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
     <?php //$this->widget('UserTips',array('type'=>'create'));?>
-</div>
+<!--</div>-->
+</fieldset>

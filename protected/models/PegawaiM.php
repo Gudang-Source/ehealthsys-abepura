@@ -79,7 +79,7 @@ class PegawaiM extends CActiveRecord
         public $namapegawai;
         public $shift_id;
         public $profilperusahaan_id;
-        public $statuspegawai;
+        public $statuspegawai;        
         
 	/**
 	 * Returns the static model of the specified AR class.
@@ -155,6 +155,7 @@ class PegawaiM extends CActiveRecord
                     'golonganpegawai'=>array(self::BELONGS_TO,'GolonganpegawaiM','golonganpegawai_id'),
                     'loginpemakai'=>array(self::BELONGS_TO,'LoginpemakaiK','loginpemakai_id'),
                     'shift'=>array(self::BELONGS_TO,'ShiftM','shift_id'),
+                    'ruanganpegawai'=>array(self::HAS_ONE,'RuanganpegawaiM','pegawai_id'),
 		);
 	}
 
@@ -386,6 +387,7 @@ class PegawaiM extends CActiveRecord
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
+                $criteria->with = array('ruanganpegawai');
 		$criteria->compare('pegawai_id',$this->pegawai_id);
 		$criteria->compare('kelurahan_id',$this->kelurahan_id);
 		$criteria->compare('kecamatan_id',$this->kecamatan_id);
@@ -438,6 +440,9 @@ class PegawaiM extends CActiveRecord
 		$criteria->compare('LOWER(warnakulit)',strtolower($this->warnakulit),true);
 		$criteria->compare('LOWER(deskripsi)',strtolower($this->deskripsi),true);
                 $criteria->addCondition("nofingerprint IS NOT NULL");
+                if (!empty($this->ruangan_id)){
+                    $criteria->addCondition("ruanganpegawai.ruangan_id =".$this->ruangan_id);
+                }
                 $criteria->order = 'nama_pegawai ASC';
 
 		return new CActiveDataProvider($this, array(
@@ -664,25 +669,70 @@ class PegawaiM extends CActiveRecord
     {
         $format = new MyFormatter();
         $criteria = new CDbCriteria();
-        $criteria->select = "tglpresensi::date ";
+        $criteria->select = "tglpresensi::date, jamkerjamasuk, statuskehadiran_id, jamkerjapulang ";
         $criteria->addBetweenCondition('tglpresensi', $format->formatDateTimeForDb($tglpresensi), $format->formatDateTimeForDb($tglpresensi_akhir));    
         $criteria->addCondition("pegawai_id = '$pegawai_id' ");
-        $criteria->addCondition("statuskehadiran_id = '$status_id' ");                
-        $criteria->group = "tglpresensi::date";
+        $criteria->addCondition("jamkerjapulang is null ");                
+        $criteria->group = "tglpresensi::date, jamkerjamasuk, jamkerjapulang, statuskehadiran_id";
         $total = PresensiT::model()->findAll($criteria);
         
         $criteria1 = new CDbCriteria();
-        $criteria1->select = "tglpresensi::date,statuskehadiran_id ";
+        $criteria1->select = "tglpresensi::date, jamkerjamasuk, statuskehadiran_id, jamkerjapulang ";
         $criteria1->addBetweenCondition('tglpresensi', $format->formatDateTimeForDb($tglpresensi), $format->formatDateTimeForDb($tglpresensi_akhir));    
         $criteria1->addCondition("pegawai_id = '$pegawai_id' ");
-        $criteria1->addCondition("statuskehadiran_id = '$status_id' ");                
-        $criteria1->group = "tglpresensi::date, statuskehadiran_id";
-        $total1 = PresensiT::model()->findAll($criteria);
+        $criteria1->addCondition("jamkerjamasuk is null ");                
+        $criteria1->group = "tglpresensi::date, jamkerjamasuk, statuskehadiran_id, jamkerjapulang";
+        $total1 = PresensiT::model()->findAll($criteria1);
+               
+        $list1 = array();        
+        foreach($total as $data){
+            $list1[$data->tglpresensi] = array(
+                'tglpresensi' => $data->tglpresensi,
+                'jamkerjamasuk' => $data->jamkerjamasuk,
+                'jamkerjapulang' => $data->jamkerjapulang,
+                'statuskehadiran_id' => $data->statuskehadiran_id,
+            );
+        }
         
-        $selisih = count($total1) - count($total);
-       
-        $hasil = count($total) - $selisih;
-        return  $hasil;
+        $list2 = array();        
+        foreach($total1 as $data1){
+            $list2[$data1->tglpresensi] = array(
+                'tglpresensi' => $data1->tglpresensi,
+                'jamkerjamasuk' => $data1->jamkerjamasuk,
+                'jamkerjapulang' => $data1->jamkerjapulang,
+                'statuskehadiran_id' => $data1->statuskehadiran_id,
+            );
+        }
+        
+        $hasil = array_merge($list2, $list1);//CustomFunction::joinTwo2DArraysPresensi($list1, $list2, 'tglpresensi');
+        
+        $tot = 0;
+        foreach ($hasil as $hitung){
+            if ($hitung['statuskehadiran_id'] == $status_id){
+                $tot = $tot + 1;
+            }else{
+                $tot = $tot + 0;
+            }
+        }
+        
+        
+        //$data
+      //  foreach($total as $total){
+          //  if ($total->jam)
+       // }
+       // $criteria1 = new CDbCriteria();
+       // $criteria1->select = "tglpresensi::date,statuskehadiran_id ";
+       // $criteria1->addBetweenCondition('tglpresensi', $format->formatDateTimeForDb($tglpresensi), $format->formatDateTimeForDb($tglpresensi_akhir));    
+      //  $criteria1->addCondition("pegawai_id = '$pegawai_id' ");
+       // $criteria1->addCondition("statuskehadiran_id = '$status_id' ");                
+       // $criteria1->group = "tglpresensi::date, statuskehadiran_id";
+       // $total1 = PresensiT::model()->findAll($criteria);
+        
+       // $selisih = count($total1) - count($total);
+        
+      //  $hasil = count($total) - $selisih;
+        //return  $hasil.'-'.count($total1).'-'.count($total);
+        return $tot;
     }
     
     public function getPendKualifikasiItems($pendidikan_id=null){

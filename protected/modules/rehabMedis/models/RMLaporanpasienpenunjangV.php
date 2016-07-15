@@ -154,7 +154,7 @@ class RMLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
 
         $criteria = new CDbCriteria;
 
-         if (is_array($this->kunjungan)){
+        if (is_array($this->kunjungan)){
             $criteria->addInCondition('kunjungan', $this->kunjungan);
         }else{
             $criteria->addCondition('kunjungan is null');

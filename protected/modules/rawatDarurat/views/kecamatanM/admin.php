@@ -1,7 +1,9 @@
-<div class="white-container">
-    <legend class="rim2">Master <b>Data - Kecamatan</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Master <b>Data - Kecamatan</b></legend>-->
+<fieldset class = "box">
+    <legend class = "rim">Pegaturan Kecamatan</legend>
     <?php 
-    $this->widget('bootstrap.widgets.BootMenu', array(
+    /*$this->widget('bootstrap.widgets.BootMenu', array(
         'type'=>'tabs', // '', 'tabs', 'pills' (or 'list')
         'stacked'=>false, // whether this is a stacked menu
         'items'=>array(
@@ -10,9 +12,9 @@
             array('label'=>'Kecamatan', 'url'=>$this->createUrl('/rawatDarurat/kecamatanM'), 'active'=>true),
             array('label'=>'Kelurahan', 'url'=>$this->createUrl('/rawatDarurat/kelurahanM')),
         ),
-    )); ?>
-    <div class="biru">
-        <div class="white">
+    ));*/ ?>
+    <!--<div class="biru">
+        <div class="white">-->
             <?php
             $this->breadcrumbs=array(
                     'Sakecamatan Ms'=>array('index'),
@@ -66,7 +68,7 @@
                             ),
                             array(
                                     'name'=>'kabupaten_id',
-                                    'filter'=>  CHtml::listData($model->getKabupatenItems(), 'kabupaten_id', 'kabupaten_nama'),
+                                    'filter'=> CHtml::dropDownList('RDKecamatanM[kabupaten_id]',$model->kabupaten_id,CHtml::listData($model->getKabupatenItems(), 'kabupaten_id', 'kabupaten_nama'),array('empty'=>'-- Pilih --')),
                                     'value'=>'$data->kabupaten->kabupaten_nama',
                             ),
                             'kecamatan_nama',
@@ -123,8 +125,8 @@
                     }',
                 )); ?>
             <!--</div>-->
-        </div>
-    </div>
+       <!-- </div>
+    </div>-->
     <?php 
     echo CHtml::link(Yii::t('mds','{icon} Tambah Kecamatan',array('{icon}'=>'<i class="icon-plus icon-white"></i>')), 
                                 Yii::app()->createUrl($this->module->id.'/'.Yii::app()->controller->id.'/create'), 
@@ -152,7 +154,7 @@ function print(caraPrint)
 JSCRIPT;
     Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);                        
     ?>
-</div>
+</fieldset>
 <script type="text/javascript">
     function removeTemporary(id){
         var url = '<?php echo $url."/removeTemporary"; ?>';

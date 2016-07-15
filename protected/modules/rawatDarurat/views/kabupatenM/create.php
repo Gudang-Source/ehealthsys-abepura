@@ -9,8 +9,10 @@
 //        array('label'=>'Kelurahan', 'url'=>$this->createUrl('/rawatDarurat/kelurahanM')),
 //    ),
 //)); ?>
-<div class="white-container">
-    <legend class="rim2">Tambah <b>Kabupaten</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Tambah <b>Kabupaten</b></legend>-->
+<fieldset class = "box" >
+    <legend class = "rim">Tambah Kabupaten</legend>
     <?php
     $this->breadcrumbs=array(
             'Sakabupaten Ms'=>array('index'),
@@ -30,4 +32,4 @@
 
     <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
     <?php //$this->widget('UserTips',array('type'=>'create'));?>
-</div>
+</fieldset>

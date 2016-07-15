@@ -2,8 +2,9 @@
 
 class RMLaporanjasainstalasi extends LaporanjasainstalasiV {
     
-    public $tgl_awal;
-    public $tgl_akhir;
+    public $tgl_awal, $bln_awal, $thn_awal;
+    public $tgl_akhir, $bln_akhir, $thn_akhir;
+    public $jns_periode;
     public $subtotal;
 
     public static function model($className = __CLASS__) {
@@ -35,21 +36,21 @@ class RMLaporanjasainstalasi extends LaporanjasainstalasiV {
                 ));
     }
     
-    public function searchGrafik() {
+     public function searchGrafik() {
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
         $criteria = new CDbCriteria;
         $criteria = $this->functionCriteria();
-        
-        $criteria->select = "count(pendaftaran_id) as jumlah, case when tindakansudahbayar_id is null then 'BELUM BAYAR' else 'SUDAH BAYAR' end as data";
-        $criteria->group = 'pendaftaran_id, data';
-        if (!empty($this->carabayar_id)){
-            $criteria->select .= ', penjamin_nama as tick';
-            $criteria->group .= ', penjamin_nama';
-        }else{
-            $criteria->select .= ', carabayar_nama as tick';
-            $criteria->group .= ', carabayar_nama';
+
+        $criteria->select = 'count(t.pendaftaran_id) as jumlah, t.carabayar_nama as data';
+        $criteria->group = 't.carabayar_nama, pendaftaran_id';
+        if (!empty($this->carabayar_id)) {
+            $criteria->select .= ', t.penjamin_nama as tick';
+            $criteria->group .= ', t.penjamin_nama';
+        } else {
+            $criteria->select .= ', t.carabayar_nama as tick';
+            $criteria->group .= ', t.carabayar_nama';
         }
 
         return new CActiveDataProvider($this, array(
@@ -171,7 +172,7 @@ class RMLaporanjasainstalasi extends LaporanjasainstalasiV {
         if (is_array($this->tindakansudahbayar_id)){
             $status = array();
             foreach ($this->tindakansudahbayar_id as $i=>$v){
-                if ($v == 'sudah'){
+                if ($v == 1){
                     $status[] = 'tindakansudahbayar_id is not null';
                 }
                 else{

@@ -36,6 +36,41 @@
 					<?php echo $form->error($model, 'kabupaten_id'); ?>
 				</div>
 			</div>
+                        <div class="control-group ">
+                    <?php echo $form->labelEx($model,'latitude', array('class'=>'control-label')) ?>
+                    <div class="controls">
+                        <?php echo $form->textField($model,'latitude',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+                        <?php echo CHtml::htmlButton('<i class="icon-search icon-white"></i>',
+                                                    array(
+                                                            'class'=>'btn btn-primary btn-location',
+                                                            'rel'=>'tooltip',
+                                                            'id'=>'yw1',
+                                                            'onclick' =>'changeSize()',
+                                                            'title'=>'Klik untuk mencari Longitude & Latitude',)); ?>
+                    </div>
+                </div>
+            <?php echo $form->textFieldRow($model,'longitude',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+               
+                 <!--Extension location-picker latitude & longitude-->
+                <?php 
+              //  if (isset($model->latitude)){
+               // $modPropinsi = PropinsiM::model()->findByPk(Yii::app()->user->getstate('propinsi_id'));
+               // $model->latitude = $modPropinsi->latitude;
+               // $model->latitude = $modPropinsi->longitude;
+              //  }
+
+                        $this->widget('ext.LocationPicker2.CoordinatePicker', array(
+                                'model' => $model,
+                                'latitudeAttribute' => 'latitude',
+                                'longitudeAttribute' => 'longitude',
+                                //optional settings
+                                'editZoom' => 12,
+                                'pickZoom' => 7,
+                                'defaultLatitude' => $model->latitude,
+                                'defaultLongitude' => $model->longitude,
+                        ));
+                ?>
+       
 			<?php echo $form->checkBoxRow($model,'kelurahan_aktif', array('onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
 		</div>
 		<div class="span4">
@@ -69,17 +104,10 @@
 		<?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Kelurahan', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
 			$this->createUrl('/pendaftaranPenjadwalan/kelurahanM/Admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
                 <?php
-			$content = $this->renderPartial('../tips/tipsaddedit',array(),true);
+			$content = $this->renderPartial('rawatDarurat.views.tips.tipsaddedit5',array(),true);
 			$this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
 		?>
     </div>
 
 <?php $this->endWidget(); ?>
-
-<script type="text/javascript">
-    function namaLain(nama)
-    {
-        document.getElementById('PPKelurahanM_kelurahan_namalainnya').value = nama.value.toUpperCase();
-    }
-</script>
 <?php $this->renderPartial('_jsFunctions',array()); ?>

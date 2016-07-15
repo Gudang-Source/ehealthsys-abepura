@@ -1,7 +1,9 @@
-<div class="white-container">
-    <legend class="rim2">Master <b>Wilayah - Kabupaten</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Master <b>Wilayah - Kabupaten</b></legend>-->
+<fieldset class = "box">
+    <legend class = "rim">Pengaturan Kabupaten</legend>
     <?php 
-    $this->widget('bootstrap.widgets.BootMenu', array(
+   /* $this->widget('bootstrap.widgets.BootMenu', array(
         'type'=>'tabs', // '', 'tabs', 'pills' (or 'list')
         'stacked'=>false, // whether this is a stacked menu
         'items'=>array(
@@ -10,9 +12,9 @@
             array('label'=>'Kecamatan', 'url'=>$this->createUrl('/rawatDarurat/kecamatanM')),
             array('label'=>'Kelurahan', 'url'=>$this->createUrl('/rawatDarurat/kelurahanM')),
         ),
-    )); ?>
-    <div class="biru">
-        <div class="white">
+    ));*/ ?>
+    <!--<div class="biru">
+        <div class="white">-->
             <?php
             $this->breadcrumbs=array(
                     'Sakabupaten Ms'=>array('index'),
@@ -66,7 +68,7 @@
                             //'propinsi.propinsi_nama',
                             array(
                                     'name'=>'propinsi_id',
-                                    'filter'=>  CHtml::listData($model->getPropinsiItems(), 'propinsi_id', 'propinsi_nama'),
+                                    'filter'=> CHtml::dropDownList('RDKabupatenM[propinsi_id]',$model->propinsi_id,CHtml::listData($model->getPropinsiItems(), 'propinsi_id', 'propinsi_nama'),array('empty'=>'-- Pilih --')),
                                     'value'=>'$data->propinsi->propinsi_nama',
                             ),
                             'kabupaten_nama',
@@ -101,7 +103,7 @@
                                     'buttons'=>array(
                                         'update' => array
                                                             (
-                                                              'visible'=>'Yii::app()->user->checkAccess("Update")',
+                                                         //     'visible'=>'Yii::app()->user->checkAccess("Update")',
                                                               'options'=>array('title'=>'Ubah Kabupaten'),
                                                             ),
                                      ),
@@ -124,8 +126,8 @@
                     }',
                 )); ?>
             <!--</div>-->
-        </div>
-    </div>
+        <!--</div>
+    </div>-->
     <?php 
     echo CHtml::link(Yii::t('mds','{icon} Tambah Kabupaten',array('{icon}'=>'<i class="icon-plus icon-white"></i>')), 
                             Yii::app()->createUrl($this->module->id.'/'.Yii::app()->controller->id.'/create'), 
@@ -154,7 +156,7 @@ $js = <<< JSCRIPT
 JSCRIPT;
     Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);                        
     ?>
-</div>
+</fieldset>
 <script type="text/javascript">
     function removeTemporary(id){
         var url = '<?php echo $url."/removeTemporary"; ?>';

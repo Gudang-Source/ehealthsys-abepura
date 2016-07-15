@@ -4,7 +4,9 @@
 </div>
 
 
-<?php $this->renderPartial('_tab'); ?> -->
+<?php //$this->renderPartial('_tab'); ?> -->
+<fieldset class = "box">
+    <legend class = "rim">Pengaturan Kabupaten</legend>
 <?php
 $this->breadcrumbs=array(
 	'Ppkabupaten Ms'=>array('index'),
@@ -97,7 +99,7 @@ echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class
         array(
             'header'=>'Hapus',
             'type'=>'raw',
-            'value'=>'($data->kabupaten_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->kabupaten_id)",array("id"=>"$data->kabupaten_id","rel"=>"tooltip","title"=>"Menonaktifkan Kabupaten"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->kabupaten_id)",array("id"=>"$data->kabupaten_id","rel"=>"tooltip","title"=>"Hapus Kabupaten")):CHtml::link("<i class=\'icon-trash\'></i> ", "javascript:deleteRecord($data->kabupaten_id)",array("id"=>"$data->kabupaten_id","rel"=>"tooltip","title"=>"Hapus Kabupaten"));',
+            'value'=>'($data->kabupaten_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->kabupaten_id)",array("id"=>"$data->kabupaten_id","rel"=>"tooltip","title"=>"Menonaktifkan Kabupaten"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->kabupaten_id)",array("id"=>"$data->kabupaten_id","rel"=>"tooltip","title"=>"Hapus Kabupaten")):CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->kabupaten_id)",array("id"=>"$data->kabupaten_id","rel"=>"tooltip","title"=>"Hapus Kabupaten"));',
             'htmlOptions'=>array('style'=>'width:80px'),
         ),
 	),

@@ -46,23 +46,66 @@
 				)));?>
         </div>
     </div>
-             
+        <table style = "width:100%;">
+            <tr>
+                <th style ="text-align:center;" >Kelurahan</th>
+                <th style ="text-align:center;">Nama Lain</th>
+                <th style ="text-align:center;">Latitude</th>
+                <th style ="text-align:center;">Longitude</th>
+                <th style ="text-align:center;">Kode Pos</th>
+            </tr>
+            <tr>
+                <td>
+                    <?php echo $form->textField($model,'kelurahan_nama',array('onkeyup'=>"namaLain(this)", 'class'=>'span3', 'onkeyup'=>"namaLain(this)", 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50,'placeholder'=>$model->getAttributeLabel('kelurahan_nama'))); ?>
+                    <span class="required">*</span>
+                </td>
+                <td>
+                    <?php echo $form->textField($model,'kelurahan_namalainnya',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50, 'placeholder'=> $model->getAttributeLabel('kelurahan_namalainnya'))); ?>
+                </td>                
+                <td>
+
+                        <?php echo $form->textField($model,'latitude',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)", 'placeholder'=> $model->getAttributeLabel('latitude'))); ?>
+                        <?php echo CHtml::htmlButton('<i class="icon-search icon-white"></i>',
+                                                    array(
+                                                            'class'=>'btn btn-primary btn-location',
+                                                            'rel'=>'tooltip',
+                                                            'id'=>'yw1',
+                                                            'onclick' =>'changeSize()',
+                                                            'title'=>'Klik untuk mencari Longitude & Latitude',)); 
+                        ?>                        
+
+                </td>
+                <td>
+                     <?php echo $form->textField($model,'longitude',array('class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)", 'placeholder'=> $model->getAttributeLabel('longitude'))); ?>                    
+               
+                    <!--Extension location-picker latitude & longitude-->
+                   <?php               
+
+                           $this->widget('ext.LocationPicker2.CoordinatePicker', array(
+                                   'model' => $model,
+                                   'latitudeAttribute' => 'latitude',
+                                   'longitudeAttribute' => 'longitude',
+                                   //optional settings
+                                   'editZoom' => 12,
+                                   'pickZoom' => 7,
+                                   'defaultLatitude' => $model->latitude,
+                                   'defaultLongitude' => $model->longitude,
+                           ));
+                   ?>    
+                                        
+                </td>
+                <td>
+                    <?php echo $form->textField($model,'kode_pos',array('class'=>'span3 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50, 'placeholder'=> $model->getAttributeLabel('kode_pos'))); ?>
+                </td>
+                <td>
+                    <?php echo CHtml::htmlButton( '<i class="icon-plus-sign icon-white"></i>', array('class'=>'btn btn-primary','onkeypress'=>"addRow(this);return $(this).focusNextInputField(event);",'onclick'=>'addRow(this);','id'=>'row1-plus')); ?>
+                </td>
+            </tr>
+        </table>
 	<table id="tbl-kelurahan" class="table table-striped table-bordered table-condensed">
-		<tr>
-			<td>
-				<?php echo $form->textField($model,'[1]kelurahan_nama',array('class'=>'span3 required', 'onkeyup'=>"namaLain(this)", 'onkeyup'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50,'placeholder'=>$model->getAttributeLabel('kelurahan_nama'))); ?>
-				<span class="required">*</span>
-			</td>
-			<td>
-				<?php echo $form->textField($model,'[1]kelurahan_namalainnya',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)", 'maxlength'=>50, 'placeholder'=> $model->getAttributeLabel('kelurahan_namalainnya'))); ?>
-			</td>
-			<td>
-				<?php echo $form->textField($model,'[1]kode_pos',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)", 'maxlength'=>15, 'placeholder'=> $model->getAttributeLabel('kode_pos'))); ?>
-			</td>
-			<td>
-				<?php echo CHtml::button( '+', array('class'=>'btn btn-primary','onkeypress'=>"addRow(this);return $(this).focusNextInputField(event);",'onclick'=>'addRow(this);$(this).focusNextInputField()','id'=>'row1-plus')); ?>
-			</td>
-		</tr>
+		 <?php
+                echo CHtml::hiddenField('Nomor',0, array('id'=>'nomor'));
+             ?>
 	</table>
             
 	<div class="form-actions">
@@ -77,7 +120,7 @@
 		<?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Kelurahan', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
 		$this->createUrl('/pendaftaranPenjadwalan/kelurahanM/admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
 		<?php
-			$content = $this->renderPartial('../tips/tipsaddedit2b',array(),true);
+			$content = $this->renderPartial('rawatDarurat.views.tips.tipsaddedit2b',array(),true);
 			$this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
 		?>
 	</div>

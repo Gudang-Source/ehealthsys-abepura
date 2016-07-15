@@ -185,7 +185,7 @@ class RJLaporanjasainstalasi extends LaporanjasainstalasiV {
         $criteria = $this->functionCriteria();
 
         $criteria->select = 'count(t.pendaftaran_id) as jumlah, t.carabayar_nama as data';
-        $criteria->group = 't.carabayar_nama';
+        $criteria->group = 't.carabayar_nama, pendaftaran_id';
         if (!empty($this->carabayar_id)) {
             $criteria->select .= ', t.penjamin_nama as tick';
             $criteria->group .= ', t.penjamin_nama';
