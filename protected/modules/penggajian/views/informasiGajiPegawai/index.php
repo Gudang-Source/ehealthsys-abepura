@@ -38,22 +38,22 @@
 				array(
 						'label'=>'Pegawai',
 						'type'=>'raw',
-						'value'=>$modelpegawai->nama_pegawai,
+						'value'=>isset($modelpegawai->nama_pegawai)?$modelpegawai->nama_pegawai:'-',
 				),
 				array(
 						'label'=>'Tempat Lahir',
 						'type'=>'raw',
-						'value'=>$modelpegawai->tempatlahir_pegawai,
+						'value'=>isset($modelpegawai->tempatlahir_pegawai)?$modelpegawai->tempatlahir_pegawai:'-',
 				),
 				array(
 						'label'=>'Tanggal Lahir',
 						'type'=>'raw',
-						'value'=>$modelpegawai->tgl_lahirpegawai,
+						'value'=>isset($modelpegawai->tgl_lahirpegawai)?$modelpegawai->tgl_lahirpegawai:'-',
 				),
 				array(
 						'label'=>'Jenis Kelamin',
 						'type'=>'raw',
-						'value'=>$modelpegawai->jeniskelamin,
+						'value'=>isset($modelpegawai->jeniskelamin)?$modelpegawai->jeniskelamin:'-',
 				),
 				array(
 						'label'=>'Jabatan',
