@@ -56,6 +56,7 @@ class SupplierM extends CActiveRecord
 		return array(
 			array('supplier_kode, supplier_nama, supplier_alamat', 'required'),
 			array('supplier_kode', 'length', 'max'=>10),
+                        array('supplier_kode','unique'),
 			array('supplier_nama, supplier_namalain, supplier_propinsi, supplier_kabupaten, supplier_npwp, supplier_cp, supplier_norekening, latitude, longitude', 'length', 'max'=>100),
 			array('supplier_telp, supplier_fax, supplier_kodepos, supplier_website, supplier_email, supplier_jenis', 'length', 'max'=>50),
 			array('supplier_aktif, supplier_kabupaten, propinsi_id, kabupaten_id', 'safe'),	
