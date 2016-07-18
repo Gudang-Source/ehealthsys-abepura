@@ -81,7 +81,12 @@
                             'name' => 'kekelurahan_nama',
                             'filter' => CHtml::dropDownList('TarifAmbulansM[kekelurahan_nama]',$model->kekelurahan_nama,CHtml::listData(KelurahanM::model()->findAll("kelurahan_aktif = TRUE ORDER BY kelurahan_nama ASC"),'kelurahan_nama','kelurahan_nama'),array('empty'=>'--Pilih--')),
                         ),
-                        'tarifambulans',
+                        array(
+                            'header' => 'Tarif Ambulans',
+                            'name' => 'tarifambulans',
+                            'value' => 'number_format($data->tarifambulans,0,"",".")',
+                            'htmlOptions'=>array('style'=>'text-align:right;')
+                        ),                        
                         array(
                             'header'=>Yii::t('zii','View'),
                             'class'=>'bootstrap.widgets.BootButtonColumn',

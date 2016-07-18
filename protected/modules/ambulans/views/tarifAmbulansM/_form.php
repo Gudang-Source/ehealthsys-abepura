@@ -142,6 +142,7 @@
    
 $modDaftartindakan = new AMDaftartindakanM('search');
 $modDaftartindakan->unsetAttributes();
+$modDaftartindakan->komponenunit_id = Params::KOMPONENUNIT_ID_AMBULANS;
 if(isset($_GET['AMDaftartindakanM'])) {
     $modDaftartindakan->attributes = $_GET['AMDaftartindakanM'];
 }
