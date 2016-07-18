@@ -1,6 +1,6 @@
 <?php 
     $modTarif = new AMTarifambulansM;
-    $modTarif->unsetAttributes();
+    $modTarif->unsetAttributes();    
     if(isset($_GET['AMTarifambulansM'])){
         $modTarif->attributes = $_GET['AMTarifambulansM'];
     }
@@ -54,16 +54,19 @@
                 'name'=>'jmlkilometer',
                 'value'=>'number_format($data->jmlkilometer)',
                 'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
+                'htmlOptions' => array('style'=>'text-align:right;')
             ),
             array(
                 'name'=>'tarifperkm',
-                'value'=>'number_format($data->tarifperkm)',
+                'value'=>'number_format($data->tarifperkm,0,"",".")',
                 'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
+                'htmlOptions' => array('style'=>'text-align:right;')
             ),
             array(
                 'name'=>'tarifambulans',
-                'value'=>'number_format($data->tarifambulans)',
+                'value'=>'number_format($data->tarifambulans,0,"",".")',
                 'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
+                'htmlOptions' => array('style'=>'text-align:right;')
             ),        
         ),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',

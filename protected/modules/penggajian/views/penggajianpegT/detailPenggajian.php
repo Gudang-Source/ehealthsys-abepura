@@ -111,10 +111,10 @@
                                             Total
                                         </th>
                                         <th>
-                                            <?php echo $form->textField($model,'totalterima',array('class'=>'span2', 'readonly'=>true, 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                                            <?php echo $form->textField($model,'totalterima',array('class'=>'span2', 'readonly'=>true, 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align:right;')); ?>
                                         </th>
                                         <th>
-                                            <?php echo $form->textField($model,'totalpotongan',array('class'=>'span2', 'readonly'=>true, 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                                            <?php echo $form->textField($model,'totalpotongan',array('class'=>'span2', 'readonly'=>true, 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align:right;')); ?>
                                         </th>
                                     </tr>
                                 </tfoot>
@@ -129,8 +129,8 @@
     <table width="100%">
         <tr>
             <td>
-                <?php echo $form->textFieldRow($model,'totalpajak',array('class'=>'span3 numbersOnly', 'onblur'=>'setHarga();','onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-                <?php echo $form->textFieldRow($model,'penerimaanbersih',array('class'=>'span3 numbersOnly', 'readonly'=>true, 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                <?php echo $form->textFieldRow($model,'totalpajak',array('class'=>'span3 numbersOnly', 'onblur'=>'setHarga();','onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align:right;')); ?>
+                <?php echo $form->textFieldRow($model,'penerimaanbersih',array('class'=>'span3 numbersOnly', 'readonly'=>true, 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align:right;')); ?>
             </td>
             <td>
                 <div class="control-group">
@@ -173,7 +173,7 @@
     <td>
 
         <?php
-             $content = $this->renderPartial('penggajian.views/tips/master',array(),true);
+             $content = $this->renderPartial('penggajian.views.tips.detail_penggajian',array(),true);
              $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
         ?>
     </td>

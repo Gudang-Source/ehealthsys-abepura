@@ -46,7 +46,10 @@
 
 	<div class="form-actions">
                 <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit')); ?>
-                <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Reset',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')),array('class'=>'btn btn-danger', 'type'=>'reset')); ?>
+                <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+                        Yii::app()->createUrl($this->module->id.'/informasiGajiPegawai&modul_id='.Yii::app()->session['modul_id']), 
+                        array('class'=>'btn btn-danger',
+                              'onclick'=>'myConfirm("Apakah Anda yakin ingin mengulang pencarian ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));   ?>
 				<?php
 					$content = $this->renderPartial('penggajian.views/tips/informasi_penggajianKaryawan',array(),true);
 					$this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 

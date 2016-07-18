@@ -38,7 +38,7 @@ if($caraPrint=='EXCEL')
 	</tr>
 	<tr>
 		<td width="15%"><strong>Jabatan</strong></td>
-		<td width="35%">: &nbsp; <?php echo $modelpegawai->jabatan->jabatan_nama; ?></td>
+		<td width="35%">: &nbsp; <?php echo isset($modelpegawai->jabatan_id)?$modelpegawai->jabatan->jabatan_namaL:'-'; ?></td>
 		<td width="15%"><strong>Alamat</strong></td>
 		<td width="35%">: &nbsp; <?php echo $modelpegawai->alamat_pegawai; ?></td>
 	</tr>
@@ -51,7 +51,7 @@ if($caraPrint=='EXCEL')
 	<tr>
 		<td width="15%"></td>
 		<td width="10%"><strong>Total Terima</strong></td>
-		<td width="25%">: &nbsp; <?php echo MyFormatter::formatUang($model->totalterima); ?></td>
+		<td width="25%">: &nbsp; <?php echo 'Rp'.  number_format($model->totalterima,0,"","."); ?></td>
 		<td width="10%"><strong>Tanggal Penggajian</strong></td>
 		<td width="25%">: &nbsp; <?php echo MyFormatter::formatDateTimeId($model->tglpenggajian); ?></td>
 		
@@ -60,7 +60,7 @@ if($caraPrint=='EXCEL')
 	<tr>
 		<td width="15%"></td>
 		<td width="10%"><strong>Total Potongan</strong></td>
-		<td width="25%">: &nbsp; <?php echo MyFormatter::formatUang($model->totalpotongan); ?></td>
+                <td width="25%">: &nbsp; <?php echo 'Rp'.  number_format($model->totalpotongan,0,"","."); ?></td>
 		<td width="10%"><strong>No. Penggajian</strong></td>
 		<td width="25%">: &nbsp; <?php echo $model->nopenggajian; ?></td>
 		<td width="15%"></td>
@@ -68,7 +68,7 @@ if($caraPrint=='EXCEL')
 	<tr>
 		<td width="15%"></td>
 		<td width="10%"><strong>Total Pajak</strong></td>
-		<td width="25%">: &nbsp; <?php echo MyFormatter::formatUang($model->totalpajak); ?></td>
+		<td width="25%">: &nbsp; <?php echo 'Rp'.  number_format($model->totalpajak,0,"","."); ?></td>
 		<td width="10%"><strong>Keterangan</strong></td>
 		<td width="25%">: &nbsp; <?php echo $model->keterangan; ?></td>
 		<td width="15%"></td>
@@ -76,7 +76,7 @@ if($caraPrint=='EXCEL')
 	<tr>
 		<td width="15%"></td>
 		<td width="10%"><strong>Penerimaan Bersih</strong></td>
-		<td width="25%">: &nbsp; <?php echo MyFormatter::formatUang($model->penerimaanbersih); ?></td>
+		<td width="25%">: &nbsp; <?php echo 'Rp'.  number_format($model->penerimaanbersih,0,"","."); ?></td>
 		<td width="10%"><strong></strong></td>
 		<td width="25%"></td>
 		<td width="15%"></td>

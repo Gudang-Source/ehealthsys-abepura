@@ -45,16 +45,21 @@ class SupplierMController extends MyAuthController
                             $kabupaten_nama = '';
                             
                             $cek = $_POST['GZSupplierM']['supplier_propinsi'];
-                                if ($cek != ''):
-                                    
-                                    
+                                if ($cek != ''):                                                                        
                                     $propinsi = PropinsiM::model()->findByPk($_POST['GZSupplierM']['supplier_propinsi']);    
                                     $propinsi_nama = $propinsi->propinsi_nama;
-                                    $kabupaten_nama = KabupatenM::model()->findByPk($_POST['GZSupplierM']['supplier_kabupaten'])->kabupaten_nama;
+                                                                        
+                                    if (!empty($_POST['GZSupplierM']['supplier_kabupaten'])){
+                                        $kabupaten = KabupatenM::model()->findByPk($_POST['GZSupplierM']['supplier_kabupaten']);
+                                        $kabupaten_nama = $kabupaten->kabupaten_nama;
+                                    }
                                 endif;
-                                    
-                                $model->supplier_propinsi = isset($_POST['GZSupplierM']['supplier_propinsi']) ?  $propinsi_nama : "";
+                                
+                                $model->propinsi_id =     isset($_POST['GZSupplierM']['supplier_propinsi']) ?  $propinsi->propinsi_id : "";                                
+                                $model->supplier_propinsi = isset($_POST['GZSupplierM']['supplier_propinsi']) ?  $propinsi_nama : "";                                
+                                $model->kabupaten_id =     !empty($_POST['GZSupplierM']['supplier_kabupaten']) ?  $kabupaten->kabupaten_id : "";
                                 $model->supplier_kabupaten = isset($_POST['GZSupplierM']['supplier_kabupaten']) ? $kabupaten_nama : "";
+                                
                                
                             if($model->validate()){//Jika Data Untuk Model Supplier Valid
                             if($model->save()){//Jika Model Supplier Sudah Disimpan
@@ -116,19 +121,21 @@ class SupplierMController extends MyAuthController
                 $modObatSupplier=GZObatSupplierM::model()->findAll('supplier_id='.$id.'');
 		// Uncomment the following line if AJAX validation is needed
 		
-		$propinsi = PropinsiM::model()->findByAttributes(array('propinsi_nama'=>$model->supplier_propinsi));
-		$kabupaten = KabupatenM::model()->findByAttributes(array('kabupaten_nama'=>$model->supplier_kabupaten));
+		$propinsi = PropinsiM::model()->find("propinsi_nama = '".$model->supplier_propinsi."'");
+		$kabupaten = KabupatenM::model()->find("kabupaten_nama = '".$model->supplier_kabupaten."'");
                 
                 $propinsi_id = $model->supplier_propinsi;
-                $kabupaten_id = $model->supplier_propinsi;
+                $kabupaten_id = $model->supplier_kabupaten;
                 
                 if ($propinsi_id != ''):
-                   $model->supplier_propinsi = $propinsi->propinsi_id;
+                   $model->propinsi_id = $propinsi->propinsi_id;
                 endif;
                 
                  if ($kabupaten_id != ''):
-                   $model->supplier_kabupaten = $kabupaten->kabupaten_id;
+                   $model->kabupaten_id = $kabupaten->kabupaten_id;
                 endif;
+                
+              
 		//$model->supplier_propinsi = isset($model->supplier_propinsi) ?  $propinsi->propinsi_id : "";
 		//$model->supplier_kabupaten = isset($model->supplier_propinsi) ? $kabupaten->kabupaten_id : "";
 		if(isset($_POST['GZSupplierM']))
@@ -146,16 +153,20 @@ class SupplierMController extends MyAuthController
                                     $kabupaten_nama = '';
                                     
                                     $cek = $_POST['GZSupplierM']['supplier_propinsi'];
-                                        if ($cek != ''):
-
-                                            
-                                            $propinsi = PropinsiM::model()->findByPk($_POST['GZSupplierM']['supplier_propinsi']);    
-                                            $propinsi_nama = $propinsi->propinsi_nama;
-                                            $kabupaten_nama = KabupatenM::model()->findByPk($_POST['GZSupplierM']['supplier_kabupaten'])->kabupaten_nama;
-                                        endif;
-
-                                        $model->supplier_propinsi = isset($_POST['GZSupplierM']['supplier_propinsi']) ?  $propinsi_nama : "";
-                                        $model->supplier_kabupaten = isset($_POST['GZSupplierM']['supplier_kabupaten']) ? $kabupaten_nama : "";
+                                        if ($cek != ''):                                                                        
+                                    $propinsi = PropinsiM::model()->findByPk($_POST['GZSupplierM']['supplier_propinsi']);    
+                                    $propinsi_nama = $propinsi->propinsi_nama;
+                                                                        
+                                    if (!empty($_POST['GZSupplierM']['supplier_kabupaten'])){
+                                        $kabupaten = KabupatenM::model()->findByPk($_POST['GZSupplierM']['supplier_kabupaten']);
+                                        $kabupaten_nama = $kabupaten->kabupaten_nama;
+                                    }
+                                endif;
+                                
+                                $model->propinsi_id =     isset($_POST['GZSupplierM']['supplier_propinsi']) ?  $propinsi->propinsi_id : "";                                
+                                $model->supplier_propinsi = isset($_POST['GZSupplierM']['supplier_propinsi']) ?  $propinsi_nama : "";                                
+                                $model->kabupaten_id =     !empty($_POST['GZSupplierM']['supplier_kabupaten']) ?  $kabupaten->kabupaten_id : "";
+                                $model->supplier_kabupaten = isset($_POST['GZSupplierM']['supplier_kabupaten']) ? $kabupaten_nama : "";
                                         
                                 if($model->validate()){//Jika Data Untuk Model Supplier Valid
                                    if($model->save()){//Jika Model Supplier Sudah Disimpan
@@ -382,7 +393,9 @@ class SupplierMController extends MyAuthController
 				   if(count($kabupaten) > 1)
 				   {
 					   echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
-				   }
+				   }elseif(count($kabupaten) == 0){
+                                       echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                                   }
 				   $kabupaten = CHtml::listData($kabupaten,'kabupaten_id','kabupaten_nama');
 				   foreach($kabupaten as $value=>$name) {
 					   echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
