@@ -27,6 +27,7 @@ class SupplierM extends CActiveRecord
         public $obatAlkes;
         public $rekDebit, $rekKredit;
         public $rekening_debit, $rekening_kredit;
+        public $propinsi_id, $kabupaten_id;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -57,7 +58,7 @@ class SupplierM extends CActiveRecord
 			array('supplier_kode', 'length', 'max'=>10),
 			array('supplier_nama, supplier_namalain, supplier_propinsi, supplier_kabupaten, supplier_npwp, supplier_cp, supplier_norekening, latitude, longitude', 'length', 'max'=>100),
 			array('supplier_telp, supplier_fax, supplier_kodepos, supplier_website, supplier_email, supplier_jenis', 'length', 'max'=>50),
-			array('supplier_aktif', 'safe'),	
+			array('supplier_aktif, supplier_kabupaten, propinsi_id, kabupaten_id', 'safe'),	
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('obatalkes_nama, supplier_id, supplier_kode, obatAlkes, supplier_nama, supplier_namalain, supplier_alamat, supplier_propinsi, supplier_kabupaten, supplier_telp, supplier_fax, supplier_kodepos, supplier_npwp, supplier_website, supplier_email, supplier_cp, supplier_aktif, latitude, longitude, pbf_id', 'safe', 'on'=>'search'),
