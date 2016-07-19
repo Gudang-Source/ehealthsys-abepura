@@ -4,8 +4,9 @@ Yii::import("billingKasir.controllers.PembayaranTagihanPasienController");
 
 class PembayaranKarcisController extends PembayaranTagihanPasienController
 {
-        protected $path_view = 'billingKasir.views.pembayaranKarcis.';
+        //public $path_view = 'billingKasir.views.pembayaranKarcis.';
         public $path_view = 'billingKasir.views.pembayaranTagihanPasien.';
+        
 	public function actionIndex($view=null, $id=null)
 	{
             $successSave = false; $tandaBukti = new TandabuktibayarT;

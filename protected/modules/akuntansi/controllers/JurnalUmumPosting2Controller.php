@@ -1,5 +1,5 @@
 <?php
-class JurnalUmumPostingController extends MyAuthController
+class JurnalUmumPosting2Controller extends MyAuthController
 {
         public $success = false;
     
