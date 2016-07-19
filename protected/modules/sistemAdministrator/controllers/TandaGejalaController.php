@@ -148,19 +148,21 @@ class TandaGejalaController extends MyAuthController {
 
 	public function simpanBatasDetail($diagnosakep_id, $post) {
 		foreach ($post as $i => $row) {
-			$batkar = SATandagejalaM::model()->findByAttributes(array('diagnosakep_id' => $diagnosakep_id, 'tandagejala_indikator' => $row['tandagejala_indikator']));
-			if (count($batkar) || !empty($row['tandagejala_id'])) {
-				SATandagejalaM::model()->updateByPk($row['tandagejala_id'], array('tandagejala_indikator' => $row['tandagejala_indikator'],
-					'tandagejala_aktif' => $row['tandagejala_aktif']));
-				$this->simpan &= true;
-			} else {
-				$model = new SATandagejalaM;
-				$model->attributes = $row;
-				$model->diagnosakep_id = $diagnosakep_id;
-				$model->tandagejala_indikator = $row['tandagejala_indikator'];
-				$model->tandagejala_aktif = $row['tandagejala_aktif'];
-				if (!$model->save()) {
-					$this->simpan &= false;
+			if (is_numeric($i)) {
+				$batkar = SATandagejalaM::model()->findByAttributes(array('diagnosakep_id' => $diagnosakep_id, 'tandagejala_indikator' => $row['tandagejala_indikator']));
+				if (count($batkar) || !empty($row['tandagejala_id'])) {
+					SATandagejalaM::model()->updateByPk($row['tandagejala_id'], array('tandagejala_indikator' => $row['tandagejala_indikator'],
+						'tandagejala_aktif' => $row['tandagejala_aktif']));
+					$this->simpan &= true;
+				} else {
+					$model = new SATandagejalaM;
+					$model->attributes = $row;
+					$model->diagnosakep_id = $diagnosakep_id;
+					$model->tandagejala_indikator = $row['tandagejala_indikator'];
+					$model->tandagejala_aktif = $row['tandagejala_aktif'];
+					if (!$model->save()) {
+						$this->simpan &= false;
+					}
 				}
 			}
 		}
