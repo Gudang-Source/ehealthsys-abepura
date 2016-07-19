@@ -73,6 +73,7 @@ class IntervensiController extends MyAuthController {
 			$transaction = Yii::app()->db->beginTransaction();
 			try {
 				$model->updateByPk($id, array('diagnosakep_id' => $_POST['SAIntervensiM']['diagnosakep_id'], 'intervensi_nama' => $_POST['SAIntervensiM']['intervensi_nama']));
+				SAIntervensidetM::model()->deleteAllByAttributes(array('intervensi_id'=>$id));
 				$this->simpanBatasDetail($id, $_POST['SAIntervensidetM']);
 //                echo "<pre>";
 //				print_r($_POST['SALookupM']);exit;
@@ -161,11 +162,11 @@ class IntervensiController extends MyAuthController {
 	public function simpanBatasDetail($intervensi_id, $post) {
 		foreach ($post as $i => $row) {
 			
-			if (!empty($row['intervensidet_id'])) {
-				SAIntervensidetM::model()->updateByPk($row['intervensidet_id'], array('intervensidet_indikator' => $row['intervensidet_indikator'],
-					'intervensidet_aktif' => $row['intervensidet_aktif']));
-				$this->simpan &= true;
-			} else {
+			//if (!empty($row['intervensidet_id'])) {
+			//	SAIntervensidetM::model()->updateByPk($row['intervensidet_id'], array('intervensidet_indikator' => $row['intervensidet_indikator'],
+			//		'intervensidet_aktif' => $row['intervensidet_aktif']));
+			//	$this->simpan &= true;
+			//} else {
 				$model = new SAIntervensidetM;
 				$model->attributes = $row;
 				$model->intervensi_id = $intervensi_id;
@@ -174,7 +175,7 @@ class IntervensiController extends MyAuthController {
 				if (!$model->save()) {
 					$this->simpan &= false;
 				}
-			}
+			//}
 		}
 	}
 
