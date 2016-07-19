@@ -73,6 +73,7 @@ class BatasKarakteristikController extends MyAuthController {
 			$transaction = Yii::app()->db->beginTransaction();
 			try {
 				$model->updateByPk($id, array('diagnosakep_id' => $_POST['SABataskarakteristikM']['diagnosakep_id'], 'bataskarakteristik_nama' => $_POST['SABataskarakteristikM']['bataskarakteristik_nama']));
+				SABataskarakteristikdetM::model()->deleteAllByAttributes(array('bataskarakteristik_id'=>$model->bataskarakteristik_id));
 				$this->simpanBatasDetail($id, $_POST['SABataskarakteristikdetM']);
 //                echo "<pre>";
 //				print_r($_POST['SALookupM']);exit;
@@ -161,11 +162,11 @@ class BatasKarakteristikController extends MyAuthController {
 
 	public function simpanBatasDetail($bataskarakteristik_id, $post) {
 		foreach ($post as $i => $row) {
-			if (!empty($row['bataskarakteristikdet_id'])) {
-				SABataskarakteristikdetM::model()->updateByPk($row['bataskarakteristikdet_id'], array('bataskarakteristikdet_indikator' => $row['bataskarakteristikdet_indikator'],
-					'bataskarakteristikdet_aktif' => $row['bataskarakteristikdet_aktif']));
-				$this->simpan &= true;
-			} else {
+			// if (!empty($row['bataskarakteristikdet_id'])) {
+			// 	SABataskarakteristikdetM::model()->updateByPk($row['bataskarakteristikdet_id'], array('bataskarakteristikdet_indikator' => $row['bataskarakteristikdet_indikator'],
+			//		'bataskarakteristikdet_aktif' => $row['bataskarakteristikdet_aktif']));
+			// 	$this->simpan &= true;
+			// } else {
 				$model = new SABataskarakteristikdetM;
 				$model->attributes = $row;
 				$model->bataskarakteristik_id = $bataskarakteristik_id;
@@ -174,7 +175,7 @@ class BatasKarakteristikController extends MyAuthController {
 				if (!$model->save()) {
 					$this->simpan &= false;
 				}
-			}
+			//}
 		}
 	}
 
