@@ -65,9 +65,12 @@
 	function hapusLookup(obj){
 		var bataskarakteristikdet_id = $(obj).parents("tr").find("input[name$='[bataskarakteristikdet_id]']").val();
 		if(bataskarakteristikdet_id !== ""){
-			myConfirm("Apakah anda yakin akan menghapus data ini dari database?","Perhatian!",
+			myConfirm("Apakah anda yakin akan menghapus data ini?","Perhatian!",
 			function(r){
 				if(r){
+					$(obj).parents('tr').detach();
+					renameInputRow($("#table-lookup"));
+					/*
 					$.ajax({
 						type:'POST',
 						url:'<?php echo $this->createUrl('Delete'); ?>&id='+bataskarakteristikdet_id,
@@ -85,7 +88,7 @@
 							}
 						},
 						error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
-					});
+					});*/
 				}
 			});
 		}else{
