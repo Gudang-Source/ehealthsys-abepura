@@ -73,6 +73,7 @@ class FaktorRisikoController extends MyAuthController {
 			$transaction = Yii::app()->db->beginTransaction();
 			try {
 				$model->updateByPk($id, array('diagnosakep_id' => $_POST['SAFaktorrisikoM']['diagnosakep_id'], 'faktorrisiko_nama' => $_POST['SAFaktorrisikoM']['faktorrisiko_nama']));
+				SAFaktorrisikodetM::model()->deleteAllByAttributes(array('faktorrisiko_id'=>$model->faktorrisiko_id));
 				$this->simpanBatasDetail($id, $_POST['SAFaktorrisikodetM']);
 //                echo "<pre>";
 //				print_r($_POST['SALookupM']);exit;
@@ -162,11 +163,14 @@ class FaktorRisikoController extends MyAuthController {
 	public function simpanBatasDetail($faktorrisiko_id, $post) {
 		foreach ($post as $i => $row) {
 			
+			/*
 			if (!empty($row['faktorrisikodet_id'])) {
 				SAFaktorrisikodetM::model()->updateByPk($row['faktorrisikodet_id'], array('faktorrisikodet_indikator' => $row['faktorrisikodet_indikator'],
 					'faktorrisikodet_aktif' => $row['faktorrisikodet_aktif']));
 				$this->simpan &= true;
 			} else {
+			 * 
+			 */
 				$model = new SAFaktorrisikodetM;
 				$model->attributes = $row;
 				$model->faktorrisiko_id = $faktorrisiko_id;
@@ -175,7 +179,7 @@ class FaktorRisikoController extends MyAuthController {
 				if (!$model->save()) {
 					$this->simpan &= false;
 				}
-			}
+			// }
 		}
 	}
 
