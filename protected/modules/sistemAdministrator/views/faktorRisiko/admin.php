@@ -1,5 +1,5 @@
 <div class="white-container">
-    <legend class="rim2">Pengaturan <b>Batas Karakteristik</b></legend>
+    <legend class="rim2">Pengaturan <b>Faktor Risiko</b></legend>
 	<?php
 	$this->breadcrumbs = array(
 		'Bataskarakteristik Ms' => array('index'),
@@ -28,7 +28,7 @@
 		?>
     </div>
     <div class='block-tabel'>
-        <h6>Tabel <b>Batas Karakteristik</b></h6>
+        <h6>Tabel <b>Faktor Risiko</b></h6>
 		<?php
 		if (isset($_GET['sukses'])) {
 			Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
@@ -46,7 +46,7 @@
 				/*
 				array(
 					'header' => 'ID',
-					'value' => '$data->bataskarakteristikdet_id',
+					'value' => '$data->faktorrisikodet_id',
 				),
 				 * 
 				 */
@@ -56,18 +56,18 @@
 					'value' => 'isset($data->diagnosakep_nama) ? $data->diagnosakep_nama : " - "',
 				),
 				array(
-					'header' => 'Nama Batasan Karakteristik',
-					'name' => 'bataskarakteristik_nama',
-					'value' => 'isset($data->bataskarakteristik->bataskarakteristik_nama) ? $data->bataskarakteristik->bataskarakteristik_nama : " - "',
+					'header' => 'Nama Faktor Risiko',
+					'name' => 'faktorrisiko_nama',
+					'value' => 'isset($data->faktorrisiko->faktorrisiko_nama) ? $data->faktorrisiko->faktorrisiko_nama : " - "',
 				),
 				array(
 					'header' => 'Indikator',
-					'name' => 'bataskarakteristikdet_indikator',
-					'value' => 'isset($data->bataskarakteristikdet_indikator) ? $data->bataskarakteristikdet_indikator : " - "',
+					'name' => 'faktorrisikodet_indikator',
+					'value' => 'isset($data->faktorrisikodet_indikator) ? $data->faktorrisikodet_indikator : " - "',
 				),
 				array(
 					'header' => 'Status',
-					'value' => '($data->bataskarakteristikdet_aktif == true ? \'Aktif\': \'Tidak Aktif\')',
+					'value' => '($data->faktorrisikodet_aktif == true ? \'Aktif\': \'Tidak Aktif\')',
 					'filter' => CHtml::dropDownList(
 						'aktif', $model->aktif, array('1' => 'Aktif',
 					'0' => 'Tidak Aktif',), array('empty' => '--Pilih--'))
@@ -78,7 +78,7 @@
 					'template' => '{view}',
 					'buttons' => array(
 						'view' => array(
-							'url' => 'Yii::app()->createUrl("' . Yii::app()->controller->module->id . '/' . Yii::app()->controller->id . '/view",array("id"=>$data->bataskarakteristik_id))',
+							'url' => 'Yii::app()->createUrl("' . Yii::app()->controller->module->id . '/' . Yii::app()->controller->id . '/view",array("id"=>$data->faktorrisiko_id))',
 						),
 					),
 				),
@@ -88,14 +88,14 @@
 					'template' => '{update}',
 					'buttons' => array(
 						'update' => array(
-							'url' => 'Yii::app()->createUrl("' . Yii::app()->controller->module->id . '/' . Yii::app()->controller->id . '/update",array("id"=>$data->bataskarakteristik_id))',
+							'url' => 'Yii::app()->createUrl("' . Yii::app()->controller->module->id . '/' . Yii::app()->controller->id . '/update",array("id"=>$data->faktorrisiko_id))',
 						),
 					),
 				),
 				array(
 					'header' => '<center>Hapus</center>',
 					'type' => 'raw',
-					'value' => '($data->bataskarakteristikdet_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->bataskarakteristikdet_id)",array("id"=>"$data->bataskarakteristikdet_id","rel"=>"tooltip","title"=>"Menonaktifkan Batas Karakteristik"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->bataskarakteristikdet_id)",array("id"=>"$data->bataskarakteristikdet_id","rel"=>"tooltip","title"=>"Hapus Batas Karakteristik")):CHtml::link("<i class=\'icon-trash\'></i> ", "javascript:deleteRecord($data->bataskarakteristikdet_id)",array("id"=>"$data->bataskarakteristikdet_id","rel"=>"tooltip","title"=>"Hapus Batas Karakteristik"));',
+					'value' => '($data->faktorrisikodet_aktif)?CHtml::link("<i class=\'icon-form-silang\'></i> ","javascript:removeTemporary($data->faktorrisikodet_id)",array("id"=>"$data->faktorrisikodet_id","rel"=>"tooltip","title"=>"Menonaktifkan Faktor Risiko"))." ".CHtml::link("<i class=\'icon-form-sampah\'></i> ", "javascript:deleteRecord($data->faktorrisikodet_id)",array("id"=>"$data->faktorrisikodet_id","rel"=>"tooltip","title"=>"Hapus Faktor Risiko")):CHtml::link("<i class=\'icon-trash\'></i> ", "javascript:deleteRecord($data->faktorrisikodet_id)",array("id"=>"$data->faktorrisikodet_id","rel"=>"tooltip","title"=>"Hapus Faktor Risiko"));',
 					'htmlOptions' => array('style' => 'text-align: center; width:80px'),
 				),
 			),
@@ -112,7 +112,7 @@
 		?>
     </div>
 	<?php
-	echo CHtml::link(Yii::t('mds', '{icon} Tambah Batas Karakteristik', array('{icon}' => '<i class="icon-plus icon-white"></i>')), $this->createUrl(Yii::app()->controller->id . '/create', array('modul_id' => Yii::app()->session['modul_id'])), array('class' => 'btn btn-success')) . "&nbsp&nbsp";
+	echo CHtml::link(Yii::t('mds', '{icon} Tambah Faktor Risiko', array('{icon}' => '<i class="icon-plus icon-white"></i>')), $this->createUrl(Yii::app()->controller->id . '/create', array('modul_id' => Yii::app()->session['modul_id'])), array('class' => 'btn btn-success')) . "&nbsp&nbsp";
 	echo CHtml::htmlButton(Yii::t('mds', '{icon} PDF', array('{icon}' => '<i class="icon-book icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'print(\'PDF\')')) . "&nbsp&nbsp";
 	echo CHtml::htmlButton(Yii::t('mds', '{icon} Excel', array('{icon}' => '<i class="icon-pdf icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'print(\'EXCEL\')')) . "&nbsp&nbsp";
 	echo CHtml::htmlButton(Yii::t('mds', '{icon} Print', array('{icon}' => '<i class="icon-print icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'button', 'onclick' => 'print(\'PRINT\')')) . "&nbsp&nbsp";
@@ -171,7 +171,7 @@ JSCRIPT;
     }
 
 	$(document).ready(function () {
-		$("input[name='SABataskarakteristikdetM[bataskarakteristik_nama]']").focus();
+		$("input[name='SAFaktorrisikodetM[faktorrisiko_nama]']").focus();
 	});
 
 </script>

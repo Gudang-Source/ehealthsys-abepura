@@ -58,23 +58,24 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 	</div>
 	<div class="span6">
 		<div class="control-group">
-			<?php echo Chtml::label('Nama Batas Karakteristik', 'bataskarakteristik_nama', array('class' => 'control-label')) ?>
+			<?php echo Chtml::label('Nama Faktor Risiko', 'faktorrisiko_nama', array('class' => 'control-label')) ?>
 			<div class="controls">
 				<?php
 				/*
-				echo $form->dropDownList($model, 'bataskarakteristik_nama', LookupM::getItems('batkar_as'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",
+				echo $form->dropDownList($model, 'faktorrisiko_nama', LookupM::getItems('faktorris_as'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",
 					'class' => 'inputRequire',
 					'onchange' => 'refreshTable();'));
 				 * 
 				 */
-				echo $form->textField($model, 'bataskarakteristik_nama', array('class'=>'inputRequire', 'onblur'=>'refreshTable()'));
+				
+				echo $form->textField($model, 'faktorrisiko_nama', array('class'=>'inputRequire', 'onblur'=>'refreshTable()'));
 				?>
 			</div>
 		</div>
 	</div>
 </div>
 <div class="row-fluid block-tabel">
-	<h6>Tabel <b>Batas Karakteristik</b></h6>
+	<h6>Tabel <b>Faktor Risiko</b></h6>
 	<table id="table-lookup" class="table table-striped table-bordered table-condensed">
 		<thead>
 		<th>Indikator</th>
@@ -92,7 +93,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 	echo CHtml::link(Yii::t('mds', '{icon} Ulang', array('{icon}' => '<i class="icon-refresh icon-white"></i>')), "#", array('class' => 'btn btn-danger',
 		'onclick' => 'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r) {if(r) window.location = window.location.href;} ); return false;'));
 	?>
-	<?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Batas Karakteristik', array('{icon}' => '<i class="icon-folder-open icon-white"></i>')), $this->createUrl($this->id . '/admin', array('modul_id' => Yii::app()->session['modul_id'])), array('class' => 'btn btn-success')); ?>
+	<?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Faktor Risiko', array('{icon}' => '<i class="icon-folder-open icon-white"></i>')), $this->createUrl($this->id . '/admin', array('modul_id' => Yii::app()->session['modul_id'])), array('class' => 'btn btn-success')); ?>
 	<?php $this->widget('UserTips', array('type' => 'create')); ?>
 </div>
 </div>
