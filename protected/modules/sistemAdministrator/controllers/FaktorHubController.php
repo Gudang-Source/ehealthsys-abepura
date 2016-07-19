@@ -73,6 +73,7 @@ class FaktorHubController extends MyAuthController {
 			$transaction = Yii::app()->db->beginTransaction();
 			try {
 				$model->updateByPk($id, array('diagnosakep_id' => $_POST['SAFaktorhubM']['diagnosakep_id'], 'faktorhub_nama' => $_POST['SAFaktorhubM']['faktorhub_nama']));
+				SAFaktorhubdetM::model()->deleteAllByAttributes(array('faktorhub_id'=>$id));
 				$this->simpanBatasDetail($id, $_POST['SAFaktorhubdetM']);
 //                echo "<pre>";
 //				print_r($_POST['SALookupM']);exit;
@@ -161,11 +162,11 @@ class FaktorHubController extends MyAuthController {
 	public function simpanBatasDetail($faktorhub_id, $post) {
 		foreach ($post as $i => $row) {
 			
-			if (!empty($row['faktorhubdet_id'])) {
-				SAFaktorhubdetM::model()->updateByPk($row['faktorhubdet_id'], array('faktorhubdet_indikator' => $row['faktorhubdet_indikator'],
-					'faktorhubdet_aktif' => $row['faktorhubdet_aktif']));
-				$this->simpan &= true;
-			} else {
+			// if (!empty($row['faktorhubdet_id'])) {
+			// 	SAFaktorhubdetM::model()->updateByPk($row['faktorhubdet_id'], array('faktorhubdet_indikator' => $row['faktorhubdet_indikator'],
+			// 		'faktorhubdet_aktif' => $row['faktorhubdet_aktif']));
+			// 	$this->simpan &= true;
+			// } else {
 				$model = new SAFaktorhubdetM;
 				$model->attributes = $row;
 				$model->faktorhub_id = $faktorhub_id;
@@ -174,7 +175,7 @@ class FaktorHubController extends MyAuthController {
 				if (!$model->save()) {
 					$this->simpan &= false;
 				}
-			}
+			// }
 		}
 	}
 
@@ -237,7 +238,14 @@ class FaktorHubController extends MyAuthController {
 	public function actionDelete() {
 		if (Yii::app()->request->isPostRequest) {
 			$id = $_POST['id'];
+			$det = SAFaktorhubdetM::model()->findByPk($id);
+			$model = SAFaktorhubM::model()->findByPk($det->faktorhub_id);
 			SAFaktorhubdetM::model()->deleteByPk($id);
+			
+			$det = SAFaktorhubdetM::model()->findByAttributes(array('faktorhub_id'=>$model->faktorhub_id));
+			if (empty($det)) {
+				SAFaktorhubM::model()->deleteByPk($model->faktorhub_id);
+			}
 			if (Yii::app()->request->isAjaxRequest) {
 				echo CJSON::encode(array(
 					'status' => 'proses_form',
