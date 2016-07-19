@@ -20,7 +20,7 @@
                 'header' => 'No.',
                 'value' => '(($this->grid->dataProvider->pagination) ? $this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize : 0) + $row+1',
             ),
-array(
+            array(
                 'header' => 'Tanggal Pemakaian',
                 'value' => 'MyFormatter::formatDateTimeForUser($data->tglpemakaianobat)'
             ),
