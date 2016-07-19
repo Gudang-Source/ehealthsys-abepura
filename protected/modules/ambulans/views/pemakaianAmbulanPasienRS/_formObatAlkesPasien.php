@@ -73,7 +73,7 @@
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     'id'=>'dialogObatAlkes',
     'options'=>array(
-        'title'=>'Obat & Alat Kesehatan',
+        'title'=>'Obat & Alat Kesehatan Ruangan Ambulans',
         'autoOpen'=>false,
         'modal'=>true,
         'width'=>980,
@@ -81,7 +81,81 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'resizable'=>false,
     ),
 ));
-$modObatAlkes = new AMObatAlkesM('searchDialog');
+
+$modObatDialog = new InfostokobatalkesruanganV('search');
+$modObatDialog->unsetAttributes();
+$format = new MyFormatter();
+if (isset($_GET['InfostokobatalkesruanganV'])) {
+    $modObatDialog->attributes = $_GET['InfostokobatalkesruanganV'];
+    if (isset($_GET['FAObatalkesM']['therapiobat_id'])) {
+        $modObatDialog->therapiobat_id = $_GET['FAObatalkesM']['therapiobat_id'];
+    }
+}
+$this->widget('ext.bootstrap.widgets.BootGridView', array(
+    'id' => 'obatAlkesDialog-m-grid',
+    'dataProvider' => $modObatDialog->searchObat(),
+    'filter' => $modObatDialog,
+    //'template' => "{items}\n{pager}",
+    'template'=>"{summary}\n{items}\n{pager}",
+    'itemsCssClass' => 'table table-striped table-bordered table-condensed',
+    'columns' => array(
+        array(
+            'header' => 'Pilih',
+            'type' => 'raw',
+            'value' => 'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("rel"=>"tooltip","title"=>"Pilih Obat/Alkes","class"=>"btn_small",
+                "id"=>"selectObat",
+                "onClick" => "
+                                $(\'#obatalkes_id\').val($data->obatalkes_id);
+                                $(\'#qty_stok\').val(".StokobatalkesT::getJumlahStok($data->obatalkes_id, Yii::app()->user->getState(\'ruangan_id\')).");
+                                $(\'#satuankecil_id\').val($data->satuankecil_id);
+                                $(\'#satuankecil_nama\').val(\'$data->satuankecil_nama\');
+                                $(\'#hargajual\').val($data->hargajual);
+                                $(\'#harganetto\').val($data->harganetto);
+                                $(\'#obatalkes_nama\').val(\'$data->obatalkes_nama\');
+                                $(\'#obatalkes_nama\').val(\'$data->obatalkes_kode\');
+                                $(\'#sumberdana_id\').val(\'$data->sumberdana_id\');
+                                $(\'#dialogObatAlkes\').dialog(\'close\');
+                                return false;"
+                                ))',
+            ),
+        array(
+                    'name'=>'jenisobatalkes_id',
+                    'type'=>'raw',
+                    'value'=>'(!empty($data->jenisobatalkes_id) ? $data->jenisobatalkes->jenisobatalkes_nama : "")',
+                    'filter'=>  CHtml::activeDropDownList($modObatDialog, 'jenisobatalkes_id', CHtml::listData(
+                   JenisobatalkesM::model()->findAll(array(
+                       'condition'=>'jenisobatalkes_aktif = true',
+                       'order'=>'jenisobatalkes_nama',
+                   )), 'jenisobatalkes_id', 'jenisobatalkes_nama'), array('empty'=>'-- Pilih --')),
+                ),
+                array(
+                    'name'=>'obatalkes_kategori',
+                    'filter'=>  CHtml::activeDropDownList($modObatDialog, 'obatalkes_kategori', LookupM::getItems('obatalkes_kategori'), array(
+                        'empty'=>'-- Pilih --'
+                    ))
+                ),
+                array(
+                    'name'=>'obatalkes_golongan',
+                    'filter'=>  CHtml::activeDropDownList($modObatDialog, 'obatalkes_golongan', LookupM::getItems('obatalkes_golongan'), array(
+                        'empty'=>'-- Pilih --'
+                    ))
+                ),
+                'obatalkes_nama',                                           
+//                array(
+//                    'name'=>'sumberdana_id',
+//                    'type'=>'raw',
+//                    'value'=>'$data->sumberdana->sumberdana_nama',
+//                    'filter'=>  CHtml::activeTextField($modObatAlkes, 'sumberdana_nama'),
+//                ),
+                array(
+                    'header'=>'Jumlah Stok',
+                    'type'=>'raw',
+                    'htmlOptions'=>array('style'=>'text-align: right;'),
+                    'value'=>'StokobatalkesT::getJumlahStok($data->obatalkes_id, Yii::app()->user->getState("ruangan_id"))." ".$data->satuankecil_nama',
+                ),
+    ),
+    
+/*$modObatAlkes = new AMObatAlkesM('searchDialog');
 $modObatAlkes->unsetAttributes();
 if(isset($_GET['AMObatalkesM'])){
     $modObatAlkes->attributes = $_GET['AMObatalkesM'];
@@ -134,7 +208,7 @@ if(isset($_GET['AMObatalkesM'])){
                 'type'=>'raw',
                 'value'=>'StokobatalkesT::getJumlahStok($data->obatalkes_id, Yii::app()->user->getState("ruangan_id"))',
             ),
-	),
+	),*/
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
     )); 
 $this->endWidget();

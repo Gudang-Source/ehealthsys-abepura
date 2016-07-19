@@ -39,12 +39,12 @@
         <tr>
             <td>Paramedis 1</td>
             <td>:</td>
-            <td><?php echo $modPemakaian->paramedis1->NamaLengkap; ?></td>
+            <td><?php echo isset($modPemakaian->paramedis1_id)?$modPemakaian->paramedis1->NamaLengkap:'-'; ?></td>
         </tr>
         <tr>
             <td>Paramedis 2</td>
             <td>:</td>
-            <td><?php echo $modPemakaian->paramedis2->NamaLengkap; ?></td>
+            <td><?php echo isset($modPemakaian->paramedis2_id)?$modPemakaian->paramedis2->NamaLengkap:'-'; ?></td>
         </tr>
         <tr>
             <td>Alamat</td>

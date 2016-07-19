@@ -281,9 +281,13 @@ class PenggajianpegTController extends MyAuthController {
 		}
 
 		if (empty($model)) {
-			$model = new PenggajianpegT;
+			$model = new PenggajianpegT;                        
 		}
-
+                $model->totalterima = number_format($model->totalterima,0,"",".");
+                $model->totalpotongan = number_format($model->totalpotongan,0,"",".");
+                $model->penerimaanbersih = number_format($model->penerimaanbersih,0,"",".");
+                $model->totalpajak = number_format($model->totalpajak,0,"",".");
+                
 		$this->render($this->path_view . 'detailPenggajian', array(
 			'modelpegawai' => $modelpegawai,
 			'model' => $model,
@@ -314,7 +318,7 @@ class PenggajianpegTController extends MyAuthController {
             $stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
             $mpdf->WriteHTML($stylesheet, 1);
             $mpdf->WriteHTML($this->renderPartial($this->path_view. 'PrintPenggajian', array('model' => $model, 'modelpegawai' => $modelpegawai, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
-            $mpdf->Output();
+            $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
         }
 	}
 

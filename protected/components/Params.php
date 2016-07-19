@@ -121,6 +121,7 @@ Class Params
         const KOMPONENTARIF_ID_PELAYANAN = 24;
 	
 	const KOMPONENUNIT_ID_GIZI = 23; // komponenunit_id untuk konsultasi gizi 
+        const KOMPONENUNIT_ID_AMBULANS = 23;
 
 	const RUANGAN_ID_AMBULANCE = 64;
 	const RUANGAN_ID_APOTEK_1 = 59; 
@@ -430,7 +431,7 @@ Class Params
         
         const ASALRUJUKAN_ID_RS = 4;
         const RUJUKANDARI_ID_ABE = 1811;
-                
+            
         
         
 	//===   END KONSTANTA ===

@@ -21,7 +21,12 @@
               <div class="control-group ">
 				<?php echo $form->labelEx($model,'supplier_propinsi', array('class'=>'control-label refreshable')) ?>
 				<div class="controls">
-					<?php echo $form->dropDownList($model,'supplier_propinsi', CHtml::listData($model->getPropinsiItems(), 'propinsi_id', 'propinsi_nama') ,array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)",
+					<?php 
+                                         if(!empty($model->propinsi_id)){
+                                            $model->supplier_propinsi = $model->propinsi_id;
+                                           
+                                        }
+                                        echo $form->dropDownList($model,'supplier_propinsi', CHtml::listData($model->getPropinsiItems(), 'propinsi_id', 'propinsi_nama') ,array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)",
 															'ajax' => array('type'=>'POST',
 																'url'=> $this->createUrl('SetDropdownKabupaten',array('encode'=>false,'namaModel'=>get_class($model))), 
 		//                                                        'update'=>'#'.CHtml::activeId($model, 'supplier_kabupaten'),  //DIHIDE KARENA DIGANTIKAN DENGAN 'success'
@@ -32,12 +37,14 @@
 				</div>
 			</div>
 			<?php
-                             $cek = $model->supplier_propinsi;
-                            $propinsi_id = '';        
-                            if ($cek != ''):
-                               $propinsi_id = PropinsiM::model()->findByPk($model->supplier_propinsi)->propinsi_id;
+                            $cek = $model->supplier_propinsi;
+                            $propinsi_id = '';
+                             if ($cek != ''):
+                               $propinsi_id = $model->propinsi_id;
                             endif;
-				//$propinsi_id = isset($model->supplier_propinsi) ? PropinsiM::model()->findByPk($model->supplier_propinsi)->propinsi_id : null;
+                            if(!empty($model->kabupaten_id)){
+                                $model->supplier_kabupaten = $model->kabupaten_id;
+                            }    
 			?>
 			<?php echo $form->dropDownListRow($model,'supplier_kabupaten', CHtml::listData($model->getKabupatenItems($propinsi_id), 'kabupaten_id', 'kabupaten_nama') ,array('empty'=>'-- Pilih --',
 												'onkeyup'=>"return $(this).focusNextInputField(event)",
