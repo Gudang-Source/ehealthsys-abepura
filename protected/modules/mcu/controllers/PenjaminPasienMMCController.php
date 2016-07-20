@@ -1,22 +1,23 @@
 <?php
-Yii::import('sistemAdministrator.controllers.PenjaminPasienMController');
 Yii::import('sistemAdministrator.models.*');
 Yii::import('sistemAdministrator.views.penjaminPasienM');
+Yii::import('sistemAdministrator.controllers.PenjaminPasienMController');
 class PenjaminPasienMMCController extends PenjaminPasienMController
-{
+{                                         
 	public $layout='//layouts/column1';
 	public $defaultAction = 'admin';
 	public $path_view = 'sistemAdministrator.views.penjaminPasienM.';
 	public $path_view_penjamin = 'mcu.views.penjaminPasienMMC.';
 
 	
-	public function actionAdmin()
+	public function actionAdmin($id='')
 	{
                                                      
 		$model=new SAPenjaminPasienM('searchPenjaminMCU');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['SAPenjaminPasienM']))
+		if(isset($_GET['SAPenjaminPasienM'])){
 			$model->attributes=$_GET['SAPenjaminPasienM'];
+                }
 
 		$this->render($this->path_view_penjamin.'admin',array(
 			'model'=>$model,
