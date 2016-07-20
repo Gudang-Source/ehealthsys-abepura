@@ -21,14 +21,10 @@
         }
 
     </style>
-    <table width="100%">
-        <tr>
-            <td>
-                <fieldset class="box2">
-                    <legend class="rim">Berdasarkan Tanggal</legend>
-                    <div class="row-fluid">
+    <div class="row-fluid">
+                      
                         <div class="span4">
-                            <?php echo CHtml::label('Kunjungan', 'tglmasukpenunjang', array('class' => 'control-label')) ?>
+                            <?php echo CHtml::label('Tanggal Kunjungan', 'tglmasukpenunjang', array('class' => 'control-label')) ?>
                             <div class="controls">
                                 <?php echo $form->dropDownList($model,'jns_periode', array('hari'=>'Hari','bulan'=>'Bulan','tahun'=>'Tahun'), array('onchange'=>'ubahJnsPeriode();')); ?>
                             </div>
@@ -131,23 +127,43 @@
                             </div>
                         </div> 
                     </div>
-                </fieldset>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <fieldset class="box2">
-                    <legend class="rim">Berasarkan Kelas Pelayanan</legend>
-                    <div class="controls">
-                        <?php echo CHtml::checkBox('pilihSemua', true, array('onclick'=>'checkAllKelas();')) ?> <label><b>Pilih Semua</b></label>
+        <table width="100%" border="0">
+            <tr>
+                <td> 
+                    <div id='searching'>
+                    <fieldset>    
+                        <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+                            'id'=>'kunjungan',
+                            'slide'=>true,
+                            'content'=>array(
+                            'content1'=>array(
+                                'header'=>'Berdasarkan Status Bayar',
+                                'isi'=>  '  <table><tr></tr></table>
+                                            <table class="penjamin">                                            
+                                            <tr>
+                                                    <td><div class="controls">'.
+                        CHtml::checkBox('pilihSemua', true, array('onclick'=>'checkAllKelas();')).'<label><b>Pilih Semua</b></label>
                         <div id="checkBoxList">
-                            <?php echo $form->checkBoxList($model,'kelaspelayanan_id', CHtml::listData(KelaspelayananM::model()->items, 'kelaspelayanan_id', 'kelaspelayanan_nama'), array('class'=>'kelasPelayanan')); ?><br>
+                            '.$form->checkBoxList($model,'kelaspelayanan_id', CHtml::listData(KelaspelayananM::model()->items, 'kelaspelayanan_id', 'kelaspelayanan_nama'), array('class'=>'kelasPelayanan')).'<br>
                         </div>                
+                    </div></td>
+                                            </tr>
+                                            </table>',            
+                                'active'=>true,
+                                    ),
+                            ),
+        //                                    'htmlOptions'=>array('class'=>'aw',)
+                            )); ?>											
+                    </fieldset>	
                     </div>
-                </fieldset>
-            </td>
-        </tr>
-    </table>
+                </td>
+                										
+                    </fieldset>	
+                    </div>
+                </td>
+            </tr>
+            </table>  
+             
     <div class="form-actions">
         <?php echo CHtml::htmlButton(Yii::t('mds', '{icon} Search', 
                 array('{icon}' => '<i class="icon-ok icon-white"></i>')),array('class' => 'btn btn-primary', 

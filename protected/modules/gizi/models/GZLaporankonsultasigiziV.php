@@ -3,6 +3,7 @@ class GZLaporankonsultasigiziV extends LaporankonsultasigiziV
 {
         public $jns_periode,$tgl_awal,$tgl_akhir,$bln_awal,$bln_akhir,$thn_awal,$thn_akhir;
         public $tglmasukpenunjang;
+        public $jumlahTampil;
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -35,6 +36,8 @@ class GZLaporankonsultasigiziV extends LaporankonsultasigiziV
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+                        'pagination' => array('pageSize' => $this->jumlahTampil,),
+                        'totalItemCount' => $this->jumlahTampil,
 		));
 	}
         public function searchPrint()
@@ -69,6 +72,8 @@ class GZLaporankonsultasigiziV extends LaporankonsultasigiziV
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
                         'pagination'=>false,
+                     'pagination' => array('pageSize' => $this->jumlahTampil,),
+                    'totalItemCount' => $this->jumlahTampil,
 		));
 	}
         

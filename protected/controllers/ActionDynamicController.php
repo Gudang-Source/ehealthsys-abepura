@@ -710,26 +710,29 @@ class ActionDynamicController extends Controller
                 echo CJSON::encode($ruangan);
            } else {
                 if(empty($instalasi_id)){
+                    echo '<label>Data Tidak Ditemukan</label>';
                 } else {
                     $ruangan = RuanganM::model()->findAll('instalasi_id='.$instalasi_id.'');
-                }
-                $ruangan = CHtml::listData($ruangan,'ruangan_id','ruangan_nama');
-                echo CHtml::hiddenField(''.$namaModel.'[ruanganasal_id]');
-                $i = 0;
-                if (count($ruangan) > 0){
-                    foreach($ruangan as $value=>$name) {
-//                        echo '<label class="checkbox">';
-//                        echo CHtml::checkBox(''.$namaModel."[ruangan_id][]", true, array('value'=>$value));
-//                        echo '<label for="'.$namaModel.'_ruangan_id_'.$i.'">'.$name.'</label>';
-//                        echo '</label>';
-                        $selects[] = $value;
-                        $i++;
+                    
+                    $ruangan = CHtml::listData($ruangan,'ruangan_id','ruangan_nama');
+                    echo CHtml::hiddenField(''.$namaModel.'[ruanganasal_id]');
+                    $i = 0;
+                    if (count($ruangan) > 0){
+                        foreach($ruangan as $value=>$name) {
+    //                        echo '<label class="checkbox">';
+    //                        echo CHtml::checkBox(''.$namaModel."[ruangan_id][]", true, array('value'=>$value));
+    //                        echo '<label for="'.$namaModel.'_ruangan_id_'.$i.'">'.$name.'</label>';
+    //                        echo '</label>';
+                            $selects[] = $value;
+                            $i++;
+                        }
+                        echo CHtml::checkBoxList(''.$namaModel."[ruanganasal_id]", $selects, $ruangan, array('template'=>'<label class="checkbox">{input}{label}</label>', 'separator'=>''));
                     }
-                    echo CHtml::checkBoxList(''.$namaModel."[ruanganasal_id]", $selects, $ruangan, array('template'=>'<label class="checkbox">{input}{label}</label>', 'separator'=>''));
+                    else{
+                        echo '<label>Data Tidak Ditemukan</label>';
+                    }
                 }
-                else{
-                    echo '<label>Data Tidak Ditemukan</label>';
-                }
+                
            }
         }
         Yii::app()->end();

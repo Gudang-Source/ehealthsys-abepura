@@ -152,9 +152,12 @@ class BSLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
 
         $criteria = new CDbCriteria;
 
-        if(!is_array($this->kunjungan)){
-            $this->kunjungan = 0;
+         if (is_array($this->kunjungan)){
+            $criteria->addInCondition('kunjungan', $this->kunjungan);
+        }else{
+            $this->kunjungan = array('KUNJUNGAN BARU','KUNJUNGAN LAMA');
         }
+        
         $this->tgl_awal = MyFormatter::formatDateTimeForDb($this->tgl_awal);
         $this->tgl_akhir = MyFormatter::formatDateTimeForDb($this->tgl_akhir);
         $criteria->addBetweenCondition('date(tglmasukpenunjang)', $this->tgl_awal, $this->tgl_akhir);
@@ -273,6 +276,25 @@ class BSLaporanpasienpenunjangV extends LaporanpasienpenunjangV {
     
     public function getNamaModel(){
         return __CLASS__;
+    }
+    
+     public static function getKunjungan()
+    {
+        $data = array();
+        $criteria = new CDbCriteria();        
+        $criteria->select = "kunjungan";
+        $criteria->group = "kunjungan";
+        $criteria->order = "kunjungan ASC";        
+        $models=self::model()->findAll($criteria);
+        if(count($models) > 0){
+            foreach($models as $model)
+                // $data[$model->lookup_value]= ucwords(strtolower($model->lookup_name));
+                $data[$model->kunjungan]= ($model->kunjungan);
+        }else{
+            $data[""] = null;
+        }
+
+        return $data;
     }
 }
 
