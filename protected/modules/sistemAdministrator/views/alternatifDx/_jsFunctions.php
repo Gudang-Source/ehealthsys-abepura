@@ -58,6 +58,13 @@
 				$(obj_table).find('tr:first-child td.rowbutton .icon-minus-sign').parent().show();
 			}
 		}
+		
+		$("#table-lookup tbody tr").each(function() {
+			var alternatifdx_id = $(this).find("input[name$='[alternatifdx_id]']").val();
+			if(alternatifdx_id !== "") {
+				$(this).find("td.rowbutton .icon-minus-sign").parent().hide();
+			}
+		});
 		//====end button visibility
 
 	}

@@ -61,10 +61,13 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 			<?php echo Chtml::label('Nama Intervensi', 'intervensi_nama', array('class' => 'control-label')) ?>
 			<div class="controls">
 				<?php
+				/*
 				echo $form->dropDownList($model, 'intervensi_nama', LookupM::getItems('intervensi_as'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",
 					'class' => 'inputRequire',
 					'onchange' => 'refreshTable();'));
-				?>
+				 * 
+				 */
+				echo $form->textField($model, 'intervensi_nama', array('class' => 'inputRequire','onblur' => 'refreshTable();')); ?>
 			</div>
 		</div>
 	</div>

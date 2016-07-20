@@ -60,6 +60,12 @@
 		}
 		//====end button visibility
 
+		$("#table-lookup tbody tr").each(function() {
+			var tandagejala_id = $(this).find("input[name$='[tandagejala_id]']").val();
+			if(tandagejala_id !== "") {
+				$(this).find("td.rowbutton .icon-minus-sign").parent().hide();
+			}
+		});
 	}
 
 	function hapusLookup(obj){
