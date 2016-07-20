@@ -39,17 +39,17 @@ $dataArray = array();
         foreach ($models as $i => $datas) 
         {
             echo "<tr>";
-            if ($models[$i]['ruanganasal_id'] == $models[$i-1]['ruanganasal_id']){
-                echo "<td></td>";
-            }else{
+           // if ($models[$i]['ruanganasal_id'] == $models[$i-1]['ruanganasal_id']){
+           //     echo "<td></td>";
+           // }else{
             echo "<td>";
             echo $datas['ruanganasal_nama'];
             echo "</td>";               
-            }
+          //  }
             echo "<td>";
             echo $datas['daftartindakan_nama'];
             echo "</td>";            
-            echo "<td>";
+            echo "<td tyle='text-align:right'>";
             echo $datas['jmlkonsulgizi'];
             echo "</td>";
             echo "</tr>";
@@ -58,7 +58,7 @@ $dataArray = array();
         }
             $totJumlah = $jumlah;
             echo "<tr>";
-            echo "<td colspan=2><b>JUMLAH</b></td>";
+            echo "<td colspan=2 style='text-align:right'><b>JUMLAH</b></td>";
             echo '<td><b>'. $totJumlah .'</b></td>';
             echo "</tr>";
         ?>
