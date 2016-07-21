@@ -2,8 +2,11 @@
 
 class GZLaporanjmlpasienhariangiziV extends LaporanjmlpasienhariangiziV
 {
-        public $tgl_awal, $tgl_akhir, $pilihanTab, $jml_perhari;
-	/**
+        public $tgl_awal, $tgl_akhir, $pilihanTab, $jml_perhari, $pilihan_tab;
+        public $bln_awal, $bln_akhir;
+        public $thn_awal, $thn_akhir;
+        public $jns_periode;
+        /**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
 	 * @return LaporanjmlpasienhariangiziV the static model class
@@ -35,7 +38,7 @@ class GZLaporanjmlpasienhariangiziV extends LaporanjmlpasienhariangiziV
                     $criteria->addInCondition('jeniswaktu_id', $this->jeniswaktu_id);
                 }else{
                     $criteria->compare('jeniswaktu_id',$this->jeniswaktu_id);
-                }             
+                }            
 		return $criteria;
 	}
         
@@ -45,8 +48,20 @@ class GZLaporanjmlpasienhariangiziV extends LaporanjmlpasienhariangiziV
 		// should not be searched.
 
 		$criteria=$this->criteriaSearch();
-                $criteria->group = "jenisdiet_id, jenisdiet_nama, jeniswaktu_id, jeniswaktu_nama";
-                $criteria->select = $criteria->group.", MIN(tglkirimmenu) AS tglkirimmenu, SUM(jml_kirim) AS jml_kirim";
+                $criteria->select = "jenisdiet_id, jenisdiet_nama, jeniswaktu_id, jeniswaktu_nama, MIN(tglkirimmenu) AS tglkirimmenu, SUM(jml_kirim) AS jml_kirim";
+                $criteria->group = "jenisdiet_id, jenisdiet_nama, jeniswaktu_id, jeniswaktu_nama";                
+                $criteria->order = "tglkirimmenu, jeniswaktu_id";
+		return $criteria;
+	}
+        
+        public function searchPrintLaporan()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria=$this->criteriaSearch();
+                $criteria->select = "jenisdiet_id, jenisdiet_nama, jeniswaktu_id, jeniswaktu_nama, MIN(tglkirimmenu) AS tglkirimmenu, SUM(jml_kirim) AS jml_kirim";
+                $criteria->group = "jenisdiet_id, jenisdiet_nama, jeniswaktu_id, jeniswaktu_nama";                
                 $criteria->order = "tglkirimmenu, jeniswaktu_id";
 		return $criteria;
 	}

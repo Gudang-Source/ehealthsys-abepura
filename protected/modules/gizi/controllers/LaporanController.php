@@ -485,15 +485,35 @@ class LaporanController extends MyAuthController {
     public function actionLaporanJumlahPasienHarian()
     {
         $model = new GZLaporanjmlpasienhariangiziV('searchLaporan');
-        $model->tgl_awal = date('d M Y');
-        $model->tgl_akhir = date('d M Y');
+        $model->unsetAttributes();
+        $format = new MyFormatter();        
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        $model->pilihan_tab = 'report';
         if (isset($_GET['GZLaporanjmlpasienhariangiziV'])) {
             $model->attributes = $_GET['GZLaporanjmlpasienhariangiziV'];
-            $model->pilihanTab = $_GET['GZLaporanjmlpasienhariangiziV']['pilihan_tab'];
-            $format = new MyFormatter();
+            $model->pilihan_tab = $_GET['GZLaporanjmlpasienhariangiziV']['pilihan_tab'];
+            $model->jns_periode = $_GET['GZLaporanjmlpasienhariangiziV']['jns_periode'];
             $model->tgl_awal = $format->formatDateTimeForDb($_GET['GZLaporanjmlpasienhariangiziV']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['GZLaporanjmlpasienhariangiziV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['GZLaporanjmlpasienhariangiziV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['GZLaporanjmlpasienhariangiziV']['bln_akhir']);
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
+       
         $models = $model->findAll($model->searchLaporan());
         $modRekaps = $model->findAll($model->searchRekap());
         if (Yii::app()->request->isAjaxRequest) {
@@ -502,10 +522,11 @@ class LaporanController extends MyAuthController {
                             'model'=>$model,
                             'models'=>$models,
                             'modRekaps'=>$modRekaps,
-                            'pilihanTab'=>$_GET['GZLaporanjmlpasienhariangiziV']['pilihan_tab'],
+                            'pilihan_tab'=>$_GET['GZLaporanjmlpasienhariangiziV']['pilihan_tab'],
                         ), true
                     );
         }else{
+            
             $this->render('jumlahPasienHarian/adminJmlPasienHarian', array(
                 'model' => $model,
                 'models' => $models,

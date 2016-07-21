@@ -8,6 +8,7 @@
         'id' => 'searchLaporan',
         'htmlOptions' => array('enctype' => 'multipart/form-data', 'onKeyPress' => 'return disableKeyPress(event)'),
             ));
+    
     ?>
 <style>
 
@@ -23,7 +24,7 @@
 </style>
         <div class="row-fluid">
          <div class="span4">
-             <?php echo CHtml::label('Kunjungan', 'tglmasukpenunjang', array('class' => 'control-label')) ?>
+             <?php echo CHtml::label('Tanggal Kunjungan', 'tglmasukpenunjang', array('class' => 'control-label')) ?>
              <div class="controls">
                  <?php echo $form->dropDownList($model,'jns_periode', array('hari'=>'Hari','bulan'=>'Bulan','tahun'=>'Tahun'), array('class'=>'span2', 'onchange'=>'ubahJnsPeriode();')); ?>
              </div>
@@ -132,7 +133,7 @@
                         Jenis Diet
                     </div>
                     <div class="controls">
-                        <?php echo $form->textField($model,'jenisdiet_nama',array('style'=>'width:140px;'));?>
+                        <?php echo $form->dropDownList($model,'jenisdiet_nama', CHtml::listData(JenisdietM::model()->findAll("jenisdiet_aktif = TRUE ORDER BY jenisdiet_nama ASC"), 'jenisdiet_nama', 'jenisdiet_nama'),array('empty'=>'--Pilih--','style'=>'width:140px;'));?>
                     </div>                    
                 </div>
             

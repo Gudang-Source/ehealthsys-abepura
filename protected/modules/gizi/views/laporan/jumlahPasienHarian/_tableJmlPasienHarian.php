@@ -11,7 +11,6 @@ foreach($models AS $row => $data){
     $dataArray["$data->jenisdiet_id"]["$data->jeniswaktu_id"]["jeniswaktu_id"] = $data->jeniswaktu_id;
     $dataArray["$data->jenisdiet_id"]["$data->jeniswaktu_id"]["jeniswaktu_nama"] = $data->jeniswaktu_nama;
 } 
-
 ?>
 <table class="table table-striped table-condensed">
     <thead>
@@ -23,7 +22,7 @@ foreach($models AS $row => $data){
         echo "<th rowspan=2>No.</th>";
         echo "<th rowspan=2>Uraian dan Jenis Diet</th>";
         foreach ($dataArray AS $i => $datas){
-            foreach($datas AS $j => $data){
+            foreach($datas AS $j => $data){                
                 if(is_array($data)){
                     $tglKirims[$jmlKolom] = $data['tglkirimmenu'];
 //                    if($tglKirims[$jmlKolom-1] == $tglKirims[$jmlKolom]){
@@ -62,6 +61,7 @@ foreach($models AS $row => $data){
 
         $no = 1;
         $jml = array();
+        
         foreach ($dataArray AS $i => $datas){
             echo "<tr>";
             echo "<td>".$no."</td>";
@@ -69,11 +69,14 @@ foreach($models AS $row => $data){
             echo $datas['jenisdiet_nama'];
             echo "</td>";
             //cari data jml dan masukan ke array $jml[]
+            
             for($x = 0;$x < $jmlKolom;$x++){
                 $jml[$x] = 0;
                 foreach($datas AS $j => $data){
-                    if($data['jeniswaktu_id'] == $jenisWaktus[$x] && $data['tglkirimmenu'] == $tglKirims[$x]){
-                        $jml[$x] = $data['jml_kirim'];
+                    if(is_array($data)){                        
+                        if($data['jeniswaktu_id'] == $jenisWaktus[$x] && $data['tglkirimmenu'] == $tglKirims[$x]){
+                            $jml[$x] = $data['jml_kirim'];
+                        }
                     }
                 }
                 

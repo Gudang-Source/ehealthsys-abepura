@@ -50,14 +50,12 @@
     </div>
 
     <div class="form-actions" style="margin-top:10px;">
-		<?php
-			echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp";     
-			echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
-			echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp";   
-			
-			$content = $this->renderPartial('tips/tips',array(),true); 
-			$this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
-		?>
+		 <?php  $url = Yii::app()->createUrl('rawatJalan/laporan/frameGrafikLaporanJumlahPorsiKelas&id=1');
+        $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
+        $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
+        $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/printLaporanJumlahPorsiKelas');
+        $this->renderPartial('_footer', array('urlPrint'=>$urlPrint, 'url'=>$url, 'grafik'=>'none'));
+        ?>
     </div>      
 </div>
 <script type="text/javascript">
@@ -109,3 +107,4 @@ function print(caraPrint)
 JSCRIPT;
 Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);
 ?>
+ <?php $this->renderPartial('gizi.views.laporan/_jsFunctions', array('model'=>$model));?>
