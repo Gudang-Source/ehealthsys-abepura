@@ -175,13 +175,18 @@
                     array(
                         'header'=>'Retur Tagihan',
                         'type'=>'raw',
-                        'value'=>'CHtml::Link("<i class=\"icon-form-retur\"></i>",Yii::app()->controller->createUrl("returTagihanPasien/index",array("idPembayaran"=>$data->pembayaranpelayanan_id,"frame"=>true)),
+                        'value'=>function($data)
+						{
+							if (!empty($data->returbayarpelayanan_id)) return "SUDAH DIRETUR";
+							return CHtml::Link("<i class=\"icon-form-retur\"></i>",Yii::app()->controller->createUrl("returTagihanPasien/index",array("idPembayaran"=>$data->pembayaranpelayanan_id,"frame"=>true)),
                                     array("class"=>"", 
                                           "target"=>"iframePembayaran",
                                           "onclick"=>"$(\"#dialogRetur\").dialog(\"open\");",
                                           "rel"=>"tooltip",
                                           "title"=>"Klik untuk meretur tagihan pasien",
-                                    ))',           'htmlOptions'=>array('style'=>'text-align: left; width:40px')
+                                    ));
+						},
+						'htmlOptions'=>array('style'=>'text-align: center; width:40px')
                     ),
         //            array(
         //                'header'=>'Rincian Sudah Bayar',
@@ -307,6 +312,12 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
         'minWidth'=>980,
         'minHeight'=>610,
         'resizable'=>true,
+		'close'=>'js:function(event, ui) {'
+		. 
+		'$.fn.yiiGridView.update("pencarianpasien-grid", {
+			data: $("#caripasien-form").serialize()
+        });'
+		. '}',
     ),
 ));
 ?>

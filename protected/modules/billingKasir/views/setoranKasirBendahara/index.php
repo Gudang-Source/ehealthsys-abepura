@@ -11,7 +11,7 @@
 	
 	<?php 
 		if(isset($_GET['id'])){
-			Yii::app()->user->setFlash('success', "Data pembayaran berhasil disimpan !");
+			Yii::app()->user->setFlash('success', "Data setoran berhasil disimpan !");
 		}
 	?>
 	
