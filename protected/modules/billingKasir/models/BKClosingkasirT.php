@@ -232,6 +232,15 @@ class BKClosingkasirT extends ClosingkasirT {
         ));
         
     }
+	
+	public function searchSetoran()
+	{
+		$prov = $this->search();
+		$prov->criteria->join = 'left join setorankasir_t s on s.closingkasir_id = t.closingkasir_id';
+		$prov->criteria->addCondition('s.setorankasir_id is null');
+		$prov->sort->defaultOrder = 't.tglclosingkasir';
+		return $prov;
+	}
 
     public function getTotal($nama_field){
         $criteria=new CDbCriteria;
