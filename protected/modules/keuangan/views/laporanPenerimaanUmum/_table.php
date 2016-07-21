@@ -1,13 +1,14 @@
 <?php 
-//    $table = 'ext.bootstrap.widgets.BootGroupGridView';
-    $table = 'ext.bootstrap.widgets.BootExcelGridView';
+    $table = 'ext.bootstrap.widgets.BootGroupGridView';
+    //$table = 'ext.bootstrap.widgets.BootExcelGridView';
     $sort = true;
     if (isset($caraPrint)){
         $data = $model->searchInformasi();
         $template = "{items}";
         $sort = false;
-//        if ($caraPrint == "EXCEL")
+        if ($caraPrint == "EXCEL"){
             $table = 'ext.bootstrap.widgets.BootExcelGridView';
+        }
         echo "<style>
                 .tableRincian thead, th{
                     border: 1px #000 solid;

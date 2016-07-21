@@ -12,7 +12,8 @@ class PenerimaanUmumController extends MyAuthController
 		$modPenUmum->volume = 1;
 		$modPenUmum->hargasatuan = 0;
 		$modPenUmum->totalharga = 0;
-		$modPenUmum->nopenerimaan = MyGenerator::noPenerimaanUmum();
+		$modPenUmum->nomor = '-Otomatis-';
+                $modPenUmum->nopenerimaan = MyGenerator::noPenerimaanUmum();
 		$modUraian[0] = new KUUraianpenumumT;
 		$modUraian[0]->volume = 1;
 		$modUraian[0]->hargasatuan = 0;
@@ -28,8 +29,10 @@ class PenerimaanUmumController extends MyAuthController
 		$modJurnalDetail = array();
 		$modJUrnalPosting = array();
 		if(isset($_POST['KUPenerimaanUmumT'])){
+                        
 			$transaction = Yii::app()->db->beginTransaction();
 			try {
+                                
 				$modTandaBukti = $this->saveTandaBukti($_POST['KUTandabuktibayarT']);
 				$modPenUmum = $this->savePenerimaan($_POST['KUPenerimaanUmumT'], $modTandaBukti);
 
