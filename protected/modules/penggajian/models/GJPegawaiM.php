@@ -15,6 +15,7 @@ class GJPegawaiM extends PegawaiM
 	public $kelompokpegawai_nama;
 	public $pendidikan_nama;
 	public $jml_tanggungan;
+        
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -22,6 +23,22 @@ class GJPegawaiM extends PegawaiM
 	 * @return PegawaiM the static model class
 	 */
 	public $tempPhoto;
+        
+        public function attributeLabels()
+	{
+		// NOTE: you should only define rules for those attributes that
+		// will receive user inputs.
+		return array(
+			'jabatan_nama'=>'Jabatan',			
+                        'jeniskelamin'=>'Jenis Kelamin',
+                        'tgl_lahirpegawai'=>'Tanggal Lahir',
+                        'tempatlahir_pegawai'=>'Tempat Lahir',
+                        'nomorindukpegawai'=>'NIP',
+                        'notelp_pegawai'=>'No. Telp',
+                        'alamat_pegawai'=>'Alamat'
+		);
+	}
+        
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);

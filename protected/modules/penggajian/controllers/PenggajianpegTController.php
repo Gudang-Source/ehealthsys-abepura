@@ -283,6 +283,7 @@ class PenggajianpegTController extends MyAuthController {
 		if (empty($model)) {
 			$model = new PenggajianpegT;                        
 		}
+                $modelpegawai->jabatan_nama = $modelpegawai->jabatan->jabatan_nama;
                 $model->totalterima = number_format($model->totalterima,0,"",".");
                 $model->totalpotongan = number_format($model->totalpotongan,0,"",".");
                 $model->penerimaanbersih = number_format($model->penerimaanbersih,0,"",".");
