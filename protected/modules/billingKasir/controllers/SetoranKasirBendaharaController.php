@@ -16,8 +16,11 @@ class SetoranKasirBendaharaController extends MyAuthController
 		$setorandet = array();
 		$tot = $this->new_setoran();
 
-		$setoran->pegawai_id = Yii::app()->user->getState('pegawai_id');
-		$setoran->pegawai_nama = Yii::app()->user->getState('pegawai_nama');
+		$p = PegawaiM::model()->findByPk(Yii::app()->user->getState('pegawai_id'));
+		if (!empty($p)) {
+			$setoran->pegawai_id = $p->pegawai_id;
+			$setoran->pegawai_nama = $p->namaLengkap;
+		}
 		$setoran->nosetorankasir = MyGenerator::noSetoranKasir();
                
 		if (!empty($id)) {

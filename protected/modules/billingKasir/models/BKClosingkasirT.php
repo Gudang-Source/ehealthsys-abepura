@@ -238,7 +238,7 @@ class BKClosingkasirT extends ClosingkasirT {
 		$prov = $this->search();
 		$prov->criteria->join = 'left join setorankasir_t s on s.closingkasir_id = t.closingkasir_id';
 		$prov->criteria->addCondition('s.setorankasir_id is null');
-		$prov->sort->defaultOrder = 't.tglclosingkasir';
+		$prov->sort->defaultOrder = 't.tglclosingkasir desc';
 		return $prov;
 	}
 

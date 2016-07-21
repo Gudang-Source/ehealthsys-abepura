@@ -35,5 +35,20 @@ function printSetoran()
     }
 }
 
+function cekValidasi()
+{
+	if ($("#tab_setoran tbody tr").length == 0) {
+		myAlert("Data Closing belum dipilih.");
+		return false;
+	}
+	if ($("#BKSetorankasirT_pegawai_id").val().trim() == "") {
+		myAlert("Pegawai Setoran harus diisi.");
+		return false;
+	}
+	
+	return true;
+}
+	
+
 </script>
 
