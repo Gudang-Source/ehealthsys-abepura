@@ -68,6 +68,9 @@
 			myConfirm("Apakah anda yakin akan menghapus data ini dari database?","Perhatian!",
 			function(r){
 				if(r){
+					$(obj).parents('tr').detach();
+					renameInputRow($("#table-lookup"));
+					/*
 					$.ajax({
 						type:'POST',
 						url:'<?php echo $this->createUrl('Delete'); ?>&id='+intervensidet_id,
@@ -86,6 +89,7 @@
 						},
 						error: function (jqXHR, textStatus, errorThrown) { console.log(errorThrown);}
 					});
+					*/
 				}
 			});
 		}else{
