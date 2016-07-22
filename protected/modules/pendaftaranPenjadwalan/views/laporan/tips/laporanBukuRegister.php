@@ -44,6 +44,12 @@ PDF
 Excel
 </a> untuk mencetak data dalam bentuk file excel.</td>
   </tr>
+  <?php
+    $no = '7.';
+    if (isset($grafik)){
+    if ($grafik!='none'){            
+        $no='9.';
+  ?>
    <tr>
     <td style = "vertical-align:middle;">7. </td>
     <td>Gunakan tombol ini <a class="btn btn-primary" >
@@ -74,8 +80,13 @@ Grafik
         Navigasi di atas berfungsi untuk menampilkan pencarian dalam bentuk digram batang, pie, atau garis.
     </td>
    </tr>   
-   <tr>
-       <td>9.</td>
+   
+
+<?php
+    }}
+?>
+<tr>
+       <td><?php echo $no; ?></td>
        <td>
         <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
                                  'id'=>'a',
@@ -99,5 +110,3 @@ Grafik
    </tr>
 </table>
 </p>
-
-				

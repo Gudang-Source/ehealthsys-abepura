@@ -272,4 +272,4 @@ function checkAll() {
     }
 }   
 </script>
-<?php $this->renderPartial('_jsFunctions', array('model' => $model)); ?>
+<?php $this->renderPartial($this->path_view.'_jsFunctions', array('model' => $model)); ?>

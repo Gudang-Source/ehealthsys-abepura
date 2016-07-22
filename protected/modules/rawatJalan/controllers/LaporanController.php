@@ -1220,9 +1220,9 @@ class LaporanController extends MyAuthController {
         ));
     }
     public function actionLaporanPendapatanRuangan() {
-        $model = new RJLaporanpendapatanruangan('search');
-        $format = new MyFormatter();
+        $model = new RJLaporanpendapatanruangan('search');        
         $model->unsetAttributes();
+        $format = new MyFormatter();
         $model->jns_periode = "hari";
         $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
         $model->tgl_akhir = date('Y-m-d');
@@ -1240,7 +1240,7 @@ class LaporanController extends MyAuthController {
         if (isset($_GET['RJLaporanpendapatanruangan'])) {
             $model->attributes = $_GET['RJLaporanpendapatanruangan'];
             $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
-            $model->jns_periode = $_REQUEST['RJLaporanpendapatanruangan']['jns_periode'];
+            $model->jns_periode = $_GET['RJLaporanpendapatanruangan']['jns_periode'];
             $model->tgl_awal = $format->formatDateTimeForDb($_GET['RJLaporanpendapatanruangan']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['RJLaporanpendapatanruangan']['tgl_akhir']);
             $model->bln_awal = $format->formatMonthForDb($_GET['RJLaporanpendapatanruangan']['bln_awal']);
@@ -1638,7 +1638,7 @@ class LaporanController extends MyAuthController {
         $periode = $format->formatDateTimeForUser($model->tgl_awal).' s/d '.$format->formatDateTimeForUser($model->tgl_akhir);
         
         if ($caraPrint == 'PRINT' || $caraPrint == 'GRAFIK') {
-            $this->layout = '//layouts/printWindows2';
+            $this->layout = '//layouts/printWindows';
             $this->render($target, array('model' => $model, 'periode'=>$periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint));
         } else if ($caraPrint == 'EXCEL') {
             $this->layout = '//layouts/printExcel';

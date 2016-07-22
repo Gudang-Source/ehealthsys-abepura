@@ -41,5 +41,5 @@
            
        }
    }
-   echo number_format($totTarif);
+   echo "Rp".number_format($totTarif,0,"",".");
 ?>

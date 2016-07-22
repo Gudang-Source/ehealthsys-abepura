@@ -32,7 +32,7 @@
         $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
         $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
         $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/printLaporanJasaKonsulGizi');
-        $this->renderPartial('_footer', array('urlPrint'=>$urlPrint, 'url'=>$url));
+        $this->renderPartial('_footer', array('urlPrint'=>$urlPrint, 'url'=>$url, 'grafik'=>'none'));
     ?>
     <?php $this->renderPartial('gizi.views.laporan/_jsFunctions', array('model'=>$model));?>
 </div>

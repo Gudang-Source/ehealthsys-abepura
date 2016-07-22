@@ -44,6 +44,11 @@ PDF
 Excel
 </a> untuk mencetak data dalam bentuk file excel.</td>
   </tr>
+  <?php
+    if (isset($grafik)){
+        
+    }else{
+  ?>
    <tr>
     <td>6. </td>
     <td>Gunakan tombol ini <a class="btn btn-primary" >
@@ -76,3 +81,6 @@ Grafik
       </tr>
 </table>
 </p>
+<?php
+    }
+?>
