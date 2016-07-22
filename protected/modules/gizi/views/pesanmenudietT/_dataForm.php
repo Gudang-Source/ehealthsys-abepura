@@ -57,7 +57,7 @@
                                         JenisdietM::model()->findAllByAttributes(array(
                                             'jenisdiet_aktif'=>true
                                         ), array(
-                                            'order' => 'jenisdiet_nama desc',
+                                            'order' => 'jenisdiet_nama ASC',
                                         )), 'jenisdiet_id', 'jenisdiet_nama'), array(
                                             'class' => 'span3',
                                             'empty' => '-- Pilih --',

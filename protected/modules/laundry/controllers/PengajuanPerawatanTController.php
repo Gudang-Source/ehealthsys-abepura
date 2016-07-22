@@ -10,6 +10,13 @@ class PengajuanPerawatanTController extends MyAuthController {
 		$format = new MyFormatter;
 		$model = new LAPengperawatanlinenT;
 		$model->pengperawatanlinen_no = MyGenerator::noPengPerawatanLinen();
+                
+                $p = PegawaiM::model()->findByPk(Yii::app()->user->getState('pegawai_id'));
+                if (count($p)>0) {
+                    $model->mengajukan_id = $p->pegawai_id;
+                    $model->pegawaimengajukan_nama = $p->namaLengkap;
+                }
+                               
 		$modDetails = array();
 		$modDetail = new LAPengperawatanlinendetT;
 		if (isset($_POST['LAPengperawatanlinenT'])){

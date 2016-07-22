@@ -401,11 +401,16 @@ class TransaksiController extends MyAuthController
 
             if(empty($data))
             {
-                echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Ruangan --'),true);
+                echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
             }
             else
             {
-                echo CHtml::tag('option',array('value'=>''),CHtml::encode('-- Ruangan --'),true);
+                if (count($data)>1){
+                    echo CHtml::tag('option',array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                }elseif (count($data)==0){
+                    echo CHtml::tag('option',array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                }
+                
                 foreach($data as $value=>$name)
                 {
                     echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
