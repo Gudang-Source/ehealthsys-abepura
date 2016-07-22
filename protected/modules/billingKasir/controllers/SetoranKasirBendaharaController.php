@@ -126,7 +126,94 @@ class SetoranKasirBendaharaController extends MyAuthController
 
 	public function actionInformasi()
 	{
-		$this->render($this->path_view.'informasi');
+		$model = new BKInformasisetorankasirV();
+		$model->unsetAttributes();
+		
+		$model->tgl_awal = date('Y-m-d', time() - (24 * 360 * 7));
+		$model->tgl_akhir = date('Y-m-d');
+		
+		if (isset($_GET['BKInformasisetorankasirV'])) {
+			$model->attributes = $_GET['BKInformasisetorankasirV'];
+			$model->tgl_awal = MyFormatter::formatDateTimeForDb($_GET['BKInformasisetorankasirV']['tgl_awal']);
+			$model->tgl_akhir = MyFormatter::formatDateTimeForDb($_GET['BKInformasisetorankasirV']['tgl_akhir']);
+		}
+		
+		$this->render($this->path_view.'informasi', array(
+			'model' => $model,
+		));
+	}
+	
+	public function actionTerima($id)
+	{
+		$this->layout='//layouts/iframe';
+		
+		$setoran = BKSetorankasirT::model()->findByPk($id);
+		$closing = BKClosingkasirT::model()->findByPk($setoran->closingkasir_id);
+		$p = PegawaiM::model()->findByPk($closing->pegawai_id);
+		$closing->pegawai_id = $p->namaLengkap;
+		$p = PegawaiM::model()->findByPk($setoran->pegawai_id);
+		$setoran->pegawai_nama = $p->namaLengkap;
+
+		$tot = $this->new_setoran();
+
+		$set = BKRinciansetorankasirT::model()->findAllByAttributes(array(
+			'setorankasir_id'=>$id
+		));
+		
+		if (isset($_POST['BKSetorankasirT'])) {
+			$setoran->bendaharapenerima_id = $_POST['BKSetorankasirT']['bendaharapenerima_id'];
+			$setoran->tglditerimabendahara = date('Y-m-d');
+			
+			if ($setoran->update()) {
+				Yii::app()->user->setFlash("success", "Data Berhasil Disimpan.");
+			}
+		}
+
+		foreach ($set as $item) {
+			$sub = $this->new_setoran();
+			$sub['ruangan_nama'] = $item->ruangan->ruangan_nama;
+			$sub['jml_pasien'][Params::STATUSPASIEN_LAMA] = $item->jml_pasien_l;
+			$tot['jml_pasien'][Params::STATUSPASIEN_LAMA] += $item->jml_pasien_l;
+			$sub['jml_pasien'][Params::STATUSPASIEN_BARU] = $item->jml_pasien_p;
+			$tot['jml_pasien'][Params::STATUSPASIEN_BARU] += $item->jml_pasien_p;
+
+			$sub['retribusi'][Params::STATUSPASIEN_LAMA] = $item->jml_retirbusi_pl;
+			$tot['retribusi'][Params::STATUSPASIEN_LAMA] += $item->jml_retirbusi_pl;
+			$sub['retribusi'][Params::STATUSPASIEN_BARU] = $item->jml_retirbusi_pb;
+			$tot['retribusi'][Params::STATUSPASIEN_BARU] += $item->jml_retirbusi_pb;
+
+			$sub['jasa_medis'][Params::STATUSPASIEN_LAMA] = $item->jml_jasamedis_pl;
+			$tot['jasa_medis'][Params::STATUSPASIEN_LAMA] += $item->jml_jasamedis_pl;
+			$sub['jasa_medis'][Params::STATUSPASIEN_BARU] = $item->jml_jasamedis_pl;
+			$tot['jasa_medis'][Params::STATUSPASIEN_BARU] += $item->jml_jasamedis_pb;
+
+			$sub['jasa_paramedis'][Params::STATUSPASIEN_LAMA] = $item->jml_paramedis_pl;
+			$tot['jasa_paramedis'][Params::STATUSPASIEN_LAMA] += $item->jml_paramedis_pl;
+			$sub['jasa_paramedis'][Params::STATUSPASIEN_BARU] = $item->jml_paramedis_pb;
+			$tot['jasa_paramedis'][Params::STATUSPASIEN_BARU] += $item->jml_paramedis_pb;
+
+			$sub['administrasi'][Params::STATUSPASIEN_LAMA] = $item->jml_administrasi_pl;
+			$tot['administrasi'][Params::STATUSPASIEN_LAMA] += $item->jml_administrasi_pl;
+			$sub['administrasi'][Params::STATUSPASIEN_BARU] = $item->jml_administrasi_pb;
+			$tot['administrasi'][Params::STATUSPASIEN_BARU] += $item->jml_administrasi_pb;
+
+			$sub['jumlah'][Params::STATUSPASIEN_LAMA] = $item->jml_setoran_pl;
+			$tot['jumlah'][Params::STATUSPASIEN_LAMA] += $item->jml_setoran_pl;
+			$sub['jumlah'][Params::STATUSPASIEN_BARU] = $item->jml_setoran_pb;
+			$tot['jumlah'][Params::STATUSPASIEN_BARU] += $item->jml_setoran_pb;
+
+			$sub['total'] = $item->totsetkasirruangan;
+			$tot['total'] += $item->totsetkasirruangan;
+
+			$setorandet[$item->ruangan_id] = $sub;
+		}
+		
+		$this->render($this->path_view.'terima', array(
+			'closing'=>$closing,
+			'setoran'=>$setoran,
+			'setorandet'=>$setorandet,
+			'tot'=>$tot,
+		));
 	}
 
 	public function actionPrint($id, $frame = null)
@@ -281,6 +368,52 @@ class SetoranKasirBendaharaController extends MyAuthController
 		Yii::app()->end();
 	}
 	
+	public function actionAutoCompletePegawai()
+	{
+		if(Yii::app()->request->isAjaxRequest) {
+			$term = $_GET['term'];
+			$criteria = new CDbCriteria();
+			$criteria->compare('lower(nama_pegawai)', strtolower($term), true);
+			$criteria->order = 'nama_pegawai';
+			
+			$p = PegawaiM::model()->findAll($criteria);
+			
+			$res = array();
+			foreach ($p as $idx=>$item) {
+				$res[$idx] = $item->attributes;
+				$res[$idx]['label'] = $item->namaLengkap;
+			}
+			
+			echo CJSON::encode($res);
+		}
+		
+		Yii::app()->end();
+	}
+	
+	public function actionAutoCompletePegawaiSetoran()
+	{
+		if(Yii::app()->request->isAjaxRequest) {
+			$term = $_GET['term'];
+			$criteria = new CDbCriteria();
+			$criteria->join = "join ruanganpegawai_m r on r.pegawai_id = t.pegawai_id";
+			$criteria->compare('lower(t.nama_pegawai)', strtolower($term), true);
+			$criteria->compare('r.ruangan_id', Yii::app()->user->getState('ruangan_id'));
+			$criteria->order = 't.nama_pegawai';
+			
+			$p = PegawaiM::model()->findAll($criteria);
+			
+			$res = array();
+			foreach ($p as $idx=>$item) {
+				$res[$idx] = $item->attributes;
+				$res[$idx]['nama'] = $item->namaLengkap;
+			}
+			
+			echo CJSON::encode($res);
+		}
+		
+		Yii::app()->end();
+	}
+	
 	protected function new_setoran()
 	{
 		$arr = array(
@@ -334,6 +467,7 @@ class SetoranKasirBendaharaController extends MyAuthController
 		
 		return $res;
 	}
+	
 
 	// Uncomment the following methods and override them if needed
 	/*
