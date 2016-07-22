@@ -38,7 +38,7 @@ if($caraPrint=='EXCEL')
 	</tr>
 	<tr>
 		<td width="15%"><strong>Jabatan</strong></td>
-		<td width="35%">: &nbsp; <?php echo isset($modelpegawai->jabatan_id)?$modelpegawai->jabatan->jabatan_namaL:'-'; ?></td>
+		<td width="35%">: &nbsp; <?php echo isset($modelpegawai->jabatan_id)?$modelpegawai->jabatan->jabatan_nama:'-'; ?></td>
 		<td width="15%"><strong>Alamat</strong></td>
 		<td width="35%">: &nbsp; <?php echo $modelpegawai->alamat_pegawai; ?></td>
 	</tr>

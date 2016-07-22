@@ -24,7 +24,7 @@
                 <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit')); ?>
                 <?php echo CHtml::link(Yii::t('mds', '{icon} Reset', array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), $this->createUrl('PenggajianpegT/Informasi'), array('class'=>'btn btn-danger')); ?>
 							  	<?php
-$content = $this->renderPartial('penggajian.views/tips/informasi_penggajianKaryawan',array(),true);
+$content = $this->renderPartial('penggajian.views/tips/informasi_penggajianKaryawan',array('gaji'=>'gaji'),true);
 $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
 ?>
         </div>

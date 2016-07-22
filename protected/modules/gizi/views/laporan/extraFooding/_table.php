@@ -1,5 +1,5 @@
 <?php 
-    $table = 'ext.bootstrap.widgets.MergeHeaderGroupGridView';
+    $table = 'ext.bootstrap.widgets.HeaderGroupGridView';
     $sort = true;
 	
     if (isset($caraPrint)){
@@ -59,7 +59,7 @@
                     'header' => 'Jumlah',
                     'headerHtmlOptions'=>array('style'=>'text-align: right;vertical-align:middle;'),
                     'htmlOptions'=>array('style'=>'text-align:right'),
-                    'value' => '$data->jml_kirim',
+                    'value' => 'number_format($data->jml_kirim,0,"",".")',
                     'footerHtmlOptions'=>array('colspan'=>7,'style'=>'text-align:right;font-weight:bold'),
                     'footer'=>'Total',
                 ),
@@ -67,7 +67,7 @@
                     'header' => 'Harga',
                     'name'=>'hargasatuan',
                     'headerHtmlOptions'=>array('style'=>'text-align: right;vertical-align:middle;'),
-                    'value' => '$data->hargasatuan',
+                    'value' => '"Rp".number_format($data->hargasatuan,0,"",".")',
                     'footerHtmlOptions'=>array('style'=>'text-align:right;font-weight:bold'),
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                     'footer'=>'sum(hargasatuan)',

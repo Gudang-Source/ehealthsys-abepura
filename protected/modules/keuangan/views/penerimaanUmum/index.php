@@ -55,7 +55,14 @@
 
 				</div>
 			</div>
-			<?php echo $form->textFieldRow($modPenUmum,'nopenerimaan',array('class'=>'span3 reqForm', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>20)); ?>
+			<?php echo $form->hiddenField($modPenUmum,'nopenerimaan',array('readonly'=>TRUE,'class'=>'span3 reqForm', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>20)); ?>
+                        <div class = "control-group">
+                            <?php echo CHtml::label('No. Penerimaan <font style="color:red;">*</font>','nomor',array('class'=>'control-label')); ?>
+                            <div class = "controls">
+                                <?php echo $form->textField($modPenUmum,'nomor',array('readonly'=>TRUE,'class'=>'span3 reqForm', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>20)); ?>
+                            </div>
+                        </div>
+                        
 			<?php echo $form->dropDownListRow($modPenUmum,'kelompoktransaksi',LookupM::getItems('kelompoktransaksi'),array('class'=>'span3 reqForm', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
 			<?php echo $form->hiddenField($modPenUmum,'jenispenerimaan_id',array('readonly'=>true,'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
 			<div class="control-group ">
