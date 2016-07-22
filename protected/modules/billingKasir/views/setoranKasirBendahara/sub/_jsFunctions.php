@@ -31,7 +31,7 @@ function printSetoran()
     if(setorankasir_id.trim() != ''){
         window.open("<?php echo $this->createUrl('print') ?>&id="+setorankasir_id,"",'location=_new, width=1024px');
     }else{
-        myAlert("Silahkan cari data kunjungan terlabih dahulu !");
+        myAlert("Silahkan cari data closing terlebih dahulu !");
     }
 }
 
