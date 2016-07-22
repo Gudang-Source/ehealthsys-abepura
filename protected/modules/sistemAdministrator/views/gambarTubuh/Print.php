@@ -31,6 +31,10 @@ $this->widget($table,array(
 		'path_gambar',
 		'gambar_resolusi_x',
 		'gambar_resolusi_y',
+            array(
+                                'header'=>'Status',
+                                'value' => '($data->gambartubuh_aktif==TRUE)?"Aktif":"Tidak Aktif"'
+                            ),
 		/*
 		'gambar_create',
 		'gambar_update',

@@ -19,6 +19,7 @@
 			<?php // echo $form->textFieldRow($model,'gambar_resolusi_x',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
 			<?php // echo $form->textFieldRow($model,'gambar_resolusi_y',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
 			<?php // echo $form->textFieldRow($model,'gambar_create',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+                        <?php echo $form->hiddenField($model,'temp_nama',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>100)); ?>
 			<?php echo $form->fileFieldRow($model,'nama_file_gbr',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>100)); ?>
 			<?php // echo $form->textFieldRow($model,'gambar_update',array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
                         <div>

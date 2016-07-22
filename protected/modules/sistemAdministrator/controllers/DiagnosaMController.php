@@ -103,7 +103,7 @@ class DiagnosaMController extends MyAuthController
 		$model=$this->loadModel($id);
                 $pecah = explode('.', $model->diagnosa_kode);
                 $model->kode1 = $pecah[0];
-                $model->kode2 = $pecah[1];
+                $model->kode2 = isset($pecah[1])?$pecah[1]:'';
 //                $modDTDDiagnosaM=SADTDDiagnosaM::model()->findAll('diagnosa_id='.$id.'');
 		// Uncomment the following line if AJAX validation is needed
 		

@@ -15,7 +15,7 @@ class BagianTubuhController extends MyAuthController
 	 * @param integer $id the ID of the model to be displayed
 	 */
 	public function actionView($id)
-	{
+	{    $this->layout='//layouts/iframe';
 		$model = $this->loadModel($id);
 		$this->render($this->path_view.'view',array(
 				'model'=>$model,
@@ -26,7 +26,7 @@ class BagianTubuhController extends MyAuthController
 	 * Membuat dan menyimpan data baru.
 	 */
 	public function actionCreate()
-	{
+	{    $this->layout='//layouts/iframe';
 		$model=new SABagiantubuhM;
 
 		if(isset($_POST['SABagiantubuhM']))
@@ -34,7 +34,7 @@ class BagianTubuhController extends MyAuthController
 			$model->attributes=$_POST['SABagiantubuhM'];
 			if($model->save()){
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->bagiantubuh_id));
+				$this->redirect(array('admin','tab'=>'frame','modul_id'=>Yii::app()->session['modul_id']));
 			}
 		}
 
@@ -48,7 +48,7 @@ class BagianTubuhController extends MyAuthController
 	 * @param integer $id the ID of the model to be updated
 	 */
 	public function actionUpdate($id)
-	{
+	{    $this->layout='//layouts/iframe';
 		$model=$this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
@@ -59,7 +59,7 @@ class BagianTubuhController extends MyAuthController
 			$model->attributes=$_POST['SABagiantubuhM'];
 			if($model->save()){
 				Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->bagiantubuh_id));
+				$this->redirect(array('admin','tab'=>'frame','modul_id'=>Yii::app()->session['modul_id']));
 			}
 		}
 
@@ -97,10 +97,10 @@ class BagianTubuhController extends MyAuthController
 			$model = $this->loadModel($id);
 			// set non-active this
 			// example: 
-			// $model->modelaktif = false;
-			// if($model->save()){
-			//	$data['sukses'] = 1;
-			// }
+			 $model->bagiantubuh_aktif = false;
+			 if($model->save()){
+				$data['sukses'] = 1;
+			 }
 			echo CJSON::encode($data); 
 		}
 	}
@@ -119,8 +119,14 @@ class BagianTubuhController extends MyAuthController
 	/**
 	 * Pengaturan data.
 	 */
-	public function actionAdmin()
+	public function actionAdmin($tab=null)
 	{
+            if ($tab != 'frame'):
+                $this->redirect(array('index','modul_id'=>Yii::app()->session['modul_id']));
+            else:
+                $this->layout='//layouts/iframe';        
+            endif;
+            
 		$model=new SABagiantubuhM('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['SABagiantubuhM'])){
@@ -181,7 +187,7 @@ class BagianTubuhController extends MyAuthController
 			$mpdf->WriteHTML($stylesheet,1);  
 			$mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
 			$mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-			$mpdf->Output();
+			$mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
 		}
 	}
 }

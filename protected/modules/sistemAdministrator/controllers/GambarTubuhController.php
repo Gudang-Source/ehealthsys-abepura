@@ -9,15 +9,16 @@ class GambarTubuhController extends MyAuthController
 	 */
 	public $layout='//layouts/column1';
 	public $defaultAction = 'admin';
+        public $path_view = 'sistemAdministrator.views.gambarTubuh.';
 
 	/**
 	 * Menampilkan detail data.
 	 * @param integer $id the ID of the model to be displayed
 	 */
 	public function actionView($id)
-	{
+	{$this->layout = '//layouts/iframe';
 		$model = $this->loadModel($id);
-		$this->render('view',array(
+		$this->render($this->path_view.'view',array(
 				'model'=>$model,
 		));
 	}
@@ -26,7 +27,7 @@ class GambarTubuhController extends MyAuthController
 	 * Membuat dan menyimpan data baru.
 	 */
 	public function actionCreate()
-	{
+	{$this->layout = '//layouts/iframe';
 		$model=new SAGambartubuhM;
 
 		if(isset($_POST['SAGambartubuhM']))
@@ -67,7 +68,7 @@ class GambarTubuhController extends MyAuthController
 			}
 		}
 
-		$this->render('create',array(
+		$this->render($this->path_view.'create',array(
 			'model'=>$model,
 		));
 	}
@@ -77,15 +78,19 @@ class GambarTubuhController extends MyAuthController
 	 * @param integer $id the ID of the model to be updated
 	 */
 	public function actionUpdate($id)
-	{
+	{$this->layout = '//layouts/iframe';
 		$model=$this->loadModel($id);
-
+                $model->temp_nama = $model->nama_file_gbr;
+               
 		// Uncomment the following line if AJAX validation is needed
 		
 
 		if(isset($_POST['SAGambartubuhM']))
 		{
 			$model->attributes=$_POST['SAGambartubuhM'];
+                        $temLogo = $model->temp_nama;
+                        $model->nama_file_gbr = $temLogo;
+                        
 			if(!empty($_FILES['SAGambartubuhM']['tmp_name']['nama_file_gbr'])){
 				$instance = CUploadedFile::getInstance($model, 'nama_file_gbr');
 				if($instance){
@@ -97,14 +102,29 @@ class GambarTubuhController extends MyAuthController
 					$fullImgName = time().'_image.'.$instance->getExtensionName();   
 					$fullImgSource = Params::pathAnatomiTubuhDirectory().$fullImgName;
 					$fullThumbSource = Params::pathAnatomiTubuhThumbsDirectory().$fullImgName;
-					$image_info = getimagesize($_FILES['SAGambartubuhM']['tmp_name']['nama_file_gbr']);
-
-					$model->nama_file_gbr = $fullImgName;
+					$image_info = getimagesize($_FILES['SAGambartubuhM']['tmp_name']['nama_file_gbr']);                                        
+					
+                                        
+                                            if(!empty($temLogo))
+                                            { 
+                                                    if(file_exists(Params::pathAnatomiTubuhDirectory().$temLogo))
+                                                    {
+                                                            unlink(Params::pathAnatomiTubuhDirectory().$temLogo);
+                                                    }
+                                                    if(file_exists(Params::pathAnatomiTubuhThumbsDirectory().$temLogo))
+                                                    {
+                                                            unlink(Params::pathAnatomiTubuhThumbsDirectory().$temLogo);
+                                                    }
+                                            }
+                                        
+                                        $model->nama_file_gbr = $fullImgName;                                        
 					$model->path_gambar = $fullImgSource;
 					$model->gambar_resolusi_x = $image_info[0];
 					$model->gambar_resolusi_y = $image_info[1];
 					$model->gambar_update = date('Y-m-d H:i:s');
 					if($model->save()){
+                                                       
+                                            
 							$instance->saveAs($fullImgSource);
 							//chain functions
 							$thumb->create($fullImgSource)
@@ -125,7 +145,7 @@ class GambarTubuhController extends MyAuthController
 			}
 		}
 
-		$this->render('update',array(
+		$this->render($this->path_view.'update',array(
 				'model'=>$model,
 		));
 	}
@@ -139,7 +159,16 @@ class GambarTubuhController extends MyAuthController
 		if(Yii::app()->request->isPostRequest)
 		{
 			// we only allow deletion via POST request
-			$this->loadModel($id)->delete();
+			$model = $this->loadModel($id);
+                        if(file_exists(Params::pathAnatomiTubuhDirectory().$model->nama_file_gbr))
+                        {
+                                unlink(Params::pathAnatomiTubuhDirectory().$model->nama_file_gbr);
+                        }
+                        if(file_exists(Params::pathAnatomiTubuhThumbsDirectory().$model->nama_file_gbr))
+                        {
+                                unlink(Params::pathAnatomiTubuhThumbsDirectory().$model->nama_file_gbr);
+                        }
+                        $model->delete();
 
 			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 			if(!isset($_GET['ajax']))
@@ -159,10 +188,10 @@ class GambarTubuhController extends MyAuthController
 			$model = $this->loadModel($id);
 			// set non-active this
 			// example: 
-			// $model->modelaktif = false;
-			// if($model->save()){
-			//	$data['sukses'] = 1;
-			// }
+			 $model->gambartubuh_aktif = false;
+			 if($model->save()){
+				$data['sukses'] = 1;
+			 }
 			echo CJSON::encode($data); 
 		}
 	}
@@ -171,9 +200,9 @@ class GambarTubuhController extends MyAuthController
 	 * Melihat daftar data.
 	 */
 	public function actionIndex()
-	{
+	{$this->layout = '//layouts/iframe';
 		$dataProvider=new CActiveDataProvider('SAGambartubuhM');
-		$this->render('index',array(
+		$this->render($this->path_view.'index',array(
 			'dataProvider'=>$dataProvider,
 		));
 	}
@@ -182,13 +211,13 @@ class GambarTubuhController extends MyAuthController
 	 * Pengaturan data.
 	 */
 	public function actionAdmin()
-	{
+	{   $this->layout = '//layouts/iframe';
 		$model=new SAGambartubuhM('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['SAGambartubuhM'])){
 			$model->attributes=$_GET['SAGambartubuhM'];
 		}
-		$this->render('admin',array(
+		$this->render($this->path_view.'admin',array(
 				'model'=>$model,
 		));
 	}
@@ -228,11 +257,11 @@ class GambarTubuhController extends MyAuthController
 		$caraPrint=$_REQUEST['caraPrint'];
 		if($caraPrint=='PRINT') {
 			$this->layout='//layouts/printWindows';
-			$this->render('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+			$this->render($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
 		}
 		else if($caraPrint=='EXCEL') {
 			$this->layout='//layouts/printExcel';
-			$this->render('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+			$this->render($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
 		}
 		else if($_REQUEST['caraPrint']=='PDF') {
 			$ukuranKertasPDF = Yii::app()->user->getState('ukuran_kertas'); //Ukuran Kertas Pdf
@@ -242,8 +271,8 @@ class GambarTubuhController extends MyAuthController
 			$stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
 			$mpdf->WriteHTML($stylesheet,1);  
 			$mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
-			$mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-			$mpdf->Output();
+			$mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
+			$mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
 		}
 	}
 }

@@ -27,8 +27,9 @@
                     <?php echo $form->labelEx($model, 'mengajukan_id', array('class' => 'control-label')); ?>
                     <div class="controls">
                             <?php echo $form->hiddenField($model, 'mengajukan_id',array('readonly'=>true)); ?>
+                        <?php echo $form->textField($model, 'pegawaimengajukan_nama',array('readonly'=>true)); ?>
                             <?php
-                            $this->widget('MyJuiAutoComplete', array(
+                           /* $this->widget('MyJuiAutoComplete', array(
                                     'model'=>$model,
                                     'attribute' => 'pegawaimengajukan_nama',
                                     'source' => 'js: function(request, response) {
@@ -61,7 +62,7 @@
                                             'onblur' => 'if(this.value === "") $("#'.Chtml::activeId($model, 'mengajukan_id') . '").val(""); '
                                     ),
                                     'tombolDialog' => array('idDialog' => 'dialogPegawaiMengajukan'),
-                            ));
+                            ));*/
                             ?>
                     </div>
             </div>
@@ -191,15 +192,17 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     ),
 ));
 
-$modPegawaiMengetahui = new LAPegawaiV('searchPegawaiMengetahui');
+$modPegawaiMengetahui = new PegawairuanganV('pegawaiMengetahui');
 $modPegawaiMengetahui->unsetAttributes();
 $modPegawaiMengetahui->pegawai_aktif = true;
+$modPegawaiMengetahui->ruangan_id = Yii::app()->user->getState('ruangan_id');
 if(isset($_GET['LAPegawaiV'])) {
     $modPegawaiMengetahui->attributes = $_GET['LAPegawaiV'];
+    $modPegawaiMengetahui->ruangan_id = Yii::app()->user->getState('ruangan_id');
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'pegawaimengetahui-grid',
-	'dataProvider'=>$modPegawaiMengetahui->searchPegawaiMengetahui(),
+	'dataProvider'=>$modPegawaiMengetahui->pegawaiMengetahui(),
 	'filter'=>$modPegawaiMengetahui,
         'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',

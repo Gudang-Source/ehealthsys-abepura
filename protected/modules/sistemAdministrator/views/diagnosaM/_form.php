@@ -21,7 +21,7 @@
                                             'onkeypress' => "return $(this).focusNextInputField(event)",
                                             'onchange' => 'clearKode()'
                                         ));
-                                echo $form->dropDownListRow($model,'klasifikasidiagnosa_id', CHtml::listData(KlasifikasidiagnosaM::model()->findAllByAttributes(array('dtd_id'=>$model->dtd_id),array('order'=>'klasifikasidiagnosa_kode ASC')), 'klasifikasidiagnosa_id', 'KlasifikasiKodeNama'),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);",'class'=>'required','empty'=>'-- Pilih --', 'onchange'=>'getKode();return false;')); 
+                                echo $form->dropDownListRow($model,'klasifikasidiagnosa_id', CHtml::listData(KlasifikasidiagnosaM::model()->findAllByAttributes(array('dtd_id'=>$model->dtd_id,'klasifikasidiagnosa_aktif'=>TRUE),array('order'=>'klasifikasidiagnosa_kode ASC')), 'klasifikasidiagnosa_id', 'KlasifikasiKodeNama'),array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);",'class'=>'required','empty'=>'-- Pilih --', 'onchange'=>'getKode();return false;')); 
                                
                                 
                                 ?>

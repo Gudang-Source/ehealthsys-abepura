@@ -15,7 +15,7 @@
             <?php echo $form->textFieldRow($model,'kordinat_y',array('class'=>'span3')); ?>
         </td>
         <td style="padding-left:50px;">
-            <?php echo $form->checkBoxRow($model,'bagiantubuh_aktif'); ?>
+            <?php echo $form->checkBoxRow($model,'bagiantubuh_aktif',array('checked'=>'bagiantubuh_aktif')); ?>
         </td>
     </tr>
 </table>

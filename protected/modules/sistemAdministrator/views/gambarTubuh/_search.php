@@ -14,10 +14,10 @@
         <td>
             <?php echo $form->textFieldRow($model,'gambar_resolusi_x',array('class'=>'span3')); ?>
             <?php echo $form->textFieldRow($model,'gambar_resolusi_y',array('class'=>'span3')); ?>
-            <?php echo $form->textFieldRow($model,'gambar_create',array('class'=>'span3')); ?>
-            <?php echo $form->textFieldRow($model,'gambar_update',array('class'=>'span3')); ?>
+            <?php //echo $form->textFieldRow($model,'gambar_create',array('class'=>'span3')); ?>
+            <?php //echo $form->textFieldRow($model,'gambar_update',array('class'=>'span3')); ?>
             <div>
-                <?php echo $form->checkBoxRow($model,'gambartubuh_aktif'); ?>
+                <?php echo $form->checkBoxRow($model,'gambartubuh_aktif', array('checked'=>'gambartubuh_aktif')); ?>
             </div>
         </td>
     </tr>

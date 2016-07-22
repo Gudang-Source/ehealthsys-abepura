@@ -1,8 +1,10 @@
-<div class="white-container">
-    <legend class="rim2">Anatomi <b>Tubuh Manusia</b></legend>
-    <?php $this->renderPartial('_tab'); ?>
-    <div class="biru">
-        <div class="white">
+<!--<div class="white-container">
+    <legend class="rim2">Anatomi <b>Tubuh Manusia</b></legend>-->
+<fieldset class = "box">
+    <legend class = "rim">pengaturan Gambar Tubuh</legend>
+    <?php //$this->renderPartial('_tab'); ?>
+    <!--<div class="biru">
+        <div class="white">-->
             <?php
             $this->breadcrumbs=array(
                     'Sagambartubuh Ms'=>array('index'),
@@ -25,11 +27,11 @@
             <?php $this->widget('bootstrap.widgets.BootAlert'); ?>
             <?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-white icon-accordion"></i>')),'#',array('class'=>'search-button btn')); ?>
             <div class="cari-lanjut search-form" style="display:none">
-                <?php $this->renderPartial('_search',array(
+                <?php $this->renderPartial($this->path_view.'_search',array(
                         'model'=>$model,
                 )); ?>
             </div><!-- search-form -->
-            <div class="block-tabel">
+            <!--<div class="block-tabel">-->
                 <!--<legend class="rim">Tabel Gambar Tubuh</legend>-->
                 <?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'id'=>'sagambartubuh-m-grid',
@@ -57,6 +59,10 @@
                             'path_gambar',
                             'gambar_resolusi_x',
                             'gambar_resolusi_y',
+                            array(
+                                'header'=>'Status',
+                                'value' => '($data->gambartubuh_aktif==TRUE)?"Aktif":"Tidak Aktif"'
+                            ),
                             /*
                             'gambar_create',
                             'gambar_update',
@@ -88,7 +94,8 @@
                                                             'label'=>"<i class='icon-form-silang'></i>",
                                                             'options'=>array('title'=>Yii::t('mds','Remove Temporary')),
                                                             'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/nonActive",array("id"=>$data->gambartubuh_id))',
-                                                            'click'=>'function(){nonActive(this);return false;}',
+                                                            'click'=>'function(){nonActive(this);return false;}',                                                            
+                                                            'visible'=>'($data->gambartubuh_aktif==TRUE)?true:false'
                                             ),
                                             'delete'=> array(),
                                     )
@@ -96,15 +103,16 @@
                     ),
                     'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
                 )); ?>
-            </div>
+            <!--</div>
         </div>
-    </div>
+    </div>-->
     <?php 
     echo CHtml::link(Yii::t('mds','{icon} Tambah Gambar Tubuh',array('{icon}'=>'<i class="icon-plus icon-white"></i>')),$this->createUrl($this->id.'/create',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'))."&nbsp&nbsp"; 
     echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
     echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
     echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
-    $this->widget('UserTips',array('type'=>'admin'));
+    $content = $this->renderPartial('sistemAdministrator.views.tips.master',array(),true);
+    $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
     $urlPrint= $this->createUrl('print');
 
 $js = <<< JSCRIPT
@@ -115,7 +123,8 @@ function print(caraPrint)
 JSCRIPT;
     Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);    
     ?>
-</div>
+<!--</div>-->
+<fieldset>
 <script type="text/javascript">	
 	function nonActive(obj){
 		myConfirm("Yakin akan menonaktifkan data ini untuk sementara?","Perhatian!",

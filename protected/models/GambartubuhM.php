@@ -21,6 +21,7 @@ class GambartubuhM extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return GambartubuhM the static model class
 	 */
+    public $temp_path, $temp_nama;
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -42,10 +43,10 @@ class GambartubuhM extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('nama_gambar, nama_file_gbr', 'required'),
+			array('nama_gambar', 'required'),
 			array('gambar_resolusi_x, gambar_resolusi_y', 'numerical'),
 			array('nama_gambar, nama_file_gbr', 'length', 'max'=>100),
-			array('gambar_update, gambartubuh_aktif', 'safe'),
+			array('temp_path, temp_nama, gambar_update, gambartubuh_aktif', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('gambartubuh_id, nama_gambar, nama_file_gbr, path_gambar, gambar_resolusi_x, gambar_resolusi_y, gambar_create, gambar_update, gambartubuh_aktif', 'safe', 'on'=>'search'),
@@ -92,17 +93,18 @@ class GambartubuhM extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		if(!empty($this->gambartubuh_id)){
-			$criteria->addCondition('gambartubuh_id = '.$this->gambartubuh_id);
-		}
+		//if(!empty($this->gambartubuh_id)){
+			//$criteria->addCondition('gambartubuh_id = '.$this->gambartubuh_id);
+		//}
 		$criteria->compare('LOWER(nama_gambar)',strtolower($this->nama_gambar),true);
 		$criteria->compare('LOWER(nama_file_gbr)',strtolower($this->nama_file_gbr),true);
 		$criteria->compare('LOWER(path_gambar)',strtolower($this->path_gambar),true);
 		$criteria->compare('gambar_resolusi_x',$this->gambar_resolusi_x);
 		$criteria->compare('gambar_resolusi_y',$this->gambar_resolusi_y);
-		$criteria->compare('LOWER(gambar_create)',strtolower($this->gambar_create),true);
-		$criteria->compare('LOWER(gambar_update)',strtolower($this->gambar_update),true);
-		$criteria->compare('gambartubuh_aktif',$this->gambartubuh_aktif);
+		//$criteria->compare('LOWER(gambar_create)',strtolower($this->gambar_create),true);
+		//$criteria->compare('LOWER(gambar_update)',strtolower($this->gambar_update),true);                
+                $criteria->compare('gambartubuh_aktif',isset($this->gambartubuh_aktif)?$this->gambartubuh_aktif:true);                
+               
 
 		return $criteria;
 	}

@@ -739,8 +739,10 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 $modParamedis = new ParamedisV('search');
 $modParamedis->unsetAttributes();
 $modParamedis->ruangan_id = Yii::app()->user->getState('ruangan_id');
+$modParamedis->pegawai_aktif = TRUE;
 if(isset($_GET['ParamedisV'])){
     $modParamedis->attributes = $_GET['ParamedisV'];
+    $modParamedis->pegawai_aktif = TRUE;
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'paramedisYangMengajukan-m-grid',
@@ -763,14 +765,29 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                ))',
             ),
 //            'pegawai_id',
-            'gelardepan',
+            array(
+                'header'=>'NIP',
+                'name' => 'nomorindukpegawai',
+                'value' => '$data->nomorindukpegawai'
+            ),
+            array(
+                'header'=>'Gelar Depan',
+                'name' => 'gelardepan',
+                'value' => '$data->gelardepan',
+                'filter' => CHtml::dropDownList('ParamedisV[gelardepan]', $modParamedis->gelardepan, LookupM::getItems('gelardepan'), array('empty'=>'-- Pilih --'))
+            ),            
             array(
                 'name'=>'nama_pegawai',
                 'header'=>'Nama Paramedis',
             ),
-            'gelarbelakang_nama',
-            'jeniskelamin',
-            'agama',
+            array(
+                'header'=>'Gelar Belakang',
+                'name' => 'gelarbelakang_nama',
+                'value' => '$data->gelarbelakang_nama',
+                'filter' => CHtml::dropDownList('ParamedisV[gelarbelakang_nama]', $modParamedis->gelarbelakang_nama,  CHtml::listData(GelarbelakangM::model()->findAll('gelarbelakang_aktif = TRUE ORDER BY gelarbelakang_nama'), 'gelarbelakang_nama', 'gelarbelakang_nama'), array('empty'=>'-- Pilih --'))
+            ),              
+            //'jeniskelamin',
+            //'agama',
     ),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
     ));

@@ -20,7 +20,7 @@ class AMPasienM extends PasienM
                 $criteria->limit=10;
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria, 'pagination'=>false
+			'criteria'=>$criteria,
 		));
 	}
     
