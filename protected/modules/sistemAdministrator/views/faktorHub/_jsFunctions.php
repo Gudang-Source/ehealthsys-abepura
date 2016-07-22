@@ -67,9 +67,12 @@
 	function hapusLookup(obj) {
 		var faktorhubdet_id = $(obj).parents("tr").find("input[name$='[faktorhubdet_id]']").val();
 		if (faktorhubdet_id !== "") {
-			myConfirm("Apakah anda yakin akan menghapus data ini dari database?", "Perhatian!",
+			myConfirm("Apakah anda yakin akan menghapus data ini?", "Perhatian!",
 					function (r) {
 						if (r) {
+							$(obj).parents('tr').detach();
+							renameInputRow($("#table-lookup"));
+							/*
 							$.ajax({
 								type: 'POST',
 								url: '<?php echo $this->createUrl('Delete'); ?>&id=' + faktorhubdet_id,
@@ -90,6 +93,7 @@
 									console.log(errorThrown);
 								}
 							});
+							*/
 						}
 					});
 		} else {

@@ -3,6 +3,7 @@
         <TR>
             <TD ROWSPAN=3 WIDTH=80 ALIGN=CENTER VALIGN=MIDDLE>
                  <img src="<?php echo Params::urlProfilRSDirectory().$data->logo_rumahsakit ?> " style="float:left; max-width: 80px; width:80px;" class='image_report'/>
+                 
             </TD>
             <TD style = "text-align: center;" ALIGN=CENTER VALIGN=MIDDLE colspan=" <?php echo (!empty($colspan)) ? ($colspan-1) : "5"; ?>">
                 <B><FONT FACE="Liberation Serif" SIZE=5 color="black"><?php echo $data->nama_rumahsakit ?></FONT></B>

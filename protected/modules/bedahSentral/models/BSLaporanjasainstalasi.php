@@ -44,7 +44,7 @@ class BSLaporanjasainstalasi extends LaporanjasainstalasiV {
         $criteria = $this->functionCriteria();
         
         $criteria->select = "count(pendaftaran_id) as jumlah, case when tindakansudahbayar_id is null then 'BELUM BAYAR' else 'SUDAH BAYAR' end as data";
-        $criteria->group = 'pendaftaran_id, data';
+        $criteria->group = 'pendaftaran_id, data  ';
         if (!empty($this->carabayar_id)){
             $criteria->select .= ', penjamin_nama as tick';
             $criteria->group .= ', penjamin_nama';
@@ -170,14 +170,16 @@ class BSLaporanjasainstalasi extends LaporanjasainstalasiV {
         if (is_array($this->tindakansudahbayar_id)){
             $status = array();
             foreach ($this->tindakansudahbayar_id as $i=>$v){
-                if ($v == 'sudah'){
+                if ($v == 1){
                     $status[] = 'tindakansudahbayar_id is not null';
                 }
                 else{
                     $status[] = 'tindakansudahbayar_id is null';
                 }
             }
+            
             $criteria->addCondition('('.implode(' or ',$status).')');
+            
         }
         if(!empty($this->shift_id)){
 			$criteria->addCondition('shift_id = '.$this->shift_id);

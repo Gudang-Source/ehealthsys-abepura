@@ -60,10 +60,13 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 		<div class="control-group">
 			<?php echo Chtml::label('Nama Faktor Yang Berhubungan', 'faktorhub_nama', array('class' => 'control-label')) ?>
 			<div class="controls">
-				<?php
+				<?php /*
 				echo $form->dropDownList($model, 'faktorhub_nama', LookupM::getItems('faktorhub_as'), array('empty' => '-- Pilih --', 'onkeypress' => "return $(this).focusNextInputField(event)",
 					'class' => 'inputRequire',
 					'onchange' => 'refreshTable();'));
+				 * 
+				 */
+				echo $form->textField($model, 'faktorhub_nama', array('class'=>'inputRequire', 'onblur'=>'refreshTable()'));
 				?>
 			</div>
 		</div>

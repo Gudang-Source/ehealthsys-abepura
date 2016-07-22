@@ -1,7 +1,7 @@
 <?php
 class GZLaporanjasakomponengiziV extends LaporanjasakomponengiziV
 {
-	public $jns_periode,$tgl_awal,$tgl_akhir,$bln_awal,$bln_akhir,$thn_awal,$thn_akhir;
+	public $jns_periode,$tgl_awal,$tgl_akhir,$bln_awal,$bln_akhir,$thn_awal,$thn_akhir,$jumlahTampil;
         public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -42,6 +42,8 @@ class GZLaporanjasakomponengiziV extends LaporanjasakomponengiziV
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+                        'pagination' => array('pageSize' => $this->jumlahTampil,),
+                        'totalItemCount' => $this->jumlahTampil,
 		));
 	}
         
@@ -52,10 +54,9 @@ class GZLaporanjasakomponengiziV extends LaporanjasakomponengiziV
 
 		$criteria=new CDbCriteria;
 
-                $criteria->select='pasien_id,nama_pasien,kelaspelayanan_nama,kelaspelayanan_id,sum(tarif_tindakankomp)';
+               $criteria->select='pasien_id,nama_pasien,kelaspelayanan_nama,kelaspelayanan_id,sum(tarif_tindakankomp)';
                 $criteria->group='pasien_id,nama_pasien,kelaspelayanan_nama,kelaspelayanan_id';
-                
-		$criteria->addBetweenCondition('DATE(tglmasukpenunjang)',$this->tgl_awal,$this->tgl_akhir,true);
+                $criteria->addBetweenCondition('DATE(tglmasukpenunjang)',$this->tgl_awal,$this->tgl_akhir,true);
 		$criteria->compare('pasienmasukpenunjang_id',$this->pasienmasukpenunjang_id);
 		$criteria->compare('pasien_id',$this->pasien_id);
 		$criteria->compare('LOWER(no_rekam_medik)',strtolower($this->no_rekam_medik),true);
@@ -83,7 +84,8 @@ class GZLaporanjasakomponengiziV extends LaporanjasakomponengiziV
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-                        'pagination'=>false,
+                        'pagination' => array('pageSize' => $this->jumlahTampil,),
+                        'totalItemCount' => $this->jumlahTampil,
 		));
 	}
         
@@ -178,7 +180,7 @@ class GZLaporanjasakomponengiziV extends LaporanjasakomponengiziV
             $format = new MyFormatter();
             $criteria=new CDbCriteria();
             $criteria->group = 'komponentarif_id';
-                $criteria->addCondition('komponentarif_id = 35,27,39,40)'); //disesuaikan dengan kebutuhan RS
+                $criteria->addInCondition('komponentarif_id',array(35,27,39,40)); //disesuaikan dengan kebutuhan RS
             if(isset($_GET['GZLaporanjasakomponengiziV'])){
                 $tgl_awal = $format->formatDateTimeForDb($_GET['GZLaporanjasakomponengiziV']['tgl_awal']);
                 $tgl_akhir = $format->formatDateTimeForDb($_GET['GZLaporanjasakomponengiziV']['tgl_akhir']);

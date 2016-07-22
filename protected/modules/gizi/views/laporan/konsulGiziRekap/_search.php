@@ -15,19 +15,16 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
         display:inline-block;
     }
     label.checkbox, label.radio{
-        width:150px;
+        width:200px;
         display:inline-block;
     }
 
 </style>
 <table widht="100%">
-    <tr>
-        <td>
-            <fieldset class="box2">
-                <legend class="rim">Berdasarkan Tanggal</legend>
+  
                 <div class='row-fluid'>
                     <div class="span4">
-                        <?php echo CHtml::label('Kunjungan', 'tglmasukpenunjang', array('class' => 'control-label')) ?>
+                        <?php echo CHtml::label('Tanggal Kunjungan', 'tglmasukpenunjang', array('class' => 'control-label')) ?>
                         <div class="controls">
                             <?php echo $form->dropDownList($model,'jns_periode', array('hari'=>'Hari','bulan'=>'Bulan','tahun'=>'Tahun'), array('onchange'=>'ubahJnsPeriode();')); ?>
                         </div>
@@ -130,23 +127,43 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                         </div>
                     </div>
                 </div>
-            </fieldset>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <fieldset class='box2'>
-                <legend class='rim'>Berdasarkan Ruangan</legend>
-                <div class="controls">
-                    <?php echo CHtml::checkBox('pilihSemua', true, array('onclick'=>'checkAllKelas();')) ?> <label><b>Pilih Semua</b></label>
-                    <div id="checkBoxList">
-                        <?php echo $form->checkBoxList($model,'ruanganasal_id', CHtml::listData(RuanganM::model()->findAll('instalasi_id IN (2,3,4) AND ruangan_aktif = TRUE ORDER BY instalasi_id'), 'ruangan_id', 'ruangan_nama'), array('class'=>'ruanganAsal')); ?><br>               
-                   </div> 
-                </div>
-            </fieldset>
-        </td>
-    </tr>
-</table>
+            <table width="100%" border="0">
+            <tr>
+                <td> 
+                    <div id='searching'>
+                    <fieldset>    
+                        <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+                            'id'=>'kunjungan',
+                            'slide'=>true,
+                            'content'=>array(
+                            'content1'=>array(
+                                'header'=>'Berdasarkan Ruangan',
+                                'isi'=>  '  <table><tr></tr></table>
+                                            <table class="penjamin">                                            
+                                            <tr>
+                                                    <td><div class="controls">'.
+                        CHtml::checkBox('pilihSemua', true, array('onclick'=>'checkAllKelas();')).'<label><b>Pilih Semua</b></label>
+                        <div id="checkBoxList">
+                            '.$form->checkBoxList($model,'ruanganasal_id', CHtml::listData(RuanganM::model()->findAll('instalasi_id IN (2,3,4) AND ruangan_aktif = TRUE ORDER BY instalasi_id'), 'ruangan_id', 'ruangan_nama'), array('class'=>'ruanganAsal')).'<br>
+                        </div>                
+                    </div></td>
+                                            </tr>
+                                            </table>',            
+                                'active'=>true,
+                                    ),
+                            ),
+        //                                    'htmlOptions'=>array('class'=>'aw',)
+                            )); ?>											
+                    </fieldset>	
+                    </div>
+                </td>
+                										
+                    </fieldset>	
+                    </div>
+                </td>
+            </tr>
+            </table>  
+    
 <!--    <div class="control-group">
         <?php //echo CHtml::label('Jenis Instalasi', 'instalasi', array('class'=>'control-label')); ?>
         <div class="controls">

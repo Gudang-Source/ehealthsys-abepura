@@ -60,7 +60,7 @@ $('.search-form form').submit(function(){
                                 array(
 					'header'=>'Pegawai Pengirim',
 					'type'=>'raw',
-					'value'=>'$data->pengPerawatan->pegawaiMengajukan->namaLengkap',
+					'value'=>'($data->pengPerawatan->mengajukan_id!=null)?$data->pengPerawatan->pegawaiMengajukan->namaLengkap:"-"',
 				),
 //				RND-8968
 				array(

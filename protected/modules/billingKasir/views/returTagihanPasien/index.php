@@ -20,6 +20,11 @@
                 // 'onsubmit'=>'return cekOtorisasi();'
             ),
     ));?>
+	<?php 
+            if(isset($_GET['status']) && $_GET['status'] == 1){
+                Yii::app()->user->setFlash('success', "Data retur berhasil disimpan !");
+            }
+    ?>
     <?php $this->renderPartial('_ringkasDataPasien',array('modPendaftaran'=>$modPendaftaran,'modPasien'=>$modPasien));?>
     <?php $this->widget('bootstrap.widgets.BootAlert'); ?>
     <?php //echo $form->errorSummary(array($modRetur,$modBuktiKeluar)); ?>

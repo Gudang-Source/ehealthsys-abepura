@@ -54,11 +54,13 @@
                     'header'=>'Jumlah',
                     'value'=> '$data->qty_tindakan',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+                    'htmlOptions' => array('style'=>'text-align:right;')
                 ),
                 array(
                     'header'=>'Harga',
-                    'value'=> '$data->tarif_tindakan',
+                    'value'=> '"Rp".number_format($data->tarif_tindakan,0,"",".")',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+                    'htmlOptions' => array('style'=>'text-align:right;')
                 ),
                 array(
                     'header'=>'Ruangan',

@@ -228,7 +228,18 @@ class LaporanController extends MyAuthController {
                             'caraPrint'=>$_REQUEST['caraPrint']
                         ),true)
                 );  
-            $mpdf->Output();
+            $mpdf->Output($data['judulLaporan'].'_'.date('Y-m-d').'.pdf','I');
+        }else if ($_REQUEST['caraPrint'] == 'EXCEL') {
+           
+             $this->render('gizi.views.laporan.konsulGiziRekap/_print',
+                        array(
+                            'model'=>$model,
+                            'models'=>$models,
+                            'data'=>$data,
+                            'caraPrint'=>$_REQUEST['caraPrint']
+                        ),true);
+                
+        
         }else{
             $this->render('gizi.views.laporan.konsulGiziRekap/_print', array(
                 'model' => $model,
@@ -474,15 +485,35 @@ class LaporanController extends MyAuthController {
     public function actionLaporanJumlahPasienHarian()
     {
         $model = new GZLaporanjmlpasienhariangiziV('searchLaporan');
-        $model->tgl_awal = date('d M Y');
-        $model->tgl_akhir = date('d M Y');
+        $model->unsetAttributes();
+        $format = new MyFormatter();        
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        $model->pilihan_tab = 'report';
         if (isset($_GET['GZLaporanjmlpasienhariangiziV'])) {
             $model->attributes = $_GET['GZLaporanjmlpasienhariangiziV'];
-            $model->pilihanTab = $_GET['GZLaporanjmlpasienhariangiziV']['pilihan_tab'];
-            $format = new MyFormatter();
+            $model->pilihan_tab = $_GET['GZLaporanjmlpasienhariangiziV']['pilihan_tab'];
+            $model->jns_periode = $_GET['GZLaporanjmlpasienhariangiziV']['jns_periode'];
             $model->tgl_awal = $format->formatDateTimeForDb($_GET['GZLaporanjmlpasienhariangiziV']['tgl_awal']);
             $model->tgl_akhir = $format->formatDateTimeForDb($_GET['GZLaporanjmlpasienhariangiziV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['GZLaporanjmlpasienhariangiziV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['GZLaporanjmlpasienhariangiziV']['bln_akhir']);
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
+       
         $models = $model->findAll($model->searchLaporan());
         $modRekaps = $model->findAll($model->searchRekap());
         if (Yii::app()->request->isAjaxRequest) {
@@ -491,10 +522,11 @@ class LaporanController extends MyAuthController {
                             'model'=>$model,
                             'models'=>$models,
                             'modRekaps'=>$modRekaps,
-                            'pilihanTab'=>$_GET['GZLaporanjmlpasienhariangiziV']['pilihan_tab'],
+                            'pilihan_tab'=>$_GET['GZLaporanjmlpasienhariangiziV']['pilihan_tab'],
                         ), true
                     );
         }else{
+            
             $this->render('jumlahPasienHarian/adminJmlPasienHarian', array(
                 'model' => $model,
                 'models' => $models,
@@ -868,6 +900,8 @@ public function actionLaporanJumlahPorsiGizi() {
                 case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
                 default : null;
             }
+            $model->tgl_awal = $model->tgl_awal;
+            $model->tgl_akhir = $model->tgl_akhir;
             
         }
         
@@ -989,7 +1023,7 @@ public function actionLaporanJumlahPorsiGizi() {
             $mpdf->WriteHTML($stylesheet, 1);
             $mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);
             $mpdf->WriteHTML($this->renderPartial($target, array('model' => $model, 'periode'=>$periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
-            $mpdf->Output();
+            $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
         }
     }
     
@@ -998,7 +1032,7 @@ public function actionLaporanJumlahPorsiGizi() {
         $periode = $format->formatDateTimeForUser($model->tgl_awal).' sampai dengan '.$format->formatDateTimeForUser($model->tgl_akhir);
         
         if ($caraPrint == 'PRINT' || $caraPrint == 'GRAFIK') {
-            $this->layout = '//layouts/printWindows';
+            $this->layout = '//layouts/printWindows2';
             $this->render($target, array('model' => $model, 'periode'=>$periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint));
         } else if ($caraPrint == 'EXCEL') {
             $this->layout = '//layouts/printExcel';
@@ -1008,11 +1042,17 @@ public function actionLaporanJumlahPorsiGizi() {
             $posisi = Yii::app()->user->getState('posisi_kertas');                           //Posisi L->Landscape,P->Portait
             $mpdf = new MyPDF('', $ukuranKertasPDF);
             $mpdf->useOddEven = 2;
+            $footer = '<table width="100%"><tr>'
+                    . '<td style = "text-align:left;font-size:8px;"><i><b>Generated By eHealthsys</b></i></td>'
+                    . '<td style = "text-align:right;font-size:8px;"><i><b>Print Count :</b></i></td>'
+                    . '</tr></table>';
+            $mpdf->SetHtmlFooter($footer,'E');
+            $mpdf->SetHtmlFooter($footer,'O');             
             $stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
             $mpdf->WriteHTML($stylesheet, 1);
             $mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);
             $mpdf->WriteHTML($this->renderPartial($target, array('model' => $model, 'periode'=>$periode, 'data' => $data, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
-            $mpdf->Output();
+            $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
         }
     }
     

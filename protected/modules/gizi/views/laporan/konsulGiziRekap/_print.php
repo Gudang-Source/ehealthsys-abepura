@@ -3,8 +3,8 @@
 if($caraPrint=='EXCEL')
 {
     header('Content-Type: application/vnd.ms-excel');
-    header('Content-Disposition: attachment;filename="'.$judulLaporan.'-'.date("Y/m/d").'.xls"');
-    header('Cache-Control: max-age=0');     
+    header('Content-Disposition: attachment;filename="'.$data['judulLaporan'].'-'.date("Y/m/d").'.xls"');
+    header('Cache-Control: max-age=0');       
 }
 echo $this->renderPartial('application.views.headerReport.headerLaporanTransaksi',array('judulLaporan'=>$data['judulLaporan'], 'periode'=>'Periode : '.$data['periode'], 'colspan'=>16)); 
 

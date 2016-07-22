@@ -16,35 +16,27 @@ class BSLaporansensuspenunjangV extends LaporansensuspenunjangV {
 //            $this->kunjungan = 0;
 //        }
         if (is_array($this->kunjungan)){
-            $criteria->compare('kunjungan', $this->kunjungan);
+            $criteria->addInCondition('kunjungan', $this->kunjungan);
         }else{
             $this->kunjungan = array('KUNJUNGAN BARU','KUNJUNGAN LAMA');
         }
-        if ($this->kunjungan=='KUNJUNGAN ULANG'){
-            $this->kunjungan='KUNJUNGAN LAMA';
-        }
+       
         
         $this->tgl_awal = MyFormatter::formatDateTimeForDb($this->tgl_awal);
         $this->tgl_akhir = MyFormatter::formatDateTimeForDb($this->tgl_akhir);
         $criteria->addBetweenCondition('DATE(tglmasukpenunjang)', $this->tgl_awal, $this->tgl_akhir);
         $criteria->compare('kunjungan', $this->kunjungan);
-		if(!empty($this->instalasiasal_id)){
-			$criteria->addCondition('instalasiasal_id = '.$this->instalasiasal_id);
-		}
-        if (!empty($this->instalasiasal_id)){
-            if (!is_array($this->ruanganasal_id)){
-                $this->ruanganasal_id = 0;
-            }
+		
+        
+        if(!empty($this->carabayar_id)){
+                $criteria->addCondition('carabayar_id = '.$this->carabayar_id);
         }
-		if(!empty($this->carabayar_id)){
-			$criteria->addCondition('carabayar_id = '.$this->carabayar_id);
-		}
-		if(!empty($this->carabayar_id)){
-			$criteria->addCondition('penjamin_id = '.$this->carabayar_id);
-		}
-		if(!empty($this->ruanganasal_id)){
-			$criteria->addCondition('ruanganasal_id = '.$this->ruanganasal_id);
-		}
+
+      //  if(!empty($this->ruanganasal_id)){
+            if (is_array($this->ruanganasal_id)){
+                $criteria->addInCondition('ruanganasal_id',$this->ruanganasal_id);
+            }                
+      //  }
         $criteria->addCondition('ruanganpenunj_id = '.Yii::app()->user->getState('ruangan_id'));
 
         return $criteria;
@@ -112,9 +104,28 @@ class BSLaporansensuspenunjangV extends LaporansensuspenunjangV {
         return __CLASS__;
     }
     
-    public function getKunjungan(){
-        $kunjungan = array('Kunjungan satu','Kunjungan dua');
-        return $kunjungan;
+   // public function getKunjungan(){
+      //  $kunjungan = array('Kunjungan satu','Kunjungan dua');
+        //return $kunjungan;
+    //}
+    
+    public static function getKunjungan()
+    {
+        $data = array();
+        $criteria = new CDbCriteria();        
+        $criteria->select = "kunjungan";
+        $criteria->group = "kunjungan";
+        $criteria->order = "kunjungan ASC";        
+        $models=self::model()->findAll($criteria);
+        if(count($models) > 0){
+            foreach($models as $model)
+                // $data[$model->lookup_value]= ucwords(strtolower($model->lookup_name));
+                $data[$model->kunjungan]= ($model->kunjungan);
+        }else{
+            $data[""] = null;
+        }
+
+        return $data;
     }
 
 }

@@ -4,6 +4,20 @@
             Icon  <i class="icon-form-detail"></i>
             berfungsi untuk melihat penggajian pegawai secara detail.
         </li>
+        <?php
+            if (isset($gaji)):
+                if ($gaji==true)
+                {
+        ?>
+            <li>
+            Icon  <i class="icon-form-bayar"></i>
+            berfungsi untuk melanjutkan ke halaman transaksi pembayaran gaji.
+            </li>
+        <?php
+                }
+            endif;
+        ?>
+        
         <li>
             Icon  <i class="icon-calendar"></i>
             berfungsi untuk menentukan tanggal.

@@ -16,24 +16,20 @@ echo $this->renderPartial('application.views.headerReport.headerAnggaran',array(
 ?>
     <table class="table">
         <tr>
-            <td>Tanggal Pengajuan Perawatan Linen</td>
-            <td>:</td>
-            <td><?php echo isset($modPengPerawataninen->tglpengperawatanlinen) ? $format->formatDateTimeId($modPengPerawataninen->tglpengperawatanlinen) : "-"; ?></td>
+            <td>Tanggal Pengajuan Perawatan Linen</td>            
+            <td colspan="2">: <?php echo isset($modPengPerawataninen->tglpengperawatanlinen) ? $format->formatDateTimeId($modPengPerawataninen->tglpengperawatanlinen) : "-"; ?></td>
         </tr>
         <tr>
-            <td>No. Pengajuan Perawatan Linen</td>
-            <td>:</td>
-            <td><?php echo isset($modPengPerawataninen->pengperawatanlinen_no) ? $modPengPerawataninen->pengperawatanlinen_no : "-"; ?></td>
+            <td>No. Pengajuan Perawatan Linen</td>            
+            <td  colspan="2">: <?php echo isset($modPengPerawataninen->pengperawatanlinen_no) ? $modPengPerawataninen->pengperawatanlinen_no : "-"; ?></td>
         </tr>
         <tr>
-            <td>Ruangan</td>
-            <td>:</td>
-            <td><?php echo isset($modPengPerawataninen->ruangan->ruangan_nama) ? $modPengPerawataninen->ruangan->ruangan_nama : "-"; ?></td>
+            <td>Ruangan</td>            
+            <td  colspan="2">: <?php echo isset($modPengPerawataninen->ruangan->ruangan_nama) ? $modPengPerawataninen->ruangan->ruangan_nama : "-"; ?></td>
         </tr>
         <tr>
-            <td>Keterangan</td>
-            <td>:</td>
-            <td><?php echo isset($modPengPerawataninen->keterangan_pengperawatanlinen) ? $modPengPerawataninen->keterangan_pengperawatanlinen : "-"; ?></td>
+            <td>Keterangan</td>            
+            <td  colspan="2">: <?php echo isset($modPengPerawataninen->keterangan_pengperawatanlinen) ? $modPengPerawataninen->keterangan_pengperawatanlinen : "-"; ?></td>
         </tr>
     </table><br/><br>
 	
@@ -60,11 +56,61 @@ echo $this->renderPartial('application.views.headerReport.headerAnggaran',array(
 	<table width="100%" style="margin-top:20px;">
     <tr>
 		<td width="35%" align="center">
-			<div>Mengajukan<br></div>
+			<div>
+                            Mengajukan
+                            <?php
+                                if ($_GET['caraPrint']=='PDF'){
+                            ?>
+                                    <p>&nbsp;</p><p>&nbsp;</p>
+                                    <p>&nbsp;</p><p>&nbsp;</p>
+                                    <p>&nbsp;</p><p>&nbsp;</p>
+                            <?php
+                                }elseif($_GET['caraPrint']=='EXCEL'){
+                            ?>      
+                                    <p>&nbsp;</p><p>&nbsp;</p>
+                            <?php
+                                }
+                            ?>
+                        </div>
 			<div style="margin-top:60px;"><?php echo isset($modPengPerawataninen->pegawai->nama_pegawai) ? $modPengPerawataninen->pegawai->nama_pegawai : "-"; ?></div>
 		</td>
+                <td width="35%" align="center">
+			<div>
+                            
+                           <?php
+                                if ($_GET['caraPrint']=='PDF'){
+                            ?>
+                                    <p>&nbsp;</p><p>&nbsp;</p>
+                                    <p>&nbsp;</p><p>&nbsp;</p>
+                                    <p>&nbsp;</p><p>&nbsp;</p>
+                            <?php
+                                }elseif($_GET['caraPrint']=='EXCEL'){
+                            ?>      
+                                    <p>&nbsp;</p><p>&nbsp;</p>
+                            <?php
+                                }
+                            ?>
+                        </div>
+			<div style="margin-top:60px;"></div>
+			<div></div>
+		</td>              
 		<td width="35%" align="center">
-			<div>Mengetahui</div>
+			<div>
+                            Mengetahui
+                           <?php
+                                if ($_GET['caraPrint']=='PDF'){
+                            ?>
+                                    <p>&nbsp;</p><p>&nbsp;</p>
+                                    <p>&nbsp;</p><p>&nbsp;</p>
+                                    <p>&nbsp;</p><p>&nbsp;</p>
+                            <?php
+                                }elseif($_GET['caraPrint']=='EXCEL'){
+                            ?>      
+                                    <p>&nbsp;</p><p>&nbsp;</p>
+                            <?php
+                                }
+                            ?>
+                        </div>
 			<div style="margin-top:60px;"><?php echo isset($modPengPerawataninen->pegawaiMengajukan->nama_pegawai) ? $modPengPerawataninen->pegawaiMengajukan->nama_pegawai : "-"; ?></div>
 			<div></div>
 		</td>

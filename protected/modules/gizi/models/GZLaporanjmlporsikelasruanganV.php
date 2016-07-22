@@ -59,7 +59,7 @@ class GZLaporanjmlporsikelasruanganV extends LaporanjmlporsikelasruanganV
                 }
             }
             
-            if($nama_kolom == 'BANGSAL'){
+            /*if($nama_kolom == 'BANGSAL'){
                 $criteria->addCondition('kelaspelayanan_id = 19');
             }else if($nama_kolom == 'OBS'){
                 $criteria->addCondition('kelaspelayanan_id = 22');
@@ -84,6 +84,16 @@ class GZLaporanjmlporsikelasruanganV extends LaporanjmlporsikelasruanganV
             }if($nama_kolom == 'JML'){
                 $kelas = array(19,22,6,8,9,10,18,13,14,15,16,17);
                 $criteria->addInCondition('kelaspelayanan_id',$kelas);
+            }*/
+            if ($nama_kolom == 'JML'){
+                 $kelas = KelaspelayananM::model()->findAll('kelaspelayanan_aktif = TRUE ORDER BY kelaspelayanan_nama');
+                    $id=array();
+                    foreach($kelas as $pecah_id){
+                        $id[].= $pecah_id->kelaspelayanan_id;
+                    }   
+                $criteria->addInCondition("kelaspelayanan_id",$id);
+            }else{
+                $criteria->addCondition("kelaspelayanan_id = '$nama_kolom' ");
             }
             
             if(isset($_GET['GZLaporanjmlporsikelasruanganV'])){
@@ -104,15 +114,15 @@ class GZLaporanjmlporsikelasruanganV extends LaporanjmlporsikelasruanganV
         public function getSumTotalPorsi($groups = array(), $nama_kolom = null){
             $format = new MyFormatter();
             $criteria=new CDbCriteria();
-            $criteria->group = 'kelaspelayanan_id,jenisdiet_nama';
+            $criteria->group = 'kelaspelayanan_id, jenisdiet_nama';
             foreach($groups AS $i => $group){
                 if($group == 'jenisdiet'){
-                    $criteria->group .= ', kelaspelayanan_id';
-                    $criteria->compare('kelaspelayanan_id',$this->kelaspelayanan_id);
+                   // $criteria->group .= ', kelaspelayanan_id';
+                    //$criteria->compare('kelaspelayanan_id',$this->kelaspelayanan_id);
                 }
             }
             
-            if($nama_kolom == 'BANGSAL'){
+            /*if($nama_kolom == 'BANGSAL'){
                 $criteria->addCondition('kelaspelayanan_id = 19');
             }else if($nama_kolom == 'OBS'){
                 $criteria->addCondition('kelaspelayanan_id = 22');
@@ -137,6 +147,16 @@ class GZLaporanjmlporsikelasruanganV extends LaporanjmlporsikelasruanganV
             }if($nama_kolom == 'TOTAL'){
                 $kelas = array(19,22,6,8,9,10,18,13,14,15,16,17);
                 $criteria->addInCondition('kelaspelayanan_id',$kelas);
+            }*/
+             if ($nama_kolom == 'TOTAL'){
+                    $kelas = KelaspelayananM::model()->findAll('kelaspelayanan_aktif = TRUE ORDER BY kelaspelayanan_nama');
+                    $id=array();
+                    foreach($kelas as $pecah_id){
+                        $id[].= $pecah_id->kelaspelayanan_id;
+                    }            
+               $criteria->addInCondition("kelaspelayanan_id", $id);
+            }else{
+                $criteria->addCondition("kelaspelayanan_id = $nama_kolom ");
             }
             
             if(isset($_GET['GZLaporanjmlporsikelasruanganV'])){

@@ -6,6 +6,7 @@ class BSLaporancaramasukpenunjangV extends LaporancaramasukpenunjangV {
     public $tgl_awal,$bln_awal,$thn_awal;
     public $tgl_akhir,$bln_akhir,$thn_akhir;
     
+    
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }
@@ -35,7 +36,7 @@ class BSLaporancaramasukpenunjangV extends LaporancaramasukpenunjangV {
             $criteria->group = 'ruanganasal_nama';
         }
         else{
-            $criteria->select = 'count(tglmasukpenunjang) as jumlah, asalrujukan_nama as data';
+            $criteria->select = "count(tglmasukpenunjang) as jumlah, (CASE WHEN asalrujukan_nama IS NULL THEN 'Data Kosong'::text ELSE asalrujukan_nama END) as data";
             $criteria->group = 'asalrujukan_nama';
         }
         
@@ -63,25 +64,27 @@ class BSLaporancaramasukpenunjangV extends LaporancaramasukpenunjangV {
     protected function functionCriteria() {
 
         $criteria = new CDbCriteria;
-
+    
         if (!empty($this->pilihan)){
             if ($this->pilihan == 'instalasi'){
-                if (!is_array($this->ruanganasal_id)){
-                    $this->ruanganasal_id = 0;
+               if(is_array($this->ruanganasal_id)){
+                        $criteria->addInCondition('ruanganasal_id',$this->ruanganasal_id);
+                }else{
+                    $criteria->addCondition('ruanganasal_id is NULL');
                 }
-				if(!empty($this->ruanganasal_id)){
-					$criteria->addInCondition('ruanganasal_id',$this->ruanganasal_id);
-				}
+                
+		
             }
-            else{
-                if (!is_array($this->asalrujukan_id)){
-                    $this->asalrujukan_id = 0;
+            else{                
+              
+                if(is_array($this->asalrujukan_id)){
+                        $criteria->addInCondition('asalrujukan_id',$this->asalrujukan_id);
+                }else{
+                    $criteria->addCondition('asalrujukan_id is NULL');
                 }
-				if(!empty($this->asalrujukan_id)){
-					$criteria->addCondition('asalrujukan_id = '.$this->asalrujukan_id);
-				}
             }
         }
+        
         $this->tgl_awal = MyFormatter::formatDateTimeForDb($this->tgl_awal);
         $this->tgl_akhir = MyFormatter::formatDateTimeForDb($this->tgl_akhir);
         $criteria->addBetweenCondition('date(tglmasukpenunjang)', $this->tgl_awal, $this->tgl_akhir);
@@ -142,9 +145,7 @@ class BSLaporancaramasukpenunjangV extends LaporancaramasukpenunjangV {
         $criteria->compare('LOWER(statusperiksa)', strtolower($this->statusperiksa), true);
         $criteria->addCondition('ruanganpenunj_id = '.Yii::app()->user->getState('ruangan_id'));
         $criteria->compare('LOWER(ruanganpenunj_nama)', strtolower($this->ruanganpenunj_nama), true);
-		if(!empty($this->instalasiasal_id)){
-			$criteria->addCondition('instalasiasal_id = '.$this->instalasiasal_id);
-		}
+		
         $criteria->compare('LOWER(instalasiasal_nama)', strtolower($this->instalasiasal_nama), true);
 		if(!empty($this->pasienadmisi_id)){
 			$criteria->addCondition('pasienadmisi_id = '.$this->pasienadmisi_id);
@@ -191,15 +192,7 @@ class BSLaporancaramasukpenunjangV extends LaporancaramasukpenunjangV {
 			$criteria->addCondition('kelurahan_id = '.$this->kelurahan_id);
 		}
         $criteria->compare('LOWER(kelurahan_nama)', strtolower($this->kelurahan_nama), true);
-		if(!empty($this->rujukan_id)){
-			$criteria->addCondition('rujukan_id = '.$this->rujukan_id);
-		}
-
-        $criteria->compare('LOWER(asalrujukan_nama)', strtolower($this->asalrujukan_nama), true);
-        $criteria->compare('LOWER(no_rujukan)', strtolower($this->no_rujukan), true);
-        $criteria->compare('LOWER(nama_perujuk)', strtolower($this->nama_perujuk), true);
-        $criteria->compare('LOWER(tanggal_rujukan)', strtolower($this->tanggal_rujukan), true);
-        $criteria->compare('LOWER(diagnosa_rujukan)', strtolower($this->diagnosa_rujukan), true);
+		
 
         return $criteria;
     }

@@ -13,9 +13,9 @@
             <tr>
                 <!-- ====================== kolom ke-1 ============================================== -->
                 <td>
-                    <?php echo $form->textFieldRow($modelpegawai,'nomorindukpegawai',array('id'=>'NIP', 'onkeypress'=>"if (event.keyCode == 13){setNip(this);}return $(this).focusNextInputField(event)", 'class'=>'span3')); ?>
+                    <?php echo $form->textFieldRow($modelpegawai,'nomorindukpegawai',array('id'=>'NIP', 'onkeypress'=>"if (event.keyCode == 13){setNip(this);}return $(this).focusNextInputField(event)", 'class'=>'span3', 'readonly'=>TRUE)); ?>
                     <div class="control-group">
-                        <?php echo CHtml::label('Nama pegawai','namapegawai',array('class'=>'control-label')) ?>
+                        <?php echo CHtml::label('Nama','namapegawai',array('class'=>'control-label')) ?>
                         <div class="controls">
                                 <?php echo $form->hiddenField($modelpegawai,'pegawai_id',array('readonly'=>true,'id'=>'pegawai_id')) ?>
                                 <?php echo $form->textField($modelpegawai,'nama_pegawai',array('readonly'=>true)); ?>
@@ -24,7 +24,7 @@
                     <?php echo $form->textFieldRow($modelpegawai,'tempatlahir_pegawai',array('readonly'=>true,'id'=>'tempatlahir_pegawai')); ?>
                     <?php echo $form->textFieldRow($modelpegawai, 'tgl_lahirpegawai',array('readonly'=>true,'id'=>'tgl_lahirpegawai')); ?>
                     <?php echo $form->textFieldRow($modelpegawai, 'jeniskelamin',array('readonly'=>true,'id'=>'jeniskelamin')); ?>
-                    <?php echo $form->textFieldRow($modelpegawai,'jabatan_id',array('readonly'=>true,'id'=>'jabatan')); ?>
+                    <?php echo $form->textFieldRow($modelpegawai,'jabatan_nama',array('readonly'=>true,'id'=>'jabatan')); ?>
                 </td>
                 <!-- =========================== kolom ke 2 ====================================== -->
                 <td>
@@ -82,8 +82,8 @@
                         <?php  $model->tglpenggajian =  MyFormatter::formatDateTimeForDb($model->tglpenggajian); ?>
                         </div>
                     </div>
-                    <?php echo $form->textFieldRow($model,'nopenggajian',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
-                    <?php echo $form->textAreaRow($model,'keterangan',array('rows'=>6, 'cols'=>50, 'class'=>'span5', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                    <?php echo $form->textFieldRow($model,'nopenggajian',array('readonly'=>TRUE,'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+                    <?php echo $form->textAreaRow($model,'keterangan',array('readonly'=>TRUE,'rows'=>6, 'cols'=>50, 'class'=>'span5', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                 </td>
                 <td>
                     <div class="control-group">
@@ -129,7 +129,7 @@
     <table width="100%">
         <tr>
             <td>
-                <?php echo $form->textFieldRow($model,'totalpajak',array('class'=>'span3 numbersOnly', 'onblur'=>'setHarga();','onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align:right;')); ?>
+                <?php echo $form->textFieldRow($model,'totalpajak',array('readonly'=>TRUE,'class'=>'span3 numbersOnly', 'onblur'=>'setHarga();','onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align:right;')); ?>
                 <?php echo $form->textFieldRow($model,'penerimaanbersih',array('class'=>'span3 numbersOnly', 'readonly'=>true, 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align:right;')); ?>
             </td>
             <td>

@@ -43,10 +43,11 @@
 			'template' => "{summary}\n{items}\n{pager}",
 			'itemsCssClass' => 'table table-striped table-bordered table-condensed',
 			'columns' => array(
+				/*
 				array(
 					'header' => 'ID',
 					'value' => '$data->intervensidet_id',
-				),
+				),*/
 				array(
 					'header' => 'Diagnosa Keperawatan',
 					'name' => 'diagnosakep_nama',

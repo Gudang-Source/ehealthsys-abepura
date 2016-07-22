@@ -163,16 +163,21 @@ $this->renderPartial('rekapJasaDokter/_search', array(
         </div>
     </div>
 </div>
-
+<div class="block-tabel">
+        <?php //$this->renderPartial('_tab'); ?>
+        <iframe class="biru" src="" id="Grafik" width="100%" height='0'  onload="javascript:resizeIframe(this);">
+        </iframe>        
+    </div>
 <div class="form-actions">
     <?php
 	$url = Yii::app()->createUrl('bedahSentral/laporan/frameGrafikLaporanPendapatan&id=1');
 	$controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
 	$module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
 	$urlPrint = Yii::app()->createAbsoluteUrl($module . '/' . $controller . '/printLaporanDetailRekapJasaDokter');
-	$this->renderPartial('_footer', array('urlPrint'=>$urlPrint, 'url'=>$url));
+	$this->renderPartial('_footer', array('urlPrint'=>$urlPrint, 'url'=>$url, 'tips'=>'10besarpenyakit','grafik'=>'none'));
 	?>
 </div>
+ 
 <?php
 $filterruangan = in_array(Yii::app()->user->getState('instalasi_id'), array(Params::INSTALASI_ID_IBS))?1:'';
 $jsx = <<< JSCRIPT

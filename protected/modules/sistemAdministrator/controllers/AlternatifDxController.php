@@ -148,19 +148,21 @@ class AlternatifDxController extends MyAuthController {
 
 	public function simpanBatasDetail($diagnosakep_id, $post) {
 		foreach ($post as $i => $row) {
-			$batkar = SAAlternatifdxM::model()->findByAttributes(array('diagnosakep_id' => $diagnosakep_id, 'alternatifdx_nama' => $row['alternatifdx_nama']));
-			if ( count($batkar) || !empty($row['alternatifdx_id'])) {
-				SAAlternatifdxM::model()->updateByPk($row['alternatifdx_id'], array('alternatifdx_nama' => $row['alternatifdx_nama'],
-					'alternatifdx_aktif' => $row['alternatifdx_aktif']));
-				$this->simpan &= true;
-			} else {
-				$model = new SAAlternatifdxM;
-				$model->attributes = $row;
-				$model->diagnosakep_id = $diagnosakep_id;
-				$model->alternatifdx_nama = $row['alternatifdx_nama'];
-				$model->alternatifdx_aktif = $row['alternatifdx_aktif'];
-				if (!$model->save()) {
-					$this->simpan &= false;
+			if (is_numeric($i)) {
+				$batkar = SAAlternatifdxM::model()->findByAttributes(array('diagnosakep_id' => $diagnosakep_id, 'alternatifdx_nama' => $row['alternatifdx_nama']));
+				if ( count($batkar) || !empty($row['alternatifdx_id'])) {
+					SAAlternatifdxM::model()->updateByPk($row['alternatifdx_id'], array('alternatifdx_nama' => $row['alternatifdx_nama'],
+						'alternatifdx_aktif' => $row['alternatifdx_aktif']));
+					$this->simpan &= true;
+				} else {
+					$model = new SAAlternatifdxM;
+					$model->attributes = $row;
+					$model->diagnosakep_id = $diagnosakep_id;
+					$model->alternatifdx_nama = $row['alternatifdx_nama'];
+					$model->alternatifdx_aktif = $row['alternatifdx_aktif'];
+					if (!$model->save()) {
+						$this->simpan &= false;
+					}
 				}
 			}
 		}
