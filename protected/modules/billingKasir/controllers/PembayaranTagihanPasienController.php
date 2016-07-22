@@ -596,9 +596,10 @@ class PembayaranTagihanPasienController extends MyAuthController
                  * Muncul alert jika pasien memenuhi semua kriteria:
                  * - Pasien Poli (RAWAT JALAN)
                  * - Status Periksa ANTRIAN
-                 * - Penjamin UMUM
+                 * - Penjamin Selain UMUM
                  * - Belum ada tindakan poli
                  */
+                $antri = 0;
                 if (!empty($pendaftaran_id)) {
                     $p = PendaftaranT::model()->findByAttributes(array(
                         'pendaftaran_id'=>$pendaftaran_id,
