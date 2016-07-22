@@ -119,7 +119,11 @@ class VerifikasitagihanT extends CActiveRecord
 		));
 	}
 
-	public function getPegawaiItems() {
-        return PegawaiM::model()->findAll('pegawai_aktif=TRUE ORDER BY nama_pegawai');
+	public function getPegawaiItems($ruangan=null) {
+            if ($ruangan != null){
+                return PegawairuanganV::model()->findAll("pegawai_aktif = TRUE AND ruangan_id = ".$ruangan." ORDER BY nama_pegawai ASC");
+            }else{
+                return PegawaiM::model()->findAll('pegawai_aktif=TRUE ORDER BY nama_pegawai');
+            }
     }
 }

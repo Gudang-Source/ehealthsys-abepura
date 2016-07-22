@@ -3,6 +3,8 @@
         color:red;
     }
 </style>
+<?php //Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js'); ?>
+<?php //Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js'); ?>
 <div class="white-container">
     <legend class="rim2">Verifikasi <b>Tagihan</b></legend>
     <?php
@@ -30,7 +32,7 @@
                 'focus'=>'#BKPendaftaranT_instalasi_id',
                 'htmlOptions'=>array(
                     'onKeyPress'=>'return disableKeyPress(event)',
-                    'onsubmit'=>'return requiredCheck(this);'
+                    'onsubmit'=>'return requiredCheck(this);return false;'
                 ),
             )
         );    
@@ -320,11 +322,12 @@
                                 'class'=>'inputRequire', 
                                 'onkeypress'=>"return $(this).focusNextInputField(event)", 
                                 'maxlength'=>50,
+                                'readonly'=>TRUE
                             )
                         );
                     ?>
                     <?php
-                        echo $form->dropDownListRow($modVerifikasi,'mengetahuioleh_id', CHtml::listData($modVerifikasi->getPegawaiItems(), 'pegawai_id', 'nama_pegawai'),array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)"));
+                        echo $form->dropDownListRow($modVerifikasi,'mengetahuioleh_id', CHtml::listData($modVerifikasi->getPegawaiItems(Yii::app()->user->getState('ruangan_id')), 'pegawai_id', 'nama_pegawai'),array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)"));
 
                         // echo $form->dropDownListRow($modVerifikasi,'mengetahuioleh_id', CHtml::listData($model->getDokterItems($model->ruangan_id), 'pegawai_id', 'nama_pegawai') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)")); 
                     ?>               
@@ -352,8 +355,8 @@
                             'class'=>'btn btn-primary', 
                             'type'=>'submit',
                             'id'=>'btn_simpan',
-                            // 'onKeypress'=>'return formSubmit(this,event)',
-                            'onClick'=>'onClickSubmit();return false;',
+                            'onKeypress'=>'return formSubmit(this,event)',
+                            //'onClick'=>'onClickSubmit();return false;',
 
                         )
                     );
@@ -365,16 +368,19 @@
                             'class'=>'btn btn-primary', 
                             'type'=>'submit',
                             'id'=>'btn_simpan',
-                            // 'onKeypress'=>'return formSubmit(this,event)',
-                            'onClick'=>'onClickSubmit();return false;',
+                            'onKeypress'=>'return formSubmit(this,event)',
+                            //'onClick'=>'onClickSubmit();return false;',
                             'disabled'=>true,
 
                         )
                     );
                     echo "&nbsp;";
                 }
-                
-                echo CHtml::link(Yii::t('mds', '{icon} Reset', array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), $this->createUrl('verifikasiTagihan/Index'), array('disabled'=>false,'class'=>'btn btn-danger'));
+                                
+        
+        echo CHtml::link(Yii::t('mds', '{icon} Ulang', array('{icon}' => '<i class="icon-refresh icon-white"></i>')), $this->createUrl($this->id . '/index'), array('class' => 'btn btn-danger',
+            'onclick' => 'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = "' . $this->createUrl($this->id . '/index') . '";}); return false;'));
+        
                 echo "&nbsp;";
                 $content = $this->renderPartial('tips',array(),true);
                 $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 

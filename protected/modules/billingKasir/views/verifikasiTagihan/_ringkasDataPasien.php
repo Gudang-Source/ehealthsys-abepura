@@ -222,10 +222,21 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 //        $modDialogPasien->idInstalasi = $_GET['BKPasienM']['idInstalasi'];
         $modDialogPasien->no_pendaftaran = (isset($_GET['BKPasienM']['no_pendaftaran']) ? $_GET['BKPasienM']['no_pendaftaran'] : null);
         $modDialogPasien->tgl_pendaftaran_cari = (isset($_GET['BKPasienM']['tgl_pendaftaran_cari']) ? $_GET['BKPasienM']['tgl_pendaftaran_cari'] : null);
-        $modDialogPasien->instalasi_nama = $_GET['BKPasienM']['instalasi_nama'];
-        $modDialogPasien->carabayar_nama = (isset($_GET['BKPasienM']['carabayar_nama']) ? $_GET['BKPasienM']['carabayar_nama'] : null);
-        $modDialogPasien->ruangan_nama = (isset($_GET['BKPasienM']['ruangan_nama']) ? $_GET['BKPasienM']['ruangan_nama'] : null);
+        $modDialogPasien->instalasi_id = (isset($_GET['BKPasienM']['instalasi_id']) ? $_GET['BKPasienM']['instalasi_id'] : null);
+        $modDialogPasien->ruangan_id = (isset($_GET['BKPasienM']['ruangan_id']) ? $_GET['BKPasienM']['ruangan_id'] : null);
+        $modDialogPasien->carabayar_id = (isset($_GET['BKPasienM']['carabayar_id']) ? $_GET['BKPasienM']['carabayar_id'] : null);
+       // $modDialogPasien->instalasi_nama = $_GET['BKPasienM']['instalasi_nama'];
+       // $modDialogPasien->carabayar_nama = (isset($_GET['BKPasienM']['carabayar_nama']) ? $_GET['BKPasienM']['carabayar_nama'] : null);
+        //$modDialogPasien->ruangan_nama = (isset($_GET['BKPasienM']['ruangan_nama']) ? $_GET['BKPasienM']['ruangan_nama'] : null);
     }
+    
+    $cr = new CDbCriteria();
+    if (!empty($modDialogPasien->instalasi_id))
+    {        
+        $cr->addCondition("instalasi_id = $modDialogPasien->instalasi_id");
+    }
+    $cr->order = 'ruangan_nama';
+    $r1 = BKRuanganM::model()->findAll($cr);
 
     $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'id'=>'pendaftaran-t-grid',
@@ -277,7 +288,12 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                         'type'=>'raw',
                         'value'=>'$data->nama_pasien',
                     ),
-                    'jeniskelamin',
+                    array(
+                        'header'=>'Jenis Kelamin',
+                        'name' => 'jeniskelamin',
+                        'value' => '$data->jeniskelamin',
+                        'filter' => CHtml::dropDownList('BKPasienM[jeniskelamin]', $modDialogPasien->jeniskelamin, LookupM::getItems('jeniskelamin'), array('empty'=>'-- Pilih --'))
+                    ),                    
                     'no_pendaftaran',
                     array(
                         'name'=>'tgl_pendaftaran',
@@ -285,17 +301,25 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                         CHtml::activeTextField($modDialogPasien, 'tgl_pendaftaran_cari', array('placeholder'=>'contoh: 15 Jan 2013')),
                     ),
                     array(
-                        'name'=>'instalasi_nama',
+                        'header'=>'Instalasi',
+                        'name'=>'instalasi_id',
                         'type'=>'raw',
+                        'value'=>'$data->instalasi_nama',
+                        'filter'=>  CHtml::dropDownList('BKPasienM[instalasi_id]', $modDialogPasien->instalasi_id, CHtml::listData($modPendaftaran->getInstalasis(), 'instalasi_id', 'instalasi_nama'), array('empty'=>'-- Pilih --'))
                     ),
                     array(
-                        'name'=>'ruangan_nama',
+                        'header'=>'Ruangan',
+                        'value' => '$data->ruangan_nama',
+                        'name'=>'ruangan_id',
                         'type'=>'raw',
+                        'filter'=>  CHtml::dropDownList('BKPasienM[ruangan_id]', $modDialogPasien->ruangan_id, CHtml::listData($r1, 'ruangan_id', 'ruangan_nama'), array('empty'=>'-- Pilih --'))
                     ),
                     array(
-                        'name'=>'carabayar_nama',
+                        'header'=>'Cara Bayar',
+                        'name'=>'carabayar_id',
                         'type'=>'raw',
                         'value'=>'$data->carabayar_nama',
+                        'filter'=>  CHtml::dropDownList('BKPasienM[carabayar_id]', $modDialogPasien->carabayar_id, CHtml::listData(CarabayarM::model()->findAll("carabayar_aktif = TRUE ORDER BY carabayar_nama ASC"), 'carabayar_id', 'carabayar_nama'), array('empty'=>'-- Pilih --'))
                     ),
 
 
@@ -392,9 +416,8 @@ function refreshDialogPendaftaran(){
     var instalasiId = $("#BKPendaftaranT_instalasi_id").val();
     var instalasiNama = $("#BKPendaftaranT_instalasi_id option:selected").text();
     $.fn.yiiGridView.update('pendaftaran-t-grid', {
-        data: {
-            "BKPasienM[idInstalasi]":instalasiId,
-            "BKPasienM[instalasi_nama]":instalasiNama,
+        data: {            
+            "BKPasienM[instalasi_id]":instalasiId,
         }
     });
 }

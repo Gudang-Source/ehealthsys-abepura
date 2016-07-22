@@ -8,7 +8,7 @@ class BKPasienM extends PasienM
 	 * @return AnamnesaT the static model class
 	 */
         public $idInstalasi, $ruangan_nama, $carabayar_nama, $tgl_pendaftaran_cari, $instalasi_nama, $no_pendaftaran;
-        public $cari_no_rekam_medik, $cari_nama_pasien;
+        public $cari_no_rekam_medik, $cari_nama_pasien, $instalasi_id, $ruangan_id, $carabayar_id;
         public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -101,20 +101,26 @@ class BKPasienM extends PasienM
             }
             $criteria->compare('LOWER(no_rekam_medik)', strtolower($this->no_rekam_medik), true);
             $criteria->compare('LOWER(nama_pasien)', strtolower($this->nama_pasien), true);
-			if(!empty($this->idInstalasi)){
-				$criteria->addCondition("instalasi_id = ".$this->idInstalasi);					
-			}
+            if(!empty($this->instalasi_id)){
+                    $criteria->addCondition("instalasi_id = ".$this->instalasi_id);					
+            }
+            if(!empty($this->ruangan_id)){
+                    $criteria->addCondition("ruangan_id = ".$this->ruangan_id);					
+            }
+            if(!empty($this->carabayar_id)){
+                    $criteria->addCondition("carabayar_id = ".$this->carabayar_id);					
+            }
 //            $criteria->compare('LOWER(instalasi_nama)', strtolower($this->namaInstalasi), true);
-            $criteria->compare('LOWER(ruangan_nama)', strtolower($this->ruangan_nama), true);
-            $criteria->compare('LOWER(carabayar_nama)', strtolower($this->carabayar_nama), true);
+            //$criteria->compare('LOWER(ruangan_nama)', strtolower($this->ruangan_nama), true);
+            //$criteria->compare('LOWER(carabayar_nama)', strtolower($this->carabayar_nama), true);
             $criteria->compare('LOWER(jeniskelamin)', strtolower($this->jeniskelamin), true);
             $criteria->limit = 50;
             $criteria->order = 'tgl_pendaftaran DESC';
             //kembalikan format
             $this->tgl_pendaftaran_cari = empty($this->tgl_pendaftaran_cari) ? null : date('d M Y',strtotime($this->tgl_pendaftaran_cari));
-            if($this->idInstalasi == Params::INSTALASI_ID_RD){
+            if($this->instalasi_id == Params::INSTALASI_ID_RD){
                 $model = new BKInfokunjunganrdV;
-            }else if($this->idInstalasi == Params::INSTALASI_ID_RJ){
+            }elseif($this->instalasi_id == Params::INSTALASI_ID_RJ){
                 $model = new BKInfokunjunganrjV;
             }else{
                 $model = new BKInfopasienmasukkamarV; //default
