@@ -9,7 +9,10 @@
             berfungsi untuk memuat ulang halaman.
         </li>
         <li>
-            Icon <i class="icon-form-lihat"></i></i> untuk melihat rincian data.
+            Icon <i class="icon-form-lihat"></i> berfungsi untuk melihat rincian data.
+        </li>
+        <li>
+            Icon <i class="icon-form-silang"></i> berfungsi untuk membatalkan data.
         </li>
     </div>
 </ol>

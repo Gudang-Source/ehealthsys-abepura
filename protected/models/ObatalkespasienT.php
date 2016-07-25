@@ -192,6 +192,7 @@ class ObatalkespasienT extends CActiveRecord
                     'obatalkes'=>array(self::BELONGS_TO, 'ObatalkesM', 'obatalkes_id'),
                     'satuankecil'=>array(self::BELONGS_TO, 'SatuankecilM', 'satuankecil_id'),
                     'daftartindakan'=>array(self::BELONGS_TO, 'DaftartindakanM', 'daftartindakan_id'),
+                    'tindakanpelayanan'=>array(self::BELONGS_TO, 'TindakanpelayananT', 'tindakanpelayanan_id'),
                     'penjualanresep'=>array(self::BELONGS_TO, 'PenjualanresepT', 'penjualanresep_id'), //untuk handling relasi dengan penjualan resep
                     'oasudahbayar'=>array(self::BELONGS_TO, 'OasudahbayarT', 'oasudahbayar_id'), // handling relasi dengan oasudahbayar
                     'pendaftaran'=>array(self::BELONGS_TO, 'PendaftaranT','pendaftaran_id'),

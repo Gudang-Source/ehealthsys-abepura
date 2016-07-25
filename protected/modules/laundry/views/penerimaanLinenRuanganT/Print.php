@@ -31,6 +31,13 @@ echo CHtml::css('.control-label{
      width:20cm;
      height:12cm;
     }
+    table .a td{
+    border:1px solid #000;
+    padding:5px;
+    }
+    table .b td{
+    border:1px solid #000;
+    }
 ');
 ?>  
 <?php
@@ -65,15 +72,15 @@ $modProfilRs = ProfilrumahsakitM::model()->findByPk(Params::DEFAULT_PROFIL_RUMAH
         </tr>
     </table><br/><br>
     <table width="100%" style='margin-left:auto; margin-right:auto;'>
-        <thead class="border">
-            <th>No. Registrasi</th>
-            <th>Nama Linen</th>
-            <th>Keterangan</th>
+        <thead class="border">           
+                <th class="border">No. Registrasi</th>
+                <th class="border">Nama Linen</th>
+                <th class="border">Keterangan</th>            
         </thead>
         <?php 
 			foreach ($modPenerimaanLinenRuanganDetail as $i=>$modLinen){ 
         ?>
-            <tr>
+            <tr class = "a">
                 <td><?php echo $modLinen->linen->noregisterlinen; ?></td>
                 <td><?php echo $modLinen->linen->namalinen; ?></td>
                 <td><?php echo $modLinen->keterangan; ?></td>

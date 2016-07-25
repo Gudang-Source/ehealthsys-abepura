@@ -108,7 +108,7 @@
             <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),
                                                     array('class'=>'btn btn-blue', 'type'=>'button', 'onclick'=>'printTarif()')); ?>
                                                                                   <?php 
-                   $content = $this->renderPartial('../tips/informasi',array(),true);
+                   $content = $this->renderPartial('rawatJalan.views.tips.informasiTarif',array(),true);
                                 $this->widget('UserTips',array('type'=>'admin','content'=>$content));
                 ?>
         </div>

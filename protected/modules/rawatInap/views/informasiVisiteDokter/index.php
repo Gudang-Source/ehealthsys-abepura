@@ -52,7 +52,7 @@
                     array(
                             'header'=>'Tarif Visite',
                             'name'=>'tarif_satuan',
-                            'value'=>'MyFormatter::formatNumberForUser($data->tarif_satuan)',
+                            'value'=>'number_format($data->tarif_satuan,0,"",".")',
                             'headerHtmlOptions'=>array('style'=>'text-align:right;'),
                             'htmlOptions'=>array('style'=>'text-align:right;'),			
                             'footerHtmlOptions'=>array('style'=>'text-align:right;color:white;'),
@@ -61,7 +61,7 @@
                     array(
                             'header'=>'Jumlah Tagihan',
                             'name'=>'tarif_tindakan',
-                            'value'=>'MyFormatter::formatNumberForUser($data->tarif_tindakan)',
+                            'value'=>'number_format($data->tarif_tindakan,0,"",".")',
                             'headerHtmlOptions'=>array('style'=>'text-align:right;'),
                             'htmlOptions'=>array('style'=>'text-align:right;'),
                             'footerHtmlOptions'=>array('style'=>'text-align:right;'),
