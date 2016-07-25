@@ -65,7 +65,7 @@
                         'header'=>'Tanggal',
                         'name'=>'jadwaldokter_tgl',
                         'value'=>'MyFormatter::formatDateTimeForUser($data->jadwaldokter_tgl)',
-                        'filter'=>false,
+                        'filter'=>  CHtml::dropDownList('PPJadwaldokterM[bulan]', $model->bulan, Params::getBulan(), array('empty'=>'-- Pilih --')),
                     ),                    
                     'jadwaldokter_hari',
                     'jadwaldokter_buka',

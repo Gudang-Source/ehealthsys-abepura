@@ -906,5 +906,22 @@ Class Params
             return array(1, 2);
         }
         
+        public static function getBulan(){
+            return array(
+                '01' => 'Januari '.date('Y'),
+                '02' => 'Februari '.date('Y'),
+                '03' => 'Maret '.date('Y'),
+                '04' => 'April '.date('Y'),
+                '05' => 'Mei '.date('Y'),
+                '06' => 'Juni '.date('Y'),
+                '07' => 'Juli '.date('Y'),
+                '08' => 'Agustus '.date('Y'),
+                '09' => 'September '.date('Y'),
+                '10' => 'Oktober '.date('Y'),
+                '11' => 'November '.date('Y'),
+                '12' => 'Desember '.date('Y')
+            );
+        }
+        
 }
 ?>

@@ -26,7 +26,7 @@ class JadwaldokterM extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return JadwaldokterM the static model class
 	 */
-    
+         public $bulan;
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -53,7 +53,7 @@ class JadwaldokterM extends CActiveRecord
 			array('jadwaldokter_hari', 'length', 'max'=>20),
 			array('jadwaldokter_buka', 'length', 'max'=>50),
                         array('jadwaldokter_mulai, jadwaldokter_tutup', 'date', 'format'=>'H:m:s'),
-			array('jadwaldokter_mulai, jadwaldokter_tutup, create_time, update_time, create_loginpemakai_id, update_loginpemakai_id, create_ruangan', 'safe'),
+			array('bulan, jadwaldokter_mulai, jadwaldokter_tutup, create_time, update_time, create_loginpemakai_id, update_loginpemakai_id, create_ruangan', 'safe'),
                         array('jadwaldokter_mulai, jadwaldokter_tutup','setValidation'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -153,6 +153,11 @@ class JadwaldokterM extends CActiveRecord
                 // should not be searched.
 
                 $criteria=new CDbCriteria;
+                 if (!empty($this->bulan)){                    
+                    $criteria->addBetweenCondition('DATE(jadwaldokter_tgl)', date('Y-m-1', strtotime(date('Y-'.$this->bulan.'-1'))), date('Y-m-t',strtotime(date('Y-'.$this->bulan.'-t'))));
+                }else{                    
+                    $criteria->addBetweenCondition('DATE(jadwaldokter_tgl)', date('Y-m-1'), date('Y-m-t'));
+                }
 		$criteria->compare('jadwaldokter_id',$this->jadwaldokter_id);
 		$criteria->compare('instalasi_id',$this->instalasi_id);
 		$criteria->compare('ruangan_id',$this->ruangan_id);

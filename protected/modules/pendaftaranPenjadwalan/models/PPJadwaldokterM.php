@@ -21,6 +21,7 @@
  */
 class PPJadwaldokterM extends JadwaldokterM
 {
+    
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -33,9 +34,13 @@ class PPJadwaldokterM extends JadwaldokterM
     public function search()
 	{
 		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
+		// should not be searched.                
 		$criteria=new CDbCriteria;
+                if (!empty($this->bulan)){                    
+                    $criteria->addBetweenCondition('DATE(jadwaldokter_tgl)', date('Y-m-1', strtotime(date('Y-'.$this->bulan.'-1'))), date('Y-m-t',strtotime(date('Y-'.$this->bulan.'-t'))));
+                }else{                    
+                    $criteria->addBetweenCondition('DATE(jadwaldokter_tgl)', date('Y-m-1'), date('Y-m-t'));
+                }
 		$criteria->compare('jadwaldokter_id',$this->jadwaldokter_id);
 		$criteria->compare('t.instalasi_id',$this->instalasi_id);
 		$criteria->compare('ruangan_id',$this->ruangan_id);
@@ -51,7 +56,7 @@ class PPJadwaldokterM extends JadwaldokterM
 		$criteria->compare('LOWER(create_loginpemakai_id)',strtolower($this->create_loginpemakai_id),true);
 		$criteria->compare('LOWER(update_loginpemakai_id)',strtolower($this->update_loginpemakai_id),true);
 		$criteria->compare('LOWER(create_ruangan)',strtolower($this->create_ruangan),true);
-		$criteria->join='JOIN pegawai_m ON t.pegawai_id = pegawai_m.pegawai_id'; 
+		$criteria->join='JOIN pegawai_m ON t.pegawai_id = pegawai_m.pegawai_id';                 
 		//$criteria->order="nama_pegawai ASC";
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

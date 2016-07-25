@@ -37,6 +37,12 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                         'value'=>'$data->pegawai->nama_pegawai',
                 ),
 		'jadwaldokter_hari',
+                array(
+                        'header'=>'Tanggal',
+                        'name'=>'jadwaldokter_tgl',
+                        'value'=>'MyFormatter::formatDateTimeForUser($data->jadwaldokter_tgl)',
+                        'filter'=>  CHtml::dropDownList('PPJadwaldokterM[bulan]', $model->bulan, Params::getBulan(), array('empty'=>'-- Pilih --')),
+                    ),                    
 		'jadwaldokter_buka',
  
         ),
