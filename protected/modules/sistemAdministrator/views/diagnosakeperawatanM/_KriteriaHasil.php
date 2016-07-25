@@ -1,5 +1,5 @@
 <?php
-$modKriteriaHasil=  KriteriahasilM::model()->findAll('diagnosakeperawatan_id='.$diagnosakeperawatan_id.'');
+$modKriteriaHasil=  KriteriahasilM::model()->findAll('diagnosakep_id='.$diagnosakeperawatan_id.'');
 if(COUNT($modKriteriaHasil)>0)
     {
         echo "<ul>";

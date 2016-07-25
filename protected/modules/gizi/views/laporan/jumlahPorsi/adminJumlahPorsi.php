@@ -24,7 +24,7 @@
         )); ?>
     </fieldset><!-- search-form -->
     <div class="block-tabel">
-        <h6>Tabel Jumlah <b>Porsi Berdasarkan Ruangan</b></h6> 
+        <h6>Tabel Jumlah Porsi Berdasarkan <b><span id = "ruangan"></span></b></h6> 
         <?php $this->renderPartial('jumlahPorsi/_tableJumlahPorsi', array('model'=>$model)); ?>
         <?php //$this->renderPartial('_tab'); ?>
         <iframe src="" id="Grafik" width="100%" height='0'  onload="javascript:resizeIframe(this);">
@@ -39,5 +39,19 @@
     $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
     $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
     $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/printLaporanJumlahPorsiGizi');
-    $this->renderPartial('_footer', array('urlPrint'=>$urlPrint, 'url'=>$url));?>
+    $this->renderPartial('_footer', array('urlPrint'=>$urlPrint, 'url'=>$url, 'grafik'=>'none'));?>
+        <?php $this->renderPartial('gizi.views.laporan/_jsFunctions', array('model'=>$model));?>
 </div>
+<script>
+function changeRuangan(){
+        	
+        var ru = "Ruangan "+$("#GZLaporanJumlahPorsiV_ruangan_id option:selected").html();
+       
+	setTimeout(function(){
+            if (ru == "Ruangan -- Pilih --"){
+                ru = "Semua Ruangan";
+            }
+                $("#ruangan").html(ru);		
+	},500);
+}
+</script>

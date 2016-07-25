@@ -68,6 +68,7 @@ class TindakanTRIController extends MyAuthController
         {
             $post = isset($_POST['TindakanpelayananT']) ? $_POST['TindakanpelayananT'] : $_POST['RITindakanPelayananT'];
             $valid=true; 
+            //var_dump($post);die;
             foreach($post as $i=>$item)
             {
                 if(!empty($item) && (!empty($item['daftartindakan_id']))){
@@ -81,7 +82,7 @@ class TindakanTRIController extends MyAuthController
                     $modTindakans[$i]->penjamin_id = $modPendaftaran->penjamin_id;
                     $modTindakans[$i]->jeniskasuspenyakit_id = $modPendaftaran->jeniskasuspenyakit_id;
                     $modTindakans[$i]->pendaftaran_id = $modPendaftaran->pendaftaran_id;
-                    $modTindakans[$i]->keterangantindakan = $item['keterangantindakan'];
+                    $modTindakans[$i]->keterangantindakan = isset($item['keterangantindakan'])?$item['keterangantindakan']:'';
                  // $modTindakans[$i]->tgl_tindakan = $item['tgl_tindakan'];
                     $modTindakans[$i]->tgl_tindakan = $modTindakans[0]->tgl_tindakan;
                     $modTindakans[$i]->shift_id = Yii::app()->user->getState('shift_id');

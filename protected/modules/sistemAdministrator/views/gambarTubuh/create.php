@@ -1,5 +1,7 @@
-<div class="white-container">
-    <legend class="rim2">Tambah <b>Gambar Tubuh</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Tambah <b>Gambar Tubuh</b></legend>-->
+<fieldset class = "box">
+    <legend class = "rim">Tambah Gambar Tubuh</legend>
     <?php
     $this->breadcrumbs=array(
             'Sagambartubuh Ms'=>array('index'),
@@ -7,5 +9,6 @@
     );
     ?>
     <?php $this->widget('bootstrap.widgets.BootAlert'); ?>
-    <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
-</div>
+    <?php echo $this->renderPartial($this->path_view.'_form', array('model'=>$model)); ?>
+<!--</div>-->
+</fieldset>

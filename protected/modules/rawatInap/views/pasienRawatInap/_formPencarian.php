@@ -65,7 +65,7 @@ $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
                 <?php echo $form->dropDownListRow($model,'caramasuk_id', CHtml::listData($model->getCaraMasukItems(), 'caramasuk_id', 'caramasuk_nama') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
                  <?php echo $form->dropDownListRow($model,'carabayar_id', CHtml::listData($model->getCaraBayarItems(), 'carabayar_id', 'carabayar_nama') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",
                                                 'ajax' => array('type'=>'POST',
-                                                    'url'=> Yii::app()->createUrl('ActionDynamic/GetPenjaminPasien',array('encode'=>false,'namaModel'=>'RDPendaftaran')), 
+                                                    'url'=> Yii::app()->createUrl('ActionDynamic/GetPenjaminPasien',array('encode'=>false,'namaModel'=>'RIInfopasienmasukkamarV')), 
                                                     'update'=>'#'.CHtml::activeId($model,'penjamin_id').''  //selector to update
                                                 ),
                         )); ?>
@@ -76,7 +76,7 @@ $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
                        Dokter Penanggung Jawab
                       </label>
                     <div class="controls">
-                        <?php echo $form->dropDownList($model,'nama_pegawai', CHtml::listData(DokterV::model()->findAll(), 'nama_pegawai', 'nama_pegawai') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",)); ?>
+                        <?php echo $form->dropDownList($model,'nama_pegawai', CHtml::listData(DokterV::model()->findAll("pegawai_aktif = TRUE ORDER BY nama_pegawai"), 'nama_pegawai', 'namaLengkap') ,array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",)); ?>
                     </div>
                 </div>
                 <?php echo $form->dropDownListRow($model,'kamarruangan_id',  CHtml::listData(KamarruanganM::model()->findAllByAttributes(array(

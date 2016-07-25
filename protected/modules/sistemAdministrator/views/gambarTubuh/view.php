@@ -1,5 +1,7 @@
-<div class="white-container">
-    <legend class="rim2">Lihat <b>Gambar Tubuh</b></legend>
+<!--<div class="white-container">
+    <legend class="rim2">Lihat <b>Gambar Tubuh</b></legend>-->
+<fieldset class = "box">
+    <legend class = "rim">Lihat Gambar Tubuh</legend>
     <?php
     $this->breadcrumbs=array(
             'Sagambartubuh Ms'=>array('index'),
@@ -36,3 +38,4 @@
         </div>
     </div>
 </div>
+</fieldset>

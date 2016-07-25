@@ -122,7 +122,7 @@ class TransaksiVisiteDokterController extends MyAuthController
                     if($jumlahCeklist==$jumlahTersimpan){
                        $transaction->commit();
                        Yii::app()->user->setFlash('success',"Data Berhasil disimpan ");
-						$this->redirect(array('index',array('sukses'=>1)));  
+						$this->redirect(array('index','sukses'=>1));  
 					} else {
                        $transaction->rollback();
                        Yii::app()->user->setFlash('error',"Data gagal disimpan ".'<pre>'.print_r($modTindakans->getErrors(),1).'</pre>');

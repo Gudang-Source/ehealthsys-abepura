@@ -108,7 +108,7 @@
             <fieldset class="box">
                 <legend class="rim">Pemakaian Obat dan Alat Kesehatan</legend>
                 <div id="form-tambahobatalkes">
-                    <?php $this->renderPartial('_formObatAlkesPasien',array('modKunjungan'=>$modKunjungan,'modObatAlkesPasien'=>$modObatAlkesPasien)); ?>
+                    <?php $this->renderPartial($this->path_view.'_formObatAlkesPasien',array('modKunjungan'=>$modKunjungan,'modObatAlkesPasien'=>$modObatAlkesPasien)); ?>
                 </div>
             </fieldset>
         </div>
@@ -161,11 +161,11 @@
                     echo CHtml::link(Yii::t('mds', '{icon} Print Pemakaiaan BMHP', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"printPemakaianOa(".$_GET['pemakaian_id'].");return false"));
                 }
             ?>
-            <?php $content = $this->renderPartial('../tips/transaksiPemakaianAmbulansPRS',array(),true);
+            <?php $content = $this->renderPartial('ambulans.views.tips.transaksiPemakaianAmbulansPRS',array(),true);
                   $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); ?>
         </div>
     </div>
-<?php $this->renderPartial('_jsFunctions', array('modKunjungan'=>$modKunjungan,'modPemakaian'=>$modPemakaian,'modObatAlkesPasien'=>$modObatAlkesPasien)); ?>
+<?php $this->renderPartial($this->path_view.'_jsFunctions', array('modKunjungan'=>$modKunjungan,'modPemakaian'=>$modPemakaian,'modObatAlkesPasien'=>$modObatAlkesPasien)); ?>
 <?php $this->endWidget(); ?>
 
 <?php 
@@ -180,7 +180,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'resizable'=>false,
     ),
 ));
-    $this->renderPartial('_daftarParamedis1');
+    $this->renderPartial($this->path_view.'_daftarParamedis1');
 
 $this->endWidget('zii.widgets.jui.CJuiDialog');
 //========= end daftar paramedis 1 =============================
@@ -195,7 +195,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'resizable'=>false,
     ),
 ));
-    $this->renderPartial('_daftarParamedis2', array('modPemakaian'=>$modPemakaian));
+    $this->renderPartial($this->path_view.'_daftarParamedis2', array('modPemakaian'=>$modPemakaian));
 
 $this->endWidget('zii.widgets.jui.CJuiDialog');
 //========= end daftar paramedis 2 =============================
@@ -211,7 +211,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'resizable'=>false,
     ),
 ));
-    $this->renderPartial('_daftarSupir');
+    $this->renderPartial($this->path_view.'_daftarSupir');
 
 $this->endWidget('zii.widgets.jui.CJuiDialog');
 //========= end daftar supir =============================
@@ -227,7 +227,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'resizable'=>false,
     ),
 ));
-    $this->renderPartial('_daftarPelaksana',array('modPemakaian'=>$modPemakaian));
+    $this->renderPartial($this->path_view.'_daftarPelaksana',array('modPemakaian'=>$modPemakaian));
 
 $this->endWidget('zii.widgets.jui.CJuiDialog');
 //========= end daftar pelaksana =============================
@@ -243,7 +243,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'resizable'=>false,
     ),
 ));
-    $this->renderPartial('_daftarKendaraan');
+    $this->renderPartial($this->path_view.'_daftarKendaraan');
 
 $this->endWidget('zii.widgets.jui.CJuiDialog');
 //========= end daftar ambulans =============================
@@ -259,7 +259,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
         'resizable'=>false,
     ),
 ));
-    $this->renderPartial('_daftarTarifAmbulans');
+    $this->renderPartial($this->path_view.'_daftarTarifAmbulans');
 
 $this->endWidget('zii.widgets.jui.CJuiDialog');
 //========= end daftar tarif ambulans =============================

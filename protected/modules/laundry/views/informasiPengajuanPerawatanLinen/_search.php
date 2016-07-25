@@ -53,7 +53,7 @@
 		<div class="control-group ">
 			<?php echo CHtml::label('Instalasi','Instalasi', array('class'=>'control-label')) ?>
 			<div class="controls">
-			<?php echo $form->dropDownList($model,'instalasi_id', CHtml::listData(InstalasiM::model()->findAll(),'instalasi_id','instalasi_nama'),
+			<?php echo $form->dropDownList($model,'instalasi_id', CHtml::listData(InstalasiM::model()->findAll("instalasi_aktif = TRUE ORDER BY instalasi_nama ASC"),'instalasi_id','instalasi_nama'),
 					array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
 							'ajax'=>array('type'=>'POST',
 										'url'=>$this->createUrl('SetDropdownRuangan',array('encode'=>false,'model_nama'=>get_class($model))),
@@ -64,7 +64,7 @@
 		<div class="control-group ">
 			<?php echo CHtml::label('Ruangan','Ruangan', array('class'=>'control-label inline')) ?>
 			<div class="controls">
-				<?php echo $form->dropDownList($model,'ruangan_id',CHtml::listData(RuanganM::model()->findAll(),'ruangan_id','ruangan_nama'),array('class'=>'span3','empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+				<?php echo $form->dropDownList($model,'ruangan_id',CHtml::listData(RuanganM::model()->findAll("ruangan_aktif = TRUE ORDER BY ruangan_nama ASC"),'ruangan_id','ruangan_nama'),array('class'=>'span3','empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
 			</div>
 		</div>
 	</div>

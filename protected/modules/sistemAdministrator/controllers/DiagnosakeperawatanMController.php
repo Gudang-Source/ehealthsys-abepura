@@ -101,7 +101,7 @@ class DiagnosakeperawatanMController extends MyAuthController
 //                            $model->diagnosakeperawatan_kode = $_POST['DiagnosakeperawatanM']['diagnosakeperawatan_kode'];
                             $selectImplementasi = ImplementasikeperawatanM::model()->findAllByAttributes(array('diagnosakeperawatan_id'=>$id));
                             $selectRencana = RencanakeperawatanM::model()->findAllByAttributes(array('diagnosakeperawatan_id'=>$id));
-                            $selectKriteriaHasil = KriteriahasilM::model()->findAllByAttributes(array('diagnosakeperawatan_id'=>$id));
+                            $selectKriteriaHasil = KriteriahasilM::model()->findAllByAttributes(array('diagnosakep_id'=>$id));
                             if(count($selectImplementasi) > 0){
 //                                $deleteImplementasi = ImplementasikeperawatanM::model()->deleteAllByAttributes(array('diagnosakeperawatan_id'=>$id));
                                 $relasi = true;

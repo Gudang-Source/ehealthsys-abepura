@@ -61,7 +61,8 @@
         </div>
         <div class="span4">
             <?php echo $form->textFieldRow($model,'pemesan_nama',array('placeholder'=>'Nama Pemesan','class'=>'span3','maxlength'=>100)); ?>
-            <?php echo $form->textFieldRow($model,'ruangan_nama',array('placeholder'=>'Ruangan','class'=>'span3')); ?>
+            <?php echo $form->textField($model,'inisial_modul',array('readonly'=>true,'placeholder'=>'Nama Pemesan','class'=>'span3','maxlength'=>100)); ?>
+            <?php echo $form->dropDownListRow($model,'ruangan_id', CHtml::listData(RuanganM::model()->findAll("ruangan_aktif = TRUE ORDER BY ruangan_nama ASC"), 'ruangan_id', 'ruangan_nama'),array('class'=>'span3','empty'=>'-- Pilih --')); ?>
         </div>
     </div>
 

@@ -4,6 +4,7 @@ class RDPesanambulansT extends PesanambulansT
 {
         public $rt,$rw;
         public $tgl_awal,$tgl_akhir;
+        public $inisial_modul;
         /**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.

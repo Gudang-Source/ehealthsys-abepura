@@ -178,11 +178,11 @@
                 <?php echo CHtml::label($modPemesanan->getAttributeLabel('Ruangan')." <span class='required'>*</span>", 'Ruangan', array('class'=>'control-label required'))?>
                 <div class="controls">
                     <?php echo CHtml::dropDownList('instalasi', Params::INSTALASI_ID_AMBULAN, $instalasiTujuans,
-                                                    array('empty' =>'-- Instalasi --','class'=>'reqPasien','onkeypress'=>"return $(this).focusNextInputField(event);",
+                                                    array('empty' =>'-- Pilih --','class'=>'reqPasien','onkeypress'=>"return $(this).focusNextInputField(event);",
                                                           'ajax'=>array('type'=>'POST',
                                                                         'url'=>  CController::createUrl('dynamicRuangan'),
                                                                         'update'=>'#AMPesanambulansT_ruangan_id',),'class'=>'span2')); ?>
-                    <?php echo CHtml::activeDropDownList($modPemesanan, 'ruangan_id', $ruanganTujuans,array('empty' =>'-- Ruangan --','class'=>'span2 reqPasien','onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                    <?php echo CHtml::activeDropDownList($modPemesanan, 'ruangan_id', $ruanganTujuans,array('class'=>'span2 reqPasien','onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                 </div>
             </div>
         </div>
@@ -234,7 +234,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
     'id' => 'pasien-m-grid',
     'dataProvider' => $modPasien->searchPasien(),
     'filter' => $modPasien,
-    'template' => "{items}\n{pager}",
+    'template' => "{summary}\n{items}\n{pager}",
     'itemsCssClass' => 'table table-striped table-bordered table-condensed',
     'columns' => array(
         array(

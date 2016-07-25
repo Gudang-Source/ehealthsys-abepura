@@ -27,6 +27,12 @@
             </div>
         </div>
         <div class="control-group">
+            <?php echo CHtml::activeLabel($model,'Tanggal',array('class'=>'control-label')); ?>
+            <div class="controls">
+                <?php echo $form->dropDownList($model,'bulan', Params::getBulan() ,array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
+            </div>
+        </div>
+        <div class="control-group">
             <?php echo CHtml::activeLabel($model,'jadwaldokter_buka',array('class'=>'control-label')); ?>
             <div class="controls">
                 <?php echo $form->textField($model,'jadwaldokter_buka',array('class'=>'span3','maxlength'=>50)); ?>

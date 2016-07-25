@@ -30,7 +30,10 @@ $this->widget($table,array(
 		'bagtubuh_namalain',
 		'kordinat_x',
 		'kordinat_y',
-		'bagiantubuh_aktif',
+		array(
+                    'header'=>'Status',
+                    'value' => '($data->bagiantubuh_aktif)?"Aktif":"Tidak Aktif"'
+                ),
  
 	),
 )); 

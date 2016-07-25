@@ -8,7 +8,7 @@
             <div class="control-group ">
                 <?php echo CHtml::label('Kelas Pelayanan', 'kelaspelayanan_id', array('class' => 'control-label')); ?>
                 <div class="controls">
-                    <?php echo $form->dropDownList($model,'kelaspelayanan_id',CHtml::listData($model->getKelasPelayananItems(), 'kelaspelayanan_id', 'kelaspelayanan_nama'),array('empty'=>'--Pilih--')); ?>
+                    <?php echo $form->dropDownList($model,'kelaspelayanan_id',CHtml::listData($model->getKelasPelayananItems(), 'kelaspelayanan_id', 'kelaspelayanan_nama'),array('empty'=>'--Pilih--', 'class'=>'span3')); ?>
                 </div>
             </div>
 			<?php echo $form->dropDownListRow($model,'carabayar_id', CHtml::listData($model->getCaraBayarItems(), 'carabayar_id', 'carabayar_nama') ,array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)",

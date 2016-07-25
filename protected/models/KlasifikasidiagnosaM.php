@@ -147,7 +147,7 @@ class KlasifikasidiagnosaM extends CActiveRecord
         }
         
         public function getKlasifikasiKodeItems($dtd_id){
-                return $this->findAllByAttributes(array('dtd_id'=>$dtd_id), array('order'=>'klasifikasidiagnosa_kode'));
+                return $this->findAllByAttributes(array('dtd_id'=>$dtd_id,'klasifikasidiagnosa_aktif'=>TRUE), array('order'=>'klasifikasidiagnosa_kode'));
         }
         
         public function cekKode()

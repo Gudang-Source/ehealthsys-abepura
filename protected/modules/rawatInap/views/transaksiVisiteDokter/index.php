@@ -61,7 +61,7 @@
                             </div>
                             <div class="controls">
                                 <?php 
-                                echo CHtml::dropDownList('jenisVisite', null, CHtml::listdata(RIDaftarTindakanM::model()->findAll('daftartindakan_visite=TRUE'),"daftartindakan_nama","daftartindakan_nama"), array(
+                                echo CHtml::dropDownList('jenisVisite', null, CHtml::listdata(RIDaftarTindakanM::model()->findAll('daftartindakan_visite=TRUE ORDER BY daftartindakan_nama ASC'),"daftartindakan_nama","daftartindakan_nama"), array(
                                         'empty'=>'-- Pilih --'
                                         ));
                                 ?>
@@ -186,7 +186,7 @@
 		?>
 		<?php echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),
                         array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'validasi()','disabled'=>$disableSave)); ?>
-        <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-ban-circle icon-white"></i>')), 
+        <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
         Yii::app()->createUrl($this->module->id.'/TransaksiVisiteDokter/index'), 
         array('class'=>'btn btn-danger',
         'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
@@ -314,8 +314,10 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog',array(
 $modDokter = new DokterV('search');
 $modDokter->unsetAttributes();
 $modDokter->ruangan_id = Yii::app()->user->getState('ruangan_id');
+$modDokter->pegawai_aktif = TRUE;
 if(isset($_GET['DokterV'])){
     $modDokter->attributes = $_GET['DokterV'];
+    $modDOkter->pegawai_aktif = TRUE;
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'pegawaiYangMengajukan-m-grid',

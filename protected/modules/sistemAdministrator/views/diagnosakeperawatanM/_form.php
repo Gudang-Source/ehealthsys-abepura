@@ -79,8 +79,10 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
 ));
 
  $modDiagnosa =new RIDiagnosaM;
+ $modDiagnosa->diagnosa_aktif = TRUE;
  if (isset($_GET['RIDiagnosaM'])) {
      $modDiagnosa->attributes = $_GET['RIDiagnosaM'];
+     $modDiagnosa->diagnosa_aktif = TRUE;
  }
 $this->widget('ext.bootstrap.widgets.BootGridView',array( 
     'id'=>'sadiagnosa-m-grid', 
@@ -110,8 +112,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                         'filter'=>false, 
                 ),
         'diagnosa_kode',
-        'diagnosa_nama',
-        
+        'diagnosa_nama',        
         /*
         'diagnosa_imunisasi',
         'diagnosa_aktif',
@@ -179,7 +180,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     array('class'=>'btn btn-danger',
                           'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
             <?php echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Diagnosa Keperawatan', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
-                 Yii::app()->createUrl($this->module->id.'/diagnosakeperawatanMAK/admin'), array('class'=>'btn btn-success'));?>
+                 $this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
             <?php
                 $content = $this->renderPartial($this->path_views.'/tips/tipsaddedit2c',array(),true);
                 $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));

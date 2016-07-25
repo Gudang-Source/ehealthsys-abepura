@@ -4,7 +4,7 @@ class PemakaianAmbulanPasienRSController extends MyAuthController
 {
     protected $obatalkespasientersimpan = true;
     protected $tindakanpelayanantersimpan = true;
-    public $path_view = 'ambulans.views.pemakaianAmbulanPasienRS.';
+    public $path_view = 'ambulans.views.pemakaianAmbulanPasienRS.';    
 
     public function actionIndex($pemakaian_id = '', $pendaftaran_id='', $pemesanan_id='')
     {
@@ -13,6 +13,7 @@ class PemakaianAmbulanPasienRSController extends MyAuthController
         $modKunjungan=new AMInfokunjunganrjV;
         $modObatAlkesPasien = new AMObatalkesPasienT;
         $modPemakaian = new AMPemakaianambulansT;
+        $modPemakaian->inisial_modul = $this->inisial_modul;
         $modPemakaian->tglpemakaianambulans = date('Y-m-d H:i:s');
         $modInstalasi = InstalasiM::model()->findAllByAttributes(array('instalasi_aktif'=>true),array('order'=>'instalasi_nama'));
         $instalasi = Yii::app()->user->getState('instalasi_id');

@@ -94,7 +94,7 @@ if (!isset($_GET['frame'])){
 
 <?php
 if (isset($_GET['frame'])){
-    echo CHtml::link(Yii::t('mds', '{icon} Print Rincian', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"print();"));
+    echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"print();"));
 ?>
     <script type='text/javascript'>
     /**
@@ -114,16 +114,30 @@ if (isset($_GET['frame'])){
             <td align='center' nowrap><?php echo Yii::app()->user->getState('kecamatan_nama').", ".MyFormatter::formatDateTimeId(date('Y-m-d')); ?></td>
         </tr>
         <tr>
-            <td align='center'></td>
-            <td align='center'></td>
-            <td align='center' nowrap>Pegawai Setoran</td>
+            <td align='center' nowrap><?php echo !empty($setoran->bendaharapenerima_id)?"Pegawai Bendahara":"" ?></td>
+            <td align='center' style="text-align: center;"></td>
+            <td align='center' style="text-align: center;" nowrap>Pegawai Setoran</td>
         </tr>
-        <tr height='100px'>
-            <td align='center'></td>
-            <td align='center'></td>
-            <td align='center' nowrap>
+        <tr>
+            <td align='center' style="text-align: center;" nowrap>
+				<br/><br/><br/><br/><br/>
+				<?php
 				
-			<?php echo $setoran->pegawai_nama; ?></td>
+				if (!empty($setoran->bendaharapenerima_id)) {
+					$p = PegawaiM::model()->findByPk($setoran->bendaharapenerima_id);
+					echo "<u>".$p->namaLengkap."</u><br/>".$p->nomorindukpegawai;
+				}
+				
+				?>
+			</td>
+            <td align='center' style="text-align: center;"></td>
+            <td align='center' style="text-align: center;" nowrap>
+				<br/><br/><br/><br/><br/>
+				<?php 
+					$p = PegawaiM::model()->findByPk($setoran->pegawai_id);
+					echo "<u>".$p->namaLengkap."</u><br/>".$p->nomorindukpegawai;
+				?>
+			</td>
         </tr>
     </table>
 <?php

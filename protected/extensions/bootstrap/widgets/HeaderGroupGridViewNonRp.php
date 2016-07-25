@@ -129,7 +129,7 @@ class HeaderGroupGridViewNonRp extends BootGridView {
                                             }
                                         }
                                         if (($value == true)){
-                                            $column->footer = number_format($jumlah);
+                                            $column->footer = number_format($jumlah,0,"",".");
                                         }
 					$column->renderFooterCell();
                                     }

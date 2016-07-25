@@ -93,7 +93,7 @@ class BagiantubuhM extends CActiveRecord
 		$criteria->compare('LOWER(bagtubuh_namalain)',strtolower($this->bagtubuh_namalain),true);
 		$criteria->compare('kordinat_x',$this->kordinat_x);
 		$criteria->compare('kordinat_y',$this->kordinat_y);
-		$criteria->compare('bagiantubuh_aktif',$this->bagiantubuh_aktif);
+		$criteria->compare('bagiantubuh_aktif',isset($this->bagiantubuh_aktif)?$this->bagiantubuh_aktif:true);
 
 		return $criteria;
 	}
