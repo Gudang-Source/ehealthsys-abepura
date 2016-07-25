@@ -139,8 +139,10 @@ class JadwaldokterMController extends MyAuthController
                 
 		$model=new PPJadwaldokterM('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['PPJadwaldokterM']))
+		if(isset($_GET['PPJadwaldokterM'])){
 			$model->attributes=$_GET['PPJadwaldokterM'];
+                        $model->bulan = $_GET['PPJadwaldokterM']['bulan'];
+                }
 
 		$this->render($this->path_view.'admin',array(
 			'model'=>$model,
