@@ -36,8 +36,11 @@
                             'onclick'=>'return refreshForm(this);'
                     )); 
 					echo "&nbsp;";
-					echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"printSetoran();return false",'disabled'=>FALSE  ));
-                    
+					if($setoran->isNewRecord){
+						echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"return false",'disabled'=>true  ));
+					} else {
+						echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"printSetoran();return false",'disabled'=>FALSE  ));
+					}
 				?>
         </div>
     </div>

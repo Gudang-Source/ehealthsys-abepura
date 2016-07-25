@@ -1,3 +1,7 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
+
 <div class="white-container">
 	<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/form.js'); ?>
 	<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/accounting.js'); ?>
@@ -278,7 +282,7 @@
 							?>
                         </div>
                     </div>
-					<?php //echo $form->textFieldRow($model,'biayamaterai', array('class'=>'span3 numbersOnly')) ?>
+					<?php //echo $form->textFieldRow($model,'biayamaterai', array('class'=>'span3 integer2')) ?>
 <?php //echo $form->textAreaRow($model,'keteranganfaktur', array('class'=>'span3'))  ?>
 <?php
 //echo $form->dropDownListRow($model,'syaratbayar_id',
@@ -292,43 +296,43 @@
                 <fieldset class="box row-fluid">
                     <legend class="rim">Informasi Harga</legend>
 					<div class="span6">
-								<?php echo $form->textFieldRow($model, 'totalharga', array('class' => 'span2 isRequired numbersOnly totalharga', 'readonly' => TRUE)) ?>
+								<?php echo $form->textFieldRow($model, 'totalharga', array('class' => 'span2 isRequired integer2 totalharga', 'readonly' => TRUE)) ?>
 						<div class="control-group ">
 							<label class='control-label'>
-<?php echo CHtml::checkbox('termasukPPN', false, array('onclick' => 'persenPPN(this)', 'style' => 'width : 10px', 'class' => 'numbersOnly')) ?>
+<?php echo CHtml::checkbox('termasukPPN', false, array('onclick' => 'persenPPN(this)', 'style' => 'width : 10px', 'class' => 'integer2')) ?>
 								Ppn (Total)
 							</label>
 							<div class="controls">
-<?php echo $form->textField($model, 'pajakppn', array('class' => 'span2 numbersOnly isRequired', 'readonly' => TRUE)) ?>
+<?php echo $form->textField($model, 'pajakppn', array('class' => 'span2 integer2 isRequired', 'readonly' => TRUE)) ?>
 							</div>
 						</div>
 						<div class="control-group ">
 							<label class='control-label'>
-<?php echo CHtml::checkBox('termasukPPH', false, array('onclick' => 'persenPPH(this)', 'style' => 'width : 10px', 'class' => 'numbersOnly', 'readonly' => TRUE)) ?>
+<?php echo CHtml::checkBox('termasukPPH', false, array('onclick' => 'persenPPH(this)', 'style' => 'width : 10px', 'class' => 'integer2', 'readonly' => TRUE)) ?>
 								Pph (Total)
 							</label>
 							<div class="controls">
-								<?php echo $form->textField($model, 'pajakpph', array('class' => 'span2 numbersOnly isRequired', 'readonly' => TRUE)) ?>
+								<?php echo $form->textField($model, 'pajakpph', array('class' => 'span2 integer2 isRequired', 'readonly' => TRUE)) ?>
 							</div>
 						</div>
 					</div>
 					<div class="span6">
 						<div class="control-group ">
 							<label class='control-label'>
-<?php echo CHtml::checkbox('diskonSemuaRp', false, array('onclick' => 'diskonFakturRp(this)', 'style' => 'width : 10px', 'class' => 'numbersOnly')) ?>
+<?php echo CHtml::checkbox('diskonSemuaRp', false, array('onclick' => 'diskonFakturRp(this)', 'style' => 'width : 10px', 'class' => 'integer2')) ?>
 								Diskon Rp / Faktur
 							</label>
 							<div class="controls">
-<?php echo $form->textField($model, 'discount', array('onkeyup' => 'gantiDiskonFakturRp(this);', 'class' => 'span2 isRequired numbersOnly', 'readonly' => TRUE)) ?>
+<?php echo $form->textField($model, 'discount', array('onkeyup' => 'gantiDiskonFakturRp(this);', 'class' => 'span2 isRequired integer2', 'readonly' => TRUE)) ?>
 							</div>
 						</div>
 						<div class="control-group ">
 							<label class='control-label'>
-						<?php echo CHtml::checkbox('biayaAdmin', false, array('onclick' => 'biayaAdministrasi()', 'style' => 'width : 10px', 'class' => 'numbersOnly')) ?>
+						<?php echo CHtml::checkbox('biayaAdmin', false, array('onclick' => 'biayaAdministrasi()', 'style' => 'width : 10px', 'class' => 'integer2')) ?>
 								Biaya Administrasi
 							</label>
 							<div class="controls">
-<?php echo $form->textField($model, 'biayaadministrasi', array('onkeyup' => 'gantiDiskonFakturPersen(this);', 'class' => 'span2 isRequired  numbersOnly', 'readonly' => TRUE)) ?>
+<?php echo $form->textField($model, 'biayaadministrasi', array('onkeyup' => 'gantiDiskonFakturPersen(this);', 'class' => 'span2 isRequired  integer2', 'readonly' => TRUE)) ?>
 							</div>
 						</div>
 <?php //echo $form->textFieldRow($model,'totalhargabruto', array('class'=>'span2 isRequired currency','readonly'=>TRUE))  ?>
@@ -355,16 +359,17 @@
 			<tr>
 				<!--<th>No.Urut</th>-->
 				<th>Golongan</th>
+				<th>Bidang</th>
 				<th>Kelompok</th>
 				<th>Sub Kelompok</th>
-				<th>Bidang</th>
+				<th>Sub Sub Kelompok</th>
 				<th>Kode barang /<br/>Nama Barang</th>
 				<th>Jumlah Terima</th>
 				<th>Satuan</th>
 				<th>Jumlah Dalam <br />Kemasan </th>
-				<th>Harga Beli</th>
 				<th>Harga Satuan</th>
-				<th>Sub Total</th>
+				<th>Harga Beli</th>
+				<!--th>Sub Total</th-->
 				<th>Kondisi</th>
 			<?php if (!isset($modFakturDetail)) { ?>
 					<th>Batal</th>     
@@ -396,9 +401,9 @@
 			//                         <td>".$tampilDetail->sumberdana->sumberdana_nama."</td>
 			//                         <td>".$tampilDetail->obatalkes_kategori."/<br/>".$tampilDetail->obatalkes_nama."</td>
 			//                         <td>".CHtml::activeTextField($value,'['.$key.']jmlpermintaan',array('class'=>'span1 permintaan'))."</td>
-			//                         <td>".CHtml::activeTextField($value,'['.$key.']jmlterima',array('readonly'=>TRUE,'class'=>'span1 terima numbersOnly','onkeyup'=>'hitungJumlahDariDiterima(this);'))."</td>
-			//                         <td>".CHtml::activeTextField($value,'['.$key.']persendiscount',array('maxlength'=>3,'class'=>'span1 persenDiskon numbersOnly','onkeyup'=>'hitungJumlahDariPersentaseDiskon(this);'))
-			//                              .CHtml::hiddenField('diskonLama','',array('maxlength'=>3,'class'=>'span1 numbersOnly'))
+			//                         <td>".CHtml::activeTextField($value,'['.$key.']jmlterima',array('readonly'=>TRUE,'class'=>'span1 terima integer2','onkeyup'=>'hitungJumlahDariDiterima(this);'))."</td>
+			//                         <td>".CHtml::activeTextField($value,'['.$key.']persendiscount',array('maxlength'=>3,'class'=>'span1 persenDiskon integer2','onkeyup'=>'hitungJumlahDariPersentaseDiskon(this);'))
+			//                              .CHtml::hiddenField('diskonLama','',array('maxlength'=>3,'class'=>'span1 integer2'))
 			//                             ."</td>
 			//                         <td>".CHtml::activeTextField($value,'['.$key.']jmldiscount',array('class'=>'span2 currency jmlDiskon','readonly'=>true))."</td>
 			//                         <td>".CHtml::activeTextField($value,'['.$key.']harganettofaktur',array('readonly'=>FALSE,'class'=>'span2 netto currency', 'onkeyup'=>'ubahNetto(this);'))."</td>
@@ -419,20 +424,21 @@
 		<?php
 		echo "<tfoot>
             <tr>
-                 <td colspan='12'>Total</td>
+                 <td colspan='10'>Total</td>
                  <td>" .
 		CHtml::textField('tothargabruto', '', array('style' => 'text-align:right;', 'readonly' => TRUE, 'class' => 'totalhargabruto span2 currency')) .
+		/*
 		"</td>
              </tr>
             <tr>
-                 <td colspan='12'>Uang Muka</td>
-                 <td>" .
+                 <td colspan='10'>Uang Muka</td>
+                 <td>" . */
 		//                      CHtml::textField('uangmuka',$jmlUang, array( 'style'=>'text-align:right','readonly'=>TRUE,'class'=>'uangmuka span2 currency')).
-		CHtml::textField('uangmuka', '', array('style' => 'text-align:right', 'readonly' => TRUE, 'class' => 'uangmuka span2 currency')) .
+		// CHtml::textField('uangmuka', '', array('style' => 'text-align:right', 'readonly' => TRUE, 'class' => 'uangmuka span2 currency')) .
 		"</td>
              </tr>
-            <tr>
-                 <td colspan='12'>Sisa Bayar</td>
+            <tr hidden>
+                 <td colspan='10'>Sisa Bayar</td>
                  <td>" .
 		CHtml::textField('sisabayar', '', array('style' => 'text-align:right', 'readonly' => TRUE, 'class' => 'sisabayar span2 currency')) .
 		"</td>
@@ -443,7 +449,7 @@
     <!-- <tfoot>
             <tr>
                 <th colspan="5">Total</th>
-                <th><?php //echo $form->textField($modFakturPembelian,'persendiscount', array('class'=>'span1 isRequired numbersOnly','maxlength'=>2,'onkeyup'=>'hitungJumlahHargaDiskon(this);')) ?></th>
+                <th><?php //echo $form->textField($modFakturPembelian,'persendiscount', array('class'=>'span1 isRequired integer2','maxlength'=>2,'onkeyup'=>'hitungJumlahHargaDiskon(this);')) ?></th>
                 <th><?php //echo $form->textField($modFakturPembelian,'jmldiscount', array('class'=>'span1 isRequired','readonly'=>TRUE))  ?></th>
                 <th><?php //echo $form->textField($modFakturPembelian,'totharganetto', array('class'=>'span1 isRequired','readonly'=>TRUE)) ?></th>
                 <th><?php //echo $form->textField($modFakturPembelian,'totalpajakppn', array('class'=>'span1 isRequired','readonly'=>TRUE))  ?></th>
@@ -510,7 +516,7 @@ $modTerimaPers = new KUTerimapersediaanT;
 if (isset($_GET['KUTerimapersediaanT'])) {
 	$modTerimaPers->attributes = $_GET['KUTerimapersediaanT'];
 	$modTerimaPers->peg_penerima_id = $_GET['KUTerimapersediaanT']['peg_penerima_id'];
-	$modTerimaPers->tglterima = $format->formatDateTimeForDb($_GET['KUTerimapersediaanT']['tglterima']);
+	// $modTerimaPers->tglterima = $format->formatDateTimeForDb($_GET['KUTerimapersediaanT']['tglterima']);
 }
 
 $this->widget('ext.bootstrap.widgets.BootGridView', array(
@@ -545,9 +551,12 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
                                                   $(\"#' . CHtml::activeId($model, 'nofaktur') . '\").val(\"$data->nofaktur\");  
                                                   $(\"#' . CHtml::activeId($model, 'tglfaktur') . '\").val(\"$data->tglfaktur\");
                                                   $(\"#' . CHtml::activeId($model, 'supplier_id') . '\").val(\"$data->SupplierId\");
-                                                  $(\"#' . CHtml::activeId($model, 'pembelianbarang_id') . '\").val(\"$data->pembelianbarang_id\"); 
-                                                  $(\"#' . CHtml::activeId($model, 'tgljatuhtempo') . '\").val(\"$data->tgljatuhtempo\");  
-                                                  $(\"#terimapersediaan_id\").val(\"$data->terimapersediaan_id\");    
+                                                  $(\"#' . CHtml::activeId($model, 'pembelianbarang_id') . '\").val(\"$data->pembelianbarang_id\");
+												  $(\"#' . CHtml::activeId($model, 'supplier_id') . '\").val(\"$data->supplier_id\");
+                                                  $(\"#' . CHtml::activeId($model, 'tgljatuhtempo') . '\").val(\"$data->tgljatuhtempo\");
+												  $(\"#' . CHtml::activeId($model, 'peg_penerima_nama') . '\").val(\"".$data->penerima->nama_pegawai."\"); 
+                                                  $(\"#' . CHtml::activeId($model, 'peg_mengetahui_nama') . '\").val(\"".(empty($data->mengetahui)?"":$data->mengetahui->nama_pegawai)."\");
+												  $(\"#terimapersediaan_id\").val(\"$data->terimapersediaan_id\");    
                                                   
                                                   submitPermintaanPembelian();
                                                   $(\"#dialogPenerimaanBarang\").dialog(\"close\");    
@@ -556,6 +565,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
 		'nopenerimaan',
 		array(
 			'name' => 'tglterima',
+                        'filter'=> false,
 		),
 		array(
 			'header' => 'Nama Pegawai Penerima',
@@ -669,7 +679,7 @@ function cekValidasi()
     alert ('Harap Isi Semua Data Yang Bertanda *');
   }
   /*else if(hargaTotalNetto<1){
-     alert('Anda Belum memimlih Obat Yang Akan Diminta');   
+     alert('Anda Belum memilih Obat Yang Akan Diminta');   
   }*/else{
      $('#btn_simpan').click();
   }
@@ -740,9 +750,9 @@ function submitPermintaanPembelianDariInformasi(idPenerimaan,noPenerimaan,tglPen
 function persenPPN(obj)
 {
     if(obj.checked==true){ //Jika tidak termasuk PPN
-          jumlahPPN = parseFloat($('#KUTerimapersediaanT_totalharga').val()) * (parseFloat(${persenPPN})/100);
+          jumlahPPN = parseFloat(unformatNumber($('#KUTerimapersediaanT_totalharga').val())) * (parseFloat(${persenPPN})/100);
           $('#termasukPPN').val(jumlahPPN);
-          $('#KUTerimapersediaanT_pajakppn').val(jumlahPPN);
+          $('#KUTerimapersediaanT_pajakppn').val(formatNumber(jumlahPPN));
           $('#termasukPPH').removeAttr('readonly');
     }else{//Jika Termasuk PPN
         $('#termasukPPH').removeAttr('checked'); 
@@ -771,147 +781,7 @@ function persenPPH(obj)
    hitungSemua();
 }
 
-function hitungSemua()
-{
-    totalHarga=0;
-    subTotalHarga=0;
-    sisabayar=0;
-    uangmuka=0;
-    hargasatuan=0;
-    jml=0;
 
-    $('.hargaBeli').each(function(){
-      hargaBeli = $(this).parents("tr").find('.hargaBeli').val(); 
-      qty = $(this).parents("tr").find('.qty').val(); 
-      subTotalHarga = (hargaBeli*qty);
-      jml = $(this).parents("tr").find('.jml').val(); 
-      hargasatuan = hargaBeli/jml;
-      if (jQuery.isNumeric(subTotalHarga)){
-        $(this).parents("tr").find('.subTotal').val(subTotalHarga);
-      }
-      if (jQuery.isNumeric(hargasatuan)){
-        $(this).parents("tr").find('.hargasatuan').val(hargasatuan);
-      }
-      totalHarga+=subTotalHarga;
-    });
-    
-    pajakppn  = parseFloat($('#KUTerimapersediaanT_pajakppn').val());
-    pajakpph  = parseFloat($('#KUTerimapersediaanT_pajakpph').val());
-    diskon    = parseFloat($('#KUTerimapersediaanT_discount').val());
-    biayaadministrasi = parseFloat($('#KUTerimapersediaanT_biayaadministrasi').val());
-
-    if (jQuery.isNumeric(totalHarga)){
-        totalHarga = totalHarga + pajakppn + pajakpph - diskon + biayaadministrasi;
-        $('.totalharga, .totalhargabruto').val(totalHarga);
-    }
-
-    sisabayar=totalHarga-uangmuka;
-    if (jQuery.isNumeric(sisabayar)){
-        $('.sisabayar').val(sisabayar);
-    }
-    
-    $('#RekeningsupplierV_0_saldodebit').val(sisabayar);
-    $('#RekeningsupplierV_1_saldokredit').val(sisabayar);
-
-    
-//     $('.terima').each(function(){
-     
-//            nettoPerProduk = unformatNumber($(this).parents("tr").find('.netto').val());
-//            uangMuka = unformatNumber($('.uangmuka').val());
-//            PPNPreProduk = unformatNumber($(this).parents("tr").find('.ppn').val());
-//            PPHPreProduk = unformatNumber($(this).parents("tr").find('.pph').val());
-//            SubTotalPreProduk = unformatNumber($(this).parents("tr").find('.subTotal').val());
-//            jumlahDiterima = unformatNumber($(this).val());
-//            persenDiskonPerProduk = unformatNumber($(this).parents("tr").find('.persenDiskon').val());
-//            jumlahDiskonProduk = (nettoPerProduk * (persenDiskonPerProduk/100)) * jumlahDiterima;
-               
-//            if (jQuery.isNumeric(jumlahDiskonProduk)){
-//                 $(this).parents("tr").find('.jmlDiskon').val(jumlahDiskonProduk);
-//            }
-           
-//            subTotal = ((nettoPerProduk+PPNPreProduk+PPHPreProduk)*jumlahDiterima) - jumlahDiskonProduk;
-//            if (jQuery.isNumeric(subTotal)){
-//                 $(this).parents("tr").find('.subTotal').val(formatUang(subTotal));
-//            }
-            
-//            nettoDiterima =  nettoPerProduk * jumlahDiterima;            
-//            hargaBrutoPerProduk = jumlahDiterima * nettoPerProduk;
-//            totalHargaBruto += subTotal;  
-//            totalNetto += nettoPerProduk;    
-//            totalPajakPPN += PPNPreProduk;
-//            totalPajakPPH += PPHPreProduk;
-//            totalJumlahDiskon += jumlahDiskonProduk;
-//            totalSubTotal += SubTotalPreProduk;
-// //           totalHargaBruto = totalHargaBruto + hargaBrutoPerProduk; 
-//            sisaBayar = totalHargaBruto - uangMuka;
-//                if(sisaBayar < 0){
-//                     sisaBayar = 0;
-//                }
-//            $('.sisabayar').val(formatUang(sisaBayar));
-//            $('.uangmuka').val(formatUang(uangMuka));
-//            setFormat();
-            
-//    });
-              
-//    var idObat = $("#tableFaktur tbody").parents().find('input[name$="[obatalkes_id]"]').val();
-//    var qty = $("#tableFaktur tbody").parents().find('input[name$="[jmlkemasan]"]').val();
-               
-//    var hargaSatuan = unformatNumber($("#tableFaktur body").parents().find('input[name$="[harganettofaktur]"]').val());   
-   
-               
-//    totalDiskonSemua=(totalJumlahDiskon * 100)/totalHargaBruto; 
-    
-//     if (jQuery.isNumeric(totalNetto)){
-//         $('#${idTotalHargaNetto}').val(totalNetto);
-//         $('#totharganetto').val(formatUang(totalNetto));
-//     }
-//     if (jQuery.isNumeric(totalPajakPPN)){
-//         $('#${idTotalPajakPPN}').val(totalPajakPPN);
-//     }
-//     if (jQuery.isNumeric(totalPajakPPH)){
-//         $('#${idTotalPajakPPH}').val(totalPajakPPH);
-//     }
-//     if (jQuery.isNumeric(totalJumlahDiskon)){
-//         $('#totdiskon').val(formatUang(totalJumlahDiskon));
-//     }
-        
-//     if (jQuery.isNumeric(totalHargaBruto)){
-//           $('#${idTotalHargaBruto}').val(totalHargaBruto); 
-//           $('#tothargabruto').val(formatUang(totalHargaBruto));
-//           $('#cadangan').val(totalHargaBruto);
-//     }
-          
-//     if (jQuery.isNumeric(totalDiskonSemua)){
-//         cek = $('#termasukPPN').val();
-//         if(cek==false){
-//             $('#${idPersenDiskon}').val(totalDiskonSemua);    
-//         }
-//     }
-//     if (jQuery.isNumeric(totalDiskonSemua)){
-//         $('#totalSubTotal').val(totalSubTotal); 
-        
-//     }
-    
-//     $("#tableFaktur > tbody > tr:last").find('.currency').maskMoney({"symbol":"Rp. ","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0});
-    $('.currency').maskMoney({"defaultZero":true,"allowZero":true,"decimal":".","thousands":"","precision":0,"symbol":null,'allowDecimal':true});                        
-    noUrut = 1;
-     $('.noUrut').each(function() {
-          $(this).val(noUrut);
-          noUrut = noUrut + 1;
-     });
-//      var supplier_id = $('#GFFakturPembelianT_supplier_id').val();
-//    var total = unformatNumber($('#GFFakturPembelianT_totalhargabruto').val());
-//    totalSaldo = 0;              
-//    var diskon = unformatNumber($('#tableFaktur tbody').parents().find('input[name$="[persendiscount]"]').val());
-// //   var total = unformatNumber($('#tableFaktur tbody').parents().find('.subTotal').val());   
-// //   saldo = (total - (total * (diskon/100)));
-//        saldo = total;
-//        totalSaldo += saldo;
-//        if(saldo < 0){
-//             saldo = total;
-//        }               
-//         updateRekeningFaktur(supplier_id, formatDesimal(saldo));
-}
 
 function remove(obj) {
     $(obj).parents('tr').remove();
@@ -935,7 +805,7 @@ Yii::app()->clientScript->registerScript('faktur', $jscript, CClientScript::POS_
 
 <?php
 $this->widget('application.extensions.moneymask.MMask', array(
-	'element' => '.numbersOnly',
+	'element' => '.integer',
 	'config' => array(
 		'defaultZero' => true,
 		'allowZero' => true,
@@ -947,7 +817,7 @@ $this->widget('application.extensions.moneymask.MMask', array(
 ));
 ?>
 <script type="text/javascript">
-
+	
 	function submitPermintaanPembelian()
 	{
 		var idTerimaPers = $('#terimapersediaan_id').val();
@@ -957,12 +827,13 @@ $this->widget('application.extensions.moneymask.MMask', array(
 			$("#tableFaktur tbody tr").remove();
 			$.post('<?php echo $this->createUrl('FakturPembelianGU/getPenerimaanPersediaan'); ?>', {idTerimaPers: idTerimaPers},
 			function (data) {
-				$('#tableFaktur').append(data);
+				$('#tableFaktur').append(data.tab);
 
-				$("#tableFaktur tbody tr:last .numbersOnly").maskMoney({"defaultZero": true, "allowZero": true, "decimal": ",", "thousands": "", "precision": 0, "symbol": null});
+				$("#tableFaktur tbody tr .integer2").maskMoney({"defaultZero": true, "allowZero": true, "decimal": ",", "thousands": ".", "precision": 0, "symbol": null});
 //                $('#${idSupplier}').val(data.supplier_id);
 //                $('#uangmuka').val(formatUang(data.uangMuka));
 				$('#uangmuka').val(data.uangMuka);
+				// $("#KUTerimapersediaanT_supplier_id").val(data.persdiaan.supplier_id);
 //                $("#${idSupplier}").attr("disabled","disabled");
 				hitungSemua();
 
@@ -1185,7 +1056,7 @@ $this->widget('application.extensions.moneymask.MMask', array(
 		$('#GFFakturPembelianT_persendiscount').val(0);
 	}
 	function cekInputan() {
-		$('.numbersOnly').each(function () {
+		$('.integer2').each(function () {
 			this.value = unformatNumber(this.value)
 		});
 		$('.currency').each(function () {
@@ -1264,6 +1135,58 @@ $this->widget('application.extensions.moneymask.MMask', array(
 			});
 			noUrut++;
 		});
+	}
+
+
+	function hitungSemua()
+	{
+		var totalHarga=0;
+		var subTotalHarga=0;
+		var sisabayar=0;
+		var uangmuka=0;
+		var hargasatuan=0;
+		var jml=0;
+
+		$('.beli').each(function(){
+			var hargaBeli = parseFloat(unformatNumber($(this).parents("tr").find('.beli').val())); 
+			var qty = parseFloat(unformatNumber($(this).parents("tr").find('.qty').val())); 
+			var subTotalHarga = (hargaBeli*qty);
+			var jml = parseFloat(unformatNumber($(this).parents("tr").find('.jml').val())); 
+			console.log(hargaBeli, qty, subTotalHarga);
+			var hargasatuan = hargaBeli/jml;
+			if (jQuery.isNumeric(subTotalHarga)){
+			  $(this).parents("tr").find('.subTotal').val(subTotalHarga);
+			}
+			if (jQuery.isNumeric(hargasatuan)){
+			  $(this).parents("tr").find('.hargasatuan').val(hargasatuan);
+			}
+			totalHarga+=subTotalHarga;
+		});
+
+		var pajakppn  = parseFloat(unformatNumber($('#KUTerimapersediaanT_pajakppn').val()));
+		var pajakpph  = parseFloat(unformatNumber($('#KUTerimapersediaanT_pajakpph').val()));
+		var diskon    = parseFloat(unformatNumber($('#KUTerimapersediaanT_discount').val()));
+		var biayaadministrasi = parseFloat(unformatNumber($('#KUTerimapersediaanT_biayaadministrasi').val()));
+
+		if ($.isNumeric(totalHarga)){
+			totalHarga = totalHarga + pajakppn + pajakpph - diskon + biayaadministrasi;
+			$('.totalharga, .totalhargabruto').val(formatNumber(totalHarga));
+		}
+
+		sisabayar=totalHarga-uangmuka;
+		if ($.isNumeric(sisabayar)){
+			$('.sisabayar').val(formatNumber(sisabayar));
+		}
+
+		$('#RekeningsupplierV_0_saldodebit').val(formatNumber(sisabayar));
+		$('#RekeningsupplierV_1_saldokredit').val(formatNumber(sisabayar));
+
+		// $('.currency').maskMoney({"defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0,"symbol":null,'allowDecimal':true});                        
+		noUrut = 1;
+		 $('.noUrut').each(function() {
+			  $(this).val(noUrut);
+			  noUrut = noUrut + 1;
+		 });
 	}
 
 	$(document).ready(function () {

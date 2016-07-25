@@ -52,6 +52,9 @@ class KUTerimapersediaanT extends TerimapersediaanT
 		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+			'sort'=>array(
+				'defaultOrder'=>'tglterima desc',
+			)
 		));
 	}
 

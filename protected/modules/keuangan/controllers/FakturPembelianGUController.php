@@ -37,10 +37,10 @@ class FakturPembelianGUController extends MyAuthController {
 		if (!empty($peg_penerima_id)) $model->peg_penerima_nama = $modLogin->pegawai->nama_pegawai;
 		$model->ruanganpenerima_id = Yii::app()->user->getState('ruangan_id');
 		$model->instalasi_id = $model->ruangan->instalasi_id;
-		$model->tglterima = date('Y-m-d H:i:s');
-		$model->tglsuratjalan = date('Y-m-d H:i:s');
-		$model->tglfaktur = date('Y-m-d H:i:s');
-		$model->tgljatuhtempo = date('Y-m-d H:i:s');
+		$model->tglterima = MyFormatter::formatDateTimeForUser(date('Y-m-d H:i:s'));
+		$model->tglsuratjalan = MyFormatter::formatDateTimeForUser(date('Y-m-d H:i:s'));
+		$model->tglfaktur = MyFormatter::formatDateTimeForUser(date('Y-m-d H:i:s'));
+		$model->tgljatuhtempo = MyFormatter::formatDateTimeForUser(date('Y-m-d H:i:s'));
 		$model->totalharga = 0;
 		$model->discount = 0;
 		$model->biayaadministrasi = 0;
@@ -57,6 +57,9 @@ class FakturPembelianGUController extends MyAuthController {
 			$model->tglfaktur = $format->formatDateTimeForDB($model->tglfaktur);
 			$model->tgljatuhtempo = $format->formatDateTimeForDB($model->tgljatuhtempo);
 			$model->terimapersediaan_id = $_POST['terimapersediaan_id'];
+                        
+                        
+                        
 			if ($model->validate()) {
 				$transaction = Yii::app()->db->beginTransaction();
 				try {
@@ -76,7 +79,7 @@ class FakturPembelianGUController extends MyAuthController {
 					));
 
 					$modPembelianbarang = PembelianbarangT::model()->findByAttributes(array('terimapersediaan_id' => $model->terimapersediaan_id));
-					$supplier_id = $modPembelianbarang->supplier_id;
+					if (!empty($modPembelianbarang)) $supplier_id = $modPembelianbarang->supplier_id;
 //							  RND-9646
 //                            $modFakturPembelian->terimapersediaan_id = $model->terimapersediaan_id;
 //                            $modFakturPembelian->supplier_id    = $supplier_id;
@@ -423,19 +426,24 @@ class FakturPembelianGUController extends MyAuthController {
 		if (Yii::app()->request->isAjaxRequest) {
 			$idTerimaPers = $_POST['idTerimaPers'];
 			$modTerimaDetail = TerimapersdetailT::model()->findAllByAttributes(array('terimapersediaan_id' => $idTerimaPers));
-			$tr = '';
+			$modTerima = TerimapersdetailT::model()->findByPk($idTerimaPers);
+                        $tr = '';
 			foreach ($modTerimaDetail as $key => $TerimaDetail) {
-				$modBarang = BarangM::model()->with('bidang')->findByPk($TerimaDetail->barang_id);
+				$modBarang = BarangM::model()->with('subsubkelompok')->findByPk($TerimaDetail->barang_id);
 				$modDetail = new TerimapersdetailT();
+                                $modDetail->attributes = $TerimaDetail->attributes;
+                                $modDetail->jmlterima = $TerimaDetail->jmlterima;
 				$modDetail->barang_id = $TerimaDetail->barang_id;
-				$modDetail->hargabeli = 0;
-				$modDetail->hargasatuan = 0;
-				$modDetail->jmldalamkemasan = $modBarang->barang_jmldlmkemasan;
+				$modDetail->hargabeli = $TerimaDetail->hargabeli;
+				$modDetail->hargasatuan = $TerimaDetail->hargasatuan;
+				$modDetail->jmldalamkemasan = $TerimaDetail->jmldalamkemasan;
+                                
+                                
 
 				$tr .= $this->renderPartial('_detailPenerimaanPersediaanBarang', array('modBarang' => $modBarang, 'key' => $key, 'modDetail' => $modDetail), true);
 			}
 
-			echo json_encode($tr);
+			echo json_encode(array('persdiaan'=>$modTerima->attributes,'tab'=>$tr));
 			Yii::app()->end();
 		}
 	}

@@ -7,7 +7,7 @@ class BKSetorankasirT extends SetorankasirT {
      * @return AntrianT the static model class
      */
     
-    public $pegawai_nama;
+    public $pegawai_nama, $bendahara_nama;
     public static function model($className=__CLASS__)
     {
             return parent::model($className);
