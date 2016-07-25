@@ -2,7 +2,7 @@
 
 class AMInformasipesanambulansV extends InformasipesanambulansV
 {
-	public $tgl_awal,$tgl_akhir;
+	public $tgl_awal,$tgl_akhir, $inisial_modul;
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);

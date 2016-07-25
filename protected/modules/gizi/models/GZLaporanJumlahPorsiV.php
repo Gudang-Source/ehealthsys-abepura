@@ -2,8 +2,9 @@
 
 class GZLaporanJumlahPorsiV extends LaporanjmlporsigiziruanganV {
     
-    public $tgl_awal;
-    public $tgl_akhir;  
+    public $tgl_awal, $bln_awal, $thn_awal;
+    public $tgl_akhir, $bln_akhir,$thn_akhir;
+    public $jns_periode;
      
     public static function model($className = __CLASS__) {
         return parent::model($className);
@@ -15,8 +16,7 @@ class GZLaporanJumlahPorsiV extends LaporanjmlporsigiziruanganV {
         $criteria=new CDbCriteria;
         $criteria->select='jenisdiet_nama, jenisdiet_id';
         $criteria->group='jenisdiet_nama, jenisdiet_id';
-        $criteria->addBetweenCondition('tglkirimmenu', $this->tgl_awal, $this->tgl_akhir);
-        $criteria->compare('LOWER(tglkirimmenu)',strtolower($this->tglkirimmenu),true);
+        $criteria->addBetweenCondition('tglkirimmenu', $this->tgl_awal, $this->tgl_akhir);        
         $criteria->compare('jenisdiet_id',$this->jenisdiet_id);
         $criteria->compare('LOWER(jenisdiet_nama)',strtolower($this->jenisdiet_nama),true);
         $criteria->compare('LOWER(jml_kirim)',strtolower($this->jml_kirim),true);
@@ -39,8 +39,7 @@ class GZLaporanJumlahPorsiV extends LaporanjmlporsigiziruanganV {
         $criteria=new CDbCriteria;
         $criteria->select='jenisdiet_nama, jenisdiet_id';
         $criteria->group='jenisdiet_nama, jenisdiet_id';
-        $criteria->addBetweenCondition('tglkirimmenu', $this->tgl_awal, $this->tgl_akhir);
-        $criteria->compare('LOWER(tglkirimmenu)',strtolower($this->tglkirimmenu),true);
+        $criteria->addBetweenCondition('tglkirimmenu', $this->tgl_awal, $this->tgl_akhir);        
         $criteria->compare('jenisdiet_id',$this->jenisdiet_id);
         $criteria->compare('LOWER(jenisdiet_nama)',strtolower($this->jenisdiet_nama),true);
         $criteria->compare('LOWER(jml_kirim)',strtolower($this->jml_kirim),true);
@@ -114,16 +113,28 @@ class GZLaporanJumlahPorsiV extends LaporanjmlporsigiziruanganV {
             //     }
             // }
             
-			$criteria->compare('jenisdiet_id',$idjenisdiet);
-			if(!empty($kelaspelayanan_id)){
-				$criteria->addCondition('kelaspelayanan_id = '.$kelaspelayanan_id);
-			}
+    $criteria->compare('jenisdiet_id',$idjenisdiet);
+    if(!empty($kelaspelayanan_id)){
+            $criteria->addCondition('kelaspelayanan_id = '.$kelaspelayanan_id);
+    }
             if(!empty($ruangan_id)){
                 $criteria->addCondition('ruangan_id = '.$ruangan_id);
             }
             if(isset($_GET['GZLaporanJumlahPorsiV'])){
-                $tgl_awal = $format->formatDateTimeForDb($_GET['GZLaporanJumlahPorsiV']['tgl_awal']);
-                $tgl_akhir = $format->formatDateTimeForDb($_GET['GZLaporanJumlahPorsiV']['tgl_akhir']);
+                $this->jns_periode = $_GET['GZLaporanJumlahPorsiV']['jns_periode'];
+                $this->tgl_awal = $format->formatDateTimeForDb($_GET['GZLaporanJumlahPorsiV']['tgl_awal']);
+                $this->tgl_akhir = $format->formatDateTimeForDb($_GET['GZLaporanJumlahPorsiV']['tgl_akhir']);
+                $this->bln_awal = $format->formatMonthForDb($_GET['GZLaporanJumlahPorsiV']['bln_awal']);
+                $this->bln_akhir = $format->formatMonthForDb($_GET['GZLaporanJumlahPorsiV']['bln_akhir']);
+                $bln_akhir = $this->bln_akhir."-".date("t",strtotime($this->bln_akhir));
+                $thn_akhir = $this->thn_akhir."-".date("m-t",strtotime($this->thn_akhir."-12"));
+                switch($this->jns_periode){
+                    case 'bulan' : $this->tgl_awal = $this->bln_awal."-01"; $this->tgl_akhir = $bln_akhir; break;
+                    case 'tahun' : $this->tgl_awal = $this->thn_awal."-01-01"; $this->tgl_akhir = $thn_akhir; break;
+                    default : null;
+                }
+                $tgl_awal = $this->tgl_awal." 00:00:00";
+                $tgl_akhir = $this->tgl_akhir." 23:59:59";                    
                 $criteria->addBetweenCondition('tglkirimmenu',$tgl_awal,$tgl_akhir);
             }
             $criteria->select = $criteria->group.', sum(jml_kirim) AS jml_kirim';
@@ -149,8 +160,20 @@ class GZLaporanJumlahPorsiV extends LaporanjmlporsigiziruanganV {
 			$criteria->addCondition('ruangan_id = '.$ruangan_id);
 		}
 		if(isset($_GET['GZLaporanJumlahPorsiV'])){
-			$tgl_awal = $format->formatDateTimeForDb($_GET['GZLaporanJumlahPorsiV']['tgl_awal']);
-			$tgl_akhir = $format->formatDateTimeForDb($_GET['GZLaporanJumlahPorsiV']['tgl_akhir']);
+			$this->jns_periode = $_GET['GZLaporanJumlahPorsiV']['jns_periode'];
+                        $this->tgl_awal = $format->formatDateTimeForDb($_GET['GZLaporanJumlahPorsiV']['tgl_awal']);
+                        $this->tgl_akhir = $format->formatDateTimeForDb($_GET['GZLaporanJumlahPorsiV']['tgl_akhir']);
+                        $this->bln_awal = $format->formatMonthForDb($_GET['GZLaporanJumlahPorsiV']['bln_awal']);
+                        $this->bln_akhir = $format->formatMonthForDb($_GET['GZLaporanJumlahPorsiV']['bln_akhir']);
+                        $bln_akhir = $this->bln_akhir."-".date("t",strtotime($this->bln_akhir));
+                        $thn_akhir = $this->thn_akhir."-".date("m-t",strtotime($this->thn_akhir."-12"));
+                        switch($this->jns_periode){
+                            case 'bulan' : $this->tgl_awal = $this->bln_awal."-01"; $this->tgl_akhir = $bln_akhir; break;
+                            case 'tahun' : $this->tgl_awal = $this->thn_awal."-01-01"; $this->tgl_akhir = $thn_akhir; break;
+                            default : null;
+                        }
+                        $tgl_awal = $this->tgl_awal." 00:00:00";
+                        $tgl_akhir = $this->tgl_akhir." 23:59:59";     
 			$criteria->addBetweenCondition('tglkirimmenu',$tgl_awal,$tgl_akhir);
 		}
 		$criteria->select = $criteria->group.', sum(jml_kirim) AS jml_kirim';
@@ -180,8 +203,20 @@ class GZLaporanJumlahPorsiV extends LaporanjmlporsigiziruanganV {
             }
 
             if(isset($_GET['GZLaporanJumlahPorsiV'])){
-                $tgl_awal = $format->formatDateTimeForDb($_GET['GZLaporanJumlahPorsiV']['tgl_awal']);
-                $tgl_akhir = $format->formatDateTimeForDb($_GET['GZLaporanJumlahPorsiV']['tgl_akhir']);
+                $this->jns_periode = $_GET['GZLaporanJumlahPorsiV']['jns_periode'];
+                $this->tgl_awal = $format->formatDateTimeForDb($_GET['GZLaporanJumlahPorsiV']['tgl_awal']);
+                $this->tgl_akhir = $format->formatDateTimeForDb($_GET['GZLaporanJumlahPorsiV']['tgl_akhir']);
+                $this->bln_awal = $format->formatMonthForDb($_GET['GZLaporanJumlahPorsiV']['bln_awal']);
+                $this->bln_akhir = $format->formatMonthForDb($_GET['GZLaporanJumlahPorsiV']['bln_akhir']);
+                $bln_akhir = $this->bln_akhir."-".date("t",strtotime($this->bln_akhir));
+                $thn_akhir = $this->thn_akhir."-".date("m-t",strtotime($this->thn_akhir."-12"));
+                switch($this->jns_periode){
+                    case 'bulan' : $this->tgl_awal = $this->bln_awal."-01"; $this->tgl_akhir = $bln_akhir; break;
+                    case 'tahun' : $this->tgl_awal = $this->thn_awal."-01-01"; $this->tgl_akhir = $thn_akhir; break;
+                    default : null;
+                }
+                $tgl_awal = $this->tgl_awal." 00:00:00";
+                $tgl_akhir = $this->tgl_akhir." 23:59:59";     
 //                $jenisdiet_nama =$_GET['GZLaporanJumlahPorsiV']['jenisdiet_nama'];
                 $criteria->addBetweenCondition('tglkirimmenu',$tgl_awal,$tgl_akhir);
                 $criteria->compare('LOWER(jenisdiet_nama)',strtolower($this->jenisdiet_nama));
@@ -225,8 +260,20 @@ class GZLaporanJumlahPorsiV extends LaporanjmlporsigiziruanganV {
 
 
             if(isset($_GET['GZLaporanJumlahPorsiV'])){
-                $tgl_awal = $format->formatDateTimeForDb($_GET['GZLaporanJumlahPorsiV']['tgl_awal']);
-                $tgl_akhir = $format->formatDateTimeForDb($_GET['GZLaporanJumlahPorsiV']['tgl_akhir']);
+                $this->jns_periode = $_GET['GZLaporanJumlahPorsiV']['jns_periode'];
+                $this->tgl_awal = $format->formatDateTimeForDb($_GET['GZLaporanJumlahPorsiV']['tgl_awal']);
+                $this->tgl_akhir = $format->formatDateTimeForDb($_GET['GZLaporanJumlahPorsiV']['tgl_akhir']);
+                $this->bln_awal = $format->formatMonthForDb($_GET['GZLaporanJumlahPorsiV']['bln_awal']);
+                $this->bln_akhir = $format->formatMonthForDb($_GET['GZLaporanJumlahPorsiV']['bln_akhir']);
+                $bln_akhir = $this->bln_akhir."-".date("t",strtotime($this->bln_akhir));
+                $thn_akhir = $this->thn_akhir."-".date("m-t",strtotime($this->thn_akhir."-12"));
+                switch($this->jns_periode){
+                    case 'bulan' : $this->tgl_awal = $this->bln_awal."-01"; $this->tgl_akhir = $bln_akhir; break;
+                    case 'tahun' : $this->tgl_awal = $this->thn_awal."-01-01"; $this->tgl_akhir = $thn_akhir; break;
+                    default : null;
+                }
+                $tgl_awal = $this->tgl_awal." 00:00:00";
+                $tgl_akhir = $this->tgl_akhir." 23:59:59";     
                 $criteria->addBetweenCondition('tglkirimmenu',$tgl_awal,$tgl_akhir);
             }
             $criteria->select = $criteria->group.', sum(jml_kirim) AS jml_kirim';
@@ -253,8 +300,20 @@ class GZLaporanJumlahPorsiV extends LaporanjmlporsigiziruanganV {
 //        }
 
         if(isset($_GET['GZLaporanJumlahPorsiV'])){
-                $tgl_awal = $format->formatDateTimeForDb($_GET['GZLaporanJumlahPorsiV']['tgl_awal']);
-                $tgl_akhir = $format->formatDateTimeForDb($_GET['GZLaporanJumlahPorsiV']['tgl_akhir']);
+                $this->jns_periode = $_GET['GZLaporanJumlahPorsiV']['jns_periode'];
+                $this->tgl_awal = $format->formatDateTimeForDb($_GET['GZLaporanJumlahPorsiV']['tgl_awal']);
+                $this->tgl_akhir = $format->formatDateTimeForDb($_GET['GZLaporanJumlahPorsiV']['tgl_akhir']);
+                $this->bln_awal = $format->formatMonthForDb($_GET['GZLaporanJumlahPorsiV']['bln_awal']);
+                $this->bln_akhir = $format->formatMonthForDb($_GET['GZLaporanJumlahPorsiV']['bln_akhir']);
+                $bln_akhir = $this->bln_akhir."-".date("t",strtotime($this->bln_akhir));
+                $thn_akhir = $this->thn_akhir."-".date("m-t",strtotime($this->thn_akhir."-12"));
+                switch($this->jns_periode){
+                    case 'bulan' : $this->tgl_awal = $this->bln_awal."-01"; $this->tgl_akhir = $bln_akhir; break;
+                    case 'tahun' : $this->tgl_awal = $this->thn_awal."-01-01"; $this->tgl_akhir = $thn_akhir; break;
+                    default : null;
+                }
+                $tgl_awal = $this->tgl_awal." 00:00:00";
+                $tgl_akhir = $this->tgl_akhir." 23:59:59";     
 //                $jenisdiet_nama =$_GET['GZLaporanJumlahPorsiV']['jenisdiet_nama'];
                 $criteria->addBetweenCondition('tglkirimmenu',$tgl_awal,$tgl_akhir);
                 $criteria->compare('LOWER(jenisdiet_nama)',strtolower($this->jenisdiet_nama));
@@ -281,8 +340,8 @@ class GZLaporanJumlahPorsiV extends LaporanjmlporsigiziruanganV {
             foreach($groups AS $i => $group){
             if($group == 'jenisdiet'){
                 $criteria->group .= ', kelaspelayanan_id,ruangan_id';
-                $criteria->compare('kelaspelayanan_id',$this->kelaspelayanan_id);
-                $criteria->compare('ruangan_id',$this->ruangan_id);
+               // $criteria->compare('kelaspelayanan_id',$this->kelaspelayanan_id);
+               // $criteria->compare('ruangan_id',$this->ruangan_id);
                 // $criteria->compare('ruangan_id',$this->ruangan_id);
             }
         }
@@ -294,8 +353,20 @@ class GZLaporanJumlahPorsiV extends LaporanjmlporsigiziruanganV {
             }
 
             if(isset($_GET['GZLaporanJumlahPorsiV'])){
-                $tgl_awal = $format->formatDateTimeForDb($_GET['GZLaporanJumlahPorsiV']['tgl_awal']);
-                $tgl_akhir = $format->formatDateTimeForDb($_GET['GZLaporanJumlahPorsiV']['tgl_akhir']);
+                $this->jns_periode = $_GET['GZLaporanJumlahPorsiV']['jns_periode'];
+                $this->tgl_awal = $format->formatDateTimeForDb($_GET['GZLaporanJumlahPorsiV']['tgl_awal']);
+                $this->tgl_akhir = $format->formatDateTimeForDb($_GET['GZLaporanJumlahPorsiV']['tgl_akhir']);
+                $this->bln_awal = $format->formatMonthForDb($_GET['GZLaporanJumlahPorsiV']['bln_awal']);
+                $this->bln_akhir = $format->formatMonthForDb($_GET['GZLaporanJumlahPorsiV']['bln_akhir']);
+                $bln_akhir = $this->bln_akhir."-".date("t",strtotime($this->bln_akhir));
+                $thn_akhir = $this->thn_akhir."-".date("m-t",strtotime($this->thn_akhir."-12"));
+                switch($this->jns_periode){
+                    case 'bulan' : $this->tgl_awal = $this->bln_awal."-01"; $this->tgl_akhir = $bln_akhir; break;
+                    case 'tahun' : $this->tgl_awal = $this->thn_awal."-01-01"; $this->tgl_akhir = $thn_akhir; break;
+                    default : null;
+                }
+                $tgl_awal = $this->tgl_awal." 00:00:00";
+                $tgl_akhir = $this->tgl_akhir." 23:59:59";     
 //                $jenisdiet_nama =$_GET['GZLaporanJumlahPorsiV']['jenisdiet_nama'];
                 $criteria->addBetweenCondition('tglkirimmenu',$tgl_awal,$tgl_akhir);
                 $criteria->compare('LOWER(jenisdiet_nama)',strtolower($this->jenisdiet_nama));
@@ -320,7 +391,9 @@ class GZLaporanJumlahPorsiV extends LaporanjmlporsigiziruanganV {
     // $modKirim = LaporanjmlporsikelasruanganV::model()->findAll($criteria);
     // $totKirim = 0;
 
-
+     public function getRuangan($ruangan_id){
+         return RuanganM::model()->findByPk($ruangan_id)->ruangan_nama;
+     }
 
 
     

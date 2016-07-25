@@ -43,12 +43,14 @@
                     Yii::app()->controller->createUrl("PemakaianAmbulanPasienLuar/index",array("pemesanan_id"=>$data->pesanambulans_t,
                     "modul_id"=>Yii::app()->session["modul_id"])),array("class"=>"btn-small","rel"=>"tooltip","title"=>"Klik untuk Pemakaian Ambulans"))
                     ) : ""',
+                    
                     'htmlOptions'=>array('style'=>'text-align:center;')
                 )
         ),
             'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
         )); ?>
-    </div>
+    </div><?php     
+    ?>
     <fieldset class="box">
         <?php $this->renderPartial($this->pathView.'_searchPemesanan',array('model'=>$model,'format'=>$format)) ?>
     </fieldset>

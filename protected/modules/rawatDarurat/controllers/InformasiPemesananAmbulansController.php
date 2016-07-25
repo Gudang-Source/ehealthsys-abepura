@@ -2,14 +2,13 @@
 
 class InformasiPemesananAmbulansController extends MyAuthController
 {	
-
 	
 	public function actionIndex()
 	{
             $format = new MyFormatter();
             $modPemesanan = new RDPesanambulansT('search');
             $modPemesanan->tgl_awal  = date('Y-m-d');
-            $modPemesanan->tgl_akhir  = date('Y-m-d');
+            $modPemesanan->tgl_akhir  = date('Y-m-d');            
             if(isset($_GET['RDPesanambulansT'])){
                 $modPemesanan->unsetAttributes();
                 $modPemesanan->attributes = $_GET['RDPesanambulansT'];
