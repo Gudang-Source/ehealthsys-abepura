@@ -160,7 +160,7 @@ $(function() {
                 <i class="icon-home"></i>  <?php echo CHtml::link($profil->website,'http://'.$profil->website,array('target'=>'_BLANK')); ?>
             </div>
             <div class='logo-bakti'>
-                <img src='<?php echo Params::urlProfilRSDirectory()."../baktihusada.png" ?>' alt='logo BAKTIHUSADA' />
+                <img src='<?php echo Params::urlProfilRSDirectory()."../baktihusada1.png" ?>' alt='logo BAKTIHUSADA' />
             </div>
         </div>
 		<?php 

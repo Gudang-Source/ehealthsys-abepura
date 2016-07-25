@@ -103,7 +103,7 @@ $this->widget('bootstrap.widgets.BootAlert'); ?>
                                     'type'=>'submit',
                                     'onkeyup'=>"formSubmit(this,event)", 
                                     "name"=>"forgot", "value"=>"forgot", 
-                                    "onclick"=>"return confirm('Yakin karena anda lupa password ?')",
+                                    "onclick"=>"return confirm('Apakah Anda yakin, karena anda lupa password ?')",
                                     "style"=>"margin-top: 20px;"
                                 )); ?>
                                 </div>

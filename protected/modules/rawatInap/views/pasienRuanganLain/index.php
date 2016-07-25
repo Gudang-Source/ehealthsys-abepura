@@ -31,7 +31,7 @@
                                'header'=>'Tanggal Admisi/ Tanggal Masuk',
                                'name'=>'tgladmisi',
                                'type'=>'raw',
-                                                        'value'=>'MyFormatter::formatDateTimeForUser($data->tglAdmisiMasukKamar)'
+                                'value'=>'MyFormatter::formatDateTimeForUser($data->tglAdmisiMasukKamar)'
                             ),
                             array(
                                'header'=>'Cara Masuk',
@@ -88,7 +88,7 @@
                             array(
                                'header'=>'Masuk Kamar / Batal',
                                'type'=>'raw',
-                               'value'=>'isset($data->masukkamar_id) ? ( isset($data->cekTindakanDanObat()->ada) ? CHtml::link("Sedang Diperiksa", "#",array("title"=>"Silahkan batalkan dulu ".$data->cekTindakanDanObat()->msg."!")) : CHtml::link("<i class=icon-remove-sign></i>","#",array("rel"=>"tooltip","title"=>"Klik Untuk Batal Pindah Kamar","onclick"=>"{batalPindahKamar($data->pindahkamar_id,$data->masukkamar_id);}"))) : CHtml::link("<i class=icon-home></i>","#",array("rel"=>"tooltip","title"=>"Klik Untuk Memasukan Pasien Ke kamar","onclick"=>"{buatSessionMasukKamar($data->kelaspelayanan_id,$data->pendaftaran_id); addMasukKamar(); $(\'#dialogMasukKamar\').dialog(\'open\');}"))',    
+                               'value'=>'isset($data->masukkamar_id) ? ( isset($data->cekTindakanDanObat()->ada) ? CHtml::link("Sedang Diperiksa", "#",array("title"=>"Silahkan batalkan dulu ".$data->cekTindakanDanObat()->msg."!")) : CHtml::link("<i class=icon-form-silang></i>","#",array("rel"=>"tooltip","title"=>"Klik Untuk Batal Pindah Kamar","onclick"=>"{batalPindahKamar($data->pindahkamar_id,$data->masukkamar_id);}"))) : CHtml::link("<i class=icon-home></i>","#",array("rel"=>"tooltip","title"=>"Klik Untuk Memasukan Pasien Ke kamar","onclick"=>"{buatSessionMasukKamar($data->kelaspelayanan_id,$data->pendaftaran_id); addMasukKamar(); $(\'#dialogMasukKamar\').dialog(\'open\');}"))',    
                             ),
 
                     ),

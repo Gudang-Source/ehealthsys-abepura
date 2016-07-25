@@ -522,7 +522,7 @@ class PasienridariruanganlainV extends CActiveRecord
         public function getTglAdmisiMasukKamar()
         {       
                 $tglMasukKamar = (!empty($this->kamarruangan_id)) ? $this->tglmasukkamar : '-';
-                $time = $this->tgladmisi.'/</br>'.$tglMasukKamar;
+                $time = $this->tgladmisi." / <br> ".$tglMasukKamar;
                 return $time;
         }
         

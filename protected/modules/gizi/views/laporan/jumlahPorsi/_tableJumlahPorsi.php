@@ -36,91 +36,80 @@ $sort = true;
 
 <!-- <div id="div_rekap"> -->
 <div style="<?php echo $rim; ?>">
-<?php $this->widget($table,array(
+<?php 
+    $kelas = KelaspelayananM::model()->findAll('kelaspelayanan_aktif = TRUE ORDER BY kelaspelayanan_nama');
+    $total = count($kelas);            
+        $columns =array();
+        $columns = array(
+                 array(
+                    'header' => 'No',
+                    'headerHtmlOptions'=>array('style'=>'text-align: center;vertical-align:middle;'),
+                    'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
+                ),
+                array(
+                    'header'=>'Jenis DIET',
+                    'value'=> '$data->jenisdiet_nama',
+                    'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+                    'footerHtmlOptions'=>array('colspan'=>2,'style'=>'text-align:right;'),
+                    'footer'=>'JUMLAH',
+                ),
+            );
+        
+        foreach($kelas as $kelas):
+            
+            $columns[] = array(
+                'header'=>'<center>'.$kelas->kelaspelayanan_nama.'</center>',
+                'value'=> 'number_format($data->getSumKelas('.$kelas->kelaspelayanan_id.',$data->jenisdiet_id,$data->ruangan_id))',                
+                'htmlOptions'=>array('style'=>'text-align: right;vertical-align:middle;'),
+                'headerHtmlOptions'=>array('style'=>'text-align: right;vertical-align:middle;'),
+                'footerHtmlOptions'=>array('style'=>'text-align:right;color:black;font-weight:bold'),
+                'footer'=>number_format($model->getSumKelasP(array("jenisdiet"),$kelas->kelaspelayanan_id,$model->ruangan_id)),                
+            );
+        endforeach;
+        
+        if (!empty($model->ruangan_id))
+        {        
+        $columns[] =  array(
+                    'header'=>'<center>JML TOTAL</center>',
+                    'value'=> 'number_format($data->getSumJml($data->jenisdiet_id,$data->ruangan_id))',
+                    'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+                    'footer'=>number_format($model->getSumJmlT($model->ruangan_id)),
+                    'footerHtmlOptions'=>array('style'=>'text-align:right;color:black;font-weight:bold'),
+                    'htmlOptions'=>array('style'=>'text-align: right;vertical-align:middle;'),
+                );
+        }else{						                
+        $columns[] = array(
+                    'header'=>'<center>JML TOTAL</center>',
+                    'value'=> 'number_format($data->getSumTotal($data->jenisdiet_id))',
+                    'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+                    'footer'=>number_format($model->getSumTotalT()),
+                    'footerHtmlOptions'=>array('style'=>'text-align:right;color:black;font-weight:bold'),
+                    'htmlOptions'=>array('style'=>'text-align: right;vertical-align:middle;'),
+                    );
+        }
+
+
+
+
+
+
+    $this->widget($table,array(
     'id'=>'tableLaporan',
     'dataProvider'=>$data,
         'template'=>$template,
         'enableSorting'=>$sort,
         'mergeHeaders'=>array(
             array(
-                'name'=>'<center>Topaz</center>',
+                'name'=>'<center>Kelas Pelayanan</center>',
                 'start'=>2, 
-                'end'=>9, 
+                'end'=>$total+1, 
             ),
             //RUANGAN LAIN DISESUAIKAN DENGAN KONTEN column
             
         ),
         //'mergeColumns'=>array('nama_pasien','no_rekam_medik'),
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
-		'columns'=>array(
-
-                array(
-                    'header' => 'No',
-                    'headerHtmlOptions'=>array('style'=>'text-align: center;vertical-align:middle;'),
-                    'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
-                ),
-                array(
-                    'header'=>'Jenis DIIT',
-                    'value'=> '$data->jenisdiet_nama',
-                    'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
-                    'footerHtmlOptions'=>array('colspan'=>2,'style'=>'text-align:right;'),
-                    'footer'=>'JUMLAH',
-                ),
-				//ruangan_id = 27 (Topaz)
-                array(
-                    'header'=>'VVIP', //kelaspelayanan_id = 1
-                    'value'=> 'number_format($data->getSumKelas(1,$data->jenisdiet_id,27))',
-                    'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
-                    'footer'=>number_format($model->getSumKelasP(array("jenisdiet"),1,27)),
-                ),
-                array(
-                    'header'=>'VIP', //kelaspelayanan_id = 2
-                    'value'=> 'number_format($data->getSumKelas(2,$data->jenisdiet_id,27))',
-                    'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
-                    'footer'=>number_format($model->getSumKelasP(array("jenisdiet"),2,27)),
-                ),
-                array(
-                    'header'=>'Kelas I', //kelaspelayanan_id = 3
-                    'value'=> 'number_format($data->getSumKelas(3,$data->jenisdiet_id,27))',
-                    'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
-                    'footer'=>number_format($model->getSumKelasP(array("jenisdiet"),3,27)),
-                ),
-                array(
-                    'header'=>'Kelas II', //kelaspelayanan_id = 5
-                    'value'=> 'number_format($data->getSumKelas(5,$data->jenisdiet_id,27))',
-                    'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
-                    'footer'=>number_format($model->getSumKelasP(array("jenisdiet"),5,27)),
-                ),
-                array(
-                    'header'=>'Kelas III', //kelaspelayanan_id = 4
-                    'value'=> 'number_format($data->getSumKelas(4,$data->jenisdiet_id,27))',
-                    'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
-                    'footer'=>number_format($model->getSumKelasP(array("jenisdiet"),4,27)),
-                ),
-				array(
-                    'header'=>'Utama', //kelaspelayanan_id = 7
-                    'value'=> 'number_format($data->getSumKelas(7,$data->jenisdiet_id,27))',
-                    'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
-                    'footer'=>number_format($model->getSumKelasP(array("jenisdiet"),7,27)),
-                ),
-                array(
-                    'header'=>'JML',
-                    'value'=> 'number_format($data->getSumJml($data->jenisdiet_id,27))',
-                    'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
-                    'footer'=>number_format($model->getSumJmlT(27)),
-                ),
-		
-				//RUANGAN LAINNYA SILAHKAN DITAMBAHKAN DI BAWAH (DISESUAIKAN DI MASING2 PROJEK)
-			
-                array(
-                    'header'=>'JML TOTAL',
-                    'value'=> 'number_format($data->getSumTotal($data->jenisdiet_id))',
-                    'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
-                    'footer'=>number_format($model->getSumTotalT()),
-                    ),
-
-                
-    ),
+		'columns'=>$columns,
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 )); ?>
 </div>

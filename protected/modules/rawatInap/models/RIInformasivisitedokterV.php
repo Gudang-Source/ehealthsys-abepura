@@ -172,17 +172,17 @@ class RIInformasivisitedokterV extends InformasivisitedokterV
 	
 	public function getCaraBayarItems()
 	{
-		return CarabayarM::model()->findAll('carabayar_aktif=TRUE') ;
+		return CarabayarM::model()->findAll('carabayar_aktif=TRUE ORDER BY carabayar_nama ASC') ;
 	}
 
 	public function getPenjaminItems()
 	{
-		return PenjaminpasienM::model()->findAll('penjamin_aktif=TRUE');
+		return PenjaminpasienM::model()->findAll('penjamin_aktif=TRUE ORDER BY penjamin_nama ASC');
 	}
 	
 	public function getKelaspelayananItems()
 	{
-		return KelaspelayananM::model()->findAll('kelaspelayanan_aktif=TRUE') ;
+		return KelaspelayananM::model()->findAll('kelaspelayanan_aktif=TRUE ORDER BY kelaspelayanan_nama ASC') ;
 	}
 	
 	public function getNamaLengkap(){

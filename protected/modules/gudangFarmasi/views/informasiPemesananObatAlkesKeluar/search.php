@@ -64,6 +64,7 @@
                 <?php echo $form->dropDownListRow($model,'pegawaipemesan_id', 
                         CHtml::listData(PegawairuanganV::model()->findAllByAttributes(array(
                             'ruangan_id'=>Yii::app()->user->getState('ruangan_id'),
+                            'pegawai_aktif'=> TRUE,
                         ), array(
                             'order'=>'nama_pegawai'
                         )), 'pegawai_id', 'namaLengkap')
