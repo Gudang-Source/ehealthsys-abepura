@@ -1932,6 +1932,29 @@ class PendaftaranRawatJalanController extends MyAuthController
                                 'modTindakan'=>$modTindakan,
             ));
         }
+        
+         public function actionPrintSjp($pendaftaran_id) 
+        {
+            $this->layout='//layouts/printWindows';
+            $format = new MyFormatter;
+            $modPendaftaran = PendaftaranT::model()->findByPk($pendaftaran_id);
+            $modPasien = PasienM::model()->findByPk($modPendaftaran->pasien_id);
+          //  $modPenanggungjawab = array();
+          //  if(!empty($modPendaftaran->penanggungjawab_id)){
+            //    $modPenanggungjawab=PPPenanggungJawabM::model()->findByPk($modPendaftaran->penanggungjawab_id);
+          //  }
+           // $karcis_id = null;
+          //  $modTindakan =  TindakanpelayananT::model()->findByAttributes(array('pendaftaran_id'=>$modPendaftaran->pendaftaran_id), "karcis_id IS NOT NULL");
+          //  $judul_print = 'Kartu Papua Sehat';
+            $this->render($this->path_view.'printSjp', array(
+                                'format'=>$format,
+                                'modPendaftaran'=>$modPendaftaran,
+                                //'modPenanggungjawab'=>$modPenanggungjawab,
+                              //  'judul_print'=>$judul_print,
+                                'modPasien'=>$modPasien,
+                              //  'modTindakan'=>$modTindakan,
+            ));
+        }
         /**
          * @param type $pendaftaran_id
          */
