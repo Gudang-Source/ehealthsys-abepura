@@ -113,6 +113,7 @@ if(!empty($_GET['suratketerangan_id'])){
                     ?>
                 </td>
             </tr>
+            <?php /*
             <?php if(!empty($_GET['pendaftaran_id'])){
                     if(!empty($modAdmisi->tglpulang)){
             ?>
@@ -158,7 +159,7 @@ if(!empty($_GET['suratketerangan_id'])){
                         ?>
                     </td>
                 </tr> 
-           <?php } ?>
+           <?php } ?> */ ?>
         </table>
         </p>
         <p align="justify">
