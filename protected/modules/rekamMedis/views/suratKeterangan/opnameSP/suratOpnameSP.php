@@ -173,7 +173,7 @@ if(!empty($_GET['suratketerangan_id'])){
 <br><br><br><br><br>
 <!--    (_________________)-->
 <?php
-    echo CHtml::activeDropDownList($model,'mengetahui_surat', CHtml::listData(PegawaiV::model()->findAll(array(
+    echo CHtml::activeDropDownList($model,'mengetahui_surat', CHtml::listData(DokterV::model()->findAll(array(
         'condition'=>'pegawai_aktif = true',
         'order'=>'nama_pegawai'
     )), 'namaLengkap', 'namaLengkap'), array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)"));
