@@ -1,5 +1,5 @@
 <script type="text/javascript">
-	function setLookup(lookup_type) {
+	function setLookup(kriteriahasil_id) {
 		$("#table-lookup").addClass("animation-loading");
 		$('#table-lookup > tbody').html("");
 		$.ajax({
@@ -67,9 +67,12 @@
 	function hapusLookup(obj) {
 		var kriteriahasildet_id = $(obj).parents("tr").find("input[name$='[kriteriahasildet_id]']").val();
 		if (kriteriahasildet_id !== "") {
-			myConfirm("Apakah anda yakin akan menghapus data ini dari database?", "Perhatian!",
+			myConfirm("Apakah anda yakin akan menghapus data ini?", "Perhatian!",
 					function (r) {
 						if (r) {
+							$(obj).parents('tr').detach();
+							renameInputRow($("#table-lookup"));
+							/*
 							$.ajax({
 								type: 'POST',
 								url: '<?php echo $this->createUrl('Delete'); ?>&id=' + kriteriahasildet_id,
@@ -90,6 +93,7 @@
 									console.log(errorThrown);
 								}
 							});
+							*/
 						}
 					});
 		} else {

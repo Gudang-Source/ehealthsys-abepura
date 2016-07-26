@@ -33,8 +33,14 @@ class KriteriaHasilController extends MyAuthController {
 			try {
 				$model->attributes = $_POST['SAKriteriahasilM'];
 				$model->kriteriahasil_nama = $_POST['SAKriteriahasilM']['kriteriahasil_nama'];
-
+				$model->kriteriahasil_namalain = strtoupper($_POST['SAKriteriahasilM']['kriteriahasil_nama']);
+				$model->diagnosakep_id = $_POST['SAKriteriahasilM']['diagnosakep_id'];
+				
+				// var_dump($_POST['SAKriteriahasilM'], $model->attributes); die;
+				
+				//die;
 				$batkar = SAKriteriahasilM::model()->findByAttributes(array('diagnosakep_id' => $_POST['SAKriteriahasilM']['diagnosakep_id'], 'kriteriahasil_nama' => $_POST['SAKriteriahasilM']['kriteriahasil_nama']));
+				
 				if (count($batkar)) {
 					$this->simpanBatasDetail($batkar->kriteriahasil_id, $_POST['SAKriteriahasildetM']);
 				} else {
@@ -73,6 +79,7 @@ class KriteriaHasilController extends MyAuthController {
 			$transaction = Yii::app()->db->beginTransaction();
 			try {
 				$model->updateByPk($id, array('diagnosakep_id' => $_POST['SAKriteriahasilM']['diagnosakep_id'], 'kriteriahasil_nama' => $_POST['SAKriteriahasilM']['kriteriahasil_nama']));
+				SAKriteriahasildetM::model()->deleteAllByAttributes(array('kriteriahasil_id'=>$id));
 				$this->simpanBatasDetail($id, $_POST['SAKriteriahasildetM']);
 //                echo "<pre>";
 //				print_r($_POST['SALookupM']);exit;
@@ -161,11 +168,11 @@ class KriteriaHasilController extends MyAuthController {
 	public function simpanBatasDetail($kriteriahasil_id, $post) {
 		foreach ($post as $i => $row) {
 			
-			if (!empty($row['kriteriahasildet_id'])) {
-				SAKriteriahasildetM::model()->updateByPk($row['kriteriahasildet_id'], array('kriteriahasildet_indikator' => $row['kriteriahasildet_indikator'],
-					'kriteriahasildet_aktif' => $row['kriteriahasildet_aktif']));
-				$this->simpan &= true;
-			} else {
+			//if (!empty($row['kriteriahasildet_id'])) {
+			//	SAKriteriahasildetM::model()->updateByPk($row['kriteriahasildet_id'], array('kriteriahasildet_indikator' => $row['kriteriahasildet_indikator'],
+			//		'kriteriahasildet_aktif' => $row['kriteriahasildet_aktif']));
+			//	$this->simpan &= true;
+			//} else {
 				$model = new SAKriteriahasildetM;
 				$model->attributes = $row;
 				$model->kriteriahasil_id = $kriteriahasil_id;
@@ -174,7 +181,7 @@ class KriteriaHasilController extends MyAuthController {
 				if (!$model->save()) {
 					$this->simpan &= false;
 				}
-			}
+			//}
 		}
 	}
 
