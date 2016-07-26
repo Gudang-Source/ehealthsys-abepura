@@ -113,6 +113,7 @@ if(!empty($_GET['suratketerangan_id'])){
                     ?>
                 </td>
             </tr>
+            <?php /*
             <?php if(!empty($_GET['pendaftaran_id'])){
                     if(!empty($modAdmisi->tglpulang)){
             ?>
@@ -158,7 +159,7 @@ if(!empty($_GET['suratketerangan_id'])){
                         ?>
                     </td>
                 </tr> 
-           <?php } ?>
+           <?php } ?> */ ?>
         </table>
         </p>
         <p align="justify">
@@ -171,7 +172,7 @@ if(!empty($_GET['suratketerangan_id'])){
 <br><br><br><br><br>
 <!--    (_________________)-->
 <?php
-    echo CHtml::activeDropDownList($model,'mengetahui_surat', CHtml::listData(PegawaiV::model()->findAll(array(
+    echo CHtml::activeDropDownList($model,'mengetahui_surat', CHtml::listData(DokterV::model()->findAll(array(
         'condition'=>'pegawai_aktif = true',
         'order'=>'nama_pegawai'
     )), 'namaLengkap', 'namaLengkap'), array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)"));

@@ -1438,6 +1438,9 @@ function printSEP(){
   window.open('<?php echo $this->createUrl('printSep',array('sep_id'=>$modSep->sep_id,'pendaftaran_id'=>$model->pendaftaran_id)); ?>','printwin','left=100,top=100,width=860,height=480');
 }
 
+function printSJP(){
+  window.open('<?php echo $this->createUrl('printSjp',array('pendaftaran_id'=>$model->pendaftaran_id)); ?>','printwin','left=100,top=100,width=860,height=480');
+}
 /**
  * fungsi BPJS
  */
