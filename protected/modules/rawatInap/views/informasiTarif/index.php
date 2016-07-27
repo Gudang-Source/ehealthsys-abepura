@@ -37,7 +37,15 @@
                         ),
 
                 ),
-                'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+                'afterAjaxUpdate'=>'function(id, data){
+                jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
+                $("table").find("input[type=text]").each(function(){
+                    cekForm(this);
+                })
+                $("table").find("select").each(function(){
+                    cekForm(this);
+                })
+            }',
         )); ?>
     </div>
     <fieldset class="box">
@@ -65,7 +73,7 @@
 
         Yii::app()->clientScript->registerScript('search', "
 
-        $('form#formCari').submit(function(){
+        $('.search-form form').submit(function(){
                 $.fn.yiiGridView.update('daftarTindakan-grid', {
                         data: $(this).serialize()
                 });
@@ -73,14 +81,14 @@
         });
         ", CClientScript::POS_READY);
         ?>
-
+        <div class = "search-form">
         <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form.js'); ?>
         <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
                 'id'=>'formCari',
                 'enableAjaxValidation'=>false,
                 'type'=>'horizontal',
-                'focus'=>'#'.CHtml::activeId($modTarifTindakanRuanganV,'daftartindakan_nama'),
-                'htmlOptions'=>array('enctype'=>'multipart/form-data','onKeyPress'=>'return disableKeyPress(event)'),
+                'action'=>Yii::app()->createUrl($this->route),
+                'method'=>'get',
 
         )); ?>
         <table width="100%">
@@ -106,19 +114,30 @@
                                     array('class'=>'btn btn-danger',
                                           'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));  ?>
             <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),
-                                                    array('class'=>'btn btn-blue', 'type'=>'button', 'onclick'=>'printTarif()')); ?>
+                                                    array('class'=>'btn btn-blue', 'type'=>'button', 'onclick'=>'print("Tarif")')); ?>
                                                                                   <?php 
                    $content = $this->renderPartial('rawatJalan.views.tips.informasiTarif',array(),true);
                                 $this->widget('UserTips',array('type'=>'admin','content'=>$content));
                 ?>
         </div>
+        </div>
     </fieldset>
     <?php $this->endWidget(); ?>
 </div>
-<?php $urlPrint = $this->createUrl('print'); ?>
-<script>
-    function printTarif() {
-        //console.log("<?php echo $urlPrint; ?>&" + $("#formCari").serialize());
-        window.open("<?php echo $urlPrint; ?>&" + $("#formCariInput :input").serialize() +"&caraPrint=PRINT","",'location=_new, width=900px');
+<?php 
+    $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
+    $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
+    $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/print'); 
+
+$js = <<< JSCRIPT
+    function cekForm(obj)
+    {
+        $("#formCari :input[name='"+ obj.name +"']").val(obj.value);
     }
-</script>
+    function print(caraPrint)
+    {
+        window.open("${urlPrint}/"+$('#formCari').serialize()+"&caraPrint="+caraPrint,"",'location=_new, width=900px');
+    }
+JSCRIPT;
+    Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);                        
+    ?>

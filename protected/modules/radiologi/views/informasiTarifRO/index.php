@@ -61,7 +61,15 @@
                    // 'value'=>'CHtml::link("<i class=\'icon-form-periksa\'></i> ","javascript:void(0);" ,array("title"=>"Klik Untuk Menambahkan Ke Daftar Pemeriksaan Total","onclick"=>"tambahDaftar(this);", "rel"=>"tooltip"))','htmlOptions'=>array('style'=>'text-align: center; width:40px')
               //  ),
             ),
-            'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+            'afterAjaxUpdate'=>'function(id, data){
+                jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
+                $("table").find("input[type=text]").each(function(){
+                    cekForm(this);
+                })
+                $("table").find("select").each(function(){
+                    cekForm(this);
+                })
+            }',
         )); ?>
     </div>
     <!--<div class="block-tabel">
@@ -109,7 +117,7 @@
         <?php
         Yii::app()->clientScript->registerScript('search', "
 
-        $('#formCari').submit(function(){
+        $('.search-form form').submit(function(){
                 $.fn.yiiGridView.update('daftarTindakan-grid', {
                         data: $(this).serialize()
                 });
@@ -117,6 +125,7 @@
         });
         ", CClientScript::POS_READY);
         ?>
+        <div class="search-form">
         <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form.js'); ?>
         <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
                 'action'=>Yii::app()->createUrl($this->route),
@@ -192,9 +201,10 @@
              <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Reset',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')),
                                                     array('class'=>'btn btn-danger', 'type'=>'reset')); ?>
              <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),
-                                                    array('class'=>'btn btn-blue', 'type'=>'button', 'onclick'=>'printTarif()')); ?>
+                                                    array('class'=>'btn btn-blue', 'type'=>'button', 'onclick'=>'print("PRINT")')); ?>
              <?php $content = $this->renderPartial('tips/tipsInformasiTarifRO',array(),true);
                         $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));    ?>
+        </div>
         </div>
     </fieldset>
     <?php $this->endWidget(); ?>
@@ -286,3 +296,20 @@
     }
     
 </script>
+<?php 
+    $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
+    $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
+    $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/print'); 
+
+$js = <<< JSCRIPT
+    function cekForm(obj)
+    {
+        $("#formCari :input[name='"+ obj.name +"']").val(obj.value);
+    }
+    function print(caraPrint)
+    {
+        window.open("${urlPrint}/"+$('#formCari').serialize()+"&caraPrint="+caraPrint,"",'location=_new, width=900px');
+    }
+JSCRIPT;
+    Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);                        
+    ?>
