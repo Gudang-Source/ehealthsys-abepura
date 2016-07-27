@@ -148,7 +148,7 @@ Direktur RS,<br><br><br><br><br>
 <!--    (_________________)-->
         <?php
 		echo CHtml::activeDropDownList($model,'mengetahui_surat', CHtml::listData(DokterV::model()->findAll(array(
-                    'condition'=>'pegawai_aktif = true',
+                    'condition'=>'pegawai_aktif = true AND kelompokpegawai_id = '.Params::KELOMPOKPEGAWAI_ID_TENAGA_MEDIK,
                     'order'=>'nama_pegawai',
                 )), 'namaLengkap', 'namaLengkap'), array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)"));
 	?>

@@ -26,16 +26,16 @@ if(!empty($_GET['suratketerangan_id'])){
     p{
         text-indent: 50px;
         text-align: justify;
-		font-style: oblique;
+		/*font-style: oblique;*/
 		font-weight: bold;
     }
 	.allcontent{
-		font-style: oblique;
+		/*font-style: oblique;*/
 		font-weight: bold;
 	}
 	
 	table td{
-		font-style: oblique;
+		/*font-style: oblique;*/
 		font-weight: bold;
 	}
 </style>
@@ -116,7 +116,7 @@ if(!empty($_GET['suratketerangan_id'])){
             <tr>
                 <td>PENOLONG PERSALINAN</td>
                 <td>:</td>
-                <td><?php echo strtoupper($model->dokterpersalinan->nama_pegawai); ?></td>
+                <td><?php echo (isset($model->dokter_persalinan_id))?strtoupper($model->dokterpersalinan->nama_pegawai):'-'; ?></td>
             </tr>
             <tr>
                 <td>NAMA IBU</td>

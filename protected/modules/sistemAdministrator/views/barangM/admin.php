@@ -150,7 +150,7 @@
     $url=  Yii::app()->createAbsoluteUrl($module.'/'.$controller);
 
 $js = <<< JSCRIPT
-         function cekForm(obj)
+function cekForm(obj)
 {
     $("#sabarang-m-search :input[name='"+ obj.name +"']").val(obj.value);
 }

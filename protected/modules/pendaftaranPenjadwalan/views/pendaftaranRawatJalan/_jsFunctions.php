@@ -1339,6 +1339,9 @@ function setVerifikasi(){
             if ($("#no_rekam_medik_baru").val().trim() == '') {
                 myAlert("No. Rekam Medik harus diisi");
                 return false;
+            }else if($("#no_rekam_medik_baru").val().trim().length != 6 ){
+                myAlert("No. Rekam Medik harus berisi 6 digit angka");
+                return false;
             }
         }
         
