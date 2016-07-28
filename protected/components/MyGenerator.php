@@ -2152,5 +2152,21 @@ class MyGenerator
         $nosetoran_baru = $prefix.(isset($reseptur['nomaksimal']) ? (str_pad($reseptur['nomaksimal']+1, strlen($default), 0,STR_PAD_LEFT)) : $default);
         return $nosetoran_baru;
     }
+	
+	/**
+     * Generate nosetorankasir untuk setorankasir_t
+     * @return string
+     */
+    public static function noSetoranBendahara()
+    {
+        $default = "0001";
+        $prefix = "SEBH".date("ymd");
+		$sql = "SELECT CAST(MAX(SUBSTR(nosetoranbdhara,".(strlen($prefix)+1).",".(strlen($default)).")) AS integer) nomaksimal
+				FROM setoranbdhara_t 
+				WHERE nosetoranbdhara LIKE ('".$prefix."%')";
+        $reseptur= Yii::app()->db->createCommand($sql)->queryRow();
+        $nosetoran_baru = $prefix.(isset($reseptur['nomaksimal']) ? (str_pad($reseptur['nomaksimal']+1, strlen($default), 0,STR_PAD_LEFT)) : $default);
+        return $nosetoran_baru;
+    }
 }
 ?>
