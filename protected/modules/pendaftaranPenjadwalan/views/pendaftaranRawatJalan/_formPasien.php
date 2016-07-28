@@ -108,7 +108,7 @@
                                 'tombolDialog'=>array('idDialog'=>'dialogPasien'),
                                 'htmlOptions'=>array('placeholder'=>'Ketik No. Rekam Medik','rel'=>'tooltip','title'=>'Ketik No. RM untuk mencari pasien',
                                     'onkeyup'=>"return $(this).focusNextInputField(event)",
-                                    'onblur'=>"if($(this).val()=='') setPasienBaru(); else setPasienLama('',this.value, true)",
+                                    'onblur'=>"cekNoRM();if($(this).val()==''){setPasienBaru();}else{setPasienLama('',this.value, true)}",                                    
                                     'class'=>'numbers-only f_rm', 'maxlength'=>6, 'id'=>'no_rekam_medik_baru'),
                             )); ?>
             <?php /* echo $form->textField($modPasien, 'no_rekam_medik', array(
@@ -202,7 +202,7 @@
                                             return false;
                                         }',
                                 ),
-                                'htmlOptions'=>array('placeholder'=>'No. Identitas Pasien','rel'=>'tooltip','title'=>'Ketik No. Identitas untuk masukan data / mencari pasien','onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span3'),
+                                'htmlOptions'=>array('placeholder'=>'No. Identitas Pasien','rel'=>'tooltip','title'=>'Ketik No. Identitas untuk masukan data / mencari pasien','onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span3 numbers-only'),
                             )); 
             ?>
 
@@ -252,7 +252,7 @@
         </div>
     </div>
     <?php echo $form->textFieldRow($modPasien,'nama_bin',array('placeholder'=>'Alias / Nama Panggilan Pasien','class'=>'hurufs-only span3 '.$nama_kapital, 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
-    <?php echo $form->textFieldRow($modPasien,'tempat_lahir',array('placeholder'=>'Kota/Kabupaten Kelahiran','class'=>'span3 all-caps', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>25)); ?>
+    <?php echo $form->textFieldRow($modPasien,'tempat_lahir',array('placeholder'=>'Kota/Kabupaten Kelahiran','class'=>'span3 all-caps hurufs-only', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>25)); ?>
     <div class="control-group ">
         <?php echo $form->labelEx($modPasien,'tanggal_lahir', array('class'=>'control-label')) ?>
         <div class="controls">

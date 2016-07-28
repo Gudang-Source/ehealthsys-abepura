@@ -12,7 +12,7 @@ var pemilik_bpjs = "";
  */
 var otoval = 1; // untuk hitung rekam medik
 var isSetLama = false;
-function setPasienLama(pasien_id, no_rekam_medik, is_manual){
+function setPasienLama(pasien_id, no_rekam_medik, is_manual){    
     if (isSetLama) return false;
     
     $("#form-pasien > div").addClass("animation-loading");
@@ -155,13 +155,12 @@ function setPasienLama(pasien_id, no_rekam_medik, is_manual){
             isSetLama = false;
             $("#form-pasien > div").removeClass("animation-loading");
         }
-    });
-
+    });    
 }
 /**
  * set form pasien ke pasien baru 
  * @returns {undefined} */
-function setPasienBaru(){
+function setPasienBaru(){    
     if (setPasienLama) return false;
 
     $("#<?php echo CHtml::activeId($model,'umur');?>").val("");
@@ -214,7 +213,17 @@ function setPasienBaru(){
     $("#form-pasien > legend > .tombol").attr('style','display:none;');
     $("#form-pasien > .well").addClass("box").removeClass("well");
     $("#cari_no_rekam_medik").val("");
-	$("#cari_nomorindukpegawai").val("");
+    $("#cari_nomorindukpegawai").val("");           
+}
+
+function cekNoRM(){
+    if ($(".rb_rm").eq(1).is(":checked")) {
+       if($("#no_rekam_medik_baru").val().trim().length != 6 ){
+            myAlert("No. Rekam Medik harus berisi 6 digit angka");
+            $("#no_rekam_medik_baru").val('');
+            return false;
+        }
+    }
 }
 /**
  * untuk refresh / reset form pegawai
