@@ -40,15 +40,15 @@ $this->widget($table,array(
 		'dtd_namalainnya',
                  array
                 (
-                        'name'=>'dtd_menular',
+                        'header'=>'Menular',
                         'type'=>'raw',
-                        'value'=>'($data->dtd_menular==1)? Yii::t("mds","Yes") : Yii::t("mds","No")',
+                        'value'=>'($data->dtd_menular==TRUE)?"Menular":"Tidak Menular"',
                 ),
              array
                 (
-                        'name'=>'dtd_aktif',
+                        'header'=>'Status',
                         'type'=>'raw',
-                        'value'=>'($data->dtd_aktif==1)? Yii::t("mds","Yes") : Yii::t("mds","No")',
+                        'value'=>'($data->dtd_aktif==TRUE)?"Aktif":"Tidak Aktif"',
                 ),
 		/*
 		'dtd_katakunci',

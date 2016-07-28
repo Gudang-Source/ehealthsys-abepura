@@ -62,7 +62,7 @@ class SAKasuspenyakitdiagnosaM extends KasuspenyakitdiagnosaM
 
 		$criteria=new CDbCriteria;
 
-                                $criteria->with = array('diagnosa');
+                $criteria->with = array('diagnosa');
 		$criteria->compare('LOWER(diagnosa.diagnosa_kode)',strtolower($this->diagnosa_kode),true);
 		$criteria->compare('LOWER(diagnosa.diagnosa_nama)',strtolower($this->diagnosa_nama),true);
 		$criteria->compare('LOWER(diagnosa.diagnosa_namalainnya)',strtolower($this->diagnosa_namalainnya),true);

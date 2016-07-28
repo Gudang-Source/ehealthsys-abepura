@@ -116,6 +116,7 @@ class TabularlistM extends CActiveRecord
 		$criteria->compare('LOWER(tabularlist_title)',strtolower($this->tabularlist_title),true);
 		$criteria->compare('LOWER(tabularlist_revisi)',strtolower($this->tabularlist_revisi),true);
 		$criteria->compare('LOWER(tabularlist_versi)',strtolower($this->tabularlist_versi),true);
+                $criteria->compare('tabularlist_aktif',isset($this->tabularlist_aktif)?$this->tabularlist_aktif:true);
                 // Klo limit lebih kecil dari nol itu berarti ga ada limit 
                 $criteria->limit=-1; 
 

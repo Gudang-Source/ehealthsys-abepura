@@ -205,6 +205,11 @@ class KasuspenyakitdiagnosaMController extends MyAuthController
         {
             $model= new SAKasuspenyakitdiagnosaM;
             $model->attributes=$_REQUEST['SAKasuspenyakitdiagnosaM'];
+            $model->diagnosa_kode = $_REQUEST['SAKasuspenyakitdiagnosaM']['diagnosa_kode'];
+           // $model->diagnosa_nourut = $_REQUEST['SAKasuspenyakitdiagnosaM']['diagnosa_nourut'];
+            $model->diagnosa_nama = $_REQUEST['SAKasuspenyakitdiagnosaM']['diagnosa_nama'];
+            $model->diagnosa_namalainnya = $_REQUEST['SAKasuspenyakitdiagnosaM']['diagnosa_namalainnya'];
+            
             $judulLaporan='Data Diagnosa Kasus Penyakit';
             $caraPrint=$_REQUEST['caraPrint'];
             if($caraPrint=='PRINT') {
