@@ -1,17 +1,28 @@
 <script type="text/javascript">
-function setNol(obj){
+function setNol(obj,no){
     if($(obj).is(":checked")){
         obj.value = 1;
+        $("#MAPemeliharaanasetdetailT_"+no+"_kondisiaset").addClass("required");
     }else{
         obj.value = 0;
+        $("#MAPemeliharaanasetdetailT_"+no+"_kondisiaset").removeClass("required error");        
     }
 }
 
 function checkAll(){
+    $("#tabel-sterilisasi > tbody > tr").find('select').each(
+    function(){
+        if($("#check_semua").is(":checked")){
+            $(this).addClass('required');            
+        }else{
+            $(this).removeClass('required error');
+        }
+    });
+    
     $("#tabel-sterilisasi > tbody > tr").find('input[type="checkbox"]').each(
     function(){
         if($("#check_semua").is(":checked")){
-            $(this).attr('checked','checked');
+            $(this).attr('checked','checked');            
         }else{
             $(this).removeAttr('checked');
         }
