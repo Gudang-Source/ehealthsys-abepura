@@ -28,9 +28,12 @@ $this->widget($table,array(
 		),
 		'klasifikasidiagnosa_kode',
 		'klasifikasidiagnosa_nama',
-		'klasifikasidiagnosa_namalain',
-		'klasifikasidiagnosa_aktif',
+		'klasifikasidiagnosa_namalain',		
 		'klasifikasidiagnosa_desc',
+                array(
+                    'header' => 'Status',
+                    'value' => '($data->klasifikasidiagnosa_aktif==TRUE)?"Aktif":"Tidak AKtif"'
+                ),
  
 	),
 )); 

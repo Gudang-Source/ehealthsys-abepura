@@ -38,6 +38,11 @@ $this->widget($table,array(
 		'diagnosaicdix_namalainnya',
 		'diagnosatindakan_katakunci',
 		'diagnosaicdix_nourut',
+                 array(
+                    'header'=>'<center>Status</center>',
+                    'value'=>'($data->diagnosaicdix_aktif == 1 ) ? "Aktif" : "Tidak Aktif"',
+                    'htmlOptions'=>array('style'=>'text-align:center;'),
+                ),
 		/*
 		'diagnosaicdix_aktif',
 		*/

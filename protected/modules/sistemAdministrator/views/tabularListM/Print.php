@@ -39,6 +39,10 @@ $this->widget($table,array(
 		'tabularlist_title',
 		'tabularlist_revisi',
 		'tabularlist_versi',
+                array(
+                    'header'=>'Status',
+                    'value'=>'($data->tabularlist_aktif == TRUE)?"Aktif":"Tidak Aktif"'
+                ),
 		/*
 		'tabularlist_aktif',
 		*/
