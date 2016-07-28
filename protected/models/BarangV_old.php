@@ -40,6 +40,7 @@ class BarangV extends CActiveRecord
     public $subsubkelompok_id;
     public $subsubkelompok_nama;
     public $subsubkelompok_kode;
+    public $waktuCek;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.

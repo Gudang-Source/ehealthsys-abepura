@@ -1,7 +1,7 @@
 <?php
 class MAPemeliharaanasetT extends PemeliharaanasetT
 {
-	public $pegmengetahui_nama,$petugas_nama1,$petugas_nama2;
+	public $pegmengetahui_nama,$petugas_nama1,$petugas_nama2, $pemeliharaanasetdet_tgl;
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);

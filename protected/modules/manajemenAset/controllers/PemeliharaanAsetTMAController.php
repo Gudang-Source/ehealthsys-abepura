@@ -6,7 +6,7 @@ class PemeliharaanAsetTMAController extends MyAuthController {
 	public $path_view = 'manajemenAset.views.PemeliharaanAsetTMA.';
 	public $defaultAction = 'index';
 	public $pemeliharaantersimpan = false;
-    public $pemeliharaandetailtersimpan = true;
+        public $pemeliharaandetailtersimpan = true;
 	
 	 public function actionIndex($pemeliharaanaset_id = null){
     	$format = new MyFormatter();
@@ -40,7 +40,7 @@ class PemeliharaanAsetTMAController extends MyAuthController {
         if(isset($_POST['MAPemeliharaanasetT'])){
             $transaction = Yii::app()->db->beginTransaction();
             try {
-				$modPemeliharaanAset->attributes=$_POST['MAPemeliharaanasetT'];
+				$modPemeliharaanAset->attributes=$_POST['MAPemeliharaanasetT'];                                
 				$modPemeliharaanAset->pemeliharaanaset_no = MyGenerator::noPemeliharaanAset();
 				$modPemeliharaanAset->pemeliharaanaset_tgl=$format->formatDateTimeForDb($_POST['MAPemeliharaanasetT']['pemeliharaanaset_tgl']);
 				$modPemeliharaanAset->pemeliharaanaset_ket = $_POST['MAPemeliharaanasetT']['pemeliharaanaset_ket'];
@@ -53,9 +53,9 @@ class PemeliharaanAsetTMAController extends MyAuthController {
 				if($modPemeliharaanAset->save()){
 					$this->pemeliharaantersimpan = true;					
 					if (isset($_POST['MAPemeliharaanasetdetailT'])) {
-						if(count($_POST['MAPemeliharaanasetdetailT']) > 0){
+						if(count($_POST['MAPemeliharaanasetdetailT']) > 0){                                                    
 						   foreach($_POST['MAPemeliharaanasetdetailT'] AS $i => $detail){
-							   if($detail['checklist'] == 1){
+							   if($detail['checklist'] == 1){                                                                  
 								   	$modPenyimpananPemeliharaanDetail[$i] = $this->simpanPenyimpananPemeliharaanDetail($modPemeliharaanAset,$detail);					
 							   }
 						   }
@@ -68,7 +68,7 @@ class PemeliharaanAsetTMAController extends MyAuthController {
                     $transaction->commit();
                     $modPemeliharaanAset->isNewRecord = FALSE;
                     $this->redirect(array('index','pemeliharaanaset_id'=>$modPemeliharaanAset->pemeliharaanaset_id,'sukses'=>1));
-                }else{
+                }else{                    
                     $transaction->rollback();
                     Yii::app()->user->setFlash('error',"Data Penyimpanan Pemeliharaan Aset gagal disimpan !");
                 }
@@ -93,9 +93,10 @@ class PemeliharaanAsetTMAController extends MyAuthController {
 	public function simpanPenyimpananPemeliharaanDetail($modPemeliharaanAset ,$detail){
         $format = new MyFormatter();
         $modPenyimpananPemeliharaanDetail = new MAPemeliharaanasetdetailT;
-        $modPenyimpananPemeliharaanDetail->attributes = $detail;
-        $modPenyimpananPemeliharaanDetail->pemeliharaanaset_id = $modPemeliharaanAset->pemeliharaanaset_id;
-
+        $modPenyimpananPemeliharaanDetail->attributes = $detail;        
+        $modPenyimpananPemeliharaanDetail->pemeliharaanaset_id = $modPemeliharaanAset->pemeliharaanaset_id;        
+        //$modPenyimpananPemeliharaanDetail->pemeliharaanasetdet_tgl = $format->formatDateTimeForDb($modPemeliharaanAset->pemeliharaanasetdet_tgl);
+          //      var_dump($modPenyimpananPemeliharaanDetail);
         if($modPenyimpananPemeliharaanDetail->validate()) { 
             $modPenyimpananPemeliharaanDetail->save();		
 			$this->pemeliharaandetailtersimpan &= true;
@@ -108,13 +109,13 @@ class PemeliharaanAsetTMAController extends MyAuthController {
 	public function actionPencarianPenerimaan()
     {
         if(Yii::app()->request->isAjaxRequest) { 
+                         
             parse_str($_REQUEST['data'],$data_parsing);
             $form = "";
             $pesan = "";
             $modPemeliharaandetail = '';
             $barang_type = 'Aset';
-            $format = new MyFormatter();
-			
+            $format = new MyFormatter();		
 			if(isset($data_parsing['MAPemeliharaanasetdetailT'])){
 				$kategori_aset = isset($data_parsing['MAPemeliharaanasetdetailT']['kategori_aset']) ? $data_parsing['MAPemeliharaanasetdetailT']['kategori_aset'] : null;
 				$asal_aset = isset($data_parsing['MAPemeliharaanasetdetailT']['asal_aset']) ? $data_parsing['MAPemeliharaanasetdetailT']['asal_aset'] : null;
@@ -148,10 +149,14 @@ class PemeliharaanAsetTMAController extends MyAuthController {
 				}
 				
 
-				$modPemeliharaan = MABarangV::model()->findAll($criteria);
-				
+				$modPemeliharaan = MABarangV::model()->findAll($criteria);				
 				if(count($modPemeliharaan) > 0 ){
-					foreach($modPemeliharaan as $i=>$detail){
+                                        $i=0;
+					foreach($modPemeliharaan as $i=>$detail){     
+                                                Yii::app()->clientScript->scriptMap['*.js'] = false;
+                                                Yii::app()->clientScript->scriptMap['*.css'] = false;
+                                                //Yii::app()->clientScript->scriptMap['jquery.js'] = false;
+                                                //Yii::app()->clientScript->scriptMap['jquery.min.js'] = false;
 						$modPemeliharaandetail = new MAPemeliharaanasetdetailT;
 						$modPemeliharaandetail->invgedung_id = isset($detail->invgedung_id) ? $detail->invgedung_id : '';
 						$modPemeliharaandetail->invasetlain_id = isset($detail->invasetlain_id) ? $detail->invasetlain_id : '';
@@ -162,18 +167,20 @@ class PemeliharaanAsetTMAController extends MyAuthController {
 						$modPemeliharaandetail->kategori_aset = isset($detail->bidang_nama) ? $detail->bidang_nama : '';
 						$modPemeliharaandetail->kode_aset = isset($detail->barang_kode) ? $detail->barang_kode : '';
 						$modPemeliharaandetail->nama_aset = isset($detail->barang_nama) ? $detail->barang_nama : '';
-						$modPemeliharaandetail->pemeliharaanaset_id = isset($detail->pemeliharaanaset_id) ? $detail->pemeliharaanaset_id : '';
-						$modPemeliharaandetail->pemeliharaanasetdet_tgl = date('Y-m-d H:i:s');
+						$modPemeliharaandetail->pemeliharaanaset_id = isset($detail->pemeliharaanaset_id) ? $detail->pemeliharaanaset_id : '';                                                
+						$modPemeliharaandetail->waktuCek = date('Y-m-d');
+                                                $modPemeliharaandetail->pemeliharaanasetdet_tgl = date('Y-m-d');
 						$modPemeliharaandetail->kondisiaset = isset($detail->kondisiaset) ? $detail->kondisiaset : '';
 						$modPemeliharaandetail->keteranganaset = isset($detail->keteranganaset) ? $detail->keteranganaset : '';
 						$modPemeliharaandetail->checklist = 1;
-						$form .= $this->renderPartial($this->path_view.'_rowBarang', array('detail'=>$modPemeliharaandetail), true);
+						$form .= $this->renderPartial($this->path_view.'_rowBarang', array('detail'=>$modPemeliharaandetail,'no'=>$i), true, true);
+                                                $i++;
 					}
 				}else{
 					$pesan = "Data Pemeliharaan Aset Tidak Ada!";
 				}				
-			}
-			      
+			}			                                 
+
             echo CJSON::encode(array('form'=>$form, 'pesan'=>$pesan));
             Yii::app()->end(); 
         }

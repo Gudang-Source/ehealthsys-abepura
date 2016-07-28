@@ -50,13 +50,14 @@
 					<th>Kategori Aset</th>
 					<th>Kode Aset</th>
 					<th>Nama Aset</th>
-					<th>Waktu Pengecekan</th>
-					<th>Kondisi Aset</th>
+					<th>Waktu Pengecekan <font style = "color:red;">*</font></th>
+                                        <th>Kondisi Aset <font style = "color:red;">*</font></th>
 					<th>Keterangan</th>
 				</tr>
 			</thead>
 			<tbody>
 				<?php
+                                        $no=0;
 					if(count($modPenyimpananPemeliharaanDetail) > 0){
 						foreach($modPenyimpananPemeliharaanDetail as $i=>$detail){
 							$detail->invgedung_id = $detail->invgedung_id;
@@ -66,12 +67,13 @@
 							$detail->barang_id = $detail->barang_id;
 							$detail->asalaset_id = $detail->asalaset_id;
 							$detail->pemeliharaanaset_id = $detail->pemeliharaanaset_id;
-							$detail->pemeliharaanasetdet_tgl = $detail->pemeliharaanasetdet_tgl;
+							$detail->waktuCek = $detail->pemeliharaanasetdet_tgl;
 							$detail->kondisiaset = $detail->kondisiaset;
 							$detail->keteranganaset = $detail->keteranganaset;
 							echo $this->renderPartial($this->path_view.'_rowBarang',array(
-									'detail'=>$detail
+									'detail'=>$detail, 'no'=>$no
 							));
+                                                        $no++;
 						}
 					}
 				?>
@@ -113,3 +115,20 @@
 
     <?php $this->renderPartial($this->path_view.'_jsFunctions', array('modPemeliharaan'=>$modPemeliharaan,'modPemeliharaanAset'=>$modPemeliharaanAset,'modPenyimpananPemeliharaanDetail'=>$modPenyimpananPemeliharaanDetail)); ?>
 </div>
+<?php
+$this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+                'id'=>'dialogDetailsTarif',
+                // additional javascript options for the dialog plugin
+                'options'=>array(
+                'title'=>'Komponen Tarif',
+                'autoOpen'=>false,
+                'width'=>350,
+                'height'=>350,
+                'resizable'=>false,
+                'scroll'=>false    
+                 ),
+        ));
+        echo "tes";
+        $this->endWidget('zii.widgets.jui.CJuiDialog');
+
+?>
