@@ -22,6 +22,8 @@ class SetoranBendaharaKeBankController extends MyAuthController
 	public function actionIndex($id = null)
 	{
 		$model = new KUSetoranbdharaT;
+		$setorbank = new SetorbankT;
+		
 		$detail = array();
 		
 		$model->nosetoranbdhara = MyGenerator::noSetoranBendahara();
@@ -44,6 +46,20 @@ class SetoranBendaharaKeBankController extends MyAuthController
 				if ($model->validate()) {
 					$ok = $ok && $model->save();
 				} else $ok = false;
+				
+				if (isset($_POST['SetorbankT'])) {
+					$setorbank->attributes = $_POST['SetorbankT'];
+					$setorbank->tgldisetor = $model->tglsetoranbdhara;
+					$setorbank->jumlahsetoran = $_POST['total'];
+					$setorbank->ygmenyetor_id = $model->pegawai_id;
+					$setorbank->create_time = date('Y-m-d H:i:s');
+					$setorbank->create_loginpemakai_id = Yii::app()->user->id;
+					if ($setorbank->validate()) {
+						$ok = $ok && $setorbank->save();
+						$model->setorbank_id = $setorbank->setorbank_id;
+						$ok = $ok && $model->save();
+					}
+				}
 
 				foreach ($_POST['detail'] as $setorankasir_id => $detail) {
 					foreach ($detail as $kelompoktindakan_id => $item) {
@@ -58,7 +74,7 @@ class SetoranBendaharaKeBankController extends MyAuthController
 						} else $ok = false;
 					}
 				}
-
+				
 				if ($ok) {
 					$trans->commit();
 					Yii::app()->user->setFlash("success", "Data Berhasil Disimpan.");
@@ -69,6 +85,7 @@ class SetoranBendaharaKeBankController extends MyAuthController
 				}
 			} catch (Exception $e) {
 				$trans->rollback();
+				var_dump($e); die;
 				Yii::app()->user->setFlash("error", "Data Gagal Disimpan (E).");
 			}
 			//var_dump($_POST, $model->validate(), $model->errors, $model->attributes); die;
@@ -76,6 +93,7 @@ class SetoranBendaharaKeBankController extends MyAuthController
 		
 		if (isset($id)) {
 			$model = KUSetoranbdharaT::model()->findByPk($id);
+			$setorbank = SetorbankT::model()->findByPk($model->setorbank_id);
 			if (!empty($model->pegawai_id)) {
 				$p = PegawaiM::model()->findByPk($model->pegawai_id);
 				$model->pegawai_nama = $p->namaLengkap;
@@ -86,7 +104,7 @@ class SetoranBendaharaKeBankController extends MyAuthController
 			}
 		}
 		
-		$this->render($this->path_view.'index', array('model'=>$model, 'detail'=>$detail, 'id'=>$id));
+		$this->render($this->path_view.'index', array('model'=>$model, 'detail'=>$detail, 'setorbank'=>$setorbank, 'id'=>$id));
 	}
 
 	public function actionInformasi()
@@ -130,7 +148,7 @@ class SetoranBendaharaKeBankController extends MyAuthController
 				'setorankasir_id'=> $item->setorankasir_id
 			));
 			
-			// if (!empty($set)) continue;
+			if (!empty($set)) continue;
 			
 			if (empty($res[$item->setorankasir_id])) {
 				$res[$item->setorankasir_id] = array(
@@ -175,13 +193,17 @@ class SetoranBendaharaKeBankController extends MyAuthController
         }
 		
 		$model = KUSetoranbdharaT::model()->findByPk($id);
+		$setorbank = SetorbankT::model()->findByPk($model->setorbank_id);
+		$nip = array('','');
 		if (!empty($model->pegawai_id)) {
 			$p = PegawaiM::model()->findByPk($model->pegawai_id);
 			$model->pegawai_nama = $p->namaLengkap;
+			$nip[0] = $p->nomorindukpegawai;
 		}
 		if (!empty($model->mengetahui_id)) {
 			$p = PegawaiM::model()->findByPk($model->mengetahui_id);
 			$model->mengetahui_nama = $p->namaLengkap;
+			$nip[1] = $p->nomorindukpegawai;
 		}
 		
 		$det = array();
@@ -215,7 +237,7 @@ class SetoranBendaharaKeBankController extends MyAuthController
 			$total += $item->jmlsetoranbdhara;
 		}
 		
-		$this->render($this->path_view.'print', array('model'=>$model, 'det'=>$det, 'total'=>$total));
+		$this->render($this->path_view.'print', array('model'=>$model, 'det'=>$det, 'nip'=>$nip,'setorbank'=>$setorbank, 'total'=>$total));
 	}
 
 	// Uncomment the following methods and override them if needed

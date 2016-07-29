@@ -22,5 +22,19 @@ function printSetoran(id) {
 	window.open("<?php echo $this->createUrl('print') ?>&id="+id,"",'location=_new, width=1024px');
 }
 
+function cekValidasi(form) {
+	var rekkosong = false;
+		
+	$(".rekening5_id").each(function() {
+		if ($(this).val().trim() === "") rekkosong = true;
+	});
+	if (rekkosong) {
+		myAlert("Rekening Harus Diisi");
+		return false;
+	}	
+		
+	return requiredCheck(form);
+}
+
 </script>
 

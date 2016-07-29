@@ -6,7 +6,9 @@
             'id'=>'setoranbendahara-form',
             'enableAjaxValidation'=>false,
             'type'=>'horizontal',
-            'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event);'),
+            'htmlOptions'=>array(
+				'onKeyPress'=>'return disableKeyPress(event);', 'onsubmit'=>'return cekValidasi(this);',
+			),
     )); ?>
 	
 	<?php 
@@ -16,14 +18,14 @@
 	?>
 	
 	<?php if (empty($id)) echo $this->renderPartial('sub/_infosetoran', array('form'=>$form, 'model'=>$model), true); ?>
-	<?php echo $this->renderPartial('sub/_formsetoran', array('form'=>$form, 'model'=>$model), true); ?>
-	<?php echo $this->renderPartial('sub/_detailsetoran', array('form'=>$form, 'model'=>$model, 'detail'=>$detail), true); ?>
+	<?php echo $this->renderPartial($this->path_view.'sub/_formsetoran', array('form'=>$form, 'model'=>$model, 'setorbank'=>$setorbank), true); ?>
+	<?php echo $this->renderPartial($this->path_view.'sub/_detailsetoran', array('form'=>$form, 'model'=>$model, 'detail'=>$detail), true); ?>
 	
 	<div class="row-fluid">
         <div class="form-actions">
                 <?php 
                     if($model->isNewRecord){
-                        echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit', 'onclick'=>'return cekValidasi();')); //formSubmit(this,event)
+                        echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit')); //formSubmit(this,event)
                     }else{
                         echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button', 'onclick'=>'return false', 'onkeypress'=>'return false', 'disabled'=>true, 'style'=>'cursor:not-allowed;')); 
                     }
@@ -47,4 +49,4 @@
 	
 	<?php $this->endWidget(); ?>
 </div>
-<?php echo $this->renderPartial('sub/_jsfunctions', array('form'=>$form, 'model'=>$model, 'detail'=>$detail), true); ?>
+<?php echo $this->renderPartial($this->path_view.'sub/_jsfunctions', array('form'=>$form, 'model'=>$model, 'detail'=>$detail), true); ?>
