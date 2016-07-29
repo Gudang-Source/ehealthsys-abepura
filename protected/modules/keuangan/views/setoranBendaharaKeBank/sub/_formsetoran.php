@@ -88,6 +88,17 @@
             </div>
         </div>
     </div>
+	<hr/>
+	<div class="span6">
+		<?php echo $form->textFieldRow($setorbank, 'norekening', array('class'=>'span3')); ?>
+		<?php echo $form->dropDownListRow($setorbank, 'namabank', 
+				CHtml::listData(BankM::model()->findAll('bank_aktif = true order by namabank'), 'namabank', 'namabank'),
+				array('empty'=>'-- Pilih --', 'class'=>'span3')); ?>
+	</div>
+	<div class="span6">
+		<?php echo $form->textFieldRow($setorbank, 'nostruksetor', array('class'=>'span3')); ?>
+		<?php echo $form->textFieldRow($setorbank, 'atasnama', array('class'=>'span3')); ?>
+	</div>
 </fieldset>
 
 <?php 
