@@ -50,13 +50,13 @@ if (isset($caraPrint)){
 		),
 		array(
 			'header'=>'Harga Netto',
-			'value'=>'number_format($data->harga_netto)',
+			'value'=>'"Rp".number_format($data->harga_netto,0,"",".")',
 			'type'=>'raw',
 			'htmlOptions'=>array('style'=>'text-align:right;'),
 		),
 		array(
 			'header'=>'Harga Jual',
-			'value'=>'number_format($data->harga_satuan)',
+			'value'=>'"Rp".number_format($data->harga_satuan,0,"",".")',
 			'type'=>'raw',
 			'htmlOptions'=>array('style'=>'text-align:right;'),
 		),
