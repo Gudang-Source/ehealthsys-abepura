@@ -21,16 +21,16 @@ if(!empty($_GET['suratketerangan_id'])){
     p{
         text-indent: 50px;
         text-align: justify;
-		font-style: oblique;
+		/*font-style: oblique;*/
 		font-weight: bold;
     }
 	.allcontent{
-		font-style: oblique;
+		/*font-style: oblique;*/
 		font-weight: bold;
 	}
 	
 	table td{
-		font-style: oblique;
+		/*font-style: oblique;*/
 		font-weight: bold;
 	}
 </style>
@@ -115,7 +115,12 @@ if(!empty($_GET['suratketerangan_id'])){
                 <td>:</td>
                 <td>
 					<?php
-						echo CHtml::activeDropDownList($model,'dokter_persalinan_id', CHtml::listData(PegawaiV::model()->findAll(), 'pegawai_id', 'namaLengkap'), array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)"));
+                                            $penolong = new CDbCriteria();
+                                            $penolong->addCondition("pegawai_aktif = TRUE");
+                                            $penolong->addInCondition('ruangan_id',array(Params::RUANGAN_ID_BERSALIN, Params::RUANGAN_ID_KEBIDANAN));
+                                            $penolong->addInCondition('kelompokpegawai_id',array(Params::KELOMPOKPEGAWAI_ID_BIDAN, Params::KELOMPOKPEGAWAI_ID_TENAGA_MEDIK));
+                                            $penolong->order="nama_pegawai ASC";
+						echo CHtml::activeDropDownList($model,'dokter_persalinan_id', CHtml::listData(PegawairuanganV::model()->findAll($penolong), 'pegawai_id', 'namaLengkap'), array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)"));
 					?>
 				</td>
             </tr>
@@ -162,8 +167,8 @@ if(!empty($_GET['suratketerangan_id'])){
 		<br><br><br><br><br>
 	<!--    (_________________)-->
 	<?php
-		echo CHtml::activeDropDownList($model,'mengetahui_surat', CHtml::listData(PegawaiV::model()->findAll(array(
-                    'condition'=>'pegawai_aktif = true',
+		echo CHtml::activeDropDownList($model,'mengetahui_surat', CHtml::listData(DokterV::model()->findAll(array(
+                    'condition'=>'pegawai_aktif = true AND kelompokpegawai_id = '.Params::KELOMPOKPEGAWAI_ID_TENAGA_MEDIK,                    
                     'order'=>'nama_pegawai',
                 )), 'namaLengkap', 'namaLengkap'), array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)"));
 	?>

@@ -127,6 +127,7 @@ class DtdM extends CActiveRecord
 		$criteria->compare('LOWER(dtd_namalainnya)',strtolower($this->dtd_namalainnya),true);
 		$criteria->compare('LOWER(dtd_katakunci)',strtolower($this->dtd_katakunci),true);
 		$criteria->compare('dtd_nourut',$this->dtd_nourut);
+                $criteria->compare('dtd_aktif',isset($this->dtd_aktif)?$this->dtd_aktif:true);
 //		$criteria->compare('dtd_menular',$this->dtd_menular);
 //		$criteria->compare('dtd_aktif',$this->dtd_aktif);
                 // Klo limit lebih kecil dari nol itu berarti ga ada limit 

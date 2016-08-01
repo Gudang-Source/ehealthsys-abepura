@@ -71,6 +71,7 @@ $format = new MyFormatter();
                 <td>:</td>
                 <td><?php echo (empty($modAdmisi->tgladmisi) ? "-" : $format->formatDateTimeForUser($modAdmisi->tgladmisi)); ?></td>
             </tr>
+            <?php /*
             <?php if((empty($modAdmisi->tglpulang))){
                 
             }else{ ?>
@@ -80,6 +81,7 @@ $format = new MyFormatter();
                 <td><?php echo (empty($modAdmisi->tglpulang) ? "-" : $format->formatDateTimeForUser($modAdmisi->tglpulang)); ?></td>
             </tr>
             <?php } ?>
+            */ ?>
         </table><br>
         </p>
         <p align="justify">

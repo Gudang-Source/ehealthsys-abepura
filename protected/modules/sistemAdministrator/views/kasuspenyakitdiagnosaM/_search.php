@@ -9,16 +9,16 @@
         <td>
             <?php echo $form->DropDownListRow($model, 'jeniskasuspenyakit_id', CHtml::listData($model->getJeniskasuspenyakitItems(),'jeniskasuspenyakit_id','jeniskasuspenyakit_nama'),array('empty'=>'-- Pilih --')); ?>
         </td>
-        <td></td>
+        <td><?php echo $form->textFieldRow($model,'diagnosa_kode', array()); ?>            </td>
         <td></td>
     </tr>
     <tr>
         <td>
             <?php //echo $form->DropDownListRow($model, 'diagnosa_id', CHtml::listData($model->getDiagnosaItems(),'diagnosa_id','diagnosa_nama'),array('empty'=>'-- Pilih --')); ?>
-            <?php echo $form->textAreaRow($model,'diagnosa_nama', array('cols'=>50, 'rows'=>6)); ?>            
+            <?php echo $form->textFieldRow($model,'diagnosa_nama', array()); ?>            
         </td>
         <td>
-            <?php echo $form->textAreaRow($model,'diagnosa_namalainnya', array('cols'=>50, 'rows'=>6)); ?>
+            <?php echo $form->textFieldRow($model,'diagnosa_namalainnya', array()); ?>
         </td>
     </tr>
     

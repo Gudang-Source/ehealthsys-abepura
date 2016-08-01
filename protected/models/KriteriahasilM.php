@@ -5,7 +5,7 @@
  *
  * The followings are the available columns in table 'kriteriahasil_m':
  * @property integer $kriteriahasil_id
- * @property integer $diagnosakeperawatan_id
+ * @property integer $diagnosakep_id
  * @property string $kriteriahasil_nama
  * @property string $kriteriahasil_namalain
  * @property boolean $kriteriahasil_aktif
@@ -17,6 +17,7 @@ class KriteriahasilM extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return KriteriahasilM the static model class
 	 */
+	public $diagnosakep_nama;
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -38,13 +39,13 @@ class KriteriahasilM extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('diagnosakeperawatan_id, kriteriahasil_nama', 'required'),
-			array('diagnosakeperawatan_id', 'numerical', 'integerOnly'=>true),
+			array('diagnosakep_id, kriteriahasil_nama', 'required'),
+			array('diagnosakep_id', 'numerical', 'integerOnly'=>true),
 			array('kriteriahasil_nama, kriteriahasil_namalain', 'length', 'max'=>200),
 			array('kriteriahasil_aktif', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('kriteriahasil_id, diagnosakeperawatan_id, kriteriahasil_nama, kriteriahasil_namalain, kriteriahasil_aktif', 'safe', 'on'=>'search'),
+			array('kriteriahasil_id, diagnosakep_id, kriteriahasil_nama, kriteriahasil_namalain, kriteriahasil_aktif', 'safe', 'on'=>'search'),
 		);
 	}
 

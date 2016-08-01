@@ -107,7 +107,15 @@
                              ),
                         ),
             ),
-            'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+            'afterAjaxUpdate'=>'function(id, data){
+                jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
+                $("table").find("input[type=text]").each(function(){
+                    cekForm(this);
+                })
+                $("table").find("select").each(function(){
+                    cekForm(this);
+                })                
+            }',
         )); ?>
     <!--</div>-->
     <?php 
@@ -122,6 +130,10 @@
     $urlPrint=  Yii::app()->createAbsoluteUrl($module.'/'.$controller.'/print');
 
 $js = <<< JSCRIPT
+function cekForm(obj)
+{
+    $("#rikasuspenyakitdiagnosa-m-search :input[name='"+ obj.name +"']").val(obj.value);
+}
 function print(caraPrint)
 {
     window.open("${urlPrint}/"+$('#rikasuspenyakitdiagnosa-m-search').serialize()+"&caraPrint="+caraPrint,"",'location=_new, width=900px');

@@ -108,7 +108,7 @@
                                 'tombolDialog'=>array('idDialog'=>'dialogPasien'),
                                 'htmlOptions'=>array('placeholder'=>'Ketik No. Rekam Medik','rel'=>'tooltip','title'=>'Ketik No. RM untuk mencari pasien',
                                     'onkeyup'=>"return $(this).focusNextInputField(event)",
-                                    'onblur'=>"if($(this).val()=='') setPasienBaru(); else setPasienLama('',this.value, true)",
+                                    'onblur'=>"cekNoRM();if($(this).val()==''){setPasienBaru();}else{setPasienLama('',this.value, true)}",                                    
                                     'class'=>'numbers-only f_rm', 'maxlength'=>6, 'id'=>'no_rekam_medik_baru'),
                             )); ?>
             <?php /* echo $form->textField($modPasien, 'no_rekam_medik', array(
@@ -155,7 +155,7 @@
                                 'htmlOptions'=>array('placeholder'=>'Ketik No. Rekam Medik','rel'=>'tooltip','title'=>'Ketik No. RM untuk mencari pasien',
                                     'onkeyup'=>"return $(this).focusNextInputField(event)",
                                     'onblur'=>"if($(this).val()=='') setPasienBaru(); else setPasienLama('',this.value)",
-                                    'class'=>'numbers-only f_rm'),
+                                    'class'=>'numbers-only f_rm','maxlength'=>6,),                                    
                             )); 
             ?>
             <?php echo $form->error($modPasien,'no_rekam_medik'); ?>                        
@@ -165,7 +165,7 @@
     <div class="control-group ">
         <?php echo $form->labelEx($modPasien,'no_jamkespa', array('class'=>'control-label')) ?>
         <div class="controls">
-            <?php echo $form->textField($modPasien, 'no_jamkespa', array('class'=>'span3')); ?>
+            <?php echo $form->textField($modPasien, 'no_jamkespa', array('class'=>'span3 numbers-only')); ?>
             <?php echo $form->error($modPasien,'no_jamkespa'); ?>
         </div>
     </div>
@@ -202,7 +202,7 @@
                                             return false;
                                         }',
                                 ),
-                                'htmlOptions'=>array('placeholder'=>'No. Identitas Pasien','rel'=>'tooltip','title'=>'Ketik No. Identitas untuk masukan data / mencari pasien','onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span3'),
+                                'htmlOptions'=>array('placeholder'=>'No. Identitas Pasien','rel'=>'tooltip','title'=>'Ketik No. Identitas untuk masukan data / mencari pasien','onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span3 numbers-only'),
                             )); 
             ?>
 
@@ -244,15 +244,15 @@
                                             return false;
                                         }',
                                 ),
-                                'htmlOptions'=>array('placeholder'=>'Nama Lengkap Pasien','rel'=>'tooltip','title'=>'Ketik Nama untuk masukan data / mencari pasien','onkeyup'=>"return $(this).focusNextInputField(event)", 'class'=>'span3 '.$nama_kapital, 'onblur'=>'cekJamkespa(); $("#pemilikasuransisesuai").change();'),
+                                'htmlOptions'=>array('placeholder'=>'Nama Lengkap Pasien','rel'=>'tooltip','title'=>'Ketik Nama untuk masukan data / mencari pasien','onkeyup'=>"return $(this).focusNextInputField(event)", 'class'=>'hurufs-only span3 '.$nama_kapital, 'onblur'=>'cekJamkespa(); $("#pemilikasuransisesuai").change();'),
                             )); 
             ?>
             <?php echo $form->error($modPasien,'namadepan'); ?>
             <?php echo $form->error($modPasien,'nama_pasien'); ?>
         </div>
     </div>
-    <?php echo $form->textFieldRow($modPasien,'nama_bin',array('placeholder'=>'Alias / Nama Panggilan Pasien','class'=>'span3 '.$nama_kapital, 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
-    <?php echo $form->textFieldRow($modPasien,'tempat_lahir',array('placeholder'=>'Kota/Kabupaten Kelahiran','class'=>'span3 all-caps', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>25)); ?>
+    <?php echo $form->textFieldRow($modPasien,'nama_bin',array('placeholder'=>'Alias / Nama Panggilan Pasien','class'=>'hurufs-only span3 '.$nama_kapital, 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+    <?php echo $form->textFieldRow($modPasien,'tempat_lahir',array('placeholder'=>'Kota/Kabupaten Kelahiran','class'=>'span3 all-caps hurufs-only', 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>25)); ?>
     <div class="control-group ">
         <?php echo $form->labelEx($modPasien,'tanggal_lahir', array('class'=>'control-label')) ?>
         <div class="controls">
@@ -279,7 +279,7 @@
 
     <?php echo $form->textFieldRow($model,'umur',array('placeholder'=>'00 Thn 00 Bln 00 Hr','class'=>'span3 umur', 'onblur'=>'setTglLahir(this);','onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>20)); ?>
 
-    <?php echo $form->radioButtonListInlineRow($modPasien, 'jeniskelamin', LookupM::getItems('jeniskelamin'), array('onkeyup'=>"return $(this).focusNextInputField(event)", 'onchange'=>"setNamaDepan()", 'class'=>'')); ?>
+    <?php echo $form->radioButtonListInlineRow($modPasien, 'jeniskelamin', LookupM::getItems('jeniskelamin'), array('onkeyup'=>"return $(this).focusNextInputField(event)", 'onchange'=>"setNamaDepan()", 'class'=>'required')); ?>
     <div class="control-group ">
         <?php echo $form->labelEx($modPasien,'golongandarah', array('class'=>'control-label')) ?>
         <div class="controls">
@@ -295,8 +295,8 @@
         </div>
     </div>
     <?php echo $form->dropDownListRow($modPasien,'statusperkawinan', LookupM::getItems('statusperkawinan'),array('empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 'onchange'=>'setNamaDepan()','class'=>'span3')); ?>
-    <?php echo $form->textFieldRow($modPasien,'nama_ayah',array('placeholder'=>'Nama Ayah Kandung Pasien','class'=>'span3 '.$nama_kapital, 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
-    <?php echo $form->textFieldRow($modPasien,'nama_ibu',array('placeholder'=>'Nama Ibu Kandung Pasien','class'=>'span3 '.$nama_kapital, 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+    <?php echo $form->textFieldRow($modPasien,'nama_ayah',array('placeholder'=>'Nama Ayah Kandung Pasien','class'=>'hurufs-only span3 '.$nama_kapital, 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
+    <?php echo $form->textFieldRow($modPasien,'nama_ibu',array('placeholder'=>'Nama Ibu Kandung Pasien','class'=>'hurufs-only span3 '.$nama_kapital, 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
     <div class="control-group ">
         <?php echo $form->labelEx($modPasien,'anakke', array('class'=>'control-label')) ?>
         <div class="controls">

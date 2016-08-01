@@ -241,6 +241,18 @@ function setNumbersOnly(obj){
 	}
 }
 
+function setHurufsOnly(obj){
+	
+	var value = $(obj).val();
+	var orignalValue = value;
+	value = value.replace(/[a-zA-Z ]*/g, "");
+	var msg = "Only Alphabet Values allowed.";
+
+	if (value != '') {
+		orignalValue = orignalValue.replace(/([^a-zA-Z ].*)/g, "")
+		$(obj).val(orignalValue);
+	}
+}
 /**
  * Set functions on ready windows 
  */
@@ -249,6 +261,11 @@ $( document ).ready(function(){
     $('.numbers-only').keyup(function() {
         setNumbersOnly(this);
     });
+    
+     $('.hurufs-only').keyup(function() {
+        setHurufsOnly(this);
+    });
+    
     /**class : all-caps = kapital semua */
     $('.all-caps').keyup(function() {
         var allcaps = $(this).val().toUpperCase();

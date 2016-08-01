@@ -4,6 +4,9 @@ class MAPemeliharaanasetdetailT extends PemeliharaanasetdetailT
 {
 	public $kategori_aset,$asal_aset,$kode_inventaris,$kode_aset,$nama_aset;
 	public $checklist;
+        public $waktuCek;
+        
+        
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);

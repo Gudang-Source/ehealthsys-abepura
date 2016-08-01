@@ -19,6 +19,7 @@
  */
 class PemeliharaanasetT extends CActiveRecord
 {
+        public $waktuCek;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -48,7 +49,7 @@ class PemeliharaanasetT extends CActiveRecord
 			array('pemeliharaanaset_no, create_time, create_loginpemakai_id, create_ruangan', 'required'),
 			array('pegmengetahui_id, pegpetugas1_id, pegpetugas2_id, create_loginpemakai_id, update_loginpemakai_id, create_ruangan', 'numerical', 'integerOnly'=>true),
 			array('pemeliharaanaset_no', 'length', 'max'=>20),
-			array('pemeliharaanaset_tgl, pemeliharaanaset_ket, update_time', 'safe'),
+			array('pemeliharaanaset_tgl, pemeliharaanaset_ket, update_time, waktuCek', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('pemeliharaanaset_id, pemeliharaanaset_no, pemeliharaanaset_tgl, pemeliharaanaset_ket, pegmengetahui_id, pegpetugas1_id, pegpetugas2_id, create_time, update_time, create_loginpemakai_id, update_loginpemakai_id, create_ruangan', 'safe', 'on'=>'search'),

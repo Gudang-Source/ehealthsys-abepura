@@ -133,6 +133,7 @@ class DiagnosakeperawatanM extends CActiveRecord
                         $criteria->compare('LOWER(diagnosa_medis)',strtolower($this->diagnosa_medis),true);
                         $criteria->compare('LOWER(diagnosa_keperawatan)',strtolower($this->diagnosa_keperawatan),true);
                         $criteria->compare('LOWER(diagnosa_tujuan)',strtolower($this->diagnosa_tujuan),true);
+                        $criteria->compare('diagnosa_keperawatan_aktif',isset($this->diagnosa_keperawatan_aktif)?$this->diagnosa_keperawatan_aktif:true);
                         //$criteria->compare('diagnosa_keperawatan_aktif',$this->diagnosa_keperawatan_aktif);
                         // Klo limit lebih kecil dari nol itu berarti ga ada limit 
                         $criteria->limit=-1; 

@@ -154,8 +154,18 @@ class KasuspenyakitdiagnosaM extends CActiveRecord
                 // should not be searched.
 
                 $criteria=new CDbCriteria;
-		$criteria->compare('jeniskasuspenyakit_id',$this->jeniskasuspenyakit_id);
-		$criteria->compare('diagnosa_id',$this->diagnosa_id);
+		 $criteria->with = array('diagnosa');
+		$criteria->compare('LOWER(diagnosa.diagnosa_kode)',strtolower($this->diagnosa_kode),true);
+		$criteria->compare('LOWER(diagnosa.diagnosa_nama)',strtolower($this->diagnosa_nama),true);
+		$criteria->compare('LOWER(diagnosa.diagnosa_namalainnya)',strtolower($this->diagnosa_namalainnya),true);
+		$criteria->compare('LOWER(diagnosa.diagnosa_katakunci)',strtolower($this->diagnosa_katakunci),true);
+		$criteria->compare('diagnosa.diagnosa_nourut',$this->diagnosa_nourut);
+		if (!empty($this->jeniskasuspenyakit_id)){
+			$criteria->addCondition('jeniskasuspenyakit_id ='.$this->jeniskasuspenyakit_id);
+		}
+		if (!empty($this->diagnosa_id)){
+			$criteria->addCondition('diagnosa_id ='.$this->diagnosa_id);
+		}
                 // Klo limit lebih kecil dari nol itu berarti ga ada limit 
                 $criteria->limit=-1; 
 

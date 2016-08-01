@@ -102,6 +102,7 @@ class KelompokdiagnosaM extends CActiveRecord
 		$criteria->compare('kelompokdiagnosa_id',$this->kelompokdiagnosa_id);
 		$criteria->compare('LOWER(kelompokdiagnosa_nama)',strtolower($this->kelompokdiagnosa_nama),true);
 		$criteria->compare('LOWER(kelompokdiagnosa_namalainnya)',strtolower($this->kelompokdiagnosa_namalainnya),true);
+                $criteria->compare('kelompokdiagnosa_aktif',isset($this->kelompokdiagnosa_aktif)?$this->kelompokdiagnosa_aktif:true);
 //		$criteria->compare('kelompokdiagnosa_aktif',$this->kelompokdiagnosa_aktif);
                 // Klo limit lebih kecil dari nol itu berarti ga ada limit 
                 $criteria->limit=-1; 

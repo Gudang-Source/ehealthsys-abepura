@@ -12,6 +12,7 @@ class AsuhankeperawatanController extends MyAuthController
     public $successPlanning = true;
     public $successImplementasi = true;
     public $successIntervensi = true;
+    public $path_view = 'asuhanKeperawatan.views.asuhankeperawatan.';
 
     /**
      * Displays a particular model.

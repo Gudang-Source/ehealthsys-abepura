@@ -16,7 +16,7 @@
 $format = new MyFormatter();
     $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'daftarTindakan-grid',
-    'dataProvider'=>$modTarifRad->searchTarifPrint(),
+    'dataProvider'=>$modTarifRad->searchTarifPrint(),    
     'template'=>"{items}",
     'itemsCssClass'=>'table table-condensed',
     'enableSorting'=>false,
@@ -46,7 +46,7 @@ $format = new MyFormatter();
                 'kelaspelayanan_nama',
 		'daftartindakan_nama',		
                  array(
-			'name'=>'tarifTotal',
+			'header'=>'Tarif Total',
 			'value'=>'$this->grid->getOwner()->renderPartial(\'rawatJalan.views.informasiTarif._tarifTotal\',array(\'kelaspelayanan_id\'=>$data->kelaspelayanan_id,\'daftartindakan_id\'=>$data->daftartindakan_id, \'jenistarif_id\'=>$data->jenistarif_id),true)',
                         'htmlOptions'=>array('style'=>'text-align: right'),
                 ),
@@ -64,8 +64,7 @@ $format = new MyFormatter();
 //                'name'=>'persencyto_tind',
 //                'value'=>'$data->persencyto_tind',
 //            ),
-    ),
-    'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+    ),    
 )); ?>
 <script>
     window.print(); 

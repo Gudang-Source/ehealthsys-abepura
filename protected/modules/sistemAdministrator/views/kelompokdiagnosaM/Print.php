@@ -37,9 +37,9 @@ $this->widget($table,array(
 		'kelompokdiagnosa_namalainnya',
 		array
                 (
-                        'name'=>'kelompokdiagnosa_aktif',
+                        'header'=>'Status',
                         'type'=>'raw',
-                        'value'=>'($data->kelompokdiagnosa_aktif==1)? Yii::t("mds","Yes") : Yii::t("mds","No")',
+                        'value'=>'($data->kelompokdiagnosa_aktif==TRUE)?"Aktif":"Tidak Aktif"',
                 ),
  
         ),
