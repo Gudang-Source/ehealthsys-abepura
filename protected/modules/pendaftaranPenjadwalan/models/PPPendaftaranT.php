@@ -157,7 +157,7 @@ class PPPendaftaranT extends PendaftaranT
 				$criteria->addCondition("ruangan_id= ".$ruangan_id);			
 			}
             $criteria->addCondition('pegawai_aktif = true');
-            $criteria->order = "nama_pegawai, gelardepan ASC";
+            $criteria->order = "nama_pegawai ASC";
             $modDokter = DokterV::model()->findAll($criteria);
             return $modDokter;
         }

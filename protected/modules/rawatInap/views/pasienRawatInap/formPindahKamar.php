@@ -191,18 +191,23 @@ echo $form->errorSummary(array($modMasukKamar)); ?>
                                 $listData = CHtml::listData($kamarKosong,'kamarruangan_id','KamarDanTempatTidur');
                             }
                         ?>
-                        <?php
-                            echo $form->dropDownListRow(
-                                $modPindahKamar,
-                                'kamarruangan_id',
-                                $listData ,
-                                array(
-                                    'empty'=>'-- Pilih --',
-                                    'onkeypress'=>"return $(this).focusNextInputField(event)",
-                                    'class'=>'span2'
-                                )
-                            );
-                        ?>
+                            <div class="control-group">
+                                <?php echo CHtml::label('Kamar Ruangan <font style= "color:red">*</font>', 'kamarruangan_id', array('class'=>'control-label')) ?>
+                                <div class = "controls">
+                                    <?php                            
+                                        echo $form->dropDownList(
+                                            $modPindahKamar,
+                                            'kamarruangan_id',
+                                            $listData ,
+                                            array(
+                                                'empty'=>'-- Pilih --',
+                                                'onkeypress'=>"return $(this).focusNextInputField(event)",
+                                                'class'=>'span2 required'
+                                            )
+                                        );
+                                    ?>
+                                </div>
+                            </div>
                         
                         <div class="control-group ">
                                 <?php echo CHtml::label('Tanggal Pindah Kamar <span class=required>*</span>','tglpindahkamar', array('class'=>'control-label')) ?>

@@ -21,7 +21,7 @@ class SARuanganpegawaiM extends RuanganpegawaiM
 	
 		$criteria=new CDbCriteria;
                                 $criteria->with = array('ruangan','pegawai');
-                                $criteria->order = 't.ruangan_id';
+                                $criteria->order = 'pegawai.nama_pegawai';
         
               //  if (Yii::app()->controller->module->id !=='sistemAdministrator') {
                     $criteria->compare('t.ruangan_id', Yii::app()->user->getState('ruangan_id'));
@@ -49,7 +49,7 @@ class SARuanganpegawaiM extends RuanganpegawaiM
 	
 		$criteria=new CDbCriteria;
                                 $criteria->with = array('ruangan','pegawai');
-                                $criteria->order = 't.ruangan_id';
+                                 $criteria->order = 'pegawai.nama_pegawai';
         
               //  if (Yii::app()->controller->module->id !=='sistemAdministrator') {
                     $criteria->compare('t.ruangan_id', Yii::app()->user->getState('ruangan_id'));

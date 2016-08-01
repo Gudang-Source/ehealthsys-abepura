@@ -17,6 +17,11 @@ class GUTerimapersediaanT extends TerimapersediaanT{
 
                 if (!empty($this->tgl_awal) && !empty($this->tgl_akhir)) {
                         $criteria->addBetweenCondition('date(tglterima)', $this->tgl_awal, $this->tgl_akhir);
+                }else{
+                    if (!empty($this->tglterima))
+                    {
+                        $criteria->addBetweenCondition('date(tglterima)', MyFormatter::formatDateTimeForDb($this->tglterima), MyFormatter::formatDateTimeForDb($this->tglterima));
+                    }
                 }
 		if(!empty($this->terimapersediaan_id)){
 			$criteria->addCondition("terimapersediaan_id = ".$this->terimapersediaan_id);			
