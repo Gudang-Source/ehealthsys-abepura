@@ -71,7 +71,7 @@
         <div class="control-group">
             <?php echo $form->labelEx($modPasienAdmisi,'pegawai_id',array('class'=>'control-label')); ?>
             <div class="controls">
-                <?php echo $form->dropDownList($modPasienAdmisi,'pegawai_id', CHtml::listData($model->getDokterItems($modPasienAdmisi->ruangan_id), 'pegawai_id', 'nama_pegawai') ,array('onchange'=>'setAntrianDokterAdmisi();','empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)", 'class'=>'span3')); ?>
+                <?php echo $form->dropDownList($modPasienAdmisi,'pegawai_id', CHtml::listData($model->getDokterItems($modPasienAdmisi->ruangan_id), 'pegawai_id', 'namaLengkap') ,array('onchange'=>'setAntrianDokterAdmisi();','empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)", 'class'=>'span3')); ?>
                 <?php echo CHtml::hiddenField('max-antrian-dokter',0, array('rel'=>'tooltip','title'=>'Maksimum Antrian Dokter','readonly'=>true,'onkeyup'=>"return $(this).focusNextInputField(event)",'style'=>'width:25px;','value'=>0)); ?>
             </div>
         </div>

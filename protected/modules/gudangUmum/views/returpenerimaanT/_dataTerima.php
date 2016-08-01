@@ -97,6 +97,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'filter'=>$terima,
 	'template'=>"{summary}\n{items}\n{pager}",
 	'itemsCssClass'=>'table table-striped table-bordered table-condensed',
+        'afterAjaxUpdate' => 'reinstallDatePicker', // (#1)
 	'columns'=>array(
                 array(
                     'header'=>'Pilih',
@@ -116,9 +117,35 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
             array(
                 'header'=>'Tgl. Terima',
                 'name'=>'tglterima',
-                'type'=>'raw',
-                'value'=>'MyFormatter::formatDateTimeForUser($data->tglterima)',
-                'filter'=>false,
+               // 'type'=>'raw',
+                'value'=>'MyFormatter::formatDateTimeForUser(date("Y-m-d",strtotime($data->tglterima)))',
+                'filter'=>$this->widget('MyDateTimePicker', array(
+                    'model'=>$terima, 
+                    'attribute'=>'tglterima', 
+                    'mode' => 'date',    
+                    //'language' => 'ja',
+                    // 'i18nScriptFile' => 'jquery.ui.datepicker-ja.js', (#2)
+                    'htmlOptions' => array(
+                        'id' => 'datepicker_for_due_date',
+                        'size' => '10',
+                        'style'=>'width:80%'
+                    ),
+                    'options' => array(  // (#3)                    
+                        'dateFormat' => Params::DATE_FORMAT,                    
+                        'maxDate' => 'd',
+                    ),
+                    'defaultOptions' => array(  // (#3)
+                        'showOn' => 'focus', 
+                        'dateFormat' => Params::DATE_FORMAT,
+                        'showOtherMonths' => true,
+                        'selectOtherMonths' => true,
+                        'changeMonth' => true,
+                        'changeYear' => true,
+                        'showButtonPanel' => true,
+                        'maxDate' => 'd',
+                    )
+                ), 
+                true),
             ),
             array(
                 'header'=>'Sumber Dana',
@@ -132,7 +159,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 },
                 'filter'=>CHtml::activeDropDownList($terima, 'sumberdana_id', CHtml::listData(SumberdanaM::model()->findAllByAttributes(array(
                         'sumberdana_aktif'=>true,
-                )), 'sumberdana_id', 'sumberdana_nama'), array('empty'=>'-- Pilih --')),
+                ),array('order'=>'sumberdana_nama')), 'sumberdana_id', 'sumberdana_nama'), array('empty'=>'-- Pilih --')),
             ),
                         /*
             array(
@@ -145,10 +172,16 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
             ) */
                     //'sumberdana.sumberdana_nama',
 	),
-        'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+        
 )); 
 
 $this->endWidget();
+Yii::app()->clientScript->registerScript('re-install-date-picker', "
+function reinstallDatePicker(id, data) {
+        //use the same parameters that you had set in your widget else the datepicker will be refreshed by default
+    $('#datepicker_for_due_date').datepicker(jQuery.extend({showMonthAfterYear:false},jQuery.datepicker.regional['id'],{'dateFormat':'".Params::DATE_FORMAT."','changeMonth':true, 'changeYear':true,'maxDate':'d'}));
+}
+");
 ?>
 
 <script>

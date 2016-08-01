@@ -82,8 +82,8 @@ class PPDokterV extends DokterV
 		$criteria->compare('LOWER(tempatlahir_pegawai)',strtolower($this->tempatlahir_pegawai),true);
 		$criteria->compare('LOWER(tgl_lahirpegawai)',strtolower($this->tgl_lahirpegawai),true);
 		$criteria->compare('LOWER(alamat_pegawai)',strtolower($this->alamat_pegawai),true);
-		$criteria->compare('pegawai_aktif',$this->pegawai_aktif);
-		$criteria->order = 'pegawai_id';
+		$criteria->compare('pegawai_aktif', isset($this->pegawai_aktif)?$this->pegawai_aktif:true);                
+		$criteria->order = 'nama_pegawai';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
