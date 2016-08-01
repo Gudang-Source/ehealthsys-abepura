@@ -271,11 +271,11 @@ class LaporanController extends MyAuthController {
         $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
                
         
-        $temp = array();
-        foreach (LookupM::getItems('carakeluar') as $i=>$data){
-            $temp[] = strtoupper($data);
-        }
-        $model->carakeluar = $temp;
+      //  $temp = array();
+       // foreach (LookupM::getItems('carakeluar') as $i=>$data){
+       //     $temp[] = strtoupper($data);
+       // }
+      //  $model->carakeluar = $temp;
         
         if (isset($_GET['RILaporantindaklanjutri'])) {
             $model->attributes = $_GET['RILaporantindaklanjutri'];

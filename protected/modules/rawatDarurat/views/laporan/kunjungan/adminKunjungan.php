@@ -16,7 +16,7 @@
     });
     ");
     ?>
-    <fieldset class="box row-fluid">
+    <fieldset class="box search-form">
         <?php $this->renderPartial('kunjungan/_search',array(
             'model'=>$model,
         )); ?>
