@@ -271,8 +271,8 @@ $modPegawai = new GUPegawaiRuanganV('search');
 $modPegawai->unsetAttributes();
 //$modPegawai->ruangan_id = 0;
 $modPegawai->ruangan_id = Yii::app()->user->getState('ruangan_id');
-if (isset($_GET['GUPegawaiM']))
-    $modPegawai->attributes = $_GET['GUPegawaiM'];
+if (isset($_GET['GUPegawaiRuanganV']))
+    $modPegawai->attributes = $_GET['GUPegawaiRuanganV'];
 
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'pegawai-m-grid',
@@ -282,17 +282,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
     'columns'=>array(
         ////'pegawai_id',
-        
-            'nama_pegawai',
-            'nomorindukpegawai',
-                'alamat_pegawai',
-        'agama',
             array(
-                'name'=>'jeniskelamin',
-                'filter'=>  LookupM::getItems('jeniskelamin'),
-                'value'=>'$data->jeniskelamin',
-                ),
-        array(
             'header' => 'Pilih',
             'type' => 'raw',
             'value' => 'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
@@ -303,7 +293,21 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                     $(\"#\"+parent+\"\").parents(\".controls\").find(\".namaPegawai\").val(\"$data->nama_pegawai\");
                                     $(\'#dialogPegawai\').dialog(\'close\');
                                     return false;"))',
-        ),
+            ),
+            array(
+                'header'=>'NIP',
+                'name'=>'nomorindukpegawai',
+                'value'=>'$data->nomorindukpegawai'
+            ),
+            'nama_pegawai',            
+            array(
+                'name'=>'jeniskelamin',
+                'filter'=> CHtml::dropDownList('GUPegawaiRuanganV[jeniskelamin]',$modPegawai->jeniskelamin,LookupM::getItems('jeniskelamin'),array('empty'=>'-- Pilih --')),
+                'value'=>'$data->jeniskelamin',
+                ),
+            //'alamat_pegawai',
+            //'agama',
+                    
     ),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 ));
