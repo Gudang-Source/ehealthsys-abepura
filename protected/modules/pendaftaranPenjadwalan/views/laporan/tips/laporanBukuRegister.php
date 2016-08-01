@@ -46,7 +46,12 @@ Excel
   </tr>
   <?php
     $no = '7.';
+    //if (isset($grafik)){
     if (isset($grafik)){
+        $grafik=$grafik;
+    }else{
+        $grafik='ada';
+    }
     if ($grafik!='none'){            
         $no='9.';
   ?>
@@ -83,7 +88,7 @@ Grafik
    
 
 <?php
-    }}
+    }//}
 ?>
 <tr>
        <td><?php echo $no; ?></td>

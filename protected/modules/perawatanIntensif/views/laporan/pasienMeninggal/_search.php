@@ -128,15 +128,22 @@
             <tr>
                 <td>
                     <div id='searching'>
-                        <fieldset class="box2">
-                            <legend class="rim">Berdasarkan Cara Masuk </legend>
-                            <?php echo '<table width="100%" id="caramasuk">                                                    
-                                <tr>
-                                    <td>
-                                        ' . $form->checkBoxList($model, 'caramasuk_id', CHtml::listData(CaramasukM::model()->findAll('caramasuk_aktif = true'), 'caramasuk_id', 'caramasuk_nama'), array('onkeypress' => "return $(this).focusNextInputField(event)")) . '
-                                    </td>
-                                </tr>
-                            </table>'; ?>
+                        <fieldset>
+                            <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+					'id'=>'form-2',
+					'content'=>array(
+						'content2'=>array(
+							'header'=>'Berdasarkan Cara Masuk',
+							'isi'=>'<table>'
+                                                                . '<td>'.CHtml::checkBox('cek_all', false, array('value'=>'cek', 'onchange'=>'cek_all_tindakan(this)')).' Pilih Semua</td></tr></table>
+                                                            <table id="caramasuk"><tr>								
+								<td>'.$form->checkBoxList($model, 'caramasuk_id', CHtml::listData(CaramasukM::model()->findAll('caramasuk_aktif = true'), 'caramasuk_id', 'caramasuk_nama'), array('onkeypress' => "return $(this).focusNextInputField(event)")).'</td>
+									</tr></table>',           
+							'active'=>true,
+						),   
+					),
+			)); ?>
+                           
                         </fieldset>
                     </div>
                 </td>
@@ -164,4 +171,13 @@ $urlPrintLembarPoli = Yii::app()->createUrl('print/lembarPoliRJ', array('pendaft
   $("#kelasPelayanan").find("input").attr("checked", "checked");
 ', CClientScript::POS_READY);
 ?>
+<script type="text/javascript">
+    function cek_all_tindakan(obj){
+        if($(obj).is(':checked')){
+            $("#caramasuk").find("input[type=\'checkbox\']").attr("checked", "checked");
+        }else{
+            $("#caramasuk").find("input[type=\'checkbox\']").attr("checked", false);
+        }
+    }
+</script>
 <?php $this->renderPartial('_jsFunctions', array('model' => $model)); ?>

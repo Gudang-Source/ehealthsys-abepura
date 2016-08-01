@@ -26,10 +26,10 @@ class RILaporantindaklanjutri extends LaporantindaklanjutriV {
 
         $criteria = new CDbCriteria;
 
-        if (is_array($this->carakeluar)) {
+       if (is_array($this->carakeluar)) {
             foreach ($this->carakeluar as $v) {
                 if ($v == 'DIPULANGKAN') {
-                    $criteria->compare('LOWER(carakeluar)', strtolower($v), true, 'OR');
+                    $criteria->addCondition('carakeluar is null', 'OR');
                 } else {
                     $criteria->compare('LOWER(carakeluar)', strtolower($v), true, 'OR');
                 }
