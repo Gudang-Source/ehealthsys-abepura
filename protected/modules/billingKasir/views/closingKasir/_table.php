@@ -3,6 +3,9 @@
 <?php 
     
     // var_dump($mBuktBayar->attributes); die;
+	$mBuktBayar->tgl_awal = MyFormatter::formatDateTimeForDb($mBuktBayar->tgl_awal);
+	$mBuktBayar->tgl_akhir = MyFormatter::formatDateTimeForDb($mBuktBayar->tgl_akhir);
+
     $table = 'ext.bootstrap.widgets.BootGroupGridView';
     $sort = false;
     $dataProvider = $mBuktBayar->searchTable();
