@@ -126,6 +126,7 @@ class LoketM extends CActiveRecord
 		$criteria->compare('LOWER(loket_singkatan)',strtolower($this->loket_singkatan),true);
 		$criteria->compare('loket_nourut',$this->loket_nourut);
 		$criteria->compare('LOWER(loket_formatnomor)',strtolower($this->loket_formatnomor),true);
+                $criteria->compare('loket_aktif',isset($this->loket_aktif)?$this->loket_aktif:true);
 		//$criteria->compare('loket_aktif',$this->loket_aktif);
                 // Klo limit lebih kecil dari nol itu berarti ga ada limit 
                 $criteria->limit=-1; 
