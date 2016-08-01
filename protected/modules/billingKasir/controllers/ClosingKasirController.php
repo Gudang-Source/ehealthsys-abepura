@@ -179,8 +179,8 @@ class ClosingKasirController extends MyAuthController
             
         }
         //Mengembalikan format tanggal
-        $mBuktBayar->tgl_awal = date('d M Y H:i:s', strtotime($mBuktBayar->tgl_awal));
-        $mBuktBayar->tgl_akhir = date('d M Y H:i:s', strtotime($mBuktBayar->tgl_akhir));
+        $mBuktBayar->tgl_awal = MyFormatter::formatDateTimeForUser($mBuktBayar->tgl_awal);
+        $mBuktBayar->tgl_akhir = MyFormatter::formatDateTimeForUser($mBuktBayar->tgl_akhir);
         
         $this->render('index',
             array(
