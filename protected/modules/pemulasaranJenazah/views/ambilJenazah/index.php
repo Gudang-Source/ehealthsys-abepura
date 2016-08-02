@@ -192,7 +192,7 @@ if($sukses > 0){
             $content = $this->renderPartial('../pemakaianMobil/tips/transaksi',array(),true);
             $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));  ?>	
     </div>
-    <?php $this->endWidget(); ?>
+    <?php $this->endWidget(); ?>    
 </div>
 <script type="text/javascript">
 var trPenyBarang=new String(<?php echo CJSON::encode($this->renderPartial('_formPenyBarang',array('modPenyBarang'=>$modPenyBarang,'removeButton'=>true),true));?>);
@@ -379,3 +379,7 @@ $this->endWidget();
 //$this->endWidget();
 ////========= end Dialog Pendaftaran =============================
 //?>
+<p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
