@@ -131,11 +131,11 @@ class ModuleDashboardGUController extends ModuleDashboardNeonController
 		//=== end todo list ===
 
 		//=== start map ===
-		$sql = "SELECT supplier_m.supplier_alamat, supplier_m.longitude, supplier_m.latitude ,COUNT(pembelianbarang_t.supplier_id) AS jumlah
+		$sql = "SELECT supplier_m.supplier_nama, supplier_m.supplier_alamat, supplier_m.longitude, supplier_m.latitude ,COUNT(pembelianbarang_t.supplier_id) AS jumlah
 				FROM pembelianbarang_t
 				JOIN supplier_m ON supplier_m.supplier_id = pembelianbarang_t.supplier_id
 				WHERE date_part('year',pembelianbarang_t.tglpembelian) = '".date('Y')."'
-				GROUP BY supplier_m.supplier_alamat, supplier_m.longitude, supplier_m.latitude
+				GROUP BY supplier_m.supplier_nama,supplier_m.supplier_alamat, supplier_m.longitude, supplier_m.latitude
 				ORDER BY jumlah DESC
 				LIMIT 10
 				";
