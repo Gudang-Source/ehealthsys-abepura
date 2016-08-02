@@ -297,7 +297,7 @@ class RencanaKebBarangController extends MyAuthController
 									$modRencanaDetailKebBarang->satuanbarangdet = $barang->barang_satuan;
 								}
 							}
-							$form .=$this->renderPartial('_rowBarangRencanaKebutuhan', array('modRencanaDetailKebBarang'=>$modRencanaDetailKebBarang), true);
+							$form .=$this->renderPartial($this->path_view.'_rowBarangRencanaKebutuhan', array('modRencanaDetailKebBarang'=>$modRencanaDetailKebBarang), true);
 						}
 					}				
 				}	

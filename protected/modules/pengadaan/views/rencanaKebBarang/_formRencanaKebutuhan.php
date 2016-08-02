@@ -83,19 +83,9 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'value'=>'$data->nomorindukpegawai',
                 ),
                 array(
-                    'header'=>'Gelar Depan',
-                    'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'gelardepan'),
-                    'value'=>'$data->gelardepan',
-                ),
-                array(
                     'header'=>'Nama Pegawai',
                     'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'nama_pegawai'),
-                    'value'=>'$data->nama_pegawai',
-                ),
-                array(
-                    'header'=>'Gelar Belakang',
-                    'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'gelarbelakang_nama'),
-                    'value'=>'$data->gelarbelakang_nama',
+                    'value'=>'$data->gelardepan." ".$data->nama_pegawai.", ".$data->gelarbelakang_nama',
                 ),
                 array(
                     'header'=>'Alamat Pegawai',
@@ -155,19 +145,9 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'value'=>'$data->nomorindukpegawai',
                 ),
                 array(
-                    'header'=>'Gelar Depan',
-                    'filter'=>  CHtml::activeTextField($modPegawaiMenyetujui, 'gelardepan'),
-                    'value'=>'$data->gelardepan',
-                ),
-                array(
                     'header'=>'Nama Pegawai',
                     'filter'=>  CHtml::activeTextField($modPegawaiMenyetujui, 'nama_pegawai'),
-                    'value'=>'$data->nama_pegawai',
-                ),
-                array(
-                    'header'=>'Gelar Belakang',
-                    'filter'=>  CHtml::activeTextField($modPegawaiMenyetujui, 'gelarbelakang_nama'),
-                    'value'=>'$data->gelarbelakang_nama',
+                    'value'=>'$data->gelardepan." ".$data->nama_pegawai.", ".$data->gelarbelakang_nama',
                 ),
                 array(
                     'header'=>'Alamat Pegawai',

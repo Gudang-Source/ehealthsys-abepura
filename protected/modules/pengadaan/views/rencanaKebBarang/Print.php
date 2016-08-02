@@ -27,6 +27,9 @@ echo CHtml::css('.control-label{
     .border{
         border:1px solid;
     }
+	td {
+		vertical-align: top;
+	}
     .kertas{
      width:20cm;
      height:12cm;
@@ -73,18 +76,20 @@ $tglrencana = MyFormatter::formatDateTimeForUser($modRencanaKebBarang->renkebbar
         $total = 0;
         $subtotal = 0;
         foreach ($modRencanaKebBarangDetail as $i=>$modBarang){ 
+			$barang = BarangM::model()->findByPk($modBarang->barang_id);
+			
         ?>
             <tr>
                 <td style="text-align: center;"><?php echo ($i+1)."."; ?></td>
                 <td><?php echo $modBarang->asal_barang; ?></td>
-                <td align="center"><?php echo (!empty($modBarang->barang_id)) ? $modBarang->barang_id : ""; ?></td>
+                <td><?php echo (!empty($modBarang->barang_id)) ? $barang->barang_nama : ""; ?></td>
                 <td style="text-align: center;"><?php echo $modBarang->satuanbarangdet; ?></td>
                 <td style="text-align: center;"><?php echo $modBarang->jmlpermintaanbarangdet; ?></td>
-                <td style="text-align: right;"><?php echo $format->formatUang($modBarang->harga_barangdet); ?></td>
-                <td style="text-align: center;"><?php echo $modBarang->stokakhir_barangdet; ?></td>
-                <td style="text-align: center;"><?php echo $modBarang->minstok_barangdet; ?></td>
-                <td style="text-align: center;"><?php echo $modBarang->makstok_barangdet; ?></td>
-                <td style="text-align: right;"><?php 
+                <td style="text-align: right;" nowrap><?php echo $format->formatUang($modBarang->harga_barangdet); ?></td>
+                <td style="text-align: center;" nowrap><?php echo $modBarang->stokakhir_barangdet; ?></td>
+                <td style="text-align: center;" nowrap><?php echo $modBarang->minstok_barangdet; ?></td>
+                <td style="text-align: center;" nowrap><?php echo $modBarang->makstok_barangdet; ?></td>
+                <td style="text-align: right;" nowrap><?php 
                     $subtotal = ($modBarang->harga_barangdet * $modBarang->jmlpermintaanbarangdet);
                     $total += $subtotal;
                     echo $format->formatUang($subtotal); ?>
@@ -92,7 +97,7 @@ $tglrencana = MyFormatter::formatDateTimeForUser($modRencanaKebBarang->renkebbar
             </tr>
         <?php } ?>
         <tr>
-            <td colspan="8" align="center"><strong>Total</strong></td>
+            <td colspan="9" align="center"><strong>Total</strong></td>
             <td style="text-align: right;"><?php echo $format->formatUang($total); ?></td>
         </tr>
     </table>

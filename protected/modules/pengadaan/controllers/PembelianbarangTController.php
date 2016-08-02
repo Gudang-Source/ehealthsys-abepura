@@ -25,11 +25,12 @@ class PembelianbarangTController extends MyAuthController
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
-	public function actionIndex($id = null)
+	public function actionIndex($id = null, $rencana_id = null)
 	{
 //                //if(!Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		$model=new ADPembelianbarangT;
-
+		$renc = new RenkebbarangT;
+		
 		$model->tglpembelian = date('Y-m-d');
 
 		$modDetails = array();
@@ -42,10 +43,37 @@ class PembelianbarangTController extends MyAuthController
 		$modLogin = LoginpemakaiK::model()->findByAttributes(array('loginpemakai_id' => Yii::app()->user->id));
 		$model->peg_pemesanan_id = $modLogin->pegawai_id;
 		if (!empty($modLogin->pegawai_id)) $model->peg_pemesan_nama = $modLogin->pegawai->nama_pegawai;
-                
+           
+		
+		if (!empty($rencana_id)) {
+			$renc = RenkebbarangT::model()->findByPk($rencana_id);
+			$model->renkebbarang_id = $rencana_id;
+			$renc->renkebbarang_tgl = MyFormatter::formatDateTimeForUser($renc->renkebbarang_tgl);
+			//var_dump($renc->attributes, $model->attributes);
+			
+			$rencdet = RenkebbarangdetT::model()->findAllByAttributes(array(
+				'renkebbarang_id'=>$rencana_id,
+			));
+			
+			foreach ($rencdet as $item) {
+				$det = new BelibrgdetailT();
+				$det->barang_id = $item->barang_id;
+				$det->hargasatuan = MyFormatter::formatNumberForPrint($item->harga_barangdet);
+				$det->jmlbeli = $item->jmlpermintaanbarangdet;
+				$det->hargabeli = MyFormatter::formatNumberForPrint($det->jmlbeli * $item->harga_barangdet);
+				$det->satuanbeli = $item->satuanbarangdet;
+				// var_dump($item->attributes, $det->attributes); die;
+				
+				array_push($modDetails, $det);
+			}
+			
+		}
+		
 		if (isset($id)){
 			$model = ADPembelianbarangT::model()->findByPk($id);
 			$model->nopembelian = MyGenerator::noPembelianBarang();
+			$renc = RenkebbarangT::model()->findByPk($model->renkebbarang_id);
+			if (!empty($renc)) $renc->renkebbarang_tgl = MyFormatter::formatDateTimeForUser($renc->renkebbarang_tgl);
 			if (count($model) > 0){
 				$model = $model;
 				$model->peg_pemesan_nama = $model->pemesan->nama_pegawai;
@@ -62,6 +90,10 @@ class PembelianbarangTController extends MyAuthController
 		if(isset($_POST['ADPembelianbarangT']))
 		{
 			$model->attributes=$_POST['ADPembelianbarangT'];
+			$model->renkebbarang_id = $_POST['ADPembelianbarangT']['renkebbarang_id'];
+			$model->tglpembelian = MyFormatter::formatDateTimeForDb($model->tglpembelian);
+			// var_dump($model->attributes); die;
+			
                         if (count($_POST['BelibrgdetailT']) > 0){
                             if ($model->validate()){
                                 $transaction = Yii::app()->db->beginTransaction();
@@ -108,8 +140,69 @@ class PembelianbarangTController extends MyAuthController
 		}
 
 		$this->render($this->path_view.'index',array(
-			'model'=>$model, 'modDetails'=>$modDetails, 'modPesan'=>$modPesan, 'modBeli'=>$modBeli
+			'model'=>$model, 'modDetails'=>$modDetails, 'modPesan'=>$modPesan, 'modBeli'=>$modBeli, 'renc'=>$renc,
 		));
+	}
+	
+	public function actionAutoCompleteRencana($term) {
+		if(Yii::app()->request->isAjaxRequest) {
+			$cr = new CDbCriteria;
+			$cr->compare('lower(renkebbarang_no)', strtolower($term), true);
+			$cr->order = 'renkebbarang_no';
+			$rencana = RenkebbarangT::model()->findAll($cr);
+
+			$res = array();
+			foreach ($rencana as $item) {
+				array_push($res, array(
+					'dat'=>$item->attributes,
+					'label'=>$item->renkebbarang_no,
+					'value'=>$item->renkebbarang_id
+				));
+			}
+			
+			echo CJSON::encode($res);
+		}
+		Yii::app()->end();
+		
+	}
+	
+	public function actionLoadRencana() {
+		if(Yii::app()->request->isAjaxRequest) {
+			$rencana_id = $_POST['id'];
+			$renc = RenkebbarangT::model()->findByPk($rencana_id);
+			$renc->renkebbarang_tgl = MyFormatter::formatDateTimeForUser($renc->renkebbarang_tgl);
+			//var_dump($renc->attributes, $model->attributes);
+			$modDetails = array();
+			$res = array(
+				'rencana'=>"",
+				'html'=>"",
+			);
+			
+			$rencdet = RenkebbarangdetT::model()->findAllByAttributes(array(
+				'renkebbarang_id'=>$rencana_id,
+			));
+			
+			foreach ($rencdet as $item) {
+				$det = new BelibrgdetailT();
+				$det->barang_id = $item->barang_id;
+				$det->hargasatuan = MyFormatter::formatNumberForPrint($item->harga_barangdet);
+				$det->jmlbeli = $item->jmlpermintaanbarangdet;
+				$det->hargabeli = MyFormatter::formatNumberForPrint($det->jmlbeli * $item->harga_barangdet);
+				$det->satuanbeli = $item->satuanbarangdet;
+				// var_dump($item->attributes, $det->attributes); die;
+				
+				array_push($modDetails, $det);
+			}
+			
+			$res['rencana'] = $renc->attributes;
+			foreach ($modDetails as $item) {
+				$modBarang = BarangM::model()->findByPk($item->barang_id);
+				$res['html'] .= $this->renderPartial($this->path_view.'_detailPembelianBarang', array('modBarang'=>$modBarang, 'modDetail'=>$item), true);
+			}
+			
+			echo CJSON::encode($res);
+		}
+		Yii::app()->end();
 	}
         
         protected function validasiTabular($model, $data){

@@ -4,6 +4,7 @@ class InformasiRencKebBarangController extends MyAuthController
 {
         public $defaultAction ='index';
         public $path_view = 'pengadaan.views.informasiRencKebBarang.';
+		public $controllerPembelian = 'pembelianbarangT';
         
         public function actionIndex()
         {
