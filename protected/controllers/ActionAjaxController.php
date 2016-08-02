@@ -2686,6 +2686,23 @@ class ActionAjaxController extends Controller
             }
         }
         
+        public function actionCekNoRM()
+        {
+            if(Yii::app()->getRequest()->getIsAjaxRequest()) {
+                                
+                $rm_last = PasienM::model()->find(array(
+                    'condition'=>'ispasienluar = false',
+                    'order'=>'no_rekam_medik desc'
+                ));
+                //echo $no_rekam_medik." ".$rm_last->no_rekam_medik; die;
+                                
+                $returnVal['no_rekam_medik'] = $rm_last->no_rekam_medik;
+                echo CJSON::encode($returnVal);
+                Yii::app()->end();
+                
+            }                              
+        }
+        
        
 }
 ?>
