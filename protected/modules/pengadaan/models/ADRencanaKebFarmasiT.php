@@ -64,13 +64,17 @@ class ADRencanaKebFarmasiT extends RencanakebfarmasiT
 
                 $criteria=new CDbCriteria;
 
-                $criteria->select = 'count(t.rencanakebfarmasi_id) as jumlah, t.rencanakebfarmasi_id, t.noperencnaan, obatalkes_m.obatalkes_nama as data';
-                $criteria->group = 't.tglperencanaan, t.noperencnaan, t.rencanakebfarmasi_id,obatalkes_m.obatalkes_nama';
-                $criteria->join = 'LEFT JOIN rencdetailkeb_t ON rencdetailkeb_t.rencanakebfarmasi_id = t.rencanakebfarmasi_id LEFT JOIN obatalkes_m ON obatalkes_m.obatalkes_id=rencdetailkeb_t.obatalkes_id';
-                $criteria->addBetweenCondition('date(t.tglperencanaan)',$this->tgl_awal,$this->tgl_akhir);
-                $criteria->addCondition('t.ruangan_id = '.Yii::app()->user->ruangan_id);
+                $criteria->select = 'sum(d.jmlpermintaan) as jumlah, obatalkes_m.obatalkes_nama as data';
+                $criteria->group = 't.tglperencanaan, obatalkes_m.obatalkes_nama';
+                $criteria->join = 'LEFT JOIN rencdetailkeb_t d ON d.rencanakebfarmasi_id = t.rencanakebfarmasi_id LEFT JOIN obatalkes_m ON obatalkes_m.obatalkes_id=d.obatalkes_id';
+                $criteria->addBetweenCondition('t.tglperencanaan',$this->tgl_awal,$this->tgl_akhir);
+                if(!empty($this->ruangan_id)){
+					$criteria->addCondition('ruangan_id = '.$this->ruangan_id);
+				}
                 $criteria->compare('t.noperencnaan',$this->noperencnaan);
 
+				//var_dump($criteria); die;
+				
                 return new CActiveDataProvider($this, array(
                         'criteria'=>$criteria,
                 ));
