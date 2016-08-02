@@ -24,6 +24,9 @@ echo CHtml::css('.control-label{
     td .uang{
         text-align:right;
     }
+	td {
+		vertical-align: top;
+	}
     .border{
         border:1px solid;
     }
@@ -67,24 +70,25 @@ $tglrencana = MyFormatter::formatDateTimeForUser($modRencanaKebBarang->renkebbar
             <th style="text-align: center;">Stok Akhir</th>
             <th style="text-align: center;">Minimal Stok</th>
             <th style="text-align: center;">Maksimal Stok</th>
-            <th width="75" style="text-align: center;">Sub Total</th>
+            <th style="text-align: center;" nowrap>Sub Total</th>
         </thead>
         <?php 
         $total = 0;
         $subtotal = 0;
         foreach ($modRencanaKebBarangDetail as $i=>$modBarang){ 
+			$barang = BarangM::model()->findByPk($modBarang->barang_id);
         ?>
             <tr>
                 <td style="text-align: center;"><?php echo ($i+1)."."; ?></td>
                 <td><?php echo $modBarang->asal_barang; ?></td>
-                <td align="center"><?php echo (!empty($modBarang->barang_id)) ? $modBarang->barang_id : ""; ?></td>
+                <td><?php echo (!empty($modBarang->barang_id)) ? $barang->barang_nama : ""; ?></td>
                 <td style="text-align: center;"><?php echo $modBarang->satuanbarangdet; ?></td>
                 <td style="text-align: center;"><?php echo $modBarang->jmlpermintaanbarangdet; ?></td>
                 <td style="text-align: right;"><?php echo $format->formatUang($modBarang->harga_barangdet); ?></td>
                 <td style="text-align: center;"><?php echo $modBarang->stokakhir_barangdet; ?></td>
                 <td style="text-align: center;"><?php echo $modBarang->minstok_barangdet; ?></td>
                 <td style="text-align: center;"><?php echo $modBarang->makstok_barangdet; ?></td>
-                <td style="text-align: right;"><?php 
+                <td style="text-align: right;" nowrap><?php 
                     $subtotal = ($modBarang->harga_barangdet * $modBarang->jmlpermintaanbarangdet);
                     $total += $subtotal;
                     echo $format->formatUang($subtotal); ?>

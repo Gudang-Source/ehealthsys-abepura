@@ -155,7 +155,7 @@ function hitungRO(){
 				$('#table-barang > tbody > tr').detach();
 				$('#table-barang > tbody').append(data.form);
 				$("#table-barang").find('input[name*="[ii]"][class*="integer"]').maskMoney(
-					{"symbol":"","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0}
+					{"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0}
 				);
 				$('#<?php echo CHtml::activeId($modRencanaKebBarang,'leadtime_lt'); ?>').val(data.lead_time);
 				renameInputRowBarang($("#table-barang"));                    

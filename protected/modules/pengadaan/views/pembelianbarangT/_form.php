@@ -22,6 +22,66 @@
 
     <?php echo $form->errorSummary($model); ?>
     <table width="100%">
+		<tr>
+			<td>
+				<div class="control-group ">
+                        <?php echo $form->labelEx($renc, 'renkebbarang_no', array('class' => 'control-label')); ?>
+                    <div class="controls">
+                        <?php echo $form->hiddenField($model, 'renkebbarang_id'); ?>
+                        <!--                <div class="input-append" style='display:inline'>-->
+                        <?php
+                        $this->widget('MyJuiAutoComplete', array(
+                            'model' => $renc,
+                            'attribute' => 'renkebbarang_no',
+                            'source' => 'js: function(request, response) {
+                                           $.ajax({
+                                               url: "' . $this->createUrl("autoCompleteRencana"). '",
+                                               dataType: "json",
+                                               data: {
+                                                   term: request.term,
+                                               },
+                                               success: function (data) {
+                                                       response(data);
+                                               }
+                                           })
+                                        }',
+                            'options' => array(
+                                'showAnim' => 'fold',
+                                'minLength' => 2,
+                                'focus' => 'js:function( event, ui ) {
+                                                                        $(this).val( ui.item.label);
+                                                                        return false;
+                                                                    }',
+                                'select' => 'js:function( event, ui ) {
+                                                                        $("#' . Chtml::activeId($model, 'renkebbarang_id') . '").val(ui.item.value); 
+																		loadRencana(ui.item.value);
+                                                                        return false;
+                                                                    }',
+                            ),
+                            'htmlOptions' => array(
+                                'class' => 'namaPegawai',
+                                'onkeypress' => "return $(this).focusNextInputField(event)",
+                                'placeholder' => 'Ketikan nomor Rencana Pembelian Barang',
+                            ),
+                            'tombolDialog' => array('idDialog' => 'dialogRencana'),
+                        ));
+                        ?>
+                        <?php echo $form->error($model, 'peg_pemesanan_id'); ?>
+                    </div>
+                </div>
+			</td>
+			<td>
+				<div class="control-group">
+					<?php echo $form->labelEx($renc, 'renkebbarang_tgl', array('class' => 'control-label')); ?>
+					<div class="controls">
+						<?php echo $form->textField($renc, 'renkebbarang_tgl'); ?>
+					</div>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3"><hr/></td>
+		</tr>
         <tr>
             <td>
                 <?php //echo $form->textFieldRow($model,'terimapersediaan_id',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
@@ -252,6 +312,71 @@
 <?php $this->endWidget(); ?>
 
 <?php
+//========= Dialog buat cari Rencana Pembelian Barang =========================
+$this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
+    'id' => 'dialogRencana',
+    'options' => array(
+        'title' => 'Daftar Rencana Pembelian Barang',
+        'autoOpen' => false,
+        'modal' => true,
+        'width' => 750,
+        'height' => 600,
+        'resizable' => false,
+    ),
+));
+
+$modrencana=new ADInformasirenkebbarangV;
+$format = new MyFormatter();
+
+
+if(isset($_GET['ADInformasirenkebbarangV'])){
+	$modrencana->attributes=$_GET['ADInformasirenkebbarangV'];
+}
+
+$this->widget('ext.bootstrap.widgets.BootGridView', array(
+    'id' => 'rencana-m-grid',
+    'dataProvider' => $modrencana->searchInformasiDialog(),
+    'filter' => $modrencana,
+    'template'=>"{summary}\n{items}\n{pager}",
+    'itemsCssClass'=>'table table-striped table-bordered table-condensed',
+    'columns' => array(
+        ////'pegawai_id',
+        array(
+            'header' => 'Pilih',
+            'type' => 'raw',
+            'value' => 'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
+                                    "id" => "selectBahan",
+                                    "onClick" => "
+									loadRencana(".$data->renkebbarang_id.");
+									$(\"#dialogRencana\").dialog(\"close\");
+                                    return false;"))',
+        ),
+        array(
+			'name'=>'renkebbarang_tgl',
+			'type'=>'raw',
+			'value'=>'MyFormatter::formatDateTimeForUser($data->renkebbarang_tgl)',
+		),
+		'renkebbarang_no',
+		'ro_barang_bulan',
+		array(
+			'header'=>'Pegawai Mengetahui',
+			'type'=>'raw',
+			'value'=>'ADInformasirenkebbarangV::pegawaimengetahui($data->pegmengetahui_id)',
+		),
+		array(
+			'header'=>'Pegawai Menyetujui',
+			'type'=>'raw',
+			'value'=>'ADInformasirenkebbarangV::pegawaimengetahui($data->pegmenyetujui_id)',
+		),
+    ),
+    'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
+));
+
+$this->endWidget();
+?>
+
+
+<?php
 //========= Dialog buat cari Bahan Diet =========================
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
     'id' => 'dialogPegawai',
@@ -327,6 +452,27 @@ function hitungTotal(obj)
     var jml = parseFloat(unformatNumber($(obj).parents("tr").find(".qty").val()));
     
     $(obj).parents("tr").find(".beli").val(formatNumber(satuan * jml));
+}
+
+function loadRencana(id)
+{
+	$.post('<?php echo $this->createUrl("loadRencana") ?>', {
+		id: id,
+	}, function(data) {
+		$("#ADPembelianbarangT_renkebbarang_id").val(data.rencana.renkebbarang_id);
+		$("#RenkebbarangT_renkebbarang_no").val(data.rencana.renkebbarang_no);
+		$("#RenkebbarangT_renkebbarang_tgl").val(data.rencana.renkebbarang_tgl);
+		
+		$("#tableDetailBarang tbody").html(data.html);
+		$("#tableDetailBarang tbody .numbersOnly").maskMoney(
+			{"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":"","precision":0}
+		);
+		$("#tableDetailBarang tbody .integer2").maskMoney(
+			{"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0}
+		);
+		rename();
+		clear();
+	}, "json");
 }
         
 function print(caraPrint)

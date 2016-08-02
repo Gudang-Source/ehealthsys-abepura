@@ -55,7 +55,7 @@ if (isset($caraPrint)){
                     ),
                     array(
                         'header'=>'Harga Total',
-                        'value'=>'MyFormatter::formatUang($data->harga_barangdet)',
+                        'value'=>'MyFormatter::formatNumberForPrint($data->harga_barangdet)',
                         'htmlOptions'=>array(
                             'style'=>'text-align: right',
                         )

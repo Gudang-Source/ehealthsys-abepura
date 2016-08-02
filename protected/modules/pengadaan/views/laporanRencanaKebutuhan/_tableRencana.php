@@ -54,7 +54,10 @@ if (isset($caraPrint)){
                     ),
                     array(
                         'header'=>'Harga Total',
-                        'value'=>'"Rp. ".number_format($data->hargatotalrenc)',
+                        'value'=>'MyFormatter::formatNumberForPrint($data->hargatotalrenc)',
+						'htmlOptions'=>array(
+                            'style'=>'text-align: right',
+                        )
                     ),
 //                    array(
 //                        'name'=>'qty_in',

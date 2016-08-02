@@ -38,12 +38,12 @@ echo "No. Rencana : <b>".$model->renkebbarang_no."</b>";
 				<td><?php echo $modDetail->asal_barang; ?></td>
 				<td><?php echo (!empty($modDetail->barang_id)) ? $modDetail->barang->barang_nama : ""; ?></td>
 				<td><?php echo $modDetail->satuanbarangdet; ?></td>
-				<td><?php echo $modDetail->jmlpermintaanbarangdet; ?></td>
-				<td><?php echo $format->formatUang($modDetail->harga_barangdet); ?></td>
-				<td><?php echo $modDetail->stokakhir_barangdet; ?></td>
-				<td><?php echo $modDetail->minstok_barangdet; ?></td>
-				<td><?php echo $modDetail->makstok_barangdet; ?></td>
-				<td>
+				<td style="text-align:right;"><?php echo $modDetail->jmlpermintaanbarangdet; ?></td>
+				<td style="text-align:right;"><?php echo $format->formatUang($modDetail->harga_barangdet); ?></td>
+				<td style="text-align:right;"><?php echo $modDetail->stokakhir_barangdet; ?></td>
+				<td style="text-align:right;"><?php echo $modDetail->minstok_barangdet; ?></td>
+				<td style="text-align:right;"><?php echo $modDetail->makstok_barangdet; ?></td>
+				<td style="text-align:right;">
 					<?php 
                     $subtotal = ($modDetail->harga_barangdet * $modDetail->jmlpermintaanbarangdet);
                     $total += $subtotal;
@@ -53,8 +53,8 @@ echo "No. Rencana : <b>".$model->renkebbarang_no."</b>";
 		<?php } ?>
 		<tfoot>
 			<tr>
-				<td colspan="8" style="text-align:right;">Total</td>
-				<td><b>
+				<td colspan="9" style="text-align:right;">Total</td>
+				<td style="text-align:right;"><b>
 					<?php echo $format->formatUang($total) ?>
 					</b>
 				</td>
