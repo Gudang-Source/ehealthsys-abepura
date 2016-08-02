@@ -67,19 +67,19 @@ p.dot{
     </tr>
    <tr>
         <td></td>
-        <td colspan="3"><p class = "notdot">Asal Rujukan : </p> <p class = "dot">&nbsp;</p></td>        
+        <td colspan="3"><p class = "notdot">Asal Rujukan : </p> <p class = "dot"><?php echo isset($modPendaftaran->rujukan->nama_perujuk)?$modPendaftaran->rujukan->nama_perujuk:'';  ?></p></td>        
         <td>&nbsp;</td>
         <td colspan="3"><p class = "notdot">TTL : </p><p class="dot"><?php echo $modPendaftaran->pasien->tempat_lahir.", ".date('d - m - Y',strtotime($modPendaftaran->pasien->tanggal_lahir)); ?></p></td>        
     </tr>
     <tr>
         <td></td>
-        <td colspan="3"><p class = "notdot">Tanggal Rujukan : </p><p class = "dot">&nbsp;</p></td>        
+        <td colspan="3"><p class = "notdot">Tanggal Rujukan : </p><p class = "dot"><?php echo isset($modPendaftaran->rujukan->tanggal_rujukan)?date('d / m / Y',  strtotime($modPendaftaran->rujukan->tanggal_rujukan)):'';  ?></p></td>        
         <td>&nbsp;</td>
         <td colspan = "3"><p class = "notdot">Jenis Kelamin : </p><p class = "dot"><?php echo $modPendaftaran->pasien->jeniskelamin; ?></p></td>        
     </tr>
     <tr>
         <td></td>
-        <td colspan="3"><p class = "notdot">Diagnosa Rujukan :</p><p class = "dot">&nbsp;</p></td>        
+        <td colspan="3"><p class = "notdot">Diagnosa Rujukan :</p><p class = "dot"><?php echo isset($modPendaftaran->rujukan->kddiagnosa_rujukan)?$modPendaftaran->rujukan->kddiagnosa_rujukan:'';  ?></p></td>        
         <td>&nbsp;</td>
         <td colspan="3"><p class = "notdot">Alamat : </p><p class = "dot"><?php echo $modPendaftaran->pasien->alamat_pasien; ?></p></td>        
     </tr>
@@ -154,7 +154,7 @@ p.dot{
         <td></td>
         <td colspan="3" rowspan="5" style = "padding:0px 20px 0px 20px;">
             <div style="border:3px solid #333; height:85px;width:100%">
-                <p align = "center">Telah dilakukan verifikasi oelh Satgas<br>
+                <p align = "center">Telah dilakukan verifikasi oleh Satgas<br>
                     KPS RSUD Abepura
                 </p>                
                 <span style="padding-left:5px;">Tgl:</span><br>
@@ -230,7 +230,7 @@ p.dot{
         <td colspan="4">
             <p style="text-align:center;">
                 Obat hanya dapat di tebus di Apotik RSUD Abepura<br>
-                Berikan obat sesuai dengan formularlum RSUD Abepura
+                Berikan obat sesuai dengan formularium RSUD Abepura
             </p>
         </td>
     </tr>
