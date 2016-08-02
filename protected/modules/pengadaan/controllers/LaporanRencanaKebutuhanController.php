@@ -242,6 +242,7 @@ class LaporanRencanaKebutuhanController extends MyAuthController{
             $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
         }
         $searchdata = $model->searchGrafik();
+		
         $this->render($this->path_view.'_grafik', array(
             'format'=>$format,
             'model' => $model,

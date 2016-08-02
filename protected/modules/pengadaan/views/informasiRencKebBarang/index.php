@@ -48,6 +48,21 @@ $('#divSearch-form form').submit(function(){
                                      ))',
                         'htmlOptions'=>array('style'=>'text-align:center;'),
                     ),
+					array(
+						'header'=>'Pembelian',
+						'type'=>'raw',
+						'value'=>function($data) {
+							$p = PembelianbarangT::model()->findByAttributes(array(
+								'renkebbarang_id'=>$data->renkebbarang_id
+							));
+							if (!empty($p)) return "SUDAH<br/>MELAKUKAN<br/>PEMBELIAN";
+							return CHtml::link("<i class=\"icon-form-retur\"></i>", 
+									$this->createUrl($this->controllerPembelian.'/index', array(
+										'rencana_id'=>$data->renkebbarang_id,
+									)));
+						},
+						'htmlOptions'=>array('style'=>'text-align:center;'),
+					),
                     array(
                         'header'=>'Batal',
                         'type'=>'raw',
