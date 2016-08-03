@@ -3,7 +3,7 @@
 		<div class="panel-title">
 			Jumlah Pegawai
 			<br />
-			<small><i>Jumlah permohonan pinjaman berdasarkan potongan</i></small>
+			<small><i>Jumlah permohonan pinjaman berdasarkan jenis pinjaman</i></small>
 		</div>
 		<div class="panel-options">
 			<a data-rel="collapse" href="#">
@@ -34,7 +34,7 @@ $(document).ready(function($)
 	var tooltips = {
 		<?php
 		foreach($dataPieChart AS $i => $pie){ ?>
-			'<?php echo $i; ?>':'<?php echo $pie['pendidikan_nama']; ?>',
+			'<?php echo $i; ?>':'<?php echo $pie['jenispinjaman_permohonan']; ?>',
 		<?php
 		}
 		?>

@@ -4,23 +4,23 @@
 			<h3 style="color:#fff">Pengajuan Pemotongan</h3> 
 		</div>
 		<div class="scrollable" data-height="400" data-scroll-position="right" data-rail-color="#fff" data-rail-opacity=".9" data-rail-width="8" data-rail-radius="10" data-autohide="0">			 
-                    <div class="tile-entry list-map" style="cursor:pointer;background:rgba(0, 0, 0, 0.15); padding:10px 20px 10px 10px; margin:1px 0"> 					
-                        <h4 style = "color:#fff;">Total Pengajuan Pemotongan</h4>
-                        <span style = "color:rgba(255,255,255,0.5);">Rp0<?php //echo MyFormatter::formatNumberForPrint($totPot); ?></span>
+                    <div class="tile-entry list-map" style="cursor:pointer;background:rgba(0, 0, 0, 0.15); padding:10px 20px 10px 10px; margin:1px 0;text-align: right;"> 					
+                        <h4 style = "color:#fff;text-align:left;">Total Pengajuan Pemotongan</h4>
+                        <span style = "color:rgba(255,255,255,0.5);"><?php echo 'Rp'.number_format($totPot,0,'','.'); ?></span>
                     </div>
 		</div>
             
                 <div class="scrollable" data-height="400" data-scroll-position="right" data-rail-color="#fff" data-rail-opacity=".9" data-rail-width="8" data-rail-radius="10" data-autohide="0">			 
-                    <div class="tile-entry list-map" style="cursor:pointer;background:rgba(0, 0, 0, 0.15); padding:10px 20px 10px 10px; margin:1px 0"> 					
-                        <h4 style = "color:#fff;">Pemotongan Gaji</h4>
-                        <span style = "color:rgba(255,255,255,0.5);">Rp0<?php //echo MyFormatter::formatNumberForPrint($totGaji); ?></span>
+                    <div class="tile-entry list-map" style="cursor:pointer;background:rgba(0, 0, 0, 0.15); padding:10px 20px 10px 10px; margin:1px 0;text-align: right;"> 					
+                        <h4 style = "color:#fff;text-align:left;">Pemotongan Gaji</h4>
+                        <span style = "color:rgba(255,255,255,0.5);"><?php echo 'Rp'.number_format($totGaji,0,'','.'); ?></span>
                     </div>
 		</div>
             
                 <div class="scrollable" data-height="400" data-scroll-position="right" data-rail-color="#fff" data-rail-opacity=".9" data-rail-width="8" data-rail-radius="10" data-autohide="0">			 
-                    <div class="tile-entry list-map" style="cursor:pointer;background:rgba(0, 0, 0, 0.15); padding:10px 20px 10px 10px; margin:1px 0"> 					
-                        <h4 style = "color:#fff;">Pemotongan Intensif</h4>
-                        <span style = "color:rgba(255,255,255,0.5);">Rp0<?php //echo MyFormatter::formatNumberForPrint($totInsentif); ?></span>
+                    <div class="tile-entry list-map" style="cursor:pointer;background:rgba(0, 0, 0, 0.15); padding:10px 20px 10px 10px; margin:1px 0; text-align: right;"> 					
+                        <h4 style = "color:#fff;text-align:left;">Pemotongan Intensif</h4>
+                        <span style = "color:rgba(255,255,255,0.5);"><?php echo 'Rp'.number_format($totInsentif,0,'','.'); ?></span>
                     </div>
 		</div>
 	</div>

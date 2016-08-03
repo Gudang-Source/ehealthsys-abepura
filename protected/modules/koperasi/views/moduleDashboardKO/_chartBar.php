@@ -18,7 +18,7 @@ $(document).ready(function(){
 		<?php 
 		if(count($dataBarChart) > 0){
 			foreach($dataBarChart AS $i => $bar){?>
-						{x: '<?php echo $bar['minatpekerjaan']; ?>' ,y: <?php echo $bar['jumlah']; ?>},
+						{x: '<?php echo $bar['nama_pegawai']; ?>' ,y: <?php echo $bar['jumlah']; ?>},
 		<?php }
 		} 
 		

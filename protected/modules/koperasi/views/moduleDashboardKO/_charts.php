@@ -67,7 +67,7 @@
 </div>  
 
 <script type="text/javascript">
-/*$(document).ready(function($) 
+$(document).ready(function($) 
 {
 	// Area Chart
 	var area_chart_1 = $("#area-chart-1");
@@ -76,11 +76,11 @@
 		element: 'area-chart-1',
         data: [
 			<?php 
-			//if(count($dataAreaChart) > 0){
-				//foreach ($dataAreaChart as $i => $chart) { ?>
-					{ "x": "<?php //echo date("d",strtotime($chart['tglditerima'])); ?>", "y": <?php //echo $chart['jumlah']; ?> },
-				<?php //} 
-			//}
+			if(count($dataAreaChart) > 0){
+				foreach ($dataAreaChart as $i => $chart) { ?>
+					{ "x": "<?php echo date("d",strtotime($chart['tglpinjaman'])); ?>", "y": <?php echo $chart['jumlah']; ?> },
+				<?php } 
+			}
 			?>
 		],
 		xkey: 'x',
@@ -96,17 +96,17 @@
 		element: 'line-chart-1',
 		data: [
 			<?php 
-			//if(count($dataLineChart) > 0){
-				//foreach ($dataLineChart as $i => $chart) { ?>
-					{ x: "<?php //echo date("d",strtotime($chart['tglpresensi'])); ?>", y_1: <?php //echo isset($chart['jumlah_1']) ? $chart['jumlah_1'] : 0; ?>, y_2: <?php //echo isset($chart['jumlah_2']) ? $chart['jumlah_2'] : 0; ?>, y_3: <?php //echo isset($chart['jumlah_3']) ? $chart['jumlah_3'] : 0; ?>, y_4: <?php //echo isset($chart['jumlah_4']) ? $chart['jumlah_4'] : 0; ?>, y_5: <?php //echo isset($chart['jumlah_5']) ? $chart['jumlah_5'] : 0; ?> },
-				<?php //}
-			//}
+			if(count($dataLineChart) > 0){
+				foreach ($dataLineChart as $i => $chart) { ?>
+					{ x: "<?php echo date("d",strtotime($chart['tgl_kasmasuk'])); ?>", y_1: <?php echo isset($chart['jumlah_1']) ? $chart['jumlah_1'] : 0; ?>, y_2: <?php echo isset($chart['jumlah_2']) ? $chart['jumlah_2'] : 0; ?> "},
+				<?php }
+			}
 			?>
 			
 		],
 		xkey: 'x',
-		ykeys: ['y_1','y_2','y_3','y_4','y_5'],
-		labels: ['Hadir', 'Sakit', 'Izin', 'Dinas', 'Alpa'],
+		ykeys: ['y_1','y_2'],
+		labels: ['Simpanan', 'Pinjaman'],
 		parseTime: false,
 		lineColors: [getRandomColor(),getRandomColor(),getRandomColor(),getRandomColor(),getRandomColor()],
 	});
@@ -117,16 +117,16 @@
         element: 'donut-chart-1',
         data: [
         <?php 
-		//if(count($dataDonutChart) > 0){
-			//foreach ($dataDonutChart as $i => $chart) { ?>
-				{label: "<?php //echo $chart['kelompokjabatan']; ?>", value: <?php //echo $chart['jumlah']; ?>},
-			<?php //}
-		//} ?>
+		if(count($dataDonutChart) > 0){
+			foreach ($dataDonutChart as $i => $chart) { ?>
+				{label: "<?php echo $chart['namatransaksi']; ?>", value: <?php echo $chart['jumlah']; ?>},
+			<?php }
+		} ?>
         ],
         colors: [
-        <?php //foreach ($dataDonutChart as $i => $chart) { ?>
+        <?php foreach ($dataDonutChart as $i => $chart) { ?>
         getRandomColor(),
-        <?php //} ?>
+        <?php } ?>
         ]
     });
     
@@ -148,6 +148,6 @@ function getRandomColor() {
     var index = Math.floor((Math.random() * 10)); 
     var color = flat_colors[index];
     return color;
-}*/
+}
 
 </script>

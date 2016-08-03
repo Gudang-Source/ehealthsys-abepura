@@ -40,7 +40,7 @@
 		<?php $map = Yii::app()->user->getState('mapdashboard');
 		//if ($map == true) { ?>
 		    <div class="col-md-9">
-			    <?php $this->renderPartial('_map',array('dataMap'=>$dataMap)); ?>
+			    <?php $this->renderPartial('_map',array('dataMap'=>$dataMap,'totGaji' => $totGaji,'totInsentif' => $totInsentif,'totPot' => $totPot)); ?>
                         
 		    </div>
 		<?php //} ?>
