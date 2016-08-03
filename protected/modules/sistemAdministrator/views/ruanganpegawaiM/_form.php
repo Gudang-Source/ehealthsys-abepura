@@ -213,12 +213,27 @@ function submitruanganpegawai()
     if(pegawai_id==''){
         myAlert('Silahkan Pilih Pegawai Terlebih dahulu');
     }else{
-        $.post("${urlGetRuanganpegawai}", {instalasi_id:instalasi_id, ruanganid:ruanganid, pegawai_id:pegawai_id},
-        function(data){
-            $('#tabelKasuspenyakitdiagnosa').append(data.tr);
-        }, "json");
+        if (cekList(pegawai_id) == true){
+            $.post("${urlGetRuanganpegawai}", {instalasi_id:instalasi_id, ruanganid:ruanganid, pegawai_id:pegawai_id},
+            function(data){
+                $('#tabelKasuspenyakitdiagnosa').append(data.tr);
+            }, "json");
+        }
     }   
 }
+        
+    function cekList(id){
+        x = true;
+        $('.pegawai').each(function(){
+            if ($(this).val() == id){
+                myAlert('Pegawai sudah ada di list');
+    
+                x = false;
+            }
+        });
+        return x;
+    }
+    
 JS;
 
 Yii::app()->clientScript->registerScript('ruanganpegawai',$jscript, CClientScript::POS_HEAD);
