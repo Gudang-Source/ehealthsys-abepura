@@ -2,7 +2,7 @@
 
 class KoperasiModule extends CWebModule
 {
-    public $defaultController = 'default';
+    public $defaultController = 'ModuleDashboardKO';
 
     public $kelompokMenu = array();
     public $menu = array();
