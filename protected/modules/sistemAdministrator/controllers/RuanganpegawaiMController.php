@@ -223,7 +223,7 @@ class RuanganpegawaiMController extends MyAuthController
                 $tr .= "<td>"
                             .$modinstalasi->instalasi_nama
                             .CHtml::hiddenField('ruangan_id[]',$ruanganid,array('readonly'=>true))
-                            .CHtml::hiddenField('pegawai_id[]',$pegawai_id,array('readonly'=>true))
+                            .CHtml::hiddenField('pegawai_id[]',$pegawai_id,array('class'=>'pegawai','readonly'=>true))
                             ."</td>";
                 $tr .= "<td>".$modruangan->ruangan_nama."</td>";
                 $tr .= "<td>".$modruangan->ruangan_namalainnya."</td>";

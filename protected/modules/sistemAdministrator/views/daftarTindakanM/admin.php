@@ -53,17 +53,17 @@
                     ),
                  array(
                             'name'=>'komponenunit_id',
-                            'filter'=>  CHtml::listData($model->KomponenUnitItems, 'komponenunit_id', 'komponenunit_nama'),
+                            'filter'=>  Chtml::dropDownList('SADaftarTindakanM[komponenunit_id]',$model->komponenunit_id,CHtml::listData($model->KomponenUnitItems, 'komponenunit_id', 'komponenunit_nama'),array('empty'=>'-- Pilih --')),
                             'value'=>'$data->komponenunit->komponenunit_nama',
                     ),
                 array(
                             'name'=>'kelompoktindakan_id',
-                            'filter'=>  CHtml::listData($model->KelompokTindakanItems, 'kelompoktindakan_id', 'kelompoktindakan_nama'),
+                            'filter'=>  Chtml::dropDownList('SADaftarTindakanM[kelompoktindakan_id]',$model->kelompoktindakan_id,CHtml::listData($model->KelompokTindakanItems, 'kelompoktindakan_id', 'kelompoktindakan_nama'),array('empty'=>'-- Pilih --')),
                             'value'=>'$data->kelompoktindakan->kelompoktindakan_nama',
                     ),
                 array(
                         'name'=>'kategoritindakan_id',
-                        'filter'=>  CHtml::listData($model->KategoriTindakanItems, 'kategoritindakan_id', 'kategoritindakan_nama'),
+                        'filter'=>  Chtml::dropDownList('SADaftarTindakanM[kategoritindakan_id]',$model->kategoritindakan_id,CHtml::listData($model->KategoriTindakanItems, 'kategoritindakan_id', 'kategoritindakan_nama'),array('empty'=>'-- Pilih --')),
                         'value'=>'(isset($data->kategoritindakan)?$data->kategoritindakan->kategoritindakan_nama:"")',
                     ),
 
