@@ -254,7 +254,7 @@
                                             if ($data->pegawai->shift_id == Params::SHIFT_PAGI){
                                                 $tepat = strtotime(date('Y-m-d',strtotime($pr->tglpresensi))." 08:15:00");
                                             }else{
-                                                $tepat = strtotime(date('Y-m-d',strtotime($pr->tglpresensi)).$shift->shift_jamaawal);
+                                                $tepat = strtotime(date('Y-m-d',strtotime($pr->tglpresensi)).$shift->shift_jamawal);
                                             }                                           
                                             //$tepat =  strtotime(date('Y-m-d',strtotime($pr->tglpresensi)).' '.$data->pegawai->shift->shift_jamawal);
                                     }else{                                        

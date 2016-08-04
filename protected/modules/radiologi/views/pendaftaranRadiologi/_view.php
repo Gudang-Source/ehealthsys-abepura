@@ -40,8 +40,7 @@
             )); ?>
         </div>
         <?php } ?>
-    </div>
-    
+    </div>    
     <div class="span4">
         <div class="block-tabel">
             <h6>Data <b>Kunjungan</b></h6>
@@ -78,12 +77,14 @@
     //                    'value'=>$model->pegawai->nama_pegawai,
     //                ),
                     array(
-                        'name'=>'carabayar_id',
-                        'value'=>(isset($model->carabayar)?$model->carabayar->carabayar_nama:""),
+                        'label'=>'Cara Bayar',
+                        //'name'=>'carabayar_id',
+                        'value'=>(!empty($model->carabayar_id)?$model->carabayar->carabayar_nama:"-"),
                     ),
                     array(
-                        'name'=>'penjamin_id',
-                        'value'=>(isset($model->penjamin)?$model->penjamin->penjamin_nama:""),
+                        'label'=>'Penjamin',
+                        //'name'=>'penjamin_id',
+                        'value'=>(!empty($model->penjamin_id)?$model->penjamin->penjamin_nama:"-"),
                     ),
     //		array(
     //                    'name'=>'keadaanmasuk',

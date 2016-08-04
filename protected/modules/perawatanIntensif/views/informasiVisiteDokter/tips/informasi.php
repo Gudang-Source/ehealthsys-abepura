@@ -2,10 +2,10 @@
 <p>
 <ol type="1">
 	<li>
-		Icon <i class="icon-calendar"></i><i class="icon-time"></i> untuk menentukan tanggal dan waktu pendaftaran.
+		Icon <i class="icon-calendar"></i> berfungsi untuk menentukan tanggal.
 	</li>
 	<li>
-		Icon <i class="icon-list-alt"></i><i class="icon-search"></i> untuk mencari data dari dialog box dan autocomplete.
+		Icon <i class="icon-list"></i><i class="icon-search"></i> berfungsi  untuk mencari data dari dialog box dan autocomplete.
 	</li>
 	<li>
 		Gunakan tombol ini  <a class="btn btn-primary"><i class="icon-search icon-white"></i>
@@ -16,7 +16,7 @@
 		Gunakan tombol ini <a class="btn btn-danger">
 		<i class="icon-refresh icon-white"></i>
 		Ulang
-		</a> untunk mengulang kembali inputan.
+		</a> berfungsi untuk mengulang kembali inputan.
 	</li>
 </ol>
 </p>

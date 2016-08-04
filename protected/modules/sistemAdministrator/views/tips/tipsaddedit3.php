@@ -7,7 +7,7 @@
   </tr>
   <tr>
     <td style="vertical-align: middle;">2. </td>
-    <td>Icon  <i class="icon-form-silang"></i> berfungsi untuk menghapus data yang belum tersimpan.</td>
+    <td>Icon  <i class="icon-form-silang"></i> berfungsi untuk membatalkan data yang belum tersimpan.</td>
   </tr>
   <tr>
     <td style="vertical-align: middle;">3. </td>

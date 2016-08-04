@@ -255,10 +255,10 @@ class ROPasienM extends PasienM
                             LEFT JOIN kelurahan_m ON t.kelurahan_id = kelurahan_m.kelurahan_id ";
             $criteria->compare('LOWER(kecamatan_m.kecamatan_nama)',  strtolower($this->cari_kecamatan_nama), true);
             $criteria->compare('LOWER(kelurahan_m.kelurahan_nama)',  strtolower($this->cari_kelurahan_nama), true);
-            $criteria->limit=5;
+            $criteria->limit=10;
             return new CActiveDataProvider($this, array(
                     'criteria'=>$criteria,
-                    'pagination'=>false,
+                    //'pagination'=>false,
             ));
     }
 

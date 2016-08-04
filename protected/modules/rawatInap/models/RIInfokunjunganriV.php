@@ -28,8 +28,13 @@ class RIInfokunjunganriV extends InfokunjunganriV {
 
         $criteria = new CDbCriteria;
 
-        if (!empty($this->tgl_awal) && !empty($this->tgl_akhir))
+        if (!empty($this->tgl_awal) && !empty($this->tgl_akhir)){
             $criteria->addBetweenCondition('t.tgl_pendaftaran', $this->tgl_awal, $this->tgl_akhir);
+        }else{
+        if (!empty($this->tgl_pendaftaran)){
+            $criteria->addCondition("DATE(t.tgl_pendaftaran) = '".MyFormatter::formatDateTimeForDb($this->tgl_pendaftaran)."' ");
+        }
+        }
         $criteria->compare('LOWER(t.no_pendaftaran)', strtolower($this->no_pendaftaran), true);
         $criteria->compare('LOWER(t.no_rekam_medik)', strtolower($this->no_rekam_medik), true);
         $criteria->compare('LOWER(t.nama_pasien)', strtolower($this->nama_pasien), true);
@@ -55,6 +60,9 @@ class RIInfokunjunganriV extends InfokunjunganriV {
         $criteria->compare('LOWER(t.no_rekam_medik)', strtolower($this->no_rekam_medik), true);
         $criteria->compare('LOWER(t.nama_pasien)', strtolower($this->nama_pasien), true);
         $criteria->compare('LOWER(t.statusperiksa)', strtolower($this->statusperiksa), true);
+        $criteria->compare('LOWER(t.jeniskelamin)', strtolower($this->jeniskelamin), true);
+        $criteria->compare('LOWER(t.carabayar_nama)', strtolower($this->carabayar_nama), true);
+        $criteria->compare('LOWER(t.ruangan_nama)', strtolower($this->ruangan_nama), true);
         $criteria->addCondition('t.ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
         $criteria->with = array('pendaftaran');
         $criteria->order = 't.tgl_pendaftaran DESC';
@@ -69,9 +77,12 @@ class RIInfokunjunganriV extends InfokunjunganriV {
 	{
 		$criteria = new CDbCriteria;
 		$criteria->join = "JOIN pasien_m ON t.pasien_id = pasien_m.pasien_id
-							JOIN pegawai_m ON pasien_m.pegawai_id = pegawai_m.pegawai_id
+                                    JOIN pegawai_m ON pasien_m.pegawai_id = pegawai_m.pegawai_id
 							";
 		$criteria->compare('LOWER(pegawai_m.nomorindukpegawai)',  strtolower($this->nomorindukpegawai), true);
+                $criteria->compare('LOWER(pasien_m.jeniskelamin)',  strtolower($this->jeniskelamin), true);
+                $criteria->compare('LOWER(t.carabayar_nama)', strtolower($this->carabayar_nama), true);
+                $criteria->compare('LOWER(t.ruangan_nama)', strtolower($this->ruangan_nama), true);
 		$criteria->limit=5;
 		
 				return new CActiveDataProvider($this, array(

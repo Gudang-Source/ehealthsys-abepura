@@ -172,6 +172,7 @@
                 array(
                     'header'=>'Gelar Depan',
                     'value'=>'$data->gelardepan',
+                    'filter'=>Chtml::dropDownList('RJDokterV[gelardepan]', $modDokter->gelardepan, LookupM::getItems('gelardepan'),array('empty'=>'-- Pilih --'))
                 ),
                 'nama_pegawai',
         )

@@ -1,7 +1,7 @@
 <div class="row-fluid">
 	<div class="span4">
 		<div class="control-group ">
-			<?php echo CHtml::label('Nama Linen <span class="required">*</span>', 'namalinen', array('class'=>'control-label')); ?>
+			<?php echo CHtml::label('Bahan Perawatan <span class="required">*</span>', 'namalinen', array('class'=>'control-label')); ?>
 			<div class="controls">
 				<?php echo CHtml::hiddenField('bahanperawatan_id'); ?>
 				<?php echo CHtml::hiddenField('bahanperawatan_jenis'); ?>

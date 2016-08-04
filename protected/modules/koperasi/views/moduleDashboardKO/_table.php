@@ -9,38 +9,37 @@
 	<div class="panel-body with-table">
 		<?php 
 		
-		/*$this->widget('ext.bootstrap.widgets.BootGridView',array(
+		$this->widget('ext.bootstrap.widgets.BootGridView',array(
             'id'=>'table-grid',
-            'dataProvider'=>$dataTable->search10PegawaiBaru(),
+            'dataProvider'=>$dataTable->searchTableDash(),
             'template'=>"{pager}\n{items}",
             'itemsCssClass'=>'table table-striped table-bordered table-condensed table-responsive',
-            'columns'=>array(
-				'nomorindukpegawai',
-				'nama_pegawai',
-				'tglditerima',
-				// array(
-				// 	'header'=>'Tanggal Masuk Penunjang',
-				// 	'type'=>'raw',
-				// 	'value'=>'$data->tglmasukpenunjang',
-				// ),
-				// array(
-				// 	'header'=>'Nomor Masuk Penunjang',
-				// 	'type'=>'raw',
-				// 	'value'=>'$data->no_masukpenunjang',
-				// ),
-				// array(
-				// 	'header'=>'Nomor Rekam Medik',
-				// 	'type'=>'raw',
-				// 	'value'=>'$data->no_rekam_medik',
-				// ),
-				// array(
-				// 	'header'=>'Nama Pasien',
-				// 	'type'=>'raw',
-				// 	'value'=>'$data->nama_pasien',
-				// ),
-
-            ),
-        )); */
+            'columns'=>array(				
+                                array(
+                                        'name'=>'nokeanggotaan',
+                                        'type'=>'raw',
+                                        'header'=>'Nomor Anggota',
+                                ), 
+                                array(
+                                        'name'=>'nama_pegawai',
+                                        'type'=>'raw',
+                                        'header'=>'Nama Anggota',
+                                ), 
+                                array(
+                                        'header'=>'Status',
+                                        'type'=>'raw',
+                                        'value'=>'!empty($data->approval_id)?($data->status_disetujui?"<span class=\"setuju\">Telah Disetujui</span>":"<span class=\"setuju\">Tidak Disetujui</span>"):"<span class=\"setuju\">Belum Disetujui</span>"',
+                                ),
+                                array(
+                                        'header'=>'Jumlah Pinjaman',
+                                        'name'=>'jmlpinjaman',
+                                        'type'=>'raw',
+                                        'value'=>'"Rp".number_format($data->jmlpinjaman)',
+                                  'htmlOptions'=>array('style'=>'text-align: right;padding-right:20px;'),
+                                ), 
+			), 
+			)
+			);
     ?>
 		
 		

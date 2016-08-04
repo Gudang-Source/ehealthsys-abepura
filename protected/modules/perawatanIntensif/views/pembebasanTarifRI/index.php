@@ -154,6 +154,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
             array(
                 'header'=>'Nama Dokter',
                 'value'=>'$data->gelardepan." ".$data->nama_pegawai',
+                
             ),
     )
 ));

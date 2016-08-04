@@ -249,9 +249,23 @@
 			return $this->request($completeUrl, $hashsignature, $uid, $timestmp, 'POST', $query, 'Application/x‐www‐form‐urlencoded');		
 		}
 
-		function delete_transaksi($query){
+		function delete_sep($query) {
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
 			$completeUrl = $this->url.'/SEP/sep';
+			return $this->request($completeUrl, $hashsignature, $uid, $timestmp, 'DELETE', $query, 'Application/x‐www‐form‐urlencoded');		
+		}
+		
+		function delete_transaksi($nosep){
+			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
+			$completeUrl = $this->url.'/SEP/sep';
+			$query = '<request>
+						<data>
+							<t_map_sep>
+								<noSep>'.$nosep.'</noSep>
+								<ppkPelayanan>'.$ppkpelayanan.'</ppkPelayanan>
+							</t_map_sep>
+						</data>
+					</request>';
 			return $this->request($completeUrl, $hashsignature, $uid, $timestmp, 'DELETE', $query, 'Application/x‐www‐form‐urlencoded');		
 		}
 
