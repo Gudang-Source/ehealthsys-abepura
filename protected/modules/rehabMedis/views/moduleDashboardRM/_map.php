@@ -18,14 +18,17 @@
 
 </div>
 
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<!--<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>-->
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyCKaKWoGgPIaCh-xDEeJMFoDrEaXaW9PUI&callback=initialize" async defer></script>
 <script type="text/javascript">
 var markerCount = 0;
 var map;
 var markersArray = [];
  
 function initialize() {
-    var myLatlng = new google.maps.LatLng(-6.9393914, 107.6179629);
+    var longitude = <?php echo isset($longitude) ? $longitude : 140.68102769999996 ; ?>;//-6.9393914
+    var latitude = <?php echo isset($latitude) ? $latitude : -2.565139843601719; ?>;// 107.6179629
+    var myLatlng = new google.maps.LatLng(latitude, longitude);
     var map_canvas = document.getElementById('googlemaps');
     var map_options = {
         center: myLatlng,

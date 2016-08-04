@@ -58,8 +58,8 @@ class ADRenkebbarangT extends RenkebbarangT
 
                 $criteria=new CDbCriteria;
 
-                $criteria->select = 'count(t.renkebbarang_id) as jumlah, t.renkebbarang_id, t.renkebbarang_no, b.barang_nama as data';
-                $criteria->group = 't.renkebbarang_tgl, t.renkebbarang_no, t.renkebbarang_id, b.barang_nama';
+                $criteria->select = 'sum(d.jmlpermintaanbarangdet) as jumlah, b.barang_nama as data';
+                $criteria->group = 'b.barang_nama';
                 $criteria->join = 'LEFT JOIN renkebbarangdet_t d ON d.renkebbarang_id = t.renkebbarang_id LEFT JOIN barang_m b ON b.barang_id=d.barang_id';
                 $criteria->addBetweenCondition('date(t.renkebbarang_tgl)',$this->tgl_awal,$this->tgl_akhir);
                 $criteria->addCondition('t.ruangan_id = '.Yii::app()->user->ruangan_id);

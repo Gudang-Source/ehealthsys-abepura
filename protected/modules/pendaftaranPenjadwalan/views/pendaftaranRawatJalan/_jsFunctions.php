@@ -217,11 +217,37 @@ function setPasienBaru(){
 }
 
 function cekNoRM(){
+    var norm = $("#no_rekam_medik_baru").val();
+    
     if ($(".rb_rm").eq(1).is(":checked")) {
-       if($("#no_rekam_medik_baru").val().trim().length != 6 ){
-            myAlert("No. Rekam Medik harus berisi 6 digit angka");
-            $("#no_rekam_medik_baru").val('');
-            return false;
+        if (norm != ''){ 
+            if(norm.trim().length != 6 ){
+                 myAlert("No. Rekam Medik harus berisi 6 digit angka");
+                 $("#no_rekam_medik_baru").val('');
+                 return false;
+             }else{                 
+                 $.ajax({
+                     type:'POST',
+                     url:'<?php echo $this->createUrl('/ActionAjax/cekNoRM/'); ?>',
+                     data: {no_rekam_medik:norm},
+                     dataType: "json",
+                     success:function(data){
+                         if (norm > data.no_rekam_medik ) {
+                             myAlert("<center>Maaf No. Rekam Medik <b>Invalid</b>, \n\
+                                 No. Rekam Medik Terakhir [<b>"+data.no_rekam_medik+"</b>]</center>");                        
+                             $("#no_rekam_medik_baru").val("");
+                             return false;
+                         }else{
+                             
+                         }
+
+                     },
+                     //error: function (jqXHR, textStatus, errorThrown) { 
+
+                     //}
+                });   
+                //return false;
+            }
         }
     }
 }
