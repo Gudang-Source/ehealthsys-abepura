@@ -2168,5 +2168,17 @@ class MyGenerator
         $nosetoran_baru = $prefix.(isset($reseptur['nomaksimal']) ? (str_pad($reseptur['nomaksimal']+1, strlen($default), 0,STR_PAD_LEFT)) : $default);
         return $nosetoran_baru;
     }
+	
+	public static function noRujukanLokalBpjs()
+	{
+		$default = "001";
+        $prefix = date("ymd");
+		$sql = "SELECT CAST(MAX(SUBSTR(norujukan,".(strlen($prefix)+1).",".(strlen($default)).")) AS integer) nomaksimal
+				FROM sep_t 
+				WHERE norujukan LIKE ('".$prefix."%')";
+        $rujukan= Yii::app()->db->createCommand($sql)->queryRow();
+        $norujukan_baru = $prefix.(isset($rujukan['nomaksimal']) ? (str_pad($rujukan['nomaksimal']+1, strlen($default), 0,STR_PAD_LEFT)) : $default);
+        return $norujukan_baru;
+	}
 }
 ?>
