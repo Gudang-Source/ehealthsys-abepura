@@ -156,8 +156,16 @@ function setAsuransiPasienLama(pasien_id){
                                                     }, function(data2) {
                                                         $("#<?php echo CHtml::activeId($modSep,'ppkrujukan') ?>").val(data2.ppk);
                                                         $("#<?php echo CHtml::activeId($modRujukanBpjs,'no_rujukan') ?>").val(data2.ruj);
-                                                        $("#<?php echo CHtml::activeId($modRujukanBpjs,'tanggal_rujukan') ?>").val(data2.tglruj);   
-                                                        setDiagnosaBpjs(data2.diag.kode, data2.diag.nama);
+                                                        $("#<?php echo CHtml::activeId($modRujukanBpjs,'tanggal_rujukan') ?>").val(data2.tglruj);
+														$("#<?php echo CHtml::activeId($modRujukanBpjs,'asalrujukan_id') ?>").val(data2.asalrujukan_id).change();
+														
+														
+														setTimeout(function() {
+															$("#<?php echo CHtml::activeId($modRujukanBpjs,'rujukandari_id') ?>").val(data2.rujukandari_id).change();
+														}, 500);
+														if (data2.diag.kode) {
+															setDiagnosaBpjs(data2.diag.kode, data2.diag.nama);
+														}
                                                     }, "json");
                                                 } else {
                                                     $("#<?php echo CHtml::activeId($modAsuransiPasien,'nopeserta') ?>").val(datanopeserta);
