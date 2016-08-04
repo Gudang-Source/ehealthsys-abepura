@@ -36,8 +36,14 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
 				refreshDialogMenuDiet();
 				$(\'#dialogJenisDiet\').dialog(\'close\');return false;"))',
         ),
+        array(
+            'header' => 'Jenis Diet',
+            'name'=>'jenisdiet_id',
+            'value'=>'$data->jenisdiet_nama',
+            //'filter'=>Chtml::dropDownList('GZJenisdietM[jenisdiet_id]', GZJenisdietM->jenisdiet_id, '$data',array('empty'=>'-- Pilih --'))
+        ),
         'jenisdiet_nama',
-        'jenisdiet_namalainnya',
+        //'jenisdiet_namalainnya',
         'jenisdiet_keterangan',
         'jenisdiet_catatan',
     ),

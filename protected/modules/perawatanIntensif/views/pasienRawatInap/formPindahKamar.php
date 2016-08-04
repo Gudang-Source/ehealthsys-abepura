@@ -188,19 +188,23 @@ echo $form->errorSummary(array($modMasukKamar)); ?>
                                 $listData = CHtml::listData($kamarKosong,'kamarruangan_id','KamarDanTempatTidur');
                             }
                         ?>
+                        <div class = "control-group">
+                            <?php echo Chtml::label('Kamar Ruangan <font style = "color:red">*</font>', 'kamarruangan_id',array('class'=>'control-label')); ?>
+                            <div class = "controls">
                         <?php
-                            echo $form->dropDownListRow(
+                            echo $form->dropDownList(
                                 $modPindahKamar,
                                 'kamarruangan_id',
                                 $listData ,
                                 array(
                                     'empty'=>'-- Pilih --',
                                     'onkeypress'=>"return $(this).focusNextInputField(event)",
-                                    'class'=>'span2'
+                                    'class'=>'span2 required'
                                 )
                             );
                         ?>
-                        
+                            </div>
+                        </div>
                         <div class="control-group ">
                                 <?php echo CHtml::label('Tanggal Pindah Kamar <span class=required>*</span>','tglpindahkamar', array('class'=>'control-label')) ?>
                                 <div class="controls">
@@ -264,7 +268,7 @@ echo $form->errorSummary(array($modMasukKamar)); ?>
             );
         ?>
         <?php
-            $content = $this->renderPartial('../tips/transaksi',array(),true);
+            $content = $this->renderPartial('sistemAdministrator.views.tips.tipsaddedit5',array(),true);
             $this->widget('UserTips',array('type'=>'admin','content'=>$content));
         ?>
     </div>
@@ -462,7 +466,9 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
                 array(
                     'header'=>'Penjamin'.' /<br/>'.'Cara Bayar',
                     'type'=>'raw',
+                    'name'=>'penjamin_id',
                     'value'=>'"$data->penjamin_nama"."<br/>"."$data->carabayar_nama"',
+                    'filter'=>Chtml::dropDownList('RIInfopasienmasukkamarV[penjamin_id]', $modPasienDialog->penjamin_id, Chtml::listData(PenjaminpasienM::model()->findAll('penjamin_aktif = TRUE ORDER BY penjamin_nama ASC'), 'penjamin_id', 'penjamin_nama'),array('empty'=>'-- Pilih --'))
                 ),
                 array(
                     'header'=>'Nama Dokter',

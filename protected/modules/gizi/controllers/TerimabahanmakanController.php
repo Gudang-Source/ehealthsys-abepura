@@ -35,7 +35,7 @@ class TerimabahanmakanController extends MyAuthController
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
-	public function actionIndex($idPengajuan = null,$id=null, $sukses=1)
+	public function actionIndex($idPengajuan = null,$id=null, $sukses=null)
 	{
             if ($sukses == 1){
                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');

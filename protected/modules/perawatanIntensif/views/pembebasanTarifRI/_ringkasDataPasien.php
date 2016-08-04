@@ -113,11 +113,12 @@ if(isset($_GET['RIInfokunjunganriV'])){
     $format = new MyFormatter();
     $modDataPasien->attributes = $_GET['RIInfokunjunganriV'];
     $modDataPasien->penjamin_id = $_GET['RIInfokunjunganriV']['penjamin_id'];
-    if(isset($_GET['RIInfokunjunganriV']['tgl_pendaftaran']))
-        $modDataPasien->tgl_pendaftaran = $format->formatDateTimeForDb($_REQUEST['RIInfokunjunganriV']['tgl_pendaftaran']);
+    if(isset($_GET['RIInfokunjunganriV']['tgl_pendaftaran'])){
+     //   $modDataPasien->tgl_pendaftaran = $format->formatDateTimeForDb($_REQUEST['RIInfokunjunganriV']['tgl_pendaftaran']);
     // $modDataPasien->statusperiksa  = $_REQUEST['InfokunjunganriV']['InfokunjunganriV'];
     // $modDataPasien->tgl_awal  = $format->formatDateTimeForDb($_REQUEST['RJInfokunjunganrjV']['tgl_awal']);
     // $modDataPasien->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['RJInfokunjunganrjV']['tgl_akhir']);
+    }
 }
 
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
@@ -125,7 +126,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'dataProvider'=>$modDataPasien->searchDaftarPasien(),
     'filter'=>$modDataPasien,
         'template'=>"{summary}\n{items}\n{pager}",
-        'itemsCssClass'=>'table table-striped table-bordered table-condensed',
+        'itemsCssClass'=>'table table-striped table-bordered table-condensed',        
         'columns'=>array(
             array(
                     'header'=>'Pilih',
@@ -148,11 +149,26 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                         'model'=>$modDataPasien,
                         'attribute'=>'tgl_pendaftaran',
                         'mode'=>'date',
-                        'options'=> array(
-                            'dateFormat'=>Params::DATE_FORMAT
+                        'htmlOptions' => array(
+                            'id' => 'datepicker_for_due_date',
+                            'size' => '10',
+                            'style'=>'width:80%'
                         ),
-                        'htmlOptions'=>array('readonly'=>false, 'class'=>'dtPicker3'),
-                    ),true
+                        'options' => array(  // (#3)                    
+                            'dateFormat' => Params::DATE_FORMAT,                    
+                            'maxDate' => 'd',
+                        ),
+                        'defaultOptions' => array(  // (#3)
+                            'showOn' => 'focus', 
+                            'dateFormat' => Params::DATE_FORMAT,
+                            'showOtherMonths' => true,
+                            'selectOtherMonths' => true,
+                            'changeMonth' => true,
+                            'changeYear' => true,
+                            'showButtonPanel' => true,
+                            'maxDate' => 'd',
+                        )
+                        ),true
                     ),
                     'htmlOptions'=>array('width'=>'80','style'=>'text-align:center'),
                 ),
@@ -185,14 +201,19 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
     ),
         'afterAjaxUpdate'=>'function(id, data){
             jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
-
+            reinstallDatePicker();
             jQuery(\'#RJInfokunjunganrjV_tgl_pendaftaran\').datepicker(jQuery.extend({showMonthAfterYear:false}, jQuery.datepicker.regional[\'id\'], {\'dateFormat\':\'dd M yy\',\'maxDate\':\'d\',\'timeText\':\'Waktu\',\'hourText\':\'Jam\',\'minuteText\':\'Menit\',
                 \'secondText\':\'Detik\',\'showSecond\':true,\'timeOnlyTitle\':\'Pilih Waktu\',\'timeFormat\':\'hh:mms\',
                 \'changeYear\':true,\'changeMonth\':true,\'showAnim\':\'fold\',\'yearRange\':\'-80y:+20y\'})); 
-        }',
+        }'
 ));
 
 $this->endWidget('ext.bootstrap.widgets.BootGridView');
+Yii::app()->clientScript->registerScript('re-install-date-picker', "
+function reinstallDatePicker(id, data) {        
+    $('#datepicker_for_due_date').datepicker(jQuery.extend({showMonthAfterYear:false},jQuery.datepicker.regional['id'],{'dateFormat':'".Params::DATE_FORMAT."','changeMonth':true, 'changeYear':true,'maxDate':'d'}));
+}
+");
 ?>
 
 <script type="text/javascript">

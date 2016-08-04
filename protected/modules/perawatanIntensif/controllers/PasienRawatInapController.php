@@ -1936,7 +1936,7 @@ public function actionTerimaDokumen() {
 			$pasienadmisi_id = isset($_POST['pasienadmisi_id']) ? $_POST['pasienadmisi_id'] : null;
 			$jeniskasuspenyakit_id = isset($_POST['jeniskasuspenyakit_id']) ? $_POST['jeniskasuspenyakit_id'] : null;
 
-			$jeniskasuspenyakit = JeniskasuspenyakitM::model()->findAll('jeniskasuspenyakit_aktif = TRUE');
+			$jeniskasuspenyakit = JeniskasuspenyakitM::model()->findAll('jeniskasuspenyakit_aktif = TRUE ORDER BY jeniskasuspenyakit_nama ASC');
 			$jeniskasuspenyakit = CHtml::listData($jeniskasuspenyakit,'jeniskasuspenyakit_id','jeniskasuspenyakit_nama');
 			
 			$jeniskasuspenyakitOptions = CHtml::dropDownList('jeniskasuspenyakit_id','', $jeniskasuspenyakit, array("onchange"=>"saveKasusPenyakit(this,$pendaftaran_id,$pasienadmisi_id)","style"=>"width:140px;","options" => array($jeniskasuspenyakit_id=>array("selected"=>true))));

@@ -236,7 +236,7 @@ class PendaftaranRadiologiController extends MyAuthController
                 $this->layout = '//layouts/iframe';
                 if(isset($_POST['ROPendaftaranT'])){
                     $format = new MyFormatter();
-                    $model=new ROPendaftaranT;
+                    $model=new ROPendaftaranT;                    
                     $modPasien=new ROPasienM;
                     $modPenanggungJawab = null;
                     $modRujukan=null;
@@ -285,7 +285,7 @@ class PendaftaranRadiologiController extends MyAuthController
                         }
                     }
                 }
-
+                //var_dump($model->carabayar_id);die;
                 echo CJSON::encode(array(
                     'content'=>$this->renderPartial($this->path_view.'verifikasi',array(
                         'model'=>$model,

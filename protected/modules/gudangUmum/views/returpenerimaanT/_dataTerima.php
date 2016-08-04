@@ -177,8 +177,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 
 $this->endWidget();
 Yii::app()->clientScript->registerScript('re-install-date-picker', "
-function reinstallDatePicker(id, data) {
-        //use the same parameters that you had set in your widget else the datepicker will be refreshed by default
+function reinstallDatePicker(id, data) {        
     $('#datepicker_for_due_date').datepicker(jQuery.extend({showMonthAfterYear:false},jQuery.datepicker.regional['id'],{'dateFormat':'".Params::DATE_FORMAT."','changeMonth':true, 'changeYear':true,'maxDate':'d'}));
 }
 ");

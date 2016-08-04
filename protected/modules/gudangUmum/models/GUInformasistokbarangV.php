@@ -60,6 +60,7 @@ class GUInformasistokbarangV extends InformasistokbarangV
 		$criteria->compare('LOWER(barang_noseri)',strtolower($this->barang_noseri),true);
 		$criteria->compare('LOWER(barang_ukuran)',strtolower($this->barang_ukuran),true);
 		$criteria->compare('LOWER(barang_thnbeli)',strtolower($this->barang_thnbeli),true);
+                $criteria->compare('LOWER(barang_satuan)',strtolower($this->barang_satuan),true);
 		if(!empty($this->ruangan_id)){
 			$criteria->addCondition('ruangan_id = '.$this->ruangan_id);
 		}else{
