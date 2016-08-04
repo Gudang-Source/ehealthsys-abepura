@@ -206,6 +206,10 @@ class KPPresensiT extends PresensiT {
     public function getShiftId($pegawai_id){
         $shift_id = KPPegawaiM::model()->findByPk($pegawai_id)->shift_id;
         
-        return KPShiftM::model()->findByPk($shift_id);
+        if (count($shift_id)>0){
+            return KPShiftM::model()->findByPk($shift_id);
+        }else{
+            return '-';
+        }
     }
 }

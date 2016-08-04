@@ -162,7 +162,7 @@ class PresensiTController extends MyAuthController
                         if (count($shift)>0){
                             if ($shift->shift_id == Params::SHIFT_PAGI ):                               
                                 if (count($cek1) > 0){
-                                    $model->statuskehadiran_id = Params::STATUSKEHADIRAN_ALPHA;
+                                    //$model->statuskehadiran_id = Params::STATUSKEHADIRAN_ALPHA;
                                 }
                             endif;
                         }else{
@@ -181,7 +181,7 @@ class PresensiTController extends MyAuthController
                             $cek2 = PresensiT::model()->find($cr2);
                             
                             if (count($cek2)==0):
-                                $model->statuskehadiran_id = Params::STATUSKEHADIRAN_ALPHA;
+                              //  $model->statuskehadiran_id = Params::STATUSKEHADIRAN_ALPHA;
                             endif;
                         }
                         
