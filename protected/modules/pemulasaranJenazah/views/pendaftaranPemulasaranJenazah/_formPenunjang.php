@@ -8,7 +8,7 @@
     <div class="control-group">
         <?php echo $form->labelEx($modPasienMasukPenunjang,'pegawai_id',array('class'=>'control-label')); ?>
         <div class="controls">
-            <?php echo $form->dropDownList($modPasienMasukPenunjang,'pegawai_id', CHtml::listData($model->getDokterItems($modPasienMasukPenunjang->ruangan_id), 'pegawai_id', 'nama_pegawai') ,array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)", 'class'=>'span3')); ?>
+            <?php echo $form->dropDownList($modPasienMasukPenunjang,'pegawai_id', CHtml::listData($model->getDokterItems($modPasienMasukPenunjang->ruangan_id), 'pegawai_id', 'namaLengkap') ,array('empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event)", 'class'=>'span3')); ?>
         </div>
     </div>
     <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Pilih Pemeriksaan',array('{icon}'=>'<i class="icon-edit icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button', "onclick"=>"SetChecklistTindakan($('#form-pemeriksaan')); ")); ?>
