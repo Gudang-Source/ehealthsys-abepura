@@ -264,7 +264,7 @@
                     array(
                         'name'=>'jeniskelamin',
                         'type'=>'raw',
-                        'filter'=>LookupM::model()->getItems('jeniskelamin'),
+                        'filter'=> Chtml::dropDownList('RIInfokunjunganriV[jeniskelamin]',$modDataPasien->jeniskelamin,LookupM::model()->getItems('jeniskelamin'),array('empty'=>'-- Pilih --')),
                     ),
                     array(
                         'name'=>'instalasi_id',
@@ -342,7 +342,7 @@
                     array(
                         'name'=>'jeniskelamin',
                         'type'=>'raw',
-                        'filter'=>LookupM::model()->getItems('jeniskelamin'),
+                        'filter'=> Chtml::dropDownList('RIInfokunjunganriV[jeniskelamin]',$modDataPasien->jeniskelamin,LookupM::model()->getItems('jeniskelamin'),array('empty'=>'-- Pilih --')),
                     ),
                     array(
                         'name'=>'instalasi_id',

@@ -36,7 +36,15 @@
                         ),
 
                 ),
-                'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+                'afterAjaxUpdate'=>'function(id, data){
+                    jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
+                    $("table").find("input[type=text]").each(function(){
+                        cekForm(this);
+                    })
+                    $("table").find("select").each(function(){
+                        cekForm(this);
+                    })
+            }',
         )); ?>
     </div>
     <fieldset class="box">
@@ -118,6 +126,10 @@
 <script>
     function printTarif() {
         //console.log("<?php echo $urlPrint; ?>&" + $("#formCari").serialize());
-        window.open("<?php echo $urlPrint; ?>&" + $("#formCariInput :input").serialize() +"&caraPrint=PRINT","",'location=_new, width=900px');
+        window.open("<?php echo $urlPrint; ?>&" + $("#formCari :input").serialize() +"&caraPrint=PRINT","",'location=_new, width=900px');
+    }
+     function cekForm(obj)
+    {
+        $("#formCari :input[name='"+ obj.name +"']").val(obj.value);
     }
 </script>

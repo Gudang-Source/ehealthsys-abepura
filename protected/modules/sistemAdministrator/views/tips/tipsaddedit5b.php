@@ -19,7 +19,7 @@ Simpan
     <td>4. </td>
     <td>Gunakan tombol ini <div class="btn btn-danger">
       <i class="icon-refresh icon-white"></i>
-      Batal
+      Ulang
       </div> berfungsi untuk kembali.</td>
   </tr>
 </table>

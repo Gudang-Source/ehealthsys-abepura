@@ -218,8 +218,10 @@
         ),
     ));
 	
-	$modDataPasien = new RIInfokunjunganriV();
+    $modDataPasien = new RIInfokunjunganriV();
     $modDataPasien->unsetAttributes();
+    $modDataPasien->ruangan_nama = Yii::app()->user->getState('ruangan_nama');
+            
     $format = new MyFormatter();
     if(isset($_GET['RIInfokunjunganriV'])) {
         $modDataPasien->attributes = $_GET['RIInfokunjunganriV'];
@@ -264,7 +266,7 @@
                     array(
                         'name'=>'jeniskelamin',
                         'type'=>'raw',
-                        'filter'=>LookupM::model()->getItems('jeniskelamin'),
+                        'filter'=> Chtml::dropDownList('RIInfokunjunganriV[jeniskelamin]',$modDataPasien->jeniskelamin,LookupM::model()->getItems('jeniskelamin'),array('empty'=>'-- Pilih --')),
                     ),
                     array(
                         'name'=>'instalasi_id',
@@ -275,11 +277,13 @@
                     array(
                         'name'=>'ruangan_nama',
                         'type'=>'raw',
+                        'filter'=>CHtml::activeTextField($modDataPasien,'ruangan_nama',array('readonly'=>TRUE)),
                     ),
                     array(
                         'name'=>'carabayar_nama',
                         'type'=>'raw',
                         'value'=>'$data->carabayar_nama',
+                        'filter'=>Chtml::dropDownList('RIInfokunjunganriV[carabayar_nama]',$modDataPasien->carabayar_nama,  CHtml::listData(CarabayarM::model()->findAll("carabayar_aktif = TRUE ORDER BY carabayar_nama ASC"), 'carabayar_nama', 'carabayar_nama'),array('empty'=>'-- Pilih --'))
                     ),
 
 
@@ -342,7 +346,7 @@
                     array(
                         'name'=>'jeniskelamin',
                         'type'=>'raw',
-                        'filter'=>LookupM::model()->getItems('jeniskelamin'),
+                        'filter'=> Chtml::dropDownList('RIInfokunjunganriV[jeniskelamin]',$modDataPasien->jeniskelamin,LookupM::model()->getItems('jeniskelamin'),array('empty'=>'-- Pilih --')),
                     ),
                     array(
                         'name'=>'instalasi_id',
@@ -352,12 +356,13 @@
                     ),
                     array(
                         'name'=>'ruangan_nama',
-                        'type'=>'raw',
+                        'filter'=>CHtml::activeTextField($modDataPasien,'ruangan_nama',array('readonly'=>TRUE)),
                     ),
                     array(
                         'name'=>'carabayar_nama',
                         'type'=>'raw',
                         'value'=>'$data->carabayar_nama',
+                        'filter'=>Chtml::dropDownList('RIInfokunjunganriV[carabayar_nama]',$modDataPasien->carabayar_nama,  CHtml::listData(CarabayarM::model()->findAll("carabayar_aktif = TRUE ORDER BY carabayar_nama ASC"), 'carabayar_nama', 'carabayar_nama'),array('empty'=>'-- Pilih --'))
                     ),
             ),
             'afterAjaxUpdate'=>'function(id, data){

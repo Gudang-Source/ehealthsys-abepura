@@ -89,7 +89,8 @@ class PengajuanbahanmknController extends MyAuthController
 					}
 
 					if ($success == true) {
-
+                                                $smscp1 = 0;
+                                                $smscp2 = 0;
 						// SMS GATEWAY
 						if(Yii::app()->user->getState('issmsgateway')){
 							$modSupplier = SupplierM::model()->findByPk($model->supplier_id);
