@@ -95,8 +95,8 @@ class PemeliharaanAsetTMAController extends MyAuthController {
         $modPenyimpananPemeliharaanDetail = new MAPemeliharaanasetdetailT;
         $modPenyimpananPemeliharaanDetail->attributes = $detail;        
         $modPenyimpananPemeliharaanDetail->pemeliharaanaset_id = $modPemeliharaanAset->pemeliharaanaset_id;        
-        //$modPenyimpananPemeliharaanDetail->pemeliharaanasetdet_tgl = $format->formatDateTimeForDb($modPemeliharaanAset->pemeliharaanasetdet_tgl);
-          //      var_dump($modPenyimpananPemeliharaanDetail);
+        $modPenyimpananPemeliharaanDetail->pemeliharaanasetdet_tgl = $format->formatDateTimeForDb($detail['pemeliharaanasetdet_tgl']);
+               //var_dump($modPenyimpananPemeliharaanDetail->pemeliharaanasetdet_tgl);die;
         if($modPenyimpananPemeliharaanDetail->validate()) { 
             $modPenyimpananPemeliharaanDetail->save();		
 			$this->pemeliharaandetailtersimpan &= true;
