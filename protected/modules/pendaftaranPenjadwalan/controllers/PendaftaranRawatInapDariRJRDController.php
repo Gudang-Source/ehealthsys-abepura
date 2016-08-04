@@ -569,8 +569,11 @@ class PendaftaranRawatInapDariRJRDController extends PendaftaranRawatInapControl
                 $pp = PasienpulangT::model()->findByAttributes(array(
                     'pendaftaran_id'=>$pendaftaran->pendaftaran_id,
                 ));
+				
                 $profil = ProfilrumahsakitM::model()->find();
                 
+				$sep = SepT::model()->findByPk($pendaftaran->sep_id);
+				
                 $ruangan = CHtml::listData(RuanganM::model()->findAllByAttributes(array(
                     'instalasi_id'=>array(Params::INSTALASI_ID_RJ, Params::INSTALASI_ID_RD),
                 )), 'ruangan_id', 'ruangan_id');
@@ -581,27 +584,52 @@ class PendaftaranRawatInapDariRJRDController extends PendaftaranRawatInapControl
                 ), array(
                     'order'=>'kelompokdiagnosa_id asc',
                 ));
-                
+				
+				$rujukan = RujukandariM::model()->findByAttributes(array(
+					'ppkrujukan'=>$profil->ppkpelayanan,
+				));
+				
+				
+				
+				
+				
                 $res = array(
                     "dat"=>null, 
                     "diag"=>array(
                         "kode"=>null,
                         "nama"=>null,
                     ),
+					"rujukandari_id"=>null,
+					"asalrujukan_id"=>null,
                 );
+				
+				if (!empty($rujukan)) {
+					$res["rujukandari_id"] = $rujukan->rujukandari_id;
+					$res["asalrujukan_id"] = $rujukan->asalrujukan_id;
+				}
+				
                 if (!empty($asuransi)) {
                     $res["dat"] = $asuransi->attributes;
                 }
                 
                 $res["ppk"] = $profil->ppkpelayanan;
-                $res["ruj"] = date('dmY');
-                $res["tglruj"] = date("d/m/Y H:i:s", strtotime($pp->tglpasienpulang));
+                $res["ruj"] = MyGenerator::noRujukanLokalBpjs(); //date('dmY');
+                $res["tglruj"] = $pp->tglpasienpulang;
+				
                 
                 if (!empty($morbid)) {
                     $diag = DiagnosaM::model()->findByPk($morbid->diagnosa_id);
                     $res["diag"]["kode"] = $diag->diagnosa_kode;
                     $res["diag"]["nama"] = $diag->diagnosa_nama;
-                }
+                } else if (!empty($sep)) {
+					$diag = DiagnosaM::model()->findByAttributes(array(
+						'diagnosa_kode'=>$sep->diagnosaawal,
+					));
+					if (!empty($diag)) {
+						$res["diag"]["kode"] = $diag->diagnosa_kode;
+						$res["diag"]["nama"] = $diag->diagnosa_nama;
+					}
+				}
                 echo CJSON::encode($res);
             }
             Yii::app()->end();
@@ -625,7 +653,7 @@ class PendaftaranRawatInapDariRJRDController extends PendaftaranRawatInapControl
             $str .= "<ppkPelayanan>".$ppk."</ppkPelayanan>";
             $str .= "</t_sep></data></request>";
             
-            $dat = json_decode($bpjs->delete_transaksi($str));
+            $dat = json_decode($bpjs->delete_sep($str));
             
             // var_dump($dat);
             
