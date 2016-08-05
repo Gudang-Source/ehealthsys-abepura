@@ -73,7 +73,7 @@ $('.search-form form').submit(function(){
 				array(
 					'header'=>'Lihat',
 					'type'=>'raw',
-					'value'=>'CHtml::link("<i class=\'icon-form-lihat\'></i> ",  Yii::app()->controller->createUrl("/manajemenAset/infoPemeliharaanAset/detail",array("id"=>$data->pemeliharaanaset_id)),array("target"=>"frameDetail","rel"=>"tooltip","title"=>"Klik untuk Detail Pemakaian Barang", "onclick"=>"window.parent.$(\'#dialogDetail\').dialog(\'open\')"));',    'htmlOptions'=>array('style'=>'text-align: center; width:40px')
+					'value'=>'CHtml::link("<i class=\'icon-form-lihat\'></i> ",  Yii::app()->controller->createUrl("/manajemenAset/informasiPemeliharaanAset/detail",array("id"=>$data->pemeliharaanaset_id)),array("target"=>"frameDetail","rel"=>"tooltip","title"=>"Klik untuk Detail Pemakaian Barang", "onclick"=>"window.parent.$(\'#dialogDetail\').dialog(\'open\')"));',    'htmlOptions'=>array('style'=>'text-align: center; width:40px')
 				),
 				array(
 					'header'=>Yii::t('zii','Batal'),

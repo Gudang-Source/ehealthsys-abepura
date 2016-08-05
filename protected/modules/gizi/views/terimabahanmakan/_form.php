@@ -258,14 +258,15 @@
                                 <td>' . MyFormatter::formatNumberForUser($baris->bahanmakanan->jmlpersediaan) . '</td>
                                 <td>' . CHtml::activeDropDownList($modDetail, 'satuanbahan[]', LookupM::getItems('satuanbahanmakanan'), array('options' => array('' . $baris->satuanbahan . '' => array('selected' => 'selected')), 'class' => 'span1 satuanbahan')) . '</td>
                                 <td>' . $baris->harganettobhn . '</td>
-                                <td>' . $baris->bahanmakanan->hargajualbahan . '</td>
+                                
+                                
                                 <td>' . CHtml::activeTextField($modDetail, 'discount[]', array('value' => $baris->bahanmakanan->discount, 'class' => 'discount span1 integer', 'onkeyup' => 'hitungTotalDiscount();')) . '</td>
-                                <td>' . $baris->bahanmakanan->tglkadaluarsabahan . '</td>
+                                <td>' . $baris->bahanmakanan->tglkadaluarsabahan . '</td>    
 
                                 <td>' . CHtml::activeTextField($modDetail, 'qty_terima[]', array('value' => $baris->qty_pengajuan, 'class' => 'span1 integer qty', 'onkeyup' => 'hitung(this);')) . '</td>
-                                <td>' . CHtml::TextField('subNetto[]', $subNetto, array('value' => $subNetto, 'class' => 'subNetto span2', 'readonly' => true)) . '</td>
+                                <td>' . CHtml::TextField('subNetto[]', $subNetto, array('value' => $subNetto, 'class' => 'subNetto span2', 'readonly' => true,'style'=>'text-align:right')) . '</td>
                                 <td>' . CHtml::link("<span class='icon-form-silang'>&nbsp;</span>",'',array('href'=>'','onclick'=>'hapus(this);return false;','style'=>'text-decoration:none;', 'class'=>'cancel')).'</td>
-                                </tr>';
+                                </tr>';//<td>' . $baris->bahanmakanan->hargajualbahan . '</td>
                     }
                 }
                 ?>
@@ -341,7 +342,7 @@
 	   	
     function hitung(obj){
 		unformatNumberSemua();
-        var netto = $(obj).parents('tr').find('input[name$="[harganettobahan]"]').val()
+        var netto = $(obj).parents('tr').find('input[name$="[harganettobhan]"]').val()
         var jml = $(obj).parents('tr').find('input[name$="[qty_terima]"]').val()
 		$(obj).parents('tr').find('.subNetto').val(netto*jml);
 		hitungSemua();

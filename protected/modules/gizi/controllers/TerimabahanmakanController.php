@@ -93,31 +93,32 @@ class TerimabahanmakanController extends MyAuthController
                             }
                             // var_dump($_POST['TerimabahandetailT']); die;
                             $jumlah = count($_POST['TerimabahandetailT']);
-                            $u = 1;
-                            foreach ($_POST['TerimabahandetailT'] as $i => $bahanDetail) {
+                            $terimaDet[] = $_POST['TerimabahandetailT'];
+                            $u = 0;
+                            foreach ($terimaDet as $i => $bahanDetail) {
                                 //if ($_POST['checkList'] == 1) {
                                     $modDetail = new GZTerimabahandetailT();
                                     $modDetail->attributes = $bahanDetail;
-                                    $modDetail->terimabahanmakan_id = $model->terimabahanmakan_id;
-                                    $modDetail->golbahanmakanan_id = $bahanDetail['golbahanmakanan_id'];
-                                    $modDetail->bahanmakanan_id = $bahanDetail['bahanmakanan_id'];
+                                    $modDetail->terimabahanmakan_id = $model->terimabahanmakan_id;                                    
+                                    $modDetail->golbahanmakanan_id = $bahanDetail['golbahanmakanan_id'][$u];
+                                    $modDetail->bahanmakanan_id = $bahanDetail['bahanmakanan_id'][$u];
                                     $modDetail->nourutbahan = $u;
-                                    $modDetail->ukuran_bahanterima = $bahanDetail['ukuran_bahanterima'];
-                                    $modDetail->merk_bahanterima = $bahanDetail['merk_bahanterima'];
-                                    $modDetail->jmlkemasan = $bahanDetail['jmlkemasan'];
+                                    $modDetail->ukuran_bahanterima = $bahanDetail['ukuran_bahanterima'][$u];
+                                    $modDetail->merk_bahanterima = $bahanDetail['merk_bahanterima'][$u];
+                                    $modDetail->jmlkemasan = $bahanDetail['jmlkemasan'][$u];
                                     if (isset($modPengajuan->pengajuanbahanmkn_id)){
-                                        $modDetail->pengajuanbahandetail_id = $bahanDetail['pengajuanbahandetail_id'];
+                                        $modDetail->pengajuanbahandetail_id = $bahanDetail['pengajuanbahandetail_id'][$u];
                                     }
                                     if (!is_numeric($modDetail->jmlkemasan)){
                                         $modDetail->jmlkemasan = 0;
                                     }
-                                    if (!is_numeric($bahanDetail['qty_terima'])) {
-                                        $bahanDetail['qty_terima'] = 0;
+                                    if (!is_numeric($bahanDetail['qty_terima'][$u])) {
+                                        $bahanDetail['qty_terima'][$u] = 0;
                                     }
-                                    $modDetail->qty_terima = $bahanDetail['qty_terima'];
-                                    $modDetail->satuanbahan = $bahanDetail['satuanbahan'];
-                                    $modDetail->hargajualbhn = $bahanDetail['hargajualbhn'];
-                                    $modDetail->harganettobhn = $bahanDetail['harganettobahan'];
+                                    $modDetail->qty_terima = $bahanDetail['qty_terima'][$u];
+                                    $modDetail->satuanbahan = $bahanDetail['satuanbahan'][$u];
+                                    $modDetail->hargajualbhn = $bahanDetail['hargajualbhn'][$u];
+                                    $modDetail->harganettobhn = $bahanDetail['harganettobhn'][$u];
                                     //var_dump($bahanDetail);
                                     //var_dump($modDetail->attributes); die;
                                     

@@ -111,4 +111,23 @@ class GolbahanmakananM extends CActiveRecord
                         'pagination'=>false,
                 ));
         }
+        
+        public static function getGolBhnMakanItems()
+        {
+            $data = array();
+            $criteria = new CDbCriteria();
+           
+            $criteria->order = "golbahanmakanan_nama ASC";
+            $criteria->addCondition("golbahanmakanan_aktif IS TRUE");
+            $models=self::model()->findAll($criteria);
+            if(count($models) > 0){
+                foreach($models as $model)
+                    // $data[$model->lookup_value]= ucwords(strtolower($model->lookup_name));
+                    $data[$model->golbahanmakanan_id]= ($model->golbahanmakanan_nama);
+            }else{
+                $data[""] = null;
+            }
+            
+            return $data;
+        }
 }
