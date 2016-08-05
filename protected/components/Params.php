@@ -196,6 +196,7 @@ Class Params
 
 	const SUPPLIER_JENIS_FARMASI = 'Farmasi';
 	const SUPPLIER_JENIS_GIZI = 'Gizi';
+        const SUPPLIER_JENIS_UMUM = 'Umum';
 
 	const JENISSTOKOPNAME_PENYESUAIAN = 'Penyesuaian';
 

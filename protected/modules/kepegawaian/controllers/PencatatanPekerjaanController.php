@@ -21,6 +21,8 @@ class PencatatanPekerjaanController extends MyAuthController
                 $criteria->limit=5;
                 $models = PegawaiM::model()->findAll($criteria);
 
+				$reutrnVal = array();
+				
                 foreach($models as $i=>$model)
                 {
                     $attributes = $model->attributeNames();
@@ -48,6 +50,8 @@ class PencatatanPekerjaanController extends MyAuthController
                 $criteria->limit=5;
                 $models = PegawaiM::model()->findAll($criteria);
 
+				$reutrnVal = array();
+				
                 foreach($models as $i=>$model)
                 {
                     $attributes = $model->attributeNames();
