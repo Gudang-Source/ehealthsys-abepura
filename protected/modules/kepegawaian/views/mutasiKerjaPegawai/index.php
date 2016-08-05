@@ -1,4 +1,10 @@
 <?php
+
+if (empty($pegawai_id)) {
+	echo '<div class="white-container">';
+	echo '<legend class="rim2">Mutasi <b>Pegawai</b></legend>';
+}
+
 $sukses = null;
 if(isset($_GET['sukses'])){
     $sukses = $_GET['sukses'];
@@ -7,6 +13,18 @@ if($sukses > 0)
     Yii::app()->user->setFlash('success',"Data Mutasi Kerja berhasil disimpan !");
 $this->widget('bootstrap.widgets.BootAlert');
 ?>
+
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form.js'); ?>
+<?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
+    'id'=>'sapegawai-m-form',
+    'enableAjaxValidation'=>false,
+        'type'=>'horizontal',
+        'htmlOptions'=>array('enctype'=>'multipart/form-data','onKeyPress'=>'return disableKeyPress(event)'),
+        'focus'=>'#',
+)); ?>
+
+<!-- RIWAYAT MUTASI PEGAWAI -->
+<?php if (!empty($pegawai_id)): ?>
 <div class="box">
     <?php 
     $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
@@ -21,25 +39,26 @@ $this->widget('bootstrap.widgets.BootAlert');
     )); 
     ?>
 </div>
-<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form.js'); ?>
-<?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
-    'id'=>'sapegawai-m-form',
-    'enableAjaxValidation'=>false,
-        'type'=>'horizontal',
-        'htmlOptions'=>array('enctype'=>'multipart/form-data','onKeyPress'=>'return disableKeyPress(event)'),
-        'focus'=>'#',
-)); ?>
+<?php else : ?>
+<!-- DATA PEGAWAI -->
+<?php echo $this->renderPartial('_formPegawai', array('form'=>$form, 'model'=>$model, true)); ?>
+<?php /*
+<fieldset class="box" id="data-riwayat">
+	<legend class="rim">Riwayat Mutasi Kerja</legend>
+	<?php echo $this->renderPartial('_riwayat',array(),true); ?>
+</fieldset>
+ * 
+ */ ?>
+<?php endif; ?>
+<!-- END - RIWAYAT MUTASI PEGAWAI -->
+
+
 
 <?php echo $form->errorSummary($model); ?>
 <fieldset class="box" id="tablePegawaimutasi">
     <legend class="rim">Mutasi pegawai</legend>
     <p class="help-block"><?php echo Yii::t('mds','Fields with <span class="required">*</span> are required.') ?></p>
     <table style="width:100%;">
-        <tr>
-            <td colspan="2" style="width:100%;">
-                  
-            </td>
-		</tr>
         <tr>
             <td style="width:50%;">
 				<?php echo $form->textFieldRow($modPegmutasi,'nomorsurat',array('class'=>'span3','onkeypress'=>'return $(this).focusNextInputField(event)')) ?>
@@ -123,9 +142,14 @@ $this->widget('bootstrap.widgets.BootAlert');
                 'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;')); ?>
     </div>
 <?php
+if (empty($pegawai_id)) {
+	echo '</div>';
+}
+?>
+<?php
 $this->endWidget();
 $urlGetPegmutasi = $this->createUrl('GetPegmutasi');
-$pegawai_id = $_GET['pegawai_id'];
+if (!empty($pegawai_id)) {
 $js= <<< JS
 
 function Pegmutasidata()
@@ -157,6 +181,7 @@ $(document).ready(function(){
 });
 JS;
 Yii::app()->clientScript->registerScript('pencatatanriwayat',$js,CClientScript::POS_HEAD);
+}
 ?>
 <script type="text/javascript">
     function hapus(obj){
@@ -170,3 +195,5 @@ Yii::app()->clientScript->registerScript('pencatatanriwayat',$js,CClientScript::
         
     }
 </script>
+
+<?php if (empty($pegawai_id)) $this->renderPartial('_jsFunctions',array()); ?>
