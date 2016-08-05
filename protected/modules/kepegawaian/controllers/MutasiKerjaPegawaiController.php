@@ -5,6 +5,8 @@ class MutasiKerjaPegawaiController extends MyAuthController
     public $defaultAction = 'index';
 
     public function actionIndex($pegawai_id = null){
+		if (empty($pegawai_id)) $this->layout = "//layouts/column1";
+		
 	    $model = KPPegawaiM::model()->findByPk($pegawai_id);
 	    $modPegmutasi = new KPPegmutasiR;
 	    $transaction = Yii::app()->db->beginTransaction();
@@ -20,23 +22,29 @@ class MutasiKerjaPegawaiController extends MyAuthController
             if (empty($_POST['KPPegmutasiR']['tmtsk'])) {
                 $modPegmutasi->tmtsk = null;
             }
-            $modPegmutasi->pegawai_id = $pegawai_id;
+			if (!empty($pegawai_id)) $modPegmutasi->pegawai_id = $pegawai_id;
+			else $modPegmutasi->pegawai_id = $_POST['PegawaiM']['pegawai_id'];
             $modPegmutasi->jenispromosi_mutasi = $_POST['KPPegmutasiR']['jenispromosi_mutasi'];
             $modPegmutasi->lokasikerja_baru = $_POST['KPPegmutasiR']['lokasikerja_baru'];
+			
+			// var_dump($_POST, $modPegmutasi->attributes, $modPegmutasi->validate(), $modPegmutasi->errors); die;
+			
             if ($modPegmutasi->validate()) {
                 if ($modPegmutasi->save()) {
                     $transaction->commit();
                     Yii::app()->user->setFlash('success','<strong>Berhasil </strong> Data berhasil disimpan');
                     $modPegmutasi->unsetAttributes();
                     $sukses=1;
-                    $this->redirect(array('index','pegawai_id'=>$pegawai_id, 'sukses'=>$sukses));
+                    if (!empty($pegawai_id)) $this->redirect(array('index','pegawai_id'=>$pegawai_id, 'sukses'=>$sukses));
+					else $this->redirect(array('index', 'sukses'=>$sukses));
                 } else {
                     $transaction->rollback();
                     Yii::app()->user->setFlash('error','<strong>Gagal </strong> Data gagal disimpan');
                 }
             }
         }
-        $this->render('index',array('model'=>$model, 'modPegmutasi'=>$modPegmutasi));
+		if (empty($model)) $model = new PegawaiM;
+        $this->render('index',array('model'=>$model, 'modPegmutasi'=>$modPegmutasi, 'pegawai_id'=>$pegawai_id));
     }
 
     /**
