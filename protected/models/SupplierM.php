@@ -256,13 +256,19 @@ class SupplierM extends CActiveRecord
         }
         public static function getSupplierItems()
         {
-            return SupplierM::model()->findAll("supplier_aktif=TRUE ORDER BY supplier_nama");
+            return SupplierM::model()->findAll("supplier_aktif=TRUE ORDER BY supplier_nama ASC");
         }
         
         public static function getSupplierFarmasiItems()
         {
             return SupplierM::model()->findAll("supplier_aktif=TRUE AND supplier_jenis='Farmasi' ORDER BY supplier_nama");
         }
+        
+        public static function getSupplierGiziItems()
+        {
+            return SupplierM::model()->findAll("supplier_aktif=TRUE AND supplier_jenis='".Params::SUPPLIER_JENIS_GIZI."' ORDER BY supplier_nama");
+        }
+                
 
         public function getSupplierRek()
         {

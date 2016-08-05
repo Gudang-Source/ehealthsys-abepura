@@ -54,7 +54,7 @@ $modProfilRs = ProfilrumahsakitM::model()->findByPk(Params::DEFAULT_PROFIL_RUMAH
         </td>
         <td>
             <b>Keterangan Pemeliharaan Aset :</b>
-			<?php echo isset($modPemeliharaanAset->pemeliharaanaset_ket) ? $modPemakaianBarang->pemeliharaanaset_ket : "-"; ?>
+			<?php echo !empty($modPemeliharaanAset->pemeliharaanaset_ket) ? $modPemakaianBarang->pemeliharaanaset_ket : "-"; ?>
             <br />
         </td>
     </tr>   
@@ -63,21 +63,21 @@ $modProfilRs = ProfilrumahsakitM::model()->findByPk(Params::DEFAULT_PROFIL_RUMAH
 	<br/><br>
     <table width="100%" style='margin-left:auto; margin-right:auto;'>
         <thead class="border">
-            <th>Kode Barang</th>
-            <th>Nama Barang</th>
-            <th>Asal Aset</th>
-            <th>Kondisi Aset</th>
+            <th class="border">Kode Barang</th>
+            <th class="border">Nama Barang</th>
+            <th class="border">Asal Aset</th>
+            <th class="border">Kondisi Aset</th>
 			<th>Keterangan Aset</th>
         </thead>
         <?php 
 			foreach ($modDetailPemeliharaan as $i=>$modAset){ 
         ?>
-            <tr>
-                <td><?php echo $modAset->barang_id; ?></td>
-                <td><?php echo $modBarang->barang_id; ?></td>
-                <td><?php echo $modBarang->asalaset_id; ?></td>
-                <td><?php echo $modBarang->kondisiaset; ?></td>
-                <td><?php echo $modBarang->keteranganaset; ?></td>
+            <tr>                
+                <td class="border"><?php echo $modAset->barang->barang_kode; ?></td>
+                <td class="border"><?php echo $modAset->barang->barang_nama; ?></td>
+                <td class="border"><?php echo $modAset->asalaset_id; ?></td>
+                <td class="border"><?php echo $modAset->kondisiaset; ?></td>
+                <td class="border"><?php echo $modAset->keteranganaset; ?></td>
             </tr>
         <?php } ?>
     </table>

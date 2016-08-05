@@ -4,6 +4,167 @@ class LaporanController extends MyAuthController {
 
     public $tgl_awal = "d M Y 00:00:00";
     public $tgl_akhir = "d M Y 23:59:59";
+
+    /* START LAPORAN PENERIMAAN BAHAN MAKANAN  */
+    public function actionLaporanBahanPenerimaanMakanan() {
+        $model = new GZLaporanpenerimaanbhnmakananV('search');
+        $format = new MyFormatter();
+        $model->unsetAttributes();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d 00:00:00');
+        $model->tgl_akhir = date('Y-m-d 23:59:59');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+        
+        if (isset($_GET['GZLaporanpenerimaanbhnmakananV'])) {
+            $model->attributes = $_GET['GZLaporanpenerimaanbhnmakananV'];
+            $model->jns_periode = $_GET['GZLaporanpenerimaanbhnmakananV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['GZLaporanpenerimaanbhnmakananV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['GZLaporanpenerimaanbhnmakananV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['GZLaporanpenerimaanbhnmakananV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['GZLaporanpenerimaanbhnmakananV']['bln_akhir']);
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+        }
+        $this->render('terimaBahanMak/admin', array(
+            'model' => $model, 'format'=>$format
+        ));
+    }
+
+    public function actionPrintLaporanBahanPenerimaanMakanan() {
+        $model = new GZLaporanpenerimaanbhnmakananV('search');
+        $judulLaporan = 'Laporan Penerimaan Bahan Makanan';        
+        $model->unsetAttributes();
+        $format = new MyFormatter();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+
+        //Data Grafik
+        $berdasarkan = 'Berdasarkan Supplier';
+        if (isset($_GET['filter']))
+        {
+            $berdasarkan = 'Berdasarkan Supplier';           
+        }
+        if (isset($_GET['filter1']))
+        {
+            $berdasarkan = 'Berdasarkan Golongan Bahan Makanan';           
+        }
+        if (isset($_GET['filter2']))
+        {
+            $berdasarkan = 'Berdasarkan Jenis Bahan Makanan';           
+        }
+        if (isset($_GET['filter3']))
+        {
+            $berdasarkan = 'Berdasarkan Kelompok Bahan Makanan';           
+        }
+        
+        $data['title'] = 'Grafik Laporan Penerimaan Bahan Makanan '.$berdasarkan;
+        $data['type'] = (isset($_GET['type']) ? $_GET['type'] : "");
+
+        if (isset($_REQUEST['GZLaporanpenerimaanbhnmakananV'])) {
+            $model->attributes = $_REQUEST['GZLaporanpenerimaanbhnmakananV'];
+            $model->jns_periode = $_GET['GZLaporanpenerimaanbhnmakananV']['jns_periode'];
+            $model->tgl_awal = date('Y-m-d',  strtotime($format->formatDateTimeForDb($_GET['GZLaporanpenerimaanbhnmakananV']['tgl_awal'])));
+            $model->tgl_akhir = date('Y-m-d',  strtotime($format->formatDateTimeForDb($_GET['GZLaporanpenerimaanbhnmakananV']['tgl_akhir'])));
+            $model->bln_awal = $format->formatMonthForDb($_GET['GZLaporanpenerimaanbhnmakananV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['GZLaporanpenerimaanbhnmakananV']['bln_akhir']);
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+            
+        }
+
+        $caraPrint = $_REQUEST['caraPrint'];
+        $target ='terimaBahanMak/_print';
+
+        $this->printFunctionNew($model, $data, $caraPrint, $judulLaporan, $target);
+    }
+
+    public function actionFrameGrafikLaporanBahanPenerimaanMakanan() {
+        $this->layout = '//layouts/iframe';
+        $model = new GZLaporanpenerimaanbhnmakananV('search');
+        $format = new MyFormatter();
+        $model->jns_periode = "hari";
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+        //Data Grafik
+        //Data Grafik
+        $berdasarkan = 'Berdasarkan Supplier';
+        if (isset($_GET['filter']))
+        {
+            $berdasarkan = 'Berdasarkan Supplier';           
+        }
+        if (isset($_GET['filter1']))
+        {
+            $berdasarkan = 'Berdasarkan Golongan Bahan Makanan';           
+        }
+        if (isset($_GET['filter2']))
+        {
+            $berdasarkan = 'Berdasarkan Jenis Bahan Makanan';           
+        }
+        if (isset($_GET['filter3']))
+        {
+            $berdasarkan = 'Berdasarkan Kelompok Bahan Makanan';           
+        }
+        
+        $data['title'] = 'Grafik Laporan Penerimaan Bahan Makanan '.$berdasarkan;
+        
+        $data['type'] = (isset($_GET['type']) ? $_GET['type'] : "");
+        if (isset($_GET['GZLaporanpenerimaanbhnmakananV'])) {
+            $model->attributes = $_GET['GZLaporanpenerimaanbhnmakananV'];
+            $model->jns_periode = $_GET['GZLaporanpenerimaanbhnmakananV']['jns_periode'];
+            $model->tgl_awal = date('Y-m-d',  strtotime($format->formatDateTimeForDb($_GET['GZLaporanpenerimaanbhnmakananV']['tgl_awal'])));
+            $model->tgl_akhir = date('Y-m-d',  strtotime($format->formatDateTimeForDb($_GET['GZLaporanpenerimaanbhnmakananV']['tgl_akhir'])));
+            $model->bln_awal = $format->formatMonthForDb($_GET['GZLaporanpenerimaanbhnmakananV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['GZLaporanpenerimaanbhnmakananV']['bln_akhir']);
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+            
+        }
+
+        $this->render('_grafik', array(
+            'model' => $model,
+            'data' => $data,
+        ));
+    }
+    /* END LAPORAN PENERIMAAN BAHAN MAKANAN */
     
 /*
  * gizi->Laporan->LaporanKonsultasiGizi
@@ -14,7 +175,7 @@ class LaporanController extends MyAuthController {
         $model->unsetAttributes();
         $model->jns_periode = "hari";
         $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
-        $model->tgl_akhir = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d 23:59:59');
         $model->bln_awal = date('Y-m', strtotime('first day of january'));
         $model->bln_akhir = date('Y-m');
         $model->thn_awal = date('Y');
