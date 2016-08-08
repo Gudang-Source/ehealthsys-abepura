@@ -21,7 +21,7 @@ $('#divSearch-form form').submit(function(){
                     array(
                         'name'=>'tglterima',
                         'type'=>'raw',
-                        'value'=>'MyFormatter::formatDateTimeForUser($data->tglterima)',
+                        'value'=>'MyFormatter::formatDateTimeForUser(date("Y-m-d",strtotime($data->tglterima)))',
                     ),
                     'noterima',
                     array(
@@ -52,7 +52,7 @@ $('#divSearch-form form').submit(function(){
                     array(
                         'header'=>'Jumlah Terima',
                         'type'=>'raw',
-                        'value'=>'$data->JmlTerima',
+                        'value'=>'number_format($data->JmlTerima,0,"",".")',
                     ),
                     array(
                         'header'=>'Faktur Pembelian',

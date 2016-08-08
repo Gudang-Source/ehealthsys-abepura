@@ -37,12 +37,14 @@
             'columns'=>array(
 
                     array(
-                        'name'=>'nopenerimaanbahan',
+                        'header' => 'No Penerimaan',
+                        'value'=>'$data->nopenerimaanbahan',
                         'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                     ),
-                    array(
-                        'name'=>'tglterimabahan',
+                    array(                        
+                        'header'=>'Tanggal Terima',
                         'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+                        'value'=>'$data->tglterimabahan',
                     ),
                     array(
                         'header'=>'No.',
