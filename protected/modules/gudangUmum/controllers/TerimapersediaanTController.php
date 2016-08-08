@@ -365,6 +365,7 @@ class TerimapersediaanTController extends MyAuthController
 //		$model->unsetAttributes();  // clear any default values
                 $model->tgl_awal = date('Y-m-d');
                 $model->tgl_akhir = date('Y-m-d');
+                $model->ruanganpenerima_id = Yii::app()->user->getState('ruangan_id');
 		if(isset($_GET['GUTerimapersediaanT'])){
                     $model->attributes=$_GET['GUTerimapersediaanT'];
                     $format = new MyFormatter();

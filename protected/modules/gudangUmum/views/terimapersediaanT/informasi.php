@@ -43,10 +43,23 @@
     //                        'filter'=>false,
     //                ),
                     'nopenerimaan',
-                    'tglterima',
-                    'sumberdana.sumberdana_nama',
+                    array(
+                        'header' => 'Tanggal Terima',
+                        'value' => 'MyFormatter::formatDateTimeForUser(date("Y-m-d", strtotime(MyFormatter::formatDateTimeForDb($data->tglterima))))'
+                    ),
+                    array(
+                        'header'=>'Sumber Dana',
+                        'value' => function ($data){
+                            $sumber =  SumberdanaM::model()->findByPk($data->sumberdana_id);
+                            
+                            return isset($sumber)?$sumber->sumberdana_nama:'-';
+                        }
+                    ),                    
                     'pembelianbarang.nopembelian',
-                    'penerima.nama_pegawai',
+                    array(
+                        'header' => 'Pegawai Penerima',
+                        'value' => 'isset($data->peg_penerima_id)?$data->penerima->namaLengkap:"-"',
+                    ),                            
     //		'peg_mengetahui_id',
                     'ruangan.ruangan_nama',
     //		'returpenerimaan_id',
