@@ -3,6 +3,10 @@
 <!--<div class="white-container">
     <legend class="rim2"><b>Indexing</b></legend>-->
     <?php
+	
+	$kel = KelremM::model()->findByPk($model->kelrem_id);
+	
+	
     $this->breadcrumbs=array(
             'Indexing Ms'=>array('index'),
             $model->indexing_id,
@@ -21,8 +25,11 @@
     <?php $this->widget('ext.bootstrap.widgets.BootDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
-		'indexing_id',
-		'kelrem_id',
+		//'indexing_id',
+		array(
+			'label'=>'Kelompok Remunerasi',
+			'value'=>$kel->kelrem_nama,
+		),
 		'indexing_urutan',
 		'indexing_nama',
 		'indexing_singk',
@@ -34,8 +41,34 @@
                                 ),
 	),
     )); ?>
+<table class="table table-bordered table-condensed">
+	<thead>
+		<tr>
+			<th>Nama</th>
+			<th width="100">Nilai Bobot</th>
+			<th width="100">Nilai Index</th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php if (count($det) == 0): ?>
+		<tr>
+			<td colspan="3">Data tidak ditemukan</td>
+		</tr>
+		<?php endif; ?>
+		<?php foreach ($det as $item): ?>
+		<tr>
+			<td><?php echo $item->indexingdef_nama; ?></td>
+			<td style="text-align: right;"><?php echo $item->bobot; ?></td>
+			<td style="text-align: right;"><?php echo MyFormatter::formatNumberForPrint($item->bobot * $model->indexing_nilai, 2); ?></td>
+		</tr>
+		<?php endforeach; ?>
+	</tbody>
+</table>
+
     <?php   echo CHtml::link(Yii::t('mds', '{icon} Pengaturan Indexing', array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),
             $this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success'));?>
-    <?php $this->widget('UserTips',array('type'=>'view'));?>
+    
+
+	<?php $this->widget('UserTips',array('type'=>'view'));?>
 <!--</div>-->
 </fieldset>

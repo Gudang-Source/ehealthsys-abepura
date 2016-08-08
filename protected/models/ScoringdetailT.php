@@ -41,7 +41,7 @@ class ScoringdetailT extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('kelrem_id, personalscoring_id, indexing_id', 'required'),
-			array('kelrem_id, personalscoring_id, indexing_id, index_personal, ratebobot_personal, score_personal', 'numerical', 'integerOnly'=>true),
+			array('kelrem_id, personalscoring_id, indexing_id, ratebobot_personal', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('scoringdetail_id, kelrem_id, personalscoring_id, indexing_id, index_personal, ratebobot_personal, score_personal', 'safe', 'on'=>'search'),
