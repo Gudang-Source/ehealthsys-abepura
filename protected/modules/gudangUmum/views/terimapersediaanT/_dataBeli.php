@@ -84,7 +84,7 @@
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
     'id' => 'dialogPembelian',
     'options' => array(
-        'title' => 'Daftar Pegawai',
+        'title' => 'Daftar Pembelian Barang',
         'autoOpen' => false,
         'modal' => true,
         'width' => 750,
@@ -125,8 +125,22 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                                     return false;"));',
         ),
 		'nopembelian',
-		'sumberdana.sumberdana_nama',
-		'supplier.supplier_nama',                    
+		array(
+			'name'=>'sumberdana_id',
+			'type'=>'raw',
+			'value'=>'$data->sumberdana->sumberdana_nama',
+			'filter'=>CHtml::activeDropDownList($modPembelian, 'sumberdana_id', 
+					CHtml::listData(SumberdanaM::model()->findAll('sumberdana_aktif = true order by sumberdana_nama'), 'sumberdana_id', 'sumberdana_nama'),
+					array('empty'=>'-- Pilih --')),
+		),
+		array(
+			'name'=>'supplier_id',
+			'type'=>'raw',
+			'value'=>'$data->supplier->supplier_nama',
+			'filter'=>CHtml::activeDropDownList($modPembelian, 'supplier_id', 
+					CHtml::listData(SupplierM::model()->findAll('supplier_aktif = true order by supplier_nama'), 'supplier_id', 'supplier_nama'),
+					array('empty'=>'-- Pilih --')),
+		),                  
 		 array(
 			'header' => 'Tanggal Pembelian',
 			'value' => 'Myformatter::formatDateTimeForUser($data->tglpembelian)',
