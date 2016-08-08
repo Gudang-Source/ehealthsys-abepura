@@ -135,7 +135,7 @@
                                 'onkeypress' => "return $(this).focusNextInputField(event)",
                                                             'placeholder'=>'Ketikan Nama Pegawai penerimaan'
                             ),
-                            'tombolDialog' => array('idDialog' => 'dialogPegawai', 'jsFunction'=>'openDialog("'.Chtml::activeId($model, 'peg_penerima_id').'");'),
+                            'tombolDialog' => array('idDialog' => 'dialogPegawai'),
                         ));
                         ?>
                         <?php echo $form->error($model, 'peg_penerima_id'); ?>
@@ -179,7 +179,7 @@
                                 'onkeypress' => "return $(this).focusNextInputField(event)",
                                                             'placeholder'=>'Ketikan Nama Pegawai mengetahui'
                             ),
-                            'tombolDialog' => array('idDialog' => 'dialogPegawai', 'jsFunction'=>'openDialog("'.Chtml::activeId($model, 'peg_mengetahui_id').'");'),
+                            'tombolDialog' => array('idDialog' => 'dialogPegawaiMengetahui'),
                         ));
                         ?>
                         <?php echo $form->error($model, 'peg_mengetahui_id'); ?>
@@ -307,9 +307,8 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'value' => 'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
                                     "id" => "selectBahan",
                                     "onClick" => "
-                                    var parent = $(\"#dialogPegawai\").attr(\"parentclick\");
-                                    $(\"#\"+parent+\"\").val($data->pegawai_id);
-                                    $(\"#\"+parent+\"\").parents(\".controls\").find(\".namaPegawai\").val(\"$data->nama_pegawai\");
+                                    $(\"#GUTerimapersediaanT_peg_penerima_id\").val($data->pegawai_id);
+                                    $(\"#GUTerimapersediaanT_peg_penerima_nama\").val(\"$data->nama_pegawai\");
                                     $(\'#dialogPegawai\').dialog(\'close\');
                                     return false;"))',
         ),
@@ -317,11 +316,67 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
         
             'nama_pegawai',
             'nomorindukpegawai',
-                'alamat_pegawai',
-        'agama',
+            'alamat_pegawai',
+        // 'agama',
             array(
                 'name'=>'jeniskelamin',
                 'filter'=> CHtml::dropDownList('GUPegawaiM[jeniskelamin]',$modPegawai->jeniskelamin,LookupM::getItems('jeniskelamin'),array('empty'=>'--Pilih--')),
+                'value'=>'$data->jeniskelamin',
+                ),        
+    ),
+        'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+));
+
+$this->endWidget();
+?>
+
+<?php
+//========= Dialog buat cari Bahan Diet =========================
+$this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
+    'id' => 'dialogPegawaiMengetahui',
+    'options' => array(
+        'title' => 'Daftar Pegawai',
+        'autoOpen' => false,
+        'modal' => true,
+        'width' => 750,
+        'height' => 600,
+        'resizable' => false,
+    ),
+));
+
+$modPegawai = new GUPegawaiRuanganV('search');
+$modPegawai->unsetAttributes();
+$modPegawai->ruangan_id = Yii::app()->user->getState('ruangan_id');
+if (isset($_GET['GUPegawaiRuanganV']))
+    $modPegawai->attributes = $_GET['GUPegawaiRuanganV'];
+
+$this->widget('ext.bootstrap.widgets.BootGridView',array(
+    'id'=>'pegawaimengetahui-m-grid',
+    'dataProvider'=>$modPegawai->searchDialog(),
+    'filter'=>$modPegawai,
+        'template'=>"{summary}\n{items}\n{pager}",
+        'itemsCssClass'=>'table table-striped table-bordered table-condensed',
+    'columns'=>array(
+        array(
+            'header' => 'Pilih',
+            'type' => 'raw',
+            'value' => 'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
+                                    "id" => "selectBahan",
+                                    "onClick" => "
+                                    $(\"#GUTerimapersediaanT_peg_mengetahui_id\").val($data->pegawai_id);
+                                    $(\"#GUTerimapersediaanT_peg_mengetahui_nama\").val(\"$data->nama_pegawai\");
+                                    $(\'#dialogPegawaiMengetahui\').dialog(\'close\');
+                                    return false;"))',
+        ),
+        ////'pegawai_id',
+        
+            'nama_pegawai',
+            'nomorindukpegawai',
+                'alamat_pegawai',
+        // 'agama',
+            array(
+                'name'=>'jeniskelamin',
+                'filter'=> CHtml::dropDownList('GUPegawaiRuanganV[jeniskelamin]',$modPegawai->jeniskelamin,LookupM::getItems('jeniskelamin'),array('empty'=>'--Pilih--')),
                 'value'=>'$data->jeniskelamin',
                 ),        
     ),

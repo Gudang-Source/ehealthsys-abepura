@@ -22,7 +22,7 @@
         </td>
         <td>
             <div class="control-group ">
-                <?php echo CHtml::activeLabel($modBeli, 'supplier_id', array('class'=>'control-label')) ?>
+                <?php echo CHtml::label('Supplier <span class="required">*</span>', '', array('class'=>'control-label required')) ?>
                 <div class="controls">
 				
                     <?php
