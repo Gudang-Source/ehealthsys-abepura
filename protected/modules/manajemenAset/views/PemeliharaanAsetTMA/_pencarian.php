@@ -13,13 +13,13 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
         <div class="control-group">
                 <?php echo CHtml::label('Kategori Aset', 'kategori_aset', array('class'=>'control-label')) ?>
                 <div class="controls">
-                        <?php echo $form->dropDownList($modPemeliharaanDetail,'kategori_aset',$kategoriaset,array('empty'=>'--Kategori Aset--', 'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>           
+                        <?php echo $form->dropDownList($modPemeliharaanDetail,'kategori_aset',$kategoriaset,array('empty'=>'-- Pilih --', 'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>           
                 </div>
         </div>
         <div class="control-group">
                 <?php echo CHtml::label('Asal Aset', 'asal_aset', array('class'=>'control-label')) ?>
                 <div class="controls">
-                        <?php echo $form->dropDownList($modPemeliharaanDetail,'asal_aset',$asalaset,array('empty'=>'--Asal Aset--','class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>           
+                        <?php echo $form->dropDownList($modPemeliharaanDetail,'asal_aset',$asalaset,array('empty'=>'-- Pilih --','class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>           
                 </div>
         </div>			
     </div>
@@ -115,13 +115,15 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
 
 $modBarang = new MABarangV('search');
 $modBarang->unsetAttributes();
+$modBarang->barang_type = 'Aset';
 if (isset($_GET['MABarangV'])){
     $modBarang->attributes = $_GET['MABarangV'];
+	$modBarang->jenis_inv = $_GET['MABarangV']['jenis_inv'];
 }
 
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'barangsusut-t-grid',
-    'dataProvider'=>$modBarang->searchDialog(),
+    'dataProvider'=>$modBarang->searchDialogPemeliharaan(),
     'filter'=>$modBarang,
 	'template'=>"{summary}\n{items}\n{pager}",
 	'itemsCssClass'=>'table table-striped table-bordered table-condensed',
@@ -140,56 +142,137 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
         ),
 		'barang_nama',
 		'barang_kode',
-		'barang_ekonomis_thn',
-		'barang_harganetto',
+		array(
+			'header'=>'Jenis Inventarisasi',
+			'name'=>'jenis_inv',
+			'type'=>'raw',
+			'value'=>function($data) {
+				if (!empty($data->invasetlain_noregister)) return "Aset Lain";
+				if (!empty($data->invgedung_noregister)) return "Gedung";
+				if (!empty($data->invperalatan_noregister)) return "Peralatan";
+				if (!empty($data->invjalan_noregister)) return "Jaringan";
+				if (!empty($data->invtanah_noregister)) return "Tanah";
+				return "-";	
+			},
+			'filter'=>CHtml::activeDropDownList($modBarang, 'jenis_inv', array(
+				1=>'Aset Lain',
+				2=>'Gedung',
+				4=>'Jaringan',
+				3=>'Peralatan',
+				5=>'Tanah'
+			), array('empty'=>'-- Pilih --')),
+		),
+		//'barang_ekonomis_thn',
+		array(
+			'name'=>'barang_harganetto',
+			'value'=>'MyFormatter::formatNumberForPrint($data->barang_harganetto)',
+			'htmlOptions'=>array('style'=>'text-align: right'),
+			'filter'=>false,
+		),
+		array(
+			'header'=>'Tahun Ekonomis',
+			'type'=>'raw',
+			'value'=>function($data) {
+				if (!empty($data->invperalatan_umurekonomis)) return $data->invperalatan_umurekonomis;
+				if (!empty($data->invtanah_umurekonomis)) return $data->invtanah_umurekonomis;
+				return $data->barang_ekonomis_thn;	
+			}
+		),
+		array(
+			'header'=>'No. Register',
+			'type'=>'raw',
+			'value'=>function($data) {
+				if (!empty($data->invasetlain_noregister)) return $data->invasetlain_noregister;
+				if (!empty($data->invgedung_noregister)) return $data->invgedung_noregister;
+				if (!empty($data->invperalatan_noregister)) return $data->invperalatan_noregister;
+				if (!empty($data->invjalan_noregister)) return $data->invjalan_noregister;
+				if (!empty($data->invtanah_noregister)) return $data->invtanah_noregister;
+				return "-";	
+			}
+		),
+		array(
+			'header'=>'Tgl. Guna',
+			'type'=>'raw',
+			'value'=>function($data) {
+				if (!empty($data->invasetlain_tglguna)) return MyFormatter::formatDateTimeForUser ($data->invasetlain_tglguna);
+				if (!empty($data->invgedung_tglguna)) return MyFormatter::formatDateTimeForUser ($data->invgedung_tglguna);
+				if (!empty($data->invperalatan_tglguna)) return MyFormatter::formatDateTimeForUser ($data->invperalatan_tglguna);
+				if (!empty($data->invjalan_tglguna)) return MyFormatter::formatDateTimeForUser ($data->invjalan_tglguna);
+				if (!empty($data->invtanah_tglguna)) return MyFormatter::formatDateTimeForUser ($data->invtanah_tglguna);
+				return "-";	
+			}
+		),
+		/*
+		array(
+			'header'=>'Nama Barang',
+			'type'=>'raw',
+			'value'=>function($data) {
+				if (!empty($data->invasetlain_namabrg)) return $data->invasetlain_namabrg;
+				if (!empty($data->invgedung_namabrg)) return $data->invgedung_namabrg;
+				if (!empty($data->invperalatan_namabrg)) return $data->invperalatan_namabrg;
+				if (!empty($data->invjalan_namabrg)) return $data->invjalan_namabrg;
+				if (!empty($data->invtanah_namabrg)) return $data->invtanah_namabrg;
+				return "-";	
+			}
+		), */
 		
-		'invasetlain_namabrg',
-		'invasetlain_kode',
-		'invasetlain_noregister',
+		//'invasetlain_namabrg',
+		//'invasetlain_kode',
+		//'invasetlain_noregister',
+				/*
 		array(
 			'header'=>'Inv. Aset Lain Tanggal Guna',
 			'type'=>'raw',
 			'value'=>'MyFormatter::formatDateTimeForUser($data->invasetlain_tglguna)'
-		),
+		), */
 		
-		'invgedung_namabrg',
-		'invgedung_kode',
-		'invgedung_noregister',
+		//'invgedung_namabrg',
+		//'invgedung_kode',
+		//'invgedung_noregister',
+				/*
 		array(
 			'header'=>'Inv. Gedung Tanggal Guna',
 			'type'=>'raw',
 			'value'=>'MyFormatter::formatDateTimeForUser($data->invgedung_tglguna)'
-		),
+		), */
 		
-		'invperalatan_namabrg',
-		'invperalatan_kode',
-		'invperalatan_noregister',
+		//'invperalatan_namabrg',
+		//'invperalatan_kode',
+		//'invperalatan_noregister',
+				/*
 		array(
 			'header'=>'Inv. Peralatan Tanggal Guna',
 			'type'=>'raw',
 			'value'=>'MyFormatter::formatDateTimeForUser($data->invperalatan_tglguna)'
 		),
-		'invperalatan_umurekonomis',
+				 * 
+				 */
+		//'invperalatan_umurekonomis',
 		
-		'invjalan_kode',
-		'invjalan_noregister',
-		'invjalan_namabrg',
+		//'invjalan_kode',
+		//'invjalan_noregister',
+		//'invjalan_namabrg',
+				/*
 		array(
 			'header'=>'Inv. Jalan Tanggal Guna',
 			'type'=>'raw',
 			'value'=>'MyFormatter::formatDateTimeForUser($data->invjalan_tglguna)'
 		),
+				 * 
+				 */
 		
-		'invtanah_namabrg',
-		'invtanah_kode',
-		'invtanah_noregister',
+		//'invtanah_namabrg',
+		//'invtanah_kode',
+		//'invtanah_noregister',
+				/*
 		array(
 			'header'=>'Inv. Tanah Tanggal Guna',
 			'type'=>'raw',
 			'value'=>'MyFormatter::formatDateTimeForUser($data->invtanah_tglguna)'
 		),
-		'invtanah_umurekonomis',
-		
+				 * 
+				 */
+		//'invtanah_umurekonomis',
     ),
 	'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
 ));
