@@ -5,7 +5,7 @@
             <?php echo CHtml::encode($modPemeliharaanAset->pemeliharaanaset_no); ?>
             <br />
             <b><?php echo CHtml::encode($modPemeliharaanAset->getAttributeLabel('pemeliharaanaset_tgl')); ?>:</b>
-            <?php echo CHtml::encode($modPemeliharaanAset->pemeliharaanaset_tgl); ?>
+            <?php echo MyFormatter::formatDateTimeForUser(CHtml::encode($modPemeliharaanAset->pemeliharaanaset_tgl)); ?>
              <br/>
         </td>
         <td>
@@ -20,7 +20,7 @@
     <thead>
         <th>No. Urut</th>
         <th>Barang</th>
-        <th>Kodisi Aset</th>
+        <th>Kondisi Aset</th>
         <th>Keterangan Aset</th>
     </thead>
     <tbody>
@@ -30,7 +30,7 @@
             <tr>   
                 <td><?php echo $no; ?></td>
                 <td><?php echo $detail->barang->barang_nama; ?></td>
-                <td><?php echo $detail->kondisiaset; ?></td>
+                <td><?php echo is_numeric($detail->kondisiaset)?LookupM::model()->findByPk($detail->kondisiaset)->lookup_name:$detail->kondisiaset; ?></td>
                 <td><?php echo $detail->keteranganaset; ?></td>
             </tr>
     <?php 

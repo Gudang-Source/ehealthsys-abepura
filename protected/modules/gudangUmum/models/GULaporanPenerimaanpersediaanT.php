@@ -235,6 +235,7 @@ class GULaporanPenerimaanpersediaanT extends TerimapersediaanT{
             $criteria=new CDbCriteria;
             
             $criteria->select = 'count(terimapersediaan_id) as jumlah, date(tglterima) as data';
+            
             $criteria->group = 'date(tglterima)';
             $criteria->addBetweenCondition('date(tglterima)', $this->tgl_awal, $this->tgl_akhir);
 			if(!empty($this->terimapersediaan_id)){

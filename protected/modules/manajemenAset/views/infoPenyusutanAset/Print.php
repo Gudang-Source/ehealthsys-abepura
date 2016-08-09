@@ -36,78 +36,59 @@ echo CHtml::css('.control-label{
 ');
 ?>  
 <?php
-if(!$modPemakaianBarangDetail){
+if(!$modPenyusutanAsetDetail){
     echo "Data tidak ditemukan"; exit;
 }
 echo $this->renderPartial('application.views.headerReport.headerRincian');
 $format = new MyFormatter;
 $modProfilRs = ProfilrumahsakitM::model()->findByPk(Params::DEFAULT_PROFIL_RUMAH_SAKIT); 
 ?>
-<body class="kertas">
-	<table class='table'>
+<body>
+	<table style='width:100%'>
     <tr>
         <td>
-            <b><?php echo CHtml::encode($modPemakaianBarang->getAttributeLabel('nopemakaianbrg')); ?> :</b>
-            <?php echo isset($modPemakaianBarang->nopemakaianbrg) ? $modPemakaianBarang->nopemakaianbrg : "-"; ?>
+            <b><?php echo CHtml::encode($modPenyusutanAset->getAttributeLabel('no_penyusutan')); ?>:</b>
+            <?php echo CHtml::encode($modPenyusutanAset->no_penyusutan); ?>
             <br />
-            <b>Tanggal Pemakaian Barang :</b>
-            <?php echo isset($modPemakaianBarang->tglpemakaianbrg) ? $format->formatDateTimeId($modPemakaianBarang->tglpemakaianbrg) : "-"; ?>
+            <b><?php echo CHtml::encode($modPenyusutanAset->getAttributeLabel('tgl_penyusutan')); ?>:</b>
+            <?php echo CHtml::encode($modPenyusutanAset->tgl_penyusutan); ?>
              <br/>
         </td>
         <td>
-            <b>Ruangan :</b>
-			<?php echo isset($modPemakaianBarang->ruangan->ruangan_nama) ? $modPemakaianBarang->ruangan->ruangan_nama : "-"; ?>
+            <b><?php //echo CHtml::encode($modPenyusutanAset->getAttributeLabel('ruangan_id')); ?></b>
+            <?php //echo CHtml::encode($modPenyusutanAset->ruangan->ruangan_nama); ?>
             <br />
-            <b>Untuk Keperluan :</b>
-            <?php echo isset($modPemakaianBarang->untukkeperluan) ? $modPemakaianBarang->untukkeperluan : "-"; ?>
+            <b><?php //echo CHtml::encode($modPenyusutanAset->getAttributeLabel('untukkeperluan')); ?></b>
+            <?php //echo CHtml::encode($modPenyusutanAset->untukkeperluan); ?>
             <br />
         </td>
     </tr>   
-	</table>
-    
-	<br/><br>
-    <table width="100%" style='margin-left:auto; margin-right:auto;'>
-        <thead class="border">
-            <th>Kode Barang</th>
-            <th>Tipe Barang</th>
-            <th>Nama Barang</th>
-            <th>Merk / No. Seri</th>
-            <th>Ukuran / Bahan Barang</th>
-			<th>Satuan</th>
-			<th>Jumlah Pakai</th>
-            <th>Harga Netto</th>
-            <th>Harga Satuan</th>
-        </thead>
-        <?php 
-			$total_harganetto = 0;
-			$total_hargajual = 0;
-			$total_jmlpakai = 0;
-			foreach ($modPemakaianBarangDetail as $i=>$modBarang){ 
-        ?>
-            <tr>
-                <td><?php echo $modBarang->barang->bidang->subkelompok->kelompok->golongan->golongan_nama; ?></td>
-                <td><?php echo $modBarang->barang->bidang->subkelompok->kelompok->kelompok_nama; ?></td>
-                <td><?php echo $modBarang->barang->bidang->subkelompok->subkelompok_nama; ?></td>
-                <td><?php echo $modBarang->barang->bidang->bidang_nama; ?></td>
-                <td><?php echo $modBarang->barang->barang_nama; ?></td>
-                <td><?php echo $modBarang->satuanpakai; ?></td>
-				<td style="text-align:center;"><?php echo ($modBarang->jmlpakai); ?></td>
-                <td style="text-align:right;"><?php echo $format::formatNumberForUser($modBarang->harganetto); ?></td>
-				<td style="text-align:right;"><?php echo $format::formatNumberForUser($modBarang->hargajual); ?></td>
-				<?php
-					$total_harganetto += $modBarang->harganetto;
-					$total_hargajual += $modBarang->hargajual;
-					$total_jmlpakai += $modBarang->jmlpakai;
-				?>
+</table>
+    <p>&nbsp;</p>
+<table id="tableObatAlkes" style="width:100%">
+    <thead>
+        <th class = "border">No. Urut</th>
+        <th class = "border">Periode</th>
+        <th class = "border">Saldo</th>
+        <th class = "border">Persentase</th>
+      <!--  <th>Catatan</th>-->
+    </thead>
+    <tbody>
+    <?php
+        $no=1;
+        foreach($modPenyusutanAsetDetail AS $detail): ?>
+            <tr>   
+                <td class = "border" style = "text-align:center;"><?php echo $no; ?></td>
+                <td class = "border"><?php echo $detail->penyusutanaset_periode; ?></td>
+                <td class = "border" style = "text-align:right;"><?php echo $detail->penyusutanaset_saldo; ?></td>
+                <td class = "border" style = "text-align:right;"><?php echo $detail->penyusutanaset_persentase; ?></td>                
             </tr>
-        <?php } ?>
-        <tr>
-            <td colspan="6" align="center"><strong>Total</strong></td>
-            <td style="text-align: center;"><?php echo ($total_jmlpakai); ?></td>
-            <td style="text-align: right;"><?php echo $format->formatUang($total_harganetto); ?></td>
-            <td style="text-align: right;"><?php echo $format->formatUang($total_hargajual); ?></td>
-        </tr>
-    </table>
+    <?php 
+        $no++; 
+        endforeach;     
+    ?>
+    </tbody>
+</table>
 <?php
 if (isset($_GET['frame'])){
     echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info', 'onclick'=>"print('PRINT')"));
@@ -118,8 +99,8 @@ if (isset($_GET['frame'])){
      * print
      */    
     function print(caraPrint){
-        pemakaianbarang_id = '<?php echo isset($modPemakaianBarang->pemakaianbarang_id) ? $modPemakaianBarang->pemakaianbarang_id : ''; ?>';
-        window.open('<?php echo $this->createUrl('print'); ?>&pemakaianbarang_id='+pemakaianbarang_id+'&caraPrint='+caraPrint,'printwin','left=100,top=100,width=1000,height=640');
+        pemakaianbarang_id = '<?php echo isset($modPenyusutanAset->penyusutanaset_id) ? $modPenyusutanAset->penyusutanaset_id : ''; ?>';
+        window.open('<?php echo $this->createUrl('print'); ?>&penyusutanaset_id='+pemakaianbarang_id+'&caraPrint='+caraPrint,'printwin','left=100,top=100,width=1000,height=640');
     }
     </script>
 <?php
@@ -130,8 +111,8 @@ if (isset($_GET['frame'])){
             <table width="100%">
                 <tr>
                     <td width="35%" align="center">
-                        <div>Mengetahui<br></div>
-                        <div style="margin-top:60px;"><?php echo Yii::app()->user->getState('nama_pegawai'); ?></div>
+                    <!--    <div>Mengetahui<br></div>
+                        <div style="margin-top:60px;"><?php //echo Yii::app()->user->getState('nama_pegawai'); ?></div> -->
                     </td>
                     <td width="35%" align="center">
                     </td>

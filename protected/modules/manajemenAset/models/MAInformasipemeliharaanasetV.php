@@ -13,6 +13,7 @@ class MAInformasipemeliharaanasetV extends InformasipemeliharaanasetV{
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
+                
 		$criteria->addBetweenCondition('DATE(pemeliharaanaset_tgl)', $this->tgl_awal, $this->tgl_akhir);
 		if(!empty($this->pemeliharaanaset_id)){
 			$criteria->addCondition('pemeliharaanaset_id = '.$this->pemeliharaanaset_id);

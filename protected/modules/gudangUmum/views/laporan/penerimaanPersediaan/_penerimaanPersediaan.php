@@ -29,7 +29,7 @@ if (isset($caraPrint)){
             array(
                 'header'=>'Tanggal Terima',
                 'type'=>'raw',
-                'value'=>'date("d/m/Y H:i:s",strtotime($data->tglterima))',
+                'value'=>'MyFormatter::formatDateTimeForUser(date("Y-m-d",strtotime(MyFormatter::formatDateTimeForDb($data->tglterima))))',
             ),
             array(
                 'header'=>'Nama Supplier',
@@ -46,10 +46,10 @@ if (isset($caraPrint)){
             array(
                'header'=>'Total Harga',
                'type'=>'raw',
-               'value'=>'number_format($data->totalharga,0,"",",")',
+               'value'=>'"Rp".number_format($data->totalharga,0,"",".")',
                'headerHtmlOptions'=>array('style'=>'text-align:right;'),
                'htmlOptions'=>array('style'=>'text-align:right;'),
-               'footer'=>number_format($model->getTotalharga()),
+               'footer'=>"Rp".number_format($model->getTotalharga(),0,"","."),
                'footerHtmlOptions'=>array('style'=>'text-align:right;font-weight:bold;'),
            ),
             array(
