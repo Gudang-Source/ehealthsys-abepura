@@ -117,7 +117,7 @@ function inputBahanMakanan(){
                 });      
             }
 		formatNumberSemua();
-        $('#GZTerimabahanmakan_totaldiscount').val(totaldiscount);
+        $('#GZTerimabahanmakan_totaldiscount').val(formatNumber(totaldiscount));
     }
 	
 	function renameInputRowBahanMakanan(obj_table){
@@ -159,10 +159,10 @@ function inputBahanMakanan(){
 		}, 500);
 		
 		$("form").submit(function(){
-			supplier = $("#'.CHtml::activeId($model, 'supplier_id').'").val();
+			supplier = $("#<?php echo CHtml::activeId($model, 'supplier_id'); ?>").val();
 			jumlah = 0;
 			if (!jQuery.isNumeric(supplier)){
-				myAlert("'.CHtml::encode($model->getAttributeLabel('supplier_id')).' harus diisi !");
+				myAlert("<?php echo CHtml::encode($model->getAttributeLabel('supplier_id')); ?> harus diisi !");
 				return false;
 			}
 			$(".cekList").each(function(){

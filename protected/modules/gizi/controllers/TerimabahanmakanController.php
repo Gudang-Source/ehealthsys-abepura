@@ -91,36 +91,37 @@ class TerimabahanmakanController extends MyAuthController
                             if (isset($modPengajuan->pengajuanbahanmkn_id)){
                                 PengajuanbahanmknT::model()->updateByPk($model->pengajuanbahanmkn_id, array('terimabahanmakan_id'=>$model->terimabahanmakan_id));
                             }
-                            // var_dump($_POST['TerimabahandetailT']); die;
+                            //var_dump($_POST['TerimabahandetailT']);
                             $jumlah = count($_POST['TerimabahandetailT']);
-                            $terimaDet[] = $_POST['TerimabahandetailT'];
+                            $terimaDet = $_POST['TerimabahandetailT'];
                             $u = 0;
                             foreach ($terimaDet as $i => $bahanDetail) {
+								// var_dump($bahanDetail); die;
                                 //if ($_POST['checkList'] == 1) {
                                     $modDetail = new GZTerimabahandetailT();
                                     $modDetail->attributes = $bahanDetail;
                                     $modDetail->terimabahanmakan_id = $model->terimabahanmakan_id;                                    
-                                    $modDetail->golbahanmakanan_id = $bahanDetail['golbahanmakanan_id'][$u];
-                                    $modDetail->bahanmakanan_id = $bahanDetail['bahanmakanan_id'][$u];
+                                    $modDetail->golbahanmakanan_id = $bahanDetail['golbahanmakanan_id'];
+                                    $modDetail->bahanmakanan_id = $bahanDetail['bahanmakanan_id'];
                                     $modDetail->nourutbahan = $u;
-                                    $modDetail->ukuran_bahanterima = $bahanDetail['ukuran_bahanterima'][$u];
-                                    $modDetail->merk_bahanterima = $bahanDetail['merk_bahanterima'][$u];
-                                    $modDetail->jmlkemasan = $bahanDetail['jmlkemasan'][$u];
+                                    $modDetail->ukuran_bahanterima = $bahanDetail['ukuran_bahanterima'];
+                                    $modDetail->merk_bahanterima = $bahanDetail['merk_bahanterima'];
+                                    $modDetail->jmlkemasan = $bahanDetail['jmlkemasan'];
                                     if (isset($modPengajuan->pengajuanbahanmkn_id)){
-                                        $modDetail->pengajuanbahandetail_id = $bahanDetail['pengajuanbahandetail_id'][$u];
+                                        $modDetail->pengajuanbahandetail_id = $bahanDetail['pengajuanbahandetail_id'];
                                     }
                                     if (!is_numeric($modDetail->jmlkemasan)){
                                         $modDetail->jmlkemasan = 0;
                                     }
-                                    if (!is_numeric($bahanDetail['qty_terima'][$u])) {
-                                        $bahanDetail['qty_terima'][$u] = 0;
+                                    if (!is_numeric($bahanDetail['qty_terima'])) {
+                                        $bahanDetail['qty_terima'] = 0;
                                     }
-                                    $modDetail->qty_terima = $bahanDetail['qty_terima'][$u];
-                                    $modDetail->satuanbahan = $bahanDetail['satuanbahan'][$u];
-                                    $modDetail->hargajualbhn = $bahanDetail['hargajualbhn'][$u];
-                                    $modDetail->harganettobhn = $bahanDetail['harganettobhn'][$u];
+                                    $modDetail->qty_terima = $bahanDetail['qty_terima'];
+                                    $modDetail->satuanbahan = $bahanDetail['satuanbahan'];
+                                    $modDetail->hargajualbhn = $bahanDetail['hargajualbhn'];
+                                    $modDetail->harganettobhn = $bahanDetail['harganettobhn'];
                                     //var_dump($bahanDetail);
-                                    //var_dump($modDetail->attributes); die;
+                                    //var_dump($modDetail->attributes, $modDetail->validate(), $modDetail->errors);
                                     
                                     if ($modDetail->save()){
                                         $this->tambahStokBahanMakanan($modDetail);
@@ -138,7 +139,7 @@ class TerimabahanmakanController extends MyAuthController
                             $success = false;
                         }
                         
-                        // var_dump($success); die;
+                        //var_dump($success); die;
                         
                         if ($success == TRUE){
 

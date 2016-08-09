@@ -413,4 +413,4 @@
     $this->endWidget();
     ?>
 
-<?php echo $this->renderPartial('_jsFunctions', array('totalHarga'=>$totalHarga, 'urlBahan'=>$urlBahan), true); ?>
+<?php echo $this->renderPartial('_jsFunctions', array('totalHarga'=>$totalHarga, 'urlBahan'=>$urlBahan, 'model'=>$model), true); ?>
