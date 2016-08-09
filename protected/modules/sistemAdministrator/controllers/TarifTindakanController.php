@@ -169,7 +169,7 @@ class TarifTindakanController extends MyAuthController
         
     public function actionPrint()
     {
-        if(!Yii::app()->user->checkAccess(Params::DEFAULT_ADMIN)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
+       // if(!Yii::app()->user->checkAccess(Params::DEFAULT_ADMIN)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
         $model= new TariftindakanperdaV;
         $model->unsetAttributes();
             if (isset($_GET['TariftindakanperdaV'])) {
@@ -197,7 +197,7 @@ class TarifTindakanController extends MyAuthController
             $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
             $mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint,'perdaTarif'=>$per
                 ),true));
-            $mpdf->Output();
+            $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
         }                       
     }
 
