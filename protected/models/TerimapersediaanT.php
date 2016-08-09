@@ -95,6 +95,7 @@ class TerimapersediaanT extends CActiveRecord
                     'penerima'=>array(self::BELONGS_TO, 'PegawaiM', 'peg_penerima_id'),
                     'mengetahui'=>array(self::BELONGS_TO, 'PegawaiM', 'peg_mengetahui_id'),
                     'sumberdana'=>array(self::BELONGS_TO, 'SumberdanaM', 'sumberdana_id'),
+                    'supplier'=>array(self::BELONGS_TO, 'SupplierM','supplier_id'),
 		);
 	}
 

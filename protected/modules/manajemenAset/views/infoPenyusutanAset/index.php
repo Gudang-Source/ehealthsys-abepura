@@ -54,22 +54,26 @@ $('.search-form form').submit(function(){
 				array(
 					'name'=>'hargaperolehan',
 					'type'=>'raw',
-					'value'=>'$data->hargaperolehan',
+					'value'=>'number_format($data->hargaperolehan,0,"",".")',
+                                        'htmlOptions' => array('style'=>'text-align:right')
 				),
 				array(
 					'name'=>'residu',
 					'type'=>'raw',
-					'value'=>'$data->residu',
+					'value'=>'number_format($data->residu,0,"",".")',
+                                        'htmlOptions' => array('style'=>'text-align:right')
 				),
 				array(
 					'name'=>'umurekonomis',
 					'type'=>'raw',
-					'value'=>'$data->umurekonomis',
+					'value'=>'number_format($data->umurekonomis,0,"",".")." Tahun"',
+                                        'htmlOptions' => array('style'=>'text-align:right')
 				),
 				array(
 					'name'=>'totalpenyusutan',
 					'type'=>'raw',
-					'value'=>'$data->totalpenyusutan',
+					'value'=>'number_format($data->totalpenyusutan,0,"",".")',
+                                        'htmlOptions' => array('style'=>'text-align:right')
 				),
 				array(
 					'name'=>'penyusutanaset_periode',
@@ -80,11 +84,13 @@ $('.search-form form').submit(function(){
 					'name'=>'penyusutanaset_saldo',
 					'type'=>'raw',
 					'value'=>'$data->penyusutanaset_saldo',
+                                        'htmlOptions' => array('style'=>'text-align:right')
 				),
 				array(
 					'name'=>'penyusutanaset_persentase',
 					'type'=>'raw',
 					'value'=>'$data->penyusutanaset_persentase',
+                                        'htmlOptions' => array('style'=>'text-align:right')
 				),
 				array(
 					'header'=>'Lihat',
@@ -99,7 +105,7 @@ $('.search-form form').submit(function(){
 					'buttons'=>array(
 						'remove' => array (
 								'label'=>"<i class='icon-form-silang'></i>",
-								'options'=>array('title'=>Yii::t('mds','Remove Temporary')),
+								'options'=>array('title'=>'Klik untuk Membatalkan Penyusutan Aset'),
 								'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/batalPenyusutanAset",array("id"=>$data->penyusutanaset_id))',
 								'click'=>'function(){batalPenyusutanAset(this);return false;}',
 						),
