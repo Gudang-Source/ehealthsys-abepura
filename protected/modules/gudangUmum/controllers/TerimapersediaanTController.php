@@ -369,6 +369,7 @@ class TerimapersediaanTController extends MyAuthController
 		if(isset($_GET['GUTerimapersediaanT'])){
                     $model->attributes=$_GET['GUTerimapersediaanT'];
                     $format = new MyFormatter();
+                    $model->supplier_id=$_GET['GUTerimapersediaanT']['supplier_id'];
                     $model->tgl_awal = $format->formatDateTimeForDb($model->tgl_awal);
                     $model->tgl_akhir = $format->formatDateTimeForDb($model->tgl_akhir);
                 }

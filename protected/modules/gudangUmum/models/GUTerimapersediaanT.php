@@ -56,6 +56,10 @@ class GUTerimapersediaanT extends TerimapersediaanT{
 		if(!empty($this->ruanganpenerima_id)){
 			$criteria->addCondition("ruanganpenerima_id = ".$this->ruanganpenerima_id);			
 		}
+                
+                if (!empty($this->supplier_id)){
+                    $criteria->addCondition("supplier_id = ".$this->supplier_id);			
+                }
 		$criteria->compare('LOWER(create_time)',strtolower($this->create_time),true);
 		$criteria->compare('LOWER(update_time)',strtolower($this->update_time),true);
 		$criteria->compare('LOWER(create_loginpemakai_id)',strtolower($this->create_loginpemakai_id),true);
