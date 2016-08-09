@@ -60,7 +60,7 @@
                     echo $form->error($detail, '['.$i.']hargabeli');
                 ?>
                 </td>
-                <?php if (isset($modBeli)) { ?>
+                <?php if (!empty($modBeli->pembelianbarang_id)) { ?>
                 <td>
                 <?php 
                     echo CHtml::activeTextField($detail, '['.$i.']jmlbeli', array('class'=>'span1 numbersOnly beli', 'readonly'=>true, 'style'=>'text-align: right;'));
