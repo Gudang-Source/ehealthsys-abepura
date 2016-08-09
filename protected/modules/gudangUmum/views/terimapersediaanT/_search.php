@@ -50,25 +50,15 @@
                     <div class = "control-group">
                         <?php echo Chtml::label('No Penerimaan','nopenerimaan',array('class'=>'control-label')); ?>
                         <div class = "controls">
-                            <?php echo $form->textField($model,'nopenerimaan',array('class'=>'span3', 'maxlength'=>20, 'placeholder'=>'Ketik no. penerimaan', 'autofocus'=>true)); ?>
+                            <?php echo $form->textField($model,'nopenerimaan',array('class'=>'span3 angkahuruf-only', 'maxlength'=>20, 'placeholder'=>'Ketik no. penerimaan', 'autofocus'=>true)); ?>
                         </div>
                     </div>
                     
-                    <div class = "control-group">
-                        <?php echo Chtml::label('Sumber Dana','sumberdana_id',array('class'=>'control-label')); ?>
-                        <div class = "controls">
-                            <?php echo $form->dropDownList($model,'sumberdana_id', CHtml::listData(SumberdanaM::model()->findAll('sumberdana_aktif = true ORDER BY sumberdana_nama ASC'), 'sumberdana_id', 'sumberdana_nama'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20)); ?>
-                        </div>
-                    </div>                    
+                                  
                 </td>
                 <td>
                     <?php echo $form->dropDownListRow($model,'peg_penerima_id', CHtml::listData(PegawairuanganV::model()->findAll("pegawai_aktif = true AND ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ORDER BY nama_pegawai ASC"), 'pegawai_id', 'nama_pegawai'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20)); ?>
-                    <div class = "control-group">
-                        <?php echo Chtml::label('Ruangan Penerima','ruanganpenerima_id',array('class'=>'control-label')); ?>
-                        <div class = "controls">
-                            <?php echo $form->dropDownList($model,'ruanganpenerima_id', CHtml::listData(RuanganM::model()->findAll('ruangan_aktif = true ORDER BY ruangan_nama ASC'), 'ruangan_id', 'ruangan_nama'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20)); ?>
-                        </div>
-                    </div>
+                   
                     <?php //echo $form->dropDownListRow($model,'sumberdanabhn', LookupM::getItems('sumberdanabahan'),array('empty'=>'-- Pilih --')); ?>
                 </td>
             </tr>

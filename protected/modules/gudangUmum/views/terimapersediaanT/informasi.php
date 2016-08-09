@@ -42,10 +42,19 @@
     //                        'value'=>'$data->terimapersediaan_id',
     //                        'filter'=>false,
     //                ),
-                    'nopenerimaan',
                     array(
                         'header' => 'Tanggal Terima',
                         'value' => 'MyFormatter::formatDateTimeForUser(date("Y-m-d", strtotime(MyFormatter::formatDateTimeForDb($data->tglterima))))'
+                    ),
+                    array(
+                        'header' => 'No Penerimaan',
+                        'value' => '$data->nopenerimaan',
+                    ),
+                    array(
+                        'header' => 'Tgl Permintaan / No Permintaan',
+                        'value' => function($data){
+                            
+                        },
                     ),
                     array(
                         'header'=>'Sumber Dana',
