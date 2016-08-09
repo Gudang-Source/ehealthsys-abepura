@@ -1,5 +1,5 @@
 
-<?php //Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form.js'); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form.js'); ?>
 <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
 	'id'=>'rjkasuspenyakitdiagnosa-m-form',
 	'enableAjaxValidation'=>false,
@@ -64,12 +64,14 @@
                                                                     'placeholder'=>'Nama Pegawai',
                                                                     'size'=>13,
                                                                     'onkeypress'=>"return $(this).focusNextInputField(event);",
+                                                                    'class'=>'hurufs-only'
                                                                 ),
                                                                 'tombolDialog'=>array('idDialog'=>'dialogpegawai'),
                                                         )); ?>
                         </div>
         <table id="tabelKasuspenyakitdiagnosa" class="table table-striped table-condensed">
             <thead>
+                <tr><th colspan = "5">Tabel Pegawai</th></tr>
                 <tr>
                     <th>Nama Instalasi</th>
                     <th>Nama Ruangan</th>
@@ -109,7 +111,7 @@
 	<div class="form-actions">
 		                <?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 
                                                                      Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),
-                                                array('class'=>'btn btn-primary', 'type'=>'submit', 'onKeypress'=>'return formSubmit(this,event)')); ?>
+                                                array('class'=>'btn btn-primary', 'type'=>'submit', 'onKeypress'=>'return formSubmit(this,event)', 'onclick'=>'return cekTabel();')); ?>
                         <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
 								$this->createUrl($this->id.'/create'), 
 								array('class'=>'btn btn-danger',
@@ -171,14 +173,15 @@
                     'header'=>'NIP',
                     'name' => 'nomorindukpegawai',
                     'value'=>'$data->nomorindukpegawai',
+                    'filter'=> CHtml::activeTextField($modPegawai, 'nomorindukpegawai',array('class'=>'numbers-only'))
                 ),
                 array(
                     'header'=>'Nama Pegawai',
-					'name'=>'nama_pegawai',
+                    'name'=>'nama_pegawai',
                     'type'=>'raw',
                     'value'=>'$data->NamaLengkap',
-					//'filter'=>CHtml::activeTextField($model, 'pegawai_id', CHtml::listData(PegawaiM::getPegawaiItems(),'pegawai_id','nama_pegawai'),array('empty'=>'')),
-					'filter'=>CHtml::activeTextField($modPegawai,'nama_pegawai'),
+                    //'filter'=>CHtml::activeTextField($model, 'pegawai_id', CHtml::listData(PegawaiM::getPegawaiItems(),'pegawai_id','nama_pegawai'),array('empty'=>'')),
+                    'filter'=>CHtml::activeTextField($modPegawai,'nama_pegawai',array('class'=>'hurufs-only')),
                 ),               
                 array(
                     'header'=>'No. Kartu PNS',
@@ -193,7 +196,16 @@
                         'value' => 'isset($data->pegawai_aktif)?"Aktif":"Tidak Aktif"'
                 ), 
         ),
-        'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+        'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
+        . '$(".numbers-only").keyup(function() {
+        setNumbersOnly(this);
+        });
+        $(".hurufs-only").keyup(function() {
+        setHurufsOnly(this);
+        });'
+        . ''
+        . '}',
+        
     ));
 $this->endWidget();
 ?>
@@ -208,8 +220,8 @@ function submitruanganpegawai()
 {
     instalasi_id = $('#instalasi_id').val();
     ruanganid = $('#ruanganid').val();
-    pegawai_id = $('#RuanganpegawaiM_pegawai_id').val();
-
+    pegawai_id = $('#RuanganpegawaiM_pegawai_id').val();                                   
+        
     if(pegawai_id==''){
         myAlert('Silahkan Pilih Pegawai Terlebih dahulu');
     }else{
@@ -220,6 +232,14 @@ function submitruanganpegawai()
             }, "json");
         }
     }   
+}
+            
+function cekTabel()
+{
+    if ($(".pegawai").length == 0){
+        myAlert('Pegawai belum ditambahkan pada tabel pegawai');
+        return false;    
+    }
 }
         
     function cekList(id){

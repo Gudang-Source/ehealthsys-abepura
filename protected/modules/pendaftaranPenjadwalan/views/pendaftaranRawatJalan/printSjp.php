@@ -91,7 +91,7 @@ p.dot{
     </tr>
     <tr>
         <td></td>
-        <td colspan="3"><p class = "notdot">Tgl. SPJ : </p><p class="dot"><?php echo date('d / m / Y', strtotime($modPendaftaran->tgl_pendaftaran)); ?></p></td>        
+        <td colspan="3"><p class = "notdot">Tgl. SJP : </p><p class="dot"><?php echo date('d / m / Y', strtotime($modPendaftaran->tgl_pendaftaran)); ?></p></td>        
         <td>&nbsp;</td>
         <td colspan="3"><p class = "notdot">Petugas Satgas : </p><p class="dot">&nbsp;</p></td>        
     </tr>    

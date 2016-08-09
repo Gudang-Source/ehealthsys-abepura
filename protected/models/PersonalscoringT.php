@@ -54,8 +54,8 @@ class PersonalscoringT extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('pegawai_id, tglscoring, create_time, create_loginpemakai_id, create_ruangan', 'required'),
-			array('pegawai_id, penilaianpegawai_id, totalscore', 'numerical', 'integerOnly'=>true),
-			array('gajipokok', 'numerical'),
+			array('pegawai_id, penilaianpegawai_id', 'numerical', 'integerOnly'=>true),
+			array('gajipokok, totalscore', 'numerical'),
 			array('jabatan, pendidikan', 'length', 'max'=>100),
 			array('periodescoring, sampaidengan, update_time, update_loginpemakai_id', 'safe'),
 			// The following rule is used by search().

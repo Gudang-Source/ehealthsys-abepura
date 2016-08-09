@@ -25,7 +25,8 @@
 		<tr>
 			<td>
 				<div class="control-group ">
-                        <?php echo $form->labelEx($renc, 'renkebbarang_no', array('class' => 'control-label')); ?>
+                        <?php 
+						echo $form->label($renc, 'renkebbarang_no', array('class' => 'control-label')); ?>
                     <div class="controls">
                         <?php echo $form->hiddenField($model, 'renkebbarang_id'); ?>
                         <!--                <div class="input-append" style='display:inline'>-->
@@ -72,7 +73,7 @@
 			</td>
 			<td>
 				<div class="control-group">
-					<?php echo $form->labelEx($renc, 'renkebbarang_tgl', array('class' => 'control-label')); ?>
+					<?php echo $form->label($renc, 'renkebbarang_tgl', array('class' => 'control-label')); ?>
 					<div class="controls">
 						<?php echo $form->textField($renc, 'renkebbarang_tgl'); ?>
 					</div>
