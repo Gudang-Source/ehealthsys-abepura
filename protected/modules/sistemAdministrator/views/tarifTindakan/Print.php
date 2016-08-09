@@ -7,7 +7,7 @@ if($caraPrint=='EXCEL')
 }
 echo $this->renderPartial('application.views.headerReport.headerDefault',array('judulLaporan'=>$judulLaporan, 'colspan'=>10));      
 echo 'Perda Tarif : '.PerdatarifM::model()->findByAttributes(array('perdatarif_id'=>Params::DEFAULT_PERDA_TARIF))->perdanama_sk.'';
-ini_set('memory_limit','-1');
+//ini_set('memory_limit','-1');
   $table = 'ext.bootstrap.widgets.BootGridView';
     $sort = true;
     if (isset($caraPrint)){
