@@ -5,6 +5,8 @@ class GUPembelianbarangT extends PembelianbarangT {
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }
+	
+	public $belum = false;
     
     public function searchInformasi()
 	{
@@ -13,7 +15,9 @@ class GUPembelianbarangT extends PembelianbarangT {
 
 		$criteria=new CDbCriteria;
 
-		$criteria->addBetweenCondition('date(tglpembelian)', $this->tgl_awal, $this->tgl_akhir);
+		if (!empty($this->tgl_awal) && !empty($this->tgl_akhir)) {
+			$criteria->addBetweenCondition('date(tglpembelian)', $this->tgl_awal, $this->tgl_akhir);
+		}
 		if(!empty($this->pembelianbarang_id)){
 			$criteria->addCondition("pembelianbarang_id = ".$this->pembelianbarang_id);			
 		}
@@ -26,6 +30,11 @@ class GUPembelianbarangT extends PembelianbarangT {
 		if(!empty($this->supplier_id)){
 			$criteria->addCondition("supplier_id = ".$this->supplier_id);			
 		}
+		
+		if ($this->belum) {
+			$criteria->addCondition('terimapersediaan_id is null');
+		}
+		
 		$criteria->compare('LOWER(nopembelian)',strtolower($this->nopembelian),true);
 		$criteria->compare('LOWER(tgldikirim)',strtolower($this->tgldikirim),true);
 		if(!empty($this->peg_pemesanan_id)){

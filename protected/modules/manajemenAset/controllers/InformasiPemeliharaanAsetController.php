@@ -10,12 +10,13 @@ class InformasiPemeliharaanAsetController extends MyAuthController {
 		$format = new MyFormatter; 
 		$model	= new MAInformasipemeliharaanasetV('searchInformasi');
 		$model->unsetAttributes();  // clear any default values
-        $model->tgl_awal = date('Y-m-d');
-        $model->tgl_akhir = date('Y-m-d');
+                $model->tgl_awal = date('Y-m-d');
+                $model->tgl_akhir = date('Y-m-d');
 		if(isset($_GET['MAInformasipemeliharaanasetV'])){
 			$model->attributes=$_GET['MAInformasipemeliharaanasetV'];
-            $model->tgl_awal = $format->formatDateTimeForDb($model->tgl_awal);
-            $model->tgl_akhir = $format->formatDateTimeForDb($model->tgl_akhir);
+                        $model->tgl_awal = $format->formatDateTimeForDb($_GET['MAInformasipemeliharaanasetV']['tgl_awal']);
+                        $model->tgl_akhir = $format->formatDateTimeForDb($_GET['MAInformasipemeliharaanasetV']['tgl_akhir']);
+                        var_dump($model->tgl_awal);
 		}
 		$this->render($this->path_view.'index',array(
 				'model'=>$model, 'format'=>$format

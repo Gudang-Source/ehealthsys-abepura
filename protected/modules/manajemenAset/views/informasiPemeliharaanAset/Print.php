@@ -75,8 +75,8 @@ $modProfilRs = ProfilrumahsakitM::model()->findByPk(Params::DEFAULT_PROFIL_RUMAH
             <tr>                
                 <td class="border"><?php echo $modAset->barang->barang_kode; ?></td>
                 <td class="border"><?php echo $modAset->barang->barang_nama; ?></td>
-                <td class="border"><?php echo $modAset->asalaset_id; ?></td>
-                <td class="border"><?php echo $modAset->kondisiaset; ?></td>
+                <td class="border"><?php echo !empty($modAset->asalaset_id)?$modAset->asalaset->asalaset_nama:"-"; ?></td>
+                <td class="border"><?php echo is_numeric($modAset->kondisiaset)?LookupM::model()->findByPk($modAset->kondisiaset)->lookup_name:$modAset->kondisiaset; ?></td>
                 <td class="border"><?php echo $modAset->keteranganaset; ?></td>
             </tr>
         <?php } ?>
@@ -97,14 +97,14 @@ if (isset($_GET['frame'])){
     </script>
 <?php
 }else{ ?>
-    <table width="100%" style="margin-top:20px;">
+  <table width="100%" style="margin-top:20px;">
     <tr>
         <td width="100%" align="left" align="top">
             <table width="100%">
                 <tr>
                     <td width="35%" align="center">
                         <div>Mengetahui<br></div>
-                        <div style="margin-top:60px;"><?php echo Yii::app()->user->getState('nama_pegawai'); ?></div>
+                        <div style="margin-top:60px;"><?php echo !empty($modPemeliharaanAset->pegmengetahui_id)?$modPemeliharaanAset->pegmengetahui->namaLengkap:"-"; ?></div>
                     </td>
                     <td width="35%" align="center">
                     </td>
