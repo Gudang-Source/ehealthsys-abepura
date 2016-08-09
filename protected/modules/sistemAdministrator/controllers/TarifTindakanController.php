@@ -197,7 +197,7 @@ class TarifTindakanController extends MyAuthController
             $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
             $mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint,'perdaTarif'=>$per
                 ),true));
-            $mpdf->Output();
+            $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
         }                       
     }
 

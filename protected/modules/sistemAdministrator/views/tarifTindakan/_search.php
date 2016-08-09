@@ -7,12 +7,19 @@
 <table>
     <tr>
         <td>
-            <?php echo $form->textFieldRow($model,'jenistarif_nama',array('class'=>'span3')); ?>
-            <?php echo $form->textFieldRow($model,'daftartindakan_nama',array('class'=>'span3')); ?>
+            <?php echo $form->dropDownListRow($model,'jenistarif_id',CHtml::listData(SATarifTindakanM ::model()->getJenisTarifItems(), 'jenistarif_id', 'jenistarif_nama'),array('empty'=>'-- Pilih --','class'=>'span3')); ?>
+            <?php echo $form->dropDownListRow($model,'kelaspelayanan_id',CHtml::listData(SATarifTindakanM ::model()->getKelasPelayananItems(), 'kelaspelayanan_id', 'kelaspelayanan_nama'),array('empty'=>'-- Pilih --','class'=>'span3')); ?>
+            <?php echo $form->dropDownListRow($model,'kategoritindakan_id', CHtml::listData(SATarifTindakanM ::model()->KategoriTindakanItems, 'kategoritindakan_id', 'kategoritindakan_nama'),array('class'=>'span3', 'style'=>'width:230px;','onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+            
         </td>
         <td>
-            <?php echo $form->textFieldRow($model,'komponentarif_nama',array('class'=>'span3')); ?>
-            <?php echo $form->dropDownListRow($model,'kategoritindakan_id', CHtml::listData(SATarifTindakanM ::model()->KategoriTindakanItems, 'kategoritindakan_id', 'kategoritindakan_nama'),array('class'=>'span3', 'style'=>'width:230px;','onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+            <?php echo $form->textFieldRow($model,'daftartindakan_kode',array('class'=>'span3')); ?>
+            <?php echo $form->textFieldRow($model,'daftartindakan_nama',array('class'=>'span3')); ?>
+            <?php echo $form->dropDownListRow($model,'komponentarif_id', CHtml::listData(SATarifTindakanM ::model()->KomponenTarifItems, 'komponentarif_id', 'komponentarif_nama'),array('class'=>'span3', 'style'=>'width:230px;','onkeypress'=>"return $(this).focusNextInputField(event)",'empty'=>'-- Pilih --')); ?>
+            
+        </td>
+        <td>
+            <?php echo $form->textFieldRow($model,'harga_tariftindakan',array('class'=>'span3')); ?>
         </td>
     </tr>
 </table>
