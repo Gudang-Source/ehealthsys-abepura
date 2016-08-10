@@ -79,12 +79,13 @@ class TerimabahanmakanController extends MyAuthController
             $criteria->addInCondition('tujuansms',$_POST['tujuansms']);
         }
         $modSmsgateway = SmsgatewayM::model()->findAll($criteria);
-
+		
 		if(isset($_POST['GZTerimabahanmakan']))
 		{
                     $model->attributes=$_POST['GZTerimabahanmakan'];
                     $transaction = Yii::app()->db->beginTransaction();
-                    
+                    $stokgizi = Yii::app()->user->getState('krngistokgizi');
+					
                     try{    
                         $success = true;
                         if($model->save()) {
@@ -125,7 +126,38 @@ class TerimabahanmakanController extends MyAuthController
                                     // var_dump($modDetail->attributes, $modDetail->validate(), $modDetail->errors);
                                     
                                     if ($modDetail->save()){
-                                        $this->tambahStokBahanMakanan($modDetail);
+										/* Ubah harga netto bahan makanan dan tanggal kadaluarsa dengan data penerimaan */ 
+										BahanmakananM::model()->updateByPk($modDetail->bahanmakanan_id, array(
+											'harganettobahan'=>$modDetail->harganettobhn,
+											'tglkadaluarsabahan'=>$modDetail->tglkadaluarsabahan,
+										));
+										if ($stokgizi) {
+											/* 
+											 * Jika stok gizi dicentang di konfig sistem maka 
+											 * akan ditambahkan stok-nya + penyesuaian jml persediaan 
+											 * di master 
+											 */
+											$this->tambahStokBahanMakanan($modDetail);
+											
+											$tot = 0;
+											$sto = StokbahanmakananT::model()->findAllByAttributes(array(
+												'bahanmakanan_id'=>$modDetail->bahanmakanan_id,
+											));
+											foreach ($sto as $item) {
+												$tot += $item->qty_current;
+											}
+											BahanmakananM::model()->updateByPk($modDetail->bahanmakanan_id, array(
+												'jmlpersediaan'=>$tot,
+											));
+										} else {
+											/* Jika tidak maka hanya menambah jumlah persediaan yang ada di master bahan makanan */
+											$bhn = BahanmakananM::model()->findByPk($modDetail->bahanmakanan_id);
+											if (empty($bhn->jmlpersediaan)) $bhn->jmlpersediaan = 0;
+											$bhn->jmlpersediaan += $modDetail->qty_terima;
+											$bhn->save();
+										}
+										
+										/* Update id terima bahan pada pengajuan bahan makanan */
                                         if (isset($modPengajuan->pengajuanbahanmkn_id)){
                                             PengajuanbahandetailT::model()->updateByPk($modDetail->pengajuanbahandetail_id, array('terimabahandetail_id'=>$modDetail->terimabahandetail_id));
                                         }
@@ -139,7 +171,6 @@ class TerimabahanmakanController extends MyAuthController
                         else{
                             $success = false;
                         }
-                        
                         // var_dump($success); die;
                         
                         if ($success == TRUE){

@@ -363,7 +363,27 @@
             'namabahanmakanan',
 			array(
 				'name'=>'jmlpersediaan',
-				'value'=>'(empty($data->jmlpersediaan)?0:$data->jmlpersediaan)." ".$data->satuanbahan',
+				'value'=>function($data) {
+					/* 
+					 * Jika stok gizi di centang pada konfig sistem maka jumlah pada
+					 * data stok ditampilkan. Jika tidak maka hanya menampilkan data
+					 * jmlpersediaan pada master
+					 */
+					$stokgizi = Yii::app()->user->getState('krngistokgizi');
+					
+					if ($stokgizi) {
+						$stok = StokbahanmakananT::model()->findAllByAttributes(array(
+							'bahanmakanan_id'=>$data->bahanmakanan_id,
+						));
+						$tot = 0;
+						foreach ($stok as $item) {
+							$tot += $item->qty_current;
+						}
+						return $tot;
+					}
+					
+					return $data->jmlpersediaan;
+				},
 				'htmlOptions'=>array(
 					'style'=>'text-align: right',
 				),
