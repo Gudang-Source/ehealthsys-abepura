@@ -91,7 +91,7 @@
                                 if ($antrian->loket_id != 13) {
                                     return CHtml::dropDownList('dd_pendaftaran',null,array(
                                         2 => 'Penunjang',
-                                        3 => 'Rawat Inap',
+                                       // 3 => 'Rawat Inap',
                                         1 => 'Rawat Jalan',                                        
                                         /*1 => 'Rawat Jalan',
                                         2 => 'Penunjang',*/
@@ -99,7 +99,7 @@
                                 } else {
                                     return CHtml::dropDownList('dd_pendaftaran',null,array(
                                         2 => 'Penunjang',
-                                        3 => 'Rawat Inap',
+                                      //  3 => 'Rawat Inap',
                                         1 => 'Rawat Jalan',  
                                     ), array ('empty'=>'-- Daftar --', 'onchange'=>'daftarPasien(this, "'.$data->antrian_id.'")'));
                                 }
