@@ -44,6 +44,7 @@ function inputBahanMakanan(){
 					)
 				);
 				formatNumberSemua();
+				$("#qty, #satuanbahan, #namaBahan, #isBahan, #ukuran, #merk").val("");
             });
         }
         else{

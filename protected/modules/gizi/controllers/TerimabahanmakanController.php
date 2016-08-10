@@ -96,7 +96,7 @@ class TerimabahanmakanController extends MyAuthController
                             $terimaDet = $_POST['TerimabahandetailT'];
                             $u = 0;
                             foreach ($terimaDet as $i => $bahanDetail) {
-								// var_dump($bahanDetail); die;
+									// var_dump($bahanDetail); 
                                 //if ($_POST['checkList'] == 1) {
                                     $modDetail = new GZTerimabahandetailT();
                                     $modDetail->attributes = $bahanDetail;
@@ -118,10 +118,11 @@ class TerimabahanmakanController extends MyAuthController
                                     }
                                     $modDetail->qty_terima = $bahanDetail['qty_terima'];
                                     $modDetail->satuanbahan = $bahanDetail['satuanbahan'];
-                                    $modDetail->hargajualbhn = $bahanDetail['hargajualbhn'];
-                                    $modDetail->harganettobhn = $bahanDetail['harganettobhn'];
+                                    $modDetail->hargajualbhn = $bahanDetail['hargajualbahan'];
+                                    $modDetail->harganettobhn = $bahanDetail['harganettobahan'];
+									$modDetail->tglkadaluarsabahan = MyFormatter::formatDateTimeForDb($bahanDetail['tglkadaluarsabahan']);
                                     //var_dump($bahanDetail);
-                                    //var_dump($modDetail->attributes, $modDetail->validate(), $modDetail->errors);
+                                    // var_dump($modDetail->attributes, $modDetail->validate(), $modDetail->errors);
                                     
                                     if ($modDetail->save()){
                                         $this->tambahStokBahanMakanan($modDetail);
@@ -139,7 +140,7 @@ class TerimabahanmakanController extends MyAuthController
                             $success = false;
                         }
                         
-                        //var_dump($success); die;
+                        // var_dump($success); die;
                         
                         if ($success == TRUE){
 
@@ -242,6 +243,7 @@ class TerimabahanmakanController extends MyAuthController
     }
         
         protected function tambahStokBahanMakanan($detail){
+			
             $modStokBahan = new GZStokbahanmakananT();
             $modStokBahan->terimabahandetail_id = $detail->terimabahandetail_id;
             $modStokBahan->bahanmakanan_id = $detail->bahanmakanan_id;
@@ -250,6 +252,9 @@ class TerimabahanmakanController extends MyAuthController
             $modStokBahan->qty_current = $detail->qty_terima;
             $modStokBahan->qty_keluar = 0;
             $modStokBahan->save();
+			
+			$detail->stokbahanmakanan_id = $modStokBahan->stokbahanmakanan_id;
+			$detail->save();
         }
 
 	/**

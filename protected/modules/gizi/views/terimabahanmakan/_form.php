@@ -87,10 +87,10 @@
                         <?php echo $form->error($model, 'tglterimabahan'); ?>
                     </div>
                 </div>
-                <?php echo $form->textFieldRow($model, 'nosuratjalan', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
                 <?php //echo $form->textFieldRow($model,'tglsurjalan',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
             </td>
             <td>
+                <?php echo $form->textFieldRow($model, 'nosuratjalan', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
                 <div class="control-group ">
                     <?php echo $form->labelEx($model, 'tglsurjalan', array('class' => 'control-label')) ?>
                     <div class="controls">
@@ -129,7 +129,9 @@
                     </div>
                 </div>
                 <?php //echo $form->textFieldRow($model,'tglfaktur',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);"));  ?>
-                <?php //echo $form->textFieldRow($model,'totalharganetto',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+				<?php echo $form->textAreaRow($model, 'keterangan_terima_bahan', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 200)); ?>
+			</td>
+            <td>
                 <div class="control-group ">
                     <?php echo $form->labelEx($model, 'totaldiscount', array('class' => 'control-label')) ?>
                     <div class="controls">
@@ -139,11 +141,9 @@
                     </div>
                 </div>
                 <?php echo $form->textFieldRow($model, 'biayapengiriman', array('class' => 'span3 integer2', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
-            </td>
-            <td>
-                <?php echo $form->textFieldRow($model, 'biayatransportasi', array('class' => 'span3 integer2', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+				<?php echo $form->textFieldRow($model, 'biayatransportasi', array('class' => 'span3 integer2', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
                 <?php echo $form->textFieldRow($model, 'biayapajak', array('class' => 'span3 integer2', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
-                <?php echo $form->textAreaRow($model, 'keterangan_terima_bahan', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 200)); ?>
+                <?php // echo $form->textFieldRow($model,'totalharganetto',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
             </td>
         </tr>
     </table>
