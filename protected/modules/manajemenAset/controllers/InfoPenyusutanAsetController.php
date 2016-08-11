@@ -13,9 +13,9 @@ class InfoPenyusutanAsetController extends MyAuthController{
                 $model->tgl_awal = date('Y-m-d');
                 $model->tgl_akhir = date('Y-m-d');
 		if(isset($_GET['MAPenyusutanasetV'])){
-			$model->attributes=$_GET['MAPenyusutanasetV'];
-                        $model->tgl_awal = $format->formatDateTimeForDb($model->tgl_awal);
-                        $model->tgl_akhir = $format->formatDateTimeForDb($model->tgl_akhir);
+			$model->attributes= $_GET['MAPenyusutanasetV'];
+                        $model->tgl_awal = $format->formatDateTimeForDb($_GET['MAPenyusutanasetV']['tgl_awal']);
+                        $model->tgl_akhir = $format->formatDateTimeForDb($_GET['MAPenyusutanasetV']['tgl_akhir']);
 		}
 		$this->render($this->path_view.'index',array(
 				'model'=>$model, 'format'=>$format

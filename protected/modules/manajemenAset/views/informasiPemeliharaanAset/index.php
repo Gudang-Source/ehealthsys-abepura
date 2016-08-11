@@ -53,27 +53,27 @@ $('.search-form form').submit(function(){
 					'value'=>'MyFormatter::formatDateTimeForUser($data->pemeliharaanaset_tgl)',
 				),
 				array(
-					'header'=>'Menegetahui',					
+					'header'=>'Pegawai Mengetahui',					
 					'name'=>'pegawaimengetahui_nama',
 					'type'=>'raw',
-					'value'=>'$data->pegawaimengetahui_nama',
+					'value'=>'!empty($data->pegawaimengetahui_nama)?$data->pegawaimengetahui_nama:"-"',
 				),
 				array(
 					'header'=>'Petugas 1',
 					'name'=>'pegtugas1_nama',
 					'type'=>'raw',
-					'value'=>'$data->pegtugas1_nama',
+					'value'=>'!empty($data->pegtugas1_nama)?$data->pegtugas1_nama:"-"',
 				),
 				array(
 					'header'=>'Petugas 2',					
 					'name'=>'pegtugas2_nama',
 					'type'=>'raw',
-					'value'=>'$data->pegtugas2_nama',
+					'value'=>'!empty($data->pegtugas2_nama)?$data->pegtugas2_nama:"-"',
 				),
 				array(
 					'header'=>'Lihat',
 					'type'=>'raw',
-					'value'=>'CHtml::link("<i class=\'icon-form-lihat\'></i> ",  Yii::app()->controller->createUrl("/manajemenAset/informasiPemeliharaanAset/detail",array("id"=>$data->pemeliharaanaset_id)),array("target"=>"frameDetail","rel"=>"tooltip","title"=>"Klik untuk Detail Pemakaian Barang", "onclick"=>"window.parent.$(\'#dialogDetail\').dialog(\'open\')"));',    'htmlOptions'=>array('style'=>'text-align: center; width:40px')
+					'value'=>'CHtml::link("<i class=\'icon-form-lihat\'></i> ",  Yii::app()->controller->createUrl("/manajemenAset/informasiPemeliharaanAset/detail",array("id"=>$data->pemeliharaanaset_id)),array("target"=>"frameDetail","rel"=>"tooltip","title"=>"Klik untuk Detail Pemeliharaan Aset", "onclick"=>"window.parent.$(\'#dialogDetail\').dialog(\'open\')"));',    'htmlOptions'=>array('style'=>'text-align: center; width:40px')
 				),
 				array(
 					'header'=>Yii::t('zii','Batal'),
@@ -82,7 +82,7 @@ $('.search-form form').submit(function(){
 					'buttons'=>array(
 						'remove' => array (
 								'label'=>"<i class='icon-form-silang'></i>",
-								'options'=>array('title'=>Yii::t('mds','Remove Temporary')),
+								'options'=>array('title'=>'Klik untuk Membatalkan Pemeliharaan Aset'),
 								'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/batalPemeliharaanAset",array("id"=>$data->pemeliharaanaset_id))',
 								'click'=>'function(){batalPemeliharaanAset(this);return false;}',
 								//'visible'=>'(($data->ruangan_id == Yii::app()->user->getState("ruangan_id"))? TRUE : FALSE)'
