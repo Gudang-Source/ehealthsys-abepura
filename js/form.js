@@ -266,6 +266,19 @@ function setHurufCharacterOnly(obj){
 		$(obj).val(orignalValue);
 	}
 }
+
+function setAngkaHurufsOnly(obj){
+	
+	var value = $(obj).val();
+	var orignalValue = value;
+	value = value.replace(/[a-zA-Z0-9]*/g, "");
+	var msg = "Only Alphabet Values allowed.";
+
+	if (value != '') {
+		orignalValue = orignalValue.replace(/([^a-zA-Z0-9].*)/g, "")
+		$(obj).val(orignalValue);
+	}
+}
 /**
  * Set functions on ready windows 
  */
@@ -281,6 +294,10 @@ $( document ).ready(function(){
     
     $('.hurufcharacter-only').keyup(function() {
         setHurufCharacterOnly(this);
+    });
+    
+    $('.angkahuruf-only').keyup(function() {
+        setAngkaHurufsOnly(this);
     });
     
     /**class : all-caps = kapital semua */
