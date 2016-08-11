@@ -66,11 +66,11 @@
     //                        'id'=>'rows',
     //                        'checked'=>'$data->supplier_aktif',
     //                ),
-                     array(
-                         'name'=>'obatalkes_nama',
-                         'type'=>'raw',
-                         'value'=>'$this->grid->getOwner()->renderPartial(\'_obatSupplier\',array(\'supplier_id\'=>$data->supplier_id),true)',
-                    ),
+                   //  array(
+                    //     'name'=>'obatalkes_nama',
+                    //     'type'=>'raw',
+                    //     'value'=>'$this->grid->getOwner()->renderPartial(\'_obatSupplier\',array(\'supplier_id\'=>$data->supplier_id),true)',
+                  //  ),
 
                     /*
                     'supplier_namalain',
