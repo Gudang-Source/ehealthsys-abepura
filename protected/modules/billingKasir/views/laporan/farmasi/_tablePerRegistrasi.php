@@ -111,7 +111,7 @@
                     'type'=>'raw',
                     'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
                     'value'=>'
-                        CHtml::Link("<i class=\"icon-list-alt\"></i>",
+                        CHtml::Link("<i class=\"icon-form-detail\"></i>",
                             Yii::app()->controller->createUrl("laporan/detailTransaksiFarmasi",array("id"=>$data->pendaftaran_id,"frame"=>true)
                         ),
                             array(

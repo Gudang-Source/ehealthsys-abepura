@@ -47,6 +47,9 @@ class BKLaporankunjunganPasien extends LaporankunjunganrsV {
             else if (!empty($this->instalasi_id)) {
                 $criteria->select = 'count(pendaftaran_id) as jumlah, instalasi_nama as data';
                 $criteria->group = 'instalasi_nama';
+            }else{
+                $criteria->select = 'count(pendaftaran_id) as jumlah, instalasi_nama as data';
+                $criteria->group = 'instalasi_nama';
             }
         }
         return new CActiveDataProvider($this, array(
