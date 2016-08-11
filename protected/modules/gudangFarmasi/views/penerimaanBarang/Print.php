@@ -26,8 +26,15 @@ echo CHtml::css('.control-label{
     .border{
         border:1px solid;
     }
+    thead th {
+    background: none;
+    border-bottom: 4px solid #6B994D;
+    color: #000;
+}
+
 ');
 ?>  
+
 <?php
 if(!$modPenerimaanBarangDetail){
     echo "Data tidak ditemukan"; exit;
@@ -57,12 +64,12 @@ if (!isset($_GET['frame'])){
         <tr>
             <td>Tanggal Penerimaan Barang</td>
             <td>:</td>
-            <td><?php echo $format->formatDateTimeForUser($modPenerimaanBarang->tglterima); ?></td>
+            <td><?php echo $format->formatDateTimeForUser(date('Y-m-d', strtotime($modPenerimaanBarang->tglterima))); ?></td>
             
             <?php if(count($modFakturPembelian) > 0){ ?>
             <td>Tanggal Faktur</td>
             <td>:</td>
-            <td><?php echo $format->formatDateTimeForUser($modFakturPembelian->tglfaktur); ?></td>
+            <td><?php echo $format->formatDateTimeForUser(date('Y-m-d', strtotime($modFakturPembelian->tglfaktur))); ?></td>
             <?php } ?>
         </tr>
         <tr>
@@ -73,7 +80,7 @@ if (!isset($_GET['frame'])){
         <tr>
             <td>Tanggal Surat Jalan</td>
             <td>:</td>
-            <td><?php echo $format->formatDateTimeForUser($modPenerimaanBarang->tglsuratjalan); ?></td>
+            <td><?php echo $format->formatDateTimeForUser(date('Y-m-d', strtotime($modPenerimaanBarang->tglsuratjalan))); ?></td>
         </tr>
         <tr>
             <td>Status Penerimaan</td>
@@ -82,18 +89,20 @@ if (!isset($_GET['frame'])){
         </tr>
     </table><br/>
     <table width="100%" style='margin-left:auto; margin-right:auto;'>
-        <thead class="border">
-            <th style="text-align: center;">No.</th>
-            <th style="text-align: center;">Asal Barang</th>
-            <th style="text-align: center;">Kategori / Nama Obat</th>
-            <th style="text-align: center;">No. Batch</th>
-            <th style="text-align: center;">Tanggal Kadaluarsa</th>
-            <th style="text-align: center;">Jumlah Kemasan</th>
-            <th style="text-align: center;">Jumlah Pembelian</th>
-            <th style="text-align: center;">Harga Satuan</th>
-            <th style="text-align: center;">Diskon (%)</th>
-            <th style="text-align: center;">Diskon Total (Rp.)</th>
-            <th style="text-align: center;">Sub Total</th>
+        <thead >
+            <tr>
+            <th class = "border" style="text-align: center;">No.</th>
+            <th class = "border" style="text-align: center;">Asal Barang</th>
+            <th class = "border" style="text-align: center;">Kategori / Nama Obat</th>
+            <th class = "border" style="text-align: center;">No. Batch</th>
+            <th class = "border" style="text-align: center;">Tanggal Kadaluarsa</th>
+            <th class = "border" style="text-align: center;">Jumlah Kemasan</th>
+            <th class = "border" style="text-align: center;">Jumlah Pembelian</th>
+            <th class = "border" style="text-align: center;">Harga Satuan</th>
+            <th class = "border" style="text-align: center;">Diskon (%)</th>
+            <th class = "border" style="text-align: center;">Diskon Total (Rp.)</th>
+            <th class = "border" style="text-align: center;">Sub Total</th>
+            </tr>
         </thead>
         <?php 
         $total = 0;
@@ -102,30 +111,30 @@ if (!isset($_GET['frame'])){
 			$modStokObatAlkes = StokobatalkesT::model()->findByAttributes(array('penerimaandetail_id'=>$modObat->penerimaandetail_id));
         ?>
             <tr>
-                <td align="center"><?php echo ($i+1)."."; ?></td>
-                <td><?php echo $modObat->sumberdana->sumberdana_nama; ?></td>
-                <td><?php echo (!empty($modObat->obatalkes->obatalkes_kategori) ? $modObat->obatalkes->obatalkes_kategori."/ " : "") ."". $modObat->obatalkes->obatalkes_nama; ?></td>
-                <td><?php echo (!empty($modStokObatAlkes->nobatch) ? $modStokObatAlkes->nobatch : ""); ?></td>
-                <td><?php echo $format->formatDateTimeForUser($modObat->tglkadaluarsa); ?></td>
-                <td align="center"><?php echo (isset($modObat->kemasanbesar) ? $modObat->kemasanbesar : 0 )." ".(isset($modObat->satuankecil_id) ? $modObat->satuankecil->satuankecil_nama : $modObat->satuanbesar->satuanbesar_nama); ?></td>
-                <td align="right"><?php echo $modObat->jmlterima; ?></td>
-                <td align="right"><?php echo $format->formatUang($modObat->harganettoper); ?></td>
-                <td align="right"><?php echo $modObat->persendiscount; ?></td>
-                <td align="right"><?php echo $format->formatUang($modObat->jmldiscount); ?></td>
-                <td align="right"><?php 
+                <td align="center" class = "border"><?php echo ($i+1)."."; ?></td>
+                <td class = "border"><?php echo $modObat->sumberdana->sumberdana_nama; ?></td>
+                <td class = "border"><?php echo (!empty($modObat->obatalkes->obatalkes_kategori) ? $modObat->obatalkes->obatalkes_kategori."/ " : "") ."". $modObat->obatalkes->obatalkes_nama; ?></td>
+                <td class = "border"><?php echo (!empty($modStokObatAlkes->nobatch) ? $modStokObatAlkes->nobatch : ""); ?></td>
+                <td class = "border"><?php echo $format->formatDateTimeForUser($modObat->tglkadaluarsa); ?></td>
+                <td align="center" class = "border"><?php echo (isset($modObat->kemasanbesar) ? $modObat->kemasanbesar : 0 )." ".(isset($modObat->satuankecil_id) ? $modObat->satuankecil->satuankecil_nama : $modObat->satuanbesar->satuanbesar_nama); ?></td>
+                <td style="text-align:right;" class = "border"><?php echo number_format($modObat->jmlterima,0,"","."); ?></td>
+                <td style="text-align:right;" class = "border">Rp<?php echo number_format($modObat->harganettoper,0,"","."); ?></td>
+                <td style="text-align:right;" class = "border"><?php echo $modObat->persendiscount; ?></td>
+                <td style="text-align:right;" class = "border"><?php echo number_format($modObat->jmldiscount,0,"","."); ?></td>
+                <td style="text-align:right;" class = "border"><?php 
                     $discount = $modObat->jmldiscount;
                     $subtotal = (($modObat->harganettoper * $modObat->jmlpermintaan) - $discount);
                     if($subtotal <=0 ){
                         $subtotal = 0;
                     }
                     $total += $subtotal;
-                    echo $format->formatUang($subtotal); ?>
+                    echo "Rp".  number_format($subtotal,0,"","."); ?>
                 </td>
             </tr>
         <?php } ?>
         <tr>
-            <td colspan="10" align="center"><strong>Total</strong></td>
-            <td align="right"><b><?php echo $format->formatUang($total); ?></b></td>
+            <td class = "border" colspan="10" style="text-align:right;"><strong>Total</strong></td>
+            <td class = "border" style="text-align:right;"><b><?php echo "Rp".number_format($total,0,"","."); ?></b></td>
         </tr>
     </table>
 <?php

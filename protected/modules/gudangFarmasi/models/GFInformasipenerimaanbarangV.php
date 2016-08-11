@@ -38,6 +38,12 @@ class GFInformasipenerimaanbarangV extends InformasipenerimaanbarangV
 		if(!empty($this->gudangpenerima_id)){
 			$criteria->addCondition('gudangpenerima_id = '.$this->gudangpenerima_id);
 		}
+                if(!empty($this->pegawaimengetahui_id)){
+			$criteria->addCondition('pegawaimengetahui_id = '.$this->pegawaimengetahui_id);
+		}
+                if(!empty($this->pegawaimenyetujui_id)){
+			$criteria->addCondition('pegawaimenyetujui_id = '.$this->pegawaimenyetujui_id);
+		}
 		$criteria->compare('LOWER(statuspenerimaan)',strtolower($this->statuspenerimaan),true);
 		
 		return new CActiveDataProvider($this, array(

@@ -3,13 +3,13 @@
 
 
 <div class="white-container">
+    <legend class="rim2">Penerimaan <b>Barang</b></legend>
 	<?php
 		if(isset($_GET['sukses']) && ($_GET['sukses'] == 1)){
 			Yii::app()->user->setFlash("success","Tansaksi Penerimaan Persediaan Barang berhasil disimpan!");
 		}
 	?>
 	<?php $this->widget('bootstrap.widgets.BootAlert'); ?>
-    <legend class="rim2">Penerimaan <b>Barang</b></legend>
     <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form.js'); ?>
     <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
         'id'=>'guterimapersediaan-t-form',
@@ -23,7 +23,7 @@
     <?php echo $form->errorSummary($model); ?>
 
     <?php if (isset($modBeli)) {
-        $this->renderPartial('_dataBeli', array('modBeli'=>$modBeli));
+        $this->renderPartial('_dataBeli', array('modBeli'=>$modBeli, 'model'=>$model));
     }?>
     <hr />
     <table width="100%">
@@ -135,7 +135,7 @@
                                 'onkeypress' => "return $(this).focusNextInputField(event)",
                                                             'placeholder'=>'Ketikan Nama Pegawai penerimaan'
                             ),
-                            'tombolDialog' => array('idDialog' => 'dialogPegawai', 'jsFunction'=>'openDialog("'.Chtml::activeId($model, 'peg_penerima_id').'");'),
+                            'tombolDialog' => array('idDialog' => 'dialogPegawai'),
                         ));
                         ?>
                         <?php echo $form->error($model, 'peg_penerima_id'); ?>
@@ -179,7 +179,7 @@
                                 'onkeypress' => "return $(this).focusNextInputField(event)",
                                                             'placeholder'=>'Ketikan Nama Pegawai mengetahui'
                             ),
-                            'tombolDialog' => array('idDialog' => 'dialogPegawai', 'jsFunction'=>'openDialog("'.Chtml::activeId($model, 'peg_mengetahui_id').'");'),
+                            'tombolDialog' => array('idDialog' => 'dialogPegawaiMengetahui'),
                         ));
                         ?>
                         <?php echo $form->error($model, 'peg_mengetahui_id'); ?>
@@ -259,14 +259,21 @@
         <?php $this->renderPartial('_tableDetailBarang', array('model'=>$model, 'form'=>$form, 'modDetails'=>$modDetails, 'modDetailBeli'=>$modDetailBeli, 'modBeli'=>$modBeli)); ?>
     </div>
     <div class="form-actions">
-        <?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Create',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 
+        <?php echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')) : 
                 Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),
-                array('class'=>'btn btn-primary', 'type'=>'submit', 'onKeypress'=>'return formSubmit(this,event)')); ?>
+                array('class'=>'btn btn-primary', 'type'=>'submit', 'onKeypress'=>'return formSubmit(this,event)', 'disabled'=>!$model->isNewRecord)); ?>
         <?php echo CHtml::link(Yii::t('mds','{icon} Reset',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
                             $this->createUrl($this->module->id.'/Index'), 
                             array('class'=>'btn btn-danger',
                                 'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r) {if(r) window.location = "'.$this->createUrl('Index').'";} ); return false;'));  ?>
         <?php
+			if(isset($_GET['sukses'])){
+				echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info', 'onclick'=>"print('PRINT')",'disabled'=>false));
+			}else{
+				echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','disabled'=>true));
+			}
+		?>
+		<?php
         $content = $this->renderPartial('../tips/transaksi_penerimaan_persediaan',array(),true);
         $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
         ?>
@@ -307,9 +314,8 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
             'value' => 'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
                                     "id" => "selectBahan",
                                     "onClick" => "
-                                    var parent = $(\"#dialogPegawai\").attr(\"parentclick\");
-                                    $(\"#\"+parent+\"\").val($data->pegawai_id);
-                                    $(\"#\"+parent+\"\").parents(\".controls\").find(\".namaPegawai\").val(\"$data->nama_pegawai\");
+                                    $(\"#GUTerimapersediaanT_peg_penerima_id\").val($data->pegawai_id);
+                                    $(\"#GUTerimapersediaanT_peg_penerima_nama\").val(\"$data->nama_pegawai\");
                                     $(\'#dialogPegawai\').dialog(\'close\');
                                     return false;"))',
         ),
@@ -317,11 +323,67 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
         
             'nama_pegawai',
             'nomorindukpegawai',
-                'alamat_pegawai',
-        'agama',
+            'alamat_pegawai',
+        // 'agama',
             array(
                 'name'=>'jeniskelamin',
                 'filter'=> CHtml::dropDownList('GUPegawaiM[jeniskelamin]',$modPegawai->jeniskelamin,LookupM::getItems('jeniskelamin'),array('empty'=>'--Pilih--')),
+                'value'=>'$data->jeniskelamin',
+                ),        
+    ),
+        'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+));
+
+$this->endWidget();
+?>
+
+<?php
+//========= Dialog buat cari Bahan Diet =========================
+$this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
+    'id' => 'dialogPegawaiMengetahui',
+    'options' => array(
+        'title' => 'Daftar Pegawai',
+        'autoOpen' => false,
+        'modal' => true,
+        'width' => 750,
+        'height' => 600,
+        'resizable' => false,
+    ),
+));
+
+$modPegawai = new GUPegawaiRuanganV('search');
+$modPegawai->unsetAttributes();
+$modPegawai->ruangan_id = Yii::app()->user->getState('ruangan_id');
+if (isset($_GET['GUPegawaiRuanganV']))
+    $modPegawai->attributes = $_GET['GUPegawaiRuanganV'];
+
+$this->widget('ext.bootstrap.widgets.BootGridView',array(
+    'id'=>'pegawaimengetahui-m-grid',
+    'dataProvider'=>$modPegawai->searchDialog(),
+    'filter'=>$modPegawai,
+        'template'=>"{summary}\n{items}\n{pager}",
+        'itemsCssClass'=>'table table-striped table-bordered table-condensed',
+    'columns'=>array(
+        array(
+            'header' => 'Pilih',
+            'type' => 'raw',
+            'value' => 'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
+                                    "id" => "selectBahan",
+                                    "onClick" => "
+                                    $(\"#GUTerimapersediaanT_peg_mengetahui_id\").val($data->pegawai_id);
+                                    $(\"#GUTerimapersediaanT_peg_mengetahui_nama\").val(\"$data->nama_pegawai\");
+                                    $(\'#dialogPegawaiMengetahui\').dialog(\'close\');
+                                    return false;"))',
+        ),
+        ////'pegawai_id',
+        
+            'nama_pegawai',
+            'nomorindukpegawai',
+                'alamat_pegawai',
+        // 'agama',
+            array(
+                'name'=>'jeniskelamin',
+                'filter'=> CHtml::dropDownList('GUPegawaiRuanganV[jeniskelamin]',$modPegawai->jeniskelamin,LookupM::getItems('jeniskelamin'),array('empty'=>'--Pilih--')),
                 'value'=>'$data->jeniskelamin',
                 ),        
     ),
@@ -472,3 +534,32 @@ Yii::app()->clientScript->registerScript('onready','
         }
     });
 ',CClientScript::POS_READY);?>
+
+<?php $urlPembelian = $this->createUrl('loadBarang'); ?>
+<?php
+
+$urlPrint = $this->createUrl("print");
+$printid = $model->terimapersediaan_id;
+
+$jsprint = <<< JSCRIPT
+function print(caraPrint)
+{
+    window.open("${urlPrint}&id=${printid}&caraPrint="+caraPrint,"",'location=_new, width=900px');
+}
+JSCRIPT;
+Yii::app()->clientScript->registerScript('print',$jsprint,CClientScript::POS_HEAD);
+?>
+<script>
+function loadPembelian(id)
+{
+	$.post("<?php echo $urlPembelian; ?>", {
+		id: id
+	}, function(data) {
+		$("#tableDetailBarang tbody").html(data.tab);
+		rename();
+        $("#tableDetailBarang tbody .integer2").maskMoney({"defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0,"symbol":null});
+        clear();
+        setTotalHarga();
+	}, "json");
+}
+</script>
