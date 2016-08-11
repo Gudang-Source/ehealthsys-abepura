@@ -55,22 +55,25 @@ $this->widget($table,array(
             array(
                 'header'=>'Harga <br/> Netto',
                 'type'=>'raw',
-                'value'=>'$data->harganetto',
+                'value'=>'number_format($data->harganetto,0,"",".")',
+                'htmlOptions'=>array('style'=>'text-align:right'),
             ),
             array(
                 'header'=>'Stock <br/> Minimal',
                 'type'=>'raw',
-                'value'=>'$data->kemasanbesar'
+                'value'=>'number_format($data->kemasanbesar,0,"",".")',
+                'htmlOptions'=>array('style'=>'text-align:right'),
             ),
             array(
                 'header'=>'Stock <br/> Opname',
                 'type'=>'raw',
-                'value'=>'$data->volume_fisik',
+                'value'=>'number_format($data->volume_fisik,0,"",".")',
+                'htmlOptions'=>array('style'=>'text-align:right'),
             ),
             array(
                 'header'=>'Tanggal Kadaluarsa',
                 'type'=>'raw',
-                'value'=>'date("d/m/Y", strtotime($data->tglkadaluarsa))',
+                'value'=>'MyFormatter::formatDateTimeForUser(date("d/m/Y", strtotime($data->tglkadaluarsa)))',
             ),
             array(
                 'header'=>'Kondisi <br/> Barang',

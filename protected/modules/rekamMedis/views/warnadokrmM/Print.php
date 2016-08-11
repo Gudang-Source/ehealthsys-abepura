@@ -27,9 +27,25 @@ $this->widget($table,array(
 			'value'=>'$data->warnadokrm_id',
 		),
 		'warnadokrm_namawarna',
-		'warnadokrm_kodewarna',
+                    
+                    array(
+                        'name'=>'warnadokrm_kodewarna',
+                        'type'=>'raw',
+                        'header'=>'Warna',
+                        'value'=>function($data) {
+                            return '<div style="width:100px; border: 1px solid black; background-color:#'.$data->warnadokrm_kodewarna.';">&nbsp;</div>';
+                        },
+                        'htmlOptions'=>array(
+                            'style'=>'text-align: center;',
+                        ),
+                        'filter'=>false,
+                    ),
 		'warnadokrm_fungsi',
-		'warnadokrm_aktif',
+                            array(
+                                'header'=>'<center>Status</center>',
+                                'value'=>'($data->warnadokrm_aktif == 1 ) ? "Aktif" : "Tidak Aktif"',
+                                'htmlOptions'=>array('style'=>'text-align:center;'),
+                            ),
  
 	),
 )); 
