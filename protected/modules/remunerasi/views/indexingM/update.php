@@ -19,7 +19,7 @@
     <?php //echo $this->renderPartial('_tabMenu',array()); ?>
     <!--<div class="biru">
         <div class="white">-->
-            <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
+            <?php echo $this->renderPartial('_form', array('model'=>$model, 'det'=>$det)); ?>
         <!--</div>
     </div>
 </div>-->

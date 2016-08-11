@@ -268,6 +268,11 @@ class SupplierM extends CActiveRecord
         {
             return SupplierM::model()->findAll("supplier_aktif=TRUE AND supplier_jenis='".Params::SUPPLIER_JENIS_GIZI."' ORDER BY supplier_nama");
         }
+        
+        public static function getSupplierUmumItems()
+        {
+            return SupplierM::model()->findAll("supplier_aktif=TRUE AND supplier_jenis='".Params::SUPPLIER_JENIS_UMUM."' ORDER BY supplier_nama");
+        }
                 
 
         public function getSupplierRek()

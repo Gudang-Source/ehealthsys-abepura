@@ -24,7 +24,7 @@ class TerimapersediaanTController extends MyAuthController
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
-	public function actionIndex()
+	public function actionIndex($id = null, $terimaid = null)
 	{
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		$model=new GUTerimapersediaanT;
@@ -67,6 +67,16 @@ class TerimapersediaanTController extends MyAuthController
                         }
                     }
                 }
+				
+				if (!empty($terimaid)) {
+					$model = GUTerimapersediaanT::model()->findByPk($terimaid);
+					$modBeli->supplier_id = $model->supplier_id;
+					$modDetails = GUTerimapersdetailT::model()->findAllByAttributes(array(
+						'terimapersediaan_id'=>$terimaid,
+					));
+					if (!empty($model->peg_penerima_id)) $model->peg_penerima_nama = $model->penerima->nama_pegawai;
+					if (!empty($model->peg_mengetahui_id)) $model->peg_penerima_nama = $model->mengetahui->nama_pegawai;
+				}
 
 		// Uncomment the following line if AJAX validation is needed
 		
@@ -89,6 +99,12 @@ class TerimapersediaanTController extends MyAuthController
                         $model->supplier_id = $_POST['PembelianbarangT']['supplier_id'];
                         
 			if (!empty($id)) $model->pembelianbarang_id = $id;
+			else if (isset($_POST['PembelianbarangT']['pembelianbarang_id'])) {
+				$model->pembelianbarang_id = $_POST['PembelianbarangT']['pembelianbarang_id'];
+			}
+			
+			// var_dump($_POST, $model->attributes); die;
+			
 			if (count($_POST['TerimapersdetailT']) > 0){
                             if ($model->validate()){
                                 $transaction = Yii::app()->db->beginTransaction();
@@ -118,6 +134,9 @@ class TerimapersediaanTController extends MyAuthController
                                                 $modInven->inventarisasi_qty_out = 0;
                                                 $modInven->inventarisasi_qty_skrg = $data->jmlterima;
                                                 $modInven->inventarisasi_keadaan = $data->kondisibarang;
+												
+												// var_dump($modInven->attributes, $modInven->validate(), $modInven->errors);
+												
                                                 if ($modInven->save()){
                                                     $data->inventarisasi_id = $modInven->inventarisasi_id;
                                                     if ($data->save()){
@@ -136,16 +155,19 @@ class TerimapersediaanTController extends MyAuthController
                                     else{
                                         $success = false;
                                     }
+									
+									// var_dump($success); die;
+									
                                     if ($success == true){
 										$sukses = 1;
                                         $transaction->commit();
                                         Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-//                                        if (isset($model->pembelianbarang_id)){
-                                            $this->redirect(array('index','id'=>$model->pembelianbarang_id,'sukses'=>$sukses));
-//                                        }
-//                                        else{
-//                                            $this->refresh();
-//                                        }
+                                        //if (isset($model->pembelianbarang_id)){
+                                        //    $this->redirect(array('index','id'=>$model->pembelianbarang_id,'sukses'=>$sukses));
+                                        //}
+                                        //else{
+                                            $this->redirect(array('index','terimaid'=>$model->terimapersediaan_id,'sukses'=>$sukses));
+                                        //}
                                     }
                                     else{
                                         $transaction->rollback();
@@ -184,6 +206,9 @@ class TerimapersediaanTController extends MyAuthController
                     $modDetails[$i]->jmlbeli = $beli[$i]->jmlbeli;
                 }
                 $valid = $modDetails[$i]->validate() && $valid;
+				
+				// var_dump($modDetails[$i]->attributes, $valid, $modDetails[$i]->errors);
+				
             }
             
             return $modDetails;
@@ -365,9 +390,11 @@ class TerimapersediaanTController extends MyAuthController
 //		$model->unsetAttributes();  // clear any default values
                 $model->tgl_awal = date('Y-m-d');
                 $model->tgl_akhir = date('Y-m-d');
+                $model->ruanganpenerima_id = Yii::app()->user->getState('ruangan_id');
 		if(isset($_GET['GUTerimapersediaanT'])){
                     $model->attributes=$_GET['GUTerimapersediaanT'];
                     $format = new MyFormatter();
+                    $model->supplier_id=$_GET['GUTerimapersediaanT']['supplier_id'];
                     $model->tgl_awal = $format->formatDateTimeForDb($model->tgl_awal);
                     $model->tgl_akhir = $format->formatDateTimeForDb($model->tgl_akhir);
                 }
@@ -450,6 +477,54 @@ class TerimapersediaanTController extends MyAuthController
         
         
     }
+	
+	public function actionAutoCompletePembelian($term = null) {
+		if(Yii::app()->request->isAjaxRequest && !empty($term)) {
+			$crit = new CDbCriteria;
+			$crit->compare('lower(nopembelian)', strtolower($term), true);
+			$crit->addCondition('terimapersediaan_id is null');
+			$dat = PembelianbarangT::model()->findAll($crit);
+			
+			$res = array();
+			foreach ($dat as $item) {
+				$sub = $item->attributes;
+				$sub['label'] = $item->nopembelian;
+				$sub['value'] = $item->pembelianbarang_id;
+				$sub['tglpembelian'] = MyFormatter::formatDateTimeForUser($sub['tglpembelian']);
+				array_push($res, $sub);
+			}
+			
+			echo CJSON::encode($res);
+		}
+		Yii::app()->end();
+	}
+	
+	public function actionLoadBarang() {
+		if(Yii::app()->request->isAjaxRequest) {
+			$res = array();
+			
+			$modDetailBeli = BelibrgdetailT::model()->findAllByAttributes(array('pembelianbarang_id'=>$_POST['id']));
+			$modDetails = array();
+			$col = "";
+			foreach ($modDetailBeli as $i => $item) {
+				$modBarang = BarangM::model()->findByPk($item->barang_id);
+				$modDetails[$i] = new TerimapersdetailT();
+				$modDetails[$i]->attributes = $item->attributes;
+				$modDetails[$i]->jmlterima = $item->jmlbeli;
+				$modDetails[$i]->jmlbeli = $item->jmlbeli;
+				$modDetails[$i]->jmldalamkemasan = $item->jmldlmkemasan; //$row->barang->barang_jmldlmkemasan;
+			
+				$col .= $this->renderPartial('_detailPenerimaanPersediaanBarang', array('modDetail'=>$modDetails[$i], 'modBarang'=>$modBarang), true);
+				
+			}
+			
+			$res['tab'] = $col;
+			
+			echo CJSON::encode($res);
+		}
+		
+		Yii::app()->end();
+	}
         
         
 }

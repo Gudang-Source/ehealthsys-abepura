@@ -40,12 +40,12 @@ class IndexingM extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('kelrem_id, indexing_urutan, indexing_nama, indexing_singk, indexing_nilai', 'required'),
-			array('kelrem_id, indexing_urutan', 'numerical', 'integerOnly'=>true),
+			array('kelrem_id, indexing_urutan, indexing_nama, indexing_singk, indexing_nilai, indexing_step', 'required'),
+			array('kelrem_id, indexing_urutan, indexing_step', 'numerical', 'integerOnly'=>true),
 			array('indexing_nilai', 'numerical'),
 			array('indexing_nama', 'length', 'max'=>100),
 			array('indexing_singk', 'length', 'max'=>30),
-			array('indexing_aktif', 'safe'),
+			array('indexing_aktif, indexing_offset, indexing_totbobot', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('indexing_id, kelrem_id, indexing_urutan, indexing_nama, indexing_singk, indexing_nilai, indexing_aktif', 'safe', 'on'=>'search'),
@@ -77,6 +77,9 @@ class IndexingM extends CActiveRecord
 			'indexing_singk' => 'Singkatan',
 			'indexing_nilai' => 'Nilai',
 			'indexing_aktif' => 'Aktif',
+			'indexing_offset' => 'Nilai Offset',
+			'indexing_totbobot' => 'Total Bobot',
+                        'indexing_step' => 'Maksimal Penilaian',
 		);
 	}
 

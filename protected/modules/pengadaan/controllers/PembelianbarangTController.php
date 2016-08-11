@@ -74,6 +74,7 @@ class PembelianbarangTController extends MyAuthController
 			$model->nopembelian = MyGenerator::noPembelianBarang();
 			$renc = RenkebbarangT::model()->findByPk($model->renkebbarang_id);
 			if (!empty($renc)) $renc->renkebbarang_tgl = MyFormatter::formatDateTimeForUser($renc->renkebbarang_tgl);
+			else $renc = new RenkebbarangT;
 			if (count($model) > 0){
 				$model = $model;
 				$model->peg_pemesan_nama = $model->pemesan->nama_pegawai;
@@ -92,7 +93,8 @@ class PembelianbarangTController extends MyAuthController
 			$model->attributes=$_POST['ADPembelianbarangT'];
 			$model->renkebbarang_id = $_POST['ADPembelianbarangT']['renkebbarang_id'];
 			$model->tglpembelian = MyFormatter::formatDateTimeForDb($model->tglpembelian);
-			// var_dump($model->attributes); die;
+			$model->tgldikirim = MyFormatter::formatDateTimeForDb($model->tgldikirim);
+			//var_dump($model->attributes); die;
 			
                         if (count($_POST['BelibrgdetailT']) > 0){
                             if ($model->validate()){
