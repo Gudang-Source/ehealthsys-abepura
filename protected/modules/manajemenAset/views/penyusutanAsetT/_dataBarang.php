@@ -146,6 +146,9 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
 			'value'=>function($data) {
 				if (!empty($data->invperalatan_umurekonomis)) return $data->invperalatan_umurekonomis;
 				if (!empty($data->invtanah_umurekonomis)) return $data->invtanah_umurekonomis;
+				if (!empty($data->gedung_umurekonomis)) return $data->gedung_umurekonomis;
+				if (!empty($data->invjalan_umurekonomis)) return $data->invjalan_umurekonomis;
+				if (!empty($data->invasetlain_umurekonomis)) return $data->invasetlain_umurekonomis;
 				return $data->barang_ekonomis_thn;	
 			}
 		),
