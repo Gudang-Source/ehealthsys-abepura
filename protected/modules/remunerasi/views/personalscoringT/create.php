@@ -148,11 +148,24 @@
 						
 						if (empty($det)) return CHtml::textField("ScoringdetailT[ratebobot_personal][]",0,array("class"=>"span1 bobot integer2", "id"=>"ratebobot_personal", "onkeyup"=>"scoring(this);","style"=>"text-align: right"));
 					
+						$str = "";
+						$str .= '<select onchange="scoring(this)" class="span2" name="ScoringdetailT[ratebobot_personal][]" id="ScoringdetailT_ratebobot_personal">';
+						
+						$str .= '<option value="">-- Pilih --</option>';
+
+						foreach($det as $item) {
+							$str .= '<option value="'.$item->bobot.'">'.$item->indexingdef_nama.'</option>';
+						}
+						
+						$str .='</select>';
+						/*
 						return CHtml::dropDownList("ScoringdetailT[ratebobot_personal][]", null, CHtml::listData($det, 'bobot', 'indexingdef_nama'), array(
 							'onchange'=>'scoring(this)',
 							'class'=>'span2',
 							'empty'=>'-- Pilih --',
-						));
+						));*/
+						
+						return $str;
 					},
                     //'footer'=>$modIndexing->getTotalbobot(),
                     'htmlOptions'=>array('style'=>'text-align: right;'),
