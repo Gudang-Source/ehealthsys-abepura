@@ -32,7 +32,14 @@
             </td>
             <td>
                 <?php echo $form->textFieldRow($model,'invperalatan_thnpembelian',array('class'=>'span1 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>5, 'style'=>'text-align: right')); ?>
-                <div class="control-group ">
+                <div class="control-group">
+                    <?php echo $form->labelEx($model,'invperalatan_umurekonomis',array('class'=>'control-label')); ?>
+                    <div class="controls">
+                        <?php echo $form->textField($model,'invperalatan_umurekonomis',array('class'=>'span1 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right;')); ?>
+                        <?php echo CHtml::label('Tahun', 'tahun'); ?>
+                    </div>
+                </div>
+				<div class="control-group ">
                             <?php echo $form->labelEx($model,'invperalatan_tglguna', array('class'=>'control-label')) ?>
                             <div class="controls">
                                 <?php   
@@ -66,13 +73,7 @@
                 <?php echo $form->textFieldRow($model,'invperalatan_kapasitasrata',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>10)); ?>
                 <?php echo $form->checkBoxRow($model,'invperalatan_ijinoperasional', array('onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                 <?php echo $form->textFieldRow($model,'invperalatan_serftkkalibrasi',array('class'=>'span3 all-caps', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>20)); ?>
-                <div class="control-group">
-                    <?php echo $form->labelEx($model,'invperalatan_umurekonomis',array('class'=>'control-label')); ?>
-                    <div class="controls">
-                        <?php echo $form->textField($model,'invperalatan_umurekonomis',array('class'=>'span1 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right;')); ?>
-                        <?php echo CHtml::label('Tahun', 'tahun'); ?>
-                    </div>
-                </div>
+                
                 
                 <?php echo $form->dropDownListRow($model,'invperalatan_keadaan',LookupM::getItems('inventariskeadaan'),array('empty'=>'-- Pilih --','class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
             </td>

@@ -41,7 +41,14 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
             </td>
             <td>
                 <?php echo $form->textFieldRow($model, 'invtanah_thnpengadaan', array('class' => 'span1 numbersOnly', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 5, 'style'=>'text-align: right')); ?>
-                <div class="control-group ">
+                <div class="control-group">
+					<?php echo $form->labelEx($model,'invtanah_umurekonomis',array('class'=>'control-label')); ?>
+					<div class="controls">
+						<?php echo $form->textField($model,'invtanah_umurekonomis',array('class'=>'span1 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right;')); ?>
+						<?php echo CHtml::label('Tahun', 'tahun'); ?>
+					</div>
+				</div>
+				<div class="control-group ">
                     <?php echo $form->labelEx($model, 'invtanah_tglguna', array('class' => 'control-label')) ?>
                     <div class="controls">
                         <?php
