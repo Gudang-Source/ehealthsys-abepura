@@ -40,5 +40,16 @@ class RKPegawaiM extends PegawaiM
 			'criteria'=>$criteria,
                   		));
 	}
+        
+        public function getPegawai()
+        {
+            $criteria=new CDbCriteria();
+            $criteria->with = array('ruanganpegawai');
+            $criteria->addCondition('ruanganpegawai.ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
+            $criteria->addCondition('t.pegawai_aktif = TRUE');
+            $criteria->order = 't.nama_pegawai ASC';
+            
+            return $this->findAll($criteria);
+        }
 
 }
