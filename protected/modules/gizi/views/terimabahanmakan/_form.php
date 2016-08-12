@@ -1,6 +1,5 @@
 <div class="white-container">
     <legend class="rim2">Transaksi Penerimaan <b>Bahan Makanan</b></legend>
-    <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/form.js'); ?>
     <?php
     $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
         'id' => 'gzterimabahanmakan-form',
@@ -214,7 +213,7 @@
         <table class="table table-striped table-condensed" id="tableBahanMakanan">
             <thead>
                 <tr>
-                    <th><input type="checkbox" id="checkListUtama" name="checkListUtama" value="1" checked="checked" onclick="checkAll('cekList',this);hitungSemua();"></th>
+                    <th hidden><input type="checkbox" id="checkListUtama" name="checkListUtama" value="1" checked="checked" onclick="checkAll('cekList',this);hitungSemua();"></th>
                     <th>No.Urut</th>
                     <th>Golongan</th>
                     <th>Jenis</th>
@@ -233,19 +232,42 @@
             </thead>
             <tbody>
                 <?php
+				
+				
                 if (count($modDetailPengajuan) > 0) {
                     foreach ($modDetailPengajuan as $i => $baris) {
+						$persediaan = empty($baris->bahanmakanan->jmlpersediaan)?0:$baris->bahanmakanan->jmlpersediaan;
+				
+						/* 
+						 * Jika stok gizi di centang pada konfig sistem maka jumlah pada
+						 * data stok ditampilkan. Jika tidak maka hanya menampilkan data
+						 * jmlpersediaan pada master
+						 */
+						$stokgizi = Yii::app()->user->getState('krngistokgizi');
+
+						if ($stokgizi) {
+							$stok = StokbahanmakananT::model()->findAllByAttributes(array(
+								'bahanmakanan_id'=>$baris->bahanmakanan_id,
+							));
+							$tot = 0;
+							foreach ($stok as $item) {
+								$tot += $item->qty_current;
+							}
+							$persediaan = $tot;
+						}
+						
+						
                         $modDetail = new TerimabahandetailT();
                         $modDetail['satuanbahan'] = $baris->satuanbahan;
                         $subNetto = $baris->qty_pengajuan * $baris->harganettobhn;
                         echo '<tr>
-                                <td>'
+                                <td hidden>'
                         . CHtml::checkBox('checkList[' . $i . ']', true, array('class' => 'cekList', 'onclick' => 'hitungSemua()'))
                         . CHtml::activeHiddenField($modDetail, '[0]golbahanmakanan_id', array('value' => $baris->golbahanmakanan_id))
                         . CHtml::activeHiddenField($modDetail, '[0]bahanmakanan_id', array('value' => $baris->bahanmakanan_id))
-                        . CHtml::activeHiddenField($modDetail, '[0]harganettobhn', array('value' => $baris->harganettobhn))
+                        . CHtml::activeHiddenField($modDetail, '[0]harganettobahan', array('value' => $baris->harganettobhn))
                         . CHtml::activeHiddenField($modDetail, '[0]jmlkemasan', array('value' => $baris->jmlkemasan))
-                        . CHtml::activeHiddenField($modDetail, '[0]hargajualbhn', array('value' => $baris->bahanmakanan->hargajualbahan))
+                        . CHtml::activeHiddenField($modDetail, '[0]hargajualbahan', array('value' => $baris->bahanmakanan->hargajualbahan))
                         . CHtml::activeHiddenField($modDetail, '[0]ukuran_bahanterima', array('value' => $baris->ukuranbahan))
                         . CHtml::activeHiddenField($modDetail, '[0]pengajuanbahandetail_id', array('value' => $baris->pengajuanbahandetail_id))
                         . CHtml::activeHiddenField($modDetail, '[0]merk_bahanterima', array('value' => $baris->merkbahan))
@@ -255,7 +277,7 @@
                                 <td>' . $baris->bahanmakanan->jenisbahanmakanan . '</td>
                                 <td>' . $baris->bahanmakanan->kelbahanmakanan . '</td>
                                 <td>' . $baris->bahanmakanan->namabahanmakanan . '</td>
-                                <td style="text-align: right">' . MyFormatter::formatNumberForUser($baris->bahanmakanan->jmlpersediaan) . '</td>
+                                <td style="text-align: right">' .MyFormatter::formatNumberForUser($persediaan) . '</td>
                                 <td>' . CHtml::activeDropDownList($modDetail, '[0]satuanbahan', LookupM::getItems('satuanbahanmakanan'), array('options' => array('' . $baris->satuanbahan . '' => array('selected' => 'selected')), 'class' => 'span2 satuanbahan')) . '</td>
                                 <td>' . CHtml::activeTextField($modDetail, '[0]harganettobahan', array('value'=>$baris->harganettobhn, 'class'=>'span2 integer2 harganettobahan', 'onblur'=>'hitung(this);','readonly'=>false)) . '</td>
                                 
@@ -269,7 +291,7 @@
 								'</td>    
 
                                 <td>' . CHtml::activeTextField($modDetail, '[0]qty_terima', array('value' => $baris->qty_pengajuan, 'class' => 'span1 integer2 qty', 'onkeyup' => 'hitung(this);')) . '</td>
-                                <td>' . CHtml::TextField('[0]subNetto', $subNetto, array('value' => $subNetto, 'class' => 'subNetto span2', 'readonly' => true,'style'=>'text-align:right')) . '</td>
+                                <td>' . CHtml::TextField('[0]subNetto', MyFormatter::formatNumberForPrint($subNetto), array('value' => MyFormatter::formatNumberForPrint($subNetto), 'class' => 'subNetto span2', 'readonly' => true,'style'=>'text-align:right')) . '</td>
                                 <td>' . CHtml::link("<span class='icon-form-silang'>&nbsp;</span>",'',array('href'=>'','onclick'=>'hapus(this);return false;','style'=>'text-decoration:none;', 'class'=>'cancel')).'</td>
                                 </tr>';//<td>' . $baris->bahanmakanan->hargajualbahan . '</td>
                     }
@@ -278,8 +300,8 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan='12'><div class='pull-right'>Total Harga Netto</div></td>
-                    <td><?php echo $form->textField($model, 'totalharganetto', array('readonly' => true, 'class' => 'span2 integer2', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?></td>
+                    <td colspan='11'><div class='pull-right'>Total Harga Netto</div></td>
+                    <td><?php echo $form->textField($model, 'totalharganetto', array('readonly' => true, 'class' => 'span2 integer2 total_semua', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?></td>
                     <td></td>
                 </tr>
             </tfoot>
@@ -347,7 +369,7 @@
             ),
             array(
                 'name' => 'golbahanmakanan_id',
-                'filter' => CHtml::activeDropDownList($modBahanMakanan, 'golbahanmakanan_id', CHtml::listData(GolbahanmakananM::model()->findAll('golbahanmakanan_aktif = true'), 'golbahanmakanan_id', 'golbahanmakanan_nama'), array('empty'=>'-- pilih --')),
+                'filter' => CHtml::activeDropDownList($modBahanMakanan, 'golbahanmakanan_id', CHtml::listData(GolbahanmakananM::model()->findAll('golbahanmakanan_aktif = true'), 'golbahanmakanan_id', 'golbahanmakanan_nama'), array('empty'=>'-- Pilih --')),
                 'value' => '$data->golbahanmakanan->golbahanmakanan_nama',
             ),
 			array(

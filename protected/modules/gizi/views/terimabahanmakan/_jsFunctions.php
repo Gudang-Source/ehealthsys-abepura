@@ -59,13 +59,13 @@ function inputBahanMakanan(){
             $(this).parents('tr').find('#checkList').attr('name','checkList['+(noUrut-1)+']');
 //            $(this).val(noUrut);
 //            noUrut++;
-            if ($(this).parents('tr').find('#checkList').is(':checked')){
-                val = parseFloat($(this).parents('tr').find('.subNetto').val());
+            //if ($(this).parents('tr').find('#checkList').is(':checked')){
+                val = parseFloat(unformatNumber($(this).parents('tr').find('.subNetto').val()));
                 value += val;
-            }
+            //}
         });
         hitungTotalDiscount();
-        $('#<?php echo $totalHarga; ?>').val(value);
+        $(".total_semua").val(value);
 		formatNumberSemua();
     }
 	   	
