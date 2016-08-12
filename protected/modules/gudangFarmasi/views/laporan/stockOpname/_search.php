@@ -127,7 +127,7 @@
              </div>
          </div> 
     </div>
-    <?php echo $form->dropDownListRow($model, 'jenisobatalkes_id', CHtml::listData(JenisobatalkesM::model()->findAll(),'jenisobatalkes_id','jenisobatalkes_nama'),array('empty'=>'-- Pilih --')); ?>
+    <?php echo $form->dropDownListRow($model, 'jenisobatalkes_id', CHtml::listData(JenisobatalkesM::model()->findAll("jenisobatalkes_aktif = TRUE ORDER BY jenisobatalkes_nama ASC"),'jenisobatalkes_id','jenisobatalkes_nama'),array('empty'=>'-- Pilih --')); ?>
     
     <div class="form-actions">
         <?php
