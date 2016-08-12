@@ -44,11 +44,11 @@ $this->widget($table,array(
                     'value'=>'($data->supplier_aktif == 1 ) ? "Aktif" : "Tidak Aktif"',
                     'htmlOptions'=>array('style'=>'text-align:center;'),
                 ),
-                 array(
-                        'name'=>'obatalkes_nama',
-                        'type'=>'raw',
-                        'value'=>'$this->grid->getOwner()->renderPartial(\'_obatSupplier\',array(\'supplier_id\'=>$data->supplier_id),true)',
-                ),
+             //    array(
+             //           'name'=>'obatalkes_nama',
+              //          'type'=>'raw',
+              //          'value'=>'$this->grid->getOwner()->renderPartial(\'_obatSupplier\',array(\'supplier_id\'=>$data->supplier_id),true)',
+             //   ),
 
 		/*
                 'supplier_namalain',
