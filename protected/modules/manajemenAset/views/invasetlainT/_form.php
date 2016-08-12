@@ -39,7 +39,14 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                     <?php echo $form->textFieldRow($model, 'invasetlain_jumlah', array('class' => 'span2 numbersOnly', 'onkeypress' => "return $(this).focusNextInputField(event);", 'style'=>'text-align: right')); ?>
                     <?php echo $form->textFieldRow($model, 'invasetlain_thncetak', array('class' => 'span1 numbersOnly', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 5, 'style'=>'text-align: right')); ?>
                     <?php echo $form->textFieldRow($model, 'invasetlain_harga', array('class' => 'span2 integer2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'style'=>'text-align: right')); ?>
-                    <div class="control-group ">
+                    <div class="control-group">
+						<?php echo $form->labelEx($model,'invasetlain_umurekonomis',array('class'=>'control-label')); ?>
+						<div class="controls">
+							<?php echo $form->textField($model,'invasetlain_umurekonomis',array('class'=>'span1 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right')); ?>
+							<?php echo CHtml::label('Tahun', 'tahun'); ?>
+						</div>
+                    </div>
+					<div class="control-group ">
                         <?php echo $form->labelEx($model, 'invasetlain_tglguna', array('class' => 'control-label')) ?>
                         <div class="controls">
                             <?php

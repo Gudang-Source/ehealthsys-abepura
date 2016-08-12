@@ -3,6 +3,7 @@ class MABarangV extends BarangV {
 	public $noreg,$umur_ekonomis,$penyusutan,$hrg_peroleh;
 	public $waktu_pengecekan,$kondisi_aset,$ket,$checklist;
         public $totalpenyusutan;        
+		public $jenis_inv;
 	public static function model($className=__CLASS__)
     {
 		return parent::model($className);
@@ -250,5 +251,26 @@ class MABarangV extends BarangV {
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+	
+	public function searchDialogPemeliharaan() {
+		$prov = $this->searchDialog();
+		$prov->criteria->addCondition('('
+				. 'invasetlain_namabrg is not null or '
+				. 'invgedung_namabrg is not null or '
+				. 'invperalatan_namabrg is not null or '
+				. 'invjalan_namabrg is not null or '
+				. 'invtanah_namabrg is not null'
+				. ')');
+		
+		switch ($this->jenis_inv) {
+			case 1: $prov->criteria->addCondition('invasetlain_namabrg is not null'); break;
+			case 2: $prov->criteria->addCondition('invgedung_namabrg is not null'); break;
+			case 3: $prov->criteria->addCondition('invperalatan_namabrg is not null'); break;
+			case 4: $prov->criteria->addCondition('invjalan_namabrg is not null'); break;
+			case 5: $prov->criteria->addCondition('invtanah_namabrg is not null'); break;
+		}
+		
+		return $prov;
 	}
 }

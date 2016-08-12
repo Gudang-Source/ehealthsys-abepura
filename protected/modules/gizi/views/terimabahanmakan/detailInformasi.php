@@ -53,8 +53,8 @@
             <td>".$tampilData->satuanbahan."</td>   
             <td style='text-align: right;'>Rp".MyFormatter::formatNumberForPrint($tampilData->harganettobhn)."</td>   
             <td style='text-align: right;'>Rp".MyFormatter::formatNumberForPrint($tampilData->bahanmakanan->hargajualbahan)."</td>   
-            <td>Rp".MyFormatter::formatDateTimeForUser($tampilData->bahanmakanan->tglkadaluarsabahan)."</td>   
-            <td style='text-align: right;'>".$tampilData->qty_terima."</td>   
+            <td>".MyFormatter::formatDateTimeForUser($tampilData->bahanmakanan->tglkadaluarsabahan)."</td>   
+            <td style='text-align: right;'>".number_format($tampilData->qty_terima,0,"",".")."</td>   
             <td style='text-align: right;'>Rp".  MyFormatter::formatNumberForPrint($subTotal)."</td>     
             
                       

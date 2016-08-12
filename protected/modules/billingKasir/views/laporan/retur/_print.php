@@ -46,14 +46,15 @@ if (isset($caraPrint)){
             'type'=>'raw',
             'value'=>'$data->noreturbayar',
         ),
-        'nama_pasien',
-        array(
+         array(
             'header'=>'No. RM',
             'name'=>'no_rekam_medik',
             'type'=>'raw',
             'value'=>'$data->no_rekam_medik',
         ),
         'no_pendaftaran',
+        'nama_pasien',
+       
         array(
             'header'=>'Ruangan Pelayanan',
             'name'=>'ruanganakhir_nama',
@@ -64,7 +65,8 @@ if (isset($caraPrint)){
             'header'=>'Nominal Retur',
             'name'=>'totalbiayaretur',
             'type'=>'raw',
-            'value'=>'$data->totalbiayaretur',
+            'value'=>'number_format($data->totalbiayaretur,0,"",".")',
+            'htmlOptions'=>array('style'=>'text-align:right')
         ),
         array(
             'header'=>'Keterangan Retur',

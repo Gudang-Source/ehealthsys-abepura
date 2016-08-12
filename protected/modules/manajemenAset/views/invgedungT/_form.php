@@ -31,7 +31,7 @@
                     </td>
                     <td>
                         <?php echo $form->textFieldRow($model,'invgedung_kontruksi',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>20)); ?>
-                        <div class="control-group">
+						<div class="control-group">
                             <?php echo $form->label($model, 'invgedung_luaslantai', array('class'=>'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->textField($model,'invgedung_luaslantai',array('class'=>'span1 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right')); ?>
@@ -61,6 +61,13 @@
                         </div>
                     </td>
                     <td>
+						<div class="control-group">
+                            <?php echo $form->labelEx($model,'umurekonomis',array('class'=>'control-label')); ?>
+                            <div class="controls">
+                                <?php echo $form->textField($model,'umurekonomis',array('class'=>'span1 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right')); ?>
+                                <?php echo CHtml::label('Tahun', 'tahun'); ?>
+                            </div>
+                        </div>
                         <div class="control-group ">
                             <?php echo $form->labelEx($model,'invgedung_tglguna', array('class'=>'control-label')) ?>
                             <div class="controls">
@@ -83,13 +90,6 @@
                         <?php echo $form->textFieldRow($model,'invgedung_nodokumen',array('class'=>'span2 all-caps', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>20)); ?>
                         <?php echo $form->textFieldRow($model,'invgedung_harga',array('class'=>'span2 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                         <?php echo $form->textFieldRow($model,'invgedung_akumsusut',array('class'=>'span2 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right')); ?>
-			<div class="control-group">
-                            <?php echo $form->labelEx($model,'umurekonomis',array('class'=>'control-label')); ?>
-                            <div class="controls">
-                                <?php echo $form->textField($model,'umurekonomis',array('class'=>'span1 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right')); ?>
-                                <?php echo CHtml::label('Tahun', 'tahun'); ?>
-                            </div>
-                        </div>
                         <?php echo $form->textFieldRow($model,'invgedung_ket',array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
                     </td>
                 </tr>

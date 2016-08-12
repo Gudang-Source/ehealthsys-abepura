@@ -6,11 +6,11 @@ class InformasiGajiPegawaiController extends MyAuthController{
 	public function actionIndex($pegawai = null){
 		$format = new MyFormatter();
                 $pegawai_id = LoginpemakaiK::model()->findByPk(Yii::app()->user->id)->pegawai_id;
-		$modelpegawai = GJPegawaiM::model()->find('pegawai_id = ' .$pegawai_id. '');                
+		$modelpegawai = GJPegawaiM::model()->findByPk($pegawai_id);                
 		$model = new GJPenggajianpegawaiV;
 		$model->tgl_awal=date('Y-m-d');
 		$model->tgl_akhir=date('Y-m-d');
-		$pegawai = Yii::app()->user->id;
+		$pegawai = $pegawai_id;
 		$model->unsetAttributes();  // clear any default values
 		
 		if(isset($_GET['GJPenggajianpegawaiV']))

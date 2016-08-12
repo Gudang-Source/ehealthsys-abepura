@@ -42,13 +42,46 @@
     //                        'value'=>'$data->terimapersediaan_id',
     //                        'filter'=>false,
     //                ),
-                    'nopenerimaan',
-                    'tglterima',
-                    'sumberdana.sumberdana_nama',
-                    'pembelianbarang.nopembelian',
-                    'penerima.nama_pegawai',
+                    array(
+                        'header' => 'Tanggal Terima',
+                        'value' => 'MyFormatter::formatDateTimeForUser(date("Y-m-d", strtotime(MyFormatter::formatDateTimeForDb($data->tglterima))))'
+                    ),
+                    array(
+                        'header' => 'No Penerimaan',
+                        'value' => '$data->nopenerimaan',
+                    ),
+                    array(
+                        'header' => 'Tgl Permintaan / <br> No Permintaan',
+                        'value' => function($data){
+                            $tgl = !empty($data->pembelianbarang_id)?MyFormatter::formatDateTimeForUser(date("Y-m-d", strtotime($data->pembelianbarang->tglpembelian))):'';
+                            $no = !empty($data->pembelianbarang_id)?$data->pembelianbarang->nopembelian:'';
+                            
+                            echo $tgl.' / <br>'.$no;
+                        },
+                    ),
+                    array(
+                        'header' => 'Pegawai Penerima',
+                        'value' => 'isset($data->peg_penerima_id)?$data->penerima->namaLengkap:"-"',
+                    ),
+                    array(
+                        'header' => 'Pegawai Mengetahui',
+                        'value' => 'isset($data->peg_mengetahui_id)?$data->mengetahui->namaLengkap:"-"',
+                    ),
+                   /* array(
+                        'header'=>'Sumber Dana',
+                        'value' => function ($data){
+                            $sumber =  SumberdanaM::model()->findByPk($data->sumberdana_id);
+                            
+                            return isset($sumber)?$sumber->sumberdana_nama:'-';
+                        }
+                    ),      */                                  
+                    array(
+                        'header'=>'Supplier',
+                        'value'=>'!empty($data->supplier_id)?$data->supplier->supplier_nama:"-"'
+                    ),
+                                                
     //		'peg_mengetahui_id',
-                    'ruangan.ruangan_nama',
+                    //'ruangan.ruangan_nama',
     //		'returpenerimaan_id',
 
 

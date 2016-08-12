@@ -493,6 +493,7 @@ class KembalirmTController extends MyAuthController
 
                         }
                            $data['dropDown']=$dropDown;    
+                           $data['totalR'] = count($dataRuangan);
                            echo json_encode($data);
                            Yii::app()->end();    
                  }

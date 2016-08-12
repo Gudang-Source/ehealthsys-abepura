@@ -6,9 +6,9 @@ $this->breadcrumbs=array(
 );
 
 ?>
-<div class="white-container">
-	<legend class="rim2">Ubah Warna Dokumen</legend>
+<fieldset class="box">
+	<legend class="rim">Ubah Warna Dokumen</legend>
 
 	<?php $this->widget('bootstrap.widgets.BootAlert'); ?>
 
-	<?php echo $this->renderPartial('_form',array('model'=>$model)); ?></div>
+	<?php echo $this->renderPartial('_form',array('model'=>$model)); ?></fieldset>

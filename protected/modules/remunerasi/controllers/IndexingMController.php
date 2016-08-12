@@ -37,7 +37,7 @@ class IndexingMController extends MyAuthController
 			$ok = true;
 			$model->attributes=$_POST['IndexingM'];
 			
-			$model->indexing_nilai = $model->indexing_offset + ($model->indexing_step * 1/$model->indexing_totbobot);
+			$model->indexing_nilai = ($model->indexing_step * 1/$model->indexing_totbobot);
 			
 			// var_dump($_POST, $model->attributes, $model->validate(), $model->errors); die;
 			
@@ -150,7 +150,7 @@ class IndexingMController extends MyAuthController
 			$ok = true;
 			$model->attributes=$_POST['IndexingM'];
 			
-			$model->indexing_nilai = $model->indexing_offset + ($model->indexing_step * 1/$model->indexing_totbobot);
+			$model->indexing_nilai = ($model->indexing_step * 1/$model->indexing_totbobot);
 			
 			// var_dump($_POST, $model->attributes, $model->validate(), $model->errors); die;
 			
