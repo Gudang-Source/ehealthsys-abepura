@@ -53,7 +53,7 @@
                 array(
                     'header'=>'Apotek',
                     'type'=>'raw',
-                    'value'=>'"Rp. ".number_format($data->hargasatuan_oa,0,"",".")',
+                    'value'=>'"Rp".number_format($data->hargasatuan_oa,0,"",".")',
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                 ),
                 array(
@@ -65,19 +65,19 @@
                 array(
                     'header'=>'Pasien',
                     'type'=>'raw',
-                    'value'=>'"Rp. ".number_format($data->hargasatuan_oa,0,"",".")',
+                    'value'=>'"Rp".number_format($data->hargasatuan_oa,0,"",".")',
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                 ),
                 array(
                     'header'=>'Sub Total',
                     'type'=>'raw',
-                    'value'=>'"Rp. ".number_format($data->hargajual_oa,0,"",".")',
+                    'value'=>'"Rp".number_format($data->hargajual_oa,0,"",".")',
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                 ),
                 array(
                     'header'=>'Tanggungan P3',
                     'type'=>'raw',
-                    'value'=>'"Rp. ".number_format($data->subsidiasuransi,0,"",".")',
+                    'value'=>'"Rp".number_format($data->subsidiasuransi,0,"",".")',
                     'htmlOptions'=>array('style'=>'text-align:right;'),
                 ),
              ),

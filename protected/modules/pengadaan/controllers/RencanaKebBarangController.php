@@ -14,7 +14,15 @@ class RencanaKebBarangController extends MyAuthController
         $format = new MyFormatter();
         $modRencanaKebBarang = new ADRenkebbarangT;
         $modRencanaKebBarang->renkebbarang_tgl = date('Y-m-d H:i:s');
-		$modRencanaKebBarang->renkebbarang_no ='-Otomatis-';
+        $modRencanaKebBarang->renkebbarang_no ='-Otomatis-';
+        $mengetahui = Yii::app()->user->getState('pegawai_id');
+        if (!empty($mengetahui)){ 
+            $data = GUPegawaiM::model()->findByPk($mengetahui);                    
+            $modRencanaKebBarang->pegmengetahui_id = $data->pegawai_id;
+            $modRencanaKebBarang->pegmengetahui_nama = $data->namaLengkap;
+        }
+        
+        
         $modDetails = array();
         if(!empty($rencanakebfarmasi_id)){
             $modRencanaKebBarang= ADRenkebbarangT::model()->findByPk($renkebbarang_id);
@@ -277,7 +285,7 @@ class RencanaKebBarangController extends MyAuthController
 									$selisih_stok = $maksimal_stok - $stok_barang->inventarisasi_qty_skrg;
 									$jumlah = $selisih_stok;
 									$modRencanaDetailKebBarang->harga_barangdet = $barang->barang_harganetto;
-									$modRencanaDetailKebBarang->barang_id = $barang->barang_id;
+									$modRencanaDetailKebBarang->barang_id = $barang->barang_id;                                                                        
 									$modRencanaDetailKebBarang->minstok_barangdet = isset($barang->barang_min) ? $barang->barang_min : 0;
 									$modRencanaDetailKebBarang->makstok_barangdet = isset($barang->barang_max) ? $barang->barang_max : 0;
 									$modRencanaDetailKebBarang->stokakhir_barangdet = isset($stok_barang->inventarisasi_qty_skrg) ? $stok_barang->inventarisasi_qty_skrg : 0;
@@ -287,8 +295,7 @@ class RencanaKebBarangController extends MyAuthController
 								}else{
 									$jumlah = $jumlah_barang_keluar->inventarisasi_qty_out;
 									$modRencanaDetailKebBarang->harga_barangdet = $barang->barang_harganetto;
-									$modRencanaDetailKebBarang->barang_id = $barang->barang_id;
-									$modRencanaDetailKebBarang->barang_nama = $barang->barang_nama;
+									$modRencanaDetailKebBarang->barang_id = $barang->barang_id;									
 									$modRencanaDetailKebBarang->minstok_barangdet = isset($barang->barang_min) ? $barang->barang_min : 0;
 									$modRencanaDetailKebBarang->makstok_barangdet = isset($barang->barang_max) ? $barang->barang_max : 0;
 									$modRencanaDetailKebBarang->stokakhir_barangdet = isset($stok_barang->inventarisasi_qty_skrg) ? $stok_barang->inventarisasi_qty_skrg : 0;
@@ -296,7 +303,17 @@ class RencanaKebBarangController extends MyAuthController
 									$modRencanaDetailKebBarang->barang_nama = $barang->barang_nama;
 									$modRencanaDetailKebBarang->satuanbarangdet = $barang->barang_satuan;
 								}
-							}
+                                                        }else{
+                                                            //$modRencanaDetailKebBarang->harga_barangdet = $barang->barang_harganetto;
+                                                            $modRencanaDetailKebBarang->barang_id = $barang->barang_id;                                                                        
+                                                            //$modRencanaDetailKebBarang->asal_barang = $barang->barang_nama;
+                                                            //$modRencanaDetailKebBarang->minstok_barangdet = isset($barang->barang_min) ? $barang->barang_min : 0;
+                                                            //$modRencanaDetailKebBarang->makstok_barangdet = isset($barang->barang_max) ? $barang->barang_max : 0;
+                                                            //$modRencanaDetailKebBarang->stokakhir_barangdet = isset($stok_barang->inventarisasi_qty_skrg) ? $stok_barang->inventarisasi_qty_skrg : 0;
+                                                            //$modRencanaDetailKebBarang->jmlpermintaanbarangdet = 0;
+                                                            $modRencanaDetailKebBarang->barang_nama = $barang->barang_nama;
+                                                            $modRencanaDetailKebBarang->satuanbarangdet = $barang->barang_satuan;
+                                                        }
 							$form .=$this->renderPartial($this->path_view.'_rowBarangRencanaKebutuhan', array('modRencanaDetailKebBarang'=>$modRencanaDetailKebBarang), true);
 						}
 					}				

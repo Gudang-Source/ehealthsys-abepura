@@ -10,9 +10,7 @@
 <div class="control-group ">
     <table width="100%">
         <tr>
-            <td width="65%">
-                <fieldset class="box2">
-                    <legend class="rim">Berdasarkan Tanggal</legend>
+            <td width="65%">                
                     <div class="row-fluid">
                         <div class="span6">
                             <div class="control-label">
@@ -48,12 +46,17 @@
                                                         'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3'),
                                 )); ?>
                             </div>
-                        </div>
+                        <?php echo $form->textFieldRow($model,'nodokumenrm',array('class'=>'span3 numbers-only', 'autofocus'=>true)); ?>                                    
+                        <?php echo $form->textFieldRow($model,'no_rekam_medik',array('class'=>'span3 numbers-only', 'maxlength' => 6)); ?>                                                        
+                            
+                        </div>                        
+                        
                         <div class="span6">
-                            <?php echo $form->textFieldRow($model,'nama_pasien',array('class'=>'span3', 'autofocus'=>true)); ?>                                
-                            <?php echo CHtml::label('No. Urut Pinjam','',array('class'=>'control-label')); ?>
+                            <?php echo $form->textFieldRow($model,'nama_pasien',array('class'=>'span3 hurufs-only')); ?>                                
+                            <?php echo $form->textAreaRow($model,'untukkepentingan',array('cols'=>4,'rows'=>3)); ?>                                
+                            <?php //echo CHtml::label('No. Urut Pinjam','',array('class'=>'control-label')); ?>
                             <div class="controls">
-                                <?php echo $form->textField($model,'nourut_pinjam',array('class'=>'span1','maxlength'=>6)); ?>
+                                <?php //echo $form->textField($model,'nourut_pinjam',array('class'=>'span1','maxlength'=>6)); ?>
                             </div>
                         </div>
                     </div>
@@ -127,9 +130,7 @@
                 </div>-->
             </td>
             <td>
-                <div id="searching">
-                    <fieldset class="box2">
-                        <legend class="rim">Berdasarkan Instalasi Ruangan</legend>
+               
                             <?php echo '<table>
                                                         <tr>
                                                             <td>'.CHtml::hiddenField('filter', 'instalasi', array('disabled'=>'disabled')).'<label>Instalasi Ruangan</label></td>
@@ -152,8 +153,7 @@
                                                             </td>
                                                         </tr>
                                                      </table>'; ?>
-                    </fieldset>
-                </div>
+                  
             </td>
         </tr>
     </table>

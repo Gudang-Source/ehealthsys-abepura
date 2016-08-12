@@ -47,7 +47,8 @@
  */
 class LaporanreturpelayananV extends CActiveRecord
 {
-    public $tgl_awal, $tgl_akhir;
+    public $tgl_awal, $tgl_akhir, $bln_awal, $bln_akhir, $thn_awal, $thn_akhir, $jns_periode;
+    public $instalasi_id;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -263,4 +264,6 @@ class LaporanreturpelayananV extends CActiveRecord
     {
         return RuangankasirV::model()->findAll();
     }
+    
+       
 }

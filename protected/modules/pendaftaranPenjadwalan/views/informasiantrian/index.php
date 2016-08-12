@@ -106,7 +106,7 @@
                             } return '-';
                         },
                         'htmlOptions'=>array(
-                            'style'=>'text-align: center;',
+                            'style'=>'text-align: center;',   
                         ),
                     ),
                     // 'statusperiksa',
