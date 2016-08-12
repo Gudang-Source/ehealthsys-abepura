@@ -8,7 +8,7 @@ class BKObatalkesPasienT extends ObatalkespasienT
      * @param string $className active record class name.
      * @return AnamnesaT the static model class
      */
-    public $tgl_awal,$tgl_akhir,$filter_tab, $nama_pasien, $no_rekam_medik, $no_pendaftaran, $tgl_pendaftaran, $obatalkes_nama, $penjamin_nama, $jeniskelamin, $umur, $jenisobatalkes_nama, $obatalkes_kategori, $ruangan_nama, $instalasi_nama,$tarif_satuan,$discount_tindakan,$qty_tindakan,$tarifcyto_tindakan,$iurbiaya_tindakan,$tgl_tindakan;
+    public $tgl_awal,$tgl_akhir, $bln_awal, $bln_akhir, $thn_awal, $thn_akhir, $jns_periode,$filter_tab, $nama_pasien, $no_rekam_medik, $no_pendaftaran, $tgl_pendaftaran, $obatalkes_nama, $penjamin_nama, $jeniskelamin, $umur, $jenisobatalkes_nama, $obatalkes_kategori, $ruangan_nama, $instalasi_nama,$tarif_satuan,$discount_tindakan,$qty_tindakan,$tarifcyto_tindakan,$iurbiaya_tindakan,$tgl_tindakan;
     public $is_pilihoa;
     public $subtotaloa = 0;
     public $biayalain = 0;
@@ -66,7 +66,7 @@ class BKObatalkesPasienT extends ObatalkespasienT
     {
         $criteria = $this->functionCriteria();
         $criteria->with = array('pasien','pendaftaran', 'penjualanresep');
-		$criteria->addBetweenCondition('tglpelayanan',$this->tgl_awal,$this->tgl_akhir,true);
+        $criteria->addBetweenCondition('tglpelayanan',$this->tgl_awal,$this->tgl_akhir);
         $criteria->compare('pendaftaran.no_pendaftaran',$this->no_pendaftaran);
         $criteria->compare('pasien.no_rekam_medik',$this->no_rekam_medik);
         $criteria->compare('LOWER(pasien.nama_pasien)',strtolower($this->nama_pasien),true);
@@ -74,7 +74,7 @@ class BKObatalkesPasienT extends ObatalkespasienT
 			if(is_array($this->penjamin_id)){
 				$criteria->addInCondition('pendaftaran.penjamin_id',$this->penjamin_id);
 			}else{
-				$criteria->addCondition("pendaftaran.penjamin_id = ".$this->penjamin_id);
+				//$criteria->addCondition("pendaftaran.penjamin_id = ".$this->penjamin_id);
 			} 
 		}   
         $criteria->addCondition('t.penjualanresep_id IS NOT NULL');
