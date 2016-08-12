@@ -116,6 +116,7 @@
                         $h .= CHtml::hiddenField('ScoringdetailT[indexing_id][]',$data->indexing_id,array('class'=>'span1', 'id'=>'indexing_id', 'value'=>$data->indexing_id));
                         $h .= CHtml::hiddenField('ScoringdetailT[kelrem_id][]',$data->kelrem_id,array('class'=>'span1', 'id'=>'kelrem_id', 'value'=>$data->kelrem_id));
                         $h .= CHtml::hiddenField('ScoringdetailT[indexing_nilai][]',$data->indexing_nilai,array('class'=>'span1', 'id'=>'indexing_nilai', 'value'=>$data->indexing_nilai));
+						$h .= CHtml::hiddenField('ScoringdetailT[offset][]',$data->indexing_offset,array('class'=>'span1 offset', 'id'=>'offset', 'value'=>$data->indexing_offset));
                         return $n.$h;
                     },
                     'footer'=>'<b>Total</b>:',
@@ -124,6 +125,13 @@
                     'header'=>'Objek',
                     'value'=>'$data->indexing_nama',
                 ),
+				array (
+					'header'=>'Offset',
+					'type'=>'raw',
+					'value'=>'$data->indexing_offset',
+					'htmlOptions'=>array('style'=>'text-align: right;'),
+                    'footerHtmlOptions'=>array('style'=>'text-align: right;'),
+				),
                 array(
                     'header'=>'Index',
                     'value'=>'MyFormatter::formatNumberForPrint($data->indexing_nilai, 2)',
@@ -140,7 +148,7 @@
 						
 						if (empty($det)) return CHtml::textField("ScoringdetailT[ratebobot_personal][]",0,array("class"=>"span1 bobot integer2", "id"=>"ratebobot_personal", "onkeyup"=>"scoring(this);","style"=>"text-align: right"));
 					
-						return CHtml::dropDownList("ScoringdetailT[ratebobot_personal][]", 0, CHtml::listData($det, 'bobot', 'indexingdef_nama'), array(
+						return CHtml::dropDownList("ScoringdetailT[ratebobot_personal][]", null, CHtml::listData($det, 'bobot', 'indexingdef_nama'), array(
 							'onchange'=>'scoring(this)',
 							'class'=>'span2',
 							'empty'=>'-- Pilih --',
@@ -194,10 +202,10 @@
 <?php
 $js= <<< JS
     $(document).ready(function() {
-        $("#scoringdetail-t-grid_c6").hide();
         $("#scoringdetail-t-grid_c7").hide();
         $("#scoringdetail-t-grid_c8").hide();
         $("#scoringdetail-t-grid_c9").hide();
+		$("#scoringdetail-t-grid_c10").hide();
         $(".hide").parents("td").hide();
         autoscoring();
         totalbobot();
@@ -208,7 +216,8 @@ $js= <<< JS
     function scoring(obj) {
         bobot = $(obj).val();
         nilaiindexing = $(obj).parents("tr").children("td").children("#indexing_nilai").val();
-        scorepersonal = nilaiindexing * bobot;
+		offset = parseFloat($(obj).parents("tr").children("td").children("#offset").val());
+        scorepersonal = offset + (nilaiindexing * bobot);
         $(obj).parents("tr").children("td").children("#score_personal").val(formatFloat(scorepersonal));
         totalbobot();
         totalscore();
@@ -219,14 +228,15 @@ $js= <<< JS
             bobot = $(this).val();
             nilaiindexing = $(this).parents("tr").children("td").children("#indexing_nilai").val();
             kelrem_id =  $(this).parents("tr").children("td").children("#kelrem_id").val();
+			offset = parseFloat($(this).parents("tr").children("td").children("#offset").val());
             gajipokok = $("#gajipokok").val();
 		
 			if (nilaiindexing.trim() == "") nilaiindexing = 0;
-            if (kelrem_id == 1) {
-                scorepersonal = gajipokok/nilaiindexing * bobot;
-            } else {
+            //if (kelrem_id == 1) {
+            //    scorepersonal = gajipokok/nilaiindexing * bobot;
+            //} else {
                 scorepersonal = nilaiindexing * bobot;
-            }
+            //}
             $(this).parents("tr").children("td").children("#score_personal").val(scorepersonal);
         });
     }

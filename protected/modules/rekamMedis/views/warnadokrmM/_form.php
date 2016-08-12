@@ -41,7 +41,10 @@
 				array('class'=>'btn btn-danger',
 					  'onclick'=>'return refreshForm(this);')); ?>
 		<?php echo CHtml::link(Yii::t('mds','{icon} Pengaturan Warna Dokumen',array('{icon}'=>'<i class="icon-folder-open icon-white"></i>')),$this->createUrl('admin',array('modul_id'=> Yii::app()->session['modul_id'])), array('class'=>'btn btn-success')); ?>
-		<?php $this->widget('UserTips',array('content'=>''));?>
+		 <?php
+                            $content = $this->renderPartial('rekamMedis.views.tips.tipsaddedit',array(),true);
+                            $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));
+                        ?>
 		</div>
 	</div>
 <?php $this->endWidget(); ?>

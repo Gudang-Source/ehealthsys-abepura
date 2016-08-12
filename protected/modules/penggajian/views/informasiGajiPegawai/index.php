@@ -146,7 +146,7 @@
 				array(
 					'header'=>'Rincian',
 					'type'=>'raw',
-					'value'=>'CHtml::link("<i class=\'icon-form-detail\'></i>",Yii::app()->createUrl(\'kepegawaian/informasiGajiPegawai/detailGaji&pegawai_id=\'.$data->pegawai_id.\'&nopenggajian=\'.$data->nopenggajian),array("rel"=>"tooltip","title"=>"Klik untuk Detail Penggajian","target"=>"iframe", "onclick"=>"$(\"#dialogDetailsPenggajian\").dialog(\"open\");", ))',
+					'value'=>'CHtml::link("<i class=\'icon-form-detail\'></i>",Yii::app()->createUrl(\'penggajian/informasiGajiPegawai/detailGaji&pegawai_id=\'.$data->pegawai_id.\'&nopenggajian=\'.$data->nopenggajian),array("rel"=>"tooltip","title"=>"Klik untuk Detail Penggajian","target"=>"iframe", "onclick"=>"$(\"#dialogDetailsPenggajian\").dialog(\"open\");", ))',
 					'htmlOptions'=>array('style'=>'text-align: center; width:60px'),
 				),
             ),

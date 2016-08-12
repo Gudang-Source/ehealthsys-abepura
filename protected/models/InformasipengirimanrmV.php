@@ -249,11 +249,11 @@ class InformasipengirimanrmV extends CActiveRecord
 		
 		public function getInstalasiItems()
         {
-            return InstalasiM::model()->findAll('instalasi_aktif=TRUE ORDER BY instalasi_id');
+            return InstalasiM::model()->findAll('instalasi_aktif=TRUE ORDER BY instalasi_nama ASC');
         }
         
         public function getRuanganItems()
         {
-            return RuanganM::model()->findAll('ruangan_aktif=TRUE ORDER BY ruangan_id');
+            return RuanganM::model()->findAll('ruangan_aktif=TRUE ORDER BY ruangan_nama ASC');
         }
 }

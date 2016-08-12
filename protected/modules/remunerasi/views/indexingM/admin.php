@@ -71,6 +71,13 @@
 								'value'=>'MyFormatter::formatNumberForPrint($data->indexing_nilai, 2)',
 								'filter'=>false,
                             ),
+							array(
+                                'name'=>'indexing_offset',
+                                'htmlOptions'=>array(
+                                    'style'=>'text-align: right',
+                                ),
+								'filter'=>false,
+                            ),
                             array(
                                 'name'=>'indexing_step',
                                 'htmlOptions'=>array(

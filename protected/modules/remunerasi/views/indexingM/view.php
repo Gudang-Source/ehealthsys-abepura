@@ -34,6 +34,8 @@
 		'indexing_nama',
 		'indexing_singk',
 		'indexing_nilai',
+		'indexing_offset',
+		'indexing_step',
                                 array(               // related city displayed as a link
                                     'name'=>'indexing_aktif',
                                     'type'=>'raw',
@@ -59,7 +61,7 @@
 		<tr>
 			<td><?php echo $item->indexingdef_nama; ?></td>
 			<td style="text-align: right;"><?php echo $item->bobot; ?></td>
-			<td style="text-align: right;"><?php echo MyFormatter::formatNumberForPrint($item->bobot * $model->indexing_nilai, 2); ?></td>
+			<td style="text-align: right;"><?php echo MyFormatter::formatNumberForPrint($model->indexing_offset + ($item->bobot * $model->indexing_nilai), 2); ?></td>
 		</tr>
 		<?php endforeach; ?>
 	</tbody>

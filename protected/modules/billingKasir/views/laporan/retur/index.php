@@ -24,7 +24,7 @@
         )); ?>
     </div><!-- search-form --> 
     <div class="block-tabel"> 
-        <h6>Tabel <b>Pembebasan Tarif</b></h6>
+        <h6>Tabel <b>Retur</b></h6>
         <?php $this->renderPartial('retur/_table', array('model'=>$model)); ?>
     </div>
     <div class="block-tabel">
