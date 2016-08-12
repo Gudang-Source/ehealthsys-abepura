@@ -59,7 +59,7 @@ class InvjalanT extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('pemilikbarang_id, barang_id, invjalan_kode, invjalan_noregister, invjalan_namabrg', 'required'),
+			array('pemilikbarang_id, barang_id, invjalan_kode, invjalan_noregister, invjalan_namabrg, invjalan_tglguna, invjalan_umurekonomis', 'required'),
 			array('pemilikbarang_id, asalaset_id, barang_id, lokasi_id', 'numerical', 'integerOnly'=>true),
 			array('invjalan_harga, invjalan_akumsusut', 'numerical'),
 			array('invjalan_kode, invjalan_noregister, invjalan_statustanah, invjalan_keadaaan', 'length', 'max'=>50),
@@ -120,6 +120,7 @@ class InvjalanT extends CActiveRecord
 			'invjalan_harga' => 'Harga',
 			'invjalan_akumsusut' => 'Akum Susut',
 			'invjalan_ket' => 'Keterangan',
+			'invjalan_umurekonomis' => 'Tahun Ekonomis',
 			'craete_time' => 'Craete Time',
 			'update_time' => 'Update Time',
 			'create_loginpemakai_id' => 'Create Loginpemakai',

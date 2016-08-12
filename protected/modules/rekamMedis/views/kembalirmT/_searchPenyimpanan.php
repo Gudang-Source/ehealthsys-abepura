@@ -43,12 +43,12 @@
                     ?>
                 </div>
             </div>
-            <?php echo $form->textFieldRow($model, 'no_rekam_medik', array('class' => 'span3', 'maxlength' => 10)); ?>
+            <?php echo $form->textFieldRow($model, 'no_rekam_medik', array('class' => 'span3 numbers-only ', 'maxlength' => 10)); ?>
             <div class="control-group ">
                 
                 <?php echo CHtml::label('Sampai dengan','', array('class' => 'control-label')) ?>
                 <div class='controls'>
-                    <?php echo $form->textField($model, 'no_rekam_medik_akhir', array('class' => 'span3', 'maxlength' => 10)); ?>
+                    <?php echo $form->textField($model, 'no_rekam_medik_akhir', array('class' => 'span3 numbers-only', 'maxlength' => 10)); ?>
                     </div>
             </div>
             
@@ -57,12 +57,12 @@
             <?php //echo $form->textFieldRow($model, 'instalasi_nama', array('class' => 'span3', 'maxlength' => 50)); ?>
         </td>
         <td>
-            <?php echo $form->textFieldRow($model, 'nama_pasien', array('class' => 'span3', 'maxlength' => 50)); ?>
+            <?php echo $form->textFieldRow($model, 'nama_pasien', array('class' => 'span3 hurufs-only', 'maxlength' => 50)); ?>
             <?php //echo $form->dropDownListRow($model, 'statusrekammedis', LookupM::getItems('statusrekammedis')
 //                    , array('empty'=>'-- Pilih --', 'class' => 'span3', 'maxlength' => 10)); ?>
             <?php echo $form->dropDownListRow($model, 'instalasi_id', CHtml::listData(InstalasiM::model()->findAllByAttributes(array('instalasi_aktif'=>true),array('order'=>'instalasi_nama ASC')), 'instalasi_id', 'instalasi_nama'), array('empty'=>'-- Pilih --', 'class' => 'span3', 'onchange'=>'getRuangan();')); ?>
             <?php echo $form->dropDownListRow($model, 'ruangan_id', CHtml::listData(RuanganM::model()->findAllByAttributes(array('ruangan_aktif'=>true),array('order'=>'ruangan_nama ASC')), 'ruangan_id', 'ruangan_nama'), array('empty'=>'-- Pilih --', 'class' => 'span3', 'maxlength' => 50)); ?>
-            <?php echo $form->textFieldRow($model, 'no_pendaftaran', array('class' => 'span3', 'maxlength' => 20)); ?>
+            <?php echo $form->textFieldRow($model, 'no_pendaftaran', array('class' => 'span3 angkahuruf-only', 'maxlength' => 20)); ?>
             
         </td>
     </tr>
@@ -80,7 +80,13 @@
         var value = $('#<?php echo CHtml::activeId($model, 'instalasi_id'); ?>').val();
         if (jQuery.isNumeric(value)){
             $.post('<?php echo $this->createUrl('getRuanganPasien'); ?>', {instalasi_id:value}, function(data){
-                $('#<?php echo CHtml::activeId($model, 'ruangan_id'); ?>').html('<option value="">-- Pilih --</option>'+data.dropDown);
+                if (data.totalR > 1){
+                    $('#<?php echo CHtml::activeId($model, 'ruangan_id'); ?>').html('<option value="">-- Pilih --</option>'+data.dropDown);
+                }else if(data.totalR = 0){
+                    $('#<?php echo CHtml::activeId($model, 'ruangan_id'); ?>').html('<option value="">-- Pilih --</option>');
+                }else{
+                    $('#<?php echo CHtml::activeId($model, 'ruangan_id'); ?>').html(data.dropDown);
+                }
             }, 'json');
         }
         else{

@@ -101,10 +101,10 @@ class WarnadokrmMController extends MyAuthController
 			$model = $this->loadModel($id);
 			// set non-active this
 			// example: 
-			// $model->modelaktif = false;
-			// if($model->save()){
-			//	$data['sukses'] = 1;
-			// }
+			 $model->warnadokrm_aktif = false;
+			 if($model->save()){
+				$data['sukses'] = 1;
+			 }
 			echo CJSON::encode($data); 
 		}
 	}
@@ -166,7 +166,7 @@ class WarnadokrmMController extends MyAuthController
 	{
 		$model = new WarnadokrmM;
 		$model->attributes = $_REQUEST['WarnadokrmM'];
-		$judulLaporan='Data WarnadokrmM';
+		$judulLaporan='Data Warna Dokumen';
 		$caraPrint = $_REQUEST['caraPrint'];
 		if($caraPrint=='PRINT') {
 			$this->layout = '//layouts/printWindows';
@@ -185,7 +185,7 @@ class WarnadokrmMController extends MyAuthController
 			$mpdf->WriteHTML($stylesheet,1);  
 			$mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
 			$mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-			$mpdf->Output();
+			$mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
 		}
 	}
 }

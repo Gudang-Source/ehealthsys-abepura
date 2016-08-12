@@ -22,7 +22,7 @@ if (!empty($det)) {
 	</td>
 	<td class="sp_nilai" style="text-align: right;"><?php echo $bobot; ?></td>
 	<td style="text-align: right;">
-		<?php echo CHtml::textField('detail[nilai][]', MyFormatter::formatNumberForPrint($bobot * ($offset + ($step * (1/$totbobot))), 2), 
+		<?php echo CHtml::textField('detail[nilai][]', MyFormatter::formatNumberForPrint($offset + ($step * ($bobot/$totbobot)), 2), 
 				array('class'=>'span2 integer2 subbobot_total'
 		)); ?>
 	</td>

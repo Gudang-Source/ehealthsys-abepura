@@ -19,25 +19,30 @@ $('#rmpeminjamanrm-t-search').submit(function(){
             'template'=>"{summary}\n{items}\n{pager}",
             'itemsCssClass'=>'table table-striped table-condensed',
             'columns'=>array(
-                    array(
+                    /*array(
                             'header'=>'No. Urut Pinjam',
                             'value'=>'(isset($data->nourut_pinjam) ? $data->nourut_pinjam:"")',
+                    ),*/
+                    array(
+                            'header'=>'Tanggal Peminjaman',
+                            'value'=>'(isset($data->tglpeminjamanrm) ? MyFormatter::formatDateTimeForUser($data->tglpeminjamanrm):"")',
                     ),
                     array(
-                            'header'=>'No. Dokumen',
-                            'value'=>'(isset($data->nodokumenrm) ? $data->nodokumenrm:"")',
-                    ),
+                            'header'=>'No. / <br> Warna Dokumen',
+                            'value'=> function($data){
+                                $nodok = (isset($data->nodokumenrm) ? $data->nodokumenrm:"-");
+                                $warna = (isset($data->warnadokrm_namawarna) ? $data->warnadokrm_namawarna:"-");
+                                
+                                echo $nodok." / <br>".$warna;
+                            },
+                    ),   
                     array(
-                            'header'=>'Warna Dokumen',
-                            'value'=>'(isset($data->warnadokrm_namawarna) ? $data->warnadokrm_namawarna:"")',
-                    ),
-                    array(
-                            'header'=>'Tanggal Rekam Medik',
-                            'value'=>'(isset($data->tgl_rekam_medik) ? MyFormatter::formatDateTimeForUser($data->tgl_rekam_medik):"")',
+                        'header' => 'No. Rekam Medik',
+                        'value' => '$data->no_rekam_medik'
                     ),
                     array(
                             'header'=>'Nama Pasien',
-                            'value'=>'(isset($data->nama_pasien) ? $data->nama_pasien:"")',
+                            'value'=>'(isset($data->nama_pasien) ? $data->namadepan." ".$data->nama_pasien:"")',
                     ),
                     array(
                             'header'=>'Tanggal Lahir',
@@ -48,17 +53,33 @@ $('#rmpeminjamanrm-t-search').submit(function(){
                             'value'=>'(isset($data->alamat_pasien) ? $data->alamat_pasien:"")',
                     ),
                     array(
-                            'header'=>'Tanggal Peminjaman',
-                            'value'=>'(isset($data->tglpeminjamanrm) ? MyFormatter::formatDateTimeForUser($data->tglpeminjamanrm):"")',
+                        'header' => 'Untuk Kepentingan',
+                        'value' => '!empty($data->untukkepentingan)?$data->untukkepentingan:"-"'
                     ),
+                    /*array(
+                        'header' => 'Peminjam',
+                        'value' => function($data){
+                                $id = PeminjamanrmT::model()->findByPk($data->peminjamanrm_id);
+                                
+                                $peminjam = PegawaiM::model()->find("nama_pegawai = '".$id->namapeminjam."' ");
+                                
+                                if (count($peminjam)>0){
+                                    return $peminjam->namaLengkap;
+                                }else{
+                                    return '-';
+                                }
+                        },
+                    ),*/
                     array(
-                            'header'=>'Instalasi Tujuan',
-                            'value'=>'(isset($data->instalasi_nama) ? $data->instalasi_nama:"")',
-                    ),
-                    array(
-                            'header'=>'Ruangan Tujuan',
-                            'value'=>'(isset($data->ruangan_nama) ? $data->ruangan_nama:"")',
-                    ),
+                            'header'=>'Instalasi / <br> Ruangan Tujuan',
+                            'value'=> function($data){
+                                $ins = (isset($data->instalasi_nama) ? $data->instalasi_nama:"-");
+                                $ruangan = (isset($data->ruangan_nama) ? $data->ruangan_nama:"-");
+                                
+                                echo $ins." / <br>".$ruangan;
+                            },
+                    ),                       
+                    
             ),
             'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
         )); ?>
