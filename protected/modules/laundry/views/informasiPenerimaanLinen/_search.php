@@ -50,29 +50,48 @@
 		</div>
 	</div>
 	<div class="span4">
-		<div class="control-group ">
-			<?php echo CHtml::label('Instalasi','Instalasi', array('class'=>'control-label')) ?>
+                <div class="control-group ">
+			<?php echo CHtml::activeLabel($modPenerimaanlinen,'nopenerimaanlinen',array('class'=>'control-label')); ?>
 			<div class="controls">
-			<?php echo $form->dropDownList($modPenerimaanlinen,'instalasi_id', CHtml::listData(InstalasiM::model()->findAll(),'instalasi_id','instalasi_nama'),
+			   <?php echo $form->textField($modPenerimaanlinen,'nopenerimaanlinen',array('placeholder'=>'Ketik No. Penerimaan', 'class'=>'span3 angkahuruf-only', 'maxlength'=>20,'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+			</div>
+		</div>
+            
+                <div class="control-group ">
+			<?php echo CHtml::Label('Pegawai Penerima','pegmenerima_id',array('class'=>'control-label')); ?>
+			<div class="controls">
+			   <?php echo $form->dropDownList($modPenerimaanlinen,'pegmenerima_id', Chtml::ListData(PegawairuanganV::model()->findAll("pegawai_aktif = TRUE AND ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ORDER BY nama_pegawai ASC"),'pegawai_id','namaLengkap'),array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'span3')); ?>
+			</div>
+		</div>
+		
+	</div>
+	<div class="span4">
+		<div class="control-group ">
+			<?php echo CHtml::label('Instalasi Pengirim','Instalasi', array('class'=>'control-label')) ?>
+			<div class="controls">
+			<?php echo $form->dropDownList($modPenerimaanlinen,'instalasi_id', CHtml::listData(InstalasiM::model()->findAll("instalasi_aktif = TRUE ORDER BY instalasi_nama ASC"),'instalasi_id','instalasi_nama'),
 					array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
 							'ajax'=>array('type'=>'POST',
 										'url'=>$this->createUrl('SetDropdownRuangan',array('encode'=>false,'model_nama'=>get_class($modPenerimaanlinen))),
-										'update'=>"#".CHtml::activeId($modPenerimaanlinen, 'ruangan_id'),
+										'update'=>"#".CHtml::activeId($modPenerimaanlinen, 'ruanganpengirim_id'),
 							)));?>
 			</div>
 		</div>
 		<div class="control-group ">
-			<?php echo CHtml::label('Ruangan','Ruangan', array('class'=>'control-label inline')) ?>
+			<?php echo CHtml::label('Ruangan Pengirim','Ruangan', array('class'=>'control-label inline')) ?>
 			<div class="controls">
-				<?php echo $form->dropDownList($modPenerimaanlinen,'ruangan_id',CHtml::listData(RuanganM::model()->findAll(),'ruangan_id','ruangan_nama'),array('class'=>'span3','empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+				<?php echo $form->dropDownList($modPenerimaanlinen,'ruanganpengirim_id',CHtml::listData(RuanganM::model()->findAll(),'ruangan_id','ruangan_nama'),array('class'=>'span3','empty'=>'-- Pilih --','onkeyup'=>"return $(this).focusNextInputField(event);",
+                                    'ajax'=>array('type'=>'POST',
+										'url'=>$this->createUrl('/ActionDynamic/GetPegawaiRuangan/',array('encode'=>false,'namaModel'=>get_class($modPenerimaanlinen))),
+										'update'=>"#".CHtml::activeId($modPenerimaanlinen, 'pegawaipengirim_id'),
+							)));?>
 			</div>
 		</div>
-	</div>
-	<div class="span4">
-		<div class="control-group ">
-			<?php echo CHtml::activeLabel($modPenerimaanlinen,'nopenerimaanlinen',array('class'=>'control-label')); ?>
+            
+                 <div class="control-group ">
+			<?php echo CHtml::Label('Pegawai Pengirim','pegawaipengirim_id',array('class'=>'control-label')); ?>
 			<div class="controls">
-			   <?php echo $form->textField($modPenerimaanlinen,'nopenerimaanlinen',array('placeholder'=>'Ketik No. Penerimaan', 'class'=>'span3', 'maxlength'=>20,'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+			   <?php echo $form->dropDownList($modPenerimaanlinen,'pegawaipengirim_id', Chtml::ListData(PegawairuanganV::model()->findAll("pegawai_aktif = TRUE  ORDER BY nama_pegawai ASC"),'pegawai_id','namaLengkap'),array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'span3')); ?>
 			</div>
 		</div>
 	</div>
