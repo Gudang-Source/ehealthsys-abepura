@@ -78,7 +78,7 @@ $('.search-form form').submit(function(){
 				array(
 					'name'=>'penyusutanaset_periode',
 					'type'=>'raw',
-					'value'=>'$data->penyusutanaset_periode',
+					'value'=>'MyFormatter::formatDateTimeForUser($data->penyusutanaset_periode)',
 				),
 				array(
 					'name'=>'penyusutanaset_saldo',
@@ -142,7 +142,7 @@ $this->endWidget();
 ?>
 <script type="text/javascript">	
 	function batalPenyusutanAset(obj){
-		myConfirm("Yakin akan membatalkan data ini untuk sementara?","Perhatian!",
+		myConfirm("Apakah Anda yakin ingin membatalkan data ini ?","Perhatian!",
 			function(r){
 				if(r){ 
 					$.ajax({

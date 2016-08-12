@@ -51,7 +51,7 @@ $modProfilRs = ProfilrumahsakitM::model()->findByPk(Params::DEFAULT_PROFIL_RUMAH
             <?php echo CHtml::encode($modPenyusutanAset->no_penyusutan); ?>
             <br />
             <b><?php echo CHtml::encode($modPenyusutanAset->getAttributeLabel('tgl_penyusutan')); ?>:</b>
-            <?php echo CHtml::encode($modPenyusutanAset->tgl_penyusutan); ?>
+            <?php echo MyFormatter::formatDateTimeForUser(CHtml::encode($modPenyusutanAset->tgl_penyusutan)); ?>
              <br/>
         </td>
         <td>
@@ -79,7 +79,7 @@ $modProfilRs = ProfilrumahsakitM::model()->findByPk(Params::DEFAULT_PROFIL_RUMAH
         foreach($modPenyusutanAsetDetail AS $detail): ?>
             <tr>   
                 <td class = "border" style = "text-align:center;"><?php echo $no; ?></td>
-                <td class = "border"><?php echo $detail->penyusutanaset_periode; ?></td>
+                <td class = "border"><?php echo MyFormatter::formatDateTimeForUser($detail->penyusutanaset_periode); ?></td>
                 <td class = "border" style = "text-align:right;"><?php echo $detail->penyusutanaset_saldo; ?></td>
                 <td class = "border" style = "text-align:right;"><?php echo $detail->penyusutanaset_persentase; ?></td>                
             </tr>
