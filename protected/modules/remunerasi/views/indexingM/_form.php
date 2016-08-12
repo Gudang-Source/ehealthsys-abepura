@@ -31,7 +31,7 @@
 </table>     
 
 <fieldset class = "box2">
-    <legend class = "rim">Input Nilai (offset + nilai max * (1/total bobot))</legend>
+    <legend class = "rim">Input Nilai (offset + nilai max * (bobot/total bobot))</legend>
 	<table width="100%">
 		<tr>
 			<td>
@@ -125,12 +125,13 @@ var row = '<?php echo str_replace("\n","", $this->renderPartial('_rowBobot', arr
 	
 function hitungNilai()
 {
-	$(".nilai").val(formatFloat(calculateNilai()));
+	var offset = unformatNumber(parseFloat($(".offset").val()));
+	$(".nilai").val(formatFloat(calculateNilai(1)));
 	
 	$("#tab_bobot tbody tr").each(function()
 	{
 		var bobot = unformatNumber(parseFloat($(this).find(".subbobot_nilai").val()));
-		$(this).find(".subbobot_total").val(formatFloat(calculateNilai() * bobot));
+		$(this).find(".subbobot_total").val(formatFloat(offset + calculateNilai(bobot)));
 	});
 }
 
@@ -138,8 +139,9 @@ function hitungSubBobot()
 {
 	var nama = $("#nama_bobot").val();
 	var bobot = unformatNumber(parseFloat($("#total_bobot").val()));
+	var offset = unformatNumber(parseFloat($(".offset").val()));
 	
-	$("#nilai_b").val(formatFloat(calculateNilai() * bobot));
+	$("#nilai_b").val(formatFloat(offset + calculateNilai(bobot)));
 }
 
 function tambahBobot()
@@ -159,13 +161,13 @@ function tambahBobot()
 	hitungNilai();
 }
 
-function calculateNilai()
+function calculateNilai(bobot)
 {
-	var offset = unformatNumber(parseFloat($(".offset").val()));
+	//var offset = unformatNumber(parseFloat($(".offset").val()));
 	var step = unformatNumber(parseFloat($(".step").val()));
 	var totbobot = unformatNumber(parseFloat($(".totbobot").val()));
 	
-	return offset + (step*(1/totbobot));
+	return (step*(bobot/totbobot));
 }
 
 function removeBobot(obj)
