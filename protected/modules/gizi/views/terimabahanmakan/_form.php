@@ -87,10 +87,10 @@
                         <?php echo $form->error($model, 'tglterimabahan'); ?>
                     </div>
                 </div>
-                <?php echo $form->textFieldRow($model, 'nosuratjalan', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
                 <?php //echo $form->textFieldRow($model,'tglsurjalan',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
             </td>
             <td>
+                <?php echo $form->textFieldRow($model, 'nosuratjalan', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
                 <div class="control-group ">
                     <?php echo $form->labelEx($model, 'tglsurjalan', array('class' => 'control-label')) ?>
                     <div class="controls">
@@ -129,21 +129,21 @@
                     </div>
                 </div>
                 <?php //echo $form->textFieldRow($model,'tglfaktur',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);"));  ?>
-                <?php //echo $form->textFieldRow($model,'totalharganetto',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+				<?php echo $form->textAreaRow($model, 'keterangan_terima_bahan', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 200)); ?>
+			</td>
+            <td>
                 <div class="control-group ">
                     <?php echo $form->labelEx($model, 'totaldiscount', array('class' => 'control-label')) ?>
                     <div class="controls">
-                        <?php echo Chtml::textField('discountpersen', '', array('class' => 'span1 integer', 'onkeyup' => 'hitungTotalDiscount();', 'onfocus' => 'hitungTotalDiscount();','maxlength' => 3)); ?> % = 
-                        <?php echo $form->textField($model, 'totaldiscount', array('readonly' => true, 'class' => 'span2 integer', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+                        <?php echo Chtml::textField('discountpersen', '', array('class' => 'span1 integer2', 'onkeyup' => 'hitungTotalDiscount();', 'onfocus' => 'hitungTotalDiscount();','maxlength' => 3)); ?> % = 
+                        <?php echo $form->textField($model, 'totaldiscount', array('readonly' => true, 'class' => 'span2 integer2', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
                         <?php echo $form->error($model, 'totaldiscount'); ?>
                     </div>
                 </div>
-                <?php echo $form->textFieldRow($model, 'biayapengiriman', array('class' => 'span3 integer', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
-            </td>
-            <td>
-                <?php echo $form->textFieldRow($model, 'biayatransportasi', array('class' => 'span3 integer', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
-                <?php echo $form->textFieldRow($model, 'biayapajak', array('class' => 'span3 integer', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
-                <?php echo $form->textAreaRow($model, 'keterangan_terima_bahan', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 200)); ?>
+                <?php echo $form->textFieldRow($model, 'biayapengiriman', array('class' => 'span3 integer2', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+				<?php echo $form->textFieldRow($model, 'biayatransportasi', array('class' => 'span3 integer2', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+                <?php echo $form->textFieldRow($model, 'biayapajak', array('class' => 'span3 integer2', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+                <?php // echo $form->textFieldRow($model,'totalharganetto',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
             </td>
         </tr>
     </table>
@@ -197,13 +197,13 @@
             <div class="control-group ">
                 <label class="control-label" for="namaObat">Jumlah</label>
                 <div class="controls">
-                    <?php echo CHtml::textField('qty', '', array('class' => 'span1 integer', 'onkeypress' => "return $(this).focusNextInputField(event)",)); ?>
+                    <?php echo CHtml::textField('qty', '', array('class' => 'span1 integer2', 'onkeypress' => "return $(this).focusNextInputField(event)",)); ?>
                     <?php echo CHtml::dropDownList('satuanbahan', '', LookupM::getItems('satuanbahanmakanan'), array('empty' => '-- Pilih --', 'class' => 'span1')); ?>
                     <?php echo CHtml::textField('ukuran', '', array('class' => 'span2', 'placeholder' => 'Ukuran')); ?>
                     <?php echo CHtml::textField('merk', '', array('class' => 'span2', 'placeholder' => 'Merk')); ?>
                     <?php
                     echo CHtml::htmlButton('<i class="icon-plus icon-white"></i>', array('onclick' => 'inputBahanMakanan();return false;',
-                        'class' => 'btn btn-primary integer',
+                        'class' => 'btn btn-primary integer2',
                         'onkeypress' => "inputBahanMakanan();return $(this).focusNextInputField(event)",
                         'rel' => "tooltip",
                         'title' => "Klik untuk menambahkan Bahan Makanan",));
@@ -241,30 +241,35 @@
                         echo '<tr>
                                 <td>'
                         . CHtml::checkBox('checkList[' . $i . ']', true, array('class' => 'cekList', 'onclick' => 'hitungSemua()'))
-                        . CHtml::activeHiddenField($modDetail, 'golbahanmakanan_id[]', array('value' => $baris->golbahanmakanan_id))
-                        . CHtml::activeHiddenField($modDetail, 'bahanmakanan_id[]', array('value' => $baris->bahanmakanan_id))
-                        . CHtml::activeHiddenField($modDetail, 'harganettobhn[]', array('value' => $baris->harganettobhn))
-                        . CHtml::activeHiddenField($modDetail, 'jmlkemasan[]', array('value' => $baris->jmlkemasan))
-                        . CHtml::activeHiddenField($modDetail, 'hargajualbhn[]', array('value' => $baris->bahanmakanan->hargajualbahan))
-                        . CHtml::activeHiddenField($modDetail, 'ukuran_bahanterima[]', array('value' => $baris->ukuranbahan))
-                        . CHtml::activeHiddenField($modDetail, 'pengajuanbahandetail_id[]', array('value' => $baris->pengajuanbahandetail_id))
-                        . CHtml::activeHiddenField($modDetail, 'merk_bahanterima[]', array('value' => $baris->merkbahan))
+                        . CHtml::activeHiddenField($modDetail, '[0]golbahanmakanan_id', array('value' => $baris->golbahanmakanan_id))
+                        . CHtml::activeHiddenField($modDetail, '[0]bahanmakanan_id', array('value' => $baris->bahanmakanan_id))
+                        . CHtml::activeHiddenField($modDetail, '[0]harganettobhn', array('value' => $baris->harganettobhn))
+                        . CHtml::activeHiddenField($modDetail, '[0]jmlkemasan', array('value' => $baris->jmlkemasan))
+                        . CHtml::activeHiddenField($modDetail, '[0]hargajualbhn', array('value' => $baris->bahanmakanan->hargajualbahan))
+                        . CHtml::activeHiddenField($modDetail, '[0]ukuran_bahanterima', array('value' => $baris->ukuranbahan))
+                        . CHtml::activeHiddenField($modDetail, '[0]pengajuanbahandetail_id', array('value' => $baris->pengajuanbahandetail_id))
+                        . CHtml::activeHiddenField($modDetail, '[0]merk_bahanterima', array('value' => $baris->merkbahan))
                         . '</td>
                                 <td>' . CHtml::textField('noUrut[]', $i + 1, array('class' => 'noUrut span1', 'readonly' => true)) . '</td>
                                 <td>' . $baris->golbahanmakanan->golbahanmakanan_nama . '</td>
                                 <td>' . $baris->bahanmakanan->jenisbahanmakanan . '</td>
                                 <td>' . $baris->bahanmakanan->kelbahanmakanan . '</td>
                                 <td>' . $baris->bahanmakanan->namabahanmakanan . '</td>
-                                <td>' . MyFormatter::formatNumberForUser($baris->bahanmakanan->jmlpersediaan) . '</td>
-                                <td>' . CHtml::activeDropDownList($modDetail, 'satuanbahan[]', LookupM::getItems('satuanbahanmakanan'), array('options' => array('' . $baris->satuanbahan . '' => array('selected' => 'selected')), 'class' => 'span1 satuanbahan')) . '</td>
-                                <td>' . $baris->harganettobhn . '</td>
+                                <td style="text-align: right">' . MyFormatter::formatNumberForUser($baris->bahanmakanan->jmlpersediaan) . '</td>
+                                <td>' . CHtml::activeDropDownList($modDetail, '[0]satuanbahan', LookupM::getItems('satuanbahanmakanan'), array('options' => array('' . $baris->satuanbahan . '' => array('selected' => 'selected')), 'class' => 'span2 satuanbahan')) . '</td>
+                                <td>' . CHtml::activeTextField($modDetail, '[0]harganettobahan', array('value'=>$baris->harganettobhn, 'class'=>'span2 integer2 harganettobahan', 'onblur'=>'hitung(this);','readonly'=>false)) . '</td>
                                 
                                 
-                                <td>' . CHtml::activeTextField($modDetail, 'discount[]', array('value' => $baris->bahanmakanan->discount, 'class' => 'discount span1 integer', 'onkeyup' => 'hitungTotalDiscount();')) . '</td>
-                                <td>' . $baris->bahanmakanan->tglkadaluarsabahan . '</td>    
+                                <td>' . CHtml::activeTextField($modDetail, '[0]discount', array('value' => $baris->bahanmakanan->discount, 'class' => 'discount span1 integer2', 'onkeyup' => 'hitungTotalDiscount();')) . '</td>'.
+                                '<td>' . 
+								'<div class="input-append">'.
+								CHtml::activeTextField($modDetail, '[0]tglkadaluarsabahan', array('readonly'=>true,'value'=>MyFormatter::formatDateTimeForUser($baris->bahanmakanan->tglkadaluarsabahan),'class'=>'tanggal dtPicker2', 'style'=>'float:left;')) . 
+								'<span class="add-on tgl_tombol" onclick="$(this).parent().find(\'.tanggal\').datepicker(\'show\')"><i class="icon-calendar"></i></span>'.
+								'</div>'.
+								'</td>    
 
-                                <td>' . CHtml::activeTextField($modDetail, 'qty_terima[]', array('value' => $baris->qty_pengajuan, 'class' => 'span1 integer qty', 'onkeyup' => 'hitung(this);')) . '</td>
-                                <td>' . CHtml::TextField('subNetto[]', $subNetto, array('value' => $subNetto, 'class' => 'subNetto span2', 'readonly' => true,'style'=>'text-align:right')) . '</td>
+                                <td>' . CHtml::activeTextField($modDetail, '[0]qty_terima', array('value' => $baris->qty_pengajuan, 'class' => 'span1 integer2 qty', 'onkeyup' => 'hitung(this);')) . '</td>
+                                <td>' . CHtml::TextField('[0]subNetto', $subNetto, array('value' => $subNetto, 'class' => 'subNetto span2', 'readonly' => true,'style'=>'text-align:right')) . '</td>
                                 <td>' . CHtml::link("<span class='icon-form-silang'>&nbsp;</span>",'',array('href'=>'','onclick'=>'hapus(this);return false;','style'=>'text-decoration:none;', 'class'=>'cancel')).'</td>
                                 </tr>';//<td>' . $baris->bahanmakanan->hargajualbahan . '</td>
                     }
@@ -274,7 +279,7 @@
             <tfoot>
                 <tr>
                     <td colspan='12'><div class='pull-right'>Total Harga Netto</div></td>
-                    <td><?php echo $form->textField($model, 'totalharganetto', array('readonly' => true, 'class' => 'span2 integer', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?></td>
+                    <td><?php echo $form->textField($model, 'totalharganetto', array('readonly' => true, 'class' => 'span2 integer2', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?></td>
                     <td></td>
                 </tr>
             </tfoot>
@@ -299,100 +304,7 @@
     <?php
     $totalHarga = CHtml::activeId($model, 'totalharganetto');
     $urlBahan = $this->createUrl('getBahanMakananDariPenerimaan');
-    $js = <<<JS
-    function inputBahanMakanan(){
-		unformatNumberSemua();
-        var id = $('#idBahan').val();
-        var qty= $('#qty').val();
-        var ukuran = $('#ukuran').val();
-        var merk = $('#merk').val();
-        var satuanbahan = $('#satuanbahan').val();
-        if (jQuery.isNumeric(id)){
-            $.post('$urlBahan',{id:id, qty:qty,ukuran:ukuran,merk:merk, satuanbahan:satuanbahan},function(data){
-                $('#tableBahanMakanan tbody').append(data);		
-		renameInputRowBahanMakanan('tableBahanMakanan');
-                hitungSemua();
-                hitungTotalDiscount();	    	
-                $("#tableBahanMakanan tbody tr:last .integer").maskMoney({"defaultZero":true,"allowZero":true,"decimal":",","thousands":"","precision":0,"symbol":null});
-                $("#tableBahanMakanan tbody tr:last .satuanbahan").val(satuanbahan);		
-				formatNumberSemua();
-            },'json');
-        }
-        else{
-            myAlert('Isi Data dengan Benar');
-        }
-    }
-    
-    function hitungSemua(){
-		unformatNumberSemua();
-        value = 0;
-        $('.noUrut').each(function(){
-            $(this).parents('tr').find('#checkList').attr('name','checkList['+(noUrut-1)+']');
-//            $(this).val(noUrut);
-//            noUrut++;
-            if ($(this).parents('tr').find('#checkList').is(':checked')){
-                val = parseFloat($(this).parents('tr').find('.subNetto').val());
-                value += val;
-            }
-        });
-        hitungTotalDiscount();
-        $('#${totalHarga}').val(value);
-		formatNumberSemua();
-    }
-	   	
-    function hitung(obj){
-		unformatNumberSemua();
-        var netto = $(obj).parents('tr').find('input[name$="[harganettobhan]"]').val()
-        var jml = $(obj).parents('tr').find('input[name$="[qty_terima]"]').val()
-		$(obj).parents('tr').find('.subNetto').val(netto*jml);
-		hitungSemua();
-        hitungTotalDiscount();
-		formatNumberSemua();
-    }
-    
-    function hapus(obj) {
-        $(obj).parents('tr').remove();
-        hitungSemua();
-    }
-    
-    function hitungTotal(obj){
-		unformatNumberSemua();
-        var netto = $('#TerimabahandetailT_harganettobhn').val();
-        var jml = $(obj).val();
-        $(obj).parents('tr').find('.subNetto').val(netto*jml);
-        hitungSemua();
-        hitungTotalDiscount();
-		formatNumberSemua();
-    }
-    
-    function hitungTotalDiscount(){
-		unformatNumberSemua();
-        var discountPersen = $('#discountpersen').val();
-        var totaldiscount = 0;
-            if (jQuery.isNumeric(discountPersen)){
-                $('.discount').each(function(){
-                    if ($(this).parents('tr').find('.cekList').is(':checked')){
-                        var subnetto = $(this).parents('tr').find('.subNetto').val();
-                        discount = subnetto*discountPersen/100;
-                        $(this).val(discount);
-                        totaldiscount+=discount;
-                    }
-                });
-            }
-            else{
-                $('.discount').each(function(){
-                    var discount = parseFloat($(this).val());
-                    if ($(this).parents('tr').find('#checkList').is(':checked')){
-                        totaldiscount+=discount;
-                    }
-                });      
-            }
-		formatNumberSemua();
-        $('#GZTerimabahanmakan_totaldiscount').val(totaldiscount);
-    }
-    
-JS;
-    Yii::app()->clientScript->registerScript('fungsi', $js, CClientScript::POS_HEAD);
+
     ?>
 
     <?php
@@ -403,7 +315,7 @@ JS;
             'title' => 'Bahan Makanan',
             'autoOpen' => false,
             'modal' => true,
-            'width' => 750,
+            'width' => 1000,
             'height' => 600,
             'resizable' => false,
         ),
@@ -428,33 +340,90 @@ JS;
                 'value' => 'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
                                     "id" => "selectBahan",
                                     "onClick" => "$(\'#idBahan\').val($data->bahanmakanan_id);
-                                    $(\'#namaBahan\').val(\'$data->jenisbahanmakanan - $data->namabahanmakanan - $data->jmlpersediaan\');
+                                    $(\'#namaBahan\').val(\'$data->jenisbahanmakanan - $data->namabahanmakanan\');
                                     $(\'#satuanbahan\').val(\'$data->satuanbahan\');
                                     $(\'#qty\').val(1);
                                     $(\'#dialogBahanMakanan\').dialog(\'close\');return false;"))',
             ),
-            ////'bahanmakanan_id',
-//        array(
-//                        'name'=>'bahanmakanan_id',
-//                        'value'=>'$data->bahanmakanan_id',
-//                        'filter'=>false,
-//                ),
             array(
                 'name' => 'golbahanmakanan_id',
-                'filter' => CHtml::listData(GolbahanmakananM::model()->findAll('golbahanmakanan_aktif = true'), 'golbahanmakanan_id', 'golbahanmakanan_nama'),
+                'filter' => CHtml::activeDropDownList($modBahanMakanan, 'golbahanmakanan_id', CHtml::listData(GolbahanmakananM::model()->findAll('golbahanmakanan_aktif = true'), 'golbahanmakanan_id', 'golbahanmakanan_nama'), array('empty'=>'-- pilih --')),
                 'value' => '$data->golbahanmakanan->golbahanmakanan_nama',
             ),
-//        'golbahanmakanan.golbahanmakanan_nama',
-//        'sumberdanabhn',
-            'jenisbahanmakanan',
-            'kelbahanmakanan',
+			array(
+				'name' => 'jenisbahanmakanan',
+                'filter' => CHtml::activeDropDownList($modBahanMakanan, 'jenisbahanmakanan', LookupM::getItems('jenisbahanmakanan'), array('empty'=>'-- Pilih --')),
+				'value' => '$data->jenisbahanmakanan',
+			),
+			array(
+				'name' => 'kelbahanmakanan',
+                'filter' => CHtml::activeDropDownList($modBahanMakanan, 'kelbahanmakanan', LookupM::getItems('kelompokbahanmakanan'), array('empty'=>'-- Pilih --')),
+				'value' => '$data->kelbahanmakanan',
+			),
             'namabahanmakanan',
-            'jmlpersediaan',
-            'satuanbahan',
-            'harganettobahan',
-            'hargajualbahan',
-            'discount',
-            'tglkadaluarsabahan',
+			array(
+				'name'=>'jmlpersediaan',
+				'value'=>function($data) {
+					/* 
+					 * Jika stok gizi di centang pada konfig sistem maka jumlah pada
+					 * data stok ditampilkan. Jika tidak maka hanya menampilkan data
+					 * jmlpersediaan pada master
+					 */
+					$stokgizi = Yii::app()->user->getState('krngistokgizi');
+					
+					if ($stokgizi) {
+						$stok = StokbahanmakananT::model()->findAllByAttributes(array(
+							'bahanmakanan_id'=>$data->bahanmakanan_id,
+						));
+						$tot = 0;
+						foreach ($stok as $item) {
+							$tot += $item->qty_current;
+						}
+						return $tot;
+					}
+					
+					return $data->jmlpersediaan;
+				},
+				'htmlOptions'=>array(
+					'style'=>'text-align: right',
+				),
+				'filter'=>false,
+			),
+			array(
+				'name'=>'harganettobahan',
+				'value'=>'MyFormatter::formatNumberForPrint($data->harganettobahan)',
+				'htmlOptions'=>array(
+					'style'=>'text-align: right',
+				),
+				'filter'=>false,
+			),
+			array(
+				'name'=>'hargajualbahan',
+				'value'=>'MyFormatter::formatNumberForPrint($data->hargajualbahan)',
+				'htmlOptions'=>array(
+					'style'=>'text-align: right',
+				),
+				'filter'=>false,
+			),
+            //'harganettobahan',
+            //'hargajualbahan',
+			array(
+				'name'=>'discount',
+				'value'=>'MyFormatter::formatNumberForPrint($data->discount)',
+				'htmlOptions'=>array(
+					'style'=>'text-align: right',
+				),
+				'filter'=>false,
+			),
+            //'discount',
+			array(
+				'name'=>'tglkadaluarsabahan',
+				'value'=>'MyFormatter::formatDateTimeForUser($data->tglkadaluarsabahan);',
+				'htmlOptions'=>array(
+					'style'=>'text-align: right',
+				),
+				'filter'=>false,
+			),
 //        'jmlminimal',
         ),
         'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
@@ -463,55 +432,5 @@ JS;
 
     $this->endWidget();
     ?>
-    <?php
-    $this->widget('application.extensions.moneymask.MMask', array(
-        'element' => '.numbersOnly',
-        'config' => array(
-            'defaultZero' => true,
-            'allowZero' => true,
-            'decimal' => ',',
-            'thousands' => '',
-            'precision' => 0,
-        )
-    ));
-    ?>
 
-    <?php Yii::app()->clientScript->registerScript('submit', '
-    $("form").submit(function(){
-        supplier = $("#'.CHtml::activeId($model, 'supplier_id').'").val();
-        jumlah = 0;
-        if (!jQuery.isNumeric(supplier)){
-            myAlert("'.CHtml::encode($model->getAttributeLabel('supplier_id')).' harus diisi !");
-            return false;
-        }
-        $(".cekList").each(function(){
-            if ($(this).is(":checked")){
-                jumlah++;
-            }
-        });
-        
-        if (jumlah < 1){
-            myAlert("Pilih Nama Bahan Makanan yang akan diajukan !");
-            return false;
-        }
-    });
-', CClientScript::POS_READY); ?>
-    
-<script type="text/javascript">
-    function renameInputRowBahanMakanan(obj_table){
-    var row = 0;
-    $('#'+obj_table).find("tbody > tr").each(function(){
-	$(this).find("#noUrut").val(row+1);
-	$(this).find('input,select,textarea').each(function(){ //element <input>
-	    var old_name = $(this).attr("name").replace(/]/g,"");
-	    var old_name_arr = old_name.split("[");
-	    if(old_name_arr.length == 3){
-		$(this).attr("id",old_name_arr[0]+"_"+row+"_"+old_name_arr[2]);
-		$(this).attr("name",old_name_arr[0]+"["+row+"]["+old_name_arr[2]+"]");
-	    }
-	});
-	row++;
-    });
-
-    }
-</script>
+<?php echo $this->renderPartial('_jsFunctions', array('totalHarga'=>$totalHarga, 'urlBahan'=>$urlBahan, 'model'=>$model), true); ?>

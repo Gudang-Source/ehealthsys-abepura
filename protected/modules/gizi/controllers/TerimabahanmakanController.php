@@ -79,51 +79,85 @@ class TerimabahanmakanController extends MyAuthController
             $criteria->addInCondition('tujuansms',$_POST['tujuansms']);
         }
         $modSmsgateway = SmsgatewayM::model()->findAll($criteria);
-
+		
 		if(isset($_POST['GZTerimabahanmakan']))
 		{
                     $model->attributes=$_POST['GZTerimabahanmakan'];
                     $transaction = Yii::app()->db->beginTransaction();
-                    
+                    $stokgizi = Yii::app()->user->getState('krngistokgizi');
+					
                     try{    
                         $success = true;
                         if($model->save()) {
                             if (isset($modPengajuan->pengajuanbahanmkn_id)){
                                 PengajuanbahanmknT::model()->updateByPk($model->pengajuanbahanmkn_id, array('terimabahanmakan_id'=>$model->terimabahanmakan_id));
                             }
-                            // var_dump($_POST['TerimabahandetailT']); die;
+                            //var_dump($_POST['TerimabahandetailT']);
                             $jumlah = count($_POST['TerimabahandetailT']);
-                            $terimaDet[] = $_POST['TerimabahandetailT'];
+                            $terimaDet = $_POST['TerimabahandetailT'];
                             $u = 0;
                             foreach ($terimaDet as $i => $bahanDetail) {
+									// var_dump($bahanDetail); 
                                 //if ($_POST['checkList'] == 1) {
                                     $modDetail = new GZTerimabahandetailT();
                                     $modDetail->attributes = $bahanDetail;
                                     $modDetail->terimabahanmakan_id = $model->terimabahanmakan_id;                                    
-                                    $modDetail->golbahanmakanan_id = $bahanDetail['golbahanmakanan_id'][$u];
-                                    $modDetail->bahanmakanan_id = $bahanDetail['bahanmakanan_id'][$u];
+                                    $modDetail->golbahanmakanan_id = $bahanDetail['golbahanmakanan_id'];
+                                    $modDetail->bahanmakanan_id = $bahanDetail['bahanmakanan_id'];
                                     $modDetail->nourutbahan = $u;
-                                    $modDetail->ukuran_bahanterima = $bahanDetail['ukuran_bahanterima'][$u];
-                                    $modDetail->merk_bahanterima = $bahanDetail['merk_bahanterima'][$u];
-                                    $modDetail->jmlkemasan = $bahanDetail['jmlkemasan'][$u];
+                                    $modDetail->ukuran_bahanterima = $bahanDetail['ukuran_bahanterima'];
+                                    $modDetail->merk_bahanterima = $bahanDetail['merk_bahanterima'];
+                                    $modDetail->jmlkemasan = $bahanDetail['jmlkemasan'];
                                     if (isset($modPengajuan->pengajuanbahanmkn_id)){
-                                        $modDetail->pengajuanbahandetail_id = $bahanDetail['pengajuanbahandetail_id'][$u];
+                                        $modDetail->pengajuanbahandetail_id = $bahanDetail['pengajuanbahandetail_id'];
                                     }
                                     if (!is_numeric($modDetail->jmlkemasan)){
                                         $modDetail->jmlkemasan = 0;
                                     }
-                                    if (!is_numeric($bahanDetail['qty_terima'][$u])) {
-                                        $bahanDetail['qty_terima'][$u] = 0;
+                                    if (!is_numeric($bahanDetail['qty_terima'])) {
+                                        $bahanDetail['qty_terima'] = 0;
                                     }
-                                    $modDetail->qty_terima = $bahanDetail['qty_terima'][$u];
-                                    $modDetail->satuanbahan = $bahanDetail['satuanbahan'][$u];
-                                    $modDetail->hargajualbhn = $bahanDetail['hargajualbhn'][$u];
-                                    $modDetail->harganettobhn = $bahanDetail['harganettobhn'][$u];
+                                    $modDetail->qty_terima = $bahanDetail['qty_terima'];
+                                    $modDetail->satuanbahan = $bahanDetail['satuanbahan'];
+                                    $modDetail->hargajualbhn = $bahanDetail['hargajualbahan'];
+                                    $modDetail->harganettobhn = $bahanDetail['harganettobahan'];
+									$modDetail->tglkadaluarsabahan = MyFormatter::formatDateTimeForDb($bahanDetail['tglkadaluarsabahan']);
                                     //var_dump($bahanDetail);
-                                    //var_dump($modDetail->attributes); die;
+                                    // var_dump($modDetail->attributes, $modDetail->validate(), $modDetail->errors);
                                     
                                     if ($modDetail->save()){
-                                        $this->tambahStokBahanMakanan($modDetail);
+										/* Ubah harga netto bahan makanan dan tanggal kadaluarsa dengan data penerimaan */ 
+										BahanmakananM::model()->updateByPk($modDetail->bahanmakanan_id, array(
+											'harganettobahan'=>$modDetail->harganettobhn,
+											'tglkadaluarsabahan'=>$modDetail->tglkadaluarsabahan,
+										));
+										if ($stokgizi) {
+											/* 
+											 * Jika stok gizi dicentang di konfig sistem maka 
+											 * akan ditambahkan stok-nya + penyesuaian jml persediaan 
+											 * di master 
+											 */
+											$this->tambahStokBahanMakanan($modDetail);
+											
+											$tot = 0;
+											$sto = StokbahanmakananT::model()->findAllByAttributes(array(
+												'bahanmakanan_id'=>$modDetail->bahanmakanan_id,
+											));
+											foreach ($sto as $item) {
+												$tot += $item->qty_current;
+											}
+											BahanmakananM::model()->updateByPk($modDetail->bahanmakanan_id, array(
+												'jmlpersediaan'=>$tot,
+											));
+										} else {
+											/* Jika tidak maka hanya menambah jumlah persediaan yang ada di master bahan makanan */
+											$bhn = BahanmakananM::model()->findByPk($modDetail->bahanmakanan_id);
+											if (empty($bhn->jmlpersediaan)) $bhn->jmlpersediaan = 0;
+											$bhn->jmlpersediaan += $modDetail->qty_terima;
+											$bhn->save();
+										}
+										
+										/* Update id terima bahan pada pengajuan bahan makanan */
                                         if (isset($modPengajuan->pengajuanbahanmkn_id)){
                                             PengajuanbahandetailT::model()->updateByPk($modDetail->pengajuanbahandetail_id, array('terimabahandetail_id'=>$modDetail->terimabahandetail_id));
                                         }
@@ -137,7 +171,6 @@ class TerimabahanmakanController extends MyAuthController
                         else{
                             $success = false;
                         }
-                        
                         // var_dump($success); die;
                         
                         if ($success == TRUE){
@@ -210,6 +243,9 @@ class TerimabahanmakanController extends MyAuthController
         
         public function actionGetBahanMakananDariPenerimaan(){
         if (Yii::app()->request->isAjaxRequest){
+			Yii::app()->clientScript->scriptMap['*.js'] = false;
+            Yii::app()->clientScript->scriptMap['*.css'] = false;
+			
             $idBahan = $_POST['id'];
             $qty = $_POST['qty'];
             $ukuran = $_POST['ukuran'];
@@ -221,40 +257,24 @@ class TerimabahanmakanController extends MyAuthController
             $model = BahanmakananM::model()->with('golbahanmakanan')->findByPk($idBahan);
             $modDetail = new TerimabahandetailT();
             $subNetto = $qty*$model->harganettobahan;
+			
 //            $modDetail->satuanbahan[] = $satuanbahan;
-            $tr = '<tr>
-                    <td>'
-                        .CHtml::checkBox('checkList[]',true,array('class'=>'cekList','onclick'=>'hitungSemua()'))
-                        .CHtml::activeHiddenField($modDetail, '[0]golbahanmakanan_id', array('value'=>$model->golbahanmakanan_id))
-                        .CHtml::activeHiddenField($modDetail, '[0]bahanmakanan_id', array('value'=>$model->bahanmakanan_id))
-                        .CHtml::activeHiddenField($modDetail, '[0]harganettobhn', array('value'=>$model->harganettobahan,'class'=>'integer'))
-                        .CHtml::activeHiddenField($modDetail, '[0]jmlkemasan', array('value'=>$model->jmldlmkemasan,'class'=>'integer'))            
-                        .CHtml::activeHiddenField($modDetail, '[0]hargajualbhn', array('value'=>$model->hargajualbahan,'class'=>'integer'))
-                        .CHtml::activeHiddenField($modDetail, '[0]ukuran_bahanterima', array('value'=>$ukuran))
-                        .CHtml::activeHiddenField($modDetail, '[0]merk_bahanterima', array('value'=>$merk))
-                    .'</td>
-                    <td>'.CHtml::textField('noUrut',0,array('id'=>'noUrut','class'=>'noUrut span1', 'readonly'=>true)).'</td>
-                    <td>'.$model->golbahanmakanan->golbahanmakanan_nama.'</span></td>
-                    <td>'.$model->jenisbahanmakanan.'</td>
-                    <td>'.$model->kelbahanmakanan.'</td>
-                    <td>'.$model->namabahanmakanan.'</td>
-                    <td>'.$model->jmlpersediaan.'</td>
-                    <td>'.CHtml::activeDropDownList($modDetail, '[0]satuanbahan', LookupM::getItems('satuanbahanmakanan'), array( 'class'=>'span2 satuanbahan')).'</td>
-		    <td>'.CHtml::activeTextField($modDetail, '[0]harganettobahan', array('value'=>$model->harganettobahan, 'class'=>'span2 integer harganettobahan', 'onblur'=>'hitung(this);','readonly'=>false))
-			 .CHtml::activeHiddenField($modDetail, '[0]hargajualbahan', array('value'=>$model->hargajualbahan, 'class'=>'span2 integer hargajualbahan', 'readonly'=>true)).'</td>
-                    <td>'.CHtml::activeTextField($modDetail, '[0]discount', array('value'=>$model->discount, 'class'=>'discount span1 integer', 'onkeyup'=>'hitungTotalDiscount();')).'</td>
-                    <td><span name="[0][tglkadaluarsabahan]">'.MyFormatter::formatDateTimeForUser($model->tglkadaluarsabahan).'</span></td>
-                    
-                    <td>'.CHtml::activeTextField($modDetail, '[0]qty_terima', array('value'=>$qty, 'class'=>'span1 integer qty', 'onblur'=>'hitung(this);')).'</td>
-                    <td>'.CHtml::activeTextField($modDetail, '[0]subNetto', array('value'=>$subNetto, 'class'=>'span2 integer subNetto','readonly'=>true)).'</td>
-                    <td>'.CHtml::link("<span class='icon-form-silang'>&nbsp;</span>",'',array('href'=>'','onclick'=>'hapus(this);return false;','style'=>'text-decoration:none;', 'class'=>'cancel')).'</td>
-                    </tr>';
-            echo json_encode($tr);
+            $tr = $this->renderPartial('_rowMakanan', array(
+				'modDetail'=>$modDetail,
+				'model'=>$model,
+				'subNetto'=>$subNetto,
+				'qty'=>$qty,
+				'ukuran'=>$ukuran,
+				'merk'=>$merk,
+				'satuanbahan'=>$satuanbahan,
+			), true, true);
+            echo $tr;
             Yii::app()->end();
         }
     }
         
         protected function tambahStokBahanMakanan($detail){
+			
             $modStokBahan = new GZStokbahanmakananT();
             $modStokBahan->terimabahandetail_id = $detail->terimabahandetail_id;
             $modStokBahan->bahanmakanan_id = $detail->bahanmakanan_id;
@@ -263,6 +283,9 @@ class TerimabahanmakanController extends MyAuthController
             $modStokBahan->qty_current = $detail->qty_terima;
             $modStokBahan->qty_keluar = 0;
             $modStokBahan->save();
+			
+			$detail->stokbahanmakanan_id = $modStokBahan->stokbahanmakanan_id;
+			$detail->save();
         }
 
 	/**
