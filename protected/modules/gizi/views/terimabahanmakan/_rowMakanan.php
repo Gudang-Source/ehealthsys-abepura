@@ -1,7 +1,26 @@
 <?php
 
+/* 
+ * Jika stok gizi di centang pada konfig sistem maka jumlah pada
+ * data stok ditampilkan. Jika tidak maka hanya menampilkan data
+ * jmlpersediaan pada master
+ */
+$stokgizi = Yii::app()->user->getState('krngistokgizi');
+
+if ($stokgizi) {
+	$stok = StokbahanmakananT::model()->findAllByAttributes(array(
+		'bahanmakanan_id'=>$model->bahanmakanan_id,
+	));
+	$tot = 0;
+	foreach ($stok as $item) {
+		$tot += $item->qty_current;
+	}
+	$model->jmlpersediaan = $tot;
+}
+
+
 echo '<tr>
-                    <td>'
+                    <td hidden>'
                         .CHtml::checkBox('checkList[]',true,array('class'=>'cekList','onclick'=>'hitungSemua()'))
                         .CHtml::activeHiddenField($modDetail, '[0]golbahanmakanan_id', array('value'=>$model->golbahanmakanan_id))
                         .CHtml::activeHiddenField($modDetail, '[0]bahanmakanan_id', array('value'=>$model->bahanmakanan_id))
