@@ -61,7 +61,7 @@ class InvgedungT extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('pemilikbarang_id, barang_id, invgedung_kode, invgedung_noregister, invgedung_namabrg, invgedung_alamat, create_time, umurekonomis', 'required'),
+			array('pemilikbarang_id, barang_id, invgedung_kode, invgedung_noregister, invgedung_namabrg, invgedung_alamat, create_time, invgedung_tglguna, umurekonomis', 'required'),
 			array('pemilikbarang_id, barang_id, lokasi_id, asalaset_id', 'numerical', 'integerOnly'=>true),
 			array('invgedung_luaslantai, invgedung_harga, invgedung_akumsusut', 'numerical'),
 			array('invgedung_kode, invgedung_noregister', 'length', 'max'=>50),
@@ -102,7 +102,7 @@ class InvgedungT extends CActiveRecord
 			'asalaset_id' => 'Asal Aset',
 			'invgedung_kode' => 'Kode Gedung',
 			'invgedung_noregister' => 'No. register',
-			'invgedung_namabrg' => 'Nama Barang',
+			'invgedung_namabrg' => 'Nama Gedung',
 			'invgedung_kontruksi' => 'Kontruksi Gedung',
 			'invgedung_luaslantai' => 'Luas Lantai',
 			'invgedung_alamat' => 'Alamat Gedung',
@@ -117,7 +117,7 @@ class InvgedungT extends CActiveRecord
 			'create_loginpemakai_id' => 'Create Loginpemakai',
 			'update_loginpemakai_id' => 'Update Loginpemakai',
 			'create_ruangan' => 'Create Ruangan',
-			'umurekonomis'=>'Umur Ekonomis',
+			'umurekonomis'=>'Tahun Ekonomis',
 		);
 	}
 

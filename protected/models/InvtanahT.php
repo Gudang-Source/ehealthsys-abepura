@@ -68,7 +68,7 @@ class InvtanahT extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-            array('pemilikbarang_id, barang_id', 'required'),
+            array('pemilikbarang_id, barang_id, invtanah_tglguna, invtanah_umurekonomis', 'required'),
             array('pemilikbarang_id, barang_id, asalaset_id, lokasi_id, terimapersdetail_id', 'numerical', 'integerOnly'=>true),
             array('invtanah_harga, invtanah_umurekonomis, umurekonomis, invtanah_nilairesidu, hargajualaktiva, kerugian, keuntungan', 'numerical'),
             array('invtanah_kode, invtanah_noregister, invtanah_status', 'length', 'max'=>50),
@@ -118,7 +118,7 @@ class InvtanahT extends CActiveRecord
 			'lokasi_id' => 'Lokasi',
 			'invtanah_kode' => 'Kode Tanah',
 			'invtanah_noregister' => ' No. Register',
-			'invtanah_namabrg' => 'Nama Barang ',
+			'invtanah_namabrg' => 'Nama Tanah',
 			'invtanah_luas' => 'Luas Tanah',
 			'invtanah_thnpengadaan' => 'Tahun Pengadaan',
 			'invtanah_tglguna' => 'Tanggal Penggunaan',

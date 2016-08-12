@@ -80,6 +80,28 @@ function searchPenerimaan(){
 	});
 }
 
+function setDatePicker()
+{
+	setTimeout(function() {
+		$("#tabel-sterilisasi tbody tr .tanggal").each(function() {
+			$(this).datepicker(
+				$.extend(
+					{showMonthAfterYear:true},
+					$.datepicker.regional['id'],
+					{
+						'dateFormat':'dd M yy',
+						'changeYear':true,
+						'changeMonth':true,
+						'showAnim':'fold',
+						'yearRange':'-0y:+10y',
+					}
+				)
+			);
+		});
+	}, 500);
+	
+}
+
 
 /**
 * rename input grid
