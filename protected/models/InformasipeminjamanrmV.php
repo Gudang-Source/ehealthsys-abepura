@@ -90,7 +90,7 @@ class InformasipeminjamanrmV extends CActiveRecord
 		return array(
 			'peminjamanrm_id' => 'Peminjamanrm',
 			'dokrekammedis_id' => 'Dokrekammedis',
-			'nodokumenrm' => 'Nodokumenrm',
+			'nodokumenrm' => 'No. Dokumen',
 			'warnadokrm_id' => 'Warnadokrm',
 			'warnadokrm_namawarna' => 'Warnadokrm Namawarna',
 			'pasien_id' => 'Pasien',
@@ -109,7 +109,7 @@ class InformasipeminjamanrmV extends CActiveRecord
 			'instalasi_nama' => 'Instalasi Nama',
 			'nourut_pinjam' => 'Nourut Pinjam',
 			'tglpeminjamanrm' => 'Tglpeminjamanrm',
-			'untukkepentingan' => 'Untukkepentingan',
+			'untukkepentingan' => 'Untuk Kepentingan',
 			'keteranganpeminjaman' => 'Keteranganpeminjaman',
 		);
 	}
@@ -195,11 +195,11 @@ class InformasipeminjamanrmV extends CActiveRecord
         
         public function getInstalasiItems()
         {
-            return InstalasiM::model()->findAll('instalasi_aktif=TRUE ORDER BY instalasi_id');
+            return InstalasiM::model()->findAll('instalasi_aktif=TRUE ORDER BY instalasi_nama ASC');
         }
         
         public function getRuanganItems()
         {
-            return RuanganM::model()->findAll('ruangan_aktif=TRUE');
+            return RuanganM::model()->findAll('ruangan_aktif=TRUE ORDER BY ruangan_nama ASC');
         }
 }
