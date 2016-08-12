@@ -50,7 +50,8 @@
                         array(
                           'header'=>'Total HPP',
                           'type'=>'raw',
-                          'value'=>'MyFormatter::formatUang($data->totalnetto)',
+                          'value'=>'"Rp".number_format($data->totalnetto,0,"",".")',
+                          'htmlOptions' => array('style'=>'text-align:right;')  
                         ),
                         array(
                             'header'=>'Detail',

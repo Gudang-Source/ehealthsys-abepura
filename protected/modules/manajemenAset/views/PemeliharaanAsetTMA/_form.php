@@ -176,14 +176,15 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     ),
 ));
 
-$modPegawaiMengetahui = new MAPegawaiM('searchDialog');
+$modPegawaiMengetahui = new PegawairuanganV('searchDialog');
 $modPegawaiMengetahui->unsetAttributes();
-if(isset($_GET['MAPegawaiM'])) {
-    $modPegawaiMengetahui->attributes = $_GET['MAPegawaiM'];
+if(isset($_GET['PegawairuanganV'])) {
+    $modPegawaiMengetahui->attributes = $_GET['PegawairuanganV'];
 }
+$modPegawaiMengetahui->ruangan_id = Yii::app()->user->getState('ruangan_id');
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'pegawaimengetahui-grid',
-    'dataProvider'=>$modPegawaiMengetahui->searchDialog(),
+    'dataProvider'=>$modPegawaiMengetahui->search(),
     'filter'=>$modPegawaiMengetahui,
 	'template'=>"{summary}\n{items}\n{pager}",
 	'itemsCssClass'=>'table table-striped table-bordered table-condensed',

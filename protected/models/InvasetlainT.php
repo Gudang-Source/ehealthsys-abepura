@@ -59,7 +59,7 @@ class InvasetlainT extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('barang_id, pemilikbarang_id, invasetlain_kode, invasetlain_noregister, invasetlain_namabrg', 'required'),
+			array('barang_id, pemilikbarang_id, invasetlain_kode, invasetlain_noregister, invasetlain_namabrg, invasetlain_umurekonomis, invasetlain_tglguna', 'required'),
 			array('asalaset_id, barang_id, lokasi_id, pemilikbarang_id', 'numerical', 'integerOnly'=>true),
 			array('invasetlain_jumlah, invasetlain_harga, invasetlain_akumsusut', 'numerical'),
 			array('invasetlain_kode, invasetlain_noregister, invasetlain_judulbuku, invasetlain_spesifikasibuku, invasetlain_asalkesenian, invasetlain_penciptakesenian, invasetlain_bahankesenian, invasetlain_jenishewan_tum, invasetlain_ukuranhewan_tum', 'length', 'max'=>50),
@@ -119,6 +119,7 @@ class InvasetlainT extends CActiveRecord
 			'invasetlain_bahankesenian' => 'Bahan Kesenian',
 			'invasetlain_jenishewan_tum' => 'Jenis Hewan',
 			'invasetlain_ukuranhewan_tum' => 'Ukuran Hewan',
+			'invasetlain_umurekonomis' => 'Tahun Ekonomis',
 			'create_time' => 'Create Time',
 			'update_time' => 'Update Time',
 			'create_loginpemakai_id' => 'Create Loginpemakai',

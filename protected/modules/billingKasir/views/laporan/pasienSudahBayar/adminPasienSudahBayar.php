@@ -61,10 +61,10 @@
                         'itemsCssClass'=>'table table-striped table-condensed',
                         'columns'=>array(
                         array(
-                                'header'=>'Tanggal Bukti Bayar <br/> No. Bukti Bayar',
+                                'header'=>'Tanggal Bukti Bayar / <br/> No. Bukti Bayar',
                                 'name'=>'tglbuktibayar',
                                 'type'=>'raw',
-                                'value'=>'(isset($data->tandabuktibayar->tglbuktibayar) ? date("d/m/Y H:i:s",strtotime($data->tandabuktibayar->tglbuktibayar)) : "")."<br>".(isset($data->tandabuktibayar->nobuktibayar) ? $data->tandabuktibayar->nobuktibayar : "")',
+                                'value'=>'(isset($data->tandabuktibayar->tglbuktibayar) ? MyFormatter::formatDateTimeForUser(date("Y-m-d H:i:s",strtotime($data->tandabuktibayar->tglbuktibayar))) : "")." / <br>".(isset($data->tandabuktibayar->nobuktibayar) ? $data->tandabuktibayar->nobuktibayar : "")',
                             ),
                             array(
                                 'name'=>'instalasi',
@@ -94,7 +94,7 @@
                             array(
                                 'name'=>'total_tagihan',
                                 'type'=>'raw',
-                                'value'=>'"Rp. ".number_format($data->totalbiayapelayanan,0,"",".")',
+                                'value'=>'"Rp".number_format($data->totalbiayapelayanan,0,"",".")',
                                 'htmlOptions'=>array(
                                     'style'=>'text-align: right',
                                 )
@@ -103,7 +103,7 @@
                                 'header'=>'Subsidi Asuransi',
                                 'name'=>'subsidi_asuransi',
                                 'type'=>'raw',
-                                'value'=>'"Rp. ".number_format($data->totalsubsidiasuransi,0,"",".")',
+                                'value'=>'"Rp".number_format($data->totalsubsidiasuransi,0,"",".")',
                                 'htmlOptions'=>array(
                                     'style'=>'text-align: right',
                                 )
@@ -112,7 +112,7 @@
                                 'header'=>'Subsidi Pemerintah',
                                 'name'=>'subsidi_pemerintah',
                                 'type'=>'raw',
-                                'value'=>'"Rp. ".MyFormatter::formatNumberForPrint($data->totalsubsidipemerintah)',
+                                'value'=>'"Rp".MyFormatter::formatNumberForPrint($data->totalsubsidipemerintah)',
                                 'htmlOptions'=>array(
                                     'style'=>'text-align: right',
                                 )
@@ -130,7 +130,7 @@
                                 'header'=>'Biaya',
                                 'name'=>'iur_biaya',
                                 'type'=>'raw',
-                                'value'=>'"Rp. ".number_format($data->totaliurbiaya,0,"",".")',
+                                'value'=>'"Rp".number_format($data->totaliurbiaya,0,"",".")',
                                 'htmlOptions'=>array(
                                     'style'=>'text-align: right',
                                 )
@@ -155,7 +155,7 @@
                             array(
                                 'header'=>'Jumlah Pembayaran',
                                 'type'=>'raw',
-                                'value'=>'"Rp. ".number_format($data->totalbayartindakan,0,"",".")',
+                                'value'=>'"Rp".number_format($data->totalbayartindakan,0,"",".")',
                                 'htmlOptions'=>array(
                                     'style'=>'text-align: right',
                                 )
@@ -210,7 +210,7 @@
                             array(
                                 'name'=>'total_tagihan',
                                 'type'=>'raw',
-                                'value'=>'"Rp. ".number_format($data->totalbiayapelayanan,0,"",".")',
+                                'value'=>'"Rp".number_format($data->totalbiayapelayanan,0,"",".")',
                                 'htmlOptions'=>array(
                                     'style'=>'text-align: right',
                                 ),
@@ -219,7 +219,7 @@
                                 'header'=>'Subsidi Asuransi',
                                 'name'=>'subsidi_asuransi',
                                 'type'=>'raw',
-                                'value'=>'"Rp. ".number_format($data->totalsubsidiasuransi,0,"",".")',
+                                'value'=>'"Rp".number_format($data->totalsubsidiasuransi,0,"",".")',
                                 'htmlOptions'=>array(
                                     'style'=>'text-align: right',
                                 ),
@@ -228,7 +228,7 @@
                                  'header'=>'Subsidi Pemerintah',
                                  'name'=>'subsidi_pemerintah',
                                  'type'=>'raw',
-                                 'value'=>'"Rp. ".MyFormatter::formatNumberForPrint($data->totalsubsidipemerintah)',
+                                 'value'=>'"Rp".MyFormatter::formatNumberForPrint($data->totalsubsidipemerintah)',
                                 'htmlOptions'=>array(
                                     'style'=>'text-align: right',
                                 ),
@@ -237,7 +237,7 @@
                                 'header'=>'Subsidi RS',
                                 'name'=>'subsidi_rs',
                                 'type'=>'raw',
-                                'value'=>'"Rp. ".number_format($data->totalsubsidirs,0,"",".")',
+                                'value'=>'"Rp".number_format($data->totalsubsidirs,0,"",".")',
                                 'htmlOptions'=>array(
                                     'style'=>'text-align: right',
                                 ),
@@ -246,7 +246,7 @@
                                 'header'=>'Biaya',
                                 'name'=>'iur_biaya',
                                 'type'=>'raw',
-                                'value'=>'"Rp. ".number_format($data->totaliurbiaya,0,"",".")',
+                                'value'=>'"Rp".number_format($data->totaliurbiaya,0,"",".")',
                                 'htmlOptions'=>array(
                                     'style'=>'text-align: right',
                                 ),
@@ -263,7 +263,7 @@
                             array(
                                 'header'=>'Pembebasan',
                                 'type'=>'raw',
-                                'value'=>'"Rp. ".number_format($data->totalpembebasan,0,"",".")',
+                                'value'=>'"Rp".number_format($data->totalpembebasan,0,"",".")',
                                 'htmlOptions'=>array(
                                     'style'=>'text-align: right',
                                 ),
@@ -271,7 +271,7 @@
                             array(
                                 'header'=>'Jumlah Pembayaran',
                                 'type'=>'raw',
-                                'value'=>'"Rp. ".number_format($data->totalbayartindakan,0,"",".")',
+                                'value'=>'"Rp".number_format($data->totalbayartindakan,0,"",".")',
                                 'htmlOptions'=>array(
                                     'style'=>'text-align: right',
                                 ),
@@ -326,7 +326,7 @@
                             array(
                                 'name'=>'total_tagihan',
                                 'type'=>'raw',
-                                'value'=>'"Rp. ".number_format($data->totalbiayapelayanan,0,"",".")',
+                                'value'=>'"Rp".number_format($data->totalbiayapelayanan,0,"",".")',
                                 'htmlOptions'=>array(
                                     'style'=>'text-align: right',
                                 ),
@@ -335,7 +335,7 @@
                                 'header'=>'Subsidi Asuransi',
                                 'name'=>'subsidi_asuransi',
                                 'type'=>'raw',
-                                'value'=>'"Rp. ".number_format($data->totalsubsidiasuransi,0,"",".")',
+                                'value'=>'"Rp".number_format($data->totalsubsidiasuransi,0,"",".")',
                                 'htmlOptions'=>array(
                                     'style'=>'text-align: right',
                                 ),
@@ -344,7 +344,7 @@
                                  'header'=>'Subsidi Pemerintah',
                                  'name'=>'subsidi_pemerintah',
                                  'type'=>'raw',
-                                 'value'=>'"Rp. ".MyFormatter::formatNumberForPrint($data->totalsubsidipemerintah)',
+                                 'value'=>'"Rp".MyFormatter::formatNumberForPrint($data->totalsubsidipemerintah)',
                                 'htmlOptions'=>array(
                                     'style'=>'text-align: right',
                                 ),
@@ -353,7 +353,7 @@
                                 'header'=>'Subsidi RS',
                                 'name'=>'subsidi_rs',
                                 'type'=>'raw',
-                                'value'=>'"Rp. ".number_format($data->totalsubsidirs,0,"",".")',
+                                'value'=>'"Rp".number_format($data->totalsubsidirs,0,"",".")',
                                 'htmlOptions'=>array(
                                     'style'=>'text-align: right',
                                 ),
@@ -362,7 +362,7 @@
                                 'header'=>'Biaya',
                                 'name'=>'iur_biaya',
                                 'type'=>'raw',
-                                'value'=>'"Rp. ".number_format($data->totaliurbiaya,0,"",".")',
+                                'value'=>'"Rp".number_format($data->totaliurbiaya,0,"",".")',
                                 'htmlOptions'=>array(
                                     'style'=>'text-align: right',
                                 ),
@@ -379,7 +379,7 @@
                             array(
                                 'header'=>'Pembebasan',
                                 'type'=>'raw',
-                                'value'=>'"Rp. ".number_format($data->totalpembebasan,0,"",".")',
+                                'value'=>'"Rp".number_format($data->totalpembebasan,0,"",".")',
                                 'htmlOptions'=>array(
                                     'style'=>'text-align: right',
                                 ),
@@ -387,7 +387,7 @@
                             array(
                                 'header'=>'Jumlah Pembayaran',
                                 'type'=>'raw',
-                                'value'=>'"Rp. ".number_format($data->totalbayartindakan,0,"",".")',
+                                'value'=>'"Rp".number_format($data->totalbayartindakan,0,"",".")',
                                 'htmlOptions'=>array(
                                     'style'=>'text-align: right',
                                 ),

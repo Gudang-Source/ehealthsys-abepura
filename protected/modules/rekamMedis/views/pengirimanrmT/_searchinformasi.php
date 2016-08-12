@@ -8,8 +8,7 @@
 <table width="100%">
     <tr>
         <td width="65%">
-            <fieldset class="box2">
-                <legend class="rim">Berdasarkan Tanggal</legend>
+           
                 <div class="row-fluid">
                     <div class="span6">
                         <?php //echo $form->textFieldRow($model, 'tglrekammedis', array('class' => 'span3')); ?>
@@ -76,11 +75,45 @@
         //                    ));
                             ?>
                         </div>-->
-                        <?php echo $form->textFieldRow($model,'nama_pasien',array('class'=>'span3', 'autofocus'=>true, 'placeholder'=>'Ketik nama pasien')); ?>
+                        <?php echo $form->textFieldRow($model,'nama_pasien',array('class'=>'span3 hurufs-only', 'autofocus'=>true, 'placeholder'=>'Ketik nama pasien')); ?>
+                        <?php echo $form->textFieldRow($model,'no_rekam_medik',array('class'=>'span3 numbers-only' , 'placeholder'=>'Ketik no. rekam medik', 'maxlength'=>6)); ?>
                     </div>
-                    <div class="span6">
-                        <?php echo $form->textFieldRow($model,'no_rekam_medik',array('class'=>'span3' , 'placeholder'=>'Ketik no. rekam medik')); ?>
-                        <?php echo $form->DropDownListRow($model,'printpengiriman',array(''=>'-- Pilih ---','1'=>'Sudah diprint','0'=>'Belum diprint'),array('class'=>'span2')) ?>
+                    <div class="span6">        
+                        <div class="control-group">
+                                <?php echo CHtml::label('Instalasi Asal', 'instalasipengirim_id', array('class'=>'control-label')) ?>
+                                <div class="controls">
+                                        <?php echo $form->dropDownList($model,'instalasipengirim_id', CHtml::listData($model->getInstalasiItems(), 'instalasi_id', 'instalasi_nama'), 
+                                                        array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
+                                                                        'ajax'=>array('type'=>'POST',
+                                                                                                'url'=>$this->createUrl('SetDropdownRuanganAsal',array('encode'=>false,'model_nama'=>get_class($model))),
+                                                                                                'update'=>"#".CHtml::activeId($model, 'ruanganpengirim_id'),
+                                                                        )));?>
+                                </div>
+                        </div>
+                        <div class="control-group">
+                                <?php echo CHtml::label('Ruangan Asal', 'ruanganpengirim_id', array('class'=>'control-label')) ?>
+                                <div class="controls">
+                                        <?php echo $form->dropDownList($model,'ruanganpengirim_id',CHtml::listData($model->getRuanganItems($model->instalasipengirim_id), 'ruangan_id', 'ruangan_nama'),array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+                                </div>
+                        </div>						
+
+                        <div class="control-group">
+                                <?php echo CHtml::label('Instalasi Tujuan', 'instalasitujuan_id', array('class'=>'control-label')) ?>
+                                <div class="controls">
+                                        <?php echo $form->dropDownList($model,'instalasitujuan_id', CHtml::listData($model->getInstalasiItems(), 'instalasi_id', 'instalasi_nama'), 
+                                                        array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
+                                                                        'ajax'=>array('type'=>'POST',
+                                                                                                'url'=>$this->createUrl('SetDropdownRuanganTujuan',array('encode'=>false,'model_nama'=>get_class($model))),
+                                                                                                'update'=>"#".CHtml::activeId($model, 'ruangantujuan_id'),
+                                                                        )));?>
+                                </div>
+                        </div>
+                        <div class="control-group">
+                                <?php echo CHtml::label('Ruangan Tujuan', 'ruangantujuan_id', array('class'=>'control-label')) ?>
+                                <div class="controls">
+                                        <?php echo $form->dropDownList($model,'ruangantujuan_id',CHtml::listData($model->getRuanganItems($model->instalasitujuan_id), 'ruangan_id', 'ruangan_nama'),array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);",'empty'=>'--Pilih--')); ?>
+                                </div>
+                        </div>		                        
                         <?php // echo CHtml::label('Nama Pasien','nama_pasien',array('class'=>'control-label')); ?>
         <!--            <div class="controls">
                         <?php
@@ -116,46 +149,21 @@
         </td>
         <td>
             <div id="searching">
-                <fieldset class="box2">
-                    <legend class="rim">Berdasarkan Instalasi / Ruangan Asal</legend>
-					<div class="control-group">
-						<?php echo CHtml::label('Instalasi Asal', 'instalasipengirim_id', array('class'=>'control-label')) ?>
-						<div class="controls">
-							<?php echo $form->dropDownList($model,'instalasipengirim_id', CHtml::listData($model->getInstalasiItems(), 'instalasi_id', 'instalasi_nama'), 
-									array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
-											'ajax'=>array('type'=>'POST',
-														'url'=>$this->createUrl('SetDropdownRuanganAsal',array('encode'=>false,'model_nama'=>get_class($model))),
-														'update'=>"#".CHtml::activeId($model, 'ruanganpengirim_id'),
-											)));?>
-						</div>
-					</div>
-					<div class="control-group">
-						<?php echo CHtml::label('Ruangan Asal', 'ruanganpengirim_id', array('class'=>'control-label')) ?>
-						<div class="controls">
-							<?php echo $form->dropDownList($model,'ruanganpengirim_id',CHtml::listData($model->getRuanganItems($model->instalasipengirim_id), 'ruangan_id', 'ruangan_nama'),array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
-						</div>
-					</div>						
-                </fieldset>
-                <fieldset class="box2">	
-                    <legend class="rim">Berdasarkan Instalasi / Ruangan Tujuan</legend>
-					<div class="control-group">
-						<?php echo CHtml::label('Instalasi Tujuan', 'instalasitujuan_id', array('class'=>'control-label')) ?>
-						<div class="controls">
-							<?php echo $form->dropDownList($model,'instalasitujuan_id', CHtml::listData($model->getInstalasiItems(), 'instalasi_id', 'instalasi_nama'), 
-									array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
-											'ajax'=>array('type'=>'POST',
-														'url'=>$this->createUrl('SetDropdownRuanganTujuan',array('encode'=>false,'model_nama'=>get_class($model))),
-														'update'=>"#".CHtml::activeId($model, 'ruangantujuan_id'),
-											)));?>
-						</div>
-					</div>
-					<div class="control-group">
-						<?php echo CHtml::label('Ruangan Tujuan', 'ruangantujuan_id', array('class'=>'control-label')) ?>
-						<div class="controls">
-							<?php echo $form->dropDownList($model,'ruangantujuan_id',CHtml::listData($model->getRuanganItems($model->instalasitujuan_id), 'ruangan_id', 'ruangan_nama'),array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);",'empty'=>'--Pilih--')); ?>
-						</div>
-					</div>					
-                </fieldset>
+                <div class = "control-group">
+                    <?php echo Chtml::label('Petugas Pengirim','create_loginpemakai_id',array('class'=>'control-label')) ?>
+                    <div class = "controls">
+                    <?php echo $form->DropDownList($model,'create_loginpemakai_id', Chtml::ListData(RKPegawaiM::model()->getPegawai(),'loginpemakai_id','namaLengkap'),array('class'=>'span3','empty'=>'-- Pilih --')) ?>
+                    </div>
+                </div>
+                
+                <div class = "control-group">
+                    <?php echo Chtml::label('Status Print','printpengiriman',array('class'=>'control-label')) ?>
+                    <div class = "controls">
+                    <?php echo $form->DropDownList($model,'printpengiriman',array(null=>'-- Pilih ---','1'=>'Sudah diprint','0'=>'Belum diprint'),array('class'=>'span2')) ?>
+                    </div>
+                </div>
+								
+                
             </div>
         </td>
     </tr>
@@ -165,12 +173,12 @@
 	<?php
 		echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit'));
 		echo "&nbsp;";
-		echo CHtml::link(Yii::t('mds','{icon} Cancel',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
+		echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
 								Yii::app()->createUrl($this->module->id.'/pengirimanrmT/informasi'), 
 								array('class'=>'btn btn-danger',
-									  'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;')); 
+									  'onclick'=>'myConfirm("Apakah Anda yakin ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;')); 
 		echo "&nbsp;"; 
-		$content = $this->renderPartial('rekamMedis.views.tips.informasi',array(),true);
+		$content = $this->renderPartial('sistemAdministrator.views.tips.informasi',array(),true);
 		$this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
 	?>
 </div>

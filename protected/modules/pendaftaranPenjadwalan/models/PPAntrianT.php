@@ -83,8 +83,8 @@ class PPAntrianT extends AntrianT
             }
             $criteria->addCondition("ispendaftaran = TRUE");
             
-            if ($israwatinap) $criteria->addCondition("israwatinap = true");
-            else $criteria->addCondition("israwatinap = false");
+           // if ($israwatinap) $criteria->addCondition("israwatinap = true");
+           // else $criteria->addCondition("israwatinap = false");
             
             $criteria->addCondition("loket_aktif = TRUE");
             $criteria->order = "loket_nourut ASC";
