@@ -1328,7 +1328,7 @@ class PendaftaranRawatJalanController extends MyAuthController
         function periksaValidasiPasienRJ($pendaftaran, $admisi, $pp, &$returnVal)
         {
             if (!empty($pendaftaran->pasienpulang_id)) {
-				echo "Kick"; die;
+				// echo "Kick"; die;
                 $pp = PasienpulangT::model()->findByPk($pendaftaran->pasienpulang_id);
                 if ($pp->carakeluar_id == Params::CARAKELUAR_ID_RAWATINAP) {
                     $returnVal['adaDaftar'] = true;
