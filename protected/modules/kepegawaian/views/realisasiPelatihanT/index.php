@@ -109,9 +109,19 @@ if(isset($_GET['sukses'])){
 		</div>
     </div> 
     <div class="form-actions">
-		<?php echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button', 'onclick'=>'verifikasiRealisasiPelatihan();', 'onkeypress'=>'verifikasiRealisasiPelatihan();')); ?>
-		<?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
-				$this->createUrl('index'),array('class'=>'btn btn-danger','onclick'=>'if(!confirm("'.Yii::t('mds','Apakah anda akan mengulang input data ?').'")) return false;')); ?>
+		<?php 
+                    if (isset($_GET['norencanadiklat'])){
+                        echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','disabled'=>true));                         
+                    }else{                        
+                        echo CHtml::htmlButton(Yii::t('mds','{icon} Save',array('{icon}'=>'<i class="icon-ok icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button', 'onclick'=>'verifikasiRealisasiPelatihan();', 'onkeypress'=>'verifikasiRealisasiPelatihan();')); 
+                    }
+                    
+                    
+                    ?>
+		 <?php
+        echo CHtml::link(Yii::t('mds', '{icon} Ulang', array('{icon}' => '<i class="icon-refresh icon-white"></i>')), $this->createUrl($this->id . '/index',array('modul_id'=>Yii::app()->session['modul_id'])), array('class' => 'btn btn-danger',
+            'onclick' => 'myConfirm("Apakah Anda yakin ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = "' . $this->createUrl($this->id . '/index',array('modul_id'=>Yii::app()->session['modul_id'])) . '";}); return false;'));
+        ?>
 		<?php 
     echo (!isset($_GET['norencanadiklat']) ? 
 		CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-info', 'type'=>'button', 'disabled'=>true))."&nbsp&nbsp" : 
@@ -162,8 +172,10 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 
 $modRencanaDiklat = new KPRencanadiklatT('searchRencanaDiklat');
 $modRencanaDiklat->unsetAttributes();
-if(isset($_GET['KPPegawaiV'])) {
-    $modRencanaDiklat->attributes = $_GET['KPPegawaiV'];
+if(isset($_GET['KPRencanadiklatT'])) {
+    $modRencanaDiklat->attributes = $_GET['KPRencanadiklatT'];
+    $modRencanaDiklat->nomorindukpegawai = $_GET['KPRencanadiklatT']['nomorindukpegawai'];
+    $modRencanaDiklat->nama_pegawai = $_GET['KPRencanadiklatT']['nama_pegawai'];
 }
 $this->widget('ext.bootstrap.widgets.BootGroupGridView',array(
 	'id'=>'rencanadiklat-grid',
@@ -176,7 +188,7 @@ $this->widget('ext.bootstrap.widgets.BootGroupGridView',array(
                 array(
                     'header'=>'Pilih',
                     'type'=>'raw',
-                    'value'=>'CHtml::Link("<i class=\"icon-check\"></i>","",array("class"=>"btn-small", 
+                    'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","",array("class"=>"btn-small", 
                                     "href"=>"",
                                     "id" => "selectRencanaDiklat",
                                     "onClick" => "
@@ -187,12 +199,20 @@ $this->widget('ext.bootstrap.widgets.BootGroupGridView',array(
                                         "))',
                 ),
                 array(
-                    'name'=>'norencanadiklat',
+                    'header'=>'No. Rencana Diklat',
                     'value'=>'$data->norencanadiklat',
                 ),
                 array(
+                     'header'=>'NIP',
+                    'name'=>'nomorindukpegawai',
+                    'value'=>'$data->pegawai->nomorindukpegawai',
+                    'filter'=>  CHtml::activeTextField($modRencanaDiklat, 'nomorindukpegawai', array('class'=>'numbers-only'))
+                ),
+                array(
                     'header'=>'Nama Pegawai',
-                    'value'=>'$data->pegawai->nama_pegawai',
+                    'name'=>'nama_pegawai',
+                    'value'=>'$data->pegawai->namaLengkap',
+                    'filter'=>  CHtml::activeTextField($modRencanaDiklat, 'nama_pegawai', array('class'=>'hurufs-only'))
                 ),
                 array(
                     'header'=>'Mulai Periode Diklat',
@@ -219,7 +239,13 @@ $this->widget('ext.bootstrap.widgets.BootGroupGridView',array(
                 ),
             ),
             'afterAjaxUpdate' => 'function(id, data){
-            jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
+            jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});'
+        . '     $(".hurufs-only").keyup(function() {
+            setHurufsOnly(this);
+            });
+            $(".numbers-only").keyup(function() {
+            setNumbersOnly(this);
+            });}',
         ));
 $this->endWidget();
 //========= end No Rencana Diklat dialog =============================

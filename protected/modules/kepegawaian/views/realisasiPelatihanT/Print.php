@@ -33,11 +33,11 @@ echo "No. Rencana Pelatihan : <b>".$deskripsi."</b>";
             <td><?php echo $detail->pegawaidiklat_nama; ?></td>
             <td><?php echo $detail->jenisdiklat->jenisdiklat_nama; ?></td>
             <td><?php echo $detail->rencanadiklat->namadiklat; ?></td>
-            <td><?php echo $format->formatDateTimeForUser(date("Y-m-d",strtotime($detail->pegawaidiklat_tahun))); ?></td>
+            <td><?php echo !empty($detail->pegawaidiklat_tahun)?$format->formatDateTimeForUser(date("Y-m-d",strtotime($detail->pegawaidiklat_tahun))):'-'; ?></td>
             <td><?php echo $detail->pegawaidiklat_lamanya; ?></td>
             <td><?php echo $detail->pegawaidiklat_tempat; ?></td>
             <td><?php echo $detail->nomorkeputusandiklat; ?></td>
-            <td><?php echo $format->formatDateTimeForUser(date("Y-m-d",strtotime($detail->tglditetapkandiklat))); ?></td>
+            <td><?php echo MyFormatter::formatDateTimeForUser(date("Y-m-d",strtotime(MyFormatter::formatDateTimeForDb($detail->tglditetapkandiklat)))); ?></td>
             <td><?php echo $detail->pejabatygmemdiklat; ?></td>
             <td><?php echo $detail->pegawaidiklat_keterangan; ?></td>
         </tr>

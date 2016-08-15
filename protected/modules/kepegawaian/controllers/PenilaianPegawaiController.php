@@ -19,6 +19,7 @@ class PenilaianPegawaiController extends MyAuthController
 		$model = new KPPenilaianpegawaiT();
 		$modPegawai = new KPPegawaiM;
 		$modPenilaianPegawaiDet = new KPPenilaianpegawaidetT();
+                $tabelPenilaian = null;
 		$model->tglpenilaian = date('d-m-Y'); // format seperti ini karena buat ngisi date mask
 		if(isset($_POST['KPPenilaianpegawaiT'])){
                         $ok = true;
