@@ -1834,7 +1834,7 @@ class ActionAutoCompleteController extends Controller
                     foreach($attributes as $j=>$attribute) {
                         $returnVal[$i]["$attribute"] = $model->$attribute;
                     }
-                    $returnVal[$i]['label'] = $model->nama_pegawai.' - '.$model->ruangan_nama;
+                    $returnVal[$i]['label'] = $model->nama_pegawai.' - '.$model->ruangan_nama;                    
                     $returnVal[$i]['value'] = $model->pegawai_id;
                 }
 
@@ -2866,5 +2866,33 @@ class ActionAutoCompleteController extends Controller
         }
         Yii::app()->end();
         }
+        
+        public function actionPegawaiRuangan()
+	{
+            if(Yii::app()->request->isAjaxRequest) {                
+                
+                $criteria = new CDbCriteria();
+                $criteria->compare('LOWER(nama_pegawai)', strtolower($_GET['term']), true);
+                $criteria->addCondition('ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
+                $criteria->order = 'nama_pegawai';
+                $models = PegawairuanganV::model()->findAll($criteria);
+                
+                foreach($models as $i=>$model)
+                {
+                    $attributes = $model->attributeNames();
+                    foreach($attributes as $j=>$attribute) {
+                        $returnVal[$i]["$attribute"] = $model->$attribute;
+                    }
+                    $returnVal[$i]['label'] = $model->nomorindukpegawai.' - '.$model->namaLengkap;
+                    $returnVal[$i]['value'] = $model->pegawai_id;
+                    $returnVal[$i]['namaLengkap'] = $model->gelardepan.' '.$model->nama_pegawai.' '.$model->gelarbelakang_nama;
+                }
+
+                echo CJSON::encode($returnVal);
+            }
+            Yii::app()->end();
+            
+            
+	}
         
 }

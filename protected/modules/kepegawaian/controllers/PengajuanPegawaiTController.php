@@ -19,30 +19,51 @@ class PengajuanPegawaiTController extends MyAuthController
                 //if(!Yii::app()->user->checkAccess(Params::DEFAULT_CREATE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		$model=new KPPengajuanPegawaiT;
                 $model->tglpengajuan = date('d M Y');
+              
                 
+                $pegawai_id = PegawaiM::model()->findByPk(Yii::app()->user->getState('pegawai_id'));
+                
+                if (count($pegawai_id)>0)
+                {
+                    $model->mengajukan_id = $pegawai_id->pegawai_id;
+                    $model->mengajukanNama = $pegawai_id->namaLengkap; 
+                }
                 
                 $modPengpegdet = new KPPengpegawaidetT;
                 $modPengpegdets = null;
                 $modPengpegdet->nourut =1;
                 $modPengpegdet->disetujui = false;
                 
-                 $format = new MyFormatter();
+                $format = new MyFormatter();
                 $bln = strtoupper($format->getMonthUser(date('M')));
                 $thn = date('Y');
-                $tgl = date('d');
-                 
-                
-                    $model->nopengajuan_awal='KPP/'.$thn.'/'.$bln.'/'.$tgl.'/';
+                $tgl = date('d');                                                
+                $model->nopengajuan_awal='KPP/'.$thn.'/'.$bln.'/'.$tgl.'/';
                 
                 if(!empty($id)){
                     $model = KPPengajuanPegawaiT::model()->findByPk($id);
                     $yangmengajukan = KPPegawaiM::model()->findByPk($model->mengajukan_id);
                     $yangmengetahui = KPPegawaiM::model()->findByPk($model->mengetahui_id);
+                    $yangmenyetujui = KPPegawaiM::model()->findByPk($model->menyetujui_id);
 //                    $model->namayangmengajukan = $yangmengajukan->gelardepan.' '.$yangmengajukan->nama_pegawai;
 //                    $model->namayangmengetahui = $yangyangmengajukan->gelardepan.' '.$yangmengetahui->nama_pegawai;
                     $model->mengetahui = $yangmengajukan->gelardepan.' '.$yangmengetahui->nama_pegawai;
                     $model->mengajukanNama = $yangmengajukan->gelardepan.' '.$yangmengajukan->nama_pegawai;
-                    $modPengpegdets = KPPengpegawaidetT::model()->findAllByAttributes(array('pengajuanpegawai_t_id'=>$model->pengajuanpegawai_t_id),array('order'=>'nourut'));
+                    $model->menyetujuiNama = $yangmenyetujui->namaLengkap;
+                    $modPengpegdets = KPPengpegawaidetT::model()->findAllByAttributes(array('pengajuanpegawai_t_id'=>$model->pengajuanpegawai_t_id),array('order'=>'nourut'));                                         
+                    
+                    $criteria = new CDbCriteria();
+                    $criteria->select = "SUM(jmlorang) as jumlah";
+                    $criteria->addCondition("pengajuanpegawai_t_id = '".$id."' ");            
+                    $jml = KPPengpegawaidetT::model()->findAll($criteria);
+                    $total = 0;
+                    
+                    foreach ($jml as $jml):
+                        $total = $jml->jumlah;
+                    endforeach;
+                    
+                    $model->total = $total;                    
+                    
                     
                 }
                 if(isset($_POST['KPPengajuanPegawaiT']) && empty($id)){  
@@ -52,7 +73,7 @@ class PengajuanPegawaiTController extends MyAuthController
                         $model->create_time = date('Y-m-d');
                         $model->create_ruangan = Yii::app()->user->getState('ruangan_id');
                         $model->create_loginpemakai_id = Yii::app()->user->id;
-						$model->tglpengajuan = $format->formatDateTimeForDb($model->tglpengajuan);
+                            $model->tglpengajuan = $format->formatDateTimeForDb($model->tglpengajuan);
                         $modPengpegdets = $this->validasiTabular($_POST['KPPengpegawaidetT']);
 
                         $jumlahDetailPengcal = COUNT($modPengpegdets);

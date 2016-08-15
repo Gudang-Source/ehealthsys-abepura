@@ -8,7 +8,7 @@ foreach($modPengpegdets as $i=>$modPengpegdet) {
 ?>
 
 <tr>
-        <td><?php echo CHtml::activeTextField($modPengpegdet,'[$i]nourut',array('class'=>'span1', 'readonly'=>true)); //echo $modPengpegdet->nourut;?></td>
+        <td><?php echo CHtml::activeTextField($modPengpegdet,'[$i]nourut',array('class'=>'span1', 'readonly'=>true, 'style'=>'text-align:right')); //echo $modPengpegdet->nourut;?></td>
 <!--        <td><?php //echo $occopation->occupation_nama;?>
             <?php // echo CHtml::activeHiddenField($modPengpegdet,'[$i]occupation_id');?>
                 <div style="float:left;">
@@ -30,7 +30,7 @@ foreach($modPengpegdets as $i=>$modPengpegdet) {
                     ?>
                 </div>
         </td>-->
-        <td><?php echo CHtml::activeTextField($modPengpegdet,'[$i]jmlorang',array('class'=>'span1 jmlorang', 'onkeypress'=>"return $(this).focusNextInputField(event);")); //echo $modPengpegdet->jmlorang;  ?></td>
+        <td><?php echo CHtml::activeTextField($modPengpegdet,'[$i]jmlorang',array('class'=>'numbers-only span1  required', 'onkeypress'=>"return $(this).focusNextInputField(event);",'maxlength'=>3, 'style'=>'text-align:right')); //echo $modPengpegdet->jmlorang;  ?></td>
         <td><?php echo CHtml::activeTextArea($modPengpegdet,'[$i]untukkeperluan', array('style'=>'resize:none;','rows'=>2, 'cols'=>20, 'class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event);")); //echo $modPengpegdet->untukkeperluan;?></td>
         <td><?php echo CHtml::activeTextArea($modPengpegdet,'[$i]keterangan', array('style'=>'resize:none;','rows'=>2, 'cols'=>20, 'class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event);")); //$modPengpegdet->keterangan; ?></td>
         <td><?php echo CHtml::activeCheckBox($modPengpegdet,'[$i]disetujui', array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event);"));?></td>
