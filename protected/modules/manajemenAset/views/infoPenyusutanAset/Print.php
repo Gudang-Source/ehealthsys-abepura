@@ -80,7 +80,7 @@ $modProfilRs = ProfilrumahsakitM::model()->findByPk(Params::DEFAULT_PROFIL_RUMAH
             <tr>   
                 <td class = "border" style = "text-align:center;"><?php echo $no; ?></td>
                 <td class = "border"><?php echo MyFormatter::formatDateTimeForUser($detail->penyusutanaset_periode); ?></td>
-                <td class = "border" style = "text-align:right;"><?php echo $detail->penyusutanaset_saldo; ?></td>
+                <td class = "border" style = "text-align:right;"><?php echo number_format($detail->penyusutanaset_saldo,0,"",'.'); ?></td>
                 <td class = "border" style = "text-align:right;"><?php echo $detail->penyusutanaset_persentase; ?></td>                
             </tr>
     <?php 
