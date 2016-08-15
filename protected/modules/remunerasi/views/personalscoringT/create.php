@@ -117,6 +117,7 @@
                         $h .= CHtml::hiddenField('ScoringdetailT[kelrem_id][]',$data->kelrem_id,array('class'=>'span1', 'id'=>'kelrem_id', 'value'=>$data->kelrem_id));
                         $h .= CHtml::hiddenField('ScoringdetailT[indexing_nilai][]',$data->indexing_nilai,array('class'=>'span1', 'id'=>'indexing_nilai', 'value'=>$data->indexing_nilai));
 						$h .= CHtml::hiddenField('ScoringdetailT[offset][]',$data->indexing_offset,array('class'=>'span1 offset', 'id'=>'offset', 'value'=>$data->indexing_offset));
+						$h .= CHtml::hiddenField('ScoringdetailT[score_ordinal][]','',array('class'=>'span1 ordinal', 'id'=>'offset'));
                         return $n.$h;
                     },
                     'footer'=>'<b>Total</b>:',
@@ -227,11 +228,13 @@ $js= <<< JS
     });
     
     function scoring(obj) {
-        bobot = $(obj).val();
+        var bobot = $(obj).val();
+		var ordinal = $(obj).find("option:selected").html();
         nilaiindexing = $(obj).parents("tr").children("td").children("#indexing_nilai").val();
 		offset = parseFloat($(obj).parents("tr").children("td").children("#offset").val());
         scorepersonal = offset + (nilaiindexing * bobot);
         $(obj).parents("tr").children("td").children("#score_personal").val(formatFloat(scorepersonal));
+		$(obj).parents("tr").children("td").children(".ordinal").val(ordinal);
         totalbobot();
         totalscore();
     }
