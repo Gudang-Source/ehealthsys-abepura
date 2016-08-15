@@ -117,6 +117,7 @@
                         $h .= CHtml::hiddenField('ScoringdetailT[kelrem_id][]',$data->kelrem_id,array('class'=>'span1', 'id'=>'kelrem_id', 'value'=>$data->kelrem_id));
                         $h .= CHtml::hiddenField('ScoringdetailT[indexing_nilai][]',$data->indexing_nilai,array('class'=>'span1', 'id'=>'indexing_nilai', 'value'=>$data->indexing_nilai));
 						$h .= CHtml::hiddenField('ScoringdetailT[offset][]',$data->indexing_offset,array('class'=>'span1 offset', 'id'=>'offset', 'value'=>$data->indexing_offset));
+						$h .= CHtml::hiddenField('ScoringdetailT[score_ordinal][]','',array('class'=>'span1 ordinal', 'id'=>'offset'));
                         return $n.$h;
                     },
                     'footer'=>'<b>Total</b>:',
@@ -148,11 +149,24 @@
 						
 						if (empty($det)) return CHtml::textField("ScoringdetailT[ratebobot_personal][]",0,array("class"=>"span1 bobot integer2", "id"=>"ratebobot_personal", "onkeyup"=>"scoring(this);","style"=>"text-align: right"));
 					
+						$str = "";
+						$str .= '<select onchange="scoring(this)" class="span2" name="ScoringdetailT[ratebobot_personal][]" id="ScoringdetailT_ratebobot_personal">';
+						
+						$str .= '<option value="">-- Pilih --</option>';
+
+						foreach($det as $item) {
+							$str .= '<option value="'.$item->bobot.'">'.$item->indexingdef_nama.'</option>';
+						}
+						
+						$str .='</select>';
+						/*
 						return CHtml::dropDownList("ScoringdetailT[ratebobot_personal][]", null, CHtml::listData($det, 'bobot', 'indexingdef_nama'), array(
 							'onchange'=>'scoring(this)',
 							'class'=>'span2',
 							'empty'=>'-- Pilih --',
-						));
+						));*/
+						
+						return $str;
 					},
                     //'footer'=>$modIndexing->getTotalbobot(),
                     'htmlOptions'=>array('style'=>'text-align: right;'),
@@ -214,11 +228,13 @@ $js= <<< JS
     });
     
     function scoring(obj) {
-        bobot = $(obj).val();
+        var bobot = $(obj).val();
+		var ordinal = $(obj).find("option:selected").html();
         nilaiindexing = $(obj).parents("tr").children("td").children("#indexing_nilai").val();
 		offset = parseFloat($(obj).parents("tr").children("td").children("#offset").val());
         scorepersonal = offset + (nilaiindexing * bobot);
         $(obj).parents("tr").children("td").children("#score_personal").val(formatFloat(scorepersonal));
+		$(obj).parents("tr").children("td").children(".ordinal").val(ordinal);
         totalbobot();
         totalscore();
     }
