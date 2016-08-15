@@ -125,6 +125,13 @@ class PemeliharaanAsetTMAController extends MyAuthController {
 				
 				$criteria = new CDbCriteria();
 				$criteria->select="t.*";
+				$criteria->addCondition("lower(t.barang_type) = 'aset' and ("
+						. 'invasetlain_namabrg is not null or '
+						. 'invgedung_namabrg is not null or '
+						. 'invperalatan_namabrg is not null or '
+						. 'invjalan_namabrg is not null or '
+						. 'invtanah_namabrg is not null'
+						. ")");
                                 $criteria->compare('LOWER(t.barang_type)',strtolower($barang_type),true);
 				if(!empty($kategori_aset)){
 					$criteria->addCondition('t.bidang_id = '.$kategori_aset);

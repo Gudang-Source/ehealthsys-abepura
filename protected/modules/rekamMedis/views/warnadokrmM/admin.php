@@ -17,11 +17,11 @@ $('.search-form form').submit(function(){
 });
 ");
 ?>
-<div class="white-container">
-	<legend class="rim2">Pengaturan <b>Warna Dokumen</b></legend>
+<fieldset class="box">
+	<legend class="rim">Pengaturan <b>Warna Dokumen</b></legend>
 	<?php $this->widget('bootstrap.widgets.BootAlert'); ?>
 
-	<?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-search"></i>')),'#',array('class'=>'search-button btn')); ?>
+	<?php echo CHtml::link(Yii::t('mds','{icon} Advanced Search',array('{icon}'=>'<i class="icon-accordion icon-white"></i>')),'#',array('class'=>'search-button btn')); ?>
 	<div class="cari-lanjut search-form" style="display:none">
 	<?php $this->renderPartial('_search',array(
 		'model'=>$model,
@@ -95,7 +95,7 @@ $('.search-form form').submit(function(){
 							'options'=>array('title'=>Yii::t('mds','Remove Temporary')),
 							'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/nonActive",array("id"=>$data->warnadokrm_id))',
 							'click'=>'function(){nonActive(this);return false;}',
-							'visible'=>'Yii::app()->controller->checkAccess(array("action"=>"nonActive"))',
+							'visible'=>'($data->warnadokrm_aktif==TRUE)?TRUE:FALSE',
 					),
 					'delete'=> array(
 							'visible'=>'Yii::app()->controller->checkAccess(array("action"=>Params::DEFAULT_DELETE))',
@@ -104,7 +104,15 @@ $('.search-form form').submit(function(){
 				)
 			),
 		),
-		'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+		'afterAjaxUpdate'=>'function(id, data){
+                        jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
+                        $("table").find("input[type=text]").each(function(){
+                            cekForm(this);
+                        })
+                        $("table").find("select").each(function(){
+                            cekForm(this);
+                        })
+                    }',
 	)); ?>
 </div>
 <?php 
@@ -112,17 +120,22 @@ $('.search-form form').submit(function(){
 	echo CHtml::htmlButton(Yii::t('mds','{icon} PDF',array('{icon}'=>'<i class="icon-book icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PDF\')'))."&nbsp&nbsp"; 
 	echo CHtml::htmlButton(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'EXCEL\')'))."&nbsp&nbsp"; 
 	echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'button','onclick'=>'print(\'PRINT\')'))."&nbsp&nbsp"; 
-	$this->widget('UserTips',array('content'=>''));
+	$content = $this->renderPartial('../tips/master',array(),true);
+    $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
 	$urlPrint= $this->createUrl('print');
 
 $js = <<< JSCRIPT
+function cekForm(obj)
+{
+    $("#warnadokrm-m-search :input[name='"+ obj.name +"']").val(obj.value);
+}
 function print(caraPrint)
 {
     window.open("${urlPrint}/"+$('#warnadokrm-m-search').serialize()+"&caraPrint="+caraPrint,"",'location=_new, width=900px');
 }
 JSCRIPT;
 Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);    
-?></div>
+?></fieldset>
 <script type="text/javascript">	
 	function nonActive(obj){
 		myConfirm("Yakin akan menonaktifkan data ini untuk sementara?","Perhatian!",

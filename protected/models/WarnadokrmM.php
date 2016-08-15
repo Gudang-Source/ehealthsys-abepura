@@ -87,8 +87,7 @@ class WarnadokrmM extends CActiveRecord
 		$criteria->compare('LOWER(warnadokrm_namawarna)',strtolower($this->warnadokrm_namawarna),true);
 		$criteria->compare('LOWER(warnadokrm_kodewarna)',strtolower($this->warnadokrm_kodewarna),true);
 		$criteria->compare('LOWER(warnadokrm_fungsi)',strtolower($this->warnadokrm_fungsi),true);
-		$criteria->compare('warnadokrm_aktif',$this->warnadokrm_aktif);
-                $criteria->addCondition('warnadokrm_aktif is true');
+		$criteria->compare('warnadokrm_aktif',isset($this->warnadokrm_aktif)?$this->warnadokrm_aktif:true);                
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -106,7 +105,7 @@ class WarnadokrmM extends CActiveRecord
 		$criteria->compare('LOWER(warnadokrm_namawarna)',strtolower($this->warnadokrm_namawarna),true);
 		$criteria->compare('LOWER(warnadokrm_kodewarna)',strtolower($this->warnadokrm_kodewarna),true);
 		$criteria->compare('LOWER(warnadokrm_fungsi)',strtolower($this->warnadokrm_fungsi),true);
-		$criteria->compare('warnadokrm_aktif',$this->warnadokrm_aktif);
+		$criteria->compare('warnadokrm_aktif',isset($this->warnadokrm_aktif)?$this->warnadokrm_aktif:true);                
                 // Klo limit lebih kecil dari nol itu berarti ga ada limit 
                 $criteria->limit=-1; 
 

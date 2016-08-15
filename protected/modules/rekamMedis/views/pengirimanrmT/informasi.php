@@ -23,52 +23,63 @@ $('#rmpengirimanrm-t-search').submit(function(){
 			'template'=>"{summary}\n{items}\n{pager}",
 			'itemsCssClass'=>'table table-striped table-condensed',
             'columns'=>array(
-				array(
-					'header'=>'Instalasi Asal',
-					'value'=>'$data->instalasipengirim_nama',
-				),
-				array(
-					'header'=>'Ruangan Asal',
-					'value'=>'$data->ruanganpengirim_nama',
-				),
-				array(
-					'header'=>'Instalasi Tujuan',
-					'value'=>'$data->instalasitujuan_nama',
-				),
-				array(
-					'header'=>'Ruangan Tujuan',
-					'value'=>'$data->ruangantujuan_nama',
-				),
-				array(
+                                array(
 					'header'=>'Tanggal Pengiriman',
 					'value'=>'MyFormatter::formatDateTimeForUser($data->tglpengirimanrm)',
-				),
-				array(
-					'header'=>'No. Rekam Medik',
-					'value'=>'$data->no_rekam_medik',
-				),
-				array(
+				),		
+                                array(
+                                    'header'=> 'No. Rekam Medik',
+                                    'value' => '$data->no_rekam_medik'
+                                ),
+                                array(
 					'header'=>'Nama Pasien',
 					'type'=>'raw',
 					'value'=>'$data->namadepan.$data->nama_pasien',
 				),
-				array(
-					'header'=>'Jenis Kelamin',
-					'value'=>'$data->jeniskelamin',
-				),
-				array(
+                                array(
 					'header'=>'Tanggal Lahir',
 					'value'=>'MyFormatter::formatDateTimeForUser($data->tanggal_lahir)',
 				),
-				array
-					(
-							'header'=>'Kelengkapan Dokumen',
-							'type'=>'raw',
-							'value'=>'($data->kelengkapandokumen==1)? Yii::t("mds","Lengkap") : Yii::t("mds","Belum")',
-					),
+				array(
+					'header'=>'Jenis Kelamin',
+					'value'=>'$data->jeniskelamin',
+				),				
+				array(
+					'header'=>'Instalasi / Ruangan Asal',
+                                        'value'=>function($data){
+                                            echo $data->instalasipengirim_nama." / <br>  ".$data->ruanganpengirim_nama;
+                                        },
+				),
+				array(
+					'header'=>'Instalasi / Ruangan Tujuan',
+                                        'value'=>function($data){
+                                            echo $data->instalasitujuan_nama." / <br>  ".$data->ruangantujuan_nama;
+                                        },					
+				),				
 				array(
 					'header'=>'Petugas Pengirim',
-					'value'=>'$data->petugaspengirim',
+                                        'value'=>function($data){
+                                            $pegawai = LoginpemakaiK::model()->findByPk($data->create_loginpemakai_id);
+                                            
+                                            $nama = RKPegawaiM::model()->findByPk($pegawai->pegawai_id);
+                                            
+                                            if (count($nama) > 0){
+                                                return $nama->namaLengkap;
+                                            }else{
+                                                return '-';
+                                            }
+                                        },
+				),
+				array
+                                (
+                                    'header'=>'Kelengkapan Dokumen',
+                                    'type'=>'raw',
+                                    'value'=>'($data->kelengkapandokumen==1)? Yii::t("mds","Lengkap") : Yii::t("mds","Belum")',
+                                ),
+				array(
+					'header'=>'Status Dokumen',
+					'type'=>'raw',
+					'value'=>'(!empty($data->kembalirm_id) ? "SUDAH DIKEMBALIKAN <br/>".MyFormatter::formatDateTimeForUser($data->tglkembali) : $data->statusdokrm)',
 				),
 //                                array(
 //                                    'name'=>'ruanganpengirim_id',
@@ -79,12 +90,7 @@ $('#rmpengirimanrm-t-search').submit(function(){
 					'header'=>'Status Print',
 					'type'=>'raw',
 					'value'=>'($data->printpengiriman==1)? Yii::t("mds","Sudah") : Yii::t("mds","Belum")',
-				),
-				array(
-					'header'=>'Status Dokumen',
-					'type'=>'raw',
-					'value'=>'(!empty($data->kembalirm_id) ? "SUDAH DIKEMBALIKAN <br/>".MyFormatter::formatDateTimeForUser($data->tglkembali) : $data->statusdokrm)',
-				),
+				),				
             ),
             'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
         )); ?>

@@ -22,6 +22,11 @@ echo CHtml::css('.control-label{
     .border{
         border:1px solid;
     }
+    thead th {
+    background: none;    
+    color: #000;
+    }
+}
 ');  
 if (!isset($_GET['frame'])){
     echo $this->renderPartial($this->path_view.'_headerPrint'); 
@@ -72,22 +77,22 @@ if (!isset($_GET['frame'])){
     </tr>
     <?php } ?>
     </table><br/>
-<table class="table table-bordered table-condensed middle-center">
+<table style = "width:100%;">
     <thead>
         <tr>
-            <th>No.</th>
-            <th>Jenis Obat Alkes</th>
-            <th>Kategori</th>
-            <th>Golongan</th>
-            <th>Kode</th>
-            <th>Nama Obat</th>
-            <th>HPP (Rp)</th>
-            <th>Harga Jual (Rp)</th>
-            <th>Stok Sistem</th>
-            <th>Stok Fisik</th>
-            <th>Selisih</th>    
-            <th>Tgl Periksa</th>
-            <th>Kondisi Barang</th>
+            <th class = "border">No.</th>
+            <th class = "border">Jenis Obat Alkes</th>
+            <th class = "border">Kategori</th>
+            <th class = "border">Golongan</th>
+            <th class = "border">Kode</th>
+            <th class = "border">Nama Obat</th>
+            <th class = "border">HPP (Rp)</th>
+            <th class = "border">Harga Jual (Rp)</th>
+            <th class = "border">Stok Sistem</th>
+            <th class = "border">Stok Fisik</th>
+            <th class = "border">Selisih</th>    
+            <th class = "border">Tgl Periksa</th>
+            <th class = "border">Kondisi Barang</th>
         </tr>
     </thead>
     <tbody>
@@ -95,19 +100,19 @@ if (!isset($_GET['frame'])){
             foreach($modDetails as $i=>$obat){
         ?>
         <tr>
-            <td><?php echo ($i+1); ?></td>
-            <td><?php echo (isset($obat->obatalkes->jenisobatalkes->jenisobatalkes_nama) ? $obat->obatalkes->jenisobatalkes->jenisobatalkes_nama : ""); ?></td>
-            <td><?php echo $obat->obatalkes->obatalkes_kategori; ?></td>
-            <td><?php echo $obat->obatalkes->obatalkes_golongan; ?></td>
-            <td><?php echo $obat->obatalkes->obatalkes_kode; ?></td>
-            <td><?php echo $obat->obatalkes->obatalkes_nama; ?></td>
-            <td style="text-align:right;"><?php echo $format->formatNumberForPrint($obat->harganetto); ?></td>
-            <td style="text-align:right;"><?php echo $format->formatNumberForPrint($obat->hargasatuan); ?></td>
-            <td style="text-align:right;"><?php echo $obat->volume_sistem." ".$obat->obatalkes->satuankecil->satuankecil_nama; ?></td>
-            <td style="text-align:right;"><?php echo $obat->volume_fisik." ".$obat->obatalkes->satuankecil->satuankecil_nama; ?></td>
-            <td style="text-align:right;"><?php echo $obat->jmlselisihstok." ".$obat->obatalkes->satuankecil->satuankecil_nama; ?></td>
-            <td style="text-align:center;"><?php echo $format->formatDateTimeId($obat->tglperiksafisik); ?></td>
-            <td><?php echo $obat->kondisibarang ?></td>
+            <td  class = "border"><?php echo ($i+1); ?></td>
+            <td class = "border"><?php echo (isset($obat->obatalkes->jenisobatalkes->jenisobatalkes_nama) ? $obat->obatalkes->jenisobatalkes->jenisobatalkes_nama : ""); ?></td>
+            <td  class = "border"><?php echo $obat->obatalkes->obatalkes_kategori; ?></td>
+            <td  class = "border"><?php echo $obat->obatalkes->obatalkes_golongan; ?></td>
+            <td  class = "border"><?php echo $obat->obatalkes->obatalkes_kode; ?></td>
+            <td  class = "border"><?php echo $obat->obatalkes->obatalkes_nama; ?></td>
+            <td  class = "border" style="text-align:right;"><?php echo $format->formatNumberForPrint($obat->harganetto); ?></td>
+            <td  class = "border" style="text-align:right;"><?php echo $format->formatNumberForPrint($obat->hargasatuan); ?></td>
+            <td  class = "border" style="text-align:right;"><?php echo $obat->volume_sistem." ".$obat->obatalkes->satuankecil->satuankecil_nama; ?></td>
+            <td  class = "border" style="text-align:right;"><?php echo $obat->volume_fisik." ".$obat->obatalkes->satuankecil->satuankecil_nama; ?></td>
+            <td  class = "border" style="text-align:right;"><?php echo $obat->jmlselisihstok." ".$obat->obatalkes->satuankecil->satuankecil_nama; ?></td>
+            <td  class = "border" style="text-align:center;"><?php echo $format->formatDateTimeId($obat->tglperiksafisik); ?></td>
+            <td  class = "border"><?php echo $obat->kondisibarang ?></td>
         </tr>
         <?php } ?>
     </tbody>

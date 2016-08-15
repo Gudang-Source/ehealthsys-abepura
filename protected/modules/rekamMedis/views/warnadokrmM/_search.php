@@ -13,7 +13,7 @@
 
 	<?php echo $form->textAreaRow($model,'warnadokrm_fungsi',array('rows'=>6, 'cols'=>50, 'class'=>'span8')); ?>
 
-	<?php echo $form->checkBoxRow($model,'warnadokrm_aktif'); ?>
+	<?php echo $form->checkBoxRow($model,'warnadokrm_aktif', array('checked'=>'warnadokrm_aktif')); ?>
 
 	<div class="form-actions">
 		<?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit')); ?>

@@ -49,8 +49,8 @@
         {
             $col .= '<td>'. $value['no_transaksi'] .'</td>';
             $col .= '<td>'. $value['nama_item'] .'</td>';
-            $col .= '<td>'.MyFormatter::formatNumberForPrint($value['qty']).'</td>';
-            $col .= '<td>'.MyFormatter::formatNumberForPrint($value['harga']).'</td>';
+            $col .= '<td style = "text-align:right;">'.MyFormatter::formatNumberForPrint($value['qty']).'</td>';
+            $col .= '<td style = "text-align:right;">'.MyFormatter::formatNumberForPrint($value['harga']).'</td>';
             $col .= '</tr>';
         }
         $cols .= $td_pertama;

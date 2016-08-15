@@ -31,12 +31,14 @@ class GFLaporanfarmasikopnameV extends LaporanfarmasikopnameV
     {
             $criteria=new CDbCriteria;
 
+            $criteria->select = 'obatalkes_nama, jenisobatalkes_nama, obatalkes_golongan, obatalkes_kode, jenisobatalkes_nama, sumberdana_nama, harganetto, kemasanbesar, SUM(volume_fisik) as volume_fisik, tglkadaluarsa, kondisibarang';
+            $criteria->group = 'obatalkes_nama,jenisobatalkes_nama, obatalkes_golongan, obatalkes_kode, jenisobatalkes_nama, sumberdana_nama, harganetto, kemasanbesar, tglkadaluarsa, kondisibarang';
             $criteria->addBetweenCondition('tglstokopname',$this->tgl_awal,$this->tgl_akhir);
 			if(!empty($this->jenisobatalkes_id)){
 				$criteria->addCondition('jenisobatalkes_id = '.$this->jenisobatalkes_id);
 			}
             $criteria->addCondition('ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
-          
+            $criteria->order = 'obatalkes_kode';
             return new CActiveDataProvider($this, array(
                     'criteria'=>$criteria,
             ));
@@ -46,7 +48,7 @@ class GFLaporanfarmasikopnameV extends LaporanfarmasikopnameV
     public function searchPrint()
     {
         $criteria=new CDbCriteria;
-
+        
         //$criteria->addBetweenCondition('tglstokopname',$this->tgl_awal,$this->tgl_akhir);
 		if(!empty($this->jenisobatalkes_id)){
 			$criteria->addCondition('jenisobatalkes_id = '.$this->jenisobatalkes_id);
