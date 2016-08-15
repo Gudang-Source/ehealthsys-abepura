@@ -80,7 +80,7 @@
                     array(
                             'header'=>'Detail',
                             'type'=>'raw',
-                            'value'=>'CHtml::link("<i class=\'icon-form-detail\'></i> ",Yii::app()->controller->createUrl("'.Yii::app()->controller->id.'/View",array("id"=>$data->pelamar_id)) ,array("title"=>"Klik Untuk Lihat Detail Pelamar", "target"=>"_blank"))',
+                            'value'=>'CHtml::link("<i class=\'icon-form-detail\'></i> ",Yii::app()->controller->createUrl("'.Yii::app()->controller->id.'/View",array("id"=>$data->pelamar_id)) ,array("title"=>"Klik Untuk Lihat Detail Pelamar", "target"=>"iframe", "onclick"=>"$(\"#dialogDetailPelamar\").dialog(\"open\");", ))',
                            'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
                     ),
                     array(
@@ -153,3 +153,23 @@
 //JSCRIPT;
 //Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);                        
 ?>
+<?php
+        // ===========================Dialog Detail Pelamar=========================================
+        $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+                'id'=>'dialogDetailPelamar',
+                // additional javascript options for the dialog plugin
+                'options'=>array(
+                'title'=>'Detail Pelamar',
+                'autoOpen'=>false,
+                'width'=>800,
+                'height'=>500,
+                'resizable'=>false,
+                'scroll'=>true    
+                 ),
+        ));
+        ?>
+        <iframe src="" name="iframe" width="100%" height="100%">
+        </iframe>
+        <?php    
+        $this->endWidget('zii.widgets.jui.CJuiDialog');
+        //===============================Akhir Dialog Detail Pelamar================================
