@@ -10,7 +10,7 @@ $this->widget('bootstrap.widgets.BootAlert');
 ?>
 <?php 
 if(isset($_GET['sukses'])){
-	Yii::app()->user->setFlash('success', "Data janji poliklinik berhasil disimpan !");
+	Yii::app()->user->setFlash('success', "Data Berhasil disimpan !");
 }
 ?>
 <?php echo $form->errorSummary(array($model,$modPengpegdet)); ?>
@@ -23,18 +23,19 @@ if(isset($_GET['sukses'])){
                 <?php echo $form->labelEx($model,'tglpengajuan',array('class'=>'control-label')); ?>
                 <div class="controls">
                     <?php   
-                        $model->tglpengajuan = (!empty($model->tglpengajuan) ? date("d/m/Y",strtotime($model->tglpengajuan)) : null);
+                        $model->tglpengajuan = MyFormatter::formatDateTimeForUser(date('Y-m-d'));
+                        
                         $this->widget('MyDateTimePicker',array(
                                                 'model'=>$model,
                                                 'attribute'=>'tglpengajuan',
                                                 'mode'=>'date',
                                                 'options'=> array(
-            //                                            'dateFormat'=>Params::DATE_FORMAT,
+                                                     'dateFormat'=>Params::DATE_FORMAT,
                                                     'showOn' => false,
                                                     'maxDate' => 'd',
                                                     'yearRange'=> "-150:+0",
                                                 ),
-                                                'htmlOptions'=>array('placeholder'=>'00/00/0000','class'=>'dtPicker2 datemask','onkeyup'=>"return $(this).focusNextInputField(event)"
+                                                'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker2','onkeyup'=>"return $(this).focusNextInputField(event)"
                                                 ),
                     )); ?>
                     <?php echo $form->error($model, 'tglpengajuan'); ?>
@@ -207,12 +208,12 @@ if(isset($_GET['sukses'])){
                      * 
                      */
              ?>
-        <?php if(!isset($_GET['frame'])){
-            echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
-                $this->createUrl($this->id.'/index'), 
-                array('class'=>'btn btn-danger',
-                      'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));
-        } ?>
+        <?php if(!isset($_GET['frame'])){            
+        echo CHtml::link(Yii::t('mds', '{icon} Ulang', array('{icon}' => '<i class="icon-refresh icon-white"></i>')), $this->createUrl($this->id . '/index',array('modul_id'=>Yii::app()->session['modul_id'])), array('class' => 'btn btn-danger',
+            'onclick' => 'myConfirm("Apakah Anda yakin ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = "' . $this->createUrl($this->id . '/index',array('modul_id'=>Yii::app()->session['modul_id'])) . '";}); return false;'));
+        }
+        ?>
+         
         <?php
             echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary-blue', 'disabled'=>$disablePrint,'type'=>'button','onclick'=>'print(\'PRINT\')'));                 
         ?>
@@ -591,20 +592,20 @@ function print(caraPrint)
     window.open('<?php echo $this->createUrl('print'); ?>&pengajuanpegawai_id='+pengajuanpegawai_id+'&caraPrint='+caraPrint,'printwin','left=100,top=100,width=1000,height=640');
 }
 
-    $(document).ready(function () {
+   // $(document).ready(function () {
     <?php
-    if (isset($model->pengajuanpegawai_t_id)) {
+   // if (isset($model->pengajuanpegawai_t_id)) {
         ?>
-                    var params = [];
-                    params = {  instalasi_id:<?php echo Yii::app()->user->getState("instalasi_id"); ?>, 
-                                modul_id:<?php echo Yii::app()->session['modul_id'] ?>, 
-                                judulnotifikasi: 'Rencana Penerimaan Pegawai', 
-                                isinotifikasi: 
-                                '<?php echo $model->mengajukan->namaLengkap; ?> mengajukan Rencana Penerimaan Pegawai   \n\
-                                sebanyak <?php echo $model->total; ?> orang'}; 
-                    insert_notifikasi(params);
+                  //  var params = [];
+                  //  params = {  instalasi_id:<?php //echo Yii::app()->user->getState("instalasi_id"); ?>, 
+                              //  modul_id:<?php //echo Yii::app()->session['modul_id'] ?>, 
+                              //  judulnotifikasi: 'Rencana Penerimaan Pegawai', 
+                              //  isinotifikasi: 
+                              //  '<?php //echo $model->mengajukan->namaLengkap; ?> mengajukan Rencana Penerimaan Pegawai   \n\
+                          //      sebanyak <?php //echo $model->total; ?> orang'}; 
+                   // insert_notifikasi(params);
         <?php
-    }
+   // }
     ?>
-            });
+         //   });
 </script>
