@@ -53,7 +53,7 @@
 		<div class="control-group ">
 			<?php echo CHtml::activeLabel($model,'no_penyusutan',array('class'=>'control-label')); ?>
 			<div class="controls">
-			   <?php echo $form->textField($model,'no_penyusutan',array('placeholder'=>'Ketik No. Penyusutan Aset', 'class'=>'span3', 'maxlength'=>20,'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+			   <?php echo $form->textField($model,'no_penyusutan',array('placeholder'=>'Ketik No. Penyusutan Aset', 'class'=>'span3 angkahuruf-only', 'maxlength'=>20,'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
 			</div>
 		</div>
 		<div class="control-group ">

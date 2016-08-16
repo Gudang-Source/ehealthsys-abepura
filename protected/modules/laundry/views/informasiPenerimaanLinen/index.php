@@ -36,32 +36,37 @@ $('.search-form form').submit(function(){
 					'type'=>'raw',
 					'htmlOptions'=>array('style'=>'text-align:right; width:30px;'),
 				),
+                                array(
+					'header'=>'Tanggal Penerimaan',
+					'type'=>'raw',
+					'value'=>'MyFormatter::formatDateTimeForUser($data->tglpenerimaanlinen)',
+				), 
 				array(
 					'header'=>'No. Penerimaan',
 					'type'=>'raw',
 					'value'=>'$data->nopenerimaanlinen',
 				),
 				array(
-					'header'=>'Tanggal Penerimaan',
-					'type'=>'raw',
-					'value'=>'MyFormatter::formatDateTimeForUser($data->tglpenerimaanlinen)',
-				),                                
-				array(
-					'name'=>'Instalasi / Ruangan <br> Penerima',
-					'type'=>'raw',
-					'value'=>'$data->ruangan->instalasi->instalasi_nama."<br>/ ".$data->ruangan->ruangan_nama',
-				),				
-				array(
-                                        'header'=>'Keterangan Penerimaan',
-					//'name'=>'keterangan_pengiriman',
-					'type'=>'raw',
-					'value'=>'$data->keterangan_penerimaanlinen',
-				),
+                                    'header'=>'Pegawai Penerima',
+                                    'value' => '!empty($data->pegmenerima_id)?$data->pegawaiMenerima->namaLengkap:"-"',
+                                ),                               				
                                 array(
 					'header'=>'Pegawai Pengirim',
 					'type'=>'raw',
 					'value'=>'($data->pengPerawatan->mengajukan_id!=null)?$data->pengPerawatan->pegawaiMengajukan->namaLengkap:"-"',
 				),
+                                array(
+					'name'=>'Instalasi / Ruangan <br> Pengirim',
+					'type'=>'raw',
+					'value'=>'$data->pengPerawatan->ruangan->instalasi->instalasi_nama."<br>/ ".$data->pengPerawatan->ruangan->ruangan_nama',
+				),
+				//array(
+                                 //       'header'=>'Keterangan Penerimaan',
+					//'name'=>'keterangan_pengiriman',
+				//	'type'=>'raw',
+				//	'value'=>'$data->keterangan_penerimaanlinen',
+				//),
+                                
 //				RND-8968
 				array(
 					'header'=>'Proses',
@@ -100,8 +105,8 @@ $('.search-form form').submit(function(){
 					'buttons'=>array(
 						'remove' => array (
 								'label'=>"<i class='icon-form-silang'></i>",
-								'options'=>array('title'=>Yii::t('mds','Remove Temporary')),
-								'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/batalPenerimaan",array("id"=>$data->pengperawatanlinen_id))',
+								'options'=>array('title'=>'Klik untuk Membatalkan Penerimaan Linen'),
+								'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/batalPenerimaan",array("id"=>$data->penerimaanlinen_id))',
 								'click'=>'function(){batalPenerimaan(this);return false;}',
 //								'visible'=>'(($data->ruangan_id == Yii::app()->user->getState("ruangan_id"))? TRUE : FALSE)'
 						),
@@ -148,11 +153,14 @@ $this->endWidget();
 						data: {},//
 						dataType: "json",
 						success:function(data){
-							$.fn.yiiGridView.update('informasipenerimaanlinen-grid');
+							
 							if(data.sukses > 0){
+                                                            myAlert('Data sukses dibatalkan');
 							}else{
 								myAlert('Data gagal dibatalkan!');
 							}
+                                                        
+                                                        $.fn.yiiGridView.update('informasipenerimaanlinen-grid');
 						},
 						error: function (jqXHR, textStatus, errorThrown) { myAlert('Data gagal dibatalkan!'); console.log(errorThrown);}
 					});

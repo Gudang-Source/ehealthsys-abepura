@@ -213,10 +213,10 @@ class TerimabahanmakanController extends MyAuthController
                              */
                             // END SMS GATEWAY
                             $transaction->commit();
-                            $this->redirect(array('index', 'sukses'=>1, 'modul_id'=>Yii::app()->session['modul_id']));
+                            // $this->redirect(array('index', 'sukses'=>1, 'modul_id'=>Yii::app()->session['modul_id']));
                             //$transaction->commit();
                             Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-                             //$this->redirect(array('index', 'id' =>$model->terimabahanmakan_id,'smscp1'=>$smscp1,'smscp2'=>$smscp2));
+                            $this->redirect(array('index', 'id' =>$model->terimabahanmakan_id));
                             // $this->redirect(array('index', 'sukses'=>1, 'modul_id'=>Yii::app()->session->modul_id));
                             //$this->refresh();
                         }else{
@@ -429,13 +429,16 @@ class TerimabahanmakanController extends MyAuthController
                 $mpdf->WriteHTML($stylesheet,1);  
                 $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
                 $mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-                $mpdf->Output();
+                $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
             }                       
         }
         
-        public function actionDetailPenerimaan($id){
+        public function actionDetailPenerimaan($id, $print=0){
             
             $this->layout = '//layouts/iframe';
+			if ($print == 1) {
+				$this->layout = '//layouts/printWindows';
+			}
             
             $modTerima = TerimabahanmakanT::model()->findByPk($id);
             $modDetailTerima = TerimabahandetailT::model()->with('bahanmakanan', 'golbahanmakanan')->findAllByAttributes(array('terimabahanmakan_id'=>$modTerima->terimabahanmakan_id), array('order'=>'nourutbahan ASC'));
@@ -443,5 +446,26 @@ class TerimabahanmakanController extends MyAuthController
                 'modTerima'=>$modTerima,
                 'modDetailTerima'=>$modDetailTerima,
             ));
+        }
+        
+        public function actionPrintDetailPenerimaan($id)
+        {
+            
+            $judulLaporan='Penerimaan Bahan Makanan';
+            
+            $modTerima = TerimabahanmakanT::model()->findByPk($id);
+            $modDetailTerima = TerimabahandetailT::model()->with('bahanmakanan', 'golbahanmakanan')->findAllByAttributes(array('terimabahanmakan_id'=>$modTerima->terimabahanmakan_id), array('order'=>'nourutbahan ASC'));
+         
+            
+             //if (isset($_GET['frame'])){
+                //$this->layout='//layouts/iframe';
+           // }
+        
+            $caraPrint=$_REQUEST['caraPrint'];
+            if($caraPrint=='PRINT') {
+             //   var_dump($id);die;
+                $this->layout='//layouts/printWindows';
+                $this->render('printDetailInformasi',array('modTerima'=>$modTerima,'modDetailTerima'=>$modDetailTerima,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+            }             
         }
 }

@@ -36,26 +36,25 @@ $('.search-form form').submit(function(){
 					'type'=>'raw',
 					'htmlOptions'=>array('style'=>'text-align:right;'),
 				),
-				array(
-					'header'=>'No. Pengajuan',
-					'type'=>'raw',
-					'value'=>'$data->pengperawatanlinen_no',
-				),
-				array(
+                                array(
 					'header'=>'Tanggal Pengajuan',
 					'type'=>'raw',
 					'value'=>'MyFormatter::formatDateTimeForUser($data->tglpengperawatanlinen)',
 				),
 				array(
-					'header'=>'Instalasi',
+					'header'=>'No. Pengajuan',
 					'type'=>'raw',
-					'value'=>'$data->ruangan->instalasi->instalasi_nama',
-				),
+					'value'=>'$data->pengperawatanlinen_no',
+				),				
 				array(
-					'header'=>'Ruangan',
+					'header'=>'Instalasi / Ruangan',
 					'type'=>'raw',
-					'value'=>'$data->ruangan->ruangan_nama',
+					'value'=>'$data->ruangan->instalasi->instalasi_nama." <br> / ".$data->ruangan->ruangan_nama',
 				),
+                                array(
+                                    'header'=>'Pegawai Mengajukan',
+                                    'value'=>'$data->pegawaiMengajukan->namaLengkap'
+                                ),
 				array(
 					'name'=>'keterangan_pengperawatanlinen',
 					'type'=>'raw',
@@ -80,7 +79,7 @@ $('.search-form form').submit(function(){
 					'buttons'=>array(
 						'remove' => array (
 								'label'=>"<i class='icon-form-silang'></i>",
-								'options'=>array('title'=>Yii::t('mds','Remove Temporary')),
+								'options'=>array('title'=>"Klik untuk Membatalkan Pengajuan Perawatan Linen"),
 								'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/batalPengajuan",array("id"=>$data->pengperawatanlinen_id))',
 								'click'=>'function(){batalPengajuan(this);return false;}',
 //								'visible'=>'(($data->ruangan_id == Yii::app()->user->getState("ruangan_id"))? TRUE : FALSE)'
@@ -130,6 +129,7 @@ $this->endWidget();
 						success:function(data){
 							$.fn.yiiGridView.update('informasipengperawatanlinen-grid');
 							if(data.sukses > 0){
+                                                            myAlert('Data sukses dibatalkan!');
 							}else{
 								myAlert('Data gagal dibatalkan!');
 							}
@@ -141,4 +141,6 @@ $this->endWidget();
 		);
 		return false;
 	}
+        
+        
 </script>

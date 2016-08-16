@@ -168,5 +168,5 @@
                     </tbody>
             </table>
     </div>
-<?php $this->widget('UserTips',array('type'=>'view'));?>
+<?php //$this->widget('UserTips',array('type'=>'view'));?>
 </div>

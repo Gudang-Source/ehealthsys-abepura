@@ -17,7 +17,7 @@ class PelamarTController extends MyAuthController
 	 * @param integer $id the ID of the model to be displayed
 	 */
 	public function actionView($id)
-	{
+	{   $this->layout='//layouts/iframe';
 		$modKemampuanPelamars	= KPKemampuanpelamarR::model()->findAllByAttributes(array('pelamar_id'=>$id));
 		$modBahasas				= KPKemampuanBahasaR::model()->findAllByAttributes(array('pelamar_id'=>$id));
 		$modLingkunganKerjas	= KPLingkunganKerjaR::model()->findAllByAttributes(array('pelamar_id'=>$id));
@@ -296,8 +296,8 @@ class PelamarTController extends MyAuthController
 		if(isset($_GET['KPPelamarT'])){
 			$model->attributes=$_GET['KPPelamarT'];
 			$model->semuapelamar = $_GET['KPPelamarT']['semuapelamar'];
-                        $model->tgl_awal = $_GET['KPPelamarT']['tgl_awal'];
-                        $model->tgl_akhir = $_GET['KPPelamarT']['tgl_akhir'];
+                        $model->tgl_awal = MyFormatter::formatDateTimeForDb($_GET['KPPelamarT']['tgl_awal']);
+                        $model->tgl_akhir = MyFormatter::formatDateTimeForDb($_GET['KPPelamarT']['tgl_akhir']);
 		}
 
 		$this->render('admin',array(

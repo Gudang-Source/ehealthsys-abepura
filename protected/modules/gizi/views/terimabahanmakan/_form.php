@@ -89,7 +89,7 @@
                 <?php //echo $form->textFieldRow($model,'tglsurjalan',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
             </td>
             <td>
-                <?php echo $form->textFieldRow($model, 'nosuratjalan', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
+                <?php echo $form->textFieldRow($model, 'nosuratjalan', array('class' => 'span3 alphanumber', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
                 <div class="control-group ">
                     <?php echo $form->labelEx($model, 'tglsurjalan', array('class' => 'control-label')) ?>
                     <div class="controls">
@@ -108,7 +108,7 @@
                         <?php echo $form->error($model, 'tglsurjalan'); ?>
                     </div>
                 </div>
-                <?php echo $form->textFieldRow($model, 'nofaktur', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
+                <?php echo $form->textFieldRow($model, 'nofaktur', array('class' => 'span3 alphanumber', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
                 <div class="control-group ">
                     <?php echo $form->labelEx($model, 'tglfaktur', array('class' => 'control-label')) ?>
                     <div class="controls">
@@ -220,7 +220,7 @@
                     <th>Kelompok</th>
                     <th>Nama</th>
                     <th>Jumlah Persediaan</th>
-                    <th>Satuan</th>
+                    <th hidden>Satuan</th>
                     <th>Harga Netto</th>
                     <!--<th>Harga Jual</th>-->
                     <th>Diskon</th>
@@ -277,8 +277,8 @@
                                 <td>' . $baris->bahanmakanan->jenisbahanmakanan . '</td>
                                 <td>' . $baris->bahanmakanan->kelbahanmakanan . '</td>
                                 <td>' . $baris->bahanmakanan->namabahanmakanan . '</td>
-                                <td style="text-align: right">' .MyFormatter::formatNumberForUser($persediaan) . '</td>
-                                <td>' . CHtml::activeDropDownList($modDetail, '[0]satuanbahan', LookupM::getItems('satuanbahanmakanan'), array('options' => array('' . $baris->satuanbahan . '' => array('selected' => 'selected')), 'class' => 'span2 satuanbahan')) . '</td>
+                                <td style="text-align: right">' .MyFormatter::formatNumberForUser($persediaan)." ".$baris->satuanbahan . '</td>
+                                <td hidden>' . CHtml::activeDropDownList($modDetail, '[0]satuanbahan', LookupM::getItems('satuanbahanmakanan'), array('options' => array('' . $baris->satuanbahan . '' => array('selected' => 'selected')), 'class' => 'span2 satuanbahan')) . '</td>
                                 <td>' . CHtml::activeTextField($modDetail, '[0]harganettobahan', array('value'=>$baris->harganettobhn, 'class'=>'span2 integer2 harganettobahan', 'onblur'=>'hitung(this);','readonly'=>false)) . '</td>
                                 
                                 
@@ -290,7 +290,7 @@
 								'</div>'.
 								'</td>    
 
-                                <td>' . CHtml::activeTextField($modDetail, '[0]qty_terima', array('value' => $baris->qty_pengajuan, 'class' => 'span1 integer2 qty', 'onkeyup' => 'hitung(this);')) . '</td>
+                                <td>' . CHtml::activeTextField($modDetail, '[0]qty_terima', array('value' => $baris->qty_pengajuan, 'class' => 'span1 integer2 qty', 'onkeyup' => 'hitung(this);'))." ".$baris->satuanbahan . '</td>
                                 <td>' . CHtml::TextField('[0]subNetto', MyFormatter::formatNumberForPrint($subNetto), array('value' => MyFormatter::formatNumberForPrint($subNetto), 'class' => 'subNetto span2', 'readonly' => true,'style'=>'text-align:right')) . '</td>
                                 <td>' . CHtml::link("<span class='icon-form-silang'>&nbsp;</span>",'',array('href'=>'','onclick'=>'hapus(this);return false;','style'=>'text-decoration:none;', 'class'=>'cancel')).'</td>
                                 </tr>';//<td>' . $baris->bahanmakanan->hargajualbahan . '</td>
@@ -300,7 +300,7 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan='11'><div class='pull-right'>Total Harga Netto</div></td>
+                    <td colspan='10'><div class='pull-right'>Total Harga Netto</div></td>
                     <td><?php echo $form->textField($model, 'totalharganetto', array('readonly' => true, 'class' => 'span2 integer2 total_semua', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?></td>
                     <td></td>
                 </tr>
@@ -309,13 +309,26 @@
     </div>
     <div class="form-actions">
         <?php
-        echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds', '{icon} Create', array('{icon}' => '<i class="icon-ok icon-white"></i>')) :
+		if($model->isNewRecord){
+			echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds', '{icon} Create', array('{icon}' => '<i class="icon-ok icon-white"></i>')) :
                         Yii::t('mds', '{icon} Save', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'onKeypress' => 'return formSubmit(this,event)'));
-        ?>
+		} else {
+			echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds', '{icon} Create', array('{icon}' => '<i class="icon-ok icon-white"></i>')) :
+                        Yii::t('mds', '{icon} Save', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'onKeypress' => 'return formSubmit(this,event)', 'disabled'=>true));
+		}
+		?>
 	  <?php
         echo CHtml::link(Yii::t('mds', '{icon} Ulang', array('{icon}' => '<i class="icon-refresh icon-white"></i>')), $this->createUrl($this->id . '/index',array('modul_id'=>Yii::app()->session['modul_id'])), array('class' => 'btn btn-danger',
             'onclick' => 'myConfirm("Apakah Anda yakin ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = "' . $this->createUrl($this->id . '/index',array('modul_id'=>Yii::app()->session['modul_id'])) . '";}); return false;'));
         ?>
+		<?php 
+		if($model->isNewRecord){
+			echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"return false",'disabled'=>TRUE  ));
+        }else{
+			echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info','onclick'=>"print();return false",'disabled'=>FALSE  ));
+        }
+		
+		?>
 	<?php 
         $content = $this->renderPartial('../tips/transaksi',array(),true);
         $this->widget('UserTips',array('type'=>'transaksi','content'=>$content));  ?>	
@@ -401,10 +414,10 @@
 						foreach ($stok as $item) {
 							$tot += $item->qty_current;
 						}
-						return $tot;
+						return $tot." ".$data->satuanbahan;
 					}
 					
-					return $data->jmlpersediaan;
+					return $data->jmlpersediaan." ".$data->satuanbahan;
 				},
 				'htmlOptions'=>array(
 					'style'=>'text-align: right',

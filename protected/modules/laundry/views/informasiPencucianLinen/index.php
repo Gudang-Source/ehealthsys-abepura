@@ -20,26 +20,25 @@ $('#pencucianlinen-info-search').submit(function(){
 			'template'=>"{summary}\n{items}\n{pager}",
 			'itemsCssClass'=>'table table-striped table-bordered table-condensed',
 			'columns'=>array(
-				array(
-					'header'=>'No. Pencucian',
-					'type'=>'raw',
-					'value'=>'$data->nopencucianlinen',
-				),
-				array(
+                                array(
 					'header'=>'Tanggal Pencucian',
 					'type'=>'raw',
 					'value'=>'MyFormatter::formatDateTimeForUser($data->tglpencucianlinen)',
 				),
 				array(
-					'header'=>'Instalasi',
+					'header'=>'No. Pencucian',
 					'type'=>'raw',
-					'value'=>'$data->ruangan->instalasi->instalasi_nama',
-				),
+					'value'=>'$data->nopencucianlinen',
+				),				
 				array(
-					'header'=>'Ruangan',
+					'header'=>'Instalasi <br> / Ruangan',
 					'type'=>'raw',
-					'value'=>'$data->ruangan->ruangan_nama',
-				),
+					'value'=>'$data->ruangan->instalasi->instalasi_nama." <br> / ".$data->ruangan->ruangan_nama',
+				),	
+                                array(
+                                    'header' => 'Pegawai Penerima',
+                                    'value' => '$data->pegpenerima->namaLengkap'
+                                ),
 				array(
 					'name'=>'keterangan_perawatan',
 					'type'=>'raw',

@@ -116,7 +116,7 @@
                     array(
                         'header'=>'Rincian',
                         'type'=>'raw',
-                        'value'=>'CHtml::link("<i class=\'icon-form-detail\'></i> ",  Yii::app()->controller->createUrl("/gizi/Terimabahanmakan/detailPenerimaan",array("id"=>$data->terimabahanmakan_id)),array("id"=>"$data->terimabahanmakan_id","target"=>"frameDetail","rel"=>"tooltip","title"=>"Klik untuk Detail Penerimaan Barang", "onclick"=>"window.parent.$(\'#dialogDetail\').dialog(\'open\')"));',
+                        'value'=>'CHtml::link("<i class=\'icon-form-detail\'></i> ",  Yii::app()->controller->createUrl("/gizi/Terimabahanmakan/detailPenerimaan",array("id"=>$data->terimabahanmakan_id,"frame"=>true)),array("id"=>"$data->terimabahanmakan_id","target"=>"frameDetail","rel"=>"tooltip","title"=>"Klik untuk Detail Penerimaan Barang", "onclick"=>"window.parent.$(\'#dialogDetail\').dialog(\'open\')"));',
                         'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                     ),
                     /*

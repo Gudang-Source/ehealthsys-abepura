@@ -1,6 +1,16 @@
 <?php 
 echo $this->renderPartial('application.views.headerReport.headerAnggaran',array('judulLaporan'=>$judulLaporan, 'deskripsi'=>$deskripsi, 'colspan'=>10));
 ?>
+<style>
+    .border{
+        border:1px solid #000;
+    }    
+    
+    thead th{
+        background:none;
+        color:#000;    
+    }
+</style>
 <div class="row-fluid">
 	<div class="span6">
 		<div class="control-group ">
@@ -24,18 +34,18 @@ echo $this->renderPartial('application.views.headerReport.headerAnggaran',array(
 	</div>
 </div>	
     <table width="100%" style='margin-left:auto; margin-right:auto;'>
-        <thead class="border">
-            <th>Nama Linen</th>
-            <th>Jenis Perawatan</th>
-            <th>Keterangan</th>
+        <thead >
+            <th class="border">Nama Linen</th>
+            <th class="border">Jenis Perawatan</th>
+            <th class="border">Keterangan</th>
         </thead>
         <?php 
 			foreach ($modDetail as $i=>$modLinen){ 
         ?>
             <tr>
-                <td><?php echo $modLinen->linen->namalinen; ?></td>
-                <td><?php echo $modLinen->jenisperawatan; ?></td>
-                <td><?php echo $modLinen->keterangan_pengperawatan; ?></td>
+                <td class="border"><?php echo $modLinen->linen->namalinen; ?></td>
+                <td class="border"><?php echo $modLinen->jenisperawatan; ?></td>
+                <td class="border"><?php echo $modLinen->keterangan_pengperawatan; ?></td>
             </tr>
         <?php } ?>
     </table>
