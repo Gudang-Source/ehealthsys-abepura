@@ -59,27 +59,63 @@ class InformasiRencKebBarangController extends MyAuthController
 
 	public function actionPrint($renkebbarang_id,$caraprint = null)
     {
-       $this->layout='//layouts/printWindows';
-        if (isset($_GET['frame'])){
-            $this->layout='//layouts/iframe';
-        }else if($caraprint=='EXCEL') {
-            $this->layout='//layouts/printExcel';
-        }
+       // $this->layout='//layouts/printWindows';
+       // if (isset($_GET['frame'])){
+         //   $this->layout='//layouts/iframe';
+        //}elseif($caraprint=='EXCEL') {
+          //  $this->layout='//layouts/printExcel';
+        //}
+        $this->layout='//layouts/iframe';
         $format = new MyFormatter;    
         $modRencanaKebBarang = ADRenkebbarangT::model()->findByPk($renkebbarang_id);     
         $criteria = new CDbCriteria();
-		$criteria->addCondition('renkebbarang_id = '.$renkebbarang_id);		
-		$modRencanaKebBarangDetail = ADRenkebbarangdetT::model()->findAll($criteria);
+        $criteria->addCondition('renkebbarang_id = '.$renkebbarang_id);		
+        $modRencanaKebBarangDetail = ADRenkebbarangdetT::model()->findAll($criteria);
 
         $judul_print = 'Rencana Kebutuhan Barang';
-        
-        $this->render($this->path_view.'Print', array(
+            
+        $caraPrint=$_REQUEST['caraPrint'];
+        if($caraPrint=='PRINT') {
+            $this->layout='//layouts/printWindows';
+            $this->render($this->path_view.'Print', array(
 			'format'=>$format,
 			'judul_print'=>$judul_print,
 			'modRencanaKebBarang'=>$modRencanaKebBarang,
 			'modRencanaKebBarangDetail'=>$modRencanaKebBarangDetail,
-			'caraprint'=>$caraprint
+			'caraprint'=>$caraPrint
         ));
+        }
+        elseif($caraPrint=='EXCEL') {
+            $this->layout='//layouts/printExcel';
+             $this->render($this->path_view.'Print', array(
+			'format'=>$format,
+			'judul_print'=>$judul_print,
+			'modRencanaKebBarang'=>$modRencanaKebBarang,
+			'modRencanaKebBarangDetail'=>$modRencanaKebBarangDetail,
+			'caraprint'=>$caraPrint
+        ));
+        }
+        elseif($caraPrint=='PDF') {
+            $ukuranKertasPDF = Yii::app()->user->getState('ukuran_kertas');                  //Ukuran Kertas Pdf
+            $posisi = Yii::app()->user->getState('posisi_kertas');                           //Posisi L->Landscape,P->Portait
+            $mpdf = new MyPDF('',$ukuranKertasPDF); 
+            $mpdf->useOddEven = 2;  
+            $stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
+            $mpdf->WriteHTML($stylesheet,1);  
+            $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
+            $mpdf->WriteHTML( $this->render($this->path_view.'Print', array(
+			'format'=>$format,
+			'judul_print'=>$judul_print,
+			'modRencanaKebBarang'=>$modRencanaKebBarang,
+			'modRencanaKebBarangDetail'=>$modRencanaKebBarangDetail,
+			'caraprint'=>$caraPrint
+        ),true));
+            $mpdf->Output($judul_print.'_'.date('Y-m-d').'.pdf','I');
+        }      
+            
+      
+        
+       
     }
 	
 	public function actionRincian($renkebbarang_id)
