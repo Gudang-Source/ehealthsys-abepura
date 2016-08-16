@@ -48,14 +48,15 @@ $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
 					?>
 			</div>
 		</div>
-	</div>
-	<div class="span4">
-		<div class="control-group ">
+                <div class="control-group ">
 			<?php echo CHtml::activeLabel($model,'nopengirimanlinen',array('class'=>'control-label')); ?>
 			<div class="controls">
-			   <?php echo $form->textField($model,'nopengirimanlinen',array('placeholder'=>'Ketik No. Perawatan', 'class'=>'span3', 'maxlength'=>20,'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+			   <?php echo $form->textField($model,'nopengirimanlinen',array('placeholder'=>'Ketik No. Perawatan', 'class'=>'span3 angkahuruf-only', 'maxlength'=>20,'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
 			</div>
 		</div>
+	</div>
+	<div class="span4">
+		
 		<div class="control-group">
 			<?php echo CHtml::label('Instalasi', 'instalasi_id', array('class'=>'control-label')) ?>
 			<div class="controls">
@@ -67,14 +68,21 @@ $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
 								)));?>
 			</div>
 		</div>
-	</div>
-	<div class="span4">
-		<div class="control-group">
+                <div class="control-group">
 			<?php echo CHtml::label('Ruangan', 'ruangantujuan_id', array('class'=>'control-label')) ?>
 			<div class="controls">
 				<?php echo $form->dropDownList($model,'ruangantujuan_id',CHtml::listData(LARuanganM::getRuanganByInstalasi($model->instalasi_id),'ruangan_id','ruangan_nama'),array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);",'empty'=>'--Pilih--')); ?>           
 			</div>
 		</div>	
+                <div class="control-group">
+			<?php echo CHtml::label('Pegawai Pengirim', 'pegpengirim', array('class'=>'control-label')) ?>
+			<div class="controls">
+				<?php echo $form->dropDownList($model,'pegpengirim_id',CHtml::listData(PegawairuanganV::model()->findAll("pegawai_aktif = TRUE AND ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ORDER BY nama_pegawai ASC "),'pegawai_id','namaLengkap'),array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);",'empty'=>'-- Pilih --')); ?>           
+			</div>
+		</div>	
+	</div>
+	<div class="span4">
+		
 	</div>
 </div>
 <div class="form-actions">

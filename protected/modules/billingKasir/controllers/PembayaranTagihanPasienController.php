@@ -107,6 +107,22 @@ class PembayaranTagihanPasienController extends MyAuthController
                 }else{
                     $this->oasudahbayar_tersimpan = true; //bypass oa jika tidak ada
                 }
+				
+				
+				$td = TindakanpelayananT::model()->findByAttributes(array(
+					'pendaftaran_id'=>$model->pendaftaran_id
+				), array(
+					'condition'=>'tindakansudahbayar_id is null'
+				));
+				
+				$oa = ObatalkespasienT::model()->findByAttributes(array(
+					'pendaftaran_id'=>$model->pendaftaran_id
+				), array(
+					'condition'=>'oasudahbayar_id is null'
+				));
+				
+				$this->bayarsemuatindakanoa = empty($td) && empty($oa);
+				
                 if($this->bayarsemuatindakanoa){//jika semua terbayar
 //                    BELUM JELAS AKHIR DARI PEMBAYARAN KARENA PEMBAYARAN BISA LEBIH DARI 1 KALI
 					// LNG-2450

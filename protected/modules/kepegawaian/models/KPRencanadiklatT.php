@@ -24,10 +24,12 @@ class KPRencanadiklatT extends RencanadiklatT {
 		if(!empty($this->pegawai_id)){
 			$criteria->addCondition('t.pegawai_id = '.$this->pegawai_id);
 		}
+                
 		if(!empty($this->jenisdiklat_id)){
 			$criteria->addCondition('jenisdiklat_id = '.$this->jenisdiklat_id);
 		}
 		$criteria->compare('LOWER(pegawai_m.nama_pegawai)',strtolower($this->nama_pegawai),true);
+                $criteria->compare('pegawai_m.nomorindukpegawai',$this->nomorindukpegawai);
 		$criteria->compare('LOWER(norencanadiklat)',strtolower($this->norencanadiklat),true);
 		$criteria->compare('LOWER(rencanadiklat_periode)',strtolower($this->rencanadiklat_periode),true);
 		$criteria->compare('LOWER(rencanadiklat_sampaidgn)',strtolower($this->rencanadiklat_sampaidgn),true);

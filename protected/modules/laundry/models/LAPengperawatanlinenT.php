@@ -4,6 +4,8 @@ class LAPengperawatanlinenT extends PengperawatanlinenT {
 	public $pegawaimengetahui_nama,$pegawaimengajukan_nama;
 	public $tgl_awal,$tgl_akhir;
 	public $instalasi_id;
+        public $ruanganpengirim_id;
+        
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -24,9 +26,9 @@ class LAPengperawatanlinenT extends PengperawatanlinenT {
                 if(!empty($this->pengperawatanlinen_id)){
 			$criteria->addCondition('t.pengperawatanlinen_id = '.$this->pengperawatanlinen_id);
 		}
-		if(!empty($this->ruangan_id)){
-			$criteria->addCondition('t.ruangan_id = '.$this->ruangan_id);
-		}
+		if(!empty($this->ruanganpengirim_id)){
+			$criteria->addCondition('t.ruangan_id = '.$this->ruanganpengirim_id);
+                }
 		$criteria->compare('LOWER(t.pengperawatanlinen_no)',strtolower($this->pengperawatanlinen_no),true);
 		$criteria->compare('LOWER(t.keterangan_pengperawatanlinen)',strtolower($this->keterangan_pengperawatanlinen),true);
 		if(!empty($this->mengajukan_id)){

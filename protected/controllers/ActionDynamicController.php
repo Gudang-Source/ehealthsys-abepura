@@ -1498,5 +1498,30 @@ class ActionDynamicController extends Controller
             }
             Yii::app()->end();
         }
+        
+        public function actionGetPegawaiRuangan($encode=false,$namaModel='')
+        {
+        if(Yii::app()->request->isAjaxRequest) {
+            $ruangan_id = $_POST["$namaModel"]['ruanganpengirim_id'];
+            
+            $ruangan = PegawairuanganV::model()->findAll('ruangan_id='.$ruangan_id.' and pegawai_aktif = true ORDER BY nama_pegawai ASC');            
+            $ruangan=CHtml::listData($ruangan,'pegawai_id','namaLengkap');
+            
+            if(empty($ruangan)){
+                echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+            }else{
+                if (count($ruangan) > 1){
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                }elseif (count($ruangan) == 0){                
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                }
+                foreach($ruangan as $value=>$name)
+                {
+                    echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+                }
+            }
+        }
+        Yii::app()->end();
+    }   
 }
 ?>

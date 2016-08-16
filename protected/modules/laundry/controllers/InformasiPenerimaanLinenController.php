@@ -15,6 +15,8 @@ class InformasiPenerimaanLinenController extends MyAuthController {
 				$modPenerimaanlinen->tgl_awal = $format->formatDateTimeForDb($_GET['LAPenerimaanlinenT']['tgl_awal']);
 				$modPenerimaanlinen->tgl_akhir = $format->formatDateTimeForDb($_GET['LAPenerimaanlinenT']['tgl_akhir']);
 				$modPenerimaanlinen->instalasi_id=$_GET['LAPenerimaanlinenT']['instalasi_id'];
+                                $modPenerimaanlinen->ruanganpengirim_id=$_GET['LAPenerimaanlinenT']['ruanganpengirim_id'];
+                                $modPenerimaanlinen->pegawaipengirim_id=$_GET['LAPenerimaanlinenT']['pegawaipengirim_id'];
 			}
 		$this->render($this->path_view.'index',array(
 			'format'=>$format,
@@ -22,15 +24,18 @@ class InformasiPenerimaanLinenController extends MyAuthController {
 		));
 	}
 	
-    public function actionBatalPenerimaan($id){
+    public function actionBatalPenerimaan(){
 		if(Yii::app()->request->isAjaxRequest)
 		{
 			$data['sukses']=0;
+                        $id = $_GET["id"];
+                        
 			$deleteDetail = PenerimaanlinendetailT::model()->deleteAllByAttributes(array('penerimaanlinen_id'=>$id));
 			$deletePenerimaan = PenerimaanlinenT::model()->deleteByPk($id);			
-			 if($deleteDetail && $deletePenerimaan){
+                        
+			if( ($deleteDetail == TRUE) && ($deletePenerimaan== TRUE) ){
 				$data['sukses'] = 1;
-			 }
+			}
 			echo CJSON::encode($data); 
 		}
     }
@@ -55,11 +60,17 @@ class InformasiPenerimaanLinenController extends MyAuthController {
                 $instalasi_id = $_POST["$model_nama"]["$attr"];
             }
             $models = null;
-            $models = CHtml::listData(RuanganM::model()->findAllByAttributes(array("instalasi_id"=>$instalasi_id), "ruangan_aktif = true"),'ruangan_id','ruangan_nama');
+            if (!empty($instalasi_id)){
+                $models = CHtml::listData(RuanganM::model()->findAllByAttributes(array("instalasi_id"=>$instalasi_id), "ruangan_aktif = true"),'ruangan_id','ruangan_nama');
+            }
+            
             if($encode){
                 echo CJSON::encode($models);
             } else {
-                echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+                
+                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+               
+                
                 if(count($models) > 0){
                     foreach($models as $value=>$name){
                         echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);

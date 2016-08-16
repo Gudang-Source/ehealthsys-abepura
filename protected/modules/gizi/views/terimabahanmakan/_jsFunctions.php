@@ -59,13 +59,13 @@ function inputBahanMakanan(){
             $(this).parents('tr').find('#checkList').attr('name','checkList['+(noUrut-1)+']');
 //            $(this).val(noUrut);
 //            noUrut++;
-            if ($(this).parents('tr').find('#checkList').is(':checked')){
-                val = parseFloat($(this).parents('tr').find('.subNetto').val());
+            //if ($(this).parents('tr').find('#checkList').is(':checked')){
+                val = parseFloat(unformatNumber($(this).parents('tr').find('.subNetto').val()));
                 value += val;
-            }
+            //}
         });
         hitungTotalDiscount();
-        $('#<?php echo $totalHarga; ?>').val(value);
+        $(".total_semua").val(value);
 		formatNumberSemua();
     }
 	   	
@@ -102,8 +102,10 @@ function inputBahanMakanan(){
             if (jQuery.isNumeric(discountPersen)){
                 $('.discount').each(function(){
                     if ($(this).parents('tr').find('.cekList').is(':checked')){
-                        var subnetto = $(this).parents('tr').find('.subNetto').val();
+                        var subnetto = parseFloat(unformatNumber($(this).parents('tr').find('.subNetto').val()));
                         discount = subnetto*discountPersen/100;
+						
+						console.log(subnetto, discountPersen);
                         $(this).val(discount);
                         totaldiscount+=discount;
                     }
@@ -137,6 +139,13 @@ function inputBahanMakanan(){
 		});
 
     }
+	
+
+	function print()
+	{
+		var terimabahanmakan_id = "<?php echo $model->terimabahanmakan_id?>";
+		window.open("<?php echo $this->createUrl('detailPenerimaan') ?>&id="+terimabahanmakan_id+"&print=1","",'location=_new, width=1024px');
+	}
 	
 	$(document).ready(function() {
 		renameInputRowBahanMakanan('tableBahanMakanan');
@@ -176,6 +185,11 @@ function inputBahanMakanan(){
 				myAlert("Pilih Nama Bahan Makanan yang akan diajukan !");
 				return false;
 			}
+		});
+		
+		$(".alphanumber").keyup(function()
+		{
+			$(this).val($(this).val().replace(/[^\w\s]/gi, ''));
 		});
 	});
 </script>

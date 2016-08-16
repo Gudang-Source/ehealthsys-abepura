@@ -14,31 +14,41 @@ if (isset($caraPrint)){
 
 echo $this->renderPartial('application.views.headerReport.headerAnggaran',array('judulLaporan'=>$judul_print, 'deskripsi'=>$deskripsi, 'colspan'=>10));
 ?>
-    <table class="table">
+<style>
+    .border{
+        border:1px solid #000;
+    }    
+    
+    thead th{
+        background:none;
+        color:#000;    
+    }
+</style>
+    <table >
         <tr>
             <td>Tanggal Pengajuan Perawatan Linen</td>            
-            <td colspan="2">: <?php echo isset($modPengPerawataninen->tglpengperawatanlinen) ? $format->formatDateTimeId($modPengPerawataninen->tglpengperawatanlinen) : "-"; ?></td>
+            <td colspan="2" style = "text-align:left">: <?php echo isset($modPengPerawataninen->tglpengperawatanlinen) ? $format->formatDateTimeId($modPengPerawataninen->tglpengperawatanlinen) : "-"; ?></td>
         </tr>
         <tr>
             <td>No. Pengajuan Perawatan Linen</td>            
-            <td  colspan="2">: <?php echo isset($modPengPerawataninen->pengperawatanlinen_no) ? $modPengPerawataninen->pengperawatanlinen_no : "-"; ?></td>
+            <td  colspan="2" style = "text-align:left">: <?php echo isset($modPengPerawataninen->pengperawatanlinen_no) ? $modPengPerawataninen->pengperawatanlinen_no : "-"; ?></td>
         </tr>
         <tr>
             <td>Ruangan</td>            
-            <td  colspan="2">: <?php echo isset($modPengPerawataninen->ruangan->ruangan_nama) ? $modPengPerawataninen->ruangan->ruangan_nama : "-"; ?></td>
+            <td  colspan="2" style = "text-align:left">: <?php echo isset($modPengPerawataninen->ruangan->ruangan_nama) ? $modPengPerawataninen->ruangan->ruangan_nama : "-"; ?></td>
         </tr>
         <tr>
             <td>Keterangan</td>            
-            <td  colspan="2">: <?php echo isset($modPengPerawataninen->keterangan_pengperawatanlinen) ? $modPengPerawataninen->keterangan_pengperawatanlinen : "-"; ?></td>
+            <td  colspan="2" style = "text-align:left">: <?php echo isset($modPengPerawataninen->keterangan_pengperawatanlinen) ? $modPengPerawataninen->keterangan_pengperawatanlinen : "-"; ?></td>
         </tr>
     </table><br/><br>
 	
-	<table  class="table">
+	<table  style = "width:100%">
 		<thead>
 			<tr>
-				<th>Nama Linen</th>
-				<th>Jenis Perawatan</th>
-				<th>Keterangan</th>
+				<th class = "border">Nama Linen</th>
+				<th class = "border">Jenis Perawatan</th>
+				<th class = "border">Keterangan</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -46,9 +56,9 @@ echo $this->renderPartial('application.views.headerReport.headerAnggaran',array(
 				foreach ($modPengPerawataninenDetail as $i=>$modLinen){ 
 			?>
 				<tr>
-					<td><?php echo $modLinen->linen->namalinen; ?></td>
-					<td><?php echo $modLinen->jenisperawatan; ?></td>
-					<td><?php echo $modLinen->keterangan_pengperawatan; ?></td>
+					<td class = "border"><?php echo $modLinen->linen->namalinen; ?></td>
+					<td class = "border"><?php echo $modLinen->jenisperawatan; ?></td>
+					<td class = "border"><?php echo $modLinen->keterangan_pengperawatan; ?></td>
 				</tr>
 			<?php } ?>
 		</tbody>

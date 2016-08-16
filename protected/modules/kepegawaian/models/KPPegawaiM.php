@@ -14,7 +14,7 @@ class KPPegawaiM extends PegawaiM
 	public $pangkat_nama;
 	public $kelompokpegawai_nama;
 	public $pendidikan_nama;
-	public $jml_tanggungan;
+	public $jml_tanggungan,$latitude,$longitude;
 
 	/**
 	 * Returns the static model of the specified AR class.
