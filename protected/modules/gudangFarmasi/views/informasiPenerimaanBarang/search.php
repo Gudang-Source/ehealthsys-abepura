@@ -22,6 +22,7 @@
                                         'mode'=>'date',
                                         'options'=> array(
                                             'dateFormat'=>Params::DATE_FORMAT,
+                                            'maxDate' => 'd',
                                         ),
                                         'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3', 'onkeypress'=>"return $(this).focusNextInputField(event)"
                                         ),
@@ -41,6 +42,7 @@
                                                     'mode'=>'date',
                                                     'options'=> array(
                                                         'dateFormat'=>Params::DATE_FORMAT,
+                                                        'maxDate' => 'd',
                                                     ),
                                                     'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3', 'onkeypress'=>"return $(this).focusNextInputField(event)"
                                                     ),

@@ -15,7 +15,9 @@
         background-color: none;
     }
 </style>
+<?php  echo $this->renderPartial('_headerPrint');  ?>
 <table  class = "table" style = "box-shadow:none;">
+    <tr><th style = "text-align:center;" colspan="2"><h4><?php echo $judulLaporan; ?></h4></th></tr>
     <tr>
         <td>
              <b><?php echo CHtml::encode($modTerima->getAttributeLabel('nopenerimaanbahan')); ?>:</b>
@@ -93,22 +95,7 @@
        
 </table>
 
- <?php
-if (isset($_GET['frame'])){
-    echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info', 'onclick'=>"print('PRINT')"));
-    //echo CHtml::link(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),'javascript:void(0);', array('class'=>'btn btn-info', 'onclick'=>"print('EXCEL')")); 
-?>
-    <script type='text/javascript'>
-    /**
-     * print
-     */    
-    function print(caraPrint){
-        terimabahanmakan_id = '<?php echo !empty($modTerima->terimabahanmakan_id) ? $modTerima->terimabahanmakan_id : ''; ?>';
-        window.open('<?php echo $this->createUrl('printDetailPenerimaan'); ?>&id='+terimabahanmakan_id+'&caraPrint='+caraPrint+'&frame=false','printwin','left=100,top=100,width=1000,height=640');
-    }
-    </script>
-<?php
-}else{ ?>
+
     <table class ="table" style = "box-shadow:none;">
     <tr>
         <td width="100%" align="left" align="top">
@@ -131,4 +118,4 @@ if (isset($_GET['frame'])){
         </td>
     </tr>
     </table>
-<?php } ?>
+

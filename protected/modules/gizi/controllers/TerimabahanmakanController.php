@@ -429,7 +429,7 @@ class TerimabahanmakanController extends MyAuthController
                 $mpdf->WriteHTML($stylesheet,1);  
                 $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
                 $mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-                $mpdf->Output();
+                $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
             }                       
         }
         
@@ -446,5 +446,26 @@ class TerimabahanmakanController extends MyAuthController
                 'modTerima'=>$modTerima,
                 'modDetailTerima'=>$modDetailTerima,
             ));
+        }
+        
+        public function actionPrintDetailPenerimaan($id)
+        {
+            
+            $judulLaporan='Penerimaan Bahan Makanan';
+            
+            $modTerima = TerimabahanmakanT::model()->findByPk($id);
+            $modDetailTerima = TerimabahandetailT::model()->with('bahanmakanan', 'golbahanmakanan')->findAllByAttributes(array('terimabahanmakan_id'=>$modTerima->terimabahanmakan_id), array('order'=>'nourutbahan ASC'));
+         
+            
+             //if (isset($_GET['frame'])){
+                //$this->layout='//layouts/iframe';
+           // }
+        
+            $caraPrint=$_REQUEST['caraPrint'];
+            if($caraPrint=='PRINT') {
+             //   var_dump($id);die;
+                $this->layout='//layouts/printWindows';
+                $this->render('printDetailInformasi',array('modTerima'=>$modTerima,'modDetailTerima'=>$modDetailTerima,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+            }             
         }
 }
