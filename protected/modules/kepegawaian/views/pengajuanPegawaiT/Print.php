@@ -1,3 +1,8 @@
+<style>
+    .border{
+        border:1px solid #000;
+    }
+</style>
 <?php 
 $table = 'ext.bootstrap.widgets.BootGridView';
 $template = "{summary}\n{items}\n{pager}";
@@ -24,23 +29,25 @@ if (!isset($_GET['frame'])){
 ?>
 <table width="100%">
     <tr>
-        <td> <?php echo "Tanggal Pengajuan : ".$model->tglpengajuan; ?></td>
-        
-        <td rowspan="2" widt="40%"> <?php echo "Keterangan : ".$model->keterangan; ?></td>
+        <td width="20%"> <?php echo "Tanggal Pengajuan "; ?></td>
+        <td><?php echo ': '.MyFormatter::formatDateTimeForUser($model->tglpengajuan) ?></td>
+        <td>&nbsp;</td>
+        <td rowspan="2" width="40%" style = "text-align:left;vertical-align:top;"> <?php echo "Keterangan :".$model->keterangan; ?></td>
     </tr>   
     <tr>
-        <td><?php echo "No. Pengajuan : ".$model->nopengajuan; ?></td>
+        <td><?php echo "No. Pengajuan "; ?></td>
+        <td><?php echo ': '.$model->nopengajuan?></td>
     </tr>
 </table>
 <br><br>
-<table class="items table table-striped table-bordered table-condensed">
+<table width="100%">
     <thead>
             <tr>
-                <th>No. Urut</th>
-                <th>Jabatan/ Pekerjaan</th>
-                <th>Jumlah Orang</th>
-                <th>Untuk Keperluan</th>
-                <th>Keterangan</th>
+                <th class = "border">No. Urut</th>
+               <!-- <th>Jabatan/ Pekerjaan</th>-->
+                <th class = "border">Jumlah Orang</th>
+                <th class = "border">Untuk Keperluan</th>
+                <th class = "border">Keterangan</th>
             </tr>
         </thead>
     <?php
@@ -50,12 +57,12 @@ if (!isset($_GET['frame'])){
     ?>
 
         <tr>
-            <td><?php echo $modDetailPengcal->nourut;?></td>
-            <td>-<?php //echo $occopation->occupation_nama;?>
-            </td>
-            <td><?php echo $modDetailPengcal->jmlorang;?></td>
-            <td><?php echo $modDetailPengcal->untukkeperluan; ?></td>
-            <td><?php echo $modDetailPengcal->keterangan; ?></td>
+            <td class = "border" style = "text-align:center;"><?php echo $modDetailPengcal->nourut;?></td>
+            <!--<td>-<?php //echo $occopation->occupation_nama;?>-->
+            <!--</td>-->
+            <td class = "border"  style = "text-align:center;"><?php echo $modDetailPengcal->jmlorang;?></td>
+            <td class = "border" style = "padding-left:5px;padding-right:5px"><?php echo $modDetailPengcal->untukkeperluan; ?></td>
+            <td class = "border" style = "padding-left:5px;padding-right:5px"><?php echo $modDetailPengcal->keterangan; ?></td>
 
         </tr>
 
@@ -73,9 +80,12 @@ if (!isset($_GET['frame'])){
 		<td></td>
 		<td align='center'>Mengetahui</td>
 	</tr>
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
 	<tr height='100px'>		
-		<td align='center'><?php echo Yii::app()->user->getState('nama_pegawai'); ?></td>
-		<td></td>
-		<td align='center'><?php echo (isset($model->mengajukan_id) ? $model->mengajukan->NamaLengkap : Yii::app()->user->getState('nama_pegawai')); ?></td>
+		<td align='center'><?php echo (!empty($model->mengajukan_id)?$model->mengajukan->namaLengkap:'-'); ?></td>
+		<td><?php //var_dump($model->mengetahui_id);die; ?></td>
+		<td align='center'><?php echo (!empty($model->mengetahui_id)?$model->mengetahuii->namaLengkap:'-'); ?></td>
 	</tr>
 </table>  
