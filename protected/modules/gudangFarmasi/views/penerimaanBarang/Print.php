@@ -116,7 +116,7 @@ if (!isset($_GET['frame'])){
                 <td class = "border"><?php echo (!empty($modObat->obatalkes->obatalkes_kategori) ? $modObat->obatalkes->obatalkes_kategori."/ " : "") ."". $modObat->obatalkes->obatalkes_nama; ?></td>
                 <td class = "border"><?php echo (!empty($modStokObatAlkes->nobatch) ? $modStokObatAlkes->nobatch : ""); ?></td>
                 <td class = "border"><?php echo $format->formatDateTimeForUser($modObat->tglkadaluarsa); ?></td>
-                <td align="center" class = "border"><?php echo (isset($modObat->kemasanbesar) ? $modObat->kemasanbesar : 0 )." ".(isset($modObat->satuankecil_id) ? $modObat->satuankecil->satuankecil_nama : $modObat->satuanbesar->satuanbesar_nama); ?></td>
+                <td style="text-align:right;" class = "border"><?php echo (isset($modObat->kemasanbesar) ? $modObat->kemasanbesar : 0 )." ".(isset($modObat->satuankecil_id) ? $modObat->satuankecil->satuankecil_nama : $modObat->satuanbesar->satuanbesar_nama); ?></td>
                 <td style="text-align:right;" class = "border"><?php echo number_format($modObat->jmlterima,0,"","."); ?></td>
                 <td style="text-align:right;" class = "border">Rp<?php echo number_format($modObat->harganettoper,0,"","."); ?></td>
                 <td style="text-align:right;" class = "border"><?php echo $modObat->persendiscount; ?></td>
