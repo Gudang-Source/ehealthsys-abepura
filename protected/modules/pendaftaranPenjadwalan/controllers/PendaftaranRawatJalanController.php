@@ -1362,7 +1362,7 @@ class PendaftaranRawatJalanController extends MyAuthController
 						$isAda = true;
 				}
 				
-				var_dump($isAda); die;
+				// var_dump($isAda); die;
 				
                 // if (date('Y-m-d', time()) == date('Y-m-d', strtotime($pendaftaran->tgl_pendaftaran))) {
                 if ($isAda || !in_array($pendaftaran->statusperiksa, array(Params::STATUSPERIKSA_SUDAH_DIPERIKSA, Params::STATUSPERIKSA_SUDAH_PULANG))) {
