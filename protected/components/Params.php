@@ -153,6 +153,8 @@ Class Params
         const RUANGAN_ID_LANTAI_3 = 30;
         const RUANGAN_ID_BERSALIN = 8;
         const RUANGAN_ID_KEPEGAWAIAN = 84;
+        const RUANGAN_ID_KLAIM_KPS = 81;
+        const RUANGAN_ID_KLAIM_BPJS = 80;
 
 	const KELASPELAYANAN_ID_TANPA_KELAS = 6;
         const KELASPELAYANAN_ID_KELAS_III = 4;
@@ -162,6 +164,9 @@ Class Params
         const KELASPELAYANAN_ID_VIP = 2;
         
 	const PENJAMIN_ID_UMUM = 1;
+        const PENJAMIN_ID_BPJS = 122;
+        const PENJAMIN_ID_BANK_PAPUA = 397;
+        
 	const PENJAMIN_ID_GRATIS = 96;
 	
 	const PENJAMIN_ID_PISA = 34; // LNG-3
