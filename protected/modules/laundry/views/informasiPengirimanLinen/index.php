@@ -20,26 +20,25 @@ $('#pengirimanlinen-info-search').submit(function(){
 			'template'=>"{summary}\n{items}\n{pager}",
 			'itemsCssClass'=>'table table-striped table-bordered table-condensed',
 			'columns'=>array(
-				array(
-					'header'=>'No. Pengiriman',
-					'type'=>'raw',
-					'value'=>'$data->nopengirimanlinen',
-				),
-				array(
+                                array(
 					'header'=>'Tanggal Pengiriman',
 					'type'=>'raw',
 					'value'=>'MyFormatter::formatDateTimeForUser($data->tglpengirimanlinen)',
 				),
 				array(
-					'header'=>'Instalasi',
+					'header'=>'No. Pengiriman',
 					'type'=>'raw',
-					'value'=>'$data->ruangan->instalasi->instalasi_nama',
-				),
+					'value'=>'$data->nopengirimanlinen',
+				),				
 				array(
-					'header'=>'Ruangan',
+					'header'=>'Instalasi <br> / Ruangan Tujuan',
 					'type'=>'raw',
-					'value'=>'$data->ruangan->ruangan_nama',
-				),
+					'value'=>'$data->ruangan->instalasi->instalasi_nama." <br> / ".$data->ruangan->ruangan_nama',
+				),	
+                                array(
+                                    'header' => 'Pegawai Pengirim',
+                                    'value' => '$data->pegpengirim->namaLengkap',
+                                ),
 				array(
 					'name'=>'keterangan_pengiriman',
 					'type'=>'raw',

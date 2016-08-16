@@ -15,6 +15,7 @@ class InformasiPengajuanPerawatanLinenController extends MyAuthController {
 				$modPengperawatanlinen->tgl_awal = $format->formatDateTimeForDb($_GET['LAPengperawatanlinenT']['tgl_awal']);
 				$modPengperawatanlinen->tgl_akhir = $format->formatDateTimeForDb($_GET['LAPengperawatanlinenT']['tgl_akhir']);
                                 $modPengperawatanlinen->instalasi_id = $_GET['LAPengperawatanlinenT']['instalasi_id'];
+                                $modPengperawatanlinen->ruanganpengirim_id = $_GET['LAPengperawatanlinenT']['ruanganpengirim_id'];
 			}
 		$this->render($this->path_view.'index',array(
 			'format'=>$format,
@@ -28,7 +29,7 @@ class InformasiPengajuanPerawatanLinenController extends MyAuthController {
 			$data['sukses']=0;
 			$deleteDetail = PengperawatanlinendetT::model()->deleteAllByAttributes(array('pengperawatanlinen_id'=>$id));
 			$deletePengperawatan = PengperawatanlinenT::model()->deleteByPk($id);			
-			 if($deleteDetail && $deletePengperawatan){
+			 if( ($deleteDetail==TRUE) && ($deletePengperawatan==TRUE)){
 				$data['sukses'] = 1;
 			 }
 			echo CJSON::encode($data); 
@@ -73,16 +74,18 @@ class InformasiPengajuanPerawatanLinenController extends MyAuthController {
                 $instalasi_id = $_POST["$model_nama"]["$attr"];
             }
             $models = null;
+             if (!empty($instalasi_id)){
             $models = CHtml::listData(RuanganM::model()->findAllByAttributes(array("instalasi_id"=>$instalasi_id), "ruangan_aktif = true"),'ruangan_id','ruangan_nama');
+             }
             if($encode){
                 echo CJSON::encode($models);
             } else {
-                if (count($models)>1){
-                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
-                }elseif (count($models)==0){
-                    echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
-                }
-                
+               // if (count($models)>1){
+               //     echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+              //  }elseif (count($models)==0){
+               //     echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
+               // }
+                echo CHtml::tag('option', array('value'=>''),CHtml::encode('-- Pilih --'),true);
                 if(count($models) > 0){
                     foreach($models as $value=>$name){
                         echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
