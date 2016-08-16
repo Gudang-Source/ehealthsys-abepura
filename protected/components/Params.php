@@ -91,6 +91,7 @@ Class Params
 	const MODUL_ID_AKUNTANSI = 26;
 	const MODUL_ID_KEUANGAN = 44;
         const MODUL_ID_PENGGAJIAN = 61;
+        const MODUL_ID_KEPEGAWAIAN = 32;
 
         const INSTALASI_ID_RM = 1;
 	const INSTALASI_ID_RJ = 2;
@@ -107,6 +108,7 @@ Class Params
 	const INSTALASI_ID_KASIR = 41;     
 	const INSTALASI_ID_LOGISTIK = 44;     
         const INSTALASI_ID_ICU = 20;
+        const INSTALASI_ID_KEPEGAWAIAN = 26;
 
 	const KASUSDIAGNOSA_KASUS_LAMA = "KASUS LAMA";
 	const KASUSDIAGNOSA_KASUS_BARU = "KASUS BARU";
@@ -150,6 +152,7 @@ Class Params
         const RUANGAN_ID_LANTAI_2 = 31;
         const RUANGAN_ID_LANTAI_3 = 30;
         const RUANGAN_ID_BERSALIN = 8;
+        const RUANGAN_ID_KEPEGAWAIAN = 84;
 
 	const KELASPELAYANAN_ID_TANPA_KELAS = 6;
         const KELASPELAYANAN_ID_KELAS_III = 4;
