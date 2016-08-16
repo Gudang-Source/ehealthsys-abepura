@@ -79,7 +79,7 @@
             <div class="control-group">
                 <?php echo $form->labelEx($modPegawai,'nama_pegawai',array('class'=>'control-label required')); ?>
                 <div class="controls">
-                    <?php echo $form->textField($modPegawai,'nama_pegawai',array( 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50,'class'=>'inputRequire all-caps','style'=>'width:208px;','placeholder'=>'Nama Lengkap Pegawai')); ?>
+                    <?php echo $form->textField($modPegawai,'nama_pegawai',array( 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50,'class'=>'hurufs-only inputRequire all-caps','style'=>'width:208px;','placeholder'=>'Nama Lengkap Pegawai')); ?>
                 </div>
             </div>
             <div class="control-group">
@@ -90,10 +90,10 @@
                                        'style'=>'width:70px;')); ?>               
                 </div>
             </div>
-            <?php echo $form->textFieldRow($modPegawai,'nama_keluarga',array( 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50,'placeholder'=>'Nama Keluarga Pegawai')); ?>
+            <?php echo $form->textFieldRow($modPegawai,'nama_keluarga',array('class'=>'hurufs-only' ,'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50,'placeholder'=>'Nama Keluarga Pegawai')); ?>
 
 
-            <?php echo $form->textFieldRow($modPegawai,'tempatlahir_pegawai',array( 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30,'placeholder'=>'Kota/Kabupaten Kelahiran')); ?>
+            <?php echo $form->textFieldRow($modPegawai,'tempatlahir_pegawai',array('class'=>'hurufs-only' , 'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>30,'placeholder'=>'Kota/Kabupaten Kelahiran')); ?>
 
             <div class="control-group">
                 <?php echo $form->labelEx($modPegawai,'tgl_lahirpegawai', array('class'=>'control-label')) ?>

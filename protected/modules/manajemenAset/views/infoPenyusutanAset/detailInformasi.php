@@ -8,7 +8,7 @@ Data dibawah masih belum valid dikarenakan data di tabel penyusutanaset_v belum 
             <?php echo CHtml::encode($modPenyusutanAset->no_penyusutan); ?>
             <br />
             <b><?php echo CHtml::encode($modPenyusutanAset->getAttributeLabel('tgl_penyusutan')); ?>:</b>
-            <?php echo CHtml::encode($modPenyusutanAset->tgl_penyusutan); ?>
+            <?php echo MyFormatter::formatDateTimeForUser(CHtml::encode($modPenyusutanAset->tgl_penyusutan)); ?>
              <br/>
         </td>
         <td>
@@ -36,7 +36,7 @@ Data dibawah masih belum valid dikarenakan data di tabel penyusutanaset_v belum 
         foreach($modDetailPenyusutan AS $detail): ?>
             <tr>   
                 <td><?php echo $no; ?></td>
-                <td><?php echo $detail->penyusutanaset_periode; ?></td>
+                <td><?php echo MyFormatter::formatDateTimeForUser($detail->penyusutanaset_periode); ?></td>
                 <td style = "text-align:right;"><?php echo $detail->penyusutanaset_saldo; ?></td>
                 <td style = "text-align:right;"><?php echo $detail->penyusutanaset_persentase; ?></td>                
             </tr>

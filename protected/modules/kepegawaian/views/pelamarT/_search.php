@@ -28,9 +28,10 @@ $format = new MyFormatter();
                                 'dateFormat' => Params::DATE_FORMAT,
                                 'maxDate' => 'd',
                             ),
-                            'htmlOptions' => array('readonly' => true, 'class' => "span3",
+                            'htmlOptions' => array('readonly' => true, 'class' => "dtPicker3",
                                 'onkeypress' => "return $(this).focusNextInputField(event)"),
                         ));
+                                               
                         ?>
                         <?php $model->tgl_awal = $format->formatDateTimeForDb($model->tgl_awal); ?>                     
                     </div> 
@@ -49,7 +50,7 @@ $format = new MyFormatter();
                                 'dateFormat' => Params::DATE_FORMAT,
                                 'maxDate' => 'd',
                             ),
-                            'htmlOptions' => array('readonly' => true, 'class' => "span3",
+                            'htmlOptions' => array('readonly' => true, 'class' => "dtPicker3",
                                 'onkeypress' => "return $(this).focusNextInputField(event)"),
                         ));
                         ?>
@@ -61,7 +62,7 @@ $format = new MyFormatter();
                         <?php echo CHtml::label('Nama Pelamar', 'nama_pelamar', array('class'=>'control-label')); ?>
                         <div class = "controls">
                             <?php
-                            echo $form->textField($model, 'nama_pelamar');
+                            echo $form->textField($model, 'nama_pelamar',array('class'=>'hurufs-only'));
                             /*$this->widget('MyJuiAutoComplete',array(
                                 'model'=>$model,
                                 'attribute'=>'nama_pelamar',
