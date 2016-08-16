@@ -19,9 +19,10 @@ class GFPegawairuanganV extends PegawairuanganV
 
 		$criteria=new CDbCriteria;
                 
-		$criteria->group = 'nomorindukpegawai,nama_pegawai,gelardepan,gelarbelakang_nama,alamat_pegawai';
+		$criteria->group = 'nomorindukpegawai,nama_pegawai,gelardepan,gelarbelakang_nama,alamat_pegawai, pegawai_id';
 		$criteria->select = $criteria->group;
-		$criteria->addCondition('instalasi_id = '.Params::INSTALASI_ID_FARMASI);
+		$criteria->compare('instalasi_id', Yii::app()->user->getState('instalasi_id'));
+		//$criteria->addCondition('instalasi_id = '.Params::INSTALASI_ID_FARMASI);
 		$criteria->addCondition('ruangan_id = '.Yii::app()->user->getState('ruangan_id'));
 		$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 		if(!empty($this->pegawai_id)){

@@ -24,13 +24,13 @@
 				Persen Uang Muka
 			</label>
                 <div class="controls">
-                   <?php echo $form->textField($modUangMuka,'persenuangmuka',array('readonly'=>FALSE,'class'=>'span2 integer', 'onkeyup'=>"return $(this).focusNextInputField(event)",'onblur'=>'setUangMuka(this);','maxLength'=>3)); ?>
+                   <?php echo $form->textField($modUangMuka,'persenuangmuka',array('readonly'=>FALSE,'class'=>'span2 integer2', 'onkeyup'=>"return $(this).focusNextInputField(event)",'onblur'=>'setUangMuka(this);','maxLength'=>3)); ?>
                 </div>
         </div>
         <div class="control-group ">
             <?php echo $form->labelEx($modUangMuka,'jumlahuang',array("class"=>"control-label"));?>
                 <div class="controls">
-                   <?php echo $form->textField($modUangMuka,'jumlahuang',array('readonly'=>FALSE,'class'=>'span2 integer', 'onkeyup'=>"return $(this).focusNextInputField(event)",'onblur'=>'setPersenUangMuka(this);')); ?>
+                   <?php echo $form->textField($modUangMuka,'jumlahuang',array('readonly'=>FALSE,'class'=>'span2 integer2', 'onkeyup'=>"return $(this).focusNextInputField(event)",'onblur'=>'setPersenUangMuka(this);')); ?>
                 </div>
         </div>        
     </div>
