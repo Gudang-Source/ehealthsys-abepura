@@ -23,6 +23,8 @@
 class KPPengajuanPegawaiT extends CActiveRecord
 {
     public $nopengajuan_awal;
+    public $menyetujuiNama;
+    public $total;
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
