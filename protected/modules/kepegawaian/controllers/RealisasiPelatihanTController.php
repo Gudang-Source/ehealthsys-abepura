@@ -15,7 +15,7 @@ class RealisasiPelatihanTController extends MyAuthController{
 				foreach($_POST['KPPegawaidiklatT'] as $i => $pegawaidiklat){
 					if($_POST['KPRencanadiklatT'][$i]['ceklis']){
 						$modPegawaiDiklat = new KPPegawaidiklatT;
-						$modPegawaiDiklat->attributes = $pegawaidiklat;
+						$modPegawaiDiklat->attributes = $pegawaidiklat;                                                
 						$modPegawaiDiklat->jenisdiklat_id = $_POST['KPRencanadiklatT'][$i]['jenisdiklat_id'];
 						$modPegawaiDiklat->pegawai_id = $_POST['KPRencanadiklatT'][$i]['pegawai_id'];
 						$modPegawaiDiklat->pegawaidiklat_nama = $_POST['KPRencanadiklatT'][$i]['nama_pegawai'];
@@ -28,6 +28,7 @@ class RealisasiPelatihanTController extends MyAuthController{
 						$modPegawaiDiklat->create_ruangan = Yii::app()->user->ruangan_id;
 						$modPegawaiDiklat->tglditetapkandiklat = !empty($pegawaidiklat['tglditetapkandiklat'])?MyFormatter::formatDateTimeForDb($pegawaidiklat['tglditetapkandiklat']):null;
 						$modPegawaiDiklat->pegawaidiklat_tahun = !empty($pegawaidiklat['pegawaidiklat_tahun'])?MyFormatter::formatDateTimeForDb($pegawaidiklat['pegawaidiklat_tahun']):null;
+                                              //  var_dump($modPegawaiDiklat);
 						if ($modPegawaiDiklat->save()){
 							$this->realisasiBaru = true;
 						}else{
