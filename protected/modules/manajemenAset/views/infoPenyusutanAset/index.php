@@ -83,8 +83,12 @@ $('.search-form form').submit(function(){
 				array(
 					'name'=>'penyusutanaset_saldo',
 					'type'=>'raw',
-					'value'=>'$data->penyusutanaset_saldo',
-                                        'htmlOptions' => array('style'=>'text-align:right')
+					//'value'=>'(strpos( $data->penyusutanaset_saldo, "." )!== FALSE)?number_format($data->penyusutanaset_saldo,2,",","."):number_format($data->penyusutanaset_saldo,0,"",".")',
+                                        'value' => 'number_format($data->penyusutanaset_saldo,0,"",".")',
+                                       // 'value' => function($data){
+                                        //        var_dump(strpos( $data->penyusutanaset_saldo, '.' ));
+                                       // },
+                                    'htmlOptions' => array('style'=>'text-align:right')
 				),
 				array(
 					'name'=>'penyusutanaset_persentase',

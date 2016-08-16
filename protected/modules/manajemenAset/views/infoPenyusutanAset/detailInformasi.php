@@ -37,7 +37,7 @@ Data dibawah masih belum valid dikarenakan data di tabel penyusutanaset_v belum 
             <tr>   
                 <td><?php echo $no; ?></td>
                 <td><?php echo MyFormatter::formatDateTimeForUser($detail->penyusutanaset_periode); ?></td>
-                <td style = "text-align:right;"><?php echo $detail->penyusutanaset_saldo; ?></td>
+                <td style = "text-align:right;"><?php echo number_format($detail->penyusutanaset_saldo,0,'','.'); ?></td>
                 <td style = "text-align:right;"><?php echo $detail->penyusutanaset_persentase; ?></td>                
             </tr>
     <?php 
