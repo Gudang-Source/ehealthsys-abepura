@@ -50,9 +50,10 @@ $('#divSearch-form form').submit(function(){
                         'value'=>'$data->statuspenerimaan',
                     ),
                     array(
-                        'header'=>'Jumlah Terima',
+                        'header'=>'Jumlah Penerimaan',
                         'type'=>'raw',
                         'value'=>'number_format($data->JmlTerima,0,"",".")',
+                        'htmlOptions'=>array('style'=>'text-align:right')
                     ),
                     array(
                         'header'=>'Faktur Pembelian',
@@ -98,7 +99,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
                     'id'=>'dialogPenerimaan',
                         // additional javascript options for the dialog plugin
                         'options'=>array(
-                        'title'=>'Details Penerimaan',
+                        'title'=>'Detail Penerimaan',
                         'autoOpen'=>false,
                         'minWidth'=>900,
                         'minHeight'=>100,
