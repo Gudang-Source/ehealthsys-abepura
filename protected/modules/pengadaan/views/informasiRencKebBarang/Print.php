@@ -1,13 +1,14 @@
 <center>
+  
 <?php
-if (isset($caraPrint)){
-    if($caraPrint=='EXCEL')
-    {
-        header('Content-Type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment;filename="'.$judul_print.'-'.date("Y/m/d").'.xls"');
-        header('Cache-Control: max-age=0');     
-    }
+if($caraprint=='EXCEL')
+{
+
+    header('Content-Type: application/vnd.ms-excel');
+    header('Content-Disposition: attachment;filename="'.$judul_print.'-'.date("Y/m/d").'.xls"');
+    header('Cache-Control: max-age=0');     
 }
+echo $this->renderPartial('application.views.headerReport.headerDefault',array('judulLaporan'=>'', 'colspan'=>10));      
 ?>
 <?php
 echo CHtml::css('.control-label{
@@ -28,7 +29,19 @@ echo CHtml::css('.control-label{
 		vertical-align: top;
 	}
     .border{
-        border:1px solid;
+        border:1px solid #000;
+    }
+    .table thead:first-child{
+        border-top:1px solid #000;        
+    }
+    
+    thead th{
+        background:none;
+        color:#333;
+    }
+    
+    .table tbody tr:hover td, .table tbody tr:hover th {
+        background-color: none;
     }
     .kertas{
      width:20cm;
@@ -40,15 +53,15 @@ echo CHtml::css('.control-label{
 if(!$modRencanaKebBarangDetail){
     echo "Data tidak ditemukan"; exit;
 }
-echo $this->renderPartial('application.views.headerReport.headerRincian');
+//echo $this->renderPartial('application.views.headerReport.headerRincian');
 $format = new MyFormatter;
 $modProfilRs = ProfilrumahsakitM::model()->findByPk(Params::DEFAULT_PROFIL_RUMAH_SAKIT); 
 $tglrencana = MyFormatter::formatDateTimeForUser($modRencanaKebBarang->renkebbarang_tgl);
 ?>
 <body class="kertas">
-    <table width="100%" style="margin:0px;" cellpadding="0" cellspacing="0">
+    <table class = "table" style = "box-shadow:none;" >
         <tr>
-            <td align="center" valig="middle" colspan="2">
+            <td style="text-align:center;" valign="middle" colspan="2">
                 <b><u><h5><?php echo $judul_print.'<br></u>Tanggal : '.
                         $tglrencana; ?></h4></b>
             </td>
@@ -58,20 +71,24 @@ $tglrencana = MyFormatter::formatDateTimeForUser($modRencanaKebBarang->renkebbar
             <td></td>
         </tr>
         
-    </table><br/>
-    <table width="100%" style='margin-left:auto; margin-right:auto;'>
-        <thead class="border">
-            <th style="text-align: center;">No.</th>
-            <th style="text-align: center;">Asal Barang</th>
-            <th width="200" style="text-align: center;">Nama Barang</th>
-            <th style="text-align: center;">Satuan </th>
-            <th style="text-align: center;">Jumlah Permintaan</th>
-            <th width="75" style="text-align: center;">Harga</th>
-            <th style="text-align: center;">Stok Akhir</th>
-            <th style="text-align: center;">Minimal Stok</th>
-            <th style="text-align: center;">Maksimal Stok</th>
-            <th style="text-align: center;" nowrap>Sub Total</th>
-        </thead>
+    </table>
+    <?php 
+        $tr = ($caraprint=='PDF')?'<tr>':'<thead>';
+        $tr1 = ($caraprint=='PDF')?'</tr>':'</thead>';
+    ?>
+    <table class = "table" style = "box-shadow:none;" >
+        <?php echo $tr; ?>
+            <th class="border" style="text-align: center;">No.</th>
+            <th class="border" style="text-align: center;">Asal Barang</th>
+            <th class="border" width="200" style="text-align: center;">Nama Barang</th>
+            <th class="border" style="text-align: center;">Satuan </th>
+            <th class="border" style="text-align: center;">Jumlah Permintaan</th>
+            <th class="border" width="75" style="text-align: center;">Harga</th>
+            <th class="border" style="text-align: center;">Stok Akhir</th>
+            <th class="border" style="text-align: center;">Minimal Stok</th>
+            <th class="border" style="text-align: center;">Maksimal Stok</th>
+            <th class="border" style="text-align: center;" nowrap>Sub Total</th>
+        <?php echo $tr1; ?>
         <?php 
         $total = 0;
         $subtotal = 0;
@@ -79,25 +96,25 @@ $tglrencana = MyFormatter::formatDateTimeForUser($modRencanaKebBarang->renkebbar
 			$barang = BarangM::model()->findByPk($modBarang->barang_id);
         ?>
             <tr>
-                <td style="text-align: center;"><?php echo ($i+1)."."; ?></td>
-                <td><?php echo $modBarang->asal_barang; ?></td>
-                <td><?php echo (!empty($modBarang->barang_id)) ? $barang->barang_nama : ""; ?></td>
-                <td style="text-align: center;"><?php echo $modBarang->satuanbarangdet; ?></td>
-                <td style="text-align: center;"><?php echo $modBarang->jmlpermintaanbarangdet; ?></td>
-                <td style="text-align: right;"><?php echo $format->formatUang($modBarang->harga_barangdet); ?></td>
-                <td style="text-align: center;"><?php echo $modBarang->stokakhir_barangdet; ?></td>
-                <td style="text-align: center;"><?php echo $modBarang->minstok_barangdet; ?></td>
-                <td style="text-align: center;"><?php echo $modBarang->makstok_barangdet; ?></td>
-                <td style="text-align: right;" nowrap><?php 
+                <td class="border" style="text-align: center;"><?php echo ($i+1)."."; ?></td>
+                <td class="border" ><?php echo !empty($modBarang->asal_barang)?$modBarang->asal_barang:'-'; ?></td>
+                <td class="border" ><?php echo (!empty($modBarang->barang_id)) ? $barang->barang_nama : ""; ?></td>
+                <td class="border" style="text-align: center;"><?php echo $modBarang->satuanbarangdet; ?></td>
+                <td class="border" style="text-align: center;"><?php echo $modBarang->jmlpermintaanbarangdet; ?></td>
+                <td class="border" style="text-align: right;"><?php echo "Rp".number_format($modBarang->harga_barangdet,0,"","."); ?></td>
+                <td class="border" style="text-align: center;"><?php echo $modBarang->stokakhir_barangdet; ?></td>
+                <td class="border" style="text-align: center;"><?php echo $modBarang->minstok_barangdet; ?></td>
+                <td class="border" style="text-align: center;"><?php echo $modBarang->makstok_barangdet; ?></td>
+                <td class="border" style="text-align: right;" nowrap><?php 
                     $subtotal = ($modBarang->harga_barangdet * $modBarang->jmlpermintaanbarangdet);
                     $total += $subtotal;
-                    echo $format->formatUang($subtotal); ?>
+                    echo "Rp".number_format($subtotal,0,"","."); ?>
                 </td>
             </tr>
         <?php } ?>
         <tr>
-            <td colspan="8" align="center"><strong>Total</strong></td>
-            <td style="text-align: right;"><?php echo $format->formatUang($total); ?></td>
+            <td class="border" colspan="9" style="text-align: right;"><strong>Total</strong></td>
+            <td class="border" style="text-align: right;"><strong><?php echo "Rp".number_format($total,0,"","."); ?></strong></td>
         </tr>
     </table>
 <?php
@@ -122,17 +139,40 @@ if (isset($_GET['frame'])){
             <table width="100%">
                 <tr>
                     <td width="35%" align="center">
-                        <div>Mengetahui</div>
-                        <div style="margin-top:60px;"><?php echo isset($modRencanaKebBarang->pegmenyetujui_id) ? $modRencanaKebBarang->pegawaimenyetujui->NamaLengkap : "" ?></div>
+                        <div>Mengetahui</div>                        
                     </td>
                     <td width="35%" align="center">
                     </td>
                     <td width="35%" align="center">
                         <div>Dibuat Oleh :</div>
-                        <div style="margin-top:60px;"><?php echo isset($modRencanaKebBarang->pegawai_id) ? $modRencanaKebBarang->pegawai->NamaLengkap : "" ?></div>
-                        <div>(Petugas Gudang Umum)</div>
+                        
                     </td>
                 </tr>
+                <tr><td>&nbsp;</td></tr>
+                <?php 
+                if($caraprint!='PRINT'){
+                ?>
+                <tr><td>&nbsp;</td></tr>
+                <tr><td>&nbsp;</td></tr>
+                <tr><td>&nbsp;</td></tr>
+                <?php
+                }
+                ?>
+                <tr>
+                    <td align="center">
+                        <div style="margin-top:60px;"><?php echo isset($modRencanaKebBarang->pegmenyetujui_id) ? $modRencanaKebBarang->pegawaimenyetujui->NamaLengkap : "" ?></div>
+                    </td>
+                    <td>&nbsp;</td>
+                    <td align="center">
+                        <div style="margin-top:60px;"><?php echo isset($modRencanaKebBarang->pegawai_id) ? $modRencanaKebBarang->pegawai->NamaLengkap : "" ?></div>                        
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td align="center"><div>(Petugas Gudang Umum)</div></td>
+                </tr>
+                
             </table>
         </td>
     </tr>
