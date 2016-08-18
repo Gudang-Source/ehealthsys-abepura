@@ -26,11 +26,24 @@ class GZPengajuanbahanmkn extends PengajuanbahanmknT {
 		$criteria->compare('idpegawai_mengajukan',$this->idpegawai_mengajukan);
 		$criteria->compare('LOWER(keterangan_bahan)',strtolower($this->keterangan_bahan),true);
 		$criteria->compare('totalharganetto',$this->totalharganetto);
-		$criteria->compare('LOWER(tglmintadikirim)',strtolower($this->tglmintadikirim),true);
+                if (!empty($this->tglmintadikirim)){
+                    $criteria->addCondition("tglmintadikirim = '".$this->tglmintadikirim."' ");
+                }
 		$criteria->compare('LOWER(create_time)',strtolower($this->create_time),true);
 		$criteria->compare('LOWER(update_time)',strtolower($this->update_time),true);
 		$criteria->compare('LOWER(create_loginpemakai_id)',strtolower($this->create_loginpemakai_id),true);
 		$criteria->compare('LOWER(update_loginpemakai_id)',strtolower($this->update_loginpemakai_id),true);
+                
+                if (!empty($this->status_persetujuan)){
+                  
+                    if ($this->status_persetujuan == '1'){
+                        $status = TRUE;
+                    }else{
+                        $status = FALSE;
+                    }
+                    $criteria->compare('status_persetujuan',$this->status_persetujuan);
+                    
+                }
 		$criteria->order='tglpengajuanbahan DESC';
 
 		return new CActiveDataProvider($this, array(

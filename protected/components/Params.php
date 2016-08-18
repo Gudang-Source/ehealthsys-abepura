@@ -476,6 +476,13 @@ Class Params
             if (!empty($id)) return $arr[$id];
             return $arr;
         }
+        
+        public static function statusPersetujuan(){
+            return array(
+                false => 'BELUM DISETUJUI',
+                true => 'SUDAH DISETUJUI',
+            );
+        }
 	
 	//=== PATH & URL ===
 	//Merupakan inisialisasi path dan url yang digunakan untuk menyimpan dan mengakses file
