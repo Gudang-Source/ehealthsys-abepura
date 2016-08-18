@@ -5,13 +5,13 @@ foreach ($modDetails as $i=>$detail){?>
     <tr>   
         <td><?php  
             echo CHtml::activeHiddenField($detail, '['.$i.']terimapersdetail_id');
-            $gol = $modBarang->subsubkelompok->subkelompok->kelompok;
-            echo $gol->bidang->bidang_nama;
+            $gol = empty($modBarang->subsubkelompok->subkelompok->kelompok)?"-":$modBarang->subsubkelompok->subkelompok->kelompok;
+            echo empty($modBarang->subsubkelompok->subkelompok->kelompok->bidang)?"-":$gol->bidang->bidang_nama;
             ?>
         </td>
-        <td><?php echo $modBarang->subsubkelompok->subkelompok->kelompok->kelompok_nama; ?></td>
-        <td><?php echo $modBarang->subsubkelompok->subkelompok->subkelompok_nama; ?></td>
-        <td><?php echo $modBarang->subsubkelompok->subsubkelompok_nama; ?></td>
+        <td><?php echo empty($modBarang->subsubkelompok->subkelompok->kelompok)?"-":$modBarang->subsubkelompok->subkelompok->kelompok->kelompok_nama; ?></td>
+        <td><?php echo empty($modBarang->subsubkelompok->subkelompok)?"-":$modBarang->subsubkelompok->subkelompok->subkelompok_nama; ?></td>
+        <td><?php echo empty($modBarang->subsubkelompok)?"-":$modBarang->subsubkelompok->subsubkelompok_nama; ?></td>
         <td><?php echo $modBarang->barang_nama; ?></td>
         <td>
         <?php 
