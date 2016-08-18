@@ -113,7 +113,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
             <?php Echo CHtml::hiddenField('tempKode', $model->barang_kode); ?>
             <?php echo CHtml::hiddenField('barangkode'); ?>
             <?php echo $form->textFieldRow($model, 'barang_kode', array('class' => 'span3 ',  'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50, 'readonly'=>true)); //'onkeyup' => 'setKode(this);',?>            
-            <?php echo $form->textFieldRow($model, 'nomorregister', array('class' => 'span2 ',  'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 10)); //'onkeyup' => 'setKode(this);',?>             
+            <?php echo $form->textFieldRow($model, 'nomorregister', array('class' => 'span2 ',  'onkeypress' => "return $(this).focusNextInputField(event);")); //'onkeyup' => 'setKode(this);',?>             
             <?php echo $form->textFieldRow($model, 'barang_nama', array('class' => 'span3', 'onkeyup' => "namaLain(this)", 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
             <?php echo $form->textFieldRow($model, 'barang_namalainnya', array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>   
             <?php echo $form->textFieldRow($model, 'barang_merk', array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>    
@@ -144,7 +144,8 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
             <?php echo $form->textFieldRow($model, 'barang_ppn', array('class' => 'span2 integer', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>    
             <?php echo $form->textFieldRow($model, 'barang_hpp', array('class' => 'span2 integer', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>    
             <?php echo $form->textFieldRow($model, 'barang_hargajual', array('class' => 'span2 integer', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>    
-            <?php
+            <?php echo $form->textAreaRow($model, 'barang_keterangan', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'rows'=>4, 'cols'=>50)); ?>    
+			<?php
             if (!$model->isNewRecord) {
                 if ((!empty($model->barang_image)) && (file_exists(Params::pathBarangTumbsDirectory() . 'kecil_' . $model->barang_image))) {
                     ?>
