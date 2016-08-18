@@ -78,7 +78,7 @@ class HariKerjaGolMController extends MyAuthController
                         $model->harikerjagol_aktif=true;
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin'));
+				$this->redirect(array('admin','sukses'=>1));
                         }
 		}
 
@@ -110,7 +110,7 @@ class HariKerjaGolMController extends MyAuthController
                         $model->periodeharikerjaakhir = MyFormatter::formatDateTimeForDb($model->periodeharikerjaakhir);
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
-				$this->redirect(array('admin','id'=>$model->harikerjagol_id));
+				$this->redirect(array('admin','sukses'=>1));
                         }
 		}
 
@@ -133,8 +133,11 @@ class HariKerjaGolMController extends MyAuthController
 	/**
 	 * Manages all models.
 	 */
-	public function actionAdmin()
+	public function actionAdmin($sukses='')
 	{
+            if ($sukses  == 1){
+                Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
+            }
         //if(!Yii::app()->user->checkAccess(Params::DEFAULT_ADMIN)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}                                                 
 		$model=new KPHariKerjaGolM('search');
                 
@@ -265,7 +268,7 @@ class HariKerjaGolMController extends MyAuthController
             $mpdf->WriteHTML($stylesheet,1);  
             $mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
             $mpdf->WriteHTML($this->renderPartial('Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
-            $mpdf->Output();
+            $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
         }                       
     }
 }
