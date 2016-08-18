@@ -39,6 +39,7 @@
                     'barang_jmldlmkemasan',
                     'barang_image',
                     'barang_aktif',
+					'barang_keterangan',
             ),
     )); ?>
 

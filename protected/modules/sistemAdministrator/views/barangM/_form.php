@@ -130,7 +130,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
             <?php Echo CHtml::hiddenField('tempKode', $model->barang_kode); ?>                        
             <?php echo CHtml::hiddenField('barangkode'); ?>
             <?php echo $form->textFieldRow($model, 'barang_kode', array('class' => 'span3 ',  'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); //'onkeyup' => 'setKode(this);',?>            
-            <?php echo $form->textFieldRow($model, 'nomorregister', array('class' => 'span2 ',  'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 10)); //'onkeyup' => 'setKode(this);',?>             
+            <?php echo $form->textFieldRow($model, 'nomorregister', array('class' => 'span2 ',  'onkeypress' => "return $(this).focusNextInputField(event);")); //'onkeyup' => 'setKode(this);',?>             
             <?php echo $form->textFieldRow($model, 'barang_nama', array('class' => 'span2', 'onkeyup' => "namaLain(this)", 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
             <?php echo $form->textFieldRow($model, 'barang_namalainnya', array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>   
             <?php echo $form->textFieldRow($model, 'barang_merk', array('class' => 'reqForm  span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>    
@@ -166,6 +166,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                     <?php echo Chtml::activeFileField($model, 'barang_image', array('maxlength' => 254, 'hint' => 'Isi Jika Akan Menambahkan Logo')); ?>
                 </div>
             </div>
+			<?php echo $form->textAreaRow($model, 'barang_keterangan', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'rows'=>4, 'cols'=>50)); ?>    
         </td>                   
         <?php //echo $form->checkBoxRow($model,'barang_aktif', array('onkeypress'=>"return $(this).focusNextInputField(event);"));  ?>
     </tr>
