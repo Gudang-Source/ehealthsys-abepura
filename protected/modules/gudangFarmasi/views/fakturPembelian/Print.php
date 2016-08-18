@@ -110,17 +110,22 @@ if (!isset($_GET['frame'])){
                 <td style="text-align:right;"><?php echo $format->formatUang($modObat->jmldiscount); ?></td>
                 <td style="text-align:right;"><?php echo $format->formatUang($modObat->harganettofaktur); ?></td>
                 <td style="text-align:center;"><?php echo $modObat->persenppnfaktur; ?></td>
-                <td style="text-align:center;"><?php echo $modObat->persenppnfaktur; ?></td>
+                <td style="text-align:center;"><?php echo $modObat->persenpphfaktur; ?></td>
                 <td style="text-align:right;"><?php 
                     $subtotal = ($modObat->harganettofaktur * $modObat->jmlterima);
-                    $total += $subtotal;
-                    if(!empty($modObat->persenppn)){
-                        $subtotal = (($modObat->harganettofaktur + ($modObat->harganettofaktur * ($modObat->persenppn/100))) * $modObat->jmlterima);            
+                    
+                    if(!empty($modObat->persenppnfaktur)) {
+                        $subtotal = (($modObat->harganettofaktur + ($modObat->harganettofaktur * ($modObat->persenppnfaktur/100))) * $modObat->jmlterima) ;            
                     }
 
-                    if(!empty($modObat->persenpph)){
-                        $subtotal = ($subtotal + ($subtotal * ($modObat->persenpph/100)));
+                    if(!empty($modObat->persenpphfaktur)){
+                        $subtotal = ($subtotal + ($subtotal * ($modObat->persenpphfaktur/100)));
                     }
+					
+					$subtotal -= $modObat->jmldiscount;
+					
+					$total += $subtotal;
+					
                     echo $format->formatUang($subtotal); ?>
                 </td>
             </tr>

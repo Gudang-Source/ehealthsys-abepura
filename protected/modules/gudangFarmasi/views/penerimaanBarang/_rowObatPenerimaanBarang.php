@@ -1,11 +1,11 @@
 <?php // $modPenerimaanBarangDetail->tglkadaluarsa = $format->formatDateTimeForUser($modPenerimaanBarangDetail->tglkadaluarsa); ?>
 <tr>
     <td>
-        <?php echo CHtml::textField('no_urut',0,array('readonly'=>true,'class'=>'span1 integer', 'style'=>'width:20px;')); ?>
+        <?php echo CHtml::textField('no_urut',0,array('readonly'=>true,'class'=>'span1 integer2', 'style'=>'width:20px;')); ?>
         <?php echo CHtml::activeHiddenField($modPenerimaanBarangDetail,'[ii]obatalkes_id',array('readonly'=>true,'class'=>'span1')); ?>
         <?php echo CHtml::activeHiddenField($modPenerimaanBarangDetail,'[ii]sumberdana_id',array('readonly'=>true,'class'=>'span1')); ?>        
-        <?php echo CHtml::activeHiddenField($modPenerimaanBarangDetail,'[ii]persenppn',array('readonly'=>true,'class'=>'span2 integer','style'=>'width:45px;','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
-        <?php echo CHtml::activeHiddenField($modPenerimaanBarangDetail,'[ii]persenpph',array('readonly'=>true,'class'=>'span2 integer','style'=>'width:45px;','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php echo CHtml::activeHiddenField($modPenerimaanBarangDetail,'[ii]persenppn',array('readonly'=>true,'class'=>'span2 integer2','style'=>'width:45px;','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php echo CHtml::activeHiddenField($modPenerimaanBarangDetail,'[ii]persenpph',array('readonly'=>true,'class'=>'span2 integer2','style'=>'width:45px;','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
     </td>
     <td>
         <span name="[ii][sumberdana_nama]"><?php echo (!empty($modPenerimaanBarangDetail->sumberdana_id) ? $modPenerimaanBarangDetail->sumberdana->sumberdana_nama : "") ?></span>
@@ -43,26 +43,26 @@
         </div>
         <div class="satuanbesar" style="display:none;">
             <?php echo CHtml::activeDropDownList($modPenerimaanBarangDetail, '[ii]satuanbesar_id', CHtml::listData(SatuanbesarM::model()->findAll(),'satuanbesar_id','satuanbesar_nama'),array('style'=>'width:80px;')); ?>
-            <?php echo CHtml::activeTextField($modPenerimaanBarangDetail,'[ii]kemasanbesar',array('readonly'=>true,'class'=>'span2 integer kemasanbesar','style'=>'width:90px;')); ?>
+            <?php echo CHtml::activeTextField($modPenerimaanBarangDetail,'[ii]kemasanbesar',array('readonly'=>true,'class'=>'span2 integer2 kemasanbesar','style'=>'width:90px;')); ?>
         </div>
     </td>
 	<td hidden>
-		<?php echo CHtml::activeTextField($modPenerimaanBarangDetail,'[ii]jmlpermintaan',array('readonly'=>true,'class'=>'span2 integer','style'=>'width:90px;','onblur'=>'hitungTotal();','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+		<?php echo CHtml::activeTextField($modPenerimaanBarangDetail,'[ii]jmlpermintaan',array('readonly'=>true,'class'=>'span2 integer2','style'=>'width:90px;','onblur'=>'hitungTotal();','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
 	</td>
     <td>        
-        <?php echo CHtml::activeTextField($modPenerimaanBarangDetail,'[ii]jmlterima',array('readonly'=>false,'class'=>'span2 integer qty','style'=>'width:90px;','onblur'=>'hitungTotal();','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php echo CHtml::activeTextField($modPenerimaanBarangDetail,'[ii]jmlterima',array('readonly'=>false,'class'=>'span2 integer2 qty','style'=>'width:90px;','onblur'=>'hitungTotal();','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
     </td>
     <td>
-        <?php echo CHtml::activeTextField($modPenerimaanBarangDetail,'[ii]harganettoper',array('readonly'=>false,'class'=>'span2 integer netto','onblur'=>'hitungTotal();','style'=>'width:90px;','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php echo CHtml::activeTextField($modPenerimaanBarangDetail,'[ii]harganettoper',array('readonly'=>false,'class'=>'span2 integer2 netto','onblur'=>'hitungTotal();','style'=>'width:90px;','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
     </td>
     <td>
-        <?php echo CHtml::activeTextField($modPenerimaanBarangDetail,'[ii]persendiscount',array('readonly'=>false,'class'=>'span2 integer','onblur'=>'setJmlDiskon(this);hitungTotal();','style'=>'width:45px;','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php echo CHtml::activeTextField($modPenerimaanBarangDetail,'[ii]persendiscount',array('readonly'=>false,'class'=>'span2 integer2','onblur'=>'setJmlDiskon(this);hitungTotal();','style'=>'width:45px;','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
     </td>
     <td>
-        <?php echo CHtml::activeTextField($modPenerimaanBarangDetail,'[ii]jmldiscount',array('readonly'=>false,'class'=>'span2 integer','onblur'=>'setPersenDiskon(this);hitungTotal();','style'=>'width:90px;','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php echo CHtml::activeTextField($modPenerimaanBarangDetail,'[ii]jmldiscount',array('readonly'=>false,'class'=>'span2 integer2','onblur'=>'setPersenDiskon(this);hitungTotal();','style'=>'width:90px;','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
     </td>
     <td>
-        <?php echo CHtml::activeTextField($modPenerimaanBarangDetail,'[ii]subtotal',array('readonly'=>true,'class'=>'span2 integer','style'=>'width:90px;','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php echo CHtml::activeTextField($modPenerimaanBarangDetail,'[ii]subtotal',array('readonly'=>true,'class'=>'span2 integer2','style'=>'width:90px;','onkeyup'=>"return $(this).focusNextInputField(event);")); ?>
     </td>
     <td>
         <a onclick="batalObat(this);return false;" rel="tooltip" href="javascript:void(0);" title="Klik untuk membatalkan rencana"><i class="icon-remove"></i></a>
