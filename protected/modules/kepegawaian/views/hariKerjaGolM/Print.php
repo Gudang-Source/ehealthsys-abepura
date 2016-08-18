@@ -33,9 +33,19 @@ $this->widget($table,array(
             'header'=>'ID',
             'value'=>'$data->harikerjagol_id',
         ),
-		'kelompokpegawai_id',
-		'periodeharikerjaawl',
-        'periodehariakhir',
+        'kelompokpegawai.kelompokpegawai_nama',            
+         array(
+            'header' => 'Periode Hari Kerja Awal',
+            'value' => 'MyFormatter::formatDateTimeForUser($data->periodeharikerjaawl)'
+        ),
+         array(
+            'header' => 'Periode Hari Akhir',
+            'value' => 'MyFormatter::formatDateTimeForUser($data->periodehariakhir)'
+        ),
+         array(
+            'header' => 'Periode Hari Kerja Akhir',
+            'value' => 'MyFormatter::formatDateTimeForUser($data->periodeharikerjaakhir)'
+        ),           
         'jmlharibln',
         array(
             'header'=>'Aktif',

@@ -67,7 +67,7 @@ class HariKerjaGolM extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'harikerjagol_id' => 'Golongan Hari Kerja',
+			'harikerjagol_id' => 'ID',
 			'kelompokpegawai_id' => 'Kelompok Pegawai',
 			'periodeharikerjaawl' => 'Periode Hari Kerja Awal',
 			'periodehariakhir' => 'Periode Hari Akhir',
@@ -90,11 +90,11 @@ class HariKerjaGolM extends CActiveRecord
 
 		$criteria->compare('harikerjagol_id',$this->harikerjagol_id);
 		$criteria->compare('kelompokpegawai_id',$this->kelompokpegawai_id);
-		$criteria->compare('periodeharikerjaawl',$this->periodeharikerjaawl);
-		$criteria->compare('periodehariakhir',$this->periodehariakhir);
-		$criteria->compare('periodeharikerjaakhir',$this->periodeharikerjaakhir);
+		$criteria->compare('periodeharikerjaawl',  MyFormatter::formatDateTimeForDb($this->periodeharikerjaawl));
+		$criteria->compare('periodehariakhir',  MyFormatter::formatDateTimeForDb($this->periodehariakhir));
+		$criteria->compare('periodeharikerjaakhir',  MyFormatter::formatDateTimeForDb($this->periodeharikerjaakhir));
 		$criteria->compare('jmlharibln',$this->jmlharibln);
-		$criteria->compare('harikerjagol_aktif',$this->harikerjagol_aktif);
+		$criteria->compare('harikerjagol_aktif', isset($this->harikerjagol_aktif)?$this->harikerjagol_aktif:true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -110,11 +110,11 @@ class HariKerjaGolM extends CActiveRecord
                 $criteria=new CDbCriteria;
 		$criteria->compare('harikerjagol_id',$this->harikerjagol_id);
 		$criteria->compare('kelompokpegawai_id',$this->kelompokpegawai_id);
-		$criteria->compare('periodeharikerjaawl',$this->periodeharikerjaawl);
-		$criteria->compare('periodehariakhir',$this->periodehariakhir);
-		$criteria->compare('periodeharikerjaakhir',$this->periodeharikerjaakhir);
+		$criteria->compare('periodeharikerjaawl',  MyFormatter::formatDateTimeForDb($this->periodeharikerjaawl));
+		$criteria->compare('periodehariakhir',  MyFormatter::formatDateTimeForDb($this->periodehariakhir));
+		$criteria->compare('periodeharikerjaakhir',  MyFormatter::formatDateTimeForDb($this->periodeharikerjaakhir));
 		$criteria->compare('jmlharibln',$this->jmlharibln);
-		$criteria->compare('harikerjagol_aktif',$this->harikerjagol_aktif);
+		$criteria->compare('harikerjagol_aktif', isset($this->harikerjagol_aktif)?$this->harikerjagol_aktif:true);
                 // Klo limit lebih kecil dari nol itu berarti ga ada limit 
                 $criteria->limit=-1; 
 
