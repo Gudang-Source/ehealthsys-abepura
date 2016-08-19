@@ -16,50 +16,57 @@
     ?>
     <div class="block-tabel">
         <h6>Tabel Pemesanan <b>Menu Diet</b></h6>
-        <?php $this->widget('ext.bootstrap.widgets.BootGridView',array(
+        <?php
+		
+		$artab = array(
+			'nopesanmenu',
+			'jenispesanmenu',
+			'nama_pemesan',
+			array(
+				'header'=>'Instalasi / Ruangan',
+				'type'=>'raw',
+				'value'=>'$data->ruangan->instalasi->instalasi_nama." / ".$data->ruangan->ruangan_nama',
+				'headerHtmlOptions'=>array('style'=>'vertical-align: middle;text-align:left;')
+			),
+//                'ruangan.instalasi.instalasi_nama',
+//                'ruangan.ruangan_nama',                
+			array(
+				'name'=>'tglpesanmenu',
+				'type'=>'raw',
+				'value'=>'MyFormatter::formatDateTimeForUser($data->tglpesanmenu)'
+			),
+			'bahandiet.bahandiet_nama',
+			'jenisdiet.jenisdiet_nama',
+			'adaalergimakanan',
+			'keterangan_pesan',
+			array(
+				'header'=>'Rincian',
+				'type'=>'raw',
+				'value'=>'CHtml::link("<i class=\'icon-form-detail\'></i> ",  Yii::app()->controller->createUrl("/gizi/PesanmenudietT/detailPesanMenuDiet",array("id"=>$data->pesanmenudiet_id)),array("id"=>"$data->pesanmenudiet_id","target"=>"frameDetail","rel"=>"tooltip","title"=>"Klik untuk rincian pemesanan menu diet", "onclick"=>"window.parent.$(\'#dialogDetail\').dialog(\'open\')"));','htmlOptions'=>array('style'=>'text-align: left')
+			),
+		);
+		
+		if (Yii::app()->user->getState('ruangan_id') == Params::RUANGAN_ID_GIZI) {
+			array_push($artab, array(
+				'header'=>'Kirim Menu Diet',
+				'type'=>'raw',
+				'value'=>'(($data->jenispesanmenu == "'.Params::JENISPESANMENU_PASIEN.'") ? CHtml::link(\'<i class="icon-form-kmenudiet"></i>\', Yii::app()->controller->createUrl("/gizi/KirimmenudietT/index",array("idPesan"=>$data->pesanmenudiet_id)),array("rel"=>"tooltip","title"=>"Klik untuk Melanjutkan ke Pengiriman")) : CHtml::link(\'<i class="icon-form-kmenudiet"></i>\', Yii::app()->controller->createUrl("/gizi/KirimmenudietT/indexPegawai",array("idPesan"=>$data->pesanmenudiet_id)),array("rel"=>"tooltip","title"=>"Klik untuk Melanjutkan ke Pengiriman")))','htmlOptions'=>array('style'=>'text-align: left')
+            ));
+		}
+		
+		array_push($artab, array(
+			'header'=>'Batal <br/> Pesan',
+			'type'=>'raw',
+			'value'=>'CHtml::link("<i class=icon-form-silang></i>","javascript:batalPesan(\'$data->pesanmenudiet_id\')",array("idPesanDiet"=>$data->pesanmenudiet_id,"href"=>"#","rel"=>"tooltip","title"=>"Klik Untuk Batal Pesan Menu Diet",))',
+		));
+		
+		$this->widget('ext.bootstrap.widgets.BootGridView',array(
             'id'=>'gzpesanmenudiet-t-grid',
             'dataProvider'=>$model->searchInformasi(),
     //	'filter'=>$model,
             'template'=>"{summary}\n{items}\n{pager}",
             'itemsCssClass'=>'table table-striped table-condensed',
-            'columns'=>array(
-                    'nopesanmenu',
-                    'jenispesanmenu',
-                    'nama_pemesan',
-                    array(
-                        'header'=>'Instalasi / Ruangan',
-                        'type'=>'raw',
-                        'value'=>'$data->ruangan->instalasi->instalasi_nama." / ".$data->ruangan->ruangan_nama',
-                        'headerHtmlOptions'=>array('style'=>'vertical-align: middle;text-align:left;')
-                    ),
-    //                'ruangan.instalasi.instalasi_nama',
-    //                'ruangan.ruangan_nama',                
-                    array(
-                        'name'=>'tglpesanmenu',
-                        'type'=>'raw',
-                        'value'=>'MyFormatter::formatDateTimeForUser($data->tglpesanmenu)'
-                    ),
-                    'bahandiet.bahandiet_nama',
-                    'jenisdiet.jenisdiet_nama',
-                    'adaalergimakanan',
-                    'keterangan_pesan',
-                    array(
-                        'header'=>'Rincian',
-                        'type'=>'raw',
-                        'value'=>'CHtml::link("<i class=\'icon-form-detail\'></i> ",  Yii::app()->controller->createUrl("/gizi/PesanmenudietT/detailPesanMenuDiet",array("id"=>$data->pesanmenudiet_id)),array("id"=>"$data->pesanmenudiet_id","target"=>"frameDetail","rel"=>"tooltip","title"=>"Klik untuk rincian pemesanan menu diet", "onclick"=>"window.parent.$(\'#dialogDetail\').dialog(\'open\')"));','htmlOptions'=>array('style'=>'text-align: left')
-                    ),
-                    array(
-                        'header'=>'Kirim Menu Diet',
-                        'type'=>'raw',
-                        'value'=>'(($data->jenispesanmenu == "'.Params::JENISPESANMENU_PASIEN.'") ? CHtml::link(\'<i class="icon-form-kmenudiet"></i>\', Yii::app()->controller->createUrl("/gizi/KirimmenudietT/index",array("idPesan"=>$data->pesanmenudiet_id)),array("rel"=>"tooltip","title"=>"Klik untuk Melanjutkan ke Pengiriman")) : CHtml::link(\'<i class="icon-form-kmenudiet"></i>\', Yii::app()->controller->createUrl("/gizi/KirimmenudietT/indexPegawai",array("idPesan"=>$data->pesanmenudiet_id)),array("rel"=>"tooltip","title"=>"Klik untuk Melanjutkan ke Pengiriman")))','htmlOptions'=>array('style'=>'text-align: left')
-                    ),
-                    array(
-                        'header'=>'Batal <br/> Pesan',
-                        'type'=>'raw',
-                        'value'=>'CHtml::link("<i class=icon-form-silang></i>","javascript:batalPesan(\'$data->pesanmenudiet_id\')",array("idPesanDiet"=>$data->pesanmenudiet_id,"href"=>"#","rel"=>"tooltip","title"=>"Klik Untuk Batal Pesan Menu Diet",))',
-                    ),
-
-            ),
+            'columns'=>$artab,
             'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
         )); ?>
     </div>

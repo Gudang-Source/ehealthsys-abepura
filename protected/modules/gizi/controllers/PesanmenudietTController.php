@@ -413,12 +413,17 @@ class PesanmenudietTController extends MyAuthController
 		$model=new GZPesanmenudietT('searchInformasi');
 		$model->tgl_awal = date('d M Y');
 		$model->tgl_akhir = date('d M Y');
+		
+		if (Yii::app()->user->getState('ruangan_id') != Params::RUANGAN_ID_GIZI) {
+			$model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+		}
+		
 		if(isset($_GET['GZPesanmenudietT'])){
 			$model->attributes=$_GET['GZPesanmenudietT'];
 			$format = new MyFormatter();
 			$model->tgl_awal = $format->formatDateTimeForDb($_GET['GZPesanmenudietT']['tgl_awal']);
 			$model->tgl_akhir = $format->formatDateTimeForDb($_GET['GZPesanmenudietT']['tgl_akhir']);
-			$model->ruangan_id = $_GET['GZPesanmenudietT']['ruangan_id'];
+			if (isset($_GET['GZPesanmenudietT']['ruangan_id'])) $model->ruangan_id = $_GET['GZPesanmenudietT']['ruangan_id'];
 		}
 
 		$this->render($this->path_view.'informasi',array(
