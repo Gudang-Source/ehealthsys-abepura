@@ -72,7 +72,7 @@
             <td>" . $tampilData->pasien->jeniskelamin . "</td>";
 
             foreach (JeniswaktuM::getJenisWaktu() as $row) {
-                $detail = PesanmenudetailT::model()->with('menudiet')->findByAttributes(array('pendaftaran_id' => $tampilData->pendaftaran_id, 'pasienadmisi_id' => $tampilData->pasienadmisi_id, 'pesanmenudiet_id' => $tampilData->pesanmenudiet_id, 'jeniswaktu_id' => $row->jeniswaktu_id));
+                $detail = PesanmenudetailT::model()->with('menudiet')->findByAttributes(array('pendaftaran_id' => $tampilData->pendaftaran_id, 'pasienadmisi_id' => $tampilData->pasienadmisi_id, 'pesanmenudiet_id' => $tampilData->pesanmenudiet_id, 'jeniswaktu_id' => $row->jeniswaktu_id, 'menudiet_id'=>$tampilData->menudiet_id));
                 if (empty($detail->menudiet_id)) {
                     echo "<td><center>-</center></td>";
                 } else {
@@ -127,7 +127,7 @@
             <td><center>-</center></td>";
             }
             foreach (JeniswaktuM::getJenisWaktu() as $row) {
-                $detail = PesanmenupegawaiT::model()->with('menudiet')->findByAttributes(array('pegawai_id' => $tampilData->pegawai_id, 'pesanmenudiet_id' => $tampilData->pesanmenudiet_id, 'jeniswaktu_id' => $row->jeniswaktu_id, ));
+                $detail = PesanmenupegawaiT::model()->with('menudiet')->findByAttributes(array('pegawai_id' => $tampilData->pegawai_id, 'pesanmenudiet_id' => $tampilData->pesanmenudiet_id, 'jeniswaktu_id' => $row->jeniswaktu_id, 'menudiet_id'=>$tampilData->menudiet_id));
                 if (empty($detail->menudiet_id)) {
                     echo "<td><center>-</center></td>";
                 } else {

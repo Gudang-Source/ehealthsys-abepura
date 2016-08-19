@@ -99,7 +99,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
     ),
 ));
 
-echo '<iframe src="" name="frameDetail" width="100%" height="300">
+echo '<iframe src="" name="frameDetail" width="100%" height="550">
 </iframe>';
 
 $this->endWidget();
@@ -112,7 +112,8 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
         'title'=>'Batal Pesan Menu Diet',
         'autoOpen'=>false,
         'modal'=>true,
-        'width'=>800,
+        'width'=>900,
+		'height'=>600,
         'resizable'=>false,
     ),
 ));
