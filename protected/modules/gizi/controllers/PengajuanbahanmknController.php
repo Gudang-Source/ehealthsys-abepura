@@ -362,11 +362,13 @@ class PengajuanbahanmknController extends MyAuthController
 //		$model->unsetAttributes();  // clear any default values
                 $model->tgl_awal = date('d M Y');
                 $model->tgl_akhir = date('d M Y');
+               // $model->tglmintadikirim = date('d M Y');
 		if(isset($_GET['GZPengajuanbahanmkn'])){
                     $model->attributes=$_GET['GZPengajuanbahanmkn'];
                     $format = new MyFormatter();
                     $model->tgl_awal = $format->formatDateTimeForDb($model->tgl_awal);
                     $model->tgl_akhir = $format->formatDateTimeForDb($model->tgl_akhir);
+                    $model->tglmintadikirim = $format->formatDateTimeForDb($model->tglmintadikirim);
                 }
 
 		$this->render('informasi',array(
@@ -447,5 +449,75 @@ class PengajuanbahanmknController extends MyAuthController
                 'modPengajuan'=>$modPengajuan,
                 'modDetailPengajuan'=>$modDetailPengajuan,
             ));
+        }
+        
+        public function actionDetailPrintPengajuan($id){
+            $judulLaporan='Pengajuan Bahan Makanan';
+             //$this->layout = '//layouts/iframe';
+            $modPengajuan = PengajuanbahanmknT::model()->findByPk($id);
+            $modDetailPengajuan = PengajuanbahandetailT::model()->with('bahanmakanan', 'golbahanmakanan')->findAllByAttributes(array('pengajuanbahanmkn_id'=>$modPengajuan->pengajuanbahanmkn_id), array('order'=>'nourutbahan'));
+                    
+            $caraPrint=$_REQUEST['caraPrint'];
+            if($caraPrint=='PRINT') {
+             //   var_dump($id);die;
+                $this->layout='//layouts/printWindows';
+                $this->render('printDetailInformasi',array('modPengajuan'=>$modPengajuan,'modDetailPengajuan'=>$modDetailPengajuan,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+            }
+        }
+        
+        public function actionPersetujuan(){
+            $id = $_POST['id'];   
+            $no = $_POST['no'];   
+            $cek = $_POST['cek'];   
+            
+            if ($cek == 'cek' )
+            {
+                if(isset($_POST['id']))
+                {
+                   $update = PengajuanbahanmknT::model()->updateByPk($id,array('status_persetujuan'=>true, 'idpegawai_menyetujui'=>Yii::app()->user->getState('pegawai_id')));
+
+                   if($update)
+                    {
+                        if (Yii::app()->request->isAjaxRequest)
+                        {
+                            echo CJSON::encode(array(
+                                'status'=>'proses_form', 
+                                'nopengajuan' => $no,
+                                ));
+                            exit;               
+                        }
+                     }
+                } else {
+                        if (Yii::app()->request->isAjaxRequest)
+                        {
+                            echo CJSON::encode(array(
+                                'status'=>'proses_form', 
+                                ));
+                            exit;               
+                        }
+                }
+            }else{
+                $cek = PengajuanbahanmknT::model()->findByPk($id);
+                
+                if ($cek->status_persetujuan == TRUE){  
+                    if (Yii::app()->request->isAjaxRequest)
+                    {
+                        echo CJSON::encode(array(
+                               'status'=>'sukses', 
+                               'url'=>$this->createAbsoluteUrl('Terimabahanmakan/index',array("idPengajuan"=>$id))
+                               ));
+                           exit;       
+                    }
+                }else{
+                    if (Yii::app()->request->isAjaxRequest)
+                    {
+                        echo CJSON::encode(array(
+                            'status'=>'cek_form', 
+                            'no'=>$no
+                            ));
+                        exit;               
+                    }
+                }
+            }
         }
 }
