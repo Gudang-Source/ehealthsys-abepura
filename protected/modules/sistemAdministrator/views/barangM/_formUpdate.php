@@ -306,7 +306,7 @@ Yii::app()->clientScript->registerScript('numberOnly', $js, CClientScript::POS_R
     {
         var tipebarang = $("#SABarangM_barang_type").val();
         
-        if (tipebarang === "Habis Pakai" || tipebarang === "Persediaan")
+       if (tipebarang === "Habis Pakai" || tipebarang === "Persediaan")
         {   //disabled                 
             $("#<?php echo CHtml::activeId($model,"barang_kode");?>").val('');            
             $("#barangkode").val('');
@@ -319,6 +319,7 @@ Yii::app()->clientScript->registerScript('numberOnly', $js, CClientScript::POS_R
             $("label[for=SABarangM_subkelompok_id]").find($("span[class=required]")).remove();
             $("label[for=SABarangM_subsubkelompok_id]").find($("span[class=required]")).remove();
             $("label[for=SABarangM_nomorregister]").find($("span[class=required]")).remove();
+            $("label[for=SABarangM_barang_ekonomis_thn]").find($("span[class=required]")).remove();
             
             $("#SABarangM_golongan_id option[value='']").attr('selected','selected');
             $(".control-group").removeClass('error').addClass('notrequired');
@@ -327,8 +328,8 @@ Yii::app()->clientScript->registerScript('numberOnly', $js, CClientScript::POS_R
             $("#<?php echo CHtml::activeId($model,"kelompok_id");?>").removeClass('error').addClass('inputnotrequired');
             $("#<?php echo CHtml::activeId($model,"subkelompok_id");?>").removeClass('error').addClass('inputnotrequired');
             $("#<?php echo CHtml::activeId($model,"subsubkelompok_id");?>").removeClass('error').addClass('inputnotrequired');
-            $("#<?php echo CHtml::activeId($model,"nomorregister");?>").removeClass('error').addClass('inputnotrequired');
-            
+            $("#<?php echo CHtml::activeId($model,"nomorregister");?>").removeClass('error').addClass('inputnotrequired');            
+            $("#<?php echo CHtml::activeId($model,"barang_ekonomis_thn");?>").removeClass('error').addClass('inputnotrequired');            
             
             
             $("label[for=SABarangM_golongan_id]").removeClass('error required').addClass('notrequired');
@@ -337,7 +338,7 @@ Yii::app()->clientScript->registerScript('numberOnly', $js, CClientScript::POS_R
             $("label[for=SABarangM_subkelompok_id]").removeClass('error required').addClass('notrequired');
             $("label[for=SABarangM_subsubkelompok_id]").removeClass('error required').addClass('notrequired');
             $("label[for=SABarangM_nomorregister]").removeClass('error required').addClass('notrequired');
-    
+            $("label[for=SABarangM_barang_ekonomis_thn]").removeClass('error required').addClass('notrequired');
             
             
             $("#<?php echo CHtml::activeId($model,"bidang_id");?>").find('option').remove().end().append('<option value="">-- Pilih --</option>').val('');
@@ -367,6 +368,7 @@ Yii::app()->clientScript->registerScript('numberOnly', $js, CClientScript::POS_R
             $("label[for=SABarangM_subkelompok_id]").find($("span[class=required]")).remove();
             $("label[for=SABarangM_subsubkelompok_id]").find($("span[class=required]")).remove();
             $("label[for=SABarangM_nomorregister]").find($("span[class=required]")).remove();
+            $("label[for=SABarangM_barang_ekonomis_thn]").find($("span[class=required]")).remove();
                         
             $("label[for=SABarangM_golongan_id]").append("<span class=required> *</span>")
             $("label[for=SABarangM_bidang_id]").append("<span class=required> *</span>");
@@ -374,6 +376,7 @@ Yii::app()->clientScript->registerScript('numberOnly', $js, CClientScript::POS_R
             $("label[for=SABarangM_subkelompok_id]").append("<span class=required> *</span>");
             $("label[for=SABarangM_subsubkelompok_id]").append("<span class=required> *</span>");
             $("label[for=SABarangM_nomorregister]").append("<span class=required> *</span>");
+            $("label[for=SABarangM_barang_ekonomis_thn]").append("<span class=required> *</span>");
                         
             $("label[for=SABarangM_golongan_id]").addClass("required");
             $("label[for=SABarangM_bidang_id]").addClass("required");
@@ -381,6 +384,7 @@ Yii::app()->clientScript->registerScript('numberOnly', $js, CClientScript::POS_R
             $("label[for=SABarangM_subkelompok_id]").addClass("required");
             $("label[for=SABarangM_subsubkelompok_id]").addClass("required");
             $("label[for=SABarangM_nomorregister]").addClass("required");
+            $("label[for=SABarangM_barang_ekonomis_thn]").addClass("required");
         }
         
     }
