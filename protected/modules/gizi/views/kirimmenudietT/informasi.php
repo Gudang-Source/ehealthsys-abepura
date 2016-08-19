@@ -22,73 +22,83 @@
         //    'filter'=>$model,
 			'template'=>"{summary}\n{items}\n{pager}",
 			'itemsCssClass'=>'table table-striped table-condensed',
-			'columns'=>array(        
-				array(
-					'header'=>'No. Kirim Menu',
-					'type'=>'raw',
-					'value'=>'isset($data->nokirimmenu) ? $data->nokirimmenu : ""',
-					'headerHtmlOptions'=>array('style'=>'vertical-align: middle;text-align:center;')
-				), 
-				array(
-					'header'=>'Jenis Pesan Menu',
-					'type'=>'raw',
-					'value'=>'isset($data->jenispesanmenu) ? $data->jenispesanmenu : ""',
-					'headerHtmlOptions'=>array('style'=>'vertical-align: middle;text-align:center;')
-				),
-				array(
+			'columns'=>array(   
+                                array(
 					'header'=>'Tanggal Kirim Menu',
 					'type'=>'raw',
 					'value'=>'isset($data->tglkirimmenu) ? MyFormatter::formatDateTimeForUser($data->tglkirimmenu) : ""',
 					'headerHtmlOptions'=>array('style'=>'vertical-align: middle;text-align:center;')
 				), 
 				array(
+					'header'=>'No. Kirim Menu',
+					'type'=>'raw',
+					'value'=>'isset($data->nokirimmenu) ? $data->nokirimmenu : ""',
+					'headerHtmlOptions'=>array('style'=>'vertical-align: middle;text-align:center;')
+				), 
+                                array(
+					'header'=>'No. Pesan Menu',
+					'type'=>'raw',
+					'value'=>'!empty($data->pesanmenudiet_id)?$data->pesanmenudiet->nopesanmenu:"-"',
+					'headerHtmlOptions'=>array('style'=>'vertical-align: middle;text-align:center;')
+				),
+				array(
+					'header'=>'Jenis Pesan',
+					'type'=>'raw',
+					'value'=>'isset($data->jenispesanmenu) ? $data->jenispesanmenu : ""',
+					'headerHtmlOptions'=>array('style'=>'vertical-align: middle;text-align:center;')
+				),				
+				/*array(
 					'header'=>'Nama Pasien',
 					'type'=>'raw',
 					'value'=>function($data) {
-                                                return "kick";
-                                                //return isset($data->kirimmenupasien) ? $data->kirimmenupasien->pasien->nama_pasien : isset($data->kirimmenupegawai) ? $data->kirimmenupegawai->pegawai->NamaLengkap : "";
+                                               // return "kick";
+                                                if (!empty($data->kirimmenudiet_id)){
+                                                    $pasien = KirimmenupasienT::model()->find()
+                                                }
+                                                return isset($data->kirimmenupasien) ? $data->kirimmenupasien->pasien->nama_pasien : isset($data->kirimmenupegawai) ? $data->kirimmenupegawai->pegawai->NamaLengkap : "";
                                         },
 					'headerHtmlOptions'=>array('style'=>'vertical-align: middle;text-align:center;')
-				), 
-				array(
+				), */
+				/*array(
 					'header'=>'Instalasi / Ruangan',
 					'type'=>'raw',
-					'value'=>'isset($data->kirimmenupasien->kirimmenupasien_id) ? $data->kirimmenupasien->ruangan->instalasi->instalasi_nama." / ".$data->kirimmenupasien->ruangan->ruangan_nama : isset($data->kirimmenupegawai->kirimmenupegawai_id) ? $data->kirimmenupegawai->ruangan->instalasi->instalasi_nama." / ".$data->kirimmenupegawai->ruangan->ruangan_nama : ""',
+                                        'value'=> function ($data){
+                                            return isset($data->kirimmenupasien->kirimmenupasien_id) ? $data->kirimmenupasien->ruangan->instalasi->instalasi_nama." / ".$data->kirimmenupasien->ruangan->ruangan_nama : isset($data->kirimmenupegawai->kirimmenupegawai_id) ? $data->kirimmenupegawai->ruangan->instalasi->instalasi_nama." / ".$data->kirimmenupegawai->ruangan->ruangan_nama : "";
+                                        },
 					'headerHtmlOptions'=>array('style'=>'vertical-align: middle;text-align:center;')
-				),
-				array(
+				),*/
+				/*array(
 					'header'=>'Nama Bahan Diet',
 					'type'=>'raw',
-					'value'=>'isset($data->bahandiet_id) ? $data->bahandiet->bahandiet_nama : ""',
+					'value'=>'!empty($data->bahandiet_id)?$data->bahandiet->bahandiet_nama: "-"',
 					'headerHtmlOptions'=>array('style'=>'vertical-align: middle;text-align:center;')
-				),
+				),*/
 				array(
-					'header'=>'Nama Jenis',
+					'header'=>'Jenis Menu Diet',
 					'type'=>'raw',
 					'value'=>'(isset($data->jenisdiet_id)?$data->jenisdiet->jenisdiet_nama:"")',
 					'headerHtmlOptions'=>array('style'=>'vertical-align: middle;text-align:center;')
-				),
-				array(
-					'header'=>'No. Pesan Menu',
-					'type'=>'raw',
-					'value'=>'(isset($data->pesanmenudiet)?$data->pesanmenudiet->nopesanmenu:"")',
-					'headerHtmlOptions'=>array('style'=>'vertical-align: middle;text-align:center;')
-				),
+				),				
 				array(
 					'header'=>'Ket. <br/> Kirim',
 					'type'=>'raw',
 					'value'=>'$data->keterangan_kirim',
 					'headerHtmlOptions'=>array('style'=>'vertical-align: middle;text-align:center;')
 				), 
+                                array(
+                                    'header' => 'Pegawai Pengirim',
+                                    'value' => '$data->pengirim->pegawai->namaLengkap'
+                                    
+                                ),
 				array(
 					'header'=>'Rincian',
 					'type'=>'raw',
-					'value'=>'CHtml::link("<i class=\'icon-form-detail\'></i> ",  Yii::app()->controller->createUrl("/gizi/KirimmenudietT/detailKirimMenuDiet",array("id"=>$data->kirimmenudiet_id)),array("id"=>"$data->kirimmenudiet_id","target"=>"frameDetail","rel"=>"tooltip","title"=>"Klik untuk rincian pengiriman menu diet", "onclick"=>"window.parent.$(\'#dialogDetail\').dialog(\'open\')"));',
+					'value'=>'CHtml::link("<i class=\'icon-form-detail\'></i> ",  Yii::app()->controller->createUrl("/gizi/KirimmenudietT/detailKirimMenuDiet",array("id"=>$data->kirimmenudiet_id,"frame"=>TRUE)),array("id"=>"$data->kirimmenudiet_id","target"=>"frameDetail","rel"=>"tooltip","title"=>"Klik untuk rincian pengiriman menu diet", "onclick"=>"window.parent.$(\'#dialogDetail\').dialog(\'open\')"));',
 					'htmlOptions'=>array('style'=>'text-align: center; width:40px'),
 					'headerHtmlOptions'=>array('style'=>'vertical-align: middle;text-align:center; width:40px')
 				),
 				array(
-					'header'=>'Retur /<br/> Ubah Menu Diet',
+					'header'=>'Ubah Menu Diet',
 					'type'=>'raw',
 					'value'=>'CHtml::link("<i class=\'icon-form-ubah\'></i> ",  Yii::app()->controller->createUrl("/gizi/InformasiMenuDiet/indexKirim",array("idKirimmenudiet"=>$data->kirimmenudiet_id)),array("idKirimmenudiet"=>"$data->kirimmenudiet_id","target"=>"frameUbahMenu","rel"=>"tooltip","title"=>"Klik untuk Retur  / Ubah Menu Diet", "onclick"=>"window.parent.$(\'#dialogUbahMenu\').dialog(\'open\')"));',
 					'htmlOptions'=>array('style'=>'text-align: center; width:40px')

@@ -6,6 +6,7 @@ class GZKirimmenudietT extends KirimmenudietT {
     public $ruangan_id;
     public $tgl_awal;
     public $tgl_akhir;
+    public $pesan_menu;
 //    public $jenispesanmenu;
 
     public static function model($className = __CLASS__) {
@@ -21,9 +22,9 @@ class GZKirimmenudietT extends KirimmenudietT {
         // should not be searched.
 
         $criteria = new CDbCriteria;
-        $criteria->join = "JOIN pesanmenudiet_t ON t.pesanmenudiet_id = pesanmenudiet_t.pesanmenudiet_id 
-							JOIN ruangan_m ON pesanmenudiet_t.ruangan_id = ruangan_m.ruangan_id 
-						   ";
+     //   $criteria->join = "JOIN pesanmenudiet_t ON t.pesanmenudiet_id = pesanmenudiet_t.pesanmenudiet_id 
+      //                      JOIN ruangan_m ON pesanmenudiet_t.ruangan_id = ruangan_m.ruangan_id  
+	//		    JOIN k			   ";
         $criteria->addBetweenCondition('DATE(t.tglkirimmenu)', $this->tgl_awal, $this->tgl_akhir);
         $criteria->compare('t.kirimmenudiet_id', $this->kirimmenudiet_id);
         $criteria->compare('t.bahandiet_id', $this->bahandiet_id);
@@ -35,13 +36,14 @@ class GZKirimmenudietT extends KirimmenudietT {
         $criteria->compare('LOWER(t.keterangan_kirim)', strtolower($this->keterangan_kirim), true);
         $criteria->compare('LOWER(t.create_time)', strtolower($this->create_time), true);
         $criteria->compare('LOWER(t.update_time)', strtolower($this->update_time), true);
-        $criteria->compare('LOWER(t.create_loginpemakai_id)', strtolower($this->create_loginpemakai_id), true);
+        $criteria->compare('t.create_loginpemakai_id', $this->create_loginpemakai_id);
         $criteria->compare('LOWER(t.update_loginpemakai_id)', strtolower($this->update_loginpemakai_id), true);
         $criteria->compare('LOWER(t.create_ruangan)', strtolower($this->create_ruangan), true);
         $criteria->compare('pesanmenudiet_t.ruangan_id', $this->ruangan_id);
         $criteria->compare('ruangan_m.instalasi_id', $this->instalasi_id);
+        $criteria->compare('LOWER(pesanmenudiet.nopesanmenu)', strtolower($this->pesan_menu), true);
         // $criteria->with yg dibawah untuk menghasilkan relasi dari tabel master transaksi ke detail transaksinya .
-        $criteria->with = array('kirimmenupasien'=>array('select'=>'pasien_id,ruangan_id'),'kirimmenupegawai'=>array('select'=>'pegawai_id,ruangan_id'));
+        $criteria->with = array('kirimmenupasien','kirimmenupegawai','pesanmenudiet');
         $criteria->order='t.tglkirimmenu DESC';
 
         return new CActiveDataProvider($this, array(

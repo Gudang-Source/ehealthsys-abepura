@@ -27,107 +27,56 @@
             'id'=>'rjrinciantagihanpasien-v-grid',
             'dataProvider'=>$model->searchKonsulGizi(),
             'template'=>"{summary}\n{items}\n{pager}",
-            'itemsCssClass'=>'table table-striped table-condensed',
-            'mergeHeaders'=>array(
-                array(
-                    'name'=>'<center>Penjamin</center>',
-                    'start'=>5,
-                    'end'=>6,
-                ),
-            ),
+            'itemsCssClass'=>'table table-striped table-condensed',            
             'columns'=>array(
-                        array(
-                            'header'=>'Tanggal Pendaftaran',
-                            'name'=>'tgl_pendaftaran',
+                         array(
+                            'header' => 'Tgl Pendaftaran /<br> No Pendaftaran',
+                            'type' => 'raw',
+                            'value' => '$data->tgl_pendaftaran." / <br>".$data->no_pendaftaran'
+                        ),        
+                        'tglmasukpenunjang',
+                        'no_rekam_medik',
+                         array(
+                            'header'=>'Nama Pasien',
                             'type'=>'raw',
-                            'value'=>'$data->tgl_pendaftaran',
-                            'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
+                            'value'=>'$data->namadepan." ".$data->nama_pasien',
                         ),
+                        'alamat_pasien',
                         array(
-                            'header'=>'Tanggal Masuk Penunjang',
-                            'name'=>'tglmasukpenunjang',
+                            'header'=>'Cara Bayar <br> / Penjamin',
                             'type'=>'raw',
-                            'value'=>'$data->tglmasukpenunjang',
-                            'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
-                        ),
+                            'value'=>'$data->caraBayarPenjamin',    
+                            'htmlOptions'=>array('style'=>'text-align: center; width:40px')
+                       ),
                         array(
-                            'name'=>'no_pendaftaran',
+                            'header'=>'Dokter',
                             'type'=>'raw',
-                            'value'=>'$data->no_pendaftaran',
-                            'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
-                        ),
+                            'value'=>function($data) use (&$admisi) {
+                               // if (!empty($admisi)) return $data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama;
+                                return $data->gelardepan." ".$data->nama_pegawai." ".$data->gelarbelakang_nama;
+                            },
+                            'htmlOptions'=>array(
+                               'style'=>'text-align:center;',
+                               'class'=>'rajal'
+                           )
+                        ),  
+                        'jeniskasuspenyakit_nama',
                         array(
-                            'name'=>'no_rekam_medik',
+                            'header'=>'Status Bayar',
                             'type'=>'raw',
-                            'value'=>'$data->no_rekam_medik',
-                            'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
-                        ),
-                        array(
-                            'header'=>'Nama',
-                            'name'=>'nama_pasien',
-                            'type'=>'raw',
-                            'value'=>'$data->nama_pasien',
-                            'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
-                        ),
-                        array(
-                            'header'=>'Alias',
-                            'name'=>'nama_bin',
-                            'type'=>'raw',
-                            'value'=>'$data->nama_bin',
-                            'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;')
-                        ),
-                        array(
-                            'header'=>'Cara Bayar',
-                            'name'=>'carabayar_nama',
-                            'type'=>'raw',
-                            'value'=>'$data->carabayar_nama',
-                            'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;')
-                        ),
-                        array(
-                            'header'=>'Penjamin',
-                            'name'=>'penjamin_nama',
-                            'type'=>'raw',
-                            'value'=>'$data->penjamin_nama',
-                            'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;')
-                        ),
-                        array(
-                            'header'=>'Penanggung',
-                            'name'=>'nama_pj',
-                            'type'=>'raw',
-                            'value'=>'isset($data->nama_pj) ? CHtml::Link($data->nama_pj,Yii::app()->controller->createUrl("DaftarPasien/informasiPenanggung",array("id"=>$data->no_pendaftaran,"frame"=>true)),array("class"=>"", "target"=>"iframeInformasiPenanggung", "onclick"=>"$(\"#dialogInformasiPenanggung\").dialog(\"open\");","rel"=>"tooltip", "title"=>"Klik untuk melihat Informasi Penanggung Jawab",)) : "-"',
-                            'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
-                        ),
-                        array(
-                            'header'=>'Jenis Kasus Penyakit',
-                            'name'=>'jeniskasuspenyakit_nama',
-                            'type'=>'raw',
-                            'value'=>'$data->jeniskasuspenyakit_nama',
-                            'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
-                        ),
-                        array(
-                            'name'=>'umur',
-                            'type'=>'raw',
-                            'value'=>'$data->umur',
-                            'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
-                        ),
-                        array(
-                            'header'=>'Alamat',
-                            'name'=>'alamat_pasien',
-                            'type'=>'raw',
-                            'value'=>'$data->alamat_pasien',
-                            'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
-                        ),
+                            'value'=>'($data->pembayaranpelayanan_id == TRUE)?"LUNAS":"BELUM LUNAS"',
+                       ),            
                         array(
                             'header'=>'Rincian Tagihan',
                             'type'=>'raw',
                             'headerHtmlOptions'=>array('style'=>'vertical-align:middle;text-align:center;'),
-                            'value'=>'($data->pembayaranpelayanan_id == null) ? CHtml::Link("<i class=\"icon-form-detailtagihan\"></i>",Yii::app()->createUrl("gizi/PembayaranGizi/rincian",array("id"=>$data->pendaftaran_id,"frame"=>true)),
+                            'value'=>'CHtml::Link("<i class=\"icon-form-detailtagihan\"></i>",Yii::app()->createUrl("gizi/PembayaranGizi/rincian",array("id"=>$data->pendaftaran_id,"frame"=>true)),
                                         array("class"=>"", 
                                               "target"=>"iframeRincianTagihan",
                                               "onclick"=>"$(\"#dialogRincian\").dialog(\"open\");",
                                               "rel"=>"tooltip",
                                               "title"=>"Klik untuk melihat Rincian Tagihan",
-                                        )) : Lunas',          'htmlOptions'=>array('style'=>'text-align: center; width:40px')
+                                        ))',          'htmlOptions'=>array('style'=>'text-align: center; width:40px')
                         ),
                 //RND-5195 - Pembayaran dilakukan dimodul kasir
     //                    array(
