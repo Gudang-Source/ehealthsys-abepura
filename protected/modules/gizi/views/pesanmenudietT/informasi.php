@@ -57,7 +57,7 @@
 		array_push($artab, array(
 			'header'=>'Batal <br/> Pesan',
 			'type'=>'raw',
-			'value'=>'CHtml::link("<i class=icon-form-silang></i>","javascript:batalPesan(\'$data->pesanmenudiet_id\')",array("idPesanDiet"=>$data->pesanmenudiet_id,"href"=>"#","rel"=>"tooltip","title"=>"Klik Untuk Batal Pesan Menu Diet",))',
+			'value'=>'CHtml::link("<i class=icon-form-silang></i>","#",array("idPesanDiet"=>$data->pesanmenudiet_id,"href"=>"#","rel"=>"tooltip","title"=>"Klik Untuk Batal Pesan Menu Diet","onclick"=>"batalPesan(\'$data->pesanmenudiet_id\'); return false;"))',
 		));
 		
 		$this->widget('ext.bootstrap.widgets.BootGridView',array(
@@ -93,8 +93,8 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
         'title' => 'Rincian Pemesanan Menu Diet',
         'autoOpen' => false,
         'modal' => true,
-        'width' => 750,
-        'height' => 350,
+        'width' => 900,
+        'height' => 600,
         'resizable' => true,
     ),
 ));
@@ -127,7 +127,7 @@ $this->endWidget();
 <script>
 function batalPesan(idPesanDiet){
     var idPesanDiet = idPesanDiet;
-//    var answer = confirm('Yakin Akan Membatalkan Pemesanan Diet ?');
+//		var answer = confirm('Yakin Akan Membatalkan Pemesanan Diet ?');
 //    if (answer){
           $.post('<?php echo $this->createUrl('batalMenuDiet');?>', 
           {idPesanDiet:idPesanDiet}, function(data){

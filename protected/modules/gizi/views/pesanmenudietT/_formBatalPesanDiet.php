@@ -15,28 +15,22 @@ $form = $this->beginWidget(
 
 ?>
 <table class='table'>
-    <tr>
-        <td>
-            <b><?php echo CHtml::encode($model->getAttributeLabel('jenispesanmenu')); ?>:</b>
-            <?php echo CHtml::encode($model->jenispesanmenu); ?>
-            <br />
-            <b><?php echo CHtml::encode($model->getAttributeLabel('nopesanmenu')); ?>:</b>
-            <?php echo CHtml::encode($model->nopesanmenu); ?>
-            <br />
-            <b><?php echo CHtml::encode($model->getAttributeLabel('tglpesanmenu')); ?>:</b>
-            <?php echo CHtml::encode($model->tglpesanmenu); ?>
-            <br/>
-            <b><?php echo CHtml::encode($model->getAttributeLabel('nama_pemesan')); ?>:</b>
-            <?php echo CHtml::encode($model->nama_pemesan); ?>
-            <br/>
-
-        </td>
-        <td>
-            <b><?php echo CHtml::encode($model->getAttributeLabel('create_time')); ?>:</b>
-            <?php echo CHtml::encode($model->create_time); ?>
-            <br />
-        </td>
-    </tr>   
+	<tr>
+		<td nowrap><?php echo CHtml::encode($model->getAttributeLabel('jenispesanmenu')); ?></td>
+		<td>:</td>
+		<td width="100%"><?php echo CHtml::encode($model->jenispesanmenu); ?></td>
+		<td><?php echo CHtml::encode($model->getAttributeLabel('ruangan_id')); ?></td>
+		<td>:</td>
+		<td><?php echo CHtml::encode($model->ruangan->ruangan_nama); ?></td>
+	</tr>
+	<tr>
+		<td><?php echo CHtml::encode($model->getAttributeLabel('nopesanmenu')); ?></td>
+		<td>:</td>
+		<td nowrap><?php echo CHtml::encode($model->nopesanmenu); ?></td>
+		<td nowrap><?php echo CHtml::encode($model->getAttributeLabel('tglpesanmenu')); ?></td>
+		<td>:</td>
+		<td nowrap><?php echo CHtml::encode(MyFormatter::formatDateTimeForUser($model->tglpesanmenu)); ?></td>
+	</tr>
 </table>
 <style>
     .table thead tr th{

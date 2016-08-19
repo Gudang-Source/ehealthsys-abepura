@@ -1,32 +1,41 @@
-<table class='table'>
-    <tr>
-        <td>
-            <b><?php echo CHtml::encode($modPesan->getAttributeLabel('jenispesanmenu')); ?>:</b>
-            <?php echo CHtml::encode($modPesan->jenispesanmenu); ?>
-            <br />
-            <b><?php echo CHtml::encode($modPesan->getAttributeLabel('nopesanmenu')); ?>:</b>
-            <?php echo CHtml::encode($modPesan->nopesanmenu); ?>
-            <br />
-            
-
-        </td>
-        <td>
-            <b><?php echo CHtml::encode($modPesan->getAttributeLabel('ruangan_id')); ?>:</b>
-            <?php echo CHtml::encode($modPesan->ruangan->ruangan_nama); ?>
-            <br />
-            <b><?php echo CHtml::encode($modPesan->getAttributeLabel('tglpesanmenu')); ?>:</b>
-            <?php echo CHtml::encode(MyFormatter::formatDateTimeForUser($modPesan->tglpesanmenu)); ?>
-            <br/>
-        </td>
-    </tr>   
-</table>
 <style>
     .table thead tr th{
         vertical-align:middle;
     }
+	
+	.table {
+		box-shadow:none;
+		border-collapse: collapse;
+		border: 1px solid black;
+	}
+	
+	.table th, .table td {
+		border: 1px solid black;
+	}
+	
 </style>
+
+<table width="100%">
+	<tr>
+		<td nowrap><?php echo CHtml::encode($modPesan->getAttributeLabel('jenispesanmenu')); ?></td>
+		<td>:</td>
+		<td width="100%"><?php echo CHtml::encode($modPesan->jenispesanmenu); ?></td>
+		<td><?php echo CHtml::encode($modPesan->getAttributeLabel('ruangan_id')); ?></td>
+		<td>:</td>
+		<td><?php echo CHtml::encode($modPesan->ruangan->ruangan_nama); ?></td>
+	</tr>
+	<tr>
+		<td><?php echo CHtml::encode($modPesan->getAttributeLabel('nopesanmenu')); ?></td>
+		<td>:</td>
+		<td nowrap><?php echo CHtml::encode($modPesan->nopesanmenu); ?></td>
+		<td nowrap><?php echo CHtml::encode($modPesan->getAttributeLabel('tglpesanmenu')); ?></td>
+		<td>:</td>
+		<td nowrap><?php echo CHtml::encode(MyFormatter::formatDateTimeForUser($modPesan->tglpesanmenu)); ?></td>
+	</tr> 
+</table>
+
 <?php if ($modPesan->jenispesanmenu == Params::JENISPESANMENU_PASIEN) { ?>
-    <table id="tableObatAlkes" class="table table-striped table-bordered table-condensed">
+    <table id="tableObatAlkes" class="table table-condensed">
         <thead>
             <tr>
                 <th rowspan="2">No.Urut</th>
@@ -39,7 +48,6 @@
                 <th rowspan="2">Jenis Kelamin</th>
                 <th colspan="<?php echo count(JeniswaktuM::getJenisWaktu()); ?>"><center>Menu Diet</center></th>
     <th rowspan="2">Jumlah</th>
-    <th rowspan="2">Satuan/URT</th>
     </tr>
     <tr>
         <?php
@@ -72,8 +80,8 @@
                 }
             };
 
-            echo "<td style='text-align: right !important;'>" . $tampilData->jml_pesan_porsi . "</td>
-            <td>" . $tampilData->satuanjml_urt . "</td>";
+            echo "<td style='text-align: right !important;' nowrap>" . $tampilData->jml_pesan_porsi." ".$tampilData->satuanjml_urt . "</td>
+            ".
             "
           </tr>";
             $no++;
@@ -94,7 +102,6 @@
                 <th rowspan="2">Jenis Kelamin</th>
                 <th colspan="<?php echo count(JeniswaktuM::getJenisWaktu()); ?>"><center>Menu Diet</center></th>
                 <th rowspan="2">Jumlah</th>
-                <th rowspan="2">Satuan/URT</th>
             </tr>
             <tr>
                 <?php
@@ -128,9 +135,7 @@
                 }
             };
 
-            echo "<td>" . $tampilData->jml_pesan_porsi . "</td>
-            <td>" . $tampilData->satuanjml_urt . "</td>";
-            "
+            echo "<td nowrap>" . $tampilData->jml_pesan_porsi ." ".$tampilData->satuanjml_urt. "</td>
           </tr>";
             $no++;
 
@@ -139,3 +144,41 @@
     </tbody>
     </table>
 <?php } ?>
+
+
+<?php
+if (!isset($_GET['caraprint'])){
+    echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info', 'onclick'=>"print('PRINT')"));
+    // echo CHtml::link(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),'javascript:void(0);', array('class'=>'btn btn-info', 'onclick'=>"print('EXCEL')")); 
+?>
+    <script type='text/javascript'>
+    /**
+     * print
+     */    
+    function print(caraprint){
+        var pesanmenudiet_id = '<?php echo $modPesan->pesanmenudiet_id; ?>';
+        window.open('<?php echo $this->createUrl('print'); ?>&id='+pesanmenudiet_id+'&caraprint='+caraprint,'printwin','left=100,top=100,width=1000,height=640');
+    }
+    </script>
+<?php
+}else{ ?>
+    <table width="100%" style="margin-top:20px;">
+    <tr>
+        <td width="100%" align="left" align="top">
+            <table width="100%">
+                <tr>
+                    <td width="35%" align="center">
+                        <div hidden>Pegawai Mengetahui</div>
+                        <div style="margin-top:60px;"><?php //echo (isset($model->pegawaimengetahui->NamaLengkap) ? $model->pegawaimengetahui->NamaLengkap : ""); ?></div>
+                    </td>
+                    <td width="35%" align="center">
+                        <div><?php echo Yii::app()->user->getState("kecamatan_nama").", ".MyFormatter::formatDateTimeId(date('Y-m-d')); ?></div>
+                        <div>Pemesan</div>
+                        <div style="margin-top:60px;"><?php echo $modPesan->nama_pemesan; ?></div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    </table>
+<?php  } ?>
