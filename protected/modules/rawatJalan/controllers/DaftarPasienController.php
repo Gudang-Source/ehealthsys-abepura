@@ -281,7 +281,8 @@ class DaftarPasienController extends MyAuthController
             $modPersalinan = PersalinanT::model()->findAllByAttributes(array('pendaftaran_id'=>$id));
             $modPemeriksaan = PemeriksaanfisikT::model()->findAllByAttributes(array('pendaftaran_id'=>$id));
             
-            
+            $systolic = null;
+            $diastolic = null;
             foreach($modPemeriksaan as $cari){
                 $systolic = isset($cari->kala4_systolic)?$cari->kala4_systolic:null;
                 $diastolic = isset($cari->kala4_diastolic)?$cari->kala4_diastolic:null;
