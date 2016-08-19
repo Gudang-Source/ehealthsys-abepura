@@ -4,6 +4,7 @@ class GZPasienMasukPenunjangV extends PasienmasukpenunjangV {
 
     public $pembayaranpelayanan_id;
     public $bulan;
+    public $statusBayar;
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }
@@ -25,6 +26,11 @@ class GZPasienMasukPenunjangV extends PasienmasukpenunjangV {
         $criteria->addBetweenCondition('DATE(t.tglmasukpenunjang)', $this->tgl_awal, $this->tgl_akhir);
         if (!empty($this->carabayar_id)){
             $criteria->addCondition("t.carabayar_id = ".$this->carabayar_id);
+        }
+        if ($this->statusBayar == "LUNAS"){
+            $criteria->addCondition("t.pembayaranpelayanan_id IS NOT NULL");
+        }elseif ($this->statusBayar == "BELUM LUNAS"){
+            $criteria->addCondition("t.pembayaranpelayanan_id IS NULL");
         }
 //        $criteria->addCondition('pendaftaran_t.pembayaranpelayanan_id is null');
         $criteria->join = 'LEFT JOIN pendaftaran_t ON pendaftaran_t.pendaftaran_id = t.pendaftaran_id';
