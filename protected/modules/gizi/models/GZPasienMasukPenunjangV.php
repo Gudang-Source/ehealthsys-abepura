@@ -20,8 +20,12 @@ class GZPasienMasukPenunjangV extends PasienmasukpenunjangV {
         $criteria->compare('LOWER(t.no_pendaftaran)',strtolower($this->no_pendaftaran),true);
         $criteria->compare('LOWER(t.nama_pasien)',strtolower($this->nama_pasien),true);
         $criteria->compare('LOWER(t.nama_bin)',strtolower($this->nama_bin),true);
+        $criteria->compare('LOWER(t.statusperiksa)',  strtolower($this->statusperiksa),TRUE);
         $criteria->compare('t.ruangan_id',Yii::app()->user->getState('ruangan_id'));
         $criteria->addBetweenCondition('DATE(t.tglmasukpenunjang)', $this->tgl_awal, $this->tgl_akhir);
+        if (!empty($this->carabayar_id)){
+            $criteria->addCondition("t.carabayar_id = ".$this->carabayar_id);
+        }
 //        $criteria->addCondition('pendaftaran_t.pembayaranpelayanan_id is null');
         $criteria->join = 'LEFT JOIN pendaftaran_t ON pendaftaran_t.pendaftaran_id = t.pendaftaran_id';
         $criteria->order='t.tglmasukpenunjang DESC';
