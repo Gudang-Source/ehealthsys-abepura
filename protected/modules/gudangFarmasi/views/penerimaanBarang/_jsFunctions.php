@@ -376,6 +376,16 @@ function print(caraPrint)
     window.open('<?php echo $this->createUrl('print'); ?>&penerimaanbarang_id='+penerimaanbarang_id+'&caraPrint='+caraPrint,'printwin','left=100,top=100,width=1000,height=640');
 }
 
+
+function validasi(obj) {
+	if ($("#table-obatalkespasien tbody tr").length == 0) {
+		myAlert("Harus ada Obat / Alat Kesehatan yang ditambahkan.");
+		return false;
+	}
+	
+	return requiredCheck(obj);
+}
+
 /**
  * function ini harus tetap berada di bawah
  */
