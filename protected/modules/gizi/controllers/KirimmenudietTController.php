@@ -454,11 +454,12 @@ class KirimmenudietTController extends MyAuthController
                 $model->tgl_akhir = date('d M Y');
 		if(isset($_GET['GZKirimmenudietT'])){
 			$model->attributes=$_GET['GZKirimmenudietT'];
-			$model->ruangan_id = $_GET['GZKirimmenudietT']['ruangan_id'];
-			$model->instalasi_id = $_GET['GZKirimmenudietT']['instalasi_id'];
+			//$model->ruangan_id = $_GET['GZKirimmenudietT']['ruangan_id'];
+			//$model->instalasi_id = $_GET['GZKirimmenudietT']['instalasi_id'];
+                        $model->pesan_menu = $_GET['GZKirimmenudietT']['pesan_menu'];                        
 			$format = new MyFormatter();
-			$model->tgl_awal = $format->formatDateTimeForDb($model->tgl_awal);
-			$model->tgl_akhir = $format->formatDateTimeForDb($model->tgl_akhir);
+			$model->tgl_awal = $format->formatDateTimeForDb($_GET['GZKirimmenudietT']['tgl_awal']);
+			$model->tgl_akhir = $format->formatDateTimeForDb($_GET['GZKirimmenudietT']['tgl_akhir']);
 		}
 
 		$this->render('informasi',array(
@@ -466,9 +467,12 @@ class KirimmenudietTController extends MyAuthController
 		));
 	}
 	    
-        public function actionDetailKirimMenuDiet($id){
+        public function actionDetailKirimMenuDiet($id,$frame=null){
             $this->layout ='//layouts/iframe';
 			
+            if ($frame==FALSE){
+                $this->layout ='//layouts/printWindows';
+            }
             $modKirim = KirimmenudietT::model()->findByPk($id);
             if ($modKirim->jenispesanmenu == Params::JENISPESANMENU_PASIEN){
                 $criteria = new CDbCriteria();
