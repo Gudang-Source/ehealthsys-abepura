@@ -10,9 +10,9 @@
 
 	<?php echo $form->errorSummary($model); ?>
 
-            <?php echo $form->textFieldRow($model,'jenispenerimaan_kode',array('class'=>'span3', 'onkeypress'=>"return nextFocus(this,event,'KUJenispenerimaanM_jenispenerimaan_kode','')", 'maxlength'=>50)); ?>
-            <?php echo $form->textFieldRow($model,'jenispenerimaan_nama',array('class'=>'span3', 'onkeyup'=>"namaLain(this)", 'onkeypress'=>"return nextFocus(this,event,'KUJenispenerimaanM_jenispenerimaan_nama','')", 'maxlength'=>50)); ?>
-            <?php echo $form->textFieldRow($model,'jenispenerimaan_namalain',array('class'=>'span3', 'onkeypress'=>"return nextFocus(this,event,'KUJenispenerimaanM_jenispenerimaan_namalain','KUJenispenerimaanM_jenispenerimaan_namalain')", 'maxlength'=>50)); ?>
+            <?php echo $form->textFieldRow($model,'jenispenerimaan_kode',array('class'=>'span3 angkahuruf-only', 'onkeypress'=>"return nextFocus(this,event,'KUJenispenerimaanM_jenispenerimaan_kode','')", 'maxlength'=>50)); ?>
+            <?php echo $form->textFieldRow($model,'jenispenerimaan_nama',array('class'=>'span3 hurufs-only', 'onkeyup'=>"namaLain(this)", 'onkeypress'=>"return nextFocus(this,event,'KUJenispenerimaanM_jenispenerimaan_nama','')", 'maxlength'=>50)); ?>
+            <?php echo $form->textFieldRow($model,'jenispenerimaan_namalain',array('class'=>'span3 hurufs-only', 'onkeypress'=>"return nextFocus(this,event,'KUJenispenerimaanM_jenispenerimaan_namalain','KUJenispenerimaanM_jenispenerimaan_namalain')", 'maxlength'=>50)); ?>
             <div>
                 <?php echo $form->checkBoxRow($model,'jenispenerimaan_aktif', array('onkeypress'=>"return nextFocus(this,event,'btn_simpan','KUJenispenerimaanM_jenispenerimaan_aktif')")); ?>
             </div>
