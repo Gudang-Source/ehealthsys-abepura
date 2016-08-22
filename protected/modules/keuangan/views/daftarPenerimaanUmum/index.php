@@ -40,11 +40,13 @@
                 'kelompoktransaksi',
                 'volume',
                 'satuanvol',
-                array('name'=>'hargasatuan',
-                      'value'=>'MyFormatter::formatUang($data->hargasatuan)'
+                array(  'name'=>'hargasatuan',
+                        'value'=>'"Rp".number_format($data->hargasatuan,0,"",".")',
+                        'htmlOptions' => array('style'=>'text-align:right;')
                 ),
-                array('name'=>'totalharga',
-                      'value'=>'MyFormatter::formatUang($data->totalharga)'
+                array(  'name'=>'totalharga',
+                        'value'=>'"Rp".number_format($data->totalharga,0,"",".")',
+                        'htmlOptions' => array('style'=>'text-align:right;')
                 ),
                 array( 
                     'header'=>'Retur Penerimaan Umum',
@@ -103,12 +105,23 @@
                     </div>
                 </td>
                 <td>
-                    <?php echo $form->textFieldRow($modPenerimaan,'nopenerimaan',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
-                    <?php echo $form->textFieldRow($modPenerimaan,'namapenandatangan',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+                    <div class = "control-group">
+                            <?php echo Chtml::label("No Penerimaan",'nopenerimaan', array('class'=>'control-label')); ?>
+                        <div class = "controls">
+                            <?php echo $form->textField($modPenerimaan,'nopenerimaan',array('class'=>'span3 angkahuruf-only','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+                        </div>
+                    </div>
+                    <?php echo $form->textFieldRow($modPenerimaan,'namapenandatangan',array('class'=>'span3 hurufs-only','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
                 </td>
                 <td>
-                    <?php echo $form->textFieldRow($modPenerimaan,'nippenandatangan',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
-                    <?php echo $form->textFieldRow($modPenerimaan,'kelompoktransaksi',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+                    <?php //echo $form->textFieldRow($modPenerimaan,'nippenandatangan',array('class'=>'span3 numbers-only','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+                    
+                    <div class = "control-group">
+                            <?php echo Chtml::label("Kelompok Transaksi",'kelompoktransaksi', array('class'=>'control-label')) ?>
+                        <div class="controls">
+                            <?php echo $form->dropDownList($modPenerimaan,'kelompoktransaksi', LookupM::getItems('kelompoktransaksi') ,array('empty'=>'-- Pilih --','class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+                        </div>
+                    </div>
                 </td>
             </tr>
         </table>
@@ -116,7 +129,7 @@
             <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit')); ?>
             <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Reset',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')),array('class'=>'btn btn-danger', 'type'=>'reset')); ?>
             <?php  
-            $content = $this->renderPartial('../tips/informasi',array(),true);
+            $content = $this->renderPartial('../tips/informasi_penerimaanumum',array(),true);
             $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
             ?>
         </div>

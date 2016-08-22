@@ -85,7 +85,7 @@ class ReturPenerimaanUmumController extends MyAuthController
             $modBuktiKeluar->attributes = $postBuktiKeluar;
             $modBuktiKeluar->ruangan_id = Yii::app()->user->getState('ruangan_id');
             $modBuktiKeluar->tglkaskeluar = $modRetur->tglreturumum;
-//            $modBuktiKeluar->returpenerimaanumum_id = $modRetur->returpenerimaanumum_id;
+            $modBuktiKeluar->returpenerimaanumum_id = $modRetur->returpenerimaanumum_id;
 			$modBuktiKeluar->create_ruangan = Yii::app()->user->getState('ruangan_id');
 			$modBuktiKeluar->create_time = date("Y-m-d H:i:s");
             $modBuktiKeluar->create_loginpemakai_id = Yii::app()->user->id;
@@ -151,8 +151,8 @@ class ReturPenerimaanUmumController extends MyAuthController
 			}
 		}
 		
-		public function actionPrintPenerimaanUmum($tandabuktibayar_id)
-        {
+            public function actionPrintPenerimaanUmum($tandabuktibayar_id)
+            {
             if (!empty($tandabuktibayar_id))
             {
                 $this->layout='//layouts/printWindows';
@@ -161,7 +161,7 @@ class ReturPenerimaanUmumController extends MyAuthController
                     'returpenerimaanumum_id'=>$tandabuktibayar_id
                 );
                 $judulLaporan = 'KUITANSI RETUR PENERIMAAN UMUM';
-                $retur = BKTandabuktikeluarT::model()->findByAttributes($attributes);
+                $retur = BKTandabuktikeluarT::model()->findByAttributes($attributes);                
                 //$model_tandabuktibayar = BKTandabuktibayarT::model()->with('pembayaran')->findByAttributes(array('tandabuktibayar_id'=>$return->tandabuktibayar_id));
                 $judulLaporan = 'Tanda Bukti Return Penerimaan Umum';
                 $this->render('kwitansiReturPenerimaanUmum',
