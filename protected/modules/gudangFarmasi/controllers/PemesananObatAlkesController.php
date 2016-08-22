@@ -14,8 +14,8 @@ class PemesananObatAlkesController extends MyAuthController{
             //$modPesanObatalkes->instalasitujuan_id = Params::INSTALASI_ID_LOGISTIK;
             //$modPesanObatalkes->ruangan_id = Params::RUANGAN_ID_GUDANG_UMUM;
         } else {
-           // $modPesanObatalkes->instalasitujuan_id = Params::INSTALASI_ID_FARMASI;
-           // $modPesanObatalkes->ruangan_id = Params::RUANGAN_ID_GUDANG_FARMASI;
+            $modPesanObatalkes->instalasitujuan_id = Params::INSTALASI_ID_FARMASI;
+            $modPesanObatalkes->ruangan_id = Params::RUANGAN_ID_GUDANG_FARMASI;
         }
     	$modPesanObatalkes->pegawaipemesan_id = Yii::app()->user->getState('pegawai_id');
         //$modPesanObatalkes->statuspesan = Params::STATUSPESAN_BIASA;

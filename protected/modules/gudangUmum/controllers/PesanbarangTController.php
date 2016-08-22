@@ -85,8 +85,8 @@ class PesanbarangTController extends MyAuthController
                 
 		//$model->instalasi_id = $model->ruanganpemesan->instalasi->instalasi_id;                
                  if (Yii::app()->user->getState('ruangan_id') == Params::RUANGAN_ID_GUDANG_UMUM) {
-                    $model->instalasi_id = Params::INSTALASI_ID_LOGISTIK;
-                    $model->ruangantujuan_id = Params::RUANGAN_ID_GUDANG_UMUM;
+                   // $model->instalasi_id = Params::INSTALASI_ID_LOGISTIK;
+                   // $model->ruangantujuan_id = Params::RUANGAN_ID_GUDANG_UMUM;
                     $instalasi_id = Params::INSTALASI_ID_LOGISTIK;//Yii::app()->user->getState('instalasi_id')
                 } else {
                     $model->instalasi_id = Params::INSTALASI_ID_LOGISTIK;

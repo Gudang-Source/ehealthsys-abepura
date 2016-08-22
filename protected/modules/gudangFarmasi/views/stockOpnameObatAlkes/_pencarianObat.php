@@ -6,6 +6,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
     'id' => 'pencarianobat-form',
     'type' => 'horizontal',
     'focus'=>'#'.CHtml::activeId($modObat,'jenisstokopname'),
+    'htmlOptions' => array(),
         ));
 ?>
 <div class="row-fluid">
@@ -15,7 +16,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
 			<div class="controls">
 		        <?php 
 				if(empty($model->formuliropname_id)){
-					echo $form->dropDownList($modObat, 'jenisstokopname', LookupM::getItems('jenisstokopname'), array('class'=>'span3', 'onchange'=>'setJenisStokOpname();','onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); 
+					echo $form->dropDownList($modObat, 'jenisstokopname', LookupM::getItems('jenisstokopname'), array('empty'=>'-- Pilih --','class'=>'span3', 'onchange'=>'setJenisStokOpname();','onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); 
 				}else{
 					echo $form->textField($modObat, 'jenisstokopname', array('readonly'=>true,'class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); 
 				}
@@ -35,8 +36,20 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
     </div>
 </div>
 <div class="form-actions">
-<?php echo CHtml::htmlButton(Yii::t('mds', '{icon} Tampilkan', array('{icon}' => '<i class="icon-search icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit')); ?>
+<?php echo CHtml::htmlButton(Yii::t('mds', '{icon} Tampilkan', array('{icon}' => '<i class="icon-search icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit','onclick'=>'return cekJenisOp();')); ?>
 <?php // echo CHtml::htmlButton(Yii::t('mds','{icon} Reset',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')),array('class'=>'btn btn-danger', 'type'=>'reset')); ?>
 </div>
 <?php $this->endWidget(); ?>
 </div>
+<script>
+    function cekJenisOp()
+    {
+        var jenis = $("#GFInformasistokobatalkesV_jenisstokopname option:selected").val();
+        
+        if (jenis == ''){
+            myAlert("Maaf, <b>Jenis Stock Opname</b> belum dipilih","Perhatian");     
+            return false;
+        }
+        
+    }
+</script>
