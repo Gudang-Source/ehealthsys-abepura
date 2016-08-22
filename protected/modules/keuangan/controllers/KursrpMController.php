@@ -107,7 +107,9 @@ class KursrpMController extends MyAuthController
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['KUKursrpM'])){
 			$model->attributes=$_GET['KUKursrpM'];
-			$model->tglkursrp=isset($_GET['KUKursrpM']['tglkursrp'])?MyFormatter::formatDateTimeForDb($_GET['KUKursrpM']['tglkursrp']):null;
+                        $model->nilai = ($model->nilai == 0)?'':$model->nilai;
+                        $model->rupiah = ($model->rupiah == 0)?'':$model->rupiah;
+			//$model->tglkursrp= isset($_GET['KUKursrpM']['tglkursrp'])?MyFormatter::formatDateTimeForDb($_GET['KUKursrpM']['tglkursrp']):null;
 		}
 		$this->render('admin',array(
 			'model'=>$model,
