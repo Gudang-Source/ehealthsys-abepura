@@ -6,6 +6,7 @@ class GFInfostokobatalkesruanganV extends InfostokobatalkesruanganV{
     public $jns_periode,$bln_awal,$bln_akhir,$thn_awal,$thn_akhir;
     public $harganetto_oa;
     public $jenisobatalkes_kode;
+   
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }
@@ -318,14 +319,20 @@ class GFInfostokobatalkesruanganV extends InfostokobatalkesruanganV{
 
             $criteria=new CDbCriteria;
                 $criteria->select = "obatalkes_id,obatalkes_nama,obatalkes_golongan,obatalkes_kategori,jenisobatalkes_id,jenisobatalkes_nama,obatalkes_kode,satuankecil_nama, tglkadaluarsa";
+                //var_dump($this->instalasi_id);
 		if(!empty($this->instalasi_id)){
 			$criteria->addCondition('instalasi_id = '.$this->instalasi_id);
-		}
+                }else{
+                    $criteria->addCondition('instalasi_id is NULL ');
+                }
 		$criteria->compare('LOWER(instalasi_nama)',strtolower($this->instalasi_nama),true);
+                
 		if(!empty($this->ruangan_id)){
 			$criteria->addCondition('ruangan_id = '.$this->ruangan_id);
-		}
-		$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
+                }else{
+                   $criteria->addCondition('ruangan_id is NULL ');
+                }
+		//$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
 		if(!empty($this->jenisobatalkes_id)){
 			$criteria->addCondition('jenisobatalkes_id = '.$this->jenisobatalkes_id);
 		}		

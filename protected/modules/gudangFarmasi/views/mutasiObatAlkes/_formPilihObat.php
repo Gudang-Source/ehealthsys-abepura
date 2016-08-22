@@ -83,6 +83,7 @@ $format = new MyFormatter();
 $modObatAlkes = new GFInfostokobatalkesruanganV('searchDialogMutasi');
 $modObatAlkes->unsetAttributes();
 $modObatAlkes->ruangan_id = Yii::app()->user->getState('ruangan_id');
+$modObatAlkes->instalasi_id = Yii::app()->user->getState('instalasi_id');
 if(isset($_GET['GFInfostokobatalkesruanganV'])){
     $modObatAlkes->attributes = $_GET['GFInfostokobatalkesruanganV'];
     $modObatAlkes->obatalkes_kode = isset($_GET['GFInfostokobatalkesruanganV']['obatalkes_kode']) ? $_GET['GFInfostokobatalkesruanganV']['obatalkes_kode'] : null;

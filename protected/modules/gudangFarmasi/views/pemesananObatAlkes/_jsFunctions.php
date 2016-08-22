@@ -142,6 +142,9 @@ function refreshDialogOA(){
         
 	$("#obatalkes_nama").addClass("animation-loading-1");
         var ru = $("#GFPesanobatalkesT_ruangan_id option:selected").html();
+        if (ru == "-- Pilih --"){
+            ru = "(Ruangan Belum Dipilih)";
+        }
 	setTimeout(function(){
                 $("#dialog_ruangan").html(ru);
 		$("#obatalkes_nama").removeClass("animation-loading-1");
@@ -151,10 +154,13 @@ function refreshDialogOA(){
 
 $('#tombolDialogObatAlkes').click(function(){
 	var ruangan_id = $('#<?php echo CHtml::activeId($model,"ruangan_id") ?>').val();
+        var instalasi_id = $('#<?php echo CHtml::activeId($model,"instalasitujuan_id") ?>').val();
         $(".dialog_ruangan_id").val(ruangan_id);
+        $(".dialog_instalasi_id").val(instalasi_id);
 	$.fn.yiiGridView.update('obatalkes-m-grid', {
 		data: {
 			"GFInfostokobatalkesruanganV[ruangan_id]":ruangan_id,
+                        "GFInfostokobatalkesruanganV[instalasi_id]":instalasi_id,
 		}
 	});
 });
