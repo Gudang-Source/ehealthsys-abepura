@@ -11,14 +11,14 @@ class PemesananObatAlkesController extends MyAuthController{
     	$modPesanObatalkes->tglpemesanan = date('Y-m-d H:i:s');
     	$modPesanObatalkes->tglmintadikirim = date('Y-m-d H:i:s');
         if (Yii::app()->user->getState('ruangan_id') == Params::RUANGAN_ID_GUDANG_FARMASI) {
-            $modPesanObatalkes->instalasitujuan_id = Params::INSTALASI_ID_LOGISTIK;
-            $modPesanObatalkes->ruangan_id = Params::RUANGAN_ID_GUDANG_UMUM;
+            //$modPesanObatalkes->instalasitujuan_id = Params::INSTALASI_ID_LOGISTIK;
+            //$modPesanObatalkes->ruangan_id = Params::RUANGAN_ID_GUDANG_UMUM;
         } else {
-            $modPesanObatalkes->instalasitujuan_id = Params::INSTALASI_ID_FARMASI;
-            $modPesanObatalkes->ruangan_id = Params::RUANGAN_ID_GUDANG_FARMASI;
+           // $modPesanObatalkes->instalasitujuan_id = Params::INSTALASI_ID_FARMASI;
+           // $modPesanObatalkes->ruangan_id = Params::RUANGAN_ID_GUDANG_FARMASI;
         }
     	$modPesanObatalkes->pegawaipemesan_id = Yii::app()->user->getState('pegawai_id');
-        $modPesanObatalkes->statuspesan = Params::STATUSPESAN_BIASA;
+        //$modPesanObatalkes->statuspesan = Params::STATUSPESAN_BIASA;
         if (!empty($modPesanObatalkes->pegawaipemesan_id)) $modPesanObatalkes->pegawaipemesan_nama = $modPesanObatalkes->pegawaipemesan->namaLengkap;
         $modDetails = array();
         $instalasiTujuans = CHtml::listData(GFInstalasiM::getInstalasiTujuanMutasis(),'instalasi_id','instalasi_nama');
