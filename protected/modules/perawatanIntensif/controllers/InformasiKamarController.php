@@ -4,7 +4,23 @@ class InformasiKamarController extends MyAuthController
 {
 	public function actionIndex()
 	{
-                $modKamarRuangan = new RIKamarRuanganM;
+            $model =RIInformasikamarinapV::model()->findAll('instalasi_id = '.Yii::app()->user->getState('instalasi_id').' AND  kamarruangan_aktif = true order by ruangan_nama ASC, kelaspelayanan_nama ASC, kamarruangan_nokamar ASC, kamarruangan_nobed ASC');
+            $row = $this->renderKamarRuangan($model);
+            if ((isset($_POST['ajax']))&&(isset($_POST['ruangan']))){
+                $ruangan = $_POST['ruangan'];
+                $model =RIInformasikamarinapV::model()->findAll(((!empty($ruangan)) ? "ruangan_id =".$ruangan." and " : "").'kamarruangan_aktif = true order by ruangan_id, kelaspelayanan_id, kamarruangan_nokamar, kamarruangan_nobed');
+                $row = $this->renderKamarRuangan($model);
+                
+                echo json_encode($row);
+                Yii::app()->end();
+            }
+                
+            $this->render('index',array(
+                    'model'=>$model,
+                    'row'=>$row
+            )); /*
+            
+                /*$modKamarRuangan = new RIKamarRuanganM;
                 $trInformasiHarga='';
                 $jumlahTempatTidur=0;
                 $dataTempatTidur=array();
@@ -216,11 +232,184 @@ class InformasiKamarController extends MyAuthController
                                             'fotoKamar'=>$fotoKamar,
                                             'idRuangan'=>$idRuangan,
                                             'noKamar'=>$noKamar,
-                                            'kelasPelayanan'=>$kelasPelayanan));
+                                            'kelasPelayanan'=>$kelasPelayanan));*/
 				
 		
                 
 	}
+        
+         protected function renderKamarRuangan($model)
+        {
+                $result = '';
+                $tempRuangan = '';
+                $list1 = array();
+                $jml = 0;
+                foreach ($model as $i=>$row){
+                    if ($row->ruangan_id != $tempRuangan){
+                        $tempJumlah = 0;
+                        $list1[$row->ruangan_id]['name'] = $row->ruangan_nama;
+                        $list1[$row->ruangan_id]['ruangan_id'] = $row->ruangan_id;
+                        $list1[$row->ruangan_id]['kelaspelayanan_id'] = $row->kelaspelayanan_id;
+                        $list1[$row->ruangan_id]['kamar'][$row->kelaspelayanan_id]['name'] = $row->kamarruangan_nokamar;
+                        $list1[$row->ruangan_id]['kamar'][$row->kelaspelayanan_id]['kelaspelayanan'] = $row->kelaspelayanan_namalainnya;
+                        $list1[$row->ruangan_id]['kamar'][$row->kelaspelayanan_id]['jml'] = $row->kamarruangan_jmlbed;
+                        $list1[$row->ruangan_id]['kamar'][$row->kelaspelayanan_id]['kamar'][$row->kamarruangan_nokamar]['name'] = $row->kamarruangan_nokamar;
+                        $list1[$row->ruangan_id]['kamar'][$row->kelaspelayanan_id]['kamar'][$row->kamarruangan_nokamar]['bed'][$i]['no'] = $row->kamarruangan_nobed;
+                        $list1[$row->ruangan_id]['kamar'][$row->kelaspelayanan_id]['kamar'][$row->kamarruangan_nokamar]['bed'][$i]['status'] = $row->kamarruangan_status;
+                        $list1[$row->ruangan_id]['kamar'][$row->kelaspelayanan_id]['kamar'][$row->kamarruangan_nokamar]['bed'][$i]['id'] = $row->kamarruangan_id;
+                        $tempJumlah = $row->kamarruangan_jmlbed;
+                        $tempRuangan = $row->ruangan_id;
+                    }
+                    else{
+                        $list1[$tempRuangan]['kamar'][$row->kelaspelayanan_id]['name'] = $row->kamarruangan_nokamar;
+                        $list1[$tempRuangan]['kamar'][$row->kelaspelayanan_id]['kelaspelayanan'] = $row->kelaspelayanan_namalainnya;                        
+                        if ($row->kamarruangan_jmlbed >= $tempJumlah){
+                            $jml = $row->kamarruangan_jmlbed;
+                            $tempJumlah = $row->kamarruangan_jmlbed;
+                        }
+                        $list1[$tempRuangan]['kamar'][$row->kelaspelayanan_id]['jml'] = $jml;
+                        $list1[$tempRuangan]['kamar'][$row->kelaspelayanan_id]['kamar'][$row->kamarruangan_nokamar]['name'] = $row->kamarruangan_nokamar;
+                        $list1[$tempRuangan]['kamar'][$row->kelaspelayanan_id]['kamar'][$row->kamarruangan_nokamar]['bed'][$i]['no'] = $row->kamarruangan_nobed;
+                        $list1[$tempRuangan]['kamar'][$row->kelaspelayanan_id]['kamar'][$row->kamarruangan_nokamar]['bed'][$i]['status'] = $row->kamarruangan_status;
+                        $list1[$tempRuangan]['kamar'][$row->kelaspelayanan_id]['kamar'][$row->kamarruangan_nokamar]['bed'][$i]['id'] = $row->kamarruangan_id;
+                    }
+                }
+//                echo "<pre>";
+                foreach ($list1 as $i=>$v){
+                    
+                    $result .= '<div class="contentKamar">';				 			
+                    $ruangan = RuanganM::model()->findByPk($v['ruangan_id']);
+                    $tarifumum = RIInformasikamarinapV::model()->getTarif($v['kelaspelayanan_id'], $v['ruangan_id'], 1);
+                    $tarifbpjs = RIInformasikamarinapV::model()->getTarif($v['kelaspelayanan_id'], $v['ruangan_id'], 3);
+                    $tarifjamkespa = RIInformasikamarinapV::model()->getTarif($v['kelaspelayanan_id'], $v['ruangan_id'], 4);
+                    
+                    $dataRuangan ='';
+					
+                        if (count($ruangan) == 1){
+                            $dataRuangan .='<table width=\'300\'>';
+                            $dataRuangan .='<tr><td rowspan=2><img src=\''.Yii::app()->baseUrl.'/images/'.$ruangan->ruangan_image.'\' class=\'image_ruangan\'></td><td>Fasilitas</td><td>'.((!empty($ruangan->ruangan_fasilitas)) ? $ruangan->ruangan_fasilitas : " - ").'</td></tr>';
+                            $dataRuangan .='<tr><td>Lokasi</td><td>'.((!empty($ruangan->ruangan_lokasi)) ? $ruangan->ruangan_lokasi : " - ").'</td></tr>';
+                            $dataRuangan .='<tr><td>Jumlah Bed</td><td>{$jmlbed}</td></tr>';
+                            $dataRuangan .='<tr><td>Jumlah Terisi</td><td>{$jmlterisi}</td></tr>';
+                            $dataRuangan .='<tr><td>Jumlah Dibooking</td><td>{$jmlbooked}</td></tr>';                            
+                            $dataRuangan .='<tr><td><b>Tarif</b></td></tr>';
+                            if (count($tarifbpjs)>0):
+                                $dataRuangan .='<tr><td><b>Tarif Bpjs</b></td></tr>';
+                                foreach($tarifbpjs as $tarifbpjs):
+                                    $dataRuangan .='<tr><td>'.$tarifbpjs->daftartindakan_nama.'</td><td style=\'text-align:center;\'>Rp'.number_format($tarifbpjs->harga_tariftindakan,0,'','.').'</td></tr>';
+                                endforeach;                                
+                            endif;
+                            if (count($tarifjamkespa)>0):
+                                $dataRuangan .='<tr><td><b>Tarif Jamkespa</b></td></tr>';
+                                foreach($tarifjamkespa as $tarifjamkespa):
+                                    $dataRuangan .='<tr><td>'.$tarifjamkespa->daftartindakan_nama.'</td><td style=\'text-align:center;\'>Rp'.number_format($tarifjamkespa->harga_tariftindakan,0,'','.').'</td></tr>';
+                                endforeach;                                
+                            endif;
+                            if (count($tarifumum)>0):
+                                $dataRuangan .='<tr><td><b>Tarif Umum</b></td></tr>';
+                                foreach($tarifumum as $tarifumum):
+                                    $dataRuangan .='<tr><td>'.$tarifumum->daftartindakan_nama.'</td><td style=\'text-align:center;\'>Rp'.number_format($tarifumum->harga_tariftindakan,0,'','.').'</td></tr>';
+                                endforeach;                                
+                            endif;
+                            
+                            $dataRuangan .='</table>';
+                        }
+                        foreach ($v['kamar'] as $j=>$w){
+                            $jml_kasur = 0;
+                            $jml_terisi = 0;
+                            $jml_booked = 0;                            
+                            foreach ($w['kamar'] as $t=>$bed){
+                               $jml_kasur += count($bed['bed']);
+                               foreach ($bed['bed'] as $d=>$e){
+                                   //$kamar = MasukkamarT::model()->find('kamarruangan_id = '.$e['id'].' AND statusorder by tglmasukkamar desc');
+                                   $kamar = RIInformasikamarinapV::model()->find("kamarruangan_nobed = '".$e['no']."' AND kamarruangan_status = FALSE AND ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ");
+                                   if (count($kamar) == 1){
+                                       $jml_terisi += 1;
+                                   }
+                                   $booking = BookingkamarT::model()->find('kamarruangan_id = '.$e['id'].' AND statuskonfirmasi = \'SUDAH KONFIRMASI\'');
+                                   if (count($booking) == 1){
+                                       $jml_booked += 1; 
+                                   }
+                               }
+                            }
+                            $vars = array(
+                              '{$jmlbed}' => $jml_kasur,
+                              '{$jmlterisi}' => $jml_terisi,
+                              '{$jmlbooked}' => $jml_booked,                              
+                            );
+                            $result .='<div class="pintu"></div><h3 class="popover-title"><img src=\''. Yii::app()->baseUrl.'/images/blue-home-icon.png\' style=\'height:30px;\'/>'.$v['name'].' - '.$w['kelaspelayanan'].' - '.$w['jml'].'<a href="" class="pull-right poping" data-content="'.strtr($dataRuangan,$vars).'" onclick="return false;" style = "padding-left:200px;"><img src=\''. Yii::app()->baseUrl.'/images/fasilitas.png\' style=\'height:30px;\'/>Detail</a></h3>
+                                <ul>';
+                            foreach ($w['kamar'] as $x=>$y){            
+                                $result .='<li class="bed">
+                                    <div class="popover-inner">
+                                        <h6 class="popover-title">'.$y['name'].'</h3>
+                                        <div class="popover-content">';
+                                    foreach ($y['bed'] as $a=>$b){   
+                                        $kamar = MasukkamarT::model()->find('kamarruangan_id = '.$b['id'].' order by tglmasukkamar desc');
+                                        $booking = BookingkamarT::model()->find('kamarruangan_id = '.$b['id'].' AND statuskonfirmasi = \'SUDAH KONFIRMASI\'');
+                                        if (isset($booking)){
+                                            $booked = 1;
+                                        } else {
+                                            $booked = 0;
+                                        }
+                                      
+                                        $dataPasien = '';
+                                        $jeniskelamin = isset($kamar->admisi->pasien->jeniskelamin)?$kamar->admisi->pasien->jeniskelamin:'';
+                                        if (count($kamar) == 1){
+                                            $dataPasien .='<table>';
+                                            $dataPasien .='<tr><td>No. RM </td><td>: '.$kamar->admisi->pasien->no_rekam_medik.'</td></tr>';
+                                            $dataPasien .='<tr><td>Nama </td><td>: '.$kamar->admisi->pasien->nama_pasien.'</td></tr>';
+                                            $dataPasien .='<tr><td>Jenis Kelamin </td><td>: '.$kamar->admisi->pasien->jeniskelamin.'</td></tr>';
+                                            $dataPasien .= '</table>';
+//                                            $dataPasien .='<p><label class=\'control-label\'>Nama :</label> '.$kamar->admisi->pasien->nama_pasien.'</p>';
+//                                            $dataPasien .='<p><label class=\'control-label\'>Jenis Kelamin :</label> '.$kamar->admisi->pasien->jeniskelamin.'</p>';
+                                        }
+                                        if ($booked == 0){
+                                            if ($v['ruangan_id'] == Params::RUANGAN_ID_ANAK):
+                                                $result .='<p><a href="" class="btn '.(($b['status']) ? 'btn-danger' : 'btn-primary').'" rel="popover" data-content="'.(($b['status']) ? 'Pasien Kosong' : $dataPasien).'" onclick="return false">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src=\''. Yii::app()->baseUrl.'/images/icon_kamar/'.(($b['status']) ?  'anak-kosong' : 'anak-isi').'.png\'/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br> No. Bed : '.$b['no'].'</a></p>';
+                                            elseif ($v['ruangan_id'] == Params::RUANGAN_ID_PRIA):
+                                                $result .='<p><a href="" class="btn '.(($b['status']) ? 'btn-danger' : 'btn-primary').'" rel="popover" data-content="'.(($b['status']) ? 'Pasien Kosong' : $dataPasien).'" onclick="return false">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src=\''. Yii::app()->baseUrl.'/images/icon_kamar/'.(($b['status']) ?  'pria-kosong' : 'pria-isi').'.png\'/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br> No. Bed : '.$b['no'].'</a></p>';
+                                            elseif ($v['ruangan_id'] == Params::RUANGAN_ID_WANITA):
+                                                $result .='<p><a href="" class="btn '.(($b['status']) ? 'btn-danger' : 'btn-primary').'" rel="popover" data-content="'.(($b['status']) ? 'Pasien Kosong' : $dataPasien).'" onclick="return false">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src=\''. Yii::app()->baseUrl.'/images/icon_kamar/'.(($b['status']) ?  'wanita-kosong' : 'wanita-isi').'.png\'/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br> No. Bed : '.$b['no'].'</a></p>';
+                                            elseif ($v['ruangan_id'] == Params::RUANGAN_ID_ICU):
+                                                $result .='<p><a href="" class="btn '.(($b['status']) ? 'btn-danger' : 'btn-primary').'" rel="popover" data-content="'.(($b['status']) ? 'Pasien Kosong' : $dataPasien).'" onclick="return false">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src=\''. Yii::app()->baseUrl.'/images/icon_kamar/'.(($b['status']) ?  'icu-kosong' : 'icu-isi').'.png\'/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br> No. Bed : '.$b['no'].'</a></p>';
+                                            elseif ($v['ruangan_id'] == Params::RUANGAN_ID_PERINATOLOGI):
+                                                $result .='<p><a href="" class="btn '.(($b['status']) ? 'btn-danger' : 'btn-primary').'" rel="popover" data-content="'.(($b['status']) ? 'Pasien Kosong' : $dataPasien).'" onclick="return false">&nbsp;&nbsp;<img src=\''. Yii::app()->baseUrl.'/images/icon_kamar/'.(($b['status']) ?  'perina-kosong' : 'perina-isi').'.png\'/>&nbsp;&nbsp;&nbsp; <br> No. Bed : '.$b['no'].'</a></p>';
+                                            elseif ($v['ruangan_id'] == Params::RUANGAN_ID_BERSALIN):
+                                                $result .='<p><a href="" class="btn '.(($b['status']) ? 'btn-danger' : 'btn-primary').'" rel="popover" data-content="'.(($b['status']) ? 'Pasien Kosong' : $dataPasien).'" onclick="return false">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src=\''. Yii::app()->baseUrl.'/images/icon_kamar/'.(($b['status']) ?  'wanita-kosong' : 'wanita-isi').'.png\'/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br> No. Bed : '.$b['no'].'</a></p>';
+                                            elseif ($v['ruangan_id'] == Params::RUANGAN_ID_BEDAH):
+                                                $result .='<p><a href="" class="btn '.(($b['status']) ? 'btn-danger' : 'btn-primary').'" rel="popover" data-content="'.(($b['status']) ? 'Pasien Kosong' : $dataPasien).'" onclick="return false">&nbsp;&nbsp;<img src=\''. Yii::app()->baseUrl.'/images/icon_kamar/'.(($b['status']) ?  'bedah-kosong' : 'bedah-isi').'.png\'/>&nbsp;&nbsp;&nbsp; <br> No. Bed : '.$b['no'].'</a></p>';
+                                            else:                                              
+                                                if ($jeniskelamin == 'LAKI-LAKI'):
+                                                    $result .='<p><a href="" class="btn '.(($b['status']) ? 'btn-danger' : 'btn-primary').'" rel="popover" data-content="'.(($b['status']) ? 'Pasien Kosong' : $dataPasien).'" onclick="return false">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src=\''. Yii::app()->baseUrl.'/images/icon_kamar/'.(($b['status']) ?  'pria-kosong' : 'pria-isi').'.png\'/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br> No. Bed : '.$b['no'].'</a></p>';
+                                                elseif ($jeniskelamin == 'PEREMPUAN'):
+                                                    $result .='<p><a href="" class="btn '.(($b['status']) ? 'btn-danger' : 'btn-primary').'" rel="popover" data-content="'.(($b['status']) ? 'Pasien Kosong' : $dataPasien).'" onclick="return false">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src=\''. Yii::app()->baseUrl.'/images/icon_kamar/'.(($b['status']) ?  'pria-kosong' : 'wanita-isi').'.png\'/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br> No. Bed : '.$b['no'].'</a></p>';
+                                                else:
+                                                    $result .='<p><a href="" class="btn '.(($b['status']) ? 'btn-danger' : 'btn-primary').'" rel="popover" data-content="'.(($b['status']) ? 'Pasien Kosong' : $dataPasien).'" onclick="return false">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src=\''. Yii::app()->baseUrl.'/images/icon_kamar/'.(($b['status']) ?  'pria-kosong' : 'wanita-isi').'.png\'/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br> No. Bed : '.$b['no'].'</a></p>';
+                                                endif;                                                
+                                            endif;
+                                        } else {
+                                            $result .='<p><a href="" class="btn '.(($b['status']) ? 'btn-danger' : 'btn-primary').'" rel="popover" data-content="'.(($b['status']) ? 'Sudah dibooking' : $dataPasien).'" onclick="return false"><img src=\''. Yii::app()->baseUrl.'/images/'.'RanjangRumahSakit3'.'.png\'/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No. Bed : '.$b['no'].'</a></p>';
+                                        }
+                                    }
+                                   // for($d=1;$d<=($w['jml'] - (count($y['bed'])));$d++){
+                                        
+                                      //  $result .='<p><a href="" class="btn btn-info" onclick="return false"><img src=\''. Yii::app()->baseUrl.'/images/delete.png\'/>Kosong</a></p>';
+                                   // }
+                                        $result .='</div>
+                                    </div>
+                                </li>';
+                            }
+                            $result .='</ul>';
+                        }
+                       
+                    $result .='</div>';
+                }
+                
+//            exit();
+            return $result;
+        }
+
 
 	 /*
 	* Mencari kamarruangan berdasarkan ruangan berdasarkan Kelaspelayanan_id di tabel kelas Ruangan M
