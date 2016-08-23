@@ -45,9 +45,21 @@
                             'header'=>'ID',
                             'value'=>'$data->jenispenerimaan_id',
                     ),
-                    'jenispenerimaan_kode',
-                    'jenispenerimaan_nama',
-                    'jenispenerimaan_namalain',
+                    array(
+                        'name' => 'jenispenerimaan_kode',
+                        'value' => '$data->jenispenerimaan_kode',
+                        'filter' => Chtml::activeTextField($model, 'jenispenerimaan_kode', array('class'=>'angkahuruf-only'))
+                    ),
+                     array(
+                        'name' => 'jenispenerimaan_nama',
+                        'value' => '$data->jenispenerimaan_nama',
+                        'filter' => Chtml::activeTextField($model, 'jenispenerimaan_nama', array('class'=>'hurufs-only'))
+                    ),
+                     array(
+                        'name' => 'jenispenerimaan_namalain',
+                        'value' => '$data->jenispenerimaan_namalain',
+                        'filter' => Chtml::activeTextField($model,'jenispenerimaan_namalain', array('class'=>'hurufs-only'))
+                    ),                  
                     array(
                         'header'=>'<center>Status</center>',
                         'value'=>'($data->jenispenerimaan_aktif == 1 ) ? "Aktif" : "Tidak Aktif"',
@@ -79,10 +91,16 @@
                 jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
                 $("table").find("input[type=text]").each(function(){
                     cekForm(this);
-                })
+                });
                  $("table").find("select").each(function(){
                     cekForm(this);
-                })
+                });
+                $(".angkahuruf-only").keyup(function() {
+                        setAngkaHurufsOnly(this);
+                    });
+                    $(".hurufs-only").keyup(function() {
+                         setHurufsOnly(this);                    
+                    });
             }',
         )); ?>
     <!--</div>-->

@@ -23,7 +23,8 @@ class MutasiObatAlkesController extends MyAuthController
         $modPemesanan = new InformasipesanobatalkesV;
         $model=new GFMutasioaruanganT;
         $format = new MyFormatter;
-        $model->instalasitujuan_id = Params::INSTALASI_ID_FARMASI;
+                
+        //$model->instalasitujuan_id = Params::INSTALASI_ID_FARMASI;
         $modDetails = array();
         $modStoks = array();
         $modelPesanObat = array();

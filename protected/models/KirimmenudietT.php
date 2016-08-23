@@ -75,7 +75,7 @@ class KirimmenudietT extends CActiveRecord
                     'bahandiet'=>array(self::BELONGS_TO, 'BahandietM', 'bahandiet_id'),
                     'jenisdiet'=>array(self::BELONGS_TO, 'JenisdietM', 'jenisdiet_id'),
                     'pesanmenudiet'=>array(self::BELONGS_TO, 'PesanmenudietT', 'pesanmenudiet_id'),
-                    
+                    'pengirim' => array(self::BELONGS_TO, 'LoginpemakaiK', 'create_loginpemakai_id'),
 		);
 	}
 

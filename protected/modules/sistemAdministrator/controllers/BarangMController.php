@@ -114,8 +114,32 @@ class BarangMController extends MyAuthController
                     $model->bidang_id = $model->getBidangId($model->kelompok_id);                
                     $model->golongan_id = $model->getGolonganId($model->bidang_id);   
                 
-                    $model->nomorregister = str_replace($model->getNomorReg($model->subsubkelompok_id).'.','',$model->barang_kode);
+                    
+                    $model->nomorregister = str_replace($model->getNomorReg($model->subsubkelompok_id).'.','',$model->barang_kode);                                                                                                    
                     $model->barang_kode = str_replace('.'.$model->nomorregister,'',$model->barang_kode);
+                    
+                    if ($model->nomorregister == $model->barang_kode):
+                        $kodebarang = $model->barang_kode;                   
+                        $pecah = explode('.', $model->nomorregister);   
+                    
+                        if ($pecah[0] === $kodebarang):
+                            $model->nomorregister = '';                                                     
+                        else:
+                             //var_dump($model->getNomorReg($model->subsubkelompok_id));
+                            if ($model->nomorregister == $model->getNomorReg($model->subsubkelompok_id))
+                            {
+                               
+                                $model->nomorregister = '';       
+                            }else{ 
+                                $model->nomorregister = str_replace($pecah[0].'.','',$kodebarang); 
+                                $model->barang_kode = str_replace('.'.$model->nomorregister,'',$model->barang_kode);                                            
+                            }
+                        endif;      
+                    else:
+                       
+                       
+                    endif;
+                    
                 else:
                     $kodebarang = $model->barang_kode;
                     $pecah = explode('.', $kodebarang);   

@@ -228,7 +228,7 @@ class AnamesadietT extends CActiveRecord
         }
         public function getAhliGiziItems()
         {
-			return PegawaiM::model()->findAllByAttributes(array('kelompokpegawai_id'=>16));
+            return PegawairuanganV::model()->findAllByAttributes(array('kelompokpegawai_id'=>  Params::KELOMPOKPEGAWAI_ID_AHLI_GIZI),array('order'=>'nama_pegawai ASC'));
             //return DokterV::model()->findAll();
         }
 }

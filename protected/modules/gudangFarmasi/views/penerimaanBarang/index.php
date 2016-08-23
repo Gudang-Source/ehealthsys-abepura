@@ -11,7 +11,7 @@
             'id'=>'penerimaanbarang-form',
             'enableAjaxValidation'=>false,
             'type'=>'horizontal',
-            'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)', 'onsubmit'=>'return requiredCheck(this);'),
+            'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)', 'onsubmit'=>'return validasi(this);'),
     )); ?>
     
     <fieldset class="box" id="form-rencanakebutuhan">

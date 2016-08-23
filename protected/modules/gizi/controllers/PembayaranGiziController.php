@@ -20,6 +20,7 @@ class PembayaranGiziController extends MyAuthController
                 
                 if(isset($_GET['GZPasienMasukPenunjangV'])){
                     $model->attributes = $_GET['GZPasienMasukPenunjangV'];
+                    $model->statusBayar = $_GET['GZPasienMasukPenunjangV']['statusBayar'];
                     if(!empty($_GET['GZPasienMasukPenunjangV']['tgl_awal']))
                     {
                         $model->tgl_awal = $format->formatDateTimeForDb($_GET['GZPasienMasukPenunjangV']['tgl_awal']);
@@ -74,7 +75,7 @@ class PembayaranGiziController extends MyAuthController
             $id = $_REQUEST['id'];
             $modPendaftaran = GZPendaftaranT::model()->findByPk($id);
             $modAdmisi = PasienadmisiT::model()->findByPk($modPendaftaran->pasienadmisi_id);
-            $modRincian = GZRincianTagihanPasienGizi::model()->findAllByAttributes(array('pendaftaran_id' => $id), array('order'=>'ruangan_id'));
+            $modRincian = GZRincianTagihanPasienGizi::model()->findAllByAttributes(array('pendaftaran_id' => $id, 'ruangan_id'=>Yii::app()->user->getState('ruangan_id')), array('order'=>'ruangan_id'));
             $data['nama_pegawai'] = LoginpemakaiK::model()->findByPK(Yii::app()->user->id)->pegawai->nama_pegawai;
             $data['judulLaporan']='Data Rincian Tagihan Pasien';
             $caraPrint=$_REQUEST['caraPrint'];

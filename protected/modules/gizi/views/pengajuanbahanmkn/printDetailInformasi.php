@@ -15,9 +15,9 @@
         background-color: none;
     }
 </style>
-<center><?php  echo $this->renderPartial('_headerPrint');  ?></center>
-<table class="" style = "box-shadow:none;" >
-    
+<?php  echo $this->renderPartial('_headerPrint');  ?>
+<table width="100%" style = "box-shadow:none;" >
+    <tr><th style = "text-align:center;" colspan="5"><h4><?php echo $judulLaporan; ?></h4><br></th></tr>
     <tr>
         <td>
              <b><?php echo CHtml::encode($modPengajuan->getAttributeLabel('nopengajuan')); ?></b>                                                                           
@@ -107,35 +107,16 @@
         ?>
     </tfoot>
 </table>
-<?php
-if (isset($_GET['frame'])){
-    
-    //echo CHtml::link(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),'javascript:void(0);', array('class'=>'btn btn-info', 'onclick'=>"print('EXCEL')")); 
-?>
-    <script type='text/javascript'>
-    /**
-     * print
-     */    
-    function print(caraPrint){        
-        pengajuanbahanmkn_id = '<?php echo !empty($modPengajuan->pengajuanbahanmkn_id) ? $modPengajuan->pengajuanbahanmkn_id : ''; ?>';
-        window.open('<?php echo $this->createUrl('DetailPrintPengajuan'); ?>&id='+pengajuanbahanmkn_id+'&caraPrint='+caraPrint+'&frame=false','printwin','left=100,top=100,width=1000,height=640');
-    }
-    </script>
-<?php
-}else{ ?>
-    
-<?php } 
-?>
     <table class ="table" style = "box-shadow:none;">
     <tr>
         <td width="100%" align="left" align="top">
             <table width="100%">
                 <tr>
-                    <td width="35%" align="center">
+                    <td width="30%" align="center">
                         <div><br>Petugas Mengajukan</div>
                        
                         <div style="margin-top:60px;"><?php echo isset($modPengajuan->idpegawai_mengajukan) ? $modPengajuan->mengajukan->namaLengkap : "&nbsp;" ?></div>
-                        <hr style = "padding:0px;margin:0px;">
+                        <hr style = "padding:0px;margin:0px;border:1px solid #555;">
                         <div>
                             <?php echo isset($modPengajuan->idpegawai_mengajukan) ? 'NIP. '.$modPengajuan->mengajukan->nomorindukpegawai : "&nbsp;" ?>                            
                         </div>
@@ -143,7 +124,7 @@ if (isset($_GET['frame'])){
                     <td width="35%" align="center">
                         
                     </td>
-                    <td width="35%" style="text-align:right;">
+                    <td width="45%" style="text-align:right;">
                        
                         <div>
                             <?php echo Yii::app()->user->getState('kabupaten_nama').", ".MyFormatter::formatDateTimeId(date('Y-m-d')); ?><br>
@@ -152,7 +133,7 @@ if (isset($_GET['frame'])){
                         <div style="margin-top:60px;">                            
                             <?php echo isset($modPengajuan->idpegawai_mengetahui) ? $modPengajuan->mengetahui->namaLengkap : "&nbsp;" ?>                            
                         </div>
-                        <hr style = "padding:0px;margin:0px;">
+                        <hr style = "padding:0px;margin:0px;border:1px solid #555;height:1px;">
                         <div>
                             <?php echo isset($modPengajuan->idpegawai_mengetahui) ? 'NIP. '.$modPengajuan->mengetahui->nomorindukpegawai : "&nbsp;" ?>                            
                         </div>
@@ -162,8 +143,6 @@ if (isset($_GET['frame'])){
         </td>
     </tr>
     </table>
-    <?php
-  echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), '#', array('class'=>'btn btn-info', 'onclick'=>"print('PRINT');"));      
-?>
+
 
     

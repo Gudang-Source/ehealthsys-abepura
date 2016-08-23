@@ -24,5 +24,17 @@ class GZPegawaiM extends PegawaiM
             return "-";
         }
     }
+    
+    public function PegawaiRuangan()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->with = array('ruanganpegawai');
+        $criteria->addCondition("ruanganpegawai.ruangan_id = ".Yii::app()->user->getState('ruangan_id'));
+        $criteria->addCondition("t.pegawai_aktif = TRUE");
+        $criteria->addCondition("t.loginpemakai_id IS NOT NULL");
+        $criteria->order = "nama_pegawai ASC";
+        
+        return PegawaiM::model()->findAll($criteria);
+    }
 
 }

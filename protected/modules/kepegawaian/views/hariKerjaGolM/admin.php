@@ -51,24 +51,83 @@ $this->widget('bootstrap.widgets.BootAlert');
                         'filter'=>false,
                 ),
                  * 
-                 */
-                'kelompokpegawai.kelompokpegawai_nama',
+                 */                
+                array(
+                    'header' => 'Kelompok Pegawai',
+                    'name' => 'kelompokpegawai_id',
+                    'value' => '$data->kelompokpegawai->kelompokpegawai_nama',
+                    'filter' => Chtml::dropDownList('KPHariKerjaGolM[kelompokpegawai_id]', $model->kelompokpegawai_id, CHtml::listData(KPKelompokpegawaiM::model()->findAll('kelompokpegawai_aktif = true ORDER BY kelompokpegawai_nama ASC'),'kelompokpegawai_id','kelompokpegawai_nama'),array('empty'=>' -- Pilih --'))
+                ),
 		array(
                     'name'=>'periodeharikerjaawl',
                     'value'=>'MyFormatter::formatDateTimeForUser($data->periodeharikerjaawl)',
-                    'filter'=>false,
-                ),
+                    'filter'=>$this->widget('MyDateTimePicker', array(
+                            'model'=>$model, 
+                            'attribute'=>'periodeharikerjaawl', 
+                            'mode' => 'date',    
+                            //'language' => 'ja',
+                            // 'i18nScriptFile' => 'jquery.ui.datepicker-ja.js', (#2)
+                            'htmlOptions' => array(
+                                'id' => 'datepicker_for_due_date2',
+                                'size' => '10',
+                                'style'=>'width:80%'
+                            ),
+                            'options' => array(  // (#3)                    
+                                'dateFormat' => Params::DATE_FORMAT,                    
+                                'maxDate' => 'd',
+                            ),                            
+                        ), 
+                        true),
+                    ),                  
                 array(
                     'name'=>'periodehariakhir',
                     'value'=>'MyFormatter::formatDateTimeForUser($data->periodehariakhir)',
-                    'filter'=>false,
-                ),
+                    'filter'=>$this->widget('MyDateTimePicker', array(
+                            'model'=>$model, 
+                            'attribute'=>'periodehariakhir', 
+                            'mode' => 'date',    
+                            //'language' => 'ja',
+                            // 'i18nScriptFile' => 'jquery.ui.datepicker-ja.js', (#2)
+                            'htmlOptions' => array(
+                                'id' => 'datepicker_for_due_date1',
+                                'size' => '10',
+                                'style'=>'width:80%'
+                            ),
+                            'options' => array(  // (#3)                    
+                                'dateFormat' => Params::DATE_FORMAT,                    
+                                'maxDate' => 'd',
+                            ),                            
+                        ), 
+                        true),
+                    ),                    
                 array(
                     'name'=>'periodeharikerjaakhir',
                     'value'=>'MyFormatter::formatDateTimeForUser($data->periodeharikerjaakhir)',
-                    'filter'=>false,
+                    'filter'=>$this->widget('MyDateTimePicker', array(
+                            'model'=>$model, 
+                            'attribute'=>'periodeharikerjaakhir', 
+                            'mode' => 'date',    
+                            //'language' => 'ja',
+                            // 'i18nScriptFile' => 'jquery.ui.datepicker-ja.js', (#2)
+                            'htmlOptions' => array(
+                                'id' => 'datepicker_for_due_date',
+                                'size' => '10',
+                                'style'=>'width:80%'
+                            ),
+                            'options' => array(  // (#3)                    
+                                'dateFormat' => Params::DATE_FORMAT,                    
+                                'maxDate' => 'd',
+                            ),                            
+                        ), 
+                        true),
+                    ),                              
+                array(
+                    'header' => 'Jumlah Hari Bulan',
+                    'name' => 'jmlharibln',
+                    'value' => '$data->jmlharibln',
+                    'filter'=>  CHtml::activeTextField($model, 'jmlharibln', array('class'=>'numbers-only','style'=>'text-align:right;')),
+                    'htmlOptions' => array('style'=>'text-align:right;')
                 ),
-                'jmlharibln',
                 array(
                         'header'=>'<center>Status</center>',
                         'value'=>'($data->harikerjagol_aktif == 1 ) ? "Aktif" : "Tidak Aktif"',
@@ -96,7 +155,18 @@ $this->widget('bootstrap.widgets.BootAlert');
                     'htmlOptions'=>array('style'=>'text-align: center; width:80px'),
                 ),
 	),
-        'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+         'afterAjaxUpdate'=>'function(id, data){
+                jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
+                reinstallDatePicker();    
+                reinstallDatePicker1();
+                reinstallDatePicker2();
+                $("table").find("input[type=text]").each(function(){
+                    cekForm(this);
+                })
+                $("table").find("select").each(function(){
+                    cekForm(this);
+                })
+            }',
 )); ?>
 
 <?php 
@@ -112,43 +182,61 @@ $this->widget('bootstrap.widgets.BootAlert');
         $url=  Yii::app()->createAbsoluteUrl($module.'/'.$controller);
 
 $js = <<< JSCRIPT
+function cekForm(obj)
+{
+    $("#golongan-gaji-m-search :input[name='"+ obj.name +"']").val(obj.value);
+}
 function print(caraPrint)
 {
     window.open("${urlPrint}/"+$('#golongan-gaji-m-search').serialize()+"&caraPrint="+caraPrint,"",'location=_new, width=900px');
 }
 JSCRIPT;
-Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);                        
+Yii::app()->clientScript->registerScript('print',$js,CClientScript::POS_HEAD);  
+
+Yii::app()->clientScript->registerScript('re-install-date-picker', "
+function reinstallDatePicker(id, data) {        
+    $('#datepicker_for_due_date').datepicker(jQuery.extend({showMonthAfterYear:false},jQuery.datepicker.regional['id'],{'dateFormat':'".Params::DATE_FORMAT."','changeMonth':true, 'changeYear':true,'maxDate':'d'}));
+}
+function reinstallDatePicker1(id, data) {        
+    $('#datepicker_for_due_date1').datepicker(jQuery.extend({showMonthAfterYear:false},jQuery.datepicker.regional['id'],{'dateFormat':'".Params::DATE_FORMAT."','changeMonth':true, 'changeYear':true,'maxDate':'d'}));
+}
+function reinstallDatePicker2(id, data) {        
+    $('#datepicker_for_due_date2').datepicker(jQuery.extend({showMonthAfterYear:false},jQuery.datepicker.regional['id'],{'dateFormat':'".Params::DATE_FORMAT."','changeMonth':true, 'changeYear':true,'maxDate':'d'}));
+}
+");
 ?>
 <script type="text/javascript">
     function removeTemporary(id){
         var url = '<?php echo $url."/removeTemporary"; ?>';
-        var answer = confirm('Yakin akan menonaktifkan data ini untuk sementara?');
-            if (answer){
+        myConfirm('Apakah Anda yakin ingin menonaktifkan data ini untuk sementara?','Perhatian!',function(r){
+            if (r){
                  $.post(url, {id: id},
                      function(data){
                         if(data.status == 'proses_form'){
                                 $.fn.yiiGridView.update('golongan-gaji-m-grid');
                             }else{
-                                alert('Data Gagal di Nonaktifkan')
+                                myAlert('Data Gagal di Nonaktifkan')
                             }
                 },"json");
            }
+        });
     }
     
     function deleteRecord(id){
         var id = id;
         var url = '<?php echo $url."/delete"; ?>';
-        var answer = confirm('Yakin Akan Menghapus Data ini ?');
-            if (answer){
+        myConfirm('Apakah Anda yakin igin menghapus data ini ?','Perhatian!',function(r){
+            if (r){
                  $.post(url, {id: id},
                      function(data){
                         if(data.status == 'proses_form'){
                                 $.fn.yiiGridView.update('golongan-gaji-m-grid');
                             }else{
-                                alert('Data Gagal di Hapus')
+                                myAlert('Data Gagal di Hapus')
                             }
                 },"json");
            }
+        });
     }
 </script>
 </fieldset>

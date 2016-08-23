@@ -72,7 +72,69 @@
     $this->endWidget();
     //=======================================================================
     ?>
+    
+    <?php
+    //========= Dialog Detail Konsultasi Gizi =========================
+    $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
+        'id' => 'dialogDetailGizi',
+        'options' => array(
+            'title' => 'Data Konsultasi Gizi',
+            'autoOpen' => false,
+            'modal' => true,
+            'width' => 900,
+            'height' => 600,
+            'resizable' => false,
+        ),
+    ));
+    ?>
+    <iframe src="" name="detailDialogGizi" width="100%" height="500">
+    </iframe>
+    <?php
+    $this->endWidget();
+    //=======================================================================
+    ?>
+    
+    <?php
+    //========= Dialog Detail Pemeriksaan Fisik Gizi =========================
+    $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
+        'id' => 'dialogPeriksaFisik',
+        'options' => array(
+            'title' => 'Data Periksa Fisik',
+            'autoOpen' => false,
+            'modal' => true,
+            'width' => 900,
+            'height' => 600,
+            'resizable' => false,
+        ),
+    ));
+    ?>
+    <iframe src="" name="dialogPeriksaFisik" width="100%" height="500">
+    </iframe>
+    <?php
+    $this->endWidget();
+    //=======================================================================
+    ?>
 
+    <?php
+    //========= Dialog Detail Anamnesa Keperawatan =========================
+    $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
+        'id' => 'detailAnamnesisPerawatan',
+        'options' => array(
+            'title' => 'Data Anamnesa Keperawatan',
+            'autoOpen' => false,
+            'modal' => true,
+            'width' => 900,
+            'height' => 600,
+            'resizable' => false,
+        ),
+    ));
+    ?>
+    <iframe src="" name="detailAnamnesisPerawatan" width="100%" height="500">
+    </iframe>
+    <?php
+    $this->endWidget();
+    //=======================================================================
+    ?>
     <?php
     //========= Dialog Detail Konsultasi Gizi =========================
     $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog

@@ -55,11 +55,13 @@
                             'header'=>'Nama Bank',
                             'name'=>'namabank',
                             'value'=>'isset($data->bank->namabank) ? $data->bank->namabank : "-"',
+                            'filter' => Chtml::activeTextField($model, 'namabank', array('class'=>'hurufs-only'))
                     ),
                     array(
                             'header'=>'No. Rekening',
                             'name'=>'norekening',
                             'value'=>'isset($data->bank->norekening) ? $data->bank->norekening : "-"',
+                            'filter' => Chtml::activeTextField($model, 'norekening', array('class'=>'numbers-only'))
                     ),
                     array(
                             'header'=>'Mata Uang',
@@ -71,12 +73,14 @@
                             'header'=>'Propinsi',
                             'name'=>'propinsi_nama',
                             'value'=>'isset($data->bank->propinsi->propinsi_nama) ? $data->bank->propinsi->propinsi_nama : "-"',
+                            'filter' => Chtml::activeTextField($model, 'propinsi_nama', array('class'=>'hurufs-only'))
                     ),
                     array(
-							'header'=>'Kabupaten',
-							'name'=>'kabupaten_id',
-							'value'=>'isset($data->bank->kabupaten->kabupaten_nama) ? $data->bank->kabupaten->kabupaten_nama : "-"',
-					),
+                            'header'=>'Kabupaten',
+                            'name'=>'kabupaten_nama',
+                            'value'=>'isset($data->bank->kabupaten->kabupaten_nama) ? $data->bank->kabupaten->kabupaten_nama : "-"',
+                            'filter' => Chtml::activeTextField($model, 'kabupaten_nama', array('class'=>'hurufs-only'))
+                        ),
                     array(
                             'header'=>'Alamat Bank',
                             'name'=>'alamatbank',
@@ -86,6 +90,7 @@
                             'header'=>'Cabang dari / <br/> Negara',
                             'name'=>'cabangdari',
                             'value'=>'isset($data->bank->cabangdari) ? $data->bank->cabangdari : "-" ." / ".isset($data->bank->negara) ? $data->bank->negara : "-"',
+                            'filter' => Chtml::activeTextField($model, 'cabangdari', array('class'=>'hurufs-only'))
                     ),
                     array(
                              'header'=>'Rekening Debit',
@@ -136,7 +141,16 @@
                             )
             ),
             ),
-            'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+            'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
+            . '$(".numbers-only").keyup(function() {
+                        setNumbersOnly(this);
+                    });
+                    $(".hurufs-only").keyup(function() {
+                         setHurufsOnly(this);                    
+                    });}',
+            
+            
+            
         )); ?>
         <!-- </div></br> -->
     <!--</div>-->

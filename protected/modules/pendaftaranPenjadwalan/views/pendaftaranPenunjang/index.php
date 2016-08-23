@@ -79,7 +79,7 @@
                                         ),   
                                     ),
                                 )); 
-                                if ($modPasienMasukPenunjangs[$i]->ruangan_id == Params::RUANGAN_ID_FISIOTERAPI) {
+                                if (in_array($modPasienMasukPenunjangs[$i]->ruangan_id, array(Params::RUANGAN_ID_FISIOTERAPI, Params::RUANGAN_ID_GIZI))) {
                                     echo $form->hiddenField($modPasienMasukPenunjangs[$i],'['.$i.']is_adakarcis', array('readonly'=>true,'class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)"));
                                     $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
                                             'id'=>'form-karcis-'.$i,
