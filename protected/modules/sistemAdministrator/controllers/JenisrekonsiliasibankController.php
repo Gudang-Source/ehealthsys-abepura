@@ -99,10 +99,10 @@ class JenisrekonsiliasibankController extends MyAuthController
 			$model = $this->loadModel($id);
 			// set non-active this
 			// example: 
-			// $model->modelaktif = false;
-			// if($model->save()){
-			//	$data['sukses'] = 1;
-			// }
+			 $model->jenisrekonsiliasibank_aktif = false;
+                        if($model->save()){
+				$data['sukses'] = 1;
+                        }
 			echo CJSON::encode($data); 
 		}
 	}

@@ -1,9 +1,10 @@
-<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form.js'); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js'); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js'); ?>
 <?php $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
 	'id'=>'kursrp-m-form',
 	'enableAjaxValidation'=>false,
         'type'=>'horizontal',
-        'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)'),
+        'htmlOptions'=>array('onKeyPress'=>'return disableKeyPress(event)','onsubmit'=>'return requiredCheck(this)'),
         'focus'=>'#AKKursrpM_matauang_id',
 )); ?>
 
@@ -46,14 +47,14 @@
                     <div class='control-group'>
                             <?php echo $form->labelEx($model,'nilai', array('class'=>'control-label')) ?>
                             <div class="controls">
-                                    <?php echo $form->textField($model,'nilai',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                                    <?php echo $form->textField($model,'nilai',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                             </div>
                      </div> 
                     
                      <div class='control-group'>
                             <?php echo $form->labelEx($model,'rupiah', array('class'=>'control-label')) ?>
                             <div class="controls">
-                                     <?php echo $form->textField($model,'rupiah',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+                                     <?php echo $form->textField($model,'rupiah',array('class'=>'span3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
                             </div>
                       </div>
                     
