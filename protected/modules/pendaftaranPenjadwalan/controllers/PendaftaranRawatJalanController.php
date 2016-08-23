@@ -963,9 +963,33 @@ class PendaftaranRawatJalanController extends MyAuthController
                                     ));
                             }
                     } 
+					
+					$this->logBpjs($model, $reqSep);
             }
             return $modSep;
         }
+		
+		
+		function logBpjs($model, $reqSep) {
+			$log = new BpjslogR;
+			$log->tgl_log = date('Y-m-d H:i:s');
+			$log->code = $reqSep['metadata']['code'];
+			$log->loginpemakai_id = Yii::app()->user->id;
+			if (isset($reqSep['metadata']['message'])) {
+				$log->pesan = $reqSep['metadata']['message'];
+			}
+			$log->pendaftaran_id = $model->pendaftaran_id;
+			$log->save();
+		}
+		
+		function flashBpjs($id) {
+			$log = BpjslogR::model()->findByAttributes(array(
+				'pendaftaran_id'=>$id,
+			));
+			if (!empty($log) && $log->code != 200) {
+				Yii::app()->user->setFlash('error', 'BPJS Error '.$log->code.': '.$log->pesan);
+			}
+		}
         
         /**
          * menentukan tipepaket_id

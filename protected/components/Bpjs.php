@@ -206,17 +206,6 @@
 			$result = $this->request($completeUrl, $hashsignature, $uid, $timestmp, 'POST', $query, 'Application/x‐www‐form‐urlencoded');
 			// echo($result); die;
                         $result = json_decode($result, true);
-			
-						$log = new BpjslogR;
-						$log->tgl_log = date('Y-m-d H:i:s');
-						$log->code = $result['metadata']['code'];
-						$log->loginpemakai_id = Yii::app()->user->id;
-						if (isset($result['metadata']['message'])) {
-							$log->pesan = $result['metadata']['message'];
-						}
-						$log->save();
-						
-						
                         // var_dump($result); die;
                         
 			$final_result['response'] = $result['response'];
