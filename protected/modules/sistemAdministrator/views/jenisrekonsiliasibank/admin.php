@@ -52,7 +52,7 @@ $('.search-form form').submit(function(){
 				'jenisrekonsiliasibank_namalain',
 				array(
 					'header' => 'Aktif',
-					'value' => '($data->jenisrekonsiliasibank_aktif == 1) ? "AKTIF" : "TIDAK AKTIF"',
+					'value' => '($data->jenisrekonsiliasibank_aktif == 1) ? "Aktif" : "Tidak Aktif"',
 				),
 				array(
 					'header' => Yii::t('zii', 'View'),
@@ -82,7 +82,7 @@ $('.search-form form').submit(function(){
 							'options' => array('title' => Yii::t('mds', 'Remove Temporary')),
 							'url' => 'Yii::app()->createUrl("' . Yii::app()->controller->module->id . '/' . Yii::app()->controller->id . '/nonActive",array("id"=>$data->jenisrekonsiliasibank_id))',
 							'click' => 'function(){nonActive(this);return false;}',
-							'visible' => 'Yii::app()->controller->checkAccess(array("action"=>"nonActive"))',
+							'visible' => '($data->jenisrekonsiliasibank_aktif == TRUE)?TRUE:FALSE',
 						),
 						'delete' => array(
 							'visible' => 'Yii::app()->controller->checkAccess(array("action"=>Params::DEFAULT_DELETE))',
@@ -90,7 +90,14 @@ $('.search-form form').submit(function(){
 					)
 				),
 			),
-			'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
+			'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});'
+                    . '$("table").find("input[type=text]").each(function(){
+                            cekForm(this);
+                        })
+                        $("table").find("select").each(function(){
+                            cekForm(this);
+                        })'
+                    . '}',
 		));
 		?>
 	<!--</div>-->
@@ -108,12 +115,16 @@ function print(caraPrint)
 {
     window.open("${urlPrint}/"+$('#akjenisrekonsiliasibank-m-search').serialize()+"&caraPrint="+caraPrint,"",'location=_new, width=900px');
 }
+function cekForm(obj)
+{
+    $("#akjenisrekonsiliasibank-m-search :input[name='"+ obj.name +"']").val(obj.value);
+}
 JSCRIPT;
 	Yii::app()->clientScript->registerScript('print', $js, CClientScript::POS_HEAD);
 	?></div>
 <script type="text/javascript">
 	function nonActive(obj) {
-		myConfirm("Yakin akan menonaktifkan data ini untuk sementara?", "Perhatian!",
+		myConfirm("Apakah Anda yakin ingin menonaktifkan data ini untuk sementara?", "Perhatian!",
 				function (r) {
 					if (r) {
 						$.ajax({
