@@ -309,7 +309,7 @@ Class Params
 	const KELOMPOKPEGAWAI_ID_TENAGA_MEDIK = 1; //kelompokpegawai_m ahli gizi
 	const KELOMPOKPEGAWAI_ID_PARAMEDIS_KEPERAWATAN = 3; //kelompokpegawai_m ahli gizi
 	const KELOMPOKPEGAWAI_ID_TENAGA_KEPERAWATAN = 2; //kelompokpegawai_m tenaga keperawatan
-	const KELOMPOKPEGAWAI_ID_AHLI_GIZI = 16; //kelompokpegawai_m ahli gizi
+	const KELOMPOKPEGAWAI_ID_AHLI_GIZI = 5; //kelompokpegawai_m ahli gizi 16
 	const KELOMPOKPEGAWAI_ID_TENAGA_LAB = 18; //kelompokpegawai_m tenaga lab (analis lab)
 	const KELOMPOKPEGAWAI_ID_TENAGA_RAD = 22; //kelompokpegawai_m tenaga rad (radiografer)
 	const KELOMPOKPEGAWAI_ID_BIDAN = 20; //kelompokpegawai_m bidan
