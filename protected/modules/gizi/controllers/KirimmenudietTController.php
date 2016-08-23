@@ -868,9 +868,9 @@ class KirimmenudietTController extends MyAuthController
                             .CHtml::activeHiddenField($modDetail, '[]pasienadmisi_id', array('value'=>(isset($model->pasienadmisi_id) ? $model->pasienadmisi_id : null)))
                             .CHtml::activeHiddenField($modDetail, '[]ruangan_id', array('value'=>(isset($model->ruangan_id) ? $model->ruangan_id : null)))
                         .'</td>
-                        <td>'.(isset($ruangan) ? $ruangan->instalasi->instalasi_nama : "").'</td>
-                        <td>'.(isset($model->ruangan_nama) ? $model->ruangan_nama : "").'/<br/>'.(isset($model->no_pendaftaran) ? $model->no_pendaftaran : "").'</td>
-                        <td>'.(isset($model->no_rekam_medik) ? $model->no_rekam_medik : "").'/<br/>'.(isset($model->nama_pasien) ? $model->nama_pasien : "").'</td>
+                        <td>'.(isset($ruangan) ? $ruangan->instalasi->instalasi_nama : "").'/<br/> '.(isset($model->ruangan_nama) ? $model->ruangan_nama : "").'</td>
+                        <td>'.(isset($model->no_pendaftaran) ? $model->no_pendaftaran : "").'/<br/> '.(isset($model->no_rekam_medik) ? $model->no_rekam_medik : "").'</td>
+                        <td>'.(isset($model->nama_pasien) ? $model->nama_pasien : "").'</td>
                         <td>'.(isset($model->umur) ? $model->umur : "").'</td>
                         <td>'.(isset($model->jeniskelamin) ? $model->jeniskelamin : "").'</td>';
                 foreach ($modJenisWaktu as $v){
