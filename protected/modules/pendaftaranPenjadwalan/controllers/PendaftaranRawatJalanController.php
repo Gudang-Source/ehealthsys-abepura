@@ -1328,6 +1328,7 @@ class PendaftaranRawatJalanController extends MyAuthController
         function periksaValidasiPasienRJ($pendaftaran, $admisi, $pp, &$returnVal)
         {
             if (!empty($pendaftaran->pasienpulang_id)) {
+				// echo "Kick"; die;
                 $pp = PasienpulangT::model()->findByPk($pendaftaran->pasienpulang_id);
                 if ($pp->carakeluar_id == Params::CARAKELUAR_ID_RAWATINAP) {
                     $returnVal['adaDaftar'] = true;
@@ -1354,9 +1355,18 @@ class PendaftaranRawatJalanController extends MyAuthController
                 ), array(
                     'condition'=>'oasudahbayar_id is null',
                 ));
+				
+				$isAda = false;
+				if (!empty($oa) || !empty($tindakan)) {
+					if (empty($pendaftaran->pembayaranpelayanan_id)) 
+						$isAda = true;
+				}
+				
+				// var_dump($isAda); die;
+				
                 // if (date('Y-m-d', time()) == date('Y-m-d', strtotime($pendaftaran->tgl_pendaftaran))) {
-                if (!empty($oa) || !empty($tindakan) || !in_array($pendaftaran->statusperiksa, array(Params::STATUSPERIKSA_SUDAH_DIPERIKSA, Params::STATUSPERIKSA_SUDAH_PULANG))) {
-                    $returnVal['adaDaftar'] = true;
+                if ($isAda || !in_array($pendaftaran->statusperiksa, array(Params::STATUSPERIKSA_SUDAH_DIPERIKSA, Params::STATUSPERIKSA_SUDAH_PULANG))) {
+					$returnVal['adaDaftar'] = true;
                     $returnVal['listDaftar'] = $pendaftaran->attributes;
                     $returnVal['listDaftar']['pasien'] = $pendaftaran->pasien->attributes;
                     $returnVal['listDaftar']['ruangan'] = $pendaftaran->ruangan->attributes;
@@ -1394,8 +1404,14 @@ class PendaftaranRawatJalanController extends MyAuthController
                 ), array(
                     'condition'=>'oasudahbayar_id is null',
                 ));
+				
+				$isAda = false;
+				if (!empty($oa) || !empty($tindakan)) {
+					if (empty($pendaftaran->pembayaranpelayanan_id)) 
+						$isAda = true;
+				}
                 
-                if (!empty($oa) || !empty($tindakan) || !in_array($pendaftaran->statusperiksa, array(Params::STATUSPERIKSA_SUDAH_DIPERIKSA, Params::STATUSPERIKSA_SUDAH_PULANG))) {
+                if ($isAda || !in_array($pendaftaran->statusperiksa, array(Params::STATUSPERIKSA_SUDAH_DIPERIKSA, Params::STATUSPERIKSA_SUDAH_PULANG))) {
                     $returnVal['adaDaftar'] = true;
                     $returnVal['listDaftar'] = $pendaftaran->attributes;
                     $returnVal['listDaftar']['pasien'] = $pendaftaran->pasien->attributes;

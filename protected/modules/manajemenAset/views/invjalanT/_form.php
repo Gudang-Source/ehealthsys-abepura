@@ -39,7 +39,14 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                     <?php echo $form->textFieldRow($model, 'invjalan_lebar', array('class' => 'span2 ', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 30)); ?>
                     <?php echo $form->textFieldRow($model, 'invjalan_luas', array('class' => 'span2 ', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 30)); ?>
                     <?php echo $form->textFieldRow($model, 'invjalan_letak', array('class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 30)); ?>
-                    <div class="control-group ">
+                    <div class="control-group">
+						<?php echo $form->labelEx($model,'invjalan_umurekonomis',array('class'=>'control-label')); ?>
+						<div class="controls">
+							<?php echo $form->textField($model,'invjalan_umurekonomis',array('class'=>'span1 numbersOnly', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'style'=>'text-align: right')); ?>
+							<?php echo CHtml::label('Tahun', 'tahun'); ?>
+						</div>
+                    </div>
+					<div class="control-group ">
                         <?php echo $form->labelEx($model, 'invjalan_tgldokumen', array('class' => 'control-label')) ?>
                         <div class="controls">
                             <?php

@@ -17,6 +17,7 @@ class IndexingMController extends MyAuthController
 	{
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
+			'det'=>  IndexingdefM::model()->findAllByAttributes(array('indexing_id'=>$id)),
 		));
 	}
 
@@ -27,10 +28,56 @@ class IndexingMController extends MyAuthController
 	public function actionCreate()
 	{
 		$model=new IndexingM;
-                $model->unsetAttributes();
+                $model->indexing_step = null;
 		// Uncomment the following line if AJAX validation is needed
-		
+		$det = array();
+		if(isset($_POST['IndexingM']))
+		{
+			$trans = Yii::app()->db->beginTransaction();
+			$ok = true;
+			$model->attributes=$_POST['IndexingM'];
+			
+			$model->indexing_nilai = ($model->indexing_step * 1/$model->indexing_totbobot);
+			
+			// var_dump($_POST, $model->attributes, $model->validate(), $model->errors); die;
+			
+			if ($model->validate()) {
+				$ok = $ok && $model->save();
+			} else $ok = false;
+			
+			if (isset($_POST['detail'])) {
+				foreach ($_POST['detail']['nama_bobot'] as $idx=>$item) {
+					$det[$idx] = new IndexingdefM;
+					$det[$idx]->indexing_id = $model->indexing_id;
+					$det[$idx]->indexingdef_nama = $_POST['detail']['nama_bobot'][$idx];
+					$det[$idx]->bobot = $_POST['detail']['nilai_bobot'][$idx];
 
+					if ($det[$idx]->validate()) {
+						$ok = $ok && $det[$idx]->save();
+					}
+				}
+			}
+			
+			// var_dump($ok); die;
+			
+			if ($ok) {
+				$trans->commit();
+				Yii::app()->user->setFlash('success','<storng>Berhasil</strong> Data berhasil disimpan');
+                $this->redirect(array('admin','id'=>$model->indexing_id));
+			} else {
+				$trans->rollback();
+				Yii::app()->user->setFlash('error','<storng>Error</strong> Data gagal disimpan');
+				$this->redirect(array('create'));
+			}
+			/*
+			if($model->save()){
+				foreach ($_POST['detail']['nama_bobot'] as $idx=>$item) {
+					
+				}
+                Yii::app()->user->setFlash('success','<storng>Berhasil</strong> Data berhasil disimpan');
+                $this->redirect(array('admin','id'=>$model->indexing_id));
+            } */
+		} /*
 		if(isset($_POST['IndexingM']))
 		{
 			$model->attributes=$_POST['IndexingM'];
@@ -39,9 +86,12 @@ class IndexingMController extends MyAuthController
 				$this->redirect(array('admin','id'=>$model->indexing_id));
                         }
 		}
+		 * 
+		 */
 
 		$this->render('create',array(
 			'model'=>$model,
+			'det'=>$det
 		));
 	}
         
@@ -86,21 +136,74 @@ class IndexingMController extends MyAuthController
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
+		$det = array();
+		if (empty($model->indexing_offset)) $model->indexing_offset = 0;
+		if (empty($model->indexing_totbobot)) $model->indexing_totbobot = 1;
+		if (empty($model->indexing_step)) $model->indexing_step = 0;
 
 		// Uncomment the following line if AJAX validation is needed
 		
 
 		if(isset($_POST['IndexingM']))
 		{
+			$trans = Yii::app()->db->beginTransaction();
+			$ok = true;
 			$model->attributes=$_POST['IndexingM'];
+			
+			$model->indexing_nilai = ($model->indexing_step * 1/$model->indexing_totbobot);
+			
+			// var_dump($_POST, $model->attributes, $model->validate(), $model->errors); die;
+			
+			if ($model->validate()) {
+				$ok = $ok && $model->save();
+			} else $ok = false;
+			
+			IndexingdefM::model()->deleteAllByAttributes(array(
+				'indexing_id'=>$model->indexing_id,
+			));
+			
+			if (isset($_POST['detail'])) {
+				foreach ($_POST['detail']['nama_bobot'] as $idx=>$item) {
+					$det[$idx] = new IndexingdefM;
+					$det[$idx]->indexing_id = $model->indexing_id;
+					$det[$idx]->indexingdef_nama = $_POST['detail']['nama_bobot'][$idx];
+					$det[$idx]->bobot = $_POST['detail']['nilai_bobot'][$idx];
+
+					if ($det[$idx]->validate()) {
+						$ok = $ok && $det[$idx]->save();
+					}
+				}
+			}
+			
+			// var_dump($ok); die;
+			
+			if ($ok) {
+				$trans->commit();
+				Yii::app()->user->setFlash('success','<storng>Berhasil</strong> Data berhasil disimpan');
+                $this->redirect(array('admin','id'=>$model->indexing_id));
+			} else {
+				$trans->rollback();
+				Yii::app()->user->setFlash('error','<storng>Error</strong> Data gagal disimpan');
+				$this->redirect(array('update','id'=>$model->indexing_id));
+			}
+			/*
 			if($model->save()){
-                            Yii::app()->user->setFlash('success','<storng>Berhasil</strong> Data berhasil disimpan');
-                            $this->redirect(array('admin','id'=>$model->indexing_id));
-                        }
+				foreach ($_POST['detail']['nama_bobot'] as $idx=>$item) {
+					
+				}
+                Yii::app()->user->setFlash('success','<storng>Berhasil</strong> Data berhasil disimpan');
+                $this->redirect(array('admin','id'=>$model->indexing_id));
+            } */
 		}
+		
+		$model->indexing_nilai = MyFormatter::formatNumberForPrint($model->indexing_nilai, 2);
+		$det = IndexingdefM::model()->findAllByAttributes(array(
+			'indexing_id'=>$id,
+		));
 
 		$this->render('update',array(
 			'model'=>$model,
+			'det'=>$det,
 		));
 	}
 
@@ -114,6 +217,9 @@ class IndexingMController extends MyAuthController
 		if(Yii::app()->request->isPostRequest)
 		{
 			// we only allow deletion via POST request
+			IndexingdefM::model()->deleteAllByAttributes(array(
+				'indexing_id'=>$id,
+			));
 			$this->loadModel($id)->delete();
 
 			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser

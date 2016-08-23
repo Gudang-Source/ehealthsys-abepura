@@ -85,8 +85,9 @@
 					<?php echo $form->labelEx($modRencanaKebBarang, 'pegmengetahui_id', array('class' => 'control-label')); ?>
 					<div class="controls">
 						<?php echo $form->hiddenField($modRencanaKebBarang, 'pegmengetahui_id',array('readonly'=>true)); ?>
+                                                <?php echo $form->textField($modRencanaKebBarang, 'pegmengetahui_nama',array('readonly'=>true)); ?>
 						<?php
-						$this->widget('MyJuiAutoComplete', array(
+						/*$this->widget('MyJuiAutoComplete', array(
 							'model'=>$modRencanaKebBarang,
 							'attribute' => 'pegmengetahui_nama',
 							'source' => 'js: function(request, response) {
@@ -119,7 +120,7 @@
 								'onblur' => 'if(this.value === "") $("#'.Chtml::activeId($modRencanaKebBarang, 'pegmengetahui_id') . '").val(""); '
 							),
 							'tombolDialog' => array('idDialog' => 'dialogPegawaiMengetahui'),
-						));
+						));*/
 						?>
 					</div>
 				</div>

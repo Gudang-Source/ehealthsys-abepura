@@ -381,21 +381,37 @@ class PesanmenudietTController extends MyAuthController
 			Yii::app()->end();
 		}
 	}
-	public function actionPrint()
+	public function actionPrint($id, $caraprint=null)
 	{
-		$model= new GZPesanmenudietT;
-		$model->attributes=$_REQUEST['GZPesanmenudietT'];
-		$judulLaporan='Data GZPesanmenudietT';
-		$caraPrint=$_REQUEST['caraPrint'];
-		if($caraPrint=='PRINT') {
+		$modPesan= new GZPesanmenudietT;
+		
+		$modPesan = PesanmenudietT::model()->findByPk($id);
+		if ($modPesan->jenispesanmenu == Params::JENISPESANMENU_PASIEN){
+			$criteria = new CDbCriteria();
+			$criteria->select = 'pasienadmisi_id, pendaftaran_id, pasien_id,  pesanmenudiet_id, jml_pesan_porsi, satuanjml_urt,menudiet_id';
+			$criteria->group = 'pasienadmisi_id, pendaftaran_id, pasien_id, pesanmenudiet_id, jml_pesan_porsi, satuanjml_urt,menudiet_id';
+			$criteria->compare('pesanmenudiet_id', $id);
+			$modDetailPesan = PesanmenudetailT::model()->findAll($criteria);
+		}
+		else{
+			$criteria = new CDbCriteria();
+			$criteria->select = 'pegawai_id,  pesanmenudiet_id, jml_pesan_porsi, satuanjml_urt,menudiet_id';
+			$criteria->group = 'pegawai_id, pesanmenudiet_id, jml_pesan_porsi, satuanjml_urt,menudiet_id';
+			$criteria->compare('pesanmenudiet_id', $id);
+			$modDetailPesan = PesanmenupegawaiT::model()->findAll($criteria);
+		}
+		
+		$judulLaporan='Pemesanan Menu Diet';
+		$caraprint=$caraprint;
+		if($caraprint=='PRINT') {
 			$this->layout='//layouts/printWindows';
-			$this->render($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+			$this->render($this->path_view.'detailInformasi',array('modPesan'=>$modPesan,'modDetailPesan'=>$modDetailPesan,'judulLaporan'=>$judulLaporan,'caraprint'=>$caraprint));
 		}
-		else if($caraPrint=='EXCEL') {
+		else if($caraprint=='EXCEL') {
 			$this->layout='//layouts/printExcel';
-			$this->render($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+			$this->render($this->path_view.'detailInformasi',array('modPesan'=>$modPesan,'modDetailPesan'=>$modDetailPesan,'judulLaporan'=>$judulLaporan,'caraprint'=>$caraprint));
 		}
-		else if($_REQUEST['caraPrint']=='PDF') {
+		else if($caraprint=='PDF') {
 			$ukuranKertasPDF = Yii::app()->user->getState('ukuran_kertas');                  //Ukuran Kertas Pdf
 			$posisi = Yii::app()->user->getState('posisi_kertas');                           //Posisi L->Landscape,P->Portait
 			$mpdf = new MyPDF('',$ukuranKertasPDF); 
@@ -403,7 +419,7 @@ class PesanmenudietTController extends MyAuthController
 			$stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
 			$mpdf->WriteHTML($stylesheet,1);  
 			$mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
-			$mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
+			$mpdf->WriteHTML($this->renderPartial($this->path_view.'detailInformasi',array('modPesan'=>$modPesan,'modDetailPesan'=>$modDetailPesan,'judulLaporan'=>$judulLaporan,'caraprint'=>$caraprint),true));
 			$mpdf->Output();
 		}                       
 	}
@@ -413,12 +429,17 @@ class PesanmenudietTController extends MyAuthController
 		$model=new GZPesanmenudietT('searchInformasi');
 		$model->tgl_awal = date('d M Y');
 		$model->tgl_akhir = date('d M Y');
+		
+		if (Yii::app()->user->getState('ruangan_id') != Params::RUANGAN_ID_GIZI) {
+			$model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+		}
+		
 		if(isset($_GET['GZPesanmenudietT'])){
 			$model->attributes=$_GET['GZPesanmenudietT'];
 			$format = new MyFormatter();
 			$model->tgl_awal = $format->formatDateTimeForDb($_GET['GZPesanmenudietT']['tgl_awal']);
 			$model->tgl_akhir = $format->formatDateTimeForDb($_GET['GZPesanmenudietT']['tgl_akhir']);
-			$model->ruangan_id = $_GET['GZPesanmenudietT']['ruangan_id'];
+			if (isset($_GET['GZPesanmenudietT']['ruangan_id'])) $model->ruangan_id = $_GET['GZPesanmenudietT']['ruangan_id'];
 		}
 
 		$this->render($this->path_view.'informasi',array(
@@ -904,7 +925,7 @@ class PesanmenudietTController extends MyAuthController
                'status'=>'create_form', 
                'idPesan'=>$idPesanDiet,
                'total'=>$totDet,
-               'div'=>$this->renderPartial('_formBatalPesanDiet', array('modelPesan'=>$modelPesan,'modDetail'=>$modDetail,'modPegawai'=>$modPegawai,'model'=>$model), true)));             
+               'div'=>$this->renderPartial($this->path_view.'_formBatalPesanDiet', array('modelPesan'=>$modelPesan,'modDetail'=>$modDetail,'modPegawai'=>$modPegawai,'model'=>$model), true)));             
            exit;
      }
    }

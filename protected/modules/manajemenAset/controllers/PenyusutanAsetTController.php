@@ -180,21 +180,21 @@ class PenyusutanAsetTController extends MyAuthController
 //					$kodeInventarisasi = $modBarang->invgedung_kode;
 					$tglguna = $format->formatDateTimeForUser($modBarang->invgedung_tglguna); 
 					$noRegister = $modBarang->invgedung_noregister;
-					$umurEkonomis = "";
+					$umurEkonomis = $modBarang->invgedung_umurekonomis;
 					$inv_id = $modBarang->invgedung_id;
 					$nama_inv = "Gedung";	
 				}else if (!empty($modBarang->invjalan_noregister)){
 //					$kodeInventarisasi = $modBarang->invjalan_kode; 
 					$tglguna = $format->formatDateTimeForUser($modBarang->invjalan_tglguna); 
 					$noRegister = $modBarang->invjalan_noregister; 
-					$umurEkonomis = "";
+					$umurEkonomis = $modBarang->invjalan_umurekonomis;
 					$inv_id = $modBarang->invjalan_id;
 					$nama_inv = "Jalan";
 				}else if (!empty($modBarang->invperalatan_noregister)){
 //					$kodeInventarisasi = $modBarang->invperalatan_kode; 
 					$tglguna = $format->formatDateTimeForUser($modBarang->invperalatan_tglguna); 
 					$noRegister = $modBarang->invperalatan_noregister;
-					$umurEkonomis = $umurEkonomis = $modBarang->invperalatan_umurekonomis;
+					$umurEkonomis = $modBarang->invperalatan_umurekonomis;
 					$inv_id = $modBarang->invperalatan_id;
 					$nama_inv = "Peralatan";
 				}else if (!empty($modBarang->invtanah_noregister)){
@@ -208,7 +208,7 @@ class PenyusutanAsetTController extends MyAuthController
 //					$kodeInventarisasi = $modBarang->invasetlain_kode; 
 					$tglguna = $format->formatDateTimeForUser($modBarang->invasetlain_tglguna);
 					$noRegister = $modBarang->invasetlain_noregister;
-					$umurEkonomis = "";
+					$umurEkonomis = $modBarang->invasetlain_umurekonomis;;
 					$inv_id = $modBarang->invasetlain_id;
 					$nama_inv = "AsetLain";
 				}

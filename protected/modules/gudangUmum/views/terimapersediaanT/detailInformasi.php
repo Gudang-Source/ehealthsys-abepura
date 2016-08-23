@@ -61,7 +61,7 @@ $format = new MyFormatter;
             <?php echo CHtml::encode($modTerima->nopenerimaan); ?>
             <br />
              <b><?php echo CHtml::encode($modTerima->getAttributeLabel('tglterima')); ?>:</b>
-            <?php echo CHtml::encode($modTerima->tglterima); ?>
+            <?php echo MyFormatter::formatDateTimeForUser(date("Y-m-d",strtotime(CHtml::encode(MyFormatter::formatDateTimeForDb($modTerima->tglterima))))); ?>
              <br/>
              
         </td>
@@ -125,10 +125,10 @@ $format = new MyFormatter;
         ?>
             <tr>   
                 <td><?php echo $no; ?></td>
-                <td><?php echo $modBarang->subsubkelompok->subkelompok->kelompok->bidang->bidang_nama; ?></td>
-                <td><?php echo $modBarang->subsubkelompok->subkelompok->kelompok->kelompok_nama; ?></td>
-                <td><?php echo $modBarang->subsubkelompok->subkelompok->subkelompok_nama; ?></td>
-                <td><?php echo $modBarang->subsubkelompok->subsubkelompok_nama; ?></td>
+                <td><?php echo !empty($modBarang->subsubkelompok_id)?$modBarang->subsubkelompok->subkelompok->kelompok->bidang->bidang_nama:'-'; ?></td>
+                <td><?php echo !empty($modBarang->subsubkelompok_id)?$modBarang->subsubkelompok->subkelompok->kelompok->kelompok_nama:'-'; ?></td>
+                <td><?php echo !empty($modBarang->subsubkelompok_id)?$modBarang->subsubkelompok->subkelompok->subkelompok_nama:'-'; ?></td>
+                <td><?php echo !empty($modBarang->subsubkelompok_id)?$modBarang->subsubkelompok->subsubkelompok_nama:'-'; ?></td>
                 <td><?php echo $modBarang->barang_nama; ?></td>
                 <td style = "text-align:right;"><?php echo $format->formatNumberForPrint($detail->hargabeli); ?></td>
                 <td style = "text-align:right;"><?php echo $format->formatNumberForPrint($detail->hargasatuan); ?></td>

@@ -35,6 +35,10 @@ class BKLaporanreturpelayananV extends LaporanreturpelayananV
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }
+    
+     public function getNamaModel() {
+            return __CLASS__;
+        }
 
     public function searchGrafik() {
 
@@ -74,8 +78,12 @@ class BKLaporanreturpelayananV extends LaporanreturpelayananV
 
     protected function functionCriteria() {
         $criteria = new CDbCriteria();
-		if(!empty($this->ruangan_id)){
-			$criteria->addCondition('ruangan_id = '.$this->ruangan_id);
+        if(!empty($this->ruangan_id)){
+                        if (is_array($this->ruangan_id)) {
+                            $criteria->addInCondition('ruanganakhir_id', $this->ruangan_id);
+                        } else {
+                            $criteria->addCondition('ruanganakhir_id = '.$this->ruangan_id);
+                        }
 		}
         $criteria->addBetweenCondition('tglreturpelayanan', $this->tgl_awal, $this->tgl_akhir);
 

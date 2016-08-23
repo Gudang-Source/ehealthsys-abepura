@@ -65,9 +65,12 @@ class RKInformasipengirimanrmV extends InformasipengirimanrmV
 		if(!empty($this->ruanganpengirim_id)){
 			$criteria->addCondition('ruanganpengirim_id = '.$this->ruanganpengirim_id);
 		}
+                if (!empty($this->create_loginpemakai_id)){
+                    $criteria->addCondition('create_loginpemakai_id = '.$this->create_loginpemakai_id);
+                }
 		$criteria->compare('LOWER(create_time)',strtolower($this->create_time),true);
 		$criteria->compare('LOWER(update_time)',strtolower($this->update_time),true);
-		$criteria->compare('LOWER(create_loginpemakai_id)',strtolower($this->create_loginpemakai_id),true);
+		//$criteria->compare('LOWER(create_loginpemakai_id)',strtolower($this->create_loginpemakai_id),true);
 		$criteria->compare('LOWER(update_loginpemakai_id)',strtolower($this->update_loginpemakai_id),true);
 		$criteria->compare('LOWER(create_ruangan)',strtolower($this->create_ruangan),true);
 		if(!empty($this->kembalirm_id)){

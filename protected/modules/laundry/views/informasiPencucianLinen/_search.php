@@ -53,26 +53,32 @@ $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
 		<div class="control-group ">
 			<?php echo CHtml::activeLabel($model,'nopencucianlinen',array('class'=>'control-label')); ?>
 			<div class="controls">
-			   <?php echo $form->textField($model,'nopencucianlinen',array('placeholder'=>'Ketik No. Pencucian', 'class'=>'span3', 'maxlength'=>20,'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+			   <?php echo $form->textField($model,'nopencucianlinen',array('placeholder'=>'Ketik No. Pencucian', 'class'=>'span3 angkahuruf-only', 'maxlength'=>20,'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+			</div>
+		</div>
+                <div class="control-group ">
+			<?php echo CHtml::Label('Pegawai Penerima','pegpenerima_id',array('class'=>'control-label')); ?>
+			<div class="controls">
+			   <?php echo $form->dropDownList($model,'pegpenerima_id', Chtml::ListData(PegawairuanganV::model()->findAll("pegawai_aktif = TRUE AND ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ORDER BY nama_pegawai ASC"),'pegawai_id','namaLengkap'),array('empty'=>'-- Pilih --','placeholder'=>'Ketik No. Pencucian', 'class'=>'span3 angkahuruf-only', 'maxlength'=>20,'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
 			</div>
 		</div>
 		<div class="control-group">
-			<?php echo CHtml::label('Instalasi', 'instalasi_id', array('class'=>'control-label')) ?>
+			<?php //echo CHtml::label('Instalasi', 'instalasi_id', array('class'=>'control-label')) ?>
 			<div class="controls">
-				<?php echo $form->dropDownList($model,'instalasi_id', CHtml::listData(LAInstalasiM::getInstalasiItems(),'instalasi_id','instalasi_nama'), 
+				<?php /*echo $form->dropDownList($model,'instalasi_id', CHtml::listData(LAInstalasiM::getInstalasiItems(),'instalasi_id','instalasi_nama'), 
 						array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
 								'ajax'=>array('type'=>'POST',
 											'url'=>$this->createUrl('SetDropdownRuangan',array('encode'=>false,'model_nama'=>get_class($model))),
 											'update'=>"#".CHtml::activeId($model, 'ruangan_id'),
-								)));?>
+								))); */ ?>
 			</div>
 		</div>
 	</div>
 	<div class="span4">
 		<div class="control-group">
-			<?php echo CHtml::label('Ruangan', 'ruangan_id', array('class'=>'control-label')) ?>
+			<?php //echo CHtml::label('Ruangan', 'ruangan_id', array('class'=>'control-label')) ?>
 			<div class="controls">
-				<?php echo $form->dropDownList($model,'ruangan_id',CHtml::listData(LARuanganM::getRuanganByInstalasi($model->instalasi_id),'ruangan_id','ruangan_nama'),array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);",'empty'=>'--Pilih--')); ?>           
+				<?php //echo $form->dropDownList($model,'ruangan_id',CHtml::listData(LARuanganM::getRuanganByInstalasi($model->instalasi_id),'ruangan_id','ruangan_nama'),array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);",'empty'=>'--Pilih--')); ?>           
 			</div>
 		</div>	
 	</div>

@@ -4,19 +4,19 @@ Data dibawah masih belum valid dikarenakan data di tabel penyusutanaset_v belum 
 <table class='table'>
     <tr>
         <td>
-            <b><?php echo CHtml::encode($modPemakaianbarang->getAttributeLabel('nopemakaianbrg')); ?>:</b>
-            <?php echo CHtml::encode($modPemakaianbarang->nopemakaianbrg); ?>
+            <b><?php echo CHtml::encode($modPenyusutanAset->getAttributeLabel('no_penyusutan')); ?>:</b>
+            <?php echo CHtml::encode($modPenyusutanAset->no_penyusutan); ?>
             <br />
-            <b><?php echo CHtml::encode($modPemakaianbarang->getAttributeLabel('tglpemakaianbrg')); ?>:</b>
-            <?php echo CHtml::encode($modPemakaianbarang->tglpemakaianbrg); ?>
+            <b><?php echo CHtml::encode($modPenyusutanAset->getAttributeLabel('tgl_penyusutan')); ?>:</b>
+            <?php echo MyFormatter::formatDateTimeForUser(CHtml::encode($modPenyusutanAset->tgl_penyusutan)); ?>
              <br/>
         </td>
         <td>
-            <b><?php echo CHtml::encode($modPemakaianbarang->getAttributeLabel('ruangan_id')); ?>:</b>
-            <?php echo CHtml::encode($modPemakaianbarang->ruangan->ruangan_nama); ?>
+            <b><?php //echo CHtml::encode($modPenyusutanAset->getAttributeLabel('ruangan_id')); ?></b>
+            <?php //echo CHtml::encode($modPenyusutanAset->ruangan->ruangan_nama); ?>
             <br />
-            <b><?php echo CHtml::encode($modPemakaianbarang->getAttributeLabel('untukkeperluan')); ?>:</b>
-            <?php echo CHtml::encode($modPemakaianbarang->untukkeperluan); ?>
+            <b><?php //echo CHtml::encode($modPenyusutanAset->getAttributeLabel('untukkeperluan')); ?></b>
+            <?php //echo CHtml::encode($modPenyusutanAset->untukkeperluan); ?>
             <br />
         </td>
     </tr>   
@@ -25,21 +25,20 @@ Data dibawah masih belum valid dikarenakan data di tabel penyusutanaset_v belum 
 <table id="tableObatAlkes" class="table table-striped table-bordered table-condensed">
     <thead>
         <th>No. Urut</th>
-        <th>Barang</th>
-        <th>Jml Pakai</th>
-        <th>Satuan</th>
-        <th>Catatan</th>
+        <th>Periode</th>
+        <th>Saldo</th>
+        <th>Persentase</th>
+      <!--  <th>Catatan</th>-->
     </thead>
     <tbody>
     <?php
         $no=1;
-        foreach($modDetailPemakaian AS $detail): ?>
+        foreach($modDetailPenyusutan AS $detail): ?>
             <tr>   
                 <td><?php echo $no; ?></td>
-                <td><?php echo $detail->barang->barang_nama; ?></td>
-                <td><?php echo $detail->jmlpakai; ?></td>
-                <td><?php echo $detail->satuanpakai; ?></td>
-                <td><?php echo $detail->catatanbrg; ?></td>
+                <td><?php echo MyFormatter::formatDateTimeForUser($detail->penyusutanaset_periode); ?></td>
+                <td style = "text-align:right;"><?php echo number_format($detail->penyusutanaset_saldo,0,'','.'); ?></td>
+                <td style = "text-align:right;"><?php echo $detail->penyusutanaset_persentase; ?></td>                
             </tr>
     <?php 
         $no++; 
@@ -55,6 +54,6 @@ function print(caraPrint)
 {
 var id = <?php echo $_GET['id']; ?>;
 var url = '<?php echo $this->createUrl("Print"); ?>';
-    window.open(url+"&pemakaianbarang_id="+id+"&caraPrint="+caraPrint,"",'location=_new, width=900px');
+    window.open(url+"&penyusutanaset_id="+id+"&caraPrint="+caraPrint,"",'location=_new, width=900px');
 }
 </script>

@@ -2,7 +2,7 @@
 
 class AsuransiModule extends CWebModule
 {
-    public $defaultController = 'default';
+    public $defaultController = 'ModuleDashboardAS';
 
     public $kelompokMenu = array();
     public $menu = array();

@@ -19,13 +19,16 @@ class KPPelamarT extends PelamarT
 
 		$criteria=new CDbCriteria;
 		
-		$tanggal_hariini = date('Y-m-d');
+		//$tanggal_hariini = date('Y-m-d');
 //		var_dump($this->semuapelamar);exit;
-		if($this->semuapelamar == 0){
-			$criteria->addCondition('DATE(berlaku_s_d) >= now()');
-		}
+               // var_dump($this->semuapelamar);
+		if($this->semuapelamar == '1'){
+			$criteria->addCondition('berlaku_s_d <= now()');
+                }else{
+                    $criteria->addBetweenCondition('DATE(tgllowongan)', $this->tgl_awal, $this->tgl_akhir);
+                }
                 
-                $criteria->addBetweenCondition('DATE(tgllowongan)', $this->tgl_awal, $this->tgl_akhir);
+                
 		
 		if(!empty($this->pelamar_id)){
 			$criteria->addCondition('pelamar_id = '.$this->pelamar_id);
@@ -42,7 +45,7 @@ class KPPelamarT extends PelamarT
 		if(!empty($this->pendidikan_id)){
 			$criteria->addCondition('pendidikan_id = '.$this->pendidikan_id);
 		}
-		$criteria->compare('LOWER(tgllowongan)',strtolower($this->tgllowongan),true);
+	//	$criteria->compare('LOWER(tgllowongan)',strtolower($this->tgllowongan),true);
 		$criteria->compare('LOWER(jenisidentitas)',strtolower($this->jenisidentitas),true);
 		$criteria->compare('LOWER(noidentitas)',strtolower($this->noidentitas),true);
 		$criteria->compare('LOWER(nama_pelamar)',strtolower($this->nama_pelamar),true);
@@ -74,7 +77,7 @@ class KPPelamarT extends PelamarT
 		$criteria->compare('LOWER(create_loginpemakai_id)',strtolower($this->create_loginpemakai_id),true);
 		$criteria->compare('LOWER(update_loginpemakai_id)',strtolower($this->update_loginpemakai_id),true);
 		$criteria->compare('LOWER(create_ruangan)',strtolower($this->create_ruangan),true);
-		$criteria->compare('LOWER(berlaku_s_d)',strtolower($this->berlaku_s_d),true);
+		//$criteria->compare('LOWER(berlaku_s_d)',strtolower($this->berlaku_s_d),true);
 		$criteria->limit=10;
 
 		return new CActiveDataProvider($this, array(

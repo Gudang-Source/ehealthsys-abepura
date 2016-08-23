@@ -31,7 +31,7 @@ $.ajax({
         
         $("#form-pegawai > legend > .judul").html('Data Pegawai '+data.nomorindukpegawai);
         $("#form-pegawai > legend > .tombol").attr('style','display:true;');
-        $("#form-pegawai").removeClass("box").addClass("well");
+      //  $("#form-pegawai").removeClass("box").addClass("well");
         
         $("#form-pegawai > div").removeClass("animation-loading");
         $("#nomorindukpegawai").focus();
@@ -60,7 +60,7 @@ function setPegawaiReset(){
     $("#photo_pasien").attr('src',url);
     $("#form-pegawai > legend > .judul").html('Data Pegawai');
     $("#form-pegawai > legend > .tombol").attr('style','display:none;');
-	$("#form-pegawai").removeClass("well").addClass("box");
+    $("#form-pegawai").removeClass("well").addClass("box");
     $("#form-pegawai > div").removeClass("animation-loading");
     $("#nomorindukpegawai").focus();
 }

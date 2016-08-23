@@ -35,9 +35,9 @@ class PemakaianbarangTController extends MyAuthController
         $model->create_loginpemakai_id = Yii::app()->user->id;
         $modLogin = LoginpemakaiK::model()->findByAttributes(array('loginpemakai_id' => Yii::app()->user->id));
         $model->create_time = date('Y-m-d H:i:s');
-		$model->tglpemakaianbrg = date('Y-m-d H:i:s');
-                $model->pegawai_id = Yii::app()->user->getState('pegawai_id');
-		$modDetails = array();
+        $model->tglpemakaianbrg = date('Y-m-d H:i:s');
+        //$model->pegawai_id = Yii::app()->user->getState('pegawai_id');
+        $modDetails = array();
 
         if(isset($_GET['id'])){
             $model = GUPemakaianbarangT::model()->findByPk($_GET['id']);  

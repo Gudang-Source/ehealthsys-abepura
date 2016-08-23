@@ -259,7 +259,11 @@ class PegawaiM extends CActiveRecord
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-
+               //  var_dump($this->tgl_lahirpegawai);
+		//$criteria->compare('tgl_lahirpegawai)',$this->tgl_lahirpegawai);
+                if (!empty($this->tgl_lahirpegawai)){
+                    $criteria->addCondition("tgl_lahirpegawai = '".  MyFormatter::formatDateTimeForDb($this->tgl_lahirpegawai)."' ");
+                }
 		$criteria->compare('t.pegawai_id',$this->pegawai_id);
 		$criteria->compare('kelurahan_id',$this->kelurahan_id);
 		$criteria->compare('kecamatan_id',$this->kecamatan_id);
@@ -285,7 +289,7 @@ class PegawaiM extends CActiveRecord
 		$criteria->compare('LOWER(nama_pegawai)',strtolower($this->nama_pegawai),true);
 		$criteria->compare('LOWER(nama_keluarga)',strtolower($this->nama_keluarga),true);
 		$criteria->compare('LOWER(tempatlahir_pegawai)',strtolower($this->tempatlahir_pegawai),true);
-		$criteria->compare('LOWER(tgl_lahirpegawai)',strtolower($this->tgl_lahirpegawai),true);
+               
 		$criteria->compare('LOWER(jeniskelamin)',strtolower($this->jeniskelamin),true);
 		$criteria->compare('LOWER(statusperkawinan)',strtolower($this->statusperkawinan),true);
 		$criteria->compare('LOWER(alamat_pegawai)',strtolower($this->alamat_pegawai),true);
@@ -344,7 +348,7 @@ class PegawaiM extends CActiveRecord
 		$criteria->compare('LOWER(nama_pegawai)',strtolower($this->nama_pegawai),true);
 		$criteria->compare('LOWER(nama_keluarga)',strtolower($this->nama_keluarga),true);
 		$criteria->compare('LOWER(tempatlahir_pegawai)',strtolower($this->tempatlahir_pegawai),true);
-		$criteria->compare('LOWER(tgl_lahirpegawai)',strtolower($this->tgl_lahirpegawai),true);
+		//$criteria->compare('LOWER(tgl_lahirpegawai)',strtolower($this->tgl_lahirpegawai),true);
 		$criteria->compare('LOWER(jeniskelamin)',strtolower($this->jeniskelamin),true);
 		$criteria->compare('LOWER(statusperkawinan)',strtolower($this->statusperkawinan),true);
 		$criteria->compare('LOWER(alamat_pegawai)',strtolower($this->alamat_pegawai),true);

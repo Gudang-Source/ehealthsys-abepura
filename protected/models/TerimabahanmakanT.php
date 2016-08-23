@@ -77,6 +77,7 @@ class TerimabahanmakanT extends CActiveRecord
                     'ruangan'=>array(self::BELONGS_TO, 'RuanganM', 'ruangan_id'),
                     'supplier'=>array(self::BELONGS_TO, 'SupplierM', 'supplier_id'),
                     'pengajuanbahanmkn'=>array(self::BELONGS_TO, 'PengajuanbahanmknT', 'pengajuanbahanmkn_id'),
+                    'penerima' => array(self::BELONGS_TO, 'LoginpemakaiK', 'create_loginpemakai_id'),
 		);
 	}
 

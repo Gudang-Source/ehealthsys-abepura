@@ -11,7 +11,10 @@
             <th>Ubah</th>
         </tr>
     </thead>
-    <?php foreach ($tabelPenilaian as $i => $penilaian) { ?>
+    <?php 
+    if($tabelPenilaian !=  null)
+    {
+        foreach ($tabelPenilaian as $i => $penilaian) { ?>
     <tr>
         <td><?php echo $format->formatDateTimeForUser($penilaian->tglpenilaian); ?></td>
         <td><?php echo $format->formatDateTimeForUser($penilaian->periodepenilaian)."-".$format->formatDateTimeForUser($penilaian->sampaidengan); ?></td>
@@ -26,5 +29,11 @@
         ?>
         </center></td>
     </tr>
-    <?php } ?>
+    <?php }
+    }else{
+        ?>
+    
+    <?php
+    }
+    ?>
 </table>

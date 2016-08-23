@@ -155,7 +155,7 @@ class TariftindakanperdaV extends CActiveRecord
 		$criteria->compare('persencyto_tind',$this->persencyto_tind);
 		$criteria->compare('daftartindakan_id',$this->daftartindakan_id);
 		$criteria->compare('kelaspelayanan_id',$this->kelaspelayanan_id);
-        $criteria->order = 'daftartindakan_id ASC';
+                $criteria->order = 'daftartindakan_id ASC';
 		// $criteria->limit=10;
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -194,6 +194,8 @@ class TariftindakanperdaV extends CActiveRecord
 		$criteria->compare('persendiskon_tind',$this->persendiskon_tind);
 		$criteria->compare('hargadiskon_tind',$this->hargadiskon_tind);
 		$criteria->compare('persencyto_tind',$this->persencyto_tind);
+		$criteria->compare('daftartindakan_id',$this->daftartindakan_id);
+		$criteria->compare('kelaspelayanan_id',$this->kelaspelayanan_id);
                 // Klo limit lebih kecil dari nol itu berarti ga ada limit 
                 $criteria->limit=-1; 
 

@@ -22,6 +22,7 @@
                                         'mode'=>'date',
                                         'options'=> array(
                                             'dateFormat'=>Params::DATE_FORMAT,
+                                            'maxDate' => 'd',
                                         ),
                                         'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3', 'onkeypress'=>"return $(this).focusNextInputField(event)"
                                         ),
@@ -41,6 +42,7 @@
                                                     'mode'=>'date',
                                                     'options'=> array(
                                                         'dateFormat'=>Params::DATE_FORMAT,
+                                                        'maxDate' => 'd',
                                                     ),
                                                     'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3', 'onkeypress'=>"return $(this).focusNextInputField(event)"
                                                     ),
@@ -61,7 +63,7 @@
                 
                 
                 <?php echo $form->dropDownListRow($model,'supplier_id',
-                        CHtml::listData(SupplierM::model()->SupplierItems, 'supplier_id', 'supplier_nama'),
+                        CHtml::listData(SupplierM::model()->getSupplierFarmasiItems(), 'supplier_id', 'supplier_nama'),
                         array('class'=>'span3 isRequired', 'onkeypress'=>"return $(this).focusNextInputField(event)",
                         'empty'=>'-- Pilih --','style'=>'width:160px;')); ?>
                 
@@ -74,6 +76,23 @@
                     </div>
                 </div>
                 
+                <div class = "span5">
+                    <div class="control-group ">
+                        <?php echo Chtml::label('Pegawai Mengetahui','pegawaimengetahui_id', array('class'=>'control-label')) ?>
+                            <div class="controls">
+                                <?php echo $form->dropDownList($model,'pegawaimengetahui_id', CHtml::listData(PegawairuanganV::model()->findAll("pegawai_aktif = TRUE AND ruangan_id = ".Yii::app()->user->getState('ruangan_id')." ORDER BY nama_pegawai ASC"), 'pegawai_id', 'namaLengkap'),array('empty'=>'--Pilih--','style'=>'width:130px;')); ?>
+                            </div>
+                    </div>
+                </div>
+                
+                <div class = "span5">
+                    <div class="control-group ">
+                        <?php echo Chtml::label('Pegawai Menyetujui','pegawaimenyetujui_id', array('class'=>'control-label')) ?>
+                            <div class="controls">
+                                <?php echo $form->dropDownList($model,'pegawaimenyetujui_id', CHtml::listData(PegawairuanganV::model()->findAll("pegawai_aktif = TRUE AND ruangan_id = ".Yii::app()->user->getState('ruangan_id')." ORDER BY nama_pegawai ASC"), 'pegawai_id', 'namaLengkap'),array('empty'=>'--Pilih--','style'=>'width:130px;')); ?>
+                            </div>
+                    </div>
+                </div>
             </td>
         </tr>
     </table>

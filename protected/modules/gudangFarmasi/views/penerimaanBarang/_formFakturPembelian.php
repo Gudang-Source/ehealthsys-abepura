@@ -3,7 +3,7 @@
         <div id="fakturPembelian">      
             <?php echo CHtml::hiddenField('ppn','0',array()); ?>
             <?php echo CHtml::hiddenField('pph','0',array()); ?>            
-            <?php echo $form->textFieldRow($modFakturPembelian,'nofaktur', array('placeholder'=>'Ketik No. Faktur','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")) ?>
+            <?php echo $form->textFieldRow($modFakturPembelian,'nofaktur', array('placeholder'=>'Ketik No. Faktur','class'=>'span3 alphanumber','onkeyup'=>"return $(this).focusNextInputField(event)")) ?>
                  <div class="control-group ">
                         <?php echo $form->labelEx($modFakturPembelian,'tglfaktur', array('class'=>'control-label')) ?>
                             <div class="controls">
@@ -52,14 +52,14 @@
 <div class="span6">
         <div>
         <legend class="rim">Informasi Harga</legend>
-        <?php echo $form->textFieldRow($modFakturPembelian,'totharganetto', array('class'=>'span2 integer','readonly'=>TRUE, 'onkeyup'=>"return $(this).focusNextInputField(event)")) ?>
+        <?php echo $form->textFieldRow($modFakturPembelian,'totharganetto', array('class'=>'span2 integer2','readonly'=>TRUE, 'onkeyup'=>"return $(this).focusNextInputField(event)")) ?>
         <div class="control-group ">
             <label class='control-label'>
                 <?php echo CHtml::checkbox('termasukPPN',false,array('onclick'=>'persenPpn(this)','disabled'=>TRUE,'style'=>'width : 10px', 'onkeyup'=>"return $(this).focusNextInputField(event)"))?>
                 Ppn (Total)
                 </label>
             <div class="controls">
-                <?php echo $form->textField($modFakturPembelian,'totalpajakppn', array('class'=>'span2 integer','readonly'=>TRUE, 'onkeyup'=>"return $(this).focusNextInputField(event)")) ?>
+                <?php echo $form->textField($modFakturPembelian,'totalpajakppn', array('class'=>'span2 integer2','readonly'=>TRUE, 'onkeyup'=>"return $(this).focusNextInputField(event)")) ?>
             </div>
          </div>
         <div class="control-group ">
@@ -68,7 +68,7 @@
                 Pph (Total)
                 </label>
             <div class="controls">
-                <?php echo $form->textField($modFakturPembelian,'totalpajakpph', array('class'=>'span2 integer','readonly'=>TRUE, 'onkeyup'=>"return $(this).focusNextInputField(event)")) ?>
+                <?php echo $form->textField($modFakturPembelian,'totalpajakpph', array('class'=>'span2 integer2','readonly'=>TRUE, 'onkeyup'=>"return $(this).focusNextInputField(event)")) ?>
             </div>
          </div>
         <div class="control-group ">
@@ -77,7 +77,7 @@
                 Persen Diskon/ Faktur
                 </label>
             <div class="controls">
-                <?php echo $form->textField($modFakturPembelian,'persendiscount', array('onkeyup'=>'gantiDiskonFakturPersen(this);','class'=>'span2  integer','readonly'=>TRUE, 'onkeyup'=>"return $(this).focusNextInputField(event)",'onblur'=>'setPersenDiskonDetail();')) ?>
+                <?php echo $form->textField($modFakturPembelian,'persendiscount', array('onkeyup'=>'gantiDiskonFakturPersen(this);','class'=>'span2  integer2','readonly'=>TRUE, 'onkeyup'=>"return $(this).focusNextInputField(event)",'onblur'=>'setPersenDiskonDetail();')) ?>
             </div>
          </div>
         <div class="control-group ">
@@ -85,10 +85,10 @@
                 Diskon Rp / Faktur
                 </label>
             <div class="controls">
-                <?php echo $form->textField($modFakturPembelian,'jmldiscount', array('onkeyup'=>'gantiDiskonFakturRp(this);','class'=>'span2 integer','readonly'=>TRUE,'onkeyup'=>"return $(this).focusNextInputField(event)",)); ?>
+                <?php echo $form->textField($modFakturPembelian,'jmldiscount', array('onkeyup'=>'gantiDiskonFakturRp(this);','class'=>'span2 integer2','readonly'=>TRUE,'onkeyup'=>"return $(this).focusNextInputField(event)",)); ?>
             </div>
          </div>
-         <?php echo $form->textFieldRow($modFakturPembelian,'totalhargabruto', array('class'=>'span2 integer','readonly'=>TRUE,'onkeyup'=>"return $(this).focusNextInputField(event)")) ?>
+         <?php echo $form->textFieldRow($modFakturPembelian,'totalhargabruto', array('class'=>'span2 integer2','readonly'=>TRUE,'onkeyup'=>"return $(this).focusNextInputField(event)")) ?>
         </div>
 </div>
 </div>

@@ -67,7 +67,7 @@ class PencucianlinenT extends CActiveRecord
 		return array(
 			'pegpenerima'=>array(self::BELONGS_TO,'PegawaiM','pegpenerima_id'),
 			'petugas'=>array(self::BELONGS_TO,'PegawaiM','petugas_id'),
-			'ruangan'=>array(self::BELONGS_TO,'RuanganM','create_ruangan'),
+			'ruangan'=>array(self::BELONGS_TO,'RuanganM','create_ruangan'),                        
 		);
 	}
 

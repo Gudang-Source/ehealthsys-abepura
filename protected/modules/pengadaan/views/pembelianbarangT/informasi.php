@@ -41,30 +41,32 @@
     //                        'name'=>'pembelianbarang_id',
     //                        'value'=>'$data->pembelianbarang_id',
     //                        'filter'=>false,
-    //                ),
+    //                ), 
+				
                     'nopembelian',
     //		'terimapersediaan_id',
                     'sumberdana.sumberdana_nama',
                     'supplier.supplier_nama',                    
                      array(
                         'header' => 'Tanggal Pembelian',
-                        'value' => 'Myformatter::formatDateTimeForUser(date("Y-m-d",strtotime($data->tglpembelian)))'
+                        'value' => 'MyFormatter::formatDateTimeForUser(date("Y-m-d", strtotime(MyFormatter::formatDateTimeForDb($data->tglpembelian))))'
                     ),  
                      array(
                         'header' => 'Tanggal Dikirim',
-                        'value' => 'Myformatter::formatDateTimeForUser(date("Y-m-d",strtotime($data->tgldikirim)))'
+                        'value' => 'MyFormatter::formatDateTimeForUser(date("Y-m-d", strtotime(MyFormatter::formatDateTimeForDb($data->tgldikirim))))'
                     ),  
+
                     array(
                         'header' => 'Pegawai Pemesan',
-                        'value' => '$data->pemesan->nama_pegawai'
+                        'value' => 'empty($data->pemesan)?"-":$data->pemesan->nama_pegawai'
                     ),                    
                     array(
                         'header' => 'Pegawai Mengetahui',
-                        'value' => '$data->mengetahui->nama_pegawai'
+                        'value' => '!empty($data->peg_mengetahui_id)?$data->mengetahui->nama_pegawai:"-"'
                     ),                    
                     array(
                         'header' => 'Pegawai Menyetujui',
-                        'value' => '$data->menyetujui->nama_pegawai'
+                        'value' => '!empty($data->peg_menyetujui_id)?$data->menyetujui->nama_pegawai:"-"'                       
                     ),                                        
                 /*
                     'create_time',
@@ -72,7 +74,7 @@
                     'create_loginpemakai_id',
                     'update_loginpemakai_id',
                     'create_ruangan',
-                    */
+                    */ 
                     array(
                         'header'=>'Rincian',
                         'type'=>'raw',

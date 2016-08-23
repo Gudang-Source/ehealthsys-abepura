@@ -25,7 +25,7 @@
 					   )); ?>
 				  </div>
 	   </div>
-	   <?php echo $form->textFieldRow($modPenerimaanBarang,'nosuratjalan', array('placeholder'=>'Ketik No. Surat Jalan','class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event)")) ?>
+	   <?php echo $form->textFieldRow($modPenerimaanBarang,'nosuratjalan', array('placeholder'=>'Ketik No. Surat Jalan','class'=>'span3 alphanumber', 'onkeyup'=>"return $(this).focusNextInputField(event)")) ?>
 	   <div class="control-group ">
 			   <?php echo $form->labelEx($modPenerimaanBarang,'tglsuratjalan', array('class'=>'control-label')) ?>
 				  <div class="controls">
@@ -164,14 +164,15 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
     ),
 ));
 
-$modPegawaiMengetahui = new GFPegawaiV('search');
+$modPegawaiMengetahui = new GFPegawairuanganV('search');
 $modPegawaiMengetahui->unsetAttributes();
-if(isset($_GET['GFPegawaiV'])) {
-    $modPegawaiMengetahui->attributes = $_GET['GFPegawaiV'];
+$modPegawaiMengetahui->ruangan_id = Yii::app()->user->getState('ruangan_id');
+if(isset($_GET['GFPegawairuanganV'])) {
+    $modPegawaiMengetahui->attributes = $_GET['GFPegawairuanganV'];
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
 	'id'=>'pegawaimengetahui-grid',
-	'dataProvider'=>$modPegawaiMengetahui->search(),
+	'dataProvider'=>$modPegawaiMengetahui->searchPegawaiMengetahui(),
 	'filter'=>$modPegawaiMengetahui,
         'template'=>"{summary}\n{items}\n{pager}",
         'itemsCssClass'=>'table table-striped table-bordered table-condensed',
@@ -191,23 +192,24 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 ),
                 array(
                     'header'=>'NIP',
+					'name'=>'nomorindukpegawai',
                     'value'=>'$data->nomorindukpegawai',
-                ),
+                ), /*
                 array(
                     'header'=>'Gelar Depan',
                     'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'gelardepan'),
                     'value'=>'$data->gelardepan',
-                ),
+                ), */
                 array(
                     'header'=>'Nama Pegawai',
                     'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'nama_pegawai'),
-                    'value'=>'$data->nama_pegawai',
-                ),
+                    'value'=>'$data->namaLengkap',
+                ), /*
                 array(
                     'header'=>'Gelar Belakang',
                     'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'gelarbelakang_nama'),
                     'value'=>'$data->gelarbelakang_nama',
-                ),
+                ), */
                 array(
                     'header'=>'Alamat Pegawai',
                     'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'alamat_pegawai'),
@@ -263,22 +265,29 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                 array(
                     'header'=>'NIP',
                     'value'=>'$data->nomorindukpegawai',
+					'name'=>'nomorindukpegawai',
                 ),
+		/*
                 array(
                     'header'=>'Gelar Depan',
                     'filter'=>  CHtml::activeTextField($modPegawaiMenyetujui, 'gelardepan'),
                     'value'=>'$data->gelardepan',
                 ),
+		 * 
+		 */
                 array(
                     'header'=>'Nama Pegawai',
                     'filter'=>  CHtml::activeTextField($modPegawaiMenyetujui, 'nama_pegawai'),
-                    'value'=>'$data->nama_pegawai',
+                    'value'=>'$data->namaLengkap',
                 ),
+		/*
                 array(
                     'header'=>'Gelar Belakang',
                     'filter'=>  CHtml::activeTextField($modPegawaiMenyetujui, 'gelarbelakang_nama'),
                     'value'=>'$data->gelarbelakang_nama',
                 ),
+		 * 
+		 */
                 array(
                     'header'=>'Alamat Pegawai',
                     'filter'=>  CHtml::activeTextField($modPegawaiMenyetujui, 'alamat_pegawai'),

@@ -5,8 +5,8 @@ if(isset($modPengpegdets) && count($modPengpegdets) > 0) {
 ?>
 
 <tr>
-    <td><?php echo CHtml::activeTextField($modPengpegdet,'[0]nourut',array('class'=>'span1 isDetailReq', 'readonly'=>true,'onkeyup'=>"return $(this).focusNextInputField(event)")); ?></td>
-        <td><?php echo CHtml::activeTextField($modPengpegdet,'[0]jmlorang',array('class'=>'span1 isDetailReq', 'onkeyup'=>"return $(this).focusNextInputField(event)", 'onkeyup'=>'cekNumerik(this);')); ?></td>
+    <td><?php echo CHtml::activeTextField($modPengpegdet,'[0]nourut',array('class'=>'span1 isDetailReq', 'readonly'=>true,'onkeyup'=>"return $(this).focusNextInputField(event)", 'style'=>'text-align:right')); ?></td>
+        <td><?php echo CHtml::activeTextField($modPengpegdet,'[0]jmlorang',array('class'=>'numbers-only span1 required', 'onkeyup'=>"return $(this).focusNextInputField(event)",'maxlength'=>3, 'style'=>'text-align:right')); ?></td>
         <td><?php echo CHtml::activeTextArea($modPengpegdet,'[0]untukkeperluan', array('style'=>'resize:none;','rows'=>2, 'cols'=>20, 'class'=>'span3 isDetailReq','onkeyup'=>"return $(this).focusNextInputField(event)"))?></td>
         <td><?php echo CHtml::activeTextArea($modPengpegdet,'[0]keterangan', array('style'=>'resize:none;','rows'=>2, 'cols'=>20, 'class'=>'span3 isDetailReq','onkeyup'=>"return $(this).focusNextInputField(event)"))?></td>
         <td><?php echo CHtml::activeCheckBox($modPengpegdet,'[0]disetujui', array('checked'=>true,'class'=>'span1 isDetailReq','onkeyup'=>"return $(this).focusNextInputField(event)"))?></td>

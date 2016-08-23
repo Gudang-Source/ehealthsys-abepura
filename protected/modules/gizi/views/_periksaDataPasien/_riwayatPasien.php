@@ -37,7 +37,7 @@
             <tr>
                 <td><?php echo $modKunjungan->no_pendaftaran; ?><br/><?php echo MyFormatter::formatDateTimeForUser($modKunjungan->tgl_pendaftaran); ?></td>
                 <td><?php //if (count($modKunjungan->tindakanpelayanan->daftartindakan_id) != 0){
-                    echo CHtml::link("<i class='icon-list-alt'></i> ",  Yii::app()->controller->createUrl("daftarPasien/DetailAnamnesaDiet",
+                    echo CHtml::link("<i class='icon-form-pakaibahan'></i> ",  Yii::app()->controller->createUrl("daftarPasien/DetailAnamnesaDiet",
                             array("id"=>$modKunjungan->pendaftaran_id)),array("id"=>"$modKunjungan->no_pendaftaran","target"=>"detailDialogAnamnesa","rel"=>"tooltip","title"=>"Klik untuk Detail Anamnesa Diet", "onclick"=>"var text = $(this).attr('dialog-text'); window.parent.$('#ui-dialog-title-dialogDetailAnamnesa').text(text);window.parent.$('#dialogDetailAnamnesa').dialog('open');", "dialog-text"=>"Detail Anamnesa Diet")); 
                     
                 //}?>
@@ -64,21 +64,21 @@
                 <td><?php echo (!empty($modKunjungan->pemeriksaanfisik->TinggiLutut) ? $modKunjungan->pemeriksaanfisik->TinggiLutut." cm" : ""); 
                 //} ?></td>
                 <td><?php if (count($modKunjungan->tindakanpelayanan) > 0){
-                    echo CHtml::link("<i class='icon-list-alt'></i> ",  Yii::app()->controller->createUrl("daftarPasien/detailKonsulGizi",
+                    echo CHtml::link("<i class='icon-form-poliklinik'></i> ",  Yii::app()->controller->createUrl("daftarPasien/detailKonsulGizi",
                             array("id"=>$modKunjungan->pendaftaran_id)),array("id"=>"$modKunjungan->no_pendaftaran","target"=>"detailDialogGizi","rel"=>"tooltip","title"=>"Klik untuk Detail Konsultasi Gizi", "onclick"=>"var text = $(this).attr('dialog-text'); window.parent.$('#ui-dialog-title-dialogDetailGizi').text(text);window.parent.$('#dialogDetailGizi').dialog('open');", "dialog-text"=>"Detail Pelayanan Konsultasi Gizi")); 
                     
                 }?>
                 </td>
 				<td><center>
 					<?php
-						echo CHtml::link("<i class='icon-list-alt'></i> ",  Yii::app()->controller->createUrl("daftarPasien/detailPeriksaFisik",
+						echo CHtml::link("<i class='icon-form-periksa'></i> ",  Yii::app()->controller->createUrl("daftarPasien/detailPeriksaFisik",
 										array("id"=>$modKunjungan->pendaftaran_id)),array("id"=>"$modKunjungan->no_pendaftaran","target"=>"dialogPeriksaFisik","rel"=>"tooltip","title"=>"Klik untuk Detail Periksa Fisik", "onclick"=>"var text = $(this).attr('dialog-text'); window.parent.$('#ui-dialog-title-dialogPeriksaFisik').text(text);window.parent.$('#dialogPeriksaFisik').dialog('open');", "dialog-text"=>"Riwayat Pelayanan/Periksa Fisik"));
 						?>
 					</center>
 				</td>
 				<td><center>
 					<?php
-                    echo CHtml::link("<i class='icon-list-alt'></i> ",  Yii::app()->controller->createUrl("daftarPasien/detailAnamnesa",
+                    echo CHtml::link("<i class='icon-form-anamnesa'></i> ",  Yii::app()->controller->createUrl("daftarPasien/detailAnamnesa",
                             array("id"=>$modKunjungan->pendaftaran_id)),array("id"=>"$modKunjungan->no_pendaftaran","target"=>"detailAnamnesisPerawatan","rel"=>"tooltip","title"=>"Klik untuk Detail Anamnesis", "onclick"=>"var text = $(this).attr('dialog-text'); window.parent.$('#ui-dialog-title-detailAnamnesisPerawatan').text(text);window.parent.$('#detailAnamnesisPerawatan').dialog('open');", "dialog-text"=>"Riwayat Pelayanan/Anamnesis")); 
                     
                     ?>
@@ -95,10 +95,10 @@
                             $modHasilRad = HasilpemeriksaanradT::model()->findByAttributes(array('pasienmasukpenunjang_id'=>$row->pasienmasukpenunjang_id));
 
                             if($modHasilLab){ //cek jika sudah ada hasil lab
-                                $result .= "".CHtml::link("<i class='icon-list-alt'></i> ",Yii::app()->controller->createUrl("daftarPasien/detailHasilLab",array("pendaftaran_id"=>$modKunjungan->pendaftaran_id, "pasien_id"=>$modKunjungan->pasien_id,"pasienmasukpenunjang_id"=>$row->pasienmasukpenunjang_id)),array("id"=>"$modKunjungan->no_pendaftaran","target"=>"pesan","rel"=>"tooltip","title"=>"Klik untuk Detail Hasil Pemeriksaan '".$row->ruangan->ruangan_nama."'", "onclick"=>"window.parent.$('#dialogDetailHasilLab').dialog('open');"))."<br>";
+                                $result .= "".CHtml::link("<i class='icon-form-detail'></i> ",Yii::app()->controller->createUrl("daftarPasien/detailHasilLab",array("pendaftaran_id"=>$modKunjungan->pendaftaran_id, "pasien_id"=>$modKunjungan->pasien_id,"pasienmasukpenunjang_id"=>$row->pasienmasukpenunjang_id)),array("id"=>"$modKunjungan->no_pendaftaran","target"=>"pesan","rel"=>"tooltip","title"=>"Klik untuk Detail Hasil Pemeriksaan '".$row->ruangan->ruangan_nama."'", "onclick"=>"window.parent.$('#dialogDetailHasilLab').dialog('open');"))."<br>";
                             }
                             elseif($modHasilRad){ //jika radiologi
-                                $result .= "".CHtml::link("<i class='icon-list-alt'></i> ",Yii::app()->controller->createUrl("daftarPasien/detailHasilRad",array("pendaftaran_id"=>$modKunjungan->pendaftaran_id, "pasien_id"=>$modKunjungan->pasien_id,"pasienmasukpenunjang_id"=>$row->pasienmasukpenunjang_id)),array("id"=>"$modKunjungan->no_pendaftaran","target"=>"pesan","rel"=>"tooltip","title"=>"Klik untuk Detail Hasil Pemeriksaan '".$row->ruangan->ruangan_nama."'", "onclick"=>"window.parent.$('#dialogDetailHasilLab').dialog('open');"))."<br>";
+                                $result .= "".CHtml::link("<i class='icon-form-detail'></i> ",Yii::app()->controller->createUrl("daftarPasien/detailHasilRad",array("pendaftaran_id"=>$modKunjungan->pendaftaran_id, "pasien_id"=>$modKunjungan->pasien_id,"pasienmasukpenunjang_id"=>$row->pasienmasukpenunjang_id)),array("id"=>"$modKunjungan->no_pendaftaran","target"=>"pesan","rel"=>"tooltip","title"=>"Klik untuk Detail Hasil Pemeriksaan '".$row->ruangan->ruangan_nama."'", "onclick"=>"window.parent.$('#dialogDetailHasilLab').dialog('open');"))."<br>";
                             }else{
                                 $result .= "<br>";
                             }

@@ -1,12 +1,28 @@
-<table class='table'>
+<style>
+    .border{
+        border:1px solid #000;
+    }
+    .table thead:first-child{
+        border-top:1px solid #000;        
+    }
+    
+    thead th{
+        background:none;
+        color:#333;
+    }
+    
+    .table tbody tr:hover td, .table tbody tr:hover th {
+        background-color: none;
+    }
+</style>
+<table  class = "table" style = "box-shadow:none;">
     <tr>
         <td>
              <b><?php echo CHtml::encode($modTerima->getAttributeLabel('nopenerimaanbahan')); ?>:</b>
             <?php echo CHtml::encode($modTerima->nopenerimaanbahan); ?>
             <br />
              <b><?php echo CHtml::encode($modTerima->getAttributeLabel('tglterimabahan')); ?>:</b>
-            <?php echo CHtml::encode($modTerima->tglterimabahan); ?>
-
+            <?php echo MyFormatter::formatDateTimeForUser(date("Y-m-d",strtotime(MyFormatter::formatDateTimeForDb(CHtml::encode($modTerima->tglterimabahan))))); ?>
              
         </td>
         <td>
@@ -20,21 +36,21 @@
     </tr>   
 </table>
 
-<table class="table table-striped table-bordered table-condensed">
+<table class = "table" style = "box-shadow:none;">
     <thead>
         <tr>
-        <th>No.Urut</th>
-        <th>Golongan</th>
-        <th>Jenis</th>
-        <th>Kelompok</th>
-        <th>Nama</th>
-        <th>Jumlah Persediaan</th>
-        <th>Satuan</th>
-        <th>Harga Netto</th>
-        <th>Harga Jual</th>
-        <th>Tanggal Kadaluarsa</th>
-        <th>Jumlah</th>
-        <th>Sub Total</th>
+        <th class = "border">No.Urut</th>
+        <th  class = "border">Golongan</th>
+        <th  class = "border">Jenis</th>
+        <th  class = "border">Kelompok</th>
+        <th  class = "border">Nama</th>
+       <!-- <th>Jumlah Persediaan</th>-->
+        <!--<th>Satuan</th>-->
+        <th  class = "border">Harga Netto</th>
+        <th  class = "border">Harga Jual</th>
+        <th  class = "border">Tanggal Kadaluarsa</th>
+        <th  class = "border">Jumlah</th>
+        <th  class = "border">Sub Total</th>
     </tr>
     </thead>
     <tbody>
@@ -42,20 +58,18 @@
     $totalSubTotal= "";
     $no=1;
         foreach($modDetailTerima AS $tampilData):
-            $subTotal = $tampilData->qty_terima*$tampilData->harganettobhn;
+            $subTotal = $tampilData->qty_terima*$tampilData->harganettobhn;//<td style='text-align: right;'>".$tampilData->bahanmakanan->jmlpersediaan."</td>   
     echo "<tr>
-            <td>".$tampilData->nourutbahan."</td>
-            <td>".$tampilData->golbahanmakanan->golbahanmakanan_nama."</td>  
-            <td>".$tampilData->bahanmakanan->jenisbahanmakanan."</td>   
-            <td>".$tampilData->bahanmakanan->kelbahanmakanan."</td>   
-            <td>".$tampilData->bahanmakanan->namabahanmakanan."</td>   
-            <td style='text-align: right;'>".$tampilData->bahanmakanan->jmlpersediaan."</td>   
-            <td>".$tampilData->satuanbahan."</td>   
-            <td style='text-align: right;'>Rp".MyFormatter::formatNumberForPrint($tampilData->harganettobhn)."</td>   
-            <td style='text-align: right;'>Rp".MyFormatter::formatNumberForPrint($tampilData->bahanmakanan->hargajualbahan)."</td>   
-            <td>Rp".MyFormatter::formatDateTimeForUser($tampilData->bahanmakanan->tglkadaluarsabahan)."</td>   
-            <td style='text-align: right;'>".$tampilData->qty_terima."</td>   
-            <td style='text-align: right;'>Rp".  MyFormatter::formatNumberForPrint($subTotal)."</td>     
+            <td  class = 'border'>".$tampilData->nourutbahan."</td>
+            <td class = 'border'>".$tampilData->golbahanmakanan->golbahanmakanan_nama."</td>  
+            <td class = 'border'>".$tampilData->bahanmakanan->jenisbahanmakanan."</td>   
+            <td class = 'border'>".$tampilData->bahanmakanan->kelbahanmakanan."</td>   
+            <td class = 'border'>".$tampilData->bahanmakanan->namabahanmakanan."</td>                           
+            <td class = 'border' style='text-align: right;'>Rp".MyFormatter::formatNumberForPrint($tampilData->harganettobhn)."</td>   
+            <td class = 'border' style='text-align: right;'>Rp".MyFormatter::formatNumberForPrint($tampilData->bahanmakanan->hargajualbahan)."</td>   
+            <td class = 'border'>".MyFormatter::formatDateTimeForUser($tampilData->bahanmakanan->tglkadaluarsabahan)."</td>   
+            <td class = 'border' style='text-align: right;'>".number_format($tampilData->qty_terima,0,"",".").' '.$tampilData->satuanbahan."</td>   
+            <td class = 'border' style='text-align: right;'>Rp".  MyFormatter::formatNumberForPrint($subTotal)."</td>     
             
                       
          </tr>";  
@@ -66,14 +80,55 @@
         endforeach;
      
     ?>
-    </tbody>
-    <tfoot>
-        <?php
+         <?php
         echo "<tr>
-            <td colspan='11' style='text-align:right;'> Total Harga Netto</td>
+            <td class = 'border' colspan='9' style='text-align:right;'> <b>Total Harga Netto</b></td>
            
-            <td style='text-align: right;'>Rp".  MyFormatter::formatNumberForPrint($totalSubTotal)."</td>
+            <td class = 'border' style='text-align: right;'>Rp".  MyFormatter::formatNumberForPrint($totalSubTotal)."</td>
          </tr>";   
         ?>
-    </tfoot>
+   
+    </tbody>
+    
+       
 </table>
+
+ <?php
+if (isset($_GET['frame'])){
+    echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info', 'onclick'=>"print('PRINT')"));
+    //echo CHtml::link(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),'javascript:void(0);', array('class'=>'btn btn-info', 'onclick'=>"print('EXCEL')")); 
+?>
+    <script type='text/javascript'>
+    /**
+     * print
+     */    
+    function print(caraPrint){
+        terimabahanmakan_id = '<?php echo !empty($modTerima->terimabahanmakan_id) ? $modTerima->terimabahanmakan_id : ''; ?>';
+        window.open('<?php echo $this->createUrl('printDetailPenerimaan'); ?>&id='+terimabahanmakan_id+'&caraPrint='+caraPrint+'&frame=false','printwin','left=100,top=100,width=1000,height=640');
+    }
+    </script>
+<?php
+}else{ ?>
+    <table class ="table" style = "box-shadow:none;">
+    <tr>
+        <td width="100%" align="left" align="top">
+            <table width="100%">
+                <tr>
+                    <td width="35%" align="center">
+                        
+                    </td>
+                    <td width="35%" align="center">
+                        
+                    </td>
+                    <td width="35%" style="text-align:center;">
+                       
+                        <div>Petugas Penerima</div>
+                       
+                        <div style="margin-top:60px;"><?php echo isset($modTerima->penerima->pegawai->namaLengkap) ? $modTerima->penerima->pegawai->namaLengkap : "" ?></div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    </table>
+<?php } ?>

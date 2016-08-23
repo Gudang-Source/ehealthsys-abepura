@@ -37,12 +37,14 @@
             'columns'=>array(
 
                     array(
-                        'name'=>'nopenerimaanbahan',
+                        'header' => 'No Penerimaan',
+                        'value'=>'$data->nopenerimaanbahan',
                         'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                     ),
-                    array(
-                        'name'=>'tglterimabahan',
+                    array(                        
+                        'header'=>'Tanggal Terima',
                         'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
+                        'value'=>'$data->tglterimabahan',
                     ),
                     array(
                         'header'=>'No.',
@@ -114,7 +116,7 @@
                     array(
                         'header'=>'Rincian',
                         'type'=>'raw',
-                        'value'=>'CHtml::link("<i class=\'icon-form-detail\'></i> ",  Yii::app()->controller->createUrl("/gizi/Terimabahanmakan/detailPenerimaan",array("id"=>$data->terimabahanmakan_id)),array("id"=>"$data->terimabahanmakan_id","target"=>"frameDetail","rel"=>"tooltip","title"=>"Klik untuk Detail Penerimaan Barang", "onclick"=>"window.parent.$(\'#dialogDetail\').dialog(\'open\')"));',
+                        'value'=>'CHtml::link("<i class=\'icon-form-detail\'></i> ",  Yii::app()->controller->createUrl("/gizi/Terimabahanmakan/detailPenerimaan",array("id"=>$data->terimabahanmakan_id,"frame"=>true)),array("id"=>"$data->terimabahanmakan_id","target"=>"frameDetail","rel"=>"tooltip","title"=>"Klik untuk Detail Penerimaan Barang", "onclick"=>"window.parent.$(\'#dialogDetail\').dialog(\'open\')"));',
                         'headerHtmlOptions'=>array('style'=>'vertical-align:middle;'),
                     ),
                     /*

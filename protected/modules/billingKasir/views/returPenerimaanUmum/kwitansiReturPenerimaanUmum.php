@@ -40,7 +40,7 @@ $format = new MyFormatter();
                     <tr>
                         <td>Banyak Uang</td>
                         <td>:</td>
-                        <td><?php echo (isset($format->formatNumberTerbilang($model->jmlkaskeluar)) ? $model->jmlkaskeluar : "-");?></td>
+                        <td><?php echo "Rp".number_format($model->jmlkaskeluar,0,"",".");?></td>
                     </tr>
                     <tr>
                         <td>Untuk Pembayaran</td>
@@ -58,7 +58,7 @@ $format = new MyFormatter();
                     <tr>
                         <td width="50%" align="center">
                             <div style="border:1px solid #000000;margin-left:-220px;width:200px;padding:10px;font-size:14pt;font-weight: bold;">
-                                Rp. <?php echo number_format($model->jmlkaskeluar,0,'','.');?>,-
+                                Rp<?php echo number_format($model->jmlkaskeluar,0,'','.');?>,-
                             </div>
                         </td>
                         <td align="center">

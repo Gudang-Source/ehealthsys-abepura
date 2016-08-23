@@ -91,6 +91,7 @@ Class Params
 	const MODUL_ID_AKUNTANSI = 26;
 	const MODUL_ID_KEUANGAN = 44;
         const MODUL_ID_PENGGAJIAN = 61;
+        const MODUL_ID_KEPEGAWAIAN = 32;
 
         const INSTALASI_ID_RM = 1;
 	const INSTALASI_ID_RJ = 2;
@@ -107,6 +108,8 @@ Class Params
 	const INSTALASI_ID_KASIR = 41;     
 	const INSTALASI_ID_LOGISTIK = 44;     
         const INSTALASI_ID_ICU = 20;
+        const INSTALASI_ID_KEPEGAWAIAN = 26;
+        const INSTALASI_ID_GUDANG_FARMASI= 58;
 
 	const KASUSDIAGNOSA_KASUS_LAMA = "KASUS LAMA";
 	const KASUSDIAGNOSA_KASUS_BARU = "KASUS BARU";
@@ -150,6 +153,9 @@ Class Params
         const RUANGAN_ID_LANTAI_2 = 31;
         const RUANGAN_ID_LANTAI_3 = 30;
         const RUANGAN_ID_BERSALIN = 8;
+        const RUANGAN_ID_KEPEGAWAIAN = 84;
+        const RUANGAN_ID_KLAIM_KPS = 81;
+        const RUANGAN_ID_KLAIM_BPJS = 80;
 
 	const KELASPELAYANAN_ID_TANPA_KELAS = 6;
         const KELASPELAYANAN_ID_KELAS_III = 4;
@@ -159,6 +165,9 @@ Class Params
         const KELASPELAYANAN_ID_VIP = 2;
         
 	const PENJAMIN_ID_UMUM = 1;
+        const PENJAMIN_ID_BPJS = 122;
+        const PENJAMIN_ID_BANK_PAPUA = 397;
+        
 	const PENJAMIN_ID_GRATIS = 96;
 	
 	const PENJAMIN_ID_PISA = 34; // LNG-3
@@ -467,6 +476,13 @@ Class Params
             );
             if (!empty($id)) return $arr[$id];
             return $arr;
+        }
+        
+        public static function statusPersetujuan(){
+            return array(
+                false => 'BELUM DISETUJUI',
+                true => 'SUDAH DISETUJUI',
+            );
         }
 	
 	//=== PATH & URL ===

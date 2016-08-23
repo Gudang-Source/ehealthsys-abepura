@@ -118,6 +118,9 @@ $(document).ready(function() {
     $("#form-masukpenunjang-3 a").click(function() {
         $("#form-karcis-3 a").click();
     });
+	$("#form-masukpenunjang-4 a").click(function() {
+        $("#form-karcis-4 a").click();
+    });
 });
 </script>
     

@@ -49,6 +49,9 @@ class RKPengirimanrmT extends PengirimanrmT {
 		if(!empty($this->instalasi_id)){
 			$criteria->addCondition("pendaftaran.instalasi_id = ".$this->instalasi_id);			
 		}
+                if(!empty($this->ruangan_id)){
+			$criteria->addCondition("pendaftaran.ruangan_id = ".$this->ruangan_id);			
+		}
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

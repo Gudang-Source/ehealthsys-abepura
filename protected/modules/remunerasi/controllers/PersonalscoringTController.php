@@ -61,23 +61,31 @@ class PersonalscoringTController extends MyAuthController
                 $model->gajipokok = str_replace(".","", $model->gajipokok);
                 $model->jabatan = $_POST['PegawaiM']['jabatan_id'];
                 $model->pendidikan = $_POST['PegawaiM']['pendidikan_id'];
-                // var_dump($_POST['PegawaiM'], $model->attributes); die;
+				
+				$model->totalscore = str_replace(",",".", $model->totalscore);
+				
+                //var_dump($_POST);
                 try{
                     if ($model->save()) {
                         $jumlah = 0;
                         if(count($_POST['ScoringdetailT']) > 0){
-                            foreach ($_POST['ScoringdetailT'] as $data => $value) {
+                            foreach ($_POST['ScoringdetailT']['indexing_id'] as $i => $value) {
                                 $modScoringdetail = new ScoringdetailT;
                                 $modScoringdetail->personalscoring_id = $model->personalscoring_id;
-                                $modScoringdetail->attributes = $value;
+                                $modScoringdetail->index_personal = str_replace(",",".",$_POST['ScoringdetailT']['indexing_nilai'][$i]);
+								$modScoringdetail->ratebobot_personal = str_replace(",",".",$_POST['ScoringdetailT']['ratebobot_personal'][$i]);
+								$modScoringdetail->kelrem_id = $_POST['ScoringdetailT']['kelrem_id'][$i];
+								$modScoringdetail->indexing_id = $_POST['ScoringdetailT']['indexing_id'][$i];
+								$modScoringdetail->score_personal = str_replace(",",".",$_POST['ScoringdetailT']['score_personal'][$i]);
+								$modScoringdetail->score_ordinal = $_POST['ScoringdetailT']['score_ordinal'][$i];
                                 //var_dump($modScoringdetail->attributes, $modScoringdetail->validate(), $modScoringdetail->errors);
                                 if ($modScoringdetail->save()){
                                     $jumlah++;
                                 }
                             }
                         }
-                        // var_dump(($jumlah>0) && ($jumlah == count($_POST['ScoringdetailT']))); die;
-                        if (($jumlah>0) && ($jumlah == count($_POST['ScoringdetailT']))){
+                        //var_dump(($jumlah>0) && ($jumlah == count($_POST['ScoringdetailT']['indexing_id']))); die;
+                        if (($jumlah>0) && ($jumlah == count($_POST['ScoringdetailT']['indexing_id']))){
                             $transaction->commit();
                             echo Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');
                             $this->redirect(array('create','personalscoring_id'=>$model->personalscoring_id,'sukses'=>1));

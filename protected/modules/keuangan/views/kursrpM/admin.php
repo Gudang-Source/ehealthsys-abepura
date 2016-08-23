@@ -1,3 +1,4 @@
+
 <div class="white-container">
     <legend class='rim2'>Pengaturan <b>Kurs Rp.</b></legend>
     <?php
@@ -61,7 +62,7 @@
                                         'options'=> array(
                                             'dateFormat'=>Params::DATE_FORMAT,
                                             ),
-                                        'htmlOptions'=>array('readonly'=>false, 'class'=>'dtPicker3','id'=>'tglkursrp','placeholder'=>'17 Sep 2015'),
+                                        'htmlOptions'=>array('readonly'=>false, 'class'=>'dtPicker3','id'=>'tglkursrp'),
                                         ),true
                                     ),
                         'htmlOptions'=>array('width'=>'80','style'=>'text-align:center'),
@@ -70,8 +71,8 @@
                         'header' => 'Nilai',
                         'name' => 'nilai',
                         'value' => 'number_format($data->nilai,0,"",".")',
-                        'htmlOptions' => array('style' => 'text-align:right'),
-                        //'filter'=>CHtml::activeTextField($model,'nilai',array('class'=>'numbers-only','style'=>'text-align:right;')),
+                        'htmlOptions' => array('style' => 'text-align:right'),                        
+                        'filter'=>CHtml::activeTextField($model,'nilai',array('class'=>'integer2','style'=>'text-align:right;', 'onkeypress' => "return $(this).focusNextInputField(event);",'onblur'=>"$.fn.yiiGridView.update('kursrp-m-grid',{data: $(this).serialize()});return false;" )),
                     ),
 //                    'rupiah',
                     array(
@@ -80,7 +81,7 @@
                             //'filter'=>  CHtml::activeTextField($model, 'rupiah'),
                             'value'=>'"Rp".number_format($data->rupiah,0,"",".")',
                             'htmlOptions' => array('style' => 'text-align:right'),
-                            //'filter'=>CHtml::textField('KUKursrpM[rupiah]',$model->rupiah,array('class'=>'numbers-only','style'=>'text-align:right;')),
+                            'filter'=>CHtml::textField('KUKursrpM[rupiah]',$model->rupiah,array('class'=>'integer2','style'=>'text-align:right;', 'onkeypress' => "return $(this).focusNextInputField(event);",'onblur'=>"$.fn.yiiGridView.update('kursrp-m-grid',{data: $(this).serialize()});return false;" )),
                     ),
                     array(
                             'header'=>'Status',
@@ -122,11 +123,13 @@
 				jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
                 $("table").find("input[type=text]").each(function(){
                     cekForm(this);
-                })
+                });
                  $("table").find("select").each(function(){
                     cekForm(this);
-                })
-            
+                });
+                $(".integer2").keyup(function() {
+                         $(this).val(formatInteger($(this).val()));                         
+                    });
             }',
 		   )); ?>
     <!--</div>-->
