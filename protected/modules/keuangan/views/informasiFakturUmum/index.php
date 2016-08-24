@@ -31,13 +31,17 @@
                     array(
                             'header'=>'Tanggal Terima',
                             'type'=>'raw',
-                            'value'=>'MyFormatter::formatDateTimeForUser($data->tglterima)',
+                            'value'=>'MyFormatter::formatDateTimeForUser(date("Y-m-d",strtotime($data->tglterima)))',
                     ),
 					
 		'nopenerimaan',
                     'supplier_nama',
                     'nofaktur',
-                    'tgljatuhtempo',
+                    array(
+                        'header' => 'Tanggal Jatuh Tempo',
+                        'name' => 'tgljatuhtempo',
+                        'value' => 'MyFormatter::formatDateTimeForUser($data->tgljatuhtempo)'
+                    ),                    
                     array(
                             'header'=>'Keterangan Persediaan',
                             'type'=>'raw',
@@ -49,38 +53,43 @@
                             'value'=>'$data->umurHutang',
                             'footer'=>'Total Hutang :',
                             'footerHtmlOptions'=>array('colspan'=>7,'style'=>'text-align:right;'),
+                            'htmlOptions' => array('style'=>'text-align:right;')
                     ),
                     array(
                             'header'=>'Total Harga',
                             'name'=>'totalharga',
                             'type'=>'raw',
-                            'value'=>'"Rp. ".number_format($data->totalharga)',
+                            'value'=>'number_format($data->totalharga,0,"",".")',
                             'footer'=>'sum(totalharga)',
-                            'footerHtmlOptions'=>array('style'=>'text-align:left;'),
+                            'footerHtmlOptions'=>array('style'=>'text-align:right;'),
+                            'htmlOptions' => array('style'=>'text-align:right;')
                     ),
                     array(
                             'header'=>'Discount',
                             'name'=>'discount',
                             'type'=>'raw',
-                            'value'=>'"Rp. ".number_format($data->discount)',   
+                            'value'=>'number_format($data->discount,0,"",".")',   
                             'footer'=>'-',
-                            'footerHtmlOptions'=>array('style'=>'text-align:left;color:white;'),
+                            'footerHtmlOptions'=>array('style'=>'text-align:right;color:white;'),
+                            'htmlOptions' => array('style'=>'text-align:right;')
                     ),
                     array(
                             'header'=>'Pajak PPH',
                             'name'=>'pajakpph',
                             'type'=>'raw',
-                            'value'=>'"Rp. ".number_format($data->pajakpph)',
+                            'value'=>'number_format($data->pajakpph,0,"",".")',
                             'footer'=>'-',
-                            'footerHtmlOptions'=>array('style'=>'text-align:left;color:white;'),
+                            'footerHtmlOptions'=>array('style'=>'text-align:right;color:white;'),
+                            'htmlOptions' => array('style'=>'text-align:right;')
                     ),
                     array(
                             'header'=>'Pajak PPN',
                             'name'=>'pajakppn',
                             'type'=>'raw',
-                            'value'=>'"Rp. ".number_format($data->pajakppn)',
+                            'value'=>'number_format($data->pajakppn,0,"",".")',
                             'footer'=>'-',
-                            'footerHtmlOptions'=>array('style'=>'text-align:left;color:white;'),
+                            'footerHtmlOptions'=>array('style'=>'text-align:right;color:white;'),
+                            'htmlOptions' => array('style'=>'text-align:right;')
                     ),                 
                     array(
                        'header'=>'Details',
@@ -183,7 +192,7 @@
 			</div>
 		</div>
 		<div class="span5">
-			<?php echo $form->textFieldRow($modFaktur,'nopenerimaan',array('class'=>'numberOnly span3')); ?>
+			<?php echo $form->textFieldRow($modFaktur,'nopenerimaan',array('class'=>'angkahuruf-only span3')); ?>
 			<?php echo $form->dropDownListRow($modFaktur,'supplier_id',
 															 CHtml::listData(SupplierM::model()->findAll(array('order'=>'supplier_nama asc')), 'supplier_id', 'supplier_nama'),
 															 array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)",

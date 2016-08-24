@@ -114,7 +114,7 @@ class KUInformasifakturumumV extends InformasifakturumumV
 		$criteria->compare('LOWER(nofakturpajak)',strtolower($this->nofakturpajak),true);
 		$criteria->addBetweenCondition('tglterima', $this->tgl_awal, $this->tgl_akhir);
 		if(isset($_GET['berdasarkanJatuhTempo'])){
-            if($_GET['berdasarkanJatuhTempo']>0){
+                if($_GET['berdasarkanJatuhTempo']>0){
 				$criteria->addBetweenCondition('tgljatuhtempo', $this->tgl_awalJatuhTempo, $this->tgl_akhirJatuhTempo);
 			}
 		}
@@ -265,5 +265,7 @@ class KUInformasifakturumumV extends InformasifakturumumV
 			'criteria'=>$criteria,
 		));
 	}
+        
+       
 	
 }

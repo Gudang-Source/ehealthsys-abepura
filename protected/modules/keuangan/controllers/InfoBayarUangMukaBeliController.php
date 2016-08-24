@@ -8,11 +8,11 @@ class InfoBayarUangMukaBeliController extends MyAuthController
 		$modBayar->tgl_awal=date('Y-m-d');
 		$modBayar->tgl_akhir=date('Y-m-d');
 
-		if(isset($_GET['KUInformasibayaruangmukaV'])){
-			$modBayar->attributes=$_GET['KUInformasibayaruangmukaV'];
-			$modBayar->tgl_awal = $format->formatDateTimeForDb($_GET['KUInformasibayaruangmukaV']['tgl_awal']);
-			$modBayar->tgl_akhir = $format->formatDateTimeForDb($_GET['KUInformasibayaruangmukaV']['tgl_akhir']);
-		}
+		if(isset($_GET['KUUangMukaBeliT'])){
+			$modBayar->attributes=$_GET['KUUangMukaBeliT'];
+			$modBayar->tgl_awal = $format->formatDateTimeForDb($_GET['KUUangMukaBeliT']['tgl_awal']);
+			$modBayar->tgl_akhir = $format->formatDateTimeForDb($_GET['KUUangMukaBeliT']['tgl_akhir']);
+		}//KUInformasibayaruangmukaV
 
 		$this->render('index', array('modBayar'=>$modBayar));
 	}
