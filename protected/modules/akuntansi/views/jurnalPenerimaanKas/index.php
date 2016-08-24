@@ -89,7 +89,7 @@
                     $('#daftar-jural-rek-grid').find('input[name$="[x][saldokredit]"]').attr('id', 'AKJurnalrekeningT_'+ i +'_saldokredit]');
                     $('#daftar-jural-rek-grid').find('input[name$="[x][saldokredit]"]').attr('name', 'AKJurnalrekeningT['+ i +'][saldokredit]');
                     
-                    $('#daftar-jural-rek-grid').find("td[name$='[x][tglbuktijurnal]']").text(data[i].tglbuktijurnal);
+                    $('#daftar-jural-rek-grid').find("td[name$='[x][tglbuktijurnal]']").text(data[i].tglbuktijurnalform);
                     $('#daftar-jural-rek-grid').find('td[name$="[x][tglbuktijurnal]"]').attr('name', 'AKJurnalrekeningT['+ i +'][tglbuktijurnal]');
                     
                     $('#daftar-jural-rek-grid').find("span[name$='[x][nobuktijurnal]']").text(data[i].nobuktijurnal);
