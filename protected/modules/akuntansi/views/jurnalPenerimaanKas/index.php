@@ -1,3 +1,7 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
+
 <div class="white-container">
     <?php
     $this->breadcrumbs=array(
@@ -77,11 +81,11 @@
                     $('#daftar-jural-rek-grid').find('td[name$="[x][saldokredit]"]').attr('name', 'AKJurnalrekeningT['+ i +'][saldokredit]');
                     */
                    
-                    $('#daftar-jural-rek-grid').find("input[name$='[x][saldodebit]']").val(data[i].saldodebit);
+                    $('#daftar-jural-rek-grid').find("input[name$='[x][saldodebit]']").val(formatNumber(data[i].saldodebit));
                     $('#daftar-jural-rek-grid').find('input[name$="[x][saldodebit]"]').attr('id', 'AKJurnalrekeningT_'+ i +'_saldodebit]');
                     $('#daftar-jural-rek-grid').find('input[name$="[x][saldodebit]"]').attr('name', 'AKJurnalrekeningT['+ i +'][saldodebit]');
                     
-                    $('#daftar-jural-rek-grid').find("input[name$='[x][saldokredit]']").val(data[i].saldokredit);
+                    $('#daftar-jural-rek-grid').find("input[name$='[x][saldokredit]']").val(formatNumber(data[i].saldokredit));
                     $('#daftar-jural-rek-grid').find('input[name$="[x][saldokredit]"]').attr('id', 'AKJurnalrekeningT_'+ i +'_saldokredit]');
                     $('#daftar-jural-rek-grid').find('input[name$="[x][saldokredit]"]').attr('name', 'AKJurnalrekeningT['+ i +'][saldokredit]');
                     
@@ -113,7 +117,7 @@
                     var jns_rekening = "Debit";
                     if(data[i].saldodebit == 0)
                     {
-                        nm_rekening_temp = "        " + data[i].nama_rekening;
+                        nm_rekening_temp = data[i].nama_rekening;
                         var jns_rekening = "Kredit";
                     }                    
                     
@@ -168,6 +172,10 @@
                         }
                     );
                 }
+				
+				$(".integer2").maskMoney(
+					{"symbol":"","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0}
+				);
 				$('#frmGridJurnalRek').removeClass("animation-loading");
             }, "json"
         );
@@ -243,6 +251,11 @@
         }
 
     }    
+	
+	
+	$(".alphanum").keyup(function() {
+		$(this).val($(this).val().replace(/[^a-zA-Z0-9]/gi, ''));
+	});
     
     
 </script>
