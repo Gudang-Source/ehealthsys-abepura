@@ -1,13 +1,15 @@
 <?php
 //    $table = 'ext.bootstrap.widgets.BootGroupGridView';
-$table = 'ext.bootstrap.widgets.BootExcelGridView';
+$table = 'ext.bootstrap.widgets.BootGridView';
 $sort = true;
 if (isset($caraPrint)) {
 	$data = $model->searchLaporan();
 	$template = "{items}";
 	$sort = false;
-//        if ($caraPrint == "EXCEL")
+        if ($caraPrint == "EXCEL")
+        {
 	$table = 'ext.bootstrap.widgets.BootExcelGridView';
+        }
 	echo "<style>
                 .tableRincian thead, th{
                     border: 1px #000 solid;

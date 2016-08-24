@@ -7,13 +7,13 @@ class InformasiPenerimaanUmumController extends MyAuthController
 	{
             $modPenerimaan = new KUPenerimaanUmumT;
             $format = new MyFormatter();
-            $modPenerimaan->tgl_awal=date('d M Y 00:00:00');
-            $modPenerimaan->tgl_akhir=date('d M Y H:i:s');
+            $modPenerimaan->tgl_awal=date('d M Y');
+            $modPenerimaan->tgl_akhir=date('d M Y');
 		
-            if(isset($_GET['AKPenerimaanUmumT'])){
-                $modPenerimaan->attributes=$_GET['AKPenerimaanUmumT'];
-                $modPenerimaan->tgl_awal = $format->formatDateTimeForDb($_GET['AKPenerimaanUmumT']['tgl_awal']);
-                $modPenerimaan->tgl_akhir = $format->formatDateTimeForDb($_GET['AKPenerimaanUmumT']['tgl_akhir']);
+            if(isset($_GET['KUPenerimaanUmumT'])){
+                $modPenerimaan->attributes=$_GET['KUPenerimaanUmumT'];
+                $modPenerimaan->tgl_awal = $format->formatDateTimeForDb($_GET['KUPenerimaanUmumT']['tgl_awal']);
+                $modPenerimaan->tgl_akhir = $format->formatDateTimeForDb($_GET['KUPenerimaanUmumT']['tgl_akhir']);
             }
             
             $this->render($this->path_view. 'index', array('modPenerimaan'=>$modPenerimaan));
