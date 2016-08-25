@@ -2558,4 +2558,14 @@ class PendaftaranRawatJalanController extends MyAuthController
                 Yii::app()->end();
             }
         }
+		
+		
+		public function actionCekSEP() 
+		{
+			if(Yii::app()->getRequest()->getIsAjaxRequest()) {
+				$nosep = $_POST['nosep'];
+				$bpjs = new Bpjs();
+				print_r( $bpjs->detail_sep($nosep) );
+			}
+		}
 }

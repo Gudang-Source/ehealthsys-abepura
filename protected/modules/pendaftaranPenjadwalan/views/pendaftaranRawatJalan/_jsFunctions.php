@@ -2156,6 +2156,42 @@ function cekJamPoli() {
     return true;
 }
 
+function cekSEP(nosep) {
+	var setting = {
+        url : "<?php echo $this->createUrl('cekSEP'); ?>",
+        type : 'POST',
+        dataType : 'json',
+        data : {nosep: nosep},
+        beforeSend: function(){
+            $("#content-bpjs").addClass("animation-loading");
+        },
+        success: function(data){
+            $("#content-bpjs").removeClass("animation-loading");
+            console.log(data);
+            var obj = data;
+            if(obj.response!=null){
+                myAlert(
+					"Nama Peserta : " + obj.response.peserta.nama + "\n" +
+					"Nomor Kartu : " + obj.response.peserta.noKartu + "\n" +
+					"No. Sep : " + obj.response.noSep
+				);
+				getAsuransiNoKartu(obj.response.peserta.noKartu);
+				$("#PPSepT_ppkrujukan").val(obj.response.provRujukan.kdProvider);
+				$("#PPRujukanbpjsT_no_rujukan").val(obj.response.noRujukan);
+            }else{
+              myAlert(obj.metadata.message);
+            }
+        },
+        error: function(data){
+            $("#content-bpjs").removeClass("animation-loading");
+        }
+    }
+    
+    if(typeof ajax_request !== 'undefined') 
+        ajax_request.abort();
+    ajax_request = $.ajax(setting);
+}
+
 
 /**
  * javascript yang di running setelah halaman ready / load sempurna

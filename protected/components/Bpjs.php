@@ -276,7 +276,7 @@
 
 		function detail_sep($query){
 			list($uid, $timestmp, $hashsignature) = $this->HashBPJS();
-			$completeUrl = $this->url.'/Sep/sep/'.$query;
+			$completeUrl = $this->url.'/SEP/sep/'.$query;
 			return $this->request($completeUrl, $hashsignature, $uid, $timestmp);
 		}
 
