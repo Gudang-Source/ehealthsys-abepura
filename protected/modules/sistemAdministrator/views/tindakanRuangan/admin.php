@@ -70,13 +70,14 @@
                         array(
                          'header'=>'Ruangan ',
                          'type'=>'raw',
-                         'value'=>'$this->grid->getOwner()->renderPartial(\'_ruangan\',array(\'daftartindakan_id\'=>$data->daftartindakan_id),true)',
+                         //'value'=>'$this->grid->getOwner()->renderPartial(\'_ruangan\',array(\'daftartindakan_id\'=>$data->daftartindakan_id),true)',
+                            'value' =>'$data->ruangan->ruangan_nama'
                         ), 
                         array(
                             'header' => 'Ubah'  ,
                             'type' => 'raw',
                             'value' => function($data){
-                                return Chtml::link("<i class = 'icon-form-ubah'></u>", Yii::app()->createUrl(Yii::app()->controller->module->id."/".Yii::app()->controller->id."/update",array("daftartindakan_id"=>$data->daftartindakan_id)));
+                                return Chtml::link("<i class = 'icon-form-ubah'></u>", Yii::app()->createUrl(Yii::app()->controller->module->id."/".Yii::app()->controller->id."/update",array("daftartindakan_id"=>$data->daftartindakan_id,"ruangan_id"=>$data->ruangan_id)));
                             },
                         ),                        
 			array(
