@@ -2,7 +2,7 @@
 
 class BKLaporanclosingkasirV extends LaporanclosingkasirV
 {
-        public $tgl_awal, $tgl_akhir, $ruanganKasir = array();
+        public $tgl_awal, $tgl_akhir, $bln_awal, $bln_akhir, $thn_awal, $thn_akhir, $jns_periode, $ruanganKasir = array();
         public $jumlah, $data, $tick; //untuk grafik
 	/**
 	 * Returns the static model of the specified AR class.
@@ -22,10 +22,10 @@ class BKLaporanclosingkasirV extends LaporanclosingkasirV
 	 */
         protected function functionCriteria(){
             $criteria=new CDbCriteria;
-			$this->tgl_awal = MyFormatter::formatDateTimeForDb($this->tgl_awal);
-			$this->tgl_akhir = MyFormatter::formatDateTimeForDb($this->tgl_akhir);
+			//$this->tgl_awal = MyFormatter::formatDateTimeForDb($this->tgl_awal);
+			//$this->tgl_akhir = MyFormatter::formatDateTimeForDb($this->tgl_akhir);
             if(!empty($this->tgl_awal) && !empty($this->tgl_akhir)){
-                $criteria->addBetweenCondition('tglclosingkasir',$this->tgl_awal.' 00:00:00',$this->tgl_akhir.' 23:59:59');
+                $criteria->addBetweenCondition('tglclosingkasir',$this->tgl_awal,$this->tgl_akhir);
             }
 			if(!empty($this->closingkasir_id)){
 				$criteria->addCondition('closingkasir_id = '.$this->closingkasir_id);
@@ -67,10 +67,12 @@ class BKLaporanclosingkasirV extends LaporanclosingkasirV
 			if(!empty($this->update_loginpemakai_id)){
 				$criteria->addCondition('update_loginpemakai_id = '.$this->update_loginpemakai_id);
 			}
-            if($this->ruanganKasir)
-                $criteria->addInCondition('create_ruangan', $this->ruanganKasir);
-            else
-                $criteria->addCondition('create_ruangan IS NULL');
+            if (!empty($this->create_ruangan)){
+                
+                $criteria->addInCondition('create_ruangan', $this->create_ruangan);
+            }else{
+               $criteria->addCondition('create_ruangan IS NULL');
+            }
             return $criteria;
         }
         
@@ -99,9 +101,11 @@ class BKLaporanclosingkasirV extends LaporanclosingkasirV
         {
             $criteria = new CDbCriteria;
             $criteria = $this->functionCriteria();
+            $criteria->limit = -1;
             return new CActiveDataProvider($this,
                 array(
                     'criteria' => $criteria,
+                    'pagination' => false,
                 )
             );
         }

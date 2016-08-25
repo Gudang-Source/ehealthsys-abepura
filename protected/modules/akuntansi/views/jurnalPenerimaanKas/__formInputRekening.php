@@ -45,9 +45,9 @@
     <td name="AKJurnalrekeningT[x][saldodebit]">5</td>
     <td name="AKJurnalrekeningT[x][saldokredit]">5</td>
     -->
-    <td><?php echo $form->textField($model,'[x]saldodebit',array('style'=>'width:65px', 'class'=>'span2')); ?></td>
-    <td><?php echo $form->textField($model,'[x]saldokredit',array('style'=>'width:65px', 'class'=>'span2')); ?></td>
+    <td><?php echo $form->textField($model,'[x]saldodebit',array('style'=>'width:65px', 'class'=>'span2 integer2')); ?></td>
+    <td><?php echo $form->textField($model,'[x]saldokredit',array('style'=>'width:65px', 'class'=>'span2 integer2')); ?></td>
     <td>
-        <?php echo $form->textArea($model,'[x]urianjurnal',array('rows'=>1, 'style'=>'height:17px','class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>32,'readonly'=>false)); ?>
+        <?php echo $form->textArea($model,'[x]urianjurnal',array('rows'=>3, 'style'=>'height:17px','class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>32,'readonly'=>false)); ?>
     </td>
 </tr>

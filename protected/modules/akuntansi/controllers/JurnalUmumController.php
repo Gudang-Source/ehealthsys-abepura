@@ -182,6 +182,8 @@ class JurnalUmumController extends MyAuthController {
         $model->create_loginpemakai_id = Yii::app()->user->id;
         $model->update_loginpemakai_id = Yii::app()->user->id;
         $model->create_ruangan = Yii::app()->user->getState('ruangan_id');
+        if(empty($model->ruangan_id)) 
+            $model->ruangan_id = Yii::app()->user->getState('ruangan_id');
 
         if ($model->validate()) {
             if ($model->save()) {

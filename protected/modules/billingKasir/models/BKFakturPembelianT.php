@@ -3,6 +3,7 @@
 class BKFakturPembelianT extends FakturpembelianT
 {
         public $tgl_awal,$tgl_akhir,$tgl_awalJatuhTempo,$tgl_akhirJatuhTempo,$SupplierItems,$supplier_id;
+        public $bln_awal, $bln_akhir, $thn_akhir, $thn_awal, $jns_periode;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.

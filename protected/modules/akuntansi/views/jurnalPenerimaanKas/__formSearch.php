@@ -58,8 +58,8 @@
                 </div>
             </td>
             <td>
-                <?php echo $form->textFieldRow($model,'nobuktijurnal',array('class'=>'span3 required', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>32,'readonly'=>false)); ?>
-                <?php echo $form->textFieldRow($model,'kodejurnal',array('class'=>'span3 required', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>32,'readonly'=>false)); ?>                
+                <?php echo $form->textFieldRow($model,'nobuktijurnal',array('class'=>'span3 required alphanum', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>32,'readonly'=>false)); ?>
+                <?php echo $form->textFieldRow($model,'kodejurnal',array('class'=>'span3 required alphanum', 'onkeypress'=>"return $(this).focusNextInputField(event)", 'maxlength'=>32,'readonly'=>false)); ?>                
             </td>
         </tr>
     </table>

@@ -15,8 +15,9 @@
     });
     ");
     ?>
+    <fieldset class="box search-form">
     <?php $this->renderPartial('closingKasir/_search', array('model'=>$model)); ?>
-    
+    </fieldset>
     <div class="block-tabel">
         <h6>Tabel <b>Closing Kasir</b></h6>
         <?php $this->renderPartial('closingKasir/_table', array('model'=>$model)); ?>

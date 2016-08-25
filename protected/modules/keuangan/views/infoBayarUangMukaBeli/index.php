@@ -66,7 +66,7 @@
                     array(
                             'header'=>'Jumlah Uang',
                             'name'=>'jumlahuang',
-                            'value'=>'MyFormatter::formatNumberForPrint($data->jumlahuang)',
+                            'value'=>'"Rp".number_format($data->jumlahuang,0,"",".")',
                             'htmlOptions'=>array(
                                 'style'=>'text-align: right',
                             ),

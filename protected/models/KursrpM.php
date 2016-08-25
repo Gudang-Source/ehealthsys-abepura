@@ -111,11 +111,13 @@ class KursrpM extends CActiveRecord
                 $criteria=new CDbCriteria;
 		$criteria->compare('kursrp_id',$this->kursrp_id);
 		$criteria->compare('matauang_id',$this->matauang_id);
-		//$criteria->compare('matauang',$this->matauang);
-		$criteria->compare('LOWER(tglkursrp)',strtolower($this->tglkursrp),true);
-		$criteria->compare('nilai',$this->nilai);
-		$criteria->compare('rupiah',$this->rupiah);
-		$criteria->compare('kursrp_aktif',$this->kursrp_aktif);
+//		if(!empty($this->matauang)){
+//		   $criteria->addCondition("matauang = ".$this->matauang);
+//		}
+		$criteria->compare('date(tglkursrp)', MyFormatter::formatDateTimeForDb($this->tglkursrp));
+		$criteria->compare('nilai', str_replace('.','',$this->nilai));
+		$criteria->compare('rupiah',str_replace('.','',$this->rupiah));
+		$criteria->compare('kursrp_aktif',isset($this->kursrp_aktif)?$this->kursrp_aktif:true);
                 // Klo limit lebih kecil dari nol itu berarti ga ada limit 
                 $criteria->limit=-1; 
 

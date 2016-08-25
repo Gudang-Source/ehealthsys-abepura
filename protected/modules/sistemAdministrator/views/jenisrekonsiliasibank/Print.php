@@ -23,12 +23,20 @@ $this->widget($table,array(
 	'columns'=>array(
 		////'jenisrekonsiliasibank_id',
 		array(
-			'header'=>'ID',
-			'value'=>'$data->jenisrekonsiliasibank_id',
-		),
-		'jenisrekonsiliasibank_nama',
-		'jenisrekonsiliasibank_namalain',
-		'jenisrekonsiliasibank_aktif',
+                    'header' => 'No.',
+                    'value' => '($this->grid->dataProvider->pagination) ? 
+                            ($this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1)
+                            : ($row+1)',
+                    'type' => 'raw',
+                    'htmlOptions' => array('style' => 'text-align:right;'),
+            ),
+//			'jenisrekonsiliasibank_id',
+            'jenisrekonsiliasibank_nama',
+            'jenisrekonsiliasibank_namalain',
+            array(
+                    'header' => 'Aktif',
+                    'value' => '($data->jenisrekonsiliasibank_aktif == 1) ? "Aktif" : "Tidak Aktif"',
+            ),
  
 	),
 )); 
