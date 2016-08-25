@@ -78,12 +78,16 @@ class BayarUangMukaBeliController extends MyAuthController
             $modBayarUangMuka->norekening = $modBuktiKeluar->denganrekening;
             $modBayarUangMuka->rekatasnama = $modBuktiKeluar->atasnamarekening;
             $modBayarUangMuka->jumlahuang = $modBuktiKeluar->jmlkaskeluar;
+			$modBayarUangMuka->tgluangmukabeli = $modBuktiKeluar->tglkaskeluar;
+			
             if($modBayarUangMuka->validate()){
                 $modBayarUangMuka->save();
                 $this->successSave = $this->successSave && true;
             } else {
                 $this->successSave = false;
             }
+			
+			// var_dump($modBuktiKeluar->attributes, $modBayarUangMuka->attributes); die;
             
             return $modBayarUangMuka;
         }

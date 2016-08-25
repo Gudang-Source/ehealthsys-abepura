@@ -35,6 +35,7 @@
                                                         return false;
                                                     }',
                                             ),
+											'tombolDialog'=>array('idDialog'=>'dialogSupplier'),
                                         )); 
                         ?>
                     </div>
@@ -86,6 +87,63 @@
     </table>
 </fieldset> 
 
+
+<?php
+//========= Dialog buat cari data Alat Kesehatan =========================
+$this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
+    'id'=>'dialogSupplier',
+    'options'=>array(
+        'title'=>'Daftar Supplier',
+        'autoOpen'=>false,
+        'modal'=>true,
+        'width'=>980,
+        'height'=>620,
+        'resizable'=>false,
+    ),
+));
+$format = new MyFormatter();
+$modSup = new KUSupplierM();
+$modSup->unsetAttributes();
+if(isset($_GET['KUSupplierM'])){
+    $modSup->attributes = $_GET['KUSupplierM'];
+ }
+
+$provider = $modSup->searchSupplierDialog();
+$provider->sort->defaultOrder = 'supplier_nama asc';
+
+$this->widget('ext.bootstrap.widgets.BootGridView',array(
+	'id'=>'supplier-m-grid',
+	'dataProvider'=>$provider,
+	'filter'=>$modSup,
+	'template'=>"{summary}\n{items}\n{pager}",
+	'itemsCssClass'=>'table table-striped table-bordered table-condensed',
+	'columns'=>array(
+		
+                array(
+                    'header'=>'Pilih',
+                    'type'=>'raw',
+                    'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn-small", 
+                                    "id" => "selectObat",
+                                    "onClick" => "
+										
+                                        isiDataSupplier(".json_encode($data->attributes).");
+										$(\'#KUSupplierM_supplier_nama\').val(\'".$data->supplier_nama."\');
+                                        $(\'#dialogSupplier\').dialog(\'close\');
+                                        return false;"
+                                        ))',
+                ),
+				'supplier_nama',
+				'supplier_alamat',
+                
+
+                
+	),
+        'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"}); }',
+)); 
+
+$this->endWidget();
+?>
+
 <script type="text/javascript">
 function isiDataSupplier(data)
 {
@@ -105,3 +163,4 @@ function isiDataSupplier(data)
     $('.currency').each(function(){this.value = formatNumber(this.value)})
 }
 </script>
+

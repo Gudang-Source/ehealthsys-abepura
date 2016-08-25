@@ -2,6 +2,7 @@
 class GZPesanmenudietT extends PesanmenudietT{
     public $instalasi_id,$kelaspelayanan_id,$ruangna_id;
 	public $carabayar_id,$penjamin_id;
+        public $temp_no;
     
     public static function model($className = __CLASS__) {
         return parent::model($className);
@@ -105,6 +106,7 @@ class GZPesanmenudietT extends PesanmenudietT{
 		       Params::INSTALASI_ID_RI) 
 		   );
 	   $criteria->addCondition('instalasi_aktif = true');
+           $criteria->order = "instalasi_nama ASC";
 	   $modInstalasis = InstalasiM::model()->findAll($criteria);
 	   if(count($modInstalasis) > 0)
 	       return $modInstalasis;

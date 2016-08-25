@@ -2,7 +2,7 @@
 
 class SATindakanruanganM extends TindakanruanganM
 {
-    public $instalasi_id,$instalasi_nama,$ruangan_nama,$komponenunit_nama;
+    public $instalasi_id,$instalasi_nama,$ruangan_nama,$komponenunit_nama, $daftartindakan_nama;
 
     /**
 	 * Returns the static model of the specified AR class.
