@@ -133,9 +133,10 @@
                                              'model'=>$modPasienMasukPenunjang,
                                              'attribute'=>'tgl_awal',
                                              'mode'=>'date',
-    //                                          'maxDate'=>'d',
+                                             
                                              'options'=> array(
                                              'dateFormat'=>Params::DATE_FORMAT,
+                                                 'maxDate'=>'d',
                                             ),
                                              'htmlOptions'=>array('readonly'=>true,'class'=>'span3',
                                              'onkeypress'=>"return $(this).focusNextInputField(event)"),
@@ -153,6 +154,7 @@
     //                                         'maxdate'=>'d',
                                              'options'=> array(
                                              'dateFormat'=>Params::DATE_FORMAT,
+                                             'maxDate'     => 'd'
                                             ),
                                              'htmlOptions'=>array('readonly'=>true,'class'=>'span3',
                                              'onkeypress'=>"return $(this).focusNextInputField(event)"),

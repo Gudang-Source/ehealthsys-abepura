@@ -111,8 +111,13 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                     Yii::t('mds', '{icon} Save', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'onKeypress' => 'return formSubmit(this,event)', 'id' => 'btn_simpan'));
     ?>
 	<?php 
-           $content = $this->renderPartial('rawatJalan.views.tips.tips',array(),true);
-			$this->widget('UserTips',array('type'=>'admin','content'=>$content));
+            $tips = array(
+                '0' => 'waktutime',
+                '1' => 'autocomplete-search',
+                '2' => 'simpan'
+            );
+           $content = $this->renderPartial('sistemAdministrator.views.tips.detailTips',array('tips'=>$tips),true);
+                      $this->widget('UserTips',array('type'=>'admin','content'=>$content));
         ?>
 </div>
 
