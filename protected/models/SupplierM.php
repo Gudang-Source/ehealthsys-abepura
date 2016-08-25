@@ -200,6 +200,38 @@ class SupplierM extends CActiveRecord
 			'pagination'=>false,
 		));
     }    
+	
+	public function searchSupplierDialog()
+    {
+    	$criteria=new CDbCriteria;
+
+		$criteria->compare('supplier_id',$this->supplier_id);
+		$criteria->compare('LOWER(supplier_kode)',strtolower($this->supplier_kode),true);
+		$criteria->compare('LOWER(supplier_nama)',strtolower($this->supplier_nama),true);
+		$criteria->compare('LOWER(supplier_namalain)',strtolower($this->supplier_namalain),true);
+		$criteria->compare('LOWER(supplier_alamat)',strtolower($this->supplier_alamat),true);
+		$criteria->compare('LOWER(supplier_propinsi)',strtolower($this->supplier_propinsi),true);
+		$criteria->compare('LOWER(supplier_kabupaten)',strtolower($this->supplier_kabupaten),true);
+		$criteria->compare('LOWER(supplier_telp)',strtolower($this->supplier_telp),true);
+		$criteria->compare('LOWER(supplier_fax)',strtolower($this->supplier_fax),true);
+		$criteria->compare('LOWER(supplier_kodepos)',strtolower($this->supplier_kodepos),true);
+		$criteria->compare('LOWER(supplier_npwp)',strtolower($this->supplier_npwp),true);
+		$criteria->compare('LOWER(supplier_website)',strtolower($this->supplier_website),true);
+		$criteria->compare('LOWER(supplier_email)',strtolower($this->supplier_email),true);
+		$criteria->compare('LOWER(supplier_cp)',strtolower($this->supplier_cp),true);
+        $criteria->compare('LOWER(supplier_norekening)',strtolower($this->supplier_norekening),true);
+        $criteria->compare('LOWER(supplier_jenis)',strtolower($this->supplier_jenis),true);
+		$criteria->compare('supplier_aktif',isset($this->supplier_aktif)?$this->supplier_aktif:true);
+		$criteria->addCondition("supplier_id not in(select supplier_id from supplierrek_m)");
+		// $criteria->where('supplier_id not in :supplier_id', array(':supplier_id'=>15))
+
+        $criteria->order='supplier_nama'; 
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+			//'pagination'=>false,
+		));
+    }    
+	
         // select * from supplier_m where supplier_id not in (select supplier_id from supplierrek_m)
 		//order by supplier_nama
         public function searchPrint()
