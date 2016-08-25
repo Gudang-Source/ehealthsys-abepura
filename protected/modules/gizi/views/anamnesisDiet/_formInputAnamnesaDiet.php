@@ -41,12 +41,12 @@ $this->widget('application.extensions.moneymask.MMask', array(
                     <td>
                         <?php echo CHtml::activeHiddenField($modAnamnesa,'['.$waktumakan->jeniswaktu_id.']menudiet_id',array('class'=>'span2 menudietId','readonly'=>true)); ?>
                         <?php echo CHtml::activetextField($modAnamnesa,'['.$waktumakan->jeniswaktu_id.']menudietNama',array('onclick'=>'$("#dialogDaftarMenuDiet").dialog("open"); getIdJenisWaktu('.$waktumakan->jeniswaktu_id.');  return false;','class'=>'span2 menudietNama','readonly'=>false)); ?>
-                        <?php echo CHtml::link("<span class='icon-list-alt'></span><span class='icon-search'></span>",'',array('href'=>'','onclick'=>'$("#dialogDaftarMenuDiet").dialog("open"); getIdJenisWaktu('.$waktumakan->jeniswaktu_id.');  return false;','style'=>'text-decoration:none;')); ?>
+                        <?php echo CHtml::link("<span class='icon-list'></span><span class='icon-search'></span>",'',array('href'=>'','onclick'=>'$("#dialogDaftarMenuDiet").dialog("open"); getIdJenisWaktu('.$waktumakan->jeniswaktu_id.');  return false;','style'=>'text-decoration:none;')); ?>
                     </td>
                     <td>
                         <?php echo CHtml::activeHiddenField($modAnamnesa,'['.$waktumakan->jeniswaktu_id.']bahanmakanan_id',array('class'=>'span2 bahanmakananId','readonly'=>true)); ?>
                         <?php echo CHtml::activetextField($modAnamnesa,'['.$waktumakan->jeniswaktu_id.']bahanmakananNama',array('onclick'=>'$("#dialogDaftarBahanMakanan").dialog("open"); getIdJenisWaktu('.$waktumakan->jeniswaktu_id.');  return false;','class'=>'span2 bahanmakananNama','readonly'=>false)); ?>
-                        <?php echo CHtml::link("<span class='icon-list-alt'></span><span class='icon-search'></span>",'',array('href'=>'','onclick'=>'$("#dialogDaftarBahanMakanan").dialog("open"); getIdJenisWaktu('.$waktumakan->jeniswaktu_id.');  return false;','style'=>'text-decoration:none;')); ?>
+                        <?php echo CHtml::link("<span class='icon-list'></span><span class='icon-search'></span>",'',array('href'=>'','onclick'=>'$("#dialogDaftarBahanMakanan").dialog("open"); getIdJenisWaktu('.$waktumakan->jeniswaktu_id.');  return false;','style'=>'text-decoration:none;')); ?>
                     </td>
 <!--                    <td><?php //echo CHtml::activeHiddenField($modAnamnesa, '[0]menudiet_id', array('readonly'=>true,'class'=>'inputFormTabel')) ?>
                         <?php /*$this->widget('MyJuiAutoComplete',array(

@@ -103,7 +103,7 @@
                     <?php echo CHtml::label('Ahli Gizi', 'Ahli Gizi', array('class' => 'control-label')) ?>
                     <div class="controls"> 
                         <?php 
-                                echo CHtml::dropDownList('ahligizi','ahligizi', CHtml::listData($modDietPasien->getAhliGiziItems(), 'pegawai_id', 'nama_pegawai'), 
+                                echo CHtml::dropDownList('ahligizi','ahligizi', CHtml::listData($modDietPasien->getAhliGiziItems(), 'pegawai_id', 'namaLengkap'), 
                                         array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);",'empty'=>'--Pilih--')); 
                         ?>                      
                        
@@ -156,7 +156,12 @@
                                         array('class'=>'btn btn-primary', 'type'=>'submit', 'onKeypress'=>'return formSubmit(this,event)','id'=>'btn_simpan')); 
         ?>
         <?php 
-           $content = $this->renderPartial('gizi.views.tips.tips',array(),true);
+            $tips = array(
+                '0' => 'waktutime',
+                '1' => 'autocomplete-search',
+                '2' => 'simpan'
+            );
+           $content = $this->renderPartial('sistemAdministrator.views.tips.detailTips',array('tips'=>$tips),true);
                       $this->widget('UserTips',array('type'=>'admin','content'=>$content));
         ?>
     </div>

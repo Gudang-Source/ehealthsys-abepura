@@ -45,7 +45,8 @@ class JurnalPenerimaanKasController extends MyAuthController
             {
                 $attributes = $val->attributes;
                 $attributes['tglbuktijurnal'] = date("d-m-Y", strtotime($val->jurnalRekening->tglbuktijurnal));
-                $attributes['nobuktijurnal'] = $val->jurnalRekening->nobuktijurnal;
+                $attributes['tglbuktijurnalform'] = MyFormatter::formatDateTimeForuser($val->jurnalRekening->tglbuktijurnal);
+				$attributes['nobuktijurnal'] = $val->jurnalRekening->nobuktijurnal;
                 $attributes['kodejurnal'] = $val->jurnalRekening->kodejurnal;
                 $attributes['urianjurnal'] = $val->jurnalRekening->urianjurnal;
                 

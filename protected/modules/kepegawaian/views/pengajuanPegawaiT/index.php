@@ -372,7 +372,7 @@ if(isset($_GET['KPPegawairuanganV'])){
     $modPegawai->attributes = $_GET['KPPegawairuanganV'];
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
-    'id'=>'pegawaiYangMengetahui-m-grid',
+    'id'=>'pegawaiYangMenyetujui-m-grid',
     'dataProvider'=>$modPegawai->searchPegawaiMenyetujui(),
     'filter'=>$modPegawai,
     'template'=>"{summary}\n{items}\n{pager}",

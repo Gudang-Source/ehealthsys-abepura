@@ -129,7 +129,7 @@
                     <?php echo $form->error($model, 'tglpesanmenu'); ?>
                 </div>
             </div>
-            <?php echo $form->textFieldRow($model, 'nama_pemesan', array('placeholder'=>'Ketik Nama Pemesan','class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
+            <?php echo $form->textFieldRow($model, 'nama_pemesan', array('readonly'=>TRUE,'placeholder'=>'Ketik Nama Pemesan','class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
             <?php //echo $form->textFieldRow($model,'tglpesanmenu',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
             <?php echo $form->hiddenField($model, 'totalpesan_org'); ?>
             <?php echo $form->textFieldRow($model, 'adaalergimakanan', array('placeholder'=>'Ket. Alergi Makanan','class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>

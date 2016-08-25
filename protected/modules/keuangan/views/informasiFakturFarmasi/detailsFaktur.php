@@ -1,38 +1,59 @@
-<?php if(!isset($_GET['caraPrint'])) $class = "table table-bordered table-condensed"; else $class = "table table-striped table-bordered table-condensed"; ?>
-<table>
+<style>
+    .border{
+        border:1px solid #000;
+    }
+    .table thead:first-child{
+        border-top:1px solid #000;        
+    }
+    
+    thead th{
+        background:none;
+        color:#333;
+    }
+    
+    .table tbody tr:hover td, .table tbody tr:hover th {
+        background-color: none;
+    }
+</style>
+<center>
+<?php  echo $this->renderPartial('_headerPrint');  ?>
+</center>
+<table class = "table" style = "box-shadow:none;">
     <tr>
         <td>
-             <b><?php echo CHtml::encode($modFakturPembelian->getAttributeLabel('nofaktur')); ?>:</b>
-            <?php echo CHtml::encode($modFakturPembelian->nofaktur); ?>
-            <br />
-             <b><?php echo CHtml::encode($modFakturPembelian->getAttributeLabel('tglfaktur')); ?>:</b>
-            <?php echo CHtml::encode($modFakturPembelian->tglfaktur); ?>
-            <br />
+             <b><?php echo CHtml::encode($modFakturPembelian->getAttributeLabel('nofaktur')); ?>:</b>            
         </td>
+        <td>: <?php echo CHtml::encode($modFakturPembelian->nofaktur); ?></td>
+        <td>&nbsp;</td>
+        <td><b><?php echo CHtml::encode($modFakturPembelian->getAttributeLabel('totharganetto')); ?></b></td>
+        <td>: <?php echo "Rp".CHtml::encode(number_format($modFakturPembelian->totharganetto,0,"",".")); ?></td>
+    </tr> 
+    <tr>
         <td>
-            <b><?php echo CHtml::encode($modFakturPembelian->getAttributeLabel('totharganetto')); ?>:</b>
-            <?php echo "Rp. ".CHtml::encode(number_format($modFakturPembelian->totharganetto)); ?>
-            <br />
-             <b><?php echo CHtml::encode($modFakturPembelian->getAttributeLabel('jmldiscount')); ?>:</b>
-            <?php echo CHtml::encode($modFakturPembelian->jmldiscount); ?>
-            <br />
+             <b><?php echo CHtml::encode($modFakturPembelian->getAttributeLabel('tglfaktur')); ?>:</b>            
+        </td>
+        <td>: <?php echo MyFormatter::formatDateTimeForUser(CHtml::encode($modFakturPembelian->tglfaktur)); ?></td>
+        <td>&nbsp;</td>
+        <td><b><?php echo CHtml::encode($modFakturPembelian->getAttributeLabel('jmldiscount')); ?></b></td>
+        <td>             
+            : <?php echo CHtml::encode($modFakturPembelian->jmldiscount); ?>            
         </td>
     </tr>   
 </table>
 <hr/>
-<table id="tableObatAlkes" class="<?php echo $class; ?>">
+<table id="tableObatAlkes" class = "table" style = "box-shadow:none;">
     <thead>
     <tr>
-        <th>No.Urut</th>
-        <th>Sumber Dana</th>
-        <th>Kategori/&nbsp;&nbsp;&nbsp;&nbsp;<br/>Nama Obat</th>
-        <th>Satuan Kecil/<br/>Satuan Besar<br/></th>
-        <th>Jumlah Diterima</th>
-        <th>Harga Netto</th>
-        <th>Harga PPN</th>
-        <th>Harga PPH</th>
-        <th>Jumlah Diskon</th>
-        <th>Harga Satuan</th>
+        <th class = "border">No.Urut</th>
+        <th class = "border">Sumber Dana</th>
+        <th class = "border">Kategori/&nbsp;&nbsp;&nbsp;&nbsp;<br/>Nama Obat</th>
+        <th class = "border">Satuan Kecil/<br/>Satuan Besar<br/></th>
+        <th class = "border">Jumlah Diterima</th>
+        <th class = "border">Harga Netto</th>
+        <th class = "border">Harga PPN</th>
+        <th class = "border">Harga PPH</th>
+        <th class = "border">Jumlah Diskon</th>
+        <th class = "border">Harga Satuan</th>
     </tr>
     </thead>
     <tbody>
@@ -65,16 +86,16 @@
                     }
                     
                     echo "<tr>
-                            <td>".$no."</td>
-                            <td>".$tampilData->sumberdana['sumberdana_nama']."</td>  
-                            <td>".$tampilData->obatalkes['obatalkes_kategori']."<br>".$tampilData->obatalkes['obatalkes_nama']."</td>   
-                            <td>".$tampilData->satuankecil['satuankecil_nama']."<br>".$tampilData->satuanbesar['satuanbesar_nama']."</td>   
-                            <td>".$tampilData['jmlterima']."</td>
-                            <td>".number_format($tampilData['harganettofaktur'])."</td>     
-                            <td>".number_format($hargappnfaktur)."</td>     
-                            <td>".number_format($hargapphfaktur)."</td> 
-                            <td>".number_format($tampilData['jmldiscount'])."</td>        
-                            <td>".number_format($tampilData['hargasatuan'])."</td>      
+                            <td style = 'text-align:center;' class = 'border'>".$no."</td>
+                            <td  class = 'border' >".$tampilData->sumberdana['sumberdana_nama']."</td>  
+                            <td  class = 'border'>".$tampilData->obatalkes['obatalkes_kategori']." /<br> ".$tampilData->obatalkes['obatalkes_nama']."</td>   
+                            <td  class = 'border'>".$tampilData->satuankecil['satuankecil_nama']." /<br> ".$tampilData->satuanbesar['satuanbesar_nama']."</td>   
+                            <td style = 'text-align:right;' class = 'border'>".$tampilData['jmlterima']."</td>
+                            <td style = 'text-align:right;' class = 'border'>".number_format($tampilData['harganettofaktur'],0,"",".")."</td>     
+                            <td style = 'text-align:right;' class = 'border'>".number_format($hargappnfaktur,0,"",".")."</td>     
+                            <td style = 'text-align:right;' class = 'border'>".number_format($hargapphfaktur,0,"",".")."</td> 
+                            <td style = 'text-align:right;' class = 'border'>".number_format($tampilData['jmldiscount'],0,"",".")."</td>        
+                            <td style = 'text-align:right;' class = 'border'>".number_format($tampilData['hargasatuan'],0,"",".")."</td>      
                          </tr>";  
                         $no++;
                         $totalJumlahDiterima+=$tampilData['jmlterima'];
@@ -88,13 +109,13 @@
         }
         
     echo "</tbody><tfoot><tr>
-            <td colspan='4'> Total</td>
-            <td>".number_format($totalJumlahDiterima)."</td>
-            <td>".number_format($totalNetto)."</td>
-            <td>".number_format($totalPPN)."</td>
-            <td>".number_format($totalPPH)."</td>
-            <td>".number_format($totalJumlahDiskon)."</td>
-            <td>".number_format($totalHargaSatuan)."</td>
+            <td style = 'text-align:right;' class = 'border' colspan='4'><b> Total</b></td>
+            <td style = 'text-align:right;' class = 'border'><b>".number_format($totalJumlahDiterima,0,"",".")."</b></td>
+            <td style = 'text-align:right;' class = 'border'><b>".number_format($totalNetto,0,"",".")."</b></td>
+            <td style = 'text-align:right;' class = 'border'><b>".number_format($totalPPN,0,"",".")."</b></td>
+            <td style = 'text-align:right;' class = 'border'><b>".number_format($totalPPH,0,"",".")."</b></td>
+            <td style = 'text-align:right;' class = 'border'><b>".number_format($totalJumlahDiskon,0,"",".")."</b></td>
+            <td style = 'text-align:right;'  class = 'border'><b>".number_format($totalHargaSatuan,0,"",".")."</b></td>
          </tr></tfoot>";    
     ?>
 </table>

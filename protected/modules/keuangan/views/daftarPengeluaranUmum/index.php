@@ -52,11 +52,13 @@
                     'tglpengeluaran',
                     'nopengeluaran',
                     'jenispengeluaran.jenispengeluaran_nama',
-                    array('name'=>'hargasatuan',
-                          'value'=>'MyFormatter::formatUang($data->hargasatuan)'
+                    array(  'name'=>'hargasatuan',
+                            'value'=>'"Rp".number_format($data->hargasatuan,0,"",".")',
+                            'htmlOptions' => array('style'=>'text-align:right;')
                     ),
                     array('name'=>'totalharga',
-                          'value'=>'MyFormatter::formatUang($data->totalharga)'
+                          'value'=>'"Rp".number_format($data->totalharga,0,"",".")',
+                            'htmlOptions' => array('style'=>'text-align:right;')
                     ),
                 ),
                 'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
@@ -119,7 +121,7 @@
                     </div>
                 </td>
                 <td>
-                    <?php echo $form->textFieldRow($modPengeluaran,'nopengeluaran',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+                    <?php echo $form->textFieldRow($modPengeluaran,'nopengeluaran',array('class'=>'span3 angkahuruf-only','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
                     <?php //echo $form->textFieldRow($modPengeluaran,'kelompoktransaksi',array('class'=>'span3','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
                 </td>
             </tr>

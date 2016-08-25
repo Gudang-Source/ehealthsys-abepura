@@ -21,16 +21,16 @@ $this->widget($table,array(
 	'template'=>$template,
 	'itemsCssClass'=>'table table-striped table-bordered table-condensed',
 	'columns'=>array(
-		array(
-			'header'=>'ID',
-			'value'=>'$data->matauang_id',
-		),
-		'matauang',
-		'singkatan',
-		array(
-			'header'=>'Aktif',
-			'value'=>' ($data->matauang_aktif==1)? Yii::t("mds","Yes") : Yii::t("mds","No")',
-		), 
+		 array(
+                        'header'=>'ID',
+                        'value'=>'$data->matauang_id',
+                    ),
+                    'matauang',
+                    'singkatan',
+                    array(
+                        'header'=>'Aktif',
+                        'value'=>'($data->matauang_aktif == 1 ) ? "Aktif" : "Tidak Aktif" ',
+                    ),
 	),
 )); 
 ?>

@@ -92,7 +92,7 @@ class JenisrekonsiliasibankM extends CActiveRecord
 		}
 		$criteria->compare('LOWER(jenisrekonsiliasibank_nama)',strtolower($this->jenisrekonsiliasibank_nama),true);
 		$criteria->compare('LOWER(jenisrekonsiliasibank_namalain)',strtolower($this->jenisrekonsiliasibank_namalain),true);
-		$criteria->compare('jenisrekonsiliasibank_aktif',$this->jenisrekonsiliasibank_aktif);
+		$criteria->compare('jenisrekonsiliasibank_aktif', isset($this->jenisrekonsiliasibank_aktif)?$this->jenisrekonsiliasibank_aktif:true);
 
 		return $criteria;
 	}

@@ -10,7 +10,7 @@
 
 	<?php echo $form->textFieldRow($model,'jenisrekonsiliasibank_namalain',array('class'=>'span3','maxlength'=>100)); ?>
 
-	<?php echo $form->checkBoxRow($model,'jenisrekonsiliasibank_aktif'); ?>
+	<?php echo $form->checkBoxRow($model,'jenisrekonsiliasibank_aktif', array('checked'=>'jenisrekonsiliasibank_aktif')); ?>
 
 	<div class="form-actions">
 		<?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit')); ?>

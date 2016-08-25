@@ -23,7 +23,7 @@ class PembayaranKeSupplierUmumController extends MyAuthController {
 			$terimapersediaan_id = $_GET['terimapersediaan_id'];
 			$modTerimaPersediaan = KUTerimapersediaanT::model()->findByPk($terimapersediaan_id);
 			$sudahBayar = 0;
-
+                       
 			if ((boolean) count($modTerimaPersediaan)) {
 				$modDetailPersediaan = KUTerimapersdetailT::model()->findAllByAttributes(array('terimapersediaan_id' => $terimapersediaan_id));
 
@@ -35,12 +35,19 @@ class PembayaranKeSupplierUmumController extends MyAuthController {
 				}
 			}
 			$modelBayar->terimapersediaan_id = $terimapersediaan_id;
+                        $modelBayar->totaltagihan = $modTerimaPersediaan->totalharga - $sudahBayar;
+			//$modelBayar->jmldibayarkan = $modelBayar->totaltagihan - $uangMuka;
 			$modBuktiKeluar->nokaskeluar = "Otomatis";
 			$modBuktiKeluar->namapenerima = $modTerimaPersediaan->pembelianbarang->supplier->supplier_nama;
 			$modBuktiKeluar->alamatpenerima = $modTerimaPersediaan->pembelianbarang->supplier->supplier_alamat;
 			$modBuktiKeluar->untukpembayaran = 'Pembayaran Supplier';
+                        
+                      
+                         $modelBayar->totaltagihan = $modTerimaPersediaan->totalharga - $sudahBayar;
+                         $modelBayar->jmldibayarkan =  $modelBayar->totaltagihan;
+                       
 		}
-
+                 
 		if (!empty($_GET['bayarkesupplier_id'])) {
 
 			$modelBayar = KUBayarkesupplierT::model()->findByPk($_GET['bayarkesupplier_id']);
@@ -53,9 +60,10 @@ class PembayaranKeSupplierUmumController extends MyAuthController {
 				$modBuktiKeluar = $this->saveBuktiKeluar($_POST['KUTandabuktikeluarT'], $modelBayar, $modBuktiKeluar);
 
 				if ($this->successSave) {
-					echo "test";
+					//echo "test";
 					$transaction->commit();
-					$this->redirect(array('index', 'terimapersediaan_id' => $terimapersediaan_id, 'bayarkesupplier_id' => $modelBayar->bayarkesupplier_id, 'frame' => 1));
+                                        Yii::app()->user->setFlash("success", "Pembayaran berhasil disimpan.");
+					$this->redirect(array('index', 'terimapersediaan_id' => $terimapersediaan_id, 'bayarkesupplier_id' => $modelBayar->bayarkesupplier_id, 'frame' => 1,'sukses'=>1));
 					Yii::app()->user->setFlash('success', "Data berhasil disimpan");
 				} else {
 					Yii::app()->user->setFlash('error', "Data gagal disimpan ");

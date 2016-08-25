@@ -21,11 +21,12 @@ class AKKursrpM extends KursrpM
 
 		$criteria->compare('kursrp_id',$this->kursrp_id);
 		$criteria->compare('matauang_id',$this->matauang_id);
-		if(!empty($this->tglkursrp)){
-			$criteria->addCondition("DATE(tglkursrp) = '".$this->tglkursrp."'");
-		}
-		$criteria->compare('nilai',$this->nilai);
-		$criteria->compare('rupiah',$this->rupiah);
+//		if(!empty($this->matauang)){
+//		   $criteria->addCondition("matauang = ".$this->matauang);
+//		}
+		$criteria->compare('date(tglkursrp)', MyFormatter::formatDateTimeForDb($this->tglkursrp));
+		$criteria->compare('nilai', str_replace('.','',$this->nilai));
+		$criteria->compare('rupiah',str_replace('.','',$this->rupiah));
 		$criteria->compare('kursrp_aktif',isset($this->kursrp_aktif)?$this->kursrp_aktif:true);
 
 		return new CActiveDataProvider($this, array(
