@@ -314,9 +314,9 @@ Class Params
 	const KELOMPOKPEGAWAI_ID_TENAGA_RAD = 22; //kelompokpegawai_m tenaga rad (radiografer)
 	const KELOMPOKPEGAWAI_ID_BIDAN = 20; //kelompokpegawai_m bidan
 	
-	const KELOMPOKTINDAKAN_ID_GIZI	= 24; //kelompoktindakan_m gizi
-	const KELOMPOKTINDAKAN_ID_RAD	= 10; //kelompoktindakan_m radiodiagnostik
-	const KELOMPOKTINDAKAN_ID_LAB	= 25; //kelompoktindakan_m laboratorium
+	const KELOMPOKTINDAKAN_ID_GIZI	= 23; //kelompoktindakan_m gizi 24
+	const KELOMPOKTINDAKAN_ID_RAD	= 9; //kelompoktindakan_m radiodiagnostik 10
+	const KELOMPOKTINDAKAN_ID_LAB	= 24; //kelompoktindakan_m laboratorium 25
 	const KELOMPOKTINDAKAN_ID_MCU	= 26; //kelompoktindakan_m mcu
         const KELOMPOKTINDAKAN_ID_AKOMODASI = 14;
 
