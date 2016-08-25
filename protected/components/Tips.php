@@ -17,10 +17,18 @@ Class Tips
             'ulang'    => 'Gunakan tombol ini  <div class="btn btn-danger">'
                         .'<i class="icon-refresh icon-white"></i> Ulang</div> berfungsi '
                         .' untuk mengulang kembali inputan.', 
+            'ulang2'    => 'Gunakan tombol ini  <div class="btn btn-danger">'
+                        .'<i class="icon-refresh icon-white"></i> Ulang</div> berfungsi '
+                        .' untuk mengulang kembali pencarian.', 
+            'cari'    => 'Gunakan tombol ini  <div class="btn btn-primary">'
+                        .'<i class="icon-search icon-white"></i> Cari</div> berfungsi '
+                        .' untuk mencari data.', 
             'autocomplete-search' => 'icon ini  <i class="icon-list"></i><i class="icon-search"></i>'
                         .'  berfungsi untuk menampilkan list data sesuai dengan diketikkan dan menampilkan dialog box jika icon di klik.',
             'waktutime' => 'icon ini  <i class="icon-calendar"></i><i class="icon-time"></i>'
                         .'  berfungsi untuk menentukan tanggal dan waktu.',
+            'tanggal' => 'icon ini  <i class="icon-calendar"></i>'
+                        .'  berfungsi untuk menentukan tanggal.',
         );
     }
         

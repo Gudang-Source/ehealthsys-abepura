@@ -48,8 +48,12 @@ $this->widget($table, array(
 		),
 		'nopenerimaan',
 		'supplier_nama',
-		'nofaktur',
-		'tgljatuhtempo',
+		'nofaktur',		
+                array(
+			'header' => 'Tanggal Jatuh Tempo',
+			'type' => 'raw',
+			'value' => 'MyFormatter::formatDateTimeForUser($data->tgljatuhtempo)',
+		),
 		array(
 			'header' => 'Keterangan Persediaan',
 			'type' => 'raw',

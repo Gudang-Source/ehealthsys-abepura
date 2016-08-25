@@ -17,7 +17,7 @@
                     width:100%;
                 }
             </style>";
-        $itemsCssClass = 'tableRincian';
+        $itemsCssClass = 'table table-striped table-condensed';
     } else{
         $data = $model->searchLaporan();
          $template = "{summary}\n{items}\n{pager}";
@@ -36,61 +36,70 @@
 		'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 	    ),
 		array(
-                    'name'=>'tglfaktur',
+                    'header'=>'Tanggal Faktur',
                     'headerHtmlOptions'=>array('style'=>'text-align:left;'),
-                    'value'=>'date("d/m/Y H:i:s",strtotime($data->tglfaktur))',
+                    'value'=>'MyFormatter::formatDateTimeForUser($data->tglfaktur)',
                 ),
-                'nofaktur',
                 array(
-                    'name'=>'supplier_id',
+                    'header' => 'No Faktur',
+                    'value' => '$data->nofaktur'
+                ),                
+                array(
+                    'header'=>'Nama Supplier',
                     'type'=>'raw',
                     'headerHtmlOptions'=>array('style'=>'text-align:left;'),
                     'value'=>'$data->supplier->supplier_nama',
                 ),
                 array(
-                    'name'=>'tgljatuhtempo',
+                    'header'=>'Tanggal Jatuh Tempo',
                     'headerHtmlOptions'=>array('style'=>'text-align:left;'),
-                    'value'=>'date("d/m/Y H:i:s",strtotime($data->tgljatuhtempo))',
+                    'value'=>'MyFormatter::formatDateTimeForUser($data->tgljatuhtempo)',
                 ),
                 array(
-                    'name'=>'keteranganfaktur',
+                    'header'=>'Keterangan Faktur',
                     'headerHtmlOptions'=>array('style'=>'text-align:left;'),
+                    'value' => '$data->keteranganfaktur',
                 ),
 //                'totharganetto',
                 array(
-                    'name'=>'totharganetto',
+                    'header'=>'Total Harga Netto',
                     'type'=>'raw',
                     'headerHtmlOptions'=>array('style'=>'text-align:left;'),
-                    'value'=>'number_format($data->totharganetto)',
+                    'value'=>'number_format($data->totharganetto,0,"",".")',
+                    'htmlOptions' => array('style'=>'text-align:right')
                 ),
 //                'jmldiscount',
                 array(
-                    'name'=>'jmldiscount',
+                    'header'=>'Jumlah Diskon',
                     'type'=>'raw',
                     'headerHtmlOptions'=>array('style'=>'text-align:left;'),
-                    'value'=>'number_format($data->jmldiscount)',
+                    'value'=>'number_format($data->jmldiscount,0,"",".")',
+                    'htmlOptions' => array('style'=>'text-align:right')
                 ),
 //                'biayamaterai',
 //                'totalpajakpph',
                 array(
-                    'name'=>'totalpajakpph',
+                    'header'=>'Total Pajak Pph',
                     'type'=>'raw',
                     'headerHtmlOptions'=>array('style'=>'text-align:left;'),
-                    'value'=>'number_format($data->totalpajakpph)',
+                    'value'=>'number_format($data->totalpajakpph,0,"",".")',
+                    'htmlOptions' => array('style'=>'text-align:right')
                 ),
 //                'totalpajakppn',
                 array(
-                    'name'=>'totalpajakppn',
+                    'header'=>'Total Pajak Ppn',
                     'type'=>'raw',
                     'headerHtmlOptions'=>array('style'=>'text-align:left;'),
-                    'value'=>'number_format($data->totalpajakppn)',
+                    'value'=>'number_format($data->totalpajakppn,0,"",".")',
+                    'htmlOptions' => array('style'=>'text-align:right')
                 ),
 //                'totalhargabruto', 
                 array(
-                    'name'=>'totalhargabruto',
+                    'header'=>'Total Harga Bruto',
                     'type'=>'raw',
                     'headerHtmlOptions'=>array('style'=>'text-align:left;'),
-                    'value'=>'number_format($data->totalhargabruto)',
+                    'value'=>'number_format($data->totalhargabruto,0,"",".")',
+                    'htmlOptions' => array('style'=>'text-align:right')
                 ),
     ), 
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}', 
