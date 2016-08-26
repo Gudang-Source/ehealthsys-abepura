@@ -117,7 +117,47 @@
 		</div>
 		<div class="span4">
 			<?php echo $form->textAreaRow($modPenUmum,'keterangan_penerimaan',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
-			<?php echo $form->textFieldRow($modPenUmum,'namapenandatangan',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
+			
+			<div class="control-group">
+				<?php echo $form->label($modPenUmum, 'namapenandatangan', array('class'=>'control-label')); ?>
+				<div class="controls">
+					<?php $this->widget('MyJuiAutoComplete', array(
+						'model'=>$modPenUmum,
+						'attribute'=>'namapenandatangan',
+						'source'=>'js: function(request, response) {
+									   $.ajax({
+										   url: "'.$this->createUrl('AutocompleteObatAlkes').'",
+										   dataType: "json",
+										   data: {
+											   term: request.term,
+										   },
+										   success: function (data) {
+												   response(data);
+										   }
+									   })
+									}',
+						 'options'=>array(
+							   'showAnim'=>'fold',
+							   'minLength' => 2,
+							   'focus'=> 'js:function( event, ui ) {
+									$(this).val("");
+									return false;
+								}',
+							   'select'=>'js:function( event, ui ) {
+									return false;
+								}',
+						),
+						'htmlOptions'=>array(
+							'onkeyup'=>"return $(this).focusNextInputField(event)",
+							'onblur' => 'if(this.value === "") $("#obatalkes_id").val(""); '
+						),
+						'tombolDialog'=>array('idDialog'=>'dialogPegawai'),
+					)); 
+            ?>
+				</div>
+			</div>
+			
+			<?php // echo $form->textFieldRow($modPenUmum,'namapenandatangan',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
 			<?php echo $form->textFieldRow($modPenUmum,'nippenandatangan',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>
 			<?php echo $form->textFieldRow($modPenUmum,'jabatanpenandatangan',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>100)); ?>  
 		</div>
@@ -334,4 +374,69 @@ $this->widget('ext.bootstrap.widgets.HeaderGroupGridView',array(
 
 $this->endWidget();
 //========= end Rek Kredit dialog =============================
+?>
+
+<?php 
+//========= Dialog buat cari data Pegawai Mengetahui =========================
+$this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
+    'id'=>'dialogPegawai',
+    'options'=>array(
+        'title'=>'Pencarian Pegawai',
+        'autoOpen'=>false,
+        'modal'=>true,
+        'width'=>900,
+        'height'=>600,
+        'resizable'=>false,
+    ),
+));
+
+$modPegawaiMengetahui = new PegawaiV('search');
+$modPegawaiMengetahui->unsetAttributes();
+if(isset($_GET['PegawaiV'])) {
+    $modPegawaiMengetahui->attributes = $_GET['PegawaiV'];
+}
+$this->widget('ext.bootstrap.widgets.BootGridView',array(
+	'id'=>'pegawai-grid',
+	'dataProvider'=>$modPegawaiMengetahui->search(),
+	'filter'=>$modPegawaiMengetahui,
+        'template'=>"{summary}\n{items}\n{pager}",
+        'itemsCssClass'=>'table table-striped table-bordered table-condensed',
+	'columns'=>array(
+                array(
+                    'header'=>'Pilih',
+                    'type'=>'raw',
+                    'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","",array("class"=>"btn-small", 
+                                    "href"=>"",
+                                    "id" => "selectObat",
+                                    "onClick" => "
+                                                $(\"#'.CHtml::activeId($modPenUmum,'namapenandatangan').'\").val(\"$data->namaLengkap\");
+                                                $(\"#'.CHtml::activeId($modPenUmum,'nippenandatangan').'\").val(\"$data->nomorindukpegawai\");
+												$(\"#'.CHtml::activeId($modPenUmum,'jabatanpenandatangan').'\").val(\"".(empty($data->jabatan_id)?"":JabatanM::model()->findByPk($data->jabatan_id)->jabatan_nama)."\");
+                                                $(\"#dialogPegawai\").dialog(\"close\"); 
+                                                return false;
+                                        "))',
+                ),
+                array(
+                    'header'=>'NIP',
+                    'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'nomorindukpegawai'),
+                    'value'=>'$data->nomorindukpegawai',
+                ),
+                array(
+                    'header'=>'Nama Pegawai',
+                    'filter'=>  CHtml::activeTextField($modPegawaiMengetahui, 'nama_pegawai'),
+                    'value'=>'$data->namaLengkap',
+                ),
+                array(
+                    'header'=>'Jabatan',
+                    'filter'=>  CHtml::activeDropDownList($modPegawaiMengetahui, 'jabatan_id', 
+							CHtml::listData(JabatanM::model()->findAll('jabatan_aktif = true order by jabatan_nama'), 'jabatan_id', 'jabatan_nama'),
+							array('empty'=>'-- Pilih --')),
+                    'value'=>'$data->alamat_pegawai',
+                ),
+            ),
+            'afterAjaxUpdate' => 'function(id, data){
+            jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
+        ));
+$this->endWidget();
+//========= end Pegawai Mengetahui dialog =============================
 ?>
