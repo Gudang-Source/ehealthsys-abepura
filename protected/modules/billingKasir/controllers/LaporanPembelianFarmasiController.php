@@ -5,8 +5,7 @@ class LaporanPembelianFarmasiController extends MyAuthController {
     public $path_view = 'billingKasir.views.laporanPembelianFarmasi.';
     
     public function actionIndex()
-    {
-            $format = new MyFormatter();
+    {            
             $model=new BKFakturPembelianT();
             $model->unsetAttributes();
             $format = new MyFormatter();
@@ -33,6 +32,7 @@ class LaporanPembelianFarmasiController extends MyAuthController {
                     }
                     $model->tgl_awal = $model->tgl_awal." 00:00:00";
                     $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+                    $model->filter = $_GET['BKFakturPembelianT']['filter'];
 //		if($_GET['berdasarkanJatuhTempo']>0){
 //                    $model->tgl_awalJatuhTempo = $format->formatDateTimeForDb($_GET['BKFakturPembelianT']['tgl_awalJatuhTempo']);
 //                    $model->tgl_akhirJatuhTempo = $format->formatDateTimeForDb($_GET['BKFakturPembelianT']['tgl_akhirJatuhTempo']);
@@ -78,12 +78,58 @@ class LaporanPembelianFarmasiController extends MyAuthController {
             }
             $model->tgl_awal = $model->tgl_awal." 00:00:00";
             $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            $model->filter = $_GET['BKFakturPembelianT']['filter'];
         }
 
         $caraPrint = $_REQUEST['caraPrint'];
         $target = $this->path_view.'Print';
 
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
+    }
+    
+    public function actionFrameGrafik() {
+        $this->layout = '//layouts/iframe';
+        $format = new MyFormatter();
+        $model = new BKFakturPembelianT('search');        
+        $model->tgl_awal = date('Y-m-d', strtotime('first day of this month'));
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');   
+        
+        
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Faktur Pembelian Farmasi';
+        $data['type'] = isset($_REQUEST['type'])?$_REQUEST['type']:null;
+        
+        if (isset($_GET['BKFakturPembelianT'])) {
+            $model->attributes = $_GET['BKFakturPembelianT'];                        
+            $model->jns_periode = $_GET['BKFakturPembelianT']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['BKFakturPembelianT']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['BKFakturPembelianT']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['BKFakturPembelianT']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['BKFakturPembelianT']['bln_akhir']);
+            $model->thn_awal = $_GET['BKFakturPembelianT']['thn_awal'];
+            $model->thn_akhir = $_GET['BKFakturPembelianT']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            $model->filter = $_GET['BKFakturPembelianT']['filter'];
+            
+        }
+        
+        $this->render($this->path_view.'_grafik', array(
+            'model' => $model,
+            'data' => $data,
+        ));
     }
     
     protected function printFunction($model, $data, $caraPrint, $judulLaporan, $target){
