@@ -53,7 +53,7 @@ $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
 		<div class="control-group ">
 			<?php echo CHtml::activeLabel($model,'rekonsiliasibank_no',array('class'=>'control-label')); ?>
 			<div class="controls">
-			   <?php echo $form->textField($model,'rekonsiliasibank_no',array('placeholder'=>'Ketik No. Rekonsiliasi Bank', 'class'=>'span3', 'maxlength'=>20,'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+			   <?php echo $form->textField($model,'rekonsiliasibank_no',array('placeholder'=>'Ketik No. Rekonsiliasi Bank', 'class'=>'span3 angkahuruf-only', 'maxlength'=>20,'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
 			</div>
 		</div>
 	</div>
@@ -61,7 +61,14 @@ $form=$this->beginWidget('ext.bootstrap.widgets.BootActiveForm',array(
 		<div class="control-group">
 			<?php echo CHtml::label('Jenis Rekonsiliasi Bank', 'jenisrekonsiliasibank_id', array('class'=>'control-label')) ?>
 			<div class="controls">
-				<?php echo $form->dropDownList($model,'jenisrekonsiliasibank_id',CHtml::listData(AKJenisrekonsiliasibankM::model()->findAll(),'jenisrekonsiliasibank_id','jenisrekonsiliasibank_nama'),array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);",'empty'=>'--Pilih--')); ?>           
+				<?php echo $form->dropDownList($model,'jenisrekonsiliasibank_id',CHtml::listData(AKJenisrekonsiliasibankM::model()->findAll("jenisrekonsiliasibank_aktif = TRUE ORDER BY jenisrekonsiliasibank_nama ASC"),'jenisrekonsiliasibank_id','jenisrekonsiliasibank_nama'),array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);",'empty'=>'--Pilih--')); ?>           
+			</div>
+		</div>	
+            
+                <div class="control-group">
+			<?php echo CHtml::label('Bank', 'bank_id', array('class'=>'control-label')) ?>
+			<div class="controls">
+				<?php echo $form->dropDownList($model,'bank_id',CHtml::listData(AKBankM::model()->findAll("bank_aktif = TRUE ORDER BY namabank ASC"),'bank_id','namabank'),array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);",'empty'=>'--Pilih--')); ?>           
 			</div>
 		</div>	
 	</div>

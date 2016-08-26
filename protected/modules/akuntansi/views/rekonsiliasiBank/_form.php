@@ -4,13 +4,13 @@
 		<div class="control-group">
 			<?php echo CHtml::label('Saldo pada Bank','',array('class'=>'control-label')); ?>
 			<div class="controls">
-				<?php echo $form->textField($model,'rekonsiliasibank_saldobank',array('class'=>'span2 integer','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+				<?php echo $form->textField($model,'rekonsiliasibank_saldobank',array('class'=>'span2 integer2','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
 			</div>
 		</div>
 		<div class="control-group">
 			<?php echo CHtml::label('Saldo Kas pada Pembukuan','',array('class'=>'control-label')); ?>
 			<div class="controls">
-				<?php echo $form->textField($model,'rekonsiliasibank_saldokas',array('class'=>'span2 integer','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+				<?php echo $form->textField($model,'rekonsiliasibank_saldokas',array('class'=>'span2 integer2','onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
 			</div>
 		</div>
 	</div>

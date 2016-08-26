@@ -105,13 +105,41 @@
                          * 
                          */
                         'matauang',
-                        'jmlanggaran',
-                        'jmlsaldoawald',
-                        'jmlsaldoawalk',
-                        'jmlmutasid',
-                        'jmlmutasik',
-                        'jmlsaldoakhird',
-                        'jmlsaldoakhirk',
+                        array(
+                            'header' => 'Jumlah Anggaran',
+                            'value' => 'number_format($data->jmlanggaran,0,"",".")',
+                            'htmlOptions' => array('style'=>'text-align:right;')
+                        ),                        
+                        array(
+                            'header' => 'Jumlah Saldo Awal (Debit)',
+                            'value' => 'number_format($data->jmlsaldoawald,0,"",".")',
+                            'htmlOptions' => array('style'=>'text-align:right;')
+                        ),
+                        array(
+                            'header' => 'Jumlah Saldo Awal (Kredit)',
+                            'value' => 'number_format($data->jmlsaldoawalk,0,"",".")',
+                            'htmlOptions' => array('style'=>'text-align:right;')
+                        ),
+                         array(
+                            'header' => 'Jumlah Mutasi (Debit)',
+                            'value' => 'number_format($data->jmlmutasid,0,"",".")',
+                             'htmlOptions' => array('style'=>'text-align:right;')
+                        ),
+                         array(
+                            'header' => 'Jumlah Mutasi (Kredit)',
+                            'value' => 'number_format($data->jmlmutasik,0,"",".")',
+                             'htmlOptions' => array('style'=>'text-align:right;')
+                        ),
+                        array(
+                            'header' => 'Jumlah Saldo Akhir (Debit)',
+                            'value' => 'number_format($data->jmlsaldoakhird,0,"",".")',
+                            'htmlOptions' => array('style'=>'text-align:right;')
+                        ),
+                        array(
+                            'header' => 'Jumlah Saldo Akhir (Kredit)',
+                            'value' => 'number_format($data->jmlsaldoakhirk,0,"",".")',
+                            'htmlOptions' => array('style'=>'text-align:right;')
+                        ),
 						array(
                            'name'=>'Periode Rekening',
                            'type'=>'raw',

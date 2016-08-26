@@ -17,7 +17,11 @@
         array('class'=>'btn btn-danger',
            	  'onclick'=>'if(!confirm("'.Yii::t('mds','Do You want to cancel?').'")) return false;')); ?>
   	<?php
-		$content = $this->renderPartial('../tips/informasi',array(),true);
+                $tips = array(
+                    '0' => 'cari',
+                    '1' => 'ulang2'
+                );
+		$content = $this->renderPartial('sistemAdministrator.views.tips.detailTips',array('tips'=>$tips),true);
 		$this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
 	?>
 </div>
