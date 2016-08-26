@@ -60,6 +60,7 @@ class PencuciandetailT extends CActiveRecord
 			'penerimaanlinen'=>array(self::BELONGS_TO,'PenerimaanlinenT','penerimaanlinen_id'),
 			'pencucianlinen'=>array(self::BELONGS_TO,'PencucianlinenT','pencucianlinen_id'),
 			'linen'=>array(self::BELONGS_TO,'LinenM','linen_id'),
+                        'ruangan'=>array(self::BELONGS_TO,'RuanganM','ruangan_id'),
 		);
 	}
 
