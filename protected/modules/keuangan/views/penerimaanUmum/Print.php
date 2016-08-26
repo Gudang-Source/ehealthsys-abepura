@@ -29,58 +29,61 @@ echo CHtml::css('.control-label{
         <td>
             <table width="100%">
                 <tr>
-                    <td width="11%" style="text-align:right;">Tanggal Penerimaan</td><td width="2%">:</td>
-                    <td width="37%">
+                    <td>Tanggal Penerimaan</td><td>:</td>
+                    <td width="100%">
                         <?php echo CHtml::encode($model->tglpenerimaan); ?>
                     </td>
-                    <td width="11%" style="text-align:right;">Harga Satuan</td><td width="2%">:</td>
-                    <td width="37%">
-                        <?php echo CHtml::encode(isset($model->hargasatuan) ? $model->hargasatuan : "-"); ?>
+                    <td>Harga Satuan</td><td>:</td>
+                    <td>
+                        <?php echo CHtml::encode(isset($model->hargasatuan) ? MyFormatter::formatNumberForPrint($model->hargasatuan) : "-"); ?>
                     </td>
                 </tr>
                 <tr>
-                    <td width="11%" style="text-align:right;">No. Penerimaan</td><td width="2%">:</td>
-                    <td width="37%">
+                    <td>No. Penerimaan</td><td>:</td>
+                    <td>
                         <?php echo CHtml::encode(isset($model->nopenerimaan) ? $model->nopenerimaan : "-"); ?>
                     </td>
-                    <td width="11%" style="text-align:right;">Total Harga</td><td width="2%">:</td>
-                    <td width="37%">
-                        <?php echo CHtml::encode($model->totalharga); ?>
+                    <td>Total Harga</td><td>:</td>
+                    <td>
+                        <?php echo CHtml::encode(MyFormatter::formatNumberForPrint($model->totalharga)); ?>
                     </td>
                 </tr>
                 <tr>
-                    <td width="11%" style="text-align:right;">Kelompok Transaksi</td><td width="2%">:</td>
-                    <td width="37%">
+                    <td nowrap>Kelompok Transaksi</td><td>:</td>
+                    <td>
                         <?php echo CHtml::encode($model->kelompoktransaksi); ?>
                     </td>
-                    <td width="11%" style="text-align:right;">Keterangan Penerimaan</td><td width="2%">:</td>
-                    <td width="37%">
+                    <td nowrap>Keterangan Penerimaan</td><td>:</td>
+                    <td>
                         <?php echo CHtml::encode(isset($model->keterangan_penerimaan) ? $model->keterangan_penerimaan : "-"); ?>
                     </td>
                 </tr>
                 <tr>
-                    <td width="11%" style="text-align:right;">Jenis Penerimaan </td><td width="2%">:</td>
-                    <td width="37%">
-                        <?php echo CHtml::encode($model->jenisKodeNama); ?>
+                    <td>Jenis Penerimaan </td><td>:</td>
+                    <td>
+                        <?php 
+						$p = JenispenerimaanM::model()->findByPk($model->jenispenerimaan_id);
+						echo CHtml::encode($p->jenispenerimaan_nama); ?>
                     </td>
-                    <td width="11%" style="text-align:right;">Nama Penandatangan </td><td width="2%">:</td>
-                    <td width="37%">
+                    <td>Nama Penandatangan </td><td>:</td>
+                    <td nowrap>
                         <?php echo CHtml::encode(isset($model->namapenandatangan) ? $model->namapenandatangan : "-"); ?>
                     </td>
                 </tr>
                 <tr>
-                    <td width="11%" style="text-align:right;">Volume  </td><td width="2%">:</td>
-                    <td width="37%">
+                    <td>Volume  </td><td>:</td>
+                    <td>
                         <?php echo CHtml::encode($model->volume).' '.CHtml::encode($model->satuanvol); ?>
                     </td>
-                    <td width="11%" style="text-align:right;"></td><td width="2%">:</td>
-                    <td width="37%"></td>
                 </tr>
                    
             </table>            
         </td>
     </tr>
 </table><br>
+
+<?php if (count($modUraian) != 0): ?>
+
 <table width="100%" style='margin-left:auto; margin-right:auto;' class='table table-striped table-bordered table-condensed'>
     <thead>
         <tr>
@@ -97,19 +100,20 @@ echo CHtml::css('.control-label{
             <td>
                 <?php echo isset($uraian->uraiantransaksi)?$uraian->uraiantransaksi:'-'; ?>
             </td>
-            <td>
+            <td style="text-align: right;">
                 <?php echo isset($uraian->volume)?$uraian->volume:'-'; ?>
             </td>
             <td>
                 <?php echo isset($uraian->satuanvol)?$uraian->satuanvol:'-'; ?>
             </td>
-            <td>
-                <?php echo isset($uraian->hargasatuan)?$uraian->hargasatuan:'-'; ?>
+            <td style="text-align: right;">
+                <?php echo isset($uraian->hargasatuan)?  MyFormatter::formatNumberForPrint($uraian->hargasatuan):'-'; ?>
             </td>
-            <td>
-                <?php echo isset($uraian->totalharga)?$uraian->totalharga:'-'; ?>
+            <td style="text-align: right;">
+                <?php echo isset($uraian->totalharga)?MyFormatter::formatNumberForPrint($uraian->totalharga):'-'; ?>
             </td>
         </tr>
         <?php } ?>
     </tbody>
 </table>
+<?php endif; ?>
