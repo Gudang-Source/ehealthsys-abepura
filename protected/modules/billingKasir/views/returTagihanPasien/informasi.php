@@ -125,7 +125,12 @@
             <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit')); ?>
             <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Reset',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')),array('class'=>'btn btn-danger', 'type'=>'reset')); ?>
             <?php  
-                $content = $this->renderPartial('tips/informasi',array(),true);
+                $tips = array(
+                    '0' => 'tanggal',
+                    '1' => 'cari',
+                    '2' => 'ulang2',
+                );
+                $content = $this->renderPartial('sistemAdministrator.views.tips.detailTips',array('tips'=>$tips),true);
                 $this->widget('UserTips',array('type'=>'transaksi','content'=>$content)); 
             ?>
         </div>
