@@ -1,3 +1,8 @@
+<?php 
+
+    Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/accounting2.js', CClientScript::POS_END);
+    Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/form2.js', CClientScript::POS_END);
+?>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.treeview.js"></script>
 <script type="text/javascript">
     var id_form = new Array();
@@ -175,7 +180,7 @@
             
             $('.currency').each(function(){
                     $(this).maskMoney(
-                        {"symbol":"Rp. ","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0}
+                        {"symbol":"Rp. ","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0}
                     );
                 }
             );
@@ -206,7 +211,7 @@
                 
                 $('.currency').each(function(){
                         $(this).maskMoney(
-                            {"symbol":"Rp. ","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0}
+                            {"symbol":"Rp. ","defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0}
                         );
                     }
                 );                

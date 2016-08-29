@@ -4,16 +4,33 @@ class LaporanFakturPembelianUmumController extends MyAuthController {
 
     
     public function actionIndex()
-    {
-            $format = new MyFormatter();
+    {            
             $model=new KUInformasifakturumumV('searchLaporan');
             $model->unsetAttributes();
-            $model->tgl_awal = date('d M Y');
-            $model->tgl_akhir = date('d M Y');
+            $format = new MyFormatter();
+            $model->tgl_awal = date('Y-m-d');
+            $model->tgl_akhir = date('Y-m-d');
+            $model->bln_awal = date('Y-m', strtotime('first day of january'));
+            $model->bln_akhir = date('Y-m');
+            $model->thn_awal = date('Y');
+            $model->thn_akhir = date('Y');
             if(isset($_GET['KUInformasifakturumumV'])){
                     $model->attributes=$_GET['KUInformasifakturumumV'];
-                    $model->tgl_awal=$format->formatDateTimeForDb($_GET['KUInformasifakturumumV']['tgl_awal']);
-                    $model->tgl_akhir=$format->formatDateTimeForDb($_GET['KUInformasifakturumumV']['tgl_akhir']);
+                    $model->jns_periode = $_GET['KUInformasifakturumumV']['jns_periode'];
+                    $model->tgl_awal = $format->formatDateTimeForDb($_GET['KUInformasifakturumumV']['tgl_awal']);
+                    $model->tgl_akhir = $format->formatDateTimeForDb($_GET['KUInformasifakturumumV']['tgl_akhir']);
+                    $model->bln_awal = $format->formatMonthForDb($_GET['KUInformasifakturumumV']['bln_awal']);
+                    $model->bln_akhir = $format->formatMonthForDb($_GET['KUInformasifakturumumV']['bln_akhir']);
+                    $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+                    $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+                    switch($model->jns_periode){
+                        case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                        case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                        default : null;
+                    }
+                    $model->tgl_awal = $model->tgl_awal." 00:00:00";
+                    $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+                    $model->filter = $_GET['KUInformasifakturumumV']['filter'];
             
 //		if($_GET['berdasarkanJatuhTempo']>0){
 //                $modFaktur->tglAwalJatuhTempo = $format->formatDateTimeForDB($_GET['InformasifakturgudangumumV']['tglAwalJatuhTempo']);
@@ -28,23 +45,87 @@ class LaporanFakturPembelianUmumController extends MyAuthController {
                     'model'=>$model,
             ));
     }
-    public function actionPrint(){
-        $format = new MyFormatter();
+    public function actionPrint(){        
         $model = new KUInformasifakturumumV('searchLaporan');
+        $format = new MyFormatter();
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
         $judulLaporan = 'Laporan Faktur Pembelian Umum';
         //Data Grafik
         $data['title'] = 'Laporan Faktur Pembelian Umum';
         $data['type'] = (isset($_REQUEST['type']) ? $_REQUEST['type'] : null);
         if (isset($_REQUEST['KUInformasifakturumumV'])) {
             $model->attributes = $_REQUEST['KUInformasifakturumumV'];
-            $model->tgl_awal = $format->formatDateTimeForDb($_REQUEST['KUInformasifakturumumV']['tgl_awal']);
-            $model->tgl_akhir = $format->formatDateTimeForDb($_REQUEST['KUInformasifakturumumV']['tgl_akhir']);
+            $model->jns_periode = $_GET['KUInformasifakturumumV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['KUInformasifakturumumV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['KUInformasifakturumumV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['KUInformasifakturumumV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['KUInformasifakturumumV']['bln_akhir']);
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            $model->filter = $_GET['KUInformasifakturumumV']['filter'];
         }
 
         $caraPrint = $_REQUEST['caraPrint'];
         $target = 'Print';
 
         $this->printFunction($model, $data, $caraPrint, $judulLaporan, $target);
+    }
+    
+    public function actionFrameGrafik() {
+        $this->layout = '//layouts/iframe';
+        $model = new KUInformasifakturumumV('searchLaporan');
+        $format = new MyFormatter();
+        $model->tgl_awal = date('Y-m-d');
+        $model->tgl_akhir = date('Y-m-d');
+        $model->bln_awal = date('Y-m', strtotime('first day of january'));
+        $model->bln_akhir = date('Y-m');
+        $model->thn_awal = date('Y');
+        $model->thn_akhir = date('Y');
+        
+        
+
+        //Data Grafik
+        $data['title'] = 'Grafik Laporan Faktur Pembelian Umum';
+        $data['type'] = isset($_REQUEST['type'])?$_REQUEST['type']:null;
+        
+        if (isset($_GET['KUInformasifakturumumV'])) {
+            $model->attributes = $_GET['KUInformasifakturumumV'];                        
+            $model->jns_periode = $_GET['KUInformasifakturumumV']['jns_periode'];
+            $model->tgl_awal = $format->formatDateTimeForDb($_GET['KUInformasifakturumumV']['tgl_awal']);
+            $model->tgl_akhir = $format->formatDateTimeForDb($_GET['KUInformasifakturumumV']['tgl_akhir']);
+            $model->bln_awal = $format->formatMonthForDb($_GET['KUInformasifakturumumV']['bln_awal']);
+            $model->bln_akhir = $format->formatMonthForDb($_GET['KUInformasifakturumumV']['bln_akhir']);
+            $model->thn_awal = $_GET['KUInformasifakturumumV']['thn_awal'];
+            $model->thn_akhir = $_GET['KUInformasifakturumumV']['thn_akhir'];
+            $bln_akhir = $model->bln_akhir."-".date("t",strtotime($model->bln_akhir));
+            $thn_akhir = $model->thn_akhir."-".date("m-t",strtotime($model->thn_akhir."-12"));
+            switch($model->jns_periode){
+                case 'bulan' : $model->tgl_awal = $model->bln_awal."-01"; $model->tgl_akhir = $bln_akhir; break;
+                case 'tahun' : $model->tgl_awal = $model->thn_awal."-01-01"; $model->tgl_akhir = $thn_akhir; break;
+                default : null;
+            }
+            $model->tgl_awal = $model->tgl_awal." 00:00:00";
+            $model->tgl_akhir = $model->tgl_akhir." 23:59:59";
+            $model->filter = $_GET['KUInformasifakturumumV']['filter'];
+            
+        }
+        
+        $this->render('_grafik', array(
+            'model' => $model,
+            'data' => $data,
+        ));
     }
     
     protected function printFunction($model, $data, $caraPrint, $judulLaporan, $target){

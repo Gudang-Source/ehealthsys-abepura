@@ -31,6 +31,7 @@ class PesanmenudietTController extends MyAuthController
 		$model=new GZPesanmenudietT;
 		$model->tglpesanmenu = date('d M Y H:i:s');
 		$model->nopesanmenu = MyGenerator::noPesanMenuDiet();
+                $model->temp_no = '- Otomatis -';
 		
                 //$p = PegawaiM::model()->findByPK(LoginpemakaiK::model()->findByPk(Yii::app()->user->id);
                 $pegawai_nama = ""; //PegawaiM::model()->findByPK(LoginpemakaiK::model()->findByPk(Yii::app()->user->id)->pegawai_id)->nama_pegawai;
@@ -38,8 +39,8 @@ class PesanmenudietTController extends MyAuthController
 		$model->kelaspelayanan_id = Params::KELASPELAYANAN_ID_TANPA_KELAS;
 		$model->carabayar_id = Params::CARABAYAR_ID_MEMBAYAR;
 		$model->penjamin_id = Params::PENJAMIN_ID_UMUM;
-		$model->instalasi_id = Yii::app()->user->getState('instalasi_id');
-		$model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+		//$model->instalasi_id = Yii::app()->user->getState('instalasi_id');
+		//$model->ruangan_id = Yii::app()->user->getState('ruangan_id');
                 $model->nama_pemesan = Yii::app()->user->getState('nama_pegawai');
 
 		$nama_modul = Yii::app()->controller->module->id;
@@ -56,8 +57,10 @@ class PesanmenudietTController extends MyAuthController
                 $modSmsgateway = SmsgatewayM::model()->findAll($criteria);
 
                 if(isset($id)){
-                        if(!empty($id))
+                        if(!empty($id)){
                                 $model = GZPesanmenudietT::model()->findByPk($id);
+                                $model->temp_no = $model->nopesanmenu;
+                        }
                 }
 
                         if(isset($_POST['GZPesanmenudietT']))
@@ -157,13 +160,14 @@ class PesanmenudietTController extends MyAuthController
 		$model=new GZPesanmenudietT;
 		$model->tglpesanmenu = date('d M Y H:i:s');
 		$model->nopesanmenu = MyGenerator::noPesanMenuDiet();
+                $model->temp_no = '- Otomatis -';
 		$pegawai_nama = ""; //PegawaiM::model()->findByPK(LoginpemakaiK::model()->findByPk(Yii::app()->user->id)->pegawai_id)->nama_pegawai;
 		$model->nama_pemesan = $pegawai_nama;
 		$model->kelaspelayanan_id = Params::KELASPELAYANAN_ID_TANPA_KELAS;
 		$model->carabayar_id = Params::CARABAYAR_ID_MEMBAYAR;
 		$model->penjamin_id = Params::PENJAMIN_ID_UMUM;
-		$model->instalasi_id = Yii::app()->user->getState('instalasi_id');
-		$model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+		//$model->instalasi_id = Yii::app()->user->getState('instalasi_id');
+		//$model->ruangan_id = Yii::app()->user->getState('ruangan_id');
 
 		$nama_modul = Yii::app()->controller->module->id;
         $nama_controller = Yii::app()->controller->id;
@@ -179,8 +183,10 @@ class PesanmenudietTController extends MyAuthController
         $modSmsgateway = SmsgatewayM::model()->findAll($criteria);
 
         if(isset($id)){
-        	if(!empty($id))
-        		$model = GZPesanmenudietT::model()->findByPk($id);
+        	if(!empty($id)){
+                $model = GZPesanmenudietT::model()->findByPk($id);
+                $model->no_temp = $model->nopesanmenu;
+                }
         }
 		
 		if(isset($_POST['GZPesanmenudietT']))

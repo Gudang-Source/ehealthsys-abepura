@@ -67,18 +67,31 @@
 				'name'=>'daftartindakan_nama',
 				'value'=>'isset($data->daftartindakan->daftartindakan_nama)?$data->daftartindakan->daftartindakan_nama:" - "',
 			),
+                        array(
+                         'header'=>'Ruangan ',
+                         'type'=>'raw',
+                         //'value'=>'$this->grid->getOwner()->renderPartial(\'_ruangan\',array(\'daftartindakan_id\'=>$data->daftartindakan_id),true)',
+                            'value' =>'$data->ruangan->ruangan_nama'
+                        ), 
+                        array(
+                            'header' => 'Ubah'  ,
+                            'type' => 'raw',
+                            'value' => function($data){
+                                return Chtml::link("<i class = 'icon-form-ubah'></u>", Yii::app()->createUrl(Yii::app()->controller->module->id."/".Yii::app()->controller->id."/update",array("daftartindakan_id"=>$data->daftartindakan_id,"ruangan_id"=>$data->ruangan_id)));
+                            },
+                        ),                        
 			array(
 				'header'=>Yii::t('zii','View'),
 				'class'=>'bootstrap.widgets.BootButtonColumn',
 				'template'=>'{view}',
 				'buttons'=>array(
-								'view' => array (
-										'label'=>"<i class='icon-view'></i>",
-										'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/view",array("idRuangan"=>"$data->ruangan_id","idTindakan"=>"$data->daftartindakan_id"))',
-										'options'=>array('rel' => 'tooltip' , 'title'=> 'Lihat Tindakan Ruangan' ),
-								),
+                                            'view' => array (
+                                            'label'=>"<i class='icon-view'></i>",
+                                            'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/view",array("idRuangan"=>"$data->ruangan_id","idTindakan"=>"$data->daftartindakan_id"))',
+                                            'options'=>array('rel' => 'tooltip' , 'title'=> 'Lihat Tindakan Ruangan' ),
+                                            ),
 				)
-            ),
+                        ),
 			array(
 					'header'=>'Hapus',
 					'class'=>'ext.bootstrap.widgets.BootButtonColumn',

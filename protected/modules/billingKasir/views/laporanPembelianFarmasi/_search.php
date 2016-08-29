@@ -4,10 +4,22 @@
 	'id'=>'searchLaporan',
         'type'=>'horizontal',
 )); ?>
+<style>
+
+        #penjamin label.checkbox{
+            width: 350px;
+            display:inline-block;
+        }
+		label.checkbox{
+			width:200px;
+			display:inline-block;
+		}
+    </style>  
 <div class = "row-fluid">
      <div class="span4">
                     <?php $format = new MyFormatter(); ?>
                     <?php echo CHtml::hiddenField('type', ''); ?>
+                    <?php echo $form->hiddenField($model, 'filter', array('readonly'=>'TRUE')); ?>
                     <?php echo CHtml::label('Tanggal Faktur', 'tgl_pendaftaran', array('class' => 'control-label')) ?>
                     <div class="controls">
                         <?php echo $form->dropDownList($model, 'jns_periode', array('hari' => 'Hari', 'bulan' => 'Bulan', 'tahun' => 'Tahun'), array('class' => 'span2', 'onchange' => 'ubahJnsPeriode();')); ?>
@@ -111,6 +123,39 @@
                         </div>
                     </div>
                 </div>
+         <table width="100%" border="0">
+                <tr>
+                <td> 
+                    <div id='searching'>
+                    <fieldset>    
+                        <?php $this->Widget('ext.bootstrap.widgets.BootAccordion',array(
+                            'id'=>'kunjungan',
+                            'slide'=>true,
+                            'content'=>array(
+                            'content2'=>array(
+                                'header'=>'Berdasarkan Supplier',
+                                'isi'=>  
+                                        CHtml::checkBox('cek_all', true, array("id"=>"checkSemuaid",'value'=>'cek', "onclick"=>"checkSemua()")).'Pilih Semua <br\>                                             
+                                            <table class="penjamin">                                            
+                                            <tr>
+                                                    <td>'.
+                                                           $form->checkBoxList($model, 'supplier_id', CHtml::listData(SupplierM::model()->findAll("supplier_aktif = TRUE ORDER BY supplier_nama ASC"), 'supplier_id', 'supplier_nama'))
+                                                    .'</td>
+                                            </tr>
+                                            </table>',            
+                                'active'=>false,
+                                    ),
+                            ),
+        //                                    'htmlOptions'=>array('class'=>'aw',)
+                            )); ?>											
+                    </fieldset>	
+                    </div>
+                </td>
+                <td>
+                     &nbsp;
+                </td>
+                </tr>
+            </table>
 	<div class="form-actions">
             <?php echo CHtml::htmlButton(Yii::t('mds','{icon} Search',array('{icon}'=>'<i class="icon-search icon-white"></i>')),array('class'=>'btn btn-primary', 'type'=>'submit')); ?>
             <?php echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
@@ -123,4 +168,28 @@
 	</div>
 
 <?php $this->endWidget(); ?>
+<script type="text/javascript">
+$( document ).ready(function(){
+    checkSemua();
+    $("#kunjungan").on("hide.bs.collapse", function(){
+        $("#BKFakturPembelianT_filter").val("");
+    });
+    $("#kunjungan").on("show.bs.collapse", function(){
+        $("#BKFakturPembelianT_filter").val("supplier");
+    });
+}); 
+    
+function checkSemua() {
+            if ($("#checkSemuaid").is(":checked")) {
+                $('.penjamin input[name*="BKFakturPembelianT"]').each(function(){
+                   $(this).attr('checked',true);
+                })
+            } else {
+               $('.penjamin input[name*="BKFakturPembelianT"]').each(function(){
+                   $(this).removeAttr('checked');
+                })
+            }
+            //setAll();
+}
+</script>
 <?php $this->renderPartial('billingKasir.views.laporan._jsFunctions', array('model' => $model)); ?>

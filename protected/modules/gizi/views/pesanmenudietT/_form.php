@@ -190,7 +190,7 @@
     </fieldset>
     <div class="block-tabel">
         <h6>Tabel Pemesanan <b>Menu Diet Pasien</b></h6>
-        <table class="table table-condensed" id="tableMenuDiet">
+        <table class="table table-striped table-condensed" id="tableMenuDiet">
             <thead>
                 <tr>
                     <th rowspan="2"><input type="checkbox" id="checkListUtama" name="checkListUtama" value="1" checked="checked" onclick="checkAll('cekList',this);hitungSemua();"></th>
@@ -215,8 +215,14 @@
     </div>
     <div class="form-actions">
         <?php
-             echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds', '{icon} Create', array('{icon}' => '<i class="icon-ok icon-white"></i>')) :
+        if (isset($_GET['id'])){
+            echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds', '{icon} Create', array('{icon}' => '<i class="icon-ok icon-white"></i>')) :
+                        Yii::t('mds', '{icon} Save', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-primary disabled', 'type' => 'button', 'onKeypress' => 'return formSubmit(this,event)'));
+        }else{
+            echo CHtml::htmlButton($model->isNewRecord ? Yii::t('mds', '{icon} Create', array('{icon}' => '<i class="icon-ok icon-white"></i>')) :
                         Yii::t('mds', '{icon} Save', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'onKeypress' => 'return formSubmit(this,event)'));
+        }
+             
         ?>
         <?php 
                 echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
