@@ -1,13 +1,13 @@
 <div class = "span4">
     <div class="control-group">
-        <?php echo CHtml::label("Instalasi", 'instalasi_id', array('class'=>'control-label')); ?>
+        <?php echo CHtml::label("Instalasi <font style = 'color:red;'>*</font>", 'instalasi_id', array('class'=>'control-label')); ?>
         <div class="controls">
             <?php 
             if(!empty($modKunjungan->pendaftaran_id)){
-                echo CHtml::hiddenField('instalasi_id',$modKunjungan->instalasi_id,array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); 
-                echo CHtml::textField('instalasi_nama',$modKunjungan->instalasi_nama,array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); 
+                echo CHtml::hiddenField('instalasi_id',$modKunjungan->instalasi_id,array('readonly'=>true,'class'=>'span3 required', 'onkeyup'=>"return $(this).focusNextInputField(event);")); 
+                echo CHtml::textField('instalasi_nama',$modKunjungan->instalasi_nama,array('readonly'=>true,'class'=>'span3 required', 'onkeyup'=>"return $(this).focusNextInputField(event);")); 
             }else{
-                echo CHtml::dropDownList('instalasi_id',$modKunjungan->instalasi_id,CHtml::listData(BKInstalasiM::model()->getInstalasiPenunjangs(),'instalasi_id','instalasi_nama'),array('empty'=>'-- Pilih --','onchange'=>'setKunjunganReset();refreshDialogKunjungan();','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)",)); 
+                echo CHtml::dropDownList('instalasi_id',$modKunjungan->instalasi_id,CHtml::listData(BKInstalasiM::model()->getInstalasiPenunjangs(),'instalasi_id','instalasi_nama'),array('empty'=>'-- Pilih --','onchange'=>'setKunjunganReset();refreshDialogKunjungan();','class'=>'span3 required','onkeyup'=>"return $(this).focusNextInputField(event)",)); 
             }
             ?>
         </div>
@@ -52,7 +52,7 @@
                                         }',
                                 ),
                                 'tombolDialog'=>array('idDialog'=>'dialogKunjungan'),
-                                'htmlOptions'=>array('placeholder'=>'Ketik No. Pendaftaran','class'=>'all-caps','rel'=>'tooltip','title'=>'Ketik no. pendaftaran / klik icon untuk mencari data kunjungan',
+                                'htmlOptions'=>array('placeholder'=>'Ketik No. Pendaftaran','class'=>'all-caps angkahuruf-only','rel'=>'tooltip','title'=>'Ketik no. pendaftaran / klik icon untuk mencari data kunjungan',
                                     'onkeyup'=>"return $(this).focusNextInputField(event)",                                    
                                     ),
                             )); 
@@ -123,7 +123,7 @@
                                             return false;
                                         }',
                                 ),
-                                'htmlOptions'=>array('placeholder'=>'Ketik No. Rekam Medik','class'=>'all-caps','rel'=>'tooltip','title'=>'Ketik no. rekam medik untuk mencari data kunjungan',
+                                'htmlOptions'=>array('placeholder'=>'Ketik No. Rekam Medik','class'=>'all-caps numbers-only','rel'=>'tooltip','title'=>'Ketik no. rekam medik untuk mencari data kunjungan',
                                     'onkeyup'=>"return $(this).focusNextInputField(event)",
                                     ),
                             )); 
@@ -163,7 +163,7 @@
                                             return false;
                                         }',
                                 ),
-                                'htmlOptions'=>array('placeholder'=>'Ketik Nama Pasien','rel'=>'tooltip','title'=>'Ketik nama pasien untuk mencari data kunjungan',
+                                'htmlOptions'=>array('class'=>'hurufs-only','placeholder'=>'Ketik Nama Pasien','rel'=>'tooltip','title'=>'Ketik nama pasien untuk mencari data kunjungan',
                                     'onkeyup'=>"return $(this).focusNextInputField(event)",
                                     ),
                             )); 
