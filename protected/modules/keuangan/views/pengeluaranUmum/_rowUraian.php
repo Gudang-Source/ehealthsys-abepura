@@ -12,10 +12,10 @@ foreach ($modUraian as $i => $uraian) { ?>
         <?php echo $form->dropDownList($uraian,"[$i]satuanvol", LookupM::getItems('satuanumum'),array('class'=>'span2', 'onkeypress'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
     </td>
     <td>
-        <?php echo $form->textField($uraian,"[$i]hargasatuan",array('onkeyup'=>'hitungTotalUraian(this)','class'=>'inputFormTabel lebar3 currency', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php echo $form->textField($uraian,"[$i]hargasatuan",array('onkeyup'=>'hitungTotalUraian(this)','class'=>'inputFormTabel lebar3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
     </td>
     <td>
-        <?php echo $form->textField($uraian,"[$i]totalharga",array('readonly'=>true,'class'=>'inputFormTabel lebar3 currency', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
+        <?php echo $form->textField($uraian,"[$i]totalharga",array('readonly'=>true,'class'=>'inputFormTabel lebar3 integer2', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
     </td>
     <td>
         <?php 
