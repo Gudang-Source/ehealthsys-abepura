@@ -48,7 +48,7 @@
                     //'lookup_type',
                     array(
                             'name'=>'lookup_type',
-                            'filter'=> CHtml::listData(LookupM::getAllLookupType(), 'lookup_type', 'lookup_type'),
+                            'filter'=> Chtml::dropDownList('SALookupM[lookup_type]',$model->lookup_type,CHtml::listData(LookupM::getAllLookupType(), 'lookup_type', 'lookup_type'),array('empty'=>'-- Pilih --')),
                     ),
                     'lookup_name',
                     'lookup_value',
