@@ -1,10 +1,10 @@
 <?php $modProfilRs = ProfilrumahsakitM::model()->findByPk(Params::DEFAULT_PROFIL_RUMAH_SAKIT); ?>
 <table width="100%">
     <tr>
-        <td width="25%" align="center">
+        <td width="25%" style="text-align:center">
             <img src="<?php echo Params::urlProfilRSDirectory().$modProfilRs->logo_rumahsakit ?> " style="max-width: 80px; width:80px;"/>
         </td>
-        <td align="center">
+        <td style="text-align:center">
             <div>
                 <b>PEMERINTAH PROPINSI <?php echo strtoupper($modProfilRs->propinsi->propinsi_nama); ?></b>
             </div>

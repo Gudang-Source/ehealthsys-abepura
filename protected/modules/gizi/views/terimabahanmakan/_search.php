@@ -46,7 +46,7 @@
             </div>
         </td>
         <td>
-            <?php echo $form->textFieldRow($model,'nopenerimaanbahan',array('class'=>'span3', 'maxlength'=>20, 'autofocus'=>true, 'placeholder'=>'Ketik no. penerimaan bahan')); ?>
+            <?php echo $form->textFieldRow($model,'nopenerimaanbahan',array('class'=>'span3 angkahuruf-only', 'maxlength'=>20, 'autofocus'=>true, 'placeholder'=>'Ketik no. penerimaan bahan')); ?>
             <?php echo $form->dropDownListRow($model,'ruangan_id', CHtml::listData(RuanganM::model()->findAll('ruangan_aktif = true ORDER BY ruangan_nama ASC'), 'ruangan_id', 'ruangan_nama'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20)); ?>
         </td>
         <td>
