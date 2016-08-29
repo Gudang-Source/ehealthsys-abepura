@@ -53,7 +53,7 @@ $('#rekonsiliasibank-info-search').submit(function(){
 				array(
 					'name'=>'Saldo Debit',
 					'type'=>'raw',
-					'value'=>'number_format($data->saldodebit)',
+					'value'=>'number_format($data->saldodebit,0,"",".")',
 					'htmlOptions'=>array(
 						'style'=>'text-align:right;',
 					),
@@ -61,7 +61,7 @@ $('#rekonsiliasibank-info-search').submit(function(){
 				array(
 					'name'=>'Saldo Kredit',
 					'type'=>'raw',
-					'value'=>'number_format($data->saldokredit)',
+					'value'=>'number_format($data->saldokredit,0,"",".")',
 					'htmlOptions'=>array(
 						'style'=>'text-align:right;',
 					),

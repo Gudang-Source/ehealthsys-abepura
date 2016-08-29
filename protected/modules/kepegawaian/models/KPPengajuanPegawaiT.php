@@ -23,6 +23,8 @@
 class KPPengajuanPegawaiT extends CActiveRecord
 {
     public $nopengajuan_awal;
+    public $menyetujuiNama;
+    public $total;
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -69,7 +71,7 @@ class KPPengajuanPegawaiT extends CActiveRecord
         return array(
             'pengpegawaidetTs' => array(self::HAS_MANY, 'PengpegawaidetT', 'pengajuanpegawai_t_id'),
             'menyetujui' => array(self::BELONGS_TO, 'PegawaiM', 'menyetujui_id'),
-            'mengetahui' => array(self::BELONGS_TO, 'PegawaiM', 'mengetahui_id'),
+            'mengetahuii' => array(self::BELONGS_TO, 'PegawaiM', 'mengetahui_id'),
             'mengajukan' => array(self::BELONGS_TO, 'PegawaiM', 'mengajukan_id'),
         );
     }

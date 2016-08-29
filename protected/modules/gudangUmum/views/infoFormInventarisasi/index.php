@@ -38,10 +38,16 @@ $('.search-form form').submit(function(){
 				),
 				'forminvbarang_no',
 				'forminvbarang_totalvolume',
+                                array(
+                                    'header' => 'Total Volume',
+                                    'value' => 'number_format($data->forminvbarang_totalvolume,0,"",".")',
+                                    'htmlOptions' => array('style'=>'text-align:right;')
+                                ),                            
 				array(
 				  'header'=>'Total Harga',
 				  'type'=>'raw',
-				  'value'=>'MyFormatter::formatUang($data->forminvbarang_totalharga)',
+				  'value'=>'"Rp".number_format($data->forminvbarang_totalharga,0,"",".")',
+                                  'htmlOptions' => array('style'=>'text-align:right;')
 				),
 				array(
 					'header'=>'Detail Formulir',

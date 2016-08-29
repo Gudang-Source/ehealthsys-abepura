@@ -23,18 +23,23 @@ $('#divSearch-form form').submit(function(){
                         'type'=>'raw',
                         'value'=>'MyFormatter::formatDateTimeForUser($data->renkebbarang_tgl)',
                     ),
-                    'renkebbarang_no',
-					'ro_barang_bulan',
-					array(
-						'header'=>'Pegawai Mengetahui',
-						'type'=>'raw',
-						'value'=>'ADInformasirenkebbarangV::pegawaimengetahui($data->pegmengetahui_id)',
-					),
-					array(
-						'header'=>'Pegawai Menyetujui',
-						'type'=>'raw',
-						'value'=>'ADInformasirenkebbarangV::pegawaimengetahui($data->pegmenyetujui_id)',
-					),
+                    'renkebbarang_no',                    
+                    
+                    array(
+                        'name' => 'ro_barang_bulan',
+                        'value' => '$data->ro_barang_bulan',
+                        'htmlOptions' => array('style'=>'text-align:right;')
+                    ),
+                    array(
+                            'header'=>'Pegawai Mengetahui',
+                            'type'=>'raw',
+                            'value'=>'ADInformasirenkebbarangV::pegawaimengetahui($data->pegmengetahui_id)',
+                    ),
+                    array(
+                            'header'=>'Pegawai Menyetujui',
+                            'type'=>'raw',
+                            'value'=>'ADInformasirenkebbarangV::pegawaimengetahui($data->pegmenyetujui_id)',
+                    ),
  
                     array(
                         'header'=>'Rincian',
@@ -97,3 +102,22 @@ $('#divSearch-form form').submit(function(){
     }
     
 </script>
+<?php
+    $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+                'id'=>'dialogRencana',
+                // additional javascript options for the dialog plugin
+                'options'=>array(
+                'title'=>'Detail Rencana Kebutuhan Barang Umum',
+                'autoOpen'=>false,
+                'width'=>800,
+                'height'=>500,
+                'resizable'=>false,
+                'scroll'=>false    
+                 ),
+        ));
+        ?>
+        <iframe src="" name="rencana" width="100%" height="100%">
+        </iframe>
+        <?php    
+        $this->endWidget('zii.widgets.jui.CJuiDialog');
+?>

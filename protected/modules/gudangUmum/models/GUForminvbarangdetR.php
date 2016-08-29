@@ -7,6 +7,7 @@ class GUForminvbarangdetR extends ForminvbarangdetR
 	 * @return ForminvbarangdetR the static model class
 	 */
 	public $qtystok;
+        public $inventarisasi;
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);

@@ -82,13 +82,15 @@
 				<?php echo $form->textFieldRow($model, 'nobuktijurnal', array('class' => 'span3 reqForm', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 32, 'readonly' => true)); ?>
 				<?php echo $form->textFieldRow($model, 'kodejurnal', array('class' => 'span3 reqForm', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 32, 'readonly' => true)); ?>
 				<?php
-				echo $form->hiddenField(
-						$model, 'rekperiod_id', array(
-					'class' => 'span1',
-					'onkeypress' => "return $(this).focusNextInputField(event)",
-					'readonly' => false
-						)
-				);
+				if (!empty($model->rekperiod_id)) {
+					echo $form->hiddenField(
+							$model, 'rekperiod_id', array(
+						'class' => 'span1',
+						'onkeypress' => "return $(this).focusNextInputField(event)",
+						'readonly' => false
+							)
+					);
+				}
 //                    echo $form->dropDownListRow($model,'rekperiod_id', RekperiodM::items(),array('empty'=>'-- Pilih --','onkeypress'=>"return $(this).focusNextInputField(event)",'class'=>'reqForm'));
 				?>
 				<?php echo $form->textFieldRow($model, 'noreferensi', array('class' => 'span3 reqForm numbersOnly', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 32, 'readonly' => false)); ?>

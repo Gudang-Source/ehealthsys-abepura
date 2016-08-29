@@ -33,7 +33,7 @@ class ReturpenerimaanTController extends MyAuthController
                 $modDetails = array();
                 $modLogin = LoginpemakaiK::model()->findByAttributes(array('loginpemakai_id' => Yii::app()->user->id));
                 $model->peg_retur_id = $modLogin->pegawai_id;
-                $model->tglreturterima = date('Y-m-d H:i:s');
+                $model->tglreturterima = MyFormatter::formatDateTimeForUser(date('Y-m-d H:i:s'));
                 $model->noreturterima = MyGenerator::noReturTerima();
                 if (!empty($model->peg_retur_id)) $model->peg_retur_nama = $modLogin->pegawai->nama_pegawai;
                 if (isset($id)){

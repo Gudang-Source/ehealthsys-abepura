@@ -59,7 +59,11 @@ class PengajuanbahanmknController extends MyAuthController
 			$model->create_time = date('Y-m-d H:i:s');
 			$model->tglpengajuanbahan = MyFormatter::formatDateTimeForDb($model->tglpengajuanbahan);
 			$model->tglmintadikirim = MyFormatter::formatDateTimeForDb($model->tglmintadikirim);
-          
+			$model->totalharganetto = str_replace(".","", $model->totalharganetto);
+			$model->tglmintadikirim	= $_POST['GZPengajuanbahanmkn']['tglmintadikirim'];
+			
+			// var_dump($_POST, $model->attributes); die;
+			
 			if ($model->validate()) {
 				$transaction = Yii::app()->db->beginTransaction();
 				try {
@@ -67,18 +71,23 @@ class PengajuanbahanmknController extends MyAuthController
 
 					if ($model->save()) {
 					  foreach ($_POST['PengajuanbahandetailT'] as $i => $data) {
+						  // var_dump($data);
 							  if($data['checkList']){
 								$modDetails = new PengajuanbahandetailT();
 								$modDetails->attributes = $data;
 								$modDetails->pengajuanbahanmkn_id = $model->pengajuanbahanmkn_id;
 								$modDetails->nourutbahan = 1;
+								$modDetails->qty_pengajuan = $data['qtypengajuan'];
 
 								if (!is_numeric($modDetails->jmlkemasan)){
 								   $modDetails->jmlkemasan = 0;
 								}
 								if (!is_numeric($modDetails->qty_pengajuan)) {
 									$modDetails->qty_pengajuan = 0;
-								}echo "<pre>"; 
+								} 
+								
+								// var_dump($modDetails->attributes);
+								
 								if ($modDetails->validate()) {
 									$modDetails->save();
 								} else {
@@ -87,7 +96,7 @@ class PengajuanbahanmknController extends MyAuthController
 							  }
 					  }
 					}
-
+					// var_dump($success); die;
 					if ($success == true) {
                                                 $smscp1 = 0;
                                                 $smscp2 = 0;
@@ -97,6 +106,7 @@ class PengajuanbahanmknController extends MyAuthController
 							$sms = new Sms();
 							$smscp1 = 1;
 							$smscp2 = 1;
+							/*
 							foreach ($modSmsgateway as $i => $smsgateway) {
 								$isiPesan = $smsgateway->templatesms;
 
@@ -125,6 +135,8 @@ class PengajuanbahanmknController extends MyAuthController
 								}
 
 							}
+							 * 
+							 */
 						}
 						// END SMS GATEWAY
 
@@ -205,11 +217,29 @@ class PengajuanbahanmknController extends MyAuthController
 
               $modDetail = new PengajuanbahandetailT;
 	      $format = new MyFormatter();
-              $subNetto = $format->formatNumber($qty*$model->harganettobahan);
+              $subNetto = $format->formatNumberForPrint($qty*$model->harganettobahan);
 
+			/* 
+			* Jika stok gizi di centang pada konfig sistem maka jumlah pada
+			* data stok ditampilkan. Jika tidak maka hanya menampilkan data
+			* jmlpersediaan pada master
+			*/
+			$stokgizi = Yii::app()->user->getState('krngistokgizi');
+			  
+			if ($stokgizi) {
+				$stok = StokbahanmakananT::model()->findAllByAttributes(array(
+					'bahanmakanan_id'=>$model->bahanmakanan_id,
+				));
+				$tot = 0;
+				foreach ($stok as $item) {
+					$tot += $item->qty_current;
+				}
+				$model->jmlpersediaan = $tot;
+			}
+			  
               $nourut = 1;
                   $tr ="<tr>
-                          <td>".CHtml::activeCheckBox($modDetail,'[i]checkList',array('class'=>'cekList','onclick'=>'hitungSemua();','checked'=>true)).                              
+                          <td hidden>".CHtml::activeCheckBox($modDetail,'[i]checkList',array('class'=>'cekList','onclick'=>'hitungSemua();','checked'=>true)).                              
                                 CHtml::activeHiddenField($modDetail,'[i]golbahanmakanan_id',array('value'=>$model->golbahanmakanan_id, 'class'=>'golbahanmakanan_id')).
                                 CHtml::activeHiddenField($modDetail,'[i]bahanmakanan_id',array('value'=>$model->bahanmakanan_id, 'class'=>'bahanmakanan_id')).
                                 CHtml::activeHiddenField($modDetail,'[i]jmlkemasan',array('value'=>$model->jmldlmkemasan, 'class'=>'jmldlmkemasan')).
@@ -222,14 +252,14 @@ class PengajuanbahanmknController extends MyAuthController
                           <td>".$model->jenisbahanmakanan."</td>
                           <td>".$model->kelbahanmakanan."</td>
                           <td>".$model->namabahanmakanan."</td>
-                          <td>".number_format($model->jmlpersediaan)."</td>
+                          <td style='text-align: right;'>".(empty($model->jmlpersediaan)?0:MyFormatter::formatNumberForPrint($model->jmlpersediaan))."</td>
                           <td>".CHtml::activeDropDownList($modDetail,'[i]satuanbahan', LookupM::getItems('satuanbahanmakanan'), array('class'=>'satuanbahan span1'))."</td>
-                          <td>".number_format($model->harganettobahan)."</td>
-                          <td>".number_format($model->hargajualbahan)."</td>
-                          <td>".number_format($model->discount)."</td>
-                          <td>".$model->tglkadaluarsabahan."</td>
-                          <td>".CHtml::activetextField($modDetail,'[i]qtypengajuan',array('value'=>$qty,'class'=>'span1 numbersOnly qty','onkeyup'=>'hitung(this);'))."</td>
-                          <td>".CHtml::activetextField($modDetail,'[i]subNetto',array('value'=>$subNetto,'class'=>'span1 numbersOnly subNetto','readonly'=>true))."</td>
+                          <td style='text-align: right;'>".MyFormatter::formatNumberForPrint($model->harganettobahan)."</td>
+                          <td style='text-align: right;'>".MyFormatter::formatNumberForPrint($model->hargajualbahan)."</td>
+                          <td style='text-align: right;'>".MyFormatter::formatNumberForPrint($model->discount)."</td>
+                          <td>".MyFormatter::formatDateTimeForUser($model->tglkadaluarsabahan)."</td>
+                          <td>".CHtml::activetextField($modDetail,'[i]qtypengajuan',array('value'=>$qty,'class'=>'span1 numbersOnly qty','onkeyup'=>'hitung(this);', 'style'=>'text-align: right;'))."</td>
+                          <td>".CHtml::activetextField($modDetail,'[i]subNetto',array('value'=>$subNetto,'class'=>'span2 integer2 subNetto','readonly'=>true))."</td>
                           <td>".CHtml::link("<span class='icon-remove'>&nbsp;</span>",'',array('href'=>'','onclick'=>'hapus(this);return false;','style'=>'text-decoration:none;', 'class'=>'cancel'))."</td>
                         </tr>";
                  $data['tr']=$tr;
@@ -332,11 +362,13 @@ class PengajuanbahanmknController extends MyAuthController
 //		$model->unsetAttributes();  // clear any default values
                 $model->tgl_awal = date('d M Y');
                 $model->tgl_akhir = date('d M Y');
+               // $model->tglmintadikirim = date('d M Y');
 		if(isset($_GET['GZPengajuanbahanmkn'])){
                     $model->attributes=$_GET['GZPengajuanbahanmkn'];
                     $format = new MyFormatter();
                     $model->tgl_awal = $format->formatDateTimeForDb($model->tgl_awal);
                     $model->tgl_akhir = $format->formatDateTimeForDb($model->tgl_akhir);
+                    $model->tglmintadikirim = $format->formatDateTimeForDb($model->tglmintadikirim);
                 }
 
 		$this->render('informasi',array(
@@ -417,5 +449,75 @@ class PengajuanbahanmknController extends MyAuthController
                 'modPengajuan'=>$modPengajuan,
                 'modDetailPengajuan'=>$modDetailPengajuan,
             ));
+        }
+        
+        public function actionDetailPrintPengajuan($id){
+            $judulLaporan='Pengajuan Bahan Makanan';
+             //$this->layout = '//layouts/iframe';
+            $modPengajuan = PengajuanbahanmknT::model()->findByPk($id);
+            $modDetailPengajuan = PengajuanbahandetailT::model()->with('bahanmakanan', 'golbahanmakanan')->findAllByAttributes(array('pengajuanbahanmkn_id'=>$modPengajuan->pengajuanbahanmkn_id), array('order'=>'nourutbahan'));
+                    
+            $caraPrint=$_REQUEST['caraPrint'];
+            if($caraPrint=='PRINT') {
+             //   var_dump($id);die;
+                $this->layout='//layouts/printWindows';
+                $this->render('printDetailInformasi',array('modPengajuan'=>$modPengajuan,'modDetailPengajuan'=>$modDetailPengajuan,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+            }
+        }
+        
+        public function actionPersetujuan(){
+            $id = $_POST['id'];   
+            $no = $_POST['no'];   
+            $cek = $_POST['cek'];   
+            
+            if ($cek == 'cek' )
+            {
+                if(isset($_POST['id']))
+                {
+                   $update = PengajuanbahanmknT::model()->updateByPk($id,array('status_persetujuan'=>true, 'idpegawai_menyetujui'=>Yii::app()->user->getState('pegawai_id')));
+
+                   if($update)
+                    {
+                        if (Yii::app()->request->isAjaxRequest)
+                        {
+                            echo CJSON::encode(array(
+                                'status'=>'proses_form', 
+                                'nopengajuan' => $no,
+                                ));
+                            exit;               
+                        }
+                     }
+                } else {
+                        if (Yii::app()->request->isAjaxRequest)
+                        {
+                            echo CJSON::encode(array(
+                                'status'=>'proses_form', 
+                                ));
+                            exit;               
+                        }
+                }
+            }else{
+                $cek = PengajuanbahanmknT::model()->findByPk($id);
+                
+                if ($cek->status_persetujuan == TRUE){  
+                    if (Yii::app()->request->isAjaxRequest)
+                    {
+                        echo CJSON::encode(array(
+                               'status'=>'sukses', 
+                               'url'=>$this->createAbsoluteUrl('Terimabahanmakan/index',array("idPengajuan"=>$id))
+                               ));
+                           exit;       
+                    }
+                }else{
+                    if (Yii::app()->request->isAjaxRequest)
+                    {
+                        echo CJSON::encode(array(
+                            'status'=>'cek_form', 
+                            'no'=>$no
+                            ));
+                        exit;               
+                    }
+                }
+            }
         }
 }

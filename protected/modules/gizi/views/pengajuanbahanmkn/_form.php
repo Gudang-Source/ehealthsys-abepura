@@ -9,8 +9,9 @@
 <div class="white-container">
     <legend class="rim2">Transaksi Pengajuan <b>Bahan Makanan</b></legend>
 
-    <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/accounting.js'); ?>
-    <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/form.js'); ?>
+    <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/accounting2.js', CClientScript::POS_END); ?>
+	<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/form2.js', CClientScript::POS_END); ?>
+
     <?php
     $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
         'id' => 'gzpengajuanbahanmkn-form',
@@ -70,10 +71,10 @@
 			</div>
 			<div class="span4">
                             <?php echo $form->textAreaRow($model, 'alamatpengiriman', array('rows' => 6, 'cols' => 50, 'class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
-                            <?php echo $form->dropDownListRow($model, 'idpegawai_mengetahui', CHtml::listData(PegawaiM::model()->findAll('pegawai_aktif = true'), 'pegawai_id', 'nama_pegawai'), array('empty' => '-- Pilih --', 'class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
 			</div>
 			<div class="span4">
-                            <?php echo $form->dropDownListRow($model, 'idpegawai_mengajukan', CHtml::listData(PegawaiM::model()->findAll('pegawai_aktif = true'), 'pegawai_id', 'nama_pegawai'), array('empty' => '-- Pilih --', 'class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+                            <?php echo $form->dropDownListRow($model, 'idpegawai_mengajukan', CHtml::listData(PegawaiM::model()->findAll('pegawai_aktif = true order by nama_pegawai'), 'pegawai_id', 'namaLengkap'), array('empty' => '-- Pilih --', 'class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+							<?php echo $form->dropDownListRow($model, 'idpegawai_mengetahui', CHtml::listData(PegawairuanganV::model()->findAll('pegawai_aktif = true and ruangan_id = '.Yii::app()->user->getState('ruangan_id')." order by nama_pegawai"), 'pegawai_id', 'namaLengkap'), array('empty' => '-- Pilih --', 'class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
                             <?php echo $form->textAreaRow($model, 'keterangan_bahan', array('rows' => 6, 'class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
 			</div>
 		</div>
@@ -145,7 +146,7 @@
         <table class="table table-bordered table-condensed" id="tableBahanMakanan">
             <thead>
                 <tr>
-                    <th><input type="checkbox" id="checkListUtama" name="checkListUtama" value="1" checked="checked" onclick="checkAll('cekList',this);hitungSemua();"></th>
+                    <th hidden><input type="checkbox" id="checkListUtama" name="checkListUtama" value="1" checked="checked" onclick="checkAll('cekList',this);hitungSemua();"></th>
                     <th>No.Urut</th>
                     <th>Golongan</th>
                     <th>Jenis</th>
@@ -167,9 +168,9 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan='13'><div class='pull-right'>Total Harga</div></td>
+                    <td colspan='12'><div class='pull-right'>Total Harga</div></td>
                     <td><?php 
-			echo $form->textField($model, 'totalharganetto', array('readonly' => true, 'class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);")); ?>
+			echo $form->textField($model, 'totalharganetto', array('readonly' => true, 'class' => 'span2', 'onkeypress' => "return $(this).focusNextInputField(event);", 'style'=>'text-align: right;')); ?>
 		    </td>
                 </tr>
             </tfoot>
@@ -232,6 +233,7 @@ $js = <<<JS
                     $('#tableBahanMakanan tbody').append(data.tr);
                     hitungSemua();
                     $("#tableBahanMakanan tbody tr:last .numbersOnly").maskMoney({"defaultZero":true,"allowZero":true,"decimal":",","thousands":"","precision":0,"symbol":null});
+					$("#tableBahanMakanan tbody tr:last .integer2").maskMoney({"defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0,"symbol":null});
                     $("#tableBahanMakanan tbody tr:last .satuanbahan").val(satuanbahan);
                     renameInputRowObatAlkes($('#tableBahanMakanan'));
               }, "json");
@@ -249,11 +251,10 @@ $js = <<<JS
         $('.noUrut').each(function(){
             $(this).val(noUrut);
             noUrut++;
-            if ($(this).parents('tr').find('#checkList').is(':checked')){
-		netto = parseInt(unformatNumber($(this).parents('tr').find('.subNetto').val()));
-                val = parseFloat(netto);
+           // if ($(this).parents('tr').find('#checkList').is(':checked')){
+				val = parseFloat(unformatNumber($(this).parents('tr').find('.subNetto').val()));
                 value += val;
-            }
+            //}
             
             $('.cekList').each(function(){
                if ($(this).is(':checked')){
@@ -264,14 +265,16 @@ $js = <<<JS
                 }
             });
         });
-	total = formatInteger(value);
+		console.log(value);
+	total = formatNumber(value);
         $('#${totalHarga}').val(total);
     }
     
     function hitung(obj){
-        var netto = $('#PengajuanbahandetailT_harganettobhn').val();
-        var jml = $(obj).val();
-        $(obj).parents('tr').find('.subNetto').val(netto*jml);
+        var netto = parseFloat(unformatNumber($(obj).parents("tr").find('.harganettobhn').val()));
+        var jml = parseFloat(unformatNumber($(obj).val()));
+		console.log(netto, jml);
+        $(obj).parents('tr').find('.subNetto').val(formatNumber(netto*jml));
         hitungSemua();
     }
     function hapus(obj) {
@@ -346,22 +349,84 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
 //                        'filter'=>false,
 //                ),
         array(
-            'name' => 'golbahanmakanan_id',
-            'filter' => CHtml::listData(GolbahanmakananM::model()->findAll('golbahanmakanan_aktif = true'), 'golbahanmakanan_id', 'golbahanmakanan_nama'),
-            'value' => '$data->golbahanmakanan->golbahanmakanan_nama',
-        ),
-//        'golbahanmakanan.golbahanmakanan_nama',
-//        'sumberdanabhn',
-        'jenisbahanmakanan',
-        'kelbahanmakanan',
-        'namabahanmakanan',
-        'jmlpersediaan',
-        'satuanbahan',
-        'harganettobahan',
-        'hargajualbahan',
-        'discount',
-        'tglkadaluarsabahan',
-//        'jmlminimal',
+                'name' => 'golbahanmakanan_id',
+                'filter' => CHtml::activeDropDownList($modBahanMakanan, 'golbahanmakanan_id', CHtml::listData(GolbahanmakananM::model()->findAll('golbahanmakanan_aktif = true'), 'golbahanmakanan_id', 'golbahanmakanan_nama'), array('empty'=>'-- Pilih --')),
+                'value' => '$data->golbahanmakanan->golbahanmakanan_nama',
+            ),
+			array(
+				'name' => 'jenisbahanmakanan',
+                'filter' => CHtml::activeDropDownList($modBahanMakanan, 'jenisbahanmakanan', LookupM::getItems('jenisbahanmakanan'), array('empty'=>'-- Pilih --')),
+				'value' => '$data->jenisbahanmakanan',
+			),
+			array(
+				'name' => 'kelbahanmakanan',
+                'filter' => CHtml::activeDropDownList($modBahanMakanan, 'kelbahanmakanan', LookupM::getItems('kelompokbahanmakanan'), array('empty'=>'-- Pilih --')),
+				'value' => '$data->kelbahanmakanan',
+			),
+            'namabahanmakanan',
+			array(
+				'name'=>'jmlpersediaan',
+				'value'=>function($data) {
+					/* 
+					 * Jika stok gizi di centang pada konfig sistem maka jumlah pada
+					 * data stok ditampilkan. Jika tidak maka hanya menampilkan data
+					 * jmlpersediaan pada master
+					 */
+					$stokgizi = Yii::app()->user->getState('krngistokgizi');
+					
+					if ($stokgizi) {
+						$stok = StokbahanmakananT::model()->findAllByAttributes(array(
+							'bahanmakanan_id'=>$data->bahanmakanan_id,
+						));
+						$tot = 0;
+						foreach ($stok as $item) {
+							$tot += $item->qty_current;
+						}
+						return $tot;
+					}
+					
+					return $data->jmlpersediaan;
+				},
+				'htmlOptions'=>array(
+					'style'=>'text-align: right',
+				),
+				'filter'=>false,
+			),
+			array(
+				'name'=>'harganettobahan',
+				'value'=>'MyFormatter::formatNumberForPrint($data->harganettobahan)',
+				'htmlOptions'=>array(
+					'style'=>'text-align: right',
+				),
+				'filter'=>false,
+			),
+			array(
+				'name'=>'hargajualbahan',
+				'value'=>'MyFormatter::formatNumberForPrint($data->hargajualbahan)',
+				'htmlOptions'=>array(
+					'style'=>'text-align: right',
+				),
+				'filter'=>false,
+			),
+            //'harganettobahan',
+            //'hargajualbahan',
+			array(
+				'name'=>'discount',
+				'value'=>'MyFormatter::formatNumberForPrint($data->discount)',
+				'htmlOptions'=>array(
+					'style'=>'text-align: right',
+				),
+				'filter'=>false,
+			),
+            //'discount',
+			array(
+				'name'=>'tglkadaluarsabahan',
+				'value'=>'MyFormatter::formatDateTimeForUser($data->tglkadaluarsabahan);',
+				'htmlOptions'=>array(
+					'style'=>'text-align: right',
+				),
+				'filter'=>false,
+			),
     ),
     'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
 ));

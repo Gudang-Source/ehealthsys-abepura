@@ -90,7 +90,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
             <?php echo CHtml::label('Ahli Gizi', 'Ahli Gizi', array('class' => 'control-label')) ?>
             <div class="controls"> 
                 <?php 
-                        echo CHtml::dropDownList('ahligizi','ahligizi', CHtml::listData($modAnamnesa->getAhliGiziItems(), 'pegawai_id', 'nama_pegawai'), 
+                        echo CHtml::dropDownList('ahligizi','ahligizi', CHtml::listData($modAnamnesa->getAhliGiziItems(), 'pegawai_id', 'namaLengkap'), 
                                 array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);",'empty'=>'--Pilih--')); 
                 ?>                      
                
@@ -111,8 +111,13 @@ $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
                     Yii::t('mds', '{icon} Save', array('{icon}' => '<i class="icon-ok icon-white"></i>')), array('class' => 'btn btn-primary', 'type' => 'submit', 'onKeypress' => 'return formSubmit(this,event)', 'id' => 'btn_simpan'));
     ?>
 	<?php 
-           $content = $this->renderPartial('rawatJalan.views.tips.tips',array(),true);
-			$this->widget('UserTips',array('type'=>'admin','content'=>$content));
+            $tips = array(
+                '0' => 'waktutime',
+                '1' => 'autocomplete-search',
+                '2' => 'simpan'
+            );
+           $content = $this->renderPartial('sistemAdministrator.views.tips.detailTips',array('tips'=>$tips),true);
+                      $this->widget('UserTips',array('type'=>'admin','content'=>$content));
         ?>
 </div>
 
@@ -223,6 +228,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'name'=>'jml_porsi',
                     'type'=>'raw',
                     'value'=>'$data->jml_porsi',
+                    'filter' => Chtml::activeTextField($modMenuDiet, 'jml_porsi', array('class'=>'numbers-only'))
                 ),
                 array(
                     'header'=>'Ukuran Rumah Tangga',
@@ -231,7 +237,11 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'value'=>'$data->ukuranrumahtangga',
                 ),
 	),
-        'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+        'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
+    . '$(".numbers-only").keyup(function(){'
+    . '     setNumbersOnly(this);'
+    . '});'
+    . '}',
 ));
 
 $this->endWidget();
@@ -283,6 +293,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'name'=>'golbahanmakanan_id',
                     'type'=>'raw',
                     'value'=>'$data->golbahanmakanan->golbahanmakanan_nama',
+                    'filter' => Chtml::dropDownList('BahanmakananM[golbahanmakanan_id]',$modBahanMakanan->golbahanmakanan_id, Chtml::listData(GZGolbahanmakanan::model()->findAll("golbahanmakanan_aktif = TRUE ORDER BY golbahanmakanan_nama ASC"), 'golbahanmakanan_id', 'golbahanmakanan_nama'),array('empty'=>'-- Pilih --'))
                 ),
                 array(
                     'header'=>'Nama Bahan Makanan',
@@ -295,12 +306,14 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'name'=>'jenisbahanmakanan',
                     'type'=>'raw',
                     'value'=>'$data->jenisbahanmakanan',
+                    'filter' => Chtml::dropDownList('BahanmakananM[jenisbahanmakanan]',$modBahanMakanan->jenisbahanmakanan, LookupM::getItems('jenisbahanmakanan'),array('empty'=>'-- Pilih --'))
                 ),
                 array(
                     'header'=>'Satuan Bahan',
                     'name'=>'satuanbahan',
                     'type'=>'raw',
                     'value'=>'$data->satuanbahan',
+                    'filter' => Chtml::dropDownList('BahanmakananM[satuanbahan]',$modBahanMakanan->satuanbahan, LookupM::getItems('satuanbahanmakanan'),array('empty'=>'-- Pilih --'))
                 ),
 	),
         'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',

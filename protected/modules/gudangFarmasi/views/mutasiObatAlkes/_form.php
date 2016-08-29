@@ -77,17 +77,17 @@
             }
         ?>
         <div class="control-group">
-            <?php echo CHtml::label('Instalasi Tujuan', 'instalasitujuan_id', array('class'=>'control-label')) ?>
+            <?php echo CHtml::label('Instalasi Tujuan <font style="color:red">*</font>', 'instalasitujuan_id', array('class'=>'control-label required')) ?>
             <div class="controls">
                 <?php echo $form->dropDownList($model,'instalasitujuan_id', $instalasiTujuans, 
-                        array('class'=>'span3','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
+                        array('class'=>'span3 required','empty'=>'-- Pilih --', 'onkeyup'=>"return $(this).focusNextInputField(event)", 
                                 'ajax'=>array('type'=>'POST',
                                             'url'=>$this->createUrl('SetDropdownRuangan',array('encode'=>false,'model_nama'=>get_class($model))),
                                             'update'=>"#".CHtml::activeId($model, 'ruangantujuan_id'),
                                 )));?>
             </div>
         </div>        
-        <?php echo $form->dropDownListRow($model,'ruangantujuan_id',$ruanganTujuans,array('class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>                
+        <?php echo $form->dropDownListRow($model,'ruangantujuan_id',$ruanganTujuans,array('empty'=>'-- Pilih --','class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); ?>                
     </div>
     <div class = "span4">
         <div class="control-group ">

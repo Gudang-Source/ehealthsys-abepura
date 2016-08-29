@@ -95,12 +95,12 @@
 					{
 						alert("Simpan data berhasil");
 						$("#tblInputUraian").find('tr[class$="child"]').detach();
-                                                location.reload();
-						//$("#reseter").click();
-						//url = '<?php echo $this->createUrl("Print&id='+data.pesan.id+'"); ?>';
-						//$('#url').val(url);
-						//$("#input-penerimaan-kas").find("input[name$='[nopenerimaan]']").val(data.pesan.nopenerimaan);
-						//$("#tblInputRekening > tbody").find('tr').detach();
+                                                // location.reload();
+						$("#reseter").click();
+						url = '<?php echo $this->createUrl("Print&id='+data.pesan.id+'"); ?>';
+						$('#url').val(url);
+						$("#input-penerimaan-kas").find("input[name$='[nopenerimaan]']").val(data.pesan.nopenerimaan);
+						$("#tblInputRekening > tbody").find('tr').detach();
 					} else {
 						myAlert("Update data berhasil");
 					}

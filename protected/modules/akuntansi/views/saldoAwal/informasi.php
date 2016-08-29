@@ -155,8 +155,8 @@
 	      			echo "<tr>";
                                 echo "<td>".$kode1[$i]."</td>";
 	      			echo "<td><b>".$value1['nmrekening1']."</b></td>";
-	      			echo "<td>".number_format($debit1[$i])."</td>";
-	      			echo "<td>".number_format($kredit1[$i])."</td>";
+	      			echo "<td style = 'text-align:right;'>".number_format($debit1[$i],0,"",".")."</td>";
+	      			echo "<td style = 'text-align:right;'>".number_format($kredit1[$i],0,"",".")."</td>";
 	      			echo "</tr>";
 	      		}
 	      		$namarekening2[$key] = $value1['nmrekening2'];
@@ -164,8 +164,8 @@
 	      			echo "<tr>";
                                 echo "<td>".$kode2[$i]."</td>";
 	      			echo "<td>".$spasi.$value1['nmrekening2']."</td>";
-	      			echo "<td>".number_format($debit2[$i])."</td>";
-	      			echo "<td>".number_format($kredit2[$i])."</td>";
+	      			echo "<td style = 'text-align:right;'>".number_format($debit2[$i],0,"",".")."</td>";
+	      			echo "<td style = 'text-align:right;'>".number_format($kredit2[$i],0,"",".")."</td>";
 	      			echo "</tr>";
 	      		}
 	      		$namarekening3[$key] = $value1['nmrekening3'];
@@ -173,8 +173,8 @@
 	      			echo "<tr>";
                                 echo "<td>".$kode3[$i]."</td>";
 	      			echo "<td>".$spasi.$spasi.$value1['nmrekening3']."</td>";
-	      			echo "<td>".number_format($debit3[$i])."</td>";
-	      			echo "<td>".number_format($kredit3[$i])."</td>";
+	      			echo "<td style = 'text-align:right;'>".number_format($debit3[$i],0,"",".")."</td>";
+	      			echo "<td style = 'text-align:right;'>".number_format($kredit3[$i],0,"",".")."</td>";
 	      			echo "</tr>";
 	      		}
 	      		$namarekening4[$key] = $value1['nmrekening4'];
@@ -182,8 +182,8 @@
 	      			echo "<tr>";
                                 echo "<td>".$kode4[$i]."</td>";
 	      			echo "<td>".$spasi.$spasi.$spasi.$value1['nmrekening4']."</td>";
-	      			echo "<td>".number_format($debit4[$i])."</td>";
-	      			echo "<td>".number_format($kredit4[$i])."</td>";
+	      			echo "<td style = 'text-align:right;'>".number_format($debit4[$i],0,"",".")."</td>";
+	      			echo "<td style = 'text-align:right;'>".number_format($kredit4[$i],0,"",".")."</td>";
 	      			echo "</tr>";
 	      		}
 	      		$namarekening5[$key] = $value1['nmrekening5'];
@@ -191,8 +191,8 @@
 	      			echo "<tr>";
                                 echo "<td>".$value1['kdrekening5']."</td>";
 	      			echo "<td>".$spasi.$spasi.$spasi.$spasi.$value1['nmrekening5']."</td>";
-	      			echo "<td>".number_format($value1['debit'])."</td>";
-	      			echo "<td>".number_format($value1['kredit'])."</td>";
+	      			echo "<td style = 'text-align:right;'>".number_format($value1['debit'],0,"",".")."</td>";
+	      			echo "<td style = 'text-align:right;'>".number_format($value1['kredit'],0,"",".")."</td>";
 	      			echo "</tr>";
 	      		}
 

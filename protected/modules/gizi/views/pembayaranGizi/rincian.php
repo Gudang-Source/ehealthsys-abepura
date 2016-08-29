@@ -1,3 +1,20 @@
+<style>
+    .border{
+        border:1px solid #000;
+    }
+    .table thead:first-child{
+        border-top:1px solid #000;        
+    }
+    
+    thead th{
+        background:none;
+        color:#333;
+    }
+    
+    .table tbody tr:hover td, .table tbody tr:hover th {
+        background-color: none;
+    }
+</style>
 <?php 
     if (isset($caraPrint)){
         if($caraPrint=='EXCEL')
@@ -21,38 +38,42 @@
 
     ');
 ?>
-<table width="100%" style='margin-left:auto; margin-right:auto;'>
+<table width="100%" class = "table" style = "box-shadow:none;">
     <tr>
         <td>
-            <label class='control-label'><?php echo CHtml::encode($modPendaftaran->pasien->getAttributeLabel('nama_pasien')); ?>:</label>
-            <?php echo CHtml::encode($modPendaftaran->pasien->nama_pasien); ?>
-            <br/>
-                <label class='control-label'><?php echo CHtml::encode($modPendaftaran->pasien->getAttributeLabel('jeniskelamin')); ?>:</label>
-                <?php echo CHtml::encode($modPendaftaran->pasien->jeniskelamin); ?>
-            <br/>
-                <label class='control-label'><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('umur')); ?>:</label>
-                <?php echo CHtml::encode($modPendaftaran->umur); ?>
-            <br/>
-                <label class='control-label'><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('carabayar_id')); ?>:</label>
-                <?php echo CHtml::encode($modPendaftaran->carabayar->carabayar_nama); ?>
-            <br/>
-                <label class='control-label'><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('penjamin_id')); ?>:</label>
-                <?php echo CHtml::encode($modPendaftaran->penjamin->penjamin_nama); ?>
+            <b><?php echo CHtml::encode($modPendaftaran->pasien->getAttributeLabel('nama_pasien')); ?>:</b>
+            
         </td>
-        <Td width="30%">
-            
-            </td>
         <td>
-                <label class='control-label'><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('no_pendaftaran')); ?>:</label>
-                <?php echo CHtml::encode($modPendaftaran->no_pendaftaran); ?>
-            <br/>
-                <label class='control-label'><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('kelaspelayanan_id')); ?>:</label>
-            <?php echo CHtml::encode($modPendaftaran->kelaspelayanan->kelaspelayanan_nama); ?>
-            <br/>
-                <label class='control-label'><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('diagnosa')); ?>:</label>
-                
+            : <?php echo CHtml::encode($modPendaftaran->pasien->nama_pasien); ?>
+        </td>
+        <td>&nbsp;</td>
+        <td><b><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('no_pendaftaran')); ?></b></td>
+        <td>: <?php echo CHtml::encode($modPendaftaran->no_pendaftaran); ?></td>
+    </tr>        
+    <tr>
+        <td>
+            <b><?php echo CHtml::encode($modPendaftaran->pasien->getAttributeLabel('jeniskelamin')); ?></b>
             
-                    <?php
+        </td>
+        <td>
+            : <?php echo CHtml::encode($modPendaftaran->pasien->jeniskelamin); ?>
+        </td>
+        <td>&nbsp;</td>
+        <td><b><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('kelaspelayanan_id')); ?></b></td>
+        <td>: <?php echo CHtml::encode($modPendaftaran->kelaspelayanan->kelaspelayanan_nama); ?></td>
+    </tr>  
+    <tr>
+        <td>
+            <b><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('umur')); ?></b>
+            
+        </td>
+        <td>
+            :  <?php echo CHtml::encode($modPendaftaran->umur); ?>
+        </td>
+        <td>&nbsp;</td>
+        <td><b><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('diagnosa')); ?></b></td>
+        <td>: <?php
                     if (isset($modPendaftaran->diagnosa)){
                         if (count($modPendaftaran->diagnosa) > 0 ){ ?>
                         <ul>
@@ -63,45 +84,55 @@
                                 ?>
                         </ul>
                         <?php } else { echo ' - '; }
-                    }?>
-                   <br/>
+                    }?></td>
+    </tr>         
+    <tr>
+        <td>
+            <b><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('carabayar_id')); ?></b>
             
-            
-                <label class='control-label'><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('tgl_pendaftaran')); ?>:</label>
-            <?php echo CHtml::encode($modPendaftaran->tgl_pendaftaran); ?>
-                   <br/>
-            
-            
-                <label class='control-label'><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('ruangan_id')); ?>:</label>
-            <?php echo CHtml::encode($modPendaftaran->ruangan->ruangan_nama); ?>
         </td>
-        </tr>
+        <td>
+            :   <?php echo CHtml::encode($modPendaftaran->carabayar->carabayar_nama); ?>
+        </td>
+        <td>&nbsp;</td>
+        <td><b><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('tgl_pendaftaran')); ?></b></td>
+        <td>: <?php echo MyFormatter::formatDateTimeForUser(CHtml::encode($modPendaftaran->tgl_pendaftaran)); ?></td>
+    </tr>  
+    <tr>
+        <td>
+            <b><?php echo CHtml::encode($modPendaftaran->getAttributeLabel('ruangan_id')); ?></b>
+            
+        </td>
+        <td>
+            :   <?php echo CHtml::encode($modPendaftaran->ruangan->ruangan_nama); ?>
+        </td>
+    </tr> 
     </table>
-<table class='table table-striped table-bordered table-condensed'>
+<table class='table' style = "box-shadow:none;">
     <thead>
         <tr>
-            <th>
+            <th class = "border">
                 Keterangan
             </th>
-            <th>
+            <th class = "border">
                 Kategori (Dokter)<br/>Tindakan
             </th>
-            <th>
+            <th class = "border">
                 Tarif Satuan
             </th>
-            <th>
+            <th class = "border">
                 Jumlah
             </th>
-            <th>
+            <th class = "border">
                 Tarif Cyto
             </th>
-            <th>
+            <th class = "border">
                 Disc
             </th>
-            <th>
+            <th class = "border">
                 Sub Total
             </th> 
-            <th>
+            <th class = "border">
                 Status Bayar
             </th> 
         </tr>
@@ -118,7 +149,7 @@
             $rowspan = count(GZRincianTagihanPasienGizi::model()->findAll('ruangan_id = '.$row->ruangan_id.' and pendaftaran_id = '.$row->pendaftaran_id));
             if (!in_array($row->ruangan_id, $ruangan)){
                 $ruangan[] = $row->ruangan_id;
-                $ruanganTd = '<td rowspan="'.$rowspan.'" style="vertical-align:middle;text-align:center;">'.$row->ruangan_nama.'</td>';
+                $ruanganTd = '<td class = "border" rowspan="'.$rowspan.'" style="vertical-align:middle;text-align:center;">'.$row->ruangan_nama.'</td>';
             }
             else{
                 $ruanganTd = '';
@@ -126,19 +157,19 @@
 //            
             echo '<tr>
                 '.$ruanganTd.'
-                    <td>'.$row->kategoritindakan_nama.' ('.$row->nama_pegawai.')<br/>'.$row->daftartindakan_nama.'
+                    <td  class = "border">'.$row->kategoritindakan_nama.' ('.$row->nama_pegawai.')<br/>'.$row->daftartindakan_nama.'
                     </td>
-                    <td style="text-align:right;">'.number_format($row->tarif_satuan,0,',','.').'
+                    <td  class = "border" style="text-align:right;">'.number_format($row->tarif_satuan,0,',','.').'
                     </td>
-                    <td>'.$row->qty_tindakan.'
+                    <td  class = "border" style="text-align:right;">'.$row->qty_tindakan.'
                     </td>
-                    <td style="text-align:right;">'.number_format($row->tarifcyto_tindakan,0,',','.').'
+                    <td  class = "border" style="text-align:right;">'.number_format($row->tarifcyto_tindakan,0,',','.').'
                     </td>
-                    <td>'.$row->discount_tindakan.'
+                    <td  class = "border">'.$row->discount_tindakan.'
                     </td>
-                    <td style="text-align:right;">'.number_format($row->subTotal,0,',','.').'
+                    <td  class = "border" style="text-align:right;">'.number_format($row->subTotal,0,',','.').'
                     </td>
-                    <td>'.((empty($row->tindakansudahbayar_id)) ? "BELUM LUNAS" : "LUNAS").'
+                    <td  class = "border">'.((empty($row->tindakansudahbayar_id)) ? "BELUM LUNAS" : "LUNAS").'
                     </td>
                    </tr>';
             $total += $row->subTotal;
@@ -151,29 +182,29 @@
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="6"><div class='pull-right'>Total Tagihan</div></td>
-            <td style="text-align:right;"><?php echo number_format($total,0,',','.'); ?></td>
-            <td></td>
+            <td  class = "border" colspan="6"><div class='pull-right'>Total Tagihan</div></td>
+            <td  class = "border" style="text-align:right;"><?php echo number_format($total,0,',','.'); ?></td>
+            <td  class = "border" rowspan="5"></td>
         </tr>
         <tr>
-            <td colspan="6"><div class='pull-right'>Subsidi Asuransi</div></td>
-            <td style="text-align:right;"><?php echo number_format($subsidiAsuransi,0,',','.'); ?></td>
-            <td></td>
+            <td  class = "border" colspan="6"><div class='pull-right'>Subsidi Asuransi</div></td>
+            <td  class = "border" style="text-align:right;"><?php echo number_format($subsidiAsuransi,0,',','.'); ?></td>
+           
         </tr>
         <tr>
-            <td colspan="6"><div class='pull-right'>Subsidi Pemerintah</div></td>
-            <td style="text-align:right;"><?php echo number_format($subsidiPemerintah,0,',','.'); ?></td>
-            <td></td>
+            <td  class = "border" colspan="6"><div class='pull-right'>Subsidi Pemerintah</div></td>
+            <td   class = "border" style="text-align:right;"><?php echo number_format($subsidiPemerintah,0,',','.'); ?></td>
+          
         </tr>
         <tr>
-            <td colspan="6"><div class='pull-right'>Subsidi Rumah Sakit</div></td>
-            <td style="text-align:right;"><?php echo number_format($subsidiRumahSakit,0,',','.'); ?></td>
-            <td></td>
+            <td  class = "border" colspan="6"><div class='pull-right'>Subsidi Rumah Sakit</div></td>
+            <td  class = "border" style="text-align:right;"><?php echo number_format($subsidiRumahSakit,0,',','.'); ?></td>
+          
         </tr>
         <tr>
-            <td colspan="6"><div class='pull-right'>Iur Biaya</div></td>
-            <td style="text-align:right;"><?php echo number_format($iurBiaya,0,',','.'); ?></td>
-            <td></td>
+            <td  class = "border" colspan="6"><div class='pull-right'>Iur Biaya</div></td>
+            <td  class = "border" style="text-align:right;"><?php echo number_format($iurBiaya,0,',','.'); ?></td>
+           
         </tr>
     </tfoot>
 </table>

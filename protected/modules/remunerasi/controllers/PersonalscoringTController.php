@@ -64,7 +64,7 @@ class PersonalscoringTController extends MyAuthController
 				
 				$model->totalscore = str_replace(",",".", $model->totalscore);
 				
-               // var_dump($_POST);
+                //var_dump($_POST);
                 try{
                     if ($model->save()) {
                         $jumlah = 0;
@@ -77,13 +77,14 @@ class PersonalscoringTController extends MyAuthController
 								$modScoringdetail->kelrem_id = $_POST['ScoringdetailT']['kelrem_id'][$i];
 								$modScoringdetail->indexing_id = $_POST['ScoringdetailT']['indexing_id'][$i];
 								$modScoringdetail->score_personal = str_replace(",",".",$_POST['ScoringdetailT']['score_personal'][$i]);
-                                // var_dump($modScoringdetail->attributes, $modScoringdetail->validate(), $modScoringdetail->errors);
+								$modScoringdetail->score_ordinal = $_POST['ScoringdetailT']['score_ordinal'][$i];
+                                //var_dump($modScoringdetail->attributes, $modScoringdetail->validate(), $modScoringdetail->errors);
                                 if ($modScoringdetail->save()){
                                     $jumlah++;
                                 }
                             }
                         }
-                        // var_dump(($jumlah>0) && ($jumlah == count($_POST['ScoringdetailT']['indexing_id']))); die;
+                        //var_dump(($jumlah>0) && ($jumlah == count($_POST['ScoringdetailT']['indexing_id']))); die;
                         if (($jumlah>0) && ($jumlah == count($_POST['ScoringdetailT']['indexing_id']))){
                             $transaction->commit();
                             echo Yii::app()->user->setFlash('success', '<strong>Berhasil!</strong> Data berhasil disimpan.');

@@ -2,7 +2,7 @@
 
 class SATindakanruanganM extends TindakanruanganM
 {
-    public $instalasi_id,$instalasi_nama,$ruangan_nama,$komponenunit_nama;
+    public $instalasi_id,$instalasi_nama,$ruangan_nama,$komponenunit_nama, $daftartindakan_nama;
 
     /**
 	 * Returns the static model of the specified AR class.
@@ -26,6 +26,7 @@ class SATindakanruanganM extends TindakanruanganM
                 $criteria->compare('LOWER(komponenunit.komponenunit_nama)',  strtolower($this->komponenunit_nama), true);
 		$criteria->compare('LOWER(daftartindakan.daftartindakan_kode)',  strtolower($this->daftartindakan_kode), true);
 		$criteria->compare('LOWER(daftartindakan.daftartindakan_nama)',  strtolower($this->daftartindakan_nama), true);
+                $criteria->order = "daftartindakan.daftartindakan_nama ASC, kelompoktindakan.kelompoktindakan_nama ASC";
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
                         'sort' => array(

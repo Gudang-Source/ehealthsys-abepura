@@ -26,10 +26,8 @@
 							$model->tgl_awal = $format->formatDateTimeForDb($model->tgl_awal);
 						?>
 					</div>
-			</div> 
-		</div>
-		<div class="span4">
-			<div class="control-group ">
+			</div>
+                        <div class="control-group ">
 				<?php echo CHtml::label('Sampai Dengan','sampaiDengan', array('class'=>'control-label')) ?>
 					<div class="controls">
 						<?php   
@@ -50,7 +48,10 @@
 			</div>
 		</div>
 		<div class="span4">
-			<?php echo $form->textFieldRow($model,'forminvbarang_no',array('placeholder'=>'Ketik No. Formulir','class'=>'numberOnly')); ?>
+			<?php echo $form->textFieldRow($model,'forminvbarang_no',array('placeholder'=>'Ketik No. Formulir','class'=>'angkahuruf-only')); ?>
+		</div>
+		<div class="span4">
+			
 		</div>
 	</div>
 	<div class="form-actions">

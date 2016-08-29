@@ -7,13 +7,13 @@
 <table>
     <tr>
         <td>
-            <?php echo $form->textFieldRow($model,'jenispenerimaan_kode',array('class'=>'span3','maxlength'=>25)); ?>
+            <?php echo $form->textFieldRow($model,'jenispenerimaan_kode',array('class'=>'span3 angkahuruf-only','maxlength'=>25)); ?>
         </td>
         <td>
-            <?php echo $form->textFieldRow($model,'jenispenerimaan_nama',array('class'=>'span3','maxlength'=>25)); ?>
+            <?php echo $form->textFieldRow($model,'jenispenerimaan_nama',array('class'=>'span3 hurufs-only','maxlength'=>25)); ?>
         </td>
         <td>
-            <?php echo $form->textFieldRow($model,'jenispenerimaan_namalain',array('class'=>'span3','maxlength'=>25)); ?>
+            <?php echo $form->textFieldRow($model,'jenispenerimaan_namalain',array('class hurufs-only'=>'span3','maxlength'=>25)); ?>
         </td>
     </tr>
     <tr>

@@ -166,7 +166,7 @@
                     </div>
                 </td>
                 <td>
-                    <?php echo $form->textFieldRow($modPengeluaran,'nopengeluaran',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
+                    <?php echo $form->textFieldRow($modPengeluaran,'nopengeluaran',array('class'=>'span3 ', 'onkeypress'=>"return $(this).focusNextInputField(event)")); ?>
                     <div class="control-group ">
                         <?php echo CHtml::label('Jenis Pengeluaran','jenisPengeluaran', array('class'=>'control-label inline')) ?>
                         <div class="controls">

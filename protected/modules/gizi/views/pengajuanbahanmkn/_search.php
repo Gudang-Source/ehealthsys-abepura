@@ -41,16 +41,38 @@
                                             ),
                                             'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3'),
                     )); ?>
+                    </div>
                 </div>
-            </div>
+            
+                <div class="control-group ">
+                    <label for="namaPasien" class="control-label">
+                       Tanggal Minta Dikirim
+                      </label>
+                    <div class="controls">
+                            <?php   
+                            $this->widget('MyDateTimePicker',array(
+                                            'model'=>$model,
+                                            'attribute'=>'tglmintadikirim',
+                                            'mode'=>'date',
+                                            'options'=> array(
+                                                'dateFormat'=>Params::DATE_FORMAT,
+                                               // 'maxDate' => 'd',
+                                            ),
+                                            'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker3'),
+                    )); ?>
+                    </div>
+                </div>
         </td>
         <td>
-            <?php echo $form->textFieldRow($model,'nopengajuan',array('class'=>'span3', 'maxlength'=>20, 'placeholder'=>'Ketik no. pengajuan')); ?>
-            <?php echo $form->dropDownListRow($model,'ruangan_id', CHtml::listData(RuanganM::model()->findAll('ruangan_aktif = true'), 'ruangan_id', 'ruangan_nama'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20)); ?>
+            <?php echo $form->textFieldRow($model,'nopengajuan',array('class'=>'span3 angkahuruf-only', 'maxlength'=>20, 'placeholder'=>'Ketik no. pengajuan')); ?>
+            <?php //echo $form->dropDownListRow($model,'ruangan_id', CHtml::listData(RuanganM::model()->findAll('ruangan_aktif = true'), 'ruangan_id', 'ruangan_nama'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20)); ?>
+            <?php echo $form->dropDownListRow($model,'status_persetujuan', Params::statusPersetujuan(),array('empty'=>'-- Pilih --','class'=>'span3')); ?>
         </td>
         <td>
-            <?php echo $form->dropDownListRow($model,'supplier_id', CHtml::listData(SupplierM::model()->findAll('supplier_aktif = true'), 'supplier_id', 'supplier_nama'),array('empty'=>'-- Pilih --','class'=>'span3', 'maxlength'=>20)); ?>
-            <?php echo $form->dropDownListRow($model,'sumberdanabhn', LookupM::getItems('sumberdanabahan'),array('empty'=>'-- Pilih --')); ?>
+            <?php echo $form->dropDownListRow($model,'idpegawai_mengajukan', Chtml::listData(PegawairuanganV::model()->findAll("pegawai_aktif = TRUE AND ruangan_id  = '".Yii::app()->user->getState('ruangan_id')."' ORDER BY nama_pegawai ASC"), 'pegawai_id', 'namaLengkap'),array('empty'=>'-- Pilih --','class'=>'span3')); ?>
+            <?php echo $form->dropDownListRow($model,'idpegawai_mengetahui', Chtml::listData(PegawairuanganV::model()->findAll("pegawai_aktif = TRUE AND ruangan_id  = '".Yii::app()->user->getState('ruangan_id')."' ORDER BY nama_pegawai ASC"), 'pegawai_id', 'namaLengkap'),array('empty'=>'-- Pilih --','class'=>'span3')); ?>
+            
+            
         </td>
     </tr>
 </table>

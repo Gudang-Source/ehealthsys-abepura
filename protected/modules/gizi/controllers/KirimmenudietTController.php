@@ -454,11 +454,12 @@ class KirimmenudietTController extends MyAuthController
                 $model->tgl_akhir = date('d M Y');
 		if(isset($_GET['GZKirimmenudietT'])){
 			$model->attributes=$_GET['GZKirimmenudietT'];
-			$model->ruangan_id = $_GET['GZKirimmenudietT']['ruangan_id'];
-			$model->instalasi_id = $_GET['GZKirimmenudietT']['instalasi_id'];
+			//$model->ruangan_id = $_GET['GZKirimmenudietT']['ruangan_id'];
+			//$model->instalasi_id = $_GET['GZKirimmenudietT']['instalasi_id'];
+                        $model->pesan_menu = $_GET['GZKirimmenudietT']['pesan_menu'];                        
 			$format = new MyFormatter();
-			$model->tgl_awal = $format->formatDateTimeForDb($model->tgl_awal);
-			$model->tgl_akhir = $format->formatDateTimeForDb($model->tgl_akhir);
+			$model->tgl_awal = $format->formatDateTimeForDb($_GET['GZKirimmenudietT']['tgl_awal']);
+			$model->tgl_akhir = $format->formatDateTimeForDb($_GET['GZKirimmenudietT']['tgl_akhir']);
 		}
 
 		$this->render('informasi',array(
@@ -466,9 +467,12 @@ class KirimmenudietTController extends MyAuthController
 		));
 	}
 	    
-        public function actionDetailKirimMenuDiet($id){
+        public function actionDetailKirimMenuDiet($id,$frame=null){
             $this->layout ='//layouts/iframe';
 			
+            if ($frame==FALSE){
+                $this->layout ='//layouts/printWindows';
+            }
             $modKirim = KirimmenudietT::model()->findByPk($id);
             if ($modKirim->jenispesanmenu == Params::JENISPESANMENU_PASIEN){
                 $criteria = new CDbCriteria();
@@ -864,9 +868,9 @@ class KirimmenudietTController extends MyAuthController
                             .CHtml::activeHiddenField($modDetail, '[]pasienadmisi_id', array('value'=>(isset($model->pasienadmisi_id) ? $model->pasienadmisi_id : null)))
                             .CHtml::activeHiddenField($modDetail, '[]ruangan_id', array('value'=>(isset($model->ruangan_id) ? $model->ruangan_id : null)))
                         .'</td>
-                        <td>'.(isset($ruangan) ? $ruangan->instalasi->instalasi_nama : "").'</td>
-                        <td>'.(isset($model->ruangan_nama) ? $model->ruangan_nama : "").'/<br/>'.(isset($model->no_pendaftaran) ? $model->no_pendaftaran : "").'</td>
-                        <td>'.(isset($model->no_rekam_medik) ? $model->no_rekam_medik : "").'/<br/>'.(isset($model->nama_pasien) ? $model->nama_pasien : "").'</td>
+                        <td>'.(isset($ruangan) ? $ruangan->instalasi->instalasi_nama : "").'/<br/> '.(isset($model->ruangan_nama) ? $model->ruangan_nama : "").'</td>
+                        <td>'.(isset($model->no_pendaftaran) ? $model->no_pendaftaran : "").'/<br/> '.(isset($model->no_rekam_medik) ? $model->no_rekam_medik : "").'</td>
+                        <td>'.(isset($model->nama_pasien) ? $model->nama_pasien : "").'</td>
                         <td>'.(isset($model->umur) ? $model->umur : "").'</td>
                         <td>'.(isset($model->jeniskelamin) ? $model->jeniskelamin : "").'</td>';
                 foreach ($modJenisWaktu as $v){

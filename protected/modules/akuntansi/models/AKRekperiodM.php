@@ -38,7 +38,7 @@ class AKRekperiodM extends RekperiodM
 	{
 		$next_year = date('Y-m-d',mktime(0, 0, 0, date("m"),   date("d"),   date("Y")));
 		$criteria = new CDbCriteria();
-		$criteria->addCondition('DATE(perideawal) <=\''.$next_year.'\'');
+		//$criteria->addCondition('DATE(perideawal) <=\''.$next_year.'\'');
 		$criteria->addCondition('DATE(sampaidgn) >= \''.$next_year.'\'');
 		$criteria->compare('LOWER(deskripsi)',strtolower($this->deskripsi),true);
 		$criteria->order = "deskripsi ASC";

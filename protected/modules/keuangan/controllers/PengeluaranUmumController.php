@@ -107,14 +107,14 @@ class PengeluaranUmumController extends MyAuthController {
 					
 					if ($this->succesSave) {
 						$transaction->commit();
-						Yii::app()->user->setFlash('success', "Data berhasil disimpan");
+						// Yii::app()->user->setFlash('success', "Data berhasil disimpan");
 						$this->pesan = array(
 							'nopengeluaran' => MyGenerator::noPengeluaranUmum(),
 							'nokaskeluar' => MyGenerator::noKasKeluar()
 						);
 					} else {
 						$transaction->rollback();
-						Yii::app()->user->setFlash('error', "Data gagal disimpan ");
+						// Yii::app()->user->setFlash('error', "Data gagal disimpan ");
 					}
 				} catch (Exception $exc) {
 					print_r($exc);
@@ -125,6 +125,7 @@ class PengeluaranUmumController extends MyAuthController {
 			}
 			$result = array(
 				'action' => $this->is_action,
+				'id' => empty($modPengUmum)?"":$modPengUmum->pengeluaranumum_id,
 				'pesan' => $this->pesan,
 				'status' => ($this->succesSave == true ? 'ok' : 'not'),
 			);
@@ -498,5 +499,30 @@ class PengeluaranUmumController extends MyAuthController {
 		}
 		Yii::app()->end();
 	}
+	
+	public function actionPrint($id) {
+        $model = KUPengeluaranumumT::model()->findByPk($id);
+        $modUraian = KUUraiankeluarumumT::model()->findAllByAttributes(array('pengeluaranumum_id'=>$model->pengeluaranumum_id));
+        
+        $judulLaporan = '--- Detail Pengeluaran Kas ---';
+        $caraPrint = $_REQUEST['caraPrint'];
+        if ($caraPrint == 'PRINT') {
+            $this->layout = '//layouts/printWindows';
+            $this->render($this->path_view. 'Print', array('model' => $model, 'modUraian'=>$modUraian, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint));
+        } else if ($caraPrint == 'EXCEL') {
+            $this->layout = '//layouts/printExcel';
+            $this->render($this->path_view. 'Print', array('model' => $model, 'modUraian'=>$modUraian, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint));
+        } else if ($_REQUEST['caraPrint'] == 'PDF') {
+                $ukuranKertasPDF = Yii::app()->user->getState('ukuran_kertas');              // Ukuran Kertas Pdf
+                $posisi = Yii::app()->user->getState('posisi_kertas');                                        // Posisi L->Landscape,P->Portait
+            $mpdf = new MyPDF('', $ukuranKertasPDF);
+            $mpdf->useOddEven = 2;
+            $mpdf->AddPage($posisi, '', '', '', '', 15, 15, 15, 15, 15, 15);
+            $stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
+            $mpdf->WriteHTML($stylesheet,1);
+            $mpdf->WriteHTML($this->renderPartial($this->path_view. 'Print', array('model' => $model, 'modUraian'=>$modUraian,'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
+            $mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
+         }
+    }
 
 }

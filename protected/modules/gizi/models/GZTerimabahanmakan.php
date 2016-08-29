@@ -1,6 +1,7 @@
 <?php 
 class GZTerimabahanmakan extends TerimabahanmakanT {
 
+    public $temp_no;
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }

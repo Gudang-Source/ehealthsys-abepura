@@ -101,14 +101,14 @@ $('.search-form form').submit(function(){
 				array(
 					'header'=>Yii::t('zii','Batal'),
 					'class'=>'bootstrap.widgets.BootButtonColumn',
-					'template'=>'{remove}',
+					'template'=>'{remove}',                                        
 					'buttons'=>array(
 						'remove' => array (
 								'label'=>"<i class='icon-form-silang'></i>",
 								'options'=>array('title'=>'Klik untuk Membatalkan Penerimaan Linen'),
 								'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/batalPenerimaan",array("id"=>$data->penerimaanlinen_id))',
-								'click'=>'function(){batalPenerimaan(this);return false;}',
-//								'visible'=>'(($data->ruangan_id == Yii::app()->user->getState("ruangan_id"))? TRUE : FALSE)'
+								'click'=>'function(){batalPenerimaan(this);return false;}',                                                                
+								'visible'=>'($data->cekPenerimaan($data->penerimaanlinen_id) == TRUE)?FALSE:TRUE'
 						),
 					),
 					'htmlOptions'=>array('style'=>'text-align: center; width:40px')
@@ -144,7 +144,7 @@ $this->endWidget();
 ?>
 <script type="text/javascript">	
 	function batalPenerimaan(obj){
-		myConfirm("Yakin akan membatalkan data ini untuk sementara?","Perhatian!",
+		myConfirm("Apakah Anda yakin ingin membatalkan data ini ?","Perhatian!",
 			function(r){
 				if(r){ 
 					$.ajax({

@@ -140,17 +140,45 @@ class MatauangMController extends MyAuthController
 	{
 		//if(!Yii::app()->user->checkAccess(Params::DEFAULT_DELETE)){throw new CHttpException(401,Yii::t('mds','You are prohibited to access this page. Contact Super Administrator'));}
 		if(Yii::app()->request->isPostRequest)
-		{
-			$id = $_POST['id'];
-            $this->loadModel($id)->delete();
-            if (Yii::app()->request->isAjaxRequest)
-                {
-                    echo CJSON::encode(array(
-                        'status'=>'proses_form', 
-                        'div'=>"<div class='flash-success'>Data berhasil dihapus.</div>",
-                        ));
-                    exit;
-                }
+		{                                        
+                    
+                    
+                    if (Yii::app()->request->isAjaxRequest)
+                        {
+                            $id = $_POST['id'];                                        
+                            $cek = AKKursrpM::model()->findByAttributes(array('matauang_id'=>$id));
+                            
+                            if (count($cek)>0)
+                            {
+                                echo CJSON::encode(array(
+                                'status'=>'gagal_form', 
+                                'matauang'=>$cek->matauang->matauang,
+                                ));
+                                exit;
+                            }else{
+                                
+                                $cek2 = AKBankM::model()->findByAttributes(array('matauang_id'=>$id));
+                                
+                                if (count($cek2)>0){
+                                    echo CJSON::encode(array(
+                                    'status'=>'gagal_form', 
+                                    'matauang'=> $cek2->matauang->matauang,
+                                    ));
+                                    exit;
+                                }else{
+                                    $this->loadModel($id)->delete();
+                                    
+                                    echo CJSON::encode(array(
+                                    'status'=>'proses_form', 
+                                    'div'=>"<div class='flash-success'>Data berhasil dihapus.</div>",
+                                    ));
+                                    exit;
+                                }
+                                
+                                
+                            }    
+                            
+                        }
 	                    
 			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 			if(!isset($_GET['ajax']))

@@ -2,7 +2,7 @@
 
 class PenggajianModule extends CWebModule
 {
-    public $defaultController = 'default';
+    public $defaultController = 'ModuleDashboardGJ';
 
     public $kelompokMenu = array();
     public $menu = array();

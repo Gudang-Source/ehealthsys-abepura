@@ -2,10 +2,21 @@
     $data = array();
     foreach($model as $key=>$value)
     {
-		if($value->rekening5_nb == 'D'){
-			$status = 'debit';
-		}else if($value->rekening5_nb == 'K'){
-			$status = 'kredit';
+		//if($value->rekening5_nb == 'D'){
+		//	$status = 'debit';
+		//}else if($value->rekening5_nb == 'K'){
+		//	$status = 'kredit';
+		//}
+		
+		
+		
+		if (!empty($dariDialog)) {
+			$jns = JnspenerimaanrekM::model()->findByPk($value->jnspenerimaanrek_id);
+			if ($jns->debitkredit == 'D') {
+				$status = 'debit';
+			} else if ($jns->debitkredit == 'K') {
+				$status = 'kredit';
+			}
 		}
 		
         $key = 99;

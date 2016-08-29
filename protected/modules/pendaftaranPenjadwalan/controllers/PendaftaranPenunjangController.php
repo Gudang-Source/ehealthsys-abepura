@@ -51,6 +51,7 @@ class PendaftaranPenunjangController extends PendaftaranRawatJalanController
                         Params::RUANGAN_ID_RAD,
                         Params::RUANGAN_ID_FISIOTERAPI,
                         Params::RUANGAN_ID_FORENSIC,
+						Params::RUANGAN_ID_GIZI,
                     ))) continue;
                     $modPasienMasukPenunjangs[$i] = new PPPasienMasukPenunjangT;
                     $modPasienMasukPenunjangs[$i]->is_pilihpenunjang = 0;

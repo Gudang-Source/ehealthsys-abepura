@@ -11,19 +11,36 @@ if($sukses > 0){
 $this->widget('bootstrap.widgets.BootAlert'); 
 echo "No. Rencana : <b>".$model->renkebbarang_no."</b>";
 ?>
-<table class="items table table-striped table-condensed" id="table-rencanaanggaranpenerimaan">
+<style>
+    .border{
+        border:1px solid #000;
+    }
+    .table thead:first-child{
+        border-top:1px solid #000;        
+    }
+    
+    thead th{
+        background:none;
+        color:#333;
+    }
+    
+    .table tbody tr:hover td, .table tbody tr:hover th {
+        background-color: none;
+    }
+</style>
+<table class = "table" style = "box-shadow:none;" id="table-rencanaanggaranpenerimaan">
 	<thead>
 		<tr>
-			<th>No.</th>
-			<th>Asal Barang</th>
-			<th>Nama Barang</th>
-			<th>Satuan</th>
-			<th>Jumlah Permintaan</th>
-			<th>Harga</th>
-			<th>Stok Akhir</th>
-			<th>Minimal Stok</th>
-			<th>Maksimal Stok</th>
-			<th>Sub Total</th>
+			<th class = "border">No.</th>
+			<th class = "border">Asal Barang</th>
+			<th class = "border">Nama Barang</th>
+			<th class = "border">Satuan</th>
+			<th class = "border">Jumlah Permintaan</th>
+			<th class = "border">Harga</th>
+			<th class = "border">Stok Akhir</th>
+			<th class = "border">Minimal Stok</th>
+			<th class = "border">Maksimal Stok</th>
+			<th class = "border">Sub Total</th>
 			
 		</tr>
 	</thead>
@@ -34,28 +51,28 @@ echo "No. Rencana : <b>".$model->renkebbarang_no."</b>";
 		foreach($modDetails as $i => $modDetail){
 		?>
 		<tr>
-				<td><?php echo $i+1; echo ". "; ?></td>
-				<td><?php echo $modDetail->asal_barang; ?></td>
-				<td><?php echo (!empty($modDetail->barang_id)) ? $modDetail->barang->barang_nama : ""; ?></td>
-				<td><?php echo $modDetail->satuanbarangdet; ?></td>
-				<td style="text-align:right;"><?php echo $modDetail->jmlpermintaanbarangdet; ?></td>
-				<td style="text-align:right;"><?php echo $format->formatUang($modDetail->harga_barangdet); ?></td>
-				<td style="text-align:right;"><?php echo $modDetail->stokakhir_barangdet; ?></td>
-				<td style="text-align:right;"><?php echo $modDetail->minstok_barangdet; ?></td>
-				<td style="text-align:right;"><?php echo $modDetail->makstok_barangdet; ?></td>
-				<td style="text-align:right;">
+				<td class = "border"><?php echo $i+1; echo ". "; ?></td>
+				<td class = "border"><?php echo $modDetail->asal_barang; ?></td>
+				<td class = "border"><?php echo (!empty($modDetail->barang_id)) ? $modDetail->barang->barang_nama : ""; ?></td>
+				<td class = "border"><?php echo $modDetail->satuanbarangdet; ?></td>
+				<td class = "border" style="text-align:right;"><?php echo $modDetail->jmlpermintaanbarangdet; ?></td>
+				<td class = "border" style="text-align:right;"><?php echo "Rp".number_format($modDetail->harga_barangdet,0,"","."); ?></td>
+				<td class = "border" style="text-align:right;"><?php echo $modDetail->stokakhir_barangdet; ?></td>
+				<td class = "border" style="text-align:right;"><?php echo $modDetail->minstok_barangdet; ?></td>
+				<td class = "border" style="text-align:right;"><?php echo $modDetail->makstok_barangdet; ?></td>
+				<td class = "border" style="text-align:right;">
 					<?php 
                     $subtotal = ($modDetail->harga_barangdet * $modDetail->jmlpermintaanbarangdet);
                     $total += $subtotal;
-                    echo $format->formatUang($subtotal); ?>
+                    echo "Rp".number_format($subtotal,0,"","."); ?>
 				</td>
 		</tr>
 		<?php } ?>
 		<tfoot>
 			<tr>
-				<td colspan="9" style="text-align:right;">Total</td>
-				<td style="text-align:right;"><b>
-					<?php echo $format->formatUang($total) ?>
+				<td class = "border" colspan="9" style="text-align:right;"><b>Total</b></td>
+				<td class = "border" style="text-align:right;"><b>
+					<?php echo "Rp".number_format($total,0,"",".") ?>
 					</b>
 				</td>
 			</tr>

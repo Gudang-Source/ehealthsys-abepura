@@ -12,7 +12,9 @@ class PembayaranSupplierController extends MyAuthController {
 	 * 1. billingKasir -> informasi Faktur Pembelian -> bayar ke supplier 
 	 */
 	public function actionIndex($frame = null, $idFakturPembelian = null, $id = null) {
+            
 		if (!empty($frame) && !empty($idFakturPembelian)) {
+                        
 			$this->layout = "//layouts/iframe";
 			$modelBayar = new BKBayarkeSupplierT;
 			$modBuktiKeluar = new BKTandabuktikeluarT;
@@ -81,7 +83,11 @@ class PembayaranSupplierController extends MyAuthController {
 				if ($this->successSave) {
 					$transaction->commit();
 					Yii::app()->user->setFlash('success', "Data berhasil disimpan");
-                                        if (empty($frame)) $this->redirect(array('index', 'id'=>$modelBayar->bayarkesupplier_id));
+                                        if (empty($frame)){
+                                            $this->redirect(array('index', 'id'=>$modelBayar->bayarkesupplier_id));                                            
+                                        }else{
+                                            $this->redirect(array('index','frame'=>1,'idFakturPembelian'=>$modelBayar->fakturpembelian_id ,'id'=>$modelBayar->bayarkesupplier_id));
+                                        }
 				} else {
 					Yii::app()->user->setFlash('error', "Data gagal disimpan ");
 					$transaction->rollback();

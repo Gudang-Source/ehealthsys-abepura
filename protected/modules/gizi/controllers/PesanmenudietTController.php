@@ -31,6 +31,7 @@ class PesanmenudietTController extends MyAuthController
 		$model=new GZPesanmenudietT;
 		$model->tglpesanmenu = date('d M Y H:i:s');
 		$model->nopesanmenu = MyGenerator::noPesanMenuDiet();
+                $model->temp_no = '- Otomatis -';
 		
                 //$p = PegawaiM::model()->findByPK(LoginpemakaiK::model()->findByPk(Yii::app()->user->id);
                 $pegawai_nama = ""; //PegawaiM::model()->findByPK(LoginpemakaiK::model()->findByPk(Yii::app()->user->id)->pegawai_id)->nama_pegawai;
@@ -38,117 +39,120 @@ class PesanmenudietTController extends MyAuthController
 		$model->kelaspelayanan_id = Params::KELASPELAYANAN_ID_TANPA_KELAS;
 		$model->carabayar_id = Params::CARABAYAR_ID_MEMBAYAR;
 		$model->penjamin_id = Params::PENJAMIN_ID_UMUM;
-		$model->instalasi_id = Yii::app()->user->getState('instalasi_id');
-		$model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+		//$model->instalasi_id = Yii::app()->user->getState('instalasi_id');
+		//$model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+                $model->nama_pemesan = Yii::app()->user->getState('nama_pegawai');
 
 		$nama_modul = Yii::app()->controller->module->id;
-        $nama_controller = Yii::app()->controller->id;
-        $nama_action = Yii::app()->controller->action->id;
-        $modul_id = ModulK::model()->findByAttributes(array('url_modul'=>$nama_modul))->modul_id;
-        $criteria = new CDbCriteria;
-        $criteria->compare('modul_id',$modul_id);
-        $criteria->compare('LOWER(modcontroller)',strtolower($nama_controller),true);
-        $criteria->compare('LOWER(modaction)',strtolower($nama_action),true);
-        if(isset($_POST['tujuansms'])){
-            $criteria->addInCondition('tujuansms',$_POST['tujuansms']);
-        }
-        $modSmsgateway = SmsgatewayM::model()->findAll($criteria);
+                $nama_controller = Yii::app()->controller->id;
+                $nama_action = Yii::app()->controller->action->id;
+                $modul_id = ModulK::model()->findByAttributes(array('url_modul'=>$nama_modul))->modul_id;
+                $criteria = new CDbCriteria;
+                $criteria->compare('modul_id',$modul_id);
+                $criteria->compare('LOWER(modcontroller)',strtolower($nama_controller),true);
+                $criteria->compare('LOWER(modaction)',strtolower($nama_action),true);
+                if(isset($_POST['tujuansms'])){
+                    $criteria->addInCondition('tujuansms',$_POST['tujuansms']);
+                }
+                $modSmsgateway = SmsgatewayM::model()->findAll($criteria);
 
-        if(isset($id)){
-        	if(!empty($id))
-        		$model = GZPesanmenudietT::model()->findByPk($id);
-        }
-		
-		if(isset($_POST['GZPesanmenudietT']))
-		{
-			$model->attributes=$_POST['GZPesanmenudietT'];
-			$model->jenispesanmenu = Params::JENISPESANMENU_PASIEN;
-			// $model->nama_pemesan = $pegawai_nama;
-			$model->nopesanmenu = MyGenerator::noPesanMenuDiet();
-			$model->create_loginpemakai_id = Yii::app()->user->id;
-			$model->create_ruangan = Yii::app()->user->getState('ruangan_id');
-			$model->create_time = date('Y-m-d');
-			$transaction = Yii::app()->db->beginTransaction();
-			try{
-				$success = true;
-				if($model->validate() && $model->save()){
-					foreach($_POST['PesanmenudetailT'] as $i=>$v){
-						if ($v['checkList'] == 1){
-							foreach($v['menudiet_id'] as $j=>$x){
-								if (!empty($x)){
-									$modDetail = new GZPesanmenudetailT();
-									$modDetail->attributes = $v;
-									$modDetail->pesanmenudiet_id = $model->pesanmenudiet_id;
-									$modDetail->jeniswaktu_id = $j;
-									$modDetail->menudiet_id = $x;
-									if ($modDetail->save()){
-										// SMS GATEWAY
-                                        $modPasien = $modDetail->pasien;
-                                        $modRuangan = $model->ruangan;
-                                        $sms = new Sms();
-                                        /*
-                                        foreach ($modSmsgateway as $i => $smsgateway) {
-                                            $isiPesan = $smsgateway->templatesms;
+                if(isset($id)){
+                        if(!empty($id)){
+                                $model = GZPesanmenudietT::model()->findByPk($id);
+                                $model->temp_no = $model->nopesanmenu;
+                        }
+                }
 
-                                            $attributes = $modPasien->getAttributes();
-                                            foreach($attributes as $attributes => $value){
-                                                $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
-                                            }
-                                            $attributes = $modDetail->getAttributes();
-                                            foreach($attributes as $attributes => $value){
-                                                $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
-                                            }
-                                            $attributes = $model->getAttributes();
-                                            foreach($attributes as $attributes => $value){
-                                                $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
-                                            }
-                                            $attributes = $modRuangan->getAttributes();
-                                            foreach($attributes as $attributes => $value){
-                                                $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
-                                            }
-                                            $isiPesan = str_replace("{{hari}}",MyFormatter::getDayName($model->tglpesanmenu),$isiPesan);
-                                            $isiPesan = str_replace("{{nama_rumahsakit}}",Yii::app()->user->getState('nama_rumahsakit'),$isiPesan);
-                                            
-                                            if($smsgateway->tujuansms == Params::TUJUANSMS_PASIEN && $smsgateway->statussms){
-                                                if(!empty($modPasien->no_mobile_pasien)){
-                                                    $sms->kirim($modPasien->no_mobile_pasien,$isiPesan);
+                        if(isset($_POST['GZPesanmenudietT']))
+                        {
+                                $model->attributes=$_POST['GZPesanmenudietT'];
+                                $model->jenispesanmenu = Params::JENISPESANMENU_PASIEN;
+                                // $model->nama_pemesan = $pegawai_nama;
+                                $model->nopesanmenu = MyGenerator::noPesanMenuDiet();
+                                $model->create_loginpemakai_id = Yii::app()->user->id;
+                                $model->create_ruangan = Yii::app()->user->getState('ruangan_id');
+                                $model->create_time = date('Y-m-d');
+                                $transaction = Yii::app()->db->beginTransaction();
+                                try{
+                                        $success = true;
+                                        if($model->validate() && $model->save()){
+                                                foreach($_POST['PesanmenudetailT'] as $i=>$v){
+                                                        if ($v['checkList'] == 1){
+                                                                foreach($v['menudiet_id'] as $j=>$x){
+                                                                        if (!empty($x)){
+                                                                                $modDetail = new GZPesanmenudetailT();
+                                                                                $modDetail->attributes = $v;
+                                                                                $modDetail->pesanmenudiet_id = $model->pesanmenudiet_id;
+                                                                                $modDetail->jeniswaktu_id = $j;
+                                                                                $modDetail->menudiet_id = $x;
+                                                                                if ($modDetail->save()){
+                                                                                        // SMS GATEWAY
+                                                $modPasien = $modDetail->pasien;
+                                                $modRuangan = $model->ruangan;
+                                                $sms = new Sms();
+                                                /*
+                                                foreach ($modSmsgateway as $i => $smsgateway) {
+                                                    $isiPesan = $smsgateway->templatesms;
+
+                                                    $attributes = $modPasien->getAttributes();
+                                                    foreach($attributes as $attributes => $value){
+                                                        $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
+                                                    }
+                                                    $attributes = $modDetail->getAttributes();
+                                                    foreach($attributes as $attributes => $value){
+                                                        $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
+                                                    }
+                                                    $attributes = $model->getAttributes();
+                                                    foreach($attributes as $attributes => $value){
+                                                        $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
+                                                    }
+                                                    $attributes = $modRuangan->getAttributes();
+                                                    foreach($attributes as $attributes => $value){
+                                                        $isiPesan = str_replace("{{".$attributes."}}",$value,$isiPesan);
+                                                    }
+                                                    $isiPesan = str_replace("{{hari}}",MyFormatter::getDayName($model->tglpesanmenu),$isiPesan);
+                                                    $isiPesan = str_replace("{{nama_rumahsakit}}",Yii::app()->user->getState('nama_rumahsakit'),$isiPesan);
+
+                                                    if($smsgateway->tujuansms == Params::TUJUANSMS_PASIEN && $smsgateway->statussms){
+                                                        if(!empty($modPasien->no_mobile_pasien)){
+                                                            $sms->kirim($modPasien->no_mobile_pasien,$isiPesan);
+                                                        }
+                                                    }
+
                                                 }
-                                            }
-                                            
+                                                 * 
+                                                 */
+                                                // END SMS GATEWAY
+                                                                                }
+                                                                                else{
+                                                                                        $success=false;
+                                                                                }
+                                                                        }
+                                                                }
+                                                        }
+                                                }
                                         }
-                                         * 
-                                         */
-                                        // END SMS GATEWAY
-									}
-									else{
-										$success=false;
-									}
-								}
-							}
-						}
-					}
-				}
-				else{
-					$success = false;
-				}
-				if ($success == TRUE){
-					$transaction->commit();
-					$this->redirect(array('index','id'=>$model->pesanmenudiet_id));
-					$this->refresh();
-				}else{
-					$transaction->rollback();
-					Yii::app()->user->setFlash('error',"Data gagal disimpan ");
-				}
-			}
-			catch(Exception $ex){
-				$transaction->rollback();
-				Yii::app()->user->setFlash('error',"Data gagal disimpan ".MyExceptionMessage::getMessage($ex,true));
-			}
-		}
+                                        else{
+                                                $success = false;
+                                        }
+                                        if ($success == TRUE){
+                                                $transaction->commit();
+                                                $this->redirect(array('index','id'=>$model->pesanmenudiet_id));
+                                                $this->refresh();
+                                        }else{
+                                                $transaction->rollback();
+                                                Yii::app()->user->setFlash('error',"Data gagal disimpan ");
+                                        }
+                                }
+                                catch(Exception $ex){
+                                        $transaction->rollback();
+                                        Yii::app()->user->setFlash('error',"Data gagal disimpan ".MyExceptionMessage::getMessage($ex,true));
+                                }
+                        }
 
-		$this->render($this->path_view.'index',array(
-			'model'=>$model,
-		));
+                        $this->render($this->path_view.'index',array(
+                                'model'=>$model,
+                        ));
 	}
 	
 	public function actionIndexPegawai($id = null)
@@ -156,13 +160,14 @@ class PesanmenudietTController extends MyAuthController
 		$model=new GZPesanmenudietT;
 		$model->tglpesanmenu = date('d M Y H:i:s');
 		$model->nopesanmenu = MyGenerator::noPesanMenuDiet();
+                $model->temp_no = '- Otomatis -';
 		$pegawai_nama = ""; //PegawaiM::model()->findByPK(LoginpemakaiK::model()->findByPk(Yii::app()->user->id)->pegawai_id)->nama_pegawai;
 		$model->nama_pemesan = $pegawai_nama;
 		$model->kelaspelayanan_id = Params::KELASPELAYANAN_ID_TANPA_KELAS;
 		$model->carabayar_id = Params::CARABAYAR_ID_MEMBAYAR;
 		$model->penjamin_id = Params::PENJAMIN_ID_UMUM;
-		$model->instalasi_id = Yii::app()->user->getState('instalasi_id');
-		$model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+		//$model->instalasi_id = Yii::app()->user->getState('instalasi_id');
+		//$model->ruangan_id = Yii::app()->user->getState('ruangan_id');
 
 		$nama_modul = Yii::app()->controller->module->id;
         $nama_controller = Yii::app()->controller->id;
@@ -178,8 +183,10 @@ class PesanmenudietTController extends MyAuthController
         $modSmsgateway = SmsgatewayM::model()->findAll($criteria);
 
         if(isset($id)){
-        	if(!empty($id))
-        		$model = GZPesanmenudietT::model()->findByPk($id);
+        	if(!empty($id)){
+                $model = GZPesanmenudietT::model()->findByPk($id);
+                $model->no_temp = $model->nopesanmenu;
+                }
         }
 		
 		if(isset($_POST['GZPesanmenudietT']))
@@ -381,21 +388,37 @@ class PesanmenudietTController extends MyAuthController
 			Yii::app()->end();
 		}
 	}
-	public function actionPrint()
+	public function actionPrint($id, $caraprint=null)
 	{
-		$model= new GZPesanmenudietT;
-		$model->attributes=$_REQUEST['GZPesanmenudietT'];
-		$judulLaporan='Data GZPesanmenudietT';
-		$caraPrint=$_REQUEST['caraPrint'];
-		if($caraPrint=='PRINT') {
+		$modPesan= new GZPesanmenudietT;
+		
+		$modPesan = PesanmenudietT::model()->findByPk($id);
+		if ($modPesan->jenispesanmenu == Params::JENISPESANMENU_PASIEN){
+			$criteria = new CDbCriteria();
+			$criteria->select = 'pasienadmisi_id, pendaftaran_id, pasien_id,  pesanmenudiet_id, jml_pesan_porsi, satuanjml_urt,menudiet_id';
+			$criteria->group = 'pasienadmisi_id, pendaftaran_id, pasien_id, pesanmenudiet_id, jml_pesan_porsi, satuanjml_urt,menudiet_id';
+			$criteria->compare('pesanmenudiet_id', $id);
+			$modDetailPesan = PesanmenudetailT::model()->findAll($criteria);
+		}
+		else{
+			$criteria = new CDbCriteria();
+			$criteria->select = 'pegawai_id,  pesanmenudiet_id, jml_pesan_porsi, satuanjml_urt,menudiet_id';
+			$criteria->group = 'pegawai_id, pesanmenudiet_id, jml_pesan_porsi, satuanjml_urt,menudiet_id';
+			$criteria->compare('pesanmenudiet_id', $id);
+			$modDetailPesan = PesanmenupegawaiT::model()->findAll($criteria);
+		}
+		
+		$judulLaporan='Pemesanan Menu Diet';
+		$caraprint=$caraprint;
+		if($caraprint=='PRINT') {
 			$this->layout='//layouts/printWindows';
-			$this->render($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+			$this->render($this->path_view.'detailInformasi',array('modPesan'=>$modPesan,'modDetailPesan'=>$modDetailPesan,'judulLaporan'=>$judulLaporan,'caraprint'=>$caraprint));
 		}
-		else if($caraPrint=='EXCEL') {
+		else if($caraprint=='EXCEL') {
 			$this->layout='//layouts/printExcel';
-			$this->render($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint));
+			$this->render($this->path_view.'detailInformasi',array('modPesan'=>$modPesan,'modDetailPesan'=>$modDetailPesan,'judulLaporan'=>$judulLaporan,'caraprint'=>$caraprint));
 		}
-		else if($_REQUEST['caraPrint']=='PDF') {
+		else if($caraprint=='PDF') {
 			$ukuranKertasPDF = Yii::app()->user->getState('ukuran_kertas');                  //Ukuran Kertas Pdf
 			$posisi = Yii::app()->user->getState('posisi_kertas');                           //Posisi L->Landscape,P->Portait
 			$mpdf = new MyPDF('',$ukuranKertasPDF); 
@@ -403,7 +426,7 @@ class PesanmenudietTController extends MyAuthController
 			$stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
 			$mpdf->WriteHTML($stylesheet,1);  
 			$mpdf->AddPage($posisi,'','','','',15,15,15,15,15,15);
-			$mpdf->WriteHTML($this->renderPartial($this->path_view.'Print',array('model'=>$model,'judulLaporan'=>$judulLaporan,'caraPrint'=>$caraPrint),true));
+			$mpdf->WriteHTML($this->renderPartial($this->path_view.'detailInformasi',array('modPesan'=>$modPesan,'modDetailPesan'=>$modDetailPesan,'judulLaporan'=>$judulLaporan,'caraprint'=>$caraprint),true));
 			$mpdf->Output();
 		}                       
 	}
@@ -413,12 +436,17 @@ class PesanmenudietTController extends MyAuthController
 		$model=new GZPesanmenudietT('searchInformasi');
 		$model->tgl_awal = date('d M Y');
 		$model->tgl_akhir = date('d M Y');
+		
+		if (Yii::app()->user->getState('ruangan_id') != Params::RUANGAN_ID_GIZI) {
+			$model->ruangan_id = Yii::app()->user->getState('ruangan_id');
+		}
+		
 		if(isset($_GET['GZPesanmenudietT'])){
 			$model->attributes=$_GET['GZPesanmenudietT'];
 			$format = new MyFormatter();
 			$model->tgl_awal = $format->formatDateTimeForDb($_GET['GZPesanmenudietT']['tgl_awal']);
 			$model->tgl_akhir = $format->formatDateTimeForDb($_GET['GZPesanmenudietT']['tgl_akhir']);
-			$model->ruangan_id = $_GET['GZPesanmenudietT']['ruangan_id'];
+			if (isset($_GET['GZPesanmenudietT']['ruangan_id'])) $model->ruangan_id = $_GET['GZPesanmenudietT']['ruangan_id'];
 		}
 
 		$this->render($this->path_view.'informasi',array(
@@ -904,7 +932,7 @@ class PesanmenudietTController extends MyAuthController
                'status'=>'create_form', 
                'idPesan'=>$idPesanDiet,
                'total'=>$totDet,
-               'div'=>$this->renderPartial('_formBatalPesanDiet', array('modelPesan'=>$modelPesan,'modDetail'=>$modDetail,'modPegawai'=>$modPegawai,'model'=>$model), true)));             
+               'div'=>$this->renderPartial($this->path_view.'_formBatalPesanDiet', array('modelPesan'=>$modelPesan,'modDetail'=>$modDetail,'modPegawai'=>$modPegawai,'model'=>$model), true)));             
            exit;
      }
    }

@@ -49,10 +49,22 @@
                                 ?>
                             </div>
                     </div> 
+                <?php echo $form->textFieldRow($model,'renkebbarang_no',array('placeholder'=>'Ketik No. Rencana Barang','class'=>'angkahuruf-only')); ?>
             </td>
             <td>
-                <?php echo $form->textFieldRow($model,'renkebbarang_no',array('placeholder'=>'Ketik No. Rencana Barang','class'=>'numberOnly')); ?>
+                <div class = "control-group">
+                    <?php echo CHtml::label('Pegawai Mengetahui', 'pegmengetahui_id', array('class'=>'control-label')) ?>
+                    <div class = "controls">
+                        <?php echo $form->dropDownList($model, 'pegmengetahui_id', Chtml::ListData(PegawairuanganV::model()->findAll("pegawai_aktif = TRUE AND ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ORDER BY nama_pegawai ASC "),'pegawai_id','namaLengkap'),array('empty'=>'-- Pilih --'))?>
+                    </div>
+                </div>
                 
+                <div class = "control-group">
+                    <?php echo CHtml::label('Pegawai Menyetujui', 'pegmenyetujui_id', array('class'=>'control-label')) ?>
+                    <div class = "controls">
+                        <?php echo $form->dropDownList($model, 'pegmenyetujui_id', Chtml::ListData(PegawairuanganV::model()->findAll("pegawai_aktif = TRUE AND ruangan_id = '".Yii::app()->user->getState('ruangan_id')."' ORDER BY nama_pegawai ASC "),'pegawai_id','namaLengkap'),array('empty'=>'-- Pilih --'))?>
+                    </div>
+                </div>
             </td>
         </tr>
     </table>

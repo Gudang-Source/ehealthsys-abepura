@@ -26,7 +26,7 @@ class StockOpnameObatAlkesController extends MyAuthController
             }
         }
 
-		$modObat->jenisstokopname = Params::JENISSTOKOPNAME_PENYESUAIAN;
+        //$modObat->jenisstokopname = Params::JENISSTOKOPNAME_PENYESUAIAN;
         $model->totalharga = 0;
         $model->totalnetto = 0;
         $model->tglstokopname = $format->formatDateTimeId(date('Y-m-d H:i:s'));

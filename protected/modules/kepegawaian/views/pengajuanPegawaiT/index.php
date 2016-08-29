@@ -10,7 +10,7 @@ $this->widget('bootstrap.widgets.BootAlert');
 ?>
 <?php 
 if(isset($_GET['sukses'])){
-	Yii::app()->user->setFlash('success', "Data janji poliklinik berhasil disimpan !");
+	Yii::app()->user->setFlash('success', "Data Berhasil disimpan !");
 }
 ?>
 <?php echo $form->errorSummary(array($model,$modPengpegdet)); ?>
@@ -23,18 +23,19 @@ if(isset($_GET['sukses'])){
                 <?php echo $form->labelEx($model,'tglpengajuan',array('class'=>'control-label')); ?>
                 <div class="controls">
                     <?php   
-                        $model->tglpengajuan = (!empty($model->tglpengajuan) ? date("d/m/Y",strtotime($model->tglpengajuan)) : null);
+                        $model->tglpengajuan = MyFormatter::formatDateTimeForUser(date('Y-m-d'));
+                        
                         $this->widget('MyDateTimePicker',array(
                                                 'model'=>$model,
                                                 'attribute'=>'tglpengajuan',
                                                 'mode'=>'date',
                                                 'options'=> array(
-            //                                            'dateFormat'=>Params::DATE_FORMAT,
+                                                     'dateFormat'=>Params::DATE_FORMAT,
                                                     'showOn' => false,
                                                     'maxDate' => 'd',
                                                     'yearRange'=> "-150:+0",
                                                 ),
-                                                'htmlOptions'=>array('placeholder'=>'00/00/0000','class'=>'dtPicker2 datemask','onkeyup'=>"return $(this).focusNextInputField(event)"
+                                                'htmlOptions'=>array('readonly'=>true,'class'=>'dtPicker2','onkeyup'=>"return $(this).focusNextInputField(event)"
                                                 ),
                     )); ?>
                     <?php echo $form->error($model, 'tglpengajuan'); ?>
@@ -45,7 +46,7 @@ if(isset($_GET['sukses'])){
             <div class="control-group">
                     <label class="control-label"><?php echo $form->labelEx($model,'nopengajuan'); ?></label>
                     <div class="controls">
-                        <?php echo $form->textField($model,'nopengajuan_awal',array('readonly'=>true, 'style'=>'width:100px;')); ?>
+                        <?php echo $form->textField($model,'nopengajuan_awal',array('readonly'=>true, 'class'=>'span2')); ?>
                         <?php echo $form->textField($model,'nopengajuan',array('readonly'=>(!$model->isNewRecord), 'style'=>'width:70px;', 'onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
                     </div>
             </div>
@@ -86,13 +87,14 @@ if(isset($_GET['sukses'])){
             <tr>
                 <td>
                     <?php //if(!empty($_GET['id'])){ echo "Yang Mengajukan : ".$model->namayangmengajukan; } else{ ?>
-                    <?php echo $form->labelEx($model,'mengajukan_id', array('class'=>'control-label')); ?> 
+                    <?php echo Chtml::label('Yang Mengajukan <font style = "color:red">*</font>','mengajukan_id', array('class'=>'control-label')); ?> 
                     <div class="controls">
                         <?php echo CHtml::activeHiddenField($model,'mengajukan_id'); ?>
+                        <?php echo CHtml::activeTextField($model,'mengajukanNama',array('readonly'=>TRUE)); ?>
                         <?php //echo CHtml::hiddenField('ygmengajukan_id'); ?>
                             <div style="float:left;">
                                 <?php
-                                    $this->widget('MyJuiAutoComplete',array(
+                                /*    $this->widget('MyJuiAutoComplete',array(
                                         'model'=>$model,
                                         'attribute'=>'mengajukanNama',
                                         'sourceUrl'=>  Yii::app()->createUrl('kepegawaian/ActionAutoCompleteKP/PegawaiUntukKP'),
@@ -104,8 +106,8 @@ if(isset($_GET['sukses'])){
                                                         }',
                                         ),
                                         'tombolDialog'=>array('idDialog'=>'dialogPegawaiYangMengajukan'),
-                                        'htmlOptions'=>array('onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span3','style'=>'float:left;')
-                                    ));
+                                        'htmlOptions'=>array('onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span3 required hurufs-only','style'=>'float:left;')
+                                    ));*/
                                 ?>
                             </div>
                     </div>
@@ -113,7 +115,7 @@ if(isset($_GET['sukses'])){
                 </td>
                 <td>
                      <?php //if(!empty($_GET['id'])){ echo "Yang Mengetahui : ".$model->namayangmengetahui; } else{ ?>
-                     <?php echo $form->labelEx($model,'mengetahui', array('class'=>'control-label')); ?> 
+                     <?php echo Chtml::label('Mengetahui <font style = "color:red">*</font>','mengetahui', array('class'=>'control-label')); ?> 
                     <div class="controls">
                         <?php echo CHtml::activeHiddenField($model,'mengetahui_id');?>
                             <div style="float:left;">
@@ -121,21 +123,72 @@ if(isset($_GET['sukses'])){
                                     $this->widget('MyJuiAutoComplete',array(
                                         'model'=>$model,
                                         'attribute'=>'mengetahui',
-                                        'sourceUrl'=>  Yii::app()->createUrl('kepegawaian/ActionAutoCompleteKP/PegawaiUntukKP'),
+                                        'source' => 'js: function(request, response) {
+                                            $.ajax({
+                                                url: "' . $this->createUrl('/ActionAutoComplete/PegawaiRuangan/') . '",
+                                                dataType: "json",
+                                                data: {
+                                                    term: request.term,
+                                                },
+                                                success: function (data) {
+                                                        response(data);
+                                                }
+                                            })
+                                        }',
                                         'options'=>array(
                                             'showAnim'=>'fold',
-                                            'minLength'=>2,
-                                            'select'=>'js:function( event, ui ) {
-                                                    $("#KPPengajuanPegawaiT_mengetahui_id").val(ui.item.pegawai_id);
-                                                        }',
+                                            'minLength'=>2,                                           
+                                             'select' => 'js:function( event, ui ) {                                                 
+                                                $("#'.CHtml::activeId($model, 'mengetahui_id') . '").val(ui.item.value);
+                                                $("#'.CHtml::activeId($model, 'mengetahui') . '").val(ui.item.namaLengkap);                    
+                                                return false;
+                                            }',
                                         ),
                                         'tombolDialog'=>array('idDialog'=>'dialogPegawaiYangMengetahui'),
-                                        'htmlOptions'=>array('onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span3','style'=>'float:left;')
+                                        'htmlOptions'=>array('onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span3 required','style'=>'float:left;')
                                     ));
                                 ?>
                             </div>
                     </div>
                     <?php //} ?>
+               </td>
+               <td>                   
+                     <?php echo Chtml::label('Menyetujui','menyetujui_id', array('class'=>'control-label')); ?> 
+                    <div class="controls">
+                        <?php echo CHtml::activeHiddenField($model,'menyetujui_id');?>
+                            <div style="float:left;">
+                                <?php
+                                    $this->widget('MyJuiAutoComplete',array(
+                                        'model'=>$model,
+                                        'attribute'=>'menyetujuiNama',
+                                        'source' => 'js: function(request, response) {
+                                            $.ajax({
+                                                url: "' . $this->createUrl('/ActionAutoComplete/PegawaiRuangan/') . '",
+                                                dataType: "json",
+                                                data: {
+                                                    term: request.term,
+                                                },
+                                                success: function (data) {
+                                                        response(data);
+                                                }
+                                            })
+                                        }',
+                                        'options'=>array(
+                                            'showAnim'=>'fold',
+                                            'minLength'=>2,                                           
+                                             'select' => 'js:function( event, ui ) {                                                 
+                                                $("#'.CHtml::activeId($model, 'menyetujui_id') . '").val(ui.item.value);
+                                                $("#'.CHtml::activeId($model, 'menyetujuiNama') . '").val(ui.item.namaLengkap);                    
+                                                return false;
+                                            }',
+                                        ),
+                                        'tombolDialog'=>array('idDialog'=>'dialogPegawaiYangMenyetujui'),
+                                        'htmlOptions'=>array('onkeyup'=>"return $(this).focusNextInputField(event)",'class'=>'span3','style'=>'float:left;')
+                                    ));
+                                ?>
+                            </div>
+                    </div>
+                    
                </td>
             </tr>
         </table>
@@ -155,12 +208,12 @@ if(isset($_GET['sukses'])){
                      * 
                      */
              ?>
-        <?php if(!isset($_GET['frame'])){
-            echo CHtml::link(Yii::t('mds','{icon} Ulang',array('{icon}'=>'<i class="icon-refresh icon-white"></i>')), 
-                $this->createUrl($this->id.'/index'), 
-                array('class'=>'btn btn-danger',
-                      'onclick'=>'myConfirm("Apakah anda ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = window.location.href;}); return false;'));
-        } ?>
+        <?php if(!isset($_GET['frame'])){            
+        echo CHtml::link(Yii::t('mds', '{icon} Ulang', array('{icon}' => '<i class="icon-refresh icon-white"></i>')), $this->createUrl($this->id . '/index',array('modul_id'=>Yii::app()->session['modul_id'])), array('class' => 'btn btn-danger',
+            'onclick' => 'myConfirm("Apakah Anda yakin ingin mengulang ini?","Perhatian!",function(r){if(r) window.location = "' . $this->createUrl($this->id . '/index',array('modul_id'=>Yii::app()->session['modul_id'])) . '";}); return false;'));
+        }
+        ?>
+         
         <?php
             echo CHtml::htmlButton(Yii::t('mds','{icon} Print',array('{icon}'=>'<i class="icon-print icon-white"></i>')),array('class'=>'btn btn-primary-blue', 'disabled'=>$disablePrint,'type'=>'button','onclick'=>'print(\'PRINT\')'));                 
         ?>
@@ -226,7 +279,7 @@ $this->endWidget();
 $this->beginWidget('zii.widgets.jui.CJuiDialog',array(
     'id'=>'dialogPegawaiYangMengetahui',
     'options'=>array(
-        'title'=>'Pencarian Pegawai',
+        'title'=>'Pencarian Pegawai Mengetahui',
         'autoOpen'=>false,
         'modal'=>true,
         'width'=>900,
@@ -235,14 +288,14 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog',array(
     ),
 ));
 
-$modPegawai = new KPPegawaiM('search');
+$modPegawai = new KPPegawairuanganV('search');
 $modPegawai->unsetAttributes();
-if(isset($_GET['KPPegawaiM'])){
-    $modPegawai->attributes = $_GET['KPPegawaiM'];
+if(isset($_GET['KPPegawairuanganV'])){
+    $modPegawai->attributes = $_GET['KPPegawairuanganV'];
 }
 $this->widget('ext.bootstrap.widgets.BootGridView',array(
     'id'=>'pegawaiYangMengetahui-m-grid',
-    'dataProvider'=>$modPegawai->search(),
+    'dataProvider'=>$modPegawai->searchPegawaiMenyetujui(),
     'filter'=>$modPegawai,
     'template'=>"{summary}\n{items}\n{pager}",
     'itemsCssClass'=>'table table-striped table-bordered table-condensed',
@@ -259,19 +312,123 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                             return false;"
                 ))'
         ),
+       array(
+           'header' => 'NIP',
+           'name' => 'nomorindukpegawai',
+           'value' => '$data->nomorindukpegawai',
+           'filter' => Chtml::activeTextField($modPegawai, 'nomorindukpegawai', array('class'=>'numbers-only'))
+       ),
+        array(
+           'header' => 'Nama',
+           'name' => 'nama_pegawai',
+           'value' => '$data->namaLengkap',
+           'filter' => Chtml::activeTextField($modPegawai, 'nama_pegawai', array('class'=>'hurufs-only'))
+       ),
+        array(
+            'header' => 'Jabatan',
+            'name' => 'jabatan_id',
+            'value' => function($data){
+                    $jabatan = KPJabatanM::model()->findByPk($data->jabatan_id);
+                    
+                    if (count($jabatan)>0){
+                        echo $jabatan->jabatan_nama;
+                    }else{echo "-";}
+            },
+            'filter' => Chtml::dropDownList('KPPegawairuanganV[jabatan_id]', $modPegawai->jabatan_id, Chtml::listData(KPJabatanM::model()->findAll("jabatan_aktif = TRUE ORDER BY jabatan_nama ASC"), 'jabatan_id', 'jabatan_nama'),array('empty'=>'-- Pilih --'))
+        ),
         
-        'gelardepan',
-        'nama_pegawai',
-        'jeniskelamin',
-        'nomorindukpegawai',
-        'jeniswaktukerja',
     ),
-    'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+    'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
+    . '$(".numbers-only").keyup(function() {
+            setNumbersOnly(this);
+            });
+       $(".hurufs-only").keyup(function() {
+            setHurufsOnly(this);
+            });'
+    . ''
+    . '}',
 ));
         
 $this->endWidget();
 ?>
 
+<?php
+//===============Dialog buat pegawai
+$this->beginWidget('zii.widgets.jui.CJuiDialog',array(
+    'id'=>'dialogPegawaiYangMenyetujui',
+    'options'=>array(
+        'title'=>'Pencarian Pegawai Menyetujui',
+        'autoOpen'=>false,
+        'modal'=>true,
+        'width'=>900,
+        'height'=>450,
+        'resizable'=>false,
+    ),
+));
+
+$modPegawai = new KPPegawairuanganV('search');
+$modPegawai->unsetAttributes();
+if(isset($_GET['KPPegawairuanganV'])){
+    $modPegawai->attributes = $_GET['KPPegawairuanganV'];
+}
+$this->widget('ext.bootstrap.widgets.BootGridView',array(
+    'id'=>'pegawaiYangMenyetujui-m-grid',
+    'dataProvider'=>$modPegawai->searchPegawaiMenyetujui(),
+    'filter'=>$modPegawai,
+    'template'=>"{summary}\n{items}\n{pager}",
+    'itemsCssClass'=>'table table-striped table-bordered table-condensed',
+    'columns'=>array(
+        array(
+            'header'=>'Pilih',
+            'type'=>'raw',
+            'value'=>'CHtml::Link("<i class=\"icon-form-check\"></i>","#",array("class"=>"btn_small",
+                "id"=>"selectPegawai",
+                "onClick"=>"$(\"#KPPengajuanPegawaiT_menyetujui_id\").val(\"$data->pegawai_id\");
+                            $(\"#'.CHtml::activeId($model,'menyetujuiNama').'\").val(\"$data->gelardepan  $data->nama_pegawai\");
+//                            submitPegawai();
+                            $(\"#dialogPegawaiYangMenyetujui\").dialog(\"close\");
+                            return false;"
+                ))'
+        ),
+       array(
+           'header' => 'NIP',
+           'name' => 'nomorindukpegawai',
+           'value' => '$data->nomorindukpegawai',
+           'filter' => Chtml::activeTextField($modPegawai, 'nomorindukpegawai', array('class'=>'numbers-only'))
+       ),
+        array(
+           'header' => 'Nama',
+           'name' => 'nama_pegawai',
+           'value' => '$data->namaLengkap',
+           'filter' => Chtml::activeTextField($modPegawai, 'nama_pegawai', array('class'=>'hurufs-only'))
+       ),
+        array(
+            'header' => 'Jabatan',
+            'name' => 'jabatan_id',
+            'value' => function($data){
+                    $jabatan = KPJabatanM::model()->findByPk($data->jabatan_id);
+                    
+                    if (count($jabatan)>0){
+                        echo $jabatan->jabatan_nama;
+                    }else{echo "-";}
+            },
+            'filter' => Chtml::dropDownList('KPPegawairuanganV[jabatan_id]', $modPegawai->jabatan_id, Chtml::listData(KPJabatanM::model()->findAll("jabatan_aktif = TRUE ORDER BY jabatan_nama ASC"), 'jabatan_id', 'jabatan_nama'),array('empty'=>'-- Pilih --'))
+        ),
+        
+    ),
+    'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
+    . '$(".numbers-only").keyup(function() {
+            setNumbersOnly(this);
+            });
+       $(".hurufs-only").keyup(function() {
+            setHurufsOnly(this);
+            });'
+    . ''
+    . '}',
+));
+        
+$this->endWidget();
+?>
 <?php
 //$urlPrint=  Yii::app()->createAbsoluteUrl($this->module->id.'/'.$this->id.'/print', array('id'=>$model->pengpegawai_id));
 //$js = <<< JSCRIPT
@@ -434,4 +591,21 @@ function print(caraPrint)
     var pengajuanpegawai_id = '<?php echo isset($model->pengajuanpegawai_t_id) ? $model->pengajuanpegawai_t_id : null ?>';
     window.open('<?php echo $this->createUrl('print'); ?>&pengajuanpegawai_id='+pengajuanpegawai_id+'&caraPrint='+caraPrint,'printwin','left=100,top=100,width=1000,height=640');
 }
+
+   // $(document).ready(function () {
+    <?php
+   // if (isset($model->pengajuanpegawai_t_id)) {
+        ?>
+                  //  var params = [];
+                  //  params = {  instalasi_id:<?php //echo Yii::app()->user->getState("instalasi_id"); ?>, 
+                              //  modul_id:<?php //echo Yii::app()->session['modul_id'] ?>, 
+                              //  judulnotifikasi: 'Rencana Penerimaan Pegawai', 
+                              //  isinotifikasi: 
+                              //  '<?php //echo $model->mengajukan->namaLengkap; ?> mengajukan Rencana Penerimaan Pegawai   \n\
+                          //      sebanyak <?php //echo $model->total; ?> orang'}; 
+                   // insert_notifikasi(params);
+        <?php
+   // }
+    ?>
+         //   });
 </script>

@@ -82,7 +82,7 @@ $('.search-form form').submit(function(){
 								'options'=>array('title'=>"Klik untuk Membatalkan Pengajuan Perawatan Linen"),
 								'url'=>'Yii::app()->createUrl("'.Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/batalPengajuan",array("id"=>$data->pengperawatanlinen_id))',
 								'click'=>'function(){batalPengajuan(this);return false;}',
-//								'visible'=>'(($data->ruangan_id == Yii::app()->user->getState("ruangan_id"))? TRUE : FALSE)'
+								'visible'=>'((Yii::app()->user->getState("ruangan_id") == Params::RUANGAN_ID_LAUNDRY) ? (($data->getSudahTerima($data->pengperawatanlinen_id)) ?  FALSE  : TRUE ) : FALSE)'
 						),
 					),
 					'htmlOptions'=>array('style'=>'text-align: left; width:40px')
@@ -118,7 +118,7 @@ $this->endWidget();
 ?>
 <script type="text/javascript">	
 	function batalPengajuan(obj){
-		myConfirm("Yakin akan membatalkan data ini untuk sementara?","Perhatian!",
+		myConfirm("Apakah Anda yakin ingin <b>membatalkan</b> data ini ?","Perhatian!",
 			function(r){
 				if(r){ 
 					$.ajax({

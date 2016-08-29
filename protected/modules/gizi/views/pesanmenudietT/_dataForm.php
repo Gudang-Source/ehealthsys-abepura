@@ -108,7 +108,13 @@
             </div>
             <?php //echo $form->textFieldRow($model,'bahandiet_id',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
             <?php //echo $form->dropDownListRow($model, 'jenispesanmenu', LookupM::getItems('jenispesanmenu'), array('empty' => '-- Pilih --', 'class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
-            <?php echo $form->textFieldRow($model, 'nopesanmenu', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
+            <?php echo $form->hiddenField($model, 'nopesanmenu', array('readonly'=>TRUE,'class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
+            <div class = "control-group">
+                    <?php echo Chtml::label("No Pesan Menu <font style = 'color:red;'>*</font>",'nopesanmenu',array('class'=>'control-label')) ?>
+                <div class = "controls">
+                    <?php echo $form->textField($model, 'temp_no', array('readonly'=>TRUE,'class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
+                </div>
+            </div>
         </td>
         <td>
             <div class="control-group ">
@@ -129,7 +135,7 @@
                     <?php echo $form->error($model, 'tglpesanmenu'); ?>
                 </div>
             </div>
-            <?php echo $form->textFieldRow($model, 'nama_pemesan', array('placeholder'=>'Ketik Nama Pemesan','class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
+            <?php echo $form->textFieldRow($model, 'nama_pemesan', array('readonly'=>TRUE,'placeholder'=>'Ketik Nama Pemesan','class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>
             <?php //echo $form->textFieldRow($model,'tglpesanmenu',array('class'=>'span3', 'onkeypress'=>"return $(this).focusNextInputField(event);")); ?>
             <?php echo $form->hiddenField($model, 'totalpesan_org'); ?>
             <?php echo $form->textFieldRow($model, 'adaalergimakanan', array('placeholder'=>'Ket. Alergi Makanan','class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100)); ?>

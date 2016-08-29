@@ -115,7 +115,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView',array(
                     'name'=>'jenisobatalkes_id',
                     'type'=>'raw',
                     'value'=>'$data->jenisobatalkes_nama',
-                    'filter'=>  CHtml::activeHiddenField($modObatAlkes, 'ruangan_id', array('class'=>'dialog_ruangan_id')).CHtml::activeDropDownList($modObatAlkes, 'jenisobatalkes_id', CHtml::listData(JenisobatalkesM::model()->findAll("jenisobatalkes_aktif = TRUE ORDER BY jenisobatalkes_nama ASC"), 'jenisobatalkes_id','jenisobatalkes_nama'), array('empty'=>'-- Pilih --')),
+                    'filter'=>  CHtml::activeHiddenField($modObatAlkes, 'instalasi_id', array('class'=>'dialog_instalasi_id')).CHtml::activeHiddenField($modObatAlkes, 'ruangan_id', array('class'=>'dialog_ruangan_id')).CHtml::activeDropDownList($modObatAlkes, 'jenisobatalkes_id', CHtml::listData(JenisobatalkesM::model()->findAll("jenisobatalkes_aktif = TRUE ORDER BY jenisobatalkes_nama ASC"), 'jenisobatalkes_id','jenisobatalkes_nama'), array('empty'=>'-- Pilih --')),
                 ),
                 array(
                     'name'=>'obatalkes_golongan',

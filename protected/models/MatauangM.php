@@ -85,8 +85,7 @@ class MatauangM extends CActiveRecord
 		$criteria->compare('LOWER(matauang)',strtolower($this->matauang),true);
 //		if(!empty($this->matauang)){
 //		   $criteria->addCondition("matauang = ".$this->matauang);
-//		}
-		
+//		}		
 		$criteria->compare('LOWER(singkatan)',strtolower($this->singkatan),true);
 		$criteria->compare('matauang_aktif',isset($this->matauang_aktif)?$this->matauang_aktif:true);
 
@@ -103,12 +102,12 @@ class MatauangM extends CActiveRecord
 
                 $criteria=new CDbCriteria;
 		$criteria->compare('matauang_id',$this->matauang_id);
-		//$criteria->compare('LOWER(matauang)',strtolower($this->matauang),true);
-		if(!empty($this->matauang)){
-		   $criteria->addCondition("matauang = ".$this->matauang);
-		}
+		$criteria->compare('LOWER(matauang)',strtolower($this->matauang),true);
+//		if(!empty($this->matauang)){
+//		   $criteria->addCondition("matauang = ".$this->matauang);
+//		}		
 		$criteria->compare('LOWER(singkatan)',strtolower($this->singkatan),true);
-		$criteria->compare('matauang_aktif',$this->matauang_aktif);
+		$criteria->compare('matauang_aktif',isset($this->matauang_aktif)?$this->matauang_aktif:true);
                 // Klo limit lebih kecil dari nol itu berarti ga ada limit 
                 $criteria->limit=-1; 
 

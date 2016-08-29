@@ -54,7 +54,7 @@
                             'name'=>'nama_pegawai',
                             'header'=>'Nama Pegawai',
                             'value'=>'$data->pegawai->namalengkap',
-							'filter'=>CHtml::activeTextField($model,'nama_pegawai'),
+                            'filter'=>CHtml::activeTextField($model,'nama_pegawai',array('class'=>'hurufs-only')),
                             'htmlOptions'=>array(
                                 'style'=>'border-left: 1px solid #DDDDDD;'
                             ),
@@ -95,6 +95,9 @@
             ),
              'afterAjaxUpdate'=>'function(id, data){
             jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});
+            $(".hurufs-only").keyup(function() {
+                setHurufsOnly(this);
+            });    
             $("table").find("input[type=text]").each(function(){
                 cekForm(this);
             })
