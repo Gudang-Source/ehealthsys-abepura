@@ -53,7 +53,7 @@
                     ),
                  array(
                             'name'=>'instalasi_id',
-                            'filter'=>  CHtml::listData($model->InstalasiItems, 'instalasi_id', 'instalasi_nama'),
+                            'filter'=>  Chtml::dropDownList('SARuanganM[instalasi_id]',$model->instalasi_id,CHtml::listData($model->InstalasiItems, 'instalasi_id', 'instalasi_nama'),array('empty'=>'-- Pilih --')),
                             'value'=>'empty($data->instalasi_id)?"-":$data->instalasi->instalasi_nama',
                     ),
                     'ruangan_nama',
