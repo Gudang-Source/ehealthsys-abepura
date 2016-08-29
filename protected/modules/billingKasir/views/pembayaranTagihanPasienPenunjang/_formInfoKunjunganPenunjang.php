@@ -255,8 +255,12 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                                             setKunjungan($data->pendaftaran_id, \"\", \"\", \"\");
                                             $(\"#dialogKunjungan\").dialog(\"close\");
                                         "))',
+                    ),                    
+                    array(
+                        'header' => 'No Pendaftaran',
+                        'name' => 'no_pendaftaran',
+                        'filter' => Chtml::activeTextField($modDialogKunjungan, 'no_pendaftaran', array('class'=>'angkahuruf-only'))
                     ),
-                    'no_pendaftaran',
                     array(
                         'name'=>'tgl_pendaftaran',
                         'type'=>'raw',
@@ -264,16 +268,23 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                         'filter'=>CHtml::activeHiddenField($modDialogKunjungan,'instalasi_id', array('readonly'=>true)),//instalasi_id untuk pencarian ruangan_id
                     ),
                     array(
+                        'header'=>'No Rekam Medik',
                         'name'=>'no_rekam_medik',
                         'type'=>'raw',
                         'value'=>'$data->no_rekam_medik',
+                        'filter' => Chtml::activeTextField($modDialogKunjungan, 'no_rekam_medik', array('class'=>'numbers-only'))
                     ),
-                    'nama_pasien',
                     array(
+                        'header' => 'Nama Pasien',
+                        'name' => 'nama_pasien',
+                        'value' => '$data->namadepan." ".$data->nama_pasien',
+                        'filter' => Chtml::activeTextField($modDialogKunjungan, 'nama_pasien', array('class'=>'hurufs-only'))
+                    ),
+                   /* array(
                         'name'=>'jeniskelamin',
                         'type'=>'raw',
                         'filter'=>LookupM::model()->getItems('jeniskelamin'),
-                    ),
+                    ),*/
                     array(
                         'header'=>'Cara Bayar',
                         'name'=>'carabayar_nama',
@@ -290,7 +301,17 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                         'filter'=>false,
                     ),
             ),
-            'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+            'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
+        . ' $(".numbers-only").keyup(function() {
+                setNumbersOnly(this);
+            });
+            $(".hurufs-only").keyup(function() {
+                setHurufsOnly(this);
+            });
+            $(".angkahuruf-only").keyup(function() {
+                setAngkaHurufOnly(this);
+            });'
+        . '}',
     ));
 
 $this->endWidget();
