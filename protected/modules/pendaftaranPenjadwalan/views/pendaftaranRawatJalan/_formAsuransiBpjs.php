@@ -337,6 +337,7 @@
     <div class="controls">
         <?php echo $form->textField($modSep,'nosep',array('placeholder'=>'No. SEP Manual / Otomatis','class'=>'span3 nosep', 'disabled'=>'disabled' ,'onkeyup'=>"return $(this).focusNextInputField(event);", 'maxlength'=>50)); ?>
         <?php echo $form->error($modSep, 'nosep'); ?>
+		<?php echo "<i class=\"icon-search\" onclick=\"cekSEP($('#".CHtml::activeId($modSep,"nosep")."').val());\", style=\"cursor:pointer;\" rel='tooltip' title='klik untuk mengecek SEP'></i>"; ?>
     </div>
 </div>
 <?php //echo $form->textFieldRow($modSep,'nosep', array('placeholder'=>'','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)")); ?>
