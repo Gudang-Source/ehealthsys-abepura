@@ -43,6 +43,7 @@ function renameRowRekening()
 
 function simpanPengeluaran(params)
 {
+	
     jenis_simpan = params;
     var kosong = "" ;
     var dataKosong = $("#input-pengeluaran").find(".[value="+ kosong +"]");
@@ -78,7 +79,7 @@ function simpanPengeluaran(params)
 		}
 
 		if(detail > 0){
-            $('.currency').each(
+            $('.integer2').each(
                 function(){
                     this.value = unformatNumber(this.value)
                 }
@@ -89,13 +90,15 @@ function simpanPengeluaran(params)
                     {
                         if(data.action == 'insert')
                         {
-                            alert("Simpan data berhasil");
+                            myAlert("Simpan data berhasil");
                             $("#tblInputUraian").find('tr[class$="child"]').detach();
-                            location.reload();
-                            //$("#reseter").click();
-                            //$("#input-pengeluaran").find("input[name$='[nopengeluaran]']").val(data.pesan.nopengeluaran);
-                            //$("#input-pengeluaran").find("input[name$='[nokaskeluar]']").val(data.pesan.nokaskeluar);
-                            //$("#tblInputRekening > tbody").find('tr').detach();
+                            //location.reload();
+                            $("#reseter").click();
+							url = '<?php echo $this->createUrl("Print"); ?>&id=' + data.id;
+							$('#url').val(url);
+                            $("#input-pengeluaran").find("input[name$='[nopengeluaran]']").val(data.pesan.nopengeluaran);
+                            $("#input-pengeluaran").find("input[name$='[nokaskeluar]']").val(data.pesan.nokaskeluar);
+                            $("#tblInputRekening > tbody").find('tr').detach();
                         }else{
                             myAlert("Update data berhasil");
                         }
@@ -109,10 +112,13 @@ function simpanPengeluaran(params)
         $("form").find('.float').each(function(){
             $(this).val(formatFloat($(this).val()));
         });
-        $("form").find('.integer').each(function(){
-            $(this).val(formatInteger($(this).val()));
+        $("form").find('.integer2').each(function(){
+            $(this).val(formatNumber($(this).val()));
         });
+		
+		
     }
+	
     return false; 
 }
 
@@ -134,7 +140,7 @@ function cekInput()
             myAlert('Harga Uraian tidak sesuai');return false;
         }
     }
-    $('.currency').each(function(){this.value = unformatNumber(this.value)});
+    $('.integer2').each(function(){this.value = unformatNumber(this.value)});
     
     return true;
 }
@@ -259,11 +265,22 @@ function formCarabayar(carabayar)
 
 function unMaskMoneyInput(tr)
 {
-    $(tr).find('input.currency:text').unmaskMoney();
+    $(tr).find('.integer2:text').unmaskMoney();
 }
 
 function maskMoneyInput(tr)
 {
-    $(tr).find('input.currency:text').maskMoney({"symbol":"Rp. ","defaultZero":true,"allowZero":true,"decimal":".","thousands":",","precision":0});
+    $(tr).find('.integer2:text').maskMoney({"defaultZero":true,"allowZero":true,"decimal":",","thousands":".","precision":0});
 }
+
+function print(caraPrint)
+{
+	if ($('#url').val() == '') {
+		myAlert('Lakukan transaksi terlebih dahulu dengan benar!');
+		return false;
+	}
+	window.open($('#url').val() + "&caraPrint=" + caraPrint, "", 'location=_new, width=900px');
+	return false;
+}
+
 </script>
