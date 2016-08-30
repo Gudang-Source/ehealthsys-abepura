@@ -20,7 +20,9 @@ class GJPenggajianpegT extends PenggajianpegT
         public $cuti;
         public $alpha;
         public $ijin;
-        
+        public $no_temp;
+
+
         public function attributeLabels()
         {
                 return array(
