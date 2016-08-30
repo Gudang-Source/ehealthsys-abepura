@@ -2565,7 +2565,38 @@ class PendaftaranRawatJalanController extends MyAuthController
 			if(Yii::app()->getRequest()->getIsAjaxRequest()) {
 				$nosep = $_POST['nosep'];
 				$bpjs = new Bpjs();
-				print_r( $bpjs->detail_sep($nosep) );
+				$res = CJSON::decode($bpjs->detail_sep($nosep));
+				
+				
+				$res["rujukan"] = array(
+					"rujukandari_id"=>"",
+				);
+				
+				if ($res["metadata"]["code"] == "200" && !empty($res["response"]["provRujukan"])) {
+					
+					$rujukan = RujukandariM::model()->findByAttributes(array(
+						"ppkrujukan"=>$res["response"]["provRujukan"]["kdProvider"]
+					));
+					if (!empty($rujukan)) {
+						$rujukans = CHtml::listData(RujukandariM::model()->findAllByAttributes(array(
+							"asalrujukan_id"=>$rujukan->asalrujukan_id,
+						), array(
+							"order"=>"namaperujuk"
+						)), "rujukandari_id", "namaperujuk");
+						
+						$op = "";
+						foreach ($rujukans as $idx=>$item) {
+							$op .= '<option value="'.$idx.'">'.$item.'</option>';
+						}
+						
+						$res["rujukan"]["rujukandari_id"] = $rujukan->rujukandari_id;
+						$res["rujukan"]["asalrujukan_id"] = $rujukan->asalrujukan_id;
+						$res["rujukan"]["listrujukandari_id"] = $op;
+						
+					}
+				}
+				
+				print_r(CJSON::encode($res));
 			}
 		}
 }

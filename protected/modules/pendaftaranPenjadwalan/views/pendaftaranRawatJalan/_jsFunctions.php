@@ -2175,9 +2175,16 @@ function cekSEP(nosep) {
 					"Nomor Kartu : " + obj.response.peserta.noKartu + "\n" +
 					"No. Sep : " + obj.response.noSep
 				);
-				getAsuransiNoKartu(obj.response.peserta.noKartu);
 				$("#PPSepT_ppkrujukan").val(obj.response.provRujukan.kdProvider);
 				$("#PPRujukanbpjsT_no_rujukan").val(obj.response.noRujukan);
+				getAsuransiNoKartu(obj.response.peserta.noKartu);
+				if (obj.rujukan.rujukandari_id.toString().trim() != "") {
+					$("#PPRujukanbpjsT_asalrujukan_id").val(obj.rujukan.asalrujukan_id);
+					$("#PPRujukanbpjsT_rujukandari_id")
+							.html(obj.rujukan.listrujukandari_id)
+							.val(obj.rujukan.rujukandari_id)
+							.change();
+				}
             }else{
               myAlert(obj.metadata.message);
             }
