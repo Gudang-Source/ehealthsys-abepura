@@ -523,7 +523,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
 	'id' => 'permintaan-m-grid',
 	'dataProvider' => $modTerimaPers->searchGU(),
 	'filter' => $modTerimaPers,
-	'template' => "{pager}{summary}\n{items}",
+	'template' => "{summary}\n{items}{pager}",
 	'itemsCssClass' => 'table table-striped table-bordered table-condensed',
 	'columns' => array(
 		array(
@@ -608,12 +608,12 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
 	'id' => 'pegawai-m-grid1',
 	'dataProvider' => $modPegawai->searchDialog(),
 	'filter' => $modPegawai,
-	'template' => "{pager}{summary}\n{items}",
+	'template' => "{summary}\n{items}{pager}",
 	'itemsCssClass' => 'table table-striped table-bordered table-condensed',
 	'columns' => array(
 		//'pegawai_id',
-		'nama_pegawai',
 		'nomorindukpegawai',
+		'namaLengkap',
 		'alamat_pegawai',
 		'agama',
 		array(

@@ -3,21 +3,36 @@
     $table = 'ext.bootstrap.widgets.BootGridView';
     $sort = true;
     if (isset($caraPrint)){
-        $data = $model->searchLaporan();
+        $data = $model->searchPrint();
         $template = "{items}";
         $sort = false;
         if ($caraPrint == "EXCEL"){
             $table = 'ext.bootstrap.widgets.BootExcelGridView';
         }
-        echo "<style>
-                .tableRincian thead, th{
-                    border: 1px #000 solid;
-                }
-                .tableRincian{
-                    width:100%;
-                }
+        echo "<style>                    
+                    .table thead:first-child{
+                        border-top:1px solid #000;        
+                    }
+
+                    thead th{
+                        background:none;
+                        color:#333;
+                        border:1px solid #333;
+                    }
+                    
+                    .a tbody td{
+                        border:1px solid #333;
+                    }
+                    
+                    .a{
+                        box-shadow:none;
+                    }
+
+                    .table tbody tr:hover td, .table tbody tr:hover th {
+                        background-color: none;                        
+                    }
             </style>";
-        $itemsCssClass = 'table table-striped table-condensed';
+        $itemsCssClass = 'table a';
     } else{
         $data = $model->searchLaporan();
          $template = "{summary}\n{items}\n{pager}";
@@ -36,13 +51,10 @@
 		'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 	    ),
 		array(
-                    'header'=>'Tanggal Faktur',
+                    'header'=>'Tanggal Faktur / <br> No Faktur',
                     'headerHtmlOptions'=>array('style'=>'text-align:left;'),
-                    'value'=>'MyFormatter::formatDateTimeForUser($data->tglfaktur)',
-                ),
-                array(
-                    'header' => 'No Faktur',
-                    'value' => '$data->nofaktur'
+                    'type' => 'raw',
+                    'value'=>'MyFormatter::formatDateTimeForUser($data->tglfaktur)." /<br> ".$data->nofaktur ',
                 ),                
                 array(
                     'header'=>'Nama Supplier',

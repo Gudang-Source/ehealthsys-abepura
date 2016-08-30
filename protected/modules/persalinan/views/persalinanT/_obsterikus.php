@@ -5,7 +5,7 @@
             <tr>
                 <td>
                     <div class="control-group ">
-                        <?php echo $form->labelEx($modPemeriksaan, 'fundus ufen', array('class' => 'control-label')) ?>
+                        <?php echo Chtml::label('Fundus Uteri', 'fundus obs_fundusufen', array('class' => 'control-label')) ?>
                         <div class="controls">
                             <?php
                             echo $form->textField($modPemeriksaan, 'obs_fundusufen', array('class'=>'span1 numbersOnly','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
@@ -152,7 +152,7 @@
                         </div>
                     </div>
                     <div class="control-group ">
-                        <?php echo $form->labelEx($modPemeriksaan, 'imbang fetofelvik', array('class' => 'control-label')) ?>
+                        <?php echo CHtml::label('Imbang Fetopelvik', 'obs_fetofelvik', array('class' => 'control-label')) ?>
                         <div class="controls">
                             <?php
                             echo $form->textField($modPemeriksaan, 'obs_fetofelvik', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
@@ -384,7 +384,7 @@
 
 
                 <div class="control-group ">
-                    <?php echo $form->labelEx($modPemeriksaan, 'detak nadi', array('class' => 'control-label')) ?>
+                    <?php echo Chtml::label("Denyut Nadi", 'kala4_detaknadi', array('class' => 'control-label')) ?>
                     <div class="controls">
                         <?php
                         echo $form->textField($modPemeriksaan, 'kala4_detaknadi', array('class'=>'span1 numbersOnly','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));
@@ -439,7 +439,7 @@
             <fieldset class='box'>
                 <legend class='rim'>Nifas</legend>
                 <div class="control-group ">
-                    <?php echo $form->labelEx($modPemeriksaan, 'inveksi', array('class' => 'control-label')) ?>
+                    <?php echo Chtml::label("Infeksi", 'inveksi', array('class' => 'control-label')) ?>
                     <div class="controls">
                         <?php
                         echo $form->textField($modPemeriksaan, 'nifas_inveksi', array('class'=>'span3','onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 100));

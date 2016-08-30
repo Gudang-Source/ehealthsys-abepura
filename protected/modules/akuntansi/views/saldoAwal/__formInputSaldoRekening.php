@@ -1,3 +1,5 @@
+
+
 <fieldset class='box' id='fieldsetSaldoKelRek'>
     <legend class="rim">
         <?php
@@ -18,16 +20,15 @@
             'precision' => 0,
         )
     ));
-
-    Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/form.js');
-    Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/accounting.js');
+    
 
     $form = $this->beginWidget('ext.bootstrap.widgets.BootActiveForm', array(
         'id' => 'form-saldo-kel-rekening',
         'enableAjaxValidation' => false,
         'type' => 'horizontal',
         'htmlOptions' => array(
-            'onKeyPress' => 'return disableKeyPress(event)'
+            'onKeyPress' => 'return disableKeyPress(event)',
+            'onsubmit' => 'return requiredCheck()',
         ),
         'focus' => '#AKSaldoawalT_rekperiod_id',
             )
@@ -141,17 +142,17 @@
         </tr>
         <tr>
             <td>
-                <?php echo $form->textFieldRow($model, 'jmlanggaran', array('class' => 'currency span3 reqForm', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 32, 'readonly' => false)); ?>
+                <?php echo $form->textFieldRow($model, 'jmlanggaran', array('class' => 'currency span3 reqForm', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 32, 'readonly' => false, 'style'=>'text-align:right;')); ?>
             </td>
         </tr>
         <tr>
             <td>
-                <?php echo $form->textFieldRow($model, 'jmlsaldoawald', array('class' => 'currency span3 reqForm', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 32, 'readonly' => false)); ?>
+                <?php echo $form->textFieldRow($model, 'jmlsaldoawald', array('class' => 'currency span3 reqForm', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 32, 'readonly' => false, 'style'=>'text-align:right;')); ?>
             </td>
         </tr>
         <tr>
             <td>
-                <?php echo $form->textFieldRow($model, 'jmlsaldoawalk', array('class' => 'currency span3 reqForm', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 32, 'readonly' => false)); ?>
+                <?php echo $form->textFieldRow($model, 'jmlsaldoawalk', array('class' => 'currency span3 reqForm', 'onkeypress' => "return $(this).focusNextInputField(event)", 'maxlength' => 32, 'readonly' => false, 'style'=>'text-align:right;')); ?>
             </td>
         </tr>
     </table>
@@ -176,8 +177,10 @@
         $('#form-saldo-kel-rekening').submit(function () {
             var kosong = "";
             var jumlahKosong = $("#fieldsetSaldoKelRek").find(".reqForm[value=" + kosong + "]");
+            
             if (jumlahKosong.length > 0) {
                 myAlert('Inputan bertanda bintang harap di isi !!');
+                
             } else {
                 $('.currency').each(
                         function () {

@@ -2,6 +2,10 @@
 class KUInformasifakturumumV extends InformasifakturumumV
 {
 	public $tgl_awal,$tgl_akhir;
+        public $bln_awal, $bln_akhir;
+        public $thn_awal, $thn_akhir;
+        public $jns_periode;
+        public $tick, $data, $jumlah, $filter;
 	public $tgl_awalJatuhTempo, $tgl_akhirJatuhTempo;
 	public $umurHutang;
 	/**
@@ -35,9 +39,13 @@ class KUInformasifakturumumV extends InformasifakturumumV
 		if(!empty($this->pembelianbarang_id)){
 			$criteria->addCondition('pembelianbarang_id = '.$this->pembelianbarang_id);
 		}
-		if(!empty($this->supplier_id)){
-			$criteria->addCondition('supplier_id = '.$this->supplier_id);
-		}
+		// if ($this->filter == 'supplier'){
+                    if(!empty($this->supplier_id)){
+                            $criteria->addInCondition('supplier_id',$this->supplier_id);
+                    }//else{
+                   //     $criteria->addCondition('supplier_id IS NULL');
+                  //  }                    
+               // }
 		$criteria->compare('LOWER(supplier_kode)',strtolower($this->supplier_kode),true);
 		$criteria->compare('LOWER(supplier_nama)',strtolower($this->supplier_nama),true);
 		$criteria->compare('LOWER(supplier_alamat)',strtolower($this->supplier_alamat),true);
@@ -250,7 +258,13 @@ class KUInformasifakturumumV extends InformasifakturumumV
 //		$criteria->compare('jmlterima',$this->jmlterima);
 //		$criteria->compare('LOWER(satuanbeli)',strtolower($this->satuanbeli),true);
 //		$criteria->compare('LOWER(kondisibarang)',strtolower($this->kondisibarang),true);
-		$criteria->compare('supplier_id',$this->supplier_id);
+		if ($this->filter == 'supplier'){
+                    if(!empty($this->supplier_id)){
+                            $criteria->addInCondition('supplier_id',$this->supplier_id);
+                    }else{
+                        $criteria->addCondition('supplier_id IS NULL');
+                    }                    
+                }
 		$criteria->compare('LOWER(supplier_kode)',strtolower($this->supplier_kode),true);
 		$criteria->compare('LOWER(supplier_nama)',strtolower($this->supplier_nama),true);
 		$criteria->compare('bayarkesupplier_id',$this->bayarkesupplier_id);
@@ -265,6 +279,140 @@ class KUInformasifakturumumV extends InformasifakturumumV
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public function searchLaporanPrint()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+		$criteria=new CDbCriteria;
+		$criteria->compare('pembelianbarang_id',$this->pembelianbarang_id);
+		$criteria->compare('LOWER(tglpembelian)',strtolower($this->tglpembelian),true);
+		$criteria->compare('LOWER(nopembelian)',strtolower($this->nopembelian),true);
+		$criteria->compare('LOWER(tgldikirim)',strtolower($this->tgldikirim),true);
+//		$criteria->compare('sumberdana_id',$this->sumberdana_id);
+//		$criteria->compare('LOWER(sumberdana_nama)',strtolower($this->sumberdana_nama),true);
+		$criteria->compare('terimapersediaan_id',$this->terimapersediaan_id);
+		 $criteria->compare('LOWER(tglterima)',strtolower($this->tglterima),true);
+		$criteria->addBetweenCondition('date(tglfaktur)', $this->tgl_awal, $this->tgl_akhir);
+		$criteria->compare('LOWER(nopenerimaan)',strtolower($this->nopenerimaan),true);
+		$criteria->compare('LOWER(keterangan_persediaan)',strtolower($this->keterangan_persediaan),true);
+//		$criteria->compare('fakturpembelian_id',$this->fakturpembelian_id);
+//		$criteria->compare('LOWER(tglfaktur)',strtolower($this->tglfaktur),true);
+		$criteria->compare('LOWER(nofaktur)',strtolower($this->nofaktur),true);
+		$criteria->compare('LOWER(tgljatuhtempo)',strtolower($this->tgljatuhtempo),true);
+//		$criteria->compare('LOWER(keteranganfaktur)',strtolower($this->keteranganfaktur),true);
+//		$criteria->compare('totharganetto',$this->totharganetto);
+//		$criteria->compare('persendiscount',$this->persendiscount);
+//		$criteria->compare('jmldiscount',$this->jmldiscount);
+//		$criteria->compare('biayamaterai',$this->biayamaterai);
+//		$criteria->compare('totalpajakpph',$this->totalpajakpph);
+//		$criteria->compare('totalpajakppn',$this->totalpajakppn);
+//		$criteria->compare('totalhargabruto',$this->totalhargabruto);
+		$criteria->compare('LOWER(nofakturpajak)',strtolower($this->nofakturpajak),true);
+		$criteria->compare('instalasi_id',$this->instalasi_id);
+		$criteria->compare('LOWER(instalasi_nama)',strtolower($this->instalasi_nama),true);
+		$criteria->compare('ruangan_id',$this->ruangan_id);
+		$criteria->compare('LOWER(ruangan_nama)',strtolower($this->ruangan_nama),true);
+//		$criteria->compare('syaratbayar_id',$this->syaratbayar_id);
+//		$criteria->compare('LOWER(syaratbayar_nama)',strtolower($this->syaratbayar_nama),true);
+//		$criteria->compare('terimapersdetail_id',$this->terimapersdetail_id);
+//		$criteria->compare('barang_id',$this->barang_id);
+//		$criteria->compare('LOWER(barang_kode)',strtolower($this->barang_kode),true);
+//		$criteria->compare('LOWER(barang_nama)',strtolower($this->barang_nama),true);
+//		$criteria->compare('LOWER(barang_type)',strtolower($this->barang_type),true);
+//		$criteria->compare('LOWER(barang_merk)',strtolower($this->barang_merk),true);
+//		$criteria->compare('hargabeli',$this->hargabeli);
+//		$criteria->compare('hargasatuan',$this->hargasatuan);
+//		$criteria->compare('jmlterima',$this->jmlterima);
+//		$criteria->compare('LOWER(satuanbeli)',strtolower($this->satuanbeli),true);
+//		$criteria->compare('LOWER(kondisibarang)',strtolower($this->kondisibarang),true);
+		if ($this->filter == 'supplier'){
+                    if(!empty($this->supplier_id)){
+                            $criteria->addInCondition('supplier_id',$this->supplier_id);
+                    }else{
+                        $criteria->addCondition('supplier_id IS NULL');
+                    }                    
+                }
+		$criteria->compare('LOWER(supplier_kode)',strtolower($this->supplier_kode),true);
+		$criteria->compare('LOWER(supplier_nama)',strtolower($this->supplier_nama),true);
+		$criteria->compare('bayarkesupplier_id',$this->bayarkesupplier_id);
+//		$criteria->compare('jurnalrekening_id',$this->jurnalrekening_id);
+		if(isset($_GET['berdasarkanJatuhTempo'])){
+            if($_GET['berdasarkanJatuhTempo']>0){
+				$criteria->addBetweenCondition('tgljatuhtempo', $this->tglAwalJatuhTempo, $this->tglAkhirJatuhTempo);
+			}
+		}
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+	}
+        
+        public function searchGrafik() {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
+        $criteria = new CDbCriteria;
+        $criteria->join = " JOIN supplier_m s ON t.supplier_id = s.supplier_id ";
+        $criteria->select = 'count(t.pembelianbarang_id) as jumlah';
+        $filter = isset($this->filter)?$this->filter:null;
+        if ( $filter == 'supplier') {           
+            $criteria->select .= ', s.supplier_nama as data';
+            $criteria->group .= 's.supplier_nama';            
+        }else{
+            $criteria->select .= ', s.supplier_nama as data';
+            $criteria->group .= 's.supplier_nama';   
+        }      
+                       
+
+        if(!empty($this->fakturpembelian_id)){
+                $criteria->addCondition('t.fakturpembelian_id = '.$this->fakturpembelian_id);
+        }
+       if ($this->filter == 'supplier'){
+                    if(!empty($this->supplier_id)){
+                            $criteria->addInCondition('t.supplier_id',$this->supplier_id);
+                    }else{
+                        $criteria->addCondition('t.supplier_id IS NULL');
+                    }                    
+                }
+        if(!empty($this->syaratbayar_id)){
+                $criteria->addCondition('t.syaratbayar_id = '.$this->syaratbayar_id);
+        }
+        if(!empty($this->ruangan_id)){
+                $criteria->addCondition('t.ruangan_id = '.$this->ruangan_id);
+        }
+        $criteria->compare('LOWER(t.nofaktur)',strtolower($this->nofaktur),true);
+        $criteria->addBetweenCondition('t.tglfaktur', $this->tgl_awal, $this->tgl_akhir);
+        $criteria->order = "jumlah DESC";
+        
+
+        return new CActiveDataProvider($this, array(
+			'criteria' => $criteria,
+		));
+    }
+    
+    public function getTotalharga()
+    {
+        $criteria=new CDbCriteria;
+        $criteria->addBetweenCondition('t.tglfaktur', $this->tgl_awal, $this->tgl_akhir);
+        if ($this->filter == 'supplier'){
+            if(!empty($this->supplier_id)){
+                    $criteria->addInCondition('supplier_id',$this->supplier_id);
+            }else{
+                $criteria->addCondition('supplier_id IS NULL');
+            }                    
+        }
+        $criteria->compare('LOWER(supplier_kode)',strtolower($this->supplier_kode),true);
+        $criteria->compare('LOWER(supplier_nama)',strtolower($this->supplier_nama),true);
+        $criteria->compare('bayarkesupplier_id',$this->bayarkesupplier_id);
+//		$criteria->compare('jurnalrekening_id',$this->jurnalrekening_id);
+        if(isset($_GET['berdasarkanJatuhTempo'])){
+            if($_GET['berdasarkanJatuhTempo']>0){
+                                $criteria->addBetweenCondition('tgljatuhtempo', $this->tglAwalJatuhTempo, $this->tglAkhirJatuhTempo);
+                        }
+                }
+        $criteria->select = 'SUM(totalharga)';
+        return $this->commandBuilder->createFindCommand($this->getTableSchema(),$criteria)->queryScalar();
+    }
         
        
 	

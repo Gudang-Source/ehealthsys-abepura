@@ -6,12 +6,12 @@ if($caraPrint=='EXCEL')
     header('Content-Disposition: attachment;filename="'.$judulLaporan.'-'.date("Y/m/d").'.xls"');
     header('Cache-Control: max-age=0');     
 }
-//echo $this->renderPartial('application.views.headerReport.headerLaporanTransaksi',array('judulLaporan'=>$judulLaporan, 'periode'=>$periode, 'colspan'=>10));  
+echo $this->renderPartial('application.views.headerReport.headerLaporanTransaksi',array('judulLaporan'=>$judulLaporan, 'periode'=>$periode, 'colspan'=>10));  
 ?>
 <?php  $ruanganAsal = RuanganM::model()->findByPk(Yii::app()->user->getState('ruangan_id'))->ruangan_nama;?>
 <div style="text-align: center;">
-    <h2><?php echo $judulLaporan; ?></h2>
-    <b>Periode : <?php echo $periode; ?></b><br>
+    <!--<h2><?php //echo $judulLaporan; ?></h2>-->
+   <!-- <b>Periode : <?php //echo $periode; ?></b><br>-->
     <b>Ruangan : <?php echo $ruanganAsal; ?></b>
 </div>
 <?php

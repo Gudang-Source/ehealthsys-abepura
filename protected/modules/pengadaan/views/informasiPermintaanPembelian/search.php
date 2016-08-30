@@ -49,7 +49,7 @@
                                 ?>
                             </div>
                     </div> 
-                <?php echo $form->textFieldRow($model,'nopermintaan',array('placeholder'=>'Ketik No. Permintaan','class'=>'numberOnly')); ?>
+                <?php echo $form->textFieldRow($model,'nopermintaan',array('placeholder'=>'Ketik No. Permintaan','class'=>'angkahuruf-only')); ?>
             </td>
             <td>                               
                 <div class = "span5">

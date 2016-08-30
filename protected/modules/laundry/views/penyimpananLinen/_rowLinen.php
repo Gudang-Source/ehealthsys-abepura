@@ -33,7 +33,7 @@
             array(
                 'header'=>'Ruangan Asal',
                 'type'=>'raw',
-                'value'=>'isset($data->ruangan_nama) ? $data->ruangan_nama : ""',
+                'value'=>'isset($data->ruangan_id) ? $data->ruangan->ruangan_nama : ""',
             ),            
             array(
                 'header'=>'Kode Linen',

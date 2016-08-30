@@ -250,7 +250,7 @@ class PenggajianpegTController extends MyAuthController {
 	public function actionPrint($id, $pegawai_id) {
 		$modelpegawai = GJPegawaiM::model()->findByPk($pegawai_id);
 		$modDetail = PenggajiankompT::model()->findAll('penggajianpeg_id = ' . $id . '');
-		$model = PenggajianpegT::model()->find('pegawai_id = ' . $modelpegawai->pegawai_id . ' ');
+		$model = PenggajianpegT::model()->find('penggajianpeg_id = ' . $id . ' AND pegawai_id = '.$pegawai_id.'');
 
 		$modelpegawai->attributes = (isset($_REQUEST['GJPegawaiM']) ? $_REQUEST['GJPegawaiM'] : null);
 		$judulLaporan = '--- Detail Penggajian Pegawai ---';
@@ -270,7 +270,7 @@ class PenggajianpegTController extends MyAuthController {
 			$stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/bootstrap.css');
 			$mpdf->WriteHTML($stylesheet, 1);
 			$mpdf->WriteHTML($this->renderPartial($this->path_view . 'Print', array('model' => $model, 'modelpegawai' => $modelpegawai, 'modDetail' => $modDetail, 'judulLaporan' => $judulLaporan, 'caraPrint' => $caraPrint), true));
-			$mpdf->Output();
+			$mpdf->Output($judulLaporan.'_'.date('Y-m-d').'.pdf','I');
 		}
 	}
 

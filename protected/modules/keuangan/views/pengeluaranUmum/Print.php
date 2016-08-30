@@ -29,9 +29,9 @@ echo CHtml::css('.control-label{
         <td>
             <table width="100%">
                 <tr>
-                    <td>Tanggal Penerimaan</td><td>:</td>
+                    <td>Tanggal Pengeluaran</td><td>:</td>
                     <td width="100%">
-                        <?php echo CHtml::encode($model->tglpenerimaan); ?>
+                        <?php echo CHtml::encode($model->tglpengeluaran); ?>
                     </td>
                     <td>Harga Satuan</td><td>:</td>
                     <td>
@@ -39,9 +39,9 @@ echo CHtml::css('.control-label{
                     </td>
                 </tr>
                 <tr>
-                    <td>No. Penerimaan</td><td>:</td>
+                    <td>No. Pengeluaran</td><td>:</td>
                     <td>
-                        <?php echo CHtml::encode(isset($model->nopenerimaan) ? $model->nopenerimaan : "-"); ?>
+                        <?php echo CHtml::encode(isset($model->nopengeluaran) ? $model->nopengeluaran : "-"); ?>
                     </td>
                     <td>Total Harga</td><td>:</td>
                     <td>
@@ -53,22 +53,25 @@ echo CHtml::css('.control-label{
                     <td>
                         <?php echo CHtml::encode($model->kelompoktransaksi); ?>
                     </td>
-                    <td nowrap>Keterangan Penerimaan</td><td>:</td>
+                    <td nowrap>Keterangan Pengeluaran</td><td>:</td>
                     <td>
-                        <?php echo CHtml::encode(isset($model->keterangan_penerimaan) ? $model->keterangan_penerimaan : "-"); ?>
+                        <?php echo CHtml::encode(isset($model->keterangankeluar) ? $model->keterangankeluar : "-"); ?>
                     </td>
                 </tr>
                 <tr>
-                    <td>Jenis Penerimaan </td><td>:</td>
+                    <td>Jenis Pengeluaran </td><td>:</td>
                     <td>
                         <?php 
-						$p = JenispenerimaanM::model()->findByPk($model->jenispenerimaan_id);
-						echo CHtml::encode($p->jenispenerimaan_nama); ?>
+						$p = JenispengeluaranM::model()->findByPk($model->jenispengeluaran_id);
+						echo CHtml::encode($p->jenispengeluaran_nama); ?>
                     </td>
+					<?php /*
                     <td>Nama Penandatangan </td><td>:</td>
                     <td nowrap>
                         <?php echo CHtml::encode(isset($model->namapenandatangan) ? $model->namapenandatangan : "-"); ?>
                     </td>
+					 * 
+					 */ ?>
                 </tr>
                 <tr>
                     <td>Volume  </td><td>:</td>

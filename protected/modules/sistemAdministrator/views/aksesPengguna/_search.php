@@ -15,10 +15,10 @@
             </div>
         </td>
         <td>
-            <?php echo $form->dropDownListRow($model,'peranpengguna_id',  CHtml::listData(PeranpenggunaK::model()->findAll(array('order'=>'peranpengguna_id'),'peranpengguna_aktif = true'), 'peranpengguna_id', 'peranpenggunanama'),array('empty'=>'','class'=>'span3')); ?>
+            <?php echo $form->dropDownListRow($model,'peranpengguna_id',  CHtml::listData(PeranpenggunaK::model()->findAll(array('order'=>'peranpenggunanama ASC'),'peranpengguna_aktif = true'), 'peranpengguna_id', 'peranpenggunanama'),array('empty'=>'-- Pilih --','class'=>'span3')); ?>
         </td>
         <td>
-            <?php echo $form->dropDownListRow($model,'modul_id',  CHtml::listData(ModulK::model()->findAll(array('order'=>'modul_kategori DESC, modul_urutan ASC'),'modul_aktif = true'), 'modul_id', 'modul_nama'),array('empty'=>'','class'=>'span3')); ?>
+            <?php echo $form->dropDownListRow($model,'modul_id',  CHtml::listData(ModulK::model()->findAll(array('order'=>'modul_nama ASC'),'modul_aktif = true'), 'modul_id', 'modul_nama'),array('empty'=>'-- Pilih --','class'=>'span3')); ?>
         </td>
     </tr>
 </table>

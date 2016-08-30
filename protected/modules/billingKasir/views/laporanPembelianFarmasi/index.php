@@ -1,6 +1,6 @@
 <div class="white-container">
     <?php
-    $url = Yii::app()->createUrl('keuangan/laporanPembayaranGaji/FrameGrafikLaporanPembayaranGaji&id=1');
+    $url = Yii::app()->createUrl('keuangan/LaporanFakturPembelianFarmasi/FrameGrafik&id=1');
     Yii::app()->clientScript->registerScript('search', "
     $('#searchLaporan').submit(function(){
             $.fn.yiiGridView.update('laporan-grid', {
@@ -17,9 +17,14 @@
     </fieldset>
     <div class="block-tabel">
         <h6>Tabel Faktur <b>Pembelian Farmasi</b></h6>
-        <?php $this->renderPartial($this->path_view.'_table',array('model'=>$model)); ?>
-        <iframe src="" id="Grafik" width="100%" height='0' onload="javascript:resizeIframe(this);"></iframe>
+        <?php $this->renderPartial($this->path_view.'_table',array('model'=>$model)); ?>        
     </div>
+    <div class="row-fluid block-tabel">
+        <h6><b>Grafik</b></h6>
+       <?php $this->renderPartial($this->path_view.'_tab'); ?>
+        <iframe class="biru" src="" id="Grafik" width="100%" height='0'  onload="javascript:resizeIframe(this);">
+       </iframe>        
+   </div>
     <?php        
     $controller = Yii::app()->controller->id; //mengambil Controller yang sedang dipakai
     $module = Yii::app()->controller->module->id; //mengambil Module yang sedang dipakai
