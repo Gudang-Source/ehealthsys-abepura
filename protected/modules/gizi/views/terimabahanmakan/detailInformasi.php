@@ -15,22 +15,27 @@
         background-color: none;
     }
 </style>
+<?php  echo $this->renderPartial('_headerPrint');  ?>
 <table  class = "table" style = "box-shadow:none;">
     <tr>
         <td>
-             <b><?php echo CHtml::encode($modTerima->getAttributeLabel('nopenerimaanbahan')); ?>:</b>
-            <?php echo CHtml::encode($modTerima->nopenerimaanbahan); ?>
-            <br />
-             <b><?php echo CHtml::encode($modTerima->getAttributeLabel('tglterimabahan')); ?>:</b>
-            <?php echo MyFormatter::formatDateTimeForUser(date("Y-m-d",strtotime(MyFormatter::formatDateTimeForDb(CHtml::encode($modTerima->tglterimabahan))))); ?>
+             <b><?php echo CHtml::encode($modTerima->getAttributeLabel('nopenerimaanbahan')); ?></b>
+        </td>
+        <td>
+             : <?php echo CHtml::encode($modTerima->nopenerimaanbahan); ?>
+        </td>
+        <td>&nbsp;</td>
+        <td><b><?php echo CHtml::encode($modTerima->getAttributeLabel('ruangan_id')); ?></b></td>
+        <td>: <?php echo CHtml::encode($modTerima->ruangan->ruangan_nama); ?></td>
+    </tr>
+    <tr>
+        <td>           
+            
+             <b><?php echo CHtml::encode($modTerima->getAttributeLabel('tglterimabahan')); ?></b>            
              
         </td>
         <td>
-             <b><?php echo CHtml::encode($modTerima->getAttributeLabel('ruangan_id')); ?>:</b>
-            <?php echo CHtml::encode($modTerima->ruangan->ruangan_nama); ?>
-            <br />
-             <b><?php echo CHtml::encode($modTerima->getAttributeLabel('create_time')); ?>:</b>
-            <?php echo CHtml::encode($modTerima->create_time); ?>
+         : <?php echo MyFormatter::formatDateTimeForUser(date("Y-m-d",strtotime(MyFormatter::formatDateTimeForDb(CHtml::encode($modTerima->tglterimabahan))))); ?>
 
         </td>
     </tr>   
@@ -60,7 +65,7 @@
         foreach($modDetailTerima AS $tampilData):
             $subTotal = $tampilData->qty_terima*$tampilData->harganettobhn;//<td style='text-align: right;'>".$tampilData->bahanmakanan->jmlpersediaan."</td>   
     echo "<tr>
-            <td  class = 'border'>".$tampilData->nourutbahan."</td>
+            <td  class = 'border'>".$no."</td>
             <td class = 'border'>".$tampilData->golbahanmakanan->golbahanmakanan_nama."</td>  
             <td class = 'border'>".$tampilData->bahanmakanan->jenisbahanmakanan."</td>   
             <td class = 'border'>".$tampilData->bahanmakanan->kelbahanmakanan."</td>   
@@ -94,8 +99,8 @@
 </table>
 
  <?php
-if (isset($_GET['frame'])){
-    echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info', 'onclick'=>"print('PRINT')"));
+//if (isset($_GET['frame'])){
+    
     //echo CHtml::link(Yii::t('mds','{icon} Excel',array('{icon}'=>'<i class="icon-pdf icon-white"></i>')),'javascript:void(0);', array('class'=>'btn btn-info', 'onclick'=>"print('EXCEL')")); 
 ?>
     <script type='text/javascript'>
@@ -108,7 +113,7 @@ if (isset($_GET['frame'])){
     }
     </script>
 <?php
-}else{ ?>
+//}else{ ?>
     <table class ="table" style = "box-shadow:none;">
     <tr>
         <td width="100%" align="left" align="top">
@@ -131,4 +136,6 @@ if (isset($_GET['frame'])){
         </td>
     </tr>
     </table>
-<?php } ?>
+<?php //} 
+echo CHtml::link(Yii::t('mds', '{icon} Print', array('{icon}'=>'<i class="icon-print icon-white"></i>')), 'javascript:void(0);', array('class'=>'btn btn-info', 'onclick'=>"print('PRINT')"));
+?>

@@ -20,19 +20,23 @@
     <tr><th style = "text-align:center;" colspan="2"><h4><?php echo $judulLaporan; ?></h4></th></tr>
     <tr>
         <td>
-             <b><?php echo CHtml::encode($modTerima->getAttributeLabel('nopenerimaanbahan')); ?>:</b>
-            <?php echo CHtml::encode($modTerima->nopenerimaanbahan); ?>
-            <br />
-             <b><?php echo CHtml::encode($modTerima->getAttributeLabel('tglterimabahan')); ?>:</b>
-            <?php echo MyFormatter::formatDateTimeForUser(date("Y-m-d",strtotime(MyFormatter::formatDateTimeForDb(CHtml::encode($modTerima->tglterimabahan))))); ?>
+             <b><?php echo CHtml::encode($modTerima->getAttributeLabel('nopenerimaanbahan')); ?></b>
+        </td>
+        <td>
+             : <?php echo CHtml::encode($modTerima->nopenerimaanbahan); ?>
+        </td>
+        <td>&nbsp;</td>
+        <td><b><?php echo CHtml::encode($modTerima->getAttributeLabel('ruangan_id')); ?></b></td>
+        <td>: <?php echo CHtml::encode($modTerima->ruangan->ruangan_nama); ?></td>
+    </tr>
+    <tr>
+        <td>           
+            
+             <b><?php echo CHtml::encode($modTerima->getAttributeLabel('tglterimabahan')); ?></b>            
              
         </td>
         <td>
-             <b><?php echo CHtml::encode($modTerima->getAttributeLabel('ruangan_id')); ?>:</b>
-            <?php echo CHtml::encode($modTerima->ruangan->ruangan_nama); ?>
-            <br />
-             <b><?php echo CHtml::encode($modTerima->getAttributeLabel('create_time')); ?>:</b>
-            <?php echo CHtml::encode($modTerima->create_time); ?>
+         : <?php echo MyFormatter::formatDateTimeForUser(date("Y-m-d",strtotime(MyFormatter::formatDateTimeForDb(CHtml::encode($modTerima->tglterimabahan))))); ?>
 
         </td>
     </tr>   
@@ -59,10 +63,10 @@
     <?php
     $totalSubTotal= "";
     $no=1;
-        foreach($modDetailTerima AS $tampilData):
+        foreach($modDetailTerima AS $tampilData)://$tampilData->nourutbahan
             $subTotal = $tampilData->qty_terima*$tampilData->harganettobhn;//<td style='text-align: right;'>".$tampilData->bahanmakanan->jmlpersediaan."</td>   
     echo "<tr>
-            <td  class = 'border'>".$tampilData->nourutbahan."</td>
+            <td  class = 'border'>".$no."</td>
             <td class = 'border'>".$tampilData->golbahanmakanan->golbahanmakanan_nama."</td>  
             <td class = 'border'>".$tampilData->bahanmakanan->jenisbahanmakanan."</td>   
             <td class = 'border'>".$tampilData->bahanmakanan->kelbahanmakanan."</td>   
