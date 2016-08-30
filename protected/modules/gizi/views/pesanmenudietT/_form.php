@@ -250,22 +250,23 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(// the dialog
     ),
 ));
 
-$modKunjungan = new GZInfokunjunganriV('searchDialog');
+//$modKunjungan = new GZInfokunjunganriV('searchDialog');
+$modKunjungan = new GZInfopasienmasukkamarV('searchRI');
 $modKunjungan->unsetAttributes();
-if (isset($_GET['GZInfokunjunganriV'])){
-    $modKunjungan->attributes = $_GET['GZInfokunjunganriV'];       
-    if (isset($_GET['GZInfokunjunganriV']['kamarruangan_nokamar'])){
-        $modKunjungan->kamarruangan_nokamar = $_GET['GZInfokunjunganriV']['kamarruangan_nokamar'];
-    } 
-    if (isset($_GET['GZInfokunjunganriV']['kamarruangan_nobed'])){
-        $modKunjungan->kamarruangan_nobed = $_GET['GZInfokunjunganriV']['kamarruangan_nobed'];
-    } 
+if (isset($_GET['GZInfopasienmasukkamarV'])){
+    $modKunjungan->attributes = $_GET['GZInfopasienmasukkamarV'];       
+   // if (isset($_GET['GZInfokunjunganriV']['kamarruangan_nokamar'])){
+      //  $modKunjungan->kamarruangan_nokamar = $_GET['GZInfokunjunganriV']['kamarruangan_nokamar'];
+   // } 
+   // if (isset($_GET['GZInfokunjunganriV']['kamarruangan_nobed'])){
+   //     $modKunjungan->kamarruangan_nobed = $_GET['GZInfokunjunganriV']['kamarruangan_nobed'];
+  //  } 
      
 }
 
 $this->widget('ext.bootstrap.widgets.BootGridView', array(
     'id'=>'gzinfokunjunganri-v-grid', 
-    'dataProvider' => $modKunjungan->searchDialog(),
+    'dataProvider' => $modKunjungan->searchRI(),
     'filter' => $modKunjungan,
     'template' => "{summary}\n{items}\n{pager}",
     'itemsCssClass' => 'table table-striped table-bordered table-condensed',
@@ -294,7 +295,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
         'umur',
         array(
             'name'=>'jeniskelamin',
-            'filter'=> CHtml::dropDownList('GZInfokunjunganriV[jeniskelamin]',$modKunjungan->jeniskelamin,LookupM::getItems('jeniskelamin'),array('empty'=>'-- Pilih --')),
+            'filter'=> CHtml::dropDownList('GZInfopasienmasukkamarV[jeniskelamin]',$modKunjungan->jeniskelamin,LookupM::getItems('jeniskelamin'),array('empty'=>'-- Pilih --')),
             'value'=>'$data->jeniskelamin'
         ),
         array(
@@ -312,7 +313,7 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
         ),
         array(
             'name'=>'ruangan_id',
-            'filter'=> CHtml::dropDownList('GZInfokunjunganriV[ruangan_id]',$modKunjungan->ruangan_id,CHtml::listData(RuanganM::model()->findAll('ruangan_aktif = true ORDER BY ruangan_nama ASC'), 'ruangan_id', 'ruangan_nama'),array('empty'=>'--Pilih--')),
+            'filter'=> CHtml::dropDownList('GZInfopasienmasukkamarV[ruangan_id]',$modKunjungan->ruangan_id,CHtml::listData(RuanganM::model()->findAll('ruangan_aktif = true ORDER BY ruangan_nama ASC'), 'ruangan_id', 'ruangan_nama'),array('empty'=>'--Pilih--','disabled'=>TRUE)),            
             'value'=>'$data->ruangan_nama'
         ),
         'kamarruangan_nokamar',
@@ -428,7 +429,9 @@ $jsx = <<< JS
         }
         if(jQuery.isNumeric(tempRuangan)){
             $.fn.yiiGridView.update('gzinfokunjunganri-v-grid', {
-                    data: "GZInfokunjunganriV[ruangan_id]="+tempRuangan
+                   //data: "GZInfokunjunganriV[ruangan_id]="+tempRuangan
+                   data: "GZInfopasienmasukkamarV[ruangan_id]="+tempRuangan 
+        
             });
         }
         $('#jumlah').val(1);
@@ -440,12 +443,14 @@ $jsx = <<< JS
         ruangan = $('#${ruangan_id}').val();
         if(!jQuery.isNumeric(ruangan)){
             $.fn.yiiGridView.update('gzinfokunjunganri-v-grid', {
-                    data: $("#dialogPasien :input").serialize() + "&" + "GZInfokunjunganriV[ruangan_id]=0"
+                    //data: $("#dialogPasien :input").serialize() + "&" + "GZInfokunjunganriV[ruangan_id]=0"
+                    data: $("#dialogPasien :input").serialize() + "&" + "GZInfopasienmasukkamarV[ruangan_id]=0"
             });
         }
         else{
             $.fn.yiiGridView.update('gzinfokunjunganri-v-grid', {
-                    data: $("#dialogPasien :input").serialize() + "&" + "GZInfokunjunganriV[ruangan_id]="+ruangan
+                    //data: $("#dialogPasien :input").serialize() + "&" + "GZInfokunjunganriV[ruangan_id]="+ruangan
+                    data: $("#dialogPasien :input").serialize() + "&" + "GZInfopasienmasukkamarV[ruangan_id]="+ruangan
             });
         }
         if(!jQuery.isNumeric(ruangan)){
@@ -461,7 +466,8 @@ Yii::app()->clientScript->registerScript('head', $jsx, CClientScript::POS_HEAD);
 
 <?php Yii::app()->clientScript->registerScript('submit', '
     $.fn.yiiGridView.update("gzinfokunjunganri-v-grid", {
-		data: "GZInfokunjunganriV[ruangan_id]=0"
+		//data: "GZInfokunjunganriV[ruangan_id]=0"
+                data: "GZInfopasienmasukkamarV[ruangan_id]=0"                
 	});
     $("form").submit(function(){
         var jenisdiet_id =$("#'.$jenisdiet_id.'").val();

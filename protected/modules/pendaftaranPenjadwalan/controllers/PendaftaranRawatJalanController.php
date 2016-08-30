@@ -963,9 +963,33 @@ class PendaftaranRawatJalanController extends MyAuthController
                                     ));
                             }
                     } 
+					
+					$this->logBpjs($model, $reqSep);
             }
             return $modSep;
         }
+		
+		
+		function logBpjs($model, $reqSep) {
+			$log = new BpjslogR;
+			$log->tgl_log = date('Y-m-d H:i:s');
+			$log->code = $reqSep['metadata']['code'];
+			$log->loginpemakai_id = Yii::app()->user->id;
+			if (isset($reqSep['metadata']['message'])) {
+				$log->pesan = $reqSep['metadata']['message'];
+			}
+			$log->pendaftaran_id = $model->pendaftaran_id;
+			$log->save();
+		}
+		
+		function flashBpjs($id) {
+			$log = BpjslogR::model()->findByAttributes(array(
+				'pendaftaran_id'=>$id,
+			));
+			if (!empty($log) && $log->code != 200) {
+				Yii::app()->user->setFlash('error', 'BPJS Error '.$log->code.': '.$log->pesan);
+			}
+		}
         
         /**
          * menentukan tipepaket_id
@@ -2534,4 +2558,45 @@ class PendaftaranRawatJalanController extends MyAuthController
                 Yii::app()->end();
             }
         }
+		
+		
+		public function actionCekSEP() 
+		{
+			if(Yii::app()->getRequest()->getIsAjaxRequest()) {
+				$nosep = $_POST['nosep'];
+				$bpjs = new Bpjs();
+				$res = CJSON::decode($bpjs->detail_sep($nosep));
+				
+				
+				$res["rujukan"] = array(
+					"rujukandari_id"=>"",
+				);
+				
+				if ($res["metadata"]["code"] == "200" && !empty($res["response"]["provRujukan"])) {
+					
+					$rujukan = RujukandariM::model()->findByAttributes(array(
+						"ppkrujukan"=>$res["response"]["provRujukan"]["kdProvider"]
+					));
+					if (!empty($rujukan)) {
+						$rujukans = CHtml::listData(RujukandariM::model()->findAllByAttributes(array(
+							"asalrujukan_id"=>$rujukan->asalrujukan_id,
+						), array(
+							"order"=>"namaperujuk"
+						)), "rujukandari_id", "namaperujuk");
+						
+						$op = "";
+						foreach ($rujukans as $idx=>$item) {
+							$op .= '<option value="'.$idx.'">'.$item.'</option>';
+						}
+						
+						$res["rujukan"]["rujukandari_id"] = $rujukan->rujukandari_id;
+						$res["rujukan"]["asalrujukan_id"] = $rujukan->asalrujukan_id;
+						$res["rujukan"]["listrujukandari_id"] = $op;
+						
+					}
+				}
+				
+				print_r(CJSON::encode($res));
+			}
+		}
 }

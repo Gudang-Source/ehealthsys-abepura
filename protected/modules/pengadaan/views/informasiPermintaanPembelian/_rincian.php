@@ -1,3 +1,21 @@
+<style>
+    .border th, .border td{
+        border:1px solid #000;
+        padding:2px;
+    }
+    .table thead:first-child{
+        border-top:1px solid #000;        
+    }
+    
+    thead th{
+        background:none;
+        color:#333;
+    }
+    
+    .table tbody tr:hover td, .table tbody tr:hover th {
+        background-color: none;
+    }
+</style>
 <?php 
 echo $this->renderPartial('application.views.headerReport.headerAnggaran',array('judulLaporan'=>$judulLaporan, 'deskripsi'=>$deskripsi, 'colspan'=>10));
  
@@ -43,7 +61,7 @@ $modProfilRs = ProfilrumahsakitM::model()->findByPk(Params::DEFAULT_PROFIL_RUMAH
     Dengan hormat,<br>
     Dengan ini kami mohon pada saudara untuk dapat menyediakan obat dan alat kesehatan <?php echo $modProfilRs->nama_rumahsakit; ?>
     <br><br>
-    <table width="100%" style='margin-left:auto; margin-right:auto;' >
+    <table width="100%" style='margin-left:auto; margin-right:auto;' class ="border" >
         <thead class="border">
             <th style="text-align: center;">No.</th>
             <th style="text-align: center;">Asal Barang</th>
@@ -51,12 +69,12 @@ $modProfilRs = ProfilrumahsakitM::model()->findByPk(Params::DEFAULT_PROFIL_RUMAH
             <th style="text-align: center;">Jumlah Kemasan (Satuan) </th>
             <th style="text-align: center;">Jumlah Pembelian</th>
             <th style="text-align: center;">Harga Netto</th>
-				<th style="text-align: center;">Stok Akhir</th>
-				<th style="text-align: center;">PPN</th>
-				<th style="text-align: center;">PPH</th>
-				<th style="text-align: center;">Diskon (%)</th>
-				<th style="text-align: center;">Diskon Total (Rp.)</th>
-				<th style="text-align: center;">Minimal Stok</th>
+            <th style="text-align: center;">Stok Akhir</th>
+            <th style="text-align: center;">PPN</th>
+            <th style="text-align: center;">PPH</th>
+            <th style="text-align: center;">Diskon (%)</th>
+            <th style="text-align: center;">Diskon Total (Rp.)</th>
+            <th style="text-align: center;">Minimal Stok</th>
             <th style="text-align: center;">Sub Total</th>
         </thead>
         <?php 
@@ -64,30 +82,30 @@ $modProfilRs = ProfilrumahsakitM::model()->findByPk(Params::DEFAULT_PROFIL_RUMAH
         $subtotal = 0;
         foreach ($modDetails as $i=>$modObat){ 
         ?>
-            <tr class="border">
+             <tr class="border">
                 <td><?php echo ($i+1)."."; ?></td>
                 <td><?php echo $modObat->sumberdana->sumberdana_nama; ?></td>
                 <td><?php echo (!empty($modObat->obatalkes->obatalkes_kategori) ? $modObat->obatalkes->obatalkes_kategori."/ " : "") ."". $modObat->obatalkes->obatalkes_nama; ?></td>
-                <td><?php echo number_format($modObat->kemasanbesar); ?></td>
-                <td><?php echo number_format($modObat->jmlpermintaan); ?></td>
-                <td><?php echo $format->formatUang($modObat->harganettoper); ?></td>
-					<td><?php echo number_format($modObat->stokakhir); ?></td>
-					<td><?php echo $modObat->persenppn; ?></td>
-					<td><?php echo $modObat->persenpph; ?></td>
-					<td><?php echo $modObat->persendiscount; ?></td>
-					<td><?php echo $format->formatUang($modObat->jmldiscount); ?></td>
-					<td><?php echo number_format($modObat->minimalstok); ?></td>
-                <td><?php 
+                <td style = "text-align:right;"><?php echo number_format($modObat->kemasanbesar,0,"","."); ?></td>
+                <td style = "text-align:right;"><?php echo number_format($modObat->jmlpermintaan,0,"","."); ?></td>
+                <td style = "text-align:right;"><?php echo "Rp".number_format($modObat->harganettoper,0,"","."); ?></td>
+                <td style = "text-align:right;"><?php echo number_format($modObat->stokakhir,0,"","."); ?></td>
+                <td style = "text-align:right;"><?php echo $modObat->persenppn; ?></td>
+                <td style = "text-align:right;"><?php echo $modObat->persenpph; ?></td>
+                <td style = "text-align:right;"><?php echo $modObat->persendiscount; ?></td>
+                <td style = "text-align:right;"><?php echo "Rp".number_format($modObat->jmldiscount,0,"","."); ?></td>
+                <td style = "text-align:right;"><?php echo number_format($modObat->minimalstok,0,"","."); ?></td>
+                <td style = "text-align:right;"><?php 
                     $subtotal = ($modObat->harganettoper * $modObat->jmlpermintaan);
                     $total += $subtotal;
-                    echo $format->formatUang($subtotal); ?>
+                    echo "Rp".number_format($subtotal,0,"","."); ?>
                 </td>
             </tr>
         <?php } ?>
         <tr>
             <td colspan="10" style="text-align: center;"><i>( <?php echo $format->kataterbilang($total) ?> rupiah )</i></td>
-            <td colspan="2" align="center"><strong>Total</strong></td>
-            <td   class="border"><?php echo $format->formatUang($total); ?></td>
+            <td colspan = "2" style="text-align:right;border-left:1px double #fff" align="center"><strong>Total</strong></td>
+            <td    style = "text-align:right;" class="border"><?php echo "Rp".number_format($total,0,"","."); ?></td>
         </tr>
     </table><br>
     Demikian Surat Pesanan ini kami buat untuk dapat dipergunakan seperlunya,<br>

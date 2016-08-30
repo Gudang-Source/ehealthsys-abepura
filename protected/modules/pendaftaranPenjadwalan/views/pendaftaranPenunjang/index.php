@@ -11,6 +11,9 @@
     if(isset($_GET['sukses'])){
         Yii::app()->user->setFlash('success', "Data pasien berhasil disimpan !");
     }
+	if(!empty($model->pendaftaran_id)) {
+		$this->flashBpjs($model->pendaftaran_id);
+	}
     ?>
     <?php $this->widget('bootstrap.widgets.BootAlert'); ?>
     <?php echo $form->errorSummary($model); ?>

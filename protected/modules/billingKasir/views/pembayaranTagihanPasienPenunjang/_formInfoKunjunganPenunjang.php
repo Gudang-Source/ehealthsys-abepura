@@ -1,13 +1,13 @@
 <div class = "span4">
     <div class="control-group">
-        <?php echo CHtml::label("Instalasi", 'instalasi_id', array('class'=>'control-label')); ?>
+        <?php echo CHtml::label("Instalasi <font style = 'color:red;'>*</font>", 'instalasi_id', array('class'=>'control-label')); ?>
         <div class="controls">
             <?php 
             if(!empty($modKunjungan->pendaftaran_id)){
-                echo CHtml::hiddenField('instalasi_id',$modKunjungan->instalasi_id,array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); 
-                echo CHtml::textField('instalasi_nama',$modKunjungan->instalasi_nama,array('readonly'=>true,'class'=>'span3', 'onkeyup'=>"return $(this).focusNextInputField(event);")); 
+                echo CHtml::hiddenField('instalasi_id',$modKunjungan->instalasi_id,array('readonly'=>true,'class'=>'span3 required', 'onkeyup'=>"return $(this).focusNextInputField(event);")); 
+                echo CHtml::textField('instalasi_nama',$modKunjungan->instalasi_nama,array('readonly'=>true,'class'=>'span3 required', 'onkeyup'=>"return $(this).focusNextInputField(event);")); 
             }else{
-                echo CHtml::dropDownList('instalasi_id',$modKunjungan->instalasi_id,CHtml::listData(BKInstalasiM::model()->getInstalasiPenunjangs(),'instalasi_id','instalasi_nama'),array('empty'=>'-- Pilih --','onchange'=>'setKunjunganReset();refreshDialogKunjungan();','class'=>'span3','onkeyup'=>"return $(this).focusNextInputField(event)",)); 
+                echo CHtml::dropDownList('instalasi_id',$modKunjungan->instalasi_id,CHtml::listData(BKInstalasiM::model()->getInstalasiPenunjangs(),'instalasi_id','instalasi_nama'),array('empty'=>'-- Pilih --','onchange'=>'setKunjunganReset();refreshDialogKunjungan();','class'=>'span3 required','onkeyup'=>"return $(this).focusNextInputField(event)",)); 
             }
             ?>
         </div>
@@ -52,7 +52,7 @@
                                         }',
                                 ),
                                 'tombolDialog'=>array('idDialog'=>'dialogKunjungan'),
-                                'htmlOptions'=>array('placeholder'=>'Ketik No. Pendaftaran','class'=>'all-caps','rel'=>'tooltip','title'=>'Ketik no. pendaftaran / klik icon untuk mencari data kunjungan',
+                                'htmlOptions'=>array('placeholder'=>'Ketik No. Pendaftaran','class'=>'all-caps angkahuruf-only','rel'=>'tooltip','title'=>'Ketik no. pendaftaran / klik icon untuk mencari data kunjungan',
                                     'onkeyup'=>"return $(this).focusNextInputField(event)",                                    
                                     ),
                             )); 
@@ -123,7 +123,7 @@
                                             return false;
                                         }',
                                 ),
-                                'htmlOptions'=>array('placeholder'=>'Ketik No. Rekam Medik','class'=>'all-caps','rel'=>'tooltip','title'=>'Ketik no. rekam medik untuk mencari data kunjungan',
+                                'htmlOptions'=>array('placeholder'=>'Ketik No. Rekam Medik','class'=>'all-caps numbers-only','rel'=>'tooltip','title'=>'Ketik no. rekam medik untuk mencari data kunjungan',
                                     'onkeyup'=>"return $(this).focusNextInputField(event)",
                                     ),
                             )); 
@@ -163,7 +163,7 @@
                                             return false;
                                         }',
                                 ),
-                                'htmlOptions'=>array('placeholder'=>'Ketik Nama Pasien','rel'=>'tooltip','title'=>'Ketik nama pasien untuk mencari data kunjungan',
+                                'htmlOptions'=>array('class'=>'hurufs-only','placeholder'=>'Ketik Nama Pasien','rel'=>'tooltip','title'=>'Ketik nama pasien untuk mencari data kunjungan',
                                     'onkeyup'=>"return $(this).focusNextInputField(event)",
                                     ),
                             )); 
@@ -255,8 +255,12 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                                             setKunjungan($data->pendaftaran_id, \"\", \"\", \"\");
                                             $(\"#dialogKunjungan\").dialog(\"close\");
                                         "))',
+                    ),                    
+                    array(
+                        'header' => 'No Pendaftaran',
+                        'name' => 'no_pendaftaran',
+                        'filter' => Chtml::activeTextField($modDialogKunjungan, 'no_pendaftaran', array('class'=>'angkahuruf-only'))
                     ),
-                    'no_pendaftaran',
                     array(
                         'name'=>'tgl_pendaftaran',
                         'type'=>'raw',
@@ -264,16 +268,23 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                         'filter'=>CHtml::activeHiddenField($modDialogKunjungan,'instalasi_id', array('readonly'=>true)),//instalasi_id untuk pencarian ruangan_id
                     ),
                     array(
+                        'header'=>'No Rekam Medik',
                         'name'=>'no_rekam_medik',
                         'type'=>'raw',
                         'value'=>'$data->no_rekam_medik',
+                        'filter' => Chtml::activeTextField($modDialogKunjungan, 'no_rekam_medik', array('class'=>'numbers-only'))
                     ),
-                    'nama_pasien',
                     array(
+                        'header' => 'Nama Pasien',
+                        'name' => 'nama_pasien',
+                        'value' => '$data->namadepan." ".$data->nama_pasien',
+                        'filter' => Chtml::activeTextField($modDialogKunjungan, 'nama_pasien', array('class'=>'hurufs-only'))
+                    ),
+                   /* array(
                         'name'=>'jeniskelamin',
                         'type'=>'raw',
                         'filter'=>LookupM::model()->getItems('jeniskelamin'),
-                    ),
+                    ),*/
                     array(
                         'header'=>'Cara Bayar',
                         'name'=>'carabayar_nama',
@@ -290,7 +301,17 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                         'filter'=>false,
                     ),
             ),
-            'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+            'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
+        . ' $(".numbers-only").keyup(function() {
+                setNumbersOnly(this);
+            });
+            $(".hurufs-only").keyup(function() {
+                setHurufsOnly(this);
+            });
+            $(".angkahuruf-only").keyup(function() {
+                setAngkaHurufOnly(this);
+            });'
+        . '}',
     ));
 
 $this->endWidget();
