@@ -8,6 +8,15 @@
 			$status = 'kredit';
 		}
 		
+		if (!empty($dariDialog)) {
+			$jns = JnspengeluaranrekM::model()->findByPk($value->jnspengeluaranrek_id);
+			if ($jns->debitkredit == 'D') {
+				$status = 'debit';
+			} else if ($jns->debitkredit == 'K') {
+				$status = 'kredit';
+			}
+		}
+		
         $key = 99;
         echo('<tr>');
             echo '<td>';
@@ -45,7 +54,7 @@
                 echo CHtml::textField("RekeningakuntansiV[$key][saldodebit]", 
                     0,
                     array(
-                        'class'=>'inputFormTabel currency',
+                        'class'=>'inputFormTabel integer2',
                         'disabled'=>($status == 'debit' ? "" : "disabled"),
                     )
                 );
@@ -54,7 +63,7 @@
                 echo CHtml::textField("RekeningakuntansiV[$key][saldokredit]",
                     0,
                     array(
-                        'class'=>'inputFormTabel currency',
+                        'class'=>'inputFormTabel integer2',
                         'disabled'=>($status == 'kredit' ? "disabled" : ""),
                     )
                 );
