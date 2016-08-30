@@ -288,13 +288,15 @@ class ReturTagihanPasienController extends MyAuthController
     function actionInformasi()
     {
         $model = new BKReturbayarpelayananT();
-        $model->tgl_awal = date('Y-m-d H:i:s', time() - (7 * 24 * 3600));
-        $model->tgl_akhir = date('Y-m-d H:i:s');
+      //  $model->tgl_awal = date('Y-m-d H:i:s', time() - (7 * 24 * 3600));
+        //$model->tgl_akhir = date('Y-m-d H:i:s');
+        $model->tgl_awal = date('Y-m-d 00:00:00');
+        $model->tgl_akhir = date('Y-m-d 23:59:59');
         
         if (isset($_GET['BKReturbayarpelayananT'])) {
             $model->attributes = $_GET['BKReturbayarpelayananT'];
-            $model->tgl_awal = MyFormatter::formatDateTimeForDb($_GET['BKReturbayarpelayananT']['tgl_awal']);
-            $model->tgl_akhir = MyFormatter::formatDateTimeForDb($_GET['BKReturbayarpelayananT']['tgl_akhir']);
+            $model->tgl_awal = MyFormatter::formatDateTimeForDb($_GET['BKReturbayarpelayananT']['tgl_awal']).' 00:00:00';
+            $model->tgl_akhir = MyFormatter::formatDateTimeForDb($_GET['BKReturbayarpelayananT']['tgl_akhir']).' 23:59:59';
             $model->nobuktibayar = $_GET['BKReturbayarpelayananT']['nobuktibayar'];
             $model->no_pendaftaran = $_GET['BKReturbayarpelayananT']['no_pendaftaran'];
             $model->no_rekam_medik = $_GET['BKReturbayarpelayananT']['no_rekam_medik'];
