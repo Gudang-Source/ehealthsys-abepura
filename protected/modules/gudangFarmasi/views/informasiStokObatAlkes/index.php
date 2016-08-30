@@ -9,7 +9,7 @@ $('#divSearch-form form').submit(function(){
 });
 ");
 
-$provider = $model->searchDataObat();
+$provider = $model->searchDataObatInformasi();
 $provider->sort->defaultOrder = "obatalkes_nama";
 
 ?>
