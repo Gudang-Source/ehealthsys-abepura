@@ -92,6 +92,7 @@ Class Params
 	const MODUL_ID_KEUANGAN = 44;
         const MODUL_ID_PENGGAJIAN = 61;
         const MODUL_ID_KEPEGAWAIAN = 32;
+        const MODUL_ID_LAUNDRY = 54;
 
         const INSTALASI_ID_RM = 1;
 	const INSTALASI_ID_RJ = 2;
@@ -110,6 +111,7 @@ Class Params
         const INSTALASI_ID_ICU = 20;
         const INSTALASI_ID_KEPEGAWAIAN = 26;
         const INSTALASI_ID_GUDANG_FARMASI= 58;
+        const INSTALASI_ID_LAUNDRY= 24;
 
 	const KASUSDIAGNOSA_KASUS_LAMA = "KASUS LAMA";
 	const KASUSDIAGNOSA_KASUS_BARU = "KASUS BARU";
