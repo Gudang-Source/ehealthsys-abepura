@@ -36,11 +36,13 @@ class PenggajianpegTController extends MyAuthController {
 		$model->totalterima = 0;
 		$modPegawai = new GJPegawaiM();
 		$komponen = new PenggajiankompT();
+                $model->no_temp = '- Otomatis -';
 		// Uncomment the following line if AJAX validation is needed
 
 		if (isset($_GET['id'])) {
 			$model = GJPenggajianpegT::model()->findByPk($_GET['id']);
 			$modPegawai = GJPegawaiM::model()->findByPk($model->pegawai_id);
+                        $model->no_temp = $model->nopenggajian;
 		}
 
 
@@ -48,7 +50,7 @@ class PenggajianpegTController extends MyAuthController {
 			$model->attributes = $_POST['GJPenggajianpegT'];
 			$model->pegawai_id = $_POST['GJPegawaiM']['pegawai_id'];
 			$model->tglpenggajian = $format->formatDateTimeForDb($model->tglpenggajian);
-			$model->nopenggajian = MyGenerator::noPenggajian();
+			$model->nopenggajian = MyGenerator::noPenggajian();                        
 			$data = $_POST['PenggajiankompT']['komponengaji_id'];
 
 			$transaction = Yii::app()->db->beginTransaction();
