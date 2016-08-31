@@ -36,8 +36,9 @@
 			<?php echo $form->labelEx($modPengirimanLinen, 'pegpengirim_id', array('class' => 'control-label')); ?>
 			<div class="controls">
 				<?php echo $form->hiddenField($modPengirimanLinen, 'pegpengirim_id'); ?>
+                                <?php echo $form->textField($modPengirimanLinen, 'pegpengirim_nama', array('readonly'=>TRUE)); ?>
 				<?php
-				$this->widget('MyJuiAutoComplete', array(
+				/*$this->widget('MyJuiAutoComplete', array(
 					'model'=>$modPengirimanLinen,
 					'attribute' => 'pegpengirim_nama',
 					'source' => 'js: function(request, response) {
@@ -71,7 +72,7 @@
 						'onblur' => 'if(this.value === "") $("#'.Chtml::activeId($modPengirimanLinen, 'pegpengirim_id') . '").val(""); '
 					),
 					'tombolDialog' => array('idDialog' => 'dialogPegawaiPengirim'),
-				));
+				));*/
 				?>
 			</div>
 		</div>
