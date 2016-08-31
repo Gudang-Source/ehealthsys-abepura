@@ -7,6 +7,7 @@ class AKLaporanperubahanmodalV extends LaporanperubahanmodalV
 	 * @return LaporanperubahanmodalV the static model class
 	 */
 	public $tgl_awal, $tgl_akhir, $ruangan_id;
+        public $deskripsiperiodeposting;
 
 	public static function model($className=__CLASS__)
 	{
