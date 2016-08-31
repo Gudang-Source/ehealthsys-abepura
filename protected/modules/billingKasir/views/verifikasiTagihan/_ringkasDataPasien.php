@@ -6,7 +6,7 @@
             <td><?php echo CHtml::activeLabel($modPendaftaran, 'tgl_pendaftaran',array('class'=>'control-label')); ?></td>
             <td><?php echo CHtml::textField('FAPendaftaranT[tgl_pendaftaran]', $modPendaftaran->tgl_pendaftaran, array('readonly'=>true)); ?></td>
             
-            <td><div class=" control-label"><?php echo CHtml::activeLabel($modPendaftaran, 'instalasi_id',array('class'=>'no_rek')); ?></div></td>
+            <td><div class=" control-label"><?php echo CHtml::Label("Instalasi <font style='color:red'>*</font>", 'instalasi_id',array('class'=>'')); ?></div></td>
             <td>            
                 <?php
                 if(!empty($modPendaftaran->instalasi_id)){
@@ -14,7 +14,7 @@
                     echo CHtml::textField('BKPendaftaranT[instalasi_nama]', $modPendaftaran->instalasi->instalasi_nama, array('readonly'=>true));
                 }else{
                     echo CHtml::dropDownList('BKPendaftaranT[instalasi_id]', NULL, 
-                             CHtml::listData($modPendaftaran->getInstalasis(), 'instalasi_id', 'instalasi_nama'), array('empty'=>'-- Pilih --', 'onchange'=>'refreshDialogPendaftaran();', 'onkeypress'=>"return $(this).focusNextInputField(event)"));
+                             CHtml::listData($modPendaftaran->getInstalasis(), 'instalasi_id', 'instalasi_nama'), array('class'=>'required','empty'=>'-- Pilih --', 'onchange'=>'refreshDialogPendaftaran();', 'onkeypress'=>"return $(this).focusNextInputField(event)"));
                 }
                 ?>
             </td> 
@@ -33,7 +33,7 @@
             
             <td>
                 <?php //echo CHtml::activeLabel($modPasien, 'no_rekam_medik',array('class'=>'control-label')); ?>
-            <label class="no_rek control-label">No. Rekam Medik</label>
+            <label class="control-label">No. Rekam Medik <font style="color:red">*</font></label>
             </td>
             <td>
                 <?php //echo CHtml::textField('FAPasienM[no_rekam_medik]', $modPasien->no_rekam_medik, array('readonly'=>true)); ?>
@@ -73,7 +73,7 @@
                                             }',
                                     ),
                                     'tombolDialog'=>array('idDialog'=>'dialogPasien','idTombol'=>'tombolPasienDialog'),
-                                    'htmlOptions'=>array('onfocus'=>'return cekInstalasi();','class'=>'span2', 
+                                    'htmlOptions'=>array('maxlength'=>6,'onfocus'=>'return cekInstalasi();','class'=>'span2 required numbers-only', 
                                                         'placeholder'=>'Ketik No. Rekam Medik','onkeypress'=>"return $(this).focusNextInputField(event)"),
                                 )); 
                 ?>
@@ -83,7 +83,7 @@
             <td><?php echo CHtml::activeLabel($modPendaftaran, 'umur',array('class'=>'control-label')); ?></td>
             <td><?php echo CHtml::textField('FAPendaftaranT[umur]', $modPendaftaran->umur, array('readonly'=>true)); ?></td>
             
-            <td><?php echo CHtml::activeLabel($modPasien, 'nama_pasien',array('class'=>'control-label no_rek')); ?></td>
+            <td><?php echo CHtml::Label("Nama Pasien <font style='color:red'>*</font>", 'nama_pasien',array('class'=>'control-label')); ?></td>
             <td><?php //echo CHtml::textField('FAPasienM[nama_pasien]', $modPasien->nama_pasien, array('readonly'=>true)); 
                     $this->widget('MyJuiAutoComplete', array(
                                            'name'=>'FAPasienM[nama_pasien]',
@@ -113,7 +113,7 @@
                                                        loadPembayaran(ui.item.pendaftaran_id);
                                                        return false;
                                                    }',
-                                           ),
+                                           ),'htmlOptions'=>array('class'=>'required hurufs-only','onfocus'=>'return cekInstalasi();',)
                                        )); 
                    ?>
             </td>
@@ -123,7 +123,7 @@
             <td><?php echo CHtml::textField('FAPendaftaranT[jeniskasuspenyakit_nama]',  ((isset($modPendaftaran->jeniskasuspenyakit->jeniskasuspenyakit_nama)) ? $modPendaftaran->jeniskasuspenyakit->jeniskasuspenyakit_nama : null), array('readonly'=>true)); ?></td>
             
             <?php 
-                echo '<td>'. CHtml::label('No. Resep','',array('class'=>'control-label no_rek')).'</td><td>';
+                echo '<td>'. CHtml::label("No. Resep <font style='color:red'>*</font>",'',array('class'=>'control-label')).'</td><td>';
                 $this->widget('MyJuiAutoComplete', array(
                                'name'=>'no_resep',
                                 'id'=>'no_resep',
@@ -152,7 +152,7 @@
                                            loadPembayaran($("#FAPendaftaranT_pendaftaran_id").val(), ui.item.penjualanresep_id);
                                            return false;
                                        }',
-                               ),
+                               ),'htmlOptions'=>array('class'=>'required')
 //                               'htmlOptions'=>array(
 //                                   'onblur'=>'loadPembayaran($("#FAPendaftaranT_pendaftaran_id").val())',
 //                                   'onkeypress' =>"if (jQuery.trim($(this).val()) != ''){if (event.keyCode == 13){loadPembayaran($('#FAPendaftaranT_pendaftaran_id').val());}}",
@@ -277,29 +277,38 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
                                             loadPembayaran($data->pendaftaran_id);
 
                                         "))',
+                    ),                     
+                    array(
+                        'name'=>'no_pendaftaran',
+                        'type'=>'raw',
+                        'value'=>'$data->no_pendaftaran',
+                        'filter'=>Chtml::activeTextField($modDialogPasien, 'no_pendaftaran', array('class'=>'angkahuruf-only'))
                     ),
                     array(
                         'name'=>'no_rekam_medik',
                         'type'=>'raw',
                         'value'=>'$data->no_rekam_medik',
+                        'filter'=>Chtml::activeTextField($modDialogPasien, 'no_rekam_medik', array('class'=>'numbers-only'))
                     ),
                     array(
                         'name'=>'nama_pasien',
                         'type'=>'raw',
-                        'value'=>'$data->nama_pasien',
+                        'value'=>'$data->namadepan." ".$data->nama_pasien',
+                        'filter'=>Chtml::activeTextField($modDialogPasien, 'nama_pasien', array('class'=>'hurufs-only'))
                     ),
                     array(
                         'header'=>'Jenis Kelamin',
                         'name' => 'jeniskelamin',
                         'value' => '$data->jeniskelamin',
                         'filter' => CHtml::dropDownList('BKPasienM[jeniskelamin]', $modDialogPasien->jeniskelamin, LookupM::getItems('jeniskelamin'), array('empty'=>'-- Pilih --'))
-                    ),                    
-                    'no_pendaftaran',
+                    ),                                       
                     array(
                         'name'=>'tgl_pendaftaran',
-                        'filter'=> 
-                        CHtml::activeTextField($modDialogPasien, 'tgl_pendaftaran_cari', array('placeholder'=>'contoh: 15 Jan 2013')),
+                        
+                        'filter'=> false
+                        //CHtml::activeTextField($modDialogPasien, 'tgl_pendaftaran_cari', array('placeholder'=>'contoh: 15 Jan 2013')),
                     ),
+                    
                     array(
                         'header'=>'Instalasi',
                         'name'=>'instalasi_id',
@@ -324,7 +333,17 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array( // the dialog
 
 
             ),
-            'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});}',
+            'afterAjaxUpdate'=>'function(id, data){jQuery(\''.Params::TOOLTIP_SELECTOR.'\').tooltip({"placement":"'.Params::TOOLTIP_PLACEMENT.'"});'
+        . '$(".numbers-only").keyup(function() {
+                setNumbersOnly(this);
+            });
+            $(".hurufs-only").keyup(function() {
+                setHurufsOnly(this);
+            });
+            $(".angkahuruf-only").keyup(function() {
+                setAngkaHurufOnly(this);
+            });'
+        . '}',
     ));
 
 $this->endWidget();
