@@ -171,12 +171,12 @@ echo CHtml::css('.control-label{
                 <tr>
                     <td width="35%" align="center">
                         <div>Mengetahui</div>
-                        <div style="margin-top:60px;"><?php echo $model->gelardepan." ".$model->nama_pegawai; ?></div>
+                        <div style="margin-top:60px;"><?php echo $model->mengetahui; ?></div>
                     </td>
                     <td width="35%" align="center">
                         <div><?php echo Yii::app()->user->getState("kabupaten_nama").", ".MyFormatter::formatDateTimeId(date('Y-m-d')); ?></div>
                         <div>Menyetujui</div>
-                        <div style="margin-top:60px;"><?php echo $model->gelardepan." ".$model->nama_pegawai; ?></div>
+                        <div style="margin-top:60px;"><?php echo $model->menyetujui; ?></div>
                     </td>
                 </tr>
             </table>

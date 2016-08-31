@@ -37,7 +37,7 @@ if (isset($_GET['sukses']))
                         ),
                         'htmlOptions' => array('readonly' => true,
                             'onkeypress' => "return $(this).focusNextInputField(event)",
-                            'class' => 'dtPicker3',
+                            'class' => 'dtPicker3 realtime',
                         ),
                     ));
                     ?> 
@@ -48,7 +48,8 @@ if (isset($_GET['sukses']))
                 <div class="control-group">    
                     <?php echo $form->label($model, 'Nomor Penggajian', array('class' => 'control-label inline')); ?>
                     <div class="controls">
-                        <?php echo $form->textField($model, 'nopenggajian', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
+                        <?php echo $form->hiddenField($model, 'nopenggajian', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50)); ?>
+                        <?php echo $form->textField($model, 'no_temp', array('class' => 'span3', 'onkeypress' => "return $(this).focusNextInputField(event);", 'maxlength' => 50, 'readonly'=>TRUE)); ?>
                     </div>
                 </div>
             </td>
@@ -345,16 +346,38 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
                                                       return false;
                                             "))',
         ),
-        'nomorindukpegawai',
-        'nama_pegawai',
-        'tempatlahir_pegawai',
-        'tgl_lahirpegawai',
-        'jeniskelamin',
-        'statusperkawinan',
-        'jabatan.jabatan_nama',
-        'alamat_pegawai',
+         array(
+            'header' => 'NIP'  ,
+            'name' => 'nomorindukpegawai',
+            'value' => '$data->nomorindukpegawai',
+            'filter' => Chtml::activeTextField($modPegawai, 'nomorindukpegawai', array('class'=>'numbers-only'))
+        ),
+        array(
+            'header' => 'Nama Pegawai'  ,
+            'name' => 'nama_pegawai',
+            'value' => '$data->namaLengkap',
+            'filter' => Chtml::activeTextField($modPegawai, 'nama_pegawai', array('class'=>'hurufs-only'))
+        ),        
+        array(
+            'header' => 'Jabatan'  ,
+            'name' => 'jabatan_id',
+            'value' => '!empty($data->jabatan_id)?$data->jabatan->jabatan_nama:"-"',
+            'filter' => Chtml::activeDropDownList($modPegawai, 'jabatan_id', Chtml::listData(JabatanM::model()->findAll("jabatan_aktif = TRUE ORDER BY jabatan_nama ASC"), 'jabatan_id', 'jabatan_nama'),array('empty'=>'-- Pilih --'))
+        ),  
+        //'tempatlahir_pegawai',
+        //'tgl_lahirpegawai',
+        //'jeniskelamin',
+        //'statusperkawinan',        
+        //'alamat_pegawai',
     ),
-    'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
+    'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});'
+    .' $(".numbers-only").keyup(function() {
+        setNumbersOnly(this);
+        });
+        $(".hurufs-only").keyup(function() {
+        setHurufsOnly(this);
+        });'
+    . '}',
 ));
 
 $this->endWidget();
@@ -398,16 +421,38 @@ $this->widget('ext.bootstrap.widgets.BootGridView', array(
                                                       return false;
                                             "))',
         ),
-        'nomorindukpegawai',
-        'nama_pegawai',
-        'tempatlahir_pegawai',
-        'tgl_lahirpegawai',
-        'jeniskelamin',
-        'statusperkawinan',
-        'jabatan.jabatan_nama',
-        'alamat_pegawai',
+        array(
+            'header' => 'NIP'  ,
+            'name' => 'nomorindukpegawai',
+            'value' => '$data->nomorindukpegawai',
+            'filter' => Chtml::activeTextField($modPegawai, 'nomorindukpegawai', array('class'=>'numbers-only'))
+        ),
+        array(
+            'header' => 'Nama Pegawai'  ,
+            'name' => 'nama_pegawai',
+            'value' => '$data->namaLengkap',
+            'filter' => Chtml::activeTextField($modPegawai, 'nama_pegawai', array('class'=>'hurufs-only'))
+        ),        
+        array(
+            'header' => 'Jabatan'  ,
+            'name' => 'jabatan_id',
+            'value' => '!empty($data->jabatan_id)?$data->jabatan->jabatan_nama:"-"',
+            'filter' => Chtml::activeDropDownList($modPegawai, 'jabatan_id', Chtml::listData(JabatanM::model()->findAll("jabatan_aktif = TRUE ORDER BY jabatan_nama ASC"), 'jabatan_id', 'jabatan_nama'),array('empty'=>'-- Pilih --'))
+        ),  
+        //'tempatlahir_pegawai',
+        //'tgl_lahirpegawai',
+        //'jeniskelamin',
+        //'statusperkawinan',        
+        //'alamat_pegawai',
     ),
-    'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});}',
+    'afterAjaxUpdate' => 'function(id, data){jQuery(\'' . Params::TOOLTIP_SELECTOR . '\').tooltip({"placement":"' . Params::TOOLTIP_PLACEMENT . '"});'
+    .' $(".numbers-only").keyup(function() {
+        setNumbersOnly(this);
+        });
+        $(".hurufs-only").keyup(function() {
+        setHurufsOnly(this);
+        });'
+    . '}',
 ));
 
 $this->endWidget();
