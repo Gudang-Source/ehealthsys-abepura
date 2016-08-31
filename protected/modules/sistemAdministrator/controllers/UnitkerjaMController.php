@@ -283,7 +283,9 @@ class UnitkerjaMController extends MyAuthController
 			$available = '<li class="ui-helper-hidden-accessible"></li>';
 			$instalasi_id = $_POST['instalasi_id'];
                 $criteria = new CdbCriteria();
+                            if (!empty($instalasi_id)){
 				$criteria->addCondition('instalasi_id = '.$instalasi_id);
+                            }
 				$criteria->addCondition('ruangan_aktif IS TRUE');
                 $criteria->order = "ruangan_nama";
                 $model = SARuanganM::model()->findAll($criteria);
