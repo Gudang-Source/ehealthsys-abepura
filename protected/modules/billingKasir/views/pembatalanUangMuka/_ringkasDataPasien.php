@@ -9,7 +9,7 @@
             
             <td>
                 <?php //echo CHtml::activeLabel($modPasien, 'no_rekam_medik',array('class'=>'control-label')); ?>
-                <label class="no_rek control-label required">No. Rekam Medik <span class="required">*</span></label>
+                <label class="control-label required">No. Rekam Medik <span class="required">*</span></label>
             </td>
             <td>
                 <?php //echo CHtml::textField('BKPasienM[no_rekam_medik]', $modPasien->no_rekam_medik, array('readonly'=>true)); ?>
@@ -23,6 +23,7 @@
                                                        dataType: "json",
                                                        data: {
                                                            term: request.term,
+                                                           cari:"norekammedik",
                                                        },
                                                        success: function (data) {
                                                                response(data);
@@ -41,7 +42,7 @@
                                                 return false;
                                             }',
                                     ),
-									'htmlOptions'=>array('class'=>'required'),
+                                        'htmlOptions'=>array('class'=>'required numbers-only','maxlength'=>6),
                                 )); 
                 ?>
             </td>
@@ -56,20 +57,21 @@
             </td>
         </tr>
         <tr>
-            <td><?php echo CHtml::activeLabel($modPendaftaran, 'no_pendaftaran',array('class'=>'control-label')); ?></td>
+            <td><?php echo CHtml::activeLabel($modPendaftaran, 'no_pendaftaran',array('class'=>'required control-label')); ?></td>
             <td><?php echo CHtml::textField('BKPendaftaranT[no_pendaftaran]', $modPendaftaran->no_pendaftaran, array('readonly'=>true,'class'=>'required')); ?></td>
             
-            <td><?php echo CHtml::activeLabel($modPasien, 'nama_pasien',array('class'=>'control-label no_rek')); ?></td>
+            <td><?php echo CHtml::Label("Nama Pasien <font style = 'color:red'>*</font>", 'nama_pasien',array('class'=>'control-label required')); ?></td>
             <td><?php //echo CHtml::textField('BKPasienM[nama_pasien]', $modPasien->nama_pasien, array('readonly'=>true)); 
             $this->widget('MyJuiAutoComplete', array(
                                            'name'=>'BKPasienM[nama_pasien]',
                                            'value'=>$modPasien->nama_pasien,
                                            'source'=>'js: function(request, response) {
                                                           $.ajax({
-                                                              url: "'.Yii::app()->createUrl('billingKasir/ActionAutoComplete/daftarPasienberdasarkanNama').'",
+                                                              url: "'.$this->createUrl('DaftarPasienBatalUangMuka').'",
                                                               dataType: "json",
                                                               data: {
                                                                   bataluangmuka:true,
+                                                                  cari:"nama",
                                                                   term: request.term,
                                                               },
                                                               success: function (data) {
@@ -90,7 +92,7 @@
                                                        return false;
                                                    }',
                                            ),
-											'htmlOptions'=>array('class'=>'required'),
+                                                    'htmlOptions'=>array('class'=>'required hurufs-only'),
                                        )); 
                    ?></td>
         </tr>

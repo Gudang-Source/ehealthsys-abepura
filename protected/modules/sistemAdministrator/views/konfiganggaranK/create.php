@@ -1,5 +1,5 @@
 <div class="white-container">
-    <legend class="rim2">Tambah <b>Periode Anggaran</b></legend>
+    <legend class="rim2">Tambah <b>Konfigurasi Anggaran</b></legend>
     <?php
     $this->breadcrumbs=array(
             'Agkonfiganggaran Ks'=>array('index'),

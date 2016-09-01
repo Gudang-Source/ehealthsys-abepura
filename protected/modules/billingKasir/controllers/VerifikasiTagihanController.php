@@ -19,6 +19,7 @@ class VerifikasiTagihanController extends MyAuthController
         $modVerifikasi = new VerifikasitagihanT();
         $modVerifikasi->tglverifikasi = date('d M Y H:i:s'); 
         $modVerifikasi->noverifikasi = MyGenerator::noVerifikasi();
+        $modVerifikasi->notemp = '- Otomatis -';
         $modTandaBukti = null;
         
         if(!empty($id)){

@@ -19,6 +19,7 @@ class PembatalanUangMukaController extends MyAuthController {
 		$modBuktiKeluar->tahun = date('Y');
 		$modBuktiKeluar->untukpembayaran = 'Pembatalan Uang Muka';
 		$modBuktiKeluar->nokaskeluar = MyGenerator::noKasKeluar();
+                $modBuktiKeluar->notemp = '- Otomatis -';
 		$modBuktiKeluar->biayaadministrasi = 0;
 		$pemakaianUangMuka = new BKPemakaianuangmukaT;
 		$successSave = true;
@@ -213,14 +214,17 @@ class PembatalanUangMukaController extends MyAuthController {
 		if (Yii::app()->request->isAjaxRequest) {
 			$criteria = new CDbCriteria();
 			$criteria->with = array('pasien', 'pendaftaran', 'ruangan');
-			if ($nama) {
+                        $pencarian = isset($_GET['cari'])?$_GET['cari']:null;
+                        //var_dump($nama);
+			if ($pencarian == 'nama') {
 				$criteria->compare('LOWER(pasien.nama_pasien)', strtolower($_GET['term']), true);
-			} else {
-				$criteria->compare('LOWER(pasien.no_rekam_medik)', strtolower($_GET['term']), true);
+			} elseif ($pencarian == 'norekammedik') {
+				$criteria->compare('LOWER(pasien.no_rekam_medik)', strtolower($_GET['term']), true);                                 
 			}
 			$criteria->addCondition('pembatalanuangmuka_id IS NULL');
 			$criteria->order = 'tgluangmuka DESC';
 			$models = BayaruangmukaT::model()->findAll($criteria);
+                                                
 			$returnVal = array();
 			foreach ($models as $i => $model) {
 				$attributes = $model->attributeNames();
@@ -228,11 +232,11 @@ class PembatalanUangMukaController extends MyAuthController {
 					$returnVal[$i]["$attribute"] = $model->$attribute;
 				}
 				if ($nama) {
-					$returnVal[$i]['label'] = $model->pasien->nama_pasien . ' - ' . $model->ruangan->ruangan_nama . ' - ' . $model->tgluangmuka;
+					$returnVal[$i]['label'] = $model->pasien->nama_pasien . ' - ' . $model->ruangan->ruangan_nama . ' - ' . MyFormatter::formatDateTimeForUser($model->tgluangmuka);
 					$returnVal[$i]['value'] = $model->pasien->nama_pasien;
 					$returnVal[$i]['norekammedik'] = $model->pasien->no_rekam_medik;
 				} else {
-					$returnVal[$i]['label'] = $model->pasien->no_rekam_medik . ' - ' . $model->ruangan->ruangan_nama . ' - ' . $model->tgluangmuka;
+					$returnVal[$i]['label'] = $model->pasien->no_rekam_medik . ' - ' . $model->ruangan->ruangan_nama . ' - ' . MyFormatter::formatDateTimeForUser($model->tgluangmuka);
 					$returnVal[$i]['value'] = $model->pasien->no_rekam_medik;
 				}
 				$returnVal[$i]['jeniskelamin'] = $model->pasien->jeniskelamin;
@@ -242,7 +246,7 @@ class PembatalanUangMukaController extends MyAuthController {
 				$returnVal[$i]['jeniskasuspenyakit'] = $model->pendaftaran->jeniskasuspenyakit->jeniskasuspenyakit_nama;
 				$returnVal[$i]['namainstalasi'] = $model->pendaftaran->instalasi->instalasi_nama;
 				$returnVal[$i]['namaruangan'] = $model->ruangan->ruangan_nama;
-				$returnVal[$i]['tglpendaftaran'] = $model->pendaftaran->tgl_pendaftaran;
+				$returnVal[$i]['tglpendaftaran'] = MyFormatter::formatDateTimeForUser($model->pendaftaran->tgl_pendaftaran);
 				$returnVal[$i]['nopendaftaran'] = $model->pendaftaran->no_pendaftaran;
 				$returnVal[$i]['umur'] = $model->pendaftaran->umur;
 				$returnVal[$i]['tandabuktibayar_id'] = $model->tandabuktibayar_id;
